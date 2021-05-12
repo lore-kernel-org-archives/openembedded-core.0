@@ -1,86 +1,159 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.8089.1620830533946939338
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web10.8103.1620830935410900332
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 07:42:14 -0700
+ Wed, 12 May 2021 07:48:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zbdv2FLZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id c22so27366803edn.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:42:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QVgYBaJD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.176, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f176.google.com with SMTP id z3so21253896oib.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IVvCFtncKR+nVvy8CORJKL86w9jQ17RJl6Auvd9bhrI=;
-        b=Zbdv2FLZLhKkLN2AXWY1UIocTPxdEO3V44bWklCh6cL2kQGKudEjMynDbJQ4QLvQzZ
-         XfHXc+5PfocC4C4t7qa0mpdWbPZvFoaExLZYm/8hLN4k/lSEHpYr+w9uX/cWvIlbfXRg
-         pJzRUVbUUbSU3PLm+QjNSxrO4CTOgVVE+73Qz7/xJHaLdmcBH0O7LIJgxzl3lB9JWRl7
-         bog8pymAMuqN0XIJahk9LhvYw29I4T8gF0GfXb/oEqy0lTa/kVa6zFR7f+DjieQK8QZ4
-         s+OZclEURvk+qkZr1rR1quQKN2wX4YL/mRhsrxajXDlkvA753rFw3EkFOh6TF0f6TyX2
-         KAsQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AmpHGxYqPkrWMLa09B7gIGhBDiUXy3BMUw+Ak/+Pmug=;
+        b=QVgYBaJDzo1Pxm1uwiwtgnhqXnENesWG0dkAbvvSRJ+aNWH5aeHya3ZMMvuXUyhJlf
+         pd+I3tnuej0Q4lF7hLATjGZ0icf2wAHQ9z/a8Y+vwy4TaxnpWqiDvWmvce7hDeAwLLdP
+         mRCIL0BJhzu0XWV1IenLoRCNns4Sd4dF4LiILznB3lbbVV2hzf6+2FCxrBK04BeRoDKt
+         3C1+Qhw1tpj6a2JVKOsPjkH2CP5hejy37lq/EOSHtwMy+7ruAkOQbcsDDh6M/eUJYdOD
+         gt2qoPfvlCoPEhQzdvCUvfi30jXpEv/8KEax6ujWZXmKJZ/SfWJp1XyTcnjZMv9WLJYp
+         XgvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IVvCFtncKR+nVvy8CORJKL86w9jQ17RJl6Auvd9bhrI=;
-        b=UDsy4aDfa0ol+nSLYmfN4o5pgRULwRjjP+NiBRgWbJjYyp2Vdy6PC2jqcYJABqQEfu
-         kuo8GgrZY1abk8rlV3aH0HZQlO0sxh09hL6J0QfDjPpgi/B2fYTt0r7OTcGrzVZs7+aQ
-         NZzXZLinvculKUMqmVynw8qO4EvyF4tP25fAwDmuvli+8apGmpkUp6cAVCv1suA3PtMg
-         D7a4CgHpXoX62YMF1w6tYDPbTPBFjKR3wWT8OYLSAhUW/6KdZAcU/IpHuYwhCwIiaoX1
-         r1tcSTSXRy8sQ2B21Esfg7cq8d6cP96C0PAJ+4q+cqWtdCWX7ePs23HN06X18c/BWIUr
-         pxcg==
-X-Gm-Message-State: AOAM532m1iEmZo243EPV9OfXwWqA0V1r0DJ0OVaQ0l83fbXi/kR7aaNC
-	9ppxJD3c1XErYk3l3zwpqMY=
-X-Google-Smtp-Source: ABdhPJxU7xp2UEV7KlOv/iNAVVZuqru1oJ5Ok8og8MC8JgtZN5lSpG7g7SoEKTZQknbdsq+ORmzvcQ==
-X-Received: by 2002:aa7:c787:: with SMTP id n7mr8394431eds.309.1620830532418;
-        Wed, 12 May 2021 07:42:12 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id kx3sm14155730ejc.44.2021.05.12.07.42.11
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AmpHGxYqPkrWMLa09B7gIGhBDiUXy3BMUw+Ak/+Pmug=;
+        b=eAcuwN4AqEgFwZ7d5vH5664tsCiSXh9bquSoqynddNw7veizBM23/1tD72vJLCfR45
+         xaLx574jOxcvnAieW+5N01zhCNY6RWJcCV89odXYXS9GLs79B/lQukUK2iAeWVqXmOcC
+         l4aaRwwPCfzi+mbfOy8q/HbHhxtbwmcqyH5m6xxOe5lvDJ/QZLSZqRQZBfKrgZbUb6Nd
+         Kksis9MP1+2CUVfAAeehPas+1eNmFI1PGhKV15p4iI4/gg/K1kJXNG9iPRyNOnE/RVR9
+         YjdRyaiG02AbOOKzN5mIKmBH7D38euLHOR4/fKyG+ZQwrv5hIIeMxlzLtfA09ho9YEFl
+         bS2A==
+X-Gm-Message-State: AOAM533UoeVD7gaaxrDiOU1txbU0WPIX/CJSu4Fpphnnm6hlyAsfCkpw
+	ryIfiejPF88c/aiGeT06x/9TaOEZJEzmhlzKlzg=
+X-Google-Smtp-Source: ABdhPJyAXoLtebe+26mfEADDZ4xOZoygnP7QE9enfQLXgCzptCQzwEUws5JgDW7LYjJTceFNe9GmTw==
+X-Received: by 2002:a05:6808:4c6:: with SMTP id a6mr23554576oie.162.1620830934139;
+        Wed, 12 May 2021 07:48:54 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id q1sm4621203otc.21.2021.05.12.07.48.50
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 07:42:11 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 12 May 2021 16:42:11 +0200
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: Re: [OE-core] [PATCH] binutils: backport DWARF-5 support
-Message-ID: <20210512144211.jqtbdkjq4rffeenp@jama>
-References: <20210512124221.61985-1-Martin.Jansa@gmail.com>
- <CANNYZj-wzHbziSLMPVh40qpnHntcRyqxpTa+g+p9JtqSeZv42g@mail.gmail.com>
- <20210512133630.aqqp7ocfbz4wgh2e@jama>
- <CANNYZj-kAt77FZVPQBAkUA=TNp0KjzgUjHKufwRDzOwxzzpU+g@mail.gmail.com>
+        Wed, 12 May 2021 07:48:53 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/25] Pull request (cover letter only)
+Date: Wed, 12 May 2021 04:47:29 -1000
+Message-Id: <cover.1620830796.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj-kAt77FZVPQBAkUA=TNp0KjzgUjHKufwRDzOwxzzpU+g@mail.gmail.com>
-X-Groupsio-MsgNum: 151638
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cmnyxtja7zld2nke"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---cmnyxtja7zld2nke
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The following changes since commit 834a8e357bc999a0163e7c5bafbcc1a8816448d4:
 
-On Wed, May 12, 2021 at 04:34:45PM +0200, Alexander Kanavin wrote:
-> Your patch is titled "binutils: backport dwarf-5 support"
+  license_image.bbclass: Fix symlink to generic license files (2021-05-03 04:56:23 -1000)
 
-Which is all this patch is doing.
+are available in the Git repository at:
 
-> and the message
-> talks about dwarf-5 in general across the gnu toolchain.
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Which is the explanation why we need this backport since the gcc was upgraded
-to gcc-11 in master.
+Alexander Kanavin (5):
+  diffoscope: add native libraries to LD_LIBRARY_PATH
+  Revert "oeqa: Set LD_LIBRARY_PATH when executing native commands"
+  ovmf: update to 202002
+  ovmf: update to 202005
+  ovmf: update edk2-stable202005 -> edk2-stable202008
 
---cmnyxtja7zld2nke
-Content-Type: application/pgp-signature; name="signature.asc"
+Anatol Belski (1):
+  tar: Fix CVE-2021-20193
 
------BEGIN PGP SIGNATURE-----
+Bruce Ashfield (4):
+  linux-yocto/5.4: update to v5.4.114
+  linux-yocto/5.4: update to v5.4.116
+  perf: fix python-audit RDEPENDS
+  make-mod-scripts: add HOSTCXX definitions and gmp-native dependency
 
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYJvpQQAKCRA3VSO3ZXaA
-HBAuAJ9Cj5qPqp+IH2q3qoUUaLc33dtH+QCgpTlsIXsrJf1yPm3XcTmcqatABmE=
-=bv/e
------END PGP SIGNATURE-----
+Christophe Chapuis (1):
+  rootfs.py: find .ko.gz and .ko.xz kernel modules as well
 
---cmnyxtja7zld2nke--
+Jose Quaresma (1):
+  ptest-runner: libgcc must be installed for pthread_cancel to work
+
+Joshua Watt (1):
+  classes/image: Use xargs to set file timestamps
+
+Kai Uwe Broulik (1):
+  gstreamer1.0-plugins-good: on wayland qt5 needs qtwayland
+
+Khem Raj (1):
+  cml1.bbclass: Return sorted list of cfg files
+
+Lee Chee Yang (1):
+  binutils: fix CVE-2021-3487
+
+Mark Hatle (1):
+  kernel.bbclass: Remove do_install[prefunc] no longer needed
+
+Michael Opdenacker (1):
+  sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure
+    message
+
+Richard Purdie (3):
+  yocto-uninative: Update to 3.1 which includes a patchelf fix
+  pybootchart/draw: Avoid divide by zero error
+  oeqa/qemurunner: Improve logging thread exit handling for qemu
+    shutdown test
+
+Steve Sakoman (2):
+  lib/package_manager: Use shutil.copy instead of bb.utils.copyfile for
+    intercepts
+  reproducible.py: add quilt-ptest and valgrind-ptest
+
+Yi Fan Yu (1):
+  libevent: Increase ptest timing tolerance 50 ms -> 100 ms
+
+zhengruoqin (1):
+  wireless-regdb: upgrade 2020.11.20 -> 2021.04.21
+
+ meta/classes/cml1.bbclass                     |   2 +-
+ meta/classes/image.bbclass                    |   2 +-
+ meta/classes/kernel.bbclass                   |   1 -
+ meta/classes/sanity.bbclass                   |   9 +-
+ meta/conf/distro/include/yocto-uninative.inc  |   8 +-
+ meta/lib/oe/package_manager.py                |   2 +-
+ meta/lib/oe/rootfs.py                         |   2 +-
+ meta/lib/oeqa/selftest/cases/reproducible.py  |   2 +
+ meta/lib/oeqa/selftest/cases/runqemu.py       |   9 +-
+ meta/lib/oeqa/utils/commands.py               |   3 -
+ meta/lib/oeqa/utils/qemurunner.py             |  12 +-
+ ...ovmf-update-path-to-native-BaseTools.patch |   6 +-
+ ...ile-adjust-to-build-in-under-bitbake.patch |  32 +++--
+ .../0003-ovmf-enable-long-path-file.patch     |   6 +-
+ .../ovmf/0004-ovmf-Update-to-latest.patch     |  20 +--
+ meta/recipes-core/ovmf/ovmf_git.bb            |   6 +-
+ .../binutils/binutils-2.34.inc                |   1 +
+ .../binutils/binutils/CVE-2021-3487.patch     |  83 +++++++++++
+ .../tar/tar/CVE-2021-20193.patch              | 133 ++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.32.bb         |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
+ .../make-mod-scripts/make-mod-scripts_1.0.bb  |   2 +
+ meta/recipes-kernel/perf/perf.bb              |   2 +-
+ ....11.20.bb => wireless-regdb_2021.04.21.bb} |   2 +-
+ .../gstreamer1.0-plugins-good_1.16.3.bb       |   4 +-
+ .../diffoscope/diffoscope_172.bb              |   1 +
+ ...ncrease-default-timeval-tolerance-50.patch |  33 +++++
+ .../libevent/libevent_2.1.11.bb               |   1 +
+ .../ptest-runner/ptest-runner_2.4.0.bb        |   2 +
+ scripts/pybootchartgui/pybootchartgui/draw.py |   2 +-
+ 32 files changed, 355 insertions(+), 70 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-3487.patch
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2021-20193.patch
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2020.11.20.bb => wireless-regdb_2021.04.21.bb} (94%)
+ create mode 100644 meta/recipes-support/libevent/libevent/0002-test-regress.h-Increase-default-timeval-tolerance-50.patch
+
+-- 
+2.25.1
+
