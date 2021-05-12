@@ -1,72 +1,119 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web08.5544.1620860425493699320
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web12.5574.1620860569140918652
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 16:00:25 -0700
+ Wed, 12 May 2021 16:02:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FUxjhmfV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id v12so25177930wrq.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 16:00:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kDk8cNej;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id l129so23945921qke.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 16:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=L+lnJXJNYwv5hGPzhocPG3NT7KYt0RCJl/0K7pLhofQ=;
-        b=FUxjhmfVbj024uaDv2OTseX3pWCUKrrO4WXRlhVV/WUdC8F70lrx2vbe+Nr2vQ6f4L
-         JySolWvUf6rI3TFLqhCFcROMV3Li82xMEQy5EiaFmJn6hPmF+XVYB5s++R2pOZZ2g1Vt
-         5QwFkOjMHVGUnKEaPTEtlmVvBrxNgRqXyjg3g=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=OR3sI82poc7M4vbX8Hc5ZQ7720QMNWhqqhwAvUUkJRw=;
+        b=kDk8cNejoOfdjz3WvSScGf5LcQL3bGYkUwoK0ifto7gKYEpbQB4IvOuazzIIBAa/L3
+         Yrr0A2IAU7hFHUqhigr7nHkZwWbf9XO4K22nJdR6Bf8Q4LcuybkVtNHXFTG4SzGmXhIJ
+         aqAaqUcNa9mEiC01KfzVOsMWKOL9W8a2YsXiR759u5suDm3yl5Iqf5TpuRZObdpCBGqL
+         DapGDsCGFTrzYOITWt/s1cSHbBnicZPgtwUJEnbNIGvz++IRLc5xMu6FEDRZvA1RO0t5
+         8MGbbL9yQ733LLG2txUShU2CjhimJ4WTGCr2IP1okNT83V4SJ67dJvHiyi3xSVmXixqR
+         myMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=L+lnJXJNYwv5hGPzhocPG3NT7KYt0RCJl/0K7pLhofQ=;
-        b=OCNtazP1PiBFrVvg1zur19qGf3FRK2wsWH1tkqbfIg5wTcX9FKSc4YwTFdnWuZ1Vl5
-         KJmYhQaR0oRk55Ta9vbHWq8wN1OjUxoo2gPm529YZWnDEEPN3xCzIDGLcaW8lA3/HFc2
-         cKjO7OGhJlMUf7TpV6h9+nMHfHdT659IFcGU/vvlzT1BWhZQoxHNULoU1JI62ks3CmSC
-         EURRIDA+Y5c8H1sjcJCSY6icMnowdi41DiJoFKvhunHtn3vQnxoygQNWQ9np7a1QLh+v
-         NQ1JjZWiRh9USZAx5HbYS52HA6omB/zxO2buOcIyYxtptEAOssFrZf7CmBlQUUUKMown
-         AMKw==
-X-Gm-Message-State: AOAM533YpIjKQafVyQ/vVHDwg9Y+qRbjs+6dvHW7k9D+gUFjoDnvRmrW
-	diZ8haZEtVYcDAKp50AJGa+6yqt6162T4A==
-X-Google-Smtp-Source: ABdhPJz8ta6L+ZWwI3fex8+lZ1LME74nE4tsue6CEMfF1LI6Kn3TsybSCULR1K1nzfaUqcjViCOe+A==
-X-Received: by 2002:adf:ea82:: with SMTP id s2mr10924725wrm.397.1620860423918;
-        Wed, 12 May 2021 16:00:23 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f649:3481:d239:bb03])
-        by smtp.gmail.com with ESMTPSA id v12sm1156273wrv.76.2021.05.12.16.00.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 16:00:23 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] avahi: Exclude CVE-2021-26720 from cve-check
-Date: Thu, 13 May 2021 00:00:23 +0100
-Message-Id: <20210512230023.2287497-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=OR3sI82poc7M4vbX8Hc5ZQ7720QMNWhqqhwAvUUkJRw=;
+        b=brjE84/5HMpqsBILYysW9PP8Xn0J3Z3vvRroxy3PluQg1CPCpEkNBmCmlwbP8rjwBh
+         gZf7n+Djlyza7YB7XIkJQ0c0ErY7ZMcwzujG23quXjhtzPiKCF+rOh4tpG3dv/oQ7gsW
+         I6LgCiYiVIaSzTh1Kct0ZkT40bF75kZy1qUXINKV5tV62wvm1bVu/CG5P9L3o5xoPZjV
+         74I5V4vK2PdLDs3nFpHOVQ4AkcTYlULMHE7sjxaR52+6YWxCkae4ea1hX5f+cyTdOAIE
+         defqYBShAh1XVV//WALhJT/TiVac35o19aOZV7dG3TKhik2nrdTc+EERgbNwgkEpAzNw
+         sVug==
+X-Gm-Message-State: AOAM530t5bHRn7QXyQ/MX9JA6JKoEyT7jP+nmFB1tx3mfON8/sUrSevv
+	EdbTpIAt1vf8KpIHq8o4kbK8/1W9LkSMHsZWSy0=
+X-Google-Smtp-Source: ABdhPJwZwmU+YCQ+XaPYnrABx4TteQB6nIlEf9pyqD3WZ9YeziIJYBH+5JXAZnSSBc1Gqs60JqctuY+B6tE6Hu6Osgk=
+X-Received: by 2002:a05:620a:24b:: with SMTP id q11mr16963011qkn.25.1620860568264;
+ Wed, 12 May 2021 16:02:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
+ <20210505151850.660512-24-alex.kanavin@gmail.com> <CA+chaQfQBUphmMXsbOmM4Z82D75hZQUQMPMzKAzCctYudqAq6A@mail.gmail.com>
+In-Reply-To: <CA+chaQfQBUphmMXsbOmM4Z82D75hZQUQMPMzKAzCctYudqAq6A@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 12 May 2021 16:02:22 -0700
+Message-ID: <CAMKF1sryddpR-2sQ_K6Eoj=AfM3gAVM=VAmth5vwLv0m6tTNJQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 24/61] webkitgtk: update 2.30.6 -> 2.32.0
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Issue only affects Debian and SUSE.
+On Wed, May 12, 2021 at 3:37 PM Martin Jansa <Martin.Jansa@gmail.com> wrote=
+:
+>
+> On Wed, May 5, 2021 at 5:20 PM Alexander Kanavin <alex.kanavin@gmail.com=
+> wrote:
+>>
+>> Drop 0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
+>> (merged upstream).
+>>
+>> Rebase other patches.
+>
+>
+> This version fails to build in default oe-core setup (with x11 and witho=
+ut opengl in DISTRO_FEATURES), see:
+> http://errors.yoctoproject.org/Errors/Details/581086/
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-connectivity/avahi/avahi_0.8.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index c8a3f876aa9..23c0e8d8239 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -30,6 +30,9 @@ UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
- SRC_URI[md5sum] = "229c6aa30674fc43c202b22c5f8c2be7"
- SRC_URI[sha256sum] = "060309d7a333d38d951bc27598c677af1796934dbd98e1024e7ad8de798fedda"
- 
-+# Issue only affects Debian/SUSE, not us
-+CVE_CHECK_WHITELIST += "CVE-2021-26720"
-+
- DEPENDS = "expat libcap libdaemon glib-2.0 intltool-native"
- 
- # For gtk related PACKAGECONFIGs: gtk, gtk3
--- 
-2.30.2
-
+I think there still are a plenty of products which don't use OpenGL
+capable h/w but need some display ( fbdev ), I Wonder if there are
+users who are using such
+a combination maybe with X or without but without openGL
+>
+> In file included from TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/=
+2.32.0-r0/webkitgtk-2.32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGrap=
+hics/DrawingAreaCoordinatedGraphics.cpp:32,
+>                  from DerivedSources/WebKit/unified-sources/UnifiedSourc=
+e-54928a2b-35.cpp:5:
+> TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.=
+32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:2=
+16:13: error: no declaration matches 'bool WebKit::LayerTreeHost::forceRepa=
+intAsync(WTF::CompletionHandler<void()>&)'
+>   216 | inline bool LayerTreeHost::forceRepaintAsync(CompletionHandler<v=
+oid()>&) { return false; }
+>       |             ^~~~~~~~~~~~~
+> TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.=
+32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:8=
+2:10: note: candidate is: 'void WebKit::LayerTreeHost::forceRepaintAsync(WT=
+F::CompletionHandler<void()>&&)'
+>    82 |     void forceRepaintAsync(CompletionHandler<void()>&&);
+>       |          ^~~~~~~~~~~~~~~~~
+> TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.=
+32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:6=
+1:7: note: 'class WebKit::LayerTreeHost' defined here
+>    61 | class LayerTreeHost
+>       |       ^~~~~~~~~~~~~
+>
+> This upstream change should probably fix that:
+>
+> commit 834f335bb3e63e0bf78eed0520df33d5c55e5e8a
+> Author: commit-queue@webkit.org <commit-queue@webkit.org@268f45cc-cd09-0=
+410-ab3c-d52691b4dbfc>
+> Date:   Sat Apr 10 22:02:50 2021 +0000
+>
+>     Properly use CompletionHandler when USE_OPENGL_OR_ES is set to OFF
+>     https://bugs.webkit.org/show_bug.cgi?id=3D224149
+>
+>     Patch by Charl=C3=A8ne Wendling <julianaito@posteo.jp> on 2021-04-10
+>     Reviewed by Fujii Hironori.
+>
+>     * WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:
+>     (WebKit::LayerTreeHost::forceRepaintAsync):
+>
+>     git-svn-id: http://svn.webkit.org/repository/webkit/trunk@275802 268=
+f45cc-cd09-0410-ab3c-d52691b4dbfc
+>
+> There is 2.32.1 which might contain this fix but it's not explicitly men=
+tioned in https://webkitgtk.org/2021/05/10/webkitgtk2.32.1-released.html
+>
+>=20
+>
