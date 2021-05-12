@@ -1,50 +1,50 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web11.8364.1620831462795992984
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.web10.8247.1620831468555941019
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 07:57:42 -0700
+ Wed, 12 May 2021 07:57:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TO4ZhAIf;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.170, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f170.google.com with SMTP id u16so22511184oiu.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:57:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QVQg01uR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.51, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f51.google.com with SMTP id g15-20020a9d128f0000b02902a7d7a7bb6eso20793336otg.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=4tLGRrWIXRiVTY0FSW0n+sGKZZYUbaryBCg8mCb6c6Q=;
-        b=TO4ZhAIfooqFmxQwME5iq+Z9FdecqwPeocSIXCOQYnFJjbA5Osg8bvZmAmOWnDAvUB
-         dFzvDlc9nhcGrJ2TYobpjjQPBnuHzOF8qC7UkQopOzXiMmSAbbRlitiRcrvx8u/o/H4a
-         KxGf7U4hzuQnvgamEVFpvzM80jgW7qX71oJiMKLlpLji+uvkVVMk4yTAjHPZfuMPEIug
-         o29mGFrGoUwWilzUjYsSxw/97h7pPwt5vKbZFaOfYhch5b/1KeYOX4QEQDxT/00KfX31
-         gjpRF3hu4AVhf5h/McStP6dzGAww+nWgq7T3scY6quBWJE9f3KTe9OfzgVkKsG0+ST9+
-         BO4g==
+        bh=HjjDc3SROjGkqpI0mx1KWBsfnzHgq1Vhb+KkAC28RHY=;
+        b=QVQg01uRUPj6tr5J8SCnQvyF7C+v+12TpvMxUv57AV1REex3He0A1LrLRDnIM6YNRY
+         IAibqIeWCSgovGgSW1NbLeHge+uz62WkWJjdXw+f7FsfGhKa0uyQJzzW7e+0yGL66kLR
+         a9kQaVsh4bPY7nnVVL00WVrnQ3QHqdICPPumfS293Bmoo9UtmrdbDGeb5ek3W+doGibx
+         I/Z12KT7DlT+8+5EJDHhq0za7GYjDgL/E2fBCjGpFcl0oP8W4JQIaBkB1uHRmN2R4uvU
+         wGoPIKUJArLZU2erfZqAARTb3zgoX6O1ZX/JE3xj0h8u9qasmjMQr7EXiz6DSLBVYi63
+         8vsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4tLGRrWIXRiVTY0FSW0n+sGKZZYUbaryBCg8mCb6c6Q=;
-        b=D/PA86HNMi07uwntWQTkNF5qdqMDkbG8CVEi5uHF+9yUWtXNUv7VODwJS7dvtbxkon
-         fSFjpmI4ocmCTiY3hBnC5yhF4M81zozQ6gu2QRDSiZVWPjiG1C1+B8lIAetsTqIWjg2z
-         PW0+Gb+DdKrrBj97uad3IO7PMbPTPMkOHonbDhODP/mz2Y0JgwSzxteFMK0HC7B8Vb35
-         755Az5fMBc+ZqFxzm62+ispurTvIbGt9glloEhCQqosscFR2hNKAfjrm4w+MfKvWt2Ff
-         0Wk1kag8dKoxTYSdjeGbwSD4M8e15Xg/FZ/jK1Pcp3Z/B71nZfJKOA705mRjSrtDwzlc
-         6oiA==
-X-Gm-Message-State: AOAM532eLYbaU1J8O7PSuPdYSCYWv5rf/OliKUNRO2IWi3/IDFHq/dY3
-	INi4dsrl7ld3ZK7uI2nGmMa0MwbBjPqHWTjaMKM=
-X-Google-Smtp-Source: ABdhPJxJ2W/tTl+kqKh5Qnt/jeghP2mK5zmz8IInN6ZdlcKSRQX/ZcNErPtY4Q2d6S128TEgw6uiBw==
-X-Received: by 2002:aca:a9c4:: with SMTP id s187mr26634648oie.47.1620831461551;
-        Wed, 12 May 2021 07:57:41 -0700 (PDT)
+        bh=HjjDc3SROjGkqpI0mx1KWBsfnzHgq1Vhb+KkAC28RHY=;
+        b=slyVpqUR2oJaSmFQp1BTe3GAqUtLHIOGP91ZAxTWEmx3DN3H5eFF0W8skNJcAfMFnx
+         Ad1Te4oDbPJ4TwfNTWcBeY8PVwn0EPYSJEckAaNy7pboZ6yy8s/J/FfmJt25XDUc/fSg
+         N2ixsXPKQ5W4pG31PGEfeRRLaXfoJrtbUfewyUHj+EgqpgUvVzqUUV7+NW743ju20TNK
+         QC4ZykYgkQhn6fazt4qaKWVRw+xDF4WuYq5ph2rHVxjiyTTgxa7qZlzAniTsVR85+qTY
+         v7TQytwxDYv9NXRI6WQDhoHOn+QIeGEqyC38MIi2XxQCf3JbX2VG2C0tBUDO5QozZF1f
+         RyYQ==
+X-Gm-Message-State: AOAM530SuRaQVWpoV+4X79i5P+mB1sFLq1GcLVEP8tLN5wA71EdbxNTM
+	ZFvgoJTMJkQvq1Bi2GHp8qUZT92Y24yA5ggu1ts=
+X-Google-Smtp-Source: ABdhPJwF5kLSYnX6br2l26GXHvSeQ+9hBnVdOMg231exjVFIuAnM/Vy8TVb+AApq5V1KDHBLDxxkYg==
+X-Received: by 2002:a05:6830:1205:: with SMTP id r5mr5226910otp.359.1620831467459;
+        Wed, 12 May 2021 07:57:47 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.57.38
+        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.57.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 07:57:41 -0700 (PDT)
+        Wed, 12 May 2021 07:57:46 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/22] subversion: fix CVE-2020-17525
-Date: Wed, 12 May 2021 04:56:40 -1000
-Message-Id: <4c95f65ac81b2b4da317009f997f94758089d3ca.1620831171.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/22] qemu: fix CVE-2021-3392
+Date: Wed, 12 May 2021 04:56:41 -1000
+Message-Id: <59d7473be278f477e93484d97392a3557da34d5d.1620831171.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620831171.git.steve@sakoman.com>
 References: <cover.1620831171.git.steve@sakoman.com>
@@ -57,146 +57,121 @@ From: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../subversion/CVE-2020-17525.patch           | 117 ++++++++++++++++++
- .../subversion/subversion_1.13.0.bb           |   1 +
- 2 files changed, 118 insertions(+)
- create mode 100644 meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3392.patch             | 92 +++++++++++++++++++
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
 
-diff --git a/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch b/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
-new file mode 100644
-index 0000000000..5bebde2a86
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
-@@ -0,0 +1,117 @@
-+Upstream-Status: Backport [ https://subversion.apache.org/security/CVE-2020-17525-advisory.txt ] 
-+CVE: CVE-2020-17525
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+  Remote unauthenticated denial-of-service in Subversion mod_authz_svn.
-+
-+Summary:
-+========
-+
-+  Subversion's mod_authz_svn module will crash if the server is using
-+  in-repository authz rules with the AuthzSVNReposRelativeAccessFile
-+  option and a client sends a request for a non-existing repository URL.
-+
-+  This can lead to disruption for users of the service.
-+
-+Known vulnerable:
-+=================
-+
-+  mod_dav_svn+mod_authz_svn servers 1.9.0 through 1.10.6 (inclusive).
-+  mod_dav_svn+mod_authz_svn servers 1.11.0 through 1.14.0 (inclusive).
-+
-+Known fixed:
-+============
-+
-+  mod_dav_svn+mod_authz_svn servers 1.14.1
-+  mod_dav_svn+mod_authz_svn servers 1.10.7
-+
-+Details:
-+========
-+
-+  A null-pointer-dereference has been found in mod_authz_svn that results in
-+  a remote unauthenticated Denial-of-Service in some server configurations.
-+
-+  The vulnerability can be triggered by an unauthenticated user if the
-+  Apache HTTPD server is configured to use an in-repository authz file,
-+  with configuration directives such as:
-+
-+    AuthzSVNAccessFile "^/authz"
-+    AuthzSVNReposRelativeAccessFile "^/authz"
-+
-+  The problem originates when sending a GET request to a non-existent
-+  repository. The mod_authz_svn module will attempt to find authz rules
-+  at a path within the requested SVN repository. Upon constructing this
-+  path, the function svn_repos_find_root_path will return a NULL pointer
-+  since the requested repository does not exist on-disk.
-+  A check for this legitimate NULL pointer condition is missing, which
-+  results in a segmentation fault when the NULL pointer is used.
-+
-+  The in-repository authz feature was first introduced in Subversion 1.8:
-+  https://subversion.apache.org/docs/release-notes/1.8.html#in-repo-authz
-+
-+  The missing NULL check was first introduced during refactoring of the
-+  authz code during development work leading up to Subversion 1.9.
-+  Subversion 1.8 servers are unaffected.
-+
-+Severity:
-+=========
-+
-+  CVSSv3 Base Score: 7.5 (High)
-+
-+  CVSSv3 Base Vector: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-+
-+  Exploitation results in denial of service by crashing the HTTPD worker
-+  handling the request. The impact of this differs depending on how the
-+  Apache HTTPD server is configured, including the choice of MPM (Multi-
-+  Processing-Module). If the worker shares its memory address space with
-+  the main thread, as is the case with e.g. the Event MPM, the entire
-+  HTTPD server process will terminate. If the pre-fork MPM is used, the
-+  worker will terminate but the HTTPD server will stay up, and service
-+  availability will depend on how frequently the attacker is able to
-+  send malicious requests which target the vulnerability.
-+
-+Recommendations:
-+================
-+
-+  We recommend all users to upgrade to a known fixed release of the
-+  Subversion mod_dav_svn server.
-+
-+  Users who are unable to upgrade may apply the included patches.
-+
-+  As a workaround, the use of in-repository authz rules files with
-+  the AuthzSVNReposRelativeAccessFile can be avoided by switching
-+  to an alternative configuration which fetches an authz rules file
-+  from the server's filesystem, rather than from an SVN repository.
-+
-+References:
-+===========
-+
-+  CVE-2020-17525 (Subversion)
-+
-+Reported by:
-+============
-+
-+  Thomas Åkesson, simonsoft.se
-+
-+Patches:
-+========
-+
-+  Patch for Subversion 1.10, 1.14:
-+
-+[[[
-+Index: subversion/libsvn_repos/config_file.c
-+===================================================================
-+--- a/subversion/libsvn_repos/config_file.c	(revision 1883994)
-++++ b/subversion/libsvn_repos/config_file.c	(working copy)
-+@@ -237,6 +237,10 @@ get_repos_config(svn_stream_t **stream,
-+     {
-+       /* Search for a repository in the full path. */
-+       repos_root_dirent = svn_repos_find_root_path(dirent, scratch_pool);
-++      if (repos_root_dirent == NULL)
-++        return svn_error_trace(handle_missing_file(stream, checksum, access,
-++                                                   url, must_exist,
-++                                                   svn_node_none));
-+ 
-+       /* Attempt to open a repository at repos_root_dirent. */
-+       SVN_ERR(svn_repos_open3(&access->repos, repos_root_dirent, NULL,
-+]]]
-diff --git a/meta/recipes-devtools/subversion/subversion_1.13.0.bb b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
-index 37b8ca3602..34c0dbe5b8 100644
---- a/meta/recipes-devtools/subversion/subversion_1.13.0.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://disable_macos.patch \
-            file://0001-Fix-libtool-name-in-configure.ac.patch \
-            file://serfmacro.patch \
-+           file://CVE-2020-17525.patch \
-            "
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5e8d3e09ff..7647e44726 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -54,6 +54,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2020-24352.patch \
+ 	   file://CVE-2020-25723.patch \
+ 	   file://CVE-2021-20203.patch \
++	   file://CVE-2021-3392.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI[md5sum] = "3004b4dae18bf45a0b6ea4ef8820064d"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+new file mode 100644
+index 0000000000..45b8a4f1dd
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+@@ -0,0 +1,92 @@
++From 3791642c8d60029adf9b00bcb4e34d7d8a1aea4d Mon Sep 17 00:00:00 2001
++From: Michael Tokarev <mjt@tls.msk.ru>
++Date: Mon, 19 Apr 2021 15:42:47 +0200
++Subject: [PATCH] mptsas: Remove unused MPTSASState 'pending' field
++ (CVE-2021-3392)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=utf8
++Content-Transfer-Encoding: 8bit
++
++While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
++the Megaraid emulator appends new MPTSASRequest object 'req' to
++the 's->pending' queue. In case of an error, this same object gets
++dequeued in mptsas_free_request() only if SCSIRequest object
++'req->sreq' is initialised. This may lead to a use-after-free issue.
++
++Since s->pending is actually not used, simply remove it from
++MPTSASState.
++
++Cc: qemu-stable@nongnu.org
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++Reviewed-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
++Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
++Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
++Message-id: 20210419134247.1467982-1-f4bug@amsat.org
++Message-Id: <20210416102243.1293871-1-mjt@msgid.tls.msk.ru>
++Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
++Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
++BugLink: https://bugs.launchpad.net/qemu/+bug/1914236 (CVE-2021-3392)
++Fixes: e351b826112 ("hw: Add support for LSI SAS1068 (mptsas) device")
++[PMD: Reworded description, added more tags]
++Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
++Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++
++Upstream-Status: Backport [ https://git.qemu.org/?p=qemu.git;a=commit;h=3791642c8d60029adf9b00bcb4e34d7d8a1aea4d ]
++CVE: CVE-2021-3392
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ hw/scsi/mptsas.c | 6 ------
++ hw/scsi/mptsas.h | 1 -
++ 2 files changed, 7 deletions(-)
++
++diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
++index 7416e78..db3219e 100644
++--- a/hw/scsi/mptsas.c
+++++ b/hw/scsi/mptsas.c
++@@ -251,13 +251,10 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
++ 
++ static void mptsas_free_request(MPTSASRequest *req)
++ {
++-    MPTSASState *s = req->dev;
++-
++     if (req->sreq != NULL) {
++         req->sreq->hba_private = NULL;
++         scsi_req_unref(req->sreq);
++         req->sreq = NULL;
++-        QTAILQ_REMOVE(&s->pending, req, next);
++     }
++     qemu_sglist_destroy(&req->qsg);
++     g_free(req);
++@@ -303,7 +300,6 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
++     }
++ 
++     req = g_new0(MPTSASRequest, 1);
++-    QTAILQ_INSERT_TAIL(&s->pending, req, next);
++     req->scsi_io = *scsi_io;
++     req->dev = s;
++ 
++@@ -1319,8 +1315,6 @@ static void mptsas_scsi_realize(PCIDevice *dev, Error **errp)
++ 
++     s->request_bh = qemu_bh_new(mptsas_fetch_requests, s);
++ 
++-    QTAILQ_INIT(&s->pending);
++-
++     scsi_bus_new(&s->bus, sizeof(s->bus), &dev->qdev, &mptsas_scsi_info, NULL);
++ }
++ 
++diff --git a/hw/scsi/mptsas.h b/hw/scsi/mptsas.h
++index b85ac1a..c046497 100644
++--- a/hw/scsi/mptsas.h
+++++ b/hw/scsi/mptsas.h
++@@ -79,7 +79,6 @@ struct MPTSASState {
++     uint16_t reply_frame_size;
++ 
++     SCSIBus bus;
++-    QTAILQ_HEAD(, MPTSASRequest) pending;
++ };
++ 
++ void mptsas_fix_scsi_io_endianness(MPIMsgSCSIIORequest *req);
++-- 
++1.8.3.1
++
 -- 
 2.25.1
 
