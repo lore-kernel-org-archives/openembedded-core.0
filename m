@@ -1,112 +1,71 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web09.3779.1620852086129308940
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+ by mx.groups.io with SMTP id smtpd.web08.3809.1620852253511254236
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 13:41:26 -0700
+ Wed, 12 May 2021 13:44:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ltPTDaUu;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id di13so28635318edb.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 13:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZueszJeOQLm8YO5IL4VPvkGOuHO+PqFi9QFhx2lgfhc=;
-        b=ltPTDaUuPnQT2aNPt4iVT8JwSO4Ao56kDLct4x6C4QrEzv1AuIu0v9SAZcwoBL7/5d
-         07ruhAM/xr2F+cK7WaYqJnfUOL8Vr7pmzC7htW63czO9IdILJM9mB5elm4Fvnd5lnxIb
-         xUlCfafb5GmMcg7j4mYNhKp4NeayEvCtHhc9iGn5nzwy3xEZE+9WeH/ZqCktK4HjTXll
-         oen6v5+0Qt6W6SkFOldaurF+AQ92yxjzhZbugQkgstTf4t1G5WNo8G00DbhD0JCWG6sF
-         h+JH1o+A7Egg5PyPzDMiZxyO1+iCSrEUHqv95/M4OQ0GoPOVs2/rQRN9am2DRN1APTWI
-         kGgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZueszJeOQLm8YO5IL4VPvkGOuHO+PqFi9QFhx2lgfhc=;
-        b=q9Q2ENrbsDT4Z2qmqUonaCeViyaVKuNwkzkFSNtoUgPwtovZqoQhSjas+dIl1HUfGe
-         56f9A6Mr2DNLqwDRKrSqob+YzDU0Yy4psuWGBLmCejUorKrzi7SP8gu2qQrUyNjaoCEm
-         f7Y9BT0J5I8wY9i5QGzbLAF/YkQ6iPZ45LEa1mdPDNe69N1uRqhXRbyWF/5R3GgE3yB+
-         V1kjO9IvWLHXdSUb3T2x1usIjdQGJjN1lEA65RFE7UbOcrXD4b5/TPxp0pmfCgPnCB9+
-         7UlBii62VNAgaBkMi0rBxWV6KAzK3rZUR0Q7LHeuS6trY5QETMqRbl7ITDZM25CYo2uE
-         5oxg==
-X-Gm-Message-State: AOAM5307mqKO1f4GFneJ39hFxqUY1JiDW3p7HkPuUZSZkuVJTJLpsWcs
-	J6YpjK9JWyEQf1MY9cx5eRg/6Q1OvD/WjQRqcYA=
-X-Google-Smtp-Source: ABdhPJwTCHjzQ6tYG0+lvfXzzHxBCDZ/3QlmecUW2bwxydWFpQX+8MgxtPynK8SobyJ10Y8fT5xGK7H6xdFMSmKA6+4=
-X-Received: by 2002:a50:fc97:: with SMTP id f23mr44300326edq.311.1620852084652;
- Wed, 12 May 2021 13:41:24 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=m30vBef6;
+ spf=none, err=SPF record not found (domain: verbum.org, ip: 64.147.123.24, mailfrom: walters@verbum.org)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id A6DF816F1;
+	Wed, 12 May 2021 16:44:12 -0400 (EDT)
+Received: from imap10 ([10.202.2.60])
+  by compute1.internal (MEProxy); Wed, 12 May 2021 16:44:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=NvzMZk
+	rRcOK9BETrFhNKu5TiLFOOo0q8+uy05JHjNRE=; b=m30vBef6vnBzpgoooqJJRF
+	3PLh9Rk57hy1GwfW1I5rXgEpmdUDF3/JJmiZp3tksTdFCrUDHVu2cLKeS6773RYh
+	togFo3Jm19h/qC69ssq9G6d0rp/npbwGEUU+VA6orvT6ZIb/klYesoJQAypE/zn+
+	oTSeR0TevxMPnp4VR91vOUvagGgdUzThRdA4IGwh/tXd/Sd1xXykAHJjGSwJOq8C
+	O8lkOUL9hFa1VfVryVV8Nwb/a55p1L+cYGX078nWonhKPAjgt5T7/kzbx2qG/Upy
+	us7yVMV9zqPKp9DpTOq6bplLa7vPGCWEgWjDos58tG/ody4TzKsChqNanXmC9OEQ
+	==
+X-ME-Sender: <xms:HD6cYAreXbeyuxkeFfKl54meoYSihTAv_mcKIirfwkDfiucH_f-UcQ>
+    <xme:HD6cYGqiog2xIRHZgHB20P_gky80sqNQMLAE5WcZN2rNOaipzAWu8sU2VWSzMpwGO
+    _zuSyBy7XI3pKlJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehvddgudehtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfveho
+    lhhinhcuhggrlhhtvghrshdfuceofigrlhhtvghrshesvhgvrhgsuhhmrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeeutdetleeutdeileevjefgveeiteffueeuvdeiieefkeettefg
+    leevveevleevhfenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgnecuve
+    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfigrlhhtvghr
+    shesvhgvrhgsuhhmrdhorhhg
+X-ME-Proxy: <xmx:HD6cYFO7QomYHu2x9CeoSDPm83D4ZAO-lPxEdLARxUqZxXtiMW8Pwg>
+    <xmx:HD6cYH7AHVUyoPY4TxfAyktOgBro6-eE7GWlsLSlgfwDcmknfP8Z3g>
+    <xmx:HD6cYP7tB-3dRleeM_N1xVsd81ONkfZdxazsnRsum50vbIk9NWXYtA>
+    <xmx:HD6cYBFAxMm49xtyQD9AAdAv7JLXlYq5fZe1LhMAgFcbpNgjX86PFQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 0B0BC4E00C8; Wed, 12 May 2021 16:44:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
+Mime-Version: 1.0
+Message-Id: <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com>
+In-Reply-To: 
+ <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
 References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
-In-Reply-To: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 12 May 2021 22:41:13 +0200
-Message-ID: <CA+chaQfifcU+SLZmJ4np9bnoxyRFx_0BVeJBkQK-BOUQ+A77hg@mail.gmail.com>
+ <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
+Date: Wed, 12 May 2021 16:43:51 -0400
+From: "colin walters" <walters@verbum.org>
+To: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] master/main branch renaming and bitbake
-To: colin walters <walters@verbum.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000bd407505c2280838"
+Content-Type: text/plain
 
---000000000000bd407505c2280838
-Content-Type: text/plain; charset="UTF-8"
 
-meta-oe/master
-https://lists.openembedded.org/g/openembedded-devel/message/91252
-meta-oe/hardknott
-https://lists.openembedded.org/g/openembedded-devel/message/91253
-meta-oe/gatesgarth
-https://lists.openembedded.org/g/openembedded-devel/message/91254
-meta-oe/dunfell
-https://lists.openembedded.org/g/openembedded-devel/message/91255
 
-It will be a while until it's merged in these still supported branches, for
-older branches it would be responsibility of the unlucky people using
-unsupported release to fix it on their own with .bbappend.
-
-On Wed, May 12, 2021 at 10:34 PM colin walters <walters@verbum.org> wrote:
-
-> (Sorry I think this isn't the right list, but I happen to still be
-> subscribed to this one so...)
->
-> Can someone please tell me there's a fix for yocto/bitbake failing if the
-> master branch is renamed?
->
-> https://github.com/ostreedev/ostree/issues/2360
->
+On Wed, May 12, 2021, at 4:40 PM, Alexander Kanavin wrote:
+> For ostree, yes:
+> http://git.openembedded.org/meta-openembedded/log/?h=master-next
 > 
->
->
+> For the generic case, no. It's not a good idea to start guessing what 
+> the upstream did.
 
---000000000000bd407505c2280838
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+What is the goal of the `branch=` specification?  I can understand it being *informative* for humans specifically when things like non-master/main branches e.g. `release-4.x`, `lts-`, `stable-` etc. are involved.
 
-<div dir=3D"ltr">meta-oe/master <a href=3D"https://lists.openembedded.org/g=
-/openembedded-devel/message/91252">https://lists.openembedded.org/g/openemb=
-edded-devel/message/91252</a><br>meta-oe/hardknott <a href=3D"https://lists=
-.openembedded.org/g/openembedded-devel/message/91253">https://lists.openemb=
-edded.org/g/openembedded-devel/message/91253</a><br>meta-oe/gatesgarth <a h=
-ref=3D"https://lists.openembedded.org/g/openembedded-devel/message/91254">h=
-ttps://lists.openembedded.org/g/openembedded-devel/message/91254</a><br>met=
-a-oe/dunfell <a href=3D"https://lists.openembedded.org/g/openembedded-devel=
-/message/91255">https://lists.openembedded.org/g/openembedded-devel/message=
-/91255</a><br><br>It will be a while until it&#39;s merged in these still s=
-upported branches, for older branches it would be responsibility of the unl=
-ucky people using unsupported release to fix it on their own with .bbappend=
-.<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Wed, May 12, 2021 at 10:34 PM colin walters &lt;<a href=3D"mailto:w=
-alters@verbum.org">walters@verbum.org</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">(Sorry I think this isn&#39;t the righ=
-t list, but I happen to still be subscribed to this one so...)<br>
-<br>
-Can someone please tell me there&#39;s a fix for yocto/bitbake failing if =
-the master branch is renamed?<br>
-<br>
-<a href=3D"https://github.com/ostreedev/ostree/issues/2360" rel=3D"norefer=
-rer" target=3D"_blank">https://github.com/ostreedev/ostree/issues/2360</a><=
-br>
-<br>
-<br>
-<br>
-</blockquote></div>
+But why is bitbake explicitly checking it?  Is it to validate what the human expressed, or is it to try to cover some security aspect?  Something else?
 
---000000000000bd407505c2280838--
+
+
