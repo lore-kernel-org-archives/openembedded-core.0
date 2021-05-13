@@ -1,97 +1,132 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.5688.1620861144760305899
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+ by mx.groups.io with SMTP id smtpd.web09.6357.1620864491503434407
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 16:12:25 -0700
+ Wed, 12 May 2021 17:08:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S5OfXqD6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id a4so25235769wrr.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 16:12:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CyhZBqhN;
+ spf=pass (domain: gmail.com, ip: 209.85.166.171, mailfrom: alistair23@gmail.com)
+Received: by mail-il1-f171.google.com with SMTP id s9so4412787ilp.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 17:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=UddEaXgrw5NoQo+YornZQC2r6/gy2exRMVciZsl0Qqc=;
-        b=S5OfXqD6T/1x5cswGmhpxU8ro1Ee0zO5qqSX5TPyeReb2IiO3ol1tIzCtSeWGcgJi3
-         bOAOCH5npe6xkUvbwnerTTNMgcs/yisZ5ucDvRf/e8lAAiADkiry1XRI4N4nWbdqrrBK
-         9cZ7rtpi4DiIZOj0JxQSxhReSMZYNZLeNU58w=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BELIt4uOttq6cS+8FmdOS2trDkK2K9zRQlva8gxdf6c=;
+        b=CyhZBqhNw7TD+ZF7waL86/3Soj71aTykzqgUpRsbB9B63keBgKjchHo1aGop6DbRVH
+         iRwYBvLd/ASK0gL7PETeCs3pr3cZ5McQH8oY6D5J51imKkrTp44AJ/lg4+hIySSAy7l7
+         ES9GW9cTmKBPd3/wIDYweXiWJecmYXKeN9DKMg7UDIWtY+EdILFZs7nu9du6/cBVPwyv
+         psFBPjInDBAqMGMUTqQqxyQc74cSsYMlUYC3dyPvdyuRVwrtoBTUUPUs58d6GR99xvMk
+         7cEKdtmD2cMYgkREYqLQKkBNCCzMvKJh70xYCuIxfnUTrUr4ItE0q8Gx5xd14a8Ej5s+
+         z8Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=UddEaXgrw5NoQo+YornZQC2r6/gy2exRMVciZsl0Qqc=;
-        b=ccmJpUzGf+LLstXrH7rOfV+GWcrvKl6ynDzeS4d9zpbv2tMBCrbbs6M04gogheEiBX
-         305xll1K+mlTiKZ7k7k8m3y4EhFFX+VGuDPI5HljXygJV91BZf23d0qzKDrQXOP+KOsQ
-         XrTCffBscytNXHWG+TLHzAUzhVdBjm6QM4kz1SBZpMZXGoF1tme3DjGaTWlsUBYkLjyB
-         AYYHPzOwr/fQpZm8V0LptEZBsdxNhIPiuhsGXj+Y5s7XGIyC8iib2cFUi3f6xRNGuTtg
-         8A8IV+cEmivrm7kkKVmAvIgNi5ziIJc0m0kBns9F68pa3Ob+x1Xq67L9UXeDigjdaztE
-         Cleg==
-X-Gm-Message-State: AOAM533evPLRvt9ksyboYQfg+DZgkn3RI15ZSAzoQfrQUBsKUvU1DlHx
-	hozPM/Vcth8RE+UGBpulODFyPQ==
-X-Google-Smtp-Source: ABdhPJzs//dUwE4Zcc38QfTqtulme/upcE6rErfXdMZWFDxskdzepuMYa2+lCHipOW72Ev7y1SfB/Q==
-X-Received: by 2002:a5d:6daa:: with SMTP id u10mr47461842wrs.119.1620861143195;
-        Wed, 12 May 2021 16:12:23 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f649:3481:d239:bb03? ([2001:8b0:aba:5f3c:f649:3481:d239:bb03])
-        by smtp.gmail.com with ESMTPSA id v12sm1181158wrv.76.2021.05.12.16.12.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 16:12:23 -0700 (PDT)
-Message-ID: <a797bbeecd3bdbfdcf52943ff5a51857729ffe00.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] ovmf: Disable lto to aid reproducibility
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 May 2021 00:12:22 +0100
-In-Reply-To: <CAMKF1spC4W1sWy32C_=WwY8SwH2CHPD7YQJym-gUShy2BZaR5g@mail.gmail.com>
-References: <20210512213212.2283022-1-richard.purdie@linuxfoundation.org>
-	 <CAMKF1spC4W1sWy32C_=WwY8SwH2CHPD7YQJym-gUShy2BZaR5g@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BELIt4uOttq6cS+8FmdOS2trDkK2K9zRQlva8gxdf6c=;
+        b=Q5qAsb4uXe1OhFKz3kI9q24m4vDHk9hHvPGelfu10J/Ag8/Hfkibl093IX/yHd29hM
+         dYB7075BIv3jkjXczpaUczkhqLgBQrjde8k3XNrU0YD0mGsTLVJQWPRwcUFRvUGftlcB
+         u0qxaSA0BGgZpRDyLp0jbbcyajgMpWjEmOp6C7dBzSwiRPbVCVDyNzJztUGWcWrYKN4K
+         NewT5tG55N3lvvszNS2z61oeEvan16Z2rtG3RX9b7AwR3AJg2f4w/SLHDD9wxupgqo5S
+         xTV5Tnp3UEc2EfIyEVdaLhgx6cHeQdc6S979BJIS+52N8ARrXz2jIgoejoU2Cd5a+qBU
+         Bubg==
+X-Gm-Message-State: AOAM533vqk20yP2THXRXK2ME3fkm1LIYACsP6XhEfH2IUNRBd0Pu/Bkd
+	1ejhUbsj384IOOWUZ2HUnbdgVcGkDOHRx4LHTMc=
+X-Google-Smtp-Source: ABdhPJyqD4AER5/IfszEXPXvqx+veXFq668yZEM3RN/jJeSDG4rEOxh4QSH9LIIuYgv8zUOrJgjRZzB4f6pv/BIdIN4=
+X-Received: by 2002:a05:6e02:eac:: with SMTP id u12mr34030999ilj.177.1620864490846;
+ Wed, 12 May 2021 17:08:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210511053134.3353286-1-alejandro@enedino.org>
+In-Reply-To: <20210511053134.3353286-1-alejandro@enedino.org>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Thu, 13 May 2021 10:07:44 +1000
+Message-ID: <CAKmqyKMsRa8rU6==FVK7JXHxqUf8fDt_vJL=SODFmc3Mdfdzwg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] baremetal-helloworld: Enable RISC-V 64 port
+To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-05-12 at 16:04 -0700, Khem Raj wrote:
-> On Wed, May 12, 2021 at 2:32 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > lto tends to break reproducibility and makes ovmf near impossible to debug
-> > reproducibility issues in. Disable it and supress the warnings that then
-> > generates from Werror.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  meta/recipes-core/ovmf/ovmf_git.bb | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-> > index 1fe01146d6b..ef5545bf705 100644
-> > --- a/meta/recipes-core/ovmf/ovmf_git.bb
-> > +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-> > @@ -102,15 +102,22 @@ fix_toolchain_append_class-native() {
-> >      # to make ovmf-native reusable across distros.
-> >      sed -i \
-> >          -e 's#^\(DEFINE GCC.*DLINK.*FLAGS  *=\)#\1 -fuse-ld=bfd#' \
-> > +        -e 's#-flto#-fno-lto#g' \
-> > +        -e 's#-DUSING_LTO##g' \
-> >          ${S}/BaseTools/Conf/tools_def.template
-> >  }
-> > 
-> > +# We disable lto above since the results are not reproducible and make it hard to compare
-> > +# binary build aretfacts to debug reproducibility problems.
-> > +# Surprisingly, if you disable lto, you see compiler warnings which are fatal. We therefore
-> > +# have to hack warnings overrides into GCC_PREFIX_MAP to allow it to build.
-> > +
+On Tue, May 11, 2021 at 3:31 PM Alejandro Hernandez Samaniego
+<alejandro@enedino.org> wrote:
+>
+> Add support for MACHINE=qemuriscv64.
+>
+> $ runqemu nographic
+>
+> KERNEL: [tmp/deploy/images/qemuriscv64/baremetal-helloworld-image-qemuriscv64.bin]
+> MACHINE: [qemuriscv64]
+> FSTYPE: [bin]
+>
+> runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-riscv64
+>
+> Hello OpenEmbedded on RISC-V 64!
+>
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  .../baremetal-examples/baremetal-helloworld_git.bb |  5 +++--
+>  meta/classes/baremetal-image.bbclass               | 14 +++++++++++++-
+>  2 files changed, 16 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> index ee945c1ff0..19ef16988f 100644
+> --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> @@ -4,7 +4,7 @@ DESCRIPTION = "These are introductory examples to showcase the use of QEMU to ru
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
+>
+> -SRCREV = "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
+> +SRCREV = "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
+>  PV = "0.1+git${SRCPV}"
+>
+>  SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
+> @@ -28,12 +28,13 @@ inherit baremetal-image
+>  # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
+>  # but the examples can also be run on other architectures/machines
+>  # such as vexpress-a15 by overriding the setting on the machine.conf
+> -COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64"
+> +COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
+>
+>  BAREMETAL_QEMUARCH ?= ""
+>  BAREMETAL_QEMUARCH_qemuarmv5 = "versatile"
+>  BAREMETAL_QEMUARCH_qemuarm = "arm"
+>  BAREMETAL_QEMUARCH_qemuarm64 = "aarch64"
+> +BAREMETAL_QEMUARCH_qemuriscv64 = "riscv64"
+>
+>  EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
+>
+> diff --git a/meta/classes/baremetal-image.bbclass b/meta/classes/baremetal-image.bbclass
+> index b0f5e885b5..319b61c7cd 100644
+> --- a/meta/classes/baremetal-image.bbclass
+> +++ b/meta/classes/baremetal-image.bbclass
+> @@ -73,7 +73,19 @@ QB_DEFAULT_KERNEL ?= "${IMAGE_LINK_NAME}.bin"
+>  QB_MEM ?= "-m 256"
+>  QB_DEFAULT_FSTYPE ?= "bin"
+>  QB_DTB ?= ""
+> -QB_OPT_APPEND = "-nographic"
+> +QB_OPT_APPEND_append = " -nographic"
+> +
+> +# RISC-V tunes set the BIOS, unset, and instruct QEMU to
+> +# ignore the BIOS and boot from -kernel
+> +QB_DEFAULT_BIOS_qemuriscv64 = ""
+> +QB_OPT_APPEND_append_qemuriscv64 = " -bios none"
+> +
+> +
+> +# Use the medium-any code model for the RISC-V 64 bit implementation,
+> +# since medlow can only access addresses below 0x80000000 and RAM
+> +# starts at 0x80000000 on RISC-V 64
+> +CFLAGS_append_qemuriscv64 = " -mcmodel=medany"
+> +
+>
+>  # This next part is necessary to trick the build system into thinking
+>  # its building an image recipe so it generates the qemuboot.conf
+> --
+> 2.25.1
+>
+>
 > 
-> could lto piece be turned into a packageconfig,as I think LTO usage
-> will only grow in coming future
-> some distros may prefer LTO over reproducibility for performance reasons.
-
-If someone wants to do it, sure. I've had enough problems with this horrid build 
-system already today. You don't want to know how many hours the reproducibility 
-fixes have taken :(.
-
-Cheers,
-
-Richard
-
+>
