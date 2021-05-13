@@ -1,91 +1,116 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web08.247.1620939896445896392
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web12.362.1620940285751863219
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 14:04:56 -0700
+ Thu, 13 May 2021 14:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uv7/KmC1;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id i7so18777986ioa.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 14:04:56 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EwYyKKiN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id u133so3799212wmg.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 14:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pa5PZvPgQpFGcERUMGD8hwQ7yY4LVzcuF8dEWH9f/ac=;
-        b=uv7/KmC12WxAnhQmyv3wXAG3Vwt2L31Hj14qb4n+h63D6Jz104MjBfEIsTLZ7ip5lp
-         j4cC5LtvDkJ/pr5ekEm6eLDKLUPucGBjalVsP0VUD++6vhv1fgFrtbXWkfVyejt2YvcH
-         TbBeSBYWzyikmOhDEwTFZCgVNEg0IhJnZTWROoHkmGKeNcn9A22F/YvNwttt2cnQ2Mbg
-         SJ+Ml+7tsN1bG6eeVcnoe3NZfvHt/Swm2IFaXS9nweyO169W8EjrALvsnjxdGMT4T4Ni
-         efezij8QubZxUjlrr7m1ffZktviaP94dyzwcRQ9sIRLfEbdGynO/vFyIXoKBzvughh+V
-         Y6pQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=TxGa5to31jOzYNRumdHFYSfezYVVgKJlRw6UjMEK4iA=;
+        b=EwYyKKiNLqVsZ3LLc4CYcegOg6ZOr8sMXkN+8bqGwhvMAKR4w57OAUt7DdtwyIHkeA
+         RfMzBwu8BFJTq2544wiZJk1SjtNjE5v6YG88MvcdPDTqsW/TOgdjVBI7OuumtJmd0/+F
+         vL4x/AUYiVT9728Vc0U9CuRSl28ApkY9Ws8bI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pa5PZvPgQpFGcERUMGD8hwQ7yY4LVzcuF8dEWH9f/ac=;
-        b=CNWJsBal3xveHNTK5C33jH/I17NNGT44Wwsv45+hzrGerO1bWzdoGx+EZVI2HBsTsl
-         mdcGKXzCc+sgpP0eDh9Y/jsunyxWyszEjfqRWyN8NdBDRTiD0vsF+UGhbJx3wN8ytZPe
-         KcIFrNhxaXKxGj6P2SEogdOva1jRAmYQTI1K7QFf0ysdD6qLHhGF1GrdbOWJ1HCVf/QT
-         GpwFo3opLGDW3OqqmhFncd/P0uu7XkhPWCtNc3YNCUQLXGw1UYK55XiuvthyOwoUvLup
-         53dYKQsSWRX2qTqzWhiR2UJIumrm7IHjOpAgREfgIs4sYTNsldf+fgX3NGR7CVk//a74
-         FoPQ==
-X-Gm-Message-State: AOAM5311gbwEJTwcn2Vve/dMPGYkFqDxoQS4QNkJOEDdJ/3fDphMipZh
-	oEre9Fykbb7Hoeigm9aEJxE5Zt5cArmgZVV7qUg=
-X-Google-Smtp-Source: ABdhPJzDdg4kZ3uvz6hQJ1JoOvqw9KHKFOWKnRbdjLQdTU4oyXFYRHxAF2govcOAjqfp02cdiezXWxysMqdkGV0A4eU=
-X-Received: by 2002:a05:6638:a2c:: with SMTP id 12mr39415459jao.99.1620939895622;
- Thu, 13 May 2021 14:04:55 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=TxGa5to31jOzYNRumdHFYSfezYVVgKJlRw6UjMEK4iA=;
+        b=jkas+r/fn6izSHiv879YvqANYlLU3aQK/fnLKGkPf3llKwVXObWw73m/qw+LeumeEi
+         SXTmVDFXUyH4QUDjpAkKujuSn99/RArRWNYnsdLbYZOhs6aC1ndvL2mKq3WHzofwuD85
+         Ih0wKQ6sbzWzuHYdYPBnvKUHmTlxIyj1LDj6JAkk02P/wGzTX3J1epyqzRAbSVMNEsXy
+         iXHGMeR1W3WC94ZzEzwhNAfv49rGaYAzN+cK5ljw43j6yxzYO78ZNN49ViD5wV1ls6rs
+         runYrfUro6eDjs9dxxfnc/GC/MThNDeoQh/nm4FvuvhoWb7TOuSJAAFZCv6HPwzO0dP5
+         9N3Q==
+X-Gm-Message-State: AOAM530FxoA8O3PMLnE6gJRVN4m7tDh/9mH/OLfnR/V/WPge47M8T8RW
+	tyNKc8KT0tHoGehtCZn8ixR0Bw==
+X-Google-Smtp-Source: ABdhPJywOvzN360TpYop+PQa48AjuXB1hsJ4nVsHdIG+tzaYTxi6nfN3ENFij963JMNZHWhH7qmZvw==
+X-Received: by 2002:a1c:35c6:: with SMTP id c189mr5635575wma.127.1620940284136;
+        Thu, 13 May 2021 14:11:24 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:87b3:98a4:71f:63a5? ([2001:8b0:aba:5f3c:87b3:98a4:71f:63a5])
+        by smtp.gmail.com with ESMTPSA id h8sm4158169wrw.85.2021.05.13.14.11.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 May 2021 14:11:23 -0700 (PDT)
+Message-ID: <9fd94de1240096c57c37ee3a02742167b1319ecc.camel@linuxfoundation.org>
+Subject: Re: [OE-core][dunfell 00/25] Pull request (cover letter only)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 13 May 2021 22:11:20 +0100
+In-Reply-To: <cover.1620830796.git.steve@sakoman.com>
+References: <cover.1620830796.git.steve@sakoman.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-References: <CANNYZj9K2m7ucmPihEzSyjXw7Cno-cnX9jgzP081-VeObbmJmg@mail.gmail.com>
- <18445.1620938085981224859@lists.openembedded.org>
-In-Reply-To: <18445.1620938085981224859@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 13 May 2021 23:04:44 +0200
-Message-ID: <CANNYZj8HK0F1iF9KtibCSYT7j6kzy5VaN3kS_XDL8HwsvMdGYQ@mail.gmail.com>
-Subject: Re: [OE-core] master/main branch renaming and bitbake
-To: Benjamin Gilbert <bgilbert@backtick.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ae500f05c23c7a6d"
-
---000000000000ae500f05c23c7a6d
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 13 May 2021 at 22:34, Benjamin Gilbert <bgilbert@backtick.net>
-wrote:
+On Wed, 2021-05-12 at 04:47 -1000, Steve Sakoman wrote:
+> The following changes since commit 834a8e357bc999a0163e7c5bafbcc1a8816448d4:
+> 
+>   license_image.bbclass: Fix symlink to generic license files (2021-05-03 04:56:23 -1000)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+> 
+> Alexander Kanavin (5):
+>   diffoscope: add native libraries to LD_LIBRARY_PATH
+>   Revert "oeqa: Set LD_LIBRARY_PATH when executing native commands"
+>   ovmf: update to 202002
+>   ovmf: update to 202005
+>   ovmf: update edk2-stable202005 -> edk2-stable202008
+> 
+> Anatol Belski (1):
+>   tar: Fix CVE-2021-20193
+> 
+> Bruce Ashfield (4):
+>   linux-yocto/5.4: update to v5.4.114
+>   linux-yocto/5.4: update to v5.4.116
+>   perf: fix python-audit RDEPENDS
+>   make-mod-scripts: add HOSTCXX definitions and gmp-native dependency
+> 
+> Christophe Chapuis (1):
+>   rootfs.py: find .ko.gz and .ko.xz kernel modules as well
+> 
+> Jose Quaresma (1):
+>   ptest-runner: libgcc must be installed for pthread_cancel to work
+> 
+> Joshua Watt (1):
+>   classes/image: Use xargs to set file timestamps
+> 
+> Kai Uwe Broulik (1):
+>   gstreamer1.0-plugins-good: on wayland qt5 needs qtwayland
+> 
+> Khem Raj (1):
+>   cml1.bbclass: Return sorted list of cfg files
+> 
+> Lee Chee Yang (1):
+>   binutils: fix CVE-2021-3487
+> 
+> Mark Hatle (1):
+>   kernel.bbclass: Remove do_install[prefunc] no longer needed
+> 
+> Michael Opdenacker (1):
+>   sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure
+>     message
+> 
+> Richard Purdie (3):
+>   yocto-uninative: Update to 3.1 which includes a patchelf fix
+>   pybootchart/draw: Avoid divide by zero error
+>   oeqa/qemurunner: Improve logging thread exit handling for qemu
+>     shutdown test
 
-> Tarballs, commits on published branches, and annotated tags are all
-> supposed to be stable artifacts.  But I don't know of any general
-> expectation that a specific branch continues to exist, other than the one
-> created by Bitbake.  GitHub's branch rename tool doesn't leave the old
-> branch behind, not even a symref, so I don't think this is a fringe
-> viewpoint.  And as I said, automated builds usually only care about tags,
-> commits, and the default branch.
->
+I merged this branch apart from this last patch above as the author of the 
+patch messed up and you'd need the subsequent fixes too ;-) It can come
+together, later.
 
-Just wanted to add that there's a reason Yocto doesn't use tags alone: they
-can and do move from one commit to another, and to the best of my knowledge
-there only way to tie them to a commit is to specify the commit too.
+Cheers,
 
-Alex
+Richard
 
---000000000000ae500f05c23c7a6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 13 May 2021 at 22:34, Benjamin Gilbert &lt;<a href=3D"mailto=
-:bgilbert@backtick.net">bgilbert@backtick.net</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">Tarballs, commits on published=
- branches, and annotated tags are all supposed to be stable artifacts.=C2=
-=A0 But I don&#39;t know of any general expectation that a specific branch =
-continues to exist, other than the one created by Bitbake.=C2=A0 GitHub&#39=
-;s branch rename tool doesn&#39;t leave the old branch behind, not even a s=
-ymref, so I don&#39;t think this is a fringe viewpoint.=C2=A0 And as I said=
-, automated builds usually only care about tags, commits, and the default b=
-ranch.<br></blockquote><div><br></div><div>Just wanted to add that there&#3=
-9;s a reason Yocto doesn&#39;t use tags alone: they can and do move from on=
-e commit to another, and to the best of my knowledge there only way to tie =
-them to a commit is to specify the commit too. <br></div><div><br></div><di=
-v>Alex<br></div></div></div>
-
---000000000000ae500f05c23c7a6d--
