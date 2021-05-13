@@ -1,132 +1,119 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
- by mx.groups.io with SMTP id smtpd.web09.6357.1620864491503434407
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web09.6403.1620864729258820409
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 17:08:11 -0700
+ Wed, 12 May 2021 17:12:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CyhZBqhN;
- spf=pass (domain: gmail.com, ip: 209.85.166.171, mailfrom: alistair23@gmail.com)
-Received: by mail-il1-f171.google.com with SMTP id s9so4412787ilp.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 17:08:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aYrn5XUC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id h4so36272260lfv.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 17:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BELIt4uOttq6cS+8FmdOS2trDkK2K9zRQlva8gxdf6c=;
-        b=CyhZBqhNw7TD+ZF7waL86/3Soj71aTykzqgUpRsbB9B63keBgKjchHo1aGop6DbRVH
-         iRwYBvLd/ASK0gL7PETeCs3pr3cZ5McQH8oY6D5J51imKkrTp44AJ/lg4+hIySSAy7l7
-         ES9GW9cTmKBPd3/wIDYweXiWJecmYXKeN9DKMg7UDIWtY+EdILFZs7nu9du6/cBVPwyv
-         psFBPjInDBAqMGMUTqQqxyQc74cSsYMlUYC3dyPvdyuRVwrtoBTUUPUs58d6GR99xvMk
-         7cEKdtmD2cMYgkREYqLQKkBNCCzMvKJh70xYCuIxfnUTrUr4ItE0q8Gx5xd14a8Ej5s+
-         z8Ow==
+         :cc:content-transfer-encoding;
+        bh=gZuGfgLRQCfU2tlEUChwJLcZEQZ8xgg04+fFHiVCcWc=;
+        b=aYrn5XUCawxiHZHwJgZbXVHNT0u7CKYPGSeGpMIoBYsd+7htWLOK+Z6PNMXGy0PiNg
+         v1ob71fW8sgZnAlkrpwn51s2T8dWPHESe4ilExOIcYwcdKVy9QpfJiDvmZCc/D2cZ0ox
+         sNkEGki9VXs/cb+AtMCgGqnt3vsdSRltYCtOKANTr5J2dV1ikAErlWQmHrfcN0FMM0k8
+         AOcyQozx6EuKRDPorOmVYkY8tA+bfQifjXLk20XukkTKNLdZHeMdXa/raBzBejnqqCzf
+         H/t5bpmVedp0UqpmO6t9un7HmuXKLpEfow3a8F/1WeuTR30p6l+jSQD6evcaMFdnAuY0
+         6p7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BELIt4uOttq6cS+8FmdOS2trDkK2K9zRQlva8gxdf6c=;
-        b=Q5qAsb4uXe1OhFKz3kI9q24m4vDHk9hHvPGelfu10J/Ag8/Hfkibl093IX/yHd29hM
-         dYB7075BIv3jkjXczpaUczkhqLgBQrjde8k3XNrU0YD0mGsTLVJQWPRwcUFRvUGftlcB
-         u0qxaSA0BGgZpRDyLp0jbbcyajgMpWjEmOp6C7dBzSwiRPbVCVDyNzJztUGWcWrYKN4K
-         NewT5tG55N3lvvszNS2z61oeEvan16Z2rtG3RX9b7AwR3AJg2f4w/SLHDD9wxupgqo5S
-         xTV5Tnp3UEc2EfIyEVdaLhgx6cHeQdc6S979BJIS+52N8ARrXz2jIgoejoU2Cd5a+qBU
-         Bubg==
-X-Gm-Message-State: AOAM533vqk20yP2THXRXK2ME3fkm1LIYACsP6XhEfH2IUNRBd0Pu/Bkd
-	1ejhUbsj384IOOWUZ2HUnbdgVcGkDOHRx4LHTMc=
-X-Google-Smtp-Source: ABdhPJyqD4AER5/IfszEXPXvqx+veXFq668yZEM3RN/jJeSDG4rEOxh4QSH9LIIuYgv8zUOrJgjRZzB4f6pv/BIdIN4=
-X-Received: by 2002:a05:6e02:eac:: with SMTP id u12mr34030999ilj.177.1620864490846;
- Wed, 12 May 2021 17:08:10 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gZuGfgLRQCfU2tlEUChwJLcZEQZ8xgg04+fFHiVCcWc=;
+        b=l7oZpJRTOy0TSc0FalqSBRA1X40HgQW57VYQ2+uXtZrU0qdjtKux3/nxJEkp7fI5F+
+         73zsQl/Fo+Z4Uzrv27wYDOrs6CKPTDL5ObAjnbTrfaTn5+u8x1ggH2ZjM/5on854Q1yp
+         QWp2JRn2QJ0eJQ/JkD2SXJpcKV9T+OXU7tBZHWp3v/RCQxgQbKuaR8+B4oSGmLRfRtB6
+         IFoGMjIJ4pLT4oeCdCpBhXMKoxsYU2vTMWHWmeJQR+MQVN757ryIywEmO9MqaAHPlrIZ
+         2uBFBvIds/4FUGPEvD86EmDWy+sASCs/Z/L/LeOK7BI+tmMry6mp0WCYWAtJJWwYUvtb
+         0iPQ==
+X-Gm-Message-State: AOAM532IA1Y6RrFhkTblWsImufnUswj4CYRyEcp7qotbWZzu9TUS/K+q
+	1A+zrcudLNRdvaj3lYA9ajLODw1aWnHS2IIug9c=
+X-Google-Smtp-Source: ABdhPJwpCr2mS3xuPuVC0CHa5JfUr0jU4uTaMrdAxUqGMklj9aigJs6bh+dD3oUpp8PEN1t9Rre1ziMo0cyDxqAYXHI=
+X-Received: by 2002:a05:6512:1388:: with SMTP id p8mr27900500lfa.269.1620864727420;
+ Wed, 12 May 2021 17:12:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210511053134.3353286-1-alejandro@enedino.org>
-In-Reply-To: <20210511053134.3353286-1-alejandro@enedino.org>
-From: "Alistair Francis" <alistair23@gmail.com>
-Date: Thu, 13 May 2021 10:07:44 +1000
-Message-ID: <CAKmqyKMsRa8rU6==FVK7JXHxqUf8fDt_vJL=SODFmc3Mdfdzwg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] baremetal-helloworld: Enable RISC-V 64 port
-To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
+ <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
+ <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com> <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
+ <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
+In-Reply-To: <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Wed, 12 May 2021 17:11:56 -0700
+Message-ID: <CAJ86T=UjJ8J3aUL7YX03oa1fy7zAwPk9vp+=yYxGNfEKsNt6oQ@mail.gmail.com>
+Subject: Re: [OE-core] master/main branch renaming and bitbake
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Colin Walters <walters@verbum.org>, OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 11, 2021 at 3:31 PM Alejandro Hernandez Samaniego
-<alejandro@enedino.org> wrote:
+On Wed, May 12, 2021 at 2:23 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> Add support for MACHINE=qemuriscv64.
->
-> $ runqemu nographic
->
-> KERNEL: [tmp/deploy/images/qemuriscv64/baremetal-helloworld-image-qemuriscv64.bin]
-> MACHINE: [qemuriscv64]
-> FSTYPE: [bin]
->
-> runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-riscv64
->
-> Hello OpenEmbedded on RISC-V 64!
->
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+> And by the way, another reason to check that revision is linked to a bra=
+nch is when SRCREV is updated - we need some reassurance that the updated S=
+RCREV comes from the same branch as previous SRCREV, or that if the branch =
+has changed, it's explicitly visible in the diff and explained in the commi=
+t message.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+None of the answers given so far seem very convincing...
 
-Alistair
+If the git revision that a recipe wants is available on an unexpected
+branch in the upstream repo then it's not really different from a tar
+file being fetched from a mirror rather than whatever is in SRC_URI.
+If we want the fetcher to fail as an indication that an upstream git
+repo has renamed branches then don't we also want it to fail if a tar
+file disappears from an upstream server? It seems odd that one should
+be a fatal error and the other to be something we try to cover up and
+hide from the end user.
 
-> ---
->  .../baremetal-examples/baremetal-helloworld_git.bb |  5 +++--
->  meta/classes/baremetal-image.bbclass               | 14 +++++++++++++-
->  2 files changed, 16 insertions(+), 3 deletions(-)
+Anyway, for recipes which don't explicitly specify a branch in SRC_URI
+it would seem quite reasonable for the fetcher to check what the
+default branch is set to in the upstream repo and search for the
+required git revision in that branch (rather than rely on a hardcoded
+default of "master" as we do now). Going forward, there's going to be
+less standardisation on what upstream repos call their default branch,
+so we're either going to have to explicitly specify a branch in more
+and more recipes or teach the fetcher to automatically figure out what
+the default branch in the upstream repo is.
+
+> Alex
 >
-> diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> index ee945c1ff0..19ef16988f 100644
-> --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> @@ -4,7 +4,7 @@ DESCRIPTION = "These are introductory examples to showcase the use of QEMU to ru
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
->
-> -SRCREV = "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
-> +SRCREV = "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
->  PV = "0.1+git${SRCPV}"
->
->  SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
-> @@ -28,12 +28,13 @@ inherit baremetal-image
->  # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
->  # but the examples can also be run on other architectures/machines
->  # such as vexpress-a15 by overriding the setting on the machine.conf
-> -COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64"
-> +COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
->
->  BAREMETAL_QEMUARCH ?= ""
->  BAREMETAL_QEMUARCH_qemuarmv5 = "versatile"
->  BAREMETAL_QEMUARCH_qemuarm = "arm"
->  BAREMETAL_QEMUARCH_qemuarm64 = "aarch64"
-> +BAREMETAL_QEMUARCH_qemuriscv64 = "riscv64"
->
->  EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
->
-> diff --git a/meta/classes/baremetal-image.bbclass b/meta/classes/baremetal-image.bbclass
-> index b0f5e885b5..319b61c7cd 100644
-> --- a/meta/classes/baremetal-image.bbclass
-> +++ b/meta/classes/baremetal-image.bbclass
-> @@ -73,7 +73,19 @@ QB_DEFAULT_KERNEL ?= "${IMAGE_LINK_NAME}.bin"
->  QB_MEM ?= "-m 256"
->  QB_DEFAULT_FSTYPE ?= "bin"
->  QB_DTB ?= ""
-> -QB_OPT_APPEND = "-nographic"
-> +QB_OPT_APPEND_append = " -nographic"
-> +
-> +# RISC-V tunes set the BIOS, unset, and instruct QEMU to
-> +# ignore the BIOS and boot from -kernel
-> +QB_DEFAULT_BIOS_qemuriscv64 = ""
-> +QB_OPT_APPEND_append_qemuriscv64 = " -bios none"
-> +
-> +
-> +# Use the medium-any code model for the RISC-V 64 bit implementation,
-> +# since medlow can only access addresses below 0x80000000 and RAM
-> +# starts at 0x80000000 on RISC-V 64
-> +CFLAGS_append_qemuriscv64 = " -mcmodel=medany"
-> +
->
->  # This next part is necessary to trick the build system into thinking
->  # its building an image recipe so it generates the qemuboot.conf
-> --
-> 2.25.1
+> On Wed, 12 May 2021 at 23:17, Alexander Kanavin <alex.kanavin@gmail.com>=
+ wrote:
+>>
+>> On Wed, 12 May 2021 at 22:44, Colin Walters <walters@verbum.org> wrote:
+>>>
+>>> On Wed, May 12, 2021, at 4:40 PM, Alexander Kanavin wrote:
+>>> > For ostree, yes:
+>>> > http://git.openembedded.org/meta-openembedded/log/?h=3Dmaster-next
+>>> >
+>>> > For the generic case, no. It's not a good idea to start guessing wha=
+t
+>>> > the upstream did.
+>>>
+>>> What is the goal of the `branch=3D` specification?  I can understand i=
+t being *informative* for humans specifically when things like non-master/m=
+ain branches e.g. `release-4.x`, `lts-`, `stable-` etc. are involved.
+>>>
+>>> But why is bitbake explicitly checking it?  Is it to validate what the=
+ human expressed, or is it to try to cover some security aspect?  Something=
+ else?
+>>
+>>
+>> To ensure the specified revision is actually linked with the specified =
+branch, and not just free-floating, and catch branch renames, deletions and=
+ force pushes. You can override that behaviour with nobranch=3D1, at your o=
+wn risk - free-floating revisions can be 'garbage collected'.
+>>
+>> Yes, it's annoying when the upstream renames branches, but it's no diff=
+erent than upstreams clearing up old tarballs, or disappearing altogether. =
+Ensure you have proper download mirrors.
+>>
+>> Alex
 >
 >
-> 
+>=20
 >
