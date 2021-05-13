@@ -1,70 +1,131 @@
-Received: from avasout07.plus.net (avasout07.plus.net [84.93.230.235])
- by mx.groups.io with SMTP id smtpd.web09.14100.1620915919228299509
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.13974.1620915949998906010
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 07:25:21 -0700
+ Thu, 13 May 2021 07:25:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=GGuDeudb;
- spf=pass (domain: mcrowe.com, ip: 84.93.230.235, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id hCH0lUVXS6wwFhCH2lBmve; Thu, 13 May 2021 15:25:17 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=TPXet2ta c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=5FLXtPjwQuUA:10 a=-An2I_7KAAAA:8 a=Y6kJQ5-wFXwNJTfOm9MA:9
- a=Sq34B_EcNBM9_nrAYB9S:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=Yj/z2w4E3OnxYCzKEXlyG03hlMt71Z+M0vx1PchcgC0=; b=GG
-	uDeudb9eGqUGOHuQhhFZNjjy4g4+Zhj5xM2ekjGMhCBtUlKBmQ1YfeHzfBma96UcjIkErXEElvKwm
-	8YSDZq1WmUcKw95Di9q9B2wmjVRUAMGuoIGALBFmpXz5PsaZfODp4SJmnYIbUu5sKYPoWbTWFxAKT
-	d7bd39oaX8YAB/M7VVTQDMZnRCb+14ZRtKHqGzCspftcLhFDqoz9RCI17merjZB6Z36u1Fr5IeRJj
-	/ZGRJw3QVvV+sj3X3qgQMdNiseCfK7CxS10stKyolKsYKEHVEuBbu44CCVEZJN9zBymkvwW5pWhim
-	QNdRn8bum1975ThHXVfg6ImJG4bZDiXw==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
-	(envelope-from <mac@mcrowe.com>)
-	id 1lhCGz-0008OZ-E9; Thu, 13 May 2021 15:25:09 +0100
-From: "Mike Crowe" <yocto@mac.mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] npm.bbclass: Allow nodedir to be overridden by NPM_NODEDIR
-Date: Thu, 13 May 2021 15:25:03 +0100
-Message-Id: <20210513142503.1210759-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=GKCPY+zc;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1620915950;
+  x=1652451950;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=hJ9OddUu7AFQew+hrLT42Qu19NL3kX0K9a89qYTtk8M=;
+  b=GKCPY+zcUZb7EJh6WlLLgGyZuaQ3radB+8VV7dvwc9qf4LA5Kx0v+lyG
+   neROh+/OqD3MtleMPlfKsEdajdIgHZzE6bHrWa/2vn/21JFJz926HGJCj
+   gofYUnjHK4Jk+8lwE5okLKMNQuZ+6Uy8a8CZTAN/yUM7qgodUiswMvR+Y
+   Ec8u3MmGuv854snYQd55Tcm8rh3RoQvQhK8Y0gG1gEdYI3wdzYrarcqQ2
+   BykDPd+9KXpkj3+nMkHZZ2jvqb4V8hEuIy31bymeMIjw5V8SOKw+kB0xm
+   bfPMf5SQZqo/QluMdNUsk1v7QvWFtYFQoeyx/acjiWgAWobc2ivobAk10
+   A==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
+	<armccurdy@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Colin Walters <walters@verbum.org>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] master/main branch renaming and bitbake
+Thread-Topic: [OE-core] master/main branch renaming and bitbake
+Thread-Index: AQHXR242UMKuf9uFjkeJs4nU/EQlhargLciAgAAA3ICAAAlnAIAAAXEAgAAvSwCAAHR2AIAAlePQ
+Date: Thu, 13 May 2021 14:25:46 +0000
+Message-ID: <a1351cd03b2f45c6930ec9e7ef0f7d35@XBOX03.axis.com>
+References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
+	 <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
+	 <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com>
+	 <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
+	 <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
+	 <CAJ86T=UjJ8J3aUL7YX03oa1fy7zAwPk9vp+=yYxGNfEKsNt6oQ@mail.gmail.com>
+ <5ceca668cfce15ebd8874fdaa9c01949fe1d95fc.camel@linuxfoundation.org>
+In-Reply-To: <5ceca668cfce15ebd8874fdaa9c01949fe1d95fc.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfHAMwe2j50wJ1/sCiaN8ZYUTZDOkO1VP0pVtpJQPyjFChuwCKTgTABqLUqSFjIep/bX/5CJL2fU1UQPpz8pZ9lqSfL2HdK4gWUSg65LovfFV+cCzAw6r
- Nqpev0awJ0K4ndppR2MugNyJ4GsJMPo0AvK1h9LDSZZ9AfUbXTszu96jacT0M/6O9qIjpmWm1JUVRw==
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Node modules may need to be built against multiple Node
-versions. Setting nodedir in the NPM configuration stops older ways of
-doing this, such as setting npm_config_target and npm_config_disturl,
-from working.
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/npm.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 55a6985fb0..8f8712a024 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -247,8 +247,10 @@ python npm_do_compile() {
-         # Add node-gyp configuration
-         configs.append(("arch", d.getVar("NPM_ARCH")))
-         configs.append(("release", "true"))
--        sysroot = d.getVar("RECIPE_SYSROOT_NATIVE")
--        nodedir = os.path.join(sysroot, d.getVar("prefix_native").strip("/"))
-+        nodedir = d.getVar("NPM_NODEDIR")
-+        if not nodedir:
-+            sysroot = d.getVar("RECIPE_SYSROOT_NATIVE")
-+            nodedir = os.path.join(sysroot, d.getVar("prefix_native").strip("/"))
-         configs.append(("nodedir", nodedir))
-         configs.append(("python", d.getVar("PYTHON")))
- 
--- 
-2.30.2
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxMyBt
+YWogMjAyMSAwOTowOQ0KPiBUbzogQW5kcmUgTWNDdXJkeSA8YXJtY2N1cmR5QGdtYWlsLmNvbT47
+IEFsZXhhbmRlciBLYW5hdmluDQo+IDxhbGV4LmthbmF2aW5AZ21haWwuY29tPg0KPiBDYzogQ29s
+aW4gV2FsdGVycyA8d2FsdGVyc0B2ZXJidW0ub3JnPjsgT0UtY29yZSA8b3BlbmVtYmVkZGVkLQ0K
+PiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
+bWFzdGVyL21haW4gYnJhbmNoIHJlbmFtaW5nIGFuZCBiaXRiYWtlDQo+IA0KPiBPbiBXZWQsIDIw
+MjEtMDUtMTIgYXQgMTc6MTEgLTA3MDAsIEFuZHJlIE1jQ3VyZHkgd3JvdGU6DQo+ID4gT24gV2Vk
+LCBNYXkgMTIsIDIwMjEgYXQgMjoyMyBQTSBBbGV4YW5kZXIgS2FuYXZpbg0KPiA+IDxhbGV4Lmth
+bmF2aW5AZ21haWwuY29tPiB3cm90ZToNCj4gPiA+DQo+ID4gPiBBbmQgYnkgdGhlIHdheSwgYW5v
+dGhlciByZWFzb24gdG8gY2hlY2sgdGhhdCByZXZpc2lvbiBpcyBsaW5rZWQgdG8gYQ0KPiA+ID4g
+YnJhbmNoIGlzIHdoZW4gU1JDUkVWIGlzIHVwZGF0ZWQgLSB3ZSBuZWVkIHNvbWUgcmVhc3N1cmFu
+Y2UgdGhhdCB0aGUNCj4gPiA+IHVwZGF0ZWQgU1JDUkVWIGNvbWVzIGZyb20gdGhlIHNhbWUgYnJh
+bmNoIGFzIHByZXZpb3VzIFNSQ1JFViwgb3IgdGhhdA0KPiA+ID4gaWYgdGhlIGJyYW5jaCBoYXMg
+Y2hhbmdlZCwgaXQncyBleHBsaWNpdGx5IHZpc2libGUgaW4gdGhlIGRpZmYgYW5kDQo+IGV4cGxh
+aW5lZCBpbiB0aGUgY29tbWl0IG1lc3NhZ2UuDQo+ID4NCj4gPiBOb25lIG9mIHRoZSBhbnN3ZXJz
+IGdpdmVuIHNvIGZhciBzZWVtIHZlcnkgY29udmluY2luZy4uLg0KPiANCj4gSSBoYWQgYSBsb29r
+IGF0IHRoZSBjb2RlIHRvIHRyeSBhbmQgcmVtaW5kIG15c2VsZiB3aHkgaXQgaXMgZG9pbmcgdGhp
+cy4NCj4gVGhlIGJlc3QgYW5zd2VyIEkgZm91bmQgaXMgdGhhdCBpdCBkb2VzIHN1cHBvcnQgZmls
+dGVyZWQgZmV0Y2hpbmcgb2YNCj4gcmVtb3RlcywgaS5lLiBpdCBjYW4gYW5kIHdpbGwgb25seSBw
+dWxsIHRoZSBicmFuY2ggaXQgd2FudHMvbmVlZHMgcmF0aGVyDQo+IHRoYW4gYSBmdWxsIHJlcG8g
+Y2xvbmUuIEluIHRoZSBjYXNlIG9mIGEgc21hbGwgcmVwbywgaXQgZG9lc24ndCBtYXR0ZXINCj4g
+bXVjaC4gRm9yIGEgbGFyZ2UgcmVwbyBpdCBjYW4gbWFrZSBhIHNpZ25pZmljYW50IGRpZmZlcmVu
+Y2UgdG8gdGhlIHNwZWVkLg0KPiBXZSBhbHNvIGRvbid0IHJ1biAidGVzdCIgY29tbWFuZHMgYWdh
+aW5zdCB0aGUgcmVtb3RlIHJlcG8sIHdlIGZpZ3VyZSBvdXQNCj4gd2hhdCB3ZSB3YW50IGFuZCB0
+aGVuIGdldCBpdCB3aXRoIHNtYWxsIG51bWJlcnMgb2YgY29tbWFuZHMuDQo+IA0KPiBBbm90aGVy
+IHJlYXNvbiB3ZSBoYXZlIHRoZSBicmFuY2ggbmFtZSBpcyBzbyB0aGF0IHdlIGNhbiBscy1yZW1v
+dGUgdGhlDQo+IHJlcG8NCj4gd2hlbiB1c2luZyBBVVRPUkVWIGZvciBTUkNSRVYuIFdlJ3ZlIHRy
+aWVkIHRvIG1ha2UgaXQgc28gdGhhdCBvbmNlIGEgdXJsDQo+IGlzIGVzdGFibGlzaGVkIGluIFNS
+Q19VUkksIHlvdSBjYW4gbWFrZSBpdCB1c2UgQVVUT1JFViB3aXRob3V0IGNoYW5nZXMgdG8NCj4g
+dGhlIHVybCBpdHNlbGYuIFRoZSBBVVRPUkVWIGNvZGUgcGF0aCBpcyBpbiBwYXJzaW5nIHdoaWNo
+IGRvZXMgbWVhbiB3ZQ0KPiBuZWVkIHRvIGJlIGVmZmljaWVudCBhYm91dCB0aGUgcmV2aXNpb24g
+cmVzb2x1dGlvbi4NCg0KV291bGRuJ3QgdXNpbmcgIkhFQUQiIGluc3RlYWQgc3RpbGwgbWFpbnRh
+aW4gdGhlIHNhbWUgcHJvcGVydGllcyBhcyB1c2luZyANCiJtYXN0ZXIiLCBidXQgd2l0aCB0aGUg
+YWRkZWQgYmVuZWZpdCB0aGF0IGl0IGp1c3Qgd29ya3MgZm9yIHJlcG9zaXRvcmllcyANCnRoYXQg
+ZGVjaWRlIHRvIHVzZSBzb21lIG90aGVyIGJyYW5jaCB0aGFuICJtYXN0ZXIiIGFzIHRoZWlyIG1h
+aW4gYnJhbmNoPw0KRS5nLiwgdXNpbmcgYGdpdCBjbG9uZSAtLXNpbmdsZS1icmFuY2hgICh3aXRo
+b3V0IC1iKSBmZXRjaGVzIEhFQUQgYW5kIA0Kd2hhdGV2ZXIgYnJhbmNoIGl0IHJlZmVyZW5jZXMs
+IHdoaWNoIGlzIHdoYXQgd2Ugd2FudCwgaXMgaXQgbm90Pw0KDQo+ID4gSWYgdGhlIGdpdCByZXZp
+c2lvbiB0aGF0IGEgcmVjaXBlIHdhbnRzIGlzIGF2YWlsYWJsZSBvbiBhbiB1bmV4cGVjdGVkDQo+
+ID4gYnJhbmNoIGluIHRoZSB1cHN0cmVhbSByZXBvIHRoZW4gaXQncyBub3QgcmVhbGx5IGRpZmZl
+cmVudCBmcm9tIGEgdGFyDQo+ID4gZmlsZSBiZWluZyBmZXRjaGVkIGZyb20gYSBtaXJyb3IgcmF0
+aGVyIHRoYW4gd2hhdGV2ZXIgaXMgaW4gU1JDX1VSSS4NCj4gPiBJZiB3ZSB3YW50IHRoZSBmZXRj
+aGVyIHRvIGZhaWwgYXMgYW4gaW5kaWNhdGlvbiB0aGF0IGFuIHVwc3RyZWFtIGdpdA0KPiA+IHJl
+cG8gaGFzIHJlbmFtZWQgYnJhbmNoZXMgdGhlbiBkb24ndCB3ZSBhbHNvIHdhbnQgaXQgdG8gZmFp
+bCBpZiBhIHRhcg0KPiA+IGZpbGUgZGlzYXBwZWFycyBmcm9tIGFuIHVwc3RyZWFtIHNlcnZlcj8g
+SXQgc2VlbXMgb2RkIHRoYXQgb25lIHNob3VsZA0KPiA+IGJlIGEgZmF0YWwgZXJyb3IgYW5kIHRo
+ZSBvdGhlciB0byBiZSBzb21ldGhpbmcgd2UgdHJ5IHRvIGNvdmVyIHVwIGFuZA0KPiA+IGhpZGUg
+ZnJvbSB0aGUgZW5kIHVzZXIuDQo+IA0KPiBUaGUgZmV0Y2hlciBpcyBjb25zaXN0ZW50LiBJdCB3
+aWxsIGZhaWwgaW4gYm90aCBjYXNlcyB1bmxlc3MgYSBzb3VyY2UNCj4gbWlycm9yIGlzIGF2YWls
+YWJsZSB3aXRoIHRoZSBzb3VyY2VzIGluLiBJZiBhIHNvdXJjZSBtaXJyb3IgaXMgYXZhaWxhYmxl
+LA0KPiBpdCBzaG91bGQgd29yay4NCj4gDQo+ID4gQW55d2F5LCBmb3IgcmVjaXBlcyB3aGljaCBk
+b24ndCBleHBsaWNpdGx5IHNwZWNpZnkgYSBicmFuY2ggaW4gU1JDX1VSSQ0KPiA+IGl0IHdvdWxk
+IHNlZW0gcXVpdGUgcmVhc29uYWJsZSBmb3IgdGhlIGZldGNoZXIgdG8gY2hlY2sgd2hhdCB0aGUN
+Cj4gPiBkZWZhdWx0IGJyYW5jaCBpcyBzZXQgdG8gaW4gdGhlIHVwc3RyZWFtIHJlcG8gYW5kIHNl
+YXJjaCBmb3IgdGhlDQo+ID4gcmVxdWlyZWQgZ2l0IHJldmlzaW9uIGluIHRoYXQgYnJhbmNoIChy
+YXRoZXIgdGhhbiByZWx5IG9uIGEgaGFyZGNvZGVkDQo+ID4gZGVmYXVsdCBvZiAibWFzdGVyIiBh
+cyB3ZSBkbyBub3cpLiBHb2luZyBmb3J3YXJkLCB0aGVyZSdzIGdvaW5nIHRvIGJlDQo+ID4gbGVz
+cyBzdGFuZGFyZGlzYXRpb24gb24gd2hhdCB1cHN0cmVhbSByZXBvcyBjYWxsIHRoZWlyIGRlZmF1
+bHQgYnJhbmNoLA0KPiA+IHNvIHdlJ3JlIGVpdGhlciBnb2luZyB0byBoYXZlIHRvIGV4cGxpY2l0
+bHkgc3BlY2lmeSBhIGJyYW5jaCBpbiBtb3JlDQo+ID4gYW5kIG1vcmUgcmVjaXBlcyBvciB0ZWFj
+aCB0aGUgZmV0Y2hlciB0byBhdXRvbWF0aWNhbGx5IGZpZ3VyZSBvdXQgd2hhdA0KPiA+IHRoZSBk
+ZWZhdWx0IGJyYW5jaCBpbiB0aGUgdXBzdHJlYW0gcmVwbyBpcy4NCj4gDQo+IElzIGV4cGxpY2l0
+bHkgc3BlY2lmeWluZyB0aGUgYnJhbmNoIGFsb25nIHdpdGggdGhlIHJlcG8gdXJsIHN1Y2ggYSBi
+aWcNCj4gcHJvYmxlbT8gV2UgYWxyZWFkeSBoYXZlIHRvIHByb3ZpZGUgdGhlIHVybCwgaXQgaXNu
+J3QgbGlrZSB3ZSBndWVzcyB0aGF0DQo+IHRvby4NCg0KT25lIHByb2JsZW0gSSBoYXZlIHdpdGgg
+dGhlIHdheSB0aGUgYnJhbmNoIGlzIHNwZWNpZmllZCBpcyB0aGF0IGl0IGlzIGEgDQpVUkwgcGFy
+YW1ldGVyLiBUaGlzIG1lYW5zIHRoYXQgd2hlbiBJIHdhbnQgdG8gYWRkIGEgYmJhcHBlbmQgdG8g
+c3BlY2lmeSANCmFub3RoZXIgU1JDUkVWLCBpdCBiZWNvbWVzIHByb2JsZW1hdGljIGlmIHRoYXQg
+U1JDUkVWIGlzIG9uIGEgZGlmZmVyZW50IA0KYnJhbmNoIHRoYW4gd2hhdCB0aGUgYmFzZSByZWNp
+cGUgdXNlcy4gSXQgYmFzaWNhbGx5IG1lYW5zIG9uZSBoYXMgdG8gDQp1c2UgU1JDX1VSSV9yZW1v
+dmUgdG8gcmVtb3ZlIHRoZSBvcmlnaW5hbCBVUkwgZm9yIHRoZSByZXBvc2l0b3J5LCBhbmQgDQp0
+aGVuIGFkZCBhIG5ldyB2ZXJzaW9uIG9mIHRoZSBVUkwgd2l0aCBTUkNfVVJJX3ByZXBlbmQuIFRo
+aXMgb2J2aW91c2x5IA0KaXMgdW5yZWxhdGVkIHRvIHRoZSBkaXNjdXNzaW9uIGFib3V0IG1haW4g
+dnMuIG1hc3RlciwgYnV0IEkgd291bGQgdmVyeSANCm11Y2ggbGlrZSB0byBzZWUgYSBuZXcgdmFy
+aWFibGUsIGUuZy4sIFNSQ19CUkFOQ0gsIGJlaW5nIGFkZGVkIHRvIA0KY29tcGxlbWVudCBTUkNS
+RVYuIFRoZXJlIGlzIGFuIGVkZ2UgY2FzZSBmb3IgcmVjaXBlcyB0aGF0IHVzZSBtdWx0aXBsZSAN
+CkdpdCBVUkxzIGluIHRoZSBTUkNfVVJJLCBidXQgdGhleSBhcmUgcmFyZSwgc28gaGF2aW5nIHRv
+IHNwZWNpZnkgdGhlIA0KYnJhbmNoIHVzaW5nIHRoZSBicmFuY2g9IHBhcmFtZXRlciBpbiB0aGUg
+dW5saWtlbHkgZXZlbnQgdGhhdCB0aG9zZSANCnJlcG9zaXRvcmllcyBuZWVkIGRpZmZlcmVudCBi
+cmFuY2hlcyBzaG91bGQgYmUgYWNjZXB0YWJsZS4NCg0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJk
+DQoNCi8vUGV0ZXINCg0K
