@@ -1,22 +1,22 @@
 Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web11.11390.1620902199644653433
+ by mx.groups.io with SMTP id smtpd.web09.11462.1620903004988915359
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 03:36:40 -0700
+ Thu, 13 May 2021 03:50:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:38862 helo=fedora)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:39116 helo=fedora)
 	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lh8hq-00069w-4b
-	for openembedded-core@lists.openembedded.org; Thu, 13 May 2021 06:36:38 -0400
-Date: Thu, 13 May 2021 06:36:35 -0400 (EDT)
+	id 1lh8up-0008L7-5u
+	for openembedded-core@lists.openembedded.org; Thu, 13 May 2021 06:50:04 -0400
+Date: Thu, 13 May 2021 06:49:59 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: couple questions about creating companion debug filesystem
-Message-ID: <a46364f-5fa1-f318-5ada-5aee55134312@crashcourse.ca>
+Subject: [PATCH] meta/lib/oe/rootfs.py: "Restoreing" -> "Restoring"
+Message-ID: <d57bc151-16b9-dd90-acda-d5bf53b3a4d4@crashcourse.ca>
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
+X-OutGoing-Spam-Status: No, score=-0.2
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
 X-AntiAbuse: Original Domain - lists.openembedded.org
@@ -30,66 +30,29 @@ X-Source-Dir:
 Content-Type: text/plain; charset=US-ASCII
 
 
-  couple colleagues asked me about the details of how the debug
-filesystem is created, and since i wasn't entirely clear on the
-mechanics of it myself, i thought i'd dig into it, so a couple
-preliminary questions to make sure i'm on the right track.
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-  trivially, if you want that companion debugfs, you need only:
+---
 
-  IMAGE_GEN_DEBUGFS = '1'
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 4b48cdbb65..ad9fd77c8b 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -167,7 +167,7 @@ class Rootfs(object, metaclass=ABCMeta):
+             pass
+         bb.utils.rename(self.image_rootfs, self.image_rootfs + '-dbg')
 
-at which point what kicks in is the current value of
-IMAGE_FSTYPES_DEBUGFS to determine what forms of the debugfs you want.
-by default, that's conditionally set to "tar.gz" in bitbake.conf so,
-unless you mess with it, the end result is a debugfs tarball under
-deploy/images. so far, so good.
+-        bb.note("  Restoreing original rootfs...")
++        bb.note("  Restoring original rootfs...")
+         bb.utils.rename(self.image_rootfs + '-orig', self.image_rootfs)
 
-  now, if you (for no good reason) also set:
+     def _exec_shell_cmd(self, cmd):
 
-  IMAGE_FSTYPES_DEBUGFS = ''
+-- 
 
-in your local.conf, then even though you *claim* you want the debugfs,
-you're not going to get one since the build process has no idea what
-archive type you want. i believe this is the result of this snippet in
-image.bbclass in the anonymous python routine (line 369):
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
 
-    if d.getVar('IMAGE_GEN_DEBUGFS') == "1":
-        debugfs_fstypes = d.getVar('IMAGE_FSTYPES_DEBUGFS').split()
-        for t in debugfs_fstypes:
-            alltypes.append("debugfs_" + t)
-
-which makes sense. however, even if you don't get the final debugfs
-tarball under deploy, i see that the *contents* of the debugfs are
-still generated under WORKDIR for the image (in my case,
-core-image-minimal), since i see both:
-
-  rootfs/
-  rootfs-dbg/
-
-and following the trail of bread crumbs to see where that came from, i
-ended up in meta/lib/oe/rootfs.py:
-
-    def _setup_dbg_rootfs(self, dirs):
-        gen_debugfs = self.d.getVar('IMAGE_GEN_DEBUGFS') or '0'
-        if gen_debugfs != '1':
-           return
-
-        bb.note("  Renaming the original rootfs...")
-        try:
-            shutil.rmtree(self.image_rootfs + '-orig')
-        except:
-            pass
-        bb.utils.rename(self.image_rootfs, self.image_rootfs + '-orig')
-
-        ... and so on and so on ...
-
-which clearly(?) does all that work, even if, in the end, the result
-is not packaged as a tarball, which is part of what muh colleagues
-were asking about -- where can they see *exactly* how that debugfs
-content is collected?
-
-  is all this reasonably accurate so far?
-
-rday
-
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
