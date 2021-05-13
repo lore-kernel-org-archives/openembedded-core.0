@@ -1,134 +1,91 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.158.1620939407477544473
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web08.247.1620939896445896392
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 13:56:47 -0700
+ Thu, 13 May 2021 14:04:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=m6+1BHPy;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id di13so32453672edb.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 13:56:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uv7/KmC1;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id i7so18777986ioa.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 14:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cBTGltpdIz69W1JqfMg4qyCLPHxNw8EK51yXdgTjYy4=;
-        b=m6+1BHPypbm4RWGeMXPAF7adUaUyM2eWGaLgx/dWT2j6yO9upq2IAyC0l/W21gjOeu
-         HYFt3UuUxN8fsXh+pSOiDULQzh9qMqY+YyPFrC/3eCPTuRAg6LEK1ocuNkvZvQMjgpPK
-         4oCLD8feRCTouFBJ/3NIwaXWMtZ8SHxkYooDLh0L/QVT3Q7rSPF2VSA2uqNNrcXc6+0Y
-         bc4NxJ159Ad+/+mKig5QGWCaXou7NtG7O0xTLSsE3KRTpZ2o0M0rI2pP5RyA+cQCrQYi
-         /dXgU9LK1rXBXNexRDWazC4zFCxhHsBjyyohWjWzMnsiSz17VT3TNBXkWjZGANwfsbHN
-         dlsA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pa5PZvPgQpFGcERUMGD8hwQ7yY4LVzcuF8dEWH9f/ac=;
+        b=uv7/KmC12WxAnhQmyv3wXAG3Vwt2L31Hj14qb4n+h63D6Jz104MjBfEIsTLZ7ip5lp
+         j4cC5LtvDkJ/pr5ekEm6eLDKLUPucGBjalVsP0VUD++6vhv1fgFrtbXWkfVyejt2YvcH
+         TbBeSBYWzyikmOhDEwTFZCgVNEg0IhJnZTWROoHkmGKeNcn9A22F/YvNwttt2cnQ2Mbg
+         SJ+Ml+7tsN1bG6eeVcnoe3NZfvHt/Swm2IFaXS9nweyO169W8EjrALvsnjxdGMT4T4Ni
+         efezij8QubZxUjlrr7m1ffZktviaP94dyzwcRQ9sIRLfEbdGynO/vFyIXoKBzvughh+V
+         Y6pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cBTGltpdIz69W1JqfMg4qyCLPHxNw8EK51yXdgTjYy4=;
-        b=SQ6pgTWQWNGjA0nvjs/9f/PA9snDZOJzLOrMtKRRYvRQR4eeN/6L8JtFWObtxWeRGh
-         FO607ET/gm0uaV1LpJmKjEvjSLucUsDZd0VrR/4ajZlGfhtIYhPCh9d8dwqF7r91kGa3
-         D6rRPbX6GoYpTicxagcGNACEreYbzRWPJclY9rGtpiLxk6VVJl9kLbjpgJQMzM0uuMlu
-         UzvGO7I667ToHugO0ycnu+JjJe8BFbQb6twvCogxNh6svCu2fYLzzKVO7HJrRojEfhc9
-         7lprhyKTlToB1mz692sX1JcwligPB1rkLDRgWkjh7wYl58q8BhIehGe8pr+3TupppeIs
-         DhqA==
-X-Gm-Message-State: AOAM531KGoGkoakIUmeNpEKOsJB0Zy5UU0a2UXOCiHnkvMce952qHAZT
-	HSHzhRmlGBltzIx+m7bnyMzi6pYCaic=
-X-Google-Smtp-Source: ABdhPJwSSIYaa6a0U7wolOGWWIJ/vK+9zCQst8HeC+h0QvmlElzjLogEVcX5S0bk8jgMM6YWNEpGzA==
-X-Received: by 2002:a05:6402:2712:: with SMTP id y18mr54640814edd.41.1620939406080;
-        Thu, 13 May 2021 13:56:46 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm2934768edd.91.2021.05.13.13.56.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 May 2021 13:56:45 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 8/8] qemu: backport a patch to fix meson 0.58 builds
-Date: Thu, 13 May 2021 22:56:22 +0200
-Message-Id: <20210513205622.60879-8-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210513205622.60879-1-alex.kanavin@gmail.com>
-References: <20210513205622.60879-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pa5PZvPgQpFGcERUMGD8hwQ7yY4LVzcuF8dEWH9f/ac=;
+        b=CNWJsBal3xveHNTK5C33jH/I17NNGT44Wwsv45+hzrGerO1bWzdoGx+EZVI2HBsTsl
+         mdcGKXzCc+sgpP0eDh9Y/jsunyxWyszEjfqRWyN8NdBDRTiD0vsF+UGhbJx3wN8ytZPe
+         KcIFrNhxaXKxGj6P2SEogdOva1jRAmYQTI1K7QFf0ysdD6qLHhGF1GrdbOWJ1HCVf/QT
+         GpwFo3opLGDW3OqqmhFncd/P0uu7XkhPWCtNc3YNCUQLXGw1UYK55XiuvthyOwoUvLup
+         53dYKQsSWRX2qTqzWhiR2UJIumrm7IHjOpAgREfgIs4sYTNsldf+fgX3NGR7CVk//a74
+         FoPQ==
+X-Gm-Message-State: AOAM5311gbwEJTwcn2Vve/dMPGYkFqDxoQS4QNkJOEDdJ/3fDphMipZh
+	oEre9Fykbb7Hoeigm9aEJxE5Zt5cArmgZVV7qUg=
+X-Google-Smtp-Source: ABdhPJzDdg4kZ3uvz6hQJ1JoOvqw9KHKFOWKnRbdjLQdTU4oyXFYRHxAF2govcOAjqfp02cdiezXWxysMqdkGV0A4eU=
+X-Received: by 2002:a05:6638:a2c:: with SMTP id 12mr39415459jao.99.1620939895622;
+ Thu, 13 May 2021 14:04:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANNYZj9K2m7ucmPihEzSyjXw7Cno-cnX9jgzP081-VeObbmJmg@mail.gmail.com>
+ <18445.1620938085981224859@lists.openembedded.org>
+In-Reply-To: <18445.1620938085981224859@lists.openembedded.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 13 May 2021 23:04:44 +0200
+Message-ID: <CANNYZj8HK0F1iF9KtibCSYT7j6kzy5VaN3kS_XDL8HwsvMdGYQ@mail.gmail.com>
+Subject: Re: [OE-core] master/main branch renaming and bitbake
+To: Benjamin Gilbert <bgilbert@backtick.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ae500f05c23c7a6d"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...igure-fix-detection-of-gdbus-codegen.patch | 53 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch
+--000000000000ae500f05c23c7a6d
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 82d1cb5566..74c53c6309 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -57,6 +57,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-27821.patch \
-            file://CVE-2021-20263.patch \
-            file://CVE-2021-3392.patch \
-+           file://0001-configure-fix-detection-of-gdbus-codegen.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch b/meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch
-new file mode 100644
-index 0000000000..1f20077883
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch
-@@ -0,0 +1,53 @@
-+From 464cfc64201b21386030b8f353fe9724a3413a85 Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Wed, 5 May 2021 10:15:34 -0400
-+Subject: [PATCH] configure: fix detection of gdbus-codegen
-+
-+"pkg-config --variable=gdbus_codegen gio-2.0" returns "gdbus-codegen",
-+and it does not pass test -x (which does not walk the path).
-+
-+Meson 0.58.0 notices that something is iffy, as the dbus_vmstate1
-+assignment in tests/qtest/meson.build uses an empty string as the
-+command, and fails very eloquently:
-+
-+../tests/qtest/meson.build:92:2: ERROR: No program name specified.
-+
-+Use the "has" function instead of test -x, and fix the generation
-+of config-host.mak since meson.build expects that GDBUS_CODEGEN
-+is absent, rather than empty, if the tool is unavailable.
-+
-+Reported-by: Sebastian Mitterle <smitterl@redhat.com>
-+Fixes: #178
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=5ecfb76ccc056eb6127e44268e475827ae73b9e0]
-+(not in 6.0.0, should be kept when upgrading)
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ configure | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure b/configure
-+index 18c26e0389..4c36e221d3 100755
-+--- a/configure
-++++ b/configure
-+@@ -3496,7 +3496,7 @@ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
-+     gio_cflags=$($pkg_config --cflags gio-2.0)
-+     gio_libs=$($pkg_config --libs gio-2.0)
-+     gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
-+-    if [ ! -x "$gdbus_codegen" ]; then
-++    if ! has "$gdbus_codegen"; then
-+         gdbus_codegen=
-+     fi
-+     # Check that the libraries actually work -- Ubuntu 18.04 ships
-+@@ -6172,6 +6172,8 @@ if test "$gio" = "yes" ; then
-+     echo "CONFIG_GIO=y" >> $config_host_mak
-+     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
-+     echo "GIO_LIBS=$gio_libs" >> $config_host_mak
-++fi
-++if test "$gdbus_codegen" != "" ; then
-+     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
-+ fi
-+ echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
-+-- 
-+2.24.0
-+
--- 
-2.31.1
+On Thu, 13 May 2021 at 22:34, Benjamin Gilbert <bgilbert@backtick.net>
+wrote:
 
+> Tarballs, commits on published branches, and annotated tags are all
+> supposed to be stable artifacts.  But I don't know of any general
+> expectation that a specific branch continues to exist, other than the one
+> created by Bitbake.  GitHub's branch rename tool doesn't leave the old
+> branch behind, not even a symref, so I don't think this is a fringe
+> viewpoint.  And as I said, automated builds usually only care about tags,
+> commits, and the default branch.
+>
+
+Just wanted to add that there's a reason Yocto doesn't use tags alone: they
+can and do move from one commit to another, and to the best of my knowledge
+there only way to tie them to a commit is to specify the commit too.
+
+Alex
+
+--000000000000ae500f05c23c7a6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 13 May 2021 at 22:34, Benjamin Gilbert &lt;<a href=3D"mailto=
+:bgilbert@backtick.net">bgilbert@backtick.net</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">Tarballs, commits on published=
+ branches, and annotated tags are all supposed to be stable artifacts.=C2=
+=A0 But I don&#39;t know of any general expectation that a specific branch =
+continues to exist, other than the one created by Bitbake.=C2=A0 GitHub&#39=
+;s branch rename tool doesn&#39;t leave the old branch behind, not even a s=
+ymref, so I don&#39;t think this is a fringe viewpoint.=C2=A0 And as I said=
+, automated builds usually only care about tags, commits, and the default b=
+ranch.<br></blockquote><div><br></div><div>Just wanted to add that there&#3=
+9;s a reason Yocto doesn&#39;t use tags alone: they can and do move from on=
+e commit to another, and to the best of my knowledge there only way to tie =
+them to a commit is to specify the commit too. <br></div><div><br></div><di=
+v>Alex<br></div></div></div>
+
+--000000000000ae500f05c23c7a6d--
