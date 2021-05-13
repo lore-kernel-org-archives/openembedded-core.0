@@ -1,119 +1,128 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web09.6403.1620864729258820409
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web09.9017.1620882298073872133
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 17:12:09 -0700
+ Wed, 12 May 2021 22:04:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aYrn5XUC;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id h4so36272260lfv.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 17:12:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gPiZa4Aq;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id t21so13760776plo.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 22:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=gZuGfgLRQCfU2tlEUChwJLcZEQZ8xgg04+fFHiVCcWc=;
-        b=aYrn5XUCawxiHZHwJgZbXVHNT0u7CKYPGSeGpMIoBYsd+7htWLOK+Z6PNMXGy0PiNg
-         v1ob71fW8sgZnAlkrpwn51s2T8dWPHESe4ilExOIcYwcdKVy9QpfJiDvmZCc/D2cZ0ox
-         sNkEGki9VXs/cb+AtMCgGqnt3vsdSRltYCtOKANTr5J2dV1ikAErlWQmHrfcN0FMM0k8
-         AOcyQozx6EuKRDPorOmVYkY8tA+bfQifjXLk20XukkTKNLdZHeMdXa/raBzBejnqqCzf
-         H/t5bpmVedp0UqpmO6t9un7HmuXKLpEfow3a8F/1WeuTR30p6l+jSQD6evcaMFdnAuY0
-         6p7A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6Blxz0Ko8tEQX73Z8dLJ8y/WUXb1wErXfqNF8NYXP2w=;
+        b=gPiZa4Aq56HUg9kxMEf0i7lRF/dJkfdGFeATdwyYPFyXxLpMKlM0NCHgg+9tkcT9XF
+         5qSMQ2qylINZFZhNpdlZ9DbIcZ3IINjeh0/ZHxQolJ66G01gM/ZGLqrBE6J7MEWrxU1k
+         9aZrT/uLaYVbQHr4P6+F1G9PH+Afb76qDXdsbI3+O+yvt5LoYc1dqU0u3qjbWukJwvqv
+         gMx7hEwLYmoUQQmgG+yDj2atWLVufDnV4LLvZ3ABafS4Quoqk8P8lcSX7Ke97MKyauo7
+         7DCkyC/32UlqbseV/93Wl2JV5JdC48VpLFUAenW+rWSmOzgWH3PV38eCcKqlBb6TF3ST
+         6+ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gZuGfgLRQCfU2tlEUChwJLcZEQZ8xgg04+fFHiVCcWc=;
-        b=l7oZpJRTOy0TSc0FalqSBRA1X40HgQW57VYQ2+uXtZrU0qdjtKux3/nxJEkp7fI5F+
-         73zsQl/Fo+Z4Uzrv27wYDOrs6CKPTDL5ObAjnbTrfaTn5+u8x1ggH2ZjM/5on854Q1yp
-         QWp2JRn2QJ0eJQ/JkD2SXJpcKV9T+OXU7tBZHWp3v/RCQxgQbKuaR8+B4oSGmLRfRtB6
-         IFoGMjIJ4pLT4oeCdCpBhXMKoxsYU2vTMWHWmeJQR+MQVN757ryIywEmO9MqaAHPlrIZ
-         2uBFBvIds/4FUGPEvD86EmDWy+sASCs/Z/L/LeOK7BI+tmMry6mp0WCYWAtJJWwYUvtb
-         0iPQ==
-X-Gm-Message-State: AOAM532IA1Y6RrFhkTblWsImufnUswj4CYRyEcp7qotbWZzu9TUS/K+q
-	1A+zrcudLNRdvaj3lYA9ajLODw1aWnHS2IIug9c=
-X-Google-Smtp-Source: ABdhPJwpCr2mS3xuPuVC0CHa5JfUr0jU4uTaMrdAxUqGMklj9aigJs6bh+dD3oUpp8PEN1t9Rre1ziMo0cyDxqAYXHI=
-X-Received: by 2002:a05:6512:1388:: with SMTP id p8mr27900500lfa.269.1620864727420;
- Wed, 12 May 2021 17:12:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6Blxz0Ko8tEQX73Z8dLJ8y/WUXb1wErXfqNF8NYXP2w=;
+        b=DoBkA/Qe/QW/PRObBB++OH/8s08pogTE+NL0jVayncjR4SIOWj4pQBGyElPZFiX3LQ
+         zM46b9tqtj1hBaU3tJTr6o6HkbvOKiknWoeDyQkGbP7C+X8Wh4NTlFz2BMYW4yDtM0hK
+         mC5DxAH4jJ54wUz52jUsdXSssilmNeHWhSHVEWeDXjPFagm5cHgxUAy1zlnOp4GUliBz
+         2AX/Jn+DZ5nAQk1ppuOFoL1gDuZh9iXuXAf10XoPfafIXm4IRtO53BVHu3ZcuoIEOR7L
+         nHobrcaEavQfRXxaL0PRiEN0ujjGybEv9NAYbjGaJshFQ11YSPtwCYci9xQForBbMcgr
+         8QGw==
+X-Gm-Message-State: AOAM531iUK9grOHWqIPFMV53SqSmQyz2I8jG4U4KsMX3dHcRT46TCnwb
+	rNHxYxvLeZ9vjYEtTnFwwobL3wxmtt+i7Q==
+X-Google-Smtp-Source: ABdhPJzPoQ8y2GG20p7pTFkY7lyPsH4nRRDuUGtCwU4gPfXhyglntmGIz6kYx8Kku7lJsAVI6orpSg==
+X-Received: by 2002:a17:902:ecc5:b029:ee:cb82:fbc6 with SMTP id a5-20020a170902ecc5b02900eecb82fbc6mr38185533plh.70.1620882297229;
+        Wed, 12 May 2021 22:04:57 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a7ac])
+        by smtp.gmail.com with ESMTPSA id j2sm5420471pjn.26.2021.05.12.22.04.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 May 2021 22:04:56 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] npth: Check for pthread_create for including lpthread
+Date: Wed, 12 May 2021 22:04:53 -0700
+Message-Id: <20210513050453.3404849-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
- <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
- <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com> <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
- <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
-In-Reply-To: <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Wed, 12 May 2021 17:11:56 -0700
-Message-ID: <CAJ86T=UjJ8J3aUL7YX03oa1fy7zAwPk9vp+=yYxGNfEKsNt6oQ@mail.gmail.com>
-Subject: Re: [OE-core] master/main branch renaming and bitbake
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Colin Walters <walters@verbum.org>, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 12, 2021 at 2:23 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> And by the way, another reason to check that revision is linked to a bra=
-nch is when SRCREV is updated - we need some reassurance that the updated S=
-RCREV comes from the same branch as previous SRCREV, or that if the branch =
-has changed, it's explicitly visible in the diff and explained in the commi=
-t message.
+pthread_detach() is moved into libc which means this test will fail
+so check for pthead_create again
 
-None of the answers given so far seem very convincing...
+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=df65f897e9501aa5b64a5cbcb101301715f2ec2f
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Check for pthread_create to decide on libpthread linking
 
-If the git revision that a recipe wants is available on an unexpected
-branch in the upstream repo then it's not really different from a tar
-file being fetched from a mirror rather than whatever is in SRC_URI.
-If we want the fetcher to fail as an indication that an upstream git
-repo has renamed branches then don't we also want it to fail if a tar
-file disappears from an upstream server? It seems odd that one should
-be a fatal error and the other to be something we try to cover up and
-hide from the end user.
+ ...em-with-regression-tests-on-recent-g.patch | 43 +++++++++++++++++++
+ meta/recipes-support/npth/npth_1.6.bb         |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch
 
-Anyway, for recipes which don't explicitly specify a branch in SRC_URI
-it would seem quite reasonable for the fetcher to check what the
-default branch is set to in the upstream repo and search for the
-required git revision in that branch (rather than rely on a hardcoded
-default of "master" as we do now). Going forward, there's going to be
-less standardisation on what upstream repos call their default branch,
-so we're either going to have to explicitly specify a branch in more
-and more recipes or teach the fetcher to automatically figure out what
-the default branch in the upstream repo is.
+diff --git a/meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch b/meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch
+new file mode 100644
+index 0000000000..47c426b4a5
+--- /dev/null
++++ b/meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch
+@@ -0,0 +1,43 @@
++From e43524868bb4901703d63876f9d49f73ca75b3ab Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 12 May 2021 20:27:52 -0700
++Subject: [PATCH] Revert "Fix problem with regression tests on recent glibc."
++
++This reverts commit 3a9d32eb59194b989656548755066ccd9feb36ac.
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.ac | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 8a9373c..8cda28d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -284,11 +284,9 @@ AC_TYPE_SSIZE_T
++ #
++ # Checks for libraries and functions.
++ #
++-#   We test for pthread_detach because glibc 2.22 includes
++-#   pthread_create but not pthread_detach.
++ if test "$have_w32_system" = no; then
++-  AC_SEARCH_LIBS([pthread_detach],[pthread])
++-  case "x$ac_cv_search_pthread_detach" in
+++  AC_SEARCH_LIBS([pthread_create],[pthread])
+++  case "x$ac_cv_search_pthread_create" in
++     xno)
++       have_pthread=no
++       ;;
++@@ -297,7 +295,7 @@ if test "$have_w32_system" = no; then
++       ;;
++     *)
++       have_pthread=yes
++-      config_libs="$config_libs $ac_cv_search_pthread_detach"
+++      config_libs="$config_libs $ac_cv_search_pthread_create"
++       ;;
++   esac
++   if test "$have_pthread" != no; then
++-- 
++2.31.1
++
+diff --git a/meta/recipes-support/npth/npth_1.6.bb b/meta/recipes-support/npth/npth_1.6.bb
+index 94a3f00eac..d5a149e041 100644
+--- a/meta/recipes-support/npth/npth_1.6.bb
++++ b/meta/recipes-support/npth/npth_1.6.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "\
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2 \
+            file://pkgconfig.patch \
++           file://0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch \
+           "
+ 
+ SRC_URI[md5sum] = "375d1a15ad969f32d25f1a7630929854"
+-- 
+2.31.1
 
-> Alex
->
-> On Wed, 12 May 2021 at 23:17, Alexander Kanavin <alex.kanavin@gmail.com>=
- wrote:
->>
->> On Wed, 12 May 2021 at 22:44, Colin Walters <walters@verbum.org> wrote:
->>>
->>> On Wed, May 12, 2021, at 4:40 PM, Alexander Kanavin wrote:
->>> > For ostree, yes:
->>> > http://git.openembedded.org/meta-openembedded/log/?h=3Dmaster-next
->>> >
->>> > For the generic case, no. It's not a good idea to start guessing wha=
-t
->>> > the upstream did.
->>>
->>> What is the goal of the `branch=3D` specification?  I can understand i=
-t being *informative* for humans specifically when things like non-master/m=
-ain branches e.g. `release-4.x`, `lts-`, `stable-` etc. are involved.
->>>
->>> But why is bitbake explicitly checking it?  Is it to validate what the=
- human expressed, or is it to try to cover some security aspect?  Something=
- else?
->>
->>
->> To ensure the specified revision is actually linked with the specified =
-branch, and not just free-floating, and catch branch renames, deletions and=
- force pushes. You can override that behaviour with nobranch=3D1, at your o=
-wn risk - free-floating revisions can be 'garbage collected'.
->>
->> Yes, it's annoying when the upstream renames branches, but it's no diff=
-erent than upstreams clearing up old tarballs, or disappearing altogether. =
-Ensure you have proper download mirrors.
->>
->> Alex
->
->
->=20
->
