@@ -1,102 +1,119 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
- by mx.groups.io with SMTP id smtpd.web09.638.1620941609545963093
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web12.1455.1620945455022642106
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 14:33:29 -0700
+ Thu, 13 May 2021 15:37:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=WH/Bjqwt;
- spf=none, err=SPF record not found (domain: verbum.org, ip: 64.147.123.25, mailfrom: walters@verbum.org)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 6C62011F4
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 17:33:26 -0400 (EDT)
-Received: from imap10 ([10.202.2.60])
-  by compute1.internal (MEProxy); Thu, 13 May 2021 17:33:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=k1Ex3l
-	jnMrhhcK6ceX/GG6h+AsLsqVzOAKc4yVMAhtk=; b=WH/BjqwtRqStrtNw9bV4IZ
-	8l5RPXNEWDUsFY79bBtY12yta+Jz5LLoJwSH8nV6mqCoF/i8iNo6y4S51Ig3cbD+
-	l++hY+n0x9cZOk4372THx/ksjTCR28r0r/M+IlvJlhXooOqKucxvjLFmtzVaywKe
-	9y55NbzrIDjeplZ2Z+KTvjr8dehW/+crfFmUn1kNGY8wIzZNb+iO9+YhY83BQxLb
-	0ImEUJyCwQg6ua2623uwwmPqvXr6KegfhcJumHEaIqL0d+37Zm5Tgd2PK+3BfM8V
-	YeTociFMYgDm/Y0RAvDqEwQWBQI3vOl8e9L6lFXHVMZ9zkbgVRjN+8hPobH2Meow
-	==
-X-ME-Sender: <xms:JZudYMrZdzAwtMLQosc-KFan8Bypf6oP5WFBIenmtLGtqq1BqipurQ>
-    <xme:JZudYCpT4YoaVw4s4XleVDMDE1X9BiNR-ME6ADNderQN2RDOX4dKKdpdbHColHB0Z
-    tKC1-mG5549GQDZ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehgedgudeivdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgesth
-    dtredtreertdenucfhrhhomhepfdevohhlihhnucghrghlthgvrhhsfdcuoeifrghlthgv
-    rhhssehvvghrsghumhdrohhrgheqnecuggftrfgrthhtvghrnhepteegieevleffkedvle
-    eujeegtddthfdtuddvhefgiefhgeevhffhkefgueeivefgnecuffhomhgrihhnpehgihht
-    hhhusgdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfigrlhhtvghrshesvhgvrhgsuhhm
-    rdhorhhg
-X-ME-Proxy: <xmx:JZudYBN9wKAWw38dMWzCV7g6MMG1b1U9guOggLlNdmlJrxbOza2dIA>
-    <xmx:JZudYD6_u25KB-PbchilMOdutR_vbMXglkzqIODva8YaUmw5wsp92Q>
-    <xmx:JZudYL7lLSH9bSX8XXemAsqANbAg8D0z8kaCS0mRYdqllN5aXCeOew>
-    <xmx:JpudYOJfRMIUCWapyi5qWqSPQgx_LWX_C66xPG7dlTkMVdONIIGiiA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B04644E0128; Thu, 13 May 2021 17:33:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
-Mime-Version: 1.0
-Message-Id: <720f0aff-891d-4186-b637-4b5e2ba0a598@www.fastmail.com>
-In-Reply-To: 
- <7ebd5f52982311726a6aebd89eba9cae07bdf999.camel@linuxfoundation.org>
-References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
- <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
- <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com>
- <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
- <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
- <CAJ86T=UjJ8J3aUL7YX03oa1fy7zAwPk9vp+=yYxGNfEKsNt6oQ@mail.gmail.com>
- <5ceca668cfce15ebd8874fdaa9c01949fe1d95fc.camel@linuxfoundation.org>
- <d1c5ed38-605f-4fa8-8ece-09a9dcc43890@www.fastmail.com>
- <7ebd5f52982311726a6aebd89eba9cae07bdf999.camel@linuxfoundation.org>
-Date: Thu, 13 May 2021 17:33:02 -0400
-From: "colin walters" <walters@verbum.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] master/main branch renaming and bitbake
-Content-Type: text/plain
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fpb/+HY9;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id w4so35645183ljw.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 15:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uCKQMHR4i5cYzVr+CbOgriWcy/CCVids3xYKo3M3Rxw=;
+        b=fpb/+HY9P8Au3pcGRrz+sRJD0wmYlO82Vv4w3r//VbO84bfp17yiXzaPa58qF2brxO
+         nOh6dCvGEFGZcOdYW//EktAHxzcDbb+FUlyehHEv3sMrf86cWsvGh5m/nLzfee3NBptv
+         k0jSv9cg7ikz1X/TiJgO6uRdWmopwT4S1YunF1dDZaYlu5wlR+FGExmFdVKkPE5sZd1o
+         P2e9NF3qSVn61kep+HPR3dO1SSC0aJOoUWZMg3w/237QRYEd+7siUNSPLA3FUX9Kykdk
+         6bCtMUXnMn7OrS05j6J++9ROVrptqEK2rNJukzvjdOdzfJtY8uQqO307viD5XdguYK/3
+         qB1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uCKQMHR4i5cYzVr+CbOgriWcy/CCVids3xYKo3M3Rxw=;
+        b=gfLS8t6GvEbrxVcpakcR3muLu3c+gFYyU2a1giSFJ7yQEvW+yNT++jNtwsoDJq0GCB
+         6zdcEzcT6Gvo7YyAWHq6lbCSUFc+GqHPCWiD56Y0MnvqkCz2ngjAOsSH3VcHNpUQ6SOL
+         yGmJEHSnw7iiCr9cSOfpncNPdTpWy0FZLe3cxw4DIHRfXgrNhHCfwWqSvVC+bvLiz1iW
+         ZpWSEqiE8Zd/CEy1IeeR8H5am0bE9RsITv1yV0IbPGloQFliyRJ2yuX0WonPLSggjcn1
+         CmD9lv+VIyDGJba/s8gzCYrzgzLcecEemwoz6r+3cngSTyFJsKNdeVMPRVEhL8Lqc5R5
+         L2Kg==
+X-Gm-Message-State: AOAM532061IO9UP5BS7M2ei+EodqEh6Mp7o2q6NlpEijn64DMd198tGz
+	giRelcSfYQdgp0T1dB1O1IZt5+fY4fDjGrj92a0=
+X-Google-Smtp-Source: ABdhPJySSPCGhFz77GUvtUGDlDHkMBR/AQCsgs8FSfFUApnWhV3qwWNjPgKAKE7iQ06DICZBoH3fSKwsIROmHz+WJsQ=
+X-Received: by 2002:a2e:9251:: with SMTP id v17mr35288707ljg.507.1620945452857;
+ Thu, 13 May 2021 15:37:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <a46364f-5fa1-f318-5ada-5aee55134312@crashcourse.ca>
+In-Reply-To: <a46364f-5fa1-f318-5ada-5aee55134312@crashcourse.ca>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Thu, 13 May 2021 15:37:21 -0700
+Message-ID: <CAJ86T=VY5B=x2GHg7fe=ArXTMCYFGm7XWMi-T75yfaoH7Sh2fA@mail.gmail.com>
+Subject: Re: [OE-core] couple questions about creating companion debug filesystem
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On Thu, May 13, 2021, at 4:08 PM, Richard Purdie wrote:
+On Thu, May 13, 2021 at 3:36 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> The advice to anyone hitting this issue is to add in the correct branch
-> to the SRC_URI. It is simple and easy to do, can be in bbappends 
-> or even changed via anonymous python and similar if necessary. We've already
-> found the issue with several core recipes, we simply updated them and most 
-> users didn't notice. I would even likely take that kind of change into older
-> otherwise unmaintained branches and I think I did so in at least one case in
-> the past.
+>   couple colleagues asked me about the details of how the debug
+> filesystem is created, and since i wasn't entirely clear on the
+> mechanics of it myself, i thought i'd dig into it, so a couple
+> preliminary questions to make sure i'm on the right track.
+>
+>   trivially, if you want that companion debugfs, you need only:
+>
+>   IMAGE_GEN_DEBUGFS = '1'
+>
+> at which point what kicks in is the current value of
+> IMAGE_FSTYPES_DEBUGFS to determine what forms of the debugfs you want.
+> by default, that's conditionally set to "tar.gz" in bitbake.conf so,
+> unless you mess with it, the end result is a debugfs tarball under
+> deploy/images. so far, so good.
+>
+>   now, if you (for no good reason) also set:
+>
+>   IMAGE_FSTYPES_DEBUGFS = ''
+>
+> in your local.conf, then even though you *claim* you want the debugfs,
+> you're not going to get one since the build process has no idea what
+> archive type you want. i believe this is the result of this snippet in
+> image.bbclass in the anonymous python routine (line 369):
+>
+>     if d.getVar('IMAGE_GEN_DEBUGFS') == "1":
+>         debugfs_fstypes = d.getVar('IMAGE_FSTYPES_DEBUGFS').split()
+>         for t in debugfs_fstypes:
+>             alltypes.append("debugfs_" + t)
+>
+> which makes sense. however, even if you don't get the final debugfs
+> tarball under deploy, i see that the *contents* of the debugfs are
+> still generated under WORKDIR for the image (in my case,
+> core-image-minimal), since i see both:
+>
+>   rootfs/
+>   rootfs-dbg/
+>
+> and following the trail of bread crumbs to see where that came from, i
+> ended up in meta/lib/oe/rootfs.py:
+>
+>     def _setup_dbg_rootfs(self, dirs):
+>         gen_debugfs = self.d.getVar('IMAGE_GEN_DEBUGFS') or '0'
+>         if gen_debugfs != '1':
+>            return
+>
+>         bb.note("  Renaming the original rootfs...")
+>         try:
+>             shutil.rmtree(self.image_rootfs + '-orig')
+>         except:
+>             pass
+>         bb.utils.rename(self.image_rootfs, self.image_rootfs + '-orig')
+>
+>         ... and so on and so on ...
+>
+> which clearly(?) does all that work, even if, in the end, the result
+> is not packaged as a tarball, which is part of what muh colleagues
+> were asking about -- where can they see *exactly* how that debugfs
+> content is collected?
+>
+>   is all this reasonably accurate so far?
 
-What I am uncertain about is: how quickly does that translate into us being able to remove the old branch?
-
-We're not the first project to do this and we won't be the last, so having a solution here will be good.
-
-Hmm actually I notice systemd upstream did the rename a while ago and they're not carrying a `master` branch.  What's the difference between systemd and ostree here?
-
-Is it the use of `SRCREV`?  Or no, in the systemd case is it because it's set to a tag?
-https://github.com/openembedded/openembedded-core/blob/2621dbbc1181808f18ca4ae79408d0d5b557670f/meta/recipes-core/systemd/systemd.inc#L18
-
-ostree is also using tags, is the recipe just broken in not using tags?
-
-> I appreciate the tooling could do all kinds of magic things. I have a strong
-> preference for not adding magic into it, or over complicating it, it is already
-> horrendously complicated and a nightmare to test. I appreciate nobody believes
-> me, I only do my best to maintain it. The code is here for anyone interested:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/bitbake/lib/bb/fetch2/git.py
-
-Yeah, understood.
-
-> I'd also note you can add ;nobranch=1 to the urls or ;usehead=1. Those do
-> have side effects, I will not recommend them, or accept them for general use
-> in layers I maintain, they're considered developer options. I was reminded
-> recently that we have seen bugs the branch parameter has caught where a 
-> revision was not where we thought it was so these do catch real world issues.
-
-Well I hope the result of this discussion is a recommended best practice at least.
-If recommending using a tag works, that seems good to me.
+Yes, I think so. Creation of the debugfs tar file uses a lot of the
+same logic as creation of the rootfs image(s) so is controlled by
+similar variables (e.g. IMAGE_FSTYPES_DEBUGFS is the equivalent of
+IMAGE_FSTYPES). In theory you could change IMAGE_GEN_DEBUGFS to create
+(for example) a squashfs image containing the debug symbols, but since
+the debug symbols are going to be used on the host (and not copied
+into Flash on the target etc) it doesn't make much sense to do so. In
+practice the only reason you might want to change the default value of
+IMAGE_GEN_DEBUGFS would be if you prefer .tar.bz2 etc over .tar.gz.
