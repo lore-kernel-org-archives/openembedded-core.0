@@ -1,75 +1,79 @@
-Received: from avasout07.plus.net (avasout07.plus.net [84.93.230.235])
- by mx.groups.io with SMTP id smtpd.web08.14337.1620916604783989169
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+ by mx.groups.io with SMTP id smtpd.web09.14411.1620917007339965214
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 07:36:46 -0700
+ Thu, 13 May 2021 07:43:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=CE09I4ue;
- spf=pass (domain: mcrowe.com, ip: 84.93.230.235, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id hCS6lUWK96wwFhCS8lBnHi; Thu, 13 May 2021 15:36:43 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=TPXet2ta c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=5FLXtPjwQuUA:10 a=-An2I_7KAAAA:8 a=j7PFDQGIlsxaj39JbgMA:9
- a=Sq34B_EcNBM9_nrAYB9S:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=KRhpE9fRJR+BIrIj3vXTbTiuQmugKVBXUxAnB3lwwiw=; b=CE
-	09I4ueHHXKyxiT/mbWzne768vhnhJ77Q7bwG886WRawvjBnXnrRD6RxhhcB3+5acsBn0oX1x9Uj7S
-	KxUdKmUtbfRxuQTj0tlzzbfUG1ZBsoUGRyrTdfFD3idlS+vFHjEz6ASaLJSgAO1qZ+f28Juda75mB
-	XUcKU1HeejE7qeqYQbi3M3gJRCvJt1TS1sRUbKoXe/jruY8UOp1bcLxOMJ8iV1QuNVNpCGG8CseQH
-	dkkbLSLT85jR9y61hbocTYUIUSXpC38tgGC+bGXoIJrCFmpQTd0oG6Hgk6rBfa4sh0ZIo5WdsAxy9
-	3cFl4npqdCX0xDpwSKUC4w5KNKPu5gGQ==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
-	(envelope-from <mac@mcrowe.com>)
-	id 1lhCS5-0000Q1-Cu; Thu, 13 May 2021 15:36:37 +0100
-From: "Mike Crowe" <yocto@mac.mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] libnotify: Make gtk+3 dependency optional
-Date: Thu, 13 May 2021 15:36:32 +0100
-Message-Id: <20210513143632.1211604-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uEVLG/GS;
+ spf=pass (domain: gmail.com, ip: 209.85.217.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f51.google.com with SMTP id x17so9421942vsc.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 07:43:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OaEihg3A20hsKSmsRuQ6o5o+OCJYSvTH3cJ91vokzt8=;
+        b=uEVLG/GSihbYEUueQWKKXn2MoWC8GohO4zVQDhBUbH+D6kpfxSQrzXJgF8G0O+qT38
+         Yufsdqf6cz60EFkfcqp9BN1YO4wYl38Se7/wRDkQDbbn3E6oW0J1XLkxOW1uYp5W5bXu
+         4kJTIvfcTXZTHqFeXzvCGxN7+qlHmHs4V68uL82mo0DTpdhRxTdLVOFQM+qj4fx6qDIc
+         apu36QMBC+J0VpUvKqHsJOimnK/lXQ/Z/dEIddCBrMkxxwU5xofCyJ3GSQAiTro1v/gZ
+         8Imfb5hDeLDg0QY4mvsb0JuXy7H6ABFTyR84cRJZ8fq+3c57Cp24ov5LQ90k+UcamyL7
+         f7uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OaEihg3A20hsKSmsRuQ6o5o+OCJYSvTH3cJ91vokzt8=;
+        b=RudCA3hQVaovKVvtJFLZFimbv/ZCPhBr1nDH7ywlzxH+AUkL2UW/UNl4lJ9LSv1s1l
+         9MeApYfYpXzIxAMY3WS1/o8C4Me4NGQNW7Kz1SfpSNPz2STy1J2oXY4z3jwcFxfpJVmc
+         eP6+q7S5oMk6TDQ7HqxYwHvJchAKszxfAtvdFXMebwJ3Kt+825yqU/3V3qSPmbBRsg4E
+         g9GMmcEf2590IUwEDLk2fxfxdj+SnoILggK5pPcOlgpMfMu9dcPuTkqbyxBsqGM/x4Yb
+         cZUUMWvuE7Ocri4xKeeCxcOY6y5tH+hRGEM+ynSg2fnpeTgYBN3GdXgo2eMLEFUn/Zq4
+         bQTQ==
+X-Gm-Message-State: AOAM533+Dk5rTs18P4Q4TOa8PYRuPPKoWBpDc07hDKeLAwa+AMT48JeD
+	eJi+4AywdEAF7uYTu8rAkV4iVw/iL0YqcsRQTAIWEnSX
+X-Google-Smtp-Source: ABdhPJy3uBdu0V4jZmVq57YIgYuxJvfHq+65rsVjtEwwp9El/Bnt5lkyUCI8ivBneFLMM/m6cOLInm4tPm8EVbP2hCI=
+X-Received: by 2002:a67:d715:: with SMTP id p21mr29560630vsj.31.1620917006383;
+ Thu, 13 May 2021 07:43:26 -0700 (PDT)
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfBT4/Tcs6gXgY8jB6Y+5UJCiho8Esx6I6DxmeOHzXP9pUmkSRiQ+ly4UhHQtyA8YlxYarhycO7RfsbmorgjXsGXo8k/BR/gntZe/NQXAchef/vGcSbVs
- COS3Fiy2XItJx/cZdI2u8kysM0LE5oYmaxiudR1uPPHSlM+F1Q8gIENcZGqlfOLalirnmymrKALpQg==
-Content-Transfer-Encoding: 8bit
+References: <20210513143632.1211604-1-mac@mcrowe.com>
+In-Reply-To: <20210513143632.1211604-1-mac@mcrowe.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 13 May 2021 16:43:15 +0200
+Message-ID: <CANNYZj8E6Rem_gy-NieFXyBBmb=qBB9rcX1C9D01dhtymFm9pQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libnotify: Make gtk+3 dependency optional
+To: yocto@mac.mcrowe.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Mike Crowe <mac@mcrowe.com>
+Content-Type: multipart/alternative; boundary="000000000000603c0d05c2372668"
 
-libnotify only requires gtk+3 for its tests. Let's disable them by
-default.
+--000000000000603c0d05c2372668
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/recipes-gnome/libnotify/libnotify_0.7.9.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On Thu, 13 May 2021 at 16:36, Mike Crowe via lists.openembedded.org <yocto=
+mac.mcrowe.com@lists.openembedded.org> wrote:
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
-index bbbd72193e..819cb304f7 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
-@@ -9,15 +9,16 @@ SECTION = "libs"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
--DEPENDS = "dbus gtk+3 glib-2.0"
-+DEPENDS = "dbus glib-2.0 gdk-pixbuf"
-+
-+PACKAGECONFIG ?= ""
-+PACKAGECONFIG[gtk+] = "--enable-tests,--disable-tests,,gtk+3"
- 
- GNOMEBASEBUILDCLASS = "meson"
- GTKDOC_MESON_OPTION = "gtk_doc"
- GIR_MESON_ENABLE_FLAG = "enabled"
- GIR_MESON_DISABLE_FLAG = "disabled"
- inherit gnomebase gtk-doc features_check gobject-introspection
--# depends on gtk+3
--ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
- SRC_URI[archive.md5sum] = "ccd9c53364174cc8d13e18a1988faa76"
- SRC_URI[archive.sha256sum] = "66c0517ed16df7af258e83208faaf5069727dfd66995c4bbc51c16954d674761"
--- 
-2.30.2
+> +PACKAGECONFIG[gtk+] = "--enable-tests,--disable-tests,,gtk+3"
+>
 
+Was the --enable-tests scenario tested? Specifying gtk+3 after two ,,s
+seems weird.
+
+Alex
+
+--000000000000603c0d05c2372668
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 13 May 2021 at 16:36, Mike Crowe via <a href=3D"http://lists=
+.openembedded.org">lists.openembedded.org</a> &lt;yocto=3D<a href=3D"mailto=
+:mac.mcrowe.com@lists.openembedded.org">mac.mcrowe.com@lists.openembedded.o=
+rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">+PACKAGECONFIG[gtk+] =3D &quot;--enable-tests,--disable-tests,,gtk+3&quot=
+;<br>
+
+</blockquote><div><br></div><div>Was the --enable-tests scenario tested? Sp=
+ecifying gtk+3 after two ,,s seems weird.</div><div><br></div><div>Alex<br>=
+</div></div></div>
+
+--000000000000603c0d05c2372668--
