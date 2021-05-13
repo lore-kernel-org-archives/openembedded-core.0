@@ -1,116 +1,102 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.362.1620940285751863219
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+ by mx.groups.io with SMTP id smtpd.web09.638.1620941609545963093
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 14:11:26 -0700
+ Thu, 13 May 2021 14:33:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EwYyKKiN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id u133so3799212wmg.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 14:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=TxGa5to31jOzYNRumdHFYSfezYVVgKJlRw6UjMEK4iA=;
-        b=EwYyKKiNLqVsZ3LLc4CYcegOg6ZOr8sMXkN+8bqGwhvMAKR4w57OAUt7DdtwyIHkeA
-         RfMzBwu8BFJTq2544wiZJk1SjtNjE5v6YG88MvcdPDTqsW/TOgdjVBI7OuumtJmd0/+F
-         vL4x/AUYiVT9728Vc0U9CuRSl28ApkY9Ws8bI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=TxGa5to31jOzYNRumdHFYSfezYVVgKJlRw6UjMEK4iA=;
-        b=jkas+r/fn6izSHiv879YvqANYlLU3aQK/fnLKGkPf3llKwVXObWw73m/qw+LeumeEi
-         SXTmVDFXUyH4QUDjpAkKujuSn99/RArRWNYnsdLbYZOhs6aC1ndvL2mKq3WHzofwuD85
-         Ih0wKQ6sbzWzuHYdYPBnvKUHmTlxIyj1LDj6JAkk02P/wGzTX3J1epyqzRAbSVMNEsXy
-         iXHGMeR1W3WC94ZzEzwhNAfv49rGaYAzN+cK5ljw43j6yxzYO78ZNN49ViD5wV1ls6rs
-         runYrfUro6eDjs9dxxfnc/GC/MThNDeoQh/nm4FvuvhoWb7TOuSJAAFZCv6HPwzO0dP5
-         9N3Q==
-X-Gm-Message-State: AOAM530FxoA8O3PMLnE6gJRVN4m7tDh/9mH/OLfnR/V/WPge47M8T8RW
-	tyNKc8KT0tHoGehtCZn8ixR0Bw==
-X-Google-Smtp-Source: ABdhPJywOvzN360TpYop+PQa48AjuXB1hsJ4nVsHdIG+tzaYTxi6nfN3ENFij963JMNZHWhH7qmZvw==
-X-Received: by 2002:a1c:35c6:: with SMTP id c189mr5635575wma.127.1620940284136;
-        Thu, 13 May 2021 14:11:24 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:87b3:98a4:71f:63a5? ([2001:8b0:aba:5f3c:87b3:98a4:71f:63a5])
-        by smtp.gmail.com with ESMTPSA id h8sm4158169wrw.85.2021.05.13.14.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 May 2021 14:11:23 -0700 (PDT)
-Message-ID: <9fd94de1240096c57c37ee3a02742167b1319ecc.camel@linuxfoundation.org>
-Subject: Re: [OE-core][dunfell 00/25] Pull request (cover letter only)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 13 May 2021 22:11:20 +0100
-In-Reply-To: <cover.1620830796.git.steve@sakoman.com>
-References: <cover.1620830796.git.steve@sakoman.com>
-User-Agent: Evolution 3.40.0-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=WH/Bjqwt;
+ spf=none, err=SPF record not found (domain: verbum.org, ip: 64.147.123.25, mailfrom: walters@verbum.org)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 6C62011F4
+	for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 17:33:26 -0400 (EDT)
+Received: from imap10 ([10.202.2.60])
+  by compute1.internal (MEProxy); Thu, 13 May 2021 17:33:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=k1Ex3l
+	jnMrhhcK6ceX/GG6h+AsLsqVzOAKc4yVMAhtk=; b=WH/BjqwtRqStrtNw9bV4IZ
+	8l5RPXNEWDUsFY79bBtY12yta+Jz5LLoJwSH8nV6mqCoF/i8iNo6y4S51Ig3cbD+
+	l++hY+n0x9cZOk4372THx/ksjTCR28r0r/M+IlvJlhXooOqKucxvjLFmtzVaywKe
+	9y55NbzrIDjeplZ2Z+KTvjr8dehW/+crfFmUn1kNGY8wIzZNb+iO9+YhY83BQxLb
+	0ImEUJyCwQg6ua2623uwwmPqvXr6KegfhcJumHEaIqL0d+37Zm5Tgd2PK+3BfM8V
+	YeTociFMYgDm/Y0RAvDqEwQWBQI3vOl8e9L6lFXHVMZ9zkbgVRjN+8hPobH2Meow
+	==
+X-ME-Sender: <xms:JZudYMrZdzAwtMLQosc-KFan8Bypf6oP5WFBIenmtLGtqq1BqipurQ>
+    <xme:JZudYCpT4YoaVw4s4XleVDMDE1X9BiNR-ME6ADNderQN2RDOX4dKKdpdbHColHB0Z
+    tKC1-mG5549GQDZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehgedgudeivdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgesth
+    dtredtreertdenucfhrhhomhepfdevohhlihhnucghrghlthgvrhhsfdcuoeifrghlthgv
+    rhhssehvvghrsghumhdrohhrgheqnecuggftrfgrthhtvghrnhepteegieevleffkedvle
+    eujeegtddthfdtuddvhefgiefhgeevhffhkefgueeivefgnecuffhomhgrihhnpehgihht
+    hhhusgdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfigrlhhtvghrshesvhgvrhgsuhhm
+    rdhorhhg
+X-ME-Proxy: <xmx:JZudYBN9wKAWw38dMWzCV7g6MMG1b1U9guOggLlNdmlJrxbOza2dIA>
+    <xmx:JZudYD6_u25KB-PbchilMOdutR_vbMXglkzqIODva8YaUmw5wsp92Q>
+    <xmx:JZudYL7lLSH9bSX8XXemAsqANbAg8D0z8kaCS0mRYdqllN5aXCeOew>
+    <xmx:JpudYOJfRMIUCWapyi5qWqSPQgx_LWX_C66xPG7dlTkMVdONIIGiiA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id B04644E0128; Thu, 13 May 2021 17:33:25 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
+Mime-Version: 1.0
+Message-Id: <720f0aff-891d-4186-b637-4b5e2ba0a598@www.fastmail.com>
+In-Reply-To: 
+ <7ebd5f52982311726a6aebd89eba9cae07bdf999.camel@linuxfoundation.org>
+References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
+ <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
+ <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com>
+ <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
+ <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
+ <CAJ86T=UjJ8J3aUL7YX03oa1fy7zAwPk9vp+=yYxGNfEKsNt6oQ@mail.gmail.com>
+ <5ceca668cfce15ebd8874fdaa9c01949fe1d95fc.camel@linuxfoundation.org>
+ <d1c5ed38-605f-4fa8-8ece-09a9dcc43890@www.fastmail.com>
+ <7ebd5f52982311726a6aebd89eba9cae07bdf999.camel@linuxfoundation.org>
+Date: Thu, 13 May 2021 17:33:02 -0400
+From: "colin walters" <walters@verbum.org>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] master/main branch renaming and bitbake
+Content-Type: text/plain
 
-On Wed, 2021-05-12 at 04:47 -1000, Steve Sakoman wrote:
-> The following changes since commit 834a8e357bc999a0163e7c5bafbcc1a8816448d4:
-> 
->   license_image.bbclass: Fix symlink to generic license files (2021-05-03 04:56:23 -1000)
-> 
-> are available in the Git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
->   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-> 
-> Alexander Kanavin (5):
->   diffoscope: add native libraries to LD_LIBRARY_PATH
->   Revert "oeqa: Set LD_LIBRARY_PATH when executing native commands"
->   ovmf: update to 202002
->   ovmf: update to 202005
->   ovmf: update edk2-stable202005 -> edk2-stable202008
-> 
-> Anatol Belski (1):
->   tar: Fix CVE-2021-20193
-> 
-> Bruce Ashfield (4):
->   linux-yocto/5.4: update to v5.4.114
->   linux-yocto/5.4: update to v5.4.116
->   perf: fix python-audit RDEPENDS
->   make-mod-scripts: add HOSTCXX definitions and gmp-native dependency
-> 
-> Christophe Chapuis (1):
->   rootfs.py: find .ko.gz and .ko.xz kernel modules as well
-> 
-> Jose Quaresma (1):
->   ptest-runner: libgcc must be installed for pthread_cancel to work
-> 
-> Joshua Watt (1):
->   classes/image: Use xargs to set file timestamps
-> 
-> Kai Uwe Broulik (1):
->   gstreamer1.0-plugins-good: on wayland qt5 needs qtwayland
-> 
-> Khem Raj (1):
->   cml1.bbclass: Return sorted list of cfg files
-> 
-> Lee Chee Yang (1):
->   binutils: fix CVE-2021-3487
-> 
-> Mark Hatle (1):
->   kernel.bbclass: Remove do_install[prefunc] no longer needed
-> 
-> Michael Opdenacker (1):
->   sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure
->     message
-> 
-> Richard Purdie (3):
->   yocto-uninative: Update to 3.1 which includes a patchelf fix
->   pybootchart/draw: Avoid divide by zero error
->   oeqa/qemurunner: Improve logging thread exit handling for qemu
->     shutdown test
 
-I merged this branch apart from this last patch above as the author of the 
-patch messed up and you'd need the subsequent fixes too ;-) It can come
-together, later.
 
-Cheers,
+On Thu, May 13, 2021, at 4:08 PM, Richard Purdie wrote:
+>
+> The advice to anyone hitting this issue is to add in the correct branch
+> to the SRC_URI. It is simple and easy to do, can be in bbappends 
+> or even changed via anonymous python and similar if necessary. We've already
+> found the issue with several core recipes, we simply updated them and most 
+> users didn't notice. I would even likely take that kind of change into older
+> otherwise unmaintained branches and I think I did so in at least one case in
+> the past.
 
-Richard
+What I am uncertain about is: how quickly does that translate into us being able to remove the old branch?
 
+We're not the first project to do this and we won't be the last, so having a solution here will be good.
+
+Hmm actually I notice systemd upstream did the rename a while ago and they're not carrying a `master` branch.  What's the difference between systemd and ostree here?
+
+Is it the use of `SRCREV`?  Or no, in the systemd case is it because it's set to a tag?
+https://github.com/openembedded/openembedded-core/blob/2621dbbc1181808f18ca4ae79408d0d5b557670f/meta/recipes-core/systemd/systemd.inc#L18
+
+ostree is also using tags, is the recipe just broken in not using tags?
+
+> I appreciate the tooling could do all kinds of magic things. I have a strong
+> preference for not adding magic into it, or over complicating it, it is already
+> horrendously complicated and a nightmare to test. I appreciate nobody believes
+> me, I only do my best to maintain it. The code is here for anyone interested:
+> 
+> http://git.yoctoproject.org/cgit.cgi/poky/tree/bitbake/lib/bb/fetch2/git.py
+
+Yeah, understood.
+
+> I'd also note you can add ;nobranch=1 to the urls or ;usehead=1. Those do
+> have side effects, I will not recommend them, or accept them for general use
+> in layers I maintain, they're considered developer options. I was reminded
+> recently that we have seen bugs the branch parameter has caught where a 
+> revision was not where we thought it was so these do catch real world issues.
+
+Well I hope the result of this discussion is a recommended best practice at least.
+If recommending using a tag works, that seems good to me.
