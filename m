@@ -1,50 +1,50 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web12.178.1620939406799935575
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web08.158.1620939407477544473
  for <openembedded-core@lists.openembedded.org>;
  Thu, 13 May 2021 13:56:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HuAdLMyt;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id n25so32456376edr.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 13:56:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=m6+1BHPy;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id di13so32453672edb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 13:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+DT7nvqiPTR2yfvqMCYTVeWph41GdXUlqbIFxmeNzo0=;
-        b=HuAdLMytlBvZU9x2UALQdKdDMT6hxRhjuoRwBNrkIEcSvs+cKcpWnqV+YV6UIWJaq+
-         q1V0OTHP4F9sSO6IqwpH+QdvQSIlCN2gWEoc8WqndgtrEQkhkQ8MuxE21ygewGEohaBJ
-         EQg355r4zxwoaaQdbg9plDPELNk7ipC0/sz/UXv1zI+mlY3IsRhZjIZgcTy9iOWj1dyD
-         UepN4wTpAYv17NdlaQNNa/wchuhjoSUW4vSVCsDQ/g3BpXPNruU+p85O67eWwRodQoj0
-         YDN/Q2EPRfu/7YOjnUxaO1piQCnhMJ4AUrx+U2HlCf1QNvLi5BbFHvTptp1RXjS0gAni
-         /uIA==
+        bh=cBTGltpdIz69W1JqfMg4qyCLPHxNw8EK51yXdgTjYy4=;
+        b=m6+1BHPypbm4RWGeMXPAF7adUaUyM2eWGaLgx/dWT2j6yO9upq2IAyC0l/W21gjOeu
+         HYFt3UuUxN8fsXh+pSOiDULQzh9qMqY+YyPFrC/3eCPTuRAg6LEK1ocuNkvZvQMjgpPK
+         4oCLD8feRCTouFBJ/3NIwaXWMtZ8SHxkYooDLh0L/QVT3Q7rSPF2VSA2uqNNrcXc6+0Y
+         bc4NxJ159Ad+/+mKig5QGWCaXou7NtG7O0xTLSsE3KRTpZ2o0M0rI2pP5RyA+cQCrQYi
+         /dXgU9LK1rXBXNexRDWazC4zFCxhHsBjyyohWjWzMnsiSz17VT3TNBXkWjZGANwfsbHN
+         dlsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+DT7nvqiPTR2yfvqMCYTVeWph41GdXUlqbIFxmeNzo0=;
-        b=UOkZbfen7VkYWu8/vNv+aOGezq4mVslcFVoSMkDgWDO5k+4YYyP3wtpxuOaDtK3Fg7
-         0Ig9TX2e2cNiDwVMJOqPs5mbdRSxt7aEqTC/M+naPYALLm/ZONKsAWR4MwZbsXthBcyr
-         IsONA3pGTux7n9wcNGy1P6TV+D5WEIH6DR3tGauDpVf4+mpI+xSRCAjgit6FBsQ+VFco
-         FILsDmGQHPU4CbryMyTlcCw+FP0xIjBc6L+2T6679wtNo/1BxyNKezRgy0IOGx1CmLoA
-         mYIz+ZgZ6iwgvRtR4pSyBY1BSE9NCQRDBnJ9T1Wqg44cst2njy4vClxpt3JkC0nKbxCE
-         1ueA==
-X-Gm-Message-State: AOAM533jPt699iSnLLTWi0G41ePomCHTWICuxxaEGU1EIveJKTwlDo0y
-	+cHdcM1Rp60Qu2LuN4n3hEYLLXkEO78=
-X-Google-Smtp-Source: ABdhPJwl6ZDf3t13YwL1oNCrokFS+oMsBkBhNlvKfxhOB8bs5qw8V3IIoB/rlVrWh6OjBQKcB5lrNQ==
-X-Received: by 2002:a50:9f6b:: with SMTP id b98mr846285edf.318.1620939405425;
-        Thu, 13 May 2021 13:56:45 -0700 (PDT)
+        bh=cBTGltpdIz69W1JqfMg4qyCLPHxNw8EK51yXdgTjYy4=;
+        b=SQ6pgTWQWNGjA0nvjs/9f/PA9snDZOJzLOrMtKRRYvRQR4eeN/6L8JtFWObtxWeRGh
+         FO607ET/gm0uaV1LpJmKjEvjSLucUsDZd0VrR/4ajZlGfhtIYhPCh9d8dwqF7r91kGa3
+         D6rRPbX6GoYpTicxagcGNACEreYbzRWPJclY9rGtpiLxk6VVJl9kLbjpgJQMzM0uuMlu
+         UzvGO7I667ToHugO0ycnu+JjJe8BFbQb6twvCogxNh6svCu2fYLzzKVO7HJrRojEfhc9
+         7lprhyKTlToB1mz692sX1JcwligPB1rkLDRgWkjh7wYl58q8BhIehGe8pr+3TupppeIs
+         DhqA==
+X-Gm-Message-State: AOAM531KGoGkoakIUmeNpEKOsJB0Zy5UU0a2UXOCiHnkvMce952qHAZT
+	HSHzhRmlGBltzIx+m7bnyMzi6pYCaic=
+X-Google-Smtp-Source: ABdhPJwSSIYaa6a0U7wolOGWWIJ/vK+9zCQst8HeC+h0QvmlElzjLogEVcX5S0bk8jgMM6YWNEpGzA==
+X-Received: by 2002:a05:6402:2712:: with SMTP id y18mr54640814edd.41.1620939406080;
+        Thu, 13 May 2021 13:56:46 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm2934768edd.91.2021.05.13.13.56.44
+        by smtp.gmail.com with ESMTPSA id y11sm2934768edd.91.2021.05.13.13.56.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 May 2021 13:56:44 -0700 (PDT)
+        Thu, 13 May 2021 13:56:45 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 7/8] gstreamer1.0-plugins-base: backport a patch to fix meson 0.58 builds
-Date: Thu, 13 May 2021 22:56:21 +0200
-Message-Id: <20210513205622.60879-7-alex.kanavin@gmail.com>
+Subject: [PATCH 8/8] qemu: backport a patch to fix meson 0.58 builds
+Date: Thu, 13 May 2021 22:56:22 +0200
+Message-Id: <20210513205622.60879-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210513205622.60879-1-alex.kanavin@gmail.com>
 References: <20210513205622.60879-1-alex.kanavin@gmail.com>
@@ -53,79 +53,82 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...c91697a141fea7317aff7f0f28e5a861db99.patch | 50 +++++++++++++++++++
- .../gstreamer1.0-plugins-base_1.18.4.bb       |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...igure-fix-detection-of-gdbus-codegen.patch | 53 +++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 82d1cb5566..74c53c6309 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -57,6 +57,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-27821.patch \
+            file://CVE-2021-20263.patch \
+            file://CVE-2021-3392.patch \
++           file://0001-configure-fix-detection-of-gdbus-codegen.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch b/meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch
 new file mode 100644
-index 0000000000..a2f5dff5e9
+index 0000000000..1f20077883
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch
-@@ -0,0 +1,50 @@
-+From 4ef5c91697a141fea7317aff7f0f28e5a861db99 Mon Sep 17 00:00:00 2001
-+From: Xavier Claessens <xavier.claessens@collabora.com>
-+Date: Mon, 26 Apr 2021 14:25:03 -0400
-+Subject: [PATCH] gstgl: Fix build when Meson >= 0.58.0rc1
++++ b/meta/recipes-devtools/qemu/qemu/0001-configure-fix-detection-of-gdbus-codegen.patch
+@@ -0,0 +1,53 @@
++From 464cfc64201b21386030b8f353fe9724a3413a85 Mon Sep 17 00:00:00 2001
++From: Paolo Bonzini <pbonzini@redhat.com>
++Date: Wed, 5 May 2021 10:15:34 -0400
++Subject: [PATCH] configure: fix detection of gdbus-codegen
 +
-+"implicit_include_directories: false" now also means that current build
-+directory is not added to include paths by default any more. We have to
-+add it manually because we have some custom_target() that generate
-+headers in current build directory.
++"pkg-config --variable=gdbus_codegen gio-2.0" returns "gdbus-codegen",
++and it does not pass test -x (which does not walk the path).
 +
-+See https://github.com/mesonbuild/meson/issues/8700.
++Meson 0.58.0 notices that something is iffy, as the dbus_vmstate1
++assignment in tests/qtest/meson.build uses an empty string as the
++command, and fails very eloquently:
 +
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/merge_requests/1125>
-+Upstream-Status: Backport
++../tests/qtest/meson.build:92:2: ERROR: No program name specified.
++
++Use the "has" function instead of test -x, and fix the generation
++of config-host.mak since meson.build expects that GDBUS_CODEGEN
++is absent, rather than empty, if the tool is unavailable.
++
++Reported-by: Sebastian Mitterle <smitterl@redhat.com>
++Fixes: #178
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commitdiff;h=5ecfb76ccc056eb6127e44268e475827ae73b9e0]
++(not in 6.0.0, should be kept when upgrading)
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ gst-libs/gst/gl/meson.build | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
++ configure | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/gst-libs/gst/gl/meson.build b/gst-libs/gst/gl/meson.build
-+index 66668644e..53891625a 100644
-+--- a/gst-libs/gst/gl/meson.build
-++++ b/gst-libs/gst/gl/meson.build
-+@@ -1004,11 +1004,20 @@ if build_gstgl
-+     command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
-+   gen_sources = [gl_enumtypes_h]
-+ 
-++  common_args = gst_plugins_base_args + gl_cpp_args + ['-DBUILDING_GST_GL']
-++
-++  # We have custom_target() that generate headers in the current build dir,
-++  # but with implicit_include_directories: false, meson >= 0.58.0 won't include
-++  # it by default. We cannot use include_directories('.') here because it would
-++  # also include current source dir which is what we want to avoid because
-++  # case-insensitive FS would include gst-libs/gl/egl/egl.h as EGL/egl.h.
-++  common_args += '-I@0@'.format(meson.current_build_dir())
-++
-+   gstgl = library('gstgl-' + api_version,
-+     gl_sources, gl_egl_sources, gl_x11_sources, gl_wayland_sources, gl_priv_sources, gl_enumtypes_c, gl_enumtypes_h,
-+-    c_args : gst_plugins_base_args + gl_cpp_args + ['-DBUILDING_GST_GL'],
-+-    cpp_args : gst_plugins_base_args + gl_cpp_args + ['-DBUILDING_GST_GL'],
-+-    objc_args : gst_plugins_base_args + gl_cpp_args + gl_objc_args + ['-DBUILDING_GST_GL'],
-++    c_args : common_args,
-++    cpp_args : common_args,
-++    objc_args : common_args + gl_objc_args,
-+     include_directories : [configinc, libsinc, gl_includes],
-+     version : libversion,
-+     soversion : soversion,
++diff --git a/configure b/configure
++index 18c26e0389..4c36e221d3 100755
++--- a/configure
+++++ b/configure
++@@ -3496,7 +3496,7 @@ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
++     gio_cflags=$($pkg_config --cflags gio-2.0)
++     gio_libs=$($pkg_config --libs gio-2.0)
++     gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
++-    if [ ! -x "$gdbus_codegen" ]; then
+++    if ! has "$gdbus_codegen"; then
++         gdbus_codegen=
++     fi
++     # Check that the libraries actually work -- Ubuntu 18.04 ships
++@@ -6172,6 +6172,8 @@ if test "$gio" = "yes" ; then
++     echo "CONFIG_GIO=y" >> $config_host_mak
++     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
++     echo "GIO_LIBS=$gio_libs" >> $config_host_mak
+++fi
+++if test "$gdbus_codegen" != "" ; then
++     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
++ fi
++ echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
 +-- 
-+GitLab
++2.24.0
 +
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-index beddfb0386..73b433ab91 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-@@ -11,6 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            file://0004-glimagesink-Downrank-to-marginal.patch \
-+           file://4ef5c91697a141fea7317aff7f0f28e5a861db99.patch \
-            "
- SRC_URI[sha256sum] = "29e53229a84d01d722f6f6db13087231cdf6113dd85c25746b9b58c3d68e8323"
- 
 -- 
 2.31.1
 
