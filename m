@@ -1,108 +1,70 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web09.13416.1620913019275518959
+Received: from avasout07.plus.net (avasout07.plus.net [84.93.230.235])
+ by mx.groups.io with SMTP id smtpd.web09.14100.1620915919228299509
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 06:36:59 -0700
+ Thu, 13 May 2021 07:25:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=i0Ke+yK0;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id k10so8672451ejj.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 06:36:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ULr2qCFyAxNw8cwOqy57RV4/jjD0fIe8olvqHuNDQz4=;
-        b=i0Ke+yK0Gzp2dcQZz/7+Ru9yRYlmY1gDFVcZfY2RmMC1XUHO3apIPaSeLZtZsVEPKr
-         61elPe7nLubiE/9EzW/FuxgJC6dM5tvUTPVnbInh1z6AMZELffBs9m8v7+G13ehQczNO
-         vd5AR25gq4ggSlMYOu7zQV1wS89UtzcNYzobLe6EWb8uY+AR1TNlt9dz58IYEFJYp2YS
-         pBBITpM07rF7yJHdANWy7R5zHLuhQ0BS14v13rcIsL7k8ePFcKUzUOhBq5JaJtgzZ1VL
-         NTbrN5rcTqwLegdpUku+GIAjced394OS0B4ag23LJO23Tp1Cp7eapnFnbD9XrZidLZ0f
-         xs0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ULr2qCFyAxNw8cwOqy57RV4/jjD0fIe8olvqHuNDQz4=;
-        b=HqvbU+Y94nYyWja+c2ZyZ0/eTl0GZUjOElGY2Z7q8XkBQf311YaCa9RbyT57FfzA3Z
-         7U0ovR5757sbhqjs4+uvs//x/x8KdDbU2NXO8qQCFrR96jOtJphzEbyvZVnnxh5Oyx0O
-         IbP70t2Z0ZbAexFBxUpE9W57hkxY5T7TGF50YY/qQBRFmIXzGQzjBibUdYY/aCOQbkmh
-         CInIjBt21Ubg9mcG4j7VMZQZjrfHBZmHVzehocXArIPeSb4gJ9+P0dgW0YZgrDiUlogf
-         NDnmo/QEfxDMTS6wNrmwX1gZPZab0NldhfQmUihN5cCB/azOpj9kGKS+UtUkgIW1Spm8
-         9CGw==
-X-Gm-Message-State: AOAM532ImyESrZOddxaBwhErisFTVTGwfEwkyAcwG4ItgGVzoho6tkde
-	UerPFm0HtGFPNsDofEZqGSAaQ+ku2yjzPQS9Kh4=
-X-Google-Smtp-Source: ABdhPJx+C2/b6ovuhaTpyGbL1KAeIm43ORJG7WIVEtjP/15gCfKZDNF+Y47Q4T/gbP6t8LlKIM7HGze0xHv8szcNmwQ=
-X-Received: by 2002:a17:907:3d8f:: with SMTP id he15mr43172302ejc.22.1620913017770;
- Thu, 13 May 2021 06:36:57 -0700 (PDT)
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=GGuDeudb;
+ spf=pass (domain: mcrowe.com, ip: 84.93.230.235, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id hCH0lUVXS6wwFhCH2lBmve; Thu, 13 May 2021 15:25:17 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=TPXet2ta c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=5FLXtPjwQuUA:10 a=-An2I_7KAAAA:8 a=Y6kJQ5-wFXwNJTfOm9MA:9
+ a=Sq34B_EcNBM9_nrAYB9S:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=Yj/z2w4E3OnxYCzKEXlyG03hlMt71Z+M0vx1PchcgC0=; b=GG
+	uDeudb9eGqUGOHuQhhFZNjjy4g4+Zhj5xM2ekjGMhCBtUlKBmQ1YfeHzfBma96UcjIkErXEElvKwm
+	8YSDZq1WmUcKw95Di9q9B2wmjVRUAMGuoIGALBFmpXz5PsaZfODp4SJmnYIbUu5sKYPoWbTWFxAKT
+	d7bd39oaX8YAB/M7VVTQDMZnRCb+14ZRtKHqGzCspftcLhFDqoz9RCI17merjZB6Z36u1Fr5IeRJj
+	/ZGRJw3QVvV+sj3X3qgQMdNiseCfK7CxS10stKyolKsYKEHVEuBbu44CCVEZJN9zBymkvwW5pWhim
+	QNdRn8bum1975ThHXVfg6ImJG4bZDiXw==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1lhCGz-0008OZ-E9; Thu, 13 May 2021 15:25:09 +0100
+From: "Mike Crowe" <yocto@mac.mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] npm.bbclass: Allow nodedir to be overridden by NPM_NODEDIR
+Date: Thu, 13 May 2021 15:25:03 +0100
+Message-Id: <20210513142503.1210759-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
- <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
- <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com> <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
- <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
- <CAJ86T=UjJ8J3aUL7YX03oa1fy7zAwPk9vp+=yYxGNfEKsNt6oQ@mail.gmail.com>
- <5ceca668cfce15ebd8874fdaa9c01949fe1d95fc.camel@linuxfoundation.org> <d1c5ed38-605f-4fa8-8ece-09a9dcc43890@www.fastmail.com>
-In-Reply-To: <d1c5ed38-605f-4fa8-8ece-09a9dcc43890@www.fastmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 13 May 2021 09:36:46 -0400
-Message-ID: <CADkTA4NeYBn6CqRWqfTOmfZOaXTHvf_0=-WWUtkubVsngS2e=g@mail.gmail.com>
-Subject: Re: [OE-core] master/main branch renaming and bitbake
-To: colin walters <walters@verbum.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-CMAE-Envelope: MS4wfHAMwe2j50wJ1/sCiaN8ZYUTZDOkO1VP0pVtpJQPyjFChuwCKTgTABqLUqSFjIep/bX/5CJL2fU1UQPpz8pZ9lqSfL2HdK4gWUSg65LovfFV+cCzAw6r
+ Nqpev0awJ0K4ndppR2MugNyJ4GsJMPo0AvK1h9LDSZZ9AfUbXTszu96jacT0M/6O9qIjpmWm1JUVRw==
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 13, 2021 at 9:27 AM colin walters <walters@verbum.org> wrote:
->
->
->
-> On Thu, May 13, 2021, at 3:08 AM, Richard Purdie wrote:
-> >
-> > I had a look at the code to try and remind myself why it is doing this.
->
-> Thanks!
->
-> > The best answer I found is that it does support filtered fetching of
-> > remotes, i.e. it can and will only pull the branch it wants/needs rather
-> > than a full repo clone. In the case of a small repo, it doesn't matter
-> > much. For a large repo it can make a significant difference to the speed.
->
-> This is with `git clone --single-branch`?  Makes sense.
->
-> > We also don't run "test" commands against the remote repo, we figure out
-> > what we want and then get it with small numbers of commands.
->
-> I think what I'd argue is that in the case where the remote branch is deleted,
-> the tooling should fall back to listing remote branches, sort by
-> most recently updated, and try finding the commit on that.
-> And in practice, explicitly using `main` first in that list would make sense.
+Node modules may need to be built against multiple Node
+versions. Setting nodedir in the NPM configuration stops older ways of
+doing this, such as setting npm_config_target and npm_config_disturl,
+from working.
 
-The tools really shouldn't be making decisions like this on a recipes'
-behalf. It is complex and just doesn't need to exist when we can
-simply specify the branch.
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/classes/npm.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
->
-> > Is explicitly specifying the branch along with the repo url such a big
-> > problem? We already have to provide the url, it isn't like we guess that
-> > too.
->
-> The problem is that your build system is penalizing upstream projects that are trying to migrate
-> to using `main`.
->
-
-Similarly those same projects are completely deleting those branches,
-versus no longer making them the default. Which is penalizing the
-existing users.
-
-Bruce
-
-
-
->
->
-> 
->
-
-
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index 55a6985fb0..8f8712a024 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -247,8 +247,10 @@ python npm_do_compile() {
+         # Add node-gyp configuration
+         configs.append(("arch", d.getVar("NPM_ARCH")))
+         configs.append(("release", "true"))
+-        sysroot = d.getVar("RECIPE_SYSROOT_NATIVE")
+-        nodedir = os.path.join(sysroot, d.getVar("prefix_native").strip("/"))
++        nodedir = d.getVar("NPM_NODEDIR")
++        if not nodedir:
++            sysroot = d.getVar("RECIPE_SYSROOT_NATIVE")
++            nodedir = os.path.join(sysroot, d.getVar("prefix_native").strip("/"))
+         configs.append(("nodedir", nodedir))
+         configs.append(("python", d.getVar("PYTHON")))
+ 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.30.2
+
