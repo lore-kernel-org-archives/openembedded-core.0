@@ -1,52 +1,78 @@
-Subject: Re: master/main branch renaming and bitbake
-To: openembedded-core@lists.openembedded.org
-From: "Benjamin Gilbert" <bgilbert@backtick.net>
-X-Originating-Location: New York, New York, US (98.7.211.151)
-X-Originating-Platform: Linux Firefox 88
-User-Agent: GROUPS.IO Web Poster
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web12.1174.1620932644356452198
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 13 May 2021 12:04:04 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=s/7OYyXA;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id df21so4903812edb.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 12:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4n7WWSuSK5CUZo/8eam/7yl0iR0r+rc68u3++vuL6rA=;
+        b=s/7OYyXALq3VQo23d7ShdwLJGbtRPS9a+2Ri9B3eRwT3krvh0WabjRCFt9PYo5E20C
+         Ofli6DIbJKQ9mkBvxWrZ0LR7A1IIFb45QUhy+7FDPFmXWCM7VU5jkH9mUkLxlK649/gP
+         x/qhcuvig7BR0NCHWWeCWQtatfO8u9M2O4tOuHZqMRbRp2ekXEtSs7F8f/gaomXFbQ/M
+         OM5ql+ljYSZBo9W/iNNu9cA5NEOOG0bgYrtaprHwvoDmVy65PtzdTJLaRhyVUHQoyKjy
+         vpIeK6O9zq+42Vg+NrDR+tUn29PVJdwDo9gzozL8/L3rQyzGOBBlTDuKyt2M23FVCp4E
+         O/sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4n7WWSuSK5CUZo/8eam/7yl0iR0r+rc68u3++vuL6rA=;
+        b=WHUGEsAtcRD5e0aqEYQA52enH2K2vC2I1+7aWKUBZDDqzgULMrJjYX1q4Xg7heyM8y
+         KXMb7HNvwUwNjB0qnkI5JwY58OKbVnnjCOiEzvGmSMR6Z1ECQT4FPEOoP++vn0a+2KYK
+         LD5MLstVNpRYmGilh40f4vAfDvwhxXmGHpcCjpats2BvTTCe7KF9jlfLLcgbLWReQcqI
+         ItDTzwvzEUDuiXI/81SiQGrwVONnQ+k06lm4yqsXy5IS9/2Wp/lPK5VOsv+bjvRqVk9D
+         Qbx7sglBn17hD391STrfVIwTP6LkhKqxKVqu6AQ+X+P11cQICqSf6oOz/+/1WS9+6glx
+         67oA==
+X-Gm-Message-State: AOAM532f87OwlyEHcTUCz2NDYPsHgxcpctHXTYjVP3rVPfYCAMOHR6rI
+	iHgdz7eqbreamU3BIGdq/Zc4+M6hmsFo/hIBOkU3Zb4W4z8=
+X-Google-Smtp-Source: ABdhPJyHk8pk0Q8CQ7OUkdrCKP7tyIwT/QDVJaOSyj4MwhKhZurFRag/7Vlrql7keq06B5oFol7fiE3e2zjvMhtFMco=
+X-Received: by 2002:a05:6402:11c7:: with SMTP id j7mr52718168edw.129.1620932642802;
+ Thu, 13 May 2021 12:04:02 -0700 (PDT)
 MIME-Version: 1.0
-Date: Thu, 13 May 2021 12:02:04 -0700
 References: <CADkTA4NeYBn6CqRWqfTOmfZOaXTHvf_0=-WWUtkubVsngS2e=g@mail.gmail.com>
-In-Reply-To: <CADkTA4NeYBn6CqRWqfTOmfZOaXTHvf_0=-WWUtkubVsngS2e=g@mail.gmail.com>
-Message-ID: <3159.1620932524790775077@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="VoNUsY63NEm5GcjVNVLg"
+ <3159.1620932524790775077@lists.openembedded.org>
+In-Reply-To: <3159.1620932524790775077@lists.openembedded.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 13 May 2021 15:03:51 -0400
+Message-ID: <CADkTA4OMd12mW9N37WtfUUHYZ=zQ9hsNb8sYanXU1q8MvLKj3w@mail.gmail.com>
+Subject: Re: [OE-core] master/main branch renaming and bitbake
+To: Benjamin Gilbert <bgilbert@backtick.net>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
---VoNUsY63NEm5GcjVNVLg
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 13, 2021 at 06:36 AM, Bruce Ashfield wrote:
-
->=20
->=20
->> The problem is that your build system is penalizing upstream projects t=
-hat
->> are trying to migrate
->> to using `main`.
->=20
+On Thu, May 13, 2021 at 3:02 PM Benjamin Gilbert <bgilbert@backtick.net> wrote:
+>
+> On Thu, May 13, 2021 at 06:36 AM, Bruce Ashfield wrote:
+>
+> The problem is that your build system is penalizing upstream projects that are trying to migrate
+> to using `main`.
+>
 > Similarly those same projects are completely deleting those branches,
 > versus no longer making them the default. Which is penalizing the
 > existing users.
+>
+> Deleting the branch penalizes existing developers, which projects might be willing to do.  Git branch names don't usually have any effect on users.
+>
 
-Deleting the branch penalizes existing developers, which projects might be=
- willing to do.=C2=A0 Git branch names don't usually have any effect on use=
-rs.
+I'm not sure I see the distinction you are trying to draw.
 
---Benjamin Gilbert
+We are somewhere between developers and users, but again .. it's not
+really a relevant distinction.
 
---VoNUsY63NEm5GcjVNVLg
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Bruce
 
-On Thu, May 13, 2021 at 06:36 AM, Bruce Ashfield wrote:<br />
-<blockquote>
-<blockquote>The problem is that your build system is penalizing upstream p=
-rojects that are trying to migrate<br />to using `main`.</blockquote>
-Similarly those same projects are completely deleting those branches,<br /=
->versus no longer making them the default. Which is penalizing the<br />exi=
-sting users.</blockquote>
-Deleting the branch penalizes existing developers, which projects might be=
- willing to do.&nbsp; Git branch names don't usually have any effect on use=
-rs.<br /><br />--Benjamin Gilbert
+> --Benjamin Gilbert
+> 
+>
 
---VoNUsY63NEm5GcjVNVLg--
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
