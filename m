@@ -1,84 +1,110 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web09.15103.1620919485002708876
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web12.125.1620920942580799657
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 May 2021 08:24:45 -0700
+ Thu, 13 May 2021 08:49:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qOt5dDmz;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id m124so21684867pgm.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 08:24:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RZVz2lE8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id x5so27343992wrv.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 May 2021 08:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PNdXid1pD/93MIDXJiIo5+FnvlumAnJutrz3gmNIEZ4=;
-        b=qOt5dDmzTHamp2m6FIA7F2T/CW0FmDXgw7wJ//p11Fy/ZMYIS0FNvLA2bcgN3Flfwg
-         Xvhyfy23gMqMvnQDi0gcHQHf6Xvru9nPupjGrc6HvNyEp1ezAc4EAeoK3W1pGfp9Xq82
-         L6Z7F0b67kWblk9hgFyuLYv7entE3TiSThHGc5s0dFOdoEEsS4kqZdX4e1hr8fwUsKgA
-         T+bC4Xs1f7asitRczTM0MDjhaQ7DjycRGd3+OEn6X9XGGc2qCn2IM2ek2cu3BHWy0CNi
-         uKNxl+skdPNfRKHLHOmuDYzsEO54UKMwaWQIlngow0TzFY1MtqSwHXHMuHB63tMe3uZP
-         1vbw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P4OJJ9gmATl+f9E/WaApmeGQTI2x/7vTKerOf3zFutI=;
+        b=RZVz2lE83UxeDWZU3EdvcI4HpwXo7uAHFaAIWQTMujFnrbh9qLnSAFsskpxgPj/9we
+         bgwUhjwjSOfapwvbpsjR96mvL+xfY11rWNrFoTc/c0eUOHoENHNd0VdaN6JDZFlYdX2x
+         5/Gbw7xXwcnwyWuaQoagn6USlvzUEKRPKpF0jo+JXPj+WY2zIH0rnGqdQj9ePaMlY3cs
+         eFGihwgamhIwVgd/jORrlMMjYSa7Ux87VzkiLreEi3Ak88l/Npn2x84DMW5WNoiqJpQF
+         UcErzhMX137yvwNWFQnV8c3kCgScLa1JaiXu9I00GhVmoz47DTvhm+D25cg192moXC/z
+         ljRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=PNdXid1pD/93MIDXJiIo5+FnvlumAnJutrz3gmNIEZ4=;
-        b=W8AER33xUqrUo7zpWRnN1ljyz6CGVFBhMIl+wVbLRpbWpSD0jAflL9KjvPdI1sFykb
-         Vgdeb6zL9vgAmAaKAsctecsCD5sX/xAJCufDI7MievZTEhfCJ2fyUU5lzqaHUHSWHvw7
-         ilaNm2QXcNWLF7quz441ZyJsXDBrMJ5AEWbvg51wAq8AcycILQV1rDzJ4vnwUPNozW1j
-         7cmeOA6arYcjeJaEwjtr8nzMFuSw9rkVSzxzI0FJKVLD2/H/byFLNRj/AlthPUXpUPnF
-         LLAeMjmf6vuuftfQHKdzvnbZrjBC0+RVrOkeNFHKblvi9hnlkPvyck3wnAoyXpRhGQpy
-         Er4A==
-X-Gm-Message-State: AOAM531Xp/R4ZB5eGS+8Lhh7zW1j4WjTm5mSvs36YTfsFH8XxhNK7IBw
-	wPs0VTVhwIv6xlGDtt+hrWo=
-X-Google-Smtp-Source: ABdhPJxaU85idh6MeKbbDSiiOZpfer475MD8KWf+yKyT7E06XTa8LbkIf1QT9oJCq7/MT8ip6Y8pdg==
-X-Received: by 2002:a17:90b:1b0a:: with SMTP id nu10mr11978062pjb.70.1620919484380;
-        Thu, 13 May 2021 08:24:44 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::623b? ([2601:646:9200:a0f0::623b])
-        by smtp.gmail.com with ESMTPSA id a16sm2353185pfc.37.2021.05.13.08.24.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 May 2021 08:24:44 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] libnotify: Make gtk+3 dependency optional
-To: Alexander Kanavin <alex.kanavin@gmail.com>, yocto@mac.mcrowe.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
- Mike Crowe <mac@mcrowe.com>
-References: <20210513143632.1211604-1-mac@mcrowe.com>
- <CANNYZj8E6Rem_gy-NieFXyBBmb=qBB9rcX1C9D01dhtymFm9pQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <ca6fe9a4-422c-4032-baca-807fbdd3a73f@gmail.com>
-Date: Thu, 13 May 2021 08:24:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=P4OJJ9gmATl+f9E/WaApmeGQTI2x/7vTKerOf3zFutI=;
+        b=DlBCoanRuB3ss/MAKlGUOkS3mrROde3yEX7IuuXDClarIztYZHwrbDqnjMsWnX1/18
+         ch1N5gKR5wGvn6F66JqUKHqo/RciZVaBEINeo63mhQI5tnS06+mYcuF2BLoztSPMNeBx
+         GnATjCc4qyfxt7JQTSwQcmmxPfKC54RQUy4hmX3BBpZ+kLQMsP3c8+kPUVAtLV8XPxdb
+         8y/YjtrE+jPtELZpkhJLDk0NPUS9+/jawYmkKd4KieQkGCKNvSgq6dGl4UBcM05T8yPx
+         VdQTfO48gxIlg4PH/tGv95Nf5SBfWDya1i7iNWLGIObIxnoo/fLmEuLOKfQETVn0Db2u
+         kgNQ==
+X-Gm-Message-State: AOAM53163LlX2Vat5rOxOS+OadLBpI3R0U7ift8nNAWsX29EPMFr0Zoa
+	x/OHtSxh1JkCzVCYbc2i8pj7i6TLzESf9CUeuyQ=
+X-Google-Smtp-Source: ABdhPJzv95UhcIzmYY0nN4tmKxEAD0DjmxYC0b/Wgx+F+vkt6e+r3CBYF4i501fWHL9nYuXmJcQ01I8vo2ufCu095ek=
+X-Received: by 2002:a5d:6a52:: with SMTP id t18mr54560814wrw.361.1620920941051;
+ Thu, 13 May 2021 08:49:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8E6Rem_gy-NieFXyBBmb=qBB9rcX1C9D01dhtymFm9pQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210510023310.5516-1-mingli.yu@windriver.com>
+ <5aa52a186119be3add2555d6dbc89f348699aae8.camel@linuxfoundation.org> <fac5bcb3-fa84-5b3d-20be-779b6b55781a@embed.me.uk>
+In-Reply-To: <fac5bcb3-fa84-5b3d-20be-779b6b55781a@embed.me.uk>
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+Date: Thu, 13 May 2021 10:48:50 -0500
+Message-ID: <CAJdd5GYBfq6Xho7G9yW3PE=b1ePe_iU0nuUCoH1+2WZtXtknKg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rng-tools: disable the CPU affinity mask
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, May 10, 2021 at 8:23 AM Jack Mitchell <ml@embed.me.uk> wrote:
+>
+> On 10/05/2021 10:48, Richard Purdie wrote:
+> > On Mon, 2021-05-10 at 10:33 +0800, Yu, Mingli wrote:
+> >> From: Mingli Yu <mingli.yu@windriver.com>
+> >>
+> >> For the jitter entropy source, each task thread will create an internal
+> >> counter timer thread when the system clock resolution is under 5MHz.
+> >>
+> >> But it will introduce high cpu usage for a long time and also make random
+> >> data generate too slow if sets the CPU affinity mask of the internal counter
+> >> timer thread.
+> >>
+> >> There is no solution until now and the Upstream recommends to disable
+> >> the internal timer and think Jitter RNG will not work due to the coarse
+> >> timer. Check [1] and [2] for more details.
+> >>
+> >> So disable the CPU affinity mask as a workaround to avoid lots of context
+> >> switch and too high cpu load for a long time.
+> >>
+> >> [1] https://github.com/smuellerDD/jitterentropy-library/issues/37
+> >> [2] https://github.com/nhorman/rng-tools/pull/123
+> >>
+> >> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> >> ---
+> >>  ...tter.c-disable-the-CPU-affinity-mask.patch | 48 +++++++++++++++++++
+> >>  .../rng-tools/rng-tools_6.11.bb               |  1 +
+> >>  2 files changed, 49 insertions(+)
+> >>  create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-rngd_jitter.c-disable-the-CPU-affinity-mask.patch
+> >
+> > Thanks for investigating this upstream. From an OE-Core perspective, I've very
+> > reluctant to take what looks like a very board specific change which the upstream
+> > is advising against. The issue is that this will affect all hardware, not just
+> > the hardware which has the issue. I think we need to find a better solution.
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+> FWIW I forcefully have to ensure nothing pulls in rng-tools in my builds
+> which are for two different Rockchip chipsets (armv7 and armv8) as the
+> rng-tools binary pegs the CPU at 100% for minutes after boot, every
+> boot. It's particularly annoying as openssh brings it in by default
+> which I've unsuccessfully argued is wrong before. I believe the problem
+> is probably fairly widespread but just unnoticed.
 
+Is the reason for the CPU being pegged because of the jitter entropy
+source? If so, perhaps you can disable libjitterentropy in rng-tools
+packageconfig. We might also be able to make that packageconfig option
+more "automatic" by basing it on some high precision timer
+MACHINE_FEATURE instead of always being included.
 
-On 5/13/21 7:43 AM, Alexander Kanavin wrote:
-> On Thu, 13 May 2021 at 16:36, Mike Crowe via lists.openembedded.org 
-> <http://lists.openembedded.org> 
-> <yocto=mac.mcrowe.com@lists.openembedded.org 
-> <mailto:mac.mcrowe.com@lists.openembedded.org>> wrote:
+>
+> Regards,
+>
+> --
+> Jack Mitchell, Consultant
+> https://www.tuxable.co.uk
+>
 > 
->     +PACKAGECONFIG[gtk+] = "--enable-tests,--disable-tests,,gtk+3"
-> 
-> 
-> Was the --enable-tests scenario tested? Specifying gtk+3 after two ,,s 
-> seems weird.
-
-it is valid if tests need gtk+3 at runtime, but not during build time, 
-in that case you only create rdep as above.
-
-> 
-> Alex
-> 
-> 
-> 
-> 
+>
