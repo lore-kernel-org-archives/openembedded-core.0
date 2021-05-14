@@ -1,112 +1,87 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web09.6106.1620981191121295418
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+ by mx.groups.io with SMTP id smtpd.web08.7006.1620988722147902345
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 May 2021 01:33:11 -0700
+ Fri, 14 May 2021 03:38:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=U/f6swnt;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id v5so22739149edc.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 May 2021 01:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=v8wWzp0OrNR8oQ31rTpQ+4Wjdn6wNU6881e/qou4oSo=;
-        b=U/f6swntm9JkjkugbLaUWMy5VSOQl61n/TTR8oVh/3U8CrC4zEOTayS+ay7dEScEYW
-         230d3N5HVOJdR9Da6bv0A7iIXUk9gWwEkvjLmddq+CnXvDXlBzHWQ54KNFFks9Jyzfv4
-         QUNdCYOYGolPRd8E8IF9ckHN6+dZqxLJMFyIoARujD14toLbrfyg4AzB3NS66EgypLcI
-         X8laiwad3cq7/wdc/8r768bHjP0kQja3y30RsUsSByhUJ4VqsAf6FY7CjWAIwJNwCzpz
-         Ac+nur3aFpyme8DavP7ADW2Q1PAqHPkrQRGFF2hmEMYLZOTo6cdc+Zl/LXwl/W6yC6hZ
-         bJHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=v8wWzp0OrNR8oQ31rTpQ+4Wjdn6wNU6881e/qou4oSo=;
-        b=BattI8FB54SAfbEAPJykWmen3ENoC+FgX+kUF8V58QhOTqb5Q3fGO2ZmecrjkH0T9x
-         BBWiNFRDAwAvgw6hhhGv5vFXnxe2wdE5HvikO08s7pxNQCcIYdccIKzlRNcGls65PqVv
-         Eh+S5FtzF0gkDE6Rx/Hl09cPZg31YTi7eXQBDm2OLNKlyRliCyqM9Py/z55mlA/iY4k9
-         kFzy/egq/VBJz5fhp5jLvEU3x3oGnXagd7h17OhudU741Ak8JntA46ZHpcqAWeU7z3sl
-         92bfgcuRBTcqay8p+0odCBe6fsZBz71AWTLc22VGpaz8qcXLPlIs7H8XRm9wgX5XQPVp
-         HiuQ==
-X-Gm-Message-State: AOAM533IaxdLDjYn0ISN7p3DPZ9EEHqy7T7qtqDizrMKdXbK1RPz4XGJ
-	1lbGpqex7XzthCrkVUvYDRAabaWy+MSPXjpFioc=
-X-Google-Smtp-Source: ABdhPJxQ6dof7sQxfQE/wF/0khBtHt5j1GK8nWJd0HKi+gwaDbg3/jAlvloyCFrCwMHpWxQLFji6xX262CmK5Z/pous=
-X-Received: by 2002:a05:6402:2218:: with SMTP id cq24mr37977988edb.213.1620981189611;
- Fri, 14 May 2021 01:33:09 -0700 (PDT)
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=d0xzqTkY;
+ spf=pass (domain: mcrowe.com, ip: 212.159.14.18, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id hVDLlKw8KHBkXhVDMlN5Ou; Fri, 14 May 2021 11:38:40 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=fI+iIaSe c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=5FLXtPjwQuUA:10 a=-An2I_7KAAAA:8 a=pGLkceISAAAA:8 a=2eS8VoGju3gVZreBA8IA:9
+ a=Sq34B_EcNBM9_nrAYB9S:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=0XB2mGHRds2PBwYoOApJJCmgSgmw4NePijAikOY1oWw=; b=d0
+	xzqTkYmgTp5IV88SsGWy5T5398oi+sOaqeMRq6PyIenuHpy6Tg9VU3LK1Czgd2FpLTvRbtYe+UFe1
+	GeQuOujnXAlXdsHEHAJEb/V/hokcOIY4B5j2tcZGQ1ZCdlYqNcF9lNClDGLqSNIpLf1r+CnyKP3wn
+	gdrkSiZKx3pAhNCy3qLgcAo5m/kYFNvmShZ6eJgtRBvd8gm1gJ9ueuUJuit19WN5oWVV89A+EXKKE
+	EmcZaQIi8ZO9JKNTsViKR+mm/ibONQwESsXl9mpaKC/KFCBzvHqgZRCDFI9V6w9durseeQpx2emxd
+	1VEuN2IhN0c8DH8JuU7qGwFc2CC9WJTQ==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1lhVDJ-0006h8-Pr; Fri, 14 May 2021 11:38:37 +0100
+From: "Mike Crowe" <yocto@mac.mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mike Crowe <mac@mcrowe.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH v3] libnotify: Make gtk+3 dependency optional
+Date: Fri, 14 May 2021 11:38:00 +0100
+Message-Id: <20210514103800.3222094-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210513223847.1086544-1-raj.khem@gmail.com> <20210513223847.1086544-2-raj.khem@gmail.com>
-In-Reply-To: <20210513223847.1086544-2-raj.khem@gmail.com>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Fri, 14 May 2021 09:34:42 +0100
-Message-ID: <CANPvuRnsot0330W_=bmEsGTpU3z-Vmcz2nFeD6+yKPO5+vXMbA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] gstreamer1.0-libav: remove explicit LICENSE_FLAGS
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Yann Dirson <yann@blade-group.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-CMAE-Envelope: MS4wfAok7MH6NVP6Z/znMl7Vf4IsiHsn1KvITpjdcOu46t9fyongES/vffCcmFa3qU9DZWAkEhsezNN1P0DZ3pTGWDcul46iByzQlEP0ApF1VlWd4bDOfo2J
+ KNf5kFdeo0/UFcOip5DmEU8mRMgNbfwfZJrLuV2rSWRIlpN/T4OySxWjGwaP8PdpRt9jUY6XrY5Vng==
+Content-Transfer-Encoding: 8bit
 
-Hi Khem,
+libnotify only requires gtk+3 for its tests. Let's disable them by
+default and only enable them if "tests" is in PACKAGECONFIG. If gtk+3 is
+not available then we need to declare the dependency on gdk-pixbuf
+explicitly.
 
-There has already been a discussion about this in
-https://lists.openembedded.org/g/openembedded-core/message/143935
+It looks like the tests genuinely do need some sort of desktop
+environment to run, so let's maintain the ANY_OF_DISTRO_FEATURES check
+added back in 3edf08b38b0af93cef0933b061349264dc86d54c.
 
-In short: If libav needs ffmpeg, it will need that line (with a comment
-explaining its due to the dependency). Assuming libav without
-ffmpeg doesn't make sense/work
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-gnome/libnotify/libnotify_0.7.9.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Khem Raj <raj.khem@gmail.com> escreveu no dia quinta, 13/05/2021 =C3=A0(s)=
- 23:38:
->
-> From: Yann Dirson <yann@blade-group.com>
->
-> This flag does not describe the gst-libav package, but ffmpeg instead.
-> It gets in the way of using finer-grained LICENSE_FLAGS in ffmpeg.
->
-> It is above all not needed, the real problem is even more clear without =
-it:
->
->  ffmpeg was skipped: because it has a restricted license 'commercial'. W=
-hich is not whitelisted in LICENSE_FLAGS_WHITELIST
->  ERROR: Required build target 'gstreamer1.0-libav' has no buildable prov=
-iders.
->  Missing or unbuildable dependency chain was: ['gstreamer1.0-libav', 'ff=
-mpeg']
->
-> Signed-off-by: Yann Dirson <yann@blade-group.com>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb | 3 ---
->  1 file changed, 3 deletions(-)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4=
-.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-> index 7c39e7da37..d5b38f77c5 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-> @@ -4,9 +4,6 @@ muxers, and demuxers provided by FFmpeg."
->  HOMEPAGE =3D "http://gstreamer.freedesktop.org/"
->  SECTION =3D "multimedia"
->
-> -# ffmpeg has comercial license flags so add it as we need ffmpeg as a d=
-ependency
-> -LICENSE_FLAGS =3D "commercial"
-> -
->  LICENSE =3D "LGPLv2+"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6762ed442b3822387a51c92d928e=
-ad0d \
->                      file://ext/libav/gstav.h;beginline=3D1;endline=3D18=
-;md5=3Da752c35267d8276fd9ca3db6994fca9c \
-> --
-> 2.31.1
->
->
->=20
->
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+index bbbd72193e..d2be715ce5 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+@@ -9,15 +9,18 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+-DEPENDS = "dbus gtk+3 glib-2.0"
++DEPENDS = "dbus glib-2.0 gdk-pixbuf"
++
++PACKAGECONFIG ?= ""
++PACKAGECONFIG[tests] = "-Dtests=true,-Dtests=false,gtk+3"
+ 
+ GNOMEBASEBUILDCLASS = "meson"
+ GTKDOC_MESON_OPTION = "gtk_doc"
+ GIR_MESON_ENABLE_FLAG = "enabled"
+ GIR_MESON_DISABLE_FLAG = "disabled"
+ inherit gnomebase gtk-doc features_check gobject-introspection
+-# depends on gtk+3
+-ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
++# depends on gtk+3 if tests are enabled
++ANY_OF_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'tests', '${GTK3DISTROFEATURES}', '', d)}"
+ 
+ SRC_URI[archive.md5sum] = "ccd9c53364174cc8d13e18a1988faa76"
+ SRC_URI[archive.sha256sum] = "66c0517ed16df7af258e83208faaf5069727dfd66995c4bbc51c16954d674761"
+-- 
+2.30.2
 
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
