@@ -1,159 +1,114 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.4569.1621074783776311507
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web10.6590.1621089082565574560
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 May 2021 03:33:06 -0700
+ Sat, 15 May 2021 07:31:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
-Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 497F238C1416
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 10:33:04 +0000 (UTC)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: bwU0r/3tkZieg0M7pLO/ozfoW8PqbOyt3c70rYlNh/vsCniVWy5LWyk8tw8QKFR+r9IES2A78f
+ m+GI9bTzNELA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9984"; a="200336490"
+X-IronPort-AV: E=Sophos;i="5.82,303,1613462400"; 
+   d="scan'208";a="200336490"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2021 07:31:21 -0700
+IronPort-SDR: 1M6N8gzhTfQs7qI4a/JlziaLxEYIINlLEkKRwLqSghe/YSzxt8IiusIua9biM3dIRVCVdje5fx
+ lQvnBSEBJ+rQ==
+X-IronPort-AV: E=Sophos;i="5.82,303,1613462400"; 
+   d="scan'208";a="393923833"
+Received: from wongvero-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.132.29])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2021 07:31:19 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2021-05-15
-Message-ID: <MADEUP.167F36EE0E77135C.3509@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============3163520228155776351=="
-
---===============3163520228155776351==
-Content-Type: text/plain; charset="utf-8"
+Subject: [hardknott][PATCH 00/15] pull request (cover letter only)
+Date: Sat, 15 May 2021 22:31:15 +0800
+Message-Id: <cover.1621088943.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
-IDIxCiAgICAgICAgdS1ib290LXRvb2xzLCAyMDIxLjA0LCBNYXJlayBWYXN1dCA8bWFyZWsudmFz
-dXRAZ21haWwuY29tPgogICAgICAgIHUtYm9vdCwgMjAyMS4wNCwgTWFyZWsgVmFzdXQgPG1hcmVr
-LnZhc3V0QGdtYWlsLmNvbT4KICAgICAgICBsaWJ4bWwyLCAyLjkuMTIsIEhvbmd4dSBKaWEgPGhv
-bmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBzeXN0ZW1kLWJvb3QsIDI0OC4yLCBDaGVu
-IFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgc3lzdGVtZCwgMjQ4LjIsIENoZW4g
-UWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBlbGZ1dGlscywgMC4xODQsIFphbmcg
-UnVvY2hlbiA8emFuZ3JjLmZuc3RAZnVqaXRzdS5jb20+CiAgICAgICAgZ251LWNvbmZpZywgMjAy
-MTA0MjQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBtbWMtdXRpbHMsIDAuMS1uZXctY29tbWl0cy1hdmFpbGFibGUs
-IEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1zbWFy
-dHlwYW50cywgMi4wLjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-PgogICAgICAgIHFlbXUsIDYuMC4wLCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGlu
-dXhmb3VuZGF0aW9uLm9yZz4KICAgICAgICBhdCwgMy4yLjIsIENoZW4gUWkgPFFpLkNoZW5Ad2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBnby1oZWxsb3dvcmxkLCAwLjEtbmV3LWNvbW1pdHMtYXZhaWxh
-YmxlLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIHJwY2JpbmQsIDEuMi42
-LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgZ3NldHRpbmdz
-LWRlc2t0b3Atc2NoZW1hcywgNDAuMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
-bT4KICAgICAgICBpZ3QtZ3B1LXRvb2xzLCAxLjI2LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
-aW50ZWwuY29tPgogICAgICAgIG1lc2EsIDIxLjEuMCwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8u
-c2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICB2dWxrYW4tc2FtcGxlcywgZ2l0LW5l
-dy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAg
-ICAgICAgbHR0bmctbW9kdWxlcywgMi4xMi42LCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
-aWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAgICAgICB3ZWJraXRndGssIDIuMzIuMSwgQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbGlidGFzbjEsIDQu
-MTcuMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBsaWJncGct
-ZXJyb3IsIDEuNDIsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICog
-U3VjY2VlZGVkOiA0OQogICAgICAgIGJpbmQsIDkuMTYuMTUsIEFybWluIEt1c3RlciA8YWt1c3Rl
-cjgwOEBnbWFpbC5jb20+CiAgICAgICAgaXByb3V0ZTIsIDUuMTIuMCwgQ2hhbmdoeWVvayBCYWUg
-PGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAgICBsaWJuc3MtbWRucywgMC4xNSwgQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgb2Zvbm8sIDEu
-MzIsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIGxpYnhjcnlwdC1j
-b21wYXQsIDQuNC4yMCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBidHJm
-cy10b29scywgNS4xMi4xLCBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0c3UuY29tPgogICAgICAg
-IGRpc3RjYywgMy40LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAg
-ICAgbGlibW9kdWxlbWQsIDIuMTIuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1udW1weSwgMS4yMC4zLCBPbGVrc2FuZHIgS3JhdmNo
-dWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1h
-dHRycywgMjEuMi4wLCBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nQGxpbnV4LmludGVsLmNv
-bT4KICAgICAgICBweXRob24zLWdpdCwgMy4xLjE3LCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4u
-c291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1oeXBvdGhlc2lz
-LCA2LjEyLjAsIFRpbSBPcmxpbmcgPHRpbW90aHkudC5vcmxpbmdAbGludXguaW50ZWwuY29tPgog
-ICAgICAgIHB5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhLCA0LjAuMSwgVGltIE9ybGluZyA8dGlt
-b3RoeS50Lm9ybGluZ0BsaW51eC5pbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1qaW5qYTIsIDMu
-MC4wLCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4K
-ICAgICAgICBweXRob24zLW1hcmt1cHNhZmUsIDIuMC4wLCBSaWNoYXJkIFB1cmRpZSA8cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAgICAgICBweXRob24zLXB5dGVzdCwgNi4y
-LjQsIFRpbSBPcmxpbmcgPHRpbW90aHkudC5vcmxpbmdAbGludXguaW50ZWwuY29tPgogICAgICAg
-IHB5dGhvbjMtc2V0dXB0b29scywgNTYuMi4wLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291
-cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1zaXgsIDEuMTYuMCwg
-WmFuZyBSdW9jaGVuIDx6YW5ncmMuZm5zdEBmdWppdHN1LmNvbT4KICAgICAgICB2YWxhLCAwLjUy
-LjMsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGhk
-cGFybSwgOS42MiwgRGVueXMgRG15dHJpeWVua28gPGRlbmlzQGRlbml4Lm9yZz4KICAgICAgICBs
-ZXNzLCA1ODYsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJpZG4y
-LCAyLjMuMSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgbGlidGly
-cGMsIDEuMy4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHN0
-cmVzcy1uZywgMC4xMi4wOCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAg
-ICAgICBzdWRvLCAxLjkuNywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAg
-IHN5c2tsb2dkLCAyLjIuMywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAg
-IHpzdGQsIDEuNS4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4K
-ICAgICAgICBndGsrMywgMy4yNC4yOSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+
-CiAgICAgICAgbGlianBlZy10dXJibywgMi4xLjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBp
-bnRlbC5jb20+CiAgICAgICAgbGliZXBveHksIDEuNS43LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0
-YWxAaW50ZWwuY29tPgogICAgICAgIHNoYWRlcmMsIDIwMjEuMCwgSm9zZSBRdWFyZXNtYSA8cXVh
-cmVzbWEuam9zZUBnbWFpbC5jb20+CiAgICAgICAgc3BpcnYtdG9vbHMsIDIwMjEuMSwgSm9zZSBR
-dWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiAgICAgICAgdnVsa2FuLWhlYWRlcnMs
-IDEuMi4xNzYuMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBs
-aWJpbnB1dCwgMS4xNy4yLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAg
-ICB3YXlsYW5kLXByb3RvY29scywgMS4yMSwgRGVueXMgRG15dHJpeWVua28gPGRlbmlzQGRlbml4
-Lm9yZz4KICAgICAgICB4Zjg2LWlucHV0LWxpYmlucHV0LCAxLjAuMSwgQXJtaW4gS3VzdGVyIDxh
-a3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBsaWJ4a2Jjb21tb24sIDEuMy4wLCBBcm1pbiBL
-dXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIHhvcmdwcm90bywgMjAyMS40LCBB
-cm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGxpbnV4LWZpcm13YXJl
-LCAyMDIxMDUxMSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNv
-bS5icj4KICAgICAgICBsdHRuZy11c3QsIDIuMTIuMiwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQu
-cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgc3lzdGVtdGFwLXVwcm9iZXMsIDQu
-NSwgVmljdG9yIEthbWVuc2t5IDx2aWN0b3Iua2FtZW5za3k3QGdtYWlsLmNvbT4KICAgICAgICBt
-cGcxMjMsIDEuMjcuMiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+
-CiAgICAgICAgcHV6emxlcywgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQW51aiBNaXR0YWwg
-PGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICB3cGViYWNrZW5kLWZkbywgMS44LjQsIEFs
-ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGRpZmZvc2Nv
-cGUsIDE3NSwgSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPgogICAgICAgIGxpYmdj
-cnlwdCwgMS45LjMsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAg
-ICBybmctdG9vbHMsIDYuMTIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAg
-ICAgICAgc3FsaXRlMywgMy4zNS41LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
-PgogICAgICAgIHZ0ZSwgMC42NC4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
-PgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDEyCiAgICAgICAgZ2xpYi0yLjAsIDIuNjguMiwg
-QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBsaWJ4Y3J5cHQsIDQu
-NC4yMCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBhcHQsIDIuMi4zLCBB
-bsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBjbWFrZSwgMy4y
-MC4yLCBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiAgICAgICAgbGliZG5m
-LCA0LjkwLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAg
-ICBoYXJmYnV6eiwgMi44LjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAg
-ICAgICAgdnVsa2FuLWxvYWRlciwgMS4yLjE3Ni4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
-aW50ZWwuY29tPgogICAgICAgIHZ1bGthbi10b29scywgMS4yLjE3Ni4wLCBBbnVqIE1pdHRhbCA8
-YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYnhmaXhlcywgNi4wLjAsIEFybWluIEt1
-c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgc3lzdGVtdGFwLCA0LjUsIFZpY3Rv
-ciBLYW1lbnNreSA8dmljdG9yLmthbWVuc2t5N0BnbWFpbC5jb20+CiAgICAgICAgcnh2dC11bmlj
-b2RlLCA5LjI2LCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGN1
-cmwsIDcuNzYuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICogRmFp
-bGVkKG90aGVyIGVycm9ycyk6IDEKICAgICAgICBhZHdhaXRhLWljb24tdGhlbWUsIDQwLjEuMSwg
-Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CgogICAgVE9UQUw6IGF0dGVtcHRlZD04
-MyBzdWNjZWVkZWQ9NDkoNTkuMDQlKSBmYWlsZWQ9MzQoNDAuOTYlKQoKUmVjaXBlIHVwZ3JhZGUg
-c3RhdGlzdGljcyBwZXIgTWFpbnRhaW5lcjoKCiAgICBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4u
-c291cmNlOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9MygxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkK
-ICAgIFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4w
-MCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBWaWN0b3IgS2FtZW5za3kgPHZpY3Rvci5rYW1lbnNr
-eTc6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQogICAg
-Q2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTIoNDAuMDAlKSBmYWlsZWQ9
-Myg2MC4wMCUpCiAgICBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluOiBhdHRlbXB0ZWQ9
-OSBzdWNjZWVkZWQ9Nig2Ni42NyUpIGZhaWxlZD0zKDMzLjMzJSkKICAgIFphbmcgUnVvY2hlbiA8
-emFuZ3JjLmZuc3Q6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAu
-MDAlKQogICAgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllOiBhdHRlbXB0ZWQ9NSBzdWNj
-ZWVkZWQ9Myg2MC4wMCUpIGZhaWxlZD0yKDQwLjAwJSkKICAgIEFybWluIEt1c3RlciA8YWt1c3Rl
-cjgwODogYXR0ZW1wdGVkPTcgc3VjY2VlZGVkPTQoNTcuMTQlKSBmYWlsZWQ9Myg0Mi44NiUpCiAg
-ICBLaGVtIFJhaiA8cmFqLmtoZW06IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkgZmFp
-bGVkPTIoNjYuNjclKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRlbXB0ZWQ9MTcg
-c3VjY2VlZGVkPTkoNTIuOTQlKSBmYWlsZWQ9OCg0Ny4wNiUpCiAgICBNYXJlayBWYXN1dCA8bWFy
-ZWsudmFzdXQ6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAuMDAl
-KQogICAgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgw
-LjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJh
-ZTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBX
-YW5nIE1pbmd5dSA8d2FuZ215OiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MSgxMDAuMDAlKSBmYWls
-ZWQ9MCgwLjAwJSkKICAgIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yOiBhdHRlbXB0
-ZWQ9MiBzdWNjZWVkZWQ9MSg1MC4wMCUpIGZhaWxlZD0xKDUwLjAwJSkKICAgIERlbnlzIERteXRy
-aXllbmtvIDxkZW5pczogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTIoMTAwLjAwJSkgZmFpbGVkPTAo
-MC4wMCUpCiAgICBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b246IGF0dGVtcHRlZD02IHN1Y2NlZWRl
-ZD00KDY2LjY3JSkgZmFpbGVkPTIoMzMuMzMlKQogICAgSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXI6
-IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgWWkg
-WmhhbyA8eWkuemhhbzogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAo
-MC4wMCUpCiAgICBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nOiBhdHRlbXB0ZWQ9NCBzdWNj
-ZWVkZWQ9NCgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIEFuw61iYWwgTGltw7NuIDxsaW1v
-bi5hbmliYWw6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAl
-KQogICAgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYTogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTIoNDAu
-MDAlKSBmYWlsZWQ9Myg2MC4wMCUpCiAgICBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlOiBh
-dHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MigxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkK
+Please merge these changes in hardknott.
 
---===============3163520228155776351==--
+Thanks,
+
+Anuj
+
+The following changes since commit d5d88c2293e8ebc958d1bce9af8f796024443be9:
+
+  libevent: Increase ptest timing tolerance 50 ms -> 100 ms (2021-05-07 08:51:54 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
+
+Alexander Kanavin (1):
+  linux-firmware: upgrade 20210208 -> 20210315
+
+Anuj Mittal (1):
+  lsb-release: fix reproducibility failure
+
+Bruce Ashfield (1):
+  linux-yocto/5.4: qemuppc32: reduce serial shutdown issues
+
+Chen Qi (1):
+  db: update CVE_PRODUCT
+
+Kai Kang (1):
+  grub2.inc: remove '-O2' from CFLAGS
+
+Michael Opdenacker (1):
+  sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure
+    message
+
+Peter Kjellerstedt (1):
+  libcap: Configure Make variables correctly without a horrible hack
+
+Richard Purdie (4):
+  oeqa/qemurunner: Improve logging thread exit handling for qemu
+    shutdown test
+  oeqa/qemurunner: Fix binary vs str issue
+  oeqa/qemurunner: Improve handling of run_serial for shutdown commands
+  puzzles: Upstream changed to main branch for development
+
+Romain Naour (1):
+  dejagnu: needs expect at runtime
+
+Vinícius Ossanes Aquino (1):
+  lttng-modules: backport patches to fix build against 5.12+ kernel
+
+Yann Dirson (1):
+  linux-firmware: include all relevant files in -bcm4356
+
+zhengruoqin (1):
+  ruby: upgrade 3.0.0 -> 3.0.1
+
+ meta/classes/sanity.bbclass                   |   9 +-
+ meta/lib/oeqa/selftest/cases/runqemu.py       |   9 +-
+ meta/lib/oeqa/utils/qemurunner.py             |  21 +-
+ meta/recipes-bsp/grub/grub2.inc               |   2 +
+ .../recipes-devtools/dejagnu/dejagnu_1.6.2.bb |   1 +
+ .../ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb}     |   2 +-
+ .../help2man-reproducibility.patch            |  27 ++
+ meta/recipes-extended/lsb/lsb-release_1.4.bb  |   1 +
+ ...20210208.bb => linux-firmware_20210315.bb} |   8 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   2 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   2 +-
+ ...block-add-a-disk_uevent-helper-v5.12.patch | 305 ++++++++++++++++++
+ ...block-add-a-disk_uevent-helper-v5.12.patch |  48 +++
+ ...free-event-name-mismatching-with-pro.patch |  71 ++++
+ .../lttng/lttng-modules_2.12.5.bb             |   3 +
+ meta/recipes-sato/puzzles/puzzles_git.bb      |   2 +-
+ meta/recipes-support/db/db_5.3.28.bb          |   2 +-
+ meta/recipes-support/libcap/libcap_2.48.bb    |  21 +-
+ 19 files changed, 504 insertions(+), 34 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb} (97%)
+ create mode 100644 meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210208.bb => linux-firmware_20210315.bb} (99%)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-block-add-a-disk_uevent-helper-v5.12.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch
+
+-- 
+2.31.1
+
