@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.4566.1621074783111841676
+ by mx.groups.io with SMTP id smtpd.web09.4687.1621074783110384548
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 May 2021 03:33:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 1E3D238C124A
+	by mail.yoctoproject.org (Postfix) with ESMTP id 1843238C0832
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 10:33:02 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Marek Vasut <marek.vasut@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] u-boot: upgrading to 2021.04 FAILED
-Message-ID: <MADEUP.167F36ED3149168C.3509@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============7879040586149887490=="
+Subject: [AUH] u-boot-tools: upgrading to 2021.04 FAILED
+Message-ID: <MADEUP.167F36ED30EE4165.8202@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============3888692478095841232=="
 
---===============7879040586149887490==
+--===============3888692478095841232==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,16 +23,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *u-boot* to *2021.04* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *u-boot-tools* to *2021.04* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe u-boot failed.
+Running 'devtool upgrade' for recipe u-boot-tools failed.
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
+INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/build/build/build/workspace
 Loading cache...done.
-Loaded 1459 entries from dependency cache.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 825 .bb files complete (0 cached, 825 parsed). 1459 targets, 31 skipped, 0 masked, 0 errors.
 INFO: Extracting current version source...
 NOTE: Resolving any missing task queue dependencies
 
@@ -56,16 +57,16 @@ Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% c
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 0 seconds
+NOTE: Writing buildhistory took: 1 seconds
 INFO: Extracting upgraded version source...
 WARNING: Command 'git rebase b46dd116ce03e235f2a7d4843c6278e1da44b5e1' failed:
-Rebasing (1/4)
-error: could not apply 46ad2dc398... image: Adjust the workings of fit_check_format()
+Rebasing (1/3)
+error: could not apply f06bf97cf3... image: Adjust the workings of fit_check_format()
 Resolve all conflicts manually, mark them as resolved with
 "git add/rm <conflicted_files>", then run "git rebase --continue".
 You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 46ad2dc398... image: Adjust the workings of fit_check_format()
+Could not apply f06bf97cf3... image: Adjust the workings of fit_check_format()
 Auto-merging include/image.h
 CONFLICT (content): Merge conflict in include/image.h
 Auto-merging drivers/net/fsl-mc/mc.c
@@ -79,8 +80,8 @@ Auto-merging cmd/bootm.c
 Auto-merging arch/arm/cpu/armv8/sec_firmware.c
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/u-boot
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/u-boot/u-boot_2021.04.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/u-boot-tools
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/u-boot-tools/u-boot-tools_2021.04.bb
 
 
 
@@ -90,4 +91,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7879040586149887490==--
+--===============3888692478095841232==--
