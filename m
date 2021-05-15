@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.4567.1621074783434697778
+ by mx.groups.io with SMTP id smtpd.web11.4453.1621074783574671062
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 May 2021 03:33:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id CC5B138C1400
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 10:33:03 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 2AD0638C13C6
+	for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 10:33:04 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxkbcommon: upgrading to 1.3.0 SUCCEEDED
-Message-ID: <MADEUP.167F36EDD366672A.11165@lists.openembedded.org>
-X-Groupsio-MsgNum: 151838
-Content-Type: multipart/mixed; boundary="===============1461768801215146623=="
+Subject: [AUH] wpebackend-fdo: upgrading to 1.8.4 SUCCEEDED
+Message-ID: <MADEUP.167F36EDD6486D81.8589@lists.openembedded.org>
+X-Groupsio-MsgNum: 151839
+Content-Type: multipart/mixed; boundary="===============3585992360720864891=="
 
---===============1461768801215146623==
+--===============3585992360720864891==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxkbcommon* to *1.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *wpebackend-fdo* to *1.8.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxkbcommon-upgrade-1.2.1-1.3.0.patch
+    - apply the patch: git am 0001-wpebackend-fdo-upgrade-1.8.3-1.8.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,66 +44,91 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1461768801215146623==
+--===============3585992360720864891==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-libxkbcommon-upgrade-1.2.1-1.3.0.patch"
+ filename="0001-wpebackend-fdo-upgrade-1.8.3-1.8.4.patch"
 
-From 1a5fbb0758f7f38b740f3e19c576dce6ba7453e3 Mon Sep 17 00:00:00 2001
+From 934214ec30bc709c4d0bb1da9dad776665a7e9c4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 May 2021 08:00:55 +0000
-Subject: [PATCH] libxkbcommon: upgrade 1.2.1 -> 1.3.0
+Date: Sat, 15 May 2021 09:44:07 +0000
+Subject: [PATCH] wpebackend-fdo: upgrade 1.8.3 -> 1.8.4
 
 ---
- .../xorg-lib/{libxkbcommon_1.2.1.bb => libxkbcommon_1.3.0.bb}   | 2 +-
+ .../webkit/{wpebackend-fdo_1.8.3.bb => wpebackend-fdo_1.8.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.2.1.bb => libxkbcommon_1.3.0.bb} (92%)
+ rename meta/recipes-sato/webkit/{wpebackend-fdo_1.8.3.bb => wpebackend-fdo_1.8.4.bb} (89%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.2.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.2.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
-index 3df90f7c3e..26bbaadcb5 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.2.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
-@@ -9,7 +9,7 @@ DEPENDS = "util-macros flex-native bison-native"
+diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.8.3.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.4.bb
+similarity index 89%
+rename from meta/recipes-sato/webkit/wpebackend-fdo_1.8.3.bb
+rename to meta/recipes-sato/webkit/wpebackend-fdo_1.8.4.bb
+index d27111a456..28b2a927a5 100644
+--- a/meta/recipes-sato/webkit/wpebackend-fdo_1.8.3.bb
++++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.4.bb
+@@ -13,7 +13,7 @@ inherit meson features_check
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "3d0b4282a1bd9e0664d7a20abe14e982f3285296ac62de56cae2a404b9d28b9e"
++SRC_URI[sha256sum] = "def59bed5e8cdabb65ffa76ee2eef349fba7b42a75dac80f3da5954b17f4074a"
  
--SRC_URI[sha256sum] = "e833a7d3024c9bb9d5eb2b20f6d5de08865541f21bb7ba227c83cbd236691fb3"
-+SRC_URI[sha256sum] = "7b09e098ea69bc3054f0c57a9a25fda571c4df22398811606e32b5fffeb75e7b"
- 
- UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
- 
+ # This is a tweak of upstream-version-is-even needed because
+ # ipstream directory contains tarballs for other components as well.
 -- 
 2.27.0
 
 
---===============1461768801215146623==
+--===============3585992360720864891==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/wpebackend-fdo (sysroot):
+  /usr/lib/libWPEBackend-fdo-1.0.so.1 changed symlink target from libWPEBackend-fdo-1.0.so.1.6.6 to libWPEBackend-fdo-1.0.so.1.6.7
+  /usr/lib/libWPEBackend-fdo-1.0.so.1.6.6 moved to /usr/lib/libWPEBackend-fdo-1.0.so.1.6.7
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+
+--===============3585992360720864891==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libxkbcommon: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon: PV changed from "1.2.1" to "1.3.0"
-packages/core2-32-poky-linux/libxkbcommon: SRC_URI changed from "http://xkbcommon.org/download/libxkbcommon-1.2.1.tar.xz" to "http://xkbcommon.org/download/libxkbcommon-1.3.0.tar.xz"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "1.2.1" to "1.3.0"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 837300 to 841164 (+0%)
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "1.2.1" to "1.3.0"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "1.2.1" to "1.3.0"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "1.2.1" to "1.3.0"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "1.2.1" to "1.3.0"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 1391992 to 1392544 (+0%)
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "1.2.1" to "1.3.0"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/wpebackend-fdo: SRC_URI changed from "https://wpewebkit.org/releases/wpebackend-fdo-1.8.3.tar.xz" to "https://wpewebkit.org/releases/wpebackend-fdo-1.8.4.tar.xz"
+packages/core2-32-poky-linux/wpebackend-fdo: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+Changes to packages/core2-32-poky-linux/wpebackend-fdo (sysroot):
+  /usr/lib/libWPEBackend-fdo-1.0.so.1 changed symlink target from libWPEBackend-fdo-1.0.so.1.6.6 to libWPEBackend-fdo-1.0.so.1.6.7
+  /usr/lib/libWPEBackend-fdo-1.0.so.1.6.6 moved to /usr/lib/libWPEBackend-fdo-1.0.so.1.6.7
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: PKGSIZE changed from 1158288 to 1207660 (+4%)
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dbg: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-dev: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-doc: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-locale: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-src: PKGSIZE changed from 255539 to 256099 (+0%)
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-src: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo-staticdev: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: PV changed from "1.8.3" to "1.8.4"
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: PKGV changed from 1.8.3 [default] to 1.8.4 [default]
+packages/core2-32-poky-linux/wpebackend-fdo/wpebackend-fdo: FILELIST: removed "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.6", added "/usr/lib/libWPEBackend-fdo-1.0.so.1.6.7"
 
---===============1461768801215146623==--
+--===============3585992360720864891==--
