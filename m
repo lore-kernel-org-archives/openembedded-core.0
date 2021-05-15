@@ -1,21 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.4571.1621074783972108535
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web12.4464.1621074783442767245
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 May 2021 03:33:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 4F20238C13A9
+	by mail.yoctoproject.org (Postfix) with ESMTP id 630ED38C13B7
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 10:33:03 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] qemu: upgrading to 6.0.0 FAILED
-Message-ID: <MADEUP.167F36ED6B574696.3509@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============8660934237956234978=="
+Subject: [AUH] less: upgrading to 586 SUCCEEDED
+Message-ID: <MADEUP.167F36ED6E71C1BB.11165@lists.openembedded.org>
+X-Groupsio-MsgNum: 151807
+Content-Type: multipart/mixed; boundary="===============1579459410694930309=="
 
---===============8660934237956234978==
+--===============1579459410694930309==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,130 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *qemu* to *6.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *less* to *586* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-less-upgrade-581-586.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe qemu failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1459 entries from dependency cache.
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-adba9869854dc60a21edbc90f1578bf4b11a8ccb"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:adba9869854dc60a21edbc90f1578bf4b11a8ccb"
-workspace            = "master:ed2e3b739a7e0e8daad665fed01342d60674d6b7"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.qemu.org/qemu-6.0.0.tar.xz...
-Loading cache...done.
-Loaded 1459 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 826 .bb files complete (824 cached, 2 parsed). 1460 targets, 31 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-adba9869854dc60a21edbc90f1578bf4b11a8ccb"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:adba9869854dc60a21edbc90f1578bf4b11a8ccb"
-workspace            = "master:ed2e3b739a7e0e8daad665fed01342d60674d6b7"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   3% |#                                   | ETA:  0:00:08
-Adding changed files:   6% |##                                  | ETA:  0:00:06
-Adding changed files:   9% |###                                 | ETA:  0:00:05
-Adding changed files:  12% |####                                | ETA:  0:00:04
-Adding changed files:  15% |#####                               | ETA:  0:00:04
-Adding changed files:  18% |######                              | ETA:  0:00:04
-Adding changed files:  21% |#######                             | ETA:  0:00:04
-Adding changed files:  24% |########                            | ETA:  0:00:04
-Adding changed files:  28% |##########                          | ETA:  0:00:03
-Adding changed files:  31% |###########                         | ETA:  0:00:03
-Adding changed files:  34% |############                        | ETA:  0:00:03
-Adding changed files:  37% |#############                       | ETA:  0:00:03
-Adding changed files:  40% |##############                      | ETA:  0:00:03
-Adding changed files:  43% |###############                     | ETA:  0:00:03
-Adding changed files:  46% |################                    | ETA:  0:00:02
-Adding changed files:  49% |#################                   | ETA:  0:00:02
-Adding changed files:  52% |###################                 | ETA:  0:00:02
-Adding changed files:  56% |####################                | ETA:  0:00:02
-Adding changed files:  59% |#####################               | ETA:  0:00:02
-Adding changed files:  62% |######################              | ETA:  0:00:02
-Adding changed files:  65% |#######################             | ETA:  0:00:01
-Adding changed files:  68% |########################            | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:01
-Adding changed files:  74% |##########################          | ETA:  0:00:01
-Adding changed files:  77% |############################        | ETA:  0:00:01
-Adding changed files:  80% |#############################       | ETA:  0:00:01
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:05
-WARNING: Command 'git rebase 692ec00a46ab16755ea0bacd1a5b3f54e1d18b6e' failed:
-Rebasing (1/42)
-Rebasing (2/42)
-Rebasing (3/42)
-Rebasing (4/42)
-Rebasing (5/42)
-Rebasing (6/42)
-Rebasing (7/42)
-error: could not apply 2436ae8... Add enable/disable libudev
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 2436ae8... Add enable/disable libudev
-Auto-merging configure
-CONFLICT (content): Merge conflict in configure
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/qemu
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/qemu/qemu_6.0.0.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -154,4 +44,67 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8660934237956234978==--
+--===============1579459410694930309==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment; filename="0001-less-upgrade-581-586.patch"
+
+From 6a51bca527bce9dae8c9bf5016c16d0c4bb0cb7b Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 15 May 2021 05:45:55 +0000
+Subject: [PATCH] less: upgrade 581 -> 586
+
+---
+ meta/recipes-extended/less/{less_581.bb => less_586.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/less/{less_581.bb => less_586.bb} (93%)
+
+diff --git a/meta/recipes-extended/less/less_581.bb b/meta/recipes-extended/less/less_586.bb
+similarity index 93%
+rename from meta/recipes-extended/less/less_581.bb
+rename to meta/recipes-extended/less/less_586.bb
+index 17f8dfb6b9..b300f2badd 100644
+--- a/meta/recipes-extended/less/less_581.bb
++++ b/meta/recipes-extended/less/less_586.bb
+@@ -28,7 +28,7 @@ DEPENDS = "ncurses"
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
+ 	  "
+ 
+-SRC_URI[sha256sum] = "1d077f83fe7867e0ecfd278eab3122326b21c22c9161366189c38e09b96a2c65"
++SRC_URI[sha256sum] = "09288d3ec515a21430ec1fbe1e97a2f741fdaf98afc95b114e342416c6a7dd99"
+ 
+ UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
+ 
+-- 
+2.27.0
+
+
+--===============1579459410694930309==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/less: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less: SRC_URI changed from "http://www.greenwoodsoftware.com/less/less-581.tar.gz" to "http://www.greenwoodsoftware.com/less/less-586.tar.gz"
+packages/core2-32-poky-linux/less/less-dbg: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less/less-dbg: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less/less-dbg: PKGSIZE changed from 458296 to 480868 (+5%)
+packages/core2-32-poky-linux/less/less-dev: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less/less-dev: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less/less-doc: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less/less-doc: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less/less-doc: PKGSIZE changed from 86148 to 86645 (+1%)
+packages/core2-32-poky-linux/less/less-locale: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less/less-locale: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less/less-src: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less/less-src: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less/less-src: PKGSIZE changed from 668463 to 677009 (+1%)
+packages/core2-32-poky-linux/less/less-staticdev: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less/less-staticdev: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less/less: PKGV changed from 581 [default] to 586 [default]
+packages/core2-32-poky-linux/less/less: PV changed from "581" to "586"
+packages/core2-32-poky-linux/less/less: PKGSIZE changed from 250888 to 255776 (+2%)
+
+--===============1579459410694930309==--
