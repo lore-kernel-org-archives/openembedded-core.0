@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.4571.1621074783972108535
+ by mx.groups.io with SMTP id smtpd.web09.4690.1621074783788318693
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 May 2021 03:33:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9F5D638C13E9
+	by mail.yoctoproject.org (Postfix) with ESMTP id B906F38C13F8
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 10:33:03 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shaderc: upgrading to 2021.0 SUCCEEDED
-Message-ID: <MADEUP.167F36EDAD08A085.11165@lists.openembedded.org>
-X-Groupsio-MsgNum: 151826
-Content-Type: multipart/mixed; boundary="===============9051688188092546155=="
+Subject: [AUH] libinput: upgrading to 1.17.2 SUCCEEDED
+Message-ID: <MADEUP.167F36EDAD9FD06A.3509@lists.openembedded.org>
+X-Groupsio-MsgNum: 151827
+Content-Type: multipart/mixed; boundary="===============6116857122162161281=="
 
---===============9051688188092546155==
+--===============6116857122162161281==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *shaderc* to *2021.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *libinput* to *1.17.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-shaderc-upgrade-2020.5-2021.0.patch
+    - apply the patch: git am 0001-libinput-upgrade-1.17.1-1.17.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,103 +44,98 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============9051688188092546155==
+--===============6116857122162161281==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libinput/libinput-bin: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-dev: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-locale: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-ptest: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-staticdev: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+Changes to packages/core2-32-poky-linux/libinput (sysroot):
+  /usr/share/libinput/50-system-gigabyte.quirks was added
+
+--===============6116857122162161281==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-shaderc-upgrade-2020.5-2021.0.patch"
+ filename="0001-libinput-upgrade-1.17.1-1.17.2.patch"
 
-From 2846e2dd94bc361f6a53bd35ee3c7e6c1464ca95 Mon Sep 17 00:00:00 2001
+From 9004dec699e24ffa6303e07659d413feab1a4c5b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 May 2021 07:06:25 +0000
-Subject: [PATCH] shaderc: upgrade 2020.5 -> 2021.0
+Date: Sat, 15 May 2021 07:26:45 +0000
+Subject: [PATCH] libinput: upgrade 1.17.1 -> 1.17.2
 
 ---
- ...aderc_util-fix-glslang-header-file-location.patch | 12 +++++-------
- .../shaderc/{shaderc_2020.5.bb => shaderc_2021.0.bb} |  2 +-
- 2 files changed, 6 insertions(+), 8 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2020.5.bb => shaderc_2021.0.bb} (95%)
+ .../wayland/{libinput_1.17.1.bb => libinput_1.17.2.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.17.1.bb => libinput_1.17.2.bb} (95%)
 
-diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-index df670cdded..0e8ad7e4d2 100644
---- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-+++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-@@ -1,17 +1,18 @@
--From 046c3c2da9c4ff66f14db5bd68e9557504a49241 Mon Sep 17 00:00:00 2001
-+From d02ad48d5c9b48af70ddea2e6998081347ef82f3 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
--Subject: [PATCH 2/3] libshaderc_util: fix glslang header file location
-+Subject: [PATCH] libshaderc_util: fix glslang header file location
- 
- Upstream-Status: Pending
- 
- Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+
- ---
-  libshaderc_util/src/compiler.cc | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/libshaderc_util/src/compiler.cc b/libshaderc_util/src/compiler.cc
--index c5ce37e..4703634 100644
-+index 051558b..9c4476c 100644
- --- a/libshaderc_util/src/compiler.cc
- +++ b/libshaderc_util/src/compiler.cc
- @@ -20,7 +20,7 @@
-@@ -21,8 +22,5 @@ index c5ce37e..4703634 100644
- -#include "SPIRV/GlslangToSpv.h"
- +#include "glslang/SPIRV/GlslangToSpv.h"
-  #include "libshaderc_util/format.h"
-- #include "libshaderc_util/io.h"
-+ #include "libshaderc_util/io_shaderc.h"
-  #include "libshaderc_util/message.h"
---- 
--2.30.1
--
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.5.bb b/meta/recipes-graphics/shaderc/shaderc_2021.0.bb
+diff --git a/meta/recipes-graphics/wayland/libinput_1.17.1.bb b/meta/recipes-graphics/wayland/libinput_1.17.2.bb
 similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2020.5.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2021.0.bb
-index ce51aab034..3d59e0c38c 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2020.5.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2021.0.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+rename from meta/recipes-graphics/wayland/libinput_1.17.1.bb
+rename to meta/recipes-graphics/wayland/libinput_1.17.2.bb
+index 9ffb22876b..e4a8e1a3d8 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.17.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.17.2.bb
+@@ -16,7 +16,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            file://determinism.patch \
+            "
+-SRC_URI[sha256sum] = "e51c50f3ce253961bed452d9f93102cc26128406975ab88ff9ec9e6c3b875137"
++SRC_URI[sha256sum] = "b822263086b6588b9a9a153be97dea409f63927fb67b9a241748e76f222a5be1"
  
--SRCREV = "f3e39a7eed682faececb73f0b85717f2f44ee9ba"
-+SRCREV = "1a3e2aaab191f44644e899e29ab7bac50bebdeb8"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
-            file://0001-cmake-disable-building-external-dependencies.patch \
-            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
 -- 
 2.27.0
 
 
---===============9051688188092546155==
+--===============6116857122162161281==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/shaderc: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc: PV changed from "2020.5" to "2021.0"
-packages/core2-32-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-dbg: PKGSIZE changed from 6165908 to 6165924 (+0%)
-packages/core2-32-poky-linux/shaderc/shaderc-dbg: PV changed from "2020.5" to "2021.0"
-packages/core2-32-poky-linux/shaderc/shaderc-dev: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-dev: PV changed from "2020.5" to "2021.0"
-packages/core2-32-poky-linux/shaderc/shaderc-doc: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-doc: PV changed from "2020.5" to "2021.0"
-packages/core2-32-poky-linux/shaderc/shaderc-locale: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-locale: PV changed from "2020.5" to "2021.0"
-packages/core2-32-poky-linux/shaderc/shaderc-src: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-src: PKGSIZE changed from 314564 to 314608 (+0%)
-packages/core2-32-poky-linux/shaderc/shaderc-src: PV changed from "2020.5" to "2021.0"
-packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PKGSIZE changed from 2441270 to 2441266 (-0%)
-packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PV changed from "2020.5" to "2021.0"
-packages/core2-32-poky-linux/shaderc/shaderc: PKGV changed from 2020.5 [default] to 2021.0 [default]
-packages/core2-32-poky-linux/shaderc/shaderc: PV changed from "2020.5" to "2021.0"
+packages/core2-32-poky-linux/libinput: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput: SRC_URI changed from "http://www.freedesktop.org/software/libinput/libinput-1.17.1.tar.xz file://run-ptest file://determinism.patch" to "http://www.freedesktop.org/software/libinput/libinput-1.17.2.tar.xz file://run-ptest file://determinism.patch"
+packages/core2-32-poky-linux/libinput/libinput-bin: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-bin: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-bin: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput-dbg: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 4333344 to 4333432 (+0%)
+packages/core2-32-poky-linux/libinput/libinput-dbg: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput-dev: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-dev: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-dev: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-doc: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-doc: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput-locale: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-locale: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-locale: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput-ptest: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-ptest: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-ptest: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput-src: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-src: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-src: PKGSIZE changed from 3224419 to 3224521 (+0%)
+packages/core2-32-poky-linux/libinput/libinput-src: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput-staticdev: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PV changed from "1.17.1" to "1.17.2"
+packages/core2-32-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-gigabyte.quirks"
+packages/core2-32-poky-linux/libinput/libinput: PKGV changed from 1.17.1 [default] to 1.17.2 [default]
+packages/core2-32-poky-linux/libinput/libinput: PKGSIZE changed from 1049339 to 1050003 (+0%)
+packages/core2-32-poky-linux/libinput/libinput: PV changed from "1.17.1" to "1.17.2"
+Changes to packages/core2-32-poky-linux/libinput (sysroot):
+  /usr/share/libinput/50-system-gigabyte.quirks was added
 
---===============9051688188092546155==--
+--===============6116857122162161281==--
