@@ -1,71 +1,130 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.12517.1621015976208885559
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.4065.1621070753716221705
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 May 2021 11:12:56 -0700
+ Sat, 15 May 2021 02:25:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZB1Wb6wL;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id u76so291676pfc.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 May 2021 11:12:56 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eeeEAggd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso2492489wmh.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 02:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nG8cFRtTpmfg7fuxt8P1sKg18VkbdHgVLkcT1wxbaVA=;
-        b=ZB1Wb6wLYzuPU3h66QkeU4YroLCrOpwvXGss9rYbDNba3bF99p3UbqdVx/geNIsyLy
-         HA3Cuj4tRBRqRfzyMdZjsJht44cHgR3FkQpObMQASyP7rfL4COJBRQ0v2sT2l87uVVA8
-         3eOXErbr7ZdwLhp7pKaOKjs47I2t6HwV+ca84SL5oRb61nSN+HKGStPwoYmnJxcWS4Fx
-         Uo1S+G/+GFbMBGNeFcHTC45J+jbFrQ0Up8TTIwPkhkm7pwgASYDlnUnlSTWvzeqffalI
-         rGVHUn47KVDOrBrLi7ZvxEtLjLYQrFRum599fjZaa9FFYrwrC68JMIYCaJZOUu91eCtN
-         nYHQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9J1DKs4ta5gkD4z9glKRGsthVvbtN/1xshqtX62uhe0=;
+        b=eeeEAggd87CWlZDr8TdIe9v/XSy2GCR9meaZkXwFbLXr583763ixhZq+Mf87I7GMbm
+         6Q137BqZS9/UPVZOyUA55bBfhRgK3yPxFVRyZ876YqFRi/D1JqgfMNRHbldToG+cBrlM
+         DFrRTL5ilw1+kgXQEx+JhR/wsqrSfogNBJ1iA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nG8cFRtTpmfg7fuxt8P1sKg18VkbdHgVLkcT1wxbaVA=;
-        b=RmQaaOrpZhB2Mul4Rx2TAAZeiUXKg0YD9IyBWUsrL4Hr/PNN2mkCtqRzJLmaQUyg8B
-         J5K4qrWb0CHJDdgh5FxTG3+Vj/LADPruECNvAIEKx3wZivpmKlLCya/R+VRel8O7T6ai
-         XX/LZUwzNSfZkU7iUurtw459rBZ4bGcYOuWNAcCBP811IWl/m8+bzkVDogHzGgxTQvt1
-         BY75NZgG0t1gr0vMpg0Usni34dR47xpUgmv9nZN7ei0zl1hWvjjbw8QOlhhPE9JzVV9p
-         wQK6pMeSvHA4QEs1HLYwsjJtH4N5ZtJn6YHuH20csYJ7zbNTgiDjZuQlfphcg/TfC/xZ
-         FJ+Q==
-X-Gm-Message-State: AOAM532ZUZ7ZYwGmRkPFHgFEYFYg8szk0KLB9mWeG+o1oj8ys9t0mQI9
-	Rz2DIpaAMPGPFvtMW1CTL+Wb8Hl5adhAf9kEZGI=
-X-Google-Smtp-Source: ABdhPJyDSkYugLBDHPMh6uDkYgoayli9G/4yePLmbdYW/BUQksFUXGWveI6BdTCwavnmNqwcoajZKyAhRZbHWrDCS2E=
-X-Received: by 2002:a62:3344:0:b029:28c:6f0f:cb90 with SMTP id
- z65-20020a6233440000b029028c6f0fcb90mr46152943pfz.58.1621015975714; Fri, 14
- May 2021 11:12:55 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9J1DKs4ta5gkD4z9glKRGsthVvbtN/1xshqtX62uhe0=;
+        b=Cf15jmdDKgkMtmGEbdr9uIDSVGjIp3CpQ3OgpdcsL7GuFPIqMG54qXS1kgAZsZWefY
+         z8BgJcOPDfht4Y59yz0VmxmAW9Se/BvnnadbK5UdF+q2icVfxgaDqUv68syMF1ygZb7n
+         aJ1hGEq0ITTSP666h8NfNM/IkeNdsMgcYTIGiylA2OkLlZwHMsRzdeyqS2tRy8u7knek
+         FReeV4fFMFFk6xsDqYRBMg+d+EFz7Zn/cjdvVhxMX7jyf3wwHbgacQXdPIDudzcCHUkG
+         V0Todwg4GrQXRWTxoKnbpAJlyhNsExMBs109jWtSmvmmjY8xQob+JgMkFiHMpDr3I7VX
+         o0vw==
+X-Gm-Message-State: AOAM533TEGPWVFIgOiQj0AuKO4/YEtIwnQuQA4Kq7mED/tuxnWLi8kZw
+	bIWetwU2kj1FWc4JqwztrxT6EE/HJzk1yA==
+X-Google-Smtp-Source: ABdhPJxiBS6XgUJArbOMt4KAq3gS0Y4q/jUwikGQsSfBVgvhelJufELz57Ms5d0Q0mabmnBIHIsUrw==
+X-Received: by 2002:a7b:c405:: with SMTP id k5mr13515362wmi.93.1621070751668;
+        Sat, 15 May 2021 02:25:51 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:df9a:d0c:2699:1a6a])
+        by smtp.gmail.com with ESMTPSA id y5sm8602107wrm.61.2021.05.15.02.25.50
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 May 2021 02:25:51 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sstate: Handle manifest 'corruption' issue
+Date: Sat, 15 May 2021 10:25:50 +0100
+Message-Id: <20210515092550.2352598-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210513205622.60879-1-alex.kanavin@gmail.com>
- <20210513205622.60879-4-alex.kanavin@gmail.com> <CAMKF1spKq8-K7DW42rc0X0hAvYv=1nz9mwcX1NsS5j+6wyeP3Q@mail.gmail.com>
- <CANNYZj-wDbwCusowfkfwMwOeweWShHweRxXfxK38YmoHHMmJCA@mail.gmail.com> <CAMKF1spq1myXA5=hEBswv-XOjF9sLdjFthNWM398DLm_Xuo8mQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spq1myXA5=hEBswv-XOjF9sLdjFthNWM398DLm_Xuo8mQ@mail.gmail.com>
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-Date: Fri, 14 May 2021 20:12:43 +0200
-Message-ID: <CALbNGRRkOGoVoedK8MLcMkFX8EFmfaQwC3yZrntghw7n8Bz-RQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/8] meson: update 0.57.2 -> 0.58.0
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 14, 2021 at 5:20 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Fri, May 14, 2021 at 6:59 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Probably resolved by updating to 40.1?
-> > https://gitlab.gnome.org/GNOME/nautilus/-/tags
-> >
->
-> easier said than done.  Sadly these are complex apps and I don't have
-> time to fix the  long list of dependencies it will ensue
-> therefore I will leave it broken and exclude them from my distro
-> builds from, Andreas might be
-> interested
->
-Will look into
+Under certain build patterns, warnings about missing manifests can appear. These
+are real issues where the manifest was removed and shouldn't have been.
 
-Cheers
+Martin Jansa was able to find a reproducer of:
 
-Andreas
+MACHINE=qemux86 bitbake zlib-native
+echo 'PR = "r1"' >> meta/recipes-core/zlib/zlib_1.2.11.bb
+MACHINE=qemux86-64 bitbake zlib-native
+MACHINE=qemux86 bitbake zlib-native
+
+The code maintains a per machine list of stamps but a per PACAGE_ARCH list of
+stamp/manifest/workdir mappings. The latter is only appended to for speed with
+the assumption that once stamps are gone, the code wouldn't trigger.
+
+The code only ever appends to the mapping list (for speed/efficency under lock)
+meaning that multiple entries can result where the stamp/workdir differs due to
+version changes but the manifest remains the same.
+
+By switching MACHINE part way through the build, the older stamp is referenced
+and the manifest is incorrectly removed as it matches an now obsolete entry in
+the mapping file.
+
+There are two possible fixes, one is to rewrite the mapping file every time
+which means adding regexs, iterating and generally complicating that code. The
+second option is to only use the last mapping entry in the file for a given
+manifest and ignore any earlier ones. This patch implments the latter.
+
+Also drop the stale entries if we are rewriting it.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sstate.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index b1c608dcb14..1a6e9962f9d 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -319,6 +319,8 @@ def sstate_install(ss, d):
+     if os.path.exists(i):
+         with open(i, "r") as f:
+             manifests = f.readlines()
++    # We append new entries, we don't remove older entries which may have the same
++    # manifest name but different versions from stamp/workdir. See below.
+     if filedata not in manifests:
+         with open(i, "a+") as f:
+             f.write(filedata)
+@@ -1183,11 +1185,21 @@ python sstate_eventhandler_reachablestamps() {
+         i = d.expand("${SSTATE_MANIFESTS}/index-" + a)
+         if not os.path.exists(i):
+             continue
++        manseen = set()
++        ignore = []
+         with open(i, "r") as f:
+             lines = f.readlines()
+-            for l in lines:
++            for l in reversed(lines):
+                 try:
+                     (stamp, manifest, workdir) = l.split()
++                    # The index may have multiple entries for the same manifest as the code above only appends
++                    # new entries and there may be an entry with matching manifest but differing version in stamp/workdir.
++                    # The last entry in the list is the valid one, any earlier entries with matching manifests
++                    # should be ignored.
++                    if manifest in manseen:
++                        ignore.append(l)
++                        continue
++                    manseen.add(manifest)
+                     if stamp not in stamps and stamp not in preservestamps and stamp in machineindex:
+                         toremove.append(l)
+                         if stamp not in seen:
+@@ -1218,6 +1230,8 @@ python sstate_eventhandler_reachablestamps() {
+ 
+         with open(i, "w") as f:
+             for l in lines:
++                if l in ignore:
++                    continue
+                 f.write(l)
+     machineindex |= set(stamps)
+     with open(mi, "w") as f:
+-- 
+2.30.2
+
