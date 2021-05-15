@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.4493.1621074783518376599
+ by mx.groups.io with SMTP id smtpd.web08.4567.1621074783434697778
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 May 2021 03:33:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id BA9BF38C13FD
+	by mail.yoctoproject.org (Postfix) with ESMTP id CC5B138C1400
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 May 2021 10:33:03 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wayland-protocols: upgrading to 1.21 SUCCEEDED
-Message-ID: <MADEUP.167F36EDD1A02B25.11165@lists.openembedded.org>
-X-Groupsio-MsgNum: 151837
-Content-Type: multipart/mixed; boundary="===============6716618387314614142=="
+Subject: [AUH] libxkbcommon: upgrading to 1.3.0 SUCCEEDED
+Message-ID: <MADEUP.167F36EDD366672A.11165@lists.openembedded.org>
+X-Groupsio-MsgNum: 151838
+Content-Type: multipart/mixed; boundary="===============1461768801215146623=="
 
---===============6716618387314614142==
+--===============1461768801215146623==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wayland-protocols* to *1.21* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxkbcommon* to *1.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wayland-protocols-upgrade-1.20-1.21.patch
+    - apply the patch: git am 0001-libxkbcommon-upgrade-1.2.1-1.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,74 +44,66 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6716618387314614142==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/all-poky-linux/wayland-protocols (sysroot):
-  /usr/share/wayland-protocols/staging was added
-  /usr/share/wayland-protocols/staging/xdg-activation was added
-  /usr/share/wayland-protocols/staging/xdg-activation/xdg-activation-v1.xml was added
-packages/all-poky-linux/wayland-protocols/wayland-protocols: FILELIST: added "/usr/share/wayland-protocols/staging/xdg-activation/xdg-activation-v1.xml"
-
---===============6716618387314614142==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/all-poky-linux/wayland-protocols: PV changed from "1.20" to "1.21"
-packages/all-poky-linux/wayland-protocols: PKGV changed from 1.20 [default] to 1.21 [default]
-packages/all-poky-linux/wayland-protocols: SRC_URI changed from "https://wayland.freedesktop.org/releases/wayland-protocols-1.20.tar.xz" to "https://wayland.freedesktop.org/releases/wayland-protocols-1.21.tar.xz"
-Changes to packages/all-poky-linux/wayland-protocols (sysroot):
-  /usr/share/wayland-protocols/staging was added
-  /usr/share/wayland-protocols/staging/xdg-activation was added
-  /usr/share/wayland-protocols/staging/xdg-activation/xdg-activation-v1.xml was added
-packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PV changed from "1.20" to "1.21"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PKGV changed from 1.20 [default] to 1.21 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-src: FILELIST: added "/usr/share/wayland-protocols/staging/xdg-activation/xdg-activation-v1.xml"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PV changed from "1.20" to "1.21"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGV changed from 1.20 [default] to 1.21 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols: FILELIST: added "/usr/share/wayland-protocols/staging/xdg-activation/xdg-activation-v1.xml"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGSIZE changed from 417001 to 428338 (+3%)
-
---===============6716618387314614142==
+--===============1461768801215146623==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-wayland-protocols-upgrade-1.20-1.21.patch"
+ filename="0001-libxkbcommon-upgrade-1.2.1-1.3.0.patch"
 
-From 7c484049bf721c094bc9423a5ae6f74e192af33d Mon Sep 17 00:00:00 2001
+From 1a5fbb0758f7f38b740f3e19c576dce6ba7453e3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 May 2021 07:28:27 +0000
-Subject: [PATCH] wayland-protocols: upgrade 1.20 -> 1.21
+Date: Sat, 15 May 2021 08:00:55 +0000
+Subject: [PATCH] libxkbcommon: upgrade 1.2.1 -> 1.3.0
 
 ---
- .../{wayland-protocols_1.20.bb => wayland-protocols_1.21.bb}   | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.20.bb => wayland-protocols_1.21.bb} (86%)
+ .../xorg-lib/{libxkbcommon_1.2.1.bb => libxkbcommon_1.3.0.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.2.1.bb => libxkbcommon_1.3.0.bb} (92%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.20.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.21.bb
-similarity index 86%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.20.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.21.bb
-index 3fb78f658c..16452f86e6 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.20.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.21.bb
-@@ -11,8 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.2.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.2.1.bb
+rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
+index 3df90f7c3e..26bbaadcb5 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.2.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb
+@@ -9,7 +9,7 @@ DEPENDS = "util-macros flex-native bison-native"
  
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            "
--SRC_URI[md5sum] = "b0836533a3f2dc6585b1dae00341157f"
--SRC_URI[sha256sum] = "9782b7a1a863d82d7c92478497d13c758f52e7da4f197aa16443f73de77e4de7"
-+SRC_URI[sha256sum] = "b99945842d8be18817c26ee77dafa157883af89268e15f4a5a1a1ff3ffa4cde5"
+ SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
  
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+-SRC_URI[sha256sum] = "e833a7d3024c9bb9d5eb2b20f6d5de08865541f21bb7ba227c83cbd236691fb3"
++SRC_URI[sha256sum] = "7b09e098ea69bc3054f0c57a9a25fda571c4df22398811606e32b5fffeb75e7b"
+ 
+ UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
  
 -- 
 2.27.0
 
 
---===============6716618387314614142==--
+--===============1461768801215146623==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libxkbcommon: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/libxkbcommon: SRC_URI changed from "http://xkbcommon.org/download/libxkbcommon-1.2.1.tar.xz" to "http://xkbcommon.org/download/libxkbcommon-1.3.0.tar.xz"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 837300 to 841164 (+0%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 1391992 to 1392544 (+0%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "1.2.1" to "1.3.0"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 1.2.1 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PV changed from "1.2.1" to "1.3.0"
+
+--===============1461768801215146623==--
