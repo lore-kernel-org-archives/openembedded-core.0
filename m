@@ -1,47 +1,47 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.11573.1621204381284077498
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.11575.1621204382304943754
  for <openembedded-core@lists.openembedded.org>;
  Sun, 16 May 2021 15:33:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DjziPEj3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id z19-20020a7bc7d30000b029017521c1fb75so1899614wmk.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 15:33:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IRpBPNPx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id q5so4466483wrs.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 15:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=IKvOmlT92COQqRdTCxQwxZxf6FO4jZOxHuuhJucAXBE=;
-        b=DjziPEj31xRXmuXeuEDYmzJRgJ9lyObfyDoPI/VkXWIXR/rpbYGQATqLsYoA/oCNXI
-         +flC4ahJ5CcRl7psvV9KBnZndNUVh152OaCWb0ikRYeCnU7RlVzFGuoY73l9XAIlEPAn
-         8z5OoQln84UslOo2OBEuB0LsBnd22SAhnvOAw=
+        bh=xXjKeWgfYHE80SK5O/kFGDeBm91GnxTQloblPwbi1KE=;
+        b=IRpBPNPxrPsmETYh1reEUYOB4N+bKtfHiQNPY/qxB6YayVXZubTPN8875F+R6bki61
+         uk71IeC7CJOOoOwWqtrWNraJdtZSBhW2PnLhf7ez9wLqKuS2KsrKzkmoq2nzlarZa1Sq
+         +PR8yBMv3jHmi0F1VBQOpdAEr5WCjvd0ywy9s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IKvOmlT92COQqRdTCxQwxZxf6FO4jZOxHuuhJucAXBE=;
-        b=jZsuyBgXdyWDo1970sAjI+r8CX2IFl+EnmiH4CjrlTWtO1qSQsthBpS3/Lhpsk5Ccc
-         iWDzeqi7KALBgRfgKkxji4zZqmjIcmOsYWSNqsYb6mzeZFeD5aoe3fyLZsWmV6QXWOO1
-         t5iMUjIiEvzmLBeBfmr39DNJEJsyPBb1Q0dQt1uE0YstBN6HWAftBreejZ8bUqUAldpM
-         ltz/bQPYV70FzYy4s6h7wm11KVM3NnL9Zo3W2OR+fdPn9esNrWiSsuN6P2Y6ucW86yUc
-         MKfcv/OITW9Msn9HCioA6OPCX2qi37qizcyIwV3kKqS+PASKBNGV318HpGEa4sm/DQpf
-         pV4A==
-X-Gm-Message-State: AOAM533gNfN7EIvnL4olMiR6SzCX9YCmW9IVhqCMPfDXinc9jxGKpzG5
-	AMd3VtvwEADk4CFoeVRZxUjaNuD76TMYoQ==
-X-Google-Smtp-Source: ABdhPJwI9EbFr2HLIZ2FH469Qkitjt3aWXY3B+P88JoKE9lYzjkQgwAsh2JVL4zSHLiY2WIczvqGAQ==
-X-Received: by 2002:a7b:cd98:: with SMTP id y24mr20337608wmj.4.1621204379870;
-        Sun, 16 May 2021 15:32:59 -0700 (PDT)
+        bh=xXjKeWgfYHE80SK5O/kFGDeBm91GnxTQloblPwbi1KE=;
+        b=Wbi986Zp5vAqn8c7kMdwJQWO+EQbyRd3jpiTOwtQkeDk9SvngE5AuQyd7L0J1TDmBH
+         D9gWFpaPI51oQwwz+9LxLrzu5cNgEzih3WLDhaVOIzvIGe8Y/PrxZJ8/kSHHcIUT+q0a
+         DJ8tmmHPGG5dUtKfoSNwbcHxrwg7n9Rh0AkQiMl6ELCCwFoiBQoCkaAjGMZcV9KMzjB+
+         A7qManHclfBJ2VxFByI+02ewQv7ZQjBKS14R1RFwKva+RJy5T9A1gfa4/y6HMwGbLsZW
+         1meWJdHfyqAIx/AE3KslqHY3xEROn4t2eYXEWWFM36T2TU5ydYtCTTCD/Jt3YqCfEMEJ
+         yTBw==
+X-Gm-Message-State: AOAM530ThbXrmbkz1vmrowcpdvBa6PCyU85hDXCKCxxDud3SjgwyclA1
+	5ezP0OxTxP3tzr38U2quQQFmoMv3BeclaQ==
+X-Google-Smtp-Source: ABdhPJxPVbb/rgUj3hCDvn4DceuXasMXpTD/Jmi+MoxY//37M5p6DNzyeLnZ+7rlLnn5MbB0zIQnlA==
+X-Received: by 2002:a5d:46c5:: with SMTP id g5mr71741114wrs.33.1621204380796;
+        Sun, 16 May 2021 15:33:00 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1b39:2a3f:a2c2:a4fc])
-        by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.32.59
+        by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.33.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 May 2021 15:32:59 -0700 (PDT)
+        Sun, 16 May 2021 15:33:00 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 22/27] diffoscope: upgrade 172 -> 175
-Date: Sun, 16 May 2021 23:32:42 +0100
-Message-Id: <20210516223247.2401235-22-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 24/27] sqlite3: upgrade 3.35.3 -> 3.35.5
+Date: Sun, 16 May 2021 23:32:44 +0100
+Message-Id: <20210516223247.2401235-24-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
 References: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
@@ -50,26 +50,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../diffoscope/{diffoscope_172.bb => diffoscope_175.bb}         | 2 +-
+ .../sqlite/{sqlite3_3.35.3.bb => sqlite3_3.35.5.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_172.bb => diffoscope_175.bb} (92%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.35.3.bb => sqlite3_3.35.5.bb} (83%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_172.bb b/meta/recipes-support/diffoscope/diffoscope_175.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_172.bb
-rename to meta/recipes-support/diffoscope/diffoscope_175.bb
-index 86dd5d8d70b..853f8dd3a0b 100644
---- a/meta/recipes-support/diffoscope/diffoscope_172.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_175.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.35.3.bb b/meta/recipes-support/sqlite/sqlite3_3.35.5.bb
+similarity index 83%
+rename from meta/recipes-support/sqlite/sqlite3_3.35.3.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.35.5.bb
+index 459dcbd4c8d..d74a6210d5a 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.35.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.35.5.bb
+@@ -4,7 +4,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- inherit pypi setuptools3
+ SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "ecbccdd440bdf32c0e1bb3611d635239e3b5af268248d130d0445a32daf0274b"
++SRC_URI[sha256sum] = "f52b72a5c319c3e516ed7a92e123139a6e87af08a2dc43d7757724f6132e6db0"
  
--SRC_URI[sha256sum] = "5ffe7f38555c6409bc7e7edc277ed77dd78641fe1306fc38d153dbbe445ddea4"
-+SRC_URI[sha256sum] = "b87481752815140e35088647ccdea13297e41a2d72772e842590360b662f7533"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
- 
+ # -19242 is only an issue in specific development branch commits
+ CVE_CHECK_WHITELIST += "CVE-2019-19242"
 -- 
 2.30.2
 
