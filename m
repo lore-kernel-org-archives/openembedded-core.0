@@ -1,47 +1,47 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.11630.1621204380909021068
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web09.11643.1621204381757655059
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 May 2021 15:33:01 -0700
+ Sun, 16 May 2021 15:33:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FvRgbEiy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id v12so4456344wrq.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 15:33:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I9AGGTsk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id y14so2365898wrm.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 15:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=X1Fc22t59BagggGFxySFRv1d2IL6uMDhScB7ZtG4DFk=;
-        b=FvRgbEiykQle8qKtPwj0nH5BNL14UrORq5Ey3jtXLE8d5COI3g6Gol9pFUzYmKo5YC
-         yhvNHGW6rfsb0WLzr+CCE6EYkk7yWVD6/EEMw9V1Nr98U/+lvqu95Q+euxkbXl/rPF6a
-         /d//X0BFrCXrh+7xYdChUjx09dzR1ZoEsJTQ0=
+        bh=/GMnKvNQRwkapsJkwyV56m8tPHI61DOqutrql9W0mLA=;
+        b=I9AGGTskMGBTCdF/RRalKIEVr3CyQGzIaLxxqhcmfcUFuUQf7CORu63wnYlkdxGOgX
+         x/EBJdWDfifAWXNEtwEllR/B4y8FpX1xBzgRZk85JCJPX+Ib+ONQW0jZ4z7xXwDKSTNu
+         sHhH+/YT+cWejBqxzmG9tyJBcD3UJGVpycfJ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=X1Fc22t59BagggGFxySFRv1d2IL6uMDhScB7ZtG4DFk=;
-        b=KZG9UIwJKhwhTlFl8LRyl0Aupfnj7NjLRAiIIsKG/t3c7EnV8jerwwk3lcIhVfM1QK
-         r5EugAc4Hduzv45kcH5U1N3lFPIbLCHtAXzKMxx42uq4J4Tl1Ica0VVXMpTX8DXiOx7j
-         KTTmCzHDntGQtZcKafyLbNhKFCmuU/NDcM+ADSGJ7C3h8mMwfdDXq1iuf0oh2EwaW1br
-         55h79u54P/E/H0MoX6fD6TjSZJy/hhQjCRD1GxR+88c4gogXH8Q7sK5h111hgON7jI8x
-         HHVur5SulHQzewteiDW2lr6AG8cLCXx6IXfYKpV+TPQZpoNajIogA9TRu9eXhq/PkaP8
-         xM9Q==
-X-Gm-Message-State: AOAM530RQEhHZr1vuyDE6Tifu5bqx1kOfJkD7j79ff8Ee5yqyO1cG+k9
-	4dtlt0Hqn/xHvqa5axvBcX0+22CWrS+Adg==
-X-Google-Smtp-Source: ABdhPJxoxctl3FgIAB0LW8X8TiORlvf0OK3bv416+eMMM3ry69MaJYezPfuLfTSURcmEXnS8aE5hmg==
-X-Received: by 2002:a5d:550e:: with SMTP id b14mr11506294wrv.406.1621204379454;
-        Sun, 16 May 2021 15:32:59 -0700 (PDT)
+        bh=/GMnKvNQRwkapsJkwyV56m8tPHI61DOqutrql9W0mLA=;
+        b=N8CSiwr/Ey/8j/42eY0UQZS+1afAUyPU9C/Thxbmt0cOsY3KqSBaPw1JN4qoxbkqco
+         z9cv7rW86Qag2+NDOiRfsscLwfg58tJscrnoFoHVwXMBRwwobwJ7YdcUOJJyaplnpuSB
+         rVDs+Wg238gFlCc5WC794sLWg27i4W3ezHRtTpjKFotMO4a6vldve31GqT7/NsWqGJ6B
+         qTnP1q1im7sgzVnyVdHA/1Nzl91QWdPuXgZHto9W20saGam/9RCLsEUKWDcvKfKRWyvA
+         CceWdszcf6cUAblypjwvhb1TjFf+iP2TX2ToIfpSbb1JLgrRvzRcaVpfwRPUqfXdooIr
+         1x3g==
+X-Gm-Message-State: AOAM533LqytHvCGVMhE46PJNbCO8xk9tHfYgHxiB3kA5c6GDgUq7s30M
+	Fq8CRgljT7Shyypv+zu6c6hJd/sNzoI18A==
+X-Google-Smtp-Source: ABdhPJwe9f8CIzoUGJxQHHWutjJFFYPZGDksYqqL6qyfIjglqJwc/vuUYVreC7cTytV6Bbd/EeHd0A==
+X-Received: by 2002:a5d:6445:: with SMTP id d5mr1860019wrw.235.1621204380292;
+        Sun, 16 May 2021 15:33:00 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1b39:2a3f:a2c2:a4fc])
         by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.32.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 May 2021 15:32:59 -0700 (PDT)
+        Sun, 16 May 2021 15:33:00 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 21/27] spirv-tools: upgrade 2020.7 -> 2021.1
-Date: Sun, 16 May 2021 23:32:41 +0100
-Message-Id: <20210516223247.2401235-21-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 23/27] mpg123: upgrade 1.26.5 -> 1.27.2
+Date: Sun, 16 May 2021 23:32:43 +0100
+Message-Id: <20210516223247.2401235-23-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
 References: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
@@ -50,26 +50,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../spir/{spirv-tools_2020.7.bb => spirv-tools_2021.1.bb}       | 2 +-
+ .../mpg123/{mpg123_1.26.5.bb => mpg123_1.27.2.bb}               | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-tools_2020.7.bb => spirv-tools_2021.1.bb} (96%)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.26.5.bb => mpg123_1.27.2.bb} (96%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_2020.7.bb b/meta/recipes-graphics/spir/spirv-tools_2021.1.bb
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.26.5.bb b/meta/recipes-multimedia/mpg123/mpg123_1.27.2.bb
 similarity index 96%
-rename from meta/recipes-graphics/spir/spirv-tools_2020.7.bb
-rename to meta/recipes-graphics/spir/spirv-tools_2021.1.bb
-index 8be698533af..5795d93e531 100644
---- a/meta/recipes-graphics/spir/spirv-tools_2020.7.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_2021.1.bb
-@@ -7,7 +7,7 @@ SECTION = "graphics"
- LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+rename from meta/recipes-multimedia/mpg123/mpg123_1.26.5.bb
+rename to meta/recipes-multimedia/mpg123/mpg123_1.27.2.bb
+index 7207bd1dd01..9a91cc89d64 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.26.5.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.27.2.bb
+@@ -10,7 +10,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
  
--SRCREV = "2573fd781b5408cd7fe5755a78b60d767a748ff9"
-+SRCREV = "4b3707b788c84449a55f67257ae6aab3ca3552cb"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git \
-            file://0001-fix-strncpy-bound-error.patch \
-           "
+ SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "502a97e0d935be7e37d987338021d8f301bae35c2884f2a83d59c4b52466ef06"
++SRC_URI[sha256sum] = "52f6ceb962c05db0c043bb27acf5a721381f5f356ac4610e5221f50293891b04"
+ 
+ UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
 -- 
 2.30.2
 
