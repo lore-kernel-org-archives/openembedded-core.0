@@ -1,112 +1,76 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.11563.1621204370666029591
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web09.11637.1621204370794090219
  for <openembedded-core@lists.openembedded.org>;
  Sun, 16 May 2021 15:32:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VMUkYX9G;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id x8so4446974wrq.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KGJFrm9E;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 62so1506776wmb.3
         for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 15:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=9LITQSAdSN0U0Bd3Nn1JUeclciz7saUAwUU57QXf3zo=;
-        b=VMUkYX9GkNSRTMQoCkPvp+vte62okJf1K6HM+v/YcndOd797o8ItYK2xR+1o6SJQ9S
-         7f5VY34P7HdCnINz/niz86S/njUkTaIYDJfFJPaWshFx41BCtP6i7fCALREZN1am0oXs
-         fuocqxn3HuGt8JeUzjXgfLDnw7ksatPKtCT7E=
+        bh=PkiRswJc+cK70XlSv4tx4T8Ra0p3ncrv+yAhv/RHgBs=;
+        b=KGJFrm9EweJZDaShcdqhJdUFsR+CxCBkeQ7zFOLCQ+HHba5kYBLWf7Vb/fPBMWRoG3
+         WK/t/K1XFLQLSlO8Ta5OHHcr1e+jLy9x5rOF/XO/n/0gkvAahJcPrxenz+4SU9Gqo6/T
+         hmLiidGBzYte/EDSbfOeLUXY9wv3cHy1alQ5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9LITQSAdSN0U0Bd3Nn1JUeclciz7saUAwUU57QXf3zo=;
-        b=Sg9+hITRX4EDAleN7wAuT9S7OL2Jc9TRhQgx5oQBkwz5tmLlaTSPqiTJbPwBtneeOf
-         ckhVaIj2yj+BGtWF0XPhVfwcfJozvFFiLVWvsLHjhkp3iUViDVXH+tubWVCJPDk0sKyn
-         BbimYnmhEc/ehNCUEcah5bAOlyJlW4hVh9mqzQ43Qty6T25nwd3gDyXR0hFIpWyLqwQm
-         B4ZPQ4S+cO4bAHohCFZAmpGuAt3FzZdCedQ/EttNHu20/s6MK3flZqAvDNX+/j7c+Jkk
-         0MhAWOnjrBDHCoSxjNGa/xIj7+3FrfwuIUhojknnuZQahs3RU5ZUOBJBeJqyXL47IK95
-         yCjw==
-X-Gm-Message-State: AOAM532Lw8cdjkw28EP2klQ2lQ6Bk0Ahd7fa+8i8j0mACo+acxAcOmrf
-	zoe0wihUT+6/uWQ5EWCBoFV+q3yVdUejlg==
-X-Google-Smtp-Source: ABdhPJxmqn9xe+EMkk4vzdXIKMUs48DQ3h/WNx2umZP2oISxOz64ix12cdIV71qTmPLSlHE6sYzQkQ==
-X-Received: by 2002:adf:e38a:: with SMTP id e10mr5515065wrm.194.1621204368767;
-        Sun, 16 May 2021 15:32:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PkiRswJc+cK70XlSv4tx4T8Ra0p3ncrv+yAhv/RHgBs=;
+        b=UaTh+HhE8g4WWAZQqT2AplPIZ54kFdeSngrt1FDvwjBlXnGe+tM0wdUAtBFgw1icyK
+         ng0XoJJmflzfDRyS2lb88TXm4ZQ9JRsAiRD86AQNRRYhZbucNOr6s2DYeNMA4YNyvuJG
+         xPAchUt4yH9QYivCbNdfnwYYMKxF2aQr2cCmy5khXg/J5dkx4bfvc3gZhMt0QbdObGx/
+         vUcJ64qIwT1vN6xUpJC+GQ9SS13jEM2MCru2LhsBY0an+7SMsadq/I4vdsZC1c6K+11g
+         nukVVc1G7UcRxikSO/FV8AjQMwguVeDxOsB7IUEWm3P+qndHhmhfir+TM55ZPR5ZYtLT
+         g5PQ==
+X-Gm-Message-State: AOAM531Y1McaTkqfPSVn3tvP65Tslc4TydcAMqjKn2dsUC9kltOXTDAG
+	qM26h3uezykci7MvwxdKF8tI0AboC0gB6w==
+X-Google-Smtp-Source: ABdhPJyHHHIO7cArYPrcB9GTq2pIWbkIp/ZuAzBBPS3AeWi0ILcDfybyjBW0/Ev7J5n2Q7YDWtzFZg==
+X-Received: by 2002:a1c:9ac7:: with SMTP id c190mr17959680wme.43.1621204369158;
+        Sun, 16 May 2021 15:32:49 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1b39:2a3f:a2c2:a4fc])
         by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.32.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 May 2021 15:32:48 -0700 (PDT)
+        Sun, 16 May 2021 15:32:49 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 01/27] libxcrypt-compat: upgrade 4.4.19 -> 4.4.20
-Date: Sun, 16 May 2021 23:32:21 +0100
-Message-Id: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 02/27] ofono: upgrade 1.31 -> 1.32
+Date: Sun, 16 May 2021 23:32:22 +0100
+Message-Id: <20210516223247.2401235-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
+References: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libxcrypt/files/fix_cflags_handling.patch   | 17 +++++++++++++----
- ...pat_4.4.19.bb => libxcrypt-compat_4.4.20.bb} |  0
- meta/recipes-core/libxcrypt/libxcrypt.inc       |  2 +-
- 3 files changed, 14 insertions(+), 5 deletions(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.19.bb => libxcrypt-compat_4.4.20.bb} (100%)
+ .../ofono/{ofono_1.31.bb => ofono_1.32.bb}                     | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.31.bb => ofono_1.32.bb} (93%)
 
-diff --git a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
-index 5448fe0fa69..0772998c722 100644
---- a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
-+++ b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
-@@ -1,3 +1,8 @@
-+From fd9a46695594c3cd836ecb7d959f03f605e69a2f Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Fri, 30 Apr 2021 10:35:02 +0100
-+Subject: [PATCH] libxcrypt: Update to 4.4.19 release and fix symbol version
-+
- If you pass CFLAGS with a leading space, " " gets passed to popen and convinces
- gcc to try and open a file called " ". This results in a confusing error message
- like:
-@@ -9,8 +14,12 @@ Avoid this by stripping empty elements out of CFLAGS.
- Upstream-Status: Submitted [https://github.com/besser82/libxcrypt/pull/126]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.31.bb b/meta/recipes-connectivity/ofono/ofono_1.32.bb
+similarity index 93%
+rename from meta/recipes-connectivity/ofono/ofono_1.31.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.32.bb
+index 2425ef76a64..f3d875b204d 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.31.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.32.bb
+@@ -13,8 +13,7 @@ SRC_URI = "\
+     file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
+     file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch \
+ "
+-SRC_URI[md5sum] = "1c26340e3c6ed132cc812595081bb3dc"
+-SRC_URI[sha256sum] = "a15c5d28096c10eb30e47a68b6dc2e7c4a5a99d7f4cfedf0b69624f33d859e9b"
++SRC_URI[sha256sum] = "f7d775887b7b80cf3b82e3f0a6c2696c6d01963d222ca2217919d21b9e803042"
  
--Index: a/build-aux/compute-symver-floor
--===================================================================
-+---
-+ build-aux/compute-symver-floor | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/build-aux/compute-symver-floor b/build-aux/compute-symver-floor
-+index 4ec82e1..8117342 100644
- --- a/build-aux/compute-symver-floor
- +++ b/build-aux/compute-symver-floor
- @@ -36,6 +36,8 @@ sub preprocessor_check {
-@@ -20,5 +29,5 @@ Index: a/build-aux/compute-symver-floor
- +        # Remove empty elements, particularly leading ones which cause issues with popen below
- +        @CFLAGS = grep {$_} @CFLAGS;
-  
--         # We call ensure_C_locale here, not from the main section,
--         # because this sub might not get called at all, in which
-+         # Remove empty elements, particularly leading ones which
-+         # cause issues with popen below.
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.19.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.20.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.19.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.20.bb
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 694e55546f0..c16068c1614 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSING;md5=afed27a72ae2a8075978299eebaa1f5d \
- inherit autotools pkgconfig
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
  
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
--SRCREV = "c79119414d7e30017d7b49566e7e4ea35112bdc8"
-+SRCREV = "e73ff0137de5152e69e8abb0bd260541804dfe5a"
- SRCBRANCH ?= "develop"
- 
- SRC_URI += "file://fix_cflags_handling.patch"
 -- 
 2.30.2
 
