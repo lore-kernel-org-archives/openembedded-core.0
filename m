@@ -1,106 +1,92 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.5434.1621168991878666741
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by mx.groups.io with SMTP id smtpd.web10.5612.1621171216941366889
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 May 2021 05:43:12 -0700
+ Sun, 16 May 2021 06:20:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T2Mam9b2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id r12so3638965wrp.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 05:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=MbEJYtHb54SNCjEjljabZWF6NXwhcOsq9N3uPtiUk0o=;
-        b=T2Mam9b2bAA20v44nX2BYivozh0JUQYRNWvK9NF8MVUEuD/RVM5U/HC+WD26kMu2WQ
-         IqJG657SLXDzokNjKuJOL/j2VcnOXw9kEU8gktRD8EqLwq85iZ9mNqMU2SeCuNIIyOZj
-         bRCtRf/FvzJXBVz/iO2pSoR73WKcGh32dqAoA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=MbEJYtHb54SNCjEjljabZWF6NXwhcOsq9N3uPtiUk0o=;
-        b=rW4qhU1oLXOUCZuqwUCHC6+PgiusFiFntFkYfL5nDsqXvVmzq/OSU8hOOOvplm9HEb
-         CrsR2IwA4XrVqKs/BkDaMy1yS7E4VqGgNy5trFjAbklyJUzI2EyUkGAj3RVQzmhBQdZZ
-         ny0cFAvDzRrxQyopaZBGaO4zP6vLG6QVxNEImThBLlmv+N3fGWss2cmK60Jin7llZt1l
-         0J6utCW5k7Z8NYNhb7uOB3x+TwxkqDS0PSQ5bkjm//oJjnnZhGEL95P8buXxg0AA2slG
-         aBx64Fc/WHfcMGauuR9tWe4uoO0uhb8wfi/DfuzZPGFgyYwj4DtL8UYAUm6zal+B2n89
-         MbUw==
-X-Gm-Message-State: AOAM533MAJ0rgoL9B6f4lfGRAAg9b1TZMlsd+hs7hxAksYNXJ7d1kXyz
-	TlI6mJtHNlNYl9tUrpmnY52O/g==
-X-Google-Smtp-Source: ABdhPJzgzkILp8ylGBuE20ju4By4E7aC7iZEtOaQayvaxPxI6CqZhak0/xFi2Qtbyix8KeUuykjt3w==
-X-Received: by 2002:a05:6000:1286:: with SMTP id f6mr31337152wrx.226.1621168990533;
-        Sun, 16 May 2021 05:43:10 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:22d7:8af4:80b5:c062? ([2001:8b0:aba:5f3c:22d7:8af4:80b5:c062])
-        by smtp.gmail.com with ESMTPSA id t8sm10888210wmb.2.2021.05.16.05.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 May 2021 05:43:10 -0700 (PDT)
-Message-ID: <060ec8a22677e3e7d22cd07c49dc1abc9ccbbf8f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [bitbake][PATCH 3/3] bitbake: fetch2/repo: add support for --repo-url and --repo-branch
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Sourabh Banerjee <sbanerje@codeaurora.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 16 May 2021 13:43:09 +0100
-In-Reply-To: <1621164193-9434-3-git-send-email-sbanerje@codeaurora.org>
-References: <1621164193-9434-1-git-send-email-sbanerje@codeaurora.org>
-	 <1621164193-9434-3-git-send-email-sbanerje@codeaurora.org>
-User-Agent: Evolution 3.40.0-1 
+ dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=fIBy6T3Q;
+ spf=pass (domain: mg.codeaurora.org, ip: 198.61.254.9, mailfrom: bounce+783715.be9e4a-openembedded-core=lists.openembedded.org@mg.codeaurora.org)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1621171226; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=1u/OKREsaygvTDax6BKD0af4SIT1Dd42t3IFH2DXIeI=;
+ b=fIBy6T3QzXarqiAE+rPUn/0Z/j7VNIRTGYTPJmOxK5nA1RYrHyba+xSrRFoOoRFIxwQ2UQ+u
+ EZvBE8gO87COWEFryr+rRNwIiO0Ayy2kVu/c0Qv6LrPNuyM5PD6nDxgolOGCjQioaZmUA4jc
+ 0/yhN2By6Dg7PEw/41P1XlgmvZM=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkODhiYiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 60a11c00b15734c8f9b9ef47 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sun, 16 May 2021 13:20:00
+ GMT
+Sender: sbanerje=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id C40D5C4338A; Sun, 16 May 2021 13:19:59 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sbanerje)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 73848C433D3;
+	Sun, 16 May 2021 13:19:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Date: Sun, 16 May 2021 18:49:59 +0530
+From: "Sourabh Banerjee" <sbanerje@codeaurora.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [bitbake][PATCH 1/3] bitbake: fetch2/repo: add support for projects to be fetched simultaneously
+In-Reply-To: <6ecd0c9a94ec2d2ab907dac32bae6bb6b47e3664.camel@linuxfoundation.org>
+References: <1621164193-9434-1-git-send-email-sbanerje@codeaurora.org>
+ <6ecd0c9a94ec2d2ab907dac32bae6bb6b47e3664.camel@linuxfoundation.org>
+Message-ID: <bd868458d834e5096130ebd4cde0ce59@codeaurora.org>
+X-Sender: sbanerje@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-05-16 at 16:53 +0530, Sourabh Banerjee wrote:
-> repo tool provides following options to use a stable or preferred
-> version of the tool
->   repo Version options:
->     --repo-url=URL      repo repository location
->     --repo-branch=REVISION
->                         repo branch or revision
+On 2021-05-16 18:10, Richard Purdie wrote:
+> On Sun, 2021-05-16 at 16:53 +0530, Sourabh Banerjee wrote:
+>> repo tool can fetch projects simultaneously.
+>> As per repo sync documentation:
+>>   Usage: repo sync [<project>...]
+>>   Options:
+>>     -j JOBS, --jobs=JOBS  projects to fetch simultaneously (default 1)
+>> 
+>> By supplying jobs=<some_number> recipe can choose to use the
+>> simultaneous fetch feature of repo tool.
+>> Example:
+>>   SRC_URI = 
+>> "repo://REPOROOT;protocol=git;branch=main;manifest=default.xml;jobs=8"
+>> 
+>> Signed-off-by: Sourabh Banerjee <sbanerje@codeaurora.org>
+>> ---
+>>  bitbake/lib/bb/fetch2/repo.py | 12 +++++++++++-
+>>  1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> By supplying repo_url=<uri> and repo_branch=<branch> recipe may choose
-> to sync a specific version of repo tool.
-> 
-> Signed-off-by: Sourabh Banerjee <sbanerje@codeaurora.org>
-> ---
->  bitbake/lib/bb/fetch2/repo.py | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/bitbake/lib/bb/fetch2/repo.py b/bitbake/lib/bb/fetch2/repo.py
-> index e7c5255..902337f 100644
-> --- a/bitbake/lib/bb/fetch2/repo.py
-> +++ b/bitbake/lib/bb/fetch2/repo.py
-> @@ -66,9 +66,15 @@ class Repo(FetchMethod):
->          repodir = os.path.join(codir, "repo")
->          bb.utils.mkdirhier(repodir)
->          if not os.path.exists(os.path.join(repodir, ".repo")):
-> +            repo_url = ud.parm.get('repo_url', '')
-> +            if repo_url:
-> +                repo_url = '--repo-url=' + repo_url
-> +            repo_branch = ud.parm.get('repo_branch', '')
-> +            if repo_branch:
-> +                repo_branch = '--repo-branch=' + repo_branch
->  
-> 
-> 
-> 
->              bb.fetch2.check_network_access(d, "%s init -m %s -b %s -u %s://%s%s%s" % (ud.basecmd, ud.manifest, ud.branch, ud.proto, username, ud.host, ud.path), ud.url)
-> -            runfetchcmd("%s init -m %s -b %s -u %s://%s%s%s" % (ud.basecmd, ud.manifest, ud.branch, ud.proto, username, ud.host, ud.path), d, workdir=repodir)
-> +            runfetchcmd("%s init -m %s -b %s -u %s://%s%s%s %s %s" % (ud.basecmd, ud.manifest, ud.branch, ud.proto, username, ud.host, ud.path, repo_url, repo_branch), d, workdir=repodir)
->  
-> 
+> Does this value make sense as a per repository setting or an overall 
+> build setting?
 
-In your other patch you make the new parameters update the mirror tarball 
-name. I'm wondering if we also need to do something like that here as 
-presumably, the fetched output might vary depending on which version 
-of repo was used?
+Hi Richard,
 
-Bitbake patches should go to the bitbake-devel list. I'm also
-wondering if there should be new fetcher tests these changes should be
-adding to lib/bb/test/fetch.py, run using bitbake-selftest?
+The '--jobs' option for the repo tool parallelizes fetch w.r.t 
+manifest.xml.
+For example, if there are 8 projects listed in a manifest.xml then 
+passing-j4
+will run 4 parallel jobs fetching 4 projects simultaneously at a time.
+So it is related to whole manifest being operated upon by the repo tool.
 
-Cheers,
-
-Richard
+> 
+> Cheers,
+> 
+> Richard
 
 
+-- 
+Regards,
+Sourabh
