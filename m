@@ -1,114 +1,75 @@
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [])
- by mx.groups.io with SMTP id smtpd.web09.4822.1621164221635194752
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web12.5417.1621168850075511909
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 May 2021 04:24:22 -0700
+ Sun, 16 May 2021 05:40:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=WVLbi6nC;
- spf=softfail (domain: mg.codeaurora.org, ip: <nil>, mailfrom: bounce+783715.be9e4a-openembedded-core=lists.openembedded.org@mg.codeaurora.org)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1621164261; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=G/CPCnGEjvttp+VCHeLvBwZJu7G3Cj2AAa3xkQdreIA=; b=WVLbi6nCSR5RNCcbiuiutvfMv6ygAtsWSEmpEYbNV6DBPxtkk/cRRUm53TPZn2+lkswlPNmi
- IzRfFB5GZ5chUvq8hbj/JNs6WvvpEOatqCIIPllO6K5qSr8lphRidlGcYRSHZvUpOUIZ4pCw
- qoYhG6B82mESbE+fwd/bDYvdS3k=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkODhiYiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60a100be7b5af81b5c61ce60 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sun, 16 May 2021 11:23:42
- GMT
-Sender: sbanerje=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id E975DC43460; Sun, 16 May 2021 11:23:41 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
-	autolearn=no autolearn_force=no version=3.4.0
-Received: from lnxeng01-le.qualcomm.com (unknown [202.46.22.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: sbanerje)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 56604C4338A;
-	Sun, 16 May 2021 11:23:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 56604C4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sbanerje@codeaurora.org
-From: "Sourabh Banerjee" <sbanerje@codeaurora.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Sourabh Banerjee <sbanerje@codeaurora.org>
-Subject: [bitbake][PATCH 2/3] bitbake: fetch2/repo: add support for sync specific projects
-Date: Sun, 16 May 2021 16:53:12 +0530
-Message-Id: <1621164193-9434-2-git-send-email-sbanerje@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SdR1hBTw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id o127so2049881wmo.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 05:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ESniOSU9EsV/OUIdX/98lYinGXXw0AG8HmSatrCOSk0=;
+        b=SdR1hBTwP/B5c7zT1yEMTTUv5a/HCIncnH7zTac83IdmnXjVyBJxR/jwB55CpRM4/e
+         4i47ymzDFCw/B0DWrfQOb4zZ7fCLz8rwLha//3W4jUiM6sFaaCEJGNaIj3GXHY40Mml2
+         iP9+alJYtVR4P1ed2PBZcbI5RVmtyzQTJiDjQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ESniOSU9EsV/OUIdX/98lYinGXXw0AG8HmSatrCOSk0=;
+        b=LQd/kXW/CGOfqLTW0q0FTkTttb8VyxPSSIN6tLICODv4t8+2h2y7GjuWzoZNnBIJfP
+         IG/GFM4S3U/bDAUlMQTfwLj9NIJT0cCwZTXKqXx94Z6cKwwzsqtSnEOVNgE346/fU60R
+         rAKwrKcxceyKKfVhUJKg1JTb8pDKz34j81jzg3z2OHpagpSm1sDN9PQ16tQl3qexAn8s
+         JLqCON7+m6PEN+z2svaz90TED/9aQb1AI7N4K6q4oKQbf7Tl0Bu3DcX9mQA6Oz7vxY9U
+         MtOoflzsvAn2lvpEP4HWQOJTciSijTne9vdt+dHoBqW55oIU+VoMvDx8aBeHsu/twjJA
+         AqQQ==
+X-Gm-Message-State: AOAM5336uMTEDa9CimtXJ/3Pl4JTdcUrB4EfzDJ2kA8qXw5qxeyt6FAr
+	KhrcLHk2+zeAuKnuiEUOR0yHog==
+X-Google-Smtp-Source: ABdhPJwn9dUhyGsQNuIR0aEntCDL523Obfp417kZ6qzkOSNqiC7aYg7VwB7FderlBr7x+SoB8DtFTw==
+X-Received: by 2002:a1c:e90d:: with SMTP id q13mr11109395wmc.163.1621168848520;
+        Sun, 16 May 2021 05:40:48 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:22d7:8af4:80b5:c062? ([2001:8b0:aba:5f3c:22d7:8af4:80b5:c062])
+        by smtp.gmail.com with ESMTPSA id c14sm13031949wrt.77.2021.05.16.05.40.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 May 2021 05:40:48 -0700 (PDT)
+Message-ID: <6ecd0c9a94ec2d2ab907dac32bae6bb6b47e3664.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [bitbake][PATCH 1/3] bitbake: fetch2/repo: add support for projects to be fetched simultaneously
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Sourabh Banerjee <sbanerje@codeaurora.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 16 May 2021 13:40:45 +0100
 In-Reply-To: <1621164193-9434-1-git-send-email-sbanerje@codeaurora.org>
 References: <1621164193-9434-1-git-send-email-sbanerje@codeaurora.org>
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-repo tool can fetch projects by name. I.e., if there are
-multiple projects listed in the manifest file.
+On Sun, 2021-05-16 at 16:53 +0530, Sourabh Banerjee wrote:
+> repo tool can fetch projects simultaneously.
+> As per repo sync documentation:
+>   Usage: repo sync [<project>...]
+>   Options:
+>     -j JOBS, --jobs=JOBS  projects to fetch simultaneously (default 1)
+> 
+> By supplying jobs=<some_number> recipe can choose to use the
+> simultaneous fetch feature of repo tool.
+> Example:
+>   SRC_URI = "repo://REPOROOT;protocol=git;branch=main;manifest=default.xml;jobs=8"
+> 
+> Signed-off-by: Sourabh Banerjee <sbanerje@codeaurora.org>
+> ---
+>  bitbake/lib/bb/fetch2/repo.py | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 
- <manifest>
-  <project name="project1"  path="sync path1"  revision="sha256" />
-  <project name="project2"  path="sync path2"  revision="sha256" />
- </manifest>
+Does this value make sense as a per repository setting or an overall 
+build setting?
 
-Documented Usage: repo sync [<project>...]
+Cheers,
 
-By supplying project=<project_name> recipe can choose to sync a specific
-project.
-Example:
-  SRC_URI = "repo://REPOROOT;protocol=git;branch=main;manifest=default.xml;project=project1"
+Richard
 
-This is helpful when recipe needs to sync only a specific project
-from a manifest that lists multiple projects.
-
-Signed-off-by: Sourabh Banerjee <sbanerje@codeaurora.org>
----
- bitbake/lib/bb/fetch2/repo.py | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/bitbake/lib/bb/fetch2/repo.py b/bitbake/lib/bb/fetch2/repo.py
-index 8547b9e..e7c5255 100644
---- a/bitbake/lib/bb/fetch2/repo.py
-+++ b/bitbake/lib/bb/fetch2/repo.py
-@@ -41,7 +41,10 @@ class Repo(FetchMethod):
-         if not ud.manifest.endswith('.xml'):
-             ud.manifest += '.xml'
- 
--        ud.localfile = d.expand("repo_%s%s_%s_%s.tar.gz" % (ud.host, ud.path.replace("/", "."), ud.manifest, ud.branch))
-+        project = ud.parm.get('project', '')
-+        if len(project):
-+            project = '_' + project
-+        ud.localfile = d.expand("repo_%s%s_%s_%s%s.tar.gz" % (ud.host, ud.path.replace("/", "."), ud.manifest, ud.branch, project.replace("/", ".")))
- 
-     def download(self, ud, d):
-         """Fetch url"""
-@@ -52,7 +55,8 @@ class Repo(FetchMethod):
- 
-         repodir = d.getVar("REPODIR") or (d.getVar("DL_DIR") + "/repo")
-         gitsrcname = "%s%s" % (ud.host, ud.path.replace("/", "."))
--        codir = os.path.join(repodir, gitsrcname, ud.manifest)
-+        project = ud.parm.get('project', '')
-+        codir = os.path.join(repodir, gitsrcname, ud.manifest, project.replace("/", "."))
- 
-         if ud.user:
-             username = ud.user + "@"
-@@ -76,7 +80,7 @@ class Repo(FetchMethod):
-         if jobs:
-             jobs = '-j' + jobs
-         bb.fetch2.check_network_access(d, "%s sync %s" % (ud.basecmd, ud.url), ud.url)
--        runfetchcmd("%s sync %s" % (ud.basecmd, jobs), d, workdir=repodir)
-+        runfetchcmd("%s sync %s %s" % (ud.basecmd, jobs, project), d, workdir=repodir)
- 
-         scmdata = ud.parm.get("scmdata", "")
-         if scmdata == "keep":
--- 
-2.7.4
-
-
-
--- 
-Regards,
-Sourabh
