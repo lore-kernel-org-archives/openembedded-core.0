@@ -1,47 +1,47 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.11571.1621204378472506567
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.11628.1621204378876871373
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 May 2021 15:32:58 -0700
+ Sun, 16 May 2021 15:32:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DpY20U0t;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id a4so4483300wrr.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TQb554G3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id d11so4447508wrw.8
         for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 15:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=i1FdLQv085wfWFWtegifKeLDyQQWed9W/WtFHVURZIU=;
-        b=DpY20U0tWkxKs+1F+b5igV4Cb6wiOjNLwBf/29D2qFI0p7yQzaA7GwJ5rAap0ogdHE
-         ZypXNcPNTkVgynNoX77ixq8CI/Zyt6ft/PZUhm7Nqh/2Oczm5T/kavkV375Kj28qd6iC
-         PMcM5qUQnTOXFKd/Yb9Aga99AnXtDmFWdf0ME=
+        bh=IjjHFptbVoL+BBeTjkCNCZACfe7xtJhLaJhjAAqjkaQ=;
+        b=TQb554G3UIE7Zm4sNzwr/EMGI+pvX+wdc+ZThugb4KJopJM5ol1yXFf5YnnJP4pnNR
+         ftCB4fOKoPefd1+GZATY46TuVtxh4QUJvy4j8rITAVV4Omu7WTFklGr/przh2wH/jWwP
+         WOFw7Hz3ZrqnoemQj8SJXk9gL74NmXpzC73QA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=i1FdLQv085wfWFWtegifKeLDyQQWed9W/WtFHVURZIU=;
-        b=ZwlkyzNXp1D7G0dsXpCtXfWkNcNUpbDO7BanXPJbLWix9YShzaCsCuVZ0wbExBw8H0
-         nHDrJhAyIwsef1xbBLuXgbxnM9nmB3ljvtoWtK8Dt0Z8vwDylKjeM8InDqdf5XRKTzPq
-         EmVA13Bzuift4/v0MJEdkye/79mowWWX2I9ZZyKX7enpiOKy92ITq9tween3afag2rMG
-         igcgeAFIvmr5sEmvgI0Iy2UAsoNWd+IyNJVvB4qK21R4Yq8m120ZeZD2Fdx/DXbtUTl7
-         1j7zLKN0lyHUcEtklcFyQFm/uZmug9VFxjbIsuxNp23AIRBzrmnCynmCog4OHRI2cjO6
-         z48A==
-X-Gm-Message-State: AOAM532gglrlkdXWtIHgdy17bk54wZzLUJYjGeu6kkc4QjYoyWS2rL87
-	w9zZOZIW96TtP1ss6hBev7JOGLQif/Q9PA==
-X-Google-Smtp-Source: ABdhPJzbdVqVmrlQlG991AHfmPfkLHLHvFXwM4T8shl96AA0OtCttP2DsWHQTWbWRhzdYO/EBj8K0w==
-X-Received: by 2002:adf:f7cf:: with SMTP id a15mr32085216wrq.184.1621204377053;
+        bh=IjjHFptbVoL+BBeTjkCNCZACfe7xtJhLaJhjAAqjkaQ=;
+        b=FcCmq4CZ94nwva5dKDJXNzMAQKF9imvnZjAGoR4SBT4zaGmyzQGNXSUoZnvFMDWBDL
+         DnDeiaIZFGiAHGK7/iYkJjcKvKX7+BM4w1+Lyp4Mr0Kl4PVuMxPIo5JT+H1DKiD4gpZJ
+         L/143PBq7ttnBEOv8NHntKjEC56lxWalTcJV+0ZCuXm5iYjKd9GYn5bUQQl2dPwZRkVB
+         E2JlaweES4gNW8MOvNfZnCjqdrIE9Ayyby1APsN9AmqJhNjwbB8tat5GyrPRo6NBdFGD
+         WQ6HIUAlsOg25cWGx3iNQbvkiMnwfCxR1SA4ncDKvrZhDE2yNZANRIDBVUOMyI2uQycR
+         tJUA==
+X-Gm-Message-State: AOAM530CEsVOh9AzDGSjGnImHS4GEXV7enfQHlLdNwxfF+rIh5x1HRcX
+	TOQ3NM7TbtS+G7OXbk4fWRi/nD9Fr5BvPw==
+X-Google-Smtp-Source: ABdhPJwXmOveuQIUrQmLvqkUxtVLzq6fG8r3DCajRV7UP+432oa3phUaC0tHVMXsJ8ClGBEA+FX01A==
+X-Received: by 2002:adf:f9ce:: with SMTP id w14mr12676256wrr.387.1621204377409;
         Sun, 16 May 2021 15:32:57 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1b39:2a3f:a2c2:a4fc])
-        by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.32.56
+        by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.32.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 May 2021 15:32:56 -0700 (PDT)
+        Sun, 16 May 2021 15:32:57 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 16/27] libtirpc: upgrade 1.3.1 -> 1.3.2
-Date: Sun, 16 May 2021 23:32:36 +0100
-Message-Id: <20210516223247.2401235-16-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 17/27] libinput: upgrade 1.17.1 -> 1.17.2
+Date: Sun, 16 May 2021 23:32:37 +0100
+Message-Id: <20210516223247.2401235-17-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
 References: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
@@ -50,25 +50,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libtirpc/{libtirpc_1.3.1.bb => libtirpc_1.3.2.bb}           | 2 +-
+ .../wayland/{libinput_1.17.1.bb => libinput_1.17.2.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libtirpc/{libtirpc_1.3.1.bb => libtirpc_1.3.2.bb} (90%)
+ rename meta/recipes-graphics/wayland/{libinput_1.17.1.bb => libinput_1.17.2.bb} (95%)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.1.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-similarity index 90%
-rename from meta/recipes-extended/libtirpc/libtirpc_1.3.1.bb
-rename to meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-index 57922642505..b666263280e 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.1.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-@@ -12,7 +12,7 @@ PROVIDES = "virtual/librpc"
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2"
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
--SRC_URI[sha256sum] = "245895caf066bec5e3d4375942c8cb4366adad184c29c618d97f724ea309ee17"
-+SRC_URI[sha256sum] = "e24eb88b8ce7db3b7ca6eb80115dd1284abc5ec32a8deccfed2224fc2532b9fd"
+diff --git a/meta/recipes-graphics/wayland/libinput_1.17.1.bb b/meta/recipes-graphics/wayland/libinput_1.17.2.bb
+similarity index 95%
+rename from meta/recipes-graphics/wayland/libinput_1.17.1.bb
+rename to meta/recipes-graphics/wayland/libinput_1.17.2.bb
+index 9ffb22876be..e4a8e1a3d8f 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.17.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.17.2.bb
+@@ -16,7 +16,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            file://determinism.patch \
+            "
+-SRC_URI[sha256sum] = "e51c50f3ce253961bed452d9f93102cc26128406975ab88ff9ec9e6c3b875137"
++SRC_URI[sha256sum] = "b822263086b6588b9a9a153be97dea409f63927fb67b9a241748e76f222a5be1"
  
- inherit autotools pkgconfig
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
  
 -- 
 2.30.2
