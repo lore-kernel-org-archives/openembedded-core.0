@@ -1,47 +1,47 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.11436.1621204377251976089
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.11570.1621204377722114866
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 May 2021 15:32:57 -0700
+ Sun, 16 May 2021 15:32:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cDgXSnnA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id p7so725267wru.10
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SMhboMoJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id v12so4456295wrq.6
         for <openembedded-core@lists.openembedded.org>; Sun, 16 May 2021 15:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=0HMZHC9ScaM+ZTLDM7RVozjnndgAj76No081GmQF8oc=;
-        b=cDgXSnnAMLtnb1kfzdf2wU7rtXBxmMu4XYW6Qo4JFhqDm+Si8WLIs371fz9KTrzDlD
-         e1GBxXufAgbfZIzAq4sSr43j/PvKa8lmRl8WXX/rrYYhoPiPcZLMt6LgafC2jDXVcg7i
-         I63QIhT0WJIlCzpR+KEGr4PVCNBdj6tl11JQM=
+        bh=j/6GCR263nS8Gjs3B9dqB2qD2RtlHuPLooTnysywimY=;
+        b=SMhboMoJgfQw5sLgONA84dMtcnYvMDphmZpzcSDKx2IDzkoiJOb+QGf+fefylOIvQN
+         zTjpOc2bvNPCcKk1eeXbd6QRumnDsCogP7PaFtWb8iqnxEpncdbz+hL+5XCnp7X+ChS4
+         EBeEKyKyOHtyXuV8UKRKxGnsrOc4fg7t9xgJk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0HMZHC9ScaM+ZTLDM7RVozjnndgAj76No081GmQF8oc=;
-        b=X8+ua62m/nJzh6EmvUMzectXpydUkCt/WvJlxVcYBTaT9iUhku/0ybrCJ4XmCbY3Jj
-         hsMeiWoZDyNm9p7QwRUPyO1gLx4iOah+JPHxwDNBgrRbKLDS0GI6fYotNHSKcdyTJjRT
-         tIOx9vG2zy8wtdmxONUfAN34Rw4DYlNjHgSuv/JmpB05yaYexNWpZY+iFWAdzEY+yyiT
-         YfZ76k2DDr14XQL77c+eAtWBdz1xKWNjlpOLRpV+SMYPvH5dWAhAWIuLWwppIr74P42b
-         HcYGGd3+TEPeZb7IB54RYuDQO9pPxmzmafVthu13CQXjVp0KyLr/P6WptNw86RSzVKJP
-         y76A==
-X-Gm-Message-State: AOAM532NuV2DaddHKOCVy1ucGQUosxb2XsX/1Jj4waWLI7QcBj/UQ3/n
-	UhUMw2WLMeYXi9ili9/HcZBpB8TI7V8PEQ==
-X-Google-Smtp-Source: ABdhPJz7pA5sLK/OM/QWlbi0CakJEaNvNnYUCwQaPWy0xyRcbUe0/5p43rF9TA2ViP3y1XB4AuALUQ==
-X-Received: by 2002:a5d:4c48:: with SMTP id n8mr14206523wrt.422.1621204375867;
-        Sun, 16 May 2021 15:32:55 -0700 (PDT)
+        bh=j/6GCR263nS8Gjs3B9dqB2qD2RtlHuPLooTnysywimY=;
+        b=WxC9+8lRIIL09GqXmdEQVXatxSroRYzrD+k7U5AEj2wg5Rz4zfKJ1Njcd0JoYecv0Y
+         f2wmgwVjg9xRBDXLVOMCBqO/C7kAcWjZMcFSCEUbp39D03ZWAeCZx8LUIb5U6Y6ugcXD
+         nbeIWkgLZg9RWffn0RNV+b+ugTbtBQbh7PLzKHyLfGgb+97mdGk76F0Gm5j/4I6TkTsg
+         ibyRzLJdUMmCcnkvvJ/paqM50kUcqaI7atv106tbNlbe6GjQO7N91YdPjP2FsdK1g1tJ
+         w9p3bMdvWRV1eurQodbGYoT8xSn649vCaAdOwp5w8IbDsBpMHVZjm3eEFs0a1JB8Gcp2
+         j6vQ==
+X-Gm-Message-State: AOAM532uHb6yWxukm56PI8tGdfECXGFBVP7gBHrMkVMGY1aVojXqJ15Z
+	FTEAET5qZBrrKgbXq/B5SsLigRSAv+t6sQ==
+X-Google-Smtp-Source: ABdhPJz10npbtOJ2wXVU0aA/OBtsQiL6ZAeB/uNvgqVsn9KRAQo4C64fyYx/bVK/l0nXx7XcOG4HAg==
+X-Received: by 2002:a5d:6da8:: with SMTP id u8mr69942727wrs.48.1621204376314;
+        Sun, 16 May 2021 15:32:56 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1b39:2a3f:a2c2:a4fc])
-        by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.32.55
+        by smtp.gmail.com with ESMTPSA id f8sm11621759wmg.43.2021.05.16.15.32.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 May 2021 15:32:55 -0700 (PDT)
+        Sun, 16 May 2021 15:32:56 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 13/27] sudo: upgrade 1.9.6p1 -> 1.9.7
-Date: Sun, 16 May 2021 23:32:33 +0100
-Message-Id: <20210516223247.2401235-13-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 14/27] stress-ng: upgrade 0.12.06 -> 0.12.08
+Date: Sun, 16 May 2021 23:32:34 +0100
+Message-Id: <20210516223247.2401235-14-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
 References: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
@@ -50,26 +50,59 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/sudo/{sudo_1.9.6p1.bb => sudo_1.9.7.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.6p1.bb => sudo_1.9.7.bb} (96%)
+ ...reserve-ownership-when-installing-example-jo.patch | 11 ++++++-----
+ .../{stress-ng_0.12.06.bb => stress-ng_0.12.08.bb}    |  2 +-
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.12.06.bb => stress-ng_0.12.08.bb} (90%)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.6p1.bb b/meta/recipes-extended/sudo/sudo_1.9.7.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.6p1.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.7.bb
-index b3334591364..4685ca10b51 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.6p1.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.7.bb
-@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch b/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch
+index c860c717ac4..2ee0be54bac 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch
++++ b/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch
+@@ -1,21 +1,22 @@
+-From bbc85a439672120fa1d36be79e959b28fe840919 Mon Sep 17 00:00:00 2001
++From f14d9d8184753dfbff99d7a51939145355627dcd Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 30 Jul 2019 18:38:03 +0200
+ Subject: [PATCH] Do not preserve ownership when installing example jobs
  
- PAM_SRC_URI = "file://sudo.pam"
+ Upstream-Status: Pending
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "a9e9cdc058fafeb9cd3ebfb864c81755e524d98aa022152763f25bce8ca3ca90"
-+SRC_URI[sha256sum] = "2bbe7c2d6699b84d950ef9a43f09d4d967b8bc244b73bc095c4202068ddbe549"
+ diff --git a/Makefile b/Makefile
+-index f36e57e..20488af 100644
++index 91d8ed4..72d0ca0 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -452,6 +452,6 @@ install: stress-ng stress-ng.1.gz
+- 	mkdir -p ${DESTDIR}${MANDIR}
+- 	cp stress-ng.1.gz ${DESTDIR}${MANDIR}
++@@ -502,6 +502,6 @@ else
++ 	cp stress-ng.1 ${DESTDIR}${MANDIR}
++ endif
+  	mkdir -p ${DESTDIR}${JOBDIR}
+ -	cp -rp example-jobs/*.job ${DESTDIR}${JOBDIR}
+ +	cp -r example-jobs/*.job ${DESTDIR}${JOBDIR}
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.06.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.08.bb
+similarity index 90%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.12.06.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.12.08.bb
+index 7e9135ad01c..24de8e39be8 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.12.06.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.08.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            file://no_daddr_t.patch \
+            "
+-SRC_URI[sha256sum] = "75eb340266b1bbae944d8f9281af978bd5bc2c8085df97a098d5500d6f177296"
++SRC_URI[sha256sum] = "39e98cbb682bd3f907b2c718c20747bc94804abc92fbc4dad3a50bf530108d09"
  
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+ DEPENDS = "coreutils-native"
+ 
 -- 
 2.30.2
 
