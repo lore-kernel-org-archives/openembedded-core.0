@@ -1,156 +1,274 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web08.184.1621289358935047899
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web12.148.1621289359787182265
  for <openembedded-core@lists.openembedded.org>;
  Mon, 17 May 2021 15:09:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u6d8I9ax;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id p6so3937398plr.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:09:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mlwcTiT7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id p6so3937417plr.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cEZ5wdsAoe2ZPufiCuXZSif6J0b1tPI5CYejPrCdHYE=;
-        b=u6d8I9ax1yY+/1whxkSlKT6u/9oXkSpw4KPc9/3/bZwAkLNDefV0yJdw0xMurea2vE
-         AtRy99Ww3l9YLTGmbNiA3/bd6+5AfYn/E87efv1oywycHzuPXcRbDYg09Y67XqgEcwSX
-         zUAPD+LKHEM6J2m5ohfxFuU47rebPJRu06zrbYJ8T7edQR8eErS1wCLbC+gGnQfy2Efe
-         gZs2ug7rYp6CnTITaY2/jSC1gbL9bOEDJxh+i/JNg9qzXuzBAQtur/bUVhlqJzjR+/UV
-         kADrhlF02Lewn4T44QdzQNMNU7BiIDlOGbF5zDOfAQtXu0/i117FG3XINuze71lEcqRU
-         gTMg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=D6ZBOSfkcyzYIvyL8egCKtv/Yq1TS+2WTaHAp6HhdCU=;
+        b=mlwcTiT7nb5jhmKkSLu2r7vfRY4MFAu+04uhxmCVYplEL6c1IR1ceBAk7aErecGAHC
+         fYs0JXs4l38LzApi3X5d1XoPUzx5APFUII4SqIV7iwK38zpLPMXMSsWShK/5qDw4mVhr
+         hcp0xceqcG7O0W5+/uBxhu1v8nqNHwMyQEjCdXd26IT1aXf+DZtVWc8yfr7sS4dbDpxw
+         CDNHaLle7mkosnlqCrecsETiOcrlV1h8zVbblz/Pi0hYVqmUKj9Of+/R7to5DlWUNElt
+         dhEVhldGPmgDxtpts9mmFimEEoehwtm4rzut4di4TAMkuYbkRhq53HxfEtvg1WI16Qxz
+         LuOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cEZ5wdsAoe2ZPufiCuXZSif6J0b1tPI5CYejPrCdHYE=;
-        b=Ey83kfEcdWX113M+Au9w5h6gdrrXCGoV7DWswJd1/+LO5FpRJ0C3IWGHTwJJuyVQmp
-         aX9S5fmaGvBZI6YmZRBRNhE+hbviBfbjQ2WyS9OGbzFtyGO4ihFefpcdBscIoi+FpRcL
-         bVTEtFz8I/EBKsufkkodfnkNRbp9H+p8bx3tn4eYBrYmRgeiStgsDfpooydf2kOO8mr6
-         MapCeWX9zP9du+PpRUXqkj8raznsFgcom55Y/pPG4XT/FZ3ZQH21OFpFtyXt6uEI/Q6G
-         rF+UrHcJ4BDKrgs/+WOgSuuGoE39llF2BtjrOPeg25SD8BQy1qRfUgAXEGTbeg5IDBAj
-         fnNg==
-X-Gm-Message-State: AOAM530XzmmT2SOArFKFLJEvtUl3mwDJ6TRvIZfEkgqLTIhW+bo7dC2y
-	sJp/nn3bQhl0WjRGwEIRn+vC7BcKsCQ/uA==
-X-Google-Smtp-Source: ABdhPJzq6hiKJov/19WXS/bSE7N2MHiEi+TsaoaqlKH675JJ4AmmDQM7u2A0NY+i6uxGiLP4EjvDuA==
-X-Received: by 2002:a17:902:ea06:b029:f1:9082:3ddc with SMTP id s6-20020a170902ea06b02900f190823ddcmr672231plg.43.1621289357984;
-        Mon, 17 May 2021 15:09:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=D6ZBOSfkcyzYIvyL8egCKtv/Yq1TS+2WTaHAp6HhdCU=;
+        b=hZ3IIEPBd0FTmpbYMiGzLu5PqNT+TB32OBNYLN4QUDOizsy0nUzPJbqwllf1D2HTNl
+         /trBO3YWkUnXKN/Jrgh7m/vQtpfUxEczZvem64M8yWplDhYiH4W23nNA9Wi/MT7qGbp7
+         aX7MX96AzRysjRupS5mkUiY4UlCwt//7yTWmiDcikDH7HtXW20rwCpdb6VK1gylK1+RT
+         Fi/aS2fSaJIP6hZwyH6QZh8/1bkJO1hRbpXgLeZAIcjVFH01fcQG+vpzzJcaXmAnlpez
+         xGA8+SV/QRvVbkYCnnabjyLc1JiPqYotficbNXGC2BulgtLQ5oH1e7KYoKU2Mh0wM6kz
+         YicA==
+X-Gm-Message-State: AOAM532UiFwkPA5KNtnMasK9rLC6CA/NiTQcQdVuKJjPmF9q270w9wFF
+	71XRts0hlTYwWlSqb2O07RRstZNgQ7rrxg==
+X-Google-Smtp-Source: ABdhPJxxX/3AAXSv/ULzhTJGD9HV+YsXSZDExODri7Zj9xinGE1RcqMkg9N8/SvYiLi/h48oSzyzSg==
+X-Received: by 2002:a17:90a:bd01:: with SMTP id y1mr1298527pjr.166.1621289359020;
+        Mon, 17 May 2021 15:09:19 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0:db81:2f56:60e4:2c64])
-        by smtp.gmail.com with ESMTPSA id s184sm11307010pgc.29.2021.05.17.15.09.17
+        by smtp.gmail.com with ESMTPSA id s184sm11307010pgc.29.2021.05.17.15.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 15:09:17 -0700 (PDT)
+        Mon, 17 May 2021 15:09:18 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] gcc: Add target gcc include search for musl config too
-Date: Mon, 17 May 2021 15:09:13 -0700
-Message-Id: <20210517220915.3760392-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] gcc: Extend .gccrelocprefix section support to musl configs
+Date: Mon, 17 May 2021 15:09:14 -0700
+Message-Id: <20210517220915.3760392-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210517220915.3760392-1-raj.khem@gmail.com>
+References: <20210517220915.3760392-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Musl has different search order and therefore injects it
-via INCLUDE_DEFAULTS and does not use the defaults from
-gcc/cppdefaults.h, this ensures that same fix is extended
-to musl configs too where it can search for compiler headers
-It will fix builds with musl where omp.h is not found because
-it is in gcc includes path on target ( not cross ) sysroot
+musl includes were not using the relocatable prefix like glibc
+counterpart, this will mean that musl SDKs will behave better and find
+the headers in right install directories
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...e-target-gcc-headers-can-be-included.patch | 64 +++++++++++++++++--
- 1 file changed, 60 insertions(+), 4 deletions(-)
+ ...le-sysroot-support-for-nativesdk-gcc.patch | 179 +++++++++++++++++-
+ 1 file changed, 170 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch b/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch
-index 98472dd2b5..120d5a29b2 100644
---- a/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch
+diff --git a/meta/recipes-devtools/gcc/gcc/0024-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc/0024-handle-sysroot-support-for-nativesdk-gcc.patch
+index 3958e9c212..b1054fa749 100644
+--- a/meta/recipes-devtools/gcc/gcc/0024-handle-sysroot-support-for-nativesdk-gcc.patch
++++ b/meta/recipes-devtools/gcc/gcc/0024-handle-sysroot-support-for-nativesdk-gcc.patch
 @@ -1,4 +1,4 @@
--From 9b4eb0e18a953d79d20c78d3ba741af6d71ab9ca Mon Sep 17 00:00:00 2001
-+From 6f410ed8fb7eee11ba7a25634c2257666b98ef52 Mon Sep 17 00:00:00 2001
+-From 35c084a051bcd6587ebc73e4acb045cb2bdf7e99 Mon Sep 17 00:00:00 2001
++From 354682ad8f71f62643dcd83f64b51b5979615a0c Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 20 Feb 2015 10:25:11 +0000
- Subject: [PATCH] Ensure target gcc headers can be included
-@@ -11,14 +11,18 @@ found by gcc with the existing search paths. Add support for
- picking up these headers under the sysroot supplied on the gcc
- command line in order to resolve this.
+ Date: Mon, 7 Dec 2015 23:39:54 +0000
+ Subject: [PATCH] handle sysroot support for nativesdk-gcc
+@@ -23,6 +23,9 @@ b) Add other paths which need relocation into a .gccrelocprefix section
+ Upstream-Status: Inappropriate
+ RP 2015/7/28
  
-+Extend target gcc headers search to musl too
++Extend the gccrelocprefix support to musl config too, this ensures
++that gcc will get right bits in SDK installations
 +
- Upstream-Status: Pending
- 
- Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
  Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- gcc/Makefile.in  | 2 ++
-- gcc/cppdefault.c | 4 ++++
-- 2 files changed, 6 insertions(+)
-+ gcc/Makefile.in           | 2 ++
-+ gcc/config/linux.h        | 8 ++++++++
-+ gcc/config/rs6000/sysv4.h | 8 ++++++++
-+ gcc/cppdefault.c          | 4 ++++
-+ 4 files changed, 22 insertions(+)
  
- diff --git a/gcc/Makefile.in b/gcc/Makefile.in
- index 59c45c81393..9b17d120aa1 100644
-@@ -40,6 +44,58 @@ index 59c45c81393..9b17d120aa1 100644
-    -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
-    -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
-    -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
+ Added PREFIXVAR and EXEC_PREFIXVAR to support runtime relocation.  Without
+@@ -32,16 +35,18 @@ implementation.)
+ 
+ Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+ ---
+- gcc/c-family/c-opts.c |  4 +--
+- gcc/cppdefault.c      | 63 ++++++++++++++++++++++++++-----------------
+- gcc/cppdefault.h      | 13 ++++-----
+- gcc/gcc.c             | 20 +++++++++-----
+- gcc/incpath.c         | 12 ++++-----
+- gcc/prefix.c          |  6 +++--
+- 6 files changed, 70 insertions(+), 48 deletions(-)
++ gcc/c-family/c-opts.c     |  4 +--
++ gcc/config/linux.h        | 24 +++++++--------
++ gcc/config/rs6000/sysv4.h | 24 +++++++--------
++ gcc/cppdefault.c          | 63 ++++++++++++++++++++++++---------------
++ gcc/cppdefault.h          | 13 ++++----
++ gcc/gcc.c                 | 20 +++++++++----
++ gcc/incpath.c             | 12 ++++----
++ gcc/prefix.c              |  6 ++--
++ 8 files changed, 94 insertions(+), 72 deletions(-)
+ 
+ diff --git a/gcc/c-family/c-opts.c b/gcc/c-family/c-opts.c
+-index bd15b9cd902..2bd667e3f58 100644
++index 89e05a4c551..5577383665d 100644
+ --- a/gcc/c-family/c-opts.c
+ +++ b/gcc/c-family/c-opts.c
+ @@ -1436,8 +1436,8 @@ add_prefixed_path (const char *suffix, incpath_kind chain)
+@@ -55,6 +60,162 @@ index bd15b9cd902..2bd667e3f58 100644
+  
+    path = (char *) xmalloc (prefix_len + suffix_len + 1);
+    memcpy (path, prefix, prefix_len);
 +diff --git a/gcc/config/linux.h b/gcc/config/linux.h
-+index 87efc5f69fe..b525bcd56b3 100644
++index b525bcd56b3..ba02c013e30 100644
 +--- a/gcc/config/linux.h
 ++++ b/gcc/config/linux.h
-+@@ -165,6 +165,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++@@ -129,53 +129,53 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++  * Unfortunately, this is mostly duplicated from cppdefault.c */
++ #if DEFAULT_LIBC == LIBC_MUSL
++ #define INCLUDE_DEFAULTS_MUSL_GPP			\
++-    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1,		\
+++    { GPLUSPLUS_INCLUDE_DIRVAR, "G++", 1, 1,		\
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },		\
++-    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1,		\
+++    { GPLUSPLUS_TOOL_INCLUDE_DIRVAR, "G++", 1, 1,	\
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 1 },		\
++-    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1,	\
+++    { GPLUSPLUS_BACKWARD_INCLUDE_DIRVAR, "G++", 1, 1,	\
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },
++ 
++ #ifdef LOCAL_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_LOCAL			\
++-    { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2 },		\
++-    { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 0 },
+++    { LOCAL_INCLUDE_DIRVAR, 0, 0, 1, 1, 2 },		\
+++    { LOCAL_INCLUDE_DIRVAR, 0, 0, 1, 1, 0 },
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_LOCAL
++ #endif
++ 
++ #ifdef PREFIX_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_PREFIX			\
++-    { PREFIX_INCLUDE_DIR, 0, 0, 1, 0, 0},
+++    { PREFIX_INCLUDE_DIRVAR, 0, 0, 1, 0, 0},
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_PREFIX
++ #endif
++ 
++ #ifdef CROSS_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_CROSS			\
++-    { CROSS_INCLUDE_DIR, "GCC", 0, 0, 0, 0},
+++    { CROSS_INCLUDE_DIRVAR, "GCC", 0, 0, 0, 0},
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_CROSS
++ #endif
++ 
++ #ifdef TOOL_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_TOOL			\
++-    { TOOL_INCLUDE_DIR, "BINUTILS", 0, 1, 0, 0},
+++    { TOOL_INCLUDE_DIRVAR, "BINUTILS", 0, 1, 0, 0},
++ #else
 + #define INCLUDE_DEFAULTS_MUSL_TOOL
 + #endif
 + 
-++#ifdef GCC_INCLUDE_SUBDIR_TARGET
-++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET		\
-++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0},
-++#else
-++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET
-++#endif
-++
++ #ifdef GCC_INCLUDE_SUBDIR_TARGET
++ #define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET		\
++-    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0},
+++    { STANDARD_STARTFILE_PREFIX_2VAR, "GCC", 0, 0, 1, 0},
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET
++ #endif
++ 
 + #ifdef NATIVE_SYSTEM_HEADER_DIR
 + #define INCLUDE_DEFAULTS_MUSL_NATIVE			\
-+     { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 2 },	\
-+@@ -191,6 +198,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-+     INCLUDE_DEFAULTS_MUSL_PREFIX			\
-+     INCLUDE_DEFAULTS_MUSL_CROSS				\
++-    { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 2 },	\
++-    { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 0 },
+++    { NATIVE_SYSTEM_HEADER_DIRVAR, 0, 0, 0, 1, 2 },	\
+++    { NATIVE_SYSTEM_HEADER_DIRVAR, 0, 0, 0, 1, 0 },
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_NATIVE
++ #endif
++@@ -200,7 +200,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 +     INCLUDE_DEFAULTS_MUSL_TOOL				\
-++    INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET			\
++     INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET			\
 +     INCLUDE_DEFAULTS_MUSL_NATIVE			\
-+     { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
++-    { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
+++    { GCC_INCLUDE_DIRVAR, "GCC", 0, 1, 0, 0 },		\
 +     { 0, 0, 0, 0, 0, 0 }				\
++   }
++ #endif
 +diff --git a/gcc/config/rs6000/sysv4.h b/gcc/config/rs6000/sysv4.h
-+index 510abe169c5..0c2bba5ea32 100644
++index 0c2bba5ea32..313a8de4417 100644
 +--- a/gcc/config/rs6000/sysv4.h
 ++++ b/gcc/config/rs6000/sysv4.h
-+@@ -995,6 +995,13 @@ ncrtn.o%s"
++@@ -959,53 +959,53 @@ ncrtn.o%s"
++ /* Include order changes for musl, same as in generic linux.h.  */
++ #if DEFAULT_LIBC == LIBC_MUSL
++ #define INCLUDE_DEFAULTS_MUSL_GPP			\
++-    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1,		\
+++    { GPLUSPLUS_INCLUDE_DIRVAR, "G++", 1, 1,		\
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },		\
++-    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1,		\
+++    { GPLUSPLUS_TOOL_INCLUDE_DIRVAR, "G++", 1, 1,	\
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 1 },		\
++-    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1,	\
+++    { GPLUSPLUS_BACKWARD_INCLUDE_DIRVAR, "G++", 1, 1,	\
++       GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },
++ 
++ #ifdef LOCAL_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_LOCAL			\
++-    { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2 },		\
++-    { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 0 },
+++    { LOCAL_INCLUDE_DIRVAR, 0, 0, 1, 1, 2 },		\
+++    { LOCAL_INCLUDE_DIRVAR, 0, 0, 1, 1, 0 },
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_LOCAL
++ #endif
++ 
++ #ifdef PREFIX_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_PREFIX			\
++-    { PREFIX_INCLUDE_DIR, 0, 0, 1, 0, 0},
+++    { PREFIX_INCLUDE_DIRVAR, 0, 0, 1, 0, 0},
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_PREFIX
++ #endif
++ 
++ #ifdef CROSS_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_CROSS			\
++-    { CROSS_INCLUDE_DIR, "GCC", 0, 0, 0, 0},
+++    { CROSS_INCLUDE_DIRVAR, "GCC", 0, 0, 0, 0},
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_CROSS
++ #endif
++ 
++ #ifdef TOOL_INCLUDE_DIR
++ #define INCLUDE_DEFAULTS_MUSL_TOOL			\
++-    { TOOL_INCLUDE_DIR, "BINUTILS", 0, 1, 0, 0},
+++    { TOOL_INCLUDE_DIRVAR, "BINUTILS", 0, 1, 0, 0},
++ #else
 + #define INCLUDE_DEFAULTS_MUSL_TOOL
 + #endif
 + 
-++#ifdef GCC_INCLUDE_SUBDIR_TARGET
-++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET            \
-++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0},
-++#else
-++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET
-++#endif
-++
++ #ifdef GCC_INCLUDE_SUBDIR_TARGET
++ #define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET            \
++-    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0},
+++    { STANDARD_STARTFILE_PREFIX_2VAR, "GCC", 0, 0, 1, 0},
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET
++ #endif
++ 
 + #ifdef NATIVE_SYSTEM_HEADER_DIR
 + #define INCLUDE_DEFAULTS_MUSL_NATIVE			\
-+     { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 2 },	\
-+@@ -1021,6 +1028,7 @@ ncrtn.o%s"
-+     INCLUDE_DEFAULTS_MUSL_PREFIX			\
-+     INCLUDE_DEFAULTS_MUSL_CROSS				\
++-    { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 2 },	\
++-    { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 0 },
+++    { NATIVE_SYSTEM_HEADER_DIRVAR, 0, 0, 0, 1, 2 },	\
+++    { NATIVE_SYSTEM_HEADER_DIRVAR, 0, 0, 0, 1, 0 },
++ #else
++ #define INCLUDE_DEFAULTS_MUSL_NATIVE
++ #endif
++@@ -1030,7 +1030,7 @@ ncrtn.o%s"
 +     INCLUDE_DEFAULTS_MUSL_TOOL				\
-++    INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET			\
++     INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET			\
 +     INCLUDE_DEFAULTS_MUSL_NATIVE			\
-+     { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
++-    { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
+++    { GCC_INCLUDE_DIRVAR, "GCC", 0, 1, 0, 0 },		\
 +     { 0, 0, 0, 0, 0, 0 }				\
++   }
++ #endif
  diff --git a/gcc/cppdefault.c b/gcc/cppdefault.c
- index c503d14fc3f..d54d6ce0076 100644
+ index d54d6ce0076..784a92a0c24 100644
  --- a/gcc/cppdefault.c
 -- 
 2.31.1
