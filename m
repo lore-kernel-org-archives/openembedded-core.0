@@ -1,177 +1,202 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.19345.1621260838308086992
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.19346.1621260841654525604
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 07:13:58 -0700
+ Mon, 17 May 2021 07:14:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LhHG2qBI;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id v13so3198540ple.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:13:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xSGC8ADN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id g18so3375558pfr.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=h1fBhe1Uwwc88IZBYGEvy7GWWOv8Ohr2Eol4MEZydDU=;
-        b=LhHG2qBIOUa+bfkue4ILYfMhJUSA7bOxD9tMV38/giH8cU5166g118DXg0xhSoXQ8y
-         lAUVKFIAu3x/8tWUd2PVv3bw3bjQ8RGVhraqMuOs2EVcI/NDFN6BQPcI2P0RmTQSPaZ9
-         HKKy2GVVEF5X1BGgTC8iuvCRtwXfiouyDpObUoxAZY6nVDRPqYCfkx3loGbTwpTbMh0G
-         IfwRQru1wUlyLLslLzUXB2um5TPFlxXOG/lrDE1cshV9SCBs7cnMYn0rD4+MBOmLb1u5
-         RiNuQ5iPiX01sMqnqfuZ5mB3ppiBu5mr0oVFEvuZeCaK+g1XAPqVklAUoQXKvHnjobkh
-         wsIQ==
+        bh=4tLGRrWIXRiVTY0FSW0n+sGKZZYUbaryBCg8mCb6c6Q=;
+        b=xSGC8ADNl0BIlNUWmbK1D0aFDY7TzfWRXNIBA9KJ2DUmMeXSo6pSqlz5qclI+NKNne
+         WHQhzOSi0ATmcZT4/LVt8dSFkB/Qoxkayq2URXE1yyIc0mwpk3MOz6C2owwDaLCQLRuw
+         nx7Ed3YvN5Xh5uDts6f7/GnXNswKGR1kVqmuVCl3bv45BGNgJ2ex2kr0VICylzyTDA3r
+         nxILZvPCHAC5tRDDCLoFfK61dZGERdsmeQtm2rJD6+qhwPu1ZySxUVsv0D24vPBJydan
+         cAc4RJIYChCDg8f3e7G2p4hVfyEOOYOcrgZSDBtmtBmHgT+bO6aIxHrJonwDZLfwv6Hc
+         5XgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=h1fBhe1Uwwc88IZBYGEvy7GWWOv8Ohr2Eol4MEZydDU=;
-        b=LYM9+ZFJtty7apBAlvVZas5lkL6tmbzHnYVgqpM1SSQg2xQYAmGuXBeS5mu+QieGwe
-         H2+IABwAaVfG8HjycqnLtYgL3+wKxa3h6bPxQkmxjWyCmoQfGbdH7DSaPugdQyLLM8ek
-         hKQVIEP8CZQKa9r9hVOG3+rszp6VQK+Jxwpx3DZh8ns2W6IWKuDjLapZ09HUQ8eRmRp8
-         3WoEiKRwZ2nEcB6MfTjmTnpdcS0UdUsXxaieIYraA5xla87G6/9K697eUUIJ8TnWwr04
-         sdjyPUFmOmEoUd+kVYUaklZTRkFbIZYn41tzdLu+g0JdQ51aA7onYq9a9jHdzibs/2T4
-         d/GA==
-X-Gm-Message-State: AOAM531ye57NzUHqakYzAHoIXtbZf3l90uCEibRpJ2iqnF0GO+TTyX91
-	sBadsTujwCPmTdCAyrBGqZzSI14nq3H5HzBgsW4=
-X-Google-Smtp-Source: ABdhPJyQvMpH+1x96XOCJiALfzgJ4AhDhpOt3o6DmbtIfFS3zQ65B1HWQJGfRAd3yjzp3pEBk6BQqw==
-X-Received: by 2002:a17:90a:f811:: with SMTP id ij17mr133843pjb.63.1621260837073;
-        Mon, 17 May 2021 07:13:57 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4tLGRrWIXRiVTY0FSW0n+sGKZZYUbaryBCg8mCb6c6Q=;
+        b=fma6xIR/YNAasUPuW9iApE4+GWiSuehYpMJDrL9WVLsDnVjq/P47ulnv2xtG977gvW
+         WESNOkRFOyo4XLbFPQtF8RZBCEaip8cB2vcjFE0xt7irIz9Ilw6rOHBwgBKpkyADIXdX
+         Ln29JihveAa1x3ujxiLAKHan3Be4Fk2mnkMmvoKJD0yYLovMSorfaoYb6eAk1RpbGCuN
+         NTneJ5hEKxoxj0mJ5L8jiJqNsF8USBsnXKQhsUSP9xILZHy9PKq4ObZMGz8o2OU6AuPi
+         Q+yjWIAVIHje8C+p01rv9jP1tahrpmXHlHmba4lAYM4EernVIkZfckeUY3dFgqqPBxAs
+         lTCQ==
+X-Gm-Message-State: AOAM531cs389Rlp/V+0t4a1ItLC3muOG3uJyqTkxdKRg/HZYFukB6u6H
+	gqHdvjklDf/iVLik+DMdp+j2LpZg2LLjkq/XucQ=
+X-Google-Smtp-Source: ABdhPJydWeUXnMquerx9vomnsZLc4tjTdkPzDZI/zRXVFjshS9wCgPP0bYjRbOfjnIzpPRXxh6HEyA==
+X-Received: by 2002:a62:ea05:0:b029:27a:6fc6:af83 with SMTP id t5-20020a62ea050000b029027a6fc6af83mr58834515pfh.24.1621260840629;
+        Mon, 17 May 2021 07:14:00 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.13.55
+        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.13.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 07:13:56 -0700 (PDT)
+        Mon, 17 May 2021 07:14:00 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/35] Patch review
-Date: Mon, 17 May 2021 04:13:06 -1000
-Message-Id: <cover.1621260695.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/35] subversion: fix CVE-2020-17525
+Date: Mon, 17 May 2021 04:13:07 -1000
+Message-Id: <3975fe2156d30cc64005e56666f4e88716d5ba27.1621260695.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1621260695.git.steve@sakoman.com>
+References: <cover.1621260695.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Please review this next set of patches for dunfell and have comments back by
-end of day Wednesday.
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Passed a-full on autobuilder:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2158
-
-The following changes since commit 55dc503f4ab33e2aa51a3a6e4003131e0b9355ff:
-
-  reproducible.py: add quilt-ptest and valgrind-ptest (2021-05-13 22:10:01 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (1):
-  linux-firmware: upgrade 20210208 -> 20210315
-
-Anuj Mittal (1):
-  lsb-release: fix reproducibility failure
-
-Bruce Ashfield (1):
-  linux-yocto/5.4: qemuppc32: reduce serial shutdown issues
-
-Chen Qi (1):
-  db: update CVE_PRODUCT
-
-Lee Chee Yang (4):
-  subversion: fix CVE-2020-17525
-  qemu: fix CVE-2021-3392
-  tiff: fix CVE-2020-35523 CVE-2020-35524
-  python3-jinja2: 2.11.2 -> 2.11.3
-
-Richard Purdie (19):
-  glibc: Document and whitelist CVE-2019-1010022-25
-  qemu: Exclude CVE-2017-5957 from cve-check
-  qemu: Exclude CVE-2007-0998 from cve-check
-  qemu: Exclude CVE-2018-18438 from cve-check
-  jquery: Exclude CVE-2007-2379 from cve-check
-  logrotate: Exclude CVE-2011-1548,1549,1550 from cve-check
-  openssh: Exclude CVE-2007-2768 from cve-check
-  openssh: Exclude CVE-2008-3844 from cve-check
-  unzip: Exclude CVE-2008-0888 from cve-check
-  cpio: Exclude CVE-2010-4226 from cve-check
-  ghostscript: Exclude CVE-2013-6629 from cve-check
-  bluez: Exclude CVE-2020-12352 CVE-2020-24490 from cve-check
-  tiff: Exclude CVE-2015-7313 from cve-check
-  coreutils: Exclude CVE-2016-2781 from cve-check
-  librsvg: Exclude CVE-2018-1000041 from cve-check
-  avahi: Exclude CVE-2021-26720 from cve-check
-  oeqa/qemurunner: Improve logging thread exit handling for qemu
-    shutdown test
-  oeqa/qemurunner: Fix binary vs str issue
-  oeqa/qemurunner: Improve handling of run_serial for shutdown commands
-
-Robert P. J. Day (2):
-  image.bbclass: fix comment "pacackages" -> "packages"
-  meta/lib/oe/rootfs.py: Fix typo "Restoreing" -> "Restoring"
-
-Romain Naour (1):
-  dejagnu: needs expect at runtime
-
-Ross Burton (3):
-  cairo: backport patch for CVE-2020-35492
-  libnotify: whitelist CVE-2013-7381 (specific to the NodeJS bindings)
-  builder: whitelist CVE-2008-4178 (a different builder)
-
-Ulrich Ölmann (1):
-  local.conf.sample: fix typo
-
-Yann Dirson (1):
-  linux-firmware: include all relevant files in -bcm4356
-
- meta/classes/image.bbclass                    |   2 +-
- meta/conf/local.conf.sample                   |   2 +-
- meta/lib/oe/rootfs.py                         |   2 +-
- meta/lib/oeqa/selftest/cases/runqemu.py       |   9 +-
- meta/lib/oeqa/utils/qemurunner.py             |  21 +++-
- meta/recipes-connectivity/avahi/avahi_0.7.bb  |   3 +
- .../bluez5/bluez5_5.55.bb                     |   3 +
- .../openssh/openssh_8.2p1.bb                  |   6 +
- meta/recipes-core/coreutils/coreutils_8.31.bb |   4 +
- meta/recipes-core/glibc/glibc_2.31.bb         |  13 ++
- .../recipes-devtools/dejagnu/dejagnu_1.6.2.bb |   1 +
- meta/recipes-devtools/jquery/jquery_3.5.0.bb  |   5 +
- ...ja2_2.11.2.bb => python3-jinja2_2.11.3.bb} |   2 +-
- meta/recipes-devtools/qemu/qemu.inc           |  12 ++
- .../qemu/qemu/CVE-2021-3392.patch             |  92 ++++++++++++++
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  .../subversion/CVE-2020-17525.patch           | 117 ++++++++++++++++++
  .../subversion/subversion_1.13.0.bb           |   1 +
- meta/recipes-extended/cpio/cpio_2.13.bb       |   3 +
- .../ghostscript/ghostscript_9.52.bb           |   4 +
- .../logrotate/logrotate_3.15.1.bb             |   3 +
- .../help2man-reproducibility.patch            |  27 ++++
- meta/recipes-extended/lsb/lsb-release_1.4.bb  |   1 +
- meta/recipes-extended/unzip/unzip_6.0.bb      |   3 +
- .../libnotify/libnotify_0.7.8.bb              |   3 +
- meta/recipes-gnome/librsvg/librsvg_2.40.21.bb |   3 +
- meta/recipes-graphics/builder/builder_0.1.bb  |   2 +
- .../cairo/cairo/CVE-2020-35492.patch          |  60 +++++++++
- meta/recipes-graphics/cairo/cairo_1.16.0.bb   |   1 +
- ...20210208.bb => linux-firmware_20210315.bb} |   8 +-
- .../linux/linux-yocto-rt_5.4.bb               |   2 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   2 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   2 +-
- .../libtiff/files/CVE-2020-35523.patch        |  55 ++++++++
- .../libtiff/files/CVE-2020-35524-1.patch      |  42 +++++++
- .../libtiff/files/CVE-2020-35524-2.patch      |  36 ++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   7 ++
- meta/recipes-support/db/db_5.3.28.bb          |   2 +-
- 37 files changed, 541 insertions(+), 20 deletions(-)
- rename meta/recipes-devtools/python/{python3-jinja2_2.11.2.bb => python3-jinja2_2.11.3.bb} (92%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+ 2 files changed, 118 insertions(+)
  create mode 100644 meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
- create mode 100644 meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210208.bb => linux-firmware_20210315.bb} (99%)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35523.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35524-1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35524-2.patch
 
+diff --git a/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch b/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
+new file mode 100644
+index 0000000000..5bebde2a86
+--- /dev/null
++++ b/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
+@@ -0,0 +1,117 @@
++Upstream-Status: Backport [ https://subversion.apache.org/security/CVE-2020-17525-advisory.txt ] 
++CVE: CVE-2020-17525
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++  Remote unauthenticated denial-of-service in Subversion mod_authz_svn.
++
++Summary:
++========
++
++  Subversion's mod_authz_svn module will crash if the server is using
++  in-repository authz rules with the AuthzSVNReposRelativeAccessFile
++  option and a client sends a request for a non-existing repository URL.
++
++  This can lead to disruption for users of the service.
++
++Known vulnerable:
++=================
++
++  mod_dav_svn+mod_authz_svn servers 1.9.0 through 1.10.6 (inclusive).
++  mod_dav_svn+mod_authz_svn servers 1.11.0 through 1.14.0 (inclusive).
++
++Known fixed:
++============
++
++  mod_dav_svn+mod_authz_svn servers 1.14.1
++  mod_dav_svn+mod_authz_svn servers 1.10.7
++
++Details:
++========
++
++  A null-pointer-dereference has been found in mod_authz_svn that results in
++  a remote unauthenticated Denial-of-Service in some server configurations.
++
++  The vulnerability can be triggered by an unauthenticated user if the
++  Apache HTTPD server is configured to use an in-repository authz file,
++  with configuration directives such as:
++
++    AuthzSVNAccessFile "^/authz"
++    AuthzSVNReposRelativeAccessFile "^/authz"
++
++  The problem originates when sending a GET request to a non-existent
++  repository. The mod_authz_svn module will attempt to find authz rules
++  at a path within the requested SVN repository. Upon constructing this
++  path, the function svn_repos_find_root_path will return a NULL pointer
++  since the requested repository does not exist on-disk.
++  A check for this legitimate NULL pointer condition is missing, which
++  results in a segmentation fault when the NULL pointer is used.
++
++  The in-repository authz feature was first introduced in Subversion 1.8:
++  https://subversion.apache.org/docs/release-notes/1.8.html#in-repo-authz
++
++  The missing NULL check was first introduced during refactoring of the
++  authz code during development work leading up to Subversion 1.9.
++  Subversion 1.8 servers are unaffected.
++
++Severity:
++=========
++
++  CVSSv3 Base Score: 7.5 (High)
++
++  CVSSv3 Base Vector: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++
++  Exploitation results in denial of service by crashing the HTTPD worker
++  handling the request. The impact of this differs depending on how the
++  Apache HTTPD server is configured, including the choice of MPM (Multi-
++  Processing-Module). If the worker shares its memory address space with
++  the main thread, as is the case with e.g. the Event MPM, the entire
++  HTTPD server process will terminate. If the pre-fork MPM is used, the
++  worker will terminate but the HTTPD server will stay up, and service
++  availability will depend on how frequently the attacker is able to
++  send malicious requests which target the vulnerability.
++
++Recommendations:
++================
++
++  We recommend all users to upgrade to a known fixed release of the
++  Subversion mod_dav_svn server.
++
++  Users who are unable to upgrade may apply the included patches.
++
++  As a workaround, the use of in-repository authz rules files with
++  the AuthzSVNReposRelativeAccessFile can be avoided by switching
++  to an alternative configuration which fetches an authz rules file
++  from the server's filesystem, rather than from an SVN repository.
++
++References:
++===========
++
++  CVE-2020-17525 (Subversion)
++
++Reported by:
++============
++
++  Thomas Åkesson, simonsoft.se
++
++Patches:
++========
++
++  Patch for Subversion 1.10, 1.14:
++
++[[[
++Index: subversion/libsvn_repos/config_file.c
++===================================================================
++--- a/subversion/libsvn_repos/config_file.c	(revision 1883994)
+++++ b/subversion/libsvn_repos/config_file.c	(working copy)
++@@ -237,6 +237,10 @@ get_repos_config(svn_stream_t **stream,
++     {
++       /* Search for a repository in the full path. */
++       repos_root_dirent = svn_repos_find_root_path(dirent, scratch_pool);
+++      if (repos_root_dirent == NULL)
+++        return svn_error_trace(handle_missing_file(stream, checksum, access,
+++                                                   url, must_exist,
+++                                                   svn_node_none));
++ 
++       /* Attempt to open a repository at repos_root_dirent. */
++       SVN_ERR(svn_repos_open3(&access->repos, repos_root_dirent, NULL,
++]]]
+diff --git a/meta/recipes-devtools/subversion/subversion_1.13.0.bb b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
+index 37b8ca3602..34c0dbe5b8 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.13.0.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://disable_macos.patch \
+            file://0001-Fix-libtool-name-in-configure.ac.patch \
+            file://serfmacro.patch \
++           file://CVE-2020-17525.patch \
+            "
+ 
+ SRC_URI[md5sum] = "3004b4dae18bf45a0b6ea4ef8820064d"
 -- 
 2.25.1
 
