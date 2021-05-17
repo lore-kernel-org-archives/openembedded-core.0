@@ -1,503 +1,157 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web08.1843.1621281172758202101
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web08.184.1621289358935047899
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 12:52:53 -0700
+ Mon, 17 May 2021 15:09:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=le5eUTrF;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id et19so3905771ejc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 12:52:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=u6d8I9ax;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id p6so3937398plr.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:09:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7I4cDrZC1N/cyo82PxXWSiQZqlG9Y5XgJzgtV0Laehk=;
-        b=le5eUTrFHQbGaRyNAEpCZ9CTcDxWeZLDuLZU6wAXfD2zW8K3stkTTTwnaKx7oPcY3F
-         tXl4AQEq+By3JiuLd72PWeKdBzgjBQCogSN4KZWoFPL2a9MBcRRuRFHqRh5uRKp/3Vv+
-         YwXZOvk3jid/4thg79psKfdeBsS0XiBCwMmKG4/6E9lVv9T5Uw2MTX5lAdJNbntMGCTZ
-         hTeCCY25+vaMXwvkI82QsThG76fQg8hJxU5pVnBnfSQjbIy5ywBs8RuXzGh+5Rz/Qh+L
-         7sc6rZQzUjNju0NPJLaIqT6G85OoeeU4b3XYpzXj9o+e0e8m1JCJ4nAOzkaR+eV3rkEV
-         8SpQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cEZ5wdsAoe2ZPufiCuXZSif6J0b1tPI5CYejPrCdHYE=;
+        b=u6d8I9ax1yY+/1whxkSlKT6u/9oXkSpw4KPc9/3/bZwAkLNDefV0yJdw0xMurea2vE
+         AtRy99Ww3l9YLTGmbNiA3/bd6+5AfYn/E87efv1oywycHzuPXcRbDYg09Y67XqgEcwSX
+         zUAPD+LKHEM6J2m5ohfxFuU47rebPJRu06zrbYJ8T7edQR8eErS1wCLbC+gGnQfy2Efe
+         gZs2ug7rYp6CnTITaY2/jSC1gbL9bOEDJxh+i/JNg9qzXuzBAQtur/bUVhlqJzjR+/UV
+         kADrhlF02Lewn4T44QdzQNMNU7BiIDlOGbF5zDOfAQtXu0/i117FG3XINuze71lEcqRU
+         gTMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7I4cDrZC1N/cyo82PxXWSiQZqlG9Y5XgJzgtV0Laehk=;
-        b=E84zEt1rNFcHvfshQ3XxYUiLK/kMYG8do2V7o4m4CKdS1A4VLP4UgrN/AtaNdWPz07
-         sbeQSO1Rjf4M6zgBiiJrR9PMWJ32GDvf0o+FQHT6egn71Utbl84yjncT1+MgUgIHjSW2
-         ZVjX68ThPQjd0bjFfS6caNNBhE77P0k8NhdyWpYPA+DZtZv4dF85Enf94Xn8IY5h4a/T
-         dCseCFBYE81RBOuCLDRcBEWdB0wqv7hvZfhIukn9OpXAht8GdDvKZo/JbjtDIzqSBRTq
-         7E1L+z3c1U/2H/r8CIXKsxjPgC4thSAG2FkGORSgvXklxkaBysSrY4V6OT6DCvf6afOF
-         boCA==
-X-Gm-Message-State: AOAM531WKL973ZIoQl4zfoTY4FQ8ZVtlqjvvpLfazqLRghKkCyvJK6LK
-	qqH9/TO4gcAKpxPL7UJi51Ly95vRtvc=
-X-Google-Smtp-Source: ABdhPJzP0Sz7SzcD9mTCSYaLKRAubUtaaKpp9YkS8sV+8RR+ykrvk54CSqfkYJwKKu07oY5eotzB0w==
-X-Received: by 2002:a17:906:7e0f:: with SMTP id e15mr1618030ejr.398.1621281171202;
-        Mon, 17 May 2021 12:52:51 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id b12sm9125515ejg.89.2021.05.17.12.52.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cEZ5wdsAoe2ZPufiCuXZSif6J0b1tPI5CYejPrCdHYE=;
+        b=Ey83kfEcdWX113M+Au9w5h6gdrrXCGoV7DWswJd1/+LO5FpRJ0C3IWGHTwJJuyVQmp
+         aX9S5fmaGvBZI6YmZRBRNhE+hbviBfbjQ2WyS9OGbzFtyGO4ihFefpcdBscIoi+FpRcL
+         bVTEtFz8I/EBKsufkkodfnkNRbp9H+p8bx3tn4eYBrYmRgeiStgsDfpooydf2kOO8mr6
+         MapCeWX9zP9du+PpRUXqkj8raznsFgcom55Y/pPG4XT/FZ3ZQH21OFpFtyXt6uEI/Q6G
+         rF+UrHcJ4BDKrgs/+WOgSuuGoE39llF2BtjrOPeg25SD8BQy1qRfUgAXEGTbeg5IDBAj
+         fnNg==
+X-Gm-Message-State: AOAM530XzmmT2SOArFKFLJEvtUl3mwDJ6TRvIZfEkgqLTIhW+bo7dC2y
+	sJp/nn3bQhl0WjRGwEIRn+vC7BcKsCQ/uA==
+X-Google-Smtp-Source: ABdhPJzq6hiKJov/19WXS/bSE7N2MHiEi+TsaoaqlKH675JJ4AmmDQM7u2A0NY+i6uxGiLP4EjvDuA==
+X-Received: by 2002:a17:902:ea06:b029:f1:9082:3ddc with SMTP id s6-20020a170902ea06b02900f190823ddcmr672231plg.43.1621289357984;
+        Mon, 17 May 2021 15:09:17 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0:db81:2f56:60e4:2c64])
+        by smtp.gmail.com with ESMTPSA id s184sm11307010pgc.29.2021.05.17.15.09.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 12:52:50 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Mon, 17 May 2021 15:09:17 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] mklibs: remove recipes and class
-Date: Mon, 17 May 2021 21:52:30 +0200
-Message-Id: <20210517195230.193978-2-alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/3] gcc: Add target gcc include search for musl config too
+Date: Mon, 17 May 2021 15:09:13 -0700
+Message-Id: <20210517220915.3760392-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210517195230.193978-1-alex.kanavin@gmail.com>
-References: <20210517195230.193978-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is not enabled or tested by default, and has never been
-ported to python 3 upstream[1], which means it doesn't work at all
-with plain poky. If you need it, please put it in a separate layer
-and/or modernize to work with py3.
+Musl has different search order and therefore injects it
+via INCLUDE_DEFAULTS and does not use the defaults from
+gcc/cppdefaults.h, this ensures that same fix is extended
+to musl configs too where it can search for compiler headers
+It will fix builds with musl where omp.h is not found because
+it is in gcc includes path on target ( not cross ) sysroot
 
-https://salsa.debian.org/installer-team/mklibs/-/blob/master/src/mklibs
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/image-mklibs.bbclass             |  56 ----------
- meta/conf/distro/include/maintainers.inc      |   1 -
- .../mklibs/files/ac_init_fix.patch            |  19 ----
- ...re-on-symbol-provided-by-application.patch | 103 ------------------
- .../mklibs/files/fix_STT_GNU_IFUNC.patch      |  26 -----
- .../mklibs/files/fix_cross_compile.patch      |  81 --------------
- ...U-unique-symbols-as-provided-symbols.patch |  34 ------
- .../mklibs/files/sysrooted-ldso.patch         |  18 ---
- .../mklibs/mklibs-native_0.1.44.bb            |  22 ----
- 9 files changed, 360 deletions(-)
- delete mode 100644 meta/classes/image-mklibs.bbclass
- delete mode 100644 meta/recipes-devtools/mklibs/files/ac_init_fix.patch
- delete mode 100644 meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
- delete mode 100644 meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch
- delete mode 100644 meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
- delete mode 100644 meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
- delete mode 100644 meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
- delete mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+ ...e-target-gcc-headers-can-be-included.patch | 64 +++++++++++++++++--
+ 1 file changed, 60 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-deleted file mode 100644
-index 68e11d4365..0000000000
---- a/meta/classes/image-mklibs.bbclass
-+++ /dev/null
-@@ -1,56 +0,0 @@
--do_rootfs[depends] += "mklibs-native:do_populate_sysroot"
--
--IMAGE_PREPROCESS_COMMAND += "mklibs_optimize_image; "
--
--inherit linuxloader
--
--mklibs_optimize_image_doit() {
--	rm -rf ${WORKDIR}/mklibs
--	mkdir -p ${WORKDIR}/mklibs/dest
--	cd ${IMAGE_ROOTFS}
--	du -bs > ${WORKDIR}/mklibs/du.before.mklibs.txt
--
--	# Build a list of dynamically linked executable ELF files.
--	# Omit libc/libpthread as a special case because it has an interpreter
--	# but is primarily what we intend to strip down.
--	for i in `find . -type f -executable ! -name 'libc-*' ! -name 'libpthread-*'`; do
--		file $i | grep -q ELF || continue
--		${HOST_PREFIX}readelf -l $i | grep -q INTERP || continue
--		echo $i
--	done > ${WORKDIR}/mklibs/executables.list
--
--	dynamic_loader=${@get_linuxloader(d)}
--
--	mklibs -v \
--		--ldlib ${dynamic_loader} \
--		--libdir ${baselib} \
--		--sysroot ${PKG_CONFIG_SYSROOT_DIR} \
--		--gcc-options "--sysroot=${PKG_CONFIG_SYSROOT_DIR}" \
--		--root ${IMAGE_ROOTFS} \
--		--target `echo ${TARGET_PREFIX} | sed 's/-$//' ` \
--		-d ${WORKDIR}/mklibs/dest \
--		`cat ${WORKDIR}/mklibs/executables.list`
--
--	cd ${WORKDIR}/mklibs/dest
--	for i in *
--	do
--		cp $i `find ${IMAGE_ROOTFS} -name $i`
--	done
--
--	cd ${IMAGE_ROOTFS}
--	du -bs > ${WORKDIR}/mklibs/du.after.mklibs.txt
--
--	echo rootfs size before mklibs optimization: `cat ${WORKDIR}/mklibs/du.before.mklibs.txt`
--	echo rootfs size after mklibs optimization: `cat ${WORKDIR}/mklibs/du.after.mklibs.txt`
--}
--
--mklibs_optimize_image() {
--	for img in ${MKLIBS_OPTIMIZED_IMAGES}
--	do
--		if [ "${img}" = "${PN}" ] || [ "${img}" = "all" ]
--		then
--			mklibs_optimize_image_doit
--			break
--		fi
--	done
--}
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index bfebd68acf..1467a10f8a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -508,7 +508,6 @@ RECIPE_MAINTAINER_pn-mingetty = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-mini-x-session = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-minicom = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-mkfontscale = "Armin Kuster <akuster808@gmail.com>"
--RECIPE_MAINTAINER_pn-mklibs-native = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-mmc-utils = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-mobile-broadband-provider-info = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-modutils-initscripts = "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-devtools/mklibs/files/ac_init_fix.patch b/meta/recipes-devtools/mklibs/files/ac_init_fix.patch
-deleted file mode 100644
-index 422af10420..0000000000
---- a/meta/recipes-devtools/mklibs/files/ac_init_fix.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Get the version of mklibs by simpler means. The MKLIBS_VERSION string in the 
--configure.ac file is replaced with real version string by the 
--do_configure_prepend() function from the recipe .bb file.
--
--Upstream-Status: Inappropriate [configuration]
--
--Nitin A Kamble <nitin.a.kamble@intel.com>
--Date: 2011/01/24
--
--Index: mklibs/configure.ac
--===================================================================
----- mklibs.orig/configure.ac	2010-02-21 17:34:56.000000000 -0800
--+++ mklibs/configure.ac	2011-01-24 18:52:19.943242079 -0800
--@@ -1,4 +1,4 @@
---AC_INIT([mklibs],m4_esyscmd(dpkg-parsechangelog | perl -ne 'print $1 if m/^Version: (.*)$/;'))
--+AC_INIT([mklibs], MKLIBS_VERSION)
-- AM_INIT_AUTOMAKE([foreign no-define])
-- AC_CONFIG_HEADERS([config.h])
-- AM_MAINTAINER_MODE
-diff --git a/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch b/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-deleted file mode 100644
-index 17d9af4de4..0000000000
---- a/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-+++ /dev/null
-@@ -1,103 +0,0 @@
--From dcb45256970b15b672d0004533826c94083356e5 Mon Sep 17 00:00:00 2001
--From: Yuanjie Huang <yuanjie.huang@windriver.com>
--Date: Fri, 17 Apr 2015 14:48:20 +0800
--Subject: [PATCH 4/6] avoid failure on symbol provided by application
--
--Upstream-Status: Pending
--
--Undefined symbols in a library can be provided by the application
--that links to the library, such as `logsink' in libmultipath.so.0.
--This fix checks the type of object in which the symbol is needed
--and the existence of the symbol in application, when a symbol
--cannot be provided by libraries. It prevents false alarm on absence
--of symbols.
--
--Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
--
-----
-- src/mklibs | 28 ++++++++++++++++++++++++----
-- 1 file changed, 24 insertions(+), 4 deletions(-)
--
--diff --git a/src/mklibs b/src/mklibs
--index a3533c0..66b7a09 100755
----- a/src/mklibs
--+++ b/src/mklibs
--@@ -133,9 +133,9 @@ class Symbol(object):
--         return '@'.join(ret)
-- 
-- class UndefinedSymbol(Symbol):
---    def __init__(self, name, weak, version, library):
--+    def __init__(self, name, weak, version, library, object):
--         super(UndefinedSymbol, self).__init__(name, version, library)
---        self.weak, self.library = weak, library
--+        self.weak, self.library, self.object = weak, library, object
-- 
-- def symbol_is_blacklisted(name):
--     # The ARM Embedded ABI spec states symbols under this namespace as
--@@ -152,6 +152,11 @@ def undefined_symbols(obj):
-- 
--     output = command("mklibs-readelf", "--print-symbols-undefined", obj)
-- 
--+    if len(obj) > len(dest_path) and obj[:len(dest_path)] == dest_path:
--+        object = obj[len(dest_path) + 1:-len('-so-stripped')]
--+    else:
--+        object = obj
--+
--     result = []
--     for line in output:
--         name, weak_string, version_string, library_string = line.split()[:4]
--@@ -171,7 +176,7 @@ def undefined_symbols(obj):
--         if library_string.lower() != 'none':
--             library = library_string
-- 
---        result.append(UndefinedSymbol(name, weak, version, library))
--+        result.append(UndefinedSymbol(name, weak, version, library, object))
-- 
--     return result
-- 
--@@ -498,12 +503,13 @@ while 1:
--                      and re.search("^ps_", str(symbol)))
--                 and not (re.search("ld-linux.so.3$", str(symbol)))
--                 and not (re.search("^__gnu_local_gp", str(symbol)))):
---                debug(DEBUG_SPAM, "needed_symbols adding %s, weak: %s" % (symbol, symbol.weak))
--+                debug(DEBUG_SPAM, "needed_symbols adding %s, weak: %s, for %s" % (symbol, symbol.weak, obj))
--                 needed_symbols[str(symbol)] = symbol
--         libraries.update(library_depends(obj))
-- 
--     # calculate what symbols are present in small_libs and available_libs
--     present_symbols = {}
--+    present_symbol_progs = {}
--     checked_libs = small_libs
--     checked_libs.extend(available_libs)
--     checked_libs.append(sysroot + ldlib)
--@@ -513,6 +519,12 @@ while 1:
--             names = symbol.base_names()
--             for name in names:
--                 present_symbols[name] = symbol
--+            if not so_pattern.match(lib):
--+                debug(DEBUG_SPAM, "present_symbol_progs adding %s, from executable %s" % (' '.join(names), lib))
--+                for name in names:
--+                    progs = present_symbol_progs.get(name, set())
--+                    progs.add(lib)
--+                    present_symbol_progs[name] = progs
-- 
--     # are we finished?
--     num_unresolved = 0
--@@ -568,6 +580,14 @@ while 1:
--     for name in needed_symbols:
--         if not name in symbol_provider:
--             if not needed_symbols[name].weak:
--+                # WORKAROUND: Undefined symbols in a library can be provided by the application
--+                # that links to the library. So if the object which requires the symbol is a library
--+                # and some application can provide the symbol, the undefined symbol is skipped.
--+                symbol = needed_symbols[name]
--+                if so_pattern.match(symbol.object) and present_symbol_progs.get(name, None):
--+                    debug(DEBUG_SPAM, "symbol %s in library %s is provided by executable %s" \
--+                          % (name, symbol.object, ' '.join(present_symbol_progs[name])))
--+                    continue
--                 raise Exception("No library provides non-weak %s" % name)
--         else:
--             lib = symbol_provider[name]
---- 
--2.16.1
--
-diff --git a/meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch b/meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch
-deleted file mode 100644
-index d27a48916d..0000000000
---- a/meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--The libc6-dev in Ubuntu 9.04 is so old that the elf.h doesn't
--define STT_GNU_IFUNC, so we have to define it ourselves.
--
--Upstream-Status: Inappropriate [other] - old release specific, maybe removable
--
---- Dexuan Cui (dexuan.cui@intel.com) Feb 16, 2011.
--
--diff --git a/src/mklibs-readelf/main.cpp b/src/mklibs-readelf/main.cpp
--index 2444c39..56d93f8 100644
----- a/src/mklibs-readelf/main.cpp
--+++ b/src/mklibs-readelf/main.cpp
--@@ -6,6 +6,14 @@
-- #include <vector>
-- 
-- #include <elf.h>
--+/*
--+ * The /usr/include/elf.h in some distributions(like Ubuntu 9.04) doesn't
--+ * define the macro. We need to define it here.
--+ */
--+#ifndef STT_GNU_IFUNC
--+#define STT_GNU_IFUNC   10              /* Symbol is indirect code object */
--+#endif
--+
-- #include <getopt.h>
-- 
-- #include "elf.hpp"
-diff --git a/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch b/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
-deleted file mode 100644
-index 13e4606b80..0000000000
---- a/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
-+++ /dev/null
-@@ -1,81 +0,0 @@
--Remove dependency on dpkg
--
--Upstream-Status: Submitted
--
--Asking the host OS whether it supports multiarch is not useful
--in a cross-compilation environment, or if the user has specified
--a libdir explicitly. So this patch, based on the work of Mentor
--Graphics, removes mklibs's dependency on dpkg package.
--
--Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-- src/mklibs | 30 +++++++++++++++++++-----------
-- 1 file changed, 19 insertions(+), 11 deletions(-)
--
--diff --git a/src/mklibs b/src/mklibs
--index d9b784b..c5614ea 100755
----- a/src/mklibs
--+++ b/src/mklibs
--@@ -261,6 +261,11 @@ def extract_soname(so_file):
--     return ""
-- 
-- def multiarch(paths):
--+    # Asking the host OS whether it supports multiarch is not useful
--+    # in a cross-compilation environment, or if the user has specified
--+    # a libdir explicitly.
--+    if sysroot != "" or libdir != "":
--+        return paths
--     devnull = open('/dev/null', 'w')
--     dpkg_architecture = subprocess.Popen(
--         ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
--@@ -340,7 +345,7 @@ lib_path = []
-- dest_path = "DEST"
-- ldlib = "LDLIB"
-- include_default_lib_path = "yes"
---default_lib_path = multiarch(["/lib/", "/usr/lib/", "/usr/X11R6/lib/"])
--+default_lib_path = ["/lib/", "/usr/lib/", "/usr/X11R6/lib/"]
-- libc_extras_dir = "/usr/lib/libc_pic"
-- libc_extras_dir_default = True
-- libdir = "lib"
--@@ -386,7 +391,7 @@ for opt, arg in optlist:
--     elif opt == "--libdir":
--         libdir = arg
--     elif opt in ("--help", "-h"):
---	usage(0)
--+        usage(0)
--         sys.exit(0)
--     elif opt in ("--version", "-V"):
--         version(vers)
--@@ -395,6 +400,7 @@ for opt, arg in optlist:
--         print "WARNING: unknown option: " + opt + "\targ: " + arg
-- 
-- if include_default_lib_path == "yes":
--+    default_lib_path = multiarch(default_lib_path)
--     lib_path.extend([a.replace("/lib/", "/" + libdir + "/") for a in default_lib_path])
-- 
-- if libc_extras_dir_default:
--@@ -661,16 +669,16 @@ ld_path_name = os.path.dirname(ldlib)
-- ld_full_path = "../" + ldlib
-- ld_file = find_lib(ld_file_name)
-- 
---if ld_path_name != "/lib":
---    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
---        os.remove(dest_path + "/" + ld_file_name)
--+#if ld_path_name != "/lib":
--+#    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
--+#        os.remove(dest_path + "/" + ld_file_name)
-- 
---if not os.path.exists(dest_path + "/../" + ld_path_name):
---    os.mkdir(dest_path + "/../" + ld_path_name)
--+#if not os.path.exists(dest_path + "/../" + ld_path_name):
--+#    os.mkdir(dest_path + "/../" + ld_path_name)
-- 
---if not os.access(dest_path + "/" + ld_full_path, os.F_OK):
---    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " + ld_full_path)
--+if not os.access(dest_path + "/" + ld_file_name, os.F_OK):
--+    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " + ld_file_name)
--     command(target + "objcopy", "--strip-unneeded -R .note -R .comment",
---            ld_file, dest_path + "/" + ld_full_path)
--+            ld_file, dest_path + "/" + ld_file_name)
-- 
---os.chmod(dest_path + "/" + ld_full_path, 0755)
--+os.chmod(dest_path + "/" + ld_file_name, 0755)
-diff --git a/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch b/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
-deleted file mode 100644
-index bc56593e6a..0000000000
---- a/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From eddf04c7f8312e9c29cdb24e431b7e4fb2cc70ed Mon Sep 17 00:00:00 2001
--From: Yuanjie Huang <yuanjie.huang@windriver.com>
--Date: Wed, 15 Apr 2015 14:00:06 +0800
--Subject: [PATCH] Show GNU unique symbols as provided symbols
--
--Upstream-Status: Submitted
--
--GNU Unique symbol is a GNU extension employed by new version of GCC
--by default. Even Standard C++ library in GCC 4.9 provides some symbols,
--such as _ZNSs4_Rep20_S_empty_rep_storageE in this binding type instead
--of ELF standard weak binding.
--This patch adds support of this new binding type to mklibs-readelf.
--
--Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-----
-- src/mklibs-readelf/main.cpp | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/mklibs-readelf/main.cpp b/src/mklibs-readelf/main.cpp
--index 56d93f8..0134530 100644
----- a/src/mklibs-readelf/main.cpp
--+++ b/src/mklibs-readelf/main.cpp
--@@ -88,7 +88,7 @@ static void process_symbols_provided (const Elf::section_type<Elf::section_type_
--     uint8_t type = symbol->get_type ();
--     const std::string &name = symbol->get_name_string ();
-- 
---    if (bind != STB_GLOBAL && bind != STB_WEAK)
--+    if (bind != STB_GLOBAL && bind != STB_WEAK && bind != STB_GNU_UNIQUE)
--       continue;
--     if (shndx == SHN_UNDEF || shndx == SHN_ABS)
--       continue;
---- 
--1.8.5.2.233.g932f7e4
--
-diff --git a/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch b/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
-deleted file mode 100644
-index 75500a029a..0000000000
---- a/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--In cross builds we will have to respect sysroot
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--
--Index: mklibs-0.1.39/src/mklibs
--===================================================================
----- mklibs-0.1.39.orig/src/mklibs	2014-03-01 18:25:36.000000000 +0000
--+++ mklibs-0.1.39/src/mklibs	2014-10-19 00:51:46.813534596 +0000
--@@ -495,7 +495,7 @@
--     present_symbols = {}
--     checked_libs = small_libs
--     checked_libs.extend(available_libs)
---    checked_libs.append(ldlib)
--+    checked_libs.append(sysroot + ldlib)
--     for lib in checked_libs:
--         for symbol in provided_symbols(lib):
--             debug(DEBUG_SPAM, "present_symbols adding %s" % symbol)
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-deleted file mode 100644
-index 1784af1f4c..0000000000
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-+++ /dev/null
-@@ -1,22 +0,0 @@
--SUMMARY = "Shared library optimisation tool"
--DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
--HOMEPAGE = "https://launchpad.net/mklibs"
--SECTION = "devel"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
--
--SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/m/mklibs/mklibs_${PV}.tar.xz \
--	file://ac_init_fix.patch\
--	file://fix_STT_GNU_IFUNC.patch\
--	file://sysrooted-ldso.patch \
--	file://avoid-failure-on-symbol-provided-by-application.patch \
--	file://show-GNU-unique-symbols-as-provided-symbols.patch \
--	file://fix_cross_compile.patch \
--"
--
--SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
--SRC_URI[sha256sum] = "3af0b6bd35e5b6fc58d8b68827fbae2ff6b7e20dd2b238ccb9b49d84722066c2"
--
--UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/mklibs/"
--
--inherit autotools gettext native
+diff --git a/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch b/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch
+index 98472dd2b5..120d5a29b2 100644
+--- a/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch
++++ b/meta/recipes-devtools/gcc/gcc/0019-Ensure-target-gcc-headers-can-be-included.patch
+@@ -1,4 +1,4 @@
+-From 9b4eb0e18a953d79d20c78d3ba741af6d71ab9ca Mon Sep 17 00:00:00 2001
++From 6f410ed8fb7eee11ba7a25634c2257666b98ef52 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 20 Feb 2015 10:25:11 +0000
+ Subject: [PATCH] Ensure target gcc headers can be included
+@@ -11,14 +11,18 @@ found by gcc with the existing search paths. Add support for
+ picking up these headers under the sysroot supplied on the gcc
+ command line in order to resolve this.
+ 
++Extend target gcc headers search to musl too
++
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- gcc/Makefile.in  | 2 ++
+- gcc/cppdefault.c | 4 ++++
+- 2 files changed, 6 insertions(+)
++ gcc/Makefile.in           | 2 ++
++ gcc/config/linux.h        | 8 ++++++++
++ gcc/config/rs6000/sysv4.h | 8 ++++++++
++ gcc/cppdefault.c          | 4 ++++
++ 4 files changed, 22 insertions(+)
+ 
+ diff --git a/gcc/Makefile.in b/gcc/Makefile.in
+ index 59c45c81393..9b17d120aa1 100644
+@@ -40,6 +44,58 @@ index 59c45c81393..9b17d120aa1 100644
+    -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
+    -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
+    -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
++diff --git a/gcc/config/linux.h b/gcc/config/linux.h
++index 87efc5f69fe..b525bcd56b3 100644
++--- a/gcc/config/linux.h
+++++ b/gcc/config/linux.h
++@@ -165,6 +165,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++ #define INCLUDE_DEFAULTS_MUSL_TOOL
++ #endif
++ 
+++#ifdef GCC_INCLUDE_SUBDIR_TARGET
+++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET		\
+++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0},
+++#else
+++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET
+++#endif
+++
++ #ifdef NATIVE_SYSTEM_HEADER_DIR
++ #define INCLUDE_DEFAULTS_MUSL_NATIVE			\
++     { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 2 },	\
++@@ -191,6 +198,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++     INCLUDE_DEFAULTS_MUSL_PREFIX			\
++     INCLUDE_DEFAULTS_MUSL_CROSS				\
++     INCLUDE_DEFAULTS_MUSL_TOOL				\
+++    INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET			\
++     INCLUDE_DEFAULTS_MUSL_NATIVE			\
++     { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
++     { 0, 0, 0, 0, 0, 0 }				\
++diff --git a/gcc/config/rs6000/sysv4.h b/gcc/config/rs6000/sysv4.h
++index 510abe169c5..0c2bba5ea32 100644
++--- a/gcc/config/rs6000/sysv4.h
+++++ b/gcc/config/rs6000/sysv4.h
++@@ -995,6 +995,13 @@ ncrtn.o%s"
++ #define INCLUDE_DEFAULTS_MUSL_TOOL
++ #endif
++ 
+++#ifdef GCC_INCLUDE_SUBDIR_TARGET
+++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET            \
+++    { STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET, "GCC", 0, 0, 1, 0},
+++#else
+++#define INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET
+++#endif
+++
++ #ifdef NATIVE_SYSTEM_HEADER_DIR
++ #define INCLUDE_DEFAULTS_MUSL_NATIVE			\
++     { NATIVE_SYSTEM_HEADER_DIR, 0, 0, 0, 1, 2 },	\
++@@ -1021,6 +1028,7 @@ ncrtn.o%s"
++     INCLUDE_DEFAULTS_MUSL_PREFIX			\
++     INCLUDE_DEFAULTS_MUSL_CROSS				\
++     INCLUDE_DEFAULTS_MUSL_TOOL				\
+++    INCLUDE_DEFAULTS_MUSL_SUBDIR_TARGET			\
++     INCLUDE_DEFAULTS_MUSL_NATIVE			\
++     { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
++     { 0, 0, 0, 0, 0, 0 }				\
+ diff --git a/gcc/cppdefault.c b/gcc/cppdefault.c
+ index c503d14fc3f..d54d6ce0076 100644
+ --- a/gcc/cppdefault.c
 -- 
 2.31.1
 
