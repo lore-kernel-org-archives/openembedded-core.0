@@ -1,65 +1,130 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.459.1621275460061008794
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web09.1202.1621278631123629639
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 11:17:40 -0700
+ Mon, 17 May 2021 12:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ttasciog@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 14HIHd5P030144
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 11:17:39 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 17 May 2021 11:17:39 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Mon, 17 May 2021 11:17:39 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 21862)
-	id E3D29200F4; Mon, 17 May 2021 14:17:38 -0400 (EDT)
-From: "Tony Tascioglu" <tony.tascioglu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <randy.macleod@windriver.com>,
-        Tony Tascioglu
-	<tony.tascioglu@windriver.com>
-Subject: [PATCH 2/2] libxml2: Add bash dependency for ptests.
-Date: Mon, 17 May 2021 14:16:40 -0400
-Message-ID: <20210517181639.18586-2-tony.tascioglu@windriver.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210517181639.18586-1-tony.tascioglu@windriver.com>
-References: <20210517181639.18586-1-tony.tascioglu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gyiweYt6;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id f12so8600826ljp.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 12:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JVVLu6LOdDjlt3DtFY4fckiet9iJHIGBCmFexUFEj4Y=;
+        b=gyiweYt6K0j9/83ttRhJ1axEtyhowhLjvUNOuB3VCWVAlEYW5oe1gqCn1vyrKmC+3u
+         JCjkHq0pjjnNSfsIG9otuthLimvKpizvz4RFR17DI6+IOtT36p+0+dfJaGPs955Ikitg
+         tn39NyWDZGCYK0027IYWyCIUJZZJ51FuiRn8nCQ13tZBoYFDjgZHMNgeY3qD8kpKBfXO
+         n8oi8Sp20DIWWx96edODZ7DsPNof3PaU1Mr5SfkvEHDUYHTzcWLuP7BXfnf01SUPMMfw
+         GQpvzgQMAgQ9nqG6TlCMEO5e3tF+Ea58Kra5+zOq7nz3gy//H0gUoWAr6BcfGJd8q6CX
+         tadQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JVVLu6LOdDjlt3DtFY4fckiet9iJHIGBCmFexUFEj4Y=;
+        b=m2rDUWyDOAneI9DGB0NDlRIQW9CzrR68ITEdCqM49mzbEGdZp7Wam3Omq/TBtgbrsl
+         Q5n3GxdiJWkIvnDqAqrOC7fwnxpey2kHs/tBU0y4gkyd6TVj46LbrTpnWHWXN1MoE02b
+         9dQNQqidFnlkvu4Uvz7EN0BZDZCS6/ROAO/KVq4KaWEtjBnUs101ShJjzyLbQDWoqwpJ
+         Qszs0j9Uv3DGUJqZaIcYtg9Q0qHfJouQo96JE7JKoXxmTKlC5r7SNs/wanEWAQ4rnINP
+         zezDy49upWZbKVvflC1yHB1c8izW6moDfCFX3EGjACsqy+pFRX8AdOn08yj0OSmoHn4w
+         6jXw==
+X-Gm-Message-State: AOAM530hZd6eJH5LHhfXPx/rYKM0fN+Z+qIq25htboIP1m3lkPgbM3Gc
+	cMGfEad+C0pOODU6JhIh9Ww8nteiOPLu9qMEs3Q=
+X-Google-Smtp-Source: ABdhPJzh11ot3Ab8GGZqb90h0flrJikPpc4DLUMOArcOQ28hBJwviFbI0FTGIx9RicgUbyBvCd6qKUYwgUgk/WmGe08=
+X-Received: by 2002:a05:651c:1a4:: with SMTP id c4mr735829ljn.112.1621278629194;
+ Mon, 17 May 2021 12:10:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <15ece592-a5f2-5ca7-db9c-2fd614ea6eea@crashcourse.ca>
+ <AM9PR09MB46423C546EF564C11A177062A8509@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <a7ff2123-a71b-a4d7-abb6-85e17dcfe6e@crashcourse.ca> <AM9PR09MB4642F9F7EFE632E2F9E2443BA8509@AM9PR09MB4642.eurprd09.prod.outlook.com>
+In-Reply-To: <AM9PR09MB4642F9F7EFE632E2F9E2443BA8509@AM9PR09MB4642.eurprd09.prod.outlook.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Mon, 17 May 2021 12:10:17 -0700
+Message-ID: <CAJ86T=XxNKAzkZ1R-KNJEpoV8mXOhT9u4jfSv4B3btAHo+BJQA@mail.gmail.com>
+Subject: Re: [OE-core] is there an easy to prevent *creation* of some recipe's packages?
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Before, running ptests on core-image-minimal would result in
-an error due to missing /bin/bash:
+On Fri, May 14, 2021 at 5:39 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
+>
+> On 14.05.21 13:52, Robert P. J. Day wrote:
+> > On Fri, 14 May 2021, Konrad Weihmann wrote:
+> >
+> >> On 14.05.21 13:16, Robert P. J. Day wrote:
+> >>>
+> >>>     pretty sure i know the answer to this one, but was asked the
+> >>> other day and wanted to make sure. in order to speed up the normal
+> >>> OE build, someone suggested bypassing the creation of packages
+> >>> that weren't going to be relevant, such as -dev, -doc and so on --
+> >>> the idea was that that could make a significant difference in
+> >>> build time.
+> >>
+> >> I pretty much doubt it will speed up anything. If for instance the
+> >> -dev package will be removed from PACKAGES it is very likely that
+> >> the files of that package will end up in the base package ${PN},
+> >> which results in larger target packages that need to be installed
+> >> (and potentially further RDEPENDS)
+> >>
+> >> Furthermore this will break DEPENDS for recipes that do rely on the
+> >> -dev package - so chances are high that this will break (or
+> >> magically change) something further down the line.
+> >>
+> >> One thing that you can do to speed up the build process in terms of
+> >> packaging time is to delete any **really** not needed files in a
+> >> do_install_append, if no proper configuration option (cmake flag,
+> >> make flag, PACKAGECONFIG) does exist which prevents the creation of
+> >> these files in the first place.
+> >>
+> >> I would recommend not to mess with the packaging defaults for
+> >> reasons such as speeding things up - as this is IMHO addressing the
+> >> issue at the wrong end - just make sure the files in <workdir>/image
+> >> won't get created
+> >
+> >    that's the general idea i was trying to get across (so let's confirm
+> > that i was speaking accurately). i suggested that the majority of time
+> > spent in processing a recipe was doing all the fetching and unpacking
+> > and patching and (mostly) compiling, the end result of which was to
+> > populate that recipe's WORKDIR/image directory, at which time the
+> > packaging step took over. so unless one wanted to dangerously mangle
+> > the package definitions, if it ended up in ${D}, it was going to get
+> > packaged, correct?
+>
+> yes... *but* what the packaging does it to loop over PACKAGES and for
+> each item pick up the corresponding FILES_<pkg-name> var and "move" (I
+> think it's actually a copy, but that's just details) all matching files
+> from image to packages-split.
+> If files ending up in image that don't match *any* of the
+> FILES-glob-pattern one would get a QA error.
+>
+> >
+> >    so unless one wanted to go back and mess with the recipe's build
+> > configuration to, perhaps, not generate some artifacts, those packages
+> > were going to be built, whether they were subsequently installed or
+> > not. so short of mangling each recipe file to change its
+> > configuration, just leave it alone as the payoff just isn't worth it.
+> >
+> >    sound about right?
+>
+> yes - the results of trimming down the input to /image will much more
+> have a positive impact.
+>
+> AFAIK packaging speed is directly linked to the number of files in
+> /image (worst example I've seen is a ruby package containing 250k+
+> files, which takes round about 20min to package on my machine) -
+> concluding from that, reduction of the number of files in /image is will
+> do the trick
 
-   [ -d test   ] || ln -s ../libxml2-2.9.10/test   .
-   make: /bin/bash: No such file or directory
-   make: *** [Makefile:2105: runtests] Error 127
+This thread seems to have covered the main point already (if you want
+to save time by not packaging unwanted files then don't install the
+files in the first place).
 
-Changing the Makefile to use /bin/sh results in some of the
-tests failing, so I have added the missing dependancy on bash.
-
-Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
----
- meta/recipes-core/libxml/libxml2_2.9.10.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index 07ae68610c..858ee0c66a 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -43,7 +43,7 @@ inherit autotools pkgconfig binconfig-disabled ptest
- 
- inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
- 
--RDEPENDS_${PN}-ptest += "make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell  python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
-+RDEPENDS_${PN}-ptest += "bash make ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell  python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
- 
- RDEPENDS_${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
- 
--- 
-2.29.2
-
+It's perhaps worth noting one very common case where files are
+installed and packaged unnecessarily and that's having the ptest
+distro feature enabled even though you don't intend to install any
+ptest packages. For most users ptest should be something you enable
+selectively when you want to prove the functionality of recipes in
+oe-core (e.g. after upgrading to a new OE release or when bringing up
+a new machine) and then disable again afterwards.
