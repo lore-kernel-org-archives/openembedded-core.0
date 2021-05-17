@@ -1,120 +1,82 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web09.19579.1621260898671917955
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.19369.1621260900482964287
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 07:14:58 -0700
+ Mon, 17 May 2021 07:15:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=N5/GoWL0;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id t193so4750887pgb.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:14:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QKHFaUUw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d16so5015391pfn.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=iWfYSP6zs7jy4uwBJP0o9YzakWk68ejy2Tlh2UMaX9s=;
-        b=N5/GoWL0t0vixJlu7drUmy5M0+EGRChSHAw3cknYLT2pwwyFkNBf+wWmqmpgrD4814
-         p+MvckpGjJHRSue92kFGQYaq1MWXIjne+ExKSi+8NaR6pgDAh3XZuae0++hhkM1iXn4z
-         wu/vC/TI+sgPGHU8guM0k74Ebt9P+TXFoUEUI5PMKSu8771NLPIRVdk7xEuq506FX7YX
-         lFEB061ek/k5j/1160f3CgzExZBJiRTaB9jyii8wlxxQKwa2wLQOcg6kQa/GrItNYWDQ
-         iz0VRZoHoT3n7wX6voFw7W0NWcR6zPWavDHZWlIGoYB1WNMgTZhscZN5MeB3fKstXgHo
-         oqsg==
+        bh=jWFYTSwBBtHsGInCgiP0ZVXK7qb3vh9blyEtScS4tBU=;
+        b=QKHFaUUwmBaPxIoOw93Y3id6VNEORt1agcNJHLeH3ureK3FBRT2u4lflYzbfXueBRl
+         SERASy4ggO5DIB6fnAbGkditv6uI4BSCpmE2aLABdx6ryWYe8U1Mb7za7EgLKtrqJ9Li
+         4vQaYOpn0Ir+x1XpJvswCYQMyFEtDxX5ondZS6td60oLSIwCkhNnuFBGJNn9bFTUnhFv
+         xOTB9i5VIGiybB2KBcbyNRwfk3tH94gIRyl4RfjG+cciMBjvtns+broapysB9dU05x5E
+         H92RzJnPG1Dibib9R4pWZx9yQB7eNuXJvvpgmJwOysBZROcmCR8SBjIzL4rmfN5DLm4d
+         k9Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iWfYSP6zs7jy4uwBJP0o9YzakWk68ejy2Tlh2UMaX9s=;
-        b=KTY6r8uvCBxPB6qM0UPVcMMDKiKH6bg6rKX55kUv1Qd9USCOhejEQ6FMXgnNbFY6u/
-         j+WKB4o/JYvBHU/Giqzc//qKX1zOg5LsubnG85vQG99s8D0iVvC3dwGOAuKsx1yBJ/5p
-         HkYdc9dk7nJXfHPp1SNfj2fCvuDCfpmnDuA6xkmPFGYu5pehmkt0XKBJIM1S02i/wudG
-         NO7brxOltJ+oVkbM7gS2jaf0h2mGgD5kID8Q26CuGi7y/hL+SFvZctj9Obs/n3iKtcR6
-         e/ZTVQZ1Zia79nRLpE6+/DLr4pXVie0oitvnSqTmgW9/oNJUuuZXJ7gY9VFchYQLVVoU
-         8yzA==
-X-Gm-Message-State: AOAM530rLLRlIrbkibW0rgb0bHYcjNguJBJ0yVWlTqBUnhRLKiHnyXSF
-	4deDpTMF+tSStyQKMJeFGz4kiWqwOYmbANsB36Q=
-X-Google-Smtp-Source: ABdhPJxk7Is5NVs1x4Sbu2+jyspypGPCIyduHk6390jASm/yWZvZH/8sg1nbZMGeGyM29VJSWdA2nA==
-X-Received: by 2002:a65:6844:: with SMTP id q4mr61815192pgt.224.1621260897671;
-        Mon, 17 May 2021 07:14:57 -0700 (PDT)
+        bh=jWFYTSwBBtHsGInCgiP0ZVXK7qb3vh9blyEtScS4tBU=;
+        b=K4jTfezyEY+vZSme30Qp0VyvbZkIEiFBaxB9PvyJpw/LhWY/4QUKEYXRHksNQ8S1Zg
+         LCwdNKsQp9izanayQ6z3lZBfo1/v50PEgI2+gYyFWgfxJ/+Pb9evNgE+u7pSxJ3qEq3A
+         jQ6Dg7f/5vXEBnPyTDzX+LXy1XDVff9jYlO6bOQu4JKdp/WvNcK0Syr6qrme2nCLdMCR
+         oBR6Xa68HiT899QZXw2G4C2QTB9D98FDd3tyCWWntp0G6IwC1hxdWa6Due8QJCWSATA+
+         7Z/m4fMyMFVhdijk5nyC6XeuxeGyvjBzFcRJ3DHgzL0yYBb0V/5NkypocT5b1BD3n8nt
+         HrGQ==
+X-Gm-Message-State: AOAM531vkDNFjNetGWPxxgaehHmF/BiUfOVePRfYWANsX6E8r/KFacTa
+	1rbpGTJJxRn7CmZRZ4p0rspBISF3XWqkueGxCEg=
+X-Google-Smtp-Source: ABdhPJwE9Gz+sHj02/rEIAyTdAEB3NwT/+cwDXg9jisq82jE0HfiycyKVqatVtF9UtHLjXCR70+pvQ==
+X-Received: by 2002:a63:cc43:: with SMTP id q3mr61685604pgi.50.1621260899625;
+        Mon, 17 May 2021 07:14:59 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.14.56
+        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.14.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 07:14:57 -0700 (PDT)
+        Mon, 17 May 2021 07:14:59 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 27/35] lsb-release: fix reproducibility failure
-Date: Mon, 17 May 2021 04:13:33 -1000
-Message-Id: <a5f34c7a95d227610ed9b6047ed53f43f84cbba9.1621260695.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 28/35] db: update CVE_PRODUCT
+Date: Mon, 17 May 2021 04:13:34 -1000
+Message-Id: <753e6510df01fb4d71f46639bef06e1361f87170.1621260695.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1621260695.git.steve@sakoman.com>
 References: <cover.1621260695.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Make sure help2man output is reproducible. Fixes:
+Update CVE_PRODUCT to also include 'berkeley_db'. For example,
+CVE-2020-2981 uses 'berkeley_db'.
 
-| .\"·DO·NOT·MODIFY·THIS·FILE!··It·was·generated·by·help2man·1.022.	.\"·DO·NOT·MODIFY·THIS·FILE!··It·was·generated·by·help2man·1.022.
-| .TH·FSG·"1"·"April·2021"·"FSG·lsb_release·v1.4"·FSG	.TH·FSG·"1"·"May·2021"·"FSG·lsb_release·v1.4"·FSG
-| .SH·NAME	3 	.SH·NAME
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 49371207a7f1fe3d3feb7b8b9aabb62b43ae34d1)
+(cherry picked from commit ad799b109716ccd2f44dcf7a6a4cfcbd622ea661)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../help2man-reproducibility.patch            | 27 +++++++++++++++++++
- meta/recipes-extended/lsb/lsb-release_1.4.bb  |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
+ meta/recipes-support/db/db_5.3.28.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch b/meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
-new file mode 100644
-index 0000000000..f32cd18370
---- /dev/null
-+++ b/meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
-@@ -0,0 +1,27 @@
-+lsb-release maintains it's own copy of help2man. Include the support
-+for specifying SOURCE_DATE_EPOCH from upstream.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+
-+diff --git a/help2man b/help2man
-+index 13015c2..63439db 100755
-+--- a/help2man
-++++ b/help2man
-+@@ -173,7 +173,14 @@ my ($help_text, $version_text) = map {
-+ 	or die "$this_program: can't get `--$_' info from $ARGV[0]\n"
-+ } qw(help), $opt_version_key;
-+ 
-+-my $date = strftime "%B %Y", localtime;
-++my $epoch_secs = time;
-++if (exists $ENV{SOURCE_DATE_EPOCH} and $ENV{SOURCE_DATE_EPOCH} =~ /^(\d+)$/)
-++{
-++    $epoch_secs = $1;
-++    $ENV{TZ} = 'UTC0';
-++}
-++
-++my $date = strftime "%B %Y", localtime $epoch_secs;
-+ (my $program = $ARGV[0]) =~ s!.*/!!;
-+ my $package = $program;
-+ my $version;
-diff --git a/meta/recipes-extended/lsb/lsb-release_1.4.bb b/meta/recipes-extended/lsb/lsb-release_1.4.bb
-index 3e8f7a13ec..bafc18fcc0 100644
---- a/meta/recipes-extended/lsb/lsb-release_1.4.bb
-+++ b/meta/recipes-extended/lsb/lsb-release_1.4.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/1.4/lsb-release-1.4.tar.gz \
-            file://0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch \
-            file://0001-Remove-timestamp-from-manpage.patch \
-+           file://help2man-reproducibility.patch \
-            "
+diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
+index 9cb57e6a53..b2ae98f05c 100644
+--- a/meta/recipes-support/db/db_5.3.28.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -15,7 +15,7 @@ HOMEPAGE = "https://www.oracle.com/database/technologies/related/berkeleydb.html
+ LICENSE = "Sleepycat"
+ RCONFLICTS_${PN} = "db3"
  
- SRC_URI[md5sum] = "30537ef5a01e0ca94b7b8eb6a36bb1e4"
+-CVE_PRODUCT = "oracle_berkeley_db"
++CVE_PRODUCT = "oracle_berkeley_db berkeley_db"
+ CVE_VERSION = "11.2.${PV}"
+ 
+ PR = "r1"
 -- 
 2.25.1
 
