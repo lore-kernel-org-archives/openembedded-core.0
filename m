@@ -1,501 +1,161 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web12.433.1621270887809319025
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web09.896.1621272598430665132
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 10:01:28 -0700
+ Mon, 17 May 2021 10:29:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KT41FFYF;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id lg14so10240205ejb.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 10:01:27 -0700 (PDT)
+ dkim=pass header.i=@broadcom.com header.s=google header.b=AIQcIFux;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.214.169, mailfrom: scott.branden@broadcom.com)
+Received: by mail-pl1-f169.google.com with SMTP id h7so3573097plt.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 10:29:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pqORjQ/8W91NOWgBui5wvAeWKyJyauaeMoqEYWW6YUQ=;
-        b=KT41FFYFqUItd1jKZsUR1zy6wzZcFRkjlzse/ZXKfvjfufxHPjCKzEKc3+PFzrkwDS
-         Opx0VK6uooVK/PkyZtn9p/Mv8XfYGcpCLMDPDjExt6/3z430hurO3q0/uKgkVtCUNkUP
-         V9ZmkWzVq1kbTA50BCsVN2u/vjzyKFv11cFCe+/Nq/LFEiuwDmuT2yN95svqhVOag6Bd
-         N1ZYF5+ghe/wcsGd+WhzcICYLSFC02duXPSNp7VQnY4HINQ2keMnUsMwgXmBYO7dNrCW
-         qWP0iRpZ50oYKk/+B9iifXOj8rsVP1uqevYLZ4i/Qasj9RRwScOxpzMOBElg5G2qKnie
-         dFow==
+        d=broadcom.com; s=google;
+        h=to:from:subject:message-id:date:user-agent:mime-version;
+        bh=ZGpKPL3WtSNpTFgEvgrs4g7JUs3gQrxDtX8e9OxneIg=;
+        b=AIQcIFux7l33XmLkqovDX+1rV1HKc9xpSOgbS3NjpafsfG6HVRyYnexDPDAJw7WKoV
+         t/VnZMwq0B8jQQ+UbXeUU4zRHXcOtoeZM3us1C6UqwDD7uftECgXqTqv3JQbqQWVO2XR
+         VgDC0YlDPB+nO3QfX5XmaOIFxdraIvNsv1Dss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pqORjQ/8W91NOWgBui5wvAeWKyJyauaeMoqEYWW6YUQ=;
-        b=TO28X4xL/M5rb2/8BaZ3M/8hvDTSkn+OaCdi+XQehQnFc4IBdA9JYSICxUX2SFlMbz
-         9GTQ5niKsNrc3/nzd+1NF1+G3/EGjdWcmzljgBbyirktgpvfDNBNWPV4pAQ/zPoR/had
-         AeVZ2d5xeMetC6D5jGfNHOYhtOr1iO4C8npLRfop/YSbIswFUB3gRpFrQTDDEZ3aZ7S3
-         EYNnFkFudXd9Hxfm8NFMtNtnRlfvn+q2qRRcsEaaAb93ks/noTFsbEcExJ6k8VVWsY5t
-         8gOqg+4U1q5dTQLQrodCWVT/GANcql1CHQiXRwAmg3DKpNZkVmTm8xwmK0KHc540mOZw
-         ytGg==
-X-Gm-Message-State: AOAM532hVGcdiIrZbyEKS0gesW/R+HDWX/46RnHHPL+loX7pZh0SZXmo
-	9liDAfp0GCCpRm8W2RSLTXktN/el3XkgISQs
-X-Google-Smtp-Source: ABdhPJx9eCkm0HNWcnGjLaw9WLmBeAZxXNLWl0NWB/cDsWkD78WJzaFwzb+hhGQp+/NCaf6hbGe+6w==
-X-Received: by 2002:a17:906:26d4:: with SMTP id u20mr954127ejc.114.1621270886145;
-        Mon, 17 May 2021 10:01:26 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se. [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id i5sm4853960edt.11.2021.05.17.10.01.25
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 10:01:25 -0700 (PDT)
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mklibs-native: Fix build with gcc 11
-Date: Mon, 17 May 2021 19:01:04 +0200
-Message-Id: <20210517170104.2605486-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version;
+        bh=ZGpKPL3WtSNpTFgEvgrs4g7JUs3gQrxDtX8e9OxneIg=;
+        b=RCmT96nHCf5vK8pvhoKfU/BCxIHZjdXPn8wIo34iIWVj8rJHRjkga5daN/hh2mUbyl
+         ms0xAvY8l9ECxT2qHoc5JHYp+MgZxcwFZRHudbHt0uFeiowzWbqPi334/PKl2NA2N3hp
+         7cokn6IBWnfMtuCLLknRGBDGORQUFMBIXuIJmD6vQTGgualigVqGbtPPB83hWgmKU6ja
+         pkiHFI/o7fqZrjLtJ+K+0BYocJmP6wGsU29wU/DqZ8YV5bpEXkz/RN0GM9anGbro5qhM
+         2etXec6VdlAxMkncHmV22O/ClWH11dRSoHT6aTGTCYJIlmVvTH/dl9mEglVehio5XDOw
+         yHIg==
+X-Gm-Message-State: AOAM531EqXOOpq61bTk951LsQfh1Cl/6Qebm2+fDKVilGHVZNlW1W8Hd
+	BhdCMC8l7dOW4iKOT24e+BLnbw==
+X-Google-Smtp-Source: ABdhPJxdody/nxSWq6Rw9K9aVSeZUHdthYCzIOS7U2ynVagPtKFtF72qltMy60KngOkUoHAHoWdkfA==
+X-Received: by 2002:a17:902:860b:b029:ef:46b8:886e with SMTP id f11-20020a170902860bb02900ef46b8886emr1168573plo.18.1621272597839;
+        Mon, 17 May 2021 10:29:57 -0700 (PDT)
+Return-Path: <scott.branden@broadcom.com>
+Received: from lbrmn-lnxub113.ric.broadcom.net ([192.19.228.250])
+        by smtp.gmail.com with ESMTPSA id t12sm59975pjw.57.2021.05.17.10.29.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 May 2021 10:29:57 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "Scott Branden" <scott.branden@broadcom.com>
+Subject: Recent runqueue changes destablized hardknott release for multiconfig builds
+Message-ID: <331b520c-6c5f-76f3-f1bf-ec15180e3e39@broadcom.com>
+Date: Mon, 17 May 2021 10:29:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Groupsio-MsgNum: 151983
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000004da51005c289f105"
 
-In gcc 11 the default mode for C++ is now -std=gnu++17 instead of -std=gnu++14,
-in which support for dynamic exception specifications has been removed.
+--0000000000004da51005c289f105
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-See http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
+I tried updating to the latest hardknott and various multiconfig builds now fail.
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- .../no-dynamic-exception-specifications.patch | 420 ++++++++++++++++++
- .../mklibs/mklibs-native_0.1.44.bb            |   1 +
- 2 files changed, 421 insertions(+)
- create mode 100644 meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
+I had to revert the following changes to get back to a stable build:
+Revert "bitbake: runqueue: Handle deferred task rehashing in multiconfig builds"
 
-diff --git a/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
-new file mode 100644
-index 0000000000..5989a67c4f
---- /dev/null
-+++ b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
-@@ -0,0 +1,420 @@
-+In gcc 11 the default mode for C++ is now -std=gnu++17 instead of -std=gnu++14,
-+in which support for dynamic exception specifications has been removed.
-+
-+See http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-+
-+Index: mklibs-0.1.44/src/mklibs-readelf/elf.cpp
-+===================================================================
-+--- mklibs-0.1.44.orig/src/mklibs-readelf/elf.cpp
-++++ mklibs-0.1.44/src/mklibs-readelf/elf.cpp
-+@@ -36,7 +36,7 @@ file::~file () throw ()
-+     delete *it;
-+ }
-+ 
-+-file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_error)
-++file *file::open (const char *filename)
-+ {
-+   struct stat buf;
-+   int fd;
-+@@ -72,7 +72,7 @@ file *file::open (const char *filename)
-+ }
-+ 
-+ template<typename _class>
-+-file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
-++file *file::open_class(uint8_t *mem, size_t len)
-+ {
-+   switch (mem[EI_DATA])
-+   {
-+@@ -86,7 +86,7 @@ file *file::open_class(uint8_t *mem, siz
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
-++file_data<_class, _data>::file_data(uint8_t *mem, size_t len)
-+ : file(mem, len)
-+ {
-+   if (mem[EI_CLASS] != _class::id)
-+@@ -190,7 +190,7 @@ section_data<_class, _data>::section_dat
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_data<_class, _data>::update(const file &file) throw (std::bad_alloc)
-++void section_data<_class, _data>::update(const file &file)
-+ {
-+   const section_type<section_type_STRTAB> &section =
-+     dynamic_cast<const section_type<section_type_STRTAB> &>(file.get_section(file.get_shstrndx()));
-+@@ -204,7 +204,7 @@ section_type<section_type_DYNAMIC>::~sec
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem)
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_DYNAMIC)
-+@@ -221,7 +221,7 @@ section_real<_class, _data, section_type
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file)
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -243,7 +243,7 @@ section_type<section_type_DYNSYM>::~sect
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem)
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_DYNSYM)
-+@@ -260,7 +260,7 @@ section_real<_class, _data, section_type
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_DYNSYM>::update(const file &file)
-+ {
-+   section_data<_class, _data>::update (file);
-+ 
-+@@ -285,7 +285,7 @@ const version_definition *section_type<s
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem)
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_GNU_verdef)
-+@@ -307,7 +307,7 @@ section_real<_class, _data, section_type
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file)
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -333,7 +333,7 @@ const version_requirement_entry *section
-+ 
-+ template <typename _class, typename _data>
-+ section_real<_class, _data, section_type_GNU_VERNEED>::
-+-section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real(Shdr *header, uint8_t *mem)
-+ : section_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != SHT_GNU_verneed)
-+@@ -355,7 +355,7 @@ section_real(Shdr *header, uint8_t *mem)
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file)
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -372,7 +372,7 @@ void section_real<_class, _data, section
-+ 
-+ template <typename _class, typename _data>
-+ section_real<_class, _data, section_type_GNU_VERSYM>::
-+-section_real (Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real (Shdr *header, uint8_t *mem)
-+ : section_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != SHT_GNU_versym)
-+@@ -399,7 +399,7 @@ segment_data<_class, _data>::segment_dat
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw (std::bad_alloc)
-++segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem)
-+ : segment_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != PT_INTERP)
-+@@ -429,13 +429,13 @@ dynamic_data<_class, _data>::dynamic_dat
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section)
-+ {
-+   if (is_string)
-+     val_string = section.get_string(val);
-+ }
-+ 
-+-std::string symbol::get_version () const throw (std::bad_alloc)
-++std::string symbol::get_version () const
-+ {
-+   if (verneed)
-+     return verneed->get_name();
-+@@ -445,7 +445,7 @@ std::string symbol::get_version () const
-+   return "Base";
-+ }
-+ 
-+-std::string symbol::get_version_file () const throw (std::bad_alloc)
-++std::string symbol::get_version_file () const
-+ {
-+   if (verneed)
-+     return verneed->get_file();
-+@@ -453,7 +453,7 @@ std::string symbol::get_version_file ()
-+   return "None";
-+ }
-+ 
-+-std::string symbol::get_name_version () const throw (std::bad_alloc)
-++std::string symbol::get_name_version () const
-+ {
-+   std::string ver;
-+ 
-+@@ -478,13 +478,13 @@ symbol_data<_class, _data>::symbol_data
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section)
-+ {
-+   name_string = section.get_string(name);
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw (std::bad_alloc)
-++void symbol_data<_class, _data>::update_version(const file &file, uint16_t index)
-+ {
-+   if (!file.get_section_GNU_VERSYM())
-+     return;
-+@@ -531,13 +531,13 @@ version_definition_data<_class, _data>::
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section)
-+ {
-+   for (std::vector<uint32_t>::iterator it = names.begin(); it != names.end(); ++it)
-+     names_string.push_back(section.get_string(*it));
-+ }
-+ 
-+-version_requirement::version_requirement() throw (std::bad_alloc)
-++version_requirement::version_requirement()
-+ : file_string("None")
-+ { }
-+ 
-+@@ -561,7 +561,7 @@ version_requirement_data<_class, _data>:
-+ 
-+ template <typename _class, typename _data>
-+ void version_requirement_data<_class, _data>::
-+-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++update_string(const section_type<section_type_STRTAB> &section)
-+ {
-+   file_string = section.get_string(file);
-+ 
-+@@ -596,7 +596,7 @@ version_requirement_entry_data(Vernaux *
-+ 
-+ template <typename _class, typename _data>
-+ void version_requirement_entry_data<_class, _data>::
-+-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++update_string(const section_type<section_type_STRTAB> &section)
-+ {
-+   name_string = section.get_string(name);
-+ }
-+Index: mklibs-0.1.44/src/mklibs-readelf/elf.hpp
-+===================================================================
-+--- mklibs-0.1.44.orig/src/mklibs-readelf/elf.hpp
-++++ mklibs-0.1.44/src/mklibs-readelf/elf.hpp
-+@@ -49,7 +49,7 @@ namespace Elf
-+       const uint16_t get_shstrndx() const throw () { return shstrndx; }
-+ 
-+       const std::vector<section *> get_sections() const throw () { return sections; };
-+-      const section &get_section(unsigned int i) const throw (std::out_of_range) { return *sections.at(i); };
-++      const section &get_section(unsigned int i) const { return *sections.at(i); };
-+       const section_type<section_type_DYNAMIC> *get_section_DYNAMIC() const throw () { return section_DYNAMIC; };
-+       const section_type<section_type_DYNSYM> *get_section_DYNSYM() const throw () { return section_DYNSYM; };
-+       const section_type<section_type_GNU_VERDEF> *get_section_GNU_VERDEF() const throw () { return section_GNU_VERDEF; };
-+@@ -59,13 +59,13 @@ namespace Elf
-+       const std::vector<segment *> get_segments() const throw () { return segments; };
-+       const segment_type<segment_type_INTERP> *get_segment_INTERP() const throw () { return segment_INTERP; };
-+ 
-+-      static file *open(const char *filename) throw (std::bad_alloc, std::runtime_error);
-++      static file *open(const char *filename);
-+ 
-+     protected:
-+-      file(uint8_t *mem, size_t len) throw (std::bad_alloc) : mem(mem), len(len) { }
-++      file(uint8_t *mem, size_t len) : mem(mem), len(len) { }
-+ 
-+       template<typename _class>
-+-        static file *open_class(uint8_t *, size_t) throw (std::bad_alloc, std::runtime_error);
-++        static file *open_class(uint8_t *, size_t);
-+ 
-+       uint16_t type;
-+       uint16_t machine;
-+@@ -128,7 +128,7 @@ namespace Elf
-+     class section_type<section_type_STRTAB> : public virtual section
-+     {
-+       public:
-+-        std::string get_string(uint32_t offset) const throw (std::bad_alloc)
-++        std::string get_string(uint32_t offset) const
-+         {
-+           return std::string(reinterpret_cast<const char *> (mem + offset));
-+         }
-+@@ -263,10 +263,10 @@ namespace Elf
-+       uint8_t get_bind () const throw () { return bind; }
-+       uint8_t get_type () const throw () { return type; }
-+       const std::string &get_name_string() const throw () { return name_string; }
-+-      std::string get_version() const throw (std::bad_alloc);
-+-      std::string get_version_file() const throw (std::bad_alloc);
-++      std::string get_version() const;
-++      std::string get_version_file() const;
-+       uint16_t get_version_data() const throw () { return versym; }
-+-      std::string get_name_version() const throw (std::bad_alloc);
-++      std::string get_name_version() const;
-+ 
-+     protected:
-+       uint32_t name;
-+@@ -305,7 +305,7 @@ namespace Elf
-+   class version_requirement
-+   {
-+     public:
-+-      version_requirement() throw (std::bad_alloc);
-++      version_requirement();
-+       virtual ~version_requirement () throw () { }
-+ 
-+       const std::string &get_file() const throw () { return file_string; }
-+Index: mklibs-0.1.44/src/mklibs-readelf/elf_data.hpp
-+===================================================================
-+--- mklibs-0.1.44.orig/src/mklibs-readelf/elf_data.hpp
-++++ mklibs-0.1.44/src/mklibs-readelf/elf_data.hpp
-+@@ -94,7 +94,7 @@ namespace Elf
-+     class file_data : public file
-+     {
-+       public:
-+-        file_data(uint8_t *, size_t len) throw (std::bad_alloc, std::runtime_error);
-++        file_data(uint8_t *, size_t len);
-+ 
-+         const uint8_t get_class() const throw () { return _class::id; }
-+         const uint8_t get_data() const throw () { return _data::id; }
-+@@ -109,7 +109,7 @@ namespace Elf
-+       public:
-+         section_data(Shdr *, uint8_t *) throw ();
-+ 
-+-        virtual void update(const file &) throw (std::bad_alloc);
-++        virtual void update(const file &);
-+     };
-+ 
-+   template <typename _class, typename _data, typename _type>
-+@@ -133,9 +133,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *);
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -147,9 +147,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *);
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -161,9 +161,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *);
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -175,9 +175,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *);
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -189,7 +189,7 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -220,7 +220,7 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Phdr Phdr;
-+ 
-+       public:
-+-        segment_real (Phdr *, uint8_t *) throw (std::bad_alloc);
-++        segment_real (Phdr *, uint8_t *);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -232,7 +232,7 @@ namespace Elf
-+       public:
-+         dynamic_data (Dyn *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -244,8 +244,8 @@ namespace Elf
-+       public:
-+         symbol_data (Sym *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-+-        virtual void update_version (const file &, uint16_t) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &);
-++        virtual void update_version (const file &, uint16_t);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -257,7 +257,7 @@ namespace Elf
-+ 
-+         version_definition_data (Verdef *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -269,7 +269,7 @@ namespace Elf
-+ 
-+         version_requirement_data (Verneed *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &);
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -280,7 +280,7 @@ namespace Elf
-+ 
-+         version_requirement_entry_data (Vernaux *, const version_requirement &) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &);
-+     };
-+ }
-+ 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-index 1784af1f4c..8ecdb17be3 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/
- 	file://avoid-failure-on-symbol-provided-by-application.patch \
- 	file://show-GNU-unique-symbols-as-provided-symbols.patch \
- 	file://fix_cross_compile.patch \
-+	file://no-dynamic-exception-specifications.patch \
- "
- 
- SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
+
+
+This reverts commit 58cbdaecf75b0248f96780b6882e8d4f232d038a.
+
+
+and
+
+Revert "bitbake: runqueue: Fix multiconfig deferred task sstate validity caching issue"
+
+
+
+This reverts commit 8aad4c243a542c8720cd23b6d1c4267916393df3.
+
+Also note; I see other changes sitting in master-next attempting to fix runqueue and multiconfig issues.
+So I tried cherry-picking and still have build issues.
+
+Regards,
+ Scott
+
+--0000000000004da51005c289f105
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+cRe0CRXA7ypOJSgxO/nOOyQoaJxT7CGg1npOeSpPjEuc3fE4xum3l0nvU85hj6MlKZu43hokdBh0
+D0nLyyhEwlR3AC/msdff/UGbM/JR9vk812RP4m/aNWZFJwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
+BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
+YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
+BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
+MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
+YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
+Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
+HREEHjAcgRpzY290dC5icmFuZGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
+BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUOhjEpl04Sz9dh5MI82E1
+V39lM/owDQYJKoZIhvcNAQELBQADggEBAA7Rlypx/esz/iq1yA4+KW7uwV/aBY344BWcXt6I+SNK
+VwFBgFWfLj5vaEud9TVv2fPSiaHJo0umemOJk+43QD+bsoqmgcFXd21PrOt7Jjs+jjVED9VC5kJq
+S4NNKUkS+BqijJwSegtVygrc/atrIlJbjI21q4qpemUo5fgwqCNm++BmBGTI8yA09vtGSNDRN42k
+lLX9hl3iEj5SBgkQqCbbnoE+ZjjKfqt7ED166WhgyQWNrl39yLcvLj+JRUB3RuvXKZjH0NQEEBII
+wZBDSkyneykLt3CBNIhSCTxKM6OWxVp936ALSa5K9FNy00TeWSpokR6NmzaW8VD/EjTgvqAxggJt
+MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
+VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgx9oXSJpKniO4dS
+Gk8wDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIEdqoNuzb5QVxVpAgfnqKVTcDAe9
+F5+fm1PM2zbjbjAGMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIx
+MDUxNzE3Mjk1OFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
+AwQCATANBgkqhkiG9w0BAQEFAASCAQBgqriK1Y+et7zS0TbzQ/zRdc1hEsfLE5UARDqJ+i9Fv1O6
+sD17fmk0h67IcYz9iSI6xnSPl/Yzg39zYX/Gl+2qC3GER0txeP28EI+0XEZOJlI1a3/533MNLh4J
+Y0ftKBoPvXKYR1oGeTgq0Xv3YBKncRvhsqshOa9YmB9bP78X73MofLKV1lR4E12IbQZZqCJ+9U8U
+9bwetS7G8dvdJBl787V0AVm7z+5g0M8AVgF88L9sibY2UTb2yDXI4BSVBF2cYWX99gCQ6GyXGGQE
+IQwcMRbkDur1DSxMBl6A57/0dsOxSw9fdm9W4rUxBmweuc0/6z+jqlmzIJhYs61fyxl7
+
+--0000000000004da51005c289f105--
