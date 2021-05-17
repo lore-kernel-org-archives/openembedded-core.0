@@ -1,109 +1,100 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web08.186.1621289360996538253
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web08.274.1621289824049329334
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 15:09:21 -0700
+ Mon, 17 May 2021 15:17:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mjNeWaVh;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id p6so3937446plr.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:09:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=H6wBTsrV;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id x8so7470387qkl.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NBjeBHi7DQFT1N0K+11BcHerp8+APJFTx8T0KGy8jlk=;
-        b=mjNeWaVh+EM0X2Ztnt7IyuinIH9ftMCNR7wfIAiCuyo768OzZAFmZX5bRN1XfZdbBH
-         55YiJ60gsBL0udqtsqE5OD9hudJJ/AuVdiC8aV9CGzKqnLF6+fIg2BdMfiTl59BeSoES
-         Scp59q6NfnrEW7jZ7MbkWo4APs4mV6SYb3LbmeNd64ZUk9rhJLX9sVKRkSoxyjkKWhDG
-         P1Xr8iYybeGPnOQF44jagTY1NlG9VpyEqI9+GcYWfl2uQXPajrrFuEgMF/HpuM+kfn/U
-         0ZD0DA1ebAoToAdJl2O7KHVkf7884TgVZaYBnKVAfI4BHh+A3c9fnsouiucmNuZ+Ujzz
-         FJ8w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a71enwf0zyDh4ASHXwkgvFB/eSAT5LcyBmmjwy1rwy8=;
+        b=H6wBTsrVzyFJVAO6CeYy4BrfrTc5JQG01PcMSVvEngzIQVu5i2VlM3ZAR0Axzb/pfJ
+         7OBORgdXIuorGg9uyO2145fSRa/WSDn/7rtkWPorsNsiXXlrcRvxuiHr5aYIdljtc2TC
+         AmnIS2GK8UUw5UP2/AMgCcCJ04SNdAK56kbwv76TZ0172XVD0jMQtf17KMNHpW6kMdqa
+         FPLLsLKI5bNpKqYmkMbDNrGvXMRct75d+OhKPSjtiJTh4BRyz7EfveZSdarAyg8ecBUp
+         iVSs9M3E/JGmdjtww7wqOJ2r4pH0cAeMypKQHs7luCQGxNtglR3UbZaLM6BFeE1L+LXn
+         JLDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NBjeBHi7DQFT1N0K+11BcHerp8+APJFTx8T0KGy8jlk=;
-        b=AnHx8N1qALnLXxXt/Vs7ijHNIGJMhpGvHEILhlZIZ+6IlJJi/E6VQn6xD5P+c+IlEO
-         ZycAVbHBITiM9fAVaIeR6J1sgIv43yKnvOqPvrOsE2pZEUACnKfgeQ9JjIA+wrQRXeVa
-         p8K3Ht7Gsjrluade1n3knwG8zPEEG5uzr40d2ooOpAYC51pv5E0P73kUIHP2Mx5RxHgG
-         aoP9vu5oLskV8RO2LJeznpFHw/1uTgYz5a3Yc1TS+dQrs9RxBHRPcnzbuqXKTMyLW+Il
-         i3y1oSYAf0c0NjPglknSX0TZM0kahlSoFEJPCsTUr0MpIS41TXcM9Edx6ZTkTgO5KIF2
-         LIcA==
-X-Gm-Message-State: AOAM533xHlTOJEn7Z1/lqmGsraNnJMqhBN5ybDUas+Pgf4wew5xdW56j
-	+9GIZwzBmvap6Ad+/pqOJNJO+PJB7av4ag==
-X-Google-Smtp-Source: ABdhPJxGM1evYdKydP1SThF2BoX17YNYFMZJWVji2rgoVfqbaN+oqPK+M9rDDHm2JOo51moSxxs5Cg==
-X-Received: by 2002:a17:902:ea03:b029:ef:adb3:a6ab with SMTP id s3-20020a170902ea03b02900efadb3a6abmr659046plg.47.1621289360320;
-        Mon, 17 May 2021 15:09:20 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0:db81:2f56:60e4:2c64])
-        by smtp.gmail.com with ESMTPSA id s184sm11307010pgc.29.2021.05.17.15.09.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a71enwf0zyDh4ASHXwkgvFB/eSAT5LcyBmmjwy1rwy8=;
+        b=ro3xxrfPXk/eHe8ImEc/NmdJaTPogxFyYn3QGbJJ+9WOWHcIvxUYZyCOqLVYx4/UJr
+         +Z72Bgqc/3hIhHKOV41eXr5YoVKAICzyUgWio48HGxefmgO0e7w+H8hljns/MnWWQDSt
+         EP4wRkGqA6iJVe7eRP5HreipkU0Ls9/j6Y5Zzb/Mn5jBHo3t3AvWRors0yej40Z6xNP6
+         qy2BFM/nlc7Xf3awMZLPvk+4iYsLNsGKcIiA0//XE0rT1CsVdLPznNzSRJOyVI6JYqPX
+         jz+PqrzOFN0LTY8Lp/Lq1dSMRpzhooGQ96W2r8v9cKdNUra7cOrudi/U2xPorKHMM3Y8
+         eGaw==
+X-Gm-Message-State: AOAM533F6X2Ckyqlyf+l2T52JJc7X3W7kaupYcLj9rXHMYf3bGuY79fo
+	tGZospvfZxcZDFw+bpqtLqw=
+X-Google-Smtp-Source: ABdhPJzSgYBHgkdX5iKb7dUOoFYWaDcLHntSiaPufCa/OuJic6ukeI+XS/Loja58DqBAMciiCvJv6g==
+X-Received: by 2002:a37:a851:: with SMTP id r78mr2205570qke.95.1621289823070;
+        Mon, 17 May 2021 15:17:03 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id y10sm9789558qtm.17.2021.05.17.15.17.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 15:09:19 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] gcc: Refresh patch to fix patch fuzz
-Date: Mon, 17 May 2021 15:09:15 -0700
-Message-Id: <20210517220915.3760392-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210517220915.3760392-1-raj.khem@gmail.com>
-References: <20210517220915.3760392-1-raj.khem@gmail.com>
+        Mon, 17 May 2021 15:17:02 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/9] kernel-yocto: consolidated pull request
+Date: Mon, 17 May 2021 18:16:51 -0400
+Message-Id: <cover.1621275692.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is due to previous patches editing common files from this patch
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Fixes
-ERROR: gcc-source-11.1.0-11.1.0-r0 do_patch: Fuzz detected:
+Richard,
 
-Applying patch 0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-patching file gcc/config/linux.h
-Hunk #1 succeeded at 203 with fuzz 1 (offset 8 lines).
-patching file gcc/config/rs6000/linux.h
-patching file gcc/config/rs6000/linux64.h
+Here are the gathered changes for our active lnux-yocto references, as well
+as some pre-work for moving to 5.13+ as the reference. I've also included
+a patch to add some BSP/SRC_URI information after the kernel meta data has
+been gathered .. this was requested just before the previous release, and
+I finally got time to pull something together.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ..._nonshared-to-link-commandline-for-musl-targe.patch | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+No big surprises and everything looked fine locally, and my AB run was
+clean (outside of an arm64 ptest timeout that doesn't look related).
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch b/meta/recipes-devtools/gcc/gcc/0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-index edca9e3ca4..9c616d24d0 100644
---- a/meta/recipes-devtools/gcc/gcc/0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-@@ -22,12 +22,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  gcc/config/rs6000/linux64.h | 10 ++++++++++
-  3 files changed, 27 insertions(+)
- 
--diff --git a/gcc/config/linux.h b/gcc/config/linux.h
--index 87efc5f69fe..3c7b7c538b9 100644
- --- a/gcc/config/linux.h
- +++ b/gcc/config/linux.h
--@@ -195,6 +195,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
--     { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
-+@@ -203,6 +203,13 @@ see the files COPYING3 and COPYING.RUNTI
-+     { GCC_INCLUDE_DIRVAR, "GCC", 0, 1, 0, 0 },		\
-      { 0, 0, 0, 0, 0, 0 }				\
-    }
- +#ifdef TARGET_LIBC_PROVIDES_SSP
-@@ -40,8 +38,6 @@ index 87efc5f69fe..3c7b7c538b9 100644
-  #endif
-  
-  #if (DEFAULT_LIBC == LIBC_UCLIBC) && defined (SINGLE_LIBC) /* uClinux */
--diff --git a/gcc/config/rs6000/linux.h b/gcc/config/rs6000/linux.h
--index 47c9d9ac0b6..d065f88b377 100644
- --- a/gcc/config/rs6000/linux.h
- +++ b/gcc/config/rs6000/linux.h
- @@ -94,6 +94,16 @@
-@@ -61,8 +57,6 @@ index 47c9d9ac0b6..d065f88b377 100644
-  #undef LINK_OS_LINUX_SPEC
-  #define LINK_OS_LINUX_SPEC LINK_OS_LINUX_EMUL " %{!shared: %{!static: \
-    %{!static-pie: \
--diff --git a/gcc/config/rs6000/linux64.h b/gcc/config/rs6000/linux64.h
--index a11e01faa3d..ce464f3626b 100644
- --- a/gcc/config/rs6000/linux64.h
- +++ b/gcc/config/rs6000/linux64.h
- @@ -369,6 +369,16 @@ extern int dot_symbols;
+Bruce
+
+The following changes since commit fb26a7c9b86488f46aef707c7836c2cd406d9b8a:
+
+  meson: update patch status (2021-05-17 09:53:15 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (9):
+  kernel-yocto: provide debug / summary information for metadata
+  linux-yocto/5.10: update to v5.10.35
+  linux-yocto/5.4: update to v5.4.117
+  linux-yocto/5.10: ktypes/standard: disable obsolete crypto options by
+    default
+  linux-yocto/5.10: update to v5.10.36
+  linux-yocto/5.4: update to v5.4.118
+  linux-yocto/5.10: update to v5.10.37
+  linux-yocto/5.4: update to v5.4.119
+  kernel-devsrc: adjust NM and OBJTOOL variables for target
+
+ meta/classes/kernel-yocto.bbclass             | 17 +++++++++++++
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  2 ++
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++++---------
+ 8 files changed, 56 insertions(+), 37 deletions(-)
+
 -- 
-2.31.1
+2.19.1
 
