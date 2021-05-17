@@ -1,94 +1,145 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web09.19562.1621260852228330452
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.19354.1621260854671668941
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 07:14:12 -0700
+ Mon, 17 May 2021 07:14:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=u1UrNSjd;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id c17so5035636pfn.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:14:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=A8O0DzKW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id gb21-20020a17090b0615b029015d1a863a91so5648349pjb.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:14:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=duGjzdhJAfOPTXl2ONDHtBerQrSpxpoCO0Drq8UGn8g=;
-        b=u1UrNSjdvDSBqgSST8jndu2M6D1gnl6KbSpSLVkK5NydN98qie+UeifrvX3wjvUoso
-         6NenVXfjO65uY2S5k9RLBfqAJ3UMc8zuhvCSaorTyrA8PwZwVG2rcshbh8Zo/Ufiiete
-         b3YbrQ9myE34XZ45zSpV7AqJj1T7d+i883DuGQk8IIbZtjgJ4+G1ldWmZK8N4ydzAquC
-         6do+W+iIAO5fNL8AFXMitenf4uwEsWnwoXBW6UMSIZLv2nRCEstTjbjiQFs9ZZCQuBMR
-         w7CvimrxEobANEOjg9kJWditMAl+dKXLJ1kWuriKp4v7YzWIjrJIWe/BMuLVYMxre+hI
-         rDpg==
+        bh=eNrgI+Z9gL54ucRE5FOGqbwnGY+b4dgk8i8WCC62U60=;
+        b=A8O0DzKWtLjEaZ12Y3XcyzEBylxWwT1sfyqS0pjHhRHH8d/vlC6FGTKv4/7z0/JbIN
+         0+0ZLHhTG7bjxbFArixluX30Y3wcDYzHU/U8c5PtfoGVDNalQRroz281PfIAhCtAtqdh
+         mjIBb2jyyPUpF2C3Vr4ascgR43T7tdC4SvIqo0Na/3cCVtUK9iSwWHpv3xdnw0ixyftc
+         RfXHsp0c0IzXcHHMH789Z9ZXSG7udsTlqA0e92wRcvXF4ev0+HGyE1hGIwftdF91hYai
+         VowIyF8azfAu+Cc4apQDpj1Ekh/kz9+9B6y6StHQ8WrcNRkTxZAbezIsYoyit+MGhP85
+         l7ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=duGjzdhJAfOPTXl2ONDHtBerQrSpxpoCO0Drq8UGn8g=;
-        b=aGkiKaH9iWtzfjoShNqTR4WlHYVh1wp76C8G6FA/AaiynyUXx9j8CN8TO5/HpynoFc
-         AD+eMVXQLz1lRIepHvC5Tg23ljNqybY87Bn7UPobiykrtEgKV8vzM0+ozWBsbUIU/GpN
-         RKTyNwH/pQRDDMkQc/kbzQd0ybtjEFe4z9hS2WAOmgIw0apwD/cGj1F9xL3LhO/6q8WY
-         DBRsogyhMEQE9Qurs2HEQYM8iOcnKL1w2xP1SXySel0lpjrb8WJanF4ZAlAm9DrJh8HW
-         G9WquVwTUGcsRT8avR3ySqFX1oKfHQCqsK9tSODuCJh+1dg0oXY7pLRjKeaagXldWfMJ
-         3N9A==
-X-Gm-Message-State: AOAM532L3/dAeJPQfjHoCAixVTDKTps3wODOKrXvYGGhSvLBuN7KZ32R
-	ejDw9J6E8+R2lxJ8CmbOLd5cUXKWLW6EKkoyKLQ=
-X-Google-Smtp-Source: ABdhPJwSjFwkwdX8Kmd48W+8DQZO0NoFdeoIJKXcOoKKvL0V0J/nEWclDKCyK0D+0BptaTnxB0ip/A==
-X-Received: by 2002:a63:eb47:: with SMTP id b7mr33976208pgk.227.1621260851371;
-        Mon, 17 May 2021 07:14:11 -0700 (PDT)
+        bh=eNrgI+Z9gL54ucRE5FOGqbwnGY+b4dgk8i8WCC62U60=;
+        b=NBKP0ytrF8Y2O/pHHUkumqVBZx1uKUv946HWcQRJDPVuUw0QQRgpKymMEnY2Ucth26
+         eEC4z4A9OI73dJqwI8ekfcb6qzhXtzR3PeVjaAAeCT5Q5YHLdfu3DVOwUGgWfZ6ev0oR
+         gXZl0zPGvBQF5YvFRw64BNktmyuD3ahAkESBSH/tvqc0epuJMuWSONEu2lQbiCeBU9PU
+         l9X4v63lBctGw943JA2a3zlufYUE2y7X+9TdIq7hTS9x/6r+wNu2Ib5WoUkFFqrdjWiM
+         oH7dBYVOjSiZ7DzScajqf59J7Jf9jM+jxx+PcgB8sI68++3bSBz+afX7D4plzgfZUK7R
+         /PAA==
+X-Gm-Message-State: AOAM532ZkSwqFBsbfqyeBdJBJ/kbHPbhF3s0BFUsUjKaKeZ0mSkrJO/o
+	njkRB4wzlZhK9+6qAUieQ9h/nuHflJdjzDJULpc=
+X-Google-Smtp-Source: ABdhPJyugwH2Pgbnc4Ubb0IGTv0octGzG/uyj92ffqXKMMkug/IrmKqqZWcDja1pgsJyo0MBW7+6mg==
+X-Received: by 2002:a17:902:cec5:b029:f0:b123:44b2 with SMTP id d5-20020a170902cec5b02900f0b12344b2mr185336plg.55.1621260853685;
+        Mon, 17 May 2021 07:14:13 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.14.10
+        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.14.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 07:14:10 -0700 (PDT)
+        Mon, 17 May 2021 07:14:13 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/35] glibc: Document and whitelist CVE-2019-1010022-25
-Date: Mon, 17 May 2021 04:13:11 -1000
-Message-Id: <2afbfc1eb6bc7613da4a7f06ac267ea561b5470e.1621260695.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/35] cairo: backport patch for CVE-2020-35492
+Date: Mon, 17 May 2021 04:13:12 -1000
+Message-Id: <907e0edecbef830e1b057c58f5d398b57529f085.1621260695.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1621260695.git.steve@sakoman.com>
 References: <cover.1621260695.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-These CVEs are disputed by upstream and there is no plan to fix/address them. No
-other distros are carrying patches for them. There is a patch for 1010025
-however it isn't merged upstream and probably carries more risk of other bugs
-than not having it.
+From: Ross Burton <ross@burtonini.com>
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b238db678083cc15313b98d2e33f83cccab03fc6)
+(cherry picked from commit 0c4e6f99332ae253855708845a41fdfeb72d4c30)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc_2.31.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ .../cairo/cairo/CVE-2020-35492.patch          | 60 +++++++++++++++++++
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
 
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 22858bc563..23242fff76 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -5,6 +5,19 @@ CVE_CHECK_WHITELIST += "CVE-2020-10029 CVE-2020-6096 CVE-2016-10228 CVE-2020-175
-                         CVE-2021-27645 CVE-2021-3326 CVE-2020-27618 CVE-2020-29562 CVE-2019-25013 \
- "
- 
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024
-+# Upstream glibc maintainers dispute there is any issue and have no plans to address it further.
-+# "this is being treated as a non-security bug and no real threat."
-+CVE_CHECK_WHITELIST += "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024"
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+new file mode 100644
+index 0000000000..fb6ce5cfdf
+--- /dev/null
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+@@ -0,0 +1,60 @@
++Fix stack buffer overflow.
 +
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025
-+# Allows for ASLR bypass so can bypass some hardening, not an exploit in itself, may allow
-+# easier access for another. "ASLR bypass itself is not a vulnerability."
-+# Potential patch at https://sourceware.org/bugzilla/show_bug.cgi?id=22853
-+CVE_CHECK_WHITELIST += "CVE-2019-1010025"
++CVE: CVE-2020-35492
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
- DEPENDS += "gperf-native bison-native make-native"
++From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
++From: Heiko Lewin <heiko.lewin@worldiety.de>
++Date: Tue, 15 Dec 2020 16:48:19 +0100
++Subject: [PATCH] Fix mask usage in image-compositor
++
++---
++ src/cairo-image-compositor.c                |   8 ++--
++ test/Makefile.sources                       |   1 +
++ test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
++ test/reference/bug-image-compositor.ref.png | Bin 0 -> 185 bytes
++ 4 files changed, 44 insertions(+), 4 deletions(-)
++ create mode 100644 test/bug-image-compositor.c
++ create mode 100644 test/reference/bug-image-compositor.ref.png
++
++diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
++index 79ad69f68..4f8aaed99 100644
++--- a/src/cairo-image-compositor.c
+++++ b/src/cairo-image-compositor.c
++@@ -2601,14 +2601,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
++ 		    unsigned num_spans)
++ {
++     cairo_image_span_renderer_t *r = abstract_renderer;
++-    uint8_t *m;
+++    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
++     int x0;
++ 
++     if (num_spans == 0)
++ 	return CAIRO_STATUS_SUCCESS;
++ 
++     x0 = spans[0].x;
++-    m = r->_buf;
+++    m = base;
++     do {
++ 	int len = spans[1].x - spans[0].x;
++ 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
++@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
++ 				      spans[0].x, y,
++ 				      spans[1].x - spans[0].x, h);
++ 
++-	    m = r->_buf;
+++	    m = base;
++ 	    x0 = spans[1].x;
++ 	} else if (spans[0].coverage == 0x0) {
++ 	    if (spans[0].x != x0) {
++@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
++ #endif
++ 	    }
++ 
++-	    m = r->_buf;
+++	    m = base;
++ 	    x0 = spans[1].x;
++ 	} else {
++ 	    *m++ = spans[0].coverage;
++-- 
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+index 8663dec404..4827374ffc 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+@@ -27,6 +27,7 @@ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+            file://CVE-2018-19876.patch \
+            file://CVE-2019-6461.patch \
+            file://CVE-2019-6462.patch \
++           file://CVE-2020-35492.patch \
+           "
  
- NATIVESDKFIXES ?= ""
+ SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
 -- 
 2.25.1
 
