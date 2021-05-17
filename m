@@ -1,50 +1,50 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web11.19513.1621260856712707603
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.19514.1621260859103205552
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 07:14:16 -0700
+ Mon, 17 May 2021 07:14:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hEQZzbPC;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f178.google.com with SMTP id y32so4717326pga.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:14:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=XVlroknD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id q15so4721380pgg.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=wgELj2bFyuSxwcJDbQzezcS9geJHC9l45oasrmyXXA4=;
-        b=hEQZzbPC4G8AYu3O4kctUpgP+e/6KHsryYIVRAAZzMlFuhObHSXL2HvdTegpnj+PX1
-         qDSUgP8EBoPNLGdEYEvnzvsp4qJi707wpv2FUw6BTON3lkx5mtWAVEBomcOOSJlRyYq7
-         I0do3gvN338cFdm7b7EinLW6ScaZP4vrk2aUlNVaz94YQ7j0ITBT4FiqzOTYC/V2RztJ
-         Wvp4qNnsiAIP+Au5HzpjuoUutIC2Q2U7pYl7jK+2BtUnzL7W23hg+ihdYdlKtxOgE+4t
-         8J3ume+jLtd1tYc8zFGWJC+wWZQw0dyuN0hhC+ZoBuEJOYJLna2BgyU09RaZmPSiBy0H
-         zgEg==
+        bh=CTtxDynO2Nibj8utovv8To1WxtLpK9eEQEAtv+ioqsU=;
+        b=XVlroknDf/D689WW4kWkm95b0Q+OxsXTfF9DM7f8/96j2u/gWKK7RaSonjXijJdXpQ
+         gpQ27TlYT9yeBtPgod8EgM+8HlTD/qc79v36zuUPVevJDdDezQyeWT3k4X9aGmkSyyQ7
+         kf5uO3oTbY4W7vuijRXLZvfo6ttQRdihjjkWb8xNXxt+5sdo8HrFb/ZYSrc2OlzRBBZD
+         /xBM3Pjb/oNAVVp/4CjtvvUpM4oWk3XbAgQC3nLsSBEMLR3jhd+TfhxZKsK8Q8XSNPNR
+         cdSlo9iGjwr67m6YP2Cqg5Sh4jqGExe0xdhsTXrSNkZPj/T9zSOMYqC5L7Uy/pekNWNX
+         gw7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wgELj2bFyuSxwcJDbQzezcS9geJHC9l45oasrmyXXA4=;
-        b=RLMSkVZuejgVFqOhEKaNBPLTVgiE+gSfZDJng7TYXsHNBnhb6QfW6EFtw2/ppf3BUs
-         Kub7TFHL0q/K29nBVOFWOYX41w8lVbr1yPDiDXed1tv9Bdw5oj6Se+7GSAUGZOqYpYot
-         4eK54ndABCwPBm8HIaxuGNC5y9iaVSZc+oRfty3ecEUiIAWlVh3UUgRipo+gtFrnDKzs
-         ccuZUiajGK8vo2gu+LFHN4bqiYKxuGQKwxXvgtwee1/X6ZzD+WdhpM+Xq+gMibofBMWA
-         oSwqtoSkixelRqqKNDxWY4v8g6S3xjmigKfO+RXqGUcAIP3p46JaYbIcxdyNWJjaFrfV
-         Kqyw==
-X-Gm-Message-State: AOAM532rDxVmn5L9HJcbJbk8m6uonKNDEB9YIA0qXicoUJTShoUE7/qh
-	KDL4xIWrzNJQuRRnAc6wcx+330QTz5KxGlyXDQg=
-X-Google-Smtp-Source: ABdhPJyx0+HFCNcGBNJ93mHpUjy7ijJGIdjQPJvQFnQ/W9tHz8LKkoj4brfB8znqLUv8smVBvGvruQ==
-X-Received: by 2002:a05:6a00:16cd:b029:2d0:d876:4707 with SMTP id l13-20020a056a0016cdb02902d0d8764707mr24206210pfc.64.1621260855861;
-        Mon, 17 May 2021 07:14:15 -0700 (PDT)
+        bh=CTtxDynO2Nibj8utovv8To1WxtLpK9eEQEAtv+ioqsU=;
+        b=iB6EGg9+b7bXc9R4SRDZIBmKaGNlWqKZ2skR9m++M88J0Hl+GvxjiiU3S+mwYsOAH5
+         fKm0X7Btn4+BbDRpPSAf+J7Ais3ngtgjp2kaSusk1UVMUrRY6QU+b7K0JmdIpEA95mOx
+         y5UpwYeA+FMFNqnU4buoCuI2SGyzJsiauqWquHoOXqAoTvVLHHexQcWcAKkReV6JcYEy
+         fYiBGBD5A8HnOC3yeheaQRFGO611TF03Ib88G1zihDd5vIzRrdKtqDCVJxKnf+Nte6eQ
+         eCnEJ6MMg/X+f9Hvq9rftCIKDsqlgQjRY9WHkUxxHYqU1MSIr7TDXwVawm6XqiMJauBs
+         jHpw==
+X-Gm-Message-State: AOAM533OirfwGzUY0AXHwZHRw5ooHPiD5u7dXyLexr50C6HVGcoDi7Qt
+	sb1X6mgtf0ShqzjyfNrivLjjiFyfCkeAvIzclvc=
+X-Google-Smtp-Source: ABdhPJzzapemXzfMiFYmzaz8FpDo2QgEJnH089dQtpiK4yF6hJAsuGrRpLu3Ysy3NDJTkLm4RS5ELQ==
+X-Received: by 2002:a63:cc43:: with SMTP id q3mr61682728pgi.50.1621260858245;
+        Mon, 17 May 2021 07:14:18 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.14.14
+        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.14.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 07:14:15 -0700 (PDT)
+        Mon, 17 May 2021 07:14:17 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/35] libnotify: whitelist CVE-2013-7381 (specific to the NodeJS bindings)
-Date: Mon, 17 May 2021 04:13:13 -1000
-Message-Id: <a6beac63da5294d02605100e6a47768c517280d9.1621260695.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/35] builder: whitelist CVE-2008-4178 (a different builder)
+Date: Mon, 17 May 2021 04:13:14 -1000
+Message-Id: <095535506951172e6f1812506a14fc3400f8b96e.1621260695.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1621260695.git.steve@sakoman.com>
 References: <cover.1621260695.git.steve@sakoman.com>
@@ -55,23 +55,22 @@ From: Ross Burton <ross@burtonini.com>
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit be04484f99a5b29cc9066e350b526fc4420ad6d4)
+(cherry picked from commit 107987b342a834badfad286474b03543b4764d23)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-gnome/libnotify/libnotify_0.7.8.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-graphics/builder/builder_0.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-index 0f2c3aa131..6b59029255 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-@@ -24,3 +24,6 @@ PROVIDES += "libnotify3"
- RPROVIDES_${PN} += "libnotify3"
- RCONFLICTS_${PN} += "libnotify3"
- RREPLACES_${PN} += "libnotify3"
-+
-+# -7381 is specific to the NodeJS bindings
-+CVE_CHECK_WHITELIST += "CVE-2013-7381"
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
+index 0a64c31ab3..9d5cd8cde6 100644
+--- a/meta/recipes-graphics/builder/builder_0.1.bb
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -29,3 +29,5 @@ do_install () {
+ 	chown  builder.builder ${D}${sysconfdir}/mini_x/session.d/builder_session.sh
+ }
+ 
++# -4178 is an unrelated 'builder'
++CVE_CHECK_WHITELIST = "CVE-2008-4178"
 -- 
 2.25.1
 
