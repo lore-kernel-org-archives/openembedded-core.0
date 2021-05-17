@@ -1,400 +1,259 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.115])
- by mx.groups.io with SMTP id smtpd.web11.15830.1621237221547979674
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+ by mx.groups.io with SMTP id smtpd.web09.16063.1621238848368944845
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 00:40:22 -0700
+ Mon, 17 May 2021 01:07:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nobleogroup.onmicrosoft.com header.s=selector2-nobleogroup-onmicrosoft-com header.b=UkmoQJNn;
- spf=pass (domain: nobleo.nl, ip: 40.107.20.115, mailfrom: ishu.goel@nobleo.nl)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PuU3vlqTEcSYvhXAGpw0fw1868Da5etyY82unWzdUXmQEQzx8VJSZf5FmvMJQGgGDlaQ5kSJOv6aZbXZtGsqjGz+4vm8yqbqevs9DeoDQ2DY1i52/1D6VnsHc6323kO59HBMSPs7YzV6q2FG3xzccMaOcPeSYUymnVgHv69zmJBEPecrnAi1j9v4zBiahO8lKLna7++rKqHVJSOs4xSUyYQ3kNWUWzn+o3hbP8oR+bmX0lNeycxQqz/wCGt88dStL2iAtnYN7lDON8t1zo6OzL3KACZdCjJ8EEZhqOTS/k0cxyoOhIT/h/JIOgn60TR4Nb55QxTJlbt3YUDRQlS0vQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m9xBfd8aGyU4kSQixapbsWcxR0sdTPYXdmgYZIXLXyA=;
- b=mgcPAaRH2SCXkT3HS17JL/+6iG2dMJ15UTum6AUKrfnPy9ayabMHCu3PuBUV0hHqwRC7ZGTQi9lMjcoFMQT1RMA2JWisIJV2GsacxghmjuEC57yx62zoXt2TKZzM19MNNdfbRn0I2909JxKYC5lx27rKcW8q7mA2trODXgLk6oPgLVII/UwPTYhSjToN4WuGDaKuFtLWaCJ4sP0+lcnZbPAiCQXs3jVCsyXMzmUrx+9PAoRKeGSyJN2WK7KJwWD3c3aXsrmrPkCGfSI3RoL6VHuXlocUAEctrnfhGEVVMZ/+l0Pci8ZbBFKYRoeypp8hlosdWuxtf9TE++aMajKiyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nobleo.nl; dmarc=pass action=none header.from=nobleo.nl;
- dkim=pass header.d=nobleo.nl; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G73Q0fpy;
+ spf=pass (domain: gmail.com, ip: 209.85.222.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f45.google.com with SMTP id p17so281587uaw.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 01:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nobleogroup.onmicrosoft.com; s=selector2-nobleogroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m9xBfd8aGyU4kSQixapbsWcxR0sdTPYXdmgYZIXLXyA=;
- b=UkmoQJNnt98L2hCkydMk9zit1u6emoz3SKHqgPX49sDdawVUilM6pOOiwqYnNLZm6dFJjtQ9jpQwRbgjew7bjnsJBAmCr/awswzObh0UZ1HY2Dp1kzmt9c0TGmfFzoK2g0VqbsvB7f3udLSYin/AsSluDuaCSSCweD/4j2kClO0=
-Received: from AM0PR0402MB3475.eurprd04.prod.outlook.com
- (2603:10a6:208:1a::32) by AM0PR04MB5764.eurprd04.prod.outlook.com
- (2603:10a6:208:12f::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Mon, 17 May
- 2021 07:40:17 +0000
-Received: from AM0PR0402MB3475.eurprd04.prod.outlook.com
- ([fe80::90dc:ba1c:5749:ef8]) by AM0PR0402MB3475.eurprd04.prod.outlook.com
- ([fe80::90dc:ba1c:5749:ef8%6]) with mapi id 15.20.4065.042; Mon, 17 May 2021
- 07:40:17 +0000
-From: "Ishu Goel" <ishu.goel@nobleo.nl>
-To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Ishu Goel <ishu.goel@nobleo.nl>
-Subject: Re: [OE-core] CMake fails with yocto
-Thread-Topic: [OE-core] CMake fails with yocto
-Thread-Index: AQHXQZCusR9Qi8OP9kS3uG6FeMtIy6rVSXKAgAFEfxqAEM4GWA==
-Date: Mon, 17 May 2021 07:40:17 +0000
-Message-ID: 
- <AM0PR0402MB3475153B898E2AD60EF78D77FB2D9@AM0PR0402MB3475.eurprd04.prod.outlook.com>
-References: 
- <AM0PR0402MB3475803C5E790CA079CE2B35FB599@AM0PR0402MB3475.eurprd04.prod.outlook.com>,<7ccf3572-30b8-c6b6-9785-92766844aa6d@gmail.com>,<167C824F33296DA6.28455@lists.openembedded.org>
-In-Reply-To: <167C824F33296DA6.28455@lists.openembedded.org>
-Accept-Language: en-US, nl-NL
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=nobleo.nl;
-x-originating-ip: [94.190.201.89]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 61e1dc60-99cf-4053-6a0c-08d91907043c
-x-ms-traffictypediagnostic: AM0PR04MB5764:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <AM0PR04MB5764FE76F146867ED3EC504AFB2D9@AM0PR04MB5764.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- uzkt0yJcCtkpJ8rqND7OIyBCY8jNA6XasAo8+/L3h4XCPcj5Yp4Tr1ICXCsDK4ct9LQJyF7Tz+ez/btjOTtJzXftWJd6Zbdl83GM2nFuWU7D9K+S3kHRDzCWNQo/JOkDSygu7/O7gzRmfQg5GQHvMjVLa5gSScWLLVbJOFKh73NmUkkbHxvQJxvjKdPL6kMKrTMFzj7UBaGmPIGmB5m6NnTecX2Osn/61anxVDhujPnkKM0+DY+AIAhv/hxvMvTwnPg/HpWT8sBemxtgREsq7Qvu+7N0wqwMRgsbXOHHEfkuzv702Iu9Sf3En6o5lkeh/Rl0Hsw6/iQmK6v/o37DGJy4Wkv/tBsn3RnncQALZNbmoi1rx/a+gh4T2m5U9zaDZC2AEqg7RkVAzbgXBvEyDMzYc1bgWfUS4n76bxbX8VY8ks6t+hP5Fxv4pA8I08a3R+kXi9RojZKzXG2uA6ew/2cDNDS5iIEQUFlKij8aS7t6STX0G/uJzGM8wDyifUVKNhOaw8hDUdiJtBKtLPc4V+cFxzYSeRIs3SaLtGnpO/3jTuZnKkUMhBDIn2e4nEaZ7glakgpfvl7HdKooMit3IKDYryuIkm9Fr7BmKBokJblNG2I5KtxApVGIFOepaemDSRfW9Z68oyPXSV6pGQonGhvIKw+2ziOUWiBqy3+SGL4RG+v/4tI2I4ohmI2DZbNc
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0402MB3475.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(39830400003)(366004)(346002)(376002)(136003)(396003)(186003)(71200400001)(110136005)(44832011)(52536014)(55016002)(19627405001)(966005)(33656002)(66476007)(64756008)(66446008)(66556008)(26005)(53546011)(6506007)(86362001)(83380400001)(166002)(7696005)(5660300002)(8936002)(478600001)(66946007)(76116006)(2906002)(122000001)(9686003)(38100700002)(8676002)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 
- =?us-ascii?Q?Z36FhUh+Sov6pklEWFHBeGLkcGjUNyO08AiBdGvvRae8lTloNsP4PIOi0qeQ?=
- =?us-ascii?Q?6l0oZ7jCrIDA5Fwv1ist94tSX308P6aGFIG17o0PQ3G/OkMAtEx0xrSegdmH?=
- =?us-ascii?Q?yDUjdlxfHLB3jxmXv5/QBXWbPyfvLR86z3bQn5MohGnR7XcVbBv0DfRAsla2?=
- =?us-ascii?Q?vp9EioCMC9HpiEibiP1vGAFcUk6pOn4SAG78YZfsNWeU/BdQ3TmonD2yjv25?=
- =?us-ascii?Q?Qlra87wND9zrWqZmWl/9oW2mWo+VDLwi+kXHBSQqJa6GT4Ze/xhqvO770pOm?=
- =?us-ascii?Q?KwWjwYcD6y6Jz3AKFG6ZkCOfXwJD4HeJsAyUJ9ptHepQqR4ItJzOnfji//Zr?=
- =?us-ascii?Q?Z3PJAI0cCHZbidUnpkTMRBrrA5dBf7ei1aTpSf1GB9V5ifE11/tWNGgnU4Hl?=
- =?us-ascii?Q?aulmKYjr/6qLe7B2EtlE9u56LonLF/IyB5orr5Zie9Sb6Wr0DKvjTT+G/Yka?=
- =?us-ascii?Q?ZVzRv/xPLbt++g1WufJSslbwX6/KqX75tq05e/X0ehe8BBQvMTs6P6+cK2QO?=
- =?us-ascii?Q?FYKDqtM6zxQ2D1ikH4LxfYNccqZPJUYE62Yj/MU8r8ZyFKdHzhWpl4Gi8ByA?=
- =?us-ascii?Q?iC6temstk8BgE7e4FTqPO1KGWO7GVcDzPVMZdWnmuTesU5UQZ3yDUHpptmDK?=
- =?us-ascii?Q?fL7J98nf6NeqAM4yMmRzxQVZT+sJhSlN/PAZDCoynVeWCGzjCxLIAHPimnlY?=
- =?us-ascii?Q?+op8dO25OzYDdLnXzuKQ8ocdGrV/EcAc6X6WkMlkA8FJBgn0qDS5qL0JYL2o?=
- =?us-ascii?Q?TcOC/A2sns1JwnAA5veD60Jyn8sn1sJXc3ibPy0/C/xxBzEHHbR5N1437lmi?=
- =?us-ascii?Q?QptSi8KGCzVFJS5SHgGEns5Ze1H/MqEvZQ7hvvczjplv86McFnrsKB955twZ?=
- =?us-ascii?Q?EdvqBwYIXzJcXUALkEw6TaF30czDYvg/bjPTC618zdxXxB1oNEDf5V9h5igq?=
- =?us-ascii?Q?pIXwwTA2FgenvLAFcvSGl/UYY/QPqlvxg0L+4sb7oIs7ZyDWKdEmZfzSPoaW?=
- =?us-ascii?Q?iPkyRget6Nm0iugfL4QNzdnEn2LB6VDdePtSm9VidpU8W4WKwwDGzUZCV1tU?=
- =?us-ascii?Q?JEv8IHkzsivqbvLhwtcY4EQ69EJTokwIu8TkQfD2cI8B1RiAU9TP933c4cdk?=
- =?us-ascii?Q?B5CCw+iOZoly2k3n3ME7eWyRom3Ji3jBoJrtQmNpzxSapZTLcZViBAEy1IPz?=
- =?us-ascii?Q?g7uFn1BcukfW19Wfga5ie0bHiQcSuL8M2yKMg33JQEFEoMMh8KcPlwaflfCL?=
- =?us-ascii?Q?kBC4Nq5VRx3UOxt+Qvnhdoj49w5Ngf5QuYBLy4Mo9ldw0HtwJNkVvBKx2zKH?=
- =?us-ascii?Q?1/s=3D?=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qKScywrUWZnC9jZsdRKMv98hTzwv10H4zURebSiUh9E=;
+        b=G73Q0fpyLZojcuk26tAMw1iYC8XmD0FRHv694G27XLGRpm29ftF8cW6Hmbj0l+YSmK
+         WhmP6OqwsHw01goS0mI5tfubN3FDvX25w/SByjSfDyS+q5F9t6tzA1se6VOiVEwj5T1D
+         CsJhjLFZH85jInX7Q8oHWJNX/6wMM77usm2a1x2+3bQRX+LLmCz6OI9e66HAscGcb1i0
+         zS5UpWB3hnOg7Al/ZIzId+B3uquDdmwslHUAU9eDQLPkruHGrt2QCPgyqds68bJTJs/2
+         OnJtXRea7094uswugLRzGu6g7/oJn7xNIK6BUZiYnHGmVRUS3R52+9D5DnRgS9W29Af6
+         QZdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qKScywrUWZnC9jZsdRKMv98hTzwv10H4zURebSiUh9E=;
+        b=QEjWTssXUb2ouFrTLF4aQjrhlJNWt40mssnfqxj3+5iJC9Fg9wRbYY5iWH84yBEfpq
+         7+aDr5SHglKJZtAEJEDHcNsJ2LonzW9lbUJlyphI7hfKN4w0vp2AqsPzPbkDKlITCk6A
+         QO/BTfi4s2t5/StaV1UnKdsegJ08rlCvww+MnsT7eW1lXXJtZYgkaBMnSBUXDCMjM8EZ
+         63DatGjxGIgM+GSplbbdLb1fkQI4xqveMtkFjXtREAwmtIdNs2plVGN7v9m0XWzIl5bg
+         m6bAO1+9zGA3RipF45StU6hewPkXRkh0Lbzs6q1+i65pO+G9Cm9fTHwzJszJ0qjeLq23
+         ii/Q==
+X-Gm-Message-State: AOAM533pELHXB/Q97V6caa/q4fH1yey7Xe2i60l4kmnj0zAC1xMMQqSn
+	3r6NRHPgMf0F+HpMStM6tMNqdL0jjrgJ+PnbtF8=
+X-Google-Smtp-Source: ABdhPJzyKdKEXc6WleoM/CfuAWbZ12mUrrr9iq240fAJtEzrMppq4s2HCzx+jZuTRxYFa3j54pyVbm4nph3c+uX467g=
+X-Received: by 2002:ab0:77c1:: with SMTP id y1mr51759193uar.89.1621238847490;
+ Mon, 17 May 2021 01:07:27 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nobleo.nl
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR0402MB3475.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61e1dc60-99cf-4053-6a0c-08d91907043c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2021 07:40:17.4990
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6d354334-64ad-4352-9b8b-cf80e736aa70
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TJCkA/adl12D7e8e+D9EjIvxDPZ1sYSVebqNSqwbZymku5+l5GyvVVld6cTc9Pv9A6dcDMIeWN7ANk58vSQXVQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB5764
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_AM0PR0402MB3475153B898E2AD60EF78D77FB2D9AM0PR0402MB3475_"
+References: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 17 May 2021 10:07:15 +0200
+Message-ID: <CANNYZj-EA8WJoysLgVwaXbg2GTAygXxQDjkA_k2vL5433NSt-Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/27] libxcrypt-compat: upgrade 4.4.19 -> 4.4.20
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000099ccf405c28215fd"
 
---_000_AM0PR0402MB3475153B898E2AD60EF78D77FB2D9AM0PR0402MB3475_
-Content-Type: text/plain; charset="us-ascii"
+--00000000000099ccf405c28215fd
+Content-Type: text/plain; charset="UTF-8"
+
+The main libxcrypt recipe was overlooked?
+
+Alex
+
+On Mon, 17 May 2021 at 00:33, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../libxcrypt/files/fix_cflags_handling.patch   | 17 +++++++++++++----
+>  ...pat_4.4.19.bb => libxcrypt-compat_4.4.20.bb} |  0
+>  meta/recipes-core/libxcrypt/libxcrypt.inc       |  2 +-
+>  3 files changed, 14 insertions(+), 5 deletions(-)
+>  rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.19.bb =>
+> libxcrypt-compat_4.4.20.bb} (100%)
+>
+> diff --git a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+> b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+> index 5448fe0fa69..0772998c722 100644
+> --- a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+> +++ b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+> @@ -1,3 +1,8 @@
+> +From fd9a46695594c3cd836ecb7d959f03f605e69a2f Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Fri, 30 Apr 2021 10:35:02 +0100
+> +Subject: [PATCH] libxcrypt: Update to 4.4.19 release and fix symbol
+> version
+> +
+>  If you pass CFLAGS with a leading space, " " gets passed to popen and
+> convinces
+>  gcc to try and open a file called " ". This results in a confusing error
+> message
+>  like:
+> @@ -9,8 +14,12 @@ Avoid this by stripping empty elements out of CFLAGS.
+>  Upstream-Status: Submitted [
+> https://github.com/besser82/libxcrypt/pull/126]
+>  Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> -Index: a/build-aux/compute-symver-floor
+> -===================================================================
+> +---
+> + build-aux/compute-symver-floor | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/build-aux/compute-symver-floor
+> b/build-aux/compute-symver-floor
+> +index 4ec82e1..8117342 100644
+>  --- a/build-aux/compute-symver-floor
+>  +++ b/build-aux/compute-symver-floor
+>  @@ -36,6 +36,8 @@ sub preprocessor_check {
+> @@ -20,5 +29,5 @@ Index: a/build-aux/compute-symver-floor
+>  +        # Remove empty elements, particularly leading ones which cause
+> issues with popen below
+>  +        @CFLAGS = grep {$_} @CFLAGS;
+>
+> -         # We call ensure_C_locale here, not from the main section,
+> -         # because this sub might not get called at all, in which
+> +         # Remove empty elements, particularly leading ones which
+> +         # cause issues with popen below.
+> diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.19.bb
+> b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.20.bb
+> similarity index 100%
+> rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.19.bb
+> rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.20.bb
+> diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc
+> b/meta/recipes-core/libxcrypt/libxcrypt.inc
+> index 694e55546f0..c16068c1614 100644
+> --- a/meta/recipes-core/libxcrypt/libxcrypt.inc
+> +++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =
+> "file://LICENSING;md5=afed27a72ae2a8075978299eebaa1f5d \
+>  inherit autotools pkgconfig
+>
+>  SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}
+> <http://github.com/besser82/libxcrypt.git;branch=$%7BSRCBRANCH%7D>"
+> -SRCREV = "c79119414d7e30017d7b49566e7e4ea35112bdc8"
+> +SRCREV = "e73ff0137de5152e69e8abb0bd260541804dfe5a"
+>  SRCBRANCH ?= "develop"
+>
+>  SRC_URI += "file://fix_cflags_handling.patch"
+> --
+> 2.30.2
+>
+>
+> 
+>
+>
+
+--00000000000099ccf405c28215fd
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-I am still struggling with the same problem. Any leads or suggestions will =
-be helpful.
-
-With regards,
-Ishu
-________________________________
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> on behalf of Ishu Goel via lists.openembedded.org <ishu.goel=
-=3Dnobleo.nl@lists.openembedded.org>
-Sent: Thursday, May 6, 2021 17:00
-To: Khem Raj <raj.khem@gmail.com>; openembedded-core@lists.openembedded.org=
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] CMake fails with yocto
-
-Hello Khem,
-
-Thank you for looking into this issue. Below is the content of pseudo.log f=
-ile as asked by you.
-
-debug_logfile: fd 2
-pid 453 [parent 452], doing new pid setup and server start
-Setup complete, sending SIGUSR1 to pid 452.
-db cleanup for server shutdown, 08:07:22.373
-memory-to-file backup complete, 08:07:22.373.
-db cleanup finished, 08:07:22.373
-debug_logfile: fd 2
-pid 869 [parent 868], doing new pid setup and server start
-Setup complete, sending SIGUSR1 to pid 868.
-path mismatch [3 links]: ino 3169066 db '/home/developer/work/build/tmp-gli=
-bc/work/cortexa72-oe-linux/hellocmake/1.0-r0/package/usr/src/debug/hellocma=
-ke/1.0-r0/hellocmake.cpp' req '/home/developer/work/build/tmp-glibc/work/co=
-rtexa72-oe-linux/hellocmake/1.0-r0/hellocmake.cpp'.
-
-The problem seems to be 'path mismatch' but I do not know why that occurs? =
-Not sure if helpful, I am using bitbake version 1.48 and CMake version 3.13=
-.1. Please help me in finding out what is wrong?
-
-With regards,
-Ishu
-________________________________
-From: Khem Raj <raj.khem@gmail.com>
-Sent: Wednesday, May 5, 2021 21:38
-To: Ishu Goel <ishu.goel@nobleo.nl>; openembedded-core@lists.openembedded.o=
-rg <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] CMake fails with yocto
-
-
-
-On 5/5/21 2:26 AM, Ishu Goel wrote:
-> Hello,
->
-> I am using CMake with Yocto and working on the hellocmake example
-> provided here:
-> https://github.com/joaocfernandes/Learn-Yocto/blob/master/develop/Recipe-=
-CMake.md
-> When I bake the hellocmake recipe it builds perfectly the first time.
-> But when I make any change in the source file 'hellocmake.cpp' and bake,
-> I get the following error:
->
-> ERROR: hellocmake-1.0-r0 do_install: Execution of
-> '/home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmake/=
-1.0-r0/temp/run.do_install.147'
-> failed with exit code 1:
-> abort()ing pseudo client by server request. See
-> https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
-> Check logfile:
-> /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmake/1=
-.0-r0/pseudo//pseudo.log
-> Child aborted
-> CMake Error: Generator: execution of make failed. Make command was:
-> ninja -v -j 4 install &&
-> WARNING: exit code 1 from a shell command.
->
-> ERROR: Logfile of failure stored in:
-> /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmake/1=
-.0-r0/temp/log.do_install.147
->
->
-> I want to know what I am doing wrong? I noticed that if I clean the
-> previous build of hellocmake, I do not get this error. How can I make
-> sure that CMake works every time with yocto?
->
-
-you perhaps are not doing anything wrong. pseudo is a tool used by yocto
-underneath and its bailing out for some reason. maybe you can share the
-pseudo.log file and it might have more details.
-
-> With regards,
->
-> *Ishu Goel*
-> Software Designer
->
-> Nobleo Technology BV
->
-> Heggeranklaan 1
->
-> 5643BP Eindhoven
->
->
-> *E *ishu.goel@nobleo.nl**
->
-> *I**www.nobleo.nl <http://www.nobleo.nl/>*
->
->
->
->
->
-
---_000_AM0PR0402MB3475153B898E2AD60EF78D77FB2D9AM0PR0402MB3475_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Hello,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div dir=3D"ltr"><div>The main libxcrypt recipe was overlooked?</div><div><=
+br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, 17 May 2021 at 00:33, Richard Purdie=
+ &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@l=
+inuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richa=
+rd.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfounda=
+tion.org</a>&gt;<br>
+---<br>
+=C2=A0.../libxcrypt/files/fix_cflags_handling.patch=C2=A0 =C2=A0| 17 +++++=
+++++++++----<br>
+=C2=A0...<a href=3D"http://pat_4.4.19.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">pat_4.4.19.bb</a> =3D&gt; <a href=3D"http://libxcrypt-compat_4.4.20.bb=
+" rel=3D"noreferrer" target=3D"_blank">libxcrypt-compat_4.4.20.bb</a>} |=C2=
+=
+=A0 0<br>
+=C2=A0meta/recipes-core/libxcrypt/libxcrypt.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 2 +-<br>
+=C2=A03 files changed, 14 insertions(+), 5 deletions(-)<br>
+=C2=A0rename meta/recipes-core/libxcrypt/{<a href=3D"http://libxcrypt-comp=
+at_4.4.19.bb" rel=3D"noreferrer" target=3D"_blank">libxcrypt-compat_4.4.19.=
+bb</a> =3D&gt; <a href=3D"http://libxcrypt-compat_4.4.20.bb" rel=3D"norefer=
+rer" target=3D"_blank">libxcrypt-compat_4.4.20.bb</a>} (100%)<br>
 <br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-I am still struggling with the same problem. Any leads or suggestions will =
-be helpful.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+diff --git a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch b=
+/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch<br>
+index 5448fe0fa69..0772998c722 100644<br>
+--- a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch<br>
++++ b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch<br>
+@@ -1,3 +1,8 @@<br>
++From fd9a46695594c3cd836ecb7d959f03f605e69a2f Mon Sep 17 00:00:00 2001<br=
+>
++From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation=
+.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<br>
++Date: Fri, 30 Apr 2021 10:35:02 +0100<br>
++Subject: [PATCH] libxcrypt: Update to 4.4.19 release and fix symbol versi=
+on<br>
++<br>
+=C2=A0If you pass CFLAGS with a leading space, &quot; &quot; gets passed t=
+o popen and convinces<br>
+=C2=A0gcc to try and open a file called &quot; &quot;. This results in a c=
+onfusing error message<br>
+=C2=A0like:<br>
+@@ -9,8 +14,12 @@ Avoid this by stripping empty elements out of CFLAGS.<br=
+>
+=C2=A0Upstream-Status: Submitted [<a href=3D"https://github.com/besser82/l=
+ibxcrypt/pull/126" rel=3D"noreferrer" target=3D"_blank">https://github.com/=
+besser82/libxcrypt/pull/126</a>]<br>
+=C2=A0Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@l=
+inuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a=
+>&gt;<br>
 <br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-With regards,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Ishu <br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
-alf of Ishu Goel via lists.openembedded.org &lt;ishu.goel=3Dnobleo.nl@lists=
-.openembedded.org&gt;<br>
-<b>Sent:</b> Thursday, May 6, 2021 17:00<br>
-<b>To:</b> Khem Raj &lt;raj.khem@gmail.com&gt;; openembedded-core@lists.ope=
-nembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core] CMake fails with yocto</font>
-<div>&nbsp;</div>
-</div>
-<style type=3D"text/css" style=3D"display:none">
-<!--
-p
-	{margin-top:0;
-	margin-bottom:0}
--->
-</style>
-<div dir=3D"ltr">
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-Hello Khem,<br>
+-Index: a/build-aux/compute-symver-floor<br>
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
++---<br>
++ build-aux/compute-symver-floor | 2 ++<br>
++ 1 file changed, 2 insertions(+)<br>
++<br>
++diff --git a/build-aux/compute-symver-floor b/build-aux/compute-symver-fl=
+oor<br>
++index 4ec82e1..8117342 100644<br>
+=C2=A0--- a/build-aux/compute-symver-floor<br>
+=C2=A0+++ b/build-aux/compute-symver-floor<br>
+=C2=A0@@ -36,6 +36,8 @@ sub preprocessor_check {<br>
+@@ -20,5 +29,5 @@ Index: a/build-aux/compute-symver-floor<br>
+=C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove empty elements, particularly l=
+eading ones which cause issues with popen below<br>
+=C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 @CFLAGS =3D grep {$_} @CFLAGS;<br>
 <br>
-Thank you for looking into this issue. Below is the content of pseudo.log f=
-ile as asked by you.
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# We call ensure_C_locale here, not fro=
+m the main section,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# because this sub might not get called=
+ at all, in which<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove empty elements, particularly l=
+eading ones which<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# cause issues with popen below.<br>
+diff --git a/meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt-compa=
+t_4.4.19.bb" rel=3D"noreferrer" target=3D"_blank">libxcrypt-compat_4.4.19.b=
+b</a> b/meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt-compat_4.4.=
+20.bb" rel=3D"noreferrer" target=3D"_blank">libxcrypt-compat_4.4.20.bb</a><=
+br>
+similarity index 100%<br>
+rename from meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt-compat=
+_4.4.19.bb" rel=3D"noreferrer" target=3D"_blank">libxcrypt-compat_4.4.19.bb=
+</a><br>
+rename to meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt-compat_4=
+.4.20.bb" rel=3D"noreferrer" target=3D"_blank">libxcrypt-compat_4.4.20.bb</=
+a><br>
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core=
+/libxcrypt/libxcrypt.inc<br>
+index 694e55546f0..c16068c1614 100644<br>
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc<br>
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc<br>
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D &quot;file://LICENSING;md5=3Dafed27=
+a72ae2a8075978299eebaa1f5d \<br>
+=C2=A0inherit autotools pkgconfig<br>
+<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/besser82/libxcr=
+ypt.git;branch=3D$%7BSRCBRANCH%7D" rel=3D"noreferrer" target=3D"_blank">git=
+hub.com/besser82/libxcrypt.git;branch=3D${SRCBRANCH}</a>&quot;<br>
+-SRCREV =3D &quot;c79119414d7e30017d7b49566e7e4ea35112bdc8&quot;<br>
++SRCREV =3D &quot;e73ff0137de5152e69e8abb0bd260541804dfe5a&quot;<br>
+=C2=A0SRCBRANCH ?=3D &quot;develop&quot;<br>
+<br>
+=C2=A0SRC_URI +=3D &quot;file://fix_cflags_handling.patch&quot;<br>
+-- <br>
+2.30.2<br>
 <br>
 <br>
-debug_logfile: fd 2<br>
-pid 453 [parent 452], doing new pid setup and server start<br>
-Setup complete, sending SIGUSR1 to pid 452.<br>
-db cleanup for server shutdown, 08:07:22.373<br>
-memory-to-file backup complete, 08:07:22.373.<br>
-db cleanup finished, 08:07:22.373<br>
-debug_logfile: fd 2<br>
-pid 869 [parent 868], doing new pid setup and server start<br>
-Setup complete, sending SIGUSR1 to pid 868.<br>
-path mismatch [3 links]: ino 3169066 db '/home/developer/work/build/tmp-gli=
-bc/work/cortexa72-oe-linux/hellocmake/1.0-r0/package/usr/src/debug/hellocma=
-ke/1.0-r0/hellocmake.cpp' req '/home/developer/work/build/tmp-glibc/work/co=
-rtexa72-oe-linux/hellocmake/1.0-r0/hellocmake.cpp'.<br>
 <br>
-The problem seems to be 'path mismatch' but I do not know why that occurs? =
-Not sure if helpful, I am using bitbake version 1.48 and CMake version 3.13=
-.1. Please help me in finding out what is wrong?</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
 <br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-With regards,</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-Ishu<br>
-</div>
-<div id=3D"x_appendonsend"></div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
-color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Khem Raj &lt;raj.kh=
-em@gmail.com&gt;<br>
-<b>Sent:</b> Wednesday, May 5, 2021 21:38<br>
-<b>To:</b> Ishu Goel &lt;ishu.goel@nobleo.nl&gt;; openembedded-core@lists.o=
-penembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core] CMake fails with yocto</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"x_BodyFragment"><font size=3D"2"><span style=3D"font-size:11p=
-t">
-<div class=3D"x_PlainText"><br>
-<br>
-On 5/5/21 2:26 AM, Ishu Goel wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; I am using CMake with Yocto and working on the hellocmake example <br>
-&gt; provided here: <br>
-&gt; <a href=3D"https://github.com/joaocfernandes/Learn-Yocto/blob/master/d=
-evelop/Recipe-CMake.md">
-https://github.com/joaocfernandes/Learn-Yocto/blob/master/develop/Recipe-CM=
-ake.md</a><br>
-&gt; When I bake the hellocmake recipe it builds perfectly the first time. =
-<br>
-&gt; But when I make any change in the source file 'hellocmake.cpp' and bak=
-e, <br>
-&gt; I get the following error:<br>
-&gt; <br>
-&gt; ERROR: hellocmake-1.0-r0 do_install: Execution of <br>
-&gt; '/home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocma=
-ke/1.0-r0/temp/run.do_install.147'
-<br>
-&gt; failed with exit code 1:<br>
-&gt; abort()ing pseudo client by server request. See <br>
-&gt; <a href=3D"https://wiki.yoctoproject.org/wiki/Pseudo_Abort">https://wi=
-ki.yoctoproject.org/wiki/Pseudo_Abort</a> for more details on this.<br>
-&gt; Check logfile: <br>
-&gt; /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmak=
-e/1.0-r0/pseudo//pseudo.log<br>
-&gt; Child aborted<br>
-&gt; CMake Error: Generator: execution of make failed. Make command was: <b=
-r>
-&gt; ninja -v -j 4 install &amp;&amp;<br>
-&gt; WARNING: exit code 1 from a shell command.<br>
-&gt; <br>
-&gt; ERROR: Logfile of failure stored in: <br>
-&gt; /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmak=
-e/1.0-r0/temp/log.do_install.147<br>
-&gt; <br>
-&gt; <br>
-&gt; I want to know what I am doing wrong? I noticed that if I clean the <b=
-r>
-&gt; previous build of hellocmake, I do not get this error. How can I make =
-<br>
-&gt; sure that CMake works every time with yocto?<br>
-&gt; <br>
-<br>
-you perhaps are not doing anything wrong. pseudo is a tool used by yocto <b=
-r>
-underneath and its bailing out for some reason. maybe you can share the <br=
->
-pseudo.log file and it might have more details.<br>
-<br>
-&gt; With regards,<br>
-&gt; <br>
-&gt; *Ishu Goel*<br>
-&gt; Software Designer<br>
-&gt; <br>
-&gt; Nobleo Technology BV<br>
-&gt; <br>
-&gt; Heggeranklaan 1<br>
-&gt; <br>
-&gt; 5643BP Eindhoven<br>
-&gt; <br>
-&gt; <br>
-&gt; *E *ishu.goel@nobleo.nl**<br>
-&gt; <br>
-&gt; *I**www.nobleo.nl &lt;<a href=3D"http://www.nobleo.nl/">http://www.nob=
-leo.nl/</a>&gt;*<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-</div>
-</span></font></div>
-</div>
-</body>
-</html>
+</blockquote></div>
 
---_000_AM0PR0402MB3475153B898E2AD60EF78D77FB2D9AM0PR0402MB3475_--
+--00000000000099ccf405c28215fd--
