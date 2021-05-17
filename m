@@ -1,257 +1,517 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.271.1621289914752432953
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.305.1621290045540617561
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 15:18:34 -0700
+ Mon, 17 May 2021 15:20:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PvO81siI;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id h7so3972052plt.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:18:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Wjo8M6TS;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id b13so2205887pfv.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=wV93LZrzXrnk8/UyrnvoL6633MhuLTTPK5u2GPSv1Cs=;
-        b=PvO81siI5d8BoNB6q1owu2x55ZutsORSKAUnM1b2U60bPDRVSij45jg6QsZZc8vp8H
-         R62bqtLzijlLCLbTQeH04QHpTfiIkT7DiosgkKprvFgoFJZzABuH95mzIndk8F3t9qj6
-         TzGFQvfsW6hhbVQGhAcLE9fBPsNaR5tHbrukhi1SMt31BMIpPcjftSGSQsNiibOY3EYL
-         keGC9GQTk7ACAZ1zU3B2BjV2ks0+1ngBq3GKYicZYFtsa9h2O5weP4kmOQKis9SDitPa
-         TTduym3pZYaCjTHL6GWuf1yZGouh7VVdLPxtQ1hkU33sfYk8RS3MMVfpPQ4bRUD/6v7t
-         Zw7Q==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=br10jJHQeG4ComluBCIuhFQMJ2BZjJ1E7D5Y2WkwIY0=;
+        b=Wjo8M6TSGQeX9sS990lGjyLtlKBxwkNebnktWM/16lDIMllzgSpRzZQPR0Cx2PljxG
+         gIelPOwePuvmT8v3EJfEEsfW9S1hSC55qryYPkNgTq+9Sfnis+pu+044nQLGTCjGLQGQ
+         xlC8QJMBbipvRXkU5201QcJpCN+M2vPsK7DwXTvSIR12rqfGTLCRekEFkW3Br8eV4hl1
+         rpTZMr6J/wph8tcBxt6zGfO4gK5lTS9qMqy40TaLEqmATEVL49ru38nXwdn0trozZ6a6
+         7X8YuU9XkFtfhMeKnIkdHKW0C0CQTN15meRhdN+ZpY4WlHi49gJP0h5MG0nj9flhNLkr
+         4eRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
+        h=x-gm-message-state:subject:to:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=wV93LZrzXrnk8/UyrnvoL6633MhuLTTPK5u2GPSv1Cs=;
-        b=McfOv5uwgPcQgHCDZJm8iLhp8BOiMoyZTwV6VF20Zick0C6CovCB1L/H57tZsut3FY
-         5UydqAGqdpN2XGUgCv8RBkFVTtPg/qVEwNK89Lnxp9b/9Ln6mOIpA8aENaSDSfTXFWv4
-         qj5+Cyytxnv2jWIi4/HFJy+80Zahq+PfrDxlDSfbuQQ3Zd5szLsTfGSAFYXX2DQCCaqk
-         ryQeTcVSJMAAatezoprtyv58mKRRDy8s8T6Ug/5GCtACBUHvPRLeG8RZvEGNgFQSTLXV
-         rIpN5G2j4Z+GC3p80x99cKdXOdqxI7f9T+v1BCcEzI2m2gmkXhOYZAWwOptWNZtQBf+5
-         mVGg==
-X-Gm-Message-State: AOAM533zDg7bGM6hkPJcA8ASLlQ/S9IN3G5Grd2s5WnKtnlafwkcvE/M
-	u6pXctDt0bF1zbaf3D6OOzE=
-X-Google-Smtp-Source: ABdhPJxj7AfZ/1h49mQHCBPFZb+STsdZpMAMFrhVUX0qqEL2u47b2EOIfikqJMyoHl2h/2cfhfdXwg==
-X-Received: by 2002:a17:902:6ac3:b029:e6:c6a3:a697 with SMTP id i3-20020a1709026ac3b02900e6c6a3a697mr773464plt.2.1621289912872;
-        Mon, 17 May 2021 15:18:32 -0700 (PDT)
+        bh=br10jJHQeG4ComluBCIuhFQMJ2BZjJ1E7D5Y2WkwIY0=;
+        b=McBuLVbCecXSLhWptnMv6qTdr6NBFlwuGHU4c98TusKWI41GpoPMW1+ZJCBLiH7UTT
+         ntrfBW9UvA/RDLFdRBLzXxq5yygaOUHzXTM4IWElDJcx+njK1a9xNgbfIhCT0hjuXfeU
+         LxHJVTiFMBob24ZQjG6NbGxXXYAkRnsuMdPfB2hCTuerLnEIS219PKfWJyQbNpTa0EJt
+         Pbf5Dw29zQrBpzNHKOY2YJmV3onOUOIrkh91tn9UL/NIxARvUt/NjvBRAq6KFoMLrI7H
+         xC4FvvgGzcg2OoTvRy8lnrojHmUSoXJRj2P1NxXsjbyTz87gDfprI2bvdvgmNk9BYSkQ
+         wupA==
+X-Gm-Message-State: AOAM530+4a8IIW9POI4pqLIi5rHVNIK/Eub1Jfu9bKf5LqqB7jAtvp1Q
+	kgUYLWcbuPi5bvaxjGb8tatdRdr8IX4DkQ==
+X-Google-Smtp-Source: ABdhPJw+BYHH3N1zbJD6MePuXBVQ/TuI5tk/ztuyzKpl1hEN/djjCiPZ+lVxguOPNSPB1+TJnd0clQ==
+X-Received: by 2002:a62:5c1:0:b029:2a9:7589:dd30 with SMTP id 184-20020a6205c10000b02902a97589dd30mr1849647pff.66.1621290044658;
+        Mon, 17 May 2021 15:20:44 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:3413:1e4b:7a71:b5dc? ([2601:646:9200:a0f0:3413:1e4b:7a71:b5dc])
-        by smtp.gmail.com with ESMTPSA id c9sm10316968pfl.169.2021.05.17.15.18.31
+Received: from ?IPv6:2601:646:9200:a0f0:c4b7:9807:d29b:dff? ([2601:646:9200:a0f0:c4b7:9807:d29b:dff])
+        by smtp.gmail.com with ESMTPSA id x1sm11205841pjk.37.2021.05.17.15.20.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 May 2021 15:18:32 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH v2 1/7] rust-testsuite.inc : Rust cross testing.
-To: Vinay Kumar <vinay.m.engg@gmail.com>,
- openembedded-core@lists.openembedded.org, richard.purdie@linuxfoundation.org
-Cc: kweihmann@outlook.com, rwmacleod@gmail.com, umesh.kalappa0@gmail.com,
- vinay.kumar@blackfigtech.com, alex.kanavin@gmail.com
-References: <a49a474e4767e9892598d529cd77bcdb89ccaadb.camel@linuxfoundation.org>
- <20210517103528.24434-1-vinay.m.engg@gmail.com>
+        Mon, 17 May 2021 15:20:44 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] mklibs-native: Fix build with gcc 11
+To: Jacob Kroon <jacob.kroon@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20210517170104.2605486-1-jacob.kroon@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <8cff2d9b-51cc-e9f0-f1ac-b95b106e11ac@gmail.com>
-Date: Mon, 17 May 2021 15:18:30 -0700
+Message-ID: <51470f7e-9267-950e-5c1c-47cc863360a1@gmail.com>
+Date: Mon, 17 May 2021 15:20:42 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210517103528.24434-1-vinay.m.engg@gmail.com>
+In-Reply-To: <20210517170104.2605486-1-jacob.kroon@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/17/21 3:35 AM, Vinay Kumar wrote:
-> Below list of functions are part of rust-testsuite.inc
-> setup_cargo_environment(): Build bootstrap and some early stage tools.
-> do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
-> do_configure(): To generate config.toml
-> do_compile(): To build "remote-test-server" for qemutarget image.
-> do_check(): To execute testing by copying remote-test-server to qmutarget image.
+On 5/17/21 10:01 AM, Jacob Kroon wrote:
+> In gcc 11 the default mode for C++ is now -std=gnu++17 instead of -std=gnu++14,
+> in which support for dynamic exception specifications has been removed.
 > 
-
-
-some part of these series should go to meta-rust
-
-> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> See http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
+> 
+> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
 > ---
->   meta/recipes-devtools/rust/rust-testsuite.inc | 166 ++++++++++++++++++
->   1 file changed, 166 insertions(+)
->   create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
+>   .../no-dynamic-exception-specifications.patch | 420 ++++++++++++++++++
+>   .../mklibs/mklibs-native_0.1.44.bb            |   1 +
+>   2 files changed, 421 insertions(+)
+>   create mode 100644 meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
 > 
-> diff --git a/meta/recipes-devtools/rust/rust-testsuite.inc b/meta/recipes-devtools/rust/rust-testsuite.inc
+> diff --git a/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
 > new file mode 100644
-> index 0000000000..d1c5496da4
+> index 0000000000..5989a67c4f
 > --- /dev/null
-> +++ b/meta/recipes-devtools/rust/rust-testsuite.inc
-> @@ -0,0 +1,166 @@
-> +SUMMARY = "Rust testing"
-> +HOMEPAGE = "https://rustc-dev-guide.rust-lang.org/tests/intro.html"
-> +SECTION = "test"
-> +LICENSE = "MIT | Apache-2.0"
+> +++ b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
+> @@ -0,0 +1,420 @@
+> +In gcc 11 the default mode for C++ is now -std=gnu++17 instead of -std=gnu++14,
+> +in which support for dynamic exception specifications has been removed.
 > +
-> +inherit rust
-> +inherit cargo_common
+> +See http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
 > +
-> +DEPENDS += "file-native python3-native"
-> +EXCLUDE_FROM_WORLD = "1"
+> +Upstream-Status: Pending
 > +
-> +# Path of target specification file "target-poky-linux.json"
-> +export RUST_TARGET_PATH="${STAGING_LIBDIR_NATIVE}/rustlib"
+
+the patch could be submitted upstream. Please try to do so
+
+> +Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
 > +
-> +export FORCE_CRATE_HASH="${BB_TASKHASH}"
+> +Index: mklibs-0.1.44/src/mklibs-readelf/elf.cpp
+> +===================================================================
+> +--- mklibs-0.1.44.orig/src/mklibs-readelf/elf.cpp
+> ++++ mklibs-0.1.44/src/mklibs-readelf/elf.cpp
+> +@@ -36,7 +36,7 @@ file::~file () throw ()
+> +     delete *it;
+> + }
 > +
-> +# We don't want to use bitbakes vendoring because the rust sources do their
-> +# own vendoring.
-> +CARGO_DISABLE_BITBAKE_VENDORING = "1"
+> +-file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_error)
+> ++file *file::open (const char *filename)
+> + {
+> +   struct stat buf;
+> +   int fd;
+> +@@ -72,7 +72,7 @@ file *file::open (const char *filename)
+> + }
 > +
-> +# We can't use RUST_BUILD_SYS here because that may be "musl" if
-> +# TCLIBC="musl". Snapshots are always -unknown-linux-gnu
-> +SNAPSHOT_BUILD_SYS = "${BUILD_ARCH}-unknown-linux-gnu"
-> +setup_cargo_environment () {
-> +    # The first step is to build bootstrap and some early stage tools,
-> +    # these are build for the same target as the snapshot, e.g.
-> +    # x86_64-unknown-linux-gnu.
-> +    # Later stages are build for the native target (i.e. target.x86_64-linux)
-> +    cargo_common_do_configure
+> + template<typename _class>
+> +-file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+> ++file *file::open_class(uint8_t *mem, size_t len)
+> + {
+> +   switch (mem[EI_DATA])
+> +   {
+> +@@ -86,7 +86,7 @@ file *file::open_class(uint8_t *mem, siz
+> + }
 > +
-> +    printf '[target.%s]\n' "${SNAPSHOT_BUILD_SYS}" >> ${CARGO_HOME}/config
-> +    printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
-> +}
+> + template <typename _class, typename _data>
+> +-file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+> ++file_data<_class, _data>::file_data(uint8_t *mem, size_t len)
+> + : file(mem, len)
+> + {
+> +   if (mem[EI_CLASS] != _class::id)
+> +@@ -190,7 +190,7 @@ section_data<_class, _data>::section_dat
+> + }
 > +
-> +do_rust_setup_snapshot () {
-> +    for installer in "${WORKDIR}/rust-snapshot-components/"*"/install.sh"; do
-> +        "${installer}" --prefix="${WORKDIR}/rust-snapshot" --disable-ldconfig
-> +    done
+> + template <typename _class, typename _data>
+> +-void section_data<_class, _data>::update(const file &file) throw (std::bad_alloc)
+> ++void section_data<_class, _data>::update(const file &file)
+> + {
+> +   const section_type<section_type_STRTAB> &section =
+> +     dynamic_cast<const section_type<section_type_STRTAB> &>(file.get_section(file.get_shstrndx()));
+> +@@ -204,7 +204,7 @@ section_type<section_type_DYNAMIC>::~sec
+> + }
 > +
-> +    # Some versions of rust (e.g. 1.18.0) tries to find cargo in stage0/bin/cargo
-> +    # and fail without it there.
-> +    mkdir -p ${RUSTSRC}/build/${BUILD_SYS}
-> +    ln -sf ${WORKDIR}/rust-snapshot/ ${RUSTSRC}/build/${BUILD_SYS}/stage0
-> +}
-> +addtask rust_setup_snapshot after do_unpack before do_configure
-> +do_rust_setup_snapshot[dirs] += "${WORKDIR}/rust-snapshot"
+> + template <typename _class, typename _data>
+> +-section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem)
+> + : section_data<_class, _data>(header, mem)
+> + {
+> +   if (this->type != SHT_DYNAMIC)
+> +@@ -221,7 +221,7 @@ section_real<_class, _data, section_type
+> + }
 > +
-> +python do_configure() {
-> +    import json
-> +    from distutils.version import LooseVersion
-> +    try:
-> +        import configparser
-> +    except ImportError:
-> +        import ConfigParser as configparser
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file)
+> + {
+> +   section_data<_class, _data>::update(file);
 > +
-> +    # toml is rather similar to standard ini like format except it likes values
-> +    # that look more JSON like. So for our purposes simply escaping all values
-> +    # as JSON seem to work fine.
+> +@@ -243,7 +243,7 @@ section_type<section_type_DYNSYM>::~sect
+> + }
 > +
-> +    e = lambda s: json.dumps(s)
+> + template <typename _class, typename _data>
+> +-section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem)
+> + : section_data<_class, _data>(header, mem)
+> + {
+> +   if (this->type != SHT_DYNSYM)
+> +@@ -260,7 +260,7 @@ section_real<_class, _data, section_type
+> + }
 > +
-> +    config = configparser.RawConfigParser()
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_DYNSYM>::update(const file &file)
+> + {
+> +   section_data<_class, _data>::update (file);
 > +
-> +    # [target.ARCH-unknown-linux-gnu] in case of x86_64 [target.ARCH-poky-linux]
-> +    target_section = "target.{}".format(d.getVar('TARGET_SYS', True))
-> +    config.add_section(target_section)
+> +@@ -285,7 +285,7 @@ const version_definition *section_type<s
+> + }
 > +
-> +    # Points to wrapper files which contain target specific compiler and linker commands.
-> +    config.set(target_section, "cxx", e(d.expand("${RUST_TARGET_CXX}")))
-> +    config.set(target_section, "cc", e(d.expand("${RUST_TARGET_CC}")))
-> +    config.set(target_section, "linker", e(d.expand("${RUST_TARGET_CCLD}")))
+> + template <typename _class, typename _data>
+> +-section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem)
+> + : section_data<_class, _data>(header, mem)
+> + {
+> +   if (this->type != SHT_GNU_verdef)
+> +@@ -307,7 +307,7 @@ section_real<_class, _data, section_type
+> + }
 > +
-> +    # If we don't do this rust-native will compile it's own llvm for BUILD.
-> +    # [target.${BUILD_ARCH}-unknown-linux-gnu]
-> +    target_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
-> +    config.add_section(target_section)
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file)
+> + {
+> +   section_data<_class, _data>::update(file);
 > +
-> +    # Wrapper scripts of build system.
-> +    config.set(target_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
-> +    config.set(target_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
+> +@@ -333,7 +333,7 @@ const version_requirement_entry *section
 > +
-> +    # [llvm]
-> +    config.add_section("llvm")
-> +    config.set("llvm", "targets", e("ARM;AArch64;Mips;PowerPC;RISCV;X86"))
+> + template <typename _class, typename _data>
+> + section_real<_class, _data, section_type_GNU_VERNEED>::
+> +-section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real(Shdr *header, uint8_t *mem)
+> + : section_data<_class, _data> (header, mem)
+> + {
+> +   if (this->type != SHT_GNU_verneed)
+> +@@ -355,7 +355,7 @@ section_real(Shdr *header, uint8_t *mem)
+> + }
 > +
-> +    # [rust]
-> +    config.add_section("rust")
-> +    config.set("rust", "rpath", e(True))
-> +    config.set("rust", "channel", e("stable"))
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file)
+> + {
+> +   section_data<_class, _data>::update(file);
 > +
-> +    if LooseVersion(d.getVar("PV")) < LooseVersion("1.32.0"):
-> +        config.set("rust", "use-jemalloc", e(False))
+> +@@ -372,7 +372,7 @@ void section_real<_class, _data, section
 > +
-> +    # Whether or not to optimize the compiler and standard library
-> +    config.set("rust", "optimize", e(True))
+> + template <typename _class, typename _data>
+> + section_real<_class, _data, section_type_GNU_VERSYM>::
+> +-section_real (Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real (Shdr *header, uint8_t *mem)
+> + : section_data<_class, _data> (header, mem)
+> + {
+> +   if (this->type != SHT_GNU_versym)
+> +@@ -399,7 +399,7 @@ segment_data<_class, _data>::segment_dat
+> + }
 > +
-> +    # Emits extraneous output from tests to ensure that failures of the test
-> +    # harness are debuggable just from logfiles
-> +    config.set("rust", "verbose-tests", e(True))
+> + template <typename _class, typename _data>
+> +-segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem)
+> + : segment_data<_class, _data> (header, mem)
+> + {
+> +   if (this->type != PT_INTERP)
+> +@@ -429,13 +429,13 @@ dynamic_data<_class, _data>::dynamic_dat
+> + }
 > +
-> +    # Override default linker cc.
-> +    config.set("rust", "default-linker", e(d.expand("${RUST_BUILD_CCLD}")))
+> + template <typename _class, typename _data>
+> +-void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section)
+> + {
+> +   if (is_string)
+> +     val_string = section.get_string(val);
+> + }
 > +
-> +    # [build]
-> +    config.add_section("build")
-> +    config.set("build", "submodules", e(False))
-> +    config.set("build", "docs", e(False))
+> +-std::string symbol::get_version () const throw (std::bad_alloc)
+> ++std::string symbol::get_version () const
+> + {
+> +   if (verneed)
+> +     return verneed->get_name();
+> +@@ -445,7 +445,7 @@ std::string symbol::get_version () const
+> +   return "Base";
+> + }
 > +
-> +    rustc = d.expand("${WORKDIR}/rust-snapshot/bin/rustc")
-> +    config.set("build", "rustc", e(rustc))
+> +-std::string symbol::get_version_file () const throw (std::bad_alloc)
+> ++std::string symbol::get_version_file () const
+> + {
+> +   if (verneed)
+> +     return verneed->get_file();
+> +@@ -453,7 +453,7 @@ std::string symbol::get_version_file ()
+> +   return "None";
+> + }
 > +
-> +    cargo = d.expand("${WORKDIR}/rust-snapshot/bin/cargo")
-> +    config.set("build", "cargo", e(cargo))
+> +-std::string symbol::get_name_version () const throw (std::bad_alloc)
+> ++std::string symbol::get_name_version () const
+> + {
+> +   std::string ver;
 > +
-> +    config.set("build", "vendor", e(True))
+> +@@ -478,13 +478,13 @@ symbol_data<_class, _data>::symbol_data
+> + }
 > +
-> +    targets = [d.getVar("TARGET_SYS", True)]
-> +    config.set("build", "target", e(targets))
+> + template <typename _class, typename _data>
+> +-void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section)
+> + {
+> +   name_string = section.get_string(name);
+> + }
 > +
-> +    hosts = [d.getVar("SNAPSHOT_BUILD_SYS", True)]
-> +    config.set("build", "host", e(hosts))
+> + template <typename _class, typename _data>
+> +-void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw (std::bad_alloc)
+> ++void symbol_data<_class, _data>::update_version(const file &file, uint16_t index)
+> + {
+> +   if (!file.get_section_GNU_VERSYM())
+> +     return;
+> +@@ -531,13 +531,13 @@ version_definition_data<_class, _data>::
+> + }
 > +
-> +    # We can't use BUILD_SYS since that is something the rust snapshot knows
-> +    # nothing about when trying to build some stage0 tools (like fabricate)
-> +    config.set("build", "build", e(d.getVar("SNAPSHOT_BUILD_SYS", True)))
+> + template <typename _class, typename _data>
+> +-void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section)
+> + {
+> +   for (std::vector<uint32_t>::iterator it = names.begin(); it != names.end(); ++it)
+> +     names_string.push_back(section.get_string(*it));
+> + }
 > +
-> +    with open("config.toml", "w") as f:
-> +        config.write(f)
+> +-version_requirement::version_requirement() throw (std::bad_alloc)
+> ++version_requirement::version_requirement()
+> + : file_string("None")
+> + { }
 > +
-> +    # set up ${WORKDIR}/cargo_home
-> +    bb.build.exec_func("setup_cargo_environment", d)
-> +}
+> +@@ -561,7 +561,7 @@ version_requirement_data<_class, _data>:
 > +
+> + template <typename _class, typename _data>
+> + void version_requirement_data<_class, _data>::
+> +-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++update_string(const section_type<section_type_STRTAB> &section)
+> + {
+> +   file_string = section.get_string(file);
 > +
-> +rust_runx () {
-> +    echo "COMPILE ${PN}" "$@"
+> +@@ -596,7 +596,7 @@ version_requirement_entry_data(Vernaux *
 > +
-> +    # CFLAGS, LDFLAGS, CXXFLAGS, CPPFLAGS are used by rust's build for a
-> +    # wide range of targets (not just TARGET). Yocto's settings for them will
-> +    # be inappropriate, avoid using.
-> +    unset CFLAGS
-> +    unset LDFLAGS
-> +    unset CXXFLAGS
-> +    unset CPPFLAGS
+> + template <typename _class, typename _data>
+> + void version_requirement_entry_data<_class, _data>::
+> +-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++update_string(const section_type<section_type_STRTAB> &section)
+> + {
+> +   name_string = section.get_string(name);
+> + }
+> +Index: mklibs-0.1.44/src/mklibs-readelf/elf.hpp
+> +===================================================================
+> +--- mklibs-0.1.44.orig/src/mklibs-readelf/elf.hpp
+> ++++ mklibs-0.1.44/src/mklibs-readelf/elf.hpp
+> +@@ -49,7 +49,7 @@ namespace Elf
+> +       const uint16_t get_shstrndx() const throw () { return shstrndx; }
 > +
-> +    oe_cargo_fix_env
+> +       const std::vector<section *> get_sections() const throw () { return sections; };
+> +-      const section &get_section(unsigned int i) const throw (std::out_of_range) { return *sections.at(i); };
+> ++      const section &get_section(unsigned int i) const { return *sections.at(i); };
+> +       const section_type<section_type_DYNAMIC> *get_section_DYNAMIC() const throw () { return section_DYNAMIC; };
+> +       const section_type<section_type_DYNSYM> *get_section_DYNSYM() const throw () { return section_DYNSYM; };
+> +       const section_type<section_type_GNU_VERDEF> *get_section_GNU_VERDEF() const throw () { return section_GNU_VERDEF; };
+> +@@ -59,13 +59,13 @@ namespace Elf
+> +       const std::vector<segment *> get_segments() const throw () { return segments; };
+> +       const segment_type<segment_type_INTERP> *get_segment_INTERP() const throw () { return segment_INTERP; };
 > +
-> +    python3 src/bootstrap/bootstrap.py ${@oe.utils.parallel_make_argument(d, '-j %d')} "$@" --verbose
-> +}
-> +rust_runx[vardepsexclude] += "PARALLEL_MAKE"
+> +-      static file *open(const char *filename) throw (std::bad_alloc, std::runtime_error);
+> ++      static file *open(const char *filename);
 > +
-> +do_compile () {
+> +     protected:
+> +-      file(uint8_t *mem, size_t len) throw (std::bad_alloc) : mem(mem), len(len) { }
+> ++      file(uint8_t *mem, size_t len) : mem(mem), len(len) { }
 > +
-> +    rust_runx build src/tools/remote-test-server --target "${TARGET_SYS}"
-> +}
+> +       template<typename _class>
+> +-        static file *open_class(uint8_t *, size_t) throw (std::bad_alloc, std::runtime_error);
+> ++        static file *open_class(uint8_t *, size_t);
 > +
-> +do_check[dirs] += "${B}"
-> +do_check[nostamp] = "1"
-> +do_check () {
-> +    scp -P 2222 -o StrictHostKeyChecking=no build/${SNAPSHOT_BUILD_SYS}/stage2-tools-bin/remote-test-server root@127.0.0.1:~/
-> +    ssh -p 2222 -o StrictHostKeyChecking=no -f root@127.0.0.1 "~/remote-test-server -v remote"
+> +       uint16_t type;
+> +       uint16_t machine;
+> +@@ -128,7 +128,7 @@ namespace Elf
+> +     class section_type<section_type_STRTAB> : public virtual section
+> +     {
+> +       public:
+> +-        std::string get_string(uint32_t offset) const throw (std::bad_alloc)
+> ++        std::string get_string(uint32_t offset) const
+> +         {
+> +           return std::string(reinterpret_cast<const char *> (mem + offset));
+> +         }
+> +@@ -263,10 +263,10 @@ namespace Elf
+> +       uint8_t get_bind () const throw () { return bind; }
+> +       uint8_t get_type () const throw () { return type; }
+> +       const std::string &get_name_string() const throw () { return name_string; }
+> +-      std::string get_version() const throw (std::bad_alloc);
+> +-      std::string get_version_file() const throw (std::bad_alloc);
+> ++      std::string get_version() const;
+> ++      std::string get_version_file() const;
+> +       uint16_t get_version_data() const throw () { return versym; }
+> +-      std::string get_name_version() const throw (std::bad_alloc);
+> ++      std::string get_name_version() const;
 > +
-> +    export TEST_DEVICE_ADDR="127.0.0.1:12345"
-> +    rust_runx test --no-fail-fast --bless --target "${TARGET_SYS}" > summary.txt 2> /dev/null
-> +}
-> +addtask do_check after do_compile
+> +     protected:
+> +       uint32_t name;
+> +@@ -305,7 +305,7 @@ namespace Elf
+> +   class version_requirement
+> +   {
+> +     public:
+> +-      version_requirement() throw (std::bad_alloc);
+> ++      version_requirement();
+> +       virtual ~version_requirement () throw () { }
+> +
+> +       const std::string &get_file() const throw () { return file_string; }
+> +Index: mklibs-0.1.44/src/mklibs-readelf/elf_data.hpp
+> +===================================================================
+> +--- mklibs-0.1.44.orig/src/mklibs-readelf/elf_data.hpp
+> ++++ mklibs-0.1.44/src/mklibs-readelf/elf_data.hpp
+> +@@ -94,7 +94,7 @@ namespace Elf
+> +     class file_data : public file
+> +     {
+> +       public:
+> +-        file_data(uint8_t *, size_t len) throw (std::bad_alloc, std::runtime_error);
+> ++        file_data(uint8_t *, size_t len);
+> +
+> +         const uint8_t get_class() const throw () { return _class::id; }
+> +         const uint8_t get_data() const throw () { return _data::id; }
+> +@@ -109,7 +109,7 @@ namespace Elf
+> +       public:
+> +         section_data(Shdr *, uint8_t *) throw ();
+> +
+> +-        virtual void update(const file &) throw (std::bad_alloc);
+> ++        virtual void update(const file &);
+> +     };
+> +
+> +   template <typename _class, typename _data, typename _type>
+> +@@ -133,9 +133,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *);
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -147,9 +147,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *);
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -161,9 +161,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *);
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -175,9 +175,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *);
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -189,7 +189,7 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -220,7 +220,7 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Phdr Phdr;
+> +
+> +       public:
+> +-        segment_real (Phdr *, uint8_t *) throw (std::bad_alloc);
+> ++        segment_real (Phdr *, uint8_t *);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -232,7 +232,7 @@ namespace Elf
+> +       public:
+> +         dynamic_data (Dyn *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -244,8 +244,8 @@ namespace Elf
+> +       public:
+> +         symbol_data (Sym *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> +-        virtual void update_version (const file &, uint16_t) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &);
+> ++        virtual void update_version (const file &, uint16_t);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -257,7 +257,7 @@ namespace Elf
+> +
+> +         version_definition_data (Verdef *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -269,7 +269,7 @@ namespace Elf
+> +
+> +         version_requirement_data (Verneed *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &);
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -280,7 +280,7 @@ namespace Elf
+> +
+> +         version_requirement_entry_data (Vernaux *, const version_requirement &) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &);
+> +     };
+> + }
+> +
+> diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+> index 1784af1f4c..8ecdb17be3 100644
+> --- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+> +++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+> @@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/
+>   	file://avoid-failure-on-symbol-provided-by-application.patch \
+>   	file://show-GNU-unique-symbols-as-provided-symbols.patch \
+>   	file://fix_cross_compile.patch \
+> +	file://no-dynamic-exception-specifications.patch \
+>   "
+>   
+>   SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
 > 
 > 
 > 
