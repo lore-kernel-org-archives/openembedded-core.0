@@ -1,130 +1,119 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web09.1202.1621278631123629639
+Received: from ford.bithub.de (ford.bithub.de [159.69.22.172])
+ by mx.groups.io with SMTP id smtpd.web11.1474.1621279378058127353
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 12:10:31 -0700
+ Mon, 17 May 2021 12:22:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gyiweYt6;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: armccurdy@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id f12so8600826ljp.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 12:10:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JVVLu6LOdDjlt3DtFY4fckiet9iJHIGBCmFexUFEj4Y=;
-        b=gyiweYt6K0j9/83ttRhJ1axEtyhowhLjvUNOuB3VCWVAlEYW5oe1gqCn1vyrKmC+3u
-         JCjkHq0pjjnNSfsIG9otuthLimvKpizvz4RFR17DI6+IOtT36p+0+dfJaGPs955Ikitg
-         tn39NyWDZGCYK0027IYWyCIUJZZJ51FuiRn8nCQ13tZBoYFDjgZHMNgeY3qD8kpKBfXO
-         n8oi8Sp20DIWWx96edODZ7DsPNof3PaU1Mr5SfkvEHDUYHTzcWLuP7BXfnf01SUPMMfw
-         GQpvzgQMAgQ9nqG6TlCMEO5e3tF+Ea58Kra5+zOq7nz3gy//H0gUoWAr6BcfGJd8q6CX
-         tadQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JVVLu6LOdDjlt3DtFY4fckiet9iJHIGBCmFexUFEj4Y=;
-        b=m2rDUWyDOAneI9DGB0NDlRIQW9CzrR68ITEdCqM49mzbEGdZp7Wam3Omq/TBtgbrsl
-         Q5n3GxdiJWkIvnDqAqrOC7fwnxpey2kHs/tBU0y4gkyd6TVj46LbrTpnWHWXN1MoE02b
-         9dQNQqidFnlkvu4Uvz7EN0BZDZCS6/ROAO/KVq4KaWEtjBnUs101ShJjzyLbQDWoqwpJ
-         Qszs0j9Uv3DGUJqZaIcYtg9Q0qHfJouQo96JE7JKoXxmTKlC5r7SNs/wanEWAQ4rnINP
-         zezDy49upWZbKVvflC1yHB1c8izW6moDfCFX3EGjACsqy+pFRX8AdOn08yj0OSmoHn4w
-         6jXw==
-X-Gm-Message-State: AOAM530hZd6eJH5LHhfXPx/rYKM0fN+Z+qIq25htboIP1m3lkPgbM3Gc
-	cMGfEad+C0pOODU6JhIh9Ww8nteiOPLu9qMEs3Q=
-X-Google-Smtp-Source: ABdhPJzh11ot3Ab8GGZqb90h0flrJikPpc4DLUMOArcOQ28hBJwviFbI0FTGIx9RicgUbyBvCd6qKUYwgUgk/WmGe08=
-X-Received: by 2002:a05:651c:1a4:: with SMTP id c4mr735829ljn.112.1621278629194;
- Mon, 17 May 2021 12:10:29 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@bithub.de header.s=ford header.b=atU8MMm9;
+ spf=pass (domain: bithub.de, ip: 159.69.22.172, mailfrom: philip@bithub.de)
+Received: from t420.fritz.box (x4db3605d.dyn.telefonica.de [77.179.96.93])
+	by ford.bithub.de (Postfix) with ESMTPSA id 77E7A1FC83;
+	Mon, 17 May 2021 21:22:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bithub.de; s=ford;
+	t=1621279376;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/Gf4mlU5KGewIU3JpoeBmasnwOvI+HvCk1xh8/fFhRc=;
+	b=atU8MMm9q0s8B/wXp4dDXmABvgE83PFlgQqZUm7+r6DkfPMohpIWdjY5ojJbZYoBwfsFHZ
+	SzMeTQINADp/z8Cl5NI8cNFFE2MrcINZCIN7NweGhIXcrdYm2N6vmMEFKUn0Gw34RKCEDu
+	o1uOho+C0fbec77B7I6c3KeLavDqSbtTDvNdNTJJ5qHcCPgT+Uc09kOlEQvNu8vaVB2bXT
+	xHsxf4kDjdwiTVPyGX4MdcXYkVGKg9PiEgg9A9WJrFqm+0edls6JeaOL/vUe5pvKGOULxr
+	0bM4iDK1ELGnAr9R0ALFixuz54LwHj6V/uZHpRjrteR0RgeCdgmu307EhwVCfA==
+From: philip@bithub.de
+To: openembedded-core@lists.openembedded.org
+Cc: Philip Lorenz <philip@bithub.de>
+Subject: [pseudo][PATCH] wrappers: Avoid -Wcast-function-type warning
+Date: Mon, 17 May 2021 21:22:46 +0200
+Message-Id: <20210517192246.47874-1-philip@bithub.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <15ece592-a5f2-5ca7-db9c-2fd614ea6eea@crashcourse.ca>
- <AM9PR09MB46423C546EF564C11A177062A8509@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <a7ff2123-a71b-a4d7-abb6-85e17dcfe6e@crashcourse.ca> <AM9PR09MB4642F9F7EFE632E2F9E2443BA8509@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: <AM9PR09MB4642F9F7EFE632E2F9E2443BA8509@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 17 May 2021 12:10:17 -0700
-Message-ID: <CAJ86T=XxNKAzkZ1R-KNJEpoV8mXOhT9u4jfSv4B3btAHo+BJQA@mail.gmail.com>
-Subject: Re: [OE-core] is there an easy to prevent *creation* of some recipe's packages?
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 14, 2021 at 5:39 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
->
-> On 14.05.21 13:52, Robert P. J. Day wrote:
-> > On Fri, 14 May 2021, Konrad Weihmann wrote:
-> >
-> >> On 14.05.21 13:16, Robert P. J. Day wrote:
-> >>>
-> >>>     pretty sure i know the answer to this one, but was asked the
-> >>> other day and wanted to make sure. in order to speed up the normal
-> >>> OE build, someone suggested bypassing the creation of packages
-> >>> that weren't going to be relevant, such as -dev, -doc and so on --
-> >>> the idea was that that could make a significant difference in
-> >>> build time.
-> >>
-> >> I pretty much doubt it will speed up anything. If for instance the
-> >> -dev package will be removed from PACKAGES it is very likely that
-> >> the files of that package will end up in the base package ${PN},
-> >> which results in larger target packages that need to be installed
-> >> (and potentially further RDEPENDS)
-> >>
-> >> Furthermore this will break DEPENDS for recipes that do rely on the
-> >> -dev package - so chances are high that this will break (or
-> >> magically change) something further down the line.
-> >>
-> >> One thing that you can do to speed up the build process in terms of
-> >> packaging time is to delete any **really** not needed files in a
-> >> do_install_append, if no proper configuration option (cmake flag,
-> >> make flag, PACKAGECONFIG) does exist which prevents the creation of
-> >> these files in the first place.
-> >>
-> >> I would recommend not to mess with the packaging defaults for
-> >> reasons such as speeding things up - as this is IMHO addressing the
-> >> issue at the wrong end - just make sure the files in <workdir>/image
-> >> won't get created
-> >
-> >    that's the general idea i was trying to get across (so let's confirm
-> > that i was speaking accurately). i suggested that the majority of time
-> > spent in processing a recipe was doing all the fetching and unpacking
-> > and patching and (mostly) compiling, the end result of which was to
-> > populate that recipe's WORKDIR/image directory, at which time the
-> > packaging step took over. so unless one wanted to dangerously mangle
-> > the package definitions, if it ended up in ${D}, it was going to get
-> > packaged, correct?
->
-> yes... *but* what the packaging does it to loop over PACKAGES and for
-> each item pick up the corresponding FILES_<pkg-name> var and "move" (I
-> think it's actually a copy, but that's just details) all matching files
-> from image to packages-split.
-> If files ending up in image that don't match *any* of the
-> FILES-glob-pattern one would get a QA error.
->
-> >
-> >    so unless one wanted to go back and mess with the recipe's build
-> > configuration to, perhaps, not generate some artifacts, those packages
-> > were going to be built, whether they were subsequently installed or
-> > not. so short of mangling each recipe file to change its
-> > configuration, just leave it alone as the payoff just isn't worth it.
-> >
-> >    sound about right?
->
-> yes - the results of trimming down the input to /image will much more
-> have a positive impact.
->
-> AFAIK packaging speed is directly linked to the number of files in
-> /image (worst example I've seen is a ruby package containing 250k+
-> files, which takes round about 20min to package on my machine) -
-> concluding from that, reduction of the number of files in /image is will
-> do the trick
+GCC emits this warning for mismatched function types unless the generic
+void (*) (void) signature is used ([1]) - e.g.:
 
-This thread seems to have covered the main point already (if you want
-to save time by not packaging unwanted files then don't install the
-files in the first place).
+  warning: cast between incompatible function types from =E2=80=98int (*)=
+(const
+  char *)=E2=80=99 to =E2=80=98int (*)(void)=E2=80=99 [-Wcast-function-ty=
+pe]
 
-It's perhaps worth noting one very common case where files are
-installed and packaged unnecessarily and that's having the ptest
-distro feature enabled even though you don't intend to install any
-ptest packages. For most users ptest should be something you enable
-selectively when you want to prove the functionality of recipes in
-oe-core (e.g. after upgrading to a new OE release or when bringing up
-a new machine) and then disable again afterwards.
+[1] https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcast-f=
+unction-type
+
+Signed-off-by: Philip Lorenz <philip@bithub.de>
+---
+ ports/linux/pseudo_wrappers.c | 4 ++--
+ pseudo_wrappers.c             | 2 +-
+ templates/wrapper_table       | 8 ++++----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/ports/linux/pseudo_wrappers.c b/ports/linux/pseudo_wrappers.=
+c
+index ed34115..7659897 100644
+--- a/ports/linux/pseudo_wrappers.c
++++ b/ports/linux/pseudo_wrappers.c
+@@ -96,7 +96,7 @@ syscall(long number, ...) {
+ 	 * guess about the number of args; the docs discuss calling conventions
+ 	 * up to 7, so let's try that?
+ 	 */
+-	void *res =3D __builtin_apply((void (*)()) real_syscall, __builtin_appl=
+y_args(), sizeof(long) * 7);
++	void *res =3D __builtin_apply((void (*)(void)) real_syscall, __builtin_=
+apply_args(), sizeof(long) * 7);
+ 	__builtin_return(res);
+ }
+=20
+@@ -137,7 +137,7 @@ prctl(int option, ...) {
+ 	 * guess about the number of args; the docs discuss calling conventions
+ 	 * up to 5, so let's try that?
+ 	 */
+-	void *res =3D __builtin_apply((void (*)()) real_prctl, __builtin_apply_=
+args(), sizeof(long) * 5);
++	void *res =3D __builtin_apply((void (*)(void)) real_prctl, __builtin_ap=
+ply_args(), sizeof(long) * 5);
+ 	__builtin_return(res);
+ }
+=20
+diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
+index 99aabff..9ae1200 100644
+--- a/pseudo_wrappers.c
++++ b/pseudo_wrappers.c
+@@ -140,7 +140,7 @@ pseudo_init_one_wrapper(pseudo_function *func) {
+ #endif
+ 	f =3D dlsym(RTLD_NEXT, func->name);
+ 	if (f) {
+-		*func->real =3D f;
++		*func->real =3D (void (*)(void)) f;
+ 	}
+ 	/* it turns out that in some cases, we get apparently-harmless
+ 	 * errors if a function is missing, and that printing output
+diff --git a/templates/wrapper_table b/templates/wrapper_table
+index bb30530..498ca81 100644
+--- a/templates/wrapper_table
++++ b/templates/wrapper_table
+@@ -6,8 +6,8 @@
+  * script if you want to modify this. */
+ typedef struct {
+ 	char *name;		/* the name */
+-	int (**real)(void);	/* the underlying syscall */
+-	int (*wrapper)(void);	/* the wrapper from guts/name.c */
++	void (**real)(void);	/* the underlying syscall */
++	void (*wrapper)(void);	/* the wrapper from guts/name.c */
+ 	char *version;		/* the version, if we know and care */
+ } pseudo_function;
+=20
+@@ -15,8 +15,8 @@ static pseudo_function pseudo_functions[] =3D {
+ @body
+ 	{ /* ${comment}; */
+ 		"${name}${maybe_inode64}",
+-		(int (**)(void)) &real_${name},
+-		(int (*)(void)) wrap_${name},
++		(void (**)(void)) &real_${name},
++		(void (*)(void)) wrap_${name},
+ 		${version}
+ 	},
+ @footer
+--=20
+2.31.1
+
