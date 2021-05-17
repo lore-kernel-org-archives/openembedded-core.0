@@ -1,93 +1,70 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
- by mx.groups.io with SMTP id smtpd.web10.17527.1621252020136549047
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.17856.1621252686940542463
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 04:47:00 -0700
+ Mon, 17 May 2021 04:58:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J42kqyCb;
- spf=pass (domain: gmail.com, ip: 209.85.221.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f174.google.com with SMTP id 184so775140vkz.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 04:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YLkGbpGemAZf3WTlXKzRAPYwVIuMD5wNPkWuGQz8vM4=;
-        b=J42kqyCb314L7sigdCv98ov4AZHBUbXSWOjL0fx+AsXPJRi2dm0UF3vrWZnOE6gNPK
-         qIzqkks+jqglzimtOHvTT3RpGBVYvk1ZNV/rq2o6eRtQHIJe+/l9RJS4AQVFT1LHLNv1
-         EM2MfM3fElc3EjxciyvavO6ycycFw0o4ix53m3/jAWF29yI+EmxwBgJwTsTHIjlGNbCG
-         UV7g67sjYPrCEj4Di10D0c+mJXeoKb7cL6O42/Mp7PR77z8s97z//AOBOZG+9amBev4d
-         MLygi4lRT5vceEwEK0JnPlQSAn9CLobOc/ADIMt9gSoErAbiZLuj3J9/3eUFRQjD87t/
-         Gh3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YLkGbpGemAZf3WTlXKzRAPYwVIuMD5wNPkWuGQz8vM4=;
-        b=irWpx76yl83/V3KIWRa0v7QJErzrKVeJTRaMfzBl6QrVLYpCpUVTmeR3g009PJ6Lnf
-         zcZu+2EBD2YFn26uvTFKxgfHyvtltBos4J53OOdHODS/xuBvFpxDFRDu0irQDG7l89eR
-         1h4a6dHjqZgbDcFqXy1Z8m8x5Hpp/OVSrJMG2ujFR9HqHe/uDAE/T3Pbp+DdhtMvd2ej
-         us6SSO3cH2onazhHzHIPIvFW6J+beK+DjrpEWMHfv5/dWi2sgFMf9kXIhKOTnYDFBCbU
-         MljBERjzOfvDOtZPfIy+VVs5vobq6um5zI0kd79vOnusUK/elqKhufclswjeTYW2WLAg
-         IzHQ==
-X-Gm-Message-State: AOAM533NdbPSRxTcr3egArkLSSLAiBgYfMiBpzoAX8oVmycACd2nCbj3
-	SVLn+SGjyQgIOr9I6cvLDvV+1SoPZzqlZQji+7s=
-X-Google-Smtp-Source: ABdhPJyW7JJSItc+WzCCby329oH3ClJj9o1BLHoi3DSE6wHub4cSSX06oSJrNViSqpSGYz4E8clKYI/6Vs3NcOD/r04=
-X-Received: by 2002:a1f:9d46:: with SMTP id g67mr45931001vke.10.1621252019322;
- Mon, 17 May 2021 04:46:59 -0700 (PDT)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92265113E
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 04:58:06 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 383FD3F73B
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 04:58:06 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] rpm: turn Berkeley DB hard dependency into PACKAGECONFIG
+Date: Mon, 17 May 2021 12:58:02 +0100
+Message-Id: <20210517115803.866262-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <a49a474e4767e9892598d529cd77bcdb89ccaadb.camel@linuxfoundation.org>
- <20210517103528.24434-1-vinay.m.engg@gmail.com> <20210517103528.24434-6-vinay.m.engg@gmail.com>
- <CANNYZj8jNE92Ct9541GmLzmmNwgrJ2UOEC4=jQstwyi12PBMpw@mail.gmail.com> <CANUMPcWJiKAKbw=UHkPd=T3TzTt4fmNwTya6hMZRbewUXdL2wQ@mail.gmail.com>
-In-Reply-To: <CANUMPcWJiKAKbw=UHkPd=T3TzTt4fmNwTya6hMZRbewUXdL2wQ@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 17 May 2021 13:46:48 +0200
-Message-ID: <CANNYZj9C0DRCtsMjfr7DDTBqzSJpHSY+FGYx7-Sn2i5kdqNCUw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] oeqa/selftest/cases/rust.py: Rust oe-selftest script.
-To: Vinay Kumar <vinay.m.engg@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Konrad Weihmann <kweihmann@outlook.com>, Randy MacLeod <rwmacleod@gmail.com>, 
-	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com
-Content-Type: multipart/alternative; boundary="000000000000b4013805c28526c5"
-
---000000000000b4013805c28526c5
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, 17 May 2021 at 13:34, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
-
-> "remote-test-server" on qemu-image with a tap interface throws an error.
-> The emulators for rust testing are with tcp port forwarding so used
-> slirp method with added rust port.
-
-
-I'm not sure I understand - what kind of error? In both cases the server
-starts listening on a port, so in slirp scenario the address is
-127.0.0.1:12345 (prone to breakage if something else on the build host took
-that port btw, including another instance of the same test), in tap it
-would be 192.168.7.2:12345. For the client you simply supply that via
-TEST_DEVICE_ADDR. No?
-
-Alex
-
---000000000000b4013805c28526c5
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, 17 May 2021 at 13:34, Vinay Kumar &lt;<a href=3D"mailto:vina=
-y.m.engg@gmail.com" target=3D"_blank">vinay.m.engg@gmail.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&quot;remote-te=
-st-server&quot; on qemu-image with a tap interface throws an error.<br>
-The emulators for rust testing are with tcp port forwarding so used<br>
-slirp method with added rust port.</blockquote><div><br></div>I&#39;m not s=
-ure I understand - what kind of error? In both cases the server starts list=
-ening on a port, so in slirp scenario the address is <a href=3D"http://127.=
-0.0.1:12345" target=3D"_blank">127.0.0.1:12345</a> (prone to breakage if so=
-mething else on the build host took that port btw, including another instan=
-ce of the same test), in tap it would be <a href=3D"http://192.168.7.2:1234=
-5" target=3D"_blank">192.168.7.2:12345</a>. For the client you simply suppl=
-y that via TEST_DEVICE_ADDR. No?</div><div class=3D"gmail_quote"><br></div>=
-<div class=3D"gmail_quote">Alex<br></div></div>
+In the future we hope to switch to sqlite instead of Berkeley DB, so
+prepare for this by adding an (enabled by default) PACKAGECONFIG for
+Berkeley DB.
 
---000000000000b4013805c28526c5--
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/rpm/rpm_4.16.1.3.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-dev=
+tools/rpm/rpm_4.16.1.3.bb
+index 2857cd730c4..2baa23944e6 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+@@ -51,7 +51,7 @@ S =3D "${WORKDIR}/git"
+ # included in 4.16.1.3
+ CVE_CHECK_WHIETLIST +=3D "CVE-2021-20271"
+=20
+-DEPENDS =3D "libgcrypt db file popt xz bzip2 elfutils python3"
++DEPENDS =3D "libgcrypt file popt xz bzip2 elfutils python3"
+ DEPENDS_append_class-native =3D " file-replacement-native bzip2-replacem=
+ent-native"
+=20
+ inherit autotools gettext pkgconfig python3native
+@@ -74,7 +74,7 @@ EXTRA_OECONF_append_class-nativesdk =3D " --sysconfdir=3D=
+/etc --disable-plugins"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
+-PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'inhibit', '', d)}"
++PACKAGECONFIG ??=3D "bdb ${@bb.utils.contains('DISTRO_FEATURES', 'system=
+d', 'inhibit', '', d)}"
+ # The inhibit plugin serves no purpose outside of the target
+ PACKAGECONFIG_remove_class-native =3D "inhibit"
+ PACKAGECONFIG_remove_class-nativesdk =3D "inhibit"
+@@ -82,6 +82,7 @@ PACKAGECONFIG_remove_class-nativesdk =3D "inhibit"
+ PACKAGECONFIG[imaevm] =3D "--with-imaevm,,ima-evm-utils"
+ PACKAGECONFIG[inhibit] =3D "--enable-inhibit-plugin,--disable-inhibit-pl=
+ugin,dbus"
+ PACKAGECONFIG[rpm2archive] =3D "--with-archive,--without-archive,libarch=
+ive"
++PACKAGECONFIG[bdb] =3D "--enable-bdb,--disable-bdb,db"
+=20
+ ASNEEDED =3D ""
+=20
+--=20
+2.25.1
+
