@@ -1,159 +1,106 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.20617.1621265248886412812
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web11.21513.1621268835651444328
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 08:27:29 -0700
+ Mon, 17 May 2021 09:27:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bRug0TQX;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id a2so9386937lfc.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 08:27:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dKEdD2Xu;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id m13so5233302qtk.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 09:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3/JFiDoejEL5VxLlVklzDMtL+EvATI/+xS0+oGhTmww=;
-        b=bRug0TQX8Huh/HUUk35bTWgV/Ht0yAgkcBSPvY98fMUYgsCxY0R8B6f5Hp7r6rTjJm
-         Dp7ww0uRzH3Rq6yqtvTj7JrLZ0WoLo5oMpZPY5BqZC1L459SsggP+AqtoWqzAjfFeSxv
-         u0LxRAufPwr23Yva8LtCbwKyVMWrJCOBE7C+MMY0zLBdeidDy++u9QTcEneN2t0FB2Ra
-         8SbEjxMDottbVGu+Ijql+y2B4WR98doNKo0ZRfWP2BUWtFDsiwKhOE90IAwhvbYpphGW
-         KJGXooQ9lYl25swk5tdXrL4Ms2dgjQ5EIZ0Ugh91rPbqR18zeT9+qwqRvJvJ1mcV5J4u
-         ggqA==
+         :cc;
+        bh=Wg8SevVfQDzkHTwT0E7YtE+FtmrBX8e6W4bR+IZLkz4=;
+        b=dKEdD2Xu/Ko1rp8s5ReH2sB/Sbk2KEQRt0Lx9lC2zzC0mT2bZp/jNvhucuYGHYgKQg
+         wqCkXbVQ2FbIs68eXBPF1uG65xhB8g1FSCqr6j4FRlPSJGy8PShF+WIkY+GnwIf+UU/R
+         OCVC0M7EhnMKD3tShuO84kek49XJuMVIACZdfQxi4WHatMwgU9gXG4daj6unjWR5AwDM
+         hbS43p0UlLOXT4W9qqOwTsUJO3wHCI6S1DtL/tS/NoyWS8lE5IHAOpdaPe8bN0w0oViU
+         VZQLSjcOi51M5Qn5/LIG4+gTDbuXht57bwZfSfdh+aRYpvABiQpm/2Y0ckQlHOVjxLuB
+         mu6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3/JFiDoejEL5VxLlVklzDMtL+EvATI/+xS0+oGhTmww=;
-        b=XwOVHteZwcGUbbEMcrSUVkSfL31Lz57MvZlCu90afHUqT1xiKkc3nMLwLXw/c4L5eb
-         MzcKW3m6MSIfywzcSuL62MIKu3h0tFFjKHLxZ8p61TaijxtyzIGIEJnh5/4bmPjDqSfF
-         vJEuK+D+Jf13w8/moG9VdDloi7mToPYb6g86boCWJj5fBGtoJhvthiAsKlFQu1sz+KkC
-         UBIpYWUuZKtJPTn7YGbOeD1P9vExEFUrZWqlDxfMlk5xH8faL4eox9eNQQ/oqAfcGyFy
-         IK5tBxayar1WJW9H9nh2U13pTYjX4J4PpochYp0eTjWw2o8grzW7HMkScucFad965G8z
-         ObwQ==
-X-Gm-Message-State: AOAM5322IzESFX48FBbfxdtvKNrxsqMrRcng5D9s2QPh9etfDaEhLIbW
-	v3jG4Ye5jdM+0DrfDhYJfQwYuG/prHQi/tKhIdI=
-X-Google-Smtp-Source: ABdhPJxz2iTel6KHswaUWakSUCKj2hVKWIYSYhZ85WBtAX3VDqsNfMcKvwMQoAlTtjj82cOjAJ+Fo6rGAuEADy1az5M=
-X-Received: by 2002:a19:9102:: with SMTP id t2mr290585lfd.255.1621265246945;
- Mon, 17 May 2021 08:27:26 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=Wg8SevVfQDzkHTwT0E7YtE+FtmrBX8e6W4bR+IZLkz4=;
+        b=Z0QAcpZZaPJspZakkF6TJ4q51QbG/K4JJ4C7SYVaNI9Qe4egyb6qYRrhoZLd/CBcbx
+         4cVamLDOP8/iM09tANcvLOgNd+/XmE+7giW8g3DuUOwV0nn1WSdzxWR+iz7X7L9uGIGg
+         4LtvXGNAqosVzSVEDYH/FE8D4cX6mZjsstqtyis9B+ZQcYZR6a6xGf1ehx7fNn7qM0pV
+         MDhGu4EFCunnzRwrEBvnT1TOjL+WOuewpxduzH2vcs0f0TvmtAyL0jziceMFZ72gftLK
+         Iji2XTQC5CwYyATcWwfUgu11tdBSvvOQiENzLQg9JOP0RWOSRuKr/j4JnSs0tHkZQFqx
+         m4aA==
+X-Gm-Message-State: AOAM532BCLO+qV3nzjMx6mw5h4DBTtU54JY5Kytnu6rx8PG9VBCAZj5B
+	iptuedbyDGfdgjgB4Ik/x279xdSpSQHOTAvN56k=
+X-Google-Smtp-Source: ABdhPJwFXqjk8zSOsVZBqOVNSxBf5zLGbGcIwgB/gq4PiCAbRQPI1xZHLXlXbQZ/2E/bzm+7FpMmzikap8h9cZ0U2Lw=
+X-Received: by 2002:ac8:5d93:: with SMTP id d19mr295067qtx.289.1621268834726;
+ Mon, 17 May 2021 09:27:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <a49a474e4767e9892598d529cd77bcdb89ccaadb.camel@linuxfoundation.org>
- <20210517103528.24434-1-vinay.m.engg@gmail.com> <20210517103528.24434-6-vinay.m.engg@gmail.com>
- <CANNYZj8jNE92Ct9541GmLzmmNwgrJ2UOEC4=jQstwyi12PBMpw@mail.gmail.com>
- <CANUMPcWJiKAKbw=UHkPd=T3TzTt4fmNwTya6hMZRbewUXdL2wQ@mail.gmail.com>
- <CANNYZj9C0DRCtsMjfr7DDTBqzSJpHSY+FGYx7-Sn2i5kdqNCUw@mail.gmail.com>
- <CANUMPcVaW7vKKwW5cfvu2ETgcrWb70qdAFpCuiD8J8KNoAjjNQ@mail.gmail.com>
- <CANNYZj9OeUc73=xf+F5qub-T4Fr6msvWTpshN=XubL-mL2j5UQ@mail.gmail.com> <CANUMPcUs_sUnzH_9XPU_mKsUJrbx5cA2PXUug0Yusf+ze6cpAw@mail.gmail.com>
-In-Reply-To: <CANUMPcUs_sUnzH_9XPU_mKsUJrbx5cA2PXUug0Yusf+ze6cpAw@mail.gmail.com>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Mon, 17 May 2021 20:57:15 +0530
-Message-ID: <CANUMPcU3jOZHW2kBLuo9WVNu-qRs7FGtAPUJJ__Y+6D=vuW_eQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] oeqa/selftest/cases/rust.py: Rust oe-selftest script.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Konrad Weihmann <kweihmann@outlook.com>, Randy MacLeod <rwmacleod@gmail.com>, 
-	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com
+References: <20210516223247.2401235-1-richard.purdie@linuxfoundation.org> <20210516223247.2401235-11-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210516223247.2401235-11-richard.purdie@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 17 May 2021 09:26:48 -0700
+Message-ID: <CAMKF1spmyAgfPgASqQkU9GhLNdjB2FrGXQFR3bjs2EGHzD_9Cg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 11/27] python3-setuptools: upgrade 56.0.0 -> 56.2.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+Hi Richard
 
-Tried testing outside oe-selftest framework, it works fine without any erro=
-rs,
+I am seeing a failure in meta-python with core/master-next
 
-export TEST_DEVICE_ADDR=3D"192.168.7.4:12345"
-rust_runx test --no-fail-fast --bless --target "aarch64-poky-linux" >
-summary.txt 2> /dev/null
+https://errors.yoctoproject.org/Errors/Details/581298/
 
-Also, log (summary.txt) shows "remote-test-client" is connecting to
-the image without any issue.
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-running: "/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust=
--testsuite/1.46.0-r0/rustc-1.46.0-src/build/x86_64-unknown-linux-gnu/stage0=
--tools-bin/remote-test-client"
-"spawn-emulator" "aarch64-poky-linux"
-"/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuit=
-e/1.46.0-r0/rustc-1.46.0-src/build/x86_64-unknown-linux-gnu/stage0-tools-bi=
-n/remote-test-server"
-"/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuit=
-e/1.46.0-r0/rustc-1.46.0-src/build/tmp"
-Connecting to remote device 192.168.7.4:12345 ...
+is this related to this upgrade ?
 
-Will integrate these changes in oe-selftest and let you know.
-
-Regards,
-Vinay
-
-On Mon, May 17, 2021 at 8:11 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
+On Sun, May 16, 2021 at 3:33 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Checking suggestions, the booted image with tap seems to be working by
-> passing "-monitor  telnet:127.0.0.1:1234,server,nowait"
-> so I will execute testing and update you.
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> root@qemuarm64:~# ifconfig
-> eth0      Link encap:Ethernet  HWaddr 52:54:00:12:34:02
->           inet addr:192.168.7.4  Bcast:192.168.7.255  Mask:255.255.255.0
->           inet6 addr: fe80::5054:ff:fe12:3402/64 Scope:Link
->           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->           RX packets:116 errors:0 dropped:0 overruns:0 frame:0
->           TX packets:98 errors:0 dropped:0 overruns:0 carrier:0
->           collisions:0 txqueuelen:1000
->           RX bytes:945121 (922.9 KiB)  TX bytes:9529 (9.3 KiB)
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  ...0001-conditionally-do-not-fetch-code-by-easy_install.patch | 4 ++--
+>  ...hon3-setuptools_56.0.0.bb => python3-setuptools_56.2.0.bb} | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-setuptools_56.0.0.bb => python3-setuptools_56.2.0.bb} (94%)
 >
-> root@qemuarm64:~# ./remote-test-server -v remote
-> starting test server
-> listening on 0.0.0.0:12345!
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
+> diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+> index 680edbe704b..59e278d1aed 100644
+> --- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+> +++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+> @@ -1,4 +1,4 @@
+> -From 6380cc63f79abe8b8404c9be5ed5f213a70c8c6a Mon Sep 17 00:00:00 2001
+> +From d6339e6b3de0f3be5ca50541d82f99d827700f45 Mon Sep 17 00:00:00 2001
+>  From: Hongxu Jia <hongxu.jia@windriver.com>
+>  Date: Tue, 17 Jul 2018 10:13:38 +0800
+>  Subject: [PATCH] conditionally do not fetch code by easy_install
+> @@ -15,7 +15,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>   1 file changed, 5 insertions(+)
 >
-> Regards,
-> Vinay
+>  diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+> -index eeb21b5..eca1edd 100644
+> +index 45adb6a..9ac3342 100644
+>  --- a/setuptools/command/easy_install.py
+>  +++ b/setuptools/command/easy_install.py
+>  @@ -636,6 +636,11 @@ class easy_install(Command):
+> diff --git a/meta/recipes-devtools/python/python3-setuptools_56.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_56.2.0.bb
+> similarity index 94%
+> rename from meta/recipes-devtools/python/python3-setuptools_56.0.0.bb
+> rename to meta/recipes-devtools/python/python3-setuptools_56.2.0.bb
+> index 07a82ad21be..bb852d06522 100644
+> --- a/meta/recipes-devtools/python/python3-setuptools_56.0.0.bb
+> +++ b/meta/recipes-devtools/python/python3-setuptools_56.2.0.bb
+> @@ -10,7 +10,7 @@ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-e
 >
-> On Mon, May 17, 2021 at 8:02 PM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Thanks, can you please look into the error? The line where it happens a=
-nd the way to get a backtrace is right there :)
-> > There's no reason it shouldn't work.
-> >
-> > Alex
-> >
-> > On Mon, 17 May 2021 at 15:21, Vinay Kumar <vinay.m.engg@gmail.com> wrot=
-e:
-> >>
-> >> Hi Alex,
-> >>
-> >> Error on qemu  image (ex. Aarch64) booted with tap interface.
-> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> >> root@qemuarm64:~# ./remote-test-server
-> >> starting test server
-> >> thread 'main' panicked at 'TcpListener::bind(bind_addr) failed with
-> >> Cannot assign requested address (os error 99)',
-> >> src/tools/remote-test-server/src/main.rs:90:20
-> >> note: run with `RUST_BACKTRACE=3D1` environment variable to display a =
-backtrace
-> >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> >>
-> >> On Mon, May 17, 2021 at 5:16 PM Alexander Kanavin
-> >> <alex.kanavin@gmail.com> wrote:
-> >> >
-> >> > On Mon, 17 May 2021 at 13:34, Vinay Kumar <vinay.m.engg@gmail.com> w=
-rote:
-> >> >>
-> >> >> "remote-test-server" on qemu-image with a tap interface throws an e=
-rror.
-> >> >> The emulators for rust testing are with tcp port forwarding so used
-> >> >> slirp method with added rust port.
-> >> >
-> >> >
-> >> > I'm not sure I understand - what kind of error? In both cases the se=
-rver starts listening on a port, so in slirp scenario the address is 127.0.=
-0.1:12345 (prone to breakage if something else on the build host took that =
-port btw, including another instance of the same test), in tap it would be =
-192.168.7.2:12345. For the client you simply supply that via TEST_DEVICE_AD=
-DR. No?
-> >> >
-> >> > Alex
+>  SRC_URI += "file://0001-change-shebang-to-python3.patch"
+>
+> -SRC_URI[sha256sum] = "08a1c0f99455307c48690f00d5c2ac2c1ccfab04df00454fef854ec145b81302"
+> +SRC_URI[sha256sum] = "7bb5652625e94e73b9358b7ed8c6431b732e80cf31f4e0972294c64f0e5b849e"
+>
+>  DEPENDS += "${PYTHON_PN}"
+>
+> --
+> 2.30.2
+>
+>
+> 
+>
