@@ -1,87 +1,177 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.18640.1621257673173971008
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.19345.1621260838308086992
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 06:21:13 -0700
+ Mon, 17 May 2021 07:13:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bics9Pgu;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id w15so7196126ljo.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 06:21:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LhHG2qBI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id v13so3198540ple.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 07:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lQw8Fsz7W95ZsUNQZugH/eZ8YdiVgA53O8aFuobVDe0=;
-        b=bics9Pgun0jcw7F10LkZqnZDJQQvihml9Vf9vrbqjhza94DSOoA9qaC7TmtU0glh3u
-         Q/CXVZtZe9PdDCH43aATLq9bvUUgGRgQvf7m2P6ROf3/paWd/Fv2h2CabOSoxbyX7BwB
-         XNlLlRudGXgU0Cw1nLZ78+UdcfBRVwHe3mP2rqYKm1vefmvkvoeClSulDRA5j5VQ9mgG
-         1+cXlTXgoX0urpdGq3FsISSag7xmwvivdTQfZKkCfdrnFvFU+bEtYp0q5QbqTLEhYV0O
-         FiNNxD69otnbAiE7EoRXfr4/aj92RYk0YeQ7Fyv8lVUefejS5Iww8PcCxFaxPllXXvRi
-         NChQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h1fBhe1Uwwc88IZBYGEvy7GWWOv8Ohr2Eol4MEZydDU=;
+        b=LhHG2qBIOUa+bfkue4ILYfMhJUSA7bOxD9tMV38/giH8cU5166g118DXg0xhSoXQ8y
+         lAUVKFIAu3x/8tWUd2PVv3bw3bjQ8RGVhraqMuOs2EVcI/NDFN6BQPcI2P0RmTQSPaZ9
+         HKKy2GVVEF5X1BGgTC8iuvCRtwXfiouyDpObUoxAZY6nVDRPqYCfkx3loGbTwpTbMh0G
+         IfwRQru1wUlyLLslLzUXB2um5TPFlxXOG/lrDE1cshV9SCBs7cnMYn0rD4+MBOmLb1u5
+         RiNuQ5iPiX01sMqnqfuZ5mB3ppiBu5mr0oVFEvuZeCaK+g1XAPqVklAUoQXKvHnjobkh
+         wsIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lQw8Fsz7W95ZsUNQZugH/eZ8YdiVgA53O8aFuobVDe0=;
-        b=NGdibesAIM+W8KVnn0ahn1PUqiElIGrjQu9+HcAFvxPQbP9sVGOgiRGdyVLgVUicuC
-         KRXEyNu1nfa932ZUCRZp8x1ZPKRfEp2uFtm/hVLstbEAFl/2/ppq0KxolmMbwuu5dO2f
-         vXGQGRSUKWuaJN0arG+rpZ6osBKpfTYhIGykvxpbcfzePu2/sKrMDIJJud72q7yrgipg
-         tX9Gga0PDnl4w1LhLLA7ZnPYqFOjjITcEjnFxiDHPEuMa6gpezs+m4cjXNpLrbKogYfR
-         GbSHG8rWS8CuOOHd1H8YEGOLEt320ZkkGk7Yffo3goDKWb+8N2Md01snqDxbPohv0uA+
-         aJxg==
-X-Gm-Message-State: AOAM530fffXrG1Zt6qxQv0uzALSEwc0kDjj3/t7kUSymizcrnftIDCmJ
-	CWjco04zaimaWdBfSYrpiyVniCYyiOISsTYIegY=
-X-Google-Smtp-Source: ABdhPJz9/o7qiBHYMURdJ2VC1caH6qKjHIDclcfy23vNpUKXPEHGJ5GXc1r3C0wbQem/A5lUCGx5yD6VFzxIwE5Lw9Q=
-X-Received: by 2002:a2e:9006:: with SMTP id h6mr23102667ljg.323.1621257671246;
- Mon, 17 May 2021 06:21:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h1fBhe1Uwwc88IZBYGEvy7GWWOv8Ohr2Eol4MEZydDU=;
+        b=LYM9+ZFJtty7apBAlvVZas5lkL6tmbzHnYVgqpM1SSQg2xQYAmGuXBeS5mu+QieGwe
+         H2+IABwAaVfG8HjycqnLtYgL3+wKxa3h6bPxQkmxjWyCmoQfGbdH7DSaPugdQyLLM8ek
+         hKQVIEP8CZQKa9r9hVOG3+rszp6VQK+Jxwpx3DZh8ns2W6IWKuDjLapZ09HUQ8eRmRp8
+         3WoEiKRwZ2nEcB6MfTjmTnpdcS0UdUsXxaieIYraA5xla87G6/9K697eUUIJ8TnWwr04
+         sdjyPUFmOmEoUd+kVYUaklZTRkFbIZYn41tzdLu+g0JdQ51aA7onYq9a9jHdzibs/2T4
+         d/GA==
+X-Gm-Message-State: AOAM531ye57NzUHqakYzAHoIXtbZf3l90uCEibRpJ2iqnF0GO+TTyX91
+	sBadsTujwCPmTdCAyrBGqZzSI14nq3H5HzBgsW4=
+X-Google-Smtp-Source: ABdhPJyQvMpH+1x96XOCJiALfzgJ4AhDhpOt3o6DmbtIfFS3zQ65B1HWQJGfRAd3yjzp3pEBk6BQqw==
+X-Received: by 2002:a17:90a:f811:: with SMTP id ij17mr133843pjb.63.1621260837073;
+        Mon, 17 May 2021 07:13:57 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id 66sm11292660pgj.9.2021.05.17.07.13.55
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 07:13:56 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/35] Patch review
+Date: Mon, 17 May 2021 04:13:06 -1000
+Message-Id: <cover.1621260695.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <a49a474e4767e9892598d529cd77bcdb89ccaadb.camel@linuxfoundation.org>
- <20210517103528.24434-1-vinay.m.engg@gmail.com> <20210517103528.24434-6-vinay.m.engg@gmail.com>
- <CANNYZj8jNE92Ct9541GmLzmmNwgrJ2UOEC4=jQstwyi12PBMpw@mail.gmail.com>
- <CANUMPcWJiKAKbw=UHkPd=T3TzTt4fmNwTya6hMZRbewUXdL2wQ@mail.gmail.com> <CANNYZj9C0DRCtsMjfr7DDTBqzSJpHSY+FGYx7-Sn2i5kdqNCUw@mail.gmail.com>
-In-Reply-To: <CANNYZj9C0DRCtsMjfr7DDTBqzSJpHSY+FGYx7-Sn2i5kdqNCUw@mail.gmail.com>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Mon, 17 May 2021 18:50:59 +0530
-Message-ID: <CANUMPcVaW7vKKwW5cfvu2ETgcrWb70qdAFpCuiD8J8KNoAjjNQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] oeqa/selftest/cases/rust.py: Rust oe-selftest script.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Konrad Weihmann <kweihmann@outlook.com>, Randy MacLeod <rwmacleod@gmail.com>, 
-	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Alex,
+Please review this next set of patches for dunfell and have comments back by
+end of day Wednesday.
 
-Error on qemu  image (ex. Aarch64) booted with tap interface.
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-root@qemuarm64:~# ./remote-test-server
-starting test server
-thread 'main' panicked at 'TcpListener::bind(bind_addr) failed with
-Cannot assign requested address (os error 99)',
-src/tools/remote-test-server/src/main.rs:90:20
-note: run with `RUST_BACKTRACE=3D1` environment variable to display a backt=
-race
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
+Passed a-full on autobuilder:
 
-On Mon, May 17, 2021 at 5:16 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Mon, 17 May 2021 at 13:34, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
->>
->> "remote-test-server" on qemu-image with a tap interface throws an error.
->> The emulators for rust testing are with tcp port forwarding so used
->> slirp method with added rust port.
->
->
-> I'm not sure I understand - what kind of error? In both cases the server =
-starts listening on a port, so in slirp scenario the address is 127.0.0.1:1=
-2345 (prone to breakage if something else on the build host took that port =
-btw, including another instance of the same test), in tap it would be 192.1=
-68.7.2:12345. For the client you simply supply that via TEST_DEVICE_ADDR. N=
-o?
->
-> Alex
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2158
+
+The following changes since commit 55dc503f4ab33e2aa51a3a6e4003131e0b9355ff:
+
+  reproducible.py: add quilt-ptest and valgrind-ptest (2021-05-13 22:10:01 +0100)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (1):
+  linux-firmware: upgrade 20210208 -> 20210315
+
+Anuj Mittal (1):
+  lsb-release: fix reproducibility failure
+
+Bruce Ashfield (1):
+  linux-yocto/5.4: qemuppc32: reduce serial shutdown issues
+
+Chen Qi (1):
+  db: update CVE_PRODUCT
+
+Lee Chee Yang (4):
+  subversion: fix CVE-2020-17525
+  qemu: fix CVE-2021-3392
+  tiff: fix CVE-2020-35523 CVE-2020-35524
+  python3-jinja2: 2.11.2 -> 2.11.3
+
+Richard Purdie (19):
+  glibc: Document and whitelist CVE-2019-1010022-25
+  qemu: Exclude CVE-2017-5957 from cve-check
+  qemu: Exclude CVE-2007-0998 from cve-check
+  qemu: Exclude CVE-2018-18438 from cve-check
+  jquery: Exclude CVE-2007-2379 from cve-check
+  logrotate: Exclude CVE-2011-1548,1549,1550 from cve-check
+  openssh: Exclude CVE-2007-2768 from cve-check
+  openssh: Exclude CVE-2008-3844 from cve-check
+  unzip: Exclude CVE-2008-0888 from cve-check
+  cpio: Exclude CVE-2010-4226 from cve-check
+  ghostscript: Exclude CVE-2013-6629 from cve-check
+  bluez: Exclude CVE-2020-12352 CVE-2020-24490 from cve-check
+  tiff: Exclude CVE-2015-7313 from cve-check
+  coreutils: Exclude CVE-2016-2781 from cve-check
+  librsvg: Exclude CVE-2018-1000041 from cve-check
+  avahi: Exclude CVE-2021-26720 from cve-check
+  oeqa/qemurunner: Improve logging thread exit handling for qemu
+    shutdown test
+  oeqa/qemurunner: Fix binary vs str issue
+  oeqa/qemurunner: Improve handling of run_serial for shutdown commands
+
+Robert P. J. Day (2):
+  image.bbclass: fix comment "pacackages" -> "packages"
+  meta/lib/oe/rootfs.py: Fix typo "Restoreing" -> "Restoring"
+
+Romain Naour (1):
+  dejagnu: needs expect at runtime
+
+Ross Burton (3):
+  cairo: backport patch for CVE-2020-35492
+  libnotify: whitelist CVE-2013-7381 (specific to the NodeJS bindings)
+  builder: whitelist CVE-2008-4178 (a different builder)
+
+Ulrich Ölmann (1):
+  local.conf.sample: fix typo
+
+Yann Dirson (1):
+  linux-firmware: include all relevant files in -bcm4356
+
+ meta/classes/image.bbclass                    |   2 +-
+ meta/conf/local.conf.sample                   |   2 +-
+ meta/lib/oe/rootfs.py                         |   2 +-
+ meta/lib/oeqa/selftest/cases/runqemu.py       |   9 +-
+ meta/lib/oeqa/utils/qemurunner.py             |  21 +++-
+ meta/recipes-connectivity/avahi/avahi_0.7.bb  |   3 +
+ .../bluez5/bluez5_5.55.bb                     |   3 +
+ .../openssh/openssh_8.2p1.bb                  |   6 +
+ meta/recipes-core/coreutils/coreutils_8.31.bb |   4 +
+ meta/recipes-core/glibc/glibc_2.31.bb         |  13 ++
+ .../recipes-devtools/dejagnu/dejagnu_1.6.2.bb |   1 +
+ meta/recipes-devtools/jquery/jquery_3.5.0.bb  |   5 +
+ ...ja2_2.11.2.bb => python3-jinja2_2.11.3.bb} |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |  12 ++
+ .../qemu/qemu/CVE-2021-3392.patch             |  92 ++++++++++++++
+ .../subversion/CVE-2020-17525.patch           | 117 ++++++++++++++++++
+ .../subversion/subversion_1.13.0.bb           |   1 +
+ meta/recipes-extended/cpio/cpio_2.13.bb       |   3 +
+ .../ghostscript/ghostscript_9.52.bb           |   4 +
+ .../logrotate/logrotate_3.15.1.bb             |   3 +
+ .../help2man-reproducibility.patch            |  27 ++++
+ meta/recipes-extended/lsb/lsb-release_1.4.bb  |   1 +
+ meta/recipes-extended/unzip/unzip_6.0.bb      |   3 +
+ .../libnotify/libnotify_0.7.8.bb              |   3 +
+ meta/recipes-gnome/librsvg/librsvg_2.40.21.bb |   3 +
+ meta/recipes-graphics/builder/builder_0.1.bb  |   2 +
+ .../cairo/cairo/CVE-2020-35492.patch          |  60 +++++++++
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |   1 +
+ ...20210208.bb => linux-firmware_20210315.bb} |   8 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   2 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   2 +-
+ .../libtiff/files/CVE-2020-35523.patch        |  55 ++++++++
+ .../libtiff/files/CVE-2020-35524-1.patch      |  42 +++++++
+ .../libtiff/files/CVE-2020-35524-2.patch      |  36 ++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   7 ++
+ meta/recipes-support/db/db_5.3.28.bb          |   2 +-
+ 37 files changed, 541 insertions(+), 20 deletions(-)
+ rename meta/recipes-devtools/python/{python3-jinja2_2.11.2.bb => python3-jinja2_2.11.3.bb} (92%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
+ create mode 100644 meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210208.bb => linux-firmware_20210315.bb} (99%)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35523.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35524-1.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35524-2.patch
+
+-- 
+2.25.1
+
