@@ -1,74 +1,94 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.16699.1621244916785372505
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.16712.1621245052459325537
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 02:48:37 -0700
+ Mon, 17 May 2021 02:50:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gTlvtflV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id b19-20020a05600c06d3b029014258a636e8so3194661wmn.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 02:48:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dl2kYmVf;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id s22so8040091ejv.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 02:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IT76IJqJnv2L2x/PCTYNJysv/JYzpubJhAKZEBNsQ+A=;
-        b=gTlvtflV9PlY4fEJLJpdO7OTF606Wn8xRYqnTJQEX8nioKAkXaajYKe+Oc3Y6ff3/v
-         KvTpNSfwFMSqVhWtM7tWBgOEx+uLDCxjaZXdQ56reLjv1dNGh0PVqk3TduG4i3RD95/9
-         5lIR+4bQgVn69KjTYXZMVHMCNVI3eQkW3Fggk=
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=qkYsb+ede5NImqIyzqisLswyAWjC1olW0OWYWUEvKPU=;
+        b=dl2kYmVffkijFPjM95JQ/ZeqZZ1OEUDn2o7MyhnjXSkMf2caCYnAowIavXQKSrgGa/
+         THDRwU/8UQcrEJq9qdc3Tkglu9TJ9vikAlB8wjArAf2qTnUvu7vnXEqMIu3uWWFHOvLg
+         DbJKoHt/n7quLexNFC6lMi8ixwkKXHMklXTOPnHBGyCHQ4FdE5UhaN8BO6YwoR/JHmoC
+         UscE849Pg+8IINOUZjJOsr6JdGZREf/ZILkleb1Me9l5TEBlKz4pwxRqR/XbNONsuqPt
+         BKhV6ExSQczHIqGEM+IOEzDHjF9kHjrmKYovvU55aJbFuQa81ezmq3kEmNk5j3luJiCR
+         ZKgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IT76IJqJnv2L2x/PCTYNJysv/JYzpubJhAKZEBNsQ+A=;
-        b=RiFPwnV0S145Z/D2c0voWfqbol7FayUbGXWJ8heB8NGuEXOH3t4oXHOD54IJpUFD7b
-         bQ2atspvLRUvSrtgPnAON0k0juH2aM4f7sSWvH4V3JajX4i/q06HjBT8Dz955VTiHdbk
-         aRBBu6QCJ0pOF1qbUr9mjtGspzDq+YcMAJ1RQ0q8Ra9hHDBroa3JR9ZIw0fLhm2xTgGO
-         txX5KcDsyXUUfYTlPs5KKFl3LXsSYEHgkLVatJjDY0lGSa3u3ZzogfnFjOZ12OOI0+kB
-         hAaOz9ZwRTyvqH65C43BkBm2LEMI2PthULFHTvDpECmbmJBPwULBBd9mP65fh/1JvX2G
-         ExEw==
-X-Gm-Message-State: AOAM533MU62Lv2lQl1pp9GLehDW5cCIBLUxEfipLFJpCh7Xn3lsmQHAv
-	TiNVlg/HG/o2RPTUP//x6AryLDVuqCYYMQ==
-X-Google-Smtp-Source: ABdhPJyoMwC2O3BnPSdm3/mDY2ModUkHPt0wrL41MTyjffQ0N5s6ciRxtCX5x4pQ8LKguqUjeFhdoQ==
-X-Received: by 2002:a05:600c:4f8b:: with SMTP id n11mr62133437wmq.11.1621244915120;
-        Mon, 17 May 2021 02:48:35 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1b39:2a3f:a2c2:a4fc])
-        by smtp.gmail.com with ESMTPSA id a129sm3382343wmh.20.2021.05.17.02.48.34
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 02:48:34 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rpm: Exclude CVE-2021-20266 from cve-check
-Date: Mon, 17 May 2021 10:48:34 +0100
-Message-Id: <20210517094834.2415783-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+        bh=qkYsb+ede5NImqIyzqisLswyAWjC1olW0OWYWUEvKPU=;
+        b=Bblonb3CkuUZVRSLf6xliMyKu5brfwkuqAv7nSOtjCcptim8Xl9kiLnv3A7PGhrEh1
+         yyrZGeLtgHIpBSPz1rcJqEKvV03/WZ5QMTIqBe99nmZJaBzdSUnI0N+4bws3Oa7tWaQ8
+         QZ6bF34xu5KYeAOcNWyzhJ+Bmon2Ob7kchwm98pmQbzGr4q24+icUxfoVCgQmfniLjON
+         0MZSA6z+QJ1d1D1Wtg7/MtlimhEOeo/LggcF5Gq6pVezz8mHOfAi2P4b3ruYYE1kEjzO
+         cGAPWPW5aTsOmeZ5AGyaSgyweokqMNIAsgx5m9pleVhM3GCZg0/jD1bJB1ocaM3voCTu
+         /nRA==
+X-Gm-Message-State: AOAM531NedaxH2zk3ywR53ct4j1wItB8vEnUQQ+LB3nNqcwfxT8o6Pr4
+	sr84eeUrY3xZ9Mct8J+c+l6Wtfr740hTwg==
+X-Google-Smtp-Source: ABdhPJzgDzmN4wZu/bKF6bFrWviNz7T1/eCZ/6nIrJ2MNACS1hr8KVlqhkBWhaN2Ic8ecU1QWR/LuQ==
+X-Received: by 2002:a17:906:3ed0:: with SMTP id d16mr37875974ejj.16.1621245051010;
+        Mon, 17 May 2021 02:50:51 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from [192.168.10.102] (37-247-29-68.customers.ownit.se. [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id n17sm10485415eds.72.2021.05.17.02.50.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 May 2021 02:50:50 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] rpm: Exclude CVE-2021-20266 from cve-check
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20210517094834.2415783-1-richard.purdie@linuxfoundation.org>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <eab4eb99-b189-e8a9-d16d-d90cb748a331@gmail.com>
+Date: Mon, 17 May 2021 11:50:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210517094834.2415783-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This is included in the release we have, it was the reason for the last rpm
-point release.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/rpm/rpm_4.16.1.3.bb | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index 2857cd730c4..760adab02b5 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -51,6 +51,10 @@ S = "${WORKDIR}/git"
- # included in 4.16.1.3
- CVE_CHECK_WHIETLIST += "CVE-2021-20271"
- 
-+# Fix https://github.com/rpm-software-management/rpm/commit/2e21a178fcc76565c09ed3a28624ca8aeda1880a
-+# included in 4.16.1.3
-+CVE_CHECK_WHIETLIST += "CVE-2021-20266"
-+
- DEPENDS = "libgcrypt db file popt xz bzip2 elfutils python3"
- DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
- 
--- 
-2.30.2
+On 5/17/21 11:48 AM, Richard Purdie wrote:
+> This is included in the release we have, it was the reason for the last rpm
+> point release.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/recipes-devtools/rpm/rpm_4.16.1.3.bb | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> index 2857cd730c4..760adab02b5 100644
+> --- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> @@ -51,6 +51,10 @@ S = "${WORKDIR}/git"
+>   # included in 4.16.1.3
+>   CVE_CHECK_WHIETLIST += "CVE-2021-20271"
+>   
+> +# Fix https://github.com/rpm-software-management/rpm/commit/2e21a178fcc76565c09ed3a28624ca8aeda1880a
+> +# included in 4.16.1.3
+> +CVE_CHECK_WHIETLIST += "CVE-2021-20266"
+> +
 
+Is the same spelling already exists above, but is that really 
+intentional, "WHIET" instead of "WHITE" ?
+
+/Jacob
+
+>   DEPENDS = "libgcrypt db file popt xz bzip2 elfutils python3"
+>   DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
+>   
+> 
+> 
+> 
+> 
+> 
