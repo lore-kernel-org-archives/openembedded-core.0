@@ -1,151 +1,260 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
- by mx.groups.io with SMTP id smtpd.web12.619.1621291874172139843
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.83])
+ by mx.groups.io with SMTP id smtpd.web08.2789.1621302226033532319
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 15:51:14 -0700
+ Mon, 17 May 2021 18:43:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=vRhGPIMn;
- spf=pass (domain: flex--wak.bounces.google.com, ip: 209.85.219.202, mailfrom: 3yfoiyamkan4wakgoogle.com@flex--wak.bounces.google.com)
-Received: by mail-yb1-f202.google.com with SMTP id d4-20020a25b5c40000b02904f8e3c8c6c9so11130083ybg.14
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 15:51:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=UGz37/IV4uqKLFspVlpm6WYNH3J6OzwDzScszHC4VvE=;
-        b=vRhGPIMnIRTkodw2dlbZOsDYXy4ewabqnnMDxHWTAggnp7nVWc9S1SHz+uQe/sM75T
-         pBpaQraZD30b3GAc8MhIIbY+EwijWnb+x1ab36tUr48ISQGNQr0eOFiXvkO1XAo2wk5D
-         +ajWut20+z7J52f1vg5LIyPmbtdPLyrsTOXm+ntzccBEGbjY8/YSkhmyCSI0PyoFbu5i
-         YC/AX66zZsuY/7riIqAwqeBjwXOivcYKyOi0QSRYtSA0s9xN2pTSU8fpQd59+rJEQI0b
-         Lek5ZccKhbTegV5YHGnxzRPa20K8NnLo34gyPOz6WOB1JfyiwQu08m+9ePv75djsQoNW
-         f8sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=UGz37/IV4uqKLFspVlpm6WYNH3J6OzwDzScszHC4VvE=;
-        b=G5SJKXZ3kGIsqj05l1nJSBzynOaHwc9Y4Fgunu1Bgflsp2GjsFpqC6gnFOd5P2klHT
-         9SjfJrs/tjM+CUFucFouFhpEjzmnAcOWCBhE/a8nvjpL2LoHGooqLcbPe8NALr5XmJFe
-         sBgjccihQEi1dv72CcbJDR045Qw90IYfveO2c6X0EtS2auqoXp35iuIZBCRc+Vvfg7VC
-         cs760FCWRnX5vQOIqN/vOxV3OPhBnmSaW5MTxqwERe5dVPnBtciAA/HX3a/DCVzMDbvi
-         WgDZtmMcLCWtygVxymBxWXSc9eEnZcv7EqZIuPaT2QGD2o1YOqm58Ar++CD08U6TO1Z+
-         TnpA==
-X-Gm-Message-State: AOAM532gzvETXQaNj8KcNb1pjkDrs3Kp5towsahuO+i+nvtNHjrQ/58r
-	aKskWgEKAmrdgeY1s4nbxVxqecwtlfKr1JmFDwB28c5wre6YLewfyMmGjecJBVdsB/RjFpCf+ay
-	TMdZoPI+v2hU2nK+a1qMSKy89YZ5B51eF0Yfr4nB727H9SB4uJpV6u4wFHOiIUKUcHmupgT5BOF
-	4prw==
-X-Google-Smtp-Source: ABdhPJw/qr/R1RNiMqBYJRIwGGEwvlJTmsgjXSpLXyCK35219UW+YkFNgISSrnYBS4y//w4d9yfJWAk=
-X-Received: from wak-linux.svl.corp.google.com ([2620:15c:2c5:3:dc0b:7266:720:d64b])
- (user=wak job=sendgmr) by 2002:a25:348f:: with SMTP id b137mr3285239yba.31.1621291873114;
- Mon, 17 May 2021 15:51:13 -0700 (PDT)
-Date: Mon, 17 May 2021 15:51:01 -0700
-In-Reply-To: <20210517225101.1100864-1-wak@google.com>
-Message-Id: <20210517225101.1100864-2-wak@google.com>
-Mime-Version: 1.0
-References: <20210517225101.1100864-1-wak@google.com>
-X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
-Subject: [OE-core][PATCH 2/2] systemd: Fix networkd failing links with loopback RAs
-From: "William A. Kennington III" <wak@google.com>
-To: openembedded-core@lists.openembedded.org
-Cc: "William A. Kennington III" <wak@google.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=SPVv59YV;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.83, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1621302214; i=@fujitsu.com;
+	bh=46BNdEWYtcrjcleUjAnGmoLvzbmkZR5Ky4BvmZeiEhA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=SPVv59YVmDA8koOZWCbaHUAJpG0gShzDzOBdZg3a4YAJpN92cG2X1R3BdWb0kjk+4
+	 xj2uUe+crDkOcgtHkCtckJGWQxPfABcld1Fa2JG6qFCON+N6FiwzSoQe54jgnTn0EL
+	 AqgerXDPoARZj9jig+C/vF5ps+DAhcxyOADkTyVNLbix8P9lkUa+VB3jeMxDTU0xt+
+	 MI+D3ipDvneKfDMHTzY2/8QCujA6Z2dJYqExsSekxdSJil71z0E5DPx3oUjBhqnnHi
+	 8EdMCLezV8pn2TpxWhJ1mtXaQGzF7nqUYgnpGwpKMfJYayDxjJzi4FOvzYCBVue3uB
+	 geypIVOIAOMYA==
+Received: from [100.112.199.171] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id 25/7D-55921-5CB13A06; Tue, 18 May 2021 01:43:33 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRWlGSWpSXmKPExsViZ8MxRfeo9OI
+  Egy+L5S3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oxHV/tZC+64VLw7cIi1gfGfVRcjF4eQwCwm
+  idP7v7F3MXICOScYJeacTACx2QTUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7x6wcmEBa4mz0
+  3+zgdgsAqoS27+dYAaxeQWcJFYdu8wIYksIKEhMefgeKi4ocXLmExaIORISB1+8YIaoUZSYfb
+  mZBcKukHh9+BLzBEbeWUhaZiFpWcDItIrRPKkoMz2jJDcxM0fX0MBA19DQSNfQ0kzXzEQvsUo
+  3SS+1VLc8tbhE11AvsbxYr7gyNzknRS8vtWQTIzC0UgqOOOxgvP/6g94hRkkOJiVRXrP7ixKE
+  +JLyUyozEosz4otKc1KLDzHKcHAoSfAWSC1OEBIsSk1PrUjLzAGGOUxagoNHSYR3E0iat7ggM
+  bc4Mx0idYpRl+Pdz8WLmIVY8vLzUqXEeX+CFAmAFGWU5sGNgMXcJUZZKWFeRgYGBiGegtSi3M
+  wSVPlXjOIcjErCvGzACBbiycwrgdv0CugIJqAj/jcuAjmiJBEhJdXA5CygELeNpeWixJvwX73
+  3ulfzpf/Pmtvtm7aSM93iOd99V+1mB3PtEjGOtU5TN4r/j3E3dFrGK3Xa/WzY4756SXXV7xNu
+  rjPeWiV7hv+MAyvLygqrHW0bzz2X3vPPZE71qdUZU3P/xz6tmLzh3wt7vqKKpZ8Z98QerCo3F
+  vhZIHLvXJ4V5wnhZ3/vHV5alimlps2b5nP1X2A6b3CNUMAblT/657dx5jInRh53j8j/c/mZ84
+  rpc813eydu/HVVoOyd2R9T3+ApbafPufY9XTgl/NckuS9nvI9obDK5XLFZP3l1VBl3105lJ+l
+  J77Vfy14ojZ7l4nHC+cCHf22ZTP/tFsVo/E25cydnI1fwVecCJZbijERDLeai4kQAw67krTQD
+  AAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-3.tower-285.messagelabs.com!1621302213!100882!1
+X-Originating-IP: [62.60.8.148]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.75.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 4553 invoked from network); 18 May 2021 01:43:33 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-3.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 18 May 2021 01:43:33 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14I1hOgj022980
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 18 May 2021 02:43:33 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Tue, 18 May 2021 02:43:22 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] elfutils: upgrade 0.183 -> 0.184
+Date: Tue, 18 May 2021 09:43:05 +0800
+Message-ID: <1621302185-15385-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-Backport a patch to situations where the current node receives an RA
-packet from itself, which triggers systemd-networkd to put the link into
-a failed state which turns off internal RA functionality.
+0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+removed since it is included in 0.184.
 
-Signed-off-by: William A. Kennington III <wak@google.com>
+refresh 0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+and 0015-config-eu.am-do-not-use-Werror.patch
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...le-ignoring-ll-gateway-being-link-ll.patch | 68 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_247.6.bb    |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-networkd-handle-ignoring-ll-gateway-being-link-ll.patch
+ .../{elfutils_0.183.bb => elfutils_0.184.bb}  |  3 +-
+ ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 ---------------
+ ...infod-client.c-correct-string-format.patch | 40 ++++---------------
+ .../0015-config-eu.am-do-not-use-Werror.patch | 19 +++++----
+ 4 files changed, 19 insertions(+), 76 deletions(-)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.184.bb} (97%)
+ delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-networkd-handle-ignoring-ll-gateway-being-link-ll.patch b/meta/recipes-core/systemd/systemd/0001-networkd-handle-ignoring-ll-gateway-being-link-ll.patch
-new file mode 100644
-index 0000000000..47e81a6c38
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-networkd-handle-ignoring-ll-gateway-being-link-ll.patch
-@@ -0,0 +1,68 @@
-+From 40c6396bfd1e83f80dde31f4886bb1dbf155012d Mon Sep 17 00:00:00 2001
-+From: Devon Pringle <devon.pringle@opengear.com>
-+Date: Mon, 14 Dec 2020 14:22:18 +1000
-+Subject: [PATCH] networkd: handle ignoring ll gateway being link ll
-+
-+In the event where network discovery gets a route with the gateway being
-+the interfaces local link address, networkd will fail the interface.
-+
-+systemd-networkd[44319]: br_lan: Configuring route: dst: fdcd:41a4:5559:ec03::/64, src: n/a, gw: fe80::e4da:7eff:fe77:5c5e, prefsrc: n/a, scope: global, table: main, proto: ra, type: unicast
-+systemd-networkd[44319]: br_lan: Could not set NDisc route or address: Gateway can not be a local address. Invalid argument
-+systemd-networkd[44319]: br_lan: Failed
-+systemd-networkd[44319]: br_lan: State changed: configuring -> failed
-+
-+This patch, instead of allowing the interface to fail, will instead log
-+the event and skip setting the route.
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/221019166f315252304b3459902ead613b905de5]
-+---
-+ src/network/networkd-ndisc.c | 16 +++++++++++++---
-+ 1 file changed, 13 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/network/networkd-ndisc.c b/src/network/networkd-ndisc.c
-+index d2aa3db175..41591900e9 100644
-+--- a/src/network/networkd-ndisc.c
-++++ b/src/network/networkd-ndisc.c
-+@@ -820,7 +820,7 @@ static int ndisc_router_process_onlink_prefix(Link *link, sd_ndisc_router *rt) {
-+ 
-+ static int ndisc_router_process_route(Link *link, sd_ndisc_router *rt) {
-+         _cleanup_(route_freep) Route *route = NULL;
-+-        struct in6_addr gateway;
-++        union in_addr_union gateway;
-+         uint32_t lifetime;
-+         unsigned preference, prefixlen;
-+         usec_t time_now;
-+@@ -835,10 +835,20 @@ static int ndisc_router_process_route(Link *link, sd_ndisc_router *rt) {
-+         if (lifetime == 0)
-+                 return 0;
-+ 
-+-        r = sd_ndisc_router_get_address(rt, &gateway);
-++        r = sd_ndisc_router_get_address(rt, &gateway.in6);
-+         if (r < 0)
-+                 return log_link_error_errno(link, r, "Failed to get gateway address from RA: %m");
-+ 
-++        if (address_exists(link, AF_INET6, &gateway)) {
-++                _cleanup_free_ char *buf = NULL;
-++
-++                if (DEBUG_LOGGING) {
-++                        (void) in_addr_to_string(AF_INET6, &gateway, &buf);
-++                        log_link_debug(link, "Advertised route gateway, %s, is local to the link, ignoring route", strnull(buf));
-++                }
-++                return 0;
-++        }
-++
-+         r = sd_ndisc_router_route_get_prefixlen(rt, &prefixlen);
-+         if (r < 0)
-+                 return log_link_error_errno(link, r, "Failed to get route prefix length: %m");
-+@@ -860,7 +870,7 @@ static int ndisc_router_process_route(Link *link, sd_ndisc_router *rt) {
-+         route->priority = link->network->dhcp6_route_metric;
-+         route->protocol = RTPROT_RA;
-+         route->pref = preference;
-+-        route->gw.in6 = gateway;
-++        route->gw.in6 = gateway.in6;
-+         route->gw_family = AF_INET6;
-+         route->dst_prefixlen = prefixlen;
-+         route->lifetime = time_now + lifetime * USEC_PER_SEC;
-+-- 
-+2.31.1.607.g51e8a6a459-goog
-+
-diff --git a/meta/recipes-core/systemd/systemd_247.6.bb b/meta/recipes-core/systemd/systemd_247.6.bb
-index fb4acf2d37..dc04908922 100644
---- a/meta/recipes-core/systemd/systemd_247.6.bb
-+++ b/meta/recipes-core/systemd/systemd_247.6.bb
-@@ -28,6 +28,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch \
-            file://0001-analyze-resolve-executable-path-if-it-is-relative.patch \
-            file://0001-network-neighbor-Always-add-neighbors-with-replace.patch \
-+           file://0001-networkd-handle-ignoring-ll-gateway-being-link-ll.patch \
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.184.bb
+similarity index 97%
+rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
+rename to meta/recipes-devtools/elfutils/elfutils_0.184.bb
+index 7aebaf1b6d..1726ebc340 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.184.bb
+@@ -21,7 +21,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://run-ptest \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
+-           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
+            file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
             "
+ SRC_URI_append_libc-musl = " \
+@@ -30,7 +29,7 @@ SRC_URI_append_libc-musl = " \
+            file://0004-Fix-error-on-musl.patch \
+            file://0015-config-eu.am-do-not-use-Werror.patch \
+            "
+-SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
++SRC_URI[sha256sum] = "87e7d1d7f0333815dd1f62135d047a4dc4082068f361452f357997c11360644b"
  
- # patches needed by musl
+ inherit autotools gettext ptest pkgconfig
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+deleted file mode 100644
+index 5f82afef0c..0000000000
+--- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
+-From: dorindabassey <dorindabassey@gmail.com>
+-Date: Sat, 19 Dec 2020 01:11:46 +0100
+-Subject: [PATCH] add support for ipkg to debuginfod.cxx
+-
+-added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
+-
+-Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
+-
+-Signed-off-by: dorindabassey <dorindabassey@gmail.com>
+-
+----
+- debuginfod/debuginfod.cxx | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
+-index b34eacc..a8915f2 100644
+---- a/debuginfod/debuginfod.cxx
+-+++ b/debuginfod/debuginfod.cxx
+-@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
+-         {
+-           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
+-           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
+-+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
+-         }
+-       else
+-         {
+-           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
+-           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
+-+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
+-         }
+-       // .udeb too?
+-       break;
+diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+index 5bd6ba961c..40ad3163a2 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+@@ -16,15 +16,16 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+ ---
+- debuginfod/debuginfod-client.c | 10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
++ debuginfod/debuginfod-client.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+-index de26af5..39e28f2 100644
++index 4fa047f..5afb215 100644
+ --- a/debuginfod/debuginfod-client.c
+ +++ b/debuginfod/debuginfod-client.c
+-@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -268,7 +268,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+    if (fd < 0)
+      return -errno;
+  
+@@ -33,7 +34,7 @@ index de26af5..39e28f2 100644
+      return -errno;
+  
+    /* init max age config file.  */
+-@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -276,7 +276,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
+      return -errno;
+  
+@@ -42,33 +43,6 @@ index de26af5..39e28f2 100644
+      return -errno;
+  
+    return 0;
+-@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-       if (interval_file == NULL)
+-         return -errno;
+- 
+--      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
+-+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
+-       fclose(interval_file);
+- 
+-       if (rc < 0)
+-@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-   interval_file = fopen(interval_path, "r");
+-   if (interval_file)
+-     {
+--      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
+-+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
+-         clean_interval = cache_clean_default_interval_s;
+-       fclose(interval_file);
+-     }
+-@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-   max_unused_file = fopen(max_unused_path, "r");
+-   if (max_unused_file)
+-     {
+--      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
+-+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
+-         max_unused_age = cache_default_max_unused_age_s;
+-       fclose(max_unused_file);
+-     }
+ -- 
+-2.31.1
++2.25.1
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+index 205362626d..753e8a6410 100644
+--- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
++++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+@@ -10,28 +10,31 @@ Werror.
+ 
+ Upstream-Status: Inappropriate [oe core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+ ---
+  config/eu.am | 2 --
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/config/eu.am b/config/eu.am
+-index 6c3c444..3bc0dc9 100644
++index 2c3e457..8fb0411 100644
+ --- a/config/eu.am
+ +++ b/config/eu.am
+-@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
+- 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
++@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
++ 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
+  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+ -	    $(if $($(*F)_no_Werror),,-Werror) \
+  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+- 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
+-@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
+- 	   -Wtrampolines \
++ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
++@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
++ 	   $(TRAMPOLINES_WARNING) \
+  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+ -	   $(if $($(*F)_no_Werror),,-Werror) \
+  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+- 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
++ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
++-- 
++2.25.1
++
 -- 
-2.31.1.751.gd2f1c929bd-goog
+2.25.1
 
