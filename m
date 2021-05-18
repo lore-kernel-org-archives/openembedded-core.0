@@ -1,275 +1,546 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web09.2933.1621303139175623409
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web09.4906.1621319111115523852
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 18:58:59 -0700
+ Mon, 17 May 2021 23:25:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bW+3pQ7j;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id ot16so2734546pjb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 18:58:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tZh6oHWM;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id w12so1941766edx.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 23:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=D2309px9vlRkrOo4iL8LF8QbK2+pa3Uw0kdECQkjdL0=;
-        b=bW+3pQ7j820Mdv1Zwgcbj1KBSipH3UTZhBbmKKkDx+3bOUGkUd9Ena0NsWSwOxWLZF
-         f+EgNE1ZhHKZslxeyM7ChR9TDXT1zNJeYRTeM95ccWxFRAjXLYhwavymTVLanAhGHmfc
-         ju7cO1ZMq+c7BJvgeWL9FsJRNbkYr3tXtITcCuFZs4X/LPLA0bfCNexNEbMsthZrmu/p
-         /nUqo0J4mvUTCzf4S+MDmTEMHg0+ATE3lt//ShxJ/GeViFRKWL6/7hEvH9x4xmKCpvdW
-         Y1e1IDW4n0aIwAoOKbgrUKK8DfLa5HQ22CC1cXy96vnt+8KemdHtxxlwalo6Cqx9PYN1
-         9T1Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0mrnXOJgJz7PMB+w+nss5i9gq5AL8sOUNEPpFPJZ7AQ=;
+        b=tZh6oHWMvpL4sHDLEklsmcPizO4W1835UPuozu8/vQW+PnPPh5m7KS1y6FO4AqKBc+
+         4cmgFmQ+vJONyrpknNGLRl0EWc4IRtnf3XlkeNhoJb0vNMnsbr6W17A6s8x00iQaMPol
+         wc7ZuSk36PfQ3KHEjoTX5j86rn2ExRmg3RoIhjnGvxuEjj/ijflEcT7eg8f0v2mvznl4
+         kracESKY/8EsmWgZt4UGjqITvvP6qMTrXziIeje57jvaxi66xqflz/h4/uYeDQiGwYFE
+         om/UlJly789ETm3igv2kb8+lqFAjHf0PvOAXtXrqgT9m9YLH/H7VuWb7nKo6na4vkHyx
+         +pyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=D2309px9vlRkrOo4iL8LF8QbK2+pa3Uw0kdECQkjdL0=;
-        b=Q75dYb+wNMDOt6w+hYJGh9tbxSizHdthmcO5cPzUaDTlAY7SjUHx9ukssmAqLamGHm
-         sixswiC3xYBtsgzGLkSA6wMegjNGA0/eheKpUMTWsWT9Rs2ev+wdm4RgzuojcEMZ+9KJ
-         vBycguubjV+h1n08Zqc5M2fqYsz3u6bonO0RO4W9YoHsk3uMOaZpG9j1P4AYIl+i/YkR
-         faHTYkt3VTHgv4g2UBIZJTimE0xRPRa8wFT/EIKXMBf6sGB2xiDnvckgm5lAkb4bO3dZ
-         PFkK/f+T+Z/QaXiNwA/HnOiXUDuDSH2eSDzjJNpEX1pxu/sQ8svn03liL3wKNum61aga
-         HQkw==
-X-Gm-Message-State: AOAM532aTNHkKFAEjYwzhELvw7Bo46NKCBp+5q3uIEVYeSgzg1qasc5s
-	K4Ya38TpxR14wPZUKbW5fvE=
-X-Google-Smtp-Source: ABdhPJyKSM7/JDUZ2tNbIGlSlHwpk7kN6gbp0IXgNu+jK2foMy57QumgBMwlZAZAeBIcTfzr1pqUEw==
-X-Received: by 2002:a17:902:8d98:b029:eb:43c2:d294 with SMTP id v24-20020a1709028d98b02900eb43c2d294mr1747634plo.49.1621303138741;
-        Mon, 17 May 2021 18:58:58 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (wsip-72-194-163-85.ph.ph.cox.net. [72.194.163.85])
-        by smtp.gmail.com with ESMTPSA id a18sm10700546pfo.64.2021.05.17.18.58.57
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 May 2021 18:58:58 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 17 May 2021 18:58:57 -0700
-Message-ID: <1e5b01d74b89$5dceb6b0$196c2410$@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0mrnXOJgJz7PMB+w+nss5i9gq5AL8sOUNEPpFPJZ7AQ=;
+        b=lyFl4etxof5CMDuFYYLNFCFHkPYWVWlJO/eIpxKkRU0vwQ7zNh+aBGxzFMtXtNBO6N
+         uLnV2QZPkE9mn2zsLtpNE+2fnT1qzX2oBP+mTRUcTKGPjKvDEvlm6bSp9IuWtS8bBw/H
+         /x03k9xSZzPvhKX0dwb7bCJLhfSrCkj8PiMGmvY88YGGou/jzlzmOLaaF2s+vhXwD3wZ
+         MwFDUbExW8wJfbh/m+k5PsARfWr/LrYtzTLaLrsigbJ2wMezl28mVWDj9zzcJYKtDT/g
+         +1e6ZJHPdCWflBdOgptxBHDLKRjjV0c+nxJH2dMqdAwxeyoHizsbCnt+WmQ1ZF7sQO3Z
+         Lz+A==
+X-Gm-Message-State: AOAM531Mm6vC6AnvwGU4KNiOL2Qex0GdysfR8ZMCAfzzGvmaW2VVyYMK
+	o93kkmUem68OasS7o63Yuwm8vE3LsMskTOo/
+X-Google-Smtp-Source: ABdhPJyF4jUhRekhXqEQH+APaRaNx1dq4jT0onrIDnUpSlPEvRQDx5t22E+9ggSceqaSrFw7IIq9Dw==
+X-Received: by 2002:a05:6402:845:: with SMTP id b5mr4981258edz.9.1621319109494;
+        Mon, 17 May 2021 23:25:09 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se. [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id t17sm10308900ejs.15.2021.05.17.23.25.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 23:25:08 -0700 (PDT)
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH v2] mklibs: remove recipes and class
+Date: Tue, 18 May 2021 08:24:46 +0200
+Message-Id: <20210518062446.8201-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGMHmgjgg5zzELcTaGwSkgTy2YmqQ==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_1E5C_01D74B4E.B17276C0"
-Content-Language: en-us
+Content-Transfer-Encoding: 8bit
 
-------=_NextPart_000_1E5C_01D74B4E.B17276C0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-All,
+This is not enabled or tested by default, and has never been
+ported to python 3 upstream[1], which means it doesn't work at all
+with plain poky. If you need it, please put it in a separate layer
+and/or modernize to work with py3.
 
+https://salsa.debian.org/installer-team/mklibs/-/blob/master/src/mklibs
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+
+Changes in v2:
+  * Removed references to mklibs in
+      meta/conf/local.conf.sample
+      meta/conf/local.conf.sample.extended
+
+ meta/classes/image-mklibs.bbclass             |  56 ----------
+ meta/conf/distro/include/maintainers.inc      |   1 -
+ meta/conf/local.conf.sample                   |   5 +-
+ meta/conf/local.conf.sample.extended          |   9 --
+ .../mklibs/files/ac_init_fix.patch            |  19 ----
+ ...re-on-symbol-provided-by-application.patch | 103 ------------------
+ .../mklibs/files/fix_STT_GNU_IFUNC.patch      |  26 -----
+ .../mklibs/files/fix_cross_compile.patch      |  81 --------------
+ ...U-unique-symbols-as-provided-symbols.patch |  34 ------
+ .../mklibs/files/sysrooted-ldso.patch         |  18 ---
+ .../mklibs/mklibs-native_0.1.44.bb            |  22 ----
+ 11 files changed, 1 insertion(+), 373 deletions(-)
+ delete mode 100644 meta/classes/image-mklibs.bbclass
+ delete mode 100644 meta/recipes-devtools/mklibs/files/ac_init_fix.patch
+ delete mode 100644 meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
+ delete mode 100644 meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch
+ delete mode 100644 meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
+ delete mode 100644 meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
+ delete mode 100644 meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
+ delete mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+
+diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
+deleted file mode 100644
+index 68e11d4365..0000000000
+--- a/meta/classes/image-mklibs.bbclass
++++ /dev/null
+@@ -1,56 +0,0 @@
+-do_rootfs[depends] += "mklibs-native:do_populate_sysroot"
+-
+-IMAGE_PREPROCESS_COMMAND += "mklibs_optimize_image; "
+-
+-inherit linuxloader
+-
+-mklibs_optimize_image_doit() {
+-	rm -rf ${WORKDIR}/mklibs
+-	mkdir -p ${WORKDIR}/mklibs/dest
+-	cd ${IMAGE_ROOTFS}
+-	du -bs > ${WORKDIR}/mklibs/du.before.mklibs.txt
+-
+-	# Build a list of dynamically linked executable ELF files.
+-	# Omit libc/libpthread as a special case because it has an interpreter
+-	# but is primarily what we intend to strip down.
+-	for i in `find . -type f -executable ! -name 'libc-*' ! -name 'libpthread-*'`; do
+-		file $i | grep -q ELF || continue
+-		${HOST_PREFIX}readelf -l $i | grep -q INTERP || continue
+-		echo $i
+-	done > ${WORKDIR}/mklibs/executables.list
+-
+-	dynamic_loader=${@get_linuxloader(d)}
+-
+-	mklibs -v \
+-		--ldlib ${dynamic_loader} \
+-		--libdir ${baselib} \
+-		--sysroot ${PKG_CONFIG_SYSROOT_DIR} \
+-		--gcc-options "--sysroot=${PKG_CONFIG_SYSROOT_DIR}" \
+-		--root ${IMAGE_ROOTFS} \
+-		--target `echo ${TARGET_PREFIX} | sed 's/-$//' ` \
+-		-d ${WORKDIR}/mklibs/dest \
+-		`cat ${WORKDIR}/mklibs/executables.list`
+-
+-	cd ${WORKDIR}/mklibs/dest
+-	for i in *
+-	do
+-		cp $i `find ${IMAGE_ROOTFS} -name $i`
+-	done
+-
+-	cd ${IMAGE_ROOTFS}
+-	du -bs > ${WORKDIR}/mklibs/du.after.mklibs.txt
+-
+-	echo rootfs size before mklibs optimization: `cat ${WORKDIR}/mklibs/du.before.mklibs.txt`
+-	echo rootfs size after mklibs optimization: `cat ${WORKDIR}/mklibs/du.after.mklibs.txt`
+-}
+-
+-mklibs_optimize_image() {
+-	for img in ${MKLIBS_OPTIMIZED_IMAGES}
+-	do
+-		if [ "${img}" = "${PN}" ] || [ "${img}" = "all" ]
+-		then
+-			mklibs_optimize_image_doit
+-			break
+-		fi
+-	done
+-}
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index bfebd68acf..1467a10f8a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -508,7 +508,6 @@ RECIPE_MAINTAINER_pn-mingetty = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-mini-x-session = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-minicom = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-mkfontscale = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-mklibs-native = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-mmc-utils = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-mobile-broadband-provider-info = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-modutils-initscripts = "Yi Zhao <yi.zhao@windriver.com>"
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 652bd47733..9caac6e152 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -126,11 +126,8 @@ EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+ # enable extra features. Some available options which can be included in this variable
+ # are:
+ #   - 'buildstats' collect build statistics
+-#   - 'image-mklibs' to reduce shared library files size for an image
+ #   - 'image-prelink' in order to prelink the filesystem image
+-# NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
+-# NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
+-USER_CLASSES ?= "buildstats image-mklibs image-prelink"
++USER_CLASSES ?= "buildstats image-prelink"
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 353
-unassigned or newcomer bugs.
-
+ #
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 785a1e59df..6585ae710a 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -120,15 +120,6 @@
+ #
+ # TCMODE ?= "external-sourcery"
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_1E5C_01D74B4E.B17276C0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0BC1_01D745BA.F6C9E8A0";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 353 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_1E5C_01D74B4E.B17276C0--
+-# mklibs library size optimization is more useful to smaller images,
+-# and less useful for bigger images. Also mklibs library optimization
+-# can break the ABI compatibility, so should not be applied to the
+-# images which are to be extended or upgraded later.
+-#This enabled mklibs library size optimization just for the specified image.
+-#MKLIBS_OPTIMIZED_IMAGES ?= "core-image-minimal"
+-#This enable mklibs library size optimization will be for all the images.
+-#MKLIBS_OPTIMIZED_IMAGES ?= "all"
+-
+ # This value is currently used by pseudo to determine if the recipe should
+ # build both the 32-bit and 64-bit wrapper libraries on a 64-bit build system.
+ #
+diff --git a/meta/recipes-devtools/mklibs/files/ac_init_fix.patch b/meta/recipes-devtools/mklibs/files/ac_init_fix.patch
+deleted file mode 100644
+index 422af10420..0000000000
+--- a/meta/recipes-devtools/mklibs/files/ac_init_fix.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Get the version of mklibs by simpler means. The MKLIBS_VERSION string in the 
+-configure.ac file is replaced with real version string by the 
+-do_configure_prepend() function from the recipe .bb file.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Nitin A Kamble <nitin.a.kamble@intel.com>
+-Date: 2011/01/24
+-
+-Index: mklibs/configure.ac
+-===================================================================
+---- mklibs.orig/configure.ac	2010-02-21 17:34:56.000000000 -0800
+-+++ mklibs/configure.ac	2011-01-24 18:52:19.943242079 -0800
+-@@ -1,4 +1,4 @@
+--AC_INIT([mklibs],m4_esyscmd(dpkg-parsechangelog | perl -ne 'print $1 if m/^Version: (.*)$/;'))
+-+AC_INIT([mklibs], MKLIBS_VERSION)
+- AM_INIT_AUTOMAKE([foreign no-define])
+- AC_CONFIG_HEADERS([config.h])
+- AM_MAINTAINER_MODE
+diff --git a/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch b/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
+deleted file mode 100644
+index 17d9af4de4..0000000000
+--- a/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-From dcb45256970b15b672d0004533826c94083356e5 Mon Sep 17 00:00:00 2001
+-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+-Date: Fri, 17 Apr 2015 14:48:20 +0800
+-Subject: [PATCH 4/6] avoid failure on symbol provided by application
+-
+-Upstream-Status: Pending
+-
+-Undefined symbols in a library can be provided by the application
+-that links to the library, such as `logsink' in libmultipath.so.0.
+-This fix checks the type of object in which the symbol is needed
+-and the existence of the symbol in application, when a symbol
+-cannot be provided by libraries. It prevents false alarm on absence
+-of symbols.
+-
+-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+-
+----
+- src/mklibs | 28 ++++++++++++++++++++++++----
+- 1 file changed, 24 insertions(+), 4 deletions(-)
+-
+-diff --git a/src/mklibs b/src/mklibs
+-index a3533c0..66b7a09 100755
+---- a/src/mklibs
+-+++ b/src/mklibs
+-@@ -133,9 +133,9 @@ class Symbol(object):
+-         return '@'.join(ret)
+- 
+- class UndefinedSymbol(Symbol):
+--    def __init__(self, name, weak, version, library):
+-+    def __init__(self, name, weak, version, library, object):
+-         super(UndefinedSymbol, self).__init__(name, version, library)
+--        self.weak, self.library = weak, library
+-+        self.weak, self.library, self.object = weak, library, object
+- 
+- def symbol_is_blacklisted(name):
+-     # The ARM Embedded ABI spec states symbols under this namespace as
+-@@ -152,6 +152,11 @@ def undefined_symbols(obj):
+- 
+-     output = command("mklibs-readelf", "--print-symbols-undefined", obj)
+- 
+-+    if len(obj) > len(dest_path) and obj[:len(dest_path)] == dest_path:
+-+        object = obj[len(dest_path) + 1:-len('-so-stripped')]
+-+    else:
+-+        object = obj
+-+
+-     result = []
+-     for line in output:
+-         name, weak_string, version_string, library_string = line.split()[:4]
+-@@ -171,7 +176,7 @@ def undefined_symbols(obj):
+-         if library_string.lower() != 'none':
+-             library = library_string
+- 
+--        result.append(UndefinedSymbol(name, weak, version, library))
+-+        result.append(UndefinedSymbol(name, weak, version, library, object))
+- 
+-     return result
+- 
+-@@ -498,12 +503,13 @@ while 1:
+-                      and re.search("^ps_", str(symbol)))
+-                 and not (re.search("ld-linux.so.3$", str(symbol)))
+-                 and not (re.search("^__gnu_local_gp", str(symbol)))):
+--                debug(DEBUG_SPAM, "needed_symbols adding %s, weak: %s" % (symbol, symbol.weak))
+-+                debug(DEBUG_SPAM, "needed_symbols adding %s, weak: %s, for %s" % (symbol, symbol.weak, obj))
+-                 needed_symbols[str(symbol)] = symbol
+-         libraries.update(library_depends(obj))
+- 
+-     # calculate what symbols are present in small_libs and available_libs
+-     present_symbols = {}
+-+    present_symbol_progs = {}
+-     checked_libs = small_libs
+-     checked_libs.extend(available_libs)
+-     checked_libs.append(sysroot + ldlib)
+-@@ -513,6 +519,12 @@ while 1:
+-             names = symbol.base_names()
+-             for name in names:
+-                 present_symbols[name] = symbol
+-+            if not so_pattern.match(lib):
+-+                debug(DEBUG_SPAM, "present_symbol_progs adding %s, from executable %s" % (' '.join(names), lib))
+-+                for name in names:
+-+                    progs = present_symbol_progs.get(name, set())
+-+                    progs.add(lib)
+-+                    present_symbol_progs[name] = progs
+- 
+-     # are we finished?
+-     num_unresolved = 0
+-@@ -568,6 +580,14 @@ while 1:
+-     for name in needed_symbols:
+-         if not name in symbol_provider:
+-             if not needed_symbols[name].weak:
+-+                # WORKAROUND: Undefined symbols in a library can be provided by the application
+-+                # that links to the library. So if the object which requires the symbol is a library
+-+                # and some application can provide the symbol, the undefined symbol is skipped.
+-+                symbol = needed_symbols[name]
+-+                if so_pattern.match(symbol.object) and present_symbol_progs.get(name, None):
+-+                    debug(DEBUG_SPAM, "symbol %s in library %s is provided by executable %s" \
+-+                          % (name, symbol.object, ' '.join(present_symbol_progs[name])))
+-+                    continue
+-                 raise Exception("No library provides non-weak %s" % name)
+-         else:
+-             lib = symbol_provider[name]
+--- 
+-2.16.1
+-
+diff --git a/meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch b/meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch
+deleted file mode 100644
+index d27a48916d..0000000000
+--- a/meta/recipes-devtools/mklibs/files/fix_STT_GNU_IFUNC.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-The libc6-dev in Ubuntu 9.04 is so old that the elf.h doesn't
+-define STT_GNU_IFUNC, so we have to define it ourselves.
+-
+-Upstream-Status: Inappropriate [other] - old release specific, maybe removable
+-
+--- Dexuan Cui (dexuan.cui@intel.com) Feb 16, 2011.
+-
+-diff --git a/src/mklibs-readelf/main.cpp b/src/mklibs-readelf/main.cpp
+-index 2444c39..56d93f8 100644
+---- a/src/mklibs-readelf/main.cpp
+-+++ b/src/mklibs-readelf/main.cpp
+-@@ -6,6 +6,14 @@
+- #include <vector>
+- 
+- #include <elf.h>
+-+/*
+-+ * The /usr/include/elf.h in some distributions(like Ubuntu 9.04) doesn't
+-+ * define the macro. We need to define it here.
+-+ */
+-+#ifndef STT_GNU_IFUNC
+-+#define STT_GNU_IFUNC   10              /* Symbol is indirect code object */
+-+#endif
+-+
+- #include <getopt.h>
+- 
+- #include "elf.hpp"
+diff --git a/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch b/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
+deleted file mode 100644
+index 13e4606b80..0000000000
+--- a/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-Remove dependency on dpkg
+-
+-Upstream-Status: Submitted
+-
+-Asking the host OS whether it supports multiarch is not useful
+-in a cross-compilation environment, or if the user has specified
+-a libdir explicitly. So this patch, based on the work of Mentor
+-Graphics, removes mklibs's dependency on dpkg package.
+-
+-Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+- src/mklibs | 30 +++++++++++++++++++-----------
+- 1 file changed, 19 insertions(+), 11 deletions(-)
+-
+-diff --git a/src/mklibs b/src/mklibs
+-index d9b784b..c5614ea 100755
+---- a/src/mklibs
+-+++ b/src/mklibs
+-@@ -261,6 +261,11 @@ def extract_soname(so_file):
+-     return ""
+- 
+- def multiarch(paths):
+-+    # Asking the host OS whether it supports multiarch is not useful
+-+    # in a cross-compilation environment, or if the user has specified
+-+    # a libdir explicitly.
+-+    if sysroot != "" or libdir != "":
+-+        return paths
+-     devnull = open('/dev/null', 'w')
+-     dpkg_architecture = subprocess.Popen(
+-         ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
+-@@ -340,7 +345,7 @@ lib_path = []
+- dest_path = "DEST"
+- ldlib = "LDLIB"
+- include_default_lib_path = "yes"
+--default_lib_path = multiarch(["/lib/", "/usr/lib/", "/usr/X11R6/lib/"])
+-+default_lib_path = ["/lib/", "/usr/lib/", "/usr/X11R6/lib/"]
+- libc_extras_dir = "/usr/lib/libc_pic"
+- libc_extras_dir_default = True
+- libdir = "lib"
+-@@ -386,7 +391,7 @@ for opt, arg in optlist:
+-     elif opt == "--libdir":
+-         libdir = arg
+-     elif opt in ("--help", "-h"):
+--	usage(0)
+-+        usage(0)
+-         sys.exit(0)
+-     elif opt in ("--version", "-V"):
+-         version(vers)
+-@@ -395,6 +400,7 @@ for opt, arg in optlist:
+-         print "WARNING: unknown option: " + opt + "\targ: " + arg
+- 
+- if include_default_lib_path == "yes":
+-+    default_lib_path = multiarch(default_lib_path)
+-     lib_path.extend([a.replace("/lib/", "/" + libdir + "/") for a in default_lib_path])
+- 
+- if libc_extras_dir_default:
+-@@ -661,16 +669,16 @@ ld_path_name = os.path.dirname(ldlib)
+- ld_full_path = "../" + ldlib
+- ld_file = find_lib(ld_file_name)
+- 
+--if ld_path_name != "/lib":
+--    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
+--        os.remove(dest_path + "/" + ld_file_name)
+-+#if ld_path_name != "/lib":
+-+#    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
+-+#        os.remove(dest_path + "/" + ld_file_name)
+- 
+--if not os.path.exists(dest_path + "/../" + ld_path_name):
+--    os.mkdir(dest_path + "/../" + ld_path_name)
+-+#if not os.path.exists(dest_path + "/../" + ld_path_name):
+-+#    os.mkdir(dest_path + "/../" + ld_path_name)
+- 
+--if not os.access(dest_path + "/" + ld_full_path, os.F_OK):
+--    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " + ld_full_path)
+-+if not os.access(dest_path + "/" + ld_file_name, os.F_OK):
+-+    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " + ld_file_name)
+-     command(target + "objcopy", "--strip-unneeded -R .note -R .comment",
+--            ld_file, dest_path + "/" + ld_full_path)
+-+            ld_file, dest_path + "/" + ld_file_name)
+- 
+--os.chmod(dest_path + "/" + ld_full_path, 0755)
+-+os.chmod(dest_path + "/" + ld_file_name, 0755)
+diff --git a/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch b/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
+deleted file mode 100644
+index bc56593e6a..0000000000
+--- a/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From eddf04c7f8312e9c29cdb24e431b7e4fb2cc70ed Mon Sep 17 00:00:00 2001
+-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+-Date: Wed, 15 Apr 2015 14:00:06 +0800
+-Subject: [PATCH] Show GNU unique symbols as provided symbols
+-
+-Upstream-Status: Submitted
+-
+-GNU Unique symbol is a GNU extension employed by new version of GCC
+-by default. Even Standard C++ library in GCC 4.9 provides some symbols,
+-such as _ZNSs4_Rep20_S_empty_rep_storageE in this binding type instead
+-of ELF standard weak binding.
+-This patch adds support of this new binding type to mklibs-readelf.
+-
+-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+----
+- src/mklibs-readelf/main.cpp | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/mklibs-readelf/main.cpp b/src/mklibs-readelf/main.cpp
+-index 56d93f8..0134530 100644
+---- a/src/mklibs-readelf/main.cpp
+-+++ b/src/mklibs-readelf/main.cpp
+-@@ -88,7 +88,7 @@ static void process_symbols_provided (const Elf::section_type<Elf::section_type_
+-     uint8_t type = symbol->get_type ();
+-     const std::string &name = symbol->get_name_string ();
+- 
+--    if (bind != STB_GLOBAL && bind != STB_WEAK)
+-+    if (bind != STB_GLOBAL && bind != STB_WEAK && bind != STB_GNU_UNIQUE)
+-       continue;
+-     if (shndx == SHN_UNDEF || shndx == SHN_ABS)
+-       continue;
+--- 
+-1.8.5.2.233.g932f7e4
+-
+diff --git a/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch b/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
+deleted file mode 100644
+index 75500a029a..0000000000
+--- a/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-In cross builds we will have to respect sysroot
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-Index: mklibs-0.1.39/src/mklibs
+-===================================================================
+---- mklibs-0.1.39.orig/src/mklibs	2014-03-01 18:25:36.000000000 +0000
+-+++ mklibs-0.1.39/src/mklibs	2014-10-19 00:51:46.813534596 +0000
+-@@ -495,7 +495,7 @@
+-     present_symbols = {}
+-     checked_libs = small_libs
+-     checked_libs.extend(available_libs)
+--    checked_libs.append(ldlib)
+-+    checked_libs.append(sysroot + ldlib)
+-     for lib in checked_libs:
+-         for symbol in provided_symbols(lib):
+-             debug(DEBUG_SPAM, "present_symbols adding %s" % symbol)
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+deleted file mode 100644
+index 1784af1f4c..0000000000
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
++++ /dev/null
+@@ -1,22 +0,0 @@
+-SUMMARY = "Shared library optimisation tool"
+-DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
+-HOMEPAGE = "https://launchpad.net/mklibs"
+-SECTION = "devel"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+-
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/m/mklibs/mklibs_${PV}.tar.xz \
+-	file://ac_init_fix.patch\
+-	file://fix_STT_GNU_IFUNC.patch\
+-	file://sysrooted-ldso.patch \
+-	file://avoid-failure-on-symbol-provided-by-application.patch \
+-	file://show-GNU-unique-symbols-as-provided-symbols.patch \
+-	file://fix_cross_compile.patch \
+-"
+-
+-SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
+-SRC_URI[sha256sum] = "3af0b6bd35e5b6fc58d8b68827fbae2ff6b7e20dd2b238ccb9b49d84722066c2"
+-
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/mklibs/"
+-
+-inherit autotools gettext native
