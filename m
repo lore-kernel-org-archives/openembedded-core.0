@@ -1,62 +1,95 @@
-Received: from mail.digitalendoscopy.de (mail.digitalendoscopy.de [128.65.149.218])
- by mx.groups.io with SMTP id smtpd.web12.547.1621357958768030383
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.29.1621359049681033533
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 May 2021 10:12:39 -0700
+ Tue, 18 May 2021 10:30:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: digitalendoscopy.de, ip: 128.65.149.218, mailfrom: v.vogelhuber@digitalendoscopy.de)
-Received: from [192.168.20.14] (port=59618 helo=srv-msx01.digitendos.de)
-	by mail.digitalendoscopy.de with esmtps (TLSv1.2:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX)
-	(envelope-from <v.vogelhuber@digitalendoscopy.de>)
-	id 1lj3Gj-0007HZ-0I
-	for openembedded-core@lists.openembedded.org; Tue, 18 May 2021 19:12:33 +0200
-Received: from DE133.digitendos.de (10.242.2.15) by srv-msx01.digitendos.de
- (192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 18 May
- 2021 19:12:32 +0200
-X-CTCH-RefID: str=0001.0A782F21.60A3F581.001A,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-From: "Volker Vogelhuber" <v.vogelhuber@digitalendoscopy.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
-Subject: [[dunfell][meta][PATCH]] Make busybox's syslog.cfg depend on VIRTUAL-RUNTIME_base-utils-syslog
-Date: Tue, 18 May 2021 19:12:19 +0200
-Message-ID: <20210518171219.210704-1-v.vogelhuber@digitalendoscopy.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VfRZ7H33;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id m11so15268348lfg.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 May 2021 10:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ea0RkAzxYYh6n8xeTVEMjFxdX67tPOQiuENTxVBFq4w=;
+        b=VfRZ7H33zPcaGRV+s14KEkMym+o3h1h2HaLEyalbHl2ZQbdPBFnQbJwoBeeZYFIADN
+         3ZLH7RQB1Yk2MlzegSfd92aNYn8aKduP+1DItSQuXz2PcK66iIP/p2epkqa4S4xkPkmG
+         /w16oMSk7PnVt8P/9PssvuCBDFVBZBh+actdDtpG1q7BUeT+HeD0bWCqlbgsq2LrLB5u
+         vtFbPpWLF8UXicGJff1LSRw3i8JfRH+unUq06TWDDbEt5+VYRsslpisiuBw+I9R5lzFS
+         pIDuWfcDkNPPhpUdO8eo0eq+3X7chxQyD+LiiHYzL/J4vFhABhpPdu/WmWf60w8L2tSM
+         lBEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ea0RkAzxYYh6n8xeTVEMjFxdX67tPOQiuENTxVBFq4w=;
+        b=FbBw2hmY8psoZixFr9oO0OCAPbTcS3V4x3U7LkfRtXdj3VPL9imXedc1noAncnHuim
+         502WRxNIk0AisLzUT0pj95bwty71E432IjL8qx3zDE12SUPh/BMj0oXHGIuxpkOgSFTU
+         NL7SYS2QX2jgJ5dfbpz8nop1PL/HJ4PRtvDRjmG0mDUa0Fv3SKDCH/qvymc2JS/uYXMx
+         rNjL5ya0CXck6MxWp3EE46BklaT7zxjTt3v3ZX7QT01vAtGIMAWR68ab7scVO24Zo/0f
+         v7lOF9MzfaGHB5M5EcRK1t1/XeCqi1nnbiXTddTeEZjpUXjDtjh7Oqq/B6E/hd2+MCud
+         +eAA==
+X-Gm-Message-State: AOAM533p/gOjIdlz0Yc9aFn15bHSvVQ2LVh5ZV/5zrJeLKqBxX/83GaF
+	LQ4Bi4DuH6tjQqk9smCW2NdsYBp+HCRCawS5sC0=
+X-Google-Smtp-Source: ABdhPJyVjxcH/JgpDHvqi7Ewc+8L0cpHtPrXeSaLGqgmGLgu7FGtwmE2px7cc7kQooRz5aO+RjKdqI9nQfiMTaHEM3M=
+X-Received: by 2002:ac2:528d:: with SMTP id q13mr5175777lfm.73.1621359047831;
+ Tue, 18 May 2021 10:30:47 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: v.vogelhuber@digitalendoscopy.de
-X-Originating-IP: [10.242.2.15]
-X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
- srv-msx01.digitendos.de (192.168.20.14)
-X-TM-AS-Product-Ver: SMEX-11.7.0.1065-8.600.1012-26164.006
-X-TM-AS-Result: No-2.530900-0.000000-31
-X-TM-AS-User-Approved-Sender: Yes
-X-TM-AS-User-Blocked-Sender: No
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <6d91cd1-9948-23e-1d73-e3eb2b73adbc@crashcourse.ca>
+In-Reply-To: <6d91cd1-9948-23e-1d73-e3eb2b73adbc@crashcourse.ca>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Tue, 18 May 2021 10:30:36 -0700
+Message-ID: <CAJ86T=X0PPWp=rwiOsvJFuNoiBRxFS-of1jXxxfT6DD21E8AMw@mail.gmail.com>
+Subject: Re: [OE-core] how to create debugfs while ruthlessly stripping image contents?
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-syslog.cfg is added to the list of sources for busybox
-independent of the VIRTUAL-RUNTIME_base-utils-syslog variable. So even
-if VIRTUAL-RUNTIME_base-utils-syslog being set e.g. to empty, syslogd will
-be enabled. So only include syslog.cfg in SRC_URI if
-VIRTUAL-RUNTIME_base-utils-syslog is set to busybox-syslog.
+On Tue, May 18, 2021 at 10:00 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>   muh colleague just presented me with the following ... until
+> recently, build was properly producing bootable image while
+> simultaneously creating companion debugfs. so far, so good.
+>
+>   then enough packages were added so that image didn't fit in target
+> eMMC, so decision was made to strip bins and libs in ${D} image/
+> directory via sneaking the following into do_install_append():
+>
+>   ${STRIP} -p --strip-unneeded ${D}${bindir}/*
+>   ${STRIP} -p --strip-unneeded ${D}${libdir}/*
 
-Signed-off-by: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
----
- meta/recipes-core/busybox/busybox_1.31.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Did that actually help with the image size?
 
-diff --git a/meta/recipes-core/busybox/busybox_1.31.1.bb b/meta/recipes-core/busybox/busybox_1.31.1.bb
-index 7563368..93a1613 100644
---- a/meta/recipes-core/busybox/busybox_1.31.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.31.1.bb
-@@ -34,7 +34,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://resize.cfg \
-            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
-            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
--           file://syslog.cfg \
-+           ${@["", "file://syslog.cfg"][(d.getVar('VIRTUAL-RUNTIME_base-utils-syslog') == 'busybox-syslog')]} \
-            file://unicode.cfg \
-            file://rcS \
-            file://rcK \
--- 
-2.25.1
+> as soon as this kicked in, the complaint was that numerous objects
+> were now missing from the debugfs, and i *suspect* (working to
+> confirm) that, having stripped all those binaries and libraries before
+> the packaging step kicks in, a lot of stuff that would have ended up
+> in the debugfs is now bypassed since it lacks the appropriate
+> debugging info anymore.
 
+Yes, if you remove debug symbols before packaging then they won't be
+available to put in the -dbg packages.
+
+>   i'm looking at the various variables to see what would support:
+>
+>   1) stripping image-bound bins and libs, while
+>   2) retaining debugging info to build debugfs
+
+Isn't that what happens by default?
+
+> a stack overflow page suggests something like:
+>
+>   INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+>   INHIBIT_PACKAGE_STRIP = "1"
+>   DEBUG_BUILD = "1"
+>   EXTRA_IMAGE_FEATURES_append = " dbg-pkgs"
+
+This came up on the list a few months ago. Enabling every possible
+option somehow related to debug as advised by stack overflow probably
+isn't the best approach. You need to decide if you want to have
+unstripped binaries in the image (in which case there's no need to
+install separate -dbg packages in the image too), if you want stripped
+binaries and -dbg packages in the image (in which case there's no
+point trying to disable splitting of debug symbols during packaging)
+or if you want debug symbols in a separate image / tar file (in which
+case you don't need to change packaging or the contents of the main
+image at all).
