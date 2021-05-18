@@ -1,65 +1,62 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web08.437.1621357224858625390
+Received: from mail.digitalendoscopy.de (mail.digitalendoscopy.de [128.65.149.218])
+ by mx.groups.io with SMTP id smtpd.web12.547.1621357958768030383
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 May 2021 10:00:25 -0700
+ Tue, 18 May 2021 10:12:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:41968 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lj34y-0004ug-V9
-	for openembedded-core@lists.openembedded.org; Tue, 18 May 2021 13:00:23 -0400
-Date: Tue, 18 May 2021 13:00:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: how to create debugfs while ruthlessly stripping image contents?
-Message-ID: <6d91cd1-9948-23e-1d73-e3eb2b73adbc@crashcourse.ca>
+ dkim=missing; spf=pass (domain: digitalendoscopy.de, ip: 128.65.149.218, mailfrom: v.vogelhuber@digitalendoscopy.de)
+Received: from [192.168.20.14] (port=59618 helo=srv-msx01.digitendos.de)
+	by mail.digitalendoscopy.de with esmtps (TLSv1.2:AES256-SHA:256)
+	(Exim 4.82_1-5b7a7c0-XX)
+	(envelope-from <v.vogelhuber@digitalendoscopy.de>)
+	id 1lj3Gj-0007HZ-0I
+	for openembedded-core@lists.openembedded.org; Tue, 18 May 2021 19:12:33 +0200
+Received: from DE133.digitendos.de (10.242.2.15) by srv-msx01.digitendos.de
+ (192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 18 May
+ 2021 19:12:32 +0200
+X-CTCH-RefID: str=0001.0A782F21.60A3F581.001A,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+From: "Volker Vogelhuber" <v.vogelhuber@digitalendoscopy.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+Subject: [[dunfell][meta][PATCH]] Make busybox's syslog.cfg depend on VIRTUAL-RUNTIME_base-utils-syslog
+Date: Tue, 18 May 2021 19:12:19 +0200
+Message-ID: <20210518171219.210704-1-v.vogelhuber@digitalendoscopy.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Return-Path: v.vogelhuber@digitalendoscopy.de
+X-Originating-IP: [10.242.2.15]
+X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
+ srv-msx01.digitendos.de (192.168.20.14)
+X-TM-AS-Product-Ver: SMEX-11.7.0.1065-8.600.1012-26164.006
+X-TM-AS-Result: No-2.530900-0.000000-31
+X-TM-AS-User-Approved-Sender: Yes
+X-TM-AS-User-Blocked-Sender: No
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+syslog.cfg is added to the list of sources for busybox
+independent of the VIRTUAL-RUNTIME_base-utils-syslog variable. So even
+if VIRTUAL-RUNTIME_base-utils-syslog being set e.g. to empty, syslogd will
+be enabled. So only include syslog.cfg in SRC_URI if
+VIRTUAL-RUNTIME_base-utils-syslog is set to busybox-syslog.
 
-  muh colleague just presented me with the following ... until
-recently, build was properly producing bootable image while
-simultaneously creating companion debugfs. so far, so good.
+Signed-off-by: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+---
+ meta/recipes-core/busybox/busybox_1.31.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  then enough packages were added so that image didn't fit in target
-eMMC, so decision was made to strip bins and libs in ${D} image/
-directory via sneaking the following into do_install_append():
+diff --git a/meta/recipes-core/busybox/busybox_1.31.1.bb b/meta/recipes-core/busybox/busybox_1.31.1.bb
+index 7563368..93a1613 100644
+--- a/meta/recipes-core/busybox/busybox_1.31.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.31.1.bb
+@@ -34,7 +34,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://resize.cfg \
+            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
+            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
+-           file://syslog.cfg \
++           ${@["", "file://syslog.cfg"][(d.getVar('VIRTUAL-RUNTIME_base-utils-syslog') == 'busybox-syslog')]} \
+            file://unicode.cfg \
+            file://rcS \
+            file://rcK \
+-- 
+2.25.1
 
-  ${STRIP} -p --strip-unneeded ${D}${bindir}/*
-  ${STRIP} -p --strip-unneeded ${D}${libdir}/*
-
-as soon as this kicked in, the complaint was that numerous objects
-were now missing from the debugfs, and i *suspect* (working to
-confirm) that, having stripped all those binaries and libraries before
-the packaging step kicks in, a lot of stuff that would have ended up
-in the debugfs is now bypassed since it lacks the appropriate
-debugging info anymore.
-
-  i'm looking at the various variables to see what would support:
-
-  1) stripping image-bound bins and libs, while
-  2) retaining debugging info to build debugfs
-
-a stack overflow page suggests something like:
-
-  INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-  INHIBIT_PACKAGE_STRIP = "1"
-  DEBUG_BUILD = "1"
-  EXTRA_IMAGE_FEATURES_append = " dbg-pkgs"
-
-but i'm open to what to set to get the desired effect.
-
-rday
