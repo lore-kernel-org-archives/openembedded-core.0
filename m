@@ -1,207 +1,150 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
- by mx.groups.io with SMTP id smtpd.web09.6141.1621330110283410557
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+ by mx.groups.io with SMTP id smtpd.web09.6221.1621330839154198172
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 May 2021 02:28:30 -0700
+ Tue, 18 May 2021 02:40:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=M3ZZKpf9;
- spf=pass (domain: gmail.com, ip: 209.85.221.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f174.google.com with SMTP id 15so1693005vkn.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 May 2021 02:28:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nlO+3+D5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f182.google.com with SMTP id n74so1929170vkc.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 May 2021 02:40:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mZkEvjnbvxCm1JuomVuh88A/w5OApQ5TI2StUyPvr/U=;
-        b=M3ZZKpf9lx5JvIhazyF/a+GdVz9pB1x3FHdiuODa+9yGCtnCt8eAiyBR38cEM19skY
-         9NqlcoPMYY2CG+KPsl8Dbp+R//OGej0pfCi5TR0iP1lCw87UHaErPDUctRgQjPchxsKY
-         t4vgQk1DUnfW1U8540cT0luEQnY7Nbd7e9w69/vQY6hDkk3Q8fZJZCIyuW82yldx3AEn
-         6rPepGOWK/DKdVSawrykGtczvm8z5SEkfcqnY+kgt78q4xK7Gj9U6/fKakMmndulJPTf
-         5LF04MqLWFaMSjsVYOaP0KVuECEQrQ8WoVeIGGSWj1wWguOyfbVY/xV1C8zvVxfYYzRx
-         1CPQ==
+        bh=a7GqXq/4eDI+3FPGfzPIPZJHFpPsXYCPt5JYFdkJcQo=;
+        b=nlO+3+D5pztgsO3D94xn/n2gtedXsf/ds58bZa11Z72a96ox71bpKL3o38rdTw4ON2
+         qbZ9l6qtVxnYrySPJYn3U44pt+j0kgytDX5U06c1EG9jzY1A7AlcWMPNXDIw4yC7uXSH
+         7RAdT6+LWT8ybKTaAfx8wvs2x6cYjwHIDoT9hQzo43+iWzTpFeiBRf1YRDWEiCgFrbz7
+         /qX9nWYzjydMPEaxcl9W9lLu7/EvHXQpmdELbuVxGrAibBYsB0YE31P9ebhYjNzpj2eR
+         xCMDs71veeSs/PzG5j99YxJ0A8Vt5gPvwaMyWu8480wZIxLP76UqFukTg9XKf66M5AA8
+         Xs7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mZkEvjnbvxCm1JuomVuh88A/w5OApQ5TI2StUyPvr/U=;
-        b=s9km+1LkkazNXXOSNwo2BwormDcm/nDb/+xfMH1QkSDqa9rm2wrhKsLMEzFcBnc1RJ
-         4ii8houwxpJ7wKydlseXYWWodi/A3LaPPUOOl5pFZaM1vas1PMBaawWrS+Fk1kSniFUv
-         6QpYiD2k4HfAFZyj6naS5XTyUkLL5BQ9n/blDK2AgyQAs/XGKOme2d/C6HaUoAGk5KNB
-         5YsJUnEV2pHLe2mzUNI6fm3FnyKJgi/Al1tDPJY6/qt8lU6j7UWB1lmUOGHkYoROsLpx
-         wkaJ2m1EKSntzT8F59oVif54/mlHHjoZeGWes/Uyoo9IVdykd88wzg3Tsu+QrozJWG5t
-         gT/A==
-X-Gm-Message-State: AOAM532AHqOMxOcP/pMosW38QgiOyYB4dyEQRlKkbDO2X+qepVhc9w5K
-	zIS9gaZEj0sFn/dPi3+da1KK838J9MdJDKEUEvg=
-X-Google-Smtp-Source: ABdhPJz5y/zMVIGT5mrG4+Eu6kG5/9BYmkbWeDcDh89mh70S+HZjFwLPPnScZxkXT1j4GmxJZZpIxkUPkz7j9gtH3vw=
-X-Received: by 2002:a1f:9d46:: with SMTP id g67mr4845338vke.10.1621330109420;
- Tue, 18 May 2021 02:28:29 -0700 (PDT)
+        bh=a7GqXq/4eDI+3FPGfzPIPZJHFpPsXYCPt5JYFdkJcQo=;
+        b=e34Lfeo5R6guLetWz0bvcooWTHas2M5g+3Sxvw8M+6gEilgO7lSanukIfVDu/dEHBd
+         4grOARidX3emMXCMfmb4ze0HmLdddhC02rrNmNwyT/2Mn3mJtQgLQ4rVuDh0clOOtJbu
+         jXyyA2IO7ohXRKJooDXVip58IyZajXXXMJvHtYPjJPvN9GwS8YMaTLUcvnZo7bl9GQd4
+         ee4WLFiN7TiHoMF3E7D5Bz8zsfoX6yS1aSthNHtRY8duKfPMIsgunJm5bwqP0SNOzYtR
+         aD/18fUxIqJ+pLUrzibVkdsEM9Ojsmw2W4k9v/Wx5WoQtWHFBYUA412T7NrWfdaDTjSf
+         a8RA==
+X-Gm-Message-State: AOAM531R9MvHEb83EwHq4ToLoix/RL7XQsaRNeVSQsRMKUvYb4osK1SG
+	hNUGe5fjzBM/hw3Ji8586D18kkE3EpG3TbDdivI=
+X-Google-Smtp-Source: ABdhPJw659zJ9zxNzWBCzbjXpxKdfBnWjTywpFSB20igzx6ht0F1M625vkcGkvwcTVCZC2YJUrQlHpFirzrufVergFs=
+X-Received: by 2002:a1f:9d46:: with SMTP id g67mr4859849vke.10.1621330838410;
+ Tue, 18 May 2021 02:40:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210517170104.2605486-1-jacob.kroon@gmail.com>
- <51470f7e-9267-950e-5c1c-47cc863360a1@gmail.com> <197aa141-4879-ca63-7e6e-1506df47b5c0@gmail.com>
-In-Reply-To: <197aa141-4879-ca63-7e6e-1506df47b5c0@gmail.com>
+References: <1621302185-15385-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1621302185-15385-1-git-send-email-wangmy@fujitsu.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 18 May 2021 11:28:18 +0200
-Message-ID: <CANNYZj_KP6q_KOk+rOG_5CLZb3=vc_9U=Kzka4vKT3hGu+_-NQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mklibs-native: Fix build with gcc 11
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003c56fd05c297550b"
+Date: Tue, 18 May 2021 11:40:27 +0200
+Message-ID: <CANNYZj_3u5AWuKB_fFS+-=iWUNn6ZTYZwt-BwexTD10dYbgvDA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] elfutils: upgrade 0.183 -> 0.184
+To: wangmy <wangmy@fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000afdaf505c29780a2"
 
---0000000000003c56fd05c297550b
+--000000000000afdaf505c29780a2
 Content-Type: text/plain; charset="UTF-8"
 
-Don't bother, it looks abandoned:
-https://salsa.debian.org/installer-team/mklibs
+On Tue, 18 May 2021 at 03:43, wangmy <wangmy@fujitsu.com> wrote:
+
+> -@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+> -       if (interval_file == NULL)
+> -         return -errno;
+> -
+> --      int rc = fprintf(interval_file, "%ld",
+> cache_clean_default_interval_s);
+> -+      int rc = fprintf(interval_file, "%jd",
+> (intmax_t)cache_clean_default_interval_s);
+> -       fclose(interval_file);
+> -
+> -       if (rc < 0)
+> -@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+> -   interval_file = fopen(interval_path, "r");
+> -   if (interval_file)
+> -     {
+> --      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
+> -+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) !=
+> 1)
+> -         clean_interval = cache_clean_default_interval_s;
+> -       fclose(interval_file);
+> -     }
+> -@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+> -   max_unused_file = fopen(max_unused_path, "r");
+> -   if (max_unused_file)
+> -     {
+> --      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
+> -+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age))
+> != 1)
+> -         max_unused_age = cache_default_max_unused_age_s;
+> -       fclose(max_unused_file);
+> -     }
+>
+
+I think this cannot be removed, it needs to be rebased (e.g. using 'devtool
+upgrade') - the problem is still there, it just moved to different
+functions:
+https://sourceware.org/git/?p=elfutils.git;a=blob;f=debuginfod/debuginfod-client.c;h=ee7eda24df9f672eb291663cc35fb4b945ad70f5;hb=HEAD#l217
+
+Can you try a x32 build to check please?
 
 Alex
 
-On Tue, 18 May 2021 at 11:19, Jacob Kroon <jacob.kroon@gmail.com> wrote:
-
-> On 5/18/21 12:20 AM, Khem Raj wrote:
-> >
-> >
-> > On 5/17/21 10:01 AM, Jacob Kroon wrote:
-> >> In gcc 11 the default mode for C++ is now -std=gnu++17 instead of
-> >> -std=gnu++14,
-> >> in which support for dynamic exception specifications has been removed.
-> >>
-> >> See
-> http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
-> >>
-> >> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> >> ---
-> >>   .../no-dynamic-exception-specifications.patch | 420 ++++++++++++++++++
-> >>   .../mklibs/mklibs-native_0.1.44.bb            |   1 +
-> >>   2 files changed, 421 insertions(+)
-> >>   create mode 100644
-> >>
-> meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
->
-> >>
-> >>
-> >> diff --git
-> >>
-> a/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
->
-> >>
-> b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
->
-> >>
-> >> new file mode 100644
-> >> index 0000000000..5989a67c4f
-> >> --- /dev/null
-> >> +++
-> >>
-> b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifications.patch
->
-> >>
-> >> @@ -0,0 +1,420 @@
-> >> +In gcc 11 the default mode for C++ is now -std=gnu++17 instead of
-> >> -std=gnu++14,
-> >> +in which support for dynamic exception specifications has been removed.
-> >> +
-> >> +See
-> http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
-> >> +
-> >> +Upstream-Status: Pending
-> >> +
-> >
-> > the patch could be submitted upstream. Please try to do so
-> >
->
-> I tried to find a mailing list or maintainer I could post the patch to,
-> but I'm not able to. Does anyone know who I should contact ?
->
-> Given that it sounds more likely that we'll remove mklibs, I'll try to
-> forward the patch to the project, but not promising anything.
->
-> /Jacob
->
-> 
->
->
-
---0000000000003c56fd05c297550b
+--000000000000afdaf505c29780a2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Don&#39;t bother, it looks abandoned:</div><div><a hr=
-ef=3D"https://salsa.debian.org/installer-team/mklibs">https://salsa.debian.=
-org/installer-team/mklibs</a></div><div><br></div><div>Alex<br></div></div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue=
-, 18 May 2021 at 11:19, Jacob Kroon &lt;<a href=3D"mailto:jacob.kroon@gmail=
-.com">jacob.kroon@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">On 5/18/21 12:20 AM, Khem Raj wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On 5/17/21 10:01 AM, Jacob Kroon wrote:<br>
-&gt;&gt; In gcc 11 the default mode for C++ is now -std=3Dgnu++17 instead =
-of <br>
-&gt;&gt; -std=3Dgnu++14,<br>
-&gt;&gt; in which support for dynamic exception specifications has been re=
-moved.<br>
-&gt;&gt;<br>
-&gt;&gt; See <a href=3D"http://www.open-std.org/jtc1/sc22/wg21/docs/papers=
-/2016/p0003r5.html" rel=3D"noreferrer" target=3D"_blank">http://www.open-st=
-d.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html</a><br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Jacob Kroon &lt;<a href=3D"mailto:jacob.kroon@gmai=
-l.com" target=3D"_blank">jacob.kroon@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =C2=A0 .../no-dynamic-exception-specifications.patch | 420 ++++++=
-++++++++++++<br>
-&gt;&gt; =C2=A0 .../mklibs/<a href=3D"http://mklibs-native_0.1.44.bb" rel=
-=3D"noreferrer" target=3D"_blank">mklibs-native_0.1.44.bb</a>=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +<b=
-r>
-&gt;&gt; =C2=A0 2 files changed, 421 insertions(+)<br>
-&gt;&gt; =C2=A0 create mode 100644 <br>
-&gt;&gt; meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifica=
-tions.patch <br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git <br>
-&gt;&gt; a/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifi=
-cations.patch <br>
-&gt;&gt; b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifi=
-cations.patch <br>
-&gt;&gt;<br>
-&gt;&gt; new file mode 100644<br>
-&gt;&gt; index 0000000000..5989a67c4f<br>
-&gt;&gt; --- /dev/null<br>
-&gt;&gt; +++ <br>
-&gt;&gt; b/meta/recipes-devtools/mklibs/files/no-dynamic-exception-specifi=
-cations.patch <br>
-&gt;&gt;<br>
-&gt;&gt; @@ -0,0 +1,420 @@<br>
-&gt;&gt; +In gcc 11 the default mode for C++ is now -std=3Dgnu++17 instead=
- of <br>
-&gt;&gt; -std=3Dgnu++14,<br>
-&gt;&gt; +in which support for dynamic exception specifications has been r=
-emoved.<br>
-&gt;&gt; +<br>
-&gt;&gt; +See <a href=3D"http://www.open-std.org/jtc1/sc22/wg21/docs/paper=
-s/2016/p0003r5.html" rel=3D"noreferrer" target=3D"_blank">http://www.open-s=
-td.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html</a><br>
-&gt;&gt; +<br>
-&gt;&gt; +Upstream-Status: Pending<br>
-&gt;&gt; +<br>
-&gt; <br>
-&gt; the patch could be submitted upstream. Please try to do so<br>
-&gt; <br>
-<br>
-I tried to find a mailing list or maintainer I could post the patch to, <b=
-r>
-but I&#39;m not able to. Does anyone know who I should contact ?<br>
-<br>
-Given that it sounds more likely that we&#39;ll remove mklibs, I&#39;ll tr=
-y to <br>
-forward the patch to the project, but not promising anything.<br>
-<br>
-/Jacob<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, 18 May 2021 at 03:43, wangmy &lt;<a href=3D"mailto:wangmy@fu=
+jitsu.com">wangmy@fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">-@@ -263,7 +263,7 @@ debuginfod_clean_cache(de=
+buginfod_client *c,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (interval_file =3D=3D NULL)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -errno;<br>
+- <br>
+--=C2=A0 =C2=A0 =C2=A0 int rc =3D fprintf(interval_file, &quot;%ld&quot;, c=
+ache_clean_default_interval_s);<br>
+-+=C2=A0 =C2=A0 =C2=A0 int rc =3D fprintf(interval_file, &quot;%jd&quot;, (=
+intmax_t)cache_clean_default_interval_s);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0fclose(interval_file);<br>
+- <br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (rc &lt; 0)<br>
+-@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,<br>
+-=C2=A0 =C2=A0interval_file =3D fopen(interval_path, &quot;r&quot;);<br>
+-=C2=A0 =C2=A0if (interval_file)<br>
+-=C2=A0 =C2=A0 =C2=A0{<br>
+--=C2=A0 =C2=A0 =C2=A0 if (fscanf(interval_file, &quot;%ld&quot;, &amp;clea=
+n_interval) !=3D 1)<br>
+-+=C2=A0 =C2=A0 =C2=A0 if (fscanf(interval_file, &quot;%jd&quot;, (intmax_t=
+*)(&amp;clean_interval)) !=3D 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clean_interval =3D cache_clean_default_i=
+nterval_s;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0fclose(interval_file);<br>
+-=C2=A0 =C2=A0 =C2=A0}<br>
+-@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,<br>
+-=C2=A0 =C2=A0max_unused_file =3D fopen(max_unused_path, &quot;r&quot;);<br=
+>
+-=C2=A0 =C2=A0if (max_unused_file)<br>
+-=C2=A0 =C2=A0 =C2=A0{<br>
+--=C2=A0 =C2=A0 =C2=A0 if (fscanf(max_unused_file, &quot;%ld&quot;, &amp;ma=
+x_unused_age) !=3D 1)<br>
+-+=C2=A0 =C2=A0 =C2=A0 if (fscanf(max_unused_file, &quot;%jd&quot;, (intmax=
+_t*)(&amp;max_unused_age)) !=3D 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0max_unused_age =3D cache_default_max_unu=
+sed_age_s;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0fclose(max_unused_file);<br>
+-=C2=A0 =C2=A0 =C2=A0}<br></blockquote><div><br></div><div>I think this can=
+not be removed, it needs to be rebased (e.g. using &#39;devtool upgrade&#39=
+;) - the problem is still there, it just moved to different functions:</div=
+><div><a href=3D"https://sourceware.org/git/?p=3Delfutils.git;a=3Dblob;f=3D=
+debuginfod/debuginfod-client.c;h=3Dee7eda24df9f672eb291663cc35fb4b945ad70f5=
+;hb=3DHEAD#l217">https://sourceware.org/git/?p=3Delfutils.git;a=3Dblob;f=3D=
+debuginfod/debuginfod-client.c;h=3Dee7eda24df9f672eb291663cc35fb4b945ad70f5=
+;hb=3DHEAD#l217</a></div><div><br></div><div>Can you try a x32 build to che=
+ck please?</div><div><br></div><div>Alex<br> </div><div>=C2=A0</div></div><=
+/div>
 
---0000000000003c56fd05c297550b--
+--000000000000afdaf505c29780a2--
