@@ -1,260 +1,275 @@
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.83])
- by mx.groups.io with SMTP id smtpd.web08.2789.1621302226033532319
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web09.2933.1621303139175623409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 May 2021 18:43:47 -0700
+ Mon, 17 May 2021 18:58:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=SPVv59YV;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.83, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1621302214; i=@fujitsu.com;
-	bh=46BNdEWYtcrjcleUjAnGmoLvzbmkZR5Ky4BvmZeiEhA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=SPVv59YVmDA8koOZWCbaHUAJpG0gShzDzOBdZg3a4YAJpN92cG2X1R3BdWb0kjk+4
-	 xj2uUe+crDkOcgtHkCtckJGWQxPfABcld1Fa2JG6qFCON+N6FiwzSoQe54jgnTn0EL
-	 AqgerXDPoARZj9jig+C/vF5ps+DAhcxyOADkTyVNLbix8P9lkUa+VB3jeMxDTU0xt+
-	 MI+D3ipDvneKfDMHTzY2/8QCujA6Z2dJYqExsSekxdSJil71z0E5DPx3oUjBhqnnHi
-	 8EdMCLezV8pn2TpxWhJ1mtXaQGzF7nqUYgnpGwpKMfJYayDxjJzi4FOvzYCBVue3uB
-	 geypIVOIAOMYA==
-Received: from [100.112.199.171] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id 25/7D-55921-5CB13A06; Tue, 18 May 2021 01:43:33 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRWlGSWpSXmKPExsViZ8MxRfeo9OI
-  Egy+L5S3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oxHV/tZC+64VLw7cIi1gfGfVRcjF4eQwCwm
-  idP7v7F3MXICOScYJeacTACx2QTUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7x6wcmEBa4mz0
-  3+zgdgsAqoS27+dYAaxeQWcJFYdu8wIYksIKEhMefgeKi4ocXLmExaIORISB1+8YIaoUZSYfb
-  mZBcKukHh9+BLzBEbeWUhaZiFpWcDItIrRPKkoMz2jJDcxM0fX0MBA19DQSNfQ0kzXzEQvsUo
-  3SS+1VLc8tbhE11AvsbxYr7gyNzknRS8vtWQTIzC0UgqOOOxgvP/6g94hRkkOJiVRXrP7ixKE
-  +JLyUyozEosz4otKc1KLDzHKcHAoSfAWSC1OEBIsSk1PrUjLzAGGOUxagoNHSYR3E0iat7ggM
-  bc4Mx0idYpRl+Pdz8WLmIVY8vLzUqXEeX+CFAmAFGWU5sGNgMXcJUZZKWFeRgYGBiGegtSi3M
-  wSVPlXjOIcjErCvGzACBbiycwrgdv0CugIJqAj/jcuAjmiJBEhJdXA5CygELeNpeWixJvwX73
-  3ulfzpf/Pmtvtm7aSM93iOd99V+1mB3PtEjGOtU5TN4r/j3E3dFrGK3Xa/WzY4756SXXV7xNu
-  rjPeWiV7hv+MAyvLygqrHW0bzz2X3vPPZE71qdUZU3P/xz6tmLzh3wt7vqKKpZ8Z98QerCo3F
-  vhZIHLvXJ4V5wnhZ3/vHV5alimlps2b5nP1X2A6b3CNUMAblT/657dx5jInRh53j8j/c/mZ84
-  rpc813eydu/HVVoOyd2R9T3+ApbafPufY9XTgl/NckuS9nvI9obDK5XLFZP3l1VBl3105lJ+l
-  J77Vfy14ojZ7l4nHC+cCHf22ZTP/tFsVo/E25cydnI1fwVecCJZbijERDLeai4kQAw67krTQD
-  AAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-3.tower-285.messagelabs.com!1621302213!100882!1
-X-Originating-IP: [62.60.8.148]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 4553 invoked from network); 18 May 2021 01:43:33 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-3.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 18 May 2021 01:43:33 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14I1hOgj022980
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 May 2021 02:43:33 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Tue, 18 May 2021 02:43:22 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] elfutils: upgrade 0.183 -> 0.184
-Date: Tue, 18 May 2021 09:43:05 +0800
-Message-ID: <1621302185-15385-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bW+3pQ7j;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id ot16so2734546pjb.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 May 2021 18:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=D2309px9vlRkrOo4iL8LF8QbK2+pa3Uw0kdECQkjdL0=;
+        b=bW+3pQ7j820Mdv1Zwgcbj1KBSipH3UTZhBbmKKkDx+3bOUGkUd9Ena0NsWSwOxWLZF
+         f+EgNE1ZhHKZslxeyM7ChR9TDXT1zNJeYRTeM95ccWxFRAjXLYhwavymTVLanAhGHmfc
+         ju7cO1ZMq+c7BJvgeWL9FsJRNbkYr3tXtITcCuFZs4X/LPLA0bfCNexNEbMsthZrmu/p
+         /nUqo0J4mvUTCzf4S+MDmTEMHg0+ATE3lt//ShxJ/GeViFRKWL6/7hEvH9x4xmKCpvdW
+         Y1e1IDW4n0aIwAoOKbgrUKK8DfLa5HQ22CC1cXy96vnt+8KemdHtxxlwalo6Cqx9PYN1
+         9T1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=D2309px9vlRkrOo4iL8LF8QbK2+pa3Uw0kdECQkjdL0=;
+        b=Q75dYb+wNMDOt6w+hYJGh9tbxSizHdthmcO5cPzUaDTlAY7SjUHx9ukssmAqLamGHm
+         sixswiC3xYBtsgzGLkSA6wMegjNGA0/eheKpUMTWsWT9Rs2ev+wdm4RgzuojcEMZ+9KJ
+         vBycguubjV+h1n08Zqc5M2fqYsz3u6bonO0RO4W9YoHsk3uMOaZpG9j1P4AYIl+i/YkR
+         faHTYkt3VTHgv4g2UBIZJTimE0xRPRa8wFT/EIKXMBf6sGB2xiDnvckgm5lAkb4bO3dZ
+         PFkK/f+T+Z/QaXiNwA/HnOiXUDuDSH2eSDzjJNpEX1pxu/sQ8svn03liL3wKNum61aga
+         HQkw==
+X-Gm-Message-State: AOAM532aTNHkKFAEjYwzhELvw7Bo46NKCBp+5q3uIEVYeSgzg1qasc5s
+	K4Ya38TpxR14wPZUKbW5fvE=
+X-Google-Smtp-Source: ABdhPJyKSM7/JDUZ2tNbIGlSlHwpk7kN6gbp0IXgNu+jK2foMy57QumgBMwlZAZAeBIcTfzr1pqUEw==
+X-Received: by 2002:a17:902:8d98:b029:eb:43c2:d294 with SMTP id v24-20020a1709028d98b02900eb43c2d294mr1747634plo.49.1621303138741;
+        Mon, 17 May 2021 18:58:58 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (wsip-72-194-163-85.ph.ph.cox.net. [72.194.163.85])
+        by smtp.gmail.com with ESMTPSA id a18sm10700546pfo.64.2021.05.17.18.58.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 May 2021 18:58:58 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 17 May 2021 18:58:57 -0700
+Message-ID: <1e5b01d74b89$5dceb6b0$196c2410$@gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGMHmgjgg5zzELcTaGwSkgTy2YmqQ==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_1E5C_01D74B4E.B17276C0"
+Content-Language: en-us
 
-0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-removed since it is included in 0.184.
+------=_NextPart_000_1E5C_01D74B4E.B17276C0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-refresh 0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-and 0015-config-eu.am-do-not-use-Werror.patch
+All,
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../{elfutils_0.183.bb => elfutils_0.184.bb}  |  3 +-
- ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 ---------------
- ...infod-client.c-correct-string-format.patch | 40 ++++---------------
- .../0015-config-eu.am-do-not-use-Werror.patch | 19 +++++----
- 4 files changed, 19 insertions(+), 76 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.184.bb} (97%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+ 
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.184.bb
-similarity index 97%
-rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.184.bb
-index 7aebaf1b6d..1726ebc340 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.184.bb
-@@ -21,7 +21,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://run-ptest \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
--           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
-            file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
-            "
- SRC_URI_append_libc-musl = " \
-@@ -30,7 +29,7 @@ SRC_URI_append_libc-musl = " \
-            file://0004-Fix-error-on-musl.patch \
-            file://0015-config-eu.am-do-not-use-Werror.patch \
-            "
--SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
-+SRC_URI[sha256sum] = "87e7d1d7f0333815dd1f62135d047a4dc4082068f361452f357997c11360644b"
- 
- inherit autotools gettext ptest pkgconfig
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-deleted file mode 100644
-index 5f82afef0c..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
--From: dorindabassey <dorindabassey@gmail.com>
--Date: Sat, 19 Dec 2020 01:11:46 +0100
--Subject: [PATCH] add support for ipkg to debuginfod.cxx
--
--added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
--
--Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
--
--Signed-off-by: dorindabassey <dorindabassey@gmail.com>
--
-----
-- debuginfod/debuginfod.cxx | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
--index b34eacc..a8915f2 100644
----- a/debuginfod/debuginfod.cxx
--+++ b/debuginfod/debuginfod.cxx
--@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
--         {
--           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
--           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
--+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
--         }
--       else
--         {
--           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
--           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
--+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
--         }
--       // .udeb too?
--       break;
-diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-index 5bd6ba961c..40ad3163a2 100644
---- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-@@ -16,15 +16,16 @@ Upstream-Status: Pending
- 
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
- ---
-- debuginfod/debuginfod-client.c | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
-+ debuginfod/debuginfod-client.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index de26af5..39e28f2 100644
-+index 4fa047f..5afb215 100644
- --- a/debuginfod/debuginfod-client.c
- +++ b/debuginfod/debuginfod-client.c
--@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -268,7 +268,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-    if (fd < 0)
-      return -errno;
-  
-@@ -33,7 +34,7 @@ index de26af5..39e28f2 100644
-      return -errno;
-  
-    /* init max age config file.  */
--@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -276,7 +276,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
-      return -errno;
-  
-@@ -42,33 +43,6 @@ index de26af5..39e28f2 100644
-      return -errno;
-  
-    return 0;
--@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--       if (interval_file == NULL)
--         return -errno;
-- 
---      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
--+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
--       fclose(interval_file);
-- 
--       if (rc < 0)
--@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   interval_file = fopen(interval_path, "r");
--   if (interval_file)
--     {
---      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
--+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
--         clean_interval = cache_clean_default_interval_s;
--       fclose(interval_file);
--     }
--@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   max_unused_file = fopen(max_unused_path, "r");
--   if (max_unused_file)
--     {
---      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
--+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
--         max_unused_age = cache_default_max_unused_age_s;
--       fclose(max_unused_file);
--     }
- -- 
--2.31.1
-+2.25.1
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-index 205362626d..753e8a6410 100644
---- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-+++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-@@ -10,28 +10,31 @@ Werror.
- 
- Upstream-Status: Inappropriate [oe core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
- ---
-  config/eu.am | 2 --
-  1 file changed, 2 deletions(-)
- 
- diff --git a/config/eu.am b/config/eu.am
--index 6c3c444..3bc0dc9 100644
-+index 2c3e457..8fb0411 100644
- --- a/config/eu.am
- +++ b/config/eu.am
--@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-- 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
-+@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-+ 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
-  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	    $(if $($(*F)_no_Werror),,-Werror) \
-  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
--@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-- 	   -Wtrampolines \
-+ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-+ 	   $(TRAMPOLINES_WARNING) \
-  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	   $(if $($(*F)_no_Werror),,-Werror) \
-  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
-+ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+-- 
-+2.25.1
-+
--- 
-2.25.1
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 353
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_1E5C_01D74B4E.B17276C0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0BC1_01D745BA.F6C9E8A0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 353 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_1E5C_01D74B4E.B17276C0--
