@@ -1,111 +1,78 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web10.8326.1621409848324149162
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.8735.1621413347509204440
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 May 2021 00:37:28 -0700
+ Wed, 19 May 2021 01:35:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KjfxpM05;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id 6so8839570pgk.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 May 2021 00:37:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K0mpsQSw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id u4-20020a05600c00c4b02901774b80945cso2926886wmm.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 May 2021 01:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hcopLKOlIkiyjfcqn7rHrqF0vWXvNqCYplKWrqEfv2U=;
-        b=KjfxpM05JQgNuZk5yfsPeqRJA+P8bOzfh5oyivVxxhUzRzGfjui70DNEEEHwjFjeOW
-         oRVaJoS/iqYXWSNzSq2LLVR4JKLNYuWYN3DLyzSOaqQbdh/RfRMy/0YbZhu3MJPYZpj0
-         oVBFZZCkZJNTp6e4VjpRN7HUi7rXvsogd6B2NWvfZ4b/nmwjIQxZjGk77n62pAjiq0gq
-         miO4arixntJ5+6E/87eINKFR9m54Vq0BpHS4Fi6Xom0l6Ap6kgewusBvhDvwHRAPQ66N
-         2WtDVc8GiUVj/GkByXTx2VaxEpwjB0+gr1hJgx7KW4IRZoksdF1oSKjyD52aGG32bueR
-         5/ww==
+        bh=IyB4WzCFvGPDeEXvldsDD+shaWX003ihvOQ9Upt/fvk=;
+        b=K0mpsQSw3CzwR9pQFKOUm3rmFqWEpo1O3MDcnvu7O+etJAMW9fSKcexMnKWXIIDYhV
+         CpxyM56mzZul1TXfu14GmYi/q2RkN7KD2nvKEpCRhjGY49h4ZkFf9yFJUfkMdRaKTTg8
+         CkFjNcZkk9ni0hGkQv6V+0bp2kG8gCXrdCh6o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hcopLKOlIkiyjfcqn7rHrqF0vWXvNqCYplKWrqEfv2U=;
-        b=jcX+lE4aepKVwYmpq40ddudQUQa7EAn5gjbrrIG2Kc+6jYan24i3fno+Dja71ZgkQ7
-         12VugCKVXRsAX/ZPzhcD8N10P/DYR9LLmesJmdkOoBca8XpJI5qdCWs1WEzpOI18pZuD
-         lFld9PGgKpfsLwXpTb6y/ArE9IqbiXTPHDpSJlOpJBUAoWR3MiH9YeDpz9YpKir35yw1
-         MV6q6T+CFA/RVIySFBhow2ZM4NaZbIa5aS+Jg+VDbrWcn/uHhudT4x7gUGwETl2jTz+U
-         wHpNA1gZMuBhQiG2kacC4H4MyECgkJXqZsH5ccS/hkVDlmwckISFCLYszW0dIr0SMJ8i
-         z+8g==
-X-Gm-Message-State: AOAM5305jCoJRJKHz4dILo59diPqXCKoAVQOJlO0yESVUykr1+sHpaQm
-	RrpqoijQEyLOBEWzhLuXLvwC8uhP6KvIvQ==
-X-Google-Smtp-Source: ABdhPJxjV1Z51PnEGqWFEhBwB9x0mOnXm0fpGlMUks1yA0cRQfnxthhfSXp5AggGlKaXD4ETO1uJDQ==
-X-Received: by 2002:a62:60c2:0:b029:2cb:70a7:a8ce with SMTP id u185-20020a6260c20000b02902cb70a7a8cemr9622606pfb.77.1621409847646;
-        Wed, 19 May 2021 00:37:27 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a746])
-        by smtp.gmail.com with ESMTPSA id 3sm14032876pfn.11.2021.05.19.00.37.26
+        bh=IyB4WzCFvGPDeEXvldsDD+shaWX003ihvOQ9Upt/fvk=;
+        b=mqv5GHwOHSfO7MGBPx2tdNJj8kqzdR/u2BhQ3SigCLrOzIeqW4wLeInujNqmBgLXnk
+         M+WFNn+EqivCgO6HQJ7GdbaphuQvGZ75GlCS72tuscs9odprCfL1ngqVGTjkEQPLJ6Yy
+         fdmhDecbsiBJ97aIZJKnmDqxKtBZutzMtBjGCZqvCXlXds4FaKpY2GY3lVms/USWvO12
+         j/0UTc2JQfmBAAd025Ucj3OXFi0IKSrPIwQBBhK2bGWOjEkzRTbRl5fAG/7X+zyam+f3
+         UhvzlXxQqzAkgVQxUK+npw5X+CtFm+jUIhnH2iUrbfnZoi2KMnXh6zd738mSLKKs95Tc
+         XI3w==
+X-Gm-Message-State: AOAM531IU/8YcQsqwI44+7Nw4KEKKaWpyfFShG/bk2YRjTV+cojh7uPf
+	8OLmr3B5QLdSfO0H8zY0Pyl8G3CnS8f+IA==
+X-Google-Smtp-Source: ABdhPJw41husJWRaTqjhlBRiq0T5N1sd4gVhip5du+sGd/Ws4KZTGr6W1y0hq2a66VHkh9c+bn9UxA==
+X-Received: by 2002:a05:600c:3545:: with SMTP id i5mr9564341wmq.43.1621413345900;
+        Wed, 19 May 2021 01:35:45 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5a03:58fe:8897:9b3])
+        by smtp.gmail.com with ESMTPSA id b1sm20883381wmj.36.2021.05.19.01.35.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 00:37:27 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Wed, 19 May 2021 01:35:45 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Fix __NR_fstatat syscall name for riscv
-Date: Wed, 19 May 2021 00:37:24 -0700
-Message-Id: <20210519073724.2234940-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Cc: Michael Halstead <mhalstead@linuxfoundation.org>
+Subject: [PATCH] uninative: Upgrade to 3.2 (gcc11 support)
+Date: Wed, 19 May 2021 09:35:45 +0100
+Message-Id: <20210519083545.2484833-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...-Rename-__NR_fstatat-__NR_newfstatat.patch | 32 +++++++++++++++++++
- meta/recipes-core/musl/musl_git.bb            |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/0001-riscv-Rename-__NR_fstatat-__NR_newfstatat.patch
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-diff --git a/meta/recipes-core/musl/musl/0001-riscv-Rename-__NR_fstatat-__NR_newfstatat.patch b/meta/recipes-core/musl/musl/0001-riscv-Rename-__NR_fstatat-__NR_newfstatat.patch
-new file mode 100644
-index 0000000000..9d9f16cee6
---- /dev/null
-+++ b/meta/recipes-core/musl/musl/0001-riscv-Rename-__NR_fstatat-__NR_newfstatat.patch
-@@ -0,0 +1,32 @@
-+From 40732d03990632049d5ba63dd736269a81756b16 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 19 May 2021 00:30:05 -0700
-+Subject: [PATCH] riscv: Rename __NR_fstatat __NR_newfstatat
-+
-+on riscv64 this syscall is called __NR_newfstatat
-+this helps the name match kernel UAPI for external
-+programs
-+
-+Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2021/05/19/3]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Cc: zabolcs Nagy <nsz@port70.net>
-+---
-+ arch/riscv64/bits/syscall.h.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/arch/riscv64/bits/syscall.h.in b/arch/riscv64/bits/syscall.h.in
-+index f9c421d0..39c0d650 100644
-+--- a/arch/riscv64/bits/syscall.h.in
-++++ b/arch/riscv64/bits/syscall.h.in
-+@@ -76,7 +76,7 @@
-+ #define __NR_splice 76
-+ #define __NR_tee 77
-+ #define __NR_readlinkat 78
-+-#define __NR_fstatat 79
-++#define __NR_newfstatat 79
-+ #define __NR_fstat 80
-+ #define __NR_sync 81
-+ #define __NR_fsync 82
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index ef8bc2eec3..795b888bb3 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,6 +15,7 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-+           file://0001-riscv-Rename-__NR_fstatat-__NR_newfstatat.patch \
-           "
+This upgrade builds unnative with gcc11 allowing it to work with newer distros
+using gcc 11.
+
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 05b79d14c3f..740cca0ecfd 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -8,7 +8,7 @@
  
- S = "${WORKDIR}/git"
+ UNINATIVE_MAXGLIBCVERSION = "2.33"
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.1/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "7fa12b9fe7a95934cc09beb0e8a25ff97179ef3105116015d32548eadd27b024"
+-UNINATIVE_CHECKSUM[i686] ?= "bbfcdd48336800b5af97e294918c6586a0a8fa903f127f813b0bd5110de8c55c"
+-UNINATIVE_CHECKSUM[x86_64] ?= "5d0611df544edff6428cef7d871257a91aa6ba1bd92f5365a2df8deb54b6b31e"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.2/"
++UNINATIVE_CHECKSUM[aarch64] ?= "4f0872cdca2775b637a8a99815ca5c8dd42146abe903a24a50ee0448358c764b"
++UNINATIVE_CHECKSUM[i686] ?= "e2eeab92e67263db37d9bb6d4c58579abd1f47ff4cded3171bde572fece124b2"
++UNINATIVE_CHECKSUM[x86_64] ?= "3ee8c7d55e2d4c7ae3887cddb97219f97b94efddfeee2e24923c0cb0e8ce84c6"
 -- 
-2.31.1
+2.30.2
 
