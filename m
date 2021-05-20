@@ -1,129 +1,278 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.3])
- by mx.groups.io with SMTP id smtpd.web12.2596.1621474733241053134
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web11.5640.1621500458340411842
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 May 2021 18:38:53 -0700
+ Thu, 20 May 2021 01:47:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=I2jYxkcI;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.3, mailfrom: zhengrq.fnst@fujitsu.com)
-Return-Path: <zhengrq.fnst@fujitsu.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=g/bDv+F1;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1621474731; i=@fujitsu.com;
-	bh=qUCMaiT6GApjy4i9G6/K/rFcPLDmsYm/kvFAlxbjDh0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=I2jYxkcImWHSQniEMXGYQqTzp3hslw3jpR8CU+57MxNL/44Y+4tHP4FHDnhNlzdmM
-	 SXAkWde2f+QHQ9hAA+4S10YdosLqm5FJn/UEm9R/PwwcE+7E6rKCV6/SdlkhU8fUsh
-	 aT5lZ/NfUwg238JZ+ucZK66wXB4u470dei4aBF4Z5U18yVAbjYfj6xYGCybvE/ij/z
-	 ShgYGEasjUuQNNlpXnV8YbtqWYfOHHdKtLA/otqV3BYP3EizaUHdxtJmmi4BEtx1Yt
-	 jesbr7c4B0qTYhWlA/toI4hwMD1T6Q9kfmpoDN+qkaau/nl0jOaR4asCw/JJUnh4as
-	 yykS82l7yOAXA==
-Received: from [100.113.3.92] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-central-1.aws.symcld.net id 93/EB-19780-AADB5A06; Thu, 20 May 2021 01:38:50 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkkeJIrShJLcpLzFFi42Kxs+EI1V21d2m
-  CwY4v/BZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a3T84F+0Qrdt34ydTAuEa4i5GLQ0hgFpPE
-  njmNjBDOHkaJy68PsXYxcnKwCehKnHu8lr2LkYNDREBP4uo/UZCwsICtRPfW82wgYRYBVYkjs
-  11BwrwCnhJvfk9kAbElBBQkpjx8zwwRF5Q4OfMJWJxZQELi4IsXzCCtEgKKErOny0OUV0jMmL
-  GNbQIjzywkHbOQdCxgZFrFaJlUlJmeUZKbmJmja2hgoGtoaKxrrGtoaaKXWKWbqJdaqpucmld
-  SlAiU1UssL9YrrsxNzknRy0st2cQIDKGUQuZDOxifvP6gd4hRkoNJSZTX7P6iBCG+pPyUyozE
-  4oz4otKc1OJDjDIcHEoSvOK7lyYICRalpqdWpGXmAMMZJi3BwaMkwvt/G1Cat7ggMbc4Mx0id
-  YpRUUqcl2sPUEIAJJFRmgfXBouhS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5GJWEeetBtvNk5p
-  XATX8FtJgJZHHjIpDFJYkIKakGpp1c6a8XXdErZD5Xxi3YXLIhoGpidHAMP48Wa8SFiA9Rvev
-  v/shJKn7s8OpY849+jZisT7PX7up5fMi21ZD9uGWSqqCFnat01R2uz4LRj9UjV6/qfSJ4t7FS
-  X6Eh+XBB1Wln1+fPrKKcmL7Y6F/Nb76xcLNxYvUeO5vj1ze8Lrc9rzDn8OMDPbuqH/nOCHm0L
-  rp9z9M/e31PnH1w62Qq+4n7OXP4zm5p6Lqgfm8XJ3OgvMC5JzlLzy+bqX8jdDPPCqWnNYb9F1
-  ZkzKxtCbc57Rz/PWDC3mdhMpp/v7h4aog7Wh6W5Et7c/3rd4Ovhy++SM7x7FjyfpqpXIm0hR/
-  n3LIlT4sTH+i+fy3+UaVbVomlOCPRUIu5qDgRAMh4eakcAwAA
-X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-13.tower-226.messagelabs.com!1621474729!11585!1
-X-Originating-IP: [62.60.8.85]
+	s=170520fj; t=1621500455; i=@fujitsu.com;
+	bh=BIVotDmLIWmTYWx3Hj6N/8Ms+jkdqifNrxCYrtSJhUM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=g/bDv+F1roPvYcgX3aHRxCL53EEvPtiSaeqMF5as4JHdYT2R5kG6oH8HYfEozqjxQ
+	 DjZki0U7Uxr8wJqAAi+Q71RFzdxhOQ+X8u8lQizIW4CbzLHhH5bBqaZVqMAUlcG944
+	 Hbo5nSX5vSrIuhTAn9EfhVd0sHnrsEwtcLyTakAezdZfAAPJ4EGoOInDOANkvUB7Ly
+	 K8bym3VUjWIgYkg3S0pVVxf+X08hJVR7x7giziHNPNJeuz/g0Die73y1+3k8EItytd
+	 Y5AFifzrl32XXbEw+Swbf/MWHGKWbJQWNQnpi29gASD/5hRZd1x1v50lBzGESNact4
+	 e4qO7PE1IiP/w==
+Received: from [100.113.6.49] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-central-1.aws.symcld.net id 3F/5C-15146-72226A06; Thu, 20 May 2021 08:47:35 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsViZ8MxVVddaVm
+  CwZwJTBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aGW5fYC6Z6VSxavp6tgXGlfRcjF4eQwCwm
+  iSnPW5ggnBOMEjenLmXsYuTkYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv3vYQWxhATuJO
+  xO/MYGUsAioSmxfEw4S5hVwkvhw9wcTiC0hoCAx5eF7Zoi4oMTJmU9YIMZISBx88YIZokZRYv
+  blZhYIu0Li9eFLzBMYeWchaZmFpGUBI9MqRsukosz0jJLcxMwcXUMDA11DQ2NdE10jA1O9xCr
+  dJL3UUt3k1LySokSgrF5iebFecWVuck6KXl5qySZGYHilFLKc3cH45fUHvUOMkhxMSqK8ZvcX
+  JQjxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4I1SWJYgJFiUmp5akZaZAwx1mLQEB4+SCC+3LFCat
+  7ggMbc4Mx0idYpRl+Pdz8WLmIVY8vLzUqXEec+AzBAAKcoozYMbAYu7S4yyUsK8jAwMDEI8Ba
+  lFuZklqPKvGMU5GJWEeU1BpvBk5pXAbXoFdAQT0BH/GxeBHFGSiJCSamAK9hdR+dW1/j1Lq+L
+  x/cnxOlX663R/fmHp2uK4eEH4S+6+wxW+fTyix2d7b56pxiKzUn/y1jYWvr9B/Bo3lNaG1SiZ
+  8vMYLBZ26dQ5Hpdofz93htX+FEX10v0P2Zu67C1D7p/9v6Zri4fvtp7HOZ2/5JP8lsZm6ObN/
+  752yoMIzXO8bMEL802il55YGn6Ftd3PSWbDhWgd4/uc55Xv/S4sKfaeWGz7YS2viPMLue/BEy
+  3Ttl14kVoY2h/iv9ouae/GKo3FTwSXV/zXD9bP2Fy0xZLvuRJHT+1qNceKL5cm/0vb3RDd88W
+  SM3yd6LHwCimNxX4Psy+ff5oUt3055ylWNac626mlR1tmZodFK7EUZyQaajEXFScCAJW7HFo2
+  AwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-16.tower-245.messagelabs.com!1621500454!261842!1
+X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 27945 invoked from network); 20 May 2021 01:38:50 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-13.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 20 May 2021 01:38:50 -0000
+Received: (qmail 16068 invoked from network); 20 May 2021 08:47:34 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-16.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 20 May 2021 08:47:34 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14K1cn5E015058
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14K8lSnm024856
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 02:38:49 +0100
-Received: from localhost.localdomain (10.167.225.35) by
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 09:47:34 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 20 May 2021 02:38:48 +0100
-From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
+ (TLS) id 15.0.1497.18; Thu, 20 May 2021 09:47:27 +0100
+From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] rxvt-unicode: upgrade 9.22 -> 9.26
-Date: Thu, 20 May 2021 09:38:45 +0800
-Message-ID: <1621474725-127656-1-git-send-email-zhengrq.fnst@fujitsu.com>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] elfutils: upgrade 0.183 -> 0.184
+Date: Thu, 20 May 2021 16:47:16 +0800
+Message-ID: <1621500436-22668-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-0001-libev-remove-deprecated-throw-specification.patch
-removed since it is included in 9.26
+0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+removed since it is included in 0.184.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+refresh 0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+and 0015-config-eu.am-do-not-use-Werror.patch
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...emove-deprecated-throw-specification.patch | 30 -------------------
- ...t-unicode_9.22.bb => rxvt-unicode_9.26.bb} |  4 +--
- 2 files changed, 1 insertion(+), 33 deletions(-)
- delete mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.22.bb => rxvt-unicode_9.26.bb} (57%)
+ .../{elfutils_0.183.bb => elfutils_0.184.bb}  |  3 +-
+ ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 -----------
+ ...infod-client.c-correct-string-format.patch | 56 +++++++++----------
+ .../0015-config-eu.am-do-not-use-Werror.patch | 19 ++++---
+ 4 files changed, 37 insertions(+), 74 deletions(-)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.184.bb} (97%)
+ delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.184.bb
+similarity index 97%
+rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
+rename to meta/recipes-devtools/elfutils/elfutils_0.184.bb
+index 7aebaf1b6d..1726ebc340 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.184.bb
+@@ -21,7 +21,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://run-ptest \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
+-           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
+            file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
+            "
+ SRC_URI_append_libc-musl = " \
+@@ -30,7 +29,7 @@ SRC_URI_append_libc-musl = " \
+            file://0004-Fix-error-on-musl.patch \
+            file://0015-config-eu.am-do-not-use-Werror.patch \
+            "
+-SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
++SRC_URI[sha256sum] = "87e7d1d7f0333815dd1f62135d047a4dc4082068f361452f357997c11360644b"
+ 
+ inherit autotools gettext ptest pkgconfig
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
 deleted file mode 100644
-index f10dca09d6..0000000000
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
+index 5f82afef0c..0000000000
+--- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
 +++ /dev/null
-@@ -1,30 +0,0 @@
--From 9a8f1d73e7b7e183768a8379ef32429a84f0e5c2 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 26 Feb 2021 18:11:56 -0800
--Subject: [PATCH] libev: remove deprecated throw specification
+@@ -1,33 +0,0 @@
+-From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
+-From: dorindabassey <dorindabassey@gmail.com>
+-Date: Sat, 19 Dec 2020 01:11:46 +0100
+-Subject: [PATCH] add support for ipkg to debuginfod.cxx
 -
--removes the throw specifications that are deprecated since C++11:
--warning: dynamic exception specifications are deprecated in C++11 [-Wdeprecated]
+-added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
 -
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
+-
+-Signed-off-by: dorindabassey <dorindabassey@gmail.com>
+-
 ----
-- libev/ev++.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- debuginfod/debuginfod.cxx | 2 ++
+- 1 file changed, 2 insertions(+)
 -
--diff --git a/libev/ev++.h b/libev/ev++.h
--index 4f0a36a..85ddf44 100644
----- a/libev/ev++.h
--+++ b/libev/ev++.h
--@@ -376,7 +376,7 @@ namespace ev {
-- 
--   struct default_loop : loop_ref
--   {
---    default_loop (unsigned int flags = AUTO) throw (bad_loop)
--+    default_loop (unsigned int flags = AUTO)
-- #if EV_MULTIPLICITY
--     : loop_ref (ev_default_loop (flags))
-- #endif
---- 
--2.30.1
--
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb
-similarity index 57%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb
-index 283e8d7751..3fe69a543f 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.26.bb
-@@ -4,7 +4,5 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://src/main.C;beginline=1;endline=31;md5=d3600d7ee1062667fcd1193fbe6485f6"
+-diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
+-index b34eacc..a8915f2 100644
+---- a/debuginfod/debuginfod.cxx
+-+++ b/debuginfod/debuginfod.cxx
+-@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
+-         {
+-           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
+-           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
+-+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
+-         }
+-       else
+-         {
+-           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
+-           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
+-+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
+-         }
+-       // .udeb too?
+-       break;
+diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+index 5bd6ba961c..6406f91d42 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+@@ -16,15 +16,18 @@ Upstream-Status: Pending
  
--SRC_URI += "file://0001-libev-remove-deprecated-throw-specification.patch"
--
--SRC_URI[sha256sum] = "e94628e9bcfa0adb1115d83649f898d6edb4baced44f5d5b769c2eeb8b95addd"
-+SRC_URI[sha256sum] = "643116b9a25d29ad29f4890131796d42e6d2d21312282a613ef66c80c5b8c98b"
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++rebase for 0.184
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+ ---
+- debuginfod/debuginfod-client.c | 10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
++ debuginfod/debuginfod-client.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
  
+ diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+-index de26af5..39e28f2 100644
++index 4fa047f..a6a3508 100644
+ --- a/debuginfod/debuginfod-client.c
+ +++ b/debuginfod/debuginfod-client.c
+-@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -268,7 +268,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+    if (fd < 0)
+      return -errno;
+  
+@@ -33,7 +36,7 @@ index de26af5..39e28f2 100644
+      return -errno;
+  
+    /* init max age config file.  */
+-@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -276,7 +276,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
+      return -errno;
+  
+@@ -42,33 +45,24 @@ index de26af5..39e28f2 100644
+      return -errno;
+  
+    return 0;
+-@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-       if (interval_file == NULL)
+-         return -errno;
++@@ -296,7 +296,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+  
+--      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
+-+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
+-       fclose(interval_file);
++   /* Create new interval file.  */
++   rc = debuginfod_config_cache(interval_path,
++-			       cache_clean_default_interval_s, &st);
+++			       (intmax_t)(cache_clean_default_interval_s), &st);
++   if (rc < 0)
++     return rc;
++   clean_interval = (time_t)rc;
++@@ -308,7 +308,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+  
+-       if (rc < 0)
+-@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-   interval_file = fopen(interval_path, "r");
+-   if (interval_file)
+-     {
+--      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
+-+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
+-         clean_interval = cache_clean_default_interval_s;
+-       fclose(interval_file);
+-     }
+-@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-   max_unused_file = fopen(max_unused_path, "r");
+-   if (max_unused_file)
+-     {
+--      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
+-+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
+-         max_unused_age = cache_default_max_unused_age_s;
+-       fclose(max_unused_file);
+-     }
++   /* Read max unused age value from config file.  */
++   rc = debuginfod_config_cache(max_unused_path,
++-			       cache_default_max_unused_age_s, &st);
+++			       (intmax_t)(cache_default_max_unused_age_s), &st);
++   if (rc < 0)
++     return rc;
++   max_unused_age = (time_t)rc;
+ -- 
+-2.31.1
++2.25.1
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+index 205362626d..753e8a6410 100644
+--- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
++++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+@@ -10,28 +10,31 @@ Werror.
+ 
+ Upstream-Status: Inappropriate [oe core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+ ---
+  config/eu.am | 2 --
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/config/eu.am b/config/eu.am
+-index 6c3c444..3bc0dc9 100644
++index 2c3e457..8fb0411 100644
+ --- a/config/eu.am
+ +++ b/config/eu.am
+-@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
+- 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
++@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
++ 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
+  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+ -	    $(if $($(*F)_no_Werror),,-Werror) \
+  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+- 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
+-@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
+- 	   -Wtrampolines \
++ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
++@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
++ 	   $(TRAMPOLINES_WARNING) \
+  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+ -	   $(if $($(*F)_no_Werror),,-Werror) \
+  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+- 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
++ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
++-- 
++2.25.1
++
 -- 
 2.25.1
 
