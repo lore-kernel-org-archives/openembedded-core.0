@@ -1,76 +1,74 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web09.494.1621543756857548027
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.506.1621543757129875415
  for <openembedded-core@lists.openembedded.org>;
  Thu, 20 May 2021 13:49:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KKHzf+Sl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id z19-20020a7bc7d30000b029017521c1fb75so6206900wmk.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZL/CDfbl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id h3-20020a05600c3503b0290176f13c7715so5980770wmq.5
         for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=onmTjYdtFKmHIact7DojJgLD0cbs19rZVyczTjOGaFE=;
-        b=KKHzf+SlDdrMzMLm+hgU2lxmFo9MMi9n0moKpTcYwPOWzq3sXO9zcWS7ZtaP+G/ivv
-         hGtqfZAGE+V9mUjKpf/738oAZhd7reYsyEUwkG1CrIXGRROdjlIMq7qx83qq9Dk0m2ll
-         i46q2kMcRotUfDj8+QnaVJK6gOSosOmccbHDs=
+        bh=5+mQZqQevtaGDYH/xhSU3BikBfTgXrEbzDnPR6y1Dhk=;
+        b=ZL/CDfblWKGeI06dndonUFH/8kAvV4hNf0chkYZIEiC4ZwyCyW0Jl1Mjao2RzMCWvu
+         44HPvQZqgHu47lvlBiHzfjkkwNmzkijOe/PiGS3xRGrspw+eK5aHFasw/io7/CyXXlBu
+         IQqBABv9WeXEWk2dGWq3rXg+mYIiva8aHzb2U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=onmTjYdtFKmHIact7DojJgLD0cbs19rZVyczTjOGaFE=;
-        b=Ro3YuOs9/POlNMUfCP9H8anodKSv5Qg+/2V7cfDpCgW1jDueqC+QZjBlMBOcz4FuV9
-         2mAQ+757sHDHFwYGsqYL+k8PV8uT02iT0xdykcA/CzzL+pnnzwdhEBScYH++Be5LSZhY
-         ojEL+SCj+jo4iWey+yq4AjyP6+L8rGuxQ1+3t0NrUvke/zQazp9mpO2NgsxpzEj4n5lY
-         O4aMgz7M42XiOu8svHdvz3bHpAHsDDFgF+GVSL5guRePewmZYxAU9WbHSn5FH4P04j6n
-         bwGSNUr98DmXquqF2qh6mGRFb0dqSqDizyluPGF43M1MvA9a0IFH6ZrxP18IdvbO6zzQ
-         sA1Q==
-X-Gm-Message-State: AOAM533yaHZ5vX75H+9CyzVUg1WNBtK4rhGSmOnUBABwPwZAwCBdQSyI
-	oWag7g6y5cbJe/ntcNw3lN6vKrs7Cbx5vg==
-X-Google-Smtp-Source: ABdhPJw/TQbiMa4Eg5lDxa/drqALEhbXxLWNBP7XuU/ioxq8Pc9jarzrjLnitZE4dDxydQjbtsesuw==
-X-Received: by 2002:a1c:c309:: with SMTP id t9mr5705758wmf.161.1621543755249;
+        bh=5+mQZqQevtaGDYH/xhSU3BikBfTgXrEbzDnPR6y1Dhk=;
+        b=t0BgrXnvH0ZrJrMwNVyQknYh6OAZWR0zUINTtIfDwIM0vpcoxhVk/UeX5AT+s3zIaO
+         G/pj8oqQQgg+nfP3YIljrU7YArtA7uj7rJu1RhMRA8fE6g9K9lX+jaJEtmrYVbh4JARz
+         OERfukWscFUHMsoxkwBz39lr4vVqe2qgrAI85eUJyR81ZNYtg4OnIN065SHJotVsWoD2
+         94QqIjjT8THDh0ro0lb7LfyKW5XBUOP0gvEdtpGARHabsdqDq54mwUu74/SAl+5B/STv
+         82etBFHj1OLn9LvaotCcf9vGbkA+v8aEyqVwbvWgq2iacWSDaXhWVWsW/U8fy/vV6nl/
+         XKcA==
+X-Gm-Message-State: AOAM531PYV2vadeabZ7QMd2sMP1EOgqd3KBZNbcymxv769SY9k6/kFsi
+	O/KDABHjIf7pDD7+8HaDWcZZQaeHIHZr/w==
+X-Google-Smtp-Source: ABdhPJxZDSqRVWFUtfj0YQYn6f57csZheyN0BO43NYaTGCNgCEHOjD1yU78TgZQ69I75Vhc4888ESQ==
+X-Received: by 2002:a1c:4602:: with SMTP id t2mr5545895wma.173.1621543755595;
         Thu, 20 May 2021 13:49:15 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c394:d896:3913:6568])
-        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.14
+        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 13:49:14 -0700 (PDT)
+        Thu, 20 May 2021 13:49:15 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott] [PATCH 21/28] ghostscript: Exclude CVE-2013-6629 from cve-check
-Date: Thu, 20 May 2021 21:48:55 +0100
-Message-Id: <20210520204902.2527687-21-richard.purdie@linuxfoundation.org>
+Subject: [hardknott] [PATCH 22/28] bluez: Exclude CVE-2020-12352 CVE-2020-24490 from cve-check
+Date: Thu, 20 May 2021 21:48:56 +0100
+Message-Id: <20210520204902.2527687-22-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 References: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CVE is in the jpeg sources included with ghostscript. We use our own
-external jpeg library so this doesn't affect us.
+These CVEs are fixed with kernel changes and don't affect the bluez recipe.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-connectivity/bluez5/bluez5_5.56.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-index cbf60c8c855..35826c25498 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-@@ -19,6 +19,10 @@ DEPENDS_class-native = "libpng-native"
- UPSTREAM_CHECK_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.56.bb b/meta/recipes-connectivity/bluez5/bluez5_5.56.bb
+index 676cb2dbb2a..ae0f72b678a 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.56.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.56.bb
+@@ -3,6 +3,9 @@ require bluez5.inc
+ SRC_URI[md5sum] = "e6c51b2aefa7c56ff072819a78611fa5"
+ SRC_URI[sha256sum] = "59c4dba9fc8aae2a6a5f8f12f19bc1b0c2dc27355c7ca3123eed3fe6bd7d0b9d"
  
-+# As of ghostscript 9.54.0 the jpeg issue in the CVE is present in the gs jpeg sources
-+# however we use an external jpeg which doesn't have the issue.
-+CVE_CHECK_WHITELIST += "CVE-2013-6629"
++# These issues have kernel fixes rather than bluez fixes so exclude here
++CVE_CHECK_WHITELIST += "CVE-2020-12352 CVE-2020-24490"
 +
- def gs_verdir(v):
-     return "".join(v.split("."))
- 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
+ NOINST_TOOLS_READLINE ?= " \
 -- 
 2.30.2
 
