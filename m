@@ -1,95 +1,83 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.367.1621534342402915158
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web09.821.1621536453643660550
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 11:12:22 -0700
+ Thu, 20 May 2021 11:47:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LK+khFYe;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id cu11-20020a17090afa8bb029015d5d5d2175so5885020pjb.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 11:12:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IPHLthat;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id t30so12478483pgl.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 11:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LPPOGNPZdxRZgqagwGNc39K660xIO4yJnWHdxGVOsUY=;
-        b=LK+khFYeN62PFlYTSPRBP8vTjqegmYjh3b8ZfURzNQu+q2eBl/snDhQ+669KdtRv4D
-         gr9dz8V6g+jUaRyUe9yEM19BB1PgO7wRNflFbsqbpRRQBhGKCgH0VPaq/DZwgTRNIqRA
-         fAFirxb2jNgl3rtpogRNuYJz7U4mziJx8s7M1VJ3or6olNxONHLhFFZ0c67W/Io+WSjE
-         qGAwBmhpxmMDrClyAh/DLxFHnIYj2xXCq5RxiMh2KQR9edP1DK6HQ5XXya5mupVwbpDK
-         PxCnYKrBtInIzG3jZ1H63cvaKmcWnxJ2/rWg08PpsGIgis+kOl5YjJvOQhspA/9bSwPT
-         i5gQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nSTSdmcRIdNiXXHufX1dSEipUWg6cn6NLmWJSNobz6A=;
+        b=IPHLthatw1/koW7JT57cesnlFyPYS18cc7Ba3iGslRB98445Gaql6w5vw65kImpXh8
+         o/KGSEpdE55iLLrVf55vR9gUwREEZytc1sAC4+86ggbczNFzRCq7qgcRAv1hq9bpXXia
+         oryblbT6IcE2TmXRvQOZa614Dk2bJUHgeREPDjv5i5Jj/HUfV8W4lyd5LSU8Ip+ni9UY
+         Pa7wif7OS8KaTmpxRX/Hixa2weXjZe+DXCpcA4hUvwp15KKWJXjcH9ZRQK0qKVMI1USL
+         aFK46VB0ygjLl5LQ6K/U7IYLbqrsyfr4hU0KuwyDsJ3wvrNZnmZVMn1tzO74zRTCqR+g
+         nz3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=LPPOGNPZdxRZgqagwGNc39K660xIO4yJnWHdxGVOsUY=;
-        b=LkkI126jDA8UDooK7YLw2+kePAZjnoRKg0TGXHcD2FMoFkv4FBxQ42zBfymULytJXC
-         s23+DWTKPEoB5kqRcrtvguM9yGKpAWWUUMkRPRYONqiy88itKxtiFP5k22wuC+pcy7fc
-         2Q5l5jRrRNTgSX6qjrpCrq8+lGBCBOAaO/Q8JCdrAQ9E42g9jDrGpXsyfLu4iMQhd7tU
-         QGI5eYWxJyrk3Tie3RoPAjgCs7WRR0QE/Q7jvHrW9iOw4wW1iXQ7VY4LpCNYsjiL1j06
-         xa/OPtmRXAfdXwVKVOWPNc+mahsFS9f+LV6dEtkpFRVEKQrUmLRmOJW+lUDLBYIMKNo4
-         J1lA==
-X-Gm-Message-State: AOAM533IXtanm6WFMIn8f8wmYlkfxN6A3kVNdJ67J03zwvl5r0xzsa4T
-	8Dj3t5sW1QWwHJBOodEQYvtRN4dCaJc3Zg==
-X-Google-Smtp-Source: ABdhPJyoo2fp4pk1Z5pGTtFFXSa+HhXzj6Lat3aBaj9nfCcxj/gOwaCu1lRnzflLk7CoHtyr3gTYUg==
-X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr6097220pjb.11.1621534341418;
-        Thu, 20 May 2021 11:12:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nSTSdmcRIdNiXXHufX1dSEipUWg6cn6NLmWJSNobz6A=;
+        b=KnCoHf/IgCJ5Z0D37DSGzloLA6R+dOUsM4LnV0MPzNUIJ2bnpcDzpIIOla1wXSBWMb
+         D/MNsofkigRklIkbddtJhd04ej/7HF5WUUqgC3Q2w16quVAnTntyplk2/MHHNY+ggyZQ
+         kxMOsnSpzGRdfkVQGRTnSfolCguQ5jrgRknfLqxLoApFDABC0FU6kNw4jYY0+lNq543I
+         Vx73ugg/0OT7fPOjQB6DBeuj2GtscT6XMZ5rn+VkMhnT78bxUhu6SG0r/yUDHw+iQ2ZK
+         AlS8rANxBWizStB2TKgwiqQ2C6NnnGIgwuAtrmu00PIffBvczF0uDXR45u2y847GDZB9
+         uM8Q==
+X-Gm-Message-State: AOAM530ofY7W8fM6xgZGk0XfNpiPmuZUDrIKUSICkBIx4SNLJILwB3gv
+	qdWD26lbhCMmtnT18ARTAmbjVRBW1HS7uA==
+X-Google-Smtp-Source: ABdhPJzJPg9koxS3OLr16kg/yP5qcKQx80wRUtx9ZAZxxQGlnqI9/Re2pIqd7B+/6CF8ArKkbxLi3w==
+X-Received: by 2002:a05:6a00:2308:b029:28e:d370:d435 with SMTP id h8-20020a056a002308b029028ed370d435mr5872991pfh.31.1621536452599;
+        Thu, 20 May 2021 11:47:32 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:b889:2ea3:1899:5b86? ([2601:646:9200:a0f0:b889:2ea3:1899:5b86])
-        by smtp.gmail.com with ESMTPSA id t22sm2141415pfg.119.2021.05.20.11.12.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 May 2021 11:12:20 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] gcc: enable branch protection by standard
-To: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
-References: <20210520171511.3177430-1-ross.burton@arm.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a746])
+        by smtp.gmail.com with ESMTPSA id n12sm2450844pjk.48.2021.05.20.11.47.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 11:47:31 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <295f3f9b-267d-3a74-ca14-91c7ad589394@gmail.com>
-Date: Thu, 20 May 2021 11:12:19 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.1
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] libxfixes: Update to 6.0.0 release
+Date: Thu, 20 May 2021 11:47:29 -0700
+Message-Id: <20210520184730.2957974-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210520171511.3177430-1-ross.burton@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../xorg-lib/{libxfixes_5.0.3.bb => libxfixes_6.0.0.bb}      | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxfixes_5.0.3.bb => libxfixes_6.0.0.bb} (78%)
 
+diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb
+similarity index 78%
+rename from meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb
+rename to meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb
+index f0e2f606ce..af7426f7bf 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb
+@@ -6,6 +6,7 @@ provide the minimal server-side support necessary to eliminate problems \
+ caused by these workarounds."
+ 
+ require xorg-lib-common.inc
++SRC_URI[sha256sum] = "a7c1a24da53e0b46cac5aea79094b4b2257321c621b258729bc3139149245b4c"
+ 
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3c1ce42c334a6f5cccb0277556a053e0"
+@@ -17,7 +18,3 @@ PE = "1"
+ XORG_PN = "libXfixes"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-
+-SRC_URI[md5sum] = "07e01e046a0215574f36a3aacb148be0"
+-SRC_URI[sha256sum] = "de1cd33aff226e08cefd0e6759341c2c8e8c9faf8ce9ac6ec38d43e287b22ad6"
+-
+-- 
+2.31.1
 
-On 5/20/21 10:15 AM, Ross Burton wrote:
-> Pass --enable-standard-branch-protection.  This is an aarch64-specific
-> option (currently) which does nothing on other targets.  On aarch64 this
-> generates code uses BTI/PAC instructions to mitigate Return Orientated
-> Programming attacks.  This approach is backwards compatible and the code
-> size/performance impact is typically negliable.
-> 
-> More details can be found at
-> https://events.static.linuxfound.org/sites/events/files/slides/slides_23.pdf
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->   meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> index a64c4caf00..dc7f458b25 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> @@ -40,6 +40,7 @@ EXTRA_OECONF = "\
->       ${@get_gcc_mips_plt_setting(bb, d)} \
->       ${@get_gcc_ppc_plt_settings(bb, d)} \
->       ${@get_gcc_multiarch_setting(bb, d)} \
-> +	--enable-standard-branch-protection \
->   "
->  
-
-lgtm
-
-
->   # glibc version is a minimum controlling whether features are enabled.
-> 
-> 
-> 
-> 
-> 
