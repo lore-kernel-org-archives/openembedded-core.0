@@ -1,144 +1,140 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web08.500.1621543747024060051
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.514.1621543747602374085
  for <openembedded-core@lists.openembedded.org>;
  Thu, 20 May 2021 13:49:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SaZcFZ19;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so6203869wmk.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SUF81EnH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id y14so16881657wrm.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dyineCwxTNCEp6Bjcp2Yofs9aQjxYaclTvC9tyQUUDQ=;
-        b=SaZcFZ19rDgpsa+i76jcSOtulu45r3iPA+ExYj+TqJtUQd6mY2XRfztn92yai8QDoN
-         6fZNHmR5T7fzkRt+6UXF5tsnGLP/SSEZAnxEhlfaLPXQc+Ji3/BwygOlNlUxtyNUo3a4
-         eImICCwQjTRZHjLpTjEQdAUU0cgA6OI4os/1Q=
+        bh=/mcphgtknTsDIxkKdkF+Wv7I/sjQvRds6QfZWmnYo54=;
+        b=SUF81EnH8BCWKXrQeywmDInJkOnDmj8dVge+wNG+29tfrhucmfKQTY1ChBTE+XW1IC
+         HIiY1W5jmc1kxgXjZHkZcL8fUITC54Fo0Am5kQ4Cf3Ho9vmliHkG70cQD/dQ8cJiUrjt
+         FQ04Ru4X2zD2DCqNlZQMogEEPVSkg9P+AMhA0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dyineCwxTNCEp6Bjcp2Yofs9aQjxYaclTvC9tyQUUDQ=;
-        b=VBYt5Nbl2V/o4v9LpW+xVB7KCvjLCP0HA1EndZH/xImcx8Ujb0+Ari7/EKIyChs+JT
-         Vyh10k2obLc4fMIZu3yKAluR3FYT/0bIYZFwq/Crk4XNZqfL2vx5TSek4R9QLAC6mmfL
-         IVIP2VQUsPfEzF4ctIUf0wL8my85QQA8witqyyMhQmprjCsvUG9q4YTF1Y1AEf42Xs+o
-         6F6VPsl247I020erh3kPw2FmUG3X7NoyxlVXmQFac5sjEr38p6F5AjMYzRaDN/ik9Ml8
-         OnJQdL6GxkSH/CZPq07IiVuvHdVswpPBYKIOqOmqTSL8JkotugS2/l2rGtIuNthBwfDY
-         veAg==
-X-Gm-Message-State: AOAM533pf0TVGm3Ned23vgRMuHkJlovtxPLU71kWHcGiW153zaL3PL8l
-	loiOM+3fOL6UAqmVG5j3QmxEB9Ruk8Gh1w==
-X-Google-Smtp-Source: ABdhPJw/n1lhBP8pcnAjljuh6kYmLcZ/3J/LEbV424slhYyhyh4nj68m3a3SRkKjHBCQABpa7buKpw==
-X-Received: by 2002:a1c:a9ca:: with SMTP id s193mr5381499wme.132.1621543745487;
-        Thu, 20 May 2021 13:49:05 -0700 (PDT)
+        bh=/mcphgtknTsDIxkKdkF+Wv7I/sjQvRds6QfZWmnYo54=;
+        b=kJzhm0nS0HYiuP4ukTkWZANaj5iqRPenUknRc6PfnI5k70vBZy6wLAfuxuQEBj+Bn2
+         17AyWnwA7boIkzBtvKXDIvZe9x4i+oTs3DROqxj0D4ebWlYArvb9nxJIT5QrIWBfQgoG
+         SSsD/V1bmE3tB6RR2Sci5ZESLUgcBfXyNA0JusvuIZuH5qlujmk05+7zXs8DG9TbRbUV
+         vE6pXKIAih295u+wy358/USRxHAf4stsZwiTk+ZI6EmyU8i/W15KvutC8o2yHEh5izOb
+         co31RPvH22s6S7uqJ/XvFqhXSSRPh+NR67ULxhE7AAU6ba7btNJFHq4k+wrhAhpLzSOr
+         GRKQ==
+X-Gm-Message-State: AOAM530UgMJ84trlWWmDr/AwHyR3NhIJPDb3uX0bAf4izUTJFm0/Td6O
+	PzSzWOraGgJGYgkcG3FfRp7215G/8Fxc8w==
+X-Google-Smtp-Source: ABdhPJzFi4Z0zjYsyUHHzKdEhBqbtMqqFy7fwYh4XrfFka/JI8aqZ9z6PREpeOW5YizHhaxRZZw2Fw==
+X-Received: by 2002:a05:6000:1c2:: with SMTP id t2mr5903639wrx.424.1621543746108;
+        Thu, 20 May 2021 13:49:06 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c394:d896:3913:6568])
-        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.04
+        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 20 May 2021 13:49:05 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Bastian Krause <bst@pengutronix.de>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [hardknott] [PATCH 05/28] ccache: add packageconfig docs option
-Date: Thu, 20 May 2021 21:48:39 +0100
-Message-Id: <20210520204902.2527687-5-richard.purdie@linuxfoundation.org>
+Cc: Tony Tascioglu <tony.tascioglu@windriver.com>
+Subject: [hardknott] [PATCH 06/28] libxml2: fix CVE-2021-3517
+Date: Thu, 20 May 2021 21:48:40 +0100
+Message-Id: <20210520204902.2527687-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 References: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Bastian Krause <bst@pengutronix.de>
+From: Tony Tascioglu <tony.tascioglu@windriver.com>
 
-Before, ccache's configure stage built HTML documentation and man pages
-depending on if asciidoc is installed. This patch makes it configurable.
+Fixes heap-based buffer overflow in xmlEncodeEntitiesInternal() in entities.c
 
-Pass the new cmake option ENABLE_DOCUMENTATION along and add the
-asciidoc dependency if necessary.
+CVE: CVE-2021-3517
+Upstream-status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/bf22713507fe1fc3a2c4b525cf0a88c2dc87a3a2]
 
-This fixes an issue when ccache's configure stage found asciidoc/a2x on
-the system outside of the sysroot (e.g. installed via 'apt install
-asciidoc'). ccache would then decide to build docs and manual pages, but
-would fail during compilation: the system's a2x could not find the
-system's asciidoc because it did not reside in the set PATH.
-
-By enabling/disabling docs/man page generation explicitly and adding
-asciidoc to DEPENDS as necessary, this is no longer an issue.
-
-[ This corresponds to commit b0aedd74 and parts of commit 1eedc5f8,
-  with the patch replaced by the upstream version. ]
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...-build-of-documentation-optional-842.patch | 36 +++++++++++++++++++
- meta/recipes-devtools/ccache/ccache_4.2.bb    |  4 +++
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/ccache/ccache/0001-CMake-make-build-of-documentation-optional-842.patch
+ .../libxml/libxml2/CVE-2021-3517.patch        | 54 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch
 
-diff --git a/meta/recipes-devtools/ccache/ccache/0001-CMake-make-build-of-documentation-optional-842.patch b/meta/recipes-devtools/ccache/ccache/0001-CMake-make-build-of-documentation-optional-842.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch
 new file mode 100644
-index 00000000000..9f6bb1780ba
+index 00000000000..b6204f655a9
 --- /dev/null
-+++ b/meta/recipes-devtools/ccache/ccache/0001-CMake-make-build-of-documentation-optional-842.patch
-@@ -0,0 +1,36 @@
-+From 857d74f2c5fff79589e9b35cd405bf8ffffafb54 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>
-+Date: Mon, 3 May 2021 18:44:53 +0200
-+Subject: [PATCH] CMake: make build of documentation optional (#842)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch
+@@ -0,0 +1,54 @@
++From df3de1376585f7a273d70023f92a530395957324 Mon Sep 17 00:00:00 2001
++From: Joel Hockey <joel.hockey@gmail.com>
++Date: Sun, 16 Aug 2020 17:19:35 -0700
++Subject: [PATCH 1/3] Validate UTF8 in xmlEncodeEntities
 +
-+So we don't need to support corner cases as for example one fixed in
-+commit f6202db308e3 ("doc/MANUAL.adoc: Don't use non-ASCII quotes
-+(#761)") when the documentation is actually not needed at all as ccache
-+is used as a build tool only.
++Code is currently assuming UTF-8 without validating. Truncated UTF-8
++input can cause out-of-bounds array access.
 +
-+Signed-off-by: Petr Štetiar <ynezz@true.cz>
-+Upstream-Status: Backport [b96ca763c453a602b5516b4b9ca5e2829528e318]
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++Adds further checks to partial fix in 50f06b3e.
++
++Fixes #178
++
++CVE: CVE-2021-3517
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/bf22713507fe1fc3a2c4b525cf0a88c2dc87a3a2]
++
++Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
 +---
-+ CMakeLists.txt | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ entities.c | 16 +++++++++++++++-
++ 1 file changed, 15 insertions(+), 1 deletion(-)
 +
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 40e21a57..151cc5f7 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -131,7 +131,10 @@ target_link_libraries(ccache PRIVATE standard_settings standard_warnings ccache_
-+ #
-+ # Documentation
-+ #
-+-add_subdirectory(doc)
-++option(ENABLE_DOCUMENTATION "Enable documentation" ON)
-++if(ENABLE_DOCUMENTATION)
-++  add_subdirectory(doc)
-++endif()
++diff --git a/entities.c b/entities.c
++index d575e9d1..7cdbc4de 100644
++--- a/entities.c
+++++ b/entities.c
++@@ -666,11 +666,25 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
++ 	    } else {
++ 		/*
++ 		 * We assume we have UTF-8 input.
+++		 * It must match either:
+++		 *   110xxxxx 10xxxxxx
+++		 *   1110xxxx 10xxxxxx 10xxxxxx
+++		 *   11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+++		 * That is:
+++		 *   cur[0] is 11xxxxxx
+++		 *   cur[1] is 10xxxxxx
+++		 *   cur[2] is 10xxxxxx if cur[0] is 111xxxxx
+++		 *   cur[3] is 10xxxxxx if cur[0] is 1111xxxx
+++		 *   cur[0] is not 11111xxx
++ 		 */
++ 		char buf[11], *ptr;
++ 		int val = 0, l = 1;
 + 
-+ #
-+ # Installation
-diff --git a/meta/recipes-devtools/ccache/ccache_4.2.bb b/meta/recipes-devtools/ccache/ccache_4.2.bb
-index 9957bc7e651..b76bf043f01 100644
---- a/meta/recipes-devtools/ccache/ccache_4.2.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.2.bb
-@@ -12,10 +12,14 @@ LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=28afb89f649f309e7ac1aab554564637"
- DEPENDS = "zstd"
- 
- SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
-+SRC_URI += "file://0001-CMake-make-build-of-documentation-optional-842.patch"
++-		if (*cur < 0xC0) {
+++		if (((cur[0] & 0xC0) != 0xC0) ||
+++		    ((cur[1] & 0xC0) != 0x80) ||
+++		    (((cur[0] & 0xE0) == 0xE0) && ((cur[2] & 0xC0) != 0x80)) ||
+++		    (((cur[0] & 0xF0) == 0xF0) && ((cur[3] & 0xC0) != 0x80)) ||
+++		    (((cur[0] & 0xF8) == 0xF8))) {
++ 		    xmlEntitiesErr(XML_CHECK_NOT_UTF8,
++ 			    "xmlEncodeEntities: input not UTF-8");
++ 		    if (doc != NULL)
++-- 
++2.25.1
 +
- SRC_URI[sha256sum] = "dbf139ff32031b54cb47f2d7983269f328df14b5a427882f89f7721e5c411b7e"
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index 07ae68610c8..ad612379b3f 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://CVE-2019-20388.patch \
+            file://CVE-2020-24977.patch \
+            file://fix-python39.patch \
++           file://CVE-2021-3517.patch \
+            "
  
- UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
- 
-+PACKAGECONFIG[docs] = "-DENABLE_DOCUMENTATION=ON,-DENABLE_DOCUMENTATION=OFF,asciidoc"
-+
- inherit cmake
- 
- PATCHTOOL = "patch"
+ SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
 -- 
 2.30.2
 
