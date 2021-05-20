@@ -1,52 +1,72 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.141.1621530922367738778
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.541.1621532675686924280
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 10:15:22 -0700
+ Thu, 20 May 2021 10:44:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F27A811B3
-	for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 10:15:20 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A0A43F719
-	for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 10:15:15 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g8WznaLw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id c14so16738696wrx.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 10:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GdvdlwpGwZRr5Tc0azeO4loSLLcP77NaXgxanny8I4w=;
+        b=g8WznaLwN1R1haRbzBNjvW9G4sDmGpHJ0h5AM67/4f9ynzX/HgGJd4CNcKe8u1aUgf
+         NsU/9al70GbZ6tT2Sgk1J7GMNWi2yq+ofty+NLF4UPkUhnn55W/FzbIPvdMg9fgzFXui
+         vxeShYeB0myCjBSqhLkUc4qqo2dRBmY3F5yI0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GdvdlwpGwZRr5Tc0azeO4loSLLcP77NaXgxanny8I4w=;
+        b=fJTHSoHbD6m51N6V2Y3yonf6ANQLbGM0/i56usZvCn/e5CxF3vJuMkEZSgiVDaLuGb
+         B44Gh/fX+5xoKJd5bob0zPXYazG9bDF9XNsV69osMdO+hdBzRY7GMr2klfH/4MzYVWZ5
+         z//8zHIrFwi42BE7McwrFmD7ad7gInBxNjXqFmw2LycTFIT4uOEbnvMHUNvrKfVbOAnT
+         1CGS6ZnkuVA8XvCAEBgE2TE8hZiTYz51fbPaheM5ltv3JCYiAk6Q036ZIwnDXR2YCpm4
+         ttMPqYOCMxJXgm71nXVVMQ8NNp1K1bQ7/5qlX85T4B+umCJ5CdEmMzy8b2CwsUZFVEqB
+         Cmlg==
+X-Gm-Message-State: AOAM532TUuQzly6eQOMj6EZegTcJ2zAGBLju9v12hmiu5yxlH77Eyxlm
+	pjDQ/SkYZEskahuK2CGYO6JBfTFRl6848A==
+X-Google-Smtp-Source: ABdhPJwXclb7oVX7uhbNqPL/kSXQesSLNxOmuuSTWMILUtmkGleXsIkuDYGuOHXH3d+mVl7B5ULwsg==
+X-Received: by 2002:a05:6000:504:: with SMTP id a4mr5570027wrf.51.1621532673941;
+        Thu, 20 May 2021 10:44:33 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:56da:83e7:85fe:8f81])
+        by smtp.gmail.com with ESMTPSA id f6sm4574991wru.72.2021.05.20.10.44.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 10:44:33 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc: enable branch protection by standard
-Date: Thu, 20 May 2021 18:15:11 +0100
-Message-Id: <20210520171511.3177430-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH 1/2] grub: Exclude CVE-2019-14865 from cve-check
+Date: Thu, 20 May 2021 18:44:32 +0100
+Message-Id: <20210520174433.2523177-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Pass --enable-standard-branch-protection.  This is an aarch64-specific
-option (currently) which does nothing on other targets.  On aarch64 this
-generates code uses BTI/PAC instructions to mitigate Return Orientated
-Programming attacks.  This approach is backwards compatible and the code
-size/performance impact is typically negliable.
+The CVE only applies to RHEL.
 
-More details can be found at
-https://events.static.linuxfound.org/sites/events/files/slides/slides_23.=
-pdf
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-bsp/grub/grub2.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/re=
-cipes-devtools/gcc/gcc-configure-common.inc
-index a64c4caf00..dc7f458b25 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -40,6 +40,7 @@ EXTRA_OECONF =3D "\
-     ${@get_gcc_mips_plt_setting(bb, d)} \
-     ${@get_gcc_ppc_plt_settings(bb, d)} \
-     ${@get_gcc_multiarch_setting(bb, d)} \
-+	--enable-standard-branch-protection \
- "
-=20
- # glibc version is a minimum controlling whether features are enabled.=20
---=20
-2.25.1
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index f0fa86b1823..3c6b434c2d5 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -34,6 +34,9 @@ CVE_CHECK_WHITELIST += "\
+     CVE-2020-25632 CVE-2020-25647 CVE-2020-27749 CVE-2020-27779 \
+     CVE-2021-3418 CVE-2021-20225 CVE-2021-20233"
+ 
++# Applies only to RHEL
++CVE_CHECK_WHITELIST += "CVE-2019-14865"
++
+ S = "${WORKDIR}/grub-${REALPV}"
+ 
+ UPSTREAM_CHECK_URI = "${GNU_MIRROR}/grub"
+-- 
+2.30.2
 
