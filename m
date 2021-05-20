@@ -1,76 +1,78 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.501.1621543752458015384
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web08.505.1621543752853810712
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 13:49:12 -0700
+ Thu, 20 May 2021 13:49:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HNqdh3mD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id x8so18955424wrq.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZIDUBaTY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id d11so18938813wrw.8
         for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QO9n9p7zpnzL1iQd4KW4POEdWi+eNPUb1xbLi2k8nb0=;
-        b=HNqdh3mDjQUcDy8J5tdey179PbfcMm+beG7epp9nLqrv9+TrKpIziF+0aBTfag4QPA
-         sCupc60zj528/7W323+5faCmeoQWzunw+66g8HNpGbxxvKaTs5Ylu4ML/aSOwqz4807x
-         ijmg2VJvXzbl3Rop4Ij7gwG5sy3wVpCqy1u+A=
+        bh=KNQQ4umUqvck9Xh6y5j1RtvcNhjeAJ8aKkUxrs0wz90=;
+        b=ZIDUBaTY3BoANyKy8V0fwApeyZ9zaMU6OBxI+kf13YqE/sN5tV+txwQJpM+ZJwnEoq
+         P3V41VHVzx94npkdi1u2jU9JJ6I84R9l35QfHdLynqrqtVJ2Q6mVhSJ12SEJKYxQKDoS
+         zdXDdTjtJccDrCrD190B790EnXkSlPVNbY3cY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QO9n9p7zpnzL1iQd4KW4POEdWi+eNPUb1xbLi2k8nb0=;
-        b=Yo8Rw9/SxAEYBmLNWw2NWfGFnfBFvGdXsNhe4Xof7CfQ35fRNjn7tUFkvVNyZxYvv/
-         oJEQnTAUIvPlDw68CRo0BqCVCsw2wwfD4w5AOYna6VifnvjAk8+ebpRrXWd+V+gWvfmZ
-         sb7mMXhaCdCuLuGU2PDBSSEi00d67En6HOny/LgdJKS8s/ze5HJZXy0XkgrK96JW5UHH
-         mgzmJHcIdxx98AO/KKLGwHbRjcXIdYLY0+54uqSb4hk7VETxIxM/T3ymxXKY/rs0EW6Y
-         uq6pnzNy2NJFBTts6GG8tYswRxLTazP6rGTwLZTwgAAYAP2quciesyt2DgqsLKw3+rcd
-         t2Qw==
-X-Gm-Message-State: AOAM533MlNSEOTyDCq5LWn2oZts5KFmPONe1s3a36ULQNWw2tz30WzKH
-	jLc0hcScTNtrwJXZ6yno47LXT0PibFCi1w==
-X-Google-Smtp-Source: ABdhPJxHEFmBfoovPgAVDe9vu8DDbb+BW7E1EHIm8Vng0ErztFUIyoVW3T+wofAEDyZh/HpOeH8+UQ==
-X-Received: by 2002:adf:eb82:: with SMTP id t2mr6040655wrn.337.1621543750992;
-        Thu, 20 May 2021 13:49:10 -0700 (PDT)
+        bh=KNQQ4umUqvck9Xh6y5j1RtvcNhjeAJ8aKkUxrs0wz90=;
+        b=c+uZCijirlsiXt7pzz+Etwt5FlHg7hILG5xaOM9UxcHXKjZxw/R/qFTWorvlZ3zHFD
+         Q5+FDm3CwMh8PfZMAsagF2NCiXSsFUjFujm2Dlh/z83/nJnUxG5ur4FpwWwrhj/nIR+J
+         ooAt1tIOGTs+02ubd41waa2ThhpFJBpRFGseGAa4I3uvg1vfoLybaOGOXXfHLhnGtLxU
+         fOHao2aXbplbSMUzSkJMwafIWskAJsE9OA3Ko41PwW3yDpFu08/tUZV6o9a9jlo/kNkN
+         cMbt9lSCclIPvcahbZ+0rVfEL4YA/JYZ7yW6DaTUy0Y8IX4X60vSR2lXbBjHxI6s72wc
+         f0yg==
+X-Gm-Message-State: AOAM5312/rnStCSPZGnq/QpDnrXF4DK3QYEbYTZiULpwYIKRsIWS/8c5
+	uE11DQwN6AD5QZfNJo9v/tJ9hSaoOFWmAg==
+X-Google-Smtp-Source: ABdhPJy8oZNiin3Os5Pi6d21alfcTG/Ns3g2hKhVrc8FdsOln2hLVAZb5fHurZJSsFOrOdu+mYpw5Q==
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr6211858wrt.189.1621543751389;
+        Thu, 20 May 2021 13:49:11 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c394:d896:3913:6568])
-        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.10
+        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 13:49:10 -0700 (PDT)
+        Thu, 20 May 2021 13:49:11 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott] [PATCH 14/28] qemu: Exclude CVE-2018-18438 from cve-check
-Date: Thu, 20 May 2021 21:48:48 +0100
-Message-Id: <20210520204902.2527687-14-richard.purdie@linuxfoundation.org>
+Subject: [hardknott] [PATCH 15/28] jquery: Exclude CVE-2007-2379 from cve-check
+Date: Thu, 20 May 2021 21:48:49 +0100
+Message-Id: <20210520204902.2527687-15-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 References: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The issues were investigated and found not to be an issue therefore
-exclude from checks.
+The CVE is non-specific and depends on the users of jquery, doesn't
+make sense to have this flagged against jquery as there is nothing we can
+do about it.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/jquery/jquery_3.6.0.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index c56f341a5e1..fbda0c91741 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -72,6 +72,10 @@ CVE_CHECK_WHITELIST += "CVE-2017-5957"
- # enable it by default.
- CVE_CHECK_WHITELIST += "CVE-2007-0998"
+diff --git a/meta/recipes-devtools/jquery/jquery_3.6.0.bb b/meta/recipes-devtools/jquery/jquery_3.6.0.bb
+index 65905966c1c..03792730fd2 100644
+--- a/meta/recipes-devtools/jquery/jquery_3.6.0.bb
++++ b/meta/recipes-devtools/jquery/jquery_3.6.0.bb
+@@ -19,6 +19,11 @@ SRC_URI[map.sha256sum] = "399548fb0e7b146c12f5ba18099a47d594a970fee96212eee0ab48
  
-+# 'The issues identified by this CVE were determined to not constitute a vulnerability.'
-+# https://bugzilla.redhat.com/show_bug.cgi?id=1609015#c11
-+CVE_CHECK_WHITELIST += "CVE-2018-18438"
+ UPSTREAM_CHECK_REGEX = "jquery-(?P<pver>\d+(\.\d+)+)\.js"
+ 
++# https://github.com/jquery/jquery/issues/3927
++# There are ways jquery can expose security issues but any issues are in the apps exposing them
++# and there is little we can directly do
++CVE_CHECK_WHITELIST += "CVE-2007-2379"
 +
- COMPATIBLE_HOST_mipsarchn32 = "null"
- COMPATIBLE_HOST_mipsarchn64 = "null"
+ inherit allarch
  
+ do_install() {
 -- 
 2.30.2
 
