@@ -1,74 +1,74 @@
 Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web09.497.1621543759861064693
+ by mx.groups.io with SMTP id smtpd.web12.529.1621543760583256797
  for <openembedded-core@lists.openembedded.org>;
  Thu, 20 May 2021 13:49:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gJESID1h;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XVHrlhQF;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so5988035wmh.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:19 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id f6-20020a1c1f060000b0290175ca89f698so6172661wmf.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=L+lnJXJNYwv5hGPzhocPG3NT7KYt0RCJl/0K7pLhofQ=;
-        b=gJESID1hDDSHn9/pvKF74kBNrXNpaKg/d4TIlvmLEUywS8ptvd3T0TL0N9/5Xpk46k
-         zDmzo8ltyUYUoEH6yEXe8KsO+Luu7HjVk/LgTIuhm/xIHYM274ZL0TFzYpoQ6vRtvI/Z
-         lNKk8wKhvnEQ5UAsbpLpZVdPCJa7YhK4d6+8I=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ELMHfgIsHgndGxSCqtJyldldRborjUq50YpeHkluNQg=;
+        b=XVHrlhQFOrW2+O+at4AigvFgTjyoyfmA2BuOX1cgobdE40w7aIVFIrptIigLEIE3qW
+         F/3TM83/HzsIqOqxvBa/vkXN0USpsvGUGESiWK1PiDKbgrYdt+HO93MneowxP1Re/zs5
+         AnThdyoITXaHtS8aGsJf280bzHYACYCLjTWy4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L+lnJXJNYwv5hGPzhocPG3NT7KYt0RCJl/0K7pLhofQ=;
-        b=aq1Js9BFkufupzaKGGQKR32FjNkuuVpfzyb9SaMPy62flHUZugVeXqibbyhDhRiLcn
-         Fr0zPF24+5S1oaBeqho9sk7GPlEYsf6Xy9iHGEXxRzsdfC46F3zUnQt6mlcAM+Iy0FIq
-         hw88xciBl/b2MgE6D5SdNmt1+wS/upncNeaqg77ZwnvmJPTmiY5EXtrx+hB139m+8GAt
-         lQ/eH9IfGubD56dWGoxKYSiBlKkmTzHy+ccCkPDB1aW4M63UVd0rxpigveMniC/JQgzi
-         m3z+zVfBCj2uuEsld1pLrmJRCd614zsxcEvWdHZDB/E+EWJYoFgPc8ZaBZoSKag2I6lX
-         4+kA==
-X-Gm-Message-State: AOAM532ts5HOj2s1JXtWXDgeOFkbAomMIzlk4XAEZThUcobKWMobLID7
-	8hLeSqq/lhZisGx7cMCQFm8DB8MI5TMhqw==
-X-Google-Smtp-Source: ABdhPJxa9glLu/cZivd8vJFlGruLp1BfirCEQjYMZoVD1atJVRldSTFfvr7LskVDjsUWWffqRO3Gog==
-X-Received: by 2002:a1c:114:: with SMTP id 20mr5824080wmb.124.1621543758370;
-        Thu, 20 May 2021 13:49:18 -0700 (PDT)
+        bh=ELMHfgIsHgndGxSCqtJyldldRborjUq50YpeHkluNQg=;
+        b=XBT3vf0CVOfKMCh3XMyE07sEhFbiHwXd0IdRQNn/QLfBlPItjjnhWJEyYFDO778YER
+         77bl+XbC2svOEN2HzfNRh7nCjzNav3+J+RACPfBtSAHr6AjjcTSCvqJnBzSJL/1NhRfO
+         I5drIaKr/OXzgje6krABRAXLS0v+CHO82D7aLIhUem4Uzm61jfKG8Ub0XLgl+73CDV3Y
+         xrBa5j/Sh8q/87sPcdyNKxyb856ooEmQ/rbGhnI78FawurAH8bS6xzCZVW+xgD/5yNk3
+         brn+3N7e5nsZEWrKA9EibeZQssWY5EgvjU2Q+NYLqE5mS/Si8t3HMDS0QfOzgccgaqb3
+         BQ2Q==
+X-Gm-Message-State: AOAM532zDcBnhfGCc0EIhc4dWeBCH236X6trV/If/WlYM5eSOp1+cMmy
+	WP9nk1mvFo0NVXWAo5wdsvcNOgnple9/Yw==
+X-Google-Smtp-Source: ABdhPJwd1dDNNMJrUt/z0Oo9qWyc/TdByI+aMmOsNss+ec9/oDuTNSiCt52htunWKSQpmI3vNg/EPw==
+X-Received: by 2002:a1c:7c03:: with SMTP id x3mr5836770wmc.168.1621543759065;
+        Thu, 20 May 2021 13:49:19 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c394:d896:3913:6568])
-        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.17
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 20 May 2021 13:49:18 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott] [PATCH 26/28] avahi: Exclude CVE-2021-26720 from cve-check
-Date: Thu, 20 May 2021 21:49:00 +0100
-Message-Id: <20210520204902.2527687-26-richard.purdie@linuxfoundation.org>
+Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Subject: [hardknott] [PATCH 27/28] image.bbclass: fix comment "pacackages" -> "packages"
+Date: Thu, 20 May 2021 21:49:01 +0100
+Message-Id: <20210520204902.2527687-27-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 References: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Issue only affects Debian and SUSE.
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/avahi/avahi_0.8.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index c8a3f876aa9..23c0e8d8239 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -30,6 +30,9 @@ UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
- SRC_URI[md5sum] = "229c6aa30674fc43c202b22c5f8c2be7"
- SRC_URI[sha256sum] = "060309d7a333d38d951bc27598c677af1796934dbd98e1024e7ad8de798fedda"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 353cc671759..67603d958d5 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -38,7 +38,7 @@ IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs read-only-rootfs-de
+ # Generate companion debugfs?
+ IMAGE_GEN_DEBUGFS ?= "0"
  
-+# Issue only affects Debian/SUSE, not us
-+CVE_CHECK_WHITELIST += "CVE-2021-26720"
-+
- DEPENDS = "expat libcap libdaemon glib-2.0 intltool-native"
+-# These pacackages will be installed as additional into debug rootfs
++# These packages will be installed as additional into debug rootfs
+ IMAGE_INSTALL_DEBUGFS ?= ""
  
- # For gtk related PACKAGECONFIGs: gtk, gtk3
+ # These packages will be removed from a read-only rootfs after all other
 -- 
 2.30.2
 
