@@ -1,47 +1,47 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.514.1621543747602374085
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web09.487.1621543748299220421
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 13:49:07 -0700
+ Thu, 20 May 2021 13:49:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SUF81EnH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id y14so16881657wrm.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W/Yi0oc5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 62so8923426wmb.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/mcphgtknTsDIxkKdkF+Wv7I/sjQvRds6QfZWmnYo54=;
-        b=SUF81EnH8BCWKXrQeywmDInJkOnDmj8dVge+wNG+29tfrhucmfKQTY1ChBTE+XW1IC
-         HIiY1W5jmc1kxgXjZHkZcL8fUITC54Fo0Am5kQ4Cf3Ho9vmliHkG70cQD/dQ8cJiUrjt
-         FQ04Ru4X2zD2DCqNlZQMogEEPVSkg9P+AMhA0=
+        bh=E/cTMB/pKYh7fG+rBPbIH3/TKmAHT1499tNB6plh0iE=;
+        b=W/Yi0oc5TB6mhZTERMKh2/1eo3FwP1ooRfNMbdusl26fEUBONcLtOmTrvzWyWYEpB7
+         FqxC/wIJ4suyCPI4/IFxLMyEH6JPznt14XTEpaQMrAxXgVKf/m1dOV0zDFkA7Up6EYAu
+         nQN7PYVFlcZfqk/peUs90yZ8W20Um/V7MlPbg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/mcphgtknTsDIxkKdkF+Wv7I/sjQvRds6QfZWmnYo54=;
-        b=kJzhm0nS0HYiuP4ukTkWZANaj5iqRPenUknRc6PfnI5k70vBZy6wLAfuxuQEBj+Bn2
-         17AyWnwA7boIkzBtvKXDIvZe9x4i+oTs3DROqxj0D4ebWlYArvb9nxJIT5QrIWBfQgoG
-         SSsD/V1bmE3tB6RR2Sci5ZESLUgcBfXyNA0JusvuIZuH5qlujmk05+7zXs8DG9TbRbUV
-         vE6pXKIAih295u+wy358/USRxHAf4stsZwiTk+ZI6EmyU8i/W15KvutC8o2yHEh5izOb
-         co31RPvH22s6S7uqJ/XvFqhXSSRPh+NR67ULxhE7AAU6ba7btNJFHq4k+wrhAhpLzSOr
-         GRKQ==
-X-Gm-Message-State: AOAM530UgMJ84trlWWmDr/AwHyR3NhIJPDb3uX0bAf4izUTJFm0/Td6O
-	PzSzWOraGgJGYgkcG3FfRp7215G/8Fxc8w==
-X-Google-Smtp-Source: ABdhPJzFi4Z0zjYsyUHHzKdEhBqbtMqqFy7fwYh4XrfFka/JI8aqZ9z6PREpeOW5YizHhaxRZZw2Fw==
-X-Received: by 2002:a05:6000:1c2:: with SMTP id t2mr5903639wrx.424.1621543746108;
+        bh=E/cTMB/pKYh7fG+rBPbIH3/TKmAHT1499tNB6plh0iE=;
+        b=I03x3QMaXCk0O7/mXXftq2XZoTqFbIBd+W6gIvqrOCt3lAilCtr4K3/b4FcMnF3qov
+         ufzQ/tYXnHFrWHP/iFAPICt2DI9GbIS+MBwSb+EXTmO65g8YOyqm7PZTyUJ+o4NlOE6W
+         O/ErgVViKWn+vmlUCWCANhaOUgQEjDQwoLGS5Zn8rp9U7pRygPJpWmUazsShdKpRn/L5
+         7smjDvPS0H+7Quty56uw7qXkpxuoKoyxNK9t4VaS0ouj6VT9hQTBxjRC8l/frppB3xwQ
+         hY8gSsDqQG9FkWF+AGsGA1HmG6ZZJyhtoMEVVqO+9QGk32oC3kTCb9EDtCBGzY15TTKP
+         umJw==
+X-Gm-Message-State: AOAM532ctcrpm/HbLayuN6h/pnmAP6OGJkjZf3tDvDuJKBAA7nBqe/CB
+	wU4Z4lg1A5SNopp72an7xdfyu+6zCO7A6Q==
+X-Google-Smtp-Source: ABdhPJwheaZFDo6/0W0VVE3YxTbM1QHAFIEvbt6OoqXgLVlwsqbGt44u+K7/PrW/ucoHkRSapAxJgA==
+X-Received: by 2002:a05:600c:4f04:: with SMTP id l4mr5275343wmq.18.1621543746776;
         Thu, 20 May 2021 13:49:06 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c394:d896:3913:6568])
-        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.05
+        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 13:49:05 -0700 (PDT)
+        Thu, 20 May 2021 13:49:06 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Tony Tascioglu <tony.tascioglu@windriver.com>
-Subject: [hardknott] [PATCH 06/28] libxml2: fix CVE-2021-3517
-Date: Thu, 20 May 2021 21:48:40 +0100
-Message-Id: <20210520204902.2527687-6-richard.purdie@linuxfoundation.org>
+Subject: [hardknott] [PATCH 07/28] libxml2: fix CVE-2021-3516
+Date: Thu, 20 May 2021 21:48:41 +0100
+Message-Id: <20210520204902.2527687-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 References: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
@@ -50,88 +50,70 @@ Content-Transfer-Encoding: 8bit
 
 From: Tony Tascioglu <tony.tascioglu@windriver.com>
 
-Fixes heap-based buffer overflow in xmlEncodeEntitiesInternal() in entities.c
+Fixes use-after-free in xmlEncodeEntitiesInternal() in entities.c
 
-CVE: CVE-2021-3517
-Upstream-status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/bf22713507fe1fc3a2c4b525cf0a88c2dc87a3a2]
+CVE: CVE-2021-3516
+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1358d157d0bd83be1dfe356a69213df9fac0b539]
 
 Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libxml/libxml2/CVE-2021-3517.patch        | 54 +++++++++++++++++++
+ .../libxml/libxml2/CVE-2021-3516.patch        | 36 +++++++++++++++++++
  meta/recipes-core/libxml/libxml2_2.9.10.bb    |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
 new file mode 100644
-index 00000000000..b6204f655a9
+index 00000000000..287a171924d
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch
-@@ -0,0 +1,54 @@
-+From df3de1376585f7a273d70023f92a530395957324 Mon Sep 17 00:00:00 2001
-+From: Joel Hockey <joel.hockey@gmail.com>
-+Date: Sun, 16 Aug 2020 17:19:35 -0700
-+Subject: [PATCH 1/3] Validate UTF8 in xmlEncodeEntities
++++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
+@@ -0,0 +1,36 @@
++From b76718876953e11bbd73dc6c9457323fd5aeda2e Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Wed, 21 Apr 2021 13:23:27 +0200
++Subject: [PATCH 2/3] Fix use-after-free with `xmllint --html --push`
 +
-+Code is currently assuming UTF-8 without validating. Truncated UTF-8
-+input can cause out-of-bounds array access.
++Call htmlCtxtUseOptions to make sure that names aren't stored in
++dictionaries.
 +
-+Adds further checks to partial fix in 50f06b3e.
++Note that this issue only affects xmllint using the HTML push parser.
 +
-+Fixes #178
++Fixes #230.
 +
-+CVE: CVE-2021-3517
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/bf22713507fe1fc3a2c4b525cf0a88c2dc87a3a2]
++CVE: CVE-2021-3516
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1358d157d0bd83be1dfe356a69213df9fac0b539]
 +
 +Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
 +---
-+ entities.c | 16 +++++++++++++++-
-+ 1 file changed, 15 insertions(+), 1 deletion(-)
++ xmllint.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/entities.c b/entities.c
-+index d575e9d1..7cdbc4de 100644
-+--- a/entities.c
-++++ b/entities.c
-+@@ -666,11 +666,25 @@ xmlEncodeEntitiesInternal(xmlDocPtr doc, const xmlChar *input, int attr) {
-+ 	    } else {
-+ 		/*
-+ 		 * We assume we have UTF-8 input.
-++		 * It must match either:
-++		 *   110xxxxx 10xxxxxx
-++		 *   1110xxxx 10xxxxxx 10xxxxxx
-++		 *   11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-++		 * That is:
-++		 *   cur[0] is 11xxxxxx
-++		 *   cur[1] is 10xxxxxx
-++		 *   cur[2] is 10xxxxxx if cur[0] is 111xxxxx
-++		 *   cur[3] is 10xxxxxx if cur[0] is 1111xxxx
-++		 *   cur[0] is not 11111xxx
-+ 		 */
-+ 		char buf[11], *ptr;
-+ 		int val = 0, l = 1;
-+ 
-+-		if (*cur < 0xC0) {
-++		if (((cur[0] & 0xC0) != 0xC0) ||
-++		    ((cur[1] & 0xC0) != 0x80) ||
-++		    (((cur[0] & 0xE0) == 0xE0) && ((cur[2] & 0xC0) != 0x80)) ||
-++		    (((cur[0] & 0xF0) == 0xF0) && ((cur[3] & 0xC0) != 0x80)) ||
-++		    (((cur[0] & 0xF8) == 0xF8))) {
-+ 		    xmlEntitiesErr(XML_CHECK_NOT_UTF8,
-+ 			    "xmlEncodeEntities: input not UTF-8");
-+ 		    if (doc != NULL)
++diff --git a/xmllint.c b/xmllint.c
++index c0712674..ba66676b 100644
++--- a/xmllint.c
+++++ b/xmllint.c
++@@ -2204,7 +2204,7 @@ static void parseAndPrintFile(char *filename, xmlParserCtxtPtr rectxt) {
++             if (res > 0) {
++                 ctxt = htmlCreatePushParserCtxt(NULL, NULL,
++                             chars, res, filename, XML_CHAR_ENCODING_NONE);
++-                xmlCtxtUseOptions(ctxt, options);
+++                htmlCtxtUseOptions(ctxt, options);
++                 while ((res = fread(chars, 1, pushsize, f)) > 0) {
++                     htmlParseChunk(ctxt, chars, res, 0);
++                 }
 +-- 
 +2.25.1
 +
 diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index 07ae68610c8..ad612379b3f 100644
+index ad612379b3f..6f1229c2d08 100644
 --- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
 +++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://CVE-2019-20388.patch \
+@@ -25,6 +25,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
             file://CVE-2020-24977.patch \
             file://fix-python39.patch \
-+           file://CVE-2021-3517.patch \
+            file://CVE-2021-3517.patch \
++           file://CVE-2021-3516.patch \
             "
  
  SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
