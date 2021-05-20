@@ -1,39 +1,39 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
- by mx.groups.io with SMTP id smtpd.web10.253.1621542599577020493
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+ by mx.groups.io with SMTP id smtpd.web11.243.1621542649822179485
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 13:29:59 -0700
+ Thu, 20 May 2021 13:30:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fwB3VdGa;
- spf=pass (domain: gmail.com, ip: 209.85.222.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f47.google.com with SMTP id f1so5929451uaj.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:29:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lzbLDWSy;
+ spf=pass (domain: gmail.com, ip: 209.85.222.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f50.google.com with SMTP id f1so5930198uaj.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:30:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=OBRCftINKcQH07xuvoNM6sbKeheUHd7kKHZ42hA/3SU=;
-        b=fwB3VdGaWQJobeDpANpoiPZ3eSh7JX+JMtc5HPCAI40jhR+iuoWI6EkbdsmKQjylvo
-         Q4neOffvgPkFuADXtTBCuNGWwXRpLBmx0P/rzR4GgMrtyVrOvvUOVVA2xKiMlLZSqVqx
-         DRitI+AS3KaO/f0kn6VdVdEO8oMK98fpOhe7Plf74z/LhS1QX85Ikbpb6Qu7lUNNMHXn
-         cs3OIc+zmwWnIIVWYzXh4vUceHLEfqnaZ6ToywGo2iNkR0Ayd/n9plWAOD0NnMgvyl7t
-         jOxsD/9SNIHTItSJ5f6gbAIl9SJSJ0zdyd5UtLMJBMRYuFrdki7YY33iWKdO8Fw2PTF0
-         8cLg==
+        bh=f1LfnPGjkljzwqEQGCYA8Ld9Y97OKWrpuAd5jv3Xjn8=;
+        b=lzbLDWSyJJ3SI+65+nKFiWtNLG3mUynhoQTLC1CIQpUHYDO2/K0YYeXvORanQMOCx7
+         PUCfm9oIBWbW3L9crcHjCbc3igptsyOzWHXx8t8o/rhn2zfcNWlMFEN0JTdwrYXvfQsM
+         XuDRdHUKIaP84GFvamC5goHOCKDp6dUE+dFCCwC5I1unpWdCXVeTvZeLguGt77fwwnIT
+         Xy0f+lxQQr7slOYQpkJqab+D+92el7je7tK8ATZNjKoQaoM948x12rvtyFz7SrRyKK9D
+         EV1wT02skRCCXSRd5CvHvGC7cDzEU20rA/9l+YpQ+fizrtSIt8HCmK2foHSht7k4+w7k
+         FySg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=OBRCftINKcQH07xuvoNM6sbKeheUHd7kKHZ42hA/3SU=;
-        b=Soh2oLydwxQ+DL0sSPdzVWdEkF5gQIyJdgHiKJNeTV+cI0GKh6zU3Mp8c7tyAFGt0L
-         tDGc4ybYvpGK7kIqjQ7Pc9YsLfPRj+HdjkbdGejbrG2ryKiSxOBd3i+WGO6VaAS4MIDS
-         8CzRPZHDIQWsXa9gVoHj3/HD6WKWJfZNboDMTz1SifYIFGX71GwrCtD+Ub/43HpSCLc9
-         r6BiHBK/yJhxK09IdBz8sZmbcTWwPeyp0vQZ6+D67kS37z/sHb6coZiWVhmULjG5g9s5
-         j3Xh7SWqI9dpXGyglck0BxrxKUrjwsDWzTD6Ye0iXninTMlN3Obhmtpc+xyf5Z1nFFy4
-         PMOg==
-X-Gm-Message-State: AOAM5300e90eSeeSYolwBp8RSCJsw7jsy0tZw0JcOUEl2QdgKntDQvC3
-	140mts4EQJiVjh9z29KOFI09a00cwBw9NotcjDo=
-X-Google-Smtp-Source: ABdhPJzfbjh7AITTp8BoGr6ptNefStpvSSrIXY7zpbeVclT05xOgGPEsQVNUBvWOUAiYZ5TUMJqI+Vfi93/Zk/H8JnU=
-X-Received: by 2002:ab0:742:: with SMTP id h60mr6268810uah.89.1621542598717;
- Thu, 20 May 2021 13:29:58 -0700 (PDT)
+        bh=f1LfnPGjkljzwqEQGCYA8Ld9Y97OKWrpuAd5jv3Xjn8=;
+        b=p+2NuYGPdEm7GBRszOQuNbfyfHP9gZRN7Nnl6vaMwrXNZSmhWMVWEJJ9bobv1YICAr
+         jLCknzLNyXoOThbpG+y4ry05OrNqP4hjAKOpokMV/iXT9N+W/Wo0+EHoVKJ5A95US+RK
+         kqKlOh8c1N7r/p46HISL3BDvPiYihXVH9sEx4LrQIZ3RAgI01RY+ecJMvuClAsFqEVwH
+         B3liK/ZjfOkvg9YSxlH2sTdk+qXUd8e8U5GWmX/S1Gk94ja1cnl7yWS2UnfVGCrXcAN3
+         OzWlAUt1j1Ky+86640QcGuci6/d3J2jtZ5IELR7F93qWkXBYgGT3ZoHIrijZd7dHwFtN
+         hnyQ==
+X-Gm-Message-State: AOAM531SqpWJ5YUkYFeDmA6jzdmnm+gu633LACMNDziGQC8Cri4nyDwz
+	YnS6Kkdlc/K5RlivfF62heFoYQvaht3AFyQyuE4=
+X-Google-Smtp-Source: ABdhPJwq3z2hDQ5SsTg2KtADF+CPQlF7ZDbd/k+PbiPaRJLpXQWRiAh0ioaEqKkFKoWvHrG3jDXMfGM2Spre1AvI9KQ=
+X-Received: by 2002:ab0:2381:: with SMTP id b1mr6397908uan.93.1621542649016;
+ Thu, 20 May 2021 13:30:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <a49a474e4767e9892598d529cd77bcdb89ccaadb.camel@linuxfoundation.org>
  <20210517103528.24434-1-vinay.m.engg@gmail.com> <20210517103528.24434-6-vinay.m.engg@gmail.com>
@@ -44,210 +44,228 @@ References: <a49a474e4767e9892598d529cd77bcdb89ccaadb.camel@linuxfoundation.org>
  <CANNYZj9OeUc73=xf+F5qub-T4Fr6msvWTpshN=XubL-mL2j5UQ@mail.gmail.com>
  <CANUMPcUs_sUnzH_9XPU_mKsUJrbx5cA2PXUug0Yusf+ze6cpAw@mail.gmail.com>
  <167FE427910432AF.29970@lists.openembedded.org> <CANUMPcWrQtocibdLawMmt30eQkYiC5NLAj+MhnfUs8ozgoHOMA@mail.gmail.com>
-In-Reply-To: <CANUMPcWrQtocibdLawMmt30eQkYiC5NLAj+MhnfUs8ozgoHOMA@mail.gmail.com>
+ <CANNYZj88moczJGrTH_s3DAvR5P21aGui-yPfPst3mgySEcDj3A@mail.gmail.com>
+In-Reply-To: <CANNYZj88moczJGrTH_s3DAvR5P21aGui-yPfPst3mgySEcDj3A@mail.gmail.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 20 May 2021 22:29:47 +0200
-Message-ID: <CANNYZj88moczJGrTH_s3DAvR5P21aGui-yPfPst3mgySEcDj3A@mail.gmail.com>
+Date: Thu, 20 May 2021 22:30:37 +0200
+Message-ID: <CANNYZj-yODhEEFErtUxBeiw3O1YvEfV-hGOOW_uPNvo6x8mNYQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v2 6/7] oeqa/selftest/cases/rust.py: Rust oe-selftest script.
 To: Vinay Kumar <vinay.m.engg@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>, 
 	Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	Konrad Weihmann <kweihmann@outlook.com>, Randy MacLeod <rwmacleod@gmail.com>, 
 	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com
-Content-Type: multipart/alternative; boundary="00000000000095b94305c2c8cedf"
+Content-Type: multipart/alternative; boundary="00000000000095331605c2c8d1ed"
 
---00000000000095b94305c2c8cedf
+--00000000000095331605c2c8d1ed
 Content-Type: text/plain; charset="UTF-8"
 
-You cannot hardcode the ip address like that; it's set dynamically when
-qemu starts, and you can only access it from selftest or runtime test.
+If you publish the code to a branch, and show exactly the errors you get, I
+could try to look at it.
 
 Alex
 
-On Thu, 20 May 2021 at 12:06, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
+On Thu, 20 May 2021 at 22:29, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-> Hi Alex,
+> You cannot hardcode the ip address like that; it's set dynamically when
+> qemu starts, and you can only access it from selftest or runtime test.
 >
-> Tried your suggestions to copy and run in rust.py without any issue as
-> below.
-> ===============================
-> builddir = get_bb_var("B", "rust-testsuite")
-> ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user="root", timeout=600)
-> ssh.copy_to(builddir + "/" +
-> "build/x86_64-unknown-linux-gnu/stage2-tools-bin/remote-test-server","~/")
-> t_thread = threading.Thread(target=ssh.run,
-> args=("~/remote-test-server -v remote",))
-> t_thread.start()
-> ===============================
+> Alex
 >
-> If we set "TEST_DEVICE_ADDR" in rust.py through "runCmd" as shown
-> below,  the remote-test-client does not connect  to the image.
-> So a lot of tests fail.
-> ===============================
-> "cmd  = "export TEST_DEVICE_ADDR=%s:12345;" % qemu.ip"
-> runCmd(cmd)
-> bitbake("{} -c check".format(recipe))
-> ===============================
+> On Thu, 20 May 2021 at 12:06, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
 >
-> Also, I tried to move do_check content to rust.py without any success.
-> ===============================
-> cmd = "export PATH=%s/../recipe-sysroot-native/usr/lib/rustlib/:" %
-> builddir
-> cmd= cmd + "%s/../recipe-sysroot-native/usr/bin:$PATH;" % builddir
-> cmd = cmd + "export
-> RUST_TARGET_PATH=%s/../recipe-sysroot-native/usr/lib/rustlib/;" %
-> builddir
-> cmd = cmd + "cd " + builddir + ";"
-> cmd  = "export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
-> cmd = cmd + "python3 src/bootstrap/bootstrap.py -j 40 --verbose test
-> --no-fail-fast --bless --target aarch64-poky-linux > summary.txt 2>&1"
->
-> Error:
-> File
-> "/ala-lpggp31/vinay/review-2/poky-contrib/meta/lib/oeqa/utils/commands.py",
-> line 210, in runCmd
-> raise AssertionError("Command '%s' returned non-zero exit status
-> %d:\n%s" % (command, result.status, exc_output))
-> AssertionError: Command 'export
-> TEST_DEVICE_ADDR="192.168.7.2:12345";python3
-> src/bootstrap/bootstrap.py -j 40 --verbose test --no-fail-fast --bless
-> --target aarch64-poky-linux > summary.txt 2>&1' returned non-zero exit
-> status 2:
-> ===============================
->
-> So in rust.py only copy and execution of "remote-test-server" is taken
-> care of.
-> And the test execution is by  do_check of rust-testsuite.inc as below,
-> ===============================
-> do_check () {
->     export TEST_DEVICE_ADDR="192.168.7.2:12345"
->     rust_runx test --no-fail-fast --bless --target "${TARGET_SYS}" >
-> summary.txt 2> /dev/null
-> }
->
-> Let me know if this ok. will send patches with changes for review.
->
-> Regards,
-> Vinay
->
-> On Mon, May 17, 2021 at 8:57 PM Vinay Kumar via lists.openembedded.org
-> <vinay.m.engg=gmail.com@lists.openembedded.org> wrote:
-> >
-> > Hi Alex,
-> >
-> > Tried testing outside oe-selftest framework, it works fine without any
-> errors,
-> >
-> > export TEST_DEVICE_ADDR="192.168.7.4:12345"
-> > rust_runx test --no-fail-fast --bless --target "aarch64-poky-linux" >
-> > summary.txt 2> /dev/null
-> >
-> > Also, log (summary.txt) shows "remote-test-client" is connecting to
-> > the image without any issue.
-> > =======================================
-> > running:
-> "/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuite/1.46.0-r0/rustc-1.46.0-src/build/x86_64-unknown-linux-gnu/stage0-tools-bin/remote-test-client"
-> > "spawn-emulator" "aarch64-poky-linux"
-> >
-> "/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuite/1.46.0-r0/rustc-1.46.0-src/build/x86_64-unknown-linux-gnu/stage0-tools-bin/remote-test-server"
-> >
-> "/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuite/1.46.0-r0/rustc-1.46.0-src/build/tmp"
-> > Connecting to remote device 192.168.7.4:12345 ...
-> >
-> > Will integrate these changes in oe-selftest and let you know.
-> >
-> > Regards,
-> > Vinay
-> >
-> > On Mon, May 17, 2021 at 8:11 PM Vinay Kumar <vinay.m.engg@gmail.com>
-> wrote:
-> > >
-> > > Checking suggestions, the booted image with tap seems to be working by
-> > > passing "-monitor  telnet:127.0.0.1:1234,server,nowait"
-> > > so I will execute testing and update you.
-> > > ==========================
-> > > root@qemuarm64:~# ifconfig
-> > > eth0      Link encap:Ethernet  HWaddr 52:54:00:12:34:02
-> > >           inet addr:192.168.7.4  Bcast:192.168.7.255
-> Mask:255.255.255.0
-> > >           inet6 addr: fe80::5054:ff:fe12:3402/64 Scope:Link
-> > >           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-> > >           RX packets:116 errors:0 dropped:0 overruns:0 frame:0
-> > >           TX packets:98 errors:0 dropped:0 overruns:0 carrier:0
-> > >           collisions:0 txqueuelen:1000
-> > >           RX bytes:945121 (922.9 KiB)  TX bytes:9529 (9.3 KiB)
-> > >
-> > > root@qemuarm64:~# ./remote-test-server -v remote
-> > > starting test server
-> > > listening on 0.0.0.0:12345!
-> > > ==========================
-> > >
-> > > Regards,
-> > > Vinay
-> > >
-> > > On Mon, May 17, 2021 at 8:02 PM Alexander Kanavin
-> > > <alex.kanavin@gmail.com> wrote:
-> > > >
-> > > > Thanks, can you please look into the error? The line where it
-> happens and the way to get a backtrace is right there :)
-> > > > There's no reason it shouldn't work.
-> > > >
-> > > > Alex
-> > > >
-> > > > On Mon, 17 May 2021 at 15:21, Vinay Kumar <vinay.m.engg@gmail.com>
-> wrote:
-> > > >>
-> > > >> Hi Alex,
-> > > >>
-> > > >> Error on qemu  image (ex. Aarch64) booted with tap interface.
-> > > >> ===========================
-> > > >> root@qemuarm64:~# ./remote-test-server
-> > > >> starting test server
-> > > >> thread 'main' panicked at 'TcpListener::bind(bind_addr) failed with
-> > > >> Cannot assign requested address (os error 99)',
-> > > >> src/tools/remote-test-server/src/main.rs:90:20
-> > > >> note: run with `RUST_BACKTRACE=1` environment variable to display a
-> backtrace
-> > > >> ===========================
-> > > >>
-> > > >> On Mon, May 17, 2021 at 5:16 PM Alexander Kanavin
-> > > >> <alex.kanavin@gmail.com> wrote:
-> > > >> >
-> > > >> > On Mon, 17 May 2021 at 13:34, Vinay Kumar <vinay.m.engg@gmail.com>
-> wrote:
-> > > >> >>
-> > > >> >> "remote-test-server" on qemu-image with a tap interface throws
-> an error.
-> > > >> >> The emulators for rust testing are with tcp port forwarding so
-> used
-> > > >> >> slirp method with added rust port.
-> > > >> >
-> > > >> >
-> > > >> > I'm not sure I understand - what kind of error? In both cases the
-> server starts listening on a port, so in slirp scenario the address is
-> 127.0.0.1:12345 (prone to breakage if something else on the build host
-> took that port btw, including another instance of the same test), in tap it
-> would be 192.168.7.2:12345. For the client you simply supply that via
-> TEST_DEVICE_ADDR. No?
-> > > >> >
-> > > >> > Alex
-> >
-> > 
-> >
+>> Hi Alex,
+>>
+>> Tried your suggestions to copy and run in rust.py without any issue as
+>> below.
+>> ===============================
+>> builddir = get_bb_var("B", "rust-testsuite")
+>> ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user="root",
+>> timeout=600)
+>> ssh.copy_to(builddir + "/" +
+>> "build/x86_64-unknown-linux-gnu/stage2-tools-bin/remote-test-server","~/")
+>> t_thread = threading.Thread(target=ssh.run,
+>> args=("~/remote-test-server -v remote",))
+>> t_thread.start()
+>> ===============================
+>>
+>> If we set "TEST_DEVICE_ADDR" in rust.py through "runCmd" as shown
+>> below,  the remote-test-client does not connect  to the image.
+>> So a lot of tests fail.
+>> ===============================
+>> "cmd  = "export TEST_DEVICE_ADDR=%s:12345;" % qemu.ip"
+>> runCmd(cmd)
+>> bitbake("{} -c check".format(recipe))
+>> ===============================
+>>
+>> Also, I tried to move do_check content to rust.py without any success.
+>> ===============================
+>> cmd = "export PATH=%s/../recipe-sysroot-native/usr/lib/rustlib/:" %
+>> builddir
+>> cmd= cmd + "%s/../recipe-sysroot-native/usr/bin:$PATH;" % builddir
+>> cmd = cmd + "export
+>> RUST_TARGET_PATH=%s/../recipe-sysroot-native/usr/lib/rustlib/;" %
+>> builddir
+>> cmd = cmd + "cd " + builddir + ";"
+>> cmd  = "export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
+>> cmd = cmd + "python3 src/bootstrap/bootstrap.py -j 40 --verbose test
+>> --no-fail-fast --bless --target aarch64-poky-linux > summary.txt 2>&1"
+>>
+>> Error:
+>> File
+>> "/ala-lpggp31/vinay/review-2/poky-contrib/meta/lib/oeqa/utils/commands.py",
+>> line 210, in runCmd
+>> raise AssertionError("Command '%s' returned non-zero exit status
+>> %d:\n%s" % (command, result.status, exc_output))
+>> AssertionError: Command 'export
+>> TEST_DEVICE_ADDR="192.168.7.2:12345";python3
+>> src/bootstrap/bootstrap.py -j 40 --verbose test --no-fail-fast --bless
+>> --target aarch64-poky-linux > summary.txt 2>&1' returned non-zero exit
+>> status 2:
+>> ===============================
+>>
+>> So in rust.py only copy and execution of "remote-test-server" is taken
+>> care of.
+>> And the test execution is by  do_check of rust-testsuite.inc as below,
+>> ===============================
+>> do_check () {
+>>     export TEST_DEVICE_ADDR="192.168.7.2:12345"
+>>     rust_runx test --no-fail-fast --bless --target "${TARGET_SYS}" >
+>> summary.txt 2> /dev/null
+>> }
+>>
+>> Let me know if this ok. will send patches with changes for review.
+>>
+>> Regards,
+>> Vinay
+>>
+>> On Mon, May 17, 2021 at 8:57 PM Vinay Kumar via lists.openembedded.org
+>> <vinay.m.engg=gmail.com@lists.openembedded.org> wrote:
+>> >
+>> > Hi Alex,
+>> >
+>> > Tried testing outside oe-selftest framework, it works fine without any
+>> errors,
+>> >
+>> > export TEST_DEVICE_ADDR="192.168.7.4:12345"
+>> > rust_runx test --no-fail-fast --bless --target "aarch64-poky-linux" >
+>> > summary.txt 2> /dev/null
+>> >
+>> > Also, log (summary.txt) shows "remote-test-client" is connecting to
+>> > the image without any issue.
+>> > =======================================
+>> > running:
+>> "/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuite/1.46.0-r0/rustc-1.46.0-src/build/x86_64-unknown-linux-gnu/stage0-tools-bin/remote-test-client"
+>> > "spawn-emulator" "aarch64-poky-linux"
+>> >
+>> "/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuite/1.46.0-r0/rustc-1.46.0-src/build/x86_64-unknown-linux-gnu/stage0-tools-bin/remote-test-server"
+>> >
+>> "/ala-lpggp31/vinay/review-2/b1/tmp/work/cortexa57-poky-linux/rust-testsuite/1.46.0-r0/rustc-1.46.0-src/build/tmp"
+>> > Connecting to remote device 192.168.7.4:12345 ...
+>> >
+>> > Will integrate these changes in oe-selftest and let you know.
+>> >
+>> > Regards,
+>> > Vinay
+>> >
+>> > On Mon, May 17, 2021 at 8:11 PM Vinay Kumar <vinay.m.engg@gmail.com>
+>> wrote:
+>> > >
+>> > > Checking suggestions, the booted image with tap seems to be working by
+>> > > passing "-monitor  telnet:127.0.0.1:1234,server,nowait"
+>> > > so I will execute testing and update you.
+>> > > ==========================
+>> > > root@qemuarm64:~# ifconfig
+>> > > eth0      Link encap:Ethernet  HWaddr 52:54:00:12:34:02
+>> > >           inet addr:192.168.7.4  Bcast:192.168.7.255
+>> Mask:255.255.255.0
+>> > >           inet6 addr: fe80::5054:ff:fe12:3402/64 Scope:Link
+>> > >           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+>> > >           RX packets:116 errors:0 dropped:0 overruns:0 frame:0
+>> > >           TX packets:98 errors:0 dropped:0 overruns:0 carrier:0
+>> > >           collisions:0 txqueuelen:1000
+>> > >           RX bytes:945121 (922.9 KiB)  TX bytes:9529 (9.3 KiB)
+>> > >
+>> > > root@qemuarm64:~# ./remote-test-server -v remote
+>> > > starting test server
+>> > > listening on 0.0.0.0:12345!
+>> > > ==========================
+>> > >
+>> > > Regards,
+>> > > Vinay
+>> > >
+>> > > On Mon, May 17, 2021 at 8:02 PM Alexander Kanavin
+>> > > <alex.kanavin@gmail.com> wrote:
+>> > > >
+>> > > > Thanks, can you please look into the error? The line where it
+>> happens and the way to get a backtrace is right there :)
+>> > > > There's no reason it shouldn't work.
+>> > > >
+>> > > > Alex
+>> > > >
+>> > > > On Mon, 17 May 2021 at 15:21, Vinay Kumar <vinay.m.engg@gmail.com>
+>> wrote:
+>> > > >>
+>> > > >> Hi Alex,
+>> > > >>
+>> > > >> Error on qemu  image (ex. Aarch64) booted with tap interface.
+>> > > >> ===========================
+>> > > >> root@qemuarm64:~# ./remote-test-server
+>> > > >> starting test server
+>> > > >> thread 'main' panicked at 'TcpListener::bind(bind_addr) failed with
+>> > > >> Cannot assign requested address (os error 99)',
+>> > > >> src/tools/remote-test-server/src/main.rs:90:20
+>> > > >> note: run with `RUST_BACKTRACE=1` environment variable to display
+>> a backtrace
+>> > > >> ===========================
+>> > > >>
+>> > > >> On Mon, May 17, 2021 at 5:16 PM Alexander Kanavin
+>> > > >> <alex.kanavin@gmail.com> wrote:
+>> > > >> >
+>> > > >> > On Mon, 17 May 2021 at 13:34, Vinay Kumar <
+>> vinay.m.engg@gmail.com> wrote:
+>> > > >> >>
+>> > > >> >> "remote-test-server" on qemu-image with a tap interface throws
+>> an error.
+>> > > >> >> The emulators for rust testing are with tcp port forwarding so
+>> used
+>> > > >> >> slirp method with added rust port.
+>> > > >> >
+>> > > >> >
+>> > > >> > I'm not sure I understand - what kind of error? In both cases
+>> the server starts listening on a port, so in slirp scenario the address is
+>> 127.0.0.1:12345 (prone to breakage if something else on the build host
+>> took that port btw, including another instance of the same test), in tap it
+>> would be 192.168.7.2:12345. For the client you simply supply that via
+>> TEST_DEVICE_ADDR. No?
+>> > > >> >
+>> > > >> > Alex
+>> >
+>> > 
+>> >
+>>
 >
 
---00000000000095b94305c2c8cedf
+--00000000000095331605c2c8d1ed
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>You cannot hardcode the ip address like that; it&#39;=
-s set dynamically when qemu starts, and you can only access it from selftes=
-t or runtime test.</div><div><br></div><div>Alex<br></div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 20 May 20=
-21 at 12:06, Vinay Kumar &lt;<a href=3D"mailto:vinay.m.engg@gmail.com">vina=
-y.m.engg@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">Hi Alex,<br>
+<div dir=3D"ltr"><div>If you publish the code to a branch, and show exactly=
+ the errors you get, I could try to look at it.</div><div><br></div><div>Al=
+ex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Thu, 20 May 2021 at 22:29, Alexander Kanavin &lt;<a href=3D"=
+mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>=
+You cannot hardcode the ip address like that; it&#39;s set dynamically when=
+ qemu starts, and you can only access it from selftest or runtime test.</di=
+v><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Thu, 20 May 2021 at 12:06, Vinay Kum=
+ar &lt;<a href=3D"mailto:vinay.m.engg@gmail.com" target=3D"_blank">vinay.m.=
+engg@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">Hi Alex,<br>
 <br>
 Tried your suggestions to copy and run in rust.py without any issue as bel=
 ow.<br>
@@ -476,5 +494,6 @@ ly that via TEST_DEVICE_ADDR. No?<br>
 &gt; <br>
 &gt;<br>
 </blockquote></div>
+</blockquote></div>
 
---00000000000095b94305c2c8cedf--
+--00000000000095331605c2c8d1ed--
