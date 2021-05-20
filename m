@@ -1,78 +1,113 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.498.1621543745196623296
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.486.1621543745645629775
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 13:49:05 -0700
+ Thu, 20 May 2021 13:49:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e8ZmB253;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so5987788wmh.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:04 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dL/uwBIi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id y14so16881587wrm.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 13:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=IyB4WzCFvGPDeEXvldsDD+shaWX003ihvOQ9Upt/fvk=;
-        b=e8ZmB2538Rz8vwc+SRbMsMrfxKwPDEy6g3gFcsMoTd0WDZwuYwNQq5kiLkVmxwN2hR
-         lW/LUTdR8UczYRbuwQVjsVTegwGbPa3rnJOAaM+4+V+pBbSYJr4leaUCN71h7/D6Y84X
-         cwJdzriP88cMnlet1qwE/cAOMBeeJaKOXI1CQ=
+        bh=mSNdJ5FNhqQ5LveNIxOUOqgRA2SkSvoe3Q9QAszWkYE=;
+        b=dL/uwBIiupVfa+jnS9TDd8tvCM1LKYb+Bv344bOF8yy+FNgyEiPlIi3Gao4RRI8tbz
+         QZPVjrKyNEZGGSetu+ecbSSNrbc+L1Oyw444mkpGzTl1UAWhIpoYiaMKyPq9s49tdRun
+         smvGmHNig7v8RZIZ4xaus6t90n2HDHz35Qaus=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IyB4WzCFvGPDeEXvldsDD+shaWX003ihvOQ9Upt/fvk=;
-        b=DUVT5SCyeoobdASHkRaIudDQkoOO4ltTaD+5FxDfyacRYnmtBlq7QgzJ4k/X+Fg7vf
-         CPuCBRaXSQ75O1YGzYBIDzhS2VM07dWyeQ4xiPUr+hqqPRpRYZCSdagyqRxVjWe3i2Gq
-         uTEYQ7A8sxBx8MdfRux/+D7Cq5uMA/XrX7KkrPFIqtIBJl4a/9Z7tKZ45xVmNTsp+VpI
-         DfbIgwQNpPUp8QA/Zy7qVTMlaCPOtvCx+ddCFJZ6Dy+21geN8MfJHoHSRpjmIlr6xVYg
-         kPGuhsR+t1tKFDBNsjttUEJl2V/R0hKvyi2n7GlbZ0wIurbAylD30Zk86iUOi3qjOrlm
-         aMHw==
-X-Gm-Message-State: AOAM532++yeoBZrRBwSQbPeDrV5Pv4iDWujJn/iknvolXIF5s+iRd41A
-	4J2GjbqlR3sg+meIONrtAsWi828qqqWeiw==
-X-Google-Smtp-Source: ABdhPJwL8MRoatYTs53VpxJ/ziAXVZS+J1iPEtVxsCoyikUD5ukJ0+meQRpvuXxdxYn+zz4gmpmL0Q==
-X-Received: by 2002:a1c:5582:: with SMTP id j124mr5497246wmb.0.1621543743492;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mSNdJ5FNhqQ5LveNIxOUOqgRA2SkSvoe3Q9QAszWkYE=;
+        b=bUslHmBuZISMhN2ATi3SFwfW6J9CYK8FkUKE58Sso0F6vlrHLH1rzdJOL0ptVE78mn
+         56ighCAKGnWsO4LTHwYmOFD228orC/HaV4Av4oPmlyUHiKAlKhPeW8ILVZeFuiYiuBvL
+         2p9I/JWXRV7swM/Zagi76WKEh0d/0Jbakw9PPMW0nIdH6wu7lQgEuqMenteq7d5+spAl
+         0K3wxFRsHzolZDklZgQ2xtS+PRkV258TQn/A98MTRyRRSHyJFyprknCSC1xMeCZu8KGM
+         3Tzb+73ZLXTdW2JP1Hf9UH5Ty92S9sHd7JnUpfxdCIWdEHBNLBsFCxmV8EGeGXBjrR/U
+         tIaw==
+X-Gm-Message-State: AOAM5315aOOdArUidnpmzsFiyyteXCp1e0opA/aKPUoE4+WE3ru0T6Mk
+	Akn/3bQgN9UnXuaU7QQT8j5yhLwN5/mW5A==
+X-Google-Smtp-Source: ABdhPJyVhooMbegD2ZbXWnRgmt2vi36qVTI3CE85IFfmSl8DU4Zlf2E2hsxYzdVZuGrELIQXnGamoQ==
+X-Received: by 2002:a05:6000:184a:: with SMTP id c10mr6403949wri.244.1621543743919;
         Thu, 20 May 2021 13:49:03 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c394:d896:3913:6568])
-        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.02
+        by smtp.gmail.com with ESMTPSA id n189sm3768061wme.9.2021.05.20.13.49.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 20 May 2021 13:49:03 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Halstead <mhalstead@linuxfoundation.org>
-Subject: [hardknott] [PATCH 01/28] uninative: Upgrade to 3.2 (gcc11 support)
-Date: Thu, 20 May 2021 21:48:35 +0100
-Message-Id: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
+Subject: [hardknott] [PATCH 02/28] glibc: Add 8GB VM usage cap for usermode test suite
+Date: Thu, 20 May 2021 21:48:36 +0100
+Message-Id: <20210520204902.2527687-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
+References: <20210520204902.2527687-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+We've noticed that:
 
-This upgrade builds unnative with gcc11 allowing it to work with newer distros
-using gcc 11.
+MACHINE=qemuarm oe-selftest -r glibc.GlibcSelfTest.test_glibc
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+ends up with one process growing to about the size of system memory
+and triggering the OOM killer. This has been taking out other builds
+running on the system on the autobuilders and is one cause of our
+intermittent failures.
+
+This was tracked down to:
+
+WORKDIR=XXX/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc-testsuite/2.33-r0
+BUILDDIR=$WORKDIR/build-arm-poky-linux-gnueabi QEMU_SYSROOT=$WORKDIR/recipe-sysroot
+QEMU_OPTIONS="$WORKDIR/recipe-sysroot-native/usr/bin/qemu-arm -r 3.2.0" \
+$WORKDIR/check-test-wrapper user env GCONV_PATH=$BUILDDIR/iconvdata LOCPATH=$BUILDDIR/localedata LC_ALL=C $BUILDDIR/elf/ld-linux-armhf.so.3 \
+    --library-path $BUILDDIR:$BUILDDIR/math:$BUILDDIR/elf:$BUILDDIR/dlfcn:$BUILDDIR/nss:$BUILDDIR/nis:$BUILDDIR/rt:$BUILDDIR/resolv:$BUILDDIR/mathvec:$BUILDDIR/support:$BUILDDIR/nptl \
+    $BUILDDIR/nptl/tst-pthread-timedlock-lockloop
+
+although other glibc tests appear to use 16GB of memory before failing
+anyway. By capping the VM size to 8GB, we see the same number of failures
+but no OOM situations. There may be some issue in qemu or the test which
+could be improved to avoid this entirely but this provides a necessary
+and useful safeguard to other builds and doensn't appear to make the
+situation worse.
+
+On a loaded system OOM may not occur as the test timeout may be triggered
+first. An experiment with a 5GB limit showed an additional 7 failures.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-core/glibc/glibc/check-test-wrapper | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 05b79d14c3f..740cca0ecfd 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -8,7 +8,7 @@
+diff --git a/meta/recipes-core/glibc/glibc/check-test-wrapper b/meta/recipes-core/glibc/glibc/check-test-wrapper
+index f8e04e02d21..6ec9b9b29eb 100644
+--- a/meta/recipes-core/glibc/glibc/check-test-wrapper
++++ b/meta/recipes-core/glibc/glibc/check-test-wrapper
+@@ -2,6 +2,7 @@
+ import sys
+ import os
+ import subprocess
++import resource
  
- UNINATIVE_MAXGLIBCVERSION = "2.33"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.1/"
--UNINATIVE_CHECKSUM[aarch64] ?= "7fa12b9fe7a95934cc09beb0e8a25ff97179ef3105116015d32548eadd27b024"
--UNINATIVE_CHECKSUM[i686] ?= "bbfcdd48336800b5af97e294918c6586a0a8fa903f127f813b0bd5110de8c55c"
--UNINATIVE_CHECKSUM[x86_64] ?= "5d0611df544edff6428cef7d871257a91aa6ba1bd92f5365a2df8deb54b6b31e"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.2/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "4f0872cdca2775b637a8a99815ca5c8dd42146abe903a24a50ee0448358c764b"
-+UNINATIVE_CHECKSUM[i686] ?= "e2eeab92e67263db37d9bb6d4c58579abd1f47ff4cded3171bde572fece124b2"
-+UNINATIVE_CHECKSUM[x86_64] ?= "3ee8c7d55e2d4c7ae3887cddb97219f97b94efddfeee2e24923c0cb0e8ce84c6"
+ env = os.environ.copy()
+ args = sys.argv[1:]
+@@ -44,6 +45,14 @@ if targettype == "user":
+     qemuargs += ["-L", sysroot]
+     qemuargs += ["-E", "LD_LIBRARY_PATH={}".format(":".join(libpaths))]
+     command = qemuargs + args
++
++    # We've seen qemu-arm using up all system memory for some glibc
++    # tests e.g. nptl/tst-pthread-timedlock-lockloop
++    # Cap at 8GB since no test should need more than that
++    # (5GB adds 7 failures for qemuarm glibc test run)
++    limit = 8*1024*1024*1024
++    resource.setrlimit(resource.RLIMIT_AS, (limit, limit))
++
+ elif targettype == "ssh":
+     host = os.environ.get("SSH_HOST", None)
+     user = os.environ.get("SSH_HOST_USER", None)
 -- 
 2.30.2
 
