@@ -1,77 +1,95 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.323.1621534236121906159
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.367.1621534342402915158
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 11:10:36 -0700
+ Thu, 20 May 2021 11:12:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QwOLMSVm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id d11so18566310wrw.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 11:10:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LK+khFYe;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id cu11-20020a17090afa8bb029015d5d5d2175so5885020pjb.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 11:12:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=UiVBBDUktiXfb3Xk2YMuohXe3w5ovUbXV1mDmfJ0q90=;
-        b=QwOLMSVm7AluFfCENeMtVh2h8gVkHedCdmdj2uYM4AtzeBuBeqyOhQVGbKtEPYB1e6
-         Q+m2BMyiZbKa5Nk13UxDvPQ2Yl/bKPBw21EzdWKbApSt5mP8StE3pJDg6eZOIJXo0MrK
-         7Ylx/ELYRojJ0wZGIMpVSULWqu8LqzPIWJBhI=
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LPPOGNPZdxRZgqagwGNc39K660xIO4yJnWHdxGVOsUY=;
+        b=LK+khFYeN62PFlYTSPRBP8vTjqegmYjh3b8ZfURzNQu+q2eBl/snDhQ+669KdtRv4D
+         gr9dz8V6g+jUaRyUe9yEM19BB1PgO7wRNflFbsqbpRRQBhGKCgH0VPaq/DZwgTRNIqRA
+         fAFirxb2jNgl3rtpogRNuYJz7U4mziJx8s7M1VJ3or6olNxONHLhFFZ0c67W/Io+WSjE
+         qGAwBmhpxmMDrClyAh/DLxFHnIYj2xXCq5RxiMh2KQR9edP1DK6HQ5XXya5mupVwbpDK
+         PxCnYKrBtInIzG3jZ1H63cvaKmcWnxJ2/rWg08PpsGIgis+kOl5YjJvOQhspA/9bSwPT
+         i5gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=UiVBBDUktiXfb3Xk2YMuohXe3w5ovUbXV1mDmfJ0q90=;
-        b=Q0okhbhIqn2dgq4Kuhu1xrwHCXw+fmlD2he7Z4TqBQo4e/6mDD42qppBMdKogJLKLF
-         zm/D9X5jk1CM3e1jYHY3l4kr2uwOwglmR6hzxZUGwmH+tjPASqElr65OSQj+IQBNriV7
-         LTN2dW+ruIO/iCJ6ghmeL+8PuR0wPdtnQk2i8Kh+40NU0rVikjhnPfqJYX4g4mxSqH7H
-         8gTkW6jF8tKqi5Z94zNCihpzLTJ5k14ao9nu7gyaXKKamlRgjRRFfTJjjm77bVFu3yZi
-         8nb58JPGN7vzEQaW+fA8MvrEBOf1pnjZglxYsovgjFZkKd07zOT5WB0v7CXGWJqoQbqh
-         IW3g==
-X-Gm-Message-State: AOAM5327EDM/LXY+x3Mt/+9/nHFkewwo0CGb/VKS4OWBBGEFM+qdQTZN
-	vhcVwoKiG6AUGmT7JYv1mWJd8w==
-X-Google-Smtp-Source: ABdhPJyFlR2u0lhiq+eNhfou6y5K8PemD/hRdxPMC7LaRmVTHvqOy/oxrV761eI7bwtEiXyORfuteQ==
-X-Received: by 2002:adf:e506:: with SMTP id j6mr5492377wrm.374.1621534234522;
-        Thu, 20 May 2021 11:10:34 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:56da:83e7:85fe:8f81? ([2001:8b0:aba:5f3c:56da:83e7:85fe:8f81])
-        by smtp.gmail.com with ESMTPSA id 61sm4580605wrm.52.2021.05.20.11.10.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 11:10:34 -0700 (PDT)
-Message-ID: <b6237bf807c4c9823f6dd92393dac50e3dd8dcab.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] elfutils: upgrade 0.183 -> 0.184
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
-Cc: Jon Mason <Jon.Mason@arm.com>
-Date: Thu, 20 May 2021 19:10:33 +0100
-In-Reply-To: <1621500436-22668-1-git-send-email-wangmy@fujitsu.com>
-References: <1621500436-22668-1-git-send-email-wangmy@fujitsu.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=LPPOGNPZdxRZgqagwGNc39K660xIO4yJnWHdxGVOsUY=;
+        b=LkkI126jDA8UDooK7YLw2+kePAZjnoRKg0TGXHcD2FMoFkv4FBxQ42zBfymULytJXC
+         s23+DWTKPEoB5kqRcrtvguM9yGKpAWWUUMkRPRYONqiy88itKxtiFP5k22wuC+pcy7fc
+         2Q5l5jRrRNTgSX6qjrpCrq8+lGBCBOAaO/Q8JCdrAQ9E42g9jDrGpXsyfLu4iMQhd7tU
+         QGI5eYWxJyrk3Tie3RoPAjgCs7WRR0QE/Q7jvHrW9iOw4wW1iXQ7VY4LpCNYsjiL1j06
+         xa/OPtmRXAfdXwVKVOWPNc+mahsFS9f+LV6dEtkpFRVEKQrUmLRmOJW+lUDLBYIMKNo4
+         J1lA==
+X-Gm-Message-State: AOAM533IXtanm6WFMIn8f8wmYlkfxN6A3kVNdJ67J03zwvl5r0xzsa4T
+	8Dj3t5sW1QWwHJBOodEQYvtRN4dCaJc3Zg==
+X-Google-Smtp-Source: ABdhPJyoo2fp4pk1Z5pGTtFFXSa+HhXzj6Lat3aBaj9nfCcxj/gOwaCu1lRnzflLk7CoHtyr3gTYUg==
+X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr6097220pjb.11.1621534341418;
+        Thu, 20 May 2021 11:12:21 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:b889:2ea3:1899:5b86? ([2601:646:9200:a0f0:b889:2ea3:1899:5b86])
+        by smtp.gmail.com with ESMTPSA id t22sm2141415pfg.119.2021.05.20.11.12.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 May 2021 11:12:20 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] gcc: enable branch protection by standard
+To: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
+References: <20210520171511.3177430-1-ross.burton@arm.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <295f3f9b-267d-3a74-ca14-91c7ad589394@gmail.com>
+Date: Thu, 20 May 2021 11:12:19 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210520171511.3177430-1-ross.burton@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2021-05-20 at 16:47 +0800, wangmy wrote:
-> 0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-> removed since it is included in 0.184.
+
+
+On 5/20/21 10:15 AM, Ross Burton wrote:
+> Pass --enable-standard-branch-protection.  This is an aarch64-specific
+> option (currently) which does nothing on other targets.  On aarch64 this
+> generates code uses BTI/PAC instructions to mitigate Return Orientated
+> Programming attacks.  This approach is backwards compatible and the code
+> size/performance impact is typically negliable.
 > 
-> refresh 0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> and 0015-config-eu.am-do-not-use-Werror.patch
+> More details can be found at
+> https://events.static.linuxfound.org/sites/events/files/slides/slides_23.pdf
 > 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  .../{elfutils_0.183.bb => elfutils_0.184.bb}  |  3 +-
->  ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 -----------
->  ...infod-client.c-correct-string-format.patch | 56 +++++++++----------
->  .../0015-config-eu.am-do-not-use-Werror.patch | 19 ++++---
->  4 files changed, 37 insertions(+), 74 deletions(-)
->  rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.184.bb} (97%)
->  delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+>   meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> index a64c4caf00..dc7f458b25 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -40,6 +40,7 @@ EXTRA_OECONF = "\
+>       ${@get_gcc_mips_plt_setting(bb, d)} \
+>       ${@get_gcc_ppc_plt_settings(bb, d)} \
+>       ${@get_gcc_multiarch_setting(bb, d)} \
+> +	--enable-standard-branch-protection \
+>   "
+>  
 
-Fails on the autobuilder in testing in ptest:
+lgtm
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/1815/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2104/steps/12/logs/stdio
 
-Cheers,
-
-Richard
-
+>   # glibc version is a minimum controlling whether features are enabled.
+> 
+> 
+> 
+> 
+> 
