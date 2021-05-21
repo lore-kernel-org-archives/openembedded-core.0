@@ -1,140 +1,97 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web12.2942.1621556421360459665
+Received: from esa13.hc324-48.eu.iphmx.com (esa13.hc324-48.eu.iphmx.com [207.54.72.35])
+ by mx.groups.io with SMTP id smtpd.web08.5699.1621577556578750378
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 May 2021 17:20:21 -0700
+ Thu, 20 May 2021 23:12:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=o972DdYk;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f44.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso16513083otn.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 May 2021 17:20:21 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=MoGwQcv5;
+ spf=pass (domain: bmw.de, ip: 207.54.72.35, mailfrom: prvs=768015020=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=/UPD2hoQEudw3K6on5Y/K+FtwYwBi6/I1Vtw2wqeb4U=;
-        b=o972DdYk3/LboMko9F7jUZmCgZYo8BuMBhkySltu8mZFoodumAFeKDnCvBrL3W/0hm
-         kghaKx70ihsJesJ/35OKlXb/UFg+vLCSs5J8K67ROF2BkGQuhQe46u9osifLnWDFrCIA
-         ayslL6mwIm0mnwOkOPMcU8OKCIjl6bS+FAmRJqAFBTyBHoRyZVFn+zPC3yXuoX324m/i
-         c9wex9A2ClTVe/DR/jSQcAbc5HRBiRv8t7VzPHqeu7TzllZPIMUC7Wm5hvWzLuqkitwd
-         riutotFM0n8ql9lq0PNw9vIgizcVrwl5EaPwed79hAHKLoHaeNfie536aPxlXqJ20xyg
-         Gujg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/UPD2hoQEudw3K6on5Y/K+FtwYwBi6/I1Vtw2wqeb4U=;
-        b=dCc5qaszX6RXTrlQzx2+p4ASS0MtNXbQhN0l12z60Ci1/7tposN3AORWzBURwc66ss
-         M+zmKTz/oRsxw/3Autauc7LROE5GAyX7bfyKykI3d9eLksLHhs8uyomZ9yUxyJIF7nw8
-         cuWYwSabYsDEb1+2iRDXCqV+4AwvFAJ38TiqiCpeWm3cA3S7GJW6y9GfI996EIjsfZ0k
-         w20wHfkU3MR9PMU0WeSAze9uZREeMNKKKmVckzGpH0LE4rwo5CLenVk0+DXfUy2cDBj/
-         QC8pPH2HUPkYHagvYmIibu4PYkuxC8+RiWoV4nQf9KHyjPl9c/hfhdGNekZoGKtjTmDN
-         WZwA==
-X-Gm-Message-State: AOAM531VVlWPrenETUZjZBYKo0Ks8pscigUxK/gkBF5NKmsEpzvq1PES
-	KV5g8mi55IEUCRKmcyCqdV0haaT/yGq2IZkyh7o=
-X-Google-Smtp-Source: ABdhPJyijlTWtZkCwiUojEF8mMuMfQPQVgZy5uvWv6Kh+jl7/lnVDS8G83wH2WNdAvW6HL8dVlvAXQ==
-X-Received: by 2002:a05:6830:1184:: with SMTP id u4mr5885698otq.324.1621556420150;
-        Thu, 20 May 2021 17:20:20 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id v22sm831013oic.37.2021.05.20.17.20.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 17:20:19 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 3/3] sstate: Handle manifest 'corruption' issue
-Date: Thu, 20 May 2021 14:19:29 -1000
-Message-Id: <dd458bf7401417cdc53b07a1f4712c6b22219882.1621520845.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1621520845.git.steve@sakoman.com>
-References: <cover.1621520845.git.steve@sakoman.com>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1621577556; x=1653113556;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=2zKYHmZZpAVEIxQ3kKG4Jwh0yWRP7ktyPezfGsKcKYw=;
+  b=MoGwQcv58M1Xs5ceZkYLqSIB5KyoJvwL8lgfaAGrnO/t9bXc8fn0/Udp
+   1cTlxkxhIaAMjlVVlhRxitOGL6Ip5wMy8acwlJ5MeT9pa09wiTTcuojmB
+   An3aMsCJQrEPzdsG8ZrzNNSU8mj8uuou58K3d6qvCuVS3H/XAdSwGTCwe
+   w=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa13.hc324-48.eu.iphmx.com with ESMTP/TLS; 21 May 2021 08:12:28 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw4.muc with ESMTP/TLS;
+ 21 May 2021 08:12:28 +0200
+Received: from smucm33j.bmwgroup.net (HELO smucm33j.europe.bmw.corp) ([160.46.167.66])
+ by esabb4.muc with ESMTP/TLS; 21 May 2021 08:12:28 +0200
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33j.europe.bmw.corp
+ (160.46.167.66) with Microsoft SMTP Server (TLS;
+ Fri, 21 May 2021 08:12:28 +0200
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Fri,
+ 21 May 2021 08:12:27 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <ross@burtonini.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] gcc: enable branch protection by standard
+Thread-Topic: [OE-core] [PATCH] gcc: enable branch protection by standard
+Thread-Index: AQHXTZ0U8A9pg4cZTUi0y70TxGVPZqrtU8kA
+Date: Fri, 21 May 2021 06:12:27 +0000
+Message-ID: <YKdPSn9E1MOUmJsz@korppu>
+References: <20210520171511.3177430-1-ross.burton@arm.com>
+In-Reply-To: <20210520171511.3177430-1-ross.burton@arm.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <C7542294489637488EDC096E019B1190@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi,
 
-Under certain build patterns, warnings about missing manifests can appear. These
-are real issues where the manifest was removed and shouldn't have been.
+On Thu, May 20, 2021 at 06:15:11PM +0100, Ross Burton wrote:
+> Pass --enable-standard-branch-protection.  This is an aarch64-specific
+> option (currently) which does nothing on other targets.  On aarch64 this
+> generates code uses BTI/PAC instructions to mitigate Return Orientated
+> Programming attacks.  This approach is backwards compatible and the code
+> size/performance impact is typically negliable.
+>=20
+> More details can be found at
+> https://events.static.linuxfound.org/sites/events/files/slides/slides_23=
+.pdf
 
-Martin Jansa was able to find a reproducer of:
+Do you recommend this for dunfell and other stable releases? Any requireme=
+nts
+to gcc version? What about clang?
 
-MACHINE=qemux86 bitbake zlib-native
-echo 'PR = "r1"' >> meta/recipes-core/zlib/zlib_1.2.11.bb
-MACHINE=qemux86-64 bitbake zlib-native
-MACHINE=qemux86 bitbake zlib-native
-<the zlib-native manifest is now removed along with the sysroot-components contents>
+Cheers,
 
-The code maintains a per machine list of stamps but a per PACAGE_ARCH list of
-stamp/manifest/workdir mappings. The latter is only appended to for speed with
-the assumption that once stamps are gone, the code wouldn't trigger.
+-Mikko
 
-The code only ever appends to the mapping list (for speed/efficency under lock)
-meaning that multiple entries can result where the stamp/workdir differs due to
-version changes but the manifest remains the same.
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/r=
+ecipes-devtools/gcc/gcc-configure-common.inc
+> index a64c4caf00..dc7f458b25 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -40,6 +40,7 @@ EXTRA_OECONF =3D "\
+>      ${@get_gcc_mips_plt_setting(bb, d)} \
+>      ${@get_gcc_ppc_plt_settings(bb, d)} \
+>      ${@get_gcc_multiarch_setting(bb, d)} \
+> +	--enable-standard-branch-protection \
+>  "
+>  
+>  # glibc version is a minimum controlling whether features are enabled.=
+=20
+> --=20
+> 2.25.1
+>=20
 
-By switching MACHINE part way through the build, the older stamp is referenced
-and the manifest is incorrectly removed as it matches an now obsolete entry in
-the mapping file.
-
-There are two possible fixes, one is to rewrite the mapping file every time
-which means adding regexs, iterating and generally complicating that code. The
-second option is to only use the last mapping entry in the file for a given
-manifest and ignore any earlier ones. This patch implments the latter.
-
-Also drop the stale entries if we are rewriting it.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 63da9a4f889c5b0e41bc8ec08abe0acea1546479)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/sstate.bbclass | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index a8e169a10b..3c89c35ecf 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -319,6 +319,8 @@ def sstate_install(ss, d):
-     if os.path.exists(i):
-         with open(i, "r") as f:
-             manifests = f.readlines()
-+    # We append new entries, we don't remove older entries which may have the same
-+    # manifest name but different versions from stamp/workdir. See below.
-     if filedata not in manifests:
-         with open(i, "a+") as f:
-             f.write(filedata)
-@@ -1175,11 +1177,21 @@ python sstate_eventhandler2() {
-         i = d.expand("${SSTATE_MANIFESTS}/index-" + a)
-         if not os.path.exists(i):
-             continue
-+        manseen = set()
-+        ignore = []
-         with open(i, "r") as f:
-             lines = f.readlines()
--            for l in lines:
-+            for l in reversed(lines):
-                 try:
-                     (stamp, manifest, workdir) = l.split()
-+                    # The index may have multiple entries for the same manifest as the code above only appends
-+                    # new entries and there may be an entry with matching manifest but differing version in stamp/workdir.
-+                    # The last entry in the list is the valid one, any earlier entries with matching manifests
-+                    # should be ignored.
-+                    if manifest in manseen:
-+                        ignore.append(l)
-+                        continue
-+                    manseen.add(manifest)
-                     if stamp not in stamps and stamp not in preservestamps and stamp in machineindex:
-                         toremove.append(l)
-                         if stamp not in seen:
-@@ -1210,6 +1222,8 @@ python sstate_eventhandler2() {
- 
-         with open(i, "w") as f:
-             for l in lines:
-+                if l in ignore:
-+                    continue
-                 f.write(l)
-     machineindex |= set(stamps)
-     with open(mi, "w") as f:
--- 
-2.25.1
-
+>=20
+>=20
+>=20
