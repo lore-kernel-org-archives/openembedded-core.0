@@ -1,79 +1,75 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web08.8329.1621599143654019723
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web08.8349.1621599286469286097
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 May 2021 05:12:24 -0700
+ Fri, 21 May 2021 05:14:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=e9OIehcg;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id x19so29386439lfa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 May 2021 05:12:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y0iCXxSj;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id p20so23688167ljj.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 May 2021 05:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bP6zHDLhN8phSqG8qphlj2pEOscFNLjTf9QMK8BnKww=;
-        b=e9OIehcgnEJugXcidCfz8S1ZhwiUhkqKoaWbnxEbm2vav3iOsvYPmnB4k2vjfha3H1
-         107H0Z8DTn8KWRsfXBCpZxamaSs7ohQgk0SeQL70NhhZOl0x5rtME7s3EqIqZqShNyoR
-         RNNa7XGmb/QslAg1V/6whNHC66v5IoMoUOWyT2u3gKWONPEO5odOfu36AQyNIRToCAdt
-         2tTuNXM7JNLeGcdsk5r82cx2KI1gBHFvLeXjobtx4Up1sU4gE3hoqVAizhuOvlOLjnpp
-         SHOBPjV14S6pDwEZ7JYbKSihTrSffxfD4nNh1nT9j2W1uB3SNvtusjSdw7Hjq8Oo6w47
-         lsog==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6IwMyQy0+fEhdtiPueAMtRXzD48ll2qXum5CLj6Jxzk=;
+        b=Y0iCXxSjvCol819tVj0w9PS2KmGh3kM0joaLRJdovA2ZFxTIo8R+wL3+Optm5hDl9o
+         mRjxCuniCMUTRbtA7u0CSyzOckj4wsctX5GTmltAw4HZ1RMf3cE9Zjf4UzF0S3bkJhUr
+         XMwkqAMf0GZ5ISl4PcRGn4rdoKaLtApjLqdN98eVFNNGqUqWsUHj4QdJ8A4XOUx7ZivV
+         lJi01UVeTFrE19qKP1wFescVoO6pJRAARgEE05RkXdHnE6OsCOZQMouv8Vhv0PPrh5nZ
+         iGwjJuVBfxVl1FUZpFFv8K+3Yky1G+yw/IyVN66J/Xdv88+6fOBEkSndHjKFXVUpCDP8
+         qmtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bP6zHDLhN8phSqG8qphlj2pEOscFNLjTf9QMK8BnKww=;
-        b=bYT9WT4IvKgdqd/jSLTKIg1bmi0JF2ynxwtZSwBbSB2UT6DRPevWBrnH0HWPdW5THO
-         4TMKB5aFRrmzDYX4OTg8/X5ry6SGxRrp/7nSEw1zrLB9UtU1pZj5tjiwRy410NBCyfUo
-         BG+WeaCkrqseim7Uweh5eyDkQ7C980OOMFE/vjAQwYuio3qeUeIb21KgLtDGeRZlG48I
-         7RdqoWkt5cidHDTx+PBkoSTI6rUeP/kXTgglMSK58GcV+acZCEscyWM4jJHAPFfWumZ2
-         3ZyioPm4DsftA8gyUacP4XJHMUqabmFQhVLHXz4tVFoxDXq9hmcGGeJVXSh8EN4d662T
-         mpsQ==
-X-Gm-Message-State: AOAM5321zQBYQyZFW+hsfm/LVgwH4t08Rr0cFqhx6Tk39dO7/QxP9elz
-	31Nmb/Nm553WrT7lgZndAho6390+doI=
-X-Google-Smtp-Source: ABdhPJy1uKNkOzWqFrBo6Rt0DHEYI0quD5oktFKNB4lyZt7MPb57OcZ+38T5HN3A/MiBwNodSTnSjQ==
-X-Received: by 2002:a05:6512:3684:: with SMTP id d4mr2014109lfs.90.1621599141762;
-        Fri, 21 May 2021 05:12:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6IwMyQy0+fEhdtiPueAMtRXzD48ll2qXum5CLj6Jxzk=;
+        b=OLstmYMNUWS+EGz7TLqwTCYvKq2pgQLh/Vyhp2HfJ2aNohm2RhdKyS4+MH/7qUqxzD
+         e5vct866JeU/NloBtt4iA/2v/yXhMR0TebDQPNMhEiqOSeivNC5rIiKzY5/pvMz3s5bA
+         naTWcHoAMX+0TEykFfDGp4UkAOyRJ9fEQfOFK7ZnJlFrm2wHVq9Xzy1jFSjBb7gNNtcw
+         EhBcZqTMrbJJDmv13tnbln18y7afq+a46BZkls1bWD1Zt0cqWAJCOaujrE9876UjoNID
+         oRSQ/hom3mdR7WTrgGGx7O9BQ6/vKM2C7wmG+I9Euj/unb4xXFlflI2gH7fP8n0yMX/J
+         zU2w==
+X-Gm-Message-State: AOAM533NZ1ZIANAS9qhZRoZd2SKh7iu7yh+yQ92wJUbB1rCzmcxDzv7P
+	RK+GBwkR6tUAeOD5N2wd1I3TsQVOdkU=
+X-Google-Smtp-Source: ABdhPJxNBrhl/P/tB/u967IVLdQPITxlkxEBRPGVy3Gc20la2PPTcYYfgKziCRxF5zMnsZrYX+S7Gw==
+X-Received: by 2002:a05:651c:2122:: with SMTP id a34mr6642785ljq.286.1621599284618;
+        Fri, 21 May 2021 05:14:44 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from localhost.localdomain (m90-129-203-26.cust.tele2.se. [90.129.203.26])
-        by smtp.gmail.com with ESMTPSA id d16sm605013lfm.202.2021.05.21.05.12.21
+        by smtp.gmail.com with ESMTPSA id t26sm344186lfq.24.2021.05.21.05.14.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 05:12:21 -0700 (PDT)
+        Fri, 21 May 2021 05:14:44 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V2 1/1] kernel-fitimage.bbclass: fix a wrong conditional check
-Date: Fri, 21 May 2021 14:12:14 +0200
-Message-Id: <20210521121214.195955-2-liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] initramfs-framework:rootfs: fix wrong indentions
+Date: Fri, 21 May 2021 14:14:41 +0200
+Message-Id: <20210521121441.196231-1-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20210521121214.195955-1-liu.ming50@gmail.com>
-References: <20210521121214.195955-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ming Liu <liu.ming50@gmail.com>
 
-It should check if "${UBOOT_SIGN_ENABLE}" equals to "1" instead of
-checking if "${UBOOT_SIGN_ENABLE}" is not empty since it could be "0".
-
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework/rootfs | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 5cfd8af99d..993e159c75 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -331,7 +331,7 @@ fitimage_emit_section_config() {
- 
- 	conf_csum="${FIT_HASH_ALG}"
- 	conf_sign_algo="${FIT_SIGN_ALG}"
--	if [ -n "${UBOOT_SIGN_ENABLE}" ] ; then
-+	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] ; then
- 		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
- 	fi
- 
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+index 10b9583172..e0efbe6ebe 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+@@ -56,8 +56,8 @@ rootfs_run() {
+ 					# It is unlikely to change, but keep trying anyway.
+ 					# Perhaps we pick a different device next time.
+ 					umount $ROOTFS_DIR
+-					fi
+ 				fi
++			fi
+ 		fi
+ 		debug "Sleeping for $delay second(s) to wait root to settle..."
+ 		sleep $delay
 -- 
 2.29.0
 
