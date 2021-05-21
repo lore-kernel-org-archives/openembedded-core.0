@@ -1,78 +1,76 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.10045.1621607627787250495
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web12.10013.1621608257799792882
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 May 2021 07:33:48 -0700
+ Fri, 21 May 2021 07:44:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uaKqS2PF;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id r5so29994712lfr.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 May 2021 07:33:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y0nav7Fj;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id gb17so12821662ejc.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 May 2021 07:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VNTiW+43M/5kgtzgZKF32KBayqKs3VZesZ154Bn8Y8c=;
-        b=uaKqS2PFy14dBhto0zpnrd49tiWMI9PsRr8ZInWu/jtM7TKHM8XnOTtsI45gs52hHj
-         qqsDXX1jXUhIDrFeatL57O6IMwyyz9HCN4YPHHljPvYJTMnJpYMKXGrYGdo0NhEAiXvq
-         sVrylv6K1bGX8O+TL/5NAIf0XQzrdD3DaSrn5c2uzXWzw4Lj/3Lb/RqmwtwDhsteRC1L
-         05yy0Fo+8B9IzJe/stjKF53uejKVnHhegTtinhaXHePhpAVlIMvAUGgWgibYmEA6Qaxr
-         C9k2sOkq/Bsseesq4tUdD71ghdI9dTi//ReafLfgGohy/5qGwogFWb3n2swugsa5R3K6
-         ibKQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=r/2BAzrXMT0knnJ/j2KrRd/dYYhpScnV0MYjEk2uQFg=;
+        b=Y0nav7FjEWmjA2Xv/I2wpzeTn6muGv37IJXBbF/rwRV/wte789Tyzbqlh3H1YhC4CF
+         pmN9BcT4lfIfWtpVQJ+hLAITQBrm2Ibn2U+nbefBXOVZyPdxZoxLXMnO5MpuG6Z2u+0D
+         vr94Jj5KZDKS/Ixer4M619ecI3zBSAGWZd4WxeBVw9AswIATHtEGcN67dRhr7tztY+ze
+         EPpx7pExMRtZrjEV1T0E0GsYaiKUGHU0qcIPnOoMhWYtUlUWM9MVffFif3/DoVRMf1kN
+         /8g58CghjDsBHRsVIQDh8GCiQqS0hpmdk1DEsnksA3CTv+2+m8rT+yt3BhxDJ21IO8wq
+         2NXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VNTiW+43M/5kgtzgZKF32KBayqKs3VZesZ154Bn8Y8c=;
-        b=gI76lzU5VNlGXHHNj+l1n4KtpRH59cyouZpNtccnvndCeKvlNe11CB/8htktYlOGJn
-         jezBBunOFdsSfWHCM8OOs/Dp28H1jRRBnKP40BsjNbz1OvvGCftauiHe+0jIqrXaYKUR
-         rLUMqfXahXqUD3CJGwJM6CyVasbtsfawTgFQpe1sKL5pjCcxjhsio4bG8GhtI6k2EDfO
-         IESoSiaKyQQ3My7PuTsolg4CARSZDzIs55RgrPs6N5bj9yGo1Ktl8/hh1rIcrZS7eHsV
-         nh0u1G++Ih+gICgSa9H8k1opbHLHapqOLRnfFTvY7vWENRN8NVA0N0yLa8WHkgcKhFVE
-         XAfQ==
-X-Gm-Message-State: AOAM530z2vjHsPcZQfVTKyM8Gq+xQImIx+ywWy4HEIN/oIr/cbZNsIzv
-	3W8BTk4bN/CDFIx/k79bfeB6rDi9Rxl/EkeB
-X-Google-Smtp-Source: ABdhPJz1vS7Z4g1oW+qHD4Sy09YeM+4Yp7RsLiVX3lhTM+jE8RownZJ+8ZBlortNoYeCj2bEU60sLw==
-X-Received: by 2002:a05:6512:21d:: with SMTP id a29mr2431566lfo.391.1621607625518;
-        Fri, 21 May 2021 07:33:45 -0700 (PDT)
-Return-Path: <samuli.piippo@gmail.com>
-Received: from munkone.intra.qt.io (62-183-187-94.co.dnainternet.fi. [62.183.187.94])
-        by smtp.gmail.com with ESMTPSA id m5sm646791ljc.120.2021.05.21.07.33.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 07:33:45 -0700 (PDT)
-From: "Samuli Piippo" <samuli.piippo@gmail.com>
-X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc-cross-canadian: add symlinks for ld.bfd and ld.gold
-Date: Fri, 21 May 2021 17:33:42 +0300
-Message-Id: <20210521143342.3369089-1-samuli.piippo@qt.io>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r/2BAzrXMT0knnJ/j2KrRd/dYYhpScnV0MYjEk2uQFg=;
+        b=Hidn+8qkyO+SsXXRJjRTz84WciUWRuxvSJmLfOvsmAobMGzUpPy/tn0DX2b1F16Llf
+         7qBaucT4bQxhF6sOuJclhbtTdwwnQIZmeBFyjaRd3FAmiKr83j4whZEbWbBPQWz30Ymu
+         yWETI+/3JTR/zh7qrmEysAzf2Mw+fBbdqKp4qVYELOYtrrStE/sb2UmsBvXw0iABICHo
+         Z9SQwZepNjBf5TsgB2cn8rPeu2HQ2fMwV1PDZw5fEDYAT7N+/NFjuvc0PRu8BI5pZhip
+         9Zq0hPTuyLFaxitKj8ZEKz/vnsee0WyC0fiLwsdMRMVW8xvzV3G1pSiSZJ+xQQGSz+JI
+         gLZQ==
+X-Gm-Message-State: AOAM532jtRHEh+pK2PrSEoOYhpVQhrXWJwu+cJBcFHUDTZqw7UJPA7HL
+	S8B1L55V9Qr8lIK+O2ZXzrSQmZSX/tur/dhNEXo=
+X-Google-Smtp-Source: ABdhPJzMIdn5vBDGo6UK0lfzXRkKi151CNsGbKFsV4mFq1O1BaX/YU4j5iI4C9CFntDF5d1sz/QV8AQUC1LPEiU7vW0=
+X-Received: by 2002:a17:906:5617:: with SMTP id f23mr10257964ejq.298.1621608256264;
+ Fri, 21 May 2021 07:44:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210521122032.196712-1-liu.ming50@gmail.com> <74350fb1207d2596a5fe555461392408147f78ae.camel@linuxfoundation.org>
+In-Reply-To: <74350fb1207d2596a5fe555461392408147f78ae.camel@linuxfoundation.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Fri, 21 May 2021 10:44:05 -0400
+Message-ID: <CADkTA4PmzCobkfMARy-xMerRdNH-ZiR_g0VFjw_bjsAqUOHvLg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-fitimage.bbclass: fix wrong separators
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ming Liu <liu.ming50@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-When -fuse-ld gcc option is used, missing ld.bfd or ld.gold symlinks
-can lead to linker error:
+On Fri, May 21, 2021 at 10:28 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2021-05-21 at 14:20 +0200, Ming Liu wrote:
+> > From: Ming Liu <liu.ming50@gmail.com>
+> >
+> > Change to use '-' rather than '@' as separators.
+>
+> Why? The commit message needs more information.
+>
 
-collect2: fatal error: cannot find 'ld'
+I had exactly the same question/comment!
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
----
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Bruce
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index e8fbb6186b..2d025b54ca 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -124,7 +124,7 @@ do_install () {
- 	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
- 	install -d $dest
- 	suffix=${EXEEXT}
--	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
-+	for t in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
- 		if [ "$t" = "g77" -o "$t" = "gfortran" ] && [ ! -e ${D}${bindir}/${TARGET_PREFIX}$t$suffix ]; then
- 			continue
- 		fi
+> Cheers,
+>
+> Richard
+>
+>
+> 
+>
+
+
 -- 
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
