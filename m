@@ -1,125 +1,91 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.11844.1621615194664872826
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.3650.1621662120901102932
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 May 2021 09:39:55 -0700
+ Fri, 21 May 2021 22:42:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MjxMxatS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id f20-20020a05600c4e94b0290181f6edda88so847916wmq.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 May 2021 09:39:54 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L/rvE5Ot;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id f6-20020a1c1f060000b0290175ca89f698so8488721wmf.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 May 2021 22:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8TmJS0u0t8nGfDWLmgZ3u33G2slLq9qchp0R8ShmF98=;
-        b=MjxMxatSIW2FFq33X8DBPw6+sC3HvU09LNuf6w6IwqaQxFbFGGZNSg+3uaIbxu3r8K
-         RnfIm0Tb8JYBIL9vrVr9ptf4eA+NxUHVO2g0fwOGIFFJsMSByIiE53jsfgcGw0TOU04w
-         OJLVCGmjyumO11uTaI60jh7Hr7JyLyAD+OGwU=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=S6WK3/B0lSvv83x+f248PU39fezS6Q4ElnPmkAyAIGI=;
+        b=L/rvE5OtO0y6sIU1jdH4lM19SLrMVKP8RJgYY19njDU3WkKdZhj3Q4qnGP1zSAgMxS
+         Qzer4FqDnM1Ndxgtp8emLE9XZNLAE34zNNc7JyJ/SMgedYHj5ZlivRhImSi/umpD5vua
+         2sRDckFYvWKDLe+iysd6GE31ZMJxaWb3ewLug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8TmJS0u0t8nGfDWLmgZ3u33G2slLq9qchp0R8ShmF98=;
-        b=U53d++DgAu0kEJMosbWp4F/lyxTKel4S0sUu17/Gl1XEnSP5mG5Eck2dh/vTrNaBAh
-         WObmZJqVrMyCpGPQscvM0ItSjyyG+B/QSkuaoVGQcbm4j6FBpSbxLI7jAcrgQCnAEwWU
-         BSDVczm/yAt5aRqfUg5MGgNgpwGqvcXS8fetOLYndqfHDvZ1fvPux6XK+FpMzOwXbc5X
-         llPJ9xXoJFnKlQkGJj1qsjXjimrkp1e3QdjfcwkFgFeLW/sC1LU2WmhJ5uDfp3J23QFd
-         xXDTD2jAMrZO9rl0ekRxSXQiwiUIt15s879kTxqwlEUR+NfNwivJhFw5+MxddtKAULCk
-         ZDKA==
-X-Gm-Message-State: AOAM533rCNghOVhnAMI+39sB8xftnKKl4/ZbpZBTOgEXuFClqjqEjB27
-	EXpulyiydy0v7nJZdVnXM0p6e4QF5tFebQ==
-X-Google-Smtp-Source: ABdhPJwIfcudrkHvL9uIMay7cLyKtnFJCPjAjVz2+rc6CAkekHXS5UC0HmkEdzLg7fwTLkW//5TCOA==
-X-Received: by 2002:a05:600c:2256:: with SMTP id a22mr9696332wmm.138.1621615192841;
-        Fri, 21 May 2021 09:39:52 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=S6WK3/B0lSvv83x+f248PU39fezS6Q4ElnPmkAyAIGI=;
+        b=pPorr/fjA/IEIrZJODntKJOANZ8XnSDSAOHj7FVeS71QBXvHc68dzmUXhL75kpKRIW
+         RQphaI8VY6nzGkLh3yKaRB9N112ew5ZDYbTDH6Hi/ZqE3gQYxs2akaohjocEe7BzLJ22
+         IKUfYo5aiURvA3fpDKwYB6cDepwacNbDVHVlgAfJ9WjradX/5UgmFyZvQKLeOon615kh
+         qzjBg5KcJIEdrdls72fFLCpuTOu0JBI72xh5F9w6+XJiFH/AoKJ0wu3SVw+T0Jze9zIP
+         7CZCtcxkjG13+eB9uTCuLp9qhinAOeLy9zfkFhPLXEIA6ZdrczxPwopNutdhTWl1AnIa
+         fRFQ==
+X-Gm-Message-State: AOAM531RsuY2iLYlggxzQQHk4dZSn3mZMxwnhMpByrIsZXKJf+KpErzB
+	eV/n0sTquDwdR6pLj8FhU2dPXA==
+X-Google-Smtp-Source: ABdhPJzi0MFUvoSxXTHwWkslqPCAtLE0Qgp5uor6orOgedsrdN+L0nnB/pr/mVADrmXWleML1jvlJQ==
+X-Received: by 2002:a1c:638b:: with SMTP id x133mr12077856wmb.182.1621662119288;
+        Fri, 21 May 2021 22:41:59 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:c394:d896:3913:6568])
-        by smtp.gmail.com with ESMTPSA id 10sm100818wmi.7.2021.05.21.09.39.52
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:39e6:11a6:599d:95f2? ([2001:8b0:aba:5f3c:39e6:11a6:599d:95f2])
+        by smtp.gmail.com with ESMTPSA id f13sm4425515wrt.86.2021.05.21.22.41.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 09:39:52 -0700 (PDT)
+        Fri, 21 May 2021 22:41:59 -0700 (PDT)
+Message-ID: <ea6eee79c5a985e385579eda3786c515dbfdd5a1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3] Revert "gcc-cross-canadian: Add symlink to real-ld alongside other symlinks"
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ltp: Disable problematic tests causing autobuilder hangs
-Date: Fri, 21 May 2021 17:39:51 +0100
-Message-Id: <20210521163951.2582671-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+To: Samuli Piippo <samuli.piippo@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 22 May 2021 06:41:58 +0100
+In-Reply-To: <20210521143328.3368988-1-samuli.piippo@qt.io>
+References: <20210521143328.3368988-1-samuli.piippo@qt.io>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-We've seen three hangs in cgroup_xattr and two in proc01 so far. The new
-plan is just to disable any tests seen to hang. I've had enough of these
-causing problems on our testing infrastructure.
+On Fri, 2021-05-21 at 17:33 +0300, Samuli Piippo wrote:
+> This reverts commit cdd86896c8d29135f937968e9aa07f919cf543d3.
+> 
+> real-ld is always used if that is found, which means you cannot
+> switch between bfd and gold linkers using -fuse-ld gcc option.
+> 
+> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index 878feaf810..e8fbb6186b 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -131,8 +131,6 @@ do_install () {
+>  
+> 
+> 
+> 
+>  		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t$suffix $dest$t$suffix
+>  	done
+> -	t=real-ld
+> -	ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld$suffix $dest$t$suffix
+>  
+> 
+> 
+> 
+>  	# libquadmath headers need to  be available in the gcc libexec dir
+>  	install -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../ltp/ltp/disable_hanging_tests.patch       | 45 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20210121.bb     |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
+It seems the issue that commit fixed back in 2015 is still there if 
+we revert this:
 
-diff --git a/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch b/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
-new file mode 100644
-index 00000000000..113ac0fefec
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
-@@ -0,0 +1,45 @@
-+This patch disables tests which we've found "hang" on our infrastructure.
-+
-+cgroup_xattr:
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1926 (x86)
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1898 (x86)
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1916 (x86)
-+
-+proc01:
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/1748 (arm)
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/1781 (arm)
-+(in the latter was trying to read /proc/kmsg)
-+(the above test looks horrible anyway)
-+
-+Upstream-Status: Inappropriate [OE Configuration]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: git/runtest/controllers
-+===================================================================
-+--- git.orig/runtest/controllers
-++++ git/runtest/controllers
-+@@ -352,8 +352,6 @@ cpuset_memory_spread	cpuset_memory_sprea
-+ 
-+ cpuset_regression_test cpuset_regression_test.sh
-+ 
-+-cgroup_xattr	cgroup_xattr
-+-
-+ pids_1_1 pids.sh 1 1 0
-+ pids_1_2 pids.sh 1 2 0
-+ pids_1_10 pids.sh 1 10 0
-+Index: git/runtest/fs
-+===================================================================
-+--- git.orig/runtest/fs
-++++ git/runtest/fs
-+@@ -64,11 +64,6 @@ writetest01	writetest
-+ #Also run the fs_di (Data Integrity tests)
-+ fs_di fs_di -d $TMPDIR
-+ 
-+-# Read every file in /proc. Not likely to crash, but does enough
-+-# to disturb the kernel. A good kernel latency killer too.
-+-# Was not sure why it should reside in runtest/crashme and won't get tested ever
-+-proc01 proc01 -m 128
-+-
-+ read_all_dev read_all -d /dev -p -q -r 3
-+ read_all_proc read_all -d /proc -q -r 3
-+ read_all_sys read_all -d /sys -q -r 3
-diff --git a/meta/recipes-extended/ltp/ltp_20210121.bb b/meta/recipes-extended/ltp/ltp_20210121.bb
-index ffda7107623..e1ffd0ddf45 100644
---- a/meta/recipes-extended/ltp/ltp_20210121.bb
-+++ b/meta/recipes-extended/ltp/ltp_20210121.bb
-@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-open_posix_testsuite-generate-makefiles.sh-Avoid-inc.patch \
-            file://0002-Makefile-Avoid-wildcard-determinism-issues.patch \
-            file://0003-syscalls-swapon-swapoff-Move-common-library-to-libs.patch \
-+           file://disable_hanging_tests.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.30.2
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/3490/steps/26/logs/stdio
+
+Cheers,
+
+Richard
 
