@@ -1,173 +1,81 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.4475.1621671947161487889
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web08.5592.1621682421661324926
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 May 2021 01:25:47 -0700
+ Sat, 22 May 2021 04:20:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=onqjUpCk;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: liu.ming50@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id z137-20020a1c7e8f0000b02901774f2a7dc4so7789637wmc.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 May 2021 01:25:46 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TLbyDnUf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id l18-20020a1c79120000b0290181c444b2d0so1918669wme.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 May 2021 04:20:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C/WbU10J/ca2apENo9t0yHRX/InVB9H4I2LIM8cvVb4=;
-        b=onqjUpCkQHbe7kdwOXERavZSAqn/h/ttAw2dMbCE+Y76HXAroERUjCV/uNpVU6Mgc0
-         0YMgxhwUZ2EJCI+vOB4YjdXv86PBKk8i30guBK59S5yql68+pFt64dtQuI8i+GQnrpLj
-         O/8o3DfMZSwlohsoTMLGVmWVDBMQUmaDYVOcQYgUSUiKtjhBI+zItjWTZyDhPOASM6Hq
-         tbpOhhrJors9PQfQ+xZYgeFPxTNFMl0wJU0qfU3/PHgcpwWL+sEh7UB+oaAy45hHVXvK
-         sGl0AqXkg41ulfoEVKks+SfMh4PvoOGKa69EthnWUKC5KW/poTIydIUpVlcpidl6ROkk
-         3N/w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=QgswSyMd2bxo4zZCFnr1LCfTSwiaDRBBUlDbS5iKrAI=;
+        b=TLbyDnUf0tEr150SfHl70ch2D7BvEj/z1H9P+mfXp+p7+ROGuSV3J6smEBZ0xBW3yw
+         d3ag/Wd6P5zLBSZ9ppOfd0vaz6AF/Ljb0mon9dxV0RZ+EnLCJOqFQvsVw3luatSR5TnA
+         EpFcXReT+xJwXAJQFDYsmn/DSai2KsJulEIoY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C/WbU10J/ca2apENo9t0yHRX/InVB9H4I2LIM8cvVb4=;
-        b=T6BnZNqLAsnHil5MBvsHPJ1J6aRYjpMw0fxd8pLHTHJUeM/b+98lMSVgGieOgBuVdb
-         iGA3h4HAuy9c7x30wgIVZ5GgnA1MszXpvCMSzVudZmxaV52vMa6juCWND2EEOkdGjsXe
-         XBhgx+X7cn2tITRJ1jajZ0bdANb+jFSxYZWvLLcAHxpCpXu8ckfNQggWrBZ5hjZEp/aC
-         PZiu5D21wY817TglhCL7RZRObUUNig/IVlnpbhvmi8lZJDOn1LVssabLyMbeq44y1rLH
-         Ltmqs7HHchLibZFKdJmF3RRlRxQ0c72kZdmGdf9J8dAl1rvsPcamJsIQx/Y0k9XjtuQ2
-         Y01g==
-X-Gm-Message-State: AOAM533SjkC6JBkl4MQYTrhPy5I9ZKU04QtHllznecVfiqXSYv7mwfjZ
-	p4oNkKWYbgLjanb4YZgSbDV4LJYQcAQ=
-X-Google-Smtp-Source: ABdhPJyr94VAXnapJqy2wmApQCQBfIUP6hs8g/htnN1QKYUhSqAjdU8RQG4Fv7CgjCGwYWPfT254EA==
-X-Received: by 2002:a1c:28b:: with SMTP id 133mr11853998wmc.135.1621671945365;
-        Sat, 22 May 2021 01:25:45 -0700 (PDT)
-Return-Path: <liu.ming50@gmail.com>
-Received: from peterliu-Precision-7530.toradex.int (m90-129-203-26.cust.tele2.se. [90.129.203.26])
-        by smtp.gmail.com with ESMTPSA id n20sm1889150wmk.12.2021.05.22.01.25.44
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=QgswSyMd2bxo4zZCFnr1LCfTSwiaDRBBUlDbS5iKrAI=;
+        b=Rv3fqep20IgFMYOYpovB3k2ffn7H6vvdJ804iZQOYpt83wyIEyf4bQPhb2mp2G/DWX
+         E4EciZx2FFkgBf/IRhLj04dFFoE/2dDYAfCJq01ZX1A/ijqvq9AMfiHrpm1n6dHCa/JN
+         hgs1yprLqBuEBJYALhsSLnu+7Jl62OjeMdIVGPE3fCUMrM3kUT8wNmr3gUnarlQOeXbq
+         8iBarliYAQwm0RflwN4lpMOHunl9kPobddTVFRBSzYmsE3JanCMiTVyfXTxLfZkPsXrB
+         gPkM2Qq8MwG4JQv69KeyTipp2aMguvsvkhkJCTyhiQGBhiasdNByYiOqR8oQBM9fHOYT
+         i8Tw==
+X-Gm-Message-State: AOAM530h+SgW0zgAQfIIm5Vdy8+mKcItsk0xbxcOAEr99tt4LM/rEmQT
+	ojfK6ggq/isKzj2fKvyetcCPUg==
+X-Google-Smtp-Source: ABdhPJxgSd97K89liuPzFy4U8griBhNtDc7mXNxwnD0OgnY7C4pN+2nxwFOjQ/PgX7YAw3okg89hGg==
+X-Received: by 2002:a1c:e90d:: with SMTP id q13mr12522510wmc.163.1621682419827;
+        Sat, 22 May 2021 04:20:19 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:39e6:11a6:599d:95f2? ([2001:8b0:aba:5f3c:39e6:11a6:599d:95f2])
+        by smtp.gmail.com with ESMTPSA id y3sm5041201wrh.28.2021.05.22.04.20.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 May 2021 01:25:45 -0700 (PDT)
-From: "Ming Liu" <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH] uboot-sign/kernel-fitimage: split generate_rsa_keys task
-Date: Sat, 22 May 2021 10:25:41 +0200
-Message-Id: <20210522082541.11857-1-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.29.0
+        Sat, 22 May 2021 04:20:19 -0700 (PDT)
+Message-ID: <81a17639bf8248ff9f4fd03e34f171a98fdd8184.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libxml2: upgrade 2.9.10 -> 2.9.12
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>, wangmy
+ <wangmy@fujitsu.com>,  openembedded-core@lists.openembedded.org,
+ "Tascioglu, Tony" <Tony.Tascioglu@windriver.com>
+Cc: Jon Mason <Jon.Mason@arm.com>
+Date: Sat, 22 May 2021 12:20:17 +0100
+In-Reply-To: <e856de39-d194-7926-8963-b316a45c90e3@windriver.com>
+References: <1621468435-21509-1-git-send-email-wangmy@fujitsu.com>
+	 <1621468435-21509-5-git-send-email-wangmy@fujitsu.com>
+	 <8a5d37690356e7c9e063ca098e2ed532d9702da2.camel@linuxfoundation.org>
+	 <e856de39-d194-7926-8963-b316a45c90e3@windriver.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Thu, 2021-05-20 at 18:31 -0400, Randy MacLeod wrote:
+> On 2021-05-20 2:09 p.m., Richard Purdie wrote:
+> > 
+> > 
+> > Richard
+> 
+> Tony has an update posted to the list:
+>    [PATCH] libxml2: Update to 2.9.12
+> that passes ptests at least locally
+> and I know that we fixed the 'fuzz' problem
+> and even explained in the commit log! ;-)
 
-Currently generate_rsa_keys tasks are being executed parallelly in
-kernel and uboot's task list, and both of them are calling openssl to
-generate rsa keys in same path, this can lead to race condition.
+That was much appreciated, particularly as we're close to driving the open
+list of CVEs down for master. I merged this patch and hope it will help
+for this week's CVE report, thanks!
 
-Let's split it to kernel_generate_rsa_keys and uboot_generate_rsa_keys.
+btw, for some reason, git am wouldn't apply it, I had to do that manually.
+The other patches have been ok so I didn't dig too much into this one. It
+was the deletion of the merged CVE patches that somehow didn't work so
+I just did that manually.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/kernel-fitimage.bbclass | 37 ++++++++++++++++++++++++----
- meta/classes/uboot-sign.bbclass      | 29 ++--------------------
- 2 files changed, 34 insertions(+), 32 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 5cfd8af99d..039640be1f 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -667,7 +667,34 @@ do_assemble_fitimage_initramfs() {
- 
- addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
- 
--addtask generate_rsa_keys before do_assemble_fitimage after do_compile
-+do_kernel_generate_rsa_keys() {
-+	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
-+		bbwarn "FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
-+	fi
-+
-+	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
-+
-+		# Generate keys only if they don't already exist
-+		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
-+			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
-+
-+			# make directory if it does not already exist
-+			mkdir -p "${UBOOT_SIGN_KEYDIR}"
-+
-+			echo "Generating RSA private key for signing fitImage"
-+			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
-+				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
-+			"${FIT_SIGN_NUMBITS}"
-+
-+			echo "Generating certificate for signing fitImage"
-+			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
-+				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
-+				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
-+		fi
-+	fi
-+}
-+
-+addtask kernel_generate_rsa_keys before do_assemble_fitimage after do_compile
- 
- kernel_do_deploy[vardepsexclude] = "DATETIME"
- kernel_do_deploy_append() {
-@@ -718,13 +745,13 @@ kernel_do_deploy_append() {
- # - Removes do_assemble_fitimage. FIT generation is done through
- #   do_assemble_fitimage_initramfs. do_assemble_fitimage is not needed
- #   and should not be part of the tasks to be executed.
--# - Since do_generate_rsa_keys is inserted by default
-+# - Since do_kernel_generate_rsa_keys is inserted by default
- #   between do_compile and do_assemble_fitimage, this is
--#   not suitable in case of initramfs bundles.  do_generate_rsa_keys
-+#   not suitable in case of initramfs bundles.  do_kernel_generate_rsa_keys
- #   should be between do_bundle_initramfs and do_assemble_fitimage_initramfs.
- python () {
-     if d.getVar('INITRAMFS_IMAGE_BUNDLE') == "1":
-         bb.build.deltask('do_assemble_fitimage', d)
--        bb.build.deltask('generate_rsa_keys', d)
--        bb.build.addtask('generate_rsa_keys', 'do_assemble_fitimage_initramfs', 'do_bundle_initramfs', d)
-+        bb.build.deltask('kernel_generate_rsa_keys', d)
-+        bb.build.addtask('kernel_generate_rsa_keys', 'do_assemble_fitimage_initramfs', 'do_bundle_initramfs', d)
- }
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index d11882f90f..29b2edc833 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -255,32 +255,7 @@ do_install_append() {
- 	fi
- }
- 
--do_generate_rsa_keys() {
--	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
--		bbwarn "FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
--	fi
--
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
--
--		# Generate keys only if they don't already exist
--		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
--			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
--
--			# make directory if it does not already exist
--			mkdir -p "${UBOOT_SIGN_KEYDIR}"
--
--			echo "Generating RSA private key for signing fitImage"
--			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
--				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
--				"${FIT_SIGN_NUMBITS}"
--
--			echo "Generating certificate for signing fitImage"
--			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
--				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
--				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
--		fi
--	fi
--
-+do_uboot_generate_rsa_keys() {
- 	if [ "${SPL_SIGN_ENABLE}" = "0" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
- 		bbwarn "UBOOT_FIT_GENERATE_KEYS is set to 1 eventhough SPL_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
- 	fi
-@@ -308,7 +283,7 @@ do_generate_rsa_keys() {
- 
- }
- 
--addtask generate_rsa_keys before do_uboot_assemble_fitimage after do_compile
-+addtask uboot_generate_rsa_keys before do_uboot_assemble_fitimage after do_compile
- 
- # Create a ITS file for the U-boot FIT, for use when
- # we want to sign it so that the SPL can verify it
--- 
-2.29.0
+Richard
 
