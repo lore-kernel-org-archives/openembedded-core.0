@@ -1,107 +1,173 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.4375.1621671258762613255
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web09.4475.1621671947161487889
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 May 2021 01:14:19 -0700
+ Sat, 22 May 2021 01:25:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cRIa+GFT;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: liu.ming50@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id f6-20020a1c1f060000b0290175ca89f698so8604319wmf.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 May 2021 01:14:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=onqjUpCk;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id z137-20020a1c7e8f0000b02901774f2a7dc4so7789637wmc.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 May 2021 01:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9D2tfzN5KgYiNtYE2o3lTTgaONMLxd1BktNVNHMKB+Y=;
-        b=cRIa+GFTmbvYG84qOQa8kD1SGzo/rMgLQzyB4GKY3Ybh8jDhk+CkNlXXV8v2CLAHMc
-         vZ73n2/bKm4lUdhPDTId7GpKBV/lAIgjRRVAoAO/HFfXWXQqQzxqdcSaXcLjslkvLGqx
-         nZlBAPhj+9Jm8sGp7dQ2EtcG1/0MAoa/i9jpKWSLmhesZaYHeTK0jflJAJ6NpTZ7wMZh
-         AI5N+vKFQD7nJpxr6CvFJmVxw81hSo3tsUUfEhA646utOh1bz6nG53z5I50Pf2IRAHsV
-         k9wFFwtM1lNnoB9yGkjPHHvQmESxYo1BBCh0wwXyfIw6ykfAc/fs2JWM9G4htduEtDQF
-         6AwA==
+        bh=C/WbU10J/ca2apENo9t0yHRX/InVB9H4I2LIM8cvVb4=;
+        b=onqjUpCkQHbe7kdwOXERavZSAqn/h/ttAw2dMbCE+Y76HXAroERUjCV/uNpVU6Mgc0
+         0YMgxhwUZ2EJCI+vOB4YjdXv86PBKk8i30guBK59S5yql68+pFt64dtQuI8i+GQnrpLj
+         O/8o3DfMZSwlohsoTMLGVmWVDBMQUmaDYVOcQYgUSUiKtjhBI+zItjWTZyDhPOASM6Hq
+         tbpOhhrJors9PQfQ+xZYgeFPxTNFMl0wJU0qfU3/PHgcpwWL+sEh7UB+oaAy45hHVXvK
+         sGl0AqXkg41ulfoEVKks+SfMh4PvoOGKa69EthnWUKC5KW/poTIydIUpVlcpidl6ROkk
+         3N/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9D2tfzN5KgYiNtYE2o3lTTgaONMLxd1BktNVNHMKB+Y=;
-        b=VRLVk9FB9UNkCX4HPdT5oyPuVd7B2uYx0dy1T+jpFG/a4nT4iJrKmJ8FCXX9Yal6FI
-         mdkkBP/XC5RC1XLxh3o/kiZJiHtSg9SjhtZJPkKgKv5WfDiM4CYwinQc3zAtUijBpUog
-         7G6+pt8RfdndnMgPu4noutIh9LMKg53yP6khvzZ6AnGVVwbDBEUBFhtIOsuG/9b9p+Qs
-         i9htTsy2AQeBM7U6b7EcNLHU1MivEDgnwQSsTWukTiuKnywj1W2bWMeHtmeirotI2AGB
-         cJCyxFLcsuMc0TgbD/qsG2KU/yLHi0TepBj7yt2EpaJL3Hews9JpE5BJAb1pIXz0E2fV
-         viWw==
-X-Gm-Message-State: AOAM532aFQi2efOwAyMTvuKITx6H16lJ8UyGsZens/8Y3QscUlKstcXm
-	on/Lokx95n8DukrMFDI01KDKuhZmOFk=
-X-Google-Smtp-Source: ABdhPJw2Q7c5zmKeuGvV71oqq9gq/k8FpImjyaNT7lwYc0z0NmGmaSRYFxWAq7QW1enxmTXg4OCDVg==
-X-Received: by 2002:a7b:c446:: with SMTP id l6mr12139867wmi.75.1621671256970;
-        Sat, 22 May 2021 01:14:16 -0700 (PDT)
+        bh=C/WbU10J/ca2apENo9t0yHRX/InVB9H4I2LIM8cvVb4=;
+        b=T6BnZNqLAsnHil5MBvsHPJ1J6aRYjpMw0fxd8pLHTHJUeM/b+98lMSVgGieOgBuVdb
+         iGA3h4HAuy9c7x30wgIVZ5GgnA1MszXpvCMSzVudZmxaV52vMa6juCWND2EEOkdGjsXe
+         XBhgx+X7cn2tITRJ1jajZ0bdANb+jFSxYZWvLLcAHxpCpXu8ckfNQggWrBZ5hjZEp/aC
+         PZiu5D21wY817TglhCL7RZRObUUNig/IVlnpbhvmi8lZJDOn1LVssabLyMbeq44y1rLH
+         Ltmqs7HHchLibZFKdJmF3RRlRxQ0c72kZdmGdf9J8dAl1rvsPcamJsIQx/Y0k9XjtuQ2
+         Y01g==
+X-Gm-Message-State: AOAM533SjkC6JBkl4MQYTrhPy5I9ZKU04QtHllznecVfiqXSYv7mwfjZ
+	p4oNkKWYbgLjanb4YZgSbDV4LJYQcAQ=
+X-Google-Smtp-Source: ABdhPJyr94VAXnapJqy2wmApQCQBfIUP6hs8g/htnN1QKYUhSqAjdU8RQG4Fv7CgjCGwYWPfT254EA==
+X-Received: by 2002:a1c:28b:: with SMTP id 133mr11853998wmc.135.1621671945365;
+        Sat, 22 May 2021 01:25:45 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from peterliu-Precision-7530.toradex.int (m90-129-203-26.cust.tele2.se. [90.129.203.26])
-        by smtp.gmail.com with ESMTPSA id p14sm4604350wrm.70.2021.05.22.01.14.16
+        by smtp.gmail.com with ESMTPSA id n20sm1889150wmk.12.2021.05.22.01.25.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 May 2021 01:14:16 -0700 (PDT)
+        Sat, 22 May 2021 01:25:45 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V2] kernel-fitimage.bbclass: drop unit addresses from bootscr sections
-Date: Sat, 22 May 2021 10:14:10 +0200
-Message-Id: <20210522081410.11092-1-liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] uboot-sign/kernel-fitimage: split generate_rsa_keys task
+Date: Sat, 22 May 2021 10:25:41 +0200
+Message-Id: <20210522082541.11857-1-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ming Liu <liu.ming50@gmail.com>
 
-In commit 6047be9f:
-[ kernel-fitimage: Don't use unit addresses on FIT ]
+Currently generate_rsa_keys tasks are being executed parallelly in
+kernel and uboot's task list, and both of them are calling openssl to
+generate rsa keys in same path, this can lead to race condition.
 
-It had dropped unit addresses from FIT image but missed on bootscr
-part.
-
-Drop unit addresses from bootscr sections in this patch.
+Let's split it to kernel_generate_rsa_keys and uboot_generate_rsa_keys.
 
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/kernel-fitimage.bbclass | 37 ++++++++++++++++++++++++----
+ meta/classes/uboot-sign.bbclass      | 29 ++--------------------
+ 2 files changed, 34 insertions(+), 32 deletions(-)
 
 diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 5cfd8af99d..4858037706 100644
+index 5cfd8af99d..039640be1f 100644
 --- a/meta/classes/kernel-fitimage.bbclass
 +++ b/meta/classes/kernel-fitimage.bbclass
-@@ -217,13 +217,13 @@ fitimage_emit_section_boot_script() {
- 	bootscr_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+@@ -667,7 +667,34 @@ do_assemble_fitimage_initramfs() {
  
-         cat << EOF >> ${1}
--                bootscr@${2} {
-+                bootscr-${2} {
-                         description = "U-boot script";
-                         data = /incbin/("${3}");
-                         type = "script";
-                         arch = "${UBOOT_ARCH}";
-                         compression = "none";
--                        hash@1 {
-+                        hash-1 {
-                                 algo = "${bootscr_csum}";
-                         };
-                 };
-@@ -232,7 +232,7 @@ EOF
- 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${bootscr_sign_keyname}" ] ; then
- 		sed -i '$ d' ${1}
- 		cat << EOF >> ${1}
--                        signature@1 {
-+                        signature-1 {
-                                 algo = "${bootscr_csum},${bootscr_sign_algo}";
-                                 key-name-hint = "${bootscr_sign_keyname}";
-                         };
-@@ -383,7 +383,7 @@ fitimage_emit_section_config() {
- 	if [ -n "${bootscr_id}" ]; then
- 		conf_desc="${conf_desc}${sep}u-boot script"
- 		sep=", "
--		bootscr_line="bootscr = \"bootscr@${bootscr_id}\";"
-+		bootscr_line="bootscr = \"bootscr-${bootscr_id}\";"
+ addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
+ 
+-addtask generate_rsa_keys before do_assemble_fitimage after do_compile
++do_kernel_generate_rsa_keys() {
++	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
++		bbwarn "FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
++	fi
++
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
++
++		# Generate keys only if they don't already exist
++		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
++			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
++
++			# make directory if it does not already exist
++			mkdir -p "${UBOOT_SIGN_KEYDIR}"
++
++			echo "Generating RSA private key for signing fitImage"
++			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
++				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
++			"${FIT_SIGN_NUMBITS}"
++
++			echo "Generating certificate for signing fitImage"
++			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
++				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
++				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
++		fi
++	fi
++}
++
++addtask kernel_generate_rsa_keys before do_assemble_fitimage after do_compile
+ 
+ kernel_do_deploy[vardepsexclude] = "DATETIME"
+ kernel_do_deploy_append() {
+@@ -718,13 +745,13 @@ kernel_do_deploy_append() {
+ # - Removes do_assemble_fitimage. FIT generation is done through
+ #   do_assemble_fitimage_initramfs. do_assemble_fitimage is not needed
+ #   and should not be part of the tasks to be executed.
+-# - Since do_generate_rsa_keys is inserted by default
++# - Since do_kernel_generate_rsa_keys is inserted by default
+ #   between do_compile and do_assemble_fitimage, this is
+-#   not suitable in case of initramfs bundles.  do_generate_rsa_keys
++#   not suitable in case of initramfs bundles.  do_kernel_generate_rsa_keys
+ #   should be between do_bundle_initramfs and do_assemble_fitimage_initramfs.
+ python () {
+     if d.getVar('INITRAMFS_IMAGE_BUNDLE') == "1":
+         bb.build.deltask('do_assemble_fitimage', d)
+-        bb.build.deltask('generate_rsa_keys', d)
+-        bb.build.addtask('generate_rsa_keys', 'do_assemble_fitimage_initramfs', 'do_bundle_initramfs', d)
++        bb.build.deltask('kernel_generate_rsa_keys', d)
++        bb.build.addtask('kernel_generate_rsa_keys', 'do_assemble_fitimage_initramfs', 'do_bundle_initramfs', d)
+ }
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index d11882f90f..29b2edc833 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -255,32 +255,7 @@ do_install_append() {
  	fi
+ }
  
- 	if [ -n "${config_id}" ]; then
+-do_generate_rsa_keys() {
+-	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
+-		bbwarn "FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
+-	fi
+-
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
+-
+-		# Generate keys only if they don't already exist
+-		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
+-			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
+-
+-			# make directory if it does not already exist
+-			mkdir -p "${UBOOT_SIGN_KEYDIR}"
+-
+-			echo "Generating RSA private key for signing fitImage"
+-			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
+-				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
+-				"${FIT_SIGN_NUMBITS}"
+-
+-			echo "Generating certificate for signing fitImage"
+-			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
+-				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
+-				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
+-		fi
+-	fi
+-
++do_uboot_generate_rsa_keys() {
+ 	if [ "${SPL_SIGN_ENABLE}" = "0" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
+ 		bbwarn "UBOOT_FIT_GENERATE_KEYS is set to 1 eventhough SPL_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
+ 	fi
+@@ -308,7 +283,7 @@ do_generate_rsa_keys() {
+ 
+ }
+ 
+-addtask generate_rsa_keys before do_uboot_assemble_fitimage after do_compile
++addtask uboot_generate_rsa_keys before do_uboot_assemble_fitimage after do_compile
+ 
+ # Create a ITS file for the U-boot FIT, for use when
+ # we want to sign it so that the SPL can verify it
 -- 
 2.29.0
 
