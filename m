@@ -1,86 +1,107 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web09.26366.1621876578915248076
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web12.26478.1621877119704970811
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 May 2021 10:16:19 -0700
+ Mon, 24 May 2021 10:25:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aDDZ7iAE;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id v9so2118989ion.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 10:16:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pzvtM+PL;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id b26so25667028lfq.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 10:25:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=8v79oas10zzzHY39dNMuOF+t9vdXY07wIPFyboUFop4=;
-        b=aDDZ7iAEx+cdOcUDwMxIWRZsABLZ3uFNK5jtlmpVXojgYpiiS4rvJo+krplgqTjywu
-         Eyerq9ZHXCrZwjKPChb9FzoFGSTEin5zJn70tbn+TaPPokK/Wq+ODs6NK/oiXwTdTsKE
-         Xdtl1VXxe0NwJ0IoSiZ1U7bJDkIf9sDKQRWugT8iXlc2VYxxyFl9fZZWs+LAFIwQYwPz
-         fBeDI3t6r0eY8aVd7FRhoayV9x6f0lzjRbNzeRUeKth+tXDlsgLm30XqD3wrOdsh17wt
-         gQzZLuxFjq7Mkf05v2xqJPwknhwYu9zrfrKGmeaRl6wCA8la/fvkobrQm1AUIdBPdC2+
-         BXFA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8nryFvk1Bj4PzhuiqOmRSj3Z/3v7Oa8Xck2ZOZUwFSQ=;
+        b=pzvtM+PL3cvg7cBP7F/jfeO9Yx4ARHlcCoEFF02rgDBLrihycwjFmOg1/NOM6CWbBu
+         MuN8YER+m8h4iBAYCeuG2BS19HMqFenhAVruP3xXHKZwyq4fD3wBT6Wt5EwT+A9hIHQ1
+         79ml1pcX5GQvt83dMjWxLiw4cSoqbhXtILe1FOdbN/X/nf1Ze4GaY03pvO5PGYDJuRcA
+         Fvs/TBwSibrQptr4eYdpEWZg1l1ESuFndScFmIc+ydfAtaSjbcRmHoFWhKVNZIqgWQXI
+         UXuT8CPssB4wh0AQ4WTF1ybHzok7roWLWVrKgCue3+7Avp2Toa+8UKI3ISMq5xLU923Y
+         YHuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=8v79oas10zzzHY39dNMuOF+t9vdXY07wIPFyboUFop4=;
-        b=ADv6UY+q7gaWyShg0ZkpOaodHTgxGEKt4VJk7432QciQ+osiSUxUjY5UjgB2PDG9+8
-         nsV2p4Hkl5DOJldQrXRR6P0wfihZMIrIF9n7nCJeD1dJFxN0Q9jyhJ0PCwKeprO29gE3
-         TI7dndHKBKgQlMj2Z5sMEhcXvPw5R9nLmjBB97JdXOLjI/PnwvSDYlmU7X9DD8ANikor
-         gppqn49qRtZemFPMtpA48OogaGKxzGKVqN5P+qgPkMldpsJaXkgKhLjX9Rz6FmHVs3Qk
-         WRKg4RPOM3Qh9UnDNhMsjW4xGadEO+o3k367LD86NBN+zVLCuvdUcjE62PJx2dSmrw1A
-         ugkA==
-X-Gm-Message-State: AOAM533z1aWNBf5vO3gocP8QBf9PYKWN+pVjUWq5BH+u1/1nVfgCUQFZ
-	4c/dKskI+dXmD2q7as67lN40RVZGJkXTTzR0
-X-Google-Smtp-Source: ABdhPJy4whguzEDtAVytrOxZD0+ucEFL5nug14J3ACh0xoUACLqpcMZHfrpgs2Cf7AazXBytRN0/iQ==
-X-Received: by 2002:a02:cac6:: with SMTP id f6mr26073390jap.142.1621876578000;
-        Mon, 24 May 2021 10:16:18 -0700 (PDT)
-Return-Path: <vinay.m.engg@gmail.com>
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id j2sm11424103ioj.20.2021.05.24.10.16.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 10:16:17 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8nryFvk1Bj4PzhuiqOmRSj3Z/3v7Oa8Xck2ZOZUwFSQ=;
+        b=bzIfPCfLsUTfdhjtKxtH1xDmIgzGMEOkMc3CNeMFKFzFm5A3ODJ6pg7RUubOrXw1KL
+         EPnZFXP2JpbZDH6MC9CI7Z+qWZKcfZ7CXqHYKBCHMukxwzVMBUr9NFameR9m7UEJFCiv
+         BCjkmTlV13OdgM96BJKJ/QOIEwDVRD/vaG4jIvD87ED8ToQ0vqPchBaq441UW5AcFLvh
+         W7GeVwVCJO/kJBn2epIANl8o06TkgJUsVGx0uTI1Hs1JIZWWnfXH2yA9LpNcR0OOWHQc
+         HxZOsKkraCgNG0LDmVrqGhKslLtx3x0Z668I1lW2JRk2siRoMtS591iv9Q3XONRgmnVh
+         EV5Q==
+X-Gm-Message-State: AOAM532GeL4gKf+Ap5ibjFvFJkbAQMPh7iWw7MQaQf8y/j9zeCAWj6To
+	eQApDcyokAUo2KFtJCv6S9gb9dVB1M2qDr7vTnA=
+X-Google-Smtp-Source: ABdhPJzDPpq7fdbPH7V6aIPzgkUatY6lns+DPZEw9FnuCfu87tpO7g9Y7QLQIFway9epm2J9CIf+XDeXZ4blrRK8n2o=
+X-Received: by 2002:a05:6512:2205:: with SMTP id h5mr11481121lfu.233.1621877117752;
+ Mon, 24 May 2021 10:25:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <CANNYZj-yODhEEFErtUxBeiw3O1YvEfV-hGOOW_uPNvo6x8mNYQ@mail.gmail.com>
+ <20210521132914.140884-1-vinay.m.engg@gmail.com> <20210521132914.140884-4-vinay.m.engg@gmail.com>
+ <CANNYZj-v-hcO19SSkYgYKSeOBj7f1u4zvSRkfcx5UAm=ndye_A@mail.gmail.com> <1681E8AC31CF1367.29978@lists.openembedded.org>
+In-Reply-To: <1681E8AC31CF1367.29978@lists.openembedded.org>
 From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	alex.kanavin@gmail.com
-Cc: richard.purdie@linuxfoundation.org,
-	kweihmann@outlook.com,
-	rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	vinay.kumar@blackfigtech.com,
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH v4 5/5] rust.inc : Fix for aarch64 feature.
-Date: Mon, 24 May 2021 10:15:59 -0700
-Message-Id: <20210524171559.190239-5-vinay.m.engg@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210524171559.190239-1-vinay.m.engg@gmail.com>
-References: <CANNYZj-v-hcO19SSkYgYKSeOBj7f1u4zvSRkfcx5UAm=ndye_A@mail.gmail.com>
- <20210524171559.190239-1-vinay.m.engg@gmail.com>
+Date: Mon, 24 May 2021 22:55:05 +0530
+Message-ID: <CANUMPcWnneba3LL1PEZEcgvEUn5pdLRQ6vRUr2BUwNmfsWc+8w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 4/5] oeqa/selftest/cases/rust.py: Rust oe-selftest script.
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Konrad Weihmann <kweihmann@outlook.com>, Randy MacLeod <rwmacleod@gmail.com>, 
+	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com, 
+	Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-While executing ui testing observed failures due to below warning,
+Hi Alex,
 
-"'+v8' is not a recognized feature for this target (ignoring feature)"
+I have sent the v4 version of patches with "do_check" functionality
+included in "rust.py"
+Also, verified for qemuarm64 target with fresh run.
 
-Same got fixed by backporting below patch,
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rmacleod/rust-wip-2021-02-16&id=f243e4bbd5414ce519336753a68c53ee60cbe89e
+Please let me know in case of any corrections.
 
-Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
----
- meta/recipes-devtools/rust/rust.inc | 3 ---
- 1 file changed, 3 deletions(-)
+Regards,
+Vinay
 
-diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
-index ee3176b559..fb20bbd0fb 100644
---- a/meta/recipes-devtools/rust/rust.inc
-+++ b/meta/recipes-devtools/rust/rust.inc
-@@ -64,9 +64,6 @@ def llvm_features_from_tune(d):
-     if 'neon' in feat:
-         f.append("+neon")
- 
--    if 'aarch64' in feat:
--        f.append("+v8")
--
-     if 'mips32' in feat:
-         f.append("+mips32")
- 
--- 
-2.17.1
-
+On Mon, May 24, 2021 at 10:42 AM Vinay Kumar via
+lists.openembedded.org <vinay.m.engg=gmail.com@lists.openembedded.org>
+wrote:
+>
+> Hi Alex,
+>
+> I made changes as you suggested, getting expected results.
+> Verifying with a fresh run. Will send the final patch for review.
+>
+> Regards,
+> Vinay
+>
+> On Sat, May 22, 2021 at 10:04 PM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > On Fri, 21 May 2021 at 15:29, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
+> >>
+> >> +                       # Set TEST_DEVICE_ADDR to image ip
+> >> +                       cmd  = "export TEST_DEVICE_ADDR=%s:12345;" % qemu.ip
+> >> +                       runCmd(cmd)
+> >> +
+> >> +                        # Test execution
+> >> +                       bitbake("{} -c check".format(recipe))
+> >> +                       # Stop ssh background execution
+> >> +                       t_thread.stop()
+> >>
+> >
+> > TEST_DEVICE_ADDR set this way will not propagate into the task environment. The task itself consists only of:
+> >
+> > do_check () {
+> >
+> >     rust_runx test --no-fail-fast --bless --target "${TARGET_SYS}" > summary.txt 2> /dev/null
+> > }
+> >
+> > so you can simply move that directly into selftest:
+> >
+> > runCmd("export TEST_DEVICE_ADDR=%s:12345 rust_runx test --no-fail-fast --bless --target "%s"" %(....))
+> >
+> > Alex
+> >
+>
+> 
+>
