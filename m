@@ -1,72 +1,81 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web12.20559.1621847645263621498
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.20719.1621847646840034729
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 May 2021 02:14:05 -0700
+ Mon, 24 May 2021 02:14:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eEXau4VB;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id t3so31048270edc.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 02:14:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jygLufsI;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id gb17so22647504ejc.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 02:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=W2R+gNmMAdg8Ucvy6RyFoBc8F4KO1Y9xanql/CCumKk=;
-        b=eEXau4VBgHdvDErLbhwz1TT80WpFPiB+SxJhiO1jWFWg04qCfTHrSgvsO6X9aUUYCP
-         LLiw9J7r+tZMlt+4yryZhKm4aR24yp1H1zCS/y4iRunALZtHdW4EFnWU36qR7jJRN+3D
-         bmiRUed03PGFgC4b+bUhvxJE7f6gS11WNRFgP7/lByg8OdE3LeuTh/bKzjAE35X7U5bf
-         FnIP9Tu2bYQnQa4S1b6yS6etXj17mCmz0pUsfwWnjfhdwffZg5GQQwHF7o2pPGUI5xM+
-         wDGsQL0ZmznX3NIwMBF5CiuWXwDe8TaYP/v5eF4SxmaIb+j7Brhj38ypMWOEOYDEn8bu
-         qRJQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xF89n+LNa6o5FvjalO1ddsU8sRHnLAUMUplF+3yPNFk=;
+        b=jygLufsIICNl2qxcLlNt4U7i9KVxtcsl6wIoI/HR34rJqwi852x6wNrtnfMz3ZaKnF
+         JEznucojuRVjDAQo+GdCahOdoTI9CjcTE8q6QatenGcGe7eZV1SSyK7zAd6cvIU7M4fa
+         2kWMhxqc36+PWcGSPSF5T+QhIZEdtttpNXxic6fEpSv/0+7AkweCruD77F1+nI497zhs
+         s6uSsDC5Sk2a2UVfu80IJyRg6ZD3bxiI+dQMsgIaiKMz5aj4LkHiW4yPth6TSUFfq/eC
+         LCjRNLfjSSeGAcum7MW/prbK2Vvc4Im8qCMp1iSFvX+cRNhz4Zy5bp0k8S4+xOlGCr4I
+         bhzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=W2R+gNmMAdg8Ucvy6RyFoBc8F4KO1Y9xanql/CCumKk=;
-        b=HY3LL26q/gFT6VmK/8od4yLqBidwofykr7RtWYZjciBmUF6NUYnCv5imxibapjWKKn
-         3dW/bT19cjyfPeFAvVJSiMWvTD2rQKcLGk1xsRBRVlROaYgxeivnFO4GEpXjYNpHqILy
-         7yU+ZxB9zrJcsaTWFmNOgKqIIM7rYLgUHsrAjCFfL9Tbs3vzIwukfs0JlYv+3J0kSeMY
-         RhJjESvkm2w81tRc00/UM8g49/yC5PKBzqtCD6u0ZpOuS9r0e7cfei4tIw3qU60N0QSs
-         O4ZzNKxApdjTOQ1X+uvFTKi3RmksjXuLn4Gw7eiOF7rXbmU/NJNMxtENr5N3U6kFCEPa
-         igTw==
-X-Gm-Message-State: AOAM532iA63Mtp1y3dg4Ud9MvjRZoFntHEpUbHnCxNYbi7r6mjg5Q6xz
-	NVqsWBgmVD78zAMcnVt+ayJAqbW3rlg=
-X-Google-Smtp-Source: ABdhPJyYlB5SrDEVQkWNhIxx8sY/kG7JOsWJIY11iQmU8YehI54FnHuAbsdkbuuolzsw3DAv0Lzn0w==
-X-Received: by 2002:a05:6402:3587:: with SMTP id y7mr23667194edc.360.1621847643528;
-        Mon, 24 May 2021 02:14:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xF89n+LNa6o5FvjalO1ddsU8sRHnLAUMUplF+3yPNFk=;
+        b=OUQvaDFYyVR5/kwStMi2vhltha5Ugm109OPnTA7sWxi8j3LJBp74O1rwdL/8iT6pUk
+         uMfgYrZkxTlCXgyvPP6TJDbXCeNRAQQvvgm8tpqtwxItZL0mXbRE9RZ+okBh0pLPy8Yi
+         v/2nVSA0AZJuUIJrqm+1r+wxIXThXhvjDIvE8C12PHGAf28Rt449pshvsAfOBt4fD9Ty
+         S9NTBHCI+lIFaEthGXxtfuMoAzNImvFX8Pq9/FSm2AYmaehuImPv52Dsv2hdpfJS1AwH
+         R4gdBgnqqrBOlPMEUG1QJkr17FFwSlr4VmtZ5S33NZBM5f7ymbA+YdB+7GixjhElKRmt
+         DwdQ==
+X-Gm-Message-State: AOAM532tBX6B/loKH6uG7bQ7ioTifDGfRbjd9AaJeMsWIkDZetC8a4EE
+	uNSH88GnX94BBaFdtAvoG1Q4PXgjXks=
+X-Google-Smtp-Source: ABdhPJxeWbKra0WclU+oruYk7BPdR/4ESiQLSEnI2r1YmuE+b0VwQzU1zBM39gZxY+na74y1hQ+kAw==
+X-Received: by 2002:a17:906:9bd6:: with SMTP id de22mr21988636ejc.382.1621847645430;
+        Mon, 24 May 2021 02:14:05 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id h9sm8673490ede.93.2021.05.24.02.14.02
+        by smtp.gmail.com with ESMTPSA id h9sm8673490ede.93.2021.05.24.02.14.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 02:14:03 -0700 (PDT)
+        Mon, 24 May 2021 02:14:05 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 01/21] gdk-pixbuf: update a patch status
-Date: Mon, 24 May 2021 11:13:27 +0200
-Message-Id: <20210524091347.419253-1-alex.kanavin@gmail.com>
+Subject: [PATCH 03/21] systemd-conf: do not version in lockstep with systemd
+Date: Mon, 24 May 2021 11:13:29 +0200
+Message-Id: <20210524091347.419253-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210524091347.419253-1-alex.kanavin@gmail.com>
+References: <20210524091347.419253-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+This is not needed as systemd-conf only packages
+standalone config files.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../systemd/{systemd-conf_247.6.bb => systemd-conf_1.0.bb}      | 2 ++
+ 1 file changed, 2 insertions(+)
+ rename meta/recipes-core/systemd/{systemd-conf_247.6.bb => systemd-conf_1.0.bb} (99%)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-index dc8d6ce724..a8206a4507 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] Add use_prebuilt_tools option
- This allows using the gdk-pixbuf tools from the host to
- build and install tests in a cross-compile scenarion.
+diff --git a/meta/recipes-core/systemd/systemd-conf_247.6.bb b/meta/recipes-core/systemd/systemd-conf_1.0.bb
+similarity index 99%
+rename from meta/recipes-core/systemd/systemd-conf_247.6.bb
+rename to meta/recipes-core/systemd/systemd-conf_1.0.bb
+index ea35e83f4f..235923be85 100644
+--- a/meta/recipes-core/systemd/systemd-conf_247.6.bb
++++ b/meta/recipes-core/systemd/systemd-conf_1.0.bb
+@@ -5,6 +5,8 @@ DefaultTimeoutStartSec setting."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
  
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/119]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++PE = "1"
++
+ PACKAGECONFIG ??= "dhcp-ethernet"
+ PACKAGECONFIG[dhcp-ethernet] = ""
  
- ---
 -- 
 2.31.1
 
