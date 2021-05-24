@@ -1,141 +1,429 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.19935.1621840230750412152
+Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.57])
+ by mx.groups.io with SMTP id smtpd.web11.20151.1621841856853122511
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 May 2021 00:10:31 -0700
+ Mon, 24 May 2021 00:37:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=A7uTGTBQ;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=077818ef51=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14O79Ihj004791
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 00:10:30 -0700
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
-	by mx0a-0064b401.pphosted.com with ESMTP id 38qrtb0c3a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 00:10:30 -0700
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=ZQxPF5XQ;
+ spf=pass (domain: kpit.com, ip: 40.107.139.57, mailfrom: akash.hadke@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XKHu+CDFvJGVybpyZ2Zj4sv6m+2YeGVursPPQyrqi1A+fbXF7Nsm378cqoiWlN0HdCVmRxsmYOmM/za8oCX3OuGfGwFmRi1ZrdmILy+4sDBYEOoz/uXpe+Vw/EyrUOqdxpwBvDaRr4Rou3mueXlfTJZr7hOn12DDmRvQRmlHIsuz74amb1CYq7Ka5RIpM4sw0gtWDck1gKJAoeWve7QwaEC0VJNhAG/VdtJyyoq4M7MW97Ag/W/n3+9AKTquJ6b5ViT+TKSIFIEcUHbcNeeVmGADW+omlMCk51RD+x/ZuhEuQyrFMxEUNCSkSrZ6U8qcUypaTLXXyFPaF3sjOHyUqQ==
+ b=KnZ6XgTcTB1sV4Gq5a4cylVeBhxKKV7s5mwhHRY1dqp5RuE3P7AosZ/cA4VDv4F3i7xI3ueh4QeKfDgfkxJAYlyA/0d5lNL0mgcir+JN8JjmPcby/0CY6a+rXzCj4CAiECKbO3GQOsjmKvAPabJnCuJHgKHS9PPUK+5pnTIakHBNFd9g/ytx0pbVVOdqyGyl1Dy/KeDWanux3b9cgeA2Os9Hjyc5SzwgdybaH7qHtkRmBsVjD5ojdZXry+IvfRLxhGtGFGfSnnggPW6L+qWgb2SJLZLYG5/9/us0rNSUh9QnthiKEpq9fWQ9T9nSIpYBYmHsqz5DSH9JgYaW6MokCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r9x4OMtpy10z+aS5xOS3hoDto9PYMIzBVrmsYrC+6V0=;
- b=nMZegEiThy0PsX3XYEtdo/7FxShrqj1DbQeg/ZQL7teXD4KQlkHc0GGZGvT12KQHqvhrANlmj2Gh+Yk+/y4DKlZGE/4mIEM3iIBQDOIEnLLSQhHouf3NdwUYRjdrTtd2ThwuOy/NTq8PAAlgd5kjeVEvs3B24lDu1f9emwKNApremkg2JJ0LZA1hRltbt+iv5ngAz2Zg/jjR8Tz8P3yHWPinp6LNmJWdbDLk7YSEUkEqEMw/LXfPsUY4j5lyv6MpdfxqP4RuGAGr8s0xIjrtLgQvxUEt15svmTVAQuD1ZpeMP1w/Ozi/mnw3yggj1VmTyAmWepRw/u/nTCCJEgdGsQ==
+ bh=unLPrGZVszbPChiQNQidMowBLE2GVagBGLIv+HSKkg0=;
+ b=hqdGPXA0fyuKNQnQZjJ8uIOurQQBqcN5mN3NI4vT4AmTmjtkuBw4gO6OSxOJFHkDVtR6KzPaSm2O8sPsBclBbN4Rs61cgHoGh8gKQM8Uf9ponR25JeuNcie/wlOPNMmk3rk7O+vYqajJnbavA8eIthMdLfXYUIitnYO7geq6aHLpesyC/QfuVzzVC4X9tU8Ga5OfTRA0WTBDoc6qewhczxtf0kBpiApW6gX+enRAzku+Rh30vosg1CIwiv2T4LXCKdCg78XZ1WaUttZACV88wmW7OWqvs0DXLy9kNpjQfbPQzzpkXSl/SL4919PMrHLAaIb4i2ABrrAG02UP9Hdt1Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r9x4OMtpy10z+aS5xOS3hoDto9PYMIzBVrmsYrC+6V0=;
- b=A7uTGTBQZBXRbxGgOVnXkyrwKmw0PLC12KCLpU+ZmdYBz2Y+2pyo/+fzxDdkAgicCiuCfOAdfNzsV6jlIDxF9hHU8edFGbl6/Ig0v9X9IkacD+iDyU99j3xXbvjPWR8xkeSurTOP0/pi6xFgn9TuRO0e62GWa04vfHgBBwE0eHI=
+ bh=unLPrGZVszbPChiQNQidMowBLE2GVagBGLIv+HSKkg0=;
+ b=ZQxPF5XQHcHlx5xD9lKR4yOwjj7Jm53psRVxc4zIGRyf79lnQBiMYZt9KxcTmW9VmzOtk750pQjHUlVF01GOjC9A2stYeXUCiDVTCtxTwEghC4GV8Ynbg3i4R6hNn8rIbTvkdTJsUJbHCQ/IIWfCu624wqAwTcGatwsn3qXWbm0=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by BY5PR11MB4305.namprd11.prod.outlook.com (2603:10b6:a03:1bf::16) with
+ header.from=kpit.com;
+Received: from PN2PR01MB4619.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:a::14)
+ by PN2PR01MB4588.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:e::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Mon, 24 May
- 2021 07:10:28 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b%7]) with mapi id 15.20.4150.027; Mon, 24 May 2021
- 07:10:28 +0000
-From: "Chen Qi" <Qi.Chen@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH V2] rt-tests: update SRCREV
-Date: Mon, 24 May 2021 15:10:11 +0800
-Message-Id: <20210524071011.10041-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR06CA0021.apcprd06.prod.outlook.com
- (2603:1096:202:2e::33) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.27; Mon, 24 May
+ 2021 07:37:23 +0000
+Received: from PN2PR01MB4619.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::c962:e30e:1f2:44e7]) by PN2PR01MB4619.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::c962:e30e:1f2:44e7%7]) with mapi id 15.20.4150.027; Mon, 24 May 2021
+ 07:37:22 +0000
+From: "akash hadke" <akash.hadke@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com,
+	harpritkaur.bhandari@kpit.com
+Subject: [poky][dunfell][PATCH] tiff: Add fix for CVE-2020-35521 and CVE-2020-35522
+Date: Mon, 24 May 2021 13:06:57 +0530
+Message-Id: <1621841817-21203-1-git-send-email-akash.hadke@kpit.com>
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [103.110.167.10]
+X-ClientProxiedBy: PN2PR01CA0062.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:23::7) To PN2PR01MB4619.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:a::14)
+Return-Path: akash.hadke@kpit.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HK2PR06CA0021.apcprd06.prod.outlook.com (2603:1096:202:2e::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23 via Frontend Transport; Mon, 24 May 2021 07:10:27 +0000
+Received: from L-12026.iballbatonwifi.com (103.110.167.10) by PN2PR01CA0062.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:23::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4150.26 via Frontend Transport; Mon, 24 May 2021 07:37:22 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d4342e43-0b06-4e2e-363f-08d91e830299
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4305:
+X-MS-Office365-Filtering-Correlation-Id: 9f460d7b-0683-4945-0b1c-08d91e86c49b
+X-MS-TrafficTypeDiagnostic: PN2PR01MB4588:
+X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB4305235E0D8CCC7B8CFA9507ED269@BY5PR11MB4305.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:989;
+	<PN2PR01MB4588BBC00DFA519C956AC6128E269@PN2PR01MB4588.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:190;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	wWzUjJ7ArbQtHMqr9egZGHIXINJ/0ecy7BFOJYKG0Xrgw1aYKsJqMXbbaNo5Vw9AO24A6FQ9tRQ3MM3xVnwCNdzQnrRDc1pB+jqq4AFxMmsDiHd0hmFGpJoghUK3i2HqIuyqgFIIRImy1vZhq8kSp1FafGW72gEk2LkMwZPte2GcesGfaBdYHVlydthQ/oNGjX4Ht+kwZDxC6DWnhqiB/tZIIkz/Yf02ozXDN6QSORBfaPRp8AJbjC/uFpjkiQa9gr4YiwaClgJx85t4ek/aG+c72DxBJrDdGUy0wPnUHeQErydaCMVxctGxnhahb5WV95rASVMxX8QoOthKcMutVKvTtiiSalNawA5wmgxMQQ2F7z+h9fiz8YfjhMkVoSVfMPqlJiqE23eQ5FP8zYEG1u3LKo6BXp9miKiVrvw0gXRB1ONWhY1ckp8mo1mqZMEVFttL/XB8H1TiDjOodRZsABIz3OeRJhB1WOSIGGQDcElP2BPUP36cfJiBQA8TibfAbtdytfF3GqSm/IVkamp+IDIt69sQtCLDlaOwVSmpUjv4z5e3niBcVobdFA9BGayqitvhm8CnnOt+eRG4WY7F4dIfZJ4KgaxJAKizOHmUiMq/uY92/bmemItcqTOkD+ytU3OpiYXCL+EAzN6rXA4gR0bNky2mqCE+Ld2r/rHIBFg=
+	+x0xosZGpnVoR7HUPRyxi+D9xAhj3CxB97A1K5BRuPRLQ9HS/C3EmICJUAgXe1Jtk8PSrJRF6XZlio04nv7imfOEkXHRd2YRUIygVzKM5ug8Qx/xbB70izAc7yGEo+sz/uGb4yaOjgciKedEVYfqkYksG9I6srjcYuVDXdZoJ85/OSpUHg5ya+CMXOFbng/AwjubhgXiLFitDQazcVbbgU8ct/A2K6K0XdSimGHDPrSV4C0Ard01198ozVzXKPdVW0Tq4wyehBHmaiq52h2TchdKMafaX77L9ZRn0WOH2UDQcw2Gqfg+8AzAg5jh7L60doQnqI5hMs1E8Xpwq+/HUqmwuEXXAzPx/B5cJEh+NdSJM1FCzx4ZyGfs6FTyTYc5zY2BvS61HCpA/7Coop7cdgYYBN/7PQClxWqddi9CtPrQxL0XyCs/MQQnmkI0KDOIXaVYXYkLLBSbczIBJdGvfUEbARKkDyIW+rVPjfbzGVW42JS2DxyjxSiXZ9fR829IuW8zNoCOsN2HQN+8iWntM7z5ly+f9O6oJTMjmYUlOieEoRd4Zh4I53/v90ubgwMETrFudBjrI8aJjwUGyPXEfUCXTNPagStooz1nuwmFNDSmGo4KoTSGg4OCYzExV8j3w7+RGh6g9dvLgveTMIwweUiwM/SG/y+Iuk+ovrpNPxQDD7+xf1C6/5TpaolCDiFxK6tFTIyY0L08SxNtDW4MSFpvOt0aoBDWi8gI4NLcNwI=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(366004)(376002)(39840400004)(478600001)(66946007)(66556008)(66476007)(38100700002)(316002)(2616005)(8676002)(956004)(8936002)(2906002)(26005)(5660300002)(36756003)(1076003)(83380400001)(38350700002)(6512007)(52116002)(15650500001)(6666004)(16526019)(4744005)(6916009)(6486002)(6506007)(186003)(86362001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN2PR01MB4619.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(366004)(39850400004)(396003)(136003)(6506007)(8676002)(83380400001)(6666004)(107886003)(2616005)(6512007)(4326008)(478600001)(8936002)(30864003)(316002)(26005)(186003)(16526019)(52116002)(66946007)(956004)(36756003)(86362001)(19627235002)(966005)(6486002)(66476007)(38100700002)(66556008)(2906002)(5660300002)(38350700002)(15866825006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?/TtysaTs55QxOE2SVA8dGG/xFQawSgd/BbQWHEwYQPm/6Lqjhggo+eF6Dh/n?=
- =?us-ascii?Q?N6JTSnejL5JfZ7qetnwpPxWuKPh6PqSqzeRImvcatQKLQwCrSwbNSPqtSv8b?=
- =?us-ascii?Q?dMJdFVCTI9tL/jh7mWfNnasuCLBZFgLxZenUfvAVnrz7TSxfHnObReBpixep?=
- =?us-ascii?Q?gbDi0Gdxy6sLB9viCw8LRe9FQmbeoAXRlU4Z4T8N6kZSwlOe7uNzjn/u1EXQ?=
- =?us-ascii?Q?WIIVKQJFrpDOhYsvGwZ+F9ksKY7O8svLoblubGlp3vtkBOBksMWvJqv9nzF+?=
- =?us-ascii?Q?b3hmpkC07g0ZzxeXjBZpZWSaoK+97DE3uf2lR7beZBS57ZnoKVfXbfSvF3sX?=
- =?us-ascii?Q?8NEwAZ2tyd245N0HPUbfnPLVPkCGCO4tHmWYKTAxVMFD0KiWNX8MabS+GcR6?=
- =?us-ascii?Q?U/H/006dVrvtvf/qOXrq9Gbr9eqouD9wrM/62W5kJXjuve0f0KLDa5jZD8Le?=
- =?us-ascii?Q?XplOohbSBlctNZQgPnTgu+U4Iy5m7iCrlkPkOunzOmFK2EiNA9BCgalHkZgi?=
- =?us-ascii?Q?wjViSocit4wdrOv7/E10Cva//n08Q9h0wF67szvbRhzkFByL+3IZJ3Re8xeX?=
- =?us-ascii?Q?x31kZ08VwGh70to+0VKg3MWjvnEGawiiIftKeK41SUHxjFhC0ozL5kHXxwEu?=
- =?us-ascii?Q?IoJQUpRFKVNWwk0FNXwiGPXQdI5QmO2enCY5l0FV7z3FPSTl9MqS5QJGbX3o?=
- =?us-ascii?Q?/1i1sgALgHcQ0QBl2xwbjJlWFehkkKXgpE+pSeqqc/0XvPwfIQlbzC+URydA?=
- =?us-ascii?Q?H79RQbOCL/SOWYVeuwDBs4n2bBLxZkuMWzqJaLy9i8VKfbKhetacZ7eb7Yi3?=
- =?us-ascii?Q?Tw528+Nwz3xP1jO4sjtQYAyqZ4bFAusuf2HargF5gSX7KPgzVb7JVFXUpFg9?=
- =?us-ascii?Q?nGMqshVyUd+9gi2bIiRJn7ggF4gXFbVv9lATkJsXN+SaDU880hIPLeOf1hwn?=
- =?us-ascii?Q?lgS2pYX10wRR2QVIW5gFO88UbD6rOc7EphvdkGp0xsJY9UdJJ+AGE6VbZPPK?=
- =?us-ascii?Q?2Nq3PPsz8YgtSWI/vPsMQK6z3fXfB2SWDNM6rw46MKSirLJ8jfOkOtJnxomu?=
- =?us-ascii?Q?tb3MBrRCwO0/nkKu4K6EZkIrSgreN9V8ijQ5RNJouuB31+7+rsAYJ4s8uGQ7?=
- =?us-ascii?Q?KtIRb9ozMIn39fPsKXoAimd8+OCtG3KqHyypY/iXX6Zlv6aIasMEZ7VQ5pSW?=
- =?us-ascii?Q?bJrP7gdICF2AC0ewIB4dedUr1WodOnGEAcR4i8a3qm+JlDAM6HFKqjPuK/Mh?=
- =?us-ascii?Q?Jym5MnTU8Y5oIS8TAtNYG0dN0RuvBOFBg6VswUG1UHfZ1xoMoNv08Z7v3XaO?=
- =?us-ascii?Q?QbbVC6Xs2Rmu1F8VAYzMrqCf?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4342e43-0b06-4e2e-363f-08d91e830299
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
+	5RxN5CQL5KY9NE1ZvALhe+08rOUTlkw5sSO5dsIjPjn6CfBNHQxAWEP+6uIdZsvsfXZE6u1A38lk7MwO3dBVTYdZ1agimZmrLv4uXoyAJHVfaxk7ZoI6S+3Neq+rVR6ncspaZDwImP/bky4ZlscbDMnqAQ5ab1vBLyyjr8Nq95SeFFmswj/EZynZwa06IGwSgL6vqjvKTUsoPv9E9NGTtDd/cN5aflSBZk3p92UXV1ckVtMBLuxNFAN/XtYSs78SqnyGH/bViYG+ZQo7t4GYqAFn6SEhjHIpYozDw6/FBnTb4858tYZjkqyQRggd3UAeggTyYpEmU5/Yw0cd4T88BkzDyyDDC/O5HJAMAdEzR3FFqTkNz4jZgvgeUvWAS8qh3hPOwJdtDt3xwRN08Oc8pPPHJccl2+Hm8rFV9MprlfFqMC7Xymz6bTCiSFOmVZSoqB6QxcVLwUoYshRytWvg05doQTZw+iw6aUZbH2p9zFVagiHkFngDUljOTc0BHMTA5cfqom7zr4el0aBgHyOPjQV+6nkImK99l0gYVdiC4KiASPOWpO0J9CEcXN8le0207JevylQS99H9sVeYZtNzPOnV5Ygvl+hMJrKSEmDJ2Emw++c+cQQKYgZnwMZIDjQnigBmE+ieImXug3IhfKkjcevhpRHpIjUH5Yox4e0aUs5sRWNNqk5WnnoARRPFgUy9Cjli9mXDPGLjfF+nKmyJA4ZT5T3Wch506YOUsJtygCU=
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f460d7b-0683-4945-0b1c-08d91e86c49b
+X-MS-Exchange-CrossTenant-AuthSource: PN2PR01MB4619.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 07:10:28.5828
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 07:37:22.6709
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y9+6IIaEyKLLmCP6Bm45wtIXWiRCfUZlGD1V6w07uJfoFq7jKT3wKtLNOwE1Tq9ZwqhKHqJezMr8cZ95PQfSSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4305
-X-Proofpoint-GUID: HLyBIN7BEyCTsTtIw81dNlnXUX8Srwc7
-X-Proofpoint-ORIG-GUID: HLyBIN7BEyCTsTtIw81dNlnXUX8Srwc7
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-05-24_04:2021-05-20,2021-05-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 lowpriorityscore=0 spamscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=0 malwarescore=0
- bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105240056
+X-MS-Exchange-CrossTenant-UserPrincipalName: t61MDD6vvL0+X3DQ6E/p+zV6cCzoMhj8XZQ/z0Iz2dfQaaVun/1w02yIeU+M0eFOKl5qelGvz+hkCVISFpTgng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PR01MB4588
 Content-Type: text/plain
 
-The commit '6af88067da16c6e69243b376c3b6454ec694460b' is not available
-in the repo any more. I think it's due to some mis-operation of the upstream
-repo in the past few hours.
+Added fix for CVE-2020-35521 and CVE-2020-35522
+Link: https://gitlab.com/libtiff/libtiff/-/commit/b5a935d96b21cda0f434230cdf8ca958cd8b4eef.patch
 
-Update the SRCREV to use the latest commit on unstable/devel/latest branch.
+Added below support patches for CVE-2020-35521 and CVE-2020-35522
 
-Also, set PV explicitly and remove the obsolete comment.
+1. 001_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+Link: https://gitlab.com/libtiff/libtiff/-/commit/02875964eba5c4a2ea98c41562835428214adfe7.patch
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+2. 002_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+Link: https://gitlab.com/libtiff/libtiff/-/commit/ca70b5e702b9f503333344b2d46691de9feae84e.patch
+
+Signed-off-by: akash hadke <akash.hadke@kpit.com>
 ---
- meta/recipes-rt/rt-tests/rt-tests.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...tch_for_CVE-2020-35521_and_CVE-2020-35522.patch | 148 +++++++++++++++++++++
+ ...tch_for_CVE-2020-35521_and_CVE-2020-35522.patch |  27 ++++
+ .../files/CVE-2020-35521_and_CVE-2020-35522.patch  | 119 +++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb      |   3 +
+ 4 files changed, 297 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/001_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/002_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35521_and_CVE-2020-35522.patch
 
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 0c89bad91f..e97140add7 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,5 +1,5 @@
--# Version 1.8
--SRCREV = "6af88067da16c6e69243b376c3b6454ec694460b"
-+SRCREV = "c9051a36d934503b4673ca5615f631bae36dead0"
-+PV = "1.10+git${SRCPV}"
- PE = "1"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=unstable/devel/latest"
+diff --git a/meta/recipes-multimedia/libtiff/files/001_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch b/meta/recipes-multimedia/libtiff/files/001_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+new file mode 100644
+index 0000000..9b4724a
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/001_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+@@ -0,0 +1,148 @@
++From 02875964eba5c4a2ea98c41562835428214adfe7 Mon Sep 17 00:00:00 2001
++From: Thomas Bernard <miniupnp@free.fr>
++Date: Sat, 7 Mar 2020 13:21:56 +0100
++Subject: [PATCH] tiff2rgba: output usage to stdout when using -h
++
++also uses std C EXIT_FAILURE / EXIT_SUCCESS
++see #17
++
++Signed-off-by: akash hadke <akash.hadke@kpit.com>
++---
++ tools/tiff2rgba.c | 39 ++++++++++++++++++++++++---------------
++ 1 file changed, 24 insertions(+), 15 deletions(-)
++---
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/02875964eba5c4a2ea98c41562835428214adfe7.patch]
++---
++diff --git a/tools/tiff2rgba.c b/tools/tiff2rgba.c
++index 2eb6f6c4..ef643653 100644
++--- a/tools/tiff2rgba.c
+++++ b/tools/tiff2rgba.c
++@@ -39,6 +39,13 @@
++ #include "tiffiop.h"
++ #include "tiffio.h"
++ 
+++#ifndef EXIT_SUCCESS
+++#define EXIT_SUCCESS 0
+++#endif
+++#ifndef EXIT_FAILURE
+++#define EXIT_FAILURE 1
+++#endif
+++
++ #define	streq(a,b)	(strcmp(a,b) == 0)
++ #define	CopyField(tag, v) \
++     if (TIFFGetField(in, tag, &v)) TIFFSetField(out, tag, v)
++@@ -68,7 +75,7 @@ main(int argc, char* argv[])
++ 	extern char *optarg;
++ #endif
++ 
++-	while ((c = getopt(argc, argv, "c:r:t:bn8")) != -1)
+++	while ((c = getopt(argc, argv, "c:r:t:bn8h")) != -1)
++ 		switch (c) {
++ 			case 'b':
++ 				process_by_block = 1;
++@@ -86,7 +93,7 @@ main(int argc, char* argv[])
++ 				else if (streq(optarg, "zip"))
++ 					compression = COMPRESSION_DEFLATE;
++ 				else
++-					usage(-1);
+++					usage(EXIT_FAILURE);
++ 				break;
++ 
++ 			case 'r':
++@@ -105,17 +112,20 @@ main(int argc, char* argv[])
++ 				bigtiff_output = 1;
++ 				break;
++ 
+++			case 'h':
+++				usage(EXIT_SUCCESS);
+++				/*NOTREACHED*/
++ 			case '?':
++-				usage(0);
+++				usage(EXIT_FAILURE);
++ 				/*NOTREACHED*/
++ 		}
++ 
++ 	if (argc - optind < 2)
++-		usage(-1);
+++		usage(EXIT_FAILURE);
++ 
++ 	out = TIFFOpen(argv[argc-1], bigtiff_output?"w8":"w");
++ 	if (out == NULL)
++-		return (-2);
+++		return (EXIT_FAILURE);
++ 
++ 	for (; optind < argc-1; optind++) {
++ 		in = TIFFOpen(argv[optind], "r");
++@@ -132,7 +142,7 @@ main(int argc, char* argv[])
++ 		}
++ 	}
++ 	(void) TIFFClose(out);
++-	return (0);
+++	return (EXIT_SUCCESS);
++ }
++ 
++ static int
++@@ -166,7 +176,7 @@ cvt_by_tile( TIFF *in, TIFF *out )
++     if (tile_width != (rastersize / tile_height) / sizeof( uint32))
++     {
++ 	TIFFError(TIFFFileName(in), "Integer overflow when calculating raster buffer");
++-	exit(-1);
+++	exit(EXIT_FAILURE);
++     }
++     raster = (uint32*)_TIFFmalloc(rastersize);
++     if (raster == 0) {
++@@ -182,7 +192,7 @@ cvt_by_tile( TIFF *in, TIFF *out )
++     if (tile_width != wrk_linesize / sizeof (uint32))
++     {
++         TIFFError(TIFFFileName(in), "Integer overflow when calculating wrk_line buffer");
++-	exit(-1);
+++	exit(EXIT_FAILURE);
++     }
++     wrk_line = (uint32*)_TIFFmalloc(wrk_linesize);
++     if (!wrk_line) {
++@@ -279,7 +289,7 @@ cvt_by_strip( TIFF *in, TIFF *out )
++     if (width != (rastersize / rowsperstrip) / sizeof( uint32))
++     {
++ 	TIFFError(TIFFFileName(in), "Integer overflow when calculating raster buffer");
++-	exit(-1);
+++	exit(EXIT_FAILURE);
++     }
++     raster = (uint32*)_TIFFmalloc(rastersize);
++     if (raster == 0) {
++@@ -295,7 +305,7 @@ cvt_by_strip( TIFF *in, TIFF *out )
++     if (width != wrk_linesize / sizeof (uint32))
++     {
++         TIFFError(TIFFFileName(in), "Integer overflow when calculating wrk_line buffer");
++-	exit(-1);
+++	exit(EXIT_FAILURE);
++     }
++     wrk_line = (uint32*)_TIFFmalloc(wrk_linesize);
++     if (!wrk_line) {
++@@ -528,7 +538,7 @@ tiffcvt(TIFF* in, TIFF* out)
++             return( cvt_whole_image( in, out ) );
++ }
++ 
++-static char* stuff[] = {
+++const static char* stuff[] = {
++     "usage: tiff2rgba [-c comp] [-r rows] [-b] [-n] [-8] input... output",
++     "where comp is one of the following compression algorithms:",
++     " jpeg\t\tJPEG encoding",
++@@ -547,13 +557,12 @@ static char* stuff[] = {
++ static void
++ usage(int code)
++ {
++-	char buf[BUFSIZ];
++ 	int i;
+++	FILE * out = (code == EXIT_SUCCESS) ? stdout : stderr;
++ 
++-	setbuf(stderr, buf);
++-        fprintf(stderr, "%s\n\n", TIFFGetVersion());
+++        fprintf(out, "%s\n\n", TIFFGetVersion());
++ 	for (i = 0; stuff[i] != NULL; i++)
++-		fprintf(stderr, "%s\n", stuff[i]);
+++		fprintf(out, "%s\n", stuff[i]);
++ 	exit(code);
++ }
++ 
++-- 
++GitLab
+diff --git a/meta/recipes-multimedia/libtiff/files/002_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch b/meta/recipes-multimedia/libtiff/files/002_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+new file mode 100644
+index 0000000..b6e1842
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/002_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
+@@ -0,0 +1,27 @@
++From ca70b5e702b9f503333344b2d46691de9feae84e Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Sat, 3 Oct 2020 18:16:27 +0200
++Subject: [PATCH] tiff2rgba.c: fix -Wold-style-declaration warning
++
++Signed-off-by: akash hadke <akash.hadke@kpit.com>
++---
++ tools/tiff2rgba.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++---
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/ca70b5e702b9f503333344b2d46691de9feae84e.patch]
++---
++diff --git a/tools/tiff2rgba.c b/tools/tiff2rgba.c
++index ef643653..fbc383aa 100644
++--- a/tools/tiff2rgba.c
+++++ b/tools/tiff2rgba.c
++@@ -538,7 +538,7 @@ tiffcvt(TIFF* in, TIFF* out)
++             return( cvt_whole_image( in, out ) );
++ }
++ 
++-const static char* stuff[] = {
+++static const char* stuff[] = {
++     "usage: tiff2rgba [-c comp] [-r rows] [-b] [-n] [-8] input... output",
++     "where comp is one of the following compression algorithms:",
++     " jpeg\t\tJPEG encoding",
++-- 
++GitLab
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2020-35521_and_CVE-2020-35522.patch b/meta/recipes-multimedia/libtiff/files/CVE-2020-35521_and_CVE-2020-35522.patch
+new file mode 100644
+index 0000000..129721f
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2020-35521_and_CVE-2020-35522.patch
+@@ -0,0 +1,119 @@
++From 98a254f5b92cea22f5436555ff7fceb12afee84d Mon Sep 17 00:00:00 2001
++From: Thomas Bernard <miniupnp@free.fr>
++Date: Sun, 15 Nov 2020 17:02:51 +0100
++Subject: [PATCH 1/2] enforce (configurable) memory limit in tiff2rgba
++
++fixes #207
++fixes #209
++
++Signed-off-by: akash hadke <akash.hadke@kpit.com>
++---
++ tools/tiff2rgba.c | 25 +++++++++++++++++++++++--
++ 1 file changed, 23 insertions(+), 2 deletions(-)
++---
++CVE: CVE-2020-35521
++CVE: CVE-2020-35522
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b5a935d96b21cda0f434230cdf8ca958cd8b4eef.patch]
++---
++diff --git a/tools/tiff2rgba.c b/tools/tiff2rgba.c
++index fbc383aa..764395f6 100644
++--- a/tools/tiff2rgba.c
+++++ b/tools/tiff2rgba.c
++@@ -60,6 +60,10 @@ uint32 rowsperstrip = (uint32) -1;
++ int process_by_block = 0; /* default is whole image at once */
++ int no_alpha = 0;
++ int bigtiff_output = 0;
+++#define DEFAULT_MAX_MALLOC (256 * 1024 * 1024)
+++/* malloc size limit (in bytes)
+++ * disabled when set to 0 */
+++static tmsize_t maxMalloc = DEFAULT_MAX_MALLOC;
++ 
++ 
++ static int tiffcvt(TIFF* in, TIFF* out);
++@@ -75,8 +79,11 @@ main(int argc, char* argv[])
++ 	extern char *optarg;
++ #endif
++ 
++-	while ((c = getopt(argc, argv, "c:r:t:bn8h")) != -1)
+++	while ((c = getopt(argc, argv, "c:r:t:bn8hM:")) != -1)
++ 		switch (c) {
+++			case 'M':
+++				maxMalloc = (tmsize_t)strtoul(optarg, NULL, 0) << 20;
+++				break;
++ 			case 'b':
++ 				process_by_block = 1;
++ 				break;
++@@ -405,6 +412,12 @@ cvt_whole_image( TIFF *in, TIFF *out )
++ 		  (unsigned long)width, (unsigned long)height);
++         return 0;
++     }
+++    if (maxMalloc != 0 && (tmsize_t)pixel_count * (tmsize_t)sizeof(uint32) > maxMalloc) {
+++	TIFFError(TIFFFileName(in),
+++		  "Raster size " TIFF_UINT64_FORMAT " over memory limit (" TIFF_UINT64_FORMAT "), try -b option.",
+++		  (uint64)pixel_count * sizeof(uint32), (uint64)maxMalloc);
+++        return 0;
+++    }
++ 
++     rowsperstrip = TIFFDefaultStripSize(out, rowsperstrip);
++     TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, rowsperstrip);
++@@ -530,6 +543,13 @@ tiffcvt(TIFF* in, TIFF* out)
++ 	TIFFSetField(out, TIFFTAG_SOFTWARE, TIFFGetVersion());
++ 	CopyField(TIFFTAG_DOCUMENTNAME, stringv);
++ 
+++	if (maxMalloc != 0 && TIFFStripSize(in) > maxMalloc)
+++	{
+++		TIFFError(TIFFFileName(in),
+++			  "Strip Size " TIFF_UINT64_FORMAT " over memory limit (" TIFF_UINT64_FORMAT ")",
+++			  (uint64)TIFFStripSize(in), (uint64)maxMalloc);
+++		return 0;
+++	}
++         if( process_by_block && TIFFIsTiled( in ) )
++             return( cvt_by_tile( in, out ) );
++         else if( process_by_block )
++@@ -539,7 +559,7 @@ tiffcvt(TIFF* in, TIFF* out)
++ }
++ 
++ static const char* stuff[] = {
++-    "usage: tiff2rgba [-c comp] [-r rows] [-b] [-n] [-8] input... output",
+++    "usage: tiff2rgba [-c comp] [-r rows] [-b] [-n] [-8] [-M size] input... output",
++     "where comp is one of the following compression algorithms:",
++     " jpeg\t\tJPEG encoding",
++     " zip\t\tZip/Deflate encoding",
++@@ -551,6 +571,7 @@ static const char* stuff[] = {
++     " -b (progress by block rather than as a whole image)",
++     " -n don't emit alpha component.",
++     " -8 write BigTIFF file instead of ClassicTIFF",
+++    " -M set the memory allocation limit in MiB. 0 to disable limit",
++     NULL
++ };
++ 
++-- 
++GitLab
++
++
++From e9e504193ef1f87e9cb5e986586b0cbe3254e421 Mon Sep 17 00:00:00 2001
++From: Thomas Bernard <miniupnp@free.fr>
++Date: Sun, 15 Nov 2020 17:08:42 +0100
++Subject: [PATCH 2/2] tiff2rgba.1: -M option
++
++---
++ man/tiff2rgba.1 | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/man/tiff2rgba.1 b/man/tiff2rgba.1
++index d9c9baae..fe9ebb2c 100644
++--- a/man/tiff2rgba.1
+++++ b/man/tiff2rgba.1
++@@ -87,6 +87,10 @@ Drop the alpha component from the output file, producing a pure RGB file.
++ Currently this does not work if the
++ .B \-b
++ flag is also in effect.
+++.TP
+++.BI \-M " size"
+++Set maximum memory allocation size (in MiB). The default is 256MiB.
+++Set to 0 to disable the limit.
++ .SH "SEE ALSO"
++ .BR tiff2bw (1),
++ .BR TIFFReadRGBAImage (3t),
++-- 
++GitLab
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index cfea18e..43f2101 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -12,6 +12,9 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2020-35523.patch  \
+            file://CVE-2020-35524-1.patch \
+            file://CVE-2020-35524-2.patch \
++           file://001_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch \
++           file://002_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch \
++           file://CVE-2020-35521_and_CVE-2020-35522.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
-2.17.1
+2.7.4
 
