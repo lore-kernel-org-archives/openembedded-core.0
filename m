@@ -1,43 +1,43 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
- by mx.groups.io with SMTP id smtpd.web11.26556.1621876575397000785
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web12.26350.1621876576567715717
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 May 2021 10:16:15 -0700
+ Mon, 24 May 2021 10:16:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LmJX4dfa;
- spf=pass (domain: gmail.com, ip: 209.85.166.182, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-il1-f182.google.com with SMTP id m1so23890901ilg.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 10:16:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l/GBVNli;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id b25so10243273iot.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 10:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0+QZehCLD0cxturYQTyBuZnGddCpLtbbc5aH3vmJTgc=;
-        b=LmJX4dfapDhzcLQhzx8liFwr2o/rXgJvk3TzuSjji6Pd4MfZnAtrbsqXYN5aAjdd5l
-         7e1vaOJNmfEB7Yzd7N90S69m/jrMXEqCpP9t3VFOjkR10oTg3Wa4dp5HT8lbPiz91xoB
-         WMeIXHcUXczGpQMIsvTIYWo3FPXhcZQ5lAkZDzfIvpWYL06kkgR8jAe0cmHmXVXSf/cX
-         4y65n4wKoHdj5LL5s6wfmU8crXHZgGy6ZITGAYjTIuydXKYsu0EMGeX/3E5bCdYWflL6
-         8yC4nWLS+rPE9Jh3R9bVQku5lp61WaEgrej40Dt4jC4iP1fHL6EIJPnkXkSBbIsNUcAt
-         YvVg==
+        bh=d7B6fQbuVDDt8CMYtDgIclnQanGfSSTluca8SKK0Yu8=;
+        b=l/GBVNli3gfz8RaLZ7iagBL3WtvKyyHdtSUERX7dOStQQqslVUGSK5J7r2D+DXdY3j
+         5XcP8hQ8IF6IViQaNTCKAUMZ1O7Wz1SvPSI56SotRWcqjG0dl+6Hc5x4wvbJ/4200qcG
+         tdAVU9dPP6QXGtoipx74pUBLvAo6F7/nFgK5l6A1Cjx4ouQI4SW96AvsGDm3BFfb9JVz
+         jnLwSdAeDryzuQ1NN8CGC+OnRMuCM0gGAj1zJTu/M1S5r3mRYhupBavJ2T+oN9nG1A5N
+         9WrAJZVLY5MxeiHkeZInl+W3wOwPH+f+GJeQFhTwpApKq3ibNMYT5N05ziasw2igUQ6N
+         05qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=0+QZehCLD0cxturYQTyBuZnGddCpLtbbc5aH3vmJTgc=;
-        b=Mdgj+ac6rJmnRwXBAB5VYfBuzkSjSZGR37Ylo4KQG+5gOiXjRVLpEGx79TnlO6SLfb
-         d+q6M7I8Pf+lWbjyC0mxCsv2Uhly7dVBGIiI4drgvaMQw54y0nUsNM0gBeqwqpfUBXvf
-         0anJA0khFLvF/X0T5IGIZKwocV4NcCB/m1He7od+v5Q9X9dvy/6c388vosD/S+wsJKMh
-         yP2z2AHYb/2CppdNZ7gdpmMDWZMB8GUj+KWdkTG1/HP5MKh+n63sxr/VeIdQyIqIsoOe
-         +Z3IZJ8QjzrM/iYBDtBkWRE6NZzz0cuhR4oclBH07NR1OzWuSikNLUVD0p+Yn3mQFNVq
-         DeVg==
-X-Gm-Message-State: AOAM530MHA+7nxLY8MUJNFuj4yqNuGR8Wqng3Ax4QVjQqF0zorge3ywI
-	mTz4Ptrl7ccTDRU2oul+KiFJ1QcWUbOOD9My
-X-Google-Smtp-Source: ABdhPJweIf1RJVrMhAP2T2anXlDkEWAuM4raqnBHRxA/G0RH7vhapNtUUkUKB0cF6AMm2yGoc99N8Q==
-X-Received: by 2002:a05:6e02:1b8f:: with SMTP id h15mr17193008ili.151.1621876574498;
-        Mon, 24 May 2021 10:16:14 -0700 (PDT)
+        bh=d7B6fQbuVDDt8CMYtDgIclnQanGfSSTluca8SKK0Yu8=;
+        b=F+OgGCIymjUPAQHx/Tkbngbx7yatsyLSPFV6VceQ0a5lkZN7qPBPz6XJIpn3rfME4J
+         PAuaqMFbl72RhPcLxplcrRUGw+tsxbpzM58Dt6efsCXW/QdhSQzZbhFmQ6LJqKg4PHNP
+         2++Wm6tXdY3X5Si7TDusGLY0rFT1Xxn25WeP+C5FV81qorqdb+KEbS3KRWdQYyUjvzYG
+         70eUHuYUNWdeP7LGljtr5s4GLVEKzKX1IxQAeA7SYlxuVcCcJA4jt26f2qQneuRbN6zq
+         mxKw+creS9ptSMRwyjbPPQo6yuUDVWKGTghH08lG2wuqjEL9SwwoczuTv++aZbIlE9TV
+         WTLA==
+X-Gm-Message-State: AOAM5303OrTAsamkFAAs47SOz77eTeMPmIx9BLoj+9lpYc7irFmCxd/O
+	vI0N8ZVlfChWKXXnciqMV53DcBM6cNyeW60s
+X-Google-Smtp-Source: ABdhPJxwXJy7B/IddEiXSpLOFgfcsYwfGMBy/iDwLRAOwhZwq+WQIJ9j0fQ7w/7llZg4sfJ8zmSyNQ==
+X-Received: by 2002:a05:6638:13c4:: with SMTP id i4mr25812342jaj.37.1621876575624;
+        Mon, 24 May 2021 10:16:15 -0700 (PDT)
 Return-Path: <vinay.m.engg@gmail.com>
 Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id j2sm11424103ioj.20.2021.05.24.10.16.13
+        by smtp.gmail.com with ESMTPSA id j2sm11424103ioj.20.2021.05.24.10.16.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 10:16:14 -0700 (PDT)
+        Mon, 24 May 2021 10:16:15 -0700 (PDT)
 From: "Vinay Kumar" <vinay.m.engg@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	alex.kanavin@gmail.com
@@ -47,29 +47,40 @@ Cc: richard.purdie@linuxfoundation.org,
 	umesh.kalappa0@gmail.com,
 	vinay.kumar@blackfigtech.com,
 	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH v4 2/5] Add rust testsuite for 1.46.0
-Date: Mon, 24 May 2021 10:15:56 -0700
-Message-Id: <20210524171559.190239-2-vinay.m.engg@gmail.com>
+Subject: [PATCH v4 3/5] rust.inc : Changed target cpu for powerpc to "7400"
+Date: Mon, 24 May 2021 10:15:57 -0700
+Message-Id: <20210524171559.190239-3-vinay.m.engg@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210524171559.190239-1-vinay.m.engg@gmail.com>
 References: <CANNYZj-v-hcO19SSkYgYKSeOBj7f1u4zvSRkfcx5UAm=ndye_A@mail.gmail.com>
  <20210524171559.190239-1-vinay.m.engg@gmail.com>
 
+While executing rust-testing observed some ui testfailures due to
+below warning message.
+
+'powerpc' is not a recognized processor for this target in rust
+
+So renamed target cpu for "powerpc" in "llvm_cpu" to "7400" as per
+default tune for qemuppc.
+
 Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 ---
- meta/recipes-devtools/rust/rust-testsuite_1.46.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.46.0.bb
+ meta/recipes-devtools/rust/rust.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rust/rust-testsuite_1.46.0.bb b/meta/recipes-devtools/rust/rust-testsuite_1.46.0.bb
-new file mode 100644
-index 0000000000..ad758b71f4
---- /dev/null
-+++ b/meta/recipes-devtools/rust/rust-testsuite_1.46.0.bb
-@@ -0,0 +1,3 @@
-+require rust-testsuite.inc
-+require rust-source-${PV}.inc
-+require rust-snapshot-${PV}.inc
+diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
+index a1223f45e7..ee3176b559 100644
+--- a/meta/recipes-devtools/rust/rust.inc
++++ b/meta/recipes-devtools/rust/rust.inc
+@@ -290,7 +290,7 @@ def llvm_cpu(d):
+     trans['x86-64'] = "x86-64"
+     trans['i686'] = "i686"
+     trans['i586'] = "i586"
+-    trans['powerpc'] = "powerpc"
++    trans['powerpc'] = "7400"
+     trans['mips64'] = "mips64"
+     trans['mips64el'] = "mips64"
+     trans['riscv64'] = "generic-rv64"
 -- 
 2.17.1
 
