@@ -1,52 +1,52 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.27038.1621879522841682862
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.27673.1621881003366245069
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 May 2021 11:05:23 -0700
+ Mon, 24 May 2021 11:30:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LvddaP27;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: petr.vorel@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id x7so9838082wrt.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 11:05:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=stCwFVlD;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: petr.vorel@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id f6-20020a1c1f060000b0290175ca89f698so11917825wmf.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 May 2021 11:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=b6kiKcT+qIZbHzIlAbwuiSFQRDl9FqA2HiWJKL2gJ18=;
-        b=LvddaP27aGNuYS822lp/j9Ca4ppIoSxdbc/l2DAv2hpE53MbJo82hXjVkgqwJnXVPE
-         iaTXkTdVrc6S1sydNtCf1s1zbFAiUeSrIEDEZb0fWEVWA3PIYjQTPup4vPeSVVhMRPVH
-         5B5qIae9OUXy1NIIFsUcPxqKgtW3CUvHSdx0QkpXL6oY29YeWMexkItZwoTZAdZG1L0V
-         4Yi9EXQm8slU4E6iBh7/xfsmmdhTQY0nWKh6nkVEdeL9oEL6UfqslqtXtMtoZ3rj7wfx
-         3FQHzpTBvOim4hn00gyfGOChhndvXDsLTCIaiHkeNFU1ljPCVAop38d+d67MdCwF0VPm
-         impg==
+        bh=moqAh51S6BNWXtRf7TjmoD+Gx6Nvjzx+tpjF+8H11mw=;
+        b=stCwFVlDbJNgm0unWYefQ/uNWB0v1B8OhbmYJ2eeoiWRatfuOWZ56Vx4settB+r5zT
+         eRmocTufOlD36DGeoaq283OOIkfiimc4/VrmH8pjeKawpiWe5LkOtXxO4DG4kHLMAfTe
+         ERt6tFtlQJpc7VnRjkv4KyHfcUtGKMmD/ZMSx/3aIT/N/oLnUbN5uEJ1Ahqw3aOmptyw
+         9PlFwPHJ9NfOuZRHmKOCCh/vX9HaAQMZzzvep/Kkg5cplSoEgtsg1xGx8ViTxc5dUVCr
+         X9h0S/dAB5dyLmtO1l2IE0sESJ+Y6u2nwWPqoSGE6aUuQjXmLr6VCgMoy+GJW4+8nslK
+         AVlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=b6kiKcT+qIZbHzIlAbwuiSFQRDl9FqA2HiWJKL2gJ18=;
-        b=ScgPiPGNrr1VJ7f++cFFnGiQ3jEBlDxC35uyfCU+kv7MXCujbLAyX3AJmTHTR9GR7l
-         pZh8jbCUeYKOtJZEE8KgBAhjiUl/+ek8fNmnEDn+D5nh4hvVX7EXJkoIxCIL5spN3xH6
-         Z0jJyAWohSaDNj65wqjROusVyKBzcf7eesj8a9E6vGYIO/EoSmtivGyA4ejfbV2expF0
-         As4j4C8dZEEJvYHpfK47lDwVqcqkimZEkd7eKR5YAvG1k6o2HRPgtInfDlDK78kco3hr
-         d+/ANpKc5v3KGEKmmi4rtcV7M5dnnVUP+EKiI9I1mTT7gc/9NijU5cK0gub5gP9UmQLX
-         5g3g==
-X-Gm-Message-State: AOAM531oGVkDEBMSc1vA4w4XEZVJPNvUgFFYslZEoQvl9jp+LO0u6S/0
-	2HgKzxzx5w4tX5dlmaUNBCHUjLtYFmYOng==
-X-Google-Smtp-Source: ABdhPJyzmJ2i6Umz+0WlT4a5H1lnqSDJRw+b0oZdUZPTL+45GsAFzVYO6c2sFh0WCn9gBsrmAGmqNg==
-X-Received: by 2002:a5d:5109:: with SMTP id s9mr22907305wrt.231.1621879521041;
-        Mon, 24 May 2021 11:05:21 -0700 (PDT)
+        bh=moqAh51S6BNWXtRf7TjmoD+Gx6Nvjzx+tpjF+8H11mw=;
+        b=Qx1/eZ5DF3VDi2Pqi8n49RopJZ2DqDFC85q23NrxbT2REXMtkV1GJuiQ6NSljVa6O9
+         gOYM1Z81c7J9KXLhOWtMV68lGL/l1ZjfCRNSYiuZtBDU/gVl3ZZ+lisATebxqtAFsnNw
+         PXtk/VOk+LPneBXUE0ykDmmKPm7CGgRNS5Bj/TOOBMsSd5nmfDxz+IfLN/6vz29AI6KK
+         xWEy/Uw2a43ZMXn5eMnCEiLn4mU2P/kFwlogFUVcgQYdcXoVktfi1r4WKB6HdR57UmFX
+         4JMzSdXk3ttI/O68ZvmPO1wt2AbtWUHZ9RGrbBM9zIOOKoQYWFgjYQF0smJDfqeDvMra
+         oiaA==
+X-Gm-Message-State: AOAM532sAWCO2W+B2jdGtevr24uQBb205kkn4/VGYPSoYBTBlDX7323E
+	B3bWVlcKnFCXComsg1F6QsKs1NeaCfDXEA==
+X-Google-Smtp-Source: ABdhPJz5oc53Z4CSNvyZqyWcudTUZGW8IpwfTLvMO9Zj+tN2a0vFXvd4IPSyGQfU3PLUc7FF7bNNQQ==
+X-Received: by 2002:a1c:3184:: with SMTP id x126mr355079wmx.52.1621881001532;
+        Mon, 24 May 2021 11:30:01 -0700 (PDT)
 Return-Path: <petr.vorel@gmail.com>
 Received: from dell5510.suse.de ([62.201.25.198])
-        by smtp.gmail.com with ESMTPSA id s1sm201738wmj.8.2021.05.24.11.05.20
+        by smtp.gmail.com with ESMTPSA id z9sm8515261wmi.17.2021.05.24.11.30.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 11:05:20 -0700 (PDT)
+        Mon, 24 May 2021 11:30:01 -0700 (PDT)
 From: "Petr Vorel" <petr.vorel@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Petr Vorel <petr.vorel@gmail.com>,
 	=?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 1/1] ltp: Update to 20210524
-Date: Mon, 24 May 2021 20:05:11 +0200
-Message-Id: <20210524180511.8286-1-petr.vorel@gmail.com>
+Subject: [PATCH v2 1/1] ltp: Update to 20210524
+Date: Mon, 24 May 2021 20:29:55 +0200
+Message-Id: <20210524182955.29512-1-petr.vorel@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,21 +65,30 @@ Removed (test rewritten to new API)
 
 Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
 ---
+Changes v1->v2:
+* update patches list in ltp_20210524.bb
+(forget to remove removed patches)
+
+Sorry for invalid previous patch.
+
+Kind regards,
+Petr
+
  ...uite-generate-makefiles.sh-Avoid-inc.patch |  40 --
  ...le-Avoid-wildcard-determinism-issues.patch | 310 ---------------
  ...-swapoff-Move-common-library-to-libs.patch | 133 -------
  .../ltp/0007-Fix-test_proc_kill-hanging.patch |  32 --
  .../ltp/ltp/determinism.patch                 |  43 --
  meta/recipes-extended/ltp/ltp/libswapon.patch | 368 ------------------
- .../ltp/{ltp_20210121.bb => ltp_20210524.bb}  |   2 +-
- 7 files changed, 1 insertion(+), 927 deletions(-)
+ .../ltp/{ltp_20210121.bb => ltp_20210524.bb}  |   7 +-
+ 7 files changed, 1 insertion(+), 932 deletions(-)
  delete mode 100644 meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-generate-makefiles.sh-Avoid-inc.patch
  delete mode 100644 meta/recipes-extended/ltp/ltp/0002-Makefile-Avoid-wildcard-determinism-issues.patch
  delete mode 100644 meta/recipes-extended/ltp/ltp/0003-syscalls-swapon-swapoff-Move-common-library-to-libs.patch
  delete mode 100644 meta/recipes-extended/ltp/ltp/0007-Fix-test_proc_kill-hanging.patch
  delete mode 100644 meta/recipes-extended/ltp/ltp/determinism.patch
  delete mode 100644 meta/recipes-extended/ltp/ltp/libswapon.patch
- rename meta/recipes-extended/ltp/{ltp_20210121.bb => ltp_20210524.bb} (99%)
+ rename meta/recipes-extended/ltp/{ltp_20210121.bb => ltp_20210524.bb} (94%)
 
 diff --git a/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-generate-makefiles.sh-Avoid-inc.patch b/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-generate-makefiles.sh-Avoid-inc.patch
 deleted file mode 100644
@@ -1044,13 +1053,13 @@ index 07b0dcefcf..0000000000
 -+void is_swap_supported(void (cleanup)(void), const char *filename);
 -+#endif /* __LIBSWAPON_H__ */
 diff --git a/meta/recipes-extended/ltp/ltp_20210121.bb b/meta/recipes-extended/ltp/ltp_20210524.bb
-similarity index 99%
+similarity index 94%
 rename from meta/recipes-extended/ltp/ltp_20210121.bb
 rename to meta/recipes-extended/ltp/ltp_20210524.bb
-index e1ffd0ddf4..abf174517c 100644
+index e1ffd0ddf4..bf6e564482 100644
 --- a/meta/recipes-extended/ltp/ltp_20210121.bb
 +++ b/meta/recipes-extended/ltp/ltp_20210524.bb
-@@ -27,7 +27,7 @@ CFLAGS_append_x86-64 = " -fomit-frame-pointer"
+@@ -27,19 +27,14 @@ CFLAGS_append_x86-64 = " -fomit-frame-pointer"
  
  CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
  CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
@@ -1059,6 +1068,18 @@ index e1ffd0ddf4..abf174517c 100644
  
  # remove at next version upgrade or when output changes
  PR = "r4"
+ HASHEQUIV_HASH_VERSION .= ".4"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+-           file://0007-Fix-test_proc_kill-hanging.patch \
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+-           file://determinism.patch \
+-           file://0001-open_posix_testsuite-generate-makefiles.sh-Avoid-inc.patch \
+-           file://0002-Makefile-Avoid-wildcard-determinism-issues.patch \
+-           file://0003-syscalls-swapon-swapoff-Move-common-library-to-libs.patch \
+            file://disable_hanging_tests.patch \
+            "
+ 
 -- 
 2.31.1
 
