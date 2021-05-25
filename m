@@ -1,80 +1,52 @@
-Received: from mail.inango-systems.com (mail.inango-systems.com [178.238.230.57])
- by mx.groups.io with SMTP id smtpd.web10.8303.1621941848832286706
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+ by mx.groups.io with SMTP id smtpd.web08.8434.1621941904559214084
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 04:24:09 -0700
+ Tue, 25 May 2021 04:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@inango-systems.com header.s=45a440e0-d841-11e8-b985-5fcc721607e0 header.b=KSoDdLP3;
- spf=pass (domain: inango-systems.com, ip: 178.238.230.57, mailfrom: n.papenkov@inango-systems.com)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: nod.at, ip: 195.201.40.130, mailfrom: richard@nod.at)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.inango-systems.com (Postfix) with ESMTP id 0BFE51080B66;
-	Tue, 25 May 2021 14:24:06 +0300 (IDT)
-Received: from mail.inango-systems.com ([127.0.0.1])
-	by localhost (mail.inango-systems.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id S_1lTLI6Lf5p; Tue, 25 May 2021 14:24:05 +0300 (IDT)
+	by lithops.sigma-star.at (Postfix) with ESMTP id 2F4E16083271;
+	Tue, 25 May 2021 13:24:53 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id 5lp8w8pR4sMp; Tue, 25 May 2021 13:24:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.inango-systems.com (Postfix) with ESMTP id 6D35F1080920;
-	Tue, 25 May 2021 14:24:05 +0300 (IDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.inango-systems.com 6D35F1080920
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inango-systems.com;
-	s=45A440E0-D841-11E8-B985-5FCC721607E0; t=1621941845;
-	bh=5Sw9j362OWHk/4se2H4LEAWqSOmf5KtCaJB/N43hKZE=;
-	h=From:To:Date:Message-Id;
-	b=KSoDdLP3LthahPNFXGtsswnagkcSclKnR8t2YZkas6vuxZ8CrlUrkkPk/2i8M5XgX
-	 tqglu5bZkLt23a/b1RkJkU6oFg0qMu5RAEfaXVQMsYyiY5fpwooRBlIXatia1YnpXy
-	 UKdDNpjGQ88B2y1dIf0UrhZAy7/k7ApggNUTGw4AaF8ovbg+eQTPl7skYvSaZXPgpk
-	 Pk5TfDjlOEByDIcdvT7LE9VPYOihw3cPcNtvp2UHGKoTsuRlYyd7gP7JFm+hH4OXmv
-	 uNjOVYo1UOetH+d+G2scixbqEReeK9l6Pjz+fBT5nQZwpyl/wNqr5PNsNhu3Al7swI
-	 qzI1N0EkVI3hw==
-X-Virus-Scanned: amavisd-new at inango-systems.com
-Received: from mail.inango-systems.com ([127.0.0.1])
-	by localhost (mail.inango-systems.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 9RoKgj6wsuWU; Tue, 25 May 2021 14:24:05 +0300 (IDT)
-Received: from 6ad87882b0eb.inango.loc (unknown [93.109.15.169])
-	by mail.inango-systems.com (Postfix) with ESMTPSA id E934710808D3;
-	Tue, 25 May 2021 14:24:04 +0300 (IDT)
-From: "Nikolay Papenkov" <n.papenkov@inango-systems.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	Nikolay Papenkov <n.papenkov@inango-systems.com>,
-	Dmitry Kisil <d.kisil@inango-systems.com>
-Subject: [OE-core][PATCH] flex: correct license information
-Date: Tue, 25 May 2021 11:23:26 +0000
-Message-Id: <20210525112326.1193-1-n.papenkov@inango-systems.com>
-X-Mailer: git-send-email 2.17.1
+	by lithops.sigma-star.at (Postfix) with ESMTP id CB746616B584;
+	Tue, 25 May 2021 13:24:52 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 5VhBtQHUj15i; Tue, 25 May 2021 13:24:52 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id A363C60A3597;
+	Tue, 25 May 2021 13:24:52 +0200 (CEST)
+Date: Tue, 25 May 2021 13:24:52 +0200 (CEST)
+From: "Richard Weinberger" <richard@nod.at>
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	bitbake-devel@lists.openembedded.org, docs@lists.yoctoproject.org
+Message-ID: <1307355474.37816.1621941892565.JavaMail.zimbra@nod.at>
+In-Reply-To: <AM9PR09MB46426BCB13C172A8FBB3DF94A8259@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: <20210525110429.738-1-richard@nod.at> <AM9PR09MB46426BCB13C172A8FBB3DF94A8259@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Subject: Re: [bitbake-devel] [OE-core][PATCH] Add support for erofs filesystems
+MIME-Version: 1.0
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF78 (Linux)/8.8.12_GA_3809)
+Thread-Topic: Add support for erofs filesystems
+Thread-Index: RWacFjlA4zutskXbiWxMXbgz/5E9eg==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-License-Update: Corrected license information
+Konrad,
 
-flex package is under two licenses:
-- "BSD-3-Clause" is provided in top-level COPYING file; the license
-  actually include third obligation (without the actual "3" numbering)
-- "LGPL-2.0+" is explained by src/gettext.h
+----- Urspr=C3=BCngliche Mail -----
+> Von: "Konrad Weihmann" <kweihmann@outlook.com>
+>> +EXTRA_OECONF =3D "--enable-lz4 --disable-fuse"
+>=20
+> In the commit message it's mentioned that compression is optional, still
+> here lz4 is enabled by default - I would rather see these compression
+> switches configurable via PACKAGECONFIG
 
-Signed-off-by: Dmitry Kisil <d.kisil@inango-systems.com>
----
- meta/recipes-devtools/flex/flex_2.6.4.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Good point! Will send a v2 in a jiffy.
 
-diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-index 1d43d2228a..54e7e01729 100644
---- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -3,12 +3,14 @@ DESCRIPTION = "Flex is a fast lexical analyser generator.  Flex is a tool for ge
- lexical patterns in text."
- HOMEPAGE = "http://sourceforge.net/projects/flex/"
- SECTION = "devel"
--LICENSE = "BSD-2-Clause"
-+LICENSE = "BSD-3-Clause & LGPL-2.0+"
-+LICENSE_${PN}-libfl = "BSD-3-Clause"
- 
- DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
- BBCLASSEXTEND = "native nativesdk"
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067 \
-+                    file://src/gettext.h;beginline=1;endline=17;md5=9c05dda2f58d89b850c399cf22e1a00c"
- 
- SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
-            file://run-ptest \
--- 
-2.17.1
-
+Thanks,
+//richard
