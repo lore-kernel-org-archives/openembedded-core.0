@@ -1,85 +1,76 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.7344.1621935332221291189
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by mx.groups.io with SMTP id smtpd.web09.7602.1621936825795046607
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 02:35:32 -0700
+ Tue, 25 May 2021 03:00:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UEfJ4hse;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id c10so24038002lfm.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 02:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VJE8sZrTpM52H7jTlI4s+VXbOBMBuXGT5d7dtKdF/eU=;
-        b=UEfJ4hseXXMNwiRbkIYB/wJ31d7W+MxjBTPKTpKYvP/39Cz3M2wnyuPlMZXMyd/TL/
-         eIHzyYnE4gj9IduGUXaEcQkHIlBgrmMDNxmaD4qomVidF853g/h7Q1dgVsH16FWgR4V7
-         gx/XfSvYrF61MxAUCP8BmjT4D+IoLdxs4/NjfEEODRCB1KxjFIdT+1oLXUDZONkd2Y2k
-         cNWXD/SWZyCLgl6IfrPdaKNQWnYsiuP6UCT2b/pKmxk0OWTM2ovab1W8tlce9HNT1gps
-         b8sw6E30KnWkIImE10pWkEQh29F4wpTvYFcK3rAijRvWYlfaEC+s7urARCiUuGIF++gi
-         D35g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VJE8sZrTpM52H7jTlI4s+VXbOBMBuXGT5d7dtKdF/eU=;
-        b=RcTMcwGJRDgfe6XCzW8e0TZ0OUGqi/NUEqjzq9PQbjFZaNJUZG9lbuf0gvfvmzsoof
-         ivg27IWWv4Yu1hks3BQSNIIlBNDh0B1wRwcq5zCDFONhczioZf4MtGzNMKGOd9kaWYoD
-         H1b3XTN+fc3sd4YV1S10PgsCHlj7O6yHVJlLMG26J0EuRpXgkubv5lxoyVdvHLX8b1AA
-         UQxip/SGMme0YO5pZMI9oWi2MATnLBNQqOrp2Q3EXUja2Wj5riH9yDDmq1/Uz5pKQ2hL
-         XwIz71K4HVE/Z2tBqvJ/T6sEDpEbRbAasJtpvcgk/2YCmgALCs/KfEvycqBdvtWbO9MF
-         2bQQ==
-X-Gm-Message-State: AOAM531RVGJLuWuq2aNBAeYfUilzN0PizQtQde4yFmkFvFKgNHg958UR
-	HlN0iO672ccQaOz0sVKShDQZweoqk0dfARwc
-X-Google-Smtp-Source: ABdhPJxsaX78cxMxylSB4XaCzg3sywA9ZPhH9GOucx+eBfsmUVIKUbDw8MGIci2KZsfYXdf4r5CQOw==
-X-Received: by 2002:a05:6512:6d3:: with SMTP id u19mr13997798lff.236.1621935329933;
-        Tue, 25 May 2021 02:35:29 -0700 (PDT)
-Return-Path: <samuli.piippo@gmail.com>
-Received: from munkone.intra.qt.io (62-183-187-94.co.dnainternet.fi. [62.183.187.94])
-        by smtp.gmail.com with ESMTPSA id g19sm2022658lja.139.2021.05.25.02.35.29
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 02:35:29 -0700 (PDT)
-From: "Samuli Piippo" <samuli.piippo@gmail.com>
-X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
+ dkim=fail reason="body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=VET7S7t6;
+ spf=pass (domain: mailbox.org, ip: 80.241.56.152, mailfrom: crg7475@mailbox.org)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Fq8hl2jXszQjw8
+	for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 12:00:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	content-transfer-encoding:mime-version:message-id:date:date
+	:subject:subject:from:from:received; s=mail20150812; t=
+	1621936818; bh=Z1rmwkucuFmuZtVjEgHGIJu6ie9F7608D6uaoJRxPgg=; b=V
+	ET7S7t6HdFBFcOVNbZaw5Zq0qU9y90nLKzcL2EwYGa7zD3eGyJ8w6Wt3SsxfDDcu
+	FUre1YkLve5d/6+W0JnUCqdO/DfavlwxC3p98ujFTQEf8h7PWWttxx6konzjqw8/
+	R22O8vxvrf9L3ibI93fYE2Ni4h7c0Q2MXefabcnFXt5JW4b5hLV+/yAPB5LptSkP
+	0f8m4xVLPFWuymtP+9gdUiTMSVPT4AxznrPNMloUH9NZX4qKCSjgmcfeY3xjtVuM
+	PtiN1LaSoccjkw/WfPoQ/M3vw2See2VSrdRiUpVMf7zRbgcv+iRm7DXvZ3d4psCj
+	C6DrCN87xyE+PsoEt57Zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1621936823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=E4Z+v3wqsjMDDVB4YFDtfl4ZH9frG/UFDj+iQ9TjD1I=;
+	b=gG9lJyPbr9PNlUyICLRfDU2pAoGxORWj9GntGAsAVhYhCgT3Z1j+4p+TEK12maBHT/29G3
+	4Wj+Oqj4TKBd+Vco4nX3LiAOETr/tbHJfeU3TAmRQc/a+lFQ3T/wB/2SRMbXwN8wmvF9Kq
+	CUehVCdh/Ylrr0w+T2Pe+EF3CST45MIykJ3KJdZlPWQHO8hiyN1tMh7cy3tOSOcG2RuVNw
+	lYLKsYzyIrHaT4+lMuL0+6ezmzs86AsLWKJImAPyjgpQg1AyrKWE/FIUjhNoFAMX3fGJuD
+	xbdCi+ZAYNkUmj2HCJW+d53mPRZMPQeWhgxgUDsw6DtwLHBuYBcQkviQgDCUqw==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+	by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
+	with ESMTP id uy3iymSUHTJ7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 May 2021 12:00:18 +0200 (CEST)
+From: "Carlos Rafael Giani" <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libarchive: enable zstd support
-Date: Tue, 25 May 2021 12:35:22 +0300
-Message-Id: <20210525093522.3860494-1-samuli.piippo@qt.io>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH] ffmpeg: Add libopus packageconfig
+Date: Tue, 25 May 2021 12:00:13 +0200
+Message-Id: <20210525100013.188568-1-crg7475@mailbox.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-SPAM-Probability: ***
+X-Rspamd-Score: 3.13 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 24BA71850
+X-Rspamd-UID: fa5cf9
+Content-Transfer-Encoding: quoted-printable
 
-Now that zstd is in oe-core, add PACKAGECONFIG for it and enabled
-it by default in libarchive.
-
-zstd support is expected by CMake, which in nativesdk depends on
-libarchive (https://gitlab.kitware.com/cmake/cmake/-/issues/21552)
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- meta/recipes-extended/libarchive/libarchive_3.5.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.5.1.bb b/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
-index c9e30f468f..ebecee1f3e 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d499814247adaee08d88080841cb5665"
- 
- DEPENDS = "e2fsprogs-native"
- 
--PACKAGECONFIG ?= "zlib bz2 xz lzo"
-+PACKAGECONFIG ?= "zlib bz2 xz lzo zstd"
- 
- PACKAGECONFIG_append_class-target = "\
- 	${@bb.utils.filter('DISTRO_FEATURES', 'acl xattr', d)} \
-@@ -28,6 +28,7 @@ PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
- PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
- PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
- PACKAGECONFIG[mbedtls] = "--with-mbedtls,--without-mbedtls,mbedtls,"
-+PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
- 
- EXTRA_OECONF += "--enable-largefile"
- 
--- 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-=
+multimedia/ffmpeg/ffmpeg_4.4.bb
+index 384e07362a..664fc6066a 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+@@ -64,6 +64,7 @@ PACKAGECONFIG[fdk-aac] =3D "--enable-libfdk-aac --enabl=
+e-nonfree,--disable-libfdk-
+ PACKAGECONFIG[gpl] =3D "--enable-gpl,--disable-gpl"
+ PACKAGECONFIG[gsm] =3D "--enable-libgsm,--disable-libgsm,libgsm"
+ PACKAGECONFIG[jack] =3D "--enable-indev=3Djack,--disable-indev=3Djack,ja=
+ck"
++PACKAGECONFIG[libopus] =3D "--enable-libopus,--disable-libopus,libopus"
+ PACKAGECONFIG[libvorbis] =3D "--enable-libvorbis,--disable-libvorbis,lib=
+vorbis"
+ PACKAGECONFIG[lzma] =3D "--enable-lzma,--disable-lzma,xz"
+ PACKAGECONFIG[mfx] =3D "--enable-libmfx,--disable-libmfx,intel-mediasdk"
+--=20
 2.25.1
 
