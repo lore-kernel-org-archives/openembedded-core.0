@@ -1,75 +1,139 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web12.7593.1621937099746838852
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.web11.7630.1621937270877789567
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 03:05:00 -0700
+ Tue, 25 May 2021 03:07:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=N6Q3wk/3;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id c15so37315202ljr.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 03:04:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZKyw/XjR;
+ spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f48.google.com with SMTP id j12so10712022vsq.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 03:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U+265rqYozdVAKdvsw/4hASiMDj7hNrt+N+rq+cNVbU=;
-        b=N6Q3wk/3y3Cl9Q/v7iR9mEEniOOwtJ9IwwtBdWpi0THcWTziUHSdoHgVddECnrigKW
-         3EGqHsaVHcw1VwtXP8qlhSCuIXaf0wIKwLScQSZvGBHW08PMEvrfPudZaV7iDTM6iS5Q
-         HSKPBwcyKenCrzCHgeTOavc0MsRmqkmnNtlqIamld3NKX3HSsu0+6uXV7yfJZmtUcPaT
-         XIZSlnoozZkEiyCI17rP9YEqjgZQzwDgYALwZiJwxJzRsqeJK9M7sYl6nJ2el84CZpoQ
-         SekbSgYMfm6i7LNHzdi1EcjfXFl7ocUQ5E/9cvpVteN/m7si9WkpOufN2/OeZ5YKpPZX
-         LlLQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p94CXzzYyyQsEOBfAZ/uQDyCi9xV94vkTLbvxNPnTGI=;
+        b=ZKyw/XjRWGRK72DwitEt3Ba5hMPZtwM6uZheZngI9mTu8NDMz54bOAnPiY8otDo2/2
+         ExnYsjghyW0FNNzrExZ5hFYlAxjQGoc0ACgBdF9/VuNCrPp9qHio7Svu4IzEZReDfcv1
+         b9f6oD8Uk+i6froTNzVsdfPjyLOLuQuyTYMWdC+b0x/hooAw//a5sxsb8oiLTSOLMi39
+         vq8Fr5Evb0d4PxAwnvdT/hg3VhxPvWoupBw0wBk2XX4V7qQgOUZFpMUY5tF/lWMAilz5
+         TNWB0LnTQmh4hY8QQrbQVCc2OS7QWgC8Gn2mZD3sSfHUo5mcZZYeGssxjUhg1PvFjIpm
+         JBlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U+265rqYozdVAKdvsw/4hASiMDj7hNrt+N+rq+cNVbU=;
-        b=BXhzmQoGDIrAhYR5LJavntipwukOcbyN8g5Yi2FGGdTFGaSWMiUSTl6a0OuZRlKNqe
-         TgDZWAXPJEiZHynT6S9PAj1CAC3vmFOe+OFGspEUABV29kaKkLX89HfhuXUtC+G5fAPX
-         vCiErSfxTgej/ipq7Woi+Y03ZsQtb7HfHqKrMvV3eFWJTwE3X6guTO746GKZ69e+bynb
-         z0Hv33lPKm8606ktJHDIQO8J68Bue6Mblq6PM4zcZuArhLBQJe/AmbJMjLJMgWWBjLtP
-         fhgbsMysRB1UAZhtWaZtAzmZYefs024szNijd6eP6lC+7YQveY4O3JYB/1FqyzBeY9Xm
-         dS/A==
-X-Gm-Message-State: AOAM532aTQqBFBiZkROc4ZTTXVKc7MUyLkepTqbF3zwS6rw+MTiad1Yk
-	CY8c4hyJ/a1fKx+S99NJEHG83ylZq+BT3hsg
-X-Google-Smtp-Source: ABdhPJzs+gBbRljNXgL4QJSlNOhN1eOz1jXQnNsFlKCQoK0EKDTo6O5itleyhnEiy7tTSpnfnw0V9w==
-X-Received: by 2002:a05:651c:216:: with SMTP id y22mr20737065ljn.181.1621937097437;
-        Tue, 25 May 2021 03:04:57 -0700 (PDT)
-Return-Path: <samuli.piippo@gmail.com>
-Received: from munkone.intra.qt.io (62-183-187-94.co.dnainternet.fi. [62.183.187.94])
-        by smtp.gmail.com with ESMTPSA id m5sm2048681ljg.118.2021.05.25.03.04.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 03:04:57 -0700 (PDT)
-From: "Samuli Piippo" <samuli.piippo@gmail.com>
-X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cmake-native: enabled zstd support
-Date: Tue, 25 May 2021 13:04:47 +0300
-Message-Id: <20210525100447.3918978-1-samuli.piippo@qt.io>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p94CXzzYyyQsEOBfAZ/uQDyCi9xV94vkTLbvxNPnTGI=;
+        b=jzqGTAaODHGwGG71mLp/1XBaXpgDlNj/04casyXehJsfOkV+evFLme8pG68Cw5UnSH
+         s/oMWnTHWY1ml7Foscrj406yABl+5rm2SfeMyTzBrfwL/2RS9M9369uJ5xb/uMwVOw5Y
+         mTmTcSd8/dt9Vnu3+GMHUVYh7J8ELvfWcyk1n/Y1vBE7wY7rFNokvKJvX57SGnDPNJIn
+         Z5ofKNgIapFkEYNyx5NRZrd05g3j9TK9j9PMhlFJbK2n0sESR9xSCKL6fImlt/+IJkiw
+         7YgATKP4etUC18XV+Mq9Z0W+SDZjZxfcVehu91QyqhXTAA37LPJ1j0hz6zzPi/uL5HHs
+         Rfyg==
+X-Gm-Message-State: AOAM531dhIr2Ekrh9sXOGVpeTAq9OfrKxUqi6dBKONYEC4VbGT3nr6SE
+	g5BPuN8lC0W1h1QyUMsTUw/AMj3Gmx9rOET+Yn4=
+X-Google-Smtp-Source: ABdhPJwRkiE9ae1EohagswjZCqfZoRi4THuqnMN0r9XOcBuAY19jjf8oT1TjJv8Mq4HcvMW2Aog792xGkEKLKR3LYKM=
+X-Received: by 2002:a67:d715:: with SMTP id p21mr24229751vsj.31.1621937270014;
+ Tue, 25 May 2021 03:07:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210525100447.3918978-1-samuli.piippo@qt.io>
+In-Reply-To: <20210525100447.3918978-1-samuli.piippo@qt.io>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 25 May 2021 12:07:38 +0200
+Message-ID: <CANNYZj-=JMz_=HtogubX3E7FDGbtRk6BxTVShFgNNoRKrCMK9g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cmake-native: enabled zstd support
+To: Samuli Piippo <samuli.piippo@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d3c4c705c324b2fd"
 
-Now that zstd is in oe-core, enable support for it in native CMake.
+--000000000000d3c4c705c324b2fd
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
----
- meta/recipes-devtools/cmake/cmake-native_3.20.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You need to explain the benefit in doing so, I think? :)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-index d91e42ef9a..335097d387 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-@@ -1,7 +1,7 @@
- require cmake.inc
- inherit native
- 
--DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native ncurses-native"
-+DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native ncurses-native zstd-native"
- 
- SRC_URI += "file://OEToolchainConfig.cmake \
-             file://environment.d-cmake.sh \
--- 
-2.25.1
+Alex
 
+On Tue, 25 May 2021 at 12:05, Samuli Piippo <samuli.piippo@gmail.com> wrote:
+
+> Now that zstd is in oe-core, enable support for it in native CMake.
+>
+> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> ---
+>  meta/recipes-devtools/cmake/cmake-native_3.20.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+> b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+> index d91e42ef9a..335097d387 100644
+> --- a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+> +++ b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+> @@ -1,7 +1,7 @@
+>  require cmake.inc
+>  inherit native
+>
+> -DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native
+> ncurses-native"
+> +DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native
+> ncurses-native zstd-native"
+>
+>  SRC_URI += "file://OEToolchainConfig.cmake \
+>              file://environment.d-cmake.sh \
+> --
+> 2.25.1
+>
+>
+> 
+>
+>
+
+--000000000000d3c4c705c324b2fd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>You need to explain the benefit in doing so, I think?=
+ :)</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 25 May 2021 at 12:05, Sa=
+muli Piippo &lt;<a href=3D"mailto:samuli.piippo@gmail.com">samuli.piippo@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">Now that zstd is in oe-core, enable support for it in native CMake.<=
+br>
+<br>
+Signed-off-by: Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io" ta=
+rget=3D"_blank">samuli.piippo@qt.io</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a> | 2 +-<br=
+>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.=
+20.1.bb" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a> b/=
+meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
+index d91e42ef9a..335097d387 100644<br>
+--- a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
++++ b/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0require cmake.inc<br>
+=C2=A0inherit native<br>
+<br>
+-DEPENDS +=3D &quot;bzip2-replacement-native xz-native zlib-native curl-na=
+tive ncurses-native&quot;<br>
++DEPENDS +=3D &quot;bzip2-replacement-native xz-native zlib-native curl-na=
+tive ncurses-native zstd-native&quot;<br>
+<br>
+=C2=A0SRC_URI +=3D &quot;file://OEToolchainConfig.cmake \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://<a href=3D"http://e=
+nvironment.d-cmake.sh" rel=3D"noreferrer" target=3D"_blank">environment.d-c=
+make.sh</a> \<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000d3c4c705c324b2fd--
