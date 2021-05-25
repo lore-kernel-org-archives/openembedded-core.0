@@ -1,138 +1,220 @@
-Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.49])
- by mx.groups.io with SMTP id smtpd.web09.8469.1621942498627668173
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.42])
+ by mx.groups.io with SMTP id smtpd.web08.8906.1621944823570926068
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 04:34:59 -0700
+ Tue, 25 May 2021 05:13:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=srNdjHoY;
- spf=pass (domain: kpit.com, ip: 40.107.139.49, mailfrom: nisha.parrakat@kpit.com)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=fNFRhDhU;
+ spf=pass (domain: kpit.com, ip: 40.107.138.42, mailfrom: nisha.parrakat@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lZpjVqqMxQ98YyeFYXcR/qP458KjeiUKpqhoAXH46KMWmHp2E90C1d4cPnp4pvNSzVzC2TUxt+eLqaU/cDGLrY6ndLuWJCZEiOVnU3oDc9VDF2i5SMjOuVTJzS/9MrmEa4VazU6Ab8P8hmlfbAVTwm4Ej96jLhfnZaBQM3jCnfv0cyEYR6IKzhPxhCnq6VfVZ+c7h1yK1L/AZwbWz0MM8CEHev9+OaYK0yOvYQcka46t7NXHWyA5actdWhXL+ohOnEkUT3bQYT3U1TAWXWNPhvH51PCXToLKG+3z7UwfNVe1cY2QZzi6LK/tyfhANBscIc9DfppoDuZ7UUOL/yoVVA==
+ b=mwqCEIQYzeGh50magd03KWkBvaRLXoT6BgPGBCHw7hu8VI34eAWUpKmvTxZsNcEM1qOoAc5W8T7Fgb8MHANU/IVlBq5+AHVJ88pEtRo0XJfb82y3YaTD9qx8/pILlWBOqcqdsrDikKEkL+pjFtNIVZO0+QfG7HzNkBz/5SyuXeQzaIFP/wW0xWZRPHHN2SBkbcbahKlFPvvgCykSH51nQ2qA/darIoRm1L3PwQNEpY4ufCJMIHYhUChd8b9c0+LxOTu+l6I4YGWx9dLr5y0fwWMY1giAA4srcI1iuOraIjVw/1b6dhBJ8yIHDYvH3ScRrTRf6dYfxLc+1WiZAjgC6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ilwMf+rIuLcsxZQQnd1UZDMFu+tbO3eT6CHXzOIs70E=;
- b=cB9u2g99PCzOeGRYp9ui+CVVACKHAqCqMTFwxWdB12s/PtkGRdTflDQfyR70qO4Lu0dl5MWUgtEnscJ6MTrZLN814QizwMpvludd3kvS0D12gmah/jjAcCT40WvhQXH56a6aZ8qIPNh3HoUAoFZ5Zc0lLvl0uYvY+pLPZeQZizttHxGeNbdLvlBEPOKNqnRv6MCxqhM6jBtjbBXtaSNYDx0FbVZTl2GoV4tDPiS7fHKMejQRWBKaIV4raENk6Qi/PqwtkwqpAE9g73j+GdF5YEXpDXAzN7tuI4uPHlMm6AInYN6QaAFi4hLk+eRnt9lymfv3FCh4kstSjxjypd4/4w==
+ bh=Pctp45vmv7KzpS0vCjNfg+NaJkfCkkVLU/XHqKJVZRQ=;
+ b=NUFnbuh0ijNdnvEQGwo0rOhZC/Ru1MZtYINSDbc9xSLmGfFX+Om3/3G8soBnIqL+C9c4OUL3XAb1MTRdXTMMrBSk9wqzvflEz2+djC9iYUd7b1ksc4/Z8fbw5FZ06etdhEyFY8iEjNbOFw41FaY5hiFY7PcBFLjstj+8CdwGQuHpxs3oS5BqHxG3mKrXB/OY514g4560FdbLr6UYOQIV6OvY8KpI/GdjBG91PlqqCPRDHnD5vpc/erfdmA+9LtYcA9VXSRPoTM4FworUOO8OsTYaONW1fOeDijJwPoXsphubkcJBPjB3IycZS24jnM7jsP4tkdtebrK6WEikD57Y1g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
  dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ilwMf+rIuLcsxZQQnd1UZDMFu+tbO3eT6CHXzOIs70E=;
- b=srNdjHoYxDmsu00neoSt28iadxw6kdGTu8ukPqvVUbOT6a/MrK/8CJIkn2WpRWK7KYbonqxmqnqTxvVv+FxL0+6CsDT4yDGLK67rgWwQqL7OEWjNuw6L+cJgmW00nXKI6grSdn2GmegP2Y9IWb8uSvflAEJpfmTIz3efFOxMtWI=
+ bh=Pctp45vmv7KzpS0vCjNfg+NaJkfCkkVLU/XHqKJVZRQ=;
+ b=fNFRhDhUu4RE+AubhtjvuKPESDDQI/JHQXY138VLsDVqLAfqJ4WBYoac0bTpVc3UgHKy86LDHuVzgKykNyfYHLksKADLqbXz5sakNDqEm2Id3xftWKBWMRVIXxPFvSmO9XLse8P8V/HhC+TyQO6UydZwC5rANeTaeSwW352bXJ4=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=kpit.com;
 Received: from PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:36::6)
- by PN0PR01MB5139.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:46::8) with
+ by PN0PR01MB5059.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:43::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.25; Tue, 25 May
- 2021 11:34:48 +0000
+ 2021 12:13:33 +0000
 Received: from PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::8d5b:7904:5e3b:7167]) by PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::8d5b:7904:5e3b:7167%3]) with mapi id 15.20.4150.027; Tue, 25 May 2021
- 11:34:47 +0000
+ 12:13:33 +0000
 From: "Nisha Parrakat" <Nisha.Parrakat@kpit.com>
 To: openembedded-core@lists.openembedded.org,
 	raj.khem@gmail.com
 Cc: nisha.parrakat@kpit.com
-Subject: [poky][master][PATCH] squashfs-tools: package squashfs-fs.h
-Date: Tue, 25 May 2021 11:34:11 +0000
-Message-Id: <20210525113411.29822-1-Nisha.Parrakat@kpit.com>
+Subject: [meta-oe][master][PATCH 1/2] p7zip: build and package lib7z.so needed for fastboot
+Date: Tue, 25 May 2021 12:13:09 +0000
+Message-Id: <20210525121310.28169-1-Nisha.Parrakat@kpit.com>
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [2003:c0:f3b:b062:3a22:e2ff:fe1a:a816]
-X-ClientProxiedBy: FR0P281CA0044.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::7) To PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PR3P251CA0004.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:102:b5::16) To PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:36::6)
 Return-Path: Nisha.Parrakat@kpit.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from bsys_traas.speedport.ip (2003:c0:f3b:b062:3a22:e2ff:fe1a:a816) by FR0P281CA0044.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:48::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.12 via Frontend Transport; Tue, 25 May 2021 11:34:46 +0000
+Received: from bsys_traas.speedport.ip (2003:c0:f3b:b062:3a22:e2ff:fe1a:a816) by PR3P251CA0004.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:b5::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Tue, 25 May 2021 12:13:32 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: faed2db9-12d4-42e5-5e3a-08d91f711972
-X-MS-TrafficTypeDiagnostic: PN0PR01MB5139:
+X-MS-Office365-Filtering-Correlation-Id: 57dd7098-1ea1-4a8f-f7e4-08d91f76841f
+X-MS-TrafficTypeDiagnostic: PN0PR01MB5059:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<PN0PR01MB5139AFEA371E835231B79E85EE259@PN0PR01MB5139.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+	<PN0PR01MB5059A4523BC1EED8F35F0717EE259@PN0PR01MB5059.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	/dMhJAhIWZ4M8iNFgwbOSpB0WpF19Gn1y11Uzn671nWL3/uNHvL14+T9xbrUkkIBgxsiOxdL2XSTL5BgpaLIYh4+whhc5I/GIjrBPKdgFEmHBpqvejyGcEaf+sn1llpTp9wweIozSSywjoCaHmq4wHVggB1geF6uoTuYuKNx4BuLRrf9ScBYytTj9HkAr8Sjnp5g8h9K5IkIn9vb0CbVLu8qkxbaCAACKAg+eksk9ELidzfNTxwWu+mWfWmm+pmVDkDg3xIHlBvXwIxLvmQsdcP1TiyBABTlJeyO0K//1uvVmX0WeKTLZfGaNAYKCYDvsDgsyvOut6QHvaOn6E0KEqxGsxb0Nbt83uXaYOr0ZkZvZ5rwsnGsj/uJhys8MdWztniKzgta7GzVGpryfZd36PsAf3ATRgA4gx3MVSUv1Fo22QtDtG59X+lTE8I+692olyOvHnPIF7UJoBMmLVFibiJi6JyAkanODdOVEsAAwUT++Xbv24qOX4QMsCXQHXhDhu2ik2udePGQmcRbmggUTa2NHl94j87Yf8Dabo2tTOt3BJVOf6OBMB+YhpVlK7GpGvyZmqtUZw+LhhjNsoNExtLP+CcJKj50UDQCkrDQjVI=
+	QORAK9OhRmfdZ2tH57NbPpIqiYmZclFC7zMiqJ/5UaVsoPlBg5qsGqp+xJyMtgFey83lULt9F/i1XJSjR175OEA1HSn8iEswPSTuNCUaTv9aW0OIovx4p5sYrCff6PT6m0XYYBENBUTraQuZeJe28dKaFpQHT38kDd63EFFHlgCS1ksO8vZ6CvC2S34LpObCZQ2VGx6SM99b0cuVKsvprsgMOshfM1iYt0Y1jOgy0xiAy1/nOtYbLyP/JUkO8mZaB3dT+js60H+3IOvkmJsfuYt4hdjEf8FAjLKD9ZietMchdMItJ7hNk+giOpUIokoc9WSgZ1nhMO54uwaf08DTu75opcN6unj2G4F/0C6PN364vhE4CoofMXo9ZTmrOkuyWPC2/Y+pAYSdHRo74iHe8FIoXMsDoJxJ0VhcpzJQGzkmeSjSOeVUOYdZlGg02kO5szkBMkah9Hqbhp/7he9B6Hzjm5DSQi7le04M7LQt7rqtg/VnLI50Xlvf+iR4TiLOlxdec+cKNbAABjw+5ph6BFfVgRsYKSCyxcHr0/1C+dPTlR6jx4ga2DyH+31bmzly2UOEJjA8pHF8OM0139K11cg+PzOQUOL4T+39tj14mImP+l/3hFzg8HI0pMRYALntebDhcd5b+kmaNr3ZDuXshU/Eeutgk3reZ08vBgP/HWdlkkCpbKwSyG97M0XDJO3bB4Ob6iRwV/zflilfJpyA0xGMAsispeE5BiawwGpUFT4=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(39850400004)(366004)(376002)(36756003)(6506007)(2906002)(186003)(66574015)(38100700002)(16526019)(66556008)(86362001)(6486002)(66946007)(478600001)(2616005)(8936002)(83380400001)(316002)(66476007)(52116002)(6666004)(6512007)(4326008)(5660300002)(8676002)(107886003)(1076003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(136003)(346002)(396003)(376002)(6486002)(478600001)(316002)(38100700002)(4326008)(19627235002)(107886003)(16526019)(66574015)(2616005)(6666004)(186003)(1076003)(2906002)(66946007)(8676002)(8936002)(6506007)(36756003)(6512007)(66476007)(5660300002)(86362001)(66556008)(52116002)(83380400001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?ThBzkKO3f/vRqXMym/FMzLkOWuzrBbxWZr1tu2YrEE/c7kS8gD2l+iOwLe7u?=
- =?us-ascii?Q?dnvBXXSWqMVjBF25lks1EiOJFii1qK3AcAc5YcuNcxrIhqQ4nvnUNfIT3oam?=
- =?us-ascii?Q?kjDlqC2msyTYjExrJLiG/GN7NMlIjzv+F6wp+VwGnBiHDP/XOUgAgo5NZhPI?=
- =?us-ascii?Q?lkIM++U/3iX0yKEXzwqhnTU982fcUcZOMbPM0ZaYLk1VWhuGJUkNglgR5Gt2?=
- =?us-ascii?Q?75eNVVSPfdPlxAlOUPYjkswcrx5wQedkH5Tmxm9ym937VDNNkkbBUWG+1cGa?=
- =?us-ascii?Q?aj24zIwltb/fJmVw3SDavh3DQns04pw/8IM6u/j8eVaVE8nYtXiJ8QoO67a2?=
- =?us-ascii?Q?AhyhROuV/+UbK+e33qR9BjG7B3mESV+fnS+bjpABLX/ZwLUhzbITFEyza+/o?=
- =?us-ascii?Q?xAhX40YesOfgw1mEmphgYJmW4F3n8+2fYO69ST0C+pk19UDly7xDwJzkpYMq?=
- =?us-ascii?Q?MgDQt1WaQUcQjSLtUwwx+y5tegac/sM19ZrpOUJK5K+XlYxVdFtK/yCMbWcr?=
- =?us-ascii?Q?hr5nwtXjWI3rEEjDC7OIKKxXgyc7UXgmVJwb3WNeBzCQ9aO6uQeW/ec86Nmz?=
- =?us-ascii?Q?mcBZczosrqlALoJfYUFzSV4/hYUmME7pZlyGUvyIZGfCDZnyDtmAiEqJ1oFv?=
- =?us-ascii?Q?TOXvTbfE0yajD9ElaDs3AyiK8Q3TPZ9k6b0l4GzYV/AytRvKBVrxzrY8n7Ow?=
- =?us-ascii?Q?B796hp+UuMEaTlUkkKfMDeaX2XjaPSgGBR2dBHj2qu2Dy9eJ0b2qScQva7n6?=
- =?us-ascii?Q?KwG8qxsb0pqZZR1bc1ApWXgzmP4sxBr7+0N7KiswHJqXA2zDWrSMZu9lUpqL?=
- =?us-ascii?Q?7qhCkS49DyL/JVt9i7eBGl47D+S8taVQy109onNDIh1z18dPN931twg/NFNm?=
- =?us-ascii?Q?R2T7wz8IW03/CIpfBpPXiILRz1IuD1Ntw60bHBwDZksVvKHm9687h1aMd/lA?=
- =?us-ascii?Q?KDASYOEXHNrVLVo87cOz7sRy/OF9oKBrsuJfhu/pJi1yQmyGq2nkmnjHZA1T?=
- =?us-ascii?Q?DJLOaJXNqjzqvLhKDGkUravHMtg0c8fpRWpS9fiH3gxypALr4OBeiem3RB12?=
- =?us-ascii?Q?8II5/np27+trQRygSTvUYSuhTvrJPajT5uKQ5xe2JbHihIJgy3PMh+rfeLy0?=
- =?us-ascii?Q?fTiYMIIvmpKNzlJ8vymeig3YhZtrhDzdhJ71k8WUVZrojrYBR2ZaXGJrCsC5?=
- =?us-ascii?Q?YiAzQ49hyut8p3Ib2BgpM5O8YDVenzXZTArBBOKIpjq37dYswpqr8W234HYA?=
- =?us-ascii?Q?ryb5WDg+JC+HwggQixaCg/mMpFcS1lqqzi4HGSWL3L6i8q80v5HeeQgJLG+e?=
- =?us-ascii?Q?80BU4chLT06v+jintLjGvODP3BYG6c0K5jkfWfuQB9OOhLkXYHW4x1TCpwc6?=
- =?us-ascii?Q?f80qfHg3mEY4P0K40MlKiW5Jz9za?=
+	=?us-ascii?Q?w4ZWfljJkEjnrB23BunbSGGej5VlyQsIYvj7eOgfpmIxH31+T9KvpbnWXyHK?=
+ =?us-ascii?Q?jVanfBKK0Mr8MlZbUPgoPBF8Dm3PVUInH5rjSLdjv25T7RU51PZ5ouWCFopA?=
+ =?us-ascii?Q?z0qp0LVsmTcvr4Fi+NhepOjKrfjeZUuE1AC+2UsuROl5PgFy/WPaFGQvslc2?=
+ =?us-ascii?Q?dJ5v6ACBMx4gWcNK//pljRGnRMUJj7ZqgWiJOIi+ZLqCFC9kWBojna0oR412?=
+ =?us-ascii?Q?oHNLuRv7kjioOwy2gxDn4DSlEsAnsmasBYupHWW6P8E1KEGeSaQusGeM5UQf?=
+ =?us-ascii?Q?hv3sNPkCrQ69x8H0ka5rOIdlKYvrVNgMVow5QRcOkFXHmv7JeJmLi6Wy0up4?=
+ =?us-ascii?Q?He0kbnBm4Pg8zeCuxaBbQnK7X32O+6M5N+/jCl7OCZcAfnnpJWl52iZTLuBt?=
+ =?us-ascii?Q?S2WyRHuarTH51mfK/QGr+lrEv2Fen3N8ReV49GECyTbUxXyBc/3GvcSEIGgQ?=
+ =?us-ascii?Q?xWztfNmnUy0LUpZ/ydW9BNxPFAaGqN0u19ytFz+GkK3tYXGs+A/IpeOuI0xH?=
+ =?us-ascii?Q?iTUb4eJfxkknpqfpesCgRiDHZdQZEdfLXODwvQTlC/0JOkN7qbjdO5XFKWeb?=
+ =?us-ascii?Q?3bIlnw25Lf00OFkoSyfg5clH6CUI4SkClkFiasmtVn9WjuhO+9xlJNMiTXmm?=
+ =?us-ascii?Q?zbefwzjSCHcICVhHQTGLtIayyLxRkGm19vjaSYNcUsOPmZP7KO9U9QEchIWs?=
+ =?us-ascii?Q?HB6dLjluhPOqa/zHgw4O8pXtu6M+I5r6LqSjhoSJn94NqmzRWXsVMaO0TD+/?=
+ =?us-ascii?Q?0SqKAcp+epbf1bbLiM4elX7FblopQQySfDBlKsrIganKvnlTNIZiXGDY9fRh?=
+ =?us-ascii?Q?rDUm10GV5+lIWOyhpUpuTYg1bwdYAq+3Yzm4zYMsvL2YfKv1mXJ5OshBdvTc?=
+ =?us-ascii?Q?Chv+p21p+wGKSF/xtea31KXxeJmTciaXI6SjAWCa5UWm5xMRTDTVAzWxC8Ge?=
+ =?us-ascii?Q?8r/uq4OAvSWms2aZJSIduCCNFnmiw60VrDH9/9nyIpqnTBMoLSEASlTSrHPC?=
+ =?us-ascii?Q?8XKqusR7SFhhgLYeOf6CP3Rq4O0ZcORpXT9u63tQT3+KqfbNdjKAi5GupgWq?=
+ =?us-ascii?Q?Bw4xdmfG+9JzobNrCKccUx4TkPv6LA1AqFPKjOutSaMmXMzwrXkhgnRFRSwC?=
+ =?us-ascii?Q?0fplf/QkCadh9Xd3HCblZss6B8JuCmPmRRNPV7bupTI3+JF+3BVDngc4X+fq?=
+ =?us-ascii?Q?2OENx/uuvcRGfEh2oc2H4dLYBjzC70D4CbckjbGKxp7fGeOiKVwhjyWNvdTX?=
+ =?us-ascii?Q?WPb4nEwmyT4Ib7vBXED+w3nck4aaV1KJ+3f6ePXf2xfH+20tv6+vYq2FsZlr?=
+ =?us-ascii?Q?RYTFzOvA7qGteHbV8nzUhSmTFuJTqlDR8Xon6yCLGEBQX7SNUlfSLiowlz67?=
+ =?us-ascii?Q?k5i7g2h2sHdkurY6DIW3t21yNGj4?=
 X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: faed2db9-12d4-42e5-5e3a-08d91f711972
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57dd7098-1ea1-4a8f-f7e4-08d91f76841f
 X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2021 11:34:47.1821
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2021 12:13:33.5056
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MFO8N1ChUc3D8wUbc5yDSI1cJ9QO/Dh4daRUhdfYwjAaJdlNPq5YkiwD0awfZ9hX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB5139
+X-MS-Exchange-CrossTenant-UserPrincipalName: NOPXBVsWaF2GQSQRa6bvQ209ZGiMV0Mzl5ZI2Yl8r7Wr+iMbNB4qPg0LbPE30MwI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB5059
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
 From: Nisha Parrakat <nisha.parrakat@kpit.com>
 
-Needed to build the latest debian version
-of android-tools
-Fixes below error while building android-tools libext4_utils.mk
-| squashfs_utils/squashfs_utils.c:27:10: fatal error: 'squashfs_fs.h' file =
-not found
-| #include "squashfs_fs.h"
-|          ^~~~~~~~~~~~~~~
-| 1 error generated.
-| core2-64-poky-linux/android-tools/10.0.0.r36-r0/git/system/extras/debian/=
-libext4_utils.mk:29: recipe for target 'build' failed
-| make: *** [build] Error 1
+a) use option 7z to build the lib7z.so library
+This is needed for android-tools for building fastboot
+from android-tools
+
+b) Packaged the lib7z.so and codec libraries as a part of this recipe
+Fastboot RDepends on it lib7z.so
+
+c) Fixed a C++17 forbidden error when lib7z.so is built
+
+fixes the below error
+
+| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp: In member function 'virt=
+ual LONG NArchive::NWim::CHandler::GetArchiveProperty(PROPID, PROPVARIANT*)=
+':
+| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:308:11: error: use of an =
+operand of type 'bool' in 'operator++' is forbidden in C++17
+|   308 |           numMethods++;
+|       |           ^~~~~~~~~~
+| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:318:9: error: use of an o=
+perand of type 'bool' in 'operator++' is forbidden in C++17
+|   318 |         numMethods++;
 
 Signed-off-by: Nisha Parrakat <Nisha.Parrakat@kpit.com>
 ---
- meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...nge_numMethods_from_bool_to_unsigned.patch | 25 +++++++++++++++++++
+ meta-oe/recipes-extended/p7zip/p7zip_16.02.bb | 21 ++++++++++++++--
+ 2 files changed, 44 insertions(+), 2 deletions(-)
+ create mode 100644 meta-oe/recipes-extended/p7zip/files/change_numMethods_=
+from_bool_to_unsigned.patch
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/m=
-eta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 2b1409d78d..137e5097fa 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -32,7 +32,9 @@ do_compile() {
- }
+diff --git a/meta-oe/recipes-extended/p7zip/files/change_numMethods_from_bo=
+ol_to_unsigned.patch b/meta-oe/recipes-extended/p7zip/files/change_numMetho=
+ds_from_bool_to_unsigned.patch
+new file mode 100644
+index 000000000..edde52593
+--- /dev/null
++++ b/meta-oe/recipes-extended/p7zip/files/change_numMethods_from_bool_to_u=
+nsigned.patch
+@@ -0,0 +1,25 @@
++fixes the below error
++
++| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp: In member function 'vir=
+tual LONG NArchive::NWim::CHandler::GetArchiveProperty(PROPID, PROPVARIANT*=
+)':
++| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:308:11: error: use of an=
+ operand of type 'bool' in 'operator++' is forbidden in C++17
++|   308 |           numMethods++;
++|       |           ^~~~~~~~~~
++| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:318:9: error: use of an =
+operand of type 'bool' in 'operator++' is forbidden in C++17
++|   318 |         numMethods++;
++
++
++use unsigned instead of bool
++Signed-off-by: Nisha Parrakat <Nisha.Parrakat@kpit.com>
++
++Upstream-Status: Pending
++--- ./CPP/7zip/Archive/Wim/WimHandler.cpp       2021-05-20 10:51:56.997402=
+701 +0000
+++++ ./CPP/7zip/Archive/Wim/WimHandler.cpp       2021-05-20 10:52:16.665604=
+125 +0000
++@@ -298,7 +298,7 @@
++
++       AString res;
++
++-      bool numMethods =3D 0;
+++      unsigned numMethods =3D 0;
++       for (unsigned i =3D 0; i < ARRAY_SIZE(k_Methods); i++)
++       {
++         if (methodMask & ((UInt32)1 << i
+diff --git a/meta-oe/recipes-extended/p7zip/p7zip_16.02.bb b/meta-oe/recipe=
+s-extended/p7zip/p7zip_16.02.bb
+index 13479a90f..ada49114c 100644
+--- a/meta-oe/recipes-extended/p7zip/p7zip_16.02.bb
++++ b/meta-oe/recipes-extended/p7zip/p7zip_16.02.bb
+@@ -9,6 +9,7 @@ SRC_URI =3D "http://downloads.sourceforge.net/p7zip/p7zip/$=
+{PV}/p7zip_${PV}_src_al
+            file://do_not_override_compiler_and_do_not_strip.patch \
+            file://CVE-2017-17969.patch \
+            file://0001-Fix-narrowing-errors-Wc-11-narrowing.patch \
++           file://change_numMethods_from_bool_to_unsigned.patch \
+            "
 
+ SRC_URI[md5sum] =3D "a0128d661cfe7cc8c121e73519c54fbf"
+@@ -16,10 +17,26 @@ SRC_URI[sha256sum] =3D "5eb20ac0e2944f6cb9c2d51dd6c4518=
+941c185347d4089ea89087ffdd6
+
+ S =3D "${WORKDIR}/${BPN}_${PV}"
+
++do_compile_append() {
++    oe_runmake 7z
++}
++FILES_${PN} +=3D "${libdir}/* ${bindir}/7z"
++
++FILES_SOLIBSDEV =3D ""
++INSANE_SKIP_${PN} +=3D "dev-so"
++
  do_install() {
-+       install -d "${D}${includedir}"
-        oe_runmake install INSTALL_DIR=3D${D}${sbindir}
-+       install -m 0644 "${S}"/squashfs_fs.h "${D}${includedir}"
+        install -d ${D}${bindir}
+-       install -m 0755 ${S}/bin/* ${D}${bindir}
++       install -d ${D}${bindir}/Codecs
++       install -d ${D}${libdir}
++       install -d ${D}${libdir}/Codecs
++       install -m 0755 ${S}/bin/7za ${D}${bindir}
+        ln -s 7za ${D}${bindir}/7z
++       install -m 0755 ${S}/bin/Codecs/* ${D}${libdir}/Codecs/
++       install -m 0755 ${S}/bin/7z.so ${D}${libdir}/lib7z.so
  }
 
- ARM_INSTRUCTION_SET_armv4 =3D "arm"
+-BBCLASSEXTEND =3D "native"
++RPROVIDES_${PN} +=3D "lib7z.so()(64bit) 7z lib7z.so"
++RPROVIDES_${PN}-dev +=3D "lib7z.so()(64bit) 7z lib7z.so"
++
++BBCLASSEXTEND =3D "native nativesdk"
 --
 2.17.1
 
