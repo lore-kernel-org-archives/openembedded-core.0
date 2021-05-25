@@ -1,93 +1,136 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web08.916.1621962951120474311
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+ by mx.groups.io with SMTP id smtpd.web12.1463.1621965351323430824
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 10:15:51 -0700
+ Tue, 25 May 2021 10:55:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sSuJ4aUz;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: petr.vorel@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id p7so29322611wru.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 10:15:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hS0AQocS;
+ spf=pass (domain: gmail.com, ip: 209.85.222.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f50.google.com with SMTP id n61so11078930uan.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 10:55:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=+yZ0JIKt9yjbO+zE3MGi/YdxtV8rgjg6FL2SL4rAeRg=;
-        b=sSuJ4aUzvAPLal49KLaSkUgv9w1avjFKySESwNCaHMDl2tv18LXnoTsZ014bPviS2a
-         7xAO55ClpIZRfw97293YiMbPbJfBdy+azQ+cwo8L27n7lwAUgowBlqm12+FTsApcT0C6
-         2wDhJc5KiAQZlJtgJuaf2ZNjD8JcrYZoavVDTWe8NTyHTXYStRtgJNPJpuj4GFFPrMR6
-         WgLNr+smfqkvsCjFtYKydP9rJvX+soLQt0NMTL5nDzQ12A6QfMnnVhiqzAHbrA5h8hpo
-         PhoQGpEHYBai1gagSuXal57Nh6elr8F0jSuUBNbD7OnLYI5SkBKhW40VuDXInpJ+jCai
-         EHaw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kzaFxrGHj4IXKkhHUHkFny9+iHMlI+fbEvtniYC+m7E=;
+        b=hS0AQocSgLdkQF2LBFYiQZmiKarCVkxiOE/2PHci23fFuYab1N/IzPO/1L+puBkTK5
+         iezdT8dX2ZzC3C2n/hheIRi+/VTdC2CipWhIS+Mr347WbNH840ci164V5DJYiLfEFTJs
+         5kbfpINXTS+xTlRJiCfTy00qomdXYj+aFRPJBUAVL5wzXu82IaK5/O0uRuADM8oheg0d
+         3Fx1mLDh09ArQOrfJphEjSbfjW6+nFyKTarENxzTUryTTJAk6wZdSnI25Gy/uZ5qOZSC
+         LbAGObUk40w2LaQPd5TswSM68jHyBshynOu0MyXExSxGL7EBd1FbtFVlX+ep1Rr2WzSg
+         qV5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=+yZ0JIKt9yjbO+zE3MGi/YdxtV8rgjg6FL2SL4rAeRg=;
-        b=aoV9NrJ+cA7ymzD+LipiRQMaIUFQxdZg0mY21zL+aLp4EUjNnn1LAjL8OH6LG6EUre
-         P9BJWVDK4QpoJYDpA4LyH1MhKPdHlRdRK+tCJtgSW/Xla29f8F6UQ5zQAVwq3Y5+edBN
-         jXd8aXQpLzcf6VvHcYarF66xx5uBiaahC67D/2OimHk0IP4Omvxi6Vt4rvIfd/7b11tG
-         v0wAurttzUjRUVa6hlXISrDbuZqDx+Cb6hIDp0Yzu+lBQ3vzh0PO5d11ehCHquftQGoG
-         VNX2PjOkKbm0zsCOUqtFWd5/WcfUsuiCmIf+helC3Jal7yhv/1Dd2vkBPhLETlzb/fAj
-         /D1A==
-X-Gm-Message-State: AOAM531ePH2GWVwxDi/kGg7mQ2X4+RJIrhFRCopsnWFa1Zl2Zc/B4aE5
-	YJfYkMTx41J/mmGwVbhOixc=
-X-Google-Smtp-Source: ABdhPJyf6J29E1+TvM5xcsrzmXFa+xRkPIBG6hohmzl4FxkRsYj4zfK3b2aW/R2vkZECr9c3qwk7jA==
-X-Received: by 2002:a05:6000:4d:: with SMTP id k13mr29168099wrx.98.1621962949572;
-        Tue, 25 May 2021 10:15:49 -0700 (PDT)
-Return-Path: <petr.vorel@gmail.com>
-Received: from pevik ([62.201.25.198])
-        by smtp.gmail.com with ESMTPSA id u132sm9773279wmg.31.2021.05.25.10.15.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 10:15:49 -0700 (PDT)
-Date: Tue, 25 May 2021 19:15:47 +0200
-From: "Petr Vorel" <petr.vorel@gmail.com>
-To: Daniel =?iso-8859-2?Q?D=EDaz?= <daniel.diaz@linaro.org>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] ltp: Update to 20210524
-Message-ID: <YK0wwzjedOBm0K9I@pevik>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20210524182955.29512-1-petr.vorel@gmail.com>
- <CAEUSe788VziRFpqe2NmX0ktu5ry659bfO-H+wAhtAmkfASzGZw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kzaFxrGHj4IXKkhHUHkFny9+iHMlI+fbEvtniYC+m7E=;
+        b=WZhXiGFSP4+ccFW7ssVXoJlF/9zCu/4pf9u7zg0M/jCcsxOGzMT4XNAzTBWo2Mi+RV
+         Dn09FdZTrGlPJK5ZVCayasOb/JFh0bCGdl2yr/QTZCh/n9xL72oFOlsjQT8Wl+KJo5+x
+         PFgjHkjMXoqCfSDx9wptqH2xPT3KlVK2+lF8kivi/4AguBWZ8hh9PSkQjhic3i9/zBKb
+         fT9G8T0psPvNIajPO8sfonZwq7lEeLqv1zMAmUWm/84AGDVmTffsyC+dIXv1lilvokNc
+         S6+Eo+ps3JpJOh5squu1WkawzDYbAtTuvExm21AFXpRq2EAMVAPh+H61ol/e9hW7dM+S
+         oNXg==
+X-Gm-Message-State: AOAM531wrOjj/TJd44uvA1/zOkbgOKGW6yV2/rWTo/o35UMGdOMi46kN
+	zCwvlaGfdzJFygjaoJOg3vaoc42WZq2j0W/mLsjbS7Cs
+X-Google-Smtp-Source: ABdhPJxS3txCBcxC4R2O6n7wnchou9eXlGwolrFF/GSOIjEhDcV14iOwg+GC7Va446D/y1lCQUqU/pDwWpePeFx/i6c=
+X-Received: by 2002:ab0:35ed:: with SMTP id w13mr28573125uau.22.1621965350404;
+ Tue, 25 May 2021 10:55:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAEUSe788VziRFpqe2NmX0ktu5ry659bfO-H+wAhtAmkfASzGZw@mail.gmail.com>
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20210525151709.522795-1-christophe.priouzeau@foss.st.com> <20210525151709.522795-2-christophe.priouzeau@foss.st.com>
+In-Reply-To: <20210525151709.522795-2-christophe.priouzeau@foss.st.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 25 May 2021 19:55:39 +0200
+Message-ID: <CANNYZj9PnhZDcz7cuHDR3PjZ=JbimkYhTEQHN2Hm8r0qSHZj0w@mail.gmail.com>
+Subject: Re: [OE-core] [hardknott][PATCH 2/2] mesa: use python3targetconfig
+To: cpriouzeau <christophe.priouzeau@foss.st.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000008c863005c32b3ce0"
 
-Hi Daniel,
+--0000000000008c863005c32b3ce0
+Content-Type: text/plain; charset="UTF-8"
 
-> Hello!
+This needs to go to master first, and better explained, as we are not
+seeing those issues.
 
-> On Mon, 24 May 2021 at 13:30, Petr Vorel <petr.vorel@gmail.com> wrote:
-> [...]
-> > diff --git a/meta/recipes-extended/ltp/ltp_20210121.bb b/meta/recipes-extended/ltp/ltp_20210524.bb
-> > similarity index 94%
-> > rename from meta/recipes-extended/ltp/ltp_20210121.bb
-> > rename to meta/recipes-extended/ltp/ltp_20210524.bb
-> > index e1ffd0ddf4..bf6e564482 100644
-> > --- a/meta/recipes-extended/ltp/ltp_20210121.bb
-> > +++ b/meta/recipes-extended/ltp/ltp_20210524.bb
-> > @@ -27,19 +27,14 @@ CFLAGS_append_x86-64 = " -fomit-frame-pointer"
+Alex
 
-> >  CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
-> >  CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
-> > -SRCREV = "4d005621edd109d119627eb9210b224a63bf22cb"
-> > +SRCREV = "0fb171f2beddaf64bd27597577c206c0f892b3cd"
+On Tue, 25 May 2021 at 17:17, cpriouzeau <christophe.priouzeau@foss.st.com>
+wrote:
 
-> >  # remove at next version upgrade or when output changes
-> >  PR = "r4"
-> >  HASHEQUIV_HASH_VERSION .= ".4"
+> Meson request to have a valid python, meson-log indicate that
+> issue come from:
+> ModuleNotFoundError: No module named '_sysconfigdata'
+>
+> Signed-off-by: Christophe Priouzeau <christophe.priouzeau@foss.st.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index a85f94c75e..de39dc34e4 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -43,7 +43,7 @@ PROVIDES = " \
+>      virtual/mesa \
+>      "
+>
+> -inherit meson pkgconfig python3native gettext features_check
+> +inherit meson pkgconfig python3native gettext features_check
+> python3targetconfig
+>
+>  BBCLASSEXTEND = "native nativesdk"
+>
+> --
+> 2.25.1
+>
+>
+> 
+>
+>
 
-> Shall we reset/remove this?
-Thanks, yes it should have been removed.
-I'll try to send v3 tonight.
+--0000000000008c863005c32b3ce0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Kind regards,
-Petr
+<div dir=3D"ltr"><div>This needs to go to master first, and better explaine=
+d, as we are not seeing those issues.</div><div><br></div><div>Alex<br></di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Tue, 25 May 2021 at 17:17, cpriouzeau &lt;<a href=3D"mailto:christophe=
+.priouzeau@foss.st.com">christophe.priouzeau@foss.st.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">Meson request to ha=
+ve a valid python, meson-log indicate that<br>
+issue come from:<br>
+ModuleNotFoundError: No module named &#39;_sysconfigdata&#39;<br>
+<br>
+Signed-off-by: Christophe Priouzeau &lt;<a href=3D"mailto:christophe.priou=
+zeau@foss.st.com" target=3D"_blank">christophe.priouzeau@foss.st.com</a>&gt=
+;<br>
+---<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/m=
+esa/mesa.inc<br>
+index a85f94c75e..de39dc34e4 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -43,7 +43,7 @@ PROVIDES =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0virtual/mesa \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+-inherit meson pkgconfig python3native gettext features_check<br>
++inherit meson pkgconfig python3native gettext features_check python3targe=
+tconfig<br>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-> Greetings!
-
-> Daniel Díaz
-> daniel.diaz@linaro.org
+--0000000000008c863005c32b3ce0--
