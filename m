@@ -1,243 +1,182 @@
-Received: from lilium.sigma-star.at (lilium.sigma-star.at [109.75.188.150])
- by mx.groups.io with SMTP id smtpd.web10.8346.1621942198863022790
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web12.8481.1621943324076769442
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 04:29:59 -0700
+ Tue, 25 May 2021 04:48:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: nod.at, ip: 109.75.188.150, mailfrom: richard@nod.at)
-Received: from localhost (localhost [127.0.0.1])
-	by lilium.sigma-star.at (Postfix) with ESMTP id 3DAC81817A0D5;
-	Tue, 25 May 2021 13:29:57 +0200 (CEST)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id 6qXmT5zQ_L9c; Tue, 25 May 2021 13:29:56 +0200 (CEST)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id xyhGFr1nGhrJ; Tue, 25 May 2021 13:29:56 +0200 (CEST)
-From: "Richard Weinberger" <richard@nod.at>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Weinberger <richard@nod.at>
-Subject: [OE-core][PATCH v2] Add support for erofs filesystems
-Date: Tue, 25 May 2021 13:29:51 +0200
-Message-Id: <20210525112951.2243-1-richard@nod.at>
-X-Mailer: git-send-email 2.26.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=C+3ISUMd;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 6so22509438pgk.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 04:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=HZEvDujruPYq9T9+XlgENpS6girXcxahakgB5XVzpdg=;
+        b=C+3ISUMd2ZrFUoh4BU9s16R+lxqBShGP28m6xlkb/TWctDS/J8LInLmmT/vbxOeTtq
+         OsB+8wtOCXM85i4qlR8KHgZ9eXfVe+dM50xsezMbqJRdsjipFTI2OnSE9ai5KPrL0ooC
+         XO0Lbx7dno2T91DyDm/dy6+JFk+Jy42M7BD+mwJ3QPpoEGzme9nKVMHWt/GSmZ0a2zEQ
+         N4PDf7ycGdp4T91D1gvNkzGyeRNzhNJiGrOhVLm1AWacR5eWdo/fmng4b69cNXhHwMb/
+         DD8rrGhbyryPY5iVLwzLSNFqAluBqnwiQiMkmSkRdthlB3LZvUW3AAdRUDTvtbYntu4L
+         CJnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=HZEvDujruPYq9T9+XlgENpS6girXcxahakgB5XVzpdg=;
+        b=V9CjTHPUs6Nh4Doc2WuJgJqkW00FaBqRjpinl3Zho8Ao5U3isoDEzqFRMuja3zu/IO
+         NtBcQGYkKE1b4SDv6BjylmROU3JB6e6tLcNkPi/30htv+Ab5D0I1OyyLAwDM5YkXn/Mm
+         ZVkWXsMLsJMrhWtc6vaZYCsgf4nAAzfmkVw4LDb41zcoguBIwzmcvSG2IdokN199MI+M
+         m6zOy4PBhfz168F1z5xW6v97Di+YvhbSimBq8srCfncaUzwKZZG0BzlAzJe/g7WxsH03
+         0mDRDrB/LvJXaF4HS+9s/ERkL8NFtxw5RlhSGW7liRytPQumO09uPGeuyNvl7N3/EElv
+         kgEg==
+X-Gm-Message-State: AOAM531Z3Yl61xhQ5Tfsv0AyefPnSJaldkOWX8V90rWgrYc69NcZE2fJ
+	M7swgpwagaPEFvsER+mk7CY=
+X-Google-Smtp-Source: ABdhPJxNG3MlaaDrgnhVrWteOj01JMKlD5kmIocKMJ/MdDQwVoDSeMtt94WeBXftqrjwMxrl7mRI5g==
+X-Received: by 2002:a62:5306:0:b029:2de:6ce0:5526 with SMTP id h6-20020a6253060000b02902de6ce05526mr29638541pfb.13.1621943323524;
+        Tue, 25 May 2021 04:48:43 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:9834:cb1a:11fd:affb? ([2601:202:4180:a5c0:9834:cb1a:11fd:affb])
+        by smtp.gmail.com with ESMTPSA id 35sm13650941pgq.91.2021.05.25.04.48.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 May 2021 04:48:43 -0700 (PDT)
+Subject: Re: [OE-core] [meta-oe][dunfell][PATCH] opencv: Add fix for CVE-2019-5063 and CVE-2019-5064
+To: akash hadke <akash.hadke@kpit.com>,
+ openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com, harpritkaur.bhandari@kpit.com
+References: <1621929554-4038-1-git-send-email-akash.hadke@kpit.com>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <6aaa2037-e3b2-8269-98b4-d64b525b41ff@gmail.com>
+Date: Tue, 25 May 2021 04:48:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1621929554-4038-1-git-send-email-akash.hadke@kpit.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Since Linux 5.4 a new read-only filesystem is available, erofs.
-Compared to squashfs it offers much better read performance with and
-without compression enabled.
-It suppports two optional compressors, lz4 and lz4hc.
 
-From the mkfs.erofs man page:
-EROFS is a new enhanced lightweight linux read-only filesystem with
-modern designs (eg. no buffer head, reduced metadata, inline
-xattrs/data, etc.) for scenarios which need high-performance read-only
-requirements, e.g. Android OS for smartphones and LIVECDs.
-It also provides fixed-sized output compression support, which improves
-storage density, keeps relatively higher compression ratios, which is
-more useful to achieve high performance for embedded devices with
-limited  memory since it has unnoticable memory overhead and page cache
-thrashing.
 
-This commit adds support for three new filesystem targets:
-erofs: erofs without compression
-erofs-lz4: erofs with lz4 compresssion enabled
-erofs-lz4hc: erofs with lz4hc compression enabled
+On 5/25/21 12:59 AM, akash hadke wrote:
+> From: "akash.hadke" <akash.hadke@kpit.com>
+>
+> Added fix for below CVE's
+>
+> CVE-2019-5063
+> CVE-2019-5064
+> Link: https://github.com/opencv/opencv/commit/f42d5399aac80d371b17d689851406669c9b9111.patch
+>
+> Signed-off-by: akash hadke <akash.hadke@kpit.com>
 
-Signed-off-by: Richard Weinberger <richard@nod.at>
----
-Changes since v1:
- - Make lz4 support in erofs-utils optional (requested by Konrad Weihmann=
-)=20
----
- meta/classes/image_types.bbclass              |  9 ++++++++
- .../erofs-utils/erofs-utils_git.bb            | 21 +++++++++++++++++++
- scripts/lib/wic/help.py                       |  1 +
- scripts/lib/wic/ksparser.py                   |  7 ++++++-
- scripts/lib/wic/partition.py                  | 16 +++++++++++---
- scripts/lib/wic/plugins/source/rawcopy.py     |  6 +++---
- 6 files changed, 53 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
+wrong ml. should be openembedded-devel@.
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
-bbclass
-index 8028691405a7..4e95e0e2935e 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -108,6 +108,11 @@ IMAGE_CMD_squashfs-xz =3D "mksquashfs ${IMAGE_ROOTFS=
-} ${IMGDEPLOYDIR}/${IMAGE_NAME
- IMAGE_CMD_squashfs-lzo =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
-{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend=
- -comp lzo"
- IMAGE_CMD_squashfs-lz4 =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
-{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lz4 ${EXTRA_IMAGECMD} -noappend=
- -comp lz4"
-=20
-+IMAGE_CMD_erofs =3D "mkfs.erofs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAG=
-E_NAME}${IMAGE_NAME_SUFFIX}.erofs ${IMAGE_ROOTFS}"
-+IMAGE_CMD_erofs-lz4 =3D "mkfs.erofs -zlz4 ${EXTRA_IMAGECMD} ${IMGDEPLOYD=
-IR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4 ${IMAGE_ROOTFS}"
-+IMAGE_CMD_erofs-lz4hc =3D "mkfs.erofs -zlz4hc ${EXTRA_IMAGECMD} ${IMGDEP=
-LOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4hc ${IMAGE_ROOTFS}"
-+
-+
- IMAGE_CMD_TAR ?=3D "tar"
- # ignore return code 1 "file changed as we read it" as other tasks(e.g. =
-do_image_wic) may be hardlinking rootfs
- IMAGE_CMD_tar =3D "${IMAGE_CMD_TAR} --sort=3Dname --format=3Dposix --num=
-eric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C $=
-{IMAGE_ROOTFS} . || [ $? -eq 1 ]"
-@@ -243,6 +248,9 @@ do_image_ubi[depends] +=3D "mtd-utils-native:do_popul=
-ate_sysroot"
- do_image_ubifs[depends] +=3D "mtd-utils-native:do_populate_sysroot"
- do_image_multiubi[depends] +=3D "mtd-utils-native:do_populate_sysroot"
- do_image_f2fs[depends] +=3D "f2fs-tools-native:do_populate_sysroot"
-+do_image_erofs[depends] +=3D "erofs-utils-native:do_populate_sysroot"
-+do_image_erofs_lz4[depends] +=3D "erofs-utils-native:do_populate_sysroot=
-"
-+do_image_erofs_lz4hc[depends] +=3D "erofs-utils-native:do_populate_sysro=
-ot"
-=20
- # This variable is available to request which values are suitable for IM=
-AGE_FSTYPES
- IMAGE_TYPES =3D " \
-@@ -261,6 +269,7 @@ IMAGE_TYPES =3D " \
-     wic wic.gz wic.bz2 wic.lzma wic.zst \
-     container \
-     f2fs \
-+    erofs \
- "
-=20
- # Compression is a special case of conversion. The old variable
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb b/meta/=
-recipes-devtools/erofs-utils/erofs-utils_git.bb
-new file mode 100644
-index 000000000000..5e705b61313f
---- /dev/null
-+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
-@@ -0,0 +1,21 @@
-+SUMMARY =3D "Tools for erofs filesystems"
-+LICENSE =3D "GPLv2"
-+SECTION =3D "base"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94fa01670a2a8f2d3ab2de15004e0=
-848"
-+
-+PV =3D "1.2.1"
-+SRCREV =3D "d1f4953edfcf4f51c71ba91586e21fc6ce9f6db9"
-+SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-u=
-tils.git"
-+
-+S =3D "${WORKDIR}/git"
-+
-+DEPENDS =3D "util-linux-libuuid"
-+
-+inherit pkgconfig autotools
-+
-+PACKAGECONFIG ??=3D "lz4"
-+PACKAGECONFIG[lz4] =3D "--enable-lz4,--disable-lz4,lz4"
-+
-+EXTRA_OECONF =3D "${PACKAGECONFIG_CONFARGS} --disable-fuse"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index bd3a2b97dfaf..991e5094bb84 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -930,6 +930,7 @@ DESCRIPTION
-              ext4
-              btrfs
-              squashfs
-+             erofs
-              swap
-=20
-          --fsoptions: Specifies a free-form string of options to be
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 3eb669da39ca..7a4cc83af556 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -157,7 +157,8 @@ class KickStart():
-         part.add_argument('--fsoptions', dest=3D'fsopts')
-         part.add_argument('--fstype', default=3D'vfat',
-                           choices=3D('ext2', 'ext3', 'ext4', 'btrfs',
--                                   'squashfs', 'vfat', 'msdos', 'swap'))
-+                                   'squashfs', 'vfat', 'msdos', 'erofs',
-+                                   'swap'))
-         part.add_argument('--mkfs-extraopts', default=3D'')
-         part.add_argument('--label')
-         part.add_argument('--use-label', action=3D'store_true')
-@@ -229,6 +230,10 @@ class KickStart():
-                                 err =3D "%s:%d: SquashFS does not suppor=
-t LABEL" \
-                                        % (confpath, lineno)
-                                 raise KickStartError(err)
-+                        # erofs does not support filesystem labels
-+                        if parsed.fstype =3D=3D 'erofs' and parsed.label=
-:
-+                            err =3D "%s:%d: erofs does not support LABEL=
-" % (confpath, lineno)
-+                            raise KickStartError(err)
-                         if parsed.fstype =3D=3D 'msdos' or parsed.fstype=
- =3D=3D 'vfat':
-                             if parsed.fsuuid:
-                                 if parsed.fsuuid.upper().startswith('0X'=
-):
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 76d144d12d30..e0b2c5bdf29b 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -141,9 +141,9 @@ class Partition():
-                                             native_sysroot)
-                 self.source_file =3D "%s/fs.%s" % (cr_workdir, self.fsty=
-pe)
-             else:
--                if self.fstype =3D=3D 'squashfs':
--                    raise WicError("It's not possible to create empty sq=
-uashfs "
--                                   "partition '%s'" % (self.mountpoint))
-+                if self.fstype in ('squashfs', 'erofs'):
-+                    raise WicError("It's not possible to create empty %s=
- "
-+                                   "partition '%s'" % (self.fstype, self=
-.mountpoint))
-=20
-                 rootfs =3D "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
-                                              self.lineno, self.fstype)
-@@ -369,6 +369,16 @@ class Partition():
-                        (rootfs_dir, rootfs, extraopts)
-         exec_native_cmd(squashfs_cmd, native_sysroot, pseudo=3Dpseudo)
-=20
-+    def prepare_rootfs_erofs(self, rootfs, cr_workdir, oe_builddir, root=
-fs_dir,
-+                             native_sysroot, pseudo):
-+        """
-+        Prepare content for a erofs rootfs partition.
-+        """
-+        extraopts =3D self.mkfs_extraopts or ''
-+        erofs_cmd =3D "mkfs.erofs %s -U %s %s %s" % \
-+                       (extraopts, self.fsuuid, rootfs, rootfs_dir)
-+        exec_native_cmd(erofs_cmd, native_sysroot, pseudo=3Dpseudo)
-+
-     def prepare_empty_partition_ext(self, rootfs, oe_builddir,
-                                     native_sysroot):
-         """
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/=
-plugins/source/rawcopy.py
-index 3c4997d8ba5e..fa7b1eb8ac75 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -29,9 +29,9 @@ class RawCopyPlugin(SourcePlugin):
-             cmd =3D 'btrfs filesystem label %s %s' % (dst, label)
-         elif fstype =3D=3D 'swap':
-             cmd =3D 'mkswap -L %s %s' % (label, dst)
--        elif fstype =3D=3D 'squashfs':
--            raise WicError("It's not possible to update a squashfs "
--                           "filesystem label '%s'" % (label))
-+        elif fstype in ('squashfs', 'erofs'):
-+            raise WicError("It's not possible to update a %s "
-+                           "filesystem label '%s'" % (fstype, label))
-         else:
-             raise WicError("Cannot update filesystem label: "
-                            "Unknown fstype: '%s'" % (fstype))
---=20
-2.26.2
+patch noted.
+
+-armin
+> ---
+>  .../opencv/CVE-2019-5063_and_2019-5064.patch       | 78 ++++++++++++++++++++++
+>  meta-oe/recipes-support/opencv/opencv_4.1.0.bb     |  1 +
+>  2 files changed, 79 insertions(+)
+>  create mode 100644 meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch
+>
+> diff --git a/meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch b/meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch
+> new file mode 100644
+> index 0000000..b4d5e6d
+> --- /dev/null
+> +++ b/meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch
+> @@ -0,0 +1,78 @@
+> +From f42d5399aac80d371b17d689851406669c9b9111 Mon Sep 17 00:00:00 2001
+> +From: Alexander Alekhin <alexander.alekhin@intel.com>
+> +Date: Thu, 7 Nov 2019 14:01:51 +0300
+> +Subject: [PATCH] core(persistence): add more checks for implementation
+> + limitations
+> +
+> +Signed-off-by: akash hadke <akash.hadke@kpit.com>
+> +---
+> + modules/core/src/persistence_json.cpp | 8 ++++++++
+> + modules/core/src/persistence_xml.cpp  | 6 ++++--
+> + 2 files changed, 12 insertions(+), 2 deletions(-)
+> +---
+> +CVE: CVE-2019-5063
+> +CVE: CVE-2019-5064
+> +Upstream-Status: Backport [https://github.com/opencv/opencv/commit/f42d5399aac80d371b17d689851406669c9b9111.patch]
+> +---
+> +diff --git a/modules/core/src/persistence_json.cpp b/modules/core/src/persistence_json.cpp
+> +index 89914e6534f..2efdf17d3f5 100644
+> +--- a/modules/core/src/persistence_json.cpp
+> ++++ b/modules/core/src/persistence_json.cpp
+> +@@ -578,10 +578,14 @@ class JSONParser : public FileStorageParser
+> +                             sz = (int)(ptr - beg);
+> +                             if( sz > 0 )
+> +                             {
+> ++                                if (i + sz >= CV_FS_MAX_LEN)
+> ++                                    CV_PARSE_ERROR_CPP("string is too long");
+> +                                 memcpy(buf + i, beg, sz);
+> +                                 i += sz;
+> +                             }
+> +                             ptr++;
+> ++                            if (i + 1 >= CV_FS_MAX_LEN)
+> ++                                CV_PARSE_ERROR_CPP("string is too long");
+> +                             switch ( *ptr )
+> +                             {
+> +                             case '\\':
+> +@@ -605,6 +609,8 @@ class JSONParser : public FileStorageParser
+> +                             sz = (int)(ptr - beg);
+> +                             if( sz > 0 )
+> +                             {
+> ++                                if (i + sz >= CV_FS_MAX_LEN)
+> ++                                    CV_PARSE_ERROR_CPP("string is too long");
+> +                                 memcpy(buf + i, beg, sz);
+> +                                 i += sz;
+> +                             }
+> +@@ -620,6 +626,8 @@ class JSONParser : public FileStorageParser
+> +                             sz = (int)(ptr - beg);
+> +                             if( sz > 0 )
+> +                             {
+> ++                                if (i + sz >= CV_FS_MAX_LEN)
+> ++                                    CV_PARSE_ERROR_CPP("string is too long");
+> +                                 memcpy(buf + i, beg, sz);
+> +                                 i += sz;
+> +                             }
+> +diff --git a/modules/core/src/persistence_xml.cpp b/modules/core/src/persistence_xml.cpp
+> +index 89876dd3da8..52b53744254 100644
+> +--- a/modules/core/src/persistence_xml.cpp
+> ++++ b/modules/core/src/persistence_xml.cpp
+> +@@ -627,6 +627,8 @@ class XMLParser : public FileStorageParser
+> +                                         c = '\"';
+> +                                     else
+> +                                     {
+> ++                                        if (len + 2 + i >= CV_FS_MAX_LEN)
+> ++                                            CV_PARSE_ERROR_CPP("string is too long");
+> +                                         memcpy( strbuf + i, ptr-1, len + 2 );
+> +                                         i += len + 2;
+> +                                     }
+> +@@ -635,9 +637,9 @@ class XMLParser : public FileStorageParser
+> +                                 CV_PERSISTENCE_CHECK_END_OF_BUFFER_BUG_CPP();
+> +                             }
+> +                         }
+> ++                        if (i + 1 >= CV_FS_MAX_LEN)
+> ++                            CV_PARSE_ERROR_CPP("Too long string literal");
+> +                         strbuf[i++] = c;
+> +-                        if( i >= CV_FS_MAX_LEN )
+> +-                            CV_PARSE_ERROR_CPP( "Too long string literal" );
+> +                     }
+> +                     elem->setValue(FileNode::STRING, strbuf, i);
+> +                 }
+> diff --git a/meta-oe/recipes-support/opencv/opencv_4.1.0.bb b/meta-oe/recipes-support/opencv/opencv_4.1.0.bb
+> index de708fd..19d5d0c 100644
+> --- a/meta-oe/recipes-support/opencv/opencv_4.1.0.bb
+> +++ b/meta-oe/recipes-support/opencv/opencv_4.1.0.bb
+> @@ -54,6 +54,7 @@ SRC_URI = "git://github.com/opencv/opencv.git;name=opencv \
+>             file://CVE-2019-14493.patch \
+>             file://CVE-2019-15939.patch \
+>             file://CVE-2019-19624.patch \
+> +           file://CVE-2019-5063_and_2019-5064.patch \
+>             "
+>  PV = "4.1.0"
+>  
+>
+> 
+>
 
