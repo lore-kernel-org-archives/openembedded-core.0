@@ -1,137 +1,80 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
- by mx.groups.io with SMTP id smtpd.web09.1449.1621965379899046543
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+ by mx.groups.io with SMTP id smtpd.web09.4105.1621977758792279907
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 10:56:20 -0700
+ Tue, 25 May 2021 14:22:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VMq/P776;
- spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f45.google.com with SMTP id o192so16476959vsd.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 10:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=No89LmAgP2lkbC2pKNpOPwT4DrhA/Tz+ZpEKDX5napk=;
-        b=VMq/P776O43w2lCXYKMNLXwJhXS+Is6JK3BnnfX43ZJs8fzEAxBdRa9LroQTEgM/6L
-         gsXDS6TysfOsZL5/AhY5RXpTnE5JOiNfP0gPGA+HEYDScfccVvbiPeSc1LQ+p9tAe76Q
-         vTcz25ONYh/iM0rUvj/l6w7XySWmhl/v5t5O4KZCJq+/izjIpPetfH1LvZc9XnVHKknF
-         7gxt4Vg1lrctqCmo7sOgPfx/LkkQZRrRVKwSFKN7BovbGaTA8Np6nj885JvCQVs8ZYd+
-         b2AhhHl8/CoYt2ybKsqV2el+ZbOdeEow0ayXymf2UMr6EuW6PnOQsxT/5tB4lDeBFT6X
-         ryBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=No89LmAgP2lkbC2pKNpOPwT4DrhA/Tz+ZpEKDX5napk=;
-        b=VaeQet9n0F4mtJIO9OAvUmjIvHcvRPGXpiYJ8EnnNlJ+g7BlCrpAfPRX/xt4cOLf1n
-         LbEDv4K4M3N9D3CSQM+BzodyYxUaIij9Av6Y4yi5iZ+2MeAtwvAsSAM2A03MyzVVHr9f
-         xtPXNzl2GMXSJV6P7wuLjBDeOU3lZfLw30NxvKR2TTNVz87krH0nEJn9QoJmGF4pBKzD
-         +GzUK09RBZwjjbdK6RI8vO2803GC4nJGaKeJWugYCaiwEM/S2Vc7nRjeBbIiN5AHzZIQ
-         I9jKSgHcAtIaahBXO+Meuknq/7rgwXze2+OeDKiRwJZbdUjOMO3KFzOvOa+SHKjtaKbq
-         9wRw==
-X-Gm-Message-State: AOAM530T2IR5T7T+rak9C3GlrLQ/zoEp8fyh21+smc9jMLEu+mNvSBzQ
-	xTLlRS41kXrl9gptOX5zqL8EiJp+RFZSlYKfzXYU9ETkHeo=
-X-Google-Smtp-Source: ABdhPJyWENbKKTE+9UbSvizHFxeXQLkN3o8uTRJ2pt+DPoxDUOk90n+mz+qY0rDA+xz7dhqel8sRQzsgQ49YWIYe5T8=
-X-Received: by 2002:a67:d715:: with SMTP id p21mr26636495vsj.31.1621965379089;
- Tue, 25 May 2021 10:56:19 -0700 (PDT)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: nod.at, ip: 195.201.40.130, mailfrom: richard@nod.at)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 0BBB3616B582;
+	Tue, 25 May 2021 23:22:37 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id KBdM4SAMNl3n; Tue, 25 May 2021 23:22:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 6C2A7606BA3F;
+	Tue, 25 May 2021 23:22:36 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id x355FojlK5TO; Tue, 25 May 2021 23:22:36 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 475BB606BA3A;
+	Tue, 25 May 2021 23:22:36 +0200 (CEST)
+Date: Tue, 25 May 2021 23:22:36 +0200 (CEST)
+From: "Richard Weinberger" <richard@nod.at>
+To: Quentin Schulz <foss@0leil.net>
+Cc: docs <docs@lists.yoctoproject.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	bitbake-devel <bitbake-devel@lists.openembedded.org>
+Message-ID: <952941855.40427.1621977756153.JavaMail.zimbra@nod.at>
+In-Reply-To: <34B9CE63-084A-48A5-9386-862E48760070@0leil.net>
+References: <20210525110429.738-1-richard@nod.at> <34B9CE63-084A-48A5-9386-862E48760070@0leil.net>
+Subject: Re: [docs] [OE-core][PATCH] Add support for erofs filesystems
 MIME-Version: 1.0
-References: <20210525151709.522795-1-christophe.priouzeau@foss.st.com>
-In-Reply-To: <20210525151709.522795-1-christophe.priouzeau@foss.st.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 25 May 2021 19:56:07 +0200
-Message-ID: <CANNYZj_uvYkm5Ld_dyD_xMKO-CACy-c-oiSowZUM8qNHsav2fQ@mail.gmail.com>
-Subject: Re: [OE-core] [hardknott][PATCH 1/2] glib-2.0: use python3targetconfig
-To: cpriouzeau <christophe.priouzeau@foss.st.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004239f305c32b3e6b"
-
---0000000000004239f305c32b3e6b
-Content-Type: text/plain; charset="UTF-8"
-
-Same here: this needs to go to master first, and better explained, as we
-are not seeing those issues.
-
-Alex
-
-On Tue, 25 May 2021 at 17:17, cpriouzeau <christophe.priouzeau@foss.st.com>
-wrote:
-
-> Meson request to have a valid python, meson-log indicate that
-> issue come from:
-> ModuleNotFoundError: No module named '_sysconfigdata'
->
-> Signed-off-by: Christophe Priouzeau <christophe.priouzeau@foss.st.com>
-> ---
->  meta/recipes-core/glib-2.0/glib.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc
-> b/meta/recipes-core/glib-2.0/glib.inc
-> index 71777bc459..1b513654d8 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -29,6 +29,7 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
->  LEAD_SONAME = "libglib-2.0.*"
->
->  inherit meson gettext gtk-doc pkgconfig ptest-gnome
-> upstream-version-is-even bash-completion gio-module-cache manpages
-> +inherit python3targetconfig
->
->  DEPENDS_append_class-target = "${@' gtk-doc' if
-> d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
->
-> --
-> 2.25.1
->
->
-> 
->
->
-
---0000000000004239f305c32b3e6b
-Content-Type: text/html; charset="UTF-8"
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF78 (Linux)/8.8.12_GA_3809)
+Thread-Topic: Add support for erofs filesystems
+Thread-Index: oVZaG82W2Un0V1PKMZ3hp6vJelhsfQ==
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Same here: this needs to go to master first, and bett=
-er explained, as we are not seeing those issues.</div><div><br></div><div>A=
-lex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Tue, 25 May 2021 at 17:17, cpriouzeau &lt;<a href=3D"mailto=
-:christophe.priouzeau@foss.st.com">christophe.priouzeau@foss.st.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Meson re=
-quest to have a valid python, meson-log indicate that<br>
-issue come from:<br>
-ModuleNotFoundError: No module named &#39;_sysconfigdata&#39;<br>
-<br>
-Signed-off-by: Christophe Priouzeau &lt;<a href=3D"mailto:christophe.priou=
-zeau@foss.st.com" target=3D"_blank">christophe.priouzeau@foss.st.com</a>&gt=
-;<br>
----<br>
-=C2=A0meta/recipes-core/glib-2.0/glib.inc | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-=
-2.0/glib.inc<br>
-index 71777bc459..1b513654d8 100644<br>
---- a/meta/recipes-core/glib-2.0/glib.inc<br>
-+++ b/meta/recipes-core/glib-2.0/glib.inc<br>
-@@ -29,6 +29,7 @@ PACKAGES +=3D &quot;${PN}-codegen ${PN}-utils&quot;<br>
-=C2=A0LEAD_SONAME =3D &quot;libglib-2.0.*&quot;<br>
-<br>
-=C2=A0inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version=
--is-even bash-completion gio-module-cache manpages<br>
-+inherit python3targetconfig<br>
-<br>
-=C2=A0DEPENDS_append_class-target =3D &quot;${@&#39; gtk-doc&#39; if d.get=
-Var(&#39;GTKDOC_ENABLED&#39;) =3D=3D &#39;True&#39; else &#39;&#39;}&quot;<=
-br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+Quentin,
 
---0000000000004239f305c32b3e6b--
+----- Urspr=C3=BCngliche Mail -----
+> Von: "Quentin Schulz" <foss@0leil.net>
+>> IMAGE_TYPES =3D " \
+>>@@ -261,6 +269,7 @@ IMAGE_TYPES =3D " \
+>>     wic wic.gz wic.bz2 wic.lzma wic.zst \
+>>     container \
+>>     f2fs \
+>>+    erofs \
+>=20
+> I think you're supposed to have erofs erofs-lz4 erofs-lz4hc here.
+
+Oh yes. You're right.
+=20
+>> "
+>>=20
+>> # Compression is a special case of conversion. The old variable
+>>diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
+>>b/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
+>>new file mode 100644
+>>index 000000000000..6d35d3f2fa6d
+>>--- /dev/null
+>>+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
+>=20
+> Any reason for using _git over _1.2.1?
+
+TBH, I used meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb as t=
+emplate. :-)
+It fetches also via git and sets PV.
+
+>>@@ -0,0 +1,18 @@
+>>+SUMMARY =3D "Tools for erofs filesystems"
+>>+LICENSE =3D "GPLv2"
+>=20
+> GPL-2.0-or-later actually.
+
+Will fix!
+
+Thanks,
+//richard
