@@ -1,55 +1,55 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
- by mx.groups.io with SMTP id smtpd.web12.1463.1621965351323430824
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+ by mx.groups.io with SMTP id smtpd.web09.1449.1621965379899046543
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 10:55:51 -0700
+ Tue, 25 May 2021 10:56:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hS0AQocS;
- spf=pass (domain: gmail.com, ip: 209.85.222.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f50.google.com with SMTP id n61so11078930uan.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 10:55:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VMq/P776;
+ spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f45.google.com with SMTP id o192so16476959vsd.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 10:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kzaFxrGHj4IXKkhHUHkFny9+iHMlI+fbEvtniYC+m7E=;
-        b=hS0AQocSgLdkQF2LBFYiQZmiKarCVkxiOE/2PHci23fFuYab1N/IzPO/1L+puBkTK5
-         iezdT8dX2ZzC3C2n/hheIRi+/VTdC2CipWhIS+Mr347WbNH840ci164V5DJYiLfEFTJs
-         5kbfpINXTS+xTlRJiCfTy00qomdXYj+aFRPJBUAVL5wzXu82IaK5/O0uRuADM8oheg0d
-         3Fx1mLDh09ArQOrfJphEjSbfjW6+nFyKTarENxzTUryTTJAk6wZdSnI25Gy/uZ5qOZSC
-         LbAGObUk40w2LaQPd5TswSM68jHyBshynOu0MyXExSxGL7EBd1FbtFVlX+ep1Rr2WzSg
-         qV5w==
+        bh=No89LmAgP2lkbC2pKNpOPwT4DrhA/Tz+ZpEKDX5napk=;
+        b=VMq/P776O43w2lCXYKMNLXwJhXS+Is6JK3BnnfX43ZJs8fzEAxBdRa9LroQTEgM/6L
+         gsXDS6TysfOsZL5/AhY5RXpTnE5JOiNfP0gPGA+HEYDScfccVvbiPeSc1LQ+p9tAe76Q
+         vTcz25ONYh/iM0rUvj/l6w7XySWmhl/v5t5O4KZCJq+/izjIpPetfH1LvZc9XnVHKknF
+         7gxt4Vg1lrctqCmo7sOgPfx/LkkQZRrRVKwSFKN7BovbGaTA8Np6nj885JvCQVs8ZYd+
+         b2AhhHl8/CoYt2ybKsqV2el+ZbOdeEow0ayXymf2UMr6EuW6PnOQsxT/5tB4lDeBFT6X
+         ryBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kzaFxrGHj4IXKkhHUHkFny9+iHMlI+fbEvtniYC+m7E=;
-        b=WZhXiGFSP4+ccFW7ssVXoJlF/9zCu/4pf9u7zg0M/jCcsxOGzMT4XNAzTBWo2Mi+RV
-         Dn09FdZTrGlPJK5ZVCayasOb/JFh0bCGdl2yr/QTZCh/n9xL72oFOlsjQT8Wl+KJo5+x
-         PFgjHkjMXoqCfSDx9wptqH2xPT3KlVK2+lF8kivi/4AguBWZ8hh9PSkQjhic3i9/zBKb
-         fT9G8T0psPvNIajPO8sfonZwq7lEeLqv1zMAmUWm/84AGDVmTffsyC+dIXv1lilvokNc
-         S6+Eo+ps3JpJOh5squu1WkawzDYbAtTuvExm21AFXpRq2EAMVAPh+H61ol/e9hW7dM+S
-         oNXg==
-X-Gm-Message-State: AOAM531wrOjj/TJd44uvA1/zOkbgOKGW6yV2/rWTo/o35UMGdOMi46kN
-	zCwvlaGfdzJFygjaoJOg3vaoc42WZq2j0W/mLsjbS7Cs
-X-Google-Smtp-Source: ABdhPJxS3txCBcxC4R2O6n7wnchou9eXlGwolrFF/GSOIjEhDcV14iOwg+GC7Va446D/y1lCQUqU/pDwWpePeFx/i6c=
-X-Received: by 2002:ab0:35ed:: with SMTP id w13mr28573125uau.22.1621965350404;
- Tue, 25 May 2021 10:55:50 -0700 (PDT)
+        bh=No89LmAgP2lkbC2pKNpOPwT4DrhA/Tz+ZpEKDX5napk=;
+        b=VaeQet9n0F4mtJIO9OAvUmjIvHcvRPGXpiYJ8EnnNlJ+g7BlCrpAfPRX/xt4cOLf1n
+         LbEDv4K4M3N9D3CSQM+BzodyYxUaIij9Av6Y4yi5iZ+2MeAtwvAsSAM2A03MyzVVHr9f
+         xtPXNzl2GMXSJV6P7wuLjBDeOU3lZfLw30NxvKR2TTNVz87krH0nEJn9QoJmGF4pBKzD
+         +GzUK09RBZwjjbdK6RI8vO2803GC4nJGaKeJWugYCaiwEM/S2Vc7nRjeBbIiN5AHzZIQ
+         I9jKSgHcAtIaahBXO+Meuknq/7rgwXze2+OeDKiRwJZbdUjOMO3KFzOvOa+SHKjtaKbq
+         9wRw==
+X-Gm-Message-State: AOAM530T2IR5T7T+rak9C3GlrLQ/zoEp8fyh21+smc9jMLEu+mNvSBzQ
+	xTLlRS41kXrl9gptOX5zqL8EiJp+RFZSlYKfzXYU9ETkHeo=
+X-Google-Smtp-Source: ABdhPJyWENbKKTE+9UbSvizHFxeXQLkN3o8uTRJ2pt+DPoxDUOk90n+mz+qY0rDA+xz7dhqel8sRQzsgQ49YWIYe5T8=
+X-Received: by 2002:a67:d715:: with SMTP id p21mr26636495vsj.31.1621965379089;
+ Tue, 25 May 2021 10:56:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210525151709.522795-1-christophe.priouzeau@foss.st.com> <20210525151709.522795-2-christophe.priouzeau@foss.st.com>
-In-Reply-To: <20210525151709.522795-2-christophe.priouzeau@foss.st.com>
+References: <20210525151709.522795-1-christophe.priouzeau@foss.st.com>
+In-Reply-To: <20210525151709.522795-1-christophe.priouzeau@foss.st.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 25 May 2021 19:55:39 +0200
-Message-ID: <CANNYZj9PnhZDcz7cuHDR3PjZ=JbimkYhTEQHN2Hm8r0qSHZj0w@mail.gmail.com>
-Subject: Re: [OE-core] [hardknott][PATCH 2/2] mesa: use python3targetconfig
+Date: Tue, 25 May 2021 19:56:07 +0200
+Message-ID: <CANNYZj_uvYkm5Ld_dyD_xMKO-CACy-c-oiSowZUM8qNHsav2fQ@mail.gmail.com>
+Subject: Re: [OE-core] [hardknott][PATCH 1/2] glib-2.0: use python3targetconfig
 To: cpriouzeau <christophe.priouzeau@foss.st.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000008c863005c32b3ce0"
+Content-Type: multipart/alternative; boundary="0000000000004239f305c32b3e6b"
 
---0000000000008c863005c32b3ce0
+--0000000000004239f305c32b3e6b
 Content-Type: text/plain; charset="UTF-8"
 
-This needs to go to master first, and better explained, as we are not
-seeing those issues.
+Same here: this needs to go to master first, and better explained, as we
+are not seeing those issues.
 
 Alex
 
@@ -62,23 +62,23 @@ wrote:
 >
 > Signed-off-by: Christophe Priouzeau <christophe.priouzeau@foss.st.com>
 > ---
->  meta/recipes-graphics/mesa/mesa.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-core/glib-2.0/glib.inc | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc
-> b/meta/recipes-graphics/mesa/mesa.inc
-> index a85f94c75e..de39dc34e4 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -43,7 +43,7 @@ PROVIDES = " \
->      virtual/mesa \
->      "
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc
+> b/meta/recipes-core/glib-2.0/glib.inc
+> index 71777bc459..1b513654d8 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -29,6 +29,7 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
+>  LEAD_SONAME = "libglib-2.0.*"
 >
-> -inherit meson pkgconfig python3native gettext features_check
-> +inherit meson pkgconfig python3native gettext features_check
-> python3targetconfig
+>  inherit meson gettext gtk-doc pkgconfig ptest-gnome
+> upstream-version-is-even bash-completion gio-module-cache manpages
+> +inherit python3targetconfig
 >
->  BBCLASSEXTEND = "native nativesdk"
+>  DEPENDS_append_class-target = "${@' gtk-doc' if
+> d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
 >
 > --
 > 2.25.1
@@ -88,18 +88,18 @@ wrote:
 >
 >
 
---0000000000008c863005c32b3ce0
+--0000000000004239f305c32b3e6b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>This needs to go to master first, and better explaine=
-d, as we are not seeing those issues.</div><div><br></div><div>Alex<br></di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Tue, 25 May 2021 at 17:17, cpriouzeau &lt;<a href=3D"mailto:christophe=
-.priouzeau@foss.st.com">christophe.priouzeau@foss.st.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">Meson request to ha=
-ve a valid python, meson-log indicate that<br>
+<div dir=3D"ltr"><div>Same here: this needs to go to master first, and bett=
+er explained, as we are not seeing those issues.</div><div><br></div><div>A=
+lex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Tue, 25 May 2021 at 17:17, cpriouzeau &lt;<a href=3D"mailto=
+:christophe.priouzeau@foss.st.com">christophe.priouzeau@foss.st.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Meson re=
+quest to have a valid python, meson-log indicate that<br>
 issue come from:<br>
 ModuleNotFoundError: No module named &#39;_sysconfigdata&#39;<br>
 <br>
@@ -107,23 +107,24 @@ Signed-off-by: Christophe Priouzeau &lt;<a href=3D"mailto:christophe.priou=
 zeau@foss.st.com" target=3D"_blank">christophe.priouzeau@foss.st.com</a>&gt=
 ;<br>
 ---<br>
-=C2=A0meta/recipes-graphics/mesa/mesa.inc | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meta/recipes-core/glib-2.0/glib.inc | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
 <br>
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/m=
-esa/mesa.inc<br>
-index a85f94c75e..de39dc34e4 100644<br>
---- a/meta/recipes-graphics/mesa/mesa.inc<br>
-+++ b/meta/recipes-graphics/mesa/mesa.inc<br>
-@@ -43,7 +43,7 @@ PROVIDES =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0virtual/mesa \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-=
+2.0/glib.inc<br>
+index 71777bc459..1b513654d8 100644<br>
+--- a/meta/recipes-core/glib-2.0/glib.inc<br>
++++ b/meta/recipes-core/glib-2.0/glib.inc<br>
+@@ -29,6 +29,7 @@ PACKAGES +=3D &quot;${PN}-codegen ${PN}-utils&quot;<br>
+=C2=A0LEAD_SONAME =3D &quot;libglib-2.0.*&quot;<br>
 <br>
--inherit meson pkgconfig python3native gettext features_check<br>
-+inherit meson pkgconfig python3native gettext features_check python3targe=
-tconfig<br>
+=C2=A0inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version=
+-is-even bash-completion gio-module-cache manpages<br>
++inherit python3targetconfig<br>
 <br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+=C2=A0DEPENDS_append_class-target =3D &quot;${@&#39; gtk-doc&#39; if d.get=
+Var(&#39;GTKDOC_ENABLED&#39;) =3D=3D &#39;True&#39; else &#39;&#39;}&quot;<=
+br>
 <br>
 -- <br>
 2.25.1<br>
@@ -133,4 +134,4 @@ tconfig<br>
 <br>
 </blockquote></div>
 
---0000000000008c863005c32b3ce0--
+--0000000000004239f305c32b3e6b--
