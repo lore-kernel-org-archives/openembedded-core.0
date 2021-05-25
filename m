@@ -1,182 +1,194 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web12.8481.1621943324076769442
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.web10.8644.1621944025592203558
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 04:48:44 -0700
+ Tue, 25 May 2021 05:00:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=C+3ISUMd;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id 6so22509438pgk.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 04:48:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sV1zzNnC;
+ spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f44.google.com with SMTP id o192so15876683vsd.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 05:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=HZEvDujruPYq9T9+XlgENpS6girXcxahakgB5XVzpdg=;
-        b=C+3ISUMd2ZrFUoh4BU9s16R+lxqBShGP28m6xlkb/TWctDS/J8LInLmmT/vbxOeTtq
-         OsB+8wtOCXM85i4qlR8KHgZ9eXfVe+dM50xsezMbqJRdsjipFTI2OnSE9ai5KPrL0ooC
-         XO0Lbx7dno2T91DyDm/dy6+JFk+Jy42M7BD+mwJ3QPpoEGzme9nKVMHWt/GSmZ0a2zEQ
-         N4PDf7ycGdp4T91D1gvNkzGyeRNzhNJiGrOhVLm1AWacR5eWdo/fmng4b69cNXhHwMb/
-         DD8rrGhbyryPY5iVLwzLSNFqAluBqnwiQiMkmSkRdthlB3LZvUW3AAdRUDTvtbYntu4L
-         CJnQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Hic34wW2mRZfEU7bdGDJ9versJ1YhQWqrvR4oQt4r7w=;
+        b=sV1zzNnCkMRGQrx6licdff+6i7kBuB5k2I6c1MuFUZJ1COsoRJxEdf9ClqmvBRRxCx
+         deXPkDiqSZtX68cNVGhd2hFFS3VKp16Qdw622kcqc2ispN5dt2FfuaGi6l6ebC1vkG5Z
+         wpXDRJ6Sq/7TQRZvIdqfQzMBg/RAIB7/BUcFc7Snjr83W9QfiMST5PVIkH98cMUff5Zn
+         3TNQc43Hi5jJoBEBqJM4LBPUWzHXLOG7/SQQzW4IZfO93CsaHZaTL8dV39q4hPcXXQsq
+         LQpvC1VrdGlOsGqY0v9rxQEqnosdZ+l/7GO8VbOfbE5WvYTa23I35X4BGvix3bm+fhAk
+         Jvmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=HZEvDujruPYq9T9+XlgENpS6girXcxahakgB5XVzpdg=;
-        b=V9CjTHPUs6Nh4Doc2WuJgJqkW00FaBqRjpinl3Zho8Ao5U3isoDEzqFRMuja3zu/IO
-         NtBcQGYkKE1b4SDv6BjylmROU3JB6e6tLcNkPi/30htv+Ab5D0I1OyyLAwDM5YkXn/Mm
-         ZVkWXsMLsJMrhWtc6vaZYCsgf4nAAzfmkVw4LDb41zcoguBIwzmcvSG2IdokN199MI+M
-         m6zOy4PBhfz168F1z5xW6v97Di+YvhbSimBq8srCfncaUzwKZZG0BzlAzJe/g7WxsH03
-         0mDRDrB/LvJXaF4HS+9s/ERkL8NFtxw5RlhSGW7liRytPQumO09uPGeuyNvl7N3/EElv
-         kgEg==
-X-Gm-Message-State: AOAM531Z3Yl61xhQ5Tfsv0AyefPnSJaldkOWX8V90rWgrYc69NcZE2fJ
-	M7swgpwagaPEFvsER+mk7CY=
-X-Google-Smtp-Source: ABdhPJxNG3MlaaDrgnhVrWteOj01JMKlD5kmIocKMJ/MdDQwVoDSeMtt94WeBXftqrjwMxrl7mRI5g==
-X-Received: by 2002:a62:5306:0:b029:2de:6ce0:5526 with SMTP id h6-20020a6253060000b02902de6ce05526mr29638541pfb.13.1621943323524;
-        Tue, 25 May 2021 04:48:43 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:9834:cb1a:11fd:affb? ([2601:202:4180:a5c0:9834:cb1a:11fd:affb])
-        by smtp.gmail.com with ESMTPSA id 35sm13650941pgq.91.2021.05.25.04.48.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 May 2021 04:48:43 -0700 (PDT)
-Subject: Re: [OE-core] [meta-oe][dunfell][PATCH] opencv: Add fix for CVE-2019-5063 and CVE-2019-5064
-To: akash hadke <akash.hadke@kpit.com>,
- openembedded-core@lists.openembedded.org, raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com, harpritkaur.bhandari@kpit.com
-References: <1621929554-4038-1-git-send-email-akash.hadke@kpit.com>
-From: "Armin Kuster" <akuster808@gmail.com>
-Message-ID: <6aaa2037-e3b2-8269-98b4-d64b525b41ff@gmail.com>
-Date: Tue, 25 May 2021 04:48:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Hic34wW2mRZfEU7bdGDJ9versJ1YhQWqrvR4oQt4r7w=;
+        b=BN4OcnAz3FZfZUEk58LEACprtisIeRNOnXlGpEHNiLX4GmMZduJzmQksKIG9pFpS6a
+         rTk1qWEb0Ws4p2PC+34lllm6pW+3/KKu4TH4FOLpYY4YX6cdA3VQZ2zgL9VEE+OFmuKH
+         bRlI2ej6dBA2ZQvsJlYwkECMwmdlkVixHq6aqsER1CitWicA8BTFEO+xnIgPzH07BayS
+         69c6GL4SwTqKBVTB+RybT+pk1fhXp70HzzfNKo/zxp5a8VIeGfmr496L20TmA6QD/8vQ
+         FyHZOb1MBNCy2b2Z1djG2RAvP33isiuXBXkoUnI98cQ7YvSJLKZ3RY0tKkljji76dO06
+         mZPg==
+X-Gm-Message-State: AOAM532wKNv/7Oj7K3pEDTVp6gzxarzc/iw8u8FYWTctsHYZtvsHrCGi
+	dmunIdS4mkqDhU1w47ijKfyZfapJAqW0N/DXldI=
+X-Google-Smtp-Source: ABdhPJyveer9O+IGgp1uCNYueC0uFoXkh5t1pBC/halU6j+6U0eVsvabILcUvuPMTHYEttOXgMqCinp9fKCYz7iLfDk=
+X-Received: by 2002:a67:d715:: with SMTP id p21mr24490540vsj.31.1621944024278;
+ Tue, 25 May 2021 05:00:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1621929554-4038-1-git-send-email-akash.hadke@kpit.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20210525100447.3918978-1-samuli.piippo@qt.io> <CANNYZj-=JMz_=HtogubX3E7FDGbtRk6BxTVShFgNNoRKrCMK9g@mail.gmail.com>
+ <CABXoSoVTKLZr6uh=FQ+hV_uAh0vor1YrB3V1X6kwRVHOhO8oYQ@mail.gmail.com>
+In-Reply-To: <CABXoSoVTKLZr6uh=FQ+hV_uAh0vor1YrB3V1X6kwRVHOhO8oYQ@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 25 May 2021 14:00:12 +0200
+Message-ID: <CANNYZj-c0TUqR0zuAkTHg3C_RHCWx=_y8BXx_VY5DJqNn1NwWA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cmake-native: enabled zstd support
+To: Samuli Piippo <samuli.piippo@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000069ab7605c32645fb"
 
+--00000000000069ab7605c32645fb
+Content-Type: text/plain; charset="UTF-8"
 
+Thanks, it would be beneficial to record this information in the commit
+message.
 
-On 5/25/21 12:59 AM, akash hadke wrote:
-> From: "akash.hadke" <akash.hadke@kpit.com>
+Alex
+
+On Tue, 25 May 2021 at 13:27, Samuli Piippo <samuli.piippo@gmail.com> wrote:
+
+> Issue came up while building Qt6, which uses cmake packaging API:
+> https://gitlab.kitware.com/cmake/cmake/-/issues/21552
+> Things break when zstd support is not available and CMake doesn't provide
+> simple why to ask if the support is available.
 >
-> Added fix for below CVE's
+> Quote from cmake dev:
+> As far as CMake's design is concerned, we have no optional formats. All
+> should be supported.
+> That's why we bundle sufficiently new versions of libarchive and libzstd.
+> If a distro builds with an older libarchive that doesn't have zstd
+> support, then that is not a proper packaging of CMake.
 >
-> CVE-2019-5063
-> CVE-2019-5064
-> Link: https://github.com/opencv/opencv/commit/f42d5399aac80d371b17d689851406669c9b9111.patch
+> For target/nativesdk CMake depends on libarchive for this support, which
+> is covered in the second patch.
 >
-> Signed-off-by: akash hadke <akash.hadke@kpit.com>
+> -samuli
+>
+> On Tue, 25 May 2021 at 13:07, Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+>
+>> You need to explain the benefit in doing so, I think? :)
+>>
+>> Alex
+>>
+>> On Tue, 25 May 2021 at 12:05, Samuli Piippo <samuli.piippo@gmail.com>
+>> wrote:
+>>
+>>> Now that zstd is in oe-core, enable support for it in native CMake.
+>>>
+>>> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+>>> ---
+>>>  meta/recipes-devtools/cmake/cmake-native_3.20.1.bb | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+>>> b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+>>> index d91e42ef9a..335097d387 100644
+>>> --- a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+>>> +++ b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
+>>> @@ -1,7 +1,7 @@
+>>>  require cmake.inc
+>>>  inherit native
+>>>
+>>> -DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native
+>>> ncurses-native"
+>>> +DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native
+>>> ncurses-native zstd-native"
+>>>
+>>>  SRC_URI += "file://OEToolchainConfig.cmake \
+>>>              file://environment.d-cmake.sh \
+>>> --
+>>> 2.25.1
+>>>
+>>>
+>>> 
+>>>
+>>>
 
-wrong ml. should be openembedded-devel@.
+--00000000000069ab7605c32645fb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-patch noted.
+<div dir=3D"ltr"><div>Thanks, it would be beneficial to record this informa=
+tion in the commit message.</div><div><br></div><div>Alex<br></div></div><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, =
+25 May 2021 at 13:27, Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@gma=
+il.com">samuli.piippo@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div><div>Issue came up =
+while building Qt6, which uses cmake packaging API: <a href=3D"https://gitl=
+ab.kitware.com/cmake/cmake/-/issues/21552" target=3D"_blank">https://gitlab=
+.kitware.com/cmake/cmake/-/issues/21552</a></div><div>Things break when zst=
+d support is not available and CMake doesn&#39;t provide simple why to ask =
+if the support is available.<br></div><div><br></div><div>Quote from cmake =
+dev: <br></div><div>As far as CMake&#39;s design is concerned, we have no o=
+ptional formats.  All should be supported. <br></div><div>That&#39;s why we=
+ bundle sufficiently new versions of libarchive and libzstd. <br></div><div=
+> If a distro builds with an older libarchive that doesn&#39;t have zstd su=
+pport, then that is not a proper packaging of CMake.</div></div><div><br></=
+div><div>For target/nativesdk CMake depends on libarchive for this support,=
+ which is covered in the second patch.<br></div><div><br></div><div>-samuli=
+<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Tue, 25 May 2021 at 13:07, Alexander Kanavin &lt;<a href=3D"ma=
+ilto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"ltr"><div>You need to explain the benefit in doing so, I think? :)</d=
+iv><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Tue, 25 May 2021 at 12:05, Samuli P=
+iippo &lt;<a href=3D"mailto:samuli.piippo@gmail.com" target=3D"_blank">samu=
+li.piippo@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">Now that zstd is in oe-core, enable support for it in na=
+tive CMake.<br>
+<br>
+Signed-off-by: Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io" ta=
+rget=3D"_blank">samuli.piippo@qt.io</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a> | 2 +-<br=
+>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.=
+20.1.bb" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a> b/=
+meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
+index d91e42ef9a..335097d387 100644<br>
+--- a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
++++ b/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0require cmake.inc<br>
+=C2=A0inherit native<br>
+<br>
+-DEPENDS +=3D &quot;bzip2-replacement-native xz-native zlib-native curl-na=
+tive ncurses-native&quot;<br>
++DEPENDS +=3D &quot;bzip2-replacement-native xz-native zlib-native curl-na=
+tive ncurses-native zstd-native&quot;<br>
+<br>
+=C2=A0SRC_URI +=3D &quot;file://OEToolchainConfig.cmake \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://<a href=3D"http://e=
+nvironment.d-cmake.sh" rel=3D"noreferrer" target=3D"_blank">environment.d-c=
+make.sh</a> \<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+</blockquote></div>
 
--armin
-> ---
->  .../opencv/CVE-2019-5063_and_2019-5064.patch       | 78 ++++++++++++++++++++++
->  meta-oe/recipes-support/opencv/opencv_4.1.0.bb     |  1 +
->  2 files changed, 79 insertions(+)
->  create mode 100644 meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch
->
-> diff --git a/meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch b/meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch
-> new file mode 100644
-> index 0000000..b4d5e6d
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/opencv/opencv/CVE-2019-5063_and_2019-5064.patch
-> @@ -0,0 +1,78 @@
-> +From f42d5399aac80d371b17d689851406669c9b9111 Mon Sep 17 00:00:00 2001
-> +From: Alexander Alekhin <alexander.alekhin@intel.com>
-> +Date: Thu, 7 Nov 2019 14:01:51 +0300
-> +Subject: [PATCH] core(persistence): add more checks for implementation
-> + limitations
-> +
-> +Signed-off-by: akash hadke <akash.hadke@kpit.com>
-> +---
-> + modules/core/src/persistence_json.cpp | 8 ++++++++
-> + modules/core/src/persistence_xml.cpp  | 6 ++++--
-> + 2 files changed, 12 insertions(+), 2 deletions(-)
-> +---
-> +CVE: CVE-2019-5063
-> +CVE: CVE-2019-5064
-> +Upstream-Status: Backport [https://github.com/opencv/opencv/commit/f42d5399aac80d371b17d689851406669c9b9111.patch]
-> +---
-> +diff --git a/modules/core/src/persistence_json.cpp b/modules/core/src/persistence_json.cpp
-> +index 89914e6534f..2efdf17d3f5 100644
-> +--- a/modules/core/src/persistence_json.cpp
-> ++++ b/modules/core/src/persistence_json.cpp
-> +@@ -578,10 +578,14 @@ class JSONParser : public FileStorageParser
-> +                             sz = (int)(ptr - beg);
-> +                             if( sz > 0 )
-> +                             {
-> ++                                if (i + sz >= CV_FS_MAX_LEN)
-> ++                                    CV_PARSE_ERROR_CPP("string is too long");
-> +                                 memcpy(buf + i, beg, sz);
-> +                                 i += sz;
-> +                             }
-> +                             ptr++;
-> ++                            if (i + 1 >= CV_FS_MAX_LEN)
-> ++                                CV_PARSE_ERROR_CPP("string is too long");
-> +                             switch ( *ptr )
-> +                             {
-> +                             case '\\':
-> +@@ -605,6 +609,8 @@ class JSONParser : public FileStorageParser
-> +                             sz = (int)(ptr - beg);
-> +                             if( sz > 0 )
-> +                             {
-> ++                                if (i + sz >= CV_FS_MAX_LEN)
-> ++                                    CV_PARSE_ERROR_CPP("string is too long");
-> +                                 memcpy(buf + i, beg, sz);
-> +                                 i += sz;
-> +                             }
-> +@@ -620,6 +626,8 @@ class JSONParser : public FileStorageParser
-> +                             sz = (int)(ptr - beg);
-> +                             if( sz > 0 )
-> +                             {
-> ++                                if (i + sz >= CV_FS_MAX_LEN)
-> ++                                    CV_PARSE_ERROR_CPP("string is too long");
-> +                                 memcpy(buf + i, beg, sz);
-> +                                 i += sz;
-> +                             }
-> +diff --git a/modules/core/src/persistence_xml.cpp b/modules/core/src/persistence_xml.cpp
-> +index 89876dd3da8..52b53744254 100644
-> +--- a/modules/core/src/persistence_xml.cpp
-> ++++ b/modules/core/src/persistence_xml.cpp
-> +@@ -627,6 +627,8 @@ class XMLParser : public FileStorageParser
-> +                                         c = '\"';
-> +                                     else
-> +                                     {
-> ++                                        if (len + 2 + i >= CV_FS_MAX_LEN)
-> ++                                            CV_PARSE_ERROR_CPP("string is too long");
-> +                                         memcpy( strbuf + i, ptr-1, len + 2 );
-> +                                         i += len + 2;
-> +                                     }
-> +@@ -635,9 +637,9 @@ class XMLParser : public FileStorageParser
-> +                                 CV_PERSISTENCE_CHECK_END_OF_BUFFER_BUG_CPP();
-> +                             }
-> +                         }
-> ++                        if (i + 1 >= CV_FS_MAX_LEN)
-> ++                            CV_PARSE_ERROR_CPP("Too long string literal");
-> +                         strbuf[i++] = c;
-> +-                        if( i >= CV_FS_MAX_LEN )
-> +-                            CV_PARSE_ERROR_CPP( "Too long string literal" );
-> +                     }
-> +                     elem->setValue(FileNode::STRING, strbuf, i);
-> +                 }
-> diff --git a/meta-oe/recipes-support/opencv/opencv_4.1.0.bb b/meta-oe/recipes-support/opencv/opencv_4.1.0.bb
-> index de708fd..19d5d0c 100644
-> --- a/meta-oe/recipes-support/opencv/opencv_4.1.0.bb
-> +++ b/meta-oe/recipes-support/opencv/opencv_4.1.0.bb
-> @@ -54,6 +54,7 @@ SRC_URI = "git://github.com/opencv/opencv.git;name=opencv \
->             file://CVE-2019-14493.patch \
->             file://CVE-2019-15939.patch \
->             file://CVE-2019-19624.patch \
-> +           file://CVE-2019-5063_and_2019-5064.patch \
->             "
->  PV = "4.1.0"
->  
->
-> 
->
-
+--00000000000069ab7605c32645fb--
