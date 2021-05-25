@@ -1,179 +1,243 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.8345.1621942032064059823
+Received: from lilium.sigma-star.at (lilium.sigma-star.at [109.75.188.150])
+ by mx.groups.io with SMTP id smtpd.web10.8346.1621942198863022790
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 04:27:12 -0700
+ Tue, 25 May 2021 04:29:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QlbWSxYy;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id y202so12168pfc.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 04:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+rAonte0Sbnd4YH46qtJ6HITOzoZVHaiXOqdoIJnNEg=;
-        b=QlbWSxYy2GXuecZg6rzi2PtWduxXIt7JOBJtik8IVYNHGXZPNhidrxLHoFqBa07MFt
-         enSrbq2wgSrwzlTGhtbrBNi4KvXeug7GH3ucvmjvhyFPiKuSNsVkDWmT9jy/ZK9c2NBG
-         Xjr/Mh7BR5Z4WOBPkoWQ2Sg0yFFMp3h/r4IWfKgFTyBQ2ciZZ5LaWyNRYagY6UGv3hdp
-         Sp4RG8SbXdUeNeHlZ2zlLPtT0cVxY2O8b5KOLdBRS5DbcSdIOJGtT1XjOYWmyuzp/lfU
-         fGoHC41zspNdgopJzd6rgPm/DxS+cQfUEm0ZULMFGo5XbaBY0iBK1HlRuchWmEpNNDOQ
-         trrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+rAonte0Sbnd4YH46qtJ6HITOzoZVHaiXOqdoIJnNEg=;
-        b=UP1i1e6rac6zCyQEkhTPnKQB9f/HX1DXUpzQvps1KiAHISorbj9RC7stIRs4EXc5SB
-         lLtTV27s6CRuOjWYdfe7EWFQyhvxQuOveS9edMNYMWycbj/T//T88VnKtftHuo3j6fHx
-         eDbiF6MSPZXUA+WX7DE+vEHkwIxlfnGat97p39ESk9DzwToLwhoGNWFSpTqNmmXrFxeA
-         OYFGSGsH9pK/Rqd7b8W1j1BsM2F2kYxyA8xsmNpbM8EDSjHZCVeZKbJTjkPHmbJaneM4
-         1f0hb5+fQEWp3XMmk450KWah7Kd1BATCLjyzNqyxspFZfxh70arRxARmY1x48pUrdyhp
-         jEcw==
-X-Gm-Message-State: AOAM530jQobuxKd9LFa+UQ6jbcybFAAqpw8p9J4jh3kdkPPr4Iom0zfE
-	n9Ggv/ccsHGGIxABxhsGR6C3EmgRmfSHyTbZqH4=
-X-Google-Smtp-Source: ABdhPJygBlphWXxoPmDjilrX8YWukkrJoXQBemDda2JYoRXpvgnT9JUCxyZF/LPwEzqCm+i5c4dLfqDpgSzD6AzTyqU=
-X-Received: by 2002:a05:6a00:bc2:b029:2df:93cc:371a with SMTP id
- x2-20020a056a000bc2b02902df93cc371amr29455883pfu.12.1621942031648; Tue, 25
- May 2021 04:27:11 -0700 (PDT)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: nod.at, ip: 109.75.188.150, mailfrom: richard@nod.at)
+Received: from localhost (localhost [127.0.0.1])
+	by lilium.sigma-star.at (Postfix) with ESMTP id 3DAC81817A0D5;
+	Tue, 25 May 2021 13:29:57 +0200 (CEST)
+Received: from lilium.sigma-star.at ([127.0.0.1])
+	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id 6qXmT5zQ_L9c; Tue, 25 May 2021 13:29:56 +0200 (CEST)
+Received: from lilium.sigma-star.at ([127.0.0.1])
+	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id xyhGFr1nGhrJ; Tue, 25 May 2021 13:29:56 +0200 (CEST)
+From: "Richard Weinberger" <richard@nod.at>
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Weinberger <richard@nod.at>
+Subject: [OE-core][PATCH v2] Add support for erofs filesystems
+Date: Tue, 25 May 2021 13:29:51 +0200
+Message-Id: <20210525112951.2243-1-richard@nod.at>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210525100447.3918978-1-samuli.piippo@qt.io> <CANNYZj-=JMz_=HtogubX3E7FDGbtRk6BxTVShFgNNoRKrCMK9g@mail.gmail.com>
-In-Reply-To: <CANNYZj-=JMz_=HtogubX3E7FDGbtRk6BxTVShFgNNoRKrCMK9g@mail.gmail.com>
-From: "Samuli Piippo" <samuli.piippo@gmail.com>
-Date: Tue, 25 May 2021 14:27:00 +0300
-Message-ID: <CABXoSoVTKLZr6uh=FQ+hV_uAh0vor1YrB3V1X6kwRVHOhO8oYQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cmake-native: enabled zstd support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a48b4505c325ce5e"
-
---000000000000a48b4505c325ce5e
-Content-Type: text/plain; charset="UTF-8"
-
-Issue came up while building Qt6, which uses cmake packaging API:
-https://gitlab.kitware.com/cmake/cmake/-/issues/21552
-Things break when zstd support is not available and CMake doesn't provide
-simple why to ask if the support is available.
-
-Quote from cmake dev:
-As far as CMake's design is concerned, we have no optional formats. All
-should be supported.
-That's why we bundle sufficiently new versions of libarchive and libzstd.
-If a distro builds with an older libarchive that doesn't have zstd support,
-then that is not a proper packaging of CMake.
-
-For target/nativesdk CMake depends on libarchive for this support, which is
-covered in the second patch.
-
--samuli
-
-On Tue, 25 May 2021 at 13:07, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> You need to explain the benefit in doing so, I think? :)
->
-> Alex
->
-> On Tue, 25 May 2021 at 12:05, Samuli Piippo <samuli.piippo@gmail.com>
-> wrote:
->
->> Now that zstd is in oe-core, enable support for it in native CMake.
->>
->> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
->> ---
->>  meta/recipes-devtools/cmake/cmake-native_3.20.1.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
->> b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
->> index d91e42ef9a..335097d387 100644
->> --- a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
->> +++ b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
->> @@ -1,7 +1,7 @@
->>  require cmake.inc
->>  inherit native
->>
->> -DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native
->> ncurses-native"
->> +DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native
->> ncurses-native zstd-native"
->>
->>  SRC_URI += "file://OEToolchainConfig.cmake \
->>              file://environment.d-cmake.sh \
->> --
->> 2.25.1
->>
->>
->> 
->>
->>
-
---000000000000a48b4505c325ce5e
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div>Issue came up while building Qt6, which uses cma=
-ke packaging API: <a href=3D"https://gitlab.kitware.com/cmake/cmake/-/issue=
-s/21552">https://gitlab.kitware.com/cmake/cmake/-/issues/21552</a></div><di=
-v>Things break when zstd support is not available and CMake doesn&#39;t pro=
-vide simple why to ask if the support is available.<br></div><div><br></div=
-><div>Quote from cmake dev: <br></div><div>As far as CMake&#39;s design is =
-concerned, we have no optional formats.  All should be supported. <br></div=
-><div>That&#39;s why we bundle sufficiently new versions of libarchive and =
-libzstd. <br></div><div> If a distro builds with an older libarchive that d=
-oesn&#39;t have zstd support, then that is not a proper packaging of CMake.=
-</div></div><div><br></div><div>For target/nativesdk CMake depends on libar=
-chive for this support, which is covered in the second patch.<br></div><div=
-><br></div><div>-samuli<br></div></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Tue, 25 May 2021 at 13:07, Alexander Ka=
-navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-div dir=3D"ltr"><div>You need to explain the benefit in doing so, I think? =
-:)</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 25 May 2021 at 12:05, Sam=
-uli Piippo &lt;<a href=3D"mailto:samuli.piippo@gmail.com" target=3D"_blank"=
->samuli.piippo@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">Now that zstd is in oe-core, enable support for it =
-in native CMake.<br>
-<br>
-Signed-off-by: Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io" ta=
-rget=3D"_blank">samuli.piippo@qt.io</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
-" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a> | 2 +-<br=
->
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.=
-20.1.bb" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a> b/=
-meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
-index d91e42ef9a..335097d387 100644<br>
---- a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
-" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
-+++ b/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.20.1.bb=
-" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.20.1.bb</a><br>
-@@ -1,7 +1,7 @@<br>
-=C2=A0require cmake.inc<br>
-=C2=A0inherit native<br>
-<br>
--DEPENDS +=3D &quot;bzip2-replacement-native xz-native zlib-native curl-na=
-tive ncurses-native&quot;<br>
-+DEPENDS +=3D &quot;bzip2-replacement-native xz-native zlib-native curl-na=
-tive ncurses-native zstd-native&quot;<br>
-<br>
-=C2=A0SRC_URI +=3D &quot;file://OEToolchainConfig.cmake \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://<a href=3D"http://e=
-nvironment.d-cmake.sh" rel=3D"noreferrer" target=3D"_blank">environment.d-c=
-make.sh</a> \<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-</blockquote></div>
+Since Linux 5.4 a new read-only filesystem is available, erofs.
+Compared to squashfs it offers much better read performance with and
+without compression enabled.
+It suppports two optional compressors, lz4 and lz4hc.
 
---000000000000a48b4505c325ce5e--
+From the mkfs.erofs man page:
+EROFS is a new enhanced lightweight linux read-only filesystem with
+modern designs (eg. no buffer head, reduced metadata, inline
+xattrs/data, etc.) for scenarios which need high-performance read-only
+requirements, e.g. Android OS for smartphones and LIVECDs.
+It also provides fixed-sized output compression support, which improves
+storage density, keeps relatively higher compression ratios, which is
+more useful to achieve high performance for embedded devices with
+limited  memory since it has unnoticable memory overhead and page cache
+thrashing.
+
+This commit adds support for three new filesystem targets:
+erofs: erofs without compression
+erofs-lz4: erofs with lz4 compresssion enabled
+erofs-lz4hc: erofs with lz4hc compression enabled
+
+Signed-off-by: Richard Weinberger <richard@nod.at>
+---
+Changes since v1:
+ - Make lz4 support in erofs-utils optional (requested by Konrad Weihmann=
+)=20
+---
+ meta/classes/image_types.bbclass              |  9 ++++++++
+ .../erofs-utils/erofs-utils_git.bb            | 21 +++++++++++++++++++
+ scripts/lib/wic/help.py                       |  1 +
+ scripts/lib/wic/ksparser.py                   |  7 ++++++-
+ scripts/lib/wic/partition.py                  | 16 +++++++++++---
+ scripts/lib/wic/plugins/source/rawcopy.py     |  6 +++---
+ 6 files changed, 53 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
+bbclass
+index 8028691405a7..4e95e0e2935e 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -108,6 +108,11 @@ IMAGE_CMD_squashfs-xz =3D "mksquashfs ${IMAGE_ROOTFS=
+} ${IMGDEPLOYDIR}/${IMAGE_NAME
+ IMAGE_CMD_squashfs-lzo =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
+{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend=
+ -comp lzo"
+ IMAGE_CMD_squashfs-lz4 =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
+{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lz4 ${EXTRA_IMAGECMD} -noappend=
+ -comp lz4"
+=20
++IMAGE_CMD_erofs =3D "mkfs.erofs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAG=
+E_NAME}${IMAGE_NAME_SUFFIX}.erofs ${IMAGE_ROOTFS}"
++IMAGE_CMD_erofs-lz4 =3D "mkfs.erofs -zlz4 ${EXTRA_IMAGECMD} ${IMGDEPLOYD=
+IR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4 ${IMAGE_ROOTFS}"
++IMAGE_CMD_erofs-lz4hc =3D "mkfs.erofs -zlz4hc ${EXTRA_IMAGECMD} ${IMGDEP=
+LOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4hc ${IMAGE_ROOTFS}"
++
++
+ IMAGE_CMD_TAR ?=3D "tar"
+ # ignore return code 1 "file changed as we read it" as other tasks(e.g. =
+do_image_wic) may be hardlinking rootfs
+ IMAGE_CMD_tar =3D "${IMAGE_CMD_TAR} --sort=3Dname --format=3Dposix --num=
+eric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C $=
+{IMAGE_ROOTFS} . || [ $? -eq 1 ]"
+@@ -243,6 +248,9 @@ do_image_ubi[depends] +=3D "mtd-utils-native:do_popul=
+ate_sysroot"
+ do_image_ubifs[depends] +=3D "mtd-utils-native:do_populate_sysroot"
+ do_image_multiubi[depends] +=3D "mtd-utils-native:do_populate_sysroot"
+ do_image_f2fs[depends] +=3D "f2fs-tools-native:do_populate_sysroot"
++do_image_erofs[depends] +=3D "erofs-utils-native:do_populate_sysroot"
++do_image_erofs_lz4[depends] +=3D "erofs-utils-native:do_populate_sysroot=
+"
++do_image_erofs_lz4hc[depends] +=3D "erofs-utils-native:do_populate_sysro=
+ot"
+=20
+ # This variable is available to request which values are suitable for IM=
+AGE_FSTYPES
+ IMAGE_TYPES =3D " \
+@@ -261,6 +269,7 @@ IMAGE_TYPES =3D " \
+     wic wic.gz wic.bz2 wic.lzma wic.zst \
+     container \
+     f2fs \
++    erofs \
+ "
+=20
+ # Compression is a special case of conversion. The old variable
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb b/meta/=
+recipes-devtools/erofs-utils/erofs-utils_git.bb
+new file mode 100644
+index 000000000000..5e705b61313f
+--- /dev/null
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
+@@ -0,0 +1,21 @@
++SUMMARY =3D "Tools for erofs filesystems"
++LICENSE =3D "GPLv2"
++SECTION =3D "base"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94fa01670a2a8f2d3ab2de15004e0=
+848"
++
++PV =3D "1.2.1"
++SRCREV =3D "d1f4953edfcf4f51c71ba91586e21fc6ce9f6db9"
++SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-u=
+tils.git"
++
++S =3D "${WORKDIR}/git"
++
++DEPENDS =3D "util-linux-libuuid"
++
++inherit pkgconfig autotools
++
++PACKAGECONFIG ??=3D "lz4"
++PACKAGECONFIG[lz4] =3D "--enable-lz4,--disable-lz4,lz4"
++
++EXTRA_OECONF =3D "${PACKAGECONFIG_CONFARGS} --disable-fuse"
++
++BBCLASSEXTEND =3D "native nativesdk"
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index bd3a2b97dfaf..991e5094bb84 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -930,6 +930,7 @@ DESCRIPTION
+              ext4
+              btrfs
+              squashfs
++             erofs
+              swap
+=20
+          --fsoptions: Specifies a free-form string of options to be
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 3eb669da39ca..7a4cc83af556 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -157,7 +157,8 @@ class KickStart():
+         part.add_argument('--fsoptions', dest=3D'fsopts')
+         part.add_argument('--fstype', default=3D'vfat',
+                           choices=3D('ext2', 'ext3', 'ext4', 'btrfs',
+-                                   'squashfs', 'vfat', 'msdos', 'swap'))
++                                   'squashfs', 'vfat', 'msdos', 'erofs',
++                                   'swap'))
+         part.add_argument('--mkfs-extraopts', default=3D'')
+         part.add_argument('--label')
+         part.add_argument('--use-label', action=3D'store_true')
+@@ -229,6 +230,10 @@ class KickStart():
+                                 err =3D "%s:%d: SquashFS does not suppor=
+t LABEL" \
+                                        % (confpath, lineno)
+                                 raise KickStartError(err)
++                        # erofs does not support filesystem labels
++                        if parsed.fstype =3D=3D 'erofs' and parsed.label=
+:
++                            err =3D "%s:%d: erofs does not support LABEL=
+" % (confpath, lineno)
++                            raise KickStartError(err)
+                         if parsed.fstype =3D=3D 'msdos' or parsed.fstype=
+ =3D=3D 'vfat':
+                             if parsed.fsuuid:
+                                 if parsed.fsuuid.upper().startswith('0X'=
+):
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 76d144d12d30..e0b2c5bdf29b 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -141,9 +141,9 @@ class Partition():
+                                             native_sysroot)
+                 self.source_file =3D "%s/fs.%s" % (cr_workdir, self.fsty=
+pe)
+             else:
+-                if self.fstype =3D=3D 'squashfs':
+-                    raise WicError("It's not possible to create empty sq=
+uashfs "
+-                                   "partition '%s'" % (self.mountpoint))
++                if self.fstype in ('squashfs', 'erofs'):
++                    raise WicError("It's not possible to create empty %s=
+ "
++                                   "partition '%s'" % (self.fstype, self=
+.mountpoint))
+=20
+                 rootfs =3D "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
+                                              self.lineno, self.fstype)
+@@ -369,6 +369,16 @@ class Partition():
+                        (rootfs_dir, rootfs, extraopts)
+         exec_native_cmd(squashfs_cmd, native_sysroot, pseudo=3Dpseudo)
+=20
++    def prepare_rootfs_erofs(self, rootfs, cr_workdir, oe_builddir, root=
+fs_dir,
++                             native_sysroot, pseudo):
++        """
++        Prepare content for a erofs rootfs partition.
++        """
++        extraopts =3D self.mkfs_extraopts or ''
++        erofs_cmd =3D "mkfs.erofs %s -U %s %s %s" % \
++                       (extraopts, self.fsuuid, rootfs, rootfs_dir)
++        exec_native_cmd(erofs_cmd, native_sysroot, pseudo=3Dpseudo)
++
+     def prepare_empty_partition_ext(self, rootfs, oe_builddir,
+                                     native_sysroot):
+         """
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/=
+plugins/source/rawcopy.py
+index 3c4997d8ba5e..fa7b1eb8ac75 100644
+--- a/scripts/lib/wic/plugins/source/rawcopy.py
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -29,9 +29,9 @@ class RawCopyPlugin(SourcePlugin):
+             cmd =3D 'btrfs filesystem label %s %s' % (dst, label)
+         elif fstype =3D=3D 'swap':
+             cmd =3D 'mkswap -L %s %s' % (label, dst)
+-        elif fstype =3D=3D 'squashfs':
+-            raise WicError("It's not possible to update a squashfs "
+-                           "filesystem label '%s'" % (label))
++        elif fstype in ('squashfs', 'erofs'):
++            raise WicError("It's not possible to update a %s "
++                           "filesystem label '%s'" % (fstype, label))
+         else:
+             raise WicError("Cannot update filesystem label: "
+                            "Unknown fstype: '%s'" % (fstype))
+--=20
+2.26.2
+
