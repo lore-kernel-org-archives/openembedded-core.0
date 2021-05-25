@@ -1,53 +1,68 @@
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
- by mx.groups.io with SMTP id smtpd.web08.7780.1621937673466809410
+Received: from lilium.sigma-star.at (lilium.sigma-star.at [109.75.188.150])
+ by mx.groups.io with SMTP id smtpd.web08.8237.1621940699717099026
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 03:14:35 -0700
+ Tue, 25 May 2021 04:05:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 14PAEVhp009265
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 12:14:31 +0200
-Received: from dev.vm6.ccp.siemens.com ([144.145.220.59])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 14PAEUkt032563;
-	Tue, 25 May 2021 12:14:31 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 9ECDC950A87;
-	Tue, 25 May 2021 12:14:30 +0200 (CEST)
-From: "Andrej Valek" <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][PATCH v2] expat: upgrade 2.3.0 -> 2.4.1
-Date: Tue, 25 May 2021 12:13:49 +0200
-Message-Id: <20210525101349.15530-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20210525090910.11581-1-andrej.valek@siemens.com>
-References: <20210525090910.11581-1-andrej.valek@siemens.com>
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: nod.at, ip: 109.75.188.150, mailfrom: richard@nod.at)
+Received: from localhost (localhost [127.0.0.1])
+	by lilium.sigma-star.at (Postfix) with ESMTP id 57D661817A0D7;
+	Tue, 25 May 2021 13:04:58 +0200 (CEST)
+Received: from lilium.sigma-star.at ([127.0.0.1])
+	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id CEVGa9Q_p-BE; Tue, 25 May 2021 13:04:58 +0200 (CEST)
+Received: from lilium.sigma-star.at ([127.0.0.1])
+	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id E5QD5WCNrgvF; Tue, 25 May 2021 13:04:58 +0200 (CEST)
+From: "Richard Weinberger" <richard@nod.at>
+To: openembedded-core@lists.openembedded.org,
+	bitbake-devel@lists.openembedded.org,
+	docs@lists.yoctoproject.org
+Cc: Richard Weinberger <richard@nod.at>
+Subject: [yocto-docs][PATCH] Document erofs filesystem targets
+Date: Tue, 25 May 2021 13:04:29 +0200
+Message-Id: <20210525110429.738-3-richard@nod.at>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210525110429.738-1-richard@nod.at>
+References: <20210525110429.738-1-richard@nod.at>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Includes lot of security fixes, especially CVE-2013-0340/CWE-776.
-
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Richard Weinberger <richard@nod.at>
 ---
- meta/recipes-core/expat/{expat_2.3.0.bb => expat_2.4.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.3.0.bb => expat_2.4.1.bb} (89%)
+ documentation/ref-manual/kickstart.rst | 2 ++
+ documentation/ref-manual/variables.rst | 3 +++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/expat/expat_2.3.0.bb b/meta/recipes-core/expat/expat_2.4.1.bb
-similarity index 89%
-rename from meta/recipes-core/expat/expat_2.3.0.bb
-rename to meta/recipes-core/expat/expat_2.4.1.bb
-index 14d2855df3..a57fc1b23b 100644
---- a/meta/recipes-core/expat/expat_2.3.0.bb
-+++ b/meta/recipes-core/expat/expat_2.4.1.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-            file://run-ptest \
-            "
- 
--SRC_URI[sha256sum] = "f122a20eada303f904d5e0513326c5b821248f2d4d2afbf5c6f1339e511c0586"
-+SRC_URI[sha256sum] = "2f9b6a580b94577b150a7d5617ad4643a4301a6616ff459307df3e225bcfbf40"
- 
- EXTRA_OECMAKE_class-native += "-DEXPAT_BUILD_DOCS=OFF"
- 
--- 
-2.11.0
+diff --git a/documentation/ref-manual/kickstart.rst b/documentation/ref-m=
+anual/kickstart.rst
+index 8308ffff5b72..2c8b724ff9ac 100644
+--- a/documentation/ref-manual/kickstart.rst
++++ b/documentation/ref-manual/kickstart.rst
+@@ -116,6 +116,8 @@ the ``part`` and ``partition`` commands:
+=20
+    -  ``squashfs``
+=20
++   -  ``erofs``
++
+    -  ``swap``
+=20
+ -  ``--fsoptions``: Specifies a free-form string of options to be used
+diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-m=
+anual/variables.rst
+index df6413b68ae9..d4ea4f399921 100644
+--- a/documentation/ref-manual/variables.rst
++++ b/documentation/ref-manual/variables.rst
+@@ -3293,6 +3293,9 @@ system and gives an overview of their function and =
+contents.
+       - jffs2
+       - jffs2.sum
+       - multiubi
++      - erofs
++      - erofs-lz4
++      - erofs-lz4hc
+       - squashfs
+       - squashfs-lz4
+       - squashfs-lzo
+--=20
+2.26.2
 
