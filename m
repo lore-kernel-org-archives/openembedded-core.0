@@ -1,145 +1,85 @@
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
- by mx.groups.io with SMTP id smtpd.web08.7271.1621933804035214024
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.7344.1621935332221291189
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 May 2021 02:10:04 -0700
+ Tue, 25 May 2021 02:35:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.2, mailfrom: andrej.valek@siemens.com)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 14P9A1MP012633
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 11:10:02 +0200
-Received: from dev.vm6.ccp.siemens.com ([144.145.220.50])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 14P9A1HY022689;
-	Tue, 25 May 2021 11:10:01 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 0CBD8950A87;
-	Tue, 25 May 2021 11:10:01 +0200 (CEST)
-From: "Andrej Valek" <andrej.valek@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UEfJ4hse;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: samuli.piippo@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id c10so24038002lfm.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 May 2021 02:35:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VJE8sZrTpM52H7jTlI4s+VXbOBMBuXGT5d7dtKdF/eU=;
+        b=UEfJ4hseXXMNwiRbkIYB/wJ31d7W+MxjBTPKTpKYvP/39Cz3M2wnyuPlMZXMyd/TL/
+         eIHzyYnE4gj9IduGUXaEcQkHIlBgrmMDNxmaD4qomVidF853g/h7Q1dgVsH16FWgR4V7
+         gx/XfSvYrF61MxAUCP8BmjT4D+IoLdxs4/NjfEEODRCB1KxjFIdT+1oLXUDZONkd2Y2k
+         cNWXD/SWZyCLgl6IfrPdaKNQWnYsiuP6UCT2b/pKmxk0OWTM2ovab1W8tlce9HNT1gps
+         b8sw6E30KnWkIImE10pWkEQh29F4wpTvYFcK3rAijRvWYlfaEC+s7urARCiUuGIF++gi
+         D35g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VJE8sZrTpM52H7jTlI4s+VXbOBMBuXGT5d7dtKdF/eU=;
+        b=RcTMcwGJRDgfe6XCzW8e0TZ0OUGqi/NUEqjzq9PQbjFZaNJUZG9lbuf0gvfvmzsoof
+         ivg27IWWv4Yu1hks3BQSNIIlBNDh0B1wRwcq5zCDFONhczioZf4MtGzNMKGOd9kaWYoD
+         H1b3XTN+fc3sd4YV1S10PgsCHlj7O6yHVJlLMG26J0EuRpXgkubv5lxoyVdvHLX8b1AA
+         UQxip/SGMme0YO5pZMI9oWi2MATnLBNQqOrp2Q3EXUja2Wj5riH9yDDmq1/Uz5pKQ2hL
+         XwIz71K4HVE/Z2tBqvJ/T6sEDpEbRbAasJtpvcgk/2YCmgALCs/KfEvycqBdvtWbO9MF
+         2bQQ==
+X-Gm-Message-State: AOAM531RVGJLuWuq2aNBAeYfUilzN0PizQtQde4yFmkFvFKgNHg958UR
+	HlN0iO672ccQaOz0sVKShDQZweoqk0dfARwc
+X-Google-Smtp-Source: ABdhPJxsaX78cxMxylSB4XaCzg3sywA9ZPhH9GOucx+eBfsmUVIKUbDw8MGIci2KZsfYXdf4r5CQOw==
+X-Received: by 2002:a05:6512:6d3:: with SMTP id u19mr13997798lff.236.1621935329933;
+        Tue, 25 May 2021 02:35:29 -0700 (PDT)
+Return-Path: <samuli.piippo@gmail.com>
+Received: from munkone.intra.qt.io (62-183-187-94.co.dnainternet.fi. [62.183.187.94])
+        by smtp.gmail.com with ESMTPSA id g19sm2022658lja.139.2021.05.25.02.35.29
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 May 2021 02:35:29 -0700 (PDT)
+From: "Samuli Piippo" <samuli.piippo@gmail.com>
+X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
 To: openembedded-core@lists.openembedded.org
-Cc: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][PATCH] expat: upgrade 2.2.10 -> 2.4.1
-Date: Tue, 25 May 2021 11:09:10 +0200
-Message-Id: <20210525090910.11581-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libarchive: enable zstd support
+Date: Tue, 25 May 2021 12:35:22 +0300
+Message-Id: <20210525093522.3860494-1-samuli.piippo@qt.io>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Includes lot of security fixes, especially CVE-2013-0340/CWE-776.
+Now that zstd is in oe-core, add PACKAGECONFIG for it and enabled
+it by default in libarchive.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+zstd support is expected by CMake, which in nativesdk depends on
+libarchive (https://gitlab.kitware.com/cmake/cmake/-/issues/21552)
 ---
- .../expat/0001-Add-output-of-tests-result.patch    | 83 ----------------------
- .../expat/{expat_2.2.10.bb => expat_2.4.1.bb}      |  3 +-
- 2 files changed, 1 insertion(+), 85 deletions(-)
- delete mode 100644 meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
- rename meta/recipes-core/expat/{expat_2.2.10.bb => expat_2.4.1.bb} (84%)
+ meta/recipes-extended/libarchive/libarchive_3.5.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
-deleted file mode 100644
-index c5c18ead74..0000000000
---- a/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
-+++ /dev/null
-@@ -1,83 +0,0 @@
--From aa84835a00bfd65e784d58411e76f60658e939dc Mon Sep 17 00:00:00 2001
--From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
--Date: Tue, 18 Feb 2020 19:04:55 +0200
--Subject: [PATCH] Add output of tests result
--
--Added console output of testing results in form 'RESULT: TEST_NAME'.
--
--Changed verbose mode of test application set by '-v' ('--verbose')
--argument to CK_NORMAL.
--Added new supported argument '-vv' ('--extra-verbose') that changes
--verbose mode of test application to CK_VERBOSE. Results of each test
--are shown in output only if this mode is set.
--
--Upstream-Status: Denied
--
--This patch changes potentially deprecated feature that shoud be changed
--in upstream. [https://github.com/libexpat/libexpat/issues/382]
--
--Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
-----
-- tests/minicheck.c | 10 +++++++++-
-- tests/runtests.c  |  4 +++-
-- 2 files changed, 12 insertions(+), 2 deletions(-)
--
--diff --git a/expat/tests/minicheck.c b/expat/tests/minicheck.c
--index a5a1efb..94fa412 100644
----- a/tests/minicheck.c
--+++ b/tests/minicheck.c
--@@ -164,6 +164,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
--       if (tc->setup != NULL) {
--         /* setup */
--         if (setjmp(env)) {
--+          if (verbosity >= CK_VERBOSE)
--+            printf("SKIP: %s\n", _check_current_function);
--           add_failure(runner, verbosity);
--           continue;
--         }
--@@ -171,6 +173,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
--       }
--       /* test */
--       if (setjmp(env)) {
--+        if (verbosity >= CK_VERBOSE)
--+          printf("FAIL: %s\n", _check_current_function);
--         add_failure(runner, verbosity);
--         continue;
--       }
--@@ -178,12 +182,16 @@ srunner_run_all(SRunner *runner, int verbosity) {
--
--       /* teardown */
--       if (tc->teardown != NULL) {
---        if (setjmp(env)) {
--+        if (setjmp(env)) {
--+          if (verbosity >= CK_VERBOSE)
--+           printf("PASS: %s\n", _check_current_function);
--           add_failure(runner, verbosity);
--           continue;
--         }
--         tc->teardown();
--       }
--+      if (verbosity >= CK_VERBOSE)
--+        printf("PASS: %s\n", _check_current_function);
--     }
--     tc = tc->next_tcase;
--   }
--diff --git a/tests/runtests.c b/expat/tests/runtests.c
--index 7791fe0..75724e5 100644
----- a/tests/runtests.c
--+++ b/tests/runtests.c
--@@ -11619,9 +11619,11 @@ main(int argc, char *argv[]) {
--   for (i = 1; i < argc; ++i) {
--     char *opt = argv[i];
--     if (strcmp(opt, "-v") == 0 || strcmp(opt, "--verbose") == 0)
---      verbosity = CK_VERBOSE;
--+      verbosity = CK_NORMAL;
--     else if (strcmp(opt, "-q") == 0 || strcmp(opt, "--quiet") == 0)
--       verbosity = CK_SILENT;
--+    else if (strcmp(opt, "-vv") == 0 || strcmp(opt, "--extra-verbose") == 0)
--+	verbosity = CK_VERBOSE;
--     else {
--       fprintf(stderr, "runtests: unknown option '%s'\n", opt);
--       return 2;
----
--2.17.1
-diff --git a/meta/recipes-core/expat/expat_2.2.10.bb b/meta/recipes-core/expat/expat_2.4.1.bb
-similarity index 84%
-rename from meta/recipes-core/expat/expat_2.2.10.bb
-rename to meta/recipes-core/expat/expat_2.4.1.bb
-index fa263775b3..476c5f8cc7 100644
---- a/meta/recipes-core/expat/expat_2.2.10.bb
-+++ b/meta/recipes-core/expat/expat_2.4.1.bb
-@@ -9,10 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9e2ce3b3c4c0f2670883a23bbd7c37a9"
- SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-            file://libtool-tag.patch \
- 	   file://run-ptest \
--	   file://0001-Add-output-of-tests-result.patch \
- 	  "
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.5.1.bb b/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
+index c9e30f468f..ebecee1f3e 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d499814247adaee08d88080841cb5665"
  
--SRC_URI[sha256sum] = "b2c160f1b60e92da69de8e12333096aeb0c3bf692d41c60794de278af72135a5"
-+SRC_URI[sha256sum] = "2f9b6a580b94577b150a7d5617ad4643a4301a6616ff459307df3e225bcfbf40"
+ DEPENDS = "e2fsprogs-native"
  
- EXTRA_OECMAKE_class-native += "-DEXPAT_BUILD_DOCS=OFF"
+-PACKAGECONFIG ?= "zlib bz2 xz lzo"
++PACKAGECONFIG ?= "zlib bz2 xz lzo zstd"
+ 
+ PACKAGECONFIG_append_class-target = "\
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'acl xattr', d)} \
+@@ -28,6 +28,7 @@ PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
+ PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
+ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+ PACKAGECONFIG[mbedtls] = "--with-mbedtls,--without-mbedtls,mbedtls,"
++PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+ 
+ EXTRA_OECONF += "--enable-largefile"
  
 -- 
-2.11.0
+2.25.1
 
