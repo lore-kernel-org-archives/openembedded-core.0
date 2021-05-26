@@ -1,250 +1,75 @@
-Received: from lilium.sigma-star.at (lilium.sigma-star.at [109.75.188.150])
- by mx.groups.io with SMTP id smtpd.web09.4074.1622066053965023725
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web12.4199.1622066913966116202
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 14:54:14 -0700
+ Wed, 26 May 2021 15:08:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: nod.at, ip: 109.75.188.150, mailfrom: richard@nod.at)
-Received: from localhost (localhost [127.0.0.1])
-	by lilium.sigma-star.at (Postfix) with ESMTP id 2C59B1817A0D5;
-	Wed, 26 May 2021 23:54:11 +0200 (CEST)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id K1GwqTAk-6I3; Wed, 26 May 2021 23:54:10 +0200 (CEST)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id OiOCinf3Ls_N; Wed, 26 May 2021 23:54:10 +0200 (CEST)
-From: "Richard Weinberger" <richard@nod.at>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Weinberger <richard@nod.at>
-Subject: [OE-core][PATCH v3] Add support for erofs filesystems
-Date: Wed, 26 May 2021 23:53:54 +0200
-Message-Id: <20210526215354.15894-1-richard@nod.at>
-X-Mailer: git-send-email 2.26.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NXJbkCjB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 16so1563217wmj.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 15:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=3wY+4o7ISyDa3DRvWxz0gGLrTy+gwvfp7sPzrrVVWy8=;
+        b=NXJbkCjBkNwZoSTexh66O/uSCJTo74u8X8MBbj6znIB8zgpvJ9git8ChY0ForrtuqO
+         j4godx8SsPcQhhzRGB5EITytzhQ5eyldJSVvwSViz3bGiBGcrUDTQzCLRHH7IcEU2aNE
+         nnYUleXYJZWAoLkpkIUdooiNuDhTcnu1oBdjs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=3wY+4o7ISyDa3DRvWxz0gGLrTy+gwvfp7sPzrrVVWy8=;
+        b=okwQkpu8CuAyV2WFo7xZB0CJJgkQ1OeIFmhUajSncYpnYwS4wEsYCXPzCD1WNqWv50
+         C4UInsBoNa3qD801LtNVxj6D+yABMoawqkOyIJ/Bu3/yWymmL+wWd6P7TzQ1yR009w5D
+         PSazLRUfTZSM5vmCerVBlS/YeyoimRGs13T7KMwHTDgiBjFLOeiMCyTgnuvhp0Jy6/5h
+         0gujKe2X62emjb2LXD6b4UgquAA2C/P7Cp5EGc/nT0pl6ATltWslMetabL3Z5SxvzI5k
+         bo+ejpnOILGqwCd/ihiEtpJK7BTBGIzJES6WRHmGjImP4Z3fctSENAsspL5GOm2FZn2c
+         QSWg==
+X-Gm-Message-State: AOAM530BFBtKjiMiojhDdtpvC3k+TOW9EleG2D1p0kZlfFcnPkqajn9H
+	c1reTO5li8gMPO/hxvXKJI7W9w==
+X-Google-Smtp-Source: ABdhPJw/us87jcha0N1X94vEoaaXJ7t1oZ/jInw59iB7TZfRQoG+5tclGyF5vT98dLYIv06oHWjJRg==
+X-Received: by 2002:a05:600c:22cf:: with SMTP id 15mr5279469wmg.81.1622066912389;
+        Wed, 26 May 2021 15:08:32 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:a7fa:b38f:3320:9d46? ([2001:8b0:aba:5f3c:a7fa:b38f:3320:9d46])
+        by smtp.gmail.com with ESMTPSA id h15sm423407wmq.1.2021.05.26.15.08.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 15:08:32 -0700 (PDT)
+Message-ID: <1cda2f133faff4948af66319d90f4817ea390e65.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/4] images: add ptest images based on core-image-minimal
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 26 May 2021 23:08:29 +0100
+In-Reply-To: <20210526204018.496352-3-alex.kanavin@gmail.com>
+References: <20210526204018.496352-1-alex.kanavin@gmail.com>
+	 <20210526204018.496352-3-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Since Linux 5.4 a new read-only filesystem is available, erofs.
-Compared to squashfs it offers much better read performance with and
-without compression enabled.
-It suppports two optional compressors, lz4 and lz4hc.
+On Wed, 2021-05-26 at 22:40 +0200, Alexander Kanavin wrote:
+> This greatly reduces build times needed for those images, as
+> they no longer need anything graphical, or -dev packages for
+> everything.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../images/core-image-minimal-ptest-all.bb    | 25 +++++++++++++++++++
+>  .../images/core-image-minimal-ptest-fast.bb   | 24 ++++++++++++++++++
+>  2 files changed, 49 insertions(+)
+>  create mode 100644 meta/recipes-core/images/core-image-minimal-ptest-all.bb
+>  create mode 100644 meta/recipes-core/images/core-image-minimal-ptest-fast.bb
 
-From the mkfs.erofs man page:
-EROFS is a new enhanced lightweight linux read-only filesystem with
-modern designs (eg. no buffer head, reduced metadata, inline
-xattrs/data, etc.) for scenarios which need high-performance read-only
-requirements, e.g. Android OS for smartphones and LIVECDs.
-It also provides fixed-sized output compression support, which improves
-storage density, keeps relatively higher compression ratios, which is
-more useful to achieve high performance for embedded devices with
-limited  memory since it has unnoticable memory overhead and page cache
-thrashing.
+Since we're renaming, can these become "core-image-ptest"? The base 
+image is an implementation detail we probably don't need to care about
+and would make any changes easier in future...
 
-This commit adds support for three new filesystem targets:
-erofs: erofs without compression
-erofs-lz4: erofs with lz4 compresssion enabled
-erofs-lz4hc: erofs with lz4hc compression enabled
+Other patches look good, thanks!
 
-Signed-off-by: Richard Weinberger <richard@nod.at>
----
-Changes since v2:
- - Set lz4 and lz4hc variants also in IMAGE_TYPES (requested by Quentin S=
-chulz)
- - Set correct license for erofs-utils (requested by Quentin Schulz)
- - Rename recipe to erofs-utils_1.2.1.bb and don't set PV (requested by Q=
-uentin Schulz)
+Cheers,
 
-Changes since v1:
- - Make lz4 support in erofs-utils optional (requested by Konrad Weihmann=
-)=20
----
- meta/classes/image_types.bbclass              |  9 +++++++++
- .../erofs-utils/erofs-utils_1.2.1.bb          | 20 +++++++++++++++++++
- scripts/lib/wic/help.py                       |  1 +
- scripts/lib/wic/ksparser.py                   |  7 ++++++-
- scripts/lib/wic/partition.py                  | 16 ++++++++++++---
- scripts/lib/wic/plugins/source/rawcopy.py     |  6 +++---
- 6 files changed, 52 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.b=
-b
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
-bbclass
-index 8028691405a7..2a45d45c7180 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -108,6 +108,11 @@ IMAGE_CMD_squashfs-xz =3D "mksquashfs ${IMAGE_ROOTFS=
-} ${IMGDEPLOYDIR}/${IMAGE_NAME
- IMAGE_CMD_squashfs-lzo =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
-{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend=
- -comp lzo"
- IMAGE_CMD_squashfs-lz4 =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
-{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lz4 ${EXTRA_IMAGECMD} -noappend=
- -comp lz4"
-=20
-+IMAGE_CMD_erofs =3D "mkfs.erofs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAG=
-E_NAME}${IMAGE_NAME_SUFFIX}.erofs ${IMAGE_ROOTFS}"
-+IMAGE_CMD_erofs-lz4 =3D "mkfs.erofs -zlz4 ${EXTRA_IMAGECMD} ${IMGDEPLOYD=
-IR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4 ${IMAGE_ROOTFS}"
-+IMAGE_CMD_erofs-lz4hc =3D "mkfs.erofs -zlz4hc ${EXTRA_IMAGECMD} ${IMGDEP=
-LOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.erofs-lz4hc ${IMAGE_ROOTFS}"
-+
-+
- IMAGE_CMD_TAR ?=3D "tar"
- # ignore return code 1 "file changed as we read it" as other tasks(e.g. =
-do_image_wic) may be hardlinking rootfs
- IMAGE_CMD_tar =3D "${IMAGE_CMD_TAR} --sort=3Dname --format=3Dposix --num=
-eric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C $=
-{IMAGE_ROOTFS} . || [ $? -eq 1 ]"
-@@ -243,6 +248,9 @@ do_image_ubi[depends] +=3D "mtd-utils-native:do_popul=
-ate_sysroot"
- do_image_ubifs[depends] +=3D "mtd-utils-native:do_populate_sysroot"
- do_image_multiubi[depends] +=3D "mtd-utils-native:do_populate_sysroot"
- do_image_f2fs[depends] +=3D "f2fs-tools-native:do_populate_sysroot"
-+do_image_erofs[depends] +=3D "erofs-utils-native:do_populate_sysroot"
-+do_image_erofs_lz4[depends] +=3D "erofs-utils-native:do_populate_sysroot=
-"
-+do_image_erofs_lz4hc[depends] +=3D "erofs-utils-native:do_populate_sysro=
-ot"
-=20
- # This variable is available to request which values are suitable for IM=
-AGE_FSTYPES
- IMAGE_TYPES =3D " \
-@@ -261,6 +269,7 @@ IMAGE_TYPES =3D " \
-     wic wic.gz wic.bz2 wic.lzma wic.zst \
-     container \
-     f2fs \
-+    erofs erofs-lz4 erofs-lz4hc \
- "
-=20
- # Compression is a special case of conversion. The old variable
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb b/met=
-a/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
-new file mode 100644
-index 000000000000..947509ed63ad
---- /dev/null
-+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
-@@ -0,0 +1,20 @@
-+SUMMARY =3D "Tools for erofs filesystems"
-+LICENSE =3D "GPLv2+"
-+SECTION =3D "base"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94fa01670a2a8f2d3ab2de15004e0=
-848"
-+
-+SRCREV =3D "d1f4953edfcf4f51c71ba91586e21fc6ce9f6db9"
-+SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-u=
-tils.git"
-+
-+S =3D "${WORKDIR}/git"
-+
-+DEPENDS =3D "util-linux-libuuid"
-+
-+inherit pkgconfig autotools
-+
-+PACKAGECONFIG ??=3D "lz4"
-+PACKAGECONFIG[lz4] =3D "--enable-lz4,--disable-lz4,lz4"
-+
-+EXTRA_OECONF =3D "${PACKAGECONFIG_CONFARGS} --disable-fuse"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index bd3a2b97dfaf..991e5094bb84 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -930,6 +930,7 @@ DESCRIPTION
-              ext4
-              btrfs
-              squashfs
-+             erofs
-              swap
-=20
-          --fsoptions: Specifies a free-form string of options to be
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 3eb669da39ca..7a4cc83af556 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -157,7 +157,8 @@ class KickStart():
-         part.add_argument('--fsoptions', dest=3D'fsopts')
-         part.add_argument('--fstype', default=3D'vfat',
-                           choices=3D('ext2', 'ext3', 'ext4', 'btrfs',
--                                   'squashfs', 'vfat', 'msdos', 'swap'))
-+                                   'squashfs', 'vfat', 'msdos', 'erofs',
-+                                   'swap'))
-         part.add_argument('--mkfs-extraopts', default=3D'')
-         part.add_argument('--label')
-         part.add_argument('--use-label', action=3D'store_true')
-@@ -229,6 +230,10 @@ class KickStart():
-                                 err =3D "%s:%d: SquashFS does not suppor=
-t LABEL" \
-                                        % (confpath, lineno)
-                                 raise KickStartError(err)
-+                        # erofs does not support filesystem labels
-+                        if parsed.fstype =3D=3D 'erofs' and parsed.label=
-:
-+                            err =3D "%s:%d: erofs does not support LABEL=
-" % (confpath, lineno)
-+                            raise KickStartError(err)
-                         if parsed.fstype =3D=3D 'msdos' or parsed.fstype=
- =3D=3D 'vfat':
-                             if parsed.fsuuid:
-                                 if parsed.fsuuid.upper().startswith('0X'=
-):
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 76d144d12d30..e0b2c5bdf29b 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -141,9 +141,9 @@ class Partition():
-                                             native_sysroot)
-                 self.source_file =3D "%s/fs.%s" % (cr_workdir, self.fsty=
-pe)
-             else:
--                if self.fstype =3D=3D 'squashfs':
--                    raise WicError("It's not possible to create empty sq=
-uashfs "
--                                   "partition '%s'" % (self.mountpoint))
-+                if self.fstype in ('squashfs', 'erofs'):
-+                    raise WicError("It's not possible to create empty %s=
- "
-+                                   "partition '%s'" % (self.fstype, self=
-.mountpoint))
-=20
-                 rootfs =3D "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
-                                              self.lineno, self.fstype)
-@@ -369,6 +369,16 @@ class Partition():
-                        (rootfs_dir, rootfs, extraopts)
-         exec_native_cmd(squashfs_cmd, native_sysroot, pseudo=3Dpseudo)
-=20
-+    def prepare_rootfs_erofs(self, rootfs, cr_workdir, oe_builddir, root=
-fs_dir,
-+                             native_sysroot, pseudo):
-+        """
-+        Prepare content for a erofs rootfs partition.
-+        """
-+        extraopts =3D self.mkfs_extraopts or ''
-+        erofs_cmd =3D "mkfs.erofs %s -U %s %s %s" % \
-+                       (extraopts, self.fsuuid, rootfs, rootfs_dir)
-+        exec_native_cmd(erofs_cmd, native_sysroot, pseudo=3Dpseudo)
-+
-     def prepare_empty_partition_ext(self, rootfs, oe_builddir,
-                                     native_sysroot):
-         """
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/=
-plugins/source/rawcopy.py
-index 3c4997d8ba5e..fa7b1eb8ac75 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -29,9 +29,9 @@ class RawCopyPlugin(SourcePlugin):
-             cmd =3D 'btrfs filesystem label %s %s' % (dst, label)
-         elif fstype =3D=3D 'swap':
-             cmd =3D 'mkswap -L %s %s' % (label, dst)
--        elif fstype =3D=3D 'squashfs':
--            raise WicError("It's not possible to update a squashfs "
--                           "filesystem label '%s'" % (label))
-+        elif fstype in ('squashfs', 'erofs'):
-+            raise WicError("It's not possible to update a %s "
-+                           "filesystem label '%s'" % (fstype, label))
-         else:
-             raise WicError("Cannot update filesystem label: "
-                            "Unknown fstype: '%s'" % (fstype))
---=20
-2.26.2
+Richard
 
