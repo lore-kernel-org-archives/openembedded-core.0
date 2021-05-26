@@ -1,78 +1,205 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web12.4511.1622016312619995327
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.58])
+ by mx.groups.io with SMTP id smtpd.web08.4628.1622017349797179907
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 01:05:12 -0700
+ Wed, 26 May 2021 01:22:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NFPldOLh;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id eb9so291190qvb.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 01:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E4Th3TbjMbwMYlPJzzy4yCJLRHRB2gItp05FxkNEGP0=;
-        b=NFPldOLhuYBIUk0VP0r+5YVXkRXlHcausZd3U60HRExHNwREGg4pkfe28SyZnPyESA
-         q7Wmod/fGkHyxtPS18Gv8xkFnc11SJ0obd5AVGvzR5s48o1Knvwe89ZbhTsm/CqwUAag
-         NJMWAd18JsCnWnqGkecfWRKkveV8f7VVS+JiEuV+QSlAyxN/L9JvEqUgwo9Ywu9/l2dS
-         Yn4t2dM/q5sIkp4nqqdwv5ZGuwsO/kXnUaI9y/r2cyf48g7HtcS9Ps9lIEVjrZxtxaRg
-         4ouZ7zINqbk6Ewer+TlfuOiPtLUjvm8C8WklvSkOSYH1tR1ijdJzfsxvFLjwHJNXTAk5
-         Wg3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E4Th3TbjMbwMYlPJzzy4yCJLRHRB2gItp05FxkNEGP0=;
-        b=S4DMZ5mLbTalbwnj4rAYu3vnJCp4ZDH87irDY8J72fM2SEQFLv3oJlAG1ssZWWQuZ+
-         pvAZVH7bSXzuTYAwgub0YC8Da735BnW9VUtUD+81QFWD5aHCIaOq/Cp5pqT7wPt2i3nv
-         Wi04HPHTTX1LlNcXv8vdFyGiFCssRZBvw6yHMB1D20CbLBri5p4S77cuwpqZIdmxBsjG
-         eJYXH0yIsGZAKBzOr9XnVnZU+ElCFKhEp+MJwPmx4XJsZG/vVHlwAKfSr7hSuyPgY3bC
-         hUsLvbst3N+yU22GHQJIJeE+GDJ9QzK/JWAmK7VIDFsbzqRYiVMeMRmpHGEfXFsp85uD
-         58vg==
-X-Gm-Message-State: AOAM531ArkskQeMwNanieYpYMwxFfvKVITNDbjUIbElDwOvjzeZxTSfA
-	RCSNBVDpx/eX4eDI2d+FpAtfhtouGuTKMkUCiwY=
-X-Google-Smtp-Source: ABdhPJyFef7NIWQBX5427eTl9cN4U3zYRU/sIqMJ8NOasbuXu1lT/tYvExwtC77QQdg6jxAmXqClSYyov2u3CeohKXE=
-X-Received: by 2002:ad4:4dc8:: with SMTP id cw8mr41124813qvb.16.1622016311809;
- Wed, 26 May 2021 01:05:11 -0700 (PDT)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=bOlyBbrs;
+ spf=pass (domain: kpit.com, ip: 40.107.138.58, mailfrom: nisha.parrakat@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cv+Vglgl1FiMiPSEHKC1zW4jm/pJn9j4qtxA7KjnGcXPLdS98uGTMcHzvYzRr8TK3bJZ0zbjPLigDJ6sxkhnxd32gHrknmB+21d9yREZO/jbXbQpn7sW8XYkdapCyquI0RScUzmvwU3cHXt30c3OSllr+PhBMnnLhE0NXTsIpVoXvYR6AqxIciKVASfwt3W5dH/Q3mnEeBhkBfnmHT1Cxu8FOtmfYcSdroMhE3Qz/D33Uv7wsGVmDSwwuojrFQMiFNvltR+97oZLEGl3kRhWbeRJ2hbUIU9lPNMPBKMHUyJVSBnHkSmFsdWp6ErrC0jrMKf321d6PtMf7//q4REWjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pctp45vmv7KzpS0vCjNfg+NaJkfCkkVLU/XHqKJVZRQ=;
+ b=KkFK7RwM7U/VivDhG2M/di27rIjh3s/KCoS0VE5Wwctx1wjf3JH9d7WdBj3V3sNLEMCrGfuBwJLGgIqn33/vghDGK6ILlJqZGZmgxrflyWsZP7jBXnjK1crgCXyP26Qak/nBrW+1TYETweCEU+SbVwklU6ovjlvE4Gj4J3fVsWL2zllZTVIS+nPJZJdYJUN9R+D/hopewOzihCLrr6TEAjOhfMY9lzcu+nZK6CGnGcXZk60hVPY3hsjktqJfU0iyAExCyvfWTUKXO0idMlF4e5I2jJSyEzc9eIjyzfwAKDZLY7MN4U6GcLbbbRbwdbtYtbAfN4RjNHmimFTs+RPVnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pctp45vmv7KzpS0vCjNfg+NaJkfCkkVLU/XHqKJVZRQ=;
+ b=bOlyBbrsibPXvuBsrsMzr/sOglOqGn20HnYvVpqG7FvO2oQ9xU6i11tI78/i0oy04jNDTlANjnQ/8MMvhuLcDa0klLWMo7SE4MDwkszGyb+6bdTO5DWU1ZVocBCHOisoOmn62NMaQJ0d3hAAeaE48b0B6WN4FqINW0fhhjFb6WI=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kpit.com;
+Received: from PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:36::6)
+ by PN0PR01MB4977.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:47::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26; Wed, 26 May
+ 2021 08:22:23 +0000
+Received: from PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::8d5b:7904:5e3b:7167]) by PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::8d5b:7904:5e3b:7167%3]) with mapi id 15.20.4150.027; Wed, 26 May 2021
+ 08:22:23 +0000
+From: "Nisha Parrakat" <Nisha.Parrakat@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com
+Subject: [meta-oe][master][PATCH 1/2] p7zip: build and package lib7z.so needed for fastboot
+Date: Wed, 26 May 2021 08:22:02 +0000
+Message-Id: <20210526082203.6853-1-Nisha.Parrakat@kpit.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [2003:c0:f3b:b059:3a22:e2ff:fe1a:a816]
+X-ClientProxiedBy: FR0P281CA0074.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::20) To PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:36::6)
+Return-Path: Nisha.Parrakat@kpit.com
 MIME-Version: 1.0
-References: <20210525100447.3918978-1-samuli.piippo@qt.io>
-In-Reply-To: <20210525100447.3918978-1-samuli.piippo@qt.io>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 26 May 2021 01:04:45 -0700
-Message-ID: <CAMKF1srPhab+Vv=dKAoOMFCKmE2zLwAsJnZ6qAYt21nHJNss2w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cmake-native: enabled zstd support
-To: Samuli Piippo <samuli.piippo@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from bsys_traas.speedport.ip (2003:c0:f3b:b059:3a22:e2ff:fe1a:a816) by FR0P281CA0074.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.16 via Frontend Transport; Wed, 26 May 2021 08:22:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 177fcdb2-a4f8-409a-0a87-08d9201f6345
+X-MS-TrafficTypeDiagnostic: PN0PR01MB4977:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<PN0PR01MB49770274DB9E57366FD3C804EE249@PN0PR01MB4977.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	a6ewNKwl5m3uIbeeWKrcSNQmCb9vWybLFWXohMaKKhO+L/4tmjVq5U+W+e+nvNemwMW9rMiI3pS8zn5UBa1bxyzn40DWGJiVNDyrbGpKQ7ICT6hkaSnyX3/69zKfQfMVthyadRHmBEIP4mJdgQaaMIGc/4nGamSkdhRlFTCC/3YRPC1gxXtEJPPP414XItS3QlyebHXUdUgR7FpKakXGcebR/VKKOHZayZ5vLQe/g2XOnElcj7A7azduSJBVI8Hs+WouU+Imuz4gT4FEkJ4++dvsksWyDIo9c5kH/IMhBdgN2vCx+L0ZCrB4SOKRRQDMgBEYJY07SfI6bWO0yPQ0xxGgIi9vKetHmc5kG3U0Z2bWEWBBbh0WXPLvRfhW6VSed0pdZB/L6shynowsU0dEErM/lFGOFvSMG00NL0HJABWuUt8c6bdAktddAu2yybncd+i9SWNAQQIUPRyA81orFOjlCp+FV+jJJfSiFVG7Jv+CyXXmLLu40curxleBQ9XyPx3/H4bMXdsMeW9UIvVN1lgitY8qgM3gRsVDMOm76xKYDyeGWDApFAZpT+kmSeFp9Vs4NobrOuw3tzLG/aDa2MPc94mErnIYx42lq1H+bFHh1lQvUHdErYcmXZIX6SLDcjYUC0dIz4qrRmkdwcHns96/kvIW0GMl2kfwTTXta7xWDfwjWnWPPyDagDVyL6iS7HGXyzr299IwHw7yQkaTXQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(39850400004)(136003)(376002)(396003)(107886003)(66574015)(478600001)(83380400001)(316002)(8676002)(8936002)(186003)(66946007)(2616005)(6512007)(38100700002)(52116002)(36756003)(16526019)(1076003)(86362001)(4326008)(19627235002)(2906002)(6486002)(5660300002)(6506007)(66476007)(6666004)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	/eoN/ZTqI5p5hNKixky6XwvdeckDC6D8Bcp+663oWDnVK6d0NOxd5WbqH72pzAYqdmB03uXHG71RGZBe1oGr6dEwL0XznAQs7H2WV1YHhc+6L+lOwau54shlGauFUn1lnQF9IKExLqUFHUYgHYYi+mrj5djzTU3N1tHTKrIN+00LwxN2nW9YP4F586SKnzlSadiTdVHk8mDYHFlRYE2a0EjG73Ewa6KYebNXSULStlBtlgiWjRHTTh5vitZu4ngx33uyD/5a3BfIrvdgurHmvjeohkXZrAv0I5xKbI1ktqtVTlYi0JBaWyAYGL47edG+BdGVwSlfmfc0B/37Dt7NSiwaKJoEiOp2oP5gTAGARB2bVtvg40b8upnjmotDVEYUeBiQcNIgIBMRvQEm8VQtdSJqMoBa3hfjVDZ0mb7RZsP7oiOwwbmy7Eeya2ey8YD5AgL1xwftwidjb6U7g/FW8HVkeNWSKRcCaKD8L/3fcnfIFF8O57ZA6qzfnO3agGISFiTHdK+US+72A7f5y5i3YcXrg/MAVtpLC6KgaHooRIoTzmWzsOupqDbRjajUi183JerAGJFDF7IXgTL0tyeeyfyEKtAd9HGEvMI07JPELUc7AxlTPzYTasI7ODD129nKD6TRqs/LiDvFazdPSm4lp/hYuZZFhCwjy1tX7b9+jqaIxWWiCWYvx4QXBtRh/bilMvEIKnCWVth5BtISjSfDK8e8gKMnprDPzkP3kVN9rdccLEAlpz1ZKx4YByd0vcRoQ5BuFmsLoRIfAibPBlU9PuFLrS0EYRPLf7rouW+UvqDyW5wfkjkH1zJURUWcmKbA
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 177fcdb2-a4f8-409a-0a87-08d9201f6345
+X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB5283.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 08:22:23.3668
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ekzi60T7OCYXVqoHHKYK+S1eXdbSSGhtBDYPoHsnGu4yWQ3EM/tu/Nx4a3mHWgdS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB4977
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-i wonder if this is the cause of wireshark failure
-https://errors.yoctoproject.org/Errors/Details/585545/
+From: Nisha Parrakat <nisha.parrakat@kpit.com>
 
-On Tue, May 25, 2021 at 3:05 AM Samuli Piippo <samuli.piippo@gmail.com> wrote:
->
-> Now that zstd is in oe-core, enable support for it in native CMake.
->
-> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
-> ---
->  meta/recipes-devtools/cmake/cmake-native_3.20.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-> index d91e42ef9a..335097d387 100644
-> --- a/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-> +++ b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-> @@ -1,7 +1,7 @@
->  require cmake.inc
->  inherit native
->
-> -DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native ncurses-native"
-> +DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native ncurses-native zstd-native"
->
->  SRC_URI += "file://OEToolchainConfig.cmake \
->              file://environment.d-cmake.sh \
-> --
-> 2.25.1
->
->
-> 
->
+a) use option 7z to build the lib7z.so library
+This is needed for android-tools for building fastboot
+from android-tools
+
+b) Packaged the lib7z.so and codec libraries as a part of this recipe
+Fastboot RDepends on it lib7z.so
+
+c) Fixed a C++17 forbidden error when lib7z.so is built
+
+fixes the below error
+
+| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp: In member function 'virt=
+ual LONG NArchive::NWim::CHandler::GetArchiveProperty(PROPID, PROPVARIANT*)=
+':
+| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:308:11: error: use of an =
+operand of type 'bool' in 'operator++' is forbidden in C++17
+|   308 |           numMethods++;
+|       |           ^~~~~~~~~~
+| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:318:9: error: use of an o=
+perand of type 'bool' in 'operator++' is forbidden in C++17
+|   318 |         numMethods++;
+
+Signed-off-by: Nisha Parrakat <Nisha.Parrakat@kpit.com>
+---
+ ...nge_numMethods_from_bool_to_unsigned.patch | 25 +++++++++++++++++++
+ meta-oe/recipes-extended/p7zip/p7zip_16.02.bb | 21 ++++++++++++++--
+ 2 files changed, 44 insertions(+), 2 deletions(-)
+ create mode 100644 meta-oe/recipes-extended/p7zip/files/change_numMethods_=
+from_bool_to_unsigned.patch
+
+diff --git a/meta-oe/recipes-extended/p7zip/files/change_numMethods_from_bo=
+ol_to_unsigned.patch b/meta-oe/recipes-extended/p7zip/files/change_numMetho=
+ds_from_bool_to_unsigned.patch
+new file mode 100644
+index 000000000..edde52593
+--- /dev/null
++++ b/meta-oe/recipes-extended/p7zip/files/change_numMethods_from_bool_to_u=
+nsigned.patch
+@@ -0,0 +1,25 @@
++fixes the below error
++
++| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp: In member function 'vir=
+tual LONG NArchive::NWim::CHandler::GetArchiveProperty(PROPID, PROPVARIANT*=
+)':
++| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:308:11: error: use of an=
+ operand of type 'bool' in 'operator++' is forbidden in C++17
++|   308 |           numMethods++;
++|       |           ^~~~~~~~~~
++| ../../../../CPP/7zip/Archive/Wim/WimHandler.cpp:318:9: error: use of an =
+operand of type 'bool' in 'operator++' is forbidden in C++17
++|   318 |         numMethods++;
++
++
++use unsigned instead of bool
++Signed-off-by: Nisha Parrakat <Nisha.Parrakat@kpit.com>
++
++Upstream-Status: Pending
++--- ./CPP/7zip/Archive/Wim/WimHandler.cpp       2021-05-20 10:51:56.997402=
+701 +0000
+++++ ./CPP/7zip/Archive/Wim/WimHandler.cpp       2021-05-20 10:52:16.665604=
+125 +0000
++@@ -298,7 +298,7 @@
++
++       AString res;
++
++-      bool numMethods =3D 0;
+++      unsigned numMethods =3D 0;
++       for (unsigned i =3D 0; i < ARRAY_SIZE(k_Methods); i++)
++       {
++         if (methodMask & ((UInt32)1 << i
+diff --git a/meta-oe/recipes-extended/p7zip/p7zip_16.02.bb b/meta-oe/recipe=
+s-extended/p7zip/p7zip_16.02.bb
+index 13479a90f..ada49114c 100644
+--- a/meta-oe/recipes-extended/p7zip/p7zip_16.02.bb
++++ b/meta-oe/recipes-extended/p7zip/p7zip_16.02.bb
+@@ -9,6 +9,7 @@ SRC_URI =3D "http://downloads.sourceforge.net/p7zip/p7zip/$=
+{PV}/p7zip_${PV}_src_al
+            file://do_not_override_compiler_and_do_not_strip.patch \
+            file://CVE-2017-17969.patch \
+            file://0001-Fix-narrowing-errors-Wc-11-narrowing.patch \
++           file://change_numMethods_from_bool_to_unsigned.patch \
+            "
+
+ SRC_URI[md5sum] =3D "a0128d661cfe7cc8c121e73519c54fbf"
+@@ -16,10 +17,26 @@ SRC_URI[sha256sum] =3D "5eb20ac0e2944f6cb9c2d51dd6c4518=
+941c185347d4089ea89087ffdd6
+
+ S =3D "${WORKDIR}/${BPN}_${PV}"
+
++do_compile_append() {
++    oe_runmake 7z
++}
++FILES_${PN} +=3D "${libdir}/* ${bindir}/7z"
++
++FILES_SOLIBSDEV =3D ""
++INSANE_SKIP_${PN} +=3D "dev-so"
++
+ do_install() {
+        install -d ${D}${bindir}
+-       install -m 0755 ${S}/bin/* ${D}${bindir}
++       install -d ${D}${bindir}/Codecs
++       install -d ${D}${libdir}
++       install -d ${D}${libdir}/Codecs
++       install -m 0755 ${S}/bin/7za ${D}${bindir}
+        ln -s 7za ${D}${bindir}/7z
++       install -m 0755 ${S}/bin/Codecs/* ${D}${libdir}/Codecs/
++       install -m 0755 ${S}/bin/7z.so ${D}${libdir}/lib7z.so
+ }
+
+-BBCLASSEXTEND =3D "native"
++RPROVIDES_${PN} +=3D "lib7z.so()(64bit) 7z lib7z.so"
++RPROVIDES_${PN}-dev +=3D "lib7z.so()(64bit) 7z lib7z.so"
++
++BBCLASSEXTEND =3D "native nativesdk"
+--
+2.17.1
+
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
