@@ -1,113 +1,91 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
- by mx.groups.io with SMTP id smtpd.web12.61.1622071586538510023
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.66])
+ by mx.groups.io with SMTP id smtpd.web10.286.1622072825881207330
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 16:26:26 -0700
+ Wed, 26 May 2021 16:47:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@taitradio.com header.s=google header.b=YOvJmm4Z;
- spf=pass (domain: taitradio.com, ip: 209.85.166.173, mailfrom: douglas.royds@taitradio.com)
-Received: by mail-il1-f173.google.com with SMTP id o10so2438654ilm.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 16:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=taitradio.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kkJkK1pY+WIt4LQZXj0CQMigFm+rrcERnVka7nFY3iM=;
-        b=YOvJmm4ZJ6b6mjzJe8az9X8eec96oOkLUYG6mw0328ObHNPQKPEXeX3uksXG8Kr3Y4
-         gm69sQJqEfl5OTadDwn6kiwBHpw2yra1GLuQUZNZWuMf/GGix1vqT+BBfnMv/kj3x8ZR
-         k3gxGwlPcJYK0/YHXCB1IxslRx+8Z2w723cOg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kkJkK1pY+WIt4LQZXj0CQMigFm+rrcERnVka7nFY3iM=;
-        b=eEEEUV8ZC1QkxHlm9He+MrGOuj5BZ8Q0laVTtAcQpf6+Q26U7p3SotY5oZpiru07XN
-         LojZPvHkx5QP926SfrdRt8R3SiOdzro5J/C4Z+iB/xCIIf3SnauRzE+dMhUjsoc1VFp+
-         1MU6Jd/R2Xsc1xjrYsmpmgYtIfwhDpOxg/nZd7ywhX7fwyHBz+1XCSTzhB5nOPrVjVEN
-         /1v+Yp0lU5xgDEyKxcuZKAtsHX51o+3mZ3W+hDqZEWpHfji4iFgeNCxO6LAu7vflyrgI
-         MT7oJ75pYAA8I2fpBGxO9TIbsZtNyvkVF6h8g1Jzxwhu2OphR1GkPRqKqc+UJnyuGvYu
-         bhJQ==
-X-Gm-Message-State: AOAM532hmQQJHMSZCoWZrV0iTSE9q/EqXOSPrwE+rXj58/prpfqPPpoZ
-	NnzqxxeQNa/JEsnQfraCL+EoK6CD9U3/3u08Wh+VOiiYQKphSHRaFsKww/Ac/WgM5CgpcRXfub4
-	h0rE27keaxFw1Wmhg/bzgGG/Nq6+88WZpQuhiDaDLoPqFT0kf
-X-Google-Smtp-Source: ABdhPJxix/DbyXtLB8CSBXLom/qm8VaFSQWVvASMHSnTKuiyV0OsRuqFZw9TAmF4k9SZeuGZyuz8Aun9LUYEaoVPNnQ=
-X-Received: by 2002:a05:6e02:1b0f:: with SMTP id i15mr603946ilv.164.1622071585891;
- Wed, 26 May 2021 16:26:25 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=dsCIMbFD;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.66, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1622072824; i=@fujitsu.com;
+	bh=HFHBaIBVJmtMtGMWqyvwlN1A7mUreNG2/MvNs84V7LI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=dsCIMbFDv/8eFKdGoK1Iv1wwaGfBLZ49EUXmdQTVB7LCEq8j9WeUWgEXRLgGLpF+Y
+	 VoWyrk4U5GJPIZGAGmtfnPn3zzfeWNFo1wuKvYFIGLcbBqQdVsKoxsTQ80PQ3Rhp6j
+	 Cf0z3Oqh3KeBRr5zQB1hrxtu3DipU4kMPFaUE3cpivEbwNeLIYt4q4OKwgsAGi3KEi
+	 NeSbEIWHKq0Gl53bnwGo4NkoPE6iS9wZKn+jdsbpr67UbtTJjrC8q3I/nBbR211s6M
+	 OKIPEHRQE6+JYIp3pXCc9Z8fEoEbvcLZqeZAdvB99XU33MrFyVWwfFhFm8JEGSMBou
+	 F7QOMnwdtEuag==
+Received: from [100.112.199.60] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 73/DE-25406-7FDDEA06; Wed, 26 May 2021 23:47:03 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRWlGSWpSXmKPExsViZ8MRqvv97ro
+  Eg5l7WSzu/HzH7sDocW7jCsYAxijWzLyk/IoE1oyfW94yF3zhqPjweAtjA+Nsji5GLg4hgVlM
+  EluuvWCGcE4wSrx8O5Gpi5GTg01ATWL6rRusXYwcHCICehJX/4mChJkFVCRe/O5hB7GFBZwlN
+  h3aA2azCKhK/Ng4kw3E5hVwlJjYfRAsLiGgIDHl4XtmiLigxMmZT1gg5khIHHzxghmiRlFi9u
+  VmFgi7QuL14UvMExh5ZyFpmYWkZQEj0ypGi6SizPSMktzEzBxdQwMDXUNDI11DSzNdI0MTvcQ
+  q3SS91FLd8tTiEl1DvcTyYr3iytzknBS9vNSSTYzA8EopOHJtB+OB1x/0DjFKcjApifJeO7Eu
+  QYgvKT+lMiOxOCO+qDQntfgQowwHh5IE7+TbQDnBotT01Iq0zBxgqMOkJTh4lER4e28BpXmLC
+  xJzizPTIVKnGBWlxHmvgvQJgCQySvPg2mDxdYlRVkqYl5GBgUGIpyC1KDezBFX+FaM4B6OSMO
+  8HkCk8mXklcNNfAS1mAloslAi2uCQRISXVwBSpcKv+vZL4e7NwJ5cQyZ0q/68s0VGeu+dX9/G
+  kGbOcAlUDPn0+9fVA/Jblm1k1bv0O0leRaw+/vL+7ebXXxfYoTZ93AQd811+b8qbmNzNfnPZe
+  tbc37VTXaDTZt6yK3GTMvyv+/kvVWrkJnOu7FTezL19zQEFwTfd2z962q1N5nn9yUa44Y97zz
+  k4xeWZpn+u7dXe7Lxabf9Hv8tl8eGOv1pX09X+Us/ax2jx68CBmuqoBt4RhcZtc1aHLJUkmZs
+  rW92S2JgesuRQg823dLd4Frj0Xn0mICrHmFTA7/TfuO7mc6bhB35xpkSuTnz2Tm7k49wWz15r
+  LCQ/i5JbI8qtKrVw6L4ir1FAzT/p3pBJLcUaioRZzUXEiADTBHWMqAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-10.tower-291.messagelabs.com!1622072822!91774!1
+X-Originating-IP: [62.60.8.85]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.75.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 9949 invoked from network); 26 May 2021 23:47:03 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-10.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 26 May 2021 23:47:03 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14QNkuMI017906
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 May 2021 00:47:02 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Thu, 27 May 2021 00:46:54 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-libarchive-c: upgrade 2.9 -> 3.0
+Date: Thu, 27 May 2021 07:46:43 +0800
+Message-ID: <1622072806-6524-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210526002744.3683697-1-douglas.royds@taitradio.com>
- <20210526002744.3683697-2-douglas.royds@taitradio.com> <CANPvuRkM5FqLWRFAeWpi9ckhwcL-tcmur7OjW5bQwhcAPxCUug@mail.gmail.com>
-In-Reply-To: <CANPvuRkM5FqLWRFAeWpi9ckhwcL-tcmur7OjW5bQwhcAPxCUug@mail.gmail.com>
-From: "Douglas" <douglas.royds@taitradio.com>
-Date: Thu, 27 May 2021 11:26:14 +1200
-Message-ID: <CAFimOt4dFtpWBu0c0a9-qCU6g+wQ2_2LgmBJvFyNf_0SZs0_vQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] Revert "icecc: Don't use icecc when INHIBIT_DEFAULT_DEPS is set"
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-Yes, we could, but it's quite a long list, and I'm reluctant to start
-naming specific packages.
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...ython3-libarchive-c_2.9.bb => python3-libarchive-c_3.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-libarchive-c_2.9.bb => python3-libarchive-c_3.0.bb} (78%)
 
-I only did the INHIBIT_DEFAULT_DEPS test (that I'm reverting here) in
-the first place to silence the warnings. I think demoting these
-warnings to notes is a better solution.
+diff --git a/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb b/meta/recipes-devtools/python/python3-libarchive-c_3.0.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
+rename to meta/recipes-devtools/python/python3-libarchive-c_3.0.bb
+index 3a2d8733e9..d29195545f 100644
+--- a/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
++++ b/meta/recipes-devtools/python/python3-libarchive-c_3.0.bb
+@@ -9,8 +9,8 @@ PYPI_PACKAGE = "libarchive-c"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[md5sum] = "083bd2cb0043c1e22a52cb9a05e31532"
+-SRC_URI[sha256sum] = "9919344cec203f5db6596a29b5bc26b07ba9662925a05e24980b84709232ef60"
++SRC_URI[md5sum] = "920885f5910aa8245e30896996e0415b"
++SRC_URI[sha256sum] = "6f12fa9cf0e44579e5f45bbf11aa455a930fbfdb13ea0ce3c3dfe7b9b9a452ba"
+ 
+ RDEPENDS_${PN} += "\
+   libarchive \
+-- 
+2.25.1
 
-On Wed, 26 May 2021 at 20:52, Jose Quaresma <quaresma.jose@gmail.com> wrot=
-e:
->
-> Hi,
->
-> Instead of reverting we can add an exception for the packages you mentio=
-ned:
-> gcc-cross and friends, binutils-cross, and importantly, the linux kernel=
-.
->
-> Douglas via lists.openembedded.org
-> <douglas.royds=3Dtaitradio.com@lists.openembedded.org> escreveu no dia
-> quarta, 26/05/2021 =C3=A0(s) 01:28:
-> >
-> > Although this silenced the warnings, it also turned off icecc for
-> > gcc-cross and friends, binutils-cross, and importantly, the linux
-> > kernel.
-> >
-> > This reverts commit 0315aabeff8e6483b737d0e23d6841f1394ad3c8.
-> >
-> > [YOCTO #13863]
-> >
-> > Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> > ---
-> >  meta/classes/icecc.bbclass | 4 ----
-> >  1 file changed, 4 deletions(-)
-> >
-> > diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-> > index d095305ed8..0dde960e7a 100644
-> > --- a/meta/classes/icecc.bbclass
-> > +++ b/meta/classes/icecc.bbclass
-> > @@ -138,10 +138,6 @@ def use_icecc(bb,d):
-> >      if icecc_is_cross_canadian(bb, d):
-> >          return "no"
-> >
-> > -    if d.getVar('INHIBIT_DEFAULT_DEPS', False):
-> > -        # We don't have a compiler, so no icecc
-> > -        return "no"
-> > -
-> >      pn =3D d.getVar('PN')
-> >      bpn =3D d.getVar('BPN')
-> >
-> > --
-> > 2.25.1
-> >
-> >
-> >=20
-> >
->
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
-
---=20
-This Communication is Confidential. We only send and receive email on the
-basis of the terms set out at www.taitradio.com/email_disclaimer=20
-<http://www.taitradio.com/email_disclaimer>
