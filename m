@@ -1,144 +1,152 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web09.3246.1622061808256727082
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.3595.1622063500734889289
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 13:43:28 -0700
+ Wed, 26 May 2021 14:11:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pfgKkz6D;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id j6so4531157lfr.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 13:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+/K1YkB+2hmMhlXNepk2MKY4LFQEBo/ZQm9y3y597Ug=;
-        b=pfgKkz6DJxcBWUivi893LSFwxL3jk13daA8dUu1sdDabw6Yd+heZ2d8tK+igKQlPVy
-         tjQ7/xb97wrboliJI1ZuHQ3acnZna7aPHwhZdKQr7bzpv/5I0/cwV0g4fO8MAOP5w9vo
-         8UqoXK4HmoqqsDRjhjc0rQGH9gYo4ABjQ9KShXC5u1/k+mfpetfgpCql1i0oODjX7KpJ
-         VbgzEK8FZPDFnAffMQEVhdN93Ul07o02eLuAeGUmz/4Zfxv8TvueeU08waIhUrE9dLr9
-         wOhFxWvdcBP4o4uteA4iDR7OyyueIWfBc5q4J8OuQImZgy553TyhHKCgUDgYRYvAEj5r
-         WKrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+/K1YkB+2hmMhlXNepk2MKY4LFQEBo/ZQm9y3y597Ug=;
-        b=ZkIssPusgE25v7NndQ6cdj+XGoIiBX2Xv/p64JeZ6eB9M8/YE6cJDjrWpH/sJSKcHx
-         Am48qsVYr6aGHc/Zgh/y4fV+PFqRHjVwXWFYJSa/8vgmMc6/MxbuwFZxXZtr9TjcS4if
-         i+vnKZj93fhYgDH5E5BjRlqME80u5cpptdQevuNFbool3jjOa4W7V1WAqx+PiQAhjBvG
-         VpMABO3mTLh2y7K/4Pqw7CsBywK1J+WaAXbh9PPKaaScvtLLTIfkMQBiWSfdyiE0L/cF
-         TCm85PYyYJ79P5M4CmmwYZfnkW+C1+hvqCRcIpLj6zwyVce279lhQw4aHpWFaJrTooe+
-         BaCA==
-X-Gm-Message-State: AOAM533wW9eFMp17ceW55/2vgPCr48P+A2F4LBZ8OPfnnuTMEau/NExM
-	iGML1di9OqWY5tE7eDD5RtvQhIz7zoDiyQ3x1+A=
-X-Google-Smtp-Source: ABdhPJwQGQ4+qFJ5U0i1WawvjeB5H6uuJH72AePNDMb8gVOxTikIMhkfO7AzXcmUbnYTsP7Uy+ILOdiPK8L44FkNm0I=
-X-Received: by 2002:ac2:5183:: with SMTP id u3mr3230763lfi.137.1622061806335;
- Wed, 26 May 2021 13:43:26 -0700 (PDT)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 787D411D4
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 14:11:34 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 23F4E3F73B
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 14:11:34 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gcc: revert libstc++-gdb.py installation changes
+Date: Wed, 26 May 2021 22:11:32 +0100
+Message-Id: <20210526211132.1058543-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CANNYZj-v-hcO19SSkYgYKSeOBj7f1u4zvSRkfcx5UAm=ndye_A@mail.gmail.com>
- <20210524171559.190239-1-vinay.m.engg@gmail.com> <20210524171559.190239-4-vinay.m.engg@gmail.com>
- <CANNYZj-ibLe4twMKMfwKTmOH5R0jtK1531fHv9=WWSTv9VSaRw@mail.gmail.com>
-In-Reply-To: <CANNYZj-ibLe4twMKMfwKTmOH5R0jtK1531fHv9=WWSTv9VSaRw@mail.gmail.com>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Thu, 27 May 2021 02:13:14 +0530
-Message-ID: <CANUMPcVo=iH43q+70zHnsm5ktJR4D4AO+KZEzj8=0AQNaYFv0w@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] oeqa/selftest/cases/rust.py: Rust oe-selftest script.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Konrad Weihmann <kweihmann@outlook.com>, Randy MacLeod <rwmacleod@gmail.com>, 
-	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+Commit dbb87d in the GCC 11 branch was intended to make the installation =
+of
+this Python module more robust, but for unknown reasons the library_name
+in libstdc++.la in baremetal builds (for example, Zephyr) is unset, so th=
+e
+module is just installed as "-gdb.py".
 
->> Hardcoding the ip port this way is problematic and prone to conflicts. What is -monitor used for?
-When we were testing outside oe-selftest framework ( booting image
-manually and trigger testing),
-the "remote-test-server" used to give connection issues. However,
-right now without this option the testing is working without any
-issue. So removed from qemuboot.
+This may be a GCC bug, or a bug in our build. Until that is resolved,
+revert the commit to fix the packaging.
 
->> What does -j 40 do? Keep in mind that qemu has only 4 virtual cpu cores.
-This one passed to speed up the testing while using the "do_check"
-method. So I removed parallel builds.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/gcc/gcc-11.1.inc        |  1 +
+ ...nstall-libstdc-gdb.py-more-robustly-.patch | 76 +++++++++++++++++++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0001-Revert-libstdc-Ins=
+tall-libstdc-gdb.py-more-robustly-.patch
 
->> What happens if the test executed via runCmd fails? Specifically, will the failure be properly reported?
-While executing testing, if there any testcase failures testing gets
-terminated with below message,
-"command did not execute successfully:"
+diff --git a/meta/recipes-devtools/gcc/gcc-11.1.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-11.1.inc
+index aa7ac9be59..bf29879ded 100644
+--- a/meta/recipes-devtools/gcc/gcc-11.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-11.1.inc
+@@ -68,6 +68,7 @@ SRC_URI =3D "\
+            file://0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintai=
+nin.patch \
+            file://0036-mingw32-Enable-operation_not_supported.patch \
+            file://0037-libatomic-Do-not-enforce-march-on-aarch64.patch \
++           file://0001-Revert-libstdc-Install-libstdc-gdb.py-more-robust=
+ly-.patch \
+ "
+ SRC_URI[sha256sum] =3D "4c4a6fb8a8396059241c2e674b85b351c26a5d678274007f=
+076957afa1cc9ddf"
+ SRC_URI[backports.sha256sum] =3D "69274bebd6c069a13443d4af61070e854740a6=
+39ec4d66eedf3e80070363587b"
+diff --git a/meta/recipes-devtools/gcc/gcc/0001-Revert-libstdc-Install-li=
+bstdc-gdb.py-more-robustly-.patch b/meta/recipes-devtools/gcc/gcc/0001-Re=
+vert-libstdc-Install-libstdc-gdb.py-more-robustly-.patch
+new file mode 100644
+index 0000000000..a3e31e4f9d
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/0001-Revert-libstdc-Install-libstdc-g=
+db.py-more-robustly-.patch
+@@ -0,0 +1,76 @@
++This change breaks installation on baremetal targets, so whilst the caus=
+e is
++investigated revert the commit.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From 8ec52bd0ba2141ef0bcc6f93e26a23d662b40f78 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Wed, 26 May 2021 19:54:29 +0100
++Subject: [PATCH] Revert "libstdc++: Install libstdc++*-gdb.py more robus=
+tly
++ [PR 99453]"
++
++This reverts commit dbb87d6a9c37c8eca80d77782717a8144515c16d.
++---
++ libstdc++-v3/python/Makefile.am | 20 ++++++++++++++++----
++ libstdc++-v3/python/Makefile.in | 14 ++++++++++++--
++ 2 files changed, 28 insertions(+), 6 deletions(-)
++
++diff --git a/libstdc++-v3/python/Makefile.am b/libstdc++-v3/python/Makef=
+ile.am
++index 0c2b207b86e..01517a2a522 100644
++--- a/libstdc++-v3/python/Makefile.am
+++++ b/libstdc++-v3/python/Makefile.am
++@@ -44,9 +44,21 @@ gdb.py: hook.in Makefile
++ install-data-local: gdb.py
++ 	@$(mkdir_p) $(DESTDIR)$(toolexeclibdir)
++ ## We want to install gdb.py as SOMETHING-gdb.py.  SOMETHING is the
++-## full name of the final library.  We use the libtool .la file to get
++-## the correct name.
++-	@libname=3D`sed -ne "/^library_names=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;=
+}" \
++-	          $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+++## full name of the final library.  We want to ignore symlinks, the
+++## .la file, and any previous -gdb.py file.  This is inherently
+++## fragile, but there does not seem to be a better option, because
+++## libtool hides the real names from us.
+++	@here=3D`pwd`; cd $(DESTDIR)$(toolexeclibdir); \
+++	  for file in libstdc++.*; do \
+++	    case $$file in \
+++	      *-gdb.py) ;; \
+++	      *.la) ;; \
+++	      *) if test -h $$file; then \
+++	           continue; \
+++	         fi; \
+++	         libname=3D$$file;; \
+++	    esac; \
+++	  done; \
+++	cd $$here; \
++ 	echo " $(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gd=
+b.py"; \
++ 	$(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gdb.py
++diff --git a/libstdc++-v3/python/Makefile.in b/libstdc++-v3/python/Makef=
+ile.in
++index 2efe0b96a19..c35dbe55961 100644
++--- a/libstdc++-v3/python/Makefile.in
+++++ b/libstdc++-v3/python/Makefile.in
++@@ -607,8 +607,18 @@ gdb.py: hook.in Makefile
++=20
++ install-data-local: gdb.py
++ 	@$(mkdir_p) $(DESTDIR)$(toolexeclibdir)
++-	@libname=3D`sed -ne "/^library_names=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;=
+}" \
++-	          $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+++	@here=3D`pwd`; cd $(DESTDIR)$(toolexeclibdir); \
+++	  for file in libstdc++.*; do \
+++	    case $$file in \
+++	      *-gdb.py) ;; \
+++	      *.la) ;; \
+++	      *) if test -h $$file; then \
+++	           continue; \
+++	         fi; \
+++	         libname=3D$$file;; \
+++	    esac; \
+++	  done; \
+++	cd $$here; \
++ 	echo " $(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gd=
+b.py"; \
++ 	$(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gdb.py
++=20
++--=20
++2.25.1
++
+--=20
+2.25.1
 
-So we are passing "--no-fail-fast" as a test argument, which wont exit
-the shell and the testing continues even if there are failures.
-
->> I'm wondering because the output of the test is redirected to summary.txt (which is then left unused), and stderr is discarded altogether.
-This is because I only capture the test results as much as possible.
-Now modified to consider stderr also.
-
->> Will t_thread be stopped if runCmd fails?
-Now changed the implementation to discard thread usage. Even in case
-of any failure the test used to end after timeout set in "SShcontrol"
-if the timeout is less (60 seconds) then some of the tests used to get missed.
-
-So instead of using copy_to and run from sshcontrol.py, I tried
-copying the remote-test-server to the image and  executing in the
-background as below,
-
-#Copy remote-test-server through scp and execute through background ssh
-sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
--o LogLevel=ERROR'
-cmd = "scp %s %s/build/x86_64-unknown-linux-gnu/stage2-tools-bin/remote-test-server
-root@%s:~/ ;" % (sshargs, builddir, qemu.ip)
-testcommand = '~/remote-test-server -v remote'
-cmd = cmd + "ssh %s -f root@%s \"%s\";" % (sshargs, qemu.ip, testcommand)
-
-And kill "remote-test-server" through ssh once testing is complete
-killcommand = "kill -9 \$(ps | grep remote-test-server |  grep -v
-\"grep\" | awk '{print \$1}')"
-cmd = cmd + "ssh %s root@%s \"%s\";" % (sshargs, qemu.ip, killcommand)
-
-Testing in progress will send the v5 version patches.
-
-Regards,
-Vinay
-
-On Tue, May 25, 2021 at 1:29 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Mon, 24 May 2021 at 19:16, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
->>
->> Build remote-test-server copy to image and execute
->> remotely through background ssh.
->
->
-> Thanks, I do not have any further comments about the overall structure, the below are more specific concerns.
->
->>
->> +               with runqemu("core-image-minimal", runqemuparams = "nographic", qemuparams= " -monitor \
->> +                        telnet:127.0.0.1:1234,server,nowait -serial mon:stdio -serial null") as qemu:
->
->
-> Hardcoding the ip port this way is problematic and prone to conflicts. What is -monitor used for?
->
->>
->> +                       cmd = cmd + " cd %s;  python3 src/bootstrap/bootstrap.py -j 40 --verbose test %s --target %s > summary.txt 2> /dev/null " % (builddir, testargs, targetsys)
->
->
-> What does -j 40 do? Keep in mind that qemu has only 4 virtual cpu cores.
->
->>
->> +                       runCmd(cmd)
->
->
-> What happens if the test executed via runCmd fails? Specifically, will the failure be properly reported?
->
-> I'm wondering because the output of the test is redirected to summary.txt (which is then left unused), and stderr is discarded altogether.
->
->>
->> +                       # Stop ssh background execution
->> +                       t_thread.stop()
->
->
-> Will t_thread be stopped if runCmd fails?
->
-> Alex
