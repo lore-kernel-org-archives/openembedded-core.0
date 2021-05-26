@@ -1,90 +1,63 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.187.1622048999617516073
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web08.190.1622049025142263642
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 10:09:59 -0700
+ Wed, 26 May 2021 10:10:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BHMXboen;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id s22so3577575ejv.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 10:09:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ed9aCoj4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id f20-20020a05600c4e94b0290181f6edda88so988261wmq.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 10:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NCNbROYWPONRo0KcKY1jlQ7tn1wrnZn9mzVJPWc2zJU=;
-        b=BHMXboenqL6+elTnr4vwZInTFhoyEkUtMmhilPJ25AmajlZA69YkkYMYFtkWIx0BVK
-         xzk19bbYM8BDeGB1JxLCu5OM55YO2wQBCurHNttM7x/9ZDhwEm6t32L53ACJBBeXQbBT
-         Tp+6cshiODqd6FLuWXfhVacQ3bJY0VATIk+9yy9yGZ54QlKI5Dgw+CbV2x0FwR1FzJSv
-         WMr+uYybg5kWoJoe2iaJ6RuSVX339oZZh3IHGq8lm3OTG05Of/cgMMG7Z5Bgc/cxTu05
-         C7D9VjwhmV6EpTUNoEHX89yHTWvJ6/Wrsi8E/XFvqGdMM8UDigfeZjqBEh3qj8wtmnvr
-         8pmg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=fUND2l7qeXHl+iNdiZFPaPiO4p9MyKfYlxMy/Lw6jHo=;
+        b=Ed9aCoj4ECQrMFpXL3a0jaYeSEyhCT22Q/s9WIn3PbB9Qo5rePx7l37NmffonsgXjS
+         4HXKbXLRjmILw72pzqdWHnjWBF19fOqeaFnNvBalnTCR8pzmWeR+seuXtDH26ROGg9yM
+         kh/tVCkB+tu+BgA3U9dpS7gWpOew7tY5Os3eQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NCNbROYWPONRo0KcKY1jlQ7tn1wrnZn9mzVJPWc2zJU=;
-        b=byz/DhTVWAW1HB04MPI5o6B68zelyownOLyxz+W+pOn12F4aOsRtlBuDq/CLpRFnaP
-         bQAXgeu766gIFzSSTWggm/lUInGyN+v+1OLwNRSsTzJDMeJfiCa9QbSC1Je+OPT73yjW
-         M+UioAp2gHpmw8t5PT+wO35049tYWALqZnxYEtwpin73xSTbwnTY0v2YsdHkxJBIl9LK
-         YQymd2Qh3ZDQgJN8SFbmCt4G0MGTk+YiopT/XiwzfFyAGF/LNraLJ2z1OnT008BKrwuF
-         dACMDsnN4ZHpHJYxxpcZ5Bb/6NjH/TOEp2032Oeux0cwb8WIyP3FCbxdb3m4Dm7eal2N
-         b+lQ==
-X-Gm-Message-State: AOAM530fYs0A7rqYZGo7SIill3b+j9jVq0SiDTgaxAI3Sw5LGOyRpeE2
-	Qm2kiAc6xcWIXdbUYckJhEGvxbIKODDo+tnnWtA=
-X-Google-Smtp-Source: ABdhPJwfbY6z1WzvN4cHgJ5v7Qy1oTLXOKl1AuTNIKPA07QbzAmslsnSSKZ9elvZ+U7Co1p/pMPSMbQhwZ5wVD4g3GU=
-X-Received: by 2002:a17:906:68c:: with SMTP id u12mr33856841ejb.470.1622048998038;
- Wed, 26 May 2021 10:09:58 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=fUND2l7qeXHl+iNdiZFPaPiO4p9MyKfYlxMy/Lw6jHo=;
+        b=W2uRPgD5FhImCidu7fbH0IoWUVJo6O1SfGcD7RDTiwFEWXuLtzT94bo45zYqU02Tkw
+         EBjltYBkGGJmR4ZC53zUhgXSF5mADb++PBt7E1uz2Dxs4ePnHUQzyIdjvK9LuEOpJnvM
+         0PU7wrPsp8fiaC/2s7v+7huw+2CU/9AuoJhq0NEV9t81c7oyfHCpUBYGwL1aI/dmN2Zj
+         Z9s39MRwvcYKGb6EHScG549+GbmaXu+acB82U5ZQ5s/XxYekkwwQe0xjEwrMjFoAoGHm
+         aEahrssRTsNHACjX+6+NiJ5eDAB6ulZ/PriSD4T757BT4icMZEEWpm6o189iy1d5BYj6
+         U35Q==
+X-Gm-Message-State: AOAM533hFFjDE9yhJ1dOkPcSkAbzK2Cog7pobyS86LRPWidVNQP6fCo+
+	5PrpR6fJYVFV/UQ+tDYNsw46Tw==
+X-Google-Smtp-Source: ABdhPJyUmJFIzsSvLIXG4x7Ei55j3BQJvxeYap47/yBRFO6M+WLEvg3HkA9B9kQpJBgg8TTifO1eAg==
+X-Received: by 2002:a1c:3b04:: with SMTP id i4mr4198813wma.116.1622049023494;
+        Wed, 26 May 2021 10:10:23 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:a7fa:b38f:3320:9d46? ([2001:8b0:aba:5f3c:a7fa:b38f:3320:9d46])
+        by smtp.gmail.com with ESMTPSA id q186sm15398099wme.20.2021.05.26.10.10.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 10:10:23 -0700 (PDT)
+Message-ID: <f3e694df4726cc21060cb296a8c6b0848f4e6c96.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] package_rpm: pass XZ_THREADS to rpm
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton
+ <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 May 2021 18:10:22 +0100
+In-Reply-To: <CANNYZj_3=8Fg2pBPQt5SYVD6QZpN=UfVC1+_Ndupiuf4-Grcpw@mail.gmail.com>
+References: <20210526145910.3930141-1-ross.burton@arm.com>
+	 <CANNYZj_3=8Fg2pBPQt5SYVD6QZpN=UfVC1+_Ndupiuf4-Grcpw@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-References: <20210524152106.4160032-1-raj.khem@gmail.com> <CAAnfSTvgOiJ5hvG41fTqW3XD73bBB5nJOG7FaySPzspcGOj1bg@mail.gmail.com>
- <CAMKF1soOUcqa6huRjbn5QgP0hkBaFafS2PkgWHbVazW4R0NRnQ@mail.gmail.com> <1682A83F9B9CCAC9.4904@lists.openembedded.org>
-In-Reply-To: <1682A83F9B9CCAC9.4904@lists.openembedded.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 26 May 2021 19:09:47 +0200
-Message-ID: <CA+chaQd8yVVJA=U1KieF_sPaQU-Yo0vcHAfkGnNLdTtE7uNw3g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] gcc: Update to latest on release/gcc-11 branch
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000056221705c33eb6d1"
-
---00000000000056221705c33eb6d1
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 26, 2021 at 5:43 PM Martin Jansa via lists.openembedded.org
-<Martin.Jansa=gmail.com@lists.openembedded.org> wrote
+On Wed, 2021-05-26 at 18:30 +0200, Alexander Kanavin wrote:
+> What  happens if XZ_THREADS isn't set?
 
-> I'm seeing different error with gcc-sanitizers and this new revision:
->
-> work-shared/gcc-11.1.0-r0/gcc-11.1.0/libsanitizer/lsan/lsan_common_linux.cpp:164:25:
-> error: invalid conversion from 'void (*)(void*)' to 'void* (*)(void*)'
-> [-fpermissive]
->
-> will double-check if it was introduced by this upgrade or something else
-> in oe-core master update today and also if there is a fix in even newer gcc
-> already.
->
+It is given a default in bitbake.conf so you'd have to go out 
+of your way to do it...
 
-Sorry for noise, this line of code comes from our local patch and the
-upgrade just started triggering this issue in it.
+Cheers,
 
---00000000000056221705c33eb6d1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, May 26, 2021 at 5:43 PM Martin Ja=
-nsa via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a=
-> &lt;Martin.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gm=
-ail.com@lists.openembedded.org</a>&gt; wrote<br></div><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv>I&#39;m seeing different error with gcc-sanitizers and this new revision=
-:</div><div><br></div>work-shared/gcc-11.1.0-r0/gcc-11.1.0/libsanitizer/lsa=
-n/lsan_common_linux.cpp:164:25: error: invalid conversion from &#39;void (*=
-)(void*)&#39; to &#39;void* (*)(void*)&#39; [-fpermissive]<br><div><br></di=
-v><div>will double-check if it was introduced by this upgrade or something =
-else in oe-core master update today and also if there is a fix in even newe=
-r gcc already.</div></div></blockquote><div><br></div><div>Sorry for noise,=
- this line of code comes from our local patch and the upgrade just started =
-triggering this issue in it.</div></div></div>
-
---00000000000056221705c33eb6d1--
