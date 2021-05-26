@@ -1,151 +1,152 @@
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (EUR02-AM5-obe.outbound.protection.outlook.com [40.92.67.82])
- by mx.groups.io with SMTP id smtpd.web10.9810.1622045276652644421
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+ by mx.groups.io with SMTP id smtpd.web09.10052.1622046640862934042
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 09:07:57 -0700
+ Wed, 26 May 2021 09:30:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=aT7KCDTg;
- spf=pass (domain: outlook.com, ip: 40.92.67.82, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kgiRhnqsOD6Pg9RDOgNWHRncTFh85PLk4wRtFrntZB5Lbd835/l3dH0267lfKJqNLntytgM0yStHBKofeQnlgd3YtFU3caDnrUV3Nmx2mLUSdGZ24h0VisBiY7TC566BmefOMenPFctkHFlYEFAwRiwhv+GKNEq9O5GERAXtiO+8utsnmPsczQkVdO+/yG0D0cOZMql6/nBgsqJLxUuGyewj5ay9PpYb8IeLYXIMoGovN1q688n1DaKYf55WKukmoa9Gtfmy/YDpEcKlA9v1Ykc7bCW5bQOH3fpiKOkL9+xLlUHzbmPwzkfRWEc7t1wxRl9N28Cp+nUuaV4UF1trdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rHV1MNMb3E1hNEPCK7pVMEqzZeGSJoL8X9setXZxIIo=;
- b=EwUJFkln7yVRpQi81trwpq7ikiQjCypdyQWOzcinq6QUkEJ6V8TaKQbGO2UqMkncAM91UPIXImyczxSlkU6dTQT/x+83A1SCkHQzPe/VpK4QCqLhQxbpHesJtpmjxVEyiDfJapNmOk7C4vJIzBht3OdOiM7tkAYau5UI9tNWVA1dKkMDqg5uaboERAdEFsDZR+XKz2Fmwmju4fUTLbR3UlHBD2Or9PoGFKGod8WEZyCMT2WSLB8A/LNviMfSp2pklUjNBBF5bc1Pd92SlSZ26OHFAoQZybSEtl+vXIOoZKTL8OBm5okXm5UxpVIQr+inXtma5JODp9f0dK7guAVHhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rHV1MNMb3E1hNEPCK7pVMEqzZeGSJoL8X9setXZxIIo=;
- b=aT7KCDTgXtHhwHJ6bDv2xbuGkju9BAEahNXXkhceFxT2E6BENlxTPgfI/s1Gi3CD0s71TC6ttD8fZ/EXwMb7sQEka3qpAk93g/irK2e21VPm0zoC7AwOFrEgIugbuk6AYc9Mu2A0mpg4ydXBJUdrzn6hjDJVaXLj5eOcgiBjdZWwzZQ6QH6dYQLGaMIqwa8rpAb44eSVFRV5csyTcfVV9InWbn321a+eOjtbDQIow2Ojd/pDSpllV2AWq2ZYdRLOvfi/XH9pP1KHkcIO1ziQxA3mYpSrR5jHr4Ww9FniBjuFn0JWHtMB+2Flj2V+zLCnfiP8zDBtFrT6WzxRJyo4kA==
-Received: from AM5EUR02FT032.eop-EUR02.prod.protection.outlook.com
- (2a01:111:e400:7e1c::41) by
- AM5EUR02HT187.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1c::278)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Wed, 26 May
- 2021 16:07:54 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- (2a01:111:e400:7e1c::52) by AM5EUR02FT032.mail.protection.outlook.com
- (2a01:111:e400:7e1c::109) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25 via Frontend
- Transport; Wed, 26 May 2021 16:07:53 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:734C4A32D2983501B58EB431AAF155ADE81A8DF1D84A0993FD27EBE3029D4F6A;UpperCasedChecksum:D7B774E33ACFAF29F45303445D0E10D8B3800FD2D4D3CA124674EFADDA63EA8D;SizeAsReceived:8653;Count:48
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::9c9b:9858:17df:de84]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::9c9b:9858:17df:de84%6]) with mapi id 15.20.4173.021; Wed, 26 May 2021
- 16:07:53 +0000
-Subject: Re: [OE-core] [RFC PATCH] rpm: limit xz threading
-To: openembedded-core@lists.openembedded.org
-References: <20210526143021.3920457-1-ross.burton@arm.com>
-Cc: Ross Burton <ross@burtonini.com>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB464243195811A0A545893993A8249@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Wed, 26 May 2021 18:07:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210526143021.3920457-1-ross.burton@arm.com>
-X-TMN: [5tOVYPLVGcGkJf82lkHyG07NhdSjlZOL]
-X-ClientProxiedBy: AM6PR10CA0066.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:80::43) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <e24481eb-12ea-3830-3dca-870bbbe9b253@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DmUPB20F;
+ spf=pass (domain: gmail.com, ip: 209.85.222.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f47.google.com with SMTP id b1so1111349uap.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 09:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q9hgHQtigno2/6hByTs3ulGxpIui4oqWhwbvQh15neo=;
+        b=DmUPB20FkV9YokpCvFtBB0hajj7jg7nEX6pJnnZf/9bQiZhXW2nT0Cdkci4eB6GsjA
+         BeIm+AyYMdDh3vugBJGjoHIr+QCTaxcnbWmrbh+Cj6N+87I1rEumlbUJajBbPjREvMvH
+         Pv3ahyUeL2/zKetpPTHLt2xXcQUWbjw2qBbX3aLRjH/iHOamNtvnUTgpb0IlLwwx8xaE
+         BO1JAGrUgDK0xpCWfk4iGAY9gszplwY6y9GGJIUnbYboGyxT5IADgAJrdG0rLq0xpgSs
+         kG/7K8CgLk2ECIsxanZIXrXGt0C79Q4PRpmeji+5C2mIgL/u5z/kg0Jn1fBCcxfLM81h
+         Xw8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q9hgHQtigno2/6hByTs3ulGxpIui4oqWhwbvQh15neo=;
+        b=mzrXxawh4mxBFYxUUwbseif4gf/8wI4mM5YlD4ohLrQ6I3aLvxzroxLFopMx9N+v+L
+         oZEzg/U4ttSsF8hijYIwLcEE+vcj+cERFmzYeIqa7MC+9dlvlLDdHfuT2LJ7yWjWBhOn
+         w5h4JNFyjFlE6PxWMFzdijUUkm3CR0udoQxqZ5a0f2PMVpfPV8wo+v0HlBdeGpq4MhwF
+         RIv4gufoLwkEuIWfln+cNIqb0BF58/Q2Enq6SqShMC0NBhlYrQfQ7qve+LIc9tdYAftG
+         xahMn4DGEGozE2a6dIfSUUOv8CyYIMbiW2dFMy0UrRXtXL9AlrvaGSgtwvJ9+Ae7jzaV
+         hG/Q==
+X-Gm-Message-State: AOAM530DZqoue2wUU+alYr+VxCIxHm+GB2oFh67aQLeErh634WPFqy0s
+	nSVzfaH68EbrqWVjGa8wb21VamFQKEObLBF1So+gBy+W
+X-Google-Smtp-Source: ABdhPJySJynVOwIwVamWSzF6BDlRNJkfBgpW4He44wARV6KYwmYJMplsy30U3JpWkfT+JP+DRuxXt6tMHBqq4YA8zOk=
+X-Received: by 2002:ab0:742:: with SMTP id h60mr33001802uah.89.1622046640000;
+ Wed, 26 May 2021 09:30:40 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (87.141.92.63) by AM6PR10CA0066.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:80::43) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Wed, 26 May 2021 16:07:53 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: b0f138dc-484f-4fbf-df55-08d920606b27
-X-MS-TrafficTypeDiagnostic: AM5EUR02HT187:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	k6Wp/35lFJPlN9BDjSw8VnOGXZdgoWIChshqmU23gFHwZNP9OP8BE+05RsbQOMUxy9Cwlg5VbmDBHpnu122HukzCm8Xa5CIMCekd4+7tAsMMtKjNKuFrPU3UqAxlD5XAztPitkPwMmsNDjCocGSnR+3acc0G9X83s6NiX2DOq+Gh2T3ysP0Xdce/usxrhlnG6/KAH4qABA6gg4F2asXOZP1ucD1rTIDyNPVdvdOU8cgyxNRvhX9B8EnvKpWJbmfznP704y9ZHk4gwtj0hUQwg3HRWJ7n+OXL0rEuORjsGysCwX3TWzLjwqQsgqLEV953vu7eCnAr/y6Gu671WYBpUMnpiedJZ8REhNM6jV/gZvapyI3fV351UTlPemogWLxepw35xCVwJyd6ssIeYrJVlXn1pty1FcynI4lHEa2JD1vrafbfgiNhmNLxZ5X5wHd9EPXW8PISrp8lF5IsLd10zw==
-X-MS-Exchange-AntiSpam-MessageData: 
-	EHI8urDBypzrVPJYNLrevXPVN733RPezFzsaJVmgaKObmTNVrdLCEIVlZR52YfjgKWeF8PpBBt0hOam0qP8TdacPSRJCTGnbIc9MBDWk/+mwayl5PgZFcrdUQbERVMRYa28Ujtn7+Mz2gsW+hQIw4Q==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0f138dc-484f-4fbf-df55-08d920606b27
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 16:07:53.8769
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM5EUR02FT032.eop-EUR02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5EUR02HT187
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210526145910.3930141-1-ross.burton@arm.com>
+In-Reply-To: <20210526145910.3930141-1-ross.burton@arm.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 26 May 2021 18:30:28 +0200
+Message-ID: <CANNYZj_3=8Fg2pBPQt5SYVD6QZpN=UfVC1+_Ndupiuf4-Grcpw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] package_rpm: pass XZ_THREADS to rpm
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c9513905c33e2923"
 
+--000000000000c9513905c33e2923
+Content-Type: text/plain; charset="UTF-8"
 
+What  happens if XZ_THREADS isn't set?
 
-On 26.05.21 16:30, Ross Burton wrote:
+Alex
+
+On Wed, 26 May 2021 at 16:59, Ross Burton <ross@burtonini.com> wrote:
+
+> By default RPM uses the number of cores as the number of threads to use,
+> which can result in quite antisocial memory usage.
+>
+> As we control the macros for compression anyway, we can pass XZ_THREADS
+> to limit the number of threads if needed.
+>
 > Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->   .../rpm/files/less-threads.patch              | 24 +++++++++++++++++++
->   meta/recipes-devtools/rpm/rpm_4.16.1.3.bb     |  1 +
->   2 files changed, 25 insertions(+)
->   create mode 100644 meta/recipes-devtools/rpm/files/less-threads.patch
+>  meta/classes/package_rpm.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/package_rpm.bbclass
+> b/meta/classes/package_rpm.bbclass
+> index 84a9a6dd12..86706da842 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -684,8 +684,8 @@ python do_package_rpm () {
+>      cmd = cmd + " --define '_use_internal_dependency_generator 0'"
+>      cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build
+> 0'"
+>      cmd = cmd + " --define '_build_id_links none'"
+> -    cmd = cmd + " --define '_binary_payload w6T.xzdio'"
+> -    cmd = cmd + " --define '_source_payload w6T.xzdio'"
+> +    cmd = cmd + " --define '_binary_payload w6T%d.xzdio'" %
+> int(d.getVar("XZ_THREADS"))
+> +    cmd = cmd + " --define '_source_payload w6T%d.xzdio'" %
+> int(d.getVar("XZ_THREADS"))
+>      cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
+>      cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
+>      cmd = cmd + " --define '_buildhost reproducible'"
+> --
+> 2.25.1
+>
+>
 > 
-> diff --git a/meta/recipes-devtools/rpm/files/less-threads.patch b/meta/recipes-devtools/rpm/files/less-threads.patch
-> new file mode 100644
-> index 0000000000..d6db85f28a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/files/less-threads.patch
-> @@ -0,0 +1,24 @@
-> +Instead of telling XZ to use as many threads as there are processor cores, just
-> +hardcode this to 4.
+>
+>
 
-at this point I read 4
+--000000000000c9513905c33e2923
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +
-> +On large systems with lots of cores, XZ will use unreasonable amounts of memory.
-> +For example, my ThunderX2 reports 256 cores and rpmbuild takes 3.8GB of resident
-> +memory when packaging cmake. Limiting RPM to just 8 threads reduces this to
-> +1.2GB without massively reducing the compression speed.
-> +
-> +Upstream-Status: Inappropriate
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +
-> +diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
-> +index 52be6a38d..c4034e9e5 100644
-> +--- a/rpmio/rpmio.c
-> ++++ b/rpmio/rpmio.c
-> +@@ -799,7 +799,7 @@ static LZFILE *lzopen_internal(const char *mode, int fd, int xz)
-> + #ifdef HAVE_LZMA_MT
-> + 	    } else {
-> + 		if (threads == -1)
-> +-		    threads = rpmExpandNumeric("%{getncpus}");
-> ++		    threads = 8;
+<div dir=3D"ltr"><div>What=C2=A0 happens if XZ_THREADS isn&#39;t set?</div>=
+<div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Wed, 26 May 2021 at 16:59, Ross Burton=
+ &lt;<a href=3D"mailto:ross@burtonini.com">ross@burtonini.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">By default RPM=
+ uses the number of cores as the number of threads to use,<br>
+which can result in quite antisocial memory usage.<br>
+<br>
+As we control the macros for compression anyway, we can pass XZ_THREADS<br=
+>
+to limit the number of threads if needed.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
+et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/package_rpm.bbclass | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.b=
+bclass<br>
+index 84a9a6dd12..86706da842 100644<br>
+--- a/meta/classes/package_rpm.bbclass<br>
++++ b/meta/classes/package_rpm.bbclass<br>
+@@ -684,8 +684,8 @@ python do_package_rpm () {<br>
+=C2=A0 =C2=A0 =C2=A0cmd =3D cmd + &quot; --define &#39;_use_internal_depen=
+dency_generator 0&#39;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0cmd =3D cmd + &quot; --define &#39;_binaries_in_noarch=
+_packages_terminate_build 0&#39;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0cmd =3D cmd + &quot; --define &#39;_build_id_links non=
+e&#39;&quot;<br>
+-=C2=A0 =C2=A0 cmd =3D cmd + &quot; --define &#39;_binary_payload w6T.xzdi=
+o&#39;&quot;<br>
+-=C2=A0 =C2=A0 cmd =3D cmd + &quot; --define &#39;_source_payload w6T.xzdi=
+o&#39;&quot;<br>
++=C2=A0 =C2=A0 cmd =3D cmd + &quot; --define &#39;_binary_payload w6T%d.xz=
+dio&#39;&quot; % int(d.getVar(&quot;XZ_THREADS&quot;))<br>
++=C2=A0 =C2=A0 cmd =3D cmd + &quot; --define &#39;_source_payload w6T%d.xz=
+dio&#39;&quot; % int(d.getVar(&quot;XZ_THREADS&quot;))<br>
+=C2=A0 =C2=A0 =C2=A0cmd =3D cmd + &quot; --define &#39;clamp_mtime_to_sour=
+ce_date_epoch 1&#39;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0cmd =3D cmd + &quot; --define &#39;use_source_date_epo=
+ch_as_buildtime 1&#39;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0cmd =3D cmd + &quot; --define &#39;_buildhost reproduc=
+ible&#39;&quot;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-...but here it's 8 :thinking: (I know 2xthreads == cores, still I find 
-the commit messages very confusing). Wouldn't it make more sense to 
-externalize the value, so that patch might become upstreamable?
-
-> + 		lzma_mt mt_options = {
-> + 		    .flags = 0,
-> + 		    .threads = threads,
-> diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-> index 95a6f5cf71..f7e9378061 100644
-> --- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-> @@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
->              file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
->              file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
->              file://0001-tools-Add-error.h-for-non-glibc-case.patch \
-> +           file://less-threads.patch \
->              "
->   
->   PE = "1"
-> 
-> 
-> 
-> 
-> 
+--000000000000c9513905c33e2923--
