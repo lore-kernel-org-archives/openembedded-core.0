@@ -1,81 +1,75 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web08.2669.1622059407419858712
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web08.3176.1622061639934551877
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 13:03:27 -0700
+ Wed, 26 May 2021 13:40:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nTrpXBag;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: nishaparrakat@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id o127so1410897wmo.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 13:03:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DqZnRBS5;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id df21so3118810edb.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 13:40:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=/F7HK6be3EruL8HD/KdisajRg3DfrEzEYCKAldqc4BU=;
-        b=nTrpXBagejY9kYE+VHmJKV7J1JK4Al5R1Lk/w+TmFj6sNe3PzGAee6YBuBFX30PDzK
-         OC4nrDbGlJ1Dt9VO2d2l40pN0yyIH++y4pSKyibU5T0nBcmvu8Y7bxpnNHkleUVPDWYD
-         95jn+0frviYCAgmrUYD/SNOQPNt8kii5MUbfC77fxp5b9dJu42fsM5VRkA5G2kXX0gFK
-         xcrgIU7cM7Uefso4IYx+IiXhspNuv+m6oR8htwJZ071wtPgtuGSnwm7/SdMLv/NpSMYK
-         WU+MrclHgQBW9ldKGEM2XZ55Syoh/amo4I5jKxInOTBsbMxNt8ggofZj7RynaSm4mWk4
-         jB+Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LVVhuCCRVvClkulPOXhCA6sI4U5fg/FtDUrZWGdHRjk=;
+        b=DqZnRBS5WGUk6wZ4BuOl07/KmAms4nk6f0EASW3zhHb99pTwnHl5dWNtutDP8LYiys
+         APUbyLHe1kCWA1+coaRGgU4lV5qCPdX4BgzFEUiJETu57Te17kbFk86LIvVDBZy6x+cn
+         Im627vVZyOLqWYP4NYilRBalS4LPuhXEBVCzLv4e3UNCQ6F8DJE2pLbosZA0MlpXXQKr
+         2Gv4bOFmUbLRxIWNQxTKJnbkfAcvjRz2e4XAYXmNJcrA4/+NxDo1BFk9DcjsZRr6Emjy
+         24pZmxtyH1UO+cs3TM22HEfFTDmP3vzRT5cR9iptyEiYVIL5rDuqJ+cHoSgU7pwRRD4b
+         JAsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/F7HK6be3EruL8HD/KdisajRg3DfrEzEYCKAldqc4BU=;
-        b=am0JXlUztB1EIl1ce3cv7LM8JeBTcFYFmmymkDfvEBm2Q9g0pHGQy1TZbndOjyP6pR
-         w4TSOCDLL/EQJ33tTnmx1Dx1/3yEasy+9o3gRruyH9ogI6kYbrGcMqB32ddNvFVJ4nee
-         L9ZqNDy1IQ+2IGFj3iTmRlBLr+FgQdVWFhHK4QU+7o4wOMXUMEy3u1M1b5FncXmuGRJL
-         vtn2yEn6/GPRagDieMfTDRbTRCDGEh3yZpYZPqqnYYDOcJr2wLiEL/HSm0azHw8jjSEy
-         zg2r7G/hct2oS2vF/prZ68GBig1Wzz3jifKDc7vGPpAaW4ZROlfK/DYiloZ3DcJnZG0B
-         C9rg==
-X-Gm-Message-State: AOAM530EGLkIUIbm0kRy6hD7CtZX8M43GhZE+Iq59ma5tsRxJIWGgQEs
-	Etcq9ox8kA+KS0xeUPoyvfXR46yS1TevBF3SEQHCm7mN
-X-Google-Smtp-Source: ABdhPJx6UOgwW+664v2IUEvJ9i4LWPTXvbBUatLDcsHILXoUbjL8AGxoLylnQBSyAVVZrb5e2LUHKw==
-X-Received: by 2002:a05:600c:4fd6:: with SMTP id o22mr89706wmq.83.1622059406019;
-        Wed, 26 May 2021 13:03:26 -0700 (PDT)
-Return-Path: <nishaparrakat@gmail.com>
-Received: from bsys_traas.speedport.ip (p200300c00f3bb0593a22e2fffe1aa816.dip0.t-ipconnect.de. [2003:c0:f3b:b059:3a22:e2ff:fe1a:a816])
-        by smtp.gmail.com with ESMTPSA id n2sm116635wmb.32.2021.05.26.13.03.25
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LVVhuCCRVvClkulPOXhCA6sI4U5fg/FtDUrZWGdHRjk=;
+        b=Gv1mAyGp76wyMWz7rAhkbu6X3K4rs8RiSZRbyhCxPEyanWuTG48/4NVKVQEISFVwPz
+         ckBVid1GSk6OSx2UGmh+8ZEWmVWVLYFcCNqMLkR5ILosec53oklgPTjKR716Wv0r5ke2
+         DLeg0/+Cl4w6ijo41DF4S7f9DGK7yPskyfhU0Ex3qe+Pq+sG6WkSZGTVmpRC0nZzWroN
+         KPxyhIToXrbwGl5u+7ABsPgXaYgg/G+6692Sh3DyamhjalyO9W1uHrdFp4QUExWN1A8H
+         q/gVnhENlF1nFRR43J2FEKLCYonI5maYGuOqCWoiZAPaplSDo3drxgu0jC4q+z6dk03c
+         /atA==
+X-Gm-Message-State: AOAM530+dqf2anIdazynpkjiRiz4DjBaO8LW0m7S3nX+e9/3bTfaK66w
+	PV7NM//prdy1v/BrJCb27Yogi4F7ozI=
+X-Google-Smtp-Source: ABdhPJybC2a0tx3pxC7xe1W7+jJUzCMeeg+F7sJcy+lm3Rm+bkEeTYD2IfQ1XCsUM2jPiQfcX9RefA==
+X-Received: by 2002:a50:8e44:: with SMTP id 4mr104107edx.244.1622061638342;
+        Wed, 26 May 2021 13:40:38 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id hb14sm70184ejb.118.2021.05.26.13.40.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 13:03:25 -0700 (PDT)
-From: "Nisha Parrakat" <nishaparrakat@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>
-Subject: [poky][master][PATCH] squashfs-tools: package squashfs-fs.h
-Date: Wed, 26 May 2021 20:03:17 +0000
-Message-Id: <20210526200317.31355-1-nishaparrakat@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 26 May 2021 13:40:37 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/4] wayland: package target binaries into -tools, not into -dev
+Date: Wed, 26 May 2021 22:40:15 +0200
+Message-Id: <20210526204018.496352-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Needed to build the latest debian version
-of android-tools
-Fixes below error while building android-tools libext4_utils.mk
-| squashfs_utils/squashfs_utils.c:27:10: fatal error: 'squashfs_fs.h' file not found
-| #include "squashfs_fs.h"
-|          ^~~~~~~~~~~~~~~
-| 1 error generated.
-| core2-64-poky-linux/android-tools/10.0.0.r36-r0/git/system/extras/debian/libext4_utils.mk:29: recipe for target 'build' failed
-| make: *** [build] Error 1
-
-Signed-off-by: Nisha Parrakat <Nisha.Parrakat@kpit.com>
-Signed-off-by: Nisha Parrakat <nishaparrakat@gmail.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/wayland/wayland_1.19.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 2b1409d78d..137e5097fa 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -32,7 +32,9 @@ do_compile() {
+diff --git a/meta/recipes-graphics/wayland/wayland_1.19.0.bb b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+index 8f121601c4..7e8a2884fe 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.19.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+@@ -52,8 +52,10 @@ sysroot_stage_all_append_class-target () {
+ 	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
  }
  
- do_install() {
-+	install -d "${D}${includedir}"
- 	oe_runmake install INSTALL_DIR=${D}${sbindir}
-+	install -m 0644 "${S}"/squashfs_fs.h "${D}${includedir}"
- }
++PACKAGES += "${PN}-tools"
++
+ FILES_${PN} = "${libdir}/*${SOLIBS}"
+-FILES_${PN}-dev += "${bindir} ${datadir}/wayland"
++FILES_${PN}-tools += "${bindir} ${datadir}/wayland"
  
- ARM_INSTRUCTION_SET_armv4 = "arm"
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
-2.17.1
+2.31.1
 
