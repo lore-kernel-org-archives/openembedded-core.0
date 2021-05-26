@@ -1,266 +1,151 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.9442.1622043806416369228
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com (EUR02-AM5-obe.outbound.protection.outlook.com [40.92.67.82])
+ by mx.groups.io with SMTP id smtpd.web10.9810.1622045276652644421
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 May 2021 08:43:26 -0700
+ Wed, 26 May 2021 09:07:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=s9uSwBVP;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id b9so3144079ejc.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 May 2021 08:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XZ9y0PTx+IhsiIaCizDmUdq4YDKK7lijM8wLoLaYpaw=;
-        b=s9uSwBVPXIopByhCZG9O49XdcfvM8gcD1wq4LOXSrhr3VkSTfK2cuNugxe/gg9guUc
-         1toiLDmn/oTGRKlHCQnSeFWqjZpZL0h65Ok8/b1OQyQljr19O1P8nepz+qHI7S7z2JJm
-         scbHH0UYinh7BUnzJ4haPg52XiMMEdbOsIeeFFXc7XytW8XnoJ17OMU27Vy6a9G/2QCR
-         Nt9HRS8JUFj56fyPPGBLyBLC1JzAJ0GVLyVCEIFCCqYoiA/82TXReK51RVf5uvxXSY6L
-         3AdTkvFszXMNnAyy8LlN94Q4VEWxtpkj0kuGOtTcEluHhN5/zy2mKj6SwQhVGSXXaTUL
-         A9BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XZ9y0PTx+IhsiIaCizDmUdq4YDKK7lijM8wLoLaYpaw=;
-        b=GAksRNvqGqNosJjj8NihWfdAnd6Y90Foup9e+vGw/wE39u8oPymkvm+SjNGBtVp31U
-         ZKEOX2BvrZl/ZkaU4pAiKJQZW9mgBO0n1k6SXqeOHV4HEUBoK++YPlQ6TDl3akZPn84w
-         vR8Aa+auaevDOsDAfbBmA942Egvg2wlxhIBGr+xbn8SZFC49uWBfrYl3QPYzdwp9D6Ls
-         9paASBIeig9XaDtBYJmWQkao86/r0JmsQY66rmu0HqSfaEMwVZayNnNdJ70a7fMWmpGL
-         CI0LvKNZ9sb4wJkQdQJAMiopVTS7sTSVmGDv4xXSIKgQEj9dLuXWUFdSmSQFpc7Xyb19
-         Y/dw==
-X-Gm-Message-State: AOAM531+qGM9FhjZUOMCTLmRMIsd1QTLjqzFEPVrK5hYL6wfCxSoqi82
-	2kbhUAT6HkA70/ps+8VULMRHhT4EaCv0aBLpiho=
-X-Google-Smtp-Source: ABdhPJzK5xMr7Dn/7xZvfuuqktGv7FNTDmvh8JBoc2qX3zQd2ePmN7UVby2yy0YK1ZiZG3ngwx0JtNfIIl5SEBHTTXU=
-X-Received: by 2002:a17:907:98c9:: with SMTP id kd9mr18519082ejc.54.1622043804753;
- Wed, 26 May 2021 08:43:24 -0700 (PDT)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=aT7KCDTg;
+ spf=pass (domain: outlook.com, ip: 40.92.67.82, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kgiRhnqsOD6Pg9RDOgNWHRncTFh85PLk4wRtFrntZB5Lbd835/l3dH0267lfKJqNLntytgM0yStHBKofeQnlgd3YtFU3caDnrUV3Nmx2mLUSdGZ24h0VisBiY7TC566BmefOMenPFctkHFlYEFAwRiwhv+GKNEq9O5GERAXtiO+8utsnmPsczQkVdO+/yG0D0cOZMql6/nBgsqJLxUuGyewj5ay9PpYb8IeLYXIMoGovN1q688n1DaKYf55WKukmoa9Gtfmy/YDpEcKlA9v1Ykc7bCW5bQOH3fpiKOkL9+xLlUHzbmPwzkfRWEc7t1wxRl9N28Cp+nUuaV4UF1trdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rHV1MNMb3E1hNEPCK7pVMEqzZeGSJoL8X9setXZxIIo=;
+ b=EwUJFkln7yVRpQi81trwpq7ikiQjCypdyQWOzcinq6QUkEJ6V8TaKQbGO2UqMkncAM91UPIXImyczxSlkU6dTQT/x+83A1SCkHQzPe/VpK4QCqLhQxbpHesJtpmjxVEyiDfJapNmOk7C4vJIzBht3OdOiM7tkAYau5UI9tNWVA1dKkMDqg5uaboERAdEFsDZR+XKz2Fmwmju4fUTLbR3UlHBD2Or9PoGFKGod8WEZyCMT2WSLB8A/LNviMfSp2pklUjNBBF5bc1Pd92SlSZ26OHFAoQZybSEtl+vXIOoZKTL8OBm5okXm5UxpVIQr+inXtma5JODp9f0dK7guAVHhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rHV1MNMb3E1hNEPCK7pVMEqzZeGSJoL8X9setXZxIIo=;
+ b=aT7KCDTgXtHhwHJ6bDv2xbuGkju9BAEahNXXkhceFxT2E6BENlxTPgfI/s1Gi3CD0s71TC6ttD8fZ/EXwMb7sQEka3qpAk93g/irK2e21VPm0zoC7AwOFrEgIugbuk6AYc9Mu2A0mpg4ydXBJUdrzn6hjDJVaXLj5eOcgiBjdZWwzZQ6QH6dYQLGaMIqwa8rpAb44eSVFRV5csyTcfVV9InWbn321a+eOjtbDQIow2Ojd/pDSpllV2AWq2ZYdRLOvfi/XH9pP1KHkcIO1ziQxA3mYpSrR5jHr4Ww9FniBjuFn0JWHtMB+2Flj2V+zLCnfiP8zDBtFrT6WzxRJyo4kA==
+Received: from AM5EUR02FT032.eop-EUR02.prod.protection.outlook.com
+ (2a01:111:e400:7e1c::41) by
+ AM5EUR02HT187.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1c::278)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Wed, 26 May
+ 2021 16:07:54 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:7e1c::52) by AM5EUR02FT032.mail.protection.outlook.com
+ (2a01:111:e400:7e1c::109) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25 via Frontend
+ Transport; Wed, 26 May 2021 16:07:53 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:734C4A32D2983501B58EB431AAF155ADE81A8DF1D84A0993FD27EBE3029D4F6A;UpperCasedChecksum:D7B774E33ACFAF29F45303445D0E10D8B3800FD2D4D3CA124674EFADDA63EA8D;SizeAsReceived:8653;Count:48
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::9c9b:9858:17df:de84]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::9c9b:9858:17df:de84%6]) with mapi id 15.20.4173.021; Wed, 26 May 2021
+ 16:07:53 +0000
+Subject: Re: [OE-core] [RFC PATCH] rpm: limit xz threading
+To: openembedded-core@lists.openembedded.org
+References: <20210526143021.3920457-1-ross.burton@arm.com>
+Cc: Ross Burton <ross@burtonini.com>
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB464243195811A0A545893993A8249@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Wed, 26 May 2021 18:07:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <20210526143021.3920457-1-ross.burton@arm.com>
+X-TMN: [5tOVYPLVGcGkJf82lkHyG07NhdSjlZOL]
+X-ClientProxiedBy: AM6PR10CA0066.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:80::43) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <e24481eb-12ea-3830-3dca-870bbbe9b253@outlook.com>
 MIME-Version: 1.0
-References: <20210524152106.4160032-1-raj.khem@gmail.com> <CAAnfSTvgOiJ5hvG41fTqW3XD73bBB5nJOG7FaySPzspcGOj1bg@mail.gmail.com>
- <CAMKF1soOUcqa6huRjbn5QgP0hkBaFafS2PkgWHbVazW4R0NRnQ@mail.gmail.com>
-In-Reply-To: <CAMKF1soOUcqa6huRjbn5QgP0hkBaFafS2PkgWHbVazW4R0NRnQ@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 26 May 2021 17:43:13 +0200
-Message-ID: <CA+chaQcHqvid8LUX+H4tWi=wgOKHnvNY0rtEGZ7a3KqvDFAuYQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] gcc: Update to latest on release/gcc-11 branch
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross@burtonini.com>, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cae46305c33d80e9"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.23] (87.141.92.63) by AM6PR10CA0066.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:80::43) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend Transport; Wed, 26 May 2021 16:07:53 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: b0f138dc-484f-4fbf-df55-08d920606b27
+X-MS-TrafficTypeDiagnostic: AM5EUR02HT187:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	k6Wp/35lFJPlN9BDjSw8VnOGXZdgoWIChshqmU23gFHwZNP9OP8BE+05RsbQOMUxy9Cwlg5VbmDBHpnu122HukzCm8Xa5CIMCekd4+7tAsMMtKjNKuFrPU3UqAxlD5XAztPitkPwMmsNDjCocGSnR+3acc0G9X83s6NiX2DOq+Gh2T3ysP0Xdce/usxrhlnG6/KAH4qABA6gg4F2asXOZP1ucD1rTIDyNPVdvdOU8cgyxNRvhX9B8EnvKpWJbmfznP704y9ZHk4gwtj0hUQwg3HRWJ7n+OXL0rEuORjsGysCwX3TWzLjwqQsgqLEV953vu7eCnAr/y6Gu671WYBpUMnpiedJZ8REhNM6jV/gZvapyI3fV351UTlPemogWLxepw35xCVwJyd6ssIeYrJVlXn1pty1FcynI4lHEa2JD1vrafbfgiNhmNLxZ5X5wHd9EPXW8PISrp8lF5IsLd10zw==
+X-MS-Exchange-AntiSpam-MessageData: 
+	EHI8urDBypzrVPJYNLrevXPVN733RPezFzsaJVmgaKObmTNVrdLCEIVlZR52YfjgKWeF8PpBBt0hOam0qP8TdacPSRJCTGnbIc9MBDWk/+mwayl5PgZFcrdUQbERVMRYa28Ujtn7+Mz2gsW+hQIw4Q==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0f138dc-484f-4fbf-df55-08d920606b27
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2021 16:07:53.8769
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM5EUR02FT032.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5EUR02HT187
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---000000000000cae46305c33d80e9
-Content-Type: text/plain; charset="UTF-8"
 
-I'm seeing different error with gcc-sanitizers and this new revision:
 
-work-shared/gcc-11.1.0-r0/gcc-11.1.0/libsanitizer/lsan/lsan_common_linux.cpp:164:25:
-error: invalid conversion from 'void (*)(void*)' to 'void* (*)(void*)'
-[-fpermissive]
-
-will double-check if it was introduced by this upgrade or something else in
-oe-core master update today and also if there is a fix in even newer gcc
-already.
-
-On Wed, May 26, 2021 at 4:19 PM Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Wed, May 26, 2021 at 3:55 AM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > I think this breaks non-Linux builds.  All of our Zephyr targets now
-> fail:
-> >
-> > ERROR: gcc-runtime-11.1.0-r0 do_package:
-> > QA Issue: gcc-runtime: Files/directories were installed but not
-> > shipped in any package:
-> > /usr/lib/-gdb.py
->
-> this should have had some prefix. do you have this script around if so
-> then share
->
-> >
-> > Ross
-> >
-> > Ross
-> >
-> > On Mon, 24 May 2021 at 16:21, Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > There has been 150+ fixes made available after gcc 11.1.0
-> > > was released, details of these fixes is here
-> > >
-> > >
-> https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff_plain;hp=releases/gcc-11.1.0;h=9ee61d2b51d
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > > v2: Use download mirror to fetch the patch
-> > >
-> > >  meta/recipes-devtools/gcc/gcc-11.1.inc | 8 ++++++--
-> > >  1 file changed, 6 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-devtools/gcc/gcc-11.1.inc
-> b/meta/recipes-devtools/gcc/gcc-11.1.inc
-> > > index 713002266a..aa7ac9be59 100644
-> > > --- a/meta/recipes-devtools/gcc/gcc-11.1.inc
-> > > +++ b/meta/recipes-devtools/gcc/gcc-11.1.inc
-> > > @@ -6,7 +6,7 @@ PV = "11.1.0"
-> > >
-> > >  # BINV should be incremented to a revision after a minor gcc release
-> > >
-> > > -BINV = "11.1.0"
-> > > +BINV = "11.1.1"
-> > >
-> > >  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
-> > >
-> > > @@ -25,7 +25,10 @@ LIC_FILES_CHKSUM = "\
-> > >
-> > >  #RELEASE ?= "5b2ac9b40c325e9209c0bd55955db84aad4a0cc5"
-> > >  #BASEURI ?= "
-> https://github.com/gcc-mirror/gcc/archive/${RELEASE}.zip;downloadfilename=gcc-${PV}-${RELEASE}.zip
-> "
-> > > -BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
-> > > +
-> > > +BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.xz \
-> > > +
-> http://downloads.yoctoproject.org/mirror/sources/gcc-11.1.0-9ee61d2b51df012c659359873637cc2162ecccf3.patch;apply=yes;name=backports
-> \
-> > > +           "
-> > >  SRC_URI = "\
-> > >             ${BASEURI} \
-> > >             file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
-> > > @@ -67,6 +70,7 @@ SRC_URI = "\
-> > >
->  file://0037-libatomic-Do-not-enforce-march-on-aarch64.patch \
-> > >  "
-> > >  SRC_URI[sha256sum] =
-> "4c4a6fb8a8396059241c2e674b85b351c26a5d678274007f076957afa1cc9ddf"
-> > > +SRC_URI[backports.sha256sum] =
-> "69274bebd6c069a13443d4af61070e854740a639ec4d66eedf3e80070363587b"
-> > >
-> > >  S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
-> > >
-> > > --
-> > > 2.31.1
-> > >
-> > >
-> > >
-> > >
->
+On 26.05.21 16:30, Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>   .../rpm/files/less-threads.patch              | 24 +++++++++++++++++++
+>   meta/recipes-devtools/rpm/rpm_4.16.1.3.bb     |  1 +
+>   2 files changed, 25 insertions(+)
+>   create mode 100644 meta/recipes-devtools/rpm/files/less-threads.patch
 > 
->
->
+> diff --git a/meta/recipes-devtools/rpm/files/less-threads.patch b/meta/recipes-devtools/rpm/files/less-threads.patch
+> new file mode 100644
+> index 0000000000..d6db85f28a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/files/less-threads.patch
+> @@ -0,0 +1,24 @@
+> +Instead of telling XZ to use as many threads as there are processor cores, just
+> +hardcode this to 4.
 
---000000000000cae46305c33d80e9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+at this point I read 4
 
-<div dir=3D"ltr"><div>I&#39;m seeing different error with gcc-sanitizers an=
-d this new revision:</div><div><br></div>work-shared/gcc-11.1.0-r0/gcc-11.1=
-.0/libsanitizer/lsan/lsan_common_linux.cpp:164:25: error: invalid conversio=
-n from &#39;void (*)(void*)&#39; to &#39;void* (*)(void*)&#39; [-fpermissiv=
-e]<br><div><br></div><div>will double-check if it was introduced by this up=
-grade or something else in oe-core master update today and also if there is=
- a fix in even newer gcc already.</div></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 26, 2021 at 4:19 PM Khem=
- Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Ma=
-y 26, 2021 at 3:55 AM Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com"=
- target=3D"_blank">ross@burtonini.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; I think this breaks non-Linux builds.=C2=A0 All of our Zephyr targets=
- now fail:<br>
-&gt;<br>
-&gt; ERROR: gcc-runtime-11.1.0-r0 do_package:<br>
-&gt; QA Issue: gcc-runtime: Files/directories were installed but not<br>
-&gt; shipped in any package:<br>
-&gt; /usr/lib/-gdb.py<br>
-<br>
-this should have had some prefix. do you have this script around if so<br>
-then share<br>
-<br>
-&gt;<br>
-&gt; Ross<br>
-&gt;<br>
-&gt; Ross<br>
-&gt;<br>
-&gt; On Mon, 24 May 2021 at 16:21, Khem Raj &lt;<a href=3D"mailto:raj.khem=
-@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; There has been 150+ fixes made available after gcc 11.1.0<br>
-&gt; &gt; was released, details of these fixes is here<br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"https://gcc.gnu.org/git/?p=3Dgcc.git;a=3Dcommitdiff_p=
-lain;hp=3Dreleases/gcc-11.1.0;h=3D9ee61d2b51d" rel=3D"noreferrer" target=3D=
-"_blank">https://gcc.gnu.org/git/?p=3Dgcc.git;a=3Dcommitdiff_plain;hp=3Drel=
-eases/gcc-11.1.0;h=3D9ee61d2b51d</a><br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com=
-" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; v2: Use download mirror to fetch the patch<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/gcc/gcc-11.1.inc | 8 ++++++--<br>
-&gt; &gt;=C2=A0 1 file changed, 6 insertions(+), 2 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/gcc/gcc-11.1.inc b/meta/recip=
-es-devtools/gcc/gcc-11.1.inc<br>
-&gt; &gt; index 713002266a..aa7ac9be59 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/gcc/gcc-11.1.inc<br>
-&gt; &gt; +++ b/meta/recipes-devtools/gcc/gcc-11.1.inc<br>
-&gt; &gt; @@ -6,7 +6,7 @@ PV =3D &quot;11.1.0&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 # BINV should be incremented to a revision after a minor g=
-cc release<br>
-&gt; &gt;<br>
-&gt; &gt; -BINV =3D &quot;11.1.0&quot;<br>
-&gt; &gt; +BINV =3D &quot;11.1.1&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 FILESEXTRAPATHS =3D. &quot;${FILE_DIRNAME}/gcc:${FILE_DIRN=
-AME}/gcc/backport:&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; @@ -25,7 +25,10 @@ LIC_FILES_CHKSUM =3D &quot;\<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 #RELEASE ?=3D &quot;5b2ac9b40c325e9209c0bd55955db84aad4a0c=
-c5&quot;<br>
-&gt; &gt;=C2=A0 #BASEURI ?=3D &quot;<a href=3D"https://github.com/gcc-mirr=
-or/gcc/archive/$%7BRELEASE%7D.zip;downloadfilename=3Dgcc-$%7BPV%7D-$%7BRELE=
-ASE%7D.zip" rel=3D"noreferrer" target=3D"_blank">https://github.com/gcc-mir=
-ror/gcc/archive/${RELEASE}.zip;downloadfilename=3Dgcc-${PV}-${RELEASE}.zip<=
-/a>&quot;<br>
-&gt; &gt; -BASEURI ?=3D &quot;${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.xz=
-&quot;<br>
-&gt; &gt; +<br>
-&gt; &gt; +BASEURI ?=3D &quot;${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.xz=
- \<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://dow=
-nloads.yoctoproject.org/mirror/sources/gcc-11.1.0-9ee61d2b51df012c659359873=
-637cc2162ecccf3.patch;apply=3Dyes;name=3Dbackports" rel=3D"noreferrer" targ=
-et=3D"_blank">http://downloads.yoctoproject.org/mirror/sources/gcc-11.1.0-9=
-ee61d2b51df012c659359873637cc2162ecccf3.patch;apply=3Dyes;name=3Dbackports<=
-/a> \<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; &gt;=C2=A0 SRC_URI =3D &quot;\<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${BASEURI} \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-gcc-4=
-.3.1-ARCH_FLAGS_FOR_TARGET.patch \<br>
-&gt; &gt; @@ -67,6 +70,7 @@ SRC_URI =3D &quot;\<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0037-libat=
-omic-Do-not-enforce-march-on-aarch64.patch \<br>
-&gt; &gt;=C2=A0 &quot;<br>
-&gt; &gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;4c4a6fb8a8396059241c2e674b85b=
-351c26a5d678274007f076957afa1cc9ddf&quot;<br>
-&gt; &gt; +SRC_URI[backports.sha256sum] =3D &quot;69274bebd6c069a13443d4af=
-61070e854740a639ec4d66eedf3e80070363587b&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 S =3D &quot;${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV=
-}&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; 2.31.1<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; <br>
-&gt; &gt;<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+> +
+> +On large systems with lots of cores, XZ will use unreasonable amounts of memory.
+> +For example, my ThunderX2 reports 256 cores and rpmbuild takes 3.8GB of resident
+> +memory when packaging cmake. Limiting RPM to just 8 threads reduces this to
+> +1.2GB without massively reducing the compression speed.
+> +
+> +Upstream-Status: Inappropriate
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +
+> +diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
+> +index 52be6a38d..c4034e9e5 100644
+> +--- a/rpmio/rpmio.c
+> ++++ b/rpmio/rpmio.c
+> +@@ -799,7 +799,7 @@ static LZFILE *lzopen_internal(const char *mode, int fd, int xz)
+> + #ifdef HAVE_LZMA_MT
+> + 	    } else {
+> + 		if (threads == -1)
+> +-		    threads = rpmExpandNumeric("%{getncpus}");
+> ++		    threads = 8;
 
---000000000000cae46305c33d80e9--
+...but here it's 8 :thinking: (I know 2xthreads == cores, still I find 
+the commit messages very confusing). Wouldn't it make more sense to 
+externalize the value, so that patch might become upstreamable?
+
+> + 		lzma_mt mt_options = {
+> + 		    .flags = 0,
+> + 		    .threads = threads,
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> index 95a6f5cf71..f7e9378061 100644
+> --- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> @@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
+>              file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
+>              file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
+>              file://0001-tools-Add-error.h-for-non-glibc-case.patch \
+> +           file://less-threads.patch \
+>              "
+>   
+>   PE = "1"
+> 
+> 
+> 
+> 
+> 
