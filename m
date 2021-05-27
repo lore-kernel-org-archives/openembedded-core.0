@@ -1,71 +1,121 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.8772.1622130495723160058
+Received: from mail.inango-systems.com (mail.inango-systems.com [178.238.230.57])
+ by mx.groups.io with SMTP id smtpd.web08.9297.1622133026698943500
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 May 2021 08:48:16 -0700
+ Thu, 27 May 2021 09:30:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=nSPwBsEw;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id y15so862048pfn.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 May 2021 08:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7+b+8PCyKGcxB3GiamV3N0I8JlWwItf51tZpp+E9JvY=;
-        b=nSPwBsEwt5H2lDeIRm6ljlHQ8YesRmIxFnCQ16ARiCeXUu2gyx3RXgufKCxAs2IDa+
-         GHAULkbd3z8rBy00vnmU5e+22G7jzJwL+wunM1I5xW2NUJEmjjHEimQknUXbrxoYQIur
-         I3wenh/fS3e5F2BYwyXSa8D6CwqrqYbCVI7tgikSH4sEdjGat7IL7SENQmSO1PCv/dR3
-         ZN5ZYH878eaWs1a6lmh/Iw7i88+xKTeMcg4Hme0mGtuXOoojJ7PD16NEaiZfv0q5wL4e
-         fxDKYb3ZAbnyfGcy014h6RN25ihnrTpgbXtaYullUCmWvgWqD9qBV2U3J0Bl9Uy4Fo1w
-         tfAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7+b+8PCyKGcxB3GiamV3N0I8JlWwItf51tZpp+E9JvY=;
-        b=M0dLdq+/qWdBjWNytbyMqrjigosu3Ap/CMXD5ZwSxVAwwhnKQ4Y/d/F2MCYCvvIB1S
-         +4B79epoC+IP2kyS4MtEh6ffYAtLcg9Wzcp1OiNevOjuk9/vPM2yXdnE3ObhpxhmPQ7I
-         UHry0jatx9EmsrCFqMKUegslmcgZeBOoZxL96Zm0TYJ7To5ERo8JHLKU1zqkvE1I1O4K
-         C3wtnmNWaCDFFAqqvRuO1H7R24tb1gCdLBQFdjGGrcfB0Z2Ny74OZtd67ogMhg8F627h
-         ZhNYU+LOsB7QADtDSEF5sJwAQXmaY7dBoar5L5hb+4JR1pzauzr1bHZxYEpAEtQ7GWwa
-         f6Kw==
-X-Gm-Message-State: AOAM531J+ojh0etzo/gUq0Nplv7Pqi3DYxKc0LQIampQdjcZCF52IW0+
-	bQ7o77tDbWfQbtERkKW3UMzb+PzvcjHTrxHGZAo=
-X-Google-Smtp-Source: ABdhPJyxohtWpbA4iUIql10s+OOhQFIYHjzAkBM1eib4Q7glKUDiTAalsuL/Bl/sDjVBSj8/11+t4g==
-X-Received: by 2002:a65:4289:: with SMTP id j9mr4262154pgp.165.1622130494394;
-        Thu, 27 May 2021 08:48:14 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n19sm2286009pfa.97.2021.05.27.08.48.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 08:48:13 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+ dkim=pass header.i=@inango-systems.com header.s=45a440e0-d841-11e8-b985-5fcc721607e0 header.b=AGe4QvbZ;
+ spf=pass (domain: inango-systems.com, ip: 178.238.230.57, mailfrom: n.papenkov@inango-systems.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-systems.com (Postfix) with ESMTP id 3E45B1080B99;
+	Thu, 27 May 2021 19:30:15 +0300 (IDT)
+Received: from mail.inango-systems.com ([127.0.0.1])
+	by localhost (mail.inango-systems.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id JxGivRTfAo66; Thu, 27 May 2021 19:30:14 +0300 (IDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-systems.com (Postfix) with ESMTP id 534401080B8F;
+	Thu, 27 May 2021 19:30:14 +0300 (IDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.inango-systems.com 534401080B8F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inango-systems.com;
+	s=45A440E0-D841-11E8-B985-5FCC721607E0; t=1622133014;
+	bh=s/ObhcOo6KOhqdbFZkdnUX8rCAAQNK8ziJJtjknkg8g=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=AGe4QvbZwoVwidH7Fqw7LJWDfmNpszNalI+GuAJDJ5AzbN1FpmO+cTKnGRIehnbTC
+	 2acYOfkNQnmuUiiAgzvwJI9o0ycya1LN6rGtVasJppnmodB9141a/yRHbvJKoYJWOJ
+	 M6BUDIP20zRFl7DOn22OrBlAy6Spjo9vFbhKO5MtfVysnufcsu5v+R5Y5llFHOjdxa
+	 Emd8tjZuGfdHyDQhtFSFKY6otrPAdHrDMDdtIfpmAC5GwHFuIDrD1D3t8vAaMVfLb2
+	 pTnCy5hDx2B5dnbW6+qjYYocqHhVOYDbuNVLsV1TP+t/qBqDfdFDuDThXogu1844Lc
+	 BzkMK+8iG3tBg==
+X-Virus-Scanned: amavisd-new at inango-systems.com
+Received: from mail.inango-systems.com ([127.0.0.1])
+	by localhost (mail.inango-systems.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id An-mXrtTD-m0; Thu, 27 May 2021 19:30:14 +0300 (IDT)
+Received: from mail.inango-systems.com (mail.inango-systems.com [172.17.220.3])
+	by mail.inango-systems.com (Postfix) with ESMTP id 2B0DF1080056;
+	Thu, 27 May 2021 19:30:14 +0300 (IDT)
+Date: Thu, 27 May 2021 19:30:13 +0300 (IDT)
+From: "Nikolay Papenkov" <n.papenkov@inango-systems.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v2] expat: set CVE_PRODUCT
-Date: Thu, 27 May 2021 05:47:59 -1000
-Message-Id: <20210527154759.4084611-1-steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Cc: richard purdie <richard.purdie@linuxfoundation.org>, 
+	Dmitry Kisil <d.kisil@inango-systems.com>
+Message-ID: <1294761785.1299783.1622133013981.JavaMail.zimbra@inango-systems.com>
+In-Reply-To: <20210525112326.1193-1-n.papenkov@inango-systems.com>
+References: <20210525112326.1193-1-n.papenkov@inango-systems.com>
+Subject: Re: [OE-core][PATCH] flex: correct license information
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.17.220.3]
+X-Mailer: Zimbra 8.8.15_GA_3888 (ZimbraWebClient - FF88 (Linux)/8.8.15_GA_3890)
+Thread-Topic: flex: correct license information
+Thread-Index: wCf99I9B8qiYoiWJZoQj8aVRaSL3Og==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Upstream database uses both "expat" and "libexpat" to report CVEs
+Hi,
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+LICENSE set in flex recipe looks as not correct. It is set as "BSD-2-Clause" since:
+https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/flex?id=fb8613fc4ed361c953087207b34b97ca23a8d4e4&h=dunfell.
+
+however per reviewing the sources - correct LICENSE-s for flex packages should be:
+
+LICENSE = "BSD-3-Clause & LGPL-2.0+"
+LICENSE_${PN}-libfl = "BSD-3-Clause"
+
+"BSD-3-Clause" is explained by top-level COPYING file in flex source-tree (https://github.com/westes/flex/blob/v2.6.4/COPYING#L27).
+ *  text does actually include third obligation (without the actual "3" numbering)
+"LGPL-2.0+" is explained by src/gettext.h (https://github.com/westes/flex/blob/v2.6.4/src/gettext.h#L4)
+ *  relevant for flex but not flex-libfl package (that is not utilizing gettext)
+
+Can this be approved and if yes - can we expect this update to be upstreamed (including dunfell branch)?
+
+Thanks in advance,
+Nikolay
+
+----- Original Message -----
+From: "Nikolay Papenkov" <n.papenkov@inango-systems.com>
+To: openembedded-core@lists.openembedded.org
+Cc: "richard purdie" <richard.purdie@linuxfoundation.org>, "Nikolay Papenkov" <n.papenkov@inango-systems.com>, "Dmitry Kisil" <d.kisil@inango-systems.com>
+Sent: Tuesday, May 25, 2021 2:23:26 PM
+Subject: [OE-core][PATCH] flex: correct license information
+
+License-Update: Corrected license information
+
+flex package is under two licenses:
+- "BSD-3-Clause" is provided in top-level COPYING file; the license
+  actually include third obligation (without the actual "3" numbering)
+- "LGPL-2.0+" is explained by src/gettext.h
+
+Signed-off-by: Dmitry Kisil <d.kisil@inango-systems.com>
 ---
- meta/recipes-core/expat/expat_2.4.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/flex/flex_2.6.4.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/expat/expat_2.4.1.bb b/meta/recipes-core/expat/expat_2.4.1.bb
-index a57fc1b23b..451158a5d3 100644
---- a/meta/recipes-core/expat/expat_2.4.1.bb
-+++ b/meta/recipes-core/expat/expat_2.4.1.bb
-@@ -24,3 +24,5 @@ do_install_ptest_class-target() {
- }
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index 1d43d2228a..54e7e01729 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -3,12 +3,14 @@ DESCRIPTION = "Flex is a fast lexical analyser generator.  Flex is a tool for ge
+ lexical patterns in text."
+ HOMEPAGE = "http://sourceforge.net/projects/flex/"
+ SECTION = "devel"
+-LICENSE = "BSD-2-Clause"
++LICENSE = "BSD-3-Clause & LGPL-2.0+"
++LICENSE_${PN}-libfl = "BSD-3-Clause"
  
- BBCLASSEXTEND += "native nativesdk"
-+
-+CVE_PRODUCT = "expat libexpat"
+ DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067 \
++                    file://src/gettext.h;beginline=1;endline=17;md5=9c05dda2f58d89b850c399cf22e1a00c"
+ 
+ SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
+            file://run-ptest \
 -- 
-2.25.1
+2.17.1
+-- 
+Nikolay Papenkov
 
+
+Inango. The Service Orchestrator. 
+web. [ https://mail.inango.com/inango.com | inango.com ] 
+mail. [ mailto:n.papenkov@inango-systems.com | n.papenkov@inango-systems.com ] 
+tel. +357 99 615176 
