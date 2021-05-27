@@ -1,132 +1,75 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web08.4629.1622108725106618063
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web12.5213.1622112872637167785
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 May 2021 02:45:25 -0700
+ Thu, 27 May 2021 03:54:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RRFIXp5J;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id lg14so7017983ejb.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 May 2021 02:45:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tLBdrTOz;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id lz27so7305786ejb.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 May 2021 03:54:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TYaapIrGtEVpmfbNZdvCUInkywBZMmwDwJ0G2frHQl4=;
-        b=RRFIXp5JtuCjK3WhYHk6rZFLRYJtHycChmUsS9rEKm6kV+O4BB5ORoogYeMqyfGAKI
-         IjvCkM7nYH2Q9cIYj5k2UsdKCPubMrqACXpetQ7xIQvn8i39Yem7q5AcXQeOnVxHrX2M
-         mHDetBWlux2NRvvSUFS0JADuJVHAKg3ObBvSe/5SuO81A9SXkKJNn+iK4lYO5bGICBrZ
-         gCu93H6ZvBIbW9wQEetblILhyIixG/vTqwMmC6PnQDT38ZxMw3J51Tc+kdFDPMrivtcY
-         K6//RMcM7YjmSSgOM4wFwN9GkG6tU7i/z8fcbK0aXBxRUSZ/42c9VD0JY48RRAKdTV0n
-         A2xQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LVVhuCCRVvClkulPOXhCA6sI4U5fg/FtDUrZWGdHRjk=;
+        b=tLBdrTOzQCLcbruYoFsot+/TucJV31Lpl152IfRSGNb8xwW9ABSR+ydAohi9s70S2V
+         u0YyRHsuUGOO1AJ4wfWpSWrCP07A81hvUrv07MFSjyIcjCoiy9C7yp4oEKj8dVeIHSEz
+         Buozb6x+oCLuyRZVXA79YE5yKTPnd5mX3rzh4K07JZVQDuJU2ZApyLeJnVaOV7M13GPF
+         iz6HFpGtTKlUUzJrCcXd7ZZ9qnMX3+qkbobeZfknfyEUTW6h4e4ZeR71fsuPh3mjzqQM
+         d06pf2AYPxnPXTjc/jGyMW8dMplJqQg6ur99ii/rxI2MQ0WWD3uTx86S9LyRTxXw6RD3
+         pAcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TYaapIrGtEVpmfbNZdvCUInkywBZMmwDwJ0G2frHQl4=;
-        b=QrLWTTo5ukmp6dsb0xCTKNp9mYesVDOl3mSgPKpE+I6pm9GzeD5QnUSkMmfT0jvl04
-         D1Vq/6K3HLfdmvAf+yghBapl1QY9HeiJbCXLb1v0pTVOYa+vu/rnV7tL0EojaS1jaZ0i
-         hRWz/JI0N44LmFaORkLKxLZbaX4RBPcEjcJ4imuEmeihbB35xBiQlI3gT/nFxft/ck8w
-         FSshHaM3uLDKt1GUcqhleNMA17LUh3c5eg+0vu7xUl8n5FPlXKA9uzxE7ad5BLh6KIxO
-         7Vu5eA5a7FDYStBSDi6lCa/VpRBb+wawqUJv9geJM6BzvV27gca0IyG2DLw9Sp/JPb/1
-         V/5A==
-X-Gm-Message-State: AOAM530iKuO1/skZ2aSUO73hBUl2iI33CTX/sbMVqAZbxBtq8ekk+9zL
-	PkG97RF0N6qKHbGTT1KZVX44nIm672+bOcjdwcs=
-X-Google-Smtp-Source: ABdhPJyR4LGMsnZTH5dExyhp/6x+WgRPMv7ZXo/fjH5/39HwtoHpT65Qh/4fpptrKOnm62a4Z7hfWTrk2nED/NAFX0I=
-X-Received: by 2002:a17:907:377:: with SMTP id rs23mr2811515ejb.12.1622108723387;
- Thu, 27 May 2021 02:45:23 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LVVhuCCRVvClkulPOXhCA6sI4U5fg/FtDUrZWGdHRjk=;
+        b=QnAqR+GRkmuZ3T0yusnDUj/SLWmvd4F11vhn+DDZAY1KPy3DdnkwpasLxstcfsKlwB
+         CVPqmTpD1Q2OSkn80N5UIB7FFTr58D01TiJOL/GKFkA3bcUY6iQ7LydoE2xs6kAnk+6z
+         59S/FzpVSSdDvAwocpPMblPStHrrfB02TUmHufgJAZwNo3Wlr4rz5gB1m8isWlmccSuo
+         AalNmvXz2GAFMzFh4GGksHoOSuP7XXqvwxNyhLqkiJ5vwYZQLJZW6BWfWUnl+UIlzt76
+         TyFDHmpuqUvtsfOB1CkdW4B6r7VoPH25PBbAVLsqmff+wcNZ3WZp8Vci8pgRBOg5zZkZ
+         YvBA==
+X-Gm-Message-State: AOAM530eHmcvFELzfkrjyT7MYs2Z5hDpn9INjWDrRiynnLVSVWyW7dqK
+	H7Sksn/Lc/l+rok5xUL9/FiHAWTeX5c=
+X-Google-Smtp-Source: ABdhPJxTwoleFnjAy/DN42EIPC+LP3eeuNqsDOI1c3WNp9/tjIY85B4/xnj/bvmcHf2WLjW3IlwmZw==
+X-Received: by 2002:a17:906:44c:: with SMTP id e12mr3098367eja.57.1622112871154;
+        Thu, 27 May 2021 03:54:31 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id n13sm803037ejk.97.2021.05.27.03.54.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 May 2021 03:54:30 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/4] wayland: package target binaries into -tools, not into -dev
+Date: Thu, 27 May 2021 12:54:23 +0200
+Message-Id: <20210527105426.515519-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210526002744.3683697-1-douglas.royds@taitradio.com>
- <20210526002744.3683697-2-douglas.royds@taitradio.com> <CANPvuRkM5FqLWRFAeWpi9ckhwcL-tcmur7OjW5bQwhcAPxCUug@mail.gmail.com>
- <CAFimOt4dFtpWBu0c0a9-qCU6g+wQ2_2LgmBJvFyNf_0SZs0_vQ@mail.gmail.com>
-In-Reply-To: <CAFimOt4dFtpWBu0c0a9-qCU6g+wQ2_2LgmBJvFyNf_0SZs0_vQ@mail.gmail.com>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Thu, 27 May 2021 10:45:12 +0100
-Message-ID: <CANPvuRm+zxXNn4J4zT9OkUkJS+r1gi2GnhKZF1y-Wp9dPr=UeQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] Revert "icecc: Don't use icecc when INHIBIT_DEFAULT_DEPS is set"
-To: Douglas Royds <douglas.royds@taitradio.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Douglas Royds <douglas.royds@taitradio.com> escreveu no dia quinta,
-27/05/2021 =C3=A0(s) 00:26:
->
-> Yes, we could, but it's quite a long list, and I'm reluctant to start
-> naming specific packages.
->
-> I only did the INHIBIT_DEFAULT_DEPS test (that I'm reverting here) in
-> the first place to silence the warnings. I think demoting these
-> warnings to notes is a better solution.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-graphics/wayland/wayland_1.19.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I agree.
-Probably it is more problematic to maintain, especially if the list of
-packages is long.
+diff --git a/meta/recipes-graphics/wayland/wayland_1.19.0.bb b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+index 8f121601c4..7e8a2884fe 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.19.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
+@@ -52,8 +52,10 @@ sysroot_stage_all_append_class-target () {
+ 	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
+ }
+ 
++PACKAGES += "${PN}-tools"
++
+ FILES_${PN} = "${libdir}/*${SOLIBS}"
+-FILES_${PN}-dev += "${bindir} ${datadir}/wayland"
++FILES_${PN}-tools += "${bindir} ${datadir}/wayland"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.31.1
 
->
-> On Wed, 26 May 2021 at 20:52, Jose Quaresma <quaresma.jose@gmail.com> wr=
-ote:
-> >
-> > Hi,
-> >
-> > Instead of reverting we can add an exception for the packages you ment=
-ioned:
-> > gcc-cross and friends, binutils-cross, and importantly, the linux kern=
-el.
-> >
-> > Douglas via lists.openembedded.org
-> > <douglas.royds=3Dtaitradio.com@lists.openembedded.org> escreveu no dia
-> > quarta, 26/05/2021 =C3=A0(s) 01:28:
-> > >
-> > > Although this silenced the warnings, it also turned off icecc for
-> > > gcc-cross and friends, binutils-cross, and importantly, the linux
-> > > kernel.
-> > >
-> > > This reverts commit 0315aabeff8e6483b737d0e23d6841f1394ad3c8.
-> > >
-> > > [YOCTO #13863]
-> > >
-> > > Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> > > ---
-> > >  meta/classes/icecc.bbclass | 4 ----
-> > >  1 file changed, 4 deletions(-)
-> > >
-> > > diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-> > > index d095305ed8..0dde960e7a 100644
-> > > --- a/meta/classes/icecc.bbclass
-> > > +++ b/meta/classes/icecc.bbclass
-> > > @@ -138,10 +138,6 @@ def use_icecc(bb,d):
-> > >      if icecc_is_cross_canadian(bb, d):
-> > >          return "no"
-> > >
-> > > -    if d.getVar('INHIBIT_DEFAULT_DEPS', False):
-> > > -        # We don't have a compiler, so no icecc
-> > > -        return "no"
-> > > -
-> > >      pn =3D d.getVar('PN')
-> > >      bpn =3D d.getVar('BPN')
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> > >
-> > >=20
-> > >
-> >
-> >
-> > --
-> > Best regards,
-> >
-> > Jos=C3=A9 Quaresma
->
-> --
-> This Communication is Confidential. We only send and receive email on th=
-e
-> basis of the terms set out at www.taitradio.com/email_disclaimer
-> <http://www.taitradio.com/email_disclaimer>
-
-
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
