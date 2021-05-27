@@ -1,152 +1,129 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web08.5159.1622112873326882511
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.5119.1622112873878234299
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 May 2021 03:54:33 -0700
+ Thu, 27 May 2021 03:54:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DX97dZdX;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id lz27so7305837ejb.11
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Lboo/weh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id ss26so7081359ejb.5
         for <openembedded-core@lists.openembedded.org>; Thu, 27 May 2021 03:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KfbDfo347ISlb0o/9GfZunydeAmwP+6RGp87rnmEwHo=;
-        b=DX97dZdXTXmbKWa97UioE84OAgnsXmFY9eht3ArPkZzzeqoT15+vBwJASQTM+N65o+
-         Jt4valZUTY3TCchegyc7XcSFmdYq/ejZlrG9tPPIMpnBacoY90WcaSUzYy8Ez79+7buD
-         kxuuLmk0Qdk3iAkgyibKgNFaSmgKfpKgDUWOWUQ72Z2s+Tnx6CsuYhCAeT15uB6r5uEB
-         X34BTlL+9rnceHNSU8fm24qeE93PIdAEIfyKZzUD3pCqhLTwwHBh1oNqy0jSZ0ZdQyu0
-         KHxU6mYnhisGvOdfVkoyhs4FZB8OvdH9kMvlx6SMrAlHMHpuHYgiPKYgnlmtl80fd71D
-         +7iQ==
+        bh=Qfjgl51BpqkVUDP4sPRdtLspJtL9uYPpbOKQUDZnR2k=;
+        b=Lboo/weh/9CDHzOqafEhkX1OEQjk3Bb2BpGMDxf1I0h1cc+2HEziAvNV+FyNbvec4P
+         f9cy7pWHSAd5kFcQ5atlTcKewdq+PYnK07GPe3KBIpt/DFYpfpuNXGY+k+pGHiKTHQ/B
+         O2f8foNe+tf3Trstu68PF85WGzw9AA+/F1L9zbfbQa0LSgkt6WimZkJsE2SQcpvSX1Mh
+         rSpUHr/QKVyO63Ok2g5I94FXmD0otjwUeF+m+18ObQjsop7EhUbvw2mkfIR4Yy/a4rFU
+         xCkUwC+o0HuDJ17Cf+sFQhkLKYqDNnUgg02zgSaDrCTUDm0tRXw0aQ/c8XnsXdixu0un
+         5HqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KfbDfo347ISlb0o/9GfZunydeAmwP+6RGp87rnmEwHo=;
-        b=mOnTs55wj2ePxnrPIo17Z5xnZVccGbXZNCX7+6CKv4EqE9smw7wNmT4+O1xcT7d/GI
-         TlU9t2aoYx9HDA3XDTSA2jGEhlCe2IQ2pAUyn3bTBwn9XR9IQ5tNg9MhwVxgc4OsrYtC
-         nONQwH3fDVgvM8gTx2uiFDbbnWxiP8Btw5+0Z4zLqNk1G0X4n2PFeeCcdFguh6qmU/bS
-         XOelmt6HkrdkCrBJ1TaJv1UxdO3klKeziYTN7Ta/CFLXdKOgJjILoCXJtcsxJLdhVBPg
-         6mqv6iUeuA0bGkQP6NFHqy6fz4odVwNwpfEXI+GOBMmXtK4JVAO53f7Qw1m2QGO3xlXp
-         0g/g==
-X-Gm-Message-State: AOAM5309QjW12WnEu5EiXjt7CEQvWmTjcTRo/0bfjJ+AnPnyBj50Fy/L
-	yos6bblLEvJCbWl6Rk3gSw2sCaamAfs=
-X-Google-Smtp-Source: ABdhPJzq/RSwfsd3hYmbhehMsB36c2ynMyZ6jeP83LH6xJeYluc++86XWJhJqN2E3YY2bZp/1m88lw==
-X-Received: by 2002:a17:906:58d1:: with SMTP id e17mr3197770ejs.179.1622112871817;
-        Thu, 27 May 2021 03:54:31 -0700 (PDT)
+        bh=Qfjgl51BpqkVUDP4sPRdtLspJtL9uYPpbOKQUDZnR2k=;
+        b=ABXrz1mcs+f99G/pz51WzSTRyI9VyIAfIyP+gtrmZ4U/rYfgkLSxCkKx92h2+lbQ+u
+         8yZ1t2DnqD/vnSygsWNgWaWGRgy9r94JB3v5mZIplMEm0f4Xnh6aIhS11uXPN6o9SKNI
+         nJX/OdhjdS631uUIcDkHQzsOk/ELqJzzzJeYE7258YIppRgm9tuNtOjLBIwJxd/vFYyO
+         3Y7LhQwY9PL/KzUV596TYruv4sP7JAi1MhNYpNSf4QOXuytaRoTTszps9RiUPRvZh+6k
+         B418aQB+lQsA8b61gpNWHWQfzintVWbpzjT9oNV9B2i562lcsbTO0HUQeM35fPMNlVMi
+         sipw==
+X-Gm-Message-State: AOAM533DiG7sWUk/FzqlwQfFs7huoPgXZimPjL5LpbqTTjADiFMKCfps
+	McVS8q7J9RQceFvNXkw5t70Dvmh9eNw=
+X-Google-Smtp-Source: ABdhPJw1FUw01slAZvycmv0YHKQBNSAzcpPwHGhQF3tVz9vGNw0SdMzBUGPad7MtFUMuKNXnfrblsg==
+X-Received: by 2002:a17:906:8049:: with SMTP id x9mr3179040ejw.13.1622112872496;
+        Thu, 27 May 2021 03:54:32 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id n13sm803037ejk.97.2021.05.27.03.54.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 03:54:31 -0700 (PDT)
+        Thu, 27 May 2021 03:54:32 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/4] ptest: add newly discovered missing runtime dependencies across recipes
-Date: Thu, 27 May 2021 12:54:24 +0200
-Message-Id: <20210527105426.515519-2-alex.kanavin@gmail.com>
+Subject: [PATCH 3/4] images: add ptest images based on core-image-minimal
+Date: Thu, 27 May 2021 12:54:25 +0200
+Message-Id: <20210527105426.515519-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210527105426.515519-1-alex.kanavin@gmail.com>
 References: <20210527105426.515519-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Making ptest images based on core-image-minimal uncovered quite a
-few missing depenendcies from various recipes, here they are.
+This greatly reduces build times needed for those images, as
+they no longer need anything graphical, or -dev packages for
+everything.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-core/gettext/gettext_0.21.bb         | 2 +-
- meta/recipes-devtools/python/python3_3.9.5.bb     | 3 ++-
- meta/recipes-devtools/valgrind/valgrind_3.17.0.bb | 2 +-
- meta/recipes-extended/parted/parted_3.4.bb        | 2 +-
- meta/recipes-graphics/wayland/wayland_1.19.0.bb   | 2 +-
- meta/recipes-support/libssh2/libssh2_1.9.0.bb     | 2 +-
- 6 files changed, 7 insertions(+), 6 deletions(-)
+ .../images/core-image-ptest-all.bb            | 25 +++++++++++++++++++
+ .../images/core-image-ptest-fast.bb           | 24 ++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-core/images/core-image-ptest-all.bb
+ create mode 100644 meta/recipes-core/images/core-image-ptest-fast.bb
 
-diff --git a/meta/recipes-core/gettext/gettext_0.21.bb b/meta/recipes-core/gettext/gettext_0.21.bb
-index bc14867bbb..b86e8d8381 100644
---- a/meta/recipes-core/gettext/gettext_0.21.bb
-+++ b/meta/recipes-core/gettext/gettext_0.21.bb
-@@ -174,7 +174,7 @@ do_install_ptest() {
-     fi
- }
- 
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make xz"
- RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-     glibc-gconv-big5 \
-     glibc-charmap-big5 \
-diff --git a/meta/recipes-devtools/python/python3_3.9.5.bb b/meta/recipes-devtools/python/python3_3.9.5.bb
-index 82177f4a18..f4002f2516 100644
---- a/meta/recipes-devtools/python/python3_3.9.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.5.bb
-@@ -344,6 +344,7 @@ PACKAGES =+ "libpython3 libpython3-staticdev"
- FILES_libpython3 = "${libdir}/libpython*.so.*"
- FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
- INSANE_SKIP_${PN}-dev += "dev-elf"
-+INSANE_SKIP_${PN}-ptest = "dev-deps"
- 
- # catch all the rest (unsorted)
- PACKAGES += "${PN}-misc"
-@@ -367,7 +368,7 @@ FILES_${PN}-man = "${datadir}/man"
- # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
- RDEPENDS_libpython3_append_libc-glibc = " libgcc"
- RDEPENDS_${PN}-ctypes_append_libc-glibc = " ${MLPREFIX}ldconfig"
--RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
-+RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev unzip bzip2 libgcc tzdata-europe coreutils sed"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
- RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
- RDEPENDS_${PN}-idle += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${PN}-tkinter tcl', '', d)}"
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-index ebbd83dd3f..d0c60d0a3d 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-@@ -130,7 +130,7 @@ RDEPENDS_${PN} += "perl"
- # redirect functions like strlen.
- RRECOMMENDS_${PN} += "${TCLIBC}-dbg"
- 
--RDEPENDS_${PN}-ptest += " bash coreutils file \
-+RDEPENDS_${PN}-ptest += " bash coreutils curl file \
-    gdb libgomp \
-    perl \
-    perl-module-file-basename perl-module-file-glob perl-module-getopt-long \
-diff --git a/meta/recipes-extended/parted/parted_3.4.bb b/meta/recipes-extended/parted/parted_3.4.bb
-index c15f5aeb0b..fb583489f8 100644
---- a/meta/recipes-extended/parted/parted_3.4.bb
-+++ b/meta/recipes-extended/parted/parted_3.4.bb
-@@ -47,7 +47,7 @@ do_install_ptest() {
- 	sed -e 's| ../parted||' -i $t/tests/*.sh
- }
- 
--RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup python3 make gawk e2fsprogs-mke2fs python3-core"
-+RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup python3 make gawk e2fsprogs-mke2fs python3-core dosfstools"
- RRECOMMENDS_${PN}-ptest = "kernel-module-scsi-debug"
- RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-         glibc-utils \
-diff --git a/meta/recipes-graphics/wayland/wayland_1.19.0.bb b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
-index 7e8a2884fe..0fda80ccae 100644
---- a/meta/recipes-graphics/wayland/wayland_1.19.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.19.0.bb
-@@ -59,4 +59,4 @@ FILES_${PN}-tools += "${bindir} ${datadir}/wayland"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--RDEPENDS_${PN}-ptest += "binutils sed"
-+RDEPENDS_${PN}-ptest += "binutils sed ${PN}-tools"
-diff --git a/meta/recipes-support/libssh2/libssh2_1.9.0.bb b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
-index a5451628e7..f290bf3268 100644
---- a/meta/recipes-support/libssh2/libssh2_1.9.0.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
-@@ -34,7 +34,7 @@ PACKAGECONFIG[gcrypt] = "--with-crypto=libgcrypt --with-libgcrypt-prefix=${STAGI
- BBCLASSEXTEND = "native nativesdk"
- 
- # required for ptest on documentation
--RDEPENDS_${PN}-ptest = "man-db openssh"
-+RDEPENDS_${PN}-ptest = "man-db openssh util-linux-col"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-en-us"
- 
- do_compile_ptest() {
+diff --git a/meta/recipes-core/images/core-image-ptest-all.bb b/meta/recipes-core/images/core-image-ptest-all.bb
+new file mode 100644
+index 0000000000..c1d6aa28a9
+--- /dev/null
++++ b/meta/recipes-core/images/core-image-ptest-all.bb
+@@ -0,0 +1,25 @@
++inherit features_check
++REQUIRED_DISTRO_FEATURES = "ptest"
++
++require core-image-minimal.bb
++require conf/distro/include/ptest-packagelists.inc
++
++DESCRIPTION += "Also includes ptest packages."
++HOMEPAGE = "https://www.yoctoproject.org/"
++
++# Include the full set of ptests
++IMAGE_INSTALL += "${PTESTS_FAST} ${PTESTS_SLOW}"
++
++# This image is sufficiently large (~1.8GB) that we need to be careful that it fits in a live
++# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
++# box) and explicitly add just 1100MB.
++# strace-ptest in particular needs more than 500MB
++IMAGE_OVERHEAD_FACTOR = "1.0"
++IMAGE_ROOTFS_EXTRA_SPACE = "1124288"
++
++# ptests need more memory than standard to avoid the OOM killer
++# also lttng-tools needs /tmp that has at least 1G
++QB_MEM = "-m 2048"
++
++# Sadly at the moment the full set of ptests is not robust enough and sporadically fails in random places
++PTEST_EXPECT_FAILURE = "1"
+diff --git a/meta/recipes-core/images/core-image-ptest-fast.bb b/meta/recipes-core/images/core-image-ptest-fast.bb
+new file mode 100644
+index 0000000000..40df274c4c
+--- /dev/null
++++ b/meta/recipes-core/images/core-image-ptest-fast.bb
+@@ -0,0 +1,24 @@
++inherit features_check
++REQUIRED_DISTRO_FEATURES = "ptest"
++
++require core-image-minimal.bb
++require conf/distro/include/ptest-packagelists.inc
++
++# Include only fast (< 30 sec) ptests
++IMAGE_INSTALL += "${PTESTS_FAST}"
++
++DESCRIPTION += "Also includes ptest packages with fast execution times to allow for more automated QA."
++HOMEPAGE = "https://www.yoctoproject.org/"
++
++# This image is sufficiently large (~1.8GB) that it can't actually fit in a live
++# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
++# box) and explicitly add just 1500MB.
++# strace-ptest in particular needs more than 500MB
++IMAGE_OVERHEAD_FACTOR = "1.0"
++IMAGE_ROOTFS_EXTRA_SPACE = "1524288"
++
++# ptests need more memory than standard to avoid the OOM killer
++QB_MEM = "-m 1024"
++
++# Sadly at the moment the fast set of ptests is not robust enough and sporadically fails in a couple of places
++PTEST_EXPECT_FAILURE = "1"
 -- 
 2.31.1
 
