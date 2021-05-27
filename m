@@ -1,99 +1,117 @@
-Received: from lilium.sigma-star.at (lilium.sigma-star.at [109.75.188.150])
- by mx.groups.io with SMTP id smtpd.web12.491.1622138788652506245
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web10.655.1622139521281260523
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 May 2021 11:06:29 -0700
+ Thu, 27 May 2021 11:18:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: nod.at, ip: 109.75.188.150, mailfrom: richard@nod.at)
-Received: from localhost (localhost [127.0.0.1])
-	by lilium.sigma-star.at (Postfix) with ESMTP id 09ACA1817A0D5;
-	Thu, 27 May 2021 20:06:27 +0200 (CEST)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id A7lkJAO0XiHz; Thu, 27 May 2021 20:06:26 +0200 (CEST)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-	by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id dE3-X16fV44z; Thu, 27 May 2021 20:06:26 +0200 (CEST)
-From: "Richard Weinberger" <richard@nod.at>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rcGjCZ/H;
+ spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f178.google.com with SMTP id j75so1642414oih.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 May 2021 11:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ewOMYqc11ANIlcb0LeWzKlvBiGzzSQtRG7kSkEUZoQ4=;
+        b=rcGjCZ/HJvSEN5X+9N2lvY20izVIuhq9eUHpMWaCLmFIMkTQbDCF21uquYDML+TsFX
+         rw+f86d9hj2R2fLv+1h80DhWz6nVc7NA5ht6Q69zrOlfgAmptbNYY0HQp/NOvPdpJK//
+         WiBivNDLeXVIphPLg+3TXYryW0Kfw+9B3vXOPjS7O4Jy/skMnynVjlgUbfg7m3MtEvYz
+         7Hc38R9iI6CeOabSKWSimzIZm2kD2ZOATddD+7JH1v1DmZd6VKq3FsMDVBkwJRV9QLOL
+         zkynEN4/Q9p8UiVLHLhiyCpukKLIr0MZ3DgQHew8VgPHd5eTVlk112Qvh0hm83WkoIec
+         TrxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ewOMYqc11ANIlcb0LeWzKlvBiGzzSQtRG7kSkEUZoQ4=;
+        b=UierXzBArLl0YVecnoZ17vUHEuxaqrO14tdS3T71+6puB7bNrdRLvX9iZUIPWpJ8ds
+         T9zhnmlePA+d27t4CtbKUJ0oze2hJ6uwQRUHTzVKMd0WIhfYSz8G/ialUPP8/WUX5auU
+         xx6pZ8NVREDZ0g/xseiJDV2XbJ11i2l/1amvwYgCEvugMOrpMt7lNJsmN0Tr5GWx3YGd
+         dQMtHlOLZtQloISyyaxnZPleFFNiG1UoEtNShjYrTkgIxZzuGa0mAGZkxBUHnYe57SNO
+         4kLH6WWjKbPCbpmBzn34nurkk6YWaCVWs19rbixlkMrdPL3gBJuMVvf5UZ/FmH8fFtZ6
+         xGUQ==
+X-Gm-Message-State: AOAM531WMxc7E7FZ0Zz40xAjMUmKF3Tb7oC26BXjoh0dHXQiEb1oTS+t
+	c/Zydic4DJ+Mqxe4FVG9XmZZYh3g6R0=
+X-Google-Smtp-Source: ABdhPJz4jR6OtocVFZ8xBTm9gWd1lBsNzAYyfAaywY6zw/sCnS94MmBbZz+iou2/Sns8OZlYnqd+XA==
+X-Received: by 2002:a05:6808:d4:: with SMTP id t20mr6236507oic.146.1622139520267;
+        Thu, 27 May 2021 11:18:40 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id h2sm563061oop.47.2021.05.27.11.18.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 May 2021 11:18:39 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	Richard Weinberger <richard@nod.at>
-Subject: [PATCH] erofs fixups
-Date: Thu, 27 May 2021 20:06:20 +0200
-Message-Id: <20210527180620.17441-1-richard@nod.at>
-X-Mailer: git-send-email 2.26.2
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] classes/buildhistory: Add option to strip path prefix
+Date: Thu, 27 May 2021 13:18:35 -0500
+Message-Id: <20210527181835.35921-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-- Rename to erofs-utils_1.2.1.bb and don't set PV
-- Set correct package license
-- Add lz4 and lz4hc variants to IMAGE_TYPES
-- Add myself as package maintainer
+Adds an option to strip a prefix from the paths reported in
+buildhistory. This makes it easier to compare task signatures in the
+build history when the builds were done from different directories.
 
-Signed-off-by: Richard Weinberger <richard@nod.at>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/image_types.bbclass                               | 2 +-
- meta/conf/distro/include/maintainers.inc                       | 2 +-
- .../erofs-utils/{erofs-utils_git.bb =3D> erofs-utils_1.2.1.bb}   | 3 +--
- 3 files changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/erofs-utils/{erofs-utils_git.bb =3D> erofs-=
-utils_1.2.1.bb} (95%)
+ meta/classes/buildhistory.bbclass |  3 ++-
+ meta/lib/oe/sstatesig.py          | 15 +++++++++++++--
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
-bbclass
-index 4e95e0e2935e..2a45d45c7180 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -269,7 +269,7 @@ IMAGE_TYPES =3D " \
-     wic wic.gz wic.bz2 wic.lzma wic.zst \
-     container \
-     f2fs \
--    erofs \
-+    erofs erofs-lz4 erofs-lz4hc \
- "
-=20
- # Compression is a special case of conversion. The old variable
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 7a9c0a776e19..57742fe5acaa 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -171,7 +171,7 @@ RECIPE_MAINTAINER_pn-ell =3D "Zang Ruochen <zangrc.fn=
-st@fujitsu.com>"
- RECIPE_MAINTAINER_pn-enchant2 =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-encodings =3D "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-epiphany =3D "Alexander Kanavin <alex.kanavin@gmail=
-.com>"
--RECIPE_MAINTAINER_pn-erofs-utils =3D "Unassigned <unassigned@yoctoprojec=
-t.org>"
-+RECIPE_MAINTAINER_pn-erofs-utils =3D "Richard Weinberger <richard@nod.at=
->"
- RECIPE_MAINTAINER_pn-ethtool =3D "Changhyeok Bae <changhyeok.bae@gmail.c=
-om>"
- RECIPE_MAINTAINER_pn-eudev =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-expat =3D "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb b/meta/=
-recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
-similarity index 95%
-rename from meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
-rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
-index f0cc8032b02c..6435fea68cee 100644
---- a/meta/recipes-devtools/erofs-utils/erofs-utils_git.bb
-+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
-@@ -1,10 +1,9 @@
- SUMMARY =3D "Tools for erofs filesystems"
--LICENSE =3D "GPLv2"
-+LICENSE =3D "GPLv2+"
- SECTION =3D "base"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94fa01670a2a8f2d3ab2de15004e0=
-848"
- HOMEPAGE =3D "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erof=
-s-utils.git/tree/README"
-=20
--PV =3D "1.2.1"
- SRCREV =3D "d1f4953edfcf4f51c71ba91586e21fc6ce9f6db9"
- SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-u=
-tils.git"
-=20
---=20
-2.26.2
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 059de36a5d..55b12d7893 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -43,6 +43,7 @@ BUILDHISTORY_COMMIT ?= "1"
+ BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
+ BUILDHISTORY_PUSH_REPO ?= ""
+ BUILDHISTORY_TAG ?= "build"
++BUILDHISTORY_PATH_PREFIX_STRIP ?= ""
+ 
+ SSTATEPOSTINSTFUNCS_append = " buildhistory_emit_pkghistory"
+ # We want to avoid influencing the signatures of sstate tasks - first the function itself:
+@@ -697,7 +698,7 @@ python buildhistory_write_sigs() {
+     if hasattr(bb.parse.siggen, 'dump_siglist'):
+         taskoutdir = os.path.join(d.getVar('BUILDHISTORY_DIR'), 'task')
+         bb.utils.mkdirhier(taskoutdir)
+-        bb.parse.siggen.dump_siglist(os.path.join(taskoutdir, 'tasksigs.txt'))
++        bb.parse.siggen.dump_siglist(os.path.join(taskoutdir, 'tasksigs.txt'), d.getVar("BUILDHISTORY_PATH_PREFIX_STRIP"))
+ }
+ 
+ def buildhistory_get_build_id(d):
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index e86a09b332..47f3ca4efb 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -248,13 +248,24 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+                 f.write('    "\n')
+             f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(l)))
+ 
+-    def dump_siglist(self, sigfile):
++    def dump_siglist(self, sigfile, path_prefix_strip=None):
++        def strip_fn(fn):
++            nonlocal path_prefix_strip
++            if not path_prefix_strip:
++                return fn
++
++            fn_exp = fn.split(":")
++            if fn_exp[-1].startswith(path_prefix_strip):
++                fn_exp[-1] = fn_exp[-1][len(path_prefix_strip):]
++
++            return ":".join(fn_exp)
++
+         with open(sigfile, "w") as f:
+             tasks = []
+             for taskitem in self.taskhash:
+                 (fn, task) = taskitem.rsplit(":", 1)
+                 pn = self.lockedpnmap[fn]
+-                tasks.append((pn, task, fn, self.taskhash[taskitem]))
++                tasks.append((pn, task, strip_fn(fn), self.taskhash[taskitem]))
+             for (pn, task, fn, taskhash) in sorted(tasks):
+                 f.write('%s:%s %s %s\n' % (pn, task, fn, taskhash))
+ 
+-- 
+2.31.1
 
