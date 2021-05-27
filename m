@@ -1,121 +1,88 @@
-Received: from mail.inango-systems.com (mail.inango-systems.com [178.238.230.57])
- by mx.groups.io with SMTP id smtpd.web08.9297.1622133026698943500
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.9678.1622134978910872015
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 May 2021 09:30:27 -0700
+ Thu, 27 May 2021 10:02:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@inango-systems.com header.s=45a440e0-d841-11e8-b985-5fcc721607e0 header.b=AGe4QvbZ;
- spf=pass (domain: inango-systems.com, ip: 178.238.230.57, mailfrom: n.papenkov@inango-systems.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.inango-systems.com (Postfix) with ESMTP id 3E45B1080B99;
-	Thu, 27 May 2021 19:30:15 +0300 (IDT)
-Received: from mail.inango-systems.com ([127.0.0.1])
-	by localhost (mail.inango-systems.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id JxGivRTfAo66; Thu, 27 May 2021 19:30:14 +0300 (IDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.inango-systems.com (Postfix) with ESMTP id 534401080B8F;
-	Thu, 27 May 2021 19:30:14 +0300 (IDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.inango-systems.com 534401080B8F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inango-systems.com;
-	s=45A440E0-D841-11E8-B985-5FCC721607E0; t=1622133014;
-	bh=s/ObhcOo6KOhqdbFZkdnUX8rCAAQNK8ziJJtjknkg8g=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=AGe4QvbZwoVwidH7Fqw7LJWDfmNpszNalI+GuAJDJ5AzbN1FpmO+cTKnGRIehnbTC
-	 2acYOfkNQnmuUiiAgzvwJI9o0ycya1LN6rGtVasJppnmodB9141a/yRHbvJKoYJWOJ
-	 M6BUDIP20zRFl7DOn22OrBlAy6Spjo9vFbhKO5MtfVysnufcsu5v+R5Y5llFHOjdxa
-	 Emd8tjZuGfdHyDQhtFSFKY6otrPAdHrDMDdtIfpmAC5GwHFuIDrD1D3t8vAaMVfLb2
-	 pTnCy5hDx2B5dnbW6+qjYYocqHhVOYDbuNVLsV1TP+t/qBqDfdFDuDThXogu1844Lc
-	 BzkMK+8iG3tBg==
-X-Virus-Scanned: amavisd-new at inango-systems.com
-Received: from mail.inango-systems.com ([127.0.0.1])
-	by localhost (mail.inango-systems.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id An-mXrtTD-m0; Thu, 27 May 2021 19:30:14 +0300 (IDT)
-Received: from mail.inango-systems.com (mail.inango-systems.com [172.17.220.3])
-	by mail.inango-systems.com (Postfix) with ESMTP id 2B0DF1080056;
-	Thu, 27 May 2021 19:30:14 +0300 (IDT)
-Date: Thu, 27 May 2021 19:30:13 +0300 (IDT)
-From: "Nikolay Papenkov" <n.papenkov@inango-systems.com>
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=OcdUuXIO;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
+Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com [68.201.52.49])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7B10F20B7188;
+	Thu, 27 May 2021 10:02:57 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7B10F20B7188
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1622134978;
+	bh=hlLNmRf7rSu7JEJ5ar+XLVIU1/OEeVLe1BbmJFfh+2w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OcdUuXIO+kWb/u1LLtH1zwm3sGBMH6FINcsjnzrASmoi63vP7a/jHQanufkUlJ5z9
+	 /u0GfAj8ZKlXmBsxeAVE8ppRAUUbPvtzMxoNDj3F8Mi5E3NxXJMao3pDtLX2BrPu+I
+	 ORQgItqw2BbR0NQYv7UjFq+CtpaEx0jAQqOn1Mb8=
+From: "Alejandro Hernandez Samaniego" <alhe@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Cc: richard purdie <richard.purdie@linuxfoundation.org>, 
-	Dmitry Kisil <d.kisil@inango-systems.com>
-Message-ID: <1294761785.1299783.1622133013981.JavaMail.zimbra@inango-systems.com>
-In-Reply-To: <20210525112326.1193-1-n.papenkov@inango-systems.com>
-References: <20210525112326.1193-1-n.papenkov@inango-systems.com>
-Subject: Re: [OE-core][PATCH] flex: correct license information
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Leon Woestenberg <leon@sidebranch.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+Subject: [PATCH] gcc-cross-canadian: Install gcc/g++ wrappers for musl
+Date: Thu, 27 May 2021 11:02:45 -0600
+Message-Id: <20210527170245.2179602-1-alhe@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [172.17.220.3]
-X-Mailer: Zimbra 8.8.15_GA_3888 (ZimbraWebClient - FF88 (Linux)/8.8.15_GA_3890)
-Thread-Topic: flex: correct license information
-Thread-Index: wCf99I9B8qiYoiWJZoQj8aVRaSL3Og==
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+From: Khem Raj <raj.khem@gmail.com>
 
-LICENSE set in flex recipe looks as not correct. It is set as "BSD-2-Clause" since:
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/flex?id=fb8613fc4ed361c953087207b34b97ca23a8d4e4&h=dunfell.
+gcc needs -mmusl option to be passed in SDK since we ship crossdk compile=
+r
+configured for glibc by default, this helps in creating correct
+compiler defaults for musl based SDK compilers
 
-however per reviewing the sources - correct LICENSE-s for flex packages should be:
+[YOCTO #13459]
 
-LICENSE = "BSD-3-Clause & LGPL-2.0+"
-LICENSE_${PN}-libfl = "BSD-3-Clause"
+(From OE-Core rev: e6fbac7aeabe00d8fb734992012dd629a8527b25)
 
-"BSD-3-Clause" is explained by top-level COPYING file in flex source-tree (https://github.com/westes/flex/blob/v2.6.4/COPYING#L27).
- *  text does actually include third obligation (without the actual "3" numbering)
-"LGPL-2.0+" is explained by src/gettext.h (https://github.com/westes/flex/blob/v2.6.4/src/gettext.h#L4)
- *  relevant for flex but not flex-libfl package (that is not utilizing gettext)
-
-Can this be approved and if yes - can we expect this update to be upstreamed (including dunfell branch)?
-
-Thanks in advance,
-Nikolay
-
------ Original Message -----
-From: "Nikolay Papenkov" <n.papenkov@inango-systems.com>
-To: openembedded-core@lists.openembedded.org
-Cc: "richard purdie" <richard.purdie@linuxfoundation.org>, "Nikolay Papenkov" <n.papenkov@inango-systems.com>, "Dmitry Kisil" <d.kisil@inango-systems.com>
-Sent: Tuesday, May 25, 2021 2:23:26 PM
-Subject: [OE-core][PATCH] flex: correct license information
-
-License-Update: Corrected license information
-
-flex package is under two licenses:
-- "BSD-3-Clause" is provided in top-level COPYING file; the license
-  actually include third obligation (without the actual "3" numbering)
-- "LGPL-2.0+" is explained by src/gettext.h
-
-Signed-off-by: Dmitry Kisil <d.kisil@inango-systems.com>
+Cc: Leon Woestenberg <leon@sidebranch.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
 ---
- meta/recipes-devtools/flex/flex_2.6.4.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../gcc/gcc-cross-canadian.inc                | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-index 1d43d2228a..54e7e01729 100644
---- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -3,12 +3,14 @@ DESCRIPTION = "Flex is a fast lexical analyser generator.  Flex is a tool for ge
- lexical patterns in text."
- HOMEPAGE = "http://sourceforge.net/projects/flex/"
- SECTION = "devel"
--LICENSE = "BSD-2-Clause"
-+LICENSE = "BSD-3-Clause & LGPL-2.0+"
-+LICENSE_${PN}-libfl = "BSD-3-Clause"
- 
- DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
- BBCLASSEXTEND = "native nativesdk"
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067 \
-+                    file://src/gettext.h;beginline=1;endline=17;md5=9c05dda2f58d89b850c399cf22e1a00c"
- 
- SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
-            file://run-ptest \
--- 
-2.17.1
--- 
-Nikolay Papenkov
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/reci=
+pes-devtools/gcc/gcc-cross-canadian.inc
+index 553ef7fe62..c5935b978d 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -139,6 +139,29 @@ do_install () {
+ 	chown -R root:root ${D}
+ =09
+ 	cross_canadian_bindirlinks
++
++	for i in linux ${CANADIANEXTRAOS}
++	do
++		for v in ${CANADIANEXTRAVENDOR}
++		do
++			d=3D${D}${bindir}/../${TARGET_ARCH}$v-$i
++			install -d $d
++			for j in ${TARGET_PREFIX}gcc${EXEEXT} ${TARGET_PREFIX}g++${EXEEXT}
++			do
++				p=3D${TARGET_ARCH}$v-$i-`echo $j | sed -e s,${TARGET_PREFIX},,`
++				case $i in
++				*musl*)
++					rm -rf $d/$p
++					echo "#!/usr/bin/env sh" > $d/$p
++					echo "exec \`dirname \$0\`/../${TARGET_SYS}/$j -mmusl \$@" >> $d/$p
++					chmod 0755 $d/$p
++					;;
++				*)
++					;;
++				esac
++			done
++		done
++	done
+ }
+=20
+ ELFUTILS =3D "nativesdk-elfutils"
+--=20
+2.25.1
 
-
-Inango. The Service Orchestrator. 
-web. [ https://mail.inango.com/inango.com | inango.com ] 
-mail. [ mailto:n.papenkov@inango-systems.com | n.papenkov@inango-systems.com ] 
-tel. +357 99 615176 
