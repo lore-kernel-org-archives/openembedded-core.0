@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.6806.1622200976288305743
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.6809.1622200976671882857
  for <openembedded-core@lists.openembedded.org>;
  Fri, 28 May 2021 04:22:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id BE93B38C13BC
+	by mail.yoctoproject.org (Postfix) with ESMTP id CFF7D38C13C0
 	for <openembedded-core@lists.openembedded.org>; Fri, 28 May 2021 11:22:55 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-tools: upgrading to 2.12.4 SUCCEEDED
-Message-ID: <MADEUP.1683373192D02FBB.3006@lists.openembedded.org>
-X-Groupsio-MsgNum: 152361
-Content-Type: multipart/mixed; boundary="===============0683868917186452976=="
+Subject: [AUH] curl: upgrading to 7.77.0 FAILED
+Message-ID: <MADEUP.1683373195080616.665@lists.openembedded.org>
+X-Groupsio-MsgNum: 152362
+Content-Type: multipart/mixed; boundary="===============3406379333037268913=="
 
---===============0683868917186452976==
+--===============3406379333037268913==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lttng-tools* to *2.12.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *curl* to *7.77.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-lttng-tools-upgrade-2.12.3-2.12.4.patch
+    - apply the patch: git am 0001-curl-upgrade-7.76.1-7.77.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,3323 +50,995 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0683868917186452976==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 822 .bb files complete (0 cached, 822 parsed). 1456 targets, 41 skipped, 0 masked, 0 errors.
-Removing 111 recipes from the core2-32 sysroot...done.
-Removing 117 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-workspace            = "master:40d3366bea8d2417e89a37c6f2d38e1542160342"
-
-Initialising tasks...done.
-Sstate summary: Wanted 585 Local 542 Network 0 Missed 43 Current 199 (92% match, 94% complete)
-Removing 4 stale sstate objects for arch x86_64_i686...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 200 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 201 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 202 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/socat/socat_1.7.4.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 204 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 205 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 206 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_8.32.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 207 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 208 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 209 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 210 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 211 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 212 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 213 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/init-system-helpers_1.60.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 214 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 215 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/kbd/kbd_2.4.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 216 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 217 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 218 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 219 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 221 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 222 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 223 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 224 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-compat-units.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 225 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-conf_1.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 226 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-serialgetty.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 227 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 228 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.36.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 229 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.36.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 230 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 231 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.36.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 232 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 233 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 234 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 235 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.183.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 236 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.40.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 237 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 238 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 239 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 240 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/m4/m4_1.4.18.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 241 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 242 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 243 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 244 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.32.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 245 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.5.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 246 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 247 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bc/bc_1.07.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 248 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 249 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.5.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 250 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/diffutils/diffutils_3.7.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 251 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.8.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 252 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.1.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 253 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 254 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/iptables/iptables_1.8.7.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 255 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 256 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 257 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.4.bb:do_package_write_rpm_setscene)
-NOTE: recipe socat-1.7.4.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe socat-1.7.4.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe base-passwd-3.5.29-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 258 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_package_write_rpm_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe iproute2-5.11.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe openssl-1.1.1k-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe coreutils-8.32-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 259 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_package_write_rpm_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe expat-2.4.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gettext-0.21-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 260 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/mdadm/mdadm_4.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe init-system-helpers-1.60-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_package_write_rpm_setscene: Started
-NOTE: recipe kbd-2.4.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxml2-2.9.12-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe musl-obstack-1.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe readline-8.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-compat-units-1.0-r29: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-conf-1_1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_package_write_rpm_setscene: Started
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe zlib-1.2.11-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 261 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata_setscene)
-NOTE: recipe systemd-compat-units-1.0-r29: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe binutils-2.36.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe elfutils-0.183-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe file-5.40-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 262 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe init-system-helpers-1.60-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe util-linux-2.36.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe m4-1.4.18-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe e2fsprogs-1.46.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 263 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/init-system-helpers_1.60.bb:do_packagedata_setscene)
-NOTE: Running setscene task 264 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 265 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 266 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-securetty_4.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 267 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libgcc-11.1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe make-4.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe opkg-utils-0.4.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe iproute2-5.11.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe expat-2.4.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe kbd-2.4.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe musl-obstack-1.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe systemd-conf-1_1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 268 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.8.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe liberror-perl-0.17029-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 269 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/tar/tar_1.34.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 270 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 271 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 272 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/which/which_2.21.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 273 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_package_write_rpm_setscene)
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-5.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bc-1.07.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe cracklib-2.9.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxml2-2.9.12-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe readline-8.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe ncurses-6.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe perl-5.32.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe diffutils-3.7-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe findutils-4.8.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe grep-3.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe iptables-1.8.7-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libmnl-1.0.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 274 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 275 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 276 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_package_write_rpm_setscene)
-NOTE: recipe zlib-1.2.11-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gawk-5.1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libidn2-2.3.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 277 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 278 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 279 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libnsl2-1.3.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 280 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_write_rpm_setscene)
-NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gettext-0.21-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-3.9.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 281 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 282 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package_write_rpm_setscene)
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe file-5.40-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe mdadm-4.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe m4-1.4.18-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 283 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 284 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.32.bb:do_package_write_rpm_setscene)
-NOTE: recipe init-system-helpers-1.60-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-4.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe shadow-securetty-4.6-r3: task do_package_write_rpm_setscene: Started
-NOTE: recipe coreutils-8.32-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libpam-1.5.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 285 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 286 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 287 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.bb:do_package_write_rpm_setscene)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libgcc-11.1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe opkg-utils-0.4.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe liberror-perl-0.17029-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bc-1.07.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 288 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_packagedata_setscene)
-NOTE: Running setscene task 289 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 290 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 291 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 292 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_deploy_setscene)
-NOTE: recipe sed-4.8-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe tar-1.34-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe tcp-wrappers-7.6-r10: task do_package_write_rpm_setscene: Started
-NOTE: recipe util-linux-2.36.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe cracklib-2.9.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 293 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/socat/socat_1.7.4.1.bb:do_packagedata_setscene)
-NOTE: recipe unzip-1_6.0-r5: task do_package_write_rpm_setscene: Started
-NOTE: recipe zstd-1.5.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 294 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 295 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/m4/m4_1.4.18.bb:do_packagedata_setscene)
-NOTE: recipe e2fsprogs-1.46.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-5.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe which-2.21-r3: task do_package_write_rpm_setscene: Started
-NOTE: recipe libmnl-1.0.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 296 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bc/bc_1.07.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 297 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_package_write_rpm_setscene)
-NOTE: recipe iptables-1.8.7-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libnsl2-1.3.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe wayland-1.19.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe findutils-4.8.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe grep-3.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libidn2-2.3.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe diffutils-3.7-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 305 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.8.0.bb:do_packagedata_setscene)
-NOTE: recipe openssl-1.1.1k-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gawk-5.1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 306 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.6.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libx11-1_1.7.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 320 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 321 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 322 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 323 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 324 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.76.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 325 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/db/db_5.3.28.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 326 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.19.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 327 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 328 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 329 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 330 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb:do_package_write_rpm_setscene)
-NOTE: recipe mdadm-4.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 331 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/mdadm/mdadm_4.1.bb:do_packagedata_setscene)
-NOTE: recipe shadow-securetty-4.6-r3: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe elfutils-0.183-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libpam-1.5.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 332 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.49.bb:do_package_write_rpm_setscene)
-NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe xkeyboard-config-2.32-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 333 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb:do_packagedata_setscene)
-NOTE: recipe tcp-wrappers-7.6-r10: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r5: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xorgproto-2021.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-libc-headers-5.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 334 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/kbd/kbd_2.4.0.bb:do_packagedata_setscene)
-NOTE: recipe sed-4.8-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe which-2.21-r3: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 335 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-compat-units.bb:do_packagedata_setscene)
-NOTE: recipe liberror-perl-0.17029-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 336 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-conf_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 337 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-serialgetty.bb:do_packagedata_setscene)
-NOTE: Running setscene task 338 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 339 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/which/which_2.21.bb:do_packagedata_setscene)
-NOTE: Running setscene task 340 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_package_write_rpm_setscene)
-NOTE: recipe tar-1.34-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe shadow-4.8.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe socat-1.7.4.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 341 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/tar/tar_1.34.bb:do_packagedata_setscene)
-NOTE: recipe m4-1.4.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.19.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 342 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-securetty_4.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 343 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 351 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 352 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.9.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 353 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.42.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 354 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_package_write_rpm_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zstd-1.5.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 355 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.44.bb:do_package_write_rpm_setscene)
-NOTE: recipe init-system-helpers-1.60-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.7.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bc-1.07.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe findutils-4.8.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe grep-3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe argp-standalone-1.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe binutils-2.36.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe db-1_5.3.28-r1: task do_package_write_rpm_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libcap-2.49-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gdbm-1.19-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 360 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.36.bb:do_packagedata_setscene)
-NOTE: Running setscene task 361 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 362 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_0.9.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 368 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lzo/lzo_2.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 369 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.7.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 375 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 376 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm_setscene)
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-3.9.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.32-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xorgproto-2021.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 377 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe curl-7.76.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gnutls-3.7.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libcap-ng-0.8.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe mdadm-4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-conf-1_1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 378 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.35.5.bb:do_package_write_rpm_setscene)
-NOTE: recipe iproute2-5.11.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-compat-units-1.0-r29: task do_packagedata_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_packagedata_setscene: Started
-NOTE: recipe shadow-securetty-4.6-r3: task do_packagedata_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe kbd-2.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.32.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe argp-standalone-1.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 379 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_packagedata_setscene)
-NOTE: recipe tar-1.34-r0: task do_packagedata_setscene: Started
-NOTE: recipe which-2.21-r3: task do_packagedata_setscene: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libgcrypt-1.9.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libcap-2.49-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libgpg-error-1.42-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libmicrohttpd-0.9.73-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gdbm-1.19-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libpcre-8.44-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libcap-ng-0.8.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe curl-7.76.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 380 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 381 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/diffutils/diffutils_3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 382 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_packagedata_setscene)
-NOTE: recipe shadow-sysroot-4.6-r3: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe nettle-3.7.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
-NOTE: recipe binutils-2.36.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-0.9.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ptest-runner-2.4.1+gitAUTOINC+cce0edb428-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libseccomp-2.5.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe lzo-2.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe liberror-perl-0.17029-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gnutls-3.7.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bc-1.07.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 385 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.32.1.bb:do_packagedata_setscene)
-NOTE: recipe socat-1.7.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 391 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb:do_packagedata_setscene)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_setscene: Succeeded
-NOTE: recipe m4-1.4.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 395 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 397 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe db-1_5.3.28-r1: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libgpg-error-1.42-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libffi-3.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libgcrypt-1.9.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libmicrohttpd-0.9.73-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gawk-5.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.44-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe systemd-compat-units-1.0-r29: task do_packagedata_setscene: Succeeded
-NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 402 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.3.bb:do_packagedata_setscene)
-NOTE: recipe mdadm-4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-securetty-4.6-r3: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunistring-0.9.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe diffutils-3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: recipe systemd-conf-1_1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.1+gitAUTOINC+cce0edb428-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe nettle-3.7.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe tcp-wrappers-7.6-r10: task do_packagedata_setscene: Started
-NOTE: recipe lzo-2.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe iproute2-5.11.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 411 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_8.32.bb:do_packagedata_setscene)
-NOTE: recipe which-2.21-r3: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 412 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.bb:do_packagedata_setscene)
-NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 415 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/iptables/iptables_1.8.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 417 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 421 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 422 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe e2fsprogs-1.46.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 423 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 424 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_packagedata_setscene)
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: recipe perl-5.32.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe grep-3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe findutils-4.8.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe kbd-2.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.1+gitAUTOINC+cce0edb428-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmnl-1.0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe iptables-1.8.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-8.32-r0: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe tar-1.34-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe binutils-2.36.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe tcp-wrappers-7.6-r10: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 441 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 443 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.183.bb:do_packagedata_setscene)
-NOTE: Running task 670 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_fetch)
-NOTE: Running task 673 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: Running task 682 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_fetch)
-NOTE: Running task 689 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_fetch)
-NOTE: Running task 690 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_fetch)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_packagedata_setscene: Started
-NOTE: recipe gawk-5.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 737 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_fetch)
-NOTE: Running task 754 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_fetch)
-NOTE: Running task 755 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_fetch)
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 449 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe ptest-runner-2.4.1+gitAUTOINC+cce0edb428-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmnl-1.0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bison-3.7.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe elfutils-0.183-r0: task do_packagedata_setscene: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Started
-NOTE: recipe diffutils-3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Started
-NOTE: Running task 963 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_unpack)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Succeeded
-NOTE: recipe musl-utils-20170421-r0: task do_fetch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Started
-NOTE: Running task 978 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_unpack)
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Started
-NOTE: Running task 979 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Started
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Succeeded
-NOTE: Running task 980 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_unpack)
-NOTE: recipe bash-5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Succeeded
-NOTE: Running task 985 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_unpack)
-NOTE: Running task 986 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_unpack)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 987 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_unpack)
-NOTE: recipe e2fsprogs-1.46.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-utils-20170421-r0: task do_fetch: Succeeded
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Started
-NOTE: Running task 996 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_unpack)
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1006 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_patch)
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Started
-NOTE: Running task 1007 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Started
-NOTE: recipe musl-utils-20170421-r0: task do_unpack: Started
-NOTE: recipe elfutils-0.183-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 465 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 467 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
-NOTE: Running setscene task 470 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 472 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_packagedata_setscene)
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Succeeded
-NOTE: recipe coreutils-8.32-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1012 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Started
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Succeeded
-NOTE: Running task 1017 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Succeeded
-NOTE: Running task 1018 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch)
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-obstack-1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-utils-20170421-r0: task do_unpack: Succeeded
-NOTE: recipe libmicrohttpd-0.9.73-r0: task do_packagedata_setscene: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1019 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_patch)
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Succeeded
-NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bison-3.7.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1020 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_patch)
-NOTE: Running setscene task 477 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_packagedata_setscene)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Started
-NOTE: Running task 1030 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Started
-NOTE: Running task 1031 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe musl-utils-20170421-r0: task do_patch: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Started
-NOTE: recipe gettext-0.21-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Succeeded
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-obstack-1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1032 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libmicrohttpd-0.9.73-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 487 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.40.bb:do_packagedata_setscene)
-NOTE: Running setscene task 489 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.76.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 491 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 493 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.9.2.bb:do_packagedata_setscene)
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running setscene task 498 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 500 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lzo/lzo_2.10.bb:do_packagedata_setscene)
-NOTE: recipe iptables-1.8.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1053 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch_ptest_path)
-NOTE: Running task 1054 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1055 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_patch)
-NOTE: recipe musl-utils-20170421-r0: task do_patch: Succeeded
-NOTE: Running task 1056 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_deploy_source_date_epoch)
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe file-5.40-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.9.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.7.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Succeeded
-NOTE: Running task 1057 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe lzo-2.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-7.76.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe musl-utils-20170421-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1058 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe zstd-1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe file-5.40-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Succeeded
-NOTE: recipe libgcrypt-1.9.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 510 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.42.bb:do_packagedata_setscene)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lzo-2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe curl-7.76.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-utils-20170421-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gnutls-3.7.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 517 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 519 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.7.2.bb:do_packagedata_setscene)
-NOTE: recipe gettext-0.21-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libgpg-error-1.42-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 526 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_packagedata_setscene)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe argp-standalone-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libidn2-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe nettle-3.7.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Succeeded
-NOTE: Running task 1087 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1088 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic)
-NOTE: recipe libgpg-error-1.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe argp-standalone-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 533 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 534 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe nettle-3.7.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 537 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: recipe libidn2-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 542 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_0.9.10.bb:do_packagedata_setscene)
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic unihash changed to 46a6a812ffcd3a2e84a7aedfff540edfcd20fa77218ff442b1b5b411b62442d3
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libunistring-0.9.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunistring-0.9.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 549 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata_setscene)
-NOTE: Running setscene task 550 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 551 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 552 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.44.bb:do_packagedata_setscene)
-NOTE: Running setscene task 553 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpcre-8.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 555 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 556 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 557 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 558 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 559 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 560 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 561 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpcre-8.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 563 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.44.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libx11-1_1.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre-8.44-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpcre-8.44-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libx11-1_1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 565 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 566 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 567 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libx11-1_1.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 569 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libx11-1_1.7.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libx11-1_1.7.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 573 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 574 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 575 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 580 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 581 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_packagedata_setscene)
-NOTE: Running setscene task 582 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 583 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 584 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 585 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 586 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 587 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 588 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 589 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 590 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 591 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 592 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 593 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.49.bb:do_packagedata_setscene)
-NOTE: Running setscene task 594 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.49.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 595 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 596 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 599 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libice-1_1.0.10-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.49-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.49-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1154 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-src went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dbg went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package libkmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-staticdev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: Running setscene task 601 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_deploy_source_date_epoch_setscene)
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-doc went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-locale went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe shadow-4.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-bash-completion went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe perl-5.32.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 604 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/db/db_5.3.28.bb:do_packagedata_setscene)
-NOTE: recipe systemd-1_248.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_fetch: Started
-NOTE: recipe libcap-2.49-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_fetch: Succeeded
-NOTE: Running task 1163 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running task 1164 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libcap-2.49-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 608 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 610 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 612 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.49.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe acl-2.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 613 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 615 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_packagedata_setscene)
-NOTE: recipe db-1_5.3.28-r1: task do_packagedata_setscene: Started
-NOTE: Running setscene task 616 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 617 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 618 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 619 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 620 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.32.bb:do_packagedata_setscene)
-NOTE: Running setscene task 621 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.32.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 1166 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_fetch)
-NOTE: recipe libseccomp-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_unpack: Started
-NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Started
-NOTE: Running setscene task 623 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libcap-2.49-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 625 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe shadow-4.8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 627 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.8.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 628 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 629 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.32-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.19.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.19.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.32-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libseccomp-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libcap-2.49-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_unpack: Succeeded
-NOTE: Running task 1189 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_fetch: Started
-NOTE: recipe acl-2.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libseccomp-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe db-1_5.3.28-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_fetch: Succeeded
-NOTE: recipe libxkbcommon-1.3.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 1206 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_unpack)
-NOTE: recipe acl-2.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe wayland-1.19.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.32-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_patch: Started
-NOTE: recipe wayland-1.19.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 633 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 634 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 635 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 636 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 637 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 639 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 640 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 641 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 642 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 643 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 644 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 645 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 646 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 647 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxml2-2.9.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_unpack: Started
-NOTE: recipe expat-2.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.9.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.19.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_patch: Succeeded
-NOTE: Running task 1217 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe wayland-1.19.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 649 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.32-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_configure: Started
-NOTE: Running setscene task 651 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.32.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe expat-2.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_configure: Succeeded
-NOTE: recipe libxml2-2.9.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1226 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe expat-2.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 653 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxml2-2.9.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 655 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 656 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 657 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe attr-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xkeyboard-config-2.32-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 659 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 661 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_compile: Started
-NOTE: Running setscene task 663 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 665 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 666 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 667 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 668 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
-NOTE: recipe attr-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 669 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe xkeyboard-config-2.32-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe expat-2.4.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxml2-2.9.12-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_compile: Succeeded
-NOTE: Running task 1235 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-3.9.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.9.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.4.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xorgproto-2021.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2021.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.9.12-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xorgproto-2021.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2021.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 671 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 673 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe xorgproto-2021.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xorgproto-2021.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-3.9.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 675 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb:do_packagedata_setscene)
-NOTE: Running setscene task 676 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 677 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.36.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 678 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 679 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 680 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 681 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.19.bb:do_packagedata_setscene)
-NOTE: Running setscene task 682 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 683 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.35.5.bb:do_packagedata_setscene)
-NOTE: recipe libnsl2-1.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-1.1.1k-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.19-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.36.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.9.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-1.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 686 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 687 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 688 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.36.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 689 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 690 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 692 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 693 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 694 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 695 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.19.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 696 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 698 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.35.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-1.1.1k-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.19-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe readline-8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-1.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.36.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.19-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-1.1.1k-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.9.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-3.9.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libnsl2-1.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe readline-8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 703 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 704 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 705 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe gdbm-1.19-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 706 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 707 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.19.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 708 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.36.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 710 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 711 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.35.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libnsl2-1.3.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe readline-8.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libffi-3.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gdbm-1.19-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 1274 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe openssl-1.1.1k-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 712 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libnsl2-1.3.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe readline-8.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libffi-3.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gdbm-1.19-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 713 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe sqlite3-3_3.35.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe openssl-1.1.1k-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe openssl-1.1.1k-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-2.36.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 715 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 716 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 717 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.36.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 718 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.36.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 719 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.36.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 720 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 721 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 722 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 723 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 724 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 725 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtirpc-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.36.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-2.36.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 727 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.36.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 729 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 731 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libcap-ng-0.8.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 733 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 734 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 735 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.36.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe opkg-utils-0.4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.4.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe opkg-utils-0.4.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 737 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe opkg-utils-0.4.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe opkg-utils-0.4.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpam-1.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 739 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 740 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 741 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 742 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 743 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1335 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe cracklib-2.9.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe libpam-1.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpam-1.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 745 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 003c92f014369e85d1ad14dc5d1d0ac751b330863894e4dc43b3bd2a493a89ed
-NOTE: recipe cracklib-2.9.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1340 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: Running setscene task 748 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 749 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 750 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 751 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe flex-2.6.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libtool-cross-2.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe zlib-1.2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe cracklib-2.9.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 752 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe zlib-1.2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 754 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 755 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 756 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.2.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libtool-cross-2.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 758 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-11.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 759 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 760 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-11.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 762 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-11.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-runtime-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-11.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 763 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 764 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 766 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 767 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 768 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 769 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 770 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 771 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 777 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 778 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 779 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 781 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 782 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 783 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.36.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 784 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe linux-libc-headers-5.10-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 785 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.36.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1682 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1872 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1874 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: Running task 1905 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2055 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2071 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2072 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe musl-utils-20170421-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2247 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2248 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 819d54398bccb8b0be6b0b86364b262d5891d323a571d56333664e0b39dceaf1
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe musl-utils-20170421-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2350 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_configure)
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe musl-utils-20170421-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_unpack: Succeeded
-NOTE: Running task 2351 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_symlink_kernsrc)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_symlink_kernsrc: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_symlink_kernsrc: Succeeded
-NOTE: Running task 2352 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_checkout)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_checkout: Started
-NOTE: recipe musl-utils-20170421-r0: task do_configure: Succeeded
-NOTE: Running task 2353 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_compile)
-NOTE: recipe musl-utils-20170421-r0: task do_compile: Started
-NOTE: recipe musl-utils-20170421-r0: task do_compile: Succeeded
-NOTE: Running task 2354 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_install)
-NOTE: recipe musl-utils-20170421-r0: task do_install: Started
-NOTE: recipe musl-utils-20170421-r0: task do_install: Succeeded
-NOTE: Running task 2355 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_package)
-NOTE: recipe musl-utils-20170421-r0: task do_package: Started
-NOTE: recipe musl-utils-20170421-r0: task do_package: Succeeded
-NOTE: Running task 2356 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_packagedata)
-NOTE: recipe musl-utils-20170421-r0: task do_packagedata: Started
-NOTE: recipe musl-utils-20170421-r0: task do_packagedata: Succeeded
-NOTE: Running task 2357 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-utils.bb:do_package_write_rpm)
-NOTE: recipe musl-utils-20170421-r0: task do_package_write_rpm: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_checkout: Succeeded
-NOTE: Running task 2358 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_validate_branches)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_validate_branches: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_validate_branches: Succeeded
-NOTE: Running task 2359 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_metadata)
-NOTE: recipe musl-utils-20170421-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_metadata: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_metadata: Succeeded
-NOTE: Running task 2360 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_patch)
-NOTE: Running task 2361 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_version_sanity_check)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_version_sanity_check: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_patch: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 2362 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_version_sanity_check: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_patch: Succeeded
-NOTE: Running task 2363 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_configme)
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configme: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 2365 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2366 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 2367 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: Running task 2368 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2369 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2370 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 2371 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 2372 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2373 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_install)
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2374 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2375 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package)
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2376 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2377 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_configure)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2378 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_packagedata)
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2379 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package_write_rpm)
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configme: Succeeded
-NOTE: Running task 2380 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_configure)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_configure: Succeeded
-NOTE: Running task 2381 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_configcheck)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configcheck: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 2382 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2383 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile)
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2384 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_compile)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configcheck: Succeeded
-NOTE: Running task 2385 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 2386 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2387 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2388 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_install)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 2389 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2390 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2391 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2392 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2393 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2394 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2395 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_packagedata)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2396 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package_write_rpm)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 2397 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_packagedata)
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2398 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Succeeded
-NOTE: Running task 2399 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2400 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile: Succeeded
-NOTE: Running task 2401 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_shared_workdir)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_shared_workdir: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_shared_workdir: Succeeded
-NOTE: Running task 2403 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile_kernelmodules)
-NOTE: Running task 2404 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_configure)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile_kernelmodules: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile_kernelmodules: Succeeded
-NOTE: Running task 2409 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 2419 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_configure)
-NOTE: Running task 2420 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_install)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Succeeded
-NOTE: Running task 2421 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Succeeded
-NOTE: Running task 2422 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_compile)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Succeeded
-NOTE: Running task 2423 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_packagedata)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2424 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package_write_rpm)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Succeeded
-NOTE: Running task 2425 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2426 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Succeeded
-NOTE: Running task 2427 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2428 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package)
-NOTE: Running task 2429 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Succeeded
-NOTE: Running task 2430 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_install)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Succeeded
-NOTE: Running task 2431 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_packagedata)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Succeeded
-NOTE: Running task 2432 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Succeeded
-NOTE: Running task 2433 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_packagedata)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2434 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package_write_rpm)
-NOTE: Running task 2435 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_write_rpm)
-NOTE: Running task 2436 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_qa)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2437 of 2437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_build)
-NOTE: Tasks Summary: Attempted 2437 tasks of which 2309 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 9 ERROR messages shown, returning a non-zero exit code.
-
---===============0683868917186452976==
+--===============3406379333037268913==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/lttng-tools: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools: SRC_URI changed from "https://lttng.org/files/lttng-tools/lttng-tools-2.12.3.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://0001-tests-regression-disable-the-tools-live-tests.patch file://determinism.patch" to "https://lttng.org/files/lttng-tools/lttng-tools-2.12.4.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://0001-tests-regression-disable-the-tools-live-tests.patch file://determinism.patch"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGSIZE changed from 22899588 to 22914608 (+0%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGSIZE changed from 243154 to 244861 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGSIZE changed from 8739011 to 8749548 (+0%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGSIZE changed from 4354233 to 4357451 (+0%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PV changed from "2.12.3" to "2.12.4"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGV changed from 2.12.3 [default] to 2.12.4 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGSIZE changed from 3767441 to 3775633 (+0%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PV changed from "2.12.3" to "2.12.4"
+packages/core2-32-poky-linux/curl/curl-dbg: PKGSIZE changed from 2597836 to 2647432 (+2%)
+packages/core2-32-poky-linux/curl/curl-dbg: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/curl-dbg: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl/curl-dev: PKGSIZE changed from 235390 to 236185 (+0%)
+packages/core2-32-poky-linux/curl/curl-dev: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/curl-dev: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl/curl-doc: PKGSIZE changed from 1666896 to 1683846 (+1%)
+packages/core2-32-poky-linux/curl/curl-doc: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/curl-doc: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl/curl-locale: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/curl-locale: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl/curl-src: PKGSIZE changed from 3604647 to 3646887 (+1%)
+packages/core2-32-poky-linux/curl/curl-src: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/curl-src: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl/curl-staticdev: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/curl-staticdev: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl/curl: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/curl: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl: SRC_URI changed from "https://curl.haxx.se/download/curl-7.76.1.tar.bz2 file://0001-replace-krb5-config-with-pkg-config.patch" to "https://curl.haxx.se/download/curl-7.77.0.tar.bz2 file://0001-replace-krb5-config-with-pkg-config.patch"
+packages/core2-32-poky-linux/curl: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/curl/libcurl: PKGSIZE changed from 538872 to 551196 (+2%)
+packages/core2-32-poky-linux/curl/libcurl: PKGV changed from 7.76.1 [default] to 7.77.0 [default]
+packages/core2-32-poky-linux/curl/libcurl: PV changed from "7.76.1" to "7.77.0"
+packages/core2-32-poky-linux/elfutils/elfutils-dbg: PKGSIZE changed from 25735512 to 25735680 (+0%)
+packages/core2-32-poky-linux/elfutils/elfutils-ptest: PKGSIZE changed from 38258670 to 38258870 (+0%)
 
---===============0683868917186452976==
-Content-Type: text/plain; charset="us-ascii"
+--===============3406379333037268913==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 822 .bb files complete (0 cached, 822 parsed). 1456 targets, 49 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+TG9hZGluZyBjYWNoZS4uLmRvbmUuCkxvYWRlZCAxNDU4IGVudHJpZXMgZnJvbSBkZXBlbmRlbmN5
+IGNhY2hlLgpQYXJzaW5nIHJlY2lwZXMuLi5kb25lLgpQYXJzaW5nIG9mIDgyMiAuYmIgZmlsZXMg
+Y29tcGxldGUgKDgyMSBjYWNoZWQsIDEgcGFyc2VkKS4gMTQ1NiB0YXJnZXRzLCAzMSBza2lwcGVk
+LCAwIG1hc2tlZCwgMCBlcnJvcnMuClJlbW92aW5nIDEgcmVjaXBlcyBmcm9tIHRoZSBjb3JlMi02
+NCBzeXNyb290Li4uZG9uZS4KUmVtb3ZpbmcgMSByZWNpcGVzIGZyb20gdGhlIHFlbXV4ODZfNjQg
+c3lzcm9vdC4uLmRvbmUuCk5PVEU6IFJlc29sdmluZyBhbnkgbWlzc2luZyB0YXNrIHF1ZXVlIGRl
+cGVuZGVuY2llcwoKQnVpbGQgQ29uZmlndXJhdGlvbjoKQkJfVkVSU0lPTiAgICAgICAgICAgPSAi
+MS41MS4wIgpCVUlMRF9TWVMgICAgICAgICAgICA9ICJ4ODZfNjQtbGludXgiCk5BVElWRUxTQlNU
+UklORyAgICAgID0gInVuaXZlcnNhbCIKVEFSR0VUX1NZUyAgICAgICAgICAgPSAieDg2XzY0LXBv
+a3ktbGludXgiCk1BQ0hJTkUgICAgICAgICAgICAgID0gInFlbXV4ODYtNjQiCkRJU1RSTyAgICAg
+ICAgICAgICAgID0gInBva3kiCkRJU1RST19WRVJTSU9OICAgICAgID0gIjMuMytzbmFwc2hvdC0z
+NzkwZGRmZWY4MzRjYzNlYTEyNDAwNTY3ODYwZjY3OGE3N2I5MWJmIgpUVU5FX0ZFQVRVUkVTICAg
+ICAgICA9ICJtNjQgY29yZTIiClRBUkdFVF9GUFUgICAgICAgICAgID0gIiIKbWV0YSAgICAgICAg
+ICAgICAgICAgCm1ldGEtcG9reSAgICAgICAgICAgIAptZXRhLXlvY3RvLWJzcCAgICAgICA9ICJ0
+bXAtYXVoLXVwZ3JhZGVzOjM3OTBkZGZlZjgzNGNjM2VhMTI0MDA1Njc4NjBmNjc4YTc3YjkxYmYi
+CndvcmtzcGFjZSAgICAgICAgICAgID0gIm1hc3Rlcjo0MGQzMzY2YmVhOGQyNDE3ZTg5YTM3YzZm
+MmQzOGUxNTQyMTYwMzQyIgoKSW5pdGlhbGlzaW5nIHRhc2tzLi4uZG9uZS4KU3N0YXRlIHN1bW1h
+cnk6IFdhbnRlZCA4NiBMb2NhbCA3IE5ldHdvcmsgMCBNaXNzZWQgNzkgQ3VycmVudCA2NTEgKDgl
+IG1hdGNoLCA4OSUgY29tcGxldGUpClJlbW92aW5nIDIyIHN0YWxlIHNzdGF0ZSBvYmplY3RzIGZv
+ciBhcmNoIHFlbXV4ODZfNjQuLi5kb25lLgpSZW1vdmluZyAzOSBzdGFsZSBzc3RhdGUgb2JqZWN0
+cyBmb3IgYXJjaCBjb3JlMi02NC4uLmRvbmUuCk5PVEU6IEV4ZWN1dGluZyBUYXNrcwpOT1RFOiBT
+ZXRzY2VuZSB0YXNrcyBjb21wbGV0ZWQKTk9URTogUnVubmluZyB0YXNrIDc3MiBvZiAyMzE3ICgv
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVj
+aXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuNC4xLmJiOmRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3Qp
+Ck5PVEU6IFJ1bm5pbmcgdGFzayAxMDg3IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13
+b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1maWxlcy9i
+YXNlLWZpbGVzXzMuMC4xNC5iYjpkb19pbnN0YWxsKQpOT1RFOiByZWNpcGUgZXhwYXQtMi40LjEt
+cjA6IHRhc2sgZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdDogU3RhcnRlZApOT1RFOiBSdW5uaW5n
+IHRhc2sgMTI2NyBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
+ZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF83Ljc3LjAuYmI6ZG9f
+ZmV0Y2gpCk5PVEU6IHJlY2lwZSBjdXJsLTcuNzcuMC1yMDogdGFzayBkb19mZXRjaDogU3RhcnRl
+ZApOT1RFOiByZWNpcGUgY3VybC03Ljc3LjAtcjA6IHRhc2sgZG9fZmV0Y2g6IFN1Y2NlZWRlZApO
+T1RFOiBSdW5uaW5nIHRhc2sgMTY1NSBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29y
+a2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF83
+Ljc3LjAuYmI6ZG9fdW5wYWNrKQpOT1RFOiBSdW5uaW5nIHRhc2sgMTY1NiBvZiAyMzE3ICgvaG9t
+ZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBl
+cy1zdXBwb3J0L2N1cmwvY3VybF83Ljc3LjAuYmI6ZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdCkK
+Tk9URTogcmVjaXBlIGV4cGF0LTIuNC4xLXIwOiB0YXNrIGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jv
+b3Q6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMTc3MCBvZiAyMzE3ICgvaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3Jl
+L2V4cGF0L2V4cGF0XzIuNC4xLmJiOmRvX2NvbmZpZ3VyZSkKTk9URTogcmVjaXBlIGN1cmwtNy43
+Ny4wLXIwOiB0YXNrIGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3Q6IFN0YXJ0ZWQKTk9URTogcmVj
+aXBlIGN1cmwtNy43Ny4wLXIwOiB0YXNrIGRvX3VucGFjazogU3RhcnRlZApOT1RFOiByZWNpcGUg
+ZXhwYXQtMi40LjEtcjA6IHRhc2sgZG9fY29uZmlndXJlOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBi
+YXNlLWZpbGVzLTMuMC4xNC1yODk6IHRhc2sgZG9faW5zdGFsbDogU3RhcnRlZApOT1RFOiByZWNp
+cGUgY3VybC03Ljc3LjAtcjA6IHRhc2sgZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdDogU3VjY2Vl
+ZGVkCk5PVEU6IHJlY2lwZSBjdXJsLTcuNzcuMC1yMDogdGFzayBkb191bnBhY2s6IFN1Y2NlZWRl
+ZApOT1RFOiBSdW5uaW5nIHRhc2sgMjE0NSBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8t
+d29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3Vy
+bF83Ljc3LjAuYmI6ZG9fcGF0Y2gpCk5PVEU6IHJlY2lwZSBjdXJsLTcuNzcuMC1yMDogdGFzayBk
+b19wYXRjaDogU3RhcnRlZApOT1RFOiByZWNpcGUgYmFzZS1maWxlcy0zLjAuMTQtcjg5OiB0YXNr
+IGRvX2luc3RhbGw6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjE0NiBvZiAyMzE3ICgv
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVj
+aXBlcy1jb3JlL2Jhc2UtZmlsZXMvYmFzZS1maWxlc18zLjAuMTQuYmI6ZG9fcG9wdWxhdGVfc3lz
+cm9vdCkKTk9URTogUnVubmluZyB0YXNrIDIxNDcgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lv
+Y3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLWZp
+bGVzL2Jhc2UtZmlsZXNfMy4wLjE0LmJiOmRvX3BhY2thZ2UpCk5PVEU6IHJlY2lwZSBjdXJsLTcu
+NzcuMC1yMDogdGFzayBkb19wYXRjaDogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMTQ4
+IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bv
+a3kvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzcuNzcuMC5iYjpkb19kZXBsb3lfc291
+cmNlX2RhdGVfZXBvY2gpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMTQ5IG9mIDIzMTcgKC9ob21lL3Bv
+a3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvY3VybC9jdXJsXzcuNzcuMC5iYjpkb19wb3B1bGF0ZV9saWMpCk5PVEU6IHJlY2lwZSBi
+YXNlLWZpbGVzLTMuMC4xNC1yODk6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdDogU3RhcnRlZApO
+T1RFOiByZWNpcGUgYmFzZS1maWxlcy0zLjAuMTQtcjg5OiB0YXNrIGRvX3BhY2thZ2U6IFN0YXJ0
+ZWQKTk9URTogcmVjaXBlIGN1cmwtNy43Ny4wLXIwOiB0YXNrIGRvX2RlcGxveV9zb3VyY2VfZGF0
+ZV9lcG9jaDogU3RhcnRlZApOT1RFOiByZWNpcGUgY3VybC03Ljc3LjAtcjA6IHRhc2sgZG9fcG9w
+dWxhdGVfbGljOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBjdXJsLTcuNzcuMC1yMDogdGFzayBkb19w
+b3B1bGF0ZV9saWM6IFN1Y2NlZWRlZApOT1RFOiBUYXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13
+b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJs
+XzcuNzcuMC5iYjpkb19wb3B1bGF0ZV9saWMgdW5paGFzaCBjaGFuZ2VkIHRvIGMzYTllYmQ2Yzk2
+ZThkZWY1NWFkODRhNTk4ODVmN2M4OTgzNjU1ZjIyYWQ0NTIwZTg4YWNlOTcxYWJhZjk1ZGQKTk9U
+RTogcmVjaXBlIGN1cmwtNy43Ny4wLXIwOiB0YXNrIGRvX2RlcGxveV9zb3VyY2VfZGF0ZV9lcG9j
+aDogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMTUwIG9mIDIzMTcgKC9ob21lL3Bva3li
+dWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvY3VybC9jdXJsXzcuNzcuMC5iYjpkb19jb25maWd1cmUpCk5PVEU6IHJlY2lwZSBiYXNlLWZp
+bGVzLTMuMC4xNC1yODk6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdDogU3VjY2VlZGVkCk5PVEU6
+IFRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9t
+ZXRhL3JlY2lwZXMtY29yZS9iYXNlLWZpbGVzL2Jhc2UtZmlsZXNfMy4wLjE0LmJiOmRvX3BvcHVs
+YXRlX3N5c3Jvb3QgdW5paGFzaCBjaGFuZ2VkIHRvIDYyZjY0MzFmMTlmZWRlMjM4NDY2ZTE5MDk1
+NWI1YjlkNTU2ZDU4OTZlYmRlMDI4NTMyYmYwMTUwZTlmNDNkMTIKTk9URTogcmVjaXBlIGN1cmwt
+Ny43Ny4wLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZTogU3RhcnRlZApOT1RFOiByZWNpcGUgYmFzZS1m
+aWxlcy0zLjAuMTQtcjg5OiB0YXNrIGRvX3BhY2thZ2U6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5n
+IHRhc2sgMjE1MSBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
+ZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtZmlsZXMvYmFzZS1maWxlc18zLjAu
+MTQuYmI6ZG9fcGFja2FnZWRhdGEpCk5PVEU6IHJlY2lwZSBiYXNlLWZpbGVzLTMuMC4xNC1yODk6
+IHRhc2sgZG9fcGFja2FnZWRhdGE6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGJhc2UtZmlsZXMtMy4w
+LjE0LXI4OTogdGFzayBkb19wYWNrYWdlZGF0YTogU3VjY2VlZGVkCk5PVEU6IFRhc2sgL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMt
+Y29yZS9iYXNlLWZpbGVzL2Jhc2UtZmlsZXNfMy4wLjE0LmJiOmRvX3BhY2thZ2VkYXRhIHVuaWhh
+c2ggY2hhbmdlZCB0byA0NTM2Nzc5YjdkY2EwYTVjM2Q4ZTAzMzEzOTE4ZjBjODllMWE4MDA1ZWFh
+NjE3N2IwYmZiMzA0ZDg4MmY0NzhjCk5PVEU6IFNldHNjZW5lIHRhc2tzIGNvbXBsZXRlZApOT1RF
+OiBSdW5uaW5nIHRhc2sgMjE1MiBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2Vy
+L2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtZmlsZXMvYmFzZS1m
+aWxlc18zLjAuMTQuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG0pCk5PVEU6IHJlY2lwZSBiYXNlLWZp
+bGVzLTMuMC4xNC1yODk6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG06IFN0YXJ0ZWQKTk9URTog
+cmVjaXBlIGJhc2UtZmlsZXMtMy4wLjE0LXI4OTogdGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbTog
+U3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBleHBhdC0yLjQuMS1yMDogdGFzayBkb19jb25maWd1cmU6
+IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjE1NCBvZiAyMzE3ICgvaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2V4
+cGF0L2V4cGF0XzIuNC4xLmJiOmRvX2NvbmZpZ3VyZV9wdGVzdF9iYXNlKQpOT1RFOiByZWNpcGUg
+ZXhwYXQtMi40LjEtcjA6IHRhc2sgZG9fY29uZmlndXJlX3B0ZXN0X2Jhc2U6IFN0YXJ0ZWQKTk9U
+RTogcmVjaXBlIGV4cGF0LTIuNC4xLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZV9wdGVzdF9iYXNlOiBT
+dWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIxNTUgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxk
+L3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9leHBh
+dC9leHBhdF8yLjQuMS5iYjpkb19jb21waWxlKQpOT1RFOiByZWNpcGUgZXhwYXQtMi40LjEtcjA6
+IHRhc2sgZG9fY29tcGlsZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZXhwYXQtMi40LjEtcjA6IHRh
+c2sgZG9fY29tcGlsZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMTU2IG9mIDIzMTcg
+KC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9y
+ZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi40LjEuYmI6ZG9fY29tcGlsZV9wdGVzdF9iYXNlKQpO
+T1RFOiByZWNpcGUgZXhwYXQtMi40LjEtcjA6IHRhc2sgZG9fY29tcGlsZV9wdGVzdF9iYXNlOiBT
+dGFydGVkCk5PVEU6IHJlY2lwZSBleHBhdC0yLjQuMS1yMDogdGFzayBkb19jb21waWxlX3B0ZXN0
+X2Jhc2U6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjE1NyBvZiAyMzE3ICgvaG9tZS9w
+b2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1j
+b3JlL2V4cGF0L2V4cGF0XzIuNC4xLmJiOmRvX2luc3RhbGwpCk5PVEU6IHJlY2lwZSBleHBhdC0y
+LjQuMS1yMDogdGFzayBkb19pbnN0YWxsOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBleHBhdC0yLjQu
+MS1yMDogdGFzayBkb19pbnN0YWxsOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIxNTgg
+b2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9r
+eS9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjQuMS5iYjpkb19pbnN0YWxsX3B0ZXN0
+X2Jhc2UpCk5PVEU6IHJlY2lwZSBleHBhdC0yLjQuMS1yMDogdGFzayBkb19pbnN0YWxsX3B0ZXN0
+X2Jhc2U6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGV4cGF0LTIuNC4xLXIwOiB0YXNrIGRvX2luc3Rh
+bGxfcHRlc3RfYmFzZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMTU5IG9mIDIzMTcg
+KC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9y
+ZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi40LjEuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdCkKTk9U
+RTogUnVubmluZyB0YXNrIDIxNjAgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
+ci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjQu
+MS5iYjpkb19wYWNrYWdlKQpOT1RFOiByZWNpcGUgZXhwYXQtMi40LjEtcjA6IHRhc2sgZG9fcG9w
+dWxhdGVfc3lzcm9vdDogU3RhcnRlZApOT1RFOiByZWNpcGUgZXhwYXQtMi40LjEtcjA6IHRhc2sg
+ZG9fcGFja2FnZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZXhwYXQtMi40LjEtcjA6IHRhc2sgZG9f
+cG9wdWxhdGVfc3lzcm9vdDogU3VjY2VlZGVkCk5PVEU6IFRhc2sgL2hvbWUvcG9reWJ1aWxkL3lv
+Y3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9l
+eHBhdF8yLjQuMS5iYjpkb19wb3B1bGF0ZV9zeXNyb290IHVuaWhhc2ggY2hhbmdlZCB0byA0MDNl
+ZTU2MTljZDFlYmM5ZGI3YTY5OWQ4NThmNmZlOWI3ZDMwMDQwMzFmODZlYTczMWYyNmFjZWY1NTZi
+NDk4Ck5PVEU6IFNldHNjZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgv
+YnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXNfMS4xMi4yMC5iYjpk
+b19wb3B1bGF0ZV9zeXNyb290IGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21l
+L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliY3JvY28vbGliY3JvY29fMC42LjEzLmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3Qg
+YmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93
+YXlsYW5kXzEuMTkuMC5iYjpkb19wb3B1bGF0ZV9zeXNyb290IGJlY2FtZSB2YWxpZApOT1RFOiBT
+ZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxk
+L3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvZ2V0dGV4dC9nZXR0ZXh0XzAuMjEuYmI6ZG9fcG9wdWxh
+dGVfc3lzcm9vdCBiZWNhbWUgdmFsaWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2ds
+aWItMi4wL2dsaWItMi4wXzIuNjguMi5iYjpkb19wb3B1bGF0ZV9zeXNyb290IGJlY2FtZSB2YWxp
+ZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1
+aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Jpc29uL2Jpc29uXzMuNy42LmJi
+OmRvX3BvcHVsYXRlX3N5c3Jvb3QgYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hv
+bWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lw
+ZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWRfMjQ4LjMuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdCBiZWNh
+bWUgdmFsaWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2Vy
+L2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4
+a2Jjb21tb25fMS4zLjAuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdCBiZWNhbWUgdmFsaWQKTk9URTog
+UnVubmluZyBzZXRzY2VuZSB0YXNrIDc0NCBvZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13
+b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzXzEu
+MTIuMjAuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZSkKTk9URTogUnVubmluZyBzZXRz
+Y2VuZSB0YXNrIDc0OCBvZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1
+aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvZ2V0dGV4dC9nZXR0ZXh0XzAuMjEuYmI6
+ZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZSkKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNr
+IDc2MSBvZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxk
+L3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Jpc29uL2Jpc29uXzMuNy42LmJiOmRvX3BvcHVs
+YXRlX3N5c3Jvb3Rfc2V0c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA3NzEgb2Yg
+NzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21l
+dGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmRfMS4xOS4wLmJiOmRvX3BvcHVsYXRl
+X3N5c3Jvb3Rfc2V0c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA3ODQgb2YgNzM3
+ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYmNyb2NvL2xpYmNyb2NvXzAuNi4xMy5iYjpkb19wb3B1bGF0ZV9z
+eXNyb290X3NldHNjZW5lKQpOT1RFOiByZWNpcGUgYmlzb24tMy43LjYtcjA6IHRhc2sgZG9fcG9w
+dWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZ2V0dGV4dC0wLjIx
+LXIwOiB0YXNrIGRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmU6IFN0YXJ0ZWQKTk9URTogcmVj
+aXBlIGRidXMtMS4xMi4yMC1yMDogdGFzayBkb19wb3B1bGF0ZV9zeXNyb290X3NldHNjZW5lOiBT
+dGFydGVkCk5PVEU6IHJlY2lwZSB3YXlsYW5kLTEuMTkuMC1yMDogdGFzayBkb19wb3B1bGF0ZV9z
+eXNyb290X3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBsaWJjcm9jby0wLjYuMTMtcjA6
+IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUg
+Ymlzb24tMy43LjYtcjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3VjY2Vl
+ZGVkCk5PVEU6IHJlY2lwZSB3YXlsYW5kLTEuMTkuMC1yMDogdGFzayBkb19wb3B1bGF0ZV9zeXNy
+b290X3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIxNjEgb2YgMjMxNyAo
+L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kXzEuMTkuMC5iYjpkb19wcmVwYXJlX3JlY2lw
+ZV9zeXNyb290KQpOT1RFOiByZWNpcGUgbGliY3JvY28tMC42LjEzLXIwOiB0YXNrIGRvX3BvcHVs
+YXRlX3N5c3Jvb3Rfc2V0c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiByZWNpcGUgZ2V0dGV4dC0wLjIx
+LXIwOiB0YXNrIGRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiBS
+dW5uaW5nIHNldHNjZW5lIHRhc2sgNzg5IG9mIDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGli
+LTIuMF8yLjY4LjIuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZSkKTk9URTogcmVjaXBl
+IHdheWxhbmQtMS4xOS4wLXIwOiB0YXNrIGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3Q6IFN0YXJ0
+ZWQKTk9URTogcmVjaXBlIGdsaWItMi4wLTFfMi42OC4yLXIwOiB0YXNrIGRvX3BvcHVsYXRlX3N5
+c3Jvb3Rfc2V0c2NlbmU6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGRidXMtMS4xMi4yMC1yMDogdGFz
+ayBkb19wb3B1bGF0ZV9zeXNyb290X3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyBz
+ZXRzY2VuZSB0YXNrIDc5MCBvZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVo
+L2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzI0OC4z
+LmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmUpCk5PVEU6IHJlY2lwZSBzeXN0ZW1kLTFf
+MjQ4LjMtcjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3RhcnRlZApOT1RF
+OiByZWNpcGUgZ2xpYi0yLjAtMV8yLjY4LjItcjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9z
+ZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBleHBhdC0yLjQuMS1yMDogdGFzayBkb19w
+YWNrYWdlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIxNjIgb2YgMjMxNyAoL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMt
+Y29yZS9leHBhdC9leHBhdF8yLjQuMS5iYjpkb19wYWNrYWdlZGF0YSkKTk9URTogcmVjaXBlIGV4
+cGF0LTIuNC4xLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhOiBTdGFydGVkCk5PVEU6IHJlY2lwZSB3
+YXlsYW5kLTEuMTkuMC1yMDogdGFzayBkb19wcmVwYXJlX3JlY2lwZV9zeXNyb290OiBTdWNjZWVk
+ZWQKTk9URTogUnVubmluZyB0YXNrIDIxNjMgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3Rv
+LXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFu
+ZC93YXlsYW5kXzEuMTkuMC5iYjpkb19jb25maWd1cmUpCk5PVEU6IHJlY2lwZSBzeXN0ZW1kLTFf
+MjQ4LjMtcjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3VjY2VlZGVkCk5P
+VEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA3OTEgb2YgNzM3ICgvaG9tZS9wb2t5YnVpbGQveW9j
+dG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
+LWxpYi9saWJ4a2Jjb21tb25fMS4zLjAuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZSkK
+Tk9URTogcmVjaXBlIHdheWxhbmQtMS4xOS4wLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZTogU3RhcnRl
+ZApOT1RFOiByZWNpcGUgbGlieGtiY29tbW9uLTEuMy4wLXIwOiB0YXNrIGRvX3BvcHVsYXRlX3N5
+c3Jvb3Rfc2V0c2NlbmU6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGV4cGF0LTIuNC4xLXIwOiB0YXNr
+IGRvX3BhY2thZ2VkYXRhOiBTdWNjZWVkZWQKTk9URTogVGFzayAvaG9tZS9wb2t5YnVpbGQveW9j
+dG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4
+cGF0XzIuNC4xLmJiOmRvX3BhY2thZ2VkYXRhIHVuaWhhc2ggY2hhbmdlZCB0byBmNGJmZGE2OTVm
+ZDQxNTY2YzE3ODQ2Mzc4YmY2ZjY4MzkxZGYwZWQ5M2MxZjE3NTU4OWI1YTM4Mzk4MWRhZDY2Ck5P
+VEU6IFNldHNjZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQv
+YnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbm9tZS1kZXNrdG9wLXRlc3RpbmcvZ25v
+bWUtZGVza3RvcC10ZXN0aW5nXzIwMTguMS5iYjpkb19wYWNrYWdlZGF0YSBiZWNhbWUgdmFsaWQK
+Tk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
+ZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29s
+c181LjEyLjEuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG0gYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNj
+ZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9r
+eS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZTJmc3Byb2dzL2UyZnNwcm9nc18xLjQ2LjIuYmI6ZG9f
+cGFja2FnZV93cml0ZV9ycG0gYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9nbm9tZS1kZXNrdG9wLXRlc3RpbmcvZ25vbWUtZGVza3RvcC10ZXN0aW5nXzIwMTgu
+MS5iYjpkb19wYWNrYWdlIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bv
+a3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNv
+cmUvZGJ1cy9kYnVzXzEuMTIuMjAuYmI6ZG9fcGFja2FnZSBiZWNhbWUgdmFsaWQKTk9URTogU2V0
+c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9w
+b2t5L21ldGEvcmVjaXBlcy1leHRlbmRlZC9wcm9jcHMvcHJvY3BzXzMuMy4xNy5iYjpkb19wYWNr
+YWdlX3dyaXRlX3JwbSBiZWNhbWUgdmFsaWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1ncmFw
+aGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4zLjAuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG0g
+YmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjcm9jby9s
+aWJjcm9jb18wLjYuMTMuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG0gYmVjYW1lIHZhbGlkCk5PVEU6
+IFNldHNjZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVp
+bGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9nZXR0ZXh0L2dldHRleHRfMC4yMS5iYjpkb19wYWNr
+YWdlZGF0YSBiZWNhbWUgdmFsaWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQv
+eW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1zdXBwb3J0L2xp
+YmNyb2NvL2xpYmNyb2NvXzAuNi4xMy5iYjpkb19wYWNrYWdlIGJlY2FtZSB2YWxpZApOT1RFOiBT
+ZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxk
+L3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzUuMTIu
+MS5iYjpkb19wYWNrYWdlIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bv
+a3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNv
+cmUvZGJ1cy9kYnVzLXRlc3RfMS4xMi4yMC5iYjpkb19wYWNrYWdlX3dyaXRlX3JwbSBiZWNhbWUg
+dmFsaWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1cy10ZXN0XzEuMTIu
+MjAuYmI6ZG9fcGFja2FnZWRhdGEgYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hv
+bWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lw
+ZXMtY29yZS9kYnVzL2RidXNfMS4xMi4yMC5iYjpkb19wYWNrYWdlZGF0YSBiZWNhbWUgdmFsaWQK
+Tk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
+ZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yNDguMy5iYjpk
+b19wYWNrYWdlIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWls
+ZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3hvcmctbGliL2xpYnhrYmNvbW1vbl8xLjMuMC5iYjpkb19wYWNrYWdlIGJlY2FtZSB2YWxpZApO
+T1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
+L2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc2hhcmVkLW1pbWUtaW5mby9zaGFyZWQt
+bWltZS1pbmZvX2dpdC5iYjpkb19wYWNrYWdlX3dyaXRlX3JwbSBiZWNhbWUgdmFsaWQKTk9URTog
+U2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWls
+ZC9wb2t5L21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4zLjAu
+YmI6ZG9fcGFja2FnZWRhdGEgYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvYmlzb24vYmlzb25fMy43LjYuYmI6ZG9fcGFja2FnZWRhdGEgYmVjYW1lIHZhbGlk
+Ck5PVEU6IFNldHNjZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVp
+bGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmlzb24vYmlzb25fMy43LjYuYmI6
+ZG9fcGFja2FnZV93cml0ZV9ycG0gYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hv
+bWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lw
+ZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMF8yLjY4LjIuYmI6ZG9fcGFja2FnZSBiZWNhbWUgdmFs
+aWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
+dWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dub21lLWRlc2t0b3AtdGVzdGlu
+Zy9nbm9tZS1kZXNrdG9wLXRlc3RpbmdfMjAxOC4xLmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtIGJl
+Y2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3Jr
+ZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3Byb2Nwcy9wcm9j
+cHNfMy4zLjE3LmJiOmRvX3BhY2thZ2VkYXRhIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0
+YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0
+YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzI0OC4zLmJiOmRvX3BhY2thZ2Vfd3JpdGVf
+cnBtIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0
+by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Jpc29u
+L2Jpc29uXzMuNy42LmJiOmRvX3BhY2thZ2UgYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRh
+c2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9zaGFyZWQtbWltZS1pbmZvL3NoYXJlZC1taW1lLWluZm9fZ2l0LmJi
+OmRvX3BhY2thZ2VkYXRhIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bv
+a3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvc2hhcmVkLW1pbWUtaW5mby9zaGFyZWQtbWltZS1pbmZvX2dpdC5iYjpkb19wYWNrYWdl
+IGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13
+b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRv
+b2xzL2J0cmZzLXRvb2xzXzUuMTIuMS5iYjpkb19wYWNrYWdlZGF0YSBiZWNhbWUgdmFsaWQKTk9U
+RTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9i
+dWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1jb21wYXQtdW5pdHMu
+YmI6ZG9fcGFja2FnZV93cml0ZV9ycG0gYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sg
+L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3Jl
+Y2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWRfMjQ4LjMuYmI6ZG9fcGFja2FnZWRhdGEgYmVjYW1l
+IHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9h
+dWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5k
+XzEuMTkuMC5iYjpkb19wYWNrYWdlZGF0YSBiZWNhbWUgdmFsaWQKTk9URTogU2V0c2NlbmUgdGFz
+ayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEv
+cmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNjguMi5iYjpkb19wYWNrYWdlZGF0YSBi
+ZWNhbWUgdmFsaWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29y
+a2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2dldHRleHQvZ2V0dGV4
+dF8wLjIxLmJiOmRvX3BhY2thZ2UgYmVjYW1lIHZhbGlkCk5PVEU6IFNldHNjZW5lIHRhc2sgL2hv
+bWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lw
+ZXMtY29yZS9kYnVzL2RidXNfMS4xMi4yMC5iYjpkb19wYWNrYWdlX3dyaXRlX3JwbSBiZWNhbWUg
+dmFsaWQKTk9URTogU2V0c2NlbmUgdGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2dldHRleHQvZ2V0dGV4dF8wLjIx
+LmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNr
+IC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9y
+ZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLXRlc3RfMS4xMi4yMC5iYjpkb19wYWNrYWdlIGJlY2FtZSB2
+YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVo
+L2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjBfMi42
+OC4yLmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0
+YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvbGliY3JvY28vbGliY3JvY29fMC42LjEzLmJiOmRvX3BhY2thZ2Vk
+YXRhIGJlY2FtZSB2YWxpZApOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0
+by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3Byb2Nw
+cy9wcm9jcHNfMy4zLjE3LmJiOmRvX3BhY2thZ2UgYmVjYW1lIHZhbGlkCk5PVEU6IFJ1bm5pbmcg
+c2V0c2NlbmUgdGFzayA3OTIgb2YgNzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1cy10ZXN0XzEuMTIu
+MjAuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0c2NlbmUpCk5PVEU6IHJlY2lwZSBsaWJ4a2Jj
+b21tb24tMS4zLjAtcjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZTogU3VjY2Vl
+ZGVkCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA3OTMgb2YgNzM3ICgvaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2Ri
+dXMvZGJ1c18xLjEyLjIwLmJiOmRvX3BhY2thZ2Vfc2V0c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0
+c2NlbmUgdGFzayA3OTQgb2YgNzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
+dWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1c18xLjEyLjIwLmJiOmRv
+X3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lKQpOT1RFOiBSdW5uaW5nIHNldHNjZW5lIHRhc2sg
+Nzk2IG9mIDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQv
+cG9reS9tZXRhL3JlY2lwZXMtY29yZS9nZXR0ZXh0L2dldHRleHRfMC4yMS5iYjpkb19wYWNrYWdl
+X3dyaXRlX3JwbV9zZXRzY2VuZSkKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDc5NyBvZiA3
+MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0
+YS9yZWNpcGVzLWNvcmUvZ2V0dGV4dC9nZXR0ZXh0XzAuMjEuYmI6ZG9fcGFja2FnZWRhdGFfc2V0
+c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA3OTggb2YgNzM3ICgvaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3Jl
+L2dsaWItMi4wL2dsaWItMi4wXzIuNjguMi5iYjpkb19wYWNrYWdlX3NldHNjZW5lKQpOT1RFOiBS
+dW5uaW5nIHNldHNjZW5lIHRhc2sgNzk5IG9mIDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGli
+LTIuMF8yLjY4LjIuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0c2NlbmUpCk5PVEU6IFJ1bm5p
+bmcgc2V0c2NlbmUgdGFzayA4MDAgb2YgNzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2Vy
+L2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1j
+b21wYXQtdW5pdHMuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0c2NlbmUpCk5PVEU6IFJ1bm5p
+bmcgc2V0c2NlbmUgdGFzayA4MDEgb2YgNzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2Vy
+L2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8y
+NDguMy5iYjpkb19wYWNrYWdlX3NldHNjZW5lKQpOT1RFOiBSdW5uaW5nIHNldHNjZW5lIHRhc2sg
+ODAyIG9mIDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQv
+cG9reS9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWRfMjQ4LjMuYmI6ZG9fcGFja2Fn
+ZV93cml0ZV9ycG1fc2V0c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA4MDYgb2Yg
+NzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9iaXNvbi9iaXNvbl8zLjcuNi5iYjpkb19wYWNrYWdlX3dyaXRl
+X3JwbV9zZXRzY2VuZSkKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgwNyBvZiA3MzcgKC9o
+b21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzUuMTIuMS5iYjpkb19wYWNrYWdl
+X3dyaXRlX3JwbV9zZXRzY2VuZSkKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgwOCBvZiA3
+MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2UyZnNwcm9ncy9lMmZzcHJvZ3NfMS40Ni4yLmJiOmRvX3BhY2th
+Z2Vfd3JpdGVfcnBtX3NldHNjZW5lKQpOT1RFOiBSdW5uaW5nIHNldHNjZW5lIHRhc2sgODA5IG9m
+IDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9t
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcHJvY3BzL3Byb2Nwc18zLjMuMTcuYmI6ZG9fcGFja2FnZV93
+cml0ZV9ycG1fc2V0c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA4MTIgb2YgNzM3
+ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEv
+cmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4zLjAuYmI6ZG9fcGFja2Fn
+ZV93cml0ZV9ycG1fc2V0c2NlbmUpCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA4MTMgb2Yg
+NzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2dub21lLWRlc2t0b3AtdGVzdGluZy9nbm9tZS1kZXNrdG9wLXRl
+c3RpbmdfMjAxOC4xLmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lKQpOT1RFOiBSdW5u
+aW5nIHNldHNjZW5lIHRhc2sgODE0IG9mIDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
+ci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbm9tZS1kZXNrdG9w
+LXRlc3RpbmcvZ25vbWUtZGVza3RvcC10ZXN0aW5nXzIwMTguMS5iYjpkb19wYWNrYWdlZGF0YV9z
+ZXRzY2VuZSkKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgxNSBvZiA3MzcgKC9ob21lL3Bv
+a3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGliY3JvY28vbGliY3JvY29fMC42LjEzLmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtX3Nl
+dHNjZW5lKQpOT1RFOiBSdW5uaW5nIHNldHNjZW5lIHRhc2sgODE2IG9mIDczNyAoL2hvbWUvcG9r
+eWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9zaGFyZWQtbWltZS1pbmZvL3NoYXJlZC1taW1lLWluZm9fZ2l0LmJiOmRvX3BhY2thZ2Vf
+d3JpdGVfcnBtX3NldHNjZW5lKQpOT1RFOiBSdW5uaW5nIHRhc2sgMjE2NCBvZiAyMzE3ICgvaG9t
+ZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBl
+cy1jb3JlL2V4cGF0L2V4cGF0XzIuNC4xLmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtKQpOT1RFOiBy
+ZWNpcGUgZ2V0dGV4dC0wLjIxLXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5l
+OiBTdGFydGVkCk5PVEU6IHJlY2lwZSBkYnVzLTEuMTIuMjAtcjA6IHRhc2sgZG9fcGFja2FnZV93
+cml0ZV9ycG1fc2V0c2NlbmU6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGJpc29uLTMuNy42LXIwOiB0
+YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBn
+ZXR0ZXh0LTAuMjEtcjA6IHRhc2sgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IFN0YXJ0ZWQKTk9U
+RTogcmVjaXBlIGdsaWItMi4wLTFfMi42OC4yLXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBt
+X3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBzeXN0ZW1kLWNvbXBhdC11bml0cy0xLjAt
+cjI5OiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJl
+Y2lwZSBnbm9tZS1kZXNrdG9wLXRlc3RpbmctMjAxOC4xLXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3Jp
+dGVfcnBtX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBkYnVzLXRlc3QtMS4xMi4yMC1y
+MDogdGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNp
+cGUgbGliY3JvY28tMC42LjEzLXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5l
+OiBTdGFydGVkCk5PVEU6IHJlY2lwZSBnbm9tZS1kZXNrdG9wLXRlc3RpbmctMjAxOC4xLXIwOiB0
+YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBwcm9jcHMt
+My4zLjE3LXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lOiBTdGFydGVkCk5P
+VEU6IHJlY2lwZSBzaGFyZWQtbWltZS1pbmZvLTIuMS1yMDogdGFzayBkb19wYWNrYWdlX3dyaXRl
+X3JwbV9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgc3lzdGVtZC0xXzI0OC4zLXIwOiB0
+YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBs
+aWJ4a2Jjb21tb24tMS4zLjAtcjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0c2NlbmU6
+IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGJ0cmZzLXRvb2xzLTUuMTIuMS1yMDogdGFzayBkb19wYWNr
+YWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZXhwYXQtMi40LjEt
+cjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG06IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGUyZnNw
+cm9ncy0xLjQ2LjItcjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0c2NlbmU6IFN0YXJ0
+ZWQKTk9URTogcmVjaXBlIGdsaWItMi4wLTFfMi42OC4yLXIwOiB0YXNrIGRvX3BhY2thZ2Vfc2V0
+c2NlbmU6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHN5c3RlbWQtY29tcGF0LXVuaXRzLTEuMC1yMjk6
+IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiByZWNp
+cGUgZGJ1cy0xLjEyLjIwLXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lOiBT
+dWNjZWVkZWQKTk9URTogcmVjaXBlIGxpYmNyb2NvLTAuNi4xMy1yMDogdGFzayBkb19wYWNrYWdl
+X3dyaXRlX3JwbV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBiaXNvbi0zLjcuNi1y
+MDogdGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IHJl
+Y2lwZSBkYnVzLTEuMTIuMjAtcjA6IHRhc2sgZG9fcGFja2FnZV9zZXRzY2VuZTogU3RhcnRlZApO
+T1RFOiByZWNpcGUgZ25vbWUtZGVza3RvcC10ZXN0aW5nLTIwMTguMS1yMDogdGFzayBkb19wYWNr
+YWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUg
+dGFzayA4MTcgb2YgNzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9i
+dWlsZC9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaXNvbi9iaXNvbl8zLjcuNi5iYjpkb19w
+YWNrYWdlZGF0YV9zZXRzY2VuZSkKTk9URTogcmVjaXBlIGdldHRleHQtMC4yMS1yMDogdGFzayBk
+b19wYWNrYWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBzeXN0
+ZW1kLTFfMjQ4LjMtcjA6IHRhc2sgZG9fcGFja2FnZV9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiBy
+ZWNpcGUgZGJ1cy10ZXN0LTEuMTIuMjAtcjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0
+c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiByZWNpcGUgbGlieGtiY29tbW9uLTEuMy4wLXIwOiB0YXNr
+IGRvX3BhY2thZ2Vfd3JpdGVfcnBtX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyBz
+ZXRzY2VuZSB0YXNrIDgxOCBvZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVo
+L2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLXRlc3RfMS4xMi4y
+MC5iYjpkb19wYWNrYWdlZGF0YV9zZXRzY2VuZSkKTk9URTogcmVjaXBlIGJpc29uLTMuNy42LXIw
+OiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBnbGli
+LTIuMC0xXzIuNjguMi1yMDogdGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3Vj
+Y2VlZGVkCk5PVEU6IHJlY2lwZSBwcm9jcHMtMy4zLjE3LXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3Jp
+dGVfcnBtX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogcmVjaXBlIGRidXMtdGVzdC0xLjEyLjIw
+LXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBi
+dHJmcy10b29scy01LjEyLjEtcjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG1fc2V0c2NlbmU6
+IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHNldHNjZW5lIHRhc2sgODE5IG9mIDczNyAoL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNS4xMi4xLmJiOmRvX3BhY2thZ2VkYXRh
+X3NldHNjZW5lKQpOT1RFOiByZWNpcGUgZTJmc3Byb2dzLTEuNDYuMi1yMDogdGFzayBkb19wYWNr
+YWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUg
+dGFzayA4MjAgb2YgNzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9i
+dWlsZC9wb2t5L21ldGEvcmVjaXBlcy1leHRlbmRlZC9wcm9jcHMvcHJvY3BzXzMuMy4xNy5iYjpk
+b19wYWNrYWdlZGF0YV9zZXRzY2VuZSkKTk9URTogcmVjaXBlIHN5c3RlbWQtMV8yNDguMy1yMDog
+dGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IHJlY2lw
+ZSBidHJmcy10b29scy01LjEyLjEtcjA6IHRhc2sgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IFN0
+YXJ0ZWQKTk9URTogcmVjaXBlIHNoYXJlZC1taW1lLWluZm8tMi4xLXIwOiB0YXNrIGRvX3BhY2th
+Z2Vfd3JpdGVfcnBtX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyBzZXRzY2VuZSB0
+YXNrIDgyMSBvZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1
+aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc2hhcmVkLW1pbWUtaW5mby9zaGFyZWQtbWlt
+ZS1pbmZvX2dpdC5iYjpkb19wYWNrYWdlZGF0YV9zZXRzY2VuZSkKTk9URTogcmVjaXBlIHByb2Nw
+cy0zLjMuMTctcjA6IHRhc2sgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IFN0YXJ0ZWQKTk9URTog
+cmVjaXBlIHNoYXJlZC1taW1lLWluZm8tMi4xLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNj
+ZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBnbm9tZS1kZXNrdG9wLXRlc3RpbmctMjAxOC4xLXIw
+OiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogcmVjaXBlIGRi
+dXMtdGVzdC0xLjEyLjIwLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdWNjZWVk
+ZWQKTk9URTogcmVjaXBlIGJ0cmZzLXRvb2xzLTUuMTIuMS1yMDogdGFzayBkb19wYWNrYWdlZGF0
+YV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBwcm9jcHMtMy4zLjE3LXIwOiB0YXNr
+IGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogcmVjaXBlIGJpc29uLTMu
+Ny42LXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogcmVj
+aXBlIGV4cGF0LTIuNC4xLXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtOiBTdWNjZWVkZWQK
+Tk9URTogVGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9w
+b2t5L21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuNC4xLmJiOmRvX3BhY2thZ2Vfd3Jp
+dGVfcnBtIHVuaWhhc2ggY2hhbmdlZCB0byBhMTJhODdmMGYxODljZGNkNjU2NDQ2MGIyMmU5ZGI3
+MzkyM2FiMjlkNmJhODEwOThiY2Y5MWE0NTVjMDhmNGU2Ck5PVEU6IHJlY2lwZSB3YXlsYW5kLTEu
+MTkuMC1yMDogdGFzayBkb19jb25maWd1cmU6IFN1Y2NlZWRlZApOT1RFOiBTZXRzY2VuZSB0YXNr
+IC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZF8xLjE5LjAuYmI6ZG9fcGFja2FnZSBiZWNh
+bWUgdmFsaWQKTk9URTogcmVjaXBlIGdldHRleHQtMC4yMS1yMDogdGFzayBkb19wYWNrYWdlZGF0
+YV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA4Mjggb2Yg
+NzM3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNyb2NvL2xpYmNyb2NvXzAuNi4xMy5iYjpkb19wYWNrYWdl
+ZGF0YV9zZXRzY2VuZSkKTk9URTogcmVjaXBlIGRidXMtMS4xMi4yMC1yMDogdGFzayBkb19wYWNr
+YWdlX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgyOSBv
+ZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kv
+bWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzI0OC4zLmJiOmRvX3BhY2thZ2VkYXRh
+X3NldHNjZW5lKQpOT1RFOiByZWNpcGUgbGliY3JvY28tMC42LjEzLXIwOiB0YXNrIGRvX3BhY2th
+Z2VkYXRhX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBzeXN0ZW1kLTFfMjQ4LjMtcjA6
+IHRhc2sgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIHNoYXJl
+ZC1taW1lLWluZm8tMi4xLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdWNjZWVk
+ZWQKTk9URTogcmVjaXBlIGxpYmNyb2NvLTAuNi4xMy1yMDogdGFzayBkb19wYWNrYWdlZGF0YV9z
+ZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgc2V0c2NlbmUgdGFzayA4MzIgb2YgNzM3
+ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEv
+cmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNjguMi5iYjpkb19wYWNrYWdlZGF0YV9z
+ZXRzY2VuZSkKTk9URTogcmVjaXBlIGdsaWItMi4wLTFfMi42OC4yLXIwOiB0YXNrIGRvX3BhY2th
+Z2VkYXRhX3NldHNjZW5lOiBTdGFydGVkCkVSUk9SOiBzeXN0ZW1kLTFfMjQ4LjMtcjAgZG9fcGFj
+a2FnZWRhdGFfc2V0c2NlbmU6IEVycm9yIGV4ZWN1dGluZyBhIHB5dGhvbiBmdW5jdGlvbiBpbiBl
+eGVjX3B5dGhvbl9mdW5jKCkgYXV0b2dlbmVyYXRlZDoKClRoZSBzdGFjayB0cmFjZSBvZiBweXRo
+b24gY2FsbHMgdGhhdCByZXN1bHRlZCBpbiB0aGlzIGV4Y2VwdGlvbi9mYWlsdXJlIHdhczoKRmls
+ZTogJ2V4ZWNfcHl0aG9uX2Z1bmMoKSBhdXRvZ2VuZXJhdGVkJywgbGluZW5vOiAyLCBmdW5jdGlv
+bjogPG1vZHVsZT4KICAgICAwMDAxOgogKioqIDAwMDI6YnVpbGRoaXN0b3J5X2VtaXRfcGtnaGlz
+dG9yeShkKQogICAgIDAwMDM6CkZpbGU6ICcvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9idWlsZC9wb2t5L21ldGEvY2xhc3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzcycsIGxp
+bmVubzogMzIyLCBmdW5jdGlvbjogYnVpbGRoaXN0b3J5X2VtaXRfcGtnaGlzdG9yeQogICAgIDAz
+MTg6CiAgICAgMDMxOTogICAgICAgIHdyaXRlX3BrZ2hpc3RvcnkocGtnaW5mbywgZCkKICAgICAw
+MzIwOgogICAgIDAzMjE6ICAgICMgQ3JlYXRlIGZpbGVzLWluLTxwYWNrYWdlLW5hbWU+LnR4dCBm
+aWxlcyBjb250YWluaW5nIGEgbGlzdCBvZiBmaWxlcyBvZiBlYWNoIHJlY2lwZSdzIHBhY2thZ2UK
+ICoqKiAwMzIyOiAgICBiYi5idWlsZC5leGVjX2Z1bmMoImJ1aWxkaGlzdG9yeV9saXN0X3BrZ19m
+aWxlcyIsIGQpCiAgICAgMDMyMzp9CiAgICAgMDMyNDoKICAgICAwMzI1OnB5dGhvbiBidWlsZGhp
+c3RvcnlfZW1pdF9vdXRwdXRzaWdzKCkgewogICAgIDAzMjY6ICAgIGlmIG5vdCAidGFzayIgaW4g
+KGQuZ2V0VmFyKCdCVUlMREhJU1RPUllfRkVBVFVSRVMnKSBvciAiIikuc3BsaXQoKToKRmlsZTog
+Jy9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvYml0YmFr
+ZS9saWIvYmIvYnVpbGQucHknLCBsaW5lbm86IDI1NiwgZnVuY3Rpb246IGV4ZWNfZnVuYwogICAg
+IDAyNTI6ICAgIHdpdGggYmIudXRpbHMuZmlsZXNsb2NrZWQobG9ja2ZpbGVzKToKICAgICAwMjUz
+OiAgICAgICAgaWYgaXNweXRob246CiAgICAgMDI1NDogICAgICAgICAgICBleGVjX2Z1bmNfcHl0
+aG9uKGZ1bmMsIGQsIHJ1bmZpbGUsIGN3ZD1hZGlyKQogICAgIDAyNTU6ICAgICAgICBlbHNlOgog
+KioqIDAyNTY6ICAgICAgICAgICAgZXhlY19mdW5jX3NoZWxsKGZ1bmMsIGQsIHJ1bmZpbGUsIGN3
+ZD1hZGlyKQogICAgIDAyNTc6CiAgICAgMDI1ODogICAgdHJ5OgogICAgIDAyNTk6ICAgICAgICBj
+dXJjd2QgPSBvcy5nZXRjd2QoKQogICAgIDAyNjA6ICAgIGV4Y2VwdDoKRmlsZTogJy9ob21lL3Bv
+a3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvYml0YmFrZS9saWIvYmIv
+YnVpbGQucHknLCBsaW5lbm86IDUwMywgZnVuY3Rpb246IGV4ZWNfZnVuY19zaGVsbAogICAgIDA0
+OTk6ICAgIHdpdGggb3BlbihmaWZvcGF0aCwgJ3IrYicsIGJ1ZmZlcmluZz0wKSBhcyBmaWZvOgog
+ICAgIDA1MDA6ICAgICAgICB0cnk6CiAgICAgMDUwMTogICAgICAgICAgICBiYi5kZWJ1ZygyLCAi
+RXhlY3V0aW5nIHNoZWxsIGZ1bmN0aW9uICVzIiAlIGZ1bmMpCiAgICAgMDUwMjogICAgICAgICAg
+ICB3aXRoIG9wZW4ob3MuZGV2bnVsbCwgJ3IrJykgYXMgc3RkaW4sIGxvZ2ZpbGU6CiAqKiogMDUw
+MzogICAgICAgICAgICAgICAgYmIucHJvY2Vzcy5ydW4oY21kLCBzaGVsbD1GYWxzZSwgc3RkaW49
+c3RkaW4sIGxvZz1sb2dmaWxlLCBleHRyYWZpbGVzPVsoZmlmbyxyZWFkZmlmbyldKQogICAgIDA1
+MDQ6ICAgICAgICBleGNlcHQgYmIucHJvY2Vzcy5FeGVjdXRpb25FcnJvciBhcyBleGU6CiAgICAg
+MDUwNTogICAgICAgICAgICAjIEZpbmQgdGhlIGJhY2t0cmFjZSB0aGF0IHRoZSBzaGVsbCB0cmFw
+IGdlbmVyYXRlZAogICAgIDA1MDY6ICAgICAgICAgICAgYmFja3RyYWNlX21hcmtlcl9yZWdleCA9
+IHJlLmNvbXBpbGUociJXQVJOSU5HOiBCYWNrdHJhY2UgXChCQiBnZW5lcmF0ZWQgc2NyaXB0XCki
+KQogICAgIDA1MDc6ICAgICAgICAgICAgc3Rkb3V0X2xpbmVzID0gKGV4ZS5zdGRvdXQgb3IgIiIp
+LnNwbGl0KCJcbiIpCkZpbGU6ICcvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
+ZC9idWlsZC9wb2t5L2JpdGJha2UvbGliL2JiL3Byb2Nlc3MucHknLCBsaW5lbm86IDE4NCwgZnVu
+Y3Rpb246IHJ1bgogICAgIDAxODA6ICAgICAgICBpZiBub3Qgc3RkZXJyIGlzIE5vbmU6CiAgICAg
+MDE4MTogICAgICAgICAgICBzdGRlcnIgPSBzdGRlcnIuZGVjb2RlKCJ1dGYtOCIpCiAgICAgMDE4
+MjoKICAgICAwMTgzOiAgICBpZiBwaXBlLnJldHVybmNvZGUgIT0gMDoKICoqKiAwMTg0OiAgICAg
+ICAgcmFpc2UgRXhlY3V0aW9uRXJyb3IoY21kLCBwaXBlLnJldHVybmNvZGUsIHN0ZG91dCwgc3Rk
+ZXJyKQogICAgIDAxODU6ICAgIHJldHVybiBzdGRvdXQsIHN0ZGVycgpFeGNlcHRpb246IGJiLnBy
+b2Nlc3MuRXhlY3V0aW9uRXJyb3I6IEV4ZWN1dGlvbiBvZiAnL2hvbWUvcG9reWJ1aWxkL3lvY3Rv
+LXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51
+eC9zeXN0ZW1kLzFfMjQ4LjMtcjAvdGVtcC9ydW4uYnVpbGRoaXN0b3J5X2xpc3RfcGtnX2ZpbGVz
+LjI4MTg0ODAnIGZhaWxlZCB3aXRoIGV4aXQgY29kZSAxOgpmaW5kOiDigJguL3Vzci9zcmMvZGVi
+dWcvc3lzdGVtZC8xXzI0OC4zLXIwL2dpdC9zcmMvbnNwYXduL25zcGF3bi1jZ3JvdXAuaOKAmTog
+Tm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQovaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3N5c3RlbWQv
+MV8yNDguMy1yMC90ZW1wL3J1bi5idWlsZGhpc3RvcnlfbGlzdF9wa2dfZmlsZXMuMjgxODQ4MDog
+bGluZSAxNzA6IGNkOiAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWls
+ZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3N5c3RlbWQvMV8yNDguMy1yMC9w
+YWNrYWdlcy1zcGxpdC91ZGV2LWh3ZGI6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKV0FSTklO
+RzogL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvYnVpbGQvdG1w
+L3dvcmsvY29yZTItNjQtcG9reS1saW51eC9zeXN0ZW1kLzFfMjQ4LjMtcjAvdGVtcC9ydW4uYnVp
+bGRoaXN0b3J5X2xpc3RfcGtnX2ZpbGVzLjI4MTg0ODA6MTY3IGV4aXQgMSBmcm9tICdidWlsZGhp
+c3RvcnlfbGlzdF9maWxlcyAkcGtnZGlyICRvdXRmaWxlIGZha2Vyb290JwpXQVJOSU5HOiBCYWNr
+dHJhY2UgKEJCIGdlbmVyYXRlZCBzY3JpcHQpOiAKCSMxOiBidWlsZGhpc3RvcnlfbGlzdF9maWxl
+cywgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvYnVpbGQvdG1w
+L3dvcmsvY29yZTItNjQtcG9reS1saW51eC9zeXN0ZW1kLzFfMjQ4LjMtcjAvdGVtcC9ydW4uYnVp
+bGRoaXN0b3J5X2xpc3RfcGtnX2ZpbGVzLjI4MTg0ODAsIGxpbmUgMTY3CgkjMjogYnVpbGRoaXN0
+b3J5X2xpc3RfcGtnX2ZpbGVzLCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
+ZC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3N5c3RlbWQvMV8yNDgu
+My1yMC90ZW1wL3J1bi5idWlsZGhpc3RvcnlfbGlzdF9wa2dfZmlsZXMuMjgxODQ4MCwgbGluZSAx
+NjIKCSMzOiBtYWluLCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWls
+ZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L3N5c3RlbWQvMV8yNDguMy1yMC90
+ZW1wL3J1bi5idWlsZGhpc3RvcnlfbGlzdF9wa2dfZmlsZXMuMjgxODQ4MCwgbGluZSAyMTEKCkJh
+Y2t0cmFjZSAobWV0YWRhdGEtcmVsYXRpdmUgbG9jYXRpb25zKToKCSMxOiBidWlsZGhpc3Rvcnlf
+bGlzdF9maWxlcywgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQv
+cG9reS9tZXRhL2NsYXNzZXMvYnVpbGRoaXN0b3J5LmJiY2xhc3MsIGxpbmUgNTQ4CgkjMjogYnVp
+bGRoaXN0b3J5X2xpc3RfcGtnX2ZpbGVzLCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9idWlsZC9wb2t5L21ldGEvY2xhc3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzcywgbGlu
+ZSA1ODUKCkVSUk9SOiBMb2dmaWxlIG9mIGZhaWx1cmUgc3RvcmVkIGluOiAvaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1w
+b2t5LWxpbnV4L3N5c3RlbWQvMV8yNDguMy1yMC90ZW1wL2xvZy5kb19wYWNrYWdlZGF0YV9zZXRz
+Y2VuZS4yODE4NDgwCk5PVEU6IHJlY2lwZSBzeXN0ZW1kLTFfMjQ4LjMtcjA6IHRhc2sgZG9fcGFj
+a2FnZWRhdGFfc2V0c2NlbmU6IEZhaWxlZApXQVJOSU5HOiBTZXRzY2VuZSB0YXNrICgvaG9tZS9w
+b2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1j
+b3JlL3N5c3RlbWQvc3lzdGVtZF8yNDguMy5iYjpkb19wYWNrYWdlZGF0YV9zZXRzY2VuZSkgZmFp
+bGVkIHdpdGggZXhpdCBjb2RlICcxJyAtIHJlYWwgdGFzayB3aWxsIGJlIHJ1biBpbnN0ZWFkCkVS
+Uk9SOiBnbGliLTIuMC0xXzIuNjguMi1yMCBkb19wYWNrYWdlZGF0YV9zZXRzY2VuZTogRXJyb3Ig
+ZXhlY3V0aW5nIGEgcHl0aG9uIGZ1bmN0aW9uIGluIGV4ZWNfcHl0aG9uX2Z1bmMoKSBhdXRvZ2Vu
+ZXJhdGVkOgoKVGhlIHN0YWNrIHRyYWNlIG9mIHB5dGhvbiBjYWxscyB0aGF0IHJlc3VsdGVkIGlu
+IHRoaXMgZXhjZXB0aW9uL2ZhaWx1cmUgd2FzOgpGaWxlOiAnZXhlY19weXRob25fZnVuYygpIGF1
+dG9nZW5lcmF0ZWQnLCBsaW5lbm86IDIsIGZ1bmN0aW9uOiA8bW9kdWxlPgogICAgIDAwMDE6CiAq
+KiogMDAwMjpidWlsZGhpc3RvcnlfZW1pdF9wa2doaXN0b3J5KGQpCiAgICAgMDAwMzoKRmlsZTog
+Jy9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9j
+bGFzc2VzL2J1aWxkaGlzdG9yeS5iYmNsYXNzJywgbGluZW5vOiAzMjIsIGZ1bmN0aW9uOiBidWls
+ZGhpc3RvcnlfZW1pdF9wa2doaXN0b3J5CiAgICAgMDMxODoKICAgICAwMzE5OiAgICAgICAgd3Jp
+dGVfcGtnaGlzdG9yeShwa2dpbmZvLCBkKQogICAgIDAzMjA6CiAgICAgMDMyMTogICAgIyBDcmVh
+dGUgZmlsZXMtaW4tPHBhY2thZ2UtbmFtZT4udHh0IGZpbGVzIGNvbnRhaW5pbmcgYSBsaXN0IG9m
+IGZpbGVzIG9mIGVhY2ggcmVjaXBlJ3MgcGFja2FnZQogKioqIDAzMjI6ICAgIGJiLmJ1aWxkLmV4
+ZWNfZnVuYygiYnVpbGRoaXN0b3J5X2xpc3RfcGtnX2ZpbGVzIiwgZCkKICAgICAwMzIzOn0KICAg
+ICAwMzI0OgogICAgIDAzMjU6cHl0aG9uIGJ1aWxkaGlzdG9yeV9lbWl0X291dHB1dHNpZ3MoKSB7
+CiAgICAgMDMyNjogICAgaWYgbm90ICJ0YXNrIiBpbiAoZC5nZXRWYXIoJ0JVSUxESElTVE9SWV9G
+RUFUVVJFUycpIG9yICIiKS5zcGxpdCgpOgpGaWxlOiAnL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9iaXRiYWtlL2xpYi9iYi9idWlsZC5weScsIGxpbmVu
+bzogMjU2LCBmdW5jdGlvbjogZXhlY19mdW5jCiAgICAgMDI1MjogICAgd2l0aCBiYi51dGlscy5m
+aWxlc2xvY2tlZChsb2NrZmlsZXMpOgogICAgIDAyNTM6ICAgICAgICBpZiBpc3B5dGhvbjoKICAg
+ICAwMjU0OiAgICAgICAgICAgIGV4ZWNfZnVuY19weXRob24oZnVuYywgZCwgcnVuZmlsZSwgY3dk
+PWFkaXIpCiAgICAgMDI1NTogICAgICAgIGVsc2U6CiAqKiogMDI1NjogICAgICAgICAgICBleGVj
+X2Z1bmNfc2hlbGwoZnVuYywgZCwgcnVuZmlsZSwgY3dkPWFkaXIpCiAgICAgMDI1NzoKICAgICAw
+MjU4OiAgICB0cnk6CiAgICAgMDI1OTogICAgICAgIGN1cmN3ZCA9IG9zLmdldGN3ZCgpCiAgICAg
+MDI2MDogICAgZXhjZXB0OgpGaWxlOiAnL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgv
+YnVpbGQvYnVpbGQvcG9reS9iaXRiYWtlL2xpYi9iYi9idWlsZC5weScsIGxpbmVubzogNTAzLCBm
+dW5jdGlvbjogZXhlY19mdW5jX3NoZWxsCiAgICAgMDQ5OTogICAgd2l0aCBvcGVuKGZpZm9wYXRo
+LCAncitiJywgYnVmZmVyaW5nPTApIGFzIGZpZm86CiAgICAgMDUwMDogICAgICAgIHRyeToKICAg
+ICAwNTAxOiAgICAgICAgICAgIGJiLmRlYnVnKDIsICJFeGVjdXRpbmcgc2hlbGwgZnVuY3Rpb24g
+JXMiICUgZnVuYykKICAgICAwNTAyOiAgICAgICAgICAgIHdpdGggb3Blbihvcy5kZXZudWxsLCAn
+cisnKSBhcyBzdGRpbiwgbG9nZmlsZToKICoqKiAwNTAzOiAgICAgICAgICAgICAgICBiYi5wcm9j
+ZXNzLnJ1bihjbWQsIHNoZWxsPUZhbHNlLCBzdGRpbj1zdGRpbiwgbG9nPWxvZ2ZpbGUsIGV4dHJh
+ZmlsZXM9WyhmaWZvLHJlYWRmaWZvKV0pCiAgICAgMDUwNDogICAgICAgIGV4Y2VwdCBiYi5wcm9j
+ZXNzLkV4ZWN1dGlvbkVycm9yIGFzIGV4ZToKICAgICAwNTA1OiAgICAgICAgICAgICMgRmluZCB0
+aGUgYmFja3RyYWNlIHRoYXQgdGhlIHNoZWxsIHRyYXAgZ2VuZXJhdGVkCiAgICAgMDUwNjogICAg
+ICAgICAgICBiYWNrdHJhY2VfbWFya2VyX3JlZ2V4ID0gcmUuY29tcGlsZShyIldBUk5JTkc6IEJh
+Y2t0cmFjZSBcKEJCIGdlbmVyYXRlZCBzY3JpcHRcKSIpCiAgICAgMDUwNzogICAgICAgICAgICBz
+dGRvdXRfbGluZXMgPSAoZXhlLnN0ZG91dCBvciAiIikuc3BsaXQoIlxuIikKRmlsZTogJy9ob21l
+L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvYml0YmFrZS9saWIv
+YmIvcHJvY2Vzcy5weScsIGxpbmVubzogMTg0LCBmdW5jdGlvbjogcnVuCiAgICAgMDE4MDogICAg
+ICAgIGlmIG5vdCBzdGRlcnIgaXMgTm9uZToKICAgICAwMTgxOiAgICAgICAgICAgIHN0ZGVyciA9
+IHN0ZGVyci5kZWNvZGUoInV0Zi04IikKICAgICAwMTgyOgogICAgIDAxODM6ICAgIGlmIHBpcGUu
+cmV0dXJuY29kZSAhPSAwOgogKioqIDAxODQ6ICAgICAgICByYWlzZSBFeGVjdXRpb25FcnJvcihj
+bWQsIHBpcGUucmV0dXJuY29kZSwgc3Rkb3V0LCBzdGRlcnIpCiAgICAgMDE4NTogICAgcmV0dXJu
+IHN0ZG91dCwgc3RkZXJyCkV4Y2VwdGlvbjogYmIucHJvY2Vzcy5FeGVjdXRpb25FcnJvcjogRXhl
+Y3V0aW9uIG9mICcvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9i
+dWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L2dsaWItMi4wLzFfMi42OC4yLXIwL3Rl
+bXAvcnVuLmJ1aWxkaGlzdG9yeV9saXN0X3BrZ19maWxlcy4yODE4NzQ2JyBmYWlsZWQgd2l0aCBl
+eGl0IGNvZGUgMToKL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQv
+YnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9nbGliLTIuMC8xXzIuNjguMi1yMC90
+ZW1wL3J1bi5idWlsZGhpc3RvcnlfbGlzdF9wa2dfZmlsZXMuMjgxODc0NjogbGluZSAxNzE6IGNk
+OiAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9idWlsZC90bXAv
+d29yay9jb3JlMi02NC1wb2t5LWxpbnV4L2dsaWItMi4wLzFfMi42OC4yLXIwL3BhY2thZ2VzLXNw
+bGl0L2dsaWItMi4wLWxvY2FsZS1nZDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQpXQVJOSU5H
+OiAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9idWlsZC90bXAv
+d29yay9jb3JlMi02NC1wb2t5LWxpbnV4L2dsaWItMi4wLzFfMi42OC4yLXIwL3RlbXAvcnVuLmJ1
+aWxkaGlzdG9yeV9saXN0X3BrZ19maWxlcy4yODE4NzQ2OjE2OCBleGl0IDEgZnJvbSAnYnVpbGRo
+aXN0b3J5X2xpc3RfZmlsZXMgJHBrZ2RpciAkb3V0ZmlsZSBmYWtlcm9vdCcKV0FSTklORzogQmFj
+a3RyYWNlIChCQiBnZW5lcmF0ZWQgc2NyaXB0KTogCgkjMTogYnVpbGRoaXN0b3J5X2xpc3RfZmls
+ZXMsIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2J1aWxkL3Rt
+cC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvZ2xpYi0yLjAvMV8yLjY4LjItcjAvdGVtcC9ydW4u
+YnVpbGRoaXN0b3J5X2xpc3RfcGtnX2ZpbGVzLjI4MTg3NDYsIGxpbmUgMTY4CgkjMjogYnVpbGRo
+aXN0b3J5X2xpc3RfcGtnX2ZpbGVzLCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
+dWlsZC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L2dsaWItMi4wLzFf
+Mi42OC4yLXIwL3RlbXAvcnVuLmJ1aWxkaGlzdG9yeV9saXN0X3BrZ19maWxlcy4yODE4NzQ2LCBs
+aW5lIDE2MwoJIzM6IG1haW4sIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
+L2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvZ2xpYi0yLjAvMV8yLjY4
+LjItcjAvdGVtcC9ydW4uYnVpbGRoaXN0b3J5X2xpc3RfcGtnX2ZpbGVzLjI4MTg3NDYsIGxpbmUg
+MjEyCgpCYWNrdHJhY2UgKG1ldGFkYXRhLXJlbGF0aXZlIGxvY2F0aW9ucyk6CgkjMTogYnVpbGRo
+aXN0b3J5X2xpc3RfZmlsZXMsIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
+L2J1aWxkL3Bva3kvbWV0YS9jbGFzc2VzL2J1aWxkaGlzdG9yeS5iYmNsYXNzLCBsaW5lIDU0OAoJ
+IzI6IGJ1aWxkaGlzdG9yeV9saXN0X3BrZ19maWxlcywgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL2NsYXNzZXMvYnVpbGRoaXN0b3J5LmJiY2xh
+c3MsIGxpbmUgNTg1CgpFUlJPUjogTG9nZmlsZSBvZiBmYWlsdXJlIHN0b3JlZCBpbjogL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29y
+ZTItNjQtcG9reS1saW51eC9nbGliLTIuMC8xXzIuNjguMi1yMC90ZW1wL2xvZy5kb19wYWNrYWdl
+ZGF0YV9zZXRzY2VuZS4yODE4NzQ2Ck5PVEU6IHJlY2lwZSBnbGliLTIuMC0xXzIuNjguMi1yMDog
+dGFzayBkb19wYWNrYWdlZGF0YV9zZXRzY2VuZTogRmFpbGVkCldBUk5JTkc6IFNldHNjZW5lIHRh
+c2sgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0
+YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjBfMi42OC4yLmJiOmRvX3BhY2thZ2VkYXRh
+X3NldHNjZW5lKSBmYWlsZWQgd2l0aCBleGl0IGNvZGUgJzEnIC0gcmVhbCB0YXNrIHdpbGwgYmUg
+cnVuIGluc3RlYWQKTk9URTogcmVjaXBlIHN5c3RlbWQtMV8yNDguMy1yMDogdGFzayBkb19wYWNr
+YWdlX3NldHNjZW5lOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyBzZXRzY2VuZSB0YXNrIDgzMyBv
+ZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhrYmNvbW1vbl8xLjMuMC5iYjpkb19w
+YWNrYWdlZGF0YV9zZXRzY2VuZSkKTk9URTogcmVjaXBlIGdsaWItMi4wLTFfMi42OC4yLXIwOiB0
+YXNrIGRvX3BhY2thZ2Vfc2V0c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHNldHNjZW5l
+IHRhc2sgODM0IG9mIDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQv
+YnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXNfMS4xMi4yMC5iYjpkb19wYWNr
+YWdlZGF0YV9zZXRzY2VuZSkKTk9URTogcmVjaXBlIGxpYnhrYmNvbW1vbi0xLjMuMC1yMDogdGFz
+ayBkb19wYWNrYWdlZGF0YV9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZGJ1cy0xLjEy
+LjIwLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lw
+ZSBsaWJ4a2Jjb21tb24tMS4zLjAtcjA6IHRhc2sgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IFN1
+Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHNldHNjZW5lIHRhc2sgODM2IG9mIDczNyAoL2hvbWUvcG9r
+eWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3Mvd2F5bGFuZC93YXlsYW5kXzEuMTkuMC5iYjpkb19wYWNrYWdlZGF0YV9zZXRzY2VuZSkK
+Tk9URTogcmVjaXBlIHdheWxhbmQtMS4xOS4wLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNj
+ZW5lOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBkYnVzLTEuMTIuMjAtcjA6IHRhc2sgZG9fcGFja2Fn
+ZWRhdGFfc2V0c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiByZWNpcGUgd2F5bGFuZC0xLjE5LjAtcjA6
+IHRhc2sgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHNl
+dHNjZW5lIHRhc2sgODM3IG9mIDczNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgv
+YnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kXzEu
+MTkuMC5iYjpkb19wYWNrYWdlX3NldHNjZW5lKQpOT1RFOiByZWNpcGUgd2F5bGFuZC0xLjE5LjAt
+cjA6IHRhc2sgZG9fcGFja2FnZV9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgd2F5bGFu
+ZC0xLjE5LjAtcjA6IHRhc2sgZG9fcGFja2FnZV9zZXRzY2VuZTogU3VjY2VlZGVkCk5PVEU6IFNl
+dHNjZW5lIHRhc2tzIGNvbXBsZXRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjIwOCBvZiAyMzE3ICgv
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVj
+aXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yNDguMy5iYjpkb19wYWNrYWdlZGF0YSkKTk9URTog
+cmVjaXBlIHN5c3RlbWQtMV8yNDguMy1yMDogdGFzayBkb19wYWNrYWdlZGF0YTogU3RhcnRlZApO
+T1RFOiByZWNpcGUgc3lzdGVtZC0xXzI0OC4zLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhOiBTdWNj
+ZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyNDUgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lv
+Y3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIu
+MC9nbGliLTIuMF8yLjY4LjIuYmI6ZG9fcGFja2FnZWRhdGEpCk5PVEU6IHJlY2lwZSBnbGliLTIu
+MC0xXzIuNjguMi1yMDogdGFzayBkb19wYWNrYWdlZGF0YTogU3RhcnRlZApOT1RFOiByZWNpcGUg
+Z2xpYi0yLjAtMV8yLjY4LjItcjA6IHRhc2sgZG9fcGFja2FnZWRhdGE6IFN1Y2NlZWRlZApOT1RF
+OiByZWNpcGUgY3VybC03Ljc3LjAtcjA6IHRhc2sgZG9fY29uZmlndXJlOiBTdWNjZWVkZWQKTk9U
+RTogUnVubmluZyB0YXNrIDIyNzUgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtl
+ci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfNy43
+Ny4wLmJiOmRvX2NvbXBpbGUpCk5PVEU6IHJlY2lwZSBjdXJsLTcuNzcuMC1yMDogdGFzayBkb19j
+b21waWxlOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBjdXJsLTcuNzcuMC1yMDogdGFzayBkb19jb21w
+aWxlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyNzYgb2YgMjMxNyAoL2hvbWUvcG9r
+eWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9jdXJsL2N1cmxfNy43Ny4wLmJiOmRvX2luc3RhbGwpCk5PVEU6IHJlY2lwZSBjdXJsLTcu
+NzcuMC1yMDogdGFzayBkb19pbnN0YWxsOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBjdXJsLTcuNzcu
+MC1yMDogdGFzayBkb19pbnN0YWxsOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyNzcg
+b2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9r
+eS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfNy43Ny4wLmJiOmRvX3BvcHVsYXRlX3N5
+c3Jvb3QpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjc4IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95
+b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3Vy
+bC9jdXJsXzcuNzcuMC5iYjpkb19wYWNrYWdlKQpOT1RFOiByZWNpcGUgY3VybC03Ljc3LjAtcjA6
+IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdDogU3RhcnRlZApOT1RFOiByZWNpcGUgY3VybC03Ljc3
+LjAtcjA6IHRhc2sgZG9fcGFja2FnZTogU3RhcnRlZApOT1RFOiByZWNpcGUgY3VybC03Ljc3LjAt
+cjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdDogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFz
+ayAyMjc5IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1
+aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBk
+XzAuOS43My5iYjpkb19wcmVwYXJlX3JlY2lwZV9zeXNyb290KQpOT1RFOiByZWNpcGUgbGlibWlj
+cm9odHRwZC0wLjkuNzMtcjA6IHRhc2sgZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdDogU3RhcnRl
+ZApOT1RFOiByZWNpcGUgbGlibWljcm9odHRwZC0wLjkuNzMtcjA6IHRhc2sgZG9fcHJlcGFyZV9y
+ZWNpcGVfc3lzcm9vdDogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjgwIG9mIDIzMTcg
+KC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBkXzAuOS43My5iYjpkb19j
+b25maWd1cmUpCk5PVEU6IHJlY2lwZSBsaWJtaWNyb2h0dHBkLTAuOS43My1yMDogdGFzayBkb19j
+b25maWd1cmU6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGN1cmwtNy43Ny4wLXIwOiB0YXNrIGRvX3Bh
+Y2thZ2U6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjI4MSBvZiAyMzE3ICgvaG9tZS9w
+b2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2N1cmwvY3VybF83Ljc3LjAuYmI6ZG9fcGFja2FnZWRhdGEpCk5PVEU6IHJlY2lwZSBj
+dXJsLTcuNzcuMC1yMDogdGFzayBkb19wYWNrYWdlZGF0YTogU3RhcnRlZApOT1RFOiByZWNpcGUg
+Y3VybC03Ljc3LjAtcjA6IHRhc2sgZG9fcGFja2FnZWRhdGE6IFN1Y2NlZWRlZApOT1RFOiBSdW5u
+aW5nIHRhc2sgMjI4MiBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
+dWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF83Ljc3LjAuYmI6
+ZG9fcGFja2FnZV93cml0ZV9ycG0pCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjgzIG9mIDIzMTcgKC9o
+b21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvY3VybC9jdXJsXzcuNzcuMC5iYjpkb19wYWNrYWdlX3FhKQpOT1RFOiByZWNp
+cGUgY3VybC03Ljc3LjAtcjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG06IFN0YXJ0ZWQKTk9U
+RTogcmVjaXBlIGN1cmwtNy43Ny4wLXIwOiB0YXNrIGRvX3BhY2thZ2VfcWE6IFN0YXJ0ZWQKTk9U
+RTogcmVjaXBlIGN1cmwtNy43Ny4wLXIwOiB0YXNrIGRvX3BhY2thZ2VfcWE6IFN1Y2NlZWRlZApO
+T1RFOiByZWNpcGUgY3VybC03Ljc3LjAtcjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG06IFN1
+Y2NlZWRlZApOT1RFOiByZWNpcGUgbGlibWljcm9odHRwZC0wLjkuNzMtcjA6IHRhc2sgZG9fY29u
+ZmlndXJlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyODQgb2YgMjMxNyAoL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJtaWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45LjczLmJiOmRvX2NvbXBpbGUp
+Ck5PVEU6IHJlY2lwZSBsaWJtaWNyb2h0dHBkLTAuOS43My1yMDogdGFzayBkb19jb21waWxlOiBT
+dGFydGVkCk5PVEU6IHJlY2lwZSBsaWJtaWNyb2h0dHBkLTAuOS43My1yMDogdGFzayBkb19jb21w
+aWxlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyODUgb2YgMjMxNyAoL2hvbWUvcG9r
+eWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJtaWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45LjczLmJiOmRvX2luc3RhbGwpCk5P
+VEU6IHJlY2lwZSBsaWJtaWNyb2h0dHBkLTAuOS43My1yMDogdGFzayBkb19pbnN0YWxsOiBTdGFy
+dGVkCk5PVEU6IHJlY2lwZSBsaWJtaWNyb2h0dHBkLTAuOS43My1yMDogdGFzayBkb19pbnN0YWxs
+OiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyODYgb2YgMjMxNyAoL2hvbWUvcG9reWJ1
+aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJtaWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45LjczLmJiOmRvX3BvcHVsYXRlX3N5c3Jv
+b3QpCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjg3IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0
+by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibWlj
+cm9odHRwZC9saWJtaWNyb2h0dHBkXzAuOS43My5iYjpkb19wYWNrYWdlKQpOT1RFOiByZWNpcGUg
+bGlibWljcm9odHRwZC0wLjkuNzMtcjA6IHRhc2sgZG9fcGFja2FnZTogU3RhcnRlZApOT1RFOiBy
+ZWNpcGUgbGlibWljcm9odHRwZC0wLjkuNzMtcjA6IHRhc2sgZG9fcG9wdWxhdGVfc3lzcm9vdDog
+U3RhcnRlZApOT1RFOiByZWNpcGUgbGlibWljcm9odHRwZC0wLjkuNzMtcjA6IHRhc2sgZG9fcG9w
+dWxhdGVfc3lzcm9vdDogU3VjY2VlZGVkCk5PVEU6IFRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3Rv
+LXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJtaWNy
+b2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45LjczLmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3QgdW5paGFz
+aCBjaGFuZ2VkIHRvIGYwZDFiZDBjN2YyMGE1ZWM3N2QzNWFiODg5YmNiMzYyMTU3Njg1N2FjZGM1
+Y2Y5N2YyNDNkYTFmY2I1ZWZkODkKTk9URTogU2V0c2NlbmUgdGFza3MgY29tcGxldGVkCk5PVEU6
+IFJ1bm5pbmcgdGFzayAyMjg4IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIv
+YXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2VsZnV0aWxzL2VsZnV0
+aWxzXzAuMTgzLmJiOmRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3QpCk5PVEU6IHJlY2lwZSBlbGZ1
+dGlscy0wLjE4My1yMDogdGFzayBkb19wcmVwYXJlX3JlY2lwZV9zeXNyb290OiBTdGFydGVkCk5P
+VEU6IHJlY2lwZSBlbGZ1dGlscy0wLjE4My1yMDogdGFzayBkb19wcmVwYXJlX3JlY2lwZV9zeXNy
+b290OiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyODkgb2YgMjMxNyAoL2hvbWUvcG9r
+eWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZWxmdXRpbHMvZWxmdXRpbHNfMC4xODMuYmI6ZG9fY29uZmlndXJlKQpOT1RFOiByZWNp
+cGUgZWxmdXRpbHMtMC4xODMtcjA6IHRhc2sgZG9fY29uZmlndXJlOiBTdGFydGVkCk5PVEU6IHJl
+Y2lwZSBsaWJtaWNyb2h0dHBkLTAuOS43My1yMDogdGFzayBkb19wYWNrYWdlOiBTdWNjZWVkZWQK
+Tk9URTogUnVubmluZyB0YXNrIDIyOTAgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJtaWNyb2h0
+dHBkL2xpYm1pY3JvaHR0cGRfMC45LjczLmJiOmRvX3BhY2thZ2VkYXRhKQpOT1RFOiByZWNpcGUg
+bGlibWljcm9odHRwZC0wLjkuNzMtcjA6IHRhc2sgZG9fcGFja2FnZWRhdGE6IFN0YXJ0ZWQKTk9U
+RTogcmVjaXBlIGxpYm1pY3JvaHR0cGQtMC45LjczLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhOiBT
+dWNjZWVkZWQKTk9URTogVGFzayAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWls
+ZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm1pY3JvaHR0cGQvbGlibWljcm9o
+dHRwZF8wLjkuNzMuYmI6ZG9fcGFja2FnZWRhdGEgdW5paGFzaCBjaGFuZ2VkIHRvIGM0ZjU4NTMy
+Yjc5Y2ExYTE4Y2E3MmEzZWMyZTBmYzY2NGQ4NWM4MTNhZDVmY2YyMjg0ZGViYjY2YzlmMDRmNDAK
+Tk9URTogU2V0c2NlbmUgdGFza3MgY29tcGxldGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjkxIG9m
+IDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBkXzAuOS43My5i
+Yjpkb19wYWNrYWdlX3dyaXRlX3JwbSkKTk9URTogcmVjaXBlIGxpYm1pY3JvaHR0cGQtMC45Ljcz
+LXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBsaWJt
+aWNyb2h0dHBkLTAuOS43My1yMDogdGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbTogU3VjY2VlZGVk
+Ck5PVEU6IFRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQv
+cG9reS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJtaWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45
+LjczLmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtIHVuaWhhc2ggY2hhbmdlZCB0byA2Zjg4YWUyYzYy
+N2IzZWFkM2U3ODZhODUyYWZmNTlkZDUzYjMxNDcwNGVhNWEwOTMyN2Y2OWZkYmE1NjgyODk3Ck5P
+VEU6IHJlY2lwZSBlbGZ1dGlscy0wLjE4My1yMDogdGFzayBkb19jb25maWd1cmU6IFN1Y2NlZWRl
+ZApOT1RFOiBTZXRzY2VuZSB0YXNrcyBjb21wbGV0ZWQKTk9URTogUnVubmluZyB0YXNrIDIyOTIg
+b2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9r
+eS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZWxmdXRpbHMvZWxmdXRpbHNfMC4xODMuYmI6ZG9fY29u
+ZmlndXJlX3B0ZXN0X2Jhc2UpCk5PVEU6IHJlY2lwZSBlbGZ1dGlscy0wLjE4My1yMDogdGFzayBk
+b19jb25maWd1cmVfcHRlc3RfYmFzZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZWxmdXRpbHMtMC4x
+ODMtcjA6IHRhc2sgZG9fY29uZmlndXJlX3B0ZXN0X2Jhc2U6IFN1Y2NlZWRlZApOT1RFOiBSdW5u
+aW5nIHRhc2sgMjI5MyBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9i
+dWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9lbGZ1dGlscy9lbGZ1dGlsc18w
+LjE4My5iYjpkb19jb21waWxlKQpOT1RFOiByZWNpcGUgZWxmdXRpbHMtMC4xODMtcjA6IHRhc2sg
+ZG9fY29tcGlsZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZWxmdXRpbHMtMC4xODMtcjA6IHRhc2sg
+ZG9fY29tcGlsZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjk0IG9mIDIzMTcgKC9o
+b21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2VsZnV0aWxzL2VsZnV0aWxzXzAuMTgzLmJiOmRvX2NvbXBpbGVfcHRlc3Rf
+YmFzZSkKTk9URTogcmVjaXBlIGVsZnV0aWxzLTAuMTgzLXIwOiB0YXNrIGRvX2NvbXBpbGVfcHRl
+c3RfYmFzZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZWxmdXRpbHMtMC4xODMtcjA6IHRhc2sgZG9f
+Y29tcGlsZV9wdGVzdF9iYXNlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIyOTUgb2Yg
+MjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZWxmdXRpbHMvZWxmdXRpbHNfMC4xODMuYmI6ZG9faW5zdGFs
+bCkKTk9URTogcmVjaXBlIGVsZnV0aWxzLTAuMTgzLXIwOiB0YXNrIGRvX2luc3RhbGw6IFN0YXJ0
+ZWQKTk9URTogcmVjaXBlIGVsZnV0aWxzLTAuMTgzLXIwOiB0YXNrIGRvX2luc3RhbGw6IFN1Y2Nl
+ZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjI5NiBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9j
+dG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9lbGZ1
+dGlscy9lbGZ1dGlsc18wLjE4My5iYjpkb19pbnN0YWxsX3B0ZXN0X2Jhc2UpCk5PVEU6IHJlY2lw
+ZSBlbGZ1dGlscy0wLjE4My1yMDogdGFzayBkb19pbnN0YWxsX3B0ZXN0X2Jhc2U6IFN0YXJ0ZWQK
+Tk9URTogcmVjaXBlIGVsZnV0aWxzLTAuMTgzLXIwOiB0YXNrIGRvX2luc3RhbGxfcHRlc3RfYmFz
+ZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMjk3IG9mIDIzMTcgKC9ob21lL3Bva3li
+dWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2VsZnV0aWxzL2VsZnV0aWxzXzAuMTgzLmJiOmRvX3BhY2thZ2UpCk5PVEU6IFJ1bm5pbmcg
+dGFzayAyMjk4IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxk
+L2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2VsZnV0aWxzL2VsZnV0aWxzXzAuMTgz
+LmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3QpCk5PVEU6IHJlY2lwZSBlbGZ1dGlscy0wLjE4My1yMDog
+dGFzayBkb19wb3B1bGF0ZV9zeXNyb290OiBTdGFydGVkCk5PVEU6IHJlY2lwZSBlbGZ1dGlscy0w
+LjE4My1yMDogdGFzayBkb19wYWNrYWdlOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBlbGZ1dGlscy0w
+LjE4My1yMDogdGFzayBkb19wb3B1bGF0ZV9zeXNyb290OiBTdWNjZWVkZWQKTk9URTogUnVubmlu
+ZyB0YXNrIDIyOTkgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVp
+bGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUy
+XzUuMTEuMC5iYjpkb19wcmVwYXJlX3JlY2lwZV9zeXNyb290KQpOT1RFOiBSdW5uaW5nIHRhc2sg
+MjMwMCBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWls
+ZC9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlsc18yLjM2LmJiOmRv
+X3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3QpCk5PVEU6IHJlY2lwZSBpcHJvdXRlMi01LjExLjAtcjA6
+IHRhc2sgZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdDogU3RhcnRlZApOT1RFOiByZWNpcGUgYmlu
+dXRpbHMtMi4zNi4xLXIwOiB0YXNrIGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3Q6IFN0YXJ0ZWQK
+Tk9URTogcmVjaXBlIGlwcm91dGUyLTUuMTEuMC1yMDogdGFzayBkb19wcmVwYXJlX3JlY2lwZV9z
+eXNyb290OiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIzMDEgb2YgMjMxNyAoL2hvbWUv
+cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyXzUuMTEuMC5iYjpkb19jb25maWd1cmUpCk5P
+VEU6IHJlY2lwZSBpcHJvdXRlMi01LjExLjAtcjA6IHRhc2sgZG9fY29uZmlndXJlOiBTdGFydGVk
+Ck5PVEU6IHJlY2lwZSBiaW51dGlscy0yLjM2LjEtcjA6IHRhc2sgZG9fcHJlcGFyZV9yZWNpcGVf
+c3lzcm9vdDogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMzAyIG9mIDIzMTcgKC9ob21l
+L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2JpbnV0aWxzL2JpbnV0aWxzXzIuMzYuYmI6ZG9fY29uZmlndXJlKQpOT1RFOiBy
+ZWNpcGUgYmludXRpbHMtMi4zNi4xLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZTogU3RhcnRlZApOT1RF
+OiByZWNpcGUgaXByb3V0ZTItNS4xMS4wLXIwOiB0YXNrIGRvX2NvbmZpZ3VyZTogU3VjY2VlZGVk
+Ck5PVEU6IFJ1bm5pbmcgdGFzayAyMzAzIG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13
+b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJv
+dXRlMi9pcHJvdXRlMl81LjExLjAuYmI6ZG9fY29tcGlsZSkKTk9URTogcmVjaXBlIGlwcm91dGUy
+LTUuMTEuMC1yMDogdGFzayBkb19jb21waWxlOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBpcHJvdXRl
+Mi01LjExLjAtcjA6IHRhc2sgZG9fY29tcGlsZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFz
+ayAyMzA0IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1
+aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl81LjEx
+LjAuYmI6ZG9faW5zdGFsbCkKTk9URTogcmVjaXBlIGlwcm91dGUyLTUuMTEuMC1yMDogdGFzayBk
+b19pbnN0YWxsOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBpcHJvdXRlMi01LjExLjAtcjA6IHRhc2sg
+ZG9faW5zdGFsbDogU3VjY2VlZGVkCk5PVEU6IHJlY2lwZSBiaW51dGlscy0yLjM2LjEtcjA6IHRh
+c2sgZG9fY29uZmlndXJlOiBTdWNjZWVkZWQKTk9URTogUnVubmluZyB0YXNrIDIzMDUgb2YgMjMx
+NyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRpbHNfMi4zNi5iYjpkb19jb21waWxlKQpO
+T1RFOiByZWNpcGUgYmludXRpbHMtMi4zNi4xLXIwOiB0YXNrIGRvX2NvbXBpbGU6IFN0YXJ0ZWQK
+Tk9URTogcmVjaXBlIGVsZnV0aWxzLTAuMTgzLXIwOiB0YXNrIGRvX3BhY2thZ2U6IFN1Y2NlZWRl
+ZApOT1RFOiBSdW5uaW5nIHRhc2sgMjMwNiBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8t
+d29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9lbGZ1dGls
+cy9lbGZ1dGlsc18wLjE4My5iYjpkb19wYWNrYWdlZGF0YSkKTk9URTogcmVjaXBlIGVsZnV0aWxz
+LTAuMTgzLXIwOiB0YXNrIGRvX3BhY2thZ2VkYXRhOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBlbGZ1
+dGlscy0wLjE4My1yMDogdGFzayBkb19wYWNrYWdlZGF0YTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5p
+bmcgdGFzayAyMzA3IG9mIDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1
+aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRl
+Ml81LjExLjAuYmI6ZG9fcGFja2FnZSkKTk9URTogcmVjaXBlIGlwcm91dGUyLTUuMTEuMC1yMDog
+dGFzayBkb19wYWNrYWdlOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBpcHJvdXRlMi01LjExLjAtcjA6
+IHRhc2sgZG9fcGFja2FnZTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgdGFzayAyMzA4IG9mIDIz
+MTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl81LjExLjAuYmI6ZG9fcGFj
+a2FnZWRhdGEpCk5PVEU6IHJlY2lwZSBpcHJvdXRlMi01LjExLjAtcjA6IHRhc2sgZG9fcGFja2Fn
+ZWRhdGE6IFN0YXJ0ZWQKTk9URTogcmVjaXBlIGlwcm91dGUyLTUuMTEuMC1yMDogdGFzayBkb19w
+YWNrYWdlZGF0YTogU3VjY2VlZGVkCk5PVEU6IFRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9hdWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91
+dGUyL2lwcm91dGUyXzUuMTEuMC5iYjpkb19wYWNrYWdlZGF0YSB1bmloYXNoIGNoYW5nZWQgdG8g
+NzE2MTNiYzBhODA3ZDAyZDdjZDViMjU4NDNmNWEyMTRkMDZiYmFhYTIwNjU4NDY1YmJjNGUxYTQ1
+Yjc1OGEyOQpOT1RFOiBTZXRzY2VuZSB0YXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIv
+YXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxp
+bnV4XzIuMzYuMi5iYjpkb19wYWNrYWdlX3dyaXRlX3JwbSBiZWNhbWUgdmFsaWQKTk9URTogUnVu
+bmluZyBzZXRzY2VuZSB0YXNrIDg2MyBvZiA3MzcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3Jr
+ZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGls
+LWxpbnV4XzIuMzYuMi5iYjpkb19wYWNrYWdlX3dyaXRlX3JwbV9zZXRzY2VuZSkKTk9URTogUnVu
+bmluZyB0YXNrIDIzMDkgb2YgMjMxNyAoL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgv
+YnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZWxmdXRpbHMvZWxmdXRpbHNf
+MC4xODMuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG0pCk5PVEU6IFJ1bm5pbmcgdGFzayAyMzEwIG9m
+IDIzMTcgKC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Bva3kv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl81LjExLjAuYmI6ZG9f
+cGFja2FnZV93cml0ZV9ycG0pCk5PVEU6IHJlY2lwZSB1dGlsLWxpbnV4LTIuMzYuMi1yMDogdGFz
+ayBkb19wYWNrYWdlX3dyaXRlX3JwbV9zZXRzY2VuZTogU3RhcnRlZApOT1RFOiByZWNpcGUgZWxm
+dXRpbHMtMC4xODMtcjA6IHRhc2sgZG9fcGFja2FnZV93cml0ZV9ycG06IFN0YXJ0ZWQKTk9URTog
+cmVjaXBlIGlwcm91dGUyLTUuMTEuMC1yMDogdGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbTogU3Rh
+cnRlZApOT1RFOiByZWNpcGUgdXRpbC1saW51eC0yLjM2LjItcjA6IHRhc2sgZG9fcGFja2FnZV93
+cml0ZV9ycG1fc2V0c2NlbmU6IFN1Y2NlZWRlZApOT1RFOiBTZXRzY2VuZSB0YXNrcyBjb21wbGV0
+ZWQKTk9URTogcmVjaXBlIGlwcm91dGUyLTUuMTEuMC1yMDogdGFzayBkb19wYWNrYWdlX3dyaXRl
+X3JwbTogU3VjY2VlZGVkCk5PVEU6IFRhc2sgL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9h
+dWgvYnVpbGQvYnVpbGQvcG9reS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lw
+cm91dGUyXzUuMTEuMC5iYjpkb19wYWNrYWdlX3dyaXRlX3JwbSB1bmloYXNoIGNoYW5nZWQgdG8g
+ZGQ4YWYzOTEwOTMxMzk3NjFiMjA1MTc2NzhjNGNmMTY4ZWExY2U1MmY0MTYzM2NjYTQ3ODVkMDQ5
+MjIxOGFjNApOT1RFOiByZWNpcGUgZWxmdXRpbHMtMC4xODMtcjA6IHRhc2sgZG9fcGFja2FnZV93
+cml0ZV9ycG06IFN1Y2NlZWRlZApOT1RFOiByZWNpcGUgYmludXRpbHMtMi4zNi4xLXIwOiB0YXNr
+IGRvX2NvbXBpbGU6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjMxMiBvZiAyMzE3ICgv
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlsc18yLjM2LmJiOmRvX2luc3RhbGwpCk5PVEU6
+IHJlY2lwZSBiaW51dGlscy0yLjM2LjEtcjA6IHRhc2sgZG9faW5zdGFsbDogU3RhcnRlZApOT1RF
+OiByZWNpcGUgYmludXRpbHMtMi4zNi4xLXIwOiB0YXNrIGRvX2luc3RhbGw6IFN1Y2NlZWRlZApO
+T1RFOiBSdW5uaW5nIHRhc2sgMjMxMyBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29y
+a2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9i
+aW51dGlsc18yLjM2LmJiOmRvX3BhY2thZ2UpCk5PVEU6IHJlY2lwZSBiaW51dGlscy0yLjM2LjEt
+cjA6IHRhc2sgZG9fcGFja2FnZTogU3RhcnRlZApOT1RFOiByZWNpcGUgYmludXRpbHMtMi4zNi4x
+LXIwOiB0YXNrIGRvX3BhY2thZ2U6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjMxNCBv
+ZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlsc18yLjM2LmJiOmRvX3BhY2th
+Z2VkYXRhKQpOT1RFOiByZWNpcGUgYmludXRpbHMtMi4zNi4xLXIwOiB0YXNrIGRvX3BhY2thZ2Vk
+YXRhOiBTdGFydGVkCk5PVEU6IHJlY2lwZSBiaW51dGlscy0yLjM2LjEtcjA6IHRhc2sgZG9fcGFj
+a2FnZWRhdGE6IFN1Y2NlZWRlZApOT1RFOiBSdW5uaW5nIHRhc2sgMjMxNSBvZiAyMzE3ICgvaG9t
+ZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlsc18yLjM2LmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBt
+KQpOT1RFOiBSdW5uaW5nIHRhc2sgMjMxNiBvZiAyMzE3ICgvaG9tZS9wb2t5YnVpbGQveW9jdG8t
+d29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5k
+L3dheWxhbmRfMS4xOS4wLmJiOmRvX3BhY2thZ2Vfd3JpdGVfcnBtKQpOT1RFOiByZWNpcGUgYmlu
+dXRpbHMtMi4zNi4xLXIwOiB0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfcnBtOiBTdGFydGVkCk5PVEU6
+IHJlY2lwZSB3YXlsYW5kLTEuMTkuMC1yMDogdGFzayBkb19wYWNrYWdlX3dyaXRlX3JwbTogU3Rh
+cnRlZApOT1RFOiByZWNpcGUgd2F5bGFuZC0xLjE5LjAtcjA6IHRhc2sgZG9fcGFja2FnZV93cml0
+ZV9ycG06IFN1Y2NlZWRlZApOT1RFOiBUYXNrIC9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIv
+YXVoL2J1aWxkL2J1aWxkL3Bva3kvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFu
+ZF8xLjE5LjAuYmI6ZG9fcGFja2FnZV93cml0ZV9ycG0gdW5paGFzaCBjaGFuZ2VkIHRvIGY0Yzg5
+MGNmZDgyYjVhNmYwZjQ4MTM0OTNkOTlhMDkwNGNhZjE0OWRiOWFiMjlkOWM5MDFlZmNjYjM1Nzc0
+NmEKTk9URTogcmVjaXBlIGJpbnV0aWxzLTIuMzYuMS1yMDogdGFzayBkb19wYWNrYWdlX3dyaXRl
+X3JwbTogU3VjY2VlZGVkCk5PVEU6IFJ1bm5pbmcgbm9leGVjIHRhc2sgMjMxNyBvZiAyMzE3ICgv
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC9wb2t5L21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2N1cmwvY3VybF83Ljc3LjAuYmI6ZG9fYnVpbGQpCk5PVEU6IFRhc2tzIFN1
+bW1hcnk6IEF0dGVtcHRlZCAyMzE3IHRhc2tzIG9mIHdoaWNoIDIyNDggZGlkbid0IG5lZWQgdG8g
+YmUgcmVydW4gYW5kIGFsbCBzdWNjZWVkZWQuCk5PVEU6IFdyaXRpbmcgYnVpbGRoaXN0b3J5Ck5P
+VEU6IFdyaXRpbmcgYnVpbGRoaXN0b3J5IHRvb2s6IDEgc2Vjb25kcwoKU3VtbWFyeTogVGhlcmUg
+d2VyZSAyIEVSUk9SIG1lc3NhZ2VzIHNob3duLCByZXR1cm5pbmcgYSBub24temVybyBleGl0IGNv
+ZGUuCg==
 
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-TUNE_FEATURES        = "arm armv7ve vfp thumb neon callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-workspace            = "master:40d3366bea8d2417e89a37c6f2d38e1542160342"
-
-Initialising tasks...done.
-Sstate summary: Wanted 82 Local 43 Network 0 Missed 39 Current 687 (52% match, 94% complete)
-Removing 7 stale sstate objects for arch qemuarm...done.
-Removing 10 stale sstate objects for arch armv7vet2hf-neon...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 689 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 690 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 691 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 693 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 696 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 697 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 700 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 701 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_deploy_setscene)
-NOTE: Running setscene task 702 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 727 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_deploy_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 741 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata_setscene)
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 742 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_packagedata_setscene)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 743 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_packagedata_setscene)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_deploy_setscene: Succeeded
-NOTE: Running setscene task 744 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 745 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_packagedata_setscene)
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 746 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 747 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_packagedata_setscene)
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1329 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_fetch)
-NOTE: Running task 1355 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: Running task 1403 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_fetch)
-NOTE: Running task 1450 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_fetch)
-NOTE: Running task 1459 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_fetch)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_packagedata_setscene: Started
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Started
-NOTE: Running task 1637 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_fetch)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Started
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1656 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_unpack)
-NOTE: Running task 1657 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: Running task 1658 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1659 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Started
-NOTE: Running task 1661 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_unpack)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Started
-NOTE: Running task 1694 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_fetch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1718 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_unpack)
-NOTE: Running task 1728 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_unpack)
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 751 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 752 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Started
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1794 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_unpack)
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1854 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Started
-NOTE: Running task 1915 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1965 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_unpack)
-NOTE: Running task 1966 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2047 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_patch)
-NOTE: Running task 2048 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2165 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Started
-NOTE: Running task 2166 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_patch)
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2167 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2168 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2169 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Succeeded
-NOTE: Running task 2170 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Succeeded
-NOTE: Running task 2171 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2172 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch_ptest_path)
-NOTE: Running task 2173 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Succeeded
-NOTE: Running task 2174 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Succeeded
-NOTE: Running task 2175 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2176 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_configure)
-NOTE: Running task 2177 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Succeeded
-NOTE: Running task 2178 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2179 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic unihash changed to 46a6a812ffcd3a2e84a7aedfff540edfcd20fa77218ff442b1b5b411b62442d3
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 755 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata_setscene)
-NOTE: Running setscene task 756 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 758 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 759 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 2198 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 766 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 767 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_populate_sysroot_setscene)
-NOTE: Running task 2208 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_prepare_recipe_sysroot: Succeeded
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-src went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dbg went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package libkmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-staticdev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-doc went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: Running task 2214 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_configure)
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-locale went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-bash-completion went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 769 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_configure: Started
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2227 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2228 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to c595f0a663b4b4145931aa921820e54ee4039dbe83b5859baf3e073783af767b
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 2292 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 12d7a2ece7d5b4db4b0aab64a6f7075029a42a683d2a71033b32fe1f0196787b
-NOTE: Setscene tasks completed
-NOTE: Running task 2332 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_configure: Succeeded
-NOTE: Running task 2333 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_configcheck)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_kernel_configcheck: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 2334 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 2335 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 2336 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: Running task 2337 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2338 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_compile)
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2339 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2340 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 2341 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_kernel_configcheck: Succeeded
-NOTE: Running task 2342 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 2343 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2344 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_install)
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_compile: Succeeded
-NOTE: Running task 2345 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_shared_workdir)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_shared_workdir: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_shared_workdir: Succeeded
-NOTE: Running task 2347 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile_kernelmodules)
-NOTE: Running task 2348 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_configure)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_compile_kernelmodules: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2349 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2350 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package)
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2351 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2352 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_configure)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2353 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_packagedata)
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2354 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package_write_rpm)
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_55f7c2088d-r0: task do_compile_kernelmodules: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Succeeded
-NOTE: Running task 2368 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 2369 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_configure)
-NOTE: Running task 2370 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_install)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Succeeded
-NOTE: Running task 2371 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Succeeded
-NOTE: Running task 2372 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Succeeded
-NOTE: Running task 2373 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_packagedata)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2374 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package_write_rpm)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 2375 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2376 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2377 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_compile)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 2378 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2379 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 2380 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2381 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2382 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_install)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2383 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2384 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2385 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 2386 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_packagedata)
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2387 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2388 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2389 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_packagedata)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2390 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package_write_rpm)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Succeeded
-NOTE: Running task 2391 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_install)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Succeeded
-NOTE: Running task 2392 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Succeeded
-NOTE: Running task 2393 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_packagedata)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2394 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package_write_rpm)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Succeeded
-NOTE: Running task 2395 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2396 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Succeeded
-NOTE: Running task 2397 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2398 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Succeeded
-NOTE: Running task 2399 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2400 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package)
-NOTE: Running task 2401 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Succeeded
-NOTE: Running task 2402 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_packagedata)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 2403 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_write_rpm)
-NOTE: Running task 2404 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_qa)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2405 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_build)
-NOTE: Tasks Summary: Attempted 2405 tasks of which 2303 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 9 ERROR messages shown, returning a non-zero exit code.
-
---===============0683868917186452976==
+--===============3406379333037268913==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-lttng-tools-upgrade-2.12.3-2.12.4.patch"
+ filename="0001-curl-upgrade-7.76.1-7.77.0.patch"
 
-From e87b78adf9ad210f0075919ca23f013deb6268b5 Mon Sep 17 00:00:00 2001
+From 1b08daaef213b6578e4fe7a830ed3586f1bd2826 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 28 May 2021 10:39:27 +0000
-Subject: [PATCH] lttng-tools: upgrade 2.12.3 -> 2.12.4
+Date: Fri, 28 May 2021 11:05:15 +0000
+Subject: [PATCH] curl: upgrade 7.76.1 -> 7.77.0
 
 ---
- .../lttng/{lttng-tools_2.12.3.bb => lttng-tools_2.12.4.bb}      | 2 +-
+ meta/recipes-support/curl/{curl_7.76.1.bb => curl_7.77.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.12.3.bb => lttng-tools_2.12.4.bb} (98%)
+ rename meta/recipes-support/curl/{curl_7.76.1.bb => curl_7.77.0.bb} (97%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb
-index 6132daf1a1..147f38741a 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb
-@@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://determinism.patch \
-            "
+diff --git a/meta/recipes-support/curl/curl_7.76.1.bb b/meta/recipes-support/curl/curl_7.77.0.bb
+similarity index 97%
+rename from meta/recipes-support/curl/curl_7.76.1.bb
+rename to meta/recipes-support/curl/curl_7.77.0.bb
+index 4e2c277010..ee1aa89f27 100644
+--- a/meta/recipes-support/curl/curl_7.76.1.bb
++++ b/meta/recipes-support/curl/curl_7.77.0.bb
+@@ -13,7 +13,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
  
--SRC_URI[sha256sum] = "2890da230edd523fcf497e9eb28133b7606d64fa01bcbffadbfcba42104db153"
-+SRC_URI[sha256sum] = "d729f8c2373a41194f171aeb0da0a9bb35ac181f31afa7e260786d19a500dea1"
+-SRC_URI[sha256sum] = "7a8e184d7d31312c4ebf6a8cb59cd757e61b2b2833a9ed4f9bf708066e7695e9"
++SRC_URI[sha256sum] = "6c0c28868cb82593859fc43b9c8fdb769314c855c05cf1b56b023acf855df8ea"
  
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.27.0
 
 
---===============0683868917186452976==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 822 .bb files complete (0 cached, 822 parsed). 1456 targets, 58 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-workspace            = "master:40d3366bea8d2417e89a37c6f2d38e1542160342"
-
-Initialising tasks...done.
-Sstate summary: Wanted 92 Local 53 Network 0 Missed 39 Current 677 (57% match, 94% complete)
-Removing 14 stale sstate objects for arch mips32r2...done.
-Removing 9 stale sstate objects for arch qemumips...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 679 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 680 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 681 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 682 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 684 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 686 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 687 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 688 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 691 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 692 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_deploy_setscene)
-NOTE: Running setscene task 693 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 718 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 719 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 730 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm_setscene)
-NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gettext-0.21-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_deploy_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 733 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_packagedata_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 734 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata_setscene)
-NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gettext-0.21-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 735 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_packagedata_setscene)
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 736 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_packagedata_setscene)
-NOTE: recipe bison-3.7.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 737 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 738 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running task 1327 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_fetch)
-NOTE: Running task 1351 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: Running task 1397 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_fetch)
-NOTE: Running task 1444 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_fetch)
-NOTE: Running task 1452 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_fetch)
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: Running task 1628 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_unpack)
-NOTE: Running task 1629 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1630 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: Running task 1631 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Started
-NOTE: Running task 1636 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_fetch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1673 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_unpack)
-NOTE: Running task 1683 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_fetch)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1747 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_unpack)
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Succeeded
-NOTE: Running task 1785 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_unpack)
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1857 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_unpack)
-NOTE: Running task 1858 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Started
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: Running task 1893 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1910 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_unpack)
-NOTE: Running task 1911 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2008 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2045 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_patch)
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Started
-NOTE: Running task 2139 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2140 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2141 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_patch)
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: Running task 2142 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2143 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Succeeded
-NOTE: Running task 2144 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2145 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_patch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Succeeded
-NOTE: Running task 2146 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Succeeded
-NOTE: Running task 2147 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch_ptest_path)
-NOTE: Running task 2148 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Succeeded
-NOTE: Running task 2149 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe bison-3.7.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 744 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_packagedata_setscene)
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2154 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2155 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_configure)
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gettext-0.21-r0: task do_packagedata_setscene: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_deploy_setscene: Succeeded
-NOTE: Running setscene task 745 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 746 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 747 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Succeeded
-NOTE: Running task 2156 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2157 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic)
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Started
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic unihash changed to 46a6a812ffcd3a2e84a7aedfff540edfcd20fa77218ff442b1b5b411b62442d3
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gettext-0.21-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 750 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_packagedata_setscene)
-NOTE: recipe libcroco-0.6.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 752 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 753 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 755 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata_setscene)
-NOTE: Running setscene task 756 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 758 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 759 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 2198 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2200 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_configure)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_configure: Started
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 766 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 767 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_populate_sysroot_setscene)
-NOTE: Running task 2209 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Started
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Started
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-src went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dbg went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package libkmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-staticdev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-doc went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-locale went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Succeeded
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-bash-completion went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 769 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_configure: Succeeded
-NOTE: Running task 2227 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2228 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: Running task 2229 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_configcheck)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_kernel_configcheck: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to f20e56863f279864f793c196186fd913736ed0b7b4957799428efc8fc1d21d8d
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 2293 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 68fb4675c705c63d14a6e5ec82c070bcf09e2a0e26b586284168e481d961f3dc
-NOTE: Setscene tasks completed
-NOTE: Running task 2333 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 2334 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 2335 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2336 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Started
-NOTE: Running task 2337 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: Running task 2338 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2339 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2340 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 2341 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 2342 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_kernel_configcheck: Succeeded
-NOTE: Running task 2343 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2344 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_install)
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2345 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2346 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package)
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_compile: Succeeded
-NOTE: Running task 2347 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_shared_workdir)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_shared_workdir: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_shared_workdir: Succeeded
-NOTE: Running task 2349 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile_kernelmodules)
-NOTE: Running task 2350 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_configure)
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2351 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_compile_kernelmodules: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2352 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_configure)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2353 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_packagedata)
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2354 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package_write_rpm)
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_ac525be591-r0: task do_compile_kernelmodules: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Succeeded
-NOTE: Running task 2368 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 2369 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_configure)
-NOTE: Running task 2370 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_install)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 2371 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure_ptest_base)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Succeeded
-NOTE: Running task 2372 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Started
-NOTE: Running task 2373 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2374 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Succeeded
-NOTE: Running task 2375 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_packagedata)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2376 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package_write_rpm)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2377 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_compile)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 2378 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2379 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 2380 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2381 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2382 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_install)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2383 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2384 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2385 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2386 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2387 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_packagedata)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2388 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package_write_rpm)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 2389 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_packagedata)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2390 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Succeeded
-NOTE: Running task 2391 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_install)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Succeeded
-NOTE: Running task 2392 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Succeeded
-NOTE: Running task 2393 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_packagedata)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2394 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package_write_rpm)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Succeeded
-NOTE: Running task 2395 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2396 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Succeeded
-NOTE: Running task 2397 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2398 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Succeeded
-NOTE: Running task 2399 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2400 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package)
-NOTE: Running task 2401 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Succeeded
-NOTE: Running task 2402 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_packagedata)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 2403 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_write_rpm)
-NOTE: Running task 2404 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_qa)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2405 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_build)
-NOTE: Tasks Summary: Attempted 2405 tasks of which 2303 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 9 ERROR messages shown, returning a non-zero exit code.
-
---===============0683868917186452976==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 822 .bb files complete (0 cached, 822 parsed). 1456 targets, 66 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-workspace            = "master:40d3366bea8d2417e89a37c6f2d38e1542160342"
-
-Initialising tasks...done.
-Sstate summary: Wanted 92 Local 53 Network 0 Missed 39 Current 677 (57% match, 94% complete)
-Removing 9 stale sstate objects for arch qemuppc...done.
-Removing 14 stale sstate objects for arch ppc7400...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 679 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 680 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 681 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 682 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 684 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 686 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 687 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 688 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 691 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 692 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_deploy_setscene)
-NOTE: Running setscene task 693 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 718 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 719 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 730 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gettext-0.21-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 733 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata_setscene)
-NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 734 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_packagedata_setscene)
-NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 735 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_packagedata_setscene)
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gettext-0.21-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 736 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_packagedata_setscene)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 737 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 738 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
-NOTE: recipe bison-3.7.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running task 1327 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_fetch)
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1351 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: Running task 1397 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_fetch)
-NOTE: Running task 1444 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_fetch)
-NOTE: Running task 1452 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_fetch)
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1593 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_unpack)
-NOTE: Running task 1594 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: Running task 1627 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: Running task 1628 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1636 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_fetch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Started
-NOTE: Running task 1638 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_unpack)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Started
-NOTE: Running task 1683 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_fetch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1710 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_unpack)
-NOTE: Running task 1720 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_unpack)
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Started
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1832 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_unpack)
-NOTE: Running task 1837 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: Running task 1879 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2003 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_patch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Started
-NOTE: Running task 2016 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_unpack)
-NOTE: Running task 2017 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2033 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2139 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2140 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch)
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Succeeded
-NOTE: Running task 2141 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: Running task 2142 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2143 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_patch)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Succeeded
-NOTE: Running task 2144 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Started
-NOTE: recipe bison-3.7.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 744 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_packagedata_setscene)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2149 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Succeeded
-NOTE: Running task 2150 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch_ptest_path)
-NOTE: Running task 2151 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2152 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2153 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_configure)
-NOTE: recipe gettext-0.21-r0: task do_packagedata_setscene: Started
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Succeeded
-NOTE: Running task 2154 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: Running task 2155 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Succeeded
-NOTE: Running task 2161 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2162 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_setscene: Succeeded
-NOTE: Running setscene task 746 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 747 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 748 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Started
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic unihash changed to 46a6a812ffcd3a2e84a7aedfff540edfcd20fa77218ff442b1b5b411b62442d3
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gettext-0.21-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 750 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_packagedata_setscene)
-NOTE: recipe libcroco-0.6.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcroco-0.6.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 752 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 753 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 755 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata_setscene)
-NOTE: Running setscene task 756 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 758 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 759 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 2198 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2200 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_configure)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_configure: Started
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 766 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 767 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_populate_sysroot_setscene)
-NOTE: Running task 2209 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Started
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Started
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-src went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dbg went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package libkmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-staticdev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-doc went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-locale went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-bash-completion went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 769 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_configure: Succeeded
-NOTE: Running task 2227 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_configcheck)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configcheck: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2228 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2229 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to b80ca9cb6f12efc434285e0cbdc29240bcddec8e6bb23ad97d256c99ba75ad9c
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 2293 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 5886c3877a166989898858b3c759cb4f873c991d347b81a7653b3acf48423ffc
-NOTE: Setscene tasks completed
-NOTE: Running task 2333 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 2334 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 2335 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 2336 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: Running task 2337 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2338 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_compile)
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2339 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2340 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 2341 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 2342 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configcheck: Succeeded
-NOTE: Running task 2343 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2344 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_install)
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2345 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2346 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package)
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile: Succeeded
-NOTE: Running task 2347 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_shared_workdir)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_shared_workdir: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2349 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_shared_workdir: Succeeded
-NOTE: Running task 2350 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile_kernelmodules)
-NOTE: Running task 2351 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_configure)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile_kernelmodules: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2352 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_configure)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2353 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_packagedata)
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2354 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package_write_rpm)
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile_kernelmodules: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Succeeded
-NOTE: Running task 2368 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 2369 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_configure)
-NOTE: Running task 2370 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_install)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Succeeded
-NOTE: Running task 2371 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Succeeded
-NOTE: Running task 2372 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_compile)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 2373 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure_ptest_base)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Succeeded
-NOTE: Running task 2374 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_packagedata)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2375 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2376 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package_write_rpm)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2377 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_compile)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 2378 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2379 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 2380 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2381 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2382 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_install)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2383 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2384 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2385 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2386 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2387 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_packagedata)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 2388 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_packagedata)
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2389 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package_write_rpm)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2390 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Succeeded
-NOTE: Running task 2391 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_install)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Succeeded
-NOTE: Running task 2392 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Succeeded
-NOTE: Running task 2393 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_packagedata)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2394 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package_write_rpm)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Succeeded
-NOTE: Running task 2395 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2396 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Succeeded
-NOTE: Running task 2397 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2398 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Succeeded
-NOTE: Running task 2399 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2400 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package)
-NOTE: Running task 2401 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Succeeded
-NOTE: Running task 2402 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_packagedata)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 2403 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_write_rpm)
-NOTE: Running task 2404 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_qa)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2405 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_build)
-NOTE: Tasks Summary: Attempted 2405 tasks of which 2303 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 9 ERROR messages shown, returning a non-zero exit code.
-
---===============0683868917186452976==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-Loading cache...done.
-Loaded 1456 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 822 .bb files complete (821 cached, 1 parsed). 1456 targets, 31 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9bf19e798d8a5a1cac90048b2bead646da7d66f7"
-workspace            = "master:40d3366bea8d2417e89a37c6f2d38e1542160342"
-
-Initialising tasks...done.
-Sstate summary: Wanted 85 Local 46 Network 0 Missed 39 Current 684 (54% match, 94% complete)
-Removing 7 stale sstate objects for arch qemux86_64...done.
-Removing 10 stale sstate objects for arch core2-64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 686 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 687 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 688 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 690 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 692 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 693 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 699 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 700 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_deploy_setscene)
-NOTE: Running setscene task 701 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 726 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kmod-28-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 741 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_packagedata_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 742 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata_setscene)
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 743 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_packagedata_setscene)
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_deploy_setscene: Succeeded
-NOTE: Running setscene task 744 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 745 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_packagedata_setscene)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 746 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 747 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_packagedata_setscene)
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1329 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_fetch)
-NOTE: Running task 1355 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1403 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_fetch)
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_fetch: Succeeded
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1448 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_unpack)
-NOTE: Running task 1451 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_fetch)
-NOTE: Running setscene task 751 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 752 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: Running task 1458 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: recipe procps-3.3.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1461 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_fetch)
-NOTE: Running task 1478 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1518 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1606 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_unpack)
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Started
-NOTE: Running task 1646 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_fetch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: Running task 1685 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_unpack)
-NOTE: recipe babeltrace-1.5.8-r0: task do_fetch: Succeeded
-NOTE: Running task 1690 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: Running task 1691 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_unpack)
-NOTE: Running task 1698 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_fetch)
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_unpack: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1787 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_patch)
-NOTE: Running task 1788 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_unpack)
-NOTE: Running task 1856 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1922 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_unpack)
-NOTE: Running task 1923 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1991 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_unpack: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2140 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_patch)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2166 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch)
-NOTE: recipe liburcu-0.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe liburcu-0.12.2-r0: task do_patch: Succeeded
-NOTE: Running task 2167 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: Running task 2168 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_unpack: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Started
-NOTE: Running task 2169 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_patch: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Started
-NOTE: Running task 2170 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2171 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_patch)
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch: Succeeded
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2172 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_patch_ptest_path)
-NOTE: Running task 2173 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_patch: Succeeded
-NOTE: Running task 2174 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe liburcu-0.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2175 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_configure)
-NOTE: Running task 2176 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_patch: Succeeded
-NOTE: Running task 2177 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_patch_ptest_path: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-modules-2.12.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_patch: Succeeded
-NOTE: Running task 2178 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2179 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_lic unihash changed to 46a6a812ffcd3a2e84a7aedfff540edfcd20fa77218ff442b1b5b411b62442d3
-NOTE: recipe lttng-tools-2.12.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glib-2.0-1_2.68.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 755 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata_setscene)
-NOTE: Running setscene task 756 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_populate_sysroot_setscene)
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 758 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 759 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe systemd-1_248.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 764 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 765 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_populate_sysroot_setscene)
-NOTE: Running task 2197 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Started
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-src went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dbg went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package libkmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-staticdev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-dev went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-doc went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-locale went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-ERROR: kmod-28-r0 do_packagedata_setscene: QA Issue: Package version for package kmod-bash-completion went backwards which would break package feeds (from 0:29-r0 to 0:28-r0) [version-going-backwards]
-NOTE: recipe kmod-28-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe kmod-28-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 767 of 769 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe kmod-28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2215 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2216 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 62f6431f19fede238466e190955b5b9d556d5896ebde028532bf0150e9f43d12
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 2280 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 4536779b7dca0a5c3d8e03313918f0c89e1a8005eaa6177b0bfb304d882f478c
-NOTE: Running task 2320 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2330 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2332 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_configure)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_configure: Succeeded
-NOTE: Running task 2333 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_kernel_configcheck)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configcheck: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 2334 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 2335 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 2336 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: Running task 2337 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: recipe liburcu-0.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2338 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2339 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2340 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 2341 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 2342 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_kernel_configcheck: Succeeded
-NOTE: Running task 2343 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile)
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2344 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_install)
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2345 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2346 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package)
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2347 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile: Succeeded
-NOTE: Running task 2348 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_shared_workdir)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2349 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_configure)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_shared_workdir: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_shared_workdir: Succeeded
-NOTE: Running task 2351 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.10.bb:do_compile_kernelmodules)
-NOTE: Running task 2352 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_configure)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Started
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile_kernelmodules: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2353 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_packagedata)
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2354 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/liburcu/liburcu_0.12.2.bb:do_package_write_rpm)
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe liburcu-0.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe linux-yocto-5.10.38+gitAUTOINC+d38abd9180_231125d238-r0: task do_compile_kernelmodules: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 2368 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_configure_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2369 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile)
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_configure: Succeeded
-NOTE: Running task 2370 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 2371 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_configure)
-NOTE: Running task 2372 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_install)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_install: Succeeded
-NOTE: Running task 2373 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_configure: Succeeded
-NOTE: Running task 2374 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_compile)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_configure: Succeeded
-NOTE: Running task 2375 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_compile)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package: Succeeded
-NOTE: Running task 2376 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_packagedata)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2377 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb:do_package_write_rpm)
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe make-mod-scripts-1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 2378 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_compile_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2379 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 2380 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_install_ptest_base)
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_compile: Succeeded
-NOTE: Running task 2381 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_install)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2382 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_install: Succeeded
-NOTE: Running task 2383 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_populate_sysroot)
-NOTE: Running task 2384 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2385 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2386 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package: Succeeded
-NOTE: Running task 2387 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_packagedata)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2388 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-ust_2.12.2.bb:do_package_write_rpm)
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 2389 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_packagedata)
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe babeltrace-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2390 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-ust-2_2.12.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe babeltrace-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure: Succeeded
-NOTE: Running task 2391 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_configure_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2392 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_compile: Succeeded
-NOTE: Running task 2393 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_install)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_install: Succeeded
-NOTE: Running task 2394 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package: Succeeded
-NOTE: Running task 2395 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_packagedata)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2396 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.12.6.bb:do_package_write_rpm)
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-modules-2.12.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile: Succeeded
-NOTE: Running task 2397 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_compile_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2398 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install: Succeeded
-NOTE: Running task 2399 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_install_ptest_base)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2400 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package)
-NOTE: Running task 2401 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_populate_sysroot)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package: Succeeded
-NOTE: Running task 2402 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_packagedata)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 2403 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_write_rpm)
-NOTE: Running task 2404 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_package_qa)
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Started
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_qa: Succeeded
-NOTE: recipe lttng-tools-2.12.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2405 of 2405 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb:do_build)
-NOTE: Tasks Summary: Attempted 2405 tasks of which 2303 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 9 ERROR messages shown, returning a non-zero exit code.
-
---===============0683868917186452976==--
+--===============3406379333037268913==--
