@@ -1,88 +1,56 @@
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
- by mx.groups.io with SMTP id smtpd.web11.6032.1622193905787315219
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web12.6008.1622194847882805865
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 May 2021 02:25:06 -0700
+ Fri, 28 May 2021 02:40:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RVkIMTFG;
- spf=pass (domain: gmail.com, ip: 209.85.217.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f43.google.com with SMTP id n1so1824324vsr.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 May 2021 02:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PZRlcOIK/IYwM732ppEMmcHEiSsc+ULq+PXwvDtoNJQ=;
-        b=RVkIMTFGk47z+OpQVzAzvGB3Nu/H0EMMwRlor4WWZj59dvB/Q7yxuVXt6N3l38tc6y
-         K2IBi2n6vHTH7ADSHGN/wsxon49UwJrs4XQY1Y/puRAtzzMwUMK7jE0tiBGoc8B0htNj
-         zd42YnfQFqka5oueXmQQxoxvvGktVZoO5EYpczyERuDDjVE1s3HYQrc0rCp/hA0RIwDh
-         p9f2OafzkfttnjI9/aFeaiTpo2vNkndfMIMA9+EYi2RZhEb4vCayFg9FqG+Rp8EcWecl
-         v4mRysFZdvj1zPCShZ3XK+DyrUE0h/eH68hSj6r3fqDiSMfsdN0QS3ZCJFdtiesAbatH
-         kImA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PZRlcOIK/IYwM732ppEMmcHEiSsc+ULq+PXwvDtoNJQ=;
-        b=JUKFwq3q2vuMfWBFxY3HZYqm6rs2sFxhSKf/ckgnLAoL2Jz06xA0wwJWh7qwkZrTb4
-         iEZGX63Bw5aiF6gjp309Twohvbcken16t0ceaH2wTIXklzy1pTWrbvmdNlAAfI2NKwJp
-         2fbq6H5vqLq7A1KZBQ5d4UpM+wc3iR2r9e89GnG212/EvCbKZhH6mgz0pTwR07gKJP9z
-         v//Wq1rzj26B1rjHfxBoJzoOHfun58OG+Nz6pIlI0saPxotMAU2ZzXQB/VkvQdQnHfTy
-         WJBsv7WPXEww5No+6ZPPanvPB9CsgaPy1shYsst2eilB75wSKHki8OsRa1wIDdJoLUh1
-         FeBQ==
-X-Gm-Message-State: AOAM533baa5yB36SljcKzeVb8rLIhVeR86ICrbx3XINXBSpm4pHVOljR
-	uj/clo87j4F2Lp371jYCAn9NzBCeTtpcAo0Umo950UTe
-X-Google-Smtp-Source: ABdhPJwd/9hcfiPdtwJyWMvk7M9QFsAhNqX2PeY9u3EYk7PoGzWOEHgHYHiBL67s7//jM4g6Zy8HkuJTtm3pTszvU1o=
-X-Received: by 2002:a67:f04a:: with SMTP id q10mr5834764vsm.41.1622193904901;
- Fri, 28 May 2021 02:25:04 -0700 (PDT)
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id 0E82C24000A;
+	Fri, 28 May 2021 09:40:44 +0000 (UTC)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+ YP docs mailing list <docs@lists.yoctoproject.org>
+Subject: Re: [OE-core] [PATCH] package_rpm: pass XZ_THREADS to rpm
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton <ross@burtonini.com>
+References: <20210526145910.3930141-1-ross.burton@arm.com>
+ <CANNYZj_3=8Fg2pBPQt5SYVD6QZpN=UfVC1+_Ndupiuf4-Grcpw@mail.gmail.com>
+ <f3e694df4726cc21060cb296a8c6b0848f4e6c96.camel@linuxfoundation.org>
+From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+Message-ID: <35812cdf-2e32-6ced-dd10-068b5d61b10a@bootlin.com>
+Date: Fri, 28 May 2021 11:40:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210528082955.6819-1-changqing.li@windriver.com>
-In-Reply-To: <20210528082955.6819-1-changqing.li@windriver.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 28 May 2021 11:24:53 +0200
-Message-ID: <CANNYZj8YVuo0sCcQDrsFNgf-Dc199pOVr0G6-jfAg7i0tY1Arg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bash: fix non-fatal error in log.do_configure
-To: Changqing Li <changqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007562fb05c3607349"
+In-Reply-To: <f3e694df4726cc21060cb296a8c6b0848f4e6c96.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---0000000000007562fb05c3607349
-Content-Type: text/plain; charset="UTF-8"
+Hello,
 
-On Fri, 28 May 2021 at 10:31, Changqing Li <changqing.li@windriver.com>
-wrote:
+Adding this docs@ mailing list too, because I have a documentation
+related question...
 
-> error in log.do_configure:
-> ERROR: invalid first argument to AM_GNU_GETTEXT
-> ERROR: Use of AM_GNU_GETTEXT without [external] argument is no longer
-> supported.
-> + dnl initialize GNU gettext
-> +-AM_GNU_GETTEXT([no-libtool], [need-ngettext], [lib/intl])
-> ++AM_GNU_GETTEXT([use-libtool], [need-ngettext], [lib/intl])
->
+On 5/26/21 7:10 PM, Richard Purdie wrote:
+> On Wed, 2021-05-26 at 18:30 +0200, Alexander Kanavin wrote:
+>> What  happens if XZ_THREADS isn't set?
+> It is given a default in bitbake.conf so you'd have to go out 
+> of your way to do it...
 
-This does look like something that should be properly fixed upstream, can
-you rather make a patch that fixes the issue at the source please?
+This makes me realize that the XZ_ variables defined in bitbake.conf
+don't appear anywhere in the documentation.
 
-Alex
+Would it make sense to add them to the documentation too, or would it be
+overwhelming to document all possible variables, which default values
+should just work fine?
 
---0000000000007562fb05c3607349
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Fri, 28 May 2021 at 10:31, Changqing Li &lt;<a href=3D"mailto:cha=
-ngqing.li@windriver.com">changqing.li@windriver.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">error in log.do_configur=
-e:<br>
-ERROR: invalid first argument to AM_GNU_GETTEXT<br>
-ERROR: Use of AM_GNU_GETTEXT without [external] argument is no longer suppo=
-rted.<br>
-+ dnl initialize GNU gettext<br>
-+-AM_GNU_GETTEXT([no-libtool], [need-ngettext], [lib/intl])<br>
-++AM_GNU_GETTEXT([use-libtool], [need-ngettext], [lib/intl])<br></blockquot=
-e><div><br></div><div>This does look like something that should be properly=
- fixed upstream, can you rather make a patch that fixes the issue at the so=
-urce please?</div><div><br></div><div>Alex<br></div></div></div>
+Michael
 
---0000000000007562fb05c3607349--
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
