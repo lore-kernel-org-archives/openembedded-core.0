@@ -1,21 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.6912.1622200976178188340
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.6807.1622200976485801277
  for <openembedded-core@lists.openembedded.org>;
  Fri, 28 May 2021 04:22:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 749FA38C13A6
+	by mail.yoctoproject.org (Postfix) with ESMTP id 72EAA38C13A4
 	for <openembedded-core@lists.openembedded.org>; Fri, 28 May 2021 11:22:55 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5 FAILED
-Message-ID: <MADEUP.16833731847B96BD.30906@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============8181454563476222193=="
+Subject: [AUH] pango: upgrading to 1.48.5 SUCCEEDED
+Message-ID: <MADEUP.16833731859016E4.3006@lists.openembedded.org>
+X-Groupsio-MsgNum: 152355
+Content-Type: multipart/mixed; boundary="===============1410108558162139836=="
 
---===============8181454563476222193==
+--===============1410108558162139836==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,55 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-samples* to *b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *pango* to *1.48.5* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-pango-upgrade-1.48.4-1.48.5.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade vulkan-samples -S b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1456 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-6d593da207d91e55f51bf1470321fda3780511bb"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:6d593da207d91e55f51bf1470321fda3780511bb"
-workspace            = "master:40d3366bea8d2417e89a37c6f2d38e1542160342"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-ERROR: Command Error: 'sh -c 'PATCHFILE="0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch" git -c user.name="OpenEmbedded" -c user.email="oe.patch@oe" commit -F /tmp/tmpjcfbk7fc --author="Alexander Kanavin <alex.kanavin@gmail.com>" --date="Sun, 1 Nov 2020 23:19:22 +0000"'' exited with 0  Output:
-stdout: On branch devtool-orig
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-  (commit or discard the untracked or modified content in submodules)
-	modified:   third_party/spirv-cross (modified content)
-
-no changes added to commit (use "git add" and/or "git commit -a")
-
-stderr: 
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-l1ywrobe/temp/log.do_patch.87149
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-ERROR: Extracting source for vulkan-samples failed
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -79,4 +44,108 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8181454563476222193==--
+--===============1410108558162139836==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-pango-upgrade-1.48.4-1.48.5.patch"
+
+From 421c1dbc9211f7d2be81cee7c12afa29937f8c5e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Fri, 28 May 2021 09:23:43 +0000
+Subject: [PATCH] pango: upgrade 1.48.4 -> 1.48.5
+
+---
+ .../recipes-graphics/pango/{pango_1.48.4.bb => pango_1.48.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/pango/{pango_1.48.4.bb => pango_1.48.5.bb} (94%)
+
+diff --git a/meta/recipes-graphics/pango/pango_1.48.4.bb b/meta/recipes-graphics/pango/pango_1.48.5.bb
+similarity index 94%
+rename from meta/recipes-graphics/pango/pango_1.48.4.bb
+rename to meta/recipes-graphics/pango/pango_1.48.5.bb
+index 9efde6577c..b29c3c2d96 100644
+--- a/meta/recipes-graphics/pango/pango_1.48.4.bb
++++ b/meta/recipes-graphics/pango/pango_1.48.5.bb
+@@ -20,7 +20,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
+ 
+ SRC_URI += "file://run-ptest"
+ 
+-SRC_URI[archive.sha256sum] = "418913fb062071a075846244989d4a67aa5c80bf0eae8ee4555a092fd566a37a"
++SRC_URI[archive.sha256sum] = "501e74496173c02dcd024ded7fbb3f09efd37e2a488e248aa40799424dbb3b2a"
+ 
+ DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+ 
+-- 
+2.27.0
+
+
+--===============1410108558162139836==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/pango: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango: SRC_URI changed from "https://ftp.gnome.org/pub/GNOME/sources/pango/1.48/pango-1.48.4.tar.xz;name=archive file://run-ptest" to "https://ftp.gnome.org/pub/GNOME/sources/pango/1.48/pango-1.48.5.tar.xz;name=archive file://run-ptest"
+packages/core2-32-poky-linux/pango/pango-dbg: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-dbg: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango/pango-dbg: PKGSIZE changed from 1873304 to 1862528 (-1%)
+packages/core2-32-poky-linux/pango/pango-dev: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango-dev: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-dev: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango/pango-dev: PKGSIZE changed from 1434514 to 1435647 (+0%)
+packages/core2-32-poky-linux/pango/pango-doc: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango-doc: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-doc: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango/pango-locale: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango-locale: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-locale: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango/pango-ptest: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango-ptest: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-ptest: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango/pango-src: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango-src: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-src: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango/pango-src: PKGSIZE changed from 1859433 to 1861235 (+0%)
+packages/core2-32-poky-linux/pango/pango-staticdev: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango-staticdev: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-staticdev: PV changed from "1.48.4" to "1.48.5"
+packages/core2-32-poky-linux/pango/pango: PKGV changed from 1.48.4 [default] to 1.48.5 [default]
+packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango: PV changed from "1.48.4" to "1.48.5"
+Changes to packages/core2-32-poky-linux/pango (sysroot):
+  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.4800.4 to libpango-1.0.so.0.4800.5
+  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.4800.4 to libpangocairo-1.0.so.0.4800.5
+  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.4800.4 to libpangoft2-1.0.so.0.4800.5
+  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.4800.4 to libpangoxft-1.0.so.0.4800.5
+  /usr/lib/libpango-1.0.so.0.4800.4 moved to /usr/lib/libpango-1.0.so.0.4800.5
+  /usr/lib/libpangocairo-1.0.so.0.4800.4 moved to /usr/lib/libpangocairo-1.0.so.0.4800.5
+  /usr/lib/libpangoft2-1.0.so.0.4800.4 moved to /usr/lib/libpangoft2-1.0.so.0.4800.5
+  /usr/lib/libpangoxft-1.0.so.0.4800.4 moved to /usr/lib/libpangoxft-1.0.so.0.4800.5
+
+--===============1410108558162139836==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/pango/pango-dev: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-doc: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-locale: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-ptest: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango-staticdev: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5"
+packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.4800.4 /usr/lib/libpangocairo-1.0.so.0.4800.4 /usr/lib/libpangoxft-1.0.so.0.4800.4 /usr/lib/libpango-1.0.so.0.4800.4", added "/usr/lib/libpango-1.0.so.0.4800.5 /usr/lib/libpangoft2-1.0.so.0.4800.5 /usr/lib/libpangocairo-1.0.so.0.4800.5 /usr/lib/libpangoxft-1.0.so.0.4800.5"
+Changes to packages/core2-32-poky-linux/pango (sysroot):
+  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.4800.4 to libpango-1.0.so.0.4800.5
+  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.4800.4 to libpangocairo-1.0.so.0.4800.5
+  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.4800.4 to libpangoft2-1.0.so.0.4800.5
+  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.4800.4 to libpangoxft-1.0.so.0.4800.5
+  /usr/lib/libpango-1.0.so.0.4800.4 moved to /usr/lib/libpango-1.0.so.0.4800.5
+  /usr/lib/libpangocairo-1.0.so.0.4800.4 moved to /usr/lib/libpangocairo-1.0.so.0.4800.5
+  /usr/lib/libpangoft2-1.0.so.0.4800.4 moved to /usr/lib/libpangoft2-1.0.so.0.4800.5
+  /usr/lib/libpangoxft-1.0.so.0.4800.4 moved to /usr/lib/libpangoxft-1.0.so.0.4800.5
+
+--===============1410108558162139836==--
