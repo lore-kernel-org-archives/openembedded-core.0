@@ -1,82 +1,61 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web08.9329.1622213255191564451
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.9366.1622213671854305742
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 May 2021 07:47:35 -0700
+ Fri, 28 May 2021 07:54:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:38106 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lmdlt-008X8z-PH; Fri, 28 May 2021 10:47:33 -0400
-Date: Fri, 28 May 2021 10:47:30 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] follow up: keeping the source with an "externalsrc"-based recipe
-In-Reply-To: <20210528141615.klk5hwfmo4gwqfbg@qschulz>
-Message-ID: <3c62eb6a-ed4c-881f-ded6-625cc4b726da@crashcourse.ca>
-References: <f25c1d23-ce3-bd0-a5b5-8c5d4e0fda6@crashcourse.ca> <20210528130557.zr762og6uvyv577b@qschulz> <d9f5b68-e151-6848-3c4d-ea3bef28c22c@crashcourse.ca> <20210528141615.klk5hwfmo4gwqfbg@qschulz>
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Jrp8e3yD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.41, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f41.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so2553659wmh.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 May 2021 07:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EHEHPo7dEY/SjlCjCOXAn0IAobSIGUxF1r1KxL3Lua8=;
+        b=Jrp8e3yDt1jBSwaahjx/Ny8TaEZZhyGRRtH/i9fZgsa3DoZZoTb5nquVSNEw1qKzzN
+         W80wxnjDx3txWAEHz2CIlwZgu+0PfULtUGS5aW1Gz+CZVD0YIKoFuHvXEFOwqqlap/Fi
+         uWyVHQBVwxDGypo2CfYDGj5NwtAX5E65rbFogb3rzcAlLVFiJLD/mZt65mrytXlmS3lG
+         JkET5z1ASoj46rnduPXBkXYlbAkmP5Z0E3Y8csLHUfy6/CoONgbqOPrQhtcUwgewjY9U
+         mvO7djPiZ2k+XYpXaCHi/PjY+XHU0EwAGCzOEvM6FYwFwa82yj0s0Q6sCVRJ2uH66+E0
+         uzFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EHEHPo7dEY/SjlCjCOXAn0IAobSIGUxF1r1KxL3Lua8=;
+        b=WkFaWWNkhZtH9Ay3uBAilBqyuDXFQgnMyOs3tWwwPN+via70pIx9Rtyj6JO2ALGzm5
+         gO+nUfiPWDe2yRd/GDtx6Pm2MeoLS0GNpsR/T82sdob/GGPJDpIFc/Ffq7AdNAu/Wm8M
+         Disrlsp0WUDHX/lmpY+Q/wR6TDH5IcEz4UAcnsARj2zmk9vk5o0Yrl1ZsLmW8aQaducO
+         rInEh2CbYBnTQIn++ZX3m3YZE/hHD4iBHTa9r5zXqLJ/6Kss9iadLdY1NnKgjqHk/tKE
+         Hpf9OdWpXLFF9S+TS10KUNbPjPHAft6sqMQbchIktAiSIk92uP9QG00z/XsgrkNAYz4G
+         PW9A==
+X-Gm-Message-State: AOAM5305OQtWpJu3IOk+JRtWQ0pBCjwpOdvIECD4znZgf9zVyhESkcf1
+	lcSNY54vWXlRKVQzeBX0SVNVQnDlH3Yv+C3P6uUhqg==
+X-Google-Smtp-Source: ABdhPJxrVgsrIKD6sjoGO7G4Fbcbv+Pw8oeVyj7ZJlFNBrILM9wddJEoKLmwRXYCkHHpBIr+6jVGhqbcRkZvyBt9UhA=
+X-Received: by 2002:a1c:67c3:: with SMTP id b186mr202325wmc.12.1622213670001;
+ Fri, 28 May 2021 07:54:30 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+References: <1621841817-21203-1-git-send-email-akash.hadke@kpit.com> <26236.1622189797465588364@lists.openembedded.org>
+In-Reply-To: <26236.1622189797465588364@lists.openembedded.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Fri, 28 May 2021 04:54:19 -1000
+Message-ID: <CAOSpxdafRBPQkTdieim+3MBNGyPZYsU2=0RkNiEcoUU+kVVF=Q@mail.gmail.com>
+Subject: Re: [OE-core] [poky][dunfell][PATCH] tiff: Add fix for CVE-2020-35521 and CVE-2020-35522
+To: akash hadke <akash.hadke@kpit.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 28 May 2021, Quentin Schulz wrote:
-
-> On Fri, May 28, 2021 at 09:57:26AM -0400, Robert P. J. Day wrote:
-> > On Fri, 28 May 2021, Quentin Schulz wrote:
-> >
-> > > On Fri, May 28, 2021 at 08:51:51AM -0400, Robert P. J. Day wrote:
-> > > >
-> > > >   as a short followup to my earlier note about creating a bunch of
-> > > > externalsrc-based recipes to demonstrate their proper structure, it's
-> > > > easy to add the recipe files to a layer, but i then realized i needed
-> > > > to figure out where to put the corresponding source, and how i would
-> > > > refer to it with the EXTERNALSRC variable, and after some thought, it
-> > > > occurred that the simplest solution is to simply put the source in a
-> > > > "src" subdirectory next to the recipe itself, and use:
-> > > >
-> > > >   inherit externalsrc
-> > > >
-> > > >   EXTERNALSRC = "${THISDIR}/src"
-> > >
-> > > FWIW, we use multiple ../ in the variable and it works just fine.
-> > > Might be a slightly better example than having it next to the
-> > > recipe, since this would actually be covered by SRC_URI =
-> > > "file://whatever". In that case, you could add the sources in
-> > > `yocto-docs/externalsrc-src` for example?
-> >
-> >   after further cogitation, it seems like using SRC_URI might be the
-> > way to go after all, unless i drastically misunderstand some features
-> > of "externalsrc".
-> >
-> >   at the moment, most of this external source has to be compiled in
-> > place; very little of it supports "out of tree" building, which means
-> > that i'm forced to(?):
+On Thu, May 27, 2021 at 10:16 PM akash hadke <akash.hadke@kpit.com> wrote:
 >
-> What make you say that? Links, sources? By default it builds in the
-> usual ${WORKDIR}/${BPN}-${PV}.
+> Any update on this?
 
-  i know, but if i do this with the source example i'm playing with:
+I'm in the process of doing the 3.18 release (in QA at the moment),
+but your patch is in queue for adding post 3.1.8 release.
 
-EXTERNALSRC = "${THISDIR}/src"
-# EXTERNALSRC_BUILD = "${EXTERNALSRC}"
+You can always see my current testing queue at:
+https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
-and let EXTERNALSRC_BUILD default to the value you identify, i get:
+Steve
 
-| make: *** No rule to make target 'install'.  Stop.
-
-i clearly don't understand something fundamental about using
-externalsrc -- how do i get that external, remote source to build
-under WORKDIR?
-
-rday
+> 
+>
