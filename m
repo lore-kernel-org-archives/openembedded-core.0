@@ -1,143 +1,130 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web10.10485.1622218481903288053
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.11457.1622221965525039719
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 May 2021 09:14:42 -0700
+ Fri, 28 May 2021 10:12:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:38550 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lmf8C-008tNr-Su; Fri, 28 May 2021 12:14:41 -0400
-Date: Fri, 28 May 2021 12:14:37 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] follow up: keeping the source with an "externalsrc"-based recipe
-In-Reply-To: <20210528152626.aihuhwh5p5jbfl2d@qschulz>
-Message-ID: <7b19f92-d277-b192-63d8-b7e1c173a9b@crashcourse.ca>
-References: <f25c1d23-ce3-bd0-a5b5-8c5d4e0fda6@crashcourse.ca> <20210528130557.zr762og6uvyv577b@qschulz> <d9f5b68-e151-6848-3c4d-ea3bef28c22c@crashcourse.ca> <20210528141615.klk5hwfmo4gwqfbg@qschulz> <3c62eb6a-ed4c-881f-ded6-625cc4b726da@crashcourse.ca>
- <20210528150703.mueernohsx4wlgry@qschulz> <57954bd8-dd61-ded9-83b1-61cbbc129d8b@crashcourse.ca> <20210528152626.aihuhwh5p5jbfl2d@qschulz>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pnkUlGlb;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso7558499pjx.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 May 2021 10:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q/O4Yhn5+C6O3wD6xfDGBdY0me7KpkUkrvERm40mmJk=;
+        b=pnkUlGlbdjVXe5djxEGxY+H8nazXBMGWunpQbw1XWo8ih6rl275xNfTF0KRmzNAkbx
+         sBIRv6gThXK89WqmxVZrYIZaWziKG2DwgG3L85viziGkCEHYV6vXdzC1HijgJB9XXh5Z
+         tAhf3CwBYOsjvjmR5qfY4Al/d0rsuMksUn+lAaxBmETdcXZITZZC+J+URVRZFNzQOrN8
+         ux0zQ1Tpnd5B/wuC00YRq8kQ/u0jWxAoRbKnEAJgSmK0AC50a6LQSciRud1hDQhD2cvX
+         O6U7dP5+DNx4yj/jv3alG0Z1gG60Ih7X4Zt+R62ECqME7UeGNVaaca4b61tGT9AvjytG
+         Q/hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q/O4Yhn5+C6O3wD6xfDGBdY0me7KpkUkrvERm40mmJk=;
+        b=WJ2+ChgJ0oZ+JqiXPtx1SGV31v5e++ZYSfsggfgbec4Ky/k9opy0932gcDXjkMbEt7
+         RbSV2qVoWS0krTEJfDlMPTuQYwjdyKv9Zn5ZQJ1ZdOAG0zAJ/Bt7U4kGcTCoXhl7aY7U
+         57xqktq82bsNhhZp0jXnsGgMQi7UWgMXKmU7vtXvWUbWyZx3+J3Rd5qFeuoCYeFCKRNl
+         1XkjQTucK0A0zyv2YMjiHZmGzPGyuBAHkWKlcKlbtX2zcbOgHTtVreq+6ohsppUup4I1
+         NuwVYFTlH5Yb1A7eq1yybvg6X8wsGhm6m6tKUicpL34VOHHnHdOftu5HY66IiqZWDKWl
+         GHtQ==
+X-Gm-Message-State: AOAM530CSE6O9woyRJT2cgMtHrVvfXNbL1Yx7hV7hwyZombKrRn+HRhR
+	eHezUYT1TjLx2Hcvb6sQmQUpJDp2udUgyg==
+X-Google-Smtp-Source: ABdhPJzxYMFNNlN8N4yrnkzN/Am+LcdanqHvO40nlXYz+jOd/0oDpDJulYD6/58jHv83AIyEu8W7Mg==
+X-Received: by 2002:a17:90a:ea10:: with SMTP id w16mr5255429pjy.46.1622221964643;
+        Fri, 28 May 2021 10:12:44 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::d579])
+        by smtp.gmail.com with ESMTPSA id y26sm4941168pge.94.2021.05.28.10.12.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 May 2021 10:12:44 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ovmf: Fix VLA warnings with GCC 11
+Date: Fri, 28 May 2021 10:12:41 -0700
+Message-Id: <20210528171241.1865615-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Fri, 28 May 2021, Quentin Schulz wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../ovmf/0001-Fix-VLA-parameter-warning.patch | 51 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Fix-VLA-parameter-warning.patch
 
-> On Fri, May 28, 2021 at 11:15:40AM -0400, Robert P. J. Day wrote:
-> > On Fri, 28 May 2021, Quentin Schulz wrote:
-> >
-> > > On Fri, May 28, 2021 at 10:47:30AM -0400, Robert P. J. Day wrote:
-> > > > On Fri, 28 May 2021, Quentin Schulz wrote:
-> > > >
-> > > > > On Fri, May 28, 2021 at 09:57:26AM -0400, Robert P. J. Day wrote:
-> > > > > > On Fri, 28 May 2021, Quentin Schulz wrote:
-> > > > > >
-> > > > > > > On Fri, May 28, 2021 at 08:51:51AM -0400, Robert P. J. Day wrote:
-> > > > > > > >
-> > > > > > > >   as a short followup to my earlier note about creating a bunch of
-> > > > > > > > externalsrc-based recipes to demonstrate their proper structure, it's
-> > > > > > > > easy to add the recipe files to a layer, but i then realized i needed
-> > > > > > > > to figure out where to put the corresponding source, and how i would
-> > > > > > > > refer to it with the EXTERNALSRC variable, and after some thought, it
-> > > > > > > > occurred that the simplest solution is to simply put the source in a
-> > > > > > > > "src" subdirectory next to the recipe itself, and use:
-> > > > > > > >
-> > > > > > > >   inherit externalsrc
-> > > > > > > >
-> > > > > > > >   EXTERNALSRC = "${THISDIR}/src"
-> > > > > > >
-> > > > > > > FWIW, we use multiple ../ in the variable and it works just fine.
-> > > > > > > Might be a slightly better example than having it next to the
-> > > > > > > recipe, since this would actually be covered by SRC_URI =
-> > > > > > > "file://whatever". In that case, you could add the sources in
-> > > > > > > `yocto-docs/externalsrc-src` for example?
-> > > > > >
-> > > > > >   after further cogitation, it seems like using SRC_URI might be the
-> > > > > > way to go after all, unless i drastically misunderstand some features
-> > > > > > of "externalsrc".
-> > > > > >
-> > > > > >   at the moment, most of this external source has to be compiled in
-> > > > > > place; very little of it supports "out of tree" building, which means
-> > > > > > that i'm forced to(?):
-> > > > >
-> > > > > What make you say that? Links, sources? By default it builds in the
-> > > > > usual ${WORKDIR}/${BPN}-${PV}.
-> > > >
-> > > >   i know, but if i do this with the source example i'm playing with:
-> > > >
-> > > > EXTERNALSRC = "${THISDIR}/src"
-> > > > # EXTERNALSRC_BUILD = "${EXTERNALSRC}"
-> > > >
-> > > > and let EXTERNALSRC_BUILD default to the value you identify, i get:
-> > > >
-> > > > | make: *** No rule to make target 'install'.  Stop.
-> > > >
-> > > > i clearly don't understand something fundamental about using
-> > > > externalsrc -- how do i get that external, remote source to build
-> > > > under WORKDIR?
-> > > >
-> > >
-> > > Would you mind sharing your work so far (recipe + source)? So we can
-> > > try to reproduce on our side? I have a very complex recipe without
-> > > EXTERNALSRC_BUILD set (on thud though, but with some backports from
-> > > later versions for the externalsrc class).
-> > >
-> > > I couldn't find tests for externalsrc recipes, so either I'm blind
-> > > (can't exclude it) or we're missing such tests, which we should add
-> > > :)
-> >
-> >   i'm just using dmidecode as grabbed from here:
-> >
-> > http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb?h=master
-> >
-> > but let me ask a fairly basic question that might clear this up.
-> >
-> >   AIUI (and lord knows i could be wrong), depending on the
-> > structure of the Makefile for some blob of source, it may not be
-> > possible to build that source "out of tree". unless you've built
-> > that sort of functionality into the Makefile, then you have no
-> > choice but to do the build in the source tree. as in, ${B} = ${S}.
-> >
-> >   based on what i see, the dmidecode source must be built in-tree
-> > -- there is no functionality in the Makefile to support
-> > out-of-tree building. so if i use externalsrc with dmidecode, then
-> > the build *must* happen in the source directory i identify with
-> > EXTERNALSRC.
->
-> ${B} = ${S} by default, so that might explain why it works without
-> externalsrc being inherited.
->
-> You can see in the makefile that this is assumed. Only the install
-> tasks are installing somewhere else (DESTDIR), c.f.
-> https://git.savannah.nongnu.org/cgit/dmidecode.git/tree/Makefile
->
-> So yes, except if you patch the Makefile to support out-of-tree
-> build, you would need both EXTERNALSRC and EXTERNALSRC_BUILD set to
-> the same value.
+diff --git a/meta/recipes-core/ovmf/ovmf/0001-Fix-VLA-parameter-warning.patch b/meta/recipes-core/ovmf/ovmf/0001-Fix-VLA-parameter-warning.patch
+new file mode 100644
+index 0000000000..d658123b81
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0001-Fix-VLA-parameter-warning.patch
+@@ -0,0 +1,51 @@
++From 498627ebda6271b59920f43a0b9b6187edeb7b09 Mon Sep 17 00:00:00 2001
++From: Adrian Herrera <adr.her.arc.95@gmail.com>
++Date: Mon, 22 Mar 2021 21:06:47 +0000
++Subject: [PATCH] Fix VLA parameter warning
++
++Make VLA buffer types consistent in declarations and definitions.
++Resolves build crash when using -Werror due to "vla-parameter" warning.
++
++Upstream-Status: Submitted [https://github.com/google/brotli/pull/893]
++Signed-off-by: Adrian Herrera <adr.her.arc.95@gmail.com>
++---
++ c/dec/decode.c | 6 ++++--
++ c/enc/encode.c | 5 +++--
++ 2 files changed, 7 insertions(+), 4 deletions(-)
++
++diff --git a/BaseTools/Source/C/BrotliCompress/brotli/c/dec/decode.c b/BaseTools/Source/C/BrotliCompress/brotli/c/dec/decode.c
++index 114c505..bb6f1ab 100644
++--- a/BaseTools/Source/C/BrotliCompress/brotli/c/dec/decode.c
+++++ b/BaseTools/Source/C/BrotliCompress/brotli/c/dec/decode.c
++@@ -2030,8 +2030,10 @@ static BROTLI_NOINLINE BrotliDecoderErrorCode SafeProcessCommands(
++ }
++ 
++ BrotliDecoderResult BrotliDecoderDecompress(
++-    size_t encoded_size, const uint8_t* encoded_buffer, size_t* decoded_size,
++-    uint8_t* decoded_buffer) {
+++    size_t encoded_size,
+++    const uint8_t encoded_buffer[BROTLI_ARRAY_PARAM(encoded_size)],
+++    size_t* decoded_size,
+++    uint8_t decoded_buffer[BROTLI_ARRAY_PARAM(*decoded_size)]) {
++   BrotliDecoderState s;
++   BrotliDecoderResult result;
++   size_t total_out = 0;
++diff --git a/c/enc/encode.c b/c/enc/encode.c
++index 68548ef..ab0a490 100644
++--- a/BaseTools/Source/C/BrotliCompress/brotli/c/enc/encode.c
+++++ c/BaseTools/Source/C/BrotliCompress/brotli/c/enc/encode.c
++@@ -1470,8 +1470,9 @@ static size_t MakeUncompressedStream(
++ 
++ BROTLI_BOOL BrotliEncoderCompress(
++     int quality, int lgwin, BrotliEncoderMode mode, size_t input_size,
++-    const uint8_t* input_buffer, size_t* encoded_size,
++-    uint8_t* encoded_buffer) {
+++    const uint8_t input_buffer[BROTLI_ARRAY_PARAM(input_size)],
+++    size_t* encoded_size,
+++    uint8_t encoded_buffer[BROTLI_ARRAY_PARAM(*encoded_size)]) {
++   BrotliEncoderState* s;
++   size_t out_size = *encoded_size;
++   const uint8_t* input_start = input_buffer;
++-- 
++2.31.1
++
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 696c234035..888ea082ec 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -19,6 +19,7 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https \
+            file://zero.patch \
+            file://debug_prefix_map.patch \
+            file://reproducible.patch \
++           file://0001-Fix-VLA-parameter-warning.patch \
+            "
+ 
+ PV = "edk2-stable202102"
+-- 
+2.31.1
 
-  exactly, which is why if one is saddled with source directories that
-can't build out-of-tree, then using externalsrc for any of those
-directories if multiple developers are trying to build at the same
-time would crash and burn in short order as they stepped all over each
-other; hence, the need to back off and use SRC_URI in cases like that.
-
-> Maybe a Cmake example would suit better since B is set to
-> "${WORKDIR}/build" by default?
->
-> Otherwise, write a proper Makefile that allows out-of-tree builds
-> for the example :)
-
-  nice idea if you have the kind of authority that allows you to
-dictate how developers develop. :-) ok, i think we've resolved this.
-
-rday
