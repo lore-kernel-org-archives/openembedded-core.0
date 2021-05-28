@@ -1,21 +1,21 @@
 Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web11.8459.1622209077034834484
+ by mx.groups.io with SMTP id smtpd.web09.8661.1622210251368889268
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 May 2021 06:37:57 -0700
+ Fri, 28 May 2021 06:57:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:37806 helo=fedora)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:37928 helo=fedora)
 	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lmcgW-008F8e-43; Fri, 28 May 2021 09:37:55 -0400
-Date: Fri, 28 May 2021 09:37:52 -0400 (EDT)
+	id 1lmczS-008Ju8-BW; Fri, 28 May 2021 09:57:30 -0400
+Date: Fri, 28 May 2021 09:57:26 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 To: Quentin Schulz <quentin.schulz@streamunlimited.com>
 cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] follow up: keeping the source with an "externalsrc"-based recipe
 In-Reply-To: <20210528130557.zr762og6uvyv577b@qschulz>
-Message-ID: <dc753119-5ba5-7b47-39e3-766e34734980@crashcourse.ca>
+Message-ID: <d9f5b68-e151-6848-3c4d-ea3bef28c22c@crashcourse.ca>
 References: <f25c1d23-ce3-bd0-a5b5-8c5d4e0fda6@crashcourse.ca> <20210528130557.zr762og6uvyv577b@qschulz>
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -52,8 +52,23 @@ On Fri, 28 May 2021, Quentin Schulz wrote:
 > "file://whatever". In that case, you could add the sources in
 > `yocto-docs/externalsrc-src` for example?
 
-  i know you could use SRC_URI, but i really want to stress the usage
-of "externalsrc" and force the developer to think that the source is
-really elsewhere.
+  after further cogitation, it seems like using SRC_URI might be the
+way to go after all, unless i drastically misunderstand some features
+of "externalsrc".
+
+  at the moment, most of this external source has to be compiled in
+place; very little of it supports "out of tree" building, which means
+that i'm forced to(?):
+
+  EXTERNALSRC = <source location>
+  EXTERNALSRC_BUILD = "${EXTERNALSRC}"
+
+however, that obviously(?) means that only one developer can build
+that recipe at a time, else they would step on each other's ongoing
+builds -- do i understand that correctly?
+
+  using SRC_URI, on the other hand, would copy the source directory
+into the WORKDIR, so that solves that problem. am i understanding this
+correctly?
 
 rday
