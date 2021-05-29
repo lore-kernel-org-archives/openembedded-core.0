@@ -1,349 +1,369 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.20564.1622293755215222135
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.22186.1622304394905464940
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 May 2021 06:09:15 -0700
+ Sat, 29 May 2021 09:06:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r9lmwlp7;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id b17so8037734ede.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 May 2021 06:09:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c1DNtlQj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id n2so6329116wrm.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 May 2021 09:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oKtDXZ/pze2yvjRpZ31prm1R5wTV3b3nbvLCM4o7YYw=;
-        b=r9lmwlp71NEJyXjqlNqDVnt9YLgRp9QkqoBVISXcJq9h8rU1zZpZ4Y0FmgZWT2+md0
-         zGW91OnW6Kbgaw6KiEK8+e+bOsT/v71mQGibDWxU9lSfGRMMjyaA5BUMyLHa1MthZeek
-         sIMSqX11WYn3z9LUnRSLbe6xooiyGuL4Ue0yYK71oSYDK6473d1Y5xOuBPoP8ZQx7VtU
-         F84rA4SkncaOn8QvfdxWWxbTfEpOPewBM7X3tGz1J0pxBFCBQQvNVtYT7idlNom7e/3P
-         /Zyaf8s4Pr5cUDWNmkScyc2D6EAp/9lUTEdDwLDZ9pDCT+thCGD+QgAe5nKF3FJ6i5hu
-         RdDQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e9UnIQJInvO8mM+p5TV26ak6IXk5VvEiRCKp08JgbD0=;
+        b=c1DNtlQjeoZTZC7n89aZS1ko3LZlU7von4jyVRtcKxLG7hoXXMWCKPlAfyOVoGvnwv
+         UT9nuJgv1C+Ffi4v1WCzBaTYvlhMAPZiORr2y0d7K/1Te2m0IRbW9lj69VfiglfbOeUL
+         GGn/IglURkyQjpBrPGlttnhkDhlwkQNvNha9c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oKtDXZ/pze2yvjRpZ31prm1R5wTV3b3nbvLCM4o7YYw=;
-        b=GsLOufizdmV9GUlDXHhI3AAz83Yq9FMbrMZFrruJPsxnU9/TmTIhDKZ68pMc4mKay+
-         oVJKkMBAgJ85oRnSOX7D0uYiFlKL464igNJcj10ZHN+PByPhViree17kL2IpM6BFnf6X
-         4MYBnrGjB3RLbXheG6MBrDblQWF9XTh9tbiaOKSPrfoRuBOfS7WOgBdsy4uEpND91sad
-         ZWS/hiUQX6v113pHN+QoR+MTJh1cBaia4WasaND0jJnph+bb+KiHj05BtfGOStfZH4/7
-         PsJgE7u6OIwHMsqGzyb2fQp2dOV0yLstNDKFw8IEXCzxtz8wtthI8FIV6cROB0Ynbftp
-         Ywtw==
-X-Gm-Message-State: AOAM5333URUfX7keBUi6PIIT+Fg0G/0olj9pKmOgd8D7ZW4EvrximsCF
-	lHzxw38oAp0jFRG9bIiLr51Z4ZGhPtopE+Uj0QA=
-X-Google-Smtp-Source: ABdhPJwTKIhX4+zKrNAysbGAO74Wn+kkJscdLixUkSmo/WYIrRcfH4Dnr92059ucXP+irVnIiFeDAIOD6sezgeTC3zA=
-X-Received: by 2002:a05:6402:1582:: with SMTP id c2mr15502979edv.388.1622293753470;
- Sat, 29 May 2021 06:09:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e9UnIQJInvO8mM+p5TV26ak6IXk5VvEiRCKp08JgbD0=;
+        b=WZ7oxUeEuCdMC3e7V3DYI1RXkSeA58soVKw0BMynnDaprb3TcWGRtmJZfgn2YD5qtx
+         1DUZKeSerACRz5iBtJov+V9BsuAfFP2HAW4LV/TG2WleTsLtvH17iA1c6mhigBYFptmt
+         5czxo6SHtHZW38+LGh3RguICnIgtm6flDFKtrWGe/6pTBX02IoEubjh3LVX+tQAbhQ42
+         mlI6upmafN0P20JoX8yeWGhqfY5G4YfOEGy0wSausIrFIRNc2Y5MDjtOnZFq1oMM3e/g
+         YIUPEJHdMqrYpCQnv05/YkUMgRsN/vI4I4bKqV1Ob4uM8M5X6x8bc1WF2ZmHxpOYmZBN
+         6+hg==
+X-Gm-Message-State: AOAM532KYMB4xOcpe0PfvBgwbeNK+zTfz37/FMjgHd+kgq0gTmoQCwgQ
+	1bkMu+m2xMFXESFpV/TdAyjM4lascGItuw==
+X-Google-Smtp-Source: ABdhPJwv+ab9hqJmC/kO1hsSaZLC6X6pRVRy5uRTJl6Drf4z6zoAvQ0Cr09m/hZJDg1dtFGEdkMdbA==
+X-Received: by 2002:a5d:4843:: with SMTP id n3mr13866127wrs.411.1622304393138;
+        Sat, 29 May 2021 09:06:33 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:314e:6a46:a163:7356])
+        by smtp.gmail.com with ESMTPSA id q20sm20873615wmq.2.2021.05.29.09.06.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 May 2021 09:06:32 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Tony Tascioglu <tony.tascioglu@windriver.com>
+Subject: [hardknott] [PATCH 01/10] libxml2: Fix CVE-2021-3518
+Date: Sat, 29 May 2021 17:06:23 +0100
+Message-Id: <20210529160632.2796977-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210524152106.4160032-1-raj.khem@gmail.com> <CAAnfSTvgOiJ5hvG41fTqW3XD73bBB5nJOG7FaySPzspcGOj1bg@mail.gmail.com>
- <CAMKF1soOUcqa6huRjbn5QgP0hkBaFafS2PkgWHbVazW4R0NRnQ@mail.gmail.com>
- <1682A83F9B9CCAC9.4904@lists.openembedded.org> <1682ACF8BD246772.22476@lists.openembedded.org>
-In-Reply-To: <1682ACF8BD246772.22476@lists.openembedded.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Sat, 29 May 2021 15:09:02 +0200
-Message-ID: <CA+chaQcM29+vxUJnydStiWLTKbTkOW=2z70eNESGM4_boEG=ww@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] gcc: Update to latest on release/gcc-11 branch
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e5a3e405c377b263"
+Content-Transfer-Encoding: 8bit
 
---000000000000e5a3e405c377b263
-Content-Type: text/plain; charset="UTF-8"
+From: Tony Tascioglu <tony.tascioglu@windriver.com>
 
-It's not directly caused by this upgrade, but it revealed interesting issue
-in incremental builds.
+This patch fixes CVE-2021-3518. The fix for the CVE is the
+following 3 lines in 1098c30a:
 
-This is just to document some reproducible cases of "random build issues
-which magically disappeared after -c clean".
+   -                   (cur->children->type != XML_ENTITY_DECL) &&
+   -                   (cur->children->type != XML_XINCLUDE_START) &&
+   -                   (cur->children->type != XML_XINCLUDE_END)) {
+   +                   ((cur->type == XML_DOCUMENT_NODE) ||
+   +                    (cur->type == XML_ELEMENT_NODE))) {
 
-Building in the same TMPDIR with this gcc upgrade resulted in syslinux and
-libvpx failing with couple errors like:
+This relies on an updated version of xinclude.c from upstream which
+also adds several new tests. Those changes are brought in first so
+that the CVE patch can be applied cleanly.
 
-make[4]: Leaving directory
-'/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/bios/com32/tools'
-make[4]: *** No rule to make target
-'/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.0/include/stdarg.h',
-needed by 'zlib/adler32.o'.  Stop.
-make[4]: *** Waiting for unfinished jobs....
-make[4]: Leaving directory
-'/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/bios/com32/lib'
-make[3]: ***
-[/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/Makefile:7:
-lib] Error 2
-make[3]: Leaving directory
-'/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/bios/com32'
-make[2]: ***
-[/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/Makefile:347:
-install] Error 2
-make[2]: Leaving directory
-'/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/bios'
-make[1]: ***
-[/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/Makefile:257:
-bios] Error 2
-make[1]: Leaving directory
-'/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2'
-make: *** [Makefile:102: install] Error 2
-ERROR: oe_runmake failed
+The first patch updates xinclude.c and adds the new tests from
+upstream, and the second applies the fix for the CVE.
 
-Rebuilding from scratch fixes the issue and the 11.1.0 directory was
-referenced in many *.o.d files:
+CVE: CVE-2021-3518
+Upstream-Status: Backport
+[https://gitlab.gnome.org/GNOME/libxml2/-/commit/1098c30a040e72a4654968547f415be4e4c40fe7]
 
+Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-6.04-pre2-r1-broken/syslinux-6.04-pre2/bios/com32/libupload/.upload_srec.o.d
-       2021-05-24 09:56:57.390268171 +0200
-+++ 6.04-pre2-r1/syslinux-6.04-pre2/bios/com32/libupload/.upload_srec.o.d
-    2021-05-29 14:12:45.670506782 +0200
-@@ -7,7 +7,7 @@
+ .../libxml/libxml2/CVE-2021-3518-0001.patch   | 216 ++++++++++++++++++
+ .../libxml/libxml2/CVE-2021-3518-0002.patch   |  45 ++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |   2 +
+ 3 files changed, 263 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3518-0001.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3518-0002.patch
 
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/bitsize32/stddef.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/stdio.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/stdarg.h
-\
--
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.0/include/stdarg.h
-\
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3518-0001.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3518-0001.patch
+new file mode 100644
+index 00000000000..3d4d3a0237e
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3518-0001.patch
+@@ -0,0 +1,216 @@
++From 0f9817c75b50a77c6aeb8f36801966fdadad229a Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Wed, 10 Jun 2020 16:34:52 +0200
++Subject: [PATCH 1/2] Don't recurse into xi:include children in
++ xmlXIncludeDoProcess
 +
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.1/include/stdarg.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/inttypes.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/stdint.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/bitsize/stdint.h
-\
-
-I don't see any easy way how to force them to be regenerated when gcc was
-upgraded.
-
-syslinux uses plain Makefiles and do_configure tries to clean with;
-oe_runmake firmware="bios" clean
-
-Similarly libvpx doesn't use autotools bbclass, but calls configure/make
-manually so also doesn't take advantage of separate B directory and
-removing it before re-executing do_configure.
-
--- 1.8.2-r0-broken/git/vpx_scale/generic/vpx_scale.c.d 2021-05-24
-09:29:44.916405487 +0200
-+++ 1.8.2-r0/git/vpx_scale/generic/vpx_scale.c.d        2021-05-29
-14:12:39.234539166 +0200
-@@ -10,7 +10,7 @@
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/long-double-64.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/gnu/stubs.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/gnu/stubs-64.h
-\
--
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.0/include/stddef.h
-\
++Otherwise, nested xi:include nodes might result in a use-after-free
++if XML_PARSE_NOXINCNODE is specified.
 +
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.1/include/stddef.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/waitflags.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/waitstatus.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/floatn.h
-\
-@@ -49,7 +49,7 @@
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/stdlib-float.h
-\
-  vpx/vpx_integer.h \
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/inttypes.h
-\
--
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.0/include/stdint.h
-\
++Found with libFuzzer and ASan.
 +
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.1/include/stdint.h
-\
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/0f9817c75b50a77c6aeb8f36801966fdadad229a]
++CVE: CVE-2021-3518
++
++This patch brings in the necessary files to allow the 2nd patch that fixes the CVE to be applied.
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
++---
++ result/XInclude/fallback3.xml     |  8 ++++++++
++ result/XInclude/fallback3.xml.err |  0
++ result/XInclude/fallback3.xml.rdr | 25 +++++++++++++++++++++++++
++ result/XInclude/fallback4.xml     | 10 ++++++++++
++ result/XInclude/fallback4.xml.err |  0
++ result/XInclude/fallback4.xml.rdr | 29 +++++++++++++++++++++++++++++
++ test/XInclude/docs/fallback3.xml  |  9 +++++++++
++ test/XInclude/docs/fallback4.xml  |  7 +++++++
++ xinclude.c                        | 24 ++++++++++--------------
++ 9 files changed, 98 insertions(+), 14 deletions(-)
++ create mode 100644 result/XInclude/fallback3.xml
++ create mode 100644 result/XInclude/fallback3.xml.err
++ create mode 100644 result/XInclude/fallback3.xml.rdr
++ create mode 100644 result/XInclude/fallback4.xml
++ create mode 100644 result/XInclude/fallback4.xml.err
++ create mode 100644 result/XInclude/fallback4.xml.rdr
++ create mode 100644 test/XInclude/docs/fallback3.xml
++ create mode 100644 test/XInclude/docs/fallback4.xml
++
++diff --git a/result/XInclude/fallback3.xml b/result/XInclude/fallback3.xml
++new file mode 100644
++index 0000000..b423551
++--- /dev/null
+++++ b/result/XInclude/fallback3.xml
++@@ -0,0 +1,8 @@
+++<?xml version="1.0"?>
+++<a>
+++    <doc xml:base="../ents/something.xml">
+++<p>something</p>
+++<p>really</p>
+++<p>simple</p>
+++</doc>
+++</a>
++diff --git a/result/XInclude/fallback3.xml.err b/result/XInclude/fallback3.xml.err
++new file mode 100644
++index 0000000..e69de29
++diff --git a/result/XInclude/fallback3.xml.rdr b/result/XInclude/fallback3.xml.rdr
++new file mode 100644
++index 0000000..aa2f137
++--- /dev/null
+++++ b/result/XInclude/fallback3.xml.rdr
++@@ -0,0 +1,25 @@
+++0 1 a 0 0
+++1 14 #text 0 1 
+++    
+++1 1 doc 0 0
+++2 14 #text 0 1 
+++
+++2 1 p 0 0
+++3 3 #text 0 1 something
+++2 15 p 0 0
+++2 14 #text 0 1 
+++
+++2 1 p 0 0
+++3 3 #text 0 1 really
+++2 15 p 0 0
+++2 14 #text 0 1 
+++
+++2 1 p 0 0
+++3 3 #text 0 1 simple
+++2 15 p 0 0
+++2 14 #text 0 1 
+++
+++1 15 doc 0 0
+++1 14 #text 0 1 
+++
+++0 15 a 0 0
++diff --git a/result/XInclude/fallback4.xml b/result/XInclude/fallback4.xml
++new file mode 100644
++index 0000000..9883fd5
++--- /dev/null
+++++ b/result/XInclude/fallback4.xml
++@@ -0,0 +1,10 @@
+++<?xml version="1.0"?>
+++<a>
+++    
+++            <doc xml:base="../ents/something.xml">
+++<p>something</p>
+++<p>really</p>
+++<p>simple</p>
+++</doc>
+++        
+++</a>
++diff --git a/result/XInclude/fallback4.xml.err b/result/XInclude/fallback4.xml.err
++new file mode 100644
++index 0000000..e69de29
++diff --git a/result/XInclude/fallback4.xml.rdr b/result/XInclude/fallback4.xml.rdr
++new file mode 100644
++index 0000000..628b951
++--- /dev/null
+++++ b/result/XInclude/fallback4.xml.rdr
++@@ -0,0 +1,29 @@
+++0 1 a 0 0
+++1 14 #text 0 1 
+++    
+++1 14 #text 0 1 
+++            
+++1 1 doc 0 0
+++2 14 #text 0 1 
+++
+++2 1 p 0 0
+++3 3 #text 0 1 something
+++2 15 p 0 0
+++2 14 #text 0 1 
+++
+++2 1 p 0 0
+++3 3 #text 0 1 really
+++2 15 p 0 0
+++2 14 #text 0 1 
+++
+++2 1 p 0 0
+++3 3 #text 0 1 simple
+++2 15 p 0 0
+++2 14 #text 0 1 
+++
+++1 15 doc 0 0
+++1 14 #text 0 1 
+++        
+++1 14 #text 0 1 
+++
+++0 15 a 0 0
++diff --git a/test/XInclude/docs/fallback3.xml b/test/XInclude/docs/fallback3.xml
++new file mode 100644
++index 0000000..0c8b6c9
++--- /dev/null
+++++ b/test/XInclude/docs/fallback3.xml
++@@ -0,0 +1,9 @@
+++<a>
+++    <xi:include href="../ents/something.xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+++        <xi:fallback>
+++            <xi:include href="c.xml">
+++                <xi:fallback>There is no c.xml ... </xi:fallback>
+++            </xi:include>
+++        </xi:fallback>
+++    </xi:include>
+++</a>
++diff --git a/test/XInclude/docs/fallback4.xml b/test/XInclude/docs/fallback4.xml
++new file mode 100644
++index 0000000..b500a63
++--- /dev/null
+++++ b/test/XInclude/docs/fallback4.xml
++@@ -0,0 +1,7 @@
+++<a>
+++    <xi:include href="c.xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+++        <xi:fallback>
+++            <xi:include href="../ents/something.xml"/>
+++        </xi:fallback>
+++    </xi:include>
+++</a>
++diff --git a/xinclude.c b/xinclude.c
++index 001e992..6ec5d31 100644
++--- a/xinclude.c
+++++ b/xinclude.c
++@@ -2382,21 +2382,19 @@ xmlXIncludeDoProcess(xmlXIncludeCtxtPtr ctxt, xmlDocPtr doc, xmlNodePtr tree) {
++      * First phase: lookup the elements in the document
++      */
++     cur = tree;
++-    if (xmlXIncludeTestNode(ctxt, cur) == 1)
++-	xmlXIncludePreProcessNode(ctxt, cur);
++     while ((cur != NULL) && (cur != tree->parent)) {
++ 	/* TODO: need to work on entities -> stack */
++-	if ((cur->children != NULL) &&
++-	    (cur->children->type != XML_ENTITY_DECL) &&
++-	    (cur->children->type != XML_XINCLUDE_START) &&
++-	    (cur->children->type != XML_XINCLUDE_END)) {
++-	    cur = cur->children;
++-	    if (xmlXIncludeTestNode(ctxt, cur))
++-		xmlXIncludePreProcessNode(ctxt, cur);
++-	} else if (cur->next != NULL) {
+++        if (xmlXIncludeTestNode(ctxt, cur) == 1) {
+++            xmlXIncludePreProcessNode(ctxt, cur);
+++        } else if ((cur->children != NULL) &&
+++                   (cur->children->type != XML_ENTITY_DECL) &&
+++                   (cur->children->type != XML_XINCLUDE_START) &&
+++                   (cur->children->type != XML_XINCLUDE_END)) {
+++            cur = cur->children;
+++            continue;
+++        }
+++	if (cur->next != NULL) {
++ 	    cur = cur->next;
++-	    if (xmlXIncludeTestNode(ctxt, cur))
++-		xmlXIncludePreProcessNode(ctxt, cur);
++ 	} else {
++ 	    if (cur == tree)
++ 	        break;
++@@ -2406,8 +2404,6 @@ xmlXIncludeDoProcess(xmlXIncludeCtxtPtr ctxt, xmlDocPtr doc, xmlNodePtr tree) {
++ 		    break; /* do */
++ 		if (cur->next != NULL) {
++ 		    cur = cur->next;
++-		    if (xmlXIncludeTestNode(ctxt, cur))
++-			xmlXIncludePreProcessNode(ctxt, cur);
++ 		    break; /* do */
++ 		}
++ 	    } while (cur != NULL);
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3518-0002.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3518-0002.patch
+new file mode 100644
+index 00000000000..de5fc0e8cbe
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3518-0002.patch
+@@ -0,0 +1,45 @@
++From 1098c30a040e72a4654968547f415be4e4c40fe7 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Thu, 22 Apr 2021 19:26:28 +0200
++Subject: [PATCH 2/2] Fix user-after-free with `xmllint --xinclude --dropdtd`
++
++The --dropdtd option can leave dangling pointers in entity reference
++nodes. Make sure to skip these nodes when processing XIncludes.
++
++This also avoids scanning entity declarations and even modifying
++them inadvertently during XInclude processing.
++
++Move from a block list to an allow list approach to avoid descending
++into other node types that can't contain elements.
++
++Fixes #237.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1098c30a040e72a4654968547f415be4e4c40fe7]
++CVE: CVE-2021-3518
++
++[OP: adjusted context]
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
++---
++ xinclude.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/xinclude.c b/xinclude.c
++index 6ec5d31..b8eebcc 100644
++--- a/xinclude.c
+++++ b/xinclude.c
++@@ -2387,9 +2387,8 @@ xmlXIncludeDoProcess(xmlXIncludeCtxtPtr ctxt, xmlDocPtr doc, xmlNodePtr tree) {
++         if (xmlXIncludeTestNode(ctxt, cur) == 1) {
++             xmlXIncludePreProcessNode(ctxt, cur);
++         } else if ((cur->children != NULL) &&
++-                   (cur->children->type != XML_ENTITY_DECL) &&
++-                   (cur->children->type != XML_XINCLUDE_START) &&
++-                   (cur->children->type != XML_XINCLUDE_END)) {
+++                   ((cur->type == XML_DOCUMENT_NODE) ||
+++                    (cur->type == XML_ELEMENT_NODE))) {
++             cur = cur->children;
++             continue;
++         }
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index b850164285a..a9bff74b553 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -26,6 +26,8 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://fix-python39.patch \
+            file://CVE-2021-3517.patch \
+            file://CVE-2021-3516.patch \
++           file://CVE-2021-3518-0001.patch \
++           file://CVE-2021-3518-0002.patch \
+            file://CVE-2021-3537.patch \
+            "
+ 
+-- 
+2.30.2
 
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/stdint.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/wchar.h
-\
-
-/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/stdint-uintn.h
-\
-
-Any ideas how to detect and prevent this kind of issues in some generic way
-so that we don't need to explicitly fix the recipes?
-Bumping tmp-glibc/abi_version on every minor gcc upgrade also seems a bit
-overkill (as gcc upgrades might not be the only source of these kind of
-issues anyway).
-
-Regards,
-
-On Wed, May 26, 2021 at 7:10 PM Martin Jansa via lists.openembedded.org
-<Martin.Jansa=gmail.com@lists.openembedded.org> wrote:
-
-> On Wed, May 26, 2021 at 5:43 PM Martin Jansa via lists.openembedded.org
-> <Martin.Jansa=gmail.com@lists.openembedded.org> wrote
->
->> I'm seeing different error with gcc-sanitizers and this new revision:
->>
->> work-shared/gcc-11.1.0-r0/gcc-11.1.0/libsanitizer/lsan/lsan_common_linux.cpp:164:25:
->> error: invalid conversion from 'void (*)(void*)' to 'void* (*)(void*)'
->> [-fpermissive]
->>
->> will double-check if it was introduced by this upgrade or something else
->> in oe-core master update today and also if there is a fix in even newer gcc
->> already.
->>
->
-> Sorry for noise, this line of code comes from our local patch and the
-> upgrade just started triggering this issue in it.
->
-> 
->
->
-
---000000000000e5a3e405c377b263
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">It&#39;s not directly caused by this upgrade, but it revea=
-led interesting issue in incremental builds.<div><br></div><div>This is jus=
-t to document some reproducible cases of &quot;random build issues which ma=
-gically disappeared after -c clean&quot;.<br><div><br></div><div>Building i=
-n the same TMPDIR with this gcc upgrade resulted in syslinux and libvpx fai=
-ling with couple errors like:</div><div><br></div><div>make[4]: Leaving dir=
-ectory &#39;/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-w=
-ebos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/bios/com32/tools&#39;<b=
-r>make[4]: *** No rule to make target &#39;/OE/build/luneos-honister/webos-=
-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/recipe-sysr=
-oot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.0/include=
-/stdarg.h&#39;, needed by &#39;zlib/adler32.o&#39;.=C2=A0 Stop.<br>make[4]:=
- *** Waiting for unfinished jobs....<br>make[4]: Leaving directory &#39;/OE=
-/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/sysl=
-inux/6.04-pre2-r1/syslinux-6.04-pre2/bios/com32/lib&#39;<br>make[3]: *** [/=
-OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/sy=
-slinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/Makefile:7: lib] Error 2<br>ma=
-ke[3]: Leaving directory &#39;/OE/build/luneos-honister/webos-ports/tmp-gli=
-bc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/bios/=
-com32&#39;<br>make[2]: *** [/OE/build/luneos-honister/webos-ports/tmp-glibc=
-/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/Makefil=
-e:347: install] Error 2<br>make[2]: Leaving directory &#39;/OE/build/luneos=
--honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre=
-2-r1/syslinux-6.04-pre2/bios&#39;<br>make[1]: *** [/OE/build/luneos-honiste=
-r/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/sys=
-linux-6.04-pre2/Makefile:257: bios] Error 2<br>make[1]: Leaving directory &=
-#39;/OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-lin=
-ux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2&#39;<br>make: *** [Makefile:102=
-: install] Error 2<br>ERROR: oe_runmake failed<br></div><div><br></div><div=
->Rebuilding from scratch fixes the issue and the 11.1.0 directory was refer=
-enced in many *.o.d files:</div><div><br></div><div>--- 6.04-pre2-r1-broken=
-/syslinux-6.04-pre2/bios/com32/libupload/.upload_srec.o.d =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A02021-05-24 09:56:57.390268171 +0200<br>+++ 6.04-pre2-r1/syslinux=
--6.04-pre2/bios/com32/libupload/.upload_srec.o.d =C2=A0 =C2=A0 =C2=A0 2021-=
-05-29 14:12:45.670506782 +0200<br>@@ -7,7 +7,7 @@<br>=C2=A0 /OE/build/luneo=
-s-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pr=
-e2-r1/syslinux-6.04-pre2/com32/include/bitsize32/stddef.h \<br>=C2=A0 /OE/b=
-uild/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslin=
-ux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/stdio.h \<br>=C2=A0 /OE/bu=
-ild/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinu=
-x/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/stdarg.h \<br>- /OE/build/l=
-uneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/syslinux/6.0=
-4-pre2-r1/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64-webos=
--linux/11.1.0/include/stdarg.h \<br>+ /OE/build/luneos-honister/webos-ports=
-/tmp-glibc/work/core2-64-webos-linux/syslinux/6.04-pre2-r1/recipe-sysroot-n=
-ative/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.1/include/stda=
-rg.h \<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2=
--64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/intt=
-ypes.h \<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/cor=
-e2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/st=
-dint.h \<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/cor=
-e2-64-webos-linux/syslinux/6.04-pre2-r1/syslinux-6.04-pre2/com32/include/bi=
-tsize/stdint.h \<br></div><div><br></div><div>I don&#39;t see any easy way =
-how to force them to be regenerated when gcc was upgraded.</div><div><br></=
-div><div>syslinux uses plain Makefiles and do_configure tries to clean with=
-;</div><div>oe_runmake firmware=3D&quot;bios&quot; clean<br></div><div><br>=
-</div><div>Similarly libvpx doesn&#39;t use autotools bbclass, but calls co=
-nfigure/make manually so also doesn&#39;t take advantage of separate B dire=
-ctory and removing it before re-executing do_configure.</div><div><br></div=
-><div>-- 1.8.2-r0-broken/git/vpx_scale/generic/vpx_scale.c.d 2021-05-24 09:=
-29:44.916405487 +0200<br>+++ 1.8.2-r0/git/vpx_scale/generic/vpx_scale.c.d =
-=C2=A0 =C2=A0 =C2=A0 =C2=A02021-05-29 14:12:39.234539166 +0200<br>@@ -10,7=
- +10,7 @@<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/co=
-re2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/long-dou=
-ble-64.h \<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/c=
-ore2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/gnu/stubs.h =
-\<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-w=
-ebos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/gnu/stubs-64.h \<br>-=
- /OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-linux/=
-libvpx/1.8.2-r0/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x86_64=
--webos-linux/11.1.0/include/stddef.h \<br>+ /OE/build/luneos-honister/webos=
--ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot-n=
-ative/usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.1/include/stdd=
-ef.h \<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2=
--64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/waitflags.h=
- \<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-=
-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/waitstatus.h \<=
-br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-web=
-os-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/floatn.h \<br>@@ -=
-49,7 +49,7 @@<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp-glibc/wor=
-k/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include/bits/stdl=
-ib-float.h \<br>=C2=A0 vpx/vpx_integer.h \<br>=C2=A0 /OE/build/luneos-honis=
-ter/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-=
-sysroot/usr/include/inttypes.h \<br>- /OE/build/luneos-honister/webos-ports=
-/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot-native/=
-usr/lib/x86_64-webos-linux/gcc/x86_64-webos-linux/11.1.0/include/stdint.h \=
-<br>+ /OE/build/luneos-honister/webos-ports/tmp-glibc/work/core2-64-webos-l=
-inux/libvpx/1.8.2-r0/recipe-sysroot-native/usr/lib/x86_64-webos-linux/gcc/x=
-86_64-webos-linux/11.1.1/include/stdint.h \<br>=C2=A0 /OE/build/luneos-honi=
-ster/webos-ports/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe=
--sysroot/usr/include/stdint.h \<br>=C2=A0 /OE/build/luneos-honister/webos-p=
-orts/tmp-glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr=
-/include/bits/wchar.h \<br>=C2=A0 /OE/build/luneos-honister/webos-ports/tmp=
--glibc/work/core2-64-webos-linux/libvpx/1.8.2-r0/recipe-sysroot/usr/include=
-/bits/stdint-uintn.h \</div></div><div><br></div><div>Any ideas how to dete=
-ct and prevent this kind of issues in some generic way so that we don&#39;t=
- need to explicitly fix the recipes? Bumping=C2=A0tmp-glibc/abi_version on =
-every minor gcc upgrade also seems a bit overkill (as gcc upgrades might no=
-t be the only source of these kind of issues anyway).</div><div><br></div><=
-div>Regards,</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Wed, May 26, 2021 at 7:10 PM Martin Jansa via <a href=
-=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembedded.or=
-g</a> &lt;Martin.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org=
-" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div d=
-ir=3D"ltr">On Wed, May 26, 2021 at 5:43 PM Martin Jansa via <a href=3D"http=
-://lists.openembedded.org" target=3D"_blank">lists.openembedded.org</a> &lt=
-;Martin.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
-=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote<br></div><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><div>I&#39;m seeing different error with gcc-sanitizers and th=
-is new revision:</div><div><br></div>work-shared/gcc-11.1.0-r0/gcc-11.1.0/l=
-ibsanitizer/lsan/lsan_common_linux.cpp:164:25: error: invalid conversion fr=
-om &#39;void (*)(void*)&#39; to &#39;void* (*)(void*)&#39; [-fpermissive]<b=
-r><div><br></div><div>will double-check if it was introduced by this upgrad=
-e or something else in oe-core master update today and also if there is a f=
-ix in even newer gcc already.</div></div></blockquote><div><br></div><div>S=
-orry for noise, this line of code comes from our local patch and the upgrad=
-e just started triggering this issue in it.</div></div></div>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000e5a3e405c377b263--
