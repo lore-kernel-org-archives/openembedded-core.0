@@ -1,43 +1,43 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web10.19666.1622285895262075172
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web11.19689.1622285896456075931
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 May 2021 03:58:15 -0700
+ Sat, 29 May 2021 03:58:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RNs4crwx;
- spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id b25so6879237iot.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 May 2021 03:58:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RvMxE/eh;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id a6so6901530ioe.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 May 2021 03:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=d7B6fQbuVDDt8CMYtDgIclnQanGfSSTluca8SKK0Yu8=;
-        b=RNs4crwxl/rvi89HwjAs/6l6W+23Vwwg0aniCD3wQLBd2oYqCHwPZMHBrlfvUFQw77
-         YHPjQk107bcGTMBj2IEN621V98h2DliueewQ6N8YSGS27QWNW3TU64BGgPZvfxzSPUVX
-         UcrlVxu5YbGkdFYT3kg9J2+UY7bXKNsAvJUo9n6oAR2AoJlf66Aw0TC6r7PZdCdPY9zA
-         NW3l7OtsndrD/uEjx9hTIH8EuqyMQkDXBtGhxoxoZuuA2fMaPl2Z7BMyFB9Y0tPKfum6
-         wLTGqgoyB8mkhLHfOaejoEjYS3lkRuOI4x7qaVIepo14RPdk267S53UQpmGLLUfUd0FC
-         2mwQ==
+        bh=6R+LMwqYDJ21zYwCl+6UWaYSntS2RTcaRI3dme6jeTM=;
+        b=RvMxE/ehqPiEavhdZhr25lnn1rE3mTpEw8qGwVJqMGAM2y42+EB50VA2o00ufV2LzO
+         t1e+2vSKcRP1bsm4jYkBj9Y5jIC/Zrw/BHQ8BipLGbdZnDJo9wVMWtujz6NlWxMSWT0e
+         lkeBrE7jKCOVwY0aNg0kuLFUyCd3rkzd8TZILa2McLsmtgXcSuhp3dUC1LSX/MxhOA+M
+         O+Kn+LhQorOcCD11iVje7ElQRfNu7A6YZT/rxoKmM03QbETuWOCqtTT8BIUtuYFiojse
+         8fKmEKWRUDI/VWJVPJRW5Zu8GZwqy5Yj0O+c6yDyCz1NhYL/mrwodcghwq+p4hu9mjoW
+         F89g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=d7B6fQbuVDDt8CMYtDgIclnQanGfSSTluca8SKK0Yu8=;
-        b=pBr4Qm0K+W+XYEPPcksH0f2fU2p5ZL8A7cKMhqdL/m8p5ebL/q19Uu5D85B6FRkQ42
-         V2zEv8E+tkp+jjqVgeT3d4otsjSFHHOaMJZqaagimaWXQ2pdiv6QYNc/aOc2LNr8xISn
-         XDcLHm0RwBikIGLvRSR432Vrgn0TsjJi3p2uZJm0MBF2p7veRI0kW9vf6VUt+2VKTmVb
-         sBZ2n4eQn4eb0eD7O6rCqSoJdUDVVtZ8LGLTETFvH/OX747WTw7mAZJuHBWbQadymLkL
-         nVlpWPfuaiNjWjb7yGCxYk7mdYY4MJ+2Hgj+DIZ2Bo1Gr3CV2vUwMOlWLf7aNml+Mkme
-         RAmw==
-X-Gm-Message-State: AOAM5328f4ZYsqrdsbW4JZ0AWEdHI+ReZr5L0KPOjwur0TUYQ3US5/9c
-	B1NvAXwDM6Vi1yhageb+PM9ppBD9r/PXWWve
-X-Google-Smtp-Source: ABdhPJwoA9ceZfbe+dN9fPSRI+If4joMaJR/28H85wDBOTNFw7Btp6yyS50gl0LcD4peO4P/kYvC2Q==
-X-Received: by 2002:a6b:7948:: with SMTP id j8mr10201148iop.32.1622285894227;
-        Sat, 29 May 2021 03:58:14 -0700 (PDT)
+        bh=6R+LMwqYDJ21zYwCl+6UWaYSntS2RTcaRI3dme6jeTM=;
+        b=WnCGCHmUxkrZOSvLgyMD+NTpY4cZsESteYA0iaTP1yyDYPBAV2iKcmd2euWFiSkZWb
+         mI4mp9rx+rzLZNL8SnfEw9B4YC+QTXJ4kZwSuBLQ+LdThfQHr9dDmcyd/4+ZxarisPDE
+         NBvDUZo4OYex+EdeqyUcmlUFpZu+Ujq+XIcHoY/wobI+dQwIB0wD0qnYOZObO4F5MSU9
+         KILoD6bE40BZ17kPv+wuE85I4//3sEyDtM0w6t83JUcFE1CJ/DU9FEiOQRvYuq6sb8Rn
+         LtYAjory5TYgkGQdcSnziOfFlHBxA0krTL9ppXw57Kcszdfyt0jKVa9bR5Ctj79ioqeY
+         GqcA==
+X-Gm-Message-State: AOAM531K3huh+ysffhk+/pluf+FkvJLtw/y1YECMfMh354gwN+seuWLH
+	8U6G0PndU186Gi5NctenMuq3gYxAanLJ7HLw
+X-Google-Smtp-Source: ABdhPJzWsn0m/Vs7hNzf/rIeZ10aF4aaSmARA+F2IeaJNXLeaa+3S0F5SwfTyCMYHhCpnY9u7w4BLA==
+X-Received: by 2002:a02:a316:: with SMTP id q22mr12246632jai.26.1622285895496;
+        Sat, 29 May 2021 03:58:15 -0700 (PDT)
 Return-Path: <vinay.m.engg@gmail.com>
 Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id o5sm4441174ilm.78.2021.05.29.03.58.13
+        by smtp.gmail.com with ESMTPSA id o5sm4441174ilm.78.2021.05.29.03.58.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 May 2021 03:58:13 -0700 (PDT)
+        Sat, 29 May 2021 03:58:14 -0700 (PDT)
 From: "Vinay Kumar" <vinay.m.engg@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	alex.kanavin@gmail.com
@@ -47,40 +47,87 @@ Cc: richard.purdie@linuxfoundation.org,
 	umesh.kalappa0@gmail.com,
 	vinay.kumar@blackfigtech.com,
 	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH v8 3/5] rust.inc : Changed target cpu for powerpc to "7400"
-Date: Sat, 29 May 2021 03:57:47 -0700
-Message-Id: <20210529105749.3017489-3-vinay.m.engg@gmail.com>
+Subject: [PATCH v8 4/5] oeqa/selftest/cases/rust.py: Rust oe-selftest script.
+Date: Sat, 29 May 2021 03:57:48 -0700
+Message-Id: <20210529105749.3017489-4-vinay.m.engg@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210529105749.3017489-1-vinay.m.engg@gmail.com>
 References: <CANNYZj8i1D15ePeor45k2Mpec3vq7y6PSU8+ynLvSzRdnfL1Hg@mail.gmail.com>
  <20210529105749.3017489-1-vinay.m.engg@gmail.com>
 
-While executing rust-testing observed some ui testfailures due to
-below warning message.
+Build remote-test-server copy to image and execute
+remotely through background ssh.
 
-'powerpc' is not a recognized processor for this target in rust
+Execute rust testing by exporting required paths.
+And capture the output in result.output
 
-So renamed target cpu for "powerpc" in "llvm_cpu" to "7400" as per
-default tune for qemuppc.
+Print the results in case of failure of runCmd().
 
 Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 ---
- meta/recipes-devtools/rust/rust.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/rust.py | 53 ++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
 
-diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
-index a1223f45e7..ee3176b559 100644
---- a/meta/recipes-devtools/rust/rust.inc
-+++ b/meta/recipes-devtools/rust/rust.inc
-@@ -290,7 +290,7 @@ def llvm_cpu(d):
-     trans['x86-64'] = "x86-64"
-     trans['i686'] = "i686"
-     trans['i586'] = "i586"
--    trans['powerpc'] = "powerpc"
-+    trans['powerpc'] = "7400"
-     trans['mips64'] = "mips64"
-     trans['mips64el'] = "mips64"
-     trans['riscv64'] = "generic-rv64"
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+new file mode 100644
+index 0000000000..ee61216e02
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -0,0 +1,53 @@
++# SPDX-License-Identifier: MIT
++import os
++import subprocess
++from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu, Command
++from oeqa.utils.sshcontrol import SSHControl
++
++# Total time taken for testing is of about 2hr 20min, with PARALLEL_MAKE set to 40 number of jobs.
++class RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
++
++	def run_check_emulated(self, *args, **kwargs):
++		# build remote-test-server before image build
++		recipe = "rust-testsuite"
++		bitbake("{} -c compile".format(recipe))
++		builddir = get_bb_var("B", "rust-testsuite")
++		# build core-image-minimal with required packages
++		default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
++		features = []
++		features.append('IMAGE_FEATURES += "ssh-server-openssh"')
++		features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(default_installed_packages)))
++		self.write_config("\n".join(features))
++		bitbake("core-image-minimal")
++		# wrap the execution with a qemu instance
++		with runqemu("core-image-minimal", runqemuparams = "nographic") as qemu:
++			# Copy remote-test-server to image through scp
++			ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user="root")
++			ssh.copy_to(builddir + "/" + "build/x86_64-unknown-linux-gnu/stage2-tools-bin/remote-test-server","~/")
++			# Execute remote-test-server on image through background ssh
++			command = '~/remote-test-server -v remote'
++			sshrun=subprocess.Popen(("ssh", '-o',  'UserKnownHostsFile=/dev/null', '-o',  'StrictHostKeyChecking=no', '-f', "root@%s" % qemu.ip, command),
++                                shell=False,
++                                stdout=subprocess.PIPE,
++                                stderr=subprocess.PIPE)
++			# Get the values of variables.
++			targetsys = get_bb_var("TARGET_SYS", "rust-testsuite")
++			rustlibpath = get_bb_var("STAGING_LIBDIR_NATIVE", "rust-testsuite")
++			tmpdir = get_bb_var("TMPDIR", "rust-testsuite")
++			testargs = "--no-fail-fast --bless"
++			# Set path for target-poky-linux-gcc, RUST_TARGET_PATH and hosttools.
++			cmd = " export PATH=%s/../bin:$PATH;" % rustlibpath
++			cmd = cmd + " export PATH=%s/../bin/%s:%s/hosttools:$PATH;" % (rustlibpath, targetsys, tmpdir)
++			cmd = cmd + " export RUST_TARGET_PATH=%s/rustlib;" % rustlibpath
++			# Trigger testing.
++			cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
++			cmd = cmd + " cd %s;  python3 src/bootstrap/bootstrap.py test %s --target %s ;" % (builddir, testargs, targetsys)
++			result = runCmd(cmd)
++
++@OETestTag("toolchain-system")
++class RustSelfTestSystemEmulated(RustSelfTestBase):
++	def test_rust(self):
++		self.run_check_emulated("rust")
 -- 
 2.17.1
 
