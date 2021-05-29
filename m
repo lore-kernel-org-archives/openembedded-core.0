@@ -1,163 +1,127 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.22116.1622304395193734441
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web09.22224.1622304395484228218
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 May 2021 09:06:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VENvRRUL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id x8so6238872wrq.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 May 2021 09:06:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YkY1wvjF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id z17so6254089wrq.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 May 2021 09:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jNtBbPmtCVRX6xhV6vQGvJs3LjP22nVv2KJfR2xqK2o=;
-        b=VENvRRUL5GbiZRmq7Y5BLQXBWsuE7na/5HWGOWUjhQprNb7K70t5hnDW5ZKrJHkII6
-         jby8nR6Jxb7UBlBI/J6H+X4OB+RaHT5wMHB4kRwSOvAXfjG1icjz06Z2cBbCtQC5mz08
-         MvJSnDQyTECxMvbCQpC2KEZS+zvnMJdkPgnZU=
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=Pp41i/SzpEiDYeNK78OE+qXTE3NC2ZBiNdMAybnThv8=;
+        b=YkY1wvjFbiCSufnysLt9TLepB49Q0L8BqYU+NtZRqoJNBDd29b3HaR+9zlXD+U++Rp
+         6zYyhImfFXvgIM4amaTUhEPL6ZHi9eSWb4ZD51tR7dBiDMbyit7o08VzNPvcWliD9oyv
+         eoFL2uzt474wKgtOz2r+agMqTFY7tj+iDJXOI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jNtBbPmtCVRX6xhV6vQGvJs3LjP22nVv2KJfR2xqK2o=;
-        b=khdRNQEkNYH9WHhrClcB0UNZTGQWhIJATspvHkyv8PE8Ll9ubj82GcJXVM/dh4l0mn
-         9xRPO+o+pWSMwwPXR7qSgCrFZC4S75FP2c/DY2GSeOTgeFOXUDVRyDV8/NSM8KpZah6z
-         plD2cPadEajaFeCw9mBdqSTxMA4EP7pgk3QnXBhOoOpU2dhdP+0m2e5WQxU9WNP2WimF
-         dppt2UzpopiRQFmX3by8roSxU6xOS2Xsri6OkG/1K5/sLi/DlXnhMXYWJhXyAvB5fJsg
-         A3sxFq3NHrzujEU7a10RgAGfDaoHZ97tULiaEdocWGb1Z0djg5/1pq8+vNWpsKjp3ZFA
-         YC5A==
-X-Gm-Message-State: AOAM531PGJd4mrhc+dGsJk4VlzdqDGO+CBoKuCQiC7tUV0Na4lSIRMX2
-	gc77l1QLACnT2tr760hTNuC8w2/FUE4awA==
-X-Google-Smtp-Source: ABdhPJzq6d2lv2kpStlOY80U1cRAOGLj2xShGW0Wb43H49dYe5SsnmcVZuWq90p0E7JEQ1gVN4UOmQ==
-X-Received: by 2002:a5d:59a4:: with SMTP id p4mr14626575wrr.248.1622304393488;
+        bh=Pp41i/SzpEiDYeNK78OE+qXTE3NC2ZBiNdMAybnThv8=;
+        b=LbcgtdCT+PZPNL0J/Cp94qAv8Aoday90R6TIy9rOmCkS9WsFPsC/WHRaFilb3iOOMi
+         4NcpQ1kBFQSGNtsYNoPO4/sBFLtZhCW0UvBj1RI1bhadzVpBgFo4h1AK0h050WRlbYaf
+         IK6BBcXNQNRuh0ywU2oUPwpMPWiDJGqVWh+Kr8hC3zvb24K3f/eLOGe/a1AN2ngHS6jE
+         EzmR9jFvCoDgAJuW81cu5FTD2HoNXiHcgaIdUCVIaQUXv2AhRwK3HZFVOjk4SIZ1Vm3I
+         w4Hd+aWurtbtzX+QGux7Al24BanNvWZaetm4snX7jHylREeVxeeABeiGDzDBIg5m+Cmb
+         +zMw==
+X-Gm-Message-State: AOAM533GWDjN3//8mtLp9OHZ19epkDtZo7FCshTF2C6/AJD4pETvlQN7
+	x3+QONqvL/ljqBHkyknIoyd0gzBgK5isKw==
+X-Google-Smtp-Source: ABdhPJzlM65UsTjYF6H+MkhBgephYeJ+pMsw/aNmLOzlr35BBa0XzI4sXNKuL5aCiHXvoaiP81z6kw==
+X-Received: by 2002:adf:f811:: with SMTP id s17mr14170618wrp.245.1622304393895;
         Sat, 29 May 2021 09:06:33 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:314e:6a46:a163:7356])
         by smtp.gmail.com with ESMTPSA id q20sm20873615wmq.2.2021.05.29.09.06.33
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 29 May 2021 09:06:33 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Tony Tascioglu <tony.tascioglu@windriver.com>
-Subject: [hardknott] [PATCH 02/10] libxml2: Fix CVE-2021-3541
-Date: Sat, 29 May 2021 17:06:24 +0100
-Message-Id: <20210529160632.2796977-2-richard.purdie@linuxfoundation.org>
+Subject: [hardknott] [PATCH 03/10] ltp: Disable problematic tests causing autobuilder hangs
+Date: Sat, 29 May 2021 17:06:25 +0100
+Message-Id: <20210529160632.2796977-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210529160632.2796977-1-richard.purdie@linuxfoundation.org>
 References: <20210529160632.2796977-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Tony Tascioglu <tony.tascioglu@windriver.com>
+We've seen three hangs in cgroup_xattr and two in proc01 so far. The new
+plan is just to disable any tests seen to hang. I've had enough of these
+causing problems on our testing infrastructure.
 
-Upstream commit:
-This is related to parameter entities expansion and following
-the line of the billion laugh attack. Somehow in that path the
-counting of parameters was missed and the normal algorithm based
-on entities "density" was useless.
-
-CVE: CVE-2021-3541
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/8598060bacada41a0eb09d95c97744ff4e428f8e]
-
-Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libxml/libxml2/CVE-2021-3541.patch        | 73 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3541.patch
+ .../ltp/ltp/disable_hanging_tests.patch       | 45 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20210121.bb     |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3541.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3541.patch
+diff --git a/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch b/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
 new file mode 100644
-index 00000000000..3b86278ac4d
+index 00000000000..113ac0fefec
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3541.patch
-@@ -0,0 +1,73 @@
-+From 8598060bacada41a0eb09d95c97744ff4e428f8e Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Thu, 13 May 2021 14:55:12 +0200
-+Subject: [PATCH] Patch for security issue CVE-2021-3541
++++ b/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
+@@ -0,0 +1,45 @@
++This patch disables tests which we've found "hang" on our infrastructure.
 +
-+This is relapted to parameter entities expansion and following
-+the line of the billion laugh attack. Somehow in that path the
-+counting of parameters was missed and the normal algorithm based
-+on entities "density" was useless.
++cgroup_xattr:
++https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1926 (x86)
++https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1898 (x86)
++https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1916 (x86)
 +
-+CVE: CVE-2021-3541
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/8598060bacada41a0eb09d95c97744ff4e428f8e]
++proc01:
++https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/1748 (arm)
++https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/1781 (arm)
++(in the latter was trying to read /proc/kmsg)
++(the above test looks horrible anyway)
 +
-+Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
++Upstream-Status: Inappropriate [OE Configuration]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +
-+---
-+ parser.c | 26 ++++++++++++++++++++++++++
-+ 1 file changed, 26 insertions(+)
-+
-+diff --git a/parser.c b/parser.c
-+index f5e5e169..c9312fa4 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -140,6 +140,7 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
-+                      xmlEntityPtr ent, size_t replacement)
-+ {
-+     size_t consumed = 0;
-++    int i;
++Index: git/runtest/controllers
++===================================================================
++--- git.orig/runtest/controllers
+++++ git/runtest/controllers
++@@ -352,8 +352,6 @@ cpuset_memory_spread	cpuset_memory_sprea
 + 
-+     if ((ctxt == NULL) || (ctxt->options & XML_PARSE_HUGE))
-+         return (0);
-+@@ -177,6 +178,28 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t size,
-+ 	    rep = NULL;
-+ 	}
-+     }
-++
-++    /*
-++     * Prevent entity exponential check, not just replacement while
-++     * parsing the DTD
-++     * The check is potentially costly so do that only once in a thousand
-++     */
-++    if ((ctxt->instate == XML_PARSER_DTD) && (ctxt->nbentities > 10000) &&
-++        (ctxt->nbentities % 1024 == 0)) {
-++	for (i = 0;i < ctxt->inputNr;i++) {
-++	    consumed += ctxt->inputTab[i]->consumed +
-++	               (ctxt->inputTab[i]->cur - ctxt->inputTab[i]->base);
-++	}
-++	if (ctxt->nbentities > consumed * XML_PARSER_NON_LINEAR) {
-++	    xmlFatalErr(ctxt, XML_ERR_ENTITY_LOOP, NULL);
-++	    ctxt->instate = XML_PARSER_EOF;
-++	    return (1);
-++	}
-++	consumed = 0;
-++    }
-++
-++
-++
-+     if (replacement != 0) {
-+ 	if (replacement < XML_MAX_TEXT_LENGTH)
-+ 	    return(0);
-+@@ -7963,6 +7986,9 @@ xmlParsePEReference(xmlParserCtxtPtr ctxt)
-+             xmlChar start[4];
-+             xmlCharEncoding enc;
++ cpuset_regression_test cpuset_regression_test.sh
 + 
-++	    if (xmlParserEntityCheck(ctxt, 0, entity, 0))
-++	        return;
-++
-+ 	    if ((entity->etype == XML_EXTERNAL_PARAMETER_ENTITY) &&
-+ 	        ((ctxt->options & XML_PARSE_NOENT) == 0) &&
-+ 		((ctxt->options & XML_PARSE_DTDVALID) == 0) &&
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index a9bff74b553..ce4f9a33408 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://CVE-2021-3518-0001.patch \
-            file://CVE-2021-3518-0002.patch \
-            file://CVE-2021-3537.patch \
-+           file://CVE-2021-3541.patch \
++-cgroup_xattr	cgroup_xattr
++-
++ pids_1_1 pids.sh 1 1 0
++ pids_1_2 pids.sh 1 2 0
++ pids_1_10 pids.sh 1 10 0
++Index: git/runtest/fs
++===================================================================
++--- git.orig/runtest/fs
+++++ git/runtest/fs
++@@ -64,11 +64,6 @@ writetest01	writetest
++ #Also run the fs_di (Data Integrity tests)
++ fs_di fs_di -d $TMPDIR
++ 
++-# Read every file in /proc. Not likely to crash, but does enough
++-# to disturb the kernel. A good kernel latency killer too.
++-# Was not sure why it should reside in runtest/crashme and won't get tested ever
++-proc01 proc01 -m 128
++-
++ read_all_dev read_all -d /dev -p -q -r 3
++ read_all_proc read_all -d /proc -q -r 3
++ read_all_sys read_all -d /sys -q -r 3
+diff --git a/meta/recipes-extended/ltp/ltp_20210121.bb b/meta/recipes-extended/ltp/ltp_20210121.bb
+index d98c9fdc250..17adbf43f0a 100644
+--- a/meta/recipes-extended/ltp/ltp_20210121.bb
++++ b/meta/recipes-extended/ltp/ltp_20210121.bb
+@@ -42,6 +42,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0001-open_posix_testsuite-generate-makefiles.sh-Avoid-inc.patch \
+            file://0002-Makefile-Avoid-wildcard-determinism-issues.patch \
+            file://0003-syscalls-swapon-swapoff-Move-common-library-to-libs.patch \
++           file://disable_hanging_tests.patch \
             "
  
- SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
+ S = "${WORKDIR}/git"
 -- 
 2.30.2
 
