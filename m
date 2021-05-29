@@ -1,78 +1,82 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.22280.1622304397435455585
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.22119.1622304397713333263
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 May 2021 09:06:37 -0700
+ Sat, 29 May 2021 09:06:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BpGlIWW/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id f6-20020a1c1f060000b0290175ca89f698so6199648wmf.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RtaFHKEn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id c3so6243250wrp.8
         for <openembedded-core@lists.openembedded.org>; Sat, 29 May 2021 09:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AFApdWKBA6USH9amEbG1weyP4j/ei/tDWwWLQZ6cpMY=;
-        b=BpGlIWW/0/G/2AvuKkL70Zztft9Cud6ld5eKzUpOw6ktDSuF7xIai3wx8i6UcZbVDT
-         0zWpRDjlHuhgYA9K3cOVFnL3h1QY1wvcfvhnkAx7bf9XBtztVxRFB2nZRaRspJpzTaDq
-         3KJH904rqCKeOBtWDXwu3jAJcY28HGWimP65g=
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=+tDpEXvJJC40SK0+wtIbaTkdwAIasUQAy2L45h7sp7I=;
+        b=RtaFHKEnBI0gH2t6dXkDsP3TMlwMDVuzPyp4y7eu07JTVbPKSfq4jnbceloKx9LIOI
+         X2EkL4F/xdLA+D1tl9xU2FKt/9/WJpnDqiJVVj0LVEAk8NicdhJ1wcgqdhdidqxCMT/m
+         l6VB2OJ+VJxbDSulqFnRHZx4/CA+e+bibw0cU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AFApdWKBA6USH9amEbG1weyP4j/ei/tDWwWLQZ6cpMY=;
-        b=eQkj1gNdTNR2rZ+Dnltzq9UHUfhzroZImTVuLyFopOb/g/FARNRbXM8rS0wyvu+4XT
-         kKDvanB5h80UB51rDT5c6dm5EDO/emLApV8fWj+Cuw3CoMul5aYVFIZVB2RGiId29wWA
-         ssWZnXr874ntn/fSTtEn9lNGKzxCfGWd1eD1kIy8EGF25EwWDGeeATNLvGdCHCAlNvJt
-         gx3vGUM14ByTa1y/bNkQeQujNo5qzvKBW9U+9wSamzSon0XcY47Gay3167jcgrbP7lo5
-         1psUTUO9/L/TRVVzt+iHUF0wQXdl8c6uYbcGE0tkoTi9TQB9jy28fHvVipAPI1LNDfqW
-         mlOg==
-X-Gm-Message-State: AOAM530EKQ3KiP2JbtStT3SAfvNey4BRGeTheHnkXW/nhEP4sFPJPqPE
-	+7lVgDf/AZBpVbtiaMVow7qHEuUNcyUIWg==
-X-Google-Smtp-Source: ABdhPJw3WBewAtVnjhFqbzH3R19cz3Ql9Zkdz/yOs+GJ5THprzjIEb76nQ/YNVp7CYA8N9u4VT5Mcg==
-X-Received: by 2002:a1c:b783:: with SMTP id h125mr5573652wmf.182.1622304395815;
-        Sat, 29 May 2021 09:06:35 -0700 (PDT)
+        bh=+tDpEXvJJC40SK0+wtIbaTkdwAIasUQAy2L45h7sp7I=;
+        b=g0TBqbtzhpcITNd5PmIv19WqnTTixFNCWl1N0D/RFirwtWsehB46CZZRYnj3WTROm8
+         mFdajEk50o0qo8LAjrtdn/s0aCdcJ6RBHQB4DXu14r8jbYbKa2Mh5lDmoIWYiPQC4YSi
+         o2s/sJ4qYhbP/QLXGvhiz6M44KY3xRaR8ZpVS/VsRZZ9jca/P59dr4SIghSskreSxaLd
+         mSsE0UBn0VXle698S148TfMx+mfUINRs/jDBoVjyY5FobYvG/X5U2olphqZpKghQvg4M
+         xVF+T+Sa9q+bbj6zMtA9rVQtZN8r+FGWkUJ3kN5pnrwwlXE+YFZMlF7KmKqMiq5ZgNpW
+         9rBw==
+X-Gm-Message-State: AOAM530Oqjr26DstJYe5OMRMQOzQewd7A2VTtkPmTAFkiduZLBvWfyXt
+	5D1Blz35ESDyCi8MtpV5HdUuiEZkw2trYw==
+X-Google-Smtp-Source: ABdhPJwqvqJmCo7db/vGNOSKbM/8Iivh69Nvj9Au+j/y7Zdia9S3uhpYEmNsnTIMBUloYJwhcnZczA==
+X-Received: by 2002:a05:6000:186a:: with SMTP id d10mr14561494wri.41.1622304396212;
+        Sat, 29 May 2021 09:06:36 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:314e:6a46:a163:7356])
         by smtp.gmail.com with ESMTPSA id q20sm20873615wmq.2.2021.05.29.09.06.35
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 29 May 2021 09:06:35 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [hardknott] [PATCH 07/10] lib/oe/gpg_sign.py: Fix gpg verification
-Date: Sat, 29 May 2021 17:06:29 +0100
-Message-Id: <20210529160632.2796977-7-richard.purdie@linuxfoundation.org>
+Subject: [hardknott] [PATCH 08/10] grub2: Add CVE whitelist entries for issues fixed in 2.06
+Date: Sat, 29 May 2021 17:06:30 +0100
+Message-Id: <20210529160632.2796977-8-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210529160632.2796977-1-richard.purdie@linuxfoundation.org>
 References: <20210529160632.2796977-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+We're using a pre-release version of 2.06 so these issues are fixed but
+continue to show up in the checks since it is pre-2.06 and the CPE
+entries are "before but excluding 2.06".
 
-A stray space made it into the command for verifying gpg signatures.
-This caused verification to fail, at least on my host. Removing the
-space makes it work as expected.
+Adding these will clean up CVE reports until the 2.06 release comes out.
 
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/gpg_sign.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/grub/grub2.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 7634d7ef1db..492f096eaa7 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -111,7 +111,7 @@ class LocalSigner(object):
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 6de683ee1c5..f0fa86b1823 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -27,6 +27,13 @@ SRC_URI[sha256sum] = "2c87f1f21e2ab50043e6cd9163c08f1b6c3a6171556bf23ff9ed65b074
+ REALPV = "2.06~rc1"
+ PV = "2.04+${REALPV}"
  
-     def verify(self, sig_file):
-         """Verify signature"""
--        cmd = self.gpg_cmd + [" --verify", "--no-permission-warning"]
-+        cmd = self.gpg_cmd + ["--verify", "--no-permission-warning"]
-         if self.gpg_path:
-             cmd += ["--homedir", self.gpg_path]
++# Fixed in 2.06~rc1, can be removed for 2.06 final
++CVE_CHECK_WHITELIST += "\
++    CVE-2020-14308 CVE-2020-14309 CVE-2020-14310 CVE-2020-14311 CVE-2020-10713 \
++    CVE-2020-14372 CVE-2020-15705 CVE-2020-15706 CVE-2020-15707 \
++    CVE-2020-25632 CVE-2020-25647 CVE-2020-27749 CVE-2020-27779 \
++    CVE-2021-3418 CVE-2021-20225 CVE-2021-20233"
++
+ S = "${WORKDIR}/grub-${REALPV}"
  
+ UPSTREAM_CHECK_URI = "${GNU_MIRROR}/grub"
 -- 
 2.30.2
 
