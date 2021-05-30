@@ -1,36 +1,36 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web08.36990.1622412543149466421
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web08.36991.1622412543576481188
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 May 2021 15:09:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Od63CGaf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id z19-20020a7bc7d30000b029017521c1fb75so7707398wmk.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TD+A8LW8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id g17so8847871wrs.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=eN54IWytqZgoEkAvExKJUyGUOP3+AdCJpl0fwlbUfs8=;
-        b=Od63CGafL1gd2o/PTXXOtpmu+eEf6CDoAmEX4EpTZWnUspFoxWnt1czBCZLxslNJfk
-         p1e2vI52gDF+98Ie6Koc/+ADjq2/sqnGcX8ZviNwkZL0GZJq0+s77iJW2dm6ywu6k4ZM
-         4CatxWZFcgnsJs9E/hzJl6yAaMyZKyHt1NdlU=
+        bh=S1ntifciGWum7Tdk9iEaD/6gUcKQ6d+UFjFSJNJB8k4=;
+        b=TD+A8LW8nYLNPTlsWbpm4OLFKyW1hRJOZvZmjmIwWGFSKx4PtNFHmkTOHYAiQIMci2
+         ss8ipljiHQXTqxF8YLxY2HkbKLAdKQcP6bMtp8Z1Es3rqtZIlcJcn04aDD3PI+/ZKjsr
+         CRGkEaCG8EBMm5dbTitvd0qHB7JA08UpYkblQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eN54IWytqZgoEkAvExKJUyGUOP3+AdCJpl0fwlbUfs8=;
-        b=LsVIdji/z1JqPVW3LOUmbWDtHFKoWQieP5I+mFF3PkzhAC2Wc6aEVd1KNSytrsST+h
-         /O2t+nZq0lZWvkPd/h4LYO5BzUcNI3QG9Kw3dm1NwvTQeVJJbi2yknQAZ8oNinpvFFkR
-         kTOz5yvSV9GFnB3Eg9E8bdz4MHoEgGUNihUcQhbY/xoZWG21/hK4LT1TSi5Fjz2QlCEK
-         9mxo9y/6V5/sQvYUZkC+K0On/gi3RNsRW1NkQVYiErgV2WjFUTvKHM2OuSEFgl0rbNd3
-         hqkeKjnasCOfouBc+b+CghmCp8E6qh84ppG36yco9gwiVyOlNZx/QNjA9P0EOHJ9Y3Oz
-         yPwQ==
-X-Gm-Message-State: AOAM531i3GVyvN6zb82FgW9ySF1bPguhDhHejJLBWnPOiNznPLoyVEaw
-	ywSYBWVZYSlM9028F0yZEbISuG2idFke9A==
-X-Google-Smtp-Source: ABdhPJynOR3fnicyJdvA6fIraCRNiQCjnW88oPtShTHiQrdJPSzsKApyw2cZcSwdeXR7b53t0DOHUw==
-X-Received: by 2002:a7b:cb4a:: with SMTP id v10mr6185028wmj.158.1622412541735;
-        Sun, 30 May 2021 15:09:01 -0700 (PDT)
+        bh=S1ntifciGWum7Tdk9iEaD/6gUcKQ6d+UFjFSJNJB8k4=;
+        b=EGLdB0W5vnVH3cyKgPt2xn+wU8Ehla+yQs9Jzj+8xF16NXXyK9tgpiMG8xROg2UcEX
+         rhOvlJddoKoxmfGcrDT4z5LcNOZgL/rV08bmkAn7ouMIXi9TxkJ78OGkdT0f7JNGSgHM
+         /kctj37p9zVHW0sud6oSlLopyXPwHg3+MkTSS0nWW/4pWWKI0ediknLf2tFML1gEe5oV
+         8Uauew3z0VO+8DLIPp8Fsz4ycKXN9W1t6xzSZvj3CMdBsoGYD4lJ1i2lWGan9t6Y++qJ
+         VKjmEJWdHYkHSlfuoWxAxbTMmohu+OpVB1r94WcdrUt0/G9FDE3bMWbpgz6dPtrBjDT4
+         a6bw==
+X-Gm-Message-State: AOAM531OgC4htBhclNj0269WQJ60vdym3gAImtlhcn5pH/avspnyrnI8
+	w7E3M8HZsoMHmsz5qgXCKahBtgcaAWQ12A==
+X-Google-Smtp-Source: ABdhPJxHeuasKb4eUOcIou95OvxyDNSQdySk9ZkTghj94eH50ejhBBcgkySP3WXLBwf9pTK5Q4U1iA==
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr19592927wrt.189.1622412542105;
+        Sun, 30 May 2021 15:09:02 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         by smtp.gmail.com with ESMTPSA id j10sm14721102wrt.32.2021.05.30.15.09.01
@@ -39,36 +39,43 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         Sun, 30 May 2021 15:09:01 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 13/16] xorgproto: upgrade 2021.4 -> 2021.4.99.1
-Date: Sun, 30 May 2021 23:08:53 +0100
-Message-Id: <20210530220856.2830501-13-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 14/16] libpcre2: upgrade 10.36 -> 10.37
+Date: Sun, 30 May 2021 23:08:54 +0100
+Message-Id: <20210530220856.2830501-14-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
 References: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Only the copyright year changed in license text.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{xorgproto_2021.4.bb => xorgproto_2021.4.99.1.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-proto/{xorgproto_2021.4.bb => xorgproto_2021.4.99.1.bb} (90%)
+ .../libpcre/{libpcre2_10.36.bb => libpcre2_10.37.bb}          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.36.bb => libpcre2_10.37.bb} (91%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb
-similarity index 90%
-rename from meta/recipes-graphics/xorg-proto/xorgproto_2021.4.bb
-rename to meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb
-index 52f42d40744..f4b08951546 100644
---- a/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.bb
-+++ b/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=dfc4bd2b0568b31725b85b0604e69b56"
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.36.bb b/meta/recipes-support/libpcre/libpcre2_10.37.bb
+similarity index 91%
+rename from meta/recipes-support/libpcre/libpcre2_10.36.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.37.bb
+index d8077a1224b..b596fbe87d7 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.36.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.37.bb
+@@ -8,11 +8,11 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=60c08fab1357bfe9084b333bc33362d6"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=6b3022283c9a79238d521848ea9dcb4d"
  
- SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "0f5157030162844b398e7ce69b8bb967c2edb8064b0a9c9bb5517eb621459fbf"
-+SRC_URI[sha256sum] = "0bce7d4fe800dcb5581cc59a99946c12e6e0be292636544221ec73e96f1a28ed"
+ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2"
  
- inherit meson
+-SRC_URI[sha256sum] = "a9ef39278113542968c7c73a31cfcb81aca1faa64690f400b907e8ab6b4a665c"
++SRC_URI[sha256sum] = "4d95a96e8b80529893b4562be12648d798b957b1ba1aae39606bbc2ab956d270"
+ 
+ CVE_PRODUCT = "pcre2"
  
 -- 
 2.30.2
