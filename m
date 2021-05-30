@@ -1,36 +1,36 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.37034.1622412541215171756
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web08.36986.1622412541583827091
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 May 2021 15:09:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VeqQB0kU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id o127so5127202wmo.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V6rGDWyI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id l2so1456683wrw.6
         for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=kYt48D75CLzwnTtZc61o198UJ7/NlqmqCaUXp7sKU4E=;
-        b=VeqQB0kUaMAeUyZthkqsd3xXZNE5RbbKWymfNOtJeQ/o20JTAK0Dyfu1oRfEQrGlWT
-         t642IZHejwBL1egybGWV73vVBlV5IPJTXo0LRHaQ+uCyGTiaZb2+cGzrR/C69YyQF1KX
-         IIH0mOcR3Ycn9PCXURhBfybrXsdlt5AyJEGyo=
+        bh=uLO2CdB8YFnCYt3ct6b6QSyhyh/ltKsM9oB62yRVSAU=;
+        b=V6rGDWyIMPrElCh0KuiH9Hnt8SugklmeupkwKw3AlUkPLiDzVvuAk5dpvubjFp2n3V
+         JlBunjFWR6JlpnOrKHwKZC++auMomx51ct1E/wJ8eV5Ve/vm8/rfGqiTy3BEJRPis7Tu
+         03HJYvbb2vxraou2hbpV+gugNbwFr+rLvXFo0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kYt48D75CLzwnTtZc61o198UJ7/NlqmqCaUXp7sKU4E=;
-        b=avbsswJasdKb2gt95WYa8BbVo8dSzqkE3Ht1JUx4Uhd/rC+GRgbO19b+PEDRAOgrpb
-         rSmp8CVCLLrybalKnGCXW5xitYQ879VQ0dCZUF4QUq7A8idLe43nkL9aMsRk9fr6ZPkR
-         881+mRMytMAJU1s5v3qbiiskWvR3byS/94wrZh0nvUuwMNw9oUeEDNYNgivpvpLh0WzR
-         1u3vlV9LzvvjdbeeL6Xuwq48Uf8tmLjwJ2U9Nr1sqCragCikT+GQybaCftIXE5Tqkych
-         ZceHk0tJatfT9EZ+xoK6/SuQI/LK5T037WY5EaL5gR8mjbPwjIp3P8GLuUeUTGAS0Sai
-         KilA==
-X-Gm-Message-State: AOAM530jyrT/coAnSeF1AdMcHjnAmSw6xloUwOEt9Pe9CdJZj3ORvkkq
-	BV1PKLh6HGtTZUUyUU0nt4+7B9xKLSVo0A==
-X-Google-Smtp-Source: ABdhPJwkDGNMXmF7FZxMNRAUTzeGrmoIaojNTzFO3AE9uzLGhL7SMpVexLOP7aR0cUp+AqYXdtViRQ==
-X-Received: by 2002:a1c:2015:: with SMTP id g21mr22963157wmg.87.1622412539748;
-        Sun, 30 May 2021 15:08:59 -0700 (PDT)
+        bh=uLO2CdB8YFnCYt3ct6b6QSyhyh/ltKsM9oB62yRVSAU=;
+        b=K60wTVFyrGQF1RRAuVBJiV3ShV53iqzxz2dkMHzHWXqTbohmnqLuB6kRUTAHU2+H+i
+         uZS6zCPg6U2lXjiEKe0dPVja13khlA/cyRoHYS/sIhSAM+zPnwxyB+MaHZo72mpR+Oly
+         NXLG2NrlcDa8zN5IWI36o0lB1FdRbAWD2T8Ow1GC9h9UgAcd2ULTKReXI5yMG3iAJeN0
+         530yyS+q32+WTUCGDUDtLA48oSkssEVQ1mbePMLixNQTdxChBB5JpJyRQLKKyhgEUVX7
+         yxfPtN8MB62y/1PFfKqQsyofDS2UBlno6GinVW4D2QZ5xDmDkg1q/cpUvkGKaBHtryNz
+         uAiw==
+X-Gm-Message-State: AOAM5338kBdCrFFdMN9LUkHUk+d/X8qY46UxpCFKMzzJw19z6GJvhSoA
+	YFg1FiOCFdDgnmeryVhXoDmszEzXW3Rxlg==
+X-Google-Smtp-Source: ABdhPJyRcEFHzlkeIO5GT73YPAuiP0F9siYxXuAh6tPNoualsGGU60hlbBJwnC8o8XgaZ9RSiZbhtQ==
+X-Received: by 2002:adf:f54b:: with SMTP id j11mr18125443wrp.376.1622412540127;
+        Sun, 30 May 2021 15:09:00 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         by smtp.gmail.com with ESMTPSA id j10sm14721102wrt.32.2021.05.30.15.08.59
@@ -39,9 +39,9 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         Sun, 30 May 2021 15:08:59 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/16] libmodulemd: upgrade 2.12.0 -> 2.12.1
-Date: Sun, 30 May 2021 23:08:48 +0100
-Message-Id: <20210530220856.2830501-8-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 09/16] vte: upgrade 0.64.0 -> 0.64.1
+Date: Sun, 30 May 2021 23:08:49 +0100
+Message-Id: <20210530220856.2830501-9-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
 References: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
@@ -50,23 +50,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/vte/{vte_0.64.0.bb => vte_0.64.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/vte/{vte_0.64.0.bb => vte_0.64.1.bb} (95%)
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-index 2f60ce8e028..771b2c094f0 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-@@ -8,8 +8,8 @@ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=
-            file://0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch \
-            "
+diff --git a/meta/recipes-support/vte/vte_0.64.0.bb b/meta/recipes-support/vte/vte_0.64.1.bb
+similarity index 95%
+rename from meta/recipes-support/vte/vte_0.64.0.bb
+rename to meta/recipes-support/vte/vte_0.64.1.bb
+index fc7d3014a53..0401eaa0497 100644
+--- a/meta/recipes-support/vte/vte_0.64.0.bb
++++ b/meta/recipes-support/vte/vte_0.64.1.bb
+@@ -20,7 +20,7 @@ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-intros
  
--PV = "2.12.0"
--SRCREV = "aaed38c899a958a88a6a368a70510e350ebe336c"
-+PV = "2.12.1"
-+SRCREV = "c0897fa0e9d7d1305fd4813b1010c1d4cca42346"
+ # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+-SRC_URI[archive.sha256sum] = "c0c60b8dc343167437c86d984b0cf134df86034180ed70513f683006ada3ec41"
++SRC_URI[archive.sha256sum] = "12fb41a9ff8e03c5f1711b46560910a4b9b3102aec3e9e7609ceef4dfa98aa2a"
  
- S = "${WORKDIR}/git"
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
  
 -- 
 2.30.2
