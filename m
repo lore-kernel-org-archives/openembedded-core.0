@@ -1,94 +1,161 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web12.32643.1622386988725976803
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web08.33157.1622390257975245414
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 May 2021 08:03:08 -0700
+ Sun, 30 May 2021 08:57:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ZHfe9y3K;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id e15so3950731plh.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 08:03:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Xe3Gq20D;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id q25so7157292pfn.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 08:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=nVRS5PlJNY1cv4ulUarhUR9V1Ra8q11ifZMBMNXMhyM=;
-        b=ZHfe9y3Kdr2sKr4fCX4ahO5Yud0JNRs9RuPlgN9TEVRAlTtfq9tCNEHcfK+ME8DrmK
-         R1itsSlEcX0gvDq+QZdVlCxR0tY6aowEnlRW99z9j7fNj7GwIa1w3r43lY/WfwqjzT35
-         tMZHhi3C+QZua4SFqRahElQPO2WYqq7q/cvEquga2EiE3r8qnyG5faVoG/TV1I92MonA
-         zSDlVZEmsiQRTvTiZgaeeO+0oicPPxqNtTQIhqTW9rW43hcUbZyvGu0/H1C6Bluqhoij
-         7R98DMgonaW8OmhVysVf8fB9oEGf4rJmC1TcGqo0XrIJ3K6l+RL+ziL+LmNGqzimb3UW
-         cIXQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZqVPybxm77REfruckcxTTX4x94/NRe8ufXImEu1Qw+0=;
+        b=Xe3Gq20DuSPxuPOuhXPKTHBBQaZCr/qYWiPQUtlqNugYwxLyjokHi7oC8DFwePxtJR
+         HDLm4G1vm7Z5vs7/DbDz3YRif+I2ahPZfMXsaiDPcF0bFiS4olsw5aNHtxm/71J98G1N
+         pQMaEGyn0tVDcyIZ9S/Y5IjviPR/P3ze4zXq0AdRKyNkYkJFlLU06j8mSOYjH9vNeUo/
+         yQg7w0kL+JstBfRCw8oWSKV3oKTvMn3OSAlLXLu2IXBCHwL2diPPE87bVsTk1U/bggH9
+         T2yRmKY5DDfDdVWyNWjJx/b9hB1K4VI1enmbFaXGrfUEDRgyQuYU7Hr21FumpF7BQHmh
+         94NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=nVRS5PlJNY1cv4ulUarhUR9V1Ra8q11ifZMBMNXMhyM=;
-        b=Z18IdrDfJ7KwIJKXS9e0G5K/wtz3F01J3E7vzb1GHhGO078skdfYv4iRQyHihwnbrg
-         IYeUL0hbfxdcUhkw60SnMg4A21GBNu4vcsB8CTboanip3/Vx1Bw6SRtVWeaYjuk1b7CS
-         lmxkpvyJQZ3JU5Tx1UTpAo8fgOL+lIfxpe6s75m8uKmBVHxKIO+iJ3tS0/sEUKh8hI7u
-         qjj5OIeg2PALU2pIo5A7uuAdcFZKLbmXqlmoy3tWTmCGqS3xxcyPJko9GbyfCniC8euo
-         H4xkownUeQCuB/KCG9F0ViWsQQcokRmUpfyJfxFCxftZOupoWMTHGmkGDPmlJxnmLbvY
-         px2w==
-X-Gm-Message-State: AOAM533hxNwpwxj8DmRk9Cl5cdDB5rl88fbrGqDg0Zsmx355RuZd5OSN
-	6Vdc7g/9sKpWwz/8WVt34tZL8HU9yypARSqv3uw=
-X-Google-Smtp-Source: ABdhPJzli2wB+46X8gcwz0gh+UMUxEI0fuIEM4Bb8t1W+qbIcdypWiSDopxLxfbbJ8FKi/sUZgvzSA==
-X-Received: by 2002:a17:90a:8902:: with SMTP id u2mr14561628pjn.143.1622386987462;
-        Sun, 30 May 2021 08:03:07 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id v22sm8605652pff.105.2021.05.30.08.03.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZqVPybxm77REfruckcxTTX4x94/NRe8ufXImEu1Qw+0=;
+        b=hspp/p1XGT+hWLJBOOc1ANyr1zb4jXcueSRLiapLVj4N4glABB6wSof1HFHbOOGg1C
+         uHxVKc3HfY4XFLMveXcIrR+MlT7UMTUslE7qriC7W7dhfXjxcfuOrYdx7TDovvv7t7nb
+         L/H422x7TL1pZT5QwBhd6RM6dguMZrAt7nNKPXLnfIGfUD7k/+hcOv7FJUSsrOPMZ7TM
+         h+JKzmtA6R3TL3VqMITw2398LDNzyiKAdeuA8gqiTJqBhbu5ZrCtxk/RsXql9wRegULa
+         T49QsCEmbysVxDpZchttf0p5UQ+2tn5gWs/C/212AAnWwjl6OKeqA4uIPL91GQeJALec
+         +MpA==
+X-Gm-Message-State: AOAM531ZYJqI79jtE0+3qYhhXxDpwSdIMbHN/iMEIF7hw4u2k68WfRtI
+	d+2txwyoe/mLcd5UIYM32gc4R4pNScrqlQ==
+X-Google-Smtp-Source: ABdhPJwqc3/1/TogBsMNLB1gM6dcgXVgMcoqmn8DZLxIobT5ynzVwClASlbM7XuVfBp1KZ7L9+hTxg==
+X-Received: by 2002:a65:4286:: with SMTP id j6mr18381169pgp.11.1622390257124;
+        Sun, 30 May 2021 08:57:37 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
+        by smtp.gmail.com with ESMTPSA id h13sm4026243pfv.213.2021.05.30.08.57.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 May 2021 08:03:07 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id EDF83960398; Sun, 30 May 2021 05:02:56 -1000 (HST)
-Subject: OE-core CVE metrics for hardknott on Sun 30 May 2021 05:00:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210530150256.EDF83960398@nuc.router0800d9.com>
-Date: Sun, 30 May 2021 05:02:56 -1000 (HST)
+        Sun, 30 May 2021 08:57:36 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libucontext: Switch to meson build system
+Date: Sun, 30 May 2021 08:57:34 -0700
+Message-Id: <20210530155734.3112219-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: hardknott
+cross compiling with meson is easier than the plain makefile build
+method that libucontext has, there were bunch of problems passing
+compiler and make variables, compounded by the fact that makefile
+decided on some compiler flags internally and thought that cflags are
+synthesized completely in makefile and not passed from environment like
+OE is doing. As a result some features were not being compiled in e.g.
+function name aliases were missing
 
-New this week: 2 CVEs
-CVE-2021-20231: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20231 *
-CVE-2021-33477: rxvt-unicode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33477 *
+meson, on the other hand is cleaner and we have to add a patch to
+support cpu architecture on meson cmdline, everything else pretty much
+works out of box
 
-Removed this week: 23 CVEs
-CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
-CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
-CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
-CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
-CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2020-10713: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
-CVE-2020-14308: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
-CVE-2020-14309: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
-CVE-2020-14310: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-CVE-2020-14311: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
-CVE-2020-14372: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
-CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15706: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
-CVE-2020-15707: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
-CVE-2020-25632: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
-CVE-2020-25647: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
-CVE-2020-27749: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
-CVE-2020-27779: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
-CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
-CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
-CVE-2021-20225: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
-CVE-2021-20233: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
-CVE-2021-3418: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../0001-meson-Add-option-to-pass-cpu.patch   | 49 +++++++++++++++++++
+ meta/recipes-core/musl/libucontext_git.bb     | 18 ++-----
+ 2 files changed, 53 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-core/musl/libucontext/0001-meson-Add-option-to-pass-cpu.patch
 
-Full list:  Found 14 unpatched CVEs
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2021-20231: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20231 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-22876: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22876 *
-CVE-2021-22890: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22890 *
-CVE-2021-25214: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25214 *
-CVE-2021-25215: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25215 *
-CVE-2021-25216: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25216 *
-CVE-2021-29921: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-29921 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-33477: rxvt-unicode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33477 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+diff --git a/meta/recipes-core/musl/libucontext/0001-meson-Add-option-to-pass-cpu.patch b/meta/recipes-core/musl/libucontext/0001-meson-Add-option-to-pass-cpu.patch
+new file mode 100644
+index 0000000000..1fdc9f739d
+--- /dev/null
++++ b/meta/recipes-core/musl/libucontext/0001-meson-Add-option-to-pass-cpu.patch
+@@ -0,0 +1,49 @@
++From a530eed9e7e6872e10fe92efaf1e9739471c30ca Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 30 May 2021 08:30:28 -0700
++Subject: [PATCH] meson: Add option to pass cpu
++
++This helps with cross compile setups, where host_cpu != target_cpu
++therefore detecting it on the fly will end up with wrong cpu to build
++for
++
++Upstream-Status: Submitted [https://github.com/kaniini/libucontext/pull/28]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ meson.build       | 6 +++++-
++ meson_options.txt | 4 +++-
++ 2 files changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index e863780..2b4bdbd 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -6,7 +6,11 @@ project(
++   version : run_command('head', files('VERSION')).stdout()
++ )
++ 
++-cpu = host_machine.cpu_family()
+++cpu = get_option('cpu')
+++if cpu == ''
+++  cpu = host_machine.cpu_family()
+++endif
+++
++ if cpu == 'sh4'
++   cpu = 'sh'
++ endif
++diff --git a/meson_options.txt b/meson_options.txt
++index d4201d1..864d83c 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -1,4 +1,6 @@
++ option('freestanding', type : 'boolean', value : false,
++        description: 'Do not use system headers')
++ option('export_unprefixed', type : 'boolean', value : true,
++-       description: 'Export POSIX 2004 ucontext names as alises')
++\ No newline at end of file
+++       description: 'Export POSIX 2004 ucontext names as alises')
+++option('cpu', type : 'string', value : '',
+++       description: 'Target CPU architecture for cross compile')
++-- 
++2.31.1
++
+diff --git a/meta/recipes-core/musl/libucontext_git.bb b/meta/recipes-core/musl/libucontext_git.bb
+index 0b64867ce0..d8ae8242c5 100644
+--- a/meta/recipes-core/musl/libucontext_git.bb
++++ b/meta/recipes-core/musl/libucontext_git.bb
+@@ -11,7 +11,8 @@ DEPENDS = ""
+ PV = "1.1+${SRCPV}"
+ SRCREV = "335ee864ef6f4a5d4b525453fd9dbfb3507cfecc"
+ SRC_URI = "git://github.com/kaniini/libucontext \
+-"
++           file://0001-meson-Add-option-to-pass-cpu.patch \
++           "
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -49,16 +50,5 @@ def map_kernel_arch(a, d):
+             return a
+         bb.error("cannot map '%s' to a linux kernel architecture" % a)
+ 
+-export ARCH = "${@map_kernel_arch(d.getVar('TARGET_ARCH'), d)}"
+-
+-CFLAGS += "-Iarch/${ARCH} -Iarch/common"
+-
+-EXTRA_OEMAKE = "CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}' LIBDIR='${base_libdir}'"
+-
+-do_compile() {
+-    oe_runmake ARCH=${ARCH}
+-}
+-
+-do_install() {
+-    oe_runmake ARCH="${ARCH}" DESTDIR="${D}" install
+-}
++EXTRA_OEMESON = "-Dcpu=${@map_kernel_arch(d.getVar('TARGET_ARCH'), d)}"
++inherit meson
+-- 
+2.31.1
+
