@@ -1,36 +1,36 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.37088.1622412540435420545
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.37089.1622412540436392073
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 May 2021 15:09:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H93M1awU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id n4so8920801wrw.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZW/oXqro;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id l2so1456647wrw.6
         for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=1fdp5iVKXxId7mHFXq4VyHrkhK5E1LZ2GbaSPnaN4ro=;
-        b=H93M1awU61zk/fBOTt3rDy7BhQIFHxTIyeYfnq/l7i07tyaKBPdCeW7aRDSt+MnPhQ
-         pUhlmNGZOglrRgl5AxqbqhAKXqqDbFQz1/7RSa7N70ISizYjF6ogJUarlzm7zwh6W51f
-         6QvEZPYZKa5J5FSkjxuJuI1Hu+sZjL6OaM0LI=
+        bh=9rrICDSnxgE4vC0fjGs7wxh/gNFpb7o0TvBIUnewSac=;
+        b=ZW/oXqroYfbzKgRbOvFxsqfDdFD3+CRNfrwMOY9gNobeyd8LUmqZhHJrXdV835A4Kl
+         SIM6j2FSD+OM0NDQ1GdGUC5YJZX65x/kExXthWIvkSduU5sfwg0x/bCVWVODLwWaCviK
+         tzl5pHFxP5JjNMgFE7i6tyMrb98lcZYiNxo/E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1fdp5iVKXxId7mHFXq4VyHrkhK5E1LZ2GbaSPnaN4ro=;
-        b=cR5G1fICkOH5K9G8Ajmr/WyoU8gTQoXKNbTtR4zg9WqIj1fL8+NsBuYXa6k+6l+sBR
-         RhO3jhvnd7O3ZpDJ+qRsmGC1ZG0qq9vPIhPTqvZ7WM9PYY9tlYYzXVhgTYpPd1av87LV
-         aAXsN19TUGe88oLuxgbD+99qchjwdpxQaEUZWZiJzYhCun2sd6u0UgJAUEpT8ScCIVtc
-         +UF7/x6UyMs8PcZNLXpsHCRbyxgdcK95oBAEXat7Td9ryJd1uODe89ePHwexJS7FQdIe
-         u2Uu6ks8pgHJcZvuU8hsNPdI4IIJ0rDriPQKkQcM5EqDDqTZYNkELAf0CDOMTSjaRqAS
-         6LWw==
-X-Gm-Message-State: AOAM533n3F3oqbzoHB11xLLi9647AuGyPK4bI17BkrIGCZKdEW4wUwUj
-	dJ+rfJxPcVJemrTLDvEdJ79WxBBunMStzQ==
-X-Google-Smtp-Source: ABdhPJzWdV2AyPjMt+/N5AQeRH0t9PN66seYwE61O8HV5+H2PliOx1OUiyT9ZbxVI60WiIZRb36/cw==
-X-Received: by 2002:a05:6000:1865:: with SMTP id d5mr18958217wri.126.1622412539039;
-        Sun, 30 May 2021 15:08:59 -0700 (PDT)
+        bh=9rrICDSnxgE4vC0fjGs7wxh/gNFpb7o0TvBIUnewSac=;
+        b=Kwy2ivmL5KqYuYtKINHasKRerp/QWlJ8ssS4EMqwhScB/Dg2QFYjSPgUmcf273xi0l
+         5YcKgv+CVcHv2aenWdJjs7xgD/uRFGRmtthkKMMR6VccplT+Go39fk/UyGA+oT08PMT/
+         UEFmdxwi2EIRsMYaqsML2NDDi+IcNH/UDz8/0SHtnrCPQUmZ9N/v0SwcyvZReiLHor37
+         YeKTg5PcZ6TeTxJnQLt+ziBHLMAiylrW3corB3QDAKWyLlwF8dkp9974+H26EOTL6vHx
+         /mvUsq2lpenQtV55+WzwcTNCWAZzMfJ/iTK+8MvTkRPXWOvyYnP7EJRMpSFPZa/nvSON
+         m9ww==
+X-Gm-Message-State: AOAM530fRei/UZNVdt68QGWEPrWaBJnpyhsvI37ej26fk5ivQMsbuvZB
+	py0na2I43oht994EZgJ4m0cVjOteev2ROw==
+X-Google-Smtp-Source: ABdhPJxOPZG+Sptc4DH3M7UapIo96WpxowTyDtfi8H7HlL63UURTkZcSWDJ6E93XcjTULfsKMxHmhQ==
+X-Received: by 2002:adf:d204:: with SMTP id j4mr4411224wrh.3.1622412538661;
+        Sun, 30 May 2021 15:08:58 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         by smtp.gmail.com with ESMTPSA id j10sm14721102wrt.32.2021.05.30.15.08.58
@@ -39,9 +39,9 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         Sun, 30 May 2021 15:08:58 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/16] pango: upgrade 1.48.4 -> 1.48.5
-Date: Sun, 30 May 2021 23:08:46 +0100
-Message-Id: <20210530220856.2830501-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 05/16] python3-hypothesis: upgrade 6.12.0 -> 6.13.7
+Date: Sun, 30 May 2021 23:08:45 +0100
+Message-Id: <20210530220856.2830501-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
 References: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
@@ -50,25 +50,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../recipes-graphics/pango/{pango_1.48.4.bb => pango_1.48.5.bb} | 2 +-
+ ...ython3-hypothesis_6.12.0.bb => python3-hypothesis_6.13.7.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.48.4.bb => pango_1.48.5.bb} (94%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.12.0.bb => python3-hypothesis_6.13.7.bb} (81%)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.48.4.bb b/meta/recipes-graphics/pango/pango_1.48.5.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.48.4.bb
-rename to meta/recipes-graphics/pango/pango_1.48.5.bb
-index 9efde6577c0..b29c3c2d962 100644
---- a/meta/recipes-graphics/pango/pango_1.48.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.48.5.bb
-@@ -20,7 +20,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.12.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.13.7.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.12.0.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.13.7.bb
+index a8a749cd16b..7688ff6d18c 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.12.0.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.13.7.bb
+@@ -7,7 +7,7 @@ PYPI_PACKAGE = "hypothesis"
  
- SRC_URI += "file://run-ptest"
+ inherit pypi setuptools3
  
--SRC_URI[archive.sha256sum] = "418913fb062071a075846244989d4a67aa5c80bf0eae8ee4555a092fd566a37a"
-+SRC_URI[archive.sha256sum] = "501e74496173c02dcd024ded7fbb3f09efd37e2a488e248aa40799424dbb3b2a"
+-SRC_URI[sha256sum] = "a24b2ccb7b84860762df3fabb8faa196bf627cbee62917a5095f3de8ff71050b"
++SRC_URI[sha256sum] = "262bb8cee0293ad06c453e78cf89bddcb613b91f82ea5587f3787611ee62861b"
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+ RDEPENDS_${PN} += "python3-attrs python3-core python3-sortedcontainers"
  
 -- 
 2.30.2
