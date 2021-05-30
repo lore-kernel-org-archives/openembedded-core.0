@@ -1,47 +1,47 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.37089.1622412540436392073
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web08.36985.1622412540890419324
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 May 2021 15:09:00 -0700
+ Sun, 30 May 2021 15:09:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZW/oXqro;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id l2so1456647wrw.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SdlAWffM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id b145-20020a1c80970000b029019c8c824054so690010wmd.5
         for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=9rrICDSnxgE4vC0fjGs7wxh/gNFpb7o0TvBIUnewSac=;
-        b=ZW/oXqroYfbzKgRbOvFxsqfDdFD3+CRNfrwMOY9gNobeyd8LUmqZhHJrXdV835A4Kl
-         SIM6j2FSD+OM0NDQ1GdGUC5YJZX65x/kExXthWIvkSduU5sfwg0x/bCVWVODLwWaCviK
-         tzl5pHFxP5JjNMgFE7i6tyMrb98lcZYiNxo/E=
+        bh=pDWyiKCMq+6uMzKjB5p7f8y6hXLGrWjqkUKyBg/7y5k=;
+        b=SdlAWffMNAIXZ62YlNXEuPKPRzLJC74Gzy/k+LQfyKebMY28cV6HMfK1JzJT6VTTFR
+         5o9sEosG3CbswTLB+1eUyvMUlOneedhZm41vuvlOd9yVfZTgpRuSepngJcJfFKglQMMj
+         U8fcQcACL4RtDFitdvEkefPXIMBxUu7dzTw38=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9rrICDSnxgE4vC0fjGs7wxh/gNFpb7o0TvBIUnewSac=;
-        b=Kwy2ivmL5KqYuYtKINHasKRerp/QWlJ8ssS4EMqwhScB/Dg2QFYjSPgUmcf273xi0l
-         5YcKgv+CVcHv2aenWdJjs7xgD/uRFGRmtthkKMMR6VccplT+Go39fk/UyGA+oT08PMT/
-         UEFmdxwi2EIRsMYaqsML2NDDi+IcNH/UDz8/0SHtnrCPQUmZ9N/v0SwcyvZReiLHor37
-         YeKTg5PcZ6TeTxJnQLt+ziBHLMAiylrW3corB3QDAKWyLlwF8dkp9974+H26EOTL6vHx
-         /mvUsq2lpenQtV55+WzwcTNCWAZzMfJ/iTK+8MvTkRPXWOvyYnP7EJRMpSFPZa/nvSON
-         m9ww==
-X-Gm-Message-State: AOAM530fRei/UZNVdt68QGWEPrWaBJnpyhsvI37ej26fk5ivQMsbuvZB
-	py0na2I43oht994EZgJ4m0cVjOteev2ROw==
-X-Google-Smtp-Source: ABdhPJxOPZG+Sptc4DH3M7UapIo96WpxowTyDtfi8H7HlL63UURTkZcSWDJ6E93XcjTULfsKMxHmhQ==
-X-Received: by 2002:adf:d204:: with SMTP id j4mr4411224wrh.3.1622412538661;
-        Sun, 30 May 2021 15:08:58 -0700 (PDT)
+        bh=pDWyiKCMq+6uMzKjB5p7f8y6hXLGrWjqkUKyBg/7y5k=;
+        b=pACOikp8B6Ww7rIvSymKv8J4n60AwOGM2EOTARh169SX3HhxKhHQ7263VnRp0uR0fs
+         0o32bjCCeCOVVG7JQKFygVLr4MoSi1j+7NbriH2Dj/nenl51oBCaOzDqM+V8cvU52H/W
+         Dgx1BRXKo6Ty36xMd2a/rQK+52CWD5PFV9OxyDfODOZy+4rC/DKPd0BAIAmdxlDfiCHN
+         J1lgqSAXOEbidV9Y0x8EVNKd/KySKQ5mOz33NavX3A8PCyxHYfj4rSe3vkkpW7NAAUHK
+         JwpgzcBlO/1nfHLAZd14kjpSOg7ncjjXU+w1NpWTOt/AiUU17kdNmKuIa63KUU1VUF6d
+         dwAg==
+X-Gm-Message-State: AOAM531XrOTIKmEzJ4K2SyJIwBXYUDjoN4DOiD3YP/h7P+Q6sLiJU8VO
+	jP+lMIDx3xIMX8gh5DrZlPRE5s2RdWhJRQ==
+X-Google-Smtp-Source: ABdhPJxbncqplo3eTsiWoEJkwrs8whgMYXV6urX64CU4kyKstVmilQGnMYr74NPmR0qeRTj8EnKHbg==
+X-Received: by 2002:a1c:2743:: with SMTP id n64mr22879226wmn.76.1622412539358;
+        Sun, 30 May 2021 15:08:59 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
-        by smtp.gmail.com with ESMTPSA id j10sm14721102wrt.32.2021.05.30.15.08.58
+        by smtp.gmail.com with ESMTPSA id j10sm14721102wrt.32.2021.05.30.15.08.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 May 2021 15:08:58 -0700 (PDT)
+        Sun, 30 May 2021 15:08:59 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 05/16] python3-hypothesis: upgrade 6.12.0 -> 6.13.7
-Date: Sun, 30 May 2021 23:08:45 +0100
-Message-Id: <20210530220856.2830501-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 07/16] python3-importlib-metadata: upgrade 4.0.1 -> 4.3.0
+Date: Sun, 30 May 2021 23:08:47 +0100
+Message-Id: <20210530220856.2830501-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
 References: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
@@ -50,25 +50,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...ython3-hypothesis_6.12.0.bb => python3-hypothesis_6.13.7.bb} | 2 +-
+ ...ib-metadata_4.0.1.bb => python3-importlib-metadata_4.3.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.12.0.bb => python3-hypothesis_6.13.7.bb} (81%)
+ rename meta/recipes-devtools/python/{python3-importlib-metadata_4.0.1.bb => python3-importlib-metadata_4.3.0.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.12.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.13.7.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.12.0.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.13.7.bb
-index a8a749cd16b..7688ff6d18c 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.12.0.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.13.7.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "hypothesis"
+diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_4.0.1.bb b/meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-importlib-metadata_4.0.1.bb
+rename to meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
+index f4013da3456..f4ac3c44ec0 100644
+--- a/meta/recipes-devtools/python/python3-importlib-metadata_4.0.1.bb
++++ b/meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
+@@ -8,7 +8,7 @@ inherit pypi setuptools3
+ PYPI_PACKAGE = "importlib_metadata"
+ UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
  
- inherit pypi setuptools3
+-SRC_URI[sha256sum] = "8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581"
++SRC_URI[sha256sum] = "c4646abbce80191bb548636f846e353ff1edc46a06bc536ea0a60d53211dc690"
  
--SRC_URI[sha256sum] = "a24b2ccb7b84860762df3fabb8faa196bf627cbee62917a5095f3de8ff71050b"
-+SRC_URI[sha256sum] = "262bb8cee0293ad06c453e78cf89bddcb613b91f82ea5587f3787611ee62861b"
- 
- RDEPENDS_${PN} += "python3-attrs python3-core python3-sortedcontainers"
+ S = "${WORKDIR}/importlib_metadata-${PV}"
  
 -- 
 2.30.2
