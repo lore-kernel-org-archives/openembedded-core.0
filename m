@@ -1,75 +1,104 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web12.36967.1622412544407687047
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web12.37066.1622413243879107036
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 May 2021 15:09:04 -0700
+ Sun, 30 May 2021 15:20:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=elnxxIyc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id l18-20020a1c79120000b0290181c444b2d0so5416410wme.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:04 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Zu/zydxv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id z19-20020a7bc7d30000b029017521c1fb75so7717233wmk.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=i2Kmu3vL5cPeOgtz5jmXNMKgBsz59uD7ZWN2a4HI/0k=;
-        b=elnxxIyc00CmqLJvlgcTmVh6dUNzEZ0WM97qFccYvo+mwyCJqXaGm+djui+tpL1Rx8
-         kTNYVcMCD+FhC/Lm3OP6imMy9eAFAjpC0AjpLN+5YaVFO5Zt7ObboegtnyN//boVcu+V
-         AErnB5UL8bbUktlrE8+4IWJGFIeIo8an1hwp0=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=GN/iZWM0aXv6MI26UpreXCSiTTGpDLxbgPN00YMp7nw=;
+        b=Zu/zydxvONKU7NZMP/d7L7wCNc/KZPJyyJl28vA6CfjXdat8zOyWuIvpWSdYeEqIPq
+         0nfHzivh3+f+9TI4wjQqxBMcGLCnVIj1xBhIQw2zgDRBq0dlHKlzVg9lgethxVQFAe73
+         cLWj+x53tq4XL7uus86h8VWSkCr32N3wsVbY0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=i2Kmu3vL5cPeOgtz5jmXNMKgBsz59uD7ZWN2a4HI/0k=;
-        b=iiO01FFDP83PvhylGgT7L5NcdlzbLaM38nIb9Igw5Ke/cNGxv6q+CnwcnHMKFg6J7c
-         JPK/NJJNHQV1K/EwPJorIcYQdzci4xNQOEUmq5r/dYfDKDitKy33StJ4D8E+X8tURhnA
-         NJDgEw3WIrA9jAOJ6bmL8CrrnXXf1L0shOsB8qvNmeafx2MeyC9MErTJFX+0WQWjRR5T
-         w1Zsk0MH5t27UH4Ss4LC+QQre/BpAlUTX6KeAuPLOUJ5X421+zWMsFnybMBxu/Ja2ID6
-         vtwhCwIBbtfW/kaqHOHoO3FnKACaomZ+E2HyTX8N/ZzGGrq7f+5yNl0XEpvk5ZIwbe4M
-         pNfg==
-X-Gm-Message-State: AOAM531CzUcwibvo2SawnE4ESnEPmfii44Oh2bJIS7Bjqd8GjWZNjjA9
-	rS5PdFP/T1I8/pxLpigICQohR6e/675U+g==
-X-Google-Smtp-Source: ABdhPJxX9L3uQAv0GH4ZYRucvrAcvUD0Hzth6Km3thqxvBUxN6Yac1TNohWhhVmgYHxJiXkbP8ZKLw==
-X-Received: by 2002:a7b:cbc2:: with SMTP id n2mr18351529wmi.69.1622412542948;
-        Sun, 30 May 2021 15:09:02 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=GN/iZWM0aXv6MI26UpreXCSiTTGpDLxbgPN00YMp7nw=;
+        b=fLHKTHn/VkqOYm0si1wLtwYF6JX6cHy3r91mPp/Gklc/LOfc/BjKFROj6dy6BYDiHW
+         3Hh6/gZFO1zxviB9MHq6Md0uKRFaN7MG38qz8RUt7unVqITNG5ceslec1UDW4C/tJkpT
+         JejY7EIw0GiCy/WNJt3TB/0MdC9R5+FyocXaFZYGOcsQfBf7Iry+IRawm1xXvntKsHOz
+         RQD4ILalTg/4GWstWinWvlHYMq9XKp1H5WfN3Mk0HiYOyaGOpHIk3Zvt6guwRHeh6m9t
+         WSfdMBLa3zhydks/vXNF+QvZydRaZ/PAMqylxliosBN/tCeNlvoW9NZxC3rM2AwJ7GjU
+         OAzg==
+X-Gm-Message-State: AOAM531w71CDctujYWlSf9O6aY5D3OKjq4J9mTpnSWgvhGuBKZhv54r5
+	JzkbPWhZltMoaU8JqE3/a3Xl8w==
+X-Google-Smtp-Source: ABdhPJzDJFr5zlDvmX5lYp75pZmC6khd5eUzP0/+7j429O+Qf5zcj+xb2AfE50P5Bgok4jCucNY3gg==
+X-Received: by 2002:a05:600c:1913:: with SMTP id j19mr20597104wmq.167.1622413242032;
+        Sun, 30 May 2021 15:20:42 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
-        by smtp.gmail.com with ESMTPSA id j10sm14721102wrt.32.2021.05.30.15.09.02
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:fcab:51bf:ac39:992c? ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
+        by smtp.gmail.com with ESMTPSA id j101sm15869627wrj.66.2021.05.30.15.20.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 May 2021 15:09:02 -0700 (PDT)
+        Sun, 30 May 2021 15:20:41 -0700 (PDT)
+Message-ID: <9e8235b427f09fab8842adf05991ddc22db80974.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [AUH] Upgrade status: 2021-05-28
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 16/16] python3-jinja2: upgrade 3.0.0 -> 3.0.1
-Date: Sun, 30 May 2021 23:08:56 +0100
-Message-Id: <20210530220856.2830501-16-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
-References: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
+To: auh@auh.yoctoproject.org, openembedded-core@lists.openembedded.org
+Date: Sun, 30 May 2021 23:20:40 +0100
+In-Reply-To: <MADEUP.16833731A817E903.665@lists.openembedded.org>
+References: <MADEUP.16833731A817E903.665@lists.openembedded.org>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../python/{python3-jinja2_3.0.0.bb => python3-jinja2_3.0.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jinja2_3.0.0.bb => python3-jinja2_3.0.1.bb} (92%)
+On Fri, 2021-05-28 at 04:23 -0700, auh@auh.yoctoproject.org wrote:
+> Recipe upgrade statistics:
+> 
+>     * Succeeded: 19
+>         iproute2, 5.12.0, Changhyeok Bae <changhyeok.bae@gmail.com>
+>         libxcrypt-compat, 4.4.22, Khem Raj <raj.khem@gmail.com>
+>         libmodulemd, 2.12.1, Alexander Kanavin <alex.kanavin@gmail.com>
+>         python3-hypothesis, 6.13.7, Tim Orling <timothy.t.orling@linux.intel.com>
+>         python3-importlib-metadata, 4.3.0, Tim Orling <timothy.t.orling@linux.intel.com>
+>         python3-jinja2, 3.0.1, Richard Purdie <richard.purdie@linuxfoundation.org>
+>         gi-docgen, 2021.6, Alexander Kanavin <alex.kanavin@gmail.com>
+>         libepoxy, 1.5.8, Anuj Mittal <anuj.mittal@intel.com>
+>         pango, 1.48.5, Ross Burton <ross.burton@arm.com>
+>         libinput, 1.17.3, Ross Burton <ross.burton@arm.com>
+>         xf86-input-libinput, 1.0.1, Armin Kuster <akuster808@gmail.com>
+>         libx11, 1.7.1, Armin Kuster <akuster808@gmail.com>
+>         xorgproto, 2021.4.99.1, Armin Kuster <akuster808@gmail.com>
+>         kmod, 29, Chen Qi <Qi.Chen@windriver.com>
+>         linux-firmware, 20210511, Otavio Salvador <otavio.salvador@ossystems.com.br>
+>         lttng-tools, 2.12.4, Richard Purdie <richard.purdie@linuxfoundation.org>
+>         puzzles, 0.0-new-commits-available, Anuj Mittal <anuj.mittal@intel.com>
+>         libpcre2, 10.37, Armin Kuster <akuster808@gmail.com>
+>         vte, 0.64.1, Anuj Mittal <anuj.mittal@intel.com>
+>     * Failed(do_compile): 5
+>         libxcrypt, 4.4.22, Khem Raj <raj.khem@gmail.com>
+>         cmake, 3.20.3, Pascal Bach <pascal.bach@siemens.com>
+>         python3-setuptools, 57.0.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+>         curl, 7.77.0, Armin Kuster <akuster808@gmail.com>
+>         libgcrypt, 1.9.3, Hongxu Jia <hongxu.jia@windriver.com>
+>     * Failed (devtool error): 6
+>         elfutils, 0.185, Zang Ruochen <zangrc.fnst@fujitsu.com>
+>         gnu-config, 20210522-new-commits-available, Robert Yang <liezhi.yang@windriver.com>
+>         perl, 5.34.0, Alexander Kanavin <alex.kanavin@gmail.com>
+>         go-helloworld, 0.1-new-commits-available, Khem Raj <raj.khem@gmail.com>
+>         vulkan-samples, git-new-commits-available, Ross Burton <ross.burton@arm.com>
+>         libcap, 2.50, Yi Zhao <yi.zhao@windriver.com>
+>     * Failed(other errors): 1
+>         adwaita-icon-theme, 40.1.1, Ross Burton <ross.burton@arm.com>
+> 
+>     TOTAL: attempted=31 succeeded=19(61.29%) failed=12(38.71%)
 
-diff --git a/meta/recipes-devtools/python/python3-jinja2_3.0.0.bb b/meta/recipes-devtools/python/python3-jinja2_3.0.1.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-jinja2_3.0.0.bb
-rename to meta/recipes-devtools/python/python3-jinja2_3.0.1.bb
-index 5ae8d49b530..b37a043ccb2 100644
---- a/meta/recipes-devtools/python/python3-jinja2_3.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-jinja2_3.0.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/Jinja/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=5dc88300786f1c214c1e9827a5229462"
- 
--SRC_URI[sha256sum] = "ea8d7dd814ce9df6de6a761ec7f1cac98afe305b8cdc4aaae4e114b8d8ce24c5"
-+SRC_URI[sha256sum] = "703f484b47a6af502e743c9122595cc812b0271f661722403114f71a79d0f5a4"
- 
- PYPI_PACKAGE = "Jinja2"
- 
--- 
-2.30.2
+I've pulled out the majority of the successes here and submitted them. My intent
+in doing so is to let people concentrate on the failures above or the remaining
+successes where there are issues (lttng-tools has ptest regressions for example).
+I merged the libxcrypt and libxcrypt-compat patches so that failure is handled too.
+
+I'm planning to have the AUH run more regularly, which will be easier
+on the mailing lists and maintainers if the successes are handled and should
+highlight where help is needed for the upgrades.
+
+Cheers,
+
+Richard
 
