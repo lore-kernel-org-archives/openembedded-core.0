@@ -1,35 +1,35 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web08.36985.1622412540890419324
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.37034.1622412541215171756
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 May 2021 15:09:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SdlAWffM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id b145-20020a1c80970000b029019c8c824054so690010wmd.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VeqQB0kU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id o127so5127202wmo.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=pDWyiKCMq+6uMzKjB5p7f8y6hXLGrWjqkUKyBg/7y5k=;
-        b=SdlAWffMNAIXZ62YlNXEuPKPRzLJC74Gzy/k+LQfyKebMY28cV6HMfK1JzJT6VTTFR
-         5o9sEosG3CbswTLB+1eUyvMUlOneedhZm41vuvlOd9yVfZTgpRuSepngJcJfFKglQMMj
-         U8fcQcACL4RtDFitdvEkefPXIMBxUu7dzTw38=
+        bh=kYt48D75CLzwnTtZc61o198UJ7/NlqmqCaUXp7sKU4E=;
+        b=VeqQB0kUaMAeUyZthkqsd3xXZNE5RbbKWymfNOtJeQ/o20JTAK0Dyfu1oRfEQrGlWT
+         t642IZHejwBL1egybGWV73vVBlV5IPJTXo0LRHaQ+uCyGTiaZb2+cGzrR/C69YyQF1KX
+         IIH0mOcR3Ycn9PCXURhBfybrXsdlt5AyJEGyo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pDWyiKCMq+6uMzKjB5p7f8y6hXLGrWjqkUKyBg/7y5k=;
-        b=pACOikp8B6Ww7rIvSymKv8J4n60AwOGM2EOTARh169SX3HhxKhHQ7263VnRp0uR0fs
-         0o32bjCCeCOVVG7JQKFygVLr4MoSi1j+7NbriH2Dj/nenl51oBCaOzDqM+V8cvU52H/W
-         Dgx1BRXKo6Ty36xMd2a/rQK+52CWD5PFV9OxyDfODOZy+4rC/DKPd0BAIAmdxlDfiCHN
-         J1lgqSAXOEbidV9Y0x8EVNKd/KySKQ5mOz33NavX3A8PCyxHYfj4rSe3vkkpW7NAAUHK
-         JwpgzcBlO/1nfHLAZd14kjpSOg7ncjjXU+w1NpWTOt/AiUU17kdNmKuIa63KUU1VUF6d
-         dwAg==
-X-Gm-Message-State: AOAM531XrOTIKmEzJ4K2SyJIwBXYUDjoN4DOiD3YP/h7P+Q6sLiJU8VO
-	jP+lMIDx3xIMX8gh5DrZlPRE5s2RdWhJRQ==
-X-Google-Smtp-Source: ABdhPJxbncqplo3eTsiWoEJkwrs8whgMYXV6urX64CU4kyKstVmilQGnMYr74NPmR0qeRTj8EnKHbg==
-X-Received: by 2002:a1c:2743:: with SMTP id n64mr22879226wmn.76.1622412539358;
+        bh=kYt48D75CLzwnTtZc61o198UJ7/NlqmqCaUXp7sKU4E=;
+        b=avbsswJasdKb2gt95WYa8BbVo8dSzqkE3Ht1JUx4Uhd/rC+GRgbO19b+PEDRAOgrpb
+         rSmp8CVCLLrybalKnGCXW5xitYQ879VQ0dCZUF4QUq7A8idLe43nkL9aMsRk9fr6ZPkR
+         881+mRMytMAJU1s5v3qbiiskWvR3byS/94wrZh0nvUuwMNw9oUeEDNYNgivpvpLh0WzR
+         1u3vlV9LzvvjdbeeL6Xuwq48Uf8tmLjwJ2U9Nr1sqCragCikT+GQybaCftIXE5Tqkych
+         ZceHk0tJatfT9EZ+xoK6/SuQI/LK5T037WY5EaL5gR8mjbPwjIp3P8GLuUeUTGAS0Sai
+         KilA==
+X-Gm-Message-State: AOAM530jyrT/coAnSeF1AdMcHjnAmSw6xloUwOEt9Pe9CdJZj3ORvkkq
+	BV1PKLh6HGtTZUUyUU0nt4+7B9xKLSVo0A==
+X-Google-Smtp-Source: ABdhPJwkDGNMXmF7FZxMNRAUTzeGrmoIaojNTzFO3AE9uzLGhL7SMpVexLOP7aR0cUp+AqYXdtViRQ==
+X-Received: by 2002:a1c:2015:: with SMTP id g21mr22963157wmg.87.1622412539748;
         Sun, 30 May 2021 15:08:59 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
@@ -39,9 +39,9 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         Sun, 30 May 2021 15:08:59 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 07/16] python3-importlib-metadata: upgrade 4.0.1 -> 4.3.0
-Date: Sun, 30 May 2021 23:08:47 +0100
-Message-Id: <20210530220856.2830501-7-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 08/16] libmodulemd: upgrade 2.12.0 -> 2.12.1
+Date: Sun, 30 May 2021 23:08:48 +0100
+Message-Id: <20210530220856.2830501-8-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
 References: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
@@ -50,25 +50,23 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...ib-metadata_4.0.1.bb => python3-importlib-metadata_4.3.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-importlib-metadata_4.0.1.bb => python3-importlib-metadata_4.3.0.bb} (88%)
+ meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_4.0.1.bb b/meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-importlib-metadata_4.0.1.bb
-rename to meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
-index f4013da3456..f4ac3c44ec0 100644
---- a/meta/recipes-devtools/python/python3-importlib-metadata_4.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
-@@ -8,7 +8,7 @@ inherit pypi setuptools3
- PYPI_PACKAGE = "importlib_metadata"
- UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index 2f60ce8e028..771b2c094f0 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -8,8 +8,8 @@ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=
+            file://0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch \
+            "
  
--SRC_URI[sha256sum] = "8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581"
-+SRC_URI[sha256sum] = "c4646abbce80191bb548636f846e353ff1edc46a06bc536ea0a60d53211dc690"
+-PV = "2.12.0"
+-SRCREV = "aaed38c899a958a88a6a368a70510e350ebe336c"
++PV = "2.12.1"
++SRCREV = "c0897fa0e9d7d1305fd4813b1010c1d4cca42346"
  
- S = "${WORKDIR}/importlib_metadata-${PV}"
+ S = "${WORKDIR}/git"
  
 -- 
 2.30.2
