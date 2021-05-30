@@ -1,35 +1,35 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.37065.1622412539222693966
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.37033.1622412539712207508
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 May 2021 15:08:59 -0700
+ Sun, 30 May 2021 15:09:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VRPz+AXI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id m18so5168191wmq.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dJNMPOTg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id v23so6574274wrd.10
         for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 15:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=SOpFDAHFhOBboaBfupTT/wxOgT87kYPQ8Hhdlrv/fDI=;
-        b=VRPz+AXIW48L1QnJFDn0RJdhQGOyNXA72WubRjHBlKllQtme1U2PLVI32sHIfQuTD3
-         cMnCMwIpqMC2xXIVNvFRCUpvTuvhe1q2f8x8J712PxqY0DVgNkkYNDQJFB1nEiUHtQgx
-         H+KlrF1PIQNIDUkGeYq/CJd2cr/iXWP2RO49w=
+        bh=y45J+EXt2pNj/nulu1n+3cCxPuiiJhvsb8Xx/iWwWeo=;
+        b=dJNMPOTgERT/zpE8ymAFANc9BlBuqXeCtJqEaK5A+qVijvWvdJuvKYv9r4LTmI1/2+
+         9KHpvGOHIS5i8ZLAc0ceiovlQwrCszEjo0nx3bjyHKLDPIBjyDj3vY6C2NQCTZ21VOgi
+         KURcF+o1P2NjT4+8w2PkHE7zaW9S3DuD5KPCY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SOpFDAHFhOBboaBfupTT/wxOgT87kYPQ8Hhdlrv/fDI=;
-        b=gNQzglohAOBwZ/RUE9HkUWm4koQCvGDZZaVUxDMRLkJRiL1xebquTBMc2VYQUF8t9G
-         s/Iickvxs8GyfHEIPNzOrk1xONqLrpqDorIMmKKf0wNrscMQf6iS1o1wZCPgBMqTkyZz
-         +N6cgHq9WydpLAl2i8/Nmnvw0afQSOIZttdghrItvEbNL4HsbXDvU86JwBwspgUJdbQY
-         T0Bet90R346eE9rwN1DpEs9lCuVJk6jCN0mcWpT6u0h3gVrr89JGuaro/PWCddfvvCrC
-         PjsJObEyzgnolSNjEmN54MbAJV6wA7HkGIIFunDTOHq7t1kmeO+mg3HrKHfrL411uiuL
-         XAiQ==
-X-Gm-Message-State: AOAM531PrXWVmfeytozun6N0fCDkZfOLoDm+CkUB5axzOQpM9EAZQe6c
-	wWbNeMdxPk9QawqIcU+yntKgJEvDbntRfw==
-X-Google-Smtp-Source: ABdhPJyKOobJx0wY/VtwmBlJHtVtWwTrIwimGC5e3n72WI3qROCZpaypCP7mRhD5oc0HUyxqfmHg/Q==
-X-Received: by 2002:a05:600c:2d89:: with SMTP id i9mr23124742wmg.139.1622412537547;
+        bh=y45J+EXt2pNj/nulu1n+3cCxPuiiJhvsb8Xx/iWwWeo=;
+        b=sOytgQHmyARz3n1fnHoceu4w4+t3DefU+sKHijU0oJO1Tx8Q1iBQDmvqGK01vXSsFc
+         BgDSYRMfZ0ZhhYioDLVPb+JcoUNHMqEnvlArYmo87wqr/CLgtCJjH/dQi3yX3pzbKTUG
+         E8o4pqiuYqeOmNVy6WE0ysXa9Wk9TjW3MJrfA7k6rk7prD7u6g15h/GI5ZMir78f0kHe
+         QHUo7dSNmpafkvNJr2BSvjc6syC9VtdFXqQvYcUzCm7BDOpz0XcOZ1zbJnygP0SkkN9Y
+         6emRvGm3zD0cI2B4itFkX+UJnEEkoUo+8x0QJ1/DKtIVzRBreGAVqqeWK4MakoNxvR/Q
+         yhzQ==
+X-Gm-Message-State: AOAM530yHCHbR6B2oBb1ly4HpJbQd8cKQn0CV1M5D9mrD5FuPm8EcvyO
+	+In+VZeYfb8nRai4PBXvDfKDytBIG8ZUtA==
+X-Google-Smtp-Source: ABdhPJyhFgE8UT7YLgjZGeEO/aks1ZxvB4N5WM1Jy96cbEFb27iCgTaGXQx0njpRgZI4eFVmTmeOcA==
+X-Received: by 2002:a05:6000:1286:: with SMTP id f6mr18289583wrx.226.1622412537916;
         Sun, 30 May 2021 15:08:57 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
@@ -39,9 +39,9 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fcab:51bf:ac39:992c])
         Sun, 30 May 2021 15:08:57 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/16] libxcrypt: Upgrade 4.4.20 -> 4.4.22
-Date: Sun, 30 May 2021 23:08:42 +0100
-Message-Id: <20210530220856.2830501-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 03/16] iproute2: upgrade 5.11.0 -> 5.12.0
+Date: Sun, 30 May 2021 23:08:43 +0100
+Message-Id: <20210530220856.2830501-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
 References: <20210530220856.2830501-1-richard.purdie@linuxfoundation.org>
@@ -50,34 +50,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{libxcrypt-compat_4.4.20.bb => libxcrypt-compat_4.4.22.bb}  | 0
- meta/recipes-core/libxcrypt/libxcrypt.inc                       | 2 +-
- .../libxcrypt/{libxcrypt_4.4.20.bb => libxcrypt_4.4.22.bb}      | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.20.bb => libxcrypt-compat_4.4.22.bb} (100%)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.20.bb => libxcrypt_4.4.22.bb} (100%)
+ .../iproute2/{iproute2_5.11.0.bb => iproute2_5.12.0.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_5.11.0.bb => iproute2_5.12.0.bb} (75%)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.20.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.22.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.20.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.22.bb
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index c16068c1614..e4505a666d5 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSING;md5=afed27a72ae2a8075978299eebaa1f5d \
- inherit autotools pkgconfig
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
+similarity index 75%
+rename from meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
+index e27b42d2327..36311233742 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
+@@ -4,7 +4,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+            "
  
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
--SRCREV = "e73ff0137de5152e69e8abb0bd260541804dfe5a"
-+SRCREV = "3df9620d08db207367c0c5152148665b5ce422e1"
- SRCBRANCH ?= "develop"
+-SRC_URI[sha256sum] = "c5e2ea108212b3445051b35953ec267f9f3469e1d5c67ac034ab559849505c54"
++SRC_URI[sha256sum] = "9d268db98a36ee2a0e3ff3b92b2efff66fc1138a51e409bdef6ab3cfe15f326f"
  
- SRC_URI += "file://fix_cflags_handling.patch"
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.20.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.22.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.20.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.22.bb
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
 -- 
 2.30.2
 
