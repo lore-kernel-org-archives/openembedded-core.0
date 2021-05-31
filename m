@@ -1,95 +1,112 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.47552.1622485220017460828
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web12.47798.1622486516652644847
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 May 2021 11:20:20 -0700
+ Mon, 31 May 2021 11:41:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tjUrM6Sl;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id dj8so2142856edb.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 May 2021 11:20:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JWG25zQD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso414731pjb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 May 2021 11:41:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=R3yeXD6AIehxm6+77rTVbnkHh244gT7YQIwIkeo5wdw=;
-        b=tjUrM6SlyU/+XTOQPG6w0TKk0gHFwbwE9QyE+h0VIj7lDM9RP3FCUVY3T+rMzq7Bke
-         6IuYLfrrl60PSgTY5TUv3qEmN2k6HDj97m4vCC8UHAygdMRbTZpk8AgC//nZpbVUouFR
-         CdVKeDXuBn/ZuwzpKZsezw2lt2ZyKEp+NXmamC/hpwEGokhen0MR12HsoR2lNmcXgeh3
-         1p5ETOdJVTG5Wwi4P9GHv3xChdIEE9BJf3kTxBaLWSRDKfr2rCncZxZ/7rfqHvVJcZ6e
-         mvZD/EhJABFxFR/9mU8FR1WolYGWn8JBskYCm9xSd6Fxi/9n9Q1nZA4OW2VRHM6ixNBx
-         gtxg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=ZKJseFFlgO4OqxFSSX+BlCRbKWbn5nBquLMMqRDy2s4=;
+        b=JWG25zQD61W0tGhUrymFXkVCcmiipETRbd7u9jwIgeR1AyYrvGONzmSNP9Mc9bLBvQ
+         8mbu/1CE482A09NFrOKu33z+p6VfC7q4HMEG9JgLnu9wrPp0AQ30EGKsWFpZVAb895Rn
+         BPv4UE+rcaSk7d0urUG7l5ixTN8YHGFG76WVB1EA2u++/HIbQQT0JxJo+udpS642z1mS
+         sZvw0p6cNv+qhnDqKdBioEi1glAsW3atIr4NScfyNvhLxWGLbsuP2lhMm6jhmAQO+thl
+         tWhD61dUrK3Kd2H14aYophDxqWRTncaD27eF8ijbbU5nn0tc/DiiNYW9HMNVBFittD0K
+         LWXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R3yeXD6AIehxm6+77rTVbnkHh244gT7YQIwIkeo5wdw=;
-        b=YWjullwi1bj6kjqpR8poULb5QRDHaogUUTp02y/XO3jU0VQkU1WGeeXa6uwFiBYq5k
-         eryi7WkPCrcG8oFu9B8K0o7P2pVlNW4+cQXMLtcaQRsdlLW2zEb5ExTWS7NRhXX8ZpkW
-         0xbqdfKE5vJZ9EDpyKl6cCNDyb9vqkB6xhrqVH2UP8R17YKHzOD/6Y0uDFTy9Yu1xyDd
-         LjnoB6aetg1IBWV6+SYktKH5lTlaVaSmPxRZGUink8lE9Jm83+Mc/sQS3VTJDHe5Obnt
-         mqt7R9JOxLwUL8uC3VQ9AJbLqdMNowgve+ER01GBMiNJFqunLj/8lTdFLbU5qS2F+iUD
-         P9DQ==
-X-Gm-Message-State: AOAM530Y+FZuVdt3GGrQrykD571aN5jM8efFxCD6Wk/Q/jzsjFpy8THq
-	mKt2RS1GPuCm57V4I4+qx4VjAjWP/aTHNK42BHQ=
-X-Google-Smtp-Source: ABdhPJwDgaStp73euocKzhzAqqv2bVm56qznDDd/pbgSPXVpKdxSmFZQEDmBdmHhnMD4l9NokdHJJMtyFYu6LtYsvcc=
-X-Received: by 2002:aa7:c885:: with SMTP id p5mr681554eds.234.1622485218365;
- Mon, 31 May 2021 11:20:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210531181609.963494-1-akuster808@gmail.com> <20210531181609.963494-2-akuster808@gmail.com>
-In-Reply-To: <20210531181609.963494-2-akuster808@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 31 May 2021 14:20:07 -0400
-Message-ID: <CADkTA4Nz_WY9M+AZX9AgvXAbCZL-zyCT5YTeAx=B=0y839YU6g@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=ZKJseFFlgO4OqxFSSX+BlCRbKWbn5nBquLMMqRDy2s4=;
+        b=Bm352LxdrZyLgh/AbaA+Au44Mt9zcH7fUlS7Y9Y7MfOKNjAScuaa15ZOwtt2OGXzWa
+         sl34o9R/KDSOEFc2EzgQ8xTOLfxTUnbKb+FFGPHyU0gd8r2wqPV77+orI8pF4QMEAIEd
+         38aoEG+DyVQb7VGxTJHosOtAcKU7+7n3aAualzEofI+va3TeNRpS54Y/s8Ji6LIxx6Ki
+         VdY1LnjzPJCWK4KCXUkN+DwGSQRsDDLfA6qKSEtvfX7CphjuDQrslPoAnRrCe4G4CDcB
+         +BLrO4V4/nkrGylhIsr3aZ/k3TbJMRQ9lSIUBK0PIRTb7odgWJPwoPMe/opmmeN1VZEl
+         mOqw==
+X-Gm-Message-State: AOAM531OkErN99PAQyJcFtEq1Gdso1odDJJUPReBLqRffv91Mc8ecMiA
+	zF8t8dwlDFNWEfhOIovJhYMtxPDpCa5HVg==
+X-Google-Smtp-Source: ABdhPJwXCA81AmRdZc5lEpch6m38QG1B6yKfPJbLM7Yj+eWTBlryOhd8Yj9oSvgTeW54Mz5G3COedw==
+X-Received: by 2002:a17:902:c406:b029:ef:7ba2:f308 with SMTP id k6-20020a170902c406b02900ef7ba2f308mr21988378plk.9.1622486516022;
+        Mon, 31 May 2021 11:41:56 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:801:3907:4101:edb0? ([2601:202:4180:a5c0:801:3907:4101:edb0])
+        by smtp.gmail.com with ESMTPSA id q24sm12006862pgb.19.2021.05.31.11.41.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 May 2021 11:41:55 -0700 (PDT)
 Subject: Re: [OE-core] [v2][PATCH 2/3] kernel.bbclass: link in kernel-features
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20210531181609.963494-1-akuster808@gmail.com>
+ <20210531181609.963494-2-akuster808@gmail.com>
+ <CADkTA4Nz_WY9M+AZX9AgvXAbCZL-zyCT5YTeAx=B=0y839YU6g@mail.gmail.com>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <cb8ee3b7-f17f-c738-57e9-0c250e6cdbf8@gmail.com>
+Date: Mon, 31 May 2021 11:41:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4Nz_WY9M+AZX9AgvXAbCZL-zyCT5YTeAx=B=0y839YU6g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Thanks for v2!
 
-On Mon, May 31, 2021 at 2:16 PM Armin Kuster <akuster808@gmail.com> wrote:
+
+On 5/31/21 11:20 AM, Bruce Ashfield wrote:
+> Thanks for v2!
 >
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> On Mon, May 31, 2021 at 2:16 PM Armin Kuster <akuster808@gmail.com> wrote:
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>>
+>> --
+>> V2]
+>> rename kernel-kfrag to kernel-features
+>> ---
+>>  meta/classes/kernel.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index 8693ab86be..493136dfb0 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -1,4 +1,4 @@
+>> -inherit linux-kernel-base kernel-module-split
+>> +inherit linux-kernel-base kernel-module-split kernel-features
+> Since we have the bbwarn, can this just go into kernel-yocto.bbclass
+> as a default include (for now) ?
+sure.
 >
-> --
-> V2]
-> rename kernel-kfrag to kernel-features
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> As part of my series to move things around, I can relocate it to kernel.bbclass.
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 8693ab86be..493136dfb0 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -1,4 +1,4 @@
-> -inherit linux-kernel-base kernel-module-split
-> +inherit linux-kernel-base kernel-module-split kernel-features
+> We are sending two different messages as it stands, and everyone is
+> going to get a bbawarn that isn't using linux-yocto, but is using
+> kernel.bbclass :D (not that i mind, but others will object ;))
+Well. One message is from the Crazy Uncle ( and its not you )
 
-Since we have the bbwarn, can this just go into kernel-yocto.bbclass
-as a default include (for now) ?
+I am not hung up on my solution. Whatevery works  when I  define a
+'unique name'  to pull in kernel fragment that live in the
+yocto-kernel-cache. I think is silly I am doing this in a s/w layer.
 
-As part of my series to move things around, I can relocate it to kernel.bbclass.
-
-We are sending two different messages as it stands, and everyone is
-going to get a bbawarn that isn't using linux-yocto, but is using
-kernel.bbclass :D (not that i mind, but others will object ;))
-
-Bruce
-
-
+-armin
 >
->  COMPATIBLE_HOST = ".*-linux"
->
-> --
-> 2.25.1
+> Bruce
 >
 >
-> 
+>>  COMPATIBLE_HOST = ".*-linux"
+>>
+>> --
+>> 2.25.1
+>>
+>>
+>> 
+>>
 >
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
