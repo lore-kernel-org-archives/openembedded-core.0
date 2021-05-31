@@ -1,79 +1,124 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web08.48284.1622488321246107598
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web12.48141.1622488321790722942
  for <openembedded-core@lists.openembedded.org>;
  Mon, 31 May 2021 12:12:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XvfK0MNX;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso455983pjb.5
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=u02RqKWP;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id mq2-20020a17090b3802b0290162428291f5so458758pjb.4
         for <openembedded-core@lists.openembedded.org>; Mon, 31 May 2021 12:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=CifcwRy64X7b/wf8AuCAb1Ug4WI8N9TCO2rIKgo+050=;
-        b=XvfK0MNXdh1sRknvTVYLnNJwGBrK5lf405e8pXZ/2oUoOexSftMCeO8eIJqZbZ6ZyY
-         UAG0n6R2238g8cAwY74Q01cjwdG+v6ALi/JV/b0qnAhxCHJHqIPyxDRocy8wkQcxghPB
-         0bHw7IFUci37Eq1cvCGZCFEe9f19Ynu7FekIW5YPT9Fxw+FMdfK6wpMvQHQZVcS9xud7
-         r8WVEOQ5VJfxaLWt07EnRzUjF+jDk7Ha6evsy/5Nfqw+gG3rtol+TCDYuPgSKgJ9CcP7
-         0x0HmvPP1mCVipb83V2YbdX8wAFwce8YuzkThYRXzAaIxcCHjy+gi9Hgr0FG5l41Vbti
-         j7Gg==
+        bh=KZGbGQD8mN1X99mAMpJN+uJ1vJHncj5mWC7cgWmdHEY=;
+        b=u02RqKWPDOq/2RxK1727F/Cez2Ia1l2hQetIzYiqNcaUvdiHt7Hlm1bd/rolYD2GiO
+         iizRnxyMzfxDnbpAR0xdSumPli4/GY+Bg7gfO5dk2/kORy/stDkUK6FBNkxHYAdjzSPp
+         8yEy76+G7Wmh8gfNYVUnZYCaeEYqtRIIhajGZS4vs2H+cCzTTN7NDhkx7kovKhpRDFaL
+         GODN8ECEEd2dJdCRAXdQbg7pvnojKSaLOPY42EOrCpUxcbng5zLcQdBz8sm6tudCM8yS
+         FEzmTuV7JvulBus55V/8kQCsiXKuW5KJWscqQvSu0JGLR44Lfhh9662gVwmsqW77C+2T
+         mPyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CifcwRy64X7b/wf8AuCAb1Ug4WI8N9TCO2rIKgo+050=;
-        b=ITJIFLoXkSQ0hmq3ZdX28mKWV3f7CHiu5xCCuRqIMA92bhOd0yp7c2t1gBsLtVDTeM
-         ZbMO4nF+8lpvZX3+FPToFbbMurSbtmH2cVmD4H62HVrQ/IGmnt+tFBLaQRlwYFE1RR2L
-         YUt+ujDbfGuXhp3rCki7i7DJu14ONuTRvhfIrZj/4S6O7lQ6pYTC31mDxKTj261NuHpM
-         dIAGJvi8VHSb2p54g/X8tj+PzR8OZE5WNhRiCd6U8P7d4X8e1oRvOi0WIKyUCkl0A5j0
-         /oF+RhGpguDYq4Zgw+6uX4lgv2cODYX7rjc/Tw/b00t6oI26Z1LWHLSq3FRcWEtQRhxe
-         sSAw==
-X-Gm-Message-State: AOAM531R2XBd9njtefnPyusULIAwBV+QooJ/LpbMGD4LSARgm1E06r7e
-	cAxxvUTalLusyNSN2L8XrZv1JGlWyxApeg==
-X-Google-Smtp-Source: ABdhPJy1r2wK3snGXu4LRdsWAV+rFyXMaDNPVjKfJ7IBU2E/QWnu++w1Qoub7+Lz/CDjaST4Dbd0Sg==
-X-Received: by 2002:a17:902:7c81:b029:ef:b02d:f15a with SMTP id y1-20020a1709027c81b02900efb02df15amr21908628pll.34.1622488320248;
-        Mon, 31 May 2021 12:12:00 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KZGbGQD8mN1X99mAMpJN+uJ1vJHncj5mWC7cgWmdHEY=;
+        b=E+INs29lJZsBxj2zgUC94FgufaLLIrc+nukLlCN3tGgTRGds4tBTd+FPMlyVeiHWOD
+         gTTyPe8asPm9Lw8k2ji/+U3+ZXoDh8C17/cfRfbiL9tFXb/gvTuctD6LdwdniJPWvi5F
+         rqlCstKSWjDTBVXOBEpk/YR4/Vx2UoXlyaTr5/7vmBqaMSUPe0sdT2oOmcK4bqLhY07y
+         6HkuSmvQowHxekIsTcPcBFpt+Fy4RH7I7zB0G1Nm9btaa6+B4Gs2nYCwVz+1jcEKq41g
+         EkeNRg2pFfyavm8+d4j8MpwXz/wzH4UvYgEdtwU8QQwW1OXe8FzD2VsdNjahdEDFKBWx
+         FuhQ==
+X-Gm-Message-State: AOAM532BL4tniAo6wTI+bZJQ/Iyfzu4/1ZpxngPpDNiIVdFCnU8nNtdS
+	sqoFVo/Pjupl+I2dB9QDth88MAXxUxlIVA==
+X-Google-Smtp-Source: ABdhPJxkfKjlZpxypmBcsAVW9+mlCohK6mT5qo+kJvt2T+2Lan7xmkN7ejcZHVsJafa9NAN7/kjsKg==
+X-Received: by 2002:a17:902:aa04:b029:ec:f779:3a2b with SMTP id be4-20020a170902aa04b02900ecf7793a2bmr22102415plb.44.1622488321152;
+        Mon, 31 May 2021 12:12:01 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from kona.dnls.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
-        by smtp.gmail.com with ESMTPSA id j5sm10799327pfj.185.2021.05.31.12.11.59
+        by smtp.gmail.com with ESMTPSA id j5sm10799327pfj.185.2021.05.31.12.12.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 12:11:59 -0700 (PDT)
+        Mon, 31 May 2021 12:12:00 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] RFC???
-Date: Mon, 31 May 2021 19:11:56 +0000
-Message-Id: <20210531191158.964098-1-akuster808@gmail.com>
+Subject: [PATCH 1/2] systemctl: Stop tracebacks use formated error messages
+Date: Mon, 31 May 2021 19:11:57 +0000
+Message-Id: <20210531191158.964098-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210531191158.964098-1-akuster808@gmail.com>
+References: <20210531191158.964098-1-akuster808@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I ran into an issue with a systemd service that had a depend.
-The post init error message was a bit misleading;
+When systemctl fail it would throw an exception and
+dump a traceback. Lets use a more controlled workflow.
 
-ERROR: security-build-image-1.0-r0 do_rootfs: Postinstall scriptlets of ['clamav-daemon'] have failed. If the intention is to defer them to first boot,
-then please place them into pkg_postinst_ontarget_${PN} ().
-Deferring to first boot via 'exit 1' is no longer supported.
-Details of the failure are in /home/build/builds/master/tmp/work/qemux86_64-poky-linux/security-build-image/1.0-r0/temp/log.do_rootfs.
+[Yocto #14395]
 
-All I found was a python trace back in the logs. I have provided a version of an
-error message that I hope is acceptable. The second patch is for RPM adapting
-to use the 'error message' to help provide a bit more info.
-
-The RPM solusion has been tested and before porting this to the other
-package managers, I want to make sure the 'error message' was accepted.
-
-
-
-Armin Kuster (2):
-  systemctl: Stop tracebacks use formated error messages
-  package_manager/rpm: decode systemctl failures
-
- meta/lib/oe/package_manager/rpm/__init__.py   |  3 +++
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
  .../systemd/systemd-systemctl/systemctl       | 24 +++++++++++++++----
- 2 files changed, 22 insertions(+), 5 deletions(-)
+ 1 file changed, 19 insertions(+), 5 deletions(-)
 
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index de733e255b..e8c3d2d1ee 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -160,7 +160,9 @@ def add_link(path, target):
+ 
+ 
+ class SystemdUnitNotFoundError(Exception):
+-    pass
++    def __init__(self, path, unit):
++        self.path = path
++        self.unit = unit
+ 
+ 
+ class SystemdUnit():
+@@ -224,7 +226,10 @@ class SystemdUnit():
+ 
+         try:
+             for also in config.get('Install', 'Also'):
+-                SystemdUnit(self.root, also).enable()
++                try:
++                    SystemdUnit(self.root, also).enable()
++                except SystemdUnitNotFoundError as e:
++                    sys.exit("Error: Systemctl also enable issue with  %s (%s)" % (service, e.unit))
+ 
+         except KeyError:
+             pass
+@@ -265,7 +270,10 @@ def preset_all(root):
+         state = presets.state(service)
+ 
+         if state == "enable" or state is None:
+-            SystemdUnit(root, service).enable()
++            try:
++                SystemdUnit(root, service).enable()
++            except SystemdUnitNotFoundError:
++                sys.exit("Error: Systemctl preset_all issue in %s" % service)
+ 
+     # If we populate the systemd links we also create /etc/machine-id, which
+     # allows systemd to boot with the filesystem read-only before generating
+@@ -307,10 +315,16 @@ def main():
+ 
+     if command == "mask":
+         for service in args.service:
+-            SystemdUnit(root, service).mask()
++            try:
++                SystemdUnit(root, service).mask()
++            except SystemdUnitNotFoundError as e:
++                sys.exit("Error: Systemctl main mask issue in %s (%s)" % (service, e.unit))
+     elif command == "enable":
+         for service in args.service:
+-            SystemdUnit(root, service).enable()
++            try:
++                SystemdUnit(root, service).enable()
++            except SystemdUnitNotFoundError as e:
++                sys.exit("Error: Systemctl main enable issue in %s (%s)" % (service, e.unit))
+     elif command == "preset-all":
+         if len(args.service) != 0:
+             sys.exit("Too many arguments.")
 -- 
 2.25.1
 
