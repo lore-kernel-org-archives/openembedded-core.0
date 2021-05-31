@@ -1,93 +1,76 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web11.43958.1622467009371659225
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web10.44008.1622467010363374550
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 May 2021 06:16:49 -0700
+ Mon, 31 May 2021 06:16:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cSaILoOm;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id k4so11164228qkd.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 May 2021 06:16:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AK96fHa2;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id h20so11118590qko.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 May 2021 06:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Syi/qPbnAbOgKBkHcWPxarC4Am9bIVRpEBp0CypVOmY=;
-        b=cSaILoOmk25Xx7pJAMjCwT+3rOONEhzWnspE+1R1qSP/AqlaGqXEiGR0ZCNGfjVQpn
-         1fm0cFRUV7xmhhzuuQb4OO+NVAE2Sd+3IUB3zQxITRavf4eIrg8Z+FRn9mFZ/gi2hG8I
-         K945uHyw/W4A9Yzv7ng4mR0lGwb4nX5epRD6F/GtQIE3SZWSdaS5sg5eoVqFccxAFpz9
-         mam5hdVfDcEzbkVz85G/rlipsFHBaxj+t6ypOMWlZVkSUPXv0TNr21FGDz7djafbDPn3
-         wKv7VraR1MkUuGiY16LxmGDMXRKkobchMaL3Hel1IeMCsPeqybv8FtU4KXYzqDOSm6QK
-         rWUg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xKLo0VUcaQSRNr6B1RtJ4wH0n5XTRmqg3OjjVBwvt0w=;
+        b=AK96fHa2lWcNApXIFcQUnzKaN9wk0DFTNkB5T3nwFxxKMCe5tLwkNy/zpuqdZag7g7
+         dOybHomqbsaNGMYSI+iyOmtxc4TR9tQKpXX//rOH4vcGcl3/ikBt6foNORkeQkHgMW9V
+         4gxyIAJ76uk5TJTf09CnGrj29hVFIkLFg0S1bcnLNH8Fhh2ZUl2UdBWJpANCd/zuZFsF
+         YIr9uhNVDR6YLHCyZixSnWpEci3LVLCriN1FZbkt04mTEUK5npML7zgI9J3RLpf8bWQd
+         vxeUA0pUW83lfT8ygU3fy4c/b4E8pIuR0PkbXvuXfoGl4ZgQ3zqnOHAfdU7Qh99FvM3s
+         +mbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Syi/qPbnAbOgKBkHcWPxarC4Am9bIVRpEBp0CypVOmY=;
-        b=dnjtJ6sp0iiFzdaMFfBoNxDWBGoz8WVn8qIwia9jnG9ek2XMO5xpTlj3xRkltxFMZd
-         D66SI5jE21B29Os5vUxFIy5NF7PKLAJXP7ss/fBGb9nzkdNhUWUsNQ34ZaeLdGOi+Nma
-         c8dWDAoBQkJfSx/hUgNrLmgO6fMFWDDkTE5X2hgU6pTkXQQjgm+Dvb6oxbqXO3YfP2Un
-         cvYEmR2wXOMJg72Q7XTKfeBN6GPSRyZdp+U4mTjIIO4hOuovDvWNZjsEYBr4iJuYI5u4
-         ssYt+CIK/aAEbT9sj16rIOm8eUUcwLkg21zQ4t5z0VY8HCtKyiWrQcpS6567LcwXRpNF
-         +Knw==
-X-Gm-Message-State: AOAM531NQ5zhibkMKqdIXs+NIAO7R3Akl/JDyF5aimbW+JqU3OgZVfh6
-	RNfzAh/cu3Nrqi/wZ10nnB8=
-X-Google-Smtp-Source: ABdhPJwbRJ2rCIQL/Q3StLs1H5QPCuUBgkG/m3osQ+cYLZfho1Vo08oZxWM0qjiRVKNCzHnsZ/wJ1g==
-X-Received: by 2002:a37:6682:: with SMTP id a124mr16075623qkc.83.1622467008458;
-        Mon, 31 May 2021 06:16:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xKLo0VUcaQSRNr6B1RtJ4wH0n5XTRmqg3OjjVBwvt0w=;
+        b=NG4BVUPZbka9uQciNB3UNzkAMFYSkn5z4kydGnUJi6xOFdYGaO0KM02ItvQ7BDYjaM
+         d836/Vc6EYP6aP+NgfgK/RASqH3uS0OtWB/z3qxS+vcEaD//FA4N56YsQ43jit1mTGFN
+         NsHzvsHv9aA/iUaOTm/pO7oDG2/Nqlrgi5Hn9pc/tHn/GfvqKAJxBn6Z5JLAb84fgtSd
+         lWnoqPypfkggPBJJ1u1w5E9PwOHvMHg+S1aurFvZ+c3/+Xkbsu9wOVX4D7WvrhtbHbWP
+         SjRs3wXwObogrK1ueBPdlPYSp/b/Rs2K08ZwVqLTxWw7XuPbg44woBkSQvnZudYWBUsL
+         Locg==
+X-Gm-Message-State: AOAM531xRIxtWCTRb96VgIYsXxFHNU/GySMAbbi/cGXUd+fTS7mOI1HM
+	TY6z/S6nzs5/GsVK1ay3JVk=
+X-Google-Smtp-Source: ABdhPJy/SbkdMdOiErR3sMxDAu3BusRnJEg6BsezdM+6JyTgjKbzzViwWgbVsl5Q19SKBNG8fLN3Yg==
+X-Received: by 2002:a05:620a:1021:: with SMTP id a1mr16169504qkk.399.1622467009317;
+        Mon, 31 May 2021 06:16:49 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id u11sm3008622qkk.12.2021.05.31.06.16.47
+        by smtp.gmail.com with ESMTPSA id u11sm3008622qkk.12.2021.05.31.06.16.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 06:16:47 -0700 (PDT)
+        Mon, 31 May 2021 06:16:48 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] linux-yocto: -stable and -dev updates
-Date: Mon, 31 May 2021 09:16:42 -0400
-Message-Id: <cover.1622466879.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 1/4] linux-yocto-dev: bump to v5.13+
+Date: Mon, 31 May 2021 09:16:43 -0400
+Message-Id: <0293f7d3287deb09450f8ebf25d93548c8700790.1622466879.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1622466879.git.bruce.ashfield@gmail.com>
+References: <cover.1622466879.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--rc4 has rolled in for 5.13, which is about the time that I normally make
-it the -dev kernel version. I've been testing it locally since -rc1, so
-it is good to go.
-
-So we bump that version, as well as grab the latest -stable kernel updates
-for the active versions.
-
-Cheers,
-
-Bruce
-
-The following changes since commit 40d3366bea8d2417e89a37c6f2d38e1542160342:
-
-  flex: correct license information (2021-05-28 06:41:03 +0100)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (4):
-  linux-yocto-dev: bump to v5.13+
-  linux-yocto/5.4: update to v5.4.120
-  linux-yocto/5.10: update to v5.10.41
-  linux-yocto/5.4: update to v5.4.123
-
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++++---------
- 7 files changed, 38 insertions(+), 38 deletions(-)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index ee41d612fd..f407882316 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+ SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ 
+-LINUX_VERSION ?= "5.12+"
++LINUX_VERSION ?= "5.13+"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.19.1
 
