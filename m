@@ -1,131 +1,132 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.39277.1622428085335178389
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web08.41342.1622445957334623542
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 May 2021 19:28:05 -0700
+ Mon, 31 May 2021 00:25:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gG+nYiHw;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id ss26so14315483ejb.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 May 2021 19:28:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SqhnEZNZ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 131so13792949ljj.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 May 2021 00:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EFffWK4jnG9o7SKe0WkIviImfOvOQfZeOzj9/tlbXFA=;
-        b=gG+nYiHwwaXXmvTZu/4RBNbcrpTJH30lS9t9H5h1Je6PkMcZ6S3AgVOThDyu6U26WE
-         9MNdkr9Q6gwqzDYstpc7LFEqcfpl+TrAhFWYHdQF6Y+9muxghVc844ay2VVWEDemmtnR
-         dx3prDZwYB9gm1I1xX0kNlSHQOwN23tqxH9di4ga+iqSZ9O3zQAaNXkHdxN0oazENuDU
-         R9ll1wdi5ti2gRqdm2zB5LUkYLx6Div9qaT+FKHzjBo8NKIEVfz4eocHTQK2QZu55q5u
-         +r/ZIPtIe/TxhhmJw3M9DOkZnJKSxVfpX9F4btGSI7tHjY+FajXmDTpAPYpXiOKFQ0xn
-         o+cg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wLr6pmJRHmV7zC+rbA9tBL4C1JcOIJS0180gvtWPDfA=;
+        b=SqhnEZNZcqg8v3OQPhTqIOfQU1IUDjlFC4wgApRtPCn37FggdDGuRYWizydfIwAjV+
+         R+bU+wayVexALnlYjtsYHLu1Jj2yhmaJr08rbLBu3I1DdPTqYNHMaiUv6vTNMn1FZ6oj
+         8fjhKGdwZ0vNTopYutAuCJrmjDaxSrq7HqXub5rxw7q158UMqI9w7xl3WchX5ns2ba+H
+         EFtTBv/GVBIWzlWkaLj+iIpREpv6SuhDgnSXZ+4sorVD763e53dz7eEtWHwK1H9wog5W
+         4cZ/qXqrCHh3tpZOyf+jk4VK0+ZicsghTGWfHIje4aZ7/YYILt/TC7nnTXJKINmyOlN4
+         ndyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EFffWK4jnG9o7SKe0WkIviImfOvOQfZeOzj9/tlbXFA=;
-        b=PM0h9kcD5lzIQlT6AZC72TQ/VGRdobW+DIZ9uKrj49pFbgNVnPkx711E5j+XkjcRIE
-         9TBjLUqB7/kJYxKUHwCHlZLwa2JcYri2flQga/mDcqFZshBJXqRduBjqig+/lYHZ8O6s
-         +ZW+uPP3Ulf+AknsY/TJRyBAuWmORlwWYEOm/KywZGQl0oxdjH3Ivhm/fVGpXhpjJIIF
-         eCGdHRUhBeZHtW9deDtPld1rUJGQ0xx40QRat/SF5AVI57MOlUjF36U9bcGFGfDLWvh6
-         peZfwLHr0IwWksLky7ppyaW8agcMhnRiDqNKrc99ca7qpjrjiFSt4WfdhMuNd4/mCbif
-         1n/Q==
-X-Gm-Message-State: AOAM531wWU9AjXbow6oOtV5O/JD39lQGKhqcQRXdqXvToa2C7XJzpPE7
-	GnWAEfJZBthKBrPmu0Mpx6hhBq6bpNU71CK6X8M=
-X-Google-Smtp-Source: ABdhPJwAoJqxX7b6EHYj4W7Kjn5HBrRfbuZGrMQuixp3SE+p9vsnpbGr2DHk1YTstaOXqB9hJiWdLQBWf3c2C9R0rWE=
-X-Received: by 2002:a17:906:c211:: with SMTP id d17mr20721775ejz.247.1622428083684;
- Sun, 30 May 2021 19:28:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wLr6pmJRHmV7zC+rbA9tBL4C1JcOIJS0180gvtWPDfA=;
+        b=e3TnfKIFdUEdPp/zM/ZKKaNDqdgNgm0IdMi6V3rIX4AEzPatB7QskzwWvLLxzAT1+A
+         CQHg/SmSqWJc9Ih0dKYfXP1KJfPHqImnGqKFIqo29iTfUB51ny3q7MHnUJbFnilqcQ2c
+         pMLr/KXfE9JYhx6YBULoIR3N79/E22WLwe7E6oQ6GSfnp4RVMtW30ZpWV9ym+u4r5Clt
+         zoiOzB4OnstQMQWmO21guGonZhrfLvbdXvucchO8kkgyVM6rGgdj4ehRg4HU1u07qGbN
+         eECvLGkJeeOSynRsy122J9rJ6DG78OHYfRrlgZvb918bEho81P3w5OZ5DADBkBQzKECP
+         KqOg==
+X-Gm-Message-State: AOAM5306Wb2cp31sGmTeAK05SC7uJ2gYU5LtsZDp4+RtdUm8sUo+if5c
+	gH4NLENN0aP5ElmJwLYdNxYgIVTAjYQ=
+X-Google-Smtp-Source: ABdhPJzQXQ0ABTnCtm2KGnBFL7G248eqVw9VUU1ce51W/SMdZtRJEtuDCmXr/0tbAEjMllS7SPpbYw==
+X-Received: by 2002:a05:651c:118c:: with SMTP id w12mr15532127ljo.405.1622445954974;
+        Mon, 31 May 2021 00:25:54 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from localhost.localdomain ([90.129.201.30])
+        by smtp.gmail.com with ESMTPSA id u11sm1245759lfg.243.2021.05.31.00.25.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 May 2021 00:25:54 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: sergio.prado@toradex.com,
+	max.krummenacher@toradex.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] u-boot-tools: fix a mkimage signature issue
+Date: Mon, 31 May 2021 09:25:37 +0200
+Message-Id: <20210531072537.19247-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-References: <20210530180552.580308-1-akuster808@gmail.com> <CADkTA4ORQc2j9W9QgRJUhDY=q1ZLUdKxctJj=HLdkPPm9iGoTA@mail.gmail.com>
- <9bc2b2eb-7691-82a2-e68f-8b9d6c7459ce@gmail.com>
-In-Reply-To: <9bc2b2eb-7691-82a2-e68f-8b9d6c7459ce@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 30 May 2021 22:27:52 -0400
-Message-ID: <CADkTA4OWSw6DL5bJzoH3XVJfSpO+3=jZkTuCHnggND4RT-=PbQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] kernel-kfrag: add new class
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 30, 2021 at 4:54 PM akuster808 <akuster808@gmail.com> wrote:
->
->
->
-> On 5/30/21 1:47 PM, Bruce Ashfield wrote:
-> > On Sun, May 30, 2021 at 2:06 PM Armin Kuster <akuster808@gmail.com> wrote:
-> >> This provides a common place to define kernel fragments
-> >> that may be usefull to the larger community.
-> > Not a bad idea at all, but what about calling the class
-> > "kernel-features", versus kfrag ? That describes the purpose, versus
-> > what the mechanism does.
-> works for me.
-> >
-> > A 2nd suggestion would be to bbwarn if this is inherited, but
-> > kernel-yocto is not.
-> seems reasonable.  I did wonder the best place to place for thie. The
-> kernel cache can be used w/o linux-yocto.
+From: Ming Liu <liu.ming50@gmail.com>
 
-True that it can be, but we don't have a universal way to detect
-fragment merging ... and as we all know, the implementations are all
-over the place.
+A following error was observed:
+| Can't write signature for 'signature@1' signature node in 'conf@imx6ull-colibri-wifi-eval-v3.dtb' conf node: <unknown error>
+| uboot-mkimage Can't add hashes to FIT blob: -1
 
-I'd suggest that as a starting point, check for kernel-yocto, and we
-could enhance the check in the future if there are other kernel
-recipes that are doing merging, that also want to use this.
+This is caused by a wrong return value being used in uboot source.
 
-There's lots of other checks that we could do about
-kernel/machine/version combinations, etc (and in fact, i have an old
-bugzilla for them somewhere), but I'd stick with simple first .. and
-then we can see what makes sense to incrementally add.
+The return value '-ENOSPC' of fit_set_timestamp function does not match
+the caller fit_image_write_sig's expection which is '-FDT_ERR_NOSPACE'.
 
-> >
-> > Note: as mentioned during the yocto summit, I do have patches that
-> > make fragments more universally available, when I get them ready, we
-> > could remove the bbwarn.
-> Would those patches eliminate the need for a class like this?
->
+Fix it by not calling fit_set_timestamp, but call fdt_setprop instead.
 
-Nope. They just drive the fragment operations into kernel.bbclass and
-only enable it when a .cfg/.scc are detected in the SRC_URI (so as to
-not impact class/standard kernel recipes). This is just delivering a
-fragment to that operation, so the class would still do the same job.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ ...ls-image-host-fix-wrong-return-value.patch | 41 +++++++++++++++++++
+ .../u-boot/u-boot-tools_2021.04.bb            |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-tools-image-host-fix-wrong-return-value.patch
 
-Bruce
-
-> -armin
-> >
-> > Bruce
-> >
-> >> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> >> ---
-> >>  meta/classes/kernel-kfrag.bbclass | 8 ++++++++
-> >>  1 file changed, 8 insertions(+)
-> >>  create mode 100644 meta/classes/kernel-kfrag.bbclass
-> >>
-> >> diff --git a/meta/classes/kernel-kfrag.bbclass b/meta/classes/kernel-kfrag.bbclass
-> >> new file mode 100644
-> >> index 00000000000..c0c5667b519
-> >> --- /dev/null
-> >> +++ b/meta/classes/kernel-kfrag.bbclass
-> >> @@ -0,0 +1,8 @@
-> >> +#
-> >> +# Class to place yocto-kernel-cache fragments
-> >> +# selections usfull to anyone
-> >> +#
-> >> +
-> >> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", " features/apparmor/apparmor.scc", "" ,d)}"
-> >> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "smack", " features/smack/smack.scc", "" ,d)}"
-> >> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "dm-verity", " features/device-mapper/dm-verity.scc", "" ,d)}"
-> >> --
-> >> 2.24.3
-> >>
-> >>
-> >> 
-> >>
-> >
->
-
-
+diff --git a/meta/recipes-bsp/u-boot/files/0001-tools-image-host-fix-wrong-return-value.patch b/meta/recipes-bsp/u-boot/files/0001-tools-image-host-fix-wrong-return-value.patch
+new file mode 100644
+index 0000000000..c665c81b61
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/0001-tools-image-host-fix-wrong-return-value.patch
+@@ -0,0 +1,41 @@
++From 77fe3ad2ab2953ccdf6e9417cbecc060b45d3e55 Mon Sep 17 00:00:00 2001
++From: Ming Liu <liu.ming50@gmail.com>
++Date: Sun, 30 May 2021 10:32:08 +0200
++Subject: [PATCH] tools: image-host: fix wrong return value
++
++The return value '-ENOSPC' of fit_set_timestamp function does not match
++the caller fit_image_write_sig's expection which is '-FDT_ERR_NOSPACE'.
++
++Fix it by not calling fit_set_timestamp, but call fdt_setprop instead.
++
++This fixes a following mkimage error:
++| Can't write signature for 'signature@1' signature node in
++| 'conf@imx6ull-colibri-wifi-eval-v3.dtb' conf node: <unknown error>
++| mkimage Can't add hashes to FIT blob: -1
++
++Upstream-Status: Submitted [ Sent to u-boot@lists.denx.de on 2021-05-31 ]
++
++Signed-off-by: Ming Liu <liu.ming50@gmail.com>
++---
++ tools/image-host.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/tools/image-host.c b/tools/image-host.c
++index 270d36fe45..73095461a7 100644
++--- a/tools/image-host.c
+++++ b/tools/image-host.c
++@@ -132,8 +132,10 @@ static int fit_image_write_sig(void *fit, int noffset, uint8_t *value,
++ 	if (!ret) {
++ 		time_t timestamp = imagetool_get_source_date(cmdname,
++ 							     time(NULL));
+++		uint32_t t = cpu_to_uimage(timestamp);
++ 
++-		ret = fit_set_timestamp(fit, noffset, timestamp);
+++		ret = fdt_setprop(fit, noffset, FIT_TIMESTAMP_PROP, &t,
+++			sizeof(uint32_t));
++ 	}
++ 	if (region_prop && !ret) {
++ 		uint32_t strdata[2];
++-- 
++2.29.0
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2021.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2021.04.bb
+index ef386f76e6..4e90081911 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2021.04.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2021.04.bb
+@@ -1,3 +1,4 @@
+ require u-boot-common.inc
+ require u-boot-tools.inc
+ 
++SRC_URI_append = " file://0001-tools-image-host-fix-wrong-return-value.patch"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.29.0
+
