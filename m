@@ -1,83 +1,148 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.58512.1622557129058417820
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.58331.1622557131127044819
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jun 2021 07:18:49 -0700
+ Tue, 01 Jun 2021 07:18:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=H6nAZpzw;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso1610646pjx.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 07:18:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vrZJiw9m;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id mq2-20020a17090b3802b0290162428291f5so2024954pjb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 07:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=XK1llHXNaa5QN90hJ0vg4DppS2jBBlg5NKJtDo8p8dY=;
-        b=H6nAZpzwGwuSDs2pewMDf6CIVH78tA3oL+eURuGNLnvpJGhsFErxasyRXfHV3zHhee
-         Jkbj/Nj8WXMtBINt4pWhY1xafDhztYzwSWD5QGeY8s5X49qr94hi9k6fSpPm6wMbgjAu
-         JbNqRaTRydNcbTcaSuXzBcsLukrWKAa1RGKGpc+EBNIDdv87PG0QSdONbqTckiqbVg2O
-         Y71JQpixCFfR8/dL2G9Vp3P8KHwzNvffDHdy0yB6sRvMBFM45QNAam/oquUBwamBetTY
-         igduPD0pFxR8+8HjjNSFUAzcd8QcPFVRieeA5SdOibeKneNGn5DCJGDZdMhBNKtCVBM3
-         cA2g==
+        bh=kRw//feXELBZn0+ua1g6CwCseL52PO/QR4Ub/qAwprs=;
+        b=vrZJiw9mbj6XUziIV0/LbbMiBYW1AOG/tiqE066fUPvTn3Krv6YizJi4lkMaLslzMU
+         9QomgNFRyoIdxHqZCGG6dBQR2WvNrNvDoTuDmM+dFrTfHJxaruaIg7SjQs7IRCUsEBCu
+         3e3gwk+oPkMJLH15GlxEnpbt0+WsQiAOpA72/qBAab9F6mPwpZHogi8P+wgeBo51Fgto
+         JqIKseA6Mub0Qm8Z+utlDpPhQB51FF9dEBdJsY9BoCX7q0iljHMSjxNI0S1mFI9/bLfc
+         +wN8jlZEc9J2vCN9egGKFGm8wU4i1KzZ29VrTLjWzYw/0AgG+cQA5S81UqGuy0YUMLWj
+         ftYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XK1llHXNaa5QN90hJ0vg4DppS2jBBlg5NKJtDo8p8dY=;
-        b=kaypjpUyyLQZfQb9Q9n1tU4/uQD9WkizwEgpwv3ZXgY2wZG8EkT8/0pRYd34xZkCHg
-         MXvGpQhfj4PDRUi6tWk5uv+cSn/IjUSqEfjuKrvAvKGAF/BZPierFzYi1Czovl6DqOEv
-         vfO9BIu4Vo1Cwi1d+gBkPB4Uy0O9AxFvmq7HWyYxNPpMgrE0rp/DFUHY31pfWTu4agS4
-         6kwi/c18QASSnxbnNe0feBfAjK6i/soxIWAt9zPkhh9s8xTqSiitqaB3chLsangvYGZ0
-         drpZj41RaLyMIj8PeH+A9yDGyrGyojFbcMcrymyTZcUklcOYW2X2I5YJCy2+YDnD0S4j
-         cpsQ==
-X-Gm-Message-State: AOAM533KtHdTjThX73rHSP6TcwdmzoQn+9hOxa/j+o3CxiRLzWSFewPv
-	wnOi1ZBMsgYXlSRiwewp8SHv+couLvJu6idCJAI=
-X-Google-Smtp-Source: ABdhPJxUAImwoxZPw3MVl32OQ2j7+7fC+i+RBju6rsckIlY0ZoGIFssuJTsIv+LyHelOOrZef/J1fw==
-X-Received: by 2002:a17:90a:7f85:: with SMTP id m5mr25500187pjl.128.1622557128142;
-        Tue, 01 Jun 2021 07:18:48 -0700 (PDT)
+        bh=kRw//feXELBZn0+ua1g6CwCseL52PO/QR4Ub/qAwprs=;
+        b=MUZaRg7GTugZoov/rCyp1NzSTtqMpFbtKklssooxA44pVK+bTPkIi4/q1ou20z9GSj
+         H+YO5lQbDQxhCEG69VPQIfhAWtaqkGxnv/eKhnnmFXddAoDuj4rCP/TZu8mCFw5UAK12
+         dP1awIWLpgd2XG3mh6g7MNKbYa33w8t+Kh+kK/d8VYy5kOQRAeTg6zPprlL77HbX/EKc
+         ErB8gNms9ehH7yAymYUVrE0p9G4OqtceZctq1W2LlST7WyNiaI3sS50pDQXcQsoYFj3u
+         Gwn4U0b703LXWrhL8mZKen2dTZ76mo+IJVybjDSOQwWztYTIIhsaOMvaUK7gIql56Jb0
+         A2Qg==
+X-Gm-Message-State: AOAM532NyDXIWyjGQKCCsyF7aE/dqHzrYdPJRL1eU8u+UgJrOKVFuO8K
+	yA6wj/ZQ6dIrjy4WURGzl+FXLz/QmvqxDech160=
+X-Google-Smtp-Source: ABdhPJwl0dDZOemN5jfwXudpiQskHw/GVVwLbPSSDOa08/xf+Kum6EfNvBjS7w+AwYjlypQfacp42Q==
+X-Received: by 2002:a17:90a:ab92:: with SMTP id n18mr153801pjq.72.1622557130206;
+        Tue, 01 Jun 2021 07:18:50 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id bb18sm2307875pjb.44.2021.06.01.07.18.47
+        by smtp.gmail.com with ESMTPSA id bb18sm2307875pjb.44.2021.06.01.07.18.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 07:18:47 -0700 (PDT)
+        Tue, 01 Jun 2021 07:18:49 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/26] busybox: make busybox's syslog.cfg depend on VIRTUAL-RUNTIME_base-utils-syslog
-Date: Tue,  1 Jun 2021 04:17:56 -1000
-Message-Id: <e990a9ec5d6eaf2c328d61c4de73ea6c270cfa15.1622556919.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/26] kernel-yocto: provide debug / summary information for metadata
+Date: Tue,  1 Jun 2021 04:17:57 -1000
+Message-Id: <8c299837622795408f4e4a9e8c2b3b3d6f409acd.1622556919.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622556919.git.steve@sakoman.com>
 References: <cover.1622556919.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-syslog.cfg is added to the list of sources for busybox
-independent of the VIRTUAL-RUNTIME_base-utils-syslog variable. So even
-if VIRTUAL-RUNTIME_base-utils-syslog being set e.g. to empty, syslogd will
-be enabled. So only include syslog.cfg in SRC_URI if
-VIRTUAL-RUNTIME_base-utils-syslog is set to busybox-syslog.
+It was mentioned that when developing a BSP, the information about what
+definition was used, or what fragments have been applied is not obvious
+and requires looking at the code.
 
-Signed-off-by: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+With this change, we can trigger a full summary of the meta data gathering
+phase when KCONF_AUDIT_LEVEL > 0.
+
+Sample output follows:
+
+   NOTE: do_kernel_metadata: for summary/debug, set KCONF_AUDIT_LEVEL > 0
+   NOTE: kernel meta data summary for qemux86-64 (standard):
+   NOTE:
+   ======================================================================
+   NOTE: BSP entry point / definition:
+   /build/tmp/work/qemux86_64-poky-linux/linux-yocto/5.10.34+gitAUTOINC+bca3bfbc74_85c17ad073-r0/kernel-meta/bsp/common-pc-64/common-pc-64-standard.scc
+   NOTE: Fragments from SRC_URI:
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xt-checksum.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/ebtables.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/vswitch.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/lxc.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/docker.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xen.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/kubernetes.scc
+   NOTE: KERNEL_FEATURES:  features/nfsd/nfsd-enable.scc
+   features/debug/printk.scc features/kernel-sample/kernel-sample.scc
+   features/netfilter/netfilter.scc cfg/virtio.scc
+   features/drm-bochs/drm-bochs.scc cfg/sound.scc cfg/paravirt_kvm.scc
+   features/scsi/scsi-debug.scc features/gpio/mockup.scc
+   features/aufs/aufs-enable.scc cfg/fs/flash_fs.scc cfg/virtio.scc
+   NOTE: Final scc/cfg list:
+   /build/tmp/work/qemux86_64-poky-linux/linux-yocto/5.10.34+gitAUTOINC+bca3bfbc74_85c17ad073-r0/kernel-meta/bsp/common-pc-64/common-pc-64-standard.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xt-checksum.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/ebtables.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/vswitch.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/lxc.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/docker.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xen.scc
+   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/kubernetes.scc
+   features/nfsd/nfsd-enable.scc features/debug/printk.scc
+   features/kernel-sample/kernel-sample.scc
+   features/netfilter/netfilter.scc cfg/virtio.scc
+   features/drm-bochs/drm-bochs.scc cfg/sound.scc cfg/paravirt_kvm.scc
+   features/scsi/scsi-debug.scc features/gpio/mockup.scc
+   features/aufs/aufs-enable.scc cfg/fs/flash_fs.scc cfg/virtio.scc
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b95b11e130e91cb7c5e65f0f9a1c655bcbcbc919)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/busybox/busybox_1.31.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel-yocto.bbclass | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/meta/recipes-core/busybox/busybox_1.31.1.bb b/meta/recipes-core/busybox/busybox_1.31.1.bb
-index 7563368287..93a1613df2 100644
---- a/meta/recipes-core/busybox/busybox_1.31.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.31.1.bb
-@@ -34,7 +34,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://resize.cfg \
-            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
-            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
--           file://syslog.cfg \
-+           ${@["", "file://syslog.cfg"][(d.getVar('VIRTUAL-RUNTIME_base-utils-syslog') == 'busybox-syslog')]} \
-            file://unicode.cfg \
-            file://rcS \
-            file://rcK \
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index ec5fb7b1de..66cce92362 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -105,6 +105,8 @@ do_kernel_metadata() {
+ 	cd ${S}
+ 	export KMETA=${KMETA}
+ 
++	bbnote "do_kernel_metadata: for summary/debug, set KCONF_AUDIT_LEVEL > 0"
++
+ 	# if kernel tools are available in-tree, they are preferred
+ 	# and are placed on the path before any external tools. Unless
+ 	# the external tools flag is set, in that case we do nothing.
+@@ -252,6 +254,21 @@ do_kernel_metadata() {
+ 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+ 		fi
+ 	fi
++
++	if [ ${KCONF_AUDIT_LEVEL} -gt 0 ]; then
++		bbnote "kernel meta data summary for ${KMACHINE} (${LINUX_KERNEL_TYPE}):"
++		bbnote "======================================================================"
++		if [ -n "${KMETA_EXTERNAL_BSPS}" ]; then
++			bbnote "Non kernel-cache (external) bsp"
++		fi
++		bbnote "BSP entry point / definition: $bsp_definition"
++		if [ -n "$in_tree_defconfig" ]; then
++			bbnote "KBUILD_DEFCONFIG: ${KBUILD_DEFCONFIG}"
++		fi
++		bbnote "Fragments from SRC_URI: $sccs_from_src_uri"
++		bbnote "KERNEL_FEATURES: $KERNEL_FEATURES_FINAL"
++		bbnote "Final scc/cfg list: $sccs_defconfig $bsp_definition $sccs $KERNEL_FEATURES_FINAL"
++	fi
+ }
+ 
+ do_patch() {
 -- 
 2.25.1
 
