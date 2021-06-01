@@ -1,24 +1,24 @@
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web12.58975.1622560180472184762
+ by mx.groups.io with SMTP id smtpd.web10.59083.1622560181082325875
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jun 2021 08:09:40 -0700
+ Tue, 01 Jun 2021 08:09:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Of2GZI+c;
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=JuUY7UqO;
  spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=17867c9906=trevor.gamblin@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 151EwdEA007267
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jun 2021 15:09:39 GMT
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 151EwdEB007267
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jun 2021 15:09:40 GMT
 Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
-	by mx0a-0064b401.pphosted.com with ESMTP id 38wptu00x8-1
+	by mx0a-0064b401.pphosted.com with ESMTP id 38wptu00x8-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 15:09:39 +0000
+	for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 15:09:40 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QNiBkpE5YRr2975hC6cTjkdjR2RhQwT7GIELdeMyulis4yuSACHZqc50vEEGtkp7VoyH2zhxDPsEUDmRBWq6SsT97ELnizeYR2UbgQ05sO7kwWFc5J87+YTgo3BfHQOoAe6h85KwhiHyOdiz1SdoJG8HHtW8C1BRHjfKhhFo/+nh82yF6cZe2VAxvKkY8k+kAHqO/5c3jg98smMSllFNBI14GSL0gqtfrvptubagt5sBLoIKRYVZxg0vU9BtjDwMjT87jBuqBhmh/wz99gk7eTYbcVQXwc0XcTCqD7vqU+7WRJ6+IeLskyQLPP/sTHAWWOqYuvDWw/p04lzBu1wdog==
+ b=LVSV2mcqy+hUqFTwYVjW028/oAJSh1po16Nzqd4vzqI9OnjBZ7i0WRmG3trSLYabF/g9ZgTJFq1G+HuqMidbxSARyymPrwjNCmOEyp+qXpygFWfquhkEAMyvmj0TjHHKkKTpjAmjxSazhfE05wzy2SyvqxFCv94DkIIwnB4ZuPXIIen5xIISYNDrnUM8DBav274I0GXilTeD5xlVP8XynTXgUxfvOJL74fyQ2noujkOnvvUEfiqOTfEWovWIBudGVXcTgGucACojckU6YOc0xcdDyd31cyXArRx6eHU+C+wUobdserjNdB0bYOeoeBV79+nXrCUGN9PsUkXredOq8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vy8bS/i6tH8Wy7UXqkKhPw0R7tQKiZXE54fUYMxYEG8=;
- b=fSZs6gtxlxque8/aavvU5WhM1Y+DAdx7iT2NBgrq6bwoBIL5z1Pwklvu6GoOMjDOl+OhubLUb1HIYLiWPProXUl5ASfhCiCyiHRhKcYMB7pV+lC8UNJ58StJr9dzZDauFuhzWo8KxPN7M2iQseBn8/OOY4BSG2NCWxXrKJVPtwEzV0Y6XG5ZnthM2CB0nAE6y2smZQJ02f3krPQeyeOGK9iw/Qjl3wCeN+p/cTPPSvz+7CdYYWLZphbf1HKmpaj0Oc5o5Rhx2XqmxMz13zVv7zX/IElgS5W5Pk1a0HNOd9xnsd3Xla2Dv+0uFyKvZNHo7J55nzEgE6+pbl0mhIh1hw==
+ bh=bMtYD2jP2fzkUcLJh06gJtfeoWE9zY0quAon4QaQdGE=;
+ b=GiABxcKUgY6Kpyfd24kpODY3OI7bxJbkknVkwfRAywflqSVpQnSaoHRBLUPO4NZrIQgINglte5qrfxypirtJ71a+5SNkHOi8wZ1Fz83XeqdELNcaWcpF71CFehmLCSSA7FvtdhhCAsoEkXO8kub+d80LszXMuYQ51Csv+gLS5ke5gOuQ5YqfE9F3VSc30tKO68OeQ7PTybVgGeNIm6gV77wR844ljiMYCno7khbImoZC4a6omLTa5qyyvh10GzFxn3DD8P4V40L+vfUw4Y0mpEWWIWLMi5/0x9yQfDeeKN+o7J2HC8JX7kgJpsl1rSAvAF0q0CUGKp394fJ00p5n1g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -26,8 +26,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vy8bS/i6tH8Wy7UXqkKhPw0R7tQKiZXE54fUYMxYEG8=;
- b=Of2GZI+cVJJBFK1ejRPZIHpnmzAQyf3HXnbCL77GkjxBL/Nl2wCdw9F6djDwDL7NuWkGcONvgw8/V7NcEj1X4njZHUBbOQDWj5svCPoLHiGVgvRNdHBfJ855VqDOMWRacgc+ZtKKUOIrPF9Ewahp4MrMYDHZYdKE/ETDnDRg73o=
+ bh=bMtYD2jP2fzkUcLJh06gJtfeoWE9zY0quAon4QaQdGE=;
+ b=JuUY7UqO5dFeJEMnfFkppZ7l/MHh5oVrNuh1zqwFukR3UqSaa78Q7p1QcvZzDL9jNacRaEetjBwnA8JTkuaqfR3hp88VOkjwmUzSCKI+V79GJYheNCYbRiAsH0zRCYqloH8Q1/i7+Hp+1YGFpTVaadUsss+mADxareGQvE1FPjY=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
@@ -35,19 +35,17 @@ Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
  by SJ0PR11MB4816.namprd11.prod.outlook.com (2603:10b6:a03:2ad::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Tue, 1 Jun
- 2021 15:09:36 +0000
+ 2021 15:09:35 +0000
 Received: from BY5PR11MB3909.namprd11.prod.outlook.com
  ([fe80::b5ac:be57:85a9:f240]) by BY5PR11MB3909.namprd11.prod.outlook.com
  ([fe80::b5ac:be57:85a9:f240%3]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 15:09:36 +0000
+ 15:09:35 +0000
 From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][hardknott][PATCH 2/2] curl: fix CVE-2021-22876
-Date: Tue,  1 Jun 2021 11:09:28 -0400
-Message-Id: <20210601150928.1851569-2-trevor.gamblin@windriver.com>
+Subject: [OE-core][hardknott][PATCH 1/2] curl: fix CVE-2021-22890
+Date: Tue,  1 Jun 2021 11:09:27 -0400
+Message-Id: <20210601150928.1851569-1-trevor.gamblin@windriver.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210601150928.1851569-1-trevor.gamblin@windriver.com>
-References: <20210601150928.1851569-1-trevor.gamblin@windriver.com>
 X-Originating-IP: [128.224.252.2]
 X-ClientProxiedBy: BY3PR05CA0013.namprd05.prod.outlook.com
  (2603:10b6:a03:254::18) To BY5PR11MB3909.namprd11.prod.outlook.com
@@ -56,243 +54,608 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from yow-tgamblin-fedora2.wrs.com (128.224.252.2) by BY3PR05CA0013.namprd05.prod.outlook.com (2603:10b6:a03:254::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.9 via Frontend Transport; Tue, 1 Jun 2021 15:09:35 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0d044f89-4f33-4572-ed4f-08d9250f4508
+X-MS-Office365-Filtering-Correlation-Id: b83e3dcd-833f-4b1f-32e9-08d9250f448a
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB4816:
 X-Microsoft-Antispam-PRVS: 
-	<SJ0PR11MB481668B4E1B3DDF62B49954A9F3E9@SJ0PR11MB4816.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+	<SJ0PR11MB48163F4056F3B4997E9281F29F3E9@SJ0PR11MB4816.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	V3007exhVeMXQrNrWk+pFDKmbGdg/G9weLRqYXe/KVZbOFA9DV/77ziKIrThuIDGc8A0uklIHDnrnLE7cAi7yn1DNR2uLv3E8xqhxtB+Ycjdp7JqsFHM0+91SLBf6L9sLTKKERYx66doGgu3vvqLr0i4wfqu3KMxFCcG8a4UEzahLUvvX9jcPtF1EzIMfu4WkkxLSID3VWInFY1GxG3kXkrBx6eaGYCZAgxPT10DcumBn16psjXKdkmsDC3PsulvFHbCWTpHj2q7K6RFgKw8kCdZU1QjgO4h00Gmqe5bCfsJFc0YN4Lr7+veLjBD9QbUBqNCCOiCLtVc3NSTl5BJ3HidsQzr1+kuHMNluCvoDX2pHWdKPqTbIK/6LeJ4XtD92g8qjzgpQbIVs3W9JgdO9Neu49liC7yDUI2YScpkzQsoZJpmyuZ74ShPG3CwBoNQ1wTxh/q0rGOz4zSXZe+XWGtbn3AryB37rKuoY+CTjhs81Npoo3by8upywxv4i2NCAI86/IGvgyJcYhX9nnCqUXm+bFK0Crzkh7R/bKk+AU3x51AB1arW4at2iMK337rrOX8PF07mWf8JbZswWfnxiMssnKNGsDJNCF8mY42XNuqN3Q2XGtBu1TLtLZ9hSbOpP6s4awsHidb4pRUXrZLAEFEuMrkNfKblluU1NYtxzYFwOKSItpp2j6sUJ/UkUOs4gQJQtznYAE7wsOszzQE2m5AM8vtY3EkjOD1IgCNQKQWwxHGs48OhuzpQL5SKw/CIknvyR5MMFu5nEEmInM6vEZhFxxpp0bu5FJS9U6Ek4QaC22qeCTzI+EHLgza3R8EKjYNq2OHqKI5hrBLDjMEEW4/0N0X+rRAC4+P8pn5tqRE=
+	49myQ7QTdYZx0s06bOL6sdk3pLTC3Gz0hgXfbj43q7XA7nqU+irzhVZig3+CDCnsc6B2pbVuU1gZdoRBBChO+syC6vWcN1sLIocyTn2PJ2/XXN3ibdmqKyij6CM2cQ37M6crsukt5IW89koR1I/B6vbPqr3KSK4Aj91svh6ky86JEB8crIt5HG9x4QrLCcigih3c9tVXfkfNLdLt2tpx8adq9YGsUCb/FK2tnUPo9ywlsHWcetCbnbCUOxr5O9viaKP3qNAr/LrJYil3c9wPwd/2JpL3DL34PxoNAfR6zX7Azi4Bfsbm9ggc4zjWh59k+vF9gS/O6cOq1nNACDxZhYYVVUqPYgSyJQbE0cUZJTrqwLxkII9OCs8snk2DaUNrR8bbTfIzCsXusiK2TXdrqgyIjJX0P+ZxfyJqR8jcEpeur2sYrRQb4y1nezHgZM+Rj8dIVM3Vkh/X9iRWxOhVWJaFGoGuTT97nm2o6tza7hSWqZ8xOuBdCIvY5w1WoJnsGmJESmJr7gEWOS1wkz4GmxLlCZ+3+myBg25xDxbG1/6yrWtNlV6Aw6iclUkRKumxaLtFQUoLpaqUOL5cLbRfguEmWg+zQSas/mxkedQf7W9ffMww7IrGfIpwBkgHUFjZyjV+FcJ+ny2PrHE3ieKLGqZCjKkuDbVe0rOwWbaKot6ulCpqvLxZqv992pVxW1QsHfmwjLz0PAT9Z1ODab4IpIrA4Oq+olgk1xTJyBK5u7S/gSWMrvfPppIMPwmi2eakBi66UrGPArbj/zy9D4uk0T79YhT1et2S9LdINkHrKVz5rUfI/SdIyrHrcyHQ9Ki/
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39840400004)(366004)(396003)(376002)(346002)(44832011)(66476007)(66556008)(966005)(478600001)(8936002)(2906002)(38350700002)(316002)(26005)(5660300002)(38100700002)(8676002)(1076003)(86362001)(36756003)(186003)(6486002)(6916009)(16526019)(6506007)(52116002)(2616005)(956004)(6512007)(83380400001)(6666004)(66946007)(11965001)(134885004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39840400004)(366004)(396003)(376002)(346002)(44832011)(66476007)(66556008)(966005)(478600001)(8936002)(2906002)(38350700002)(30864003)(316002)(26005)(5660300002)(38100700002)(8676002)(1076003)(86362001)(36756003)(186003)(6486002)(6916009)(16526019)(6506007)(52116002)(2616005)(956004)(6512007)(83380400001)(6666004)(66946007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?DfOZNN5Eoe138XCXXcpFH/XUATb0Vmzc6k1/OvHgzYGtw0SLo8K4jdIQIliw?=
- =?us-ascii?Q?Wz8gZEOY2W9ALnDJbjvgJpq1SAUJAQuiWSkTBGPRYa6jGvRhxh7sXjeRIncD?=
- =?us-ascii?Q?JGj3UQ4H2vfL7BPonM+GpZ0/7ZEimCwypE53vmnLT5djzc8Fu2h1gKL+//sY?=
- =?us-ascii?Q?3iqxzLG9t0bDybBv1Y0cpn1B5K2hX5s590CDQQZQk5ow0MeA6c1Lz4DL7Rps?=
- =?us-ascii?Q?p2V/nP+sIW5PNJCNBK6+CP7OLCXA+cTGdoKc4qVCBRyfQcnmOIEwGJXaAz7Y?=
- =?us-ascii?Q?I1rBDOnmYgFqKl6kV/4a85pzNwgQwKSHXbG6n93qtc8BP1qdC6Fo/h9bbutq?=
- =?us-ascii?Q?dCqiFYurpg+UN05DzkqZwaMeCqmv9uOQ48Ag4wF8P7rfd5jhn+xwhex4Vjtd?=
- =?us-ascii?Q?2mUldpQXMm8cfxL+EXe5o0A8Lfmk+Ha3xFP205St7h9U0vEmUKLVthfc+Dym?=
- =?us-ascii?Q?3beJF/Z85Pjr+T1WfydwOQ5KYKN8IbqwlI3vkO0U3x0OIlpZXPsAie25kpIz?=
- =?us-ascii?Q?ADl0ems/7fsK4SWiWZ9m+eTTda8rgUpdl8m/sjJkjEzoTsRJDKV/Eh4Ary+7?=
- =?us-ascii?Q?5wzIaw7NuLXpIWOC8bKiKL6q0SbhVsDuOh5OXd59fs1MkZ1EfpMZbacEE/pL?=
- =?us-ascii?Q?+cT7NSO9jnBh7Fe/IIGQkRy5OZfcb0/ZlXrtYtmYF2+6hgFDeez15us4g5SL?=
- =?us-ascii?Q?2Ne8XD0ShcMisXVz/0obRAkOP/KOKADn9d4ESARWWThq0Q+0Xu2hYCd9D1Bc?=
- =?us-ascii?Q?YgT766t2L4KVPYzOoBkjzIU8vTSAI+NRbyPSFogi8VLAajsETWTUhPXOZcZ1?=
- =?us-ascii?Q?NigBDZbkEGwubdggviacxz5cJf4yC3ytIEP14MNWUZMqT0zFH6tlPQSXwY6/?=
- =?us-ascii?Q?hAeO1Gp1fJrfTx+TozpJlEOSklyzFip4zV1qBotKCeO0qmRCu1sa0x0WEuVu?=
- =?us-ascii?Q?mHo+2HWkqmKxdMgV6Hn7RTonHcwZFPlh/rS4p+D9vEWMFidinSBcG4TqxP79?=
- =?us-ascii?Q?YihLsCeRz2/15JQYlL27bBBjz424uZ61IpsdvGr0+BukErhrrl0W0DthDUyL?=
- =?us-ascii?Q?TIQ7hcrge7b+C3nu/ksN52sxDldo5ZTFKW3EwcpIifMLazoihiXJkhMUzpwY?=
- =?us-ascii?Q?AngUaHajmvOXBw0XrAJnS9cboLFiJp3uasqPB6GOpvdbTua/gkYShxjpPWhs?=
- =?us-ascii?Q?spJ/novUUyYKNudkP4VKS0YGcOGwSVZXEA+s66Ll5M+tikbtf94bg2bBbDQF?=
- =?us-ascii?Q?vwPdhCK9ZRGnukvuN8KwjFDP/AgsT86hDBu+v3yBC90EO7yL2fM+sO0ILJlv?=
- =?us-ascii?Q?5b0erY0DsoTx+p5j+2ZfWinb?=
+	=?us-ascii?Q?qfqXfz1pi7hHyLHeCKWjyPH/1XV6RS4GACg1eBcP6kVVz8sH5+eEWFzACeGo?=
+ =?us-ascii?Q?06t59trW7ba2gxQMexM4dSyVH47aMad252KjzTKf7sRYLqEi9CmujSqT7Uot?=
+ =?us-ascii?Q?PtKK1pjnpciBuifg8LBWLUw58sxEubhn9XnwvNb64yR8tu0eXhstou9eCmM0?=
+ =?us-ascii?Q?Q8+1FCZScbvSNv87gyyF4TiW4txiPF4Ul/YkUTex468C8xWDFnCfbYuGfNyJ?=
+ =?us-ascii?Q?/F/aCDCXsAR9igor4Po+0WUevIqzhROs5U+MXVZcVIVoPcbDEAbgQLSEjSQe?=
+ =?us-ascii?Q?mLpyk2JNgmeuhICdj4AO/4CqOtPmppTTut7g7txpm7/MSHZhgtpfMSTVi/Uh?=
+ =?us-ascii?Q?JGtRT1nvotC/9GbxOYMUbNYWzyEVCKQ4jsKkI75MOyb3Ik3XFBMg0iy8fIsQ?=
+ =?us-ascii?Q?G/2laAwAmXxmaOcFzca/2s4418sILEvNNvlHVz9IjvDRuyu9nhpueWu9yj/t?=
+ =?us-ascii?Q?g3z6jzbQTKa0M/mfm2cDsla0bltKXMJYdiGQu2A4grULIKdXSR+7sBfSKJsJ?=
+ =?us-ascii?Q?z6nDtlHDNfZKLUcLjtGxTfOn5abIS6sWvByRuSxutiwxGKsod11iFWQaZp9R?=
+ =?us-ascii?Q?9TrPzx0Nyzd6yfaxd6/rdXbrqi4S9srli6Ck6TyfwzidAUh72sZZytF53S21?=
+ =?us-ascii?Q?ioo1spIkLsDVztTc1FZyOasbxUw1HwPtNJBbSrNn+KufOn9u4XqNLbt54SBQ?=
+ =?us-ascii?Q?YBX+UdTxVbIOBGtrQ3FtTROIM3PbtlpQFwDq/knz75WWUMg28YagaIElQqnn?=
+ =?us-ascii?Q?hOlOJaOwmjHT8RESYyYeoH5RYNUJvzSemV9rder3D8VO2Oe2i4xHpXqzmYI4?=
+ =?us-ascii?Q?Yc6O6nLr9aZ9PEU6Bm6krFQGflXHwxpRNPFBdeH4O4a6+bB9/8779kC3r+Xh?=
+ =?us-ascii?Q?1UpSi8WJ/KVHiIJWMiOxm1koiZjQ+CKFSimxCaqyzenidmrKH2W5ehmnOSuu?=
+ =?us-ascii?Q?8B0ipoTwKfxvc/VqbkYCR0v3Usb7X/CGxtixQzlQ/aO9QvBVepu1mTKfP2ZT?=
+ =?us-ascii?Q?2xYxQ5bEmT5PDd+5mpIPmZE1bEX1skw1TZGAnFIVJrPM+PBUxO/0wIV0s6hN?=
+ =?us-ascii?Q?1MsFllWRCvNKiVRZ1PJ7q94BQlvImkFb2UO9HK5FgWASiIInKk0oqnbWdrK3?=
+ =?us-ascii?Q?+djUU//pZEPp6n1oE1iyBfLXpg7REt6pRaSbsHDiX5rfSRzjJe+tArqoYBdx?=
+ =?us-ascii?Q?w/Q4yFFOvt7IFiCWIfKFzzx7C91uCV/CHATgUvDUpkPQrO8noTlLKpYlRrOc?=
+ =?us-ascii?Q?br6dfKgsmA7uSUKz+7haY7X/EcFjhyqeFwxELa9BVioiANWyO203T7TJF0mJ?=
+ =?us-ascii?Q?0NEWEyJeThwXASa0fz53AHlS?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d044f89-4f33-4572-ed4f-08d9250f4508
+X-MS-Exchange-CrossTenant-Network-Message-Id: b83e3dcd-833f-4b1f-32e9-08d9250f448a
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 15:09:36.4824
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 15:09:35.7169
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GyoXkB1KBNGG0My5qvSBMcsgfcVOn1yk0AMw5+xRv/74imcq8KuQPaP6EH0XfjbruKpacoZv9ehU7EleWlQyNE88Jgk9nEPxhkItlEjOTRw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: EPvfWZAIdeznPjHwfwGJZho+MAULYztNWgY3Q2x7sLyNcqd3nXHcrYYcKCX0rX4gqmjEv4rytGlsscM7zzz3FI6g8KP0uTsowH2PMSWQwKk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4816
-X-Proofpoint-ORIG-GUID: 1tat2-McOGwWoKwGDqPJWq2posOSwVdu
-X-Proofpoint-GUID: 1tat2-McOGwWoKwGDqPJWq2posOSwVdu
+X-Proofpoint-ORIG-GUID: PRfgqVAi4LCOmXhoWOKmn48z-sl2Rxbv
+X-Proofpoint-GUID: PRfgqVAi4LCOmXhoWOKmn48z-sl2Rxbv
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
  definitions=2021-06-01_07:2021-06-01,2021-06-01 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
  impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- clxscore=1015 malwarescore=0 phishscore=0 mlxlogscore=749 mlxscore=0
+ clxscore=1015 malwarescore=0 phishscore=0 mlxlogscore=999 mlxscore=0
  spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2106010102
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Backport and modify the patch for CVE-2021-22876 from curl 7.76 to
-make it apply cleanly on 7.75.
+Backport and modify the patch for CVE-2021-22890 from curl 7.76 to make
+it apply cleanly on 7.75.
 
-CVE: CVE-2021-22876
+CVE: CVE-2021-22890
 
 Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- ...redentials-from-the-auto-referer-hea.patch | 152 ++++++++++++++++++
+ ...-argument-to-Curl_ssl_get-addsession.patch | 517 ++++++++++++++++++
  meta/recipes-support/curl/curl_7.75.0.bb      |   1 +
- 2 files changed, 153 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
+ 2 files changed, 518 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
 
-diff --git a/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch b/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
+diff --git a/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch b/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
 new file mode 100644
-index 0000000000..6c4f6f2f48
+index 0000000000..a0c7d68f33
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
-@@ -0,0 +1,152 @@
-+From 21f6cf63939111d8d76d3a4c07f2cd2fe6cb78f8 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
+@@ -0,0 +1,517 @@
++From a2d3885223db9616283bfe33435fbe9b3140eac7 Mon Sep 17 00:00:00 2001
 +From: Trevor Gamblin <trevor.gamblin@windriver.com>
-+Date: Tue, 1 Jun 2021 09:59:20 -0400
-+Subject: [PATCH 2/2] transfer: strip credentials from the auto-referer header
-+ field
++Date: Tue, 1 Jun 2021 09:50:20 -0400
++Subject: [PATCH 1/2] vtls: add 'isproxy' argument to
++ Curl_ssl_get/addsessionid()
 +
-+Added test 2081 to verify.
++To make sure we set and extract the correct session.
 +
-+CVE-2021-22876
++Reported-by: Mingtao Yang
++Bug: https://curl.se/docs/CVE-2021-22890.html
 +
-+Bug: https://curl.se/docs/CVE-2021-22876.html
++CVE-2021-22890
++
++Upstream-Status: Backport
++(https://github.com/curl/curl/commit/b09c8ee15771c614c4bf3ddac893cdb12187c844)
 +
 +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 +---
-+ lib/transfer.c          | 25 ++++++++++++++--
-+ tests/data/Makefile.inc |  2 +-
-+ tests/data/test2081     | 66 +++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 90 insertions(+), 3 deletions(-)
-+ create mode 100644 tests/data/test2081
++ lib/vtls/bearssl.c   |  8 +++++--
++ lib/vtls/gtls.c      | 12 ++++++----
++ lib/vtls/mbedtls.c   | 12 ++++++----
++ lib/vtls/mesalink.c  | 14 ++++++++----
++ lib/vtls/openssl.c   | 54 +++++++++++++++++++++++++++++++++-----------
++ lib/vtls/schannel.c  | 10 ++++----
++ lib/vtls/sectransp.c | 10 ++++----
++ lib/vtls/vtls.c      | 12 +++++++---
++ lib/vtls/vtls.h      |  2 ++
++ lib/vtls/wolfssl.c   | 28 +++++++++++++----------
++ 10 files changed, 111 insertions(+), 51 deletions(-)
 +
-+diff --git a/lib/transfer.c b/lib/transfer.c
-+index 2f29b29d8..c641a1d47 100644
-+--- a/lib/transfer.c
-++++ b/lib/transfer.c
-+@@ -1565,6 +1565,9 @@ CURLcode Curl_follow(struct Curl_easy *data,
-+       data->set.followlocation++; /* count location-followers */
++diff --git a/lib/vtls/bearssl.c b/lib/vtls/bearssl.c
++index 29b08c0e6..0432dfadc 100644
++--- a/lib/vtls/bearssl.c
+++++ b/lib/vtls/bearssl.c
++@@ -375,7 +375,8 @@ static CURLcode bearssl_connect_step1(struct Curl_easy *data,
++     void *session;
 + 
-+       if(data->set.http_auto_referer) {
-++        CURLU *u;
-++        char *referer;
-++
-+         /* We are asked to automatically set the previous URL as the referer
-+            when we get the next URL. We pick the ->url field, which may or may
-+            not be 100% correct */
-+@@ -1574,9 +1577,27 @@ CURLcode Curl_follow(struct Curl_easy *data,
-+           data->change.referer_alloc = FALSE;
-+         }
++     Curl_ssl_sessionid_lock(data);
++-    if(!Curl_ssl_getsessionid(data, conn, &session, NULL, sockindex)) {
+++    if(!Curl_ssl_getsessionid(data, conn, SSL_IS_PROXY() ? TRUE : FALSE,
+++                              &session, NULL, sockindex)) {
++       br_ssl_engine_set_session_parameters(&backend->ctx.eng, session);
++       infof(data, "BearSSL: re-using session ID\n");
++     }
++@@ -571,10 +572,13 @@ static CURLcode bearssl_connect_step3(struct Curl_easy *data,
++     br_ssl_engine_get_session_parameters(&backend->ctx.eng, session);
++     Curl_ssl_sessionid_lock(data);
++     incache = !(Curl_ssl_getsessionid(data, conn,
+++                                      SSL_IS_PROXY() ? TRUE : FALSE,
++                                       &oldsession, NULL, sockindex));
++     if(incache)
++       Curl_ssl_delsessionid(data, oldsession);
++-    ret = Curl_ssl_addsessionid(data, conn, session, 0, sockindex);
+++    ret = Curl_ssl_addsessionid(data, conn,
+++                                SSL_IS_PROXY() ? TRUE : FALSE,
+++                                session, 0, sockindex);
++     Curl_ssl_sessionid_unlock(data);
++     if(ret) {
++       free(session);
++diff --git a/lib/vtls/gtls.c b/lib/vtls/gtls.c
++index 3ddee1974..28ca528a6 100644
++--- a/lib/vtls/gtls.c
+++++ b/lib/vtls/gtls.c
++@@ -733,6 +733,7 @@ gtls_connect_step1(struct Curl_easy *data,
 + 
-+-        data->change.referer = strdup(data->change.url);
-+-        if(!data->change.referer)
-++        /* Make a copy of the URL without crenditals and fragment */
-++        u = curl_url();
-++        if(!u)
-++          return CURLE_OUT_OF_MEMORY;
++     Curl_ssl_sessionid_lock(data);
++     if(!Curl_ssl_getsessionid(data, conn,
+++                              SSL_IS_PROXY() ? TRUE : FALSE,
++                               &ssl_sessionid, &ssl_idsize, sockindex)) {
++       /* we got a session id, use it! */
++       gnutls_session_set_data(session, ssl_sessionid, ssl_idsize);
++@@ -1292,8 +1293,9 @@ gtls_connect_step3(struct Curl_easy *data,
++       gnutls_session_get_data(session, connect_sessionid, &connect_idsize);
++ 
++       Curl_ssl_sessionid_lock(data);
++-      incache = !(Curl_ssl_getsessionid(data, conn, &ssl_sessionid, NULL,
++-                                        sockindex));
+++      incache = !(Curl_ssl_getsessionid(data, conn,
+++                                        SSL_IS_PROXY() ? TRUE : FALSE,
+++                                        &ssl_sessionid, NULL, sockindex));
++       if(incache) {
++         /* there was one before in the cache, so instead of risking that the
++            previous one was rejected, we just kill that and store the new */
++@@ -1301,8 +1303,10 @@ gtls_connect_step3(struct Curl_easy *data,
++       }
++ 
++       /* store this session id */
++-      result = Curl_ssl_addsessionid(data, conn, connect_sessionid,
++-                                     connect_idsize, sockindex);
+++      result = Curl_ssl_addsessionid(data, conn,
+++                                     SSL_IS_PROXY() ? TRUE : FALSE,
+++                                     connect_sessionid, connect_idsize,
+++                                     sockindex);
++       Curl_ssl_sessionid_unlock(data);
++       if(result) {
++         free(connect_sessionid);
++diff --git a/lib/vtls/mbedtls.c b/lib/vtls/mbedtls.c
++index fc3a948d1..bd0e0802e 100644
++--- a/lib/vtls/mbedtls.c
+++++ b/lib/vtls/mbedtls.c
++@@ -463,7 +463,9 @@ mbed_connect_step1(struct Curl_easy *data, struct connectdata *conn,
++     void *old_session = NULL;
++ 
++     Curl_ssl_sessionid_lock(data);
++-    if(!Curl_ssl_getsessionid(data, conn, &old_session, NULL, sockindex)) {
+++    if(!Curl_ssl_getsessionid(data, conn,
+++                              SSL_IS_PROXY() ? TRUE : FALSE,
+++                              &old_session, NULL, sockindex)) {
++       ret = mbedtls_ssl_set_session(&backend->ssl, old_session);
++       if(ret) {
++         Curl_ssl_sessionid_unlock(data);
++@@ -724,6 +726,7 @@ mbed_connect_step3(struct Curl_easy *data, struct connectdata *conn,
++     int ret;
++     mbedtls_ssl_session *our_ssl_sessionid;
++     void *old_ssl_sessionid = NULL;
+++    bool isproxy = SSL_IS_PROXY() ? TRUE : FALSE;
++ 
++     our_ssl_sessionid = malloc(sizeof(mbedtls_ssl_session));
++     if(!our_ssl_sessionid)
++@@ -742,11 +745,12 @@ mbed_connect_step3(struct Curl_easy *data, struct connectdata *conn,
++ 
++     /* If there's already a matching session in the cache, delete it */
++     Curl_ssl_sessionid_lock(data);
++-    if(!Curl_ssl_getsessionid(data, conn, &old_ssl_sessionid, NULL, sockindex))
+++    if(!Curl_ssl_getsessionid(data, conn, isproxy, &old_ssl_sessionid, NULL,
+++                              sockindex))
++       Curl_ssl_delsessionid(data, old_ssl_sessionid);
++ 
++-    retcode = Curl_ssl_addsessionid(data, conn,
++-                                    our_ssl_sessionid, 0, sockindex);
+++    retcode = Curl_ssl_addsessionid(data, conn, isproxy, our_ssl_sessionid,
+++                                    0, sockindex);
++     Curl_ssl_sessionid_unlock(data);
++     if(retcode) {
++       mbedtls_ssl_session_free(our_ssl_sessionid);
++diff --git a/lib/vtls/mesalink.c b/lib/vtls/mesalink.c
++index b6d1005ec..ad807d3ba 100644
++--- a/lib/vtls/mesalink.c
+++++ b/lib/vtls/mesalink.c
++@@ -261,7 +261,9 @@ mesalink_connect_step1(struct Curl_easy *data,
++     void *ssl_sessionid = NULL;
++ 
++     Curl_ssl_sessionid_lock(data);
++-    if(!Curl_ssl_getsessionid(data, conn, &ssl_sessionid, NULL, sockindex)) {
+++    if(!Curl_ssl_getsessionid(data, conn,
+++                              SSL_IS_PROXY() ? TRUE : FALSE,
+++                              &ssl_sessionid, NULL, sockindex)) {
++       /* we got a session id, use it! */
++       if(!SSL_set_session(BACKEND->handle, ssl_sessionid)) {
++         Curl_ssl_sessionid_unlock(data);
++@@ -345,13 +347,14 @@ mesalink_connect_step3(struct connectdata *conn, int sockindex)
++     bool incache;
++     SSL_SESSION *our_ssl_sessionid;
++     void *old_ssl_sessionid = NULL;
+++    bool isproxy = SSL_IS_PROXY() ? TRUE : FALSE;
++ 
++     our_ssl_sessionid = SSL_get_session(BACKEND->handle);
++ 
++     Curl_ssl_sessionid_lock(data);
++     incache =
++-      !(Curl_ssl_getsessionid(data, conn,
++-                              &old_ssl_sessionid, NULL, sockindex));
+++      !(Curl_ssl_getsessionid(data, conn, isproxy, &old_ssl_sessionid, NULL,
+++                              sockindex));
++     if(incache) {
++       if(old_ssl_sessionid != our_ssl_sessionid) {
++         infof(data, "old SSL session ID is stale, removing\n");
++@@ -361,8 +364,9 @@ mesalink_connect_step3(struct connectdata *conn, int sockindex)
++     }
++ 
++     if(!incache) {
++-      result = Curl_ssl_addsessionid(
++-        data, conn, our_ssl_sessionid, 0 /* unknown size */, sockindex);
+++      result =
+++        Curl_ssl_addsessionid(data, conn, isproxy, our_ssl_sessionid, 0,
+++                              sockindex);
++       if(result) {
++         Curl_ssl_sessionid_unlock(data);
++         failf(data, "failed to store ssl session");
++diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
++index 784d9f70e..8304264d3 100644
++--- a/lib/vtls/openssl.c
+++++ b/lib/vtls/openssl.c
++@@ -391,12 +391,23 @@ static int ossl_get_ssl_conn_index(void)
++  */
++ static int ossl_get_ssl_sockindex_index(void)
++ {
++-  static int ssl_ex_data_sockindex_index = -1;
++-  if(ssl_ex_data_sockindex_index < 0) {
++-    ssl_ex_data_sockindex_index = SSL_get_ex_new_index(0, NULL, NULL, NULL,
++-        NULL);
+++  static int sockindex_index = -1;
+++  if(sockindex_index < 0) {
+++    sockindex_index = SSL_get_ex_new_index(0, NULL, NULL, NULL, NULL);
++   }
++-  return ssl_ex_data_sockindex_index;
+++  return sockindex_index;
+++}
 ++
-++        uc = curl_url_set(u, CURLUPART_URL, data->change.url, 0);
-++        if(!uc)
-++          uc = curl_url_set(u, CURLUPART_FRAGMENT, NULL, 0);
-++        if(!uc)
-++          uc = curl_url_set(u, CURLUPART_USER, NULL, 0);
-++        if(!uc)
-++          uc = curl_url_set(u, CURLUPART_PASSWORD, NULL, 0);
-++        if(!uc)
-++          uc = curl_url_get(u, CURLUPART_URL, &referer, 0);
+++/* Return an extra data index for proxy boolean.
+++ * This index can be used with SSL_get_ex_data() and SSL_set_ex_data().
+++ */
+++static int ossl_get_proxy_index(void)
+++{
+++  static int proxy_index = -1;
+++  if(proxy_index < 0) {
+++    proxy_index = SSL_get_ex_new_index(0, NULL, NULL, NULL, NULL);
+++  }
+++  return proxy_index;
++ }
++ 
++ static int passwd_callback(char *buf, int num, int encrypting,
++@@ -1172,7 +1183,7 @@ static int ossl_init(void)
++ 
++   /* Initialize the extra data indexes */
++   if(ossl_get_ssl_data_index() < 0 || ossl_get_ssl_conn_index() < 0 ||
++-     ossl_get_ssl_sockindex_index() < 0)
+++     ossl_get_ssl_sockindex_index() < 0 || ossl_get_proxy_index() < 0)
++     return 0;
++ 
++   return 1;
++@@ -2455,8 +2466,10 @@ static int ossl_new_session_cb(SSL *ssl, SSL_SESSION *ssl_sessionid)
++   int data_idx = ossl_get_ssl_data_index();
++   int connectdata_idx = ossl_get_ssl_conn_index();
++   int sockindex_idx = ossl_get_ssl_sockindex_index();
+++  int proxy_idx = ossl_get_proxy_index();
+++  bool isproxy;
++ 
++-  if(data_idx < 0 || connectdata_idx < 0 || sockindex_idx < 0)
+++  if(data_idx < 0 || connectdata_idx < 0 || sockindex_idx < 0 || proxy_idx < 0)
++     return 0;
++ 
++   conn = (struct connectdata*) SSL_get_ex_data(ssl, connectdata_idx);
++@@ -2469,13 +2482,18 @@ static int ossl_new_session_cb(SSL *ssl, SSL_SESSION *ssl_sessionid)
++   sockindex_ptr = (curl_socket_t*) SSL_get_ex_data(ssl, sockindex_idx);
++   sockindex = (int)(sockindex_ptr - conn->sock);
++ 
+++  isproxy = SSL_get_ex_data(ssl, proxy_idx) ? TRUE : FALSE;
 ++
-++        curl_url_cleanup(u);
++   if(SSL_SET_OPTION(primary.sessionid)) {
++     bool incache;
++     void *old_ssl_sessionid = NULL;
++ 
++     Curl_ssl_sessionid_lock(data);
++-    incache = !(Curl_ssl_getsessionid(data, conn, &old_ssl_sessionid, NULL,
++-                                      sockindex));
+++    if(isproxy)
+++      incache = FALSE;
+++    else
+++      incache = !(Curl_ssl_getsessionid(data, conn, isproxy,
+++                                        &old_ssl_sessionid, NULL, sockindex));
++     if(incache) {
++       if(old_ssl_sessionid != ssl_sessionid) {
++         infof(data, "old SSL session ID is stale, removing\n");
++@@ -2485,8 +2503,8 @@ static int ossl_new_session_cb(SSL *ssl, SSL_SESSION *ssl_sessionid)
++     }
++ 
++     if(!incache) {
++-      if(!Curl_ssl_addsessionid(data, conn, ssl_sessionid,
++-                                      0 /* unknown size */, sockindex)) {
+++      if(!Curl_ssl_addsessionid(data, conn, isproxy, ssl_sessionid,
+++                                0 /* unknown size */, sockindex)) {
++         /* the session has been put into the session cache */
++         res = 1;
++       }
++@@ -3212,17 +3230,27 @@ static CURLcode ossl_connect_step1(struct Curl_easy *data,
++     int data_idx = ossl_get_ssl_data_index();
++     int connectdata_idx = ossl_get_ssl_conn_index();
++     int sockindex_idx = ossl_get_ssl_sockindex_index();
+++    int proxy_idx = ossl_get_proxy_index();
++ 
++-    if(data_idx >= 0 && connectdata_idx >= 0 && sockindex_idx >= 0) {
+++    if(data_idx >= 0 && connectdata_idx >= 0 && sockindex_idx >= 0 &&
+++       proxy_idx >= 0) {
++       /* Store the data needed for the "new session" callback.
++        * The sockindex is stored as a pointer to an array element. */
++       SSL_set_ex_data(backend->handle, data_idx, data);
++       SSL_set_ex_data(backend->handle, connectdata_idx, conn);
++       SSL_set_ex_data(backend->handle, sockindex_idx, conn->sock + sockindex);
+++#ifndef CURL_DISABLE_PROXY
+++      SSL_set_ex_data(backend->handle, proxy_idx, SSL_IS_PROXY() ? (void *) 1:
+++                      NULL);
+++#else
+++      SSL_set_ex_data(backend->handle, proxy_idx, NULL);
+++#endif
 ++
-++        if(uc || referer == NULL)
-+           return CURLE_OUT_OF_MEMORY;
-++
-++        data->change.referer = referer;
-+         data->change.referer_alloc = TRUE; /* yes, free this later */
++     }
++ 
++     Curl_ssl_sessionid_lock(data);
++-    if(!Curl_ssl_getsessionid(data, conn, &ssl_sessionid, NULL, sockindex)) {
+++    if(!Curl_ssl_getsessionid(data, conn, SSL_IS_PROXY() ? TRUE : FALSE,
+++                              &ssl_sessionid, NULL, sockindex)) {
++       /* we got a session id, use it! */
++       if(!SSL_set_session(backend->handle, ssl_sessionid)) {
++         Curl_ssl_sessionid_unlock(data);
++diff --git a/lib/vtls/schannel.c b/lib/vtls/schannel.c
++index 0668f98f2..bd27ba0bf 100644
++--- a/lib/vtls/schannel.c
+++++ b/lib/vtls/schannel.c
++@@ -496,6 +496,7 @@ schannel_connect_step1(struct Curl_easy *data, struct connectdata *conn,
++   if(SSL_SET_OPTION(primary.sessionid)) {
++     Curl_ssl_sessionid_lock(data);
++     if(!Curl_ssl_getsessionid(data, conn,
+++                              SSL_IS_PROXY() ? TRUE : FALSE,
++                               (void **)&old_cred, NULL, sockindex)) {
++       BACKEND->cred = old_cred;
++       DEBUGF(infof(data, "schannel: re-using existing credential handle\n"));
++@@ -1337,8 +1338,9 @@ schannel_connect_step3(struct Curl_easy *data, struct connectdata *conn,
++   struct ssl_connect_data *connssl = &conn->ssl[sockindex];
++   SECURITY_STATUS sspi_status = SEC_E_OK;
++   CERT_CONTEXT *ccert_context = NULL;
+++  bool isproxy = SSL_IS_PROXY();
++ #ifdef DEBUGBUILD
++-  const char * const hostname = SSL_IS_PROXY() ? conn->http_proxy.host.name :
+++  const char * const hostname = isproxy ? conn->http_proxy.host.name :
++     conn->host.name;
++ #endif
++ #ifdef HAS_ALPN
++@@ -1414,8 +1416,8 @@ schannel_connect_step3(struct Curl_easy *data, struct connectdata *conn,
++     struct Curl_schannel_cred *old_cred = NULL;
++ 
++     Curl_ssl_sessionid_lock(data);
++-    incache = !(Curl_ssl_getsessionid(data, conn, (void **)&old_cred, NULL,
++-                                      sockindex));
+++    incache = !(Curl_ssl_getsessionid(data, conn, isproxy, (void **)&old_cred,
+++                                      NULL, sockindex));
++     if(incache) {
++       if(old_cred != BACKEND->cred) {
++         DEBUGF(infof(data,
++@@ -1426,7 +1428,7 @@ schannel_connect_step3(struct Curl_easy *data, struct connectdata *conn,
 +       }
 +     }
-+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index 5ebf049b8..e08cfc7ee 100644
-+--- a/tests/data/Makefile.inc
-++++ b/tests/data/Makefile.inc
-+@@ -223,7 +223,7 @@ test2064 test2065 test2066 test2067 test2068 test2069 \
-+ test2064 test2065 test2066 test2067 test2068 test2069 test2070 \
-+          test2071 test2072 test2073 test2074 test2075 test2076 test2077 \
-+ test2078 \
-+-test2080 \
-++test2080 test2081\
-+ test2100 \
-+ \
-+ test3000 test3001 test3002 test3003 test3004 test3005 test3006 test3007 \
-+diff --git a/tests/data/test2081 b/tests/data/test2081
-+new file mode 100644
-+index 000000000..7e74f5766
-+--- /dev/null
-++++ b/tests/data/test2081
-+@@ -0,0 +1,66 @@
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++HTTP GET
-++referer
-++followlocation
-++--write-out
-++</keywords>
-++</info>
++     if(!incache) {
++-      result = Curl_ssl_addsessionid(data, conn, (void *)BACKEND->cred,
+++      result = Curl_ssl_addsessionid(data, conn, isproxy, BACKEND->cred,
++                                      sizeof(struct Curl_schannel_cred),
++                                      sockindex);
++       if(result) {
++diff --git a/lib/vtls/sectransp.c b/lib/vtls/sectransp.c
++index 9a8f7de8d..6d1ea7e7b 100644
++--- a/lib/vtls/sectransp.c
+++++ b/lib/vtls/sectransp.c
++@@ -1400,10 +1400,12 @@ static CURLcode sectransp_connect_step1(struct Curl_easy *data,
++   char * const ssl_cert = SSL_SET_OPTION(primary.clientcert);
++   const struct curl_blob *ssl_cert_blob = SSL_SET_OPTION(primary.cert_blob);
++ #ifndef CURL_DISABLE_PROXY
++-  const char * const hostname = SSL_IS_PROXY() ? conn->http_proxy.host.name :
+++  bool isproxy = SSL_IS_PROXY();
+++  const char * const hostname = isproxy ? conn->http_proxy.host.name :
++     conn->host.name;
++   const long int port = SSL_IS_PROXY() ? conn->port : conn->remote_port;
++ #else
+++  const isproxy = FALSE;
++   const char * const hostname = conn->host.name;
++   const long int port = conn->remote_port;
++ #endif
++@@ -1613,7 +1615,7 @@ static CURLcode sectransp_connect_step1(struct Curl_easy *data,
++ #ifdef USE_NGHTTP2
++       if(data->set.httpversion >= CURL_HTTP_VERSION_2
++ #ifndef CURL_DISABLE_PROXY
++-         && (!SSL_IS_PROXY() || !conn->bits.tunnel_proxy)
+++         && (!isproxy || !conn->bits.tunnel_proxy)
++ #endif
++         ) {
++         CFArrayAppendValue(alpnArr, CFSTR(NGHTTP2_PROTO_VERSION_ID));
++@@ -1953,7 +1955,7 @@ static CURLcode sectransp_connect_step1(struct Curl_easy *data,
++     size_t ssl_sessionid_len;
++ 
++     Curl_ssl_sessionid_lock(data);
++-    if(!Curl_ssl_getsessionid(data, conn, (void **)&ssl_sessionid,
+++    if(!Curl_ssl_getsessionid(data, conn, isproxy, (void **)&ssl_sessionid,
++                               &ssl_sessionid_len, sockindex)) {
++       /* we got a session id, use it! */
++       err = SSLSetPeerID(backend->ssl_ctx, ssl_sessionid, ssl_sessionid_len);
++@@ -1981,7 +1983,7 @@ static CURLcode sectransp_connect_step1(struct Curl_easy *data,
++         return CURLE_SSL_CONNECT_ERROR;
++       }
++ 
++-      result = Curl_ssl_addsessionid(data, conn, ssl_sessionid,
+++      result = Curl_ssl_addsessionid(data, conn, isproxy, ssl_sessionid,
++                                      ssl_sessionid_len, sockindex);
++       Curl_ssl_sessionid_unlock(data);
++       if(result) {
++diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
++index b8ab7494f..8ccc1f2e4 100644
++--- a/lib/vtls/vtls.c
+++++ b/lib/vtls/vtls.c
++@@ -367,6 +367,7 @@ void Curl_ssl_sessionid_unlock(struct Curl_easy *data)
++  */
++ bool Curl_ssl_getsessionid(struct Curl_easy *data,
++                            struct connectdata *conn,
+++                           const bool isProxy,
++                            void **ssl_sessionid,
++                            size_t *idsize, /* set 0 if unknown */
++                            int sockindex)
++@@ -377,7 +378,6 @@ bool Curl_ssl_getsessionid(struct Curl_easy *data,
++   bool no_match = TRUE;
++ 
++ #ifndef CURL_DISABLE_PROXY
++-  const bool isProxy = CONNECT_PROXY_SSL();
++   struct ssl_primary_config * const ssl_config = isProxy ?
++     &conn->proxy_ssl_config :
++     &conn->ssl_config;
++@@ -389,10 +389,15 @@ bool Curl_ssl_getsessionid(struct Curl_easy *data,
++   struct ssl_primary_config * const ssl_config = &conn->ssl_config;
++   const char * const name = conn->host.name;
++   int port = conn->remote_port;
++-  (void)sockindex;
++ #endif
+++  (void)sockindex;
++   *ssl_sessionid = NULL;
++ 
+++#ifdef CURL_DISABLE_PROXY
+++  if(isProxy)
+++    return TRUE;
+++#endif
 ++
-++# Server-side
-++<reply>
-++<data nocheck="yes">
-++HTTP/1.1 301 This is a weirdo text message swsclose
-++Location: data/%TESTNUMBER0002.txt?coolsite=yes
-++Content-Length: 62
-++Connection: close
++   DEBUGASSERT(SSL_SET_OPTION(primary.sessionid));
++ 
++   if(!SSL_SET_OPTION(primary.sessionid))
++@@ -480,6 +485,7 @@ void Curl_ssl_delsessionid(struct Curl_easy *data, void *ssl_sessionid)
++  */
++ CURLcode Curl_ssl_addsessionid(struct Curl_easy *data,
++                                struct connectdata *conn,
+++                               bool isProxy,
++                                void *ssl_sessionid,
++                                size_t idsize,
++                                int sockindex)
++@@ -492,7 +498,6 @@ CURLcode Curl_ssl_addsessionid(struct Curl_easy *data,
++   int conn_to_port;
++   long *general_age;
++ #ifndef CURL_DISABLE_PROXY
++-  const bool isProxy = CONNECT_PROXY_SSL();
++   struct ssl_primary_config * const ssl_config = isProxy ?
++     &conn->proxy_ssl_config :
++     &conn->ssl_config;
++@@ -505,6 +510,7 @@ CURLcode Curl_ssl_addsessionid(struct Curl_easy *data,
++   const char *hostname = conn->host.name;
++   (void)sockindex;
++ #endif
+++  (void)sockindex;
++   DEBUGASSERT(SSL_SET_OPTION(primary.sessionid));
++ 
++   clone_host = strdup(hostname);
++diff --git a/lib/vtls/vtls.h b/lib/vtls/vtls.h
++index 9666682ec..4dc29794c 100644
++--- a/lib/vtls/vtls.h
+++++ b/lib/vtls/vtls.h
++@@ -222,6 +222,7 @@ void Curl_ssl_sessionid_unlock(struct Curl_easy *data);
++  */
++ bool Curl_ssl_getsessionid(struct Curl_easy *data,
++                            struct connectdata *conn,
+++                           const bool isproxy,
++                            void **ssl_sessionid,
++                            size_t *idsize, /* set 0 if unknown */
++                            int sockindex);
++@@ -232,6 +233,7 @@ bool Curl_ssl_getsessionid(struct Curl_easy *data,
++  */
++ CURLcode Curl_ssl_addsessionid(struct Curl_easy *data,
++                                struct connectdata *conn,
+++                               const bool isProxy,
++                                void *ssl_sessionid,
++                                size_t idsize,
++                                int sockindex);
++diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
++index e1fa45926..e4c70877f 100644
++--- a/lib/vtls/wolfssl.c
+++++ b/lib/vtls/wolfssl.c
++@@ -516,7 +516,9 @@ wolfssl_connect_step1(struct Curl_easy *data, struct connectdata *conn,
++     void *ssl_sessionid = NULL;
++ 
++     Curl_ssl_sessionid_lock(data);
++-    if(!Curl_ssl_getsessionid(data, conn, &ssl_sessionid, NULL, sockindex)) {
+++    if(!Curl_ssl_getsessionid(data, conn,
+++                              SSL_IS_PROXY() ? TRUE : FALSE,
+++                              &ssl_sessionid, NULL, sockindex)) {
++       /* we got a session id, use it! */
++       if(!SSL_set_session(backend->handle, ssl_sessionid)) {
++         char error_buffer[WOLFSSL_MAX_ERROR_SZ];
++@@ -774,21 +776,23 @@ wolfssl_connect_step3(struct Curl_easy *data, struct connectdata *conn,
++     void *old_ssl_sessionid = NULL;
++ 
++     our_ssl_sessionid = SSL_get_session(backend->handle);
++-
++-    Curl_ssl_sessionid_lock(data);
++-    incache = !(Curl_ssl_getsessionid(data, conn, &old_ssl_sessionid, NULL,
++-                                      sockindex));
++-    if(incache) {
++-      if(old_ssl_sessionid != our_ssl_sessionid) {
++-        infof(data, "old SSL session ID is stale, removing\n");
++-        Curl_ssl_delsessionid(data, old_ssl_sessionid);
++-        incache = FALSE;
+++    bool isproxy = SSL_IS_PROXY() ? TRUE : FALSE;
 ++
-++This server reply is for testing a simple Location: following
-++</data>
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++ <name>
-++Automatic referrer credential and anchor stripping check
-++ </name>
-++ <command>
-++http://user:pass@%HOSTIP:%HTTPPORT/we/want/our/%TESTNUMBER#anchor --location --referer ';auto' --write-out '%{referer}\n'
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<errorcode>
-++52
-++</errorcode>
-++<protocol>
-++GET /we/want/our/%TESTNUMBER HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic dXNlcjpwYXNz
-++User-Agent: curl/%VERSION
-++Accept: */*
-++
-++GET /we/want/our/data/%TESTNUMBER0002.txt?coolsite=yes HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic dXNlcjpwYXNz
-++User-Agent: curl/%VERSION
-++Accept: */*
-++Referer: http://%HOSTIP:%HTTPPORT/we/want/our/%TESTNUMBER
-++
-++</protocol>
-++<stdout>
-++HTTP/1.1 301 This is a weirdo text message swsclose
-++Location: data/%TESTNUMBER0002.txt?coolsite=yes
-++Content-Length: 62
-++Connection: close
-++
-++http://%HOSTIP:%HTTPPORT/we/want/our/%TESTNUMBER
-++</stdout>
-++</verify>
-++</testcase>
+++    if(our_ssl_sessionid) {
+++      Curl_ssl_sessionid_lock(data);
+++      incache = !(Curl_ssl_getsessionid(data, conn, isproxy,
+++                                        &old_ssl_sessionid, NULL, sockindex));
+++      if(incache) {
+++        if(old_ssl_sessionid != our_ssl_sessionid) {
+++            infof(data, "old SSL session ID is stale, removing\n");
+++            Curl_ssl_delsessionid(data, old_ssl_sessionid);
+++            incache = FALSE;
++       }
++     }
++ 
++     if(!incache) {
++-      result = Curl_ssl_addsessionid(data, conn, our_ssl_sessionid,
++-                                     0 /* unknown size */, sockindex);
+++      result = Curl_ssl_addsessionid(data, conn, isproxy, our_ssl_sessionid,
+++                                     0, sockindex);
++       if(result) {
++         Curl_ssl_sessionid_unlock(data);
++         failf(data, "failed to store ssl session");
 +-- 
 +2.31.1
 +
 diff --git a/meta/recipes-support/curl/curl_7.75.0.bb b/meta/recipes-support/curl/curl_7.75.0.bb
-index 428b8cd9e3..7c7b363ae3 100644
+index 7666c7b608..428b8cd9e3 100644
 --- a/meta/recipes-support/curl/curl_7.75.0.bb
 +++ b/meta/recipes-support/curl/curl_7.75.0.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=425f6fdc767cc067518eef9bbdf4ab7b"
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=425f6fdc767cc067518eef9bbdf4ab7b"
+ 
  SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
             file://0001-replace-krb5-config-with-pkg-config.patch \
-            file://0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch \
-+           file://0002-transfer-strip-credentials-from-the-auto-referer-hea.patch \
++           file://0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch \
  "
  
  SRC_URI[sha256sum] = "50552d4501c178e4cc68baaecc487f466a3d6d19bbf4e50a01869effb316d026"
