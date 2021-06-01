@@ -1,105 +1,132 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.59505.1622562498103931422
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.72.1622564513846049098
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jun 2021 08:48:18 -0700
+ Tue, 01 Jun 2021 09:21:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dsCKHG1c;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id n4so14886198wrw.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 08:48:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=DkZepJ+MALEBeagUf2U5360ZsHai0AC3B4EGV5tRBmc=;
-        b=dsCKHG1c+alpqfWkwU0JFunbBdh9WwRqCtOoOehiaqvDrrWFSgUlG0dzCBaE54UII8
-         ZXjFI8/gN2vEPggO+2mLAIQuP7dOvL9MIVf2w44uxRsVqpFBSCVBuTfD83iKNdMSM/cC
-         sv+z701BKHYx23ub1bXKWpxQJvowx+a4y2Xzo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=DkZepJ+MALEBeagUf2U5360ZsHai0AC3B4EGV5tRBmc=;
-        b=VXfGVPUSVcWA3vOgEGga0hp8xuGGvr1qiMxyvRmb1laZXC8FYk3p6yTyO473DC9Gb3
-         FChuuyghtUw2sabTaZzjopv0MWYntJhUP22FiTMF7gleOvRVCtKE5EKW6WRFlfqyG0cF
-         3Ly/F4nqzleSfUJwk3ssIRv6yaik9tP5Zo1ZkN3TJGOKG5nblAjv2wGLLUx+LyyCE1ag
-         X12+Wy52PCgYc4UWFMqtEYwdiBvc/+zQ0BVaOLtRomp/uKA4HmWqHpe1wxghBFp6K9xU
-         0ZxuUQX5qAd7lAoha0dAvVjdlka6ww+k5livF1SNGOtIHmapK2NkPm16oEF3TqlU067y
-         4+OQ==
-X-Gm-Message-State: AOAM530d0NP+fASYK+MU831mOI8yWNFAxi5kRd7g7GaumRlWPLuk5PzP
-	eklRpbiHBYGlvrTMew87QtKuAQ==
-X-Google-Smtp-Source: ABdhPJxE4QrOX0eaculmeZJJ7kISBchvP09AscX+H+X7+q5j7ouMpJMEukcuJt6a9FYq+QSxf0PuEw==
-X-Received: by 2002:adf:de91:: with SMTP id w17mr4090663wrl.352.1622562496270;
-        Tue, 01 Jun 2021 08:48:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:bb83:f5c5:f3ff:dc3? ([2001:8b0:aba:5f3c:bb83:f5c5:f3ff:dc3])
-        by smtp.gmail.com with ESMTPSA id g10sm3605863wrq.12.2021.06.01.08.48.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 08:48:16 -0700 (PDT)
-Message-ID: <7c7aa3f02fb44e3e4f1758b080e7482e2b12f6b9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] Fix corrupted magic number in ipk on populate_sdk task
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Kamil Kwiek <kamil.kwiek@gmail.com>, Jan Brzezanski
-	 <jan.brzezanski@gmail.com>, Paulo Neves <ptsneves@gmail.com>
-Date: Tue, 01 Jun 2021 16:48:13 +0100
-In-Reply-To: <20210601152114.495307-1-tomasz.dziendzielski@gmail.com>
-References: <20210601152114.495307-1-tomasz.dziendzielski@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1B83101E
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Jun 2021 09:21:52 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A9023F719
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Jun 2021 09:21:52 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] mx: remove from Openembedded Core
+Date: Tue,  1 Jun 2021 17:21:41 +0100
+Message-Id: <20210601162144.2379642-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2021-06-01 at 17:21 +0200, Tomasz Dziendzielski wrote:
-> If any do_package_write_ipk runs parallel with populate_sdk task it can
-> happen that opkg script arfile.py tries to get magic number of all
-> packages in DEPLOY_DIR_IPK while some package is being copied there at
-> the same time. This results with:
-> > AssertionError: Old ipk format (non-deb) is unsupported, file:
-> > build/tmp/deploy/ipk/foo/bar_1.0-r0_foo.ipk, magic: b'', expected
-> > !<arch>
-> which isn't really the case here.
-> 
-> To fix this I added lockfile in package_write_ipk task and in
-> OpkgIndexer class. Even though package_write_ipk is writing to a
-> common deploy directory we can use shared lock, because we are sure we
-> don't write to same files. On the other hand in OpkgIndex to read magic
-> number I added not-shared lock, because unfortunately we don't have a
-> mechanism to share lockfiles only with specific group of tasks. That's
-> not a problem though, since indexer runs fast and usually there are not
-> many recipes using populate_sdk class.
-> 
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> Signed-off-by: Kamil Kwiek <kamil.kwiek@gmail.com>
-> Signed-off-by: Jan Brzezanski <jan.brzezanski@gmail.com>
-> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
-> ---
->  meta/classes/package_ipk.bbclass            | 10 ++++++++++
->  meta/lib/oe/package_manager/ipk/__init__.py |  3 +++
->  2 files changed, 13 insertions(+)
+MX is obsolete (last release 2012) and isn't used by anything in any
+known layer.
 
-I would much prefer we didn't do this, we've had such lockfiles before and they
-are a bottleneck when for example expanding a new build directory from sstate.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../mx/mx-1.0/fix-test-includes.patch         | 20 --------------
+ meta/recipes-graphics/mx/mx-1.0_1.4.7.bb      | 16 -----------
+ meta/recipes-graphics/mx/mx.inc               | 27 -------------------
+ 3 files changed, 63 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mx/mx-1.0/fix-test-includes.pat=
+ch
+ delete mode 100644 meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
+ delete mode 100644 meta/recipes-graphics/mx/mx.inc
 
-The rpm code creates a symlink tree copy of the packages it has the right to access
-and then only index those. I did a quick grep and I thought this was being used
-for ipk and deb too:
-
-deb/__init__.py:        create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_DEB"), "package_write_deb", filterbydependencies)
-__init__.py:def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencies):
-ipk/__init__.py:            create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_IPK"), "package_write_ipk", filterbydependencies)
-rpm/__init__.py:            create_packages_dir(self.d, oe.path.join(self.rpm_repo_dir, "rpm"), d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
-
-Which release did you see the issue on and is there some codepath which
-isn't using these tree copies?
-
-One reason for the above is also to stop an image seeing packages it doesn't
-depend upon which is important when package globbing is used to install
-packages.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-graphics/mx/mx-1.0/fix-test-includes.patch b/me=
+ta/recipes-graphics/mx/mx-1.0/fix-test-includes.patch
+deleted file mode 100644
+index 82c93dd604..0000000000
+--- a/meta/recipes-graphics/mx/mx-1.0/fix-test-includes.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Fix missing include directory when building tests
+-
+-This patch is currently required for all versions of mx
+-Upstream-Status: Submitted @ https://github.com/clutter-project/mx/issue=
+s/82
+-Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+---
+-Index: git/tests/Makefile.am
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- git.orig/tests/Makefile.am	2013-05-08 15:18:56.918596425 +0100
+-+++ git/tests/Makefile.am	2013-05-08 15:23:26.864781401 +0100
+-@@ -10,7 +10,8 @@
+-=20
+- INCLUDES =3D \
+- 	-I$(top_srcdir) \
+--	-I$(top_builddir)
+-+	-I$(top_builddir)\
+-+	-I$(top_builddir)/mx
+-=20
+- noinst_PROGRAMS =3D 			\
+- 	test-deform-texture		\
+diff --git a/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb b/meta/recipes-grap=
+hics/mx/mx-1.0_1.4.7.bb
+deleted file mode 100644
+index 58a6997ffe..0000000000
+--- a/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
++++ /dev/null
+@@ -1,16 +0,0 @@
+-require mx.inc
+-
+-# The 1.4.7 tag does not build against cogl 1.14, pull in a revision wit=
+h a fix
+-SRCREV =3D "9b1db6b8060bd00b121a692f942404a24ae2960f"
+-PV =3D "1.4.7+git${SRCPV}"
+-
+-# Exclude x.99.x versions from upstream checks
+-UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>^\d+(\.(?!99)\d+)+)"
+-
+-SRC_URI =3D "git://github.com/clutter-project/mx.git;branch=3Dmx-1.4 \
+-	   file://fix-test-includes.patch \
+-	  "
+-S =3D "${WORKDIR}/git"
+-
+-LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3Dfbc093901857fcd118f065f90=
+0982c24 \
+-                    file://mx/mx-widget.c;beginline=3D8;endline=3D20;md5=
+=3D13bba3c973a72414a701e1e87b5ee879"
+diff --git a/meta/recipes-graphics/mx/mx.inc b/meta/recipes-graphics/mx/m=
+x.inc
+deleted file mode 100644
+index c977849c96..0000000000
+--- a/meta/recipes-graphics/mx/mx.inc
++++ /dev/null
+@@ -1,27 +0,0 @@
+-SUMMARY =3D "Clutter based UI widget library"
+-DESCRIPTION =3D "Mx is a widget toolkit using Clutter that provides a se=
+t of standard interface \
+-elements, including buttons, progress bars, scroll bars and others. It a=
+lso \
+-implements some standard  managers. One other interesting feature is the=
+ \
+-possibility setting style properties from a CSS format file."
+-HOMEPAGE =3D "https://github.com/clutter-project/mx"
+-BUGTRACKER =3D "https://github.com/clutter-project/mx/issues"
+-LICENSE =3D "LGPLv2.1"
+-
+-inherit clutter autotools features_check gobject-introspection gtk-doc
+-# depends on clutter-1.0 which depends on cogl-1.0
+-REQUIRED_DISTRO_FEATURES =3D "opengl"
+-
+-DEPENDS =3D "intltool-native clutter-1.0 dbus-glib gdk-pixbuf"
+-
+-SRC_URI =3D "http://source.clutter-project.org/sources/mx/${@get_verdir(=
+"${PV}")}/mx-${PV}.tar.xz"
+-
+-EXTRA_OECONF =3D "--disable-gtk-widgets		\
+-		--with-dbus			\
+-		--with-winsys=3Dnone		\
+-		--without-clutter-imcontext	\
+-		--without-clutter-gesture	\
+-		--without-startup-notification	\
+-		--without-glade			\
+-	       "
+-
+-FILES_${PN} +=3D "${datadir}"
+--=20
+2.25.1
 
