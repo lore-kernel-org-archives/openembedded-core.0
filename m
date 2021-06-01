@@ -1,158 +1,287 @@
-Received: from esa12.fujitsucc.c3s2.iphmx.com (esa12.fujitsucc.c3s2.iphmx.com [216.71.156.125])
- by mx.groups.io with SMTP id smtpd.web12.52704.1622516262158737260
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.5])
+ by mx.groups.io with SMTP id smtpd.web10.53830.1622525067622181161
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 May 2021 19:57:42 -0700
+ Mon, 31 May 2021 22:24:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@fujitsu.com header.s=fj1 header.b=zXsdLY8J;
- spf=neutral (domain: fujitsu.com, ip: 216.71.156.125, mailfrom: leimaohui@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1622516260; x=1654052260;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=9DYec6Rb5wfiUTH9haC6UE1kxiFJZPU4Xy2Gbhn5zbI=;
-  b=zXsdLY8JdhSKV43wEq+oZf/H0jicwpGup1MVJG7nG9v3WJk0FbUmwHh1
-   oSdqM8OoLSALgkAjh9A9qx/1Y5bzBDFtwj9fGhLRSHAR3gXaI2ZiHaWaB
-   uym66//s/8Q8dTtMg04oeStU5jffgxsRdgXO50OprsiJFAEIcYFeTc9EH
-   YuW17qF1HlKScNr6U34qX9osX9w/J6vFI6RJ7jYKO898u3wkyGghb63kj
-   tz8z8h5QFkAieo1ltkJV3zPtpjTxCsdQ9Nl25icc9iWWpEB/bonHZSTqJ
-   4yzRjJpghwxKGUhUIrQLA/Vca4/c0nEClF9fYXQZnn7V8/0pdSERAaeki
-   g==;
-IronPort-SDR: ODBF1w7wzOrPFsU4WrsCuiZqCn1EB6eZ72gePoYQ2EGM8PXd2ExOhJi3qggxkqQ2CX413F4igY
- SqriyMdldTwRuAK6RJk4qvW+W1T5MwbDHsguvIPy4JLiJK2+FaBUiRoRcyRDkoA89HxgTE0YPz
- niXVWsZdWpzYKKd//J9ap67z6pz6kEbQqaRbaJjGKlQQVrW/DpRuB2SoGc26P0BvDeSsJFtEuu
- fOCoDtYLUF+GuQUp1nHSJBupR1MTTkgCoVbTHSK/feQYlzQpwkglSQXDe81uNqNlg9iNvlb53Q
- 0q0=
-X-IronPort-AV: E=McAfee;i="6200,9189,10001"; a="32296919"
-X-IronPort-AV: E=Sophos;i="5.83,239,1616425200"; 
-   d="scan'208";a="32296919"
-Received: from mail-ty1jpn01lp2059.outbound.protection.outlook.com (HELO JPN01-TY1-obe.outbound.protection.outlook.com) ([104.47.93.59])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2021 11:57:37 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MDu7Zrt+LBUIcP7qKKNdMQ4n5Zsy/PT7MNyGLWC/gI7fKIHjtQdkANJV4EhCxa/JD6zOBv3nynLqIxKBGQBPMPIhPJedEDwXKrhA280XHxLZ3yCtH0TUbkoRSVcST2EOHdlILOBU0GNdfdwaJEbBm/M4wuVeSp9OfckX0BOOHZr5bm9ODJQ1x48rN/QfSwNSygvDi/snm1KVAG2VWZ/0x+sEz2kNM6uZnRYqIxD7KJNuVXNwPdh9kfl++Mc+EHuz0GpK65ZQBVDEbyOsiLN81tc+TFl+67zIocxsuoRVkeAScbjTGQT/+lm45Nlmf1ULWnH3pN/EqTLHM1G3XAt4gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9DYec6Rb5wfiUTH9haC6UE1kxiFJZPU4Xy2Gbhn5zbI=;
- b=gpiI2TqTgAM8yelFVuRxY3Gkkkq2cyu7EZ7aBRLBqxGTbhhIRqCvMEPC4eQDQN1CiL+FgHlrTyqNC8oI9uMA7EWJtq2PpbSTPNTI4QVDbFRhPwimMag1Ql8il+NI7/mP3sKIWe110rdxfDwavr9bwGEeCkESYknE0/89Pq9YzpvO3w2foSeGTYWjvrhXBONbJjW6NCBaN6joNEcmxNAD5o14cjjdUMc86W1aTBHtT2vSXPIJqTRlX59cjKo18UhpDLQFdi7ZXJ7ENmNnnhE6h3aUNMDqE424NyZOFpWjj96byeICK7PguD4gBlO5YXC/nD1M9w8disU/jl6A36NDGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9DYec6Rb5wfiUTH9haC6UE1kxiFJZPU4Xy2Gbhn5zbI=;
- b=Xg7Q31ddN9VgnynKxXnB8gHv2vfkV4413Q05vplXRktPgd2zGfNLHLleh7MCavevNurnk83wSonrqfVzRDjQUaQePqj7HDE50MuVAH4UhnhYEisrv99xKXM686X2SgJSbkFFNK8C06tWsTYQRhC3z64dWMHlklJqu3JxFG0p2OI=
-Received: from OS0PR01MB6178.jpnprd01.prod.outlook.com (2603:1096:604:cd::13)
- by OSAPR01MB1458.jpnprd01.prod.outlook.com (2603:1096:603:32::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Tue, 1 Jun
- 2021 02:57:32 +0000
-Received: from OS0PR01MB6178.jpnprd01.prod.outlook.com
- ([fe80::550e:c53a:917f:a825]) by OS0PR01MB6178.jpnprd01.prod.outlook.com
- ([fe80::550e:c53a:917f:a825%7]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
- 02:57:32 +0000
-From: "leimaohui" <leimaohui@fujitsu.com>
-To: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Khem Raj (raj.khem@gmail.com)"
-	<raj.khem@gmail.com>
-Subject: Re: gdb-cross-canadian-arm includes 64bit inc file when enable multilib
-Thread-Topic: gdb-cross-canadian-arm includes 64bit inc file when enable
- multilib
-Thread-Index: AddRDK0xN3FA8Hk9R5ynMAe5zzSX3AFhSw7g
-Date: Tue, 1 Jun 2021 02:57:32 +0000
-Message-ID: 
- <OS0PR01MB617893402335EC233A9D7D10A03E9@OS0PR01MB6178.jpnprd01.prod.outlook.com>
-References: <168274EEE5A118D1.6305@lists.openembedded.org>
-In-Reply-To: <168274EEE5A118D1.6305@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: fujitsu.com; dkim=none (message not signed)
- header.d=none;fujitsu.com; dmarc=none action=none header.from=fujitsu.com;
-x-originating-ip: [223.111.68.150]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 72ab28d5-ff0d-44a4-6047-08d924a90077
-x-ms-traffictypediagnostic: OSAPR01MB1458:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <OSAPR01MB145801366B1EAFE9A2FE50F4A03E9@OSAPR01MB1458.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:785;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- mLvvPwwvGApkPysIoVwWWropTyyx9i2VOI7WT/tgAsB+DFSqIThSvpEzaL8qsgKOFVcLSXoS79lnQobwtcviC2IVIo3ecBXtuGH4NfdLoCCtLw9qLo5vdWiAzjCPvAEYtlpWP6gRkZcvoFfG4BB/5boR8/XLfLLqsVUYH1FGq4iOYLUirlJ61+b/c6+sV16lsDHOKVu2BK7ngeKPifx9x0wl3eKw7L5gpYq0k4JER0UsmMK/9QUBAQOTjxDcRKFrqJeyxgVG7s4SKyIqfxlpviZ3U9kH4ehz6XOysFIEIwJ/diWuZ3A9Goc6+/V/aT88ys12rdUm77isk22aKq880Fyp//RPNeXyofhF6A0vo0055YUZLOBCaH/JBARQy4jdbS0hQeBDHLKwdQ4znmNw61fbAOAR/xukuwsCFFvIfCGi6K/pe60JYDm8bBi4VlQzGz/shfGx+S0wioCF+0Cu8enjenMkJ2NmHsWySWShu9qnhNVubwQgPTl0RKUbZi5w688b9QankBBLXQDCJrPSus4I9z7AXur7h+qnlGuLb7+YviLnKLFMJxQuOixBdEQtHhCLVTn9nwHGGF6Wai+sR+rKKw2nuYi1EbyAe4JE4CQ=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB6178.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(366004)(8676002)(5660300002)(33656002)(55016002)(122000001)(71200400001)(83380400001)(66476007)(38100700002)(26005)(110136005)(2906002)(86362001)(66556008)(64756008)(85182001)(186003)(9686003)(53546011)(8936002)(316002)(7696005)(6506007)(76116006)(52536014)(66946007)(66446008)(478600001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- =?shift_jis?B?SzVWS0JvRXNPNHZIWXRlaHE0U3JzcXlURjAvOEYwR1BMVWhoTU5Ca0I3?=
- =?shift_jis?B?dU1EU3RVUjFFYkxPRmxSSXRvZVlHZlp0dXB2cWcxOTdNZWJRcExVQ0RW?=
- =?shift_jis?B?NHMySTlyRFFxRFlKZ1FSYmFhRFpCbjBKOGI0SXo2aGZjbU5iSkd1bWJp?=
- =?shift_jis?B?cnpZeE10dTRPTCt4WkxpejVpaWZWN3RkRmM2cXZZUkNNMEJ3TVIvTXlB?=
- =?shift_jis?B?d0RTaHdpZEJ1bk1ubThhY0NYTHYyazVTMm1adDRaVHhSOFlWR21lUUlq?=
- =?shift_jis?B?NWJaWWFxbVFjdkgrS0JFV2xGK3dSVjc4Sm9BU25xdDY1a3l2MjBaUGx2?=
- =?shift_jis?B?TWdGK3JjVzg3M28yNk1LY0RPTzNtYUJSTzQreFYzaVIxakorRXlJdHNm?=
- =?shift_jis?B?K1lEYTh2bG4yTzhKVlFzeUVFQVFGdU50dUdDTXNlcWxzUC9jWk1vUSt6?=
- =?shift_jis?B?eE4wYWZvbjZ2UG14amJyaGExZTc0NHpQVTIyaTB5NXFDL1pTMEpCSUU4?=
- =?shift_jis?B?eUUzbm1zb2owY3JXSTdHWmNSQ20vb3R0WlFaTmU0QVU0dERObHJYQXgv?=
- =?shift_jis?B?Nzk1S21tdlhqYjJPOGVablFPdXdEUk9WRkphMUlxc3ByZGtBOE94czNt?=
- =?shift_jis?B?bnVUQUpwd2tMbGJFcU9oSVJNR2l1SzR3U2draDFDRXhCelFPbkwrSklI?=
- =?shift_jis?B?ZkpNK3VHdEVqeVNjWW5OS0JPSjBNb3NPM3lmanNXTEJjVkFRUVl5Zm80?=
- =?shift_jis?B?ekMva1FXV1BralVkTE1oaFBhOVdIdnhvWkxkUUMwWmV1YmZyN0dpQ3BM?=
- =?shift_jis?B?bTBvRlJ1dWhWMVhNVGNMT1lsZlZXckFZaDlFVmo2V2JCQjRaOGIzZEtM?=
- =?shift_jis?B?amQ1ZnBwMkFGVWRjRVRsLy9VSXNHVnpvbGVYdDBFa1lIQ0JmUGRXbTZS?=
- =?shift_jis?B?Z3EzOXBoL0phYllDRXRHNnZyMVlwbTBTY1pxUGZ0eHU1ejFVZHRnWFFx?=
- =?shift_jis?B?N0I1VitXS01yOTRYeXVUTkdoL213clF1SHJlZmJSaE8xKzAraG5ucnB0?=
- =?shift_jis?B?SU1YUllucVJsZkM3NHBQdW9Fb3djQ1h4THlHR0g0eEFuNnZyTWt3eUJm?=
- =?shift_jis?B?anZ4WGNKd1NicXhuKzFYaCt0a3J0RitwTkVxTjR2L3pSaElRL0J4MXFY?=
- =?shift_jis?B?YVRkQU42eGtMdnNiZ3hOQjVsWlpqSTBCNEx1bmVwUFBOZVNwY1hiNkFR?=
- =?shift_jis?B?eHlZT3F3cHg5M1BWdHYyVnh4bEorN09iQnBSUitGZVlrQXpsTlhJWTVi?=
- =?shift_jis?B?WlVJMGVtYUtESUxDdzJMa09CM05wVUpRQmdjVHh3a1RCelpkelRheGdl?=
- =?shift_jis?B?bDhNVWIweVdyS0R6N1l6NGhackt1ejRHY0pRRjBXdU4yVzFHeFI5RWhN?=
- =?shift_jis?B?T0JEaFhTUW1ObFY5Wmd2eFlKTGRXZEFmNG8zbUNoMTFWeDRYdTJ5SXkz?=
- =?shift_jis?B?Y3B5VENab21wZ2kvdy94d0tjQUFWUHpsQTRxcVk1SERCSUVBSnVQdkow?=
- =?shift_jis?B?QmlIOTJsYllyN3NJdnR0Q1UvMGl1eEQ0Q0g3Z1NHdWVUOHJlNktEMU00?=
- =?shift_jis?B?cHZMUU5LNkNBcy9hZGZNUFYxTjlLZ0xkVVErSHRCeVJRYWlDaUJyV2cv?=
- =?shift_jis?B?NWp6VXNzUzZ3a3NlUmZwa0RCYXg2NHFpbnd3Q1gxL1BXajdLNHlPL05K?=
- =?shift_jis?B?bjNNT01GUEpmQlJ0SVNJV0p0ZGdEd1RkbVA0dDVIOGhJUEJ4YjNCVkNs?=
- =?shift_jis?B?MVVBamJZSkVid2VqSVIrOFIydXBlYSt3ZjFoRS9BOTh4WmRtemFhemhB?=
- =?shift_jis?Q?k5RQfvtwTvX7Maq/wz+rY=3D?=
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=VvMgBMwc;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.5, mailfrom: zangrc.fnst@fujitsu.com)
+Return-Path: <zangrc.fnst@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1622525065; i=@fujitsu.com;
+	bh=U2YxfTldwCEMsp7XscwvTkGR9kYM7Swr/hHwcOnLCZ0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=VvMgBMwcc0VGdKoKEcgVKArfTEMyH4D1I1n+Ri0+oLokrwAEvpMyIbxhCEZDsYgqC
+	 4YcgQhxHJ5ry3R4eVaKX0TBhorX5koPJ8nsrFgvdhFLBq0HhrSjQemDXHGoDayDemu
+	 Lth9ueO6zDJTY41LpmRi75APIsneQ3Lw5VvPyQ99GvJK/ZO/7fEaOyg/fof6RDg/if
+	 ftKOtOGxanFzNvlSOFsQYpq4fvtJBkfT26GWalUVYj7vdAtBJI0X/NtNDw8KCaKGUi
+	 Bf1qpwXmTuVcOA56gpvDA61v8SMlIF3lqAz+EAC4ZKPMgW2LeKbX9ce/QP+jjod25R
+	 VbvAlemsF68OQ==
+Received: from [100.112.193.7] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-a.eu-west-1.aws.symcld.net id FB/89-34775-984C5B06; Tue, 01 Jun 2021 05:24:25 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCIsWRWlGSWpSXmKPExsViZ8MRottxZGu
+  Cwao+Y4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPKkS0sBT8CKub8fsDewLjMtYuRi0NIYCaT
+  xKInyxkhnOOMEqsfzmHuYuTkYBPQkeh40c3SxcjBISKgJ3H1nyiIKSxgLbGiuwLEZBFQkVj2x
+  R/E5BVwl5iw3hCkT0JAQWLKw/dgM3gFBCVOznzCAmIzC0hIHHzxghmiRlFi+84zLBB2hcSMGd
+  vYJjDyzELSMgtJywJGplWMFklFmekZJbmJmTm6hgYGuoaGRrqGlqa6RoameolVuol6qaW65an
+  FJbqGeonlxXrFlbnJOSl6eaklmxiBAZRScPj6DsZbrz/oHWKU5GBSEuVd7bI1QYgvKT+lMiOx
+  OCO+qDQntfgQowwHh5IEb/ZBoJxgUWp6akVaZg4wmGHSEhw8SiK8cQeA0rzFBYm5xZnpEKlTj
+  LEc734uXsTM8WbtEiD5Fky23bsLJNvB5MwFB1czc8wCk/fbDwHJByBSiCUvPy9VSpzX4xDQUA
+  GQoRmleXArYZF7iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iwr8lhoCk8mXklcJe9AjqaCej
+  oz6GbQI4uSURISTUwzckUfNWZFaH8smB9o7lWpOQfxjv6yj13/j3ePcfJUvFe7WOFyw8/ak5o
+  eStxxiXdtOqjw9PPxw6VTTz7Snkll4Wn2iTuwL/7JDdOsmCNuXzb6cMz8VdCD2d4c/CcmGv0j
+  PUHwwnmWxs1d13dOPFriOvbfVX/1zmemt1nsOHrXWeFh46dKbrGYgZslmd2Z+hbT2gLsV605z
+  TnQ+v5svUL63S/uwuwFpzafYFh37cFd/dfzXBQtwtyPL7+H3+UeWhw6QbPS8KLRe+rOXbe2/m
+  e5+deA9nbKhuYdlrNWBMs7H6j5tfvJ3yq/OmfQxcfUXOz+/xbXT7FfHsoV9SUes51Il+rxJO4
+  mU0WyFz4mrMsSYmlOCPRUIu5qDgRAHXKsvdXAwAA
+X-Env-Sender: zangrc.fnst@fujitsu.com
+X-Msg-Ref: server-12.tower-271.messagelabs.com!1622525064!67291!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.75.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 890 invoked from network); 1 Jun 2021 05:24:24 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-12.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 1 Jun 2021 05:24:24 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1515OGrM014469
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jun 2021 06:24:24 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Tue, 1 Jun 2021 06:24:15 +0100
+From: "zangrc" <zangrc.fnst@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] elfutils: upgrade 0.183 -> 0.185
+Date: Tue, 1 Jun 2021 13:24:05 +0800
+Message-ID: <1622525045-17496-1-git-send-email-zangrc.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB6178.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72ab28d5-ff0d-44a4-6047-08d924a90077
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2021 02:57:32.4257
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0Qt/axP3D/qTmqYcFHG/EMvRU8+0en2AiLT92CfaFiCO2dV0MaJMfF6vVQrU4i5ZB5Gk+tzjtT9v8Wqbsy/n8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB1458
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-cGluZw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBsZWltYW9odWkNCj4gU2VudDogV2VkbmVz
-ZGF5LCBNYXkgMjYsIDIwMjEgODowMyBBTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZzsgS2hlbSBSYWoNCj4gKHJhai5raGVtQGdtYWlsLmNvbSkgPHJhai5r
-aGVtQGdtYWlsLmNvbT4NCj4gU3ViamVjdDogW09FLWNvcmVdIGdkYi1jcm9zcy1jYW5hZGlhbi1h
-cm0gaW5jbHVkZXMgNjRiaXQgaW5jIGZpbGUgd2hlbiBlbmFibGUNCj4gbXVsdGlsaWINCj4gDQo+
-IEhpLA0KPiANCj4gSSBmb3VuZCB0aGF0IGdkYi1jcm9zcy1jYW5hZGlhbi1hcm0gaW5jbHVkZXMg
-NjRiaXQgaW5jIGZpbGUgd2hlbiBJIGVuYWJsZQ0KPiBtdWx0aWxpYi4gSXQgaXMgY29ycmVjdD8g
-U2hvdWxkbid0IGl0IHVzZSAzMmJpdCBpbmMgZmlsZT8NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQ0KPiAkIGxzDQo+IHRtcC93b3JrL3g4Nl82NC1uYXRpdmVzZGstcG9reXNkay1saW51
-eC9nZGItY3Jvc3MtY2FuYWRpYW4tYXJtLzEwLjItcjAvcmUNCj4gY2lwZS1zeXNyb290L29wdC9w
-b2t5LzMuMytzbmFwc2hvdC9zeXNyb290cy94ODZfNjQtcG9reXNkay1saW51eC91c3IvaW5jbHVk
-DQo+IGUvZ251Lw0KPiBsaWItbmFtZXMtNjQuaCAgbGliLW5hbWVzLmggIGxpYmMtdmVyc2lvbi5o
-ICBzdHVicy02NC5oICBzdHVicy5oICQNCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-PiANCj4gSW4gYWRkaXRpb24sIGdjYy1jcm9zcy1jYW5hZGlhbi1hcm0gaXMgdXNpbmcgMzJiaXQg
-aW5jIGZpbGUuDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gJCBscw0KPiB0bXAv
-d29yay94ODZfNjQtbmF0aXZlc2RrLXBva3lzZGstbGludXgvZ2NjLWNyb3NzLWNhbmFkaWFuLWFy
-bS8xMS4xLjAtcjAvcg0KPiBlY2lwZS1zeXNyb290L3Vzci9pbmNsdWRlL2dudS8NCj4gbGliLW5h
-bWVzLTMyLmggIGxpYi1uYW1lcy1oYXJkLmggIGxpYi1uYW1lcy5oICBsaWJjLXZlcnNpb24uaCAg
-c3R1YnMtMzIuaA0KPiBzdHVicy1oYXJkLmggIHN0dWJzLmggJA0KPiAtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tDQo+IA0KPiBCZXN0IHJlZ2FyZHMNCj4gTGVpDQo=
+From: Wang Mingyu <wangmy@fujitsu.com>
+
+0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+Removed since this is included in 0.185.
+
+Refresh the following patch:
+0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+0015-config-eu.am-do-not-use-Werror.patch
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../{elfutils_0.183.bb => elfutils_0.185.bb}  |  5 +-
+ ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 -----------
+ ...infod-client.c-correct-string-format.patch | 56 +++++++------------
+ .../0015-config-eu.am-do-not-use-Werror.patch | 23 ++++----
+ 4 files changed, 34 insertions(+), 83 deletions(-)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.185.bb} (97%)
+ delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+similarity index 97%
+rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
+rename to meta/recipes-devtools/elfutils/elfutils_0.185.bb
+index 7aebaf1b6d..970cdcca60 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+@@ -21,16 +21,15 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://run-ptest \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
+-           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
+            file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
+            "
+ SRC_URI_append_libc-musl = " \
+            file://0002-musl-libs.patch \
+            file://0003-musl-utils.patch \
+            file://0004-Fix-error-on-musl.patch \
+-           file://0015-config-eu.am-do-not-use-Werror.patch \
++           file://0015-config-eu.am-do-not-use-Werror.patch \ 
+            "
+-SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
++SRC_URI[sha256sum] = "dc8d3e74ab209465e7f568e1b3bb9a5a142f8656e2b57d10049a73da2ae6b5a6"
+ 
+ inherit autotools gettext ptest pkgconfig
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+deleted file mode 100644
+index 5f82afef0c..0000000000
+--- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
+-From: dorindabassey <dorindabassey@gmail.com>
+-Date: Sat, 19 Dec 2020 01:11:46 +0100
+-Subject: [PATCH] add support for ipkg to debuginfod.cxx
+-
+-added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
+-
+-Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
+-
+-Signed-off-by: dorindabassey <dorindabassey@gmail.com>
+-
+----
+- debuginfod/debuginfod.cxx | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
+-index b34eacc..a8915f2 100644
+---- a/debuginfod/debuginfod.cxx
+-+++ b/debuginfod/debuginfod.cxx
+-@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
+-         {
+-           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
+-           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
+-+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
+-         }
+-       else
+-         {
+-           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
+-           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
+-+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
+-         }
+-       // .udeb too?
+-       break;
+diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+index 5bd6ba961c..6a16718538 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+@@ -1,6 +1,6 @@
+-From 14dfe84943b8f9e6f504536d8735ef6356210b40 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Mon, 19 Apr 2021 23:29:10 +0200
++From 7355a34d3796272e6213b676e042809686eb398a Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@fujitsu.com>
++Date: Mon, 31 May 2021 17:38:30 +0900
+ Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
+  32bit arches with 64bit time_t
+ 
+@@ -17,58 +17,40 @@ Upstream-Status: Pending
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- debuginfod/debuginfod-client.c | 10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
++ debuginfod/debuginfod-client.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
+ 
+ diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+-index de26af5..39e28f2 100644
++index ee7eda2..9b26712 100644
+ --- a/debuginfod/debuginfod-client.c
+ +++ b/debuginfod/debuginfod-client.c
+-@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -267,7 +267,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+    if (fd < 0)
+      return -errno;
+  
+ -  if (dprintf(fd, "%ld", cache_clean_default_interval_s) < 0)
+-+  if (dprintf(fd, "%jd", (intmax_t)cache_clean_default_interval_s) < 0)
+++  if (dprintf(fd, "%ld", (intmax_t)cache_clean_default_interval_s) < 0)
+      return -errno;
+  
+    /* init max age config file.  */
+-@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
++@@ -275,7 +275,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
+      return -errno;
+  
+ -  if (dprintf(fd, "%ld", cache_default_max_unused_age_s) < 0)
+-+  if (dprintf(fd, "%jd", (intmax_t)cache_default_max_unused_age_s) < 0)
+++  if (dprintf(fd, "%ld", (intmax_t)cache_default_max_unused_age_s) < 0)
+      return -errno;
+  
+    return 0;
+-@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-       if (interval_file == NULL)
+-         return -errno;
++@@ -303,7 +303,7 @@ debuginfod_clean_cache(debuginfod_client *c,
++   /* Check timestamp of interval file to see whether cleaning is necessary.  */
++   if (time(NULL) - st.st_mtime < clean_interval)
++     /* Interval has not passed, skip cleaning.  */
++-    return 0;
+++    return 0;/
+  
+--      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
+-+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
+-       fclose(interval_file);
+- 
+-       if (rc < 0)
+-@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-   interval_file = fopen(interval_path, "r");
+-   if (interval_file)
+-     {
+--      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
+-+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
+-         clean_interval = cache_clean_default_interval_s;
+-       fclose(interval_file);
+-     }
+-@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
+-   max_unused_file = fopen(max_unused_path, "r");
+-   if (max_unused_file)
+-     {
+--      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
+-+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
+-         max_unused_age = cache_default_max_unused_age_s;
+-       fclose(max_unused_file);
+-     }
++   /* Read max unused age value from config file.  */
++   rc = debuginfod_config_cache(max_unused_path,
+ -- 
+-2.31.1
++2.25.1
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+index 205362626d..1857b7010e 100644
+--- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
++++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+@@ -1,6 +1,6 @@
+-From dfe11e043cd8ea0b0f0252bcff9f5a6b98c0ecd3 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Mon, 22 Jun 2020 21:35:16 +0000
++From 5226351f21f7011440c2f6acfec50fbfd69796e4 Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@fujitsu.com>
++Date: Tue, 1 Jun 2021 11:02:10 +0900
+ Subject: [PATCH] config/eu.am: do not use -Werror
+ 
+ Due to re-definition of error() on musl, gcc starts throwing
+@@ -16,22 +16,25 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/config/eu.am b/config/eu.am
+-index 6c3c444..3bc0dc9 100644
++index 2c3e457..8fb0411 100644
+ --- a/config/eu.am
+ +++ b/config/eu.am
+-@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
+- 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
++@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
++ 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
+  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+ -	    $(if $($(*F)_no_Werror),,-Werror) \
+  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+- 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
+-@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
+- 	   -Wtrampolines \
++ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
++@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
++ 	   $(TRAMPOLINES_WARNING) \
+  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
+  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
+ -	   $(if $($(*F)_no_Werror),,-Werror) \
+  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
+  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
+- 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
++ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
++-- 
++2.25.1
++
+-- 
+2.25.1
+
