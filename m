@@ -1,287 +1,449 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.5])
- by mx.groups.io with SMTP id smtpd.web10.53830.1622525067622181161
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.102])
+ by mx.groups.io with SMTP id smtpd.web12.55209.1622538927037767672
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 May 2021 22:24:28 -0700
+ Tue, 01 Jun 2021 02:15:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=VvMgBMwc;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.5, mailfrom: zangrc.fnst@fujitsu.com)
-Return-Path: <zangrc.fnst@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1622525065; i=@fujitsu.com;
-	bh=U2YxfTldwCEMsp7XscwvTkGR9kYM7Swr/hHwcOnLCZ0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VvMgBMwcc0VGdKoKEcgVKArfTEMyH4D1I1n+Ri0+oLokrwAEvpMyIbxhCEZDsYgqC
-	 4YcgQhxHJ5ry3R4eVaKX0TBhorX5koPJ8nsrFgvdhFLBq0HhrSjQemDXHGoDayDemu
-	 Lth9ueO6zDJTY41LpmRi75APIsneQ3Lw5VvPyQ99GvJK/ZO/7fEaOyg/fof6RDg/if
-	 ftKOtOGxanFzNvlSOFsQYpq4fvtJBkfT26GWalUVYj7vdAtBJI0X/NtNDw8KCaKGUi
-	 Bf1qpwXmTuVcOA56gpvDA61v8SMlIF3lqAz+EAC4ZKPMgW2LeKbX9ce/QP+jjod25R
-	 VbvAlemsF68OQ==
-Received: from [100.112.193.7] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-a.eu-west-1.aws.symcld.net id FB/89-34775-984C5B06; Tue, 01 Jun 2021 05:24:25 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCIsWRWlGSWpSXmKPExsViZ8MRottxZGu
-  Cwao+Y4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPKkS0sBT8CKub8fsDewLjMtYuRi0NIYCaT
-  xKInyxkhnOOMEqsfzmHuYuTkYBPQkeh40c3SxcjBISKgJ3H1nyiIKSxgLbGiuwLEZBFQkVj2x
-  R/E5BVwl5iw3hCkT0JAQWLKw/dgM3gFBCVOznzCAmIzC0hIHHzxghmiRlFi+84zLBB2hcSMGd
-  vYJjDyzELSMgtJywJGplWMFklFmekZJbmJmTm6hgYGuoaGRrqGlqa6RoameolVuol6qaW65an
-  FJbqGeonlxXrFlbnJOSl6eaklmxiBAZRScPj6DsZbrz/oHWKU5GBSEuVd7bI1QYgvKT+lMiOx
-  OCO+qDQntfgQowwHh5IEb/ZBoJxgUWp6akVaZg4wmGHSEhw8SiK8cQeA0rzFBYm5xZnpEKlTj
-  LEc734uXsTM8WbtEiD5Fky23bsLJNvB5MwFB1czc8wCk/fbDwHJByBSiCUvPy9VSpzX4xDQUA
-  GQoRmleXArYZF7iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iwr8lhoCk8mXklcJe9AjqaCej
-  oz6GbQI4uSURISTUwzckUfNWZFaH8smB9o7lWpOQfxjv6yj13/j3ePcfJUvFe7WOFyw8/ak5o
-  eStxxiXdtOqjw9PPxw6VTTz7Snkll4Wn2iTuwL/7JDdOsmCNuXzb6cMz8VdCD2d4c/CcmGv0j
-  PUHwwnmWxs1d13dOPFriOvbfVX/1zmemt1nsOHrXWeFh46dKbrGYgZslmd2Z+hbT2gLsV605z
-  TnQ+v5svUL63S/uwuwFpzafYFh37cFd/dfzXBQtwtyPL7+H3+UeWhw6QbPS8KLRe+rOXbe2/m
-  e5+deA9nbKhuYdlrNWBMs7H6j5tfvJ3yq/OmfQxcfUXOz+/xbXT7FfHsoV9SUes51Il+rxJO4
-  mU0WyFz4mrMsSYmlOCPRUIu5qDgRAHXKsvdXAwAA
-X-Env-Sender: zangrc.fnst@fujitsu.com
-X-Msg-Ref: server-12.tower-271.messagelabs.com!1622525064!67291!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 890 invoked from network); 1 Jun 2021 05:24:24 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-12.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 1 Jun 2021 05:24:24 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1515OGrM014469
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jun 2021 06:24:24 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Tue, 1 Jun 2021 06:24:15 +0100
-From: "zangrc" <zangrc.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] elfutils: upgrade 0.183 -> 0.185
-Date: Tue, 1 Jun 2021 13:24:05 +0800
-Message-ID: <1622525045-17496-1-git-send-email-zangrc.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@mysnt.onmicrosoft.com header.s=selector2-mysnt-onmicrosoft-com header.b=TliH3FoD;
+ spf=pass (domain: kontron.de, ip: 40.107.13.102, mailfrom: frieder.schrempf@kontron.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GDkYVq6Trgg1CGssN3+gYcQ6HX+ERQWmcnBJj+FxkZy4d1ac04nzEeLzsKP0AUipUk7Z5Jrnqi9BCj4pDfVQx+LLSC2Bv7pXBv8WkZ9/3UVL6CK0fIr8K9fg5Mt7b2J7FwiRT3AHQelwjOp84ihH45YDfPb4D6lppjhF8TAg9RBmY8w0hpCfUEIf/oxwaSTeJcq403tQgCYyF+IaBC/HnFcFgoaIRdIi+qtmM9eTztRjIt/fpekjLcocHHUkuX9VpRdYf2FuBffGzuSlb5KbFCnIFxVFAAFKaoOn/AU4nZB1dD9fAW7pgm46dikquIwsVK4k0081WcvkR1qkddZMww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IKOozN9Q86Aa6ftPQUmszueW4+VAiucYhSYdlYvrwJk=;
+ b=nUNLzNv85LviGF/ftbs19fkXZWiHk8l3GSUIXdsjXV/12npNjaukKGj11tItN7n/WTuMUhhDcS1/lFViI6Gy9vjx4Xv6fIdGLlBNsgpCTB8Wh9hx39Pl5OJ2h+vX/0Gg9pI6V/aPWXNzGUrXuNoZpvfPyHMoImNiuiwHgz30F6bvO9fnDcIM3Vs0MgxFKB9t4vqLAvt2ncJyUnwUG9H+FpCJBK1RmQdRkp1URssA9uWUjVYvmFPCYFzRViZhXpawce5HrwkR+7v85zu7MJXogsTuKE3KHwhmA+7li1L1MbFPHQHfOvlSeOcWzBpfekSjShgc4GaHgGSrLke4ekLxEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IKOozN9Q86Aa6ftPQUmszueW4+VAiucYhSYdlYvrwJk=;
+ b=TliH3FoDd46rG9eLHWP7fI5WjNFTVhPFq7iPyBmwcD1mvUwuco4la0LzZfpEoeRaHogX6kMZTWqcW+GYSnjQM2Bmuh5VzG/9YpEvW2XHJ/2+Y8ridtxRTy4hinWWV+Wf/jAc1zGvnO/FSJgPsfYDOm8Qr90pGWtdKfiRSj6ttRQ=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kontron.de;
+Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:157::14)
+ by AM0PR10MB2275.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e3::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Tue, 1 Jun
+ 2021 09:15:24 +0000
+Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::1133:8761:6cc9:9703]) by AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::1133:8761:6cc9:9703%5]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
+ 09:15:24 +0000
+Subject: Re: [OE-core] [PATCH v2] kernel-fitimage: Don't use unit addresses on FIT
+To: Steve Sakoman <sakoman@gmail.com>
+Cc: klaus@linux.vnet.ibm.com,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <99b61172c516c71dadbc7342da4e20a064299110.camel@linuxfoundation.org>
+ <20210222183818.22615-1-klaus@linux.vnet.ibm.com>
+ <648ca8e0-5a3d-ff2a-2b5a-5884cd618f5c@kontron.de>
+ <CAGDS+n=rFYdcRMvTqqnA+PKPLf0FhfwSopkzpD0yNKxLa6hcNg@mail.gmail.com>
+From: "Frieder Schrempf" <frieder.schrempf@kontron.de>
+Message-ID: <48487c3c-b224-db21-b20d-cf2c65853669@kontron.de>
+Date: Tue, 1 Jun 2021 11:15:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <CAGDS+n=rFYdcRMvTqqnA+PKPLf0FhfwSopkzpD0yNKxLa6hcNg@mail.gmail.com>
+X-Originating-IP: [109.250.129.140]
+X-ClientProxiedBy: AM3PR07CA0064.eurprd07.prod.outlook.com
+ (2603:10a6:207:4::22) To AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:157::14)
+Return-Path: frieder.schrempf@kontron.de
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.10.32] (109.250.129.140) by AM3PR07CA0064.eurprd07.prod.outlook.com (2603:10a6:207:4::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.10 via Frontend Transport; Tue, 1 Jun 2021 09:15:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 86a2c3d7-ffd4-4dc1-c1a6-08d924ddc99a
+X-MS-TrafficTypeDiagnostic: AM0PR10MB2275:
+X-Microsoft-Antispam-PRVS: 
+	<AM0PR10MB22757B6FE2074825E8F8D896E93E9@AM0PR10MB2275.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:168;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	VKFjmlvUy9kzXq1iIhPdu7SK8OC7JO6lJXhQiALAmJTHKv9i6cnOCGTYBCUYN4NGpHtFN5O84szyRJPXfqyx0Xhg/lIqhz5/UxlTQNbackorlVSWz0yIZQIWIGq5YO0Wh0Qd8qt4YNdj9QV58t2VMmGPjd3FGHTwfeqLaUzRPwFcsCx+W1evRMpO+LoM00i8ne6Vcm/5cyXLXi9/m8PWuNE8NAyiEXO+e7vlycP9eTUsTXLxfK2hpFyAVtv2+uV/lV7hQbcU57xrv0LiLKOCgrNQRbFuESwdhBwxm3lwOrTEcan28y3n3XDEAWODDTFEoUwTxPlVED2w07Maw7HVMiUdjxtGCwTAbKuvncKWS8EDDeLshx3OAQlK7e8UioT9v8gMfhXLHo4bY26Ti1DuwuaHpJXi6wjLZx6ovRj/lcmzCmHr8oicOKXulsqaH8sLL+Po8g+k/lDsmxMFa778TldoCPuOedOLQrpJAPNYlBHjMXshnLcU7f+RCt9n7q95cb2qtCX1I0r2dTIXnDvawh7wqYk4iL8etz/jrOZ+tST8TmKY/L8Lr7WqV0lDg/c7SefGBG9SJ1C0/sgWycCfVZBUl6va4Z+3No4RigVhGdJlgwZrGK2wRIiMw6aYMk+uzabhOcn/GeyqAA8fxQ935DMmk3O+ahhS6A3iaGsvbfBieXJs5kX3Gz1q5I82Bb4l3VgLOKUecvK5aUfBMFrv78RpE6fObPy4nDFpUfv8mittZDe99lpotQ0/3sNyK4dgCQeqdhjOtBI0yQUezZ1rUhUSNo2ZjwkBulvAxJCfZoXqgAmzLZHeDPUR0o6eLTu0
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(136003)(346002)(39860400002)(376002)(478600001)(966005)(83380400001)(86362001)(44832011)(36756003)(38100700002)(4326008)(30864003)(8676002)(6916009)(31696002)(26005)(31686004)(16526019)(2906002)(66556008)(186003)(316002)(66476007)(66946007)(16576012)(6486002)(956004)(2616005)(8936002)(45080400002)(5660300002)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?bksvSXk2Qm1LdVNtS2gyYXUzeVlNb0hoNG43enVWQlNpMkVVVTNLbDFvV2p3?=
+ =?utf-8?B?eXY2b1hhTGNMRnZEZlpWajg4SDRBWXozYzJ4MUdDUmV1N01SNTA1TW12MWNH?=
+ =?utf-8?B?R3UrNVZ1NzlWcC9tRUJWeXF1bFJKTTJSbFNodWlIN0VYbFRDZ056SmRvSEcv?=
+ =?utf-8?B?b0pUSkV1emVBTDJkTDZEWk9qTktkVUdpdXJ2VGdxZkpwaHI4eS9xUVU2Z0Rr?=
+ =?utf-8?B?b1RoYnJXa0VzN2NrS25rZFJyZms0SUYxZGpxckJPZVVBQkVMOHg2ZmVrTHFq?=
+ =?utf-8?B?MEROSU1lbStTVlRuVmRZTFU1UXpnM1kvd2FhQVBEckcyT21MSHNyb0xvZWJx?=
+ =?utf-8?B?TGxrcE9EUTk0YnpIQ3grVmdKZ09Dbnd6SnJPbUEyRmowQTdxYzR4N0dwTGNt?=
+ =?utf-8?B?TkFEKytYY0d1YzY2K2x3Z3NWY0k3NElkbG1ScktSc0c1RnZoSWlac1h1dzlB?=
+ =?utf-8?B?YW9BZ2lGVVFKVkthN1NmOWZRU1hKY1E2M3VzQXRoZXF4TDJSalN3bzR2eDNs?=
+ =?utf-8?B?NXRkSkdVWkhMSjRpTC8yczZIZVBRbHRHeXV3ajdmSHJEYkxoOWVkVzlUNzA1?=
+ =?utf-8?B?cXBkQWh5Ky8xY1orTndtcUNhN0JkT3I1YXNONTkyVy9FWXJZYTdzY1psOWlC?=
+ =?utf-8?B?VVBoY1hxZFZJZ1ZmN2UwZDV1YnVmK1JEUFVPUjlQMFp3aER6d01wNjVYVmY2?=
+ =?utf-8?B?Z0lpMklGclVHZTFtQXU5WDRDbUEvM3k4ZTBrN0dOYUlTcTlQQ3pjWFlHWXlB?=
+ =?utf-8?B?UnFBb2dlOTY5TDBCS1dDZjFYMWIwdlZYdS94a3U0TnkzN3BNNEdLL1pQdFpP?=
+ =?utf-8?B?OE5xaVpEeWlFSUNydU5LYnpDZ3ZNZGZxaVVYWjAzNDdZdTllY3BnaWloNUQr?=
+ =?utf-8?B?cUhxRjczQnhyNXpXRktuUkNuenVVaGhPalIrdU5XL3pvRmVpUVkvaHFxMjNq?=
+ =?utf-8?B?bzEwcFg1bkx3SVRDdkcwTE1aeEdERTB6ZHBkZzRQc05XbVloNmNoOURsS2Qr?=
+ =?utf-8?B?OTNyQ3hkYUQxTnl2R2NjZ3I0N3YyU2FMTUVWdlgzOWtUUWR3bFpreVhJRnlN?=
+ =?utf-8?B?M2J6Q1Q4TDd2ZEJWckxaRi9tdUtIOGhNQW1DMTdTUTRrKzRNNm9FSDFDdVQy?=
+ =?utf-8?B?ZC82MmVtODVJNVRydzBRd25jakVKS1ZtTFFMOU9KRkhyamsraXFNUXhDNWtY?=
+ =?utf-8?B?dmpoaGoyanpRbGxhZXgyQUJwaUlxWG9YelNLZ0s0ZEtYUnVFeU16a0dERGlX?=
+ =?utf-8?B?NUVMVE9vbWVpUmE2VmtxclBDTVhiVFVUYnpQWGEvZDQ0RVQ3OWtUajg3ZDIy?=
+ =?utf-8?B?SUc4ejlicGZ4OGEzblFVYVlGSE5yc2Z1aXluUS9ZNExBeXg5TGtTaThVN2o0?=
+ =?utf-8?B?ODlNcWMyUGQ5RFVSM0ozL3RQN1V0eGNTVVkvcHpIZXdjWG9xMWc1MU56dEUr?=
+ =?utf-8?B?ZHJoRXRza1lXNXBnQXoxcXVXRjZFNzVicHE1TFNaODQrbHBQdmU5cTZQSHIw?=
+ =?utf-8?B?ZnQxQ2FVSDJLVERXdVRscFNLQVdiRXhGeE1yZ3hpUUg2Nlp4V0R0R0c3M1lq?=
+ =?utf-8?B?ejBGSDVqTUg1bzFPZjA5MGNhZWF0UlpCRjRkUkIrRmVER0I4clRVTDIvRFE1?=
+ =?utf-8?B?NlRZR0tVbm0rYWI5eFo3blVjcWFqOFh3OTQwMGVibXVqQUM3UjgycGsrWTFh?=
+ =?utf-8?B?YS9vMjltcDdlRmNQanQrK1NWM01Db01TRjVNMSszc2pYaDMyWGpBN3RPeWNk?=
+ =?utf-8?Q?b/IRAE+pKIXzOTD0FLhVMZn6JknsTSekxn/SUnx?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86a2c3d7-ffd4-4dc1-c1a6-08d924ddc99a
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 09:15:24.0599
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: krG+sqV+utkF/8zrn/vdN2ZEP58TUMo8pN00daM/lffbe6YjrSvdfrgMhXbVh5/4Pba8Ti21dQukYjbHIMYFWjhIaySiScSH/oopGJ5Sbcs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2275
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+On 31.05.21 17:59, Steve Sakoman wrote:
+> On Mon, May 31, 2021 at 4:59 AM Frieder Schrempf
+> <frieder.schrempf@kontron.de> wrote:
+>>
+>> Hi Steve,
+>>
+>> On 22.02.21 19:38, Klaus Heinrich Kiwi via lists.openembedded.org wrote:
+>>> Das U-Boot 2021.4-rc1 has the following commit:
+>>>
+>>>     commit 3f04db891a353f4b127ed57279279f851c6b4917
+>>>     Author: Simon Glass <sjg@chromium.org>
+>>>     Date:   Mon Feb 15 17:08:12 2021 -0700
+>>>
+>>>         image: Check for unit addresses in FITs
+>>>
+>>>         Using unit addresses in a FIT is a security risk. Add a check for
+>>>         this and disallow it.
+>>>
+>>>         CVE-2021-27138
+>>>
+>>> Adjust the kernel-fitimage.bbclass accordingly to not use unit
+>>> addresses. This changte is required before we can bump U-Boot to 2021.4.
+>>>
+>>> Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+>>
+>> Could you pick this and the follow-up patch 0ef3a5e2a6d4 ("kernel-fitimage.bbclass: drop unit addresses from bootscr sections") to the dunfell branch to fix FIT images on U-Boot 2021.01 or later with dunfell?
+> 
+> I can't do a clean cherry-pick of this patch.  If you'd like to submit
+> dunfell versions of these two patches I will add them to my testing
+> queue.
 
-0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-Removed since this is included in 0.185.
+Sorry, I should have looked at this more closely. I just sent a backport patch for dunfell. The second patch covers code that is not available in dunfell, so it's not needed anyway.
 
-Refresh the following patch:
-0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-0015-config-eu.am-do-not-use-Werror.patch
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../{elfutils_0.183.bb => elfutils_0.185.bb}  |  5 +-
- ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 -----------
- ...infod-client.c-correct-string-format.patch | 56 +++++++------------
- .../0015-config-eu.am-do-not-use-Werror.patch | 23 ++++----
- 4 files changed, 34 insertions(+), 83 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.185.bb} (97%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-similarity index 97%
-rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.185.bb
-index 7aebaf1b6d..970cdcca60 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-@@ -21,16 +21,15 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://run-ptest \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
--           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
-            file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
-            "
- SRC_URI_append_libc-musl = " \
-            file://0002-musl-libs.patch \
-            file://0003-musl-utils.patch \
-            file://0004-Fix-error-on-musl.patch \
--           file://0015-config-eu.am-do-not-use-Werror.patch \
-+           file://0015-config-eu.am-do-not-use-Werror.patch \ 
-            "
--SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
-+SRC_URI[sha256sum] = "dc8d3e74ab209465e7f568e1b3bb9a5a142f8656e2b57d10049a73da2ae6b5a6"
- 
- inherit autotools gettext ptest pkgconfig
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-deleted file mode 100644
-index 5f82afef0c..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
--From: dorindabassey <dorindabassey@gmail.com>
--Date: Sat, 19 Dec 2020 01:11:46 +0100
--Subject: [PATCH] add support for ipkg to debuginfod.cxx
--
--added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
--
--Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
--
--Signed-off-by: dorindabassey <dorindabassey@gmail.com>
--
-----
-- debuginfod/debuginfod.cxx | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
--index b34eacc..a8915f2 100644
----- a/debuginfod/debuginfod.cxx
--+++ b/debuginfod/debuginfod.cxx
--@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
--         {
--           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
--           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
--+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
--         }
--       else
--         {
--           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
--           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
--+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
--         }
--       // .udeb too?
--       break;
-diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-index 5bd6ba961c..6a16718538 100644
---- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-@@ -1,6 +1,6 @@
--From 14dfe84943b8f9e6f504536d8735ef6356210b40 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 19 Apr 2021 23:29:10 +0200
-+From 7355a34d3796272e6213b676e042809686eb398a Mon Sep 17 00:00:00 2001
-+From: Wang Mingyu <wangmy@fujitsu.com>
-+Date: Mon, 31 May 2021 17:38:30 +0900
- Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
-  32bit arches with 64bit time_t
- 
-@@ -17,58 +17,40 @@ Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- debuginfod/debuginfod-client.c | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
-+ debuginfod/debuginfod-client.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
- 
- diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index de26af5..39e28f2 100644
-+index ee7eda2..9b26712 100644
- --- a/debuginfod/debuginfod-client.c
- +++ b/debuginfod/debuginfod-client.c
--@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -267,7 +267,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-    if (fd < 0)
-      return -errno;
-  
- -  if (dprintf(fd, "%ld", cache_clean_default_interval_s) < 0)
--+  if (dprintf(fd, "%jd", (intmax_t)cache_clean_default_interval_s) < 0)
-++  if (dprintf(fd, "%ld", (intmax_t)cache_clean_default_interval_s) < 0)
-      return -errno;
-  
-    /* init max age config file.  */
--@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -275,7 +275,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
-      return -errno;
-  
- -  if (dprintf(fd, "%ld", cache_default_max_unused_age_s) < 0)
--+  if (dprintf(fd, "%jd", (intmax_t)cache_default_max_unused_age_s) < 0)
-++  if (dprintf(fd, "%ld", (intmax_t)cache_default_max_unused_age_s) < 0)
-      return -errno;
-  
-    return 0;
--@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--       if (interval_file == NULL)
--         return -errno;
-+@@ -303,7 +303,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-+   /* Check timestamp of interval file to see whether cleaning is necessary.  */
-+   if (time(NULL) - st.st_mtime < clean_interval)
-+     /* Interval has not passed, skip cleaning.  */
-+-    return 0;
-++    return 0;/
-  
---      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
--+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
--       fclose(interval_file);
-- 
--       if (rc < 0)
--@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   interval_file = fopen(interval_path, "r");
--   if (interval_file)
--     {
---      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
--+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
--         clean_interval = cache_clean_default_interval_s;
--       fclose(interval_file);
--     }
--@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   max_unused_file = fopen(max_unused_path, "r");
--   if (max_unused_file)
--     {
---      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
--+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
--         max_unused_age = cache_default_max_unused_age_s;
--       fclose(max_unused_file);
--     }
-+   /* Read max unused age value from config file.  */
-+   rc = debuginfod_config_cache(max_unused_path,
- -- 
--2.31.1
-+2.25.1
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-index 205362626d..1857b7010e 100644
---- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-+++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-@@ -1,6 +1,6 @@
--From dfe11e043cd8ea0b0f0252bcff9f5a6b98c0ecd3 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 22 Jun 2020 21:35:16 +0000
-+From 5226351f21f7011440c2f6acfec50fbfd69796e4 Mon Sep 17 00:00:00 2001
-+From: Wang Mingyu <wangmy@fujitsu.com>
-+Date: Tue, 1 Jun 2021 11:02:10 +0900
- Subject: [PATCH] config/eu.am: do not use -Werror
- 
- Due to re-definition of error() on musl, gcc starts throwing
-@@ -16,22 +16,25 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
- 
- diff --git a/config/eu.am b/config/eu.am
--index 6c3c444..3bc0dc9 100644
-+index 2c3e457..8fb0411 100644
- --- a/config/eu.am
- +++ b/config/eu.am
--@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-- 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
-+@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-+ 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
-  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	    $(if $($(*F)_no_Werror),,-Werror) \
-  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
--@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-- 	   -Wtrampolines \
-+ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-+ 	   $(TRAMPOLINES_WARNING) \
-  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	   $(if $($(*F)_no_Werror),,-Werror) \
-  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
-+ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+-- 
-+2.25.1
-+
--- 
-2.25.1
-
+> 
+> Steve
+> 
+>>
+>> Thanks
+>> Frieder
+>>
+>>> ---
+>>>
+>>> Notes:
+>>>     V2 Notes:
+>>>       - Adjusted testcases
+>>>         (reported by Richard Purdie <richard.purdie@linuxfoundation.org>)
+>>>
+>>>  meta/classes/kernel-fitimage.bbclass     | 40 ++++++++++++------------
+>>>  meta/lib/oeqa/selftest/cases/fitimage.py | 36 ++++++++++-----------
+>>>  2 files changed, 38 insertions(+), 38 deletions(-)
+>>>
+>>> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+>>> index 2414870817..f5082c93df 100644
+>>> --- a/meta/classes/kernel-fitimage.bbclass
+>>> +++ b/meta/classes/kernel-fitimage.bbclass
+>>> @@ -161,7 +161,7 @@ fitimage_emit_section_kernel() {
+>>>       fi
+>>>
+>>>       cat << EOF >> ${1}
+>>> -                kernel@${2} {
+>>> +                kernel-${2} {
+>>>                          description = "Linux kernel";
+>>>                          data = /incbin/("${3}");
+>>>                          type = "kernel";
+>>> @@ -170,7 +170,7 @@ fitimage_emit_section_kernel() {
+>>>                          compression = "${4}";
+>>>                          load = <${UBOOT_LOADADDRESS}>;
+>>>                          entry = <${ENTRYPOINT}>;
+>>> -                        hash@1 {
+>>> +                        hash-1 {
+>>>                                  algo = "${kernel_csum}";
+>>>                          };
+>>>                  };
+>>> @@ -179,7 +179,7 @@ EOF
+>>>       if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${kernel_sign_keyname}" ] ; then
+>>>               sed -i '$ d' ${1}
+>>>               cat << EOF >> ${1}
+>>> -                        signature@1 {
+>>> +                        signature-1 {
+>>>                                  algo = "${kernel_csum},${kernel_sign_algo}";
+>>>                                  key-name-hint = "${kernel_sign_keyname}";
+>>>                          };
+>>> @@ -210,14 +210,14 @@ fitimage_emit_section_dtb() {
+>>>               dtb_loadline="load = <${UBOOT_DTB_LOADADDRESS}>;"
+>>>       fi
+>>>       cat << EOF >> ${1}
+>>> -                fdt@${2} {
+>>> +                fdt-${2} {
+>>>                          description = "Flattened Device Tree blob";
+>>>                          data = /incbin/("${3}");
+>>>                          type = "flat_dt";
+>>>                          arch = "${UBOOT_ARCH}";
+>>>                          compression = "none";
+>>>                          ${dtb_loadline}
+>>> -                        hash@1 {
+>>> +                        hash-1 {
+>>>                                  algo = "${dtb_csum}";
+>>>                          };
+>>>                  };
+>>> @@ -226,7 +226,7 @@ EOF
+>>>       if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${dtb_sign_keyname}" ] ; then
+>>>               sed -i '$ d' ${1}
+>>>               cat << EOF >> ${1}
+>>> -                        signature@1 {
+>>> +                        signature-1 {
+>>>                                  algo = "${dtb_csum},${dtb_sign_algo}";
+>>>                                  key-name-hint = "${dtb_sign_keyname}";
+>>>                          };
+>>> @@ -283,7 +283,7 @@ fitimage_emit_section_setup() {
+>>>       setup_csum="${FIT_HASH_ALG}"
+>>>
+>>>       cat << EOF >> ${1}
+>>> -                setup@${2} {
+>>> +                setup-${2} {
+>>>                          description = "Linux setup.bin";
+>>>                          data = /incbin/("${3}");
+>>>                          type = "x86_setup";
+>>> @@ -292,7 +292,7 @@ fitimage_emit_section_setup() {
+>>>                          compression = "none";
+>>>                          load = <0x00090000>;
+>>>                          entry = <0x00090000>;
+>>> -                        hash@1 {
+>>> +                        hash-1 {
+>>>                                  algo = "${setup_csum}";
+>>>                          };
+>>>                  };
+>>> @@ -321,7 +321,7 @@ fitimage_emit_section_ramdisk() {
+>>>       fi
+>>>
+>>>       cat << EOF >> ${1}
+>>> -                ramdisk@${2} {
+>>> +                ramdisk-${2} {
+>>>                          description = "${INITRAMFS_IMAGE}";
+>>>                          data = /incbin/("${3}");
+>>>                          type = "ramdisk";
+>>> @@ -330,7 +330,7 @@ fitimage_emit_section_ramdisk() {
+>>>                          compression = "none";
+>>>                          ${ramdisk_loadline}
+>>>                          ${ramdisk_entryline}
+>>> -                        hash@1 {
+>>> +                        hash-1 {
+>>>                                  algo = "${ramdisk_csum}";
+>>>                          };
+>>>                  };
+>>> @@ -339,7 +339,7 @@ EOF
+>>>       if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${ramdisk_sign_keyname}" ] ; then
+>>>               sed -i '$ d' ${1}
+>>>               cat << EOF >> ${1}
+>>> -                        signature@1 {
+>>> +                        signature-1 {
+>>>                                  algo = "${ramdisk_csum},${ramdisk_sign_algo}";
+>>>                                  key-name-hint = "${ramdisk_sign_keyname}";
+>>>                          };
+>>> @@ -377,7 +377,7 @@ fitimage_emit_section_config() {
+>>>       # Test if we have any DTBs at all
+>>>       sep=""
+>>>       conf_desc=""
+>>> -     conf_node="conf@"
+>>> +     conf_node="conf-"
+>>>       kernel_line=""
+>>>       fdt_line=""
+>>>       ramdisk_line=""
+>>> @@ -396,19 +396,19 @@ fitimage_emit_section_config() {
+>>>       if [ -n "${kernel_id}" ]; then
+>>>               conf_desc="Linux kernel"
+>>>               sep=", "
+>>> -             kernel_line="kernel = \"kernel@${kernel_id}\";"
+>>> +             kernel_line="kernel = \"kernel-${kernel_id}\";"
+>>>       fi
+>>>
+>>>       if [ -n "${dtb_image}" ]; then
+>>>               conf_desc="${conf_desc}${sep}FDT blob"
+>>>               sep=", "
+>>> -             fdt_line="fdt = \"fdt@${dtb_image}\";"
+>>> +             fdt_line="fdt = \"fdt-${dtb_image}\";"
+>>>       fi
+>>>
+>>>       if [ -n "${ramdisk_id}" ]; then
+>>>               conf_desc="${conf_desc}${sep}ramdisk"
+>>>               sep=", "
+>>> -             ramdisk_line="ramdisk = \"ramdisk@${ramdisk_id}\";"
+>>> +             ramdisk_line="ramdisk = \"ramdisk-${ramdisk_id}\";"
+>>>       fi
+>>>
+>>>       if [ -n "${bootscr_id}" ]; then
+>>> @@ -419,16 +419,16 @@ fitimage_emit_section_config() {
+>>>
+>>>       if [ -n "${config_id}" ]; then
+>>>               conf_desc="${conf_desc}${sep}setup"
+>>> -             setup_line="setup = \"setup@${config_id}\";"
+>>> +             setup_line="setup = \"setup-${config_id}\";"
+>>>       fi
+>>>
+>>>       if [ "${default_flag}" = "1" ]; then
+>>>               # default node is selected based on dtb ID if it is present,
+>>>               # otherwise its selected based on kernel ID
+>>>               if [ -n "${dtb_image}" ]; then
+>>> -                     default_line="default = \"conf@${dtb_image}\";"
+>>> +                     default_line="default = \"conf-${dtb_image}\";"
+>>>               else
+>>> -                     default_line="default = \"conf@${kernel_id}\";"
+>>> +                     default_line="default = \"conf-${kernel_id}\";"
+>>>               fi
+>>>       fi
+>>>
+>>> @@ -441,7 +441,7 @@ fitimage_emit_section_config() {
+>>>                       ${ramdisk_line}
+>>>                       ${bootscr_line}
+>>>                       ${setup_line}
+>>> -                        hash@1 {
+>>> +                        hash-1 {
+>>>                                  algo = "${conf_csum}";
+>>>                          };
+>>>  EOF
+>>> @@ -478,7 +478,7 @@ EOF
+>>>               sign_line="${sign_line};"
+>>>
+>>>               cat << EOF >> ${its_file}
+>>> -                        signature@1 {
+>>> +                        signature-1 {
+>>>                                  algo = "${conf_csum},${conf_sign_algo}";
+>>>                                  key-name-hint = "${conf_sign_keyname}";
+>>>                               ${sign_line}
+>>> diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+>>> index 0958036a6f..02692de822 100644
+>>> --- a/meta/lib/oeqa/selftest/cases/fitimage.py
+>>> +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+>>> @@ -69,9 +69,9 @@ FIT_DESC = "A model description"
+>>>              'type = "ramdisk";',
+>>>              'load = <0x88000000>;',
+>>>              'entry = <0x88000000>;',
+>>> -            'default = "conf@1";',
+>>> -            'kernel = "kernel@1";',
+>>> -            'ramdisk = "ramdisk@1";'
+>>> +            'default = "conf-1";',
+>>> +            'kernel = "kernel-1";',
+>>> +            'ramdisk = "ramdisk-1";'
+>>>              ]
+>>>
+>>>          with open(fitimage_its_path) as its_file:
+>>> @@ -137,12 +137,12 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+>>>              "%s FIT image doesn't exist" % (fitimage_path))
+>>>
+>>>          req_itspaths = [
+>>> -            ['/', 'images', 'kernel@1'],
+>>> -            ['/', 'images', 'kernel@1', 'signature@1'],
+>>> -            ['/', 'images', 'fdt@am335x-boneblack.dtb'],
+>>> -            ['/', 'images', 'fdt@am335x-boneblack.dtb', 'signature@1'],
+>>> -            ['/', 'configurations', 'conf@am335x-boneblack.dtb'],
+>>> -            ['/', 'configurations', 'conf@am335x-boneblack.dtb', 'signature@1'],
+>>> +            ['/', 'images', 'kernel-1'],
+>>> +            ['/', 'images', 'kernel-1', 'signature-1'],
+>>> +            ['/', 'images', 'fdt-am335x-boneblack.dtb'],
+>>> +            ['/', 'images', 'fdt-am335x-boneblack.dtb', 'signature-1'],
+>>> +            ['/', 'configurations', 'conf-am335x-boneblack.dtb'],
+>>> +            ['/', 'configurations', 'conf-am335x-boneblack.dtb', 'signature-1'],
+>>>          ]
+>>>
+>>>          itspath = []
+>>> @@ -158,7 +158,7 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+>>>                  elif line.endswith('{'):
+>>>                      itspath.append(line[:-1].strip())
+>>>                      itspaths.append(itspath[:])
+>>> -                elif itspath and itspath[-1] == 'signature@1':
+>>> +                elif itspath and itspath[-1] == 'signature-1':
+>>>                      itsdotpath = '.'.join(itspath)
+>>>                      if not itsdotpath in sigs:
+>>>                          sigs[itsdotpath] = {}
+>>> @@ -182,7 +182,7 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+>>>          }
+>>>
+>>>          for itspath, values in sigs.items():
+>>> -            if 'conf@' in itspath:
+>>> +            if 'conf-' in itspath:
+>>>                  reqsigvalues = reqsigvalues_config
+>>>              else:
+>>>                  reqsigvalues = reqsigvalues_image
+>>> @@ -210,9 +210,9 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+>>>                      signed_sections[in_signed] = {}
+>>>                  key, value = line.split(':', 1)
+>>>                  signed_sections[in_signed][key.strip()] = value.strip()
+>>> -        self.assertIn('kernel@1', signed_sections)
+>>> -        self.assertIn('fdt@am335x-boneblack.dtb', signed_sections)
+>>> -        self.assertIn('conf@am335x-boneblack.dtb', signed_sections)
+>>> +        self.assertIn('kernel-1', signed_sections)
+>>> +        self.assertIn('fdt-am335x-boneblack.dtb', signed_sections)
+>>> +        self.assertIn('conf-am335x-boneblack.dtb', signed_sections)
+>>>          for signed_section, values in signed_sections.items():
+>>>              value = values.get('Sign algo', None)
+>>>              self.assertEqual(value, 'sha256,rsa2048:oe-selftest', 'Signature algorithm for %s not expected value' % signed_section)
+>>> @@ -298,7 +298,7 @@ FIT_HASH_ALG = "sha256"
+>>>          its_lines = [line.strip() for line in its_file.readlines()]
+>>>
+>>>          exp_node_lines = [
+>>> -            'kernel@1 {',
+>>> +            'kernel-1 {',
+>>>              'description = "Linux kernel";',
+>>>              'data = /incbin/("' + initramfs_bundle + '");',
+>>>              'type = "kernel";',
+>>> @@ -307,7 +307,7 @@ FIT_HASH_ALG = "sha256"
+>>>              'compression = "none";',
+>>>              'load = <' + kernel_load + '>;',
+>>>              'entry = <' + kernel_entry + '>;',
+>>> -            'hash@1 {',
+>>> +            'hash-1 {',
+>>>              'algo = "' + fit_hash_alg +'";',
+>>>              '};',
+>>>              '};'
+>>> @@ -327,7 +327,7 @@ FIT_HASH_ALG = "sha256"
+>>>              else:
+>>>                  self.assertTrue(test_passed == True,"kernel node does not match expectation")
+>>>
+>>> -        rx_configs = re.compile("^conf@.*")
+>>> +        rx_configs = re.compile("^conf-.*")
+>>>          its_configs = list(filter(rx_configs.match, its_lines))
+>>>
+>>>          for cfg_str in its_configs:
+>>> @@ -348,7 +348,7 @@ FIT_HASH_ALG = "sha256"
+>>>              else:
+>>>                  print("kernel keyword found in the description line")
+>>>
+>>> -            if 'kernel = "kernel@1";' not in node:
+>>> +            if 'kernel = "kernel-1";' not in node:
+>>>                  self.assertTrue(test_passed == True,"kernel line not found")
+>>>                  break
+>>>              else:
+>>>
+>>>
+>>>
+>>>
+>>>
+>>
+>> 
+>>
