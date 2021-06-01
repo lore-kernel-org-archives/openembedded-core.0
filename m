@@ -1,91 +1,82 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web08.58660.1622557162365347116
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web08.58662.1622557164673033815
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jun 2021 07:19:22 -0700
+ Tue, 01 Jun 2021 07:19:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cPtaYkdi;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id r1so10793112pgk.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 07:19:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=AhqiZgXL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 29so10800640pgu.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 07:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=eNLLfiYyawzsRnrYk2f/EWRKb3MiUaNZmGzy0vmoOHE=;
-        b=cPtaYkdiRKcM5HROj4Vsqr/IeNsj8XX1W9hE4VLuVMJOAffqUwq6co9sJYVuIcruVG
-         dtQjlkSKOSTEDC+HgPhVe00t+uN8NPpdHrfXBBxftx2NM3Wc+a4SLOBYkb/4xHIipdoW
-         6xGYYul1Rm+bncwSBEkCOlqku0L/w1CYlk7KXcTr+iDg96f3y/Q5JZ+3vw7PU+yhCUkw
-         +cG/Yh0ylz1pEYiUn3UBUaLCQLbl8VSto1G4Du0X02nYb+1yZSHLEqJVjgmuPbPdf20T
-         fCVgFjuBX/uMz+DB3nhTjoMytcWthB/vYtmM87lUwyFdXJrw3LZiiXoHHdAkYGYHX38K
-         Jcpg==
+        bh=FyVPAdZ6Zajpc9ob3Vnqe/VV/yD2QxWJR7U852Auk78=;
+        b=AhqiZgXL2AbBAHlnp1M627Plhw6v43XN4a4C/CQCjjeUVnH0DjFGc1DmH+j/m53fCu
+         3cO+70hRnS3K/b5YvYWahkwu8BdL5uc85d6R0ciKdKYMzOJtKtqt1xDTQbYcMfZHY00E
+         Qg2JLaCHUI6W+EwBN8FHUx1g72oAlmTVbjBa8QpeM/KgwLibvt0o98+AiWQhHb8btz1v
+         9FLCXHMi2wi5bwBjPC0KAjJXaBrdgQb2B3/th9gxJ/kushMbXnamJLDK+ATiop92Z2Uk
+         d+xybMIyEk6PCMc2pHvmicb9F37b5LCP1/zqTASkLC51pjfySweDZVOA8hsDfdnW08+2
+         XXDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eNLLfiYyawzsRnrYk2f/EWRKb3MiUaNZmGzy0vmoOHE=;
-        b=fiZ1OcPwF6EOk4k1t7EtJ91xcBW7nMwwL0dnppTGGRi/YKppIaLkjB5g/2b1F3H2Ny
-         rMGfqxnRu0xpXktjNg8Uu7YO7LkX3GjTLsNHmPo2zL7hco3vC1kxwuzTYMe85MoYN8/Z
-         a1vmenrv6OjrcTVorusY6qO+L7owb4SX+GXdUS23X7sTaptC3blIz7i8qyg/2pEWy6VN
-         GdrFWEbjm8jaTUpp1zU3kJ7NXFwXC/Kh0GmryABQqZvVDZcwP9O0YJD6+1BCg08Y4yS5
-         WsdxSeZB+KRy94RhnSGU7asr9luTpSopd2/H6rYtt0Os0k/8yEw9zCINIn2fnXkQQmuD
-         e1Vg==
-X-Gm-Message-State: AOAM532qqzx89m78MQkLxeutrYytdQOGupyQJH0zKkgkeMGMk2c3fWDW
-	GrHrpuFzeCtAmrHKcPxszH7PN/OveL8X3G3kY+0=
-X-Google-Smtp-Source: ABdhPJz7WHwz/zWPOEcHZYtMPKMzSVHrqgdTUKXKdTVekcdIaJtSFRyjmOdI+sNbIZyNMPp0Soiwig==
-X-Received: by 2002:a63:581c:: with SMTP id m28mr28093034pgb.353.1622557161436;
-        Tue, 01 Jun 2021 07:19:21 -0700 (PDT)
+        bh=FyVPAdZ6Zajpc9ob3Vnqe/VV/yD2QxWJR7U852Auk78=;
+        b=rKuYgeR52tWJzIWLceCT35Ec1ANb1Lqyj6ruJXLrVZSJql7r6IWYM2zO4k0p7OqXpY
+         HIr9T1G6WoxaZ3lN04fAW30TU5VSnORzBA+UcOnynpTAZ0He/qa4qKw21CZsxz6bEmFX
+         z37z7BXlNwmnxUP3njqsQ6iBrzfS4X0b9AymELBQBDdsq/8Cv/7fW4g8HqPom450ct+c
+         Kx45VapwctA2myWBeyWlWzTJgKJ5Uz6lHe6OzUbBIx6FokxSk7bz4/W55YnGUJU9+3Ps
+         5Ozx/RmklOzX8xJ668uhE14VD5o/yEbe81bnv97OFuToMqXO1m0aOYjr0bO2HsfPitI7
+         zk4Q==
+X-Gm-Message-State: AOAM531g/MI7LzPXy83wVTDxNBHP83aN6xBEx5+apCOZA31mrg2+vicH
+	1/DPaOPhtxyxGZD6DLWiBVRYqJg6pxGLKogq490=
+X-Google-Smtp-Source: ABdhPJwbg44o3N/0ZKJHNVR4yDMJMIorDTiy8yOrW+O7Bh3x3GWdSHqZGi7htBMRHtPQNU1/t21GiQ==
+X-Received: by 2002:a63:d213:: with SMTP id a19mr28592493pgg.28.1622557163783;
+        Tue, 01 Jun 2021 07:19:23 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id bb18sm2307875pjb.44.2021.06.01.07.19.20
+        by smtp.gmail.com with ESMTPSA id bb18sm2307875pjb.44.2021.06.01.07.19.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 07:19:21 -0700 (PDT)
+        Tue, 01 Jun 2021 07:19:23 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 24/26] oeqa/runtime/rpm: Drop log message counting test component
-Date: Tue,  1 Jun 2021 04:18:12 -1000
-Message-Id: <fb22cf1891fa8d057348c5270715c45ac3ab9e25.1622556919.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 25/26] pkgconfig: update SRC_URI
+Date: Tue,  1 Jun 2021 04:18:13 -1000
+Message-Id: <9f67246e62aa9e8b0c4a790605c5417336fef70c.1622556919.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622556919.git.steve@sakoman.com>
 References: <cover.1622556919.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
 
-This test is flawed since multiple parts of the system can write to the log
-and we obtain different numbers of log messages depending on factors we
-can't control.
+The git repo for pkg-config was changed, so update the
+SRC_URI accordingly with the new link.
 
-Drop the log testing component of the test.
-
-[YOCTO #12465]
-
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2ad815dbafda0b90f5164f05d22dbbc26cb53f13)
+(cherry picked from commit 9fd1b9b8282d68213b187ab42fae27e6a3c95b2e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/rpm.py | 9 ---------
- 1 file changed, 9 deletions(-)
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-index 8e18b426f8..7a9d62c003 100644
---- a/meta/lib/oeqa/runtime/cases/rpm.py
-+++ b/meta/lib/oeqa/runtime/cases/rpm.py
-@@ -141,13 +141,4 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+index 52ef2a9779..7bf68082b2 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ SRCREV = "edf8e6f0ea77ede073f07bff0d2ae1fc7a38103b"
+ PV = "0.29.2+git${SRCPV}"
  
-         self.tc.target.run('rm -f %s' % self.dst)
- 
--        # if using systemd this should ensure all entries are flushed to /var
--        status, output = self.target.run("journalctl --sync")
--        # Get the amount of entries in the log file
--        status, output = self.target.run(check_log_cmd)
--        msg = 'Failed to get the final size of the log file.'
--        self.assertEqual(0, status, msg=msg)
- 
--        # Check that there's enough of them
--        self.assertGreaterEqual(int(output), 80,
--                                   'Cound not find sufficient amount of rpm entries in /var/log/messages, found {} entries'.format(output))
+-SRC_URI = "git://anongit.freedesktop.org/pkg-config \
++SRC_URI = "git://gitlab.freedesktop.org/pkg-config/pkg-config.git;branch=master;protocol=https \
+            file://pkg-config-esdk.in \
+            file://pkg-config-native.in \
+            file://fix-glib-configure-libtool-usage.patch \
 -- 
 2.25.1
 
