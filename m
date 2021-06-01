@@ -1,50 +1,50 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.58331.1622557131127044819
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.58514.1622557133513295278
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jun 2021 07:18:51 -0700
+ Tue, 01 Jun 2021 07:18:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vrZJiw9m;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id mq2-20020a17090b3802b0290162428291f5so2024954pjb.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 07:18:51 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vtGg/HPO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f176.google.com with SMTP id 133so5770675pgf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 07:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=kRw//feXELBZn0+ua1g6CwCseL52PO/QR4Ub/qAwprs=;
-        b=vrZJiw9mbj6XUziIV0/LbbMiBYW1AOG/tiqE066fUPvTn3Krv6YizJi4lkMaLslzMU
-         9QomgNFRyoIdxHqZCGG6dBQR2WvNrNvDoTuDmM+dFrTfHJxaruaIg7SjQs7IRCUsEBCu
-         3e3gwk+oPkMJLH15GlxEnpbt0+WsQiAOpA72/qBAab9F6mPwpZHogi8P+wgeBo51Fgto
-         JqIKseA6Mub0Qm8Z+utlDpPhQB51FF9dEBdJsY9BoCX7q0iljHMSjxNI0S1mFI9/bLfc
-         +wN8jlZEc9J2vCN9egGKFGm8wU4i1KzZ29VrTLjWzYw/0AgG+cQA5S81UqGuy0YUMLWj
-         ftYw==
+        bh=6uLbTbkKwAeLmyTEti3WM2ANSKOHXY8NBwtQ/TXtZQQ=;
+        b=vtGg/HPO1+Mk4h8j0+kKkPXFt6Xs3iN3OmWzKgQwigPbJmpnjQxKrBo9y3+3qeAaSG
+         S/c5BmuIspKIKjIuggFb2x18FSh0iW8ThlsmSVSRZrYR+V84hdhiakUahDpRTzLHCAgH
+         ZukgFfK6aZTk8rJqT/v8a4IIx5dfwRKS35ap4e8XhkDlmWszIvBB94bzNPxcZ8bsFsBQ
+         sVuOjEUUYkt6ui9pUOhPDiwPpcjxb/0iLgaFeXAQ8rSNxAjAmXgeq8N/fOIvjp7x4+Tb
+         wuQ88TPm4HZH22i8sA7nBJRLwVMZlC+A0CWVRTVAF9eDfQ27hR1rBp1nzwLQvzowyj3i
+         n5dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kRw//feXELBZn0+ua1g6CwCseL52PO/QR4Ub/qAwprs=;
-        b=MUZaRg7GTugZoov/rCyp1NzSTtqMpFbtKklssooxA44pVK+bTPkIi4/q1ou20z9GSj
-         H+YO5lQbDQxhCEG69VPQIfhAWtaqkGxnv/eKhnnmFXddAoDuj4rCP/TZu8mCFw5UAK12
-         dP1awIWLpgd2XG3mh6g7MNKbYa33w8t+Kh+kK/d8VYy5kOQRAeTg6zPprlL77HbX/EKc
-         ErB8gNms9ehH7yAymYUVrE0p9G4OqtceZctq1W2LlST7WyNiaI3sS50pDQXcQsoYFj3u
-         Gwn4U0b703LXWrhL8mZKen2dTZ76mo+IJVybjDSOQwWztYTIIhsaOMvaUK7gIql56Jb0
-         A2Qg==
-X-Gm-Message-State: AOAM532NyDXIWyjGQKCCsyF7aE/dqHzrYdPJRL1eU8u+UgJrOKVFuO8K
-	yA6wj/ZQ6dIrjy4WURGzl+FXLz/QmvqxDech160=
-X-Google-Smtp-Source: ABdhPJwl0dDZOemN5jfwXudpiQskHw/GVVwLbPSSDOa08/xf+Kum6EfNvBjS7w+AwYjlypQfacp42Q==
-X-Received: by 2002:a17:90a:ab92:: with SMTP id n18mr153801pjq.72.1622557130206;
-        Tue, 01 Jun 2021 07:18:50 -0700 (PDT)
+        bh=6uLbTbkKwAeLmyTEti3WM2ANSKOHXY8NBwtQ/TXtZQQ=;
+        b=l6y70Eoq78tD2Md2i3Mgh3Aywsr9G6k9enQl1fAATokougiPNGp/G2jA7o1Tc8mTA/
+         9EGL2aHAHGVf/+T2vPb5MN/kUXA2nK7FQWYbTvZ+1KacIS9mMnrDyAxENo5zd1I0Y/yl
+         Y/Qz4WGzU+COceuI2BZ8kzUWFvI483oMDHt0LJJ7hA5aeQ/gdNByUkpphy4AzyhK5GIp
+         3B9SAjkYJ01EQxeX6lIDs5xPOPgKR8ZKXoRLmHCdrGb4RYMJkhFQnka1fgkJCC21XOyO
+         1fqWLHZRmxGAHQR0B0RZRdvEGcnIBN3evBfpT3VDFL6JhGYjt3mrAkdznAOfBJAnlPHO
+         S47w==
+X-Gm-Message-State: AOAM530OGR6d6qWzlIiLSMLyjGVJ+t8siPPEUyMO1VYEinxE9BIr/213
+	3W3fibWxXIiF9/LgrH9iCF1L70YAE4/NJV5pOh4=
+X-Google-Smtp-Source: ABdhPJxW+IdqN5ZGSneP+XZJinHe+bJacLU34NfZxbCKlm5bDMk0gXKIxV+63S9X5C20wROcAnKeNw==
+X-Received: by 2002:a63:5448:: with SMTP id e8mr28266141pgm.170.1622557132540;
+        Tue, 01 Jun 2021 07:18:52 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id bb18sm2307875pjb.44.2021.06.01.07.18.49
+        by smtp.gmail.com with ESMTPSA id bb18sm2307875pjb.44.2021.06.01.07.18.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 07:18:49 -0700 (PDT)
+        Tue, 01 Jun 2021 07:18:51 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/26] kernel-yocto: provide debug / summary information for metadata
-Date: Tue,  1 Jun 2021 04:17:57 -1000
-Message-Id: <8c299837622795408f4e4a9e8c2b3b3d6f409acd.1622556919.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/26] linux-yocto/5.4: update to v5.4.117
+Date: Tue,  1 Jun 2021 04:17:58 -1000
+Message-Id: <494b2200aea140b5241a181a5a16529df1f17177.1622556919.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622556919.git.steve@sakoman.com>
 References: <cover.1622556919.git.steve@sakoman.com>
@@ -53,96 +53,128 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-It was mentioned that when developing a BSP, the information about what
-definition was used, or what fragments have been applied is not obvious
-and requires looking at the code.
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+the following commits:
 
-With this change, we can trigger a full summary of the meta data gathering
-phase when KCONF_AUDIT_LEVEL > 0.
-
-Sample output follows:
-
-   NOTE: do_kernel_metadata: for summary/debug, set KCONF_AUDIT_LEVEL > 0
-   NOTE: kernel meta data summary for qemux86-64 (standard):
-   NOTE:
-   ======================================================================
-   NOTE: BSP entry point / definition:
-   /build/tmp/work/qemux86_64-poky-linux/linux-yocto/5.10.34+gitAUTOINC+bca3bfbc74_85c17ad073-r0/kernel-meta/bsp/common-pc-64/common-pc-64-standard.scc
-   NOTE: Fragments from SRC_URI:
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xt-checksum.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/ebtables.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/vswitch.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/lxc.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/docker.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xen.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/kubernetes.scc
-   NOTE: KERNEL_FEATURES:  features/nfsd/nfsd-enable.scc
-   features/debug/printk.scc features/kernel-sample/kernel-sample.scc
-   features/netfilter/netfilter.scc cfg/virtio.scc
-   features/drm-bochs/drm-bochs.scc cfg/sound.scc cfg/paravirt_kvm.scc
-   features/scsi/scsi-debug.scc features/gpio/mockup.scc
-   features/aufs/aufs-enable.scc cfg/fs/flash_fs.scc cfg/virtio.scc
-   NOTE: Final scc/cfg list:
-   /build/tmp/work/qemux86_64-poky-linux/linux-yocto/5.10.34+gitAUTOINC+bca3bfbc74_85c17ad073-r0/kernel-meta/bsp/common-pc-64/common-pc-64-standard.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xt-checksum.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/ebtables.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/vswitch.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/lxc.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/docker.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/xen.scc
-   /poky/meta-virtualization/recipes-kernel/linux/linux-yocto/kubernetes.scc
-   features/nfsd/nfsd-enable.scc features/debug/printk.scc
-   features/kernel-sample/kernel-sample.scc
-   features/netfilter/netfilter.scc cfg/virtio.scc
-   features/drm-bochs/drm-bochs.scc cfg/sound.scc cfg/paravirt_kvm.scc
-   features/scsi/scsi-debug.scc features/gpio/mockup.scc
-   features/aufs/aufs-enable.scc cfg/fs/flash_fs.scc cfg/virtio.scc
+    b5dbcd05792a Linux 5.4.117
+    0ee3bfc2c31e vfio: Depend on MMU
+    b246759284d6 perf/core: Fix unconditional security_locked_down() call
+    a1e6a0d1e6cf ovl: allow upperdir inside lowerdir
+    8198962021fd scsi: ufs: Unlock on a couple error paths
+    91aa2644a3ab platform/x86: thinkpad_acpi: Correct thermal sensor allocation
+    164f74391822 USB: Add reset-resume quirk for WD19's Realtek Hub
+    5922dfc42ac8 USB: Add LPM quirk for Lenovo ThinkPad USB-C Dock Gen2 Ethernet
+    314192f055d9 ALSA: usb-audio: Add MIDI quirk for Vox ToneLab EX
+    6cede11149bf perf ftrace: Fix access to pid in array when setting a pid filter
+    ad4659935e11 perf data: Fix error return code in perf_data__create_dir()
+    cbc6b467610c iwlwifi: Fix softirq/hardirq disabling in iwl_pcie_gen2_enqueue_hcmd()
+    c7166a529e2b avoid __memcat_p link failure
+    8ba25a9ef9b9 bpf: Fix leakage of uninitialized bpf stack under speculation
+    53e0db429b37 bpf: Fix masking negation logic upon negative dst register
+    b0c8fe7ef797 iwlwifi: Fix softirq/hardirq disabling in iwl_pcie_enqueue_hcmd()
+    43b515c52942 igb: Enable RSS for Intel I211 Ethernet Controller
+    354520d3ea81 net: usb: ax88179_178a: initialize local variables before use
+    55714a57f369 ACPI: x86: Call acpi_boot_table_init() after acpi_table_upgrade()
+    b3041510f0fc ACPI: tables: x86: Reserve memory occupied by ACPI tables
+    91b08c5319a5 mips: Do not include hi and lo in clobber list for R6
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b95b11e130e91cb7c5e65f0f9a1c655bcbcbc919)
+(cherry picked from commit 0bb2a057ed02b94e6f12b0508b5d7f4a535b1ca0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-yocto.bbclass | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index ec5fb7b1de..66cce92362 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -105,6 +105,8 @@ do_kernel_metadata() {
- 	cd ${S}
- 	export KMETA=${KMETA}
- 
-+	bbnote "do_kernel_metadata: for summary/debug, set KCONF_AUDIT_LEVEL > 0"
-+
- 	# if kernel tools are available in-tree, they are preferred
- 	# and are placed on the path before any external tools. Unless
- 	# the external tools flag is set, in that case we do nothing.
-@@ -252,6 +254,21 @@ do_kernel_metadata() {
- 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
- 		fi
- 	fi
-+
-+	if [ ${KCONF_AUDIT_LEVEL} -gt 0 ]; then
-+		bbnote "kernel meta data summary for ${KMACHINE} (${LINUX_KERNEL_TYPE}):"
-+		bbnote "======================================================================"
-+		if [ -n "${KMETA_EXTERNAL_BSPS}" ]; then
-+			bbnote "Non kernel-cache (external) bsp"
-+		fi
-+		bbnote "BSP entry point / definition: $bsp_definition"
-+		if [ -n "$in_tree_defconfig" ]; then
-+			bbnote "KBUILD_DEFCONFIG: ${KBUILD_DEFCONFIG}"
-+		fi
-+		bbnote "Fragments from SRC_URI: $sccs_from_src_uri"
-+		bbnote "KERNEL_FEATURES: $KERNEL_FEATURES_FINAL"
-+		bbnote "Final scc/cfg list: $sccs_defconfig $bsp_definition $sccs $KERNEL_FEATURES_FINAL"
-+	fi
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index c2d0458073..3902243acb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
- do_patch() {
+-SRCREV_machine ?= "b62ae8bedb024e67e7c5cda51840454a4170c858"
+-SRCREV_meta ?= "b89df7433ea8124d3092805391b78808df4147a7"
++SRCREV_machine ?= "ccf88860c16c9f2fae90da1ba46074b09d98a0a2"
++SRCREV_meta ?= "8b98855aa2eae3f9c30601a0f8da281cb3b5e4b7"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.116"
++LINUX_VERSION ?= "5.4.117"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 1c3fe73ae5..61779fbcf6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.116"
++LINUX_VERSION ?= "5.4.117"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "80bd6016a9bdaed4b66ddffffa8c8e62d7c1f8a6"
+-SRCREV_machine ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
+-SRCREV_meta ?= "b89df7433ea8124d3092805391b78808df4147a7"
++SRCREV_machine_qemuarm ?= "2c64c9c438ec34cbdef929338fea304b726cac3f"
++SRCREV_machine ?= "2744384587f1de0551f517cc7be1984077e95329"
++SRCREV_meta ?= "8b98855aa2eae3f9c30601a0f8da281cb3b5e4b7"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 094427cb02..c76020ff51 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "e71df0530eefcac1b3248329e385bcefbad6336e"
+-SRCREV_machine_qemuarm64 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
+-SRCREV_machine_qemumips ?= "07445052fdd15e60b30dc5ae9d162c2e6bba47d1"
+-SRCREV_machine_qemuppc ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
+-SRCREV_machine_qemuriscv64 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
+-SRCREV_machine_qemux86 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
+-SRCREV_machine_qemux86-64 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
+-SRCREV_machine_qemumips64 ?= "b36d79d6f2aaf9dadec352f611e7b9becf2b9a55"
+-SRCREV_machine ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
+-SRCREV_meta ?= "b89df7433ea8124d3092805391b78808df4147a7"
++SRCREV_machine_qemuarm ?= "00362a9e9116bf12dd4ae468caf822b85106cc7c"
++SRCREV_machine_qemuarm64 ?= "2744384587f1de0551f517cc7be1984077e95329"
++SRCREV_machine_qemumips ?= "603a0985e29b703dbb535c72f08eb6f9119e0863"
++SRCREV_machine_qemuppc ?= "2744384587f1de0551f517cc7be1984077e95329"
++SRCREV_machine_qemuriscv64 ?= "2744384587f1de0551f517cc7be1984077e95329"
++SRCREV_machine_qemux86 ?= "2744384587f1de0551f517cc7be1984077e95329"
++SRCREV_machine_qemux86-64 ?= "2744384587f1de0551f517cc7be1984077e95329"
++SRCREV_machine_qemumips64 ?= "21a474630e254696cfd46f1ee9c202ab8e85e38f"
++SRCREV_machine ?= "2744384587f1de0551f517cc7be1984077e95329"
++SRCREV_meta ?= "8b98855aa2eae3f9c30601a0f8da281cb3b5e4b7"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.116"
++LINUX_VERSION ?= "5.4.117"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.25.1
 
