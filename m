@@ -1,100 +1,71 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web09.11475.1622631482337230900
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.13170.1622640443548199520
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jun 2021 03:58:02 -0700
+ Wed, 02 Jun 2021 06:27:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VSBrTje0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so3502158wmk.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jun 2021 03:58:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MPiJbg5B;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id q5so2321955wrs.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jun 2021 06:27:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=aRAFT0IzzMYdLDU0D9sb6hFkH7b12Yw/I5I29+atw5Y=;
-        b=VSBrTje0dIIrEZaHp81gi0U1xs+8dDWdH6YagRNmqUeDBMBzzMxF1XpXK1IWQ+/ZTX
-         KwrHu3MSX/XBRRaNl9kvy5W5ox4T1Pg0ZPGMmS3Zffk4lj+VUikh+Igi2EThb0iXcwnk
-         qpnfd4p6HX74nnEApJ8eUH0/5902zmj/YF45M=
+        bh=gv4bHbysrraKpkGDx5xZAl9G0csPM0JtvfBgJz/uw9w=;
+        b=MPiJbg5BLroeLV58NnUeXHZHpuvGpJQrtmbqgQPoRF+r8AXUUJp6wGY8AEVh+JXrCh
+         WkgVI+1sJTOXXHpcQovPqI+GTUpT3DxD63RrstZ/gbW7RU/9GM0UOnwQHuiG9WBAvSQz
+         ZA4Q/Hp35+cJzFhC75af8y+ynlgMIzEsaAU9s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=aRAFT0IzzMYdLDU0D9sb6hFkH7b12Yw/I5I29+atw5Y=;
-        b=UKpXcdjUBhK4cUbsRMlJDIAD5ajkeRn/TU+WBripuf5JvWULaSwd14ivXnCC1iYM9o
-         GKBCWhK9edbxC+HFq3b07FUl3JMsAkXnPSOeVFnSXRde0JUBa0qed7d+emcsDfgQqwxw
-         Hz9O0JIS9ELd5KD3140D7gdC7MQa2lv+12XkEMAIDqB+v0XDSkJqqGvk1JkU/AyXGAv1
-         OuLIL4051clpWHWvEfIN/0wkwi/2u335czMKDLVrVW8U6Iq5GzklOtS+nnk1Ckh1X7o/
-         KB8wcSa8KWljyaTdOstBkG88cFa5rSE74PnkCHPUt7pw/PZQe6mwZ3oYv1QXCV9Rupuh
-         bCOA==
-X-Gm-Message-State: AOAM5323P3mu2YMOVDBLdiDAErmv7LZXgqQnCf38P0TGpmIHVCFXh7+r
-	nW9SlZqXvYmwlWqNnMw+oSTR9Cc3IPez/w==
-X-Google-Smtp-Source: ABdhPJySAGIaJg8+6l12t+5n984E9XPPwsiLW8J3+7br3wRF/aXUWjlqhnKE1h6K7jEgd128659KEg==
-X-Received: by 2002:a7b:c849:: with SMTP id c9mr4623178wml.84.1622631480358;
-        Wed, 02 Jun 2021 03:58:00 -0700 (PDT)
+        bh=gv4bHbysrraKpkGDx5xZAl9G0csPM0JtvfBgJz/uw9w=;
+        b=c8D4bPQAJdliZueBIh16pJoT1RcT8iS1qU0AtaED3bqk1qfEPsiU1hwTycjtD60dXK
+         PK7uusbcFHk/TNQ71qj+20Tt11QVWhJX6eCD09bFNklp99Exd/rpACfcPGJ0/rMYVnK3
+         Kf8sfFk4lZVoQkJBBCczX7kuASK7bxhqTSKZOytumfvndruQjtfnDhTkHeC1yDQvuCow
+         C3YUixDutLPUMBY4PtzLVj7hid1+imMNvER03Fbgqnv+SGG3OBV4A4CdokHQvKnEB1t4
+         kJGyeOUBxD7OCaM9L2UFLcd+xAEx3JJEEih+84nUTx/l5IAI8BtAgYXtjcgpTKd2bQyy
+         r8Hw==
+X-Gm-Message-State: AOAM5303kI/UOP322014AgtLX5dloqw422OFhwKPBEUS0IiV93lUrG8N
+	kuaJtzNSf5Al5+Qbec5CBjz3tlfBpeZz5A==
+X-Google-Smtp-Source: ABdhPJwRTJ+PgILEzHQUsstjXtWw+eXpP0QJzYzM572RmfGplCY/E2BY4eXuYKVFWt4MUjnhrj1JPA==
+X-Received: by 2002:a5d:530c:: with SMTP id e12mr19051292wrv.165.1622640441553;
+        Wed, 02 Jun 2021 06:27:21 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:743:408f:2993:133e])
-        by smtp.gmail.com with ESMTPSA id 11sm2337599wmo.24.2021.06.02.03.57.59
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id i16sm2799498wmm.9.2021.06.02.06.27.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 03:58:00 -0700 (PDT)
+        Wed, 02 Jun 2021 06:27:21 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lttng-tools: upgrade 2.12.3 -> 2.12.4
-Date: Wed,  2 Jun 2021 11:57:59 +0100
-Message-Id: <20210602105759.2913229-1-richard.purdie@linuxfoundation.org>
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: [hardknott] [PATCH 1/5] expat: set CVE_PRODUCT
+Date: Wed,  2 Jun 2021 14:27:16 +0100
+Message-Id: <20210602132720.2921099-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new lttng file to one of the tests to avoid test failures.
+From: Steve Sakoman <steve@sakoman.com>
 
-Also add a dependency on grep since standalone testing revealed test
-failures without this. Normally this was added by other dependencies
-in the ptest images so we didn't see this.
+Upstream database uses both "expat" and "libexpat" to report CVEs
 
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{lttng-tools_2.12.3.bb => lttng-tools_2.12.4.bb}     | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.12.3.bb => lttng-tools_2.12.4.bb} (94%)
+ meta/recipes-core/expat/expat_2.2.10.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb
-similarity index 94%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb
-index 6132daf1a18..133d7561b8c 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.4.bb
-@@ -15,7 +15,7 @@ include lttng-platforms.inc
- DEPENDS = "liburcu popt libxml2 util-linux"
- RDEPENDS_${PN} = "libgcc"
- RRECOMMENDS_${PN} += "${LTTNGMODULES}"
--RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core grep"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
- RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
- # babelstats.pl wants getopt-long
-@@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://determinism.patch \
-            "
- 
--SRC_URI[sha256sum] = "2890da230edd523fcf497e9eb28133b7606d64fa01bcbffadbfcba42104db153"
-+SRC_URI[sha256sum] = "d729f8c2373a41194f171aeb0da0a9bb35ac181f31afa7e260786d19a500dea1"
- 
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
-@@ -69,7 +69,10 @@ do_install_append () {
+diff --git a/meta/recipes-core/expat/expat_2.2.10.bb b/meta/recipes-core/expat/expat_2.2.10.bb
+index fa263775b39..a54d832e52d 100644
+--- a/meta/recipes-core/expat/expat_2.2.10.bb
++++ b/meta/recipes-core/expat/expat_2.2.10.bb
+@@ -25,3 +25,5 @@ do_install_ptest_class-target() {
  }
  
- do_install_ptest () {
--    for f in Makefile tests/Makefile tests/utils/utils.sh tests/regression/tools/save-load/*.lttng tests/regression/tools/save-load/configuration/load-42*.lttng tests/regression/tools/health/test_health.sh tests/regression/tools/metadata/utils.sh tests/regression/tools/rotation/rotate_utils.sh; do
-+    for f in Makefile tests/Makefile tests/utils/utils.sh tests/regression/tools/save-load/*.lttng \
-+            tests/regression/tools/save-load/configuration/load-42*.lttng tests/regression/tools/health/test_health.sh \
-+            tests/regression/tools/metadata/utils.sh tests/regression/tools/rotation/rotate_utils.sh \
-+            tests/regression/tools/base-path/*.lttng; do
-         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
-     done
- 
+ BBCLASSEXTEND += "native nativesdk"
++
++CVE_PRODUCT = "expat libexpat"
 -- 
 2.30.2
 
