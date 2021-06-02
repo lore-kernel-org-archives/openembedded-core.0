@@ -1,55 +1,55 @@
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [])
  by mx.groups.io with SMTP id smtpd.web12.827.1622676237720483849
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jun 2021 16:23:57 -0700
+ Wed, 02 Jun 2021 16:23:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=VyuQenVE;
- spf=pass (domain: wdc.com, ip: 216.71.154.42, mailfrom: prvs=780e1cc66=alistair.francis@wdc.com)
+ dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=kdhSb5CF;
+ spf=fail (domain: wdc.com, ip: <nil>, mailfrom: prvs=780e1cc66=alistair.francis@wdc.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1622676237; x=1654212237;
+  t=1622676239; x=1654212239;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Hj2aJhbdu2h0UxBM20Hhy0BkL3KOO3tkT4aibhKRbks=;
-  b=VyuQenVEhcQ0lufXwv0cqEfBYD+zFebm/20H+DZc8VjRfjtwEOCXywCX
-   T608B8K5JAgD0Eec6pVTUiF8yuTBs8mtAN0aGAV7trxolErdjxalkX+zt
-   lqz9pq0ua/k5O7R1LCpVJGFytxOpK3M1iyEcUgEdY6iT5HMSXcyAZZuRi
-   /dXzx84sT+FUBokH7zN0BdaxFirJhye401Ls2a3V8jkknERafdhgA8sOA
-   kMyQtFYi0qcHZ95LchrZruvO8mUXaIIPQ8YUc1fqCNUbjy3kSGpi7ksw7
-   zKKuT6muDgqKkEWVxDzwEFgDGDlMWbuWuStCZgJYAkHCyQzyj7oijNiih
-   A==;
-IronPort-SDR: 6Wr+s4tSQ7fxZqDLOP9d40HPbShhY8aJ2UGpwJ9v5vi32FyZ+4VXq1o6rMUGi9nJM5xf2Naz+a
- jjyv9uZZlAUazajGyXICGE1TjYrAvhJMLVkEB+llgBdj0ZlWqU7gd6aDtN+wUdWu/kAyEPyQDx
- pPdCdYRibUOvPKhvRB5e4DGZLFr2Crxmn3b8VkIaOmnL3aaFxYW15tH5JM3Jlq0HpOI+bFIFgt
- ABIHTIdOO2j7XNtxiG/pd2NR7tXZKI6nygvCe3ABTviDv4eZWVHF3gOnYs40TH03xx/xyOKcC+
- Mu8=
+  bh=rifFZ5p+HVwHGpXYzKtImqU6PRU3f8kabCWJ1nr5bAw=;
+  b=kdhSb5CFPHkagBMRwPsI39uGAyvo561CrGe1xeK3p5f4zbd2+cC3JjDt
+   eoNnpQh0Rt0DDXLRqNrufHCdsHQWFcudx9UQk7P23IJFqQYhw6PEo9JVQ
+   yxSvTEPrSuvAXp04BlnYEBClfVrYPexw/Tq8MR9ERjdlG1Eq0UywRW1Bt
+   58qy+LU1ieru3NqwVNcgb+9Po2dpzE9JQXddeqO7FTOR9vkvsI/KHkoQ2
+   VlHwEQliCw5mrZX812qoRJgM/xFyGH4Acg7iMV5JX+Y+I/qCCBLllEzVJ
+   WJyXXKTEMnjSXVgRW5qztN/xVV2JcAbM/IoficzzYQdNBtwsloqlNHMtH
+   g==;
+IronPort-SDR: M04KrYNXzWkYrQVcvp/v1EVzNq+ETeZuCk3gUk0DGfhvuFiGfXdBssvcwgbVQb8RHKb7eXNfwZ
+ ddIigSy2Op2Ee8ik4O2nhFDcZS4Ye0Mn2cpkYv3BPB4+SgwXApLXfUbSyvMNN7nE5HKkJf4CYa
+ tGnCcJt2PwL/qQwZhvyt/oD8oI17rRNVv8XacEO9P2WkU94e3VKegUB5E1M5ekp5NQeqph+Ktz
+ 40CdZw8utz/SHgFJOjpkWJVjDLeSlywsl1BIpRyxIW50U5m/ecANDE+5heUOKmqaxMGkMS5SYb
+ /zQ=
 X-IronPort-AV: E=Sophos;i="5.83,244,1616428800"; 
-   d="scan'208";a="169775322"
+   d="scan'208";a="169775324"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 03 Jun 2021 07:23:56 +0800
-IronPort-SDR: EDLDWE1VfGoawb/9U2+9xE6zqmESIgqnbzv07gr2Kbh55RCXUvBNt4vel35MXkSvXiUBtPvdkp
- H82IPM3m0VqceIta6rVF6T7JCxQKPErxKz9NAHdWjvCrOWQ9TysKQoi2I/eu721PrmN22DczM/
- 9o5sURENyTOGMmSBDiwDT0sbw/7VWioWQKPbxCACx4+kq2/sm+yU/RMX3UhcdDNhplzm2urB++
- I9Nm6Nt4SGkxpnsm6nAw5qJH58HR5Da6AZyByxE/UcDk7+U7U1yJG59D7yf8ikcyNWGD3qV1Xz
- FSUOvCPGxjN0bN0kn9PF7agw
+  by ob1.hgst.iphmx.com with ESMTP; 03 Jun 2021 07:23:58 +0800
+IronPort-SDR: CD+DCaP7X6HKiD1zr/+9uiSbHTzYRL6avkOXZpwmX8B0BMAez/+iKom+zRb0VCdkAiHdcEkt4i
+ ZnMtHyTilxaHUdUGlCR+UcUzWFXJC4evzWTQ2oQlM1jC3hsHDrUtDYHIdY6FXiaQlIilzjmMsx
+ vobcG/A/xwcttF10582fH6A6MXIYxw2SfC2BwOS7BWTXbzhs8grtoeYVzJ9f2xUftkXa/gZeek
+ dbr7k4/nGmU5wZ5j5B/FsLiIdEuMQ13WYAQn3UoVgyIzLj+CTvZuIHDjTqpT3kcvz6nD45qQFU
+ I9kBLGr8FSSzuZHEiI0RD5Qk
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2021 16:03:10 -0700
-IronPort-SDR: BNbGmAwO9CZi6H1nPo8beaF2zfnsFTHtNwcMtns5gwmkc4DDC45l2eBwNPYc02G9gQYFGSBMdC
- ySzEhixjBM6Eu+ihc4M6nLDpExMfT/+EJHpujbsED9izfuoyms8oGM4IgzFlWZ3o7QEXmGPH68
- CIi/5jvvfsmjTRwXNltFPkCph0F8wuJTpkwNyyYEqr6mCWUX81kJTaJG5IKwveTOYqA0jvkvmp
- spQ6TJWEuwJm0Y95vvGdNrAj4BTS1ZSPZaQU4GvNnxGUUXQCVS8Z19sD9h6wOLk7FvaW3BgC8C
- 6mA=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2021 16:03:13 -0700
+IronPort-SDR: rta9aWwJjIW5Fg/jUOknEUMnIjHLPg766AD2YNOkbDTFlkGVxvBepphxdOkLI5aP/LI+XlEJyR
+ HHUEFp5qvyDsXVxZiAncNQfpHpJO5+NjDHvEREg3NBNLvz35Z+B2ao1VEslzkDfuqXCCVpoMdM
+ KPqx0LKU4MYoAaDtlZevPcKpxqQ7wsiQ7v4J/8+HI9FJx2tMkPBQkLV0oKlfx68WapLNSDzraa
+ oXUWX+Ys2NzHVGznXQs+msc4CBOgPPUS+oc8JMn2dsyBcNoR+Jny8Z0mjIRKCQ2URKXw8mU3BK
+ eVg=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.72])
-  by uls-op-cesaip01.wdc.com with ESMTP; 02 Jun 2021 16:23:55 -0700
+  by uls-op-cesaip01.wdc.com with ESMTP; 02 Jun 2021 16:23:57 -0700
 From: "Alistair Francis" <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 2/3] recipes-bsp/u-boot: Allow deploying the u-boot DTB
-Date: Thu,  3 Jun 2021 09:21:03 +1000
-Message-Id: <20210602232104.3490139-2-alistair.francis@wdc.com>
+Subject: [PATCH 3/3] recipes-bsp/opensbi: Add support for specifying a device tree
+Date: Thu,  3 Jun 2021 09:21:04 +1000
+Message-Id: <20210602232104.3490139-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210602232104.3490139-1-alistair.francis@wdc.com>
 References: <20210602232104.3490139-1-alistair.francis@wdc.com>
@@ -58,50 +58,53 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meta/classes/uboot-config.bbclass  | 4 ++++
- meta/recipes-bsp/u-boot/u-boot.inc | 7 ++++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ meta/recipes-bsp/opensbi/opensbi-payloads.inc | 15 ++++++++++++++-
+ meta/recipes-bsp/opensbi/opensbi_0.9.bb       |  1 +
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 3bba02828b..6444f58437 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -71,6 +71,10 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
- UBOOT_MKIMAGE_SIGN_ARGS ?= ""
- SPL_MKIMAGE_SIGN_ARGS ?= ""
+diff --git a/meta/recipes-bsp/opensbi/opensbi-payloads.inc b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+index 2e32943245..cc31ab3b1d 100644
+--- a/meta/recipes-bsp/opensbi/opensbi-payloads.inc
++++ b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+@@ -7,12 +7,25 @@ def riscv_get_extra_oemake_image(d):
  
-+# Options to deploy the u-boot device tree
-+UBOOT_DTB ?= ""
-+UBOOT_DTB_BINARY ?= ""
+     return "FW_PAYLOAD_PATH=" + deploy_dir + "/" + sbi_payload
+ 
++def riscv_get_extra_oemake_fdt(d):
++    sbi_fdt = d.getVar('RISCV_SBI_FDT')
++    deploy_dir = d.getVar('DEPLOY_DIR_IMAGE')
 +
- python () {
-     ubootmachine = d.getVar("UBOOT_MACHINE")
-     ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 5398c2e621..8ccc532f7e 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -5,7 +5,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- DEPENDS += "kern-tools-native"
- 
--inherit uboot-config uboot-extlinux-config uboot-sign deploy cml1 python3native
-+inherit uboot-config uboot-extlinux-config uboot-sign deploy cml1 python3native kernel-arch
- 
- DEPENDS += "swig-native"
- 
-@@ -346,6 +346,11 @@ do_deploy () {
-         ln -sf ${UBOOT_EXTLINUX_SYMLINK} ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}
-         ln -sf ${UBOOT_EXTLINUX_SYMLINK} ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}
-     fi
++    if sbi_fdt is None:
++        return ""
 +
-+    if [ -n "${UBOOT_DTB}" ]
-+    then
-+        install -m 644 ${B}/arch/${UBOOT_ARCH}/dts/${UBOOT_DTB_BINARY} ${DEPLOYDIR}/
-+    fi
- }
++    return "FW_FDT_PATH=" + deploy_dir + "/" + sbi_fdt
++
+ def riscv_get_do_compile_depends(d):
+     sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
++    sbi_fdt = d.getVar('RISCV_SBI_FDT')
  
- addtask deploy before do_build after do_compile
+-    if sbi_payload is None:
++    if sbi_payload is None and sbi_fdt is None:
+         return ""
+ 
++    if sbi_fdt is not None and 'u-boot.bin' in sbi_payload:
++        return "virtual/kernel:do_deploy virtual/bootloader:do_deploy"
++
+     if 'linux' in sbi_payload or 'Image' in sbi_payload:
+         return "virtual/kernel:do_deploy"
+     if 'u-boot.bin' in sbi_payload:
+diff --git a/meta/recipes-bsp/opensbi/opensbi_0.9.bb b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
+index 52965abda5..5fee52136d 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_0.9.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
+@@ -18,6 +18,7 @@ S = "${WORKDIR}/git"
+ EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D} FW_PIC=n"
+ # If RISCV_SBI_PAYLOAD is set then include it as a payload
+ EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_image(d)}"
++EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_fdt(d)}"
+ 
+ # Required if specifying a custom payload
+ do_compile[depends] += "${@riscv_get_do_compile_depends(d)}"
 -- 
 2.31.1
 
