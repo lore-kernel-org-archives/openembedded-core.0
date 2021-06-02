@@ -1,55 +1,128 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.13898.1622644499174193951
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.15257.1622649665626046383
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jun 2021 07:34:59 -0700
+ Wed, 02 Jun 2021 09:01:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id EABF5C000A;
-	Wed,  2 Jun 2021 14:34:56 +0000 (UTC)
-Cc: Steve Sakoman <steve@sakoman.com>,
- YP docs mailing list <docs@lists.yoctoproject.org>
-Subject: Re: [OE-core] [hardknott] [PATCH 1/5] expat: set CVE_PRODUCT
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20210602132720.2921099-1-richard.purdie@linuxfoundation.org>
-From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-Message-ID: <891d37d1-3f47-af73-86f7-bb07b2eb3371@bootlin.com>
-Date: Wed, 2 Jun 2021 16:34:56 +0200
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=p+5FuREP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id g18so1539558edq.8;
+        Wed, 02 Jun 2021 09:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=GiasF1NtWWYyy1A0sf3qRUwTkLvU+/XEBVkKNGcQElA=;
+        b=p+5FuREPUlZf+oFq8DlP8+Z1snBt49XdIdf/geaH3DVvZn/wKFkPlNJae4yfR/l8UH
+         5XhwtjnA8cgqsjRRJQ6cmTTQyK/GIRKj4iZzhQAjYiv2+1aYMeFEtPMYD0BzI3rT0mzt
+         BoJSD73a3HYT/6UzghaCuHs0Bp1Q/pVCJ1A7Z+cval+2+3AwTPQNtDUak3Eg3a9FXfDs
+         OKQcnUGlAg77P0w064FW6Yuq/Om2bvBU+mX7HYJTMyiguoSiymrC3fWtvRqEEd9lBsbb
+         /6U+LXrZsikW2PZl70rKQGK6YUd1aw8Nohgtbkk7GVLFylX5Q+a1KtZELJGg0KqZbTZV
+         egVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GiasF1NtWWYyy1A0sf3qRUwTkLvU+/XEBVkKNGcQElA=;
+        b=aUTxgQ7K039nCW/H2sVwD8coiBusQmXONpf6n7DKXTesv9oynMpXi+1lGD419qlzam
+         NzeDrF8A3A7lbwoqYO0YKtXAFPX/npWLrh7rMh7Tk40wlunDvcZl93GB7oXoq28ckywZ
+         xgbB6O0XHZaFzVcsgPHPGdoQIBNBvMjBKiX6HXNbk/ybIloFWd+FT3qOvKoV4q7Hbq57
+         TzOyCofmP86dG4HTq0fZMY/Fe+VzX9LJ9lwMofFnLjBBISsMtbPtf8xH9gTDcKKCqYdd
+         MlcTiRjqGFHQzNo/i8lHJs8G1gzPaqtkLbz2PswZAOqS5HOPOsU7vLrdF0baFI3dWyiw
+         Z4vQ==
+X-Gm-Message-State: AOAM530qseu1f7dxNtKk0Go6M1ywjmnvlk4fm1ve3NK7rpC+U+Ly8eQJ
+	M1A/1cLZqIRlygjkijzh3o9Vr+OvVioSbyT2
+X-Google-Smtp-Source: ABdhPJwUeCTb5SixrI5i09AOtUmpkgp+9VYkpU+/PyN8s5WU0w2oMDFghoD1vopgKmNDZP5ZfUQt9A==
+X-Received: by 2002:aa7:d3ca:: with SMTP id o10mr25519890edr.197.1622649663806;
+        Wed, 02 Jun 2021 09:01:03 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from [192.168.10.102] (37-247-29-68.customers.ownit.se. [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id de19sm201728edb.70.2021.06.02.09.01.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jun 2021 09:01:03 -0700 (PDT)
+Subject: Re: [oe] Fedora 34, shadow-native/icedtea7-native, umask problems ?
+To: openembedded-core@lists.openembedded.org,
+ openembedded-devel@lists.openembedded.org
+References: <1684B03940C4F27A.14073@lists.openembedded.org>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <8a7e0a08-fd81-7925-4d84-f8ab48e410e8@gmail.com>
+Date: Wed, 2 Jun 2021 18:01:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210602132720.2921099-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1684B03940C4F27A.14073@lists.openembedded.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi Richard,
+On 6/2/21 8:32 AM, Jacob Kroon via lists.openembedded.org wrote:
+> Hi,
+> 
+> I'm using Fedora 34 and OE-Core/Bitbake/layers from git master as of 
+> today, with reproducible builds. Sometimes when rebuilding my image I 
+> see sudden changes in file permissions (jumping back and forth) in the 
+> buildhistory output for two native recipes:
+> 
+> shadow-native: (OE-Core)
+>> -drwxr-xr-x -          -                  40 ./var/spool/mail
+>> +drwxrwxr-x -          -                  40 ./var/spool/mail
+> 
 
-On 6/2/21 3:27 PM, Richard Purdie wrote:
-> --- a/meta/recipes-core/expat/expat_2.2.10.bb
-> +++ b/meta/recipes-core/expat/expat_2.2.10.bb
-> @@ -25,3 +25,5 @@ do_install_ptest_class-target() {
->  }
->  
->  BBCLASSEXTEND += "native nativesdk"
-> +
-> +CVE_PRODUCT = "expat libexpat"
+I can reproduce it reliably with these commands:
 
+After I do:
+# bitbake -c cleansstate shadow-native && bitbake shadow-native
+I get:
+drwxrwxr-x - - 40 ./var/spool/mail
 
-Oops, this variable doesn't appear in the documentation and more
-generally CVE management doesn't seem to be documented.
+After I do:
+# bitbake -c clean shadow-native && bitbake shadow-native
+I get:
+drwxr-xr-x - - 40 ./var/spool/mail
 
-Your comments and suggestions are welcome. I created a new bug
-(https://bugzilla.yoctoproject.org/show_bug.cgi?id=14419) to track this.
+shadow.inc does:
 
-Cheers,
+<snip>
+do_install_append() {
+         ...
+         install -m 0775 -d ${D}${localstatedir}/spool/mail
+</snip>
 
-Michael.
+So it looks to me like those permissions are either not recorded in the 
+sstate cache, or they are not restored when extracting the cache.
 
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+/Jacob
 
+> icedtea7-native: (meta-java)
+>> -drwxrwxr-x -          -                 120 
+>> ./usr/lib/jvm/icedtea7-native
+>> -drwxrwxr-x -          -                 800 
+>> ./usr/lib/jvm/icedtea7-native/bin
+>> --rwxrwxr-x -          -               15016 
+>> ./usr/lib/jvm/icedtea7-native/bin/apt
+>> --rwxrwxr-x -          -               15016 
+>> ./usr/lib/jvm/icedtea7-native/bin/extcheck
+>> --rwxrwxr-x -          -               15016 
+>> ./usr/lib/jvm/icedtea7-native/bin/idlj
+> ...
+>> +drwxr-xr-x -          -                 120 
+>> ./usr/lib/jvm/icedtea7-native
+>> +drwxr-xr-x -          -                 800 
+>> ./usr/lib/jvm/icedtea7-native/bin
+>> +-rwxr-xr-x -          -               15016 
+>> ./usr/lib/jvm/icedtea7-native/bin/apt
+>> +-rwxr-xr-x -          -               15016 
+>> ./usr/lib/jvm/icedtea7-native/bin/extcheck
+>> +-rwxr-xr-x -          -               15016 
+>> ./usr/lib/jvm/icedtea7-native/bin/idlj
+> ...
+> 
+> Before I start debugging them, does anyone have an obvious fix or hint 
+> for any of these ?
+> 
+> Regards,
+> Jacob
+> 
+> 
+> 
+> 
