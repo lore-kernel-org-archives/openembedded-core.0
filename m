@@ -1,100 +1,114 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web12.3304.1622578324950692326
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+ by mx.groups.io with SMTP id smtpd.web09.7764.1622601415429627081
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jun 2021 13:12:05 -0700
+ Tue, 01 Jun 2021 19:36:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BWnjufT2;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: fntoth@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id gb17so295995ejc.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 13:12:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AgOnwigp;
+ spf=pass (domain: gmail.com, ip: 209.85.161.45, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f45.google.com with SMTP id 67-20020a4a01460000b0290245b81f6261so243715oor.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jun 2021 19:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=JbgzgsV2WIXM+QhdNgqpxwaBirxstiJXs9rjU8bOXAQ=;
-        b=BWnjufT2knsqNotYM4E/4CnMWokcX+CA2mBJKLt1c+yJm5Cl60E8ZId2ujQFEgWbpU
-         cF9UvalKHYUo3zv5IXJmiWjjrp7zeXOKjuvRBXfAaqfbdn9wekqFSSL27MeOVku8RCJD
-         WNd8C3wWq+c7kUfVjghX+NZFIagqahA8m6JQ1onBrsgZBL3lOJCEeP82Wy+rn+TukMWq
-         mbETLGkGNoNuudWBewaEHRmIfFov/1zuvmRcHCmjQ7+qTnhVQj7F8X0ndajm8JzGxdPI
-         +qdP9NLsyEWbqD+hsuCxGRU7JkARKA1A2DMcYNkXwcXF67phaTXy5ZIVOf/QaGn8MOro
-         KA3w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IsbDCw+woZQ+xzerTWO1q+eZgFyRQAGupqnsvy/w1fM=;
+        b=AgOnwigpLNjADW6Rq9tFAk/lrZdnYnyBDecygHFDvTPsTw0lefI9jA21nOmfrrH3wx
+         FYlDB0WDMOKuOpaJCVHB0mNQg2rv7iE55tZu1YO0n+ZO3vkEfoH8/KK7WA7Z87bqRSRG
+         rB7uUuB9Uk4kMX+hKffsN7fSNivoO9S26+S01ugayqEC3fRu15/fdA0QH3hjjqW9DCuL
+         F2zjlc7xTUC0mV9VUSn1KgePTSKyfpA3VAt0gHtrKyAyyfpvy4KJijbNCH9s/tFMFavu
+         TnIOaXeUroUJnWSMcSP5t8DGZaOV7XluAU+RBbQ948GaTFilStDo6MD9Da/pG0cIwLqj
+         6RMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=JbgzgsV2WIXM+QhdNgqpxwaBirxstiJXs9rjU8bOXAQ=;
-        b=bMexH6SyHyATzt5Q3AxTinTIGyhp0c4Zbz93eE49KOFdz6BbE0OZvJHbGgAEb+xUqs
-         mryucw/TuUrL5VGXG8q7VvWz6LFYrV7G6Yy8fwZHDBuhEzEGjL7P86vqMS0yQMu++sZc
-         eOOz2QbMNrxGbVbdDelK7Bs4gn8LqKr4KLS9k6Zlbt8ibrsD6MQk0FkNbL71/z3M93rt
-         PqekcbXXFp5lPzq9O68N1WMHujRbXQpSupRJG3PUJAuMQyZDqE2fyG/Rnf10sljwSqYz
-         9vAG+3iTFU8N3FtXoCE2YF5spKmN+iE/bkeI2hlt9COuA8d9GS/dLXryAtl4/QVPUPQM
-         Rcrw==
-X-Gm-Message-State: AOAM532ST5sq/K62Dmc1AyNoAu+hatgK+1uhEbtsmLk1XQuXT7Qdvl7q
-	01HG5GwTu4Ce53gQqE+W8yddsLUCRF0=
-X-Google-Smtp-Source: ABdhPJxuTwiUfthQsgLvrNeD82zalGWJMMN6JvRQfsTCOTMwB/a8ogsRtjABilL/EQfgGGbImQHYVA==
-X-Received: by 2002:a17:906:b317:: with SMTP id n23mr13498878ejz.324.1622578323567;
-        Tue, 01 Jun 2021 13:12:03 -0700 (PDT)
-Return-Path: <fntoth@gmail.com>
-Received: from ?IPv6:2001:981:6fec:1:5fc5:5b18:b64:a93a? ([2001:981:6fec:1:5fc5:5b18:b64:a93a])
-        by smtp.gmail.com with ESMTPSA id m16sm49645edq.56.2021.06.01.13.12.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jun 2021 13:12:03 -0700 (PDT)
-From: "Ferry Toth" <fntoth@gmail.com>
-Subject: Re: [RFC PATCH 1/1] image-live.bbclass: order do_bootimg after do_rootfs
-To: Guillaume Champagne <champagne.guillaume.c@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210526183250.27433-1-champagne.guillaume.c@gmail.com>
- <20210526183250.27433-2-champagne.guillaume.c@gmail.com>
-Message-ID: <efc2fc26-5784-8afe-b310-e5ea3b83b604@gmail.com>
-Date: Tue, 1 Jun 2021 22:12:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IsbDCw+woZQ+xzerTWO1q+eZgFyRQAGupqnsvy/w1fM=;
+        b=SrNMi4UOCQ7txySvbHrSmGyjLPkpvNx5P0j1wfEgHbL8NRxTKddRlVdNWlVkbVe3dJ
+         XqAEx0f/vilyo6OCHT8Ek7JP0dy4A2aqde0CGiV2K+S9Rb7QWECq/cZt/TJpGA17FrIf
+         qvuqxpuMdEmB7vnixGygnV7sZwdiDeK8+MOPD7V99+lonazXP7BpUDcXNqBEdPWxfHJk
+         VQl34feDTXme7hZEzSkwc45aAiaulJKe8XZ5kht9nktU5SEEJpmNEEtkIo3MMINgagPA
+         nmeLFBtlXPuzh7XXjovFdVmoezuiy+L+vclo4wOOrKczHNRZkquQ4SbTq1orJhcF/+YD
+         27Iw==
+X-Gm-Message-State: AOAM532zhBqqoPRCb7PeeKXsnoDg+oldVj0HyNhOBq+nFkCmf8hHeKkT
+	HLVwIPJmxr0FjAY+fk+KIi5aAEVG81s=
+X-Google-Smtp-Source: ABdhPJwaS+svPK+1A+zTCC5X8Z/5QcjQQbgHVVyDwEBmJq1WFNUiEH9gpOUjJE6bWb9aeCqj+aDqbw==
+X-Received: by 2002:a4a:3f53:: with SMTP id x19mr23196042ooe.88.1622601414498;
+        Tue, 01 Jun 2021 19:36:54 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id s17sm3852830oog.31.2021.06.01.19.36.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jun 2021 19:36:54 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] classes/reproducible_build: Use atomic rename for SDE file
+Date: Tue,  1 Jun 2021 21:36:48 -0500
+Message-Id: <20210602023648.6887-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210526183250.27433-2-champagne.guillaume.c@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi
+If an existing source date epoch file was found during do_unpack, it was
+deleted and a new one would be written in its place. This causes a race
+with check-before-use code in get_source_date_epoch_value. Resolve the
+problem by making do_unpack write the new source date epoch to a
+temporary file, then do an atomic rename to ensure it's always present,
+and change the check-before-use code to use a EAFP exception instead of
+checking for file existence.
 
-Op 26-05-2021 om 20:32 schreef Guillaume Champagne:
-> do_bootimg expects IMGDEPLOYDIR to exist, since it stores its artifacts
-> there. Therefore, do_bootimg should run after do_rootfs because
-> IMGDEPLOYDIR is created before do_rootfs runs since IMGDEPLOYDIR is
-> contained in do_rootfs' [cleandirs] varflag.
->
-> When do_bootimg depends on ${PN}:do_image_${LIVE_ROOTFS_TYPE},
-> do_bootimg is correctly ordered after do_rootfs because
-> do_image_${FSTYPE} tasks are added after do_image and do_image itself is
-> added after do_rootfs.
->
-> However, when do_bootimg doesn't depend on
-> ${PN}:do_image_${LIVE_ROOTFS_TYPE}
-> (introduced by: 96f47c39f1d17f073243913d524bde84add41d8f), do_bootimg
-> can run before do_rootfs, thus before IMGDEPLOYDIR is created. To
-> avoid this situation, do_bootimg is now explicitly ordered after
-> do_rootfs.
->
-> Signed-off-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
-> ---
-> meta/classes/image-live.bbclass | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/image-live.bbclass 
-> b/meta/classes/image-live.bbclass
-> index 8b08305cdb..fd876ed8e1 100644
-> --- a/meta/classes/image-live.bbclass
-> +++ b/meta/classes/image-live.bbclass
-> @@ -261,4 +261,4 @@ python do_bootimg() {
-> do_bootimg[subimages] = "hddimg iso"
-> do_bootimg[imgsuffix] = "."
-> -addtask bootimg before do_image_complete
-> +addtask bootimg before do_image_complete after do_rootfs
+[YOCTO #14384]
 
-I can not answer your question if this is the right way to go. But I'll 
-try this patch next weekend and return here with the results.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/reproducible_build.bbclass | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-Thanks!
-
+diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
+index ea643f2860..278eeedc74 100644
+--- a/meta/classes/reproducible_build.bbclass
++++ b/meta/classes/reproducible_build.bbclass
+@@ -80,17 +80,16 @@ python create_source_date_epoch_stamp() {
+     import oe.reproducible
+ 
+     epochfile = d.getVar('SDE_FILE')
+-    # If it exists we need to regenerate as the sources may have changed
+-    if os.path.isfile(epochfile):
+-        bb.debug(1, "Deleting existing SOURCE_DATE_EPOCH from: %s" % epochfile)
+-        os.remove(epochfile)
++    tmp_file = "%s.new" % epochfile
+ 
+     source_date_epoch = oe.reproducible.get_source_date_epoch(d, d.getVar('S'))
+ 
+     bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
+     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
+-    with open(epochfile, 'w') as f:
++    with open(tmp_file, 'w') as f:
+         f.write(str(source_date_epoch))
++
++    os.rename(tmp_file, epochfile)
+ }
+ 
+ def get_source_date_epoch_value(d):
+@@ -100,7 +99,7 @@ def get_source_date_epoch_value(d):
+ 
+     epochfile = d.getVar('SDE_FILE')
+     source_date_epoch = int(d.getVar('SOURCE_DATE_EPOCH_FALLBACK'))
+-    if os.path.isfile(epochfile):
++    try:
+         with open(epochfile, 'r') as f:
+             s = f.read()
+             try:
+@@ -113,7 +112,7 @@ def get_source_date_epoch_value(d):
+                 bb.warn("SOURCE_DATE_EPOCH value '%s' is invalid. Reverting to SOURCE_DATE_EPOCH_FALLBACK" % s)
+                 source_date_epoch = int(d.getVar('SOURCE_DATE_EPOCH_FALLBACK'))
+         bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
+-    else:
++    except FileNotFoundError:
+         bb.debug(1, "Cannot find %s. SOURCE_DATE_EPOCH will default to %d" % (epochfile, source_date_epoch))
+ 
+     d.setVar('__CACHED_SOURCE_DATE_EPOCH', str(source_date_epoch))
+-- 
+2.31.1
 
