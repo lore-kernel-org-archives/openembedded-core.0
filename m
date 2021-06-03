@@ -1,64 +1,61 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.5])
- by mx.groups.io with SMTP id smtpd.web11.4662.1622704434840881291
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
+ by mx.groups.io with SMTP id smtpd.web08.4773.1622705044784289917
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 00:13:55 -0700
+ Thu, 03 Jun 2021 00:24:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=n7gce/Wn;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.5, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=mPaHZXIY;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1622704432; i=@fujitsu.com;
-	bh=Bmg69V3ir3ENZeYftXmPfvRPhjoNVOPkm+dz88c/X9Q=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=n7gce/Wn2b2WCiLjMVG5e4tkqmpT1wN+yxapdYbyOLNHUaBmvNxlN+lzuoSY6UU4d
-	 rvWGrO+70etxQKAwGoUc9GvMe9ygtTkkwAkTXVeXtfxCW3HDa4Cs/w+V5G0d3Ctqh2
-	 48lSqTuPBEggCgLmBjY0ssafBdXMFkUV7XSCUeBDD03vFDpkZ0VxA4348pwXo257Hd
-	 45UyGUJqF1DAPbu25uac4EpDwYN5s9yiDPuYSjYfpqtOll9cIsYfarpL/3Ek2O2n9/
-	 w7MONa/52DWEEFdIP9zZ9Qx+OlnuTGQaDrg0E7a4GSSJ15guRSakHkHcnA2l8cM0Tt
-	 NVEKrIS/OLMMQ==
-Received: from [100.112.193.7] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-a.eu-west-1.aws.symcld.net id FA/DE-34775-03188B06; Thu, 03 Jun 2021 07:13:52 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MRomvQuCP
-  B4Ps0Vos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePbx9VsBe0cFQs3XmdrYFzE3sXIySEkMJNJ
-  YsL2si5GLiD7OKPE1uNNLCAJNgE1iem3brB2MXJwiAjoSVz9JwoSZhZQkXjxuwesV1jASeLgs
-  z1gNgtQvLlpCZjNCxS/+PM7mC0hoCAx5eF7ZhCbU8BZ4tiPZywQe50kdvR0QNULSpyc+YQFYr
-  6ExMEXL5ghehUlZl9uZoGwKyReH77EPIGRfxaSlllIWhYwMq1iNE8qykzPKMlNzMzRNTQw0DU
-  0NNI1tDTVNTHTS6zSTdRLLdUtTy0u0TXUSywv1iuuzE3OSdHLSy3ZxAgMxZSCw3o7GCe8+aB3
-  iFGSg0lJlNc4bUeCEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQneonqgnGBRanpqRVpmDjAuYNISH
-  DxKIrxytUBp3uKCxNzizHSI1ClGRSlx3rcgfQIgiYzSPLg2WCxeYpSVEuZlZGBgEOIpSC3KzS
-  xBlX/FKM7BqCTMewBkCk9mXgnc9FdAi5mAFgt4bQNZXJKIkJJqYOKVvy9wMeWteNI1ifdhNXP
-  CtTnnPNNO5CjvufJ9qsyFW9w9NdfUMio1nb2zOFQ82L9kzhU+L6uRvS/dZofijGmT3rNXsz44
-  y7on6PiKabod0tueFXGYKXkelwz7rO4pqH6oXiupbJuEl4aEp1AQ3yynNrnGzzpPP678nHqEu
-  00pY99ZoVUxSoLzfh2RrncU+MmUw5l5LiPD707BrFns05o91lXMikjeLz/zY/vrhVFscdP/6Z
-  dOiak9siPH+ZlKFl/YvtUfFi/0Wmn/7KxOrKtXTq32w2ebNjxYLKodsD8wf7lX++v2LDfDO3P
-  UPlZ8Vrx+ik3HolJUSdJIJnOa4cP3W9RDjQuf/Vwed+SKEktxRqKhFnNRcSIAYs3HKkADAAA=
+	s=170520fj; t=1622705041; i=@fujitsu.com;
+	bh=snD5M6cHBrHD6k1Zj8qUvq7f7cyER0HgeW3nOSu932Q=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=mPaHZXIYQGxfzpFvIp3/XGWINNN6Ypxki5KpdaIwIzss5vnqzx3bjct08vMdgF1mC
+	 rT/flFLJFwgE4aPJFIvGI1d1MtP1T26ceaZzGDcD8oNciV041oaqZ9/GwaD/ONYa95
+	 i5tAZiYiSF04e2QXesZxU9a1MMoM5Adbk6Yj87zit1bZbvhJBN0ddS8BXftfv5B5y2
+	 UATH4D/oWq78vWwt3RPszA3fDlqhC14jF/4LGDMI25dSrbrVyvBD9sZjvcwXs7VCo0
+	 HOwpIV6Oa7TsPuFpKd9/3LdHwCtl+UEubdtudFtoFivFHUEdZBjLd2NtBqGA7XQjJx
+	 ZBZqSBFhrmjAA==
+Received: from [100.113.4.24] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id 05/87-27273-19388B06; Thu, 03 Jun 2021 07:24:01 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBIsWRWlGSWpSXmKPExsViZ8MxRXdi844
+  Eg2ldAhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b+RYfYCo6wVzRdWMvUwPiBrYuRi0NIYCaT
+  xLoZTxghnOOMEt2z/rB3MXJysAmoSUy/dYO1i5GDQ0RAT+LqP1GQMLOAisSL3z1gJcICxhLTP
+  s1jBrFZgOLPDnxiBLF5BZwkGr+tZgGxJQQUJKY8fM8MEReUODnzCQvEHAmJgy9eMEPUKErMvt
+  wMVV8h8frwJeYJjLyzkLTMQtKygJFpFaNlUlFmekZJbmJmjq6hgYGuoaGxrqmuoamxXmKVbpJ
+  eaqlucmpeSVEiUFYvsbxYr7gyNzknRS8vtWQTIzDAUgpZZ+5g/PT6g94hRkkOJiVRXuO0HQlC
+  fEn5KZUZicUZ8UWlOanFhxhlODiUJHgVmoBygkWp6akVaZk5wGCHSUtw8CiJ8NqBpHmLCxJzi
+  zPTIVKnGBWlxHk3giQEQBIZpXlwbbAIu8QoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmNcNZA
+  pPZl4J3PRXQIuZgBYLeG0DWVySiJCSamCq0dbcVuFvvcRPRGRd9xv5KY6XVXWEla/zPti0zUm
+  mIlZXZea/AwzF2UeX/K7scN7YU9WqsdX803n7X4yN3SdibiRo2OS4Vm2+7arqLnplx4sL/Gwr
+  mWfJb7/f2PaI89xOX5n/M26cfXvHlflQygKFlXmHQqKzJ99jrYt7Wn/Vc23616MLpHy8nfeL3
+  DmVWP/c5wzfrqwb09XTf2R93z/zoMohdwHuE5NS+gUkNKIqVhZZHn3Y/OG/68/WGhOnyd6Xd/
+  3++tqvdePaCQYLa3Kv6R9wnRezz+yTxYV7K/YeFLGs+Or5L/1r2Sqf2V7tH3tlzdhDTYTLClS
+  8VutuS1y08Z+pp9O+/SdyH/q+4GBWYinOSDTUYi4qTgQAvx3lCisDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-9.tower-265.messagelabs.com!1622704431!115879!1
-X-Originating-IP: [62.60.8.84]
+X-Msg-Ref: server-18.tower-248.messagelabs.com!1622705040!120010!1
+X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 17129 invoked from network); 3 Jun 2021 07:13:52 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-9.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jun 2021 07:13:52 -0000
+Received: (qmail 15919 invoked from network); 3 Jun 2021 07:24:01 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-18.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jun 2021 07:24:01 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1537DpuX011105
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1537O05d029488
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 3 Jun 2021 08:13:51 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Jun 2021 08:24:00 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 3 Jun 2021 08:13:49 +0100
+ (TLS) id 15.0.1497.18; Thu, 3 Jun 2021 08:23:58 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-magic: upgrade 0.4.22 -> 0.4.23
-Date: Thu, 3 Jun 2021 15:13:22 +0800
-Message-ID: <1622704403-26153-5-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] less: upgrade 586 -> 589
+Date: Thu, 3 Jun 2021 15:23:45 +0800
+Message-ID: <1622705025-26203-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1622704403-26153-1-git-send-email-wangmy@fujitsu.com>
-References: <1622704403-26153-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
@@ -67,26 +64,26 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../python/{python3-magic_0.4.22.bb => python3-magic_0.4.23.bb} | 2 +-
+ meta/recipes-extended/less/{less_586.bb => less_589.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-magic_0.4.22.bb => python3-magic_0.4.23.bb} (88%)
+ rename meta/recipes-extended/less/{less_586.bb => less_589.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-magic_0.4.22.bb b/meta/recipes-devtools/python/python3-magic_0.4.23.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-magic_0.4.22.bb
-rename to meta/recipes-devtools/python/python3-magic_0.4.23.bb
-index b828927599..4ebae32569 100644
---- a/meta/recipes-devtools/python/python3-magic_0.4.22.bb
-+++ b/meta/recipes-devtools/python/python3-magic_0.4.23.bb
-@@ -11,7 +11,7 @@ PYPI_PACKAGE = "python-magic"
+diff --git a/meta/recipes-extended/less/less_586.bb b/meta/recipes-extended/less/less_589.bb
+similarity index 93%
+rename from meta/recipes-extended/less/less_586.bb
+rename to meta/recipes-extended/less/less_589.bb
+index b300f2badd..cf459a382d 100644
+--- a/meta/recipes-extended/less/less_586.bb
++++ b/meta/recipes-extended/less/less_589.bb
+@@ -28,7 +28,7 @@ DEPENDS = "ncurses"
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
+ 	  "
  
- inherit pypi setuptools3
+-SRC_URI[sha256sum] = "09288d3ec515a21430ec1fbe1e97a2f741fdaf98afc95b114e342416c6a7dd99"
++SRC_URI[sha256sum] = "a15cd502196c1fb2c1f0235db19d4baad564d07be00df42281d6f1f056f5dda8"
  
--SRC_URI[sha256sum] = "ca884349f2c92ce830e3f498c5b7c7051fe2942c3ee4332f65213b8ebff15a62"
-+SRC_URI[sha256sum] = "88f71d04fde4318da32fa03930362f1c6127caa833614563fd53a0fd3438cc3e"
+ UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
  
- RDEPENDS_${PN} += "file \
-                    ${PYTHON_PN}-ctypes \
 -- 
 2.25.1
 
