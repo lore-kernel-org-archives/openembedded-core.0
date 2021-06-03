@@ -1,106 +1,90 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
- by mx.groups.io with SMTP id smtpd.web10.35.1622750444211870262
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web09.380.1622752117383226758
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 13:00:44 -0700
+ Thu, 03 Jun 2021 13:28:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tAYfb56/;
- spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f45.google.com with SMTP id z15so3656084vsn.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 13:00:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=h3jg1+wK;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id b9so11075050ejc.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 13:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QwoUMzk1S7uCkpxN3xYIPKnnVLIhF/5JQQJfiqVHyOI=;
-        b=tAYfb56/gOptr5355Yoe/sK99tdzdMY1s3zyF3GXcN5kzXVUwMWzhl+o1SXSOvDcIX
-         Lrj2rdnLCZBX1LZfRfpLo/G+rD5agBmPGm5WjlNcLkIH/udfUeLISPof/TdRZ8SxKqks
-         i+eijHX7lJCQL0GNxIE3rcyph9WAlfHz4ghX1BYCTGU+JLBilB1FZyqsUp2JfnnM5l+V
-         l5aIb0s1Nf08Tke4slKy0C0qHm4xYSiJ41qx7hjsKJmPoPTZDtwxhzeA6urPyJcYmCs4
-         rVe/42DbYfhVEd8hwW7LWC0mfhBO5LDK0BHLqe4cOe3t+RVZ9za5hF5Mtl/+9vpi77Qd
-         DmYw==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L45GUzG3sTHdRWXLiO7IXmMc/C5dcXo0loMMtI1moA8=;
+        b=h3jg1+wKX8bDvyc3CzbxxXmRVEHBGSOBPdjEfulbau+VIR6AEuuNzRWWbeJz3thvi8
+         uQ25Km9cZZp8VTG3+yzsqiEu/QVOasd8ffo2JBHl3LCWcUAfExeFpG9NyZErbIDcrkgP
+         z62S5JNG2XSFavZoxJbCeVJUjxiZvAy/Gg7MC8s8Z9ryCuAoqrm8+Fs9gH9msxjfAgOj
+         TE1wG/hSD8q0RROEDbawGpas5FZ1RXJlKWbDkReyPuxUn+IojQl7p9ITl2kdjyN3O+Xi
+         /vhzzZsuLSJbeGiEhw/MhDXhAPYQtjFNfMazGWRIMz10brQL63wipH18xeUhph0a1dpz
+         oNXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QwoUMzk1S7uCkpxN3xYIPKnnVLIhF/5JQQJfiqVHyOI=;
-        b=N4Gmoju8oyHv6FpDzPXyQOBHi3TYg0GD2P3HHb1ClZhd2uTcx8akCErxuPBRJU6oN0
-         SOsJ1Z/icFIGc/EhPaGzx557Xsc8s8u4ghcL5ZhkyEoDVfUawAZEKVirevz0DGXDGiwj
-         MzmLm+gHEd0ORhhBf8RI7iBrHvZCRH6LjIKDzDAxw4XhsrbuEtg0f2KWIv10pgiDA7kD
-         3tZ213XZ6755DlL4hXXcWyQ+LRvonfcrT466xeFoJF1lfSD6UACpwCXt35Altw+GRh9J
-         YoUXpr0cYfpIrJDEj9n29wz+WEHdlKRn1IGo2m1qfzgASicPvROJXoKt72IVKsnVaWrz
-         f43w==
-X-Gm-Message-State: AOAM533KH51qJxOyI1fUZiiW/Y+cyhEGUHfwoRes5Np0cBR6eYobYX0P
-	k9+IVrIMkvXrU/cNWHYjx8JNJHfSPCQKkqZamJ8=
-X-Google-Smtp-Source: ABdhPJztLqjyHb6B60LsSMfQ18df9u7ATP/e6hzRAnsEZoWqZGY/4kJ7zPGv+y7sitjfay5HKmRJTVKQ6FZHWcJwB3o=
-X-Received: by 2002:a05:6102:3203:: with SMTP id r3mr202707vsf.20.1622750443359;
- Thu, 03 Jun 2021 13:00:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L45GUzG3sTHdRWXLiO7IXmMc/C5dcXo0loMMtI1moA8=;
+        b=tGv2JeT/43Qb49UaJAOrfz4jzRKFx8GYFPMVmSrRum8tTNqcT8Lg4uPjoY/IUv29lh
+         jAjSKII2oHDTNtp0h3kRW4WhJ5V+qXrQF76vfTmXA5U18bf5c09IZ1Sek79TTjpsrgVv
+         uAkNkck13b3Nt3KrUhSwJXwe/74ahrJBknaAEvA5coAKEEQVGlJ1dfdlDwISTnl/hNJx
+         AyLyg3hplUp+Q4I1fX4g1W75pE4CvnVFioy5dbEKIRTeN6+DJNTxRiBVhTIGY1fQDQKb
+         l/UXNcgI6xo0/UH8sKYo4xwHUfo9gwnf4EGgNrwYy0o0NRl75JuVwcrDc0zAeYlMYq5m
+         FDKg==
+X-Gm-Message-State: AOAM53017Fv5O/9KvwR7TIHEEw36MBAJUm+yKXA9QocM1epZ41FoC5EO
+	rDsRQFCuv6IvjXP4x9jc0yh2KKA1Y/06Gg==
+X-Google-Smtp-Source: ABdhPJxIjj0PgqEl4LEz07UeRiQ43mddrDzrUTQYWqpTqNFNkiOIVuOY4HdOAf/SLDBbJUryToUwgA==
+X-Received: by 2002:a17:906:3818:: with SMTP id v24mr945737ejc.197.1622752115717;
+        Thu, 03 Jun 2021 13:28:35 -0700 (PDT)
+Return-Path: <schnitzeltony@gmail.com>
+Received: from thanks-buchmuellers.speedport.ip (p200300f07f11f861d707ea86d7bc33dd.dip0.t-ipconnect.de. [2003:f0:7f11:f861:d707:ea86:d7bc:33dd])
+        by smtp.gmail.com with ESMTPSA id u17sm2216009edx.16.2021.06.03.13.28.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 13:28:35 -0700 (PDT)
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] libinput: upgrade 1.17.3 -> 1.18.0
+Date: Thu,  3 Jun 2021 22:28:26 +0200
+Message-Id: <20210603202827.2141368-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210603172149.100248-1-adrian.freihofer@siemens.com>
- <CANNYZj9HDXbUm=3LJ3tio4JMKQ56vrMGiYVkHBy9hCNOf=a4Lw@mail.gmail.com> <f33e8c790fa4ef0364b91b91a514dd0ec308a008.camel@gmail.com>
-In-Reply-To: <f33e8c790fa4ef0364b91b91a514dd0ec308a008.camel@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 3 Jun 2021 22:00:31 +0200
-Message-ID: <CANNYZj_hsuFNQ7gC3txtGfW5A-X7_G9BCN54y9oAyhDj9_7Y1w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] meta-skeleton: add a ptest example
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000bc541b05c3e20746"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000bc541b05c3e20746
-Content-Type: text/plain; charset="UTF-8"
+* COPYING changed by link (master->main) [1]
 
-On Thu, 3 Jun 2021 at 21:53, Adrian Freihofer <adrian.freihofer@gmail.com>
-wrote:
+[1] https://gitlab.freedesktop.org/libinput/libinput/-/commit/354df8bce9874e92de2ad8535fdcedaec0755b27
 
-> On Thu, 2021-06-03 at 19:46 +0200, Alexander Kanavin wrote:
-> > Rather than construct an artificial example, is there an actual
-> > existing ptest in oe-core that can be extended to do this junit xml
-> > stuff?
-> So far there is no test which creates xml reports and I don't know if
-> oe-core would have interest in something like that.
->
-> In general, a minimalist ptest example could be quite useful. I get
-> asked about it from time to time. However, I see your point that the
-> example is somewhat artificial. What do you mean if I replace the xml
-> with a simple "example report" for example?
->
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ .../wayland/{libinput_1.17.3.bb => libinput_1.18.0.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.17.3.bb => libinput_1.18.0.bb} (91%)
 
-What I'm getting at is that I'm not sure if this should be in oe-core if
-nothing in oe-core or other public layers actually benefits from this.
+diff --git a/meta/recipes-graphics/wayland/libinput_1.17.3.bb b/meta/recipes-graphics/wayland/libinput_1.18.0.bb
+similarity index 91%
+rename from meta/recipes-graphics/wayland/libinput_1.17.3.bb
+rename to meta/recipes-graphics/wayland/libinput_1.18.0.bb
+index ef19146f79..e46071c67b 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.17.3.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.18.0.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "http://www.freedesktop.org/wiki/Software/libinput/"
+ SECTION = "libs"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
++LIC_FILES_CHKSUM = "file://COPYING;md5=bab4ac7dc1c10bc0fb037dc76c46ef8a"
+ 
+ DEPENDS = "libevdev udev mtdev libcheck"
+ 
+@@ -16,7 +16,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            file://determinism.patch \
+            "
+-SRC_URI[sha256sum] = "0d010e0bf601b5d3a06b3c4d77d67751cf554f3e6448e57aa046ea9ee8f818ac"
++SRC_URI[sha256sum] = "18c6a286583268d39841348e561fbb4713bde0c643b360f5d8a3f27800afdb9a"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
+-- 
+2.31.1
 
-A much stronger case would be to enable these reports in some existing
-recipe, then extend the ptest infrastructure on the yocto autobuilder to
-make good use of them.
-
-Alex
-
---000000000000bc541b05c3e20746
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 3 Jun 2021 at 21:53, Adrian Freihofer &lt;<a href=3D"mailto:=
-adrian.freihofer@gmail.com" target=3D"_blank">adrian.freihofer@gmail.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
-Thu, 2021-06-03 at 19:46 +0200, Alexander Kanavin wrote:<br>
-&gt; Rather than construct an artificial example, is there an actual<br>
-&gt; existing ptest in oe-core that can be extended to do this junit xml<br=
->
-&gt; stuff?<br>
-So far there is no test which creates xml reports and I don&#39;t know if<b=
-r>
-oe-core would have interest in something like that.<br>
-<br>
-In general, a minimalist ptest example could be quite useful. I get<br>
-asked about it from time to time. However, I see your point that the<br>
-example is somewhat artificial. What do you mean if I replace the xml<br>
-with a simple &quot;example report&quot; for example?<br></blockquote><div>=
-<br></div><div>What I&#39;m getting at is that I&#39;m not sure if this sho=
-uld be in oe-core if nothing in oe-core or other public layers actually ben=
-efits from this.</div><div><br></div><div>A much stronger case would be to =
-enable these reports in some existing recipe, then extend the ptest infrast=
-ructure on the yocto autobuilder to make good use of them.</div><div><br></=
-div><div>Alex<br></div></div></div>
-
---000000000000bc541b05c3e20746--
