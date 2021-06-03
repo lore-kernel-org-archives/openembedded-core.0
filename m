@@ -1,139 +1,140 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web11.128.1622742229183088530
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+ by mx.groups.io with SMTP id smtpd.web11.162.1622742377562353636
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 10:43:49 -0700
+ Thu, 03 Jun 2021 10:46:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=I+HVMOCz;
- spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id m23so3745849uao.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 10:43:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NyR9S5We;
+ spf=pass (domain: gmail.com, ip: 209.85.222.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f44.google.com with SMTP id d13so3072659uav.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 10:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3e6uzghvhrBu+AAcsFJZZIEY0u83T2ygXPHkZ8yn9lM=;
-        b=I+HVMOCzwzg2qN+X8DQgr0pOtz7B0i5VSFniH6JcX4zt5NQh9aYRt52yev4379ZsXE
-         6vc5X8h/LeVY9M8YP0fHXOkNLYggW+f5Fu8o1O3FBBBhi/E+R8xe+1NdmEhbimI3TE1i
-         vROtUWSjFgkWMoSJytfR8ON6c6IOL8MDmd3KCJ2PaN0U0rFLExwbaGCyEx6D4ebYVJ50
-         FqEfRppY/iwbIPGlXjnG2kgIHLd0fiu6ZM0a+mWkBKfAWXodb6lFqOUkVIr7oxGrO2FY
-         VX2PUJd5ZS4a9twtgAJLdk7SXJFxSHpsfm3GJncBcTrhs12G8jvXsHZzvbJa7fOQ7jw7
-         oPZQ==
+        bh=TaMmsa1DIEFnL9hrhnLxLBKaJ/hpHe4exNTkICj5bv8=;
+        b=NyR9S5WevKTy3lZqO8IKmhOfNqVbBCmunJUE7krCIxhAvrnOLoqv8mG07sJop8r/BF
+         MKzskFM+J6ifAqw/IzIs99JHE8UuAmHly7/Kn4Z1FjAIoBamNhTlnBCznFE6twJ8fPZX
+         eV4SdpUYQYrwyiBRLrF/c2WTyBqO7dr+BSlQUlF0h8p+hkft6Cv15KfsfAC7tLCdayHV
+         AohKl66VvkYTzfKF+rOg72m9Pw+tI0BWSGc+iyn9ypHOh6ldggOtj6PlXt1Qn3eZqrYj
+         sstTkc1SPXdVjjJfpJhV9o/tiNMEECN7LJe2a3keylT2Vz01n+a1dwwp6kaJHR0YRsrG
+         drbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3e6uzghvhrBu+AAcsFJZZIEY0u83T2ygXPHkZ8yn9lM=;
-        b=ruy+4QR651/7hxanTG2Q1c4ZJvMvfVJF2dIkVV3Whc28FVK+0uoGYPwlDY81IBFpQu
-         lSrLw6Dd6iV7vxCzitBkn9D32nf9J9OFrKNj+J/KZShprxRApV7sfNw+JUopKuLgC9Lp
-         2adUkuLcVWkLUEqmtNNVKWE39pBtU8G/G+RdMSzwIC9M1un3XEQ9fo7JQChdVB+ofoBi
-         uwD47MzBwEK4F13vifmknvyblNuzVLWs1Dqx6cZxjkvI82E5Po6J61S5E1sLoxGQJDRa
-         /Ifrl63OczEkapxtCXUPkTIz5+v6DSzVuANSLHMFpmH8AUnjOObmFYCfclWaS9/ClYuk
-         Ol2w==
-X-Gm-Message-State: AOAM533sekxGdT2AY/mrMhXIrlfQHe2J0PMSoPBbZ0YEcyNSXeRCMVnW
-	BkaZhQ+UtMGBLb4rezdH2F9ASPERY85vvDVgKSs=
-X-Google-Smtp-Source: ABdhPJw628GUVUwZHEM8rdKZ1UNRHjjvPamrhrurIHwqXxT89OY447vGwLvMi2LjvdPO/F5GvPaMm7lY25l00TsXcco=
-X-Received: by 2002:a9f:3e8e:: with SMTP id x14mr225007uai.71.1622742228233;
- Thu, 03 Jun 2021 10:43:48 -0700 (PDT)
+        bh=TaMmsa1DIEFnL9hrhnLxLBKaJ/hpHe4exNTkICj5bv8=;
+        b=LgFgpTKFjnLcvstf+H0TH/x8C1WLiokfKUnmiAXWphl8nlDoVKkgTsqsViGYBgmQlr
+         OS6M6aZCBtmUit/PoMM/2gUqVrotW6PMTWtC9tPvUlQ/KvDxkA+Pm5CMLYyHFmWhdV2I
+         O2ret2q6fUbLHzt2i14HT+LhdUKsend2RMPKF4I5WxNCSQuNPosaqnf7BY2YDZlDa6Ol
+         hweFdRPttkVuuzt5N3Ex9o8zG1ClVPHduKW2mnIIrKSViLokWMCYcE+e0vNOZbZhHajC
+         5Z8ngccNTOpu40OuKTEoIEEDCuS/64GC5s8fxC1zDxI3xYe2dEBfkkGu+bjO/DrW0bRg
+         RZFw==
+X-Gm-Message-State: AOAM532w/k2LJSA74BpfRpfz0z0pAj81U5puMyAuihSWz7AwLYFKTmIL
+	pDrop9FYDozV2NvaM3kv8HTClhJ+h4SoDEIopBQ=
+X-Google-Smtp-Source: ABdhPJymG9idPTgUfFAoXR/4ZiNOD20YMBLMKPUZ/Pnx6zVdrFI9cC4O89fQMiNwE4LOWOptUV1bkJRtGipn5EraSPs=
+X-Received: by 2002:a1f:b217:: with SMTP id b23mr616313vkf.16.1622742376649;
+ Thu, 03 Jun 2021 10:46:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210603172149.100248-1-adrian.freihofer@siemens.com> <20210603172149.100248-2-adrian.freihofer@siemens.com>
-In-Reply-To: <20210603172149.100248-2-adrian.freihofer@siemens.com>
+References: <20210603172149.100248-1-adrian.freihofer@siemens.com>
+In-Reply-To: <20210603172149.100248-1-adrian.freihofer@siemens.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 3 Jun 2021 19:43:37 +0200
-Message-ID: <CANNYZj_CueS0nTOwqkh6f57mqSEgh9w=o5VAcHjvBgFv7Q4Z0w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] testimage: support additional reports for ptests
+Date: Thu, 3 Jun 2021 19:46:05 +0200
+Message-ID: <CANNYZj9HDXbUm=3LJ3tio4JMKQ56vrMGiYVkHBy9hCNOf=a4Lw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] meta-skeleton: add a ptest example
 To: Adrian Freihofer <adrian.freihofer@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>, 
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Content-Type: multipart/alternative; boundary="0000000000001371a505c3e01e9c"
+Content-Type: multipart/alternative; boundary="000000000000ec168a05c3e02669"
 
---0000000000001371a505c3e01e9c
+--000000000000ec168a05c3e02669
 Content-Type: text/plain; charset="UTF-8"
 
-Why does this need to be specifically in ptest.py? It only copies some
-files over from the target; you can write a separate runtime testcase that
-does the same.
+Rather than construct an artificial example, is there an actual existing
+ptest in oe-core that can be extended to do this junit xml stuff?
 
 Alex
 
 On Thu, 3 Jun 2021 at 19:22, Adrian Freihofer <adrian.freihofer@gmail.com>
 wrote:
 
-> This adds a new optional feature to the ptest run-time test. Most unit
-> test frameworks such as googletest generate JUnit like XML reports which
-> can be processed e.g. by GitLab CI or Jenkins.
->
-> Example: A run-ptest script executes a googletest based unit test:
->   /usr/bin/my-unittest --gtest_output="xml:/tmp/ptest-xml/"
->
-> The new variable TESTIMAGE_PTEST_REPORT_DIR allows to configure
-> bitbake -c testimage to fetch the reports from the target device and
-> store them into a subfolder of TEST_LOG_DIR. It's possible to fetch
-> report files from different locations on the target device to different
-> subfolders on the host.
 > ---
->  meta/classes/testimage.bbclass       |  5 +++++
->  meta/lib/oeqa/runtime/cases/ptest.py | 24 ++++++++++++++++++++++++
->  2 files changed, 29 insertions(+)
+>  .../ptest-example/files/run-ptest             | 26 +++++++++++++++++++
+>  .../ptest-example/ptest-example_0.1.bb        | 16 ++++++++++++
+>  2 files changed, 42 insertions(+)
+>  create mode 100644
+> meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest
+>  create mode 100644 meta-skeleton/recipes-skeleton/ptest-example/
+> ptest-example_0.1.bb
 >
-> diff --git a/meta/classes/testimage.bbclass
-> b/meta/classes/testimage.bbclass
-> index 43de9d4d76..d01892136f 100644
-> --- a/meta/classes/testimage.bbclass
-> +++ b/meta/classes/testimage.bbclass
-> @@ -47,6 +47,11 @@ TESTIMAGE_AUTO ??= "0"
->  # TESTIMAGE_BOOT_PATTERNS[search_login_succeeded] = "webserver@
-> [a-zA-Z0-9\-]+:~#"
->  # The accepted flags are the following: search_reached_prompt,
-> send_login_user, search_login_succeeded, search_cmd_finished.
->  # They are prefixed with either search/send, to differentiate if the
-> pattern is meant to be sent or searched to/from the target terminal
-> +# TESTIMAGE_PTEST_REPORT_DIR might be used to fetch additional reports
-> (e.g. JUnit like xml files) generated by ptests from the target device.
-> +# A ; separate list of remote_path:host_path is expected. The host_path
-> is optional. It defaults to "reports".
-> +# For example if some ptests (such as ptest-example.bb) create
-> additional reports in /tmp/ptest-xml/ the following line in the image recipe
-> +# configures the ptest imagetest to fetch the xml reports into a
-> "xml-reports" subfolder of TEST_LOG_DIR:
-> +# TESTIMAGE_PTEST_REPORT_DIR = "/tmp/ptest-xml/*.xml:xml-reports"
->
->  TEST_LOG_DIR ?= "${WORKDIR}/testimage"
->
-> diff --git a/meta/lib/oeqa/runtime/cases/ptest.py
-> b/meta/lib/oeqa/runtime/cases/ptest.py
-> index 0800f3c27f..7b3560a4b0 100644
-> --- a/meta/lib/oeqa/runtime/cases/ptest.py
-> +++ b/meta/lib/oeqa/runtime/cases/ptest.py
-> @@ -110,3 +110,27 @@ class PtestRunnerTest(OERuntimeTestCase):
->          if failmsg:
->              self.logger.warning("There were failing ptests.")
->              self.fail(failmsg)
+> diff --git a/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest
+> b/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest
+> new file mode 100644
+> index 0000000000..7c80306475
+> --- /dev/null
+> +++ b/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest
+> @@ -0,0 +1,26 @@
+> +#!/bin/sh
 > +
-> +        # Fetch log files e.g. JUnit like xml files from the target device
-> +        ptest_report_dir = self.td.get('TESTIMAGE_PTEST_REPORT_DIR', '')
-> +        if ptest_report_dir:
-> +            for test_log_dir_ptest in ptest_report_dir.split(';'):
-> +                src_tgt = test_log_dir_ptest.split(':')
-> +                if len(src_tgt) == 1:
-> +                    tgt_dir_abs = os.path.join(ptest_log_dir, "reports")
-> +                elif len(src_tgt) == 2:
-> +                    tgt_dir_abs = os.path.join(ptest_log_dir, src_tgt[1])
-> +                else:
-> +                    self.logger.error("Invalid TESTIMAGE_PTEST_REPORT_DIR
-> setting")
-> +                self.copy_logs(src_tgt[0], tgt_dir_abs)
+> +# The result should be PASS, FAIL, or SKIP, and the testname can be any
+> identifying string.
+> +# The ptest-runner does not evaluate stdout or stderr. The output format
+> is a recommended convention.
+> +# A real ptest would call the unit-test executable instead of echo.
+> +echo "PASS:  dummy test passing always"
 > +
-> +    def copy_logs(self, remoteSrc, localDst):
-> +        self.logger.debug("Fetching from target: %s to %s" % (remoteSrc,
-> localDst))
-> +        if os.path.exists(localDst):
-> +            from shutil import rmtree
-> +            rmtree(localDst)
-> +        os.makedirs(localDst)
-> +        try:
-> +            self.target.copyFrom(remoteSrc, localDst)
-> +        except AssertionError:
-> +            pass
+> +# Optional a ptest might provide a JUnit like XML report. Reports are
+> collected by the ptest imagetest if
+> +# the TESTIMAGE_PTEST_REPORT_DIR variable is configured for the tested
+> image.
+> +# Example to fetch a xml report to
+> ${TEST_LOG_DIR}/reports-xml/ptest-example.xml:
+> +#   TESTIMAGE_PTEST_REPORT_DIR ?= "/tmp/ptest-xml/*.xml:reports-xml"
+> +# The following shell heredoc is as a placeholder e.g. for something more
+> useful such as
+> +# my-gtest --gtest_output="xml:/tmp/ptest-xml/"
+> +mkdir -p /tmp/ptest-xml
+> +cat << xxxEOFxxx > /tmp/ptest-xml/ptest-example.xml
+> +<?xml version="1.0" encoding="UTF-8"?>
+> +<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.010"
+> timestamp="2020-09-20T10:44:23" name="AllTests">
+> +  <testsuite name="ConfigurationTest" tests="1" failures="0" disabled="0"
+> errors="0" time="0.010" timestamp="2020-09-20T10:44:23">
+> +    <testcase name="readConfiguration" status="run" result="completed"
+> time="0.010" timestamp="2020-09-20T10:44:23" classname="ConfigurationTest"
+> />
+> +  </testsuite>
+> +</testsuites>
+> +xxxEOFxxx
+> +
+> +# The ptest-runner evaluates the exit value of a test case: 0 means pass,
+> 1 means fail.
+> +# This minimal example passes always.
+> +exit 0
+> diff --git a/meta-skeleton/recipes-skeleton/ptest-example/
+> ptest-example_0.1.bb b/meta-skeleton/recipes-skeleton/ptest-example/
+> ptest-example_0.1.bb
+> new file mode 100644
+> index 0000000000..02bc9bcfa2
+> --- /dev/null
+> +++ b/meta-skeleton/recipes-skeleton/ptest-example/ptest-example_0.1.bb
+> @@ -0,0 +1,16 @@
+> +SUMMARY = "A very basic ptest enabled recipe"
+> +DESCRIPTION = "This recipe provides a minimalistic ptest package"
+> +SECTION = "examples"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM =
+> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +
+> +# A recipe is "ptest-enabled" if it inherits the ptest class
+> +inherit ptest
+> +
+> +# Usually a ptest contains at least two items: the actual test,
+> +# and a shell script (run-ptest) that starts the test.
+> +# For this minimized example there is just the script.
+> +SRC_URI = "file://run-ptest"
+> +
+> +# This minimalistic example provides nothing more than a ptest package.
+> +ALLOW_EMPTY_${PN} = "1"
 > --
 > 2.31.1
 >
@@ -142,113 +143,113 @@ wrote:
 >
 >
 
---0000000000001371a505c3e01e9c
+--000000000000ec168a05c3e02669
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Why does this need to be specifically in ptest.py? It only=
- copies some files over from the target; you can write a separate runtime t=
-estcase that does the same.<br><div><br></div><div>Alex<br></div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 3 =
-Jun 2021 at 19:22, Adrian Freihofer &lt;<a href=3D"mailto:adrian.freihofer@=
-gmail.com">adrian.freihofer@gmail.com</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">This adds a new optional feature to th=
-e ptest run-time test. Most unit<br>
-test frameworks such as googletest generate JUnit like XML reports which<b=
-r>
-can be processed e.g. by GitLab CI or Jenkins.<br>
+<div dir=3D"ltr"><div>Rather than construct an artificial example, is there=
+ an actual existing ptest in oe-core that can be extended to do this junit =
+xml stuff?</div><div><br></div><div>Alex<br></div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 3 Jun 2021 at 19:=
+22, Adrian Freihofer &lt;<a href=3D"mailto:adrian.freihofer@gmail.com">adri=
+an.freihofer@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">---<br>
+=C2=A0.../ptest-example/files/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0| 26 +++++++++++++++++++<br>
+=C2=A0.../ptest-example/<a href=3D"http://ptest-example_0.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">ptest-example_0.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 | 16 ++++++++++++<br>
+=C2=A02 files changed, 42 insertions(+)<br>
+=C2=A0create mode 100644 meta-skeleton/recipes-skeleton/ptest-example/file=
+s/run-ptest<br>
+=C2=A0create mode 100644 meta-skeleton/recipes-skeleton/ptest-example/<a h=
+ref=3D"http://ptest-example_0.1.bb" rel=3D"noreferrer" target=3D"_blank">pt=
+est-example_0.1.bb</a><br>
 <br>
-Example: A run-ptest script executes a googletest based unit test:<br>
-=C2=A0 /usr/bin/my-unittest --gtest_output=3D&quot;xml:/tmp/ptest-xml/&quo=
+diff --git a/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest =
+b/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest<br>
+new file mode 100644<br>
+index 0000000000..7c80306475<br>
+--- /dev/null<br>
++++ b/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest<br>
+@@ -0,0 +1,26 @@<br>
++#!/bin/sh<br>
++<br>
++# The result should be PASS, FAIL, or SKIP, and the testname can be any i=
+dentifying string.<br>
++# The ptest-runner does not evaluate stdout or stderr. The output format =
+is a recommended convention.<br>
++# A real ptest would call the unit-test executable instead of echo.<br>
++echo &quot;PASS:=C2=A0 dummy test passing always&quot;<br>
++<br>
++# Optional a ptest might provide a JUnit like XML report. Reports are col=
+lected by the ptest imagetest if<br>
++# the TESTIMAGE_PTEST_REPORT_DIR variable is configured for the tested im=
+age.<br>
++# Example to fetch a xml report to ${TEST_LOG_DIR}/reports-xml/ptest-exam=
+ple.xml:<br>
++#=C2=A0 =C2=A0TESTIMAGE_PTEST_REPORT_DIR ?=3D &quot;/tmp/ptest-xml/*.xml:=
+reports-xml&quot;<br>
++# The following shell heredoc is as a placeholder e.g. for something more=
+ useful such as<br>
++# my-gtest --gtest_output=3D&quot;xml:/tmp/ptest-xml/&quot;<br>
++mkdir -p /tmp/ptest-xml<br>
++cat &lt;&lt; xxxEOFxxx &gt; /tmp/ptest-xml/ptest-example.xml<br>
++&lt;?xml version=3D&quot;1.0&quot; encoding=3D&quot;UTF-8&quot;?&gt;<br>
++&lt;testsuites tests=3D&quot;1&quot; failures=3D&quot;0&quot; disabled=3D=
+&quot;0&quot; errors=3D&quot;0&quot; time=3D&quot;0.010&quot; timestamp=3D&=
+quot;2020-09-20T10:44:23&quot; name=3D&quot;AllTests&quot;&gt;<br>
++=C2=A0 &lt;testsuite name=3D&quot;ConfigurationTest&quot; tests=3D&quot;1=
+&quot; failures=3D&quot;0&quot; disabled=3D&quot;0&quot; errors=3D&quot;0&q=
+uot; time=3D&quot;0.010&quot; timestamp=3D&quot;2020-09-20T10:44:23&quot;&g=
 t;<br>
-<br>
-The new variable TESTIMAGE_PTEST_REPORT_DIR allows to configure<br>
-bitbake -c testimage to fetch the reports from the target device and<br>
-store them into a subfolder of TEST_LOG_DIR. It&#39;s possible to fetch<br=
->
-report files from different locations on the target device to different<br=
->
-subfolders on the host.<br>
----<br>
-=C2=A0meta/classes/testimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +=
-++++<br>
-=C2=A0meta/lib/oeqa/runtime/cases/ptest.py | 24 ++++++++++++++++++++++++<b=
-r>
-=C2=A02 files changed, 29 insertions(+)<br>
-<br>
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbcla=
-ss<br>
-index 43de9d4d76..d01892136f 100644<br>
---- a/meta/classes/testimage.bbclass<br>
-+++ b/meta/classes/testimage.bbclass<br>
-@@ -47,6 +47,11 @@ TESTIMAGE_AUTO ??=3D &quot;0&quot;<br>
-=C2=A0# TESTIMAGE_BOOT_PATTERNS[search_login_succeeded] =3D &quot;webserve=
-r@[a-zA-Z0-9\-]+:~#&quot;<br>
-=C2=A0# The accepted flags are the following: search_reached_prompt, send_=
-login_user, search_login_succeeded, search_cmd_finished.<br>
-=C2=A0# They are prefixed with either search/send, to differentiate if the=
- pattern is meant to be sent or searched to/from the target terminal<br>
-+# TESTIMAGE_PTEST_REPORT_DIR might be used to fetch additional reports (e=
-.g. JUnit like xml files) generated by ptests from the target device.<br>
-+# A ; separate list of remote_path:host_path is expected. The host_path i=
-s optional. It defaults to &quot;reports&quot;.<br>
-+# For example if some ptests (such as <a href=3D"http://ptest-example.bb"=
- rel=3D"noreferrer" target=3D"_blank">ptest-example.bb</a>) create addition=
-al reports in /tmp/ptest-xml/ the following line in the image recipe<br>
-+# configures the ptest imagetest to fetch the xml reports into a &quot;xm=
-l-reports&quot; subfolder of TEST_LOG_DIR:<br>
-+# TESTIMAGE_PTEST_REPORT_DIR =3D &quot;/tmp/ptest-xml/*.xml:xml-reports&q=
++=C2=A0 =C2=A0 &lt;testcase name=3D&quot;readConfiguration&quot; status=3D=
+&quot;run&quot; result=3D&quot;completed&quot; time=3D&quot;0.010&quot; tim=
+estamp=3D&quot;2020-09-20T10:44:23&quot; classname=3D&quot;ConfigurationTes=
+t&quot; /&gt;<br>
++=C2=A0 &lt;/testsuite&gt;<br>
++&lt;/testsuites&gt;<br>
++xxxEOFxxx<br>
++<br>
++# The ptest-runner evaluates the exit value of a test case: 0 means pass,=
+ 1 means fail.<br>
++# This minimal example passes always.<br>
++exit 0<br>
+diff --git a/meta-skeleton/recipes-skeleton/ptest-example/<a href=3D"http:=
+//ptest-example_0.1.bb" rel=3D"noreferrer" target=3D"_blank">ptest-example_=
+0.1.bb</a> b/meta-skeleton/recipes-skeleton/ptest-example/<a href=3D"http:/=
+/ptest-example_0.1.bb" rel=3D"noreferrer" target=3D"_blank">ptest-example_0=
+.1.bb</a><br>
+new file mode 100644<br>
+index 0000000000..02bc9bcfa2<br>
+--- /dev/null<br>
++++ b/meta-skeleton/recipes-skeleton/ptest-example/<a href=3D"http://ptest=
+-example_0.1.bb" rel=3D"noreferrer" target=3D"_blank">ptest-example_0.1.bb<=
+/a><br>
+@@ -0,0 +1,16 @@<br>
++SUMMARY =3D &quot;A very basic ptest enabled recipe&quot;<br>
++DESCRIPTION =3D &quot;This recipe provides a minimalistic ptest package&q=
 uot;<br>
-<br>
-=C2=A0TEST_LOG_DIR ?=3D &quot;${WORKDIR}/testimage&quot;<br>
-<br>
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/=
-cases/ptest.py<br>
-index 0800f3c27f..7b3560a4b0 100644<br>
---- a/meta/lib/oeqa/runtime/cases/ptest.py<br>
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py<br>
-@@ -110,3 +110,27 @@ class PtestRunnerTest(OERuntimeTestCase):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if failmsg:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.logger.warning(&quot;=
-There were failing ptests.&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.fail(failmsg)<br>
++SECTION =3D &quot;examples&quot;<br>
++LICENSE =3D &quot;MIT&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9=
+cfbcb788c80a0384361b4de20420&quot;<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Fetch log files e.g. JUnit like xml files f=
-rom the target device<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptest_report_dir =3D self.td.get(&#39;TESTIMA=
-GE_PTEST_REPORT_DIR&#39;, &#39;&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ptest_report_dir:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for test_log_dir_ptest in ptest=
-_report_dir.split(&#39;;&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_tgt =3D test_=
-log_dir_ptest.split(&#39;:&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(src_tgt) =
-=3D=3D 1:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt=
-_dir_abs =3D os.path.join(ptest_log_dir, &quot;reports&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif len(src_tgt)=
- =3D=3D 2:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt=
-_dir_abs =3D os.path.join(ptest_log_dir, src_tgt[1])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sel=
-f.logger.error(&quot;Invalid TESTIMAGE_PTEST_REPORT_DIR setting&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.copy_logs(sr=
-c_tgt[0], tgt_dir_abs)<br>
++# A recipe is &quot;ptest-enabled&quot; if it inherits the ptest class<br=
+>
++inherit ptest<br>
 +<br>
-+=C2=A0 =C2=A0 def copy_logs(self, remoteSrc, localDst):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.logger.debug(&quot;Fetching from target:=
- %s to %s&quot; % (remoteSrc, localDst))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(localDst):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from shutil import rmtree<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rmtree(localDst)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.makedirs(localDst)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.target.copyFrom(remoteSrc,=
- localDst)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except AssertionError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
++# Usually a ptest contains at least two items: the actual test,<br>
++# and a shell script (run-ptest) that starts the test.<br>
++# For this minimized example there is just the script.<br>
++SRC_URI =3D &quot;file://run-ptest&quot;<br>
++<br>
++# This minimalistic example provides nothing more than a ptest package.<b=
+r>
++ALLOW_EMPTY_${PN} =3D &quot;1&quot;<br>
 -- <br>
 2.31.1<br>
 <br>
@@ -257,4 +258,4 @@ c_tgt[0], tgt_dir_abs)<br>
 <br>
 </blockquote></div>
 
---0000000000001371a505c3e01e9c--
+--000000000000ec168a05c3e02669--
