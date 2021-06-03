@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.2146.1622683485046418238
+ by mx.groups.io with SMTP id smtpd.web08.2147.1622683485076144428
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Jun 2021 18:24:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 4B40538C08EF
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0F78C38C08DA
 	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:44 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Zang Ruochen <zangrc.fnst@fujitsu.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] elfutils: upgrading to 0.185 FAILED
-Message-ID: <MADEUP.1684EE084CC4EB90.31310@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============7038061563026834440=="
+Subject: [AUH] util-linux-libuuid: upgrading to 2.37 FAILED
+Message-ID: <MADEUP.1684EE08568BAE4B.11265@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============5993983476266126333=="
 
---===============7038061563026834440==
+--===============5993983476266126333==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,18 +23,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *elfutils* to *0.185* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *util-linux-libuuid* to *2.37* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe elfutils failed.
+Running 'devtool upgrade' for recipe util-linux-libuuid failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1459 entries from dependency cache.
 INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
@@ -45,23 +44,23 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-5dc5fdca73c3541e04eec6440cc7e57360271eb4"
+DISTRO_VERSION       = "3.3+snapshot-9d1b332292a94cd4463f1e88dfe293847264714e"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5dc5fdca73c3541e04eec6440cc7e57360271eb4"
+meta-yocto-bsp       = "tmp-auh-upgrades:9d1b332292a94cd4463f1e88dfe293847264714e"
 workspace            = "master:9d1b332292a94cd4463f1e88dfe293847264714e"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 22 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 7 seconds
 INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://sourceware.org/elfutils/ftp/0.185/elfutils-0.185.tar.bz2...
+INFO: Fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.tar.xz...
 Loading cache...done.
 Loaded 1459 entries from dependency cache.
 Parsing recipes...done.
@@ -75,45 +74,48 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-5dc5fdca73c3541e04eec6440cc7e57360271eb4"
+DISTRO_VERSION       = "3.3+snapshot-9d1b332292a94cd4463f1e88dfe293847264714e"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5dc5fdca73c3541e04eec6440cc7e57360271eb4"
+meta-yocto-bsp       = "tmp-auh-upgrades:9d1b332292a94cd4463f1e88dfe293847264714e"
 workspace            = "master:9d1b332292a94cd4463f1e88dfe293847264714e"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 18 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 0 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase d1ae7608c57535e7aeb90cc3a3b9db308f997add' failed:
+Adding changed files:  12% |####                                | ETA:  0:00:01
+Adding changed files:  25% |#########                           | ETA:  0:00:01
+Adding changed files:  38% |#############                       | ETA:  0:00:00
+Adding changed files:  51% |##################                  | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:01
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
+WARNING: Command 'git rebase 31980d275e7f40842ea4e1bdfa9185eb7d34a477' failed:
 First, rewinding head to replay your work on top of it...
-Applying: dso link change
-Applying: Fix elf_cvt_gunhash if dest and src are same.
-Applying: fixheadercheck
-Applying: Fix build on aarch64/musl
-Applying: libasm may link with libbz2 if found
-Applying: libelf/elf_end.c: check data_list.data.d.d_buf before free it
-Applying: skip the test when gcc not deployed
-Applying: Changes to allow ptest to run standalone on target:
-Applying: tests/Makefile.am: compile test_nlist with standard CFLAGS
-Applying: add support for ipkg to debuginfod.cxx
+Applying: util-linux: Ensure that ${sbindir} is respected
+Applying: Define TESTS variable
 Using index info to reconstruct a base tree...
-M	debuginfod/debuginfod.cxx
+M	Makefile.am
 Falling back to patching base and 3-way merge...
-Auto-merging debuginfod/debuginfod.cxx
-CONFLICT (content): Merge conflict in debuginfod/debuginfod.cxx
+Auto-merging Makefile.am
+Applying: Display testname for subtest
+Applying: util-linux: Add ptest
+Using index info to reconstruct a base tree...
+M	configure.ac
+Falling back to patching base and 3-way merge...
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
 error: Failed to merge in the changes.
-Patch failed at 0010 add support for ipkg to debuginfod.cxx
+Patch failed at 0004 util-linux: Add ptest
 Use 'git am --show-current-patch' to see the failed patch
 
 Resolve all conflicts manually, mark them as resolved with
@@ -122,8 +124,8 @@ You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/elfutils
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/elfutils/elfutils_0.185.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/util-linux-libuuid
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/util-linux-libuuid/util-linux-libuuid_2.37.bb
 
 
 
@@ -134,4 +136,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7038061563026834440==--
+--===============5993983476266126333==--
