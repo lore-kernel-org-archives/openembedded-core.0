@@ -1,118 +1,260 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web08.219.1622740938696868984
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+ by mx.groups.io with SMTP id smtpd.web11.128.1622742229183088530
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 10:22:19 -0700
+ Thu, 03 Jun 2021 10:43:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BuG03kx8;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id r11so7986721edt.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 10:22:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I+HVMOCz;
+ spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f52.google.com with SMTP id m23so3745849uao.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 10:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZVciVGWwWOxRg6hpcw+o+R4gU7szakn27rmXCrqAu/s=;
-        b=BuG03kx8lwxztCbVMc5NzvUd0davud2Ckk8ms7G1N0/2JLTz/YD0RCxqYHbVcsZGQB
-         bbruCpvHGjfIUyT3A46g2agZ7XcJyenHo/N1Zzj9Pb4m6eo9hDz40BoVKQJlB5z13gDP
-         n1A0vrz462O704EcHoIKvyHOkGL9v1n8/xbrIX6v9aBRLzj5VYc2OKxx6F6yY22KTZ1/
-         DUtonv5TwRfEFfJ93H3Kf0Zes2s8ueRJ2R7nS9E28AVGLqIotvoO3dcmPi2kP5Fbxx3f
-         bIU5Zf+mFE+FjnZbmmjkRXmb07dM0587cAgbKuek4ADXFcNKD4UKh0VDfTM2AB9QJ0a7
-         jqPA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3e6uzghvhrBu+AAcsFJZZIEY0u83T2ygXPHkZ8yn9lM=;
+        b=I+HVMOCzwzg2qN+X8DQgr0pOtz7B0i5VSFniH6JcX4zt5NQh9aYRt52yev4379ZsXE
+         6vc5X8h/LeVY9M8YP0fHXOkNLYggW+f5Fu8o1O3FBBBhi/E+R8xe+1NdmEhbimI3TE1i
+         vROtUWSjFgkWMoSJytfR8ON6c6IOL8MDmd3KCJ2PaN0U0rFLExwbaGCyEx6D4ebYVJ50
+         FqEfRppY/iwbIPGlXjnG2kgIHLd0fiu6ZM0a+mWkBKfAWXodb6lFqOUkVIr7oxGrO2FY
+         VX2PUJd5ZS4a9twtgAJLdk7SXJFxSHpsfm3GJncBcTrhs12G8jvXsHZzvbJa7fOQ7jw7
+         oPZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZVciVGWwWOxRg6hpcw+o+R4gU7szakn27rmXCrqAu/s=;
-        b=PToZ1e1Tcb9x6bAFLRKIQGhUBqf6Mz1ARWVybB3IDSjiNpAN/OLE8TN/MdxvR4j1Bi
-         NTIpmrFb5kKl9Yy7GNwmaG9G0WRUhXUdFCRh8SP5tI4F3G62oW7JTcjGE4q0ZQP9sWdf
-         FfRlkG9T6fLknd51xun7PSECih/WWs4eIcbD60gdx5dynyMukXjM/pQPTdnJuCnKKJRS
-         op18/SWcsfN5lTle89ACzeYAGGEGo1rhd+vwNar+0qHH2d6agUrmWA3aZ+Oz9QCfw+b5
-         5GXeq6yU+SjH8t2b37dnj7AErtfrdmlDXuG1trzWw+Qr9O6avr8/zoNqITQCBMyJth37
-         qv5A==
-X-Gm-Message-State: AOAM531+oidj/lNRu931vutKfrlMTPhAbjNfmVy1zOapvi/acO2Ku3fz
-	dPYByTTbFFn/Tzb658Cf1qoQGGFdJFAg4RbO
-X-Google-Smtp-Source: ABdhPJxTXifdkKE+LRl6e7iFf+CbU043sDApHEtf2pjmJLP9tH2wchGDPMde95hCFbr4okpICu2M4A==
-X-Received: by 2002:aa7:cb8d:: with SMTP id r13mr603203edt.184.1622740937108;
-        Thu, 03 Jun 2021 10:22:17 -0700 (PDT)
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from md2ramxc.lan.ffah.ch ([62.32.0.69])
-        by smtp.gmail.com with ESMTPSA id g4sm2054187edw.8.2021.06.03.10.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 10:22:16 -0700 (PDT)
-From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 3/3] runtime_test.py: add new testimage ptest test case
-Date: Thu,  3 Jun 2021 19:21:49 +0200
-Message-Id: <20210603172149.100248-3-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210603172149.100248-1-adrian.freihofer@siemens.com>
-References: <20210603172149.100248-1-adrian.freihofer@siemens.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3e6uzghvhrBu+AAcsFJZZIEY0u83T2ygXPHkZ8yn9lM=;
+        b=ruy+4QR651/7hxanTG2Q1c4ZJvMvfVJF2dIkVV3Whc28FVK+0uoGYPwlDY81IBFpQu
+         lSrLw6Dd6iV7vxCzitBkn9D32nf9J9OFrKNj+J/KZShprxRApV7sfNw+JUopKuLgC9Lp
+         2adUkuLcVWkLUEqmtNNVKWE39pBtU8G/G+RdMSzwIC9M1un3XEQ9fo7JQChdVB+ofoBi
+         uwD47MzBwEK4F13vifmknvyblNuzVLWs1Dqx6cZxjkvI82E5Po6J61S5E1sLoxGQJDRa
+         /Ifrl63OczEkapxtCXUPkTIz5+v6DSzVuANSLHMFpmH8AUnjOObmFYCfclWaS9/ClYuk
+         Ol2w==
+X-Gm-Message-State: AOAM533sekxGdT2AY/mrMhXIrlfQHe2J0PMSoPBbZ0YEcyNSXeRCMVnW
+	BkaZhQ+UtMGBLb4rezdH2F9ASPERY85vvDVgKSs=
+X-Google-Smtp-Source: ABdhPJw628GUVUwZHEM8rdKZ1UNRHjjvPamrhrurIHwqXxT89OY447vGwLvMi2LjvdPO/F5GvPaMm7lY25l00TsXcco=
+X-Received: by 2002:a9f:3e8e:: with SMTP id x14mr225007uai.71.1622742228233;
+ Thu, 03 Jun 2021 10:43:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210603172149.100248-1-adrian.freihofer@siemens.com> <20210603172149.100248-2-adrian.freihofer@siemens.com>
+In-Reply-To: <20210603172149.100248-2-adrian.freihofer@siemens.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 3 Jun 2021 19:43:37 +0200
+Message-ID: <CANNYZj_CueS0nTOwqkh6f57mqSEgh9w=o5VAcHjvBgFv7Q4Z0w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/3] testimage: support additional reports for ptests
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Content-Type: multipart/alternative; boundary="0000000000001371a505c3e01e9c"
 
-Add a new selftest for the ptest imagetest. The new feature
-TESTIMAGE_PTEST_REPORT_DIR is verified as well.
----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 44 ++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+--0000000000001371a505c3e01e9c
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 84c2cb77e8..2ef100f684 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -238,6 +238,50 @@ class TestImage(OESelftestTestCase):
-         bitbake('core-image-minimal')
-         bitbake('-c testimage core-image-minimal')
- 
-+    def test_testimage_ptest(self):
-+        """
-+        Summary: Verify ptest runtime test
-+        Expected: 1. Verify the ptest imagetest executes the ptest-example-ptest.
-+                  2. Verify the xml test report is downloaded to the ptest log files.
-+        Product: oe-core
-+        Author: Adrian Freihofer <adrian.freihofer@siemens.com>
-+        """
-+        report_subdir = ""
-+
-+        features = 'DISTRO_FEATURES_append = " ptest"\n'
-+        features += 'IMAGE_CLASSES += "testimage"\n'
-+        features += 'IMAGE_INSTALL_append = " ptest-example-ptest"\n'
-+        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-+        features += 'TESTIMAGE_PTEST_REPORT_DIR = "/tmp/ptest-xml/*.xml'
-+        if report_subdir:
-+            features += ':' + report_subdir
-+        features += '"\n'
-+        features += 'TEST_SUITES = "ping ssh ptest"\n'
-+        self.write_config(features)
-+
-+        self.append_bblayers_config('BBLAYERS_append = " ${TOPDIR}/../meta-skeleton"')
-+
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+
-+        vars = get_bb_vars(("TEST_LOG_DIR", "WORKDIR", "TOPDIR", "TESTIMAGE_PTEST_REPORT_DIR"), "core-image-minimal")
-+
-+        test_log_dir = vars["TEST_LOG_DIR"]
-+        if not test_log_dir:
-+            test_log_dir = os.path.join(vars["WORKDIR"], 'testimage')
-+        if not os.path.isabs(test_log_dir):
-+            test_log_dir = os.path.join(vars["TOPDIR"], test_log_dir)
-+        ptest_log_dir_link = os.path.join(test_log_dir, 'ptest_log')
-+
-+        ptest_runner_log = os.path.join(ptest_log_dir_link, 'ptest-runner.log')
-+        self.assertTrue(os.path.isfile(ptest_runner_log), "%s is not available." % ptest_runner_log)
-+
-+        if not report_subdir:
-+            report_subdir = 'reports'
-+        ptest_example_log = os.path.join(ptest_log_dir_link, report_subdir, 'ptest-example.xml')
-+        self.assertTrue(os.path.isfile(ptest_example_log), "%s is not available." % ptest_example_log)
-+
-+
- class Postinst(OESelftestTestCase):
- 
-     def init_manager_loop(self, init_manager):
--- 
-2.31.1
+Why does this need to be specifically in ptest.py? It only copies some
+files over from the target; you can write a separate runtime testcase that
+does the same.
 
+Alex
+
+On Thu, 3 Jun 2021 at 19:22, Adrian Freihofer <adrian.freihofer@gmail.com>
+wrote:
+
+> This adds a new optional feature to the ptest run-time test. Most unit
+> test frameworks such as googletest generate JUnit like XML reports which
+> can be processed e.g. by GitLab CI or Jenkins.
+>
+> Example: A run-ptest script executes a googletest based unit test:
+>   /usr/bin/my-unittest --gtest_output="xml:/tmp/ptest-xml/"
+>
+> The new variable TESTIMAGE_PTEST_REPORT_DIR allows to configure
+> bitbake -c testimage to fetch the reports from the target device and
+> store them into a subfolder of TEST_LOG_DIR. It's possible to fetch
+> report files from different locations on the target device to different
+> subfolders on the host.
+> ---
+>  meta/classes/testimage.bbclass       |  5 +++++
+>  meta/lib/oeqa/runtime/cases/ptest.py | 24 ++++++++++++++++++++++++
+>  2 files changed, 29 insertions(+)
+>
+> diff --git a/meta/classes/testimage.bbclass
+> b/meta/classes/testimage.bbclass
+> index 43de9d4d76..d01892136f 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -47,6 +47,11 @@ TESTIMAGE_AUTO ??= "0"
+>  # TESTIMAGE_BOOT_PATTERNS[search_login_succeeded] = "webserver@
+> [a-zA-Z0-9\-]+:~#"
+>  # The accepted flags are the following: search_reached_prompt,
+> send_login_user, search_login_succeeded, search_cmd_finished.
+>  # They are prefixed with either search/send, to differentiate if the
+> pattern is meant to be sent or searched to/from the target terminal
+> +# TESTIMAGE_PTEST_REPORT_DIR might be used to fetch additional reports
+> (e.g. JUnit like xml files) generated by ptests from the target device.
+> +# A ; separate list of remote_path:host_path is expected. The host_path
+> is optional. It defaults to "reports".
+> +# For example if some ptests (such as ptest-example.bb) create
+> additional reports in /tmp/ptest-xml/ the following line in the image recipe
+> +# configures the ptest imagetest to fetch the xml reports into a
+> "xml-reports" subfolder of TEST_LOG_DIR:
+> +# TESTIMAGE_PTEST_REPORT_DIR = "/tmp/ptest-xml/*.xml:xml-reports"
+>
+>  TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/ptest.py
+> b/meta/lib/oeqa/runtime/cases/ptest.py
+> index 0800f3c27f..7b3560a4b0 100644
+> --- a/meta/lib/oeqa/runtime/cases/ptest.py
+> +++ b/meta/lib/oeqa/runtime/cases/ptest.py
+> @@ -110,3 +110,27 @@ class PtestRunnerTest(OERuntimeTestCase):
+>          if failmsg:
+>              self.logger.warning("There were failing ptests.")
+>              self.fail(failmsg)
+> +
+> +        # Fetch log files e.g. JUnit like xml files from the target device
+> +        ptest_report_dir = self.td.get('TESTIMAGE_PTEST_REPORT_DIR', '')
+> +        if ptest_report_dir:
+> +            for test_log_dir_ptest in ptest_report_dir.split(';'):
+> +                src_tgt = test_log_dir_ptest.split(':')
+> +                if len(src_tgt) == 1:
+> +                    tgt_dir_abs = os.path.join(ptest_log_dir, "reports")
+> +                elif len(src_tgt) == 2:
+> +                    tgt_dir_abs = os.path.join(ptest_log_dir, src_tgt[1])
+> +                else:
+> +                    self.logger.error("Invalid TESTIMAGE_PTEST_REPORT_DIR
+> setting")
+> +                self.copy_logs(src_tgt[0], tgt_dir_abs)
+> +
+> +    def copy_logs(self, remoteSrc, localDst):
+> +        self.logger.debug("Fetching from target: %s to %s" % (remoteSrc,
+> localDst))
+> +        if os.path.exists(localDst):
+> +            from shutil import rmtree
+> +            rmtree(localDst)
+> +        os.makedirs(localDst)
+> +        try:
+> +            self.target.copyFrom(remoteSrc, localDst)
+> +        except AssertionError:
+> +            pass
+> --
+> 2.31.1
+>
+>
+> 
+>
+>
+
+--0000000000001371a505c3e01e9c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Why does this need to be specifically in ptest.py? It only=
+ copies some files over from the target; you can write a separate runtime t=
+estcase that does the same.<br><div><br></div><div>Alex<br></div></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 3 =
+Jun 2021 at 19:22, Adrian Freihofer &lt;<a href=3D"mailto:adrian.freihofer@=
+gmail.com">adrian.freihofer@gmail.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">This adds a new optional feature to th=
+e ptest run-time test. Most unit<br>
+test frameworks such as googletest generate JUnit like XML reports which<b=
+r>
+can be processed e.g. by GitLab CI or Jenkins.<br>
+<br>
+Example: A run-ptest script executes a googletest based unit test:<br>
+=C2=A0 /usr/bin/my-unittest --gtest_output=3D&quot;xml:/tmp/ptest-xml/&quo=
+t;<br>
+<br>
+The new variable TESTIMAGE_PTEST_REPORT_DIR allows to configure<br>
+bitbake -c testimage to fetch the reports from the target device and<br>
+store them into a subfolder of TEST_LOG_DIR. It&#39;s possible to fetch<br=
+>
+report files from different locations on the target device to different<br=
+>
+subfolders on the host.<br>
+---<br>
+=C2=A0meta/classes/testimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +=
+++++<br>
+=C2=A0meta/lib/oeqa/runtime/cases/ptest.py | 24 ++++++++++++++++++++++++<b=
+r>
+=C2=A02 files changed, 29 insertions(+)<br>
+<br>
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbcla=
+ss<br>
+index 43de9d4d76..d01892136f 100644<br>
+--- a/meta/classes/testimage.bbclass<br>
++++ b/meta/classes/testimage.bbclass<br>
+@@ -47,6 +47,11 @@ TESTIMAGE_AUTO ??=3D &quot;0&quot;<br>
+=C2=A0# TESTIMAGE_BOOT_PATTERNS[search_login_succeeded] =3D &quot;webserve=
+r@[a-zA-Z0-9\-]+:~#&quot;<br>
+=C2=A0# The accepted flags are the following: search_reached_prompt, send_=
+login_user, search_login_succeeded, search_cmd_finished.<br>
+=C2=A0# They are prefixed with either search/send, to differentiate if the=
+ pattern is meant to be sent or searched to/from the target terminal<br>
++# TESTIMAGE_PTEST_REPORT_DIR might be used to fetch additional reports (e=
+.g. JUnit like xml files) generated by ptests from the target device.<br>
++# A ; separate list of remote_path:host_path is expected. The host_path i=
+s optional. It defaults to &quot;reports&quot;.<br>
++# For example if some ptests (such as <a href=3D"http://ptest-example.bb"=
+ rel=3D"noreferrer" target=3D"_blank">ptest-example.bb</a>) create addition=
+al reports in /tmp/ptest-xml/ the following line in the image recipe<br>
++# configures the ptest imagetest to fetch the xml reports into a &quot;xm=
+l-reports&quot; subfolder of TEST_LOG_DIR:<br>
++# TESTIMAGE_PTEST_REPORT_DIR =3D &quot;/tmp/ptest-xml/*.xml:xml-reports&q=
+uot;<br>
+<br>
+=C2=A0TEST_LOG_DIR ?=3D &quot;${WORKDIR}/testimage&quot;<br>
+<br>
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/=
+cases/ptest.py<br>
+index 0800f3c27f..7b3560a4b0 100644<br>
+--- a/meta/lib/oeqa/runtime/cases/ptest.py<br>
++++ b/meta/lib/oeqa/runtime/cases/ptest.py<br>
+@@ -110,3 +110,27 @@ class PtestRunnerTest(OERuntimeTestCase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if failmsg:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.logger.warning(&quot;=
+There were failing ptests.&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.fail(failmsg)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Fetch log files e.g. JUnit like xml files f=
+rom the target device<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptest_report_dir =3D self.td.get(&#39;TESTIMA=
+GE_PTEST_REPORT_DIR&#39;, &#39;&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ptest_report_dir:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for test_log_dir_ptest in ptest=
+_report_dir.split(&#39;;&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_tgt =3D test_=
+log_dir_ptest.split(&#39;:&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(src_tgt) =
+=3D=3D 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt=
+_dir_abs =3D os.path.join(ptest_log_dir, &quot;reports&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif len(src_tgt)=
+ =3D=3D 2:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt=
+_dir_abs =3D os.path.join(ptest_log_dir, src_tgt[1])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sel=
+f.logger.error(&quot;Invalid TESTIMAGE_PTEST_REPORT_DIR setting&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.copy_logs(sr=
+c_tgt[0], tgt_dir_abs)<br>
++<br>
++=C2=A0 =C2=A0 def copy_logs(self, remoteSrc, localDst):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.logger.debug(&quot;Fetching from target:=
+ %s to %s&quot; % (remoteSrc, localDst))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(localDst):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from shutil import rmtree<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rmtree(localDst)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.makedirs(localDst)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.target.copyFrom(remoteSrc,=
+ localDst)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except AssertionError:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000001371a505c3e01e9c--
