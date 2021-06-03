@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.2060.1622683486781220536
+ by mx.groups.io with SMTP id smtpd.web11.2088.1622683487221768360
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jun 2021 18:24:46 -0700
+ Wed, 02 Jun 2021 18:24:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id AA59838C08EF
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:46 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 214DD38C0F49
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:47 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxi: upgrading to 1.7.99.2 SUCCEEDED
-Message-ID: <MADEUP.1684EE08B8F26D16.6146@lists.openembedded.org>
-X-Groupsio-MsgNum: 152576
-Content-Type: multipart/mixed; boundary="===============5929028735953814682=="
+Subject: [AUH] xorgproto: upgrading to 2021.4.99.2 SUCCEEDED
+Message-ID: <MADEUP.1684EE08D3304A75.6146@lists.openembedded.org>
+X-Groupsio-MsgNum: 152577
+Content-Type: multipart/mixed; boundary="===============3979255299665905404=="
 
---===============5929028735953814682==
+--===============3979255299665905404==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxi* to *1.7.99.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *xorgproto* to *2021.4.99.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxi-upgrade-1.7.10-1.7.99.2.patch
+    - apply the patch: git am 0001-xorgproto-upgrade-2021.4.99.1-2021.4.99.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,71 +44,30 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5929028735953814682==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-libxi-upgrade-1.7.10-1.7.99.2.patch"
-
-From ef5ccfb3f56f73409e0952db36e2695ce2bb9cf1 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 2 Jun 2021 21:24:19 +0000
-Subject: [PATCH] libxi: upgrade 1.7.10 -> 1.7.99.2
-
----
- .../xorg-lib/{libxi_1.7.10.bb => libxi_1.7.99.2.bb}            | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxi_1.7.10.bb => libxi_1.7.99.2.bb} (82%)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb b/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb
-similarity index 82%
-rename from meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb
-rename to meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb
-index 5a08e07362..8afa9aa527 100644
---- a/meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb
-@@ -17,7 +17,6 @@ PE = "1"
- 
- XORG_PN = "libXi"
- 
--SRC_URI[md5sum] = "62c4af0839072024b4b1c8cbe84216c7"
--SRC_URI[sha256sum] = "36a30d8f6383a72e7ce060298b4b181fd298bc3a135c8e201b7ca847f5f81061"
-+SRC_URI[sha256sum] = "2ce90ebcb7fa0c3ed671924f1268b8f4c500fff62e1284699fc413e182a7896b"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.17.1
-
-
---===============5929028735953814682==
+--===============3979255299665905404==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libxi: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXi-1.7.10.tar.bz2" to "https://www.x.org/releases//individual/lib/libXi-1.7.99.2.tar.bz2"
-packages/core2-32-poky-linux/libxi: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi-dbg: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi/libxi-dbg: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi-dbg: PKGSIZE changed from 1459860 to 1466456 (+0%)
-packages/core2-32-poky-linux/libxi/libxi-dev: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi/libxi-dev: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi-dev: PKGSIZE changed from 55052 to 58235 (+6%)
-packages/core2-32-poky-linux/libxi/libxi-doc: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi/libxi-doc: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi-doc: PKGSIZE changed from 236309 to 239280 (+1%)
-packages/core2-32-poky-linux/libxi/libxi-locale: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi/libxi-locale: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi-src: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi/libxi-src: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi-src: PKGSIZE changed from 370810 to 382447 (+3%)
-packages/core2-32-poky-linux/libxi/libxi-staticdev: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi/libxi-staticdev: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
-packages/core2-32-poky-linux/libxi/libxi: PV changed from "1.7.10" to "1.7.99.2"
-packages/core2-32-poky-linux/libxi/libxi: PKGSIZE changed from 75170 to 79266 (+5%)
+packages/core2-32-poky-linux/xorgproto: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto: SRC_URI changed from "https://www.x.org/releases//individual/proto/xorgproto-2021.4.99.1.tar.bz2" to "https://www.x.org/releases//individual/proto/xorgproto-2021.4.99.2.tar.bz2"
+packages/core2-32-poky-linux/xorgproto: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-dbg: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto/xorgproto-dbg: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PKGSIZE changed from 1149021 to 1149024 (+0%)
+packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-doc: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto/xorgproto-doc: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-locale: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto/xorgproto-locale: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-src: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto/xorgproto-src: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-staticdev: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto/xorgproto-staticdev: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto: PV changed from "2021.4.99.1" to "2021.4.99.2"
+packages/core2-32-poky-linux/xorgproto/xorgproto: PKGV changed from 2021.4.99.1 [default] to 2021.4.99.2 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1435,7 +1394,44 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoffout.h was removed
 
---===============5929028735953814682==
+--===============3979255299665905404==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-xorgproto-upgrade-2021.4.99.1-2021.4.99.2.patch"
+
+From 3215a0730ae4365730f3053547dd57cb2aad883f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Wed, 2 Jun 2021 21:28:17 +0000
+Subject: [PATCH] xorgproto: upgrade 2021.4.99.1 -> 2021.4.99.2
+
+---
+ .../{xorgproto_2021.4.99.1.bb => xorgproto_2021.4.99.2.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-proto/{xorgproto_2021.4.99.1.bb => xorgproto_2021.4.99.2.bb} (90%)
+
+diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb
+similarity index 90%
+rename from meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb
+rename to meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb
+index f4b0895154..8db3e6d7a3 100644
+--- a/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb
++++ b/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=dfc4bd2b0568b31725b85b0604e69b56"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "0bce7d4fe800dcb5581cc59a99946c12e6e0be292636544221ec73e96f1a28ed"
++SRC_URI[sha256sum] = "c38878053179c6f8bc2daeeeeb4710b5fbf0e46db5b3134aee4a1977ffb06e7a"
+ 
+ inherit meson
+ 
+-- 
+2.17.1
+
+
+--===============3979255299665905404==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2767,4 +2763,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoffout.h was removed
 
---===============5929028735953814682==--
+--===============3979255299665905404==--
