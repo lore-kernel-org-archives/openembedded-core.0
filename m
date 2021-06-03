@@ -1,21 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.2059.1622683485344292876
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.2169.1622683486234480934
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jun 2021 18:24:45 -0700
+ Wed, 02 Jun 2021 18:24:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id CD6E738C08EF
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:45 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 26B0438C08DA
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:46 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5 FAILED
-Message-ID: <MADEUP.1684EE087E76140E.2682@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============1780190878456968864=="
+Subject: [AUH] libinput: upgrading to 1.18.0 SUCCEEDED
+Message-ID: <MADEUP.1684EE08929B6E3F.31310@lists.openembedded.org>
+X-Groupsio-MsgNum: 152574
+Content-Type: multipart/mixed; boundary="===============3456241773592558779=="
 
---===============1780190878456968864==
+--===============3456241773592558779==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,52 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-samples* to *b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libinput* to *1.18.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libinput-upgrade-1.17.3-1.18.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade vulkan-samples -S b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1459 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-fa4e4a6687855e689ab79fa879f8b6e969f800d5"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:fa4e4a6687855e689ab79fa879f8b6e969f800d5"
-workspace            = "master:9d1b332292a94cd4463f1e88dfe293847264714e"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-ERROR: Command Error: 'sh -c 'PATCHFILE="0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch" git -c user.name="OpenEmbedded" -c user.email="oe.patch@oe" commit -F /tmp/tmplzzrq4r2 --author="Alexander Kanavin <alex.kanavin@gmail.com>" --date="Sun, 1 Nov 2020 23:19:22 +0000"'' exited with 0  Output:
-stdout: On branch devtool-orig
-Changes not staged for commit:
-	modified:   third_party/spirv-cross (modified content)
-
-no changes added to commit
-
-stderr: 
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-1874kh2f/temp/log.do_patch.27176
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-ERROR: Extracting source for vulkan-samples failed
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -76,4 +44,106 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1780190878456968864==--
+--===============3456241773592558779==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libinput: SRC_URI changed from "http://www.freedesktop.org/software/libinput/libinput-1.17.3.tar.xz file://run-ptest file://determinism.patch" to "http://www.freedesktop.org/software/libinput/libinput-1.18.0.tar.xz file://run-ptest file://determinism.patch"
+packages/core2-32-poky-linux/libinput: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-bin: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-bin: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-dbg: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 4334092 to 4358256 (+1%)
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-dev: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-dev: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-doc: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-doc: PKGSIZE changed from 41407 to 42556 (+3%)
+packages/core2-32-poky-linux/libinput/libinput-doc: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-locale: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-locale: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-ptest: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-ptest: PKGSIZE changed from 1191414 to 1195766 (+0%)
+packages/core2-32-poky-linux/libinput/libinput-ptest: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-src: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-src: PKGSIZE changed from 3224521 to 3239478 (+0%)
+packages/core2-32-poky-linux/libinput/libinput-src: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput: PKGSIZE changed from 1053188 to 1071074 (+2%)
+packages/core2-32-poky-linux/libinput/libinput: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+
+--===============3456241773592558779==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libinput-upgrade-1.17.3-1.18.0.patch"
+
+From 5779ab547496c553c99672563dcc51ed3bb8b430 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Wed, 2 Jun 2021 20:43:21 +0000
+Subject: [PATCH] libinput: upgrade 1.17.3 -> 1.18.0
+
+---
+ ...{libinput_1.17.3.bb => libinput_1.18.0.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.17.3.bb => libinput_1.18.0.bb} (66%)
+
+diff --git a/meta/recipes-graphics/wayland/libinput_1.17.3.bb b/meta/recipes-graphics/wayland/libinput_1.18.0.bb
+similarity index 66%
+rename from meta/recipes-graphics/wayland/libinput_1.17.3.bb
+rename to meta/recipes-graphics/wayland/libinput_1.18.0.bb
+index ef19146f79..d1dbace93b 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.17.3.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.18.0.bb
+@@ -1,3 +1,22 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -31,4 +31,4 @@
++#  version libinput is compiled against. The header is used during compilation
++#  only, libinput does not link against GPL libraries.
++#  
++# -[1] https://gitlab.freedesktop.org/libinput/libinput/blob/master/include/linux/input.h
++# +[1] https://gitlab.freedesktop.org/libinput/libinput/blob/main/include/linux/input.h
++# 
++#
++
+ SUMMARY = "Library to handle input devices in Wayland compositors"
+ DESCRIPTION = "libinput is a library to handle input devices in Wayland \
+ compositors and to provide a generic X.Org input driver. It provides \
+@@ -8,7 +27,7 @@ HOMEPAGE = "http://www.freedesktop.org/wiki/Software/libinput/"
+ SECTION = "libs"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
++LIC_FILES_CHKSUM = "file://COPYING;md5=bab4ac7dc1c10bc0fb037dc76c46ef8a"
+ 
+ DEPENDS = "libevdev udev mtdev libcheck"
+ 
+@@ -16,7 +35,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            file://determinism.patch \
+            "
+-SRC_URI[sha256sum] = "0d010e0bf601b5d3a06b3c4d77d67751cf554f3e6448e57aa046ea9ee8f818ac"
++SRC_URI[sha256sum] = "18c6a286583268d39841348e561fbb4713bde0c643b360f5d8a3f27800afdb9a"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
+-- 
+2.17.1
+
+
+--===============3456241773592558779==--
