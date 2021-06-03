@@ -1,77 +1,79 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.810.1622759038746438088
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.1131.1622760883440112813
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 15:23:59 -0700
+ Thu, 03 Jun 2021 15:54:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S18n9Kh4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id f2so7311371wri.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 15:23:58 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZmYwiqtY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id i94so2348868wri.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 15:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mlogxq+e0QRGSRiI5BYrJ+k9HXWSB5dBbs9HW/rl9dY=;
-        b=S18n9Kh4Jk7QW55JLom2EGmOSrVEdhW2rhwjJ/EiCG7gWzun8FDO9DL84f3hcVHzE1
-         fj6Hxi6CcXWWjkQUXZH+AKRcSzyWsk+gH3YQup5TsBr8mDoUizyG7B9miEfXlrLWJnwP
-         r7NaEdFc0g0SqK8PK/Hin8fVjS304n0yCH5Zk=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=JbpQDsBl1QLvMwmdR+FjWxrkerR/Gf0y1jLWNMrHblk=;
+        b=ZmYwiqtY8KR6/CfK4RcDF7lRehin+V70tXhNZ5aY5To4kgdkYcXxVDToYN141J1+D3
+         PdTOpcKU8UF29iYqpViBrl1d4clemk36TfNkDONySvRwa9sP8h0gvUpMhfL+j2Mv5BqY
+         EZrRHp6s2rVRajknnZqx2tI/NKvogmSEWxJYM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mlogxq+e0QRGSRiI5BYrJ+k9HXWSB5dBbs9HW/rl9dY=;
-        b=c1DIlV31GqmnS9ahgE8WoyNJPBAcd+z1h8tStQ5KSmzREb+ukQy9kmlSxal7rh7DeV
-         v+2hzo1fZG1H5Ed5Oa796yEkxQ6vP6jlICohbLu45QtW9Jbtg9F3HpEgsDMYztQ90k/r
-         NxrctYHu5jUkvbERMU+S4Cq7DuRa40JXHJBdh/yO1F7dvNknJx8UwN3egqlX0BunwoVM
-         F9C+iPNMT6zEYMlEGBHvhqSiMpNLoIewL7AyVo/q7Vw/chm4rHMuiXnp2bOkwwlzb5k2
-         zA0p2iqy5zquYZYS+SRJUirfATm2O1TIbbVvhWpqk76KS7s6cBb4vh8fpyjc4ApU3bgj
-         PDaQ==
-X-Gm-Message-State: AOAM532Eo/MnEPwVYh4fNlVol2Ai7HrXUjKACaANCyGl69WCZnOo/oI2
-	dAO/pCMqYmnvLoXLP8odB4cedp9fOq0AbQ==
-X-Google-Smtp-Source: ABdhPJwFLtYRSZEMdu7/TTpetvEQyPz/2SV3zcSa8K3dijO0dT3+CjtyNg7PiEHf13N8S7ZJXSaoWQ==
-X-Received: by 2002:a05:6000:1b8f:: with SMTP id r15mr585014wru.119.1622759036764;
-        Thu, 03 Jun 2021 15:23:56 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=JbpQDsBl1QLvMwmdR+FjWxrkerR/Gf0y1jLWNMrHblk=;
+        b=FwkC1qv7GKPwiikjrxtavk5H6KeJ3CLU4u9Ljxxyo5mpFw/Jxbgq9BC2Y0TWuRmmBG
+         bAB/rNz8L/Vxkt/vSRKiJ3mdocHscnsX/9qCTZ7SLqut8GKdyoLKTGaQiWf0xXfPBViT
+         uuSu/ZuewiXkj/N6w1gAQNx39NH9AafHB1wsNs387cwaTDw4jyWMgnXRE3q6D8PbXJfD
+         ZoejLMvatsb8jAYVLokSa1PYoyuoPzrFw3Kf/wz71LwcbLfQOFdj/cjLBMWjC0MKFw32
+         2ZGxwTPFw/ct1oL6CDUsyucA8zGrvWThDCU58BB6+JSz4oB5l908Kvy9fAlxdj9ulScv
+         dZSw==
+X-Gm-Message-State: AOAM530RcWhIMFDigiXay/5o6XCnBm9cRcLk/VpwMPcLmLcnC2eIvGk1
+	8bbHOfIU4UTXBi+662o81uMqiA==
+X-Google-Smtp-Source: ABdhPJwwcSNsvc3nuI46VUKAmTtdJXZ2J5EDzxnQAOClcGFr3SioVIR8HAHYkBGRI9gcMGagPAX1iQ==
+X-Received: by 2002:adf:dcc3:: with SMTP id x3mr647534wrm.177.1622760881695;
+        Thu, 03 Jun 2021 15:54:41 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1fce:265d:903f:2948])
-        by smtp.gmail.com with ESMTPSA id o129sm6837497wmo.22.2021.06.03.15.23.56
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:1fce:265d:903f:2948? ([2001:8b0:aba:5f3c:1fce:265d:903f:2948])
+        by smtp.gmail.com with ESMTPSA id 125sm7488131wmb.34.2021.06.03.15.54.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 15:23:56 -0700 (PDT)
+        Thu, 03 Jun 2021 15:54:41 -0700 (PDT)
+Message-ID: <25117a5d416119bb7432e250b9d5377d073c4251.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] util-linux: upgrade 2.36.2 -> 2.37
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/fetch: Avoid occasional selftest failure from poor temp file name choice
-Date: Thu,  3 Jun 2021 23:23:56 +0100
-Message-Id: <20210603222356.2971294-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 03 Jun 2021 23:54:38 +0100
+In-Reply-To: <1622704403-26153-4-git-send-email-wangmy@fujitsu.com>
+References: <1622704403-26153-1-git-send-email-wangmy@fujitsu.com>
+	 <1622704403-26153-4-git-send-email-wangmy@fujitsu.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The temp file name may contain "_" characters. Avoid this to avoid errors like:
+On Thu, 2021-06-03 at 15:13 +0800, wangmy wrote:
+> avoid_parallel_tests.patch
+> Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
+> removed since they are included in 2.37
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...d_2.36.2.bb => util-linux-libuuid_2.37.bb} |  0
+>  meta/recipes-core/util-linux/util-linux.inc   |  4 +-
+>  ...RA_LTLIBRARIES-instead-of-noinst_LTL.patch | 49 -------------------
+>  .../util-linux/avoid_parallel_tests.patch     | 20 --------
+>  ...til-linux_2.36.2.bb => util-linux_2.37.bb} |  0
+>  5 files changed, 1 insertion(+), 72 deletions(-)
+>  rename meta/recipes-core/util-linux/{util-linux-libuuid_2.36.2.bb => util-linux-libuuid_2.37.bb} (100%)
+>  delete mode 100644 meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
+>  delete mode 100644 meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+>  rename meta/recipes-core/util-linux/{util-linux_2.36.2.bb => util-linux_2.37.bb} (100%)
 
-bb.data_smart.ExpansionError: Failure expanding variable PN, expression was
-${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'}
-which triggered exception ParseError:
-ParseError in /tmp/tmpd_f2__to.bb: Unable to generate default variables from
-filename (too many underscores)
+This threw warnings on the autobuilder:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/fetch.py | 2 ++
- 1 file changed, 2 insertions(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/3794
 
-diff --git a/meta/lib/oeqa/selftest/cases/fetch.py b/meta/lib/oeqa/selftest/cases/fetch.py
-index 67e85d3e4c7..1d223c0778f 100644
---- a/meta/lib/oeqa/selftest/cases/fetch.py
-+++ b/meta/lib/oeqa/selftest/cases/fetch.py
-@@ -57,6 +57,8 @@ MIRRORS_forcevariable = "git://.*/.* http://downloads.yoctoproject.org/mirror/so
- class Dependencies(OESelftestTestCase):
-     def write_recipe(self, content):
-         f = tempfile.NamedTemporaryFile(mode="wt", suffix=".bb")
-+        while "_" in f.name:
-+            f = tempfile.NamedTemporaryFile(mode="wt", suffix=".bb")
-         f.write(content)
-         f.flush()
-         return f
--- 
-2.30.2
+I aborted the build run.
+
+Cheers,
+
+Richard
 
