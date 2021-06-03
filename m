@@ -1,149 +1,237 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web10.8639.1622730378990494609
- for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 07:26:19 -0700
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.8763.1622730924151401605
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 03 Jun 2021 07:35:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from bras-base-otwaon0916w-grc-52-70-26-112-209.dsl.bell.ca ([70.26.112.209]:47278 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1looIb-00Ac8U-5k; Thu, 03 Jun 2021 10:26:17 -0400
-Date: Thu, 3 Jun 2021 10:26:13 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Andrea Adami <andrea.adami@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] want to clarify proper approach to shared lib (.so) installation
-In-Reply-To: <CAAQYJAveuBzyGwA4uh967Y=x0=TgFsdQzy4fnA8U64Xp2yBCLA@mail.gmail.com>
-Message-ID: <af372b1c-d83-8484-d4b0-c8d43c2375f6@crashcourse.ca>
-References: <b389383-5997-4638-97f-e6919364bda7@crashcourse.ca> <CAAQYJAveuBzyGwA4uh967Y=x0=TgFsdQzy4fnA8U64Xp2yBCLA@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G1i5NQfy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id g8so9629018ejx.1
+        for <Openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 07:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mg5sq8ujAghp5goxIQeVuxRIpTjSWXZrq4IwDvEjHvc=;
+        b=G1i5NQfyYyTh+Fdhn6iGzpGFqm/FrmCFc5CMKyga5jVwKVQVc4GyVmWKXmlwZmqRhp
+         b141KdGgbpOm5H5KLXjQANhQ7JQQiBp0+0O0eg2n08933JNM6K/+XX8IXumRn1y2LiaV
+         Qpb5viMvCeGIbi2XqUjtGOVTvnyrDQjfV2Sl0Co4IoVVUEasO8fi/dHU16cvsBN43vz2
+         Ac+so5GdLdkrAOkYJQ8aex+D+NkEq36SKVovDD8ea7GlSwuCWCwX2E6i7iMiUvPgaHg3
+         iJ2oX7P8JliQaYgBiYU0rFMGPpDU8pYBmSmZ6yt8xeyKEZtLDAX/w/ezpAMELKZCzyaL
+         /EvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mg5sq8ujAghp5goxIQeVuxRIpTjSWXZrq4IwDvEjHvc=;
+        b=N6hnVW0kWJ2TheGZENgfyTmwfF9c3lsh8fYQeth+sbGDSTFUwStQRgPetXWL7XmPCw
+         V/ff1dpBUifB+5t8B64rDqIPYft/mQkJgYfulW1MnObOoHeBVCw9bLmQBbEn+swA8/GW
+         JCyW7YoU492nOwwn7MmVbHkuBHvULKE7KrwpLm5lCq9OjYRwlQCKRPW9sQVw0Oi9aDGs
+         dagaMB5BJRICKxbxFRAqSYwovuArM/qatHCT3xDnpbwKRtGEt/5nYW9QZJ6aEt9txYR/
+         CcAV805xKxxwU00XJUelY6+Rc/PzLzt7E1TTl9HJaxsMiYjaN0/VKaAhFECruXYMHr9l
+         sjGg==
+X-Gm-Message-State: AOAM531Z2o2B+LjAwqfwAT2MsZIPjayFOFDNhJisEsdYc/mAC0snrxzs
+	pWCWH4zpF1Mj7o4Hcez3gCW5H7IUMntiZBDXAbE=
+X-Google-Smtp-Source: ABdhPJzRUkQ4eQcdwgzEPVa/FE4yMgetGPtClFnhC8QMnt0Li7ddwP+NAZeauIMjERMuj8gSALvdcbKrKo6fDOi1RIc=
+X-Received: by 2002:a17:906:c211:: with SMTP id d17mr39556301ejz.247.1622730922584;
+ Thu, 03 Jun 2021 07:35:22 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+References: <20210603142106.115932-1-uvv.mail@gmail.com>
+In-Reply-To: <20210603142106.115932-1-uvv.mail@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 3 Jun 2021 10:35:11 -0400
+Message-ID: <CADkTA4PF=kie6Q=sqUkZjyX=NB-yq5Ccqy-XryhZ6DNVgcrRFA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] overlayfs.bbclass: generate overlayfs mount units
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Cc: Patches and discussions about the oe-core layer <Openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 3 Jun 2021, Andrea Adami wrote:
+On Thu, Jun 3, 2021 at 10:21 AM Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
+>
+> It's often desired in Embedded System design to have a read-only rootfs.
+> But a lot of different applications might want to have a read-write access
+> to some parts of a filesystem. It can be especially useful when your update
+> mechanism overwrites the whole rootfs, but you want your application data
+> to be preserved between updates. This class provides a way to achieve that
+> by means of overlayfs and at the same time keeping the base rootfs read-only.
 
-> On Thu, Jun 3, 2021 at 4:01 PM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >
-> >
-> >   sort of a 2-part soliloquy. in current YP code base i've inherited,
-> > most of the internal (local directory SRC_URI-based) recipes inherit a
-> > proprietary class that, among doing other internal, proprietary
-> > things, totally redefines PACKAGES as:
-> >
-> >   PACKAGES = "${PN} ... ${PN}-dev ..."
-> >
-> > i had never really noticed that before, but it's pretty obvious that
-> > that's not a great idea, as it allows what i call the recipe "base"
-> > package (${PN}) to gather up everything that matches its standard
-> > wildcard pattern before moving on, in effect "stealing" content from
-> > subsequent packages they would normally get if the base package was at
-> > the end, not the beginning.
-> >
-> >   somehow, this has worked all this time, but it's clear(?) that what
-> > would be the "normal" contents of the various packages isn't going to
-> > be what one would expect; in particular, the base package is going to
-> > be what i call "overpackaged", with lots of stuff it doesn't really
-> > need so i'm guessing what's going into the image is more than is
-> > really necessary. somehow, though, it's worked all this time until
-> > recently, when i noticed this quirk was causing some Q/A issues, so i
-> > took a deep breath, commented out that line from the class file to use
-> > the default packaging approach and re-tried the build, which is when
-> > all hell broke loose.
-> >
-> >   it turns out that these internal recipes use local Makefile-based
-> > source directories, which build, then install their generated
-> > artifacts in a temporary (non-YP) staging area per recipe, *then*
-> > manually (little by little) install stuff in ${D} via a general
-> > do_install() routine, at which point the regular packaging and
-> > subsequent steps kick in, but it's what now gets copied into ${D} that
-> > is causing grief.
-> >
-> >   apparently, many of these recipes generate a shared library, and i'm
-> > well aware that the *normal* packaging involving a shared library is
-> > like this example from libidn2 (snipped for brevity to show only
-> > shared lib stuff):
-> >
-> >  libidn2/
-> >   usr/
-> >    lib/
-> >     libidn2.so.0 -> libidn2.so.0.3.7
-> >     libidn2.so.0.3.7                    [actual library file]
-> >
-> >  libidn2-dev/
-> >   usr/
-> >    lib/
-> >     libidn2.so -> libidn2.so.0.3.7
-> >
-> > so the *normal* packaging for a shared lib is that the lib itself and
-> > a symlink to it go into the base package, while another symlink goes
-> > into the "-dev" package. i'd never really paid that much attention to
-> > that until i reset that PACKAGES variable, as all of these internal
-> > recipes end up installing into ${D} nothing but the shared lib file
-> > itself under /usr/lib, and why this has worked all this time is a
-> > mystery, but having made this change is generating all sorts of Q/A
-> > diagnostics as this is what ends up in ${D} using a "fubar" recipe
-> > example given the manual installation being done using normal
-> > packaging:
-> >
-> >  fubar/
-> >   usr/
-> >    bin/
-> >     ... snip ...
-> >    no lib/ directory
-> >
-> >  fubar-dev/
-> >   usr/
-> >    lib/
-> >     libfnvcma.so            [actual shared lib]
-> >
-> > unsurprisingly, there are QA issues with the above:
-> >
-> > ERROR: fubar-1.0-r0 do_package_qa: QA Issue: -dev package contains non-symlink .so: fubar-dev
-> > path .../packages-split/fubar-dev/usr/lib/libfnvcma.so'[dev-elf]
-> > ERROR: fubar-1.0-r0 do_package_qa: QA Issue: fubar rdepends on fubar-dev [dev-deps]
-> >
-> >   *sigh*.
-> >
-> >   in short, because these internal recipes generate only the single
-> > shared lib file itself and that's all that's copied into ${D}, the
-> > regular Q/A tests will naturally barf, and i could use INSANE_SKIP all
-> > over the place to get around this, but it seems to me that the proper
-> > approach is to tell the developers that they need to start generating
-> > the appropriate symlinks for all of their recipes so packaging is done
-> > properly.
-> >
-> >   i'm just about to check if there is a switch or class i can invoke
-> > that will "fix" this issue (as in, set up the shared libs in ${D}
-> > properly), but apart from that, am i correct in thinking that the
-> > developers need to do this correctly from the beginning?
-> >
-> > rday
-> >
-> > 
-> >
->
-> Hi,
-> in the latter example you are packaging an unversioned shlib:
->
-> libfnvcma.so            [actual shared lib]
->
-> In this case you might play with
->  SOLIBS = ".so"
->  FILES_SOLIBSDEV = ""
->
-> Please have a look at
-> https://wiki.yoctoproject.org/wiki/TipsAndTricks/Packaging_Prebuilt_Libraries
+Hi Vyacheslav,
 
-  excellent, i was sure there was a simple solution to this.
+This looks like it could be quite useful, but a few comments came to
+mind on a really quick scan.
 
-rday
+Since this is systemd based, it should probably have
+REQUIRED_DISTRO_FEATURES = "systemd", to ensure that the rest of the
+system and packages are consistently enabled.
+
+As part of getting this into core, it needs some sort of test cases /
+test suite (and one that covers the different modes you describe in
+the class) .. so something like a test image (a user) and the tests
+themselves.
+
+It really also needs a maintainer entry, since otherwise the
+maintenance work falls to the same already overloaded folks.
+
+Since this is intended to be used on a per-recipe basis (at least that
+is my understanding from reading it), what happens if two recipes
+create conflicting overlay mounts ? or if the mentioned data.mount is
+not present in the image ?
+
+Bruce
+
+>
+> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> ---
+>  meta/classes/overlayfs.bbclass | 132 +++++++++++++++++++++++++++++++++
+>  1 file changed, 132 insertions(+)
+>  create mode 100644 meta/classes/overlayfs.bbclass
+>
+> diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
+> new file mode 100644
+> index 0000000000..7fac3e696e
+> --- /dev/null
+> +++ b/meta/classes/overlayfs.bbclass
+> @@ -0,0 +1,132 @@
+> +# Class for generation of overlayfs mount units
+> +#
+> +# It's often desired in Embedded System design to have a read-only rootfs.
+> +# But a lot of different applications might want to have a read-write access to
+> +# some parts of a filesystem. It can be especially useful when your update mechanism
+> +# overwrites the whole rootfs, but you want your application data to be preserved
+> +# between updates. This class provides a way to achieve that by means
+> +# of overlayfs and at the same time keeping the base rootfs read-only.
+> +#
+> +# Usage example.
+> +#
+> +# Set a mount point for a partition overlayfs is going to use as upper layer
+> +# in your machine configuration. Underlying file system can be anything that
+> +# is supported by overlayfs
+> +#
+> +#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
+> +#
+> +# The class assumes you have a data.mount systemd unit defined elsewhere in your
+> +# BSP and installed to the image.
+> +#
+> +# Then you can specify writable directories on a recipe base
+> +#
+> +#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
+> +#
+> +# To support several mount points you can use a different variable flag. Assume we
+> +# what to have a writable location on the file system, but not interested where the data
+> +# survive a reboot. The we could have a mnt-overlay.mount unit for a tmpfs file system:
+> +#
+> +#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
+> +#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
+> +
+> +OVERLAYFS_WRITABLE_PATHS[data] ?= ""
+> +
+> +inherit systemd
+> +
+> +def strForBash(s):
+> +    return s.replace('\\', '\\\\')
+> +
+> +def unitFileList(d):
+> +    fileList = []
+> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
+> +    for mountPoint in overlayMountPoints:
+> +        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
+> +            fileList.append(mountUnitName(path))
+> +            fileList.append(helperUnitName(path))
+> +
+> +    return fileList
+> +
+> +# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
+> +def escapeSystemdUnitName(path):
+> +    escapeMap = {
+> +        '/': '-',
+> +        '-': "\\x2d",
+> +        '\\': "\\x5d"
+> +    }
+> +    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
+> +
+> +def mountUnitName(unit):
+> +    return escapeSystemdUnitName(unit) + '.mount'
+> +
+> +def helperUnitName(unit):
+> +    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
+> +
+> +python do_create_overlayfs_units() {
+> +    CreateDirsUnitTemplate = """[Unit]
+> +Description=Overlayfs directories setup
+> +Requires={DATA_MOUNT_UNIT}
+> +After={DATA_MOUNT_UNIT}
+> +DefaultDependencies=no
+> +
+> +[Service]
+> +Type=oneshot
+> +ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
+> +RemainAfterExit=true
+> +StandardOutput=journal
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> +"""
+> +    MountUnitTemplate = """[Unit]
+> +Description=Overlayfs mount unit
+> +Requires={CREATE_DIRS_SERVICE}
+> +After={CREATE_DIRS_SERVICE}
+> +
+> +[Mount]
+> +What=overlay
+> +Where={LOWERDIR}
+> +Type=overlay
+> +Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> +"""
+> +
+> +    def prepareUnits(data, lower):
+> +        args = {
+> +            'DATA_MOUNT_POINT': data,
+> +            'DATA_MOUNT_UNIT': mountUnitName(data),
+> +            'CREATE_DIRS_SERVICE': helperUnitName(lower),
+> +            'LOWERDIR': lower,
+> +        }
+> +
+> +        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)), 'w') as f:
+> +            f.write(MountUnitTemplate.format(**args))
+> +
+> +        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower)), 'w') as f:
+> +            f.write(CreateDirsUnitTemplate.format(**args))
+> +
+> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
+> +    for mountPoint in overlayMountPoints:
+> +        for lower in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
+> +            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint), lower)
+> +}
+> +
+> +# we need to generate file names early during parsing stage
+> +python () {
+> +    unitList = unitFileList(d)
+> +    for unit in unitList:
+> +        d.appendVar('SYSTEMD_SERVICE_' + d.getVar('PN'), ' ' + unit);
+> +        d.appendVar('FILES_' + d.getVar('PN'), strForBash(unit))
+> +
+> +    d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
+> +}
+> +
+> +do_install_append() {
+> +    install -d ${D}${systemd_system_unitdir}
+> +    for unit in ${OVERLAYFS_UNIT_LIST}; do
+> +        install -m 0444 ${WORKDIR}/${unit} ${D}${systemd_system_unitdir}
+> +    done
+> +}
+> +
+> +addtask create_overlayfs_units before do_install
+> --
+> 2.28.0
+>
+>
+> 
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
