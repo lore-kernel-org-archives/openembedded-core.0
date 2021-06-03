@@ -1,116 +1,122 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web12.213.1622740937402496861
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web10.220.1622740938008053035
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 10:22:17 -0700
+ Thu, 03 Jun 2021 10:22:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CbkL2Lvp;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id s6so8010885edu.10
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AULokqwN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id t3so8016527edc.7
         for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 10:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SniS2vYUuD3WB2M8hqnqAsARVAClT+IxqMikWYYcIvE=;
-        b=CbkL2Lvpx+j18s6yintn7CKgSGm0srp5gEP3RqO9veYVXsSuehQFBP2IixVNauK6wi
-         cFRFuLzFs0+ECU4B3Fqjzy1YigZuqw25XiTHLx0S2jEXu2Xy0Nw9G/ZlAGp3b2oUrXtY
-         6+WQ9g4AR6/HgTPnG815+sTkdEFzD2f7xq+AXz69GRWPOSoxXyChG7/y8N8PF9pvhb/Y
-         xvb/G4ui8g4zln7qx2l5oN4x7J2x9qTiufvweWhnBAszjsP9OUsmx8UZN50tDlhQNDX4
-         KSQgOokvdW7Z3GqjGv8rR3nDjUbc7cTIsCcO4x+1Vmn+dA7caO24Il2p/eA1aw+S2X+3
-         Z2kw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LnVz8rfrXQ7UvRO3SsPTaWdDIHgW10v6Z+Mr9KsznxA=;
+        b=AULokqwNnRsXhjL3EooxIROVpcNkGdGAqcjAToANocAeI2ukn0uCF653Wc6MQHlF+1
+         rzckX8ReUDGm5yrEQJD4INtfpReEwhJEVOBb72WEd0cXI9p2ssnTHGkvKqkxw57JhwH3
+         1FOABOBBJBnX0X71+zWqbeusVU/jggPRlZjU2QgA3b2nMObfiwoAlBTCuITNwxOfsJ4D
+         IwkWHosbv4Fun5mHh/tfxdejQFitDmDDEG6lFUovjLzv7oGyaGNBBm502R3noR4AIDC1
+         a2xqLi5WAf+DF33NghNJWCb2Hxr6Kw+muQ5YivU3iskjOZ4iKimJ0ThImgHTQ+p2jqo9
+         e8Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SniS2vYUuD3WB2M8hqnqAsARVAClT+IxqMikWYYcIvE=;
-        b=hSf1EfATT+QWKRzPqNvcIkinO/4I6GiyrPEWBxdBIgRuMfNc7iVv/69VZnIOreC488
-         zNZ66tlWfoz4BYR1dDaf58PH0HcrVBdFkhaBtBb/XysVlybpal643A4hP5QtdCgl8678
-         qwuJK1YXt56WGDYqWQDzaNi9L1md27BgXCdHp4fjizsd2D7Bm29oCNFzLwwv13iRc8zZ
-         PowLUzV8OAAGEnW1/Ha2di14OzZOBi2FQb60V4GYq9wCCi3MGyj5ld1uQkB2z5Hp2M1h
-         4SbNFsGCACK3SzePgZhlc5c4ksI9HrTRObHlr44QdED8EfAAaaU1uo9QHyQpnH6C9hUZ
-         upjw==
-X-Gm-Message-State: AOAM530pXZLFb6R21mf4OqM6te0F95CEE2eNtPkw78Ubxz8FU3S0WPf7
-	Hz+bJoX/Qx5GMs7AW8gpVG2zF+TDpoemspB2
-X-Google-Smtp-Source: ABdhPJwF2WKL2nIdFNcTzDw7flgXN7tqeERwCyAzhEDhj7aLTmb1q+vbCuEFTQvvJazeESq3mqm8Cw==
-X-Received: by 2002:a05:6402:1559:: with SMTP id p25mr530165edx.343.1622740935523;
-        Thu, 03 Jun 2021 10:22:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LnVz8rfrXQ7UvRO3SsPTaWdDIHgW10v6Z+Mr9KsznxA=;
+        b=PDDsA4mgjIg6zGexDfcjwbcT/poP94Qa24ki5sToDULb6sj0O6FcEJ8lDiCzGSBY9g
+         KHXb7jAgwy8kTlpQf8O5M4tSErczfwRqnNAUDQL/h7Rqt0URFDELXmdr1dW9S5G9LuNc
+         4HQ5egik72q9vSVwzm8Xa/cTNguxuiFhoOFJ0DkD12xw8afboClqwGcU0/jE8JOORceA
+         LhvSMFJWmyVK9KkkF8Cv4ZIBn/csTj+dtKHHawGkyZgXIxR7pF7utsqBHcFhKxQ7GU59
+         gTzw4tixBidn4AzKkDj/ugbB9o0wehFhHzFk7Uw/VN5/F0liNZ2XP6YdBSWvuia0fSsF
+         XbDg==
+X-Gm-Message-State: AOAM530bK6kMp2g3++ErA/SvvVbmyCPXNBGESKwUbDPfjOeFWcxQ4TNa
+	Z1jvpHPbCJWWksEKp78nVd0rOrPuOrAHXx8+
+X-Google-Smtp-Source: ABdhPJyay/rv7bQtGrnqMoZJJtoTait1oMYEkgCflSaqUeiX11JmV5GvXz/tTagUDYbtRPrvE7I8lg==
+X-Received: by 2002:a05:6402:1a:: with SMTP id d26mr558632edu.105.1622740936316;
+        Thu, 03 Jun 2021 10:22:16 -0700 (PDT)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from md2ramxc.lan.ffah.ch ([62.32.0.69])
-        by smtp.gmail.com with ESMTPSA id g4sm2054187edw.8.2021.06.03.10.22.14
+        by smtp.gmail.com with ESMTPSA id g4sm2054187edw.8.2021.06.03.10.22.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 10:22:14 -0700 (PDT)
+        Thu, 03 Jun 2021 10:22:15 -0700 (PDT)
 From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 1/3] meta-skeleton: add a ptest example
-Date: Thu,  3 Jun 2021 19:21:47 +0200
-Message-Id: <20210603172149.100248-1-adrian.freihofer@siemens.com>
+Subject: [PATCH 2/3] testimage: support additional reports for ptests
+Date: Thu,  3 Jun 2021 19:21:48 +0200
+Message-Id: <20210603172149.100248-2-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210603172149.100248-1-adrian.freihofer@siemens.com>
+References: <20210603172149.100248-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
----
- .../ptest-example/files/run-ptest             | 26 +++++++++++++++++++
- .../ptest-example/ptest-example_0.1.bb        | 16 ++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest
- create mode 100644 meta-skeleton/recipes-skeleton/ptest-example/ptest-example_0.1.bb
+This adds a new optional feature to the ptest run-time test. Most unit
+test frameworks such as googletest generate JUnit like XML reports which
+can be processed e.g. by GitLab CI or Jenkins.
 
-diff --git a/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest b/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest
-new file mode 100644
-index 0000000000..7c80306475
---- /dev/null
-+++ b/meta-skeleton/recipes-skeleton/ptest-example/files/run-ptest
-@@ -0,0 +1,26 @@
-+#!/bin/sh
+Example: A run-ptest script executes a googletest based unit test:
+  /usr/bin/my-unittest --gtest_output="xml:/tmp/ptest-xml/"
+
+The new variable TESTIMAGE_PTEST_REPORT_DIR allows to configure
+bitbake -c testimage to fetch the reports from the target device and
+store them into a subfolder of TEST_LOG_DIR. It's possible to fetch
+report files from different locations on the target device to different
+subfolders on the host.
+---
+ meta/classes/testimage.bbclass       |  5 +++++
+ meta/lib/oeqa/runtime/cases/ptest.py | 24 ++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 43de9d4d76..d01892136f 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -47,6 +47,11 @@ TESTIMAGE_AUTO ??= "0"
+ # TESTIMAGE_BOOT_PATTERNS[search_login_succeeded] = "webserver@[a-zA-Z0-9\-]+:~#"
+ # The accepted flags are the following: search_reached_prompt, send_login_user, search_login_succeeded, search_cmd_finished.
+ # They are prefixed with either search/send, to differentiate if the pattern is meant to be sent or searched to/from the target terminal
++# TESTIMAGE_PTEST_REPORT_DIR might be used to fetch additional reports (e.g. JUnit like xml files) generated by ptests from the target device.
++# A ; separate list of remote_path:host_path is expected. The host_path is optional. It defaults to "reports".
++# For example if some ptests (such as ptest-example.bb) create additional reports in /tmp/ptest-xml/ the following line in the image recipe
++# configures the ptest imagetest to fetch the xml reports into a "xml-reports" subfolder of TEST_LOG_DIR:
++# TESTIMAGE_PTEST_REPORT_DIR = "/tmp/ptest-xml/*.xml:xml-reports"
+ 
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+ 
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index 0800f3c27f..7b3560a4b0 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -110,3 +110,27 @@ class PtestRunnerTest(OERuntimeTestCase):
+         if failmsg:
+             self.logger.warning("There were failing ptests.")
+             self.fail(failmsg)
 +
-+# The result should be PASS, FAIL, or SKIP, and the testname can be any identifying string.
-+# The ptest-runner does not evaluate stdout or stderr. The output format is a recommended convention.
-+# A real ptest would call the unit-test executable instead of echo.
-+echo "PASS:  dummy test passing always"
++        # Fetch log files e.g. JUnit like xml files from the target device
++        ptest_report_dir = self.td.get('TESTIMAGE_PTEST_REPORT_DIR', '')
++        if ptest_report_dir:
++            for test_log_dir_ptest in ptest_report_dir.split(';'):
++                src_tgt = test_log_dir_ptest.split(':')
++                if len(src_tgt) == 1:
++                    tgt_dir_abs = os.path.join(ptest_log_dir, "reports")
++                elif len(src_tgt) == 2:
++                    tgt_dir_abs = os.path.join(ptest_log_dir, src_tgt[1])
++                else:
++                    self.logger.error("Invalid TESTIMAGE_PTEST_REPORT_DIR setting")
++                self.copy_logs(src_tgt[0], tgt_dir_abs)
 +
-+# Optional a ptest might provide a JUnit like XML report. Reports are collected by the ptest imagetest if
-+# the TESTIMAGE_PTEST_REPORT_DIR variable is configured for the tested image.
-+# Example to fetch a xml report to ${TEST_LOG_DIR}/reports-xml/ptest-example.xml:
-+#   TESTIMAGE_PTEST_REPORT_DIR ?= "/tmp/ptest-xml/*.xml:reports-xml"
-+# The following shell heredoc is as a placeholder e.g. for something more useful such as
-+# my-gtest --gtest_output="xml:/tmp/ptest-xml/"
-+mkdir -p /tmp/ptest-xml
-+cat << xxxEOFxxx > /tmp/ptest-xml/ptest-example.xml
-+<?xml version="1.0" encoding="UTF-8"?>
-+<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.010" timestamp="2020-09-20T10:44:23" name="AllTests">
-+  <testsuite name="ConfigurationTest" tests="1" failures="0" disabled="0" errors="0" time="0.010" timestamp="2020-09-20T10:44:23">
-+    <testcase name="readConfiguration" status="run" result="completed" time="0.010" timestamp="2020-09-20T10:44:23" classname="ConfigurationTest" />
-+  </testsuite>
-+</testsuites>
-+xxxEOFxxx
-+
-+# The ptest-runner evaluates the exit value of a test case: 0 means pass, 1 means fail.
-+# This minimal example passes always.
-+exit 0
-diff --git a/meta-skeleton/recipes-skeleton/ptest-example/ptest-example_0.1.bb b/meta-skeleton/recipes-skeleton/ptest-example/ptest-example_0.1.bb
-new file mode 100644
-index 0000000000..02bc9bcfa2
---- /dev/null
-+++ b/meta-skeleton/recipes-skeleton/ptest-example/ptest-example_0.1.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "A very basic ptest enabled recipe"
-+DESCRIPTION = "This recipe provides a minimalistic ptest package"
-+SECTION = "examples"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+# A recipe is "ptest-enabled" if it inherits the ptest class
-+inherit ptest
-+
-+# Usually a ptest contains at least two items: the actual test,
-+# and a shell script (run-ptest) that starts the test.
-+# For this minimized example there is just the script.
-+SRC_URI = "file://run-ptest"
-+
-+# This minimalistic example provides nothing more than a ptest package.
-+ALLOW_EMPTY_${PN} = "1"
++    def copy_logs(self, remoteSrc, localDst):
++        self.logger.debug("Fetching from target: %s to %s" % (remoteSrc, localDst))
++        if os.path.exists(localDst):
++            from shutil import rmtree
++            rmtree(localDst)
++        os.makedirs(localDst)
++        try:
++            self.target.copyFrom(remoteSrc, localDst)
++        except AssertionError:
++            pass
 -- 
 2.31.1
 
