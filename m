@@ -1,62 +1,62 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web12.4744.1622704431280754401
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [])
+ by mx.groups.io with SMTP id smtpd.web12.4743.1622704430010196377
  for <openembedded-core@lists.openembedded.org>;
  Thu, 03 Jun 2021 00:13:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ParUzQm0;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=qpBiY5P9;
+ spf=neutral (domain: fujitsu.com, ip: <nil>, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1622704428; i=@fujitsu.com;
-	bh=d6+2+QOx5MtZnZN3LIt2li4Mw/xUri6mlOuAil1KpB4=;
+	s=170520fj; t=1622704427; i=@fujitsu.com;
+	bh=7CVNPhilxkNhqihz/tA3foh0JYwEpC0B53/JjDFtjqM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=ParUzQm0qejNSQZlj7t2IpCvww3oXFxq2prRiimI/Ba1XGioAe959C4FFwaTZAqHf
-	 b9mecJ2gbhLYqQfRpqvw/1kFG/RFKNfZpyv8B+BFJY+jaNB5Z4QPnpwVA3DGL0Z2Fq
-	 J28cGJDsT/Un1eciRpVNl0/6LDFLbckz4viue+NRcFGSxFi90m0oVb2Sk9aovtJrAw
-	 gPP6z8n6ze14WdbJ5lTyVeO1e6+tnFos+Ew2HLHEvo/CrMBcyVXOeOhE4fFKifoQOu
-	 aHYw2XD6jNP3KT5YFxw/+ESR+j3R3jiCVkOXb0JdAYhjA7uan+RfDKSTYI4qW7+7np
-	 aoXycdm0vWY1w==
-Received: from [100.113.7.10] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-central-1.aws.symcld.net id FD/62-15146-B2188B06; Thu, 03 Jun 2021 07:13:47 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFIsWRWlGSWpSXmKPExsViZ8MxRVe7cUe
-  CQct8CYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPKs162goY+xoqp094wNjB+ruhi5OIQEpjJ
-  JLHlxHtWCOc4o0TP0+lsXYycHGwCahLTb90ASnBwiAjoSVz9JwoSZhZQkXjxu4cdxBYWMJd43
-  vOUEcRmAYqvuL0CrJxXwElicrMNSFhCQEFiysP3zCA2p4CzxLEfz1hAbCGgkh09HWBjeAUEJU
-  7OfMICMV5C4uCLF8wQvYoSsy83s0DYFRKvD19insDIPwtJyywkLQsYmVYxWiYVZaZnlOQmZub
-  oGhoY6BoaGuua6BoaG+glVukm6aWW6ian5pUUJQJl9RLLi/WKK3OTc1L08lJLNjECAzKlkKVp
-  B+PvVx/0DjFKcjApifIap+1IEOJLyk+pzEgszogvKs1JLT7EKMPBoSTBW1QPlBMsSk1PrUjLz
-  AFGB0xagoNHSYRXrhYozVtckJhbnJkOkTrF6M1x+fq8Rcwc734uBpJv1i4Bkm337gLJmQsOrm
-  bmuN9+aDWzEEtefl6qlDjvW5ANAiAjMkrz4BbAovwSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5
-  GJWHeAyBTeDLzSuDueAV0IhPQiQJe20BOLElESEk1MGXsCTu3hFttdoVFToaNhHs4347y81cr
-  7h7LMHXkLfiScLeob85l1iOv2qLK7ixYPDlxdf/reX1TtlUXhMbME59moxBguPG5hX2va47+V
-  t2Q0uefN+lGeGht3bHTYsNs/u+KLooixi8bWVxXnfy4deXcUqevxWGPY78+PxOSWHzemvGtx/
-  E9HRU/jf47hC8o2W+38pbBN/WsBvMHW5bsNaiu/qfBody9YU51XqS3ThrX5ESf4/puv9v8nl2
-  SVlhv8GDueYf5zpwpz14vf58/bVE4S/obOaUe2wdbDPW87rqUH2MJkni2MPjo2tva3zzDkmel
-  2nyokSiT/TKrfLupqi17+v6ErdP6E3r4s9lmKrEUZyQaajEXFScCAENc2qRtAwAA
+	b=qpBiY5P9X0dD2NdSxxhy+2I+GIllTBZeTtiGgxp66kQe7KR/5Q52leaVKCxsQPELm
+	 mC5m/Q3mKC7f3rdT/rdTo7CRVu4W4URVXkPPEwm5rqnen1QXXb3mro6P5bBMsMmBqq
+	 LwJcy5vd8vGUzZl5pHPtKhviZaKNLJuEXTzbfrNyt2t7Ei7/Fn72QgOTpnuIon+mEF
+	 z9l6EhK8EGE1KtFA6LoLpT44NmVERNUjuJ+EnQQ9hLEwHw7hyNz7K39GQEajKyhd9x
+	 hCXmnXoH7ez0zrJu2U4bKJUUsClc3lNqcQuzxBHkhzkk/6OLF0h+Ix31F0nsBvDTX9
+	 blwe7EmKavJ+g==
+Received: from [100.112.193.7] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-a.eu-west-1.aws.symcld.net id 61/FD-45475-B2188B06; Thu, 03 Jun 2021 07:13:47 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxRVe7cUe
+  CQcdPZos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNaN52U7mglaOirN9U9kaGKezdzFycQgJzGSS
+  eLXrKiOEc5xR4nHLBaAMJwebgJrE9Fs3WLsYOThEBPQkrv4TBQkzC6hIvPjdA1YiLGAtcezuf
+  DYQmwUovnbjP1YQm1fASWLrul9MILaEgILElIfvmUFsTgFniWM/nrGA2EJANTt6Otgh6gUlTs
+  58wgIxX0Li4IsXzBC9ihKzLzezQNgVEq8PX2KewMg/C0nLLCQtCxiZVjFaJBVlpmeU5CZm5ug
+  aGhjoGhoa6RpaArGRmV5ilW6iXmqpbnlqcYmuoV5iebFecWVuck6KXl5qySZGYDimFByo28H4
+  4PUHvUOMkhxMSqK8xmk7EoT4kvJTKjMSizPii0pzUosPMcpwcChJ8BbVA+UEi1LTUyvSMnOAs
+  QGTluDgURLhlasFSvMWFyTmFmemQ6ROMSpKifO+BekTAElklObBtcHi8RKjrJQwLyMDA4MQT0
+  FqUW5mCar8K0ZxDkYlYd4DIFN4MvNK4Ka/AlrMBLRYwGsbyOKSRISUVAPTrb07v+knRdxOk8h
+  uvqQ0T4DnvcI55t+1ylVXlh2aGK1jpb48rLMp+iLX86yoPYafBWrbdTvt0pTOaHU77LhV+WeB
+  RKxWYLQrt6P5hh1FTz6rCz9bXyBjPeUyc+av+Wxf7k+O31Rpz6Pw+6FGdV9/OPfJBnUFh3+qu
+  wtmvI3e9rRDJnSimknkCT1lE7XXf1aXTo9dsMj2nbxc2nXff1YP+JRdltxL7Oj9WnoylelHNv
+  /rWpeaK2npE96Uv/2X4G/2/eOuwu6D/x2D91iez1pfmBDy4t6DYOVL/2asFb1wQ7zwYM/Oz1t
+  +GMx+vu2OhSar6+el1VYfJy9/tI3nta3d+aM/5jpv8A05zLFbxPibEktxRqKhFnNRcSIAwiy/
+  LUIDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-18.tower-245.messagelabs.com!1622704426!255962!1
+X-Msg-Ref: server-3.tower-271.messagelabs.com!1622704426!107441!1
 X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 4165 invoked from network); 3 Jun 2021 07:13:47 -0000
+Received: (qmail 2394 invoked from network); 3 Jun 2021 07:13:47 -0000
 Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-18.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jun 2021 07:13:47 -0000
+  by server-3.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jun 2021 07:13:47 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1537Dd8R023806
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1537Dd8S023806
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Thu, 3 Jun 2021 08:13:46 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 3 Jun 2021 08:13:41 +0100
+ (TLS) id 15.0.1497.18; Thu, 3 Jun 2021 08:13:44 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] m4: upgrade 1.4.18 -> 1.4.19
-Date: Thu, 3 Jun 2021 15:13:19 +0800
-Message-ID: <1622704403-26153-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] mtools: upgrade 4.0.27 -> 4.0.29
+Date: Thu, 3 Jun 2021 15:13:20 +0800
+Message-ID: <1622704403-26153-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1622704403-26153-1-git-send-email-wangmy@fujitsu.com>
 References: <1622704403-26153-1-git-send-email-wangmy@fujitsu.com>
@@ -66,433 +66,28 @@ X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-0001-Unset-need_charset_alias-when-building-for-musl.patch
-0001-c-stack-stop-using-SIGSTKSZ.patch
-0001-test-getopt-posix-fix.patch
-m4-1.4.18-glibc-change-work-around.patch
-deleted since they are included in 1.4.19
-
-refresh ac_config_links.patch
-
-License-update: URL of license changed
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../m4/{m4-1.4.18.inc => m4-1.4.19.inc}       |  14 +-
- ...4-native_1.4.18.bb => m4-native_1.4.19.bb} |   0
- ...charset_alias-when-building-for-musl.patch |  33 -----
- .../m4/0001-c-stack-stop-using-SIGSTKSZ.patch |  84 -----------
- .../m4/m4/0001-test-getopt-posix-fix.patch    |  41 ------
- .../m4/m4/ac_config_links.patch               |  24 ++--
- .../m4-1.4.18-glibc-change-work-around.patch  | 130 ------------------
- .../m4/{m4_1.4.18.bb => m4_1.4.19.bb}         |   0
- 8 files changed, 20 insertions(+), 306 deletions(-)
- rename meta/recipes-devtools/m4/{m4-1.4.18.inc => m4-1.4.19.inc} (79%)
- rename meta/recipes-devtools/m4/{m4-native_1.4.18.bb => m4-native_1.4.19.bb} (100%)
- delete mode 100644 meta/recipes-devtools/m4/m4/0001-Unset-need_charset_alias-when-building-for-musl.patch
- delete mode 100644 meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
- delete mode 100644 meta/recipes-devtools/m4/m4/0001-test-getopt-posix-fix.patch
- delete mode 100644 meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
- rename meta/recipes-devtools/m4/{m4_1.4.18.bb => m4_1.4.19.bb} (100%)
+ .../mtools/{mtools_4.0.27.bb => mtools_4.0.29.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.27.bb => mtools_4.0.29.bb} (93%)
 
-diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.19.inc
-similarity index 79%
-rename from meta/recipes-devtools/m4/m4-1.4.18.inc
-rename to meta/recipes-devtools/m4/m4-1.4.19.inc
-index 6475b02f8b..c28e301d50 100644
---- a/meta/recipes-devtools/m4/m4-1.4.18.inc
-+++ b/meta/recipes-devtools/m4/m4-1.4.19.inc
-@@ -4,25 +4,21 @@ DESCRIPTION = "GNU m4 is an implementation of the traditional Unix macro process
- compatible although it has some extensions (for example, handling more than 9 positional parameters to macros). \
- GNU M4 also has built-in functions for including files, running shell commands, doing arithmetic, etc."
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.27.bb b/meta/recipes-devtools/mtools/mtools_4.0.29.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.27.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.29.bb
+index c6fa02ebdf..38de1dd923 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.27.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.29.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS_${PN}_libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "9c88c8d9244e54768e40b92c005e61ec4e084ea7c070df9184caf1a6408838b3"
++SRC_URI[sha256sum] = "c6b50b4603e7afe54ba0109094669373028db9af743f5c541bca4b7664aefec7"
  
--inherit autotools texinfo ptest
-+inherit autotools texinfo ptest gettext
- 
- SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
-            file://ac_config_links.patch \
--           file://m4-1.4.18-glibc-change-work-around.patch \
--           file://0001-c-stack-stop-using-SIGSTKSZ.patch \
-            "
--SRC_URI_append_class-target = " file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
--                                file://run-ptest \
-+SRC_URI_append_class-target = " file://run-ptest \
-                                 file://serial-tests-config.patch \
--                                file://0001-test-getopt-posix-fix.patch \
-                               "
- 
--SRC_URI[md5sum] = "a077779db287adf4e12a035029002d28"
--SRC_URI[sha256sum] = "ab2633921a5cd38e48797bf5521ad259bdc4b979078034a3b790d7fec5493fab"
-+SRC_URI[md5sum] = "f4a2b0284d80353b995f8ef2385ed73c"
-+SRC_URI[sha256sum] = "3be4a26d825ffdfda52a56fc43246456989a3630093cced3fbddf4771ee58a70"
- 
- LICENSE = "GPLv3"
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464\
- 	            file://examples/COPYING;md5=4031593b2166d6c47cae282d944a7ede"
- 
- # Fix "Argument list too long" error when len(TMPDIR) = 410
-diff --git a/meta/recipes-devtools/m4/m4-native_1.4.18.bb b/meta/recipes-devtools/m4/m4-native_1.4.19.bb
-similarity index 100%
-rename from meta/recipes-devtools/m4/m4-native_1.4.18.bb
-rename to meta/recipes-devtools/m4/m4-native_1.4.19.bb
-diff --git a/meta/recipes-devtools/m4/m4/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-devtools/m4/m4/0001-Unset-need_charset_alias-when-building-for-musl.patch
-deleted file mode 100644
-index ba1a4bab4c..0000000000
---- a/meta/recipes-devtools/m4/m4/0001-Unset-need_charset_alias-when-building-for-musl.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 13 Apr 2015 17:02:13 -0700
--Subject: [PATCH] Unset need_charset_alias when building for musl
--
--localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
--which actually shoudl be fixed in gnulib and then all downstream
--projects will get it eventually. For now we apply the fix to
--coreutils
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/gnulib.mk | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/gnulib.mk b/lib/gnulib.mk
--index e1d74db..c0e92dd 100644
----- a/lib/gnulib.mk
--+++ b/lib/gnulib.mk
--@@ -1882,7 +1882,7 @@ install-exec-localcharset: all-local
-- 	  case '$(host_os)' in \
-- 	    darwin[56]*) \
-- 	      need_charset_alias=true ;; \
---	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
--+	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-- 	      need_charset_alias=false ;; \
-- 	    *) \
-- 	      need_charset_alias=true ;; \
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch b/meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
-deleted file mode 100644
-index 883b8a2075..0000000000
---- a/meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
-+++ /dev/null
-@@ -1,84 +0,0 @@
--From 69238f15129f35eb4756ad8e2004e0d7907cb175 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 30 Apr 2021 17:40:36 -0700
--Subject: [PATCH] c-stack: stop using SIGSTKSZ
--
--This patch is required with glibc 2.34+
--based on gnulib [1]
--
--[1] https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=f9e2b20a12a230efa30f1d479563ae07d276a94b
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/c-stack.c | 22 +++++++++++++---------
-- 1 file changed, 13 insertions(+), 9 deletions(-)
--
--diff --git a/lib/c-stack.c b/lib/c-stack.c
--index 5353c08..863f764 100644
----- a/lib/c-stack.c
--+++ b/lib/c-stack.c
--@@ -51,13 +51,14 @@
-- typedef struct sigaltstack stack_t;
-- #endif
-- #ifndef SIGSTKSZ
---# define SIGSTKSZ 16384
---#elif HAVE_LIBSIGSEGV && SIGSTKSZ < 16384
--+#define get_sigstksz()  (16384)
--+#elif HAVE_LIBSIGSEGV
-- /* libsigsegv 2.6 through 2.8 have a bug where some architectures use
--    more than the Linux default of an 8k alternate stack when deciding
--    if a fault was caused by stack overflow.  */
---# undef SIGSTKSZ
---# define SIGSTKSZ 16384
--+#define get_sigstksz() ((SIGSTKSZ) < 16384 ? 16384 : (SIGSTKSZ))
--+#else
--+#define get_sigstksz() ((SIGSTKSZ))
-- #endif
-- 
-- #include <stdlib.h>
--@@ -131,7 +132,8 @@ die (int signo)
-- /* Storage for the alternate signal stack.  */
-- static union
-- {
---  char buffer[SIGSTKSZ];
--+  /* allocate buffer with size from get_sigstksz() */
--+  char *buffer;
-- 
--   /* These other members are for proper alignment.  There's no
--      standard way to guarantee stack alignment, but this seems enough
--@@ -203,10 +205,11 @@ c_stack_action (void (*action) (int))
--   program_error_message = _("program error");
--   stack_overflow_message = _("stack overflow");
-- 
--+  alternate_signal_stack.buffer = malloc(get_sigstksz());
--   /* Always install the overflow handler.  */
--   if (stackoverflow_install_handler (overflow_handler,
--                                      alternate_signal_stack.buffer,
---                                     sizeof alternate_signal_stack.buffer))
--+                                     get_sigstksz()))
--     {
--       errno = ENOTSUP;
--       return -1;
--@@ -279,14 +282,15 @@ c_stack_action (void (*action) (int))
--   stack_t st;
--   struct sigaction act;
--   st.ss_flags = 0;
--+  alternate_signal_stack.buffer = malloc(get_sigstksz());
-- # if SIGALTSTACK_SS_REVERSED
--   /* Irix mistakenly treats ss_sp as the upper bound, rather than
--      lower bound, of the alternate stack.  */
---  st.ss_sp = alternate_signal_stack.buffer + SIGSTKSZ - sizeof (void *);
---  st.ss_size = sizeof alternate_signal_stack.buffer - sizeof (void *);
--+  st.ss_sp = alternate_signal_stack.buffer + get_sigstksz() - sizeof (void *);
--+  st.ss_size = get_sigstksz() - sizeof (void *);
-- # else
--   st.ss_sp = alternate_signal_stack.buffer;
---  st.ss_size = sizeof alternate_signal_stack.buffer;
--+  st.ss_size = get_sigstksz();
-- # endif
--   r = sigaltstack (&st, NULL);
--   if (r != 0)
---- 
--2.31.1
--
-diff --git a/meta/recipes-devtools/m4/m4/0001-test-getopt-posix-fix.patch b/meta/recipes-devtools/m4/m4/0001-test-getopt-posix-fix.patch
-deleted file mode 100644
-index 11508ee0e2..0000000000
---- a/meta/recipes-devtools/m4/m4/0001-test-getopt-posix-fix.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 75bea7c72a919859674f493548653de88f96c798 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Mon, 22 Apr 2019 10:36:13 +0800
--Subject: [PATCH] test-getopt-posix fix
--
--fix below problem:
--test-getopt.h:754: assertion 'strcmp (argv[1], "donald") == 0' failed
--
--get this patch from  
--https://github.com/habitat-sh/core-plans/blob/master/m4/fix-test-getopt-posix-with-glibc-2.26.patch
--
--Upstream-Status: Pending
--
--have report this bug to m4-discuss@gnu.org
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- tests/test-getopt-posix.c | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/tests/test-getopt-posix.c b/tests/test-getopt-posix.c
--index 5532271..2a3d511 100644
----- a/tests/test-getopt-posix.c
--+++ b/tests/test-getopt-posix.c
--@@ -22,6 +22,13 @@
--    ftell link warning if we are not using the gnulib ftell module.  */
-- #define _GL_NO_LARGE_FILES
-- 
--+/*
--+ * Glibc 2.26 does hard include bits/getopt_posix.h which causes the system
--+ * to use glibc's getopt but the tests expect gnulib behavior. Until a better
--+ * fix is available this avoids that mis-resolution.
--+ */
--+#include <getopt.h>
--+
-- /* POSIX and glibc provide the getopt() function in <unistd.h>, see
--    http://pubs.opengroup.org/onlinepubs/9699919799/functions/getopt.html
--    https://www.gnu.org/software/libc/manual/html_node/Using-Getopt.html
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/m4/m4/ac_config_links.patch b/meta/recipes-devtools/m4/m4/ac_config_links.patch
-index 71edf59512..39fcd91896 100644
---- a/meta/recipes-devtools/m4/m4/ac_config_links.patch
-+++ b/meta/recipes-devtools/m4/m4/ac_config_links.patch
-@@ -12,20 +12,26 @@ source, and what we want is to is to not touch it.
- 
- Tested on x86_64_linux (Ubuntu 8.04 and 9.10).
- 
--2009-11-10	Esben Haabendal	    <eha@doredevelopment.dk>
-+2009-11-10      Esben Haabendal     <eha@doredevelopment.dk>
-+---
-+ configure | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
- 
--Index: m4-1.4.18/configure
--===================================================================
----- m4-1.4.18.orig/configure
--+++ m4-1.4.18/configure
--@@ -24415,8 +24415,8 @@ $as_echo "#define GNULIB_TEST_GETTIMEOFD
-+diff --git a/configure b/configure
-+index 883336a..6343a34 100755
-+--- a/configure
-++++ b/configure
-+@@ -37061,8 +37061,8 @@ printf "%s\n" "#define GNULIB_TEST_GETRANDOM 1" >>confdefs.h
-    # only, it does not matter if we skip the link with older autoconf.
-    # Automake 1.10.1 and earlier try to remove GNUmakefile in non-VPATH
-    # builds, so use a shell variable to bypass this.
- -  GNUmakefile=GNUmakefile
- -  ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
--+ # GNUmakefile=GNUmakefile
--+ # ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
-++#  GNUmakefile=GNUmakefile
-++#  ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
-  
-  
--   :
-+   LIB_HARD_LOCALE="$LIB_SETLOCALE_NULL"
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch b/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
-deleted file mode 100644
-index c10bcbf693..0000000000
---- a/meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
-+++ /dev/null
-@@ -1,130 +0,0 @@
--update for glibc libio.h removal in 2.28+
--
--see
--https://src.fedoraproject.org/rpms/m4/c/814d592134fad36df757f9a61422d164ea2c6c9b?branch=master
--
--Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=4af4a4a718]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: m4-1.4.18/lib/fflush.c
--===================================================================
----- m4-1.4.18.orig/lib/fflush.c
--+++ m4-1.4.18/lib/fflush.c
--@@ -33,7 +33,7 @@
-- #undef fflush
-- 
-- 
---#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-- 
-- /* Clear the stream's ungetc buffer, preserving the value of ftello (fp).  */
-- static void
--@@ -72,7 +72,7 @@ clear_ungetc_buffer (FILE *fp)
-- 
-- #endif
-- 
---#if ! (defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
--+#if ! (defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
-- 
-- # if (defined __sferror || defined __DragonFly__ || defined __ANDROID__) && defined __SNPT
-- /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Android */
--@@ -148,7 +148,7 @@ rpl_fflush (FILE *stream)
--   if (stream == NULL || ! freading (stream))
--     return fflush (stream);
-- 
---#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
-- 
--   clear_ungetc_buffer_preserving_position (stream);
-- 
--Index: m4-1.4.18/lib/fpending.c
--===================================================================
----- m4-1.4.18.orig/lib/fpending.c
--+++ m4-1.4.18/lib/fpending.c
--@@ -32,7 +32,7 @@ __fpending (FILE *fp)
--   /* Most systems provide FILE as a struct and the necessary bitmask in
--      <stdio.h>, because they need it for implementing getc() and putc() as
--      fast macros.  */
---#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--   return fp->_IO_write_ptr - fp->_IO_write_base;
-- #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
--   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Android */
--Index: m4-1.4.18/lib/fpurge.c
--===================================================================
----- m4-1.4.18.orig/lib/fpurge.c
--+++ m4-1.4.18/lib/fpurge.c
--@@ -62,7 +62,7 @@ fpurge (FILE *fp)
--   /* Most systems provide FILE as a struct and the necessary bitmask in
--      <stdio.h>, because they need it for implementing getc() and putc() as
--      fast macros.  */
---# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--   fp->_IO_read_end = fp->_IO_read_ptr;
--   fp->_IO_write_ptr = fp->_IO_write_base;
--   /* Avoid memory leak when there is an active ungetc buffer.  */
--Index: m4-1.4.18/lib/freadahead.c
--===================================================================
----- m4-1.4.18.orig/lib/freadahead.c
--+++ m4-1.4.18/lib/freadahead.c
--@@ -25,7 +25,7 @@
-- size_t
-- freadahead (FILE *fp)
-- {
---#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--   if (fp->_IO_write_ptr > fp->_IO_write_base)
--     return 0;
--   return (fp->_IO_read_end - fp->_IO_read_ptr)
--Index: m4-1.4.18/lib/freading.c
--===================================================================
----- m4-1.4.18.orig/lib/freading.c
--+++ m4-1.4.18/lib/freading.c
--@@ -31,7 +31,7 @@ freading (FILE *fp)
--   /* Most systems provide FILE as a struct and the necessary bitmask in
--      <stdio.h>, because they need it for implementing getc() and putc() as
--      fast macros.  */
---# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--   return ((fp->_flags & _IO_NO_WRITES) != 0
--           || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
--               && fp->_IO_read_base != NULL));
--Index: m4-1.4.18/lib/fseeko.c
--===================================================================
----- m4-1.4.18.orig/lib/fseeko.c
--+++ m4-1.4.18/lib/fseeko.c
--@@ -47,7 +47,7 @@ fseeko (FILE *fp, off_t offset, int when
-- #endif
-- 
--   /* These tests are based on fpurge.c.  */
---#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--   if (fp->_IO_read_end == fp->_IO_read_ptr
--       && fp->_IO_write_ptr == fp->_IO_write_base
--       && fp->_IO_save_base == NULL)
--@@ -123,7 +123,7 @@ fseeko (FILE *fp, off_t offset, int when
--           return -1;
--         }
-- 
---#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--       fp->_flags &= ~_IO_EOF_SEEN;
--       fp->_offset = pos;
-- #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
--Index: m4-1.4.18/lib/stdio-impl.h
--===================================================================
----- m4-1.4.18.orig/lib/stdio-impl.h
--+++ m4-1.4.18/lib/stdio-impl.h
--@@ -18,6 +18,12 @@
--    the same implementation of stdio extension API, except that some fields
--    have different naming conventions, or their access requires some casts.  */
-- 
--+/* Glibc 2.28 made _IO_IN_BACKUP private.  For now, work around this
--+   problem by defining it ourselves.  FIXME: Do not rely on glibc
--+   internals.  */
--+#if !defined _IO_IN_BACKUP && defined _IO_EOF_SEEN
--+# define _IO_IN_BACKUP 0x100
--+#endif
-- 
-- /* BSD stdio derived implementations.  */
-- 
-diff --git a/meta/recipes-devtools/m4/m4_1.4.18.bb b/meta/recipes-devtools/m4/m4_1.4.19.bb
-similarity index 100%
-rename from meta/recipes-devtools/m4/m4_1.4.18.bb
-rename to meta/recipes-devtools/m4/m4_1.4.19.bb
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
 -- 
 2.25.1
 
