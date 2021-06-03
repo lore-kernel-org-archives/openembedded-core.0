@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.2153.1622683488762099419
+ by mx.groups.io with SMTP id smtpd.web11.2091.1622683489011401470
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jun 2021 18:24:48 -0700
+ Wed, 02 Jun 2021 18:24:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A583638C08EA
+	by mail.yoctoproject.org (Postfix) with ESMTP id E388938C08ED
 	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:48 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] alsa-ucm-conf: upgrading to 1.2.5 SUCCEEDED
-Message-ID: <MADEUP.1684EE092AF92E4C.2682@lists.openembedded.org>
-X-Groupsio-MsgNum: 152583
-Content-Type: multipart/mixed; boundary="===============3965914433962108959=="
+Subject: [AUH] alsa-utils: upgrading to 1.2.5 FAILED
+Message-ID: <MADEUP.1684EE093A4F5381.11265@lists.openembedded.org>
+X-Groupsio-MsgNum: 152584
+Content-Type: multipart/mixed; boundary="===============7149443649228816867=="
 
---===============3965914433962108959==
+--===============7149443649228816867==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,10 +23,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *alsa-ucm-conf* to *1.2.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *alsa-utils* to *1.2.5* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-alsa-ucm-conf-upgrade-1.2.4-1.2.5.patch
+    - apply the patch: git am 0001-alsa-utils-upgrade-1.2.4-1.2.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -43,219 +49,526 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3965914433962108959==
+--===============7149443649228816867==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf-src: FILELIST: removed "/usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf", added "/usr/share/alsa/ucm2/sof-soundwire/rt1308-1.conf /usr/share/alsa/ucm2/bytcr-wm5102/bytcr-wm5102.conf /usr/share/alsa/ucm2/codecs/rt715-sdca/init.conf /usr/share/alsa/ucm2/codecs/wm5102/HeadPhones.conf /usr/share/alsa/ucm2/codecs/rt711-sdca/init.conf /usr/share/alsa/ucm2/codecs/rt5651/init.conf /usr/share/alsa/ucm2/sof-soundwire/rt715-sdca.conf /usr/share/alsa/ucm2/conf.d/DB410c/DB410c.conf /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBig.conf /usr/share/alsa/ucm2/sof-soundwire/rt711-sdca.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/HDMI.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0EnableSeq.conf /usr/share/alsa/ucm2/Tegra/rt5640/ASUS Google Nexus 7 ALC5642.conf /usr/share/alsa/ucm2/lib/card-init.conf /usr/share/alsa/ucm2/conf.d/tegra/Compal PAZ00.conf /usr/share/alsa/ucm2/codecs/rt5640/init.conf /usr/share/alsa/ucm2/conf.d/sdm845/DB845c.conf /
- usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio.conf /usr/share/alsa/ucm2/conf.d/DB820c/DB820c.conf /usr/share/alsa/ucm2/codecs/nau8824/DMIC1_2.conf /usr/share/alsa/ucm2/codecs/wm5102/EnableSeq.conf /usr/share/alsa/ucm2/conf.virt.d/.gitignore /usr/share/alsa/ucm2/conf.d/tegra/ASUS Google Nexus 7 ALC5642.conf /usr/share/alsa/ucm2/lib/generic.conf /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBlaze.conf /usr/share/alsa/ucm2/codecs/rt5645/init.conf /usr/share/alsa/ucm2/sof-soundwire/rt1316-2.conf /usr/share/alsa/ucm2/bytcr-wm5102/HiFi.conf /usr/share/alsa/ucm2/codecs/wm5102/IN3-InternalMic.conf /usr/share/alsa/ucm2/lib/ctl-remap.conf /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio-HiFi.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/HiFi.conf /usr/share/alsa/ucm2/sof-soundwire/rt1316-1.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerEnableSeq.conf /usr/share/alsa/ucm2/conf.d/tegra/Acer Iconia Tab A500 WM8903.conf /usr/share/alsa/ucm2/conf.d/sm8250/Qu
- alcomm-RB5-WSA8815-Speakers-DMIC0.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerDisableSeq.conf /usr/share/alsa/ucm2/Tegra/wm8903/Acer Iconia Tab A500 WM8903.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0DisableSeq.conf /usr/share/alsa/ucm2/sof-soundwire/dmic.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf /usr/share/alsa/ucm2/codecs/wm5102/Speaker.conf /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Front-Headphone.conf /usr/share/alsa/ucm2/codecs/wm5102/IN1-HeadsetMic.conf"
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf-src: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf-src: PV changed from "1.2.4" to "1.2.5"
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf: FILELIST: removed "/usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf", added "/usr/share/alsa/ucm2/sof-soundwire/rt1308-1.conf /usr/share/alsa/ucm2/bytcr-wm5102/bytcr-wm5102.conf /usr/share/alsa/ucm2/codecs/rt715-sdca/init.conf /usr/share/alsa/ucm2/codecs/wm5102/HeadPhones.conf /usr/share/alsa/ucm2/codecs/rt711-sdca/init.conf /usr/share/alsa/ucm2/codecs/rt5651/init.conf /usr/share/alsa/ucm2/sof-soundwire/rt715-sdca.conf /usr/share/alsa/ucm2/conf.d/DB410c/DB410c.conf /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBig.conf /usr/share/alsa/ucm2/sof-soundwire/rt711-sdca.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/HDMI.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0EnableSeq.conf /usr/share/alsa/ucm2/Tegra/rt5640/ASUS Google Nexus 7 ALC5642.conf /usr/share/alsa/ucm2/lib/card-init.conf /usr/share/alsa/ucm2/conf.d/tegra/Compal PAZ00.conf /usr/share/alsa/ucm2/codecs/rt5640/init.conf /usr/share/alsa/ucm2/conf.d/sdm845/DB845c.conf /usr/
- share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio.conf /usr/share/alsa/ucm2/conf.d/DB820c/DB820c.conf /usr/share/alsa/ucm2/codecs/nau8824/DMIC1_2.conf /usr/share/alsa/ucm2/codecs/wm5102/EnableSeq.conf /usr/share/alsa/ucm2/conf.virt.d/.gitignore /usr/share/alsa/ucm2/conf.d/tegra/ASUS Google Nexus 7 ALC5642.conf /usr/share/alsa/ucm2/lib/generic.conf /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBlaze.conf /usr/share/alsa/ucm2/codecs/rt5645/init.conf /usr/share/alsa/ucm2/sof-soundwire/rt1316-2.conf /usr/share/alsa/ucm2/bytcr-wm5102/HiFi.conf /usr/share/alsa/ucm2/codecs/wm5102/IN3-InternalMic.conf /usr/share/alsa/ucm2/lib/ctl-remap.conf /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio-HiFi.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/HiFi.conf /usr/share/alsa/ucm2/sof-soundwire/rt1316-1.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerEnableSeq.conf /usr/share/alsa/ucm2/conf.d/tegra/Acer Iconia Tab A500 WM8903.conf /usr/share/alsa/ucm2/conf.d/sm8250/Qualco
- mm-RB5-WSA8815-Speakers-DMIC0.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerDisableSeq.conf /usr/share/alsa/ucm2/Tegra/wm8903/Acer Iconia Tab A500 WM8903.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0DisableSeq.conf /usr/share/alsa/ucm2/sof-soundwire/dmic.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf /usr/share/alsa/ucm2/codecs/wm5102/Speaker.conf /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Front-Headphone.conf /usr/share/alsa/ucm2/codecs/wm5102/IN1-HeadsetMic.conf"
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf: PKGSIZE changed from 154121 to 181817 (+18%)
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf: PV changed from "1.2.4" to "1.2.5"
-packages/all-poky-linux/alsa-ucm-conf: SRC_URI changed from "https://www.alsa-project.org/files/pub/lib/alsa-ucm-conf-1.2.4.tar.bz2" to "https://www.alsa-project.org/files/pub/lib/alsa-ucm-conf-1.2.5.tar.bz2"
-packages/all-poky-linux/alsa-ucm-conf: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/all-poky-linux/alsa-ucm-conf: PV changed from "1.2.4" to "1.2.5"
-Changes to packages/all-poky-linux/alsa-ucm-conf (sysroot):
-  /usr/share/alsa/ucm2/kblrt5660/Hdmi1.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/kblrt5660/Hdmi2.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/kblrt5660/HiFi.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/kblrt5660/kblrt5660.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf moved to /usr/share/alsa/ucm2/sof-soundwire/rt1308-1.conf
-  /usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf moved to /usr/share/alsa/ucm2/sof-soundwire/rt1316-1.conf
-  /usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf moved to /usr/share/alsa/ucm2/sof-soundwire/rt1316-2.conf
-  /usr/share/alsa/ucm2/bytcr-wm5102 was added
-  /usr/share/alsa/ucm2/bytcr-wm5102/bytcr-wm5102.conf was added
-  /usr/share/alsa/ucm2/bytcr-wm5102/HiFi.conf was added
-  /usr/share/alsa/ucm2/codecs/nau8824/DMIC1_2.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0DisableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0EnableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerDisableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerEnableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/rt5640/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt5645/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt5651/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt711-sdca was added
-  /usr/share/alsa/ucm2/codecs/rt711-sdca/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt715-sdca was added
-  /usr/share/alsa/ucm2/codecs/rt715-sdca/init.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102 was added
-  /usr/share/alsa/ucm2/codecs/wm5102/EnableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/HeadPhones.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/IN1-HeadsetMic.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/IN3-InternalMic.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/Speaker.conf was added
-  /usr/share/alsa/ucm2/conf.d was added
-  /usr/share/alsa/ucm2/conf.d/DB410c was added
-  /usr/share/alsa/ucm2/conf.d/DB410c/DB410c.conf was added
-  /usr/share/alsa/ucm2/conf.d/DB820c was added
-  /usr/share/alsa/ucm2/conf.d/DB820c/DB820c.conf was added
-  /usr/share/alsa/ucm2/conf.d/sdm845 was added
-  /usr/share/alsa/ucm2/conf.d/sdm845/DB845c.conf was added
-  /usr/share/alsa/ucm2/conf.d/sm8250 was added
-  /usr/share/alsa/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra was added
-  /usr/share/alsa/ucm2/conf.d/tegra/Acer Iconia Tab A500 WM8903.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/ASUS Google Nexus 7 ALC5642.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/Compal PAZ00.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBig.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBlaze.conf was added
-  /usr/share/alsa/ucm2/conf.virt.d was added
-  /usr/share/alsa/ucm2/conf.virt.d/.gitignore was added
-  /usr/share/alsa/ucm2/lib was added
-  /usr/share/alsa/ucm2/lib/card-init.conf was added
-  /usr/share/alsa/ucm2/lib/ctl-remap.conf was added
-  /usr/share/alsa/ucm2/lib/generic.conf was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250 was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250/HDMI.conf was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250/HiFi.conf was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/dmic.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt1316-1.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt1316-2.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt711-sdca.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt715-sdca.conf was added
-  /usr/share/alsa/ucm2/Tegra/rt5640 was added
-  /usr/share/alsa/ucm2/Tegra/rt5640/ASUS Google Nexus 7 ALC5642.conf was added
-  /usr/share/alsa/ucm2/Tegra/wm8903 was added
-  /usr/share/alsa/ucm2/Tegra/wm8903/Acer Iconia Tab A500 WM8903.conf was added
-  /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Front-Headphone.conf was added
-  /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio.conf was added
-  /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio-HiFi.conf was added
+Loading cache...done.
+Loaded 1459 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 823 .bb files complete (821 cached, 2 parsed). 1459 targets, 31 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============3965914433962108959==
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-d93e73baecabab390cb5a95f97a297e4449c08df"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:d93e73baecabab390cb5a95f97a297e4449c08df"
+workspace            = "master:9d1b332292a94cd4463f1e88dfe293847264714e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 224 Local 215 Network 0 Missed 9 Current 560 (95% match, 98% complete)
+Removing 1 stale sstate objects for arch core2-32...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 562 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/alsa-state/alsa-state.bb:do_package_setscene)
+NOTE: recipe alsa-state-0.2.0-r5: task do_package_setscene: Started
+NOTE: recipe alsa-state-0.2.0-r5: task do_package_setscene: Succeeded
+NOTE: Running setscene task 784 of 784 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/alsa-state/alsa-state.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running task 1758 of 2434 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_fetch)
+NOTE: recipe alsa-state-0.2.0-r5: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe alsa-utils-1.2.5-r0: task do_fetch: Started
+NOTE: recipe alsa-utils-1.2.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2410 of 2434 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_unpack)
+NOTE: Running task 2411 of 2434 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe alsa-state-0.2.0-r5: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe alsa-utils-1.2.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe alsa-utils-1.2.5-r0: task do_unpack: Started
+NOTE: recipe alsa-utils-1.2.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2422 of 2434 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_patch)
+NOTE: recipe alsa-utils-1.2.5-r0: task do_patch: Started
+NOTE: recipe alsa-utils-1.2.5-r0: task do_patch: Succeeded
+NOTE: recipe alsa-utils-1.2.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2423 of 2434 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2424 of 2434 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_populate_lic)
+NOTE: recipe alsa-utils-1.2.5-r0: task do_populate_lic: Started
+NOTE: recipe alsa-utils-1.2.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe alsa-utils-1.2.5-r0: task do_populate_lic: Succeeded
+NOTE: recipe alsa-utils-1.2.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2425 of 2434 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_configure)
+NOTE: recipe alsa-utils-1.2.5-r0: task do_configure: Started
+ERROR: alsa-utils-1.2.5-r0 do_configure: configure failed
+ERROR: alsa-utils-1.2.5-r0 do_configure: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/temp/run.do_configure.34766' failed with exit code 1:
+automake (GNU automake) 1.16.3
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Tom Tromey <tromey@redhat.com>
+       and Alexandre Duret-Lutz <adl@gnu.org>.
+AUTOV is 1.16
+autoreconf: export WARNINGS=cross,no-obsolete
+autoreconf: Entering directory '.'
+autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+autoreconf: configure.ac: tracing
+autoreconf: configure.ac: not using Libtool
+autoreconf: configure.ac: not using Intltool
+autoreconf: configure.ac: not using Gtkdoc
+autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+autoreconf: running: automake --add-missing --copy --force-missing
+alsactl/Makefile.am:68: warning: '%'-style pattern rules are a GNU make extension
+alsaucm/Makefile.am:15: warning: '%'-style pattern rules are a GNU make extension
+axfer/test/Makefile.am:9: warning: source file '../container.c' is in a subdirectory,
+axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+automake: warning: possible forward-incompatibility.
+automake: At least a source file is in a subdirectory, but the 'subdir-objects'
+automake: automake option hasn't been enabled.  For now, the corresponding output
+automake: object file(s) will be placed in the top-level directory.  However,
+automake: this behaviour will change in future Automake versions: they will
+automake: unconditionally cause object files to be placed in the same subdirectory
+automake: of the corresponding sources.
+automake: You are advised to start using 'subdir-objects' option throughout your
+automake: project, to avoid future incompatibilities.
+axfer/test/Makefile.am:9: warning: source file '../container-riff-wave.c' is in a subdirectory,
+axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:9: warning: source file '../container-au.c' is in a subdirectory,
+axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:9: warning: source file '../container-voc.c' is in a subdirectory,
+axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:9: warning: source file '../container-raw.c' is in a subdirectory,
+axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../container.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../container-riff-wave.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../container-au.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../container-voc.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../container-raw.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../mapper.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../mapper-single.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+axfer/test/Makefile.am:20: warning: source file '../mapper-multiple.c' is in a subdirectory,
+axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+topology/Makefile.am:8: warning: '%'-style pattern rules are a GNU make extension
+autoreconf: './config.sub' is updated
+autoreconf: './config.guess' is updated
+autoreconf: Leaving directory '.'
+configure: WARNING: unrecognized options: --with-libtool-sysroot, --disable-static
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot/usr/share/i686-poky-linux_config_site.d/ncurses_config
+checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
+checking whether build environment is sane... yes
+checking for i686-poky-linux-strip... i686-poky-linux-strip
+checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking whether to enable maintainer-specific portions of Makefiles... yes
+checking for a sed that does not truncate output... (cached) sed
+checking whether NLS is requested... yes
+checking for msgfmt... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgfmt
+checking for gmsgfmt... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgfmt
+checking for xgettext... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/xgettext
+checking for msgmerge... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgmerge
+checking whether make supports the include directive... yes (GNU style)
+checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... yes
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot accepts -g... yes
+checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot option to enable C11 features... none needed
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot understands -c and -o together... yes
+checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot... none
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... i686-poky-linux-gnu
+checking for ld... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot  
+checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot  ) is GNU ld... yes
+checking for shared library run path origin... done
+checking 32-bit host C ABI... yes
+checking how to run the C preprocessor... i686-poky-linux-gcc -E --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time
+checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
+checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
+checking for ELF binary format... yes
+checking for the common suffixes of directories in the library search path... lib,lib32,lib
+checking for CFPreferencesCopyAppValue... no
+checking for CFLocaleCopyPreferredLanguages... no
+checking for GNU gettext in libc... yes
+checking whether to use NLS... yes
+checking where the gettext function comes from... libc
+checking for i686-poky-linux-gcc... (cached) i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+checking whether the compiler supports GNU C... (cached) yes
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot accepts -g... (cached) yes
+checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot option to enable C11 features... (cached) none needed
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot understands -c and -o together... (cached) yes
+checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot... (cached) none
+checking whether ln -s works... yes
+checking for a sed that does not truncate output... (cached) sed
+checking for i686-poky-linux-pkg-config... no
+checking for pkg-config... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/pkg-config
+configure: WARNING: using cross tools not prefixed with host triplet
+checking pkg-config is at least version 0.9.0... yes
+checking for ALSA CFLAGS... 
+checking for dlopen in -lc... no
+checking for dlopen in -ldl... yes
+checking for ALSA LDFLAGS...  -lasound -lm -ldl -lpthread
+checking required libasound headers version... 1.2.5
+checking for libasound headers version >= 1.2.5 (1.2.5)... not present.
+configure: error: Sufficiently new version of libasound not found.
+WARNING: exit code 1 from a shell command.
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/temp/log.do_configure.34766
+Log data follows:
+| DEBUG: Executing shell function autotools_preconfigure
+| DEBUG: Shell function autotools_preconfigure finished
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.66.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/automake/automake_1.16.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.33.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-native_2.4.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes
+ -devtools/pseudo/pseudo_git.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/autoconf/autoconf_2.71.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libto
+ ol/libtool-cross_2.4.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['quilt-native', 'libsamplerate0', 'automake-native', 'pkgconfig-native', 'glibc', 'libtool-native', 'gcc-cross-i686', 'pseudo-native', 'ncurses', 'systemd', 'patch-native', 'alsa-lib', 'autoconf-native', 'gettext-native', 'gcc-runtime', 'libtool-cross', 'libsndfile1', 'texinfo-dummy-native', 'linux-libc-headers', 'gnu-config-native', 'mpfr-native', 'gmp-native', 'libmpc-native', 'xz-native', 'binutils-cross-i686', 'zlib-native', 'flex-native', 'opkg-utils', 'acl', 'shadow-sysroot', 'update-rc.d', 'initscripts', 'kmod', 'libxkbcommon', 'base-files', 'shadow', 'bash-completion', 'base-passwd', 'xz', 'util-linux', 'shadow-native', 'libpam', 'libcap', 'libseccomp', 'attr-native', 'm4-native', 'gettext-minimal-native', 'libgcc', 'libogg', 'libvorbis', 'flac', 'attr', 'zlib', 'xkeyboard-config', 'util-macros', 'wayland-protocols', 'wayland', 'libxcb', 'libxcrypt', 'util-linux-libuuid', 'libcap-ng', 'cracklib', 'flex', 'expat', 'libffi', 'libx
+ ml2', 'xorgproto', 'xcb-proto', 'libxau', 'libxdmcp', 'libpthread-stubs', 'python3', 'bzip2', 'openssl', 'sqlite3', 'libtirpc', 'gdbm', 'readline', 'libnsl2']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| automake (GNU automake) 1.16.3
+| Copyright (C) 2020 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+| 
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.16
+| NOTE: Executing ACLOCAL="aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal-1.16" autoreconf -Wcross --verbose --install --force --exclude=autopoint --exclude=gtkdocize -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/
+| autoreconf: export WARNINGS=cross,no-obsolete
+| autoreconf: Entering directory '.'
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+| autoreconf: configure.ac: tracing
+| autoreconf: configure.ac: not using Libtool
+| autoreconf: configure.ac: not using Intltool
+| autoreconf: configure.ac: not using Gtkdoc
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: automake --add-missing --copy --force-missing
+| alsactl/Makefile.am:68: warning: '%'-style pattern rules are a GNU make extension
+| alsaucm/Makefile.am:15: warning: '%'-style pattern rules are a GNU make extension
+| axfer/test/Makefile.am:9: warning: source file '../container.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| automake: warning: possible forward-incompatibility.
+| automake: At least a source file is in a subdirectory, but the 'subdir-objects'
+| automake: automake option hasn't been enabled.  For now, the corresponding output
+| automake: object file(s) will be placed in the top-level directory.  However,
+| automake: this behaviour will change in future Automake versions: they will
+| automake: unconditionally cause object files to be placed in the same subdirectory
+| automake: of the corresponding sources.
+| automake: You are advised to start using 'subdir-objects' option throughout your
+| automake: project, to avoid future incompatibilities.
+| axfer/test/Makefile.am:9: warning: source file '../container-riff-wave.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:9: warning: source file '../container-au.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:9: warning: source file '../container-voc.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:9: warning: source file '../container-raw.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-riff-wave.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-au.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-voc.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-raw.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../mapper.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../mapper-single.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../mapper-multiple.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| topology/Makefile.am:8: warning: '%'-style pattern rules are a GNU make extension
+| autoreconf: './config.sub' is updated
+| autoreconf: './config.guess' is updated
+| autoreconf: Leaving directory '.'
+| NOTE: Running ../alsa-utils-1.2.5/configure  --build=x86_64-linux 		  --host=i686-poky-linux 		  --target=i686-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking 		  --with-libtool-sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot --disable-rst2man --disable-static  --disable-bat  --disable-xmlto --with-udev-rules-dir=/lib/udev/rules.d --enable-nls
+| configure: WARNING: unrecognized options: --with-libtool-sysroot, --disable-static
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot/usr/share/i686-poky-linux_config_site.d/ncurses_config
+| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
+| checking whether build environment is sane... yes
+| checking for i686-poky-linux-strip... i686-poky-linux-strip
+| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
+| checking for gawk... gawk
+| checking whether make sets $(MAKE)... yes
+| checking whether make supports nested variables... yes
+| checking whether to enable maintainer-specific portions of Makefiles... yes
+| checking for a sed that does not truncate output... (cached) sed
+| checking whether NLS is requested... yes
+| checking for msgfmt... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgfmt
+| checking for gmsgfmt... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgfmt
+| checking for xgettext... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/xgettext
+| checking for msgmerge... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgmerge
+| checking whether make supports the include directive... yes (GNU style)
+| checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+| checking whether the C compiler works... yes
+| checking for C compiler default output file name... a.out
+| checking for suffix of executables...
+| checking whether we are cross compiling... yes
+| checking for suffix of object files... o
+| checking whether the compiler supports GNU C... yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot accepts -g... yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot option to enable C11 features... none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot understands -c and -o together... yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot... none
+| checking build system type... x86_64-pc-linux-gnu
+| checking host system type... i686-poky-linux-gnu
+| checking for ld... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+| checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot  ) is GNU ld... yes
+| checking for shared library run path origin... done
+| checking 32-bit host C ABI... yes
+| checking how to run the C preprocessor... i686-poky-linux-gcc -E --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time
+| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
+| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
+| checking for ELF binary format... yes
+| checking for the common suffixes of directories in the library search path... lib,lib32,lib
+| checking for CFPreferencesCopyAppValue... no
+| checking for CFLocaleCopyPreferredLanguages... no
+| checking for GNU gettext in libc... yes
+| checking whether to use NLS... yes
+| checking where the gettext function comes from... libc
+| checking for i686-poky-linux-gcc... (cached) i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+| checking whether the compiler supports GNU C... (cached) yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot accepts -g... (cached) yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot option to enable C11 features... (cached) none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot understands -c and -o together... (cached) yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot... (cached) none
+| checking whether ln -s works... yes
+| checking for a sed that does not truncate output... (cached) sed
+| checking for i686-poky-linux-pkg-config... no
+| checking for pkg-config... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/pkg-config
+| configure: WARNING: using cross tools not prefixed with host triplet
+| checking pkg-config is at least version 0.9.0... yes
+| checking for ALSA CFLAGS...
+| checking for dlopen in -lc... no
+| checking for dlopen in -ldl... yes
+| checking for ALSA LDFLAGS...  -lasound -lm -ldl -lpthread
+| checking required libasound headers version... 1.2.5
+| checking for libasound headers version >= 1.2.5 (1.2.5)... not present.
+| configure: error: Sufficiently new version of libasound not found.
+| NOTE: The following config.log files may provide further information.
+| NOTE: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/build/config.log
+| ERROR: configure failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/temp/run.do_configure.34766' failed with exit code 1:
+| automake (GNU automake) 1.16.3
+| Copyright (C) 2020 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+| 
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.16
+| autoreconf: export WARNINGS=cross,no-obsolete
+| autoreconf: Entering directory '.'
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+| autoreconf: configure.ac: tracing
+| autoreconf: configure.ac: not using Libtool
+| autoreconf: configure.ac: not using Intltool
+| autoreconf: configure.ac: not using Gtkdoc
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/alsa-utils-1.2.5/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: automake --add-missing --copy --force-missing
+| alsactl/Makefile.am:68: warning: '%'-style pattern rules are a GNU make extension
+| alsaucm/Makefile.am:15: warning: '%'-style pattern rules are a GNU make extension
+| axfer/test/Makefile.am:9: warning: source file '../container.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| automake: warning: possible forward-incompatibility.
+| automake: At least a source file is in a subdirectory, but the 'subdir-objects'
+| automake: automake option hasn't been enabled.  For now, the corresponding output
+| automake: object file(s) will be placed in the top-level directory.  However,
+| automake: this behaviour will change in future Automake versions: they will
+| automake: unconditionally cause object files to be placed in the same subdirectory
+| automake: of the corresponding sources.
+| automake: You are advised to start using 'subdir-objects' option throughout your
+| automake: project, to avoid future incompatibilities.
+| axfer/test/Makefile.am:9: warning: source file '../container-riff-wave.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:9: warning: source file '../container-au.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:9: warning: source file '../container-voc.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:9: warning: source file '../container-raw.c' is in a subdirectory,
+| axfer/test/Makefile.am:9: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-riff-wave.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-au.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-voc.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../container-raw.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../mapper.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../mapper-single.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| axfer/test/Makefile.am:20: warning: source file '../mapper-multiple.c' is in a subdirectory,
+| axfer/test/Makefile.am:20: but option 'subdir-objects' is disabled
+| topology/Makefile.am:8: warning: '%'-style pattern rules are a GNU make extension
+| autoreconf: './config.sub' is updated
+| autoreconf: './config.guess' is updated
+| autoreconf: Leaving directory '.'
+| configure: WARNING: unrecognized options: --with-libtool-sysroot, --disable-static
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot/usr/share/i686-poky-linux_config_site.d/ncurses_config
+| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
+| checking whether build environment is sane... yes
+| checking for i686-poky-linux-strip... i686-poky-linux-strip
+| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
+| checking for gawk... gawk
+| checking whether make sets $(MAKE)... yes
+| checking whether make supports nested variables... yes
+| checking whether to enable maintainer-specific portions of Makefiles... yes
+| checking for a sed that does not truncate output... (cached) sed
+| checking whether NLS is requested... yes
+| checking for msgfmt... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgfmt
+| checking for gmsgfmt... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgfmt
+| checking for xgettext... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/xgettext
+| checking for msgmerge... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/msgmerge
+| checking whether make supports the include directive... yes (GNU style)
+| checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+| checking whether the C compiler works... yes
+| checking for C compiler default output file name... a.out
+| checking for suffix of executables...
+| checking whether we are cross compiling... yes
+| checking for suffix of object files... o
+| checking whether the compiler supports GNU C... yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot accepts -g... yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot option to enable C11 features... none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot understands -c and -o together... yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot... none
+| checking build system type... x86_64-pc-linux-gnu
+| checking host system type... i686-poky-linux-gnu
+| checking for ld... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+| checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot  ) is GNU ld... yes
+| checking for shared library run path origin... done
+| checking 32-bit host C ABI... yes
+| checking how to run the C preprocessor... i686-poky-linux-gcc -E --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time
+| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
+| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
+| checking for ELF binary format... yes
+| checking for the common suffixes of directories in the library search path... lib,lib32,lib
+| checking for CFPreferencesCopyAppValue... no
+| checking for CFLocaleCopyPreferredLanguages... no
+| checking for GNU gettext in libc... yes
+| checking whether to use NLS... yes
+| checking where the gettext function comes from... libc
+| checking for i686-poky-linux-gcc... (cached) i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot
+| checking whether the compiler supports GNU C... (cached) yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot accepts -g... (cached) yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot option to enable C11 features... (cached) none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot understands -c and -o together... (cached) yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wdate-time --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot... (cached) none
+| checking whether ln -s works... yes
+| checking for a sed that does not truncate output... (cached) sed
+| checking for i686-poky-linux-pkg-config... no
+| checking for pkg-config... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/alsa-utils/1.2.5-r0/recipe-sysroot-native/usr/bin/pkg-config
+| configure: WARNING: using cross tools not prefixed with host triplet
+| checking pkg-config is at least version 0.9.0... yes
+| checking for ALSA CFLAGS...
+| checking for dlopen in -lc... no
+| checking for dlopen in -ldl... yes
+| checking for ALSA LDFLAGS...  -lasound -lm -ldl -lpthread
+| checking required libasound headers version... 1.2.5
+| checking for libasound headers version >= 1.2.5 (1.2.5)... not present.
+| configure: error: Sufficiently new version of libasound not found.
+| WARNING: exit code 1 from a shell command.
+| 
+NOTE: recipe alsa-utils-1.2.5-r0: task do_configure: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_configure) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 2425 tasks of which 2418 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb:do_configure
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+
+--===============7149443649228816867==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-alsa-ucm-conf-upgrade-1.2.4-1.2.5.patch"
+ filename="0001-alsa-utils-upgrade-1.2.4-1.2.5.patch"
 
-From 58aa28dbed14ee4f880d9378a09d10a5548abff8 Mon Sep 17 00:00:00 2001
+From 2d1be4db5ea4bea55760f1bd74d1ba91e60fdc9f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 2 Jun 2021 23:12:24 +0000
-Subject: [PATCH] alsa-ucm-conf: upgrade 1.2.4 -> 1.2.5
+Date: Wed, 2 Jun 2021 23:18:10 +0000
+Subject: [PATCH] alsa-utils: upgrade 1.2.4 -> 1.2.5
 
 ---
- .../alsa/{alsa-ucm-conf_1.2.4.bb => alsa-ucm-conf_1.2.5.bb}    | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.4.bb => alsa-ucm-conf_1.2.5.bb} (84%)
+ meta/recipes-multimedia/alsa/alsa-utils.inc                     | 2 +-
+ .../alsa/{alsa-utils_1.2.4.bb => alsa-utils_1.2.5.bb}           | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.4.bb => alsa-utils_1.2.5.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.4.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.bb
-similarity index 84%
-rename from meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.4.bb
-rename to meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.bb
-index 32cf41c8fd..23c69867d9 100644
---- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.4.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.bb
-@@ -8,7 +8,7 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils.inc b/meta/recipes-multimedia/alsa/alsa-utils.inc
+index f2e8133d2c..1d7f0dd865 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils.inc
++++ b/meta/recipes-multimedia/alsa/alsa-utils.inc
+@@ -24,7 +24,7 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
  
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "2c3b535c77dcb9aaf62a61f4f8324f1ab184162f105f7ec9ed1e37c742fcd340"
-+SRC_URI[sha256sum] = "093ae3d85a5e6fd2cd1cc27feda400d7191382fb8b5e5e23497286c87c1507a5"
+ # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
+ SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "98ffc2d599de0577d423a48fa5f20a992ca0b82d812ed1f2e58ade49ac6da426"
++SRC_URI[sha256sum] = "09970af05838b30001ca93ba27cb85b24c45056c70a80066c3ece6abe5a19997"
  
- inherit allarch
- 
-@@ -18,6 +18,7 @@ do_install() {
-         cp -r "${S}/ucm2" "${D}${datadir}/alsa"
- }
- 
-+S = "${WORKDIR}/alsa-ucm-conf-1.2.4.81.g4884e"
- PACKAGES = "${PN}"
- 
- FILES_${PN} = "*"
+ # On build machines with python-docutils (not python3-docutils !!) installed
+ # rst2man (not rst2man.py) is detected and compile fails with
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.4.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.4.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb
 -- 
 2.17.1
 
 
---===============3965914433962108959==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf: PKGSIZE changed from 154121 to 181817 (+18%)
-packages/all-poky-linux/alsa-ucm-conf/alsa-ucm-conf: FILELIST: removed "/usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf", added "/usr/share/alsa/ucm2/conf.d/tegra/Compal PAZ00.conf /usr/share/alsa/ucm2/sof-soundwire/dmic.conf /usr/share/alsa/ucm2/conf.d/sdm845/DB845c.conf /usr/share/alsa/ucm2/codecs/rt5645/init.conf /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBig.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/HDMI.conf /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio-HiFi.conf /usr/share/alsa/ucm2/codecs/rt711-sdca/init.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf /usr/share/alsa/ucm2/sof-soundwire/rt711-sdca.conf /usr/share/alsa/ucm2/sof-soundwire/rt1316-1.conf /usr/share/alsa/ucm2/codecs/wm5102/IN1-HeadsetMic.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0EnableSeq.conf /usr/share/alsa/ucm2/codecs/wm5102/HeadPhones.conf /usr/share/alsa/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf /usr/share/alsa/ucm2/codecs/
- wm5102/IN3-InternalMic.conf /usr/share/alsa/ucm2/codecs/rt5651/init.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0DisableSeq.conf /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBlaze.conf /usr/share/alsa/ucm2/sof-soundwire/rt715-sdca.conf /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Front-Headphone.conf /usr/share/alsa/ucm2/conf.virt.d/.gitignore /usr/share/alsa/ucm2/sof-soundwire/rt1316-2.conf /usr/share/alsa/ucm2/codecs/rt715-sdca/init.conf /usr/share/alsa/ucm2/sof-soundwire/rt1308-1.conf /usr/share/alsa/ucm2/conf.d/tegra/Acer Iconia Tab A500 WM8903.conf /usr/share/alsa/ucm2/conf.d/DB820c/DB820c.conf /usr/share/alsa/ucm2/Tegra/rt5640/ASUS Google Nexus 7 ALC5642.conf /usr/share/alsa/ucm2/lib/card-init.conf /usr/share/alsa/ucm2/codecs/wm5102/Speaker.conf /usr/share/alsa/ucm2/conf.d/tegra/ASUS Google Nexus 7 ALC5642.conf /usr/share/alsa/ucm2/bytcr-wm5102/HiFi.conf /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio.conf /usr/share/alsa/ucm2/codecs/qcom-lp
- ass/wsa-macro/SpeakerEnableSeq.conf /usr/share/alsa/ucm2/lib/ctl-remap.conf /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerDisableSeq.conf /usr/share/alsa/ucm2/codecs/nau8824/DMIC1_2.conf /usr/share/alsa/ucm2/bytcr-wm5102/bytcr-wm5102.conf /usr/share/alsa/ucm2/conf.d/DB410c/DB410c.conf /usr/share/alsa/ucm2/codecs/wm5102/EnableSeq.conf /usr/share/alsa/ucm2/Qualcomm/sm8250/HiFi.conf /usr/share/alsa/ucm2/lib/generic.conf /usr/share/alsa/ucm2/Tegra/wm8903/Acer Iconia Tab A500 WM8903.conf /usr/share/alsa/ucm2/codecs/rt5640/init.conf"
-Changes to packages/all-poky-linux/alsa-ucm-conf (sysroot):
-  /usr/share/alsa/ucm2/kblrt5660/Hdmi1.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/kblrt5660/Hdmi2.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/kblrt5660/HiFi.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/kblrt5660/kblrt5660.conf changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf moved to /usr/share/alsa/ucm2/sof-soundwire/rt1308-1.conf
-  /usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf moved to /usr/share/alsa/ucm2/sof-soundwire/rt1316-1.conf
-  /usr/share/alsa/ucm2/sof-soundwire/rt1308-4.conf moved to /usr/share/alsa/ucm2/sof-soundwire/rt1316-2.conf
-  /usr/share/alsa/ucm2/bytcr-wm5102 was added
-  /usr/share/alsa/ucm2/bytcr-wm5102/bytcr-wm5102.conf was added
-  /usr/share/alsa/ucm2/bytcr-wm5102/HiFi.conf was added
-  /usr/share/alsa/ucm2/codecs/nau8824/DMIC1_2.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0DisableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/va-macro/DMIC0EnableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerDisableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/qcom-lpass/wsa-macro/SpeakerEnableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/rt5640/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt5645/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt5651/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt711-sdca was added
-  /usr/share/alsa/ucm2/codecs/rt711-sdca/init.conf was added
-  /usr/share/alsa/ucm2/codecs/rt715-sdca was added
-  /usr/share/alsa/ucm2/codecs/rt715-sdca/init.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102 was added
-  /usr/share/alsa/ucm2/codecs/wm5102/EnableSeq.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/HeadPhones.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/IN1-HeadsetMic.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/IN3-InternalMic.conf was added
-  /usr/share/alsa/ucm2/codecs/wm5102/Speaker.conf was added
-  /usr/share/alsa/ucm2/conf.d was added
-  /usr/share/alsa/ucm2/conf.d/DB410c was added
-  /usr/share/alsa/ucm2/conf.d/DB410c/DB410c.conf was added
-  /usr/share/alsa/ucm2/conf.d/DB820c was added
-  /usr/share/alsa/ucm2/conf.d/DB820c/DB820c.conf was added
-  /usr/share/alsa/ucm2/conf.d/sdm845 was added
-  /usr/share/alsa/ucm2/conf.d/sdm845/DB845c.conf was added
-  /usr/share/alsa/ucm2/conf.d/sm8250 was added
-  /usr/share/alsa/ucm2/conf.d/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra was added
-  /usr/share/alsa/ucm2/conf.d/tegra/Acer Iconia Tab A500 WM8903.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/ASUS Google Nexus 7 ALC5642.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/Compal PAZ00.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBig.conf was added
-  /usr/share/alsa/ucm2/conf.d/tegra/GoogleNyanBlaze.conf was added
-  /usr/share/alsa/ucm2/conf.virt.d was added
-  /usr/share/alsa/ucm2/conf.virt.d/.gitignore was added
-  /usr/share/alsa/ucm2/lib was added
-  /usr/share/alsa/ucm2/lib/card-init.conf was added
-  /usr/share/alsa/ucm2/lib/ctl-remap.conf was added
-  /usr/share/alsa/ucm2/lib/generic.conf was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250 was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250/HDMI.conf was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250/HiFi.conf was added
-  /usr/share/alsa/ucm2/Qualcomm/sm8250/Qualcomm-RB5-WSA8815-Speakers-DMIC0.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/dmic.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt1316-1.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt1316-2.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt711-sdca.conf was added
-  /usr/share/alsa/ucm2/sof-soundwire/rt715-sdca.conf was added
-  /usr/share/alsa/ucm2/Tegra/rt5640 was added
-  /usr/share/alsa/ucm2/Tegra/rt5640/ASUS Google Nexus 7 ALC5642.conf was added
-  /usr/share/alsa/ucm2/Tegra/wm8903 was added
-  /usr/share/alsa/ucm2/Tegra/wm8903/Acer Iconia Tab A500 WM8903.conf was added
-  /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Front-Headphone.conf was added
-  /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio.conf was added
-  /usr/share/alsa/ucm2/USB-Audio/Gigabyte-Aorus-Master-Main-Audio-HiFi.conf was added
-
---===============3965914433962108959==--
+--===============7149443649228816867==--
