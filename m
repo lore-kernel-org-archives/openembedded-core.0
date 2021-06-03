@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.2087.1622683485343206634
+ by mx.groups.io with SMTP id smtpd.web09.2088.1622683485378499443
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Jun 2021 18:24:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id AF81538C1129
+	by mail.yoctoproject.org (Postfix) with ESMTP id BB25138C112E
 	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:44 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mtools: upgrading to 4.0.29 SUCCEEDED
-Message-ID: <MADEUP.1684EE085EC799EC.2682@lists.openembedded.org>
-X-Groupsio-MsgNum: 152564
-Content-Type: multipart/mixed; boundary="===============7178122410687987275=="
+Subject: [AUH] perl: upgrading to 5.34.0 FAILED
+Message-ID: <MADEUP.1684EE08603A36E2.6146@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============3595978183749002907=="
 
---===============7178122410687987275==
+--===============3595978183749002907==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,124 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mtools* to *4.0.29* has Succeeded.
+that the automatic attempt to upgrade the recipe *perl* to *5.34.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-mtools-upgrade-4.0.27-4.0.29.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe perl failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1459 entries from dependency cache.
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-98203e0f8e35f89c5c0af251e068ef7a067730ed"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:98203e0f8e35f89c5c0af251e068ef7a067730ed"
+workspace            = "master:9d1b332292a94cd4463f1e88dfe293847264714e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.cpan.org/src/5.0/perl-5.34.0.tar.gz;name=perl...
+Loading cache...done.
+Loaded 1459 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 824 .bb files complete (822 cached, 2 parsed). 1460 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-98203e0f8e35f89c5c0af251e068ef7a067730ed"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:98203e0f8e35f89c5c0af251e068ef7a067730ed"
+workspace            = "master:9d1b332292a94cd4463f1e88dfe293847264714e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   4% |#                                   | ETA:  0:00:05
+Adding changed files:   8% |##                                  | ETA:  0:00:03
+Adding changed files:  12% |####                                | ETA:  0:00:02
+Adding changed files:  16% |#####                               | ETA:  0:00:02
+Adding changed files:  20% |#######                             | ETA:  0:00:01
+Adding changed files:  24% |########                            | ETA:  0:00:01
+Adding changed files:  28% |##########                          | ETA:  0:00:01
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  36% |#############                       | ETA:  0:00:01
+Adding changed files:  40% |##############                      | ETA:  0:00:01
+Adding changed files:  45% |################                    | ETA:  0:00:00
+Adding changed files:  49% |#################                   | ETA:  0:00:00
+Adding changed files:  53% |###################                 | ETA:  0:00:00
+Adding changed files:  57% |####################                | ETA:  0:00:00
+Adding changed files:  61% |######################              | ETA:  0:00:00
+Adding changed files:  65% |#######################             | ETA:  0:00:00
+Adding changed files:  69% |#########################           | ETA:  0:00:00
+Adding changed files:  73% |##########################          | ETA:  0:00:00
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
+WARNING: Command 'git rebase 60eca92965531900b3c44e89c944192310dd78d5' failed:
+First, rewinding head to replay your work on top of it...
+Applying: configure_tool.sh: do not quote the argument to 'command'
+Using index info to reconstruct a base tree...
+A	cnf/configure_tool.sh
+Falling back to patching base and 3-way merge...
+CONFLICT (modify/delete): cnf/configure_tool.sh deleted in HEAD and modified in configure_tool.sh: do not quote the argument to 'command'. Version configure_tool.sh: do not quote the argument to 'command' of cnf/configure_tool.sh left in tree.
+error: Failed to merge in the changes.
+Patch failed at 0001 configure_tool.sh: do not quote the argument to 'command'
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/perl
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/perl/perl_5.34.0.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,93 +148,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7178122410687987275==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/mtools: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.27.tar.bz2 file://mtools-makeinfo.patch file://no-x11.gplv3.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.29.tar.bz2 file://mtools-makeinfo.patch file://no-x11.gplv3.patch file://clang_UNUSED.patch"
-packages/core2-32-poky-linux/mtools: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools-dbg: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 719108 to 739452 (+3%)
-packages/core2-32-poky-linux/mtools/mtools-dev: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools-doc: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools-doc: PKGSIZE changed from 242006 to 244977 (+1%)
-packages/core2-32-poky-linux/mtools/mtools-locale: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools-src: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools/mtools-src: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools-src: PKGSIZE changed from 554533 to 572865 (+3%)
-packages/core2-32-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools: PV changed from "4.0.27" to "4.0.29"
-packages/core2-32-poky-linux/mtools/mtools: PKGV changed from 4.0.27 [default] to 4.0.29 [default]
-packages/core2-32-poky-linux/mtools/mtools: PKGSIZE changed from 249180 to 257436 (+3%)
-
---===============7178122410687987275==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-mtools-upgrade-4.0.27-4.0.29.patch"
-
-From 47afabd0448bc66af6bcd37bf99d528a4eee4b6b Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 2 Jun 2021 16:38:15 +0000
-Subject: [PATCH] mtools: upgrade 4.0.27 -> 4.0.29
-
----
- .../mtools/mtools/disable-hardcoded-configs.patch           | 6 +++---
- .../mtools/{mtools_4.0.27.bb => mtools_4.0.29.bb}           | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.27.bb => mtools_4.0.29.bb} (93%)
-
-diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-index f187487096..6c21f151c0 100644
---- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-+++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-@@ -1,4 +1,4 @@
--From 9590860ba35cbd524cec51bdd009f0c63a7dd417 Mon Sep 17 00:00:00 2001
-+From 27721edad4edb72690bc0bd79db856f4d17d2b83 Mon Sep 17 00:00:00 2001
- From: Ed Bartosh <ed.bartosh@linux.intel.com>
- Date: Tue, 13 Jun 2017 14:55:52 +0300
- Subject: [PATCH] Disabled reading host configs.
-@@ -12,10 +12,10 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-  1 file changed, 8 deletions(-)
- 
- diff --git a/config.c b/config.c
--index 415755f..b61a49d 100644
-+index 550bfbf..5fbf4a1 100644
- --- a/config.c
- +++ b/config.c
--@@ -774,14 +774,6 @@ void read_config(void)
-+@@ -813,14 +813,6 @@ void read_config(void)
-  	memcpy(devices, const_devices,
-  	       nr_const_devices*sizeof(struct device));
-  
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.27.bb b/meta/recipes-devtools/mtools/mtools_4.0.29.bb
-similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.27.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.29.bb
-index c6fa02ebdf..38de1dd923 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.27.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.29.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS_${PN}_libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "9c88c8d9244e54768e40b92c005e61ec4e084ea7c070df9184caf1a6408838b3"
-+SRC_URI[sha256sum] = "c6b50b4603e7afe54ba0109094669373028db9af743f5c541bca4b7664aefec7"
- 
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
--- 
-2.17.1
-
-
---===============7178122410687987275==--
+--===============3595978183749002907==--
