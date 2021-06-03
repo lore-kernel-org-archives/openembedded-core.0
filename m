@@ -1,150 +1,161 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web11.8405.1622729674540057853
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web09.8369.1622729727951808357
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 07:14:34 -0700
+ Thu, 03 Jun 2021 07:15:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gUvb6fy4;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id o17-20020a17090a9f91b029015cef5b3c50so5547330pjp.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 07:14:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RravxYL3;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: andrea.adami@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id c10so9426982eja.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 07:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LW/ekkeRgPOQdlkX5FHJDsgJUOWsxWiX6gvcljg6woY=;
-        b=gUvb6fy4UHnG2XvPtErYWUtdkbgu9zovqEd8Nxf/m/HsCnG4Pn9KJlynDTzbKOjsJO
-         4QI+rZPwapAzww2CkPf3XeetcrekeGSob0p7CsYU81Q3EklXTLEYPZnJfNxj2HxnNs2E
-         WeyapnTmCUfYOr8N5CljzoSivtI2U2LYPlPPWPztpuISM0eUHGpTHjKtwewgb0qzFH/R
-         HFJ8cbtyyjClZHHWyV43YUXJ2jSsEfhjQNk69EoyEGfHVJOSF3bufpU9GYt/SLeASBcj
-         Yk6FtkhSAp7gagwaWeMIYHXH/ws2U3WHTRfgjw49iTJkOph5u/bcAhGmpRqwPnRbugbm
-         PYBg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HBUzjXlSFzqvqcOYsIEC8PFJhhsSI35sif42OGyHUec=;
+        b=RravxYL3h74VO/1taq5097ON1A0PW4tjgQjl0DRNe8m8MR4m237YVlHYHggeVC+fhZ
+         x/R+PQug7Y4/0Qm4ZIOCSemUrYqkOfO0g8qRlz1WDb0ekqAW0/IMolVRxNB5F/M2kgS6
+         a8FqHICvp8zXQxjMM9Bl8LL2lExXjv01mOnUDcGnn0lpIdODIvrpm2r13d9mz97i6JCT
+         vQcsYi48RZtmWaWP+pEMq9JhbTBHrX5C1PEo4Mn8XfZo6rv9/d4yGZqT0WHNgb6rRpda
+         bSeVvMVpAaXaEjvzz9ffHqkoASs7/iQTbwppOOf1zUB1f7+8/uH3GHANfdwuLUFv75AQ
+         TqVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LW/ekkeRgPOQdlkX5FHJDsgJUOWsxWiX6gvcljg6woY=;
-        b=reSLyRgKw+eoGVmnEG1XWw2hULiisHyI/rI1J/Z7/U8dY8SAcwluP/mXX/huRjIczD
-         5YWuvSPkyqPptRr3uQ4rrAxnTOFFshgfpbXeskZeRfWUn4D67eZ+YOKTqD/izgAZ0K8n
-         94svM5WRG8/7GrKMYJBk9vNIjHkTs/ULwmkqkcfMsFBjpr/52NmFhF6m5j2mKRjZSjTc
-         zmNC8vr8RKhCf1ciNE+hj1LYTweoj5eio0QxxvIkkTyQsIh0ucfS9wANAz0TJr72Qg4I
-         S+yVQaCcg8b31B1Gzksx9YMc25s1dwSsvXo5uZU4c3W3xt4AeAsTRgjN/qyEcaW1IVV6
-         lfLA==
-X-Gm-Message-State: AOAM531fVWxBKppUMKOdW1G9BcqEYwwfZOMMcIYPyDPJkgZIUY5H9fhl
-	lET/eocQHYBOnso7HdGXn2WXlz1ghM16aWLh9L4=
-X-Google-Smtp-Source: ABdhPJyTzYlK2oTZzr01ScGuHzSq0/1VoPsazKHKjvTQFgVFdi7lOaXBrKXYgPkd8mcZvvmTAP3H+A==
-X-Received: by 2002:a17:90a:a41:: with SMTP id o59mr11157162pjo.203.1622729673304;
-        Thu, 03 Jun 2021 07:14:33 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id e21sm2521365pjh.55.2021.06.03.07.14.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 07:14:32 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/26] Pull request (cover letter only)
-Date: Thu,  3 Jun 2021 04:14:14 -1000
-Message-Id: <cover.1622729466.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HBUzjXlSFzqvqcOYsIEC8PFJhhsSI35sif42OGyHUec=;
+        b=KDVFiRNGn7slnp53943sUfO49QfoMnKrgjmkWFJv40ki02knQwIOhJAhlJIp7I5Ep1
+         cbx+Ol9DtOmuuI1q3lnvamuKozz0H2SvLbQfH3iWosa4LvJm9KmsiUq1ZXQ8Hnz0C/bm
+         6MmWfUxh2csfK2O3mLDTS6pvWoo0+docmW8w3lFzrdBhX5e7wYr9XKa/OEETuWVuw2W3
+         6pum6QmDYIV0oTxV/70AvTshQE5l7g1RcqBmH+B1aVlFZtCWKvf3i1l//Qy0U3+5vQYX
+         6+QotwEdr+27bIO2k9DkE10W0Brjtw/6NJdtxOoQ183zhOPYQNhvGMYrHsF//n085dxm
+         eTjA==
+X-Gm-Message-State: AOAM530Bh2sEyHc1cUAKYWPWQwyaxwjDV/50rapNAVARnSif2bZ1Tu63
+	zJ7HBpwwlcJfjtWMAMBPNihCWlOSb7I6DPLHvII=
+X-Google-Smtp-Source: ABdhPJw3etxgKAS+OANRL7MJTcHUZ1Z/IkFPDmlZas7OaWFEM7Fa0U+9dyIRXe2O3fbd3BmU4wubxFQDLB0XFw/exjc=
+X-Received: by 2002:a17:906:4f10:: with SMTP id t16mr23834536eju.337.1622729726137;
+ Thu, 03 Jun 2021 07:15:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <b389383-5997-4638-97f-e6919364bda7@crashcourse.ca>
+In-Reply-To: <b389383-5997-4638-97f-e6919364bda7@crashcourse.ca>
+From: "Andrea Adami" <andrea.adami@gmail.com>
+Date: Thu, 3 Jun 2021 16:15:14 +0200
+Message-ID: <CAAQYJAveuBzyGwA4uh967Y=x0=TgFsdQzy4fnA8U64Xp2yBCLA@mail.gmail.com>
+Subject: Re: [OE-core] want to clarify proper approach to shared lib (.so) installation
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The following changes since commit ecd636154e7cfc1349a7cfd8026a85eafa219535:
+On Thu, Jun 3, 2021 at 4:01 PM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>
+>
+>   sort of a 2-part soliloquy. in current YP code base i've inherited,
+> most of the internal (local directory SRC_URI-based) recipes inherit a
+> proprietary class that, among doing other internal, proprietary
+> things, totally redefines PACKAGES as:
+>
+>   PACKAGES = "${PN} ... ${PN}-dev ..."
+>
+> i had never really noticed that before, but it's pretty obvious that
+> that's not a great idea, as it allows what i call the recipe "base"
+> package (${PN}) to gather up everything that matches its standard
+> wildcard pattern before moving on, in effect "stealing" content from
+> subsequent packages they would normally get if the base package was at
+> the end, not the beginning.
+>
+>   somehow, this has worked all this time, but it's clear(?) that what
+> would be the "normal" contents of the various packages isn't going to
+> be what one would expect; in particular, the base package is going to
+> be what i call "overpackaged", with lots of stuff it doesn't really
+> need so i'm guessing what's going into the image is more than is
+> really necessary. somehow, though, it's worked all this time until
+> recently, when i noticed this quirk was causing some Q/A issues, so i
+> took a deep breath, commented out that line from the class file to use
+> the default packaging approach and re-tried the build, which is when
+> all hell broke loose.
+>
+>   it turns out that these internal recipes use local Makefile-based
+> source directories, which build, then install their generated
+> artifacts in a temporary (non-YP) staging area per recipe, *then*
+> manually (little by little) install stuff in ${D} via a general
+> do_install() routine, at which point the regular packaging and
+> subsequent steps kick in, but it's what now gets copied into ${D} that
+> is causing grief.
+>
+>   apparently, many of these recipes generate a shared library, and i'm
+> well aware that the *normal* packaging involving a shared library is
+> like this example from libidn2 (snipped for brevity to show only
+> shared lib stuff):
+>
+>  libidn2/
+>   usr/
+>    lib/
+>     libidn2.so.0 -> libidn2.so.0.3.7
+>     libidn2.so.0.3.7                    [actual library file]
+>
+>  libidn2-dev/
+>   usr/
+>    lib/
+>     libidn2.so -> libidn2.so.0.3.7
+>
+> so the *normal* packaging for a shared lib is that the lib itself and
+> a symlink to it go into the base package, while another symlink goes
+> into the "-dev" package. i'd never really paid that much attention to
+> that until i reset that PACKAGES variable, as all of these internal
+> recipes end up installing into ${D} nothing but the shared lib file
+> itself under /usr/lib, and why this has worked all this time is a
+> mystery, but having made this change is generating all sorts of Q/A
+> diagnostics as this is what ends up in ${D} using a "fubar" recipe
+> example given the manual installation being done using normal
+> packaging:
+>
+>  fubar/
+>   usr/
+>    bin/
+>     ... snip ...
+>    no lib/ directory
+>
+>  fubar-dev/
+>   usr/
+>    lib/
+>     libfnvcma.so            [actual shared lib]
+>
+> unsurprisingly, there are QA issues with the above:
+>
+> ERROR: fubar-1.0-r0 do_package_qa: QA Issue: -dev package contains non-symlink .so: fubar-dev
+> path .../packages-split/fubar-dev/usr/lib/libfnvcma.so'[dev-elf]
+> ERROR: fubar-1.0-r0 do_package_qa: QA Issue: fubar rdepends on fubar-dev [dev-deps]
+>
+>   *sigh*.
+>
+>   in short, because these internal recipes generate only the single
+> shared lib file itself and that's all that's copied into ${D}, the
+> regular Q/A tests will naturally barf, and i could use INSANE_SKIP all
+> over the place to get around this, but it seems to me that the proper
+> approach is to tell the developers that they need to start generating
+> the appropriate symlinks for all of their recipes so packaging is done
+> properly.
+>
+>   i'm just about to check if there is a switch or class i can invoke
+> that will "fix" this issue (as in, set up the shared libs in ${D}
+> properly), but apart from that, am i correct in thinking that the
+> developers need to do this correctly from the beginning?
+>
+> rday
+>
+> 
+>
 
-  build-appliance-image: Update to dunfell head revision (2021-05-24 15:19:42 +0100)
+Hi,
+in the latter example you are packaging an unversioned shlib:
 
-are available in the Git repository at:
+libfnvcma.so            [actual shared lib]
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+In this case you might play with
+ SOLIBS = ".so"
+ FILES_SOLIBSDEV = ""
 
-Bruce Ashfield (4):
-  kernel-yocto: provide debug / summary information for metadata
-  linux-yocto/5.4: update to v5.4.117
-  linux-yocto/5.4: update to v5.4.118
-  linux-yocto/5.4: update to v5.4.119
+Please have a look at
+https://wiki.yoctoproject.org/wiki/TipsAndTricks/Packaging_Prebuilt_Libraries
 
-Changqing Li (2):
-  unfs3: correct configure option
-  pkgconfig: update SRC_URI
-
-Daniel McGregor (2):
-  sstate: Ignore sstate signing key
-  lib/oe/gpg_sign.py: Fix gpg verification
-
-Guillaume Champagne (1):
-  image-live.bbclass: order do_bootimg after do_rootfs
-
-Ming Liu (2):
-  kernel-fitimage.bbclass: fix a wrong conditional check
-  initramfs-framework:rootfs: fix wrong indentions
-
-Richard Purdie (7):
-  cve-extra-exclusions.inc: add exclusion list for intractable CVE's
-  cve-extra-exclusions: Fix typos
-  cve-extra-exclusions.inc: Clean up merged CPE updates
-  glibc: Add 8GB VM usage cap for usermode test suite
-  grub: Exclude CVE-2019-14865 from cve-check
-  oeqa/runtime/rpm: Drop log message counting test component
-  linux-firmware: upgrade 20210315 -> 20210511
-
-Ross Burton (2):
-  cups: whitelist CVE-2021-25317
-  package_rpm: pass XZ_THREADS to rpm
-
-Sana Kazi (1):
-  openssh: Add fixes for CVEs reported for openssh
-
-Steve Sakoman (1):
-  expat: set CVE_PRODUCT
-
-Tony Tascioglu (2):
-  libxml2: Reformat runtest.patch
-  libxml2: Add bash dependency for ptests.
-
-Volker Vogelhuber (1):
-  busybox: make busybox's syslog.cfg depend on
-    VIRTUAL-RUNTIME_base-utils-syslog
-
-akash hadke (1):
-  tiff: Add fix for CVE-2020-35521 and CVE-2020-35522
-
- meta/classes/image-live.bbclass               |   2 +-
- meta/classes/kernel-fitimage.bbclass          |   2 +-
- meta/classes/kernel-yocto.bbclass             |  17 ++
- meta/classes/package_rpm.bbclass              |   4 +-
- meta/classes/sstate.bbclass                   |   2 +
- .../distro/include/cve-extra-exclusions.inc   |  73 +++++++++
- meta/lib/oe/gpg_sign.py                       |   2 +-
- meta/lib/oeqa/runtime/cases/rpm.py            |   9 --
- meta/recipes-bsp/grub/grub2.inc               |   3 +
- .../openssh/openssh/CVE-2020-14145.patch      |  97 ++++++++++++
- .../openssh/openssh_8.2p1.bb                  |  13 +-
- meta/recipes-core/busybox/busybox_1.31.1.bb   |   2 +-
- meta/recipes-core/expat/expat_2.2.9.bb        |   2 +
- .../glibc/glibc/check-test-wrapper            |   9 ++
- .../initrdscripts/initramfs-framework/rootfs  |   2 +-
- .../recipes-core/libxml/libxml2/runtest.patch |  45 +++---
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |   2 +-
- .../pkgconfig/pkgconfig_git.bb                |   2 +-
- meta/recipes-devtools/unfs3/unfs3_git.bb      |   2 +-
- meta/recipes-extended/cups/cups.inc           |   4 +
- ...20210315.bb => linux-firmware_20210511.bb} |   4 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
- ...or_CVE-2020-35521_and_CVE-2020-35522.patch | 148 ++++++++++++++++++
- ...or_CVE-2020-35521_and_CVE-2020-35522.patch |  27 ++++
- .../CVE-2020-35521_and_CVE-2020-35522.patch   | 119 ++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   3 +
- 28 files changed, 571 insertions(+), 60 deletions(-)
- create mode 100644 meta/conf/distro/include/cve-extra-exclusions.inc
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210315.bb => linux-firmware_20210511.bb} (99%)
- create mode 100644 meta/recipes-multimedia/libtiff/files/001_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/002_support_patch_for_CVE-2020-35521_and_CVE-2020-35522.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35521_and_CVE-2020-35522.patch
-
--- 
-2.25.1
-
+Cheers
+A.A.
