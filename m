@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.2086.1622683485305506921
+ by mx.groups.io with SMTP id smtpd.web10.2059.1622683485344292876
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Jun 2021 18:24:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C074138C08DB
+	by mail.yoctoproject.org (Postfix) with ESMTP id CD6E738C08EF
 	for <openembedded-core@lists.openembedded.org>; Thu,  3 Jun 2021 01:24:45 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] adwaita-icon-theme: upgrading to 40.1.1 FAILED
-Message-ID: <MADEUP.1684EE087BB9DEE2.11265@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============5855459884085995488=="
+Subject: [AUH] vulkan-samples: upgrading to b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5 FAILED
+Message-ID: <MADEUP.1684EE087E76140E.2682@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============1780190878456968864=="
 
---===============5855459884085995488==
+--===============1780190878456968864==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,18 +23,50 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *adwaita-icon-theme* to *40.1.1* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *vulkan-samples* to *b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5* has Failed (devtool error).
 
 Detailed error information:
 
-Failed(unknown error)
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/upgrade-helper.py", line 481, in run
-    step(self.devtool, self.bb, self.git, self.opts, pkg_ctx)
-  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/modules/steps.py", line 39, in load_env
-    os.mkdir(pkg_ctx['workdir'])
-FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/auh/build/build/build/upgrade-helper/20210602131233/all/adwaita-icon-theme'
+The following devtool command failed:  upgrade vulkan-samples -S b7e55e8fcfa9fd4a8f395360873e7bbafa3705e5
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1459 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-fa4e4a6687855e689ab79fa879f8b6e969f800d5"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:fa4e4a6687855e689ab79fa879f8b6e969f800d5"
+workspace            = "master:9d1b332292a94cd4463f1e88dfe293847264714e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+ERROR: Command Error: 'sh -c 'PATCHFILE="0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch" git -c user.name="OpenEmbedded" -c user.email="oe.patch@oe" commit -F /tmp/tmplzzrq4r2 --author="Alexander Kanavin <alex.kanavin@gmail.com>" --date="Sun, 1 Nov 2020 23:19:22 +0000"'' exited with 0  Output:
+stdout: On branch devtool-orig
+Changes not staged for commit:
+	modified:   third_party/spirv-cross (modified content)
+
+no changes added to commit
+
+stderr: 
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-1874kh2f/temp/log.do_patch.27176
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+ERROR: Extracting source for vulkan-samples failed
 
 
 
@@ -44,4 +76,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5855459884085995488==--
+--===============1780190878456968864==--
