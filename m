@@ -1,125 +1,90 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web09.4878.1622787444729073655
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web12.4907.1622787652268038700
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 23:17:24 -0700
+ Thu, 03 Jun 2021 23:20:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oS/o5UAW;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso4616204pjx.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 23:17:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aUAKrL/6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id l2so8102060wrw.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 23:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0oURukj8xLkK8Uw1hGnq3IfWjoBCBc9oKDsaF/ewUQw=;
-        b=oS/o5UAWOU40OcjcABz3NJUXH061+PbZ22Lp0NAfl3LRWYNt9pXmQWtIU1je2PEEU3
-         V1G4xSSCBf00w5ByxdpK19C+dlQbOykHlzRx7OoSKRvfWa780OB26Rq8Evols0Wc6vDL
-         JUgubI+qBozr6G3iMAGThJlSMtOM8VHVkab2x0FwpLLJfxjsheqR0YnPbbC4LjOyaCy3
-         5jPyGDFwnVU+XeTcW2PeZ5BLTSF4WAHfdu7tbqFnU9rOWK79XlthMGfLmFFY9nHcQ+3D
-         utXqaFKf6xnrco/vUc0nCQAhiEAE2jOLb/K2S4S0IqWKCwWZju5j5UV5kxKkUnY6rTp+
-         O15g==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=BxNw43D8o+yq3/pyDP8xue6ggpQ+++DvApR67KWBvYs=;
+        b=aUAKrL/68dR5U8U0hUqY01aBBzgoXZpg5nw8Kd5r6dgsy7q+dLl/GCwvnLQ/f0iwR4
+         QzMHO7Kp2cfmPpmUPPinLinfuNyXuEZvDam6bFqIcHjNf0SLWijWNWyl/RDUZl0Z4Kmz
+         UTjvsSADPhhpVSAA7cwaeM2Me/bBmgPg0Z/BE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0oURukj8xLkK8Uw1hGnq3IfWjoBCBc9oKDsaF/ewUQw=;
-        b=M55IpSc6SJU5vwGUHnX5xlIIywE9YgqHDhfVxroX9l+dM/vbGfUsDG097B1EpltOOE
-         979EpBGOSBz3+7GIsrnNZTDpgdxVn2g5B8dVIg/tgd0vkWf4emNdp82kdkDsgr6v0c5g
-         /tqe/+hstlYwe+zOeEdQGBz6S9Gb2vIL2kyxb5dCa5Kzkvwegshv4d+4BpjsuCp7TIBg
-         Lr6mxqD4HPuwG4kGtksgi2KavBAPOa9BsV0VjB5VHcnSKFFQooAljBHdc3b7OqJiwVR3
-         xp1BFaPFzuLoIbZVHRsKE4p5jt6MlwFWiD9OWKC1a+8NwJI2ikniUNTMW91oVJOziV0o
-         6Mag==
-X-Gm-Message-State: AOAM532rnaNotMkQmW7nS2UfjHoe/HEObgqaWS/gzcaRJ+OSq+OLppZW
-	FZfMeKhDGNnEz9Ho/w+BPyRVEGHxAsOfzg==
-X-Google-Smtp-Source: ABdhPJwuOkfjw7qNFCERRjMHzxqVorfLVkdLqeJJG7UjcY3cYDTL+OQWvn45lBov9PSMV6kyAFHmiw==
-X-Received: by 2002:a17:902:7c94:b029:fc:5e8b:e645 with SMTP id y20-20020a1709027c94b02900fc5e8be645mr2794028pll.18.1622787443809;
-        Thu, 03 Jun 2021 23:17:23 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
-        by smtp.gmail.com with ESMTPSA id l20sm3710525pjq.38.2021.06.03.23.17.22
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=BxNw43D8o+yq3/pyDP8xue6ggpQ+++DvApR67KWBvYs=;
+        b=jdTOmZi12yVP0DhkhVIxi51wfYh84wHmkdrzP6zPpim1hQv1c0saqZvakSCXdfJECD
+         aeH8V82ID+ulAuQZLbOoOuQmq8MlYofsmsZWVgpSSYighEWs3ghge6xlPRweJ1TLaI8Z
+         my6d028SS6uV/ZtnEJkeY3j0Itri0nPQRHHj8XiXTUShj9c8xYnX46oS0puI0ug9jUwo
+         ItelsmfQWWHrBzOFTpTetsQDw9PRe5a86f8rFJ7KcmvsqKpVfPE9JxTyqWibptGJT7CD
+         ty0Cqrq81hPhuxSCG0nYD4ToseJ5Z5nV/4tKtCg0he+cYL3Ne5nXi8umFW/uA6HZW0Zs
+         s5mg==
+X-Gm-Message-State: AOAM530A+5FMY+VmEc+0JywSYW4fF1riosikE1BxYKFSWmM62anYOV2V
+	IJBOUFFelr+Km0drxKevUW0J4Q==
+X-Google-Smtp-Source: ABdhPJxu7PeI9x6A0apoYxrFULY31I01Yx+IHa6EO46LUQNY5ju9dzDawRtmdvztMBvYY3PxsnYhaw==
+X-Received: by 2002:a5d:4346:: with SMTP id u6mr2039561wrr.304.1622787650915;
+        Thu, 03 Jun 2021 23:20:50 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:1fce:265d:903f:2948? ([2001:8b0:aba:5f3c:1fce:265d:903f:2948])
+        by smtp.gmail.com with ESMTPSA id f7sm4755763wmq.30.2021.06.03.23.20.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 23:17:23 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] harfbuzz: Fix unused-variable warning
-Date: Thu,  3 Jun 2021 23:17:19 -0700
-Message-Id: <20210604061719.3721660-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        Thu, 03 Jun 2021 23:20:50 -0700 (PDT)
+Message-ID: <96b9bce469e6cdcc86165ff9abb4ced53d4f8444.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/3] recipes-bsp/u-boot: Allow deploying the u-boot DTB
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alistair Francis <alistair.francis@wdc.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com, alistair23@gmail.com
+Date: Fri, 04 Jun 2021 07:20:47 +0100
+In-Reply-To: <20210602232104.3490139-2-alistair.francis@wdc.com>
+References: <20210602232104.3490139-1-alistair.francis@wdc.com>
+	 <20210602232104.3490139-2-alistair.francis@wdc.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Backport a patch to fix the issue
+On Thu, 2021-06-03 at 09:21 +1000, Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  meta/classes/uboot-config.bbclass  | 4 ++++
+>  meta/recipes-bsp/u-boot/u-boot.inc | 7 ++++++-
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
+> index 3bba02828b..6444f58437 100644
+> --- a/meta/classes/uboot-config.bbclass
+> +++ b/meta/classes/uboot-config.bbclass
+> @@ -71,6 +71,10 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
+>  UBOOT_MKIMAGE_SIGN_ARGS ?= ""
+>  SPL_MKIMAGE_SIGN_ARGS ?= ""
+>  
+> 
+> 
+> 
+> +# Options to deploy the u-boot device tree
+> +UBOOT_DTB ?= ""
+> +UBOOT_DTB_BINARY ?= ""
+> +
+>  python () {
+>      ubootmachine = d.getVar("UBOOT_MACHINE")
+>      ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...ariable-supp_size-from-plan_subset_e.patch | 44 +++++++++++++++++++
- .../harfbuzz/harfbuzz_2.8.1.bb                |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch
+I think this breaks other fitimage workflows:
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch
-new file mode 100644
-index 0000000000..c1d4df42a9
---- /dev/null
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch
-@@ -0,0 +1,44 @@
-+From f96b2b653c605679b83a820b38f49a0a0f4baf42 Mon Sep 17 00:00:00 2001
-+From: Andi-Bogdan Postelnicu <abpostelnicu@me.com>
-+Date: Wed, 2 Jun 2021 14:08:11 +0300
-+Subject: [PATCH] Removed unused variable `supp_size` from
-+ plan_subset_encoding(...).
-+
-+Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/243d056ff1c2af583ceb67e5dfbfaac51dc96e63]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/hb-subset-cff1.cc | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
-+
-+diff --git a/src/hb-subset-cff1.cc b/src/hb-subset-cff1.cc
-+index df322f8..35dae7b 100644
-+--- a/src/hb-subset-cff1.cc
-++++ b/src/hb-subset-cff1.cc
-+@@ -402,7 +402,7 @@ struct cff_subset_plan {
-+   void plan_subset_encoding (const OT::cff1::accelerator_subset_t &acc, hb_subset_plan_t *plan)
-+   {
-+     const Encoding *encoding = acc.encoding;
-+-    unsigned int  size0, size1, supp_size;
-++    unsigned int  size0, size1;
-+     hb_codepoint_t  code, last_code = CFF_UNDEF_CODE;
-+     hb_vector_t<hb_codepoint_t> supp_codes;
-+ 
-+@@ -412,7 +412,6 @@ struct cff_subset_plan {
-+       return;
-+     }
-+ 
-+-    supp_size = 0;
-+     supp_codes.init ();
-+ 
-+     subset_enc_num_codes = plan->num_output_glyphs () - 1;
-+@@ -448,7 +447,6 @@ struct cff_subset_plan {
-+ 	  code_pair_t pair = { supp_codes[i], sid };
-+ 	  subset_enc_supp_codes.push (pair);
-+ 	}
-+-	supp_size += SuppEncoding::static_size * supp_codes.length;
-+       }
-+     }
-+     supp_codes.fini ();
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb
-index 2353633071..1a0e651f6e 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb
-@@ -11,6 +11,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
- UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz \
-+           file://0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch \
-            "
- SRC_URI[sha256sum] = "4124f663ec4bf4e294d9cf230668370b4249a48ff34deaf0f06e8fc82d891300"
- 
--- 
-2.31.1
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2185/steps/14/logs/stdio
+
+(other selftests fails similiarly)
+
+Cheers,
+
+Richard
+
 
