@@ -1,39 +1,39 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web11.5980.1622797842987179857
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web08.5834.1622797843596537567
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 02:10:43 -0700
+ Fri, 04 Jun 2021 02:10:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z9bjYlHB;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id a11so12708565ejf.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 02:10:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gy+eorOJ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id h24so13450499ejy.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 02:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L6jtloCXjKqCyqjL4cWh07+j2z3iburVxtCOi7I0vOo=;
-        b=Z9bjYlHBYmp1mvu0AsZbNTNYkglvQ+uP/CA0H2lR+nNwx0A2zAZNDVLTWFICTCTCNg
-         A87i+eAV60dnMJ70jtDxCMO0Pi+fbL0JWHyHFoUsM6woEZjMrSXimARVMhMMEkE1edF5
-         SshBcPAzNvHnLw/GJ0pvktbFz4F2cukQXqgjLfRagKHR4ck/TffDUhMBizSNknWMx71J
-         gjjFsvyp/2j2N153abkOZKhtwJaxfmneFlpf2vVxDUnSckIAAlcgjsHoiFf7gabul6Dp
-         esvzD2CbI/W7e8sHB6i3ZqtytdZhi8UUbuF4GO5kjZZWwPoObS/fbL/1+rKsqG8I/L6e
-         xylg==
+        bh=M5IeoYPXZz+t6bGfPoFOE0lZTG0i0XJokrDSFoV11s0=;
+        b=gy+eorOJT+8nE9EcWg4ynwl/HDF5d8upXW2RCY1Mv+jkVBPehkbIhm0b9R6MVTlR+i
+         jpLlQktLxI5sEVe0RzL/bFIWs+cvLWb4+jOlYQ7B3foNHJnN5wSDLjrwFbr7vVJlkeSB
+         yzoJJYgoXWAQYyyqJ0Yv1vrNG9UnYsVzTsqlDtpEdHC+WwcitdltLGmiVhT/qJYQWgtA
+         PVMA9WmYJVOmWybbm014a6l0uY2EnCkACO47Grf0YcgYJdFe/Fp5WJ4Tw+GocMGUhNKQ
+         dxSbZuhRy+fCxElCqwhe7vGXsAA9c5my+oNxYJ+/o2nZJgOs/YpHwM3B8eBYNkxnL7D/
+         wAZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L6jtloCXjKqCyqjL4cWh07+j2z3iburVxtCOi7I0vOo=;
-        b=f9YxYH0jtNo337+OJEt5pRuQjsX5/AApFK1ruKx1tkaR1TM/afYaevZRjD1vo54wh1
-         +WX4QwCelFuKQ9YFHbKCFs6OVjbzCLiG//dwjw0R4MuGUDIFXYjzMOLswXSpgIV/N3lg
-         Xtjg4ex47DD0QRW832pZKlpJu5eegTRDb/+vE811URNrHOMNAcp9h4Z+84s36rW+EI4r
-         nnMkX7NFdF8i51hmqM4qiYaFzRQOq8eRgyc7TvSccxB3AI+2t3T8uOZCDpBoN53vTsLL
-         0dCVTnzLn8xnT9AbwwkaDKjRi+sb4FhjbV8Y5KII65Ckw8wfLYMo/uQJpfciSblqVszD
-         FHTw==
-X-Gm-Message-State: AOAM530hgQJzCocmObq7zURmtQz6lqi4r1wMoyMnGtLRK7SLNerbO9QP
-	tMvmhMmluNJ+FhrIfqqduIQHpCMQdXkpnQ==
-X-Google-Smtp-Source: ABdhPJxuW5bo2q1TnnlfHZGz9OOXPUGEp0AjPYfabYsoLOdR0VScvdgdF/KjRGNwleVr9HkBkmrPGQ==
-X-Received: by 2002:a17:907:20dc:: with SMTP id qq28mr3260659ejb.440.1622797841637;
-        Fri, 04 Jun 2021 02:10:41 -0700 (PDT)
+        bh=M5IeoYPXZz+t6bGfPoFOE0lZTG0i0XJokrDSFoV11s0=;
+        b=PTI26nQSJePP08ldMmV8PJYDyYXEJN6tuVePP4Z2amPsq8sUhGhGv5jWpPFcZUht4Q
+         i58+T0QI7TFXxm+uXzAmhjzpJohsdb4nRr74eoUGzXAeVuPXQwZQ2Ca6eQJDkIQBDmqu
+         t2YcwXLLoZVRexpn7tWNnRhPNCcNGyhcy53Y4oTICKU0M2SG8r+khRNvoeeTu+BSsBXH
+         JXGqUe7sACcXtdGU4gJ3VCrk1oF/uRZgPoFgl2ZLM8GY/V4Ig6OIr7BhaPu3TCzB5Eye
+         8m7H50qDhq36Yge4FU+ll2KbwQdXY9qHl0AjZ8rtlyDUnMSLYTQG3aq+W6gvwhzTb7dr
+         N46Q==
+X-Gm-Message-State: AOAM531LZFptl0UUong0s4Pqh0NCx+MBdHCOBxX69RIXmJIWDY2DM7S6
+	GDMDBbpvSjK7kL54OmCvu0QhEtVGkn0/Og==
+X-Google-Smtp-Source: ABdhPJyaDM6GK1ELMujMk5hJ/6e5A6TXCrl6PPwsED99nM2fEGsUfUzQZKrXarvEL/h2ZYuxROzFsA==
+X-Received: by 2002:a17:907:970f:: with SMTP id jg15mr3299385ejc.59.1622797842242;
+        Fri, 04 Jun 2021 02:10:42 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id f7sm2525152ejz.95.2021.06.04.02.10.41
@@ -42,58 +42,33 @@ Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 09/11] xf86-input-libinput: update 0.30.0 -> 1.0.1
-Date: Fri,  4 Jun 2021 11:10:28 +0200
-Message-Id: <20210604091030.1380877-9-alex.kanavin@gmail.com>
+Subject: [PATCH 10/11] erofs-utils: correct upstream version check
+Date: Fri,  4 Jun 2021 11:10:29 +0200
+Message-Id: <20210604091030.1380877-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604091030.1380877-1-alex.kanavin@gmail.com>
 References: <20210604091030.1380877-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: formatting
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../xorg-driver/xf86-input-libinput_0.30.0.bb         | 11 -----------
- .../xorg-driver/xf86-input-libinput_1.0.1.bb          | 10 ++++++++++
- 2 files changed, 10 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.30.0.bb
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.0.1.bb
+ meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.30.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.30.0.bb
-deleted file mode 100644
-index d02988caa4..0000000000
---- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.30.0.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require xorg-driver-input.inc
--
--SUMMARY = "Generic input driver for the X.Org server based on libinput"
--LIC_FILES_CHKSUM = "file://COPYING;md5=5e6b20ea2ef94a998145f0ea3f788ee0"
--
--DEPENDS += "libinput"
--
--SRC_URI[md5sum] = "11dcfa2cc39f790731a9545fcdeea717"
--SRC_URI[sha256sum] = "f9c7f9fd41ae14061e0e9c3bd45fa170e5e21027a2bc5810034e1e748db996c0"
--
--FILES_${PN} += "${datadir}/X11/xorg.conf.d"
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.0.1.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.0.1.bb
-new file mode 100644
-index 0000000000..8da47eaa43
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.0.1.bb
-@@ -0,0 +1,10 @@
-+require xorg-driver-input.inc
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
+index 6435fea68c..5ab4bf2816 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
+@@ -7,6 +7,8 @@ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.gi
+ SRCREV = "d1f4953edfcf4f51c71ba91586e21fc6ce9f6db9"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git"
+ 
++UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
 +
-+SUMMARY = "Generic input driver for the X.Org server based on libinput"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a22925127bd3c827c384cedd23ed2309"
-+
-+DEPENDS += "libinput"
-+
-+SRC_URI[sha256sum] = "fddec49c115591918475155bf16aaf23017d7f814cee7823a0c11f867aca245b"
-+
-+FILES_${PN} += "${datadir}/X11/xorg.conf.d"
+ S = "${WORKDIR}/git"
+ 
+ DEPENDS = "util-linux-libuuid"
 -- 
 2.31.1
 
