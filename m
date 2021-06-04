@@ -1,178 +1,188 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web08.5379.1622793502188362581
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.5725.1622796459047772332
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 00:58:22 -0700
+ Fri, 04 Jun 2021 01:47:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RqhfI3dI;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id p17so11967495lfc.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 00:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=geyibni7nzHd6rB1aYX6XUDl8y1wKsaucmRqOToKQsg=;
-        b=RqhfI3dI3YW2epV/TtAYDw2X5mJYqPsda9cMhTAewencd9Sk6eFOi/tE3VO9LRSfDZ
-         A0+3BZ7VKIQbfhsRGSiquJDxnjffmCyb3E4CojIsuxY7hG7g8xNwzCSPOUPCbP4/Xe8u
-         NgyRVti7k//tFi97pYh04sP39D7CWj6eqewlTTPWDo5mU+We+Ee50saw0pO0zQwMvBbe
-         T5NaRV6f2ct2Ev2gwLqfZgVOaPMWedOxkqAED72of8lmVTf/5IIzZ3si7xuTeqZbFAab
-         nJGz4nVqF2neS0kv77vrXZ7x+CzOUCi7jZEWcBoNNxJGMKWJRfbUurSBte0iM46hMZKj
-         RFtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=geyibni7nzHd6rB1aYX6XUDl8y1wKsaucmRqOToKQsg=;
-        b=CvPTziBK8tVEKCvhMzDkhOVTPz0ujrv7lJWDI1imNnw/Evb6neg0lzOT3xHQwjPL/r
-         9ijnU4h2qKf5TYV1mry+RbPnCW2JI3VkF6Jl474LyI93JcrWSbYRnv2/Ssnmx7jK2byz
-         Ze+5tQx76IN4iKrL6myYQhZ1XSuECRLEGnGJHJ4UPJYh1ocep2IRpfCnc6pNdLNxmmOn
-         wpjzPcn7DntjGkX2hEQg2w7q2+fMS4PYr4kBGOND1ZeKO3+F8Hzpfndi3s85/kwkIYPO
-         f56OzhgH5yPRkdlruFubYoqikVldkMvnt+Quqh+Gu6ynrlLdjuDPq5HOlegBRBzcOue6
-         7o8A==
-X-Gm-Message-State: AOAM530JiITCtKVrlgXi2H76dCeXvAAbHKauf+dCvhnf9RkI7ZRWTSK1
-	NhcGL+PsP8r10abjPRMJ3/lzOr8eShloclYO/OA=
-X-Google-Smtp-Source: ABdhPJzbhnEbhxIt5U+Bunv8YCxZoH2tgfyFIwCTv1lBSNua4iRk7u7DfK8PRvjzw+S2Ja9jjfmYfUX9JkFdn91fowA=
-X-Received: by 2002:ac2:569a:: with SMTP id 26mr1979233lfr.257.1622793500199;
- Fri, 04 Jun 2021 00:58:20 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=skmfIFTO;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pemorrow@linux.microsoft.com)
+Received: by linux.microsoft.com (Postfix, from userid 1045)
+	id 40BC720B7178; Fri,  4 Jun 2021 01:47:38 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 40BC720B7178
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1622796458;
+	bh=zyQLcmJSGrUFo8mu1q/SkawIj0czD5+WfYyiJDSDx4U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=skmfIFTOs0BtxAC5isQPTUf75uSAHMlVgvGfhaKwVmpeYJcXq3UHFqRCorRDpQi1T
+	 TyvYKDCCGfN2KAQui1+WD1Hn1q8WOY5t1Oe8D73l5wO7AL2jkPU0nfs9iDiNBokAQd
+	 id2PRnrog49t3LyJlExY74mUkUSXwPWoyb+rlaaY=
+Date: Fri, 4 Jun 2021 01:47:38 -0700
+From: "Peter Morrow" <pemorrow@linux.microsoft.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, peter.morrow@microsoft.com,
+	Jon Mason <Jon.Mason@arm.com>
+Subject: Re: [OE-core] [PATCH] oeqa: sdk: basic go toolchain test support
+Message-ID: <20210604084738.GA15377@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1621343133-5221-1-git-send-email-pemorrow@linux.microsoft.com>
+ <1680C2C73B5C2D54.9669@lists.openembedded.org>
+ <ba3c74eaecd5b27959744d0f6e48c630b10dd346.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <b389383-5997-4638-97f-e6919364bda7@crashcourse.ca>
- <CAAQYJAveuBzyGwA4uh967Y=x0=TgFsdQzy4fnA8U64Xp2yBCLA@mail.gmail.com> <af372b1c-d83-8484-d4b0-c8d43c2375f6@crashcourse.ca>
-In-Reply-To: <af372b1c-d83-8484-d4b0-c8d43c2375f6@crashcourse.ca>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Fri, 4 Jun 2021 00:58:09 -0700
-Message-ID: <CAJ86T=WtkkUjFHQiY1a-+4-7-JxTZcdTM+6aHJ+FYc5o1hzHzg@mail.gmail.com>
-Subject: Re: [OE-core] want to clarify proper approach to shared lib (.so) installation
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Andrea Adami <andrea.adami@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <ba3c74eaecd5b27959744d0f6e48c630b10dd346.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 3, 2021 at 7:26 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
-> On Thu, 3 Jun 2021, Andrea Adami wrote:
->
-> > On Thu, Jun 3, 2021 at 4:01 PM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > >
-> > >
-> > >   sort of a 2-part soliloquy. in current YP code base i've inherited,
-> > > most of the internal (local directory SRC_URI-based) recipes inherit a
-> > > proprietary class that, among doing other internal, proprietary
-> > > things, totally redefines PACKAGES as:
-> > >
-> > >   PACKAGES = "${PN} ... ${PN}-dev ..."
-> > >
-> > > i had never really noticed that before, but it's pretty obvious that
-> > > that's not a great idea, as it allows what i call the recipe "base"
-> > > package (${PN}) to gather up everything that matches its standard
-> > > wildcard pattern before moving on, in effect "stealing" content from
-> > > subsequent packages they would normally get if the base package was at
-> > > the end, not the beginning.
-> > >
-> > >   somehow, this has worked all this time, but it's clear(?) that what
-> > > would be the "normal" contents of the various packages isn't going to
-> > > be what one would expect; in particular, the base package is going to
-> > > be what i call "overpackaged", with lots of stuff it doesn't really
-> > > need so i'm guessing what's going into the image is more than is
-> > > really necessary. somehow, though, it's worked all this time until
-> > > recently, when i noticed this quirk was causing some Q/A issues, so i
-> > > took a deep breath, commented out that line from the class file to use
-> > > the default packaging approach and re-tried the build, which is when
-> > > all hell broke loose.
-> > >
-> > >   it turns out that these internal recipes use local Makefile-based
-> > > source directories, which build, then install their generated
-> > > artifacts in a temporary (non-YP) staging area per recipe, *then*
-> > > manually (little by little) install stuff in ${D} via a general
-> > > do_install() routine, at which point the regular packaging and
-> > > subsequent steps kick in, but it's what now gets copied into ${D} that
-> > > is causing grief.
-> > >
-> > >   apparently, many of these recipes generate a shared library, and i'm
-> > > well aware that the *normal* packaging involving a shared library is
-> > > like this example from libidn2 (snipped for brevity to show only
-> > > shared lib stuff):
-> > >
-> > >  libidn2/
-> > >   usr/
-> > >    lib/
-> > >     libidn2.so.0 -> libidn2.so.0.3.7
-> > >     libidn2.so.0.3.7                    [actual library file]
-> > >
-> > >  libidn2-dev/
-> > >   usr/
-> > >    lib/
-> > >     libidn2.so -> libidn2.so.0.3.7
-> > >
-> > > so the *normal* packaging for a shared lib is that the lib itself and
-> > > a symlink to it go into the base package, while another symlink goes
-> > > into the "-dev" package. i'd never really paid that much attention to
-> > > that until i reset that PACKAGES variable, as all of these internal
-> > > recipes end up installing into ${D} nothing but the shared lib file
-> > > itself under /usr/lib, and why this has worked all this time is a
-> > > mystery, but having made this change is generating all sorts of Q/A
-> > > diagnostics as this is what ends up in ${D} using a "fubar" recipe
-> > > example given the manual installation being done using normal
-> > > packaging:
-> > >
-> > >  fubar/
-> > >   usr/
-> > >    bin/
-> > >     ... snip ...
-> > >    no lib/ directory
-> > >
-> > >  fubar-dev/
-> > >   usr/
-> > >    lib/
-> > >     libfnvcma.so            [actual shared lib]
-> > >
-> > > unsurprisingly, there are QA issues with the above:
-> > >
-> > > ERROR: fubar-1.0-r0 do_package_qa: QA Issue: -dev package contains non-symlink .so: fubar-dev
-> > > path .../packages-split/fubar-dev/usr/lib/libfnvcma.so'[dev-elf]
-> > > ERROR: fubar-1.0-r0 do_package_qa: QA Issue: fubar rdepends on fubar-dev [dev-deps]
-> > >
-> > >   *sigh*.
-> > >
-> > >   in short, because these internal recipes generate only the single
-> > > shared lib file itself and that's all that's copied into ${D}, the
-> > > regular Q/A tests will naturally barf, and i could use INSANE_SKIP all
-> > > over the place to get around this, but it seems to me that the proper
-> > > approach is to tell the developers that they need to start generating
-> > > the appropriate symlinks for all of their recipes so packaging is done
-> > > properly.
-> > >
-> > >   i'm just about to check if there is a switch or class i can invoke
-> > > that will "fix" this issue (as in, set up the shared libs in ${D}
-> > > properly), but apart from that, am i correct in thinking that the
-> > > developers need to do this correctly from the beginning?
-> > >
-> > > rday
-> > >
-> > >
-> > >
-> >
-> > Hi,
-> > in the latter example you are packaging an unversioned shlib:
-> >
-> > libfnvcma.so            [actual shared lib]
-> >
-> > In this case you might play with
-> >  SOLIBS = ".so"
-> >  FILES_SOLIBSDEV = ""
-> >
-> > Please have a look at
-> > https://wiki.yoctoproject.org/wiki/TipsAndTricks/Packaging_Prebuilt_Libraries
->
->   excellent, i was sure there was a simple solution to this.
+On Thu, May 20, 2021 at 02:57:26PM +0100, Richard Purdie wrote:
+> On Thu, 2021-05-20 at 12:27 +0100, Richard Purdie via lists.openembedde=
+d.org wrote:
+> > On Tue, 2021-05-18 at 06:05 -0700, Peter Morrow wrote:
+> > > Add a simple build test for the golang toolchain which is produced =
+into a SDK.
+> > >=20
+> > > Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
+> > > ---
+> > > =A0meta/lib/oeqa/sdk/cases/go.py   | 34 +++++++++++++++++++++++++++=
++++++++
+> > > =A0meta/lib/oeqa/sdk/files/test.go |  7 +++++++
+> > > =A02 files changed, 41 insertions(+)
+> > > =A0create mode 100644 meta/lib/oeqa/sdk/cases/go.py
+> > > =A0create mode 100644 meta/lib/oeqa/sdk/files/test.go
+> > >=20
+> > > diff --git a/meta/lib/oeqa/sdk/cases/go.py b/meta/lib/oeqa/sdk/case=
+s/go.py
+> > > new file mode 100644
+> > > index 0000000..1af5516
+> > > --- /dev/null
+> > > +++ b/meta/lib/oeqa/sdk/cases/go.py
+> > > @@ -0,0 +1,34 @@
+> > > +#
+> > > +# SPDX-License-Identifier: MIT
+> > > +#
+> > > +
+> > > +import os
+> > > +import shutil
+> > > +import unittest
+> > > +
+> > > +from oeqa.core.utils.path import remove_safe
+> > > +from oeqa.sdk.case import OESDKTestCase
+> > > +
+> > > +from oeqa.utils.subprocesstweak import errors_have_output
+> > > +errors_have_output()
+> > > +
+> > > +class GoCompileTest(OESDKTestCase):
+> > > +    @classmethod
+> > > +    def setUpClass(self):
+> > > +        files =3D {'test.go' : self.tc.files_dir}
+> > > +        for f in files:
+> > > +            shutil.copyfile(os.path.join(files[f], f),
+> > > +                    os.path.join(self.tc.sdk_dir, f))
+> > > +
+> > > +    def setUp(self):
+> > > +        if not self.tc.hasHostPackage("^nativesdk-go", regex=3DTru=
+e):
+> > > +            raise unittest.SkipTest("GoCompileTest class: SDK does=
+n't contain a golang toolchain")
+> > > +
+> > > +    def test_go_compile(self):
+> > > +        self._run('go build -o %s/test %s/test.go' % (self.tc.sdk_=
+dir, self.tc.sdk_dir))
+> > > +
+> > > +    @classmethod
+> > > +    def tearDownClass(self):
+> > > +        files =3D [os.path.join(self.tc.sdk_dir, f) for f in ['tes=
+t.go', 'test']]
+> > > +        for f in files:
+> > > +            remove_safe(f)
+> > > diff --git a/meta/lib/oeqa/sdk/files/test.go b/meta/lib/oeqa/sdk/fi=
+les/test.go
+> > > new file mode 100644
+> > > index 0000000..089f721
+> > > --- /dev/null
+> > > +++ b/meta/lib/oeqa/sdk/files/test.go
+> > > @@ -0,0 +1,7 @@
+> > > +package main
+> > > +
+> > > +import "fmt"
+> > > +
+> > > +func main() {
+> > > +    fmt.Println("hello world!")
+> > > +}
+> >=20
+> > I'd love to add something like this but adding it triggered a lot of =
+errors
+> > in our automated QA:
+> >=20
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/216=
+9
+> >=20
+>=20
+> The autobuilder output isn't helpful to debug. I looked in and grabbed =
+some of a logfile:
+>=20
+> NOTE: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> NOTE: ERROR: setUpClass (go.GoCompileTest)
+> NOTE: -----------------------------------------------------------------=
+-----
+> NOTE: Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/genericx86-64/build/meta/lib/oeqa/=
+core/case.py", line 39, in _oeSetUpClass
+>     clss.setUpClassMethod()
+>   File "/home/pokybuild/yocto-worker/genericx86-64/build/meta/lib/oeqa/=
+sdk/cases/go.py", line 20, in setUpClass
+>     shutil.copyfile(os.path.join(files[f], f),
+>   File "/usr/lib64/python3.8/shutil.py", line 264, in copyfile
+>     with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+> FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuil=
+d/yocto-worker/genericx86-64/build/meta/lib/oeqa/files/test.go'
+>=20
+> NOTE: -----------------------------------------------------------------=
+-----
 
-Just a warning, but if your Makefiles are not generating versioned
-shared libraries then they are probably not setting a soname either...
-and that really messes up OE's automatic runtime dependency tracking
-for shared libraries.
+Hi Richard,
 
-If OE is your main build environment for these components it's usually
-better in the long run to just update your Makefiles to create
-versioned shared libraries (using simple version .0 and a single
-symlink is fine) and setting a soname than to use the above trick to
-force packaging of an unversioned .so and manually defining runtime
-dependencies everywhere.
+I can't seem to recreate this problem locally, I've built both
+core-image-sato and core-image-minimal and both seem to pass the sdktest
+suite with no problems such as above.
+
+SDK testing environment: core2-64-poky-linux
+GoCompileTest class: SDK doesn't contain a golang toolchain
+No python package in the SDK
+RESULTS:
+RESULTS - assimp.BuildAssimp.test_assimp: PASSED (275.54s)
+RESULTS - buildcpio.BuildCpioTest.test_cpio: PASSED (27.66s)
+RESULTS - buildepoxy.EpoxyTest.test_epoxy: PASSED (15.31s)
+RESULTS - buildgalculator.GalculatorTest.test_galculator: PASSED
+(12.24s)
+RESULTS - buildlzip.BuildLzipTest.test_lzip: PASSED (4.95s)
+RESULTS - gcc.GccCompileTest.test_gcc_compile: PASSED (0.06s)
+RESULTS - gcc.GccCompileTest.test_gpp2_compile: PASSED (0.08s)
+RESULTS - gcc.GccCompileTest.test_gpp_compile: PASSED (0.24s)
+RESULTS - gcc.GccCompileTest.test_make: PASSED (0.06s)
+RESULTS - perl.PerlTest.test_perl: PASSED (0.01s)
+RESULTS - python.Python3Test.test_python3: PASSED (0.02s)
+RESULTS - go.GoCompileTest.test_go_compile: SKIPPED (0.01s)
+RESULTS - python.Python2Test.test_python2: SKIPPED (0.00s)
+SUMMARY:
+core-image-sato sdk
+(poky-glibc-x86_64-core-image-sato-core2-64-qemux86-64-toolchain-3.3+snap=
+shot.sh:environment-setup-core2-64-poky-linux)
+- Ran 13 tests in 336.209s
+core-image-sato sdk - OK - All required tests passed (successes=3D11,
+skipped=3D2, failures=3D0, errors=3D0)
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be
+rerun and all succeeded.
+peter@p52s:~/git/poky/build$
+
+
+Any ideas where I am going wrong with testing this change?
+
+Cheers,
+Peter.
+
+>=20
+>=20
+> Cheers,
+>=20
+> Richard
