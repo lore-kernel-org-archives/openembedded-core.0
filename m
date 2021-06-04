@@ -1,289 +1,436 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.2923.1622831076724495573
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 11:24:37 -0700
+Received: from mailrelay4-3.pub.mailoutpod1-cph3.one.com (mailrelay4-3.pub.mailoutpod1-cph3.one.com [46.30.212.13])
+ by mx.groups.io with SMTP id smtpd.web10.4527.1622838035261744066
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 04 Jun 2021 13:20:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DTjvMJws;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id ho18so4903535ejc.8
-        for <Openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 11:24:36 -0700 (PDT)
+ dkim=pass header.i=@embexus.com header.s=20191106 header.b=KYzw9jBF;
+ spf=none, err=permanent DNS error (domain: embexus.com, ip: 46.30.212.13, mailfrom: ayoub.zaki@embexus.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YTFa/PPQPV9M9c4Es4lFXJh8gDZXaa9sDXi4ygAtfjg=;
-        b=DTjvMJwse0OsxbDtJnjXiiHaPw3X6dETvUeP2LMm0fF8TBXrcLCs62WOLg7ipksv1I
-         qVoCGTq2DQZtq+MXZZaspUYvKbuID9DewDEe/hsCQPN1qQsFxRPYLio/opEkTnpVg2xo
-         S/Xx+cjJiT/gdvJUco5WLmwTGLabV25crtFbDtPAhrEQ7fnnZm13wZTBbrmyXCJueh5s
-         v6nFMdY6GPhlMuMIw54RULhqA8eS8HicvHKFKkXdQ01tg9z1uwh5M/lB/N1I3gruvP+R
-         js9NlIh4wU91AW4fMvJKfVtdYjhkpmoK7tV5Sen9c7eP12WNxu74ms3pDHZHxY/ea4hL
-         kakQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YTFa/PPQPV9M9c4Es4lFXJh8gDZXaa9sDXi4ygAtfjg=;
-        b=f0FMDZtqGqlpPZpUJyheRQwJGlikuE3bNlSsEr7EsxhDaIu+9/J6UDbKNz9PBfAuA2
-         slPlNA2sBGYpZZh4JRs43NwJ44Nrhog63xis9cc3Nku9OYECOkbpkRVG3yDkEWN8RCdM
-         FH8kmypyOuyuAd4tI0DXVozjwa+rQKhsqM9C/7kblfIFPo4D1GPlGJo6d0uVmFa15cW9
-         CzH1UcrRmdkbTk1lnBjnHVhNQl++7A085AR2gWO3uFCv5Vti5+2nyxgdGTftJaEBbw8r
-         dv4XVQC7baTOArcKVfsN8VAwoA9HbamQg9Is4AjmHZTk7wMcSxGFv78Y807J2k173sLU
-         MYtg==
-X-Gm-Message-State: AOAM531dP3ZSu4bX53z0OhVFcFjCRjXE90IpKxeOJ9wnX+VwMCbgXyFH
-	xGnuFDyY/DodSiaWCHVz2TQM3+g+Qmzt5ULTH8k=
-X-Google-Smtp-Source: ABdhPJx6jv02r08UxbGGhpFs0eT1gCWG/dS+r9K01wgK+cllydBL5poI7GysQc0wirheLpRR8SQ3+FQAeQBdZBHQoyU=
-X-Received: by 2002:a17:906:b0c9:: with SMTP id bk9mr5463879ejb.517.1622831074855;
- Fri, 04 Jun 2021 11:24:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210603142106.115932-1-uvv.mail@gmail.com> <CADkTA4PF=kie6Q=sqUkZjyX=NB-yq5Ccqy-XryhZ6DNVgcrRFA@mail.gmail.com>
- <e661a550-5977-9ffe-f30f-98cfd2f1ac4e@gmail.com>
-In-Reply-To: <e661a550-5977-9ffe-f30f-98cfd2f1ac4e@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 4 Jun 2021 14:24:23 -0400
-Message-ID: <CADkTA4PWkAMsRwMOVu=_DgOZ9KJ9pKNqgVPm0Qro6OfwmYrEBA@mail.gmail.com>
+	d=embexus.com; s=20191106;
+	h=content-type:in-reply-to:mime-version:date:message-id:from:references:to:
+	 subject:from;
+	bh=sHST37aRCQMmjknXQcePxHlApL0l7CHjQ0yHMHtoPns=;
+	b=KYzw9jBFogDeSxpkxlGgRBCInd76uJPCdRAcO2m54+MdmQmm61MYsu5vJCpC8BZtg5aXoauRmicxt
+	 zg0sXVivNVw9wBxUBjJKNc4kvHxFu8yPCv7MGjUWREYIymY6LLhebLKfjBTJ7goXj+ydTUcVrQfSCy
+	 ztyWpm+IZ1kgJuAk+Xnoinao9w1SJOfP+Yw0AYZmb2IuRGGhQ1Z5rCjXLFgXdr3L81w/447m30ERxH
+	 gKY5AQ1jH4erNIshrs21MkcB6udqQC+QU/h7jXlCFTKJxeJruDDgnlzcH6xVccbMK/VLoffrk561AP
+	 fPXzbTMISXDQEWl5EkxUoFjSgLE+9Yg==
+X-HalOne-Cookie: 5345256670ce07606dd06459855a314700010d86
+X-HalOne-ID: 4f47b074-c572-11eb-a907-d0431ea8bb10
+Received: from [192.168.178.41] (x4dbd09fa.dyn.telefonica.de [77.189.9.250])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 4f47b074-c572-11eb-a907-d0431ea8bb10;
+	Fri, 04 Jun 2021 20:20:31 +0000 (UTC)
 Subject: Re: [OE-core] [PATCH] overlayfs.bbclass: generate overlayfs mount units
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <Openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+References: <20210603142106.115932-1-uvv.mail@gmail.com>
+From: "Ayoub Zaki" <ayoub.zaki@embexus.com>
+Message-ID: <e82221f4-deeb-3cb2-037c-d5672a19a006@embexus.com>
+Date: Fri, 4 Jun 2021 22:20:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210603142106.115932-1-uvv.mail@gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------34254CA2665C1FA63BF0DAA5"
+Content-Language: en-US
 
-On Fri, Jun 4, 2021 at 1:22 PM Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
+--------------34254CA2665C1FA63BF0DAA5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+
+volatile-binds (maybe the *volatile* naming is misleading) recipe in 
+yocto is already doing that, just to be appended .ie:
+
+VOLATILE_BINDS += "\
+/data/lib/systemd/network /lib/systemd/network\n\
+/data/home/root /home/root\n\
+"
+
+It will generate for each overlay a mount point service.
+
+BR
+
+
+On 6/3/21 4:21 PM, Vyacheslav Yurkov wrote:
+> It's often desired in Embedded System design to have a read-only rootfs.
+> But a lot of different applications might want to have a read-write access
+> to some parts of a filesystem. It can be especially useful when your update
+> mechanism overwrites the whole rootfs, but you want your application data
+> to be preserved between updates. This class provides a way to achieve that
+> by means of overlayfs and at the same time keeping the base rootfs read-only.
 >
-> Hi Bruce,
-> Thanks for a quick feedback.
+> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> ---
+>   meta/classes/overlayfs.bbclass | 132 +++++++++++++++++++++++++++++++++
+>   1 file changed, 132 insertions(+)
+>   create mode 100644 meta/classes/overlayfs.bbclass
 >
-> > Hi Vyacheslav,
-> >
-> > This looks like it could be quite useful, but a few comments came to
-> > mind on a really quick scan.
-> >
-> > Since this is systemd based, it should probably have
-> > REQUIRED_DISTRO_FEATURES = "systemd", to ensure that the rest of the
-> > system and packages are consistently enabled.
+> diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
+> new file mode 100644
+> index 0000000000..7fac3e696e
+> --- /dev/null
+> +++ b/meta/classes/overlayfs.bbclass
+> @@ -0,0 +1,132 @@
+> +# Class for generation of overlayfs mount units
+> +#
+> +# It's often desired in Embedded System design to have a read-only rootfs.
+> +# But a lot of different applications might want to have a read-write access to
+> +# some parts of a filesystem. It can be especially useful when your update mechanism
+> +# overwrites the whole rootfs, but you want your application data to be preserved
+> +# between updates. This class provides a way to achieve that by means
+> +# of overlayfs and at the same time keeping the base rootfs read-only.
+> +#
+> +# Usage example.
+> +#
+> +# Set a mount point for a partition overlayfs is going to use as upper layer
+> +# in your machine configuration. Underlying file system can be anything that
+> +# is supported by overlayfs
+> +#
+> +#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
+> +#
+> +# The class assumes you have a data.mount systemd unit defined elsewhere in your
+> +# BSP and installed to the image.
+> +#
+> +# Then you can specify writable directories on a recipe base
+> +#
+> +#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
+> +#
+> +# To support several mount points you can use a different variable flag. Assume we
+> +# what to have a writable location on the file system, but not interested where the data
+> +# survive a reboot. The we could have a mnt-overlay.mount unit for a tmpfs file system:
+> +#
+> +#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
+> +#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
+> +
+> +OVERLAYFS_WRITABLE_PATHS[data] ?= ""
+> +
+> +inherit systemd
+> +
+> +def strForBash(s):
+> +    return s.replace('\\', '\\\\')
+> +
+> +def unitFileList(d):
+> +    fileList = []
+> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
+> +    for mountPoint in overlayMountPoints:
+> +        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
+> +            fileList.append(mountUnitName(path))
+> +            fileList.append(helperUnitName(path))
+> +
+> +    return fileList
+> +
+> +# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
+> +def escapeSystemdUnitName(path):
+> +    escapeMap = {
+> +        '/': '-',
+> +        '-': "\\x2d",
+> +        '\\': "\\x5d"
+> +    }
+> +    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
+> +
+> +def mountUnitName(unit):
+> +    return escapeSystemdUnitName(unit) + '.mount'
+> +
+> +def helperUnitName(unit):
+> +    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
+> +
+> +python do_create_overlayfs_units() {
+> +    CreateDirsUnitTemplate = """[Unit]
+> +Description=Overlayfs directories setup
+> +Requires={DATA_MOUNT_UNIT}
+> +After={DATA_MOUNT_UNIT}
+> +DefaultDependencies=no
+> +
+> +[Service]
+> +Type=oneshot
+> +ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
+> +RemainAfterExit=true
+> +StandardOutput=journal
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> +"""
+> +    MountUnitTemplate = """[Unit]
+> +Description=Overlayfs mount unit
+> +Requires={CREATE_DIRS_SERVICE}
+> +After={CREATE_DIRS_SERVICE}
+> +
+> +[Mount]
+> +What=overlay
+> +Where={LOWERDIR}
+> +Type=overlay
+> +Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> +"""
+> +
+> +    def prepareUnits(data, lower):
+> +        args = {
+> +            'DATA_MOUNT_POINT': data,
+> +            'DATA_MOUNT_UNIT': mountUnitName(data),
+> +            'CREATE_DIRS_SERVICE': helperUnitName(lower),
+> +            'LOWERDIR': lower,
+> +        }
+> +
+> +        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)), 'w') as f:
+> +            f.write(MountUnitTemplate.format(**args))
+> +
+> +        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower)), 'w') as f:
+> +            f.write(CreateDirsUnitTemplate.format(**args))
+> +
+> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
+> +    for mountPoint in overlayMountPoints:
+> +        for lower in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
+> +            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint), lower)
+> +}
+> +
+> +# we need to generate file names early during parsing stage
+> +python () {
+> +    unitList = unitFileList(d)
+> +    for unit in unitList:
+> +        d.appendVar('SYSTEMD_SERVICE_' + d.getVar('PN'), ' ' + unit);
+> +        d.appendVar('FILES_' + d.getVar('PN'), strForBash(unit))
+> +
+> +    d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
+> +}
+> +
+> +do_install_append() {
+> +    install -d ${D}${systemd_system_unitdir}
+> +    for unit in ${OVERLAYFS_UNIT_LIST}; do
+> +        install -m 0444 ${WORKDIR}/${unit} ${D}${systemd_system_unitdir}
+> +    done
+> +}
+> +
+> +addtask create_overlayfs_units before do_install
 >
-> Will include it in my v2.
+> 
 >
-> > As part of getting this into core, it needs some sort of test cases /
-> > test suite (and one that covers the different modes you describe in
-> > the class) .. so something like a test image (a user) and the tests
-> > themselves.
->
-> Could you please give me a few hints as to where current tests are
-> stored and how to run them? Is it meta-selftest layer?
+Mit freundlichen Grüßen / Kind regards
 
-Richard can guide you better on this front than I can, but the tests
-can be in a number of forms. ptests (i.e. if you create the reference
-image that uses it, that recipe could have a ptest), and there are also
-the lib/oeqa/selftest/ tests.
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
 
-How they are fully hooked in, so they can be tested with core, I haven't
-looked in a while, and might steer you wrong, So my recommendations
-are to checkout those components, and follow what is on the wiki and
-in the docs (https://wiki.yoctoproject.org/wiki/Oe-selftest),
-https://docs.yoctoproject.org/test-manual/intro.html, etc
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
 
->
-> > It really also needs a maintainer entry, since otherwise the
-> > maintenance work falls to the same already overloaded folks.
->
-> You mean just an entry like:
-> MAINTAINER = "Vyacheslav Yurkov <uvv.mail@gmail.com>
-
-Yep.
-
->
-> in the class itself?
-> Because meta/conf/distro/include/maintainers.inc mentions only recipe
-> maintainers.
-
-Richard could advise better on this, but yes, even if this isn't a recipe
-we'd want someone to look after it if it merges to core. So if we are
-breaking into a new category here, that is probably ok.
-
->
-> > Since this is intended to be used on a per-recipe basis (at least that
-> > is my understanding from reading it), what happens if two recipes
-> > create conflicting overlay mounts ? or if the mentioned data.mount is
-> > not present in the image ?
->
-> These are good questions. I guess if two recipes would try to use the
-> same mounts, then do_rootfs should simply fail the same way when two
-> recipes install the same file.
-
-Yes, the image would definitely conflict during package install in that
-case. It wasn't entirely clear to me that they'd have to have exactly the
-same file.
-
-> As for handling a mount.unit, that has to be done on an image level, I
-> guess. The other question is how to do that.. Perhaps a QA-hook in
-> ROOTFS_POSTPROCESS_COMMAND, which checks the file existence (not
-> validity though!)?
-
-That might be feasible, assuming that it doesn't always run, or if it
-always run, that it doesn't take much time.
-
-Cheers,
-
-Bruce
-
->
-> Vyacheslav
->
-> > Bruce
-> >
-> >> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> >> ---
-> >>   meta/classes/overlayfs.bbclass | 132 +++++++++++++++++++++++++++++++++
-> >>   1 file changed, 132 insertions(+)
-> >>   create mode 100644 meta/classes/overlayfs.bbclass
-> >>
-> >> diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
-> >> new file mode 100644
-> >> index 0000000000..7fac3e696e
-> >> --- /dev/null
-> >> +++ b/meta/classes/overlayfs.bbclass
-> >> @@ -0,0 +1,132 @@
-> >> +# Class for generation of overlayfs mount units
-> >> +#
-> >> +# It's often desired in Embedded System design to have a read-only rootfs.
-> >> +# But a lot of different applications might want to have a read-write access to
-> >> +# some parts of a filesystem. It can be especially useful when your update mechanism
-> >> +# overwrites the whole rootfs, but you want your application data to be preserved
-> >> +# between updates. This class provides a way to achieve that by means
-> >> +# of overlayfs and at the same time keeping the base rootfs read-only.
-> >> +#
-> >> +# Usage example.
-> >> +#
-> >> +# Set a mount point for a partition overlayfs is going to use as upper layer
-> >> +# in your machine configuration. Underlying file system can be anything that
-> >> +# is supported by overlayfs
-> >> +#
-> >> +#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
-> >> +#
-> >> +# The class assumes you have a data.mount systemd unit defined elsewhere in your
-> >> +# BSP and installed to the image.
-> >> +#
-> >> +# Then you can specify writable directories on a recipe base
-> >> +#
-> >> +#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
-> >> +#
-> >> +# To support several mount points you can use a different variable flag. Assume we
-> >> +# what to have a writable location on the file system, but not interested where the data
-> >> +# survive a reboot. The we could have a mnt-overlay.mount unit for a tmpfs file system:
-> >> +#
-> >> +#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-> >> +#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
-> >> +
-> >> +OVERLAYFS_WRITABLE_PATHS[data] ?= ""
-> >> +
-> >> +inherit systemd
-> >> +
-> >> +def strForBash(s):
-> >> +    return s.replace('\\', '\\\\')
-> >> +
-> >> +def unitFileList(d):
-> >> +    fileList = []
-> >> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-> >> +    for mountPoint in overlayMountPoints:
-> >> +        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
-> >> +            fileList.append(mountUnitName(path))
-> >> +            fileList.append(helperUnitName(path))
-> >> +
-> >> +    return fileList
-> >> +
-> >> +# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
-> >> +def escapeSystemdUnitName(path):
-> >> +    escapeMap = {
-> >> +        '/': '-',
-> >> +        '-': "\\x2d",
-> >> +        '\\': "\\x5d"
-> >> +    }
-> >> +    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
-> >> +
-> >> +def mountUnitName(unit):
-> >> +    return escapeSystemdUnitName(unit) + '.mount'
-> >> +
-> >> +def helperUnitName(unit):
-> >> +    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
-> >> +
-> >> +python do_create_overlayfs_units() {
-> >> +    CreateDirsUnitTemplate = """[Unit]
-> >> +Description=Overlayfs directories setup
-> >> +Requires={DATA_MOUNT_UNIT}
-> >> +After={DATA_MOUNT_UNIT}
-> >> +DefaultDependencies=no
-> >> +
-> >> +[Service]
-> >> +Type=oneshot
-> >> +ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
-> >> +RemainAfterExit=true
-> >> +StandardOutput=journal
-> >> +
-> >> +[Install]
-> >> +WantedBy=multi-user.target
-> >> +"""
-> >> +    MountUnitTemplate = """[Unit]
-> >> +Description=Overlayfs mount unit
-> >> +Requires={CREATE_DIRS_SERVICE}
-> >> +After={CREATE_DIRS_SERVICE}
-> >> +
-> >> +[Mount]
-> >> +What=overlay
-> >> +Where={LOWERDIR}
-> >> +Type=overlay
-> >> +Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
-> >> +
-> >> +[Install]
-> >> +WantedBy=multi-user.target
-> >> +"""
-> >> +
-> >> +    def prepareUnits(data, lower):
-> >> +        args = {
-> >> +            'DATA_MOUNT_POINT': data,
-> >> +            'DATA_MOUNT_UNIT': mountUnitName(data),
-> >> +            'CREATE_DIRS_SERVICE': helperUnitName(lower),
-> >> +            'LOWERDIR': lower,
-> >> +        }
-> >> +
-> >> +        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)), 'w') as f:
-> >> +            f.write(MountUnitTemplate.format(**args))
-> >> +
-> >> +        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower)), 'w') as f:
-> >> +            f.write(CreateDirsUnitTemplate.format(**args))
-> >> +
-> >> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-> >> +    for mountPoint in overlayMountPoints:
-> >> +        for lower in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
-> >> +            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint), lower)
-> >> +}
-> >> +
-> >> +# we need to generate file names early during parsing stage
-> >> +python () {
-> >> +    unitList = unitFileList(d)
-> >> +    for unit in unitList:
-> >> +        d.appendVar('SYSTEMD_SERVICE_' + d.getVar('PN'), ' ' + unit);
-> >> +        d.appendVar('FILES_' + d.getVar('PN'), strForBash(unit))
-> >> +
-> >> +    d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
-> >> +}
-> >> +
-> >> +do_install_append() {
-> >> +    install -d ${D}${systemd_system_unitdir}
-> >> +    for unit in ${OVERLAYFS_UNIT_LIST}; do
-> >> +        install -m 0444 ${WORKDIR}/${unit} ${D}${systemd_system_unitdir}
-> >> +    done
-> >> +}
-> >> +
-> >> +addtask create_overlayfs_units before do_install
-> >> --
-> >> 2.28.0
-> >>
-> >>
-> >> 
-> >>
->
+Mobile   : +4917662901545
+Email    : ayoub.zaki@embexus.com
+Homepage : https://embexus.com
+VAT No.  : DE313902634
 
 
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+--------------34254CA2665C1FA63BF0DAA5
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><tt>Hi,</tt><tt><br>
+      </tt></p>
+    <p><br>
+    </p>
+    <tt>volatile-binds (maybe the *volatile* naming is misleading)
+      recipe in yocto is already doing that, </tt><tt>just to be
+      appended .ie:</tt><tt><br>
+    </tt><tt><br>
+    </tt>
+    <pre class="code highlight" lang="plaintext"><span id="LC1" class="line" lang="plaintext">VOLATILE_BINDS += "\</span>
+<span id="LC2" class="line" lang="plaintext">    /data/lib/systemd/network /lib/systemd/network\n\</span>
+<span id="LC3" class="line" lang="plaintext">    /data/home/root /home/root\n\</span>
+<span id="LC4" class="line" lang="plaintext">"</span>
+
+It will generate for each overlay a mount point service.
+
+BR
+</pre>
+    <br>
+    <div class="moz-cite-prefix">On 6/3/21 4:21 PM, Vyacheslav Yurkov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20210603142106.115932-1-uvv.mail@gmail.com">
+      <pre class="moz-quote-pre" wrap="">It's often desired in Embedded System design to have a read-only rootfs.
+But a lot of different applications might want to have a read-write access
+to some parts of a filesystem. It can be especially useful when your update
+mechanism overwrites the whole rootfs, but you want your application data
+to be preserved between updates. This class provides a way to achieve that
+by means of overlayfs and at the same time keeping the base rootfs read-only.
+
+Signed-off-by: Vyacheslav Yurkov <a class="moz-txt-link-rfc2396E" href="mailto:uvv.mail@gmail.com">&lt;uvv.mail@gmail.com&gt;</a>
+---
+ meta/classes/overlayfs.bbclass | 132 +++++++++++++++++++++++++++++++++
+ 1 file changed, 132 insertions(+)
+ create mode 100644 meta/classes/overlayfs.bbclass
+
+diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
+new file mode 100644
+index 0000000000..7fac3e696e
+--- /dev/null
++++ b/meta/classes/overlayfs.bbclass
+@@ -0,0 +1,132 @@
++# Class for generation of overlayfs mount units
++#
++# It's often desired in Embedded System design to have a read-only rootfs.
++# But a lot of different applications might want to have a read-write access to
++# some parts of a filesystem. It can be especially useful when your update mechanism
++# overwrites the whole rootfs, but you want your application data to be preserved
++# between updates. This class provides a way to achieve that by means
++# of overlayfs and at the same time keeping the base rootfs read-only.
++#
++# Usage example.
++#
++# Set a mount point for a partition overlayfs is going to use as upper layer
++# in your machine configuration. Underlying file system can be anything that
++# is supported by overlayfs
++#
++#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
++#
++# The class assumes you have a data.mount systemd unit defined elsewhere in your
++# BSP and installed to the image.
++#
++# Then you can specify writable directories on a recipe base
++#
++#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
++#
++# To support several mount points you can use a different variable flag. Assume we
++# what to have a writable location on the file system, but not interested where the data
++# survive a reboot. The we could have a mnt-overlay.mount unit for a tmpfs file system:
++#
++#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
++#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
++
++OVERLAYFS_WRITABLE_PATHS[data] ?= ""
++
++inherit systemd
++
++def strForBash(s):
++    return s.replace('\\', '\\\\')
++
++def unitFileList(d):
++    fileList = []
++    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
++    for mountPoint in overlayMountPoints:
++        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
++            fileList.append(mountUnitName(path))
++            fileList.append(helperUnitName(path))
++
++    return fileList
++
++# this function is based on <a class="moz-txt-link-freetext" href="https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c">https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c</a>
++def escapeSystemdUnitName(path):
++    escapeMap = {
++        '/': '-',
++        '-': "\\x2d",
++        '\\': "\\x5d"
++    }
++    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
++
++def mountUnitName(unit):
++    return escapeSystemdUnitName(unit) + '.mount'
++
++def helperUnitName(unit):
++    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
++
++python do_create_overlayfs_units() {
++    CreateDirsUnitTemplate = """[Unit]
++Description=Overlayfs directories setup
++Requires={DATA_MOUNT_UNIT}
++After={DATA_MOUNT_UNIT}
++DefaultDependencies=no
++
++[Service]
++Type=oneshot
++ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} &amp;&amp; mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
++RemainAfterExit=true
++StandardOutput=journal
++
++[Install]
++WantedBy=multi-user.target
++"""
++    MountUnitTemplate = """[Unit]
++Description=Overlayfs mount unit
++Requires={CREATE_DIRS_SERVICE}
++After={CREATE_DIRS_SERVICE}
++
++[Mount]
++What=overlay
++Where={LOWERDIR}
++Type=overlay
++Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
++
++[Install]
++WantedBy=multi-user.target
++"""
++
++    def prepareUnits(data, lower):
++        args = {
++            'DATA_MOUNT_POINT': data,
++            'DATA_MOUNT_UNIT': mountUnitName(data),
++            'CREATE_DIRS_SERVICE': helperUnitName(lower),
++            'LOWERDIR': lower,
++        }
++
++        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)), 'w') as f:
++            f.write(MountUnitTemplate.format(**args))
++
++        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower)), 'w') as f:
++            f.write(CreateDirsUnitTemplate.format(**args))
++
++    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
++    for mountPoint in overlayMountPoints:
++        for lower in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
++            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint), lower)
++}
++
++# we need to generate file names early during parsing stage
++python () {
++    unitList = unitFileList(d)
++    for unit in unitList:
++        d.appendVar('SYSTEMD_SERVICE_' + d.getVar('PN'), ' ' + unit);
++        d.appendVar('FILES_' + d.getVar('PN'), strForBash(unit))
++
++    d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
++}
++
++do_install_append() {
++    install -d ${D}${systemd_system_unitdir}
++    for unit in ${OVERLAYFS_UNIT_LIST}; do
++        install -m 0444 ${WORKDIR}/${unit} ${D}${systemd_system_unitdir}
++    done
++}
++
++addtask create_overlayfs_units before do_install
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+
+
+</pre>
+    </blockquote>
+    <pre class="moz-signature" cols="72">Mit freundlichen Grüßen / Kind regards
+
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
+
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
+
+Mobile   : +4917662901545
+Email    : <a class="moz-txt-link-abbreviated" href="mailto:ayoub.zaki@embexus.com">ayoub.zaki@embexus.com</a>
+Homepage : <a class="moz-txt-link-freetext" href="https://embexus.com">https://embexus.com</a>
+VAT No.  : DE313902634</pre>
+  </body>
+</html>
+
+--------------34254CA2665C1FA63BF0DAA5--
