@@ -1,207 +1,77 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
- by mx.groups.io with SMTP id smtpd.web11.5992.1622797891648084059
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web11.6021.1622798104432115700
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 02:11:31 -0700
+ Fri, 04 Jun 2021 02:15:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=i4LyVIKt;
- spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f49.google.com with SMTP id e12so2233272ual.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 02:11:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gxPXq8P7;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id g8so13477151ejx.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 02:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=2bjOVHsHQqEsGw+5QePaWc+xmqqGOqLgREeG0Wyt5w0=;
-        b=i4LyVIKtY9Wzdmvt4KrHl5FZbDv1OVukF4Diw987Lhs1Ux7oK+PYgIHwD4iK6x4sG0
-         7PNemxw/3WOHv6l8YYsP96zSrlkeAkDR/XvrWlOEs58F3LzV7bCv1Ii9HfmT0tLZ/+M9
-         q4QmhKIcqSBdLdM2mYeLVJ06n5hDMbhkIWErnoFiwMbJkmwNJ0KOVX0SEwIn4GndlANY
-         ld37tOGzCmwRed/Tzq0382Y/Bi30MngKoS4v9SCFsJCIc0szNEx51dyM3rRilfL6lbLd
-         jPemDv27IAyylckqPm8DO2GdW7s+bxfmt0m9jnu4/vjamN43YMCoOc9ZV11XauXdyOLF
-         oeRA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LjrjUI75npg8jShRgKiRm/zQ2KRRjaW4Y/h6yhHWJLI=;
+        b=gxPXq8P7F3aOM/Q6jbWjuJ3xAa73FaJIcsidkK/3vNi4GQJkz9izFxBSGkP1bRLDep
+         F7LiFxNNTQCG54o8rYiGp+HwsLCojApxKHKIFeL0Mh01zI+P+bcNd58B5iIeTrGEJiAe
+         bnHX6jgqUfzS7K/6l86dNp6TCE7owFoTvAEMNw14HcwEz7qKudaUgmqkNe5u+eJoZOSw
+         IzIt7PwHYI5foWdiJ8fbRGazXmBbv4umEE2PYqjwPyqWGueiW5kbU7baaL0jShfxQiUR
+         BdsgoVVbRFQw+BRWG3J9KysNmgN0y4pGBbWhDwoBl0zAigGFtRZr3Fb287I/hUQkR5rs
+         rcYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=2bjOVHsHQqEsGw+5QePaWc+xmqqGOqLgREeG0Wyt5w0=;
-        b=lhtnt5svEvyo1LCtzb2fH18AI+U+NFF2l7GR9UMwUg54SZZjG/4UGPcx8tC/xk6fLn
-         PZmUSNOibBy1gElLjaZmiaTkFabkebQC4uisniNK4/NwD5fjJI5g3Oab5/gT9iWLyYxG
-         sZYx6P8uR5fGI1LWpCyCXZA76ynqB0LRzD2Da9Pm/4ROJkzFxYrV6IVwHvwKw7N+m4T6
-         Qs+0f6HmNMSVHIrb8gGbeUCLYVcaCDQF66LoB7unkzv3R47GPBDVsdxUGR0+Wsco8KWg
-         n1tjocgM0AtOGRtZ8ifCBYBNP0TJz7FLNTc1VRuLzOzvXHKkWvEEsN/SccA177PhpfRV
-         qvCw==
-X-Gm-Message-State: AOAM5332erd9PUMYNLvakrmegUKE0g4HGggznAeYCBY74AxGfPl7uUo+
-	A/vcNjymHF4OJEzayT/pgONdPMQyINaNzJmcKEg2YaQ24sA=
-X-Google-Smtp-Source: ABdhPJxEhzWDO7ZnCf4EN/1KvSqXdmOxhnFphKVwXXvmlUkZ//YOhLjGe0Sjp5AUyoXLsue7oomKZgn8ciDjNttjqMQ=
-X-Received: by 2002:a05:6122:926:: with SMTP id j38mr1444194vka.8.1622797890754;
- Fri, 04 Jun 2021 02:11:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210604091030.1380877-1-alex.kanavin@gmail.com> <20210604091030.1380877-11-alex.kanavin@gmail.com>
-In-Reply-To: <20210604091030.1380877-11-alex.kanavin@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LjrjUI75npg8jShRgKiRm/zQ2KRRjaW4Y/h6yhHWJLI=;
+        b=Kn5gSec3DE5qjgNg0WC1VmiM+0boPsfknfNu+tiYaiyFyzGCSehAJAYAPAyn9WxiVK
+         XQhejqfduSTKQyZqpvN5wl3Quyj7oUC8Onf5zj9k59G1NEmDsEQv8vomOrPH5M77Umln
+         U5Xh7JhekbtdrdzIvOgkYnvuzSg7+P3/xfn9eBw1zk7nt86gK4k8tBn9Fof/PSduVQE1
+         Bgha2lVo71pfz85vPe0XsaBXoCMBpXclU5Kyzs3p/Qv1z4/tPnJuFnOza3JlLTQDSgK5
+         Ftx5T4jTtyLEFJ7i4K+hULr0DZN6+krOEp4QoMoeRwrxR72c5lErtb1pS0QgtLtElrYL
+         kXsA==
+X-Gm-Message-State: AOAM5339nrrJEEGLKHxyXp0Y7AlmF409j0cnqj03/n2sijc3QCVj2ZKx
+	Ya+l4O81dSNdjgyc6gklKbmzIjbkMja6Cw==
+X-Google-Smtp-Source: ABdhPJxxg3VfXR0fsibnOa4rpGNNMtcDeV2CSnr5+u391W7jBD3jvEUAddctgZhmHEGhw2BsYiLS9A==
+X-Received: by 2002:a17:906:4341:: with SMTP id z1mr3343121ejm.422.1622798103060;
+        Fri, 04 Jun 2021 02:15:03 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id br24sm2508544ejb.55.2021.06.04.02.15.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jun 2021 02:15:02 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 4 Jun 2021 11:11:19 +0200
-Message-ID: <CANNYZj9aL8Po23okcycUe1t-oX-XUstuzntEkPB6KYgwg+zh9w@mail.gmail.com>
-Subject: Re: [PATCH 11/11] perlcross fix
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d21de805c3ed139f"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/10] virglrenderer: explicitly depend on libgbm
+Date: Fri,  4 Jun 2021 11:14:49 +0200
+Message-Id: <20210604091458.1381144-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---000000000000d21de805c3ed139f
-Content-Type: text/plain; charset="UTF-8"
+virtual/gl may not necessarily be mesa, and virgl needs
+specifically the gbm part of mesa.
 
-Whooops, too hasty! Will resend the set.
+There's also hope nvidia will support gbm somehow, someday.
 
-Alex
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, 4 Jun 2021 at 11:10, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
+index 3991895823..65bd1af942 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "https://virgil3d.github.io/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
+ 
+-DEPENDS = "libdrm virtual/libgl libepoxy"
++DEPENDS = "libdrm virtual/libgl virtual/libgbm libepoxy"
+ SRCREV = "363915595e05fb252e70d6514be2f0c0b5ca312b"
+ SRC_URI = "git://anongit.freedesktop.org/virglrenderer;branch=branch-0.9.1 \
+            file://0001-meson.build-use-python3-directly-for-python.patch \
+-- 
+2.31.1
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/conf/distro/include/maintainers.inc            | 2 +-
->  meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb | 6 ++++--
->  2 files changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/conf/distro/include/maintainers.inc
-> b/meta/conf/distro/include/maintainers.inc
-> index 6024d57717..89dec1f86a 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -558,7 +558,7 @@ RECIPE_MAINTAINER_pn-pciutils = "Chen Qi <
-> Qi.Chen@windriver.com>"
->  RECIPE_MAINTAINER_pn-pcmanfm = "Alexander Kanavin <alex.kanavin@gmail.com
-> >"
->  RECIPE_MAINTAINER_pn-perf = "Bruce Ashfield <bruce.ashfield@gmail.com>"
->  RECIPE_MAINTAINER_pn-perl = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> -RECIPE_MAINTAINER_pn-perl-cross = "Alexander Kanavin <
-> alex.kanavin@gmail.com>"
-> +RECIPE_MAINTAINER_pn-perlcross = "Alexander Kanavin <
-> alex.kanavin@gmail.com>"
->  RECIPE_MAINTAINER_pn-piglit = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER_pn-pigz = "Hongxu Jia <hongxu.jia@windriver.com>"
->  RECIPE_MAINTAINER_pn-pinentry = "Armin Kuster <akuster808@gmail.com>"
-> diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-> b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-> index 83b7b415af..339075f0c4 100644
-> --- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-> +++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-> @@ -8,6 +8,8 @@ LICENSE = "Artistic-1.0 | GPL-1.0+"
->  # but is not provided inside the release tarballs
->  LIC_FILES_CHKSUM =
-> "file://${WORKDIR}/README.md;md5=252fcce2026b765fee1ad74d2fb07a3b"
->
-> +inherit allarch
-> +
->  SRC_URI = "
-> https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross-${PV}.tar.gz;name=perl-cross
-> \
->             file://README.md \
->
-> file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
-> @@ -27,9 +29,9 @@ do_configure () {
->  do_compile () {
->  }
->
-> -do_install() {
-> +do_install_class-native() {
->      mkdir -p ${D}/${datadir}/perl-cross/
-> -    cp -rfp ${S}/* ${D}/${datadir}/perl-cross/
-> +    cp -rf ${S}/* ${D}/${datadir}/perl-cross/
->  }
->
->  BBCLASSEXTEND = "native"
-> --
-> 2.31.1
->
->
-
---000000000000d21de805c3ed139f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Whooops, too hasty! Will resend the set.</div><div><b=
-r></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Fri, 4 Jun 2021 at 11:10, Alexander Kanavin &=
-lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-o=
-ff-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" targ=
-et=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0meta/recipes-devtools/perl-cross/<a href=3D"http://perlcross_1.3.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">perlcross_1.3.6.bb</a> | 6 ++++--<br=
->
-=C2=A02 files changed, 5 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc<br>
-index 6024d57717..89dec1f86a 100644<br>
---- a/meta/conf/distro/include/maintainers.inc<br>
-+++ b/meta/conf/distro/include/maintainers.inc<br>
-@@ -558,7 +558,7 @@ RECIPE_MAINTAINER_pn-pciutils =3D &quot;Chen Qi &lt;<a =
-href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.c=
-om</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER_pn-pcmanfm =3D &quot;Alexander Kanavin &lt;<a href=
-=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com=
-</a>&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER_pn-perf =3D &quot;Bruce Ashfield &lt;<a href=3D"mai=
-lto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a=
->&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER_pn-perl =3D &quot;Alexander Kanavin &lt;<a href=3D"=
-mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>=
-&gt;&quot;<br>
--RECIPE_MAINTAINER_pn-perl-cross =3D &quot;Alexander Kanavin &lt;<a href=3D=
-"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a=
->&gt;&quot;<br>
-+RECIPE_MAINTAINER_pn-perlcross =3D &quot;Alexander Kanavin &lt;<a href=3D"=
-mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>=
-&gt;&quot;<br>
-=C2=A0RECIPE_MAINTAINER_pn-piglit =3D &quot;Ross Burton &lt;<a href=3D"mail=
-to:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a>&gt;&quot;=
-<br>
-=C2=A0RECIPE_MAINTAINER_pn-pigz =3D &quot;Hongxu Jia &lt;<a href=3D"mailto:=
-hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</a>&gt=
-;&quot;<br>
-=C2=A0RECIPE_MAINTAINER_pn-pinentry =3D &quot;Armin Kuster &lt;<a href=3D"m=
-ailto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;&=
-quot;<br>
-diff --git a/meta/recipes-devtools/perl-cross/<a href=3D"http://perlcross_1=
-.3.6.bb" rel=3D"noreferrer" target=3D"_blank">perlcross_1.3.6.bb</a> b/meta=
-/recipes-devtools/perl-cross/<a href=3D"http://perlcross_1.3.6.bb" rel=3D"n=
-oreferrer" target=3D"_blank">perlcross_1.3.6.bb</a><br>
-index 83b7b415af..339075f0c4 100644<br>
---- a/meta/recipes-devtools/perl-cross/<a href=3D"http://perlcross_1.3.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">perlcross_1.3.6.bb</a><br>
-+++ b/meta/recipes-devtools/perl-cross/<a href=3D"http://perlcross_1.3.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">perlcross_1.3.6.bb</a><br>
-@@ -8,6 +8,8 @@ LICENSE =3D &quot;Artistic-1.0 | GPL-1.0+&quot;<br>
-=C2=A0# but is not provided inside the release tarballs<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://${WORKDIR}/README.md;md5=3D252fcce2=
-026b765fee1ad74d2fb07a3b&quot;<br>
-<br>
-+inherit allarch<br>
-+<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"https://github.com/arsv/perl-cross/relea=
-ses/download/$%7BPV%7D/perl-cross-$%7BPV%7D.tar.gz;name=3Dperl-cross" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/arsv/perl-cross/releas=
-es/download/${PV}/perl-cross-${PV}.tar.gz;name=3Dperl-cross</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://README.md \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure_tool.sh-do-=
-not-quote-the-argument-to-comma.patch \<br>
-@@ -27,9 +29,9 @@ do_configure () {<br>
-=C2=A0do_compile () {<br>
-=C2=A0}<br>
-<br>
--do_install() {<br>
-+do_install_class-native() {<br>
-=C2=A0 =C2=A0 =C2=A0mkdir -p ${D}/${datadir}/perl-cross/<br>
--=C2=A0 =C2=A0 cp -rfp ${S}/* ${D}/${datadir}/perl-cross/<br>
-+=C2=A0 =C2=A0 cp -rf ${S}/* ${D}/${datadir}/perl-cross/<br>
-=C2=A0}<br>
-<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native&quot;<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div>
-
---000000000000d21de805c3ed139f--
