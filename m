@@ -1,122 +1,118 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web09.809.1622821049334992568
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web09.810.1622821049980700205
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 08:37:29 -0700
+ Fri, 04 Jun 2021 08:37:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YZT4UAef;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id l1so15159903ejb.6
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ug6NS3Da;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id u24so11619341edy.11
         for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 08:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LnVz8rfrXQ7UvRO3SsPTaWdDIHgW10v6Z+Mr9KsznxA=;
-        b=YZT4UAefyWFoIy4y4Unidqc7egmnXwOlKLDdkhum/FlGqtGqirssytMhsS5hw19JZx
-         QMx/0AmWmRJOgvA89QqTkF9kZktdXVNbTiu6C2eu1vHDcHaa6yQJlii88xwBIc3f5fIj
-         suUWWl/SGKELr5SuDnaE8+6vSBASey8qYDPa8LwFn60v7EGCSVm2sgGrJ7SHDD8bvjVh
-         fFtjlsQfafKv+Uj7sMgFJ6OG/v0aqLgtKRDQOW2nYYb9+5p6gr15my37xyXCww3Ak832
-         v9ARpPBer6ecf6Le5dcGXEkXMB8zYE965jSD91+D2cMu+tTPHue+B94931SMjDQw3yk4
-         kW8g==
+        bh=CPufSZ/5NQwAhSO/HnNri+oUmUr50eB2gWRkT7Ki//0=;
+        b=ug6NS3DajgSPGQBhYtnUnjOd/xYKufe/yMKXhFxGRATorDSuvrbzXAxVq0EphE/2Bm
+         TKCHX5ZjLEaXosULA64+x0CLC0g25Ig//Bosc6tcWJrnrb/rFil4kN5oy/XY/P07rYoa
+         jkRJ7vU4k8X/PtCiuTDSYwI/EOCe7qfbZaBH60bqaStphkwFEINVb31ISarSLkCQw70D
+         gK+tpDbjY+GuSjTOuCNT5XfTt5O9//A4IumiBsZOphF+HYULUnrm8UEwIAagvoYlLBy3
+         ggjMXA67RwimNHHKmM/80WjkiGju1aBBIH48TcI3tyLREzNlydvBc6ir49absXVfANDC
+         kMAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LnVz8rfrXQ7UvRO3SsPTaWdDIHgW10v6Z+Mr9KsznxA=;
-        b=isePQ/0Pi3cFEczjnvAWrwiQcbrMPn8+ttSG/yRj8XKpfzmQVUHErOoea4SJb4IAxi
-         kN7wxntOcnze9WAURyvJH9FBoGbJ9mszowHtJVAy72G9qX5Nvwcb/mQbXQtgLEdGj+/Y
-         NvxIYw56LyCjm25VQVMOGy3ZO7u3ybwYPDuUZtIvn/sdUzmA4EIbKidZd3n6rZZylN09
-         gQaj4n5LbWnE0KtxL0oiMVDmmCzPmLlIwc5DXoHT1IJzwajCLNeGQjJxjDbH+bzGS2BM
-         QYBy/WliFafIUH8wEe5Ivzo7KcgVf5zNI3uC6ooqQM+eSAKpwlHykwDnqxoe7+zdghZX
-         DCng==
-X-Gm-Message-State: AOAM531U92y+9dPAsy0QZBXaIx1y6f3g1OFshYtoAddRMtKF+fDiz488
-	ul5MNLGy1yVaroaVIcHx4E2ErtVSMermIcg9
-X-Google-Smtp-Source: ABdhPJyneWRDfg64DCEgAzGBpd1Tyrd94DQ/sLXQupXuH97kexhnMecWycc5vbdrfCJShFfZHs9OFg==
-X-Received: by 2002:a17:906:3884:: with SMTP id q4mr4880987ejd.66.1622821047559;
-        Fri, 04 Jun 2021 08:37:27 -0700 (PDT)
+        bh=CPufSZ/5NQwAhSO/HnNri+oUmUr50eB2gWRkT7Ki//0=;
+        b=MhsPxZ9SFkrToVS1U6qjlC23xY8EcqduJiIAW2FND2aaYXj27R1mhRKepyhDAQmn1R
+         z1PxV6OK7BEDQis46aeBQzjd8CLxAA4skdjWqPsArfyeDoRuLXt/O/yypjv5MRbXxMVp
+         rynJKzC8x3zVfgXbvtOJQRh/mlKsv0MBWEDK3IHcWgflBJGv4FtDZOU1+08HKEx9AbE5
+         iV5SJdtk/XI1RFLS4xZF8ou246sO1jEIOtfYXZSr2utralYgzgTwHspSLGSFrLKPvBpT
+         VZyxxoqdiAUKEQgbzthYBPEiqXDSlUBGwDyetflVFaLZTc3k+u6IqWmkpr5ZWygmHhsF
+         Gx0w==
+X-Gm-Message-State: AOAM5320IFh5aDJV9yplGDItCKMefq4jP7fRJbR3yG1+Cq+d6uxr9WtD
+	f3DHeoYSWvRoVorrDWoKart0XfICSRcVWu3K
+X-Google-Smtp-Source: ABdhPJya8vIhc+g059AmiVpc4orvdi5yej+YzqWMqNCoqcKuF/gF1cePmuftx+PiLsNufWds1uME5g==
+X-Received: by 2002:a50:bf0f:: with SMTP id f15mr5166034edk.205.1622821048293;
+        Fri, 04 Jun 2021 08:37:28 -0700 (PDT)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from md2ramxc.ad001.siemens.net ([62.32.0.69])
-        by smtp.gmail.com with ESMTPSA id dy19sm3402511edb.68.2021.06.04.08.37.26
+        by smtp.gmail.com with ESMTPSA id dy19sm3402511edb.68.2021.06.04.08.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 04 Jun 2021 08:37:27 -0700 (PDT)
 From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 2/3] testimage: support additional reports for ptests
-Date: Fri,  4 Jun 2021 17:37:14 +0200
-Message-Id: <20210604153715.1651762-3-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 3/3] runtime_test.py: add new testimage ptest test case
+Date: Fri,  4 Jun 2021 17:37:15 +0200
+Message-Id: <20210604153715.1651762-4-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604153715.1651762-1-adrian.freihofer@siemens.com>
 References: <20210604153715.1651762-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds a new optional feature to the ptest run-time test. Most unit
-test frameworks such as googletest generate JUnit like XML reports which
-can be processed e.g. by GitLab CI or Jenkins.
-
-Example: A run-ptest script executes a googletest based unit test:
-  /usr/bin/my-unittest --gtest_output="xml:/tmp/ptest-xml/"
-
-The new variable TESTIMAGE_PTEST_REPORT_DIR allows to configure
-bitbake -c testimage to fetch the reports from the target device and
-store them into a subfolder of TEST_LOG_DIR. It's possible to fetch
-report files from different locations on the target device to different
-subfolders on the host.
+Add a new selftest for the ptest imagetest. The new feature
+TESTIMAGE_PTEST_REPORT_DIR is verified as well.
 ---
- meta/classes/testimage.bbclass       |  5 +++++
- meta/lib/oeqa/runtime/cases/ptest.py | 24 ++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 44 ++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 43de9d4d76..d01892136f 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -47,6 +47,11 @@ TESTIMAGE_AUTO ??= "0"
- # TESTIMAGE_BOOT_PATTERNS[search_login_succeeded] = "webserver@[a-zA-Z0-9\-]+:~#"
- # The accepted flags are the following: search_reached_prompt, send_login_user, search_login_succeeded, search_cmd_finished.
- # They are prefixed with either search/send, to differentiate if the pattern is meant to be sent or searched to/from the target terminal
-+# TESTIMAGE_PTEST_REPORT_DIR might be used to fetch additional reports (e.g. JUnit like xml files) generated by ptests from the target device.
-+# A ; separate list of remote_path:host_path is expected. The host_path is optional. It defaults to "reports".
-+# For example if some ptests (such as ptest-example.bb) create additional reports in /tmp/ptest-xml/ the following line in the image recipe
-+# configures the ptest imagetest to fetch the xml reports into a "xml-reports" subfolder of TEST_LOG_DIR:
-+# TESTIMAGE_PTEST_REPORT_DIR = "/tmp/ptest-xml/*.xml:xml-reports"
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 84c2cb77e8..d85900b2fd 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -238,6 +238,50 @@ class TestImage(OESelftestTestCase):
+         bitbake('core-image-minimal')
+         bitbake('-c testimage core-image-minimal')
  
- TEST_LOG_DIR ?= "${WORKDIR}/testimage"
++    def test_testimage_ptest(self):
++        """
++        Summary: Verify ptest runtime test
++        Expected: 1. Verify the ptest imagetest executes the ptest-example-ptest.
++                  2. Verify the xml test report is downloaded to the ptest log files.
++        Product: oe-core
++        Author: Adrian Freihofer <adrian.freihofer@siemens.com>
++        """
++        report_subdir = ""
++
++        features = 'DISTRO_FEATURES_append = " ptest"\n'
++        features += 'IMAGE_CLASSES += "testimage"\n'
++        features += 'IMAGE_INSTALL_append = " service-ptest"\n'
++        features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
++        features += 'TESTIMAGE_PTEST_REPORT_DIR = "/tmp/ptest-xml/*.xml'
++        if report_subdir:
++            features += ':' + report_subdir
++        features += '"\n'
++        features += 'TEST_SUITES = "ping ssh ptest"\n'
++        self.write_config(features)
++
++        self.append_bblayers_config('BBLAYERS_append = " ${TOPDIR}/../meta-skeleton"')
++
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
++
++        vars = get_bb_vars(("TEST_LOG_DIR", "WORKDIR", "TOPDIR", "TESTIMAGE_PTEST_REPORT_DIR"), "core-image-minimal")
++
++        test_log_dir = vars["TEST_LOG_DIR"]
++        if not test_log_dir:
++            test_log_dir = os.path.join(vars["WORKDIR"], 'testimage')
++        if not os.path.isabs(test_log_dir):
++            test_log_dir = os.path.join(vars["TOPDIR"], test_log_dir)
++        ptest_log_dir_link = os.path.join(test_log_dir, 'ptest_log')
++
++        ptest_runner_log = os.path.join(ptest_log_dir_link, 'ptest-runner.log')
++        self.assertTrue(os.path.isfile(ptest_runner_log), "%s is not available." % ptest_runner_log)
++
++        if not report_subdir:
++            report_subdir = 'reports'
++        ptest_example_log = os.path.join(ptest_log_dir_link, report_subdir, 'skeleton-test.xml')
++        self.assertTrue(os.path.isfile(ptest_example_log), "%s is not available." % ptest_example_log)
++
++
+ class Postinst(OESelftestTestCase):
  
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index 0800f3c27f..7b3560a4b0 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -110,3 +110,27 @@ class PtestRunnerTest(OERuntimeTestCase):
-         if failmsg:
-             self.logger.warning("There were failing ptests.")
-             self.fail(failmsg)
-+
-+        # Fetch log files e.g. JUnit like xml files from the target device
-+        ptest_report_dir = self.td.get('TESTIMAGE_PTEST_REPORT_DIR', '')
-+        if ptest_report_dir:
-+            for test_log_dir_ptest in ptest_report_dir.split(';'):
-+                src_tgt = test_log_dir_ptest.split(':')
-+                if len(src_tgt) == 1:
-+                    tgt_dir_abs = os.path.join(ptest_log_dir, "reports")
-+                elif len(src_tgt) == 2:
-+                    tgt_dir_abs = os.path.join(ptest_log_dir, src_tgt[1])
-+                else:
-+                    self.logger.error("Invalid TESTIMAGE_PTEST_REPORT_DIR setting")
-+                self.copy_logs(src_tgt[0], tgt_dir_abs)
-+
-+    def copy_logs(self, remoteSrc, localDst):
-+        self.logger.debug("Fetching from target: %s to %s" % (remoteSrc, localDst))
-+        if os.path.exists(localDst):
-+            from shutil import rmtree
-+            rmtree(localDst)
-+        os.makedirs(localDst)
-+        try:
-+            self.target.copyFrom(remoteSrc, localDst)
-+        except AssertionError:
-+            pass
+     def init_manager_loop(self, init_manager):
 -- 
 2.31.1
 
