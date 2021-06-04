@@ -1,115 +1,102 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.8882.1622815679254456436
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web12.358.1622819391688676838
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 07:07:59 -0700
+ Fri, 04 Jun 2021 08:09:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ttasciog@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 154E7veZ006108
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 4 Jun 2021 07:07:58 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 4 Jun 2021 07:07:57 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Fri, 4 Jun 2021 07:07:57 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 21862)
-	id ECF5520063; Fri,  4 Jun 2021 10:07:56 -0400 (EDT)
-From: "Tony Tascioglu" <tony.tascioglu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <randy.macleod@windriver.com>,
-        Tony Tascioglu
-	<tony.tascioglu@windriver.com>
-Subject: [PATCH] valgrind: Improve non-deterministic ptest reliability
-Date: Fri, 4 Jun 2021 10:07:56 -0400
-Message-ID: <20210604140756.32078-1-tony.tascioglu@windriver.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WJNyU6X9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.43, mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f43.google.com with SMTP id n4so9679347wrw.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 08:09:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=RDf/ts9ayWrA/apm96XtjdoJ4gqevV5OY3JOpZzrcyk=;
+        b=WJNyU6X9ICCKhGEIPqfaw64zwXdsfFR0Jz5xiVQnPYxkicCTPO0uPk7XqBothTGY4F
+         bfjZbkdQ46qXuecOJMj6f+b+i75SYduDatQ4yCBBPaOQSyIYHiTpuvXiD9U70V84XQIC
+         ybjPMRvljjOIc6RDxovI5Av7H9Wg8NnZgCV+J9MdKyFGYxfdAFUOeiYaYk5RxXeLis8+
+         x9rSVs/VPTJxVAP+XqN6O0irccZdsrobVKTB10VWjTJq+HpvHv6R4hJTKsPYFr+4KR/x
+         foJFwR1HBJXHjJCgLurVBOZ58foOaV5A49ban5wwkYMEECmZBVNWNESxeMOyYaVqNzlI
+         7zdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=RDf/ts9ayWrA/apm96XtjdoJ4gqevV5OY3JOpZzrcyk=;
+        b=eQHDJQ2xhU+c98Vy3yy3XJcosxxzKFiwyuluE8PL741SQxJQmyYLY5DLYXFSj5ckH3
+         cjeNOIRTW2w1/F5h3Al/jyJYHfjV0rspH3jENe7uF+2UR8RbtMEYUhanAlaW1GcBtkXx
+         9odl2Hvm51q2MyRl3jMqltc+ccWUxrVZORH4tjqiphWz7YY4mr5nW1nX0Nfk0EpK+WS0
+         jJsLXGR4zqedSWdpcaMatbxV3zbS7JZ/reoW5LhVtshhmn07GjVYnNqvUjbhiqlWgolT
+         wb/ZWUmtXN+XGjUCTxDNeDqdeOOtzy3AM9RbVxmFGQO6rOXws5Y76ziNFj8FtTEPJpvM
+         aOFg==
+X-Gm-Message-State: AOAM531OKFBWCXrCiYsLg0B/M2baTuSG75qIcBDVzCec9hRuvFzL7cW0
+	P6AwG50VHYKg7fM/YRfTtcTj6WonLtIuHw6sBfnPug==
+X-Google-Smtp-Source: ABdhPJx3H7OQgi0sff5Hk4RPJmqubpU8YbW+VjDwpxLqi0Cj12XGpuV+C3PnsDG69aafFL/AGFI75FXxvBLllB9RbkU=
+X-Received: by 2002:a5d:6c6d:: with SMTP id r13mr4397234wrz.350.1622819389690;
+ Fri, 04 Jun 2021 08:09:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <d8dac798fed14554b0bfb5b7ea2daf12@de.bosch.com>
+In-Reply-To: <d8dac798fed14554b0bfb5b7ea2daf12@de.bosch.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Fri, 4 Jun 2021 05:09:37 -1000
+Message-ID: <CAOSpxdZQBmu8Da90W2h01ZMRD+s9GVP3Lvq-xsSrSjJJRuFeNA@mail.gmail.com>
+Subject: Re: Request to backport KERNEL_DTC_FLAGS to Dunfell
+To: "Jonas Mark (BT-FIR/ENG1-Grb)" <Mark.Jonas@de.bosch.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"ovidiu.panait@windriver.com" <ovidiu.panait@windriver.com>, 
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"toertel@gmail.com" <toertel@gmail.com>, 
+	"RUAN Tingquan (BT-FIR/ENG1-Zhu)" <Tingquan.Ruan@cn.bosch.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Several of the valgrind tests (particulaly helgrind) are unreliable and
-can fail with a different output.
+On Fri, Jun 4, 2021 at 2:45 AM Jonas Mark (BT-FIR/ENG1-Grb)
+<Mark.Jonas@de.bosch.com> wrote:
+>
+> Hi,
+>
+> We are using DT overlays and have the need to pass the -@ parameter in DT=
+C_FLAGS to Linux' make. The patch
+>
+> "kernel-devicetree: Introduce KERNEL_DTC_FLAGS to pass dtc flags"
+> https://git.openembedded.org/openembedded-core/commit/?h=3Dhardknott&id=
+=3D063b5de86624a42b0aa784db6dddc7552a6dee7f
+>
+> makes that possible in a nice way. Would it be reasonable to request back=
+porting of this patch to Dunfell?
 
-Particularly, there is a higher chance of failure on QEMU instances with
-SMP enabled and on systems with more interrupts such as laptops on powersave.
+This is sort of in the grey area between feature and bug fix.  It does
+seem relatively safe, so I would consider taking the patch if there
+are no objections from the community.
 
-The tests have been reported upstream as being unreliable dating back
-over 5 years, due in part to the ordering of threads during
-an "unwinding" process in helgrind.
-https://bugs.kde.org/show_bug.cgi?id=345121
-https://bugs.kde.org/show_bug.cgi?id=430321
+Added Bruce to the cc list to get his opinion.
 
-A workaround to improve the reliability of such tests is to force them
-to run on a single CPU core using taskset. This greatly reduces the
-chance of a failure.
+> We were also wondering what could be an alternative approach for getting =
+this or a similar functionality. Patching a bbclass using a bbappend is not=
+ possible, is it?
 
-From my testing, I have found it can help reduce the rate of failures
-on both a laptop and QEMU by over 5x. Stress-testing in QEMU for several
-hours did not result in a failure while running the test normally did.
+No, there is no equivalent of bbappend for classes.
 
-The flaky or undeterministic thread-based tests are defined in the
-taskset_nondeterministic_tests file. These test cases will be run with
-taskset 0x00000001 to run on a single CPU core rather then the regular
-test.
+Other solutions are possible, but taking this patch would be the
+cleanest solution to your problem.  Let's see what others think before
+we go there :-)
 
-The edited run-ptest executes the flaky tests first, then ignores them
-to not duplicate the results from the main tests. Everything modified is
-restored when testing is complete.
+Steve
 
-The drawback is that this isn't a foolproof solution. It helps the tests
-fail much less frequently, and considering how this issue has been documented
-for a long time, a workaround such as this is needed.
 
-Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
----
- meta/recipes-devtools/valgrind/valgrind/run-ptest    | 12 ++++++++++++
- .../valgrind/valgrind/taskset_nondeterministic_tests |  4 ++++
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
-
-diff --git a/meta/recipes-devtools/valgrind/valgrind/run-ptest b/meta/recipes-devtools/valgrind/valgrind/run-ptest
-index 60d243276b..11050a8312 100755
---- a/meta/recipes-devtools/valgrind/valgrind/run-ptest
-+++ b/meta/recipes-devtools/valgrind/valgrind/run-ptest
-@@ -32,6 +32,13 @@ if [ "$arch" = "aarch64" ]; then
-    done
- fi
- 
-+echo "Run flaky tests using taskset to limit them to a single core."
-+for i in `cat taskset_nondeterministic_tests`; do
-+   taskset 0x00000001 perl tests/vg_regtest --valgrind=${VALGRIND_BIN} --valgrind-lib=${VALGRIND_LIBEXECDIR} --yocto-ptest $i 2>&1|tee ${LOG}
-+   mv $i.vgtest $i.IGNORE
-+done
-+
-+
- cd ${VALGRIND_LIB}/ptest && ./tests/vg_regtest \
-     --valgrind=${VALGRIND_BIN} \
-     --valgrind-lib=${VALGRIND_LIBEXECDIR} \
-@@ -56,6 +63,11 @@ for i in `cat remove-for-all`; do
-    mv $i.IGNORE $i.vgtest;
- done
- 
-+echo "Restore flaky and other non-deterministic tests"
-+for i in `cat taskset_nondeterministic_tests`; do
-+   mv $i.IGNORE $i.vgtest;
-+done
-+
- echo "Failed test details..."
- failed_tests=`grep FAIL: ${LOG} | awk '{print $2}'`
- for test in $failed_tests; do
-diff --git a/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests b/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
-new file mode 100644
-index 0000000000..cf073fa927
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
-@@ -0,0 +1,4 @@
-+helgrind/tests/hg05_race2
-+helgrind/tests/tc09_bad_unlock
-+drd/tests/bar_bad
-+drd/tests/bar_bad_xml
--- 
-2.29.2
-
+>
+> Cheers,
+> Mark
+>
+>  Mark Jonas
+>
+> Building Technologies, Panel Software Fire (BT-FIR/ENG1-Grb)
+> Bosch Sicherheitssysteme GmbH | Postfach 11 11 | 85626 Grasbrunn | GERMAN=
+Y | www.boschsecurity.com
+> Tel. +49 89 6290-1105 | Telefax +49 89 6290-281105 | Mark.Jonas@de.bosch.=
+com
+>
+> Sitz: Stuttgart, Registergericht: Amtsgericht Stuttgart HRB 23118
+> Aufsichtsratsvorsitzender: Christian Fischer; Gesch=C3=A4ftsf=C3=BChrung:=
+ Thomas Quante, Andreas Bartz
+>
