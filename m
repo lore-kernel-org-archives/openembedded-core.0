@@ -1,527 +1,259 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web08.1966.1622826033739950531
- for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 10:00:34 -0700
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.2302.1622827327842476017
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 04 Jun 2021 10:22:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=JDj68Vda;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
-Received: from [192.168.1.99] (cpe-68-201-52-49.elp.res.rr.com [68.201.52.49])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6158220B7178;
-	Fri,  4 Jun 2021 10:00:32 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6158220B7178
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1622826032;
-	bh=+46IAopK8b5qaggXKM17N6qmUqWMtUiOBVXAWU6Pi60=;
-	h=Subject:To:References:From:Date:In-Reply-To:From;
-	b=JDj68Vda9kv7c+Hs802YkQ5gntLl8bfOk/Ygrb2zhueZKrMDtoPL0ELekmFQlRucH
-	 hOMM7wHtQrFI6KlKOdG3OcvKHFnFIDl8svvmXC2RBhqdtvpUjI5K5gZnhmGJIO+dji
-	 hKftYkmg+C/oDf80i6A8/o3B+Q/0VpS/CPbLqr9M=
-Subject: Re: [OE-core] [PATCH] elfutils: upgrade 0.183 -> 0.185
-To: zangrc <zangrc.fnst@fujitsu.com>, openembedded-core@lists.openembedded.org
-References: <1622525045-17496-1-git-send-email-zangrc.fnst@fujitsu.com>
-From: "Alejandro Hernandez Samaniego" <alhe@linux.microsoft.com>
-Message-ID: <93dc9cd1-2921-8c10-67de-7598c3a31262@linux.microsoft.com>
-Date: Fri, 4 Jun 2021 11:00:31 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LxjM7Y6s;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id y7so5410860wrh.7
+        for <Openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 10:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=NjMHcgPWImg5TxybCbXI7RQfrvJFZmRUodkCOiO2s+o=;
+        b=LxjM7Y6sQ/tKilYU9C26/Pgkdd1Fif+A6kga/oe0mjmFV6BbXvNO/+Vyiiu7KhAfPI
+         D0H5gzPZRDfNqtsN4YSrN3v+eRn/K266ymp0woVHSwm3mrzm19v7HzzX5kDBGALrvdjE
+         LrOe4ecKtsG59II1a0rChCAp6y89E2xxPrUFnFVzEKqjogrJm6rvC6pOi/igTztsJLk+
+         KILMsD/6PH+S3BqBmr6NQsSr26gSnh8AOMDRbPajyJML8sL6D7a+6RosreI2zj572DAs
+         prxZgZxaFEi/jydODlzkmj9dvLUikuTeY7DcYEmfc7GJn/D56TWbTQjx5wG1NcdhnBrA
+         P9Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=NjMHcgPWImg5TxybCbXI7RQfrvJFZmRUodkCOiO2s+o=;
+        b=m+JQgyZGYa3n2z+vb+phMvtN8BwRYOLo0Wy3kRBVsq0zYbzLDDoES97hJpN9BSQmcc
+         0o+G9j6aa+vwO0Ba4xuy8qwzbCGNYo5NZpWYFhlgejfdKulDmpaa9odHcih/AH0g9q/T
+         5x95ddjeeOORfCrxz7yz1/i6PsyfmGvWR2IXmcYa0UUMqVnyPrbdsJ1daWYrhW/z9xgv
+         LIGV9k0Bi4Il5i+Ok1JMoyWeM5DNoN6ZNyEKXXysxKSYOp+0V6zAJ3prkp75lzm22Sw4
+         JgChkgRf3NGpWkKp1q/LU5CuJufikZbNLXJeAxCZymcNdzgHezcZMK8DX03xK/P4erSb
+         kYpQ==
+X-Gm-Message-State: AOAM5319KOpmqFV6NdJ1+NES85YSav3V9yRcMLvahJivERfLTWyxsQSu
+	o7BpW0TcQkMvDnDf6IFvXNVwp9LT1UeYyjKd
+X-Google-Smtp-Source: ABdhPJzt4ikeFEdXL8Tlr+OTesGuamxMJ5kvDSnfFpx6L6RxIZPhTZCu6W3O/56QrCUJHPiWBhWNDA==
+X-Received: by 2002:a5d:64c9:: with SMTP id f9mr2874653wri.121.1622827325715;
+        Fri, 04 Jun 2021 10:22:05 -0700 (PDT)
+Return-Path: <uvv.mail@gmail.com>
+Received: from Vyacheslavs-MacBook-Pro.local ([37.120.204.196])
+        by smtp.gmail.com with ESMTPSA id u2sm7089868wrn.38.2021.06.04.10.22.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jun 2021 10:22:05 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] overlayfs.bbclass: generate overlayfs mount units
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <Openembedded-core@lists.openembedded.org>
+References: <20210603142106.115932-1-uvv.mail@gmail.com>
+ <CADkTA4PF=kie6Q=sqUkZjyX=NB-yq5Ccqy-XryhZ6DNVgcrRFA@mail.gmail.com>
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+Message-ID: <e661a550-5977-9ffe-f30f-98cfd2f1ac4e@gmail.com>
+Date: Fri, 4 Jun 2021 19:22:03 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1622525045-17496-1-git-send-email-zangrc.fnst@fujitsu.com>
-Content-Type: multipart/alternative;
- boundary="------------11703E05B83C15C18D9762E8"
-Content-Language: en-US
-
---------------11703E05B83C15C18D9762E8
+In-Reply-To: <CADkTA4PF=kie6Q=sqUkZjyX=NB-yq5Ccqy-XryhZ6DNVgcrRFA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
+Hi Bruce,
+Thanks for a quick feedback.
 
-On 5/31/21 11:24 PM, zangrc wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
+> Hi Vyacheslav,
 >
-> 0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-> Removed since this is included in 0.185.
+> This looks like it could be quite useful, but a few comments came to
+> mind on a really quick scan.
 >
-> Refresh the following patch:
-> 0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> 0015-config-eu.am-do-not-use-Werror.patch
+> Since this is systemd based, it should probably have
+> REQUIRED_DISTRO_FEATURES = "systemd", to ensure that the rest of the
+> system and packages are consistently enabled.
+
+Will include it in my v2.
+
+> As part of getting this into core, it needs some sort of test cases /
+> test suite (and one that covers the different modes you describe in
+> the class) .. so something like a test image (a user) and the tests
+> themselves.
+
+Could you please give me a few hints as to where current tests are 
+stored and how to run them? Is it meta-selftest layer?
+
+> It really also needs a maintainer entry, since otherwise the
+> maintenance work falls to the same already overloaded folks.
+
+You mean just an entry like:
+MAINTAINER = "Vyacheslav Yurkov <uvv.mail@gmail.com>
+
+in the class itself?
+Because meta/conf/distro/include/maintainers.inc mentions only recipe 
+maintainers.
+
+> Since this is intended to be used on a per-recipe basis (at least that
+> is my understanding from reading it), what happens if two recipes
+> create conflicting overlay mounts ? or if the mentioned data.mount is
+> not present in the image ?
+
+These are good questions. I guess if two recipes would try to use the 
+same mounts, then do_rootfs should simply fail the same way when two 
+recipes install the same file.
+As for handling a mount.unit, that has to be done on an image level, I 
+guess. The other question is how to do that.. Perhaps a QA-hook in 
+ROOTFS_POSTPROCESS_COMMAND, which checks the file existence (not 
+validity though!)?
+
+Vyacheslav
+
+> Bruce
 >
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->   .../{elfutils_0.183.bb => elfutils_0.185.bb}  |  5 +-
->   ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 -----------
->   ...infod-client.c-correct-string-format.patch | 56 +++++++------------
->   .../0015-config-eu.am-do-not-use-Werror.patch | 23 ++++----
->   4 files changed, 34 insertions(+), 83 deletions(-)
->   rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.185.bb} (97%)
->   delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
->
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-> similarity index 97%
-> rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
-> rename to meta/recipes-devtools/elfutils/elfutils_0.185.bb
-> index 7aebaf1b6d..970cdcca60 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-> @@ -21,16 +21,15 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
->              file://run-ptest \
->              file://ptest.patch \
->              file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-> -           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
->              file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
->              "
->   SRC_URI_append_libc-musl = " \
->              file://0002-musl-libs.patch \
->              file://0003-musl-utils.patch \
->              file://0004-Fix-error-on-musl.patch \
-> -           file://0015-config-eu.am-do-not-use-Werror.patch \
-> +           file://0015-config-eu.am-do-not-use-Werror.patch \
->              "
-> -SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
-> +SRC_URI[sha256sum] = "dc8d3e74ab209465e7f568e1b3bb9a5a142f8656e2b57d10049a73da2ae6b5a6"
->   
->   inherit autotools gettext ptest pkgconfig
->   
-> diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-> deleted file mode 100644
-> index 5f82afef0c..0000000000
-> --- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
-> -From: dorindabassey <dorindabassey@gmail.com>
-> -Date: Sat, 19 Dec 2020 01:11:46 +0100
-> -Subject: [PATCH] add support for ipkg to debuginfod.cxx
-> -
-> -added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
-> -
-> -Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
-> -
-> -Signed-off-by: dorindabassey <dorindabassey@gmail.com>
-> -
-> ----
-> - debuginfod/debuginfod.cxx | 2 ++
-> - 1 file changed, 2 insertions(+)
-> -
-> -diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
-> -index b34eacc..a8915f2 100644
-> ---- a/debuginfod/debuginfod.cxx
-> -+++ b/debuginfod/debuginfod.cxx
-> -@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
-> -         {
-> -           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
-> -           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
-> -+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
-> -         }
-> -       else
-> -         {
-> -           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
-> -           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
-> -+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
-> -         }
-> -       // .udeb too?
-> -       break;
-> diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> index 5bd6ba961c..6a16718538 100644
-> --- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> +++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> @@ -1,6 +1,6 @@
-> -From 14dfe84943b8f9e6f504536d8735ef6356210b40 Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Mon, 19 Apr 2021 23:29:10 +0200
-> +From 7355a34d3796272e6213b676e042809686eb398a Mon Sep 17 00:00:00 2001
-> +From: Wang Mingyu <wangmy@fujitsu.com>
-> +Date: Mon, 31 May 2021 17:38:30 +0900
->   Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
->    32bit arches with 64bit time_t
->   
-> @@ -17,58 +17,40 @@ Upstream-Status: Pending
->   Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   Signed-off-by: Khem Raj <raj.khem@gmail.com>
->   ---
-> - debuginfod/debuginfod-client.c | 10 +++++-----
-> - 1 file changed, 5 insertions(+), 5 deletions(-)
-> + debuginfod/debuginfod-client.c | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
->   
->   diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
-> -index de26af5..39e28f2 100644
-> +index ee7eda2..9b26712 100644
->   --- a/debuginfod/debuginfod-client.c
->   +++ b/debuginfod/debuginfod-client.c
-> -@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-> +@@ -267,7 +267,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
->      if (fd < 0)
->        return -errno;
->    
->   -  if (dprintf(fd, "%ld", cache_clean_default_interval_s) < 0)
-> -+  if (dprintf(fd, "%jd", (intmax_t)cache_clean_default_interval_s) < 0)
-> ++  if (dprintf(fd, "%ld", (intmax_t)cache_clean_default_interval_s) < 0)
->        return -errno;
->    
->      /* init max age config file.  */
-> -@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-> +@@ -275,7 +275,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
->          && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
->        return -errno;
->    
->   -  if (dprintf(fd, "%ld", cache_default_max_unused_age_s) < 0)
-> -+  if (dprintf(fd, "%jd", (intmax_t)cache_default_max_unused_age_s) < 0)
-> ++  if (dprintf(fd, "%ld", (intmax_t)cache_default_max_unused_age_s) < 0)
->        return -errno;
->    
->      return 0;
-> -@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-> -       if (interval_file == NULL)
-> -         return -errno;
-> +@@ -303,7 +303,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-> +   /* Check timestamp of interval file to see whether cleaning is necessary.  */
-> +   if (time(NULL) - st.st_mtime < clean_interval)
-> +     /* Interval has not passed, skip cleaning.  */
-> +-    return 0;
-> ++    return 0;/
+>> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+>> ---
+>>   meta/classes/overlayfs.bbclass | 132 +++++++++++++++++++++++++++++++++
+>>   1 file changed, 132 insertions(+)
+>>   create mode 100644 meta/classes/overlayfs.bbclass
+>>
+>> diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
+>> new file mode 100644
+>> index 0000000000..7fac3e696e
+>> --- /dev/null
+>> +++ b/meta/classes/overlayfs.bbclass
+>> @@ -0,0 +1,132 @@
+>> +# Class for generation of overlayfs mount units
+>> +#
+>> +# It's often desired in Embedded System design to have a read-only rootfs.
+>> +# But a lot of different applications might want to have a read-write access to
+>> +# some parts of a filesystem. It can be especially useful when your update mechanism
+>> +# overwrites the whole rootfs, but you want your application data to be preserved
+>> +# between updates. This class provides a way to achieve that by means
+>> +# of overlayfs and at the same time keeping the base rootfs read-only.
+>> +#
+>> +# Usage example.
+>> +#
+>> +# Set a mount point for a partition overlayfs is going to use as upper layer
+>> +# in your machine configuration. Underlying file system can be anything that
+>> +# is supported by overlayfs
+>> +#
+>> +#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
+>> +#
+>> +# The class assumes you have a data.mount systemd unit defined elsewhere in your
+>> +# BSP and installed to the image.
+>> +#
+>> +# Then you can specify writable directories on a recipe base
+>> +#
+>> +#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
+>> +#
+>> +# To support several mount points you can use a different variable flag. Assume we
+>> +# what to have a writable location on the file system, but not interested where the data
+>> +# survive a reboot. The we could have a mnt-overlay.mount unit for a tmpfs file system:
+>> +#
+>> +#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
+>> +#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
+>> +
+>> +OVERLAYFS_WRITABLE_PATHS[data] ?= ""
+>> +
+>> +inherit systemd
+>> +
+>> +def strForBash(s):
+>> +    return s.replace('\\', '\\\\')
+>> +
+>> +def unitFileList(d):
+>> +    fileList = []
+>> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
+>> +    for mountPoint in overlayMountPoints:
+>> +        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
+>> +            fileList.append(mountUnitName(path))
+>> +            fileList.append(helperUnitName(path))
+>> +
+>> +    return fileList
+>> +
+>> +# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
+>> +def escapeSystemdUnitName(path):
+>> +    escapeMap = {
+>> +        '/': '-',
+>> +        '-': "\\x2d",
+>> +        '\\': "\\x5d"
+>> +    }
+>> +    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
+>> +
+>> +def mountUnitName(unit):
+>> +    return escapeSystemdUnitName(unit) + '.mount'
+>> +
+>> +def helperUnitName(unit):
+>> +    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
+>> +
+>> +python do_create_overlayfs_units() {
+>> +    CreateDirsUnitTemplate = """[Unit]
+>> +Description=Overlayfs directories setup
+>> +Requires={DATA_MOUNT_UNIT}
+>> +After={DATA_MOUNT_UNIT}
+>> +DefaultDependencies=no
+>> +
+>> +[Service]
+>> +Type=oneshot
+>> +ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
+>> +RemainAfterExit=true
+>> +StandardOutput=journal
+>> +
+>> +[Install]
+>> +WantedBy=multi-user.target
+>> +"""
+>> +    MountUnitTemplate = """[Unit]
+>> +Description=Overlayfs mount unit
+>> +Requires={CREATE_DIRS_SERVICE}
+>> +After={CREATE_DIRS_SERVICE}
+>> +
+>> +[Mount]
+>> +What=overlay
+>> +Where={LOWERDIR}
+>> +Type=overlay
+>> +Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
+>> +
+>> +[Install]
+>> +WantedBy=multi-user.target
+>> +"""
+>> +
+>> +    def prepareUnits(data, lower):
+>> +        args = {
+>> +            'DATA_MOUNT_POINT': data,
+>> +            'DATA_MOUNT_UNIT': mountUnitName(data),
+>> +            'CREATE_DIRS_SERVICE': helperUnitName(lower),
+>> +            'LOWERDIR': lower,
+>> +        }
+>> +
+>> +        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)), 'w') as f:
+>> +            f.write(MountUnitTemplate.format(**args))
+>> +
+>> +        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower)), 'w') as f:
+>> +            f.write(CreateDirsUnitTemplate.format(**args))
+>> +
+>> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
+>> +    for mountPoint in overlayMountPoints:
+>> +        for lower in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
+>> +            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint), lower)
+>> +}
+>> +
+>> +# we need to generate file names early during parsing stage
+>> +python () {
+>> +    unitList = unitFileList(d)
+>> +    for unit in unitList:
+>> +        d.appendVar('SYSTEMD_SERVICE_' + d.getVar('PN'), ' ' + unit);
+>> +        d.appendVar('FILES_' + d.getVar('PN'), strForBash(unit))
+>> +
+>> +    d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
+>> +}
+>> +
+>> +do_install_append() {
+>> +    install -d ${D}${systemd_system_unitdir}
+>> +    for unit in ${OVERLAYFS_UNIT_LIST}; do
+>> +        install -m 0444 ${WORKDIR}/${unit} ${D}${systemd_system_unitdir}
+>> +    done
+>> +}
+>> +
+>> +addtask create_overlayfs_units before do_install
+>> --
+>> 2.28.0
+>>
+>>
+>> 
+>>
 
-Hi Wang,
-
-Was this previous line change intended?
-
-
-Alejandro
-
->    
-> --      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
-> -+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
-> -       fclose(interval_file);
-> -
-> -       if (rc < 0)
-> -@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-> -   interval_file = fopen(interval_path, "r");
-> -   if (interval_file)
-> -     {
-> --      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
-> -+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
-> -         clean_interval = cache_clean_default_interval_s;
-> -       fclose(interval_file);
-> -     }
-> -@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-> -   max_unused_file = fopen(max_unused_path, "r");
-> -   if (max_unused_file)
-> -     {
-> --      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
-> -+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
-> -         max_unused_age = cache_default_max_unused_age_s;
-> -       fclose(max_unused_file);
-> -     }
-> +   /* Read max unused age value from config file.  */
-> +   rc = debuginfod_config_cache(max_unused_path,
->   --
-> -2.31.1
-> +2.25.1
->   
-> diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-> index 205362626d..1857b7010e 100644
-> --- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-> +++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-> @@ -1,6 +1,6 @@
-> -From dfe11e043cd8ea0b0f0252bcff9f5a6b98c0ecd3 Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Mon, 22 Jun 2020 21:35:16 +0000
-> +From 5226351f21f7011440c2f6acfec50fbfd69796e4 Mon Sep 17 00:00:00 2001
-> +From: Wang Mingyu <wangmy@fujitsu.com>
-> +Date: Tue, 1 Jun 2021 11:02:10 +0900
->   Subject: [PATCH] config/eu.am: do not use -Werror
->   
->   Due to re-definition of error() on musl, gcc starts throwing
-> @@ -16,22 +16,25 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->    1 file changed, 2 deletions(-)
->   
->   diff --git a/config/eu.am b/config/eu.am
-> -index 6c3c444..3bc0dc9 100644
-> +index 2c3e457..8fb0411 100644
->   --- a/config/eu.am
->   +++ b/config/eu.am
-> -@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-> - 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
-> +@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-> + 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
->    	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
->    	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
->   -	    $(if $($(*F)_no_Werror),,-Werror) \
->    	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
->    	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-> - 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
-> -@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-> - 	   -Wtrampolines \
-> + 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-> +@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-> + 	   $(TRAMPOLINES_WARNING) \
->    	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
->    	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
->   -	   $(if $($(*F)_no_Werror),,-Werror) \
->    	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
->    	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-> - 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
-> + 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-> +--
-> +2.25.1
-> +
->
-> 
->
-
---------------11703E05B83C15C18D9762E8
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 5/31/21 11:24 PM, zangrc wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:1622525045-17496-1-git-send-email-zangrc.fnst@fujitsu.com">
-      <pre class="moz-quote-pre" wrap="">From: Wang Mingyu <a class="moz-txt-link-rfc2396E" href="mailto:wangmy@fujitsu.com">&lt;wangmy@fujitsu.com&gt;</a>
-
-0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-Removed since this is included in 0.185.
-
-Refresh the following patch:
-0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-0015-config-eu.am-do-not-use-Werror.patch
-
-Signed-off-by: Wang Mingyu <a class="moz-txt-link-rfc2396E" href="mailto:wangmy@fujitsu.com">&lt;wangmy@fujitsu.com&gt;</a>
----
- .../{elfutils_0.183.bb =&gt; elfutils_0.185.bb}  |  5 +-
- ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 -----------
- ...infod-client.c-correct-string-format.patch | 56 +++++++------------
- .../0015-config-eu.am-do-not-use-Werror.patch | 23 ++++----
- 4 files changed, 34 insertions(+), 83 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb =&gt; elfutils_0.185.bb} (97%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-similarity index 97%
-rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.185.bb
-index 7aebaf1b6d..970cdcca60 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-@@ -21,16 +21,15 @@ SRC_URI = <a class="moz-txt-link-rfc2396E" href="https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2\file://run-ptest\file://ptest.patch\file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch\-file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch\file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch\">"https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://run-ptest \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
--           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
-            file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
-            "</a>
- SRC_URI_append_libc-musl = " \
-            <a class="moz-txt-link-freetext" href="file://0002-musl-libs.patch">file://0002-musl-libs.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0003-musl-utils.patch">file://0003-musl-utils.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0004-Fix-error-on-musl.patch">file://0004-Fix-error-on-musl.patch</a> \
--           <a class="moz-txt-link-freetext" href="file://0015-config-eu.am-do-not-use-Werror.patch">file://0015-config-eu.am-do-not-use-Werror.patch</a> \
-+           <a class="moz-txt-link-freetext" href="file://0015-config-eu.am-do-not-use-Werror.patch">file://0015-config-eu.am-do-not-use-Werror.patch</a> \ 
-            "
--SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
-+SRC_URI[sha256sum] = "dc8d3e74ab209465e7f568e1b3bb9a5a142f8656e2b57d10049a73da2ae6b5a6"
- 
- inherit autotools gettext ptest pkgconfig
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-deleted file mode 100644
-index 5f82afef0c..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
--From: dorindabassey <a class="moz-txt-link-rfc2396E" href="mailto:dorindabassey@gmail.com">&lt;dorindabassey@gmail.com&gt;</a>
--Date: Sat, 19 Dec 2020 01:11:46 +0100
--Subject: [PATCH] add support for ipkg to debuginfod.cxx
--
--added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
--
--Upstream-status: Submitted [<a class="moz-txt-link-freetext" href="https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html">https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html</a>]
--
--Signed-off-by: dorindabassey <a class="moz-txt-link-rfc2396E" href="mailto:dorindabassey@gmail.com">&lt;dorindabassey@gmail.com&gt;</a>
--
-----
-- debuginfod/debuginfod.cxx | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
--index b34eacc..a8915f2 100644
----- a/debuginfod/debuginfod.cxx
--+++ b/debuginfod/debuginfod.cxx
--@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
--         {
--           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
--           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
--+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
--         }
--       else
--         {
--           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)&lt;";
--           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)&lt;";
--+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)&lt;";
--         }
--       // .udeb too?
--       break;
-diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-index 5bd6ba961c..6a16718538 100644
---- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-@@ -1,6 +1,6 @@
--From 14dfe84943b8f9e6f504536d8735ef6356210b40 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <a class="moz-txt-link-rfc2396E" href="mailto:alex.kanavin@gmail.com">&lt;alex.kanavin@gmail.com&gt;</a>
--Date: Mon, 19 Apr 2021 23:29:10 +0200
-+From 7355a34d3796272e6213b676e042809686eb398a Mon Sep 17 00:00:00 2001
-+From: Wang Mingyu <a class="moz-txt-link-rfc2396E" href="mailto:wangmy@fujitsu.com">&lt;wangmy@fujitsu.com&gt;</a>
-+Date: Mon, 31 May 2021 17:38:30 +0900
- Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
-  32bit arches with 64bit time_t
- 
-@@ -17,58 +17,40 @@ Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <a class="moz-txt-link-rfc2396E" href="mailto:alex.kanavin@gmail.com">&lt;alex.kanavin@gmail.com&gt;</a>
- Signed-off-by: Khem Raj <a class="moz-txt-link-rfc2396E" href="mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
- ---
-- debuginfod/debuginfod-client.c | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
-+ debuginfod/debuginfod-client.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
- 
- diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index de26af5..39e28f2 100644
-+index ee7eda2..9b26712 100644
- --- a/debuginfod/debuginfod-client.c
- +++ b/debuginfod/debuginfod-client.c
--@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -267,7 +267,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-    if (fd &lt; 0)
-      return -errno;
-  
- -  if (dprintf(fd, "%ld", cache_clean_default_interval_s) &lt; 0)
--+  if (dprintf(fd, "%jd", (intmax_t)cache_clean_default_interval_s) &lt; 0)
-++  if (dprintf(fd, "%ld", (intmax_t)cache_clean_default_interval_s) &lt; 0)
-      return -errno;
-  
-    /* init max age config file.  */
--@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -275,7 +275,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-        &amp;&amp; (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) &lt; 0)
-      return -errno;
-  
- -  if (dprintf(fd, "%ld", cache_default_max_unused_age_s) &lt; 0)
--+  if (dprintf(fd, "%jd", (intmax_t)cache_default_max_unused_age_s) &lt; 0)
-++  if (dprintf(fd, "%ld", (intmax_t)cache_default_max_unused_age_s) &lt; 0)
-      return -errno;
-  
-    return 0;
--@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--       if (interval_file == NULL)
--         return -errno;
-+@@ -303,7 +303,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-+   /* Check timestamp of interval file to see whether cleaning is necessary.  */
-+   if (time(NULL) - st.st_mtime &lt; clean_interval)
-+     /* Interval has not passed, skip cleaning.  */
-+-    return 0;
-++    return 0;/</pre>
-    </blockquote>
-    <p>Hi Wang,</p>
-    <p>Was this previous line change intended?</p>
-    <p><br>
-    </p>
-    <p>Alejandro<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:1622525045-17496-1-git-send-email-zangrc.fnst@fujitsu.com">
-      <pre class="moz-quote-pre" wrap="">
-  
---      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
--+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
--       fclose(interval_file);
-- 
--       if (rc &lt; 0)
--@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   interval_file = fopen(interval_path, "r");
--   if (interval_file)
--     {
---      if (fscanf(interval_file, "%ld", &amp;clean_interval) != 1)
--+      if (fscanf(interval_file, "%jd", (intmax_t*)(&amp;clean_interval)) != 1)
--         clean_interval = cache_clean_default_interval_s;
--       fclose(interval_file);
--     }
--@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   max_unused_file = fopen(max_unused_path, "r");
--   if (max_unused_file)
--     {
---      if (fscanf(max_unused_file, "%ld", &amp;max_unused_age) != 1)
--+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&amp;max_unused_age)) != 1)
--         max_unused_age = cache_default_max_unused_age_s;
--       fclose(max_unused_file);
--     }
-+   /* Read max unused age value from config file.  */
-+   rc = debuginfod_config_cache(max_unused_path,
- -- 
--2.31.1
-+2.25.1
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-index 205362626d..1857b7010e 100644
---- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-+++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-@@ -1,6 +1,6 @@
--From dfe11e043cd8ea0b0f0252bcff9f5a6b98c0ecd3 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <a class="moz-txt-link-rfc2396E" href="mailto:alex.kanavin@gmail.com">&lt;alex.kanavin@gmail.com&gt;</a>
--Date: Mon, 22 Jun 2020 21:35:16 +0000
-+From 5226351f21f7011440c2f6acfec50fbfd69796e4 Mon Sep 17 00:00:00 2001
-+From: Wang Mingyu <a class="moz-txt-link-rfc2396E" href="mailto:wangmy@fujitsu.com">&lt;wangmy@fujitsu.com&gt;</a>
-+Date: Tue, 1 Jun 2021 11:02:10 +0900
- Subject: [PATCH] config/eu.am: do not use -Werror
- 
- Due to re-definition of error() on musl, gcc starts throwing
-@@ -16,22 +16,25 @@ Signed-off-by: Alexander Kanavin <a class="moz-txt-link-rfc2396E" href="mailto:alex.kanavin@gmail.com">&lt;alex.kanavin@gmail.com&gt;</a>
-  1 file changed, 2 deletions(-)
- 
- diff --git a/config/eu.am b/config/eu.am
--index 6c3c444..3bc0dc9 100644
-+index 2c3e457..8fb0411 100644
- --- a/config/eu.am
- +++ b/config/eu.am
--@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-- 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
-+@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-+ 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
-  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	    $(if $($(*F)_no_Werror),,-Werror) \
-  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
--@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-- 	   -Wtrampolines \
-+ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-+ 	   $(TRAMPOLINES_WARNING) \
-  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	   $(if $($(*F)_no_Werror),,-Werror) \
-  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
-+ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+-- 
-+2.25.1
-+
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------11703E05B83C15C18D9762E8--
