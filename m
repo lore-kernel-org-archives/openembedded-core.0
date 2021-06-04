@@ -1,99 +1,125 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.3])
- by mx.groups.io with SMTP id smtpd.web08.3135.1622773121043272625
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web09.4878.1622787444729073655
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 19:18:41 -0700
+ Thu, 03 Jun 2021 23:17:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ZJSVA7cm;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.3, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1622773119; i=@fujitsu.com;
-	bh=exjFxeG5wRLh06/rGXks/Q3W3ouMzUnhk83OOXLlujo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=ZJSVA7cm8vbRw/VIXg3D7Vz3aUeZ3hHsGQtVmsdbHUFFb8sw4QEmeZygMbkhfGcIq
-	 I/PgE9oj9fdQWe8p1HF1tQRU21D+qB7y49ykeNi6dgfZR+CSVmwa/AchQCN82SaAuH
-	 5hkNWhKsLi/7aSpBE5B2EAn+KNrTYQDgJCK9+HOYM6sTh1mEh9jlICu8qY3BE2fT9W
-	 NM2/syfFFtIXpQESWwTKLN7v/bsQyn+OwxslQizoMJ7xT98fWzugMu8il0Mvl/alYQ
-	 JODTAJ1xG7ZvCh99HIdb4e/bzUcA6WMU0YLuVAR7K8XkTTXHJKnqRyHpq0eaWMYQ96
-	 LkYoizAl/hTug==
-Received: from [100.113.2.110] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-central-1.aws.symcld.net id DE/1A-19780-D7D89B06; Fri, 04 Jun 2021 02:18:37 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBIsWRWlGSWpSXmKPExsViZ8MRolvbuzP
-  BYPFSRYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPJ78ssBeu5Ko5PW8zewLiFs4uRi0NIYCaT
-  xNy515ggnOOMEl+3zgdyODnYBNQkpt+6wdrFyMEhIqAncfWfKEiYWUBF4sXvHnYQW1jATaLry
-  iIwmwUoPnP6BxYQm1fASeLs4W9sILaEgILElIfvmSHighInZz5hgZgjIXHwxQtmiBpFidmXm1
-  kg7AqJ14cvMU9g5J2FpGUWkpYFjEyrGC2TijLTM0pyEzNzdA0NDHQNDY11DXWNjMz0Eqt0E/V
-  SS3WTU/NKihKBsnqJ5cV6xZW5yTkpenmpJZsYgQGWUsj4aAfj6dcf9A4xSnIwKYnybg/emSDE
-  l5SfUpmRWJwRX1Sak1p8iFGGg0NJgndXF1BOsCg1PbUiLTMHGOwwaQkOHiURXt8eoDRvcUFib
-  nFmOkTqFKOilDhvEUhCACSRUZoH1waLsEuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHkTQa
-  bwZOaVwE1/BbSYCWixgNc2kMUliQgpqQYmwf93Ul+VR60wfes+ccWB6C2NJ+9cEd35oy6wp80
-  rlG92+Y8H+WbVM6U/n37a+mLBoeIZ1VINi03cjjwUdzXeKCevVJ32/Idk+oWc9YW/fZt0kpv3
-  Vld2LLDjWL1n08muwh+/ZWcsWvwln8EgpmDqze3Wu6/xbdk7l3fB0cfbm293S2mfLKya+CXza
-  0X34nLPl7VNjB8730lydXuzHNNdPiV5U2rYgrbJH7pKvY4vzbx7de/PtXyFHyYlx8Q2GRZNmv
-  Po+GEnf44vItduii2VncN9ac3Jgwzn1yiutBIJbGd4/f582+7Hmxze8R6L6Wb2/Pkq+uQFHwf
-  Wwg7X3wXpbIrtBsnV7oz1BcGC5/N8lViKMxINtZiLihMBFbj3YisDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-11.tower-228.messagelabs.com!1622773116!214719!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 18648 invoked from network); 4 Jun 2021 02:18:37 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-11.tower-228.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 4 Jun 2021 02:18:37 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1542IVHu003473
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 4 Jun 2021 03:18:36 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Fri, 4 Jun 2021 03:18:29 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v2] python3-libarchive-c: upgrade 3.0 -> 3.1
-Date: Fri, 4 Jun 2021 10:18:14 +0800
-Message-ID: <1622773094-28550-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oS/o5UAW;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso4616204pjx.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 23:17:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0oURukj8xLkK8Uw1hGnq3IfWjoBCBc9oKDsaF/ewUQw=;
+        b=oS/o5UAWOU40OcjcABz3NJUXH061+PbZ22Lp0NAfl3LRWYNt9pXmQWtIU1je2PEEU3
+         V1G4xSSCBf00w5ByxdpK19C+dlQbOykHlzRx7OoSKRvfWa780OB26Rq8Evols0Wc6vDL
+         JUgubI+qBozr6G3iMAGThJlSMtOM8VHVkab2x0FwpLLJfxjsheqR0YnPbbC4LjOyaCy3
+         5jPyGDFwnVU+XeTcW2PeZ5BLTSF4WAHfdu7tbqFnU9rOWK79XlthMGfLmFFY9nHcQ+3D
+         utXqaFKf6xnrco/vUc0nCQAhiEAE2jOLb/K2S4S0IqWKCwWZju5j5UV5kxKkUnY6rTp+
+         O15g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0oURukj8xLkK8Uw1hGnq3IfWjoBCBc9oKDsaF/ewUQw=;
+        b=M55IpSc6SJU5vwGUHnX5xlIIywE9YgqHDhfVxroX9l+dM/vbGfUsDG097B1EpltOOE
+         979EpBGOSBz3+7GIsrnNZTDpgdxVn2g5B8dVIg/tgd0vkWf4emNdp82kdkDsgr6v0c5g
+         /tqe/+hstlYwe+zOeEdQGBz6S9Gb2vIL2kyxb5dCa5Kzkvwegshv4d+4BpjsuCp7TIBg
+         Lr6mxqD4HPuwG4kGtksgi2KavBAPOa9BsV0VjB5VHcnSKFFQooAljBHdc3b7OqJiwVR3
+         xp1BFaPFzuLoIbZVHRsKE4p5jt6MlwFWiD9OWKC1a+8NwJI2ikniUNTMW91oVJOziV0o
+         6Mag==
+X-Gm-Message-State: AOAM532rnaNotMkQmW7nS2UfjHoe/HEObgqaWS/gzcaRJ+OSq+OLppZW
+	FZfMeKhDGNnEz9Ho/w+BPyRVEGHxAsOfzg==
+X-Google-Smtp-Source: ABdhPJwuOkfjw7qNFCERRjMHzxqVorfLVkdLqeJJG7UjcY3cYDTL+OQWvn45lBov9PSMV6kyAFHmiw==
+X-Received: by 2002:a17:902:7c94:b029:fc:5e8b:e645 with SMTP id y20-20020a1709027c94b02900fc5e8be645mr2794028pll.18.1622787443809;
+        Thu, 03 Jun 2021 23:17:23 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
+        by smtp.gmail.com with ESMTPSA id l20sm3710525pjq.38.2021.06.03.23.17.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 23:17:23 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] harfbuzz: Fix unused-variable warning
+Date: Thu,  3 Jun 2021 23:17:19 -0700
+Message-Id: <20210604061719.3721660-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Add runtime dependency to resolve errors that occurred when import libarchive.
+Backport a patch to fix the issue
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...thon3-libarchive-c_3.0.bb => python3-libarchive-c_3.1.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-libarchive-c_3.0.bb => python3-libarchive-c_3.1.bb} (75%)
+ ...ariable-supp_size-from-plan_subset_e.patch | 44 +++++++++++++++++++
+ .../harfbuzz/harfbuzz_2.8.1.bb                |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch
 
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c_3.0.bb b/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb
-similarity index 75%
-rename from meta/recipes-devtools/python/python3-libarchive-c_3.0.bb
-rename to meta/recipes-devtools/python/python3-libarchive-c_3.1.bb
-index d29195545f..d8f7862f92 100644
---- a/meta/recipes-devtools/python/python3-libarchive-c_3.0.bb
-+++ b/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb
-@@ -9,13 +9,14 @@ PYPI_PACKAGE = "libarchive-c"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch
+new file mode 100644
+index 0000000000..c1d4df42a9
+--- /dev/null
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch
+@@ -0,0 +1,44 @@
++From f96b2b653c605679b83a820b38f49a0a0f4baf42 Mon Sep 17 00:00:00 2001
++From: Andi-Bogdan Postelnicu <abpostelnicu@me.com>
++Date: Wed, 2 Jun 2021 14:08:11 +0300
++Subject: [PATCH] Removed unused variable `supp_size` from
++ plan_subset_encoding(...).
++
++Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/243d056ff1c2af583ceb67e5dfbfaac51dc96e63]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/hb-subset-cff1.cc | 4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/src/hb-subset-cff1.cc b/src/hb-subset-cff1.cc
++index df322f8..35dae7b 100644
++--- a/src/hb-subset-cff1.cc
+++++ b/src/hb-subset-cff1.cc
++@@ -402,7 +402,7 @@ struct cff_subset_plan {
++   void plan_subset_encoding (const OT::cff1::accelerator_subset_t &acc, hb_subset_plan_t *plan)
++   {
++     const Encoding *encoding = acc.encoding;
++-    unsigned int  size0, size1, supp_size;
+++    unsigned int  size0, size1;
++     hb_codepoint_t  code, last_code = CFF_UNDEF_CODE;
++     hb_vector_t<hb_codepoint_t> supp_codes;
++ 
++@@ -412,7 +412,6 @@ struct cff_subset_plan {
++       return;
++     }
++ 
++-    supp_size = 0;
++     supp_codes.init ();
++ 
++     subset_enc_num_codes = plan->num_output_glyphs () - 1;
++@@ -448,7 +447,6 @@ struct cff_subset_plan {
++ 	  code_pair_t pair = { supp_codes[i], sid };
++ 	  subset_enc_supp_codes.push (pair);
++ 	}
++-	supp_size += SuppEncoding::static_size * supp_codes.length;
++       }
++     }
++     supp_codes.fini ();
++-- 
++2.31.1
++
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb
+index 2353633071..1a0e651f6e 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.1.bb
+@@ -11,6 +11,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
- inherit pypi setuptools3
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz \
++           file://0001-Removed-unused-variable-supp_size-from-plan_subset_e.patch \
+            "
+ SRC_URI[sha256sum] = "4124f663ec4bf4e294d9cf230668370b4249a48ff34deaf0f06e8fc82d891300"
  
--SRC_URI[md5sum] = "920885f5910aa8245e30896996e0415b"
--SRC_URI[sha256sum] = "6f12fa9cf0e44579e5f45bbf11aa455a930fbfdb13ea0ce3c3dfe7b9b9a452ba"
-+SRC_URI[md5sum] = "8c62da42a8b9bd24642e5430427e6f5a"
-+SRC_URI[sha256sum] = "618a7ecfbfb58ca15e11e3138d4a636498da3b6bc212811af158298530fbb87e"
- 
- RDEPENDS_${PN} += "\
-   libarchive \
-   ${PYTHON_PN}-ctypes \
-   ${PYTHON_PN}-mmap \
-+  ${PYTHON_PN}-logging \
- "
- 
- BBCLASSEXTEND = "native"
 -- 
-2.25.1
+2.31.1
 
