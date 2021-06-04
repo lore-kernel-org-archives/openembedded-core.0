@@ -1,87 +1,88 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.4907.1622787652268038700
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.4867.1622787778291249462
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jun 2021 23:20:52 -0700
+ Thu, 03 Jun 2021 23:22:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aUAKrL/6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id l2so8102060wrw.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 23:20:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BdnrbDct;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id j14so8093605wrq.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jun 2021 23:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=BxNw43D8o+yq3/pyDP8xue6ggpQ+++DvApR67KWBvYs=;
-        b=aUAKrL/68dR5U8U0hUqY01aBBzgoXZpg5nw8Kd5r6dgsy7q+dLl/GCwvnLQ/f0iwR4
-         QzMHO7Kp2cfmPpmUPPinLinfuNyXuEZvDam6bFqIcHjNf0SLWijWNWyl/RDUZl0Z4Kmz
-         UTjvsSADPhhpVSAA7cwaeM2Me/bBmgPg0Z/BE=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=fjGPFNbVDtfDAoK3KudJW9lJ0PVG44u/GLXeZeNNBJY=;
+        b=BdnrbDct11UihL1+Og9c8RgS0BixdzU+/5mDuxTwxXAB3Id/TlmAC4ExvJs9fCyyHk
+         d42aJrLt2Tno/upkG+dx5nLNgV5tHu9DCkPeaPPIsBp6AqD827oM0T07XWETdwA50Yda
+         FKfwYzRcDSfNlRbHdr3yhJJfASVY/t/ToyVic=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BxNw43D8o+yq3/pyDP8xue6ggpQ+++DvApR67KWBvYs=;
-        b=jdTOmZi12yVP0DhkhVIxi51wfYh84wHmkdrzP6zPpim1hQv1c0saqZvakSCXdfJECD
-         aeH8V82ID+ulAuQZLbOoOuQmq8MlYofsmsZWVgpSSYighEWs3ghge6xlPRweJ1TLaI8Z
-         my6d028SS6uV/ZtnEJkeY3j0Itri0nPQRHHj8XiXTUShj9c8xYnX46oS0puI0ug9jUwo
-         ItelsmfQWWHrBzOFTpTetsQDw9PRe5a86f8rFJ7KcmvsqKpVfPE9JxTyqWibptGJT7CD
-         ty0Cqrq81hPhuxSCG0nYD4ToseJ5Z5nV/4tKtCg0he+cYL3Ne5nXi8umFW/uA6HZW0Zs
-         s5mg==
-X-Gm-Message-State: AOAM530A+5FMY+VmEc+0JywSYW4fF1riosikE1BxYKFSWmM62anYOV2V
-	IJBOUFFelr+Km0drxKevUW0J4Q==
-X-Google-Smtp-Source: ABdhPJxu7PeI9x6A0apoYxrFULY31I01Yx+IHa6EO46LUQNY5ju9dzDawRtmdvztMBvYY3PxsnYhaw==
-X-Received: by 2002:a5d:4346:: with SMTP id u6mr2039561wrr.304.1622787650915;
-        Thu, 03 Jun 2021 23:20:50 -0700 (PDT)
+        bh=fjGPFNbVDtfDAoK3KudJW9lJ0PVG44u/GLXeZeNNBJY=;
+        b=CNB8JSV5cLKtMgX5bYKjQr0R6wDS0nPYGfKvQHfjfgNiDDkNoj3AjCaEaz7VXKyqoy
+         LE7pjD2B2PcMoL5fiEPNHgK9qtiG1ZmAotQ3ioKk+VJvBMbvqfWIX6qLHCjHoZfVldck
+         lu1tC216xA1VlyX2MJ+QhH/QIgGWj8lvGd/0JAlGIndPgV1LF2RAy2GFeguGF5PzkmU6
+         /jyqD55v9mE3+RuoaCrfmlFi+sX89JjcGEzZoa8i8RHHpas7Uoy/58hJpGHqrOqas9du
+         ymv3AxBqEG/jHmUsrmsIqJo9yzoWt1rO9QUjzXPVYOzjbN0SNGofu2B0Fl8Cwt3qgBYM
+         j5FQ==
+X-Gm-Message-State: AOAM531ksz+Od9P/oJ04jnV/AwUcgrK4SGBFHjzpdrB9iGJF2TmvE+Gm
+	pJY6WJCCcQy/7MKyMtpbf11/Ow==
+X-Google-Smtp-Source: ABdhPJx0MuJ7z24i+jPQ8Cz0uRpo1/+fh8kU43luKjbYr5dLHBXbKPqhhWhVywjArS9kkQmxfyQfyA==
+X-Received: by 2002:adf:a441:: with SMTP id e1mr1997695wra.227.1622787776895;
+        Thu, 03 Jun 2021 23:22:56 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:1fce:265d:903f:2948? ([2001:8b0:aba:5f3c:1fce:265d:903f:2948])
-        by smtp.gmail.com with ESMTPSA id f7sm4755763wmq.30.2021.06.03.23.20.50
+        by smtp.gmail.com with ESMTPSA id l16sm7944740wmj.47.2021.06.03.23.22.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 23:20:50 -0700 (PDT)
-Message-ID: <96b9bce469e6cdcc86165ff9abb4ced53d4f8444.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/3] recipes-bsp/u-boot: Allow deploying the u-boot DTB
+        Thu, 03 Jun 2021 23:22:56 -0700 (PDT)
+Message-ID: <365c322ec3e86e105dac95b3916d7bfbc2ccd4cf.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] m4: upgrade 1.4.18 -> 1.4.19
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alistair Francis <alistair.francis@wdc.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com, alistair23@gmail.com
-Date: Fri, 04 Jun 2021 07:20:47 +0100
-In-Reply-To: <20210602232104.3490139-2-alistair.francis@wdc.com>
-References: <20210602232104.3490139-1-alistair.francis@wdc.com>
-	 <20210602232104.3490139-2-alistair.francis@wdc.com>
+To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 04 Jun 2021 07:22:55 +0100
+In-Reply-To: <1622704403-26153-2-git-send-email-wangmy@fujitsu.com>
+References: <1622704403-26153-1-git-send-email-wangmy@fujitsu.com>
+	 <1622704403-26153-2-git-send-email-wangmy@fujitsu.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-06-03 at 09:21 +1000, Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On Thu, 2021-06-03 at 15:13 +0800, wangmy wrote:
+> 0001-Unset-need_charset_alias-when-building-for-musl.patch
+> 0001-c-stack-stop-using-SIGSTKSZ.patch
+> 0001-test-getopt-posix-fix.patch
+> m4-1.4.18-glibc-change-work-around.patch
+> deleted since they are included in 1.4.19
+> 
+> refresh ac_config_links.patch
+> 
+> License-update: URL of license changed
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
->  meta/classes/uboot-config.bbclass  | 4 ++++
->  meta/recipes-bsp/u-boot/u-boot.inc | 7 ++++++-
->  2 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-> index 3bba02828b..6444f58437 100644
-> --- a/meta/classes/uboot-config.bbclass
-> +++ b/meta/classes/uboot-config.bbclass
-> @@ -71,6 +71,10 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
->  UBOOT_MKIMAGE_SIGN_ARGS ?= ""
->  SPL_MKIMAGE_SIGN_ARGS ?= ""
->  
-> 
-> 
-> 
-> +# Options to deploy the u-boot device tree
-> +UBOOT_DTB ?= ""
-> +UBOOT_DTB_BINARY ?= ""
-> +
->  python () {
->      ubootmachine = d.getVar("UBOOT_MACHINE")
->      ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
+>  .../m4/{m4-1.4.18.inc => m4-1.4.19.inc}       |  14 +-
+>  ...4-native_1.4.18.bb => m4-native_1.4.19.bb} |   0
+>  ...charset_alias-when-building-for-musl.patch |  33 -----
+>  .../m4/0001-c-stack-stop-using-SIGSTKSZ.patch |  84 -----------
+>  .../m4/m4/0001-test-getopt-posix-fix.patch    |  41 ------
+>  .../m4/m4/ac_config_links.patch               |  24 ++--
+>  .../m4-1.4.18-glibc-change-work-around.patch  | 130 ------------------
+>  .../m4/{m4_1.4.18.bb => m4_1.4.19.bb}         |   0
+>  8 files changed, 20 insertions(+), 306 deletions(-)
+>  rename meta/recipes-devtools/m4/{m4-1.4.18.inc => m4-1.4.19.inc} (79%)
+>  rename meta/recipes-devtools/m4/{m4-native_1.4.18.bb => m4-native_1.4.19.bb} (100%)
+>  delete mode 100644 meta/recipes-devtools/m4/m4/0001-Unset-need_charset_alias-when-building-for-musl.patch
+>  delete mode 100644 meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
+>  delete mode 100644 meta/recipes-devtools/m4/m4/0001-test-getopt-posix-fix.patch
+>  delete mode 100644 meta/recipes-devtools/m4/m4/m4-1.4.18-glibc-change-work-around.patch
+>  rename meta/recipes-devtools/m4/{m4_1.4.18.bb => m4_1.4.19.bb} (100%)
 
-I think this breaks other fitimage workflows:
+m4's ptests don't work after this upgrade:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2185/steps/14/logs/stdio
-
-(other selftests fails similiarly)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/1865/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/2156/steps/13/logs/stdio
 
 Cheers,
 
