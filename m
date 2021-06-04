@@ -1,192 +1,122 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.766.1622821048660217756
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web09.809.1622821049334992568
  for <openembedded-core@lists.openembedded.org>;
  Fri, 04 Jun 2021 08:37:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=K9KMrv77;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id b9so15100527ejc.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 08:37:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YZT4UAef;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id l1so15159903ejb.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 08:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kfgtlbphPwgzKG8mJ9AKh8Q1xeuqqhdHITbsavKsFSA=;
-        b=K9KMrv7736WDbTKszrn1URV7vreUjXESV0ZKgaUcepIpd2UuAgXmisZTURvjcQWa0k
-         j+EiIL3Plis/Zq53AoquAg0x8mk6smvYYvNdMfxyFjr3f9JPMARR8u03pCtqsoiUVWOy
-         3zmlZVq5QjHBSuDMK91n0RVnJwKKyHuY13UvOYnLtaFbJws0nE1+IzvCawITmovmpxgJ
-         UH9zpF1NXIgSGpD/HpICdA3Wk1/HKA9YYGBZbiqRqjAIvq087C53cXWu3kbv4NrLPAs1
-         1KD3oVgWwRjY02eZhLhsON/p28fKuZ7dqS5BeSpLe4f2CoRkCqK+VjYGRHDrjWpjju7s
-         z0kA==
+        bh=LnVz8rfrXQ7UvRO3SsPTaWdDIHgW10v6Z+Mr9KsznxA=;
+        b=YZT4UAefyWFoIy4y4Unidqc7egmnXwOlKLDdkhum/FlGqtGqirssytMhsS5hw19JZx
+         QMx/0AmWmRJOgvA89QqTkF9kZktdXVNbTiu6C2eu1vHDcHaa6yQJlii88xwBIc3f5fIj
+         suUWWl/SGKELr5SuDnaE8+6vSBASey8qYDPa8LwFn60v7EGCSVm2sgGrJ7SHDD8bvjVh
+         fFtjlsQfafKv+Uj7sMgFJ6OG/v0aqLgtKRDQOW2nYYb9+5p6gr15my37xyXCww3Ak832
+         v9ARpPBer6ecf6Le5dcGXEkXMB8zYE965jSD91+D2cMu+tTPHue+B94931SMjDQw3yk4
+         kW8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kfgtlbphPwgzKG8mJ9AKh8Q1xeuqqhdHITbsavKsFSA=;
-        b=iCg2R8A/AleV1LpzWdP6J17CFwxT73/lafc6aqo6ekptdZsQKHguC8MPBihMoiit0M
-         9nX93GSxq0qdN4UbRELS7jsryk/jDW8MLlPGd7xXIiXTI0sHU+33Cpd+AqpfwKctzeId
-         feHWkKVbHgzHEYZE/30W2Xq75wvmCor7Fqo/1/T5f4Ck5WMSQve1Yp3nPslIGo/tV4XK
-         +TqurcRzcArF94QbgSc53DGibtBkHE1a2YAdGuO8YSnonzql68DfSijjPd/+chKS701c
-         DyKYFp/8lnbMiVCfreBe/j9hPcqDWZXZky40+i7EW+vIEBmUAVD98fNDxDDTznWP2TLQ
-         fDBQ==
-X-Gm-Message-State: AOAM531uOyRKQ0yD0YL3HoYQQqhqqHAbDFCrZ2yhZR3Qno/shJMGjlYb
-	PDsIUL5lfZCKX/7W2f+V71/sfFMQNDOOH6nn
-X-Google-Smtp-Source: ABdhPJzdTIHrIbmAbu5eRW0VZNO3aJ7czTqGGiHuY3i+FBSSfJynGsC3HfgW4T/wNzd38tcIuu1LLg==
-X-Received: by 2002:a17:906:7ce:: with SMTP id m14mr4733059ejc.444.1622821046832;
-        Fri, 04 Jun 2021 08:37:26 -0700 (PDT)
+        bh=LnVz8rfrXQ7UvRO3SsPTaWdDIHgW10v6Z+Mr9KsznxA=;
+        b=isePQ/0Pi3cFEczjnvAWrwiQcbrMPn8+ttSG/yRj8XKpfzmQVUHErOoea4SJb4IAxi
+         kN7wxntOcnze9WAURyvJH9FBoGbJ9mszowHtJVAy72G9qX5Nvwcb/mQbXQtgLEdGj+/Y
+         NvxIYw56LyCjm25VQVMOGy3ZO7u3ybwYPDuUZtIvn/sdUzmA4EIbKidZd3n6rZZylN09
+         gQaj4n5LbWnE0KtxL0oiMVDmmCzPmLlIwc5DXoHT1IJzwajCLNeGQjJxjDbH+bzGS2BM
+         QYBy/WliFafIUH8wEe5Ivzo7KcgVf5zNI3uC6ooqQM+eSAKpwlHykwDnqxoe7+zdghZX
+         DCng==
+X-Gm-Message-State: AOAM531U92y+9dPAsy0QZBXaIx1y6f3g1OFshYtoAddRMtKF+fDiz488
+	ul5MNLGy1yVaroaVIcHx4E2ErtVSMermIcg9
+X-Google-Smtp-Source: ABdhPJyneWRDfg64DCEgAzGBpd1Tyrd94DQ/sLXQupXuH97kexhnMecWycc5vbdrfCJShFfZHs9OFg==
+X-Received: by 2002:a17:906:3884:: with SMTP id q4mr4880987ejd.66.1622821047559;
+        Fri, 04 Jun 2021 08:37:27 -0700 (PDT)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from md2ramxc.ad001.siemens.net ([62.32.0.69])
         by smtp.gmail.com with ESMTPSA id dy19sm3402511edb.68.2021.06.04.08.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 08:37:26 -0700 (PDT)
+        Fri, 04 Jun 2021 08:37:27 -0700 (PDT)
 From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 1/3] meta-skeleton: update service example
-Date: Fri,  4 Jun 2021 17:37:13 +0200
-Message-Id: <20210604153715.1651762-2-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 2/3] testimage: support additional reports for ptests
+Date: Fri,  4 Jun 2021 17:37:14 +0200
+Message-Id: <20210604153715.1651762-3-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604153715.1651762-1-adrian.freihofer@siemens.com>
 References: <20210604153715.1651762-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- Support systemd as well
-- Add a simple ptest
----
- .../service/service/run-ptest                 | 45 +++++++++++++++++++
- .../service/service/skeleton.service          |  9 ++++
- .../recipes-skeleton/service/service_0.1.bb   | 32 ++++++++++---
- 3 files changed, 81 insertions(+), 5 deletions(-)
- create mode 100644 meta-skeleton/recipes-skeleton/service/service/run-ptest
- create mode 100644 meta-skeleton/recipes-skeleton/service/service/skeleton.service
+This adds a new optional feature to the ptest run-time test. Most unit
+test frameworks such as googletest generate JUnit like XML reports which
+can be processed e.g. by GitLab CI or Jenkins.
 
-diff --git a/meta-skeleton/recipes-skeleton/service/service/run-ptest b/meta-skeleton/recipes-skeleton/service/service/run-ptest
-new file mode 100644
-index 0000000000..16d172609e
---- /dev/null
-+++ b/meta-skeleton/recipes-skeleton/service/service/run-ptest
-@@ -0,0 +1,45 @@
-+#!/bin/sh
-+
-+failures=0
-+
-+# The result should be PASS, FAIL, or SKIP, and the testname can be any identifying string.
-+result_autostart=0
-+testname="skeleton autostart"
-+if @@STATUS_COMMAND@@; then
-+    echo "PASS:  ${testname}"
-+else
-+    echo "FAIL:  ${testname}"
-+    result_autostart=1
-+    failures="$(expr "$failures" + 1)"
-+fi
-+
-+
-+# Optional ----------------------
-+# A ptest might provide a machine readable report such as JUnit XML.
-+# Reports are collected by the ptest imagetest if the TESTIMAGE_PTEST_REPORT_DIR
-+# variable is configured for the tested image.
-+# Example to fetch a xml report to ${TEST_LOG_DIR}/reports-xml/skeleton-test.xml:
-+#   TESTIMAGE_PTEST_REPORT_DIR ?= "/tmp/ptest-xml/*.xml:reports-xml"
-+# Usually one of the common unit test frameworks such as googletest or python unittest would generate a xml file.
-+# Example for calling a C++ goolgetest test: my-gtest --gtest_output="xml:/tmp/ptest-xml/"
-+XML_DIR="/tmp/ptest-xml"
-+XML_FILE="${XML_DIR}/skeleton-test.xml"
-+timestamp="$(date +"%Y-%m-%dT%H:%M:%S")"
-+
-+mkdir -p "$XML_DIR"
-+cat << xxxEOFxxx > "$XML_FILE"
-+<?xml version="1.0" encoding="UTF-8"?>
-+<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.010" timestamp="$timestamp" name="AllTests">
-+  <testsuite name="ServiceTests" tests="1" failures="$failures" disabled="0" errors="0" time="0.010" timestamp="$timestamp">
-+    <testcase name="SkeletonAutostart" status="completed" result="$result_autostart" time="0.010" timestamp="$timestamp" classname="SystemTest"/>
-+  </testsuite>
-+</testsuites>
-+xxxEOFxxx
-+# End Optional ----------------------
-+
-+
-+# The ptest-runner evaluates the exit value of a test case: 0 means pass, 1 means fail.
-+if [ "$failures" -eq 0 ]; then
-+    exit 0
-+fi
-+exit 1
-diff --git a/meta-skeleton/recipes-skeleton/service/service/skeleton.service b/meta-skeleton/recipes-skeleton/service/service/skeleton.service
-new file mode 100644
-index 0000000000..ee1f8c2e21
---- /dev/null
-+++ b/meta-skeleton/recipes-skeleton/service/service/skeleton.service
-@@ -0,0 +1,9 @@
-+[Unit]
-+Description=skeleton demo service
-+
-+[Service]
-+Type=forking
-+ExecStart=@SBINDIR@/skeleton-test
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta-skeleton/recipes-skeleton/service/service_0.1.bb b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-index 669d173ad1..07c8756071 100644
---- a/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-+++ b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-@@ -4,16 +4,24 @@ DESCRIPTION = "This recipe is a canonical example of init scripts"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYRIGHT;md5=349c872e0066155e1818b786938876a4"
+Example: A run-ptest script executes a googletest based unit test:
+  /usr/bin/my-unittest --gtest_output="xml:/tmp/ptest-xml/"
+
+The new variable TESTIMAGE_PTEST_REPORT_DIR allows to configure
+bitbake -c testimage to fetch the reports from the target device and
+store them into a subfolder of TEST_LOG_DIR. It's possible to fetch
+report files from different locations on the target device to different
+subfolders on the host.
+---
+ meta/classes/testimage.bbclass       |  5 +++++
+ meta/lib/oeqa/runtime/cases/ptest.py | 24 ++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 43de9d4d76..d01892136f 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -47,6 +47,11 @@ TESTIMAGE_AUTO ??= "0"
+ # TESTIMAGE_BOOT_PATTERNS[search_login_succeeded] = "webserver@[a-zA-Z0-9\-]+:~#"
+ # The accepted flags are the following: search_reached_prompt, send_login_user, search_login_succeeded, search_cmd_finished.
+ # They are prefixed with either search/send, to differentiate if the pattern is meant to be sent or searched to/from the target terminal
++# TESTIMAGE_PTEST_REPORT_DIR might be used to fetch additional reports (e.g. JUnit like xml files) generated by ptests from the target device.
++# A ; separate list of remote_path:host_path is expected. The host_path is optional. It defaults to "reports".
++# For example if some ptests (such as ptest-example.bb) create additional reports in /tmp/ptest-xml/ the following line in the image recipe
++# configures the ptest imagetest to fetch the xml reports into a "xml-reports" subfolder of TEST_LOG_DIR:
++# TESTIMAGE_PTEST_REPORT_DIR = "/tmp/ptest-xml/*.xml:xml-reports"
  
--SRC_URI = "file://skeleton \
--	   file://skeleton_test.c \
--	   file://COPYRIGHT \
--	   "
-+SRC_URI = "\
-+    file://skeleton \
-+    file://skeleton.service \
-+    file://skeleton_test.c \
-+    file://COPYRIGHT \
-+    file://run-ptest \
-+"
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+ 
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index 0800f3c27f..7b3560a4b0 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -110,3 +110,27 @@ class PtestRunnerTest(OERuntimeTestCase):
+         if failmsg:
+             self.logger.warning("There were failing ptests.")
+             self.fail(failmsg)
 +
-+# A recipe is "ptest-enabled" if it inherits the ptest class
-+inherit update-rc.d systemd ptest
++        # Fetch log files e.g. JUnit like xml files from the target device
++        ptest_report_dir = self.td.get('TESTIMAGE_PTEST_REPORT_DIR', '')
++        if ptest_report_dir:
++            for test_log_dir_ptest in ptest_report_dir.split(';'):
++                src_tgt = test_log_dir_ptest.split(':')
++                if len(src_tgt) == 1:
++                    tgt_dir_abs = os.path.join(ptest_log_dir, "reports")
++                elif len(src_tgt) == 2:
++                    tgt_dir_abs = os.path.join(ptest_log_dir, src_tgt[1])
++                else:
++                    self.logger.error("Invalid TESTIMAGE_PTEST_REPORT_DIR setting")
++                self.copy_logs(src_tgt[0], tgt_dir_abs)
 +
- 
- do_compile () {
- 	${CC} ${CFLAGS} ${LDFLAGS} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
- }
- 
- do_install () {
-+	# init script
- 	install -d ${D}${sysconfdir}/init.d
- 	cat ${WORKDIR}/skeleton | \
- 	  sed -e 's,/etc,${sysconfdir},g' \
-@@ -23,10 +31,24 @@ do_install () {
- 	      -e 's,/usr,${prefix},g' > ${D}${sysconfdir}/init.d/skeleton
- 	chmod a+x ${D}${sysconfdir}/init.d/skeleton
- 
-+	# systemd service file
-+	install -d ${D}${systemd_system_unitdir}
-+	install -m 0644 ${WORKDIR}/skeleton.service ${D}${systemd_system_unitdir}
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/skeleton.service
-+
-+	# skeleton-test
- 	install -d ${D}${sbindir}
- 	install -m 0755 ${WORKDIR}/skeleton-test ${D}${sbindir}/
- }
- 
--RDEPENDS_${PN} = "initscripts"
-+do_install_ptest() {
-+	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
-+		sed -i -e 's,@@STATUS_COMMAND@@,systemctl is-active --quiet skeleton,g' ${D}${PTEST_PATH}/run-ptest
-+	else
-+		sed -i -e 's,@@STATUS_COMMAND@@,${sysconfdir}/init.d/skeleton status,g' ${D}${PTEST_PATH}/run-ptest
-+	fi
-+}
- 
- CONFFILES_${PN} += "${sysconfdir}/init.d/skeleton"
-+INITSCRIPT_NAME = "skeleton"
-+SYSTEMD_SERVICE_${PN} = "skeleton.service"
++    def copy_logs(self, remoteSrc, localDst):
++        self.logger.debug("Fetching from target: %s to %s" % (remoteSrc, localDst))
++        if os.path.exists(localDst):
++            from shutil import rmtree
++            rmtree(localDst)
++        os.makedirs(localDst)
++        try:
++            self.target.copyFrom(remoteSrc, localDst)
++        except AssertionError:
++            pass
 -- 
 2.31.1
 
