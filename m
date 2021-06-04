@@ -1,343 +1,140 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.5990.1622798105180253790
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web08.5863.1622798105694873304
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jun 2021 02:15:05 -0700
+ Fri, 04 Jun 2021 02:15:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OGlOpCy1;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id r11so10273821edt.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 02:15:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JWPHk1iC;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id h24so13467598ejy.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jun 2021 02:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jZPYnPPGlGvvXH3vqKie1nu4MbEkJWf8AjgAJa5CvjM=;
-        b=OGlOpCy174AJnOJFtvcQQDnkcjCKTKoWmaJDEkCcdt1e5V81BbWZzbOwZG1W6aETP1
-         MaVy+TFtA/AkI3NsxjnRDYkRDoCg4jQHP4MYzxNw03HqSbNnc+y0sUUGi5cyadWYwLBj
-         +NR+zawSFwNHp19m4Ra3orFWHJl6EML26ObY9rlqSzVKWyx8htNF8x0PrJuXYsOzEspO
-         ha8SDrpCV+m6tXdFF4xazqoul8tAjqrPp8u3E14LAZn8BB9CeWHUZ0rYgO1RXkx1uPyt
-         mLE3lv8/ANDFawcbvl1J2C5l4DINeBW5jPeatl9pjD1l5MWN+dlQohOTVo1F0TwFwdBO
-         EHyQ==
+        bh=wohOciiptwMFriJJxqRg2ILltBuql/o6M6dRK8uZ/7c=;
+        b=JWPHk1iC6aKRqHsB2dFgkU4KCTY7Uj0IaLfhL1zFtecsHxm8huGeFL5MUzOb7Kkql9
+         XEYhblWurwpeVvhs04zi5/s0gaJdUcU/a2ooRpHuCd/VI0ywgW2ud0+gKPjK8R0JKCqy
+         tc+Tzhx5dWwzMwZt4PgDxu6Ii4sKRFWr5UqMZ+UqLTe0ru0nTzysGAECd7QqJowTbzUu
+         je04FiPLDKXSqmEf/gaMPmhgo0E4rs7ZyK8Jfd9QPRjO7RcD4Tqul92dL3resP6KRcCE
+         vg83IBYJtMKaM/v76qnYbrk71yp+aq3gmiihP/VRum4YmiYvKdHuW3m0BQZRB4lUE+Ou
+         6ZFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jZPYnPPGlGvvXH3vqKie1nu4MbEkJWf8AjgAJa5CvjM=;
-        b=Sarj9kDX2HU3KAuC1Cu1Z1oDa43QpmkcSG8crribS3zA9QTnJBZPoaWaR9tpCNTbK3
-         3OQvNgnG24URSSG99mX0M1GGI6F1IKrTp1VN2o+mylwrsuB1FLnyfOriS4ThNz4f3sms
-         ecW9BvQ9JSz6/aMXjAnifg89OYItvcklZyon36VHhN5f5tAhKYNrqYZY3n/EcUwigi/y
-         Ve7BDrznusMFK6AJyeXG7+HC2DlU/wgnMxdIdc9ztAEpv1LAgVqUpJ10TUDglQtxUY+8
-         vF41+IR15V+7mI7+Sff1Bz6THUxehC4RsJLI3jIhh75a4/W7z62ofjBcnq2SPTfHAdce
-         bSRw==
-X-Gm-Message-State: AOAM531sSgvTTfDvrZ+ZXnZ771K1VMf28gao4Sy3AB9/mQUV0mK+u2lg
-	Hl72EqwDtnVWwMPf+pTDH/unc5D58llliQ==
-X-Google-Smtp-Source: ABdhPJwdbOYfT2HSkn9ltZuPjic0JxwnVqH0EwULM+IjAxAi0OU0e96OJL4waLQxcgQKHIzzhmxzDQ==
-X-Received: by 2002:a05:6402:268f:: with SMTP id w15mr3557475edd.321.1622798103682;
-        Fri, 04 Jun 2021 02:15:03 -0700 (PDT)
+        bh=wohOciiptwMFriJJxqRg2ILltBuql/o6M6dRK8uZ/7c=;
+        b=HRiacBiMZq8KjkE0xwtq5T9rLo271tRMAI9MQZz5u1uFsoQ3I82tUnvZCpKrim13oH
+         u7HdbN6Q9/V8lgzid+YOuHyZ64bvpcp8HqUEFwd2S7C+WL8HuEV83WjYSDf3WW69rJhq
+         O/+3XbNZGhjM3+/CTgmq4ajA0YPDLl9soe8m0yVY/DI93F68INUjrrymlsXKzqxworgc
+         nRKET3vLDfKWSc4dFUeDbDz95YYws6Xu+DJFkddmpKaIuJmAPUgNjeWVhOMiGGW0O5ff
+         YPMM9Xte9FKrt6E+tDZLTeWlQX8ssNTYphjeFVB+Ibz0pvBLeAFBJhp18/5ZWLy1F2VS
+         aXTw==
+X-Gm-Message-State: AOAM530+0+mebOLTQAL3AT2jWnZbPzqfC9DD/3hTV9cVs/3QmztO9Mvn
+	cVIv3Jex+eD8V8EYhro3V8b86WAYwJDZtA==
+X-Google-Smtp-Source: ABdhPJxGieCFyg2agPLcuxZFF/NNQrr55T+pzaeTEYfxxtl+P74K2egIWMDl3Sg2qV8sdhWSeBYu8Q==
+X-Received: by 2002:a17:907:7808:: with SMTP id la8mr1003668ejc.13.1622798104356;
+        Fri, 04 Jun 2021 02:15:04 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id br24sm2508544ejb.55.2021.06.04.02.15.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 02:15:03 -0700 (PDT)
+        Fri, 04 Jun 2021 02:15:04 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 02/10] elfutils: update 0.183 -> 0.185
-Date: Fri,  4 Jun 2021 11:14:50 +0200
-Message-Id: <20210604091458.1381144-2-alex.kanavin@gmail.com>
+Subject: [PATCH 03/10] libcap: update 2.49 -> 2.50
+Date: Fri,  4 Jun 2021 11:14:51 +0200
+Message-Id: <20210604091458.1381144-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604091458.1381144-1-alex.kanavin@gmail.com>
 References: <20210604091458.1381144-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-0001-add-support-for-ipkg-to-debuginfod.cxx.patch merged upstream.
-
-0001-debuginfod-debuginfod-client.c-correct-string-format.patch rebased.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{elfutils_0.183.bb => elfutils_0.185.bb}  |  3 +-
- ...d-support-for-ipkg-to-debuginfod.cxx.patch | 33 ----------
- ...infod-client.c-correct-string-format.patch | 61 ++++++++-----------
- .../elfutils/files/0002-musl-libs.patch       |  4 +-
- .../elfutils/files/0003-musl-utils.patch      |  8 +--
- .../files/0004-Fix-error-on-musl.patch        |  4 +-
- .../0015-config-eu.am-do-not-use-Werror.patch | 16 ++---
- 7 files changed, 42 insertions(+), 87 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.183.bb => elfutils_0.185.bb} (97%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+ ...-tests-do-not-statically-link-a-test.patch | 20 +++++++++----------
+ .../libcap/{libcap_2.49.bb => libcap_2.50.bb} |  2 +-
+ 2 files changed, 10 insertions(+), 12 deletions(-)
+ rename meta/recipes-support/libcap/{libcap_2.49.bb => libcap_2.50.bb} (95%)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-similarity index 97%
-rename from meta/recipes-devtools/elfutils/elfutils_0.183.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.185.bb
-index 7aebaf1b6d..b1ffbc18bf 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
-@@ -21,7 +21,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://run-ptest \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
--           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
-            file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
-            "
- SRC_URI_append_libc-musl = " \
-@@ -30,7 +29,7 @@ SRC_URI_append_libc-musl = " \
-            file://0004-Fix-error-on-musl.patch \
-            file://0015-config-eu.am-do-not-use-Werror.patch \
-            "
--SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
-+SRC_URI[sha256sum] = "dc8d3e74ab209465e7f568e1b3bb9a5a142f8656e2b57d10049a73da2ae6b5a6"
- 
- inherit autotools gettext ptest pkgconfig
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-deleted file mode 100644
-index 5f82afef0c..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 571416bf5b5ef319df6d9c79e46680920487e4a7 Mon Sep 17 00:00:00 2001
--From: dorindabassey <dorindabassey@gmail.com>
--Date: Sat, 19 Dec 2020 01:11:46 +0100
--Subject: [PATCH] add support for ipkg to debuginfod.cxx
--
--added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
--
--Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
--
--Signed-off-by: dorindabassey <dorindabassey@gmail.com>
--
-----
-- debuginfod/debuginfod.cxx | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
--index b34eacc..a8915f2 100644
----- a/debuginfod/debuginfod.cxx
--+++ b/debuginfod/debuginfod.cxx
--@@ -484,11 +484,13 @@ parse_opt (int key, char *arg,
--         {
--           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
--           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
--+          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
--         }
--       else
--         {
--           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
--           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
--+          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
--         }
--       // .udeb too?
--       break;
-diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-index 5bd6ba961c..5b225c532d 100644
---- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
+index d2653afb75..414e45a6f4 100644
+--- a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
++++ b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
 @@ -1,4 +1,4 @@
--From 14dfe84943b8f9e6f504536d8735ef6356210b40 Mon Sep 17 00:00:00 2001
-+From c3055ce9eb32d0d24abc5cea5e1d231c499312a7 Mon Sep 17 00:00:00 2001
+-From 6aa15fe548e5b1d6ca3b373779beb7521ea95ba9 Mon Sep 17 00:00:00 2001
++From 897900f3f9084c5542097851323bba3f2691df20 Mon Sep 17 00:00:00 2001
  From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 19 Apr 2021 23:29:10 +0200
- Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
-@@ -16,15 +16,34 @@ Upstream-Status: Pending
+ Date: Wed, 15 Jan 2020 17:16:28 +0100
+ Subject: [PATCH] tests: do not statically link a test
+@@ -7,26 +7,27 @@ This fails on e.g. centos 7
  
+ Upstream-Status: Inappropriate [oe-core specific]
  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
  ---
-- debuginfod/debuginfod-client.c | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
-+ debuginfod/debuginfod-client.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
+  progs/Makefile | 2 +-
+  tests/Makefile | 4 ++--
+  2 files changed, 3 insertions(+), 3 deletions(-)
  
- diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index de26af5..39e28f2 100644
-+index ee7eda2..083ec2c 100644
- --- a/debuginfod/debuginfod-client.c
- +++ b/debuginfod/debuginfod-client.c
--@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -226,7 +226,7 @@ debuginfod_config_cache(char *config_path,
-+       if (fd < 0)
-+         return -errno;
-+ 
-+-      if (dprintf(fd, "%ld", cache_config_default_s) < 0)
-++      if (dprintf(fd, "%jd", (intmax_t)cache_config_default_s) < 0)
-+         return -errno;
-+     }
-+ 
-+@@ -234,7 +234,7 @@ debuginfod_config_cache(char *config_path,
-+   FILE *config_file = fopen(config_path, "r");
-+   if (config_file)
-+     {
-+-      if (fscanf(config_file, "%ld", &cache_config) != 1)
-++      if (fscanf(config_file, "%jd", (intmax_t*)(&cache_config)) != 1)
-+         cache_config = cache_config_default_s;
-+       fclose(config_file);
-+     }
-+@@ -267,7 +267,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-    if (fd < 0)
-      return -errno;
+ diff --git a/progs/Makefile b/progs/Makefile
+-index 1d7fc7a..37db8f7 100644
++index 289186e..071a285 100644
+ --- a/progs/Makefile
+ +++ b/progs/Makefile
+-@@ -42,7 +42,7 @@ endif
+- test: $(PROGS)
++@@ -49,7 +49,7 @@ capsh: capsh.c capshdoc.h.cf $(DEPS)
++ 	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS)
   
-@@ -33,7 +52,7 @@ index de26af5..39e28f2 100644
-      return -errno;
+- tcapsh-static: capsh.c $(DEPS)
++ tcapsh-static: capsh.c capshdoc.h.cf $(DEPS)
+ -	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS) --static
+ +	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS)
   
-    /* init max age config file.  */
--@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-+@@ -275,7 +275,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
-      return -errno;
+  sudotest: test tcapsh-static
+  	sudo $(LDPATH) ./quicktest.sh
+ diff --git a/tests/Makefile b/tests/Makefile
+-index 01f7589..094ec57 100644
++index 4a5f2f9..4266d86 100644
+ --- a/tests/Makefile
+ +++ b/tests/Makefile
+ @@ -22,7 +22,7 @@ ifeq ($(PTHREADS),yes)
+@@ -38,7 +39,7 @@ index 01f7589..094ec57 100644
+  DEPS=../libcap/libcap.a
+  ifeq ($(PTHREADS),yes)
+  DEPS +=  ../libcap/libpsx.a
+-@@ -106,7 +106,7 @@ noexploit: exploit.o $(DEPS)
++@@ -113,7 +113,7 @@ noexploit: exploit.o $(DEPS)
   
-@@ -42,33 +61,3 @@ index de26af5..39e28f2 100644
-      return -errno;
+  # This one runs in a chroot with no shared library files.
+  noop: noop.c
+@@ -46,7 +47,4 @@ index 01f7589..094ec57 100644
+ +	$(CC) $(CFLAGS) $< -o $@
   
-    return 0;
--@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--       if (interval_file == NULL)
--         return -errno;
-- 
---      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
--+      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
--       fclose(interval_file);
-- 
--       if (rc < 0)
--@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   interval_file = fopen(interval_path, "r");
--   if (interval_file)
--     {
---      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
--+      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
--         clean_interval = cache_clean_default_interval_s;
--       fclose(interval_file);
--     }
--@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
--   max_unused_file = fopen(max_unused_path, "r");
--   if (max_unused_file)
--     {
---      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
--+      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
--         max_unused_age = cache_default_max_unused_age_s;
--       fclose(max_unused_file);
--     }
+  clean:
+- 	rm -f psx_test libcap_psx_test libcap_launch_test *~
 --- 
--2.31.1
+-2.17.1
 -
-diff --git a/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch b/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch
-index b373940d37..c7360da7a7 100644
---- a/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch
-+++ b/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch
-@@ -1,4 +1,4 @@
--From 18c527991deee93170a887b6da622560d5606913 Mon Sep 17 00:00:00 2001
-+From 0f4667f0bb4b000d74ade07e90bd690b7217a19d Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 23 Aug 2019 10:18:47 +0800
- Subject: [PATCH] musl-libs
-@@ -82,7 +82,7 @@ index ecb4d01..edc85e3 100644
-  #include <stdint.h>
-  
- diff --git a/libdwfl/linux-kernel-modules.c b/libdwfl/linux-kernel-modules.c
--index 6edb27f..f331e3c 100644
-+index c0f8dfa..aa78033 100644
- --- a/libdwfl/linux-kernel-modules.c
- +++ b/libdwfl/linux-kernel-modules.c
- @@ -50,6 +50,7 @@
-diff --git a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-index 65593be32f..2e379cdba6 100644
---- a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-+++ b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-@@ -1,4 +1,4 @@
--From 2dab1a02a3cfd80629f3e0f380805a5e58dd0ac3 Mon Sep 17 00:00:00 2001
-+From 2f94d488bf3daaa6a8548ee77120fc2506a9bbe3 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 23 Aug 2019 10:19:48 +0800
- Subject: [PATCH] musl-utils
-@@ -39,7 +39,7 @@ index e117166..8326f6c 100644
-  /* State of -D/-U flags.  */
-  extern bool arlib_deterministic_output;
- diff --git a/src/elfcompress.c b/src/elfcompress.c
--index 1b5b1e3..21c9024 100644
-+index 2c6d91b..608646e 100644
- --- a/src/elfcompress.c
- +++ b/src/elfcompress.c
- @@ -37,6 +37,13 @@
-@@ -57,7 +57,7 @@ index 1b5b1e3..21c9024 100644
-  ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
-  
- diff --git a/src/strip.c b/src/strip.c
--index 7a5d4e4..81a0d57 100644
-+index 70fc8c0..d035d9e 100644
- --- a/src/strip.c
- +++ b/src/strip.c
- @@ -46,6 +46,13 @@
-@@ -75,7 +75,7 @@ index 7a5d4e4..81a0d57 100644
-  
-  /* Name and version of program.  */
- diff --git a/src/unstrip.c b/src/unstrip.c
--index 8580329..d547487 100644
-+index e488e81..0e44456 100644
- --- a/src/unstrip.c
- +++ b/src/unstrip.c
- @@ -52,6 +52,15 @@
-diff --git a/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch b/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch
-index 8e1e97041f..2fa60c333c 100644
---- a/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch
-+++ b/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch
-@@ -1,4 +1,4 @@
--From ce3b1403bd88261b5461a9dcb7d6d6be9185703e Mon Sep 17 00:00:00 2001
-+From 72819106d0e5666d172d39c24c19e4e7a3b8be0e Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Wed, 1 May 2019 22:15:03 +0100
- Subject: [PATCH] Fix error on musl:
-@@ -19,7 +19,7 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-  1 file changed, 5 insertions(+)
++ 	rm -f psx_test libcap_psx_test libcap_launch_test uns_test *~
+diff --git a/meta/recipes-support/libcap/libcap_2.49.bb b/meta/recipes-support/libcap/libcap_2.50.bb
+similarity index 95%
+rename from meta/recipes-support/libcap/libcap_2.49.bb
+rename to meta/recipes-support/libcap/libcap_2.50.bb
+index eb9fc5b4b3..15137f0ac0 100644
+--- a/meta/recipes-support/libcap/libcap_2.49.bb
++++ b/meta/recipes-support/libcap/libcap_2.50.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
+            file://0002-tests-do-not-run-target-executables.patch \
+            file://0001-tests-do-not-statically-link-a-test.patch \
+            "
+-SRC_URI[sha256sum] = "e98bc4d93645082ec787730b0fd1a712b38882465c505777de17c338831ee181"
++SRC_URI[sha256sum] = "47a57b8bd238b84c93c921a9b4ff82337551dbcb0cca071316aadf3e23b19261"
  
- diff --git a/tests/elfstrmerge.c b/tests/elfstrmerge.c
--index abbdf3f..bd90f4d 100644
-+index 197c6a5..3683672 100644
- --- a/tests/elfstrmerge.c
- +++ b/tests/elfstrmerge.c
- @@ -33,6 +33,11 @@
-diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-index 205362626d..5cd6fffc27 100644
---- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-+++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-@@ -1,4 +1,4 @@
--From dfe11e043cd8ea0b0f0252bcff9f5a6b98c0ecd3 Mon Sep 17 00:00:00 2001
-+From cfced441d4a6f2eca51d29c52240275bd6f54e49 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jun 2020 21:35:16 +0000
- Subject: [PATCH] config/eu.am: do not use -Werror
-@@ -16,22 +16,22 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
  
- diff --git a/config/eu.am b/config/eu.am
--index 6c3c444..3bc0dc9 100644
-+index 2c3e457..8fb0411 100644
- --- a/config/eu.am
- +++ b/config/eu.am
--@@ -73,7 +73,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-- 	    -Wold-style-definition -Wstrict-prototypes -Wtrampolines \
-+@@ -89,7 +89,6 @@ AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Wformat=2 \
-+ 	    -Wold-style-definition -Wstrict-prototypes $(TRAMPOLINES_WARNING) \
-  	    $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	    $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	    $(if $($(*F)_no_Werror),,-Werror) \
-  	    $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	    $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	    $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
--@@ -83,7 +82,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-- 	   -Wtrampolines \
-+ 	    $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
-+@@ -99,7 +98,6 @@ AM_CXXFLAGS = -std=c++11 -Wall -Wshadow \
-+ 	   $(TRAMPOLINES_WARNING) \
-  	   $(LOGICAL_OP_WARNING) $(DUPLICATED_COND_WARNING) \
-  	   $(NULL_DEREFERENCE_WARNING) $(IMPLICIT_FALLTHROUGH_WARNING) \
- -	   $(if $($(*F)_no_Werror),,-Werror) \
-  	   $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
-  	   $(if $($(*F)_no_Wstack_usage),,$(STACK_USAGE_WARNING)) \
-- 	   $(if $($(*F)_no_Wpacked_not_aligned),-Wno-packed-not-aligned,) \
-+ 	   $(if $($(*F)_no_Wpacked_not_aligned),$(NO_PACKED_NOT_ALIGNED_WARNING),) \
 -- 
 2.31.1
 
