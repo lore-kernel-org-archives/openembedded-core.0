@@ -1,224 +1,99 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.9756.1622878647376445093
- for <Openembedded-core@lists.openembedded.org>;
- Sat, 05 Jun 2021 00:37:27 -0700
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web12.9964.1622882310373557268
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 05 Jun 2021 01:38:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ov21fLQA;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id cb9so13783110edb.1
-        for <Openembedded-core@lists.openembedded.org>; Sat, 05 Jun 2021 00:37:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iRlbMUkH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id g18so11848716edq.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Jun 2021 01:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=fp0LjhLkMWV0ZQvNLmeNBXYU5c+Sd9NGSDSd+WOmwDs=;
-        b=ov21fLQAmD9E7uUA+hFhdvf9p/HHPE/ofbhf7wLOfFcJjcucztITy+VIVA68DwOUNI
-         UieqjOGs1VpP33bV3pK1U4qoWkFxjOnCMje6t8Q01lbp8KL0QwcqO2FAW1y6SYFfSHYS
-         Ym1RFBSjLVM798YvKIiXux5Dt6xrBrzUgfYPzt26T8XWUOKUJM62zKpbLbAar+TrN6nF
-         qlgwowjIL5Z15ij0urACOl3qzpfYzP64SGxa+oQrmP3fdLK/Zw1ZjMjidgawMebeB0d6
-         PfQn7hRbKOvqCYuQ/aXqPXxwPMiuQ4OBBv9RDtWqZIjN6x55qni4iI5UjWkthOMORasY
-         LthQ==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=aZyYiy8/3dAvVLDwwVn/xxSI6EzTA7SH5UZ6zC8Yb98=;
+        b=iRlbMUkH7k9wGzF9MQtOcUoRETNJ4+MJVw1WqxZNFj1eOLZIYMceDjyIbgxUaUJ7u0
+         HOlaj72NfZP3HlgobxPx+WNYLu2n3WHbUTmgIesetU6nsexHf0rwROoXOHHse6SyQ3jV
+         B5WoO/TqV4e1leAZ5E46fi5z1hmHkglPJG0xFocbhvN+8aPKYR0qjFFz3m/yWaATpmGk
+         hKEJk0K2jKMz9Yo2NNdqsW00iY51/JCId0qS4dAtuw4lZfkoSXLwLAE4MPNyuy6gm0e5
+         1M8d4wqEyJ5dGN82Obi1SAAcpZDbZWYSgQlntSLDS/lTzmgNP6/wj7HPsHNobnh3r33c
+         dSzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=fp0LjhLkMWV0ZQvNLmeNBXYU5c+Sd9NGSDSd+WOmwDs=;
-        b=tR1I6N6igMLnboAM3CLKR+89iNMJjWFQR6+pNo1KIjw1khb+AGsgtZleDYN3obsAnS
-         wC+y55fUBpm/0XuNwX6HGdc8tdT6/oMv12bgqNh92+BcrDrqaPm7z6a5e5jMRHLEwtHs
-         c7PNxVNcCjBbO01tjjzI07SlTA6iaeK36AQenI1CVT9HGjhAj81G8VSuDhWeBk9BDqwF
-         kzktbomLCuS1xDOcb7lBR0cNOvuKHTV/JOOc6hzldFXQttCxKYHfKEKxxwcpIICr16aH
-         URLq4dIoLUKGZJx03ToCQpQXZC4EOPPkGVYvzWU30MyY4XFfZuUH0UV40Xi8yrYkIkRB
-         kyjA==
-X-Gm-Message-State: AOAM533R4bV4Ue8f2eZRWX12mMGhxd63UuChDPS4CJZ0cXUFyQAFIoUc
-	nPYnYhycHsoEwDsk94iMvRs=
-X-Google-Smtp-Source: ABdhPJzafwh+J2tQC09te5DJDXIYEsgMagDEodBpMNfusGvd3pxg8chkBN5gJL7OyT0A7M9BgoQm7w==
-X-Received: by 2002:a05:6402:51ce:: with SMTP id r14mr9262401edd.138.1622878645607;
-        Sat, 05 Jun 2021 00:37:25 -0700 (PDT)
+        bh=aZyYiy8/3dAvVLDwwVn/xxSI6EzTA7SH5UZ6zC8Yb98=;
+        b=RJ6i+kjf3mZAQOdJB/ZOw3fW8RwORN+fW3QD51lanGCS6RIBTOsm58s9/MjFMKjSLd
+         9468ODKCKCMLv4DsM434dCFqmV0aB8/Ubl3kAvXELcHeqtALYf8V6kKJ383K+R9wTGsW
+         lGQfUj/2Oq65LKP9lrfgfiZOo0nfOFySvRJEDQIZQt1/x66mhC2so0MT96oN7lpp6S4L
+         U9us8i42OHYKsfS6+MnqAszxPG9TMT9dW21ika3yD/ZCGfN9E76JyXORSlQ9o13iPRRq
+         7baVqAVi2ugbwSiFWD579UWzBDJ2XIAhS4W3MNc9TGx9l3uyWXxTQ5teyuF9aPN2UpOv
+         8Mbw==
+X-Gm-Message-State: AOAM533vHVrhsOFFENKf0TysxVTA/nv3C3YQW0GcB+QypCjv2oV2h/eC
+	1yHI+1JAJtbqvMRcVkJZT+4=
+X-Google-Smtp-Source: ABdhPJx3xgwfvz34PNXcAdbbREFOPZ1KKd0m/wgWsakjwzMjpYa0oE/18cztPA68hOt8Jej1TtX2sg==
+X-Received: by 2002:aa7:c547:: with SMTP id s7mr9022750edr.239.1622882308374;
+        Sat, 05 Jun 2021 01:38:28 -0700 (PDT)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from md2ramxc.lan.ffah.ch ([62.32.0.69])
-        by smtp.gmail.com with ESMTPSA id p10sm3740947ejc.14.2021.06.05.00.37.24
+        by smtp.gmail.com with ESMTPSA id h6sm891491edj.91.2021.06.05.01.38.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jun 2021 00:37:24 -0700 (PDT)
-Message-ID: <64e51c69669c3e08da50789f22560f3f7857492b.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH] overlayfs.bbclass: generate overlayfs mount units
+        Sat, 05 Jun 2021 01:38:27 -0700 (PDT)
+Message-ID: <f55293fdc6d774eb27d155d779c702f65a70cf23.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] meta-skeleton: add a ptest example
 From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>, 
-	Openembedded-core@lists.openembedded.org
-Date: Sat, 05 Jun 2021 09:37:23 +0200
-In-Reply-To: <20210603142106.115932-1-uvv.mail@gmail.com>
-References: <20210603142106.115932-1-uvv.mail@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 05 Jun 2021 10:38:25 +0200
+In-Reply-To: <CANNYZj_hsuFNQ7gC3txtGfW5A-X7_G9BCN54y9oAyhDj9_7Y1w@mail.gmail.com>
+References: <20210603172149.100248-1-adrian.freihofer@siemens.com>
+	 <CANNYZj9HDXbUm=3LJ3tio4JMKQ56vrMGiYVkHBy9hCNOf=a4Lw@mail.gmail.com>
+	 <f33e8c790fa4ef0364b91b91a514dd0ec308a008.camel@gmail.com>
+	 <CANNYZj_hsuFNQ7gC3txtGfW5A-X7_G9BCN54y9oAyhDj9_7Y1w@mail.gmail.com>
 User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Vyacheslav
-
-It would be very nice to have such a feature in Yocto.
-
-If I remember correctly I tried to do that once with an overlay on
-/etc. However, that did not work with systemd. Did you ever try to add
-/etc as a mount point?
-
-On Thu, 2021-06-03 at 16:21 +0200, Vyacheslav Yurkov wrote:
-> It's often desired in Embedded System design to have a read-only rootfs.
-> But a lot of different applications might want to have a read-write access
-> to some parts of a filesystem. It can be especially useful when your update
-> mechanism overwrites the whole rootfs, but you want your application data
-> to be preserved between updates. This class provides a way to achieve that
-> by means of overlayfs and at the same time keeping the base rootfs read-only.
+On Thu, 2021-06-03 at 22:00 +0200, Alexander Kanavin wrote:
+> On Thu, 3 Jun 2021 at 21:53, Adrian Freihofer <
+> adrian.freihofer@gmail.com> wrote:
+> > On Thu, 2021-06-03 at 19:46 +0200, Alexander Kanavin wrote:
+> > > Rather than construct an artificial example, is there an actual
+> > > existing ptest in oe-core that can be extended to do this junit xml
+> > > stuff?
+> > So far there is no test which creates xml reports and I don't know if
+> > oe-core would have interest in something like that.
+> > 
+> > In general, a minimalist ptest example could be quite useful. I get
+> > asked about it from time to time. However, I see your point that the
+> > example is somewhat artificial. What do you mean if I replace the xml
+> > with a simple "example report" for example?
+> > 
 > 
-> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> ---
->  meta/classes/overlayfs.bbclass | 132 +++++++++++++++++++++++++++++++++
->  1 file changed, 132 insertions(+)
->  create mode 100644 meta/classes/overlayfs.bbclass
 > 
-> diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
-> new file mode 100644
-> index 0000000000..7fac3e696e
-> --- /dev/null
-> +++ b/meta/classes/overlayfs.bbclass
-> @@ -0,0 +1,132 @@
-> +# Class for generation of overlayfs mount units
-> +#
-> +# It's often desired in Embedded System design to have a read-only rootfs.
-> +# But a lot of different applications might want to have a read-write access to
-> +# some parts of a filesystem. It can be especially useful when your update mechanism
-> +# overwrites the whole rootfs, but you want your application data to be preserved
-> +# between updates. This class provides a way to achieve that by means
-> +# of overlayfs and at the same time keeping the base rootfs read-only.
-> +#
-> +# Usage example.
-> +#
-> +# Set a mount point for a partition overlayfs is going to use as upper layer
-> +# in your machine configuration. Underlying file system can be anything that
-> +# is supported by overlayfs
-> +#
-> +#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
-> +#
-> +# The class assumes you have a data.mount systemd unit defined elsewhere in your
-> +# BSP and installed to the image.
-> +#
-> +# Then you can specify writable directories on a recipe base
-> +#
-> +#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
-> +#
-> +# To support several mount points you can use a different variable flag. Assume we
-> +# what to have a writable location on the file system, but not interested where the data
-> +# survive a reboot. The we could have a mnt-overlay.mount unit for a tmpfs file system:
-> +#
-> +#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-> +#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
-> +
-> +OVERLAYFS_WRITABLE_PATHS[data] ?= ""
-> +
-> +inherit systemd
-> +
-> +def strForBash(s):
-> +    return s.replace('\\', '\\\\')
-> +
-> +def unitFileList(d):
-> +    fileList = []
-> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-> +    for mountPoint in overlayMountPoints:
-> +        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
-> +            fileList.append(mountUnitName(path))
-> +            fileList.append(helperUnitName(path))
-> +
-> +    return fileList
-> +
-> +# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
-> +def escapeSystemdUnitName(path):
-> +    escapeMap = {
-> +        '/': '-',
-> +        '-': "\\x2d",
-> +        '\\': "\\x5d"
-> +    }
-> +    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
-> +
-> +def mountUnitName(unit):
-> +    return escapeSystemdUnitName(unit) + '.mount'
-> +
-> +def helperUnitName(unit):
-> +    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
-> +
-> +python do_create_overlayfs_units() {
-> +    CreateDirsUnitTemplate = """[Unit]
-> +Description=Overlayfs directories setup
-> +Requires={DATA_MOUNT_UNIT}
-> +After={DATA_MOUNT_UNIT}
-> +DefaultDependencies=no
-> +
-> +[Service]
-> +Type=oneshot
-> +ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
-> +RemainAfterExit=true
-> +StandardOutput=journal
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-The mounting of overlays should probably happen very early at boot,
-before services start using the desired folders.
+> What I'm getting at is that I'm not sure if this should be in oe-core
+> if nothing in oe-core or other public layers actually benefits from
+> this.
+> 
+> A much stronger case would be to enable these reports in some existing
+> recipe, then extend the ptest infrastructure on the yocto autobuilder
+> to make good use of them.
+
+Right, my goal here is primarily to support application development. 
+But we should not consider application development as a "weak case". It
+is probably the area where most companies using Yocto put the most
+effort into embedded device development. Yocto should therefore provide
+the best possible support. 
+I don't know if there are packages in Yocto core that could benefit
+from using JUnit or similar reports. I also don't know how this would
+then be integrated with Buildbot. However, in the industry I see mostly
+test frameworks like googletest and auto-builders like Jenkins and
+GitLab CI that support rendering such reports.
 
 Regards,
 Adrian
-
-> +"""
-> +    MountUnitTemplate = """[Unit]
-> +Description=Overlayfs mount unit
-> +Requires={CREATE_DIRS_SERVICE}
-> +After={CREATE_DIRS_SERVICE}
-> +
-> +[Mount]
-> +What=overlay
-> +Where={LOWERDIR}
-> +Type=overlay
-> +Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> +"""
-> +
-> +    def prepareUnits(data, lower):
-> +        args = {
-> +            'DATA_MOUNT_POINT': data,
-> +            'DATA_MOUNT_UNIT': mountUnitName(data),
-> +            'CREATE_DIRS_SERVICE': helperUnitName(lower),
-> +            'LOWERDIR': lower,
-> +        }
-> +
-> +        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)), 'w') as f:
-> +            f.write(MountUnitTemplate.format(**args))
-> +
-> +        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower)), 'w') as f:
-> +            f.write(CreateDirsUnitTemplate.format(**args))
-> +
-> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-> +    for mountPoint in overlayMountPoints:
-> +        for lower in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
-> +            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint), lower)
-> +}
-> +
-> +# we need to generate file names early during parsing stage
-> +python () {
-> +    unitList = unitFileList(d)
-> +    for unit in unitList:
-> +        d.appendVar('SYSTEMD_SERVICE_' + d.getVar('PN'), ' ' + unit);
-> +        d.appendVar('FILES_' + d.getVar('PN'), strForBash(unit))
-> +
-> +    d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
-> +}
-> +
-> +do_install_append() {
-> +    install -d ${D}${systemd_system_unitdir}
-> +    for unit in ${OVERLAYFS_UNIT_LIST}; do
-> +        install -m 0444 ${WORKDIR}/${unit} ${D}${systemd_system_unitdir}
-> +    done
-> +}
-> +
-> +addtask create_overlayfs_units before do_install
 > 
-> 
+> Alex
 
 
