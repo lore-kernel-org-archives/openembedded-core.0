@@ -1,117 +1,107 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web09.11818.1622897973239917149
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web09.12831.1622903731509031008
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Jun 2021 05:59:33 -0700
+ Sat, 05 Jun 2021 07:35:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NPTJDXSS;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: fntoth@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id t3so14324500edc.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Jun 2021 05:59:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Yq5b7GS8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id i94so7124387wri.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Jun 2021 07:35:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=DpTN609Jhnh7s2/EmAweqwZqv3pTaMt1sYyNaktnJ9I=;
-        b=NPTJDXSS7dU/Dd9GxwOthB/tMjzO5hejbTEYhW00yy+mc0Y8H6BMXzW+uyV1vCl3hJ
-         lFdqm6kq7fOr/mhdwdv0V/ML9WUmVoVyEcMxsb+UmOtwV3K4PHiS3jYVq8IZWnaUtOvs
-         ASuT04L+orimehX2esVcxEJlTgv7OYQKzOJyUmZktTaIJwc8TlGI8CGmF2FTaEAQpqMb
-         cL0TaYxJtKoI6Oh6xkWgbVtTGWpiI1bztfqz3oNg4LvdKydEZREv3hQsxoLgSN5ivt6U
-         6AchWm3zTlXZaDPLkUd1LyaA3Zks9pSxc7uLKw18HJMIHUZCQiiM/iyVVvDjuoGvr7/Z
-         3szA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=cnS55M3LAzt9rryz1kCRqEPAMkD/XtX0vagN69PUous=;
+        b=Yq5b7GS8OHVBTIxBQQrYUuuXW2zJJ72/fA34hRkin4y3MpwdyKndynxf1+GiQ0gAcU
+         a+Pl1MCitdZ/iUtssXkzFLwxsgkpfIBcXffHGC+ncwpqxttHWlfYCwxyVHw0fsU96/Na
+         u6Rolggt/Q7p1Vl35tpG7ihor/QLv4iFKlZus=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=DpTN609Jhnh7s2/EmAweqwZqv3pTaMt1sYyNaktnJ9I=;
-        b=HtqfrnEubLZSKi7kAGXNiyU1ADXqPRL41FtS3Z9UnG01DIvrxqWS8e+dwKh4mLsqvT
-         OedfQqgxF+FPLoIX0W3PsqRgWRZVZV60JqGeX78lb3B1pn82dIJv21+qpgANMu+Al8uU
-         TdHSVPvnunhjaQJH+SQYHd3FTj1l72yeGq1DxkHj838BDfOeVNHutv3daq2bxenC1U9L
-         NgyBDfphinR5KIkbwZKwvR4lSeTi5Hv364oGaaDaKGw1jr+i20m764lRARjfI7MOSGfa
-         /0oWSPlRfJHH7edDYCjuFaqGZDp0E91qP1lDtsjptz1S24eHkJ4s4ZfLQzyHN9fNmIZ5
-         UM1w==
-X-Gm-Message-State: AOAM532Y3l5RUyYXlnZZrF2qbdReJlOsMPpsfX0YusNtcaPnbuykW+F1
-	e3e+ss90kTok3AjE1/HrduB73aJGlwU=
-X-Google-Smtp-Source: ABdhPJwkuQQ7abqH+XzSQ2EmKe7MC0hULQuNBhGrmYGRzKS8F2bOTkkyCMGjR3ZTMjGbm49FuInFbQ==
-X-Received: by 2002:aa7:dc4f:: with SMTP id g15mr9973184edu.277.1622897971340;
-        Sat, 05 Jun 2021 05:59:31 -0700 (PDT)
-Return-Path: <fntoth@gmail.com>
-Received: from ?IPv6:2001:981:6fec:1:da53:d2ce:d38b:5c09? ([2001:981:6fec:1:da53:d2ce:d38b:5c09])
-        by smtp.gmail.com with ESMTPSA id k4sm4850667edr.64.2021.06.05.05.59.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Jun 2021 05:59:31 -0700 (PDT)
-Subject: Re: [OE-core] [RFC PATCH 1/1] image-live.bbclass: order do_bootimg after do_rootfs
-To: Guillaume Champagne <champagne.guillaume.c@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210526183250.27433-1-champagne.guillaume.c@gmail.com>
- <20210526183250.27433-2-champagne.guillaume.c@gmail.com>
- <16848E63E6244007.7311@lists.openembedded.org>
-From: "Ferry Toth" <fntoth@gmail.com>
-Message-ID: <cf28ab15-7ef4-6acc-51c6-a5be02cf2d7b@gmail.com>
-Date: Sat, 5 Jun 2021 14:59:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=cnS55M3LAzt9rryz1kCRqEPAMkD/XtX0vagN69PUous=;
+        b=TQoWcDlwC61808w/YtTZDMC+EFDiLItPYZt/wubVB+yfT8BS6XyBjFUsagNLuSjHCe
+         1pl/sn5ez++kPy/dHHRTR24LVCZ7/x9E3BdpwdBNqCsGhiYOUlB7ZF25gSdIhkYM+Xxq
+         pWwWRWLT5+1zBu8Fco05PajWVQv4ErpFtZf2mog3zXY3Re1WyEp7BhHXadX0Me85hxCk
+         0jsZ3++QqS5qj0p9mSN2STrv2g++OdsgzYxer2IEcy1/zDCPHy/MHlmlFCzLSBOCGoUo
+         TyyyYGtPxyHqza4mh8FQlNiarHe47Q+eN4VuYQgepyfk2/lWY6wk+Q+NYTzyckwAMNtm
+         Of+Q==
+X-Gm-Message-State: AOAM530fRLv9HXIX9XKwN2jqolJWH2xsfqvddDABF+DjAVVzRcE95+SZ
+	LMwbvxiorH4DoNKF77BfX7EZdA==
+X-Google-Smtp-Source: ABdhPJy1kiF32lUkdzSbPpleY3mERH3oJtL+5sx/c138QulQR7PQGOu0zs57TfSraqBZYryw6EGzpA==
+X-Received: by 2002:a5d:540a:: with SMTP id g10mr8964117wrv.254.1622903729957;
+        Sat, 05 Jun 2021 07:35:29 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:5b89:f6cd:8040:62ea? ([2001:8b0:aba:5f3c:5b89:f6cd:8040:62ea])
+        by smtp.gmail.com with ESMTPSA id f13sm9868817wrt.86.2021.06.05.07.35.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Jun 2021 07:35:29 -0700 (PDT)
+Message-ID: <fc580d2b69824029e148dd73ccf4df651a599db9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 04/10] cmake: update 3.20.2 -> 3.20.3
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 05 Jun 2021 15:35:26 +0100
+In-Reply-To: <20210604091458.1381144-4-alex.kanavin@gmail.com>
+References: <20210604091458.1381144-1-alex.kanavin@gmail.com>
+	 <20210604091458.1381144-4-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-In-Reply-To: <16848E63E6244007.7311@lists.openembedded.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-Op 01-06-2021 om 22:12 schreef Ferry Toth via lists.openembedded.org:
-> Hi
->
-> Op 26-05-2021 om 20:32 schreef Guillaume Champagne:
->> do_bootimg expects IMGDEPLOYDIR to exist, since it stores its artifacts
->> there. Therefore, do_bootimg should run after do_rootfs because
->> IMGDEPLOYDIR is created before do_rootfs runs since IMGDEPLOYDIR is
->> contained in do_rootfs' [cleandirs] varflag.
->>
->> When do_bootimg depends on ${PN}:do_image_${LIVE_ROOTFS_TYPE},
->> do_bootimg is correctly ordered after do_rootfs because
->> do_image_${FSTYPE} tasks are added after do_image and do_image itself is
->> added after do_rootfs.
->>
->> However, when do_bootimg doesn't depend on
->> ${PN}:do_image_${LIVE_ROOTFS_TYPE}
->> (introduced by: 96f47c39f1d17f073243913d524bde84add41d8f), do_bootimg
->> can run before do_rootfs, thus before IMGDEPLOYDIR is created. To
->> avoid this situation, do_bootimg is now explicitly ordered after
->> do_rootfs.
->>
->> Signed-off-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
->> ---
->> meta/classes/image-live.bbclass | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/image-live.bbclass 
->> b/meta/classes/image-live.bbclass
->> index 8b08305cdb..fd876ed8e1 100644
->> --- a/meta/classes/image-live.bbclass
->> +++ b/meta/classes/image-live.bbclass
->> @@ -261,4 +261,4 @@ python do_bootimg() {
->> do_bootimg[subimages] = "hddimg iso"
->> do_bootimg[imgsuffix] = "."
->> -addtask bootimg before do_image_complete
->> +addtask bootimg before do_image_complete after do_rootfs
->
-> I can not answer your question if this is the right way to go. But 
-> I'll try this patch next weekend and return here with the results.
->
-Tested-by: Ferry Toth <fntoth@gmail.com>
-
-I tested this with meta-intel-edison layer from 
-https://github.com/edison-fw/meta-intel-edison on Gatesgarth and confirm 
-this patch resolves the problem.
-
-I'm looking forward to this being applied to all Yocto versions that 
-broke due to "image-live.bbclass: optional depends when ROOTFS empty".
-
-Thanks, Guillaume!
-
->
->
->
+On Fri, 2021-06-04 at 11:14 +0200, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../cmake/{cmake-native_3.20.2.bb => cmake-native_3.20.3.bb}    | 0
+>  meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+>  .../recipes-devtools/cmake/{cmake_3.20.2.bb => cmake_3.20.3.bb} | 0
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/cmake/{cmake-native_3.20.2.bb => cmake-native_3.20.3.bb} (100%)
+>  rename meta/recipes-devtools/cmake/{cmake_3.20.2.bb => cmake_3.20.3.bb} (100%)
 > 
->
+> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.20.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.20.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/cmake/cmake-native_3.20.2.bb
+> rename to meta/recipes-devtools/cmake/cmake-native_3.20.3.bb
+> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+> index be43760628..0987c01c87 100644
+> --- a/meta/recipes-devtools/cmake/cmake.inc
+> +++ b/meta/recipes-devtools/cmake/cmake.inc
+> @@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+>             file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+>  "
+>  
+> 
+> 
+> 
+> -SRC_URI[sha256sum] = "aecf6ecb975179eb3bb6a4a50cae192d41e92b9372b02300f9e8f1d5f559544e"
+> +SRC_URI[sha256sum] = "4d008ac3461e271fcfac26a05936f77fc7ab64402156fb371d41284851a651b8"
+>  
+> 
+> 
+> 
+>  UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+>  
+> 
+> 
+> 
+> diff --git a/meta/recipes-devtools/cmake/cmake_3.20.2.bb b/meta/recipes-devtools/cmake/cmake_3.20.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/cmake/cmake_3.20.2.bb
+> rename to meta/recipes-devtools/cmake/cmake_3.20.3.bb
+
+Seems there is some intermittent issue that the cmake upgrade brings in:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/3509/steps/13/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3513/steps/12/logs/stdio
+
+yet the latter passed in:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3514
+
+Cheers,
+
+Richard
+
+
