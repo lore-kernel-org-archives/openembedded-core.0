@@ -1,93 +1,139 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web08.25422.1622999274335888092
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.25785.1623000257291957656
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Jun 2021 10:07:54 -0700
+ Sun, 06 Jun 2021 10:24:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WVc+CXUQ;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id i68so10917673qke.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Jun 2021 10:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mIQHa8kNFh3GiXTbV5QGhkG4SaIe6caCbMOW01LU7vk=;
-        b=WVc+CXUQm52o7sccuDJ6vCJ2RnFj95D4VMPh31XClwpEJUvRi+mvfiMpbzGCIVKHRt
-         5DmKWuB9krPWOpTjFFLJ0ufm+zL1yqjIrC3CsayM0XmggFWytY/lPp9xURtrQXT3w7cP
-         wSvOntjYrOpjKyIzigRLuEyIcLdMIYYvZAbuz1Yj7Y8pon3lzG04Uznj046pgTr/RMLw
-         plh4Xw/99plDwh7Ws8Q2sjyNa9+hZsN4MsL5tp2fFpbdZZUSF/0kWdFOZ5K7EApxFDae
-         IiPY7xKEs8LyZDFmr89xVGqWebXYAZ9F503ICYTEInnfNyPwEocHuK9uvML4fHJDLxBa
-         qyRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mIQHa8kNFh3GiXTbV5QGhkG4SaIe6caCbMOW01LU7vk=;
-        b=pAw8HtG71dyrhDMw/4CbkBbvU3rzNillb9RCliOwvdRboCrbpfHdJedxpIg4fnVOW6
-         oc2FAwGFIJPuycoMOZLMZKuyObD1w1LYrDVduSMBH3krwhf2Sc23QnRiN/NU0xtc40h4
-         nWFv6iQeSJ/JX7nh4gMZqE6AubG0zy1lhvo2BSjVr6UuRlU8zTTG7543VL6WOlr4SZ2q
-         38OcClECTNJsDWvppnPtTJCfaFDfCYM8VkwbHuvbXXt3Q/Y2IXgDnlrGl6hJdsf1bsOA
-         erX2whxEAmZQfjNtmdt02bpJHPdwsxWpVhMaKb18sxMhEqd91w4Tzvhi/HMyXIBatPwe
-         T4FQ==
-X-Gm-Message-State: AOAM533ywaF57QU7auMoPScEex72Ijj9f9fOVb4995r/Pp1quMsa0FSh
-	5OwM2qI5N5I/JvXLjxbHw+HUQO16RgEiIPrXgYg=
-X-Google-Smtp-Source: ABdhPJxaE8ZYPmAI47j92qZ0vAMFOlgI3ZQbXIJWIC1bB4GKnNjqm70DWZt1/PFFRrfVRsZibiAOEHkiXxt01iGYjnc=
-X-Received: by 2002:ae9:e40f:: with SMTP id q15mr13402056qkc.125.1622999273349;
- Sun, 06 Jun 2021 10:07:53 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+Received: from [172.29.10.113] (unknown [172.29.10.113])
+	by mail.yoctoproject.org (Postfix) with ESMTP id A7DB638C11C7
+	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:16 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210602232104.3490139-1-alistair.francis@wdc.com>
- <20210602232104.3490139-2-alistair.francis@wdc.com> <96b9bce469e6cdcc86165ff9abb4ced53d4f8444.camel@linuxfoundation.org>
-In-Reply-To: <96b9bce469e6cdcc86165ff9abb4ced53d4f8444.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sun, 6 Jun 2021 10:07:25 -0700
-Message-ID: <CAMKF1sqzVKDYoyoGLgbnHEhiUDsD5EKQLkhq+frmr4S55a6+vQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] recipes-bsp/u-boot: Allow deploying the u-boot DTB
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alistair Francis <alistair.francis@wdc.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+From: auh@auh.yoctoproject.org
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] util-linux-libuuid: upgrading to 2.37 FAILED
+Message-ID: <MADEUP.16860E22952B5191.29797@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============2578169994927549645=="
 
-On Thu, Jun 3, 2021 at 11:20 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2021-06-03 at 09:21 +1000, Alistair Francis wrote:
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  meta/classes/uboot-config.bbclass  | 4 ++++
-> >  meta/recipes-bsp/u-boot/u-boot.inc | 7 ++++++-
-> >  2 files changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-> > index 3bba02828b..6444f58437 100644
-> > --- a/meta/classes/uboot-config.bbclass
-> > +++ b/meta/classes/uboot-config.bbclass
-> > @@ -71,6 +71,10 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
-> >  UBOOT_MKIMAGE_SIGN_ARGS ?= ""
-> >  SPL_MKIMAGE_SIGN_ARGS ?= ""
-> >
-> >
-> >
-> >
-> > +# Options to deploy the u-boot device tree
-> > +UBOOT_DTB ?= ""
-> > +UBOOT_DTB_BINARY ?= ""
-> > +
-> >  python () {
-> >      ubootmachine = d.getVar("UBOOT_MACHINE")
-> >      ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
->
-> I think this breaks other fitimage workflows:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2185/steps/14/logs/stdio
->
-> (other selftests fails similiarly)
+--===============2578169994927549645==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-yes we should use ?? for UBOOT_DTB_BINARY otherwise it will use this assignment
+Hello,
 
->
-> Cheers,
->
-> Richard
->
->
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *util-linux-libuuid* to *2.37* has Failed (devtool error).
+
+Detailed error information:
+
+Running 'devtool upgrade' for recipe util-linux-libuuid failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1452 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+workspace            = "master:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.tar.xz...
+Loading cache...done.
+Loaded 1452 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (815 cached, 2 parsed). 1453 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+workspace            = "master:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  12% |####                                | ETA:  0:00:00
+Adding changed files:  25% |#########                           | ETA:  0:00:00
+Adding changed files:  38% |#############                       | ETA:  0:00:00
+Adding changed files:  51% |##################                  | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase 51bcb4d5be7ede3a9675db632869db3f0192f0fc' failed:
+First, rewinding head to replay your work on top of it...
+Applying: util-linux: Ensure that ${sbindir} is respected
+Applying: Define TESTS variable
+Using index info to reconstruct a base tree...
+M	Makefile.am
+Falling back to patching base and 3-way merge...
+Auto-merging Makefile.am
+Applying: Display testname for subtest
+Applying: util-linux: Add ptest
+Using index info to reconstruct a base tree...
+M	configure.ac
+Falling back to patching base and 3-way merge...
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+error: Failed to merge in the changes.
+Patch failed at 0004 util-linux: Add ptest
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/util-linux-libuuid
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/util-linux-libuuid/util-linux-libuuid_2.37.bb
+
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============2578169994927549645==--
