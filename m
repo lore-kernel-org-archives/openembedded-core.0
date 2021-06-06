@@ -1,91 +1,120 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web08.19373.1622947348447613320
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web09.23478.1622986326839221055
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Jun 2021 19:42:28 -0700
+ Sun, 06 Jun 2021 06:32:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ok91CjqO;
- spf=pass (domain: gmail.com, ip: 209.85.219.178, mailfrom: jupiter.hce@gmail.com)
-Received: by mail-yb1-f178.google.com with SMTP id i4so19695183ybe.2;
-        Sat, 05 Jun 2021 19:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gGvJXY/5S5lD3qhoQR1VpChZke3NCBHRCrwfn+WuCJM=;
-        b=Ok91CjqOsK4QP9gwPvDvpNUk4T2H4ZBlWwpHxZIZCjrYQiOca6Un50ihyQnrdHOn5m
-         ZCWOwodD9ou/7FEPtDNor4/9y1XaV+Rq5A9s+9hLC1H3oZCmHzPPsZBNZJkNvw/e9p6z
-         6wL7vaMo15rYo2a/yQrjwJiz81asTv+qCB2yvGerwNcRANTYP6vP4q19R5ryIKDJAFrl
-         VFxpRpUrHjY8r67o78VU2PoR2PdL1i5F7woDsOs868d6Dzkaz9WZAVhYoX/2uMLXaZDW
-         Fn7l9h5Kf1l0WOLXSTvOqsFAejuFhFagRz8y5G4vqV50my1RQDzlaxgEx8a3fuyBrprr
-         Qxwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gGvJXY/5S5lD3qhoQR1VpChZke3NCBHRCrwfn+WuCJM=;
-        b=DtZ1DmHk0JJlXXYGM7InP72tFHxn/ojiIhS0lIu/o7p4BU7RXM4IV3OAh676atuoxZ
-         6lTidC+hUI+wLvj2qNfl28SEyeNRNlly9vDKNWq7cx9TR+OCsOzhRtI2RO3DY2GXSoKh
-         OqY08Vs2am+/I9LoJ00LhNnt27CB13UN03UK55zn0nUSNsQs8rnVhq8EY3vJ/QeMs6bu
-         8FhNbAVjMXOcxW6JYOIYEobMkAykDR3feF38LObsajudUro1FMT9pdAjtbqjSHtRwpD5
-         W4NCyDCVVBMnBrN2sas0B3yqO2PbhOXN1qqgr/fJq7KifWKm9hB5j9EKAnw4lu5dreMh
-         sIaA==
-X-Gm-Message-State: AOAM533xXWCVCii/CgpE/xZJSKPR41WohuhMogUS/ShN1+F7R1glGayG
-	T7Yb88dgJNH/un88bXGjXETyPdOkOtCI1RBOwcs=
-X-Google-Smtp-Source: ABdhPJxEWI3sSMO5bSzfaZF3dbNR5hsA+aImVco/BbzjaL4CRE9fTNSCbLb/g6ulr8c0MqqbmPow1irmfTPPZIToQq4=
-X-Received: by 2002:a25:f208:: with SMTP id i8mr14630719ybe.340.1622947347590;
- Sat, 05 Jun 2021 19:42:27 -0700 (PDT)
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from bras-base-otwaon0916w-grc-52-70-26-112-209.dsl.bell.ca ([70.26.112.209]:51204 helo=fedora)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1lpssY-009SlO-E2
+	for openembedded-core@lists.openembedded.org; Sun, 06 Jun 2021 09:32:05 -0400
+Date: Sun, 6 Jun 2021 09:31:48 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: canonical way to "migrate" Makefile stuff to bitbake recipe file?
+Message-ID: <8e58957-fba8-f192-7ca-15def85458fb@crashcourse.ca>
 MIME-Version: 1.0
-References: <CAA=hcWQ7vordSRwq-O2+8b5FV79EKHZM6s-dq49EWt6Ra5Owdg@mail.gmail.com>
- <06B2DF82-ACFE-4503-8174-39163A7DF959@0leil.net>
-In-Reply-To: <06B2DF82-ACFE-4503-8174-39163A7DF959@0leil.net>
-From: "JH" <jupiter.hce@gmail.com>
-Date: Sun, 6 Jun 2021 12:41:51 +1000
-Message-ID: <CAA=hcWQT-G5+92u8=4=u_aBLmREMUkNLm+y0hNvCOkvAu4_g6Q@mail.gmail.com>
-Subject: Re: [yocto] Is it a bug or it does not support device tree /delete-node/?
-To: Quentin Schulz <foss@0leil.net>
-Cc: yocto <yocto@lists.yoctoproject.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-
-Thanks Quentin, that did the trick.
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
 
-On 6/5/21, Quentin Schulz <foss@0leil.net> wrote:
-> Hi,
->
-> On June 5, 2021 12:43:19 AM UTC, JH <jupiter.hce@gmail.com> wrote:
->>Hi,
->>
->>I am building following imx6ulz-kobs.dts file to a dtb in zeus:
->>
->>$ cat imx6ulz-kobs.dts
->>
->>#include "imx6ulz.dts"
->>
->>/{
->>  model = "customized imx6ull";
->>  compatible = "fsl,imx6ull";
->>};
->>
->>&gpmi {
->>    /delete-node/ fsl,use-minimum-ecc;
->>};
->>
->>The building process was fine, but that fsl,use-minimum-ecc in dtb was
->>not deleted, is it a bug or it does not support  /delete-node/?
->>
->
-> fsl,use-minimum-ecc is a property not a node, you need to use
-> /delete-property/ instead, c.f.
-> https://devicetree-specification.readthedocs.io/en/latest/chapter6-source-language.html?highlight=delete-property#node-and-property-definitions.
->
-> Cheers,
-> Quentin
->
+  following on a couple earlier posts, at my current gig, a co-op
+student has been given the job of, bit by bit, "migrating" the targets
+in a number of sizable Makefiles to BB recipe files, in order to
+incorporate all that legacy build process in a current YP
+infrastructure.
+
+  he's working on the really low-level targets to begin with, and the
+process is kind of hacky -- the source for any component (and its
+corresponding Makefile) is simply left where it is (for now), and the
+corresponding recipe file (in the simplest possible case) looks like
+this for some given "subsystem":
+
+subsystem.bb
+============
+
+  inherit migrate
+
+  SRC_URI += "file://subsystem/"
+  MG_BUILD_DIR = "subsystem/"
+
+the internal migrate.bbclass handles setting FILESEXTRAPATHS so that
+all the subsystems can be located as above, and the do_compile() task
+is redefined to be (simplifying a bit):
+
+  do_compile() {
+    cd ${MG_BUILD_DIR}
+    oe_runmake
+  }
+
+in other words, the *building* of any subsystem hasn't really changed
+all that much, it's still done pretty much in place as it was before,
+at which point there is a do_install() routine whose job it is to take
+the generated artifacts and manually "install" them into "${D}" in the
+proper locations; in short, the "migration" process emulates the first
+part of building a recipe all the way up to emulating the installation
+step and getting everything into the ${WORKDIR}/image/ directory,
+whereupon the normal packaging and subsequent OE steps kick in. so
+far, this is working adequately for the really simple makefile
+targets.
+
+  next, as long as this process works, then further recipes can
+incorporate build-time dependencies of earlier migrated recipes, so
+for subsystem "sub1", we might add:
+
+  DEPENDS += "sub2 sub3"
+
+and that should still work, but said co-op student asked about how to
+deal with makefiles with multi-line rules for a subsystem target, call
+it "sub", and various sub-components in subdirectories c1, c2 and c3:
+
+  sub: [some dependencies]
+	$(MAKE) -C c1
+	$(MAKE) -C c2
+	$(MAKE) -C c3
+
+my initial reaction was, if those sub-makes can be done independently,
+then the simplest solution is to define separate recipes files for
+each one (with SRC_URI set appropriately):
+
+sub-c1.bb
+=========
+
+  inherit migrate
+
+  SRC_URI += "file://sub/c1/"
+  MG_BUILD_DIR = "sub/c1/"
+
+where each of the component recipe files can define its own build-time
+dependencies independently of the other components. and one can then
+define a collective recipe to gather all of them as build-time
+dependencies representing the entire subsystem:
+
+sub.bb
+======
+
+  DEPENDS += "sub-c1 sub-c2 sub-c3"
+
+so, for any new recipes, one can independently depend on any subset of
+those components, or just depend on them all together if that's
+easier.
+
+  is this a reasonable way to go about it? that is, given a
+multi-line Makefile rule that refers to building in several immediate
+"component" subdirectories, write a separate recipe file for each
+component? am i missing anything obvious that would simplify this?
+
+rday
 
 
---
-"A man can fail many times, but he isn't a failure until he begins to
-blame somebody else."
--- John Burroughs
