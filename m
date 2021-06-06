@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.25798.1623000257717139341
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web08.25618.1623000257572232815
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Jun 2021 10:24:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0EAB938C1276
+	by mail.yoctoproject.org (Postfix) with ESMTP id 2038838C127E
 	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:17 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Tim Orling <timothy.t.orling@linux.intel.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-importlib-metadata: upgrading to 4.5.0 SUCCEEDED
-Message-ID: <MADEUP.16860E22AEA05BB1.22991@lists.openembedded.org>
-X-Groupsio-MsgNum: 152711
-Content-Type: multipart/mixed; boundary="===============2100403757044625441=="
+Subject: [AUH] python3-magic: upgrading to 0.4.24 SUCCEEDED
+Message-ID: <MADEUP.16860E22B7FD0EA7.27789@lists.openembedded.org>
+X-Groupsio-MsgNum: 152712
+Content-Type: multipart/mixed; boundary="===============0877948412110964258=="
 
---===============2100403757044625441==
+--===============0877948412110964258==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *4.5.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-magic* to *0.4.24* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-4.3.0-4.5.0.patch
+    - apply the patch: git am 0001-python3-magic-upgrade-0.4.22-0.4.24.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,77 +44,91 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2100403757044625441==
+--===============0877948412110964258==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
-  /usr/lib/python3.9/site-packages/importlib_metadata-4.3.0-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/importlib_metadata-4.5.0-py3.9.egg-info
+packages/core2-32-poky-linux/python3-magic/python3-magic-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+Changes to packages/core2-32-poky-linux/python3-magic (sysroot):
+  /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/magic/py.typed was added
 
---===============2100403757044625441==
+--===============0877948412110964258==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-python3-importlib-metadata-upgrade-4.3.0-4.5.0.patch"
+ filename="0001-python3-magic-upgrade-0.4.22-0.4.24.patch"
 
-From f02e5e7fea61e5070b3058bf1d65ecff02bdbc6f Mon Sep 17 00:00:00 2001
+From 2384e949fdc2adf116c7d3e842a4d159a0511716 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 6 Jun 2021 09:08:09 +0000
-Subject: [PATCH] python3-importlib-metadata: upgrade 4.3.0 -> 4.5.0
+Date: Sun, 6 Jun 2021 09:14:40 +0000
+Subject: [PATCH] python3-magic: upgrade 0.4.22 -> 0.4.24
 
 ---
- ...ib-metadata_4.3.0.bb => python3-importlib-metadata_4.5.0.bb} | 2 +-
+ .../python/{python3-magic_0.4.22.bb => python3-magic_0.4.24.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-importlib-metadata_4.3.0.bb => python3-importlib-metadata_4.5.0.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-magic_0.4.22.bb => python3-magic_0.4.24.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_4.5.0.bb
+diff --git a/meta/recipes-devtools/python/python3-magic_0.4.22.bb b/meta/recipes-devtools/python/python3-magic_0.4.24.bb
 similarity index 88%
-rename from meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
-rename to meta/recipes-devtools/python/python3-importlib-metadata_4.5.0.bb
-index f4ac3c44ec..7c156787a0 100644
---- a/meta/recipes-devtools/python/python3-importlib-metadata_4.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_4.5.0.bb
-@@ -8,7 +8,7 @@ inherit pypi setuptools3
- PYPI_PACKAGE = "importlib_metadata"
- UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
+rename from meta/recipes-devtools/python/python3-magic_0.4.22.bb
+rename to meta/recipes-devtools/python/python3-magic_0.4.24.bb
+index b828927599..a54bf2431c 100644
+--- a/meta/recipes-devtools/python/python3-magic_0.4.22.bb
++++ b/meta/recipes-devtools/python/python3-magic_0.4.24.bb
+@@ -11,7 +11,7 @@ PYPI_PACKAGE = "python-magic"
  
--SRC_URI[sha256sum] = "c4646abbce80191bb548636f846e353ff1edc46a06bc536ea0a60d53211dc690"
-+SRC_URI[sha256sum] = "b142cc1dd1342f31ff04bb7d022492b09920cb64fed867cd3ea6f80fe3ebd139"
+ inherit pypi setuptools3
  
- S = "${WORKDIR}/importlib_metadata-${PV}"
+-SRC_URI[sha256sum] = "ca884349f2c92ce830e3f498c5b7c7051fe2942c3ee4332f65213b8ebff15a62"
++SRC_URI[sha256sum] = "de800df9fb50f8ec5974761054a708af6e4246b03b4bdaee993f948947b0ebcf"
  
+ RDEPENDS_${PN} += "file \
+                    ${PYTHON_PN}-ctypes \
 -- 
 2.17.1
 
 
---===============2100403757044625441==
+--===============0877948412110964258==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-importlib-metadata: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-4.3.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-4.5.0.tar.gz"
-packages/core2-32-poky-linux/python3-importlib-metadata: PV changed from "4.3.0" to "4.5.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "4.3.0" to "4.5.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "4.3.0" to "4.5.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "4.3.0" to "4.5.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "4.3.0" to "4.5.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "4.3.0" to "4.5.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "4.3.0" to "4.5.0"
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 90843 to 96456 (+6%)
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 4.3.0 [default] to 4.5.0 [default]
-packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "4.3.0" to "4.5.0"
-Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
-  /usr/lib/python3.9/site-packages/importlib_metadata-4.3.0-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/importlib_metadata-4.5.0-py3.9.egg-info
+packages/core2-32-poky-linux/python3-magic: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-magic/python-magic-0.4.22.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-magic/python-magic-0.4.24.tar.gz"
+packages/core2-32-poky-linux/python3-magic/python3-magic-dbg: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic/python3-magic-dbg: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic/python3-magic-dbg: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-dev: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic/python3-magic-dev: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic/python3-magic-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-doc: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic/python3-magic-doc: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic/python3-magic-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-locale: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic/python3-magic-locale: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic/python3-magic-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-src: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic/python3-magic-src: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic/python3-magic-src: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic: PV changed from "0.4.22" to "0.4.24"
+packages/core2-32-poky-linux/python3-magic/python3-magic: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
+packages/core2-32-poky-linux/python3-magic/python3-magic: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
+packages/core2-32-poky-linux/python3-magic/python3-magic: PKGSIZE changed from 50256 to 50166 (-0%)
+Changes to packages/core2-32-poky-linux/python3-magic (sysroot):
+  /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/magic/py.typed was added
 
---===============2100403757044625441==--
+--===============0877948412110964258==--
