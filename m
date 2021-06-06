@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.25618.1623000257572232815
+ by mx.groups.io with SMTP id smtpd.web10.26023.1623000257574536168
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Jun 2021 10:24:17 -0700
+ Sun, 06 Jun 2021 10:24:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2038838C127E
+	by mail.yoctoproject.org (Postfix) with ESMTP id 34C6038C1289
 	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:17 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-magic: upgrading to 0.4.24 SUCCEEDED
-Message-ID: <MADEUP.16860E22B7FD0EA7.27789@lists.openembedded.org>
-X-Groupsio-MsgNum: 152712
-Content-Type: multipart/mixed; boundary="===============0877948412110964258=="
+Subject: [AUH] acpica: upgrading to 20210604 FAILED
+Message-ID: <MADEUP.16860E22BAA3186E.22991@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============5384456595279439448=="
 
---===============0877948412110964258==
+--===============5384456595279439448==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,86 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-magic* to *0.4.24* has Succeeded.
+that the automatic attempt to upgrade the recipe *acpica* to *20210604* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-magic-upgrade-0.4.22-0.4.24.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade acpica -V 20210604
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1452 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-ef8815dc7c97f0ca33207ae71e840d5a5210b898"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ef8815dc7c97f0ca33207ae71e840d5a5210b898"
+workspace            = "master:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://acpica.org/sites/acpica/files/acpica-unix-20210604.tar.gz...
+Loading cache...done.
+Loaded 1452 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (815 cached, 2 parsed). 1453 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-ef8815dc7c97f0ca33207ae71e840d5a5210b898"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ef8815dc7c97f0ca33207ae71e840d5a5210b898"
+workspace            = "master:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://acpica.org/sites/acpica/files/acpica-unix-20210604.tar.gz, attempting MIRRORS if available
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-thxabzgs/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-thxabzgs/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-thxabzgs/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-thxabzgs/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-thxabzgs/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-thxa
+ bzgs/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp --no-check-certificate -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://acpica.org/sites/acpica/files/acpica-unix-20210604.tar.gz' --progress=dot -v failed with exit code 8, output:
+--2021-06-06 09:54:13--  https://acpica.org/sites/acpica/files/acpica-unix-20210604.tar.gz
+Resolving acpica.org (acpica.org)... 2001:19d0:306:9::5, 198.145.21.19
+Connecting to acpica.org (acpica.org)|2001:19d0:306:9::5|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2021-06-06 09:54:13 ERROR 404: Not Found.
+
+
+ERROR: Fetcher failure for URL: 'https://acpica.org/sites/acpica/files/acpica-unix-20210604.tar.gz'. Unable to fetch URL from any source.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-thxabzgs/work/temp/log.do_fetch.32367
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+ERROR: Failed to fetch URL https://acpica.org/sites/acpica/files/acpica-unix-20210604.tar.gz
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,91 +110,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0877948412110964258==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-magic/python3-magic-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-Changes to packages/core2-32-poky-linux/python3-magic (sysroot):
-  /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info
-  /usr/lib/python3.9/site-packages/magic/py.typed was added
-
---===============0877948412110964258==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-python3-magic-upgrade-0.4.22-0.4.24.patch"
-
-From 2384e949fdc2adf116c7d3e842a4d159a0511716 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 6 Jun 2021 09:14:40 +0000
-Subject: [PATCH] python3-magic: upgrade 0.4.22 -> 0.4.24
-
----
- .../python/{python3-magic_0.4.22.bb => python3-magic_0.4.24.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-magic_0.4.22.bb => python3-magic_0.4.24.bb} (88%)
-
-diff --git a/meta/recipes-devtools/python/python3-magic_0.4.22.bb b/meta/recipes-devtools/python/python3-magic_0.4.24.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-magic_0.4.22.bb
-rename to meta/recipes-devtools/python/python3-magic_0.4.24.bb
-index b828927599..a54bf2431c 100644
---- a/meta/recipes-devtools/python/python3-magic_0.4.22.bb
-+++ b/meta/recipes-devtools/python/python3-magic_0.4.24.bb
-@@ -11,7 +11,7 @@ PYPI_PACKAGE = "python-magic"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "ca884349f2c92ce830e3f498c5b7c7051fe2942c3ee4332f65213b8ebff15a62"
-+SRC_URI[sha256sum] = "de800df9fb50f8ec5974761054a708af6e4246b03b4bdaee993f948947b0ebcf"
- 
- RDEPENDS_${PN} += "file \
-                    ${PYTHON_PN}-ctypes \
--- 
-2.17.1
-
-
---===============0877948412110964258==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-magic: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-magic/python-magic-0.4.22.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-magic/python-magic-0.4.24.tar.gz"
-packages/core2-32-poky-linux/python3-magic/python3-magic-dbg: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic/python3-magic-dbg: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic/python3-magic-dbg: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-dev: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic/python3-magic-dev: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic/python3-magic-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-doc: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic/python3-magic-doc: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic/python3-magic-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-locale: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic/python3-magic-locale: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic/python3-magic-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-src: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic/python3-magic-src: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic/python3-magic-src: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic/python3-magic-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic: PV changed from "0.4.22" to "0.4.24"
-packages/core2-32-poky-linux/python3-magic/python3-magic: PKGV changed from 0.4.22 [default] to 0.4.24 [default]
-packages/core2-32-poky-linux/python3-magic/python3-magic: FILELIST: directory renamed /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info -> /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/magic/py.typed"
-packages/core2-32-poky-linux/python3-magic/python3-magic: PKGSIZE changed from 50256 to 50166 (-0%)
-Changes to packages/core2-32-poky-linux/python3-magic (sysroot):
-  /usr/lib/python3.9/site-packages/python_magic-0.4.22-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/python_magic-0.4.24-py3.9.egg-info
-  /usr/lib/python3.9/site-packages/magic/py.typed was added
-
---===============0877948412110964258==--
+--===============5384456595279439448==--
