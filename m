@@ -1,111 +1,110 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web09.25688.1622999136725869604
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web12.25588.1622999137512132899
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Jun 2021 10:05:36 -0700
+ Sun, 06 Jun 2021 10:05:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sIt2j0/U;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id d5-20020a17090ab305b02901675357c371so10093558pjr.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Jun 2021 10:05:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gm+WOZyk;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso8880634pjb.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Jun 2021 10:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kp8zxeVHXStT7J01AWTdhVqFZIdnXR//vP1wdXkNeek=;
-        b=sIt2j0/UI6ycrrKDb5cAFdZKv7uhXE2sMRJCj7KjGJZIEQ5KMGYsdnjnkrorRkOik5
-         ZUamnXL7ltLqtLl0Dcv34pyw46UXul7IdkZbxGyzZQPLW5Q1ffL0v7zf40ykLMbJ+zux
-         QAO3S+FNPvqF9hQUZzi98IvgAzjN8C4jTeTun/OZio3ZS8XbaJlEk9ms05oo7wQAmA1o
-         AFxudR7Jta08qk0e+i4/1yJ8P6Sg6gQexW9Rv7jW5yWn4olJ4mUgvzcxxVS5fvxWptDH
-         C4PKE674k1zMPUaUbbs0RosZjkmq+tNze/zgAETLqJrGz7sq1/62EE5Ewjz2dVC6MxLj
-         JGpA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=c6G7hzwqDJjIN3J/vy/xKhrxCiE6zgMlHZZg28QpNBU=;
+        b=gm+WOZyk0ctpbMqWh4wD9afgtxTdRC4VO4PLt74sc3eqW+UXW/YqqYBByeIazI7jC5
+         H4vVIyitOr2Wl+3gs86i5mfv7kqrKAhUqrwfHCye/SlBJzAhoz49bGDWJX2k0TszzL6P
+         JsTsiGvUGqMg6BHbyczepoLnOKyxr1DXb315w4ytA6igOPhHuCrYIdiaKXfVaPo7O1Rr
+         8wn/VYlBtBhYXrtv+IssqACKSCJoJEP8RNm/eJM2mJbECnqxQ77BHo586p0vVwI9leX1
+         p93eKoS9AwCUTtAidMcQ1bsCxP9B1nENTKcV8BNitsOTxK6pueZhtNwwXAVunnK85ZV7
+         wiMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kp8zxeVHXStT7J01AWTdhVqFZIdnXR//vP1wdXkNeek=;
-        b=tz+4Qv1c1je1jysUPIjkNcO2PHfkPwFV4lmosyRmu1S+ADK+KkR3L0eL4NHqwmHyKB
-         V+JZJQK/dtMgllnPA9Xw+fp5efCVao6eGnSTyevn3MgjlA5s3/F3L7LUMNZIOuqFJIot
-         Fgu0MTaRcpmwxrcUZCLZvS1PzqosV7VoBzNSawea9zuxIGRz7zqQh5wxaaxMj0MSwtAP
-         U8rwm8A2+GtA7KszEmpcu39hjo3QQxILPe3H+4tClCxIrIkwEkrHULfvkVEBrv4gqHDf
-         ygHjISJwlN31h2SzGOr8CWhTdUTvgrSN1jN/3Ylbz9NgQyjKKc2JRGYp9xLt8N13h++x
-         qD2Q==
-X-Gm-Message-State: AOAM533kdNdVvpROI1b7INp53jHFzR+T7F2Zqu5MxNuuj3H3xGYDjI0a
-	WsLW04OgWtYt5YdmfRkggpLgbmuefQ2c/g==
-X-Google-Smtp-Source: ABdhPJw+3e+sCKnSlrEMYSCj595NKJ9IH75qf7x0lArRUaD9Rcq8TrNHG6W2Fpng2fDX50VbiaiG1g==
-X-Received: by 2002:a17:902:c404:b029:10e:21e8:759c with SMTP id k4-20020a170902c404b029010e21e8759cmr14301102plk.44.1622999135860;
-        Sun, 06 Jun 2021 10:05:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=c6G7hzwqDJjIN3J/vy/xKhrxCiE6zgMlHZZg28QpNBU=;
+        b=UjHya5z3darfMh6i00BFDZ4cNldu/yEYbuVDXHjtgnSjECCgwQ8Bzfco5LWT0oL6a3
+         6jgxMEkpk6X9bfzX8aESItw8zwqsD2rETm+QjWM/nQkWc+2ZC4lrGZ85Q4kLWSjdiW75
+         rU+fNkr+LjrGohFrXYAFw5oYSG+ayFM3PcmgNA7A0Tp7DLdKW4wsuqu6Nc6yN1aZaAXP
+         HsT/spxOJI3CSwHCbFCjb6Ks0Hzm79tFWnu1GgC9j6h0Hh2aqsNMp5Jg20Yi+2jVvXLX
+         Yb9wV/vAKaFEmab6V03NIt+4ED/7M8gNCAcktPFESt6OErEuh+yI5JTPvO0jczoKLDFd
+         9gdQ==
+X-Gm-Message-State: AOAM530Gm5AZkwBwmC7VQJsKrcxRQa0Sk2YSv/FfIVB8GLo2fHCQr9dk
+	LHntidRa62nX2Gc/tKLFjDtOVKt7Ys1c2Q==
+X-Google-Smtp-Source: ABdhPJxwl60k0eiXUwp8qq/8R5f3f8+NguFaelm1VzJO+EA9DJTlrYQHDLHXealkRr/e/gcCBzR4oQ==
+X-Received: by 2002:a17:90b:4b49:: with SMTP id mi9mr27515938pjb.219.1622999136796;
+        Sun, 06 Jun 2021 10:05:36 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
-        by smtp.gmail.com with ESMTPSA id s24sm10179031pju.9.2021.06.06.10.05.34
+        by smtp.gmail.com with ESMTPSA id s24sm10179031pju.9.2021.06.06.10.05.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 10:05:35 -0700 (PDT)
+        Sun, 06 Jun 2021 10:05:36 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alistair Francis <alistair.francis@wdc.com>,
-	Khem Raj <raj.khem@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v2 1/2] recipes-bsp/u-boot: Allow deploying the u-boot DTB
-Date: Sun,  6 Jun 2021 10:05:32 -0700
-Message-Id: <20210606170533.2182435-1-raj.khem@gmail.com>
+Subject: [PATCH v2 2/2] recipes-bsp/opensbi: Add support for specifying a device tree
+Date: Sun,  6 Jun 2021 10:05:33 -0700
+Message-Id: <20210606170533.2182435-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210606170533.2182435-1-raj.khem@gmail.com>
+References: <20210606170533.2182435-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Use ??= assignment for UBOOT_DTB_BINARY because it is set using ?= in
-fitImage bbclass as well, using ?= will preempt that
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-v2: Fix test regression
+v2: Rebased
 
- meta/classes/uboot-config.bbclass  | 4 ++++
- meta/recipes-bsp/u-boot/u-boot.inc | 7 ++++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ meta/recipes-bsp/opensbi/opensbi-payloads.inc | 15 ++++++++++++++-
+ meta/recipes-bsp/opensbi/opensbi_0.9.bb       |  1 +
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 3bba02828b..451db0c650 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -71,6 +71,10 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
- UBOOT_MKIMAGE_SIGN_ARGS ?= ""
- SPL_MKIMAGE_SIGN_ARGS ?= ""
- 
-+# Options to deploy the u-boot device tree
-+UBOOT_DTB ?= ""
-+UBOOT_DTB_BINARY ??= ""
+diff --git a/meta/recipes-bsp/opensbi/opensbi-payloads.inc b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+index 2e32943245..cc31ab3b1d 100644
+--- a/meta/recipes-bsp/opensbi/opensbi-payloads.inc
++++ b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+@@ -7,12 +7,25 @@ def riscv_get_extra_oemake_image(d):
+
+     return "FW_PAYLOAD_PATH=" + deploy_dir + "/" + sbi_payload
+
++def riscv_get_extra_oemake_fdt(d):
++    sbi_fdt = d.getVar('RISCV_SBI_FDT')
++    deploy_dir = d.getVar('DEPLOY_DIR_IMAGE')
 +
- python () {
-     ubootmachine = d.getVar("UBOOT_MACHINE")
-     ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 5398c2e621..8ccc532f7e 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -5,7 +5,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- DEPENDS += "kern-tools-native"
- 
--inherit uboot-config uboot-extlinux-config uboot-sign deploy cml1 python3native
-+inherit uboot-config uboot-extlinux-config uboot-sign deploy cml1 python3native kernel-arch
- 
- DEPENDS += "swig-native"
- 
-@@ -346,6 +346,11 @@ do_deploy () {
-         ln -sf ${UBOOT_EXTLINUX_SYMLINK} ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}
-         ln -sf ${UBOOT_EXTLINUX_SYMLINK} ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}
-     fi
++    if sbi_fdt is None:
++        return ""
 +
-+    if [ -n "${UBOOT_DTB}" ]
-+    then
-+        install -m 644 ${B}/arch/${UBOOT_ARCH}/dts/${UBOOT_DTB_BINARY} ${DEPLOYDIR}/
-+    fi
- }
- 
- addtask deploy before do_build after do_compile
--- 
++    return "FW_FDT_PATH=" + deploy_dir + "/" + sbi_fdt
++
+ def riscv_get_do_compile_depends(d):
+     sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
++    sbi_fdt = d.getVar('RISCV_SBI_FDT')
+
+-    if sbi_payload is None:
++    if sbi_payload is None and sbi_fdt is None:
+         return ""
+
++    if sbi_fdt is not None and 'u-boot.bin' in sbi_payload:
++        return "virtual/kernel:do_deploy virtual/bootloader:do_deploy"
++
+     if 'linux' in sbi_payload or 'Image' in sbi_payload:
+         return "virtual/kernel:do_deploy"
+     if 'u-boot.bin' in sbi_payload:
+diff --git a/meta/recipes-bsp/opensbi/opensbi_0.9.bb b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
+index 52965abda5..5fee52136d 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_0.9.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
+@@ -18,6 +18,7 @@ S = "${WORKDIR}/git"
+ EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D} FW_PIC=n"
+ # If RISCV_SBI_PAYLOAD is set then include it as a payload
+ EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_image(d)}"
++EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_fdt(d)}"
+
+ # Required if specifying a custom payload
+ do_compile[depends] += "${@riscv_get_do_compile_depends(d)}"
+--
 2.31.1
-
