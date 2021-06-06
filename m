@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.25798.1623000257717139341
+ by mx.groups.io with SMTP id smtpd.web10.26024.1623000257626763452
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Jun 2021 10:24:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2E66438C127D
-	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:18 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 868B438C126E
+	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:17 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libogg: upgrading to 1.3.5 SUCCEEDED
-Message-ID: <MADEUP.16860E22D1ACA4B0.27789@lists.openembedded.org>
-X-Groupsio-MsgNum: 152718
-Content-Type: multipart/mixed; boundary="===============3235336668214993554=="
+Subject: [AUH] libinput: upgrading to 1.18.0 SUCCEEDED
+Message-ID: <MADEUP.16860E22C322FFBB.23614@lists.openembedded.org>
+X-Groupsio-MsgNum: 152719
+Content-Type: multipart/mixed; boundary="===============1294765846505284787=="
 
---===============3235336668214993554==
+--===============1294765846505284787==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libogg* to *1.3.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *libinput* to *1.18.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libogg-upgrade-1.3.4-1.3.5.patch
+    - apply the patch: git am 0001-libinput-upgrade-1.17.3-1.18.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,96 +44,106 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3235336668214993554==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/libogg/libogg-dev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-doc: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-locale: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-staticdev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-Changes to packages/core2-32-poky-linux/libogg (sysroot):
-  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
-  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
-  /usr/lib/libogg.so.0.8.4 moved to /usr/lib/libogg.so.0.8.5
-
---===============3235336668214993554==
+--===============1294765846505284787==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-libogg-upgrade-1.3.4-1.3.5.patch"
+ filename="0001-libinput-upgrade-1.17.3-1.18.0.patch"
 
-From af123d0db920f5c8b02aa1d819c383c75e4cd915 Mon Sep 17 00:00:00 2001
+From ccac9240d6c1a7407e49a1ddf513c4a328a75890 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 6 Jun 2021 15:45:30 +0000
-Subject: [PATCH] libogg: upgrade 1.3.4 -> 1.3.5
+Date: Sun, 6 Jun 2021 14:14:18 +0000
+Subject: [PATCH] libinput: upgrade 1.17.3 -> 1.18.0
 
 ---
- .../libogg/{libogg_1.3.4.bb => libogg_1.3.5.bb}                | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-multimedia/libogg/{libogg_1.3.4.bb => libogg_1.3.5.bb} (80%)
+ ...{libinput_1.17.3.bb => libinput_1.18.0.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.17.3.bb => libinput_1.18.0.bb} (66%)
 
-diff --git a/meta/recipes-multimedia/libogg/libogg_1.3.4.bb b/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
-similarity index 80%
-rename from meta/recipes-multimedia/libogg/libogg_1.3.4.bb
-rename to meta/recipes-multimedia/libogg/libogg_1.3.5.bb
-index c4004619b9..402d700aa1 100644
---- a/meta/recipes-multimedia/libogg/libogg_1.3.4.bb
-+++ b/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
-@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
+diff --git a/meta/recipes-graphics/wayland/libinput_1.17.3.bb b/meta/recipes-graphics/wayland/libinput_1.18.0.bb
+similarity index 66%
+rename from meta/recipes-graphics/wayland/libinput_1.17.3.bb
+rename to meta/recipes-graphics/wayland/libinput_1.18.0.bb
+index ef19146f79..d1dbace93b 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.17.3.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.18.0.bb
+@@ -1,3 +1,22 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -31,4 +31,4 @@
++#  version libinput is compiled against. The header is used during compilation
++#  only, libinput does not link against GPL libraries.
++#  
++# -[1] https://gitlab.freedesktop.org/libinput/libinput/blob/master/include/linux/input.h
++# +[1] https://gitlab.freedesktop.org/libinput/libinput/blob/main/include/linux/input.h
++# 
++#
++
+ SUMMARY = "Library to handle input devices in Wayland compositors"
+ DESCRIPTION = "libinput is a library to handle input devices in Wayland \
+ compositors and to provide a generic X.Org input driver. It provides \
+@@ -8,7 +27,7 @@ HOMEPAGE = "http://www.freedesktop.org/wiki/Software/libinput/"
+ SECTION = "libs"
  
- SRC_URI = "http://downloads.xiph.org/releases/ogg/${BP}.tar.xz"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
++LIC_FILES_CHKSUM = "file://COPYING;md5=bab4ac7dc1c10bc0fb037dc76c46ef8a"
  
--SRC_URI[md5sum] = "eadef24aad6e3e8379ba0d14971fd64a"
--SRC_URI[sha256sum] = "c163bc12bc300c401b6aa35907ac682671ea376f13ae0969a220f7ddf71893fe"
-+SRC_URI[sha256sum] = "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705"
+ DEPENDS = "libevdev udev mtdev libcheck"
  
- inherit autotools pkgconfig
+@@ -16,7 +35,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            file://determinism.patch \
+            "
+-SRC_URI[sha256sum] = "0d010e0bf601b5d3a06b3c4d77d67751cf554f3e6448e57aa046ea9ee8f818ac"
++SRC_URI[sha256sum] = "18c6a286583268d39841348e561fbb4713bde0c643b360f5d8a3f27800afdb9a"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
 -- 
 2.17.1
 
 
---===============3235336668214993554==
+--===============1294765846505284787==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libogg: SRC_URI changed from "http://downloads.xiph.org/releases/ogg/libogg-1.3.4.tar.xz" to "http://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz"
-packages/core2-32-poky-linux/libogg: PV changed from "1.3.4" to "1.3.5"
-packages/core2-32-poky-linux/libogg: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg-dbg: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-dbg: PKGSIZE changed from 38700 to 38712 (+0%)
-packages/core2-32-poky-linux/libogg/libogg-dbg: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg-dbg: PV changed from "1.3.4" to "1.3.5"
-packages/core2-32-poky-linux/libogg/libogg-dev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-dev: PKGSIZE changed from 17911 to 17914 (+0%)
-packages/core2-32-poky-linux/libogg/libogg-dev: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg-dev: PV changed from "1.3.4" to "1.3.5"
-packages/core2-32-poky-linux/libogg/libogg-doc: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-doc: PKGSIZE changed from 391994 to 391999 (+0%)
-packages/core2-32-poky-linux/libogg/libogg-doc: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg-doc: PV changed from "1.3.4" to "1.3.5"
-packages/core2-32-poky-linux/libogg/libogg-locale: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-locale: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg-locale: PV changed from "1.3.4" to "1.3.5"
-packages/core2-32-poky-linux/libogg/libogg-src: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-src: PKGSIZE changed from 129329 to 129437 (+0%)
-packages/core2-32-poky-linux/libogg/libogg-src: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg-src: PV changed from "1.3.4" to "1.3.5"
-packages/core2-32-poky-linux/libogg/libogg-staticdev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg-staticdev: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg-staticdev: PV changed from "1.3.4" to "1.3.5"
-packages/core2-32-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
-packages/core2-32-poky-linux/libogg/libogg: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
-packages/core2-32-poky-linux/libogg/libogg: PV changed from "1.3.4" to "1.3.5"
-Changes to packages/core2-32-poky-linux/libogg (sysroot):
-  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
-  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
-  /usr/lib/libogg.so.0.8.4 moved to /usr/lib/libogg.so.0.8.5
+packages/core2-32-poky-linux/libinput: SRC_URI changed from "http://www.freedesktop.org/software/libinput/libinput-1.17.3.tar.xz file://run-ptest file://determinism.patch" to "http://www.freedesktop.org/software/libinput/libinput-1.18.0.tar.xz file://run-ptest file://determinism.patch"
+packages/core2-32-poky-linux/libinput: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-bin: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-bin: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-dbg: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 4334092 to 4358256 (+1%)
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-dev: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-dev: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-doc: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-doc: PKGSIZE changed from 41407 to 42556 (+3%)
+packages/core2-32-poky-linux/libinput/libinput-doc: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-locale: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-locale: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-ptest: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-ptest: PKGSIZE changed from 1191414 to 1195766 (+0%)
+packages/core2-32-poky-linux/libinput/libinput-ptest: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-src: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-src: PKGSIZE changed from 3224521 to 3239478 (+0%)
+packages/core2-32-poky-linux/libinput/libinput-src: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
+packages/core2-32-poky-linux/libinput/libinput: PV changed from "1.17.3" to "1.18.0"
+packages/core2-32-poky-linux/libinput/libinput: PKGSIZE changed from 1053188 to 1071074 (+2%)
+packages/core2-32-poky-linux/libinput/libinput: PKGV changed from 1.17.3 [default] to 1.18.0 [default]
 
---===============3235336668214993554==--
+--===============1294765846505284787==--
