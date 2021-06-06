@@ -1,78 +1,98 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web08.28741.1623017953488748272
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web12.28892.1623018016739235075
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Jun 2021 15:19:13 -0700
+ Sun, 06 Jun 2021 15:20:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VovT3grN;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id t6so2038460qvp.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Jun 2021 15:19:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dVJpbZO0;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id k7so8645590pjf.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Jun 2021 15:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BymsLQO6q6osfgY9NV1zS8Y4OEFft0M7osNe3Q/wRao=;
-        b=VovT3grN8GVVvmrWmWouDSl4rymT+OPoUtoPEF5yBgT6WhVh6tlTc77sKvuX9sJqSL
-         Kgj8AUfg86SJmauSnhefynoIrp5khxNJY01fJndiIPBskAbeF4BOR/4FgepxDL7codZT
-         ODqL9EqIqncFRmV7HKJOgQmfTRATihE4jLcEiw9ZVopN7Q+XuxPeOk2tULW+7tdGOEHV
-         UXDxqzZeaixdTcEzSQ6WCVUlMHI5VGCUBJLFOlTmZqz4nZxridSlZHYPT6M/vuE2QnrK
-         UzZ9SPXI6GP1CcADUwxM+6S/RYVQ663uX9fvGtJB+youqTiv8Jx1p4UQMl+63h9uvUI+
-         xhcw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wi2xlCfrwxFDuaZ4cpMEGwg88WSltHULYEVCrC1GZZ8=;
+        b=dVJpbZO0yRvxM065laa91uFKo0Soduzni4F5VPV/GdO3uwVb+NKu6XuCrZdtqvvR/o
+         68NsqTSL1xs2sxfkcJozpfoek71bXmWFrDKivROoZN9qmW3d5YcnJVfzayBWqUSYdCJh
+         /wkT2jPr1mFbqR0dNruvVtlR07O5yKiE7i9Yyah5Q8Oq0jLqrWOyB+ebvsiJFr0rEJd5
+         9yZz4O3noh/ExkUn2Cx8DHmy/mw6mE9u3tTRg93n6169DDU3bcNXASpt63smCj0TKIJs
+         fdwztfHd3sMGZKUqxf+7pMZdbyUgQxQNkCvqX0j7j6FixCBTiUJSMgpim4zSAAUTFyQU
+         XaEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BymsLQO6q6osfgY9NV1zS8Y4OEFft0M7osNe3Q/wRao=;
-        b=O1/SnGpl1LKJQS/EkM7KtZ6HZPbWlw15IbS8cggvuSKYaUR+d+kWdObv1yy1q4aIII
-         pmE0d+b2HV6NAs3yU07EkNgYd7Dm4aeplJaK07ZMjHT8aRu1puRtTfmDnYz/aG4/FK3c
-         CZM+OGnhFbrmTG2Rrb0+EQzh1Ao0IWnKlMm9PMUr0mpRCo0/aRbVSgRrVRmCyyG6ZjXP
-         Wz/PhlaCFr2qmQ47D2DpdktPmA5uc0qbFnfPKCgP9AOkzWKxmGwxeN8SlhGWsAplQmGz
-         Knli8dVJ8eqs+NW6KIUzq51kV3JLTMTpso1pKkrlLQoM6OoriSHgvBG5sMim3cOzFyhX
-         nm3w==
-X-Gm-Message-State: AOAM530Ndt1uxupN3ZHOeKE09Ur4Nl74KK9+d3Zu868XfgRnePLxydth
-	Ji/Grd8WTCUmccxEw61BEVgL0MJxD1PlTs5jhks=
-X-Google-Smtp-Source: ABdhPJxQUcka+QC1lWYKa1Z8qePr4XCa+nU81ekIoZBtLScpSXrQ3hMzpQ63GZBiqUsBdoitSGibI5n5IZiKhGl4ta0=
-X-Received: by 2002:a0c:f089:: with SMTP id g9mr11617513qvk.50.1623017952524;
- Sun, 06 Jun 2021 15:19:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wi2xlCfrwxFDuaZ4cpMEGwg88WSltHULYEVCrC1GZZ8=;
+        b=WkN6FrKAwawod63UP1xogEJ4h7wC1Uvt8kMkqgBOhXwy0AXfYaD8oiRjPWmwHRqTf9
+         0LOGZe5M7nhQx/qNYQq5ilmW4DSfG/aiowGQzzJI7rnE50mM8zJ5yE0DU+/ZNFlfMOO7
+         NvAdsOQfq2HfDJMgPOMFvYx6ZQKNKEZO5mmV+osvmYE9vaonE6cXY/HpfEbHl7nnqtkc
+         68VT+O2uCtrA52qkETd99XbmmHCisyKCgZrNySbCZ5mczCf91Gw5JhDLrANZxotOZsiW
+         mcT0kQcF5j0aDgpOR4sHTIXAkqlAqQqvqK5KmqRY8ZN0sVrhwJZ7acmmUZOVn7KK6omp
+         fUig==
+X-Gm-Message-State: AOAM532EvyeIO24o/OORtVqiiVQOTLs0xWgKO9Ce/QCa8RZK/stDJv+h
+	aTCtY5YVhAzZtFn229hEhhJS3T3DMFs+ag==
+X-Google-Smtp-Source: ABdhPJxadAQIaSTBkYpm9/G2XP7g3Me67jTqKuWBIWmdCgHg8kpxpsF8wMpmHvu16PGE5jlL9i3WPg==
+X-Received: by 2002:a17:902:be0d:b029:f9:c913:821f with SMTP id r13-20020a170902be0db02900f9c913821fmr15226763pls.2.1623018016068;
+        Sun, 06 Jun 2021 15:20:16 -0700 (PDT)
+Return-Path: <ticotimo@gmail.com>
+Received: from nereus.local ([2601:1c0:6000:9640:d783:82a8:8b1b:d4e0])
+        by smtp.gmail.com with ESMTPSA id u21sm6473983pfh.163.2021.06.06.15.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jun 2021 15:20:15 -0700 (PDT)
+From: "Tim Orling" <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@intel.com>
+Subject: [PATCH 0/5] Recipe upgrades
+Date: Sun,  6 Jun 2021 15:20:06 -0700
+Message-Id: <cover.1623016777.git.timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210604091458.1381144-1-alex.kanavin@gmail.com>
- <20210604091458.1381144-4-alex.kanavin@gmail.com> <1685B658849E960A.4717@lists.openembedded.org>
- <f9cc3da4399fcca66a9c43638dcf4eca162ba23a.camel@linuxfoundation.org>
- <50a73766-dc52-0600-a6cd-7ab422030782@gmail.com> <7e56d093ba6c1390cec71ef3a362abe84ce735bb.camel@linuxfoundation.org>
- <CANNYZj_ExBZwGzRrnG8Yb2nsNmzCKkZV09FqFuMbCdxAepNSkg@mail.gmail.com>
- <2ac70a7b01743192ae4ec42b2b1eee18becde25d.camel@linuxfoundation.org>
- <CANNYZj-dYu4Q9PBhBd2-msPaBSreycLCfCKmZ1zm8=z=Ht+MbA@mail.gmail.com>
- <CAMKF1srMGpi0fCdx0b=n0NCSMrkBUBN80srR1sMP9vZZbHf=tQ@mail.gmail.com> <CANNYZj9spx5kAGMZBTTYz_daHG=G17uAfx6rE3=0fe+CP8-p=A@mail.gmail.com>
-In-Reply-To: <CANNYZj9spx5kAGMZBTTYz_daHG=G17uAfx6rE3=0fe+CP8-p=A@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sun, 6 Jun 2021 15:18:46 -0700
-Message-ID: <CAMKF1sqWNP8G=DwthpeiXfV2niSygRBeNQACXDrVgT5NEds3vA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/10] cmake: update 3.20.2 -> 3.20.3
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Michael Halstead <mhalstead@linuxfoundation.org>, Bruce Ashfield <bruce.ashfield@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 6, 2021 at 3:06 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> On Sun, 6 Jun 2021 at 23:51, Khem Raj <raj.khem@gmail.com> wrote:
->>
->>
->> Good sleuthing.  Can you find out if libseccomp is in play ? if so
->> what version of libseccomp is being used by cmake if it is libseccomp
->> < 2.4.2 then time64 syscall support won't be there unless
->> its backported to the older version.
->
->
-> From what i could tell cmake does not use libseccomp, but centos8 could have some kind of syscall filtering in place. It would be good to try with a few older centos8 kernels.
->
+Update maintainer email.
 
-here is a small testcase to excercise utimensat_time64
-https://raw.githubusercontent.com/xantares/test-seccomp-time64/master/test-time64.c
+Upgrade python3-scons and fix upstream check.
 
-gcc -m32 test-time64.c
+AUH upgrades to:
+* python3-hypothesis
+* python3-importlib-metadata
+* at-spi2-core
 
-it will be good to check how the resulting binary behaves with centos
-provided libc and sdk provided one.
-> Alex
+Tested on qemux86-64 core-image-full-cmdline and core-image-weston
+
+The following changes since commit d6b62b5a9d6c64971b9f981a4732791658150e43:
+
+  nativesdk-libdnf: fix installed and not shipped files (2021-06-03 23:09:18 +0100)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib timo/recipe-upgrades-20210606
+
+Tim Orling (5):
+  maintainers.inc: update email address
+  python3-scons: upgrade 3.1.2 -> 4.1.0; simplify
+  python3-hypothesis: upgrade 6.13.7 -> 6.13.14
+  python3-importlib-metadata: upgrade 4.3.0 -> 4.5.0
+  at-spi2-core: upgrade 2.40.1 -> 2.40.2
+
+ meta/conf/distro/include/maintainers.inc      | 68 +++++++++----------
+ ....13.7.bb => python3-hypothesis_6.13.14.bb} |  4 +-
+ ...bb => python3-importlib-metadata_4.5.0.bb} |  2 +-
+ ...3.1.2.bb => python3-scons-native_4.1.0.bb} |  0
+ .../0001-Fix-man-page-installation.patch      | 46 +++++++++++++
+ .../python/python3-scons_3.1.2.bb             | 34 ----------
+ .../python/python3-scons_4.1.0.bb             | 27 ++++++++
+ ...-core_2.40.1.bb => at-spi2-core_2.40.2.bb} |  2 +-
+ 8 files changed, 111 insertions(+), 72 deletions(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.13.7.bb => python3-hypothesis_6.13.14.bb} (77%)
+ rename meta/recipes-devtools/python/{python3-importlib-metadata_4.3.0.bb => python3-importlib-metadata_4.5.0.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-scons-native_3.1.2.bb => python3-scons-native_4.1.0.bb} (100%)
+ create mode 100644 meta/recipes-devtools/python/python3-scons/0001-Fix-man-page-installation.patch
+ delete mode 100644 meta/recipes-devtools/python/python3-scons_3.1.2.bb
+ create mode 100644 meta/recipes-devtools/python/python3-scons_4.1.0.bb
+ rename meta/recipes-support/atk/{at-spi2-core_2.40.1.bb => at-spi2-core_2.40.2.bb} (94%)
+
+-- 
+2.29.2
+
