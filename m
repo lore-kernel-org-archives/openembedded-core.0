@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.25896.1623000257591749114
+ by mx.groups.io with SMTP id smtpd.web10.26024.1623000257626763452
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Jun 2021 10:24:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C914138C1238
+	by mail.yoctoproject.org (Postfix) with ESMTP id D8CF738C1256
 	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:16 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-runtime: upgrading to 1.16.5 FAILED
-Message-ID: <MADEUP.16860E22A834AF2D.23614@lists.openembedded.org>
-X-Groupsio-MsgNum: 152704
-Content-Type: multipart/mixed; boundary="===============9182576773455639027=="
+Subject: [AUH] m4: upgrading to 1.4.19 FAILED
+Message-ID: <MADEUP.16860E22AA602516.29797@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============7013800251391192338=="
 
---===============9182576773455639027==
+--===============7013800251391192338==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,25 +23,116 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-runtime* to *1.16.5* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *m4* to *1.4.19* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
+Running 'devtool upgrade' for recipe m4 failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1452 entries from dependency cache.
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-4565d06df739cc72e2b33833e54fab86b2836758"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:4565d06df739cc72e2b33833e54fab86b2836758"
+workspace            = "master:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.gz...
+Loading cache...done.
+Loaded 1452 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (815 cached, 2 parsed). 1453 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-4565d06df739cc72e2b33833e54fab86b2836758"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:4565d06df739cc72e2b33833e54fab86b2836758"
+workspace            = "master:ae7595a603f3fea1750f3f170e0e7c8098a352c7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   6% |##                                  | ETA:  0:00:01
+Adding changed files:  12% |####                                | ETA:  0:00:00
+Adding changed files:  18% |######                              | ETA:  0:00:00
+Adding changed files:  24% |########                            | ETA:  0:00:00
+Adding changed files:  30% |##########                          | ETA:  0:00:00
+Adding changed files:  36% |#############                       | ETA:  0:00:00
+Adding changed files:  42% |###############                     | ETA:  0:00:00
+Adding changed files:  48% |#################                   | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  60% |#####################               | ETA:  0:00:00
+Adding changed files:  66% |########################            | ETA:  0:00:00
+Adding changed files:  72% |##########################          | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files:  97% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase 1c32ef972a2c08cb84856aad734259a4512f6108' failed:
+First, rewinding head to replay your work on top of it...
+Applying: m4-native: Fix building on Ubuntu 9.10
+Using index info to reconstruct a base tree...
+M	configure
+Falling back to patching base and 3-way merge...
+Auto-merging configure
+CONFLICT (content): Merge conflict in configure
+error: Failed to merge in the changes.
+Patch failed at 0001 m4-native: Fix building on Ubuntu 9.10
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/m4
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/m4/m4_1.4.19.bb
+INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
 
 
 
-Next steps:
-    - apply the patch: git am 0001-go-runtime-upgrade-1.16.4-1.16.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -50,65 +140,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============9182576773455639027==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1452 entries from dependency cache.
-Parsing recipes...ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-native_1.16.4.bb:4: Could not include required file go-1.16.4.inc
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============9182576773455639027==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-go-runtime-upgrade-1.16.4-1.16.5.patch"
-
-From d1b9accdd044e81cb304f6f7820d7a45cc23fb35 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 6 Jun 2021 06:49:03 +0000
-Subject: [PATCH] go-runtime: upgrade 1.16.4 -> 1.16.5
-
----
- meta/recipes-devtools/go/{go-1.16.4.inc => go-1.16.5.inc}     | 4 ++--
- .../go/{go-runtime_1.16.4.bb => go-runtime_1.16.5.bb}         | 0
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/go/{go-1.16.4.inc => go-1.16.5.inc} (88%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.4.bb => go-runtime_1.16.5.bb} (100%)
-
-diff --git a/meta/recipes-devtools/go/go-1.16.4.inc b/meta/recipes-devtools/go/go-1.16.5.inc
-similarity index 88%
-rename from meta/recipes-devtools/go/go-1.16.4.inc
-rename to meta/recipes-devtools/go/go-1.16.5.inc
-index 71c17de310..bd928e44f8 100644
---- a/meta/recipes-devtools/go/go-1.16.4.inc
-+++ b/meta/recipes-devtools/go/go-1.16.5.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.16"
--PV = "1.16.4"
-+PV = "1.16.5"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -17,4 +17,4 @@ SRC_URI += "\
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
- "
--SRC_URI[main.sha256sum] = "ae4f6b6e2a1677d31817984655a762074b5356da50fb58722b99104870d43503"
-+SRC_URI[main.sha256sum] = "7bfa7e5908c7cc9e75da5ddf3066d7cbcf3fd9fa51945851325eebc17f50ba80"
-diff --git a/meta/recipes-devtools/go/go-runtime_1.16.4.bb b/meta/recipes-devtools/go/go-runtime_1.16.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.16.4.bb
-rename to meta/recipes-devtools/go/go-runtime_1.16.5.bb
--- 
-2.17.1
-
-
---===============9182576773455639027==--
+--===============7013800251391192338==--
