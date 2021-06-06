@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.25896.1623000257591749114
+ by mx.groups.io with SMTP id smtpd.web11.25798.1623000257717139341
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Jun 2021 10:24:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 7EEC038C11C7
-	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:17 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 2E66438C127D
+	for <openembedded-core@lists.openembedded.org>; Sun,  6 Jun 2021 17:24:18 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 21.1.2 SUCCEEDED
-Message-ID: <MADEUP.16860E22C115D09D.22991@lists.openembedded.org>
-X-Groupsio-MsgNum: 152717
-Content-Type: multipart/mixed; boundary="===============5694852451809646442=="
+Subject: [AUH] libogg: upgrading to 1.3.5 SUCCEEDED
+Message-ID: <MADEUP.16860E22D1ACA4B0.27789@lists.openembedded.org>
+X-Groupsio-MsgNum: 152718
+Content-Type: multipart/mixed; boundary="===============3235336668214993554=="
 
---===============5694852451809646442==
+--===============3235336668214993554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *21.1.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libogg* to *1.3.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-21.1.1-21.1.2.patch
+    - apply the patch: git am 0001-libogg-upgrade-1.3.4-1.3.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,113 +44,96 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5694852451809646442==
+--===============3235336668214993554==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libogg/libogg-dev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-doc: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-locale: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-staticdev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+Changes to packages/core2-32-poky-linux/libogg (sysroot):
+  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
+  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
+  /usr/lib/libogg.so.0.8.4 moved to /usr/lib/libogg.so.0.8.5
+
+--===============3235336668214993554==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libogg-upgrade-1.3.4-1.3.5.patch"
+
+From af123d0db920f5c8b02aa1d819c383c75e4cd915 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 6 Jun 2021 15:45:30 +0000
+Subject: [PATCH] libogg: upgrade 1.3.4 -> 1.3.5
+
+---
+ .../libogg/{libogg_1.3.4.bb => libogg_1.3.5.bb}                | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-multimedia/libogg/{libogg_1.3.4.bb => libogg_1.3.5.bb} (80%)
+
+diff --git a/meta/recipes-multimedia/libogg/libogg_1.3.4.bb b/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
+similarity index 80%
+rename from meta/recipes-multimedia/libogg/libogg_1.3.4.bb
+rename to meta/recipes-multimedia/libogg/libogg_1.3.5.bb
+index c4004619b9..402d700aa1 100644
+--- a/meta/recipes-multimedia/libogg/libogg_1.3.4.bb
++++ b/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
+@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
+ 
+ SRC_URI = "http://downloads.xiph.org/releases/ogg/${BP}.tar.xz"
+ 
+-SRC_URI[md5sum] = "eadef24aad6e3e8379ba0d14971fd64a"
+-SRC_URI[sha256sum] = "c163bc12bc300c401b6aa35907ac682671ea376f13ae0969a220f7ddf71893fe"
++SRC_URI[sha256sum] = "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705"
+ 
+ inherit autotools pkgconfig
+-- 
+2.17.1
+
+
+--===============3235336668214993554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-21.1.1.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch" to "https://mesa.freedesktop.org/archive/mesa-21.1.2.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch"
-packages/core2-32-poky-linux/mesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgbm: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libglapi: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 178022596 to 178034244 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 25706596 to 25706338 (-0%)
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 95879053 to 95871494 (-0%)
-packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 9249458 to 9249106 (-0%)
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/core2-32-poky-linux/mesa/mesa: PV changed from "21.1.1" to "21.1.2"
-packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/core2-32-poky-linux/libogg: SRC_URI changed from "http://downloads.xiph.org/releases/ogg/libogg-1.3.4.tar.xz" to "http://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz"
+packages/core2-32-poky-linux/libogg: PV changed from "1.3.4" to "1.3.5"
+packages/core2-32-poky-linux/libogg: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg-dbg: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-dbg: PKGSIZE changed from 38700 to 38712 (+0%)
+packages/core2-32-poky-linux/libogg/libogg-dbg: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg-dbg: PV changed from "1.3.4" to "1.3.5"
+packages/core2-32-poky-linux/libogg/libogg-dev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-dev: PKGSIZE changed from 17911 to 17914 (+0%)
+packages/core2-32-poky-linux/libogg/libogg-dev: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg-dev: PV changed from "1.3.4" to "1.3.5"
+packages/core2-32-poky-linux/libogg/libogg-doc: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-doc: PKGSIZE changed from 391994 to 391999 (+0%)
+packages/core2-32-poky-linux/libogg/libogg-doc: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg-doc: PV changed from "1.3.4" to "1.3.5"
+packages/core2-32-poky-linux/libogg/libogg-locale: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-locale: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg-locale: PV changed from "1.3.4" to "1.3.5"
+packages/core2-32-poky-linux/libogg/libogg-src: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-src: PKGSIZE changed from 129329 to 129437 (+0%)
+packages/core2-32-poky-linux/libogg/libogg-src: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg-src: PV changed from "1.3.4" to "1.3.5"
+packages/core2-32-poky-linux/libogg/libogg-staticdev: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg-staticdev: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg-staticdev: PV changed from "1.3.4" to "1.3.5"
+packages/core2-32-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.4", added "/usr/lib/libogg.so.0.8.5"
+packages/core2-32-poky-linux/libogg/libogg: PKGV changed from 1.3.4 [default] to 1.3.5 [default]
+packages/core2-32-poky-linux/libogg/libogg: PV changed from "1.3.4" to "1.3.5"
+Changes to packages/core2-32-poky-linux/libogg (sysroot):
+  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
+  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.4 to libogg.so.0.8.5
+  /usr/lib/libogg.so.0.8.4 moved to /usr/lib/libogg.so.0.8.5
 
---===============5694852451809646442==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-mesa-upgrade-21.1.1-21.1.2.patch"
-
-From 36954e0e6ab0db7062e56ae29a2ccb0d59a29b44 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 6 Jun 2021 14:03:35 +0000
-Subject: [PATCH] mesa: upgrade 21.1.1 -> 21.1.2
-
----
- meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
- meta/recipes-graphics/mesa/{mesa_21.1.1.bb => mesa_21.1.2.bb} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa_21.1.1.bb => mesa_21.1.2.bb} (100%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 32cc997c9e..5700cc9673 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            "
- 
--SRC_URI[sha256sum] = "eec25ea379054e8911bc5de816aeb50f581b5b708414725003d2f00386b38dd2"
-+SRC_URI[sha256sum] = "23b4b63760561f3a4f98b5be12c6de621e9a6bdf355e087a83d9184cd4e2825f"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_21.1.1.bb b/meta/recipes-graphics/mesa/mesa_21.1.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.1.1.bb
-rename to meta/recipes-graphics/mesa/mesa_21.1.2.bb
--- 
-2.17.1
-
-
---===============5694852451809646442==--
+--===============3235336668214993554==--
