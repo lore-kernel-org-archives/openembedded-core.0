@@ -1,176 +1,153 @@
-Received: from pbcl.net (pbcl.net [159.69.221.92])
- by mx.groups.io with SMTP id smtpd.web08.4482.1623103327811342397
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web09.5131.1623106211140472257
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jun 2021 15:02:08 -0700
+ Mon, 07 Jun 2021 15:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pbcl.net, ip: 159.69.221.92, mailfrom: pb@pbcl.net)
-Received: from [91.216.112.25] (helo=[192.168.82.30])
-	by pbcl.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <pb@pbcl.net>)
-	id 1lqNJr-00072q-1w; Tue, 08 Jun 2021 00:02:05 +0200
-Date: Mon, 07 Jun 2021 23:01:58 +0100
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20210607212558.86624-1-bkylerussell@gmail.com>
-References: <20210607212558.86624-1-bkylerussell@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dN74AvKp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: krussell7711@gmail.com)
+Received: by mail-oi1-f175.google.com with SMTP id w127so19666706oig.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jun 2021 15:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xduSrQKE8xoZhIEPZVEcoxRwKl85g+I2b0eSIE0pn28=;
+        b=dN74AvKpEseEXpNhAztpK7/901iU0g6g13QQqpMDvvdxO4VzK2Y+YQ6qxYuYVPmmVf
+         bqIOhR3t+cvnqXjdRlM/lCDFvokpPwriXY+SaNdD4nfdD5fUUl3hdOHDzgAXJgVH84/r
+         lti5NDzfbllHCSVTLlSrFvKaEAwgST8tSQSx031rKgi7JrkbS36cLjHKLmbiR6EqzgnO
+         jz9ITyG9XxGz3OlT30/dyT/+cFOrMcyz+UeM9e4mr8moHwPJuGzcrZew3W102R3hhylH
+         nveYYL0X7a3UOyDEhYOWlsMvZ2otsNmFDZC551B9kUaAmuUG0j5rZdfTSe35E96+71o5
+         nlZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xduSrQKE8xoZhIEPZVEcoxRwKl85g+I2b0eSIE0pn28=;
+        b=uawYy9wRxA5MxDqODHRjLmSd4Wp9frjHgtE+zb76zFWMVRi02PXGm3VAhM2pHUqtWx
+         m24FQnX1aIb+tZPBfz7h3bQ77p2I7FkHQAqRVrVqljob8es7jPGjdyKrvai90hplp9wL
+         SCMQhs5frDz7wfEkMo6RiaiVeBL0uWBuELJCVqTUl9IAYWphRVp8SIdyXaX5aZxzPhE+
+         ZCkOlU1ledJSDjqgtkfnQmc4MVFieAoep8GbnzQ7C3uzoTKgKVKr32eXKvDhRLLN9AQ0
+         BV8fKxXo2DEuaUmus0oSLJfcuv1W0NdSzBxtNNDcnlWTcUZeBce/IzbQtvdr7/ZI5ypZ
+         WeFg==
+X-Gm-Message-State: AOAM531XuPHNeYtMZgzthMPBhkFm8unwsEbDHjNcNWzbtERV1eYscF+U
+	4u6RmMCg0RtYroEpExOu+dMLGa+KfHwBvdGxpa4=
+X-Google-Smtp-Source: ABdhPJwtpspLvUpe/w92M0XmgwnEfWpmqaL/OTd1fZ3bNbXwzOHoCQVSW5LNgDijREHpzvvO3Mv+Kss8XKIAzV9yRN8=
+X-Received: by 2002:aca:bad5:: with SMTP id k204mr1562oif.122.1623106210342;
+ Mon, 07 Jun 2021 15:50:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210607212558.86624-1-bkylerussell@gmail.com> <dccbc4111daf453cec3f7fe60e4da15d1c3e5306.camel@linuxfoundation.org>
+In-Reply-To: <dccbc4111daf453cec3f7fe60e4da15d1c3e5306.camel@linuxfoundation.org>
+From: bkylerussell@gmail.com
+Date: Mon, 7 Jun 2021 18:49:58 -0400
+Message-ID: <CAFrQVPPHw0BpXUOXrhnYOeZHRBd=w=kEthVqbAVucRTyeiz7Fg@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] lib: oe: utils: always append host gcc version to NATIVELSBSTRING
-To: openembedded-core@lists.openembedded.org,bkylerussell@gmail.com
-CC: wesley.lindauer@gmail.com,Kyle Russell <bkylerussell@gmail.com>
-From: "Phil Blundell" <pb@pbcl.net>
-Message-ID: <01B7D818-661B-4A57-A3DB-C6AC0F0DD217@pbcl.net>
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software, running on the system "hetzner.pbcl.net",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- postmaster@pbcl.net for details.
- 
- Content preview:  Wouldn't it be easier to just force -fPIE on for those users
-    for whom this is a problem? Or force -fPIE off for native everywhere. I'm
-    not sure that doing something based on GCC version is obviously t [...] 
- 
- Content analysis details:   (-1.0 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
-  0.0 HTML_MESSAGE           BODY: HTML included in message
-Content-Type: multipart/alternative; boundary="----6E4GAP15OU0N9PG4PVXNI8Z9W9120G"
-Content-Transfer-Encoding: 7bit
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Wes Lindauer <wesley.lindauer@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000019acda05c434dd51"
 
-------6E4GAP15OU0N9PG4PVXNI8Z9W9120G
-Content-Type: text/plain;
- charset=utf-8
+--00000000000019acda05c434dd51
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Jun 7, 2021 at 5:43 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10441
+>
+> This doesn't look quite right?
+>
+
+Yes, that's the one.  I assumed this was what you meant by, "Another option
+would be to have multiple uninative feeds based on gcc
+version rather than a single uninative one."
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10441#c1
+
+This is a huge performance penalty to put onto the build unfortunately and
+> I really
+> don't want to do that by default on the autobuilder. We haven't seen many
+> of these
+> errors on the autobuilder and I'm reluctant to take the performance hit on
+> our testing.
+>
+
+I realize this is not ideal, but I guess the trade-off is dealing with
+these issues as they arise on
+a case-by-case basis.
+
+There were specific issues with gcc 4.8 and 4.9 which required separate
+> sstate. Do we
+> know which gcc version switched the default and can we force older gcc's
+> to use the
+> same default or does it not work? I'm wondering if we could split off a
+> "nopic" verison
+> of sstate for example for the older gccs?
+>
+
+gcc 6 introduced an --enable-default-pie configure option, but I'm not
+exactly sure where
+between Ubuntu 16.04 and Ubuntu 18.04 they picked that configure option
+up.  Since packages
+based on the older gcc already exist in sstate, I think we would have to
+force the newer
+behavior on each affected package.
+
+I realize we can just swizzle the compiler flags on the affected packages
+to make things happy,
+but it seemed like this approach had at least been considered before, so I
+thought I would at least
+get some feedback.
+
+--00000000000019acda05c434dd51
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Wouldn't it be easier to just force -fPIE on for those users for whom this =
-is a problem? Or force -fPIE off for native everywhere=2E I'm not sure that=
- doing something based on GCC version is obviously the right plan=2E
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, Jun 7, 2021 at 5:43 PM Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10441" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bu=
+g.cgi?id=3D10441</a><br>
+<br>
+This doesn&#39;t look quite right?<br></blockquote><div><br></div><div>Yes,=
+ that&#39;s the one.=C2=A0 I assumed this was what you meant by, &quot;Anot=
+her option would be to have multiple uninative feeds based on gcc<br>versio=
+n rather than a single uninative one.&quot;<br><br><a href=3D"https://bugzi=
+lla.yoctoproject.org/show_bug.cgi?id=3D10441#c1">https://bugzilla.yoctoproj=
+ect.org/show_bug.cgi?id=3D10441#c1</a></div><div><br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
 
-p=2E
+This is a huge performance penalty to put onto the build unfortunately and =
+I really<br>
+don&#39;t want to do that by default on the autobuilder. We haven&#39;t see=
+n many of these<br>
+errors on the autobuilder and I&#39;m reluctant to take the performance hit=
+ on our testing.<br></blockquote><div><br></div><div>I realize this is not =
+ideal, but I guess the trade-off is dealing with these issues as they arise=
+ on</div><div>a case-by-case basis.<br></div><div><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
 
+There were specific issues with gcc 4.8 and 4.9 which required separate sst=
+ate. Do we<br>
+know which gcc version switched the default and can we force older gcc&#39;=
+s to use the <br>
+same default or does it not work? I&#39;m wondering if we could split off a=
+ &quot;nopic&quot; verison<br>
+of sstate for example for the older gccs?<br></blockquote><div><br></div><d=
+iv>gcc 6 introduced an --enable-default-pie configure option, but I&#39;m n=
+ot exactly sure where<br>between Ubuntu 16.04 and Ubuntu 18.04 they picked =
+that configure option up.=C2=A0 Since packages</div><div>based on the older=
+ gcc already exist in sstate, I think we would have to force the newer</div=
+><div>behavior on each affected package.</div><div><br></div>I realize we c=
+an just swizzle the compiler flags on the affected packages to make things =
+happy,</div><div class=3D"gmail_quote">but it seemed like this approach had=
+ at least been considered before, so I thought I would at least</div><div c=
+lass=3D"gmail_quote">get some feedback.<br></div></div>
 
-On 7 June 2021 22:25:58 BST, bkylerussell@gmail=2Ecom wrote:
->By having multiple uninative feeds based on host gcc version (rather
->than a
->single uninative feed for all possible host gcc versions), we avoid a
->general
->class of problems (as first observed in the bug below) where changes in
->native
->gcc don't cause native sstate to regenerate=2E  Below is another example
->where
->this problem is encountered across multiple supported host distros for
->a given
->poky version=2E
->
->gcc 6 supports default generation of PIE, which gets enabled between
->Ubuntu
->16=2E04 (default gcc 5=2E4) and 18=2E04 (default gcc 7=2E5), both support=
-ed
->distros
->of warrior=2E  Consider a native package dependency chain as follows:
->
->     A
->   / | \
->  B  C  D
->
->If a complete set of native sstate for the above packages is built
->prior
->to the default PIE change, but a workstation upgrades its distro to a
->version
->that natively compiles PIE by default, the sstate hash is not currently
->tainted,
->so the newer compiler version will pull from sstate not compiled for
->PIE=2E
->
->For example, if a source change to C causes part of the above chain to
->rebuild
->(C -> A), then this may result in non-PIE sstate (B and D) giving link
->errors
->with A=2E
->
->ld: relocation R_X86_64_32 against `=2Erodata=2Estr1=2E8' can not be used
->when making a PIE object; recompile with -fPIC
->ld: final link failed: Nonrepresentable section on output
->
->This appears to have been considered previously as an option to address
->the following bug, but appears to have been set aside only because of
->proximity to the end of a release cycle=2E
->
->[YOCTO #10441]
->
->Signed-off-by: Kyle Russell <bkylerussell@gmail=2Ecom>
->---
-> meta/lib/oe/utils=2Epy | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/meta/lib/oe/utils=2Epy b/meta/lib/oe/utils=2Epy
->index a84039f585=2E=2E8afe19fd99 100644
->--- a/meta/lib/oe/utils=2Epy
->+++ b/meta/lib/oe/utils=2Epy
->@@ -426,7 +426,7 @@ def host_gcc_version(d, taskcontextonly=3DFalse):
->bb=2Efatal("Can't get compiler version from %s --version output" %
->compiler)
->=20
->     version =3D match=2Egroup(1)
->-    return "-%s" % version if version in ("4=2E8", "4=2E9") else ""
->+    return "-%s" % version
->=20
->=20
-> def get_multilib_datastore(variant, d):
->--=20
->2=2E25=2E1
-
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
-
-------6E4GAP15OU0N9PG4PVXNI8Z9W9120G
-Content-Type: text/html;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><head></head><body>Wouldn't it be easier to just force -fPIE on for t=
-hose users for whom this is a problem? Or force -fPIE off for native everyw=
-here=2E I'm not sure that doing something based on GCC version is obviously=
- the right plan=2E<br><br>p=2E<br><br><br><div class=3D"gmail_quote">On 7 J=
-une 2021 22:25:58 BST, bkylerussell@gmail=2Ecom wrote:<blockquote class=3D"=
-gmail_quote" style=3D"margin: 0pt 0pt 0pt 0=2E8ex; border-left: 1px solid r=
-gb(204, 204, 204); padding-left: 1ex;">
-<pre class=3D"k9mail">By having multiple uninative feeds based on host gcc=
- version (rather than a<br>single uninative feed for all possible host gcc =
-versions), we avoid a general<br>class of problems (as first observed in th=
-e bug below) where changes in native<br>gcc don't cause native sstate to re=
-generate=2E  Below is another example where<br>this problem is encountered =
-across multiple supported host distros for a given<br>poky version=2E<br><b=
-r>gcc 6 supports default generation of PIE, which gets enabled between Ubun=
-tu<br>16=2E04 (default gcc 5=2E4) and 18=2E04 (default gcc 7=2E5), both sup=
-ported distros<br>of warrior=2E  Consider a native package dependency chain=
- as follows:<br><br>     A<br>   / | \<br>  B  C  D<br><br>If a complete se=
-t of native sstate for the above packages is built prior<br>to the default =
-PIE change, but a workstation upgrades its distro to a version<br>that nati=
-vely compiles PIE by default, the sstate hash is not currently tainted,<br>=
-so the newer compiler version will pull from sstate not compiled for PIE=2E=
-<br><br>For example, if a source change to C causes part of the above chain=
- to rebuild<br>(C -&gt; A), then this may result in non-PIE sstate (B and D=
-) giving link errors<br>with A=2E<br><br>ld: relocation R_X86_64_32 against=
- `=2Erodata=2Estr1=2E8' can not be used when making a PIE object; recompile=
- with -fPIC<br>ld: final link failed: Nonrepresentable section on output<br=
-><br>This appears to have been considered previously as an option to addres=
-s<br>the following bug, but appears to have been set aside only because of<=
-br>proximity to the end of a release cycle=2E<br><br>[YOCTO #10441]<br><br>=
-Signed-off-by: Kyle Russell &lt;bkylerussell@gmail=2Ecom&gt;<hr> meta/lib/o=
-e/utils=2Epy | 2 +-<br> 1 file changed, 1 insertion(+), 1 deletion(-)<br><b=
-r>diff --git a/meta/lib/oe/utils=2Epy b/meta/lib/oe/utils=2Epy<br>index a84=
-039f585=2E=2E8afe19fd99 100644<br>--- a/meta/lib/oe/utils=2Epy<br>+++ b/met=
-a/lib/oe/utils=2Epy<br>@@ -426,7 +426,7 @@ def host_gcc_version(d, taskcont=
-extonly=3DFalse):<br>         bb=2Efatal("Can't get compiler version from %=
-s --version output" % compiler)<br> <br>     version =3D match=2Egroup(1)<b=
-r>-    return "-%s" % version if version in ("4=2E8", "4=2E9") else ""<br>+=
-    return "-%s" % version<br> <br> <br> def get_multilib_datastore(variant=
-, d):</pre></blockquote></div><br>-- <br>Sent from my Android device with K=
--9 Mail=2E Please excuse my brevity=2E</body></html>
-
-------6E4GAP15OU0N9PG4PVXNI8Z9W9120G--
+--00000000000019acda05c434dd51--
