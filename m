@@ -1,90 +1,113 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.5])
- by mx.groups.io with SMTP id smtpd.web10.33292.1623052395261608822
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.33079.1623052879350549388
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jun 2021 00:53:16 -0700
+ Mon, 07 Jun 2021 01:01:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=gQsIZ0ed;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.5, mailfrom: zangrc.fnst@fujitsu.com)
-Return-Path: <zangrc.fnst@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1623052393; i=@fujitsu.com;
-	bh=9XD4nD2b/22/vtHVrU+9Ns6dIJCY80sumGzg13OiD6A=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=gQsIZ0eduQ92HDKRsSwze3x71ARZW8MKHa3iXl0zsntz1gXX+mA3RpEBfCIXuagTK
-	 nV9z2yYDKLCSZQ9zCRUW+rHr8O4MfW/N3vHWRAu3Ezg/ZSdscMlYFvKIUeGh5Yx0zT
-	 dLaOUkHMfvJXrD648fUMsExi1srsgdteA9FGrpG1YtDZoYzZ7SsrVs2Fw5kkwlZx/l
-	 0pbwE6lq08UVM/KAV5nuXweK9BtBLR8QnBN/rOD4iNoBqV2PT5svxbOmry6s7UTJhD
-	 XVY0bEdJSIvWqqtq2gqavS92ZrSMFhnzgx/flX6diK4KC7Ha1tZIx1cFZUsUAUqQW6
-	 o271qR1+nvbNA==
-Received: from [100.113.0.194] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-a.eu-central-1.aws.symcld.net id C1/FC-16595-860DDB06; Mon, 07 Jun 2021 07:53:12 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmkeJIrShJLcpLzFFi42Kxs+GYqptxYW+
-  CwZbZChZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aRBzvYCt5zVuxcHdjAOJWzi5GLQ0hgJpPE
-  wutNLBDOcUaJn10fgBxODjYBHYmOF91ANgeHiICexNV/oiBhYQEXie2Tl7GC2CwCKhI7j01nA
-  7F5BdwlNh1dDtYqIaAgMeXhe2aIuKDEyZlPwOLMAhISB1+8YIaoUZTYvvMMVH2FxIwZ29gmMP
-  LMQtIyC0nLAkamVYyWSUWZ6RkluYmZObqGBga6hobGusa6RqaGeolVuol6qaW6yal5JUWJQFm
-  9xPJiveLK3OScFL281JJNjMAwSilk/r2D8fHrD3qHGCU5mJREedmO704Q4kvKT6nMSCzOiC8q
-  zUktPsQow8GhJMHbdX5vgpBgUWp6akVaZg4wpGHSEhw8SiK8184BpXmLCxJzizPTIVKnGBWlx
-  HmrQRICIImM0jy4NlgcXWKUlRLmZWRgYBDiKUgtys0sQZV/xSjOwagkzPsWZApPZl4J3PRXQI
-  uZgBZX2+8CWVySiJCSamAKe7su4uAEk5MtHVJ87DtXcgrMCP3jr8z9XN9cJMDh1uXUFedlFDr
-  czVas4j/8OnfK1Gs51/Im3H+tqqvudyhh1c+dL5ZdCmt2MOh/3nFw/gKtK6LTTI99nvi9u6w0
-  XEKZP+FBzbPe0uBYHs3l0id3JOrm81/J09v6a8ffDVfOt6dkHpF5HeKgFHjJWWtt413ze0svf
-  PzbVBal/82qR7NisYHekpy4Te/0JDK3Z595vm6d/XnFe0sNnFa2HDbetbVt3gNultkHzdyNpW
-  f+m8HJP1dhp94e7pbnVo0FU1pEl8jyf2qWbCt8tlzmgcXrY12STzK5d1e8Ou2uwdXBu/Wck+Q
-  JWefVZwtNrxn+3OilxFKckWioxVxUnAgAxdBE7h4DAAA=
-X-Env-Sender: zangrc.fnst@fujitsu.com
-X-Msg-Ref: server-11.tower-226.messagelabs.com!1623052391!212533!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 25420 invoked from network); 7 Jun 2021 07:53:12 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-11.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Jun 2021 07:53:12 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1577r6MN023360
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 7 Jun 2021 08:53:11 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Mon, 7 Jun 2021 08:53:01 +0100
-From: "zangrc" <zangrc.fnst@fujitsu.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 15781IBh015055
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 7 Jun 2021 01:01:18 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Mon, 7 Jun 2021 01:01:18 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Mon, 7 Jun 2021 01:01:17 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] python3-pycairo: upgrade 1.20.0 -> 1.20.1
-Date: Mon, 7 Jun 2021 15:52:53 +0800
-Message-ID: <1623052373-20370-1-git-send-email-zangrc.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] boost: fix wrong type for mutex in regex v5
+Date: Mon, 7 Jun 2021 15:59:11 +0800
+Message-ID: <20210607075911.36045-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
----
- .../{python3-pycairo_1.20.0.bb => python3-pycairo_1.20.1.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pycairo_1.20.0.bb => python3-pycairo_1.20.1.bb} (85%)
+From: Mingli Yu <mingli.yu@windriver.com>
 
-diff --git a/meta/recipes-devtools/python/python3-pycairo_1.20.0.bb b/meta/recipes-devtools/python/python3-pycairo_1.20.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-pycairo_1.20.0.bb
-rename to meta/recipes-devtools/python/python3-pycairo_1.20.1.bb
-index 8987b7a428..d169a3ca79 100644
---- a/meta/recipes-devtools/python/python3-pycairo_1.20.0.bb
-+++ b/meta/recipes-devtools/python/python3-pycairo_1.20.1.bb
-@@ -13,8 +13,8 @@ DEPENDS = "cairo python3"
- SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
- 
--SRC_URI[md5sum] = "a1f9b661a0000c2f42281db933284451"
--SRC_URI[sha256sum] = "5695a10cb7f9ae0d01f665b56602a845b0a8cb17e2123bfece10c2e58552468c"
-+SRC_URI[md5sum] = "fa88a28cadbfb34192fe743d32c0ee33"
-+SRC_URI[sha256sum] = "1ee72b035b21a475e1ed648e26541b04e5d7e753d75ca79de8c583b25785531b"
- 
- S = "${WORKDIR}/pycairo-${PV}"
- 
+Fixes:
+ | ./boost/regex/v5/mem_block_cache.hpp:91:11: error: 'static_mutex' in namespace 'boost' does not name a type
+ |    91 |    boost::static_mutex mut;
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...xes-wrong-type-for-mutex-in-regex-v5.patch | 54 +++++++++++++++++++
+ meta/recipes-support/boost/boost_1.76.0.bb    |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/0001-Fixes-wrong-type-for-mutex-in-regex-v5.patch
+
+diff --git a/meta/recipes-support/boost/boost/0001-Fixes-wrong-type-for-mutex-in-regex-v5.patch b/meta/recipes-support/boost/boost/0001-Fixes-wrong-type-for-mutex-in-regex-v5.patch
+new file mode 100644
+index 0000000000..a8305ff2e0
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/0001-Fixes-wrong-type-for-mutex-in-regex-v5.patch
+@@ -0,0 +1,54 @@
++From 6064875bff2e52ba63f01911eb4deb79259c5e3b Mon Sep 17 00:00:00 2001
++From: Carlos Miguel Ferreira <carlosmf.pt@gmail.com>
++Date: Thu, 3 Jun 2021 23:10:37 +0100
++Subject: [PATCH] Fixes wrong type for mutex in regex v5
++
++With the Boost.Regex to ehader-only library, the declaration
++of a mutex that should have been changed from boost::static_mutex
++to std::mutex was left behind. This was preventing regex from
++being built for older arm platforms [1]
++
++[1]: https://github.com/openwrt/packages/issues/15725
++
++Upstream-Status: Submitted [https://github.com/boostorg/regex/pull/132]
++
++Signed-off-by: Carlos Miguel Ferreira <carlosmf.pt@gmail.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ boost/regex/v5/mem_block_cache.hpp | 12 ++++--------
++ 1 file changed, 4 insertions(+), 8 deletions(-)
++
++diff --git a/boost/regex/v5/mem_block_cache.hpp b/boost/regex/v5/mem_block_cache.hpp
++index 0af4eae1..eb3ec776 100644
++--- a/boost/regex/v5/mem_block_cache.hpp
+++++ b/boost/regex/v5/mem_block_cache.hpp
++@@ -85,10 +85,10 @@ struct mem_block_node
++ struct mem_block_cache
++ {
++    // this member has to be statically initialsed:
++-   mem_block_node* next;
++-   unsigned cached_blocks;
+++   mem_block_node* next { nullptr };
+++   unsigned cached_blocks { 0 };
++ #ifdef BOOST_HAS_THREADS
++-   boost::static_mutex mut;
+++   std::mutex mut;
++ #endif
++ 
++    ~mem_block_cache()
++@@ -133,11 +133,7 @@ struct mem_block_cache
++    }
++    static mem_block_cache& instance()
++    {
++-#ifdef BOOST_HAS_THREADS
++-      static mem_block_cache block_cache = { 0, 0, BOOST_STATIC_MUTEX_INIT, };
++-#else
++-      static mem_block_cache block_cache = { 0, 0, };
++-#endif
+++      static mem_block_cache block_cache;
++       return block_cache;
++    }
++ };
++-- 
++2.29.2
++
+diff --git a/meta/recipes-support/boost/boost_1.76.0.bb b/meta/recipes-support/boost/boost_1.76.0.bb
+index 23b0ffc67e..ae91b1c875 100644
+--- a/meta/recipes-support/boost/boost_1.76.0.bb
++++ b/meta/recipes-support/boost/boost_1.76.0.bb
+@@ -7,4 +7,5 @@ SRC_URI += " \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
+            file://0001-fiber-libs-Define-SYS_futex-if-it-does-not-exist.patch \
++           file://0001-Fixes-wrong-type-for-mutex-in-regex-v5.patch \
+            "
 -- 
-2.25.1
+2.29.2
 
