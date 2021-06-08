@@ -1,153 +1,274 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web09.5131.1623106211140472257
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web09.6139.1623111776570341116
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jun 2021 15:50:11 -0700
+ Mon, 07 Jun 2021 17:22:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dN74AvKp;
- spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: krussell7711@gmail.com)
-Received: by mail-oi1-f175.google.com with SMTP id w127so19666706oig.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jun 2021 15:50:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=P7Xy3gRs;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id x10so9660783plg.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jun 2021 17:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xduSrQKE8xoZhIEPZVEcoxRwKl85g+I2b0eSIE0pn28=;
-        b=dN74AvKpEseEXpNhAztpK7/901iU0g6g13QQqpMDvvdxO4VzK2Y+YQ6qxYuYVPmmVf
-         bqIOhR3t+cvnqXjdRlM/lCDFvokpPwriXY+SaNdD4nfdD5fUUl3hdOHDzgAXJgVH84/r
-         lti5NDzfbllHCSVTLlSrFvKaEAwgST8tSQSx031rKgi7JrkbS36cLjHKLmbiR6EqzgnO
-         jz9ITyG9XxGz3OlT30/dyT/+cFOrMcyz+UeM9e4mr8moHwPJuGzcrZew3W102R3hhylH
-         nveYYL0X7a3UOyDEhYOWlsMvZ2otsNmFDZC551B9kUaAmuUG0j5rZdfTSe35E96+71o5
-         nlZA==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=n9TiI/CQqKfDCm4IQwxwu6vL3jThitE079NKaJGMw+8=;
+        b=P7Xy3gRstECZQkoQZT+yRX42C5BcDMQ5eCtwr8QljxE2YAoSidUtYG06oln9++jr+A
+         f96M+lkXoxdCM4VRs3nwMgFlSu1v7e2yu+AEqchlp+rrKbhejP11Z10OiuBwzBo8pQEW
+         nRlNjrURE7rqOPTNhWwmv9RTh05cMmK/+HfKMzbwM0kqcNsPxLg4lrZLqDdUMKWjHroa
+         blBrQDvSRdjCnyPrn8O6Onkr4N6I8xJ36LliFTuZtiHqfg2B82FmFqx7LeevS41iUk0h
+         EEuKoBxsfWG/Takf/r/LMihWAjShYQrobNgrkpnGT/PnnfhWyC0QpaACpJVycWouPd+B
+         Yw3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xduSrQKE8xoZhIEPZVEcoxRwKl85g+I2b0eSIE0pn28=;
-        b=uawYy9wRxA5MxDqODHRjLmSd4Wp9frjHgtE+zb76zFWMVRi02PXGm3VAhM2pHUqtWx
-         m24FQnX1aIb+tZPBfz7h3bQ77p2I7FkHQAqRVrVqljob8es7jPGjdyKrvai90hplp9wL
-         SCMQhs5frDz7wfEkMo6RiaiVeBL0uWBuELJCVqTUl9IAYWphRVp8SIdyXaX5aZxzPhE+
-         ZCkOlU1ledJSDjqgtkfnQmc4MVFieAoep8GbnzQ7C3uzoTKgKVKr32eXKvDhRLLN9AQ0
-         BV8fKxXo2DEuaUmus0oSLJfcuv1W0NdSzBxtNNDcnlWTcUZeBce/IzbQtvdr7/ZI5ypZ
-         WeFg==
-X-Gm-Message-State: AOAM531XuPHNeYtMZgzthMPBhkFm8unwsEbDHjNcNWzbtERV1eYscF+U
-	4u6RmMCg0RtYroEpExOu+dMLGa+KfHwBvdGxpa4=
-X-Google-Smtp-Source: ABdhPJwtpspLvUpe/w92M0XmgwnEfWpmqaL/OTd1fZ3bNbXwzOHoCQVSW5LNgDijREHpzvvO3Mv+Kss8XKIAzV9yRN8=
-X-Received: by 2002:aca:bad5:: with SMTP id k204mr1562oif.122.1623106210342;
- Mon, 07 Jun 2021 15:50:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=n9TiI/CQqKfDCm4IQwxwu6vL3jThitE079NKaJGMw+8=;
+        b=YHjwYV3iARHf/e2g/Kr1FUDVieIsmtAnKdnqqBj5Y/yfcto2dJbHBCqhBDximpcN27
+         7TPM7qq5OJgmYY9nJQiVipPM39Ac59foDfQ8gGfChUlB0rphVzyX75r+z1A7ZqfrP/38
+         tcd1+effoU6OH0qU/6va3JwkHPNJpbifgSP0fJNSusTKCWS1D9UcQXkxTlpIXYFjZqUr
+         Vlq2qViwcVNctrF1jHr7DjzJ9v69mab91zy3JypELh1wLp3Bl8yA7k8jYJoXVvT6EiPa
+         ShqCYM4/XQqaUqMolB/lzbx1d1bRff6wX+Fgk9etTCa0nWseuCMNley5QvOf0iem9nn+
+         tIFQ==
+X-Gm-Message-State: AOAM530hzxEuf4YdHQK45vTtvrtBGGErhywrdjN1I/jQYDCxCIgbFTT1
+	WIKXWCF2HReMa2R8cs1LBWQ=
+X-Google-Smtp-Source: ABdhPJxl2nMZjMy2+i6Fa7rfedE3fF37jx/iZDuBFC0Z9n02OKsmyr48htXt0ezqgsoXK9Su4VtjlA==
+X-Received: by 2002:a17:902:7587:b029:109:69bd:3eae with SMTP id j7-20020a1709027587b029010969bd3eaemr20544729pll.40.1623111775876;
+        Mon, 07 Jun 2021 17:22:55 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (wsip-72-194-163-85.ph.ph.cox.net. [72.194.163.85])
+        by smtp.gmail.com with ESMTPSA id n69sm9113136pfd.132.2021.06.07.17.22.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 07 Jun 2021 17:22:55 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 7 Jun 2021 17:22:54 -0700
+Message-ID: <004901d75bfc$6db391d0$491ab570$@gmail.com>
 MIME-Version: 1.0
-References: <20210607212558.86624-1-bkylerussell@gmail.com> <dccbc4111daf453cec3f7fe60e4da15d1c3e5306.camel@linuxfoundation.org>
-In-Reply-To: <dccbc4111daf453cec3f7fe60e4da15d1c3e5306.camel@linuxfoundation.org>
-From: bkylerussell@gmail.com
-Date: Mon, 7 Jun 2021 18:49:58 -0400
-Message-ID: <CAFrQVPPHw0BpXUOXrhnYOeZHRBd=w=kEthVqbAVucRTyeiz7Fg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lib: oe: utils: always append host gcc version to NATIVELSBSTRING
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Wes Lindauer <wesley.lindauer@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000019acda05c434dd51"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGtJH6HYTYcJ4mv2IOuaeRjA2+GDw==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_004A_01D75BC1.C15703C0"
+Content-Language: en-us
 
---00000000000019acda05c434dd51
-Content-Type: text/plain; charset="UTF-8"
+------=_NextPart_000_004A_01D75BC1.C15703C0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 7, 2021 at 5:43 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+All,
 
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10441
->
-> This doesn't look quite right?
->
+ 
 
-Yes, that's the one.  I assumed this was what you meant by, "Another option
-would be to have multiple uninative feeds based on gcc
-version rather than a single uninative one."
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10441#c1
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
 
-This is a huge performance penalty to put onto the build unfortunately and
-> I really
-> don't want to do that by default on the autobuilder. We haven't seen many
-> of these
-> errors on the autobuilder and I'm reluctant to take the performance hit on
-> our testing.
->
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-I realize this is not ideal, but I guess the trade-off is dealing with
-these issues as they arise on
-a case-by-case basis.
+ 
 
-There were specific issues with gcc 4.8 and 4.9 which required separate
-> sstate. Do we
-> know which gcc version switched the default and can we force older gcc's
-> to use the
-> same default or does it not work? I'm wondering if we could split off a
-> "nopic" verison
-> of sstate for example for the older gccs?
->
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 348
+unassigned or newcomer bugs.
 
-gcc 6 introduced an --enable-default-pie configure option, but I'm not
-exactly sure where
-between Ubuntu 16.04 and Ubuntu 18.04 they picked that configure option
-up.  Since packages
-based on the older gcc already exist in sstate, I think we would have to
-force the newer
-behavior on each affected package.
+ 
 
-I realize we can just swizzle the compiler flags on the affected packages
-to make things happy,
-but it seemed like this approach had at least been considered before, so I
-thought I would at least
-get some feedback.
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
 
---00000000000019acda05c434dd51
-Content-Type: text/html; charset="UTF-8"
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_004A_01D75BC1.C15703C0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_1675_01D7563C.2AB65D60";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, Jun 7, 2021 at 5:43 PM Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10441" rel=
-=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bu=
-g.cgi?id=3D10441</a><br>
-<br>
-This doesn&#39;t look quite right?<br></blockquote><div><br></div><div>Yes,=
- that&#39;s the one.=C2=A0 I assumed this was what you meant by, &quot;Anot=
-her option would be to have multiple uninative feeds based on gcc<br>versio=
-n rather than a single uninative one.&quot;<br><br><a href=3D"https://bugzi=
-lla.yoctoproject.org/show_bug.cgi?id=3D10441#c1">https://bugzilla.yoctoproj=
-ect.org/show_bug.cgi?id=3D10441#c1</a></div><div><br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 348 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-This is a huge performance penalty to put onto the build unfortunately and =
-I really<br>
-don&#39;t want to do that by default on the autobuilder. We haven&#39;t see=
-n many of these<br>
-errors on the autobuilder and I&#39;m reluctant to take the performance hit=
- on our testing.<br></blockquote><div><br></div><div>I realize this is not =
-ideal, but I guess the trade-off is dealing with these issues as they arise=
- on</div><div>a case-by-case basis.<br></div><div><br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">
-
-There were specific issues with gcc 4.8 and 4.9 which required separate sst=
-ate. Do we<br>
-know which gcc version switched the default and can we force older gcc&#39;=
-s to use the <br>
-same default or does it not work? I&#39;m wondering if we could split off a=
- &quot;nopic&quot; verison<br>
-of sstate for example for the older gccs?<br></blockquote><div><br></div><d=
-iv>gcc 6 introduced an --enable-default-pie configure option, but I&#39;m n=
-ot exactly sure where<br>between Ubuntu 16.04 and Ubuntu 18.04 they picked =
-that configure option up.=C2=A0 Since packages</div><div>based on the older=
- gcc already exist in sstate, I think we would have to force the newer</div=
-><div>behavior on each affected package.</div><div><br></div>I realize we c=
-an just swizzle the compiler flags on the affected packages to make things =
-happy,</div><div class=3D"gmail_quote">but it seemed like this approach had=
- at least been considered before, so I thought I would at least</div><div c=
-lass=3D"gmail_quote">get some feedback.<br></div></div>
-
---00000000000019acda05c434dd51--
+------=_NextPart_000_004A_01D75BC1.C15703C0--
