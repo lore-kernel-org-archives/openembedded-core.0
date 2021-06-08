@@ -1,80 +1,111 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web09.10284.1623146662389246698
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.10903.1623151000177773640
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jun 2021 03:04:22 -0700
+ Tue, 08 Jun 2021 04:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kuI5JgRn;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: andrea.adami@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id he7so12241068ejc.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 03:04:22 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RnHy/k4D;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id f17so1592578wmf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 04:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3xT2hvNVuP+MHIbXHF0+4Kl8LgZp0lUYQ6d4X+xsjWw=;
-        b=kuI5JgRntRDxymxi3xao4Qtd1nYcn0UEpKC3mJNofph+q5zvZ5V/nIMMuDl3hBjZ3R
-         aMOeLCk0Skn/wpZxTgoIxklrHXYaH3GYWyXVzWHYIfuZIelPYwjcMLz0+LUiG/YHurdr
-         dKPPIDc5kG75p7O50r5VOCa6mrmGmSYtxpJs4x5yBhmZeTS9UexZ5hY2bktjYmk7do9Z
-         GjtcGAoVZScq2VJX0hBfYBxlkfPDMjXCmxwoV/8VQbAo0ybKX7o3NpoSOMZZpcU/o3/V
-         hJW2k5h3M64Fl1RfdWnDV+McENzssI6KbKcFLtTeq4/P4Ypquqt5Wn1N8Ls2bCwniBHo
-         D7sQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=3WRjxLAB7mfzXwiOeIPfa0OaKRD1p+nq3bF+jBWKh7M=;
+        b=RnHy/k4DsF3Q3EBTo6LTqjiZnO54D5jbqpgt54qgPFp8NAhYsJpBmXkMxHqwK66dGn
+         RTg8HMGeXUKf0u6HCMPm2Q05EiJh/Yj0nkwoKGLzafIs8jMUl8CjSy7IY6kjsq6qkTun
+         MA2ZNWe/yhhcjFUEjUUU+HZPtjx0Uwl/bngGw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3xT2hvNVuP+MHIbXHF0+4Kl8LgZp0lUYQ6d4X+xsjWw=;
-        b=e+WfZbZTX/OrDLpJCL3Y640w8gtJK7rx1gXh9Wrtrw3E83qnjS+XH6bd926f9vOdYF
-         hrll0xxlEfSiz4dH7QDZelwt1rE3O5skCWS8U1nHTdNdt8+tIyf5d4yVyM7bygF45r12
-         FC5b/CozDlIg9onWbzWZkX3i6q7gYfFyvh2v3tnX3XQFU9hALXmmBYSqfMuILSZBHRp2
-         dU+yC3S5hnNHAo1NdWI1BXRZcxyr0ShTEBwUuxgxdKr30Ofy1gkmVSz/YFy0rde9ECoo
-         KaCqMKDIMfth6YjJuwGNYrxc/uxFa7hrBl5qSmPcxazGoIGCyK8ip2yKR4vjkucPNmK/
-         l7bA==
-X-Gm-Message-State: AOAM530GUougXQagBrZo/e7CNAoUvfPniYtHgYI1NGy+onjxtuk95g2r
-	mLByXCvJpMts84wXDE9RV/v1m4ECLB/ZYwa4XIs=
-X-Google-Smtp-Source: ABdhPJwMq1KhsDzR/xHVEXbCom2GAZM9GPr5kIgnwV5gBuLLA8xbtyrzb3+UZ0I7/vGQumspeiR4KsZ5i82EexJLgE4=
-X-Received: by 2002:a17:906:8318:: with SMTP id j24mr22398707ejx.375.1623146660531;
- Tue, 08 Jun 2021 03:04:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210607212558.86624-1-bkylerussell@gmail.com>
- <01B7D818-661B-4A57-A3DB-C6AC0F0DD217@pbcl.net> <CAAQYJAsr=Rh-ie=KKrW=QFg=W2OhbTFNaLOKqeq7sxoH_gRB-Q@mail.gmail.com>
- <54d4ce6da8eef4d8e74ad2625d4e6f03b9644a21.camel@linuxfoundation.org>
-In-Reply-To: <54d4ce6da8eef4d8e74ad2625d4e6f03b9644a21.camel@linuxfoundation.org>
-From: "Andrea Adami" <andrea.adami@gmail.com>
-Date: Tue, 8 Jun 2021 12:04:09 +0200
-Message-ID: <CAAQYJAv0W3OYtzY129orGZA2ir+_A1RNG6dn8_+YJbGuJLCzRA@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=3WRjxLAB7mfzXwiOeIPfa0OaKRD1p+nq3bF+jBWKh7M=;
+        b=pta5gLv43/BM104Mzu8YQ1TPbYLooPmjHRcPbLvH1y1ElKrAjlXR6Z19yZTazLhufO
+         A3V+f1PHuh3AxyKP9ttZ3fsUDbYZCcniGaLgCV5qzH01+Pcm7saUebwIq9X1WLVcP+jd
+         ObBMyj5HT7d79O+tJ7fIztHlq6voxUxRpmr/N4OA3dTKrmainGCQODKsAfqgvvdKKfvE
+         jTvuHewSrztdwvZLkVYbGPH3BA5cmjHcJ7anuxbCx51KOTOAaIABTBFPQoe93I9q6HEY
+         SuNvakDIuECLtClFbGryMmckrkvDYBsnGep9n9cYs+jqVtGhFBDHVw9I1COEuPtV7tIf
+         sh0Q==
+X-Gm-Message-State: AOAM531vF280k+WiA5az/TTMxyF3Q3Br1koTnQjaEbeDLhsD4aA9LfR/
+	MD7xx8/pin6gumv3r+fLKu6VWA==
+X-Google-Smtp-Source: ABdhPJyAO0xiQA2SP5sy+RFwDMHAJ/ATEEpnDhovakPtZfEpc0In0p2PB47uwukgm/2aCFAD2jcR+w==
+X-Received: by 2002:a1c:3dc2:: with SMTP id k185mr3651233wma.15.1623150998561;
+        Tue, 08 Jun 2021 04:16:38 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:119e:2d1:fea4:6669? ([2001:8b0:aba:5f3c:119e:2d1:fea4:6669])
+        by smtp.gmail.com with ESMTPSA id x3sm2457165wmj.30.2021.06.08.04.16.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jun 2021 04:16:38 -0700 (PDT)
+Message-ID: <038c3cc612569f32f6b837ca389abad930fd76e5.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] lib: oe: utils: always append host gcc version to NATIVELSBSTRING
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: pb@pbcl.net, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, wesley.lindauer@gmail.com, 
-	Kyle Russell <bkylerussell@gmail.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Kyle Russell <bkylerussell@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Wes Lindauer
+	 <wesley.lindauer@gmail.com>
+Date: Tue, 08 Jun 2021 12:16:35 +0100
+In-Reply-To: <CAFrQVPPHw0BpXUOXrhnYOeZHRBd=w=kEthVqbAVucRTyeiz7Fg@mail.gmail.com>
+References: <20210607212558.86624-1-bkylerussell@gmail.com>
+	 <dccbc4111daf453cec3f7fe60e4da15d1c3e5306.camel@linuxfoundation.org>
+	 <CAFrQVPPHw0BpXUOXrhnYOeZHRBd=w=kEthVqbAVucRTyeiz7Fg@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 8, 2021 at 11:48 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2021-06-08 at 11:20 +0200, Andrea Adami wrote:
-> > On Tue, Jun 8, 2021 at 12:02 AM Phil Blundell via
-> > lists.openembedded.org <pb=pbcl.net@lists.openembedded.org> wrote:
-> > >
-> > > Wouldn't it be easier to just force -fPIE on for those users for whom this is a problem? Or force -fPIE off for native everywhere. I'm not sure that doing something based on GCC version is obviously the right plan.
-> > >
-> > > p.
-> > >
-> >
-> > I was exactly wondering about distro/include/uninative-flags.inc which
-> > at the time was supposed to fix the changes btw ubuntu 16.x and 18.x.
-> > But this doesn't seem included nowhere.
->
-> Well remembered, I'd fogotten that. It is included by default:
->
-> $ grep uninative-flags * -R
->
-> meta/conf/distro/defaultsetup.conf:require conf/distro/include/uninative-flags.inc
->
-> Cheers,
->
-> Richard
->
-Oops, right, I was looking at distro includes but this is included by
-bitbake.conf
-A.A.
+On Mon, 2021-06-07 at 18:49 -0400, Kyle Russell wrote:
+> On Mon, Jun 7, 2021 at 5:43 PM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10441
+> > 
+> > This doesn't look quite right?
+> > 
+> 
+> 
+> Yes, that's the one.  I assumed this was what you meant by, "Another option would 
+> be to have multiple uninative feeds based on gcc version rather than a single uninative one."
+
+That is effectively what the code ended up doing and why 4.8 and 4.9
+are split out. We only wanted to separate out the specific versions 
+with issues as we wanted to allow reuse where we could.
+
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10441#c1
+> 
+> > This is a huge performance penalty to put onto the build unfortunately and I really
+> > don't want to do that by default on the autobuilder. We haven't seen many of these
+> > errors on the autobuilder and I'm reluctant to take the performance hit on our testing.
+> > 
+> 
+> I realize this is not ideal, but I guess the trade-off is dealing with these issues 
+> as they arise on a case-by-case basis.
+
+If they were many issues arriving that might be what we'd have to do but so
+far I've not seen reports of that many...
+
+> 
+> > There were specific issues with gcc 4.8 and 4.9 which required separate sstate. Do we
+> > know which gcc version switched the default and can we force older gcc's to use the 
+> > same default or does it not work? I'm wondering if we could split off a "nopic" verison
+> > of sstate for example for the older gccs?
+> > 
+> 
+> 
+> gcc 6 introduced an --enable-default-pie configure option, but I'm not exactly sure where
+> between Ubuntu 16.04 and Ubuntu 18.04 they picked that configure option up.  Since packages
+> based on the older gcc already exist in sstate, I think we would have to force the newer
+> behavior on each affected package.
+> 
+> I realize we can just swizzle the compiler flags on the affected packages to make things happy,
+> but it seemed like this approach had at least been considered before, so I thought I would at least
+> get some feedback.
+
+As Andrea points out, we did fix this with a global include file which should have
+handled the issue. Are you using a release which doesn't have that or not using
+the include through your own custom distro?
+
+Cheers,
+
+Richard
+
+
+
+
