@@ -1,74 +1,94 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web09.13218.1623163033976424577
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web11.13281.1623163290917127990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jun 2021 07:37:14 -0700
+ Tue, 08 Jun 2021 07:41:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ZOcdYyZJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f50.google.com with SMTP id 36-20020a9d0ba70000b02902e0a0a8fe36so20505655oth.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 07:37:13 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=EVxn5k+7;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.222.174, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qk1-f174.google.com with SMTP id k4so20438214qkd.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 07:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s58jYnk4+geZWCr3zOlnvRfKtczdMoK8AIRYHv1ox0s=;
-        b=ZOcdYyZJq2FXWM4CTuxTPqUeJnZ6JKvb+b1Kb7tp5BpTKr24iFmwtp0FleMta9aKz9
-         sAWMAL+aySSNxOKVmtDGWlQBJjraayDUUccXfoBmP6N9UghXDNkhbPSjkbOAMUpe79Id
-         NhkQ4Qby6WNrztZnwHz90tG1YE2FwvEJ/P9Dpx4kQVkvNPGabIHxKR+nNUEfChxdwHwH
-         V43xjSb1hS0UpKcIpivjmQzYy0ORgd1IdicL5ZT7GNl5t9/GkB+IRb1BhjAJHaHlPIcW
-         i3LXNNcqz6ekVR9ZDtvrazAo8dhaRU8GScmyPF1/GpbvB5uZXrvim6VAwzcjIRE2NyCa
-         L8rw==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xIMDLNR5wxN7i+XkJwUefHh4shdZym+TvdBOysNnm88=;
+        b=EVxn5k+7/uz8JgHuKgupThYu1Oz6x0VKmge+jSfTyrrLQNBTaHY/0z0LiMxa4u9a7X
+         lJVnNbqKtoiUF3UwU7Wd/3VZJzI5w8H6dFOoizBpg7s7Rb0lezAM8idUenTw4NoKeVKc
+         m1x+TdgfKjN+diGTDQddyOQrtIVeH8zXlCRkD04/N+B2JRHhYUVDBsTzJTJCpsDay3FN
+         SNUGxjBn/1MN51k4q11LRCGfg9hNt+LhwQB5Weou2Yjd5v5wuNvLpEuCDOANC+Vp7I6V
+         Du2uFrA6Iq+7z3IZPUvorU3AH1oiH6nNA7uu7uAwyCCDPNMScabnh4z+qsalB2i5jVLI
+         TS8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s58jYnk4+geZWCr3zOlnvRfKtczdMoK8AIRYHv1ox0s=;
-        b=bBAnwe4t7+p69DB/fTKXo9BaAE5hmV5560kyJpV21CGRPZpjUARHAQWdGNGoBM9+KV
-         UzwhxbzLgh4HRruyLIP5cbAYW+11X9BV0LaZ5lxu5tjv25FrzKDwfs6XoZSpKvLYU7UF
-         dwTdk4g/YnioE8qPvePdhmnncHN1EzmeOPgfhtMHTG8bcFjotJWBBd7zB0e9mf5xw09l
-         K8ajVmbP80twgdeT+YTFkPkKujA4XxXy0ut9XfDkNLw3sVO6FTxdqptDj/l3zxSamYDZ
-         XgzqCBZR1AY8LCSlCtShavoBuM9xrnAau47IJobCQxFjFCOu4+MEtw9oWSnh7dlDlhmI
-         cIpg==
-X-Gm-Message-State: AOAM532ZTl7lWcCIXC/tVSWkNMY3XFYTwOlmTGKL0RX/VHDgBPV81rPa
-	zxt8eqUXqoYO0/ZIezKDptjgqQnLHbiEz/ymeM4=
-X-Google-Smtp-Source: ABdhPJy/6vAJYjFkCQMy9T6elUQkkkXU5MUetfzTr/7QRBB26uU24ojnH5qUwa2u5kLRQfYGM/IBMw==
-X-Received: by 2002:a9d:65:: with SMTP id 92mr17736397ota.239.1623163032486;
-        Tue, 08 Jun 2021 07:37:12 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id 184sm1354511ooi.3.2021.06.08.07.37.08
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xIMDLNR5wxN7i+XkJwUefHh4shdZym+TvdBOysNnm88=;
+        b=ugChSLRwz1D0j4Q2M3HmupE/UPoT39vnh+UsNgqdbYvDS9mg4hj2UzwzIw1/UKH3L3
+         JnKwn8xBPGMjFkVfHhaVZqurEDagBQVfKaBGz2U75WzkVkut2pM4J9fbhL9KWDJbgmeb
+         hSCCiF9gI3hRBy/joK0TkJRIM4v+/bsaf6uzRuEPsdlPN3DWIGtVU0ESin08bzSJyGql
+         DxZqpHrjE2hkkFfHgSS3yR+J4/bSkWTcX4+cOY+ORTv1L5xhsK8zPbuClLlMLrPm1zIH
+         +O0PhJoLkeahQfwOfnEvKW+oJGV9ckRAdT1Yu+DEFVJyNYfdxczSjiFoa7hb0DJP46Ad
+         o/5w==
+X-Gm-Message-State: AOAM531cfaH/rPsFFE+yIgTUDaxYU0d8jLbQi2CqiXBGgVgV3VsctdO0
+	zLldKUGl3NraxwZgX5/kynB/ClodoSVyQnxQ
+X-Google-Smtp-Source: ABdhPJxVqiapK3a4aZ6BoX56XNRJQPDuW5ydksjB6z6Xzb/tKyrD1l9Xp2T11YqVaJ7NEJrX5GCjOQ==
+X-Received: by 2002:a37:9c88:: with SMTP id f130mr21725425qke.368.1623163289625;
+        Tue, 08 Jun 2021 07:41:29 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com. [209.85.160.174])
+        by smtp.gmail.com with ESMTPSA id 64sm10758624qtc.95.2021.06.08.07.41.29
         for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 07:37:12 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/1] Pull request (cover letter only)
-Date: Tue,  8 Jun 2021 04:36:47 -1000
-Message-Id: <cover.1623162901.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Jun 2021 07:41:29 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qt1-f174.google.com with SMTP id 93so8074297qtc.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 07:41:29 -0700 (PDT)
+X-Received: by 2002:a05:622a:1304:: with SMTP id v4mr21780252qtk.33.1623163289124;
+ Tue, 08 Jun 2021 07:41:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1623162901.git.steve@sakoman.com>
+In-Reply-To: <cover.1623162901.git.steve@sakoman.com>
+Date: Tue, 8 Jun 2021 11:41:17 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKr9vg4+OvgoH43Y2t0Cok2wzyOMecqH983btTfPW1dMNA@mail.gmail.com>
+Message-ID: <CAP9ODKr9vg4+OvgoH43Y2t0Cok2wzyOMecqH983btTfPW1dMNA@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 0/1] Pull request (cover letter only)
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit e990a9ec5d6eaf2c328d61c4de73ea6c270cfa15.
+Steve,
 
-Patch not in master, erroneously applied
+Em ter., 8 de jun. de 2021 =C3=A0s 11:37, Steve Sakoman <steve@sakoman.com>=
+ escreveu:
+>
+> This reverts commit e990a9ec5d6eaf2c328d61c4de73ea6c270cfa15.
+>
+> Patch not in master, erroneously applied
+>
+> The following changes since commit b48cfe9148e8f9bbc942899455215e8f9c8e27=
+28:
+>
+>   linux-firmware: upgrade 20210315 -> 20210511 (2021-05-31 05:30:56 -1000=
+)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nex=
+t
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
+dunfell-next
+>
+> Steve Sakoman (1):
+>   Revert "busybox: make busybox's syslog.cfg depend on
+>     VIRTUAL-RUNTIME_base-utils-syslog"
 
-The following changes since commit b48cfe9148e8f9bbc942899455215e8f9c8e2728:
+Thanks for looking into this.
 
-  linux-firmware: upgrade 20210315 -> 20210511 (2021-05-31 05:30:56 -1000)
 
-are available in the Git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Steve Sakoman (1):
-  Revert "busybox: make busybox's syslog.cfg depend on
-    VIRTUAL-RUNTIME_base-utils-syslog"
-
- meta/recipes-core/busybox/busybox_1.31.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-2.25.1
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
