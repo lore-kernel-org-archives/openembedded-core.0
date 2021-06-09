@@ -4,101 +4,118 @@ Received: from mga06.intel.com (mga06.intel.com [])
  Wed, 09 Jun 2021 01:54:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: IlQY3sfEzEv6bGVgTsKXRa6jMZbcI16cOMLcyfSGQxyu2xYkwLm3acrNv0zCK7Gn6frvbA1UUV
- q8+esUjZRNoA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="266187205"
+IronPort-SDR: v+mkK+PD71k8OUy9B4n9JOm8DjDj5uujE3gnoDcMLYg3ytpYwWNGtD6ErExdsSFLGd4rmfHAUx
+ ktTcFdTZWFFg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="266187207"
 X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; 
-   d="scan'208";a="266187205"
+   d="scan'208";a="266187207"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 01:54:52 -0700
-IronPort-SDR: SSD82bQTtqwZjV9RiNeT6eYMIVfe/70JmPLF2pdeTwiZwEa/A2X2crGYYKukuDwWFDPiXc34ge
- 1p/QiGngmTBg==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 01:54:53 -0700
+IronPort-SDR: Qo73GFJn+k2unF/PEKVodkY70CEs1Ka+wJKKF0toUWZZdx+pf0z6na9Q89dmcvhMts4X9mbTLW
+ hLokBddoK45Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; 
-   d="scan'208";a="552609494"
+   d="scan'208";a="552609507"
 Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2021 01:54:51 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2021 01:54:52 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 2/3] bind: 9.11.22 -> 9.11.32
-Date: Wed,  9 Jun 2021 16:54:48 +0800
-Message-Id: <20210609085449.18975-2-chee.yang.lee@intel.com>
+Subject: [PATCH][dunfell 3/3] ruby: 2.7.1 -> 2.7.3
+Date: Wed,  9 Jun 2021 16:54:49 +0800
+Message-Id: <20210609085449.18975-3-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210609085449.18975-1-chee.yang.lee@intel.com>
 References: <20210609085449.18975-1-chee.yang.lee@intel.com>
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-updates include fixes for
-CVE-2021-25214
-CVE-2021-25215
-CVE-2021-25216
+This release includes security fixes.
 
-CVE-2020-8625 fixed in 9.11.28, so drop that patch
+CVE-2021-28965: XML round-trip vulnerability in REXML
+CVE-2021-28966: Path traversal in Tempfile on Windows
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+CVE-2020-25613 fixed in 2.7.2, do drop the patch
 
-tmp
+release notes for 2.7.2 and 2.7.3
+https://www.ruby-lang.org/en/news/2020/10/02/ruby-2-7-2-released/
+https://www.ruby-lang.org/en/news/2021/04/05/ruby-2-7-3-released/
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../bind/bind/CVE-2020-8625.patch               | 17 -----------------
- .../bind/{bind_9.11.22.bb => bind_9.11.32.bb}   |  5 ++---
- 2 files changed, 2 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
- rename meta/recipes-connectivity/bind/{bind_9.11.22.bb => bind_9.11.32.bb} (96%)
+ .../ruby/ruby/CVE-2020-25613.patch            | 40 -------------------
+ .../ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb}     |  5 +--
+ 2 files changed, 2 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
+ rename meta/recipes-devtools/ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb} (94%)
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch b/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
 deleted file mode 100644
-index 9078f2448e..0000000000
---- a/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+index 1abcb7547e..0000000000
+--- a/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
 +++ /dev/null
-@@ -1,17 +0,0 @@
--Upstream-Status: Backporting [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
--CVE: CVE-2020-8625
--Signed-off-by: Minjae Kim <flowergom@gmail.com>
+@@ -1,40 +0,0 @@
+-From 8946bb38b4d87549f0d99ed73c62c41933f97cc7 Mon Sep 17 00:00:00 2001
+-From: Yusuke Endoh <mame@ruby-lang.org>
+-Date: Tue, 29 Sep 2020 13:15:58 +0900
+-Subject: [PATCH] Make it more strict to interpret some headers
 -
--diff --git a/lib/dns/spnego.c b/lib/dns/spnego.c
--index e61d1c600f2..753dc8049fa 100644
----- a/lib/dns/spnego.c
--+++ b/lib/dns/spnego.c
--@@ -848,7 +848,7 @@ der_get_oid(const unsigned char *p, size_t len, oid *data, size_t *size) {
-- 		return (ASN1_OVERRUN);
-- 	}
+-Some regexps were too tolerant.
+-
+-Upstream-Status: Backport
+-[https://github.com/ruby/webrick/commit/8946bb38b4d87549f0d99ed73c62c41933f97cc7]
+-CVE: CVE-2020-25613
+-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+----
+- lib/webrick/httprequest.rb | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/lib/webrick/httprequest.rb b/lib/webrick/httprequest.rb
+-index 294bd91..d34eac7 100644
+---- a/lib/webrick/httprequest.rb
+-+++ b/lib/webrick/httprequest.rb
+-@@ -227,9 +227,9 @@ def parse(socket=nil)
+-         raise HTTPStatus::BadRequest, "bad URI `#{@unparsed_uri}'."
+-       end
 - 
---	data->components = malloc(len * sizeof(*data->components));
--+	data->components = malloc((len + 1) * sizeof(*data->components));
-- 	if (data->components == NULL) {
-- 		return (ENOMEM);
-- 	}
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.22.bb b/meta/recipes-connectivity/bind/bind_9.11.32.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.11.22.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.32.bb
-index 5598ba976d..9feebe5ae2 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.22.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.32.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
- SECTION = "console/network"
- 
- LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bf39058a7f64b2a934ce14dc9ec1dd45"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=b88e7ca5f21908e1b2720169f6807cf6"
- 
- DEPENDS = "openssl libcap zlib"
- 
-@@ -19,10 +19,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-            file://0001-avoid-start-failure-with-bind-user.patch \
--           file://CVE-2020-8625.patch \
+--      if /close/io =~ self["connection"]
+-+      if /\Aclose\z/io =~ self["connection"]
+-         @keep_alive = false
+--      elsif /keep-alive/io =~ self["connection"]
+-+      elsif /\Akeep-alive\z/io =~ self["connection"]
+-         @keep_alive = true
+-       elsif @http_version < "1.1"
+-         @keep_alive = false
+-@@ -508,7 +508,7 @@ def read_body(socket, block)
+-       return unless socket
+-       if tc = self['transfer-encoding']
+-         case tc
+--        when /chunked/io then read_chunked(socket, block)
+-+        when /\Achunked\z/io then read_chunked(socket, block)
+-         else raise HTTPStatus::NotImplemented, "Transfer-Encoding: #{tc}."
+-         end
+-       elsif self['content-length'] || @remaining_size
+diff --git a/meta/recipes-devtools/ruby/ruby_2.7.1.bb b/meta/recipes-devtools/ruby/ruby_2.7.3.bb
+similarity index 94%
+rename from meta/recipes-devtools/ruby/ruby_2.7.1.bb
+rename to meta/recipes-devtools/ruby/ruby_2.7.3.bb
+index a6c65e887b..318b9acdae 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.7.1.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.7.3.bb
+@@ -6,12 +6,11 @@ SRC_URI += " \
+            file://remove_has_include_macros.patch \
+            file://run-ptest \
+            file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
+-           file://CVE-2020-25613.patch \
+            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
             "
  
--SRC_URI[sha256sum] = "afc6d8015006f1cabf699ff19f517bb8fd9c1811e5231f26baf51c3550262ac9"
-+SRC_URI[sha256sum] = "cbf8cb4b74dd1452d97c3a2a8c625ea346df8516b4b3508ef07443121a591342"
+-SRC_URI[md5sum] = "debb9c325bf65021214451660f46e909"
+-SRC_URI[sha256sum] = "d418483bdd0000576c1370571121a6eb24582116db0b7bb2005e90e250eae418"
++SRC_URI[md5sum] = "72ef97685008981de3ddb748d0dab31f"
++SRC_URI[sha256sum] = "8925a95e31d8f2c81749025a52a544ea1d05dad18794e6828709268b92e55338"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -- 
 2.17.1
 
