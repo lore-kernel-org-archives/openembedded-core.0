@@ -1,120 +1,55 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web12.4420.1623220643122294640
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.4747.1623223913000329375
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jun 2021 23:37:23 -0700
+ Wed, 09 Jun 2021 00:31:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fPxR2GAS;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id m13-20020a17090b068db02901656cc93a75so790447pjz.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 23:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WhT4q25+0XGArXUyeT0TiLRKInUSnNSoEuu4DpZQuOg=;
-        b=fPxR2GAS6NoAVH7y4oyu3phEgh2VN3XWRt0GIWZRHUH9mX9HXSjy6NzQ1MvR4TwsUE
-         9KOHw06Ro+sVJnN5G0dVA7q+K/nF/NlnxONE5qZOCjZI9b3VBKHULPAsM2NddSgQ81ji
-         ORYDjf+qPkuwK43zDiSvX1ANtfV4Pp0pCflxC04h0fnoS2GG/0Eeyzci9nUxbBkpMhgY
-         GqrS+2XhqAtWaixfrkeGoK1oO9JfdtQeZOEbmfE8FqoyBfghchlv3zwnauVFryKs1B1A
-         TnnVkqdVsfngV6+q674bHLQ5ZucNhwYxrZxzdno2oUyEWy6VIsxmDLed41S5tsWpAasN
-         +1eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WhT4q25+0XGArXUyeT0TiLRKInUSnNSoEuu4DpZQuOg=;
-        b=KScKVgILsmGR6e9+WNLLoCtx9+/cJSLwygn/j399DrAo4u4yQA0N4B/H05CwCNHbro
-         dFQZ53r3K6uxnaGSPXyFASlqDCQvfPKsVg/k90n5yhOxizos1oMlVkLklclY6aOOxgvf
-         ntNS0Uzk3A6SCie0bY9pl15hmIu4B+YPvRNWKvzqvOwHUsasfCP9xk0TuLVt34RLhZn1
-         utYIUn3uM1ih/yNymEypd4Vp7WOxD9xtQr+/103HkievxvdbH5o+z6KRCS8g1mH1UZNv
-         2JCigssqIv9tz+C2oDwSoCiFoAkaWpT/O9Li8i14wg1EVvm0vtMktrQWTpUaEHbEgzor
-         vahQ==
-X-Gm-Message-State: AOAM530vpfe5krcpc2OPs1uTzMvQAyvQusEDseMsZQz6ta5E7WKVMqwK
-	cJn67gcYzqSFWdEHC80xtU05XkLMYS8CvQ==
-X-Google-Smtp-Source: ABdhPJytoIlZlO7UnyY4Es2qVcWBXzAk7pEbxNLYRgaX1veOmDt5DFDWJPOphapJAto5zW8ksUjz1g==
-X-Received: by 2002:a17:90a:578a:: with SMTP id g10mr8882224pji.165.1623220642267;
-        Tue, 08 Jun 2021 23:37:22 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
-        by smtp.gmail.com with ESMTPSA id p40sm5686365pfw.142.2021.06.08.23.37.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 23:37:21 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] systemd: Fix libseccomp testcase involving __NR_ppoll
-Date: Tue,  8 Jun 2021 23:37:20 -0700
-Message-Id: <20210609063720.2645885-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1597Vptt012754
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Jun 2021 00:31:52 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Wed, 9 Jun 2021 00:31:51 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Wed, 9 Jun 2021 00:31:50 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [V2][PATCH] libjpeg-turbo: fix do_compile error on armv5
+Date: Wed, 9 Jun 2021 15:29:39 +0800
+Message-ID: <20210609072939.6058-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Some architectures may not have this syscall
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+fix below error:
+/include/arm_neon.h:31:2: error: #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+31 | #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+
+Neon is not supported by armv5, disable the simd extension build.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- ...comp-Check-for-__NR_ppoll-before-use.patch | 39 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_248.3.bb    |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch
+ meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch b/meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch
-new file mode 100644
-index 0000000000..0ba5fa2547
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch
-@@ -0,0 +1,39 @@
-+From 027ac2ad0695bb506460f9dd7e57149b71055887 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 8 Jun 2021 23:21:01 -0700
-+Subject: [PATCH] test-seccomp: Check for __NR_ppoll before use
-+
-+some newer architectures like riscv32 do not have __NR_ppoll from get go
-+
-+Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/19858]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/test/test-seccomp.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/test/test-seccomp.c b/src/test/test-seccomp.c
-+index b1f917eb54..daac0fcea8 100644
-+--- a/src/test/test-seccomp.c
-++++ b/src/test/test-seccomp.c
-+@@ -832,7 +832,7 @@ static void test_load_syscall_filter_set_raw(void) {
-+                 assert_se(s = hashmap_new(NULL));
-+ #if defined __NR_poll && __NR_poll >= 0
-+                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_poll + 1), INT_TO_PTR(-1)) >= 0);
-+-#else
-++#elif defined __NR_ppoll
-+                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_ppoll + 1), INT_TO_PTR(-1)) >= 0);
-+ #endif
-+ 
-+@@ -849,7 +849,8 @@ static void test_load_syscall_filter_set_raw(void) {
-+                 assert_se(s = hashmap_new(NULL));
-+ #if defined __NR_poll && __NR_poll >= 0
-+                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_poll + 1), INT_TO_PTR(EILSEQ)) >= 0);
-+-#else
-++#elif defined __NR_ppoll
-++                assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_ppoll + 1), INT_TO_PTR(-1)) >= 0);
-+                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_ppoll + 1), INT_TO_PTR(EILSEQ)) >= 0);
-+ #endif
-+ 
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_248.3.bb b/meta/recipes-core/systemd/systemd_248.3.bb
-index 4e65656494..7498f5b48e 100644
---- a/meta/recipes-core/systemd/systemd_248.3.bb
-+++ b/meta/recipes-core/systemd/systemd_248.3.bb
-@@ -26,6 +26,7 @@ SRC_URI += " \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
-            file://0001-test-parse-argument-Include-signal.h.patch \
-+           file://0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch \
-            "
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
+index 7f91cc02ac..da21971113 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
+@@ -40,6 +40,8 @@ EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx3
+ # Work around missing non-floating point ABI support in MIPS
+ EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf", "-DWITH_SIMD=False", "", d)}"
  
- # patches needed by musl
++EXTRA_OECMAKE_append_class-target = " ${@ ('') if (d.getVar('TUNE_CCARGS_MFPU') != '') else '-DWITH_SIMD=False'}"
++
+ # Provide a workaround if Altivec unit is not present in PPC
+ EXTRA_OECMAKE_append_class-target_powerpc = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
+ EXTRA_OECMAKE_append_class-target_powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
 -- 
-2.32.0
+2.17.1
 
