@@ -1,74 +1,77 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web08.1788.1623200320097047375
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.2257.1623203194713721776
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jun 2021 17:58:40 -0700
+ Tue, 08 Jun 2021 18:46:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ti17S7tJ;
- spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id i34so11567276pgl.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 17:58:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CnT5sfZr;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: weaverjs@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 5so1715405qvf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 18:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hOSonup/B4TWVLSJj0og02S3OlXI6IzCUpreHvjFrtw=;
-        b=ti17S7tJrcY/YhG3L1r38IBI3m0mwvblCo19kUKuYI1Qgav0UZxPpRhG3jyGZlXwKN
-         LQnO95/LH+t7cmfpm1R2qB4oXZra5b177Do5PM/Yk47sWNv3gYUb4JjPIibB35mxrwSb
-         rcRmrtA9H1UnslK636p4qg8k4e1EVBLZZIdEK/Lq5rRiIHNz4aUR8uxdJkNWN1n5VydN
-         vZyMvqKpICtoJrm7NVvdaMJtmTsHre0ybaRKmEtyWNvfSbs59iL3jQ7XCYmbxAqyEDgA
-         pRDil0L+TRCb6OqFveBjpq0bMdPz2tSgWoR3r3b67A9IX7Lb6zbOXQYCD8LZDDvp0p+I
-         jBkA==
+        bh=pjWm8RpFosbmjuJ+/5mA2AW1YTbDfEMyQ+5/VaSuo1A=;
+        b=CnT5sfZrv6s/q7vRyTb/nyyE1n4lqsQYLDiSQWB5nPE0UN+iKc0CHZBUh66Ylt8e5t
+         kOI0pWF7cJog4JDquFXpXfMtve8PDR+C4fThdGDBjznaSGFeUQW9opyQt3SRMMATciM0
+         4p4fJBYO8zYLv/m5stUCdSa5zVc75irG7xQ54nqodpqlC9CMZXOO7oMEpbf4Hlb8mvAn
+         ZBd116hapu9/KSMRPJ/R/Z07FgNHisprS6J54y7QKMZ1CvMijrmoWMIjEhU8wB0OP7jy
+         R6LnLchLLIPS0XgOItfyqkCRP9VHpzJ4vBYbxdRTklbKfbK+gaj1HJfX5ZgqatjIaYwJ
+         Czlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hOSonup/B4TWVLSJj0og02S3OlXI6IzCUpreHvjFrtw=;
-        b=ZAv/xJfbBA/D8CIBqYXki/GZAMru4GNf+2/bSObkXcL4doZVn9EzId/8/cDawmGbQb
-         MVxphN0PRKaUNyxa7gbnVjJ8rwrKGzVAuRqJY3aK6IQE/eGKJcgFh/ta75VqK7oGtU9x
-         je4A9w7RoU0xMHAzYAZPAzmTHSbwfCKBpsAjfGPEUL16yV5sivTzSLPOECwGMH87V1yW
-         HlubHDmaMmxqYym5FO27Ovwn41gzjehX8pjmHeSYAf3+jAYatUUGMFCJT4kQJZUgFpqH
-         hk93pEQtmMUGo9LxD7EIQRhNZh5UxvpPCIBMxNvIz0/LqWC+CtnGNpsur74FeBDZqScg
-         efqA==
-X-Gm-Message-State: AOAM531gl+0t+IL68UWeh1ZarL5/lFLZNbjg0WM+h304WWUQIEIRirni
-	yNlsoexR5g6Yi9Hbb9N52RDwR6SSNufQog==
-X-Google-Smtp-Source: ABdhPJzOIayLrwOXhZNPo0A1YyE4MNFkBt0tVFMnrCxXrrzY5sBuMEjo7sULtRQ4vwyriCf8gjoFLQ==
-X-Received: by 2002:a63:4e50:: with SMTP id o16mr1057901pgl.140.1623200319372;
-        Tue, 08 Jun 2021 17:58:39 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
-        by smtp.gmail.com with ESMTPSA id j4sm3293997pjv.7.2021.06.08.17.58.38
+        bh=pjWm8RpFosbmjuJ+/5mA2AW1YTbDfEMyQ+5/VaSuo1A=;
+        b=BP4JEY/Ybtv3kDc+QSt8iaMYY7CqlpP7jlaNGLZLcSdycZ7ufDW+Mo4hPWZfyYMSlt
+         SvGmTH1JJ4S/8ACxcqRhfURKv1JsHj7EgWbCkbCSI2yiF2d3bV/iCs3bJJqF6yNLXThW
+         NBBeSuTQVK5y9byI4siIZz9AnCoIUfeQeVXU4JGB7RBrV+BXkDtTAMBnGJlWcVOnTgYk
+         zUtD0Sn3odOc0zw/BgtZ2hGB++udzv1owsfJFWOV41qGqZRJfXDv1W1w5hYlSC/QpEUf
+         Gqy5bzlSIAFTEDASPo0qlyc6JdwG/RmMaietJ7PPi7LCOD+37nd7C5YrslMPE178r03D
+         JSYQ==
+X-Gm-Message-State: AOAM532aSWetnHEBu9TUVRqkuTdHiw+B9xwHf9Rtgj/iY2E5+Uit/2jH
+	4nC9/JuM1IPa5kK+6i9M8TmqhP6BwGUWDZuEJIYR
+X-Google-Smtp-Source: ABdhPJxN3fm4fPIOtUxIAL88onDKvsEnodl0hyF8jA8EjG/1sMSwtCx42Q60zYJBh2IIRjCF12A04w==
+X-Received: by 2002:a05:6214:122c:: with SMTP id p12mr3545550qvv.24.1623203193679;
+        Tue, 08 Jun 2021 18:46:33 -0700 (PDT)
+Return-Path: <weaverjs@gmail.com>
+Received: from p-impout004.msg.pkvw.co.charter.net (cpe-69-133-48-66.cinci.res.rr.com. [69.133.48.66])
+        by smtp.gmail.com with ESMTPSA id p8sm7482704qkm.119.2021.06.08.18.46.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 17:58:39 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Tue, 08 Jun 2021 18:46:33 -0700 (PDT)
+From: "Scott Weaver" <weaverjs@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ffmpeg: Link in libatomic on riscv32
-Date: Tue,  8 Jun 2021 17:58:36 -0700
-Message-Id: <20210609005836.4176181-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
+Cc: Scott Weaver <weaverjs@gmail.com>
+Subject: [OE-core][PATCH] README.skeleton: add readme to meta-skeleton layer
+Date: Tue,  8 Jun 2021 21:45:17 -0400
+Message-Id: <20210609014517.237944-1-weaverjs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It needs some functions from libatomic e.g.
-libavformat/libavformat.so: undefined reference to `__atomic_fetch_sub_8'
+Added to satisfy the yocto-check-layer tool readme file test.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+[YOCTO #13612]
+
+Signed-off-by: Scott Weaver <weaverjs@gmail.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta-skeleton/README.skeleton | 7 +++++++
+ 1 file changed, 7 insertions(+)
+ create mode 100644 meta-skeleton/README.skeleton
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-index 664fc6066a..3ed009bbb7 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-@@ -129,6 +129,7 @@ EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mips32r2', '--disable-mi
- EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mips32r6', '--disable-mips64r2 --disable-mips32r2', '', d)}"
- EXTRA_OECONF_append_mips = " --extra-libs=-latomic --disable-mips32r5 --disable-mipsdsp --disable-mipsdspr2 \
-                              --disable-loongson2 --disable-loongson3 --disable-mmi --disable-msa --disable-msa2"
-+EXTRA_OECONF_append_riscv32 = " --extra-libs=-latomic"
- 
- # gold crashes on x86, another solution is to --disable-asm but thats more hacky
- # ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
+diff --git a/meta-skeleton/README.skeleton b/meta-skeleton/README.skeleton
+new file mode 100644
+index 0000000000..25468dc87a
+--- /dev/null
++++ b/meta-skeleton/README.skeleton
+@@ -0,0 +1,7 @@
++meta-skeleton
++=============
++
++The meta-skeleton layer contains example recipes and configuration files.
++
++This layer is not intended to demonstrate a Yocto Project Compatible software layer.
++Disable the signature check when testing this layer using the yocto-check-layer tool.
 -- 
-2.32.0
+2.25.1
 
