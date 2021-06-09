@@ -1,88 +1,120 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web12.4415.1623220618051421207
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web12.4420.1623220643122294640
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jun 2021 23:36:58 -0700
+ Tue, 08 Jun 2021 23:37:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hV3hDRAT;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id c10so36629343eja.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 23:36:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fPxR2GAS;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id m13-20020a17090b068db02901656cc93a75so790447pjz.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jun 2021 23:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=YOz2cBCfsjF5T9zWM5IHRMszmflDk+MTOUK61rzAljg=;
-        b=hV3hDRATP53fY/NlrhSWT9ykWDNi4weUN9HqVOMFV3lR/U3/brgRnGLm7TlyG24zCj
-         zKrEa54IJe3BJo0flAF/uCQPmMp3UvNGWP5zxokbb1JreVfH8IcF4Rzfieu5qiApU4dS
-         IcoH+T/AkLdclvfwaqjOxdXoxXeUo4LZ3h6he3vIHcwZuTvqxLYapC0wcUr8Y/GI9MKc
-         t+f8XO6Hw00HFZwA5ObKFOg6ooFR9opVp88cz/HW83395Drf7JqTjX3dGqDfTF3ouWT/
-         Zw7rbKOQx+HTZuMjLTpTEZUTvT/Xaq++8GegG96Tv8At7tWJsEVLh3Gv58qIWBY+vT9W
-         HIcA==
+        bh=WhT4q25+0XGArXUyeT0TiLRKInUSnNSoEuu4DpZQuOg=;
+        b=fPxR2GAS6NoAVH7y4oyu3phEgh2VN3XWRt0GIWZRHUH9mX9HXSjy6NzQ1MvR4TwsUE
+         9KOHw06Ro+sVJnN5G0dVA7q+K/nF/NlnxONE5qZOCjZI9b3VBKHULPAsM2NddSgQ81ji
+         ORYDjf+qPkuwK43zDiSvX1ANtfV4Pp0pCflxC04h0fnoS2GG/0Eeyzci9nUxbBkpMhgY
+         GqrS+2XhqAtWaixfrkeGoK1oO9JfdtQeZOEbmfE8FqoyBfghchlv3zwnauVFryKs1B1A
+         TnnVkqdVsfngV6+q674bHLQ5ZucNhwYxrZxzdno2oUyEWy6VIsxmDLed41S5tsWpAasN
+         +1eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YOz2cBCfsjF5T9zWM5IHRMszmflDk+MTOUK61rzAljg=;
-        b=U+cms3dtlI9B0t2Kb7dnh0SG9QkxHd8k0TxT8sZeUxJsyg9imOxl8kuJnNeVlNv79K
-         eLhySdnx0CiZTWvpeaprfeBkBOlOrzB2tvMktwrWHlRmTf43Y2rrYsmUg0S5btwsNpzF
-         aPgwJuXdZH5jp3O9F+m3F5u24aD2t0DqYB8wzaitUBZqqUYIB84nwYYbhYYiRK6Zi5wk
-         s0vKKZw88eDp27bEk1q5gPniI3Z9UzSRCOnGPk+rktz8jksgvsbdS4igj0vRJMq9hN/5
-         1+JJqYdvyTuXz6IiBPgDzlkxeFyFZhbBI7zhmNtZUaCwtncZ8Vq8w1O0NFFHBoNqokvN
-         WdFQ==
-X-Gm-Message-State: AOAM53120Nk3aW4cpHofqXAYgrD3g4WmH8+uDZj1SeKle9p7PokzW2W5
-	6mpZccF2qfEYCkPi+D65DOj4f9VXpUT7jw==
-X-Google-Smtp-Source: ABdhPJzY198AJ9f1FRc6RavQin7YokmxA23GvEtWMZjNp4TV+v9PQdR1zHb7FI8LBXw0bL+I7A04zw==
-X-Received: by 2002:a17:906:dbc2:: with SMTP id yc2mr27244482ejb.390.1623220616599;
-        Tue, 08 Jun 2021 23:36:56 -0700 (PDT)
-Return-Path: <schnitzeltony@gmail.com>
-Received: from thanks-buchmuellers.speedport.ip (p200300f07f297e89b85a8a6897bdbe62.dip0.t-ipconnect.de. [2003:f0:7f29:7e89:b85a:8a68:97bd:be62])
-        by smtp.gmail.com with ESMTPSA id n2sm717691edi.32.2021.06.08.23.36.55
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WhT4q25+0XGArXUyeT0TiLRKInUSnNSoEuu4DpZQuOg=;
+        b=KScKVgILsmGR6e9+WNLLoCtx9+/cJSLwygn/j399DrAo4u4yQA0N4B/H05CwCNHbro
+         dFQZ53r3K6uxnaGSPXyFASlqDCQvfPKsVg/k90n5yhOxizos1oMlVkLklclY6aOOxgvf
+         ntNS0Uzk3A6SCie0bY9pl15hmIu4B+YPvRNWKvzqvOwHUsasfCP9xk0TuLVt34RLhZn1
+         utYIUn3uM1ih/yNymEypd4Vp7WOxD9xtQr+/103HkievxvdbH5o+z6KRCS8g1mH1UZNv
+         2JCigssqIv9tz+C2oDwSoCiFoAkaWpT/O9Li8i14wg1EVvm0vtMktrQWTpUaEHbEgzor
+         vahQ==
+X-Gm-Message-State: AOAM530vpfe5krcpc2OPs1uTzMvQAyvQusEDseMsZQz6ta5E7WKVMqwK
+	cJn67gcYzqSFWdEHC80xtU05XkLMYS8CvQ==
+X-Google-Smtp-Source: ABdhPJytoIlZlO7UnyY4Es2qVcWBXzAk7pEbxNLYRgaX1veOmDt5DFDWJPOphapJAto5zW8ksUjz1g==
+X-Received: by 2002:a17:90a:578a:: with SMTP id g10mr8882224pji.165.1623220642267;
+        Tue, 08 Jun 2021 23:37:22 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
+        by smtp.gmail.com with ESMTPSA id p40sm5686365pfw.142.2021.06.08.23.37.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 23:36:56 -0700 (PDT)
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+        Tue, 08 Jun 2021 23:37:21 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] p11-kit: upgrade 0.23.22 -> 0.23.24
-Date: Wed,  9 Jun 2021 08:36:46 +0200
-Message-Id: <20210609063646.3400519-3-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210609063646.3400519-1-schnitzeltony@gmail.com>
-References: <20210609063646.3400519-1-schnitzeltony@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] systemd: Fix libseccomp testcase involving __NR_ppoll
+Date: Tue,  8 Jun 2021 23:37:20 -0700
+Message-Id: <20210609063720.2645885-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-* Use inclusive language on certificate distrust. Note: This changes the directory and attribute names to distrust certain CAs to
-  "blocklist" [#324]
-* Fix issues spotted by coverity and ASan [#349, #351]
-* Integrate gettext with tools more tightly [#358]
-* rpc: Forbid use of array of attributes [#365, #367]
-* Build fixes [#342, #344, #345, #353, #362, #364]
+Some architectures may not have this syscall
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../p11-kit/{p11-kit_0.23.22.bb => p11-kit_0.24.0.bb}         | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/p11-kit/{p11-kit_0.23.22.bb => p11-kit_0.24.0.bb} (91%)
+ ...comp-Check-for-__NR_ppoll-before-use.patch | 39 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_248.3.bb    |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb b/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
-similarity index 91%
-rename from meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
-index 623afccb5e..6759168b37 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
-@@ -10,8 +10,8 @@ DEPENDS = "libtasn1 libtasn1-native libffi"
+diff --git a/meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch b/meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch
+new file mode 100644
+index 0000000000..0ba5fa2547
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch
+@@ -0,0 +1,39 @@
++From 027ac2ad0695bb506460f9dd7e57149b71055887 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 8 Jun 2021 23:21:01 -0700
++Subject: [PATCH] test-seccomp: Check for __NR_ppoll before use
++
++some newer architectures like riscv32 do not have __NR_ppoll from get go
++
++Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/19858]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/test/test-seccomp.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/src/test/test-seccomp.c b/src/test/test-seccomp.c
++index b1f917eb54..daac0fcea8 100644
++--- a/src/test/test-seccomp.c
+++++ b/src/test/test-seccomp.c
++@@ -832,7 +832,7 @@ static void test_load_syscall_filter_set_raw(void) {
++                 assert_se(s = hashmap_new(NULL));
++ #if defined __NR_poll && __NR_poll >= 0
++                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_poll + 1), INT_TO_PTR(-1)) >= 0);
++-#else
+++#elif defined __NR_ppoll
++                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_ppoll + 1), INT_TO_PTR(-1)) >= 0);
++ #endif
++ 
++@@ -849,7 +849,8 @@ static void test_load_syscall_filter_set_raw(void) {
++                 assert_se(s = hashmap_new(NULL));
++ #if defined __NR_poll && __NR_poll >= 0
++                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_poll + 1), INT_TO_PTR(EILSEQ)) >= 0);
++-#else
+++#elif defined __NR_ppoll
+++                assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_ppoll + 1), INT_TO_PTR(-1)) >= 0);
++                 assert_se(hashmap_put(s, UINT32_TO_PTR(__NR_ppoll + 1), INT_TO_PTR(EILSEQ)) >= 0);
++ #endif
++ 
++-- 
++2.32.0
++
+diff --git a/meta/recipes-core/systemd/systemd_248.3.bb b/meta/recipes-core/systemd/systemd_248.3.bb
+index 4e65656494..7498f5b48e 100644
+--- a/meta/recipes-core/systemd/systemd_248.3.bb
++++ b/meta/recipes-core/systemd/systemd_248.3.bb
+@@ -26,6 +26,7 @@ SRC_URI += " \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
+            file://0001-test-parse-argument-Include-signal.h.patch \
++           file://0001-test-seccomp-Check-for-__NR_ppoll-before-use.patch \
+            "
  
- DEPENDS_append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
- 
--SRC_URI = "git://github.com/p11-glue/p11-kit;branch=0.23"
--SRCREV = "bd97afbfe28d5fbbde95ce36ff7a8834fc0291ee"
-+SRC_URI = "git://github.com/p11-glue/p11-kit"
-+SRCREV = "34826623f58399b24c21f1788e2cdaea34521b7b"
- S = "${WORKDIR}/git"
- 
- PACKAGECONFIG ??= ""
+ # patches needed by musl
 -- 
-2.31.1
+2.32.0
 
