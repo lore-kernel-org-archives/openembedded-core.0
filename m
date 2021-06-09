@@ -1,121 +1,56 @@
-Received: from mga06.intel.com (mga06.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.5205.1623228892710015780
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web12.5679.1623232707981965597
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jun 2021 01:54:53 -0700
+ Wed, 09 Jun 2021 02:58:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: v+mkK+PD71k8OUy9B4n9JOm8DjDj5uujE3gnoDcMLYg3ytpYwWNGtD6ErExdsSFLGd4rmfHAUx
- ktTcFdTZWFFg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="266187207"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: ITZlNaIaE0xOQ86/7lTyeA6QQfYoaCG2I9+TFR0G2+cgPC6lWlWmF4Ba76GaNJuFfW/1P8Y8j5
+ Unmcg0ZjFbRg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="290671766"
 X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; 
-   d="scan'208";a="266187207"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 01:54:53 -0700
-IronPort-SDR: Qo73GFJn+k2unF/PEKVodkY70CEs1Ka+wJKKF0toUWZZdx+pf0z6na9Q89dmcvhMts4X9mbTLW
- hLokBddoK45Q==
+   d="scan'208";a="290671766"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 02:58:27 -0700
+IronPort-SDR: n2Yt2i4yVo9zyfocRUqOSmu2YQMak2mT4+1Zs44fhwUmzl1Y+W4oBDkg7uNPghbVozqz5SYE5L
+ dyP8QJh5aS/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,260,1616482800"; 
-   d="scan'208";a="552609507"
+   d="scan'208";a="485668323"
 Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2021 01:54:52 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2021 02:58:26 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 3/3] ruby: 2.7.1 -> 2.7.3
-Date: Wed,  9 Jun 2021 16:54:49 +0800
-Message-Id: <20210609085449.18975-3-chee.yang.lee@intel.com>
+Subject: [PATCH][hardknott 1/2] python3: 3.9.4 -> 3.9.5
+Date: Wed,  9 Jun 2021 17:58:24 +0800
+Message-Id: <20210609095825.23472-1-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210609085449.18975-1-chee.yang.lee@intel.com>
-References: <20210609085449.18975-1-chee.yang.lee@intel.com>
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-This release includes security fixes.
-
-CVE-2021-28965: XML round-trip vulnerability in REXML
-CVE-2021-28966: Path traversal in Tempfile on Windows
-
-CVE-2020-25613 fixed in 2.7.2, do drop the patch
-
-release notes for 2.7.2 and 2.7.3
-https://www.ruby-lang.org/en/news/2020/10/02/ruby-2-7-2-released/
-https://www.ruby-lang.org/en/news/2021/04/05/ruby-2-7-3-released/
+This fifth maintenance release of Python 3.9 include fix for CVE-2021-29921.
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../ruby/ruby/CVE-2020-25613.patch            | 40 -------------------
- .../ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb}     |  5 +--
- 2 files changed, 2 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
- rename meta/recipes-devtools/ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb} (94%)
+ .../python/{python3_3.9.4.bb => python3_3.9.5.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3_3.9.4.bb => python3_3.9.5.bb} (99%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch b/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
-deleted file mode 100644
-index 1abcb7547e..0000000000
---- a/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 8946bb38b4d87549f0d99ed73c62c41933f97cc7 Mon Sep 17 00:00:00 2001
--From: Yusuke Endoh <mame@ruby-lang.org>
--Date: Tue, 29 Sep 2020 13:15:58 +0900
--Subject: [PATCH] Make it more strict to interpret some headers
--
--Some regexps were too tolerant.
--
--Upstream-Status: Backport
--[https://github.com/ruby/webrick/commit/8946bb38b4d87549f0d99ed73c62c41933f97cc7]
--CVE: CVE-2020-25613
--Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-----
-- lib/webrick/httprequest.rb | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/lib/webrick/httprequest.rb b/lib/webrick/httprequest.rb
--index 294bd91..d34eac7 100644
----- a/lib/webrick/httprequest.rb
--+++ b/lib/webrick/httprequest.rb
--@@ -227,9 +227,9 @@ def parse(socket=nil)
--         raise HTTPStatus::BadRequest, "bad URI `#{@unparsed_uri}'."
--       end
-- 
---      if /close/io =~ self["connection"]
--+      if /\Aclose\z/io =~ self["connection"]
--         @keep_alive = false
---      elsif /keep-alive/io =~ self["connection"]
--+      elsif /\Akeep-alive\z/io =~ self["connection"]
--         @keep_alive = true
--       elsif @http_version < "1.1"
--         @keep_alive = false
--@@ -508,7 +508,7 @@ def read_body(socket, block)
--       return unless socket
--       if tc = self['transfer-encoding']
--         case tc
---        when /chunked/io then read_chunked(socket, block)
--+        when /\Achunked\z/io then read_chunked(socket, block)
--         else raise HTTPStatus::NotImplemented, "Transfer-Encoding: #{tc}."
--         end
--       elsif self['content-length'] || @remaining_size
-diff --git a/meta/recipes-devtools/ruby/ruby_2.7.1.bb b/meta/recipes-devtools/ruby/ruby_2.7.3.bb
-similarity index 94%
-rename from meta/recipes-devtools/ruby/ruby_2.7.1.bb
-rename to meta/recipes-devtools/ruby/ruby_2.7.3.bb
-index a6c65e887b..318b9acdae 100644
---- a/meta/recipes-devtools/ruby/ruby_2.7.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.3.bb
-@@ -6,12 +6,11 @@ SRC_URI += " \
-            file://remove_has_include_macros.patch \
-            file://run-ptest \
-            file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
--           file://CVE-2020-25613.patch \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
+diff --git a/meta/recipes-devtools/python/python3_3.9.4.bb b/meta/recipes-devtools/python/python3_3.9.5.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.9.4.bb
+rename to meta/recipes-devtools/python/python3_3.9.5.bb
+index cb371ceed7..82177f4a18 100644
+--- a/meta/recipes-devtools/python/python3_3.9.4.bb
++++ b/meta/recipes-devtools/python/python3_3.9.5.bb
+@@ -38,7 +38,7 @@ SRC_URI_append_class-native = " \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
             "
+-SRC_URI[sha256sum] = "4b0e6644a76f8df864ae24ac500a51bbf68bd098f6a173e27d3b61cdca9aa134"
++SRC_URI[sha256sum] = "0c5a140665436ec3dbfbb79e2dfb6d192655f26ef4a29aeffcb6d1820d716d83"
  
--SRC_URI[md5sum] = "debb9c325bf65021214451660f46e909"
--SRC_URI[sha256sum] = "d418483bdd0000576c1370571121a6eb24582116db0b7bb2005e90e250eae418"
-+SRC_URI[md5sum] = "72ef97685008981de3ddb748d0dab31f"
-+SRC_URI[sha256sum] = "8925a95e31d8f2c81749025a52a544ea1d05dad18794e6828709268b92e55338"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.17.1
 
