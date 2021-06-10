@@ -1,82 +1,118 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.9750.1623330511246896808
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.1276.1623344383808383201
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jun 2021 06:08:31 -0700
+ Thu, 10 Jun 2021 09:59:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3EC3106F
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 06:08:30 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F2713F73D
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 06:08:30 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] image_types: add zsync conversions
-Date: Thu, 10 Jun 2021 14:08:27 +0100
-Message-Id: <20210610130827.2205143-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=g8Q8DsuV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id p7so4346218lfg.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 09:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jyQ/PcyzSuqQY+BM1Qi2g6VvXjFm0oYCS47DPS3fyOc=;
+        b=g8Q8DsuV959luLnWV+cyZIObCxOPyLdrAV4Gd1ikTHLpohMA5Ft9Pj4RGM4AyO5J8W
+         1RaED00/W84RfWhb3Az9v0tLj4flJ34JV9YwyBuzddrOmbs2b+Ku8Wmy0NnJFlmdNajg
+         yJwmElA1KdHH9T3stPsDKHRzwYQIhyQQqzLTmXZm3W29uaJcZrzLgESCF/eOCJJK0S95
+         Wp9d053bSnhdVNaEFsLt0UXDAuDj5KVaa3fkZp9UZQQTqvkkPILQqZt3W1eHdfIMQzRt
+         dzWG8JBWrJBAjzCNOihTtQbkEu8E4/o8iwyb2EOSF5/jO/SULhnA8Fq3oxg1Nc/f4Aaz
+         Q4bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jyQ/PcyzSuqQY+BM1Qi2g6VvXjFm0oYCS47DPS3fyOc=;
+        b=mdc3/G76EwIMPLew7/LRRNe+6eGEdpMvsw3gWPZq5NWPPge/rkcCmjrgD/PmpT0IbP
+         sFaCoLySaZTLE7SjkTbCgBWD3JE+2XqMI8y3jv2xo3tkA1YUXkYJhcXw2Hv4wbpyzJIl
+         J3zWdX9yaj/GfxlIVAKsl3/adz4QqnvKcFfC8vshmXmnx2nozY5QfRJ4zt09CvvlU/qa
+         bf0ju+bcTROs1h5FwbvPCg6RKQ9cl3RcOo9NfwI+pULdTByTxrH1np+jfaxvbO0BeeLn
+         a3dO9sdQrGGehqcN29YyGV7qoz7TfCRnmDFljLsHP8KDoR97tTy0kcszVgQMkZnhhEi5
+         Rk6Q==
+X-Gm-Message-State: AOAM530mtBtrH1dxfLFNQGzZA6WeBZIPFNYfvZ4uE4CEO9A+PLmR5UuH
+	9FCCpNlI0GioT2b+nVt+YFdHTcBfUNKN2FSTglE=
+X-Google-Smtp-Source: ABdhPJwg6taB0HczHizrJnRbvGocXOToDETj7wwYwG9lGsBrySbNzxXoEU1FwbnOm0pMPAwDwnEP9ZSlyJppXeJa48E=
+X-Received: by 2002:a05:6512:3ca6:: with SMTP id h38mr2565007lfv.257.1623344381401;
+ Thu, 10 Jun 2021 09:59:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20210609072939.6058-1-changqing.li@windriver.com>
+ <CAJ86T=X8aHodEfG2uRWsB31xDSf3OfUUhXxxL3+yY4dzTiGzfQ@mail.gmail.com> <ecdf1fb7-cc74-23ab-3c70-929492d4d178@windriver.com>
+In-Reply-To: <ecdf1fb7-cc74-23ab-3c70-929492d4d178@windriver.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Thu, 10 Jun 2021 09:59:30 -0700
+Message-ID: <CAJ86T=UrOhHSKxDV-KWNyyqKTfFr89v-oQvYY2adRAYvpzOvWg@mail.gmail.com>
+Subject: Re: [OE-core] [V2][PATCH] libjpeg-turbo: fix do_compile error on armv5
+To: Changqing Li <changqing.li@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Add image conversion types to create zsync[1] metadata.  Use .zsync if
-the image is already compressed and .gzsync if zsync should compress the
-image itself.
+On Thu, Jun 10, 2021 at 2:42 AM Changqing Li <changqing.li@windriver.com> wrote:
+> On 6/10/21 1:29 AM, Andre McCurdy wrote:
+> > [Please note: This e-mail is from an EXTERNAL e-mail address]
+> >
+> > On Wed, Jun 9, 2021 at 12:32 AM Changqing Li <changqing.li@windriver.com> wrote:
+> >> From: Changqing Li <changqing.li@windriver.com>
+> >>
+> >> fix below error:
+> >> /include/arm_neon.h:31:2: error: #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+> >> 31 | #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+> >>
+> >> Neon is not supported by armv5, disable the simd extension build.
+> > Drop this comment. Neon may be missing from other ISA levels too (i.e.
+> > this fix is not specific to armv5).
+> Get it. Thanks.
+> >
+> >> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> >> ---
+> >>   meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb | 2 ++
+> >>   1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
+> >> index 7f91cc02ac..da21971113 100644
+> >> --- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
+> >> +++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
+> >> @@ -40,6 +40,8 @@ EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx3
+> >>   # Work around missing non-floating point ABI support in MIPS
+> >>   EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf", "-DWITH_SIMD=False", "", d)}"
+> >>
+> >> +EXTRA_OECMAKE_append_class-target = " ${@ ('') if (d.getVar('TUNE_CCARGS_MFPU') != '') else '-DWITH_SIMD=False'}"
+> > Shouldn't this be checking for neon in TUNE_FEATURES rather than
+> > TUNE_CCARGS_MFPU?
+> Refer feature-arm-vfp.inc:
+>
+> TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES',
+> 'callconvention-hard', 'hard', 'softfp', d) if
+> (d.getVar('TUNE_CCARGS_MFPU') != '') else '' }"
+>
+> TUNE_CCARGS   .= "${@ ' -mfloat-abi=${TUNE_CCARGS_MFLOAT}' if
+> (d.getVar('TUNE_CCARGS_MFLOAT') != '')     else ''}"
+>
+>
+> There are condition that neon is not in TUNE_FEATURES, but vfp is in it.
+> so TUNE_CCARGS may append -mfloat-abi=softfp,  then
+>
+> simd module here can be compiled  sucessfully.
 
-The required tool, zsync-curl, has been submitted to meta-oe.
+The SIMD code can only be used on targets which support neon. There
+may be other cases where the code can be compiled but if it can never
+be used at run time it's not very useful.
 
-[1] http://zsync.moria.org.uk
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes/image_types.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
-bbclass
-index 2a45d45c71..954d6739ec 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -278,7 +278,7 @@ IMAGE_TYPES =3D " \
- # CONVERSION_CMD/DEPENDS.
- COMPRESSIONTYPES ?=3D ""
-=20
--CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum s=
-ha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow=
-2 base64 ${COMPRESSIONTYPES}"
-+CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum s=
-ha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow=
-2 base64 gzsync zsync ${COMPRESSIONTYPES}"
- CONVERSION_CMD_lzma =3D "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}=
-.${type}"
- CONVERSION_CMD_gz =3D "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE=
-_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD_bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.$=
-{type}"
-@@ -302,6 +302,8 @@ CONVERSION_CMD_vhd =3D "qemu-img convert -O vpc -o su=
-bformat=3Dfixed ${IMAGE_NAME}${
- CONVERSION_CMD_vdi =3D "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAM=
-E_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
- CONVERSION_CMD_qcow2 =3D "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE=
-_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
- CONVERSION_CMD_base64 =3D "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${ty=
-pe} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
-+CONVERSION_CMD_zsync =3D "zsyncmake_curl ${IMAGE_NAME}${IMAGE_NAME_SUFFI=
-X}.${type}"
-+CONVERSION_CMD_gzsync =3D "zsyncmake_curl -z ${IMAGE_NAME}${IMAGE_NAME_S=
-UFFIX}.${type}"
- CONVERSION_DEPENDS_lzma =3D "xz-native"
- CONVERSION_DEPENDS_gz =3D "pigz-native"
- CONVERSION_DEPENDS_bz2 =3D "pbzip2-native"
-@@ -319,6 +321,8 @@ CONVERSION_DEPENDS_qcow2 =3D "qemu-system-native"
- CONVERSION_DEPENDS_base64 =3D "coreutils-native"
- CONVERSION_DEPENDS_vhdx =3D "qemu-system-native"
- CONVERSION_DEPENDS_vhd =3D "qemu-system-native"
-+CONVERSION_DEPENDS_zsync =3D "zsync-curl-native"
-+CONVERSION_DEPENDS_gzsync =3D "zsync-curl-native"
-=20
- RUNNABLE_IMAGE_TYPES ?=3D "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?=3D "qemu"
---=20
-2.25.1
-
+> > It should also probably be conditional on the _arm
+> > over-ride since neon will be missing from
+> > TUNE_CCARGS_MFPU/TUNE_FEATURES for other architectures.Since big
+> > endian ARM doesn't use the _arm over-ride you will also need a
+> > duplicate line with the same logic with the _armeb override too. See
+> > the lines below which do the equivalent for _powerpc / _powerpc64 as a
+> > reference.
+> ok. thanks.
+>
+> >
+> >>   # Provide a workaround if Altivec unit is not present in PPC
+> >>   EXTRA_OECMAKE_append_class-target_powerpc = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
+> >>   EXTRA_OECMAKE_append_class-target_powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
+> >> --
+> >> 2.17.1
+> >>
+> >>
+> >> 
+> >>
