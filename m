@@ -1,118 +1,99 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.1276.1623344383808383201
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.984.1623364895219960928
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jun 2021 09:59:44 -0700
+ Thu, 10 Jun 2021 15:41:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=g8Q8DsuV;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id p7so4346218lfg.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 09:59:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bDWdNbG9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id k5-20020a05600c1c85b02901affeec3ef8so7564579wms.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 15:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jyQ/PcyzSuqQY+BM1Qi2g6VvXjFm0oYCS47DPS3fyOc=;
-        b=g8Q8DsuV959luLnWV+cyZIObCxOPyLdrAV4Gd1ikTHLpohMA5Ft9Pj4RGM4AyO5J8W
-         1RaED00/W84RfWhb3Az9v0tLj4flJ34JV9YwyBuzddrOmbs2b+Ku8Wmy0NnJFlmdNajg
-         yJwmElA1KdHH9T3stPsDKHRzwYQIhyQQqzLTmXZm3W29uaJcZrzLgESCF/eOCJJK0S95
-         Wp9d053bSnhdVNaEFsLt0UXDAuDj5KVaa3fkZp9UZQQTqvkkPILQqZt3W1eHdfIMQzRt
-         dzWG8JBWrJBAjzCNOihTtQbkEu8E4/o8iwyb2EOSF5/jO/SULhnA8Fq3oxg1Nc/f4Aaz
-         Q4bg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qIy/pKHZoThplymdGaCeb709NI8PZkHhc33OEuAP0ZQ=;
+        b=bDWdNbG9sjF5F3X2LAGLQ77SzSs2JOcUCNyKAPEazvgmyDdkns1CMW4mw30xV3GBNf
+         eD8e+EsMzt2ZG0kgs8egswg1aONKz74g8XMIaFPR/2apW7nUJ+F0HBWSx/M2TlGxI36H
+         XaBwI4rfRfi5+aT1XZOPSIJPhzuzFV/WP5K3c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jyQ/PcyzSuqQY+BM1Qi2g6VvXjFm0oYCS47DPS3fyOc=;
-        b=mdc3/G76EwIMPLew7/LRRNe+6eGEdpMvsw3gWPZq5NWPPge/rkcCmjrgD/PmpT0IbP
-         sFaCoLySaZTLE7SjkTbCgBWD3JE+2XqMI8y3jv2xo3tkA1YUXkYJhcXw2Hv4wbpyzJIl
-         J3zWdX9yaj/GfxlIVAKsl3/adz4QqnvKcFfC8vshmXmnx2nozY5QfRJ4zt09CvvlU/qa
-         bf0ju+bcTROs1h5FwbvPCg6RKQ9cl3RcOo9NfwI+pULdTByTxrH1np+jfaxvbO0BeeLn
-         a3dO9sdQrGGehqcN29YyGV7qoz7TfCRnmDFljLsHP8KDoR97tTy0kcszVgQMkZnhhEi5
-         Rk6Q==
-X-Gm-Message-State: AOAM530mtBtrH1dxfLFNQGzZA6WeBZIPFNYfvZ4uE4CEO9A+PLmR5UuH
-	9FCCpNlI0GioT2b+nVt+YFdHTcBfUNKN2FSTglE=
-X-Google-Smtp-Source: ABdhPJwg6taB0HczHizrJnRbvGocXOToDETj7wwYwG9lGsBrySbNzxXoEU1FwbnOm0pMPAwDwnEP9ZSlyJppXeJa48E=
-X-Received: by 2002:a05:6512:3ca6:: with SMTP id h38mr2565007lfv.257.1623344381401;
- Thu, 10 Jun 2021 09:59:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qIy/pKHZoThplymdGaCeb709NI8PZkHhc33OEuAP0ZQ=;
+        b=quTuM3vuxA+ANVOVyfq50zGg0RMNsk6PERhSf3I2Z0DVCksqe5Z3DpTm4hblmhGlXA
+         KSSyPf1NjqRquDvAj0SMfDK2i0n4tbXLD4TVGB9XswLVIacgzH+GVSf84pQnQ3F0LUEv
+         7ONeP2xMJCwAckaTOC7v9E14FKBJmruE+uurtspc7ApNK8sc+UcHKg8mVMPnY2NpdF8a
+         5qY7/e50IJpfV4BMCYtk5+e1BxdoGCy/OEEkL4KzVmdAGd+Neq8LyqO5JfuHnu/Um7o6
+         o/XJm39odfUai3RxbhHrYO3bVEGFCawqIbhWLuciRpGlBO+m+ZwpoodLw5v18KqLENsM
+         nwQg==
+X-Gm-Message-State: AOAM532cx2hKLxpSLlvILWq+4LKTFV05+2iVuh25j6SRDxprKeGP6MKX
+	dQxJtQDHrhSX1ndCHLmCsbzCGE48CIbT8g==
+X-Google-Smtp-Source: ABdhPJz3b6BNI7fr1fnmnkLLH5H1MrNDwoLHZlXBfsa0QKRcQII9Sq645FI8VCSWsdtMG2hVj76GIw==
+X-Received: by 2002:a05:600c:4b87:: with SMTP id e7mr958949wmp.101.1623364893292;
+        Thu, 10 Jun 2021 15:41:33 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:a367:b677:9781:a62b])
+        by smtp.gmail.com with ESMTPSA id p5sm5039598wrd.25.2021.06.10.15.41.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jun 2021 15:41:33 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] qemurunner: Try to ensure mmap'd libs are paged in
+Date: Thu, 10 Jun 2021 23:41:31 +0100
+Message-Id: <20210610224132.3167671-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210609072939.6058-1-changqing.li@windriver.com>
- <CAJ86T=X8aHodEfG2uRWsB31xDSf3OfUUhXxxL3+yY4dzTiGzfQ@mail.gmail.com> <ecdf1fb7-cc74-23ab-3c70-929492d4d178@windriver.com>
-In-Reply-To: <ecdf1fb7-cc74-23ab-3c70-929492d4d178@windriver.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 10 Jun 2021 09:59:30 -0700
-Message-ID: <CAJ86T=UrOhHSKxDV-KWNyyqKTfFr89v-oQvYY2adRAYvpzOvWg@mail.gmail.com>
-Subject: Re: [OE-core] [V2][PATCH] libjpeg-turbo: fix do_compile error on armv5
-To: Changqing Li <changqing.li@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 10, 2021 at 2:42 AM Changqing Li <changqing.li@windriver.com> wrote:
-> On 6/10/21 1:29 AM, Andre McCurdy wrote:
-> > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> > On Wed, Jun 9, 2021 at 12:32 AM Changqing Li <changqing.li@windriver.com> wrote:
-> >> From: Changqing Li <changqing.li@windriver.com>
-> >>
-> >> fix below error:
-> >> /include/arm_neon.h:31:2: error: #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
-> >> 31 | #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
-> >>
-> >> Neon is not supported by armv5, disable the simd extension build.
-> > Drop this comment. Neon may be missing from other ISA levels too (i.e.
-> > this fix is not specific to armv5).
-> Get it. Thanks.
-> >
-> >> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> >> ---
-> >>   meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
-> >> index 7f91cc02ac..da21971113 100644
-> >> --- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
-> >> +++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
-> >> @@ -40,6 +40,8 @@ EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx3
-> >>   # Work around missing non-floating point ABI support in MIPS
-> >>   EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf", "-DWITH_SIMD=False", "", d)}"
-> >>
-> >> +EXTRA_OECMAKE_append_class-target = " ${@ ('') if (d.getVar('TUNE_CCARGS_MFPU') != '') else '-DWITH_SIMD=False'}"
-> > Shouldn't this be checking for neon in TUNE_FEATURES rather than
-> > TUNE_CCARGS_MFPU?
-> Refer feature-arm-vfp.inc:
->
-> TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES',
-> 'callconvention-hard', 'hard', 'softfp', d) if
-> (d.getVar('TUNE_CCARGS_MFPU') != '') else '' }"
->
-> TUNE_CCARGS   .= "${@ ' -mfloat-abi=${TUNE_CCARGS_MFLOAT}' if
-> (d.getVar('TUNE_CCARGS_MFLOAT') != '')     else ''}"
->
->
-> There are condition that neon is not in TUNE_FEATURES, but vfp is in it.
-> so TUNE_CCARGS may append -mfloat-abi=softfp,  then
->
-> simd module here can be compiled  sucessfully.
+We've seeing issues where IO load appears to cause strange failures due to timeouts
+within qemu. One theory for these is that it is is hitting hard page faults
+at in-opportune moments which cause timing problems within the VM.
 
-The SIMD code can only be used on targets which support neon. There
-may be other cases where the code can be compiled but if it can never
-be used at run time it's not very useful.
+This patch is a bit of a hack which tries to ensure the data is paged in
+at a point when we know we can take the time delays (waiting for the QMP
+start signal). Whilst this isn't ideal, it does seem to improve things on
+the autobuilder and shouldn't harm anything.
 
-> > It should also probably be conditional on the _arm
-> > over-ride since neon will be missing from
-> > TUNE_CCARGS_MFPU/TUNE_FEATURES for other architectures.Since big
-> > endian ARM doesn't use the _arm over-ride you will also need a
-> > duplicate line with the same logic with the _armeb override too. See
-> > the lines below which do the equivalent for _powerpc / _powerpc64 as a
-> > reference.
-> ok. thanks.
->
-> >
-> >>   # Provide a workaround if Altivec unit is not present in PPC
-> >>   EXTRA_OECMAKE_append_class-target_powerpc = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
-> >>   EXTRA_OECMAKE_append_class-target_powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
-> >> --
-> >> 2.17.1
-> >>
-> >>
-> >> 
-> >>
+The code figures out which files to read my looking at the mmap'd files
+the process has open from /proc. On Centos7 systems these files are not
+user readable, if that is the case we just skip them.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 0032f6ed8dd..24af2fb20bb 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -342,7 +342,24 @@ class QemuRunner:
+         finally:
+             os.chdir(origpath)
+ 
+-        # Release the qemu porcess to continue running
++        # We worry that mmap'd libraries may cause page faults which hang the qemu VM for periods
++        # causing failures. Before we "start" qemu, read through it's mapped files to try and 
++        # ensure we don't hit page faults later
++        mapdir = "/proc/" + str(self.qemupid) + "/map_files/"
++        try:
++            for f in os.listdir(mapdir):
++                linktarget = os.readlink(os.path.join(mapdir, f))
++                if not linktarget.startswith("/") or linktarget.startswith("/dev") or "deleted" in linktarget:
++                    continue
++                with open(linktarget, "rb") as readf:
++                    data = True
++                    while data:
++                        data = readf.read(4096)
++        # Centos7 doesn't allow us to read /map_files/
++        except PermissionError:
++            pass
++
++        # Release the qemu process to continue running
+         self.run_monitor('cont')
+ 
+         # We are alive: qemu is running
+-- 
+2.30.2
+
