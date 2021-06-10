@@ -1,60 +1,60 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.3])
- by mx.groups.io with SMTP id smtpd.web12.7155.1623312954172000750
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.2])
+ by mx.groups.io with SMTP id smtpd.web10.7315.1623313917891687148
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jun 2021 01:15:54 -0700
+ Thu, 10 Jun 2021 01:31:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=iMKPhXkL;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.3, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ywrcw52u;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1623312951; i=@fujitsu.com;
-	bh=HBbcbw0i2BU9LEJDayxDegJGwu486Xg6Y5Cq4IQnjgQ=;
+	s=170520fj; t=1623313915; i=@fujitsu.com;
+	bh=q7+TuQIkcHgqFSX7/3/n9egYCHHtW5p6iuwQjHKx01A=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=iMKPhXkLj/nKtPTgRcs0E377DQTEcPpe7F7iXKYuG1bripKs9hkMndwbTWxESMsh7
-	 wzW+ybtpH9Ddo627vTBIb6Thi37beY+RRSOR59vQpu3REEAsDmzJS5OR0HWGWyGclm
-	 EfJ97vGrqzL4A4fPU3Zicpz151idwnEJXcl98wcXtD3lD0bgRIXPzvhkWIN1oL7B18
-	 iWvEQ52Ti7SCiigm8QWj3sVqiyFYzbRHnGDbAHqcxK79EL89OFVPc8d1w9GmJ/LHZ3
-	 PRzW+U5ZoBK+3xec12X0H/LDzO/yxRABAb93O+Y56pe9piuz4ghIam+o+qwgBjeGQH
-	 Bghx5gWZ7n3FA==
-Received: from [100.112.193.7] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.symcld.net id A4/32-45475-73AC1C06; Thu, 10 Jun 2021 08:15:51 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MRomt26mC
-  CwZXjFhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aht2kF7RwVDdtaWBsY57F3MXJxCAnMYpK4
-  sWwXE4RzglHi5o7vLF2MnBxsAmoS02/dYO1i5OAQEdCTuPpPFCTMLKAi8eJ3DzuILSxgKTHt2
-  jYmEJtFQFWiZdVpNhCbV8BJov3Ne7C4hICCxJSH75kh4oISJ2c+YYGYIyFx8MULZogaRYnZl5
-  tZIOwKideHLzFPYOSdhaRlFpKWBYxMqxgtkooy0zNKchMzc3QNDQx0DQ2NdA0tgdjYVC+xSjd
-  RL7VUtzy1uETXUC+xvFivuDI3OSdFLy+1ZBMjMLhSCg6072B89PqD3iFGSQ4mJVHe2wsOJgjx
-  JeWnVGYkFmfEF5XmpBYfYpTh4FCS4JU+AZQTLEpNT61Iy8wBBjpMWoKDR0mEVwUkzVtckJhbn
-  JkOkTrFqCglzqsAkhAASWSU5sG1waLrEqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVhXnOQKT
-  yZeSVw018BLWYCWuxovA9kcUkiQkqqgWlabPTDSxncN3d27LByexHu93Fq/7a7D3ZdOl7pY91
-  Z69vwOqvTo/HplU1319yyEWRfzxz4hGPz+7rTHG4dluuFX8t8e5D5LyXvbIzjjEOS4adfFr9p
-  9JkYaaeT0GkfoNp5PWOfx7buub+u5E1fZqafUtXz4ts3rtolOw6Hfiiev+iKkJ0Q00qnZ41vl
-  nwJeJJ4RHX6+18G+qucbfuWW+oqftjm+prN56+XI9O0cwtuyE2oFXLzqD+9csl+Af//8mZX49
-  UZA3iYHGbn7lXZvdPkcfAClwC1Ox0hX8wXCwmnr5rz+s/eyiyG1LJJ9vt7mr//23b13t5+KYu
-  iDZ+vzvv89eL7w+wW2vNXxYkllD5UYinOSDTUYi4qTgQAJxSrgSkDAAA=
+	b=ywrcw52uZYloM52Crk0Q8duz9LifI5z2z9BvdPGoKFgi/q3TsuVOATpC9hDm3mqlk
+	 myLZ1BTQYRKQgOHgScKgoxkiqk6++IE2V4oI+C2FRCUg7ddp0yybLCpYQRI/P7ly/R
+	 Mu4+2bwbUD2vK1teF7zUAbVR5GQJoxZusA8PZ4aK6JsXeVSFAmaJUyzwmJ95OPA2q+
+	 fAX3SUPUNXbIWlxIvmTpIfBeR1iYLng+G4zyWJWVe9Q6eeF2JuB3p90z3LQNWIb1Dl
+	 LElp0hK0uNvZ2EBpmBZYpSld4mMQSNV6vfO4THFWZeu5WM3pB1z6vgyyBDegRWuBQb
+	 gcO44u/WYd0Lg==
+Received: from [100.112.192.137] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id B9/DF-28327-BFDC1C06; Thu, 10 Jun 2021 08:31:55 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MRqvv77ME
+  Eg8eLJC3u/HzH7sDocW7jCsYAxijWzLyk/IoE1ozz07ezFcxSq7h2eCp7A+NC5S5GLg4hgVlM
+  EmuWPWeGcE4wSjxu62LsYuTkYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv3vYQWxhAXOJe
+  TevsYLYLAKqEosPdTOB2LwCThIr3+wHsyUEFCSmPHzPDBEXlDg58wkLxBwJiYMvXjBD1ChKzL
+  7czAJhV0i8PnyJeQIj7ywkLbOQtCxgZFrFaJ5UlJmeUZKbmJmja2hgoGtoaKRraGmqa2yil1i
+  lm6iXWqpbnlpcomuol1herFdcmZuck6KXl1qyiREYXCkFh5V2ML57/UHvEKMkB5OSKO/tBQcT
+  hPiS8lMqMxKLM+KLSnNSiw8xynBwKEnwnjoDlBMsSk1PrUjLzAEGOkxagoNHSYS3EhjsQrzFB
+  Ym5xZnpEKlTjIpS4ryyIAkBkERGaR5cGyy6LjHKSgnzMjIwMAjxFKQW5WaWoMq/YhTnYFQS5g
+  0FmcKTmVcCN/0V0GImoMWOxvtAFpckIqSkGphU2R71tU7I82U3u+EWW2hu62BeKjs94+00K2P
+  X7Snpqkl751y99YrjVv56/fzEHtFFavEtuVMavklJc7UF7P4c9OVcKMf9o5nre2acfzhX3M3x
+  WJ39ts3bHOWTuxhOei0vu7WoJsng+u5dnzwuCPc+22xVYtnuuc1i6oNrSallNWv23pMqTVa8N
+  McyXDiz5XapB+fru5m/jrIpnphrueyJXY6umjAP+/uwQ/6Xpt2S7HTj3Txv4zTrFfunfIp5cD
+  ColGfmtqKYm3PvbOwv2vMsTGWWJ6vhzXbFg9E33hjlTVl5/0pnQMu+2NVmN6vZmEMvHf91TvX
+  Amz3/Ps/u4v2Xc+jRB7E1yx7+9WbrurFeiaU4I9FQi7moOBEA1143HCkDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-4.tower-265.messagelabs.com!1623312950!281214!1
-X-Originating-IP: [62.60.8.84]
+X-Msg-Ref: server-4.tower-265.messagelabs.com!1623313915!283239!1
+X-Originating-IP: [62.60.8.85]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 32486 invoked from network); 10 Jun 2021 08:15:50 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-4.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Jun 2021 08:15:50 -0000
+Received: (qmail 23508 invoked from network); 10 Jun 2021 08:31:55 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-4.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Jun 2021 08:31:55 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15A8Fo38028216
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15A8VtVb000601
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 09:15:50 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 09:31:55 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 10 Jun 2021 09:15:48 +0100
+ (TLS) id 15.0.1497.18; Thu, 10 Jun 2021 09:31:53 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] gnutls: upgrade 3.7.1 -> 3.7.2
-Date: Thu, 10 Jun 2021 16:15:33 +0800
-Message-ID: <1623312933-45596-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] go: upgrade 1.16.4 -> 1.16.5
+Date: Thu, 10 Jun 2021 16:31:36 +0800
+Message-ID: <1623313898-45731-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
@@ -64,26 +64,88 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../recipes-support/gnutls/{gnutls_3.7.1.bb => gnutls_3.7.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/gnutls/{gnutls_3.7.1.bb => gnutls_3.7.2.bb} (96%)
+ meta/recipes-devtools/go/{go-1.16.4.inc => go-1.16.5.inc}     | 4 ++--
+ ...{go-binary-native_1.16.4.bb => go-binary-native_1.16.5.bb} | 4 ++--
+ ...o-cross-canadian_1.16.4.bb => go-cross-canadian_1.16.5.bb} | 0
+ .../go/{go-cross_1.16.4.bb => go-cross_1.16.5.bb}             | 0
+ .../go/{go-crosssdk_1.16.4.bb => go-crosssdk_1.16.5.bb}       | 0
+ .../go/{go-native_1.16.4.bb => go-native_1.16.5.bb}           | 0
+ .../go/{go-runtime_1.16.4.bb => go-runtime_1.16.5.bb}         | 0
+ meta/recipes-devtools/go/{go_1.16.4.bb => go_1.16.5.bb}       | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.16.4.inc => go-1.16.5.inc} (88%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.16.4.bb => go-binary-native_1.16.5.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.16.4.bb => go-cross-canadian_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.16.4.bb => go-cross_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.16.4.bb => go-crosssdk_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.16.4.bb => go-native_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.16.4.bb => go-runtime_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.16.4.bb => go_1.16.5.bb} (100%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.7.1.bb b/meta/recipes-support/gnutls/gnutls_3.7.2.bb
-similarity index 96%
-rename from meta/recipes-support/gnutls/gnutls_3.7.1.bb
-rename to meta/recipes-support/gnutls/gnutls_3.7.2.bb
-index 350d0a018b..430d1f2d7d 100644
---- a/meta/recipes-support/gnutls/gnutls_3.7.1.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.7.2.bb
-@@ -23,7 +23,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://arm_eabi.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.16.4.inc b/meta/recipes-devtools/go/go-1.16.5.inc
+similarity index 88%
+rename from meta/recipes-devtools/go/go-1.16.4.inc
+rename to meta/recipes-devtools/go/go-1.16.5.inc
+index 71c17de310..bd928e44f8 100644
+--- a/meta/recipes-devtools/go/go-1.16.4.inc
++++ b/meta/recipes-devtools/go/go-1.16.5.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
  
--SRC_URI[sha256sum] = "3777d7963eca5e06eb315686163b7b3f5045e2baac5e54e038ace9835e5cac6f"
-+SRC_URI[sha256sum] = "646e6c5a9a185faa4cea796d378a1ba8e1148dbb197ca6605f95986a25af2752"
+ GO_BASEVERSION = "1.16"
+-PV = "1.16.4"
++PV = "1.16.5"
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
  
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
+ "
+-SRC_URI[main.sha256sum] = "ae4f6b6e2a1677d31817984655a762074b5356da50fb58722b99104870d43503"
++SRC_URI[main.sha256sum] = "7bfa7e5908c7cc9e75da5ddf3066d7cbcf3fd9fa51945851325eebc17f50ba80"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.4.bb b/meta/recipes-devtools/go/go-binary-native_1.16.5.bb
+similarity index 83%
+rename from meta/recipes-devtools/go/go-binary-native_1.16.4.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.16.5.bb
+index 8c046e8e53..b3e2b6a60e 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.16.4.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.16.5.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ PROVIDES = "go-native"
  
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "7154e88f5a8047aad4b80ebace58a059e36e7e2e4eb3b383127a28c711b4ff59"
+-SRC_URI[go_linux_arm64.sha256sum] = "8b18eb05ddda2652d69ab1b1dd1f40dd731799f43c6a58b512ad01ae5b5bba21"
++SRC_URI[go_linux_amd64.sha256sum] = "b12c23023b68de22f74c0524f10b753e7b08b1504cb7e417eccebdd3fae49061"
++SRC_URI[go_linux_arm64.sha256sum] = "d5446b46ef6f36fdffa852f73dfbbe78c1ddf010b99fa4964944b9ae8b4d6799"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.4.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.16.4.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.16.5.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.16.4.bb b/meta/recipes-devtools/go/go-cross_1.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.16.4.bb
+rename to meta/recipes-devtools/go/go-cross_1.16.5.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.4.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.16.4.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.16.5.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.16.4.bb b/meta/recipes-devtools/go/go-native_1.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.16.4.bb
+rename to meta/recipes-devtools/go/go-native_1.16.5.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.16.4.bb b/meta/recipes-devtools/go/go-runtime_1.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.16.4.bb
+rename to meta/recipes-devtools/go/go-runtime_1.16.5.bb
+diff --git a/meta/recipes-devtools/go/go_1.16.4.bb b/meta/recipes-devtools/go/go_1.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.16.4.bb
+rename to meta/recipes-devtools/go/go_1.16.5.bb
 -- 
 2.25.1
 
