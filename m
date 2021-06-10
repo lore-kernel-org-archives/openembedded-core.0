@@ -1,109 +1,386 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.1])
- by mx.groups.io with SMTP id smtpd.web11.7173.1623313928696922288
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.7463.1623315615619973870
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jun 2021 01:32:09 -0700
+ Thu, 10 Jun 2021 02:00:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=UtF7k1Sk;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1623313926; i=@fujitsu.com;
-	bh=PrONT+PATR6Tv5N9BZwrHY5bomm18pUHTn2RUcKPj2o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=UtF7k1Sk1WXEmv+Av80POX9YMIF+Lxt3wcffAPyebWBu2V/EDI3QTJnp9Nw0y/14I
-	 lAwj530fgkRs1NFn38FVRf7mFemzq9lss+l8WhXaiNmEaQZattxdiK/T8dQG2jFcEm
-	 YFTzOAUoDawSVo17bKAEheAlWLL91gXf0HcI958Kzeb+DJqbxocJoRNUcfyGsPawUq
-	 9uv55BniIRysECfGV61q8Pbyf7jlIBnhU+36BsX7YCRTZuaRVuuYiz82vNOQJTM6Ck
-	 yHiWT4h2ShlQxkrJQwXKM1xvaW8s3wxo5dohmV6QwrDWLzmQD8x3/Tv7BWGpZOT4dZ
-	 OnWjLKqFY/TJg==
-Received: from [100.113.1.143] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-a.eu-central-1.aws.symcld.net id B0/E3-37841-60EC1C06; Thu, 10 Jun 2021 08:32:06 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRost27mC
-  Cwb8OQYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeP3BN6CY3wVDy5uYG1gnMDbxcjFISQwi0li
-  6t21LBDOCUaJd6+WsHYxcnKwCahJTL91A8jm4BAR0JO4+k8UJMwsoCLx4ncPO4gtLGAhsW7Ce
-  mYQm0VAVeL3tQawOK+Ak8T1aY8ZQWwJAQWJKQ/fg9VwCjhLTO44ADZeCKjmwcrbbBD1ghInZz
-  5hgZgvIXHwxQtmiF5FidmXm1kg7AqJ14cvMU9g5J+FpGUWkpYFjEyrGC2TijLTM0pyEzNzdA0
-  NDHQNDY11DXWNjMz0Eqt0E/VSS3WTU/NKihKBsnqJ5cV6xZW5yTkpenmpJZsYgeGYUsj4aAfj
-  6dcf9A4xSnIwKYny3l5wMEGILyk/pTIjsTgjvqg0J7X4EKMMB4eSBO+pM0A5waLU9NSKtMwcY
-  GzApCU4eJREeCvPAqV5iwsSc4sz0yFSpxgVpcR5ZUESAiCJjNI8uDZYPF5ilJUS5mVkYGAQ4i
-  lILcrNLEGVf8UozsGoJMwbCjKFJzOvBG76K6DFTECLHY33gSwuSURISTUwzfnYqBP/rOPXJ+Z
-  /FfOzVWsqmdxnzGW28bv+/ORcG+Ech6Jv/vqn9ufe4bj6t9NXyfi4fXMDm8CEWruDbpkHXtWk
-  JLT9n3/2xv53kjV9b9+rnQ/qMor1jhJQnjPr779fmgLHn7DdkjDfaa745D7bjvBKI7HO0z9N3
-  7/N0otbxTRpzweOQ0v36kuddZo/n7/477xn2Q1/nvewn0rKn5Nr86/E+QvH9L0LvsT2zgswiF
-  C+rH6+iWmb59vWu819L6WXJPz+HrvPvag0fOUShWJL32cOycdmXHCYMnNXwwwf5/TlKsHrVpf
-  GFOzI3c9VuGVNluJOhnA5iccVuxNqU/NmrZq4Y/7+6nM+x49cc/o8Q4mlOCPRUIu5qDgRAARt
-  G4FCAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-226.messagelabs.com!1623313925!8207!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 18363 invoked from network); 10 Jun 2021 08:32:06 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-5.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Jun 2021 08:32:06 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15A8W2ci007177
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 09:32:05 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 10 Jun 2021 09:32:01 +0100
-From: "wangmy" <wangmy@fujitsu.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 15A90D9l032591
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 02:00:14 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 15A90DaU014678
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 02:00:13 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 10 Jun 2021 02:00:13 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Thu, 10 Jun 2021 02:00:12 -0700
+From: "kai" <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] ethtool: upgrade 5.10 -> 5.12
-Date: Thu, 10 Jun 2021 16:31:38 +0800
-Message-ID: <1623313898-45731-3-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1623313898-45731-1-git-send-email-wangmy@fujitsu.com>
-References: <1623313898-45731-1-git-send-email-wangmy@fujitsu.com>
+Subject: [hardknott][PATCH] libx11: fix CVE-2021-31535
+Date: Thu, 10 Jun 2021 17:00:10 +0800
+Message-ID: <20210610090010.37039-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-refresh avoid_parallel_tests.patch
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Backport patch to fix CVE-2021-31535 of libx11. Adjust indentation as well.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch | 2 +-
- .../ethtool/{ethtool_5.10.bb => ethtool_5.12.bb}                | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_5.10.bb => ethtool_5.12.bb} (93%)
+ .../xorg-lib/libx11/fix-CVE-2021-31535.patch  | 320 ++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libx11_1.7.0.bb |   5 +-
+ 2 files changed, 323 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/fix-CVE-2021-31535.patch
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 54aec01284..b3f3de4a16 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -19,7 +19,7 @@ index 13c2bc0..0b6ca1d 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 5.10, netdev@vger.kernel.org)
-+ AC_INIT(ethtool, 5.12, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_SRCDIR([ethtool.c])
- -AM_INIT_AUTOMAKE([gnu subdir-objects])
-diff --git a/meta/recipes-extended/ethtool/ethtool_5.10.bb b/meta/recipes-extended/ethtool/ethtool_5.12.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_5.10.bb
-rename to meta/recipes-extended/ethtool/ethtool_5.12.bb
-index 5c0df3acbc..df7dd47748 100644
---- a/meta/recipes-extended/ethtool/ethtool_5.10.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_5.12.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/fix-CVE-2021-31535.patch b/meta/recipes-graphics/xorg-lib/libx11/fix-CVE-2021-31535.patch
+new file mode 100644
+index 0000000000..2ec5cc1688
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/fix-CVE-2021-31535.patch
+@@ -0,0 +1,320 @@
++From 8d2e02ae650f00c4a53deb625211a0527126c605 Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Fri, 19 Feb 2021 15:30:39 +0100
++Subject: [PATCH] Reject string longer than USHRT_MAX before sending them on
++ the wire
++
++The X protocol uses CARD16 values to represent the length so
++this would overflow.
++
++CVE-2021-31535
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++
++CVE: CVE-2021-31535
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/8d2e02a]
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++ src/Font.c      | 4 +++-
++ src/FontInfo.c  | 3 +++
++ src/FontNames.c | 3 +++
++ src/GetColor.c  | 4 ++++
++ src/LoadFont.c  | 4 ++++
++ src/LookupCol.c | 6 ++++--
++ src/ParseCol.c  | 3 +++
++ src/QuExt.c     | 5 +++++
++ src/SetFPath.c  | 6 ++++++
++ src/SetHints.c  | 7 +++++++
++ src/StNColor.c  | 3 +++
++ src/StName.c    | 7 ++++++-
++ 12 files changed, 51 insertions(+), 4 deletions(-)
++
++diff --git a/src/Font.c b/src/Font.c
++index d4ebdaca..1cd89cca 100644
++--- a/src/Font.c
+++++ b/src/Font.c
++@@ -102,6 +102,8 @@ XFontStruct *XLoadQueryFont(
++     XF86BigfontCodes *extcodes = _XF86BigfontCodes(dpy);
++ #endif
++ 
+++    if (strlen(name) >= USHRT_MAX)
+++        return NULL;
++     if (_XF86LoadQueryLocaleFont(dpy, name, &font_result, (Font *)0))
++       return font_result;
++     LockDisplay(dpy);
++@@ -663,7 +665,7 @@ int _XF86LoadQueryLocaleFont(
++     if (!name)
++ 	return 0;
++     l = (int) strlen(name);
++-    if (l < 2 || name[l - 1] != '*' || name[l - 2] != '-')
+++    if (l < 2 || name[l - 1] != '*' || name[l - 2] != '-' || l >= USHRT_MAX)
++ 	return 0;
++     charset = NULL;
++     /* next three lines stolen from _XkbGetCharset() */
++diff --git a/src/FontInfo.c b/src/FontInfo.c
++index 694efa10..6644b3fa 100644
++--- a/src/FontInfo.c
+++++ b/src/FontInfo.c
++@@ -58,6 +58,9 @@ XFontStruct **info)	/* RETURN */
++     register xListFontsReq *req;
++     int j;
++ 
+++    if (strlen(pattern) >= USHRT_MAX)
+++        return NULL;
+++
++     LockDisplay(dpy);
++     GetReq(ListFontsWithInfo, req);
++     req->maxNames = maxNames;
++diff --git a/src/FontNames.c b/src/FontNames.c
++index 30912925..458d80c9 100644
++--- a/src/FontNames.c
+++++ b/src/FontNames.c
++@@ -51,6 +51,9 @@ int *actualCount)	/* RETURN */
++     register xListFontsReq *req;
++     unsigned long rlen = 0;
++ 
+++    if (strlen(pattern) >= USHRT_MAX)
+++        return NULL;
+++
++     LockDisplay(dpy);
++     GetReq(ListFonts, req);
++     req->maxNames = maxNames;
++diff --git a/src/GetColor.c b/src/GetColor.c
++index d088497f..c8178067 100644
++--- a/src/GetColor.c
+++++ b/src/GetColor.c
++@@ -27,6 +27,7 @@ in this Software without prior written authorization from The Open Group.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
++ #include <stdio.h>
++ #include "Xlibint.h"
++ #include "Xcmsint.h"
++@@ -48,6 +49,9 @@ XColor *exact_def) /* RETURN */
++     XcmsColor cmsColor_exact;
++     Status ret;
++ 
+++    if (strlen(colorname) >= USHRT_MAX)
+++        return (0);
+++
++ #ifdef XCMS
++     /*
++      * Let's Attempt to use Xcms and i18n approach to Parse Color
++diff --git a/src/LoadFont.c b/src/LoadFont.c
++index 0a3809a8..3996436f 100644
++--- a/src/LoadFont.c
+++++ b/src/LoadFont.c
++@@ -27,6 +27,7 @@ in this Software without prior written authorization from The Open Group.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
++ #include "Xlibint.h"
++ 
++ Font
++@@ -38,6 +39,9 @@ XLoadFont (
++     Font fid;
++     register xOpenFontReq *req;
++ 
+++    if (strlen(name) >= USHRT_MAX)
+++        return (0);
+++
++     if (_XF86LoadQueryLocaleFont(dpy, name, (XFontStruct **)0, &fid))
++       return fid;
++ 
++diff --git a/src/LookupCol.c b/src/LookupCol.c
++index 9608d512..cd9b1368 100644
++--- a/src/LookupCol.c
+++++ b/src/LookupCol.c
++@@ -27,6 +27,7 @@ in this Software without prior written authorization from The Open Group.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
++ #include <stdio.h>
++ #include "Xlibint.h"
++ #include "Xcmsint.h"
++@@ -46,6 +47,9 @@ XLookupColor (
++ 	XcmsCCC ccc;
++ 	XcmsColor cmsColor_exact;
++ 
+++	n = (int) strlen (spec);
+++	if (n >= USHRT_MAX)
+++            return 0;
++ #ifdef XCMS
++ 	/*
++ 	 * Let's Attempt to use Xcms and i18n approach to Parse Color
++@@ -77,8 +81,6 @@ XLookupColor (
++ 	 * Xcms and i18n methods failed, so lets pass it to the server
++ 	 * for parsing.
++ 	 */
++-
++-	n = (int) strlen (spec);
++ 	LockDisplay(dpy);
++ 	GetReq (LookupColor, req);
++ 	req->cmap = cmap;
++diff --git a/src/ParseCol.c b/src/ParseCol.c
++index 2691df36..7a84a17b 100644
++--- a/src/ParseCol.c
+++++ b/src/ParseCol.c
++@@ -27,6 +27,7 @@ in this Software without prior written authorization from The Open Group.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
++ #include <stdio.h>
++ #include "Xlibint.h"
++ #include "Xcmsint.h"
++@@ -47,6 +48,8 @@ XParseColor (
++ 
++         if (!spec) return(0);
++ 	n = (int) strlen (spec);
+++	if (n >= USHRT_MAX)
+++            return(0);
++ 	if (*spec == '#') {
++ 	    /*
++ 	     * RGB
++diff --git a/src/QuExt.c b/src/QuExt.c
++index 2021dca4..4cb99fcf 100644
++--- a/src/QuExt.c
+++++ b/src/QuExt.c
++@@ -27,6 +27,8 @@ in this Software without prior written authorization from The Open Group.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
+++#include <stdbool.h>
++ #include "Xlibint.h"
++ 
++ Bool
++@@ -40,6 +42,9 @@ XQueryExtension(
++     xQueryExtensionReply rep;
++     register xQueryExtensionReq *req;
++ 
+++    if (strlen(name) >= USHRT_MAX)
+++        return false;
+++
++     LockDisplay(dpy);
++     GetReq(QueryExtension, req);
++     req->nbytes = name ? (CARD16) strlen(name) : 0;
++diff --git a/src/SetFPath.c b/src/SetFPath.c
++index 7d12f18c..13fce49e 100644
++--- a/src/SetFPath.c
+++++ b/src/SetFPath.c
++@@ -26,6 +26,7 @@ in this Software without prior written authorization from The Open Group.
++ 
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
+++#include <limits.h>
++ #endif
++ #include "Xlibint.h"
++ 
++@@ -49,6 +50,11 @@ XSetFontPath (
++ 	req->nFonts = ndirs;
++ 	for (i = 0; i < ndirs; i++) {
++ 		n = (int) ((size_t) n + (safestrlen (directories[i]) + 1));
+++		if (n >= USHRT_MAX) {
+++			UnlockDisplay(dpy);
+++			SyncHandle();
+++			return 0;
+++		}
++ 	}
++ 	nbytes = (n + 3) & ~3;
++ 	req->length += nbytes >> 2;
++diff --git a/src/SetHints.c b/src/SetHints.c
++index e81aa9d3..61cb0684 100644
++--- a/src/SetHints.c
+++++ b/src/SetHints.c
++@@ -49,6 +49,7 @@ SOFTWARE.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
++ #include <X11/Xlibint.h>
++ #include <X11/Xutil.h>
++ #include "Xatomtype.h"
++@@ -214,6 +215,8 @@ XSetCommand (
++ 	register char *buf, *bp;
++ 	for (i = 0, nbytes = 0; i < argc; i++) {
++ 		nbytes += safestrlen(argv[i]) + 1;
+++		if (nbytes >= USHRT_MAX)
+++                    return 1;
++ 	}
++ 	if ((bp = buf = Xmalloc(nbytes))) {
++ 	    /* copy arguments into single buffer */
++@@ -256,6 +259,8 @@ XSetStandardProperties (
++ 
++ 	if (name != NULL) XStoreName (dpy, w, name);
++ 
+++        if (safestrlen(icon_string) >= USHRT_MAX)
+++            return 1;
++ 	if (icon_string != NULL) {
++ 	    XChangeProperty (dpy, w, XA_WM_ICON_NAME, XA_STRING, 8,
++                              PropModeReplace,
++@@ -298,6 +303,8 @@ XSetClassHint(
++ 
++ 	len_nm = safestrlen(classhint->res_name);
++ 	len_cl = safestrlen(classhint->res_class);
+++        if (len_nm + len_cl >= USHRT_MAX)
+++            return 1;
++ 	if ((class_string = s = Xmalloc(len_nm + len_cl + 2))) {
++ 	    if (len_nm) {
++ 		strcpy(s, classhint->res_name);
++diff --git a/src/StNColor.c b/src/StNColor.c
++index 3b50401b..16dc9cbc 100644
++--- a/src/StNColor.c
+++++ b/src/StNColor.c
++@@ -27,6 +27,7 @@ in this Software without prior written authorization from The Open Group.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
++ #include <stdio.h>
++ #include "Xlibint.h"
++ #include "Xcmsint.h"
++@@ -46,6 +47,8 @@ int flags)  /* DoRed, DoGreen, DoBlue */
++     XcmsColor cmsColor_exact;
++     XColor scr_def;
++ 
+++    if (strlen(name) >= USHRT_MAX)
+++        return 0;
++ #ifdef XCMS
++     /*
++      * Let's Attempt to use Xcms approach to Parse Color
++diff --git a/src/StName.c b/src/StName.c
++index 58b5a5a6..04bb3aa6 100644
++--- a/src/StName.c
+++++ b/src/StName.c
++@@ -27,6 +27,7 @@ in this Software without prior written authorization from The Open Group.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
++ #include <X11/Xlibint.h>
++ #include <X11/Xatom.h>
++ 
++@@ -36,7 +37,9 @@ XStoreName (
++     Window w,
++     _Xconst char *name)
++ {
++-    return XChangeProperty(dpy, w, XA_WM_NAME, XA_STRING,
+++    if (strlen(name) >= USHRT_MAX)
+++        return 0;
+++    return XChangeProperty(dpy, w, XA_WM_NAME, XA_STRING, /*  */
++ 			   8, PropModeReplace, (_Xconst unsigned char *)name,
++ 			   name ? (int) strlen(name) : 0);
++ }
++@@ -47,6 +50,8 @@ XSetIconName (
++     Window w,
++     _Xconst char *icon_name)
++ {
+++    if (strlen(icon_name) >= USHRT_MAX)
+++        return 0;
++     return XChangeProperty(dpy, w, XA_WM_ICON_NAME, XA_STRING, 8,
++                            PropModeReplace, (_Xconst unsigned char *)icon_name,
++ 			   icon_name ? (int) strlen(icon_name) : 0);
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb
+index 3faee6e497..c6429cbbac 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.0.bb
+@@ -11,8 +11,9 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/libx11:"
+ PE = "1"
  
--SRC_URI[sha256sum] = "4b86adb3ed913c1ef14a276301981f696ab4ec360c19f0a5b68235c4756abae5"
-+SRC_URI[sha256sum] = "7ca623cc1dd25ba66531573da6a11f1ecde9b62b00742d9ba54f9ba983439bfa"
+ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
+-           file://disable_tests.patch \
+-           "
++            file://disable_tests.patch \
++            file://fix-CVE-2021-31535.patch \
++            "
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ SRC_URI[sha256sum] = "36c8f93b6595437c8cfbc9f08618bcb3041cbd303e140a0013f88e4c2977cb54"
  
 -- 
-2.25.1
+2.17.1
 
