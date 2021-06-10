@@ -1,115 +1,83 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web12.2535.1623278429198149930
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web12.4815.1623291429810196938
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jun 2021 15:40:29 -0700
+ Wed, 09 Jun 2021 19:17:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XJhbRz2b;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: andrea.adami@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id r11so30357497edt.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jun 2021 15:40:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QNTY++cV;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id c13so176308plz.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jun 2021 19:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=agiju6OsL1HVHbZHUnJtXJDUvzju2WutJCNxeHlS95w=;
-        b=XJhbRz2bhoVJQLnzu1xs3wujqzEZoQvLEhEqd7WaNrb/dZ6lmKCMxwYepIvfNThQaz
-         74NyEu1yDq16B+GonI4HIcQxkC4HlhYlaI1YDKR+5giWOpD7Xi43Rv+81TW2nOoayBEo
-         DQW9YJX2FPDaHzlAwupLs8pgytQI/jv2dW7/L9wT2sLNudwo58p1OCer8SsLLrnqBD2X
-         H/OsDBt9BjA/LJF0m9jedVa0tsorMftUqdH0v6necAJoHoA2DC5NEvlIYLdflF3BuGVv
-         p++lVLul52uqfTAJ0YbDpnwD34Pvs5vKSsm3oQNO1KDRcEX6ikgZCg2GQ5fq9fl10M0c
-         /TIg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W8bsjGQoDdwc6vrenX3LGnVJDnvGtg7xvD/bVknW2mA=;
+        b=QNTY++cVkSC718gQN4Z0PwPZiZQ/FfKgGYLZPXBEbMfo/vkE2Du6oxFzo4RcNoHyRG
+         unhx8b5h1gOtHPUQaKc+hKgkCflnXRX1+gw5GH6hHLvDP77IvYot1NgpETXE7lBE6Dk/
+         X3mlk3cw/ZtPleHWtcVmdZK3lh5CnH7C5qYcjUMFMHImpdgNRwNIt6US/v4ts7nY982r
+         OfQdyNAZQMkkmrpHt7v2VzMfusrQ0bLVJ6HcTW20NpGc2OWFFNsx6amkGKIo/z/i65VM
+         F5gtFafB+UHjppB9/iTPJxJcLUeKf01ubUgQGByClIYznG8DFm70oO6cBKzozWTTCCCJ
+         h+Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=agiju6OsL1HVHbZHUnJtXJDUvzju2WutJCNxeHlS95w=;
-        b=pJOdxA6pWIDGjavVRolgchT5nHUON1PALkHQE492QFnhW4mmVicU+2JVPfStop50nG
-         65MlJIxiBsmXLkM+Ss8AAVuHbJIOBjBNAIINv7T8EvDn5pyn1sLLg4FXroUk1H0PVW4O
-         eG5ZscbYqi5klKONeyeLz15WkV5kuqUa5u3lTtBmzlexMXle0BwG/R9aFJz3Vb3ORCnD
-         Pkvn1PC4c2YCrA1TZipYf4D/KJ1Uoev9Hauv6YZE9mY5nWaBfu1c46Xih8vcgf3GZhO4
-         cyvqshLeZFt25AHeFGz7pC6e8X5DeUGnS0LZd32MVuBBGU4DUxdoiTGYQjVg7XOI7Fao
-         3FkA==
-X-Gm-Message-State: AOAM530roeC8XmS62g1tHv/ihFFUE6Op/GtHkrLkh+BMEBvyTyLdbyj/
-	zOKIQzD/1QkfAhIizCbg7WI0QZlE6TCNovIfroo=
-X-Google-Smtp-Source: ABdhPJyRWATcZO4Rb1WXJw0aV+uaRMHZipnQBQcLl8avXQcpg56xyBUWeOKvkuUeLMViABuGNYqVL+rMNDe7kRrfRls=
-X-Received: by 2002:aa7:d288:: with SMTP id w8mr1570763edq.276.1623278427449;
- Wed, 09 Jun 2021 15:40:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W8bsjGQoDdwc6vrenX3LGnVJDnvGtg7xvD/bVknW2mA=;
+        b=KEtXRAlpodwTbAcgdFOaAjiBUADOv3WZFThxbHJISX5S72iffcIq2oqHtCy9t5HJlW
+         TgZIkVDm1dISY1iamQ3ikx4TtpZOtWFoYnOjwJJDitZT8WtzbefFbrMjyx0JhZIizz+L
+         Rt+SxtbuSdix7Ze3pDFJ4OlxNr3wQjYFq4E8uJZRKNDo3veqtU5FImxRvEvlTBxVt7Hp
+         I6Kdmn3neS/kiTXA11nc9K4RvF30MT2c0Fr5WBzXd7YrdIad/t6V0LkgnNmOsTkD0EJX
+         CPKXbDevRgEueNfAQSM7/+AZDP2rWWjFe2BvOp4PqUalL1ueYp/PAfhHk4P6Iq+4wrR1
+         5WHw==
+X-Gm-Message-State: AOAM531ktBJUPQRocfk7IsiDEykTSwWa2Wwiu3uPo5pqG/Lkej1INrmg
+	m340dIFvgmDRolFJxkEo4IuUVOJnkCB1tA==
+X-Google-Smtp-Source: ABdhPJyfdTxdSiBEEBFttA0cJ7rbaZbXzbrllFDrbhxf0zw+rRObMDCcMq8naWGF7plv+1HNTQCkBA==
+X-Received: by 2002:a17:90a:de15:: with SMTP id m21mr803309pjv.87.1623291428813;
+        Wed, 09 Jun 2021 19:17:08 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
+        by smtp.gmail.com with ESMTPSA id u68sm710660pfb.64.2021.06.09.19.17.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jun 2021 19:17:08 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Andrea Adami <andrea.adami@gmail.com>
+Subject: [PATCH] arch-armv4: Allow -march=armv4
+Date: Wed,  9 Jun 2021 19:17:05 -0700
+Message-Id: <20210610021705.3792040-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210609072939.6058-1-changqing.li@windriver.com> <CAJ86T=X8aHodEfG2uRWsB31xDSf3OfUUhXxxL3+yY4dzTiGzfQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=X8aHodEfG2uRWsB31xDSf3OfUUhXxxL3+yY4dzTiGzfQ@mail.gmail.com>
-From: "Andrea Adami" <andrea.adami@gmail.com>
-Date: Thu, 10 Jun 2021 00:40:16 +0200
-Message-ID: <CAAQYJAsGZ=juTKre1msSe2sqgKhkQ3Ek8vEO-NFT8GAnxb68bg@mail.gmail.com>
-Subject: Re: [OE-core] [V2][PATCH] libjpeg-turbo: fix do_compile error on armv5
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Changqing Li <changqing.li@windriver.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 9, 2021 at 7:30 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Wed, Jun 9, 2021 at 12:32 AM Changqing Li <changqing.li@windriver.com> wrote:
-> >
-> > From: Changqing Li <changqing.li@windriver.com>
-> >
-> > fix below error:
-> > /include/arm_neon.h:31:2: error: #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
-> > 31 | #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
-> >
-> > Neon is not supported by armv5, disable the simd extension build.
->
-> Drop this comment. Neon may be missing from other ISA levels too (i.e.
-> this fix is not specific to armv5).
->
-> > Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> > ---
-> >  meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
-> > index 7f91cc02ac..da21971113 100644
-> > --- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
-> > +++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
-> > @@ -40,6 +40,8 @@ EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx3
-> >  # Work around missing non-floating point ABI support in MIPS
-> >  EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf", "-DWITH_SIMD=False", "", d)}"
-> >
-> > +EXTRA_OECMAKE_append_class-target = " ${@ ('') if (d.getVar('TUNE_CCARGS_MFPU') != '') else '-DWITH_SIMD=False'}"
->
-> Shouldn't this be checking for neon in TUNE_FEATURES rather than
-> TUNE_CCARGS_MFPU? It should also probably be conditional on the _arm
-> over-ride since neon will be missing from
-> TUNE_CCARGS_MFPU/TUNE_FEATURES for other architectures. Since big
-> endian ARM doesn't use the _arm over-ride you will also need a
-> duplicate line with the same logic with the _armeb override too. See
-> the lines below which do the equivalent for _powerpc / _powerpc64 as a
-> reference.
->
-> >  # Provide a workaround if Altivec unit is not present in PPC
-> >  EXTRA_OECMAKE_append_class-target_powerpc = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
-> >  EXTRA_OECMAKE_append_class-target_powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
-> > --
-> > 2.17.1
-> >
-> >
-> >
-> >
->
-> 
->
+Even though it is deprecated in GCC 6 [1] it has not yet been
+removed from gcc upstream. We do have active machines in OE
+ecosystem which use armv4 ( SA11xx ) e.g. collie in meta-handheld
+so until upstream gcc takes next step to remove them
+lets support armv4 again, we are still carrying the relevant gcc patch
+to support v4 BX fix.
 
-Just to confirm it fails on armv4 as well.
+[1] https://gcc.gnu.org/gcc-6/changes.html#arm
 
-CheckSymbolExists.c:8:19: error: 'vld1_s16_x3' undeclared (first use
-in this function)
-CheckSymbolExists.c:8:19: error: 'vld1_u16_x2' undeclared (first use
-in this function)
-CheckSymbolExists.c:8:19: error: 'vld1q_u8_x4' undeclared (first use
-in this function)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/conf/machine/include/arm/arch-armv4.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-...
-#include <arm_neon.h>
-...
-    3 |     #error "float ABI = softfp"
+diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
+index fac2bdf952..b71739c20a 100644
+--- a/meta/conf/machine/include/arm/arch-armv4.inc
++++ b/meta/conf/machine/include/arm/arch-armv4.inc
+@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv4"
+ 
+ TUNEVALID[arm] = "Enable ARM instruction set"
+ TUNEVALID[armv4] = "Enable instructions for ARMv4"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4${ARMPKGSFX_THUMB}', '', d)}"
+ # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then disable it when we have also armv5 or thumb
+ # maybe we should extend bb.utils.contains to support check for any checkvalues in value, now it does 
+ # checkvalues.issubset(val) which cannot be used for negative test of foo neither bar in value
+-- 
+2.32.0
 
-A.A.
