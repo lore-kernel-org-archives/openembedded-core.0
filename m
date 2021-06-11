@@ -1,114 +1,62 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.6037.1623403155600485423
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.6586.1623407605728440640
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jun 2021 02:19:16 -0700
+ Fri, 11 Jun 2021 03:33:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 15B9JDcX014359
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 02:19:14 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 11 Jun 2021 02:19:13 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Fri, 11 Jun 2021 02:19:12 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] tcf-agent: change license to EPL/EDL
-Date: Fri, 11 Jun 2021 17:16:55 +0800
-Message-ID: <20210611091655.14935-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=G/gDwWTg;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1623407606;
+  x=1654943606;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a5cjtNJTeotRozCvWr4iQgIb3X4HN4gf4PELC7ABMu0=;
+  b=G/gDwWTgbV1oXK4eSTnmRpcq8i8x4Sit+tcgMM0N7vYndE4dvf4EdjhX
+   Q4bXAleRHrlP5PwA6tKaXfxOpXaaFWM8IAzJ9zikA4PHHW3Ul8aRNfaZR
+   kt9amP3ncKebLL32Pn+4LuJ3dAoHzzmQBEFFgnoeQJoN9Gx7pCLxEfBLg
+   /tKyR5+9L29mU9zZ2CNyoNjDfWOI/xIYyWpQalYLL7bYbnFhjXcqX27EE
+   J5L/LwbU/RydKfB7VymuLelbH287LoUDtCSnMVQ5gxUL5aLz8z7WEQYrA
+   251WCdRlg4GVNo0rUnKtrtP4qCxTFmsMpaTVk8EYLexNpPl899HNt1xxO
+   A==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>, Anuj Mittal
+	<anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 1/2] util-linux.inc: Do not modify BPN
+Date: Fri, 11 Jun 2021 12:32:57 +0200
+Message-ID: <20210611103258.27368-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-From: Joe Slater <joe.slater@windriver.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-cpudefs-mdep-mux.h contains a proprietary license notice.
+Changing BPN to be "util-linux" regardless if it is the util-linux
+recipe or the util-linux-libuuid recipe that is being built was an
+easy way to allow ${BPN} and ${BP} to be used in the SRC_URI for both
+recipes. However, it causes problems for native.bbclass where there
+are expectations that ${BPN} and ${PN} match each other.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Use "util-linux" directly in the SRC_URI instead to avoid the problem.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../0001-Fixed-copyright-messages.patch       | 56 +++++++++++++++++++
- .../tcf-agent/tcf-agent_git.bb                |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
+ meta/recipes-core/util-linux/util-linux.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
-new file mode 100644
-index 0000000000..ed73808e99
---- /dev/null
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
-@@ -0,0 +1,56 @@
-+From 20ac1f939a8a97b03abec55d865050fdaa0f343a Mon Sep 17 00:00:00 2001
-+From: Eugene Tarassov <eugenet@xilinx.com>
-+Date: Tue, 8 Jan 2019 21:56:16 -0800
-+Subject: [oe-core][PATCH 1/1] Fixed copyright messages
-+
-+Upstream-Status: Backport [https://git.eclipse.org/c/tcf/org.eclipse.tcf.agent.git/commit/?id=20ac1f939a8a97b03abec55d865050fdaa0f343a]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ agent/tcf/framework/channel_lws.c      |  2 +-
-+ agent/tcf/framework/cpudefs-mdep-mux.h | 19 +++++++++++++------
-+ 2 files changed, 14 insertions(+), 7 deletions(-)
-+
-+diff --git a/agent/tcf/framework/channel_lws.c b/agent/tcf/framework/channel_lws.c
-+index 0cb9585..d9352f3 100644
-+--- a/tcf/framework/channel_lws.c
-++++ b/tcf/framework/channel_lws.c
-+@@ -1,5 +1,5 @@
-+ /*******************************************************************************
-+- * Copyright (c) 2016-2017 Wind River Systems, Inc.
-++ * Copyright (c) 2016-2018 Wind River Systems, Inc. and others.
-+  * All rights reserved. This program and the accompanying materials
-+  * are made available under the terms of the Eclipse Public License v1.0
-+  * and Eclipse Distribution License v1.0 which accompany this distribution.
-+diff --git a/agent/tcf/framework/cpudefs-mdep-mux.h b/agent/tcf/framework/cpudefs-mdep-mux.h
-+index c9e0db7..0397a6a 100644
-+--- a/tcf/framework/cpudefs-mdep-mux.h
-++++ b/tcf/framework/cpudefs-mdep-mux.h
-+@@ -1,10 +1,17 @@
-+-/*
-+- * Copyright (c) 2013 Wind River Systems, Inc.
-++/*******************************************************************************
-++ * Copyright (c) 2013 Wind River Systems, Inc. and others.
-++ * All rights reserved. This program and the accompanying materials
-++ * are made available under the terms of the Eclipse Public License v1.0
-++ * and Eclipse Distribution License v1.0 which accompany this distribution.
-++ * The Eclipse Public License is available at
-++ * http://www.eclipse.org/legal/epl-v10.html
-++ * and the Eclipse Distribution License is available at
-++ * http://www.eclipse.org/org/documents/edl-v10.php.
-++ * You may elect to redistribute this code under either of these licenses.
-+  *
-+- * The right to copy, distribute, modify or otherwise make use
-+- * of this software may be licensed only pursuant to the terms
-+- * of an applicable Wind River license agreement.
-+- */
-++ * Contributors:
-++ *     Wind River Systems - initial API and implementation
-++ *******************************************************************************/
-+ 
-+ #include <tcf/config.h>
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 854269a0fa..87369c47dd 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent \
-            file://ldflags.patch \
-            file://tcf-agent.init \
-            file://tcf-agent.service \
-+           file://0001-Fixed-copyright-messages.patch \
-           "
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index cbf6102ee0..6b47f417aa 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -27,8 +27,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da
  
- DEPENDS = "util-linux openssl"
--- 
-2.17.1
-
+ FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
+ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+-BPN = "util-linux"
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.xz \
+            file://configure-sbindir.patch \
+            file://runuser.pamd \
+            file://runuser-l.pamd \
