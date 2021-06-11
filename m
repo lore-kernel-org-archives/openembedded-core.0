@@ -1,75 +1,54 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web12.3289.1623379482439346931
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.3693.1623381568223078423
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jun 2021 19:44:42 -0700
+ Thu, 10 Jun 2021 20:19:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=P3r0Jx+o;
- spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id y11so1264168pgp.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 19:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fzBN9kYTq8MblP9QnejWZDpWfDB8jbBpToQ1vrS5ctU=;
-        b=P3r0Jx+oBbET4BVqMHdQ6PqpOQKP0rIOaB+C/zdChfIluuab1acQA6Y+IQzD2Csava
-         38arC0OP8s7m+ddPtjjDKrdVb8v/8M+6/YN1r5bdOu3vVBLR7eBsPgCnORj4CgY0snGd
-         QdVWkythwcFhVP8WFMO7k0IHrj+Rkda8LENI8BNYUb7EKjMsOC/rEJw5xhAgWd9/Rj8O
-         ZcRNv3RZRmV1/Akptnh0LBDBf/i4fivgeDZXr+5rOnr6eFKHN4H/ZiQU8GW+j04YfRsQ
-         +J5qWWFE5ib9EtopMIJ+3wcnJ+rpguCTN77KUqvZjIv/S3wcc5FWjG6mE9082yBvnEAl
-         f9Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fzBN9kYTq8MblP9QnejWZDpWfDB8jbBpToQ1vrS5ctU=;
-        b=BMMF+CiBo/CQJRC8QpESgQTyG2eO6wvNSk0/IRV8VnANlBmuqUPDr2/JrQ3k6SrjNE
-         h/7XUfjYusn/Ja1yIhAI9MiTr5Ff9E9YkWIrzEmNo6GcFdXzPKqGNexBSPKt9ZgscgD/
-         Wy1OheZHwaa3nwVtwcNCSbYk8Tplj4fyl8a23eeBjDC2H9E/m8agn0xZgvk4Ep7BX+RS
-         p/SnSwQ7fcx4QipYulDQINq5jrbtd5BARBfQ6XUjGSZykDUytbVelhZcHcW6I+oaaqka
-         u4XMEP7hy0kajHAAqKrAKSuUMm30A6Q7a+6qSV3rrsPBgw6cB8dIbKHqQ2rPpQQ/Q3UD
-         l0Hg==
-X-Gm-Message-State: AOAM530JJXboA93Sy/Xcn1uKJRP7EZrYSuQUzmg2HIsUdnZaXhUOeLzO
-	QBLdLZxGpH8Aj66G47yGP54V0+AHARyB9w==
-X-Google-Smtp-Source: ABdhPJxi32PKT/lfdltr2iQxuy1/9GKEHf67eBwCNxIrJsEc5QmY/Z59j/BzNYyFKGRFASmYBMGFIA==
-X-Received: by 2002:a63:dd48:: with SMTP id g8mr1372631pgj.102.1623379481450;
-        Thu, 10 Jun 2021 19:44:41 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0:db81:2f56:60e4:2c64])
-        by smtp.gmail.com with ESMTPSA id s13sm3943839pgi.36.2021.06.10.19.44.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 19:44:40 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] qemuriscv: Enable 4 core emulation
-Date: Thu, 10 Jun 2021 19:44:36 -0700
-Message-Id: <20210611024436.2109932-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210611024436.2109932-1-raj.khem@gmail.com>
-References: <20210611024436.2109932-1-raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 15B3JQ80030817
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jun 2021 20:19:27 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 10 Jun 2021 20:19:26 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Thu, 10 Jun 2021 20:19:25 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [V3][PATCH] libjpeg-turbo: fix do_compile error on arm
+Date: Fri, 11 Jun 2021 11:17:09 +0800
+Message-ID: <20210611031709.36356-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Helps in running tests a bit faster
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+fix below error:
+/include/arm_neon.h:31:2: error: #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+31 | #error "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/conf/machine/include/riscv/qemuriscv.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-index 428d28bde1..20e2d465a1 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -26,6 +26,7 @@ UBOOT_ENTRYPOINT_riscv32 = "0x80400000"
- UBOOT_ENTRYPOINT_riscv64 = "0x80200000"
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
+index 7f91cc02ac..afa0ab1be6 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb
+@@ -40,6 +40,9 @@ EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx3
+ # Work around missing non-floating point ABI support in MIPS
+ EXTRA_OECMAKE_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf", "-DWITH_SIMD=False", "", d)}"
  
- # qemuboot options
-+QB_SMP = "-smp 4"
- QB_KERNEL_CMDLINE_APPEND = "earlycon=sbi"
- QB_MACHINE = "-machine virt"
- QB_DEFAULT_BIOS = "fw_jump.elf"
++EXTRA_OECMAKE_append_class-target_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "", "-DWITH_SIMD=False", d)}"
++EXTRA_OECMAKE_append_class-target_armeb = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "", "-DWITH_SIMD=False", d)}"
++
+ # Provide a workaround if Altivec unit is not present in PPC
+ EXTRA_OECMAKE_append_class-target_powerpc = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
+ EXTRA_OECMAKE_append_class-target_powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
 -- 
-2.32.0
+2.17.1
 
