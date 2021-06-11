@@ -1,118 +1,97 @@
-Received: from mga02.intel.com (mga02.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.3788.1623383460306890520
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web08.4062.1623383461856029952
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jun 2021 20:51:00 -0700
+ Thu, 10 Jun 2021 20:51:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: SUzcW0Sc9wIVSG1j1hk//6h8QIPKs2yizAT2lBySndasjrUTKt2vNsovzsKfO/O8LHfWI1w3iW
- pVn1P0UW6yzw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="192566000"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 2WGqY/EUxzBI9+XPsXXsQz3Q2cgxg3dpumGNY9U0D7ZgeQ2E5ZSLLQZRqA/pIHR+d0f2acpI1i
+ KK+cE49HYMzg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="192566006"
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="192566000"
+   d="scan'208";a="192566006"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:51:00 -0700
-IronPort-SDR: KzxEVlzZYOywJZTDRUpTzvvf93hUfYTehLqAO3WrtNDyQ1fGJ6TuqTKPEuO0ayvz5THl4qQgFp
- 7U0lSl30vgeA==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:51:01 -0700
+IronPort-SDR: yQ/ijIPWVQFNIHXyga2D4x38ja5E/hEPQ2nsXLL76M3bGi6Oo7XG4vL76P2t1W/yzYmPHTXcht
+ 7IyOpt9t0Hjw==
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="403091596"
+   d="scan'208";a="403091598"
 Received: from dlau-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.151.154])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:50:58 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:51:00 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 03/17] valgrind: Improve non-deterministic ptest reliability
-Date: Fri, 11 Jun 2021 11:50:36 +0800
-Message-Id: <79ec1d73a107277586d3d8e9c0d46dfc0ac2b0d8.1623383318.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 04/17] classes/reproducible_build: Use atomic rename for SDE file
+Date: Fri, 11 Jun 2021 11:50:37 +0800
+Message-Id: <8b2fd4e5e0841b81b4f709b061b655e2266dd4da.1623383318.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623383318.git.anuj.mittal@intel.com>
 References: <cover.1623383318.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Tony Tascioglu <tony.tascioglu@windriver.com>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-Several of the valgrind tests (particulaly helgrind) are unreliable and
-can fail with a different output.
+If an existing source date epoch file was found during do_unpack, it was
+deleted and a new one would be written in its place. This causes a race
+with check-before-use code in get_source_date_epoch_value. Resolve the
+problem by making do_unpack write the new source date epoch to a
+temporary file, then do an atomic rename to ensure it's always present,
+and change the check-before-use code to use a EAFP exception instead of
+checking for file existence.
 
-Particularly, there is a higher chance of failure on QEMU instances with
-SMP enabled and on systems with more interrupts such as laptops on powersave.
+[YOCTO #14384]
 
-The tests have been reported upstream as being unreliable dating back
-over 5 years, due in part to the ordering of threads during
-an "unwinding" process in helgrind.
-https://bugs.kde.org/show_bug.cgi?id=345121
-https://bugs.kde.org/show_bug.cgi?id=430321
-
-A workaround to improve the reliability of such tests is to force them
-to run on a single CPU core using taskset. This greatly reduces the
-chance of a failure.
-
->>From my testing, I have found it can help reduce the rate of failures
-on both a laptop and QEMU by over 5x. Stress-testing in QEMU for several
-hours did not result in a failure while running the test normally did.
-
-The flaky or undeterministic thread-based tests are defined in the
-taskset_nondeterministic_tests file. These test cases will be run with
-taskset 0x00000001 to run on a single CPU core rather then the regular
-test.
-
-The edited run-ptest executes the flaky tests first, then ignores them
-to not duplicate the results from the main tests. Everything modified is
-restored when testing is complete.
-
-The drawback is that this isn't a foolproof solution. It helps the tests
-fail much less frequently, and considering how this issue has been documented
-for a long time, a workaround such as this is needed.
-
-Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b318944dd72ca7b0408e955f3599381ab3ac3ba8)
+(cherry picked from commit 0b5e3b33187bf78a2d62cc886463e4b27d6bd228)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/valgrind/valgrind/run-ptest    | 12 ++++++++++++
- .../valgrind/valgrind/taskset_nondeterministic_tests |  4 ++++
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
+ meta/classes/reproducible_build.bbclass | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/run-ptest b/meta/recipes-devtools/valgrind/valgrind/run-ptest
-index f37780ef6a..b563eb3567 100755
---- a/meta/recipes-devtools/valgrind/valgrind/run-ptest
-+++ b/meta/recipes-devtools/valgrind/valgrind/run-ptest
-@@ -31,6 +31,13 @@ if [ "$arch" = "aarch64" ]; then
-    done
- fi
+diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
+index f06e00d70d..1277764fab 100644
+--- a/meta/classes/reproducible_build.bbclass
++++ b/meta/classes/reproducible_build.bbclass
+@@ -77,17 +77,16 @@ python create_source_date_epoch_stamp() {
+     import oe.reproducible
  
-+echo "Run flaky tests using taskset to limit them to a single core."
-+for i in `cat taskset_nondeterministic_tests`; do
-+   taskset 0x00000001 perl tests/vg_regtest --valgrind=${VALGRIND_BIN} --valgrind-lib=${VALGRIND_LIBEXECDIR} --yocto-ptest $i 2>&1|tee ${LOG}
-+   mv $i.vgtest $i.IGNORE
-+done
-+
-+
- cd ${VALGRIND_LIB}/ptest && ./tests/vg_regtest \
-     --valgrind=${VALGRIND_BIN} \
-     --valgrind-lib=${VALGRIND_LIB} \
-@@ -55,6 +62,11 @@ for i in `cat remove-for-all`; do
-    mv $i.IGNORE $i.vgtest;
- done
+     epochfile = d.getVar('SDE_FILE')
+-    # If it exists we need to regenerate as the sources may have changed
+-    if os.path.isfile(epochfile):
+-        bb.debug(1, "Deleting existing SOURCE_DATE_EPOCH from: %s" % epochfile)
+-        os.remove(epochfile)
++    tmp_file = "%s.new" % epochfile
  
-+echo "Restore flaky and other non-deterministic tests"
-+for i in `cat taskset_nondeterministic_tests`; do
-+   mv $i.IGNORE $i.vgtest;
-+done
+     source_date_epoch = oe.reproducible.get_source_date_epoch(d, d.getVar('S'))
+ 
+     bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
+     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
+-    with open(epochfile, 'w') as f:
++    with open(tmp_file, 'w') as f:
+         f.write(str(source_date_epoch))
 +
- echo "Failed test details..."
- failed_tests=`grep FAIL: ${LOG} | awk '{print $2}'`
- for test in $failed_tests; do
-diff --git a/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests b/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
-new file mode 100644
-index 0000000000..cf073fa927
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
-@@ -0,0 +1,4 @@
-+helgrind/tests/hg05_race2
-+helgrind/tests/tc09_bad_unlock
-+drd/tests/bar_bad
-+drd/tests/bar_bad_xml
++    os.rename(tmp_file, epochfile)
+ }
+ 
+ def get_source_date_epoch_value(d):
+@@ -97,7 +96,7 @@ def get_source_date_epoch_value(d):
+ 
+     epochfile = d.getVar('SDE_FILE')
+     source_date_epoch = int(d.getVar('SOURCE_DATE_EPOCH_FALLBACK'))
+-    if os.path.isfile(epochfile):
++    try:
+         with open(epochfile, 'r') as f:
+             s = f.read()
+             try:
+@@ -110,7 +109,7 @@ def get_source_date_epoch_value(d):
+                 bb.warn("SOURCE_DATE_EPOCH value '%s' is invalid. Reverting to SOURCE_DATE_EPOCH_FALLBACK" % s)
+                 source_date_epoch = int(d.getVar('SOURCE_DATE_EPOCH_FALLBACK'))
+         bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
+-    else:
++    except FileNotFoundError:
+         bb.debug(1, "Cannot find %s. SOURCE_DATE_EPOCH will default to %d" % (epochfile, source_date_epoch))
+ 
+     d.setVar('__CACHED_SOURCE_DATE_EPOCH', str(source_date_epoch))
 -- 
 2.31.1
 
