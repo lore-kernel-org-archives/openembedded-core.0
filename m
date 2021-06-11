@@ -1,150 +1,114 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.5842.1623401653784359846
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.6037.1623403155600485423
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jun 2021 01:54:13 -0700
+ Fri, 11 Jun 2021 02:19:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 15B8sCvI014968
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 01:54:12 -0700
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 15B8sCf7029423
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 15B9JDcX014359
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 01:54:12 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 02:19:14 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 11 Jun 2021 01:54:12 -0700
+ 15.1.2242.10; Fri, 11 Jun 2021 02:19:13 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Fri, 11 Jun 2021 01:54:11 -0700
+ 15.1.2242.10 via Frontend Transport; Fri, 11 Jun 2021 02:19:12 -0700
 From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] ifupdown: Skip wrong test item
-Date: Fri, 11 Jun 2021 16:51:54 +0800
-Message-ID: <20210611085154.10709-1-mingli.yu@windriver.com>
+Subject: [PATCH] tcf-agent: change license to EPL/EDL
+Date: Fri, 11 Jun 2021 17:16:55 +0800
+Message-ID: <20210611091655.14935-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 
-From: Zqiang <qiang.zhang@windriver.com>
+From: Joe Slater <joe.slater@windriver.com>
 
-Skip wrong testcase(12-15) in testbuild-linux and rebase the patch
-tweak-ptest-script.patch.
+cpudefs-mdep-mux.h contains a proprietary license notice.
 
-Signed-off-by: Zqiang <qiang.zhang@windriver.com>
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- .../0001-ifupdown-skip-wrong-test-case.patch  | 32 +++++++++++++++++++
- .../ifupdown/files/tweak-ptest-script.patch   | 15 ++++++---
- meta/recipes-core/ifupdown/ifupdown_0.8.36.bb |  1 +
- 3 files changed, 43 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
+ .../0001-Fixed-copyright-messages.patch       | 56 +++++++++++++++++++
+ .../tcf-agent/tcf-agent_git.bb                |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
 
-diff --git a/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
 new file mode 100644
-index 0000000000..c751e4fab0
+index 0000000000..ed73808e99
 --- /dev/null
-+++ b/meta/recipes-core/ifupdown/files/0001-ifupdown-skip-wrong-test-case.patch
-@@ -0,0 +1,32 @@
-+From 98243deface88614e3f332c4a85d04a9abce55ff Mon Sep 17 00:00:00 2001
-+From: Zqiang <qiang.zhang@windriver.com>
-+Date: Mon, 19 Apr 2021 14:15:45 +0800
-+Subject: [PATCH] ifupdown: skip wrong test case
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/0001-Fixed-copyright-messages.patch
+@@ -0,0 +1,56 @@
++From 20ac1f939a8a97b03abec55d865050fdaa0f343a Mon Sep 17 00:00:00 2001
++From: Eugene Tarassov <eugenet@xilinx.com>
++Date: Tue, 8 Jan 2019 21:56:16 -0800
++Subject: [oe-core][PATCH 1/1] Fixed copyright messages
 +
-+The test parameters of testcase(12-15) file is not right,
-+it triggers a test failure, these test items are invalid
-+and are skipped directly.
++Upstream-Status: Backport [https://git.eclipse.org/c/tcf/org.eclipse.tcf.agent.git/commit/?id=20ac1f939a8a97b03abec55d865050fdaa0f343a]
 +
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Signed-off-by: Zqiang <qiang.zhang@windriver.com>
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 +---
-+ tests/testbuild-linux | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ agent/tcf/framework/channel_lws.c      |  2 +-
++ agent/tcf/framework/cpudefs-mdep-mux.h | 19 +++++++++++++------
++ 2 files changed, 14 insertions(+), 7 deletions(-)
 +
-+diff --git a/tests/testbuild-linux b/tests/testbuild-linux
-+index 1181ea0..5f148eb 100755
-+--- a/tests/testbuild-linux
-++++ b/tests/testbuild-linux
-+@@ -3,7 +3,7 @@
-+ dir=tests/linux
++diff --git a/agent/tcf/framework/channel_lws.c b/agent/tcf/framework/channel_lws.c
++index 0cb9585..d9352f3 100644
++--- a/tcf/framework/channel_lws.c
+++++ b/tcf/framework/channel_lws.c
++@@ -1,5 +1,5 @@
++ /*******************************************************************************
++- * Copyright (c) 2016-2017 Wind River Systems, Inc.
+++ * Copyright (c) 2016-2018 Wind River Systems, Inc. and others.
++  * All rights reserved. This program and the accompanying materials
++  * are made available under the terms of the Eclipse Public License v1.0
++  * and Eclipse Distribution License v1.0 which accompany this distribution.
++diff --git a/agent/tcf/framework/cpudefs-mdep-mux.h b/agent/tcf/framework/cpudefs-mdep-mux.h
++index c9e0db7..0397a6a 100644
++--- a/tcf/framework/cpudefs-mdep-mux.h
+++++ b/tcf/framework/cpudefs-mdep-mux.h
++@@ -1,10 +1,17 @@
++-/*
++- * Copyright (c) 2013 Wind River Systems, Inc.
+++/*******************************************************************************
+++ * Copyright (c) 2013 Wind River Systems, Inc. and others.
+++ * All rights reserved. This program and the accompanying materials
+++ * are made available under the terms of the Eclipse Public License v1.0
+++ * and Eclipse Distribution License v1.0 which accompany this distribution.
+++ * The Eclipse Public License is available at
+++ * http://www.eclipse.org/legal/epl-v10.html
+++ * and the Eclipse Distribution License is available at
+++ * http://www.eclipse.org/org/documents/edl-v10.php.
+++ * You may elect to redistribute this code under either of these licenses.
++  *
++- * The right to copy, distribute, modify or otherwise make use
++- * of this software may be licensed only pursuant to the terms
++- * of an applicable Wind River license agreement.
++- */
+++ * Contributors:
+++ *     Wind River Systems - initial API and implementation
+++ *******************************************************************************/
 + 
-+ result=true
-+-for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-++for test in 1 2 3 4 5 6 7 8 9 10 11 16 17 18; do
-+ 	if [ -e $dir/testcase.$test ]; then
-+ 		args="$(cat $dir/testcase.$test | sed -n 's/^# RUN: //p')"
-+ 	else
++ #include <tcf/config.h>
++ 
 +-- 
-+2.17.1
++2.7.4
 +
-diff --git a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-index d7600cf243..ea88a9086a 100644
---- a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-+++ b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-@@ -3,9 +3,12 @@ Tweak tests of ifupdown to make it work with oe-core ptest framework.
- Upstream-Status: Inappropriate [oe-core specific]
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index 854269a0fa..87369c47dd 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -15,6 +15,7 @@ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent \
+            file://ldflags.patch \
+            file://tcf-agent.init \
+            file://tcf-agent.service \
++           file://0001-Fixed-copyright-messages.patch \
+           "
  
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ tests/testbuild-linux | 11 ++++++-----
-+ 1 file changed, 6 insertions(+), 5 deletions(-)
- 
- diff --git a/tests/testbuild-linux b/tests/testbuild-linux
--index 1181ea0..d5c1814 100755
-+index 5f148eb..d9b1698 100755
- --- a/tests/testbuild-linux
- +++ b/tests/testbuild-linux
- @@ -1,6 +1,7 @@
-@@ -16,8 +19,8 @@ index 1181ea0..d5c1814 100755
- +dir=$curdir/linux
-  
-  result=true
-- for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
--@@ -12,7 +13,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-+ for test in 1 2 3 4 5 6 7 8 9 10 11 16 17 18; do
-+@@ -12,7 +13,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 16 17 18; do
-          echo "Testcase $test: $args"
-  
-  	exitcode=0
-@@ -26,7 +29,7 @@ index 1181ea0..d5c1814 100755
-                  >$dir/up-res-out.$test 2>$dir/up-res-err.$test || exitcode=$?
-  
-          (echo "exit code: $exitcode";
--@@ -20,7 +21,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-+@@ -20,7 +21,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 16 17 18; do
-           echo "====stderr===="; cat $dir/up-res-err.$test) > $dir/up-res.$test
-  
-  	exitcode=0
-@@ -35,7 +38,7 @@ index 1181ea0..d5c1814 100755
-                 >$dir/down-res-out.$test 2>$dir/down-res-err.$test || exitcode=$?
-  
-          (echo "exit code: $exitcode";
--@@ -28,9 +29,9 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-+@@ -28,9 +29,9 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 16 17 18; do
-           echo "====stderr===="; cat $dir/down-res-err.$test) > $dir/down-res.$test
-  
-          if diff -ub $dir/up.$test $dir/up-res.$test && diff -ub $dir/down.$test $dir/down-res.$test; then
-@@ -47,3 +50,5 @@ index 1181ea0..d5c1814 100755
-                  result=false
-          fi
-          echo "=========="
-+--
-+2.17.1
-diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
-index c0a90a3972..0daf50acab 100644
---- a/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
-+++ b/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
-@@ -13,6 +13,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https \
-            file://0001-Define-FNM_EXTMATCH-for-musl.patch \
-            file://0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch \
-            file://run-ptest \
-+           file://0001-ifupdown-skip-wrong-test-case.patch \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://tweak-ptest-script.patch', '', d)} \
-            "
- SRCREV = "c73226073e2b13970ca613b20a13b9c0253bf9da"
+ DEPENDS = "util-linux openssl"
 -- 
 2.17.1
 
