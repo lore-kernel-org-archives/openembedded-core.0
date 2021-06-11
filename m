@@ -1,94 +1,179 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
- by mx.groups.io with SMTP id smtpd.web08.9661.1623423021751871833
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+ by mx.groups.io with SMTP id smtpd.web12.57.1623430021969362987
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jun 2021 07:50:22 -0700
+ Fri, 11 Jun 2021 09:47:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wdJqNTow;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.45, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f45.google.com with SMTP id o5-20020a4a2c050000b0290245d6c7b555so759977ooo.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 07:50:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BDi2RYG3;
+ spf=pass (domain: gmail.com, ip: 209.85.217.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f54.google.com with SMTP id x8so4105402vso.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 09:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=o3W8gwOgfChAzNM5UnG38e2E1KZQhxgliA+WbCB6ddw=;
-        b=wdJqNTowwUwKWRs0RtnH9cbXjoala8z7ycyjzEKd3yVZSP2XRIQYYavjfleuFiA8aq
-         b0WpN/Nudz4IUiDHC1qbeKyLBzs+02XPyMfuFSvgOqaJ9WtjrCqjKVWffKSqH3o4Quqc
-         Rxzu2CPvPtyCfJaDPDdWSzHRyMFjNN5ZPNI2dybH4H4hS3+5lbeSVNDBAHwjwDofmUmI
-         uF8IgLu2TXD2LvJwecZx/1Pwo/MloK+oE2JBn61pwawKonWlkAOACZC29zareqkdkuCS
-         ssXNyNKqgTRpIupM+7eJ/skuc50gbmzMrX6ni6fq+SOusysz0xeIki0BRkSfzr0qOVXq
-         b1UA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SJrLYqpA7Rjj9PtXjVw8acARSSxiLWyDiklsvZ5yAmg=;
+        b=BDi2RYG3f1eHfW+APMCu9QFazKalB7S4RvHLwf4JkofAYwFD/hwmLF1wlwHtfL1GDr
+         RXcMc91VhaekTprBt1br+dKMz94pVYw917E44MPIRCFSZynSRMAcNOrvRRKkBqD3L8dM
+         3ip4cHPz3JwMP6xF0wwqeklhHd0OrHckjSc97APd7tEez9g+0Mh4BkNBskzsl2BZpKy1
+         M/aVr2iTKcpv2a8QdC6nWDowOOKTLOKkVIik7/7QoydRRC22c+CVGCQ8tSe7JvDt9zD6
+         pJS5YHW4bQsj7VrqOyd0EoP/06gJH0o8JA4/yw6c5jmXYsFZwxS4N/TDczk/ih0n2c3J
+         ilAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=o3W8gwOgfChAzNM5UnG38e2E1KZQhxgliA+WbCB6ddw=;
-        b=lHXCQ0yyxPibNPnzK3o8yUP6S0mZ7jBVHhrhHCO3dy5OOmTJfHyroRPmwEoOKvIExB
-         Ib6kOAux9xDF21AVjVgN0hTl4KHFllDdHZZSxg1wFBsmeFqvRnwupayv3JntsCrR+L/j
-         xz2Y9YsQX5KAvuRFq8J4vNi9MUwHKQsxNxjEwsesRTKnPdRtgUIbdCuSuA7anC+/3eIl
-         gGw/1O8ev3rjsP+i+vtCqVFcJ+qZJP4L/kxxPPtWlXSBrEyEqSWOPMSCsT9BZr7DBGd7
-         ec8URdPFv1lE7A6P8F0pvg6yWqrKXtPxjBKn7hf6/WzLK6zgrZCKLL5NEh79/DHnVvl7
-         Zf2w==
-X-Gm-Message-State: AOAM533Two8IHsTmE3BLyeql5WlQ95EdJQZ8qRA+ZA7n20JRKkpnsZMs
-	5d8NLb+IvPrEmzuYEJ8NVdWWar3ez2mg3KLoDZc=
-X-Google-Smtp-Source: ABdhPJw2LgDDEJJ33+GZTNak+yG1iJoXwX/Z9OOF+xKn64BfTg64+tdzhpI+DA4NFzsF4c+VjQWnJQ==
-X-Received: by 2002:a4a:a9c8:: with SMTP id h8mr3423073oon.1.1623423020492;
-        Fri, 11 Jun 2021 07:50:20 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id o26sm1359486otk.77.2021.06.11.07.50.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 07:50:19 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/6] Pull request (cover letter only)
-Date: Fri, 11 Jun 2021 04:49:56 -1000
-Message-Id: <cover.1623422922.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SJrLYqpA7Rjj9PtXjVw8acARSSxiLWyDiklsvZ5yAmg=;
+        b=F5+4/1zbEwRV+s3ZP7h2+VW3hZ26mok+pgVHgk6mgpqu1VbFjogm3kiGpR8uEtbqdR
+         Tc0jgwqdH0jiX9e+wNv1n6W7s1j2Hjgziw3SoUjW3MhT5cMyyPoCByKKJev+VIWbrg5m
+         4Q5p17XWYDkIHeYwSyPutPlgXRtOoMRNL44nec7LGlQfddKHFr/kLM7a6TAr4BMF8jum
+         diJFULANUc8d/ANHVaEWismBH6DWnkwx7jRvMcrYru0QwaI8hHfPIGKHaync8eaV8uGV
+         FWewP6wrhchXU5Vg6BoMdzSDueDEdh83YbzEy7ckDxUEMFlsdYFxW2BkHp2cVmhgiX1N
+         9MBw==
+X-Gm-Message-State: AOAM532WABYQr/wl8+BP33Yu71CAy0hkQlJUYJGqPJbouO4v5Bu8wXDx
+	UA4ncXjgSf4DO9YUTAqiQ4ryRJcKE3lyuxbBdCo=
+X-Google-Smtp-Source: ABdhPJxfEMrNI7nE5ZIE7X6FdZ+PMyzQmZlJl3zZmzYZlN5kNXxrbg7eExry6ASIFGYujoapLJXezO+xkCqO45pKXdE=
+X-Received: by 2002:a67:f4cb:: with SMTP id s11mr1398150vsn.20.1623430021104;
+ Fri, 11 Jun 2021 09:47:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200925070535.59518-1-hongxu.jia@windriver.com>
+ <20200925070535.59518-2-hongxu.jia@windriver.com> <b50d160f-c94d-0616-3845-d93bbc45851a@windriver.com>
+In-Reply-To: <b50d160f-c94d-0616-3845-d93bbc45851a@windriver.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 11 Jun 2021 18:46:49 +0200
+Message-ID: <CANNYZj8b_iC-5toQG4X7gPV7xGcT9pYMZTq-cQZvGeDPYPy6WQ@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 1/4] initramfs-framework/udev: umount /run/media/XXX
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: hongxu <hongxu.jia@windriver.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="000000000000b9c8d005c4804127"
 
-The following changes since commit 090452c5284181f18c32dc33887f4dda20c48004:
+--000000000000b9c8d005c4804127
+Content-Type: text/plain; charset="UTF-8"
 
-  Revert "busybox: make busybox's syslog.cfg depend on VIRTUAL-RUNTIME_base-utils-syslog" (2021-06-08 04:32:17 -1000)
+At this point it's probably better to rebase and resend?
 
-are available in the Git repository at:
+Alex
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+On Fri, 11 Jun 2021 at 09:30, Yu, Mingli <mingli.yu@windriver.com> wrote:
 
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.120
-  linux-yocto/5.4: update to v5.4.123
+> Ping.
+>
+> Thanks,
+>
+> On 9/25/20 3:05 PM, hongxu wrote:
+> > In initramfs-framework, udev (initramfs-module-udev) calls hook mount.sh
+> to
+> > mount /run/media/XXX which is used by setup-live
+> (initramfs-module-setup-live).
+> > The setup-live calls install-XXX.sh and use /run/media/XXX to do
+> installation
+> >
+> > The side effect is while setup-live is not used, after it switches to
+> rootfs,
+> > and the mounted disk could not be released
+> >
+> > Release the mounted disk before switch root and after kill udev
+> >
+> > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> > ---
+> >   meta/recipes-core/initrdscripts/initramfs-framework/udev | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> >
+> > diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> > index 4898b89246..8b62080c68 100644
+> > --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> > +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> > @@ -8,6 +8,11 @@ udev_shutdown_hook_handler() {
+> >       if [ "$status" = "pre" ] && [ "$module" = "finish" ]; then
+> >               udevadm settle
+> >               killall `basename $_UDEV_DAEMON` 2>/dev/null
+> > +
+> > +             # Umount other media which is mounted by udev
+> > +             for dir in `awk '/\/dev.* \/run\/media/{print $2}'
+> /proc/mounts`; do
+> > +                     umount $dir
+> > +             done
+> >       fi
+> >   }
+> >
+> >
+> >
+> >
+> >
+> >
+>
+> 
+>
+>
 
-Klaus Heinrich Kiwi (1):
-  kernel-fitimage: Don't use unit addresses on FIT
+--000000000000b9c8d005c4804127
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Lee Chee Yang (2):
-  libxml: fix CVE-2021-3517 CVE-2021-3537
-  gnutls: fix CVE-2021-20231 CVE-2021-20232
+<div dir=3D"ltr"><div>At this point it&#39;s probably better to rebase and =
+resend?</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 11 Jun 2021 at 09:30=
+, Yu, Mingli &lt;<a href=3D"mailto:mingli.yu@windriver.com">mingli.yu@windr=
+iver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Ping.<br>
+<br>
+Thanks,<br>
+<br>
+On 9/25/20 3:05 PM, hongxu wrote:<br>
+&gt; In initramfs-framework, udev (initramfs-module-udev) calls hook mount=
+.sh to<br>
+&gt; mount /run/media/XXX which is used by setup-live (initramfs-module-se=
+tup-live).<br>
+&gt; The setup-live calls install-XXX.sh and use /run/media/XXX to do inst=
+allation<br>
+&gt; <br>
+&gt; The side effect is while setup-live is not used, after it switches to=
+ rootfs,<br>
+&gt; and the mounted disk could not be released<br>
+&gt; <br>
+&gt; Release the mounted disk before switch root and after kill udev<br>
+&gt; <br>
+&gt; Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.=
+com" target=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meta/recipes-core/initrdscripts/initramfs-framework/udev =
+| 5 +++++<br>
+&gt;=C2=A0 =C2=A01 file changed, 5 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev=
+ b/meta/recipes-core/initrdscripts/initramfs-framework/udev<br>
+&gt; index 4898b89246..8b62080c68 100644<br>
+&gt; --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev<br>
+&gt; +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev<br>
+&gt; @@ -8,6 +8,11 @@ udev_shutdown_hook_handler() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$status&quot; =3D &quot;pre&quot=
+; ] &amp;&amp; [ &quot;$module&quot; =3D &quot;finish&quot; ]; then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0udevadm settle<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0killall `basena=
+me $_UDEV_DAEMON` 2&gt;/dev/null<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Umount other media=
+ which is mounted by udev<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for dir in `awk &#39=
+;/\/dev.* \/run\/media/{print $2}&#39; /proc/mounts`; do<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0umount $dir<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-Ovidiu Panait (1):
-  kernel-devicetree: Introduce KERNEL_DTC_FLAGS to pass dtc flags
-
- meta/classes/kernel-devicetree.bbclass        |  7 ++
- meta/classes/kernel-fitimage.bbclass          | 32 ++++-----
- .../libxml/libxml2/CVE-2021-3517.patch        | 53 +++++++++++++++
- .../libxml/libxml2/CVE-2021-3537.patch        | 50 ++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +
- .../linux/linux-yocto-rt_5.4.bb               |  6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +--
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++---
- .../gnutls/gnutls/CVE-2021-20231.patch        | 67 +++++++++++++++++++
- .../gnutls/gnutls/CVE-2021-20232.patch        | 65 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.6.14.bb  |  2 +
- 11 files changed, 280 insertions(+), 34 deletions(-)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3517.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3537.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2021-20231.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2021-20232.patch
-
--- 
-2.25.1
-
+--000000000000b9c8d005c4804127--
