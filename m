@@ -1,31 +1,31 @@
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.5165.1623396614894588244
+ by mx.groups.io with SMTP id smtpd.web08.5511.1623396695982697711
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jun 2021 00:30:15 -0700
+ Fri, 11 Jun 2021 00:31:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ALK+xHhG;
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=KpPsDOko;
  spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=179608fda6=mingli.yu@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15B7SEO9023206
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 00:30:14 -0700
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15B7FPpu002931
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 00:31:35 -0700
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3942cy81cm-1
+	by mx0a-0064b401.pphosted.com with ESMTP id 3942cy81du-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 00:30:14 -0700
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 00:31:35 -0700
 Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15B7UE72028235
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 00:30:14 -0700
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15B7SgXt023287
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 00:31:35 -0700
 Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3942cy81ck-1
+	by mx0a-0064b401.pphosted.com with ESMTP id 3942cy81dt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Jun 2021 00:30:14 -0700
+	Fri, 11 Jun 2021 00:31:35 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dm++O7FwNcwdCQ9YSlC8Cx/sDmZGvYzGgl2GDrfPgnzYqzGlp/h6xvHqZwSf90HB7/sh2dSl0s9WTx6zrfc2WXoT+VdIh5FLc7xhr4kQvznYf9zhuQS1HX/1jZgtiR0sEAdqO4/qntfnvemRBdnuJXGTnK/7J7AkgKyj48RZr3bnAM7Bd1WTj176Cbb5bvULzGR+hN+HwzdfS6URBjg4Y0m/GuI9cOMEdvRycrUxWdyQBW0vdQkYZMIDDVReZ2/doGG1V3heCYBImjKQput6WtjoX3CUZ7RKlQ+56nS2tzEV8ealPfBaWyd50DtJ0jGnM6mlIrTzVtUJ2IFTCYi2pA==
+ b=Vi7K6atQb0t9RCIfzddCR8nHHHyZziwIOka5t9duHqvtIf4Q+EXbjKP07cQdW+HaJ/kvlVVZo6M7CrV4tvlxT/2KGFyd1R8JS7KRV8TbkXD/nE+wcz7oVHrYqzuKCe1n7sceDzbLTm6X8FGg95KK9fzvWK0LN9RVFHcaEgEpG+Ma+XDggz9ZmxEqPVUZWc2rtX8rtzohqNoKCwvDazpdGHap0SN6v/qagiCVcv/FTRAOsotSedUycwEw7kcUp1+cZZOBTwEGR6k2jhn4hDy0o5tSHKnIBdd0imbG6fSgE+S35ZA0hF9HxwrDpSIlPT6Cy1ET+p0SlcTJR9Yc0gozLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hPJiIUbq7y+iUy+gAKaGASly5TZErdIxBXaFTCYG2hw=;
- b=e7licQnyLLn3+yxuJeNIWJ9RAhgbtbsf0TQAkvfBQVf2SuV9YEZLgjHbcBNoSQsU7U57p4EIz6WWzLDbbPvJ1h0+p9oMAtBtsRk8GzaMreL0YX4dMFMUrDVyZpMCL1IG38842THGqnooxePAQi03717+hUXMI085heoMkeZL75waIHZ6SellLwP0YhHok+9Tgse3d69puFe2LfqeGvjMwfSsVzIBH53QcSW3XA/8wj9CkvJJke2MKbocTEtysfYcRqv+B/IRdqoRUFUkg9d4FA0SPE/ZNdM/MqiDmBiSas01mLwCcpB/MLZN4wCyO0lFlcs2sMIY9GAYp5EDi3CrIQ==
+ bh=yFLWHh9zLexbUlJTXhbLiNDCD09wDBJouzDaKpEH8vk=;
+ b=M41PYSORkNSLhVOEVSBxjLMU8e3cJLhduaLyZ7Oizv53f3NhqcDFSz0GSXZTtOezNUr7CNBw4ygIDSstEZGtHMdZm6Upnte6IOmB9na6WfaEjILbMUeCjgoUgewvRbBhcPbVPFf+P50Fr/W1uK8wI6NfT8QKFUtsdhzCPSaWsW1IbX2bcoYz7w/IppIohRKMDa7bxvPJ88Bg4kC9/7QD/hkixJ1nViTVUCuZKeyv/GD1tPr+DqcBAJAd0Lb5l/4DnzisYAQddGRuLmEcmJVWK8u4VST/G9wxJ2lPEFRkmLP3EIEhfc2DxI+vdUdT8g9flLmiJfwgfLoTxeHCmGAqeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -33,8 +33,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hPJiIUbq7y+iUy+gAKaGASly5TZErdIxBXaFTCYG2hw=;
- b=ALK+xHhG8lHYQObNAFaPVO/+LBZrlpbktYMxp0LewhiK/44LeeIInXI5ksnNBVxUjTpWjUWWvnKojJWfx7gFq0nfWUGmdvfgWQ+On9d9M55qCMDjVL4QqX7i3bFG5kR1I2miASY6/Vi/2KNZBScPl+ft/H7R8el4R4dIN50B8ZI=
+ bh=yFLWHh9zLexbUlJTXhbLiNDCD09wDBJouzDaKpEH8vk=;
+ b=KpPsDOkoJWPLCsBZsWA+kC0/rmyyhORdBf66cadC63zai7kAXWhM+JSZq/u6Au6stuS6dYGj9/SOinLP1cM55/eGCz4tNim4EuJv6+HjWN78yvWBmwxreasjYzF/sFOV3pMxAdvbKA0G5AQJ1a2uRWM+dnTusHrp9hgv7eff7FM=
 Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
  header.d=none;linuxfoundation.org; dmarc=none action=none
  header.from=windriver.com;
@@ -42,88 +42,88 @@ Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
  by MWHPR11MB2031.namprd11.prod.outlook.com (2603:10b6:300:29::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Fri, 11 Jun
- 2021 07:30:12 +0000
+ 2021 07:31:33 +0000
 Received: from CO1PR11MB5009.namprd11.prod.outlook.com
  ([fe80::ed6b:a25f:3a16:3127]) by CO1PR11MB5009.namprd11.prod.outlook.com
  ([fe80::ed6b:a25f:3a16:3127%7]) with mapi id 15.20.4219.022; Fri, 11 Jun 2021
- 07:30:12 +0000
-Subject: Re: [oe-core][PATCH 1/4] initramfs-framework/udev: umount /run/media/XXX
+ 07:31:33 +0000
+Subject: Re: [oe-core][PATCH 3/4] archive: fix racing between do_ar_patched and do_kernel_configme
 To: hongxu <hongxu.jia@windriver.com>,
         openembedded-core@lists.openembedded.org,
         richard.purdie@linuxfoundation.org
 References: <20200925070535.59518-1-hongxu.jia@windriver.com>
- <20200925070535.59518-2-hongxu.jia@windriver.com>
+ <20200925070535.59518-4-hongxu.jia@windriver.com>
 From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <b50d160f-c94d-0616-3845-d93bbc45851a@windriver.com>
-Date: Fri, 11 Jun 2021 15:36:49 +0800
+Message-ID: <0b5fd7fd-f18f-20d5-22bc-588652dfef66@windriver.com>
+Date: Fri, 11 Jun 2021 15:38:11 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20200925070535.59518-2-hongxu.jia@windriver.com>
+In-Reply-To: <20200925070535.59518-4-hongxu.jia@windriver.com>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK0PR01CA0067.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::31) To CO1PR11MB5009.namprd11.prod.outlook.com
+X-ClientProxiedBy: HK2PR0302CA0020.apcprd03.prod.outlook.com
+ (2603:1096:202::30) To CO1PR11MB5009.namprd11.prod.outlook.com
  (2603:10b6:303:9e::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.140] (60.247.85.82) by HK0PR01CA0067.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend Transport; Fri, 11 Jun 2021 07:30:10 +0000
+Received: from [128.224.162.140] (60.247.85.82) by HK2PR0302CA0020.apcprd03.prod.outlook.com (2603:1096:202::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.9 via Frontend Transport; Fri, 11 Jun 2021 07:31:32 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 64b98b62-5f6a-41fa-b8d0-08d92caabf96
+X-MS-Office365-Filtering-Correlation-Id: bf6fa427-a04d-4555-2730-08d92caaf00c
 X-MS-TrafficTypeDiagnostic: MWHPR11MB2031:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB2031AA8FAF5AC9A6E0EF88F7F1349@MWHPR11MB2031.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+	<MWHPR11MB2031A5F6B417D938575A4D76F1349@MWHPR11MB2031.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	fPgWvO5tbeF7IBKAivPzTE2ez+7jz8/GI8ajk2QjdRtfdcNBZHjidZJCF5nC7dOEEtZYMDJ8tnxO4Q0+f8ziWTLgNfkfXtgqNCLqcM71qBNtokpQ32lKr4P3/izvKP6kSR753YNLk0/41WWQCC1BbfUriCDM3MLWorWZN0OsAFrfStUaAvkzsq1t172AGnZ9KWcQCIerB6lKC1T5MmMEWJnJsru2UWtYMvDfxUn6BMlY337RKK5ikIO09ci6Z+xj+bBQXjAkA8HJ5oKsV5puKxdUP5bjlXoD078Wb6j5Kj5b5W965onwSGnerp/L9AqnY+ZhU3mkmsqliUaor/nQADhuLPfZh85ckduagDamorZCTySg0hCy6qaD6e61TP+5xnHJIou9j+JvubMBO6durWAiToKPjbuHvIC8Z85SJIu8kKHtBCiLYodiw9tFsnz0enabsS5IyCljbufYfCWd642mbLp+lodIx4Beg8sEaYl+NhmL2uPvX/VMblcM1uWCnERrETFq5yfkr2ndD3kRAcU2L0oGgECPQ6mk0QK7ohy/XTcSu0lIQuM98OlbmQKIOu4Jpj2PXtkQyr+ZeLfBe/4SYPMfIHbPqC8zR3X0tNSi5HUTCKTab8PUz1F6hsR36isiQQD0bO14Z1TIeW6GDV2c0d30cCWuEgSZEesz//pZw7DL4jTFdWR0PX6o1nsSQt6HEiJPUM+KkQDjmRTvXYAkqOt1KJA6ggZ8byHdKaJOWaytpbjYhrrXqcGpN6VaM9O+tsU1F1+2hWSoiLlV8G81B/XZ655b5ZVcd9Np42En/E9OWnBgzJDy+RI3dwwEwG63NOJSeA7EEc/467qLcgXwKD9RKh/5JtOE1csojzHPKm4dbIC/zRA+7Hu95VzdWEJ5ol4A8D+XlFot75+dk5KtMKGXyjNJeDjPKgynw+i0cNENqaFOlty5wX/jOgDU
+	gr1Tx77cbx1hWdE3jqzxLJc+zxy+4VbJD5+nU613g+7ZRaUYMECxLyT3XJYYkXPsQOV9gYJ3bZTnsKgWyvLgwG1UlKmBvjkiQctljqxruAPf6i4joPCY+vR48MjRgR4PaY9AWRGGvugSR+SPZUYuC27aZeWj22XnK7enRSgYJq/wSogrJpJBqTCdWaA9E5KdcDn7KWs7g+GjD2b0gp1NCArtrEbB1Law0GImcpZaeoz1GiniWCpkS0F5RNIJTZJ50cQUDWNxMbubcRcapdJo6EkU8tX1X8Job0JoSY1sZXnhjOvQaCUh578g7fDmPdeNWRXneldmmiZobstHmG/VHF1mLzxZ1mgPzg4KupMUH0F9iPuDz4JRe4yrTfMNDXfPm+MvAU+PgHqdxTHU5JCclr/kLJt74MN+0gE8u8+Lh/EMs4+DTx4f+CObAtjrqGxN79OonulwwgNt96i9kZvdqtlNVqAo+xAMwVlNHdu6XkqtJJugZi27K7Pe3X6gBr+BqIvn/IUca4JwQejv7d8in8IkKzbGU2aMfr6nl3I/pFmjh1dnogmbYrcGSU/MeRA9CdDCxr4oZa+0/KWO74DH6Ov+9AARYAH+XiG9FxtieyqqFd9+lrfWXgACrodBGb5o37BiKtKT6hJw+kz78ZhsNTI/NkwL2+sk5YRCljL82ACxJpqOaCWd4GLCJeiOf1yzw2b/2XOS6sEtjHHLdkTV7aRlW5jjgWjBBYfL/8ao9bFzqyJdAjRew7Z911TE8JX/55MONqqlyZDeJxUl5tY/+O5jGorfPEK7BPD4NQWP+8SdujAXYJmovaA2oMV9Ml5T10y4B5NoFm12e7bJezkdHmEUNEabtx+Wvp/7vdK7cAh8AMEnpusQx1aJ52W6pgcug/8C8X6HbJOJo5TODGzjDg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39830400003)(136003)(396003)(366004)(83380400001)(6486002)(31686004)(26005)(8936002)(66946007)(5660300002)(16576012)(6666004)(6706004)(36756003)(66556008)(66476007)(52116002)(478600001)(966005)(31696002)(316002)(186003)(38100700002)(53546011)(2616005)(956004)(16526019)(2906002)(8676002)(86362001)(38350700002)(13513002)(21314003)(78286007)(43740500002)(457024003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39830400003)(136003)(396003)(366004)(83380400001)(6486002)(31686004)(26005)(8936002)(66946007)(5660300002)(16576012)(6666004)(6706004)(36756003)(66556008)(66476007)(52116002)(478600001)(966005)(31696002)(316002)(186003)(38100700002)(53546011)(2616005)(956004)(16526019)(2906002)(8676002)(86362001)(38350700002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cFFWYXNxOHhoZUlZUkRPaldnQ0pBbHBhMnN3Q0E2dEJTTnB1MjBqLzd2MWJl?=
- =?utf-8?B?UnZmOHZuckFRMXRCKzBRMm9PaWRZTkU4UHltUm1NMGk4bE5acWJUcWtqS3Aw?=
- =?utf-8?B?eUJ2dG1qYnp1VlJYOFN6T3JBY2prSkdzcDhCNXNsVDRSWUlvMWdCbVNsblNV?=
- =?utf-8?B?R291ZmlFSk4rbXRyeDJCSmdmMmNER05xdzFQd1Z0dnRjYWxuOUtEMFd5TGNQ?=
- =?utf-8?B?b3RDMEhaZ3VGdm55SG8waXoyaUgzcnY5RkFWZE9CQzRZSlB0QUwvR0lSblJT?=
- =?utf-8?B?MHRaZ2VxNGhXWnlXOGltYVZldDhVYWVuMS9LRncrTGNJelh3K1cyM2VrZVpR?=
- =?utf-8?B?TFpWQ3NJMnNFRHI3VWhwcllxOEZWcE0zSlpVTnl6bmIwVVR4R1RETjl5ZHVZ?=
- =?utf-8?B?aUNrNWRneXhPK2lBQWRLb3AwS0NxUDBBZ1hJdDM1QVMzbHcrcWcwTHpkQWJH?=
- =?utf-8?B?K3NDdW1FSDZsZkt4NjJha2pFd1R0eTJ0T3lGaWF3c2w0T1c4N25ad2Ftelhy?=
- =?utf-8?B?bE5sWDdzR1ZZQTl5Q2t0aCt0TWh2UG1ERldlSU5tZy85a1p2aDlhZXNFZmk0?=
- =?utf-8?B?WVF0L2J0aGx6bGg2SkNtYTZsdDdOc0Fpa21RYzZmcEx3L0t1UWJJcG9mZW1x?=
- =?utf-8?B?ZTEwRjIyWm5UeE8yYVhlc0JoaDduYythdDFXeTRTUDFrSWU3NldSWHArK2tq?=
- =?utf-8?B?MWJGaTY5VUdNS1BOd3ljWDh3Q013Q3pNdnNQdHZYL2RaTmNzejl1cUVYTFpS?=
- =?utf-8?B?RmM4Ykc3YnRzQ2loM0VPK25DK0FRbkIrOVR1Q2VOb29jYk9kTlMrRW1Vc0J3?=
- =?utf-8?B?bjRQSXRDSnlaOXVFbWtVejRNL2h3LzlpdmFkYmQ1R0hCd2hHU0VPdXZ2UFZZ?=
- =?utf-8?B?UnBLc1VyWFhlMkdOa1hlOU9kMnVMb1hOemlKVk1QNmNQckpwbVdMZk5aNW1N?=
- =?utf-8?B?cXNjQW50bkFGeTNUWHNJUGJJYTNDelVWVHpuM2FmU1VMaUN1TDRJcXpHdUVh?=
- =?utf-8?B?ZzB0UzdEamZURHByVXJYcnhYYUo1WmJLdy81L1BBOHlSRUJjQkFHWUc0UkI2?=
- =?utf-8?B?Lzl3YStyWXFjcEF2Vm5mVUFoVkRobFBMRzZPbnZBR1ErVjZtRjRPbHc2cldF?=
- =?utf-8?B?dkxsMlFFV0VEV0ZHV09pSGN6ckliRlhyTjJoNTFSMTlkSEt4OU9NZFpCdEZ1?=
- =?utf-8?B?MEJDTyt6ZGlBS2EzNUovdHBtTEMxT1JUc1JIQW5BWVExbDdhcjBmYU5VSzFx?=
- =?utf-8?B?ZXp6NG5rUG9vNXpHaVNxQkJsT3BIUWYvY290Njg4RDlpUWhJRVhZdXpYZVJo?=
- =?utf-8?B?MlE4VzA0VDR2SGd5Zjk5Ulk2S3dlOWIzU1UzSHdNSjdqeUx2UllUNER0NHlw?=
- =?utf-8?B?ZENMUTltbnJpR0Nxa08wOGd5YnQvNkRIenA1eW0yZ1ZsN1AzdWd1SUQ5NXBB?=
- =?utf-8?B?R1ZvTWF3b0pzL3dnZDY2R2p3dys2V1pGa1NEUG15UlAwYTZCSUpXcHNmTGxT?=
- =?utf-8?B?VUtHYXBpUHV0ZzRpM2xBNU1wTUFWY3Q0VlZMemZ0NVlud0NiVWM4MEE1K0Vx?=
- =?utf-8?B?K3lnYWdJRTNWVzAwaFVObzNJUkJLcnY4QitRTHZkOU1lUzkxc080ZFNyRmN5?=
- =?utf-8?B?WVMzSjlsRkozdkFScE5teHR4dzJCRHFYejhTWnJoYm1PeHBEcEc2TTVjSHhl?=
- =?utf-8?B?VENUb2lHU2JpRnVHK2NPK3JXZ3lIMXJZdG1oMGc2UU1zNTBOV1NYRlIxMjBV?=
- =?utf-8?Q?hbZkD2pBAyy3PdxlOcWHkxoxvgVBYZhuZjw7rkH?=
+	=?utf-8?B?UmRsZXdSOWo4S2owWFZxSEhZeS91dGVpYlFCY3FpQjlaSmZkSG1CT2Z4Z1Z1?=
+ =?utf-8?B?Yk1sbjNFQzJ5TmNMY0xQYVJkSWd3QlJpeHpFa25pa3NWOVdHODVxTTdwVThF?=
+ =?utf-8?B?WndmSjRxd2R0QjVsOEhkd3IzaGx4Z0RZY1E1eDV2NkxEZC9NK1ZnUmZVQzVw?=
+ =?utf-8?B?bVpUVVFHQVJwQmF3amJJM2EyUEs1TjBLSE9JdEozaERsbjcxeWlFMmVib0xk?=
+ =?utf-8?B?UTlsSTA2dzBnOEdFcFpxK0V5eXp5S1N2amxrVUdFa2d5YlVHWm5uNTRlMmZu?=
+ =?utf-8?B?eGc1RW11TXlpVVprcWpKeHlGcHhsSW1HTUFDVnF4MlJvd2lPUmRTTHRTenpY?=
+ =?utf-8?B?SjJlWDRkYk5Ib0lIVmFjZXIySzh1aVVRQ1IzdSsxbjV4bTdTTHd5Sm5vU1dl?=
+ =?utf-8?B?Y1lvTUFWM1ZRTGpLZUVTaW4rVmRoQ0tIZ2tnVnp0NUVsUEtvMHFraEhrUW5D?=
+ =?utf-8?B?eC9xMEs1bWVDOEFBdk1Ga2d6eDNhaGVlT2xRYlVZYVpZbEdhcUNjdkNGTnJD?=
+ =?utf-8?B?NHhBWXBMemFMQVdVNmNpdm02a2l6SFlFajMreGQzSDZUZlZOTFQwUEJmTXky?=
+ =?utf-8?B?QWhweUh5UExpZmRaM0QwTzI1cEJQWGtvUVVWWEhla1BoU2JLOG9LTy92b09m?=
+ =?utf-8?B?MS9wdHRMMlZRbXRiZFhLcDBoK3AwSGlHL0ZFeW9FS0xhQklVRDVYZnR4QVRn?=
+ =?utf-8?B?SDF1MllUUzhucVhRVy9hVlNGVFJ5WkVEeCtRVHliZEFRRWlQNm5veHprVmsz?=
+ =?utf-8?B?aklrQ3Q3NUZyaXFGYlF2dnFnQi9BdFdMNVRlZ3VHVjVMUWU4aFpFZytNSmJl?=
+ =?utf-8?B?QzdScHpvK2lJdFFUWGY1MUlraXcyTEFML3J3elU5MXh3dm01TS9XVmlWcXJN?=
+ =?utf-8?B?ZFZSUWUrVVRpcVB4enNVTDdQYmJ0VXdqdkw3eHRZKytsYTVSYUU3QWViMlcy?=
+ =?utf-8?B?d3U1ZmRFUDFhRHpwOXhMTFFRTyt0NC80NzJRN2dtWDVCeGI0T1hLdytkd0la?=
+ =?utf-8?B?SjIyajJ4NTBQSzJmWkUwUnhwdloxQ3kzRmxvK2ZuK0VQOEJ5aDI5SG1OYUVG?=
+ =?utf-8?B?bm5rQW45WExJZGdUVnQyVHcxU0p5TEthZzJ0S25FekpRcTl2TGI0ME8yYlR2?=
+ =?utf-8?B?dVk1THF0RHJIK0l0S0RTSG1wVmhSZHFhT2dHWjQvc1dlMm9NYlRtT0ZzdHZO?=
+ =?utf-8?B?RzlpZXRFVWxWRjlZaVNGSDJ2R3hzNUFHV2tIWWpkQUxzQzdqMUxvb2JkaEJp?=
+ =?utf-8?B?VWRvN1k0WGR4R1lkOVRrZVJKN0tHSlBOV2pnQVhQa2JUekx2SHJSQ1ZrVjZQ?=
+ =?utf-8?B?Z283VFBrdzBVNFlhNVkzT2hQU3hGang4NEM2NWpPbTFWMllvRS9XS0pqbzB4?=
+ =?utf-8?B?M21VRTJwdmVoTzZuWGcwZlJMMmhya3JmTU5nSUxjVEFtQnF2a21DdW9hYnl2?=
+ =?utf-8?B?ajc3LzVHU3VGZ3BSc0NkTXZ3ZGZjTVNMU2V0bUFCQlZpQzNPV3AwVzJvMmUv?=
+ =?utf-8?B?MnAwc3hGNkI2OU5HOE9TVjZ5ZkhGOXdVSnkvampRa2V1Q2dlR0xCSFgyVWcy?=
+ =?utf-8?B?RXlROGpPU3JLQ0orQnh3eUV4bGVoMVM0OFNBRWdBOWlzUHUyM1FRMGU1anlO?=
+ =?utf-8?B?N1RrY2JiWWpUQW1qdmRzcTNyS0xYdCt2bDdHVVNzOFVmbDkxcVJnWTJVN1Vh?=
+ =?utf-8?B?V25xYUNQTmxsUThXbjRWUG5GVDVNWVBJdXhPZCtySEtST1o0MVNXeFl0b1pJ?=
+ =?utf-8?Q?GgiA9iulvj6ZMv4lDX6mEvl0yBi91FCAgl7uycw?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64b98b62-5f6a-41fa-b8d0-08d92caabf96
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf6fa427-a04d-4555-2730-08d92caaf00c
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2021 07:30:12.1149
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2021 07:31:33.4062
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IfIc/76VyY8vZcyaqqoDvpAmg25y6Vqgj6riMD6W6jvDKr+CsRxnkuM1juKZJIo42bRkwdAkMcbVSh8rJdo7ng==
+X-MS-Exchange-CrossTenant-UserPrincipalName: w2WFfSBUkDpfdJg8OrqZfqoR5AAvkAqxNkBJ7xBQ7DvfJFhYY04M5iNnuMIwgoR42mEp1LUbLbA7Xi1dWqkGaw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB2031
-X-Proofpoint-GUID: dKEHRm05eQzLwPx89xOHx7XBU0o6aeNE
-X-Proofpoint-ORIG-GUID: KcEwIpVGhwLRkXXr-fR6afrPMmuia8Hn
+X-Proofpoint-GUID: DvKeYsdUyPnJjYygS7ihzO0yVynVIm_O
+X-Proofpoint-ORIG-GUID: 6S8uWhADCA7_OHZvo1hmRMcTDkgsgKwg
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
  definitions=2021-06-11_01:2021-06-11,2021-06-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
@@ -140,35 +140,60 @@ Ping.
 Thanks,
 
 On 9/25/20 3:05 PM, hongxu wrote:
-> In initramfs-framework, udev (initramfs-module-udev) calls hook mount.sh to
-> mount /run/media/XXX which is used by setup-live (initramfs-module-setup-live).
-> The setup-live calls install-XXX.sh and use /run/media/XXX to do installation
+> While archive mode is 'patched', there is a probably racing between
+> do_ar_patched and do_kernel_configme
+> [snip]
+> |File: 'oe-core/meta/classes/archiver.bbclass', lineno: 313, function: create_tarball
+> ...
+> |Exception: FileNotFoundError: [Errno 2] No such file or directory: 'build/
+> tmp-glibc/work-shared/qemux86-64/kernel-source/.tmp.config.DCUH7mUNe3'
+> [snip]
 > 
-> The side effect is while setup-live is not used, after it switches to rootfs,
-> and the mounted disk could not be released
+> Task do_kernel_configme will modify ${S}, and it broke create_tarball in
+> do_ar_patched.
 > 
-> Release the mounted disk before switch root and after kill udev
+> Order do_kernel_configme and do_ar_patched to avoid racing.
+> 
+> Also improve sstatesig.py to respect commit [fed0ed8 archiver.bbclass: do
+> not cause kernel rebuilds]
 > 
 > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->   meta/recipes-core/initrdscripts/initramfs-framework/udev | 5 +++++
->   1 file changed, 5 insertions(+)
+>   meta/classes/archiver.bbclass | 8 ++++++--
+>   meta/lib/oe/sstatesig.py      | 3 ++-
+>   2 files changed, 8 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-> index 4898b89246..8b62080c68 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-> @@ -8,6 +8,11 @@ udev_shutdown_hook_handler() {
->   	if [ "$status" = "pre" ] && [ "$module" = "finish" ]; then
->   		udevadm settle
->   		killall `basename $_UDEV_DAEMON` 2>/dev/null
-> +
-> +		# Umount other media which is mounted by udev
-> +		for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
-> +			umount $dir
-> +		done
->   	fi
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index aff1f9dbb0..efab438ebd 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -596,7 +596,11 @@ python () {
+>       # Add tasks in the correct order, specifically for linux-yocto to avoid race condition.
+>       # sstatesig.py:sstate_rundepfilter has special support that excludes this dependency
+>       # so that do_kernel_configme does not need to run again when do_unpack_and_patch
+> -    # gets added or removed (by adding or removing archiver.bbclass).
+> +    # or do_ar_patched gets added or removed (by adding or removing archiver.bbclass).
+>       if bb.data.inherits_class('kernel-yocto', d):
+> -        bb.build.addtask('do_kernel_configme', 'do_configure', 'do_unpack_and_patch', d)
+> +        ar_src = d.getVarFlag('ARCHIVER_MODE', 'src')
+> +        if ar_src == "patched":
+> +            bb.build.addtask('do_kernel_configme', 'do_configure', 'do_ar_patched', d)
+> +        else:
+> +            bb.build.addtask('do_kernel_configme', 'do_configure', 'do_unpack_and_patch', d)
 >   }
+> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+> index 21ae0a7657..30afbcd617 100644
+> --- a/meta/lib/oe/sstatesig.py
+> +++ b/meta/lib/oe/sstatesig.py
+> @@ -32,7 +32,8 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCaches):
+>       # from a mcdepends). The exception is the special
+>       # do_kernel_configme->do_unpack_and_patch dependency from archiver.bbclass.
+>       if recipename == depname and depmc == mc:
+> -        if task == "do_kernel_configme" and deptaskname == "do_unpack_and_patch":
+> +        if task == "do_kernel_configme" and (dep.endswith(".do_unpack_and_patch") or \
+> +                                             dep.endswith(".do_ar_patched")):
+>               return False
+>           return True
 >   
 > 
 > 
