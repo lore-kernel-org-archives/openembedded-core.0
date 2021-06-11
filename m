@@ -1,62 +1,118 @@
 Received: from mga02.intel.com (mga02.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.3944.1623383459422790226
+ by mx.groups.io with SMTP id smtpd.web12.3788.1623383460306890520
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Jun 2021 20:51:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 7FwSVr2AoYh5UGjrNdzsji9wjTwqP32c+LZ/0nELSr2m9f2nWdQ8jNsabjqw2psnkLvw57XP8v
- 91QLXkJ+ITow==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="192565996"
+IronPort-SDR: SUzcW0Sc9wIVSG1j1hk//6h8QIPKs2yizAT2lBySndasjrUTKt2vNsovzsKfO/O8LHfWI1w3iW
+ pVn1P0UW6yzw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="192566000"
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="192565996"
+   d="scan'208";a="192566000"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:50:57 -0700
-IronPort-SDR: +nqUR7R9GAFnd0p4EBNKCA6jk6t1mygjUHT14CrDbR+0UxzefHwUgHG0D97KUYpyf/lIVSyia/
- Jt+I5OOT30wg==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:51:00 -0700
+IronPort-SDR: KzxEVlzZYOywJZTDRUpTzvvf93hUfYTehLqAO3WrtNDyQ1fGJ6TuqTKPEuO0ayvz5THl4qQgFp
+ 7U0lSl30vgeA==
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="403091578"
+   d="scan'208";a="403091596"
 Received: from dlau-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.151.154])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:50:56 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 20:50:58 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 01/17] python3: upgrade 3.9.4 -> 3.9.5
-Date: Fri, 11 Jun 2021 11:50:34 +0800
-Message-Id: <e40120185659e48f73e1aef029b699e2207e30de.1623383318.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 03/17] valgrind: Improve non-deterministic ptest reliability
+Date: Fri, 11 Jun 2021 11:50:36 +0800
+Message-Id: <79ec1d73a107277586d3d8e9c0d46dfc0ac2b0d8.1623383318.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1623383318.git.anuj.mittal@intel.com>
 References: <cover.1623383318.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+From: Tony Tascioglu <tony.tascioglu@windriver.com>
 
-Version 3.9.5 includes a fix for CVE-2021-29921.
+Several of the valgrind tests (particulaly helgrind) are unreliable and
+can fail with a different output.
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Particularly, there is a higher chance of failure on QEMU instances with
+SMP enabled and on systems with more interrupts such as laptops on powersave.
+
+The tests have been reported upstream as being unreliable dating back
+over 5 years, due in part to the ordering of threads during
+an "unwinding" process in helgrind.
+https://bugs.kde.org/show_bug.cgi?id=345121
+https://bugs.kde.org/show_bug.cgi?id=430321
+
+A workaround to improve the reliability of such tests is to force them
+to run on a single CPU core using taskset. This greatly reduces the
+chance of a failure.
+
+>>From my testing, I have found it can help reduce the rate of failures
+on both a laptop and QEMU by over 5x. Stress-testing in QEMU for several
+hours did not result in a failure while running the test normally did.
+
+The flaky or undeterministic thread-based tests are defined in the
+taskset_nondeterministic_tests file. These test cases will be run with
+taskset 0x00000001 to run on a single CPU core rather then the regular
+test.
+
+The edited run-ptest executes the flaky tests first, then ignores them
+to not duplicate the results from the main tests. Everything modified is
+restored when testing is complete.
+
+The drawback is that this isn't a foolproof solution. It helps the tests
+fail much less frequently, and considering how this issue has been documented
+for a long time, a workaround such as this is needed.
+
+Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit be23351f97c1a7362c0ddd240a6de0cddfca1b01)
+(cherry picked from commit b318944dd72ca7b0408e955f3599381ab3ac3ba8)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../python/{python3_3.9.4.bb => python3_3.9.5.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3_3.9.4.bb => python3_3.9.5.bb} (99%)
+ meta/recipes-devtools/valgrind/valgrind/run-ptest    | 12 ++++++++++++
+ .../valgrind/valgrind/taskset_nondeterministic_tests |  4 ++++
+ 2 files changed, 16 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
 
-diff --git a/meta/recipes-devtools/python/python3_3.9.4.bb b/meta/recipes-devtools/python/python3_3.9.5.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.9.4.bb
-rename to meta/recipes-devtools/python/python3_3.9.5.bb
-index cb371ceed7..82177f4a18 100644
---- a/meta/recipes-devtools/python/python3_3.9.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.5.bb
-@@ -38,7 +38,7 @@ SRC_URI_append_class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "4b0e6644a76f8df864ae24ac500a51bbf68bd098f6a173e27d3b61cdca9aa134"
-+SRC_URI[sha256sum] = "0c5a140665436ec3dbfbb79e2dfb6d192655f26ef4a29aeffcb6d1820d716d83"
+diff --git a/meta/recipes-devtools/valgrind/valgrind/run-ptest b/meta/recipes-devtools/valgrind/valgrind/run-ptest
+index f37780ef6a..b563eb3567 100755
+--- a/meta/recipes-devtools/valgrind/valgrind/run-ptest
++++ b/meta/recipes-devtools/valgrind/valgrind/run-ptest
+@@ -31,6 +31,13 @@ if [ "$arch" = "aarch64" ]; then
+    done
+ fi
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
++echo "Run flaky tests using taskset to limit them to a single core."
++for i in `cat taskset_nondeterministic_tests`; do
++   taskset 0x00000001 perl tests/vg_regtest --valgrind=${VALGRIND_BIN} --valgrind-lib=${VALGRIND_LIBEXECDIR} --yocto-ptest $i 2>&1|tee ${LOG}
++   mv $i.vgtest $i.IGNORE
++done
++
++
+ cd ${VALGRIND_LIB}/ptest && ./tests/vg_regtest \
+     --valgrind=${VALGRIND_BIN} \
+     --valgrind-lib=${VALGRIND_LIB} \
+@@ -55,6 +62,11 @@ for i in `cat remove-for-all`; do
+    mv $i.IGNORE $i.vgtest;
+ done
+ 
++echo "Restore flaky and other non-deterministic tests"
++for i in `cat taskset_nondeterministic_tests`; do
++   mv $i.IGNORE $i.vgtest;
++done
++
+ echo "Failed test details..."
+ failed_tests=`grep FAIL: ${LOG} | awk '{print $2}'`
+ for test in $failed_tests; do
+diff --git a/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests b/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
+new file mode 100644
+index 0000000000..cf073fa927
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
+@@ -0,0 +1,4 @@
++helgrind/tests/hg05_race2
++helgrind/tests/tc09_bad_unlock
++drd/tests/bar_bad
++drd/tests/bar_bad_xml
 -- 
 2.31.1
 
