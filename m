@@ -1,128 +1,97 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web12.9855.1623526999039457430
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.9613.1623526999634011188
  for <openembedded-core@lists.openembedded.org>;
  Sat, 12 Jun 2021 12:43:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=klImgrMX;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id y11so5296351pgp.11
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AGdtYl+h;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id k5so7522857pjj.1
         for <openembedded-core@lists.openembedded.org>; Sat, 12 Jun 2021 12:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=h+0vvD1KyfPRhae2cKgol4vf2ZRrnoGBIJEV3FiiN9g=;
-        b=klImgrMXimtu9I5wJO10zgzZhnhI1DZ5j0HmB6iLcWRFERhP01TmKeNfrnn5+X2Kln
-         LGhlP7QNYorG/eVmxH1omgi3bqlwRUQdtsjaJTqcksTOSzv/3GYsTXo2xb5lZ4yNThdq
-         5xogFubje3VHL9pROBxyrCRn1GRcTojKJxa1ClEscxNTAr7Mi5vWpADo7ZkYFVE0FtF0
-         zl3AEmvuvxIG5lUGv3XesHz5gGFXV+B7mcBi1lNjuTbpM6j/EfsAO1xyQKNfLg2e8E0e
-         +qJSei7TYc7VDdTKrKOPshRv6zb/+i7YtHnPNwOagGGJhWuRT69vg4eaBhMRC7JuYYrm
-         VQbg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=yjy/8A5TXYs8C3HbL4CHFDV0TEY6ymO+AmZTWUwrUxU=;
+        b=AGdtYl+hgkKlCSSPw3ZV6yLRzyd/QSztIt7xzFVbZeC3yyYAUEkzAURcT8nwe5qGv7
+         JQ41hCBsEalLbTpTXEVEz4HjvYw148EV1uZ2iRSYCUZdZVbM08QMuSHVhGhusB+Xg6ge
+         zqoHK3HH3wO4jpJ2ajCggAmQ1anQh/iYnYjyUpRTYaBND/c//Rgf4Wllok1u45COv26l
+         /Ieatd5/5gI9iGsRGMFzxBdu7d5ckskYHtNUnjYaAkjVXnYJZf4jmHBuD1T5wVqySrH7
+         dme8O+iNVVEC84gtSBAEmYeSRjTaSN//fenDrCg9uDswf6oGNbMjIsTU/Xd+V6/zNu21
+         prlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=h+0vvD1KyfPRhae2cKgol4vf2ZRrnoGBIJEV3FiiN9g=;
-        b=eUPGri+1tQwVXm1Z60gXZVeFnasbfxj2cx2ivqUcym/Z0Ixe6eoYcdK9zkwgQ7gdHi
-         +L11Gb2rakuZIPaWq4lNwlBGbcyzKO/w9nw4GqwqltJhqC9RXpaof+r2N7lmp6SOEMYV
-         LmAge4rH0XfkWJYHd91eE9b9FLza4g/IDuD/8+NildjlbqJePYE9ctYOhcerSVW8B3Q+
-         XRE2N/iSzLGT7tkfOR+Z/motpNAk6F57TMyxBnhxHTk24Q6jGDSyLWl/AzJWu32sBQWj
-         fM7X62+OSD9J2BQpzjkNlV0970g4VZNdqEW8sW15jPBNyV8ChKLI8GSNQ2UIjS7Ku8FM
-         59zg==
-X-Gm-Message-State: AOAM532eHInw1vTuR2DSujsd3f9/zZOfq5ndZzx+8XVrGMSrOPs6JP5z
-	GyA85QyCss63OynR/BFnZKrEEMeh7YsUtQ==
-X-Google-Smtp-Source: ABdhPJxVZp3LD48tVwPar11gJXuA5cb9+H+qnWLuILRcrv/XhQrJzLrzMscGVEe6D8QPD16HK1hPLQ==
-X-Received: by 2002:a62:7514:0:b029:2e9:c7c2:1e4 with SMTP id q20-20020a6275140000b02902e9c7c201e4mr14063164pfc.45.1623526998147;
-        Sat, 12 Jun 2021 12:43:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=yjy/8A5TXYs8C3HbL4CHFDV0TEY6ymO+AmZTWUwrUxU=;
+        b=qzan88YgrSTXn6V2PXvz+iWFL6MiN2d1wnEMywr5Yu0kchrDoYmi/JLsZJ+lH7F5Kk
+         aMS4djVbBSvxzFYNhopsnzeXTS6rhp+NV3vKdChZcCfonmWvynQtjfidOEGp2+JTyV1N
+         EWZDXQEd54JMPdpIJ+IA4vaDe5asoYCqa9TV+uCu3Yh0MX2eR3wdzq30OvITZMEZojoC
+         2Ez9mIrwEFz9S140a/O58aQrYgdB6SJrl19yues+MHRQ1vQwcoM1+dYf7D5/bl41G1TZ
+         cTW3/UCfyYIKL7TboV8gz7gKBN0C+jBY+N47EQ5J5sBcm8v3ffI5rNrd+mOvLIBm2G3P
+         TLag==
+X-Gm-Message-State: AOAM531h4e40tiBpocilRqr+tArwIVkFnkSxcvDiR2pz22iijhc2BFj+
+	QribibU78iBoHL6bvoMA+p90bhfBdeVgqQ==
+X-Google-Smtp-Source: ABdhPJxjYdTnWt9Fa0cyxgSWDGHuyTIpx0hkLGZ3pvH9RXUA/fdmA2iBG4BwKW2mTDbmrSCo2VD+Tw==
+X-Received: by 2002:a17:902:bb94:b029:116:1eb9:9c74 with SMTP id m20-20020a170902bb94b02901161eb99c74mr9697787pls.48.1623526999055;
+        Sat, 12 Jun 2021 12:43:19 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
-        by smtp.gmail.com with ESMTPSA id i22sm8369667pfq.6.2021.06.12.12.43.17
+        by smtp.gmail.com with ESMTPSA id i22sm8369667pfq.6.2021.06.12.12.43.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 12:43:17 -0700 (PDT)
+        Sat, 12 Jun 2021 12:43:18 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Andrea Adami <andrea.adami@gmail.com>
-Subject: [PATCH 1/2] gcompat: Add recipe
-Date: Sat, 12 Jun 2021 12:43:14 -0700
-Message-Id: <20210612194315.676681-1-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] musl: Do not package glibc loader
+Date: Sat, 12 Jun 2021 12:43:15 -0700
+Message-Id: <20210612194315.676681-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210612194315.676681-1-raj.khem@gmail.com>
+References: <20210612194315.676681-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a compat library which helps running pre-compiled binaries which were
-compiled for glibc but needs to run on musl systems, this is quite
-common case where pre-existing binaries are supplied and can not be
-recompiled immediately
+This was a ad-hoc solution which did not really work in all cases, now
+gcompat is provided to deal with glibc based prebuilts, therefore there
+is no need to provide this package
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Andrea Adami <andrea.adami@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc |  1 +
- meta/recipes-core/musl/gcompat_git.bb    | 42 ++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-core/musl/gcompat_git.bb
+ meta/recipes-core/musl/gcompat_git.bb | 2 ++
+ meta/recipes-core/musl/musl_git.bb    | 4 ----
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 71943ffe26..e59f01d66a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -229,6 +229,7 @@ RECIPE_MAINTAINER_pn-gobject-introspection = "Alexander Kanavin <alex.kanavin@gm
- RECIPE_MAINTAINER_pn-gperf = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-gpgme = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-gptfdisk = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-gcompat = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-grep = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-groff = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-grub = "Anuj Mittal <anuj.mittal@intel.com>"
 diff --git a/meta/recipes-core/musl/gcompat_git.bb b/meta/recipes-core/musl/gcompat_git.bb
-new file mode 100644
-index 0000000000..6792c0be70
---- /dev/null
+index 6792c0be70..e1ae052c44 100644
+--- a/meta/recipes-core/musl/gcompat_git.bb
 +++ b/meta/recipes-core/musl/gcompat_git.bb
-@@ -0,0 +1,42 @@
-+# Copyright (C) 2021 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
+@@ -34,6 +34,8 @@ do_compile () {
+ do_install () {
+ 	oe_runmake install 'DESTDIR=${D}'
+ }
 +
-+SUMMARY = "A library which provides glibc-compatible APIs for use on musl libc systems"
-+HOMEPAGE = "https://git.adelielinux.org/adelie/gcompat"
-+
-+LICENSE = "NCSA"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=eb33ef4af05a9c7602843afb7adfe792"
-+
-+SRC_URI = "git://git.adelielinux.org/adelie/gcompat.git;protocol=https;branch=current"
-+
-+PV = "1.0.0+1.1+git${SRCPV}"
-+SRCREV = "af5a49e489fdc04b9cf02547650d7aeaccd43793"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit pkgconfig linuxloader
-+
-+DEPENDS += "musl-obstack"
-+
-+GLIBC_LDSO = "${@get_glibc_loader(d)}"
-+MUSL_LDSO = "${@get_musl_loader(d)}"
-+
-+EXTRA_OEMAKE = "LINKER_PATH=${MUSL_LDSO} LOADER_NAME=`basename ${@get_glibc_loader(d)}`"
-+
-+do_configure () {
-+	:
-+}
-+
-+do_compile () {
-+	oe_runmake
-+}
-+
-+do_install () {
-+	oe_runmake install 'DESTDIR=${D}'
-+}
-+#
-+# We will skip parsing for non-musl systems
-+#
-+COMPATIBLE_HOST = ".*-musl.*"
-+
-+UPSTREAM_CHECK_COMMITS = "1"
++RPROVIDES_${PN} += "musl-glibc-compat"
+ #
+ # We will skip parsing for non-musl systems
+ #
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 795b888bb3..6569d1b37b 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -68,13 +68,9 @@ do_install() {
+         echo "${libdir}" >> ${D}${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path
+ 	rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
+ 	lnr ${D}${libdir}/libc.so ${D}${bindir}/ldd
+-	lnr ${D}${libdir}/libc.so ${D}${GLIBC_LDSO}
+ }
+ 
+-PACKAGES =+ "${PN}-glibc-compat"
+-
+ FILES_${PN} += "/lib/ld-musl-${MUSL_LDSO_ARCH}.so.1 ${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path"
+-FILES_${PN}-glibc-compat += "${GLIBC_LDSO}"
+ FILES_${PN}-staticdev = "${libdir}/libc.a"
+ FILES_${PN}-dev =+ "${libdir}/libcrypt.a ${libdir}/libdl.a ${libdir}/libm.a \
+                     ${libdir}/libpthread.a ${libdir}/libresolv.a \
 -- 
 2.32.0
 
