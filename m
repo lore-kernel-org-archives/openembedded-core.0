@@ -1,225 +1,128 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web09.179.1623454205520529520
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web12.9855.1623526999039457430
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jun 2021 16:30:05 -0700
+ Sat, 12 Jun 2021 12:43:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RYLM+/2Z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.54, mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-lf1-f54.google.com with SMTP id j20so10887809lfe.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jun 2021 16:30:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=klImgrMX;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id y11so5296351pgp.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Jun 2021 12:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nqeMlc1o4NarW+9dANJeDmwz9NoEBEJQ+lBgeANjNXw=;
-        b=RYLM+/2ZF6eCUjd7wID6xU7Ca+8itlwcl5AkbKqVf0lm+VedcIUkeGm8fx8bix7Ru4
-         2B4Ulm6bSDgmKxDdCH4/wfvI5tXRSB9J96KCzWpaq+zat/qZHJmDhZVEhFLiZQYXCdyn
-         aU0Q7WOIcbnt1cUjabkL72ifHR5OgwHyPM9BI=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h+0vvD1KyfPRhae2cKgol4vf2ZRrnoGBIJEV3FiiN9g=;
+        b=klImgrMXimtu9I5wJO10zgzZhnhI1DZ5j0HmB6iLcWRFERhP01TmKeNfrnn5+X2Kln
+         LGhlP7QNYorG/eVmxH1omgi3bqlwRUQdtsjaJTqcksTOSzv/3GYsTXo2xb5lZ4yNThdq
+         5xogFubje3VHL9pROBxyrCRn1GRcTojKJxa1ClEscxNTAr7Mi5vWpADo7ZkYFVE0FtF0
+         zl3AEmvuvxIG5lUGv3XesHz5gGFXV+B7mcBi1lNjuTbpM6j/EfsAO1xyQKNfLg2e8E0e
+         +qJSei7TYc7VDdTKrKOPshRv6zb/+i7YtHnPNwOagGGJhWuRT69vg4eaBhMRC7JuYYrm
+         VQbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nqeMlc1o4NarW+9dANJeDmwz9NoEBEJQ+lBgeANjNXw=;
-        b=M9IFtfcdHGrRjG2hJEzwCcPMUwbdBzLXqdBOPooaH1qAjcEjhkPnNJygNOLboCXTQH
-         6jazdAr7pIw6CpGrZSz0+c+xg6abEUgXK505Vl5ioX9Fy4JK3UdZ3K+sYu582ir+4dYo
-         9FiteOrOpc3k/WU9nZ5JLBucPvgTotMlFdTVeQqqBdkbqRSv46w8tU4cPQ6yB5F8yBUH
-         n5Fd2MR2GDJqA3qPFGe06UXCnF2lAjIA2jjEsg9KKRLdKHv+scuyMkFo1KB00nm8dSCi
-         5Dy1K/QAZHEbOfv1IEhmdMDTe7H2oy7Q2+/oJK6iSH7jpiyhmPmYx6uICES9MevHe2u2
-         n3sg==
-X-Gm-Message-State: AOAM530FIxyZ19wX7F1eJsadINDVMYjqBvnfc3Vq+NJcjI1V3YkOoc/z
-	G3DK2acylDeHKw6QS6jDWz8Nr40GPHhaNhZJrHmsqw==
-X-Google-Smtp-Source: ABdhPJwsYFOPxd/AewG1ynbSMCdcK6nXh6wXkqg9lWwMGSlamhjqyh4htX8k4mmAJC6gS6sPwOIHLA3yE7Nd3KjQ3G0=
-X-Received: by 2002:ac2:42c2:: with SMTP id n2mr4176103lfl.0.1623454203352;
- Fri, 11 Jun 2021 16:30:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h+0vvD1KyfPRhae2cKgol4vf2ZRrnoGBIJEV3FiiN9g=;
+        b=eUPGri+1tQwVXm1Z60gXZVeFnasbfxj2cx2ivqUcym/Z0Ixe6eoYcdK9zkwgQ7gdHi
+         +L11Gb2rakuZIPaWq4lNwlBGbcyzKO/w9nw4GqwqltJhqC9RXpaof+r2N7lmp6SOEMYV
+         LmAge4rH0XfkWJYHd91eE9b9FLza4g/IDuD/8+NildjlbqJePYE9ctYOhcerSVW8B3Q+
+         XRE2N/iSzLGT7tkfOR+Z/motpNAk6F57TMyxBnhxHTk24Q6jGDSyLWl/AzJWu32sBQWj
+         fM7X62+OSD9J2BQpzjkNlV0970g4VZNdqEW8sW15jPBNyV8ChKLI8GSNQ2UIjS7Ku8FM
+         59zg==
+X-Gm-Message-State: AOAM532eHInw1vTuR2DSujsd3f9/zZOfq5ndZzx+8XVrGMSrOPs6JP5z
+	GyA85QyCss63OynR/BFnZKrEEMeh7YsUtQ==
+X-Google-Smtp-Source: ABdhPJxVZp3LD48tVwPar11gJXuA5cb9+H+qnWLuILRcrv/XhQrJzLrzMscGVEe6D8QPD16HK1hPLQ==
+X-Received: by 2002:a62:7514:0:b029:2e9:c7c2:1e4 with SMTP id q20-20020a6275140000b02902e9c7c201e4mr14063164pfc.45.1623526998147;
+        Sat, 12 Jun 2021 12:43:18 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
+        by smtp.gmail.com with ESMTPSA id i22sm8369667pfq.6.2021.06.12.12.43.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Jun 2021 12:43:17 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Andrea Adami <andrea.adami@gmail.com>
+Subject: [PATCH 1/2] gcompat: Add recipe
+Date: Sat, 12 Jun 2021 12:43:14 -0700
+Message-Id: <20210612194315.676681-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210604091458.1381144-1-alex.kanavin@gmail.com>
- <20210604091458.1381144-4-alex.kanavin@gmail.com> <1685B658849E960A.4717@lists.openembedded.org>
- <f9cc3da4399fcca66a9c43638dcf4eca162ba23a.camel@linuxfoundation.org>
- <50a73766-dc52-0600-a6cd-7ab422030782@gmail.com> <7e56d093ba6c1390cec71ef3a362abe84ce735bb.camel@linuxfoundation.org>
- <CANNYZj_ExBZwGzRrnG8Yb2nsNmzCKkZV09FqFuMbCdxAepNSkg@mail.gmail.com>
- <2ac70a7b01743192ae4ec42b2b1eee18becde25d.camel@linuxfoundation.org>
- <CANNYZj-dYu4Q9PBhBd2-msPaBSreycLCfCKmZ1zm8=z=Ht+MbA@mail.gmail.com>
- <CAMKF1srMGpi0fCdx0b=n0NCSMrkBUBN80srR1sMP9vZZbHf=tQ@mail.gmail.com>
- <CANNYZj9spx5kAGMZBTTYz_daHG=G17uAfx6rE3=0fe+CP8-p=A@mail.gmail.com>
- <CAMKF1sqWNP8G=DwthpeiXfV2niSygRBeNQACXDrVgT5NEds3vA@mail.gmail.com>
- <CANNYZj-iYbPjM7KKv+bPL_Tu2WZqG2sOCB5njjHHZ-5ou36rUg@mail.gmail.com>
- <CAMKF1sobgTDj0Cf5TZ=DcO00tTGQb=q2yPiMuub57-PfAv058w@mail.gmail.com>
- <CADfgfob3EjTPSuxOXQ1EbR6j108OqcKi_oNibGE9xQ-=_AHxGQ@mail.gmail.com>
- <CAMKF1spK+WC_J-pb-iYsnvHzVj4-sr8YKaz63yjCU98F+VurTw@mail.gmail.com>
- <CANNYZj-1D7M6ggXiaGZX7PnkmENqK_8wgHpR06W9AWp==kwbUQ@mail.gmail.com>
- <CADfgfoaUpky3zgsU=q90nQdbuPWa63VxQSKQCc=r1YahwKw5oQ@mail.gmail.com>
- <CANNYZj9wKQv+YMgCN98R1fEiCaruFTiK_MHXt+aNPVLOYBBS2w@mail.gmail.com>
- <ffe15158da239184a7eef20767652cda2b9f272a.camel@linuxfoundation.org>
- <CANNYZj90+Ykt=4-ap+sRWfo7N0x6EwDSevXRWojWyG9N8agt4w@mail.gmail.com>
- <CADfgfob1aHH-kqMss84YfrQ7YrpZsDPd32XoX17wJLoJ0yka3A@mail.gmail.com> <CANNYZj-Q=kpNCFM-Q5iPK5j0vciaUCcFBYEzWDRYpArUm6jmVg@mail.gmail.com>
-In-Reply-To: <CANNYZj-Q=kpNCFM-Q5iPK5j0vciaUCcFBYEzWDRYpArUm6jmVg@mail.gmail.com>
-From: "Michael Halstead" <mhalstead@linuxfoundation.org>
-Date: Fri, 11 Jun 2021 16:29:51 -0700
-Message-ID: <CADfgfoZrpC7RFc0H8xXU8mK2myXT+O9L_kKJUQraK94E__k4Vg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/10] cmake: update 3.20.2 -> 3.20.3
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000019af8605c485e32e"
+Content-Transfer-Encoding: 8bit
 
---00000000000019af8605c485e32e
-Content-Type: text/plain; charset="UTF-8"
+This is a compat library which helps running pre-compiled binaries which were
+compiled for glibc but needs to run on musl systems, this is quite
+common case where pre-existing binaries are supplied and can not be
+recompiled immediately
 
-Thanks Alex,
-The issue persists with the newest CentOS8 Stream kernel. Time to file a
-bug with RedHat I suppose.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/conf/distro/include/maintainers.inc |  1 +
+ meta/recipes-core/musl/gcompat_git.bb    | 42 ++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-core/musl/gcompat_git.bb
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3535/steps/12/logs/stdio
-
-On Fri, Jun 11, 2021 at 3:18 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> I think the easiest is to run the genericx86 job on the worker. If the
-> problem exists, you'll see a failure like this one:
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3523/steps/12/logs/stdio
->
-> Alex
->
-> On Fri, 11 Jun 2021 at 23:56, Michael Halstead <
-> mhalstead@linuxfoundation.org> wrote:
->
->> I've switched centos8-ty-2.yocto.io over to Stream and it's now running
->> kernel 4.18.0-310.el8.x86_64. I'm not sure how to test if the problem
->> still exists but I don't see a related entry in the changelog so I expect
->> it does.
->>
->> Alex, can you check or send me a bit more info about how to check myself?
->>
->> On Wed, Jun 9, 2021 at 7:07 AM Alexander Kanavin <alex.kanavin@gmail.com>
->> wrote:
->>
->>> On Wed, 9 Jun 2021 at 13:37, Richard Purdie <
->>> richard.purdie@linuxfoundation.org> wrote:
->>>
->>>> Thanks Michael and Alex. We can therefore pretty safely say that
->>>> something was
->>>> broken between the 240 and 305 of the centos8 kernel for the 32 bit
->>>> syscall
->>>> utimensat syscalls.
->>>>
->>>> I did poke around https://github.com/kernelim/linux/tree/centos8 which
->>>> does
->>>> have a kernel diff but it is huge and you have to clone the repo to get
->>>> it.
->>>>
->>>> git show a3342908613ba72a84f652ca7a56c3e2113bda12 | grep sys_utimensat
->>>> -C 40
->>>>
->>>> shows they did add the syscalls in that kernel.
->>>>
->>>> So this does look to be a RedHat issue. Not sure if we want to report it
->>>> to them? Can we run the autobuilders on the older kernel for now until
->>>> they hopefully fix it?
->>>>
->>>
->>> Centos 8 will be discontinued in just over 6 months  (
->>> https://www.centos.org/centos-linux/)
->>> so I think at least one of the centos 8 workers should be updated to
->>> centos stream 8
->>> (https://www.centos.org/centos-stream/ - includes instructions) and
->>> take it from there.
->>>
->>> Alex
->>>
->>
->>
->> --
->> Michael Halstead
->> Linux Foundation / Yocto Project
->> Systems Operations Engineer
->>
->
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 71943ffe26..e59f01d66a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -229,6 +229,7 @@ RECIPE_MAINTAINER_pn-gobject-introspection = "Alexander Kanavin <alex.kanavin@gm
+ RECIPE_MAINTAINER_pn-gperf = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-gpgme = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-gptfdisk = "Alexander Kanavin <alex.kanavin@gmail.com>"
++RECIPE_MAINTAINER_pn-gcompat = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-grep = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER_pn-groff = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-grub = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-core/musl/gcompat_git.bb b/meta/recipes-core/musl/gcompat_git.bb
+new file mode 100644
+index 0000000000..6792c0be70
+--- /dev/null
++++ b/meta/recipes-core/musl/gcompat_git.bb
+@@ -0,0 +1,42 @@
++# Copyright (C) 2021 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "A library which provides glibc-compatible APIs for use on musl libc systems"
++HOMEPAGE = "https://git.adelielinux.org/adelie/gcompat"
++
++LICENSE = "NCSA"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=eb33ef4af05a9c7602843afb7adfe792"
++
++SRC_URI = "git://git.adelielinux.org/adelie/gcompat.git;protocol=https;branch=current"
++
++PV = "1.0.0+1.1+git${SRCPV}"
++SRCREV = "af5a49e489fdc04b9cf02547650d7aeaccd43793"
++
++S = "${WORKDIR}/git"
++
++inherit pkgconfig linuxloader
++
++DEPENDS += "musl-obstack"
++
++GLIBC_LDSO = "${@get_glibc_loader(d)}"
++MUSL_LDSO = "${@get_musl_loader(d)}"
++
++EXTRA_OEMAKE = "LINKER_PATH=${MUSL_LDSO} LOADER_NAME=`basename ${@get_glibc_loader(d)}`"
++
++do_configure () {
++	:
++}
++
++do_compile () {
++	oe_runmake
++}
++
++do_install () {
++	oe_runmake install 'DESTDIR=${D}'
++}
++#
++# We will skip parsing for non-musl systems
++#
++COMPATIBLE_HOST = ".*-musl.*"
++
++UPSTREAM_CHECK_COMMITS = "1"
 -- 
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
+2.32.0
 
---00000000000019af8605c485e32e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thanks Alex,=C2=A0<div>The issue persists with the newest =
-CentOS8 Stream kernel. Time to file a bug with RedHat I suppose.=C2=A0</div=
-><div><br></div><div><a href=3D"https://autobuilder.yoctoproject.org/typhoo=
-n/#/builders/48/builds/3535/steps/12/logs/stdio">https://autobuilder.yoctop=
-roject.org/typhoon/#/builders/48/builds/3535/steps/12/logs/stdio</a><br></d=
-iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Fri, Jun 11, 2021 at 3:18 PM Alexander Kanavin &lt;<a href=3D"mailto:=
-alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_quote"><div class=3D"gmail_attr">I think the easiest is to run th=
-e genericx86 job on the worker. If the problem exists, you&#39;ll see a fai=
-lure like this one:</div><div class=3D"gmail_attr"><br></div><div class=3D"=
-gmail_attr"><a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/build=
-ers/48/builds/3523/steps/12/logs/stdio" target=3D"_blank">https://autobuild=
-er.yoctoproject.org/typhoon/#/builders/48/builds/3523/steps/12/logs/stdio</=
-a></div><div class=3D"gmail_attr"><br></div><div class=3D"gmail_attr">Alex<=
-br></div><div dir=3D"ltr" class=3D"gmail_attr"><br></div><div dir=3D"ltr" c=
-lass=3D"gmail_attr">On Fri, 11 Jun 2021 at 23:56, Michael Halstead &lt;<a h=
-ref=3D"mailto:mhalstead@linuxfoundation.org" target=3D"_blank">mhalstead@li=
-nuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex"><div dir=3D"ltr">I&#39;ve switched <a href=3D"http://cento=
-s8-ty-2.yocto.io" target=3D"_blank">centos8-ty-2.yocto.io</a> over to Strea=
-m and it&#39;s now running kernel 4.18.0-310.el8.x86_64. I&#39;m not sure h=
-ow to test if the problem still=C2=A0exists but I don&#39;t see a related e=
-ntry in the changelog so I expect it does.<br><div><br></div><div>Alex, can=
- you check or send me a bit more info about how to check myself?</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On We=
-d, Jun 9, 2021 at 7:07 AM Alexander Kanavin &lt;<a href=3D"mailto:alex.kana=
-vin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 9 Jun=
- 2021 at 13:37, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Thanks Mi=
-chael and Alex. We can therefore pretty safely say that something was=C2=A0=
-<br>
-broken between the 240 and 305 of the centos8 kernel for the 32 bit syscall=
-<br>
-utimensat syscalls.<br>
-<br>
-I did poke around <a href=3D"https://github.com/kernelim/linux/tree/centos8=
-" rel=3D"noreferrer" target=3D"_blank">https://github.com/kernelim/linux/tr=
-ee/centos8</a> which does<br>
-have a kernel diff but it is huge and you have to clone the repo to get it.=
-<br>
-<br>
-git show a3342908613ba72a84f652ca7a56c3e2113bda12 | grep sys_utimensat -C 4=
-0<br>
-<br>
-shows they did add the syscalls in that kernel.<br>
-<br>
-So this does look to be a RedHat issue. Not sure if we want to report it<br=
->
-to them? Can we run the autobuilders on the older kernel for now until<br>
-they hopefully fix it?<br>
-</blockquote><div><br></div><div>Centos 8 will be discontinued in just over=
- 6 months=C2=A0 (<a href=3D"https://www.centos.org/centos-linux/" target=3D=
-"_blank">https://www.centos.org/centos-linux/</a>)</div><div>so I think at =
-least one of the centos 8 workers should be updated to centos stream 8 <br>=
-</div><div>(<a href=3D"https://www.centos.org/centos-stream/" target=3D"_bl=
-ank">https://www.centos.org/centos-stream/</a> - includes instructions) and=
- take it from there.</div><div><br></div><div>Alex<br></div></div></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr">Michael Halstead<div>Linux Foundation / Yocto Project</di=
-v><div>Systems Operations Engineer</div></div></div>
-</blockquote></div></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Michael Halstead<div>Linux Foun=
-dation / Yocto Project</div><div>Systems Operations Engineer</div></div></d=
-iv>
-
---00000000000019af8605c485e32e--
