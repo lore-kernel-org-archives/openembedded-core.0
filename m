@@ -1,21 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.16439.1623585061820376433
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web09.16423.1623585061547364899
  for <openembedded-core@lists.openembedded.org>;
  Sun, 13 Jun 2021 04:51:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 64E8938C1400
+	by mail.yoctoproject.org (Postfix) with ESMTP id 7193A38C1402
 	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:01 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-helloworld: upgrading to 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4 FAILED
-Message-ID: <MADEUP.16882202FEDD01EB.6241@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============1445091519759311061=="
+Subject: [AUH] stress-ng: upgrading to 0.12.10 SUCCEEDED
+Message-ID: <MADEUP.1688220300126740.15968@lists.openembedded.org>
+X-Groupsio-MsgNum: 152902
+Content-Type: multipart/mixed; boundary="===============6049954075576448855=="
 
---===============1445091519759311061==
+--===============6049954075576448855==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,46 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-helloworld* to *09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *stress-ng* to *0.12.10* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-stress-ng-upgrade-0.12.09-0.12.10.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade go-helloworld -S 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1454 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-d89afa1a301a1715a78bdafb7336ad2a124500d0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d89afa1a301a1715a78bdafb7336ad2a124500d0"
-workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting upgraded version source...
-ERROR: Execution of 'git checkout 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4' failed with exit code 128:
-fatal: reference is not a tree: 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -70,4 +44,70 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1445091519759311061==--
+--===============6049954075576448855==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/stress-ng: SRC_URI changed from "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.09.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch" to "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.10.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch"
+packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 5533404 to 5551652 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 3005065 to 3020341 (+1%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.12.09" to "0.12.10"
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 4160232 to 4168424 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.12.09 [default] to 0.12.10 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.12.09" to "0.12.10"
+
+--===============6049954075576448855==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-stress-ng-upgrade-0.12.09-0.12.10.patch"
+
+From d78bbffdd03816df948632977c388a294fd0bb75 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 13 Jun 2021 10:07:43 +0000
+Subject: [PATCH] stress-ng: upgrade 0.12.09 -> 0.12.10
+
+---
+ .../stress-ng/{stress-ng_0.12.09.bb => stress-ng_0.12.10.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.12.09.bb => stress-ng_0.12.10.bb} (90%)
+
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.09.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.10.bb
+similarity index 90%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.12.09.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.12.10.bb
+index f7e5f03e78..7b06f00616 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.12.09.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.10.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            file://no_daddr_t.patch \
+            "
+-SRC_URI[sha256sum] = "cffac091082c7adbfec649be3c66941c3d622f8b96795656bcce2e20d669cfeb"
++SRC_URI[sha256sum] = "bd167b6559fa8a28680371b1defd3ffe2344eb550129d58dd7d5e2d568f2786e"
+ 
+ DEPENDS = "coreutils-native"
+ 
+-- 
+2.17.1
+
+
+--===============6049954075576448855==--
