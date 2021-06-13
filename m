@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.16438.1623585061649045194
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.16268.1623585062281613202
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Jun 2021 04:51:01 -0700
+ Sun, 13 Jun 2021 04:51:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8E9BF38C140C
-	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:01 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 31DEB38C13F5
+	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:02 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libx11: upgrading to 1.7.2 SUCCEEDED
-Message-ID: <MADEUP.168822030516FDBC.15968@lists.openembedded.org>
-X-Groupsio-MsgNum: 152906
-Content-Type: multipart/mixed; boundary="===============8691784137512133586=="
+Subject: [AUH] rng-tools: upgrading to 6.13 SUCCEEDED
+Message-ID: <MADEUP.168822031B4D6025.30228@lists.openembedded.org>
+X-Groupsio-MsgNum: 152907
+Content-Type: multipart/mixed; boundary="===============7409088974261461941=="
 
---===============8691784137512133586==
+--===============7409088974261461941==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libx11* to *1.7.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *rng-tools* to *6.13* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libx11-upgrade-1.7.1-1.7.2.patch
+    - apply the patch: git am 0001-rng-tools-upgrade-6.12-6.13.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,69 +44,68 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8691784137512133586==
+--===============7409088974261461941==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libx11: SRC_URI changed from "https://www.x.org/releases//individual/lib/libX11-1.7.1.tar.bz2 file://Fix-hanging-issue-in-_XReply.patch file://disable_tests.patch" to "https://www.x.org/releases//individual/lib/libX11-1.7.2.tar.bz2 file://Fix-hanging-issue-in-_XReply.patch file://disable_tests.patch"
-packages/core2-32-poky-linux/libx11: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-dbg: PKGSIZE changed from 10919128 to 10919916 (+0%)
-packages/core2-32-poky-linux/libx11/libx11-dbg: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11-dbg: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-dev: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11-dev: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-doc: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11-doc: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-locale: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11-locale: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-src: PKGSIZE changed from 5421577 to 5421704 (+0%)
-packages/core2-32-poky-linux/libx11/libx11-src: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11-src: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-staticdev: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11-staticdev: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-xcb: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11-xcb: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
-packages/core2-32-poky-linux/libx11/libx11: PV changed from "1.7.1" to "1.7.2"
-packages/core2-32-poky-linux/libx11/libx11: PKGV changed from 1.7.1 [default] to 1.7.2 [default]
+packages/core2-32-poky-linux/rng-tools: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools: PV changed from "6.12" to "6.13"
+packages/core2-32-poky-linux/rng-tools/rng-tools-dbg: PKGSIZE changed from 170964 to 172416 (+1%)
+packages/core2-32-poky-linux/rng-tools/rng-tools-dbg: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools/rng-tools-dbg: PV changed from "6.12" to "6.13"
+packages/core2-32-poky-linux/rng-tools/rng-tools-dev: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools/rng-tools-dev: PV changed from "6.12" to "6.13"
+packages/core2-32-poky-linux/rng-tools/rng-tools-doc: PKGSIZE changed from 10915 to 11421 (+5%)
+packages/core2-32-poky-linux/rng-tools/rng-tools-doc: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools/rng-tools-doc: PV changed from "6.12" to "6.13"
+packages/core2-32-poky-linux/rng-tools/rng-tools-locale: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools/rng-tools-locale: PV changed from "6.12" to "6.13"
+packages/core2-32-poky-linux/rng-tools/rng-tools-src: PKGSIZE changed from 101815 to 106334 (+4%)
+packages/core2-32-poky-linux/rng-tools/rng-tools-src: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools/rng-tools-src: PV changed from "6.12" to "6.13"
+packages/core2-32-poky-linux/rng-tools/rng-tools-staticdev: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools/rng-tools-staticdev: PV changed from "6.12" to "6.13"
+packages/core2-32-poky-linux/rng-tools/rng-tools: PKGSIZE changed from 84485 to 80429 (-5%)
+packages/core2-32-poky-linux/rng-tools/rng-tools: PKGV changed from 6.12 [default] to 6.13 [default]
+packages/core2-32-poky-linux/rng-tools/rng-tools: PV changed from "6.12" to "6.13"
 
---===============8691784137512133586==
+--===============7409088974261461941==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-libx11-upgrade-1.7.1-1.7.2.patch"
+ filename="0001-rng-tools-upgrade-6.12-6.13.patch"
 
-From 1e6c1426aa4f7b935bf5eeaa26f3da2c9b70b76b Mon Sep 17 00:00:00 2001
+From 0e67ab459b1d79fa6c90872bab8ae0126948681a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 13 Jun 2021 10:34:33 +0000
-Subject: [PATCH] libx11: upgrade 1.7.1 -> 1.7.2
+Date: Sun, 13 Jun 2021 11:50:59 +0000
+Subject: [PATCH] rng-tools: upgrade 6.12 -> 6.13
 
 ---
- .../xorg-lib/{libx11_1.7.1.bb => libx11_1.7.2.bb}               | 2 +-
+ .../rng-tools/{rng-tools_6.12.bb => rng-tools_6.13.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libx11_1.7.1.bb => libx11_1.7.2.bb} (93%)
+ rename meta/recipes-support/rng-tools/{rng-tools_6.12.bb => rng-tools_6.13.bb} (97%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
-similarity index 93%
-rename from meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb
-rename to meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
-index b5f0445e12..383860409f 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
-@@ -14,7 +14,7 @@ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
-            file://disable_tests.patch \
-            "
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.12.bb b/meta/recipes-support/rng-tools/rng-tools_6.13.bb
+similarity index 97%
+rename from meta/recipes-support/rng-tools/rng-tools_6.12.bb
+rename to meta/recipes-support/rng-tools/rng-tools_6.13.bb
+index 9673700981..fb2fd63c5d 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.12.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.13.bb
+@@ -14,7 +14,7 @@ SRC_URI = "\
+     file://default \
+     file://rngd.service \
+ "
+-SRCREV = "a2cd12bc253a014328b87137559fd4e1ab296d9b"
++SRCREV = "d8dac0e8bede73e42b3d59f3b48c662ad0032e8c"
  
--SRC_URI[sha256sum] = "e64e43deaa562cbfb0d5ada64670ec09c6fac7935262dcd77bbc6d984a535d47"
-+SRC_URI[sha256sum] = "1cfa35e37aaabbe4792e9bb690468efefbfbf6b147d9c69d6f90d13c3092ea6c"
- 
- PROVIDES = "virtual/libx11"
+ S = "${WORKDIR}/git"
  
 -- 
 2.17.1
 
 
---===============8691784137512133586==--
+--===============7409088974261461941==--
