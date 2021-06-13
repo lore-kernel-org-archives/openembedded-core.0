@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.16336.1623585061593059949
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web08.16339.1623585061971835768
  for <openembedded-core@lists.openembedded.org>;
  Sun, 13 Jun 2021 04:51:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id B67B138C13D1
+	by mail.yoctoproject.org (Postfix) with ESMTP id A6B0838C140D
 	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:01 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] xkeyboard-config: upgrading to 2.33 SUCCEEDED
-Message-ID: <MADEUP.168822030D22937B.12353@lists.openembedded.org>
-X-Groupsio-MsgNum: 152908
-Content-Type: multipart/mixed; boundary="===============8650144613760437344=="
+Subject: [AUH] libxi: upgrading to 1.7.99.2 SUCCEEDED
+Message-ID: <MADEUP.168822030D6E6F9A.6241@lists.openembedded.org>
+X-Groupsio-MsgNum: 152909
+Content-Type: multipart/mixed; boundary="===============2541978223779550285=="
 
---===============8650144613760437344==
+--===============2541978223779550285==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xkeyboard-config* to *2.33* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxi* to *1.7.99.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xkeyboard-config-upgrade-2.32-2.33.patch
+    - apply the patch: git am 0001-libxi-upgrade-1.7.10-1.7.99.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,183 +44,385 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8650144613760437344==
+--===============2541978223779550285==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-xkeyboard-config-upgrade-2.32-2.33.patch"
+ filename="0001-libxi-upgrade-1.7.10-1.7.99.2.patch"
 
-From 3f769c0e2b3dad0b4f792c197aabebe72331dad9 Mon Sep 17 00:00:00 2001
+From 6957113c8472180c6a3c2a86a9b133a5cfdbeb93 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 13 Jun 2021 10:42:36 +0000
-Subject: [PATCH] xkeyboard-config: upgrade 2.32 -> 2.33
+Date: Sun, 13 Jun 2021 10:38:41 +0000
+Subject: [PATCH] libxi: upgrade 1.7.10 -> 1.7.99.2
 
 ---
- .../{xkeyboard-config_2.32.bb => xkeyboard-config_2.33.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.32.bb => xkeyboard-config_2.33.bb} (92%)
+ .../xorg-lib/{libxi_1.7.10.bb => libxi_1.7.99.2.bb}            | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.10.bb => libxi_1.7.99.2.bb} (82%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.32.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.32.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb
-index daa07a4d02..197a870e76 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.32.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb
-@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb b/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb
+similarity index 82%
+rename from meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb
+rename to meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb
+index 5a08e07362..8afa9aa527 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb
+@@ -17,7 +17,6 @@ PE = "1"
  
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "1feee317ba39b91902b0cbd2987c0c73e6afbfc8f4c096367a5c86c216c036a8"
-+SRC_URI[sha256sum] = "657fd790d6dcf781cd395de4cf726120a5b0f93ba91dfb2628bcc70ae8b1d3bc"
+ XORG_PN = "libXi"
  
- SECTION = "x11/libs"
- DEPENDS = "util-macros libxslt-native"
+-SRC_URI[md5sum] = "62c4af0839072024b4b1c8cbe84216c7"
+-SRC_URI[sha256sum] = "36a30d8f6383a72e7ce060298b4b181fd298bc3a135c8e201b7ca847f5f81061"
++SRC_URI[sha256sum] = "2ce90ebcb7fa0c3ed671924f1268b8f4c500fff62e1284699fc413e182a7896b"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.17.1
 
 
---===============8650144613760437344==
+--===============2541978223779550285==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 41 skipped, 0 masked, 0 errors.
+Removing 17 recipes from the core2-32 sysroot...done.
+Removing 16 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-cc837ba202a5cb632c5d72a899276ba1c192654c"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:cc837ba202a5cb632c5d72a899276ba1c192654c"
+workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 101 Local 94 Network 0 Missed 7 Current 106 (93% match, 96% complete)
+Removing 4 stale sstate objects for arch x86_64_i686...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 107 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 108 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 109 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 110 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 111 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 112 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 113 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 114 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 115 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 116 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 117 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 118 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 125 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 126 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 128 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 129 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 130 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 131 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 132 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_package_write_rpm_setscene)
+NOTE: Running task 479 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
+NOTE: recipe bsd-headers-1.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libgcc-11.1.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe linux-libc-headers-5.10-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
+NOTE: Running task 480 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
+NOTE: recipe bsd-headers-1.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 133 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
+NOTE: recipe libxext-1_1.3.4-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libgcc-11.1.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 134 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_packagedata_setscene)
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.10-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
+NOTE: Running task 481 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
+NOTE: Running setscene task 136 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 138 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 139 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 140 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
+NOTE: Running task 482 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 483 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic)
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 142 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 143 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 144 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 145 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 146 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic unihash changed to 8ffd0924315df5cba7ada852191ab2643f9fe7ebb44bd3fc409594d458a2a1d0
+NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 148 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 150 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 151 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 152 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 153 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 154 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 155 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 156 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 157 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 158 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.4.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 160 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 162 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 163 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 164 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 165 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 166 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 168 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 170 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 172 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 174 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 175 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 176 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtool-cross-2.4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2021.4.99.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtool-cross-2.4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 177 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 178 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtool-cross-2.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 180 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_packagedata_setscene)
+NOTE: recipe libtool-cross-2.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-11.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-11.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 182 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 183 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 184 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-11.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 186 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 187 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 188 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-5.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-11.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 189 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 190 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 194 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 195 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 196 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe musl-1.2.2+gitAUTOINC+aad50fcd79-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 199 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 200 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 201 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 203 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 204 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-5.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-cross-i686-11.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 205 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.36.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 206 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-5.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe linux-libc-headers-5.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 207 of 207 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.36.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe binutils-cross-i686-2.36.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 709 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 727 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
+NOTE: Running task 728 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
+NOTE: Running task 729 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
+NOTE: Running task 730 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
+NOTE: Running task 731 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
+NOTE: Running task 732 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 733 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
+NOTE: Running task 734 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_qa)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 735 of 735 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 735 tasks of which 720 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 8 ERROR messages shown, returning a non-zero exit code.
+
+--===============2541978223779550285==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/xkeyboard-config: SRC_URI changed from "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.32.tar.bz2" to "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.33.tar.bz2"
-packages/core2-32-poky-linux/xkeyboard-config: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-dev: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-dev: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGSIZE changed from 37061 to 37309 (+1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-doc: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGSIZE changed from 108706 to 106211 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGSIZE changed from 83947 to 82475 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGSIZE changed from 88775 to 87127 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PKGSIZE changed from 63899 to 63536 (-1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGSIZE changed from 88674 to 87076 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PKGSIZE changed from 43444 to 43343 (-0%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PKGSIZE changed from 79998 to 80051 (+0%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PKGSIZE changed from 66067 to 85310 (+29%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGSIZE changed from 89453 to 87791 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGSIZE changed from 85758 to 84092 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PKGSIZE changed from 84679 to 83223 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PKGSIZE changed from 65113 to 64741 (-1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PKGSIZE changed from 83047 to 84994 (+2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PKGSIZE changed from 82885 to 82207 (-1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGSIZE changed from 79007 to 78342 (-1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PKGSIZE changed from 81311 to 80641 (-1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGSIZE changed from 90589 to 89106 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PKGSIZE changed from 40093 to 40004 (-0%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PKGSIZE changed from 85133 to 83564 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGSIZE changed from 86017 to 84332 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PKGSIZE changed from 85036 to 81648 (-4%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGSIZE changed from 83898 to 82448 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGSIZE changed from 65772 to 85057 (+29%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PKGSIZE changed from 106983 to 104081 (-3%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PKGSIZE changed from 17723 to 17625 (-1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGSIZE changed from 98555 to 98816 (+0%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGSIZE changed from 85545 to 83859 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGSIZE changed from 85541 to 83894 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGSIZE changed from 104755 to 103048 (-2%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PKGSIZE changed from 42746 to 42639 (-0%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGSIZE changed from 77549 to 76744 (-1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-src: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-src: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PV changed from "2.32" to "2.33"
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config: PKGSIZE changed from 3305890 to 3338795 (+1%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config: PKGV changed from 2.32 [default] to 2.33 [default]
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config: PV changed from "2.32" to "2.33"
+packages/core2-32-poky-linux/libxi: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXi-1.7.10.tar.bz2" to "https://www.x.org/releases//individual/lib/libXi-1.7.99.2.tar.bz2"
+packages/core2-32-poky-linux/libxi/libxi-dbg: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi/libxi-dbg: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi/libxi-dbg: PKGSIZE changed from 1459860 to 1466456 (+0%)
+packages/core2-32-poky-linux/libxi/libxi-dev: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi/libxi-dev: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi/libxi-dev: PKGSIZE changed from 55052 to 58235 (+6%)
+packages/core2-32-poky-linux/libxi/libxi-doc: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi/libxi-doc: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi/libxi-doc: PKGSIZE changed from 236309 to 239280 (+1%)
+packages/core2-32-poky-linux/libxi/libxi-locale: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi/libxi-locale: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi/libxi-src: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi/libxi-src: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi/libxi-src: PKGSIZE changed from 370810 to 382447 (+3%)
+packages/core2-32-poky-linux/libxi/libxi-staticdev: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi/libxi-staticdev: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi/libxi: PKGV changed from 1.7.10 [default] to 1.7.99.2 [default]
+packages/core2-32-poky-linux/libxi/libxi: PV changed from "1.7.10" to "1.7.99.2"
+packages/core2-32-poky-linux/libxi/libxi: PKGSIZE changed from 75170 to 79266 (+5%)
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1547,14 +1749,218 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoffout.h was removed
 
---===============8650144613760437344==
+--===============2541978223779550285==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 49 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the armv7vet2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-cc837ba202a5cb632c5d72a899276ba1c192654c"
+TUNE_FEATURES        = "arm armv7ve vfp thumb neon callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:cc837ba202a5cb632c5d72a899276ba1c192654c"
+workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 12 Local 5 Network 0 Missed 7 Current 190 (41% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 191 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 192 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 666 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
+NOTE: Running task 689 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 200 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_packagedata_setscene)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
+NOTE: Running task 690 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Started
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 202 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
+NOTE: Running task 691 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 692 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic)
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 716 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic unihash changed to 8ffd0924315df5cba7ada852191ab2643f9fe7ebb44bd3fc409594d458a2a1d0
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 722 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
+NOTE: Running task 723 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
+NOTE: Running task 724 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
+NOTE: Running task 725 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
+NOTE: Running task 726 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
+NOTE: Running task 727 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 728 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
+NOTE: Running task 729 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_qa)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 730 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 730 tasks of which 715 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 8 ERROR messages shown, returning a non-zero exit code.
+
+--===============2541978223779550285==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 58 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-cc837ba202a5cb632c5d72a899276ba1c192654c"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:cc837ba202a5cb632c5d72a899276ba1c192654c"
+workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 12 Local 5 Network 0 Missed 7 Current 190 (41% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 191 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 192 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 666 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
+NOTE: Running task 689 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 200 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_packagedata_setscene)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
+NOTE: Running task 690 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 202 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
+NOTE: Running task 691 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 692 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic)
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 716 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic unihash changed to 8ffd0924315df5cba7ada852191ab2643f9fe7ebb44bd3fc409594d458a2a1d0
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 722 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
+NOTE: Running task 723 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
+NOTE: Running task 724 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
+NOTE: Running task 725 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
+NOTE: Running task 726 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
+NOTE: Running task 727 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 728 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
+NOTE: Running task 729 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_qa)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 730 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 730 tasks of which 715 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 8 ERROR messages shown, returning a non-zero exit code.
+
+--===============2541978223779550285==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PKGSIZE changed from 66067 to 85310 (+29%)
-packages/core2-32-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGSIZE changed from 65772 to 85057 (+29%)
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2881,4 +3287,208 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.1.1/plugin/include/xcoffout.h was removed
 
---===============8650144613760437344==--
+--===============2541978223779550285==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 66 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-cc837ba202a5cb632c5d72a899276ba1c192654c"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:cc837ba202a5cb632c5d72a899276ba1c192654c"
+workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 12 Local 5 Network 0 Missed 7 Current 190 (41% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 191 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 192 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 666 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
+NOTE: Running task 689 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
+NOTE: Running task 690 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
+NOTE: Running task 691 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 692 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic)
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 200 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_packagedata_setscene)
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic unihash changed to 8ffd0924315df5cba7ada852191ab2643f9fe7ebb44bd3fc409594d458a2a1d0
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 202 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 716 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 722 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
+NOTE: Running task 723 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
+NOTE: Running task 724 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
+NOTE: Running task 725 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
+NOTE: Running task 726 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
+NOTE: Running task 727 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 728 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
+NOTE: Running task 729 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_qa)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 730 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 730 tasks of which 715 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 8 ERROR messages shown, returning a non-zero exit code.
+
+--===============2541978223779550285==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+Loading cache...done.
+Loaded 1456 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (816 cached, 1 parsed). 1454 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-cc837ba202a5cb632c5d72a899276ba1c192654c"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:cc837ba202a5cb632c5d72a899276ba1c192654c"
+workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 15 Local 8 Network 0 Missed 7 Current 187 (53% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 188 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 189 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running task 666 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
+NOTE: Running task 689 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
+NOTE: recipe libx11-1_1.7.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 200 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_packagedata_setscene)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
+NOTE: Running task 690 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+ERROR: libx11-1_1.7.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.7.2-r0 to 1:1.7.1-r0) [version-going-backwards]
+NOTE: recipe libx11-1_1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 202 of 202 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
+NOTE: Running task 691 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 692 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic)
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libx11-1_1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 716 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_lic unihash changed to 8ffd0924315df5cba7ada852191ab2643f9fe7ebb44bd3fc409594d458a2a1d0
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 722 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
+NOTE: Running task 723 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
+NOTE: Running task 724 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
+NOTE: Running task 725 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
+NOTE: Running task 726 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
+NOTE: Running task 727 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 728 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
+NOTE: Running task 729 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_qa)
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Started
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_qa: Succeeded
+NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 730 of 730 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 730 tasks of which 715 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 8 ERROR messages shown, returning a non-zero exit code.
+
+--===============2541978223779550285==--
