@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.16336.1623585061593059949
+ by mx.groups.io with SMTP id smtpd.web11.16469.1623585061643365875
  for <openembedded-core@lists.openembedded.org>;
  Sun, 13 Jun 2021 04:51:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 067A838C13DC
+	by mail.yoctoproject.org (Postfix) with ESMTP id 2620738C13E2
 	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:01 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Richard Weinberger <richard@nod.at>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] util-linux: upgrading to 2.37 FAILED
-Message-ID: <MADEUP.16882202F28FB2E0.6241@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============1131988384207203994=="
+Subject: [AUH] erofs-utils: upgrading to 1.3 SUCCEEDED
+Message-ID: <MADEUP.16882202F536552D.6241@lists.openembedded.org>
+X-Groupsio-MsgNum: 152894
+Content-Type: multipart/mixed; boundary="===============6599365902931397256=="
 
---===============1131988384207203994==
+--===============6599365902931397256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,112 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *util-linux* to *2.37* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *erofs-utils* to *1.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-erofs-utils-upgrade-1.2.1-1.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe util-linux failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1454 entries from dependency cache.
-INFO: Extracting current version source...
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-7788df7e54894a6fd6d3b4323316e604fecc2c4e"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:7788df7e54894a6fd6d3b4323316e604fecc2c4e"
-workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.tar.xz...
-Loading cache...done.
-Loaded 1454 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 818 .bb files complete (816 cached, 2 parsed). 1455 targets, 31 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-7788df7e54894a6fd6d3b4323316e604fecc2c4e"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:7788df7e54894a6fd6d3b4323316e604fecc2c4e"
-workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  12% |####                                | ETA:  0:00:00
-Adding changed files:  25% |#########                           | ETA:  0:00:00
-Adding changed files:  38% |#############                       | ETA:  0:00:00
-Adding changed files:  51% |##################                  | ETA:  0:00:00
-Adding changed files:  64% |#######################             | ETA:  0:00:00
-Adding changed files:  77% |###########################         | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 0ed3e1cdef1cbe4abaab5639eb0cef8de11be18e' failed:
-First, rewinding head to replay your work on top of it...
-Applying: util-linux: Ensure that ${sbindir} is respected
-Applying: Define TESTS variable
-Using index info to reconstruct a base tree...
-M	Makefile.am
-Falling back to patching base and 3-way merge...
-Auto-merging Makefile.am
-Applying: Display testname for subtest
-Applying: util-linux: Add ptest
-Using index info to reconstruct a base tree...
-M	configure.ac
-Falling back to patching base and 3-way merge...
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-error: Failed to merge in the changes.
-Patch failed at 0004 util-linux: Add ptest
-Use 'git am --show-current-patch' to see the failed patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/util-linux
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/util-linux/util-linux_2.37.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -136,4 +44,76 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1131988384207203994==--
+--===============6599365902931397256==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-dbg: PKGSIZE changed from 167228 to 182704 (+9%)
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-dbg: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-dbg: PKGV changed from 1.2.1 [default] to 1.3 [default]
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-dev: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-dev: PKGV changed from 1.2.1 [default] to 1.3 [default]
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-doc: PKGSIZE changed from 3041 to 4559 (+50%)
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-doc: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-doc: PKGV changed from 1.2.1 [default] to 1.3 [default]
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-locale: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-locale: PKGV changed from 1.2.1 [default] to 1.3 [default]
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-src: PKGSIZE changed from 137380 to 148789 (+8%)
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-src: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-src: PKGV changed from 1.2.1 [default] to 1.3 [default]
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-staticdev: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-staticdev: PKGV changed from 1.2.1 [default] to 1.3 [default]
+packages/core2-32-poky-linux/erofs-utils/erofs-utils: PKGSIZE changed from 63276 to 67468 (+7%)
+packages/core2-32-poky-linux/erofs-utils/erofs-utils: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils/erofs-utils: PKGV changed from 1.2.1 [default] to 1.3 [default]
+packages/core2-32-poky-linux/erofs-utils: PV changed from "1.2.1" to "1.3"
+packages/core2-32-poky-linux/erofs-utils: PKGV changed from 1.2.1 [default] to 1.3 [default]
+
+--===============6599365902931397256==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/erofs-utils/erofs-utils-doc: PKGSIZE changed from 3041 to 4559 (+50%)
+
+--===============6599365902931397256==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-erofs-utils-upgrade-1.2.1-1.3.patch"
+
+From 1dcf15bd90bcef63979acac3940ade0f74c8b2cb Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 13 Jun 2021 09:28:51 +0000
+Subject: [PATCH] erofs-utils: upgrade 1.2.1 -> 1.3
+
+---
+ .../erofs-utils/{erofs-utils_1.2.1.bb => erofs-utils_1.3.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.2.1.bb => erofs-utils_1.3.bb} (92%)
+
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.3.bb
+similarity index 92%
+rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
+rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.3.bb
+index 5ab4bf2816..d07d5c4360 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.3.bb
+@@ -4,7 +4,7 @@ SECTION = "base"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94fa01670a2a8f2d3ab2de15004e0848"
+ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
+ 
+-SRCREV = "d1f4953edfcf4f51c71ba91586e21fc6ce9f6db9"
++SRCREV = "2cd522105ea771ec30b269cd4c57e2265a4d6349"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
+-- 
+2.17.1
+
+
+--===============6599365902931397256==--
