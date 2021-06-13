@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.16438.1623585061649045194
+ by mx.groups.io with SMTP id smtpd.web08.16336.1623585061593059949
  for <openembedded-core@lists.openembedded.org>;
  Sun, 13 Jun 2021 04:51:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2F40C38C13E6
+	by mail.yoctoproject.org (Postfix) with ESMTP id 067A838C13DC
 	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:01 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gptfdisk: upgrading to 1.0.8 SUCCEEDED
-Message-ID: <MADEUP.16882202F425D6D5.15968@lists.openembedded.org>
-X-Groupsio-MsgNum: 152892
-Content-Type: multipart/mixed; boundary="===============2847569248898061038=="
+Subject: [AUH] util-linux: upgrading to 2.37 FAILED
+Message-ID: <MADEUP.16882202F28FB2E0.6241@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============1131988384207203994=="
 
---===============2847569248898061038==
+--===============1131988384207203994==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,112 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gptfdisk* to *1.0.8* has Succeeded.
+that the automatic attempt to upgrade the recipe *util-linux* to *2.37* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-gptfdisk-upgrade-1.0.7-1.0.8.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe util-linux failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1454 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-7788df7e54894a6fd6d3b4323316e604fecc2c4e"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7788df7e54894a6fd6d3b4323316e604fecc2c4e"
+workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.tar.xz...
+Loading cache...done.
+Loaded 1454 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 818 .bb files complete (816 cached, 2 parsed). 1455 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-7788df7e54894a6fd6d3b4323316e604fecc2c4e"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7788df7e54894a6fd6d3b4323316e604fecc2c4e"
+workspace            = "master:29c42cf24da05abb499936556dad1902e110c5a7"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  12% |####                                | ETA:  0:00:00
+Adding changed files:  25% |#########                           | ETA:  0:00:00
+Adding changed files:  38% |#############                       | ETA:  0:00:00
+Adding changed files:  51% |##################                  | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase 0ed3e1cdef1cbe4abaab5639eb0cef8de11be18e' failed:
+First, rewinding head to replay your work on top of it...
+Applying: util-linux: Ensure that ${sbindir} is respected
+Applying: Define TESTS variable
+Using index info to reconstruct a base tree...
+M	Makefile.am
+Falling back to patching base and 3-way merge...
+Auto-merging Makefile.am
+Applying: Display testname for subtest
+Applying: util-linux: Add ptest
+Using index info to reconstruct a base tree...
+M	configure.ac
+Falling back to patching base and 3-way merge...
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+error: Failed to merge in the changes.
+Patch failed at 0004 util-linux: Add ptest
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/util-linux
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/util-linux/util-linux_2.37.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,67 +136,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2847569248898061038==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-dbg: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-dbg: PKGSIZE changed from 4693784 to 4692384 (-0%)
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-dbg: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-dev: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-dev: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-doc: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-doc: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-locale: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-locale: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-src: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-src: PKGSIZE changed from 429501 to 431030 (+0%)
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-src: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-staticdev: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk/gptfdisk-staticdev: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-packages/core2-32-poky-linux/gptfdisk/gptfdisk: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk/gptfdisk: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-packages/core2-32-poky-linux/gptfdisk: PV changed from "1.0.7" to "1.0.8"
-packages/core2-32-poky-linux/gptfdisk: SRC_URI changed from "https://downloads.sourceforge.net/gptfdisk/1.0.7/gptfdisk-1.0.7.tar.gz file://0001-gptcurses-correctly-include-curses.h.patch" to "https://downloads.sourceforge.net/gptfdisk/1.0.8/gptfdisk-1.0.8.tar.gz file://0001-gptcurses-correctly-include-curses.h.patch"
-packages/core2-32-poky-linux/gptfdisk: PKGV changed from 1.0.7 [default] to 1.0.8 [default]
-
---===============2847569248898061038==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-gptfdisk-upgrade-1.0.7-1.0.8.patch"
-
-From b0521cf077fe43ebb3d004e2170ed37eeb0e9543 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 13 Jun 2021 09:34:08 +0000
-Subject: [PATCH] gptfdisk: upgrade 1.0.7 -> 1.0.8
-
----
- .../fdisk/{gptfdisk_1.0.7.bb => gptfdisk_1.0.8.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/fdisk/{gptfdisk_1.0.7.bb => gptfdisk_1.0.8.bb} (93%)
-
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.7.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
-similarity index 93%
-rename from meta/recipes-devtools/fdisk/gptfdisk_1.0.7.bb
-rename to meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
-index a697b74f98..16fe540968 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.7.bb
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
-@@ -10,7 +10,7 @@ DEPENDS = "util-linux"
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
-            file://0001-gptcurses-correctly-include-curses.h.patch \
-            "
--SRC_URI[sha256sum] = "754004b7f85b279287c7ac3c0469b1d7e0eae043a97a2e587b0560ca5f3828c0"
-+SRC_URI[sha256sum] = "95d19856f004dabc4b8c342b2612e8d0a9eebdd52004297188369f152e9dc6df"
- 
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/gptfdisk/files/gptfdisk/"
- UPSTREAM_CHECK_REGEX = "/gptfdisk/(?P<pver>(\d+[\.\-_]*)+)/"
--- 
-2.17.1
-
-
---===============2847569248898061038==--
+--===============1131988384207203994==--
