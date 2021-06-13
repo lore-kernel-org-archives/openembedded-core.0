@@ -1,72 +1,125 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web12.15078.1623570872819663743
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web09.16420.1623585061223990420
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Jun 2021 00:54:32 -0700
+ Sun, 13 Jun 2021 04:51:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iu2dE+8T;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id t9so6143635pgn.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 00:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iFJV2/IwTOjo5ReZIZUDUaLPKMuhS2SJfMs/f0dYxdw=;
-        b=iu2dE+8TJo8xnM3ITPJ+QSOvmrg1XPxjJZ/FSCe8aZpRap5GeeuFQUNhP+F7VcPj3m
-         KQM3gQ9062cYEhjU9aSPN1B0+qBrpFKmZOemQtyxxpxoOeF6Y1TO3WvDB4uJnWzAvkh4
-         4p1UigX1TIMBpo8r1pZdZJJONUmDY/tQ3/+6UtQatJZDTVKbf3MniznZ6RK7ngbJlyCk
-         6xSyUY2vwyRO7cCMEYbzcGipdonDbjbSIYvnS8J2PYjbyFF0oK3I+OHviy+lbiBeD9/i
-         X5LOpjm+shCsyw9hUoHg5aA5uA0wV6zKI1H9a2VHutSZPrQUYveHnPtrZWPIQ9GVQPfL
-         pcdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iFJV2/IwTOjo5ReZIZUDUaLPKMuhS2SJfMs/f0dYxdw=;
-        b=Cylu5LjgHfwmulW0eoIr2vDzNpZIYqdSh+MloA4fi0rnYD8IxNqQv+JjdwulSFvTh3
-         RBSC+FQC5RsD08qmbG5rAf3mwhkgwRvB8MZYIvkFMM7aOLw+NvRwm2cN2cDCy5L/s+ZI
-         W+MkZPfBYH6YG0+GdNp2qLmsvPmmiyl/4Yz2cMZzvmT714XmAi1a1eJSCc7d6cNIB43m
-         54CjlDkxoZ3eWsLKKQKpgTmmqr7A6jNdGaufqlDQOY8hpgepHFaAipywLmWXw5WHirjX
-         AX1jv9EPJ4QTCfH5K/+zRAlY5dOjEcLsqZbk4yo52bSoAiF5XwLzrEyptVz+WEyzq0nK
-         R+7Q==
-X-Gm-Message-State: AOAM530bWmroKM5uDg2ekkjw/q57mhyEPHQ9sLy37lWpC8t7TrppMNvl
-	sdO+US0O8q4j9S1rJM+dLcXU/wyaZ+5JGw==
-X-Google-Smtp-Source: ABdhPJyQdJFB1KZnh8uvK7tWHD6lyXmRnBApHHBbdCuvyWZoZU1glymUHk5+8lxVRiuKWbSNbczKGw==
-X-Received: by 2002:a63:1143:: with SMTP id 3mr11790626pgr.166.1623570871936;
-        Sun, 13 Jun 2021 00:54:31 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
-        by smtp.gmail.com with ESMTPSA id ip7sm8312665pjb.39.2021.06.13.00.54.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 00:54:31 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] linuxloader.bbclass: Add entry for ppc64 LE glibc loader
-Date: Sun, 13 Jun 2021 00:54:28 -0700
-Message-Id: <20210613075428.2205130-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+Received: from [172.29.10.111] (unknown [172.29.10.111])
+	by mail.yoctoproject.org (Postfix) with ESMTP id C086138C13C3
+	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:00 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@auh.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libnss-mdns: upgrading to 0.15.1 SUCCEEDED
+Message-ID: <MADEUP.16882202DBEA5B3F.12353@lists.openembedded.org>
+X-Groupsio-MsgNum: 152883
+Content-Type: multipart/mixed; boundary="===============3519907093870479684=="
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--===============3519907093870479684==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *libnss-mdns* to *0.15.1* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-libnss-mdns-upgrade-0.15-0.15.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============3519907093870479684==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 41 skipped, 0 masked, 0 errors.
+Removing 141 recipes from the core2-32 sysroot...done.
+Removing 145 recipes from the qemux86 sysroot...done.
+ERROR: Nothing PROVIDES 'libnss-mdns'
+libnss-mdns was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============3519907093870479684==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libnss-mdns: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns: PV changed from "0.15" to "0.15.1"
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-dbg: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-dbg: PV changed from "0.15" to "0.15.1"
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-dbg: PKGSIZE changed from 218608 to 218624 (+0%)
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-dev: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-dev: PV changed from "0.15" to "0.15.1"
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-doc: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-doc: PV changed from "0.15" to "0.15.1"
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-locale: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-locale: PV changed from "0.15" to "0.15.1"
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-src: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-src: PV changed from "0.15" to "0.15.1"
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-staticdev: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns-staticdev: PV changed from "0.15" to "0.15.1"
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns: PKGV changed from 0.15 [default] to 0.15.1 [default]
+packages/core2-32-poky-linux/libnss-mdns/libnss-mdns: PV changed from "0.15" to "0.15.1"
+
+--===============3519907093870479684==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libnss-mdns-upgrade-0.15-0.15.1.patch"
+
+From 907b60ee921a0bf2e39d7a8ef9807375bd236caa Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 13 Jun 2021 08:25:32 +0000
+Subject: [PATCH] libnss-mdns: upgrade 0.15 -> 0.15.1
+
 ---
- meta/classes/linuxloader.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../libnss-mdns/{libnss-mdns_0.15.bb => libnss-mdns_0.15.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/libnss-mdns/{libnss-mdns_0.15.bb => libnss-mdns_0.15.1.bb} (95%)
 
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
-index 30925ac87d..3ded1fc786 100644
---- a/meta/classes/linuxloader.bbclass
-+++ b/meta/classes/linuxloader.bbclass
-@@ -40,6 +40,8 @@ def get_glibc_loader(d):
-         dynamic_loader = "${base_libdir}/ld-linux-mipsn8.so.1"
-     elif targetarch.startswith("mips"):
-         dynamic_loader = "${base_libdir}/ld.so.1"
-+    elif targetarch == "powerpc64le":
-+        dynamic_loader = "${base_libdir}/ld64.so.2"
-     elif targetarch == "powerpc64":
-         dynamic_loader = "${base_libdir}/ld64.so.1"
-     elif targetarch == "x86_64":
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
+similarity index 95%
+rename from meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.bb
+rename to meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
+index 75e8ba06d9..f3b64174c4 100644
+--- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.bb
++++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.15.1.bb
+@@ -11,7 +11,7 @@ DEPENDS = "avahi"
+ SRC_URI = "git://github.com/lathiat/nss-mdns \
+            "
+ 
+-SRCREV = "65ad25563937682ab2770c36d56667a754837102"
++SRCREV = "4b3cfe818bf72d99a02b8ca8b8813cb2d6b40633"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-2.32.0
+2.17.1
 
+
+--===============3519907093870479684==--
