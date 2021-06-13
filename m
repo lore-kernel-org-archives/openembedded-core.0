@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.16265.1623585061229056797
+ by mx.groups.io with SMTP id smtpd.web09.16422.1623585061225062786
  for <openembedded-core@lists.openembedded.org>;
  Sun, 13 Jun 2021 04:51:01 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A9FC638C13B7
+	by mail.yoctoproject.org (Postfix) with ESMTP id 9B35B38C112C
 	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 11:51:00 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] grub: upgrading to 2.06 SUCCEEDED
-Message-ID: <MADEUP.16882202DE9A36EE.12353@lists.openembedded.org>
-X-Groupsio-MsgNum: 152886
-Content-Type: multipart/mixed; boundary="===============5529578814313532813=="
+Subject: [AUH] grub-efi: upgrading to 2.06 SUCCEEDED
+Message-ID: <MADEUP.16882202E203437B.15968@lists.openembedded.org>
+X-Groupsio-MsgNum: 152887
+Content-Type: multipart/mixed; boundary="===============0236925131957658620=="
 
---===============5529578814313532813==
+--===============0236925131957658620==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *grub* to *2.06* has Succeeded.
+that the automatic attempt to upgrade the recipe *grub-efi* to *2.06* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-grub-upgrade-2.04-2.06-rc1-2.06.patch
+    - apply the patch: git am 0001-grub-efi-upgrade-2.04-2.06-rc1-2.06.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,17 +44,34 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5529578814313532813==
+--===============0236925131957658620==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
+packages/core2-32-poky-linux/grub-efi/grub-efi-dbg: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi/grub-efi-dbg: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub-efi/grub-efi-dbg: PKGSIZE changed from 11586732 to 11578480 (-0%)
+packages/core2-32-poky-linux/grub-efi/grub-efi-dev: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi/grub-efi-dev: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub-efi/grub-efi-doc: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi/grub-efi-doc: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub-efi/grub-efi-locale: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi/grub-efi-locale: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub-efi/grub-efi-src: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi/grub-efi-src: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub-efi/grub-efi-staticdev: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi/grub-efi-staticdev: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub-efi/grub-efi: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi/grub-efi: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub-efi: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
+packages/core2-32-poky-linux/grub-efi: PV changed from "2.04+2.06~rc1" to "2.06"
 packages/core2-32-poky-linux/grub/grub-common: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
 packages/core2-32-poky-linux/grub/grub-common: PV changed from "2.04+2.06~rc1" to "2.06"
 packages/core2-32-poky-linux/grub/grub-dbg: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
-packages/core2-32-poky-linux/grub/grub-dbg: PKGSIZE changed from 28444944 to 28436720 (-0%)
 packages/core2-32-poky-linux/grub/grub-dbg: PV changed from "2.04+2.06~rc1" to "2.06"
+packages/core2-32-poky-linux/grub/grub-dbg: PKGSIZE changed from 28444944 to 28436720 (-0%)
 packages/core2-32-poky-linux/grub/grub-dev: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
 packages/core2-32-poky-linux/grub/grub-dev: PV changed from "2.04+2.06~rc1" to "2.06"
 packages/core2-32-poky-linux/grub/grub-doc: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
@@ -152,7 +169,7 @@ packages/core2-32-poky-linux/grub/grub: PV changed from "2.04+2.06~rc1" to "2.06
 packages/core2-32-poky-linux/grub: PKGV changed from 2.04+2.06~rc1 [default] to 2.06 [default]
 packages/core2-32-poky-linux/grub: PV changed from "2.04+2.06~rc1" to "2.06"
 
---===============5529578814313532813==
+--===============0236925131957658620==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -161,13 +178,13 @@ Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-ERROR: Nothing PROVIDES 'grub'
-grub was skipped: incompatible with host arm-poky-linux-gnueabi (not in COMPATIBLE_HOST)
+ERROR: Nothing PROVIDES 'grub-efi'
+grub-efi was skipped: incompatible with host arm-poky-linux-gnueabi (not in COMPATIBLE_HOST)
 Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 49 skipped, 0 masked, 0 errors.
 
 Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
---===============5529578814313532813==
+--===============0236925131957658620==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -176,23 +193,23 @@ Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-ERROR: Nothing PROVIDES 'grub'
-grub was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+ERROR: Nothing PROVIDES 'grub-efi'
+grub-efi was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
 Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 58 skipped, 0 masked, 0 errors.
 
 Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
---===============5529578814313532813==
+--===============0236925131957658620==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-grub-upgrade-2.04-2.06-rc1-2.06.patch"
+ filename="0001-grub-efi-upgrade-2.04-2.06-rc1-2.06.patch"
 
-From eefe98aa9d047a83dbcfa32064a996b8da462492 Mon Sep 17 00:00:00 2001
+From 73f92895064a0053cdc5f0f5bcda8e38a0199446 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 13 Jun 2021 06:22:03 +0000
-Subject: [PATCH] grub: upgrade 2.04+2.06~rc1 -> 2.06
+Date: Sun, 13 Jun 2021 06:15:26 +0000
+Subject: [PATCH] grub-efi: upgrade 2.04+2.06~rc1 -> 2.06
 
 ---
  meta/recipes-bsp/grub/grub2.inc | 2 +-
@@ -215,7 +232,7 @@ index 3c6b434c2d..351d837192 100644
 2.17.1
 
 
---===============5529578814313532813==
+--===============0236925131957658620==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -224,10 +241,10 @@ Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-ERROR: Nothing PROVIDES 'grub'
-grub was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+ERROR: Nothing PROVIDES 'grub-efi'
+grub-efi was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
 Parsing of 817 .bb files complete (0 cached, 817 parsed). 1454 targets, 66 skipped, 0 masked, 0 errors.
 
 Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
---===============5529578814313532813==--
+--===============0236925131957658620==--
