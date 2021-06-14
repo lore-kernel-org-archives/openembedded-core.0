@@ -1,54 +1,61 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
- by mx.groups.io with SMTP id smtpd.web10.28001.1623667221887376886
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.28013.1623667351881087778
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jun 2021 03:40:22 -0700
+ Mon, 14 Jun 2021 03:42:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XlIWzrPJ;
- spf=pass (domain: gmail.com, ip: 209.85.166.177, mailfrom: rahultaya96@gmail.com)
-Received: by mail-il1-f177.google.com with SMTP id d1so11757943ils.5;
-        Mon, 14 Jun 2021 03:40:21 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=ft+r/qUV;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.42, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f42.google.com with SMTP id l2so14045459wrw.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jun 2021 03:42:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=HGsPhsEkjvHLOGjDrQLhuyjtPGwNefBtYIsvXdXb300=;
-        b=XlIWzrPJf6IMkv0VUErbqbT9CUTjcoBXst8jegsbOsWdxNd3TTsSE8pb65m9vZKJMy
-         ugKJJ8HzR9aoZHcKI+iZWE/TGr0PxTtDEOhlHV79CBuNDufo4/+nw1GMAolgs+/zd+y0
-         WbkesQ2xhjzJbMsEvtjdodKlBk7hCm+zVxCh5vS7Na9ptPgzeuNGVmiVFvYbr3bgZk/2
-         NncpINtq8rerl/RJ13oCx0VEn3SdcKwsVsJ8eTh8oWwc9L2Dtz6MwYEjacLB6YZlvaOH
-         dDLHoyuBD0WY+DQQBtG4cE7KjbHBQ+XyoBRCz/Qb3su/vQMFgb4WECFh+owX6TSr1byg
-         MOyQ==
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iqE2eI2J57XcUzBoKeaEcfuR/XIkNtDfy67nFWNcO7U=;
+        b=ft+r/qUVYFqYHZC6Qh53/4omLc3HHWhDrhDyXIV5iWDn3us7xvNizCy+zzX2rmv1dj
+         q/OwU6v0cD1tRQh9GryQchTBfRChXf6vQMQULc+DGj/t74f40pZhZ2Wpdj1z9tKFo3tY
+         0sYpchpHQ/51aaEe5ztV8FpVPutddczDsF3yq//BtS3xrOOpuL7T2Lq3L15+TviRNIj5
+         9UFObNeyOWEnMNJ3c934raHuP5L16wZJc/r94Mhyur34txOA+NRJN9MkPGiRIb2C1rC6
+         eYz17PqJPT6Oq9t9R1fkoAPRFmhfJv2eieO9SbK5pJUBcaG7VkCD+W9DgPttivT3uWnu
+         YANg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=HGsPhsEkjvHLOGjDrQLhuyjtPGwNefBtYIsvXdXb300=;
-        b=F3AbD6chhQOaqwZcR1moyQ9OF4Y/lBJVxoRQe0MoOZ27t68uAHblkc242FEKaTxAAk
-         yUj1UotTezxosdjbEk4QkeW6+s2Up5dhUVVP0L2JgGOEldLyn16YokY2AN57VIHscDev
-         PYKkslw1r9v7GoX8WjTV/HXoEMFHyI/rdxpsKXAlw0ozWIsGVGCgEo1RDHwu4IshTJwS
-         tc37xyU7kTsurPP2GmMpXRsQDqeOoH5PD/CLqRjsVbKVc/ANxRgVZMb+6tB1j3qMXLym
-         flKIVti6ZaGnWZ8R4L75Vy8T16tL8c/tjG/tk5noveUk/bQdhwzp3Ig+TFevm5qa/t0V
-         yhlA==
-X-Gm-Message-State: AOAM532W0y5p04Bd6Y9Vs5k6Wzds2CgcEDN0sL2jxMF91yDTZRdge74H
-	pQkL7n71LVestw2bnEHcRAFlQ7+PrMYAjdzQ/ktIrhx4Bjw=
-X-Google-Smtp-Source: ABdhPJxmc4c7PW9g7bX/nZzAyeIZEYZAdFLKBJtyl7C2tk8A4KOtOawJHFpAw+iNiBOFN/g6MH607pgRcqSgea4jixM=
-X-Received: by 2002:a92:cacb:: with SMTP id m11mr13084324ilq.133.1623667221094;
- Mon, 14 Jun 2021 03:40:21 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iqE2eI2J57XcUzBoKeaEcfuR/XIkNtDfy67nFWNcO7U=;
+        b=fUbv/y4D6/TjH1dIkQ+sOnpSkUueBhvY5xF4GrRJ4NL8FQe/Z2JwcahBxnLc9ApmM2
+         BTLQhLI4UJOZ+cIrEUd2SIdhWtpNYytwSUoL4WxdH8fHGdZ+SKuQ/zdynJlRJCFo+nCY
+         wF6pqeayyollqxNVqrpbE1qz67N7u7EiwyXtL+vAfz6Xp+oRK+dN12JiFxFwYB5eBbUt
+         FNESbbDOG/sBxlxkSinuWs2ogcwbe5hYHQFnSwbRgSi2/XI36MpRsHGRVzE4w8V61Fua
+         B8FP41keAbBTFnq+uaICiGDJt0Km648y/42EiSdj5eViDAyNRRA0H3i2eZpAnuS0l+36
+         I8RQ==
+X-Gm-Message-State: AOAM530iKUFtMJ/ScHAuwVNSniA12NhQpw+2uH1HqpD/eWTVMPlIrIrJ
+	vD7Xcec2CS4/mBWNiUebEd5JRs2HtwY8vO3EDbpvaA==
+X-Google-Smtp-Source: ABdhPJxPbayGWy6jP+Qz+6Ex949vlBLxPQm2criQCDZ5SgAWJOOcDaQC62+RyXfBV5xiBp80L+qeFl0mj62kSbxcOmg=
+X-Received: by 2002:a05:6000:2a3:: with SMTP id l3mr17955009wry.395.1623667350351;
+ Mon, 14 Jun 2021 03:42:30 -0700 (PDT)
 MIME-Version: 1.0
-From: rahultaya96@gmail.com
-Date: Mon, 14 Jun 2021 16:10:10 +0530
-Message-ID: <CAM-oLx7AOxCFb78m67wre=bvv=kFwnvreenrPSomzFZ1q4h8Xg@mail.gmail.com>
-Subject: Subscribe
-To: openembedded-core+subscribe@lists.openembedded.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f266c405c4b77b99"
-
---000000000000f266c405c4b77b99
+References: <20210613140403.4202C9602DE@nuc.router0800d9.com>
+In-Reply-To: <20210613140403.4202C9602DE@nuc.router0800d9.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 14 Jun 2021 11:42:19 +0100
+Message-ID: <CAAnfSTtaR43Uy-cvWug4mXnnvO55S16RefxVasq7XaGj3kS8xw@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 13 Jun 2021 04:00:01 AM HST
+To: Steve Sakoman <steve@sakoman.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	yocto-security@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
+On Sun, 13 Jun 2021 at 15:04, Steve Sakoman <steve@sakoman.com> wrote:
+> CVE-2020-17541: libjpeg-turbo:libjpeg-turbo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17541 *
 
+Bad CPE, send a change request.
 
---000000000000f266c405c4b77b99
-Content-Type: text/html; charset="UTF-8"
+> CVE-2021-3468: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3468 *
+> CVE-2021-3544: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3544 *
+> CVE-2021-3545: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3545 *
+> CVE-2021-3546: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3546 *
 
-<div dir="ltr"><br></div>
+I have patches in test for these.
 
---000000000000f266c405c4b77b99--
+Ross
