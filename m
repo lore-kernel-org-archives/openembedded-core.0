@@ -1,78 +1,103 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.24265.1623633488066294957
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web09.24511.1623633495089784675
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Jun 2021 18:18:08 -0700
+ Sun, 13 Jun 2021 18:18:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=o3OavsGA;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id u18so5070484plc.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 18:18:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=a7sfTho0;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id y11so7335125pgp.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Jun 2021 18:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XBzfkOwrUXftrI2SWv403Ej4++jd8X+I+7MUhB3eRjk=;
-        b=o3OavsGAwIm7SnS/PGKTQ8g0Szo6X2idAJc0+UpN/d59MT4LsZrbBjNrk9DgPk6sq5
-         tLQE/JCao3Oe/noSFiwvKU+xkA1S2jBojq5DHXAbgMgHBivD9x+S2oGWu7xLdcOmdSDZ
-         YUYH462upwH54jq6mbTpIHwMA77qMvw0frb1+mQVz1W5+dCX7NegVJUPEO2PcqmOphTr
-         Zr0tsZ5yY+mJF2ADKuKJG9beGlTNTIN5MNUVBNAFg7YZDuUZh0G2Saeb7z7+2JUQYaar
-         CADgqR8wSjsbCJBxRFxco+aeyOkp5wU3Klh58r3/RDVg9u+C6PPROSzc7kTsC8E0oC/6
-         4M3g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=QL0c0eyyIto6diq/jqjdYwuDITVmFjl/4eGcA9Y8lQk=;
+        b=a7sfTho0IdHn/IYB6ea4cydVTtNKkBRQQeprC1jNamKERvbisGMZqX7rYmWXlLp7Kh
+         jzWDUzLl52sCjiDVwPkxeuqeZO+g1oEGpDUJhu3l2t3FVZvWvuVG2d8EJ+UnTpVv60CK
+         njyvjqMGTWgBbASTYjPOfg3jnfc+onB/APdarekfL6/GYOpYeN1wDlTyzjJc/BSBZH2+
+         jU+SQd3BbKquTnw9WysMtoAbIU79C6iXDFjgpwa7RCuRIklORWNbrpDK17enV02VM1n/
+         uOHykdHeqQ2flr27RikZj+D/AyrDvMZXO4yT0qTiK50BpO9PBchmJU2AHZqyqUeu7Ccb
+         gT9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XBzfkOwrUXftrI2SWv403Ej4++jd8X+I+7MUhB3eRjk=;
-        b=XHOCPlCYvptONarD0QnrdLYzKSwq932SPXfyRMmrvXUR4jLyz7zd25frRBJp/mP95G
-         78IZpHiXC1EJwOB43tFpFbZTLIzPn1eXmX44WmagA260cf/KQLXtMVkSfMFDlfbqz0CB
-         icZbzLHCEznMk9qWU+iaVsNgsMjgpeSrYBlJhchKGTKbPFJRjRf/cjinsxMLvmMwNZrC
-         uidKIvAlqgx8w9VcfNPnpAsgQPidlVATPmClm0L0JKQvbfxzUHJdBUGKSbWNJqPeqiix
-         I2vuRAL8bVZV9ViBdM+I/Qvw1V4a+FhfTAMHZQXDN0qoAgiNO2TqqDCj+M9ECzwRUElw
-         iS9w==
-X-Gm-Message-State: AOAM5312qsnTOPFkvshL9akSBsAP2udtXNominMzg+9LI+JDJvT73RR2
-	Tk9Zq1DhlmVPMj4QUyG/tIFW5jMsbzFkeg==
-X-Google-Smtp-Source: ABdhPJxg8dDVG4d1PEUH4EKKEbL+6aIr262KIn/PCodD4IOWMLZRPxHSTzw39fF7rUnwIXtdT47OIg==
-X-Received: by 2002:a17:90a:8816:: with SMTP id s22mr16477217pjn.231.1623633487246;
-        Sun, 13 Jun 2021 18:18:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=QL0c0eyyIto6diq/jqjdYwuDITVmFjl/4eGcA9Y8lQk=;
+        b=oSmFdJOyjyngTmXVwuLyP2NzmbOSXF79EoRyLgW+J1aUp2AFdlMS3HC0ZAHckpkbhx
+         FKLHtZo9DONfrd3T0iDG7182e2JHZot+pnWICC7WWcanGrZM7jWWiQOpzfgZm0bP4gZT
+         fHiPj9XF5f219uHzOh+NUUOHNyqo8kICpdA71kBM6lb3JPwvr2OzV6uIxPO8yWMcXcDT
+         fm09MwKJhyVs9VPKi+/kx9/vjI8xeS/GdRqUHswz1SJxUcctto8t7hK5RlXT8rC+3Cm6
+         jC5GRt/2C7xBPsoBZJjskj4W4f/gv/aWHjyn3BkUDokgyYMdZJK/NXd2GemYJorXNoOX
+         Uu2A==
+X-Gm-Message-State: AOAM533q3rfr5QwWJDDP1j/3VZYAoWfxeDyWN/PFio4ygImk01mdshHe
+	+DRXNG+zV0YCM36Jfnahhad+NwvtuLp05g==
+X-Google-Smtp-Source: ABdhPJwA8HVvRUQQCjVdGTSTrQg8kO3j/hbEiFE5rnH1cZJOIlwrTIQgM7qsSi4ZfdVdM1/hc44BUQ==
+X-Received: by 2002:a63:dc03:: with SMTP id s3mr14736179pgg.354.1623633494417;
+        Sun, 13 Jun 2021 18:18:14 -0700 (PDT)
 Return-Path: <ticotimo@gmail.com>
 Received: from nereus.local ([2601:1c0:6000:9640:fceb:f044:c379:f400])
-        by smtp.gmail.com with ESMTPSA id 60sm10487557pjz.42.2021.06.13.18.18.06
+        by smtp.gmail.com with ESMTPSA id cq24sm15909706pjb.18.2021.06.13.18.18.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 18:18:06 -0700 (PDT)
+        Sun, 13 Jun 2021 18:18:14 -0700 (PDT)
 From: "Tim Orling" <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH 0/2] python3-hypothesis upgrade
-Date: Sun, 13 Jun 2021 18:17:58 -0700
-Message-Id: <cover.1623633335.git.timothy.t.orling@intel.com>
+Subject: [PATCH 1/2] python3-manifest: add statistics subpackage
+Date: Sun, 13 Jun 2021 18:18:06 -0700
+Message-Id: <e716149e64b94c23b40d63095754c64cfe02a17a.1623633335.git.timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1623633335.git.timothy.t.orling@intel.com>
+References: <cover.1623633335.git.timothy.t.orling@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-AUH upgrade for python3-hypothesis.
+cpython/Lib/statistics.py contains common statistics functions
 
-This turns out to add RDEPENDS on python3-statistics, which previously
-had not been a subpackage. Rather than falling back to python3-misc,
-create a new python3-statistics subpackage.
+"""
+Basic statistics module.
+This module provides functions for calculating statistics of data, including
+averages, variance, and standard deviation.
+"""
 
-The following changes since commit 75110a9cc5e6840c65ed24bcca7d4cf1748ab67d:
-
-  gcc: Fixes for ARC (2021-06-12 22:53:32 +0100)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib timo/recipe-upgrades-20210613
-
-Tim Orling (2):
-  python3-manifest: add statistics subpackage
-  python3-hypothesis: upgrade 6.13.14 -> 6.14.0
-
- ...is_6.13.14.bb => python3-hypothesis_6.14.0.bb} | 12 ++++++++++--
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+---
  .../python/python3/python3-manifest.json          | 15 +++++++++++++++
- 2 files changed, 25 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.13.14.bb => python3-hypothesis_6.14.0.bb} (54%)
+ 1 file changed, 15 insertions(+)
 
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 615dc3a5e5d..d65cf49cb8c 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -814,6 +814,7 @@
+             "shell",
+             "smtpd",
+             "sqlite3",
++	    "statistics",
+             "stringold",
+             "syslog",
+             "terminal",
+@@ -1085,6 +1086,20 @@
+         ],
+         "cached": []
+     },
++    "statistics": {
++	"summary": "Basic statistics module",
++	"rdepends": [
++	    "core",
++	    "math",
++	    "numbers"
++	],
++	"files": [
++	    "${libdir}/python${PYTHON_MAJMIN}/statistics.py"
++	],
++	"cached": [
++	    "${libdir}/python${PYTHON_MAJMIN}/__pycache__/statistics.*.pyc"
++	]
++    },
+     "stringold": {
+         "summary": "Python string APIs [deprecated]",
+         "rdepends": [
 -- 
 2.29.2
 
