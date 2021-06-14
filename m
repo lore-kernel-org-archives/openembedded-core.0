@@ -1,177 +1,104 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
- by mx.groups.io with SMTP id smtpd.web08.29516.1623676684816051713
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web12.32001.1623685537547858612
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jun 2021 06:18:05 -0700
+ Mon, 14 Jun 2021 08:45:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HoCkEbCp;
- spf=pass (domain: gmail.com, ip: 209.85.221.175, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f175.google.com with SMTP id l7so4135823vkk.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jun 2021 06:18:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=s3ATgRnE;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id l184so8968239pgd.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jun 2021 08:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=52G+N28jDbjM66bZ1HhJhH57XrNp/dhoDqj0Xq/QC0w=;
-        b=HoCkEbCpsy0YiqbVeb79tDGIZxz0nA1SACHjdttwQuObQgxHxT1RijNurBHFd7j4vX
-         zH3tHMwiNsyVxCgFWlh+iEYLMDwkwGn0Hqz69aNpbxlPq0WS+MsEFKQvUHgzlBmQoahg
-         DZM80W7OtYEtK5mdBy5cQNDdmZg94VA5diBlBjkue0+TNxVx26H1UUxurWmnCF4XJxW3
-         TBKja4mf1O+dULbFUmtURp506sgLzIPzdL1bCWor3kqSgFjAZCfPVxnHpEgnYo5tDzfM
-         PWZZKeOU31oLwPHSGxdJ/5y6YmcEC3ruz57M9GR3mBxcA28uu7mYF8AVfGggQrD8pgYn
-         yMtg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=aK+CRd0lUGGs3IVzeCLOwhGtjNW3Uc3T6jVDXAmxZEk=;
+        b=s3ATgRnEmEAksczMdY6V6NvbnmX6hs8Lrz3AkQ1ZTUcPMDSt00Z8iBQ3m6v6VkprbQ
+         fysPVm0U30qN5KB3tbrhuUbSWToPIE55i30DXqjUOkSCmu883dKsFM2cyM8+z9krsbYQ
+         +JOS2f3215PBBLclU+oCV7rHLIhnqu6guRz8RGhgj/BtryZANUWHsp59mIrEY8TCjuul
+         ZwRk91lusTz06LCIkX3pi7tRE2836ID2fB1A7L5TwUSK2kblgvPKk6SxwgzvlMOIy4WI
+         6YQs8gGPHyS8oTr4aCltLDBywyQkAF6M4E8/CQkBMFuEtAaVtk7yi2KW6qE/Lj86pLhm
+         m9jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=52G+N28jDbjM66bZ1HhJhH57XrNp/dhoDqj0Xq/QC0w=;
-        b=IyVQ4sPsxeBoTgiW/uv32t/s3P9Eo4gheP/1hu6qjH18DzWKe8ZJC52AGZjey6SgH3
-         +S4F8AiXjYwipb12+scheyK4Us89nImh+H97aWYoyjvps6upJ4IDtKV/tNMSCZllGXjO
-         D3eGv0EJc7oKDy01SaJXtSlbVRdrq62s2ECQF3Ufdkce3uR2FJamc1KQS/HSbhNedlL6
-         PI9kubegG84qIy7ma91eK6ZHrdAfbE8poT6aiRhePlCK09fVDSGI4tY5iBxS67hIzhty
-         zGe9pbDmmSdvFAzDFCr3HqFySk/izjhYYn7gGYsYd4OZ1nw17TYV9eLFLpC1dWSFbDuU
-         L0QQ==
-X-Gm-Message-State: AOAM532/aJcXdiTbtmllxzTwhJ4wtV98UGXYH0J+XdXUW6uMcQHEpylV
-	kyDAco30YmnprPrpSoRnF5LIsmyHfKEBhyWimEA=
-X-Google-Smtp-Source: ABdhPJz+meOQxFbc/D43SDixnI/ZNeNtEOqELJUuK1bbJDf52tizDmQ/bgOuSPLKnsE+uHArU5cCH/qhFsF6haS76/I=
-X-Received: by 2002:a05:6122:43:: with SMTP id q3mr16389444vkn.10.1623676682573;
- Mon, 14 Jun 2021 06:18:02 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=aK+CRd0lUGGs3IVzeCLOwhGtjNW3Uc3T6jVDXAmxZEk=;
+        b=uAs8Dt8TPmHKuQ8X5KqeNso8g7sf9ppR5tM8zn2pYyfly0ht6Rv2MXROnulK5Y36SC
+         DpFoiRpnP91DwgDmCIbLsLFjIeiaBativ9o1JV8RPSUNRwECaA0jwAAt3tp0gl1X3gVK
+         Ry5iHxTcYsyJntaFhUslDr+1W4KfbbQMdDSv3pTZOL2YkFYPoBBvbMDGD/Kly9rn9Gen
+         gHc3j3QeHUHtybTaht/aBNVzrmMzCQ0xxLSSxB8UwPhs5t1aM3dIzSpNGni2DFTT64yk
+         YDNn2QHwKZ6wAbd6n8W6RRgeveVfDuWDcauVRuQVOUE3n8i7f45BD6eEgrridFuKgH7S
+         sR9w==
+X-Gm-Message-State: AOAM531XQ4oPZJAA6bRSSqg6UNm6XauhTR5oakFhLoqq/jT3J4vnhQ7O
+	A461OpQ2SJ1A3SiqkHOzgJ0=
+X-Google-Smtp-Source: ABdhPJwv0uSvAVfWuqi5pogo3e6Qn7juLGgpBq5GXAxp5G2l9CnCGBYKbn5HxSMjAutVPAeUcD2z1g==
+X-Received: by 2002:a62:1e82:0:b029:2f9:aad3:b368 with SMTP id e124-20020a621e820000b02902f9aad3b368mr6150599pfe.79.1623685537005;
+        Mon, 14 Jun 2021 08:45:37 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:ed93:eb87:6dc9:a518? ([2601:202:4180:a5c0:ed93:eb87:6dc9:a518])
+        by smtp.gmail.com with ESMTPSA id w23sm12769297pfi.220.2021.06.14.08.45.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jun 2021 08:45:36 -0700 (PDT)
+Subject: Re: [OE-core] [meta-oe][dunfell][PATCH] protobuf: Whitelist CVE-2015-5237
+To: RAHUL taya <rahultaya96@gmail.com>,
+ openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com, purushottam.choudhary@kpit.com
+References: <20210614104631.3190-1-Rahultaya96@gmail.com>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <2f2de529-721b-b561-ef3d-ac93a7da3178@gmail.com>
+Date: Mon, 14 Jun 2021 08:45:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210612221006.2888173-1-raj.khem@gmail.com> <8825b363-ef7b-626c-908b-a2c6405410ff@bootlin.com>
-In-Reply-To: <8825b363-ef7b-626c-908b-a2c6405410ff@bootlin.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 14 Jun 2021 15:17:51 +0200
-Message-ID: <CANNYZj_3wjJSczi0pNAoHxhGF=TmyH9Tgz0nR3GR1TdY0Qrv2w@mail.gmail.com>
-Subject: Re: [docs] [OE-core] [PATCH] musl: Set UPSTREAM_CHECK_COMMITS
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: Khem Raj <raj.khem@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>, 
-	YP docs mailing list <docs@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000e51b0805c4b9afd3"
+In-Reply-To: <20210614104631.3190-1-Rahultaya96@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---000000000000e51b0805c4b9afd3
-Content-Type: text/plain; charset="UTF-8"
 
-That would be very useful, but you should check if the entire nomenclature
-of UPSTREAM_CHECK_* variables is documented as well
-(_COMMITS, _REGEX, _URI, _GITTAGREGEX).
 
-Alex
+On 6/14/21 3:46 AM, RAHUL taya wrote:
+> As per below reference links this CVE issue seems to be minor and
+> harmless and as per upstream this is not a real issue in practice.
+>
+> And as per red hat this issue is marked as low severity.
+>
+> 1. https://bugzilla.suse.com/show_bug.cgi?id=CVE-2015-5237
+> 2. https://security-tracker.debian.org/tracker/CVE-2015-5237
+> 3. https://ubuntu.com/security/CVE-2015-5237
+> 4. https://github.com/protocolbuffers/protobuf/issues/760
+Thanks,
 
-On Mon, 14 Jun 2021 at 15:12, Michael Opdenacker <
-michael.opdenacker@bootlin.com> wrote:
+Please use the openembedded-devel@lists.openembedded.org
+ for meta-oe patches.
 
-> Hi Khem
+-armin
 >
-> On 6/13/21 12:10 AM, Khem Raj wrote:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-core/musl/musl_git.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-core/musl/musl_git.bb
-> b/meta/recipes-core/musl/musl_git.bb
-> > index 6569d1b37b..bd9d5f1d4b 100644
-> > --- a/meta/recipes-core/musl/musl_git.bb
-> > +++ b/meta/recipes-core/musl/musl_git.bb
-> > @@ -84,3 +84,5 @@ RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
-> >  LEAD_SONAME = "libc.so"
-> >  INSANE_SKIP_${PN}-dev = "staticdev"
-> >  INSANE_SKIP_${PN} = "libdir"
-> > +
-> > +UPSTREAM_CHECK_COMMITS = "1"
+> Upstream-Status: Pending
 >
+> Signed-off-by: Rahul Taya <Rahultaya96@gmail.com>
+> ---
+>  meta-oe/recipes-devtools/protobuf/protobuf_3.11.4.bb | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> Thanks for the patch.
-> Reviewed-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
->
-> I realize that the UPSTREAM_CHECK_COMMITS variable doesn't appear in the
-> documentation, and it's in relatively frequent use.
->
-> Would it make sense to propose to add a description based on the initial
-> commit
-> (
-> https://git.openembedded.org/openembedded-core/commit/?id=591d57877d3d3e659d78c0ed33f4c515e3f6f8fb
-> )?
->
-> Thanks in advance,
-> Michael.
->
-> --
-> Michael Opdenacker, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+> diff --git a/meta-oe/recipes-devtools/protobuf/protobuf_3.11.4.bb b/meta-oe/recipes-devtools/protobuf/protobuf_3.11.4.bb
+> index 4d6c5b255..f845a72a0 100644
+> --- a/meta-oe/recipes-devtools/protobuf/protobuf_3.11.4.bb
+> +++ b/meta-oe/recipes-devtools/protobuf/protobuf_3.11.4.bb
+> @@ -88,3 +88,11 @@ LDFLAGS_append_arm = " -latomic"
+>  LDFLAGS_append_mips = " -latomic"
+>  LDFLAGS_append_powerpc = " -latomic"
+>  LDFLAGS_append_mipsel = " -latomic"
+> +
+> +# As per below links this issue is minor and harmless and
+> +# as per upstream this is not a real issue in practice.
+> +# https://bugzilla.suse.com/show_bug.cgi?id=CVE-2015-5237
+> +# https://security-tracker.debian.org/tracker/CVE-2015-5237
+> +# https://ubuntu.com/security/CVE-2015-5237
+> +# https://github.com/protocolbuffers/protobuf/issues/760
+> +CVE_CHECK_WHITELIST += "CVE-2015-5237"
 >
 > 
 >
->
 
---000000000000e51b0805c4b9afd3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>That would be very useful, but you should check if th=
-e entire nomenclature of UPSTREAM_CHECK_* variables is documented as well</=
-div><div>(_COMMITS, _REGEX, _URI, _GITTAGREGEX).</div><div><br></div><div>A=
-lex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Mon, 14 Jun 2021 at 15:12, Michael Opdenacker &lt;<a href=
-=3D"mailto:michael.opdenacker@bootlin.com">michael.opdenacker@bootlin.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">H=
-i Khem<br>
-<br>
-On 6/13/21 12:10 AM, Khem Raj wrote:<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
-get=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-core/musl/<a href=3D"http://musl_git.bb" rel=3D"no=
-referrer" target=3D"_blank">musl_git.bb</a> | 2 ++<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/musl/<a href=3D"http://musl_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">musl_git.bb</a> b/meta/recipes-core/musl=
-/<a href=3D"http://musl_git.bb" rel=3D"noreferrer" target=3D"_blank">musl_g=
-it.bb</a><br>
-&gt; index 6569d1b37b..bd9d5f1d4b 100644<br>
-&gt; --- a/meta/recipes-core/musl/<a href=3D"http://musl_git.bb" rel=3D"no=
-referrer" target=3D"_blank">musl_git.bb</a><br>
-&gt; +++ b/meta/recipes-core/musl/<a href=3D"http://musl_git.bb" rel=3D"no=
-referrer" target=3D"_blank">musl_git.bb</a><br>
-&gt; @@ -84,3 +84,5 @@ RPROVIDES_${PN} +=3D &quot;ldd libsegfault rtld(GNU=
-_HASH)&quot;<br>
-&gt;=C2=A0 LEAD_SONAME =3D &quot;libc.so&quot;<br>
-&gt;=C2=A0 INSANE_SKIP_${PN}-dev =3D &quot;staticdev&quot;<br>
-&gt;=C2=A0 INSANE_SKIP_${PN} =3D &quot;libdir&quot;<br>
-&gt; +<br>
-&gt; +UPSTREAM_CHECK_COMMITS =3D &quot;1&quot;<br>
-<br>
-<br>
-Thanks for the patch.<br>
-Reviewed-by: Michael Opdenacker &lt;<a href=3D"mailto:michael.opdenacker@b=
-ootlin.com" target=3D"_blank">michael.opdenacker@bootlin.com</a>&gt;<br>
-<br>
-I realize that the UPSTREAM_CHECK_COMMITS variable doesn&#39;t appear in t=
-he<br>
-documentation, and it&#39;s in relatively frequent use.<br>
-<br>
-Would it make sense to propose to add a description based on the initial<b=
-r>
-commit<br>
-(<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D59=
-1d57877d3d3e659d78c0ed33f4c515e3f6f8fb" rel=3D"noreferrer" target=3D"_blank=
-">https://git.openembedded.org/openembedded-core/commit/?id=3D591d57877d3d3=
-e659d78c0ed33f4c515e3f6f8fb</a>)?<br>
-<br>
-Thanks in advance,<br>
-Michael.<br>
-<br>
--- <br>
-Michael Opdenacker, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https=
-://bootlin.com</a><br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000e51b0805c4b9afd3--
