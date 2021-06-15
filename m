@@ -1,138 +1,72 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web08.6230.1623743142107185138
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web09.6320.1623744767155543865
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jun 2021 00:45:42 -0700
+ Tue, 15 Jun 2021 01:12:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GjDaWdXr;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id x8so9280338vso.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 00:45:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vLkcyDIS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id dj8so49872676edb.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 01:12:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GbZWfh3eEcog4f8TqC70lAx6BYrye/OgHTh9hZ9Lw4w=;
-        b=GjDaWdXrSUgVfAbP8OOpi6mS5DTu8BhIn/UKEUIJkOTORuUE3KrIbWSoK5S7BQVVXi
-         kVt8Gwc6Vt8QREqZ5TnuYaZ18kD27dTGf+1Nv8O8EsImxbzVggSV9V3q03FfLqsdNzFq
-         uC2Ww6G7TH11GqdjXhCDk8o46M7999YqposzozGQP5dgFqsfu1w6+rT1ldh0MyJxo+sK
-         DpCuoNTT8nah5jCOtyRTxJ02UXkPtyPN53iDWcx55ML2GbGtMKs6hL5JVrIucQ9ORsKf
-         iKHr/iMvyQqoZID8vzJu0LZExPqSIX8IZ6Hh4T4EUXsRvgqo9ObWbKv8g+2plTeYxp3B
-         15Bw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fOjDW6Gf+y+AJtvKSHuQ9AFw1B5bftZF33Rh1iFU/Yk=;
+        b=vLkcyDISt55vkGEO/49HUMXLPz/3gzASWCTpelMrG0/4BefQ9QVpEIj/dvN/pLGVE6
+         5zlVxVSV1sz0uNdp0GqmpWpK7pgnpqfL+abP/Lr3sPnbMRCv0ODyhr4Pjx6T1QdAjP+a
+         fMFMwdao4m9X+lkDKQ+v7CyqKr9LcpcSsNLzqozZPd0em26sCIOy9DhUO6eVCxcNiYF1
+         eBji5PiWXxc0L2H3Nw/5LlM2fL+0BwmT5AOwVfzFYtTC/9J7zJcyIX8T39MurdVQYmeZ
+         4Vt6fCC8LNnKvflRo21sTJr2WorFJFAlHSsBP6zqrxDYP0CdazBphJw+UZeNO+hQfBZm
+         mRdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GbZWfh3eEcog4f8TqC70lAx6BYrye/OgHTh9hZ9Lw4w=;
-        b=QNfprpRS2qbJ12My/wl482QwRfjz5ecnqTOzEcO9UHJvXBO8T4Ab9O2BM4SkDaHVe1
-         27L4kU+aSNEFD7PesWKHfLadJgWTmc1DVJ6yag1VOVT3nwzbuyypcZHOZNFSkS7tXG3i
-         UxNFEQUV4MUaB6hGVmy656O1XgRTEPXpw7f0slTzhidTTFtWu4rpHPMUlpTipKVpjwya
-         WFcoR0Q7f1qqbba6zkP0IzuOB8EfkPdrm0zh4R3+Wy9q7sFqR0r8xNPqIBed5YnFbFRW
-         NTEclRgQcYjOg4IPciMYDVErMEKM195wy+ipwwBVA6GcHbFqQ/qmemYyho2E0nhl/QTC
-         In3Q==
-X-Gm-Message-State: AOAM531EVuWw7JUrQ+hSyNhnpZrlkXar1ve6McqybLICQ5b/FHXweAcQ
-	Txc8yAz2TVRAGfK+yOXRhMZLG39PONo5FogEfW8=
-X-Google-Smtp-Source: ABdhPJwoY3NN0E+Ntt4hFW20FMTkjoQGkQzM9voRwLktrZRL0M538XhkvtezcUfmLMfYhE/Ip/+uP+mPMbU2ipzQdc8=
-X-Received: by 2002:a67:1005:: with SMTP id 5mr3152547vsq.51.1623743141220;
- Tue, 15 Jun 2021 00:45:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <1622704403-26153-1-git-send-email-wangmy@fujitsu.com>
- <1622704403-26153-4-git-send-email-wangmy@fujitsu.com> <25117a5d416119bb7432e250b9d5377d073c4251.camel@linuxfoundation.org>
- <CANNYZj89iHOP5mw2FLbt1Rqss=UE+E2C3KtXdzUswOaXSYwCiw@mail.gmail.com> <TY1PR01MB1852BE1DC0AE0339F6C588B5DC309@TY1PR01MB1852.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY1PR01MB1852BE1DC0AE0339F6C588B5DC309@TY1PR01MB1852.jpnprd01.prod.outlook.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fOjDW6Gf+y+AJtvKSHuQ9AFw1B5bftZF33Rh1iFU/Yk=;
+        b=pv/u2QbCInpAyfkJb2aE6ZpUbhZ08lixrQaxSmD43FhWzO0xCQirKs6rUB38RP/OAK
+         qDH6TnKz5MU0OswH04eKZC5z/Dxp+CBfdryupaUdhFJ1G6BpNY/5uy+gHBtlApQVOhLB
+         A70QxE1CjzAqMdr/GoFABGUh4dSTC6jXjwRwThicjO0gnTPv6u+0XjM4N3+rWcv8jkzM
+         rBxHvNRHiEccW6r8Gi5AwpCO15aVMfGcm9W4rpQraFDvypJidVImbxDZnz8X/mlKG51J
+         iGvUkS9sFSyJbAUF5tiCP4IqneffcNPAtd5SNmWo3DoTKw4MpI5pMyj0eBpIk0/ug+By
+         kLbQ==
+X-Gm-Message-State: AOAM531KRQtbaLj5dy/7UgpIi5jufO+r/KzAWjrjLrM1tybKcpaIKs+x
+	iPraUStrEYkySoWXH04xHjtKqGOAbvqnxQ==
+X-Google-Smtp-Source: ABdhPJwIPIIHe0orqOh/6khmYEMSXB58SyLKokmHBhkAn7im7CtRa+IKPLjMlFPr7sGjx2m71SB+4A==
+X-Received: by 2002:a05:6402:54f:: with SMTP id i15mr21430048edx.339.1623744765640;
+        Tue, 15 Jun 2021 01:12:45 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id d2sm9118602ejo.13.2021.06.15.01.12.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jun 2021 01:12:45 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 15 Jun 2021 09:45:29 +0200
-Message-ID: <CANNYZj_kF4SoMgeB_HZZZB+dC5ZDwRGFTFJP-t7MRid9RVTnEA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] util-linux: upgrade 2.36.2 -> 2.37
-To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="00000000000023949505c4c929ff"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/31] core-image-weston: bump QB_MEM to 1G in qemuarm64
+Date: Tue, 15 Jun 2021 10:12:10 +0200
+Message-Id: <20210615081240.1734087-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---00000000000023949505c4c929ff
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+weston tests start additional compositors, other tests are also
+heavy on RAM, weston itself takes 256M with opengl enabled,
+so 512M causes OOM errors on arm64.
 
-On Tue, 15 Jun 2021 at 03:42, wangmy@fujitsu.com <wangmy@fujitsu.com> wrote=
-:
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-graphics/images/core-image-weston.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> I used devtool upgrade util-linux and generated the directory of
-> util-linux under the build directory.
->
-> However, because it=E2=80=99s failed to apply the patch, it only modified
-> SRC_URI[sha256sum] in the final recipe.
->
-> Therefore, when I encounter OSS that cannot be automatically updated, I
-> modify the patch manually.
->
-> Is my usage of devtool upgrade wrong?
->
->
-The workflow actually consists of three or four steps:
-1. 'devtool upgrade util-linux'
-2. If devtool tells you it couldn't rebase the patches, you need to
-complete the job. Change to workspace/source/util-linux, and resolve the
-conflicts by editing the files where they happened (git rebase leaves
-conflict markers in the files), then 'git rebase --continue' until rebase
-completes.
-3. At this point you might want to run 'bitbake util-linux' to quickly
-check that the new version builds correctly out of that external source
-tree.
-4. This is the important step you've been missing: 'devtool finish
-util-linux path/to/poky/meta'. This puts the updated recipe and patches
-back into the layer, and you can then make a commit out of it, if it looks
-ok.
+diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
+index 62305cc1ce..e332e19368 100644
+--- a/meta/recipes-graphics/images/core-image-weston.bb
++++ b/meta/recipes-graphics/images/core-image-weston.bb
+@@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL += "gtk+3-demo"
+ CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
+ 
+ QB_MEM = "-m 512"
++QB_MEM_qemuarm64 = "-m 1024"
+-- 
+2.31.1
 
-Please try this now.
-
-Alex
-
---00000000000023949505c4c929ff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 15 Jun 2021 at 03:42, <a href=3D"mailto:wangmy@fujitsu.com">=
-wangmy@fujitsu.com</a> &lt;<a href=3D"mailto:wangmy@fujitsu.com">wangmy@fuj=
-itsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-
-
-
-
-
-<div style=3D"overflow-wrap: break-word;" lang=3D"ZH-CN">
-<div class=3D"gmail-m_261500896696147115WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:=E7=AD=
-=89=E7=BA=BF" lang=3D"EN-US">I used devtool upgrade util-linux and generate=
-d the directory of util-linux under the build directory.
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:=E7=AD=
-=89=E7=BA=BF" lang=3D"EN-US">However, because it=E2=80=99s failed to apply =
-the patch, it only modified SRC_URI[sha256sum] in the final recipe.
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:=E7=AD=
-=89=E7=BA=BF" lang=3D"EN-US">Therefore, when I encounter OSS that cannot be=
- automatically updated, I modify the patch manually.
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:=E7=AD=
-=89=E7=BA=BF" lang=3D"EN-US">Is my usage of devtool upgrade wrong?<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.5pt;font-family:=E7=AD=
-=89=E7=BA=BF" lang=3D"EN-US"></span><span lang=3D"EN-US"></span></p></div><=
-/div></blockquote><div><br></div><div>The workflow actually consists of thr=
-ee or four steps:</div><div>1. &#39;devtool upgrade util-linux&#39;</div><d=
-iv>2. If devtool tells you it couldn&#39;t rebase the patches, you need to =
-complete the job. Change to workspace/source/util-linux, and resolve the co=
-nflicts by editing the files where they happened (git rebase leaves conflic=
-t markers in the files), then &#39;git rebase --continue&#39; until rebase =
-completes.</div><div>3. At this point you might want to run &#39;bitbake ut=
-il-linux&#39; to quickly check that the new version builds correctly out of=
- that external source tree.</div><div>4. This is the important step you&#39=
-;ve been missing: &#39;devtool finish util-linux path/to/poky/meta&#39;. Th=
-is puts the updated recipe and patches back into the layer, and you can the=
-n make a commit out of it, if it looks ok.</div><div><br></div><div>Please =
-try this now.<br></div><div><br></div><div>Alex<br></div><div><br></div></d=
-iv></div>
-
---00000000000023949505c4c929ff--
