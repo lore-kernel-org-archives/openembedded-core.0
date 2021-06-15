@@ -1,50 +1,50 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.6322.1623744778138936482
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web09.6324.1623744778330116081
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Jun 2021 01:12:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=E8sWub6b;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id g18so47917061edq.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 01:12:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TnvTQdMy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id k25so21078085eja.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 01:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GJLnyM4aWYDN5ZwiKMKI9c/TBeLExR3dWghYnM6A+y8=;
-        b=E8sWub6bLBwWPr9b9YT6sPe97TkkG3Xw4v+LiSkOaq+PslgZwQnu1nr1o0VX+w8nnH
-         kVvbzErPNbaMCWFynhCj15ESC3fapSayv3I1xlGSO80r83kw4FUmAKJNTK/io95+8rpN
-         EVGIS9NAsOnq8+sueG5TfxCjTf2wc7g1RnO/gORYTmaliOQYf8d++xoGfhu42v60WIb2
-         SkCBfOId3BIvfNJQC1o7uTZOnfvzjV2q/INHqJ5+3OsUd+ps4HhITG52qcsh11kEXFVZ
-         YchksWEWC+LO3NioUXTCx5FobIx4YMB0nMdIJtPGs/eOCwnKYh0CWtYm00iLbjCkC5q/
-         m+ug==
+        bh=ORpx1mx20R4xMsguKusOud0lSMZa7KfEV3zfJ9+Q78s=;
+        b=TnvTQdMyclNlvdKQKtUWaYHBXp909Wla/fqBpvuXFZEqz0yT5Jm0vasYZhlEaGlJLE
+         HtKaXm8yGxWXUjHfq4OaMy2jbgsLZReMw+rsYTi7kQA88aQBszoPAdpKC4U3kNtzQoMk
+         mXiXa6mHR6hr8HhJxSxNY2Ofv/2sZVDm+ajrPYJ9Fchh8O/iAxjXgO/KChvPusxV+PlX
+         eI54T8+vh0xg1jtZcvH5nEKD/5mh00ODOTBybwgLr7rFUWw/7IoYcawm57DvXuNBn34h
+         5+ND9lPVhFvK583TPtvEh5tJHNN42p0ztQjA6JzJyJn3x9tdXdZP0Fh8mbt6cUCcN7vt
+         T1fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GJLnyM4aWYDN5ZwiKMKI9c/TBeLExR3dWghYnM6A+y8=;
-        b=CZNrVxtjAKX5WDRv1VWL8TE9Oodr3Fj1ZrlEXasl0zjYIOcXFLfoLUc5LPcD3LrbWh
-         lGsnZY0Bw8znrYnw/RoHLquekUL4EAO84dI+bZBzpjsrZF+NN/4MIUBCGo9wuXYwdTrM
-         MeZ9lTrjADrUUHwB2TzZIACnCrPYe18ZqnfM5lREO7euw9N0lfy/B/vIP42y2jueDrJ6
-         //ADfHNqmba+d9eVFXNgF5P+Lkzg2jnLg7L5PQAvDZ4rzt/b+PXCAbUBVo9XKP/0StM4
-         0OrpMY5wJBH3F2D3vLglcJXWU56qUy3J16YNb3YMHXHgnznIdIRbyfOUci0YaPFL/1mW
-         EGYg==
-X-Gm-Message-State: AOAM532fP8LBh3OTcKoN8iXUml/R/D/XEMIj4uvXlEXrkOxnkchqZ/wA
-	c84Ax+oSHFZ0AWqKuuaemlePYsEO0DR22g==
-X-Google-Smtp-Source: ABdhPJyXpwnebd0XIOkcQTWtXzuBKOjMOdJiboaloFd1gnn6kGRSgGIXq46Q0GQz9I8uyRkEn+A3NA==
-X-Received: by 2002:a05:6402:344:: with SMTP id r4mr21382294edw.226.1623744776805;
-        Tue, 15 Jun 2021 01:12:56 -0700 (PDT)
+        bh=ORpx1mx20R4xMsguKusOud0lSMZa7KfEV3zfJ9+Q78s=;
+        b=c/519zyIBm9lJk3SFl/wlrDe3A8xvm2uAK34CPTkF1hoyeRTG3GqOh2JpPJXGMv16M
+         MmhpB1FplpF919yJUHicHC00+oDCeREJVW5mIKS87PSnXYXNKSBLBvk9XuNuvT+3701Y
+         im2xDyz3HHu4Y7aGeTIWngJdTg+gbPgpv83CQjdzfzbqp0tpycQe5ZLAT/Z8Dh84Iewb
+         NSj1LyWXSrrwszTS7u2NrbRKH0ZXoREeAK+NxxZJ7bBa+t+M5HkRgb5B9YUOk2GPok+j
+         x6juEJlAOFFcfUY5CNQDsG1dwUdR7a/zN1J0rWTZ4Scg65ew0BVY2W4qpKx2asRxlxGL
+         sz8A==
+X-Gm-Message-State: AOAM532anHhlaQQYmjiJPyL5Wo8cXYegRspXI4HUTQr536JyFu2fGZT7
+	imxm3omeN9NcGKXXosOGiZuEJRvmYvRhNQ==
+X-Google-Smtp-Source: ABdhPJzLibkXUoc3/yVoYuYG4THhJ8QdxwXzU62JLPE4ACZQVp2O8WqbXSPYeUp8pEM49e9zqiQ9jA==
+X-Received: by 2002:a17:907:270c:: with SMTP id w12mr19651002ejk.175.1623744771955;
+        Tue, 15 Jun 2021 01:12:51 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id d2sm9118602ejo.13.2021.06.15.01.12.56
+        by smtp.gmail.com with ESMTPSA id d2sm9118602ejo.13.2021.06.15.01.12.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 01:12:56 -0700 (PDT)
+        Tue, 15 Jun 2021 01:12:51 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 17/31] grub: upgrade 2.04+2.06~rc1 -> 2.06
-Date: Tue, 15 Jun 2021 10:12:26 +0200
-Message-Id: <20210615081240.1734087-17-alex.kanavin@gmail.com>
+Subject: [PATCH 10/31] connman: update 1.39 -> 1.40
+Date: Tue, 15 Jun 2021 10:12:19 +0200
+Message-Id: <20210615081240.1734087-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615081240.1734087-1-alex.kanavin@gmail.com>
 References: <20210615081240.1734087-1-alex.kanavin@gmail.com>
@@ -53,74 +53,73 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{grub-efi_git.bb => grub-efi_2.06.bb}     |  2 ++
- meta/recipes-bsp/grub/grub2.inc               | 19 ++-----------------
- .../grub/{grub_git.bb => grub_2.06.bb}        |  0
- 3 files changed, 4 insertions(+), 17 deletions(-)
- rename meta/recipes-bsp/grub/{grub-efi_git.bb => grub-efi_2.06.bb} (98%)
- rename meta/recipes-bsp/grub/{grub_git.bb => grub_2.06.bb} (100%)
+ ...002-resolve-musl-does-not-implement-res_ninit.patch | 10 +++++-----
+ .../connman/{connman_1.39.bb => connman_1.40.bb}       |  2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.39.bb => connman_1.40.bb} (85%)
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_git.bb b/meta/recipes-bsp/grub/grub-efi_2.06.bb
-similarity index 98%
-rename from meta/recipes-bsp/grub/grub-efi_git.bb
-rename to meta/recipes-bsp/grub/grub-efi_2.06.bb
-index 240fde7dbf..287845c507 100644
---- a/meta/recipes-bsp/grub/grub-efi_git.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.06.bb
-@@ -11,6 +11,8 @@ SRC_URI += " \
-            file://cfg \
-           "
+diff --git a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
+index 942b9c97b6..9dca21a02f 100644
+--- a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
++++ b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
+@@ -1,4 +1,4 @@
+-From c7734e1547db967eccf242fe4b9e8a30b9ff141c Mon Sep 17 00:00:00 2001
++From 01974865e4d331eeaf25248bee1bb96539c450d9 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 6 Apr 2015 23:02:21 -0700
+ Subject: [PATCH] resolve: musl does not implement res_ninit
+@@ -15,7 +15,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 13 insertions(+), 21 deletions(-)
  
-+S = "${WORKDIR}/grub-${PV}"
-+
- # Determine the target arch for the grub modules
- python __anonymous () {
-     import re
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 3c6b434c2d..19294760c4 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ diff --git a/gweb/gresolv.c b/gweb/gresolv.c
+-index 38a554e..a9e8740 100644
++index 954e7cf..2a9bc51 100644
+ --- a/gweb/gresolv.c
+ +++ b/gweb/gresolv.c
+ @@ -36,6 +36,7 @@
+@@ -26,7 +26,7 @@ index 38a554e..a9e8740 100644
+  
+  #include "gresolv.h"
+  
+-@@ -877,8 +878,6 @@ GResolv *g_resolv_new(int index)
++@@ -878,8 +879,6 @@ GResolv *g_resolv_new(int index)
+  	resolv->index = index;
+  	resolv->nameserver_list = NULL;
+  
+@@ -35,7 +35,7 @@ index 38a554e..a9e8740 100644
+  	return resolv;
+  }
+  
+-@@ -918,8 +917,6 @@ void g_resolv_unref(GResolv *resolv)
++@@ -919,8 +918,6 @@ void g_resolv_unref(GResolv *resolv)
+  
+  	flush_nameservers(resolv);
+  
+@@ -44,7 +44,7 @@ index 38a554e..a9e8740 100644
+  	g_free(resolv);
+  }
+  
+-@@ -1022,24 +1019,19 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
++@@ -1023,24 +1020,19 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
+  	debug(resolv, "hostname %s", hostname);
+  
+  	if (!resolv->nameserver_list) {
+diff --git a/meta/recipes-connectivity/connman/connman_1.39.bb b/meta/recipes-connectivity/connman/connman_1.40.bb
+similarity index 85%
+rename from meta/recipes-connectivity/connman/connman_1.39.bb
+rename to meta/recipes-connectivity/connman/connman_1.40.bb
+index df42e9ffb8..15d105e2bd 100644
+--- a/meta/recipes-connectivity/connman/connman_1.39.bb
++++ b/meta/recipes-connectivity/connman/connman_1.40.bb
+@@ -9,7 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
  
- CVE_PRODUCT = "grub2"
+ SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
  
--SRC_URI = "https://alpha.gnu.org/gnu/grub/grub-${REALPV}.tar.xz \
-+SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0001-Disable-mfpmath-sse-as-well-when-SSE-is-disabled.patch \
-            file://autogen.sh-exclude-pc.patch \
-            file://grub-module-explicitly-keeps-symbole-.module_license.patch \
-@@ -22,26 +22,11 @@ SRC_URI = "https://alpha.gnu.org/gnu/grub/grub-${REALPV}.tar.xz \
-            file://0001-RISC-V-Restore-the-typcast-to-long.patch \
- "
+-SRC_URI[sha256sum] = "9f62a7169b7491c670a1ff2e335b0d966308fb2f62e285c781105eb90f181af3"
++SRC_URI[sha256sum] = "1a57ae7ce234aa3a1744aac3be5c2121d98dce999440ef8ab9cc4edfd5edcb12"
  
--SRC_URI[sha256sum] = "2c87f1f21e2ab50043e6cd9163c08f1b6c3a6171556bf23ff9ed65b074145484"
--
--REALPV = "2.06~rc1"
--PV = "2.04+${REALPV}"
--
--# Fixed in 2.06~rc1, can be removed for 2.06 final
--CVE_CHECK_WHITELIST += "\
--    CVE-2020-14308 CVE-2020-14309 CVE-2020-14310 CVE-2020-14311 CVE-2020-10713 \
--    CVE-2020-14372 CVE-2020-15705 CVE-2020-15706 CVE-2020-15707 \
--    CVE-2020-25632 CVE-2020-25647 CVE-2020-27749 CVE-2020-27779 \
--    CVE-2021-3418 CVE-2021-20225 CVE-2021-20233"
-+SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
- 
- # Applies only to RHEL
- CVE_CHECK_WHITELIST += "CVE-2019-14865"
- 
--S = "${WORKDIR}/grub-${REALPV}"
--
--UPSTREAM_CHECK_URI = "${GNU_MIRROR}/grub"
--UPSTREAM_CHECK_REGEX = "grub-(?P<pver>\d+(\.\d+)+)\.tar\.(gz|xz)"
--
- DEPENDS = "flex-native bison-native gettext-native"
- 
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv.*)-(linux.*|freebsd.*)'
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_2.06.bb
-similarity index 100%
-rename from meta/recipes-bsp/grub/grub_git.bb
-rename to meta/recipes-bsp/grub/grub_2.06.bb
+ RRECOMMENDS_${PN} = "connman-conf"
+ RCONFLICTS_${PN} = "networkmanager"
 -- 
 2.31.1
 
