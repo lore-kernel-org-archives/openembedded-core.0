@@ -1,60 +1,95 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.5866.1623738458976666150
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web09.6007.1623741433303778513
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jun 2021 23:27:39 -0700
+ Tue, 15 Jun 2021 00:17:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 15F6RYZq004141
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Mon, 14 Jun 2021 23:27:34 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 15F6RXdi008668
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 14 Jun 2021 23:27:34 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Mon, 14 Jun 2021 23:27:33 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Mon, 14 Jun 2021 23:27:32 -0700
-From: "kai" <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <armccurdy@gmail.com>
-Subject: [PATCH v2] ffmpeg: link in libatomic on 32-bit powerpc
-Date: Tue, 15 Jun 2021 14:27:29 +0800
-Message-ID: <20210615062729.14627-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 6StGJlQ56kIyYCbbj0lEy69GfvXt6zM6BIgCE1pjoa9mmAeNctdI6IZT3IcPyR/jLj/OsP5M6K
+ V2S4iNh9Qjyw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205757499"
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
+   d="scan'208";a="205757499"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 00:17:11 -0700
+IronPort-SDR: od53YOTfYMsZNeJGiG6uVazg1hK6OtwuVVxhWAQTQu5EngKkwrvDEZF/plkMmqoZt3xBlREC6f
+ BFaFr0BsCJgg==
+X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
+   d="scan'208";a="487675475"
+Received: from janetcha-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.152.113])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 00:17:10 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH 00/17] pull request (cover letter only)
+Date: Tue, 15 Jun 2021 15:17:06 +0800
+Message-Id: <cover.1623741303.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+Please merge these changes in hardknott.
 
-It needs some functions from libatomic on 32-bit powerpc too:
+Thanks,
 
-| libavformat/libavformat.so: undefined reference to `__atomic_fetch_sub_8'
+Anuj
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
-v2:
-* correct the typo of the machine in commit log
+The following changes since commit 6ca1047e98a1c8bc305a3f40ad1919c5038e1698:
 
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 1 +
- 1 file changed, 1 insertion(+)
+  oeqa/runtime/rpm: Drop log message counting test component (2021-06-02 14:26:58 +0100)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-index 3ed009bbb7..f3097f8ebf 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-@@ -130,6 +130,7 @@ EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mips32r6', '--disable-mi
- EXTRA_OECONF_append_mips = " --extra-libs=-latomic --disable-mips32r5 --disable-mipsdsp --disable-mipsdspr2 \
-                              --disable-loongson2 --disable-loongson3 --disable-mmi --disable-msa --disable-msa2"
- EXTRA_OECONF_append_riscv32 = " --extra-libs=-latomic"
-+EXTRA_OECONF_append_powerpc = " --extra-libs=-latomic"
- 
- # gold crashes on x86, another solution is to --disable-asm but thats more hacky
- # ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
+
+Bruce Ashfield (11):
+  linux-yocto/5.10: update to v5.10.35
+  linux-yocto/5.4: update to v5.4.117
+  linux-yocto/5.10: ktypes/standard: disable obsolete crypto options by
+    default
+  linux-yocto/5.10: update to v5.10.36
+  linux-yocto/5.4: update to v5.4.118
+  linux-yocto/5.10: update to v5.10.37
+  linux-yocto/5.4: update to v5.4.119
+  linux-yocto/5.10: update to v5.10.38
+  linux-yocto/5.4: update to v5.4.120
+  linux-yocto/5.10: update to v5.10.41
+  linux-yocto/5.4: update to v5.4.123
+
+Guillaume Champagne (1):
+  image-live.bbclass: order do_bootimg after do_rootfs
+
+Joshua Watt (1):
+  classes/reproducible_build: Use atomic rename for SDE file
+
+Kai Kang (1):
+  valgrind: fix a typo
+
+Richard Purdie (1):
+  linux-firmware: upgrade 20210315 -> 20210511
+
+Tony Tascioglu (1):
+  valgrind: Improve non-deterministic ptest reliability
+
+Trevor Gamblin (1):
+  python3: upgrade 3.9.4 -> 3.9.5
+
+ meta/classes/image-live.bbclass               |  2 +-
+ meta/classes/reproducible_build.bbclass       | 13 +++++-----
+ .../{python3_3.9.4.bb => python3_3.9.5.bb}    |  2 +-
+ .../valgrind/valgrind/run-ptest               | 12 ++++++++++
+ .../valgrind/taskset_nondeterministic_tests   |  4 ++++
+ .../valgrind/valgrind_3.16.1.bb               |  2 +-
+ ...20210315.bb => linux-firmware_20210511.bb} |  4 ++--
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++++---------
+ 13 files changed, 64 insertions(+), 49 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.9.4.bb => python3_3.9.5.bb} (99%)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/taskset_nondeterministic_tests
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210315.bb => linux-firmware_20210511.bb} (99%)
+
 -- 
-2.17.1
+2.31.1
 
