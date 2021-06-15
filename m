@@ -1,50 +1,50 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web08.6405.1623744776174464503
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web11.6421.1623744776766706624
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jun 2021 01:12:56 -0700
+ Tue, 15 Jun 2021 01:12:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZL1AGpdy;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id he7so20854532ejc.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 01:12:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OJuX/5ic;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id t3so49929595edc.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 01:12:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JJKzpIBYJ3W0nDsg9hOvNStKNW0zUfhTmifwIHCGtho=;
-        b=ZL1AGpdyEv2nWOWF2Qglccs/4hKTtN54mWMZizpHI8NHuRLzCrMLQk3fkmhTAclWrd
-         I8DYZ/6LeS7XgbCR5JEYeyhHylap9u9bUIxexxsJOOFtB7MhTk0bkDDjVLiZyknmyyAf
-         Rl/79c/96mynV/DGlCwbbZJnCYAOz8F9B3VjVLxc3IEOOI9i/Cy8heakKHgzuvK0jkRG
-         1ZdVS9EsM78Nv9inMaHAEExJdK9EbxS+ZuOVSZyEIll9N6BGAMVdXZfUypKAB4UMXdji
-         zbEI0Iz7Nwl1hHuu10o+8MNbyvK0JfD1LUfQtIJnLbSkHzNXfJdJ506MTUJ06XhM7cBW
-         XjiA==
+        bh=jkMEmgiuqkfLKPs8SQg/5aD0WhGjsbh8ezqxxKn2VhY=;
+        b=OJuX/5icD2Y+B87XNrzh7vWr+SuwPnBAEp7KIYZLc7m61Dm5Y/xznmp2NGM2f2xux/
+         9oT5mjfECYnIVfbMd91oEubEexqBXQVkZH7k9w1virY1tsGW3MzLjsmLd9o4iHTncYPs
+         1mj0rhBl9dHtHEoIfhsVSB5CizSOytYzD8j15FcgzNylqYxhQ/B7Ll9vGfT3K4aNmTM2
+         yP5Ja8DwJnE0oe4MMtnW8irUwO9ubnXKRE8hNv3L/oDAfKf4NoQi7XeTQa6SGS16kLVZ
+         iFcC41lbHbWC7Q61Pou1ms0LUaCRKdHMXWNx8oTABk2v/8B7wGrVlyECC32DoO2/12bC
+         4iRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JJKzpIBYJ3W0nDsg9hOvNStKNW0zUfhTmifwIHCGtho=;
-        b=ifHX0aPHVv4GRPNb3QiH9UT3uxcxQQ8bbkqNTE25mbelK83iZBFcM5nA4mPFHweY3C
-         fSrixyUup89hQu1lxEc/ZmjiEpAwPlq7j2NXqkSwmyY/R5CfFEaD54sALrCT1opHdga+
-         3fWJWK1v4H37U6thq4OquP4YhkvICxJ220ci/iN0oOG2E17CBBzhAzQ8hEQahODUjTN6
-         IkwT3SoSjysA/4bakMc3rpxZcUPung+hrLizUD/OJanJHfpPuVH7vAXL7gW1x4zmRDnI
-         UgbrpPOmAC8Ey0j70qAMpqOhaO+EyjIYCLvsiTwS1FEewK6qMtW5nogIEXQqBSOBwunX
-         kgPA==
-X-Gm-Message-State: AOAM532+Bd2MoBm2r1e+UEDGyp/vq2CqA9duPS9JS4L4i+zeAdIOO7xV
-	/TARgs5ouAvz6+CQ4zIROFYuKxdXHKjncg==
-X-Google-Smtp-Source: ABdhPJyRF4XqqU/ntzhWRNfII+IJJVdXgrQm14AzWU8VdzQY/vOR4Rz40qS1gfKILiJACkPyjH6nRQ==
-X-Received: by 2002:a17:906:e10d:: with SMTP id gj13mr19386519ejb.150.1623744774724;
-        Tue, 15 Jun 2021 01:12:54 -0700 (PDT)
+        bh=jkMEmgiuqkfLKPs8SQg/5aD0WhGjsbh8ezqxxKn2VhY=;
+        b=lF1k+BT3fSUkykqcgmvRifFnUPOQNM6sLslRLZ9L6wXO/fA6NNcQAKb6CQALNUx53K
+         YYr75OFbOZpE7Gp5fKLkYfi+aRSlSiiLFGd0ZsV8R2h/6kl6FV9xE00sNFv7pWXIAQPQ
+         nADPBBgGIfQnts3RdRLcWZPA7cTRiN1im/m+YC0hR9Ppf5WWML3Csuz/jI57u8C8zs0p
+         JqvYmpR7jK+qrG4llAAU1OPsSqfPRX3qpFgGjXnE2LcPL/uNP+kNXvTWBZy156HPUMqZ
+         ZFZCvTmTsSfmaXLrs+QAg5X8YqVipXPbI69vLo14PAcOTsDiRSdzCwc/raKWaPH/8IEb
+         pfng==
+X-Gm-Message-State: AOAM531mRKLiBZCrQiWIIwkx+SJmTbyJxjPbh+rDxVe+iUQgLx1jJ4Gn
+	3aakrM6/9LxqGC5mPUZWQxj4lmWcI67Psg==
+X-Google-Smtp-Source: ABdhPJybfL9JX/p281HuwNEJ8XFDEJ3dNHmq0a/MoZrRLqxpDagTMDHtRRxOIuQT9HyCbgIF3XpWlQ==
+X-Received: by 2002:a05:6402:101a:: with SMTP id c26mr816711edu.317.1623744775405;
+        Tue, 15 Jun 2021 01:12:55 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id d2sm9118602ejo.13.2021.06.15.01.12.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 01:12:54 -0700 (PDT)
+        Tue, 15 Jun 2021 01:12:55 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/31] ell: upgrade 0.40 -> 0.41
-Date: Tue, 15 Jun 2021 10:12:23 +0200
-Message-Id: <20210615081240.1734087-14-alex.kanavin@gmail.com>
+Subject: [PATCH 15/31] erofs-utils: upgrade 1.2.1 -> 1.3
+Date: Tue, 15 Jun 2021 10:12:24 +0200
+Message-Id: <20210615081240.1734087-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615081240.1734087-1-alex.kanavin@gmail.com>
 References: <20210615081240.1734087-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-core/ell/{ell_0.40.bb => ell_0.41.bb} | 2 +-
+ .../erofs-utils/{erofs-utils_1.2.1.bb => erofs-utils_1.3.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ell/{ell_0.40.bb => ell_0.41.bb} (90%)
+ rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.2.1.bb => erofs-utils_1.3.bb} (92%)
 
-diff --git a/meta/recipes-core/ell/ell_0.40.bb b/meta/recipes-core/ell/ell_0.41.bb
-similarity index 90%
-rename from meta/recipes-core/ell/ell_0.40.bb
-rename to meta/recipes-core/ell/ell_0.41.bb
-index d088676221..5fd3077bc3 100644
---- a/meta/recipes-core/ell/ell_0.40.bb
-+++ b/meta/recipes-core/ell/ell_0.41.bb
-@@ -17,7 +17,7 @@ inherit autotools pkgconfig
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
-            file://0001-pem.c-do-not-use-rawmemchr.patch \
-            "
--SRC_URI[sha256sum] = "b9bf5c14f2963591ea1372049c05646919a9ed46fcee5cd11ede1022c99ffbbd"
-+SRC_URI[sha256sum] = "4e8dba6c53cf152dbd0fd1dc3d4c7b04abf79e20a948895f85943e586870505c"
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.3.bb
+similarity index 92%
+rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
+rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.3.bb
+index 5ab4bf2816..d07d5c4360 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.2.1.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.3.bb
+@@ -4,7 +4,7 @@ SECTION = "base"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94fa01670a2a8f2d3ab2de15004e0848"
+ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
  
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
+-SRCREV = "d1f4953edfcf4f51c71ba91586e21fc6ce9f6db9"
++SRCREV = "2cd522105ea771ec30b269cd4c57e2265a4d6349"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
 -- 
 2.31.1
 
