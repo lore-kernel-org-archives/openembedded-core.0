@@ -1,635 +1,223 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web09.11779.1623774115881499896
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.47.1623774838303454693
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jun 2021 09:21:56 -0700
+ Tue, 15 Jun 2021 09:33:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J73MCnTM;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id l184so11894389pgd.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 09:21:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HMIaOD0zgXpJK/7F6ao2QYMcp94ZS1pPQQpb6AT+KzA=;
-        b=J73MCnTMYoG5NHF4xgl+zcIzlhlvdcG8vaEojmIWjWh6EpYWWT1dVSvkqUDar0FcAf
-         oUPldq07Xl8XbTdLF8Fc9f4bUXQbswGpDcNb8FnvyMFL8UjBxAzqznX3HltW+oFJSNQI
-         0R5GSftOOR/M6dxovcLgTqDzIDgjoPxQ4YDsfV2WyLZnZbT3Q1MxtGYtcW9AtnoCzF1J
-         uVx0+Q2LUZpP9dcW8IbtElAnM4MoezrlxZB2GXBD6LNpP3oMWxxP7b9360LNe+DbXhNB
-         /QqRP/ptsI8vudRgaPIGCMq7qJEi3q+L/5kmpgCzmeKqb7PISIPB83eQef7Dbwmy/7tl
-         MzhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HMIaOD0zgXpJK/7F6ao2QYMcp94ZS1pPQQpb6AT+KzA=;
-        b=Ti9/BN8lZUHsecNCMfBwWYXmsQx0O9a4btFpBe4t3Ke74UxPIMZ6qkjN18WOOPbtHy
-         MDWhXevO6OO7SymPTBgy3zxsyzEvooLFxjDeJdl9bxxg+MJrDbVm9VDo2F4UnzV0qICB
-         kpdKsGOQqzDfQXZT+ej6YNk7Lebj/B76aDS2YFe0SiBs1X4vDp9kwUQNSjzQPv8jDv7R
-         ulJHSEP9iD1K4euFRagourQgBSyxj1IiQyEDdeI6nI4WDqfln+RqjLDnEX6hDbWiCeaD
-         9rvGGZVwlePkMfbk3DjLBJqqbOidBNN8P7CAONKbINVUtFwTiHVDZL3H/5AG7P1BgMfW
-         rHfw==
-X-Gm-Message-State: AOAM533I1rqZSaoXCf2oH8FuZ4FY1yFcNcfGm2JWzMARW1Kf/X8eFgZ3
-	zA/pDTKg0A/84KsVXWK6bH1raKnbA30AnA==
-X-Google-Smtp-Source: ABdhPJy34/bpGGYgpKwP4hQWS9hOdnQ5Z9niUC2oIe9iVbJDBuXeC7wleCD+4OMLsyUlZ5dET5rKMA==
-X-Received: by 2002:a63:e253:: with SMTP id y19mr308062pgj.137.1623774113936;
-        Tue, 15 Jun 2021 09:21:53 -0700 (PDT)
-Return-Path: <ticotimo@gmail.com>
-Received: from nereus.local ([2601:1c0:6000:9640:c1b8:bf4a:5b4c:1b8e])
-        by smtp.gmail.com with ESMTPSA id fs10sm2940516pjb.31.2021.06.15.09.21.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 09:21:53 -0700 (PDT)
-From: "Tim Orling" <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3BDC13A1
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 09:33:56 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8C22A3F694
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 09:33:56 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Lee Chee Yang <chee.yang.lee@intel.com>,
-	Tim Orling <timothy.t.orling@intel.com>
-Subject: [dunfell][PATCH] python3: fix CVE-2021-23336
-Date: Tue, 15 Jun 2021 09:21:31 -0700
-Message-Id: <20210615162131.32534-1-timothy.t.orling@intel.com>
-X-Mailer: git-send-email 2.29.2
+Subject: [PATCH] gcc: replace gdb helper install revert with the upstream fix
+Date: Tue, 15 Jun 2021 17:33:54 +0100
+Message-Id: <20210615163354.282584-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+A change in the gcc-11 branch broke installation of the GDB helper on
+bare-metal targets without a shared libstdc++.so.  This now fixed
+upstream so replacce the revert with a backport of the patch.
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
-
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-
-"""
-The package python/cpython from 0 and before 3.6.13, from 3.7.0 and before
-3.7.10, from 3.8.0 and before 3.8.8, from 3.9.0 and before 3.9.2 are vulnerable
-to Web Cache Poisoning via urllib.parse.parse_qsl and urllib.parse.parse_qs by
-using a vector called parameter cloaking. When the attacker can separate query
-parameters using a semicolon (;), they can cause a difference in the
-interpretation of the request between the proxy (running with default
-configuration) and the server. This can result in malicious requests being
-cached as completely safe ones, as the proxy would usually not see the
-semicolon as a separator, and therefore would not include it in a cache key of
-an unkeyed parameter.
-"""
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2021-23336
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-23336
-
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../python/python3/CVE-2021-23336.patch       | 530 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- 2 files changed, 531 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+ meta/recipes-devtools/gcc/gcc-11.1.inc        |  2 +-
+ ...nstall-libstdc-gdb.py-more-robustly-.patch | 76 -------------------
+ ...nstallation-of-python-hooks-PR-99453.patch | 57 ++++++++++++++
+ 3 files changed, 58 insertions(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc/0001-Revert-libstdc-Ins=
+tall-libstdc-gdb.py-more-robustly-.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0001-libstdc-Fix-instal=
+lation-of-python-hooks-PR-99453.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2021-23336.patch b/meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-11.1.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-11.1.inc
+index 69e4c8bacc..c21242af58 100644
+--- a/meta/recipes-devtools/gcc/gcc-11.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-11.1.inc
+@@ -68,7 +68,7 @@ SRC_URI =3D "\
+            file://0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintai=
+nin.patch \
+            file://0036-mingw32-Enable-operation_not_supported.patch \
+            file://0037-libatomic-Do-not-enforce-march-on-aarch64.patch \
+-           file://0001-Revert-libstdc-Install-libstdc-gdb.py-more-robust=
+ly-.patch \
++           file://0001-libstdc-Fix-installation-of-python-hooks-PR-99453=
+.patch \
+            file://0038-arc-Update-64bit-move-split-patterns.patch \
+            file://0039-arc-Fix-u-maddhisi-patterns.patch \
+            file://0040-arc-Update-doloop_end-patterns.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc/0001-Revert-libstdc-Install-li=
+bstdc-gdb.py-more-robustly-.patch b/meta/recipes-devtools/gcc/gcc/0001-Re=
+vert-libstdc-Install-libstdc-gdb.py-more-robustly-.patch
+deleted file mode 100644
+index a3e31e4f9d..0000000000
+--- a/meta/recipes-devtools/gcc/gcc/0001-Revert-libstdc-Install-libstdc-g=
+db.py-more-robustly-.patch
++++ /dev/null
+@@ -1,76 +0,0 @@
+-This change breaks installation on baremetal targets, so whilst the caus=
+e is
+-investigated revert the commit.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-From 8ec52bd0ba2141ef0bcc6f93e26a23d662b40f78 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Wed, 26 May 2021 19:54:29 +0100
+-Subject: [PATCH] Revert "libstdc++: Install libstdc++*-gdb.py more robus=
+tly
+- [PR 99453]"
+-
+-This reverts commit dbb87d6a9c37c8eca80d77782717a8144515c16d.
+----
+- libstdc++-v3/python/Makefile.am | 20 ++++++++++++++++----
+- libstdc++-v3/python/Makefile.in | 14 ++++++++++++--
+- 2 files changed, 28 insertions(+), 6 deletions(-)
+-
+-diff --git a/libstdc++-v3/python/Makefile.am b/libstdc++-v3/python/Makef=
+ile.am
+-index 0c2b207b86e..01517a2a522 100644
+---- a/libstdc++-v3/python/Makefile.am
+-+++ b/libstdc++-v3/python/Makefile.am
+-@@ -44,9 +44,21 @@ gdb.py: hook.in Makefile
+- install-data-local: gdb.py
+- 	@$(mkdir_p) $(DESTDIR)$(toolexeclibdir)
+- ## We want to install gdb.py as SOMETHING-gdb.py.  SOMETHING is the
+--## full name of the final library.  We use the libtool .la file to get
+--## the correct name.
+--	@libname=3D`sed -ne "/^library_names=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;=
+}" \
+--	          $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+-+## full name of the final library.  We want to ignore symlinks, the
+-+## .la file, and any previous -gdb.py file.  This is inherently
+-+## fragile, but there does not seem to be a better option, because
+-+## libtool hides the real names from us.
+-+	@here=3D`pwd`; cd $(DESTDIR)$(toolexeclibdir); \
+-+	  for file in libstdc++.*; do \
+-+	    case $$file in \
+-+	      *-gdb.py) ;; \
+-+	      *.la) ;; \
+-+	      *) if test -h $$file; then \
+-+	           continue; \
+-+	         fi; \
+-+	         libname=3D$$file;; \
+-+	    esac; \
+-+	  done; \
+-+	cd $$here; \
+- 	echo " $(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gd=
+b.py"; \
+- 	$(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gdb.py
+-diff --git a/libstdc++-v3/python/Makefile.in b/libstdc++-v3/python/Makef=
+ile.in
+-index 2efe0b96a19..c35dbe55961 100644
+---- a/libstdc++-v3/python/Makefile.in
+-+++ b/libstdc++-v3/python/Makefile.in
+-@@ -607,8 +607,18 @@ gdb.py: hook.in Makefile
+-=20
+- install-data-local: gdb.py
+- 	@$(mkdir_p) $(DESTDIR)$(toolexeclibdir)
+--	@libname=3D`sed -ne "/^library_names=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;=
+}" \
+--	          $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+-+	@here=3D`pwd`; cd $(DESTDIR)$(toolexeclibdir); \
+-+	  for file in libstdc++.*; do \
+-+	    case $$file in \
+-+	      *-gdb.py) ;; \
+-+	      *.la) ;; \
+-+	      *) if test -h $$file; then \
+-+	           continue; \
+-+	         fi; \
+-+	         libname=3D$$file;; \
+-+	    esac; \
+-+	  done; \
+-+	cd $$here; \
+- 	echo " $(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gd=
+b.py"; \
+- 	$(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gdb.py
+-=20
+---=20
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/gcc/gcc/0001-libstdc-Fix-installation-=
+of-python-hooks-PR-99453.patch b/meta/recipes-devtools/gcc/gcc/0001-libst=
+dc-Fix-installation-of-python-hooks-PR-99453.patch
 new file mode 100644
-index 00000000000..2a885b9d374
+index 0000000000..d82f533cb4
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2021-23336.patch
-@@ -0,0 +1,530 @@
-+From 3ab6f812653e79d008d5eba31dc25d34f3ca7170 Mon Sep 17 00:00:00 2001
-+From: Senthil Kumaran <senthil@uthcode.com>
-+Date: Mon, 15 Feb 2021 10:15:02 -0800
-+Subject: [PATCH] bpo-42967: only use '&' as a query string separator
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/gcc/gcc/0001-libstdc-Fix-installation-of-pyth=
+on-hooks-PR-99453.patch
+@@ -0,0 +1,57 @@
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
-+ (GH-24297)  (#24529)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++From ad4c21f0f59b52357019148ec94d767aa2acd8f2 Mon Sep 17 00:00:00 2001
++From: Jonathan Wakely <jwakely@redhat.com>
++Date: Tue, 1 Jun 2021 11:00:16 +0100
++Subject: [PATCH] libstdc++: Fix installation of python hooks [PR 99453]
 +
-+* bpo-42967: only use '&' as a query string separator (#24297)
++When no shared library is installed, the new code to determine the name
++of the -gdb.py file yields an empty string. Use the name of the static
++library in that case.
 +
-+bpo-42967: [security] Address a web cache-poisoning issue reported in
-+urllib.parse.parse_qsl().
++libstdc++-v3/ChangeLog:
 +
-+urllib.parse will only us "&" as query string separator by default
-+instead of both ";" and "&" as allowed in earlier versions. An optional
-+argument seperator with default value "&" is added to specify the
-+separator.
++	PR libstdc++/99453
++	* python/Makefile.am: Use archive name for printer hook if no
++	dynamic library name is available.
++	* python/Makefile.in: Regenerate.
 +
-+Co-authored-by: Éric Araujo <merwok@netwok.org>
-+Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
-+Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
-+Co-authored-by: Éric Araujo <merwok@netwok.org>
-+(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
-+
-+* [3.8] bpo-42967: only use '&' as a query string separator (GH-24297)
-+
-+bpo-42967: [security] Address a web cache-poisoning issue reported in urllib.parse.parse_qsl().
-+
-+urllib.parse will only us "&" as query string separator by default instead of both ";" and "&" as allowed in earlier versions. An optional argument seperator with default value "&" is added to specify the separator.
-+
-+Co-authored-by: Éric Araujo <merwok@netwok.org>
-+Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
-+Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
-+Co-authored-by: Éric Araujo <merwok@netwok.org>.
-+(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
-+
-+Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
-+
-+* Update correct version information.
-+
-+* fix docs and make logic clearer
-+
-+Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
-+Co-authored-by: Fidget-Spinner <28750310+Fidget-Spinner@users.noreply.github.com>
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/e3110c3cfbb7daa690d54d0eff6c264c870a71bf]
-+CVE: CVE-2020-23336
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
++(cherry picked from commit 9f7bc160b4a0f27dce248d1226e3ae7104b0e67b)
 +---
-+ Doc/library/cgi.rst                           | 11 ++-
-+ Doc/library/urllib.parse.rst                  | 22 +++++-
-+ Doc/whatsnew/3.6.rst                          | 13 ++++
-+ Doc/whatsnew/3.7.rst                          | 13 ++++
-+ Lib/cgi.py                                    | 23 ++++---
-+ Lib/test/test_cgi.py                          | 29 ++++++--
-+ Lib/test/test_urlparse.py                     | 68 +++++++++++++------
-+ Lib/urllib/parse.py                           | 19 ++++--
-+ .../2021-02-14-15-59-16.bpo-42967.YApqDS.rst  |  1 +
-+ 9 files changed, 153 insertions(+), 46 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
++ libstdc++-v3/python/Makefile.am | 4 ++++
++ libstdc++-v3/python/Makefile.in | 4 ++++
++ 2 files changed, 8 insertions(+)
 +
-+diff --git a/Doc/library/cgi.rst b/Doc/library/cgi.rst
-+index 4048592..880074b 100644
-+--- a/Doc/library/cgi.rst
-++++ b/Doc/library/cgi.rst
-+@@ -277,14 +277,16 @@ These are useful if you want more control, or if you want to employ some of the
-+ algorithms implemented in this module in other circumstances.
-+ 
-+ 
-+-.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False)
-++.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False, separator="&")
-+ 
-+    Parse a query in the environment or from a file (the file defaults to
-+-   ``sys.stdin``).  The *keep_blank_values* and *strict_parsing* parameters are
-++   ``sys.stdin``).  The *keep_blank_values*, *strict_parsing* and *separator* parameters are
-+    passed to :func:`urllib.parse.parse_qs` unchanged.
-+ 
-++   .. versionchanged:: 3.8.8
-++      Added the *separator* parameter.
-+ 
-+-.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace")
-++.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator="&")
-+ 
-+    Parse input of type :mimetype:`multipart/form-data` (for  file uploads).
-+    Arguments are *fp* for the input file, *pdict* for a dictionary containing
-+@@ -303,6 +305,9 @@ algorithms implemented in this module in other circumstances.
-+       Added the *encoding* and *errors* parameters.  For non-file fields, the
-+       value is now a list of strings, not bytes.
-+ 
-++   .. versionchanged:: 3.8.8
-++      Added the *separator* parameter.
-++
-+ 
-+ .. function:: parse_header(string)
-+ 
-+diff --git a/Doc/library/urllib.parse.rst b/Doc/library/urllib.parse.rst
-+index 52f98ef..45ca03a 100644
-+--- a/Doc/library/urllib.parse.rst
-++++ b/Doc/library/urllib.parse.rst
-+@@ -165,7 +165,7 @@ or on combining URL components into a URL string.
-+       now raise :exc:`ValueError`.
-+ 
-+ 
-+-.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
-++.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
-+ 
-+    Parse a query string given as a string argument (data of type
-+    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a
-+@@ -190,6 +190,9 @@ or on combining URL components into a URL string.
-+    read. If set, then throws a :exc:`ValueError` if there are more than
-+    *max_num_fields* fields read.
-+ 
-++   The optional argument *separator* is the symbol to use for separating the
-++   query arguments. It defaults to ``&``.
-++
-+    Use the :func:`urllib.parse.urlencode` function (with the ``doseq``
-+    parameter set to ``True``) to convert such dictionaries into query
-+    strings.
-+@@ -201,8 +204,14 @@ or on combining URL components into a URL string.
-+    .. versionchanged:: 3.8
-+       Added *max_num_fields* parameter.
-+ 
-++   .. versionchanged:: 3.8.8
-++      Added *separator* parameter with the default value of ``&``. Python
-++      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
-++      query parameter separator. This has been changed to allow only a single
-++      separator key, with ``&`` as the default separator.
-++
-+ 
-+-.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
-++.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
-+ 
-+    Parse a query string given as a string argument (data of type
-+    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a list of
-+@@ -226,6 +235,9 @@ or on combining URL components into a URL string.
-+    read. If set, then throws a :exc:`ValueError` if there are more than
-+    *max_num_fields* fields read.
-+ 
-++   The optional argument *separator* is the symbol to use for separating the
-++   query arguments. It defaults to ``&``.
-++
-+    Use the :func:`urllib.parse.urlencode` function to convert such lists of pairs into
-+    query strings.
-+ 
-+@@ -235,6 +247,12 @@ or on combining URL components into a URL string.
-+    .. versionchanged:: 3.8
-+       Added *max_num_fields* parameter.
-+ 
-++   .. versionchanged:: 3.8.8
-++      Added *separator* parameter with the default value of ``&``. Python
-++      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
-++      query parameter separator. This has been changed to allow only a single
-++      separator key, with ``&`` as the default separator.
-++
-+ 
-+ .. function:: urlunparse(parts)
-+ 
-+diff --git a/Doc/whatsnew/3.6.rst b/Doc/whatsnew/3.6.rst
-+index 04c1f7e..4409a3a 100644
-+--- a/Doc/whatsnew/3.6.rst
-++++ b/Doc/whatsnew/3.6.rst
-+@@ -2443,3 +2443,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
-+ details, see the documentation for ``loop.create_datagram_endpoint()``.
-+ (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
-+ :issue:`37228`.)
-++
-++Notable changes in Python 3.6.13
-++================================
-++
-++Earlier Python versions allowed using both ``;`` and ``&`` as
-++query parameter separators in :func:`urllib.parse.parse_qs` and
-++:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
-++newer W3C recommendations, this has been changed to allow only a single
-++separator key, with ``&`` as the default.  This change also affects
-++:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
-++functions internally. For more details, please see their respective
-++documentation.
-++(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
-+diff --git a/Doc/whatsnew/3.7.rst b/Doc/whatsnew/3.7.rst
-+index b9b5021..8f47a9f 100644
-+--- a/Doc/whatsnew/3.7.rst
-++++ b/Doc/whatsnew/3.7.rst
-+@@ -2556,3 +2556,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
-+ details, see the documentation for ``loop.create_datagram_endpoint()``.
-+ (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
-+ :issue:`37228`.)
-++
-++Notable changes in Python 3.7.10
-++================================
-++
-++Earlier Python versions allowed using both ``;`` and ``&`` as
-++query parameter separators in :func:`urllib.parse.parse_qs` and
-++:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
-++newer W3C recommendations, this has been changed to allow only a single
-++separator key, with ``&`` as the default.  This change also affects
-++:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
-++functions internally. For more details, please see their respective
-++documentation.
-++(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
-+diff --git a/Lib/cgi.py b/Lib/cgi.py
-+index 5ace46a..13255a9 100755
-+--- a/Lib/cgi.py
-++++ b/Lib/cgi.py
-+@@ -106,7 +106,8 @@ log = initlog           # The current logging function
-+ # 0 ==> unlimited input
-+ maxlen = 0
-+ 
-+-def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
-++def parse(fp=None, environ=os.environ, keep_blank_values=0,
-++          strict_parsing=0, separator='&'):
-+     """Parse a query in the environment or from a file (default stdin)
-+ 
-+         Arguments, all optional:
-+@@ -125,6 +126,9 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
-+         strict_parsing: flag indicating what to do with parsing errors.
-+             If false (the default), errors are silently ignored.
-+             If true, errors raise a ValueError exception.
-++
-++        separator: str. The symbol to use for separating the query arguments.
-++            Defaults to &.
-+     """
-+     if fp is None:
-+         fp = sys.stdin
-+@@ -145,7 +149,7 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
-+     if environ['REQUEST_METHOD'] == 'POST':
-+         ctype, pdict = parse_header(environ['CONTENT_TYPE'])
-+         if ctype == 'multipart/form-data':
-+-            return parse_multipart(fp, pdict)
-++            return parse_multipart(fp, pdict, separator=separator)
-+         elif ctype == 'application/x-www-form-urlencoded':
-+             clength = int(environ['CONTENT_LENGTH'])
-+             if maxlen and clength > maxlen:
-+@@ -169,10 +173,10 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
-+             qs = ""
-+         environ['QUERY_STRING'] = qs    # XXX Shouldn't, really
-+     return urllib.parse.parse_qs(qs, keep_blank_values, strict_parsing,
-+-                                 encoding=encoding)
-++                                 encoding=encoding, separator=separator)
-+ 
-+ 
-+-def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
-++def parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator='&'):
-+     """Parse multipart input.
-+ 
-+     Arguments:
-+@@ -193,7 +197,7 @@ def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
-+     headers.set_type(ctype)
-+     headers['Content-Length'] = pdict['CONTENT-LENGTH']
-+     fs = FieldStorage(fp, headers=headers, encoding=encoding, errors=errors,
-+-        environ={'REQUEST_METHOD': 'POST'})
-++        environ={'REQUEST_METHOD': 'POST'}, separator=separator)
-+     return {k: fs.getlist(k) for k in fs}
-+ 
-+ def _parseparam(s):
-+@@ -303,7 +307,7 @@ class FieldStorage:
-+     def __init__(self, fp=None, headers=None, outerboundary=b'',
-+                  environ=os.environ, keep_blank_values=0, strict_parsing=0,
-+                  limit=None, encoding='utf-8', errors='replace',
-+-                 max_num_fields=None):
-++                 max_num_fields=None, separator='&'):
-+         """Constructor.  Read multipart/* until last part.
-+ 
-+         Arguments, all optional:
-+@@ -351,6 +355,7 @@ class FieldStorage:
-+         self.keep_blank_values = keep_blank_values
-+         self.strict_parsing = strict_parsing
-+         self.max_num_fields = max_num_fields
-++        self.separator = separator
-+         if 'REQUEST_METHOD' in environ:
-+             method = environ['REQUEST_METHOD'].upper()
-+         self.qs_on_post = None
-+@@ -577,7 +582,7 @@ class FieldStorage:
-+         query = urllib.parse.parse_qsl(
-+             qs, self.keep_blank_values, self.strict_parsing,
-+             encoding=self.encoding, errors=self.errors,
-+-            max_num_fields=self.max_num_fields)
-++            max_num_fields=self.max_num_fields, separator=self.separator)
-+         self.list = [MiniFieldStorage(key, value) for key, value in query]
-+         self.skip_lines()
-+ 
-+@@ -593,7 +598,7 @@ class FieldStorage:
-+             query = urllib.parse.parse_qsl(
-+                 self.qs_on_post, self.keep_blank_values, self.strict_parsing,
-+                 encoding=self.encoding, errors=self.errors,
-+-                max_num_fields=self.max_num_fields)
-++                max_num_fields=self.max_num_fields, separator=self.separator)
-+             self.list.extend(MiniFieldStorage(key, value) for key, value in query)
-+ 
-+         klass = self.FieldStorageClass or self.__class__
-+@@ -637,7 +642,7 @@ class FieldStorage:
-+                 else self.limit - self.bytes_read
-+             part = klass(self.fp, headers, ib, environ, keep_blank_values,
-+                          strict_parsing, limit,
-+-                         self.encoding, self.errors, max_num_fields)
-++                         self.encoding, self.errors, max_num_fields, self.separator)
-+ 
-+             if max_num_fields is not None:
-+                 max_num_fields -= 1
-+diff --git a/Lib/test/test_cgi.py b/Lib/test/test_cgi.py
-+index ab86771..bda03ee 100644
-+--- a/Lib/test/test_cgi.py
-++++ b/Lib/test/test_cgi.py
-+@@ -53,12 +53,9 @@ parse_strict_test_cases = [
-+     ("", ValueError("bad query field: ''")),
-+     ("&", ValueError("bad query field: ''")),
-+     ("&&", ValueError("bad query field: ''")),
-+-    (";", ValueError("bad query field: ''")),
-+-    (";&;", ValueError("bad query field: ''")),
-+     # Should the next few really be valid?
-+     ("=", {}),
-+     ("=&=", {}),
-+-    ("=;=", {}),
-+     # This rest seem to make sense
-+     ("=a", {'': ['a']}),
-+     ("&=a", ValueError("bad query field: ''")),
-+@@ -73,8 +70,6 @@ parse_strict_test_cases = [
-+     ("a=a+b&b=b+c", {'a': ['a b'], 'b': ['b c']}),
-+     ("a=a+b&a=b+a", {'a': ['a b', 'b a']}),
-+     ("x=1&y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
-+-    ("x=1;y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
-+-    ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
-+     ("Hbc5161168c542333633315dee1182227:key_store_seqid=400006&cuyer=r&view=bustomer&order_id=0bb2e248638833d48cb7fed300000f1b&expire=964546263&lobale=en-US&kid=130003.300038&ss=env",
-+      {'Hbc5161168c542333633315dee1182227:key_store_seqid': ['400006'],
-+       'cuyer': ['r'],
-+@@ -187,6 +182,30 @@ Content-Length: 3
-+                     else:
-+                         self.assertEqual(fs.getvalue(key), expect_val[0])
-+ 
-++    def test_separator(self):
-++        parse_semicolon = [
-++            ("x=1;y=2.0", {'x': ['1'], 'y': ['2.0']}),
-++            ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
-++            (";", ValueError("bad query field: ''")),
-++            (";;", ValueError("bad query field: ''")),
-++            ("=;a", ValueError("bad query field: 'a'")),
-++            (";b=a", ValueError("bad query field: ''")),
-++            ("b;=a", ValueError("bad query field: 'b'")),
-++            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
-++            ("a=a+b;a=b+a", {'a': ['a b', 'b a']}),
-++        ]
-++        for orig, expect in parse_semicolon:
-++            env = {'QUERY_STRING': orig}
-++            fs = cgi.FieldStorage(separator=';', environ=env)
-++            if isinstance(expect, dict):
-++                for key in expect.keys():
-++                    expect_val = expect[key]
-++                    self.assertIn(key, fs)
-++                    if len(expect_val) > 1:
-++                        self.assertEqual(fs.getvalue(key), expect_val)
-++                    else:
-++                        self.assertEqual(fs.getvalue(key), expect_val[0])
-++
-+     def test_log(self):
-+         cgi.log("Testing")
-+ 
-+diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
-+index 4ae6ed3..90c8d69 100644
-+--- a/Lib/test/test_urlparse.py
-++++ b/Lib/test/test_urlparse.py
-+@@ -32,16 +32,10 @@ parse_qsl_test_cases = [
-+     (b"&a=b", [(b'a', b'b')]),
-+     (b"a=a+b&b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
-+     (b"a=1&a=2", [(b'a', b'1'), (b'a', b'2')]),
-+-    (";", []),
-+-    (";;", []),
-+-    (";a=b", [('a', 'b')]),
-+-    ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
-+-    ("a=1;a=2", [('a', '1'), ('a', '2')]),
-+-    (b";", []),
-+-    (b";;", []),
-+-    (b";a=b", [(b'a', b'b')]),
-+-    (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
-+-    (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
-++    (";a=b", [(';a', 'b')]),
-++    ("a=a+b;b=b+c", [('a', 'a b;b=b c')]),
-++    (b";a=b", [(b';a', b'b')]),
-++    (b"a=a+b;b=b+c", [(b'a', b'a b;b=b c')]),
-+ ]
-+ 
-+ # Each parse_qs testcase is a two-tuple that contains
-+@@ -68,16 +62,10 @@ parse_qs_test_cases = [
-+     (b"&a=b", {b'a': [b'b']}),
-+     (b"a=a+b&b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
-+     (b"a=1&a=2", {b'a': [b'1', b'2']}),
-+-    (";", {}),
-+-    (";;", {}),
-+-    (";a=b", {'a': ['b']}),
-+-    ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
-+-    ("a=1;a=2", {'a': ['1', '2']}),
-+-    (b";", {}),
-+-    (b";;", {}),
-+-    (b";a=b", {b'a': [b'b']}),
-+-    (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
-+-    (b"a=1;a=2", {b'a': [b'1', b'2']}),
-++    (";a=b", {';a': ['b']}),
-++    ("a=a+b;b=b+c", {'a': ['a b;b=b c']}),
-++    (b";a=b", {b';a': [b'b']}),
-++    (b"a=a+b;b=b+c", {b'a':[ b'a b;b=b c']}),
-+ ]
-+ 
-+ class UrlParseTestCase(unittest.TestCase):
-+@@ -884,10 +872,46 @@ class UrlParseTestCase(unittest.TestCase):
-+     def test_parse_qsl_max_num_fields(self):
-+         with self.assertRaises(ValueError):
-+             urllib.parse.parse_qs('&'.join(['a=a']*11), max_num_fields=10)
-+-        with self.assertRaises(ValueError):
-+-            urllib.parse.parse_qs(';'.join(['a=a']*11), max_num_fields=10)
-+         urllib.parse.parse_qs('&'.join(['a=a']*10), max_num_fields=10)
-+ 
-++    def test_parse_qs_separator(self):
-++        parse_qs_semicolon_cases = [
-++            (";", {}),
-++            (";;", {}),
-++            (";a=b", {'a': ['b']}),
-++            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
-++            ("a=1;a=2", {'a': ['1', '2']}),
-++            (b";", {}),
-++            (b";;", {}),
-++            (b";a=b", {b'a': [b'b']}),
-++            (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
-++            (b"a=1;a=2", {b'a': [b'1', b'2']}),
-++        ]
-++        for orig, expect in parse_qs_semicolon_cases:
-++            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
-++                result = urllib.parse.parse_qs(orig, separator=';')
-++                self.assertEqual(result, expect, "Error parsing %r" % orig)
-++
-++
-++    def test_parse_qsl_separator(self):
-++        parse_qsl_semicolon_cases = [
-++            (";", []),
-++            (";;", []),
-++            (";a=b", [('a', 'b')]),
-++            ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
-++            ("a=1;a=2", [('a', '1'), ('a', '2')]),
-++            (b";", []),
-++            (b";;", []),
-++            (b";a=b", [(b'a', b'b')]),
-++            (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
-++            (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
-++        ]
-++        for orig, expect in parse_qsl_semicolon_cases:
-++            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
-++                result = urllib.parse.parse_qsl(orig, separator=';')
-++                self.assertEqual(result, expect, "Error parsing %r" % orig)
-++
-++
-+     def test_urlencode_sequences(self):
-+         # Other tests incidentally urlencode things; test non-covered cases:
-+         # Sequence and object values.
-+diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
-+index e2b6f13..5a3e847 100644
-+--- a/Lib/urllib/parse.py
-++++ b/Lib/urllib/parse.py
-+@@ -648,7 +648,7 @@ def unquote(string, encoding='utf-8', errors='replace'):
-+ 
-+ 
-+ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
-+-             encoding='utf-8', errors='replace', max_num_fields=None):
-++             encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
-+     """Parse a query given as a string argument.
-+ 
-+         Arguments:
-+@@ -672,12 +672,15 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
-+         max_num_fields: int. If set, then throws a ValueError if there
-+             are more than n fields read by parse_qsl().
-+ 
-++        separator: str. The symbol to use for separating the query arguments.
-++            Defaults to &.
-++
-+         Returns a dictionary.
-+     """
-+     parsed_result = {}
-+     pairs = parse_qsl(qs, keep_blank_values, strict_parsing,
-+                       encoding=encoding, errors=errors,
-+-                      max_num_fields=max_num_fields)
-++                      max_num_fields=max_num_fields, separator=separator)
-+     for name, value in pairs:
-+         if name in parsed_result:
-+             parsed_result[name].append(value)
-+@@ -687,7 +690,7 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
-+ 
-+ 
-+ def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
-+-              encoding='utf-8', errors='replace', max_num_fields=None):
-++              encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
-+     """Parse a query given as a string argument.
-+ 
-+         Arguments:
-+@@ -710,19 +713,25 @@ def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
-+         max_num_fields: int. If set, then throws a ValueError
-+             if there are more than n fields read by parse_qsl().
-+ 
-++        separator: str. The symbol to use for separating the query arguments.
-++            Defaults to &.
-++
-+         Returns a list, as G-d intended.
-+     """
-+     qs, _coerce_result = _coerce_args(qs)
-+ 
-++    if not separator or (not isinstance(separator, (str, bytes))):
-++        raise ValueError("Separator must be of type string or bytes.")
-++
-+     # If max_num_fields is defined then check that the number of fields
-+     # is less than max_num_fields. This prevents a memory exhaustion DOS
-+     # attack via post bodies with many fields.
-+     if max_num_fields is not None:
-+-        num_fields = 1 + qs.count('&') + qs.count(';')
-++        num_fields = 1 + qs.count(separator)
-+         if max_num_fields < num_fields:
-+             raise ValueError('Max number of fields exceeded')
-+ 
-+-    pairs = [s2 for s1 in qs.split('&') for s2 in s1.split(';')]
-++    pairs = [s1 for s1 in qs.split(separator)]
-+     r = []
-+     for name_value in pairs:
-+         if not name_value and not strict_parsing:
-+diff --git a/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
-+new file mode 100644
-+index 0000000..f08489b
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
-+@@ -0,0 +1 @@
-++Fix web cache poisoning vulnerability by defaulting the query args separator to ``&``, and allowing the user to choose a custom separator.
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index 072ce974725..762e9444b8e 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -39,6 +39,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://CVE-2020-26116.patch \
-            file://CVE-2020-27619.patch \
-            file://CVE-2021-3177.patch \
-+	   file://CVE-2021-23336.patch \
-            "
- 
- SRC_URI_append_class-native = " \
--- 
-2.29.2
++diff --git a/libstdc++-v3/python/Makefile.am b/libstdc++-v3/python/Makef=
+ile.am
++index 0c2b207b86e..8efefa5725c 100644
++--- a/libstdc++-v3/python/Makefile.am
+++++ b/libstdc++-v3/python/Makefile.am
++@@ -48,5 +48,9 @@ install-data-local: gdb.py
++ ## the correct name.
++ 	@libname=3D`sed -ne "/^library_names=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;=
+}" \
++ 	          $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+++	if [ -z "$$libname" ]; then \
+++	  libname=3D`sed -ne "/^old_library=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;}=
+" \
+++		  $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+++	fi; \
++ 	echo " $(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gd=
+b.py"; \
++ 	$(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gdb.py
++diff --git a/libstdc++-v3/python/Makefile.in b/libstdc++-v3/python/Makef=
+ile.in
++index 2efe0b96a19..9904a9197de 100644
++--- a/libstdc++-v3/python/Makefile.in
+++++ b/libstdc++-v3/python/Makefile.in
++@@ -609,6 +609,10 @@ install-data-local: gdb.py
++ 	@$(mkdir_p) $(DESTDIR)$(toolexeclibdir)
++ 	@libname=3D`sed -ne "/^library_names=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;=
+}" \
++ 	          $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+++	if [ -z "$$libname" ]; then \
+++	  libname=3D`sed -ne "/^old_library=3D/{s/.*=3D'//;s/'$$//;s/ .*//;p;}=
+" \
+++		  $(DESTDIR)$(toolexeclibdir)/libstdc++.la`; \
+++	fi; \
++ 	echo " $(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gd=
+b.py"; \
++ 	$(INSTALL_DATA) gdb.py $(DESTDIR)$(toolexeclibdir)/$$libname-gdb.py
++=20
++--=20
++2.25.1
++
+--=20
+2.25.1
 
