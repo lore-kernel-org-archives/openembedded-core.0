@@ -1,76 +1,78 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web12.6433.1623744768677826009
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web08.6402.1623744769248604492
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Jun 2021 01:12:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SQBhHM8B;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id nb6so891229ejc.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 01:12:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ux3nDk4O;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id my49so21092426ejc.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jun 2021 01:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rVr9/y32D8iFWKoiMMQ/tuo/+8xEkY61Z+4Za+1Got0=;
-        b=SQBhHM8By3UV3NOAmSyrfPbSyVUPv2+kKzhxpmDNgoTCHc5yzBvRt+uNP+60iK7eIp
-         rrcnPDWzlaAhaACrs+AzAOowR70sZaAPRZipMVki8qFWU9OuqwrOkMUzp6DFBKRnjN+j
-         /nLGoe+fg9Z5Sl0MpJIwn9gKu7zm0g99lRhY5XIDvFyi1Qiv6p9pw50zLK/SXKWSgA4J
-         mdXmk2J3SWkLfnxhs/0TaMe12Sqx21DjyilaWdMwO+pa5i2nldtvDrYFRiMSBPcrFbQJ
-         KeMVn2qqBkP4D4MCaAMh9OgwwSzCNZa0uedWjXIdXoAPm4xs3/qJq/xomAaKV8FgZs4x
-         ndzg==
+        bh=yTJRI4E0AH1xpYfWfliEvXiTHK/3aAwEQfJNc9YwPZM=;
+        b=ux3nDk4O3NkAuYOgO6rW8A6kzpAunhqRftdC+0b4CCZdNr9sVgGSAHbb1G4/IwUeNs
+         1aCvNVZCyAF5ET387RnAF4EXtp6Ekyf2aPIDZzC/AIvY1wCWW+Q5pCPiDbHcnjyJijqM
+         XbMnu3ci+QsIsLcmjpGfJinOrqtdlX6WDYn2L2+jYY1ABnl5H8Fol4Gq3nwxT83RIL5I
+         M1UrpLWGRWWqOrGGTqKJjQJERxWIblVMi9J4W1c2yMR4lBBv5ONsVY27XwY7mhBq1Ueo
+         7CXpI/o9WJLKBKf5RYno4FYax5zAdKHRkJzjwEU1L5KfcayHrb4CgW6tEBgiW9sDFLes
+         Jtxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rVr9/y32D8iFWKoiMMQ/tuo/+8xEkY61Z+4Za+1Got0=;
-        b=VTv+j+jCqlaM6+z9SJmrxmvfxRA7MSIUyny+J+er9KWnLVY0rL58+Y4gPcjMBFra2t
-         3g1akCeywFvzxawIZInuzKNeKZwv6PYLaPM7WFXzcByPwIINRTvdyNe413nqJ/qPQV+T
-         0dXoDROdzMSNb49KMSCTAl1Lo1TZxvXBmPwvvS7kCUiB6bnMscSUhl9LQh15Zd6WzBSA
-         r1HuAWriQq1b85Z6urgvoaJIWQLapLQplfIJdJLbxdJ5QtQnpX7e5njBW68og+TylP0W
-         xyB1yHtWfwDONetyEJc7NtSrkrjjeEYQtqEI4KC0wqBqtXOw4nyS2jOQWw+pTFF485dw
-         MdGQ==
-X-Gm-Message-State: AOAM532oPtGrsDzugw06kLBVftzqAdnpdZ9ZVP3ALF++z3ID6LYGf1ow
-	x4zMfQvxs0ZuZPjk6efHfC1YSegOD+3m6A==
-X-Google-Smtp-Source: ABdhPJy8pXtrHIv6eEZ4MTgAOpLBg52PKhnE/7unsREUhWNdbAVWk26C0IJachFCwIXhDfOucfO4kw==
-X-Received: by 2002:a17:906:2e81:: with SMTP id o1mr2639065eji.446.1623744767055;
+        bh=yTJRI4E0AH1xpYfWfliEvXiTHK/3aAwEQfJNc9YwPZM=;
+        b=mOWtiwRb7WvyJgSSLAQyj3ANLZ2B0F/2xqn7GWgcxgLMKROU5dJxqRV14sgVFFMNZs
+         XEV4JgaeSwtQS8RJ8kufZF9n4z7BVoRvpuClpZMXF4r/cmCQNQ/RC959UpnYNgl8LKSE
+         +hbrw3xHQz1rMDYu6UWSs3jODqmk/rU9iU7tYqGAwztYXGoMvTwVxApD11cVQUhtMezv
+         7nbV+QT5pjT8jLF8AtPkrPLG7mXAqg2vGygl8WDehLNo4VTwmIyUzot52IU1q+nSSvuA
+         Q1cycc4z6YKNHinjJtsaniOH080A7NBnnNC2s9FvGXIvCDkJw46VUNPPxWkPyHp9Q34g
+         MH3w==
+X-Gm-Message-State: AOAM530ppASYiIkkQGAcpvbo2bOUrML7D2m87IM2V7Po9twvUbc02cR5
+	sh51OnaHu7iJmwlAsk3ykrPg70iqDyUx3g==
+X-Google-Smtp-Source: ABdhPJxtlPiHEshFcj5OL1ebDx+tiEyoImDY7KSirDKMe8+KgO5tDH1iIEfDb9eVehXVM+JAl2poKw==
+X-Received: by 2002:a17:907:35d1:: with SMTP id ap17mr20291271ejc.79.1623744767687;
         Tue, 15 Jun 2021 01:12:47 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id d2sm9118602ejo.13.2021.06.15.01.12.46
+        by smtp.gmail.com with ESMTPSA id d2sm9118602ejo.13.2021.06.15.01.12.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 01:12:46 -0700 (PDT)
+        Tue, 15 Jun 2021 01:12:47 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 03/31] cross-canadian: correct the location of pkg-config files
-Date: Tue, 15 Jun 2021 10:12:12 +0200
-Message-Id: <20210615081240.1734087-3-alex.kanavin@gmail.com>
+Subject: [PATCH 04/31] bitbake.conf: enable debuginfod in native/nativesdk
+Date: Tue, 15 Jun 2021 10:12:13 +0200
+Message-Id: <20210615081240.1734087-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615081240.1734087-1-alex.kanavin@gmail.com>
 References: <20210615081240.1734087-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-layout_libdir has not been defined for many years.
+This was an oversight when the distro feature was introduced.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/cross-canadian.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index 1e54035084..39b5bb93f4 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -155,7 +155,7 @@ libexecdir = "${exec_prefix}/libexec/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f451ba6a47..160abf40ee 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -845,8 +845,8 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
  
- FILES_${PN} = "${prefix}"
+ # Normally target distro features will not be applied to native builds:
+ # Native distro features on this list will use the target feature value
+-DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation opengl"
+-DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation opengl"
++DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opengl"
++DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opengl"
  
--export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}${layout_libdir}/pkgconfig"
-+export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}${exec_prefix}/lib/pkgconfig"
- export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR_HOST}"
- 
- do_populate_sysroot[stamp-extra-info] = ""
+ DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
+ MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
 -- 
 2.31.1
 
