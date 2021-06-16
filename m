@@ -1,102 +1,108 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.266.1623873183745321208
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+ by mx.groups.io with SMTP id smtpd.web12.756.1623875234452297645
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 12:53:03 -0700
+ Wed, 16 Jun 2021 13:27:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iBpLpe64;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id v13so1664936ple.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 12:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NUvlv4Iv68PXyyE5Ek8yjp5OEvvIgk7ajeotQSuOdpU=;
-        b=iBpLpe64nggbfZLvD9mesqIBC0EHtdGMU1IJnSbAA2g8tvmC8fFMLwPrjoya1Pkz3Q
-         cq/tin+zO4pTWXmik18cgbOaVXZ0E3qUV2mW862X2foFc1pfoi7mzbhm6muG/roOI52t
-         5s0ps1pvSvkg/u2exQji+X0v3lQpx78OzbOMGhZgLqThDIRrUbEr2ykrOy7WAFw4/bjN
-         mONcQH2WF/1PVPSYZ2Ncp9sPt7RVhl9T5PWWlej5/hJuQ2ZoFwF5+LJAadkuzrv44Ofy
-         9uhE5tVkbVBhtbqKSEhZDPTyIWY4kM1Ac+y/+9PZg+hsUt67Jowv+Oq+diHVPJBZdm/h
-         7fJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=NUvlv4Iv68PXyyE5Ek8yjp5OEvvIgk7ajeotQSuOdpU=;
-        b=sapKEp7qOzDTwKrAyQ5xoUBBh8yXXcG3H6+TCXnD07SpEExQ2RezdHPaZPrbRb1I40
-         nhKD+TNj29ymwOT/QI4ve+NXtkqHtSkKUMyqGkp+550IMvN6E7XEJrfLw/Zof81hgHff
-         MwrHOgQCgwaQVmE+KuROC+EO0uJLSwEPk4xmOmRrpbBS8F5OnkjxLw8hNFZ47YgSZHSg
-         sMubXNnEKbFM+KP/XndzxuwKw9kFtep5IXdyZe3QsMK1EEDhOemXzgvGtlRexBXsqMpk
-         i0PS/gBojmEePxfUIZBsKtwjLTyvMylTAnl0wqt41jKyjG86h86COILvXkyzJKU2SjJ/
-         qNAQ==
-X-Gm-Message-State: AOAM5332cbOt6EtqaOrELhfikdqksVYqSYUf/3O2B2legGbGW4x5cOvB
-	Z3+7bMhdaCzDgu8JbTgI6MDMzMSmn3g4Zg==
-X-Google-Smtp-Source: ABdhPJzB7zOb7Lo/lO+LOV5xvsFKce6n51r1n5Ep2V4YYLep6ZMcZoESZobusRAEXQ0h1+NIozQYJw==
-X-Received: by 2002:a17:902:d50e:b029:11e:a837:7106 with SMTP id b14-20020a170902d50eb029011ea8377106mr1112326plg.70.1623873182674;
-        Wed, 16 Jun 2021 12:53:02 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:3db2:672f:771a:8c47? ([2601:646:9200:a0f0:3db2:672f:771a:8c47])
-        by smtp.gmail.com with ESMTPSA id z185sm3159803pgb.4.2021.06.16.12.53.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Jun 2021 12:53:02 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] Use the built-in options for removing pack tools
-To: ed@tanous.net, openembedded-core@lists.openembedded.org
-References: <20210616181956.2849161-1-ed@tanous.net>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <d5b39f48-faca-04f7-a9e7-d000f962703e@gmail.com>
-Date: Wed, 16 Jun 2021 12:53:01 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ dkim=pass header.i=@cold-front.org header.s=mesmtp header.b=wEt3b7Xq;
+ spf=pass (domain: cold-front.org, ip: 66.111.4.26, mailfrom: jsbronder@cold-front.org)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.nyi.internal (Postfix) with ESMTP id AAD9C5C010A;
+	Wed, 16 Jun 2021 16:27:13 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 16 Jun 2021 16:27:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=mesmtp; bh=9nZ7X13TO5EEuovtycmSxw0
+	hGVaO7PoMwyBX1zd6XVE=; b=wEt3b7Xqlg4HWss5rktdjKqo6pyhGUg7WpZgQW7
+	KZsVdNKhmAZncQC/LVYmAp9hPJ2Zz/AbLIq/rDZR0sT4I9q/YzI88zWhYBFmrXwG
+	J9uWOmb0ul8AHXHmYtMDqKyLXt/rRwkdflHrk2qA/GjXOraklGw971/japTtyvns
+	eYWo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9nZ7X13TO5EEuovty
+	cmSxw0hGVaO7PoMwyBX1zd6XVE=; b=WUjkuCuQGAT9jyqn5gt7G+4BNeiSAG7Tz
+	lm7syK8uqNlwBDIY0QemkQK8F9JpES4E0zTwpSvEi+FX/vgk5eiRo53/poTTK3pq
+	HlXZj82DSlMnCoH7XUZ8onJI8UhOpmKd0o80+egc5IrwyL/a1XGOiAnemuopWWa0
+	PORLqeXghZB//x0cnALuvTWEWkdAQMFM5pTkEcg31vyoE5V/2D8wXXlQed0V7qc5
+	n/OVNvC7U4Ry/aPosFOFVN++0ibCav8DMttm2N1xTbuBKTMvAd+p14M3wsHg+7jY
+	TRBybYALodvq1xwqfcWD80x92Iy7w+FhWlhYFcEC2bMIQbItS7qVA==
+X-ME-Sender: <xms:oV7KYGz9AllgSwGr058FG0PbzJnpwXWoXGBUKuwcML6ft8BljVclhA>
+    <xme:oV7KYCQLeyX2k5KOwAyy34l9h6ufByLQnIwTNrdt_tvMeKvUFGgseghditjrIHX6r
+    gZipVNwr2GEdxZ0SQ>
+X-ME-Received: <xmr:oV7KYIVu9vUg0HvemwoSqkL2j8BgZE3N4RyP_zZuER8bIilj1q8r8KeRm9ohmw41bEMSAhjmc1NfdtZlirIIOMwc8bGT0N7BbNS-jb2K9cPZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledgudegudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefluhhsthhinhcuuehrohhnuggvrhcuoehjshgsrhhonhguvghr
+    segtohhlugdqfhhrohhnthdrohhrgheqnecuggftrfgrthhtvghrnhepleevieefgfejge
+    eggffhfeefkeekgeeiveejffevieekheetgfetveehvddvtddunecuffhomhgrihhnpehs
+    ihhgghgvnhdrshgrvhgvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepjhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhg
+X-ME-Proxy: <xmx:oV7KYMj4t56AhQBy2kqGDoiorTsIlbjWFNxi2rwFyu3QKu05NR6ErQ>
+    <xmx:oV7KYIBhfOJ8woslcR7pbzA7GarcfIk5zfmc213AosmDH-1QxTjaig>
+    <xmx:oV7KYNIfdZH8KAgJDb25VcdO7Erl4xFn4XgVqyIj4qJYu-hphIx9Sg>
+    <xmx:oV7KYDr37n8wTNN4EwNk0uV0NaihSTxNfN6SdI8ne6VQ4w0cHL2z1Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Jun 2021 16:27:13 -0400 (EDT)
+From: "Justin Bronder" <jsbronder@cold-front.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Justin Bronder <jsbronder@cold-front.org>
+Subject: [PATCH] populate_sdk_ext: copy BBMULTICONFIG files
+Date: Wed, 16 Jun 2021 16:27:09 -0400
+Message-Id: <20210616202709.5143-1-jsbronder@cold-front.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210616181956.2849161-1-ed@tanous.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+As the generated local.conf includes BBMULTICONFIG, the referenced files
+in conf/multiconfig also need to be copied.  Otherwise with
+BBMULTICONFIG="abc" for instance, building the esdk fails with:
 
+ERROR: ParseError at tmp/build-glibc/work/qemux86_64-oe-linux/core-image-ssh/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/openembedded-core/meta/conf/bitbake.conf:767: Could not include required file conf/multiconfig/abc.conf
 
-On 6/16/21 11:19 AM, ed@tanous.net wrote:
-> From: Ed Tanous <ed@tanous.net>
-> 
-> For distros that want to use the ENABLE_LIB_ONLY option, the rm call
-> will fail, because ENABLE_HPACK_TOOLS (set implicitly as part of
-> ENABLE_LIB_ONLY) removes those two binaries from the build, so they then
-> can't be removed again.  This commit sets ENABLE_HPACK_TOOLS=OFF, which not
-> only allows for the option to be overridden in other meta layers, also
-> allows a simplified use of ENABLE_LIB_ONLY in meta layers that don't
-> want to ship the binaries.
-> 
-> Signed-off-by: Ed Tanous <ed@tanous.net>
-> ---
->   meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
+Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+---
+ meta/classes/populate_sdk_ext.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Thanks for this patch, this is wrong list for meta-openembedded patches, 
-please send meta-openembedded patches to 
-openembedded-devel@lists.openembedded.org ml
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index fe840d9cfb..71f601fa9b 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -397,6 +397,13 @@ python copy_buildsystem () {
+             f.write('require conf/locked-sigs.inc\n')
+             f.write('require conf/unlocked-sigs.inc\n')
+ 
++    # Copy multiple configurations if they exist
++    if d.getVar('BBMULTICONFIG') is not None:
++        bb.utils.mkdirhier(os.path.join(baseoutpath, 'conf', 'multiconfig'))
++        for mc in d.getVar('BBMULTICONFIG').split():
++            dest_stub = "/conf/multiconfig/%s.conf" % (mc,)
++            shutil.copyfile(builddir + dest_stub, baseoutpath + dest_stub)
++
+     if os.path.exists(builddir + '/cache/bb_unihashes.dat'):
+         bb.parse.siggen.save_unitaskhashes()
+         bb.utils.mkdirhier(os.path.join(baseoutpath, 'cache'))
+@@ -556,6 +563,9 @@ python copy_buildsystem () {
+     # sdk_ext_postinst() below) thus the checksum we take here would always
+     # be different.
+     manifest_file_list = ['conf/*']
++    if d.getVar('BBMULTICONFIG') is not None:
++        manifest_file_list.append('conf/multiconfig/*')
++
+     esdk_manifest_excludes = (d.getVar('ESDK_MANIFEST_EXCLUDES') or '').split()
+     esdk_manifest_excludes_list = []
+     for exclude_item in esdk_manifest_excludes:
+@@ -564,7 +574,7 @@ python copy_buildsystem () {
+     with open(manifest_file, 'w') as f:
+         for item in manifest_file_list:
+             for fn in glob.glob(os.path.join(baseoutpath, item)):
+-                if fn == manifest_file:
++                if fn == manifest_file or os.path.isdir(fn):
+                     continue
+                 if fn in esdk_manifest_excludes_list:
+                     continue
+-- 
+2.31.1
 
-> 
-> diff --git a/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb b/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb
-> index 959cccf35..08b855262 100644
-> --- a/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb
-> +++ b/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb
-> @@ -18,11 +18,7 @@ PACKAGECONFIG[manpages] = ""
->   
->   # examples are never installed, and don't need to be built in the
->   # first place
-> -EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=ON"
-> -
-> -do_install_append() {
-> -	rm ${D}${bindir}/deflatehd ${D}${bindir}/inflatehd
-> -}
-> +EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=ON -DENABLE_HPACK_TOOLS=OFF"
->   
->   PACKAGES =+ "lib${PN} ${PN}-client ${PN}-proxy ${PN}-server"
->   
-> 
-> 
-> 
-> 
-> 
