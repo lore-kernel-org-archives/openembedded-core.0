@@ -1,208 +1,102 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.7031.1623848530475376100
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web08.7985.1623852303059752589
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 06:02:10 -0700
+ Wed, 16 Jun 2021 07:05:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=mugmNV18;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=18018a3c74=trevor.gamblin@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15GCvxeG021568
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 06:02:10 -0700
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
-	by mx0a-0064b401.pphosted.com with ESMTP id 39728b0k2e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 06:02:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O4G3NX0lhuaqo02XbetEbOytAZiRTAyijVeNKVIOp9vtxKGFRN1mtnufgBR1Ynm9OVXRWe3UiGfVgTahkOogRgjF3LEToUqXJ5w2stTOsJVegW2U6rsPSUc/XEJIBIgGfnzCXIjeLtoFhSYVbjfznLzk68Irv90FVRDNMsnkS1voGD/E1fivlFHhn/BgNL3h2tiKl1Jejlo5JapIs+yu0yoArCDQ7l6aR4pYukAI2Ugcx++GoZfU1NvkYY+KB+0FF1D6yqgTamI+7knIGSjIQz8xaxASKRzlkcH5SyJcsqYC9wAa7LToZfOQvqpmdXTpnSHeStFYY+J+zuI+kheVbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DEibJXg55VIHPoP6bxHNmlAZ0uw8efft7tD187Hv7hk=;
- b=lIW5nBUoj61JnQ57P0ksKPl3VIBsVP7pObkayM0bFunTybK/HOAXx22nuaXF8VeJ1fXjnvkfvcvKPohqd/y3r7P0GcnSQOu2zOL7fhB/oBm1Tg5f2JUBjQRQOMBjYiQUp2bdP0nIRh8YnXx/Fnz40EdpNVabKG5HDCZHTG51Cyag0BpRGxCFPWHKeik8lWcyHB6jxhxh2+FRhvpfxeK6bw9zY0svY9U20JTQFdaYJSsEmcRoy0IVwA9JkoumT3P5OtYcIrj5gDZB2LXl7YJ0pKMx/vzLs7TAI0Dpfw723J8T4c3AaFTHRzVrv3NAQaC3cdWSMsaAzDOjJZi4c00ILw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Gu+mp+ki;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f179.google.com with SMTP id x196so2630442oif.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DEibJXg55VIHPoP6bxHNmlAZ0uw8efft7tD187Hv7hk=;
- b=mugmNV18m5d5yg/Jr6zK64UKmjJQp7De/eb6etIAswruYAedkX7eMeC3ApbtpSG12nZYLV9dq+Ek2fydqVDxFRDHKq6B6/b4jmHaZnWY6AwK/LmIv36H6OChGnsk6o+Si3CQrzicHiYP8wXNqVZYB0m+KGgkPlJ9Fd4Crs+pDyI=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
- by BYAPR11MB3766.namprd11.prod.outlook.com (2603:10b6:a03:b5::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Wed, 16 Jun
- 2021 13:02:08 +0000
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::b5ac:be57:85a9:f240]) by BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::b5ac:be57:85a9:f240%3]) with mapi id 15.20.4219.026; Wed, 16 Jun 2021
- 13:02:08 +0000
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tKpnv0r/d21uFzK166/3NWHhAxMArijXRtrxVvnKcgE=;
+        b=Gu+mp+kiK6pkF6Pe732JpDrf/cKAxQ2DO+au9Yd/+mLU4ZZ5dtQgCm9N1cZir3pgG8
+         ULp/A2sIOnUHgmhGBDOd35naRBS2PG647vzYC4ezWyBK5maQULvQ6O3JZmTHU9tPpJhV
+         MtGoGFwmxS74abTo+13mmBBbxX/OWduj+gVmxhh1TaIvjgbZDhpHK4auQoqCvFIAH3FG
+         MmX96jF/tfnncV5thjhrjRsihn9dZLdHAleyLW0RU4c1MrwIDryNtyekJPVGR4chW7SA
+         RyO1Ve5vQklelnRUHaPkJlhqtHnve5gopQAdX5EADB0rRiQcn5oWfJghFh0MxaXfWbhp
+         qRuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tKpnv0r/d21uFzK166/3NWHhAxMArijXRtrxVvnKcgE=;
+        b=fzbiglC9qsuiR2wgthdlhb35MUpNs9ZMO8ACO7UFZgctZbmZMw8iQZ7aFMU3umORyE
+         rD94ouXcQ2K0zi6OS+1UOmTTip40ZIhXlYaj9PZqApn3MYpO2QmlAIeVJT54dpHANg2G
+         +nW/wW+N5l/fAoqacgOdOJdb0yPyycZGAVHyEfPDQl+GZaOSukbHIBnurPqin8gYq5++
+         Xlq43uPoZ620hbNs68Fl5YyqXIYYQIlLhqjc0gddx+2/68EIzOfIsBJwSOe25qpNy3Wk
+         aaQs3upSOxiB1IbzD9YuGGuwKmrN8wl7AlDV5IoF0tu1+WQmP0Zkh9uT884gjfjgOTuB
+         YxWQ==
+X-Gm-Message-State: AOAM533RVU/dOVPhGqFTRbnQ2xGTUBlvZyPoldCfHRRALzIUqALQLlQe
+	iuJ4O59Ju6IN8/DV4jJBNW3NloPySKWdyrn3YTo=
+X-Google-Smtp-Source: ABdhPJx32OQDtajlgXbvNw3Ev/sT+ENkN/gkExK3Zd3dSaCLceaSPe/ZR5ZGnho5Dkn08emWE3Y7kw==
+X-Received: by 2002:aca:3bc3:: with SMTP id i186mr7032937oia.102.1623852301786;
+        Wed, 16 Jun 2021 07:05:01 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id w17sm434637oif.44.2021.06.16.07.04.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 07:05:01 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][hardknott][PATCH] curl: cleanup CVE patches for hardknott
-Date: Wed, 16 Jun 2021 09:02:01 -0400
-Message-Id: <20210616130201.1386572-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.31.1
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: SJ0PR13CA0119.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::34) To BY5PR11MB3909.namprd11.prod.outlook.com
- (2603:10b6:a03:191::13)
+Subject: [OE-core][dunfell 0/6] Patch review
+Date: Wed, 16 Jun 2021 04:04:23 -1000
+Message-Id: <cover.1623852080.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-tgamblin-fedora2.wrs.com (128.224.252.2) by SJ0PR13CA0119.namprd13.prod.outlook.com (2603:10b6:a03:2c5::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.7 via Frontend Transport; Wed, 16 Jun 2021 13:02:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fc726c44-e9bf-4bf0-aaf8-08d930c6f2a4
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3766:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB3766F6A974078E9E4F8E7EF89F0F9@BYAPR11MB3766.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	yHi8+mF3UI08ilXMuMtblPRqKauCBFY2mIOtrdVchFHLnKeMGrJ0jRfEkRoMF+j7XTcmWUsJhpxVpb2vvG6zTboUMtXjEF9+DBZh7oDMDe9ErFbE7s0wLBbHE+HKoWqNN8VA2luGehfFni657SB/WKt8zOTWOP0UcEv9UDfhHOHgN5svMfQP5R9kBt/N+6o52LWYI3DeWXGoNMz/KFYXMEqQVO/vbiiIEE+nwg2YzDYS8Ymtu4lFOPcRhUirVtLuNpWJQvAv4o54JP8iqcpqA7u9s4/MyTjWbDxtPqSfrF2azZyju4OTijONCIE4e2WKFP2MhTdhYRVS8Z1TnKTXVtrSndf7QoqVi6A7viRbCZQbgGD0pI1McyQujeTP545vm1FokTcGRWsy4yq+bxHVXKLdmDTOC1lvXqQee9wn2x6WgrTJfR5T8R0Xllkhiv3dt76x60mbTjJ/oRgct/yxoYhtgSQP8zN80qfc3DEPAvk9LTSYXItHD3bH1wJRkua95iOPpbib1gid1dnYlM/IiAaNPtyAR/O16LZoscNfCqR4o1X1SPhGkdMNEKGiFiURYDlwOHlvac/Txkt+NlrQxaVGafpTqIoRzK86+h+97pZ0hugIBrjZzTjkIbq7CwSNi7FBdg+lFAeTb40/+mNiWnkxhg7OjzfVh1E9B6dY0oC5zs2eDZdUof//zpgjP73ONiLtD8RYAX0puOVVTwZRP9WS/fC/KPdY5IfnXu2NBbS/icMu+vB4AMfH+ndlKnU0QbLB2Z7J06hH9Gqy/EbaNB7Wywjxy5EAVZ2r+JX3vDZ/APqUEg3C1pv8jS8v4Uuu
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(39850400004)(396003)(376002)(6486002)(8936002)(956004)(2906002)(8676002)(16526019)(6666004)(66476007)(66946007)(66556008)(26005)(1076003)(2616005)(186003)(38100700002)(38350700002)(86362001)(44832011)(966005)(6512007)(36756003)(5660300002)(52116002)(83380400001)(478600001)(6916009)(316002)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6elYWT+2UsyDGwGW70k2HxSFBwCDg2B4URhO4XMav0Q4BLDDCoJ99epnr4Lr?=
- =?us-ascii?Q?OM0g/wG+KOJUMu4NN/JNZqnTwm8KqoQJGbmmcvF705NVYLWcjXvZyb4/cKYB?=
- =?us-ascii?Q?qIkoQBuiRTXMzSS8OwBKdETzvFhQheGTKZXCYOr8DDCNSJrJ2Wzh2eS5s4Cc?=
- =?us-ascii?Q?kww80BCn84rWEyktSRH9sPXWgFZRhdUwBCVHOVKhaVeD2dlftihLdtGDDtbj?=
- =?us-ascii?Q?f6haAvcfn+IqyNBimh5UKsy0HFy1dGADLtZJTZ7/5gjD5Oyf2jUGwSAkHXrG?=
- =?us-ascii?Q?lQzLYMD8SIT0KcFFCGO5lcQmMWPbMLr9FqB1qUyJ3VBnL0W58XUDTArWnWTz?=
- =?us-ascii?Q?uFw2fyuHsNJcxiIs4gpRw2G2Zibl3Kt7S2YMNIr6z3q7pDFZeTE1zzUtIunR?=
- =?us-ascii?Q?C2Mvj36AfwX9lcJWcid2lb6n38UN4peLi1W7dThMnQXedgY/mqo8iqJ0objh?=
- =?us-ascii?Q?fGOncoS66bdu5PfYD3fF4ql8nA2cdngfrtmplR54Cqc3oXNUtGvBWN9k45La?=
- =?us-ascii?Q?eBjL/vYxpJ4aETADNGwuVX4BpjeMday1rysUpsXnpe44v8q5ERiGy8zQ2JZ/?=
- =?us-ascii?Q?//41tCHtN+RQEYTKXCx/j2qLgIC5kYCzG0FDSjFnIlKIpK1kv600DXLjLYKS?=
- =?us-ascii?Q?0KBGoimfX1ZAVC6zCvhzpTrsqtT+d5S8PJQPNfBEJET4u3TLNltm+YeMYgdf?=
- =?us-ascii?Q?GhuUzCcMU80qBdYLPT41iDgSwxrhpwY6sq679o51xc3telUTjYRZFl2dQ6ZL?=
- =?us-ascii?Q?29a83S/HLIP1rP1JZ41c7E/NW8XhDBQ60P/+HSRGAngzVaagMMyJRF4ZHEsw?=
- =?us-ascii?Q?jhjikTOcjTyMZIeIToeqL//SwF9cdFxfjtz7caX+Dakxe1eq8LWO8PrL86M5?=
- =?us-ascii?Q?2mv4qi30YT6E8/cNnt8U3K19OLaUOnH1XUIZce22ub0zPJP/IFqx9AXXyss1?=
- =?us-ascii?Q?3nxFEfRWG9gLML1rnz4yDZp3DJd7O4BCzshTbvPwx1bCrvOVzjTiy9bfnO3N?=
- =?us-ascii?Q?dEVHR0LyPJ5pZ7Vc+n4k3Xl0pITCeJSX0Z8vGG203ILOrQ1vJnt6OxtO7q5G?=
- =?us-ascii?Q?zwOBWJoYmNRcx1wSlyHzaId1uJ1EjAzNZ5v+3P/0yzgY6qPKNEFP/VdYDvbJ?=
- =?us-ascii?Q?B1Nd7uB0M83C5mcNgXpcNOov5HER1Lk/y+rNWVLIrvMjCqyfELawstUTcp53?=
- =?us-ascii?Q?nMFKKPLrLEvfGg+VaKH2xzQPpXSb1bOwP9yjb3KNKn7NkJpNbMtPuVTBn0dK?=
- =?us-ascii?Q?95qOZ1We1AYKAgFfWxf1fnikvOQOwpRCvYVArZXeBn9BRXi8CnxjaC2LDpqR?=
- =?us-ascii?Q?UxoEHtvc7wfbBRhjiIFgY/uR?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc726c44-e9bf-4bf0-aaf8-08d930c6f2a4
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 13:02:08.4010
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6x6N+xCcXr3wuSggcZf8sJYmGFRGRuzpU1ZUZF9LdMKc7C8YZfwzHYPckg+3GZzIZNmpKwOXVK038tdAi2Bv+Wgge5pi5DauBnMnpohz254=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3766
-X-Proofpoint-ORIG-GUID: cX02_x_DdVKE-Y0YVwTx4Y1Mb7sTDWQ2
-X-Proofpoint-GUID: cX02_x_DdVKE-Y0YVwTx4Y1Mb7sTDWQ2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-06-16_07:2021-06-15,2021-06-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- phishscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
- malwarescore=0 adultscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106160075
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-The patch backported to address CVE-2021-22890 was missing a bracket to
-properly close out the logic in lib/vtls/wolfssl.c. Fix this so to avoid
-any surprise failures when using curl with hardknott.
+Please review this next set of patches for dundell and have comments back by
+end of day Thursday.
 
-Also fix the CVE designation in the patch descriptions for CVEs
-CVE-2021-22890 and CVE-2021-22876 so that CVE checks run with bitbake
-correctly detect that they are patched.
+Passed a-full on autobuilder:
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- ...oxy-argument-to-Curl_ssl_get-addsession.patch | 16 ++++++++--------
- ...p-credentials-from-the-auto-referer-hea.patch |  5 ++++-
- 2 files changed, 12 insertions(+), 9 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2247
 
-diff --git a/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch b/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
-index a0c7d68f33..1e0e18cf12 100644
---- a/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
-+++ b/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
-@@ -1,15 +1,14 @@
--From a2d3885223db9616283bfe33435fbe9b3140eac7 Mon Sep 17 00:00:00 2001
-+From e499142d377b56c7606437d14c99d3cb27aba9fd Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <trevor.gamblin@windriver.com>
- Date: Tue, 1 Jun 2021 09:50:20 -0400
--Subject: [PATCH 1/2] vtls: add 'isproxy' argument to
-- Curl_ssl_get/addsessionid()
-+Subject: [PATCH] vtls: add 'isproxy' argument to Curl_ssl_get/addsessionid()
- 
- To make sure we set and extract the correct session.
- 
- Reported-by: Mingtao Yang
- Bug: https://curl.se/docs/CVE-2021-22890.html
- 
--CVE-2021-22890
-+CVE: CVE-2021-22890
- 
- Upstream-Status: Backport
- (https://github.com/curl/curl/commit/b09c8ee15771c614c4bf3ddac893cdb12187c844)
-@@ -25,8 +24,8 @@ Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-  lib/vtls/sectransp.c | 10 ++++----
-  lib/vtls/vtls.c      | 12 +++++++---
-  lib/vtls/vtls.h      |  2 ++
-- lib/vtls/wolfssl.c   | 28 +++++++++++++----------
-- 10 files changed, 111 insertions(+), 51 deletions(-)
-+ lib/vtls/wolfssl.c   | 29 ++++++++++++++----------
-+ 10 files changed, 112 insertions(+), 51 deletions(-)
- 
- diff --git a/lib/vtls/bearssl.c b/lib/vtls/bearssl.c
- index 29b08c0e6..0432dfadc 100644
-@@ -463,7 +462,7 @@ index 9666682ec..4dc29794c 100644
-                                 size_t idsize,
-                                 int sockindex);
- diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
--index e1fa45926..e4c70877f 100644
-+index e1fa45926..f1b12b1d8 100644
- --- a/lib/vtls/wolfssl.c
- +++ b/lib/vtls/wolfssl.c
- @@ -516,7 +516,9 @@ wolfssl_connect_step1(struct Curl_easy *data, struct connectdata *conn,
-@@ -477,7 +476,7 @@ index e1fa45926..e4c70877f 100644
-        /* we got a session id, use it! */
-        if(!SSL_set_session(backend->handle, ssl_sessionid)) {
-          char error_buffer[WOLFSSL_MAX_ERROR_SZ];
--@@ -774,21 +776,23 @@ wolfssl_connect_step3(struct Curl_easy *data, struct connectdata *conn,
-+@@ -774,21 +776,24 @@ wolfssl_connect_step3(struct Curl_easy *data, struct connectdata *conn,
-      void *old_ssl_sessionid = NULL;
-  
-      our_ssl_sessionid = SSL_get_session(backend->handle);
-@@ -501,6 +500,7 @@ index e1fa45926..e4c70877f 100644
- +            infof(data, "old SSL session ID is stale, removing\n");
- +            Curl_ssl_delsessionid(data, old_ssl_sessionid);
- +            incache = FALSE;
-++        }
-        }
-      }
-  
-diff --git a/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch b/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
-index 6c4f6f2f48..c02c9bed68 100644
---- a/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
-+++ b/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
-@@ -6,7 +6,10 @@ Subject: [PATCH 2/2] transfer: strip credentials from the auto-referer header
- 
- Added test 2081 to verify.
- 
--CVE-2021-22876
-+CVE: CVE-2021-22876
-+
-+Upstream-Status: Backport
-+(https://github.com/curl/curl/commit/7214288898f5625a6cc196e22a74232eada7861c)
- 
- Bug: https://curl.se/docs/CVE-2021-22876.html
- 
+The following changes since commit 2246b0d7a71c69eb2e89c55991d1387069895466:
+
+  kernel-devicetree: Introduce KERNEL_DTC_FLAGS to pass dtc flags (2021-06-08 04:32:17 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Andrea Adami (1):
+  kernel.bbclass: fix do_sizecheck() comparison
+
+Kai Kang (1):
+  valgrind: fix a typo
+
+Lee Chee Yang (4):
+  gstreamer-plugins-good: fix CVE-2021-3497 CVE-2021-3498
+  bind: 9.11.22 -> 9.11.32
+  ruby: 2.7.1 -> 2.7.3
+  python3: fix CVE-2021-23336
+
+ meta/classes/kernel.bbclass                   |   2 +-
+ .../bind/bind/CVE-2020-8625.patch             |  17 -
+ .../bind/{bind_9.11.22.bb => bind_9.11.32.bb} |   5 +-
+ .../python/python3/CVE-2021-23336.patch       | 530 ++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
+ .../ruby/ruby/CVE-2020-25613.patch            |  40 --
+ .../ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb}     |   5 +-
+ .../valgrind/valgrind_3.15.0.bb               |   2 +-
+ .../CVE-2021-3497.patch                       | 207 +++++++
+ .../CVE-2021-3498.patch                       |  44 ++
+ .../gstreamer1.0-plugins-good_1.16.3.bb       |   2 +
+ 11 files changed, 790 insertions(+), 65 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+ rename meta/recipes-connectivity/bind/{bind_9.11.22.bb => bind_9.11.32.bb} (96%)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
+ rename meta/recipes-devtools/ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb} (94%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3497.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3498.patch
+
 -- 
-2.31.1
+2.25.1
 
