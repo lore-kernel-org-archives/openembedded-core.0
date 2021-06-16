@@ -1,131 +1,60 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web08.5417.1623837937287618180
+Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
+ by mx.groups.io with SMTP id smtpd.web10.6329.1623843580648875410
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 03:05:37 -0700
+ Wed, 16 Jun 2021 04:39:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=unzHNVJv;
- spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id x13so699539vsf.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 03:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=dO8KDq/BXTm/K5DhqgkFTt6wve4H+GsCq6pKp31viHc=;
-        b=unzHNVJvITfLlA3ZBVBqr1QH5avsVuki9mj4iGpMFAIJReW8cMM0rdWiUJGKvDC7MK
-         O6olPFQu5bCfj+5YSVb0x6NQmWg/+TIJ3D1y8dgXNfnhNzphlZ048l+NbXe174MekH5Z
-         xi1Fhj2LaYkBzNiEH5GiiUabcaIGk5NDPXGeO1sRbaDZHfiKPWZItHySciyjgBc8LDxq
-         qjiLH8f06REVp2FRBKt8kzQEKQn4sCoT4dk8XdPxhH9ZQSIN1ZCgGANcLy1liZQB0sN5
-         ijyGGqOLiw6510EdQgL/xqwOeRQVKvUDkvRLp2xWPqJJBHQsYCz02MK9zVoWpmyUr59l
-         jeMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=dO8KDq/BXTm/K5DhqgkFTt6wve4H+GsCq6pKp31viHc=;
-        b=Ut13rGgA2oaRTQDNiB6tr4AQQio/pMArJwJ+2v6vfz2AhpZMqBzn3BVLJ8NzqDL5Iu
-         yIaGVZ+5eGEoXsCZ0s50CqSvvwtvR9QPdY2a948fXcJwf0Rv8j0x1EV2lUQH+qu8y8Nc
-         wLVYi4DPbRv6zlUPHB7Wupkd6pc3fZ/HKEj837C8a845tQyMen8d3WbUhRr0fO/To8X6
-         Yby6cpXKl6JkCmahPC6/TIxOOwbBgC3UTzvnJoVDz2JWkoq+wX5csjmVIUuFIivICYaD
-         tQKXI5EZ8M9wCR1NRWFqNes2n1Gd2ebxrkHQYA3ogt+eb4IMDPKrC1MDaH0zkoEKdAqF
-         7ryQ==
-X-Gm-Message-State: AOAM5329LgrzNpId1qE+B+7NCqlvp3MpJDvpvMPDyONJZTL+0+bMLF1U
-	z4097gDdsbrEpqqkwcVlqPwiIcuXGVfxqOP5/mMzsyERzyg=
-X-Google-Smtp-Source: ABdhPJxig+clB1dBoxBhhQqlsyxRF6m2d25Pi+GQqtOH7nyv1GrzZ5q9FVETMA1SCx+7go3YUWBCYC0ICnRPgKChlSY=
-X-Received: by 2002:a67:f4cb:: with SMTP id s11mr9465360vsn.20.1623837936385;
- Wed, 16 Jun 2021 03:05:36 -0700 (PDT)
+ dkim=missing; spf=none, err=SPF record not found (domain: iris-sensing.com, ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.irisgmbh.de (Postfix) with ESMTP id 2887431E032E
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 13:39:35 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at irisgmbh.de
+Received: from mail.irisgmbh.de ([127.0.0.1])
+	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new, port 10027)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jun 2021 13:39:35 +0200 (CEST)
+Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
+	by mail.irisgmbh.de (Postfix) with ESMTPS id 1259D31E02DD
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 13:39:35 +0200 (CEST)
+Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
+ ([172.30.10.11]) with mapi id 14.03.0513.000; Wed, 16 Jun 2021 13:39:34 +0200
+From: "Jasper Orschulko" <Jasper.Orschulko@iris-sensing.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [OE-core][dunfell][hardknott] expat: upstream package renamed
+Thread-Topic: [OE-core][dunfell][hardknott] expat: upstream package renamed
+Thread-Index: AQHXYqRGHmmWhILpnUyNo2uz/IgXOA==
+Date: Wed, 16 Jun 2021 11:39:33 +0000
+Message-ID: <66f0263e0c614f0c8a9d05bf623de371b9e07715.camel@iris-sensing.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.10.1]
 MIME-Version: 1.0
-References: <1688B34361FD8BD3.6379@lists.openembedded.org>
-In-Reply-To: <1688B34361FD8BD3.6379@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 16 Jun 2021 12:05:24 +0200
-Message-ID: <CANNYZj9j_SpcYSdQBTgqfCW4KALpD-DxD9fyDDbebMP82S_pKA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/31] core-image-weston: bump QB_MEM to 1G in qemuarm64
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000005f03a605c4df3b98"
+Content-Language: de-DE
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B3F5EBE4B974594AB82611ACEC11B205@irisgmbh.local>
+Content-Transfer-Encoding: base64
 
---0000000000005f03a605c4df3b98
-Content-Type: text/plain; charset="UTF-8"
-
-I'd like to take a deeper look at this, please hold.
-
-Alex
-
-On Tue, 15 Jun 2021 at 10:12, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
-
-> weston tests start additional compositors, other tests are also
-> heavy on RAM, weston itself takes 256M with opengl enabled,
-> so 512M causes OOM errors on arm64.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-graphics/images/core-image-weston.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-graphics/images/core-image-weston.bb
-> b/meta/recipes-graphics/images/core-image-weston.bb
-> index 62305cc1ce..e332e19368 100644
-> --- a/meta/recipes-graphics/images/core-image-weston.bb
-> +++ b/meta/recipes-graphics/images/core-image-weston.bb
-> @@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL += "gtk+3-demo"
->  CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES',
-> 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
->
->  QB_MEM = "-m 512"
-> +QB_MEM_qemuarm64 = "-m 1024"
-> --
-> 2.31.1
->
->
-> 
->
->
-
---0000000000005f03a605c4df3b98
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I&#39;d like to take a deeper look at this, please ho=
-ld.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 15 Jun 2021 at 10:12, Al=
-exander Kanavin via <a href=3D"http://lists.openembedded.org">lists.openemb=
-edded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembe=
-dded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">weston tests start additional com=
-positors, other tests are also<br>
-heavy on RAM, weston itself takes 256M with opengl enabled,<br>
-so 512M causes OOM errors on arm64.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
-com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
- rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a> | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-graphics/images/<a href=3D"http://core-image-wes=
-ton.bb" rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a> b/met=
-a/recipes-graphics/images/<a href=3D"http://core-image-weston.bb" rel=3D"no=
-referrer" target=3D"_blank">core-image-weston.bb</a><br>
-index 62305cc1ce..e332e19368 100644<br>
---- a/meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
- rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a><br>
-+++ b/meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
- rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a><br>
-@@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL +=3D &quot;gtk+3-demo&quot;<br>
-=C2=A0CORE_IMAGE_BASE_INSTALL +=3D &quot;${@bb.utils.contains(&#39;DISTRO_=
-FEATURES&#39;, &#39;x11&#39;, &#39;weston-xwayland matchbox-terminal&#39;, =
-&#39;&#39;, d)}&quot;<br>
-<br>
-=C2=A0QB_MEM =3D &quot;-m 512&quot;<br>
-+QB_MEM_qemuarm64 =3D &quot;-m 1024&quot;<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000005f03a605c4df3b98--
+LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCkhpLA0K
+DQpyZWNlbnRseSB0aGUgZXhwYXQgdXBzdHJlYW0gc291cmNlcyBoYXZlIGJlZW4gcmVuYW1lZCB0
+bw0KJHtQTn0te1BWfS1SRU5BTUVELVZVTE5FUkFCTEUtUExFQVNFLVVTRS0yLjQuMS1JTlNURUFE
+LnRhci54eg0Kd2hpY2ggY2F1c2VzIHRoZSBmZXRjaCB0byBmYWlsLiBUaGlzIGVmZmVjdHMgYWxs
+IGxheWVycyBleGNlcHQgbWFzdGVyLg0KDQpJTU8gd2Ugbm93IGhhdmUgdHdvIG9wdGlvbnM6DQox
+LiBjaGFuZ2UgdGhlIFNSQ19VUkkgYW5kIGJhY2twb3J0IHNlY3VyaXR5IGZpeGVzICh3aGljaCBz
+ZWVtcyBzZW5zaWJsZQ0KZm9yIHRoZSBkdW5mZWxsIExUUyBicmFuY2gpDQoyLiB1cGRhdGUgdGhl
+IHJlY2lwZXMgdG8gdXNlIDIuNC4xDQoNCi0gLS0gDQpXaXRoIGJlc3QgcmVnYXJkcw0KDQpKYXNw
+ZXIgT3JzY2h1bGtvDQpEZXZPcHMgRW5naW5lZXINCg0KVGVsLiArNDkgMzAgNTggNTggMTQgMjY1
+DQpGYXggKzQ5IDMwIDU4IDU4IDE0IDk5OQ0KSmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcu
+Y29tDQoNCuKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKA
+oiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKINCg0K
+aXJpcy1HbWJIDQppbmZyYXJlZCAmIGludGVsbGlnZW50IHNlbnNvcnMNCk9zdGVuZHN0cmHDn2Ug
+MS0xNCB8IDEyNDU5IEJlcmxpbg0KDQpodHRwczovL2lyaXMtc2Vuc2luZy5jb20vDQoNCg0KDQot
+LS0tLUJFR0lOIFBHUCBTSUdOQVRVUkUtLS0tLQ0KDQppUUV6QkFFQkNBQWRGaUVFNFd5UE1JQzVB
+cDQrT29vMVlncWV3MDdWTU5VRkFtREo0c1lBQ2drUVlncWV3MDdWDQpNTlZFTUFmOUdRc1dHalhL
+MXZYK0VRQVU2M1ZlalFleGgrS29nTW1IYlJnVDJlLzlEd09YeHM3OHpmTDAvQkxoDQp3V2c5aWpz
+ZW9tMTJuQXBkWkh6amVTR3M2WkFKVVZWSURKZkVxamZIQVQwNmZ0MXlKMEswNnRmMDZ6WHhyMmJJ
+DQpZVHU5eVh3bjR3dWdYd21BamZFS241ajBsVU1admdHYUUyUHNUaTQwdTcwR2pBSzVkVFR6WjI5
+YXB3a2ZRT0c5DQpxU1o3NWFMMURqRWEyUk04TG1nbUhabHBGU0lac0JUSFBnZjFXUW1sY091cFVS
+U1JBTUoyd3FQRFV1dTNaeTFRDQpJZU1pRUY2c1FWSTdNNW02OUlhOFUydDlsLzVlUjR4OHZmbkpK
+RWJCbUM4RUpBd2JEcDk4N2RleTM1UTVjZXg3DQpOMG9jYU56K0dlaTJBZW5vdCtxZDMwbWdFMXNv
+MXc9PQ0KPTdacXgNCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQ0K
