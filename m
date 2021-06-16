@@ -1,50 +1,50 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web08.7988.1623852315268474681
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.web11.7953.1623852319750203809
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 07:05:15 -0700
+ Wed, 16 Jun 2021 07:05:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Hlm8ve25;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.170, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f170.google.com with SMTP id c13so2605396oib.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:05:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ddpog1Oi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.45, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f45.google.com with SMTP id 5-20020a9d01050000b02903c700c45721so2570655otu.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=OJUjoGU09MXhD5Ox1kaXvgZf7Cd2XgmWnpnErvFcVI8=;
-        b=Hlm8ve253xp4w2dzqsi3WZ0WRqveu2trhSucs6tCY9PHfBTlTOlUnDA9PuVxrFGkf4
-         9G/TsCHMAO96c8ftiOE8wrElCkkua5mAuLyfx7sb3Q7gCgDKZVh9GJx/qzL47O4LssAb
-         BbwTP4EId8vHXiWTCmDAy8NgP4mV/0TV+WQubS2XDQfbwonJXxad7pdGFKBvEfWGEKwd
-         jMp6jXD+Pq2UjsZICeA6vKvt+0Wpg1EXT0KxgLBTT2jg7/00ZJ8RpfBrWSB8JEPk27Ev
-         Y/EcoCh3f4ukV0HcMDdz66Ec4Ux3HYCPeFizCDpttl682ZN9H0/Hh5jk6BKJDjebQDfN
-         MoZg==
+        bh=3Nxr9PZT16x2idofjfXXJ9EXp8wPwlUHs2Iji2xDN/s=;
+        b=ddpog1OiUILl6JBr4rsl0Nrr+bWgXb6eCLq0XI0uGLmO2Svqj2DKrveXuKjLlCY9zr
+         yT6DmTJbchZExsvmoR3T9SehOIf8xpHIH5nwLRdqD2QMuzXbH6wX3HKAqJoMKTQ2clGb
+         FqjVS1TxoZzJPFx9HgksYrOSp3HKGndiYoApYLJVUed/VCoMpDlYAeX3QDtHR2dBdbR0
+         ArM+a3uW4tWQNIXdq4ooN047oqEKNh+9/yLMAPm2LwdXl4WUlnHMdsdpuRCe3nStrVrU
+         v/GvBQaFxakOPPCqCA2VAxf6CDwz0LggCd18OTTIymo3LIQYlAcVotlGzyhq3ul4hNJG
+         KrBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OJUjoGU09MXhD5Ox1kaXvgZf7Cd2XgmWnpnErvFcVI8=;
-        b=t2DYFmvMHxX0UwcwPzRNxGMt2ZS7cF93L/RzYkdrxkrwSi7kUBGGapDIj1BFBRFla/
-         baWRtbFzs2DQTqg7FhyEUF6spFKPKYlohZfxtaebdFLvQiwN6lTIRjInyEveu1AKMVBp
-         MUpTdyeL9On1CMBPoPK2e7AnWFaA0XxXpDlBFEkvE1XW0s9dZOavFltEL/yZHsxW4cFf
-         pgYsPvDnSGeY+dZNdit1/iuSYQtO7x/8qm+Qkma1WSwoaMJiL6HyDrJ8AWQeXPeBZvvM
-         e901bCRYaGmVCCQqG9dHPKk25Y0gxNQ7xN01myKyiV4Rdkn9S/cR7bIFYn6YE4aRlqLc
-         jLOg==
-X-Gm-Message-State: AOAM531+IXi4kU/K3+g0e7BiEaNcRdncKCD/Wk+3LNfN+WL7EUGI0IEv
-	DwYCiNB7G46W539i7wyHukoNkJpylPLrOTvsJNM=
-X-Google-Smtp-Source: ABdhPJx+sVhwxnoRnCuwLBnReEdM6pib3wTQBr1dwdN+vKQgbIbuumvyTTPMGBWOMBd5u4vNDvWdqg==
-X-Received: by 2002:a54:4398:: with SMTP id u24mr3293918oiv.81.1623852313844;
-        Wed, 16 Jun 2021 07:05:13 -0700 (PDT)
+        bh=3Nxr9PZT16x2idofjfXXJ9EXp8wPwlUHs2Iji2xDN/s=;
+        b=HFGOnM22o76jX63kH31sDHpWJ7uglh9kGc5AN7r0QbjBsAFtS4KxLe9uuBl6jDXx1M
+         +Lq6+DW1wfu65QnSmDaJiB6pwFkOjzUBUFt7bKlewmXnq7XGk0hDw7pR+Ni4uxAUhagz
+         Lyrjp8zNPqEXrMSc0njq9uqAr1oXxEqQ/ZbHmY/itXzqYyKEC/SbJbybFnoM/5bKYfq4
+         DVp5t4ruZ0XxgduS9j9s2YXorRu979MaPb/t1cmBFK6NZ1WGSdAm1KuL6/FtkGSHGB6L
+         GukJClrcldHkiDImXdLgcvd6osRlfJ9GB4rVMBHvUOGUMjSIz890gUK1YOfBhswDyR79
+         P1+Q==
+X-Gm-Message-State: AOAM530AFXkHSzryNgN7D4cRFEFN63NpSrw6t/LfE1Lt5bARNpoO76zL
+	7HL4PwZeJoJXQ0dffVQ9Zmx67l0oVIkUAxObj40=
+X-Google-Smtp-Source: ABdhPJy+MOO7I5hZrYVlveXvhx4UCe4qClFy16yrPL2aNG8p4z/ojywsBQfIfZwPPRhS3xiaoiB/Rg==
+X-Received: by 2002:a9d:7414:: with SMTP id n20mr63465otk.194.1623852318487;
+        Wed, 16 Jun 2021 07:05:18 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id w17sm434637oif.44.2021.06.16.07.05.08
+        by smtp.gmail.com with ESMTPSA id w17sm434637oif.44.2021.06.16.07.05.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 07:05:13 -0700 (PDT)
+        Wed, 16 Jun 2021 07:05:18 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/6] gstreamer-plugins-good: fix CVE-2021-3497 CVE-2021-3498
-Date: Wed, 16 Jun 2021 04:04:24 -1000
-Message-Id: <865ef7d3cdc6645720762153d87771c6c4da31cf.1623852080.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/6] bind: 9.11.22 -> 9.11.32
+Date: Wed, 16 Jun 2021 04:04:25 -1000
+Message-Id: <d7e56f1910b7963d8b704107903ecf40e9472d3c.1623852080.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1623852080.git.steve@sakoman.com>
 References: <cover.1623852080.git.steve@sakoman.com>
@@ -53,292 +53,77 @@ Content-Transfer-Encoding: 8bit
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
+updates include fixes for
+CVE-2021-25214
+CVE-2021-25215
+CVE-2021-25216
+
+CVE-2020-8625 fixed in 9.11.28, so drop that patch
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+
+tmp
+
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2021-3497.patch                       | 207 ++++++++++++++++++
- .../CVE-2021-3498.patch                       |  44 ++++
- .../gstreamer1.0-plugins-good_1.16.3.bb       |   2 +
- 3 files changed, 253 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3497.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3498.patch
+ .../bind/bind/CVE-2020-8625.patch               | 17 -----------------
+ .../bind/{bind_9.11.22.bb => bind_9.11.32.bb}   |  5 ++---
+ 2 files changed, 2 insertions(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+ rename meta/recipes-connectivity/bind/{bind_9.11.22.bb => bind_9.11.32.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3497.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3497.patch
-new file mode 100644
-index 0000000000..81f7c59a7b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3497.patch
-@@ -0,0 +1,207 @@
-+From 9181191511f9c0be6a89c98b311f49d66bd46dc3 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 4 Mar 2021 13:05:19 +0200
-+Subject: [PATCH] matroskademux: Fix extraction of multichannel WavPack
-+
-+The old code had a couple of issues that all lead to potential memory
-+safety bugs.
-+
-+  - Use a constant for the Wavpack4Header size instead of using sizeof.
-+    It's written out into the data and not from the struct and who knows
-+    what special alignment/padding requirements some C compilers have.
-+  - gst_buffer_set_size() does not realloc the buffer when setting a
-+    bigger size than allocated, it only allows growing up to the maximum
-+    allocated size. Instead use a GstAdapter to collect all the blocks
-+    and take out everything at once in the end.
-+  - Check that enough data is actually available in the input and
-+    otherwise handle it an error in all cases instead of silently
-+    ignoring it.
-+
-+Among other things this fixes out of bounds writes because the code
-+assumed gst_buffer_set_size() can grow the buffer and simply wrote after
-+the end of the buffer.
-+
-+Thanks to Natalie Silvanovich for reporting.
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues/859
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/903>
-+
-+Upstream-Status: Backport
-+https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/commit/9181191511f9c0be6a89c98b311f49d66bd46dc3?merge_request_iid=903
-+CVE: CVE-2021-3497
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ gst/matroska/matroska-demux.c | 99 +++++++++++++++++++----------------
-+ gst/matroska/matroska-ids.h   |  2 +
-+ 2 files changed, 55 insertions(+), 46 deletions(-)
-+
-+diff --git a/gst/matroska/matroska-demux.c b/gst/matroska/matroska-demux.c
-+index 467815986..0e47ee7b5 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -3851,6 +3851,12 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+     guint32 block_samples, tmp;
-+     gsize size = gst_buffer_get_size (*buf);
-+ 
-++    if (size < 4) {
-++      GST_ERROR_OBJECT (element, "Too small wavpack buffer");
-++      gst_buffer_unmap (*buf, &map);
-++      return GST_FLOW_ERROR;
-++    }
-++
-+     gst_buffer_extract (*buf, 0, &tmp, sizeof (guint32));
-+     block_samples = GUINT32_FROM_LE (tmp);
-+     /* we need to reconstruct the header of the wavpack block */
-+@@ -3858,10 +3864,10 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+     /* -20 because ck_size is the size of the wavpack block -8
-+      * and lace_size is the size of the wavpack block + 12
-+      * (the three guint32 of the header that already are in the buffer) */
-+-    wvh.ck_size = size + sizeof (Wavpack4Header) - 20;
-++    wvh.ck_size = size + WAVPACK4_HEADER_SIZE - 20;
-+ 
-+     /* block_samples, flags and crc are already in the buffer */
-+-    newbuf = gst_buffer_new_allocate (NULL, sizeof (Wavpack4Header) - 12, NULL);
-++    newbuf = gst_buffer_new_allocate (NULL, WAVPACK4_HEADER_SIZE - 12, NULL);
-+ 
-+     gst_buffer_map (newbuf, &outmap, GST_MAP_WRITE);
-+     data = outmap.data;
-+@@ -3886,9 +3892,11 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+     audiocontext->wvpk_block_index += block_samples;
-+   } else {
-+     guint8 *outdata = NULL;
-+-    guint outpos = 0;
-+-    gsize buf_size, size, out_size = 0;
-++    gsize buf_size, size;
-+     guint32 block_samples, flags, crc, blocksize;
-++    GstAdapter *adapter;
-++
-++    adapter = gst_adapter_new ();
-+ 
-+     gst_buffer_map (*buf, &map, GST_MAP_READ);
-+     buf_data = map.data;
-+@@ -3897,6 +3905,7 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+     if (buf_size < 4) {
-+       GST_ERROR_OBJECT (element, "Too small wavpack buffer");
-+       gst_buffer_unmap (*buf, &map);
-++      g_object_unref (adapter);
-+       return GST_FLOW_ERROR;
-+     }
-+ 
-+@@ -3918,59 +3927,57 @@ gst_matroska_demux_add_wvpk_header (GstElement * element,
-+       data += 4;
-+       size -= 4;
-+ 
-+-      if (blocksize == 0 || size < blocksize)
-+-        break;
-+-
-+-      g_assert ((newbuf == NULL) == (outdata == NULL));
-++      if (blocksize == 0 || size < blocksize) {
-++        GST_ERROR_OBJECT (element, "Too small wavpack buffer");
-++        gst_buffer_unmap (*buf, &map);
-++        g_object_unref (adapter);
-++        return GST_FLOW_ERROR;
-++      }
-+ 
-+-      if (newbuf == NULL) {
-+-        out_size = sizeof (Wavpack4Header) + blocksize;
-+-        newbuf = gst_buffer_new_allocate (NULL, out_size, NULL);
-++      g_assert (newbuf == NULL);
-+ 
-+-        gst_buffer_copy_into (newbuf, *buf,
-+-            GST_BUFFER_COPY_TIMESTAMPS | GST_BUFFER_COPY_FLAGS, 0, -1);
-++      newbuf =
-++          gst_buffer_new_allocate (NULL, WAVPACK4_HEADER_SIZE + blocksize,
-++          NULL);
-++      gst_buffer_map (newbuf, &outmap, GST_MAP_WRITE);
-++      outdata = outmap.data;
-++
-++      outdata[0] = 'w';
-++      outdata[1] = 'v';
-++      outdata[2] = 'p';
-++      outdata[3] = 'k';
-++      outdata += 4;
-++
-++      GST_WRITE_UINT32_LE (outdata, blocksize + WAVPACK4_HEADER_SIZE - 8);
-++      GST_WRITE_UINT16_LE (outdata + 4, wvh.version);
-++      GST_WRITE_UINT8 (outdata + 6, wvh.track_no);
-++      GST_WRITE_UINT8 (outdata + 7, wvh.index_no);
-++      GST_WRITE_UINT32_LE (outdata + 8, wvh.total_samples);
-++      GST_WRITE_UINT32_LE (outdata + 12, wvh.block_index);
-++      GST_WRITE_UINT32_LE (outdata + 16, block_samples);
-++      GST_WRITE_UINT32_LE (outdata + 20, flags);
-++      GST_WRITE_UINT32_LE (outdata + 24, crc);
-++      outdata += 28;
-++
-++      memcpy (outdata, data, blocksize);
-+ 
-+-        outpos = 0;
-+-        gst_buffer_map (newbuf, &outmap, GST_MAP_WRITE);
-+-        outdata = outmap.data;
-+-      } else {
-+-        gst_buffer_unmap (newbuf, &outmap);
-+-        out_size += sizeof (Wavpack4Header) + blocksize;
-+-        gst_buffer_set_size (newbuf, out_size);
-+-        gst_buffer_map (newbuf, &outmap, GST_MAP_WRITE);
-+-        outdata = outmap.data;
-+-      }
-++      gst_buffer_unmap (newbuf, &outmap);
-++      gst_adapter_push (adapter, newbuf);
-++      newbuf = NULL;
-+ 
-+-      outdata[outpos] = 'w';
-+-      outdata[outpos + 1] = 'v';
-+-      outdata[outpos + 2] = 'p';
-+-      outdata[outpos + 3] = 'k';
-+-      outpos += 4;
-+-
-+-      GST_WRITE_UINT32_LE (outdata + outpos,
-+-          blocksize + sizeof (Wavpack4Header) - 8);
-+-      GST_WRITE_UINT16_LE (outdata + outpos + 4, wvh.version);
-+-      GST_WRITE_UINT8 (outdata + outpos + 6, wvh.track_no);
-+-      GST_WRITE_UINT8 (outdata + outpos + 7, wvh.index_no);
-+-      GST_WRITE_UINT32_LE (outdata + outpos + 8, wvh.total_samples);
-+-      GST_WRITE_UINT32_LE (outdata + outpos + 12, wvh.block_index);
-+-      GST_WRITE_UINT32_LE (outdata + outpos + 16, block_samples);
-+-      GST_WRITE_UINT32_LE (outdata + outpos + 20, flags);
-+-      GST_WRITE_UINT32_LE (outdata + outpos + 24, crc);
-+-      outpos += 28;
-+-
-+-      memmove (outdata + outpos, data, blocksize);
-+-      outpos += blocksize;
-+       data += blocksize;
-+       size -= blocksize;
-+     }
-+     gst_buffer_unmap (*buf, &map);
-+-    gst_buffer_unref (*buf);
-+ 
-+-    if (newbuf)
-+-      gst_buffer_unmap (newbuf, &outmap);
-++    newbuf = gst_adapter_take_buffer (adapter, gst_adapter_available (adapter));
-++    g_object_unref (adapter);
-+ 
-++    gst_buffer_copy_into (newbuf, *buf,
-++        GST_BUFFER_COPY_TIMESTAMPS | GST_BUFFER_COPY_FLAGS, 0, -1);
-++    gst_buffer_unref (*buf);
-+     *buf = newbuf;
-++
-+     audiocontext->wvpk_block_index += block_samples;
-+   }
-+ 
-+diff --git a/gst/matroska/matroska-ids.h b/gst/matroska/matroska-ids.h
-+index 429213f77..8d4a685a9 100644
-+--- a/gst/matroska/matroska-ids.h
-++++ b/gst/matroska/matroska-ids.h
-+@@ -688,6 +688,8 @@ typedef struct _Wavpack4Header {
-+   guint32 crc;           /* crc for actual decoded data                    */
-+ } Wavpack4Header;
-+ 
-++#define WAVPACK4_HEADER_SIZE (32)
-++
-+ typedef enum {
-+   GST_MATROSKA_TRACK_ENCODING_SCOPE_FRAME = (1<<0),
-+   GST_MATROSKA_TRACK_ENCODING_SCOPE_CODEC_DATA = (1<<1),
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3498.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3498.patch
-new file mode 100644
-index 0000000000..d3de2d5014
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3498.patch
-@@ -0,0 +1,44 @@
-+From 02174790726dd20a5c73ce2002189bf240ad4fe0 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Wed, 3 Mar 2021 11:31:52 +0200
-+Subject: [PATCH] matroskademux: Initialize track context out parameter to NULL
-+ before parsing
-+
-+Various error return paths don't set it to NULL and callers are only
-+checking if the pointer is NULL. As it's allocated on the stack this
-+usually contains random stack memory, and more often than not the memory
-+of a previously parsed track.
-+
-+This then causes all kinds of memory corruptions further down the line.
-+
-+Thanks to Natalie Silvanovich for reporting.
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues/858
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/903>
-+
-+Upstream-Status: Backport [
-+https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/commit/02174790726dd20a5c73ce2002189bf240ad4fe0?merge_request_iid=903 ]
-+CVE: CVE-2021-3498
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ gst/matroska/matroska-demux.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/gst/matroska/matroska-demux.c b/gst/matroska/matroska-demux.c
-+index 4d0234743..467815986 100644
-+--- a/gst/matroska/matroska-demux.c
-++++ b/gst/matroska/matroska-demux.c
-+@@ -692,6 +692,8 @@ gst_matroska_demux_parse_stream (GstMatroskaDemux * demux, GstEbmlRead * ebml,
-+ 
-+   DEBUG_ELEMENT_START (demux, ebml, "TrackEntry");
-+ 
-++  *dest_context = NULL;
-++
-+   /* start with the master */
-+   if ((ret = gst_ebml_read_master (ebml, &id)) != GST_FLOW_OK) {
-+     DEBUG_ELEMENT_STOP (demux, ebml, "TrackEntry", ret);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-index b3f17d4a4a..1038cbf224 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-@@ -8,6 +8,8 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
-             file://0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch \
-             file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
-+            file://CVE-2021-3497.patch \
-+            file://CVE-2021-3498.patch \
-             "
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+deleted file mode 100644
+index 9078f2448e..0000000000
+--- a/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Backporting [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
+-CVE: CVE-2020-8625
+-Signed-off-by: Minjae Kim <flowergom@gmail.com>
+-
+-diff --git a/lib/dns/spnego.c b/lib/dns/spnego.c
+-index e61d1c600f2..753dc8049fa 100644
+---- a/lib/dns/spnego.c
+-+++ b/lib/dns/spnego.c
+-@@ -848,7 +848,7 @@ der_get_oid(const unsigned char *p, size_t len, oid *data, size_t *size) {
+- 		return (ASN1_OVERRUN);
+- 	}
+- 
+--	data->components = malloc(len * sizeof(*data->components));
+-+	data->components = malloc((len + 1) * sizeof(*data->components));
+- 	if (data->components == NULL) {
+- 		return (ENOMEM);
+- 	}
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.22.bb b/meta/recipes-connectivity/bind/bind_9.11.32.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.11.22.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.32.bb
+index 5598ba976d..9feebe5ae2 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.22.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.32.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
+ SECTION = "console/network"
  
- SRC_URI[md5sum] = "c79b6c2f8eaadb2bb66615b694db399e"
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bf39058a7f64b2a934ce14dc9ec1dd45"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=b88e7ca5f21908e1b2720169f6807cf6"
+ 
+ DEPENDS = "openssl libcap zlib"
+ 
+@@ -19,10 +19,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+-           file://CVE-2020-8625.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "afc6d8015006f1cabf699ff19f517bb8fd9c1811e5231f26baf51c3550262ac9"
++SRC_URI[sha256sum] = "cbf8cb4b74dd1452d97c3a2a8c625ea346df8516b4b3508ef07443121a591342"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
 -- 
 2.25.1
 
