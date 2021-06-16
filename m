@@ -1,2255 +1,1629 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web08.8795.1623856209817301744
+Received: from mail.irisgmbh.de (mail.irisgmbh.de [81.169.172.79])
+ by mx.groups.io with SMTP id smtpd.web12.8860.1623856628368233443
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 08:10:10 -0700
+ Wed, 16 Jun 2021 08:17:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=0qV9zuus;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.41, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f41.google.com with SMTP id t11-20020a1cc30b0000b02901cec841b6a0so2731139wmf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 08:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MfTOkDd8K7L84DCNbwtQF/a0xO6YXKiwy+CMSDVIl0Q=;
-        b=0qV9zuusTSlFQ+Jus2jXHiEgdX0XiD4hua9BB1fCueWlK6exkN4oluM2e2OX09grr9
-         kILVxqPY4qEPpg26ThAvUA/KMk0QI1doaP0Ak2Yh/XDAg9A19Pe4TMq6DFtD2Ymko5d6
-         ETXr5O5+WvfnMgC82QTRssZs4SRCXYYqiDt1pQxFpoEPczLdbgZmkpdyBTGakhYdDXOU
-         uB0g/LTmNtbphxkuqAbcmW8qqBobXl+ZMQJwLr5tAw9SphZ3XlpQOZNYabkuC3ViS6Kg
-         QAzc+LLYaCpUxqUHQsMgjzGPyWyC/TgDsVweV6+LoE89tF1TeyaDp7JOHNqt+ThrepAy
-         6wLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MfTOkDd8K7L84DCNbwtQF/a0xO6YXKiwy+CMSDVIl0Q=;
-        b=ohamchzvQN2gSW1fsNNThbB0kx7FuZ82a67caWcBFCpOjhLoxjB88De7kMAumXnbOr
-         ve2s+3Djd4SLDjsmF15tsBkaH90De9JgbFsM3/zNcdW6XGIvUl1e5zumSJC0niyeZlxV
-         HdyRZwhMzZe3GybOm49nlJzyBxVFNlE3sJyIbsuYzAd3ymf+/3N8NQWoX1RwdLF4yVyK
-         fL5LgbPssMz45IPvAdiiyhpowX4ZSz8RZ2iMK+ncagQsFVxGL4+rZfeLR3+Uhn8YvU3i
-         1hZ1GbD9Eq5U7xuIsQ7HU1Y2HWIidCPzFejzupdnB3bFbqmKPlN4hR2D3Djlr+yeQZfZ
-         Wtdg==
-X-Gm-Message-State: AOAM531/a+gANkS1pWjwCuErn5vmohM0YQ/q/4/xY3Vzsn9Q0EWH1q5P
-	RFEfFLq7vQ2zdPibuYTuiRPMiG2eI98DWo9h36F6kA==
-X-Google-Smtp-Source: ABdhPJwhx13+9li+Q/4oWvGtKfw/It0O5DS+AJeN3B+WmQescDvk6lBk8v+282gf0r0v/WuEQxGGxOFPqCkJngcOoBQ=
-X-Received: by 2002:a7b:c749:: with SMTP id w9mr11888585wmk.3.1623856207526;
- Wed, 16 Jun 2021 08:10:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <168917379DAE252D.8130@lists.openembedded.org> <2c3d063872f3f664011cbbfbbe3679d52b49ff5d.camel@iris-sensing.com>
-In-Reply-To: <2c3d063872f3f664011cbbfbbe3679d52b49ff5d.camel@iris-sensing.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 16 Jun 2021 05:09:55 -1000
-Message-ID: <CAOSpxdZPuM-z3VbVJ+G8LQjOFRyRdoMcfcM5N1rENMfhQUPWEw@mail.gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: iris-sensing.com, ip: 81.169.172.79, mailfrom: jasper.orschulko@iris-sensing.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.irisgmbh.de (Postfix) with ESMTP id CB3CC31E0337;
+	Wed, 16 Jun 2021 17:17:05 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at irisgmbh.de
+Received: from mail.irisgmbh.de ([127.0.0.1])
+	by localhost (s15324379.rootmaster.info [127.0.0.1]) (amavisd-new, port 10027)
+	with ESMTP; Wed, 16 Jun 2021 17:17:05 +0200 (CEST)
+Received: from ERDE.irisgmbh.local (unknown [213.61.209.158])
+	by mail.irisgmbh.de (Postfix) with ESMTPS id 9CA8B31E032F;
+	Wed, 16 Jun 2021 17:17:05 +0200 (CEST)
+Received: from ERDE.irisgmbh.local ([172.30.10.11]) by ERDE.irisgmbh.local
+ ([172.30.10.11]) with mapi id 14.03.0513.000; Wed, 16 Jun 2021 17:17:04 +0200
+From: "Jasper Orschulko" <Jasper.Orschulko@iris-sensing.com>
+To: "steve@sakoman.com" <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core][dunfell][PATCH] expat: fix CVE-2013-0340
-To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thread-Topic: [OE-core][dunfell][PATCH] expat: fix CVE-2013-0340
+Thread-Index: AQHXYr4X6VpgCZmqTk+AGKWQhl9RtasWljoAgAAGFoCAAAHJAA==
+Date: Wed, 16 Jun 2021 15:17:03 +0000
+Message-ID: <1851f5ba7e66b19a11e5ea5f92d2d7910944d9bc.camel@iris-sensing.com>
+References: <168917379DAE252D.8130@lists.openembedded.org>
+	 <2c3d063872f3f664011cbbfbbe3679d52b49ff5d.camel@iris-sensing.com>
+	 <CAOSpxdZPuM-z3VbVJ+G8LQjOFRyRdoMcfcM5N1rENMfhQUPWEw@mail.gmail.com>
+In-Reply-To: <CAOSpxdZPuM-z3VbVJ+G8LQjOFRyRdoMcfcM5N1rENMfhQUPWEw@mail.gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.10.1]
+MIME-Version: 1.0
+Content-Language: de-DE
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EFF3B984C925BB4AAB4BC380B41BBFF2@irisgmbh.local>
+Content-Transfer-Encoding: base64
 
-On Wed, Jun 16, 2021 at 4:49 AM Jasper Orschulko
-<Jasper.Orschulko@iris-sensing.com> wrote:
->
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA256
->
-> P.S.: I am not too familiar with expat, this particular CVE, not with
-> the practise of backporting security patches, so someone(TM) should
-> definitely take a closer look at this first.
-
-Will do!
-
-A few initial comments:
-
-1. Please don't PGP sign patch emails :-)
-2. Change the patch file name to CVE-2013-0340.patch
-
-Other than that it looks OK at first glance.
-
-For reference the patch requirements for CVE's are outlined at:
-
-https://wiki.yoctoproject.org/wiki/Security
-
-in the "Patch name convention and commit message" section.
-
-Thanks for helping with CVEs!
-
-Steve
-
-
-
-
-> With best regards
->
-> Jasper Orschulko
-> DevOps Engineer
->
-> Tel. +49 30 58 58 14 265
-> Fax +49 30 58 58 14 999
-> Jasper.Orschulko@iris-sensing.com
->
-> =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =
-=E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=
-=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=
-=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2
->
-> iris-GmbH
-> infrared & intelligent sensors
-> Ostendstra=C3=9Fe 1-14 | 12459 Berlin
->
-> https://iris-sensing.com/
->
->
->
->
-> On Wed, 2021-06-16 at 14:44 +0000, Jasper Orschulko wrote:
-> > expat < 4.0 is vulnerable to billion laughs attacks (see
-> > [https://github.com/libexpat/libexpat/issues/34]). This patch
-> > backports
-> > the commits b1d039607d3d8a042bf0466bfcc1c0f104e353c8
-> > and 60959f2b491876199879d97c8ed956eabb0c2e73 from upstream.
-> >
-> > Additionally, the SRC_URI had to be adjusted due to renaming of the
-> > source archive
-> >
-> > Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-> > ---
-> >  ...expat-Backport-fix-for-CVE-2013-0340.patch | 1758
-> > +++++++++++++++++
-> >  meta/recipes-core/expat/expat_2.2.9.bb        |    3 +-
-> >  2 files changed, 1760 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/recipes-core/expat/expat/0001-expat-
-> > Backport-
-> > fix-for-CVE-2013-0340.patch
-> >
-> > diff --git a/meta/recipes-core/expat/expat/0001-expat-Backport-fix-
-> > for-
-> > CVE-2013-0340.patch b/meta/recipes-core/expat/expat/0001-expat-
-> > Backport-fix-for-CVE-2013-0340.patch
-> > new file mode 100644
-> > index 0000000000..b2ca066d96
-> > --- /dev/null
-> > +++ b/meta/recipes-core/expat/expat/0001-expat-Backport-fix-for-CVE-
-> > 2013-0340.patch
-> > @@ -0,0 +1,1758 @@
-> > +From 6f68eb0439f3c1807a143ff8c8972e74d404d8f0 Mon Sep 17 00:00:00
-> > 2001
-> > +From: Sebastian Pipping <sebastian@pipping.org>
-> > +Date: Mon, 19 Apr 2021 21:42:51 +0200
-> > +Subject: [PATCH] expat: Backport fix for CVE-2013-0340
-> > +
-> > +Issue: https://github.com/libexpat/libexpat/issues/34
-> > +
-> > +This patch cherry-picks the following commits from upstream release
-> > +2.4.0 onto 2.2.9:
-> > +
-> > +- b1d039607d3d8a042bf0466bfcc1c0f104e353c8
-> > +- 60959f2b491876199879d97c8ed956eabb0c2e73
-> > +
-> > +Upstream-Status: Backport
-> > +CVE: CVE-2013-0340
-> > +Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-> > +---
-> > + expat/lib/expat.h       |   21 +-
-> > + expat/lib/internal.h    |   30 +
-> > + expat/lib/libexpat.def  |    3 +
-> > + expat/lib/libexpatw.def |    3 +
-> > + expat/lib/xmlparse.c    | 1147
-> > +++++++++++++++++++++++++++++++++++++-
-> > -
-> > + 5 files changed, 1143 insertions(+), 61 deletions(-)
-> > +
-> > +diff --git a/expat/lib/expat.h b/expat/lib/expat.h
-> > +index 48a6e2a3..796086c2 100644
-> > +--- a/expat/lib/expat.h
-> > ++++ b/expat/lib/expat.h
-> > +@@ -115,7 +115,9 @@ enum XML_Error {
-> > +   XML_ERROR_RESERVED_PREFIX_XMLNS,
-> > +   XML_ERROR_RESERVED_NAMESPACE_URI,
-> > +   /* Added in 2.2.1. */
-> > +-  XML_ERROR_INVALID_ARGUMENT
-> > ++  XML_ERROR_INVALID_ARGUMENT,
-> > ++  /* Backported from 2.4.0. */
-> > ++  XML_ERROR_AMPLIFICATION_LIMIT_BREACH
-> > + };
-> > +
-> > + enum XML_Content_Type {
-> > +@@ -997,7 +999,10 @@ enum XML_FeatureEnum {
-> > +   XML_FEATURE_SIZEOF_XML_LCHAR,
-> > +   XML_FEATURE_NS,
-> > +   XML_FEATURE_LARGE_SIZE,
-> > +-  XML_FEATURE_ATTR_INFO
-> > ++  XML_FEATURE_ATTR_INFO,
-> > ++  /* Added in Expat 2.4.0. */
-> > ++
-> > XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DE
-> > FA
-> > ULT,
-> > ++
-> > XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEF
-> > AU
-> > LT
-> > +   /* Additional features must be added to the end of this enum. */
-> > + };
-> > +
-> > +@@ -1010,6 +1015,18 @@ typedef struct {
-> > + XMLPARSEAPI(const XML_Feature *)
-> > + XML_GetFeatureList(void);
-> > +
-> > ++#ifdef XML_DTD
-> > ++/* Backported from Expat 2.4.0. */
-> > ++XMLPARSEAPI(XML_Bool)
-> > ++XML_SetBillionLaughsAttackProtectionMaximumAmplification(
-> > ++    XML_Parser parser, float maximumAmplificationFactor);
-> > ++
-> > ++/* Backported from Expat 2.4.0. */
-> > ++XMLPARSEAPI(XML_Bool)
-> > ++XML_SetBillionLaughsAttackProtectionActivationThreshold(
-> > ++    XML_Parser parser, unsigned long long
-> > activationThresholdBytes);
-> > ++#endif
-> > ++
-> > + /* Expat follows the semantic versioning convention.
-> > +    See http://semver.org.
-> > + */
-> > +diff --git a/expat/lib/internal.h b/expat/lib/internal.h
-> > +index 60913dab..d8b31fa2 100644
-> > +--- a/expat/lib/internal.h
-> > ++++ b/expat/lib/internal.h
-> > +@@ -101,10 +101,40 @@
-> > + #  endif
-> > + #endif
-> > +
-> > ++#include <limits.h> // ULONG_MAX
-> > ++
-> > ++#if defined(_WIN32) && ! defined(__USE_MINGW_ANSI_STDIO)
-> > ++#  define EXPAT_FMT_ULL(midpart) "%" midpart "I64u"
-> > ++#  if defined(_WIN64) // Note: modifier "td" does not work for
-> > MinGW
-> > ++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "I64d"
-> > ++#  else
-> > ++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "d"
-> > ++#  endif
-> > ++#else
-> > ++#  define EXPAT_FMT_ULL(midpart) "%" midpart "llu"
-> > ++#  if ! defined(ULONG_MAX)
-> > ++#    error Compiler did not define ULONG_MAX for us
-> > ++#  elif ULONG_MAX =3D=3D 18446744073709551615u // 2^64-1
-> > ++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "ld"
-> > ++#  else
-> > ++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "d"
-> > ++#  endif
-> > ++#endif
-> > ++
-> > + #ifndef UNUSED_P
-> > + #  define UNUSED_P(p) (void)p
-> > + #endif
-> > +
-> > ++/* NOTE BEGIN If you ever patch these defaults to greater values
-> > ++              for non-attack XML payload in your environment,
-> > ++              please file a bug report with libexpat.  Thank you!
-> > ++*/
-> > ++#define
-> > \
-> > ++  100.0f
-> > ++#define
-> > \
-> > ++  8388608 // 8 MiB, 2^23
-> > ++/* NOTE END */
-> > ++
-> > + #ifdef __cplusplus
-> > + extern "C" {
-> > + #endif
-> > +diff --git a/expat/lib/libexpat.def b/expat/lib/libexpat.def
-> > +index 16faf595..b5e59d8d 100644
-> > +--- a/expat/lib/libexpat.def
-> > ++++ b/expat/lib/libexpat.def
-> > +@@ -76,3 +76,6 @@ EXPORTS
-> > +   XML_SetHashSalt @67
-> > + ; added with version 2.2.5
-> > +   _INTERNAL_trim_to_complete_utf8_characters @68
-> > ++; backported from version 2.4.0
-> > ++  XML_SetBillionLaughsAttackProtectionActivationThreshold @69
-> > ++  XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
-> > +diff --git a/expat/lib/libexpatw.def b/expat/lib/libexpatw.def
-> > +index 16faf595..ebd77707 100644
-> > +--- a/expat/lib/libexpatw.def
-> > ++++ b/expat/lib/libexpatw.def
-> > +@@ -76,3 +76,6 @@ EXPORTS
-> > +   XML_SetHashSalt @67
-> > + ; added with version 2.2.5
-> > +   _INTERNAL_trim_to_complete_utf8_characters @68
-> > ++; backported from version 2.4.0
-> > ++  XML_SetBillionLaughsAttackProtectionActivationThreshold @69
-> > ++  XML_SetBillionLaughsAttackProtectionMaximumAmplification @7
-> > +diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-> > +index 3aaf35b9..fdcc7296 100644
-> > +--- a/expat/lib/xmlparse.c
-> > ++++ b/expat/lib/xmlparse.c
-> > +@@ -47,6 +47,8 @@
-> > + #include <limits.h> /* UINT_MAX */
-> > + #include <stdio.h>  /* fprintf */
-> > + #include <stdlib.h> /* getenv, rand_s */
-> > ++#include <stdint.h> /* uintptr_t */
-> > ++#include <math.h>   /* isnan */
-> > +
-> > + #ifdef _WIN32
-> > + #  define getpid GetCurrentProcessId
-> > +@@ -373,6 +375,31 @@ typedef struct open_internal_entity {
-> > +   XML_Bool betweenDecl; /* WFC: PE Between Declarations */
-> > + } OPEN_INTERNAL_ENTITY;
-> > +
-> > ++enum XML_Account {
-> > ++  XML_ACCOUNT_DIRECT,           /* bytes directly passed to the
-> > Expat
-> > parser */
-> > ++  XML_ACCOUNT_ENTITY_EXPANSION, /* intermediate bytes produced
-> > during
-> > entity
-> > ++                                   expansion */
-> > ++  XML_ACCOUNT_NONE              /* i.e. do not account, was
-> > accounted
-> > already */
-> > ++};
-> > ++
-> > ++#ifdef XML_DTD
-> > ++typedef unsigned long long XmlBigCount;
-> > ++typedef struct accounting {
-> > ++  XmlBigCount countBytesDirect;
-> > ++  XmlBigCount countBytesIndirect;
-> > ++  int debugLevel;
-> > ++  float maximumAmplificationFactor; // >=3D1.0
-> > ++  unsigned long long activationThresholdBytes;
-> > ++} ACCOUNTING;
-> > ++
-> > ++typedef struct entity_stats {
-> > ++  unsigned int countEverOpened;
-> > ++  unsigned int currentDepth;
-> > ++  unsigned int maximumDepthSeen;
-> > ++  int debugLevel;
-> > ++} ENTITY_STATS;
-> > ++#endif /* XML_DTD */
-> > ++
-> > + typedef enum XML_Error PTRCALL Processor(XML_Parser parser, const
-> > char *start,
-> > +                                          const char *end, const
-> > char
-> > **endPtr);
-> > +
-> > +@@ -403,16 +430,18 @@ static enum XML_Error
-> > initializeEncoding(XML_Parser parser);
-> > + static enum XML_Error doProlog(XML_Parser parser, const ENCODING
-> > *enc,
-> > +                                const char *s, const char *end, int
-> > tok,
-> > +                                const char *next, const char
-> > **nextPtr,
-> > +-                               XML_Bool haveMore, XML_Bool
-> > allowClosingDoctype);
-> > ++                               XML_Bool haveMore, XML_Bool
-> > allowClosingDoctype,
-> > ++                               enum XML_Account account);
-> > + static enum XML_Error processInternalEntity(XML_Parser parser,
-> > ENTITY
-> > *entity,
-> > +                                             XML_Bool betweenDecl);
-> > + static enum XML_Error doContent(XML_Parser parser, int
-> > startTagLevel,
-> > +                                 const ENCODING *enc, const char
-> > *start,
-> > +                                 const char *end, const char
-> > **endPtr,
-> > +-                                XML_Bool haveMore);
-> > ++                                XML_Bool haveMore, enum XML_Account
-> > account);
-> > + static enum XML_Error doCdataSection(XML_Parser parser, const
-> > ENCODING *,
-> > +                                      const char **startPtr, const
-> > char *end,
-> > +-                                     const char **nextPtr, XML_Bool
-> > haveMore);
-> > ++                                     const char **nextPtr, XML_Bool
-> > haveMore,
-> > ++                                     enum XML_Account account);
-> > + #ifdef XML_DTD
-> > + static enum XML_Error doIgnoreSection(XML_Parser parser, const
-> > ENCODING *,
-> > +                                       const char **startPtr, const
-> > char *end,
-> > +@@ -422,7 +451,8 @@ static enum XML_Error doIgnoreSection(XML_Parser
-> > parser, const ENCODING *,
-> > + static void freeBindings(XML_Parser parser, BINDING *bindings);
-> > + static enum XML_Error storeAtts(XML_Parser parser, const ENCODING
-> > *,
-> > +                                 const char *s, TAG_NAME
-> > *tagNamePtr,
-> > +-                                BINDING **bindingsPtr);
-> > ++                                BINDING **bindingsPtr,
-> > ++                                enum XML_Account account);
-> > + static enum XML_Error addBinding(XML_Parser parser, PREFIX *prefix,
-> > +                                  const ATTRIBUTE_ID *attId, const
-> > XML_Char *uri,
-> > +                                  BINDING **bindingsPtr);
-> > +@@ -431,15 +461,18 @@ static int defineAttribute(ELEMENT_TYPE *type,
-> > ATTRIBUTE_ID *, XML_Bool isCdata,
-> > +                            XML_Parser parser);
-> > + static enum XML_Error storeAttributeValue(XML_Parser parser, const
-> > ENCODING *,
-> > +                                           XML_Bool isCdata, const
-> > char *,
-> > +-                                          const char *, STRING_POOL
-> > *);
-> > ++                                          const char *, STRING_POOL
-> > *,
-> > ++                                          enum XML_Account
-> > account);
-> > + static enum XML_Error appendAttributeValue(XML_Parser parser, const
-> > ENCODING *,
-> > +                                            XML_Bool isCdata, const
-> > char *,
-> > +-                                           const char *,
-> > STRING_POOL
-> > *);
-> > ++                                           const char *,
-> > STRING_POOL
-> > *,
-> > ++                                           enum XML_Account
-> > account);
-> > + static ATTRIBUTE_ID *getAttributeId(XML_Parser parser, const
-> > ENCODING
-> > *enc,
-> > +                                     const char *start, const char
-> > *end);
-> > + static int setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *);
-> > + static enum XML_Error storeEntityValue(XML_Parser parser, const
-> > ENCODING *enc,
-> > +-                                       const char *start, const
-> > char
-> > *end);
-> > ++                                       const char *start, const
-> > char
-> > *end,
-> > ++                                       enum XML_Account account);
-> > + static int reportProcessingInstruction(XML_Parser parser, const
-> > ENCODING *enc,
-> > +                                        const char *start, const
-> > char
-> > *end);
-> > + static int reportComment(XML_Parser parser, const ENCODING *enc,
-> > +@@ -503,6 +536,35 @@ static XML_Parser parserCreate(const XML_Char
-> > *encodingName,
-> > +
-> > + static void parserInit(XML_Parser parser, const XML_Char
-> > *encodingName);
-> > +
-> > ++#ifdef XML_DTD
-> > ++static float accountingGetCurrentAmplification(XML_Parser
-> > rootParser);
-> > ++static void accountingReportStats(XML_Parser originParser, const
-> > char
-> > *epilog);
-> > ++static void accountingOnAbort(XML_Parser originParser);
-> > ++static void accountingReportDiff(XML_Parser rootParser,
-> > ++                                 unsigned int
-> > levelsAwayFromRootParser,
-> > ++                                 const char *before, const char
-> > *after,
-> > ++                                 ptrdiff_t bytesMore, int
-> > source_line,
-> > ++                                 enum XML_Account account);
-> > ++static XML_Bool accountingDiffTolerated(XML_Parser originParser,
-> > int
-> > tok,
-> > ++                                        const char *before, const
-> > char *after,
-> > ++                                        int source_line,
-> > ++                                        enum XML_Account account);
-> > ++
-> > ++static void entityTrackingReportStats(XML_Parser parser, ENTITY
-> > *entity,
-> > ++                                      const char *action, int
-> > sourceLine);
-> > ++static void entityTrackingOnOpen(XML_Parser parser, ENTITY *entity,
-> > ++                                 int sourceLine);
-> > ++static void entityTrackingOnClose(XML_Parser parser, ENTITY
-> > *entity,
-> > ++                                  int sourceLine);
-> > ++
-> > ++static XML_Parser getRootParserOf(XML_Parser parser,
-> > ++                                  unsigned int *outLevelDiff);
-> > ++static const char *unsignedCharToPrintable(unsigned char c);
-> > ++#endif /* XML_DTD */
-> > ++
-> > ++static unsigned long getDebugLevel(const char *variableName,
-> > ++                                   unsigned long
-> > defaultDebugLevel);
-> > ++
-> > + #define poolStart(pool) ((pool)->start)
-> > + #define poolEnd(pool) ((pool)->ptr)
-> > + #define poolLength(pool) ((pool)->ptr - (pool)->start)
-> > +@@ -616,6 +678,10 @@ struct XML_ParserStruct {
-> > +   enum XML_ParamEntityParsing m_paramEntityParsing;
-> > + #endif
-> > +   unsigned long m_hash_secret_salt;
-> > ++#ifdef XML_DTD
-> > ++  ACCOUNTING m_accounting;
-> > ++  ENTITY_STATS m_entity_stats;
-> > ++#endif
-> > + };
-> > +
-> > + #define MALLOC(parser, s) (parser->m_mem.malloc_fcn((s)))
-> > +@@ -1055,6 +1121,18 @@ parserInit(XML_Parser parser, const XML_Char
-> > *encodingName) {
-> > +   parser->m_paramEntityParsing =3D XML_PARAM_ENTITY_PARSING_NEVER;
-> > + #endif
-> > +   parser->m_hash_secret_salt =3D 0;
-> > ++
-> > ++#ifdef XML_DTD
-> > ++  memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
-> > ++  parser->m_accounting.debugLevel =3D
-> > getDebugLevel("EXPAT_ACCOUNTING_DEBUG", 0u);
-> > ++  parser->m_accounting.maximumAmplificationFactor
-> > ++      =3D
-> > EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DEFAULT;
-> > ++  parser->m_accounting.activationThresholdBytes
-> > ++      =3D
-> > EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEFAULT;
-> > ++
-> > ++  memset(&parser->m_entity_stats, 0, sizeof(ENTITY_STATS));
-> > ++  parser->m_entity_stats.debugLevel =3D
-> > getDebugLevel("EXPAT_ENTITY_DEBUG", 0u);
-> > ++#endif
-> > + }
-> > +
-> > + /* moves list of bindings to m_freeBindingList */
-> > +@@ -2318,6 +2396,10 @@ XML_ErrorString(enum XML_Error code) {
-> > +   /* Added in 2.2.5. */
-> > +   case XML_ERROR_INVALID_ARGUMENT: /* Constant added in 2.2.1,
-> > already */
-> > +     return XML_L("invalid argument");
-> > ++  /* Backported from 2.4.0. */
-> > ++  case XML_ERROR_AMPLIFICATION_LIMIT_BREACH:
-> > ++    return XML_L(
-> > ++        "limit on input amplification factor (from DTD and
-> > entities)
-> > breached");
-> > +   }
-> > +   return NULL;
-> > + }
-> > +@@ -2354,41 +2436,75 @@ XML_ExpatVersionInfo(void) {
-> > +
-> > + const XML_Feature *XMLCALL
-> > + XML_GetFeatureList(void) {
-> > +-  static const XML_Feature features[]
-> > +-      =3D {{XML_FEATURE_SIZEOF_XML_CHAR, XML_L("sizeof(XML_Char)"),
-> > +-          sizeof(XML_Char)},
-> > +-         {XML_FEATURE_SIZEOF_XML_LCHAR, XML_L("sizeof(XML_LChar)"),
-> > +-          sizeof(XML_LChar)},
-> > ++  static const XML_Feature features[] =3D {
-> > ++      {XML_FEATURE_SIZEOF_XML_CHAR, XML_L("sizeof(XML_Char)"),
-> > ++       sizeof(XML_Char)},
-> > ++      {XML_FEATURE_SIZEOF_XML_LCHAR, XML_L("sizeof(XML_LChar)"),
-> > ++       sizeof(XML_LChar)},
-> > + #ifdef XML_UNICODE
-> > +-         {XML_FEATURE_UNICODE, XML_L("XML_UNICODE"), 0},
-> > ++      {XML_FEATURE_UNICODE, XML_L("XML_UNICODE"), 0},
-> > + #endif
-> > + #ifdef XML_UNICODE_WCHAR_T
-> > +-         {XML_FEATURE_UNICODE_WCHAR_T,
-> > XML_L("XML_UNICODE_WCHAR_T"),
-> > 0},
-> > ++      {XML_FEATURE_UNICODE_WCHAR_T, XML_L("XML_UNICODE_WCHAR_T"),
-> > 0},
-> > + #endif
-> > + #ifdef XML_DTD
-> > +-         {XML_FEATURE_DTD, XML_L("XML_DTD"), 0},
-> > ++      {XML_FEATURE_DTD, XML_L("XML_DTD"), 0},
-> > + #endif
-> > + #ifdef XML_CONTEXT_BYTES
-> > +-         {XML_FEATURE_CONTEXT_BYTES, XML_L("XML_CONTEXT_BYTES"),
-> > +-          XML_CONTEXT_BYTES},
-> > ++      {XML_FEATURE_CONTEXT_BYTES, XML_L("XML_CONTEXT_BYTES"),
-> > ++       XML_CONTEXT_BYTES},
-> > + #endif
-> > + #ifdef XML_MIN_SIZE
-> > +-         {XML_FEATURE_MIN_SIZE, XML_L("XML_MIN_SIZE"), 0},
-> > ++      {XML_FEATURE_MIN_SIZE, XML_L("XML_MIN_SIZE"), 0},
-> > + #endif
-> > + #ifdef XML_NS
-> > +-         {XML_FEATURE_NS, XML_L("XML_NS"), 0},
-> > ++      {XML_FEATURE_NS, XML_L("XML_NS"), 0},
-> > + #endif
-> > + #ifdef XML_LARGE_SIZE
-> > +-         {XML_FEATURE_LARGE_SIZE, XML_L("XML_LARGE_SIZE"), 0},
-> > ++      {XML_FEATURE_LARGE_SIZE, XML_L("XML_LARGE_SIZE"), 0},
-> > + #endif
-> > + #ifdef XML_ATTR_INFO
-> > +-         {XML_FEATURE_ATTR_INFO, XML_L("XML_ATTR_INFO"), 0},
-> > ++      {XML_FEATURE_ATTR_INFO, XML_L("XML_ATTR_INFO"), 0},
-> > + #endif
-> > +-         {XML_FEATURE_END, NULL, 0}};
-> > ++#ifdef XML_DTD
-> > ++      /* Added in Expat 2.4.0. */
-> > ++
-> > {XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_D
-> > EF
-> > AULT,
-> > ++       XML_L("XML_BLAP_MAX_AMP"),
-> > ++       (long int)
-> > ++
-> > EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DEFAULT}
-> > ,
-> > ++
-> > {XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DE
-> > FA
-> > ULT,
-> > ++       XML_L("XML_BLAP_ACT_THRES"),
-> > ++
-> > EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEFAULT},
-> > ++#endif
-> > ++      {XML_FEATURE_END, NULL, 0}};
-> > +
-> > +   return features;
-> > + }
-> > +
-> > ++#ifdef XML_DTD
-> > ++XML_Bool XMLCALL
-> > ++XML_SetBillionLaughsAttackProtectionMaximumAmplification(
-> > ++    XML_Parser parser, float maximumAmplificationFactor) {
-> > ++  if ((parser =3D=3D NULL) || (parser->m_parentParser !=3D NULL)
-> > ++      || isnan(maximumAmplificationFactor)
-> > ++      || (maximumAmplificationFactor < 1.0f)) {
-> > ++    return XML_FALSE;
-> > ++  }
-> > ++  parser->m_accounting.maximumAmplificationFactor =3D
-> > maximumAmplificationFactor;
-> > ++  return XML_TRUE;
-> > ++}
-> > ++
-> > ++XML_Bool XMLCALL
-> > ++XML_SetBillionLaughsAttackProtectionActivationThreshold(
-> > ++    XML_Parser parser, unsigned long long activationThresholdBytes)
-> > {
-> > ++  if ((parser =3D=3D NULL) || (parser->m_parentParser !=3D NULL)) {
-> > ++    return XML_FALSE;
-> > ++  }
-> > ++  parser->m_accounting.activationThresholdBytes =3D
-> > activationThresholdBytes;
-> > ++  return XML_TRUE;
-> > ++}
-> > ++#endif /* XML_DTD */
-> > ++
-> > + /* Initially tag->rawName always points into the parse buffer;
-> > +    for those TAG instances opened while the current parse buffer
-> > was
-> > +    processed, and not yet closed, we need to store tag->rawName in
-> > a
-> > more
-> > +@@ -2441,9 +2557,9 @@ storeRawNames(XML_Parser parser) {
-> > + static enum XML_Error PTRCALL
-> > + contentProcessor(XML_Parser parser, const char *start, const char
-> > *end,
-> > +                  const char **endPtr) {
-> > +-  enum XML_Error result
-> > +-      =3D doContent(parser, 0, parser->m_encoding, start, end,
-> > endPtr,
-> > +-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer);
-> > ++  enum XML_Error result =3D doContent(
-> > ++      parser, 0, parser->m_encoding, start, end, endPtr,
-> > ++      (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-> > XML_ACCOUNT_DIRECT);
-> > +   if (result =3D=3D XML_ERROR_NONE) {
-> > +     if (! storeRawNames(parser))
-> > +       return XML_ERROR_NO_MEMORY;
-> > +@@ -2468,6 +2584,14 @@ externalEntityInitProcessor2(XML_Parser
-> > parser,
-> > const char *start,
-> > +   int tok =3D XmlContentTok(parser->m_encoding, start, end, &next);
-> > +   switch (tok) {
-> > +   case XML_TOK_BOM:
-> > ++#ifdef XML_DTD
-> > ++    if (! accountingDiffTolerated(parser, tok, start, next,
-> > __LINE__,
-> > ++                                  XML_ACCOUNT_DIRECT)) {
-> > ++      accountingOnAbort(parser);
-> > ++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++    }
-> > ++#endif /* XML_DTD */
-> > ++
-> > +     /* If we are at the end of the buffer, this would cause the
-> > next
-> > stage,
-> > +        i.e. externalEntityInitProcessor3, to pass control directly
-> > to
-> > +        doContent (by detecting XML_TOK_NONE) without processing any
-> > xml text
-> > +@@ -2505,6 +2629,10 @@ externalEntityInitProcessor3(XML_Parser
-> > parser,
-> > const char *start,
-> > +   const char *next =3D start; /* XmlContentTok doesn't always set th=
-e
-> > last arg */
-> > +   parser->m_eventPtr =3D start;
-> > +   tok =3D XmlContentTok(parser->m_encoding, start, end, &next);
-> > ++  /* Note: These bytes are accounted later in:
-> > ++           - processXmlDecl
-> > ++           - externalEntityContentProcessor
-> > ++  */
-> > +   parser->m_eventEndPtr =3D next;
-> > +
-> > +   switch (tok) {
-> > +@@ -2546,7 +2674,8 @@ externalEntityContentProcessor(XML_Parser
-> > parser, const char *start,
-> > +                                const char *end, const char
-> > **endPtr)
-> > {
-> > +   enum XML_Error result
-> > +       =3D doContent(parser, 1, parser->m_encoding, start, end,
-> > endPtr,
-> > +-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer);
-> > ++                  (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-> > ++                  XML_ACCOUNT_ENTITY_EXPANSION);
-> > +   if (result =3D=3D XML_ERROR_NONE) {
-> > +     if (! storeRawNames(parser))
-> > +       return XML_ERROR_NO_MEMORY;
-> > +@@ -2557,7 +2686,7 @@ externalEntityContentProcessor(XML_Parser
-> > parser, const char *start,
-> > + static enum XML_Error
-> > + doContent(XML_Parser parser, int startTagLevel, const ENCODING
-> > *enc,
-> > +           const char *s, const char *end, const char **nextPtr,
-> > +-          XML_Bool haveMore) {
-> > ++          XML_Bool haveMore, enum XML_Account account) {
-> > +   /* save one level of indirection */
-> > +   DTD *const dtd =3D parser->m_dtd;
-> > +
-> > +@@ -2575,6 +2704,17 @@ doContent(XML_Parser parser, int
-> > startTagLevel,
-> > const ENCODING *enc,
-> > +   for (;;) {
-> > +     const char *next =3D s; /* XmlContentTok doesn't always set the
-> > last arg */
-> > +     int tok =3D XmlContentTok(enc, s, end, &next);
-> > ++#ifdef XML_DTD
-> > ++    const char *accountAfter
-> > ++        =3D ((tok =3D=3D XML_TOK_TRAILING_RSQB) || (tok =3D=3D
-> > XML_TOK_TRAILING_CR))
-> > ++              ? (haveMore ? s /* i.e. 0 bytes */ : end)
-> > ++              : next;
-> > ++    if (! accountingDiffTolerated(parser, tok, s, accountAfter,
-> > __LINE__,
-> > ++                                  account)) {
-> > ++      accountingOnAbort(parser);
-> > ++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++    }
-> > ++#endif
-> > +     *eventEndPP =3D next;
-> > +     switch (tok) {
-> > +     case XML_TOK_TRAILING_CR:
-> > +@@ -2630,6 +2770,14 @@ doContent(XML_Parser parser, int
-> > startTagLevel,
-> > const ENCODING *enc,
-> > +       XML_Char ch =3D (XML_Char)XmlPredefinedEntityName(
-> > +           enc, s + enc->minBytesPerChar, next - enc-
-> > > minBytesPerChar);
-> > +       if (ch) {
-> > ++#ifdef XML_DTD
-> > ++        /* NOTE: We are replacing 4-6 characters original input for
-> > 1
-> > character
-> > ++         *       so there is no amplification and hence recording
-> > without
-> > ++         *       protection. */
-> > ++        accountingDiffTolerated(parser, tok, (char *)&ch,
-> > ++                                ((char *)&ch) + sizeof(XML_Char),
-> > __LINE__,
-> > ++                                XML_ACCOUNT_ENTITY_EXPANSION);
-> > ++#endif /* XML_DTD */
-> > +         if (parser->m_characterDataHandler)
-> > +           parser->m_characterDataHandler(parser->m_handlerArg, &ch,
-> > 1);
-> > +         else if (parser->m_defaultHandler)
-> > +@@ -2748,7 +2896,8 @@ doContent(XML_Parser parser, int
-> > startTagLevel,
-> > const ENCODING *enc,
-> > +       }
-> > +       tag->name.str =3D (XML_Char *)tag->buf;
-> > +       *toPtr =3D XML_T('\0');
-> > +-      result =3D storeAtts(parser, enc, s, &(tag->name), &(tag-
-> > > bindings));
-> > ++      result
-> > ++          =3D storeAtts(parser, enc, s, &(tag->name), &(tag-
-> > >bindings),
-> > account);
-> > +       if (result)
-> > +         return result;
-> > +       if (parser->m_startElementHandler)
-> > +@@ -2772,7 +2921,8 @@ doContent(XML_Parser parser, int
-> > startTagLevel,
-> > const ENCODING *enc,
-> > +       if (! name.str)
-> > +         return XML_ERROR_NO_MEMORY;
-> > +       poolFinish(&parser->m_tempPool);
-> > +-      result =3D storeAtts(parser, enc, s, &name, &bindings);
-> > ++      result =3D storeAtts(parser, enc, s, &name, &bindings,
-> > ++                         XML_ACCOUNT_NONE /* token spans whole
-> > start
-> > tag */);
-> > +       if (result !=3D XML_ERROR_NONE) {
-> > +         freeBindings(parser, bindings);
-> > +         return result;
-> > +@@ -2907,7 +3057,8 @@ doContent(XML_Parser parser, int
-> > startTagLevel,
-> > const ENCODING *enc,
-> > +       /* END disabled code */
-> > +       else if (parser->m_defaultHandler)
-> > +         reportDefault(parser, enc, s, next);
-> > +-      result =3D doCdataSection(parser, enc, &next, end, nextPtr,
-> > haveMore);
-> > ++      result
-> > ++          =3D doCdataSection(parser, enc, &next, end, nextPtr,
-> > haveMore, account);
-> > +       if (result !=3D XML_ERROR_NONE)
-> > +         return result;
-> > +       else if (! next) {
-> > +@@ -3036,7 +3187,8 @@ freeBindings(XML_Parser parser, BINDING
-> > *bindings) {
-> > + */
-> > + static enum XML_Error
-> > + storeAtts(XML_Parser parser, const ENCODING *enc, const char
-> > *attStr,
-> > +-          TAG_NAME *tagNamePtr, BINDING **bindingsPtr) {
-> > ++          TAG_NAME *tagNamePtr, BINDING **bindingsPtr,
-> > ++          enum XML_Account account) {
-> > +   DTD *const dtd =3D parser->m_dtd; /* save one level of indirection
-> > */
-> > +   ELEMENT_TYPE *elementType;
-> > +   int nDefaultAtts;
-> > +@@ -3146,7 +3298,7 @@ storeAtts(XML_Parser parser, const ENCODING
-> > *enc, const char *attStr,
-> > +       /* normalize the attribute value */
-> > +       result =3D storeAttributeValue(
-> > +           parser, enc, isCdata, parser->m_atts[i].valuePtr,
-> > +-          parser->m_atts[i].valueEnd, &parser->m_tempPool);
-> > ++          parser->m_atts[i].valueEnd, &parser->m_tempPool,
-> > account);
-> > +       if (result)
-> > +         return result;
-> > +       appAtts[attIndex] =3D poolStart(&parser->m_tempPool);
-> > +@@ -3535,9 +3687,9 @@ addBinding(XML_Parser parser, PREFIX *prefix,
-> > const ATTRIBUTE_ID *attId,
-> > + static enum XML_Error PTRCALL
-> > + cdataSectionProcessor(XML_Parser parser, const char *start, const
-> > char *end,
-> > +                       const char **endPtr) {
-> > +-  enum XML_Error result
-> > +-      =3D doCdataSection(parser, parser->m_encoding, &start, end,
-> > endPtr,
-> > +-                       (XML_Bool)! parser-
-> > > m_parsingStatus.finalBuffer);
-> > ++  enum XML_Error result =3D doCdataSection(
-> > ++      parser, parser->m_encoding, &start, end, endPtr,
-> > ++      (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-> > XML_ACCOUNT_DIRECT);
-> > +   if (result !=3D XML_ERROR_NONE)
-> > +     return result;
-> > +   if (start) {
-> > +@@ -3557,7 +3709,8 @@ cdataSectionProcessor(XML_Parser parser, const
-> > char *start, const char *end,
-> > + */
-> > + static enum XML_Error
-> > + doCdataSection(XML_Parser parser, const ENCODING *enc, const char
-> > **startPtr,
-> > +-               const char *end, const char **nextPtr, XML_Bool
-> > haveMore) {
-> > ++               const char *end, const char **nextPtr, XML_Bool
-> > haveMore,
-> > ++               enum XML_Account account) {
-> > +   const char *s =3D *startPtr;
-> > +   const char **eventPP;
-> > +   const char **eventEndPP;
-> > +@@ -3575,6 +3728,14 @@ doCdataSection(XML_Parser parser, const
-> > ENCODING *enc, const char **startPtr,
-> > +   for (;;) {
-> > +     const char *next;
-> > +     int tok =3D XmlCdataSectionTok(enc, s, end, &next);
-> > ++#ifdef XML_DTD
-> > ++    if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-> > account)) {
-> > ++      accountingOnAbort(parser);
-> > ++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++    }
-> > ++#else
-> > ++    UNUSED_P(account);
-> > ++#endif
-> > +     *eventEndPP =3D next;
-> > +     switch (tok) {
-> > +     case XML_TOK_CDATA_SECT_CLOSE:
-> > +@@ -3719,6 +3880,13 @@ doIgnoreSection(XML_Parser parser, const
-> > ENCODING *enc, const char **startPtr,
-> > +   *eventPP =3D s;
-> > +   *startPtr =3D NULL;
-> > +   tok =3D XmlIgnoreSectionTok(enc, s, end, &next);
-> > ++#  ifdef XML_DTD
-> > ++  if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-> > ++                                XML_ACCOUNT_DIRECT)) {
-> > ++    accountingOnAbort(parser);
-> > ++    return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++  }
-> > ++#  endif
-> > +   *eventEndPP =3D next;
-> > +   switch (tok) {
-> > +   case XML_TOK_IGNORE_SECT:
-> > +@@ -3803,6 +3971,15 @@ processXmlDecl(XML_Parser parser, int
-> > isGeneralTextEntity, const char *s,
-> > +   const char *versionend;
-> > +   const XML_Char *storedversion =3D NULL;
-> > +   int standalone =3D -1;
-> > ++
-> > ++#ifdef XML_DTD
-> > ++  if (! accountingDiffTolerated(parser, XML_TOK_XML_DECL, s, next,
-> > __LINE__,
-> > ++                                XML_ACCOUNT_DIRECT)) {
-> > ++    accountingOnAbort(parser);
-> > ++    return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++  }
-> > ++#endif
-> > ++
-> > +   if (! (parser->m_ns ? XmlParseXmlDeclNS : XmlParseXmlDecl)(
-> > +           isGeneralTextEntity, parser->m_encoding, s, next,
-> > &parser-
-> > > m_eventPtr,
-> > +           &version, &versionend, &encodingName, &newEncoding,
-> > &standalone)) {
-> > +@@ -3952,6 +4129,10 @@ entityValueInitProcessor(XML_Parser parser,
-> > const char *s, const char *end,
-> > +
-> > +   for (;;) {
-> > +     tok =3D XmlPrologTok(parser->m_encoding, start, end, &next);
-> > ++    /* Note: Except for XML_TOK_BOM below, these bytes are
-> > accounted
-> > later in:
-> > ++             - storeEntityValue
-> > ++             - processXmlDecl
-> > ++    */
-> > +     parser->m_eventEndPtr =3D next;
-> > +     if (tok <=3D 0) {
-> > +       if (! parser->m_parsingStatus.finalBuffer && tok !=3D
-> > XML_TOK_INVALID) {
-> > +@@ -3970,7 +4151,8 @@ entityValueInitProcessor(XML_Parser parser,
-> > const char *s, const char *end,
-> > +         break;
-> > +       }
-> > +       /* found end of entity value - can store it now */
-> > +-      return storeEntityValue(parser, parser->m_encoding, s, end);
-> > ++      return storeEntityValue(parser, parser->m_encoding, s, end,
-> > ++                              XML_ACCOUNT_DIRECT);
-> > +     } else if (tok =3D=3D XML_TOK_XML_DECL) {
-> > +       enum XML_Error result;
-> > +       result =3D processXmlDecl(parser, 0, start, next);
-> > +@@ -3997,6 +4179,14 @@ entityValueInitProcessor(XML_Parser parser,
-> > const char *s, const char *end,
-> > +     */
-> > +     else if (tok =3D=3D XML_TOK_BOM && next =3D=3D end
-> > +              && ! parser->m_parsingStatus.finalBuffer) {
-> > ++#  ifdef XML_DTD
-> > ++      if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-> > ++                                    XML_ACCOUNT_DIRECT)) {
-> > ++        accountingOnAbort(parser);
-> > ++        return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++      }
-> > ++#  endif
-> > ++
-> > +       *nextPtr =3D next;
-> > +       return XML_ERROR_NONE;
-> > +     }
-> > +@@ -4039,16 +4229,24 @@ externalParEntProcessor(XML_Parser parser,
-> > const char *s, const char *end,
-> > +   }
-> > +   /* This would cause the next stage, i.e. doProlog to be passed
-> > XML_TOK_BOM.
-> > +      However, when parsing an external subset, doProlog will not
-> > accept a BOM
-> > +-     as valid, and report a syntax error, so we have to skip the
-> > BOM
-> > ++     as valid, and report a syntax error, so we have to skip the
-> > BOM,
-> > and
-> > ++     account for the BOM bytes.
-> > +   */
-> > +   else if (tok =3D=3D XML_TOK_BOM) {
-> > ++    if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-> > ++                                  XML_ACCOUNT_DIRECT)) {
-> > ++      accountingOnAbort(parser);
-> > ++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++    }
-> > ++
-> > +     s =3D next;
-> > +     tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
-> > +   }
-> > +
-> > +   parser->m_processor =3D prologProcessor;
-> > +   return doProlog(parser, parser->m_encoding, s, end, tok, next,
-> > nextPtr,
-> > +-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-> > XML_TRUE);
-> > ++                  (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-> > XML_TRUE,
-> > ++                  XML_ACCOUNT_DIRECT);
-> > + }
-> > +
-> > + static enum XML_Error PTRCALL
-> > +@@ -4061,6 +4259,9 @@ entityValueProcessor(XML_Parser parser, const
-> > char *s, const char *end,
-> > +
-> > +   for (;;) {
-> > +     tok =3D XmlPrologTok(enc, start, end, &next);
-> > ++    /* Note: These bytes are accounted later in:
-> > ++             - storeEntityValue
-> > ++    */
-> > +     if (tok <=3D 0) {
-> > +       if (! parser->m_parsingStatus.finalBuffer && tok !=3D
-> > XML_TOK_INVALID) {
-> > +         *nextPtr =3D s;
-> > +@@ -4078,7 +4279,7 @@ entityValueProcessor(XML_Parser parser, const
-> > char *s, const char *end,
-> > +         break;
-> > +       }
-> > +       /* found end of entity value - can store it now */
-> > +-      return storeEntityValue(parser, enc, s, end);
-> > ++      return storeEntityValue(parser, enc, s, end,
-> > XML_ACCOUNT_DIRECT);
-> > +     }
-> > +     start =3D next;
-> > +   }
-> > +@@ -4092,13 +4293,14 @@ prologProcessor(XML_Parser parser, const
-> > char
-> > *s, const char *end,
-> > +   const char *next =3D s;
-> > +   int tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
-> > +   return doProlog(parser, parser->m_encoding, s, end, tok, next,
-> > nextPtr,
-> > +-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-> > XML_TRUE);
-> > ++                  (XML_Bool)! parser->m_parsingStatus.finalBuffer,
-> > XML_TRUE,
-> > ++                  XML_ACCOUNT_DIRECT);
-> > + }
-> > +
-> > + static enum XML_Error
-> > + doProlog(XML_Parser parser, const ENCODING *enc, const char *s,
-> > const
-> > char *end,
-> > +          int tok, const char *next, const char **nextPtr, XML_Bool
-> > haveMore,
-> > +-         XML_Bool allowClosingDoctype) {
-> > ++         XML_Bool allowClosingDoctype, enum XML_Account account) {
-> > + #ifdef XML_DTD
-> > +   static const XML_Char externalSubsetName[] =3D {ASCII_HASH, '\0'};
-> > + #endif /* XML_DTD */
-> > +@@ -4125,6 +4327,10 @@ doProlog(XML_Parser parser, const ENCODING
-> > *enc, const char *s, const char *end,
-> > +   static const XML_Char enumValueSep[] =3D {ASCII_PIPE, '\0'};
-> > +   static const XML_Char enumValueStart[] =3D {ASCII_LPAREN, '\0'};
-> > +
-> > ++#ifndef XML_DTD
-> > ++  UNUSED_P(account);
-> > ++#endif
-> > ++
-> > +   /* save one level of indirection */
-> > +   DTD *const dtd =3D parser->m_dtd;
-> > +
-> > +@@ -4189,6 +4395,19 @@ doProlog(XML_Parser parser, const ENCODING
-> > *enc, const char *s, const char *end,
-> > +       }
-> > +     }
-> > +     role =3D XmlTokenRole(&parser->m_prologState, tok, s, next, enc)=
-;
-> > ++#ifdef XML_DTD
-> > ++    switch (role) {
-> > ++    case XML_ROLE_INSTANCE_START: // bytes accounted in
-> > contentProcessor
-> > ++    case XML_ROLE_XML_DECL:       // bytes accounted in
-> > processXmlDecl
-> > ++    case XML_ROLE_TEXT_DECL:      // bytes accounted in
-> > processXmlDecl
-> > ++      break;
-> > ++    default:
-> > ++      if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-> > account)) {
-> > ++        accountingOnAbort(parser);
-> > ++        return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++      }
-> > ++    }
-> > ++#endif
-> > +     switch (role) {
-> > +     case XML_ROLE_XML_DECL: {
-> > +       enum XML_Error result =3D processXmlDecl(parser, 0, s, next);
-> > +@@ -4464,7 +4683,8 @@ doProlog(XML_Parser parser, const ENCODING
-> > *enc,
-> > const char *s, const char *end,
-> > +         const XML_Char *attVal;
-> > +         enum XML_Error result =3D storeAttributeValue(
-> > +             parser, enc, parser->m_declAttributeIsCdata,
-> > +-            s + enc->minBytesPerChar, next - enc->minBytesPerChar,
-> > &dtd->pool);
-> > ++            s + enc->minBytesPerChar, next - enc->minBytesPerChar,
-> > &dtd->pool,
-> > ++            XML_ACCOUNT_NONE);
-> > +         if (result)
-> > +           return result;
-> > +         attVal =3D poolStart(&dtd->pool);
-> > +@@ -4497,8 +4717,9 @@ doProlog(XML_Parser parser, const ENCODING
-> > *enc,
-> > const char *s, const char *end,
-> > +       break;
-> > +     case XML_ROLE_ENTITY_VALUE:
-> > +       if (dtd->keepProcessing) {
-> > +-        enum XML_Error result =3D storeEntityValue(
-> > +-            parser, enc, s + enc->minBytesPerChar, next - enc-
-> > > minBytesPerChar);
-> > ++        enum XML_Error result
-> > ++            =3D storeEntityValue(parser, enc, s + enc-
-> > >minBytesPerChar,
-> > ++                               next - enc->minBytesPerChar,
-> > XML_ACCOUNT_NONE);
-> > +         if (parser->m_declEntity) {
-> > +           parser->m_declEntity->textPtr =3D poolStart(&dtd-
-> > > entityValuePool);
-> > +           parser->m_declEntity->textLen
-> > +@@ -4888,12 +5109,15 @@ doProlog(XML_Parser parser, const ENCODING
-> > *enc, const char *s, const char *end,
-> > +         if (parser->m_externalEntityRefHandler) {
-> > +           dtd->paramEntityRead =3D XML_FALSE;
-> > +           entity->open =3D XML_TRUE;
-> > ++          entityTrackingOnOpen(parser, entity, __LINE__);
-> > +           if (! parser->m_externalEntityRefHandler(
-> > +                   parser->m_externalEntityRefHandlerArg, 0, entity-
-> > > base,
-> > +                   entity->systemId, entity->publicId)) {
-> > ++            entityTrackingOnClose(parser, entity, __LINE__);
-> > +             entity->open =3D XML_FALSE;
-> > +             return XML_ERROR_EXTERNAL_ENTITY_HANDLING;
-> > +           }
-> > ++          entityTrackingOnClose(parser, entity, __LINE__);
-> > +           entity->open =3D XML_FALSE;
-> > +           handleDefault =3D XML_FALSE;
-> > +           if (! dtd->paramEntityRead) {
-> > +@@ -5091,6 +5315,13 @@ epilogProcessor(XML_Parser parser, const char
-> > *s, const char *end,
-> > +   for (;;) {
-> > +     const char *next =3D NULL;
-> > +     int tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
-> > ++#ifdef XML_DTD
-> > ++    if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-> > ++                                  XML_ACCOUNT_DIRECT)) {
-> > ++      accountingOnAbort(parser);
-> > ++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++    }
-> > ++#endif
-> > +     parser->m_eventEndPtr =3D next;
-> > +     switch (tok) {
-> > +     /* report partial linebreak - it might be the last token */
-> > +@@ -5164,6 +5395,9 @@ processInternalEntity(XML_Parser parser,
-> > ENTITY
-> > *entity, XML_Bool betweenDecl) {
-> > +       return XML_ERROR_NO_MEMORY;
-> > +   }
-> > +   entity->open =3D XML_TRUE;
-> > ++#ifdef XML_DTD
-> > ++  entityTrackingOnOpen(parser, entity, __LINE__);
-> > ++#endif
-> > +   entity->processed =3D 0;
-> > +   openEntity->next =3D parser->m_openInternalEntities;
-> > +   parser->m_openInternalEntities =3D openEntity;
-> > +@@ -5182,17 +5416,22 @@ processInternalEntity(XML_Parser parser,
-> > ENTITY *entity, XML_Bool betweenDecl) {
-> > +     int tok
-> > +         =3D XmlPrologTok(parser->m_internalEncoding, textStart,
-> > textEnd, &next);
-> > +     result =3D doProlog(parser, parser->m_internalEncoding,
-> > textStart,
-> > textEnd,
-> > +-                      tok, next, &next, XML_FALSE, XML_FALSE);
-> > ++                      tok, next, &next, XML_FALSE, XML_FALSE,
-> > ++                      XML_ACCOUNT_ENTITY_EXPANSION);
-> > +   } else
-> > + #endif /* XML_DTD */
-> > +     result =3D doContent(parser, parser->m_tagLevel, parser-
-> > > m_internalEncoding,
-> > +-                       textStart, textEnd, &next, XML_FALSE);
-> > ++                       textStart, textEnd, &next, XML_FALSE,
-> > ++                       XML_ACCOUNT_ENTITY_EXPANSION);
-> > +
-> > +   if (result =3D=3D XML_ERROR_NONE) {
-> > +     if (textEnd !=3D next && parser->m_parsingStatus.parsing =3D=3D
-> > XML_SUSPENDED) {
-> > +       entity->processed =3D (int)(next - textStart);
-> > +       parser->m_processor =3D internalEntityProcessor;
-> > +     } else {
-> > ++#ifdef XML_DTD
-> > ++      entityTrackingOnClose(parser, entity, __LINE__);
-> > ++#endif /* XML_DTD */
-> > +       entity->open =3D XML_FALSE;
-> > +       parser->m_openInternalEntities =3D openEntity->next;
-> > +       /* put openEntity back in list of free instances */
-> > +@@ -5225,12 +5464,13 @@ internalEntityProcessor(XML_Parser parser,
-> > const char *s, const char *end,
-> > +     int tok
-> > +         =3D XmlPrologTok(parser->m_internalEncoding, textStart,
-> > textEnd, &next);
-> > +     result =3D doProlog(parser, parser->m_internalEncoding,
-> > textStart,
-> > textEnd,
-> > +-                      tok, next, &next, XML_FALSE, XML_TRUE);
-> > ++                      tok, next, &next, XML_FALSE, XML_TRUE,
-> > ++                      XML_ACCOUNT_ENTITY_EXPANSION);
-> > +   } else
-> > + #endif /* XML_DTD */
-> > +     result =3D doContent(parser, openEntity->startTagLevel,
-> > +                        parser->m_internalEncoding, textStart,
-> > textEnd, &next,
-> > +-                       XML_FALSE);
-> > ++                       XML_FALSE, XML_ACCOUNT_ENTITY_EXPANSION);
-> > +
-> > +   if (result !=3D XML_ERROR_NONE)
-> > +     return result;
-> > +@@ -5239,6 +5479,9 @@ internalEntityProcessor(XML_Parser parser,
-> > const
-> > char *s, const char *end,
-> > +     entity->processed =3D (int)(next - (char *)entity->textPtr);
-> > +     return result;
-> > +   } else {
-> > ++#ifdef XML_DTD
-> > ++    entityTrackingOnClose(parser, entity, __LINE__);
-> > ++#endif
-> > +     entity->open =3D XML_FALSE;
-> > +     parser->m_openInternalEntities =3D openEntity->next;
-> > +     /* put openEntity back in list of free instances */
-> > +@@ -5252,7 +5495,8 @@ internalEntityProcessor(XML_Parser parser,
-> > const
-> > char *s, const char *end,
-> > +     parser->m_processor =3D prologProcessor;
-> > +     tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
-> > +     return doProlog(parser, parser->m_encoding, s, end, tok, next,
-> > nextPtr,
-> > +-                    (XML_Bool)! parser-
-> > >m_parsingStatus.finalBuffer,
-> > XML_TRUE);
-> > ++                    (XML_Bool)! parser-
-> > >m_parsingStatus.finalBuffer,
-> > XML_TRUE,
-> > ++                    XML_ACCOUNT_DIRECT);
-> > +   } else
-> > + #endif /* XML_DTD */
-> > +   {
-> > +@@ -5260,7 +5504,8 @@ internalEntityProcessor(XML_Parser parser,
-> > const
-> > char *s, const char *end,
-> > +     /* see externalEntityContentProcessor vs contentProcessor */
-> > +     return doContent(parser, parser->m_parentParser ? 1 : 0,
-> > parser-
-> > > m_encoding,
-> > +                      s, end, nextPtr,
-> > +-                     (XML_Bool)! parser-
-> > > m_parsingStatus.finalBuffer);
-> > ++                     (XML_Bool)! parser-
-> > >m_parsingStatus.finalBuffer,
-> > ++                     XML_ACCOUNT_DIRECT);
-> > +   }
-> > + }
-> > +
-> > +@@ -5275,9 +5520,10 @@ errorProcessor(XML_Parser parser, const char
-> > *s, const char *end,
-> > +
-> > + static enum XML_Error
-> > + storeAttributeValue(XML_Parser parser, const ENCODING *enc,
-> > XML_Bool
-> > isCdata,
-> > +-                    const char *ptr, const char *end, STRING_POOL
-> > *pool) {
-> > ++                    const char *ptr, const char *end, STRING_POOL
-> > *pool,
-> > ++                    enum XML_Account account) {
-> > +   enum XML_Error result
-> > +-      =3D appendAttributeValue(parser, enc, isCdata, ptr, end, pool)=
-;
-> > ++      =3D appendAttributeValue(parser, enc, isCdata, ptr, end, pool,
-> > account);
-> > +   if (result)
-> > +     return result;
-> > +   if (! isCdata && poolLength(pool) && poolLastChar(pool) =3D=3D 0x2=
-0)
-> > +@@ -5289,11 +5535,22 @@ storeAttributeValue(XML_Parser parser, const
-> > ENCODING *enc, XML_Bool isCdata,
-> > +
-> > + static enum XML_Error
-> > + appendAttributeValue(XML_Parser parser, const ENCODING *enc,
-> > XML_Bool
-> > isCdata,
-> > +-                     const char *ptr, const char *end, STRING_POOL
-> > *pool) {
-> > ++                     const char *ptr, const char *end, STRING_POOL
-> > *pool,
-> > ++                     enum XML_Account account) {
-> > +   DTD *const dtd =3D parser->m_dtd; /* save one level of indirection
-> > */
-> > ++#ifndef XML_DTD
-> > ++  UNUSED_P(account);
-> > ++#endif
-> > ++
-> > +   for (;;) {
-> > +     const char *next;
-> > +     int tok =3D XmlAttributeValueTok(enc, ptr, end, &next);
-> > ++#ifdef XML_DTD
-> > ++    if (! accountingDiffTolerated(parser, tok, ptr, next, __LINE__,
-> > account)) {
-> > ++      accountingOnAbort(parser);
-> > ++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++    }
-> > ++#endif
-> > +     switch (tok) {
-> > +     case XML_TOK_NONE:
-> > +       return XML_ERROR_NONE;
-> > +@@ -5353,6 +5610,14 @@ appendAttributeValue(XML_Parser parser, const
-> > ENCODING *enc, XML_Bool isCdata,
-> > +       XML_Char ch =3D (XML_Char)XmlPredefinedEntityName(
-> > +           enc, ptr + enc->minBytesPerChar, next - enc-
-> > > minBytesPerChar);
-> > +       if (ch) {
-> > ++#ifdef XML_DTD
-> > ++        /* NOTE: We are replacing 4-6 characters original input for
-> > 1
-> > character
-> > ++         *       so there is no amplification and hence recording
-> > without
-> > ++         *       protection. */
-> > ++        accountingDiffTolerated(parser, tok, (char *)&ch,
-> > ++                                ((char *)&ch) + sizeof(XML_Char),
-> > __LINE__,
-> > ++                                XML_ACCOUNT_ENTITY_EXPANSION);
-> > ++#endif /* XML_DTD */
-> > +         if (! poolAppendChar(pool, ch))
-> > +           return XML_ERROR_NO_MEMORY;
-> > +         break;
-> > +@@ -5430,9 +5695,16 @@ appendAttributeValue(XML_Parser parser, const
-> > ENCODING *enc, XML_Bool isCdata,
-> > +         enum XML_Error result;
-> > +         const XML_Char *textEnd =3D entity->textPtr + entity-
-> > >textLen;
-> > +         entity->open =3D XML_TRUE;
-> > ++#ifdef XML_DTD
-> > ++        entityTrackingOnOpen(parser, entity, __LINE__);
-> > ++#endif
-> > +         result =3D appendAttributeValue(parser, parser-
-> > > m_internalEncoding,
-> > +-                                      isCdata, (char *)entity-
-> > > textPtr,
-> > +-                                      (char *)textEnd, pool);
-> > ++                                      isCdata, (const char
-> > *)entity-
-> > > textPtr,
-> > ++                                      (const char *)textEnd, pool,
-> > ++
-> > XML_ACCOUNT_ENTITY_EXPANSION);
-> > ++#ifdef XML_DTD
-> > ++        entityTrackingOnClose(parser, entity, __LINE__);
-> > ++#endif
-> > +         entity->open =3D XML_FALSE;
-> > +         if (result)
-> > +           return result;
-> > +@@ -5462,13 +5734,16 @@ appendAttributeValue(XML_Parser parser,
-> > const
-> > ENCODING *enc, XML_Bool isCdata,
-> > +
-> > + static enum XML_Error
-> > + storeEntityValue(XML_Parser parser, const ENCODING *enc,
-> > +-                 const char *entityTextPtr, const char
-> > *entityTextEnd) {
-> > ++                 const char *entityTextPtr, const char
-> > *entityTextEnd,
-> > ++                 enum XML_Account account) {
-> > +   DTD *const dtd =3D parser->m_dtd; /* save one level of indirection
-> > */
-> > +   STRING_POOL *pool =3D &(dtd->entityValuePool);
-> > +   enum XML_Error result =3D XML_ERROR_NONE;
-> > + #ifdef XML_DTD
-> > +   int oldInEntityValue =3D parser->m_prologState.inEntityValue;
-> > +   parser->m_prologState.inEntityValue =3D 1;
-> > ++#else
-> > ++  UNUSED_P(account);
-> > + #endif /* XML_DTD */
-> > +   /* never return Null for the value argument in EntityDeclHandler,
-> > +      since this would indicate an external entity; therefore we
-> > +@@ -5481,6 +5756,16 @@ storeEntityValue(XML_Parser parser, const
-> > ENCODING *enc,
-> > +   for (;;) {
-> > +     const char *next;
-> > +     int tok =3D XmlEntityValueTok(enc, entityTextPtr, entityTextEnd,
-> > &next);
-> > ++
-> > ++#ifdef XML_DTD
-> > ++    if (! accountingDiffTolerated(parser, tok, entityTextPtr, next,
-> > __LINE__,
-> > ++                                  account)) {
-> > ++      accountingOnAbort(parser);
-> > ++      result =3D XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-> > ++      goto endEntityValue;
-> > ++    }
-> > ++#endif
-> > ++
-> > +     switch (tok) {
-> > +     case XML_TOK_PARAM_ENTITY_REF:
-> > + #ifdef XML_DTD
-> > +@@ -5516,13 +5801,16 @@ storeEntityValue(XML_Parser parser, const
-> > ENCODING *enc,
-> > +           if (parser->m_externalEntityRefHandler) {
-> > +             dtd->paramEntityRead =3D XML_FALSE;
-> > +             entity->open =3D XML_TRUE;
-> > ++            entityTrackingOnOpen(parser, entity, __LINE__);
-> > +             if (! parser->m_externalEntityRefHandler(
-> > +                     parser->m_externalEntityRefHandlerArg, 0,
-> > entity-
-> > > base,
-> > +                     entity->systemId, entity->publicId)) {
-> > ++              entityTrackingOnClose(parser, entity, __LINE__);
-> > +               entity->open =3D XML_FALSE;
-> > +               result =3D XML_ERROR_EXTERNAL_ENTITY_HANDLING;
-> > +               goto endEntityValue;
-> > +             }
-> > ++            entityTrackingOnClose(parser, entity, __LINE__);
-> > +             entity->open =3D XML_FALSE;
-> > +             if (! dtd->paramEntityRead)
-> > +               dtd->keepProcessing =3D dtd->standalone;
-> > +@@ -5530,9 +5818,12 @@ storeEntityValue(XML_Parser parser, const
-> > ENCODING *enc,
-> > +             dtd->keepProcessing =3D dtd->standalone;
-> > +         } else {
-> > +           entity->open =3D XML_TRUE;
-> > ++          entityTrackingOnOpen(parser, entity, __LINE__);
-> > +           result =3D storeEntityValue(
-> > +-              parser, parser->m_internalEncoding, (char *)entity-
-> > > textPtr,
-> > +-              (char *)(entity->textPtr + entity->textLen));
-> > ++              parser, parser->m_internalEncoding, (const char
-> > *)entity->textPtr,
-> > ++              (const char *)(entity->textPtr + entity->textLen),
-> > ++              XML_ACCOUNT_ENTITY_EXPANSION);
-> > ++          entityTrackingOnClose(parser, entity, __LINE__);
-> > +           entity->open =3D XML_FALSE;
-> > +           if (result)
-> > +             goto endEntityValue;
-> > +@@ -6893,3 +7184,741 @@ copyString(const XML_Char *s, const
-> > XML_Memory_Handling_Suite *memsuite) {
-> > +   memcpy(result, s, charsRequired * sizeof(XML_Char));
-> > +   return result;
-> > + }
-> > ++
-> > ++#ifdef XML_DTD
-> > ++
-> > ++static float
-> > ++accountingGetCurrentAmplification(XML_Parser rootParser) {
-> > ++  const XmlBigCount countBytesOutput
-> > ++      =3D rootParser->m_accounting.countBytesDirect
-> > ++        + rootParser->m_accounting.countBytesIndirect;
-> > ++  const float amplificationFactor
-> > ++      =3D rootParser->m_accounting.countBytesDirect
-> > ++            ? (countBytesOutput
-> > ++               / (float)(rootParser-
-> > >m_accounting.countBytesDirect))
-> > ++            : 1.0f;
-> > ++  assert(! rootParser->m_parentParser);
-> > ++  return amplificationFactor;
-> > ++}
-> > ++
-> > ++static void
-> > ++accountingReportStats(XML_Parser originParser, const char *epilog)
-> > {
-> > ++  const XML_Parser rootParser =3D getRootParserOf(originParser,
-> > NULL);
-> > ++  assert(! rootParser->m_parentParser);
-> > ++
-> > ++  if (rootParser->m_accounting.debugLevel < 1) {
-> > ++    return;
-> > ++  }
-> > ++
-> > ++  const float amplificationFactor
-> > ++      =3D accountingGetCurrentAmplification(rootParser);
-> > ++  fprintf(stderr,
-> > ++          "expat: Accounting(%p): Direct " EXPAT_FMT_ULL(
-> > ++              "10") ", indirect " EXPAT_FMT_ULL("10") ",
-> > amplification %8.2f%s",
-> > ++          (void *)rootParser, rootParser-
-> > > m_accounting.countBytesDirect,
-> > ++          rootParser->m_accounting.countBytesIndirect,
-> > ++          (double)amplificationFactor, epilog);
-> > ++}
-> > ++
-> > ++static void
-> > ++accountingOnAbort(XML_Parser originParser) {
-> > ++  accountingReportStats(originParser, " ABORTING\n");
-> > ++}
-> > ++
-> > ++static void
-> > ++accountingReportDiff(XML_Parser rootParser,
-> > ++                     unsigned int levelsAwayFromRootParser, const
-> > char *before,
-> > ++                     const char *after, ptrdiff_t bytesMore, int
-> > source_line,
-> > ++                     enum XML_Account account) {
-> > ++  assert(! rootParser->m_parentParser);
-> > ++
-> > ++  fprintf(stderr,
-> > ++          " (+" EXPAT_FMT_PTRDIFF_T("6") " bytes %s|%d,
-> > xmlparse.c:%d) %*s\"",
-> > ++          bytesMore, (account =3D=3D XML_ACCOUNT_DIRECT) ? "DIR" :
-> > "EXP",
-> > ++          levelsAwayFromRootParser, source_line, 10, "");
-> > ++
-> > ++  const char ellipis[] =3D "[..]";
-> > ++  const size_t ellipsisLength =3D sizeof(ellipis) /* because compile=
--
-> > time */ - 1;
-> > ++  const unsigned int contextLength =3D 10;
-> > ++
-> > ++  /* Note: Performance is of no concern here */
-> > ++  const char *walker =3D before;
-> > ++  if ((rootParser->m_accounting.debugLevel >=3D 3)
-> > ++      || (after - before)
-> > ++             <=3D (ptrdiff_t)(contextLength + ellipsisLength +
-> > contextLength)) {
-> > ++    for (; walker < after; walker++) {
-> > ++      fprintf(stderr, "%s", unsignedCharToPrintable(walker[0]));
-> > ++    }
-> > ++  } else {
-> > ++    for (; walker < before + contextLength; walker++) {
-> > ++      fprintf(stderr, "%s", unsignedCharToPrintable(walker[0]));
-> > ++    }
-> > ++    fprintf(stderr, ellipis);
-> > ++    walker =3D after - contextLength;
-> > ++    for (; walker < after; walker++) {
-> > ++      fprintf(stderr, "%s", unsignedCharToPrintable(walker[0]));
-> > ++    }
-> > ++  }
-> > ++  fprintf(stderr, "\"\n");
-> > ++}
-> > ++
-> > ++static XML_Bool
-> > ++accountingDiffTolerated(XML_Parser originParser, int tok, const
-> > char
-> > *before,
-> > ++                        const char *after, int source_line,
-> > ++                        enum XML_Account account) {
-> > ++  /* Note: We need to check the token type *first* to be sure that
-> > ++   *       we can even access variable <after>, safely.
-> > ++   *       E.g. for XML_TOK_NONE <after> may hold an invalid
-> > pointer.
-> > */
-> > ++  switch (tok) {
-> > ++  case XML_TOK_INVALID:
-> > ++  case XML_TOK_PARTIAL:
-> > ++  case XML_TOK_PARTIAL_CHAR:
-> > ++  case XML_TOK_NONE:
-> > ++    return XML_TRUE;
-> > ++  }
-> > ++
-> > ++  if (account =3D=3D XML_ACCOUNT_NONE)
-> > ++    return XML_TRUE; /* because these bytes have been accounted
-> > for,
-> > already */
-> > ++
-> > ++  unsigned int levelsAwayFromRootParser;
-> > ++  const XML_Parser rootParser
-> > ++      =3D getRootParserOf(originParser, &levelsAwayFromRootParser);
-> > ++  assert(! rootParser->m_parentParser);
-> > ++
-> > ++  const int isDirect
-> > ++      =3D (account =3D=3D XML_ACCOUNT_DIRECT) && (originParser =3D=
-=3D
-> > rootParser);
-> > ++  const ptrdiff_t bytesMore =3D after - before;
-> > ++
-> > ++  XmlBigCount *const additionTarget
-> > ++      =3D isDirect ? &rootParser->m_accounting.countBytesDirect
-> > ++                 : &rootParser->m_accounting.countBytesIndirect;
-> > ++
-> > ++  /* Detect and avoid integer overflow */
-> > ++  if (*additionTarget > (XmlBigCount)(-1) - (XmlBigCount)bytesMore)
-> > ++    return XML_FALSE;
-> > ++  *additionTarget +=3D bytesMore;
-> > ++
-> > ++  const XmlBigCount countBytesOutput
-> > ++      =3D rootParser->m_accounting.countBytesDirect
-> > ++        + rootParser->m_accounting.countBytesIndirect;
-> > ++  const float amplificationFactor
-> > ++      =3D accountingGetCurrentAmplification(rootParser);
-> > ++  const XML_Bool tolerated
-> > ++      =3D (countBytesOutput < rootParser-
-> > > m_accounting.activationThresholdBytes)
-> > ++        || (amplificationFactor
-> > ++            <=3D rootParser-
-> > >m_accounting.maximumAmplificationFactor);
-> > ++
-> > ++  if (rootParser->m_accounting.debugLevel >=3D 2) {
-> > ++    accountingReportStats(rootParser, "");
-> > ++    accountingReportDiff(rootParser, levelsAwayFromRootParser,
-> > before, after,
-> > ++                         bytesMore, source_line, account);
-> > ++  }
-> > ++
-> > ++  return tolerated;
-> > ++}
-> > ++
-> > ++static void
-> > ++entityTrackingReportStats(XML_Parser rootParser, ENTITY *entity,
-> > ++                          const char *action, int sourceLine) {
-> > ++  assert(! rootParser->m_parentParser);
-> > ++  if (rootParser->m_entity_stats.debugLevel < 1)
-> > ++    return;
-> > ++
-> > ++#  if defined(XML_UNICODE)
-> > ++  const char *const entityName =3D "[..]";
-> > ++#  else
-> > ++  const char *const entityName =3D entity->name;
-> > ++#  endif
-> > ++
-> > ++  fprintf(
-> > ++      stderr,
-> > ++      "expat: Entities(%p): Count %9d, depth %2d/%2d %*s%s%s; %s
-> > length %d (xmlparse.c:%d)\n",
-> > ++      (void *)rootParser, rootParser-
-> > >m_entity_stats.countEverOpened,
-> > ++      rootParser->m_entity_stats.currentDepth,
-> > ++      rootParser->m_entity_stats.maximumDepthSeen,
-> > ++      (rootParser->m_entity_stats.currentDepth - 1) * 2, "",
-> > ++      entity->is_param ? "%" : "&", entityName, action, entity-
-> > > textLen,
-> > ++      sourceLine);
-> > ++}
-> > ++
-> > ++static void
-> > ++entityTrackingOnOpen(XML_Parser originParser, ENTITY *entity, int
-> > sourceLine) {
-> > ++  const XML_Parser rootParser =3D getRootParserOf(originParser,
-> > NULL);
-> > ++  assert(! rootParser->m_parentParser);
-> > ++
-> > ++  rootParser->m_entity_stats.countEverOpened++;
-> > ++  rootParser->m_entity_stats.currentDepth++;
-> > ++  if (rootParser->m_entity_stats.currentDepth
-> > ++      > rootParser->m_entity_stats.maximumDepthSeen) {
-> > ++    rootParser->m_entity_stats.maximumDepthSeen++;
-> > ++  }
-> > ++
-> > ++  entityTrackingReportStats(rootParser, entity, "OPEN ",
-> > sourceLine);
-> > ++}
-> > ++
-> > ++static void
-> > ++entityTrackingOnClose(XML_Parser originParser, ENTITY *entity, int
-> > sourceLine) {
-> > ++  const XML_Parser rootParser =3D getRootParserOf(originParser,
-> > NULL);
-> > ++  assert(! rootParser->m_parentParser);
-> > ++
-> > ++  entityTrackingReportStats(rootParser, entity, "CLOSE",
-> > sourceLine);
-> > ++  rootParser->m_entity_stats.currentDepth--;
-> > ++}
-> > ++
-> > ++static XML_Parser
-> > ++getRootParserOf(XML_Parser parser, unsigned int *outLevelDiff) {
-> > ++  XML_Parser rootParser =3D parser;
-> > ++  unsigned int stepsTakenUpwards =3D 0;
-> > ++  while (rootParser->m_parentParser) {
-> > ++    rootParser =3D rootParser->m_parentParser;
-> > ++    stepsTakenUpwards++;
-> > ++  }
-> > ++  assert(! rootParser->m_parentParser);
-> > ++  if (outLevelDiff !=3D NULL) {
-> > ++    *outLevelDiff =3D stepsTakenUpwards;
-> > ++  }
-> > ++  return rootParser;
-> > ++}
-> > ++
-> > ++static const char *
-> > ++unsignedCharToPrintable(unsigned char c) {
-> > ++  switch (c) {
-> > ++  case 0:
-> > ++    return "\\0";
-> > ++  case 1:
-> > ++    return "\\x1";
-> > ++  case 2:
-> > ++    return "\\x2";
-> > ++  case 3:
-> > ++    return "\\x3";
-> > ++  case 4:
-> > ++    return "\\x4";
-> > ++  case 5:
-> > ++    return "\\x5";
-> > ++  case 6:
-> > ++    return "\\x6";
-> > ++  case 7:
-> > ++    return "\\x7";
-> > ++  case 8:
-> > ++    return "\\x8";
-> > ++  case 9:
-> > ++    return "\\t";
-> > ++  case 10:
-> > ++    return "\\n";
-> > ++  case 11:
-> > ++    return "\\xB";
-> > ++  case 12:
-> > ++    return "\\xC";
-> > ++  case 13:
-> > ++    return "\\r";
-> > ++  case 14:
-> > ++    return "\\xE";
-> > ++  case 15:
-> > ++    return "\\xF";
-> > ++  case 16:
-> > ++    return "\\x10";
-> > ++  case 17:
-> > ++    return "\\x11";
-> > ++  case 18:
-> > ++    return "\\x12";
-> > ++  case 19:
-> > ++    return "\\x13";
-> > ++  case 20:
-> > ++    return "\\x14";
-> > ++  case 21:
-> > ++    return "\\x15";
-> > ++  case 22:
-> > ++    return "\\x16";
-> > ++  case 23:
-> > ++    return "\\x17";
-> > ++  case 24:
-> > ++    return "\\x18";
-> > ++  case 25:
-> > ++    return "\\x19";
-> > ++  case 26:
-> > ++    return "\\x1A";
-> > ++  case 27:
-> > ++    return "\\x1B";
-> > ++  case 28:
-> > ++    return "\\x1C";
-> > ++  case 29:
-> > ++    return "\\x1D";
-> > ++  case 30:
-> > ++    return "\\x1E";
-> > ++  case 31:
-> > ++    return "\\x1F";
-> > ++  case 32:
-> > ++    return " ";
-> > ++  case 33:
-> > ++    return "!";
-> > ++  case 34:
-> > ++    return "\\\"";
-> > ++  case 35:
-> > ++    return "#";
-> > ++  case 36:
-> > ++    return "$";
-> > ++  case 37:
-> > ++    return "%";
-> > ++  case 38:
-> > ++    return "&";
-> > ++  case 39:
-> > ++    return "'";
-> > ++  case 40:
-> > ++    return "(";
-> > ++  case 41:
-> > ++    return ")";
-> > ++  case 42:
-> > ++    return "*";
-> > ++  case 43:
-> > ++    return "+";
-> > ++  case 44:
-> > ++    return ",";
-> > ++  case 45:
-> > ++    return "-";
-> > ++  case 46:
-> > ++    return ".";
-> > ++  case 47:
-> > ++    return "/";
-> > ++  case 48:
-> > ++    return "0";
-> > ++  case 49:
-> > ++    return "1";
-> > ++  case 50:
-> > ++    return "2";
-> > ++  case 51:
-> > ++    return "3";
-> > ++  case 52:
-> > ++    return "4";
-> > ++  case 53:
-> > ++    return "5";
-> > ++  case 54:
-> > ++    return "6";
-> > ++  case 55:
-> > ++    return "7";
-> > ++  case 56:
-> > ++    return "8";
-> > ++  case 57:
-> > ++    return "9";
-> > ++  case 58:
-> > ++    return ":";
-> > ++  case 59:
-> > ++    return ";";
-> > ++  case 60:
-> > ++    return "<";
-> > ++  case 61:
-> > ++    return "=3D";
-> > ++  case 62:
-> > ++    return ">";
-> > ++  case 63:
-> > ++    return "?";
-> > ++  case 64:
-> > ++    return "@";
-> > ++  case 65:
-> > ++    return "A";
-> > ++  case 66:
-> > ++    return "B";
-> > ++  case 67:
-> > ++    return "C";
-> > ++  case 68:
-> > ++    return "D";
-> > ++  case 69:
-> > ++    return "E";
-> > ++  case 70:
-> > ++    return "F";
-> > ++  case 71:
-> > ++    return "G";
-> > ++  case 72:
-> > ++    return "H";
-> > ++  case 73:
-> > ++    return "I";
-> > ++  case 74:
-> > ++    return "J";
-> > ++  case 75:
-> > ++    return "K";
-> > ++  case 76:
-> > ++    return "L";
-> > ++  case 77:
-> > ++    return "M";
-> > ++  case 78:
-> > ++    return "N";
-> > ++  case 79:
-> > ++    return "O";
-> > ++  case 80:
-> > ++    return "P";
-> > ++  case 81:
-> > ++    return "Q";
-> > ++  case 82:
-> > ++    return "R";
-> > ++  case 83:
-> > ++    return "S";
-> > ++  case 84:
-> > ++    return "T";
-> > ++  case 85:
-> > ++    return "U";
-> > ++  case 86:
-> > ++    return "V";
-> > ++  case 87:
-> > ++    return "W";
-> > ++  case 88:
-> > ++    return "X";
-> > ++  case 89:
-> > ++    return "Y";
-> > ++  case 90:
-> > ++    return "Z";
-> > ++  case 91:
-> > ++    return "[";
-> > ++  case 92:
-> > ++    return "\\\\";
-> > ++  case 93:
-> > ++    return "]";
-> > ++  case 94:
-> > ++    return "^";
-> > ++  case 95:
-> > ++    return "_";
-> > ++  case 96:
-> > ++    return "`";
-> > ++  case 97:
-> > ++    return "a";
-> > ++  case 98:
-> > ++    return "b";
-> > ++  case 99:
-> > ++    return "c";
-> > ++  case 100:
-> > ++    return "d";
-> > ++  case 101:
-> > ++    return "e";
-> > ++  case 102:
-> > ++    return "f";
-> > ++  case 103:
-> > ++    return "g";
-> > ++  case 104:
-> > ++    return "h";
-> > ++  case 105:
-> > ++    return "i";
-> > ++  case 106:
-> > ++    return "j";
-> > ++  case 107:
-> > ++    return "k";
-> > ++  case 108:
-> > ++    return "l";
-> > ++  case 109:
-> > ++    return "m";
-> > ++  case 110:
-> > ++    return "n";
-> > ++  case 111:
-> > ++    return "o";
-> > ++  case 112:
-> > ++    return "p";
-> > ++  case 113:
-> > ++    return "q";
-> > ++  case 114:
-> > ++    return "r";
-> > ++  case 115:
-> > ++    return "s";
-> > ++  case 116:
-> > ++    return "t";
-> > ++  case 117:
-> > ++    return "u";
-> > ++  case 118:
-> > ++    return "v";
-> > ++  case 119:
-> > ++    return "w";
-> > ++  case 120:
-> > ++    return "x";
-> > ++  case 121:
-> > ++    return "y";
-> > ++  case 122:
-> > ++    return "z";
-> > ++  case 123:
-> > ++    return "{";
-> > ++  case 124:
-> > ++    return "|";
-> > ++  case 125:
-> > ++    return "}";
-> > ++  case 126:
-> > ++    return "~";
-> > ++  case 127:
-> > ++    return "\\x7F";
-> > ++  case 128:
-> > ++    return "\\x80";
-> > ++  case 129:
-> > ++    return "\\x81";
-> > ++  case 130:
-> > ++    return "\\x82";
-> > ++  case 131:
-> > ++    return "\\x83";
-> > ++  case 132:
-> > ++    return "\\x84";
-> > ++  case 133:
-> > ++    return "\\x85";
-> > ++  case 134:
-> > ++    return "\\x86";
-> > ++  case 135:
-> > ++    return "\\x87";
-> > ++  case 136:
-> > ++    return "\\x88";
-> > ++  case 137:
-> > ++    return "\\x89";
-> > ++  case 138:
-> > ++    return "\\x8A";
-> > ++  case 139:
-> > ++    return "\\x8B";
-> > ++  case 140:
-> > ++    return "\\x8C";
-> > ++  case 141:
-> > ++    return "\\x8D";
-> > ++  case 142:
-> > ++    return "\\x8E";
-> > ++  case 143:
-> > ++    return "\\x8F";
-> > ++  case 144:
-> > ++    return "\\x90";
-> > ++  case 145:
-> > ++    return "\\x91";
-> > ++  case 146:
-> > ++    return "\\x92";
-> > ++  case 147:
-> > ++    return "\\x93";
-> > ++  case 148:
-> > ++    return "\\x94";
-> > ++  case 149:
-> > ++    return "\\x95";
-> > ++  case 150:
-> > ++    return "\\x96";
-> > ++  case 151:
-> > ++    return "\\x97";
-> > ++  case 152:
-> > ++    return "\\x98";
-> > ++  case 153:
-> > ++    return "\\x99";
-> > ++  case 154:
-> > ++    return "\\x9A";
-> > ++  case 155:
-> > ++    return "\\x9B";
-> > ++  case 156:
-> > ++    return "\\x9C";
-> > ++  case 157:
-> > ++    return "\\x9D";
-> > ++  case 158:
-> > ++    return "\\x9E";
-> > ++  case 159:
-> > ++    return "\\x9F";
-> > ++  case 160:
-> > ++    return "\\xA0";
-> > ++  case 161:
-> > ++    return "\\xA1";
-> > ++  case 162:
-> > ++    return "\\xA2";
-> > ++  case 163:
-> > ++    return "\\xA3";
-> > ++  case 164:
-> > ++    return "\\xA4";
-> > ++  case 165:
-> > ++    return "\\xA5";
-> > ++  case 166:
-> > ++    return "\\xA6";
-> > ++  case 167:
-> > ++    return "\\xA7";
-> > ++  case 168:
-> > ++    return "\\xA8";
-> > ++  case 169:
-> > ++    return "\\xA9";
-> > ++  case 170:
-> > ++    return "\\xAA";
-> > ++  case 171:
-> > ++    return "\\xAB";
-> > ++  case 172:
-> > ++    return "\\xAC";
-> > ++  case 173:
-> > ++    return "\\xAD";
-> > ++  case 174:
-> > ++    return "\\xAE";
-> > ++  case 175:
-> > ++    return "\\xAF";
-> > ++  case 176:
-> > ++    return "\\xB0";
-> > ++  case 177:
-> > ++    return "\\xB1";
-> > ++  case 178:
-> > ++    return "\\xB2";
-> > ++  case 179:
-> > ++    return "\\xB3";
-> > ++  case 180:
-> > ++    return "\\xB4";
-> > ++  case 181:
-> > ++    return "\\xB5";
-> > ++  case 182:
-> > ++    return "\\xB6";
-> > ++  case 183:
-> > ++    return "\\xB7";
-> > ++  case 184:
-> > ++    return "\\xB8";
-> > ++  case 185:
-> > ++    return "\\xB9";
-> > ++  case 186:
-> > ++    return "\\xBA";
-> > ++  case 187:
-> > ++    return "\\xBB";
-> > ++  case 188:
-> > ++    return "\\xBC";
-> > ++  case 189:
-> > ++    return "\\xBD";
-> > ++  case 190:
-> > ++    return "\\xBE";
-> > ++  case 191:
-> > ++    return "\\xBF";
-> > ++  case 192:
-> > ++    return "\\xC0";
-> > ++  case 193:
-> > ++    return "\\xC1";
-> > ++  case 194:
-> > ++    return "\\xC2";
-> > ++  case 195:
-> > ++    return "\\xC3";
-> > ++  case 196:
-> > ++    return "\\xC4";
-> > ++  case 197:
-> > ++    return "\\xC5";
-> > ++  case 198:
-> > ++    return "\\xC6";
-> > ++  case 199:
-> > ++    return "\\xC7";
-> > ++  case 200:
-> > ++    return "\\xC8";
-> > ++  case 201:
-> > ++    return "\\xC9";
-> > ++  case 202:
-> > ++    return "\\xCA";
-> > ++  case 203:
-> > ++    return "\\xCB";
-> > ++  case 204:
-> > ++    return "\\xCC";
-> > ++  case 205:
-> > ++    return "\\xCD";
-> > ++  case 206:
-> > ++    return "\\xCE";
-> > ++  case 207:
-> > ++    return "\\xCF";
-> > ++  case 208:
-> > ++    return "\\xD0";
-> > ++  case 209:
-> > ++    return "\\xD1";
-> > ++  case 210:
-> > ++    return "\\xD2";
-> > ++  case 211:
-> > ++    return "\\xD3";
-> > ++  case 212:
-> > ++    return "\\xD4";
-> > ++  case 213:
-> > ++    return "\\xD5";
-> > ++  case 214:
-> > ++    return "\\xD6";
-> > ++  case 215:
-> > ++    return "\\xD7";
-> > ++  case 216:
-> > ++    return "\\xD8";
-> > ++  case 217:
-> > ++    return "\\xD9";
-> > ++  case 218:
-> > ++    return "\\xDA";
-> > ++  case 219:
-> > ++    return "\\xDB";
-> > ++  case 220:
-> > ++    return "\\xDC";
-> > ++  case 221:
-> > ++    return "\\xDD";
-> > ++  case 222:
-> > ++    return "\\xDE";
-> > ++  case 223:
-> > ++    return "\\xDF";
-> > ++  case 224:
-> > ++    return "\\xE0";
-> > ++  case 225:
-> > ++    return "\\xE1";
-> > ++  case 226:
-> > ++    return "\\xE2";
-> > ++  case 227:
-> > ++    return "\\xE3";
-> > ++  case 228:
-> > ++    return "\\xE4";
-> > ++  case 229:
-> > ++    return "\\xE5";
-> > ++  case 230:
-> > ++    return "\\xE6";
-> > ++  case 231:
-> > ++    return "\\xE7";
-> > ++  case 232:
-> > ++    return "\\xE8";
-> > ++  case 233:
-> > ++    return "\\xE9";
-> > ++  case 234:
-> > ++    return "\\xEA";
-> > ++  case 235:
-> > ++    return "\\xEB";
-> > ++  case 236:
-> > ++    return "\\xEC";
-> > ++  case 237:
-> > ++    return "\\xED";
-> > ++  case 238:
-> > ++    return "\\xEE";
-> > ++  case 239:
-> > ++    return "\\xEF";
-> > ++  case 240:
-> > ++    return "\\xF0";
-> > ++  case 241:
-> > ++    return "\\xF1";
-> > ++  case 242:
-> > ++    return "\\xF2";
-> > ++  case 243:
-> > ++    return "\\xF3";
-> > ++  case 244:
-> > ++    return "\\xF4";
-> > ++  case 245:
-> > ++    return "\\xF5";
-> > ++  case 246:
-> > ++    return "\\xF6";
-> > ++  case 247:
-> > ++    return "\\xF7";
-> > ++  case 248:
-> > ++    return "\\xF8";
-> > ++  case 249:
-> > ++    return "\\xF9";
-> > ++  case 250:
-> > ++    return "\\xFA";
-> > ++  case 251:
-> > ++    return "\\xFB";
-> > ++  case 252:
-> > ++    return "\\xFC";
-> > ++  case 253:
-> > ++    return "\\xFD";
-> > ++  case 254:
-> > ++    return "\\xFE";
-> > ++  case 255:
-> > ++    return "\\xFF";
-> > ++  default:
-> > ++    assert(0); /* never gets here */
-> > ++    return "dead code";
-> > ++  }
-> > ++  assert(0); /* never gets here */
-> > ++}
-> > ++
-> > ++#endif /* XML_DTD */
-> > ++
-> > ++static unsigned long
-> > ++getDebugLevel(const char *variableName, unsigned long
-> > defaultDebugLevel) {
-> > ++  const char *const valueOrNull =3D getenv(variableName);
-> > ++  if (valueOrNull =3D=3D NULL) {
-> > ++    return defaultDebugLevel;
-> > ++  }
-> > ++  const char *const value =3D valueOrNull;
-> > ++
-> > ++  errno =3D 0;
-> > ++  char *afterValue =3D (char *)value;
-> > ++  unsigned long debugLevel =3D strtoul(value, &afterValue, 10);
-> > ++  if ((errno !=3D 0) || (afterValue[0] !=3D '\0')) {
-> > ++    errno =3D 0;
-> > ++    return defaultDebugLevel;
-> > ++  }
-> > ++
-> > ++  return debugLevel;
-> > ++}
-> > +--
-> > +2.32.0
-> > +
-> > diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-
-> > core/expat/expat_2.2.9.bb
-> > index 8f3db41352..3af457b2af 100644
-> > --- a/meta/recipes-core/expat/expat_2.2.9.bb
-> > +++ b/meta/recipes-core/expat/expat_2.2.9.bb
-> > @@ -6,8 +6,9 @@ LICENSE =3D "MIT"
-> >
-> >  LIC_FILES_CHKSUM =3D
-> > "file://COPYING;md5=3D5b8620d98e49772d95fc1d291c26aa79"
-> >
-> > -SRC_URI =3D "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-> > +SRC_URI =3D "${SOURCEFORGE_MIRROR}/expat/expat-${PV}-RENAMED-
-> > VULNERABLE-
-> > PLEASE-USE-2.4.1-INSTEAD.tar.bz2 \
-> >             file://libtool-tag.patch \
-> > +           file://0001-expat-Backport-fix-for-CVE-2013-0340.patch \
-> >           "
-> >
-> >  SRC_URI[md5sum] =3D "875a2c2ff3e8eb9e5a5cd62db2033ab5"
-> >
-> >
-> >
-> -----BEGIN PGP SIGNATURE-----
->
-> iQEzBAEBCAAdFiEE4WyPMIC5Ap4+Ooo1Ygqew07VMNUFAmDKDygACgkQYgqew07V
-> MNVpHAgAjxDiHJ+0Zl+xxBRKkD3E3bGlKlwsn4MOlP1HWN5zjComuAdnyQwvTmAj
-> 2HRDxGUQ/ZnXUlSDbNzHSgrG2IDa1dlBWGRASRX3YxIXTJ1UL5LWHuprDL2P3xNp
-> XMaAeX2a86gJKDBA7/XXkrbVuCafjGZ6r0+urvcqpJFO1FR1Qb0aklAe/pEVtEYS
-> XcN2tWfqeOy9HBOvLIBfFwkRE07oBfr0eWxKzECOq1MPOUYr9k/E4LwqGEWcrOrq
-> rJM2U07Esu0NkQQSPZXP+NTYO9v5ztZjCLzOb0eI7tGbduW3ay7fOlawfP8fgiON
-> YVMOzcvA9DFOK7Z3ur3nCL7MWnN3OA=3D=3D
-> =3DJFZY
-> -----END PGP SIGNATURE-----
->
->=20
->
+LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQ0KSGFzaDogU0hBMjU2DQoNCkhpIFN0
+ZXZlIQ0KDQpUaGFua3MgZm9yIHRoZSBxdWljayBmZWVkYmFjayEgSSBqdXN0IG5vdGljZWQgdGhh
+dCB0aGUgYXJjaGl2ZSBmb2xkZXINCnN0cnVjdHVyZSBmcm9tIHNvdXJjZWZvcmdlIGRpZmZlcnMg
+dG8gdG8gdGhlIGdpdCBjb250ZW50LCB0aHVzIHRoZQ0KImlubmVyIiBwYXRjaCBjdXJyZW50bHkg
+ZmFpbHMuIE9vcHMhDQoNCkknbSB0aGlua2luZyBhYm91dCBzZXR0aW5nIHRoZSBnaXQgcmVwb3Np
+dG9yeSBhcyBTUkNfVVJJLCBhcyB0aGUgZXhwYXQNCnByb2plY3QgaXMgY3VycmVudGx5IG1vdmlu
+ZyBhd2F5IGZyb20gc291cmNlZm9yZ2UgdG93YXJkcyBnaXRodWIuIEFsc28sDQp3ZSB3b3VsZCBu
+b3QgYmUgYWZmZWN0ZWQgYnkgcmFuZG9tIGFyY2hpdmUgcmVuYW1pbmcgOykgV2hhdCBkbyB5b3UN
+CnRoaW5rPw0KDQotIC0tIA0KV2l0aCBiZXN0IHJlZ2FyZHMNCg0KSmFzcGVyIE9yc2NodWxrbw0K
+RGV2T3BzIEVuZ2luZWVyDQoNClRlbC4gKzQ5IDMwIDU4IDU4IDE0IDI2NQ0KRmF4ICs0OSAzMCA1
+OCA1OCAxNCA5OTkNCkphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5nLmNvbQ0KDQrigKIg4oCi
+IOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg
+4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiDQoNCmlyaXMtR21iSA0KaW5m
+cmFyZWQgJiBpbnRlbGxpZ2VudCBzZW5zb3JzDQpPc3RlbmRzdHJhw59lIDEtMTQgfCAxMjQ1OSBC
+ZXJsaW4NCg0KaHR0cHM6Ly9pcmlzLXNlbnNpbmcuY29tLw0KDQoNCg0KDQpPbiBXZWQsIDIwMjEt
+MDYtMTYgYXQgMDU6MDkgLTEwMDAsIFN0ZXZlIFNha29tYW4gd3JvdGU6DQo+IE9uIFdlZCwgSnVu
+IDE2LCAyMDIxIGF0IDQ6NDkgQU0gSmFzcGVyIE9yc2NodWxrbw0KPiA8SmFzcGVyLk9yc2NodWxr
+b0BpcmlzLXNlbnNpbmcuY29tPiB3cm90ZToNCj4gPiANCj4gPiAtLS0tLUJFR0lOIFBHUCBTSUdO
+RUQgTUVTU0FHRS0tLS0tDQo+ID4gSGFzaDogU0hBMjU2DQo+ID4gDQo+ID4gUC5TLjogSSBhbSBu
+b3QgdG9vIGZhbWlsaWFyIHdpdGggZXhwYXQsIHRoaXMgcGFydGljdWxhciBDVkUsIG5vdA0KPiA+
+IHdpdGgNCj4gPiB0aGUgcHJhY3Rpc2Ugb2YgYmFja3BvcnRpbmcgc2VjdXJpdHkgcGF0Y2hlcywg
+c28gc29tZW9uZShUTSkgc2hvdWxkDQo+ID4gZGVmaW5pdGVseSB0YWtlIGEgY2xvc2VyIGxvb2sg
+YXQgdGhpcyBmaXJzdC4NCj4gDQo+IFdpbGwgZG8hDQo+IA0KPiBBIGZldyBpbml0aWFsIGNvbW1l
+bnRzOg0KPiANCj4gMS4gUGxlYXNlIGRvbid0IFBHUCBzaWduIHBhdGNoIGVtYWlscyA6LSkNCj4g
+Mi4gQ2hhbmdlIHRoZSBwYXRjaCBmaWxlIG5hbWUgdG8gQ1ZFLTIwMTMtMDM0MC5wYXRjaA0KPiAN
+Cj4gT3RoZXIgdGhhbiB0aGF0IGl0IGxvb2tzIE9LIGF0IGZpcnN0IGdsYW5jZS4NCj4gDQo+IEZv
+ciByZWZlcmVuY2UgdGhlIHBhdGNoIHJlcXVpcmVtZW50cyBmb3IgQ1ZFJ3MgYXJlIG91dGxpbmVk
+IGF0Og0KPiANCj4gaHR0cHM6Ly93aWtpLnlvY3RvcHJvamVjdC5vcmcvd2lraS9TZWN1cml0eQ0K
+PiANCj4gaW4gdGhlICJQYXRjaCBuYW1lIGNvbnZlbnRpb24gYW5kIGNvbW1pdCBtZXNzYWdlIiBz
+ZWN0aW9uLg0KPiANCj4gVGhhbmtzIGZvciBoZWxwaW5nIHdpdGggQ1ZFcyENCj4gDQo+IFN0ZXZl
+DQo+IA0KPiANCj4gDQo+IA0KPiA+IFdpdGggYmVzdCByZWdhcmRzDQo+ID4gDQo+ID4gSmFzcGVy
+IE9yc2NodWxrbw0KPiA+IERldk9wcyBFbmdpbmVlcg0KPiA+IA0KPiA+IFRlbC4gKzQ5IDMwIDU4
+IDU4IDE0IDI2NQ0KPiA+IEZheCArNDkgMzAgNTggNTggMTQgOTk5DQo+ID4gSmFzcGVyLk9yc2No
+dWxrb0BpcmlzLXNlbnNpbmcuY29tDQo+ID4gDQo+ID4g4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg
+4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDi
+gKIg4oCiIOKAoiDigKIg4oCiIOKAog0KPiA+IA0KPiA+IGlyaXMtR21iSA0KPiA+IGluZnJhcmVk
+ICYgaW50ZWxsaWdlbnQgc2Vuc29ycw0KPiA+IE9zdGVuZHN0cmHDn2UgMS0xNCB8IDEyNDU5IEJl
+cmxpbg0KPiA+IA0KPiA+IGh0dHBzOi8vaXJpcy1zZW5zaW5nLmNvbS8NCj4gPiANCj4gPiANCj4g
+PiANCj4gPiANCj4gPiBPbiBXZWQsIDIwMjEtMDYtMTYgYXQgMTQ6NDQgKzAwMDAsIEphc3BlciBP
+cnNjaHVsa28gd3JvdGU6DQo+ID4gPiBleHBhdCA8IDQuMCBpcyB2dWxuZXJhYmxlIHRvIGJpbGxp
+b24gbGF1Z2hzIGF0dGFja3MgKHNlZQ0KPiA+ID4gW2h0dHBzOi8vZ2l0aHViLmNvbS9saWJleHBh
+dC9saWJleHBhdC9pc3N1ZXMvMzRdKS4gVGhpcyBwYXRjaA0KPiA+ID4gYmFja3BvcnRzDQo+ID4g
+PiB0aGUgY29tbWl0cyBiMWQwMzk2MDdkM2Q4YTA0MmJmMDQ2NmJmY2MxYzBmMTA0ZTM1M2M4DQo+
+ID4gPiBhbmQgNjA5NTlmMmI0OTE4NzYxOTk4NzlkOTdjOGVkOTU2ZWFiYjBjMmU3MyBmcm9tIHVw
+c3RyZWFtLg0KPiA+ID4gDQo+ID4gPiBBZGRpdGlvbmFsbHksIHRoZSBTUkNfVVJJIGhhZCB0byBi
+ZSBhZGp1c3RlZCBkdWUgdG8gcmVuYW1pbmcgb2YNCj4gPiA+IHRoZQ0KPiA+ID4gc291cmNlIGFy
+Y2hpdmUNCj4gPiA+IA0KPiA+ID4gU2lnbmVkLW9mZi1ieTogSmFzcGVyIE9yc2NodWxrbw0KPiA+
+ID4gPEphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5nLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4g
+wqAuLi5leHBhdC1CYWNrcG9ydC1maXgtZm9yLUNWRS0yMDEzLTAzNDAucGF0Y2ggfCAxNzU4DQo+
+ID4gPiArKysrKysrKysrKysrKysrKw0KPiA+ID4gwqBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC9l
+eHBhdF8yLjIuOS5iYsKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMyArLQ0KPiA+ID4gwqAyIGZpbGVz
+IGNoYW5nZWQsIDE3NjAgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ID4gwqBjcmVh
+dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXQvMDAwMS1leHBhdC0N
+Cj4gPiA+IEJhY2twb3J0LQ0KPiA+ID4gZml4LWZvci1DVkUtMjAxMy0wMzQwLnBhdGNoDQo+ID4g
+PiANCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdC8wMDAx
+LWV4cGF0LUJhY2twb3J0LQ0KPiA+ID4gZml4LQ0KPiA+ID4gZm9yLQ0KPiA+ID4gQ1ZFLTIwMTMt
+MDM0MC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0LzAwMDEtZXhwYXQtDQo+
+ID4gPiBCYWNrcG9ydC1maXgtZm9yLUNWRS0yMDEzLTAzNDAucGF0Y2gNCj4gPiA+IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0DQo+ID4gPiBpbmRleCAwMDAwMDAwMDAwLi5iMmNhMDY2ZDk2DQo+ID4gPiAt
+LS0gL2Rldi9udWxsDQo+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdC8w
+MDAxLWV4cGF0LUJhY2twb3J0LWZpeC1mb3ItDQo+ID4gPiBDVkUtDQo+ID4gPiAyMDEzLTAzNDAu
+cGF0Y2gNCj4gPiA+IEBAIC0wLDAgKzEsMTc1OCBAQA0KPiA+ID4gK0Zyb20gNmY2OGViMDQzOWYz
+YzE4MDdhMTQzZmY4Yzg5NzJlNzRkNDA0ZDhmMCBNb24gU2VwIDE3DQo+ID4gPiAwMDowMDowMA0K
+PiA+ID4gMjAwMQ0KPiA+ID4gK0Zyb206IFNlYmFzdGlhbiBQaXBwaW5nIDxzZWJhc3RpYW5AcGlw
+cGluZy5vcmc+DQo+ID4gPiArRGF0ZTogTW9uLCAxOSBBcHIgMjAyMSAyMTo0Mjo1MSArMDIwMA0K
+PiA+ID4gK1N1YmplY3Q6IFtQQVRDSF0gZXhwYXQ6IEJhY2twb3J0IGZpeCBmb3IgQ1ZFLTIwMTMt
+MDM0MA0KPiA+ID4gKw0KPiA+ID4gK0lzc3VlOiBodHRwczovL2dpdGh1Yi5jb20vbGliZXhwYXQv
+bGliZXhwYXQvaXNzdWVzLzM0DQo+ID4gPiArDQo+ID4gPiArVGhpcyBwYXRjaCBjaGVycnktcGlj
+a3MgdGhlIGZvbGxvd2luZyBjb21taXRzIGZyb20gdXBzdHJlYW0NCj4gPiA+IHJlbGVhc2UNCj4g
+PiA+ICsyLjQuMCBvbnRvIDIuMi45Og0KPiA+ID4gKw0KPiA+ID4gKy0gYjFkMDM5NjA3ZDNkOGEw
+NDJiZjA0NjZiZmNjMWMwZjEwNGUzNTNjOA0KPiA+ID4gKy0gNjA5NTlmMmI0OTE4NzYxOTk4Nzlk
+OTdjOGVkOTU2ZWFiYjBjMmU3Mw0KPiA+ID4gKw0KPiA+ID4gK1Vwc3RyZWFtLVN0YXR1czogQmFj
+a3BvcnQNCj4gPiA+ICtDVkU6IENWRS0yMDEzLTAzNDANCj4gPiA+ICtTaWduZWQtb2ZmLWJ5OiBK
+YXNwZXIgT3JzY2h1bGtvDQo+ID4gPiA8SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNpbmcuY29t
+Pg0KPiA+ID4gKy0tLQ0KPiA+ID4gKyBleHBhdC9saWIvZXhwYXQuaMKgwqDCoMKgwqDCoCB8wqDC
+oCAyMSArLQ0KPiA+ID4gKyBleHBhdC9saWIvaW50ZXJuYWwuaMKgwqDCoCB8wqDCoCAzMCArDQo+
+ID4gPiArIGV4cGF0L2xpYi9saWJleHBhdC5kZWbCoCB8wqDCoMKgIDMgKw0KPiA+ID4gKyBleHBh
+dC9saWIvbGliZXhwYXR3LmRlZiB8wqDCoMKgIDMgKw0KPiA+ID4gKyBleHBhdC9saWIveG1scGFy
+c2UuY8KgwqDCoCB8IDExNDcNCj4gPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKystDQo+ID4gPiAtDQo+ID4gPiArIDUgZmlsZXMgY2hhbmdlZCwgMTE0MyBpbnNlcnRpb25z
+KCspLCA2MSBkZWxldGlvbnMoLSkNCj4gPiA+ICsNCj4gPiA+ICtkaWZmIC0tZ2l0IGEvZXhwYXQv
+bGliL2V4cGF0LmggYi9leHBhdC9saWIvZXhwYXQuaA0KPiA+ID4gK2luZGV4IDQ4YTZlMmEzLi43
+OTYwODZjMiAxMDA2NDQNCj4gPiA+ICstLS0gYS9leHBhdC9saWIvZXhwYXQuaA0KPiA+ID4gKysr
+KyBiL2V4cGF0L2xpYi9leHBhdC5oDQo+ID4gPiArQEAgLTExNSw3ICsxMTUsOSBAQCBlbnVtIFhN
+TF9FcnJvciB7DQo+ID4gPiArwqDCoCBYTUxfRVJST1JfUkVTRVJWRURfUFJFRklYX1hNTE5TLA0K
+PiA+ID4gK8KgwqAgWE1MX0VSUk9SX1JFU0VSVkVEX05BTUVTUEFDRV9VUkksDQo+ID4gPiArwqDC
+oCAvKiBBZGRlZCBpbiAyLjIuMS4gKi8NCj4gPiA+ICstwqAgWE1MX0VSUk9SX0lOVkFMSURfQVJH
+VU1FTlQNCj4gPiA+ICsrwqAgWE1MX0VSUk9SX0lOVkFMSURfQVJHVU1FTlQsDQo+ID4gPiArK8Kg
+IC8qIEJhY2twb3J0ZWQgZnJvbSAyLjQuMC4gKi8NCj4gPiA+ICsrwqAgWE1MX0VSUk9SX0FNUExJ
+RklDQVRJT05fTElNSVRfQlJFQUNIDQo+ID4gPiArIH07DQo+ID4gPiArDQo+ID4gPiArIGVudW0g
+WE1MX0NvbnRlbnRfVHlwZSB7DQo+ID4gPiArQEAgLTk5Nyw3ICs5OTksMTAgQEAgZW51bSBYTUxf
+RmVhdHVyZUVudW0gew0KPiA+ID4gK8KgwqAgWE1MX0ZFQVRVUkVfU0laRU9GX1hNTF9MQ0hBUiwN
+Cj4gPiA+ICvCoMKgIFhNTF9GRUFUVVJFX05TLA0KPiA+ID4gK8KgwqAgWE1MX0ZFQVRVUkVfTEFS
+R0VfU0laRSwNCj4gPiA+ICstwqAgWE1MX0ZFQVRVUkVfQVRUUl9JTkZPDQo+ID4gPiArK8KgIFhN
+TF9GRUFUVVJFX0FUVFJfSU5GTywNCj4gPiA+ICsrwqAgLyogQWRkZWQgaW4gRXhwYXQgMi40LjAu
+ICovDQo+ID4gPiArKw0KPiA+ID4gWE1MX0ZFQVRVUkVfQklMTElPTl9MQVVHSFNfQVRUQUNLX1BS
+T1RFQ1RJT05fTUFYSU1VTV9BTVBMSUZJQ0FUSU8NCj4gPiA+IE5fREUNCj4gPiA+IEZBDQo+ID4g
+PiBVTFQsDQo+ID4gPiArKw0KPiA+ID4gWE1MX0ZFQVRVUkVfQklMTElPTl9MQVVHSFNfQVRUQUNL
+X1BST1RFQ1RJT05fQUNUSVZBVElPTl9USFJFU0hPTEQNCj4gPiA+IF9ERUYNCj4gPiA+IEFVDQo+
+ID4gPiBMVA0KPiA+ID4gK8KgwqAgLyogQWRkaXRpb25hbCBmZWF0dXJlcyBtdXN0IGJlIGFkZGVk
+IHRvIHRoZSBlbmQgb2YgdGhpcyBlbnVtLg0KPiA+ID4gKi8NCj4gPiA+ICsgfTsNCj4gPiA+ICsN
+Cj4gPiA+ICtAQCAtMTAxMCw2ICsxMDE1LDE4IEBAIHR5cGVkZWYgc3RydWN0IHsNCj4gPiA+ICsg
+WE1MUEFSU0VBUEkoY29uc3QgWE1MX0ZlYXR1cmUgKikNCj4gPiA+ICsgWE1MX0dldEZlYXR1cmVM
+aXN0KHZvaWQpOw0KPiA+ID4gKw0KPiA+ID4gKysjaWZkZWYgWE1MX0RURA0KPiA+ID4gKysvKiBC
+YWNrcG9ydGVkIGZyb20gRXhwYXQgMi40LjAuICovDQo+ID4gPiArK1hNTFBBUlNFQVBJKFhNTF9C
+b29sKQ0KPiA+ID4gKytYTUxfU2V0QmlsbGlvbkxhdWdoc0F0dGFja1Byb3RlY3Rpb25NYXhpbXVt
+QW1wbGlmaWNhdGlvbigNCj4gPiA+ICsrwqDCoMKgIFhNTF9QYXJzZXIgcGFyc2VyLCBmbG9hdCBt
+YXhpbXVtQW1wbGlmaWNhdGlvbkZhY3Rvcik7DQo+ID4gPiArKw0KPiA+ID4gKysvKiBCYWNrcG9y
+dGVkIGZyb20gRXhwYXQgMi40LjAuICovDQo+ID4gPiArK1hNTFBBUlNFQVBJKFhNTF9Cb29sKQ0K
+PiA+ID4gKytYTUxfU2V0QmlsbGlvbkxhdWdoc0F0dGFja1Byb3RlY3Rpb25BY3RpdmF0aW9uVGhy
+ZXNob2xkKA0KPiA+ID4gKyvCoMKgwqAgWE1MX1BhcnNlciBwYXJzZXIsIHVuc2lnbmVkIGxvbmcg
+bG9uZw0KPiA+ID4gYWN0aXZhdGlvblRocmVzaG9sZEJ5dGVzKTsNCj4gPiA+ICsrI2VuZGlmDQo+
+ID4gPiArKw0KPiA+ID4gKyAvKiBFeHBhdCBmb2xsb3dzIHRoZSBzZW1hbnRpYyB2ZXJzaW9uaW5n
+IGNvbnZlbnRpb24uDQo+ID4gPiArwqDCoMKgIFNlZSBodHRwOi8vc2VtdmVyLm9yZy4NCj4gPiA+
+ICsgKi8NCj4gPiA+ICtkaWZmIC0tZ2l0IGEvZXhwYXQvbGliL2ludGVybmFsLmggYi9leHBhdC9s
+aWIvaW50ZXJuYWwuaA0KPiA+ID4gK2luZGV4IDYwOTEzZGFiLi5kOGIzMWZhMiAxMDA2NDQNCj4g
+PiA+ICstLS0gYS9leHBhdC9saWIvaW50ZXJuYWwuaA0KPiA+ID4gKysrKyBiL2V4cGF0L2xpYi9p
+bnRlcm5hbC5oDQo+ID4gPiArQEAgLTEwMSwxMCArMTAxLDQwIEBADQo+ID4gPiArICPCoCBlbmRp
+Zg0KPiA+ID4gKyAjZW5kaWYNCj4gPiA+ICsNCj4gPiA+ICsrI2luY2x1ZGUgPGxpbWl0cy5oPiAv
+LyBVTE9OR19NQVgNCj4gPiA+ICsrDQo+ID4gPiArKyNpZiBkZWZpbmVkKF9XSU4zMikgJiYgISBk
+ZWZpbmVkKF9fVVNFX01JTkdXX0FOU0lfU1RESU8pDQo+ID4gPiArKyPCoCBkZWZpbmUgRVhQQVRf
+Rk1UX1VMTChtaWRwYXJ0KSAiJSIgbWlkcGFydCAiSTY0dSINCj4gPiA+ICsrI8KgIGlmIGRlZmlu
+ZWQoX1dJTjY0KSAvLyBOb3RlOiBtb2RpZmllciAidGQiIGRvZXMgbm90IHdvcmsgZm9yDQo+ID4g
+PiBNaW5HVw0KPiA+ID4gKysjwqDCoMKgIGRlZmluZSBFWFBBVF9GTVRfUFRSRElGRl9UKG1pZHBh
+cnQpICIlIiBtaWRwYXJ0ICJJNjRkIg0KPiA+ID4gKysjwqAgZWxzZQ0KPiA+ID4gKysjwqDCoMKg
+IGRlZmluZSBFWFBBVF9GTVRfUFRSRElGRl9UKG1pZHBhcnQpICIlIiBtaWRwYXJ0ICJkIg0KPiA+
+ID4gKysjwqAgZW5kaWYNCj4gPiA+ICsrI2Vsc2UNCj4gPiA+ICsrI8KgIGRlZmluZSBFWFBBVF9G
+TVRfVUxMKG1pZHBhcnQpICIlIiBtaWRwYXJ0ICJsbHUiDQo+ID4gPiArKyPCoCBpZiAhIGRlZmlu
+ZWQoVUxPTkdfTUFYKQ0KPiA+ID4gKysjwqDCoMKgIGVycm9yIENvbXBpbGVyIGRpZCBub3QgZGVm
+aW5lIFVMT05HX01BWCBmb3IgdXMNCj4gPiA+ICsrI8KgIGVsaWYgVUxPTkdfTUFYID09IDE4NDQ2
+NzQ0MDczNzA5NTUxNjE1dSAvLyAyXjY0LTENCj4gPiA+ICsrI8KgwqDCoCBkZWZpbmUgRVhQQVRf
+Rk1UX1BUUkRJRkZfVChtaWRwYXJ0KSAiJSIgbWlkcGFydCAibGQiDQo+ID4gPiArKyPCoCBlbHNl
+DQo+ID4gPiArKyPCoMKgwqAgZGVmaW5lIEVYUEFUX0ZNVF9QVFJESUZGX1QobWlkcGFydCkgIiUi
+IG1pZHBhcnQgImQiDQo+ID4gPiArKyPCoCBlbmRpZg0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICsr
+DQo+ID4gPiArICNpZm5kZWYgVU5VU0VEX1ANCj4gPiA+ICsgI8KgIGRlZmluZSBVTlVTRURfUChw
+KSAodm9pZClwDQo+ID4gPiArICNlbmRpZg0KPiA+ID4gKw0KPiA+ID4gKysvKiBOT1RFIEJFR0lO
+IElmIHlvdSBldmVyIHBhdGNoIHRoZXNlIGRlZmF1bHRzIHRvIGdyZWF0ZXINCj4gPiA+IHZhbHVl
+cw0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3Igbm9uLWF0dGFjayBYTUwg
+cGF5bG9hZCBpbiB5b3VyIGVudmlyb25tZW50LA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBwbGVhc2UgZmlsZSBhIGJ1ZyByZXBvcnQgd2l0aCBsaWJleHBhdC7CoCBUaGFuaw0K
+PiA+ID4geW91IQ0KPiA+ID4gKysqLw0KPiA+ID4gKysjZGVmaW5lDQo+ID4gPiBcDQo+ID4gPiAr
+K8KgIDEwMC4wZg0KPiA+ID4gKysjZGVmaW5lDQo+ID4gPiBcDQo+ID4gPiArK8KgIDgzODg2MDgg
+Ly8gOCBNaUIsIDJeMjMNCj4gPiA+ICsrLyogTk9URSBFTkQgKi8NCj4gPiA+ICsrDQo+ID4gPiAr
+ICNpZmRlZiBfX2NwbHVzcGx1cw0KPiA+ID4gKyBleHRlcm4gIkMiIHsNCj4gPiA+ICsgI2VuZGlm
+DQo+ID4gPiArZGlmZiAtLWdpdCBhL2V4cGF0L2xpYi9saWJleHBhdC5kZWYgYi9leHBhdC9saWIv
+bGliZXhwYXQuZGVmDQo+ID4gPiAraW5kZXggMTZmYWY1OTUuLmI1ZTU5ZDhkIDEwMDY0NA0KPiA+
+ID4gKy0tLSBhL2V4cGF0L2xpYi9saWJleHBhdC5kZWYNCj4gPiA+ICsrKysgYi9leHBhdC9saWIv
+bGliZXhwYXQuZGVmDQo+ID4gPiArQEAgLTc2LDMgKzc2LDYgQEAgRVhQT1JUUw0KPiA+ID4gK8Kg
+wqAgWE1MX1NldEhhc2hTYWx0IEA2Nw0KPiA+ID4gKyA7IGFkZGVkIHdpdGggdmVyc2lvbiAyLjIu
+NQ0KPiA+ID4gK8KgwqAgX0lOVEVSTkFMX3RyaW1fdG9fY29tcGxldGVfdXRmOF9jaGFyYWN0ZXJz
+IEA2OA0KPiA+ID4gKys7IGJhY2twb3J0ZWQgZnJvbSB2ZXJzaW9uIDIuNC4wDQo+ID4gPiArK8Kg
+IFhNTF9TZXRCaWxsaW9uTGF1Z2hzQXR0YWNrUHJvdGVjdGlvbkFjdGl2YXRpb25UaHJlc2hvbGQg
+QDY5DQo+ID4gPiArK8KgIFhNTF9TZXRCaWxsaW9uTGF1Z2hzQXR0YWNrUHJvdGVjdGlvbk1heGlt
+dW1BbXBsaWZpY2F0aW9uIEA3MA0KPiA+ID4gK2RpZmYgLS1naXQgYS9leHBhdC9saWIvbGliZXhw
+YXR3LmRlZiBiL2V4cGF0L2xpYi9saWJleHBhdHcuZGVmDQo+ID4gPiAraW5kZXggMTZmYWY1OTUu
+LmViZDc3NzA3IDEwMDY0NA0KPiA+ID4gKy0tLSBhL2V4cGF0L2xpYi9saWJleHBhdHcuZGVmDQo+
+ID4gPiArKysrIGIvZXhwYXQvbGliL2xpYmV4cGF0dy5kZWYNCj4gPiA+ICtAQCAtNzYsMyArNzYs
+NiBAQCBFWFBPUlRTDQo+ID4gPiArwqDCoCBYTUxfU2V0SGFzaFNhbHQgQDY3DQo+ID4gPiArIDsg
+YWRkZWQgd2l0aCB2ZXJzaW9uIDIuMi41DQo+ID4gPiArwqDCoCBfSU5URVJOQUxfdHJpbV90b19j
+b21wbGV0ZV91dGY4X2NoYXJhY3RlcnMgQDY4DQo+ID4gPiArKzsgYmFja3BvcnRlZCBmcm9tIHZl
+cnNpb24gMi40LjANCj4gPiA+ICsrwqAgWE1MX1NldEJpbGxpb25MYXVnaHNBdHRhY2tQcm90ZWN0
+aW9uQWN0aXZhdGlvblRocmVzaG9sZCBANjkNCj4gPiA+ICsrwqAgWE1MX1NldEJpbGxpb25MYXVn
+aHNBdHRhY2tQcm90ZWN0aW9uTWF4aW11bUFtcGxpZmljYXRpb24gQDcNCj4gPiA+ICtkaWZmIC0t
+Z2l0IGEvZXhwYXQvbGliL3htbHBhcnNlLmMgYi9leHBhdC9saWIveG1scGFyc2UuYw0KPiA+ID4g
+K2luZGV4IDNhYWYzNWI5Li5mZGNjNzI5NiAxMDA2NDQNCj4gPiA+ICstLS0gYS9leHBhdC9saWIv
+eG1scGFyc2UuYw0KPiA+ID4gKysrKyBiL2V4cGF0L2xpYi94bWxwYXJzZS5jDQo+ID4gPiArQEAg
+LTQ3LDYgKzQ3LDggQEANCj4gPiA+ICsgI2luY2x1ZGUgPGxpbWl0cy5oPiAvKiBVSU5UX01BWCAq
+Lw0KPiA+ID4gKyAjaW5jbHVkZSA8c3RkaW8uaD7CoCAvKiBmcHJpbnRmICovDQo+ID4gPiArICNp
+bmNsdWRlIDxzdGRsaWIuaD4gLyogZ2V0ZW52LCByYW5kX3MgKi8NCj4gPiA+ICsrI2luY2x1ZGUg
+PHN0ZGludC5oPiAvKiB1aW50cHRyX3QgKi8NCj4gPiA+ICsrI2luY2x1ZGUgPG1hdGguaD7CoMKg
+IC8qIGlzbmFuICovDQo+ID4gPiArDQo+ID4gPiArICNpZmRlZiBfV0lOMzINCj4gPiA+ICsgI8Kg
+IGRlZmluZSBnZXRwaWQgR2V0Q3VycmVudFByb2Nlc3NJZA0KPiA+ID4gK0BAIC0zNzMsNiArMzc1
+LDMxIEBAIHR5cGVkZWYgc3RydWN0IG9wZW5faW50ZXJuYWxfZW50aXR5IHsNCj4gPiA+ICvCoMKg
+IFhNTF9Cb29sIGJldHdlZW5EZWNsOyAvKiBXRkM6IFBFIEJldHdlZW4gRGVjbGFyYXRpb25zICov
+DQo+ID4gPiArIH0gT1BFTl9JTlRFUk5BTF9FTlRJVFk7DQo+ID4gPiArDQo+ID4gPiArK2VudW0g
+WE1MX0FjY291bnQgew0KPiA+ID4gKyvCoCBYTUxfQUNDT1VOVF9ESVJFQ1QswqDCoMKgwqDCoMKg
+wqDCoMKgwqAgLyogYnl0ZXMgZGlyZWN0bHkgcGFzc2VkIHRvIHRoZQ0KPiA+ID4gRXhwYXQNCj4g
+PiA+IHBhcnNlciAqLw0KPiA+ID4gKyvCoCBYTUxfQUNDT1VOVF9FTlRJVFlfRVhQQU5TSU9OLCAv
+KiBpbnRlcm1lZGlhdGUgYnl0ZXMgcHJvZHVjZWQNCj4gPiA+IGR1cmluZw0KPiA+ID4gZW50aXR5
+DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGV4cGFuc2lvbiAqLw0KPiA+ID4gKyvCoCBYTUxfQUNDT1VO
+VF9OT05FwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogaS5lLiBkbyBub3QgYWNjb3VudCwg
+d2FzDQo+ID4gPiBhY2NvdW50ZWQNCj4gPiA+IGFscmVhZHkgKi8NCj4gPiA+ICsrfTsNCj4gPiA+
+ICsrDQo+ID4gPiArKyNpZmRlZiBYTUxfRFREDQo+ID4gPiArK3R5cGVkZWYgdW5zaWduZWQgbG9u
+ZyBsb25nIFhtbEJpZ0NvdW50Ow0KPiA+ID4gKyt0eXBlZGVmIHN0cnVjdCBhY2NvdW50aW5nIHsN
+Cj4gPiA+ICsrwqAgWG1sQmlnQ291bnQgY291bnRCeXRlc0RpcmVjdDsNCj4gPiA+ICsrwqAgWG1s
+QmlnQ291bnQgY291bnRCeXRlc0luZGlyZWN0Ow0KPiA+ID4gKyvCoCBpbnQgZGVidWdMZXZlbDsN
+Cj4gPiA+ICsrwqAgZmxvYXQgbWF4aW11bUFtcGxpZmljYXRpb25GYWN0b3I7IC8vID49MS4wDQo+
+ID4gPiArK8KgIHVuc2lnbmVkIGxvbmcgbG9uZyBhY3RpdmF0aW9uVGhyZXNob2xkQnl0ZXM7DQo+
+ID4gPiArK30gQUNDT1VOVElORzsNCj4gPiA+ICsrDQo+ID4gPiArK3R5cGVkZWYgc3RydWN0IGVu
+dGl0eV9zdGF0cyB7DQo+ID4gPiArK8KgIHVuc2lnbmVkIGludCBjb3VudEV2ZXJPcGVuZWQ7DQo+
+ID4gPiArK8KgIHVuc2lnbmVkIGludCBjdXJyZW50RGVwdGg7DQo+ID4gPiArK8KgIHVuc2lnbmVk
+IGludCBtYXhpbXVtRGVwdGhTZWVuOw0KPiA+ID4gKyvCoCBpbnQgZGVidWdMZXZlbDsNCj4gPiA+
+ICsrfSBFTlRJVFlfU1RBVFM7DQo+ID4gPiArKyNlbmRpZiAvKiBYTUxfRFREICovDQo+ID4gPiAr
+Kw0KPiA+ID4gKyB0eXBlZGVmIGVudW0gWE1MX0Vycm9yIFBUUkNBTEwgUHJvY2Vzc29yKFhNTF9Q
+YXJzZXIgcGFyc2VyLA0KPiA+ID4gY29uc3QNCj4gPiA+IGNoYXIgKnN0YXJ0LA0KPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAqZW5kLCBjb25zdA0KPiA+ID4gY2hh
+cg0KPiA+ID4gKiplbmRQdHIpOw0KPiA+ID4gKw0KPiA+ID4gK0BAIC00MDMsMTYgKzQzMCwxOCBA
+QCBzdGF0aWMgZW51bSBYTUxfRXJyb3INCj4gPiA+IGluaXRpYWxpemVFbmNvZGluZyhYTUxfUGFy
+c2VyIHBhcnNlcik7DQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJvciBkb1Byb2xvZyhYTUxf
+UGFyc2VyIHBhcnNlciwgY29uc3QNCj4gPiA+IEVOQ09ESU5HDQo+ID4gPiAqZW5jLA0KPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGNvbnN0IGNoYXIgKnMsIGNvbnN0IGNoYXIgKmVuZCwNCj4gPiA+IGludA0KPiA+ID4g
+dG9rLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIgKm5leHQsIGNvbnN0IGNoYXINCj4gPiA+ICoq
+bmV4dFB0ciwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIFhNTF9Cb29sIGhhdmVNb3JlLCBYTUxfQm9vbA0KPiA+ID4g
+YWxsb3dDbG9zaW5nRG9jdHlwZSk7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQm9vbCBoYXZlTW9yZSwgWE1M
+X0Jvb2wNCj4gPiA+IGFsbG93Q2xvc2luZ0RvY3R5cGUsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbnVtIFhNTF9B
+Y2NvdW50IGFjY291bnQpOw0KPiA+ID4gKyBzdGF0aWMgZW51bSBYTUxfRXJyb3IgcHJvY2Vzc0lu
+dGVybmFsRW50aXR5KFhNTF9QYXJzZXIgcGFyc2VyLA0KPiA+ID4gRU5USVRZDQo+ID4gPiAqZW50
+aXR5LA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0Jvb2wNCj4g
+PiA+IGJldHdlZW5EZWNsKTsNCj4gPiA+ICsgc3RhdGljIGVudW0gWE1MX0Vycm9yIGRvQ29udGVu
+dChYTUxfUGFyc2VyIHBhcnNlciwgaW50DQo+ID4gPiBzdGFydFRhZ0xldmVsLA0KPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgY29uc3QgRU5DT0RJTkcgKmVuYywgY29uc3QgY2hhcg0KPiA+ID4gKnN0YXJ0LA0KPiA+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgY29uc3QgY2hhciAqZW5kLCBjb25zdCBjaGFyDQo+ID4gPiAqKmVuZFB0ciwN
+Cj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgWE1MX0Jvb2wgaGF2ZU1vcmUpOw0KPiA+ID4gKyvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQm9v
+bCBoYXZlTW9yZSwgZW51bQ0KPiA+ID4gWE1MX0FjY291bnQNCj4gPiA+IGFjY291bnQpOw0KPiA+
+ID4gKyBzdGF0aWMgZW51bSBYTUxfRXJyb3IgZG9DZGF0YVNlY3Rpb24oWE1MX1BhcnNlciBwYXJz
+ZXIsIGNvbnN0DQo+ID4gPiBFTkNPRElORyAqLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNv
+bnN0IGNoYXIgKipzdGFydFB0ciwNCj4gPiA+IGNvbnN0DQo+ID4gPiBjaGFyICplbmQsDQo+ID4g
+PiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBjaGFyICoqbmV4dFB0ciwNCj4gPiA+IFhNTF9Cb29s
+DQo+ID4gPiBoYXZlTW9yZSk7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBjaGFyICoq
+bmV4dFB0ciwNCj4gPiA+IFhNTF9Cb29sDQo+ID4gPiBoYXZlTW9yZSwNCj4gPiA+ICsrwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGVudW0gWE1MX0FjY291bnQgYWNjb3VudCk7DQo+ID4gPiArICNpZmRlZiBYTUxf
+RFREDQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJvciBkb0lnbm9yZVNlY3Rpb24oWE1MX1Bh
+cnNlciBwYXJzZXIsIGNvbnN0DQo+ID4gPiBFTkNPRElORyAqLA0KPiA+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgY29uc3QgY2hhciAqKnN0YXJ0UHRyLA0KPiA+ID4gY29uc3QNCj4gPiA+IGNoYXIg
+KmVuZCwNCj4gPiA+ICtAQCAtNDIyLDcgKzQ1MSw4IEBAIHN0YXRpYyBlbnVtIFhNTF9FcnJvcg0K
+PiA+ID4gZG9JZ25vcmVTZWN0aW9uKFhNTF9QYXJzZXINCj4gPiA+IHBhcnNlciwgY29uc3QgRU5D
+T0RJTkcgKiwNCj4gPiA+ICsgc3RhdGljIHZvaWQgZnJlZUJpbmRpbmdzKFhNTF9QYXJzZXIgcGFy
+c2VyLCBCSU5ESU5HICpiaW5kaW5ncyk7DQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJvciBz
+dG9yZUF0dHMoWE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0DQo+ID4gPiBFTkNPRElORw0KPiA+ID4g
+KiwNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIgKnMsIFRBR19OQU1FDQo+ID4gPiAqdGFnTmFt
+ZVB0ciwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgQklORElORyAqKmJpbmRpbmdzUHRyKTsNCj4gPiA+ICsrwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgQklORElORyAqKmJpbmRpbmdzUHRyLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbnVtIFhNTF9BY2NvdW50
+IGFjY291bnQpOw0KPiA+ID4gKyBzdGF0aWMgZW51bSBYTUxfRXJyb3IgYWRkQmluZGluZyhYTUxf
+UGFyc2VyIHBhcnNlciwgUFJFRklYDQo+ID4gPiAqcHJlZml4LA0KPiA+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBj
+b25zdCBBVFRSSUJVVEVfSUQgKmF0dElkLA0KPiA+ID4gY29uc3QNCj4gPiA+IFhNTF9DaGFyICp1
+cmksDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIEJJTkRJTkcgKipiaW5kaW5nc1B0cik7DQo+ID4gPiArQEAg
+LTQzMSwxNSArNDYxLDE4IEBAIHN0YXRpYyBpbnQgZGVmaW5lQXR0cmlidXRlKEVMRU1FTlRfVFlQ
+RQ0KPiA+ID4gKnR5cGUsDQo+ID4gPiBBVFRSSUJVVEVfSUQgKiwgWE1MX0Jvb2wgaXNDZGF0YSwN
+Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgWE1MX1BhcnNlciBwYXJzZXIpOw0KPiA+ID4gKyBzdGF0aWMgZW51bSBYTUxfRXJyb3Ig
+c3RvcmVBdHRyaWJ1dGVWYWx1ZShYTUxfUGFyc2VyIHBhcnNlciwNCj4gPiA+IGNvbnN0DQo+ID4g
+PiBFTkNPRElORyAqLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQm9v
+bCBpc0NkYXRhLA0KPiA+ID4gY29uc3QNCj4gPiA+IGNoYXIgKiwNCj4gPiA+ICstwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBjb25zdCBjaGFyICosDQo+ID4gPiBTVFJJTkdfUE9PTA0KPiA+ID4g
+Kik7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAqLA0KPiA+
+ID4gU1RSSU5HX1BPT0wNCj4gPiA+ICosDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZW51bSBYTUxfQWNjb3VudA0KPiA+ID4gYWNjb3VudCk7DQo+ID4gPiArIHN0YXRpYyBlbnVt
+IFhNTF9FcnJvciBhcHBlbmRBdHRyaWJ1dGVWYWx1ZShYTUxfUGFyc2VyIHBhcnNlciwNCj4gPiA+
+IGNvbnN0DQo+ID4gPiBFTkNPRElORyAqLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIFhNTF9Cb29sIGlzQ2RhdGEsDQo+ID4gPiBjb25zdA0KPiA+ID4gY2hhciAqLA0KPiA+
+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAqLA0KPiA+ID4gU1RS
+SU5HX1BPT0wNCj4gPiA+ICopOw0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Y29uc3QgY2hhciAqLA0KPiA+ID4gU1RSSU5HX1BPT0wNCj4gPiA+ICosDQo+ID4gPiArK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbnVtIFhNTF9BY2NvdW50DQo+ID4gPiBhY2NvdW50KTsN
+Cj4gPiA+ICsgc3RhdGljIEFUVFJJQlVURV9JRCAqZ2V0QXR0cmlidXRlSWQoWE1MX1BhcnNlciBw
+YXJzZXIsIGNvbnN0DQo+ID4gPiBFTkNPRElORw0KPiA+ID4gKmVuYywNCj4gPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgY29uc3QgY2hhciAqc3RhcnQsIGNvbnN0DQo+ID4gPiBjaGFyDQo+ID4gPiAqZW5k
+KTsNCj4gPiA+ICsgc3RhdGljIGludCBzZXRFbGVtZW50VHlwZVByZWZpeChYTUxfUGFyc2VyIHBh
+cnNlciwgRUxFTUVOVF9UWVBFDQo+ID4gPiAqKTsNCj4gPiA+ICsgc3RhdGljIGVudW0gWE1MX0Vy
+cm9yIHN0b3JlRW50aXR5VmFsdWUoWE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0DQo+ID4gPiBFTkNP
+RElORyAqZW5jLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIgKnN0YXJ0
+LCBjb25zdA0KPiA+ID4gY2hhcg0KPiA+ID4gKmVuZCk7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgY29uc3QgY2hhciAqc3RhcnQsIGNvbnN0DQo+ID4gPiBjaGFyDQo+ID4gPiAqZW5kLA0K
+PiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVudW0gWE1MX0FjY291bnQNCj4gPiA+IGFjY291
+bnQpOw0KPiA+ID4gKyBzdGF0aWMgaW50IHJlcG9ydFByb2Nlc3NpbmdJbnN0cnVjdGlvbihYTUxf
+UGFyc2VyIHBhcnNlciwgY29uc3QNCj4gPiA+IEVOQ09ESU5HICplbmMsDQo+ID4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIgKnN0YXJ0LCBjb25zdA0KPiA+ID4gY2hhcg0KPiA+
+ID4gKmVuZCk7DQo+ID4gPiArIHN0YXRpYyBpbnQgcmVwb3J0Q29tbWVudChYTUxfUGFyc2VyIHBh
+cnNlciwgY29uc3QgRU5DT0RJTkcNCj4gPiA+ICplbmMsDQo+ID4gPiArQEAgLTUwMyw2ICs1MzYs
+MzUgQEAgc3RhdGljIFhNTF9QYXJzZXIgcGFyc2VyQ3JlYXRlKGNvbnN0DQo+ID4gPiBYTUxfQ2hh
+cg0KPiA+ID4gKmVuY29kaW5nTmFtZSwNCj4gPiA+ICsNCj4gPiA+ICsgc3RhdGljIHZvaWQgcGFy
+c2VySW5pdChYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QgWE1MX0NoYXINCj4gPiA+ICplbmNvZGlu
+Z05hbWUpOw0KPiA+ID4gKw0KPiA+ID4gKysjaWZkZWYgWE1MX0RURA0KPiA+ID4gKytzdGF0aWMg
+ZmxvYXQgYWNjb3VudGluZ0dldEN1cnJlbnRBbXBsaWZpY2F0aW9uKFhNTF9QYXJzZXINCj4gPiA+
+IHJvb3RQYXJzZXIpOw0KPiA+ID4gKytzdGF0aWMgdm9pZCBhY2NvdW50aW5nUmVwb3J0U3RhdHMo
+WE1MX1BhcnNlciBvcmlnaW5QYXJzZXIsDQo+ID4gPiBjb25zdA0KPiA+ID4gY2hhcg0KPiA+ID4g
+KmVwaWxvZyk7DQo+ID4gPiArK3N0YXRpYyB2b2lkIGFjY291bnRpbmdPbkFib3J0KFhNTF9QYXJz
+ZXIgb3JpZ2luUGFyc2VyKTsNCj4gPiA+ICsrc3RhdGljIHZvaWQgYWNjb3VudGluZ1JlcG9ydERp
+ZmYoWE1MX1BhcnNlciByb290UGFyc2VyLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVuc2lnbmVkIGludA0K
+PiA+ID4gbGV2ZWxzQXdheUZyb21Sb290UGFyc2VyLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNo
+YXIgKmJlZm9yZSwgY29uc3QgY2hhcg0KPiA+ID4gKmFmdGVyLA0KPiA+ID4gKyvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHB0
+cmRpZmZfdCBieXRlc01vcmUsIGludA0KPiA+ID4gc291cmNlX2xpbmUsDQo+ID4gPiArK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZW51bSBYTUxfQWNjb3VudCBhY2NvdW50KTsNCj4gPiA+ICsrc3RhdGljIFhNTF9Cb29sIGFj
+Y291bnRpbmdEaWZmVG9sZXJhdGVkKFhNTF9QYXJzZXINCj4gPiA+IG9yaWdpblBhcnNlciwNCj4g
+PiA+IGludA0KPiA+ID4gdG9rLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3Qg
+Y2hhciAqYmVmb3JlLA0KPiA+ID4gY29uc3QNCj4gPiA+IGNoYXIgKmFmdGVyLA0KPiA+ID4gKyvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IHNvdXJjZV9saW5lLA0KPiA+ID4gKyvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgZW51bSBYTUxfQWNjb3VudA0KPiA+ID4gYWNjb3VudCk7DQo+ID4gPiArKw0K
+PiA+ID4gKytzdGF0aWMgdm9pZCBlbnRpdHlUcmFja2luZ1JlcG9ydFN0YXRzKFhNTF9QYXJzZXIg
+cGFyc2VyLCBFTlRJVFkNCj4gPiA+ICplbnRpdHksDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGNvbnN0IGNoYXIgKmFjdGlvbiwgaW50DQo+ID4gPiBzb3VyY2VMaW5lKTsNCj4gPiA+ICsrc3Rh
+dGljIHZvaWQgZW50aXR5VHJhY2tpbmdPbk9wZW4oWE1MX1BhcnNlciBwYXJzZXIsIEVOVElUWQ0K
+PiA+ID4gKmVudGl0eSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnQgc291cmNlTGluZSk7DQo+ID4gPiAr
+K3N0YXRpYyB2b2lkIGVudGl0eVRyYWNraW5nT25DbG9zZShYTUxfUGFyc2VyIHBhcnNlciwgRU5U
+SVRZDQo+ID4gPiAqZW50aXR5LA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IHNvdXJjZUxpbmUpOw0K
+PiA+ID4gKysNCj4gPiA+ICsrc3RhdGljIFhNTF9QYXJzZXIgZ2V0Um9vdFBhcnNlck9mKFhNTF9Q
+YXJzZXIgcGFyc2VyLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgaW50ICpvdXRMZXZlbERp
+ZmYpOw0KPiA+ID4gKytzdGF0aWMgY29uc3QgY2hhciAqdW5zaWduZWRDaGFyVG9QcmludGFibGUo
+dW5zaWduZWQgY2hhciBjKTsNCj4gPiA+ICsrI2VuZGlmIC8qIFhNTF9EVEQgKi8NCj4gPiA+ICsr
+DQo+ID4gPiArK3N0YXRpYyB1bnNpZ25lZCBsb25nIGdldERlYnVnTGV2ZWwoY29uc3QgY2hhciAq
+dmFyaWFibGVOYW1lLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNpZ25lZCBsb25nDQo+ID4gPiBk
+ZWZhdWx0RGVidWdMZXZlbCk7DQo+ID4gPiArKw0KPiA+ID4gKyAjZGVmaW5lIHBvb2xTdGFydChw
+b29sKSAoKHBvb2wpLT5zdGFydCkNCj4gPiA+ICsgI2RlZmluZSBwb29sRW5kKHBvb2wpICgocG9v
+bCktPnB0cikNCj4gPiA+ICsgI2RlZmluZSBwb29sTGVuZ3RoKHBvb2wpICgocG9vbCktPnB0ciAt
+IChwb29sKS0+c3RhcnQpDQo+ID4gPiArQEAgLTYxNiw2ICs2NzgsMTAgQEAgc3RydWN0IFhNTF9Q
+YXJzZXJTdHJ1Y3Qgew0KPiA+ID4gK8KgwqAgZW51bSBYTUxfUGFyYW1FbnRpdHlQYXJzaW5nIG1f
+cGFyYW1FbnRpdHlQYXJzaW5nOw0KPiA+ID4gKyAjZW5kaWYNCj4gPiA+ICvCoMKgIHVuc2lnbmVk
+IGxvbmcgbV9oYXNoX3NlY3JldF9zYWx0Ow0KPiA+ID4gKysjaWZkZWYgWE1MX0RURA0KPiA+ID4g
+KyvCoCBBQ0NPVU5USU5HIG1fYWNjb3VudGluZzsNCj4gPiA+ICsrwqAgRU5USVRZX1NUQVRTIG1f
+ZW50aXR5X3N0YXRzOw0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICsgfTsNCj4gPiA+ICsNCj4gPiA+
+ICsgI2RlZmluZSBNQUxMT0MocGFyc2VyLCBzKSAocGFyc2VyLT5tX21lbS5tYWxsb2NfZmNuKChz
+KSkpDQo+ID4gPiArQEAgLTEwNTUsNiArMTEyMSwxOCBAQCBwYXJzZXJJbml0KFhNTF9QYXJzZXIg
+cGFyc2VyLCBjb25zdA0KPiA+ID4gWE1MX0NoYXINCj4gPiA+ICplbmNvZGluZ05hbWUpIHsNCj4g
+PiA+ICvCoMKgIHBhcnNlci0+bV9wYXJhbUVudGl0eVBhcnNpbmcgPQ0KPiA+ID4gWE1MX1BBUkFN
+X0VOVElUWV9QQVJTSU5HX05FVkVSOw0KPiA+ID4gKyAjZW5kaWYNCj4gPiA+ICvCoMKgIHBhcnNl
+ci0+bV9oYXNoX3NlY3JldF9zYWx0ID0gMDsNCj4gPiA+ICsrDQo+ID4gPiArKyNpZmRlZiBYTUxf
+RFREDQo+ID4gPiArK8KgIG1lbXNldCgmcGFyc2VyLT5tX2FjY291bnRpbmcsIDAsIHNpemVvZihB
+Q0NPVU5USU5HKSk7DQo+ID4gPiArK8KgIHBhcnNlci0+bV9hY2NvdW50aW5nLmRlYnVnTGV2ZWwg
+PQ0KPiA+ID4gZ2V0RGVidWdMZXZlbCgiRVhQQVRfQUNDT1VOVElOR19ERUJVRyIsIDB1KTsNCj4g
+PiA+ICsrwqAgcGFyc2VyLT5tX2FjY291bnRpbmcubWF4aW11bUFtcGxpZmljYXRpb25GYWN0b3IN
+Cj4gPiA+ICsrwqDCoMKgwqDCoCA9DQo+ID4gPiBFWFBBVF9CSUxMSU9OX0xBVUdIU19BVFRBQ0tf
+UFJPVEVDVElPTl9NQVhJTVVNX0FNUExJRklDQVRJT05fREVGQQ0KPiA+ID4gVUxUOw0KPiA+ID4g
+KyvCoCBwYXJzZXItPm1fYWNjb3VudGluZy5hY3RpdmF0aW9uVGhyZXNob2xkQnl0ZXMNCj4gPiA+
+ICsrwqDCoMKgwqDCoCA9DQo+ID4gPiBFWFBBVF9CSUxMSU9OX0xBVUdIU19BVFRBQ0tfUFJPVEVD
+VElPTl9BQ1RJVkFUSU9OX1RIUkVTSE9MRF9ERUZBVQ0KPiA+ID4gTFQ7DQo+ID4gPiArKw0KPiA+
+ID4gKyvCoCBtZW1zZXQoJnBhcnNlci0+bV9lbnRpdHlfc3RhdHMsIDAsIHNpemVvZihFTlRJVFlf
+U1RBVFMpKTsNCj4gPiA+ICsrwqAgcGFyc2VyLT5tX2VudGl0eV9zdGF0cy5kZWJ1Z0xldmVsID0N
+Cj4gPiA+IGdldERlYnVnTGV2ZWwoIkVYUEFUX0VOVElUWV9ERUJVRyIsIDB1KTsNCj4gPiA+ICsr
+I2VuZGlmDQo+ID4gPiArIH0NCj4gPiA+ICsNCj4gPiA+ICsgLyogbW92ZXMgbGlzdCBvZiBiaW5k
+aW5ncyB0byBtX2ZyZWVCaW5kaW5nTGlzdCAqLw0KPiA+ID4gK0BAIC0yMzE4LDYgKzIzOTYsMTAg
+QEAgWE1MX0Vycm9yU3RyaW5nKGVudW0gWE1MX0Vycm9yIGNvZGUpIHsNCj4gPiA+ICvCoMKgIC8q
+IEFkZGVkIGluIDIuMi41LiAqLw0KPiA+ID4gK8KgwqAgY2FzZSBYTUxfRVJST1JfSU5WQUxJRF9B
+UkdVTUVOVDogLyogQ29uc3RhbnQgYWRkZWQgaW4gMi4yLjEsDQo+ID4gPiBhbHJlYWR5ICovDQo+
+ID4gPiArwqDCoMKgwqAgcmV0dXJuIFhNTF9MKCJpbnZhbGlkIGFyZ3VtZW50Iik7DQo+ID4gPiAr
+K8KgIC8qIEJhY2twb3J0ZWQgZnJvbSAyLjQuMC4gKi8NCj4gPiA+ICsrwqAgY2FzZSBYTUxfRVJS
+T1JfQU1QTElGSUNBVElPTl9MSU1JVF9CUkVBQ0g6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gWE1M
+X0woDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgICJsaW1pdCBvbiBpbnB1dCBhbXBsaWZpY2F0aW9u
+IGZhY3RvciAoZnJvbSBEVEQgYW5kDQo+ID4gPiBlbnRpdGllcykNCj4gPiA+IGJyZWFjaGVkIik7
+DQo+ID4gPiArwqDCoCB9DQo+ID4gPiArwqDCoCByZXR1cm4gTlVMTDsNCj4gPiA+ICsgfQ0KPiA+
+ID4gK0BAIC0yMzU0LDQxICsyNDM2LDc1IEBAIFhNTF9FeHBhdFZlcnNpb25JbmZvKHZvaWQpIHsN
+Cj4gPiA+ICsNCj4gPiA+ICsgY29uc3QgWE1MX0ZlYXR1cmUgKlhNTENBTEwNCj4gPiA+ICsgWE1M
+X0dldEZlYXR1cmVMaXN0KHZvaWQpIHsNCj4gPiA+ICstwqAgc3RhdGljIGNvbnN0IFhNTF9GZWF0
+dXJlIGZlYXR1cmVzW10NCj4gPiA+ICstwqDCoMKgwqDCoCA9IHt7WE1MX0ZFQVRVUkVfU0laRU9G
+X1hNTF9DSEFSLA0KPiA+ID4gWE1MX0woInNpemVvZihYTUxfQ2hhcikiKSwNCj4gPiA+ICstwqDC
+oMKgwqDCoMKgwqDCoMKgIHNpemVvZihYTUxfQ2hhcil9LA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDC
+oMKgIHtYTUxfRkVBVFVSRV9TSVpFT0ZfWE1MX0xDSEFSLA0KPiA+ID4gWE1MX0woInNpemVvZihY
+TUxfTENoYXIpIiksDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoCBzaXplb2YoWE1MX0xDaGFy
+KX0sDQo+ID4gPiArK8KgIHN0YXRpYyBjb25zdCBYTUxfRmVhdHVyZSBmZWF0dXJlc1tdID0gew0K
+PiA+ID4gKyvCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9TSVpFT0ZfWE1MX0NIQVIsIFhNTF9MKCJz
+aXplb2YoWE1MX0NoYXIpIiksDQo+ID4gPiArK8KgwqDCoMKgwqDCoCBzaXplb2YoWE1MX0NoYXIp
+fSwNCj4gPiA+ICsrwqDCoMKgwqDCoCB7WE1MX0ZFQVRVUkVfU0laRU9GX1hNTF9MQ0hBUiwNCj4g
+PiA+IFhNTF9MKCJzaXplb2YoWE1MX0xDaGFyKSIpLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqAgc2l6
+ZW9mKFhNTF9MQ2hhcil9LA0KPiA+ID4gKyAjaWZkZWYgWE1MX1VOSUNPREUNCj4gPiA+ICstwqDC
+oMKgwqDCoMKgwqDCoCB7WE1MX0ZFQVRVUkVfVU5JQ09ERSwgWE1MX0woIlhNTF9VTklDT0RFIiks
+IDB9LA0KPiA+ID4gKyvCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9VTklDT0RFLCBYTUxfTCgiWE1M
+X1VOSUNPREUiKSwgMH0sDQo+ID4gPiArICNlbmRpZg0KPiA+ID4gKyAjaWZkZWYgWE1MX1VOSUNP
+REVfV0NIQVJfVA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9VTklDT0RF
+X1dDSEFSX1QsDQo+ID4gPiBYTUxfTCgiWE1MX1VOSUNPREVfV0NIQVJfVCIpLA0KPiA+ID4gMH0s
+DQo+ID4gPiArK8KgwqDCoMKgwqAge1hNTF9GRUFUVVJFX1VOSUNPREVfV0NIQVJfVCwNCj4gPiA+
+IFhNTF9MKCJYTUxfVU5JQ09ERV9XQ0hBUl9UIiksDQo+ID4gPiAwfSwNCj4gPiA+ICsgI2VuZGlm
+DQo+ID4gPiArICNpZmRlZiBYTUxfRFREDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqAge1hNTF9G
+RUFUVVJFX0RURCwgWE1MX0woIlhNTF9EVEQiKSwgMH0sDQo+ID4gPiArK8KgwqDCoMKgwqAge1hN
+TF9GRUFUVVJFX0RURCwgWE1MX0woIlhNTF9EVEQiKSwgMH0sDQo+ID4gPiArICNlbmRpZg0KPiA+
+ID4gKyAjaWZkZWYgWE1MX0NPTlRFWFRfQllURVMNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoCB7
+WE1MX0ZFQVRVUkVfQ09OVEVYVF9CWVRFUywNCj4gPiA+IFhNTF9MKCJYTUxfQ09OVEVYVF9CWVRF
+UyIpLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0NPTlRFWFRfQllURVN9LA0KPiA+
+ID4gKyvCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9DT05URVhUX0JZVEVTLCBYTUxfTCgiWE1MX0NP
+TlRFWFRfQllURVMiKSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgIFhNTF9DT05URVhUX0JZVEVTfSwN
+Cj4gPiA+ICsgI2VuZGlmDQo+ID4gPiArICNpZmRlZiBYTUxfTUlOX1NJWkUNCj4gPiA+ICstwqDC
+oMKgwqDCoMKgwqDCoCB7WE1MX0ZFQVRVUkVfTUlOX1NJWkUsIFhNTF9MKCJYTUxfTUlOX1NJWkUi
+KSwgMH0sDQo+ID4gPiArK8KgwqDCoMKgwqAge1hNTF9GRUFUVVJFX01JTl9TSVpFLCBYTUxfTCgi
+WE1MX01JTl9TSVpFIiksIDB9LA0KPiA+ID4gKyAjZW5kaWYNCj4gPiA+ICsgI2lmZGVmIFhNTF9O
+Uw0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9OUywgWE1MX0woIlhNTF9O
+UyIpLCAwfSwNCj4gPiA+ICsrwqDCoMKgwqDCoCB7WE1MX0ZFQVRVUkVfTlMsIFhNTF9MKCJYTUxf
+TlMiKSwgMH0sDQo+ID4gPiArICNlbmRpZg0KPiA+ID4gKyAjaWZkZWYgWE1MX0xBUkdFX1NJWkUN
+Cj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoCB7WE1MX0ZFQVRVUkVfTEFSR0VfU0laRSwgWE1MX0wo
+IlhNTF9MQVJHRV9TSVpFIiksIDB9LA0KPiA+ID4gKyvCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9M
+QVJHRV9TSVpFLCBYTUxfTCgiWE1MX0xBUkdFX1NJWkUiKSwgMH0sDQo+ID4gPiArICNlbmRpZg0K
+PiA+ID4gKyAjaWZkZWYgWE1MX0FUVFJfSU5GTw0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgIHtY
+TUxfRkVBVFVSRV9BVFRSX0lORk8sIFhNTF9MKCJYTUxfQVRUUl9JTkZPIiksIDB9LA0KPiA+ID4g
+KyvCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9BVFRSX0lORk8sIFhNTF9MKCJYTUxfQVRUUl9JTkZP
+IiksIDB9LA0KPiA+ID4gKyAjZW5kaWYNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoCB7WE1MX0ZF
+QVRVUkVfRU5ELCBOVUxMLCAwfX07DQo+ID4gPiArKyNpZmRlZiBYTUxfRFREDQo+ID4gPiArK8Kg
+wqDCoMKgwqAgLyogQWRkZWQgaW4gRXhwYXQgMi40LjAuICovDQo+ID4gPiArKw0KPiA+ID4ge1hN
+TF9GRUFUVVJFX0JJTExJT05fTEFVR0hTX0FUVEFDS19QUk9URUNUSU9OX01BWElNVU1fQU1QTElG
+SUNBVEkNCj4gPiA+IE9OX0QNCj4gPiA+IEVGDQo+ID4gPiBBVUxULA0KPiA+ID4gKyvCoMKgwqDC
+oMKgwqAgWE1MX0woIlhNTF9CTEFQX01BWF9BTVAiKSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgIChs
+b25nIGludCkNCj4gPiA+ICsrDQo+ID4gPiBFWFBBVF9CSUxMSU9OX0xBVUdIU19BVFRBQ0tfUFJP
+VEVDVElPTl9NQVhJTVVNX0FNUExJRklDQVRJT05fREVGQQ0KPiA+ID4gVUxUfQ0KPiA+ID4gLA0K
+PiA+ID4gKysNCj4gPiA+IHtYTUxfRkVBVFVSRV9CSUxMSU9OX0xBVUdIU19BVFRBQ0tfUFJPVEVD
+VElPTl9BQ1RJVkFUSU9OX1RIUkVTSE9MDQo+ID4gPiBEX0RFDQo+ID4gPiBGQQ0KPiA+ID4gVUxU
+LA0KPiA+ID4gKyvCoMKgwqDCoMKgwqAgWE1MX0woIlhNTF9CTEFQX0FDVF9USFJFUyIpLA0KPiA+
+ID4gKysNCj4gPiA+IEVYUEFUX0JJTExJT05fTEFVR0hTX0FUVEFDS19QUk9URUNUSU9OX0FDVElW
+QVRJT05fVEhSRVNIT0xEX0RFRkFVDQo+ID4gPiBMVH0sDQo+ID4gPiArKyNlbmRpZg0KPiA+ID4g
+KyvCoMKgwqDCoMKgIHtYTUxfRkVBVFVSRV9FTkQsIE5VTEwsIDB9fTsNCj4gPiA+ICsNCj4gPiA+
+ICvCoMKgIHJldHVybiBmZWF0dXJlczsNCj4gPiA+ICsgfQ0KPiA+ID4gKw0KPiA+ID4gKysjaWZk
+ZWYgWE1MX0RURA0KPiA+ID4gKytYTUxfQm9vbCBYTUxDQUxMDQo+ID4gPiArK1hNTF9TZXRCaWxs
+aW9uTGF1Z2hzQXR0YWNrUHJvdGVjdGlvbk1heGltdW1BbXBsaWZpY2F0aW9uKA0KPiA+ID4gKyvC
+oMKgwqAgWE1MX1BhcnNlciBwYXJzZXIsIGZsb2F0IG1heGltdW1BbXBsaWZpY2F0aW9uRmFjdG9y
+KSB7DQo+ID4gPiArK8KgIGlmICgocGFyc2VyID09IE5VTEwpIHx8IChwYXJzZXItPm1fcGFyZW50
+UGFyc2VyICE9IE5VTEwpDQo+ID4gPiArK8KgwqDCoMKgwqAgfHwgaXNuYW4obWF4aW11bUFtcGxp
+ZmljYXRpb25GYWN0b3IpDQo+ID4gPiArK8KgwqDCoMKgwqAgfHwgKG1heGltdW1BbXBsaWZpY2F0
+aW9uRmFjdG9yIDwgMS4wZikpIHsNCj4gPiA+ICsrwqDCoMKgIHJldHVybiBYTUxfRkFMU0U7DQo+
+ID4gPiArK8KgIH0NCj4gPiA+ICsrwqAgcGFyc2VyLT5tX2FjY291bnRpbmcubWF4aW11bUFtcGxp
+ZmljYXRpb25GYWN0b3IgPQ0KPiA+ID4gbWF4aW11bUFtcGxpZmljYXRpb25GYWN0b3I7DQo+ID4g
+PiArK8KgIHJldHVybiBYTUxfVFJVRTsNCj4gPiA+ICsrfQ0KPiA+ID4gKysNCj4gPiA+ICsrWE1M
+X0Jvb2wgWE1MQ0FMTA0KPiA+ID4gKytYTUxfU2V0QmlsbGlvbkxhdWdoc0F0dGFja1Byb3RlY3Rp
+b25BY3RpdmF0aW9uVGhyZXNob2xkKA0KPiA+ID4gKyvCoMKgwqAgWE1MX1BhcnNlciBwYXJzZXIs
+IHVuc2lnbmVkIGxvbmcgbG9uZw0KPiA+ID4gYWN0aXZhdGlvblRocmVzaG9sZEJ5dGVzKQ0KPiA+
+ID4gew0KPiA+ID4gKyvCoCBpZiAoKHBhcnNlciA9PSBOVUxMKSB8fCAocGFyc2VyLT5tX3BhcmVu
+dFBhcnNlciAhPSBOVUxMKSkgew0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuIFhNTF9GQUxTRTsNCj4g
+PiA+ICsrwqAgfQ0KPiA+ID4gKyvCoCBwYXJzZXItPm1fYWNjb3VudGluZy5hY3RpdmF0aW9uVGhy
+ZXNob2xkQnl0ZXMgPQ0KPiA+ID4gYWN0aXZhdGlvblRocmVzaG9sZEJ5dGVzOw0KPiA+ID4gKyvC
+oCByZXR1cm4gWE1MX1RSVUU7DQo+ID4gPiArK30NCj4gPiA+ICsrI2VuZGlmIC8qIFhNTF9EVEQg
+Ki8NCj4gPiA+ICsrDQo+ID4gPiArIC8qIEluaXRpYWxseSB0YWctPnJhd05hbWUgYWx3YXlzIHBv
+aW50cyBpbnRvIHRoZSBwYXJzZSBidWZmZXI7DQo+ID4gPiArwqDCoMKgIGZvciB0aG9zZSBUQUcg
+aW5zdGFuY2VzIG9wZW5lZCB3aGlsZSB0aGUgY3VycmVudCBwYXJzZQ0KPiA+ID4gYnVmZmVyDQo+
+ID4gPiB3YXMNCj4gPiA+ICvCoMKgwqAgcHJvY2Vzc2VkLCBhbmQgbm90IHlldCBjbG9zZWQsIHdl
+IG5lZWQgdG8gc3RvcmUgdGFnLT5yYXdOYW1lDQo+ID4gPiBpbg0KPiA+ID4gYQ0KPiA+ID4gbW9y
+ZQ0KPiA+ID4gK0BAIC0yNDQxLDkgKzI1NTcsOSBAQCBzdG9yZVJhd05hbWVzKFhNTF9QYXJzZXIg
+cGFyc2VyKSB7DQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJvciBQVFJDQUxMDQo+ID4gPiAr
+IGNvbnRlbnRQcm9jZXNzb3IoWE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0IGNoYXIgKnN0YXJ0LCBj
+b25zdA0KPiA+ID4gY2hhcg0KPiA+ID4gKmVuZCwNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIgKiplbmRQdHIpIHsNCj4gPiA+ICstwqAgZW51bSBY
+TUxfRXJyb3IgcmVzdWx0DQo+ID4gPiArLcKgwqDCoMKgwqAgPSBkb0NvbnRlbnQocGFyc2VyLCAw
+LCBwYXJzZXItPm1fZW5jb2RpbmcsIHN0YXJ0LCBlbmQsDQo+ID4gPiBlbmRQdHIsDQo+ID4gPiAr
+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKFhNTF9Cb29sKSEgcGFyc2VyLQ0K
+PiA+ID4gPm1fcGFyc2luZ1N0YXR1cy5maW5hbEJ1ZmZlcik7DQo+ID4gPiArK8KgIGVudW0gWE1M
+X0Vycm9yIHJlc3VsdCA9IGRvQ29udGVudCgNCj4gPiA+ICsrwqDCoMKgwqDCoCBwYXJzZXIsIDAs
+IHBhcnNlci0+bV9lbmNvZGluZywgc3RhcnQsIGVuZCwgZW5kUHRyLA0KPiA+ID4gKyvCoMKgwqDC
+oMKgIChYTUxfQm9vbCkhIHBhcnNlci0+bV9wYXJzaW5nU3RhdHVzLmZpbmFsQnVmZmVyLA0KPiA+
+ID4gWE1MX0FDQ09VTlRfRElSRUNUKTsNCj4gPiA+ICvCoMKgIGlmIChyZXN1bHQgPT0gWE1MX0VS
+Uk9SX05PTkUpIHsNCj4gPiA+ICvCoMKgwqDCoCBpZiAoISBzdG9yZVJhd05hbWVzKHBhcnNlcikp
+DQo+ID4gPiArwqDCoMKgwqDCoMKgIHJldHVybiBYTUxfRVJST1JfTk9fTUVNT1JZOw0KPiA+ID4g
+K0BAIC0yNDY4LDYgKzI1ODQsMTQgQEAgZXh0ZXJuYWxFbnRpdHlJbml0UHJvY2Vzc29yMihYTUxf
+UGFyc2VyDQo+ID4gPiBwYXJzZXIsDQo+ID4gPiBjb25zdCBjaGFyICpzdGFydCwNCj4gPiA+ICvC
+oMKgIGludCB0b2sgPSBYbWxDb250ZW50VG9rKHBhcnNlci0+bV9lbmNvZGluZywgc3RhcnQsIGVu
+ZCwNCj4gPiA+ICZuZXh0KTsNCj4gPiA+ICvCoMKgIHN3aXRjaCAodG9rKSB7DQo+ID4gPiArwqDC
+oCBjYXNlIFhNTF9UT0tfQk9NOg0KPiA+ID4gKysjaWZkZWYgWE1MX0RURA0KPiA+ID4gKyvCoMKg
+wqAgaWYgKCEgYWNjb3VudGluZ0RpZmZUb2xlcmF0ZWQocGFyc2VyLCB0b2ssIHN0YXJ0LCBuZXh0
+LA0KPiA+ID4gX19MSU5FX18sDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQUNDT1VOVF9ESVJFQ1Qp
+KSB7DQo+ID4gPiArK8KgwqDCoMKgwqAgYWNjb3VudGluZ09uQWJvcnQocGFyc2VyKTsNCj4gPiA+
+ICsrwqDCoMKgwqDCoCByZXR1cm4gWE1MX0VSUk9SX0FNUExJRklDQVRJT05fTElNSVRfQlJFQUNI
+Ow0KPiA+ID4gKyvCoMKgwqAgfQ0KPiA+ID4gKysjZW5kaWYgLyogWE1MX0RURCAqLw0KPiA+ID4g
+KysNCj4gPiA+ICvCoMKgwqDCoCAvKiBJZiB3ZSBhcmUgYXQgdGhlIGVuZCBvZiB0aGUgYnVmZmVy
+LCB0aGlzIHdvdWxkIGNhdXNlIHRoZQ0KPiA+ID4gbmV4dA0KPiA+ID4gc3RhZ2UsDQo+ID4gPiAr
+wqDCoMKgwqDCoMKgwqAgaS5lLiBleHRlcm5hbEVudGl0eUluaXRQcm9jZXNzb3IzLCB0byBwYXNz
+IGNvbnRyb2wNCj4gPiA+IGRpcmVjdGx5DQo+ID4gPiB0bw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKg
+IGRvQ29udGVudCAoYnkgZGV0ZWN0aW5nIFhNTF9UT0tfTk9ORSkgd2l0aG91dCBwcm9jZXNzaW5n
+DQo+ID4gPiBhbnkNCj4gPiA+IHhtbCB0ZXh0DQo+ID4gPiArQEAgLTI1MDUsNiArMjYyOSwxMCBA
+QCBleHRlcm5hbEVudGl0eUluaXRQcm9jZXNzb3IzKFhNTF9QYXJzZXINCj4gPiA+IHBhcnNlciwN
+Cj4gPiA+IGNvbnN0IGNoYXIgKnN0YXJ0LA0KPiA+ID4gK8KgwqAgY29uc3QgY2hhciAqbmV4dCA9
+IHN0YXJ0OyAvKiBYbWxDb250ZW50VG9rIGRvZXNuJ3QgYWx3YXlzIHNldA0KPiA+ID4gdGhlDQo+
+ID4gPiBsYXN0IGFyZyAqLw0KPiA+ID4gK8KgwqAgcGFyc2VyLT5tX2V2ZW50UHRyID0gc3RhcnQ7
+DQo+ID4gPiArwqDCoCB0b2sgPSBYbWxDb250ZW50VG9rKHBhcnNlci0+bV9lbmNvZGluZywgc3Rh
+cnQsIGVuZCwgJm5leHQpOw0KPiA+ID4gKyvCoCAvKiBOb3RlOiBUaGVzZSBieXRlcyBhcmUgYWNj
+b3VudGVkIGxhdGVyIGluOg0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoCAtIHByb2Nlc3NY
+bWxEZWNsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgIC0gZXh0ZXJuYWxFbnRpdHlDb250
+ZW50UHJvY2Vzc29yDQo+ID4gPiArK8KgICovDQo+ID4gPiArwqDCoCBwYXJzZXItPm1fZXZlbnRF
+bmRQdHIgPSBuZXh0Ow0KPiA+ID4gKw0KPiA+ID4gK8KgwqAgc3dpdGNoICh0b2spIHsNCj4gPiA+
+ICtAQCAtMjU0Niw3ICsyNjc0LDggQEAgZXh0ZXJuYWxFbnRpdHlDb250ZW50UHJvY2Vzc29yKFhN
+TF9QYXJzZXINCj4gPiA+IHBhcnNlciwgY29uc3QgY2hhciAqc3RhcnQsDQo+ID4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Y29uc3QgY2hhciAqZW5kLCBjb25zdCBjaGFyDQo+ID4gPiAqKmVuZFB0cikNCj4gPiA+IHsNCj4g
+PiA+ICvCoMKgIGVudW0gWE1MX0Vycm9yIHJlc3VsdA0KPiA+ID4gK8KgwqDCoMKgwqDCoCA9IGRv
+Q29udGVudChwYXJzZXIsIDEsIHBhcnNlci0+bV9lbmNvZGluZywgc3RhcnQsIGVuZCwNCj4gPiA+
+IGVuZFB0ciwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoWE1M
+X0Jvb2wpISBwYXJzZXItDQo+ID4gPiA+bV9wYXJzaW5nU3RhdHVzLmZpbmFsQnVmZmVyKTsNCj4g
+PiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoWE1MX0Jvb2wpISBwYXJz
+ZXItDQo+ID4gPiA+bV9wYXJzaW5nU3RhdHVzLmZpbmFsQnVmZmVyLA0KPiA+ID4gKyvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFhNTF9BQ0NPVU5UX0VOVElUWV9FWFBBTlNJT04p
+Ow0KPiA+ID4gK8KgwqAgaWYgKHJlc3VsdCA9PSBYTUxfRVJST1JfTk9ORSkgew0KPiA+ID4gK8Kg
+wqDCoMKgIGlmICghIHN0b3JlUmF3TmFtZXMocGFyc2VyKSkNCj4gPiA+ICvCoMKgwqDCoMKgwqAg
+cmV0dXJuIFhNTF9FUlJPUl9OT19NRU1PUlk7DQo+ID4gPiArQEAgLTI1NTcsNyArMjY4Niw3IEBA
+IGV4dGVybmFsRW50aXR5Q29udGVudFByb2Nlc3NvcihYTUxfUGFyc2VyDQo+ID4gPiBwYXJzZXIs
+IGNvbnN0IGNoYXIgKnN0YXJ0LA0KPiA+ID4gKyBzdGF0aWMgZW51bSBYTUxfRXJyb3INCj4gPiA+
+ICsgZG9Db250ZW50KFhNTF9QYXJzZXIgcGFyc2VyLCBpbnQgc3RhcnRUYWdMZXZlbCwgY29uc3Qg
+RU5DT0RJTkcNCj4gPiA+ICplbmMsDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3Qg
+Y2hhciAqcywgY29uc3QgY2hhciAqZW5kLCBjb25zdCBjaGFyICoqbmV4dFB0ciwNCj4gPiA+ICst
+wqDCoMKgwqDCoMKgwqDCoMKgIFhNTF9Cb29sIGhhdmVNb3JlKSB7DQo+ID4gPiArK8KgwqDCoMKg
+wqDCoMKgwqDCoCBYTUxfQm9vbCBoYXZlTW9yZSwgZW51bSBYTUxfQWNjb3VudCBhY2NvdW50KSB7
+DQo+ID4gPiArwqDCoCAvKiBzYXZlIG9uZSBsZXZlbCBvZiBpbmRpcmVjdGlvbiAqLw0KPiA+ID4g
+K8KgwqAgRFREICpjb25zdCBkdGQgPSBwYXJzZXItPm1fZHRkOw0KPiA+ID4gKw0KPiA+ID4gK0BA
+IC0yNTc1LDYgKzI3MDQsMTcgQEAgZG9Db250ZW50KFhNTF9QYXJzZXIgcGFyc2VyLCBpbnQNCj4g
+PiA+IHN0YXJ0VGFnTGV2ZWwsDQo+ID4gPiBjb25zdCBFTkNPRElORyAqZW5jLA0KPiA+ID4gK8Kg
+wqAgZm9yICg7Oykgew0KPiA+ID4gK8KgwqDCoMKgIGNvbnN0IGNoYXIgKm5leHQgPSBzOyAvKiBY
+bWxDb250ZW50VG9rIGRvZXNuJ3QgYWx3YXlzIHNldA0KPiA+ID4gdGhlDQo+ID4gPiBsYXN0IGFy
+ZyAqLw0KPiA+ID4gK8KgwqDCoMKgIGludCB0b2sgPSBYbWxDb250ZW50VG9rKGVuYywgcywgZW5k
+LCAmbmV4dCk7DQo+ID4gPiArKyNpZmRlZiBYTUxfRFREDQo+ID4gPiArK8KgwqDCoCBjb25zdCBj
+aGFyICphY2NvdW50QWZ0ZXINCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqAgPSAoKHRvayA9PSBYTUxf
+VE9LX1RSQUlMSU5HX1JTUUIpIHx8ICh0b2sgPT0NCj4gPiA+IFhNTF9UT0tfVFJBSUxJTkdfQ1Ip
+KQ0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA/IChoYXZlTW9yZSA/IHMgLyog
+aS5lLiAwIGJ5dGVzICovIDogZW5kKQ0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCA6IG5leHQ7DQo+ID4gPiArK8KgwqDCoCBpZiAoISBhY2NvdW50aW5nRGlmZlRvbGVyYXRlZChw
+YXJzZXIsIHRvaywgcywgYWNjb3VudEFmdGVyLA0KPiA+ID4gX19MSU5FX18sDQo+ID4gPiArK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBhY2NvdW50KSkgew0KPiA+ID4gKyvCoMKgwqDCoMKgIGFjY291bnRpbmdPbkFib3J0
+KHBhcnNlcik7DQo+ID4gPiArK8KgwqDCoMKgwqAgcmV0dXJuIFhNTF9FUlJPUl9BTVBMSUZJQ0FU
+SU9OX0xJTUlUX0JSRUFDSDsNCj4gPiA+ICsrwqDCoMKgIH0NCj4gPiA+ICsrI2VuZGlmDQo+ID4g
+PiArwqDCoMKgwqAgKmV2ZW50RW5kUFAgPSBuZXh0Ow0KPiA+ID4gK8KgwqDCoMKgIHN3aXRjaCAo
+dG9rKSB7DQo+ID4gPiArwqDCoMKgwqAgY2FzZSBYTUxfVE9LX1RSQUlMSU5HX0NSOg0KPiA+ID4g
+K0BAIC0yNjMwLDYgKzI3NzAsMTQgQEAgZG9Db250ZW50KFhNTF9QYXJzZXIgcGFyc2VyLCBpbnQN
+Cj4gPiA+IHN0YXJ0VGFnTGV2ZWwsDQo+ID4gPiBjb25zdCBFTkNPRElORyAqZW5jLA0KPiA+ID4g
+K8KgwqDCoMKgwqDCoCBYTUxfQ2hhciBjaCA9IChYTUxfQ2hhcilYbWxQcmVkZWZpbmVkRW50aXR5
+TmFtZSgNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbmMsIHMgKyBlbmMtPm1pbkJ5dGVz
+UGVyQ2hhciwgbmV4dCAtIGVuYy0NCj4gPiA+ID4gbWluQnl0ZXNQZXJDaGFyKTsNCj4gPiA+ICvC
+oMKgwqDCoMKgwqAgaWYgKGNoKSB7DQo+ID4gPiArKyNpZmRlZiBYTUxfRFREDQo+ID4gPiArK8Kg
+wqDCoMKgwqDCoMKgIC8qIE5PVEU6IFdlIGFyZSByZXBsYWNpbmcgNC02IGNoYXJhY3RlcnMgb3Jp
+Z2luYWwgaW5wdXQNCj4gPiA+IGZvcg0KPiA+ID4gMQ0KPiA+ID4gY2hhcmFjdGVyDQo+ID4gPiAr
+K8KgwqDCoMKgwqDCoMKgwqAgKsKgwqDCoMKgwqDCoCBzbyB0aGVyZSBpcyBubyBhbXBsaWZpY2F0
+aW9uIGFuZCBoZW5jZQ0KPiA+ID4gcmVjb3JkaW5nDQo+ID4gPiB3aXRob3V0DQo+ID4gPiArK8Kg
+wqDCoMKgwqDCoMKgwqAgKsKgwqDCoMKgwqDCoCBwcm90ZWN0aW9uLiAqLw0KPiA+ID4gKyvCoMKg
+wqDCoMKgwqDCoCBhY2NvdW50aW5nRGlmZlRvbGVyYXRlZChwYXJzZXIsIHRvaywgKGNoYXIgKikm
+Y2gsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICgoY2hhciAqKSZjaCkgKw0KPiA+ID4gc2l6ZW9mKFhNTF9DaGFy
+KSwNCj4gPiA+IF9fTElORV9fLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQUNDT1VOVF9FTlRJVFlfRVhQ
+QU5TSU9OKTsNCj4gPiA+ICsrI2VuZGlmIC8qIFhNTF9EVEQgKi8NCj4gPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgIGlmIChwYXJzZXItPm1fY2hhcmFjdGVyRGF0YUhhbmRsZXIpDQo+ID4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgcGFyc2VyLT5tX2NoYXJhY3RlckRhdGFIYW5kbGVyKHBhcnNlci0+bV9o
+YW5kbGVyQXJnLA0KPiA+ID4gJmNoLA0KPiA+ID4gMSk7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDC
+oCBlbHNlIGlmIChwYXJzZXItPm1fZGVmYXVsdEhhbmRsZXIpDQo+ID4gPiArQEAgLTI3NDgsNyAr
+Mjg5Niw4IEBAIGRvQ29udGVudChYTUxfUGFyc2VyIHBhcnNlciwgaW50DQo+ID4gPiBzdGFydFRh
+Z0xldmVsLA0KPiA+ID4gY29uc3QgRU5DT0RJTkcgKmVuYywNCj4gPiA+ICvCoMKgwqDCoMKgwqAg
+fQ0KPiA+ID4gK8KgwqDCoMKgwqDCoCB0YWctPm5hbWUuc3RyID0gKFhNTF9DaGFyICopdGFnLT5i
+dWY7DQo+ID4gPiArwqDCoMKgwqDCoMKgICp0b1B0ciA9IFhNTF9UKCdcMCcpOw0KPiA+ID4gKy3C
+oMKgwqDCoMKgIHJlc3VsdCA9IHN0b3JlQXR0cyhwYXJzZXIsIGVuYywgcywgJih0YWctPm5hbWUp
+LCAmKHRhZy0NCj4gPiA+ID4gYmluZGluZ3MpKTsNCj4gPiA+ICsrwqDCoMKgwqDCoCByZXN1bHQN
+Cj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgID0gc3RvcmVBdHRzKHBhcnNlciwgZW5jLCBzLCAm
+KHRhZy0+bmFtZSksICYodGFnLQ0KPiA+ID4gPiBiaW5kaW5ncyksDQo+ID4gPiBhY2NvdW50KTsN
+Cj4gPiA+ICvCoMKgwqDCoMKgwqAgaWYgKHJlc3VsdCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+IHJldHVybiByZXN1bHQ7DQo+ID4gPiArwqDCoMKgwqDCoMKgIGlmIChwYXJzZXItPm1fc3RhcnRF
+bGVtZW50SGFuZGxlcikNCj4gPiA+ICtAQCAtMjc3Miw3ICsyOTIxLDggQEAgZG9Db250ZW50KFhN
+TF9QYXJzZXIgcGFyc2VyLCBpbnQNCj4gPiA+IHN0YXJ0VGFnTGV2ZWwsDQo+ID4gPiBjb25zdCBF
+TkNPRElORyAqZW5jLA0KPiA+ID4gK8KgwqDCoMKgwqDCoCBpZiAoISBuYW1lLnN0cikNCj4gPiA+
+ICvCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBYTUxfRVJST1JfTk9fTUVNT1JZOw0KPiA+ID4gK8Kg
+wqDCoMKgwqDCoCBwb29sRmluaXNoKCZwYXJzZXItPm1fdGVtcFBvb2wpOw0KPiA+ID4gKy3CoMKg
+wqDCoMKgIHJlc3VsdCA9IHN0b3JlQXR0cyhwYXJzZXIsIGVuYywgcywgJm5hbWUsICZiaW5kaW5n
+cyk7DQo+ID4gPiArK8KgwqDCoMKgwqAgcmVzdWx0ID0gc3RvcmVBdHRzKHBhcnNlciwgZW5jLCBz
+LCAmbmFtZSwgJmJpbmRpbmdzLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0FDQ09VTlRfTk9ORSAvKiB0b2tlbiBzcGFucyB3aG9s
+ZQ0KPiA+ID4gc3RhcnQNCj4gPiA+IHRhZyAqLyk7DQo+ID4gPiArwqDCoMKgwqDCoMKgIGlmIChy
+ZXN1bHQgIT0gWE1MX0VSUk9SX05PTkUpIHsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGZyZWVC
+aW5kaW5ncyhwYXJzZXIsIGJpbmRpbmdzKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIHJldHVy
+biByZXN1bHQ7DQo+ID4gPiArQEAgLTI5MDcsNyArMzA1Nyw4IEBAIGRvQ29udGVudChYTUxfUGFy
+c2VyIHBhcnNlciwgaW50DQo+ID4gPiBzdGFydFRhZ0xldmVsLA0KPiA+ID4gY29uc3QgRU5DT0RJ
+TkcgKmVuYywNCj4gPiA+ICvCoMKgwqDCoMKgwqAgLyogRU5EIGRpc2FibGVkIGNvZGUgKi8NCj4g
+PiA+ICvCoMKgwqDCoMKgwqAgZWxzZSBpZiAocGFyc2VyLT5tX2RlZmF1bHRIYW5kbGVyKQ0KPiA+
+ID4gK8KgwqDCoMKgwqDCoMKgwqAgcmVwb3J0RGVmYXVsdChwYXJzZXIsIGVuYywgcywgbmV4dCk7
+DQo+ID4gPiArLcKgwqDCoMKgwqAgcmVzdWx0ID0gZG9DZGF0YVNlY3Rpb24ocGFyc2VyLCBlbmMs
+ICZuZXh0LCBlbmQsIG5leHRQdHIsDQo+ID4gPiBoYXZlTW9yZSk7DQo+ID4gPiArK8KgwqDCoMKg
+wqAgcmVzdWx0DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoCA9IGRvQ2RhdGFTZWN0aW9uKHBh
+cnNlciwgZW5jLCAmbmV4dCwgZW5kLCBuZXh0UHRyLA0KPiA+ID4gaGF2ZU1vcmUsIGFjY291bnQp
+Ow0KPiA+ID4gK8KgwqDCoMKgwqDCoCBpZiAocmVzdWx0ICE9IFhNTF9FUlJPUl9OT05FKQ0KPiA+
+ID4gK8KgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJlc3VsdDsNCj4gPiA+ICvCoMKgwqDCoMKgwqAg
+ZWxzZSBpZiAoISBuZXh0KSB7DQo+ID4gPiArQEAgLTMwMzYsNyArMzE4Nyw4IEBAIGZyZWVCaW5k
+aW5ncyhYTUxfUGFyc2VyIHBhcnNlciwgQklORElORw0KPiA+ID4gKmJpbmRpbmdzKSB7DQo+ID4g
+PiArICovDQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJvcg0KPiA+ID4gKyBzdG9yZUF0dHMo
+WE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0IEVOQ09ESU5HICplbmMsIGNvbnN0IGNoYXINCj4gPiA+
+ICphdHRTdHIsDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoCBUQUdfTkFNRSAqdGFnTmFtZVB0
+ciwgQklORElORyAqKmJpbmRpbmdzUHRyKSB7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoCBU
+QUdfTkFNRSAqdGFnTmFtZVB0ciwgQklORElORyAqKmJpbmRpbmdzUHRyLA0KPiA+ID4gKyvCoMKg
+wqDCoMKgwqDCoMKgwqAgZW51bSBYTUxfQWNjb3VudCBhY2NvdW50KSB7DQo+ID4gPiArwqDCoCBE
+VEQgKmNvbnN0IGR0ZCA9IHBhcnNlci0+bV9kdGQ7IC8qIHNhdmUgb25lIGxldmVsIG9mDQo+ID4g
+PiBpbmRpcmVjdGlvbg0KPiA+ID4gKi8NCj4gPiA+ICvCoMKgIEVMRU1FTlRfVFlQRSAqZWxlbWVu
+dFR5cGU7DQo+ID4gPiArwqDCoCBpbnQgbkRlZmF1bHRBdHRzOw0KPiA+ID4gK0BAIC0zMTQ2LDcg
+KzMyOTgsNyBAQCBzdG9yZUF0dHMoWE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0DQo+ID4gPiBFTkNP
+RElORw0KPiA+ID4gKmVuYywgY29uc3QgY2hhciAqYXR0U3RyLA0KPiA+ID4gK8KgwqDCoMKgwqDC
+oCAvKiBub3JtYWxpemUgdGhlIGF0dHJpYnV0ZSB2YWx1ZSAqLw0KPiA+ID4gK8KgwqDCoMKgwqDC
+oCByZXN1bHQgPSBzdG9yZUF0dHJpYnV0ZVZhbHVlKA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgIHBhcnNlciwgZW5jLCBpc0NkYXRhLCBwYXJzZXItPm1fYXR0c1tpXS52YWx1ZVB0ciwNCj4g
+PiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlci0+bV9hdHRzW2ldLnZhbHVlRW5kLCAmcGFy
+c2VyLT5tX3RlbXBQb29sKTsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlci0+bV9h
+dHRzW2ldLnZhbHVlRW5kLCAmcGFyc2VyLT5tX3RlbXBQb29sLA0KPiA+ID4gYWNjb3VudCk7DQo+
+ID4gPiArwqDCoMKgwqDCoMKgIGlmIChyZXN1bHQpDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBy
+ZXR1cm4gcmVzdWx0Ow0KPiA+ID4gK8KgwqDCoMKgwqDCoCBhcHBBdHRzW2F0dEluZGV4XSA9IHBv
+b2xTdGFydCgmcGFyc2VyLT5tX3RlbXBQb29sKTsNCj4gPiA+ICtAQCAtMzUzNSw5ICszNjg3LDkg
+QEAgYWRkQmluZGluZyhYTUxfUGFyc2VyIHBhcnNlciwgUFJFRklYDQo+ID4gPiAqcHJlZml4LA0K
+PiA+ID4gY29uc3QgQVRUUklCVVRFX0lEICphdHRJZCwNCj4gPiA+ICsgc3RhdGljIGVudW0gWE1M
+X0Vycm9yIFBUUkNBTEwNCj4gPiA+ICsgY2RhdGFTZWN0aW9uUHJvY2Vzc29yKFhNTF9QYXJzZXIg
+cGFyc2VyLCBjb25zdCBjaGFyICpzdGFydCwNCj4gPiA+IGNvbnN0DQo+ID4gPiBjaGFyICplbmQs
+DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29u
+c3QgY2hhciAqKmVuZFB0cikgew0KPiA+ID4gKy3CoCBlbnVtIFhNTF9FcnJvciByZXN1bHQNCj4g
+PiA+ICstwqDCoMKgwqDCoCA9IGRvQ2RhdGFTZWN0aW9uKHBhcnNlciwgcGFyc2VyLT5tX2VuY29k
+aW5nLCAmc3RhcnQsIGVuZCwNCj4gPiA+IGVuZFB0ciwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKFhNTF9Cb29sKSEgcGFyc2VyLQ0KPiA+ID4g
+PiBtX3BhcnNpbmdTdGF0dXMuZmluYWxCdWZmZXIpOw0KPiA+ID4gKyvCoCBlbnVtIFhNTF9FcnJv
+ciByZXN1bHQgPSBkb0NkYXRhU2VjdGlvbigNCj4gPiA+ICsrwqDCoMKgwqDCoCBwYXJzZXIsIHBh
+cnNlci0+bV9lbmNvZGluZywgJnN0YXJ0LCBlbmQsIGVuZFB0ciwNCj4gPiA+ICsrwqDCoMKgwqDC
+oCAoWE1MX0Jvb2wpISBwYXJzZXItPm1fcGFyc2luZ1N0YXR1cy5maW5hbEJ1ZmZlciwNCj4gPiA+
+IFhNTF9BQ0NPVU5UX0RJUkVDVCk7DQo+ID4gPiArwqDCoCBpZiAocmVzdWx0ICE9IFhNTF9FUlJP
+Ul9OT05FKQ0KPiA+ID4gK8KgwqDCoMKgIHJldHVybiByZXN1bHQ7DQo+ID4gPiArwqDCoCBpZiAo
+c3RhcnQpIHsNCj4gPiA+ICtAQCAtMzU1Nyw3ICszNzA5LDggQEAgY2RhdGFTZWN0aW9uUHJvY2Vz
+c29yKFhNTF9QYXJzZXIgcGFyc2VyLA0KPiA+ID4gY29uc3QNCj4gPiA+IGNoYXIgKnN0YXJ0LCBj
+b25zdCBjaGFyICplbmQsDQo+ID4gPiArICovDQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJv
+cg0KPiA+ID4gKyBkb0NkYXRhU2VjdGlvbihYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QgRU5DT0RJ
+TkcgKmVuYywgY29uc3QNCj4gPiA+IGNoYXINCj4gPiA+ICoqc3RhcnRQdHIsDQo+ID4gPiArLcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAqZW5kLCBjb25zdCBjaGFyICoq
+bmV4dFB0ciwgWE1MX0Jvb2wNCj4gPiA+IGhhdmVNb3JlKSB7DQo+ID4gPiArK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAqZW5kLCBjb25zdCBjaGFyICoqbmV4dFB0ciwg
+WE1MX0Jvb2wNCj4gPiA+IGhhdmVNb3JlLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGVudW0gWE1MX0FjY291bnQgYWNjb3VudCkgew0KPiA+ID4gK8KgwqAgY29uc3QgY2hh
+ciAqcyA9ICpzdGFydFB0cjsNCj4gPiA+ICvCoMKgIGNvbnN0IGNoYXIgKipldmVudFBQOw0KPiA+
+ID4gK8KgwqAgY29uc3QgY2hhciAqKmV2ZW50RW5kUFA7DQo+ID4gPiArQEAgLTM1NzUsNiArMzcy
+OCwxNCBAQCBkb0NkYXRhU2VjdGlvbihYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QNCj4gPiA+IEVO
+Q09ESU5HICplbmMsIGNvbnN0IGNoYXIgKipzdGFydFB0ciwNCj4gPiA+ICvCoMKgIGZvciAoOzsp
+IHsNCj4gPiA+ICvCoMKgwqDCoCBjb25zdCBjaGFyICpuZXh0Ow0KPiA+ID4gK8KgwqDCoMKgIGlu
+dCB0b2sgPSBYbWxDZGF0YVNlY3Rpb25Ub2soZW5jLCBzLCBlbmQsICZuZXh0KTsNCj4gPiA+ICsr
+I2lmZGVmIFhNTF9EVEQNCj4gPiA+ICsrwqDCoMKgIGlmICghIGFjY291bnRpbmdEaWZmVG9sZXJh
+dGVkKHBhcnNlciwgdG9rLCBzLCBuZXh0LA0KPiA+ID4gX19MSU5FX18sDQo+ID4gPiBhY2NvdW50
+KSkgew0KPiA+ID4gKyvCoMKgwqDCoMKgIGFjY291bnRpbmdPbkFib3J0KHBhcnNlcik7DQo+ID4g
+PiArK8KgwqDCoMKgwqAgcmV0dXJuIFhNTF9FUlJPUl9BTVBMSUZJQ0FUSU9OX0xJTUlUX0JSRUFD
+SDsNCj4gPiA+ICsrwqDCoMKgIH0NCj4gPiA+ICsrI2Vsc2UNCj4gPiA+ICsrwqDCoMKgIFVOVVNF
+RF9QKGFjY291bnQpOw0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICvCoMKgwqDCoCAqZXZlbnRFbmRQ
+UCA9IG5leHQ7DQo+ID4gPiArwqDCoMKgwqAgc3dpdGNoICh0b2spIHsNCj4gPiA+ICvCoMKgwqDC
+oCBjYXNlIFhNTF9UT0tfQ0RBVEFfU0VDVF9DTE9TRToNCj4gPiA+ICtAQCAtMzcxOSw2ICszODgw
+LDEzIEBAIGRvSWdub3JlU2VjdGlvbihYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QNCj4gPiA+IEVO
+Q09ESU5HICplbmMsIGNvbnN0IGNoYXIgKipzdGFydFB0ciwNCj4gPiA+ICvCoMKgICpldmVudFBQ
+ID0gczsNCj4gPiA+ICvCoMKgICpzdGFydFB0ciA9IE5VTEw7DQo+ID4gPiArwqDCoCB0b2sgPSBY
+bWxJZ25vcmVTZWN0aW9uVG9rKGVuYywgcywgZW5kLCAmbmV4dCk7DQo+ID4gPiArKyPCoCBpZmRl
+ZiBYTUxfRFREDQo+ID4gPiArK8KgIGlmICghIGFjY291bnRpbmdEaWZmVG9sZXJhdGVkKHBhcnNl
+ciwgdG9rLCBzLCBuZXh0LCBfX0xJTkVfXywNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0FDQ09VTlRfRElS
+RUNUKSkgew0KPiA+ID4gKyvCoMKgwqAgYWNjb3VudGluZ09uQWJvcnQocGFyc2VyKTsNCj4gPiA+
+ICsrwqDCoMKgIHJldHVybiBYTUxfRVJST1JfQU1QTElGSUNBVElPTl9MSU1JVF9CUkVBQ0g7DQo+
+ID4gPiArK8KgIH0NCj4gPiA+ICsrI8KgIGVuZGlmDQo+ID4gPiArwqDCoCAqZXZlbnRFbmRQUCA9
+IG5leHQ7DQo+ID4gPiArwqDCoCBzd2l0Y2ggKHRvaykgew0KPiA+ID4gK8KgwqAgY2FzZSBYTUxf
+VE9LX0lHTk9SRV9TRUNUOg0KPiA+ID4gK0BAIC0zODAzLDYgKzM5NzEsMTUgQEAgcHJvY2Vzc1ht
+bERlY2woWE1MX1BhcnNlciBwYXJzZXIsIGludA0KPiA+ID4gaXNHZW5lcmFsVGV4dEVudGl0eSwg
+Y29uc3QgY2hhciAqcywNCj4gPiA+ICvCoMKgIGNvbnN0IGNoYXIgKnZlcnNpb25lbmQ7DQo+ID4g
+PiArwqDCoCBjb25zdCBYTUxfQ2hhciAqc3RvcmVkdmVyc2lvbiA9IE5VTEw7DQo+ID4gPiArwqDC
+oCBpbnQgc3RhbmRhbG9uZSA9IC0xOw0KPiA+ID4gKysNCj4gPiA+ICsrI2lmZGVmIFhNTF9EVEQN
+Cj4gPiA+ICsrwqAgaWYgKCEgYWNjb3VudGluZ0RpZmZUb2xlcmF0ZWQocGFyc2VyLCBYTUxfVE9L
+X1hNTF9ERUNMLCBzLA0KPiA+ID4gbmV4dCwNCj4gPiA+IF9fTElORV9fLA0KPiA+ID4gKyvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBYTUxfQUNDT1VOVF9ESVJFQ1QpKSB7DQo+ID4gPiArK8KgwqDCoCBhY2NvdW50aW5nT25BYm9y
+dChwYXJzZXIpOw0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuIFhNTF9FUlJPUl9BTVBMSUZJQ0FUSU9O
+X0xJTUlUX0JSRUFDSDsNCj4gPiA+ICsrwqAgfQ0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICsrDQo+
+ID4gPiArwqDCoCBpZiAoISAocGFyc2VyLT5tX25zID8gWG1sUGFyc2VYbWxEZWNsTlMgOiBYbWxQ
+YXJzZVhtbERlY2wpKA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIGlzR2VuZXJhbFRleHRF
+bnRpdHksIHBhcnNlci0+bV9lbmNvZGluZywgcywgbmV4dCwNCj4gPiA+ICZwYXJzZXItDQo+ID4g
+PiA+IG1fZXZlbnRQdHIsDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgJnZlcnNpb24sICZ2
+ZXJzaW9uZW5kLCAmZW5jb2RpbmdOYW1lLCAmbmV3RW5jb2RpbmcsDQo+ID4gPiAmc3RhbmRhbG9u
+ZSkpIHsNCj4gPiA+ICtAQCAtMzk1Miw2ICs0MTI5LDEwIEBAIGVudGl0eVZhbHVlSW5pdFByb2Nl
+c3NvcihYTUxfUGFyc2VyDQo+ID4gPiBwYXJzZXIsDQo+ID4gPiBjb25zdCBjaGFyICpzLCBjb25z
+dCBjaGFyICplbmQsDQo+ID4gPiArDQo+ID4gPiArwqDCoCBmb3IgKDs7KSB7DQo+ID4gPiArwqDC
+oMKgwqAgdG9rID0gWG1sUHJvbG9nVG9rKHBhcnNlci0+bV9lbmNvZGluZywgc3RhcnQsIGVuZCwg
+Jm5leHQpOw0KPiA+ID4gKyvCoMKgwqAgLyogTm90ZTogRXhjZXB0IGZvciBYTUxfVE9LX0JPTSBi
+ZWxvdywgdGhlc2UgYnl0ZXMgYXJlDQo+ID4gPiBhY2NvdW50ZWQNCj4gPiA+IGxhdGVyIGluOg0K
+PiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLSBzdG9yZUVudGl0eVZhbHVlDQo+ID4g
+PiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtIHByb2Nlc3NYbWxEZWNsDQo+ID4gPiArK8Kg
+wqDCoCAqLw0KPiA+ID4gK8KgwqDCoMKgIHBhcnNlci0+bV9ldmVudEVuZFB0ciA9IG5leHQ7DQo+
+ID4gPiArwqDCoMKgwqAgaWYgKHRvayA8PSAwKSB7DQo+ID4gPiArwqDCoMKgwqDCoMKgIGlmICgh
+IHBhcnNlci0+bV9wYXJzaW5nU3RhdHVzLmZpbmFsQnVmZmVyICYmIHRvayAhPQ0KPiA+ID4gWE1M
+X1RPS19JTlZBTElEKSB7DQo+ID4gPiArQEAgLTM5NzAsNyArNDE1MSw4IEBAIGVudGl0eVZhbHVl
+SW5pdFByb2Nlc3NvcihYTUxfUGFyc2VyDQo+ID4gPiBwYXJzZXIsDQo+ID4gPiBjb25zdCBjaGFy
+ICpzLCBjb25zdCBjaGFyICplbmQsDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBicmVhazsNCj4g
+PiA+ICvCoMKgwqDCoMKgwqAgfQ0KPiA+ID4gK8KgwqDCoMKgwqDCoCAvKiBmb3VuZCBlbmQgb2Yg
+ZW50aXR5IHZhbHVlIC0gY2FuIHN0b3JlIGl0IG5vdyAqLw0KPiA+ID4gKy3CoMKgwqDCoMKgIHJl
+dHVybiBzdG9yZUVudGl0eVZhbHVlKHBhcnNlciwgcGFyc2VyLT5tX2VuY29kaW5nLCBzLA0KPiA+
+ID4gZW5kKTsNCj4gPiA+ICsrwqDCoMKgwqDCoCByZXR1cm4gc3RvcmVFbnRpdHlWYWx1ZShwYXJz
+ZXIsIHBhcnNlci0+bV9lbmNvZGluZywgcywNCj4gPiA+IGVuZCwNCj4gPiA+ICsrwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQUND
+T1VOVF9ESVJFQ1QpOw0KPiA+ID4gK8KgwqDCoMKgIH0gZWxzZSBpZiAodG9rID09IFhNTF9UT0tf
+WE1MX0RFQ0wpIHsNCj4gPiA+ICvCoMKgwqDCoMKgwqAgZW51bSBYTUxfRXJyb3IgcmVzdWx0Ow0K
+PiA+ID4gK8KgwqDCoMKgwqDCoCByZXN1bHQgPSBwcm9jZXNzWG1sRGVjbChwYXJzZXIsIDAsIHN0
+YXJ0LCBuZXh0KTsNCj4gPiA+ICtAQCAtMzk5Nyw2ICs0MTc5LDE0IEBAIGVudGl0eVZhbHVlSW5p
+dFByb2Nlc3NvcihYTUxfUGFyc2VyDQo+ID4gPiBwYXJzZXIsDQo+ID4gPiBjb25zdCBjaGFyICpz
+LCBjb25zdCBjaGFyICplbmQsDQo+ID4gPiArwqDCoMKgwqAgKi8NCj4gPiA+ICvCoMKgwqDCoCBl
+bHNlIGlmICh0b2sgPT0gWE1MX1RPS19CT00gJiYgbmV4dCA9PSBlbmQNCj4gPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAmJiAhIHBhcnNlci0+bV9wYXJzaW5nU3RhdHVzLmZpbmFsQnVm
+ZmVyKSB7DQo+ID4gPiArKyPCoCBpZmRlZiBYTUxfRFREDQo+ID4gPiArK8KgwqDCoMKgwqAgaWYg
+KCEgYWNjb3VudGluZ0RpZmZUb2xlcmF0ZWQocGFyc2VyLCB0b2ssIHMsIG5leHQsDQo+ID4gPiBf
+X0xJTkVfXywNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQUNDT1VOVF9ESVJFQ1QpKSB7DQo+
+ID4gPiArK8KgwqDCoMKgwqDCoMKgIGFjY291bnRpbmdPbkFib3J0KHBhcnNlcik7DQo+ID4gPiAr
+K8KgwqDCoMKgwqDCoMKgIHJldHVybiBYTUxfRVJST1JfQU1QTElGSUNBVElPTl9MSU1JVF9CUkVB
+Q0g7DQo+ID4gPiArK8KgwqDCoMKgwqAgfQ0KPiA+ID4gKysjwqAgZW5kaWYNCj4gPiA+ICsrDQo+
+ID4gPiArwqDCoMKgwqDCoMKgICpuZXh0UHRyID0gbmV4dDsNCj4gPiA+ICvCoMKgwqDCoMKgwqAg
+cmV0dXJuIFhNTF9FUlJPUl9OT05FOw0KPiA+ID4gK8KgwqDCoMKgIH0NCj4gPiA+ICtAQCAtNDAz
+OSwxNiArNDIyOSwyNCBAQCBleHRlcm5hbFBhckVudFByb2Nlc3NvcihYTUxfUGFyc2VyDQo+ID4g
+PiBwYXJzZXIsDQo+ID4gPiBjb25zdCBjaGFyICpzLCBjb25zdCBjaGFyICplbmQsDQo+ID4gPiAr
+wqDCoCB9DQo+ID4gPiArwqDCoCAvKiBUaGlzIHdvdWxkIGNhdXNlIHRoZSBuZXh0IHN0YWdlLCBp
+LmUuIGRvUHJvbG9nIHRvIGJlDQo+ID4gPiBwYXNzZWQNCj4gPiA+IFhNTF9UT0tfQk9NLg0KPiA+
+ID4gK8KgwqDCoMKgwqAgSG93ZXZlciwgd2hlbiBwYXJzaW5nIGFuIGV4dGVybmFsIHN1YnNldCwg
+ZG9Qcm9sb2cgd2lsbA0KPiA+ID4gbm90DQo+ID4gPiBhY2NlcHQgYSBCT00NCj4gPiA+ICstwqDC
+oMKgwqAgYXMgdmFsaWQsIGFuZCByZXBvcnQgYSBzeW50YXggZXJyb3IsIHNvIHdlIGhhdmUgdG8g
+c2tpcA0KPiA+ID4gdGhlDQo+ID4gPiBCT00NCj4gPiA+ICsrwqDCoMKgwqAgYXMgdmFsaWQsIGFu
+ZCByZXBvcnQgYSBzeW50YXggZXJyb3IsIHNvIHdlIGhhdmUgdG8gc2tpcA0KPiA+ID4gdGhlDQo+
+ID4gPiBCT00sDQo+ID4gPiBhbmQNCj4gPiA+ICsrwqDCoMKgwqAgYWNjb3VudCBmb3IgdGhlIEJP
+TSBieXRlcy4NCj4gPiA+ICvCoMKgICovDQo+ID4gPiArwqDCoCBlbHNlIGlmICh0b2sgPT0gWE1M
+X1RPS19CT00pIHsNCj4gPiA+ICsrwqDCoMKgIGlmICghIGFjY291bnRpbmdEaWZmVG9sZXJhdGVk
+KHBhcnNlciwgdG9rLCBzLCBuZXh0LA0KPiA+ID4gX19MSU5FX18sDQo+ID4gPiArK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBYTUxfQUNDT1VOVF9ESVJFQ1QpKSB7DQo+ID4gPiArK8KgwqDCoMKgwqAgYWNjb3VudGluZ09u
+QWJvcnQocGFyc2VyKTsNCj4gPiA+ICsrwqDCoMKgwqDCoCByZXR1cm4gWE1MX0VSUk9SX0FNUExJ
+RklDQVRJT05fTElNSVRfQlJFQUNIOw0KPiA+ID4gKyvCoMKgwqAgfQ0KPiA+ID4gKysNCj4gPiA+
+ICvCoMKgwqDCoCBzID0gbmV4dDsNCj4gPiA+ICvCoMKgwqDCoCB0b2sgPSBYbWxQcm9sb2dUb2so
+cGFyc2VyLT5tX2VuY29kaW5nLCBzLCBlbmQsICZuZXh0KTsNCj4gPiA+ICvCoMKgIH0NCj4gPiA+
+ICsNCj4gPiA+ICvCoMKgIHBhcnNlci0+bV9wcm9jZXNzb3IgPSBwcm9sb2dQcm9jZXNzb3I7DQo+
+ID4gPiArwqDCoCByZXR1cm4gZG9Qcm9sb2cocGFyc2VyLCBwYXJzZXItPm1fZW5jb2RpbmcsIHMs
+IGVuZCwgdG9rLA0KPiA+ID4gbmV4dCwNCj4gPiA+IG5leHRQdHIsDQo+ID4gPiArLcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKFhNTF9Cb29sKSEgcGFyc2VyLQ0KPiA+ID4gPm1f
+cGFyc2luZ1N0YXR1cy5maW5hbEJ1ZmZlciwNCj4gPiA+IFhNTF9UUlVFKTsNCj4gPiA+ICsrwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoWE1MX0Jvb2wpISBwYXJzZXItDQo+ID4g
+PiA+bV9wYXJzaW5nU3RhdHVzLmZpbmFsQnVmZmVyLA0KPiA+ID4gWE1MX1RSVUUsDQo+ID4gPiAr
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0FDQ09VTlRfRElSRUNUKTsN
+Cj4gPiA+ICsgfQ0KPiA+ID4gKw0KPiA+ID4gKyBzdGF0aWMgZW51bSBYTUxfRXJyb3IgUFRSQ0FM
+TA0KPiA+ID4gK0BAIC00MDYxLDYgKzQyNTksOSBAQCBlbnRpdHlWYWx1ZVByb2Nlc3NvcihYTUxf
+UGFyc2VyIHBhcnNlciwNCj4gPiA+IGNvbnN0DQo+ID4gPiBjaGFyICpzLCBjb25zdCBjaGFyICpl
+bmQsDQo+ID4gPiArDQo+ID4gPiArwqDCoCBmb3IgKDs7KSB7DQo+ID4gPiArwqDCoMKgwqAgdG9r
+ID0gWG1sUHJvbG9nVG9rKGVuYywgc3RhcnQsIGVuZCwgJm5leHQpOw0KPiA+ID4gKyvCoMKgwqAg
+LyogTm90ZTogVGhlc2UgYnl0ZXMgYXJlIGFjY291bnRlZCBsYXRlciBpbjoNCj4gPiA+ICsrwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0gc3RvcmVFbnRpdHlWYWx1ZQ0KPiA+ID4gKyvCoMKgwqAg
+Ki8NCj4gPiA+ICvCoMKgwqDCoCBpZiAodG9rIDw9IDApIHsNCj4gPiA+ICvCoMKgwqDCoMKgwqAg
+aWYgKCEgcGFyc2VyLT5tX3BhcnNpbmdTdGF0dXMuZmluYWxCdWZmZXIgJiYgdG9rICE9DQo+ID4g
+PiBYTUxfVE9LX0lOVkFMSUQpIHsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgICpuZXh0UHRyID0g
+czsNCj4gPiA+ICtAQCAtNDA3OCw3ICs0Mjc5LDcgQEAgZW50aXR5VmFsdWVQcm9jZXNzb3IoWE1M
+X1BhcnNlciBwYXJzZXIsDQo+ID4gPiBjb25zdA0KPiA+ID4gY2hhciAqcywgY29uc3QgY2hhciAq
+ZW5kLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+ID4gPiArwqDCoMKgwqDCoMKg
+IH0NCj4gPiA+ICvCoMKgwqDCoMKgwqAgLyogZm91bmQgZW5kIG9mIGVudGl0eSB2YWx1ZSAtIGNh
+biBzdG9yZSBpdCBub3cgKi8NCj4gPiA+ICstwqDCoMKgwqDCoCByZXR1cm4gc3RvcmVFbnRpdHlW
+YWx1ZShwYXJzZXIsIGVuYywgcywgZW5kKTsNCj4gPiA+ICsrwqDCoMKgwqDCoCByZXR1cm4gc3Rv
+cmVFbnRpdHlWYWx1ZShwYXJzZXIsIGVuYywgcywgZW5kLA0KPiA+ID4gWE1MX0FDQ09VTlRfRElS
+RUNUKTsNCj4gPiA+ICvCoMKgwqDCoCB9DQo+ID4gPiArwqDCoMKgwqAgc3RhcnQgPSBuZXh0Ow0K
+PiA+ID4gK8KgwqAgfQ0KPiA+ID4gK0BAIC00MDkyLDEzICs0MjkzLDE0IEBAIHByb2xvZ1Byb2Nl
+c3NvcihYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QNCj4gPiA+IGNoYXINCj4gPiA+ICpzLCBjb25z
+dCBjaGFyICplbmQsDQo+ID4gPiArwqDCoCBjb25zdCBjaGFyICpuZXh0ID0gczsNCj4gPiA+ICvC
+oMKgIGludCB0b2sgPSBYbWxQcm9sb2dUb2socGFyc2VyLT5tX2VuY29kaW5nLCBzLCBlbmQsICZu
+ZXh0KTsNCj4gPiA+ICvCoMKgIHJldHVybiBkb1Byb2xvZyhwYXJzZXIsIHBhcnNlci0+bV9lbmNv
+ZGluZywgcywgZW5kLCB0b2ssDQo+ID4gPiBuZXh0LA0KPiA+ID4gbmV4dFB0ciwNCj4gPiA+ICst
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoWE1MX0Jvb2wpISBwYXJzZXItDQo+
+ID4gPiA+bV9wYXJzaW5nU3RhdHVzLmZpbmFsQnVmZmVyLA0KPiA+ID4gWE1MX1RSVUUpOw0KPiA+
+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIChYTUxfQm9vbCkhIHBhcnNl
+ci0NCj4gPiA+ID5tX3BhcnNpbmdTdGF0dXMuZmluYWxCdWZmZXIsDQo+ID4gPiBYTUxfVFJVRSwN
+Cj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQUNDT1VOVF9E
+SVJFQ1QpOw0KPiA+ID4gKyB9DQo+ID4gPiArDQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJv
+cg0KPiA+ID4gKyBkb1Byb2xvZyhYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QgRU5DT0RJTkcgKmVu
+YywgY29uc3QgY2hhciAqcywNCj4gPiA+IGNvbnN0DQo+ID4gPiBjaGFyICplbmQsDQo+ID4gPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgIGludCB0b2ssIGNvbnN0IGNoYXIgKm5leHQsIGNvbnN0IGNoYXIg
+KipuZXh0UHRyLA0KPiA+ID4gWE1MX0Jvb2wNCj4gPiA+IGhhdmVNb3JlLA0KPiA+ID4gKy3CoMKg
+wqDCoMKgwqDCoMKgIFhNTF9Cb29sIGFsbG93Q2xvc2luZ0RvY3R5cGUpIHsNCj4gPiA+ICsrwqDC
+oMKgwqDCoMKgwqDCoCBYTUxfQm9vbCBhbGxvd0Nsb3NpbmdEb2N0eXBlLCBlbnVtIFhNTF9BY2Nv
+dW50DQo+ID4gPiBhY2NvdW50KSB7DQo+ID4gPiArICNpZmRlZiBYTUxfRFREDQo+ID4gPiArwqDC
+oCBzdGF0aWMgY29uc3QgWE1MX0NoYXIgZXh0ZXJuYWxTdWJzZXROYW1lW10gPSB7QVNDSUlfSEFT
+SCwNCj4gPiA+ICdcMCd9Ow0KPiA+ID4gKyAjZW5kaWYgLyogWE1MX0RURCAqLw0KPiA+ID4gK0BA
+IC00MTI1LDYgKzQzMjcsMTAgQEAgZG9Qcm9sb2coWE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0DQo+
+ID4gPiBFTkNPRElORw0KPiA+ID4gKmVuYywgY29uc3QgY2hhciAqcywgY29uc3QgY2hhciAqZW5k
+LA0KPiA+ID4gK8KgwqAgc3RhdGljIGNvbnN0IFhNTF9DaGFyIGVudW1WYWx1ZVNlcFtdID0ge0FT
+Q0lJX1BJUEUsICdcMCd9Ow0KPiA+ID4gK8KgwqAgc3RhdGljIGNvbnN0IFhNTF9DaGFyIGVudW1W
+YWx1ZVN0YXJ0W10gPSB7QVNDSUlfTFBBUkVOLA0KPiA+ID4gJ1wwJ307DQo+ID4gPiArDQo+ID4g
+PiArKyNpZm5kZWYgWE1MX0RURA0KPiA+ID4gKyvCoCBVTlVTRURfUChhY2NvdW50KTsNCj4gPiA+
+ICsrI2VuZGlmDQo+ID4gPiArKw0KPiA+ID4gK8KgwqAgLyogc2F2ZSBvbmUgbGV2ZWwgb2YgaW5k
+aXJlY3Rpb24gKi8NCj4gPiA+ICvCoMKgIERURCAqY29uc3QgZHRkID0gcGFyc2VyLT5tX2R0ZDsN
+Cj4gPiA+ICsNCj4gPiA+ICtAQCAtNDE4OSw2ICs0Mzk1LDE5IEBAIGRvUHJvbG9nKFhNTF9QYXJz
+ZXIgcGFyc2VyLCBjb25zdA0KPiA+ID4gRU5DT0RJTkcNCj4gPiA+ICplbmMsIGNvbnN0IGNoYXIg
+KnMsIGNvbnN0IGNoYXIgKmVuZCwNCj4gPiA+ICvCoMKgwqDCoMKgwqAgfQ0KPiA+ID4gK8KgwqDC
+oMKgIH0NCj4gPiA+ICvCoMKgwqDCoCByb2xlID0gWG1sVG9rZW5Sb2xlKCZwYXJzZXItPm1fcHJv
+bG9nU3RhdGUsIHRvaywgcywgbmV4dCwNCj4gPiA+IGVuYyk7DQo+ID4gPiArKyNpZmRlZiBYTUxf
+RFREDQo+ID4gPiArK8KgwqDCoCBzd2l0Y2ggKHJvbGUpIHsNCj4gPiA+ICsrwqDCoMKgIGNhc2Ug
+WE1MX1JPTEVfSU5TVEFOQ0VfU1RBUlQ6IC8vIGJ5dGVzIGFjY291bnRlZCBpbg0KPiA+ID4gY29u
+dGVudFByb2Nlc3Nvcg0KPiA+ID4gKyvCoMKgwqAgY2FzZSBYTUxfUk9MRV9YTUxfREVDTDrCoMKg
+wqDCoMKgwqAgLy8gYnl0ZXMgYWNjb3VudGVkIGluDQo+ID4gPiBwcm9jZXNzWG1sRGVjbA0KPiA+
+ID4gKyvCoMKgwqAgY2FzZSBYTUxfUk9MRV9URVhUX0RFQ0w6wqDCoMKgwqDCoCAvLyBieXRlcyBh
+Y2NvdW50ZWQgaW4NCj4gPiA+IHByb2Nlc3NYbWxEZWNsDQo+ID4gPiArK8KgwqDCoMKgwqAgYnJl
+YWs7DQo+ID4gPiArK8KgwqDCoCBkZWZhdWx0Og0KPiA+ID4gKyvCoMKgwqDCoMKgIGlmICghIGFj
+Y291bnRpbmdEaWZmVG9sZXJhdGVkKHBhcnNlciwgdG9rLCBzLCBuZXh0LA0KPiA+ID4gX19MSU5F
+X18sDQo+ID4gPiBhY2NvdW50KSkgew0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoCBhY2NvdW50aW5n
+T25BYm9ydChwYXJzZXIpOw0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoCByZXR1cm4gWE1MX0VSUk9S
+X0FNUExJRklDQVRJT05fTElNSVRfQlJFQUNIOw0KPiA+ID4gKyvCoMKgwqDCoMKgIH0NCj4gPiA+
+ICsrwqDCoMKgIH0NCj4gPiA+ICsrI2VuZGlmDQo+ID4gPiArwqDCoMKgwqAgc3dpdGNoIChyb2xl
+KSB7DQo+ID4gPiArwqDCoMKgwqAgY2FzZSBYTUxfUk9MRV9YTUxfREVDTDogew0KPiA+ID4gK8Kg
+wqDCoMKgwqDCoCBlbnVtIFhNTF9FcnJvciByZXN1bHQgPSBwcm9jZXNzWG1sRGVjbChwYXJzZXIs
+IDAsIHMsDQo+ID4gPiBuZXh0KTsNCj4gPiA+ICtAQCAtNDQ2NCw3ICs0NjgzLDggQEAgZG9Qcm9s
+b2coWE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0IEVOQ09ESU5HDQo+ID4gPiAqZW5jLA0KPiA+ID4g
+Y29uc3QgY2hhciAqcywgY29uc3QgY2hhciAqZW5kLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAg
+Y29uc3QgWE1MX0NoYXIgKmF0dFZhbDsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGVudW0gWE1M
+X0Vycm9yIHJlc3VsdCA9IHN0b3JlQXR0cmlidXRlVmFsdWUoDQo+ID4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHBhcnNlciwgZW5jLCBwYXJzZXItPm1fZGVjbEF0dHJpYnV0ZUlzQ2RhdGEs
+DQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcyArIGVuYy0+bWluQnl0ZXNQZXJDaGFy
+LCBuZXh0IC0gZW5jLQ0KPiA+ID4gPm1pbkJ5dGVzUGVyQ2hhciwNCj4gPiA+ICZkdGQtPnBvb2wp
+Ow0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHMgKyBlbmMtPm1pbkJ5dGVzUGVyQ2hh
+ciwgbmV4dCAtIGVuYy0NCj4gPiA+ID5taW5CeXRlc1BlckNoYXIsDQo+ID4gPiAmZHRkLT5wb29s
+LA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFhNTF9BQ0NPVU5UX05PTkUpOw0KPiA+
+ID4gK8KgwqDCoMKgwqDCoMKgwqAgaWYgKHJlc3VsdCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoCByZXR1cm4gcmVzdWx0Ow0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgYXR0VmFsID0gcG9v
+bFN0YXJ0KCZkdGQtPnBvb2wpOw0KPiA+ID4gK0BAIC00NDk3LDggKzQ3MTcsOSBAQCBkb1Byb2xv
+ZyhYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QgRU5DT0RJTkcNCj4gPiA+ICplbmMsDQo+ID4gPiBj
+b25zdCBjaGFyICpzLCBjb25zdCBjaGFyICplbmQsDQo+ID4gPiArwqDCoMKgwqDCoMKgIGJyZWFr
+Ow0KPiA+ID4gK8KgwqDCoMKgIGNhc2UgWE1MX1JPTEVfRU5USVRZX1ZBTFVFOg0KPiA+ID4gK8Kg
+wqDCoMKgwqDCoCBpZiAoZHRkLT5rZWVwUHJvY2Vzc2luZykgew0KPiA+ID4gKy3CoMKgwqDCoMKg
+wqDCoCBlbnVtIFhNTF9FcnJvciByZXN1bHQgPSBzdG9yZUVudGl0eVZhbHVlKA0KPiA+ID4gKy3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlciwgZW5jLCBzICsgZW5jLT5taW5CeXRlc1BlckNo
+YXIsIG5leHQgLSBlbmMtDQo+ID4gPiA+IG1pbkJ5dGVzUGVyQ2hhcik7DQo+ID4gPiArK8KgwqDC
+oMKgwqDCoMKgIGVudW0gWE1MX0Vycm9yIHJlc3VsdA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgID0gc3RvcmVFbnRpdHlWYWx1ZShwYXJzZXIsIGVuYywgcyArIGVuYy0NCj4gPiA+ID4g
+bWluQnl0ZXNQZXJDaGFyLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbmV4dCAtIGVuYy0+bWluQnl0ZXNQZXJDaGFy
+LA0KPiA+ID4gWE1MX0FDQ09VTlRfTk9ORSk7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBpZiAo
+cGFyc2VyLT5tX2RlY2xFbnRpdHkpIHsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBwYXJz
+ZXItPm1fZGVjbEVudGl0eS0+dGV4dFB0ciA9IHBvb2xTdGFydCgmZHRkLQ0KPiA+ID4gPiBlbnRp
+dHlWYWx1ZVBvb2wpOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlci0+bV9kZWNs
+RW50aXR5LT50ZXh0TGVuDQo+ID4gPiArQEAgLTQ4ODgsMTIgKzUxMDksMTUgQEAgZG9Qcm9sb2co
+WE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0DQo+ID4gPiBFTkNPRElORw0KPiA+ID4gKmVuYywgY29u
+c3QgY2hhciAqcywgY29uc3QgY2hhciAqZW5kLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgaWYg
+KHBhcnNlci0+bV9leHRlcm5hbEVudGl0eVJlZkhhbmRsZXIpIHsNCj4gPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBkdGQtPnBhcmFtRW50aXR5UmVhZCA9IFhNTF9GQUxTRTsNCj4gPiA+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBlbnRpdHktPm9wZW4gPSBYTUxfVFJVRTsNCj4gPiA+ICsrwqDCoMKg
+wqDCoMKgwqDCoMKgIGVudGl0eVRyYWNraW5nT25PcGVuKHBhcnNlciwgZW50aXR5LCBfX0xJTkVf
+Xyk7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCEgcGFyc2VyLT5tX2V4dGVybmFs
+RW50aXR5UmVmSGFuZGxlcigNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgcGFyc2VyLT5tX2V4dGVybmFsRW50aXR5UmVmSGFuZGxlckFyZywgMCwNCj4gPiA+IGVu
+dGl0eS0NCj4gPiA+ID4gYmFzZSwNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgZW50aXR5LT5zeXN0ZW1JZCwgZW50aXR5LT5wdWJsaWNJZCkpIHsNCj4gPiA+ICsr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbnRpdHlUcmFja2luZ09uQ2xvc2UocGFyc2VyLCBlbnRp
+dHksIF9fTElORV9fKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW50aXR5LT5v
+cGVuID0gWE1MX0ZBTFNFOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4g
+WE1MX0VSUk9SX0VYVEVSTkFMX0VOVElUWV9IQU5ETElORzsNCj4gPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoCB9DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoCBlbnRpdHlUcmFja2luZ09uQ2xv
+c2UocGFyc2VyLCBlbnRpdHksIF9fTElORV9fKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBlbnRpdHktPm9wZW4gPSBYTUxfRkFMU0U7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aGFuZGxlRGVmYXVsdCA9IFhNTF9GQUxTRTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
+ZiAoISBkdGQtPnBhcmFtRW50aXR5UmVhZCkgew0KPiA+ID4gK0BAIC01MDkxLDYgKzUzMTUsMTMg
+QEAgZXBpbG9nUHJvY2Vzc29yKFhNTF9QYXJzZXIgcGFyc2VyLCBjb25zdA0KPiA+ID4gY2hhcg0K
+PiA+ID4gKnMsIGNvbnN0IGNoYXIgKmVuZCwNCj4gPiA+ICvCoMKgIGZvciAoOzspIHsNCj4gPiA+
+ICvCoMKgwqDCoCBjb25zdCBjaGFyICpuZXh0ID0gTlVMTDsNCj4gPiA+ICvCoMKgwqDCoCBpbnQg
+dG9rID0gWG1sUHJvbG9nVG9rKHBhcnNlci0+bV9lbmNvZGluZywgcywgZW5kLCAmbmV4dCk7DQo+
+ID4gPiArKyNpZmRlZiBYTUxfRFREDQo+ID4gPiArK8KgwqDCoCBpZiAoISBhY2NvdW50aW5nRGlm
+ZlRvbGVyYXRlZChwYXJzZXIsIHRvaywgcywgbmV4dCwNCj4gPiA+IF9fTElORV9fLA0KPiA+ID4g
+KyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgWE1MX0FDQ09VTlRfRElSRUNUKSkgew0KPiA+ID4gKyvCoMKgwqDCoMKgIGFj
+Y291bnRpbmdPbkFib3J0KHBhcnNlcik7DQo+ID4gPiArK8KgwqDCoMKgwqAgcmV0dXJuIFhNTF9F
+UlJPUl9BTVBMSUZJQ0FUSU9OX0xJTUlUX0JSRUFDSDsNCj4gPiA+ICsrwqDCoMKgIH0NCj4gPiA+
+ICsrI2VuZGlmDQo+ID4gPiArwqDCoMKgwqAgcGFyc2VyLT5tX2V2ZW50RW5kUHRyID0gbmV4dDsN
+Cj4gPiA+ICvCoMKgwqDCoCBzd2l0Y2ggKHRvaykgew0KPiA+ID4gK8KgwqDCoMKgIC8qIHJlcG9y
+dCBwYXJ0aWFsIGxpbmVicmVhayAtIGl0IG1pZ2h0IGJlIHRoZSBsYXN0IHRva2VuICovDQo+ID4g
+PiArQEAgLTUxNjQsNiArNTM5NSw5IEBAIHByb2Nlc3NJbnRlcm5hbEVudGl0eShYTUxfUGFyc2Vy
+IHBhcnNlciwNCj4gPiA+IEVOVElUWQ0KPiA+ID4gKmVudGl0eSwgWE1MX0Jvb2wgYmV0d2VlbkRl
+Y2wpIHsNCj4gPiA+ICvCoMKgwqDCoMKgwqAgcmV0dXJuIFhNTF9FUlJPUl9OT19NRU1PUlk7DQo+
+ID4gPiArwqDCoCB9DQo+ID4gPiArwqDCoCBlbnRpdHktPm9wZW4gPSBYTUxfVFJVRTsNCj4gPiA+
+ICsrI2lmZGVmIFhNTF9EVEQNCj4gPiA+ICsrwqAgZW50aXR5VHJhY2tpbmdPbk9wZW4ocGFyc2Vy
+LCBlbnRpdHksIF9fTElORV9fKTsNCj4gPiA+ICsrI2VuZGlmDQo+ID4gPiArwqDCoCBlbnRpdHkt
+PnByb2Nlc3NlZCA9IDA7DQo+ID4gPiArwqDCoCBvcGVuRW50aXR5LT5uZXh0ID0gcGFyc2VyLT5t
+X29wZW5JbnRlcm5hbEVudGl0aWVzOw0KPiA+ID4gK8KgwqAgcGFyc2VyLT5tX29wZW5JbnRlcm5h
+bEVudGl0aWVzID0gb3BlbkVudGl0eTsNCj4gPiA+ICtAQCAtNTE4MiwxNyArNTQxNiwyMiBAQCBw
+cm9jZXNzSW50ZXJuYWxFbnRpdHkoWE1MX1BhcnNlciBwYXJzZXIsDQo+ID4gPiBFTlRJVFkgKmVu
+dGl0eSwgWE1MX0Jvb2wgYmV0d2VlbkRlY2wpIHsNCj4gPiA+ICvCoMKgwqDCoCBpbnQgdG9rDQo+
+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCA9IFhtbFByb2xvZ1RvayhwYXJzZXItPm1faW50ZXJuYWxF
+bmNvZGluZywgdGV4dFN0YXJ0LA0KPiA+ID4gdGV4dEVuZCwgJm5leHQpOw0KPiA+ID4gK8KgwqDC
+oMKgIHJlc3VsdCA9IGRvUHJvbG9nKHBhcnNlciwgcGFyc2VyLT5tX2ludGVybmFsRW5jb2Rpbmcs
+DQo+ID4gPiB0ZXh0U3RhcnQsDQo+ID4gPiB0ZXh0RW5kLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdG9rLCBuZXh0LCAmbmV4dCwgWE1MX0ZBTFNF
+LCBYTUxfRkFMU0UpOw0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgdG9rLCBuZXh0LCAmbmV4dCwgWE1MX0ZBTFNFLCBYTUxfRkFMU0UsDQo+ID4gPiAr
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfQUNDT1VOVF9F
+TlRJVFlfRVhQQU5TSU9OKTsNCj4gPiA+ICvCoMKgIH0gZWxzZQ0KPiA+ID4gKyAjZW5kaWYgLyog
+WE1MX0RURCAqLw0KPiA+ID4gK8KgwqDCoMKgIHJlc3VsdCA9IGRvQ29udGVudChwYXJzZXIsIHBh
+cnNlci0+bV90YWdMZXZlbCwgcGFyc2VyLQ0KPiA+ID4gPiBtX2ludGVybmFsRW5jb2RpbmcsDQo+
+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRleHRT
+dGFydCwgdGV4dEVuZCwgJm5leHQsIFhNTF9GQUxTRSk7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRleHRTdGFydCwgdGV4dEVuZCwgJm5leHQs
+IFhNTF9GQUxTRSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgWE1MX0FDQ09VTlRfRU5USVRZX0VYUEFOU0lPTik7DQo+ID4gPiArDQo+ID4gPiAr
+wqDCoCBpZiAocmVzdWx0ID09IFhNTF9FUlJPUl9OT05FKSB7DQo+ID4gPiArwqDCoMKgwqAgaWYg
+KHRleHRFbmQgIT0gbmV4dCAmJiBwYXJzZXItPm1fcGFyc2luZ1N0YXR1cy5wYXJzaW5nID09DQo+
+ID4gPiBYTUxfU1VTUEVOREVEKSB7DQo+ID4gPiArwqDCoMKgwqDCoMKgIGVudGl0eS0+cHJvY2Vz
+c2VkID0gKGludCkobmV4dCAtIHRleHRTdGFydCk7DQo+ID4gPiArwqDCoMKgwqDCoMKgIHBhcnNl
+ci0+bV9wcm9jZXNzb3IgPSBpbnRlcm5hbEVudGl0eVByb2Nlc3NvcjsNCj4gPiA+ICvCoMKgwqDC
+oCB9IGVsc2Ugew0KPiA+ID4gKysjaWZkZWYgWE1MX0RURA0KPiA+ID4gKyvCoMKgwqDCoMKgIGVu
+dGl0eVRyYWNraW5nT25DbG9zZShwYXJzZXIsIGVudGl0eSwgX19MSU5FX18pOw0KPiA+ID4gKysj
+ZW5kaWYgLyogWE1MX0RURCAqLw0KPiA+ID4gK8KgwqDCoMKgwqDCoCBlbnRpdHktPm9wZW4gPSBY
+TUxfRkFMU0U7DQo+ID4gPiArwqDCoMKgwqDCoMKgIHBhcnNlci0+bV9vcGVuSW50ZXJuYWxFbnRp
+dGllcyA9IG9wZW5FbnRpdHktPm5leHQ7DQo+ID4gPiArwqDCoMKgwqDCoMKgIC8qIHB1dCBvcGVu
+RW50aXR5IGJhY2sgaW4gbGlzdCBvZiBmcmVlIGluc3RhbmNlcyAqLw0KPiA+ID4gK0BAIC01MjI1
+LDEyICs1NDY0LDEzIEBAIGludGVybmFsRW50aXR5UHJvY2Vzc29yKFhNTF9QYXJzZXINCj4gPiA+
+IHBhcnNlciwNCj4gPiA+IGNvbnN0IGNoYXIgKnMsIGNvbnN0IGNoYXIgKmVuZCwNCj4gPiA+ICvC
+oMKgwqDCoCBpbnQgdG9rDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCA9IFhtbFByb2xvZ1Rvayhw
+YXJzZXItPm1faW50ZXJuYWxFbmNvZGluZywgdGV4dFN0YXJ0LA0KPiA+ID4gdGV4dEVuZCwgJm5l
+eHQpOw0KPiA+ID4gK8KgwqDCoMKgIHJlc3VsdCA9IGRvUHJvbG9nKHBhcnNlciwgcGFyc2VyLT5t
+X2ludGVybmFsRW5jb2RpbmcsDQo+ID4gPiB0ZXh0U3RhcnQsDQo+ID4gPiB0ZXh0RW5kLA0KPiA+
+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdG9rLCBuZXh0
+LCAmbmV4dCwgWE1MX0ZBTFNFLCBYTUxfVFJVRSk7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0b2ssIG5leHQsICZuZXh0LCBYTUxfRkFMU0UsIFhN
+TF9UUlVFLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgWE1MX0FDQ09VTlRfRU5USVRZX0VYUEFOU0lPTik7DQo+ID4gPiArwqDCoCB9IGVsc2UNCj4g
+PiA+ICsgI2VuZGlmIC8qIFhNTF9EVEQgKi8NCj4gPiA+ICvCoMKgwqDCoCByZXN1bHQgPSBkb0Nv
+bnRlbnQocGFyc2VyLCBvcGVuRW50aXR5LT5zdGFydFRhZ0xldmVsLA0KPiA+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcGFyc2VyLT5tX2ludGVybmFs
+RW5jb2RpbmcsIHRleHRTdGFydCwNCj4gPiA+IHRleHRFbmQsICZuZXh0LA0KPiA+ID4gKy3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfRkFMU0UpOw0KPiA+
+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxfRkFM
+U0UsDQo+ID4gPiBYTUxfQUNDT1VOVF9FTlRJVFlfRVhQQU5TSU9OKTsNCj4gPiA+ICsNCj4gPiA+
+ICvCoMKgIGlmIChyZXN1bHQgIT0gWE1MX0VSUk9SX05PTkUpDQo+ID4gPiArwqDCoMKgwqAgcmV0
+dXJuIHJlc3VsdDsNCj4gPiA+ICtAQCAtNTIzOSw2ICs1NDc5LDkgQEAgaW50ZXJuYWxFbnRpdHlQ
+cm9jZXNzb3IoWE1MX1BhcnNlciBwYXJzZXIsDQo+ID4gPiBjb25zdA0KPiA+ID4gY2hhciAqcywg
+Y29uc3QgY2hhciAqZW5kLA0KPiA+ID4gK8KgwqDCoMKgIGVudGl0eS0+cHJvY2Vzc2VkID0gKGlu
+dCkobmV4dCAtIChjaGFyICopZW50aXR5LT50ZXh0UHRyKTsNCj4gPiA+ICvCoMKgwqDCoCByZXR1
+cm4gcmVzdWx0Ow0KPiA+ID4gK8KgwqAgfSBlbHNlIHsNCj4gPiA+ICsrI2lmZGVmIFhNTF9EVEQN
+Cj4gPiA+ICsrwqDCoMKgIGVudGl0eVRyYWNraW5nT25DbG9zZShwYXJzZXIsIGVudGl0eSwgX19M
+SU5FX18pOw0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICvCoMKgwqDCoCBlbnRpdHktPm9wZW4gPSBY
+TUxfRkFMU0U7DQo+ID4gPiArwqDCoMKgwqAgcGFyc2VyLT5tX29wZW5JbnRlcm5hbEVudGl0aWVz
+ID0gb3BlbkVudGl0eS0+bmV4dDsNCj4gPiA+ICvCoMKgwqDCoCAvKiBwdXQgb3BlbkVudGl0eSBi
+YWNrIGluIGxpc3Qgb2YgZnJlZSBpbnN0YW5jZXMgKi8NCj4gPiA+ICtAQCAtNTI1Miw3ICs1NDk1
+LDggQEAgaW50ZXJuYWxFbnRpdHlQcm9jZXNzb3IoWE1MX1BhcnNlciBwYXJzZXIsDQo+ID4gPiBj
+b25zdA0KPiA+ID4gY2hhciAqcywgY29uc3QgY2hhciAqZW5kLA0KPiA+ID4gK8KgwqDCoMKgIHBh
+cnNlci0+bV9wcm9jZXNzb3IgPSBwcm9sb2dQcm9jZXNzb3I7DQo+ID4gPiArwqDCoMKgwqAgdG9r
+ID0gWG1sUHJvbG9nVG9rKHBhcnNlci0+bV9lbmNvZGluZywgcywgZW5kLCAmbmV4dCk7DQo+ID4g
+PiArwqDCoMKgwqAgcmV0dXJuIGRvUHJvbG9nKHBhcnNlciwgcGFyc2VyLT5tX2VuY29kaW5nLCBz
+LCBlbmQsIHRvaywNCj4gPiA+IG5leHQsDQo+ID4gPiBuZXh0UHRyLA0KPiA+ID4gKy3CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoWE1MX0Jvb2wpISBwYXJzZXItDQo+ID4g
+PiA+IG1fcGFyc2luZ1N0YXR1cy5maW5hbEJ1ZmZlciwNCj4gPiA+IFhNTF9UUlVFKTsNCj4gPiA+
+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKFhNTF9Cb29sKSEgcGFy
+c2VyLQ0KPiA+ID4gPiBtX3BhcnNpbmdTdGF0dXMuZmluYWxCdWZmZXIsDQo+ID4gPiBYTUxfVFJV
+RSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0FD
+Q09VTlRfRElSRUNUKTsNCj4gPiA+ICvCoMKgIH0gZWxzZQ0KPiA+ID4gKyAjZW5kaWYgLyogWE1M
+X0RURCAqLw0KPiA+ID4gK8KgwqAgew0KPiA+ID4gK0BAIC01MjYwLDcgKzU1MDQsOCBAQCBpbnRl
+cm5hbEVudGl0eVByb2Nlc3NvcihYTUxfUGFyc2VyIHBhcnNlciwNCj4gPiA+IGNvbnN0DQo+ID4g
+PiBjaGFyICpzLCBjb25zdCBjaGFyICplbmQsDQo+ID4gPiArwqDCoMKgwqAgLyogc2VlIGV4dGVy
+bmFsRW50aXR5Q29udGVudFByb2Nlc3NvciB2cyBjb250ZW50UHJvY2Vzc29yDQo+ID4gPiAqLw0K
+PiA+ID4gK8KgwqDCoMKgIHJldHVybiBkb0NvbnRlbnQocGFyc2VyLCBwYXJzZXItPm1fcGFyZW50
+UGFyc2VyID8gMSA6IDAsDQo+ID4gPiBwYXJzZXItDQo+ID4gPiA+IG1fZW5jb2RpbmcsDQo+ID4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHMsIGVuZCwgbmV4
+dFB0ciwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAo
+WE1MX0Jvb2wpISBwYXJzZXItDQo+ID4gPiA+IG1fcGFyc2luZ1N0YXR1cy5maW5hbEJ1ZmZlcik7
+DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKFhNTF9C
+b29sKSEgcGFyc2VyLQ0KPiA+ID4gPiBtX3BhcnNpbmdTdGF0dXMuZmluYWxCdWZmZXIsDQo+ID4g
+PiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0FDQ09VTlRf
+RElSRUNUKTsNCj4gPiA+ICvCoMKgIH0NCj4gPiA+ICsgfQ0KPiA+ID4gKw0KPiA+ID4gK0BAIC01
+Mjc1LDkgKzU1MjAsMTAgQEAgZXJyb3JQcm9jZXNzb3IoWE1MX1BhcnNlciBwYXJzZXIsIGNvbnN0
+DQo+ID4gPiBjaGFyDQo+ID4gPiAqcywgY29uc3QgY2hhciAqZW5kLA0KPiA+ID4gKw0KPiA+ID4g
+KyBzdGF0aWMgZW51bSBYTUxfRXJyb3INCj4gPiA+ICsgc3RvcmVBdHRyaWJ1dGVWYWx1ZShYTUxf
+UGFyc2VyIHBhcnNlciwgY29uc3QgRU5DT0RJTkcgKmVuYywNCj4gPiA+IFhNTF9Cb29sDQo+ID4g
+PiBpc0NkYXRhLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBjb25zdCBjaGFyICpwdHIsIGNvbnN0IGNoYXIgKmVuZCwNCj4gPiA+IFNUUklOR19QT09MDQo+
+ID4gPiAqcG9vbCkgew0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBjb25zdCBjaGFyICpwdHIsIGNvbnN0IGNoYXIgKmVuZCwNCj4gPiA+IFNUUklOR19QT09M
+DQo+ID4gPiAqcG9vbCwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZW51bSBYTUxfQWNjb3VudCBhY2NvdW50KSB7DQo+ID4gPiArwqDCoCBlbnVtIFhNTF9F
+cnJvciByZXN1bHQNCj4gPiA+ICstwqDCoMKgwqDCoCA9IGFwcGVuZEF0dHJpYnV0ZVZhbHVlKHBh
+cnNlciwgZW5jLCBpc0NkYXRhLCBwdHIsIGVuZCwNCj4gPiA+IHBvb2wpOw0KPiA+ID4gKyvCoMKg
+wqDCoMKgID0gYXBwZW5kQXR0cmlidXRlVmFsdWUocGFyc2VyLCBlbmMsIGlzQ2RhdGEsIHB0ciwg
+ZW5kLA0KPiA+ID4gcG9vbCwNCj4gPiA+IGFjY291bnQpOw0KPiA+ID4gK8KgwqAgaWYgKHJlc3Vs
+dCkNCj4gPiA+ICvCoMKgwqDCoCByZXR1cm4gcmVzdWx0Ow0KPiA+ID4gK8KgwqAgaWYgKCEgaXND
+ZGF0YSAmJiBwb29sTGVuZ3RoKHBvb2wpICYmIHBvb2xMYXN0Q2hhcihwb29sKSA9PQ0KPiA+ID4g
+MHgyMCkNCj4gPiA+ICtAQCAtNTI4OSwxMSArNTUzNSwyMiBAQCBzdG9yZUF0dHJpYnV0ZVZhbHVl
+KFhNTF9QYXJzZXIgcGFyc2VyLA0KPiA+ID4gY29uc3QNCj4gPiA+IEVOQ09ESU5HICplbmMsIFhN
+TF9Cb29sIGlzQ2RhdGEsDQo+ID4gPiArDQo+ID4gPiArIHN0YXRpYyBlbnVtIFhNTF9FcnJvcg0K
+PiA+ID4gKyBhcHBlbmRBdHRyaWJ1dGVWYWx1ZShYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QgRU5D
+T0RJTkcgKmVuYywNCj4gPiA+IFhNTF9Cb29sDQo+ID4gPiBpc0NkYXRhLA0KPiA+ID4gKy3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIgKnB0ciwgY29u
+c3QgY2hhciAqZW5kLA0KPiA+ID4gU1RSSU5HX1BPT0wNCj4gPiA+ICpwb29sKSB7DQo+ID4gPiAr
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAqcHRy
+LCBjb25zdCBjaGFyICplbmQsDQo+ID4gPiBTVFJJTkdfUE9PTA0KPiA+ID4gKnBvb2wsDQo+ID4g
+PiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW51bSBYTUxfQWNj
+b3VudCBhY2NvdW50KSB7DQo+ID4gPiArwqDCoCBEVEQgKmNvbnN0IGR0ZCA9IHBhcnNlci0+bV9k
+dGQ7IC8qIHNhdmUgb25lIGxldmVsIG9mDQo+ID4gPiBpbmRpcmVjdGlvbg0KPiA+ID4gKi8NCj4g
+PiA+ICsrI2lmbmRlZiBYTUxfRFREDQo+ID4gPiArK8KgIFVOVVNFRF9QKGFjY291bnQpOw0KPiA+
+ID4gKysjZW5kaWYNCj4gPiA+ICsrDQo+ID4gPiArwqDCoCBmb3IgKDs7KSB7DQo+ID4gPiArwqDC
+oMKgwqAgY29uc3QgY2hhciAqbmV4dDsNCj4gPiA+ICvCoMKgwqDCoCBpbnQgdG9rID0gWG1sQXR0
+cmlidXRlVmFsdWVUb2soZW5jLCBwdHIsIGVuZCwgJm5leHQpOw0KPiA+ID4gKysjaWZkZWYgWE1M
+X0RURA0KPiA+ID4gKyvCoMKgwqAgaWYgKCEgYWNjb3VudGluZ0RpZmZUb2xlcmF0ZWQocGFyc2Vy
+LCB0b2ssIHB0ciwgbmV4dCwNCj4gPiA+IF9fTElORV9fLA0KPiA+ID4gYWNjb3VudCkpIHsNCj4g
+PiA+ICsrwqDCoMKgwqDCoCBhY2NvdW50aW5nT25BYm9ydChwYXJzZXIpOw0KPiA+ID4gKyvCoMKg
+wqDCoMKgIHJldHVybiBYTUxfRVJST1JfQU1QTElGSUNBVElPTl9MSU1JVF9CUkVBQ0g7DQo+ID4g
+PiArK8KgwqDCoCB9DQo+ID4gPiArKyNlbmRpZg0KPiA+ID4gK8KgwqDCoMKgIHN3aXRjaCAodG9r
+KSB7DQo+ID4gPiArwqDCoMKgwqAgY2FzZSBYTUxfVE9LX05PTkU6DQo+ID4gPiArwqDCoMKgwqDC
+oMKgIHJldHVybiBYTUxfRVJST1JfTk9ORTsNCj4gPiA+ICtAQCAtNTM1Myw2ICs1NjEwLDE0IEBA
+IGFwcGVuZEF0dHJpYnV0ZVZhbHVlKFhNTF9QYXJzZXIgcGFyc2VyLA0KPiA+ID4gY29uc3QNCj4g
+PiA+IEVOQ09ESU5HICplbmMsIFhNTF9Cb29sIGlzQ2RhdGEsDQo+ID4gPiArwqDCoMKgwqDCoMKg
+IFhNTF9DaGFyIGNoID0gKFhNTF9DaGFyKVhtbFByZWRlZmluZWRFbnRpdHlOYW1lKA0KPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgIGVuYywgcHRyICsgZW5jLT5taW5CeXRlc1BlckNoYXIsIG5l
+eHQgLSBlbmMtDQo+ID4gPiA+IG1pbkJ5dGVzUGVyQ2hhcik7DQo+ID4gPiArwqDCoMKgwqDCoMKg
+IGlmIChjaCkgew0KPiA+ID4gKysjaWZkZWYgWE1MX0RURA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDC
+oCAvKiBOT1RFOiBXZSBhcmUgcmVwbGFjaW5nIDQtNiBjaGFyYWN0ZXJzIG9yaWdpbmFsIGlucHV0
+DQo+ID4gPiBmb3INCj4gPiA+IDENCj4gPiA+IGNoYXJhY3Rlcg0KPiA+ID4gKyvCoMKgwqDCoMKg
+wqDCoMKgICrCoMKgwqDCoMKgwqAgc28gdGhlcmUgaXMgbm8gYW1wbGlmaWNhdGlvbiBhbmQgaGVu
+Y2UNCj4gPiA+IHJlY29yZGluZw0KPiA+ID4gd2l0aG91dA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDC
+oMKgICrCoMKgwqDCoMKgwqAgcHJvdGVjdGlvbi4gKi8NCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqAg
+YWNjb3VudGluZ0RpZmZUb2xlcmF0ZWQocGFyc2VyLCB0b2ssIChjaGFyICopJmNoLA0KPiA+ID4g
+KyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAoKGNoYXIgKikmY2gpICsNCj4gPiA+IHNpemVvZihYTUxfQ2hhciksDQo+ID4gPiBf
+X0xJTkVfXywNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgWE1MX0FDQ09VTlRfRU5USVRZX0VYUEFOU0lPTik7DQo+
+ID4gPiArKyNlbmRpZiAvKiBYTUxfRFREICovDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBpZiAo
+ISBwb29sQXBwZW5kQ2hhcihwb29sLCBjaCkpDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+cmV0dXJuIFhNTF9FUlJPUl9OT19NRU1PUlk7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBicmVh
+azsNCj4gPiA+ICtAQCAtNTQzMCw5ICs1Njk1LDE2IEBAIGFwcGVuZEF0dHJpYnV0ZVZhbHVlKFhN
+TF9QYXJzZXIgcGFyc2VyLA0KPiA+ID4gY29uc3QNCj4gPiA+IEVOQ09ESU5HICplbmMsIFhNTF9C
+b29sIGlzQ2RhdGEsDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBlbnVtIFhNTF9FcnJvciByZXN1
+bHQ7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBYTUxfQ2hhciAqdGV4dEVuZCA9IGVu
+dGl0eS0+dGV4dFB0ciArIGVudGl0eS0NCj4gPiA+ID4gdGV4dExlbjsNCj4gPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgIGVudGl0eS0+b3BlbiA9IFhNTF9UUlVFOw0KPiA+ID4gKysjaWZkZWYgWE1MX0RU
+RA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoCBlbnRpdHlUcmFja2luZ09uT3BlbihwYXJzZXIsIGVu
+dGl0eSwgX19MSU5FX18pOw0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+IHJlc3VsdCA9IGFwcGVuZEF0dHJpYnV0ZVZhbHVlKHBhcnNlciwgcGFyc2VyLQ0KPiA+ID4gPiBt
+X2ludGVybmFsRW5jb2RpbmcsDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlzQ2RhdGEsIChj
+aGFyICopZW50aXR5LQ0KPiA+ID4gPiB0ZXh0UHRyLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCAoY2hhciAqKXRleHRFbmQsIHBvb2wpOw0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpc0Nk
+YXRhLCAoY29uc3QgY2hhcg0KPiA+ID4gKillbnRpdHktDQo+ID4gPiA+IHRleHRQdHIsDQo+ID4g
+PiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIChjb25zdCBjaGFyICopdGV4dEVuZCwNCj4gPiA+IHBvb2ws
+DQo+ID4gPiArKw0KPiA+ID4gWE1MX0FDQ09VTlRfRU5USVRZX0VYUEFOU0lPTik7DQo+ID4gPiAr
+KyNpZmRlZiBYTUxfRFREDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgIGVudGl0eVRyYWNraW5nT25D
+bG9zZShwYXJzZXIsIGVudGl0eSwgX19MSU5FX18pOw0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgIGVudGl0eS0+b3BlbiA9IFhNTF9GQUxTRTsNCj4gPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgIGlmIChyZXN1bHQpDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJu
+IHJlc3VsdDsNCj4gPiA+ICtAQCAtNTQ2MiwxMyArNTczNCwxNiBAQCBhcHBlbmRBdHRyaWJ1dGVW
+YWx1ZShYTUxfUGFyc2VyIHBhcnNlciwNCj4gPiA+IGNvbnN0DQo+ID4gPiBFTkNPRElORyAqZW5j
+LCBYTUxfQm9vbCBpc0NkYXRhLA0KPiA+ID4gKw0KPiA+ID4gKyBzdGF0aWMgZW51bSBYTUxfRXJy
+b3INCj4gPiA+ICsgc3RvcmVFbnRpdHlWYWx1ZShYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QgRU5D
+T0RJTkcgKmVuYywNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29u
+c3QgY2hhciAqZW50aXR5VGV4dFB0ciwgY29uc3QgY2hhcg0KPiA+ID4gKmVudGl0eVRleHRFbmQp
+IHsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAq
+ZW50aXR5VGV4dFB0ciwgY29uc3QgY2hhcg0KPiA+ID4gKmVudGl0eVRleHRFbmQsDQo+ID4gPiAr
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVudW0gWE1MX0FjY291bnQgYWNjb3Vu
+dCkgew0KPiA+ID4gK8KgwqAgRFREICpjb25zdCBkdGQgPSBwYXJzZXItPm1fZHRkOyAvKiBzYXZl
+IG9uZSBsZXZlbCBvZg0KPiA+ID4gaW5kaXJlY3Rpb24NCj4gPiA+ICovDQo+ID4gPiArwqDCoCBT
+VFJJTkdfUE9PTCAqcG9vbCA9ICYoZHRkLT5lbnRpdHlWYWx1ZVBvb2wpOw0KPiA+ID4gK8KgwqAg
+ZW51bSBYTUxfRXJyb3IgcmVzdWx0ID0gWE1MX0VSUk9SX05PTkU7DQo+ID4gPiArICNpZmRlZiBY
+TUxfRFREDQo+ID4gPiArwqDCoCBpbnQgb2xkSW5FbnRpdHlWYWx1ZSA9IHBhcnNlci0+bV9wcm9s
+b2dTdGF0ZS5pbkVudGl0eVZhbHVlOw0KPiA+ID4gK8KgwqAgcGFyc2VyLT5tX3Byb2xvZ1N0YXRl
+LmluRW50aXR5VmFsdWUgPSAxOw0KPiA+ID4gKysjZWxzZQ0KPiA+ID4gKyvCoCBVTlVTRURfUChh
+Y2NvdW50KTsNCj4gPiA+ICsgI2VuZGlmIC8qIFhNTF9EVEQgKi8NCj4gPiA+ICvCoMKgIC8qIG5l
+dmVyIHJldHVybiBOdWxsIGZvciB0aGUgdmFsdWUgYXJndW1lbnQgaW4NCj4gPiA+IEVudGl0eURl
+Y2xIYW5kbGVyLA0KPiA+ID4gK8KgwqDCoMKgwqAgc2luY2UgdGhpcyB3b3VsZCBpbmRpY2F0ZSBh
+biBleHRlcm5hbCBlbnRpdHk7IHRoZXJlZm9yZSB3ZQ0KPiA+ID4gK0BAIC01NDgxLDYgKzU3NTYs
+MTYgQEAgc3RvcmVFbnRpdHlWYWx1ZShYTUxfUGFyc2VyIHBhcnNlciwgY29uc3QNCj4gPiA+IEVO
+Q09ESU5HICplbmMsDQo+ID4gPiArwqDCoCBmb3IgKDs7KSB7DQo+ID4gPiArwqDCoMKgwqAgY29u
+c3QgY2hhciAqbmV4dDsNCj4gPiA+ICvCoMKgwqDCoCBpbnQgdG9rID0gWG1sRW50aXR5VmFsdWVU
+b2soZW5jLCBlbnRpdHlUZXh0UHRyLA0KPiA+ID4gZW50aXR5VGV4dEVuZCwNCj4gPiA+ICZuZXh0
+KTsNCj4gPiA+ICsrDQo+ID4gPiArKyNpZmRlZiBYTUxfRFREDQo+ID4gPiArK8KgwqDCoCBpZiAo
+ISBhY2NvdW50aW5nRGlmZlRvbGVyYXRlZChwYXJzZXIsIHRvaywgZW50aXR5VGV4dFB0ciwNCj4g
+PiA+IG5leHQsDQo+ID4gPiBfX0xJTkVfXywNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFjY291bnQpKSB7
+DQo+ID4gPiArK8KgwqDCoMKgwqAgYWNjb3VudGluZ09uQWJvcnQocGFyc2VyKTsNCj4gPiA+ICsr
+wqDCoMKgwqDCoCByZXN1bHQgPSBYTUxfRVJST1JfQU1QTElGSUNBVElPTl9MSU1JVF9CUkVBQ0g7
+DQo+ID4gPiArK8KgwqDCoMKgwqAgZ290byBlbmRFbnRpdHlWYWx1ZTsNCj4gPiA+ICsrwqDCoMKg
+IH0NCj4gPiA+ICsrI2VuZGlmDQo+ID4gPiArKw0KPiA+ID4gK8KgwqDCoMKgIHN3aXRjaCAodG9r
+KSB7DQo+ID4gPiArwqDCoMKgwqAgY2FzZSBYTUxfVE9LX1BBUkFNX0VOVElUWV9SRUY6DQo+ID4g
+PiArICNpZmRlZiBYTUxfRFREDQo+ID4gPiArQEAgLTU1MTYsMTMgKzU4MDEsMTYgQEAgc3RvcmVF
+bnRpdHlWYWx1ZShYTUxfUGFyc2VyIHBhcnNlciwNCj4gPiA+IGNvbnN0DQo+ID4gPiBFTkNPRElO
+RyAqZW5jLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChwYXJzZXItPm1fZXh0ZXJu
+YWxFbnRpdHlSZWZIYW5kbGVyKSB7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGR0
+ZC0+cGFyYW1FbnRpdHlSZWFkID0gWE1MX0ZBTFNFOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBlbnRpdHktPm9wZW4gPSBYTUxfVFJVRTsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBlbnRpdHlUcmFja2luZ09uT3BlbihwYXJzZXIsIGVudGl0eSwgX19MSU5FX18pOw0K
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoISBwYXJzZXItPm1fZXh0ZXJuYWxF
+bnRpdHlSZWZIYW5kbGVyKA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgcGFyc2VyLT5tX2V4dGVybmFsRW50aXR5UmVmSGFuZGxlckFyZywgMCwNCj4gPiA+
+IGVudGl0eS0NCj4gPiA+ID4gYmFzZSwNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGVudGl0eS0+c3lzdGVtSWQsIGVudGl0eS0+cHVibGljSWQpKSB7DQo+
+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVudGl0eVRyYWNraW5nT25DbG9zZShw
+YXJzZXIsIGVudGl0eSwgX19MSU5FX18pOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZW50aXR5LT5vcGVuID0gWE1MX0ZBTFNFOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgcmVzdWx0ID0gWE1MX0VSUk9SX0VYVEVSTkFMX0VOVElUWV9IQU5ETElORzsN
+Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZW5kRW50aXR5VmFsdWU7
+DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4gPiA+ICsrwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBlbnRpdHlUcmFja2luZ09uQ2xvc2UocGFyc2VyLCBlbnRpdHksIF9fTElORV9f
+KTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW50aXR5LT5vcGVuID0gWE1MX0ZB
+TFNFOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoISBkdGQtPnBhcmFtRW50
+aXR5UmVhZCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGR0ZC0+a2VlcFBy
+b2Nlc3NpbmcgPSBkdGQtPnN0YW5kYWxvbmU7DQo+ID4gPiArQEAgLTU1MzAsOSArNTgxOCwxMiBA
+QCBzdG9yZUVudGl0eVZhbHVlKFhNTF9QYXJzZXIgcGFyc2VyLCBjb25zdA0KPiA+ID4gRU5DT0RJ
+TkcgKmVuYywNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZHRkLT5rZWVwUHJvY2Vz
+c2luZyA9IGR0ZC0+c3RhbmRhbG9uZTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIH0gZWxzZSB7
+DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW50aXR5LT5vcGVuID0gWE1MX1RSVUU7DQo+
+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoCBlbnRpdHlUcmFja2luZ09uT3BlbihwYXJzZXIsIGVu
+dGl0eSwgX19MSU5FX18pOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIHJlc3VsdCA9IHN0
+b3JlRW50aXR5VmFsdWUoDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnNl
+ciwgcGFyc2VyLT5tX2ludGVybmFsRW5jb2RpbmcsIChjaGFyDQo+ID4gPiAqKWVudGl0eS0NCj4g
+PiA+ID4gdGV4dFB0ciwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKGNoYXIg
+KikoZW50aXR5LT50ZXh0UHRyICsgZW50aXR5LT50ZXh0TGVuKSk7DQo+ID4gPiArK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlciwgcGFyc2VyLT5tX2ludGVybmFsRW5jb2RpbmcsIChj
+b25zdCBjaGFyDQo+ID4gPiAqKWVudGl0eS0+dGV4dFB0ciwNCj4gPiA+ICsrwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgKGNvbnN0IGNoYXIgKikoZW50aXR5LT50ZXh0UHRyICsgZW50aXR5LQ0K
+PiA+ID4gPnRleHRMZW4pLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYTUxf
+QUNDT1VOVF9FTlRJVFlfRVhQQU5TSU9OKTsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgIGVu
+dGl0eVRyYWNraW5nT25DbG9zZShwYXJzZXIsIGVudGl0eSwgX19MSU5FX18pOw0KPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgIGVudGl0eS0+b3BlbiA9IFhNTF9GQUxTRTsNCj4gPiA+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBpZiAocmVzdWx0KQ0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBnb3RvIGVuZEVudGl0eVZhbHVlOw0KPiA+ID4gK0BAIC02ODkzLDMgKzcxODQsNzQxIEBA
+IGNvcHlTdHJpbmcoY29uc3QgWE1MX0NoYXIgKnMsIGNvbnN0DQo+ID4gPiBYTUxfTWVtb3J5X0hh
+bmRsaW5nX1N1aXRlICptZW1zdWl0ZSkgew0KPiA+ID4gK8KgwqAgbWVtY3B5KHJlc3VsdCwgcywg
+Y2hhcnNSZXF1aXJlZCAqIHNpemVvZihYTUxfQ2hhcikpOw0KPiA+ID4gK8KgwqAgcmV0dXJuIHJl
+c3VsdDsNCj4gPiA+ICsgfQ0KPiA+ID4gKysNCj4gPiA+ICsrI2lmZGVmIFhNTF9EVEQNCj4gPiA+
+ICsrDQo+ID4gPiArK3N0YXRpYyBmbG9hdA0KPiA+ID4gKythY2NvdW50aW5nR2V0Q3VycmVudEFt
+cGxpZmljYXRpb24oWE1MX1BhcnNlciByb290UGFyc2VyKSB7DQo+ID4gPiArK8KgIGNvbnN0IFht
+bEJpZ0NvdW50IGNvdW50Qnl0ZXNPdXRwdXQNCj4gPiA+ICsrwqDCoMKgwqDCoCA9IHJvb3RQYXJz
+ZXItPm1fYWNjb3VudGluZy5jb3VudEJ5dGVzRGlyZWN0DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKg
+ICsgcm9vdFBhcnNlci0+bV9hY2NvdW50aW5nLmNvdW50Qnl0ZXNJbmRpcmVjdDsNCj4gPiA+ICsr
+wqAgY29uc3QgZmxvYXQgYW1wbGlmaWNhdGlvbkZhY3Rvcg0KPiA+ID4gKyvCoMKgwqDCoMKgID0g
+cm9vdFBhcnNlci0+bV9hY2NvdW50aW5nLmNvdW50Qnl0ZXNEaXJlY3QNCj4gPiA+ICsrwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCA/IChjb3VudEJ5dGVzT3V0cHV0DQo+ID4gPiArK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgLyAoZmxvYXQpKHJvb3RQYXJzZXItDQo+ID4gPiA+IG1fYWNjb3Vu
+dGluZy5jb3VudEJ5dGVzRGlyZWN0KSkNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA6
+IDEuMGY7DQo+ID4gPiArK8KgIGFzc2VydCghIHJvb3RQYXJzZXItPm1fcGFyZW50UGFyc2VyKTsN
+Cj4gPiA+ICsrwqAgcmV0dXJuIGFtcGxpZmljYXRpb25GYWN0b3I7DQo+ID4gPiArK30NCj4gPiA+
+ICsrDQo+ID4gPiArK3N0YXRpYyB2b2lkDQo+ID4gPiArK2FjY291bnRpbmdSZXBvcnRTdGF0cyhY
+TUxfUGFyc2VyIG9yaWdpblBhcnNlciwgY29uc3QgY2hhcg0KPiA+ID4gKmVwaWxvZykNCj4gPiA+
+IHsNCj4gPiA+ICsrwqAgY29uc3QgWE1MX1BhcnNlciByb290UGFyc2VyID0gZ2V0Um9vdFBhcnNl
+ck9mKG9yaWdpblBhcnNlciwNCj4gPiA+IE5VTEwpOw0KPiA+ID4gKyvCoCBhc3NlcnQoISByb290
+UGFyc2VyLT5tX3BhcmVudFBhcnNlcik7DQo+ID4gPiArKw0KPiA+ID4gKyvCoCBpZiAocm9vdFBh
+cnNlci0+bV9hY2NvdW50aW5nLmRlYnVnTGV2ZWwgPCAxKSB7DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm47DQo+ID4gPiArK8KgIH0NCj4gPiA+ICsrDQo+ID4gPiArK8KgIGNvbnN0IGZsb2F0IGFtcGxp
+ZmljYXRpb25GYWN0b3INCj4gPiA+ICsrwqDCoMKgwqDCoCA9IGFjY291bnRpbmdHZXRDdXJyZW50
+QW1wbGlmaWNhdGlvbihyb290UGFyc2VyKTsNCj4gPiA+ICsrwqAgZnByaW50ZihzdGRlcnIsDQo+
+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoCAiZXhwYXQ6IEFjY291bnRpbmcoJXApOiBEaXJlY3Qg
+IiBFWFBBVF9GTVRfVUxMKA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiMTAi
+KSAiLCBpbmRpcmVjdCAiIEVYUEFUX0ZNVF9VTEwoIjEwIikgIiwNCj4gPiA+IGFtcGxpZmljYXRp
+b24gJTguMmYlcyIsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoCAodm9pZCAqKXJvb3RQYXJz
+ZXIsIHJvb3RQYXJzZXItDQo+ID4gPiA+IG1fYWNjb3VudGluZy5jb3VudEJ5dGVzRGlyZWN0LA0K
+PiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqAgcm9vdFBhcnNlci0+bV9hY2NvdW50aW5nLmNvdW50
+Qnl0ZXNJbmRpcmVjdCwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgIChkb3VibGUpYW1wbGlm
+aWNhdGlvbkZhY3RvciwgZXBpbG9nKTsNCj4gPiA+ICsrfQ0KPiA+ID4gKysNCj4gPiA+ICsrc3Rh
+dGljIHZvaWQNCj4gPiA+ICsrYWNjb3VudGluZ09uQWJvcnQoWE1MX1BhcnNlciBvcmlnaW5QYXJz
+ZXIpIHsNCj4gPiA+ICsrwqAgYWNjb3VudGluZ1JlcG9ydFN0YXRzKG9yaWdpblBhcnNlciwgIiBB
+Qk9SVElOR1xuIik7DQo+ID4gPiArK30NCj4gPiA+ICsrDQo+ID4gPiArK3N0YXRpYyB2b2lkDQo+
+ID4gPiArK2FjY291bnRpbmdSZXBvcnREaWZmKFhNTF9QYXJzZXIgcm9vdFBhcnNlciwNCj4gPiA+
+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNpZ25lZCBpbnQg
+bGV2ZWxzQXdheUZyb21Sb290UGFyc2VyLA0KPiA+ID4gY29uc3QNCj4gPiA+IGNoYXIgKmJlZm9y
+ZSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25z
+dCBjaGFyICphZnRlciwgcHRyZGlmZl90IGJ5dGVzTW9yZSwNCj4gPiA+IGludA0KPiA+ID4gc291
+cmNlX2xpbmUsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZW51bSBYTUxfQWNjb3VudCBhY2NvdW50KSB7DQo+ID4gPiArK8KgIGFzc2VydCghIHJvb3RQ
+YXJzZXItPm1fcGFyZW50UGFyc2VyKTsNCj4gPiA+ICsrDQo+ID4gPiArK8KgIGZwcmludGYoc3Rk
+ZXJyLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqAgIiAoKyIgRVhQQVRfRk1UX1BUUkRJRkZf
+VCgiNiIpICIgYnl0ZXMgJXN8JWQsDQo+ID4gPiB4bWxwYXJzZS5jOiVkKSAlKnNcIiIsDQo+ID4g
+PiArK8KgwqDCoMKgwqDCoMKgwqDCoCBieXRlc01vcmUsIChhY2NvdW50ID09IFhNTF9BQ0NPVU5U
+X0RJUkVDVCkgPyAiRElSIiA6DQo+ID4gPiAiRVhQIiwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDC
+oMKgIGxldmVsc0F3YXlGcm9tUm9vdFBhcnNlciwgc291cmNlX2xpbmUsIDEwLCAiIik7DQo+ID4g
+PiArKw0KPiA+ID4gKyvCoCBjb25zdCBjaGFyIGVsbGlwaXNbXSA9ICJbLi5dIjsNCj4gPiA+ICsr
+wqAgY29uc3Qgc2l6ZV90IGVsbGlwc2lzTGVuZ3RoID0gc2l6ZW9mKGVsbGlwaXMpIC8qIGJlY2F1
+c2UNCj4gPiA+IGNvbXBpbGUtDQo+ID4gPiB0aW1lICovIC0gMTsNCj4gPiA+ICsrwqAgY29uc3Qg
+dW5zaWduZWQgaW50IGNvbnRleHRMZW5ndGggPSAxMDsNCj4gPiA+ICsrDQo+ID4gPiArK8KgIC8q
+IE5vdGU6IFBlcmZvcm1hbmNlIGlzIG9mIG5vIGNvbmNlcm4gaGVyZSAqLw0KPiA+ID4gKyvCoCBj
+b25zdCBjaGFyICp3YWxrZXIgPSBiZWZvcmU7DQo+ID4gPiArK8KgIGlmICgocm9vdFBhcnNlci0+
+bV9hY2NvdW50aW5nLmRlYnVnTGV2ZWwgPj0gMykNCj4gPiA+ICsrwqDCoMKgwqDCoCB8fCAoYWZ0
+ZXIgLSBiZWZvcmUpDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA8PSAocHRyZGlm
+Zl90KShjb250ZXh0TGVuZ3RoICsgZWxsaXBzaXNMZW5ndGggKw0KPiA+ID4gY29udGV4dExlbmd0
+aCkpIHsNCj4gPiA+ICsrwqDCoMKgIGZvciAoOyB3YWxrZXIgPCBhZnRlcjsgd2Fsa2VyKyspIHsN
+Cj4gPiA+ICsrwqDCoMKgwqDCoCBmcHJpbnRmKHN0ZGVyciwgIiVzIiwNCj4gPiA+IHVuc2lnbmVk
+Q2hhclRvUHJpbnRhYmxlKHdhbGtlclswXSkpOw0KPiA+ID4gKyvCoMKgwqAgfQ0KPiA+ID4gKyvC
+oCB9IGVsc2Ugew0KPiA+ID4gKyvCoMKgwqAgZm9yICg7IHdhbGtlciA8IGJlZm9yZSArIGNvbnRl
+eHRMZW5ndGg7IHdhbGtlcisrKSB7DQo+ID4gPiArK8KgwqDCoMKgwqAgZnByaW50ZihzdGRlcnIs
+ICIlcyIsDQo+ID4gPiB1bnNpZ25lZENoYXJUb1ByaW50YWJsZSh3YWxrZXJbMF0pKTsNCj4gPiA+
+ICsrwqDCoMKgIH0NCj4gPiA+ICsrwqDCoMKgIGZwcmludGYoc3RkZXJyLCBlbGxpcGlzKTsNCj4g
+PiA+ICsrwqDCoMKgIHdhbGtlciA9IGFmdGVyIC0gY29udGV4dExlbmd0aDsNCj4gPiA+ICsrwqDC
+oMKgIGZvciAoOyB3YWxrZXIgPCBhZnRlcjsgd2Fsa2VyKyspIHsNCj4gPiA+ICsrwqDCoMKgwqDC
+oCBmcHJpbnRmKHN0ZGVyciwgIiVzIiwNCj4gPiA+IHVuc2lnbmVkQ2hhclRvUHJpbnRhYmxlKHdh
+bGtlclswXSkpOw0KPiA+ID4gKyvCoMKgwqAgfQ0KPiA+ID4gKyvCoCB9DQo+ID4gPiArK8KgIGZw
+cmludGYoc3RkZXJyLCAiXCJcbiIpOw0KPiA+ID4gKyt9DQo+ID4gPiArKw0KPiA+ID4gKytzdGF0
+aWMgWE1MX0Jvb2wNCj4gPiA+ICsrYWNjb3VudGluZ0RpZmZUb2xlcmF0ZWQoWE1MX1BhcnNlciBv
+cmlnaW5QYXJzZXIsIGludCB0b2ssIGNvbnN0DQo+ID4gPiBjaGFyDQo+ID4gPiAqYmVmb3JlLA0K
+PiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNv
+bnN0IGNoYXIgKmFmdGVyLCBpbnQgc291cmNlX2xpbmUsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW51bSBYTUxfQWNjb3VudCBhY2NvdW50
+KSB7DQo+ID4gPiArK8KgIC8qIE5vdGU6IFdlIG5lZWQgdG8gY2hlY2sgdGhlIHRva2VuIHR5cGUg
+KmZpcnN0KiB0byBiZSBzdXJlDQo+ID4gPiB0aGF0DQo+ID4gPiArK8KgwqAgKsKgwqDCoMKgwqDC
+oCB3ZSBjYW4gZXZlbiBhY2Nlc3MgdmFyaWFibGUgPGFmdGVyPiwgc2FmZWx5Lg0KPiA+ID4gKyvC
+oMKgICrCoMKgwqDCoMKgwqAgRS5nLiBmb3IgWE1MX1RPS19OT05FIDxhZnRlcj4gbWF5IGhvbGQg
+YW4gaW52YWxpZA0KPiA+ID4gcG9pbnRlci4NCj4gPiA+ICovDQo+ID4gPiArK8KgIHN3aXRjaCAo
+dG9rKSB7DQo+ID4gPiArK8KgIGNhc2UgWE1MX1RPS19JTlZBTElEOg0KPiA+ID4gKyvCoCBjYXNl
+IFhNTF9UT0tfUEFSVElBTDoNCj4gPiA+ICsrwqAgY2FzZSBYTUxfVE9LX1BBUlRJQUxfQ0hBUjoN
+Cj4gPiA+ICsrwqAgY2FzZSBYTUxfVE9LX05PTkU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gWE1M
+X1RSVUU7DQo+ID4gPiArK8KgIH0NCj4gPiA+ICsrDQo+ID4gPiArK8KgIGlmIChhY2NvdW50ID09
+IFhNTF9BQ0NPVU5UX05PTkUpDQo+ID4gPiArK8KgwqDCoCByZXR1cm4gWE1MX1RSVUU7IC8qIGJl
+Y2F1c2UgdGhlc2UgYnl0ZXMgaGF2ZSBiZWVuIGFjY291bnRlZA0KPiA+ID4gZm9yLA0KPiA+ID4g
+YWxyZWFkeSAqLw0KPiA+ID4gKysNCj4gPiA+ICsrwqAgdW5zaWduZWQgaW50IGxldmVsc0F3YXlG
+cm9tUm9vdFBhcnNlcjsNCj4gPiA+ICsrwqAgY29uc3QgWE1MX1BhcnNlciByb290UGFyc2VyDQo+
+ID4gPiArK8KgwqDCoMKgwqAgPSBnZXRSb290UGFyc2VyT2Yob3JpZ2luUGFyc2VyLA0KPiA+ID4g
+JmxldmVsc0F3YXlGcm9tUm9vdFBhcnNlcik7DQo+ID4gPiArK8KgIGFzc2VydCghIHJvb3RQYXJz
+ZXItPm1fcGFyZW50UGFyc2VyKTsNCj4gPiA+ICsrDQo+ID4gPiArK8KgIGNvbnN0IGludCBpc0Rp
+cmVjdA0KPiA+ID4gKyvCoMKgwqDCoMKgID0gKGFjY291bnQgPT0gWE1MX0FDQ09VTlRfRElSRUNU
+KSAmJiAob3JpZ2luUGFyc2VyID09DQo+ID4gPiByb290UGFyc2VyKTsNCj4gPiA+ICsrwqAgY29u
+c3QgcHRyZGlmZl90IGJ5dGVzTW9yZSA9IGFmdGVyIC0gYmVmb3JlOw0KPiA+ID4gKysNCj4gPiA+
+ICsrwqAgWG1sQmlnQ291bnQgKmNvbnN0IGFkZGl0aW9uVGFyZ2V0DQo+ID4gPiArK8KgwqDCoMKg
+wqAgPSBpc0RpcmVjdCA/ICZyb290UGFyc2VyLT5tX2FjY291bnRpbmcuY291bnRCeXRlc0RpcmVj
+dA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA6ICZyb290UGFyc2Vy
+LQ0KPiA+ID4gPm1fYWNjb3VudGluZy5jb3VudEJ5dGVzSW5kaXJlY3Q7DQo+ID4gPiArKw0KPiA+
+ID4gKyvCoCAvKiBEZXRlY3QgYW5kIGF2b2lkIGludGVnZXIgb3ZlcmZsb3cgKi8NCj4gPiA+ICsr
+wqAgaWYgKCphZGRpdGlvblRhcmdldCA+IChYbWxCaWdDb3VudCkoLTEpIC0NCj4gPiA+IChYbWxC
+aWdDb3VudClieXRlc01vcmUpDQo+ID4gPiArK8KgwqDCoCByZXR1cm4gWE1MX0ZBTFNFOw0KPiA+
+ID4gKyvCoCAqYWRkaXRpb25UYXJnZXQgKz0gYnl0ZXNNb3JlOw0KPiA+ID4gKysNCj4gPiA+ICsr
+wqAgY29uc3QgWG1sQmlnQ291bnQgY291bnRCeXRlc091dHB1dA0KPiA+ID4gKyvCoMKgwqDCoMKg
+ID0gcm9vdFBhcnNlci0+bV9hY2NvdW50aW5nLmNvdW50Qnl0ZXNEaXJlY3QNCj4gPiA+ICsrwqDC
+oMKgwqDCoMKgwqAgKyByb290UGFyc2VyLT5tX2FjY291bnRpbmcuY291bnRCeXRlc0luZGlyZWN0
+Ow0KPiA+ID4gKyvCoCBjb25zdCBmbG9hdCBhbXBsaWZpY2F0aW9uRmFjdG9yDQo+ID4gPiArK8Kg
+wqDCoMKgwqAgPSBhY2NvdW50aW5nR2V0Q3VycmVudEFtcGxpZmljYXRpb24ocm9vdFBhcnNlcik7
+DQo+ID4gPiArK8KgIGNvbnN0IFhNTF9Cb29sIHRvbGVyYXRlZA0KPiA+ID4gKyvCoMKgwqDCoMKg
+ID0gKGNvdW50Qnl0ZXNPdXRwdXQgPCByb290UGFyc2VyLQ0KPiA+ID4gPiBtX2FjY291bnRpbmcu
+YWN0aXZhdGlvblRocmVzaG9sZEJ5dGVzKQ0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoCB8fCAoYW1w
+bGlmaWNhdGlvbkZhY3Rvcg0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDw9IHJvb3RQ
+YXJzZXItDQo+ID4gPiA+IG1fYWNjb3VudGluZy5tYXhpbXVtQW1wbGlmaWNhdGlvbkZhY3Rvcik7
+DQo+ID4gPiArKw0KPiA+ID4gKyvCoCBpZiAocm9vdFBhcnNlci0+bV9hY2NvdW50aW5nLmRlYnVn
+TGV2ZWwgPj0gMikgew0KPiA+ID4gKyvCoMKgwqAgYWNjb3VudGluZ1JlcG9ydFN0YXRzKHJvb3RQ
+YXJzZXIsICIiKTsNCj4gPiA+ICsrwqDCoMKgIGFjY291bnRpbmdSZXBvcnREaWZmKHJvb3RQYXJz
+ZXIsIGxldmVsc0F3YXlGcm9tUm9vdFBhcnNlciwNCj4gPiA+IGJlZm9yZSwgYWZ0ZXIsDQo+ID4g
+PiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBieXRl
+c01vcmUsIHNvdXJjZV9saW5lLCBhY2NvdW50KTsNCj4gPiA+ICsrwqAgfQ0KPiA+ID4gKysNCj4g
+PiA+ICsrwqAgcmV0dXJuIHRvbGVyYXRlZDsNCj4gPiA+ICsrfQ0KPiA+ID4gKysNCj4gPiA+ICsr
+c3RhdGljIHZvaWQNCj4gPiA+ICsrZW50aXR5VHJhY2tpbmdSZXBvcnRTdGF0cyhYTUxfUGFyc2Vy
+IHJvb3RQYXJzZXIsIEVOVElUWQ0KPiA+ID4gKmVudGl0eSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3QgY2hhciAqYWN0aW9u
+LCBpbnQgc291cmNlTGluZSkgew0KPiA+ID4gKyvCoCBhc3NlcnQoISByb290UGFyc2VyLT5tX3Bh
+cmVudFBhcnNlcik7DQo+ID4gPiArK8KgIGlmIChyb290UGFyc2VyLT5tX2VudGl0eV9zdGF0cy5k
+ZWJ1Z0xldmVsIDwgMSkNCj4gPiA+ICsrwqDCoMKgIHJldHVybjsNCj4gPiA+ICsrDQo+ID4gPiAr
+KyPCoCBpZiBkZWZpbmVkKFhNTF9VTklDT0RFKQ0KPiA+ID4gKyvCoCBjb25zdCBjaGFyICpjb25z
+dCBlbnRpdHlOYW1lID0gIlsuLl0iOw0KPiA+ID4gKysjwqAgZWxzZQ0KPiA+ID4gKyvCoCBjb25z
+dCBjaGFyICpjb25zdCBlbnRpdHlOYW1lID0gZW50aXR5LT5uYW1lOw0KPiA+ID4gKysjwqAgZW5k
+aWYNCj4gPiA+ICsrDQo+ID4gPiArK8KgIGZwcmludGYoDQo+ID4gPiArK8KgwqDCoMKgwqAgc3Rk
+ZXJyLA0KPiA+ID4gKyvCoMKgwqDCoMKgICJleHBhdDogRW50aXRpZXMoJXApOiBDb3VudCAlOWQs
+IGRlcHRoICUyZC8lMmQgJSpzJXMlczsNCj4gPiA+ICVzDQo+ID4gPiBsZW5ndGggJWQgKHhtbHBh
+cnNlLmM6JWQpXG4iLA0KPiA+ID4gKyvCoMKgwqDCoMKgICh2b2lkICopcm9vdFBhcnNlciwgcm9v
+dFBhcnNlci0NCj4gPiA+ID4gbV9lbnRpdHlfc3RhdHMuY291bnRFdmVyT3BlbmVkLA0KPiA+ID4g
+KyvCoMKgwqDCoMKgIHJvb3RQYXJzZXItPm1fZW50aXR5X3N0YXRzLmN1cnJlbnREZXB0aCwNCj4g
+PiA+ICsrwqDCoMKgwqDCoCByb290UGFyc2VyLT5tX2VudGl0eV9zdGF0cy5tYXhpbXVtRGVwdGhT
+ZWVuLA0KPiA+ID4gKyvCoMKgwqDCoMKgIChyb290UGFyc2VyLT5tX2VudGl0eV9zdGF0cy5jdXJy
+ZW50RGVwdGggLSAxKSAqIDIsICIiLA0KPiA+ID4gKyvCoMKgwqDCoMKgIGVudGl0eS0+aXNfcGFy
+YW0gPyAiJSIgOiAiJiIsIGVudGl0eU5hbWUsIGFjdGlvbiwgZW50aXR5LQ0KPiA+ID4gPiB0ZXh0
+TGVuLA0KPiA+ID4gKyvCoMKgwqDCoMKgIHNvdXJjZUxpbmUpOw0KPiA+ID4gKyt9DQo+ID4gPiAr
+Kw0KPiA+ID4gKytzdGF0aWMgdm9pZA0KPiA+ID4gKytlbnRpdHlUcmFja2luZ09uT3BlbihYTUxf
+UGFyc2VyIG9yaWdpblBhcnNlciwgRU5USVRZICplbnRpdHksDQo+ID4gPiBpbnQNCj4gPiA+IHNv
+dXJjZUxpbmUpIHsNCj4gPiA+ICsrwqAgY29uc3QgWE1MX1BhcnNlciByb290UGFyc2VyID0gZ2V0
+Um9vdFBhcnNlck9mKG9yaWdpblBhcnNlciwNCj4gPiA+IE5VTEwpOw0KPiA+ID4gKyvCoCBhc3Nl
+cnQoISByb290UGFyc2VyLT5tX3BhcmVudFBhcnNlcik7DQo+ID4gPiArKw0KPiA+ID4gKyvCoCBy
+b290UGFyc2VyLT5tX2VudGl0eV9zdGF0cy5jb3VudEV2ZXJPcGVuZWQrKzsNCj4gPiA+ICsrwqAg
+cm9vdFBhcnNlci0+bV9lbnRpdHlfc3RhdHMuY3VycmVudERlcHRoKys7DQo+ID4gPiArK8KgIGlm
+IChyb290UGFyc2VyLT5tX2VudGl0eV9zdGF0cy5jdXJyZW50RGVwdGgNCj4gPiA+ICsrwqDCoMKg
+wqDCoCA+IHJvb3RQYXJzZXItPm1fZW50aXR5X3N0YXRzLm1heGltdW1EZXB0aFNlZW4pIHsNCj4g
+PiA+ICsrwqDCoMKgIHJvb3RQYXJzZXItPm1fZW50aXR5X3N0YXRzLm1heGltdW1EZXB0aFNlZW4r
+KzsNCj4gPiA+ICsrwqAgfQ0KPiA+ID4gKysNCj4gPiA+ICsrwqAgZW50aXR5VHJhY2tpbmdSZXBv
+cnRTdGF0cyhyb290UGFyc2VyLCBlbnRpdHksICJPUEVOICIsDQo+ID4gPiBzb3VyY2VMaW5lKTsN
+Cj4gPiA+ICsrfQ0KPiA+ID4gKysNCj4gPiA+ICsrc3RhdGljIHZvaWQNCj4gPiA+ICsrZW50aXR5
+VHJhY2tpbmdPbkNsb3NlKFhNTF9QYXJzZXIgb3JpZ2luUGFyc2VyLCBFTlRJVFkgKmVudGl0eSwN
+Cj4gPiA+IGludA0KPiA+ID4gc291cmNlTGluZSkgew0KPiA+ID4gKyvCoCBjb25zdCBYTUxfUGFy
+c2VyIHJvb3RQYXJzZXIgPSBnZXRSb290UGFyc2VyT2Yob3JpZ2luUGFyc2VyLA0KPiA+ID4gTlVM
+TCk7DQo+ID4gPiArK8KgIGFzc2VydCghIHJvb3RQYXJzZXItPm1fcGFyZW50UGFyc2VyKTsNCj4g
+PiA+ICsrDQo+ID4gPiArK8KgIGVudGl0eVRyYWNraW5nUmVwb3J0U3RhdHMocm9vdFBhcnNlciwg
+ZW50aXR5LCAiQ0xPU0UiLA0KPiA+ID4gc291cmNlTGluZSk7DQo+ID4gPiArK8KgIHJvb3RQYXJz
+ZXItPm1fZW50aXR5X3N0YXRzLmN1cnJlbnREZXB0aC0tOw0KPiA+ID4gKyt9DQo+ID4gPiArKw0K
+PiA+ID4gKytzdGF0aWMgWE1MX1BhcnNlcg0KPiA+ID4gKytnZXRSb290UGFyc2VyT2YoWE1MX1Bh
+cnNlciBwYXJzZXIsIHVuc2lnbmVkIGludCAqb3V0TGV2ZWxEaWZmKQ0KPiA+ID4gew0KPiA+ID4g
+KyvCoCBYTUxfUGFyc2VyIHJvb3RQYXJzZXIgPSBwYXJzZXI7DQo+ID4gPiArK8KgIHVuc2lnbmVk
+IGludCBzdGVwc1Rha2VuVXB3YXJkcyA9IDA7DQo+ID4gPiArK8KgIHdoaWxlIChyb290UGFyc2Vy
+LT5tX3BhcmVudFBhcnNlcikgew0KPiA+ID4gKyvCoMKgwqAgcm9vdFBhcnNlciA9IHJvb3RQYXJz
+ZXItPm1fcGFyZW50UGFyc2VyOw0KPiA+ID4gKyvCoMKgwqAgc3RlcHNUYWtlblVwd2FyZHMrKzsN
+Cj4gPiA+ICsrwqAgfQ0KPiA+ID4gKyvCoCBhc3NlcnQoISByb290UGFyc2VyLT5tX3BhcmVudFBh
+cnNlcik7DQo+ID4gPiArK8KgIGlmIChvdXRMZXZlbERpZmYgIT0gTlVMTCkgew0KPiA+ID4gKyvC
+oMKgwqAgKm91dExldmVsRGlmZiA9IHN0ZXBzVGFrZW5VcHdhcmRzOw0KPiA+ID4gKyvCoCB9DQo+
+ID4gPiArK8KgIHJldHVybiByb290UGFyc2VyOw0KPiA+ID4gKyt9DQo+ID4gPiArKw0KPiA+ID4g
+KytzdGF0aWMgY29uc3QgY2hhciAqDQo+ID4gPiArK3Vuc2lnbmVkQ2hhclRvUHJpbnRhYmxlKHVu
+c2lnbmVkIGNoYXIgYykgew0KPiA+ID4gKyvCoCBzd2l0Y2ggKGMpIHsNCj4gPiA+ICsrwqAgY2Fz
+ZSAwOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJcXDAiOw0KPiA+ID4gKyvCoCBjYXNlIDE6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDEiOw0KPiA+ID4gKyvCoCBjYXNlIDI6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceDIiOw0KPiA+ID4gKyvCoCBjYXNlIDM6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceDMiOw0KPiA+ID4gKyvCoCBjYXNlIDQ6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlxceDQiOw0KPiA+ID4gKyvCoCBjYXNlIDU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eDUiOw0KPiA+ID4gKyvCoCBjYXNlIDY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDYiOw0K
+PiA+ID4gKyvCoCBjYXNlIDc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDciOw0KPiA+ID4g
+KyvCoCBjYXNlIDg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDgiOw0KPiA+ID4gKyvCoCBj
+YXNlIDk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxcdCI7DQo+ID4gPiArK8KgIGNhc2UgMTA6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxcbiI7DQo+ID4gPiArK8KgIGNhc2UgMTE6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceEIiOw0KPiA+ID4gKyvCoCBjYXNlIDEyOg0KPiA+ID4gKyvC
+oMKgwqAgcmV0dXJuICJcXHhDIjsNCj4gPiA+ICsrwqAgY2FzZSAxMzoNCj4gPiA+ICsrwqDCoMKg
+IHJldHVybiAiXFxyIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDoNCj4gPiA+ICsrwqDCoMKgIHJldHVy
+biAiXFx4RSI7DQo+ID4gPiArK8KgIGNhc2UgMTU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eEYiOw0KPiA+ID4gKyvCoCBjYXNlIDE2Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJcXHgxMCI7
+DQo+ID4gPiArK8KgIGNhc2UgMTc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDExIjsNCj4g
+PiA+ICsrwqAgY2FzZSAxODoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiXFx4MTIiOw0KPiA+ID4g
+KyvCoCBjYXNlIDE5Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJcXHgxMyI7DQo+ID4gPiArK8Kg
+IGNhc2UgMjA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDE0IjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAyMToNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiXFx4MTUiOw0KPiA+ID4gKyvCoCBjYXNlIDIy
+Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJcXHgxNiI7DQo+ID4gPiArK8KgIGNhc2UgMjM6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDE3IjsNCj4gPiA+ICsrwqAgY2FzZSAyNDoNCj4gPiA+
+ICsrwqDCoMKgIHJldHVybiAiXFx4MTgiOw0KPiA+ID4gKyvCoCBjYXNlIDI1Og0KPiA+ID4gKyvC
+oMKgwqAgcmV0dXJuICJcXHgxOSI7DQo+ID4gPiArK8KgIGNhc2UgMjY6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceDFBIjsNCj4gPiA+ICsrwqAgY2FzZSAyNzoNCj4gPiA+ICsrwqDCoMKgIHJl
+dHVybiAiXFx4MUIiOw0KPiA+ID4gKyvCoCBjYXNlIDI4Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJu
+ICJcXHgxQyI7DQo+ID4gPiArK8KgIGNhc2UgMjk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eDFEIjsNCj4gPiA+ICsrwqAgY2FzZSAzMDoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiXFx4MUUi
+Ow0KPiA+ID4gKyvCoCBjYXNlIDMxOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJcXHgxRiI7DQo+
+ID4gPiArK8KgIGNhc2UgMzI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIiAiOw0KPiA+ID4gKyvC
+oCBjYXNlIDMzOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICIhIjsNCj4gPiA+ICsrwqAgY2FzZSAz
+NDoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiXFxcIiI7DQo+ID4gPiArK8KgIGNhc2UgMzU6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIiMiOw0KPiA+ID4gKyvCoCBjYXNlIDM2Og0KPiA+ID4gKyvC
+oMKgwqAgcmV0dXJuICIkIjsNCj4gPiA+ICsrwqAgY2FzZSAzNzoNCj4gPiA+ICsrwqDCoMKgIHJl
+dHVybiAiJSI7DQo+ID4gPiArK8KgIGNhc2UgMzg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIiYi
+Ow0KPiA+ID4gKyvCoCBjYXNlIDM5Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICInIjsNCj4gPiA+
+ICsrwqAgY2FzZSA0MDoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiKCI7DQo+ID4gPiArK8KgIGNh
+c2UgNDE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIikiOw0KPiA+ID4gKyvCoCBjYXNlIDQyOg0K
+PiA+ID4gKyvCoMKgwqAgcmV0dXJuICIqIjsNCj4gPiA+ICsrwqAgY2FzZSA0MzoNCj4gPiA+ICsr
+wqDCoMKgIHJldHVybiAiKyI7DQo+ID4gPiArK8KgIGNhc2UgNDQ6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gIiwiOw0KPiA+ID4gKyvCoCBjYXNlIDQ1Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICIt
+IjsNCj4gPiA+ICsrwqAgY2FzZSA0NjoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiLiI7DQo+ID4g
+PiArK8KgIGNhc2UgNDc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIi8iOw0KPiA+ID4gKyvCoCBj
+YXNlIDQ4Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICIwIjsNCj4gPiA+ICsrwqAgY2FzZSA0OToN
+Cj4gPiA+ICsrwqDCoMKgIHJldHVybiAiMSI7DQo+ID4gPiArK8KgIGNhc2UgNTA6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIjIiOw0KPiA+ID4gKyvCoCBjYXNlIDUxOg0KPiA+ID4gKyvCoMKgwqAg
+cmV0dXJuICIzIjsNCj4gPiA+ICsrwqAgY2FzZSA1MjoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAi
+NCI7DQo+ID4gPiArK8KgIGNhc2UgNTM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIjUiOw0KPiA+
+ID4gKyvCoCBjYXNlIDU0Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICI2IjsNCj4gPiA+ICsrwqAg
+Y2FzZSA1NToNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiNyI7DQo+ID4gPiArK8KgIGNhc2UgNTY6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIjgiOw0KPiA+ID4gKyvCoCBjYXNlIDU3Og0KPiA+ID4g
+KyvCoMKgwqAgcmV0dXJuICI5IjsNCj4gPiA+ICsrwqAgY2FzZSA1ODoNCj4gPiA+ICsrwqDCoMKg
+IHJldHVybiAiOiI7DQo+ID4gPiArK8KgIGNhc2UgNTk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IjsiOw0KPiA+ID4gKyvCoCBjYXNlIDYwOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICI8IjsNCj4g
+PiA+ICsrwqAgY2FzZSA2MToNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiPSI7DQo+ID4gPiArK8Kg
+IGNhc2UgNjI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIj4iOw0KPiA+ID4gKyvCoCBjYXNlIDYz
+Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICI/IjsNCj4gPiA+ICsrwqAgY2FzZSA2NDoNCj4gPiA+
+ICsrwqDCoMKgIHJldHVybiAiQCI7DQo+ID4gPiArK8KgIGNhc2UgNjU6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIkEiOw0KPiA+ID4gKyvCoCBjYXNlIDY2Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJu
+ICJCIjsNCj4gPiA+ICsrwqAgY2FzZSA2NzoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiQyI7DQo+
+ID4gPiArK8KgIGNhc2UgNjg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIkQiOw0KPiA+ID4gKyvC
+oCBjYXNlIDY5Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJFIjsNCj4gPiA+ICsrwqAgY2FzZSA3
+MDoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiRiI7DQo+ID4gPiArK8KgIGNhc2UgNzE6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIkciOw0KPiA+ID4gKyvCoCBjYXNlIDcyOg0KPiA+ID4gKyvCoMKg
+wqAgcmV0dXJuICJIIjsNCj4gPiA+ICsrwqAgY2FzZSA3MzoNCj4gPiA+ICsrwqDCoMKgIHJldHVy
+biAiSSI7DQo+ID4gPiArK8KgIGNhc2UgNzQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIkoiOw0K
+PiA+ID4gKyvCoCBjYXNlIDc1Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJLIjsNCj4gPiA+ICsr
+wqAgY2FzZSA3NjoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiTCI7DQo+ID4gPiArK8KgIGNhc2Ug
+Nzc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIk0iOw0KPiA+ID4gKyvCoCBjYXNlIDc4Og0KPiA+
+ID4gKyvCoMKgwqAgcmV0dXJuICJOIjsNCj4gPiA+ICsrwqAgY2FzZSA3OToNCj4gPiA+ICsrwqDC
+oMKgIHJldHVybiAiTyI7DQo+ID4gPiArK8KgIGNhc2UgODA6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlAiOw0KPiA+ID4gKyvCoCBjYXNlIDgxOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJRIjsN
+Cj4gPiA+ICsrwqAgY2FzZSA4MjoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiUiI7DQo+ID4gPiAr
+K8KgIGNhc2UgODM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlMiOw0KPiA+ID4gKyvCoCBjYXNl
+IDg0Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJUIjsNCj4gPiA+ICsrwqAgY2FzZSA4NToNCj4g
+PiA+ICsrwqDCoMKgIHJldHVybiAiVSI7DQo+ID4gPiArK8KgIGNhc2UgODY6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIlYiOw0KPiA+ID4gKyvCoCBjYXNlIDg3Og0KPiA+ID4gKyvCoMKgwqAgcmV0
+dXJuICJXIjsNCj4gPiA+ICsrwqAgY2FzZSA4ODoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiWCI7
+DQo+ID4gPiArK8KgIGNhc2UgODk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlkiOw0KPiA+ID4g
+KyvCoCBjYXNlIDkwOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJaIjsNCj4gPiA+ICsrwqAgY2Fz
+ZSA5MToNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiWyI7DQo+ID4gPiArK8KgIGNhc2UgOTI6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxcXFwiOw0KPiA+ID4gKyvCoCBjYXNlIDkzOg0KPiA+ID4g
+KyvCoMKgwqAgcmV0dXJuICJdIjsNCj4gPiA+ICsrwqAgY2FzZSA5NDoNCj4gPiA+ICsrwqDCoMKg
+IHJldHVybiAiXiI7DQo+ID4gPiArK8KgIGNhc2UgOTU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+Il8iOw0KPiA+ID4gKyvCoCBjYXNlIDk2Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJgIjsNCj4g
+PiA+ICsrwqAgY2FzZSA5NzoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiYSI7DQo+ID4gPiArK8Kg
+IGNhc2UgOTg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gImIiOw0KPiA+ID4gKyvCoCBjYXNlIDk5
+Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJjIjsNCj4gPiA+ICsrwqAgY2FzZSAxMDA6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gImQiOw0KPiA+ID4gKyvCoCBjYXNlIDEwMToNCj4gPiA+ICsrwqDC
+oMKgIHJldHVybiAiZSI7DQo+ID4gPiArK8KgIGNhc2UgMTAyOg0KPiA+ID4gKyvCoMKgwqAgcmV0
+dXJuICJmIjsNCj4gPiA+ICsrwqAgY2FzZSAxMDM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gImci
+Ow0KPiA+ID4gKyvCoCBjYXNlIDEwNDoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiaCI7DQo+ID4g
+PiArK8KgIGNhc2UgMTA1Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJpIjsNCj4gPiA+ICsrwqAg
+Y2FzZSAxMDY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gImoiOw0KPiA+ID4gKyvCoCBjYXNlIDEw
+NzoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAiayI7DQo+ID4gPiArK8KgIGNhc2UgMTA4Og0KPiA+
+ID4gKyvCoMKgwqAgcmV0dXJuICJsIjsNCj4gPiA+ICsrwqAgY2FzZSAxMDk6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIm0iOw0KPiA+ID4gKyvCoCBjYXNlIDExMDoNCj4gPiA+ICsrwqDCoMKgIHJl
+dHVybiAibiI7DQo+ID4gPiArK8KgIGNhc2UgMTExOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJv
+IjsNCj4gPiA+ICsrwqAgY2FzZSAxMTI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gInAiOw0KPiA+
+ID4gKyvCoCBjYXNlIDExMzoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAicSI7DQo+ID4gPiArK8Kg
+IGNhc2UgMTE0Og0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJyIjsNCj4gPiA+ICsrwqAgY2FzZSAx
+MTU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gInMiOw0KPiA+ID4gKyvCoCBjYXNlIDExNjoNCj4g
+PiA+ICsrwqDCoMKgIHJldHVybiAidCI7DQo+ID4gPiArK8KgIGNhc2UgMTE3Og0KPiA+ID4gKyvC
+oMKgwqAgcmV0dXJuICJ1IjsNCj4gPiA+ICsrwqAgY2FzZSAxMTg6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gInYiOw0KPiA+ID4gKyvCoCBjYXNlIDExOToNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAi
+dyI7DQo+ID4gPiArK8KgIGNhc2UgMTIwOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJ4IjsNCj4g
+PiA+ICsrwqAgY2FzZSAxMjE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gInkiOw0KPiA+ID4gKyvC
+oCBjYXNlIDEyMjoNCj4gPiA+ICsrwqDCoMKgIHJldHVybiAieiI7DQo+ID4gPiArK8KgIGNhc2Ug
+MTIzOg0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuICJ7IjsNCj4gPiA+ICsrwqAgY2FzZSAxMjQ6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gInwiOw0KPiA+ID4gKyvCoCBjYXNlIDEyNToNCj4gPiA+ICsr
+wqDCoMKgIHJldHVybiAifSI7DQo+ID4gPiArK8KgIGNhc2UgMTI2Og0KPiA+ID4gKyvCoMKgwqAg
+cmV0dXJuICJ+IjsNCj4gPiA+ICsrwqAgY2FzZSAxMjc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IlxceDdGIjsNCj4gPiA+ICsrwqAgY2FzZSAxMjg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eDgwIjsNCj4gPiA+ICsrwqAgY2FzZSAxMjk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDgx
+IjsNCj4gPiA+ICsrwqAgY2FzZSAxMzA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDgyIjsN
+Cj4gPiA+ICsrwqAgY2FzZSAxMzE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDgzIjsNCj4g
+PiA+ICsrwqAgY2FzZSAxMzI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDg0IjsNCj4gPiA+
+ICsrwqAgY2FzZSAxMzM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDg1IjsNCj4gPiA+ICsr
+wqAgY2FzZSAxMzQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDg2IjsNCj4gPiA+ICsrwqAg
+Y2FzZSAxMzU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDg3IjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAxMzY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDg4IjsNCj4gPiA+ICsrwqAgY2FzZSAx
+Mzc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDg5IjsNCj4gPiA+ICsrwqAgY2FzZSAxMzg6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDhBIjsNCj4gPiA+ICsrwqAgY2FzZSAxMzk6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDhCIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDA6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceDhDIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDE6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceDhEIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDI6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIlxceDhFIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDM6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceDhGIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDQ6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gIlxceDkwIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDU6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlxceDkxIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IlxceDkyIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eDkzIjsNCj4gPiA+ICsrwqAgY2FzZSAxNDg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDk0
+IjsNCj4gPiA+ICsrwqAgY2FzZSAxNDk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDk1IjsN
+Cj4gPiA+ICsrwqAgY2FzZSAxNTA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDk2IjsNCj4g
+PiA+ICsrwqAgY2FzZSAxNTE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDk3IjsNCj4gPiA+
+ICsrwqAgY2FzZSAxNTI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDk4IjsNCj4gPiA+ICsr
+wqAgY2FzZSAxNTM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDk5IjsNCj4gPiA+ICsrwqAg
+Y2FzZSAxNTQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDlBIjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAxNTU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDlCIjsNCj4gPiA+ICsrwqAgY2FzZSAx
+NTY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDlDIjsNCj4gPiA+ICsrwqAgY2FzZSAxNTc6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDlEIjsNCj4gPiA+ICsrwqAgY2FzZSAxNTg6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceDlFIjsNCj4gPiA+ICsrwqAgY2FzZSAxNTk6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceDlGIjsNCj4gPiA+ICsrwqAgY2FzZSAxNjA6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceEEwIjsNCj4gPiA+ICsrwqAgY2FzZSAxNjE6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIlxceEExIjsNCj4gPiA+ICsrwqAgY2FzZSAxNjI6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceEEyIjsNCj4gPiA+ICsrwqAgY2FzZSAxNjM6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gIlxceEEzIjsNCj4gPiA+ICsrwqAgY2FzZSAxNjQ6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlxceEE0IjsNCj4gPiA+ICsrwqAgY2FzZSAxNjU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IlxceEE1IjsNCj4gPiA+ICsrwqAgY2FzZSAxNjY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eEE2IjsNCj4gPiA+ICsrwqAgY2FzZSAxNjc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEE3
+IjsNCj4gPiA+ICsrwqAgY2FzZSAxNjg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEE4IjsN
+Cj4gPiA+ICsrwqAgY2FzZSAxNjk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEE5IjsNCj4g
+PiA+ICsrwqAgY2FzZSAxNzA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEFBIjsNCj4gPiA+
+ICsrwqAgY2FzZSAxNzE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEFCIjsNCj4gPiA+ICsr
+wqAgY2FzZSAxNzI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEFDIjsNCj4gPiA+ICsrwqAg
+Y2FzZSAxNzM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEFEIjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAxNzQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEFFIjsNCj4gPiA+ICsrwqAgY2FzZSAx
+NzU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEFGIjsNCj4gPiA+ICsrwqAgY2FzZSAxNzY6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEIwIjsNCj4gPiA+ICsrwqAgY2FzZSAxNzc6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEIxIjsNCj4gPiA+ICsrwqAgY2FzZSAxNzg6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceEIyIjsNCj4gPiA+ICsrwqAgY2FzZSAxNzk6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceEIzIjsNCj4gPiA+ICsrwqAgY2FzZSAxODA6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIlxceEI0IjsNCj4gPiA+ICsrwqAgY2FzZSAxODE6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceEI1IjsNCj4gPiA+ICsrwqAgY2FzZSAxODI6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gIlxceEI2IjsNCj4gPiA+ICsrwqAgY2FzZSAxODM6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlxceEI3IjsNCj4gPiA+ICsrwqAgY2FzZSAxODQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IlxceEI4IjsNCj4gPiA+ICsrwqAgY2FzZSAxODU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eEI5IjsNCj4gPiA+ICsrwqAgY2FzZSAxODY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEJB
+IjsNCj4gPiA+ICsrwqAgY2FzZSAxODc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEJCIjsN
+Cj4gPiA+ICsrwqAgY2FzZSAxODg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEJDIjsNCj4g
+PiA+ICsrwqAgY2FzZSAxODk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEJEIjsNCj4gPiA+
+ICsrwqAgY2FzZSAxOTA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEJFIjsNCj4gPiA+ICsr
+wqAgY2FzZSAxOTE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEJGIjsNCj4gPiA+ICsrwqAg
+Y2FzZSAxOTI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEMwIjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAxOTM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEMxIjsNCj4gPiA+ICsrwqAgY2FzZSAx
+OTQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEMyIjsNCj4gPiA+ICsrwqAgY2FzZSAxOTU6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEMzIjsNCj4gPiA+ICsrwqAgY2FzZSAxOTY6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEM0IjsNCj4gPiA+ICsrwqAgY2FzZSAxOTc6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceEM1IjsNCj4gPiA+ICsrwqAgY2FzZSAxOTg6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceEM2IjsNCj4gPiA+ICsrwqAgY2FzZSAxOTk6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIlxceEM3IjsNCj4gPiA+ICsrwqAgY2FzZSAyMDA6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceEM4IjsNCj4gPiA+ICsrwqAgY2FzZSAyMDE6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gIlxceEM5IjsNCj4gPiA+ICsrwqAgY2FzZSAyMDI6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlxceENBIjsNCj4gPiA+ICsrwqAgY2FzZSAyMDM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IlxceENCIjsNCj4gPiA+ICsrwqAgY2FzZSAyMDQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eENDIjsNCj4gPiA+ICsrwqAgY2FzZSAyMDU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceENE
+IjsNCj4gPiA+ICsrwqAgY2FzZSAyMDY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceENFIjsN
+Cj4gPiA+ICsrwqAgY2FzZSAyMDc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceENGIjsNCj4g
+PiA+ICsrwqAgY2FzZSAyMDg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQwIjsNCj4gPiA+
+ICsrwqAgY2FzZSAyMDk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQxIjsNCj4gPiA+ICsr
+wqAgY2FzZSAyMTA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQyIjsNCj4gPiA+ICsrwqAg
+Y2FzZSAyMTE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQzIjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAyMTI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQ0IjsNCj4gPiA+ICsrwqAgY2FzZSAy
+MTM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQ1IjsNCj4gPiA+ICsrwqAgY2FzZSAyMTQ6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQ2IjsNCj4gPiA+ICsrwqAgY2FzZSAyMTU6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEQ3IjsNCj4gPiA+ICsrwqAgY2FzZSAyMTY6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceEQ4IjsNCj4gPiA+ICsrwqAgY2FzZSAyMTc6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceEQ5IjsNCj4gPiA+ICsrwqAgY2FzZSAyMTg6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIlxceERBIjsNCj4gPiA+ICsrwqAgY2FzZSAyMTk6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceERCIjsNCj4gPiA+ICsrwqAgY2FzZSAyMjA6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gIlxceERDIjsNCj4gPiA+ICsrwqAgY2FzZSAyMjE6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlxceEREIjsNCj4gPiA+ICsrwqAgY2FzZSAyMjI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IlxceERFIjsNCj4gPiA+ICsrwqAgY2FzZSAyMjM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eERGIjsNCj4gPiA+ICsrwqAgY2FzZSAyMjQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEUw
+IjsNCj4gPiA+ICsrwqAgY2FzZSAyMjU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEUxIjsN
+Cj4gPiA+ICsrwqAgY2FzZSAyMjY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEUyIjsNCj4g
+PiA+ICsrwqAgY2FzZSAyMjc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEUzIjsNCj4gPiA+
+ICsrwqAgY2FzZSAyMjg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEU0IjsNCj4gPiA+ICsr
+wqAgY2FzZSAyMjk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEU1IjsNCj4gPiA+ICsrwqAg
+Y2FzZSAyMzA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEU2IjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAyMzE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEU3IjsNCj4gPiA+ICsrwqAgY2FzZSAy
+MzI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEU4IjsNCj4gPiA+ICsrwqAgY2FzZSAyMzM6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEU5IjsNCj4gPiA+ICsrwqAgY2FzZSAyMzQ6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEVBIjsNCj4gPiA+ICsrwqAgY2FzZSAyMzU6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceEVCIjsNCj4gPiA+ICsrwqAgY2FzZSAyMzY6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceEVDIjsNCj4gPiA+ICsrwqAgY2FzZSAyMzc6DQo+ID4gPiArK8Kg
+wqDCoCByZXR1cm4gIlxceEVEIjsNCj4gPiA+ICsrwqAgY2FzZSAyMzg6DQo+ID4gPiArK8KgwqDC
+oCByZXR1cm4gIlxceEVFIjsNCj4gPiA+ICsrwqAgY2FzZSAyMzk6DQo+ID4gPiArK8KgwqDCoCBy
+ZXR1cm4gIlxceEVGIjsNCj4gPiA+ICsrwqAgY2FzZSAyNDA6DQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gIlxceEYwIjsNCj4gPiA+ICsrwqAgY2FzZSAyNDE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4g
+IlxceEYxIjsNCj4gPiA+ICsrwqAgY2FzZSAyNDI6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxc
+eEYyIjsNCj4gPiA+ICsrwqAgY2FzZSAyNDM6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEYz
+IjsNCj4gPiA+ICsrwqAgY2FzZSAyNDQ6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEY0IjsN
+Cj4gPiA+ICsrwqAgY2FzZSAyNDU6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEY1IjsNCj4g
+PiA+ICsrwqAgY2FzZSAyNDY6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEY2IjsNCj4gPiA+
+ICsrwqAgY2FzZSAyNDc6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEY3IjsNCj4gPiA+ICsr
+wqAgY2FzZSAyNDg6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEY4IjsNCj4gPiA+ICsrwqAg
+Y2FzZSAyNDk6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEY5IjsNCj4gPiA+ICsrwqAgY2Fz
+ZSAyNTA6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEZBIjsNCj4gPiA+ICsrwqAgY2FzZSAy
+NTE6DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEZCIjsNCj4gPiA+ICsrwqAgY2FzZSAyNTI6
+DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEZDIjsNCj4gPiA+ICsrwqAgY2FzZSAyNTM6DQo+
+ID4gPiArK8KgwqDCoCByZXR1cm4gIlxceEZEIjsNCj4gPiA+ICsrwqAgY2FzZSAyNTQ6DQo+ID4g
+PiArK8KgwqDCoCByZXR1cm4gIlxceEZFIjsNCj4gPiA+ICsrwqAgY2FzZSAyNTU6DQo+ID4gPiAr
+K8KgwqDCoCByZXR1cm4gIlxceEZGIjsNCj4gPiA+ICsrwqAgZGVmYXVsdDoNCj4gPiA+ICsrwqDC
+oMKgIGFzc2VydCgwKTsgLyogbmV2ZXIgZ2V0cyBoZXJlICovDQo+ID4gPiArK8KgwqDCoCByZXR1
+cm4gImRlYWQgY29kZSI7DQo+ID4gPiArK8KgIH0NCj4gPiA+ICsrwqAgYXNzZXJ0KDApOyAvKiBu
+ZXZlciBnZXRzIGhlcmUgKi8NCj4gPiA+ICsrfQ0KPiA+ID4gKysNCj4gPiA+ICsrI2VuZGlmIC8q
+IFhNTF9EVEQgKi8NCj4gPiA+ICsrDQo+ID4gPiArK3N0YXRpYyB1bnNpZ25lZCBsb25nDQo+ID4g
+PiArK2dldERlYnVnTGV2ZWwoY29uc3QgY2hhciAqdmFyaWFibGVOYW1lLCB1bnNpZ25lZCBsb25n
+DQo+ID4gPiBkZWZhdWx0RGVidWdMZXZlbCkgew0KPiA+ID4gKyvCoCBjb25zdCBjaGFyICpjb25z
+dCB2YWx1ZU9yTnVsbCA9IGdldGVudih2YXJpYWJsZU5hbWUpOw0KPiA+ID4gKyvCoCBpZiAodmFs
+dWVPck51bGwgPT0gTlVMTCkgew0KPiA+ID4gKyvCoMKgwqAgcmV0dXJuIGRlZmF1bHREZWJ1Z0xl
+dmVsOw0KPiA+ID4gKyvCoCB9DQo+ID4gPiArK8KgIGNvbnN0IGNoYXIgKmNvbnN0IHZhbHVlID0g
+dmFsdWVPck51bGw7DQo+ID4gPiArKw0KPiA+ID4gKyvCoCBlcnJubyA9IDA7DQo+ID4gPiArK8Kg
+IGNoYXIgKmFmdGVyVmFsdWUgPSAoY2hhciAqKXZhbHVlOw0KPiA+ID4gKyvCoCB1bnNpZ25lZCBs
+b25nIGRlYnVnTGV2ZWwgPSBzdHJ0b3VsKHZhbHVlLCAmYWZ0ZXJWYWx1ZSwgMTApOw0KPiA+ID4g
+KyvCoCBpZiAoKGVycm5vICE9IDApIHx8IChhZnRlclZhbHVlWzBdICE9ICdcMCcpKSB7DQo+ID4g
+PiArK8KgwqDCoCBlcnJubyA9IDA7DQo+ID4gPiArK8KgwqDCoCByZXR1cm4gZGVmYXVsdERlYnVn
+TGV2ZWw7DQo+ID4gPiArK8KgIH0NCj4gPiA+ICsrDQo+ID4gPiArK8KgIHJldHVybiBkZWJ1Z0xl
+dmVsOw0KPiA+ID4gKyt9DQo+ID4gPiArLS0NCj4gPiA+ICsyLjMyLjANCj4gPiA+ICsNCj4gPiA+
+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjIuOS5iYg0KPiA+
+ID4gYi9tZXRhL3JlY2lwZXMtDQo+ID4gPiBjb3JlL2V4cGF0L2V4cGF0XzIuMi45LmJiDQo+ID4g
+PiBpbmRleCA4ZjNkYjQxMzUyLi4zYWY0NTdiMmFmIDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9y
+ZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi4yLjkuYmINCj4gPiA+ICsrKyBiL21ldGEvcmVjaXBl
+cy1jb3JlL2V4cGF0L2V4cGF0XzIuMi45LmJiDQo+ID4gPiBAQCAtNiw4ICs2LDkgQEAgTElDRU5T
+RSA9ICJNSVQiDQo+ID4gPiANCj4gPiA+IMKgTElDX0ZJTEVTX0NIS1NVTSA9DQo+ID4gPiAiZmls
+ZTovL0NPUFlJTkc7bWQ1PTViODYyMGQ5OGU0OTc3MmQ5NWZjMWQyOTFjMjZhYTc5Ig0KPiA+ID4g
+DQo+ID4gPiAtU1JDX1VSSSA9ICIke1NPVVJDRUZPUkdFX01JUlJPUn0vZXhwYXQvZXhwYXQtJHtQ
+Vn0udGFyLmJ6MiBcDQo+ID4gPiArU1JDX1VSSSA9ICIke1NPVVJDRUZPUkdFX01JUlJPUn0vZXhw
+YXQvZXhwYXQtJHtQVn0tUkVOQU1FRC0NCj4gPiA+IFZVTE5FUkFCTEUtDQo+ID4gPiBQTEVBU0Ut
+VVNFLTIuNC4xLUlOU1RFQUQudGFyLmJ6MiBcDQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGZpbGU6Ly9saWJ0b29sLXRhZy5wYXRjaMKgXA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+DQo+ID4gPiBmaWxlOi8vMDAwMS1leHBhdC1CYWNrcG9ydC1maXgtZm9yLUNWRS0yMDEzLTAzNDAu
+cGF0Y2jCoFwNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoCAiDQo+ID4gPiANCj4gPiA+IMKgU1JD
+X1VSSVttZDVzdW1dID0gIjg3NWEyYzJmZjNlOGViOWU1YTVjZDYyZGIyMDMzYWI1Ig0KPiA+ID4g
+DQo+ID4gPiANCj4gPiA+IA0KPiA+IC0tLS0tQkVHSU4gUEdQIFNJR05BVFVSRS0tLS0tDQo+ID4g
+DQo+ID4gaVFFekJBRUJDQUFkRmlFRTRXeVBNSUM1QXA0K09vbzFZZ3FldzA3Vk1OVUZBbURLRHln
+QUNna1FZZ3FldzA3Vg0KPiA+IE1OVnBIQWdBanhEaUhKKzBabCt4eEJSS2tEM0UzYkdsS2x3c240
+TU9sUDFIV041empDb211QWRueVF3dlRtQWoNCj4gPiAySFJEeEdVUS9ablhVbFNEYk56SFNnckcy
+SURhMWRsQldHUkFTUlgzWXhJWFRKMVVMNUxXSHVwckRMMlAzeE5wDQo+ID4gWE1hQWVYMmE4NmdK
+S0RCQTcvWFhrcmJWdUNhZmpHWjZyMCt1cnZjcXBKRk8xRlIxUWIwYWtsQWUvcEVWdEVZUw0KPiA+
+IFhjTjJ0V2ZxZU95OUhCT3ZMSUJmRndrUkUwN29CZnIwZVd4S3pFQ09xMU1QT1VZcjlrL0U0THdx
+R0VXY3JPcnENCj4gPiBySk0yVTA3RXN1ME5rUVFTUFpYUCtOVFlPOXY1enRaakNMek9iMGVJN3RH
+YmR1VzNheTdmT2xhd2ZQOGZnaU9ODQo+ID4gWVZNT3pjdkE5REZPSzdaM3VyM25DTDdNV25OM09B
+PT0NCj4gPiA9SkZaWQ0KPiA+IC0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0tLQ0KPiA+IA0KPiA+
+IA0KPiA+IA0KLS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0NCg0KaVFFekJBRUJDQUFkRmlF
+RTRXeVBNSUM1QXA0K09vbzFZZ3FldzA3Vk1OVUZBbURLRmNJQUNna1FZZ3FldzA3Vg0KTU5VNlJn
+Zi9kZVBPazRTdmY0UnVkdVpFclhQYVZaUytSbVE3ZWVpaXJkZXVCQTVId0Vvck5SWWMvL2dJQWMy
+Tg0KQ3o1dnRqbTJESUtEY1Eza0JKUGFGMzdrZEFDdkhPTGFDNHJWZ29HcExsQ242aHM2Uk5GaE1P
+UG82WkZiYmJuZw0Kd0xOMjNiRlNBYUJmTGpvTS8wUWd2SURueHFTUVAvOTh4cFJ4SWhFSHExYnVP
+WjFTS3ZhUmRSSGduM1RwY3UwSA0KS1FjZ2FNOWFvMTN1NTdrRlZ4TEhOelBKMTBiMFNZSUZhdlJV
+dElzdzcvTWl6OXhCZUhIbkt6MUxkbTNlRzJlNA0KVXQrSmx6QkFCT1QzZGV2aVRlTlNPTjQyaXdl
+KzlMNGs4c0ZjVUs0RkJvZWVjRmZkYit6blVjc1QzL1hrQzV0Mw0KUXJaR3NVS2haY1RtRzF2a2hV
+LzhYcXU2QjZTSGR3PT0NCj1QL251DQotLS0tLUVORCBQR1AgU0lHTkFUVVJFLS0tLS0NCg==
