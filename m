@@ -1,94 +1,146 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web08.921.1623887671143323623
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.116])
+ by mx.groups.io with SMTP id smtpd.web09.859.1623887671158986742
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Jun 2021 16:54:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=pJ9vVHwl;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2, mailfrom: wangmy@fujitsu.com)
+ dkim=fail reason="body hash did not verify" header.i=@fujitsu.com header.s=170520fj header.b=kEK8lLuM;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.116, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1623887669; i=@fujitsu.com;
-	bh=hWE5ncO32OYyM1QNIgqZ8QD92b2iX1CyKt0RGmSc5EU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=pJ9vVHwlil8+MWjfThBj5DsRcYVDpSWdRME7No+hSv3C0O52qFVENLugRE7BCjOPS
-	 tyUpsYnYG4eT7xyTR1qLJItrP22/UcBM+2umEPsTVBoPqwyALn50i9QVtezYm4Jt2h
-	 PcTunUhAWal+F3elkPjnj+1MBqpu7AgMieIls9MkHIsOEu6NxdXOTPsTd4xYwPB04E
-	 3pny4XBRRTPk+4so9ZKvpSyj2xUedX0o6pIo1KB+/5zP+UAiQ1Cj/D7n98C5wKz9oF
-	 MR2zQNQUTqhCVM4AR7xeE9RVd7AKdhgoYeOKq/FjVlkcy+LiAmiLdPAQbl93uEJdZQ
-	 gqbs6olABieKw==
-Received: from [100.113.3.92] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-central-1.aws.symcld.net id 45/B8-11194-43F8AC06; Wed, 16 Jun 2021 23:54:28 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxRdek/1S
-  Cwbn7HBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0b3yeXMBYc4K5709TA2MD7j6GLk4hASmMUk
-  MX/rXVYI5wSjxM+7h5i6GDk52ATUJKbfugGU4OAQEdCTuPpPFCTMLKAi8eJ3DzuILSzgLtG6d
-  RoziM0ioCox8/53RhCbV8BJYu6Lk2BxCQEFiSkP34PZnALOEvt2/GYDsYWAaib/fM8OUS8ocX
-  LmExaI+RISB1+8gOpVlJh9uZkFwq6QeH34EvMERv5ZSFpmIWlZwMi0itEiqSgzPaMkNzEzR9f
-  QwEDX0NBY11DX1FAvsUo3US+1VDc5Na+kKBEoqZdYXqxXXJmbnJOil5dasokRGI4phYzGOxgP
-  vv6gd4hRkoNJSZS3ufNUghBfUn5KZUZicUZ8UWlOavEhRhkODiUJ3rReoJxgUWp6akVaZg4wN
-  mDSEhw8SiK8HX1Aad7igsTc4sx0iNQpRkUpcd6vPUAJAZBERmkeXBssHi8xykoJ8zIyMDAI8R
-  SkFuVmlqDKv2IU52BUEua9DrKdJzOvBG76K6DFTECL24TAFpckIqSkGpgmtPBcYz7rcdw+Tqn
-  y1PdT8ypftTkteJb6VnM784dZU+Oc2O1OZXbGC71/8Sr9+gXt/d0dwgYmFQvZuecuy/D5XaOi
-  vkHnkkkEU83ktVxzH7C2GB0U9bD21l+r+uPGuVfhEysP2KnPvhvUzP4m+iZb64da1b3qv5q4r
-  32WzbBpEnmYUBC3zv6x8+qVJkYrVa8eTux0vZL44Jy6Tv0Tg6NLg2Ye55l3brV28I0JEXN2vN
-  547NXKfd3OW19995nCr6On+fer6dYLJ2exSj8rvsyTFrH9QNf1/pD5/BorZYIr1j2v+h0hOuf
-  bLtuS0Al7+GeYvGa34zYUk3ovsm1/S6QWs+7v6TuTVzL9fZp3LGu2EktxRqKhFnNRcSIAjFVU
-  +EIDAAA=
+	bh=zx9ERRE3Y5Xdcf8dA62fWaZVSkL97aVpwa27BqpCsRM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=kEK8lLuMsgFEYH98D4lhSrz+cRQoXw7whFeL79SvyTzaXaKVP/u0Eyo2Vwfpy7FSu
+	 XKO2Yw7LNPMgYEVW2LjLpxNLWqICWPR9zxkh/R3byudVsuBwgBcbtV8sgqx3Cr8Pua
+	 e/T6wxL71Z5KOhwStgHUhQbjbAJe2tEYVbhrP7t9IA3gCezhuHgWUSyaCOmoKeeIYX
+	 EmHOZXAkGXPsigEKlpKP6JeualUKke68IUFwEhu92fT0fYchjgAON5NKigvlNha1ZQ
+	 jA10uDvXwmC9/QKTaX7DCIOzy7pzoD2GKYpmGrQoove51N8fS3xr6M/iXb4KD9bYy+
+	 ADp4uq36Up6VQ==
+Received: from [100.113.7.10] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id 63/63-14259-43F8AC06; Wed, 16 Jun 2021 23:54:28 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrEIsWRWlGSWpSXmKPExsViZ8MxRdek/1S
+  CQdsjdos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeP20vvMBZNlKnp/H2JpYPwr0cXIxSEkMItJ
+  4uX3LnYI5wSjxKwX54EcTg42ATWJ6bdusHYxcnCICOhJXP0nChJmFlCRePG7B6xEWMBW4sStB
+  WA2i4CqxPqLrWwgNq+Ak8T+VefA4hICChJTHr5nhogLSpyc+YQFYo6qRPeRp0wQtrxE89bZzB
+  D1ihKzLzezQNgVEq8PX2KewMg3C0n7LCTts5C0L2BkXsVomVSUmZ5RkpuYmaNraGCga2horGu
+  qa2RiqJdYpZukl1qqm5yaV1KUCJTVSywv1iuuzE3OSdHLSy3ZxAgMyJRC1o87GA+9/qB3iFGS
+  g0lJlLe581SCEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQnetF6gnGBRanpqRVpmDjA6YNISHDxKI
+  rwdfUBp3uKCxNzizHSI1ClGY453PxcvYuaYv3HJImYhlrz8vFQpcd6vPUClAiClGaV5cINgUX
+  uJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjDvdZB7eDLzSuD2vQI6hQnolDYhsFNKEhFSUg1
+  M6goSDt37T9os+TT18vT1C4O9RJN+zf6+RLJEcOa9g7uWnHpy52vp00w9hqD3ASdufDVZpRTW
+  KW6z7MhB4ZrIL4lMV31VGvvnaUY/11xwZO2vC5fUTzWWf6x6zL1ty8X36omnHZ1bl7/q25DFX
+  xCot9SDuYpr9tW9a1/r7v2z6+q9mTn6Tarr9svLxfNoepsvOfneyOl47MlPci3xBRLZU5d2nU
+  1WuFq2vJBnSmRGwrfaYLFVrb/iu3V+NUWZp5zjiNa+xsrUdDI/fTPzl+Pu2ewmd+eqv6t/wRz
+  QfbVQZf/lDds7yvpWL+Pk/ypkGFGb5bDlbrpRjK5Ce5fUfveTx6/2z2Jn+HGqpI/Jj6VIiaU4
+  I9FQi7moOBEASBw7TlUDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-3.tower-232.messagelabs.com!1623887667!218674!1
+X-Msg-Ref: server-15.tower-248.messagelabs.com!1623887667!231768!1
 X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 19812 invoked from network); 16 Jun 2021 23:54:28 -0000
+Received: (qmail 10228 invoked from network); 16 Jun 2021 23:54:28 -0000
 Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-3.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Jun 2021 23:54:28 -0000
+  by server-15.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Jun 2021 23:54:28 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15GNsKsO032701
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15GNsKsN032701
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 00:54:27 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 17 Jun 2021 00:54:23 +0100
+ (TLS) id 15.0.1497.18; Thu, 17 Jun 2021 00:54:18 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] alsa-topology-conf: upgrade 1.2.5 -> 1.2.5.1
-Date: Thu, 17 Jun 2021 07:53:58 +0800
-Message-ID: <1623887640-63499-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] alsa-lib: upgrade 1.2.5 -> 1.2.5.1
+Date: Thu, 17 Jun 2021 07:53:57 +0800
+Message-ID: <1623887640-63499-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1623887640-63499-1-git-send-email-wangmy@fujitsu.com>
-References: <1623887640-63499-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: quoted-printable
+
+0001-ucm_exec.c-Include-limits.h-explicitly-to-fix-build-.patch
+removed since it is included in 1.2.5.1
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...sa-topology-conf_1.2.5.bb => alsa-topology-conf_1.2.5.1.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-topology-conf_1.2.5.bb => alsa-topology-conf_1.2.5.1.bb} (84%)
+ ...de-limits.h-explicitly-to-fix-build-.patch | 41 -------------------
+ ...{alsa-lib_1.2.5.bb =3D> alsa-lib_1.2.5.1.bb} |  5 +--
+ 2 files changed, 2 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-ucm_exec.c-Include-limits.h-explicitly-to-fix-build-.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.5.bb =3D> alsa-lib_1.2.5.1.bb} (88%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.5.1.bb
-similarity index 84%
-rename from meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.5.bb
-rename to meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.5.1.bb
-index a6b2d7a608..c96826c4bd 100644
---- a/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.5.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.5.1.bb
-@@ -8,9 +8,8 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-ucm_exec.c-Include-limits.h-explicitly-to-fix-build-.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-ucm_exec.c-Include-limits.h-explicitly-to-fix-build-.patch
+deleted file mode 100644
+index 8752ef0dc0..0000000000
+--- a/meta/recipes-multimedia/alsa/alsa-lib/0001-ucm_exec.c-Include-limits.h-explicitly-to-fix-build-.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 26ab44c99e9f370e3da0c18982fa482e2e55f0a8 Mon Sep 17 00:00:00 2001
+-From: =3D=3FUTF-8=3Fq=3FAndreas=3D20M=3DC3=3DBCller=3F=3D <schnitzeltony@gmail.com>
+-Date: Thu, 3 Jun 2021 12:29:03 +0200
+-Subject: [PATCH] ucm_exec.c: Include limits.h explicitly to fix build on musl
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Fixes:
+-| ../../../alsa-lib-1.2.5/src/ucm/ucm_exec.c: In function 'find_exec':
+-| ../../../alsa-lib-1.2.5/src/ucm/ucm_exec.c:43:18: error: 'PATH_MAX' undeclared (first use in this function)
+-|    43 |         char bin[PATH_MAX];
+-|       |                  ^~~~~~~~
+-| ../../../alsa-lib-1.2.5/src/ucm/ucm_exec.c:43:18: note: each undeclared identifier is reported only once for each function it appears in
+-| ../../../alsa-lib-1.2.5/src/ucm/ucm_exec.c: In function 'uc_mgr_exec':
+-| ../../../alsa-lib-1.2.5/src/ucm/ucm_exec.c:177:18: error: 'PATH_MAX' undeclared (first use in this function)
+-|   177 |         char bin[PATH_MAX];
+-|       |                  ^~~~~~~~
+-
+-Upstream-Status: Submitted [https://github.com/alsa-project/alsa-lib/pull/145]
+-
+-Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+----
+- src/ucm/ucm_exec.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/ucm/ucm_exec.c b/src/ucm/ucm_exec.c
+-index d83206d0..4ddf5d15 100644
+---- a/src/ucm/ucm_exec.c
+-+++ b/src/ucm/ucm_exec.c
+-@@ -30,6 +30,7 @@
+- #include "ucm_local.h"
+- #include <sys/stat.h>
+- #include <sys/wait.h>
+-+#include <limits.h>
+- #include <dirent.h>
+- 
+- static pthread_mutex_t fork_lock =3D PTHREAD_MUTEX_INITIALIZER;
+--- 
+-2.31.1
+-
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.5.1.bb
+similarity index 88%
+rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.5.bb
+rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.5.1.bb
+index 1d6a9655f6..151d63c0e8 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.5.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.5.1.bb
+@@ -9,9 +9,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da916467b91076e631dd8edb7424769c7 \
+                     file://src/socket.c;md5=3D285675b45e83f571c6a957fe4ab79c93;beginline=3D9;endline=3D24 \
+                     "
  
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "8bfa8306ca63e1d0cbe80be984660273b91bd5b7dd0800a6c5aa71dd8c8d775c"
-+SRC_URI[sha256sum] = "f7c5bae1545abcd73824bc97f4e72c340e11abea188ba0f1c06f5e0ad776b179"
- # Something went wrong at upstream tarballing
--S = "${WORKDIR}/${BPN}-1.2.4.2.g15998"
+-SRC_URI =3D "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
+-           file://0001-ucm_exec.c-Include-limits.h-explicitly-to-fix-build-.patch"
+-SRC_URI[sha256sum] =3D "9092894a8c083b33acf8d6deb901b58f5d20d6da583789f814e8e46f2850ef18"
++SRC_URI =3D "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
++SRC_URI[sha256sum] =3D "628421d950cecaf234de3f899d520c0a6923313c964ad751ffac081df331438e"
  
- inherit allarch
+ inherit autotools pkgconfig
  
 -- 
 2.25.1
