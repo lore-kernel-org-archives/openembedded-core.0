@@ -1,63 +1,62 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
- by mx.groups.io with SMTP id smtpd.web10.925.1623887675202197614
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.82])
+ by mx.groups.io with SMTP id smtpd.web11.895.1623887675578769291
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Jun 2021 16:54:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@fujitsu.com header.s=170520fj header.b=Jkoi8uXE;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=hacnGLs/;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.82, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1623887673; i=@fujitsu.com;
-	bh=XelULpH9PwIGLICH4iKR6ve/zKpjVNSILC4J381rVpg=;
+	bh=4hLc2kv+hsXHPK3LULu/wO4fdoc0SqU9mgyTNcDN3Ps=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	b=Jkoi8uXEGNvMuZxwLdphU+lqAGwlm6SSZX2bCw8AKuetjcPLUhWu2lkDCiZJF5TyK
-	 wY+f8VGhcxUaINhxAPaBW65RRJBF0tSpjHiea3gPu/WBXo3trknBjxzvgiPhRI4853
-	 VN0YJZtDYX23mBUYZKDAqxvi2XU1NSuL9rIonSm6ojYH4akKG3iJjGh+tfzophAEu0
-	 u+z9JLROBo+Yw4szPvCnYiGVT4Ivn2d+I3jUnUuRwR3mYXHCmk4hbetp0Gsoyg8Iyg
-	 CIf+DY730wRKNxaaCupWGtUtbWRjHv6RL3CluB9Jc/emSTDit7TS/6P82OHyRijV3N
-	 sIMFjb5tAiqFQ==
-Received: from [100.113.3.92] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id 00/F5-52906-83F8AC06; Wed, 16 Jun 2021 23:54:32 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrIIsWRWlGSWpSXmKPExsViZ8MxVdei/1S
-  CwbqrghZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bn1xuYCtYpVCzv2cPSwLhJtouRi0NIYBaT
-  xIk3j1khnBOMEu/mP2PqYuTkYBNQk5h+6wZQgoNDREBP4uo/UZAws4CKxIvfPewgtrCAvcSSZ
-  f+ZQUpYBFQlWpcVg4R5BZwk/n+/xQhiSwgoSEx5+J4ZxOYUcJbYt+M3G4gtBFQz+ed7doh6QY
-  mTM5+wQIxXleg+8pQJwpaXaN46mxlijqLE7MvNLBB2hcTrw5eYJzAKzELSPgtJ+ywk7QsYmVc
-  xWiYVZaZnlOQmZuboGhoY6BoaGusa6xqaGeolVukm6qWW6ian5pUUJQJl9RLLi/WKK3OTc1L0
-  8lJLNjECwzelkHnhDsYfrz/oHWKU5GBSEuVt7jyVIMSXlJ9SmZFYnBFfVJqTWnyIUYaDQ0mCN
-  60XKCdYlJqeWpGWmQOMJZi0BAePkghvRx9Qmre4IDG3ODMdInWK0Zvj3c/Fi5g53qxdAiTnbw
-  SRbffuAsmZCw6uZua4335oNbMQS15+XqqUOO/XHqARAiAjMkrz4BbAUsIlRlkpYV5GBgYGIZ6
-  C1KLczBJU+VeM4hyMSsK810Hu5MnMK4G74xXQiUxAJ7YJgZ1YkoiQkmpgWnYhMWzXEiez/P2X
-  d71Pfp0V+WZP7rq5J/fkrTi8+69ySULRtWMPZi/k/7X8gG1rx6/2m7URyXc6hBet9/WKTrzGv
-  frrAuMdky5VTrb5u8hpvcJnU/s5CUzGRxLvf5/PG8LD0LzoB6vnCacLyz/+l/ghIZ3Kf/KNvu
-  ztR/8ieuau2tDB1RD73DhwyWGub/zJcjo/z51Zb8u6475ycM3K3N68jXuuKs2p2J1XtUnr4bo
-  K1S0TjMo6Hjbu7Up8fXTbplXrjz3euV7t7vFk3mpWxuB1p6u9L0V+qvUw+MOYXL7ZZrm1665F
-  F8Kj4z63Rm2O/eGbrvjteY3LxnyT0+FbbHROMNle7jisePqxzdLi7AdKLMUZiYZazEXFiQDbB
-  RUzhAMAAA==
+	 MIME-Version:Content-Type;
+	b=hacnGLs/NdnmdLnLBJB631gH1zwPpVfMKBKoSyw6hXfGP83y1vNvQ9qrJtGV6dW19
+	 8M6D62qsS22Erb3lp6OZhbEUPpzh2gNZ/RjPpM5MUXzTYCyvmMYW1y9zKNEcLrJG4S
+	 0WEUUCFWRR1qPk7OnyAtPvQSuYNEsh8Hy08gKwlnBdOap+nebeir8WGCAji5PVITt1
+	 1F4wpOpcazBwKaJvf9V4ME6qu9pjodNxy6L4tlpqHMekbYEOtIB1/F5k6oLvz2tX2m
+	 ed7QWSGWQnQMvAIDVJvfNpEudTS7ZKa3EN1wanXY/FIkxsIHEIVW+EY+AV/j3aKaXn
+	 LnE5UXcTwtpSw==
+Received: from [100.112.198.210] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 20/17-36719-83F8AC06; Wed, 16 Jun 2021 23:54:32 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRWlGSWpSXmKPExsViZ8MxVde8/1S
+  CweUX1hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8be++uYCmZzVqxZOJO5gXEfRxcjF4eQwCwm
+  iXs7ZjNBOCcYJRqWbAZyODnYBNQkpt+6wdrFyMEhIqAncfWfKEiYWUBF4sXvHnaQsLCAk8T1N
+  /YgYRYBVYmz098xgti8QOGPi7aygNgSAgoSUx6+ZwaxOQWcJfbt+M0GYgsB1Uz++Z4dol5Q4u
+  TMJywQ4yUkDr54wQzRqygx+3Iz1JwKideHLzFPYOSfhaRlFpKWBYxMqxgtkooy0zNKchMzc3Q
+  NDQx0DQ2NdA0tLXQNjQ30Eqt0k/RSS3XLU4tLdA31EsuL9Yorc5NzUvTyUks2MQKDMaXgWNMO
+  xpOvP+gdYpTkYFIS5W3uPJUgxJeUn1KZkVicEV9UmpNafIhRhoNDSYI3rRcoJ1iUmp5akZaZA
+  4wMmLQEB4+SCG9HH1Cat7ggMbc4Mx0idYpRUUqc92sPUEIAJJFRmgfXBovGS4yyUsK8jAwMDE
+  I8BalFuZklqPKvGMU5GJWEea+DbOfJzCuBm/4KaDET0OI2IbDFJYkIKakGpi1hsavZAwO9uud
+  3J6TcWLh34/4e/8V/+psq3SMMkzhEvOcpVcd6MjL/3rHkZMGH8DCu65fvhLzfzxd97NG2HycY
+  5UU/yy+Mto7xiJa4P1Nt0p9zq7lWlhZpMZmttV9q+6Jqgf3F++yLGMI1mF8yS6xmmDZtRd22V
+  74VP++2cLL/3tD4JXzS/zM2Igm/I05utBE0fXEjofy4UGvtyvur9kYzXvyuvPmHzMSD7pNPnO
+  Od8vned4vwk3Fnrs14kRb5/MCr+kTd7na9x68i2K257VNK5LoeFfz0Lt+ved87rsN5OscrIyv
+  b1l7+n+5P9N+XCqgmSolM3M/62VnOlunE7olPD3z3sZ/Q3xDc+XmijBJLcUaioRZzUXEiAIXf
+  TKBBAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-16.tower-226.messagelabs.com!1623887671!30052!1
+X-Msg-Ref: server-9.tower-285.messagelabs.com!1623887671!225897!1
 X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 22725 invoked from network); 16 Jun 2021 23:54:32 -0000
+Received: (qmail 12727 invoked from network); 16 Jun 2021 23:54:31 -0000
 Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-16.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Jun 2021 23:54:32 -0000
+  by server-9.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Jun 2021 23:54:31 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15GNsRi7022915
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15GNsRi6022915
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 00:54:31 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 17 Jun 2021 00:54:28 +0100
+ (TLS) id 15.0.1497.18; Thu, 17 Jun 2021 00:54:26 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] alsa-utils: upgrade 1.2.5 -> 1.2.5.1
-Date: Thu, 17 Jun 2021 07:54:00 +0800
-Message-ID: <1623887640-63499-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] alsa-ucm-conf: upgrade 1.2.5 -> 1.2.5.1
+Date: Thu, 17 Jun 2021 07:53:59 +0800
+Message-ID: <1623887640-63499-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1623887640-63499-1-git-send-email-wangmy@fujitsu.com>
 References: <1623887640-63499-1-git-send-email-wangmy@fujitsu.com>
@@ -65,90 +64,32 @@ MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain; charset="y"
-Content-Transfer-Encoding: quoted-printable
-
-0001-utils.c-Include-limits.h-explicitly-to-fix-build-on-.patch
-removed since it is included in 1.2.5.1
+Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...1.2.5.bb =3D> alsa-utils-scripts_1.2.5.1.bb} |  0
- meta/recipes-multimedia/alsa/alsa-utils.inc   |  5 +--
- ...a-utils_1.2.5.bb =3D> alsa-utils_1.2.5.1.bb} |  0
- ...limits.h-explicitly-to-fix-build-on-.patch | 37 -------------------
- 4 files changed, 2 insertions(+), 40 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.2.5.bb =3D> alsa-utils-scripts_1.2.5.1.bb} (100%)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.5.bb =3D> alsa-utils_1.2.5.1.bb} (100%)
- delete mode 100644 meta/recipes-multimedia/alsa/files/0001-utils.c-Include-limits.h-explicitly-to-fix-build-on-.patch
+ .../alsa/{alsa-ucm-conf_1.2.5.bb => alsa-ucm-conf_1.2.5.1.bb}  | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.5.bb => alsa-ucm-conf_1.2.5.1.bb} (85%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.5.1.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.5.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.5.1.bb
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils.inc b/meta/recipes-multimedia/alsa/alsa-utils.inc
-index a017b02faf..733bb2456c 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils.inc
-+++ b/meta/recipes-multimedia/alsa/alsa-utils.inc
-@@ -23,9 +23,8 @@ PACKAGECONFIG[udev] =3D "--with-udev-rules-dir=3D`pkg-config --variable=3Dudevdir udev
- PACKAGECONFIG[manpages] =3D "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.1.bb
+similarity index 85%
+rename from meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.bb
+rename to meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.1.bb
+index 5de7185895..4d5f3742f0 100644
+--- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.bb
++++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.5.1.bb
+@@ -8,9 +8,8 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
  
- # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
--SRC_URI =3D "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2 \
--           file://0001-utils.c-Include-limits.h-explicitly-to-fix-build-on-.patch"
--SRC_URI[sha256sum] =3D "09970af05838b30001ca93ba27cb85b24c45056c70a80066c3ece6abe5a19997"
-+SRC_URI =3D "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
-+SRC_URI[sha256sum] =3D "9c169ae37a49295f9b97b92ace772803daf6b6510a19574e0b78f87e562118d0"
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "093ae3d85a5e6fd2cd1cc27feda400d7191382fb8b5e5e23497286c87c1507a5"
++SRC_URI[sha256sum] = "5841a444166dcbf479db751303dbc3556f685085ac7e00f0c9e7755676195d97"
+ # Something went wrong at upstream tarballing
+-S = "${WORKDIR}/${BPN}-1.2.4.81.g4884e"
  
- # On build machines with python-docutils (not python3-docutils !!) installed
- # rst2man (not rst2man.py) is detected and compile fails with
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.5.1.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.5.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.5.1.bb
-diff --git a/meta/recipes-multimedia/alsa/files/0001-utils.c-Include-limits.h-explicitly-to-fix-build-on-.patch b/meta/recipes-multimedia/alsa/files/0001-utils.c-Include-limits.h-explicitly-to-fix-build-on-.patch
-deleted file mode 100644
-index 445f3ecade..0000000000
---- a/meta/recipes-multimedia/alsa/files/0001-utils.c-Include-limits.h-explicitly-to-fix-build-on-.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From b20cb6ef5e3f331181b93e39293602ad2c774af8 Mon Sep 17 00:00:00 2001
--From: =3D=3FUTF-8=3Fq=3FAndreas=3D20M=3DC3=3DBCller=3F=3D <schnitzeltony@gmail.com>
--Date: Thu, 3 Jun 2021 16:07:10 +0200
--Subject: [PATCH] utils.c: Include limits.h explicitly to fix build on musl
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--Fixes:
--| ../../alsa-utils-1.2.5/alsactl/utils.c: In function 'snd_card_clean_cfgdir':
--| ../../alsa-utils-1.2.5/alsactl/utils.c:309:19: error: 'PATH_MAX' undeclared (first use in this function)
--|   309 |         char path[PATH_MAX];
--|       |                   ^~~~~~~~
--| ../../alsa-utils-1.2.5/alsactl/utils.c:309:19: note: each undeclared identifier is reported only once for each function it appears in
--
--Upstream-Status: Submitted [https://github.com/alsa-project/alsa-utils/pull/92]
--
--Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-----
-- alsactl/utils.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/alsactl/utils.c b/alsactl/utils.c
--index 881b505..1a4896b 100644
----- a/alsactl/utils.c
--+++ b/alsactl/utils.c
--@@ -30,6 +30,7 @@
-- #include <syslog.h>
-- #include <sys/stat.h>
-- #include <sys/mman.h>
--+#include <limits.h>
-- #include "alsactl.h"
-- 
-- int file_map(const char *filename, char **buf, size_t *bufsize)
---- 
--2.31.1
--
+ inherit allarch
+ 
 -- 
 2.25.1
 
