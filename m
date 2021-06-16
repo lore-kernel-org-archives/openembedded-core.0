@@ -1,103 +1,102 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.98.1623872393570440803
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.266.1623873183745321208
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 12:39:53 -0700
+ Wed, 16 Jun 2021 12:53:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JYf9M+Hz;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso4159470pjx.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 12:39:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iBpLpe64;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id v13so1664936ple.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 12:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XVsGdZvbYFMsfBvmHqoVTodRgPsWshOrNKvfZ8oIQvE=;
-        b=JYf9M+HzkV3bBhNenS0agerfoLjAGTLto0cQtmEYQSRcPNCXIDTp+corcyPQrIFRiA
-         Cw6Mba88kqqyMh9E+h3wlinWQWcpV5smph2QR/sSV5QxhV3Rj1Z5601GJJWmTOQ4CuUX
-         VYFPJkFAvD7OvGiwUvE07EZmrME6N2t1jndovqpW9l0mWO3Mbk2O3kDxcWuNvM8MsNEL
-         9D0g5sM1mr5WFmUaRmYzWyscn5klgFFkGP2jxVKRkNnes6tf6KlmHDmh4NrUn8v43j6B
-         i6o1l2nZl8SWr29FkQnZbg5VoALcvvKhKvwt5gdJ5yoNW0yQKcvsKh83ZsUMvLSpbTlK
-         XOpQ==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=NUvlv4Iv68PXyyE5Ek8yjp5OEvvIgk7ajeotQSuOdpU=;
+        b=iBpLpe64nggbfZLvD9mesqIBC0EHtdGMU1IJnSbAA2g8tvmC8fFMLwPrjoya1Pkz3Q
+         cq/tin+zO4pTWXmik18cgbOaVXZ0E3qUV2mW862X2foFc1pfoi7mzbhm6muG/roOI52t
+         5s0ps1pvSvkg/u2exQji+X0v3lQpx78OzbOMGhZgLqThDIRrUbEr2ykrOy7WAFw4/bjN
+         mONcQH2WF/1PVPSYZ2Ncp9sPt7RVhl9T5PWWlej5/hJuQ2ZoFwF5+LJAadkuzrv44Ofy
+         9uhE5tVkbVBhtbqKSEhZDPTyIWY4kM1Ac+y/+9PZg+hsUt67Jowv+Oq+diHVPJBZdm/h
+         7fJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XVsGdZvbYFMsfBvmHqoVTodRgPsWshOrNKvfZ8oIQvE=;
-        b=LuPCDksIZVMHgnX9hjLlIEs+lM8fwfy6UNi0d1+awToDNdunHEX9XP32hVJcVDv3Bv
-         GwYiwELsnkqWesGkzDmRFgNAPGfIdoBswoKEUXVf1oMrwRtdZJkIohGp1lEJjSPBPC96
-         D833OsLUiM5GrKfRWDmPFiwYmBJVnfCEh5yJZy1xCYSAS0JOOFMNo6iLoGIg9q81HBOr
-         1FxZhHHFjkv7iBKC1tx1EyY6G9zb0FreINTg3KNQr2YxqcYprhXSiEvVtPp4cpQEglL9
-         TIGkVSZjuiotTIyfgviuE5lkAYHMB2i+NVPN+f9HSxR+VRSnww3RmxxpzXGmjLzHc6Zv
-         Zv9Q==
-X-Gm-Message-State: AOAM532pIxOiS1FnHBehvtXLQkW+L2HZpFoP4H9yejqE+06jZ2VTVh++
-	7Jp+5U6gqfdJJEbRqR7cKncc0Nn96yhNRA==
-X-Google-Smtp-Source: ABdhPJy8561Qik62DoyXc8vjoqBfuftKmE7Ns574lI/6IyMPPRWDV7YRZzXLz/FoPWm501G3Fd8tZQ==
-X-Received: by 2002:a17:90a:4490:: with SMTP id t16mr7927855pjg.183.1623872392832;
-        Wed, 16 Jun 2021 12:39:52 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=NUvlv4Iv68PXyyE5Ek8yjp5OEvvIgk7ajeotQSuOdpU=;
+        b=sapKEp7qOzDTwKrAyQ5xoUBBh8yXXcG3H6+TCXnD07SpEExQ2RezdHPaZPrbRb1I40
+         nhKD+TNj29ymwOT/QI4ve+NXtkqHtSkKUMyqGkp+550IMvN6E7XEJrfLw/Zof81hgHff
+         MwrHOgQCgwaQVmE+KuROC+EO0uJLSwEPk4xmOmRrpbBS8F5OnkjxLw8hNFZ47YgSZHSg
+         sMubXNnEKbFM+KP/XndzxuwKw9kFtep5IXdyZe3QsMK1EEDhOemXzgvGtlRexBXsqMpk
+         i0PS/gBojmEePxfUIZBsKtwjLTyvMylTAnl0wqt41jKyjG86h86COILvXkyzJKU2SjJ/
+         qNAQ==
+X-Gm-Message-State: AOAM5332cbOt6EtqaOrELhfikdqksVYqSYUf/3O2B2legGbGW4x5cOvB
+	Z3+7bMhdaCzDgu8JbTgI6MDMzMSmn3g4Zg==
+X-Google-Smtp-Source: ABdhPJzB7zOb7Lo/lO+LOV5xvsFKce6n51r1n5Ep2V4YYLep6ZMcZoESZobusRAEXQ0h1+NIozQYJw==
+X-Received: by 2002:a17:902:d50e:b029:11e:a837:7106 with SMTP id b14-20020a170902d50eb029011ea8377106mr1112326plg.70.1623873182674;
+        Wed, 16 Jun 2021 12:53:02 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a054])
-        by smtp.gmail.com with ESMTPSA id t13sm2963405pfh.97.2021.06.16.12.39.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 12:39:52 -0700 (PDT)
+Received: from ?IPv6:2601:646:9200:a0f0:3db2:672f:771a:8c47? ([2601:646:9200:a0f0:3db2:672f:771a:8c47])
+        by smtp.gmail.com with ESMTPSA id z185sm3159803pgb.4.2021.06.16.12.53.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Jun 2021 12:53:02 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] Use the built-in options for removing pack tools
+To: ed@tanous.net, openembedded-core@lists.openembedded.org
+References: <20210616181956.2849161-1-ed@tanous.net>
 From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] gcompat: Create symlinks to glibc ldso locations
-Date: Wed, 16 Jun 2021 12:39:49 -0700
-Message-Id: <20210616193949.1153981-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210616193949.1153981-1-raj.khem@gmail.com>
-References: <20210616193949.1153981-1-raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <d5b39f48-faca-04f7-a9e7-d000f962703e@gmail.com>
+Date: Wed, 16 Jun 2021 12:53:01 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210616181956.2849161-1-ed@tanous.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-This ensures the glibc based binaries can find it in right place
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/gcompat_git.bb | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/musl/gcompat_git.bb b/meta/recipes-core/musl/gcompat_git.bb
-index e1ae052c44..863ba8dbf0 100644
---- a/meta/recipes-core/musl/gcompat_git.bb
-+++ b/meta/recipes-core/musl/gcompat_git.bb
-@@ -14,14 +14,16 @@ SRCREV = "af5a49e489fdc04b9cf02547650d7aeaccd43793"
- 
- S = "${WORKDIR}/git"
- 
--inherit pkgconfig linuxloader
-+inherit pkgconfig linuxloader siteinfo
- 
- DEPENDS += "musl-obstack"
- 
- GLIBC_LDSO = "${@get_glibc_loader(d)}"
- MUSL_LDSO = "${@get_musl_loader(d)}"
- 
--EXTRA_OEMAKE = "LINKER_PATH=${MUSL_LDSO} LOADER_NAME=`basename ${@get_glibc_loader(d)}`"
-+EXTRA_OEMAKE = "LINKER_PATH=${MUSL_LDSO} \
-+                LOADER_NAME=`basename ${GLIBC_LDSO}` \
-+                "
- 
- do_configure () {
- 	:
-@@ -33,8 +35,16 @@ do_compile () {
- 
- do_install () {
- 	oe_runmake install 'DESTDIR=${D}'
-+	if [ "${SITEINFO_BITS}" = "64" ]; then
-+		install -d ${D}/lib64
-+		lnr ${D}${GLIBC_LDSO} ${D}/lib64/`basename ${GLIBC_LDSO}`
-+	fi
- }
- 
-+FILES_${PN} += "/lib64"
-+
-+INSANE_SKIP_${PN} = "libdir"
-+
- RPROVIDES_${PN} += "musl-glibc-compat"
- #
- # We will skip parsing for non-musl systems
--- 
-2.32.0
+On 6/16/21 11:19 AM, ed@tanous.net wrote:
+> From: Ed Tanous <ed@tanous.net>
+> 
+> For distros that want to use the ENABLE_LIB_ONLY option, the rm call
+> will fail, because ENABLE_HPACK_TOOLS (set implicitly as part of
+> ENABLE_LIB_ONLY) removes those two binaries from the build, so they then
+> can't be removed again.  This commit sets ENABLE_HPACK_TOOLS=OFF, which not
+> only allows for the option to be overridden in other meta layers, also
+> allows a simplified use of ENABLE_LIB_ONLY in meta layers that don't
+> want to ship the binaries.
+> 
+> Signed-off-by: Ed Tanous <ed@tanous.net>
+> ---
+>   meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
 
+Thanks for this patch, this is wrong list for meta-openembedded patches, 
+please send meta-openembedded patches to 
+openembedded-devel@lists.openembedded.org ml
+
+> 
+> diff --git a/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb b/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb
+> index 959cccf35..08b855262 100644
+> --- a/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb
+> +++ b/meta-networking/recipes-support/nghttp2/nghttp2_1.43.0.bb
+> @@ -18,11 +18,7 @@ PACKAGECONFIG[manpages] = ""
+>   
+>   # examples are never installed, and don't need to be built in the
+>   # first place
+> -EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=ON"
+> -
+> -do_install_append() {
+> -	rm ${D}${bindir}/deflatehd ${D}${bindir}/inflatehd
+> -}
+> +EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=ON -DENABLE_HPACK_TOOLS=OFF"
+>   
+>   PACKAGES =+ "lib${PN} ${PN}-client ${PN}-proxy ${PN}-server"
+>   
+> 
+> 
+> 
+> 
+> 
