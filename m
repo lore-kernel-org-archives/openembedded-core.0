@@ -1,93 +1,157 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web11.7962.1623852341852434297
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+ by mx.groups.io with SMTP id smtpd.web08.8041.1623852491721473591
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 07:05:42 -0700
+ Wed, 16 Jun 2021 07:08:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=q9WdkLAM;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.45, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f45.google.com with SMTP id 66-20020a9d02c80000b02903615edf7c1aso2527042otl.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:05:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Hz75M+pT;
+ spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f52.google.com with SMTP id x13so1070806vsf.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=zm8G/dKTrhj72gGNYQVA8FrHa87Es03vvIChoqdqak8=;
-        b=q9WdkLAM2eyPJTBvWTYWTIr8D4zIh7jiYxKuj5WcTa+vPRpTXD5Rkd16zD0iwEvHFv
-         Yc+ESHX51RfRCR5CllO1HmRQHTFsJFGbrp/zdtyfbrm5J6/eAnK7kE9nujO7KNQ1aBwF
-         3s3ctnW4FjRvCEHJkhr2NHSdVvB8VOwt00Fp8Hn0tlL9W94mTsUPmMD8+hZ1K5ySOLRs
-         cpwUgWsjg06+Ywdd4N68WVcOjYHsrLUPSyuS+VUP87zTBi11gXLqF16mWaAwXCGQyLGc
-         Rg4XnnANNQ7yvp3WhPFUxqy35FtEeFd823lAKaAOiLfNMdfuryGn4mfqfMoRaAb1rSyF
-         McZQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RVcNun1nOYnqExl3lh1ebeq3fEW3mnGpBoBeQj+HExQ=;
+        b=Hz75M+pTvQZuty2jTKV+sMyJHBbXQQ5c6Ksym47tTj8W3V7dQlSis9XPOBVGiWFhQs
+         3xOTLECq8Q954rEGyJ9Wj2G5bLAQf1yqMj2dw5X1oISZ9r0G4uqXfDvzkJoUfPd2N5XW
+         2XrSfab5IHTarIUMPYR7QY7KHc5dyP54t1BQZf8hw5sNCvcQEOgSCcBM9aQSMQwRIhiT
+         /Wmh40OquJ6vRquNJbImidmMW4MU/ejoxOIJ+sPnfFdT6VmSMucqzhdNpNsAtJjmeSkI
+         lLUCBzeI40k4TJfySbNkrF/jWZZSEkUwHozdBi9S9noaO+gRf1ofooycBB2UCuhSLowg
+         S8BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zm8G/dKTrhj72gGNYQVA8FrHa87Es03vvIChoqdqak8=;
-        b=ZvhisRo0xd8qgqAX1200t/WsWoCK/LHN2zLNsH8gijo1YlbQQdWXY/d1eudxBwjqUW
-         bc1/Ty7neJ8aNliQjbtRSQoc3IC6OuWsKesw2TBXBomlIxGwsA5gOy4XtbOWWnjLE9Zq
-         N3+ABVfAYmODpINoZqJJftdDwjzRUU8zR7s/7i3G8lraPokSiIlTy7NSNfqVGRAbHuf1
-         +svnJh3LkBTbgF7jTLofwQO0dhbZszhiCtmgPqnj2mnPkRfI9TnfEAAHSu7kJUM5L7xI
-         Pxy/ZWWiFA+BMFU6Lh4rcIoE4LMqZjFzqVIv1WPfjrEtA4VHPIaD3o5KsoYe/ZTR+HPV
-         y2dg==
-X-Gm-Message-State: AOAM532vucjCXm/pickY9Am+tfM121ZxheKtOOrfy1dMTTS80FSL/jLW
-	SfUemwapsANC6wYD7DPmYA5mH4dTEGwgbPIKPpA=
-X-Google-Smtp-Source: ABdhPJwQ3RK+gcoEU7EttdpwcVg+2s33XJibcSzi8OdaFB7S/GL+e2TzSvhAta3uak1PWD/afdjEkQ==
-X-Received: by 2002:a9d:872:: with SMTP id 105mr14438oty.365.1623852340796;
-        Wed, 16 Jun 2021 07:05:40 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id w17sm434637oif.44.2021.06.16.07.05.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 07:05:40 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/6] kernel.bbclass: fix do_sizecheck() comparison
-Date: Wed, 16 Jun 2021 04:04:29 -1000
-Message-Id: <f5fc716d744745d5c2ea83f0b1d63907cfe04c06.1623852080.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1623852080.git.steve@sakoman.com>
-References: <cover.1623852080.git.steve@sakoman.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RVcNun1nOYnqExl3lh1ebeq3fEW3mnGpBoBeQj+HExQ=;
+        b=bb+qSCpMLyv+siABgN+7/NkuE9knoncW3Q3byfpmPckoCmbDNwIjlYRAqKupMsGYUD
+         CxDm6L4k0CK10b9w3aXypuWGlE7HgA1VfP82xeww8+i+nY0jcu22VCJtvxQjFFkJuD47
+         2egHX3OEPkzHgLdATwIblCMKffmBPw2b8BoFv2kGisd9b8i6OwzHoqcCj4yMRXqGvm3A
+         YWVja7dTUe3V3kNhntUDxZGkpmr2s/obB7fftS5p5cGA7sppX67/ICkY7e1m2CGjgzHy
+         4/bPR4tL2M7Y1gSXI4U0ZNqboduif9fUgdapxbgA8a5QwPfCEvxEICJI/ZgeJ9E/gLZf
+         RE2g==
+X-Gm-Message-State: AOAM531mVZjclY9IIaVGy4w/Bm6zsndbD9z2S5hmh7NLyKW7T3EzbmPV
+	ulCWhEBuuXuO+uWr4coYZFh2I0gukbq7BVuFffc=
+X-Google-Smtp-Source: ABdhPJwZEb7tAKJs51yn8vNIPtzN08n7M1L4Z91zeIZvkT47czwOedVOtzTqYLUuBZrE5fna0SiEzWrYoHreygIsf0M=
+X-Received: by 2002:a67:f4cb:: with SMTP id s11mr38364vsn.20.1623852490867;
+ Wed, 16 Jun 2021 07:08:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1688B34361FD8BD3.6379@lists.openembedded.org> <16890800366CFBBE.20493@lists.openembedded.org>
+In-Reply-To: <16890800366CFBBE.20493@lists.openembedded.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 16 Jun 2021 16:07:59 +0200
+Message-ID: <CANNYZj85QuEDkL4N7D7B23PNFe-i1E9ZDx-SdEv+-DzFM84kAg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/31] core-image-weston: bump QB_MEM to 1G in qemuarm64
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e2c6ea05c4e29e5f"
 
-From: Andrea Adami <andrea.adami@gmail.com>
+--000000000000e2c6ea05c4e29e5f
+Content-Type: text/plain; charset="UTF-8"
 
-The routine do_sizecheck() was historically needed by legacy
-devices with limited flash memory.
-The lowest extreme is probably with Zaurus collie having exactly
-1024*1024 = 1048576 bytes for the kernel partition.
+It seems that mesa, for some reason, allocates a lot more RAM in qemuarm64
+(150 Mb more or so), than it does in qemux86_64. I'll investigate.
 
-In the years the KERNEL_IMAGE_MAXSIZE has been converted to kilobytes
-thus rounded so we have now KERNEL_IMAGE_MAXSIZE_collie = "1024".
+Alex
 
-The effect is that now the check fails because we hit curiously this
- | WARNING: This kernel zImage (size=1024(K) > 1024(K)) is too big for...
-even though zImage is 1047288 bytes (kernel + kexecboot-klibc-initramfs).
+On Wed, 16 Jun 2021 at 12:06, Alexander Kanavin via lists.openembedded.org
+<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
 
-Fix this case using test -gt (greater) instead of -ge (greater or equal).
+> I'd like to take a deeper look at this, please hold.
+>
+> Alex
+>
+> On Tue, 15 Jun 2021 at 10:12, Alexander Kanavin via lists.openembedded.org
+> <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+>
+>> weston tests start additional compositors, other tests are also
+>> heavy on RAM, weston itself takes 256M with opengl enabled,
+>> so 512M causes OOM errors on arm64.
+>>
+>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> ---
+>>  meta/recipes-graphics/images/core-image-weston.bb | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-graphics/images/core-image-weston.bb
+>> b/meta/recipes-graphics/images/core-image-weston.bb
+>> index 62305cc1ce..e332e19368 100644
+>> --- a/meta/recipes-graphics/images/core-image-weston.bb
+>> +++ b/meta/recipes-graphics/images/core-image-weston.bb
+>> @@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL += "gtk+3-demo"
+>>  CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES',
+>> 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
+>>
+>>  QB_MEM = "-m 512"
+>> +QB_MEM_qemuarm64 = "-m 1024"
+>> --
+>> 2.31.1
+>>
+>>
+>>
+>>
+>>
+> 
+>
+>
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 254ca956d63b4ce6aa294213b60bb943f9f3a9e6)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--000000000000e2c6ea05c4e29e5f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 518aaef724..85c6594c27 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -680,7 +680,7 @@ do_sizecheck() {
- 		at_least_one_fits=
- 		for imageType in ${KERNEL_IMAGETYPES} ; do
- 			size=`du -ks ${B}/${KERNEL_OUTPUT_DIR}/$imageType | awk '{print $1}'`
--			if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
-+			if [ $size -gt ${KERNEL_IMAGE_MAXSIZE} ]; then
- 				bbwarn "This kernel $imageType (size=$size(K) > ${KERNEL_IMAGE_MAXSIZE}(K)) is too big for your device."
- 			else
- 				at_least_one_fits=y
--- 
-2.25.1
+<div dir=3D"ltr"><div>It seems that mesa, for some reason, allocates a lot =
+more RAM in qemuarm64 (150 Mb more or so), than it does in qemux86_64. I&#3=
+9;ll investigate.</div><div><br></div><div>Alex<br></div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 16 Jun 202=
+1 at 12:06, Alexander Kanavin via <a href=3D"http://lists.openembedded.org"=
+>lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@=
+lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
+iv>I&#39;d like to take a deeper look at this, please hold.</div><div><br><=
+/div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Tue, 15 Jun 2021 at 10:12, Alexander Kanavin via=
+ <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembe=
+dded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembed=
+ded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">weston tests sta=
+rt additional compositors, other tests are also<br>
+heavy on RAM, weston itself takes 256M with opengl enabled,<br>
+so 512M causes OOM errors on arm64.<br>
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
+com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
+ rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/images/<a href=3D"http://core-image-wes=
+ton.bb" rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a> b/met=
+a/recipes-graphics/images/<a href=3D"http://core-image-weston.bb" rel=3D"no=
+referrer" target=3D"_blank">core-image-weston.bb</a><br>
+index 62305cc1ce..e332e19368 100644<br>
+--- a/meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
+ rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a><br>
++++ b/meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
+ rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a><br>
+@@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL +=3D &quot;gtk+3-demo&quot;<br>
+=C2=A0CORE_IMAGE_BASE_INSTALL +=3D &quot;${@bb.utils.contains(&#39;DISTRO_=
+FEATURES&#39;, &#39;x11&#39;, &#39;weston-xwayland matchbox-terminal&#39;, =
+&#39;&#39;, d)}&quot;<br>
+<br>
+=C2=A0QB_MEM =3D &quot;-m 512&quot;<br>
++QB_MEM_qemuarm64 =3D &quot;-m 1024&quot;<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+<br>
+<br>
+<br>
+</blockquote></div>
 
+--000000000000e2c6ea05c4e29e5f--
