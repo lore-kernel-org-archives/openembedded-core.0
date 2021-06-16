@@ -1,50 +1,50 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web11.7953.1623852319750203809
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web08.7995.1623852324512851685
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 07:05:19 -0700
+ Wed, 16 Jun 2021 07:05:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ddpog1Oi;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.45, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f45.google.com with SMTP id 5-20020a9d01050000b02903c700c45721so2570655otu.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:05:19 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hZ+bKr2y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.46, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f46.google.com with SMTP id q5-20020a9d66450000b02903f18d65089fso2547400otm.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=3Nxr9PZT16x2idofjfXXJ9EXp8wPwlUHs2Iji2xDN/s=;
-        b=ddpog1OiUILl6JBr4rsl0Nrr+bWgXb6eCLq0XI0uGLmO2Svqj2DKrveXuKjLlCY9zr
-         yT6DmTJbchZExsvmoR3T9SehOIf8xpHIH5nwLRdqD2QMuzXbH6wX3HKAqJoMKTQ2clGb
-         FqjVS1TxoZzJPFx9HgksYrOSp3HKGndiYoApYLJVUed/VCoMpDlYAeX3QDtHR2dBdbR0
-         ArM+a3uW4tWQNIXdq4ooN047oqEKNh+9/yLMAPm2LwdXl4WUlnHMdsdpuRCe3nStrVrU
-         v/GvBQaFxakOPPCqCA2VAxf6CDwz0LggCd18OTTIymo3LIQYlAcVotlGzyhq3ul4hNJG
-         KrBA==
+        bh=oqmHHsuu0//fnQC8Z9BHd7mR0NqhG2r5eZ7nY2GiRb8=;
+        b=hZ+bKr2y/Tw+6lMgjmr/wBHTfruUeCc4h7vaVQ3eajoK3336YahaJlfTiivbIT+n2p
+         3llNAwMPMvDDsuJF3HZ69hfq7Vd/ppTBcPBQ3XISHwVuw/dD1mL4dWPkT7lf2PD38IHX
+         WPDFJfP0jL3o9mckBBe2aFcXNpV16nfrWdYULKGRc3OFJggzAb1Zzo3nnyPUZQJRTMxn
+         MocETIcECc3tcA7aotwad5iF2lEzTyCa/G/6Oj90ErDgLSTaSDMQLGnQrw8MYsDMXXCv
+         UizEYvHIn/+VO1GAJDel1lbnPjaD4tsa07PuPOzecrq8/BpyYghL8XMu162+BCoEcGfP
+         ZczA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3Nxr9PZT16x2idofjfXXJ9EXp8wPwlUHs2Iji2xDN/s=;
-        b=HFGOnM22o76jX63kH31sDHpWJ7uglh9kGc5AN7r0QbjBsAFtS4KxLe9uuBl6jDXx1M
-         +Lq6+DW1wfu65QnSmDaJiB6pwFkOjzUBUFt7bKlewmXnq7XGk0hDw7pR+Ni4uxAUhagz
-         Lyrjp8zNPqEXrMSc0njq9uqAr1oXxEqQ/ZbHmY/itXzqYyKEC/SbJbybFnoM/5bKYfq4
-         DVp5t4ruZ0XxgduS9j9s2YXorRu979MaPb/t1cmBFK6NZ1WGSdAm1KuL6/FtkGSHGB6L
-         GukJClrcldHkiDImXdLgcvd6osRlfJ9GB4rVMBHvUOGUMjSIz890gUK1YOfBhswDyR79
-         P1+Q==
-X-Gm-Message-State: AOAM530AFXkHSzryNgN7D4cRFEFN63NpSrw6t/LfE1Lt5bARNpoO76zL
-	7HL4PwZeJoJXQ0dffVQ9Zmx67l0oVIkUAxObj40=
-X-Google-Smtp-Source: ABdhPJy+MOO7I5hZrYVlveXvhx4UCe4qClFy16yrPL2aNG8p4z/ojywsBQfIfZwPPRhS3xiaoiB/Rg==
-X-Received: by 2002:a9d:7414:: with SMTP id n20mr63465otk.194.1623852318487;
-        Wed, 16 Jun 2021 07:05:18 -0700 (PDT)
+        bh=oqmHHsuu0//fnQC8Z9BHd7mR0NqhG2r5eZ7nY2GiRb8=;
+        b=qQVyho3PWHNzMySg7h8iUbad3Z10DgsBpDwFnV+z7Cpz/5X2syJpM7giqk9zYpgl6B
+         Ghgd0iDF8XSL03YCvv6tgyQyCvY6Y+gw76F+TlOwDdx7ANyFWBoB79RInKzEv3dr5y3b
+         kweBui/SWiDBAsXIuEyWwKb6aJuSfKdOLzxSru/4MEc8/OY2hrikC3yCpndpgToU/7CA
+         4Jz8eclpjCVPLb2QYPBrzI+2IqozD+CsDOHP7okukvcHv7Bu0UnnaYtpfYA68nNl+Uxb
+         fQoJvXCmnZ0O1KaesPp9W9KTcLPF6TqQV6wi816kz7SKxyH4GUH0vrTKe462f0pe4lUx
+         lbbA==
+X-Gm-Message-State: AOAM530apXF1LSIDGchu6GSLziJqWfUDzrDl4yif8EmOBuaBKhL6z3Ce
+	e1o8DnSKStklWq6bV+vDwuSJzasIHXUSXGoZoMw=
+X-Google-Smtp-Source: ABdhPJypqpL0n0wPwOplo+SM9AMoZaaqPXo1aH9HivcsFfV5+BeRBbYY9hSzFWuWCQWfmE4UuhIC/Q==
+X-Received: by 2002:a9d:82b:: with SMTP id 40mr41431oty.81.1623852323349;
+        Wed, 16 Jun 2021 07:05:23 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id w17sm434637oif.44.2021.06.16.07.05.15
+        by smtp.gmail.com with ESMTPSA id w17sm434637oif.44.2021.06.16.07.05.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 07:05:18 -0700 (PDT)
+        Wed, 16 Jun 2021 07:05:22 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/6] bind: 9.11.22 -> 9.11.32
-Date: Wed, 16 Jun 2021 04:04:25 -1000
-Message-Id: <d7e56f1910b7963d8b704107903ecf40e9472d3c.1623852080.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 3/6] ruby: 2.7.1 -> 2.7.3
+Date: Wed, 16 Jun 2021 04:04:26 -1000
+Message-Id: <4de0d54827bc4645b69e5a0043b6f285b0193402.1623852080.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1623852080.git.steve@sakoman.com>
 References: <cover.1623852080.git.steve@sakoman.com>
@@ -53,77 +53,94 @@ Content-Transfer-Encoding: 8bit
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-updates include fixes for
-CVE-2021-25214
-CVE-2021-25215
-CVE-2021-25216
+This release includes security fixes.
 
-CVE-2020-8625 fixed in 9.11.28, so drop that patch
+CVE-2021-28965: XML round-trip vulnerability in REXML
+CVE-2021-28966: Path traversal in Tempfile on Windows
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+CVE-2020-25613 fixed in 2.7.2, do drop the patch
 
-tmp
+release notes for 2.7.2 and 2.7.3
+https://www.ruby-lang.org/en/news/2020/10/02/ruby-2-7-2-released/
+https://www.ruby-lang.org/en/news/2021/04/05/ruby-2-7-3-released/
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../bind/bind/CVE-2020-8625.patch               | 17 -----------------
- .../bind/{bind_9.11.22.bb => bind_9.11.32.bb}   |  5 ++---
- 2 files changed, 2 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
- rename meta/recipes-connectivity/bind/{bind_9.11.22.bb => bind_9.11.32.bb} (96%)
+ .../ruby/ruby/CVE-2020-25613.patch            | 40 -------------------
+ .../ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb}     |  5 +--
+ 2 files changed, 2 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
+ rename meta/recipes-devtools/ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb} (94%)
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch b/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
 deleted file mode 100644
-index 9078f2448e..0000000000
---- a/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+index 1abcb7547e..0000000000
+--- a/meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
 +++ /dev/null
-@@ -1,17 +0,0 @@
--Upstream-Status: Backporting [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
--CVE: CVE-2020-8625
--Signed-off-by: Minjae Kim <flowergom@gmail.com>
+@@ -1,40 +0,0 @@
+-From 8946bb38b4d87549f0d99ed73c62c41933f97cc7 Mon Sep 17 00:00:00 2001
+-From: Yusuke Endoh <mame@ruby-lang.org>
+-Date: Tue, 29 Sep 2020 13:15:58 +0900
+-Subject: [PATCH] Make it more strict to interpret some headers
 -
--diff --git a/lib/dns/spnego.c b/lib/dns/spnego.c
--index e61d1c600f2..753dc8049fa 100644
----- a/lib/dns/spnego.c
--+++ b/lib/dns/spnego.c
--@@ -848,7 +848,7 @@ der_get_oid(const unsigned char *p, size_t len, oid *data, size_t *size) {
-- 		return (ASN1_OVERRUN);
-- 	}
+-Some regexps were too tolerant.
+-
+-Upstream-Status: Backport
+-[https://github.com/ruby/webrick/commit/8946bb38b4d87549f0d99ed73c62c41933f97cc7]
+-CVE: CVE-2020-25613
+-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+----
+- lib/webrick/httprequest.rb | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/lib/webrick/httprequest.rb b/lib/webrick/httprequest.rb
+-index 294bd91..d34eac7 100644
+---- a/lib/webrick/httprequest.rb
+-+++ b/lib/webrick/httprequest.rb
+-@@ -227,9 +227,9 @@ def parse(socket=nil)
+-         raise HTTPStatus::BadRequest, "bad URI `#{@unparsed_uri}'."
+-       end
 - 
---	data->components = malloc(len * sizeof(*data->components));
--+	data->components = malloc((len + 1) * sizeof(*data->components));
-- 	if (data->components == NULL) {
-- 		return (ENOMEM);
-- 	}
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.22.bb b/meta/recipes-connectivity/bind/bind_9.11.32.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.11.22.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.32.bb
-index 5598ba976d..9feebe5ae2 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.22.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.32.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
- SECTION = "console/network"
- 
- LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bf39058a7f64b2a934ce14dc9ec1dd45"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=b88e7ca5f21908e1b2720169f6807cf6"
- 
- DEPENDS = "openssl libcap zlib"
- 
-@@ -19,10 +19,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-            file://0001-avoid-start-failure-with-bind-user.patch \
--           file://CVE-2020-8625.patch \
+--      if /close/io =~ self["connection"]
+-+      if /\Aclose\z/io =~ self["connection"]
+-         @keep_alive = false
+--      elsif /keep-alive/io =~ self["connection"]
+-+      elsif /\Akeep-alive\z/io =~ self["connection"]
+-         @keep_alive = true
+-       elsif @http_version < "1.1"
+-         @keep_alive = false
+-@@ -508,7 +508,7 @@ def read_body(socket, block)
+-       return unless socket
+-       if tc = self['transfer-encoding']
+-         case tc
+--        when /chunked/io then read_chunked(socket, block)
+-+        when /\Achunked\z/io then read_chunked(socket, block)
+-         else raise HTTPStatus::NotImplemented, "Transfer-Encoding: #{tc}."
+-         end
+-       elsif self['content-length'] || @remaining_size
+diff --git a/meta/recipes-devtools/ruby/ruby_2.7.1.bb b/meta/recipes-devtools/ruby/ruby_2.7.3.bb
+similarity index 94%
+rename from meta/recipes-devtools/ruby/ruby_2.7.1.bb
+rename to meta/recipes-devtools/ruby/ruby_2.7.3.bb
+index a6c65e887b..318b9acdae 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.7.1.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.7.3.bb
+@@ -6,12 +6,11 @@ SRC_URI += " \
+            file://remove_has_include_macros.patch \
+            file://run-ptest \
+            file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
+-           file://CVE-2020-25613.patch \
+            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
             "
  
--SRC_URI[sha256sum] = "afc6d8015006f1cabf699ff19f517bb8fd9c1811e5231f26baf51c3550262ac9"
-+SRC_URI[sha256sum] = "cbf8cb4b74dd1452d97c3a2a8c625ea346df8516b4b3508ef07443121a591342"
+-SRC_URI[md5sum] = "debb9c325bf65021214451660f46e909"
+-SRC_URI[sha256sum] = "d418483bdd0000576c1370571121a6eb24582116db0b7bb2005e90e250eae418"
++SRC_URI[md5sum] = "72ef97685008981de3ddb748d0dab31f"
++SRC_URI[sha256sum] = "8925a95e31d8f2c81749025a52a544ea1d05dad18794e6828709268b92e55338"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -- 
 2.25.1
 
