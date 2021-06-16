@@ -1,157 +1,100 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
- by mx.groups.io with SMTP id smtpd.web08.8041.1623852491721473591
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web08.8161.1623853076406483400
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 07:08:11 -0700
+ Wed, 16 Jun 2021 07:17:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Hz75M+pT;
- spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f52.google.com with SMTP id x13so1070806vsf.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:08:11 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XrbftOWw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id y7so2870854wrh.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 07:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RVcNun1nOYnqExl3lh1ebeq3fEW3mnGpBoBeQj+HExQ=;
-        b=Hz75M+pTvQZuty2jTKV+sMyJHBbXQQ5c6Ksym47tTj8W3V7dQlSis9XPOBVGiWFhQs
-         3xOTLECq8Q954rEGyJ9Wj2G5bLAQf1yqMj2dw5X1oISZ9r0G4uqXfDvzkJoUfPd2N5XW
-         2XrSfab5IHTarIUMPYR7QY7KHc5dyP54t1BQZf8hw5sNCvcQEOgSCcBM9aQSMQwRIhiT
-         /Wmh40OquJ6vRquNJbImidmMW4MU/ejoxOIJ+sPnfFdT6VmSMucqzhdNpNsAtJjmeSkI
-         lLUCBzeI40k4TJfySbNkrF/jWZZSEkUwHozdBi9S9noaO+gRf1ofooycBB2UCuhSLowg
-         S8BQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=W7oaItDmW4jqy+ZW2rJvlhkJakN/LC+iJWaXje30Z6Q=;
+        b=XrbftOWw5R8SJtwI6SG8G/GW9fOS3kqboCupU4/NypOqODLDJESECp7eX80JjiHZSd
+         KYsAcGzlRRxHLE+vKFn8MoqmoCbKlEz0oMu8+RD0BiVT9r40iyonwrMXMl5g9ck68aBy
+         CQfQMQe47RXBTYQTBfVvIGuI1ZYJRtM1gLDmI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RVcNun1nOYnqExl3lh1ebeq3fEW3mnGpBoBeQj+HExQ=;
-        b=bb+qSCpMLyv+siABgN+7/NkuE9knoncW3Q3byfpmPckoCmbDNwIjlYRAqKupMsGYUD
-         CxDm6L4k0CK10b9w3aXypuWGlE7HgA1VfP82xeww8+i+nY0jcu22VCJtvxQjFFkJuD47
-         2egHX3OEPkzHgLdATwIblCMKffmBPw2b8BoFv2kGisd9b8i6OwzHoqcCj4yMRXqGvm3A
-         YWVja7dTUe3V3kNhntUDxZGkpmr2s/obB7fftS5p5cGA7sppX67/ICkY7e1m2CGjgzHy
-         4/bPR4tL2M7Y1gSXI4U0ZNqboduif9fUgdapxbgA8a5QwPfCEvxEICJI/ZgeJ9E/gLZf
-         RE2g==
-X-Gm-Message-State: AOAM531mVZjclY9IIaVGy4w/Bm6zsndbD9z2S5hmh7NLyKW7T3EzbmPV
-	ulCWhEBuuXuO+uWr4coYZFh2I0gukbq7BVuFffc=
-X-Google-Smtp-Source: ABdhPJwZEb7tAKJs51yn8vNIPtzN08n7M1L4Z91zeIZvkT47czwOedVOtzTqYLUuBZrE5fna0SiEzWrYoHreygIsf0M=
-X-Received: by 2002:a67:f4cb:: with SMTP id s11mr38364vsn.20.1623852490867;
- Wed, 16 Jun 2021 07:08:10 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=W7oaItDmW4jqy+ZW2rJvlhkJakN/LC+iJWaXje30Z6Q=;
+        b=Ie/QglywlN6HROJ+QUHgRSLHiNfJ7Ul/JVflprcY6cuHCTVcMD4V/J71ClHILDfZCX
+         ygu7oG85/NjioIpAg2qP37PaH1NVnotRbkM5w0hwFC0mhCYH/neNzeQsUJcbfDqjUqau
+         cbCfmY0jMeIZByRSR9vuAjz5EpOdWVw7rcBXsdH0aDTXFvoXos6YVxx1roUqP9fLlhgA
+         NXwD3P6QQ0rtt0noTkrCa7u1dlgYA0JHQruyC4DLhHPcEwNvxJeU12thA++Ew2kHhEgO
+         SQv7bA6ffcYi4FxCiltSqtwy1RghlZTipx5y+vVCul8+8swH8xHGSXIQ980rwHCT4ZpE
+         32iA==
+X-Gm-Message-State: AOAM531AXytgd4VrOkDsw7nKRTPqUY7bVpbtooUy9QkASYrvCjoZlzcc
+	4sNnBu+ejQJIkiOoQPAnp8+NIA==
+X-Google-Smtp-Source: ABdhPJzZD1kIRM555mzMl0Y5L21Sr+8E7Kg/QsmHAIONFL3zu7uG1lXipr4ogRNlzsu8//QC69xBvw==
+X-Received: by 2002:a05:6000:1888:: with SMTP id a8mr5600166wri.11.1623853074717;
+        Wed, 16 Jun 2021 07:17:54 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:31b6:9a4e:bc39:a574? ([2001:8b0:aba:5f3c:31b6:9a4e:bc39:a574])
+        by smtp.gmail.com with ESMTPSA id k5sm2264724wmk.11.2021.06.16.07.17.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 07:17:54 -0700 (PDT)
+Message-ID: <cc3523e0840a73a24413af0298544aaef5e8eb0a.camel@linuxfoundation.org>
+Subject: Re: [swat] ltp failures on autobuilder
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: swat@lists.yoctoproject.org, openembedded-core
+	 <openembedded-core@lists.openembedded.org>, Bruce Ashfield
+	 <bruce.ashfield@gmail.com>, Randy MacLeod <randy.macleod@windriver.com>
+Date: Wed, 16 Jun 2021 15:17:53 +0100
+In-Reply-To: <20210616125637.GH329557@windriver.com>
+References: <1687473EDD63E45B.21776@lists.yoctoproject.org>
+	 <168784123C10B53A.9125@lists.yoctoproject.org>
+	 <4ad336c92233e088ddf898daf2afb4955ca43256.camel@linuxfoundation.org>
+	 <20210616125637.GH329557@windriver.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-References: <1688B34361FD8BD3.6379@lists.openembedded.org> <16890800366CFBBE.20493@lists.openembedded.org>
-In-Reply-To: <16890800366CFBBE.20493@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 16 Jun 2021 16:07:59 +0200
-Message-ID: <CANNYZj85QuEDkL4N7D7B23PNFe-i1E9ZDx-SdEv+-DzFM84kAg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/31] core-image-weston: bump QB_MEM to 1G in qemuarm64
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e2c6ea05c4e29e5f"
-
---000000000000e2c6ea05c4e29e5f
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-It seems that mesa, for some reason, allocates a lot more RAM in qemuarm64
-(150 Mb more or so), than it does in qemux86_64. I'll investigate.
-
-Alex
-
-On Wed, 16 Jun 2021 at 12:06, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
-
-> I'd like to take a deeper look at this, please hold.
->
-> Alex
->
-> On Tue, 15 Jun 2021 at 10:12, Alexander Kanavin via lists.openembedded.org
-> <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
->
->> weston tests start additional compositors, other tests are also
->> heavy on RAM, weston itself takes 256M with opengl enabled,
->> so 512M causes OOM errors on arm64.
->>
->> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> ---
->>  meta/recipes-graphics/images/core-image-weston.bb | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-graphics/images/core-image-weston.bb
->> b/meta/recipes-graphics/images/core-image-weston.bb
->> index 62305cc1ce..e332e19368 100644
->> --- a/meta/recipes-graphics/images/core-image-weston.bb
->> +++ b/meta/recipes-graphics/images/core-image-weston.bb
->> @@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL += "gtk+3-demo"
->>  CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES',
->> 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
->>
->>  QB_MEM = "-m 512"
->> +QB_MEM_qemuarm64 = "-m 1024"
->> --
->> 2.31.1
->>
->>
->>
->>
->>
+On Wed, 2021-06-16 at 08:56 -0400, Paul Gortmaker wrote:
+> [Re: [swat] ltp failures on autobuilder] On 11/06/2021 (Fri 14:19) Richard Purdie wrote:
 > 
->
->
+> > On Fri, 2021-06-11 at 12:36 +0100, Richard Purdie via lists.yoctoproject.org wrote:
+> > > as a .cfg to the kernel and that still reproduced the crash. However:
+> > > 
+> > > CONFIG_DEBUG_KERNEL=y
+> > > CONFIG_CGROUP_DEBUG=y
+> > > CONFIG_SCHED_DEBUG=y
+> > > CONFIG_DEBUG_PREEMPT=y
+> > > # CONFIG_RCU_TRACE is not set
+> > > # CONFIG_X86_DEBUG_FPU is not set
+> > > # CONFIG_CONSOLE_POLL is not set
+> > > # CONFIG_DEBUG_INFO is not set
+> > > # CONFIG_KGDB is not set
+> > > # CONFIG_KGDB_HONOUR_BLOCKLIST is not set
+> > > # CONFIG_KGDB_SERIAL_CONSOLE is not set
+> > > # CONFIG_KGDB_LOW_LEVEL_TRAP is not set
+> > > # CONFIG_KGDB_KDB is not set
+> > > # CONFIG_KDB_KEYBOARD is not set
+> > > # CONFIG_DEBUG_MISC is not set
+> > > 
+> > 
+> > Isolated down to CONFIG_SCHED_DEBUG=y being the line which somehow "fixes" 
+> > the crash. I can enable all the above apart from that and we can reproduce
+> > it.
+> > 
+> > Also, I changed gatesgarth to use qemu 5.2.0 copied in from hardknott and that
+> > breaks it. Dropping the 27 CVE patches "fixes" it again. It is possible it
+> > is one of the CVE fixes. Continuing to try and isolate.
+> 
+> For the mail archive trail, and for those not follwing the ongoing
+> research on IRC, we are hopeful that this fixes it.
+> 
+> https://lore.kernel.org/lkml/20210616125157.438837-1-paul.gortmaker@windriver.com/
 
---000000000000e2c6ea05c4e29e5f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Awesome work in tracking that down, much appreciated, thanks!
 
-<div dir=3D"ltr"><div>It seems that mesa, for some reason, allocates a lot =
-more RAM in qemuarm64 (150 Mb more or so), than it does in qemux86_64. I&#3=
-9;ll investigate.</div><div><br></div><div>Alex<br></div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 16 Jun 202=
-1 at 12:06, Alexander Kanavin via <a href=3D"http://lists.openembedded.org"=
->lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@=
-lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv>I&#39;d like to take a deeper look at this, please hold.</div><div><br><=
-/div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, 15 Jun 2021 at 10:12, Alexander Kanavin via=
- <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembe=
-dded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembed=
-ded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">weston tests sta=
-rt additional compositors, other tests are also<br>
-heavy on RAM, weston itself takes 256M with opengl enabled,<br>
-so 512M causes OOM errors on arm64.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
-com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
- rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a> | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-graphics/images/<a href=3D"http://core-image-wes=
-ton.bb" rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a> b/met=
-a/recipes-graphics/images/<a href=3D"http://core-image-weston.bb" rel=3D"no=
-referrer" target=3D"_blank">core-image-weston.bb</a><br>
-index 62305cc1ce..e332e19368 100644<br>
---- a/meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
- rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a><br>
-+++ b/meta/recipes-graphics/images/<a href=3D"http://core-image-weston.bb"=
- rel=3D"noreferrer" target=3D"_blank">core-image-weston.bb</a><br>
-@@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL +=3D &quot;gtk+3-demo&quot;<br>
-=C2=A0CORE_IMAGE_BASE_INSTALL +=3D &quot;${@bb.utils.contains(&#39;DISTRO_=
-FEATURES&#39;, &#39;x11&#39;, &#39;weston-xwayland matchbox-terminal&#39;, =
-&#39;&#39;, d)}&quot;<br>
-<br>
-=C2=A0QB_MEM =3D &quot;-m 512&quot;<br>
-+QB_MEM_qemuarm64 =3D &quot;-m 1024&quot;<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-<br>
-<br>
-<br>
-</blockquote></div>
+Curious what upstream will make of it now...
 
---000000000000e2c6ea05c4e29e5f--
+Cheers,
+
+Richard
+
