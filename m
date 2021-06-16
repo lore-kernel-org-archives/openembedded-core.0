@@ -1,203 +1,98 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web11.150.1623876167783040395
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web09.11.1623876537880987665
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 13:42:47 -0700
+ Wed, 16 Jun 2021 13:48:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KExnHKXp;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id w23-20020a9d5a970000b02903d0ef989477so3853281oth.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 13:42:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qvk2vqKk;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id l2so224794qtq.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 13:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language;
-        bh=aeA3mbedojZlauyj0IB7i9XhvS1rnr9GKHq7b1u2LrA=;
-        b=KExnHKXp2/4K6bzKLlr+BOs8tvrJejrxMgsPUJj5EnpXwUwZRPFuDSx6v+lqnuqHvj
-         QGrbcd3857F6kNWhlEa97JpsiDYPX84eUOD7WKW0rmrC0to2+iCudZS1lvsrC53aFSML
-         XZyn0VffrCvjcr+kDj0g9sRuZGfaUhOKozpVDDSx2fYXB+teZBe/0lIiHyBs4QAwNF2J
-         OkU8N1UdGzv1lnp2/x4YnsDLZvWcR/urTpTnOnK/FVUOLTG9tKSV0ilioGaPXilBaaPh
-         /nTzqTG6u5I358LK/hFPRZ4Xf0FFXOxvrprDzxcXbJ8eiMvPyLdi7FnFsFWWOxNKerNU
-         4HZQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UtV3piUhOzbrNusKXuFq00VeWlp7yU2zydQNlQVITbE=;
+        b=qvk2vqKk18AKQYaDbRNnotybW0qDD2AV11pAg7x8FK0c7FoFFCi9/c3ocsWGmMO4kD
+         2dQAj0PqBriFjmaajpTXneAZsTYwzPRM32rCPZ1zjigwJXhUhNYihjdIqrbmIJVhfMfE
+         9qPQ9eacv4WTe6uBlZ/S9pW/XGLhililj3+uxf73VAwHAW2Z4RpMFhdzkRbBGXPy5o0j
+         Sz9BAF6SEDKFDsskIuUyG7ZVqDQx42w3C5PrAIZluAlR23bn1OaZCzznyijVQrBv1tqv
+         o4t0N/tIUrxWmI8s0LvH1RCCKtlOaLv54rjLitIHUZo545mbd4ITIWL1E++JFqw0WwjF
+         iv6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language;
-        bh=aeA3mbedojZlauyj0IB7i9XhvS1rnr9GKHq7b1u2LrA=;
-        b=dwxGP3vJjJHFFfF+GhmxLcXuYFaRTRymQhFGCQBa0ZU8gQUQHy2ojJbhZ07SFjMYWj
-         sGd9UxMgcqFc9jYLIJVJIWtDTKVptoUscHMehB4fUFsOJ9EdyeYtlOTdcsVDZfaqFsbb
-         4pf3/43/+QLy6m981jLcqFiUceo5kevDD7AxcW8pYNgqX4IfBIMxQaBa+t1FUzsrYEAL
-         Rhm4z9DeqZT3h3Jg8GRadZzQs3ov86FC3VO42UwJzFAm2WKeg0dfupzBmDK8Zm2WkHSN
-         kK2DwzIV9zq59UD72z8nRrVDfjb7KiPDk2b2aQRdRaIk+4wH5gGo7PRX3w9YVEMEvYDF
-         kTwg==
-X-Gm-Message-State: AOAM531L9kK+vGozZ+EXGjfFDRScIQ/warVUmvvWMol1dOeIp/F1eZGs
-	amcMQrabpwmLbCWJkuIW3DpVGbY/l9o=
-X-Google-Smtp-Source: ABdhPJw4A4v5Q6HQEXrMtZnY/b0ZLQW6ZBrzrH5GryBYmQ7Dpb3y1UtSzNvKG0NPaIW9bq7P/4M7nQ==
-X-Received: by 2002:a9d:17d0:: with SMTP id j74mr1476519otj.92.1623876166771;
-        Wed, 16 Jun 2021 13:42:46 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from ?IPv6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id n11sm761035otq.63.2021.06.16.13.42.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Jun 2021 13:42:46 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Subject: Re: [OE-core] [PATCH] populate_sdk_ext: copy BBMULTICONFIG files
-To: Justin Bronder <jsbronder@cold-front.org>,
- openembedded-core@lists.openembedded.org
-References: <20210616202709.5143-1-jsbronder@cold-front.org>
-Message-ID: <5a4482c8-a237-3195-eb6f-95c0ded9920f@gmail.com>
-Date: Wed, 16 Jun 2021 15:42:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UtV3piUhOzbrNusKXuFq00VeWlp7yU2zydQNlQVITbE=;
+        b=ciTvk4erxZEtJ1g3xAXkE8RNqC0RBUyNT294tSSdprk+wU+sU4XGmFhyxYdyO21xLu
+         ZVbPFCbKmNs3Z+kg7q+2DIbO3UST60mpaj0X9CH4JIqphNNn2J2pA4p9QEKUUlMHGf54
+         HtxfR8BL4vR43ZvpkRyBGWZCqzvvaBLaQVd3CBykZYT4iVHt3MFhLZoTG18z1NCKChuS
+         OLFaOq9GSXXZ1I5th3qKawvO2FvcOcWr7R7Q8x2WWXfiR9MpkQbaIB6reVBWVb1YGLf9
+         yGdYn8GjVZ+/mG0KUS3VfTh/Ecbvsqvyr0gX/fob5coB6p/hyvnD4WDIi0sGys3k0OAi
+         TzKA==
+X-Gm-Message-State: AOAM530O3TlzPXVOfCRuyVol+admtvl9XjO1zEiJoBLOKOgg6cnnADcH
+	t67ZHMIxmFGNW3qvO4xuUhs=
+X-Google-Smtp-Source: ABdhPJwB3k+/lwJYmTNB50vGr8bGh6/mY0NOTWZacrKTfEYd2IcJoaDJ/YdvBPG7Xu8aKNgiDP0o6A==
+X-Received: by 2002:a05:622a:11cd:: with SMTP id n13mr1707370qtk.233.1623876536907;
+        Wed, 16 Jun 2021 13:48:56 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id d10sm300237qko.73.2021.06.16.13.48.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jun 2021 13:48:56 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/6] kernel-yocto: consolidated pull request
+Date: Wed, 16 Jun 2021 16:48:48 -0400
+Message-Id: <cover.1623876372.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20210616202709.5143-1-jsbronder@cold-front.org>
-Content-Type: multipart/alternative;
- boundary="------------D27919FF2F5DD6071FA9547C"
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---------------D27919FF2F5DD6071FA9547C
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
+Richard,
 
-On 6/16/21 3:27 PM, Justin Bronder wrote:
-> As the generated local.conf includes BBMULTICONFIG, the referenced files
-> in conf/multiconfig also need to be copied.  Otherwise with
-> BBMULTICONFIG="abc" for instance, building the esdk fails with:
->
-> ERROR: ParseError at tmp/build-glibc/work/qemux86_64-oe-linux/core-image-ssh/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/openembedded-core/meta/conf/bitbake.conf:767: Could not include required file conf/multiconfig/abc.conf
->
-> Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
-> ---
->   meta/classes/populate_sdk_ext.bbclass | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-> index fe840d9cfb..71f601fa9b 100644
-> --- a/meta/classes/populate_sdk_ext.bbclass
-> +++ b/meta/classes/populate_sdk_ext.bbclass
-> @@ -397,6 +397,13 @@ python copy_buildsystem () {
->               f.write('require conf/locked-sigs.inc\n')
->               f.write('require conf/unlocked-sigs.inc\n')
->   
-> +    # Copy multiple configurations if they exist
-> +    if d.getVar('BBMULTICONFIG') is not None:
-> +        bb.utils.mkdirhier(os.path.join(baseoutpath, 'conf', 'multiconfig'))
-> +        for mc in d.getVar('BBMULTICONFIG').split():
-> +            dest_stub = "/conf/multiconfig/%s.conf" % (mc,)
-> +            shutil.copyfile(builddir + dest_stub, baseoutpath + dest_stub)
-multiconfig files can live in layers also, so they may not be in the the 
-users conf/multiconfig directory. I'm not sure if you need to copy them 
-for the esdk to work, but at a minimum if you don't find a multiconfig 
-in the users conf directory it shouldn't be an error
-> +
->       if os.path.exists(builddir + '/cache/bb_unihashes.dat'):
->           bb.parse.siggen.save_unitaskhashes()
->           bb.utils.mkdirhier(os.path.join(baseoutpath, 'cache'))
-> @@ -556,6 +563,9 @@ python copy_buildsystem () {
->       # sdk_ext_postinst() below) thus the checksum we take here would always
->       # be different.
->       manifest_file_list = ['conf/*']
-> +    if d.getVar('BBMULTICONFIG') is not None:
-> +        manifest_file_list.append('conf/multiconfig/*')
-> +
->       esdk_manifest_excludes = (d.getVar('ESDK_MANIFEST_EXCLUDES') or '').split()
->       esdk_manifest_excludes_list = []
->       for exclude_item in esdk_manifest_excludes:
-> @@ -564,7 +574,7 @@ python copy_buildsystem () {
->       with open(manifest_file, 'w') as f:
->           for item in manifest_file_list:
->               for fn in glob.glob(os.path.join(baseoutpath, item)):
-> -                if fn == manifest_file:
-> +                if fn == manifest_file or os.path.isdir(fn):
->                       continue
->                   if fn in esdk_manifest_excludes_list:
->                       continue
->
-> 
->
+Here's my queued set of update to linux -yocto. These are -stable, and of
+course the AB INT fix provided by paulg.
 
---------------D27919FF2F5DD6071FA9547C
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+The other change is one to the -dev kernel that allows the single AUTOREV
+recipe to continue to work in older releases as we march through newer
+kernels in master. Some users ran into this problem recently, and have
+tested/confirmed the fix. There's no change to anyone but a linux-yocto-dev
+kernel consumer.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 6/16/21 3:27 PM, Justin Bronder
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210616202709.5143-1-jsbronder@cold-front.org">
-      <pre class="moz-quote-pre" wrap="">As the generated local.conf includes BBMULTICONFIG, the referenced files
-in conf/multiconfig also need to be copied.  Otherwise with
-BBMULTICONFIG="abc" for instance, building the esdk fails with:
+Cheers,
 
-ERROR: ParseError at tmp/build-glibc/work/qemux86_64-oe-linux/core-image-ssh/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/openembedded-core/meta/conf/bitbake.conf:767: Could not include required file conf/multiconfig/abc.conf
+Bruce
 
-Signed-off-by: Justin Bronder <a class="moz-txt-link-rfc2396E" href="mailto:jsbronder@cold-front.org">&lt;jsbronder@cold-front.org&gt;</a>
----
- meta/classes/populate_sdk_ext.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+The following changes since commit 682ddc5f2a2493e5c7760c0745dacd24fe975479:
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index fe840d9cfb..71f601fa9b 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -397,6 +397,13 @@ python copy_buildsystem () {
-             f.write('require conf/locked-sigs.inc\n')
-             f.write('require conf/unlocked-sigs.inc\n')
- 
-+    # Copy multiple configurations if they exist
-+    if d.getVar('BBMULTICONFIG') is not None:
-+        bb.utils.mkdirhier(os.path.join(baseoutpath, 'conf', 'multiconfig'))
-+        for mc in d.getVar('BBMULTICONFIG').split():
-+            dest_stub = "/conf/multiconfig/%s.conf" % (mc,)
-+            shutil.copyfile(builddir + dest_stub, baseoutpath + dest_stub)</pre>
-    </blockquote>
-    multiconfig files can live in layers also, so they may not be in the
-    the users conf/multiconfig directory. I'm not sure if you need to
-    copy them for the esdk to work, but at a minimum if you don't find a
-    multiconfig in the users conf directory it shouldn't be an error<br>
-    <blockquote type="cite"
-      cite="mid:20210616202709.5143-1-jsbronder@cold-front.org">
-      <pre class="moz-quote-pre" wrap="">
-+
-     if os.path.exists(builddir + '/cache/bb_unihashes.dat'):
-         bb.parse.siggen.save_unitaskhashes()
-         bb.utils.mkdirhier(os.path.join(baseoutpath, 'cache'))
-@@ -556,6 +563,9 @@ python copy_buildsystem () {
-     # sdk_ext_postinst() below) thus the checksum we take here would always
-     # be different.
-     manifest_file_list = ['conf/*']
-+    if d.getVar('BBMULTICONFIG') is not None:
-+        manifest_file_list.append('conf/multiconfig/*')
-+
-     esdk_manifest_excludes = (d.getVar('ESDK_MANIFEST_EXCLUDES') or '').split()
-     esdk_manifest_excludes_list = []
-     for exclude_item in esdk_manifest_excludes:
-@@ -564,7 +574,7 @@ python copy_buildsystem () {
-     with open(manifest_file, 'w') as f:
-         for item in manifest_file_list:
-             for fn in glob.glob(os.path.join(baseoutpath, item)):
--                if fn == manifest_file:
-+                if fn == manifest_file or os.path.isdir(fn):
-                     continue
-                 if fn in esdk_manifest_excludes_list:
-                     continue
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
+  releases: put release number after "Release Series" (2021-06-14 22:45:33 +0100)
 
+are available in the Git repository at:
 
-</pre>
-    </blockquote>
-  </body>
-</html>
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 
---------------D27919FF2F5DD6071FA9547C--
+Bruce Ashfield (6):
+  linux-yocto-dev: base AUTOREV on specified version
+  linux-yocto/5.4: update to v5.4.124
+  linux-yocto/5.10: restore aufs
+  linux-yocto/5.10: update to v5.10.43
+  linux-yocto/5.4: update to v5.4.125
+  linux-yocto/5.10: cgroup1: fix leaked context root causing sporadic
+    NULL deref in LTP
+
+ meta/classes/kernel-yocto.bbclass             | 24 +++++++++++++++++++
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++++---------
+ 7 files changed, 61 insertions(+), 37 deletions(-)
+
+-- 
+2.19.1
+
