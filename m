@@ -1,31 +1,24 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7044.1623848204652415947
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web12.7031.1623848530475376100
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 05:56:44 -0700
+ Wed, 16 Jun 2021 06:02:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=g2KBjY2l;
- spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1801bfd119=paul.gortmaker@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15GCp915013292
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 12:56:44 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3970drgnkc-1
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=mugmNV18;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=18018a3c74=trevor.gamblin@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15GCvxeG021568
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 06:02:10 -0700
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+	by mx0a-0064b401.pphosted.com with ESMTP id 39728b0k2e-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 12:56:43 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15GCuhVU022945
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 12:56:43 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3970drgnkb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Jun 2021 12:56:43 +0000
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 06:02:09 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QrIOfvh7HkzdEKDFyOj1WFejdp9HDOaHURn/v9wAybpy2JgljrYNWTEp4pcT5yhiRvLlPK2XeqQlzU55a/PK2iGkP7Qj+w1WFKh0qw4Jb9+8NNd2bidxe+vkruTI+ipMcybDHlgHsW5qx3qh+8ldYDJna/bM/OX/fhn0ma9CD2gU9b2YnNMgTVlezVTxUQZVsZfyzu061pJkv4YuU36ccMetb2t1yX/srRoQV8JiUdA332vC7ox+h5LGMCc0llpwWyUvphpQehX501nMuseT+3lWnr9erF7dWeiht7qOYTdeXsin6Izb0jPDOFQXWBt8DQNF6YjgxEIAMoYZeGcKdQ==
+ b=O4G3NX0lhuaqo02XbetEbOytAZiRTAyijVeNKVIOp9vtxKGFRN1mtnufgBR1Ynm9OVXRWe3UiGfVgTahkOogRgjF3LEToUqXJ5w2stTOsJVegW2U6rsPSUc/XEJIBIgGfnzCXIjeLtoFhSYVbjfznLzk68Irv90FVRDNMsnkS1voGD/E1fivlFHhn/BgNL3h2tiKl1Jejlo5JapIs+yu0yoArCDQ7l6aR4pYukAI2Ugcx++GoZfU1NvkYY+KB+0FF1D6yqgTamI+7knIGSjIQz8xaxASKRzlkcH5SyJcsqYC9wAa7LToZfOQvqpmdXTpnSHeStFYY+J+zuI+kheVbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a+f2fZOdrgQXp00WyOzPVZHaP448ot8Yy8NiSyDe7YQ=;
- b=DDN/Wpw33anVZYcFiPOlzL0xbWury3J4R7jdH4RrTL2jtsfxM+myJFuwk3o3OWXZmXWpjk0gsMiPkV7ZWKNi6Wfq4/cadhNcj71geD9IaG5mF1ePpmDNrvlXDr9jMeW7xg/zFEDspYPtaNYtkgeO4eUal8bXrGhw4soLRI0vg4qcfTg3x9Em9+BEysPvT9sE35YfnqS+Yue57f/2VbKHjHKYReO1InoOPkQq2S+mNFr1colc7p9LOQtnJazQt/vGT6xYuElZmTLiUBS3w2stuaGqyYytts3cSdgDStK4hMV6TVqiwMXDNhkkrEPAxgqD+/F2k1Jt/V0XAqgt0byLlg==
+ bh=DEibJXg55VIHPoP6bxHNmlAZ0uw8efft7tD187Hv7hk=;
+ b=lIW5nBUoj61JnQ57P0ksKPl3VIBsVP7pObkayM0bFunTybK/HOAXx22nuaXF8VeJ1fXjnvkfvcvKPohqd/y3r7P0GcnSQOu2zOL7fhB/oBm1Tg5f2JUBjQRQOMBjYiQUp2bdP0nIRh8YnXx/Fnz40EdpNVabKG5HDCZHTG51Cyag0BpRGxCFPWHKeik8lWcyHB6jxhxh2+FRhvpfxeK6bw9zY0svY9U20JTQFdaYJSsEmcRoy0IVwA9JkoumT3P5OtYcIrj5gDZB2LXl7YJ0pKMx/vzLs7TAI0Dpfw723J8T4c3AaFTHRzVrv3NAQaC3cdWSMsaAzDOjJZi4c00ILw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -33,140 +26,183 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a+f2fZOdrgQXp00WyOzPVZHaP448ot8Yy8NiSyDe7YQ=;
- b=g2KBjY2l4iRgGXDGFMr5E/AcBqaYvGVvhLpOHRwmDpFEUCYmkffSyZSzX1WlOb74hWDWt7ToGSbQrN5pccig6pDD+oXRsA2Ffe10XX/uuDcGGug1AhXYuT3YEUG4X587NuearK0bqvtYGSHTNe/7pvAolBmrhKJyUaq0mi5Lddg=
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
+ bh=DEibJXg55VIHPoP6bxHNmlAZ0uw8efft7tD187Hv7hk=;
+ b=mugmNV18m5d5yg/Jr6zK64UKmjJQp7De/eb6etIAswruYAedkX7eMeC3ApbtpSG12nZYLV9dq+Ek2fydqVDxFRDHKq6B6/b4jmHaZnWY6AwK/LmIv36H6OChGnsk6o+Si3CQrzicHiYP8wXNqVZYB0m+KGgkPlJ9Fd4Crs+pDyI=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
-Received: from DM6PR11MB4545.namprd11.prod.outlook.com (2603:10b6:5:2ae::14)
- by DM6PR11MB4234.namprd11.prod.outlook.com (2603:10b6:5:1dc::11) with
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
+ by BYAPR11MB3766.namprd11.prod.outlook.com (2603:10b6:a03:b5::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Wed, 16 Jun
- 2021 12:56:40 +0000
-Received: from DM6PR11MB4545.namprd11.prod.outlook.com
- ([fe80::1caa:f0c2:b584:4aea]) by DM6PR11MB4545.namprd11.prod.outlook.com
- ([fe80::1caa:f0c2:b584:4aea%3]) with mapi id 15.20.4219.021; Wed, 16 Jun 2021
- 12:56:40 +0000
-Date: Wed, 16 Jun 2021 08:56:37 -0400
-From: "Paul Gortmaker" <paul.gortmaker@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: swat@lists.yoctoproject.org,
-        openembedded-core <openembedded-core@lists.openembedded.org>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Randy MacLeod <randy.macleod@windriver.com>
-Subject: Re: [swat] ltp failures on autobuilder
-Message-ID: <20210616125637.GH329557@windriver.com>
-References: <1687473EDD63E45B.21776@lists.yoctoproject.org>
- <168784123C10B53A.9125@lists.yoctoproject.org>
- <4ad336c92233e088ddf898daf2afb4955ca43256.camel@linuxfoundation.org>
-In-Reply-To: <4ad336c92233e088ddf898daf2afb4955ca43256.camel@linuxfoundation.org>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Wed, 16 Jun
+ 2021 13:02:08 +0000
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::b5ac:be57:85a9:f240]) by BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::b5ac:be57:85a9:f240%3]) with mapi id 15.20.4219.026; Wed, 16 Jun 2021
+ 13:02:08 +0000
+From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][hardknott][PATCH] curl: cleanup CVE patches for hardknott
+Date: Wed, 16 Jun 2021 09:02:01 -0400
+Message-Id: <20210616130201.1386572-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.31.1
 X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YT1PR01CA0001.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::14)
- To DM6PR11MB4545.namprd11.prod.outlook.com (2603:10b6:5:2ae::14)
+X-ClientProxiedBy: SJ0PR13CA0119.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::34) To BY5PR11MB3909.namprd11.prod.outlook.com
+ (2603:10b6:a03:191::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from windriver.com (128.224.252.2) by YT1PR01CA0001.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.15 via Frontend Transport; Wed, 16 Jun 2021 12:56:40 +0000
+Received: from yow-tgamblin-fedora2.wrs.com (128.224.252.2) by SJ0PR13CA0119.namprd13.prod.outlook.com (2603:10b6:a03:2c5::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.7 via Frontend Transport; Wed, 16 Jun 2021 13:02:07 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 014f2e1d-082b-42a0-af01-08d930c62f3e
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4234:
-X-MS-Exchange-Transport-Forked: True
+X-MS-Office365-Filtering-Correlation-Id: fc726c44-e9bf-4bf0-aaf8-08d930c6f2a4
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3766:
 X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB4234823780AF8D69DC7B8707830F9@DM6PR11MB4234.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+	<BYAPR11MB3766F6A974078E9E4F8E7EF89F0F9@BYAPR11MB3766.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	MLm8XZAJSecsmczRrHqPTWqHanRxFEshRxXUg/da/J5FD++pBdzBHe2nnCR1Cl3IaIKWIFU1pC1Q1nvorZ9eD33DljyAtabARAxW/uI9ErmBKorj3GYD8kDC5DgEb7V1SVBjyU1/auEMSKT/D5meD0yO7GuXeTO099ZPYg5upznjdFwPeiz9eoqWQ0omhtTrt5TBhC8mTuvZZHa2rXCRoZKfdD3oEjXhXKR1RHt10KFgUkgV7QePDaR1jeFZZ6+bGneCRr3TRIJ0k6Z6gBiEHk7KaIuAx8PxkiQ/PfHPjNtASvwW0V2+dGWViTm2V3P97PxMQJ4ef27b07uVfxkmcsc5OI5Qxwn3ShaHD5esJcUf0OoM3Xy0eLGiBbpG3WP4q7gpP6g8OBU64VWI/WftrvV7CtD9zxSsD2YZ0DTeC2Z3ISkxF0XZ9ruIDdzbLHSAIU/uvQf+Cu149onwKLtS3vtJbaHtvPXKSA6yUy4QdaO+nZ1CQlsEm0ISOEPHdGunefLQva50akMroV/15FGkJnuZ0H8e251Acgb/OueqCqFYVtKKuNRrjc3N6zhvapylrMYr/8M/aDXZJzoHaxksyzE1YZjJw0KLH24OVn3tbkWG/xV2m6GJGzyPRGQraogrKkKjeadTRkhG5DN/IoaW6jMDfGZG/a86Y9bWmZ0vRvSlD1efqilA9R6ThRebyR4cfRP73lBak1DYdPPoWtD7VxfCWIEfNkvxHL5NpoG7klKVKRWz0A8yhLrbjsDtJjYGfwqvkdSvrOhZPS2wVnnmRiMcAh52U2kOHixtieXp62Q=
+	yHi8+mF3UI08ilXMuMtblPRqKauCBFY2mIOtrdVchFHLnKeMGrJ0jRfEkRoMF+j7XTcmWUsJhpxVpb2vvG6zTboUMtXjEF9+DBZh7oDMDe9ErFbE7s0wLBbHE+HKoWqNN8VA2luGehfFni657SB/WKt8zOTWOP0UcEv9UDfhHOHgN5svMfQP5R9kBt/N+6o52LWYI3DeWXGoNMz/KFYXMEqQVO/vbiiIEE+nwg2YzDYS8Ymtu4lFOPcRhUirVtLuNpWJQvAv4o54JP8iqcpqA7u9s4/MyTjWbDxtPqSfrF2azZyju4OTijONCIE4e2WKFP2MhTdhYRVS8Z1TnKTXVtrSndf7QoqVi6A7viRbCZQbgGD0pI1McyQujeTP545vm1FokTcGRWsy4yq+bxHVXKLdmDTOC1lvXqQee9wn2x6WgrTJfR5T8R0Xllkhiv3dt76x60mbTjJ/oRgct/yxoYhtgSQP8zN80qfc3DEPAvk9LTSYXItHD3bH1wJRkua95iOPpbib1gid1dnYlM/IiAaNPtyAR/O16LZoscNfCqR4o1X1SPhGkdMNEKGiFiURYDlwOHlvac/Txkt+NlrQxaVGafpTqIoRzK86+h+97pZ0hugIBrjZzTjkIbq7CwSNi7FBdg+lFAeTb40/+mNiWnkxhg7OjzfVh1E9B6dY0oC5zs2eDZdUof//zpgjP73ONiLtD8RYAX0puOVVTwZRP9WS/fC/KPdY5IfnXu2NBbS/icMu+vB4AMfH+ndlKnU0QbLB2Z7J06hH9Gqy/EbaNB7Wywjxy5EAVZ2r+JX3vDZ/APqUEg3C1pv8jS8v4Uuu
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4545.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(39850400004)(366004)(346002)(136003)(66476007)(966005)(8936002)(66946007)(316002)(6916009)(86362001)(52116002)(44832011)(107886003)(66556008)(1076003)(2906002)(54906003)(33656002)(956004)(2616005)(83380400001)(478600001)(4326008)(7696005)(38350700002)(38100700002)(55016002)(26005)(6666004)(8886007)(186003)(8676002)(16526019)(36756003)(5660300002)(27376004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(39850400004)(396003)(376002)(6486002)(8936002)(956004)(2906002)(8676002)(16526019)(6666004)(66476007)(66946007)(66556008)(26005)(1076003)(2616005)(186003)(38100700002)(38350700002)(86362001)(44832011)(966005)(6512007)(36756003)(5660300002)(52116002)(83380400001)(478600001)(6916009)(316002)(6506007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6M/o6E77jvxZe7fHdW3uTvsRoSD6Rl+Sfk1Dtg49OCgiFyafqeb1BOAnNLcQ?=
- =?us-ascii?Q?OeJHdGX1P8xrgZNp+twlpyOU9F9uSCn8xBd6odV2wRloMnPFpMInHEO29a3O?=
- =?us-ascii?Q?UpjZ17sl4Ov9gAPFZ30tLdFbqomstxPGNnR+uJwDo9vsM/eOo3N51lQHDxJ4?=
- =?us-ascii?Q?jX66cdh3RTrer0MknD/cBSpyiC+91kMMjBglpFUTDFL/Ml24PITDQ4yLhY85?=
- =?us-ascii?Q?Vi2SOGJ2XX7D7jkAOh7Mg9AlyYJGCmjbdDMP4jrSF+T4ZPuJNCdFL0f1ZBM4?=
- =?us-ascii?Q?hvUdp6Yy5sVm2Ytz6U9y9XKNlOha2c9Q6ZBpcS0zdU+VWdZxsDAAa34lEKlZ?=
- =?us-ascii?Q?H5GwT0bhvzdlTFGRYcRthcUna/OScI3nSRvcfe174KW5Wcrw6yYqwXWNJ7j5?=
- =?us-ascii?Q?+20bfPPOItvMHN1hAW1XRcz0UKV6Vubalhp2gY4ug063tl9SW/XzQhrOe6tQ?=
- =?us-ascii?Q?G03PjwflnfAgrEp4TpvtBq1/utKY29tOQaOJJjKvbPK6L2wk0BqtG5PtLlHI?=
- =?us-ascii?Q?5toitzxxP+OYFSZixb+d9050vWGsAGHOozohj26jIkCdxM3qFsCAHx3wyg+I?=
- =?us-ascii?Q?6gyOBFoMN7wlCUb1Q1pmw6LnfeQt2/0ZaRHT35PN2xW5BqkQ3bbybCDGIEiZ?=
- =?us-ascii?Q?x0fZDM38F+cX8dVzrWsmFfny0raR38gjPOkPL4vxBl88Mhe/SmGgrScZTmUe?=
- =?us-ascii?Q?v/YNYcjErNztEq8XYlVcrb61anW9vn0fMCm+pFrWru5tWLlcDY31TXfJhVxW?=
- =?us-ascii?Q?YjzNklRLA1JeqUH/YCHgVWrevCSo9/jX49Sl/eYIiv5PZVyu1l5UnmTubdZD?=
- =?us-ascii?Q?eljfgtO/Obbo1wALO/ATlXKHOyZnPUHXTRgJ0uY58tway9w2rZ9zLmK4FDAo?=
- =?us-ascii?Q?z7TGMbfZdT+oxHJwtFt3Rrn7+/89GQ8+L0SVJsPkWIfMnlsfYLEXDiCE5uzO?=
- =?us-ascii?Q?60NYN+6k0T4JoA879G35QuaShXSL0BNi8NnzpTavElWyVf94pO7bnm2f3kOh?=
- =?us-ascii?Q?NcdQvn5Zgx2tv5QuDckllQ9Pq10b697dhqhKoqreVyItjahNUH29Rat5uIgW?=
- =?us-ascii?Q?4jGmXN/Iq57y3hfG68yjxlI9VXqzRXNb7eBrKtnGoWPf1Sr4XQG7gn9yh+Am?=
- =?us-ascii?Q?3rUqr1NiT96VVPCBnkUNJFquyUAQ129vYAl+hCN6O9B43gulks2SP2MzTQxb?=
- =?us-ascii?Q?H7CdNwhDQQ9ahl1f5t359jcH6PcAumH43tYj4k+NQI/9z/bst6tVwSYL6eFd?=
- =?us-ascii?Q?reVfusJmLJ99/eGHGS3QrR36yuvG4vJUmoMPD04ekOfJDhDacysBJZEejALl?=
- =?us-ascii?Q?i9lcVsSHzXAF6h53n/WlvOXe?=
+	=?us-ascii?Q?6elYWT+2UsyDGwGW70k2HxSFBwCDg2B4URhO4XMav0Q4BLDDCoJ99epnr4Lr?=
+ =?us-ascii?Q?OM0g/wG+KOJUMu4NN/JNZqnTwm8KqoQJGbmmcvF705NVYLWcjXvZyb4/cKYB?=
+ =?us-ascii?Q?qIkoQBuiRTXMzSS8OwBKdETzvFhQheGTKZXCYOr8DDCNSJrJ2Wzh2eS5s4Cc?=
+ =?us-ascii?Q?kww80BCn84rWEyktSRH9sPXWgFZRhdUwBCVHOVKhaVeD2dlftihLdtGDDtbj?=
+ =?us-ascii?Q?f6haAvcfn+IqyNBimh5UKsy0HFy1dGADLtZJTZ7/5gjD5Oyf2jUGwSAkHXrG?=
+ =?us-ascii?Q?lQzLYMD8SIT0KcFFCGO5lcQmMWPbMLr9FqB1qUyJ3VBnL0W58XUDTArWnWTz?=
+ =?us-ascii?Q?uFw2fyuHsNJcxiIs4gpRw2G2Zibl3Kt7S2YMNIr6z3q7pDFZeTE1zzUtIunR?=
+ =?us-ascii?Q?C2Mvj36AfwX9lcJWcid2lb6n38UN4peLi1W7dThMnQXedgY/mqo8iqJ0objh?=
+ =?us-ascii?Q?fGOncoS66bdu5PfYD3fF4ql8nA2cdngfrtmplR54Cqc3oXNUtGvBWN9k45La?=
+ =?us-ascii?Q?eBjL/vYxpJ4aETADNGwuVX4BpjeMday1rysUpsXnpe44v8q5ERiGy8zQ2JZ/?=
+ =?us-ascii?Q?//41tCHtN+RQEYTKXCx/j2qLgIC5kYCzG0FDSjFnIlKIpK1kv600DXLjLYKS?=
+ =?us-ascii?Q?0KBGoimfX1ZAVC6zCvhzpTrsqtT+d5S8PJQPNfBEJET4u3TLNltm+YeMYgdf?=
+ =?us-ascii?Q?GhuUzCcMU80qBdYLPT41iDgSwxrhpwY6sq679o51xc3telUTjYRZFl2dQ6ZL?=
+ =?us-ascii?Q?29a83S/HLIP1rP1JZ41c7E/NW8XhDBQ60P/+HSRGAngzVaagMMyJRF4ZHEsw?=
+ =?us-ascii?Q?jhjikTOcjTyMZIeIToeqL//SwF9cdFxfjtz7caX+Dakxe1eq8LWO8PrL86M5?=
+ =?us-ascii?Q?2mv4qi30YT6E8/cNnt8U3K19OLaUOnH1XUIZce22ub0zPJP/IFqx9AXXyss1?=
+ =?us-ascii?Q?3nxFEfRWG9gLML1rnz4yDZp3DJd7O4BCzshTbvPwx1bCrvOVzjTiy9bfnO3N?=
+ =?us-ascii?Q?dEVHR0LyPJ5pZ7Vc+n4k3Xl0pITCeJSX0Z8vGG203ILOrQ1vJnt6OxtO7q5G?=
+ =?us-ascii?Q?zwOBWJoYmNRcx1wSlyHzaId1uJ1EjAzNZ5v+3P/0yzgY6qPKNEFP/VdYDvbJ?=
+ =?us-ascii?Q?B1Nd7uB0M83C5mcNgXpcNOov5HER1Lk/y+rNWVLIrvMjCqyfELawstUTcp53?=
+ =?us-ascii?Q?nMFKKPLrLEvfGg+VaKH2xzQPpXSb1bOwP9yjb3KNKn7NkJpNbMtPuVTBn0dK?=
+ =?us-ascii?Q?95qOZ1We1AYKAgFfWxf1fnikvOQOwpRCvYVArZXeBn9BRXi8CnxjaC2LDpqR?=
+ =?us-ascii?Q?UxoEHtvc7wfbBRhjiIFgY/uR?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 014f2e1d-082b-42a0-af01-08d930c62f3e
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4545.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc726c44-e9bf-4bf0-aaf8-08d930c6f2a4
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 12:56:40.5185
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 13:02:08.4010
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VLRnsC6yJ7D+Cz7qr9HX2pY1E0Uph4jYWlQoraJ+54EqFzhdJI9T4O9QvkmyS23PhHvILfihMakp7vu45Q3vePMLUTnj35oaKnIVSETKw5g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4234
-X-Proofpoint-GUID: WX1yhUUWhr5iudVhzOmmgRssgWd1Py8-
-X-Proofpoint-ORIG-GUID: gZ9BMkeJHfNv7U3LY5MSeSfL7-uB6AMK
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6x6N+xCcXr3wuSggcZf8sJYmGFRGRuzpU1ZUZF9LdMKc7C8YZfwzHYPckg+3GZzIZNmpKwOXVK038tdAi2Bv+Wgge5pi5DauBnMnpohz254=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3766
+X-Proofpoint-ORIG-GUID: cX02_x_DdVKE-Y0YVwTx4Y1Mb7sTDWQ2
+X-Proofpoint-GUID: cX02_x_DdVKE-Y0YVwTx4Y1Mb7sTDWQ2
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
  definitions=2021-06-16_07:2021-06-15,2021-06-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
- mlxlogscore=899 clxscore=1011 impostorscore=0 suspectscore=0 spamscore=0
- adultscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106160074
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
+ phishscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 adultscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106160075
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-[Re: [swat] ltp failures on autobuilder] On 11/06/2021 (Fri 14:19) Richard Purdie wrote:
+The patch backported to address CVE-2021-22890 was missing a bracket to
+properly close out the logic in lib/vtls/wolfssl.c. Fix this so to avoid
+any surprise failures when using curl with hardknott.
 
-> On Fri, 2021-06-11 at 12:36 +0100, Richard Purdie via lists.yoctoproject.org wrote:
-> > as a .cfg to the kernel and that still reproduced the crash. However:
-> > 
-> > CONFIG_DEBUG_KERNEL=y
-> > CONFIG_CGROUP_DEBUG=y
-> > CONFIG_SCHED_DEBUG=y
-> > CONFIG_DEBUG_PREEMPT=y
-> > # CONFIG_RCU_TRACE is not set
-> > # CONFIG_X86_DEBUG_FPU is not set
-> > # CONFIG_CONSOLE_POLL is not set
-> > # CONFIG_DEBUG_INFO is not set
-> > # CONFIG_KGDB is not set
-> > # CONFIG_KGDB_HONOUR_BLOCKLIST is not set
-> > # CONFIG_KGDB_SERIAL_CONSOLE is not set
-> > # CONFIG_KGDB_LOW_LEVEL_TRAP is not set
-> > # CONFIG_KGDB_KDB is not set
-> > # CONFIG_KDB_KEYBOARD is not set
-> > # CONFIG_DEBUG_MISC is not set
-> > 
-> 
-> Isolated down to CONFIG_SCHED_DEBUG=y being the line which somehow "fixes" 
-> the crash. I can enable all the above apart from that and we can reproduce
-> it.
-> 
-> Also, I changed gatesgarth to use qemu 5.2.0 copied in from hardknott and that
-> breaks it. Dropping the 27 CVE patches "fixes" it again. It is possible it
-> is one of the CVE fixes. Continuing to try and isolate.
+Also fix the CVE designation in the patch descriptions for CVEs
+CVE-2021-22890 and CVE-2021-22876 so that CVE checks run with bitbake
+correctly detect that they are patched.
 
-For the mail archive trail, and for those not follwing the ongoing
-research on IRC, we are hopeful that this fixes it.
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ ...oxy-argument-to-Curl_ssl_get-addsession.patch | 16 ++++++++--------
+ ...p-credentials-from-the-auto-referer-hea.patch |  5 ++++-
+ 2 files changed, 12 insertions(+), 9 deletions(-)
 
-https://lore.kernel.org/lkml/20210616125157.438837-1-paul.gortmaker@windriver.com/
+diff --git a/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch b/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
+index a0c7d68f33..1e0e18cf12 100644
+--- a/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
++++ b/meta/recipes-support/curl/curl/0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch
+@@ -1,15 +1,14 @@
+-From a2d3885223db9616283bfe33435fbe9b3140eac7 Mon Sep 17 00:00:00 2001
++From e499142d377b56c7606437d14c99d3cb27aba9fd Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <trevor.gamblin@windriver.com>
+ Date: Tue, 1 Jun 2021 09:50:20 -0400
+-Subject: [PATCH 1/2] vtls: add 'isproxy' argument to
+- Curl_ssl_get/addsessionid()
++Subject: [PATCH] vtls: add 'isproxy' argument to Curl_ssl_get/addsessionid()
+ 
+ To make sure we set and extract the correct session.
+ 
+ Reported-by: Mingtao Yang
+ Bug: https://curl.se/docs/CVE-2021-22890.html
+ 
+-CVE-2021-22890
++CVE: CVE-2021-22890
+ 
+ Upstream-Status: Backport
+ (https://github.com/curl/curl/commit/b09c8ee15771c614c4bf3ddac893cdb12187c844)
+@@ -25,8 +24,8 @@ Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+  lib/vtls/sectransp.c | 10 ++++----
+  lib/vtls/vtls.c      | 12 +++++++---
+  lib/vtls/vtls.h      |  2 ++
+- lib/vtls/wolfssl.c   | 28 +++++++++++++----------
+- 10 files changed, 111 insertions(+), 51 deletions(-)
++ lib/vtls/wolfssl.c   | 29 ++++++++++++++----------
++ 10 files changed, 112 insertions(+), 51 deletions(-)
+ 
+ diff --git a/lib/vtls/bearssl.c b/lib/vtls/bearssl.c
+ index 29b08c0e6..0432dfadc 100644
+@@ -463,7 +462,7 @@ index 9666682ec..4dc29794c 100644
+                                 size_t idsize,
+                                 int sockindex);
+ diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
+-index e1fa45926..e4c70877f 100644
++index e1fa45926..f1b12b1d8 100644
+ --- a/lib/vtls/wolfssl.c
+ +++ b/lib/vtls/wolfssl.c
+ @@ -516,7 +516,9 @@ wolfssl_connect_step1(struct Curl_easy *data, struct connectdata *conn,
+@@ -477,7 +476,7 @@ index e1fa45926..e4c70877f 100644
+        /* we got a session id, use it! */
+        if(!SSL_set_session(backend->handle, ssl_sessionid)) {
+          char error_buffer[WOLFSSL_MAX_ERROR_SZ];
+-@@ -774,21 +776,23 @@ wolfssl_connect_step3(struct Curl_easy *data, struct connectdata *conn,
++@@ -774,21 +776,24 @@ wolfssl_connect_step3(struct Curl_easy *data, struct connectdata *conn,
+      void *old_ssl_sessionid = NULL;
+  
+      our_ssl_sessionid = SSL_get_session(backend->handle);
+@@ -501,6 +500,7 @@ index e1fa45926..e4c70877f 100644
+ +            infof(data, "old SSL session ID is stale, removing\n");
+ +            Curl_ssl_delsessionid(data, old_ssl_sessionid);
+ +            incache = FALSE;
+++        }
+        }
+      }
+  
+diff --git a/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch b/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
+index 6c4f6f2f48..c02c9bed68 100644
+--- a/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
++++ b/meta/recipes-support/curl/curl/0002-transfer-strip-credentials-from-the-auto-referer-hea.patch
+@@ -6,7 +6,10 @@ Subject: [PATCH 2/2] transfer: strip credentials from the auto-referer header
+ 
+ Added test 2081 to verify.
+ 
+-CVE-2021-22876
++CVE: CVE-2021-22876
++
++Upstream-Status: Backport
++(https://github.com/curl/curl/commit/7214288898f5625a6cc196e22a74232eada7861c)
+ 
+ Bug: https://curl.se/docs/CVE-2021-22876.html
+ 
+-- 
+2.31.1
 
-Paul.
---
-
-> 
-> Cheers,
-> 
-> Richard
-> 
