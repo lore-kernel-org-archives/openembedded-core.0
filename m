@@ -1,59 +1,59 @@
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.84])
- by mx.groups.io with SMTP id smtpd.web09.1865.1623893376686531915
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.116])
+ by mx.groups.io with SMTP id smtpd.web12.1979.1623893388408076644
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 18:29:37 -0700
+ Wed, 16 Jun 2021 18:29:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ynB1FiQi;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.84, mailfrom: zhengrq.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=V3Xv8TSY;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.116, mailfrom: zhengrq.fnst@fujitsu.com)
 Return-Path: <zhengrq.fnst@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1623893374; i=@fujitsu.com;
-	bh=n+MMP+A8exi3MaStkz0egXyEJJfVH6UXdS7Wiva8a94=;
+	s=170520fj; t=1623893386; i=@fujitsu.com;
+	bh=WCe5lg9h5h0/27fW0QukUQ5IwcIwMHCRmRo7Qr2mpCA=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=ynB1FiQiCU/XAB4GA/FLFBz+0o/7XV+3KtogbYTVALoakXuRxcgR68fV9QBceboZ3
-	 A8stQ31q59vHQ/H7RJ+ovUTsYBpdIDhFkMF9qQRmi2iYzBsA8JjUSSdiAlpD4vdPai
-	 0UebrAHQpMxZTOYZ0TT8UAW4ktcTd4dFMol7HkQH5jbDHMLf3hLIid+vPeDeg3m/1h
-	 7eaDhRuivM5mccyZQZLlwZkmkYkcV6aR7LG/SSQ4Ft7exxhpdko9oU1pO5//K53o7J
-	 sNbXUT/RpCqaF2uQTL46SgF9b6rRKNmFBFfdLrW0eLQgDcVIRxUWnoqD70/A9+IQ2K
-	 pn9G8w2Cax2tA==
-Received: from [100.112.198.210] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-west-1.aws.symcld.net id D7/0A-62504-D75AAC06; Thu, 17 Jun 2021 01:29:33 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+EI1a1deir
-  BYF6TuMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnH6+3TmgtsSFacfv2VqYFwt1sXIxSEkMItJ
-  4srLlWwQzh5Giftz1gM5nBxsAroS5x6vZe9i5OAQEdCTuPpPFCQsLGAr0dK4gh3EZhFQlbh2e
-  h9YOa+Ap8SzV7eZQGwJAQWJKQ/fM0PEBSVOznzCAmIzC0hIHHzxghlkpISAosTs6fIQ5RUSM2
-  ZsY5vAyDMLSccsJB0LGJlWMVokFWWmZ5TkJmbm6BoaGOgaGhrpGlpa6BoaG+glVukm6aWW6pa
-  nFpfoGuollhfrFVfmJuek6OWllmxiBAZRSsGxph2MJ19/0DvEKMnBpCTK29x5KkGILyk/pTIj
-  sTgjvqg0J7X4EKMMB4eSBC/TYqCcYFFqempFWmYOMKBh0hIcPEoivLqLgNK8xQWJucWZ6RCpU
-  4yKUuK8FiB9AiCJjNI8uDZYFF1ilJUS5mVkYGAQ4ilILcrNLEGVf8UozsGoJMxbuARoCk9mXg
-  nc9FdAi5mAFrcJgS0uSURISTUwtaq0SGvK5DXPObDaIrUjaY/o9CIzlw3TbkX/1lc+uWfFFtO
-  cPw/mprP90GSWW8YmXb9+34SS2m+LXlZebtn7bMfu63f/8bNn3ZL5cMv8Nfvr/IsRna/iGnM4
-  POc+z8m/pHp+9xeR1/XvqxITaiSnXTqX6/48c8ZsiZlK835m2W51N1aKOcXzyOWF8+2UhqYH1
-  jHybF9+RemzPOWyDjq8xsWu4XlIWfhazQSXmRIfRHKsbGarzvzJruJ/eHWe/1J9Vt4lRsutOl
-  9uv3r437vY3zX3+7+9Mjsl4bRbLDVLZ9GCsrZDGt6Wi9abNkzO+aZgKdNbKepx4sqnCtbHN9W
-  dfF5ya/vvdlx7Qqbl8L5CJZbijERDLeai4kQAwdfgUB0DAAA=
+	b=V3Xv8TSY6QKCJFDQigzXfIRjg4LQiGIOAluQDdEjxFI8tWy/WbTEGqncqjT+CvHmK
+	 M5K8eSU3903gQS0AzRaF96MOXCejA893epZ1+BeL84SZ7dJSMTTR41yCCUnhUthSue
+	 D9FJBlgCZjMABDr/jKUORaMuOQg4NJ1XjBBTx3jgRiRw2CB2m1fyoyCYuQt69/tHQv
+	 fWd/vL4M1iD5AwAGyZLPrMZVfX4MzDCm6Ih3xO917m3gkHAocJdf/2RzKTBA59x4Gj
+	 q21IqgSS57THDgZj2wa8z+RgcsehLMoOdhtn101ooFzXDsn9UgCtHxBqeci8dCyatI
+	 EAgVox/yVjMVg==
+Received: from [100.113.7.10] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id 7D/7B-14259-985AAC06; Thu, 17 Jun 2021 01:29:45 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+GYqtu59FS
+  CwdlnjBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b12T3MBfc5Kva9u8DcwNjD0cXIxSEkMItJ
+  YkPfLUYIZw+jxJ3Dc4EcTg42AV2Jc4/XsncxcnCICOhJXP0nCmIKC7hKrJrMD1LBIqAqsev5F
+  GYQm1fAU+Likq9gnRICChJTHr6HigtKnJz5hAXEZhaQkDj44gUzyBgJAUWJ2dPlIcorJGbM2M
+  Y2gZFnFpKOWUg6FjAyrWK0TCrKTM8oyU3MzNE1NDDQNTQ01jXRNTIw1Uus0k3SSy3VTU7NKyl
+  KBMrqJZYX6xVX5ibnpOjlpZZsYgQGUUohy9kdjF9ef9A7xCjJwaQkytvceSpBiC8pP6UyI7E4
+  I76oNCe1+BCjDAeHkgQv02KgnGBRanpqRVpmDjCgYdISHDxKIry6i4DSvMUFibnFmekQqVOMi
+  lLivBYgfQIgiYzSPLg2WBRdYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMW7gEaApPZl4J3P
+  RXQIuZgBa3CYEtLklESEk1MKWJ9T3xucl10phhXyOv7tznDzR9FbNVJbm/l1n93bXE1Mrv3eY
+  oHa9DczbmKVVuv+ehpf+5iMFR71bmM6fcvmXzIn48OBvBe/910dnPa889exp4WOdQyqfsfc8+
+  tepaSEyJO14W+vqtptn2y1JBXxhLFJdLF1ry/3n7+KbG7ukJDGvlTIVv+Qq5m2+/EzpHu7xiy
+  vMkIY3/+3ndm7uSb223neQeZeal2n7yPZd9dejqpkCfyx1GJ3k9pO9/Wfrs4W1mZpnUD7VNjW
+  85/FKZfUNDb/HePJ90f44Wz/01OxruFN5dpvc1qPWTuMRVUdaV+zQTTh255+/ds/XrxPVz27k
+  Sml0DFXROmSzaMXuBqhJLcUaioRZzUXEiAIWUrZAdAwAA
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-3.tower-285.messagelabs.com!1623893373!224795!1
-X-Originating-IP: [62.60.8.85]
+X-Msg-Ref: server-9.tower-248.messagelabs.com!1623893384!86889!1
+X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 21465 invoked from network); 17 Jun 2021 01:29:33 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-3.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Jun 2021 01:29:33 -0000
+Received: (qmail 6290 invoked from network); 17 Jun 2021 01:29:44 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-9.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Jun 2021 01:29:44 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15H1TRc7012313
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15H1TigY012880
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 02:29:33 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 02:29:44 +0100
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 17 Jun 2021 02:29:25 +0100
+ (TLS) id 15.0.1497.18; Thu, 17 Jun 2021 02:29:43 +0100
 From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libcomps: upgrade 0.1.16 -> 0.1.17
-Date: Thu, 17 Jun 2021 18:29:15 +0800
-Message-ID: <1623925755-129560-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-dbusmock: upgrade 0.23.0 -> 0.23.1
+Date: Thu, 17 Jun 2021 18:29:36 +0800
+Message-ID: <1623925776-129606-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
@@ -61,58 +61,27 @@ X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-refresh 0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- ...-not-set-PYTHON_INSTALL_DIR-by-running-python.patch | 10 +++++-----
- .../{libcomps_0.1.16.bb => libcomps_0.1.17.bb}         |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/libcomps/{libcomps_0.1.16.bb => libcomps_0.1.17.bb} (94%)
+ .../{python3-dbusmock_0.23.0.bb => python3-dbusmock_0.23.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-dbusmock_0.23.0.bb => python3-dbusmock_0.23.1.bb} (83%)
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps/0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/libcomps/libcomps/0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-index 3e9102605b..6cd052889a 100644
---- a/meta/recipes-devtools/libcomps/libcomps/0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ b/meta/recipes-devtools/libcomps/libcomps/0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -10,18 +10,18 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.23.0.bb b/meta/recipes-devtools/python/python3-dbusmock_0.23.1.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-dbusmock_0.23.0.bb
+rename to meta/recipes-devtools/python/python3-dbusmock_0.23.1.bb
+index 80990d8fbb..b5fa1868b8 100644
+--- a/meta/recipes-devtools/python/python3-dbusmock_0.23.0.bb
++++ b/meta/recipes-devtools/python/python3-dbusmock_0.23.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
+ LICENSE = "GPL-3.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
  
- diff --git a/libcomps/src/python/src/CMakeLists.txt b/libcomps/src/python/src/CMakeLists.txt
--index b9b96ab..6d44567 100644
-+index f813af4..9eebb6c 100644
- --- a/libcomps/src/python/src/CMakeLists.txt
- +++ b/libcomps/src/python/src/CMakeLists.txt
--@@ -115,7 +115,7 @@ IF (SKBUILD)
-+@@ -85,7 +85,7 @@ IF (SKBUILD)
-      INSTALL(FILES libcomps/__init__.py DESTINATION libcomps/src/python/src/libcomps)
-      INSTALL(TARGETS pycomps LIBRARY DESTINATION libcomps/src/python/src/libcomps)
-  ELSE ()
---    EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
--+    #EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-+-    EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-++    #EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-  
-      INSTALL(FILES ${pycomps_SRCDIR}/libcomps/__init__.py DESTINATION ${PYTHON_INSTALL_DIR}/libcomps)
-      #INSTALL(FILES ${pycomps_SRCDIR}/tests/__test.py DESTINATION
- -- 
--2.26.2
-+2.25.1
+-SRC_URI[sha256sum] = "8c0b873a3f23869b416b51deeec39b3d5ab4c9875b705fc90ae917e4969c2574"
++SRC_URI[sha256sum] = "b5c36a9c9935d1867cf79d8666b08ad906660e6d4d967e9fded4361ad7eef54f"
  
-diff --git a/meta/recipes-devtools/libcomps/libcomps_0.1.16.bb b/meta/recipes-devtools/libcomps/libcomps_0.1.17.bb
-similarity index 94%
-rename from meta/recipes-devtools/libcomps/libcomps_0.1.16.bb
-rename to meta/recipes-devtools/libcomps/libcomps_0.1.17.bb
-index 851ec5b817..502bc4688b 100644
---- a/meta/recipes-devtools/libcomps/libcomps_0.1.16.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_0.1.17.bb
-@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
-            file://0002-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
- 
--SRCREV = "f3289ed1d812648558ab48ade4fae850b375fa65"
-+SRCREV = "dfaffdce1969042bda4a184865861573bb07a5a3"
- 
- S = "${WORKDIR}/git"
+ PYPI_PACKAGE = "python-dbusmock"
  
 -- 
 2.25.1
