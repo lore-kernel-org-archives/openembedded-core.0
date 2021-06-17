@@ -1,125 +1,147 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.25.1623933564847107388
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web08.748.1623941496488930708
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jun 2021 05:39:25 -0700
+ Thu, 17 Jun 2021 07:51:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=STlc46z0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id k42so1456859wms.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 05:39:24 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=XDWk0veJ;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1802eeb182=saul.wold@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15HEnWvp024247
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 14:51:35 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
+	by mx0a-0064b401.pphosted.com with ESMTP id 396yn09req-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 14:51:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ilwlo7zIjY5VfoUgJoTIhHYNrxk2pZMisJ7Sx1hqVWRXkGUE/pf4uIdz25j23xlQsNbQYgRb6Ipx5wA6mc2Qk4rkRnTjJq66KWIRDlm7CACRK7MMxWlzz14JlhH5R8P8xWp8eBmFzZJa+VPGvr4gPfGiS40odZcBz1nZRHUpNVgtW8hKevSd5CH4XylzenvmAJ6EjmEi/YdYCCeR/8/XysGG9tcPmTCt7j0rhWVukoYvs71McLaruojt7onrlhMcBnzgNm3jDW3j154yOokeoOgPFlUciMXLIkXcUe8pT2R3FnIkfE4+wcMOT7fzcRk3E1Jq0y9J5gNR6HPvV60H4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LQ7VhlmyWPZ9ZoXtDsXKnCu+T62utNq2Fbr89dXylZY=;
+ b=D0LUyuMiuCSS1NKMaGMfTVB9RDhYGVchNlMw6wSrAHEVRJHys4umUSd9k5TXpwPvS8LKXZG1VF44cwySzjKiuf+GxSjYb5cXZ0QRcmUNZW7+F8PsJozHs1L2i6wubEMrw2rPxXlZNoIWBBnilHpO2MYgjqmPHsL4Y6i7GclcPEJfYth84p5mZlcpmjP2nN9INVB8+ead8qj1OgnIiyIJdQpksRrByN90v223vYTxIbvt/Q8cy0JedNABg5KWBtQPpKu/rV7ScS5DKtWTcRYr45MaCh1OYt9j3iNqA+JVpie7feZjgUREXSgslsmZkLBQbrf26oL6ij2/aMFRp+pI9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SgX69wEYDX+876T8cjt9+tEAOazgsr36RdnrRhaZxRw=;
-        b=STlc46z09ERJe/jMqxj7kjfA+PTPuafaLEOYLSKv6m9V/OzHFcDDtnatHUmk1dVOF0
-         Dy3M8k6fi3KVEJZZT55vfvXY8+KdrBogycKvzSqWRW+4oFTBcKqUA3VXLHaPtJtPULLm
-         oetSs5gQJlzdXe/1UYqIxjREROfjBi6I+o0Ks=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SgX69wEYDX+876T8cjt9+tEAOazgsr36RdnrRhaZxRw=;
-        b=JNXNi4pbQK9Uk/qNddYPG4k7NRxd3LB1qU/Mn4txqjWFygX8ptsJ0flXWnbIrriBLv
-         HK4ctq1INalhIIJ3gSY+XlP6BvVoFd8qh0dk6/uzl6mRfSD73Y7R4KsJtff2P3pvZBaF
-         kReeir0ms1h/cMfy1svAnVPpMpm+26JWud/dGRSjRt6eaiTptEtfcy0DgXWhNSGh9Rrz
-         iUf9hBFq7VFXgawYhn3LHdCoWDnSwaWMGRSgHoKG8H/6FpDbi8CZRw5NhGq2oROGUtVW
-         lPr7ZX100PyzyYAQas5eHz/qCE96YnvQx3f7GIAPt7EX+rVPc605ftCrNy7pHDKOD6aP
-         g4jw==
-X-Gm-Message-State: AOAM530fw98cLErmR8QkLEIT6iQZXD7U0Fba/85biOXsH5pL+ssGaLY9
-	Vf7QKOQV74xilFc22BHCQvgc9sw5ZDRyPw==
-X-Google-Smtp-Source: ABdhPJxLTRizWRb8I2m0g7kLfk+x6XNYKszTa6JPKiW6sVM8/hA5hoKpx6vud+W2lHZJWFzrpEFx7g==
-X-Received: by 2002:a1c:f613:: with SMTP id w19mr4964666wmc.136.1623933562886;
-        Thu, 17 Jun 2021 05:39:22 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:3ef0:94f4:af84:585a])
-        by smtp.gmail.com with ESMTPSA id c12sm6056213wrr.90.2021.06.17.05.39.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 05:39:22 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LQ7VhlmyWPZ9ZoXtDsXKnCu+T62utNq2Fbr89dXylZY=;
+ b=XDWk0veJfO0YHnuNs/6mm/QzPau20op/pfDPxUQdQcptgXdzeWCUp8XQ6ZH7NQ+SysxQFC6OkSK7YbNiCxifnptad6qoXpocfRi+KYdzTFjIguE6PQgz7s+6BJjT3A4Ee7mbRY9/PvTeqQStcM+udqTJo7t+N2OuNcpTb4QGvJo=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ by MWHPR11MB1855.namprd11.prod.outlook.com (2603:10b6:300:10e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Thu, 17 Jun
+ 2021 14:51:34 +0000
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::ddf6:b028:79fe:ec73]) by CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::ddf6:b028:79fe:ec73%6]) with mapi id 15.20.4219.026; Thu, 17 Jun 2021
+ 14:51:33 +0000
+From: "Saul Wold" <Saul.Wold@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ltp: Reinstate 'hanging' tests for evaluation
-Date: Thu, 17 Jun 2021 13:39:22 +0100
-Message-Id: <20210617123922.3388634-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH] qemurunner: add second qmp port
+Date: Thu, 17 Jun 2021 07:51:19 -0700
+Message-Id: <20210617145119.1867049-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [71.238.119.71]
+X-ClientProxiedBy: MW4PR03CA0205.namprd03.prod.outlook.com
+ (2603:10b6:303:b8::30) To CO1PR11MB5076.namprd11.prod.outlook.com
+ (2603:10b6:303:90::7)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yocto-hs.bigsur.com.bigsur.com (71.238.119.71) by MW4PR03CA0205.namprd03.prod.outlook.com (2603:10b6:303:b8::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 14:51:33 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b3212d33-a0a3-4240-0d6c-08d9319f6630
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1855:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB185570F6A3B37F63B0AA0DDDEE0E9@MWHPR11MB1855.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	DXkDA04gGVMoFOi4Dtuskc64hF0Z9fclmES/uqfakqrgJ2Jcox0UFxxcCfFVbTeDpglGGKBckGmmHKK9gCa9hu+rAcH8S0eSa53ZvYbYx1aFi/rQPpTpIIBn6ic0iFcjHQ6UBMfduxnF8/VZfgOOHz50fn6ClhFQGF6aOEOCTjtN3W4swsxtiWEgYtTrxUEpGFXukIKtuANN5VDqPvxZ+AXMNs89WMQp5q9KSk72qsy6TpsTtb7K5LkiXMDfJ+VfiZl85n+60MiPsouP/pE3YpqH4zN9uCMZ6/2KBagjAO9JFL3PunGleyULsl9WvNuhxGg0qgrWLxh/U486KrSRVewggZLHtmfpIQNR6RCqkKK62me0E+X7a0Sn+VQS9S37d71C8M9owxcKai8YyAa7hSTN26JAXeAQuNe3ElcuZg6MklVbo1tt4j5dWqgdvIsqXfccVcIbfUbacDKvwB1NojxR7VGwJieJI2D9yGfz6uoYT5sQ/1jNT5rJKPemE6bGJ4LxEkVC0NIzyRa+Oi9r/YsqMKmue2Qnb3oD0U1BWwgaOcRMOBun43b/pptt1tHCaHF8YRxCIGoEL51AdARCr7jV08vjls6QnzpqBWLtLyqIZwdZtKsE4vObff9wFvFLL1+5edU0lNeCCNBJBrg1Aw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(396003)(39850400004)(136003)(366004)(186003)(6916009)(5660300002)(478600001)(316002)(16526019)(2616005)(1076003)(26005)(38350700002)(2906002)(86362001)(66946007)(6486002)(956004)(8676002)(8936002)(6666004)(6506007)(6512007)(66476007)(66556008)(83380400001)(36756003)(38100700002)(52116002)(44832011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?SXLjE0xcnaBuuW3/Ui6apTX93tUbAeoSdsH/tkON0ZLk3NffMyu6u7HMOWti?=
+ =?us-ascii?Q?ISbjKSUtooxQRafTODkS3a8dD9uQ9L6o0IuAP2x4duSzYtgp1mf5e18FyYgG?=
+ =?us-ascii?Q?ginjBPRNi2+kLB8hwJ7LKobV0Vz0KTQbc82H/z2CTr9NO0cmtUqwUiPMS7sx?=
+ =?us-ascii?Q?M6Rn/lN9wFFQ9ztH0nVsglO6baLLKA3poUDn7GuQE+tHpFkowY1CpGmM4pOJ?=
+ =?us-ascii?Q?zEEFt6EJL+s4cLS5hmwQBxLwjUI6d7wfmX2rABvd8S9DLk66QR29eOLwOFuD?=
+ =?us-ascii?Q?mmDvq+e09uEfds4kRuAstPvaphetyIot9kMtweJjf3GMHCkIJIkGumr3pujH?=
+ =?us-ascii?Q?RiwQerX3aQjnyFcFWVWnvaFhQHV9TN8YpKHWx0krNGzwKg4Cvg9XBxEL875G?=
+ =?us-ascii?Q?fTM67bY953pfVx8tTkmbN6BuSYPdGqYib5RyPsnY+PKTaS9WEirVwqgHpF2Y?=
+ =?us-ascii?Q?lcDDOMuuYQiN/0jNCBflAw70fheBwMDx5gT3Yldhe/kwe7tuwaGDcXmgcuom?=
+ =?us-ascii?Q?jGRBVu6sFOBLRZCgt4q93WlU5+OT76CVlwZ3oF9QujcYc8Bnhsmt8qPDr0kz?=
+ =?us-ascii?Q?ak30iqVi48CEZnOlZpPNS5Tba6SwputhsfV/2GTqrOhJ7aTKrhxgaGkfAxPe?=
+ =?us-ascii?Q?jYqiYw0BslMkLyglmz2oKz9f7DoKxvBRofGIk/eAXEglZOo2ku3ZDz9BmmyS?=
+ =?us-ascii?Q?WqQPT83rdEcKobZINd3rmaSTtBwMrBNhv5eR6hb8hQRAwzKMN2UElFUtYngy?=
+ =?us-ascii?Q?VN10lghw4EbfMqj1Bl4zHVxk91og9VpXgMifYGuMbyrYVrno/FzCz4D72dQ9?=
+ =?us-ascii?Q?yCHwEG+rVuyujj9d3QaRAqn9ViCO3HPjHtLRhdVZ7YBC4nRIDQ5xPnWfD/bh?=
+ =?us-ascii?Q?4/eyPAObbeF8UJxsVEV9pKf/K7iRZYMLuPn/OUk2oB+3A/0Hl3r46+yOlEIV?=
+ =?us-ascii?Q?pDT238JMlFR2cXY4+zRxmuQqgZCcvhSuQtY+eeU0M8DIKjRE/hxalo02Lux1?=
+ =?us-ascii?Q?Pu15ftOtsi84iC4e91hy1G/3DvWc9TKpISFMa3GzJBWuxhrRjag7V9RcvBjU?=
+ =?us-ascii?Q?l5HDvqg+Rsop7r+xf6Z12MlG0mUSf2iKn6tuxhN8frGevqIMTs8dUKqJhiIv?=
+ =?us-ascii?Q?Rxiqyb2vOfbwRFxNwRJ3ODU/MeQ8aD93JYaPiDAjm8aVbBzFdGE38KmZG3ty?=
+ =?us-ascii?Q?40/FUdh2syQAJ25NTfOysWFbtIYMz0Lh0qU+r4MIWRIrVLtk/9o/VdjO124s?=
+ =?us-ascii?Q?KX4gFGRRDu00Q3rmGA8phm4xGGs9ifIyFp6YCZr68nZnVZPM+m2k3VG/GApO?=
+ =?us-ascii?Q?knRq7QkscexogGPu6BPE2d8o?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3212d33-a0a3-4240-0d6c-08d9319f6630
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 14:51:33.6399
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mwr5jBG1UKjfXvhhwZu/kgaTF3ecOZm69h4gl3hqSUtxn8/a1xFR538GCWDP0ZhIoSGSGsBwKcOXTRHcpwi5Kg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1855
+X-Proofpoint-ORIG-GUID: 8_MqmaWZvQHUNLn7YS4acnVIzJbq_F44
+X-Proofpoint-GUID: 8_MqmaWZvQHUNLn7YS4acnVIzJbq_F44
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-06-17_13:2021-06-15,2021-06-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
+ malwarescore=0 spamscore=0 adultscore=0 priorityscore=1501 clxscore=1011
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106170094
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-We think we've found the root cause of the ltp hangs as a cgroup kernel
-fs bug introduced in 5.1 and now fixed in linux-yocto. Reinstate these tests
-and see if any issues recur.
+This will allow for direct ssh connection without breaking
+the first one that is used for monitoring. This will not
+cause qemu to block waiting for connections.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+I am not sure where the logging.info() is going, so one has to
+observe the qemu cmdline to figure out the port to ssh into.
+
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- .../ltp/ltp/disable_hanging_tests.patch       | 45 -------------------
- meta/recipes-extended/ltp/ltp_20210524.bb     |  1 -
- 2 files changed, 46 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
+ meta/lib/oeqa/utils/qemurunner.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch b/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
-deleted file mode 100644
-index 113ac0fefec..00000000000
---- a/meta/recipes-extended/ltp/ltp/disable_hanging_tests.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--This patch disables tests which we've found "hang" on our infrastructure.
--
--cgroup_xattr:
--https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1926 (x86)
--https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1898 (x86)
--https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1916 (x86)
--
--proc01:
--https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/1748 (arm)
--https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/1781 (arm)
--(in the latter was trying to read /proc/kmsg)
--(the above test looks horrible anyway)
--
--Upstream-Status: Inappropriate [OE Configuration]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: git/runtest/controllers
--===================================================================
----- git.orig/runtest/controllers
--+++ git/runtest/controllers
--@@ -352,8 +352,6 @@ cpuset_memory_spread	cpuset_memory_sprea
-- 
-- cpuset_regression_test cpuset_regression_test.sh
-- 
---cgroup_xattr	cgroup_xattr
---
-- pids_1_1 pids.sh 1 1 0
-- pids_1_2 pids.sh 1 2 0
-- pids_1_10 pids.sh 1 10 0
--Index: git/runtest/fs
--===================================================================
----- git.orig/runtest/fs
--+++ git/runtest/fs
--@@ -64,11 +64,6 @@ writetest01	writetest
-- #Also run the fs_di (Data Integrity tests)
-- fs_di fs_di -d $TMPDIR
-- 
---# Read every file in /proc. Not likely to crash, but does enough
---# to disturb the kernel. A good kernel latency killer too.
---# Was not sure why it should reside in runtest/crashme and won't get tested ever
---proc01 proc01 -m 128
---
-- read_all_dev read_all -d /dev -p -q -r 3
-- read_all_proc read_all -d /proc -q -r 3
-- read_all_sys read_all -d /sys -q -r 3
-diff --git a/meta/recipes-extended/ltp/ltp_20210524.bb b/meta/recipes-extended/ltp/ltp_20210524.bb
-index 4328b1efee3..26fd9ac0497 100644
---- a/meta/recipes-extended/ltp/ltp_20210524.bb
-+++ b/meta/recipes-extended/ltp/ltp_20210524.bb
-@@ -31,7 +31,6 @@ SRCREV = "0fb171f2beddaf64bd27597577c206c0f892b3cd"
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 0032f6ed8dd..a4727bd14ac 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -192,6 +192,12 @@ class QemuRunner:
+         qmp_file = "." + next(tempfile._get_candidate_names())
+         qmp_param = ' -S -qmp unix:./%s,server,wait' % (qmp_file)
+         qmp_port = self.tmpdir + "/" + qmp_file
++        # Create a second socket connection for debugging use, 
++        # note this will NOT cause qemu to block waiting for the connection
++        qmp_file2 = "." + next(tempfile._get_candidate_names())
++        qmp_param += ' -qmp unix:./%s,server' % (qmp_file2)
++        qmp_port2 = self.tmpdir + "/" + qmp_file2
++        self.logger.info("QMP Available for connection at %s" % (qmp_port2))
  
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
--           file://disable_hanging_tests.patch \
-            "
- 
- S = "${WORKDIR}/git"
+         try:
+             if self.serial_ports >= 2:
 -- 
-2.30.2
+2.25.1
 
