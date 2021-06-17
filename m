@@ -1,215 +1,586 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.1011.1623887981314532155
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.4])
+ by mx.groups.io with SMTP id smtpd.web11.1072.1623888686167272390
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jun 2021 16:59:41 -0700
+ Wed, 16 Jun 2021 17:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=hYtmMiyD;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1801ab6b34=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15GNxfNA023285
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 16:59:41 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3972b312mp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 16:59:40 -0700
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15GNxeke023280
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jun 2021 16:59:40 -0700
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2044.outbound.protection.outlook.com [104.47.73.44])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3972b312mn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Jun 2021 16:59:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZH5/1Vp2/dZr2cFeqKJ1gKIwUmuDp5+6fvGOo1g7ZWIIfmSkn8SAPrGv9O0RQGFqyta7dVbaGyPcFbhEwHzIu/81egUWBPy7N90g/al5dy5MsPEoh0oa/DOY5hmVEWoZSYOFTxpPSZKzc63pvspE1yn50RlAgvBqrSn/QtdRm7c2cx1MLSmkoXP6MKyEWWSmctaqthbXjWMl84DQuYZx4mOfu9Rp9n/wgzbqS92oiSXw28uL3B+rg594M2NID6UkBAcP3LT9z11uPq5vVnDjzuChCH6jy1gdrWfSZtuOydzx2PnPXM+k+QDMZzZyOw0jH4b3LN4VcThR/AdOF9ZaOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k+7Okqr7pigmh5aliGxXkqAXVCJg/gVAYNZDHXPSji4=;
- b=kp9NZmohTONjPNradhmYuc3DuXfBjxPghPG/+Rob1C9oVscu8etDfU0uj3Oe8toeheUZPtOEMjdbocU1BGvT1EQDShpm4HAiUUhTte+uozI1gIda0xf8BkzZ72fM+X4/WFYhbkPFMlB23BN8XSdCRXqJLw8NnM6wKi90Uvkb2aBTBTNh34hHZYcoDAbSWdkNS9rW36vTGhVzS0D4luJBWWPxqD74rxNwJ1qxU+39Am5g2F012XJXLor0WhvH4Xtpo78+S5zM8BnlUMv/MghBi1d/j0/N9kjdAQaTUHyorQeifppw9wPhpddL8/ac/NVx2qZ++GbrzUZZsGwtkY/3UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k+7Okqr7pigmh5aliGxXkqAXVCJg/gVAYNZDHXPSji4=;
- b=hYtmMiyDoEsFrf4oIWbXuqcsUhY6JXMSE3olTrVH04e3HiaEVW+ybFgi25gMTj/LDhlkK9ZS0Fi5tTK91p3hyb+edKAu9Xm52AwRqp03Y+kI+ExqwXczu5RGa8qfUiSCeWvdT/mQPOf3eqAmdXZYWJ+Y5kCMb2sJblE6tAXN1e4=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM5PR1101MB2105.namprd11.prod.outlook.com (2603:10b6:4:51::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Wed, 16 Jun
- 2021 23:59:37 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::c413:9f51:c32e:a579]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::c413:9f51:c32e:a579%6]) with mapi id 15.20.4219.026; Wed, 16 Jun 2021
- 23:59:37 +0000
-Subject: Re: [OE-core] [PATCH] arch-armv4: Allow -march=armv4 --> remove qemuarmv5.conf ?
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org,
-        Jon Mason <jdmason@kudzu.us>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Andrea Adami <andrea.adami@gmail.com>
-References: <20210610021705.3792040-1-raj.khem@gmail.com>
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-Message-ID: <622b9813-f98f-2e2c-f42f-737a296c0889@windriver.com>
-Date: Wed, 16 Jun 2021 19:59:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-In-Reply-To: <20210610021705.3792040-1-raj.khem@gmail.com>
-X-Originating-IP: [198.48.226.187]
-X-ClientProxiedBy: SJ0PR13CA0014.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::19) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=TAjo6JZn;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.4, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1623888683; i=@fujitsu.com;
+	bh=RVDRlR+NXmkHrjj8rGOEVkI3UuqhwpnXSphjdZoAaI0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=TAjo6JZne6JxydNGSR8xWSndsP1s+jPmgSr+tDKMvFRufXyaYpymZOIPX/Dxksxzf
+	 CoBw6u+c2x162auwP1LVTQm32ouH7Al1VrRwjISRcmFFaP0WMbXHFPwL7BNdCGKR+W
+	 MV2kLekMccObpg27lb4tUF3n2bSNTSPXRKkR7YWyLWRQWlXgU4uC+FvMbRvS55MdaX
+	 9TIg0c8XnCe8DDgqiqVwct6BQAyoaDwR/toqsVkO6o3HgF7bHABKRhNEq3I2yb01di
+	 dd+BhxLLNSjiqaa5LZKE6vKdTC2zUQUSrx1Psxx+JOVRZM+yfAxtHmLadRjr4m2j0D
+	 SOvEPM+8S1Fsg==
+Received: from [100.112.195.193] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-west-1.aws.symcld.net id AE/F6-45811-B239AC06; Thu, 17 Jun 2021 00:11:23 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMIsWRWlGSWpSXmKPExsViZ8MxRVdr8qk
+  Egz99+hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bX2zPYCy40M1Y8fzWHpYFxSX4XIyeHkMAs
+  Jok1L127GLmA7BOMEg/nb2EHSbAJqElMv3WDtYuRg0NEQE/i6j9RkDCzgIrEi989YCXCAtYS7
+  7YcYwaxWQRUJU51bmYCsXkFnCQ2rXvAAmJLCChITHn4nhkiLihxcuYTFog5EhIHX7xghqhRlJ
+  h9uRmqvkLi9eFLzBMYeWchaZmFpGUBI9MqRoukosz0jJLcxMwcXUMDA11DQyNdQ0sgNjLTS6z
+  STdRLLdUtTy0u0TXUSywv1iuuzE3OSdHLSy3ZxAgMr5SCA3U7GB+8/qB3iFGSg0lJlLe581SC
+  EF9SfkplRmJxRnxRaU5q8SFGGQ4OJQle/olAOcGi1PTUirTMHGCow6QlOHiURHg/9wOleYsLE
+  nOLM9MhUqcYYzne/Vy8iJnjzdolQPItmGy7dxdItoPJmQsOrmbmmAUm77cfApIPQKQQS15+Xq
+  qUOO9LkJ0CIEMzSvPgVsLi+hKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd77IFN4MvNK4C5
+  7BXQ0E9DRbUJgR5ckIqSkGpj6Gte5Lwxqytldofwn/JKMQ/uBoyGN7WGs27i32De6imi7L59b
+  b/VK92H762cv81t6Gy5vXNWjoRFZ9jyoLP6RZfkvxr0T+lg6zh3OO7Qz4Kjj2/W7d+pHKL7+K
+  LNMpVPb1UA+Pmn3lhkeRkm+EXNvXlP6FlzpturEtjU/nz2cw/LHY//27FkNCqzvV4qvfsr6oo
+  zt/PoQm2OdwQum7Pav3B11yDbwT9JjodpP6/95tmRLcUzWnHNGwjovbLvXhRUa9Q3mRyYk6i5
+  +uTIl37Ir62Wm9aE4hlrJmNi5Sxt3puzuflhk+1Bjt76j6CGB2FSel3MFTv4QFyqM+uCfM+3f
+  tC9LlPb6qO39cuyNrL4SS3FGoqEWc1FxIgBJFpylZgMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-8.tower-271.messagelabs.com!1623888682!216988!1
+X-Originating-IP: [62.60.8.148]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.75.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 31149 invoked from network); 17 Jun 2021 00:11:22 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-8.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Jun 2021 00:11:22 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15H0BMVa005539
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 01:11:22 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Thu, 17 Jun 2021 01:11:19 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] blktrace: upgrade 1.2.0 -> 1.3.0
+Date: Thu, 17 Jun 2021 08:10:58 +0800
+Message-ID: <1623888661-63658-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.25.44.2] (198.48.226.187) by SJ0PR13CA0014.namprd13.prod.outlook.com (2603:10b6:a03:2c0::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.9 via Frontend Transport; Wed, 16 Jun 2021 23:59:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 64e9a606-dd4b-46bd-970a-08d93122cc1e
-X-MS-TrafficTypeDiagnostic: DM5PR1101MB2105:
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR1101MB2105C58B81121F7C29E9129EF80F9@DM5PR1101MB2105.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	NjCNMzLLfzWNv9azCGasnh9troltjWioDHt0Rd8qLvYab4Lec73XRgfFYfVkn6C5Z8Ye2m24i0CxWV8nio6llyRrvia5sKrCcIx4vCzqqxCl23uC6C7wOfSeePuZhj5jQ3nuOaWLB82iasSA7b2Gy1JmSRe1raWscnK/BPzyGgj5SvFCYn6JpjveBHL5o1i69HRDJUIvh2voFEQaFj3RCQI7m3OrezTDda1FV51tjEfzz1ZawARmc1y2mzrsa1BO1v38nfJs9cFRpQtMluIolJbFJ3887mutq/0Viqb2VjnOxxsUdB6XUM8v7R8v30SsNka+4fgc8bfiZCoRhtSuYFvII3SEHV5ba35fqtwJvHodTzn/thOgBcMK1azETHsuJl2zHfOzN4HsVJhD56Bg/LylvGxEdyyNHwtJf0c3E+w3lZfLwF9ALT3H6eQ/CGL151yiHb028kg/EX5zo725aOdSpl8DGGjLD942uKJ352TxZ+4lIMbbVWeqBS7tSejIrsHSDJ4HqU1f5W3KirCPea/3Sx+H0cgzQdEyZ2DeAgq97BRWXSYnFZzgrQIQg0s7FhdfCXOI6yEhwBk+IKmb5QSNdZPuiiqqj2Glz5EyrDcFJ6yrRoSYMu/6HIbUJODa3U2c01n0LOxsihP5VXO92kTUVIhdJETpfOHj3vk6a5s0gUw0+rn/xbx6ohhfOlpzLBfq0huP2UMhguIm90sbk1wrKgC7FUpgGmc8EcUM0lcXBvZkRzmtJUXlqETphBeuKk1RXzYpltemKtWRAxi2gIRgI7lVuVneSL0XysHED65cjkU+b+kKECrPmFmk2ECRAoJr9jJKHG2h3md3wfVO/KKBHyDUk2smUMhZusgk1Kx521v575bvfMsEnxaCxzQO
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(366004)(346002)(396003)(39840400004)(966005)(6486002)(8936002)(478600001)(38350700002)(38100700002)(83380400001)(53546011)(31696002)(86362001)(26005)(6666004)(36756003)(52116002)(5660300002)(110136005)(2906002)(8676002)(66556008)(956004)(31686004)(2616005)(4326008)(16526019)(316002)(66946007)(186003)(16576012)(66476007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cHZDYnF5OWV4Y0lveEV3alhVNTBVN2FzR3FQWUxQNy9jVjhvMW1vdnAyWkdI?=
- =?utf-8?B?TjVQMGNxVVRTajRJYi92NVQxVFRUMEI5cFBIWXo3SjJ2aThhQ2E3TG96N2JB?=
- =?utf-8?B?RFZIbGY2U3JWM1JZTkJGK0NVK2g5UWE4dzM1ajAzUExRVWdwR2FMVXZBcGRO?=
- =?utf-8?B?YmlETzZJU2FsTHVOcjFmQWNGYjhrZWllb0RRNU9kTmJYSEJ6MjFIMHQ0SWJ6?=
- =?utf-8?B?b2o3c0VkcWdOaHZDT0EwR1ZwemxwT2tBYmQxM25GeU9ISG4yNkJNNzRWcGdr?=
- =?utf-8?B?Zlh4M3ZhbjVaVHUyUm9sYytqZDA5Ui9VeVo4TjRsMi9NZFVDa0Z5U1hLSGFD?=
- =?utf-8?B?Y1FwcFRoYVpTRHFrZGtCQVJmSzZERGtpSU1RSGtrQXJ0K3M4Q3JRSVIyWVFv?=
- =?utf-8?B?SDI0OExMVUJXWHVhZlJVVlVMclBJeGFrcFpBTTJnL1E2SUVOR2NvOUZJTEpJ?=
- =?utf-8?B?cFBsNGZzYzlGdEd0dHhOaGluNk1vQzVGeFgzbFVUZHJpWlFwWmF1QUpMZUNZ?=
- =?utf-8?B?dG1FcGdzN25tNTJUeDFGSzJiNUt3THo5dUtXYVIrQ3JuczRHclFIWkpyNi9B?=
- =?utf-8?B?WDJiYno4MUpEeEFhZlR5VVBrYkhVKzZCRndjODE5Mk1GL3I3VHAyWGlrSEF6?=
- =?utf-8?B?eDk5aGp6SE9jMHNEODFWZ3loYko3c2lYZlhQOGwvRHRxVWZjUHhPdm15SWU3?=
- =?utf-8?B?U1JQKzhKRXZ0MFoyTHArbGZ5M0hXbXh3ZWQ3YmVQSEZJRVBxOEZQZUNCdGlm?=
- =?utf-8?B?V1doNFBYY2RlVDFxQkxwenFDUmJzdHgzbm9HZ1g2VFAwTjQxbGNqNXoxaUor?=
- =?utf-8?B?WXo0S2ZSTENxOUErcXIvb3hnWUdWcncrUWZROER2dFRLL0VQU202YkQyaWkz?=
- =?utf-8?B?KytPWnpQSUtyZ0hlRWppN2lxaHNLUEFuRS96STZoTVV6R3QrcEcrZSttdHVi?=
- =?utf-8?B?QXNTVzY2WG5QZVJ1bUJwQ2ozdC81SFBSYnpFVkJUQ0UrcXk3U1FGbzI2NjNO?=
- =?utf-8?B?QVErVkVsY1d0elp2QkdEUFhEYnUrM1R3dU83ekREZVVSSlBDUUJuMUlzVExY?=
- =?utf-8?B?emRaM1BlU09zN1J5dmN6bGJsRTBWVlZxU0tCQXJGdlllNXExRU5NTVk0YlAr?=
- =?utf-8?B?djBzUzFVU1VwK2NsNk1QVnAzQmI1cDlKUDlZemhQcGZPR3lNRWFpY2M0WjBu?=
- =?utf-8?B?Y1FSV2k1U3BBeTVqcWdQS0N3NlhpTFBKTGFwc3ZXeFQ1ZjlVRDRIYXlwNVg5?=
- =?utf-8?B?aCtDSDM1WWxwTE9GK1ZNNEVhQzdmR051RHVSc3E0TWwrdmltQXVJS3BNUDJu?=
- =?utf-8?B?dHZvSEoveSswL2RWZUMrTExyS2o2NHE0Vkp1T2svRy9xSnFXTkpaMkxFVG5w?=
- =?utf-8?B?Rit0and4NnFiM0lGb25rajNaVU0ybTl2aU92N0RhOE5MYWlQVlE4akJtck52?=
- =?utf-8?B?UGthS056SHg4eHZOUGhxdWg0MUtPRTdrRmQ1aW1MeFB6TXVBWXM3R09RWWlx?=
- =?utf-8?B?TUMySGxxYzlheERYZUY4WGljQTBoRk02bjQ4RWFVcmExeWhQTFNNWHJiZmpo?=
- =?utf-8?B?Y1hGT2hIODdnZEhiMG1OSGcrMTVjMHN0cGNwK1lqWERCQS82ak9EUlJYcmI4?=
- =?utf-8?B?YUpvVGxHTUtHQVkwN2lBa0NLQ09zQTJITWZSWkZ6K3B5aGptQkJDaGVXajJQ?=
- =?utf-8?B?bGpQNEk1a2R6ampwQ1o3WWJLN3B3c25oNjlaZ3IrK2VIUnJqeUZmQnJnMHRK?=
- =?utf-8?Q?GXx8hNbVbj+ZEXjokIwfKgKTxG+OvYG1CU8bDTf?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64e9a606-dd4b-46bd-970a-08d93122cc1e
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 23:59:37.4880
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CGSxNruPJkUAhJ3A460UTC1pnr2esUbzOVspKClqZgN73LFs+W+BtdVxe6PCwdPePlKGS13I9scdegtkicsXHLT01oEYgWWwloOgSmAIMTg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2105
-X-Proofpoint-GUID: vgBBsO6AW2LBhjdBJ7sKDk0HikxYx3L2
-X-Proofpoint-ORIG-GUID: TifDi08FIbpj8KQE0VV7KN87X4t4FiU9
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-06-16_16:2021-06-15,2021-06-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 mlxscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 clxscore=1015 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106160137
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-On 2021-06-09 10:17 p.m., Khem Raj wrote:
-> Even though it is deprecated in GCC 6 [1] it has not yet been
-> removed from gcc upstream. We do have active machines in OE
-> ecosystem which use armv4 ( SA11xx ) e.g. collie in meta-handheld
-> so until upstream gcc takes next step to remove them
-> lets support armv4 again, we are still carrying the relevant gcc patch
-> to support v4 BX fix.
-> 
-> [1] https://gcc.gnu.org/gcc-6/changes.html#arm
+CVE-2018-10689.patch
+ldflags.patch
+make-btt-scripts-python3-ready.patch
+removed since they're included in 1.3.0
 
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../blktrace/blktrace/CVE-2018-10689.patch    | 150 -------------
+ .../blktrace/blktrace/ldflags.patch           | 114 ----------
+ .../make-btt-scripts-python3-ready.patch      | 197 ------------------
+ meta/recipes-kernel/blktrace/blktrace_git.bb  |  10 +-
+ 4 files changed, 3 insertions(+), 468 deletions(-)
+ delete mode 100644 meta/recipes-kernel/blktrace/blktrace/CVE-2018-10689.patch
+ delete mode 100644 meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+ delete mode 100644 meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch
 
-Huh, I was going to send an email about removing support for qemuarmv5.
-Do we follow gcc or drop older arches before that?
-
-Our current list of qemu machines on master is:
-
-meta/conf/machine/qemuarm64.conf
-meta/conf/machine/qemuarm.conf
-meta/conf/machine/qemuarmv5.conf
-meta/conf/machine/qemumips64.conf
-meta/conf/machine/qemumips.conf
-meta/conf/machine/qemuppc64.conf
-meta/conf/machine/qemuppc.conf
-meta/conf/machine/qemuriscv32.conf
-meta/conf/machine/qemuriscv64.conf
-meta/conf/machine/qemux86-64.conf
-meta/conf/machine/qemux86.conf
-
-
-qemuarmv5 was added in:
-
-commit 6fc70eb4f3494bee2be10ee24fe3ea1c8b5ff988
-Author: Jon Mason <jdmason@kudzu.us>
-Date:   Tue Mar 5 17:32:19 2019
-
-     qemuarm: Swap for an arm7ve (A15) configuration
-
-     Add new QEMU BSP for a Arm Cortex-A15 system and use this as qemuarm,
-     moving the old armv5te Versatile PB based machine to qemuarmv5.
-
-     The new machine uses the QEMU virt machine type, which should be
-     faster to emulate and updates the qemuarm support to a modern
-     architecture.
-
-     Signed-off-by: Jon Mason <jdmason@kudzu.us>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-
-../Randy
-
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Andrea Adami <andrea.adami@gmail.com>
-> ---
->   meta/conf/machine/include/arm/arch-armv4.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
-> index fac2bdf952..b71739c20a 100644
-> --- a/meta/conf/machine/include/arm/arch-armv4.inc
-> +++ b/meta/conf/machine/include/arm/arch-armv4.inc
-> @@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv4"
->   
->   TUNEVALID[arm] = "Enable ARM instruction set"
->   TUNEVALID[armv4] = "Enable instructions for ARMv4"
-> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4${ARMPKGSFX_THUMB}', '', d)}"
->   # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then disable it when we have also armv5 or thumb
->   # maybe we should extend bb.utils.contains to support check for any checkvalues in value, now it does
->   # checkvalues.issubset(val) which cannot be used for negative test of foo neither bar in value
-> 
-> 
-> 
-> 
-> 
-
-
+diff --git a/meta/recipes-kernel/blktrace/blktrace/CVE-2018-10689.patch b/meta/recipes-kernel/blktrace/blktrace/CVE-2018-10689.patch
+deleted file mode 100644
+index 7b58568d59..0000000000
+--- a/meta/recipes-kernel/blktrace/blktrace/CVE-2018-10689.patch
++++ /dev/null
+@@ -1,150 +0,0 @@
+-From d61ff409cb4dda31386373d706ea0cfb1aaac5b7 Mon Sep 17 00:00:00 2001
+-From: Jens Axboe <axboe@kernel.dk>
+-Date: Wed, 2 May 2018 10:24:17 -0600
+-Subject: [PATCH] btt: make device/devno use PATH_MAX to avoid overflow
+-
+-Herbo Zhang reports:
+-
+-I found a bug in blktrace/btt/devmap.c. The code is just as follows:
+-
+-https://git.kernel.org/pub/scm/linux/kernel/git/axboe/blktrace.git/tree/btt/devmap.c?id=8349ad2f2d19422a6241f94ea84d696b21de4757
+-
+-       struct devmap {
+-
+-struct list_head head;
+-char device[32], devno[32];    // #1
+-};
+-
+-LIST_HEAD(all_devmaps);
+-
+-static int dev_map_add(char *line)
+-{
+-struct devmap *dmp;
+-
+-if (strstr(line, "Device") != NULL)
+-return 1;
+-
+-dmp = malloc(sizeof(struct devmap));
+-if (sscanf(line, "%s %s", dmp->device, dmp->devno) != 2) {  //#2
+-free(dmp);
+-return 1;
+-}
+-
+-list_add_tail(&dmp->head, &all_devmaps);
+-return 0;
+-}
+-
+-int dev_map_read(char *fname)
+-{
+-char line[256];   // #3
+-FILE *fp = my_fopen(fname, "r");
+-
+-if (!fp) {
+-perror(fname);
+-return 1;
+-}
+-
+-while (fscanf(fp, "%255[a-zA-Z0-9 :.,/_-]\n", line) == 1) {
+-if (dev_map_add(line))
+-break;
+-}
+-
+-fclose(fp);
+-return 0;
+-}
+-
+- The line length is 256, but the dmp->device, dmp->devno  max length
+-is only 32. We can put strings longer than 32 into dmp->device and
+-dmp->devno , and then they will be overflowed.
+-
+- we can trigger this bug just as follows:
+-
+- $ python -c "print 'A'*256" > ./test
+-    $ btt -M ./test
+-
+-    *** Error in btt': free(): invalid next size (fast): 0x000055ad7349b250 ***
+-    ======= Backtrace: =========
+-    /lib/x86_64-linux-gnu/libc.so.6(+0x777e5)[0x7f7f158ce7e5]
+-    /lib/x86_64-linux-gnu/libc.so.6(+0x7fe0a)[0x7f7f158d6e0a]
+-    /lib/x86_64-linux-gnu/libc.so.6(cfree+0x4c)[0x7f7f158da98c]
+-    btt(+0x32e0)[0x55ad7306f2e0]
+-    btt(+0x2c5f)[0x55ad7306ec5f]
+-    btt(+0x251f)[0x55ad7306e51f]
+-    /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0)[0x7f7f15877830]
+-    btt(+0x26b9)[0x55ad7306e6b9]
+-    ======= Memory map: ========
+-    55ad7306c000-55ad7307f000 r-xp 00000000 08:14 3698139
+-      /usr/bin/btt
+-    55ad7327e000-55ad7327f000 r--p 00012000 08:14 3698139
+-      /usr/bin/btt
+-    55ad7327f000-55ad73280000 rw-p 00013000 08:14 3698139
+-      /usr/bin/btt
+-    55ad73280000-55ad73285000 rw-p 00000000 00:00 0
+-    55ad7349a000-55ad734bb000 rw-p 00000000 00:00 0
+-      [heap]
+-    7f7f10000000-7f7f10021000 rw-p 00000000 00:00 0
+-    7f7f10021000-7f7f14000000 ---p 00000000 00:00 0
+-    7f7f15640000-7f7f15656000 r-xp 00000000 08:14 14942237
+-      /lib/x86_64-linux-gnu/libgcc_s.so.1
+-    7f7f15656000-7f7f15855000 ---p 00016000 08:14 14942237
+-      /lib/x86_64-linux-gnu/libgcc_s.so.1
+-    7f7f15855000-7f7f15856000 r--p 00015000 08:14 14942237
+-      /lib/x86_64-linux-gnu/libgcc_s.so.1
+-    7f7f15856000-7f7f15857000 rw-p 00016000 08:14 14942237
+-      /lib/x86_64-linux-gnu/libgcc_s.so.1
+-    7f7f15857000-7f7f15a16000 r-xp 00000000 08:14 14948477
+-      /lib/x86_64-linux-gnu/libc-2.23.so
+-    7f7f15a16000-7f7f15c16000 ---p 001bf000 08:14 14948477
+-      /lib/x86_64-linux-gnu/libc-2.23.so
+-    7f7f15c16000-7f7f15c1a000 r--p 001bf000 08:14 14948477
+-      /lib/x86_64-linux-gnu/libc-2.23.so
+-    7f7f15c1a000-7f7f15c1c000 rw-p 001c3000 08:14 14948477
+-      /lib/x86_64-linux-gnu/libc-2.23.so
+-    7f7f15c1c000-7f7f15c20000 rw-p 00000000 00:00 0
+-    7f7f15c20000-7f7f15c46000 r-xp 00000000 08:14 14948478
+-      /lib/x86_64-linux-gnu/ld-2.23.so
+-    7f7f15e16000-7f7f15e19000 rw-p 00000000 00:00 0
+-    7f7f15e42000-7f7f15e45000 rw-p 00000000 00:00 0
+-    7f7f15e45000-7f7f15e46000 r--p 00025000 08:14 14948478
+-      /lib/x86_64-linux-gnu/ld-2.23.so
+-    7f7f15e46000-7f7f15e47000 rw-p 00026000 08:14 14948478
+-      /lib/x86_64-linux-gnu/ld-2.23.so
+-    7f7f15e47000-7f7f15e48000 rw-p 00000000 00:00 0
+-    7ffdebe5c000-7ffdebe7d000 rw-p 00000000 00:00 0
+-      [stack]
+-    7ffdebebc000-7ffdebebe000 r--p 00000000 00:00 0
+-      [vvar]
+-    7ffdebebe000-7ffdebec0000 r-xp 00000000 00:00 0
+-      [vdso]
+-    ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0
+-      [vsyscall]
+-    [1]    6272 abort      btt -M test
+-
+-Signed-off-by: Jens Axboe <axboe@kernel.dk>
+-
+-Upstream-Status: Backport
+-[https://git.kernel.org/pub/scm/linux/kernel/git/axboe/blktrace.git/commit/?id=d61ff409cb4dda31386373d706ea0cfb1aaac5b7]
+-
+-CVE: CVE-2018-10689
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- btt/devmap.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/btt/devmap.c b/btt/devmap.c
+-index 0553a9e..5fc1cb2 100644
+---- a/btt/devmap.c
+-+++ b/btt/devmap.c
+-@@ -23,7 +23,7 @@
+- 
+- struct devmap {
+- 	struct list_head head;
+--	char device[32], devno[32];
+-+	char device[PATH_MAX], devno[PATH_MAX];
+- };
+- 
+- LIST_HEAD(all_devmaps);
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+deleted file mode 100644
+index ab905cf0da..0000000000
+--- a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
++++ /dev/null
+@@ -1,114 +0,0 @@
+-blktrace: obey LDFLAGS
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+-
+-the patch was imported from meta-mentor layer on yoctoproject git server
+-http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor as of commit id
+-aed463414e2e2bf8ca44ba54ee5973e7ed599e57
+-
+-Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+-
+-Index: git/Makefile
+-===================================================================
+---- git.orig/Makefile
+-+++ git/Makefile
+-@@ -1,5 +1,6 @@
+- CC	= gcc
+- CFLAGS	= -Wall -O2 -g -W
+-+LDFLAGS =
+- ALL_CFLAGS = $(CFLAGS) -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+- PROGS	= blkparse blktrace verify_blkparse blkrawverify blkiomon
+- LIBS	= -lpthread
+-@@ -26,19 +27,19 @@ btreplay/btreplay:
+- 	$(CC) -o $*.o -c $(ALL_CFLAGS) $<
+- 
+- blkparse: blkparse.o blkparse_fmt.o rbtree.o act_mask.o
+--	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^)
+-+	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) $(LDFLAGS)
+- 
+- blktrace: blktrace.o act_mask.o
+--	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) $(LIBS)
+-+	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) $(LIBS) $(LDFLAGS)
+- 
+- verify_blkparse: verify_blkparse.o
+--	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^)
+-+	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) $(LDFLAGS)
+- 
+- blkrawverify: blkrawverify.o
+--	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^)
+-+	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) $(LDFLAGS)
+- 
+- blkiomon: blkiomon.o rbtree.o
+--	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) $(LIBS) -lrt
+-+	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) $(LIBS) -lrt $(LDFLAGS)
+- 
+- $(PROGS): | depend
+- 
+-Index: git/btreplay/Makefile
+-===================================================================
+---- git.orig/btreplay/Makefile
+-+++ git/btreplay/Makefile
+-@@ -7,6 +7,7 @@
+- 
+- CC	= gcc
+- CFLAGS	= -Wall -W -O2 -g
+-+LDFLAGS =
+- INCS	= -I. -I.. -I../btt
+- OCFLAGS	= -UCOUNT_IOS -UDEBUG -DNDEBUG
+- XCFLAGS	= -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+-@@ -32,10 +33,10 @@ clean: docsclean
+- 	$(CC) $(CFLAGS) -c -o $*.o $<
+- 
+- btrecord: btrecord.o
+--	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
+-+	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LDFLAGS)
+- 
+- btreplay: btreplay.o
+--	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LIBS)
+-+	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LIBS) $(LDFLAGS)
+- 
+- depend:
+- 	@$(CC) -MM $(CFLAGS) *.c 1> .depend
+-Index: git/btt/Makefile
+-===================================================================
+---- git.orig/btt/Makefile
+-+++ git/btt/Makefile
+-@@ -7,6 +7,7 @@
+- 
+- CC	= gcc
+- CFLAGS	= -Wall -W -O2 -g
+-+LDFLAGS =
+- INCS	= -I. -I..
+- XCFLAGS	= -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+- override CFLAGS += $(INCS) $(XCFLAGS)
+-@@ -38,7 +39,7 @@ clean: docsclean
+- 	$(CC) $(CFLAGS) -c -o $*.o $<
+- 
+- btt: $(OBJS)
+--	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LIBS)
+-+	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LIBS) $(LDFLAGS)
+- 
+- ifneq ($(wildcard .depend),)
+- include .depend
+-Index: git/iowatcher/Makefile
+-===================================================================
+---- git.orig/iowatcher/Makefile
+-+++ git/iowatcher/Makefile
+-@@ -1,5 +1,6 @@
+- CC      = gcc
+- CFLAGS  = -Wall -O2 -g -W -Wunused-result
+-+LDFLAGS =
+- ALL_CFLAGS = $(CFLAGS) -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+- 
+- PROGS = iowatcher
+-@@ -19,7 +20,7 @@ all: $(ALL)
+- 	$(CC) -o $*.o -c $(ALL_CFLAGS) $<
+- 
+- iowatcher: blkparse.o plot.o main.o tracers.o mpstat.o fio.o
+--	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) -lm -lrt
+-+	$(CC) $(ALL_CFLAGS) -o $@ $(filter %.o,$^) -lm $(LDFLAGS) -lrt
+- 
+- depend:
+- 	@$(CC) -MM $(ALL_CFLAGS) *.c 1> .depend
+diff --git a/meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch b/meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch
+deleted file mode 100644
+index 3b0c1c692c..0000000000
+--- a/meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch
++++ /dev/null
+@@ -1,197 +0,0 @@
+-From 70d5ca2d5f3d6b97c11c641b7e0c5836983219a0 Mon Sep 17 00:00:00 2001
+-From: Eric Sandeen <sandeen@redhat.com>
+-Date: Wed, 28 Mar 2018 15:26:36 -0500
+-Subject: [oe-core][PATCH 1/1] make btt scripts python3-ready
+-
+-Many distributions are moving to python3 by default.  Here's
+-an attempt to make the python scripts in blktrace python3-ready.
+-
+-Most of this was done with automated tools.  I hand fixed some
+-space-vs tab issues, and cast an array index to integer.  It
+-passes rudimentary testing when run under python2.7 as well
+-as python3.
+-
+-This doesn't do anything with the shebangs, it leaves them both
+-invoking whatever "env python" coughs up on the system.
+-
+-Signed-off-by: Eric Sandeen <sandeen@redhat.com>
+-Signed-off-by: Jens Axboe <axboe@kernel.dk>
+-
+-Unchanged except to modify shebangs to use python3 since
+-oe-core does not support python2 anymore.
+-
+-Upstream-Status: Backport [git://git.kernel.dk/blktrace.git commit 70d5ca2d5...]
+-
+-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+-
+----
+- btt/bno_plot.py | 28 +++++++++++++++-------------
+- btt/btt_plot.py | 22 +++++++++++++---------
+- 2 files changed, 28 insertions(+), 22 deletions(-)
+-
+---- git.orig/btt/bno_plot.py
+-+++ git/btt/bno_plot.py
+-@@ -1,4 +1,4 @@
+--#! /usr/bin/env python
+-+#! /usr/bin/env python3
+- #
+- # btt blkno plotting interface
+- #
+-@@ -38,6 +38,8 @@ automatically push the keys under the gr
+- To exit the plotter, enter 'quit' or ^D at the 'gnuplot> ' prompt.
+- """
+- 
+-+from __future__ import absolute_import
+-+from __future__ import print_function
+- import getopt, glob, os, sys, tempfile
+- 
+- verbose	= 0
+-@@ -60,14 +62,14 @@ def parse_args(in_args):
+- 
+- 	try:
+- 		(opts, args) = getopt.getopt(in_args, s_opts, l_opts)
+--	except getopt.error, msg:
+--		print >>sys.stderr, msg
+--		print >>sys.stderr, __doc__
+-+	except getopt.error as msg:
+-+		print(msg, file=sys.stderr)
+-+		print(__doc__, file=sys.stderr)
+- 		sys.exit(1)
+- 
+- 	for (o, a) in opts:
+- 		if o in ('-h', '--help'):
+--			print __doc__
+-+			print(__doc__)
+- 			sys.exit(0)
+- 		elif o in ('-v', '--verbose'):
+- 			verbose += 1
+-@@ -84,10 +86,10 @@ if __name__ == '__main__':
+- 	(bnos, keys_below) = parse_args(sys.argv[1:])
+- 
+- 	if verbose:
+--		print 'Using files:',
+--		for bno in bnos: print bno,
+--		if keys_below:	print '\nKeys are to be placed below graph'
+--		else:		print ''
+-+		print('Using files:', end=' ')
+-+		for bno in bnos: print(bno, end=' ')
+-+		if keys_below:	print('\nKeys are to be placed below graph')
+-+		else:		print('')
+- 
+- 	tmpdir = tempfile.mktemp()
+- 	os.mkdir(tmpdir)
+-@@ -99,7 +101,7 @@ if __name__ == '__main__':
+- 		fo = open(t, 'w')
+- 		for line in open(f, 'r'):
+- 			fld = line.split(None)
+--			print >>fo, fld[0], fld[1], int(fld[2])-int(fld[1])
+-+			print(fld[0], fld[1], int(fld[2])-int(fld[1]), file=fo)
+- 		fo.close()
+- 
+- 		t = t[t.rfind('/')+1:]
+-@@ -107,16 +109,16 @@ if __name__ == '__main__':
+- 		else:                plot_cmd = "%s,'%s'" % (plot_cmd, t)
+- 
+- 	fo = open('%s/plot.cmds' % tmpdir, 'w')
+--	print >>fo, cmds
+--	if len(bnos) > 10 or keys_below: print >>fo, 'set key below'
+--	print >>fo, plot_cmd
+-+	print(cmds, file=fo)
+-+	if len(bnos) > 10 or keys_below: print('set key below', file=fo)
+-+	print(plot_cmd, file=fo)
+- 	fo.close()
+- 
+- 	pid = os.fork()
+- 	if pid == 0:
+- 		cmd = 'gnuplot %s/plot.cmds -' % tmpdir
+- 
+--		if verbose: print 'Executing %s' % cmd
+-+		if verbose: print('Executing %s' % cmd)
+- 
+- 		os.chdir(tmpdir)
+- 		os.system(cmd)
+---- git.orig/btt/btt_plot.py
+-+++ git/btt/btt_plot.py
+-@@ -1,4 +1,4 @@
+--#! /usr/bin/env python
+-+#! /usr/bin/env python3
+- #
+- # btt_plot.py: Generate matplotlib plots for BTT generate data files
+- #
+-@@ -55,6 +55,10 @@ Arguments:
+-   but the -o (--output) and -T (--title) options will be ignored.
+- """
+- 
+-+from __future__ import absolute_import
+-+from __future__ import print_function
+-+import six
+-+from six.moves import range
+- __author__ = 'Alan D. Brunelle <alan.brunelle@hp.com>'
+- 
+- #------------------------------------------------------------------------------
+-@@ -82,7 +86,7 @@ get_base 	= lambda file: file[file.find(
+- def fatal(msg):
+- 	"""Generate fatal error message and exit"""
+- 
+--	print >>sys.stderr, 'FATAL: %s' % msg
+-+	print('FATAL: %s' % msg, file=sys.stderr)
+- 	sys.exit(1)
+- 
+- #------------------------------------------------------------------------------
+-@@ -163,7 +167,7 @@ def get_data(files):
+- 		if not os.path.exists(file):
+- 			fatal('%s not found' % file)
+- 		elif verbose:
+--			print 'Processing %s' % file
+-+			print('Processing %s' % file)
+- 
+- 		xs = []
+- 		ys = []
+-@@ -214,8 +218,8 @@ def parse_args(args):
+- 
+- 	try:
+- 		(opts, args) = getopt.getopt(args[1:], s_opts, l_opts)
+--	except getopt.error, msg:
+--		print >>sys.stderr, msg
+-+	except getopt.error as msg:
+-+		print(msg, file=sys.stderr)
+- 		fatal(__doc__)
+- 
+- 	for (o, a) in opts:
+-@@ -293,15 +297,15 @@ def generate_output(type, db):
+- 	def color(idx, style):
+- 		"""Returns a color/symbol type based upon the index passed."""
+- 
+--                colors = [ 'b', 'g', 'r', 'c', 'm', 'y', 'k' ]
+-+		colors = [ 'b', 'g', 'r', 'c', 'm', 'y', 'k' ]
+- 		l_styles = [ '-', ':', '--', '-.' ]
+- 		m_styles = [ 'o', '+', '.', ',', 's', 'v', 'x', '<', '>' ]
+- 
+- 		color = colors[idx % len(colors)]
+- 		if style == 'line':
+--			style = l_styles[(idx / len(l_styles)) % len(l_styles)]
+-+			style = l_styles[int((idx / len(l_styles)) % len(l_styles))]
+- 		elif style == 'marker':
+--			style = m_styles[(idx / len(m_styles)) % len(m_styles)]
+-+			style = m_styles[int((idx / len(m_styles)) % len(m_styles))]
+- 
+- 		return '%s%s' % (color, style)
+- 
+-@@ -314,7 +318,7 @@ def generate_output(type, db):
+- 		ofile = '%s.png' % type
+- 
+- 	if verbose:
+--		print 'Generating plot into %s' % ofile
+-+		print('Generating plot into %s' % ofile)
+- 
+- 	fig = plt.figure(figsize=plot_size)
+- 	ax = fig.add_subplot(111)
+-@@ -329,7 +333,7 @@ def generate_output(type, db):
+- 		legends = None
+- 
+- 	keys = []
+--	for file in db.iterkeys():
+-+	for file in six.iterkeys(db):
+- 		if not file in ['min_x', 'max_x', 'min_y', 'max_y']:
+- 			keys.append(file)
+- 
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
+index 7ccc022b93..a9c787fbb6 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
+@@ -10,15 +10,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+ 
+ DEPENDS = "libaio"
+ 
+-SRCREV = "cca113f2fe0759b91fd6a0e10fdcda2c28f18a7e"
++SRCREV = "366d30b9cdb20345c5d064af850d686da79b89eb"
+ 
+-PV = "1.2.0+git${SRCPV}"
++PV = "1.3.0+git${SRCPV}"
+ 
+-SRC_URI = "git://git.kernel.dk/blktrace.git \
+-           file://ldflags.patch \
+-           file://CVE-2018-10689.patch \
+-           file://make-btt-scripts-python3-ready.patch \
+-"
++SRC_URI = "git://git.kernel.dk/blktrace.git"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.25.1
+
