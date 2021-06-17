@@ -1,147 +1,2088 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.748.1623941496488930708
+Received: from mx.walter.deinstapel.de (mx.walter.deinstapel.de [116.202.209.171])
+ by mx.groups.io with SMTP id smtpd.web09.1196.1623943312795432911
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jun 2021 07:51:36 -0700
+ Thu, 17 Jun 2021 08:21:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=XDWk0veJ;
- spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1802eeb182=saul.wold@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15HEnWvp024247
-	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 14:51:35 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
-	by mx0a-0064b401.pphosted.com with ESMTP id 396yn09req-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 14:51:35 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ilwlo7zIjY5VfoUgJoTIhHYNrxk2pZMisJ7Sx1hqVWRXkGUE/pf4uIdz25j23xlQsNbQYgRb6Ipx5wA6mc2Qk4rkRnTjJq66KWIRDlm7CACRK7MMxWlzz14JlhH5R8P8xWp8eBmFzZJa+VPGvr4gPfGiS40odZcBz1nZRHUpNVgtW8hKevSd5CH4XylzenvmAJ6EjmEi/YdYCCeR/8/XysGG9tcPmTCt7j0rhWVukoYvs71McLaruojt7onrlhMcBnzgNm3jDW3j154yOokeoOgPFlUciMXLIkXcUe8pT2R3FnIkfE4+wcMOT7fzcRk3E1Jq0y9J5gNR6HPvV60H4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LQ7VhlmyWPZ9ZoXtDsXKnCu+T62utNq2Fbr89dXylZY=;
- b=D0LUyuMiuCSS1NKMaGMfTVB9RDhYGVchNlMw6wSrAHEVRJHys4umUSd9k5TXpwPvS8LKXZG1VF44cwySzjKiuf+GxSjYb5cXZ0QRcmUNZW7+F8PsJozHs1L2i6wubEMrw2rPxXlZNoIWBBnilHpO2MYgjqmPHsL4Y6i7GclcPEJfYth84p5mZlcpmjP2nN9INVB8+ead8qj1OgnIiyIJdQpksRrByN90v223vYTxIbvt/Q8cy0JedNABg5KWBtQPpKu/rV7ScS5DKtWTcRYr45MaCh1OYt9j3iNqA+JVpie7feZjgUREXSgslsmZkLBQbrf26oL6ij2/aMFRp+pI9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LQ7VhlmyWPZ9ZoXtDsXKnCu+T62utNq2Fbr89dXylZY=;
- b=XDWk0veJfO0YHnuNs/6mm/QzPau20op/pfDPxUQdQcptgXdzeWCUp8XQ6ZH7NQ+SysxQFC6OkSK7YbNiCxifnptad6qoXpocfRi+KYdzTFjIguE6PQgz7s+6BJjT3A4Ee7mbRY9/PvTeqQStcM+udqTJo7t+N2OuNcpTb4QGvJo=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
- by MWHPR11MB1855.namprd11.prod.outlook.com (2603:10b6:300:10e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.24; Thu, 17 Jun
- 2021 14:51:34 +0000
-Received: from CO1PR11MB5076.namprd11.prod.outlook.com
- ([fe80::ddf6:b028:79fe:ec73]) by CO1PR11MB5076.namprd11.prod.outlook.com
- ([fe80::ddf6:b028:79fe:ec73%6]) with mapi id 15.20.4219.026; Thu, 17 Jun 2021
- 14:51:33 +0000
-From: "Saul Wold" <Saul.Wold@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemurunner: add second qmp port
-Date: Thu, 17 Jun 2021 07:51:19 -0700
-Message-Id: <20210617145119.1867049-1-saul.wold@windriver.com>
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [71.238.119.71]
-X-ClientProxiedBy: MW4PR03CA0205.namprd03.prod.outlook.com
- (2603:10b6:303:b8::30) To CO1PR11MB5076.namprd11.prod.outlook.com
- (2603:10b6:303:90::7)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yocto-hs.bigsur.com.bigsur.com (71.238.119.71) by MW4PR03CA0205.namprd03.prod.outlook.com (2603:10b6:303:b8::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 14:51:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b3212d33-a0a3-4240-0d6c-08d9319f6630
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1855:
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB185570F6A3B37F63B0AA0DDDEE0E9@MWHPR11MB1855.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DXkDA04gGVMoFOi4Dtuskc64hF0Z9fclmES/uqfakqrgJ2Jcox0UFxxcCfFVbTeDpglGGKBckGmmHKK9gCa9hu+rAcH8S0eSa53ZvYbYx1aFi/rQPpTpIIBn6ic0iFcjHQ6UBMfduxnF8/VZfgOOHz50fn6ClhFQGF6aOEOCTjtN3W4swsxtiWEgYtTrxUEpGFXukIKtuANN5VDqPvxZ+AXMNs89WMQp5q9KSk72qsy6TpsTtb7K5LkiXMDfJ+VfiZl85n+60MiPsouP/pE3YpqH4zN9uCMZ6/2KBagjAO9JFL3PunGleyULsl9WvNuhxGg0qgrWLxh/U486KrSRVewggZLHtmfpIQNR6RCqkKK62me0E+X7a0Sn+VQS9S37d71C8M9owxcKai8YyAa7hSTN26JAXeAQuNe3ElcuZg6MklVbo1tt4j5dWqgdvIsqXfccVcIbfUbacDKvwB1NojxR7VGwJieJI2D9yGfz6uoYT5sQ/1jNT5rJKPemE6bGJ4LxEkVC0NIzyRa+Oi9r/YsqMKmue2Qnb3oD0U1BWwgaOcRMOBun43b/pptt1tHCaHF8YRxCIGoEL51AdARCr7jV08vjls6QnzpqBWLtLyqIZwdZtKsE4vObff9wFvFLL1+5edU0lNeCCNBJBrg1Aw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(396003)(39850400004)(136003)(366004)(186003)(6916009)(5660300002)(478600001)(316002)(16526019)(2616005)(1076003)(26005)(38350700002)(2906002)(86362001)(66946007)(6486002)(956004)(8676002)(8936002)(6666004)(6506007)(6512007)(66476007)(66556008)(83380400001)(36756003)(38100700002)(52116002)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?SXLjE0xcnaBuuW3/Ui6apTX93tUbAeoSdsH/tkON0ZLk3NffMyu6u7HMOWti?=
- =?us-ascii?Q?ISbjKSUtooxQRafTODkS3a8dD9uQ9L6o0IuAP2x4duSzYtgp1mf5e18FyYgG?=
- =?us-ascii?Q?ginjBPRNi2+kLB8hwJ7LKobV0Vz0KTQbc82H/z2CTr9NO0cmtUqwUiPMS7sx?=
- =?us-ascii?Q?M6Rn/lN9wFFQ9ztH0nVsglO6baLLKA3poUDn7GuQE+tHpFkowY1CpGmM4pOJ?=
- =?us-ascii?Q?zEEFt6EJL+s4cLS5hmwQBxLwjUI6d7wfmX2rABvd8S9DLk66QR29eOLwOFuD?=
- =?us-ascii?Q?mmDvq+e09uEfds4kRuAstPvaphetyIot9kMtweJjf3GMHCkIJIkGumr3pujH?=
- =?us-ascii?Q?RiwQerX3aQjnyFcFWVWnvaFhQHV9TN8YpKHWx0krNGzwKg4Cvg9XBxEL875G?=
- =?us-ascii?Q?fTM67bY953pfVx8tTkmbN6BuSYPdGqYib5RyPsnY+PKTaS9WEirVwqgHpF2Y?=
- =?us-ascii?Q?lcDDOMuuYQiN/0jNCBflAw70fheBwMDx5gT3Yldhe/kwe7tuwaGDcXmgcuom?=
- =?us-ascii?Q?jGRBVu6sFOBLRZCgt4q93WlU5+OT76CVlwZ3oF9QujcYc8Bnhsmt8qPDr0kz?=
- =?us-ascii?Q?ak30iqVi48CEZnOlZpPNS5Tba6SwputhsfV/2GTqrOhJ7aTKrhxgaGkfAxPe?=
- =?us-ascii?Q?jYqiYw0BslMkLyglmz2oKz9f7DoKxvBRofGIk/eAXEglZOo2ku3ZDz9BmmyS?=
- =?us-ascii?Q?WqQPT83rdEcKobZINd3rmaSTtBwMrBNhv5eR6hb8hQRAwzKMN2UElFUtYngy?=
- =?us-ascii?Q?VN10lghw4EbfMqj1Bl4zHVxk91og9VpXgMifYGuMbyrYVrno/FzCz4D72dQ9?=
- =?us-ascii?Q?yCHwEG+rVuyujj9d3QaRAqn9ViCO3HPjHtLRhdVZ7YBC4nRIDQ5xPnWfD/bh?=
- =?us-ascii?Q?4/eyPAObbeF8UJxsVEV9pKf/K7iRZYMLuPn/OUk2oB+3A/0Hl3r46+yOlEIV?=
- =?us-ascii?Q?pDT238JMlFR2cXY4+zRxmuQqgZCcvhSuQtY+eeU0M8DIKjRE/hxalo02Lux1?=
- =?us-ascii?Q?Pu15ftOtsi84iC4e91hy1G/3DvWc9TKpISFMa3GzJBWuxhrRjag7V9RcvBjU?=
- =?us-ascii?Q?l5HDvqg+Rsop7r+xf6Z12MlG0mUSf2iKn6tuxhN8frGevqIMTs8dUKqJhiIv?=
- =?us-ascii?Q?Rxiqyb2vOfbwRFxNwRJ3ODU/MeQ8aD93JYaPiDAjm8aVbBzFdGE38KmZG3ty?=
- =?us-ascii?Q?40/FUdh2syQAJ25NTfOysWFbtIYMz0Lh0qU+r4MIWRIrVLtk/9o/VdjO124s?=
- =?us-ascii?Q?KX4gFGRRDu00Q3rmGA8phm4xGGs9ifIyFp6YCZr68nZnVZPM+m2k3VG/GApO?=
- =?us-ascii?Q?knRq7QkscexogGPu6BPE2d8o?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3212d33-a0a3-4240-0d6c-08d9319f6630
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 14:51:33.6399
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mwr5jBG1UKjfXvhhwZu/kgaTF3ecOZm69h4gl3hqSUtxn8/a1xFR538GCWDP0ZhIoSGSGsBwKcOXTRHcpwi5Kg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1855
-X-Proofpoint-ORIG-GUID: 8_MqmaWZvQHUNLn7YS4acnVIzJbq_F44
-X-Proofpoint-GUID: 8_MqmaWZvQHUNLn7YS4acnVIzJbq_F44
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-06-17_13:2021-06-15,2021-06-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 spamscore=0 adultscore=0 priorityscore=1501 clxscore=1011
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106170094
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=missing; spf=pass (domain: orschulko.eu, ip: 116.202.209.171, mailfrom: jasper@orschulko.eu)
+From: "Jasper Orschulko" <Jasper.Orschulko@iris-sensing.com>
+To: openembedded-core@lists.openembedded.org,
+	steve@sakoman.com,
+	Jasper.Orschulko@iris-sensing.com
+Subject: [OE-core][dunfell][PATCH] expat: fix CVE-2013-0340
+Date: Thu, 17 Jun 2021 17:20:56 +0200
+Message-Id: <20210617152056.1773636-1-Jasper.Orschulko@iris-sensing.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-This will allow for direct ssh connection without breaking
-the first one that is used for monitoring. This will not
-cause qemu to block waiting for connections.
+expat < 4.0 is vulnerable to billion laughs attacks (see
+[https://github.com/libexpat/libexpat/issues/34]). This patch backports
+the commits b1d039607d3d8a042bf0466bfcc1c0f104e353c8
+and 60959f2b491876199879d97c8ed956eabb0c2e73 from upstream.
 
-I am not sure where the logging.info() is going, so one has to
-observe the qemu cmdline to figure out the port to ssh into.
+Additionally, the SRC_URI had to be adjusted due to renaming of the
+source archive
 
-Signed-off-by: Saul Wold <saul.wold@windriver.com>
+Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+
+Upstream-Status: Submitted [https://lists.openembedded.org/g/openembedded=
+-core/message/153030?p=3D,,,20,0,0,0::Created,,Jasper,20,2,0,83581993]
 ---
- meta/lib/oeqa/utils/qemurunner.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../expat/expat/CVE-2013-0340.patch           | 1758 +++++++++++++++++
+ .../expat/expat/libtool-tag.patch             |   41 +-
+ meta/recipes-core/expat/expat_2.2.9.bb        |   12 +-
+ 3 files changed, 1782 insertions(+), 29 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2013-0340.patch
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 0032f6ed8dd..a4727bd14ac 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -192,6 +192,12 @@ class QemuRunner:
-         qmp_file = "." + next(tempfile._get_candidate_names())
-         qmp_param = ' -S -qmp unix:./%s,server,wait' % (qmp_file)
-         qmp_port = self.tmpdir + "/" + qmp_file
-+        # Create a second socket connection for debugging use, 
-+        # note this will NOT cause qemu to block waiting for the connection
-+        qmp_file2 = "." + next(tempfile._get_candidate_names())
-+        qmp_param += ' -qmp unix:./%s,server' % (qmp_file2)
-+        qmp_port2 = self.tmpdir + "/" + qmp_file2
-+        self.logger.info("QMP Available for connection at %s" % (qmp_port2))
- 
-         try:
-             if self.serial_ports >= 2:
--- 
-2.25.1
+diff --git a/meta/recipes-core/expat/expat/CVE-2013-0340.patch b/meta/rec=
+ipes-core/expat/expat/CVE-2013-0340.patch
+new file mode 100644
+index 0000000000..5ef749719d
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2013-0340.patch
+@@ -0,0 +1,1758 @@
++From a644ccf25392523b1329872310e24d0fc5f40629 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Mon, 19 Apr 2021 21:42:51 +0200
++Subject: [PATCH] expat: Backport fix for CVE-2013-0340
++
++Issue: https://github.com/libexpat/libexpat/issues/34
++
++This patch cherry-picks the following commits from upstream release
++2.4.0 onto 2.2.9:
++
++- b1d039607d3d8a042bf0466bfcc1c0f104e353c8
++- 60959f2b491876199879d97c8ed956eabb0c2e73
++
++Upstream-Status: Backport
++CVE: CVE-2013-0340
++Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
++---
++ lib/expat.h       |   21 +-
++ lib/internal.h    |   30 +
++ lib/libexpat.def  |    3 +
++ lib/libexpatw.def |    3 +
++ lib/xmlparse.c    | 1147 +++++++++++++++++++++++++++++++++++++--
++ 5 files changed, 1143 insertions(+), 61 deletions(-)
++
++diff --git a/lib/expat.h b/lib/expat.h
++index 48a6e2a3..0fb70d9d 100644
++--- a/lib/expat.h
+++++ b/lib/expat.h
++@@ -115,7 +115,9 @@ enum XML_Error {
++   XML_ERROR_RESERVED_PREFIX_XMLNS,
++   XML_ERROR_RESERVED_NAMESPACE_URI,
++   /* Added in 2.2.1. */
++-  XML_ERROR_INVALID_ARGUMENT
+++  XML_ERROR_INVALID_ARGUMENT,
+++  /* Added in 2.4.0. */
+++  XML_ERROR_AMPLIFICATION_LIMIT_BREACH
++ };
++=20
++ enum XML_Content_Type {
++@@ -997,7 +999,10 @@ enum XML_FeatureEnum {
++   XML_FEATURE_SIZEOF_XML_LCHAR,
++   XML_FEATURE_NS,
++   XML_FEATURE_LARGE_SIZE,
++-  XML_FEATURE_ATTR_INFO
+++  XML_FEATURE_ATTR_INFO,
+++  /* Added in Expat 2.4.0. */
+++  XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DE=
+FAULT,
+++  XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEF=
+AULT
++   /* Additional features must be added to the end of this enum. */
++ };
++=20
++@@ -1010,6 +1015,18 @@ typedef struct {
++ XMLPARSEAPI(const XML_Feature *)
++ XML_GetFeatureList(void);
++=20
+++#ifdef XML_DTD
+++/* Added in Expat 2.4.0. */
+++XMLPARSEAPI(XML_Bool)
+++XML_SetBillionLaughsAttackProtectionMaximumAmplification(
+++    XML_Parser parser, float maximumAmplificationFactor);
+++
+++/* Added in Expat 2.4.0. */
+++XMLPARSEAPI(XML_Bool)
+++XML_SetBillionLaughsAttackProtectionActivationThreshold(
+++    XML_Parser parser, unsigned long long activationThresholdBytes);
+++#endif
+++
++ /* Expat follows the semantic versioning convention.
++    See http://semver.org.
++ */
++diff --git a/lib/internal.h b/lib/internal.h
++index 60913dab..d8b31fa2 100644
++--- a/lib/internal.h
+++++ b/lib/internal.h
++@@ -101,10 +101,40 @@
++ #  endif
++ #endif
++=20
+++#include <limits.h> // ULONG_MAX
+++
+++#if defined(_WIN32) && ! defined(__USE_MINGW_ANSI_STDIO)
+++#  define EXPAT_FMT_ULL(midpart) "%" midpart "I64u"
+++#  if defined(_WIN64) // Note: modifier "td" does not work for MinGW
+++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "I64d"
+++#  else
+++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "d"
+++#  endif
+++#else
+++#  define EXPAT_FMT_ULL(midpart) "%" midpart "llu"
+++#  if ! defined(ULONG_MAX)
+++#    error Compiler did not define ULONG_MAX for us
+++#  elif ULONG_MAX =3D=3D 18446744073709551615u // 2^64-1
+++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "ld"
+++#  else
+++#    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "d"
+++#  endif
+++#endif
+++
++ #ifndef UNUSED_P
++ #  define UNUSED_P(p) (void)p
++ #endif
++=20
+++/* NOTE BEGIN If you ever patch these defaults to greater values
+++              for non-attack XML payload in your environment,
+++              please file a bug report with libexpat.  Thank you!
+++*/
+++#define EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DE=
+FAULT   \
+++  100.0f
+++#define EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEF=
+AULT    \
+++  8388608 // 8 MiB, 2^23
+++/* NOTE END */
+++
++ #ifdef __cplusplus
++ extern "C" {
++ #endif
++diff --git a/lib/libexpat.def b/lib/libexpat.def
++index 16faf595..5aefa6df 100644
++--- a/lib/libexpat.def
+++++ b/lib/libexpat.def
++@@ -76,3 +76,6 @@ EXPORTS
++   XML_SetHashSalt @67
++ ; added with version 2.2.5
++   _INTERNAL_trim_to_complete_utf8_characters @68
+++; added with version 2.4.0
+++  XML_SetBillionLaughsAttackProtectionActivationThreshold @69
+++  XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
++diff --git a/lib/libexpatw.def b/lib/libexpatw.def
++index 16faf595..5aefa6df 100644
++--- a/lib/libexpatw.def
+++++ b/lib/libexpatw.def
++@@ -76,3 +76,6 @@ EXPORTS
++   XML_SetHashSalt @67
++ ; added with version 2.2.5
++   _INTERNAL_trim_to_complete_utf8_characters @68
+++; added with version 2.4.0
+++  XML_SetBillionLaughsAttackProtectionActivationThreshold @69
+++  XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 3aaf35b9..6790bc28 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -47,6 +47,8 @@
++ #include <limits.h> /* UINT_MAX */
++ #include <stdio.h>  /* fprintf */
++ #include <stdlib.h> /* getenv, rand_s */
+++#include <stdint.h> /* uintptr_t */
+++#include <math.h>   /* isnan */
++=20
++ #ifdef _WIN32
++ #  define getpid GetCurrentProcessId
++@@ -373,6 +375,31 @@ typedef struct open_internal_entity {
++   XML_Bool betweenDecl; /* WFC: PE Between Declarations */
++ } OPEN_INTERNAL_ENTITY;
++=20
+++enum XML_Account {
+++  XML_ACCOUNT_DIRECT,           /* bytes directly passed to the Expat p=
+arser */
+++  XML_ACCOUNT_ENTITY_EXPANSION, /* intermediate bytes produced during e=
+ntity
+++                                   expansion */
+++  XML_ACCOUNT_NONE              /* i.e. do not account, was accounted a=
+lready */
+++};
+++
+++#ifdef XML_DTD
+++typedef unsigned long long XmlBigCount;
+++typedef struct accounting {
+++  XmlBigCount countBytesDirect;
+++  XmlBigCount countBytesIndirect;
+++  int debugLevel;
+++  float maximumAmplificationFactor; // >=3D1.0
+++  unsigned long long activationThresholdBytes;
+++} ACCOUNTING;
+++
+++typedef struct entity_stats {
+++  unsigned int countEverOpened;
+++  unsigned int currentDepth;
+++  unsigned int maximumDepthSeen;
+++  int debugLevel;
+++} ENTITY_STATS;
+++#endif /* XML_DTD */
+++
++ typedef enum XML_Error PTRCALL Processor(XML_Parser parser, const char =
+*start,
++                                          const char *end, const char **=
+endPtr);
++=20
++@@ -403,16 +430,18 @@ static enum XML_Error initializeEncoding(XML_Parse=
+r parser);
++ static enum XML_Error doProlog(XML_Parser parser, const ENCODING *enc,
++                                const char *s, const char *end, int tok,
++                                const char *next, const char **nextPtr,
++-                               XML_Bool haveMore, XML_Bool allowClosing=
+Doctype);
+++                               XML_Bool haveMore, XML_Bool allowClosing=
+Doctype,
+++                               enum XML_Account account);
++ static enum XML_Error processInternalEntity(XML_Parser parser, ENTITY *=
+entity,
++                                             XML_Bool betweenDecl);
++ static enum XML_Error doContent(XML_Parser parser, int startTagLevel,
++                                 const ENCODING *enc, const char *start,
++                                 const char *end, const char **endPtr,
++-                                XML_Bool haveMore);
+++                                XML_Bool haveMore, enum XML_Account acc=
+ount);
++ static enum XML_Error doCdataSection(XML_Parser parser, const ENCODING =
+*,
++                                      const char **startPtr, const char =
+*end,
++-                                     const char **nextPtr, XML_Bool hav=
+eMore);
+++                                     const char **nextPtr, XML_Bool hav=
+eMore,
+++                                     enum XML_Account account);
++ #ifdef XML_DTD
++ static enum XML_Error doIgnoreSection(XML_Parser parser, const ENCODING=
+ *,
++                                       const char **startPtr, const char=
+ *end,
++@@ -422,7 +451,8 @@ static enum XML_Error doIgnoreSection(XML_Parser par=
+ser, const ENCODING *,
++ static void freeBindings(XML_Parser parser, BINDING *bindings);
++ static enum XML_Error storeAtts(XML_Parser parser, const ENCODING *,
++                                 const char *s, TAG_NAME *tagNamePtr,
++-                                BINDING **bindingsPtr);
+++                                BINDING **bindingsPtr,
+++                                enum XML_Account account);
++ static enum XML_Error addBinding(XML_Parser parser, PREFIX *prefix,
++                                  const ATTRIBUTE_ID *attId, const XML_C=
+har *uri,
++                                  BINDING **bindingsPtr);
++@@ -431,15 +461,18 @@ static int defineAttribute(ELEMENT_TYPE *type, ATT=
+RIBUTE_ID *, XML_Bool isCdata,
++                            XML_Parser parser);
++ static enum XML_Error storeAttributeValue(XML_Parser parser, const ENCO=
+DING *,
++                                           XML_Bool isCdata, const char =
+*,
++-                                          const char *, STRING_POOL *);
+++                                          const char *, STRING_POOL *,
+++                                          enum XML_Account account);
++ static enum XML_Error appendAttributeValue(XML_Parser parser, const ENC=
+ODING *,
++                                            XML_Bool isCdata, const char=
+ *,
++-                                           const char *, STRING_POOL *)=
+;
+++                                           const char *, STRING_POOL *,
+++                                           enum XML_Account account);
++ static ATTRIBUTE_ID *getAttributeId(XML_Parser parser, const ENCODING *=
+enc,
++                                     const char *start, const char *end)=
+;
++ static int setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *);
++ static enum XML_Error storeEntityValue(XML_Parser parser, const ENCODIN=
+G *enc,
++-                                       const char *start, const char *e=
+nd);
+++                                       const char *start, const char *e=
+nd,
+++                                       enum XML_Account account);
++ static int reportProcessingInstruction(XML_Parser parser, const ENCODIN=
+G *enc,
++                                        const char *start, const char *e=
+nd);
++ static int reportComment(XML_Parser parser, const ENCODING *enc,
++@@ -503,6 +536,35 @@ static XML_Parser parserCreate(const XML_Char *enco=
+dingName,
++=20
++ static void parserInit(XML_Parser parser, const XML_Char *encodingName)=
+;
++=20
+++#ifdef XML_DTD
+++static float accountingGetCurrentAmplification(XML_Parser rootParser);
+++static void accountingReportStats(XML_Parser originParser, const char *=
+epilog);
+++static void accountingOnAbort(XML_Parser originParser);
+++static void accountingReportDiff(XML_Parser rootParser,
+++                                 unsigned int levelsAwayFromRootParser,
+++                                 const char *before, const char *after,
+++                                 ptrdiff_t bytesMore, int source_line,
+++                                 enum XML_Account account);
+++static XML_Bool accountingDiffTolerated(XML_Parser originParser, int to=
+k,
+++                                        const char *before, const char =
+*after,
+++                                        int source_line,
+++                                        enum XML_Account account);
+++
+++static void entityTrackingReportStats(XML_Parser parser, ENTITY *entity=
+,
+++                                      const char *action, int sourceLin=
+e);
+++static void entityTrackingOnOpen(XML_Parser parser, ENTITY *entity,
+++                                 int sourceLine);
+++static void entityTrackingOnClose(XML_Parser parser, ENTITY *entity,
+++                                  int sourceLine);
+++
+++static XML_Parser getRootParserOf(XML_Parser parser,
+++                                  unsigned int *outLevelDiff);
+++static const char *unsignedCharToPrintable(unsigned char c);
+++#endif /* XML_DTD */
+++
+++static unsigned long getDebugLevel(const char *variableName,
+++                                   unsigned long defaultDebugLevel);
+++
++ #define poolStart(pool) ((pool)->start)
++ #define poolEnd(pool) ((pool)->ptr)
++ #define poolLength(pool) ((pool)->ptr - (pool)->start)
++@@ -616,6 +678,10 @@ struct XML_ParserStruct {
++   enum XML_ParamEntityParsing m_paramEntityParsing;
++ #endif
++   unsigned long m_hash_secret_salt;
+++#ifdef XML_DTD
+++  ACCOUNTING m_accounting;
+++  ENTITY_STATS m_entity_stats;
+++#endif
++ };
++=20
++ #define MALLOC(parser, s) (parser->m_mem.malloc_fcn((s)))
++@@ -1055,6 +1121,18 @@ parserInit(XML_Parser parser, const XML_Char *enc=
+odingName) {
++   parser->m_paramEntityParsing =3D XML_PARAM_ENTITY_PARSING_NEVER;
++ #endif
++   parser->m_hash_secret_salt =3D 0;
+++
+++#ifdef XML_DTD
+++  memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
+++  parser->m_accounting.debugLevel =3D getDebugLevel("EXPAT_ACCOUNTING_D=
+EBUG", 0u);
+++  parser->m_accounting.maximumAmplificationFactor
+++      =3D EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_=
+DEFAULT;
+++  parser->m_accounting.activationThresholdBytes
+++      =3D EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_D=
+EFAULT;
+++
+++  memset(&parser->m_entity_stats, 0, sizeof(ENTITY_STATS));
+++  parser->m_entity_stats.debugLevel =3D getDebugLevel("EXPAT_ENTITY_DEB=
+UG", 0u);
+++#endif
++ }
++=20
++ /* moves list of bindings to m_freeBindingList */
++@@ -2318,6 +2396,10 @@ XML_ErrorString(enum XML_Error code) {
++   /* Added in 2.2.5. */
++   case XML_ERROR_INVALID_ARGUMENT: /* Constant added in 2.2.1, already =
+*/
++     return XML_L("invalid argument");
+++  /* Added in 2.4.0. */
+++  case XML_ERROR_AMPLIFICATION_LIMIT_BREACH:
+++    return XML_L(
+++        "limit on input amplification factor (from DTD and entities) br=
+eached");
++   }
++   return NULL;
++ }
++@@ -2354,41 +2436,75 @@ XML_ExpatVersionInfo(void) {
++=20
++ const XML_Feature *XMLCALL
++ XML_GetFeatureList(void) {
++-  static const XML_Feature features[]
++-      =3D {{XML_FEATURE_SIZEOF_XML_CHAR, XML_L("sizeof(XML_Char)"),
++-          sizeof(XML_Char)},
++-         {XML_FEATURE_SIZEOF_XML_LCHAR, XML_L("sizeof(XML_LChar)"),
++-          sizeof(XML_LChar)},
+++  static const XML_Feature features[] =3D {
+++      {XML_FEATURE_SIZEOF_XML_CHAR, XML_L("sizeof(XML_Char)"),
+++       sizeof(XML_Char)},
+++      {XML_FEATURE_SIZEOF_XML_LCHAR, XML_L("sizeof(XML_LChar)"),
+++       sizeof(XML_LChar)},
++ #ifdef XML_UNICODE
++-         {XML_FEATURE_UNICODE, XML_L("XML_UNICODE"), 0},
+++      {XML_FEATURE_UNICODE, XML_L("XML_UNICODE"), 0},
++ #endif
++ #ifdef XML_UNICODE_WCHAR_T
++-         {XML_FEATURE_UNICODE_WCHAR_T, XML_L("XML_UNICODE_WCHAR_T"), 0}=
+,
+++      {XML_FEATURE_UNICODE_WCHAR_T, XML_L("XML_UNICODE_WCHAR_T"), 0},
++ #endif
++ #ifdef XML_DTD
++-         {XML_FEATURE_DTD, XML_L("XML_DTD"), 0},
+++      {XML_FEATURE_DTD, XML_L("XML_DTD"), 0},
++ #endif
++ #ifdef XML_CONTEXT_BYTES
++-         {XML_FEATURE_CONTEXT_BYTES, XML_L("XML_CONTEXT_BYTES"),
++-          XML_CONTEXT_BYTES},
+++      {XML_FEATURE_CONTEXT_BYTES, XML_L("XML_CONTEXT_BYTES"),
+++       XML_CONTEXT_BYTES},
++ #endif
++ #ifdef XML_MIN_SIZE
++-         {XML_FEATURE_MIN_SIZE, XML_L("XML_MIN_SIZE"), 0},
+++      {XML_FEATURE_MIN_SIZE, XML_L("XML_MIN_SIZE"), 0},
++ #endif
++ #ifdef XML_NS
++-         {XML_FEATURE_NS, XML_L("XML_NS"), 0},
+++      {XML_FEATURE_NS, XML_L("XML_NS"), 0},
++ #endif
++ #ifdef XML_LARGE_SIZE
++-         {XML_FEATURE_LARGE_SIZE, XML_L("XML_LARGE_SIZE"), 0},
+++      {XML_FEATURE_LARGE_SIZE, XML_L("XML_LARGE_SIZE"), 0},
++ #endif
++ #ifdef XML_ATTR_INFO
++-         {XML_FEATURE_ATTR_INFO, XML_L("XML_ATTR_INFO"), 0},
+++      {XML_FEATURE_ATTR_INFO, XML_L("XML_ATTR_INFO"), 0},
++ #endif
++-         {XML_FEATURE_END, NULL, 0}};
+++#ifdef XML_DTD
+++      /* Added in Expat 2.4.0. */
+++      {XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATI=
+ON_DEFAULT,
+++       XML_L("XML_BLAP_MAX_AMP"),
+++       (long int)
+++           EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION=
+_DEFAULT},
+++      {XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOL=
+D_DEFAULT,
+++       XML_L("XML_BLAP_ACT_THRES"),
+++       EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEFA=
+ULT},
+++#endif
+++      {XML_FEATURE_END, NULL, 0}};
++=20
++   return features;
++ }
++=20
+++#ifdef XML_DTD
+++XML_Bool XMLCALL
+++XML_SetBillionLaughsAttackProtectionMaximumAmplification(
+++    XML_Parser parser, float maximumAmplificationFactor) {
+++  if ((parser =3D=3D NULL) || (parser->m_parentParser !=3D NULL)
+++      || isnan(maximumAmplificationFactor)
+++      || (maximumAmplificationFactor < 1.0f)) {
+++    return XML_FALSE;
+++  }
+++  parser->m_accounting.maximumAmplificationFactor =3D maximumAmplificat=
+ionFactor;
+++  return XML_TRUE;
+++}
+++
+++XML_Bool XMLCALL
+++XML_SetBillionLaughsAttackProtectionActivationThreshold(
+++    XML_Parser parser, unsigned long long activationThresholdBytes) {
+++  if ((parser =3D=3D NULL) || (parser->m_parentParser !=3D NULL)) {
+++    return XML_FALSE;
+++  }
+++  parser->m_accounting.activationThresholdBytes =3D activationThreshold=
+Bytes;
+++  return XML_TRUE;
+++}
+++#endif /* XML_DTD */
+++
++ /* Initially tag->rawName always points into the parse buffer;
++    for those TAG instances opened while the current parse buffer was
++    processed, and not yet closed, we need to store tag->rawName in a mo=
+re
++@@ -2441,9 +2557,9 @@ storeRawNames(XML_Parser parser) {
++ static enum XML_Error PTRCALL
++ contentProcessor(XML_Parser parser, const char *start, const char *end,
++                  const char **endPtr) {
++-  enum XML_Error result
++-      =3D doContent(parser, 0, parser->m_encoding, start, end, endPtr,
++-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer);
+++  enum XML_Error result =3D doContent(
+++      parser, 0, parser->m_encoding, start, end, endPtr,
+++      (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_ACCOUNT_DIRE=
+CT);
++   if (result =3D=3D XML_ERROR_NONE) {
++     if (! storeRawNames(parser))
++       return XML_ERROR_NO_MEMORY;
++@@ -2468,6 +2584,14 @@ externalEntityInitProcessor2(XML_Parser parser, c=
+onst char *start,
++   int tok =3D XmlContentTok(parser->m_encoding, start, end, &next);
++   switch (tok) {
++   case XML_TOK_BOM:
+++#ifdef XML_DTD
+++    if (! accountingDiffTolerated(parser, tok, start, next, __LINE__,
+++                                  XML_ACCOUNT_DIRECT)) {
+++      accountingOnAbort(parser);
+++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++    }
+++#endif /* XML_DTD */
+++
++     /* If we are at the end of the buffer, this would cause the next st=
+age,
++        i.e. externalEntityInitProcessor3, to pass control directly to
++        doContent (by detecting XML_TOK_NONE) without processing any xml=
+ text
++@@ -2505,6 +2629,10 @@ externalEntityInitProcessor3(XML_Parser parser, c=
+onst char *start,
++   const char *next =3D start; /* XmlContentTok doesn't always set the l=
+ast arg */
++   parser->m_eventPtr =3D start;
++   tok =3D XmlContentTok(parser->m_encoding, start, end, &next);
+++  /* Note: These bytes are accounted later in:
+++           - processXmlDecl
+++           - externalEntityContentProcessor
+++  */
++   parser->m_eventEndPtr =3D next;
++=20
++   switch (tok) {
++@@ -2546,7 +2674,8 @@ externalEntityContentProcessor(XML_Parser parser, =
+const char *start,
++                                const char *end, const char **endPtr) {
++   enum XML_Error result
++       =3D doContent(parser, 1, parser->m_encoding, start, end, endPtr,
++-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer);
+++                  (XML_Bool)! parser->m_parsingStatus.finalBuffer,
+++                  XML_ACCOUNT_ENTITY_EXPANSION);
++   if (result =3D=3D XML_ERROR_NONE) {
++     if (! storeRawNames(parser))
++       return XML_ERROR_NO_MEMORY;
++@@ -2557,7 +2686,7 @@ externalEntityContentProcessor(XML_Parser parser, =
+const char *start,
++ static enum XML_Error
++ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
++           const char *s, const char *end, const char **nextPtr,
++-          XML_Bool haveMore) {
+++          XML_Bool haveMore, enum XML_Account account) {
++   /* save one level of indirection */
++   DTD *const dtd =3D parser->m_dtd;
++=20
++@@ -2575,6 +2704,17 @@ doContent(XML_Parser parser, int startTagLevel, c=
+onst ENCODING *enc,
++   for (;;) {
++     const char *next =3D s; /* XmlContentTok doesn't always set the las=
+t arg */
++     int tok =3D XmlContentTok(enc, s, end, &next);
+++#ifdef XML_DTD
+++    const char *accountAfter
+++        =3D ((tok =3D=3D XML_TOK_TRAILING_RSQB) || (tok =3D=3D XML_TOK_=
+TRAILING_CR))
+++              ? (haveMore ? s /* i.e. 0 bytes */ : end)
+++              : next;
+++    if (! accountingDiffTolerated(parser, tok, s, accountAfter, __LINE_=
+_,
+++                                  account)) {
+++      accountingOnAbort(parser);
+++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++    }
+++#endif
++     *eventEndPP =3D next;
++     switch (tok) {
++     case XML_TOK_TRAILING_CR:
++@@ -2630,6 +2770,14 @@ doContent(XML_Parser parser, int startTagLevel, c=
+onst ENCODING *enc,
++       XML_Char ch =3D (XML_Char)XmlPredefinedEntityName(
++           enc, s + enc->minBytesPerChar, next - enc->minBytesPerChar);
++       if (ch) {
+++#ifdef XML_DTD
+++        /* NOTE: We are replacing 4-6 characters original input for 1 c=
+haracter
+++         *       so there is no amplification and hence recording witho=
+ut
+++         *       protection. */
+++        accountingDiffTolerated(parser, tok, (char *)&ch,
+++                                ((char *)&ch) + sizeof(XML_Char), __LIN=
+E__,
+++                                XML_ACCOUNT_ENTITY_EXPANSION);
+++#endif /* XML_DTD */
++         if (parser->m_characterDataHandler)
++           parser->m_characterDataHandler(parser->m_handlerArg, &ch, 1);
++         else if (parser->m_defaultHandler)
++@@ -2748,7 +2896,8 @@ doContent(XML_Parser parser, int startTagLevel, co=
+nst ENCODING *enc,
++       }
++       tag->name.str =3D (XML_Char *)tag->buf;
++       *toPtr =3D XML_T('\0');
++-      result =3D storeAtts(parser, enc, s, &(tag->name), &(tag->binding=
+s));
+++      result
+++          =3D storeAtts(parser, enc, s, &(tag->name), &(tag->bindings),=
+ account);
++       if (result)
++         return result;
++       if (parser->m_startElementHandler)
++@@ -2772,7 +2921,8 @@ doContent(XML_Parser parser, int startTagLevel, co=
+nst ENCODING *enc,
++       if (! name.str)
++         return XML_ERROR_NO_MEMORY;
++       poolFinish(&parser->m_tempPool);
++-      result =3D storeAtts(parser, enc, s, &name, &bindings);
+++      result =3D storeAtts(parser, enc, s, &name, &bindings,
+++                         XML_ACCOUNT_NONE /* token spans whole start ta=
+g */);
++       if (result !=3D XML_ERROR_NONE) {
++         freeBindings(parser, bindings);
++         return result;
++@@ -2907,7 +3057,8 @@ doContent(XML_Parser parser, int startTagLevel, co=
+nst ENCODING *enc,
++       /* END disabled code */
++       else if (parser->m_defaultHandler)
++         reportDefault(parser, enc, s, next);
++-      result =3D doCdataSection(parser, enc, &next, end, nextPtr, haveM=
+ore);
+++      result
+++          =3D doCdataSection(parser, enc, &next, end, nextPtr, haveMore=
+, account);
++       if (result !=3D XML_ERROR_NONE)
++         return result;
++       else if (! next) {
++@@ -3036,7 +3187,8 @@ freeBindings(XML_Parser parser, BINDING *bindings)=
+ {
++ */
++ static enum XML_Error
++ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
++-          TAG_NAME *tagNamePtr, BINDING **bindingsPtr) {
+++          TAG_NAME *tagNamePtr, BINDING **bindingsPtr,
+++          enum XML_Account account) {
++   DTD *const dtd =3D parser->m_dtd; /* save one level of indirection */
++   ELEMENT_TYPE *elementType;
++   int nDefaultAtts;
++@@ -3146,7 +3298,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, =
+const char *attStr,
++       /* normalize the attribute value */
++       result =3D storeAttributeValue(
++           parser, enc, isCdata, parser->m_atts[i].valuePtr,
++-          parser->m_atts[i].valueEnd, &parser->m_tempPool);
+++          parser->m_atts[i].valueEnd, &parser->m_tempPool, account);
++       if (result)
++         return result;
++       appAtts[attIndex] =3D poolStart(&parser->m_tempPool);
++@@ -3535,9 +3687,9 @@ addBinding(XML_Parser parser, PREFIX *prefix, cons=
+t ATTRIBUTE_ID *attId,
++ static enum XML_Error PTRCALL
++ cdataSectionProcessor(XML_Parser parser, const char *start, const char =
+*end,
++                       const char **endPtr) {
++-  enum XML_Error result
++-      =3D doCdataSection(parser, parser->m_encoding, &start, end, endPt=
+r,
++-                       (XML_Bool)! parser->m_parsingStatus.finalBuffer)=
+;
+++  enum XML_Error result =3D doCdataSection(
+++      parser, parser->m_encoding, &start, end, endPtr,
+++      (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_ACCOUNT_DIRE=
+CT);
++   if (result !=3D XML_ERROR_NONE)
++     return result;
++   if (start) {
++@@ -3557,7 +3709,8 @@ cdataSectionProcessor(XML_Parser parser, const cha=
+r *start, const char *end,
++ */
++ static enum XML_Error
++ doCdataSection(XML_Parser parser, const ENCODING *enc, const char **sta=
+rtPtr,
++-               const char *end, const char **nextPtr, XML_Bool haveMore=
+) {
+++               const char *end, const char **nextPtr, XML_Bool haveMore=
+,
+++               enum XML_Account account) {
++   const char *s =3D *startPtr;
++   const char **eventPP;
++   const char **eventEndPP;
++@@ -3575,6 +3728,14 @@ doCdataSection(XML_Parser parser, const ENCODING =
+*enc, const char **startPtr,
++   for (;;) {
++     const char *next;
++     int tok =3D XmlCdataSectionTok(enc, s, end, &next);
+++#ifdef XML_DTD
+++    if (! accountingDiffTolerated(parser, tok, s, next, __LINE__, accou=
+nt)) {
+++      accountingOnAbort(parser);
+++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++    }
+++#else
+++    UNUSED_P(account);
+++#endif
++     *eventEndPP =3D next;
++     switch (tok) {
++     case XML_TOK_CDATA_SECT_CLOSE:
++@@ -3719,6 +3880,13 @@ doIgnoreSection(XML_Parser parser, const ENCODING=
+ *enc, const char **startPtr,
++   *eventPP =3D s;
++   *startPtr =3D NULL;
++   tok =3D XmlIgnoreSectionTok(enc, s, end, &next);
+++#  ifdef XML_DTD
+++  if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
+++                                XML_ACCOUNT_DIRECT)) {
+++    accountingOnAbort(parser);
+++    return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++  }
+++#  endif
++   *eventEndPP =3D next;
++   switch (tok) {
++   case XML_TOK_IGNORE_SECT:
++@@ -3803,6 +3971,15 @@ processXmlDecl(XML_Parser parser, int isGeneralTe=
+xtEntity, const char *s,
++   const char *versionend;
++   const XML_Char *storedversion =3D NULL;
++   int standalone =3D -1;
+++
+++#ifdef XML_DTD
+++  if (! accountingDiffTolerated(parser, XML_TOK_XML_DECL, s, next, __LI=
+NE__,
+++                                XML_ACCOUNT_DIRECT)) {
+++    accountingOnAbort(parser);
+++    return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++  }
+++#endif
+++
++   if (! (parser->m_ns ? XmlParseXmlDeclNS : XmlParseXmlDecl)(
++           isGeneralTextEntity, parser->m_encoding, s, next, &parser->m_=
+eventPtr,
++           &version, &versionend, &encodingName, &newEncoding, &standalo=
+ne)) {
++@@ -3952,6 +4129,10 @@ entityValueInitProcessor(XML_Parser parser, const=
+ char *s, const char *end,
++=20
++   for (;;) {
++     tok =3D XmlPrologTok(parser->m_encoding, start, end, &next);
+++    /* Note: Except for XML_TOK_BOM below, these bytes are accounted la=
+ter in:
+++             - storeEntityValue
+++             - processXmlDecl
+++    */
++     parser->m_eventEndPtr =3D next;
++     if (tok <=3D 0) {
++       if (! parser->m_parsingStatus.finalBuffer && tok !=3D XML_TOK_INV=
+ALID) {
++@@ -3970,7 +4151,8 @@ entityValueInitProcessor(XML_Parser parser, const =
+char *s, const char *end,
++         break;
++       }
++       /* found end of entity value - can store it now */
++-      return storeEntityValue(parser, parser->m_encoding, s, end);
+++      return storeEntityValue(parser, parser->m_encoding, s, end,
+++                              XML_ACCOUNT_DIRECT);
++     } else if (tok =3D=3D XML_TOK_XML_DECL) {
++       enum XML_Error result;
++       result =3D processXmlDecl(parser, 0, start, next);
++@@ -3997,6 +4179,14 @@ entityValueInitProcessor(XML_Parser parser, const=
+ char *s, const char *end,
++     */
++     else if (tok =3D=3D XML_TOK_BOM && next =3D=3D end
++              && ! parser->m_parsingStatus.finalBuffer) {
+++#  ifdef XML_DTD
+++      if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
+++                                    XML_ACCOUNT_DIRECT)) {
+++        accountingOnAbort(parser);
+++        return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++      }
+++#  endif
+++
++       *nextPtr =3D next;
++       return XML_ERROR_NONE;
++     }
++@@ -4039,16 +4229,24 @@ externalParEntProcessor(XML_Parser parser, const=
+ char *s, const char *end,
++   }
++   /* This would cause the next stage, i.e. doProlog to be passed XML_TO=
+K_BOM.
++      However, when parsing an external subset, doProlog will not accept=
+ a BOM
++-     as valid, and report a syntax error, so we have to skip the BOM
+++     as valid, and report a syntax error, so we have to skip the BOM, a=
+nd
+++     account for the BOM bytes.
++   */
++   else if (tok =3D=3D XML_TOK_BOM) {
+++    if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
+++                                  XML_ACCOUNT_DIRECT)) {
+++      accountingOnAbort(parser);
+++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++    }
+++
++     s =3D next;
++     tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
++   }
++=20
++   parser->m_processor =3D prologProcessor;
++   return doProlog(parser, parser->m_encoding, s, end, tok, next, nextPt=
+r,
++-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_=
+TRUE);
+++                  (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_=
+TRUE,
+++                  XML_ACCOUNT_DIRECT);
++ }
++=20
++ static enum XML_Error PTRCALL
++@@ -4061,6 +4259,9 @@ entityValueProcessor(XML_Parser parser, const char=
+ *s, const char *end,
++=20
++   for (;;) {
++     tok =3D XmlPrologTok(enc, start, end, &next);
+++    /* Note: These bytes are accounted later in:
+++             - storeEntityValue
+++    */
++     if (tok <=3D 0) {
++       if (! parser->m_parsingStatus.finalBuffer && tok !=3D XML_TOK_INV=
+ALID) {
++         *nextPtr =3D s;
++@@ -4078,7 +4279,7 @@ entityValueProcessor(XML_Parser parser, const char=
+ *s, const char *end,
++         break;
++       }
++       /* found end of entity value - can store it now */
++-      return storeEntityValue(parser, enc, s, end);
+++      return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT);
++     }
++     start =3D next;
++   }
++@@ -4092,13 +4293,14 @@ prologProcessor(XML_Parser parser, const char *s=
+, const char *end,
++   const char *next =3D s;
++   int tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
++   return doProlog(parser, parser->m_encoding, s, end, tok, next, nextPt=
+r,
++-                  (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_=
+TRUE);
+++                  (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_=
+TRUE,
+++                  XML_ACCOUNT_DIRECT);
++ }
++=20
++ static enum XML_Error
++ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const c=
+har *end,
++          int tok, const char *next, const char **nextPtr, XML_Bool have=
+More,
++-         XML_Bool allowClosingDoctype) {
+++         XML_Bool allowClosingDoctype, enum XML_Account account) {
++ #ifdef XML_DTD
++   static const XML_Char externalSubsetName[] =3D {ASCII_HASH, '\0'};
++ #endif /* XML_DTD */
++@@ -4125,6 +4327,10 @@ doProlog(XML_Parser parser, const ENCODING *enc, =
+const char *s, const char *end,
++   static const XML_Char enumValueSep[] =3D {ASCII_PIPE, '\0'};
++   static const XML_Char enumValueStart[] =3D {ASCII_LPAREN, '\0'};
++=20
+++#ifndef XML_DTD
+++  UNUSED_P(account);
+++#endif
+++
++   /* save one level of indirection */
++   DTD *const dtd =3D parser->m_dtd;
++=20
++@@ -4189,6 +4395,19 @@ doProlog(XML_Parser parser, const ENCODING *enc, =
+const char *s, const char *end,
++       }
++     }
++     role =3D XmlTokenRole(&parser->m_prologState, tok, s, next, enc);
+++#ifdef XML_DTD
+++    switch (role) {
+++    case XML_ROLE_INSTANCE_START: // bytes accounted in contentProcesso=
+r
+++    case XML_ROLE_XML_DECL:       // bytes accounted in processXmlDecl
+++    case XML_ROLE_TEXT_DECL:      // bytes accounted in processXmlDecl
+++      break;
+++    default:
+++      if (! accountingDiffTolerated(parser, tok, s, next, __LINE__, acc=
+ount)) {
+++        accountingOnAbort(parser);
+++        return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++      }
+++    }
+++#endif
++     switch (role) {
++     case XML_ROLE_XML_DECL: {
++       enum XML_Error result =3D processXmlDecl(parser, 0, s, next);
++@@ -4464,7 +4683,8 @@ doProlog(XML_Parser parser, const ENCODING *enc, c=
+onst char *s, const char *end,
++         const XML_Char *attVal;
++         enum XML_Error result =3D storeAttributeValue(
++             parser, enc, parser->m_declAttributeIsCdata,
++-            s + enc->minBytesPerChar, next - enc->minBytesPerChar, &dtd=
+->pool);
+++            s + enc->minBytesPerChar, next - enc->minBytesPerChar, &dtd=
+->pool,
+++            XML_ACCOUNT_NONE);
++         if (result)
++           return result;
++         attVal =3D poolStart(&dtd->pool);
++@@ -4497,8 +4717,9 @@ doProlog(XML_Parser parser, const ENCODING *enc, c=
+onst char *s, const char *end,
++       break;
++     case XML_ROLE_ENTITY_VALUE:
++       if (dtd->keepProcessing) {
++-        enum XML_Error result =3D storeEntityValue(
++-            parser, enc, s + enc->minBytesPerChar, next - enc->minBytes=
+PerChar);
+++        enum XML_Error result
+++            =3D storeEntityValue(parser, enc, s + enc->minBytesPerChar,
+++                               next - enc->minBytesPerChar, XML_ACCOUNT=
+_NONE);
++         if (parser->m_declEntity) {
++           parser->m_declEntity->textPtr =3D poolStart(&dtd->entityValue=
+Pool);
++           parser->m_declEntity->textLen
++@@ -4888,12 +5109,15 @@ doProlog(XML_Parser parser, const ENCODING *enc,=
+ const char *s, const char *end,
++         if (parser->m_externalEntityRefHandler) {
++           dtd->paramEntityRead =3D XML_FALSE;
++           entity->open =3D XML_TRUE;
+++          entityTrackingOnOpen(parser, entity, __LINE__);
++           if (! parser->m_externalEntityRefHandler(
++                   parser->m_externalEntityRefHandlerArg, 0, entity->bas=
+e,
++                   entity->systemId, entity->publicId)) {
+++            entityTrackingOnClose(parser, entity, __LINE__);
++             entity->open =3D XML_FALSE;
++             return XML_ERROR_EXTERNAL_ENTITY_HANDLING;
++           }
+++          entityTrackingOnClose(parser, entity, __LINE__);
++           entity->open =3D XML_FALSE;
++           handleDefault =3D XML_FALSE;
++           if (! dtd->paramEntityRead) {
++@@ -5091,6 +5315,13 @@ epilogProcessor(XML_Parser parser, const char *s,=
+ const char *end,
++   for (;;) {
++     const char *next =3D NULL;
++     int tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
+++#ifdef XML_DTD
+++    if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
+++                                  XML_ACCOUNT_DIRECT)) {
+++      accountingOnAbort(parser);
+++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++    }
+++#endif
++     parser->m_eventEndPtr =3D next;
++     switch (tok) {
++     /* report partial linebreak - it might be the last token */
++@@ -5164,6 +5395,9 @@ processInternalEntity(XML_Parser parser, ENTITY *e=
+ntity, XML_Bool betweenDecl) {
++       return XML_ERROR_NO_MEMORY;
++   }
++   entity->open =3D XML_TRUE;
+++#ifdef XML_DTD
+++  entityTrackingOnOpen(parser, entity, __LINE__);
+++#endif
++   entity->processed =3D 0;
++   openEntity->next =3D parser->m_openInternalEntities;
++   parser->m_openInternalEntities =3D openEntity;
++@@ -5182,17 +5416,22 @@ processInternalEntity(XML_Parser parser, ENTITY =
+*entity, XML_Bool betweenDecl) {
++     int tok
++         =3D XmlPrologTok(parser->m_internalEncoding, textStart, textEnd=
+, &next);
++     result =3D doProlog(parser, parser->m_internalEncoding, textStart, =
+textEnd,
++-                      tok, next, &next, XML_FALSE, XML_FALSE);
+++                      tok, next, &next, XML_FALSE, XML_FALSE,
+++                      XML_ACCOUNT_ENTITY_EXPANSION);
++   } else
++ #endif /* XML_DTD */
++     result =3D doContent(parser, parser->m_tagLevel, parser->m_internal=
+Encoding,
++-                       textStart, textEnd, &next, XML_FALSE);
+++                       textStart, textEnd, &next, XML_FALSE,
+++                       XML_ACCOUNT_ENTITY_EXPANSION);
++=20
++   if (result =3D=3D XML_ERROR_NONE) {
++     if (textEnd !=3D next && parser->m_parsingStatus.parsing =3D=3D XML=
+_SUSPENDED) {
++       entity->processed =3D (int)(next - textStart);
++       parser->m_processor =3D internalEntityProcessor;
++     } else {
+++#ifdef XML_DTD
+++      entityTrackingOnClose(parser, entity, __LINE__);
+++#endif /* XML_DTD */
++       entity->open =3D XML_FALSE;
++       parser->m_openInternalEntities =3D openEntity->next;
++       /* put openEntity back in list of free instances */
++@@ -5225,12 +5464,13 @@ internalEntityProcessor(XML_Parser parser, const=
+ char *s, const char *end,
++     int tok
++         =3D XmlPrologTok(parser->m_internalEncoding, textStart, textEnd=
+, &next);
++     result =3D doProlog(parser, parser->m_internalEncoding, textStart, =
+textEnd,
++-                      tok, next, &next, XML_FALSE, XML_TRUE);
+++                      tok, next, &next, XML_FALSE, XML_TRUE,
+++                      XML_ACCOUNT_ENTITY_EXPANSION);
++   } else
++ #endif /* XML_DTD */
++     result =3D doContent(parser, openEntity->startTagLevel,
++                        parser->m_internalEncoding, textStart, textEnd, =
+&next,
++-                       XML_FALSE);
+++                       XML_FALSE, XML_ACCOUNT_ENTITY_EXPANSION);
++=20
++   if (result !=3D XML_ERROR_NONE)
++     return result;
++@@ -5239,6 +5479,9 @@ internalEntityProcessor(XML_Parser parser, const c=
+har *s, const char *end,
++     entity->processed =3D (int)(next - (char *)entity->textPtr);
++     return result;
++   } else {
+++#ifdef XML_DTD
+++    entityTrackingOnClose(parser, entity, __LINE__);
+++#endif
++     entity->open =3D XML_FALSE;
++     parser->m_openInternalEntities =3D openEntity->next;
++     /* put openEntity back in list of free instances */
++@@ -5252,7 +5495,8 @@ internalEntityProcessor(XML_Parser parser, const c=
+har *s, const char *end,
++     parser->m_processor =3D prologProcessor;
++     tok =3D XmlPrologTok(parser->m_encoding, s, end, &next);
++     return doProlog(parser, parser->m_encoding, s, end, tok, next, next=
+Ptr,
++-                    (XML_Bool)! parser->m_parsingStatus.finalBuffer, XM=
+L_TRUE);
+++                    (XML_Bool)! parser->m_parsingStatus.finalBuffer, XM=
+L_TRUE,
+++                    XML_ACCOUNT_DIRECT);
++   } else
++ #endif /* XML_DTD */
++   {
++@@ -5260,7 +5504,8 @@ internalEntityProcessor(XML_Parser parser, const c=
+har *s, const char *end,
++     /* see externalEntityContentProcessor vs contentProcessor */
++     return doContent(parser, parser->m_parentParser ? 1 : 0, parser->m_=
+encoding,
++                      s, end, nextPtr,
++-                     (XML_Bool)! parser->m_parsingStatus.finalBuffer);
+++                     (XML_Bool)! parser->m_parsingStatus.finalBuffer,
+++                     XML_ACCOUNT_DIRECT);
++   }
++ }
++=20
++@@ -5275,9 +5520,10 @@ errorProcessor(XML_Parser parser, const char *s, =
+const char *end,
++=20
++ static enum XML_Error
++ storeAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool is=
+Cdata,
++-                    const char *ptr, const char *end, STRING_POOL *pool=
+) {
+++                    const char *ptr, const char *end, STRING_POOL *pool=
+,
+++                    enum XML_Account account) {
++   enum XML_Error result
++-      =3D appendAttributeValue(parser, enc, isCdata, ptr, end, pool);
+++      =3D appendAttributeValue(parser, enc, isCdata, ptr, end, pool, ac=
+count);
++   if (result)
++     return result;
++   if (! isCdata && poolLength(pool) && poolLastChar(pool) =3D=3D 0x20)
++@@ -5289,11 +5535,22 @@ storeAttributeValue(XML_Parser parser, const ENC=
+ODING *enc, XML_Bool isCdata,
++=20
++ static enum XML_Error
++ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool i=
+sCdata,
++-                     const char *ptr, const char *end, STRING_POOL *poo=
+l) {
+++                     const char *ptr, const char *end, STRING_POOL *poo=
+l,
+++                     enum XML_Account account) {
++   DTD *const dtd =3D parser->m_dtd; /* save one level of indirection */
+++#ifndef XML_DTD
+++  UNUSED_P(account);
+++#endif
+++
++   for (;;) {
++     const char *next;
++     int tok =3D XmlAttributeValueTok(enc, ptr, end, &next);
+++#ifdef XML_DTD
+++    if (! accountingDiffTolerated(parser, tok, ptr, next, __LINE__, acc=
+ount)) {
+++      accountingOnAbort(parser);
+++      return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++    }
+++#endif
++     switch (tok) {
++     case XML_TOK_NONE:
++       return XML_ERROR_NONE;
++@@ -5353,6 +5610,14 @@ appendAttributeValue(XML_Parser parser, const ENC=
+ODING *enc, XML_Bool isCdata,
++       XML_Char ch =3D (XML_Char)XmlPredefinedEntityName(
++           enc, ptr + enc->minBytesPerChar, next - enc->minBytesPerChar)=
+;
++       if (ch) {
+++#ifdef XML_DTD
+++        /* NOTE: We are replacing 4-6 characters original input for 1 c=
+haracter
+++         *       so there is no amplification and hence recording witho=
+ut
+++         *       protection. */
+++        accountingDiffTolerated(parser, tok, (char *)&ch,
+++                                ((char *)&ch) + sizeof(XML_Char), __LIN=
+E__,
+++                                XML_ACCOUNT_ENTITY_EXPANSION);
+++#endif /* XML_DTD */
++         if (! poolAppendChar(pool, ch))
++           return XML_ERROR_NO_MEMORY;
++         break;
++@@ -5430,9 +5695,16 @@ appendAttributeValue(XML_Parser parser, const ENC=
+ODING *enc, XML_Bool isCdata,
++         enum XML_Error result;
++         const XML_Char *textEnd =3D entity->textPtr + entity->textLen;
++         entity->open =3D XML_TRUE;
+++#ifdef XML_DTD
+++        entityTrackingOnOpen(parser, entity, __LINE__);
+++#endif
++         result =3D appendAttributeValue(parser, parser->m_internalEncod=
+ing,
++-                                      isCdata, (char *)entity->textPtr,
++-                                      (char *)textEnd, pool);
+++                                      isCdata, (const char *)entity->te=
+xtPtr,
+++                                      (const char *)textEnd, pool,
+++                                      XML_ACCOUNT_ENTITY_EXPANSION);
+++#ifdef XML_DTD
+++        entityTrackingOnClose(parser, entity, __LINE__);
+++#endif
++         entity->open =3D XML_FALSE;
++         if (result)
++           return result;
++@@ -5462,13 +5734,16 @@ appendAttributeValue(XML_Parser parser, const EN=
+CODING *enc, XML_Bool isCdata,
++=20
++ static enum XML_Error
++ storeEntityValue(XML_Parser parser, const ENCODING *enc,
++-                 const char *entityTextPtr, const char *entityTextEnd) =
+{
+++                 const char *entityTextPtr, const char *entityTextEnd,
+++                 enum XML_Account account) {
++   DTD *const dtd =3D parser->m_dtd; /* save one level of indirection */
++   STRING_POOL *pool =3D &(dtd->entityValuePool);
++   enum XML_Error result =3D XML_ERROR_NONE;
++ #ifdef XML_DTD
++   int oldInEntityValue =3D parser->m_prologState.inEntityValue;
++   parser->m_prologState.inEntityValue =3D 1;
+++#else
+++  UNUSED_P(account);
++ #endif /* XML_DTD */
++   /* never return Null for the value argument in EntityDeclHandler,
++      since this would indicate an external entity; therefore we
++@@ -5481,6 +5756,16 @@ storeEntityValue(XML_Parser parser, const ENCODIN=
+G *enc,
++   for (;;) {
++     const char *next;
++     int tok =3D XmlEntityValueTok(enc, entityTextPtr, entityTextEnd, &n=
+ext);
+++
+++#ifdef XML_DTD
+++    if (! accountingDiffTolerated(parser, tok, entityTextPtr, next, __L=
+INE__,
+++                                  account)) {
+++      accountingOnAbort(parser);
+++      result =3D XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
+++      goto endEntityValue;
+++    }
+++#endif
+++
++     switch (tok) {
++     case XML_TOK_PARAM_ENTITY_REF:
++ #ifdef XML_DTD
++@@ -5516,13 +5801,16 @@ storeEntityValue(XML_Parser parser, const ENCODI=
+NG *enc,
++           if (parser->m_externalEntityRefHandler) {
++             dtd->paramEntityRead =3D XML_FALSE;
++             entity->open =3D XML_TRUE;
+++            entityTrackingOnOpen(parser, entity, __LINE__);
++             if (! parser->m_externalEntityRefHandler(
++                     parser->m_externalEntityRefHandlerArg, 0, entity->b=
+ase,
++                     entity->systemId, entity->publicId)) {
+++              entityTrackingOnClose(parser, entity, __LINE__);
++               entity->open =3D XML_FALSE;
++               result =3D XML_ERROR_EXTERNAL_ENTITY_HANDLING;
++               goto endEntityValue;
++             }
+++            entityTrackingOnClose(parser, entity, __LINE__);
++             entity->open =3D XML_FALSE;
++             if (! dtd->paramEntityRead)
++               dtd->keepProcessing =3D dtd->standalone;
++@@ -5530,9 +5818,12 @@ storeEntityValue(XML_Parser parser, const ENCODIN=
+G *enc,
++             dtd->keepProcessing =3D dtd->standalone;
++         } else {
++           entity->open =3D XML_TRUE;
+++          entityTrackingOnOpen(parser, entity, __LINE__);
++           result =3D storeEntityValue(
++-              parser, parser->m_internalEncoding, (char *)entity->textP=
+tr,
++-              (char *)(entity->textPtr + entity->textLen));
+++              parser, parser->m_internalEncoding, (const char *)entity-=
+>textPtr,
+++              (const char *)(entity->textPtr + entity->textLen),
+++              XML_ACCOUNT_ENTITY_EXPANSION);
+++          entityTrackingOnClose(parser, entity, __LINE__);
++           entity->open =3D XML_FALSE;
++           if (result)
++             goto endEntityValue;
++@@ -6893,3 +7184,741 @@ copyString(const XML_Char *s, const XML_Memory_H=
+andling_Suite *memsuite) {
++   memcpy(result, s, charsRequired * sizeof(XML_Char));
++   return result;
++ }
+++
+++#ifdef XML_DTD
+++
+++static float
+++accountingGetCurrentAmplification(XML_Parser rootParser) {
+++  const XmlBigCount countBytesOutput
+++      =3D rootParser->m_accounting.countBytesDirect
+++        + rootParser->m_accounting.countBytesIndirect;
+++  const float amplificationFactor
+++      =3D rootParser->m_accounting.countBytesDirect
+++            ? (countBytesOutput
+++               / (float)(rootParser->m_accounting.countBytesDirect))
+++            : 1.0f;
+++  assert(! rootParser->m_parentParser);
+++  return amplificationFactor;
+++}
+++
+++static void
+++accountingReportStats(XML_Parser originParser, const char *epilog) {
+++  const XML_Parser rootParser =3D getRootParserOf(originParser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  if (rootParser->m_accounting.debugLevel < 1) {
+++    return;
+++  }
+++
+++  const float amplificationFactor
+++      =3D accountingGetCurrentAmplification(rootParser);
+++  fprintf(stderr,
+++          "expat: Accounting(%p): Direct " EXPAT_FMT_ULL(
+++              "10") ", indirect " EXPAT_FMT_ULL("10") ", amplification =
+%8.2f%s",
+++          (void *)rootParser, rootParser->m_accounting.countBytesDirect=
+,
+++          rootParser->m_accounting.countBytesIndirect,
+++          (double)amplificationFactor, epilog);
+++}
+++
+++static void
+++accountingOnAbort(XML_Parser originParser) {
+++  accountingReportStats(originParser, " ABORTING\n");
+++}
+++
+++static void
+++accountingReportDiff(XML_Parser rootParser,
+++                     unsigned int levelsAwayFromRootParser, const char =
+*before,
+++                     const char *after, ptrdiff_t bytesMore, int source=
+_line,
+++                     enum XML_Account account) {
+++  assert(! rootParser->m_parentParser);
+++
+++  fprintf(stderr,
+++          " (+" EXPAT_FMT_PTRDIFF_T("6") " bytes %s|%d, xmlparse.c:%d) =
+%*s\"",
+++          bytesMore, (account =3D=3D XML_ACCOUNT_DIRECT) ? "DIR" : "EXP=
+",
+++          levelsAwayFromRootParser, source_line, 10, "");
+++
+++  const char ellipis[] =3D "[..]";
+++  const size_t ellipsisLength =3D sizeof(ellipis) /* because compile-ti=
+me */ - 1;
+++  const unsigned int contextLength =3D 10;
+++
+++  /* Note: Performance is of no concern here */
+++  const char *walker =3D before;
+++  if ((rootParser->m_accounting.debugLevel >=3D 3)
+++      || (after - before)
+++             <=3D (ptrdiff_t)(contextLength + ellipsisLength + contextL=
+ength)) {
+++    for (; walker < after; walker++) {
+++      fprintf(stderr, "%s", unsignedCharToPrintable(walker[0]));
+++    }
+++  } else {
+++    for (; walker < before + contextLength; walker++) {
+++      fprintf(stderr, "%s", unsignedCharToPrintable(walker[0]));
+++    }
+++    fprintf(stderr, ellipis);
+++    walker =3D after - contextLength;
+++    for (; walker < after; walker++) {
+++      fprintf(stderr, "%s", unsignedCharToPrintable(walker[0]));
+++    }
+++  }
+++  fprintf(stderr, "\"\n");
+++}
+++
+++static XML_Bool
+++accountingDiffTolerated(XML_Parser originParser, int tok, const char *b=
+efore,
+++                        const char *after, int source_line,
+++                        enum XML_Account account) {
+++  /* Note: We need to check the token type *first* to be sure that
+++   *       we can even access variable <after>, safely.
+++   *       E.g. for XML_TOK_NONE <after> may hold an invalid pointer. *=
+/
+++  switch (tok) {
+++  case XML_TOK_INVALID:
+++  case XML_TOK_PARTIAL:
+++  case XML_TOK_PARTIAL_CHAR:
+++  case XML_TOK_NONE:
+++    return XML_TRUE;
+++  }
+++
+++  if (account =3D=3D XML_ACCOUNT_NONE)
+++    return XML_TRUE; /* because these bytes have been accounted for, al=
+ready */
+++
+++  unsigned int levelsAwayFromRootParser;
+++  const XML_Parser rootParser
+++      =3D getRootParserOf(originParser, &levelsAwayFromRootParser);
+++  assert(! rootParser->m_parentParser);
+++
+++  const int isDirect
+++      =3D (account =3D=3D XML_ACCOUNT_DIRECT) && (originParser =3D=3D r=
+ootParser);
+++  const ptrdiff_t bytesMore =3D after - before;
+++
+++  XmlBigCount *const additionTarget
+++      =3D isDirect ? &rootParser->m_accounting.countBytesDirect
+++                 : &rootParser->m_accounting.countBytesIndirect;
+++
+++  /* Detect and avoid integer overflow */
+++  if (*additionTarget > (XmlBigCount)(-1) - (XmlBigCount)bytesMore)
+++    return XML_FALSE;
+++  *additionTarget +=3D bytesMore;
+++
+++  const XmlBigCount countBytesOutput
+++      =3D rootParser->m_accounting.countBytesDirect
+++        + rootParser->m_accounting.countBytesIndirect;
+++  const float amplificationFactor
+++      =3D accountingGetCurrentAmplification(rootParser);
+++  const XML_Bool tolerated
+++      =3D (countBytesOutput < rootParser->m_accounting.activationThresh=
+oldBytes)
+++        || (amplificationFactor
+++            <=3D rootParser->m_accounting.maximumAmplificationFactor);
+++
+++  if (rootParser->m_accounting.debugLevel >=3D 2) {
+++    accountingReportStats(rootParser, "");
+++    accountingReportDiff(rootParser, levelsAwayFromRootParser, before, =
+after,
+++                         bytesMore, source_line, account);
+++  }
+++
+++  return tolerated;
+++}
+++
+++static void
+++entityTrackingReportStats(XML_Parser rootParser, ENTITY *entity,
+++                          const char *action, int sourceLine) {
+++  assert(! rootParser->m_parentParser);
+++  if (rootParser->m_entity_stats.debugLevel < 1)
+++    return;
+++
+++#  if defined(XML_UNICODE)
+++  const char *const entityName =3D "[..]";
+++#  else
+++  const char *const entityName =3D entity->name;
+++#  endif
+++
+++  fprintf(
+++      stderr,
+++      "expat: Entities(%p): Count %9d, depth %2d/%2d %*s%s%s; %s length=
+ %d (xmlparse.c:%d)\n",
+++      (void *)rootParser, rootParser->m_entity_stats.countEverOpened,
+++      rootParser->m_entity_stats.currentDepth,
+++      rootParser->m_entity_stats.maximumDepthSeen,
+++      (rootParser->m_entity_stats.currentDepth - 1) * 2, "",
+++      entity->is_param ? "%" : "&", entityName, action, entity->textLen=
+,
+++      sourceLine);
+++}
+++
+++static void
+++entityTrackingOnOpen(XML_Parser originParser, ENTITY *entity, int sourc=
+eLine) {
+++  const XML_Parser rootParser =3D getRootParserOf(originParser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  rootParser->m_entity_stats.countEverOpened++;
+++  rootParser->m_entity_stats.currentDepth++;
+++  if (rootParser->m_entity_stats.currentDepth
+++      > rootParser->m_entity_stats.maximumDepthSeen) {
+++    rootParser->m_entity_stats.maximumDepthSeen++;
+++  }
+++
+++  entityTrackingReportStats(rootParser, entity, "OPEN ", sourceLine);
+++}
+++
+++static void
+++entityTrackingOnClose(XML_Parser originParser, ENTITY *entity, int sour=
+ceLine) {
+++  const XML_Parser rootParser =3D getRootParserOf(originParser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  entityTrackingReportStats(rootParser, entity, "CLOSE", sourceLine);
+++  rootParser->m_entity_stats.currentDepth--;
+++}
+++
+++static XML_Parser
+++getRootParserOf(XML_Parser parser, unsigned int *outLevelDiff) {
+++  XML_Parser rootParser =3D parser;
+++  unsigned int stepsTakenUpwards =3D 0;
+++  while (rootParser->m_parentParser) {
+++    rootParser =3D rootParser->m_parentParser;
+++    stepsTakenUpwards++;
+++  }
+++  assert(! rootParser->m_parentParser);
+++  if (outLevelDiff !=3D NULL) {
+++    *outLevelDiff =3D stepsTakenUpwards;
+++  }
+++  return rootParser;
+++}
+++
+++static const char *
+++unsignedCharToPrintable(unsigned char c) {
+++  switch (c) {
+++  case 0:
+++    return "\\0";
+++  case 1:
+++    return "\\x1";
+++  case 2:
+++    return "\\x2";
+++  case 3:
+++    return "\\x3";
+++  case 4:
+++    return "\\x4";
+++  case 5:
+++    return "\\x5";
+++  case 6:
+++    return "\\x6";
+++  case 7:
+++    return "\\x7";
+++  case 8:
+++    return "\\x8";
+++  case 9:
+++    return "\\t";
+++  case 10:
+++    return "\\n";
+++  case 11:
+++    return "\\xB";
+++  case 12:
+++    return "\\xC";
+++  case 13:
+++    return "\\r";
+++  case 14:
+++    return "\\xE";
+++  case 15:
+++    return "\\xF";
+++  case 16:
+++    return "\\x10";
+++  case 17:
+++    return "\\x11";
+++  case 18:
+++    return "\\x12";
+++  case 19:
+++    return "\\x13";
+++  case 20:
+++    return "\\x14";
+++  case 21:
+++    return "\\x15";
+++  case 22:
+++    return "\\x16";
+++  case 23:
+++    return "\\x17";
+++  case 24:
+++    return "\\x18";
+++  case 25:
+++    return "\\x19";
+++  case 26:
+++    return "\\x1A";
+++  case 27:
+++    return "\\x1B";
+++  case 28:
+++    return "\\x1C";
+++  case 29:
+++    return "\\x1D";
+++  case 30:
+++    return "\\x1E";
+++  case 31:
+++    return "\\x1F";
+++  case 32:
+++    return " ";
+++  case 33:
+++    return "!";
+++  case 34:
+++    return "\\\"";
+++  case 35:
+++    return "#";
+++  case 36:
+++    return "$";
+++  case 37:
+++    return "%";
+++  case 38:
+++    return "&";
+++  case 39:
+++    return "'";
+++  case 40:
+++    return "(";
+++  case 41:
+++    return ")";
+++  case 42:
+++    return "*";
+++  case 43:
+++    return "+";
+++  case 44:
+++    return ",";
+++  case 45:
+++    return "-";
+++  case 46:
+++    return ".";
+++  case 47:
+++    return "/";
+++  case 48:
+++    return "0";
+++  case 49:
+++    return "1";
+++  case 50:
+++    return "2";
+++  case 51:
+++    return "3";
+++  case 52:
+++    return "4";
+++  case 53:
+++    return "5";
+++  case 54:
+++    return "6";
+++  case 55:
+++    return "7";
+++  case 56:
+++    return "8";
+++  case 57:
+++    return "9";
+++  case 58:
+++    return ":";
+++  case 59:
+++    return ";";
+++  case 60:
+++    return "<";
+++  case 61:
+++    return "=3D";
+++  case 62:
+++    return ">";
+++  case 63:
+++    return "?";
+++  case 64:
+++    return "@";
+++  case 65:
+++    return "A";
+++  case 66:
+++    return "B";
+++  case 67:
+++    return "C";
+++  case 68:
+++    return "D";
+++  case 69:
+++    return "E";
+++  case 70:
+++    return "F";
+++  case 71:
+++    return "G";
+++  case 72:
+++    return "H";
+++  case 73:
+++    return "I";
+++  case 74:
+++    return "J";
+++  case 75:
+++    return "K";
+++  case 76:
+++    return "L";
+++  case 77:
+++    return "M";
+++  case 78:
+++    return "N";
+++  case 79:
+++    return "O";
+++  case 80:
+++    return "P";
+++  case 81:
+++    return "Q";
+++  case 82:
+++    return "R";
+++  case 83:
+++    return "S";
+++  case 84:
+++    return "T";
+++  case 85:
+++    return "U";
+++  case 86:
+++    return "V";
+++  case 87:
+++    return "W";
+++  case 88:
+++    return "X";
+++  case 89:
+++    return "Y";
+++  case 90:
+++    return "Z";
+++  case 91:
+++    return "[";
+++  case 92:
+++    return "\\\\";
+++  case 93:
+++    return "]";
+++  case 94:
+++    return "^";
+++  case 95:
+++    return "_";
+++  case 96:
+++    return "`";
+++  case 97:
+++    return "a";
+++  case 98:
+++    return "b";
+++  case 99:
+++    return "c";
+++  case 100:
+++    return "d";
+++  case 101:
+++    return "e";
+++  case 102:
+++    return "f";
+++  case 103:
+++    return "g";
+++  case 104:
+++    return "h";
+++  case 105:
+++    return "i";
+++  case 106:
+++    return "j";
+++  case 107:
+++    return "k";
+++  case 108:
+++    return "l";
+++  case 109:
+++    return "m";
+++  case 110:
+++    return "n";
+++  case 111:
+++    return "o";
+++  case 112:
+++    return "p";
+++  case 113:
+++    return "q";
+++  case 114:
+++    return "r";
+++  case 115:
+++    return "s";
+++  case 116:
+++    return "t";
+++  case 117:
+++    return "u";
+++  case 118:
+++    return "v";
+++  case 119:
+++    return "w";
+++  case 120:
+++    return "x";
+++  case 121:
+++    return "y";
+++  case 122:
+++    return "z";
+++  case 123:
+++    return "{";
+++  case 124:
+++    return "|";
+++  case 125:
+++    return "}";
+++  case 126:
+++    return "~";
+++  case 127:
+++    return "\\x7F";
+++  case 128:
+++    return "\\x80";
+++  case 129:
+++    return "\\x81";
+++  case 130:
+++    return "\\x82";
+++  case 131:
+++    return "\\x83";
+++  case 132:
+++    return "\\x84";
+++  case 133:
+++    return "\\x85";
+++  case 134:
+++    return "\\x86";
+++  case 135:
+++    return "\\x87";
+++  case 136:
+++    return "\\x88";
+++  case 137:
+++    return "\\x89";
+++  case 138:
+++    return "\\x8A";
+++  case 139:
+++    return "\\x8B";
+++  case 140:
+++    return "\\x8C";
+++  case 141:
+++    return "\\x8D";
+++  case 142:
+++    return "\\x8E";
+++  case 143:
+++    return "\\x8F";
+++  case 144:
+++    return "\\x90";
+++  case 145:
+++    return "\\x91";
+++  case 146:
+++    return "\\x92";
+++  case 147:
+++    return "\\x93";
+++  case 148:
+++    return "\\x94";
+++  case 149:
+++    return "\\x95";
+++  case 150:
+++    return "\\x96";
+++  case 151:
+++    return "\\x97";
+++  case 152:
+++    return "\\x98";
+++  case 153:
+++    return "\\x99";
+++  case 154:
+++    return "\\x9A";
+++  case 155:
+++    return "\\x9B";
+++  case 156:
+++    return "\\x9C";
+++  case 157:
+++    return "\\x9D";
+++  case 158:
+++    return "\\x9E";
+++  case 159:
+++    return "\\x9F";
+++  case 160:
+++    return "\\xA0";
+++  case 161:
+++    return "\\xA1";
+++  case 162:
+++    return "\\xA2";
+++  case 163:
+++    return "\\xA3";
+++  case 164:
+++    return "\\xA4";
+++  case 165:
+++    return "\\xA5";
+++  case 166:
+++    return "\\xA6";
+++  case 167:
+++    return "\\xA7";
+++  case 168:
+++    return "\\xA8";
+++  case 169:
+++    return "\\xA9";
+++  case 170:
+++    return "\\xAA";
+++  case 171:
+++    return "\\xAB";
+++  case 172:
+++    return "\\xAC";
+++  case 173:
+++    return "\\xAD";
+++  case 174:
+++    return "\\xAE";
+++  case 175:
+++    return "\\xAF";
+++  case 176:
+++    return "\\xB0";
+++  case 177:
+++    return "\\xB1";
+++  case 178:
+++    return "\\xB2";
+++  case 179:
+++    return "\\xB3";
+++  case 180:
+++    return "\\xB4";
+++  case 181:
+++    return "\\xB5";
+++  case 182:
+++    return "\\xB6";
+++  case 183:
+++    return "\\xB7";
+++  case 184:
+++    return "\\xB8";
+++  case 185:
+++    return "\\xB9";
+++  case 186:
+++    return "\\xBA";
+++  case 187:
+++    return "\\xBB";
+++  case 188:
+++    return "\\xBC";
+++  case 189:
+++    return "\\xBD";
+++  case 190:
+++    return "\\xBE";
+++  case 191:
+++    return "\\xBF";
+++  case 192:
+++    return "\\xC0";
+++  case 193:
+++    return "\\xC1";
+++  case 194:
+++    return "\\xC2";
+++  case 195:
+++    return "\\xC3";
+++  case 196:
+++    return "\\xC4";
+++  case 197:
+++    return "\\xC5";
+++  case 198:
+++    return "\\xC6";
+++  case 199:
+++    return "\\xC7";
+++  case 200:
+++    return "\\xC8";
+++  case 201:
+++    return "\\xC9";
+++  case 202:
+++    return "\\xCA";
+++  case 203:
+++    return "\\xCB";
+++  case 204:
+++    return "\\xCC";
+++  case 205:
+++    return "\\xCD";
+++  case 206:
+++    return "\\xCE";
+++  case 207:
+++    return "\\xCF";
+++  case 208:
+++    return "\\xD0";
+++  case 209:
+++    return "\\xD1";
+++  case 210:
+++    return "\\xD2";
+++  case 211:
+++    return "\\xD3";
+++  case 212:
+++    return "\\xD4";
+++  case 213:
+++    return "\\xD5";
+++  case 214:
+++    return "\\xD6";
+++  case 215:
+++    return "\\xD7";
+++  case 216:
+++    return "\\xD8";
+++  case 217:
+++    return "\\xD9";
+++  case 218:
+++    return "\\xDA";
+++  case 219:
+++    return "\\xDB";
+++  case 220:
+++    return "\\xDC";
+++  case 221:
+++    return "\\xDD";
+++  case 222:
+++    return "\\xDE";
+++  case 223:
+++    return "\\xDF";
+++  case 224:
+++    return "\\xE0";
+++  case 225:
+++    return "\\xE1";
+++  case 226:
+++    return "\\xE2";
+++  case 227:
+++    return "\\xE3";
+++  case 228:
+++    return "\\xE4";
+++  case 229:
+++    return "\\xE5";
+++  case 230:
+++    return "\\xE6";
+++  case 231:
+++    return "\\xE7";
+++  case 232:
+++    return "\\xE8";
+++  case 233:
+++    return "\\xE9";
+++  case 234:
+++    return "\\xEA";
+++  case 235:
+++    return "\\xEB";
+++  case 236:
+++    return "\\xEC";
+++  case 237:
+++    return "\\xED";
+++  case 238:
+++    return "\\xEE";
+++  case 239:
+++    return "\\xEF";
+++  case 240:
+++    return "\\xF0";
+++  case 241:
+++    return "\\xF1";
+++  case 242:
+++    return "\\xF2";
+++  case 243:
+++    return "\\xF3";
+++  case 244:
+++    return "\\xF4";
+++  case 245:
+++    return "\\xF5";
+++  case 246:
+++    return "\\xF6";
+++  case 247:
+++    return "\\xF7";
+++  case 248:
+++    return "\\xF8";
+++  case 249:
+++    return "\\xF9";
+++  case 250:
+++    return "\\xFA";
+++  case 251:
+++    return "\\xFB";
+++  case 252:
+++    return "\\xFC";
+++  case 253:
+++    return "\\xFD";
+++  case 254:
+++    return "\\xFE";
+++  case 255:
+++    return "\\xFF";
+++  default:
+++    assert(0); /* never gets here */
+++    return "dead code";
+++  }
+++  assert(0); /* never gets here */
+++}
+++
+++#endif /* XML_DTD */
+++
+++static unsigned long
+++getDebugLevel(const char *variableName, unsigned long defaultDebugLevel=
+) {
+++  const char *const valueOrNull =3D getenv(variableName);
+++  if (valueOrNull =3D=3D NULL) {
+++    return defaultDebugLevel;
+++  }
+++  const char *const value =3D valueOrNull;
+++
+++  errno =3D 0;
+++  char *afterValue =3D (char *)value;
+++  unsigned long debugLevel =3D strtoul(value, &afterValue, 10);
+++  if ((errno !=3D 0) || (afterValue[0] !=3D '\0')) {
+++    errno =3D 0;
+++    return defaultDebugLevel;
+++  }
+++
+++  return debugLevel;
+++}
++--=20
++2.32.0
++
+diff --git a/meta/recipes-core/expat/expat/libtool-tag.patch b/meta/recip=
+es-core/expat/expat/libtool-tag.patch
+index 0a0aed23e5..203415a725 100644
+--- a/meta/recipes-core/expat/expat/libtool-tag.patch
++++ b/meta/recipes-core/expat/expat/libtool-tag.patch
+@@ -1,30 +1,27 @@
+-From 10342e6b600858b091bc7771e454d9e06af06410 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 2 Nov 2017 18:20:57 +0800
++From da433dbe79f2d4d5d7d79869c669594c99c5de9c Mon Sep 17 00:00:00 2001
++From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
++Date: Wed, 16 Jun 2021 19:00:30 +0200
+ Subject: [PATCH] Add CC tag to build
+=20
+-Add CC tag to build
+-
+ Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Dengke Du <dengke.du@windriver.com>
++Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+ ---
+- Makefile.in | 2 +-
++ Makefile.am | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+-diff --git a/Makefile.in b/Makefile.in
+-index 9560a95..d444bd6 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -319,7 +319,7 @@ LIBCURRENT =3D @LIBCURRENT@
+- LIBOBJS =3D @LIBOBJS@
+- LIBREVISION =3D @LIBREVISION@
+- LIBS =3D @LIBS@
+--LIBTOOL =3D @LIBTOOL@
+-+LIBTOOL =3D @LIBTOOL@ --tag CC
+- LIPO =3D @LIPO@
+- LN_S =3D @LN_S@
+- LTLIBOBJS =3D @LTLIBOBJS@
++diff --git a/Makefile.am b/Makefile.am
++index 5e1d37dd..f7a6dece 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -36,7 +36,7 @@ AUTOMAKE_OPTIONS =3D \
++     subdir-objects
++=20
++ ACLOCAL_AMFLAGS =3D -I m4
++-LIBTOOLFLAGS =3D --verbose
+++LIBTOOLFLAGS =3D --verbose --tag=3DCC
++=20
++ SUBDIRS =3D lib # lib goes first to build first
++ if WITH_EXAMPLES
+ --=20
+-2.7.4
++2.32.0
+=20
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/e=
+xpat/expat_2.2.9.bb
+index 174bf4be1f..cd38df91d9 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -6,18 +6,16 @@ LICENSE =3D "MIT"
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5b8620d98e49772d95fc1d291c26a=
+a79"
+=20
+-SRC_URI =3D "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
++SRC_URI =3D "git://github.com/libexpat/libexpat.git;protocol=3Dhttps \
++           file://CVE-2013-0340.patch \
+            file://libtool-tag.patch \
+-	  "
++         "
+=20
+-SRC_URI[md5sum] =3D "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+-SRC_URI[sha256sum] =3D "f1063084dc4302a427dabcca499c8312b3a32a29b7d25066=
+53ecc8f950a9a237"
++SRCREV =3D "a7bc26b69768f7fb24f0c7976fae24b157b85b13"
+=20
+ inherit autotools lib_package
+=20
+-do_configure_prepend () {
+-	rm -f ${S}/conftools/libtool.m4
+-}
++S =3D "${WORKDIR}/git/expat"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
+--=20
+2.32.0
 
