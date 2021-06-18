@@ -1,95 +1,102 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web11.1458.1623975210528309906
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.2847.1623983599234953708
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jun 2021 17:13:31 -0700
+ Thu, 17 Jun 2021 19:33:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=0PUm6j8x;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.49, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f49.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso7944626otu.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jun 2021 17:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R4Sd0xaq82GufDkifeWGka2E/+ySfjKirfJyb99UiC0=;
-        b=0PUm6j8xufZ1zZ35+OeLm/WrF2GG6DjK0Trv4vxDvn88er4U9VxX5acjQeuMzDU/7c
-         8wo6agxGiiu3NpNy6gg8MOMDGkyBMzgj7win6v8eJKSDVW8sSHZBenHbX8H0ov4LLQdI
-         ZMjIPn+NThceu9SDVxhrpV+6mG6Wpm8KhNI9l3ReNdHQ2FxNc/rovpxjOVNn8GmFhiyp
-         F8dfFiw3Haq5+iZyaR3qUDJsnZPPM443qC6gOg6zhCmFC40em47huWV/0+wft1LG8ecJ
-         VK8K9B5NY3qUI4NgrT/QAQihzChi+2giXiCWdlFIK5m5/BjB3u2F34gP1ihhs3xhIeEt
-         RsGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R4Sd0xaq82GufDkifeWGka2E/+ySfjKirfJyb99UiC0=;
-        b=Hl64o6x1YKizDO7k5M0199Bia012p4h8ndWg4GkPQJt9nk8erKCUXFFpcIbIzT9tJa
-         fZtwJe/mC7MXQ1iZTyQbsCWJ7uuv541rUvTqE0yQrMMRVA3lb1txZCUUdhwBUXeJg8VZ
-         kfqqVYCV7l+rS5h0sUnjHYawSlU1CBJhtUwiAlLL2pMTl9v3av6hrjMnDpbA3X5+gxjE
-         tQKbM0KN1drabmpVWgE10eOuMvXGxBbb/AN8ygT5spoeGSOhe8awj9Cn/ynxTXIgF7+Q
-         X7xlxxGEqo8a0aeuioflSmxmcFuHcT5QY6MiG98cJq9Z/vfpI9kQ6S0HUdhhB22wlszj
-         9Xsw==
-X-Gm-Message-State: AOAM532q5ej2hAtbJiQ3OYhxBp4C3uRCCoxvXLXB8w2lARN5RaZRKATI
-	mlwfWCuVp+om2uBVqJlMAcr3RPidjO7Fgvg//Rk=
-X-Google-Smtp-Source: ABdhPJyipeBOwgFuqt+3zRhmIrG2Tr59oXcllYR3Z3oHKcCBTNJoAD7XcRWLGngoxQnsyS2dA6uGyg==
-X-Received: by 2002:a9d:2034:: with SMTP id n49mr7233106ota.231.1623975209262;
-        Thu, 17 Jun 2021 17:13:29 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id x2sm1473805oog.10.2021.06.17.17.13.25
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jun 2021 17:13:28 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/6] Pull request (cover letter only)
-Date: Thu, 17 Jun 2021 14:13:04 -1000
-Message-Id: <cover.1623975093.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 15I2XEGc012823
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 17 Jun 2021 19:33:14 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 17 Jun 2021 19:33:14 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Thu, 17 Jun 2021 19:33:13 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <alex.kanavin@gmail.com>
+Subject: [PATCH] perl: avoid the source file patched twice
+Date: Fri, 18 Jun 2021 10:30:36 +0800
+Message-ID: <20210618023036.26144-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The following changes since commit 2246b0d7a71c69eb2e89c55991d1387069895466:
+From: Mingli Yu <mingli.yu@windriver.com>
 
-  kernel-devicetree: Introduce KERNEL_DTC_FLAGS to pass dtc flags (2021-06-08 04:32:17 -1000)
+After the commit(60dcb230f6 perl: split perl-cross into its own recipe)
+introduced, the source files mainly come from two parts, one is from
+SRI_URI during do_fetch and the other with below means during do_configure.
+do_configure_prepend() {
+    cp -rfp ${STAGING_DATADIR_NATIVE}/perl-cross/* ${S}
+}
 
-are available in the Git repository at:
+And the source files will be changed during do_compile with below
+logic in Makefile.
+$(CROSSPATCHED): %.applied: %.patch
+        patch -p1 -i $< && touch $@
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+And there comes build failure with below steps:
+ $ bitbake perl-native
 
-Andrea Adami (1):
-  kernel.bbclass: fix do_sizecheck() comparison
+Make a change as below
+ $ git diff
+ diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+ index b77bbd1fd4..4c5e35ab80 100644
+ --- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+ +++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+ @@ -33,6 +33,7 @@ do_compile () {
+  do_install_class-native() {
+      mkdir -p ${D}/${datadir}/perl-cross/
+      cp -rf ${S}/* ${D}/${datadir}/perl-cross/
+ +    echo "test" > ${D}/${datadir}/perl-cross/testfile
+ }
 
-Kai Kang (1):
-  valgrind: fix a typo
+ $ bitbake perl-native
+ | NOTE: make -j 48
+ | make crosspatch
+ | make[1]: Entering directory '/buildarea1/myu2/wr_build/wr1021_20210616_perl/build/tmp-glibc/work/x86_64-linux/perl-native/5.34.0-r0/perl-5.34.0'
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/time-hires.patch && touch cnf/diffs/perl5-5.34.0/time-hires.applied
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/xconfig.patch && touch cnf/diffs/perl5-5.34.0/xconfig.applied
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/posix-makefile.patch && touch cnf/diffs/perl5-5.34.0/posix-makefile.applied
+ | File dist/Time-HiRes/Makefile.PL is read-only; trying to patch anyway
+ | patching file dist/Time-HiRes/Makefile.PL
+ | Reversed (or previously applied) patch detected!  Assume -R? [n]
+ | Apply anyway? [n]
+ | Skipping patch.
+ | 4 out of 4 hunks ignored -- saving rejects to file dist/Time-HiRes/Makefile.PL.rej
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/test-commonsense.patch && touch cnf/diffs/perl5-5.34.0/test-commonsense.applied
+ | File perl.h is read-only; trying to patch anyway
+ | patching file perl.h
+ | Reversed (or previously applied) patch detected!  Assume -R? [n]
+ | Apply anyway? [n]
+ | Skipping patch.
+ | 1 out of 1 hunk ignored -- saving rejects to file perl.h.rej
+ | make[1]: *** [Makefile:64: cnf/diffs/perl5-5.34.0/time-hires.applied] Error 1
+ [snip]
 
-Lee Chee Yang (4):
-  gstreamer-plugins-good: fix CVE-2021-3497 CVE-2021-3498
-  bind: 9.11.22 -> 9.11.32
-  ruby: 2.7.1 -> 2.7.3
-  python3: fix CVE-2021-23336
+It's because the source files patched twice, so let do_fetch always
+executed to make sure the source files which come from SRC_URI brand
+new in each build to avoid the source files patched twice to fix the
+build failure as above.
 
- meta/classes/kernel.bbclass                   |   2 +-
- .../bind/bind/CVE-2020-8625.patch             |  17 -
- .../bind/{bind_9.11.22.bb => bind_9.11.32.bb} |   5 +-
- .../python/python3/CVE-2021-23336.patch       | 530 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- .../ruby/ruby/CVE-2020-25613.patch            |  40 --
- .../ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb}     |   5 +-
- .../valgrind/valgrind_3.15.0.bb               |   2 +-
- .../CVE-2021-3497.patch                       | 207 +++++++
- .../CVE-2021-3498.patch                       |  44 ++
- .../gstreamer1.0-plugins-good_1.16.3.bb       |   2 +
- 11 files changed, 790 insertions(+), 65 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
- rename meta/recipes-connectivity/bind/{bind_9.11.22.bb => bind_9.11.32.bb} (96%)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
- rename meta/recipes-devtools/ruby/{ruby_2.7.1.bb => ruby_2.7.3.bb} (94%)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3497.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2021-3498.patch
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-devtools/perl/perl_5.34.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+index 7935a58723..2e48110d2b 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+@@ -382,3 +382,5 @@ EOF
+        chmod 0755 ${SYSROOT_DESTDIR}${bindir}/nativeperl
+        cat ${SYSROOT_DESTDIR}${bindir}/nativeperl
+ }
++
++do_fetch[nostamp] = "1"
 -- 
-2.25.1
+2.17.1
 
