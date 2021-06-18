@@ -1,118 +1,157 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web12.14727.1624054470172978205
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web08.14831.1624055066044312786
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jun 2021 15:14:30 -0700
+ Fri, 18 Jun 2021 15:24:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y4KVG4kT;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id d196so14547135qkg.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jun 2021 15:14:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tbZKbZoX;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id c10so4368192qvo.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jun 2021 15:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dE4PzaV8czQzMxcxbziR3q35IW3sE1qV3i8BgGkIMQ4=;
-        b=Y4KVG4kT0rebEzcoeyzJisOZLTmhIQWw6876xfM/aXY7Bo1pgvhmdyS4nI+GUVp+dq
-         uYGuTLelErCA3n728umImxsJtwC1YCxh1/YnXg721xLcNbZh98CT9hHWE34rX5y6ozUw
-         ZK17BuRbfYavpkAbV7WhuZVqFgCpdZVtxm4WIrJc+5Jdjhbzad4VX/5kI1lYE9+Xpe7t
-         unE2Hz6Iwa76CnQ9SSTGLwuGDsF61MVoK/EWU5rQd4zHur36qWWACyrJ9jNG8+/aDAJ4
-         4ukOqUhhTMKs4Gr4xuB510isVCdFHOqfDDyuRCjX+CPle85Sk1Va1VChCoh7ymuyclzC
-         uprA==
+        bh=UMRkcXJFohoGKW3zAR8VXn4FPX1y9m8sjatJWau7fzE=;
+        b=tbZKbZoXRXDgEL3eBiKZEdOmfnirRSE1fpQtRPksPqPc1Xxg3zLc+WlL6BGvPZGVMn
+         fW7XkLr8/4zGo4VZPaDESOGkJwgcrqKXQE+czGMOx9/qsvbETJgtSjQ/rPqOLJ9JM1CH
+         cY7H4XTOQasrsOpe+Op01gZ0CtljaS1bM/zRAD0HiTlZ9hPk25rOnAJJ8IMlPRnjOc7z
+         yrkdVB/7mOZVoJ74Jj0Ybs1odo7tpPibi21pUrNMV8E1aDOajJaKJxVbW+X74zOPsPOI
+         CaS8EIr+a2DpFx+nj9pP130zI3QnkPHywII9e0B0hBwR8PT3TbYrbwWMptqCVCPoIUII
+         jY5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dE4PzaV8czQzMxcxbziR3q35IW3sE1qV3i8BgGkIMQ4=;
-        b=kQfvM6R/DhPoUrSCkXdOxZeCUSElC2ceRNjgv1m9TR5B4S92+8p4flPSxfuNWTduDZ
-         IDLDoxn0m7bjIEB9yel2SuleA6ldSeYJ25LbDZTATzprYlymK8CR/U5xyc3laKz7vbuQ
-         aoBF8uU9Yux+kVxa6heDYbsYo/oJamkv/jueiNOT2T6yOY3/yjoLEnki90FC/DGQuXnM
-         Zx+qw+sxX5I3FDvnhAiRRO6gn+5rpkPxCKfXx3amMSsJ2wkcpPrDvPsHjg4WLoMn8tdX
-         PGL2OGlq/TiR2HKC6+8yeOjAWmf9UYYzpcaZeneAO//TG06WojJU2eqbjD4sz+PEQejS
-         TA1Q==
-X-Gm-Message-State: AOAM533GYBvOMorDf9hMfAIDqt2kL/6rpcJRZM3Lw1UFFmM/1Rjt0TtF
-	aXbFF0mBUaSU7I4+AB5jDdHWYBNXcvYYJfTUrN0=
-X-Google-Smtp-Source: ABdhPJzFOM8BkRFZBixDvXBYrqeDgac86xPuDYxoD1ioONhfGkqGIGARZ9M85BpkZPmu4dtyuC3+EZOfNcaf2TQM/lQ=
-X-Received: by 2002:a05:620a:12e8:: with SMTP id f8mr11538300qkl.125.1624054468815;
- Fri, 18 Jun 2021 15:14:28 -0700 (PDT)
+        bh=UMRkcXJFohoGKW3zAR8VXn4FPX1y9m8sjatJWau7fzE=;
+        b=VWEQBq6JPqwihgBqr7XulwCCSu5sDKWRFMlEM4cprJq6iHrYON0ThaSAM80JXaEwRw
+         ngufl/8PbCSaqJivWe7tOMdktqizmRzoXpwJA4j/M3GuAnujdROOa34UD8sgMyfRf0a7
+         9JFtZCCnwh7+SEkv3tGQYj/Uroj5mKM/3XEx2irQOFJ9kcMeHFEB2uaV9hHVZe2qt5qy
+         POU/xNzQgJuVmJB4k6sqStbS39O1M5/p9qCSbaVd5FTprnAlpTfdLEjFLbAZRiINL6rN
+         hn09vYS3ylUEf4CCm/ip+SCHN38sYSgoBYryE15lKV4yHxySidCMwgBiIhsWKZC/ygSQ
+         P6tg==
+X-Gm-Message-State: AOAM531wOtMsqR8C1kr50h6OVxkZU4gRNbXBwg/aZMf8UY5mqTnYb0Wh
+	/PuLb1UeO8IzPFmEEs7D8yA5PuWwjC4ApiX8Jxo=
+X-Google-Smtp-Source: ABdhPJwTWQUwBII2kwDpX26ElZREAjBs2+8YWA4+5VqXK0scf4SWHKKAKfxPTdrF91KjHghW27nG4pZBqGHIWN9LsUA=
+X-Received: by 2002:a0c:f704:: with SMTP id w4mr6043953qvn.50.1624055065195;
+ Fri, 18 Jun 2021 15:24:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <1688B34361FD8BD3.6379@lists.openembedded.org> <16890800366CFBBE.20493@lists.openembedded.org>
- <1689153CED767CA8.15085@lists.openembedded.org> <CANNYZj-dOgJrNXNkTgT144RcdgGn4fDdoR47URAuSZzUTghefA@mail.gmail.com>
-In-Reply-To: <CANNYZj-dOgJrNXNkTgT144RcdgGn4fDdoR47URAuSZzUTghefA@mail.gmail.com>
+References: <20210618194345.38131-1-bruce.ashfield@gmail.com>
+In-Reply-To: <20210618194345.38131-1-bruce.ashfield@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 18 Jun 2021 15:14:02 -0700
-Message-ID: <CAMKF1sr-FSHjibWVqsdaMOPPzeso3e6a+DKB0pRbnw8CJ0T4zg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/31] core-image-weston: bump QB_MEM to 1G in qemuarm64
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Jun 2021 15:23:59 -0700
+Message-ID: <CAMKF1spzxhUkBS=0bcS6E41Q540OJ5_MdLU10HL6Cf4uPBtTsw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] btrfs-tools: include linux/const.h to fix build with 5.12+ headers
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-I think we should disable this by default, its a good feature during
-development though to catch memory bugs. So please turn it into a
-PACKAGECONFIG which is disabled
-by default instead of revert.
+On Fri, Jun 18, 2021 at 12:44 PM Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> btrfs-tools compile fails with mips, musl and 5.12+ headers.
+>
+> The definition of __ALIGN_KERNEL has moved in 5.12+ kernels, so we
+> add an explicit include of const.h to pickup the macro:
+>
+>   | make: *** [Makefile:595: mkfs.btrfs] Error 1
+>   | make: *** Waiting for unfinished jobs....
+>   | libbtrfs.a(volumes.o): in function `dev_extent_search_start':
+>   | /usr/src/debug/btrfs-tools/5.12.1-r0/git/kernel-shared/volumes.c:464: undefined reference to `__ALIGN_KERNEL'
+>   | collect2: error: ld returned 1 exit status
+>
+> This is safe for older kernels as well, since the header still
+> exists, and is valid to include.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>
+> I've started a discussion if this is required upstream, but didn't
+> want to wait on sending this.
+>
+> I'm working on the update to libc-headers 5.13+ and ran into this
+> build error .. only on musl and mips64. Which is why there is
+> hesitation on if this is needed upstream.
+>
+> Cheers,
+>
+> Bruce
+>
+>
+>  ...ude-linux-const.h-to-fix-build-with-.patch | 42 +++++++++++++++++++
+>  .../btrfs-tools/btrfs-tools_5.12.1.bb         |  1 +
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+>
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+> new file mode 100644
+> index 0000000000..d7188881da
+> --- /dev/null
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+> @@ -0,0 +1,42 @@
+> +From 3d19b0fb882c5e195362a9f0909c474e60070ca0 Mon Sep 17 00:00:00 2001
+> +From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> +Date: Fri, 18 Jun 2021 11:10:36 -0400
+> +Subject: [PATCH] btrfs-progs: include linux/const.h to fix build with 5.12+
+> + headers
+> +
+> +btrfs-tools compile fails with mips, musl and 5.12+ headers.
+> +
+> +The definition of __ALIGN_KERNEL has moved in 5.12+ kernels, so we
+> +add an explicit include of const.h to pickup the macro:
+> +
+> +  | make: *** [Makefile:595: mkfs.btrfs] Error 1
+> +  | make: *** Waiting for unfinished jobs....
+> +  | libbtrfs.a(volumes.o): in function `dev_extent_search_start':
+> +  | /usr/src/debug/btrfs-tools/5.12.1-r0/git/kernel-shared/volumes.c:464: undefined reference to `__ALIGN_KERNEL'
+> +  | collect2: error: ld returned 1 exit status
+> +
+> +This is safe for older kernel's as well, since the header still
+> +exists, and is valid to include.
+> +
+> +Upstream-status: OE Specific [mips64 + musl + libc-headers]
 
-On Fri, Jun 18, 2021 at 1:49 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+I think it's not specific to musl or mips64 or OE, it should be worth
+upstreaming to btrfs-tools.
+
+> +
+> +Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> +---
+> + kerncompat.h | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/kerncompat.h b/kerncompat.h
+> +index df167fe6..254235bd 100644
+> +--- a/kerncompat.h
+> ++++ b/kerncompat.h
+> +@@ -30,6 +30,7 @@
+> + #include <linux/types.h>
+> + #include <linux/kernel.h>
+> + #include <stdint.h>
+> ++#include <linux/const.h>
+> +
+> + #include <features.h>
+> +
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
+> index 3fc959bf8e..d0c9cf2a99 100644
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
+> @@ -18,6 +18,7 @@ DEPENDS_append_class-target = " udev"
 >
-> Sadly, I can confirm: weston swelling to double size on qemuarm64 is caused by this recent change in glibc:
+>  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+>             file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+> +           file://0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch \
+>             "
+>  SRCREV = "96d77fcefdd3b9fd297b5aabbce6dc43e2315ee2"
+>  S = "${WORKDIR}/git"
+> --
+> 2.19.1
 >
-> +EXTRA_OECONF_append_aarch64 = " --enable-memory-tagging"
 >
-> You can verify with this innocent looking program. Run 'free' while it is running and compare with and without tagging:
+> 
 >
-> main()
-> {
->    for (int i=0; i<768; i++)
->        calloc(1,262368);
->    sleep(200);
-> }
->
-> I'll queue a revert.
->
-> Alex
->
-> On Wed, 16 Jun 2021 at 16:08, Alexander Kanavin via lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
->>
->> It seems that mesa, for some reason, allocates a lot more RAM in qemuarm64 (150 Mb more or so), than it does in qemux86_64. I'll investigate.
->>
->> Alex
->>
->> On Wed, 16 Jun 2021 at 12:06, Alexander Kanavin via lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
->>>
->>> I'd like to take a deeper look at this, please hold.
->>>
->>> Alex
->>>
->>> On Tue, 15 Jun 2021 at 10:12, Alexander Kanavin via lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
->>>>
->>>> weston tests start additional compositors, other tests are also
->>>> heavy on RAM, weston itself takes 256M with opengl enabled,
->>>> so 512M causes OOM errors on arm64.
->>>>
->>>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->>>> ---
->>>>  meta/recipes-graphics/images/core-image-weston.bb | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
->>>> index 62305cc1ce..e332e19368 100644
->>>> --- a/meta/recipes-graphics/images/core-image-weston.bb
->>>> +++ b/meta/recipes-graphics/images/core-image-weston.bb
->>>> @@ -10,3 +10,4 @@ CORE_IMAGE_BASE_INSTALL += "gtk+3-demo"
->>>>  CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
->>>>
->>>>  QB_MEM = "-m 512"
->>>> +QB_MEM_qemuarm64 = "-m 1024"
->>>> --
->>>> 2.31.1
->>>>
->>>>
->>>>
->>>>
->>>
->>>
->>>
->>
->> 
->>
