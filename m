@@ -1,150 +1,149 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web08.12933.1624045429058367059
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+ by mx.groups.io with SMTP id smtpd.web10.12962.1624046241121903659
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jun 2021 12:43:49 -0700
+ Fri, 18 Jun 2021 12:57:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HgfmFiwf;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id c22so843703qtn.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jun 2021 12:43:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I8N8YLvU;
+ spf=pass (domain: gmail.com, ip: 209.85.221.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f170.google.com with SMTP id i17so2378826vkd.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jun 2021 12:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7ZEAmFisMapfe6xiigYjrh6jWzb1mGCZav8svzfBJhc=;
-        b=HgfmFiwfsC7q04ATj87O52PHSVumFPfmgiQZ2Uo5K44Aj9K1xh9GpEly7gdEl2lGuW
-         tzuJv0t/9yCLkgaoWp54kaBWPbHd9NYxuHbROM81REbUuaJZHB2V7Xd4L5q1eSM8vq9I
-         G/+XeBH2+F7PD95oX1CTstqS7BzkkGmrzMRSTtw5EpIWGkXWgHqRMzAbNUvqN5ZqKH3O
-         ntuVKyIVbiz6gbeQ0V6nonmpwqbDyGTS9VrN2jZOh8fS3rE/JtctM3+BbFOOws11bTr+
-         nctOIuCkE/6HKN+u7ZnRpvjLMpIpHitDnNbEw7XTB2obF/MLNLCSfD4hI5rpJLss59Ti
-         kctA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yJTvv6HtwttAfMLo/QTpmFh1F7vOcgUM6WSHs5qrreE=;
+        b=I8N8YLvUGnABxfflUgLNaBvqnkISfmYBDXAwsWZoQ6HMUVKUlmtEbQ8tHTl6D/aInT
+         oM4N2n+EwWE7nr1VFds4k7w0FT1KB9ZxcO+tkx7nQ912IvLMdVnwVkY8SEYMimypTVbe
+         +hiuKE6N6i///O/u0UMIFtXePM4wE2u723wCz5/JBynx7jX5GOagNv0iDq8mq9FV+UdV
+         Uxl6Y4zsc3cDCzJeZI/e3RlSX9FqFKvk4Ata5TizP1C2nuAd8HKw+pbGAYhp90ADv4Ci
+         GKz4S6JKIL5LCObAXMogUhDLgbe3CpyeFAY5FxNcqyi4cas0+yqDq2E6uz0pQn4HVKbU
+         Mj1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7ZEAmFisMapfe6xiigYjrh6jWzb1mGCZav8svzfBJhc=;
-        b=hlD1fxtUd0gtpcM7QEIyNZDpoCTs6h9cT9ozXPL3L7WibhDge78xKJq4GK8uKSrRyI
-         KL0mfZ+lmJ9DLv+gMjW3CRGm0AC9s6kRu5TdLpaodL+humrx6gQAOuhCVtQZEEnwYyxX
-         svJRjMAz4DOwZi7VtnxiK1BWwArp2hTgG+Jha2wuFnPmDaDFcekz+0QOQkNBcpb4U8Rs
-         nW63vtwGdLBYZVpp5SMpf+7ywBXfQL02qeOU17Cvy+oilsNXECwtlO0VOCL5yiI/kb64
-         0UFnCqti0IVtvI6Oa0vjbbOoQjI6skf7UqOnPTd97ZCgs60O39JPoGnBAlfOAeXd9M5S
-         LGtg==
-X-Gm-Message-State: AOAM531MCi/hAvH9saR3EEq3DxPoP51iU05ocIowyoJmWxcANEbiajKW
-	WLvW0v4BhyNed9NWFXFqs8M=
-X-Google-Smtp-Source: ABdhPJzdEnZbNj+i85tiqpnxwCoqcX/7Yzsm7zFFsqYh9DiX+JcEikkKqCMjGgroLGTbHv+37rOkfg==
-X-Received: by 2002:ac8:7d48:: with SMTP id h8mr2020623qtb.317.1624045427986;
-        Fri, 18 Jun 2021 12:43:47 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id x12sm464377qtr.22.2021.06.18.12.43.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 12:43:47 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] btrfs-tools: include linux/const.h to fix build with 5.12+ headers
-Date: Fri, 18 Jun 2021 15:43:45 -0400
-Message-Id: <20210618194345.38131-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yJTvv6HtwttAfMLo/QTpmFh1F7vOcgUM6WSHs5qrreE=;
+        b=IPOGeWsNbvT5gt9VFYycDvq5ZGB4we7MUX/fRhbtCtZTao5yhcxQYdg/koT7rTE8TS
+         1L9B65grcKfiESZV8L4c5dnNG0f6DIQP7QbEE6ty28tG4wHw0PVHd/3U3g6tOmjupXmf
+         3+MMxJ2WD7dnAGAlTQfA1t/7pQTrjQwiRgEMUb+SGCUSNKCoqlKf/h/O/Oh2bLtA+vlJ
+         CbRjbPjd5E91ehzhHzercbkKf11SaVuYMdR7XrQjey8YKUBLHdCWDn6lZGtO8xyGTUBU
+         nQptMi2OX+bDeuLJWFeScnASHIfzIyhLf3A4RyG8ZGbl+aZGMMECkqyLbNroBFzBYUWo
+         FM6Q==
+X-Gm-Message-State: AOAM531IpJjO7DfnAq280joYosyKMyjeJ/rpu6n2MjoQWNZpQ0jEgbmh
+	cUHtnFUXvav5+y3nvDQn7ajtvr6oyW9sjp+xQUE=
+X-Google-Smtp-Source: ABdhPJygEITkLtvGrX7ItM1eubAhK5wCnsKmzfuHc6mIlUHup+Vw6NatdrQgwNACbVT08LzXeB1Zs0z/ybhrNCRRQ9g=
+X-Received: by 2002:a05:6122:43:: with SMTP id q3mr8331523vkn.10.1624046240181;
+ Fri, 18 Jun 2021 12:57:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210618144640.10281-1-simon@rogue-research.com>
+In-Reply-To: <20210618144640.10281-1-simon@rogue-research.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 18 Jun 2021 21:57:09 +0200
+Message-ID: <CANNYZj_55te+KxLiFk=j4xp+=cibwnv0-FMQjN8pH4YiHKkTiQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa: Add option for gallium driver iris
+To: simon <simon@rogue-research.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000003eb1fd05c50fbbcd"
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+--0000000000003eb1fd05c50fbbcd
+Content-Type: text/plain; charset="UTF-8"
 
-btrfs-tools compile fails with mips, musl and 5.12+ headers.
+I think this can be simpler and does not need a separate PACKAGECONFIG
+option, just add iris directly to GALLIUMDRIVERS when building for x86:
 
-The definition of __ALIGN_KERNEL has moved in 5.12+ kernels, so we
-add an explicit include of const.h to pickup the macro:
+GALLIUMDRIVERS_append_x86_class-target = ",iris"
+GALLIUMDRIVERS_append_x86-64_class-target = ",iris"
 
-  | make: *** [Makefile:595: mkfs.btrfs] Error 1
-  | make: *** Waiting for unfinished jobs....
-  | libbtrfs.a(volumes.o): in function `dev_extent_search_start':
-  | /usr/src/debug/btrfs-tools/5.12.1-r0/git/kernel-shared/volumes.c:464: undefined reference to `__ALIGN_KERNEL'
-  | collect2: error: ld returned 1 exit status
+Alex
 
-This is safe for older kernels as well, since the header still
-exists, and is valid to include.
+On Fri, 18 Jun 2021 at 16:46, simon <simon@rogue-research.com> wrote:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
+> The gallium driver iris is required for intel nuc gen 8+ as it's now the
+> default driver
+>
+> Signed-off-by: Simon Boucher <simon@rogue-research.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index 5700cc9673..f2d73bb839 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -148,6 +148,7 @@ PACKAGECONFIG[virgl] = ""
+>  GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG',
+> 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+>  GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'r600',
+> ',r600', '', d)}"
+>  GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl',
+> ',virgl', '', d)}"
+> +GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'iris',
+> ',iris', '', d)}"
+>
+>  PACKAGECONFIG[gallium] =
+> "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')},
+> -Dgallium-drivers='', libdrm"
+>  PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled,
+> -Dllvm=disabled, llvm${MESA_LLVM_RELEASE} llvm-native \
+> --
+> 2.17.1
+>
+>
+> 
+>
+>
 
-I've started a discussion if this is required upstream, but didn't
-want to wait on sending this.
+--0000000000003eb1fd05c50fbbcd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm working on the update to libc-headers 5.13+ and ran into this
-build error .. only on musl and mips64. Which is why there is
-hesitation on if this is needed upstream.
+<div dir=3D"ltr"><div>I think this can be simpler and does not need a separ=
+ate PACKAGECONFIG option, just add iris directly to GALLIUMDRIVERS when bui=
+lding for x86:</div><div><br></div><div>GALLIUMDRIVERS_append_x86_class-tar=
+get =3D &quot;,iris&quot;<br>GALLIUMDRIVERS_append_x86-64_class-target =3D =
+&quot;,iris&quot;</div><div><br></div><div>Alex<br></div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 18 Jun 202=
+1 at 16:46, simon &lt;<a href=3D"mailto:simon@rogue-research.com">simon@rog=
+ue-research.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">The gallium driver iris is required for intel nuc gen 8+ as =
+it&#39;s now the default driver<br>
+<br>
+Signed-off-by: Simon Boucher &lt;<a href=3D"mailto:simon@rogue-research.co=
+m" target=3D"_blank">simon@rogue-research.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/m=
+esa/mesa.inc<br>
+index 5700cc9673..f2d73bb839 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -148,6 +148,7 @@ PACKAGECONFIG[virgl] =3D &quot;&quot;<br>
+=C2=A0GALLIUMDRIVERS_append =3D &quot;${@bb.utils.contains(&#39;PACKAGECON=
+FIG&#39;, &#39;gallium-llvm&#39;, &#39;,${GALLIUMDRIVERS_LLVM}&#39;, &#39;&=
+#39;, d)}&quot;<br>
+=C2=A0GALLIUMDRIVERS_append =3D &quot;${@bb.utils.contains(&#39;PACKAGECON=
+FIG&#39;, &#39;r600&#39;, &#39;,r600&#39;, &#39;&#39;, d)}&quot;<br>
+=C2=A0GALLIUMDRIVERS_append =3D &quot;${@bb.utils.contains(&#39;PACKAGECON=
+FIG&#39;, &#39;virgl&#39;, &#39;,virgl&#39;, &#39;&#39;, d)}&quot;<br>
++GALLIUMDRIVERS_append =3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#=
+39;, &#39;iris&#39;, &#39;,iris&#39;, &#39;&#39;, d)}&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG[gallium] =3D &quot;-Dgallium-drivers=3D${@strip_comma(=
+&#39;${GALLIUMDRIVERS}&#39;)}, -Dgallium-drivers=3D&#39;&#39;, libdrm&quot;=
+<br>
+=C2=A0PACKAGECONFIG[gallium-llvm] =3D &quot;-Dllvm=3Denabled -Dshared-llvm=
+=
+=3Denabled, -Dllvm=3Ddisabled, llvm${MESA_LLVM_RELEASE} llvm-native \<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-Cheers,
-
-Bruce
-
-
- ...ude-linux-const.h-to-fix-build-with-.patch | 42 +++++++++++++++++++
- .../btrfs-tools/btrfs-tools_5.12.1.bb         |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
-
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
-new file mode 100644
-index 0000000000..d7188881da
---- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
-@@ -0,0 +1,42 @@
-+From 3d19b0fb882c5e195362a9f0909c474e60070ca0 Mon Sep 17 00:00:00 2001
-+From: Bruce Ashfield <bruce.ashfield@gmail.com>
-+Date: Fri, 18 Jun 2021 11:10:36 -0400
-+Subject: [PATCH] btrfs-progs: include linux/const.h to fix build with 5.12+
-+ headers
-+
-+btrfs-tools compile fails with mips, musl and 5.12+ headers.
-+
-+The definition of __ALIGN_KERNEL has moved in 5.12+ kernels, so we
-+add an explicit include of const.h to pickup the macro:
-+
-+  | make: *** [Makefile:595: mkfs.btrfs] Error 1
-+  | make: *** Waiting for unfinished jobs....
-+  | libbtrfs.a(volumes.o): in function `dev_extent_search_start':
-+  | /usr/src/debug/btrfs-tools/5.12.1-r0/git/kernel-shared/volumes.c:464: undefined reference to `__ALIGN_KERNEL'
-+  | collect2: error: ld returned 1 exit status
-+
-+This is safe for older kernel's as well, since the header still
-+exists, and is valid to include.
-+
-+Upstream-status: OE Specific [mips64 + musl + libc-headers]
-+
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-+---
-+ kerncompat.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/kerncompat.h b/kerncompat.h
-+index df167fe6..254235bd 100644
-+--- a/kerncompat.h
-++++ b/kerncompat.h
-+@@ -30,6 +30,7 @@
-+ #include <linux/types.h>
-+ #include <linux/kernel.h>
-+ #include <stdint.h>
-++#include <linux/const.h>
-+ 
-+ #include <features.h>
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
-index 3fc959bf8e..d0c9cf2a99 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
-@@ -18,6 +18,7 @@ DEPENDS_append_class-target = " udev"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-+           file://0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch \
-            "
- SRCREV = "96d77fcefdd3b9fd297b5aabbce6dc43e2315ee2"
- S = "${WORKDIR}/git"
--- 
-2.19.1
-
+--0000000000003eb1fd05c50fbbcd--
