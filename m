@@ -1,123 +1,176 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.15667.1624060822778831152
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web09.17066.1624069557981573710
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jun 2021 17:00:22 -0700
+ Fri, 18 Jun 2021 19:25:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QseI4qiF;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id l11so2320615pji.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jun 2021 17:00:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BhzrUOne;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id g8so18833609ejx.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jun 2021 19:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=B1Mf7RlAAzGeWFt3qctCLwdNMO5Z8/rIr1xwUjpDGhs=;
-        b=QseI4qiFAIp793VRre2PUy1x0O9chXl1qwBKcbaGZlTjIOAR/WuF9weBlqY/9snIhi
-         hEeyWp3rMsDbr39H3154JfNYIcSNt+JttoA8lb0RKdf9UK0g4xuw/63N/VCNYzvXCfOz
-         /gV+zgwjwpQ8K2kTmzCTdR9mGE+vActyM9+RH158kqop9djRKPOxLsHL1YomCeDNnCKD
-         HgGMeYIdhsfZ4NUE7H01+xqnFKyvFxx0rhEnRZ2dJifVIJD57RkudaYaTjwqd3BNbbw2
-         4Fnk2YO8/CFpo9PBVvFdqVjGS3MqF9fQIPa8ZNeSse35Mt14pzLL0NbdaYvQ9L89WOSg
-         zAtA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TF6Vg0DIOBaE9eHHEvV11+K/UYWyCf4guTHcoSHdIdM=;
+        b=BhzrUOneMtf2wkRjEABdDnE1ADz4F1bygTYzHsORhCJgEIpqtuj45AonpAD/SevxM4
+         9zOEYPzfdw8VkXmgZgXkJqcZ6yi4P8eAwAxNt6OV2qq/7wqV00ZAlC/wcHI4wx8WI0RT
+         m7pfLBrWgYccxuzO1ve3HHEeO3iQs0sXPCqe5bKao1HvayqaLc6y4EUqRlSUlYjgkb7z
+         kVMVnYIFx+dYKLxIHpO1lDQmkJ/yBxsLT0IRy53xVXBgLX3/RfL5YzPRXHM05qh9o/i9
+         CcRAGe2C3bJtU3H1nvWrt8/q1cRiRfKgHlFJUlM09P9tfYfHWotkh+fABV700gUqNsVy
+         2a2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=B1Mf7RlAAzGeWFt3qctCLwdNMO5Z8/rIr1xwUjpDGhs=;
-        b=gAPPHMWQl1RnUtv782zBgEn3lotpRY2YrozEFBctACbketSRfZrnA7tLVcN8zawSsG
-         fMS2QGBvh0v2H7UpYg3k7c3iR3xY+e+GMBpCu2dl/ZHiv6rZFA6lHD0JEHt+o9ugiIKA
-         ctrJoncKBEe6Ujobnvxb6mozsKX43/XTxZHmey11/q6KAtlwBI2uMgT6QbugbUZBhqVU
-         3xLUafGqbHHHZ7h4dhHnTzUp4/2xVPghsXl++EGXrbNKFBYDRxBQtmzXUI72j/szmYJl
-         deSx2fIplx+FTtzFvrV7jqePpvWTKbZL3Tr2V5/3hPZC/Aa4uhJSUyZ9dkmwea3Al/Nw
-         /flQ==
-X-Gm-Message-State: AOAM532mivySWaqcTc1z2uDILD1eft8Ki+HfrbUJfhYB0W9bQTWPtSyD
-	xkg9G5DxpDbdvZODT5IHpoYLLgiyx31jpQ==
-X-Google-Smtp-Source: ABdhPJyr9/roF0VVzHrzIV8Y/1S9der1mD3Ewi8VGq1N3QUxRT/vdaR9JGbfh7Ob6S/jTXhcUNAmfw==
-X-Received: by 2002:a17:90a:780c:: with SMTP id w12mr5352948pjk.42.1624060821991;
-        Fri, 18 Jun 2021 17:00:21 -0700 (PDT)
-Return-Path: <ticotimo@gmail.com>
-Received: from nereus.local ([2601:1c0:6000:9640:892d:1e9b:5562:7e0d])
-        by smtp.gmail.com with ESMTPSA id n19sm4411751pgd.73.2021.06.18.17.00.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 17:00:21 -0700 (PDT)
-From: "Tim Orling" <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH 1/1] python3: skip tests requiring tools-sdk
-Date: Fri, 18 Jun 2021 17:00:19 -0700
-Message-Id: <4207e03bcbbfd8b6113c04bc7c35ceb516af31f6.1624060313.git.timothy.t.orling@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1624060313.git.timothy.t.orling@intel.com>
-References: <cover.1624060313.git.timothy.t.orling@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TF6Vg0DIOBaE9eHHEvV11+K/UYWyCf4guTHcoSHdIdM=;
+        b=gWR1+1L6UiCcxzAhceW56biaLmBTikl/Mwy3zGUP8JS9bP3H7Cdid/b6dK/3s/psG5
+         VQUNc0742xhb493eSZWzq2fN/7DiF9T+FK+NKDg64velEQ8JAK3p8I1v678Gu/iM0GyR
+         Bnw6NeCQW7SuhALyxWDfbwbC/SNCMe2boTqoqLKglicuqgG6UuZPMHJ4ZmEGtd/7GJsB
+         qGxF7M/1k6V97kf7BhR0roRvA4PZvAFAQ5tUpt7efFbn8zHvqFwgu2dPKUPh06aidecr
+         hcBWm7vgBg5us0NxQlNvPao+jhgeoPQNIJCCRVXFoH/qkOPuRZMVD5TkgO3j42iWdU42
+         f5iw==
+X-Gm-Message-State: AOAM5325TTWTrR6kaW24IkhSK7YPyU31G8fAwWbRPldXT06wxExrCnew
+	+Cm1A/0iSkOldFwbO6aMs9W4QEpRF+suUY7T7yk=
+X-Google-Smtp-Source: ABdhPJwWZ9SctR2Xj2yegFiIbEuZCFPxSDqbaapY2UK/ZD+PvzUXfSw3C2zFK5oA0VoWwIFG+Q9Uj7P6PTAs0l0te58=
+X-Received: by 2002:a17:906:180a:: with SMTP id v10mr13703092eje.22.1624069556575;
+ Fri, 18 Jun 2021 19:25:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210618194345.38131-1-bruce.ashfield@gmail.com> <CAMKF1spzxhUkBS=0bcS6E41Q540OJ5_MdLU10HL6Cf4uPBtTsw@mail.gmail.com>
+In-Reply-To: <CAMKF1spzxhUkBS=0bcS6E41Q540OJ5_MdLU10HL6Cf4uPBtTsw@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Fri, 18 Jun 2021 22:25:45 -0400
+Message-ID: <CADkTA4MKJHc0ZLHEpeJrNUQgevOuSWx=H2ARqtdKgzYW3c7N-Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] btrfs-tools: include linux/const.h to fix build with 5.12+ headers
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Conditionally skip test_ctypes.test_find unless
-IMAGE_FEATURES contains 'tools-sdk' as these test
-cases require full packagegroup-core-buildessential
+On Fri, Jun 18, 2021 at 6:24 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Fri, Jun 18, 2021 at 12:44 PM Bruce Ashfield
+> <bruce.ashfield@gmail.com> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > btrfs-tools compile fails with mips, musl and 5.12+ headers.
+> >
+> > The definition of __ALIGN_KERNEL has moved in 5.12+ kernels, so we
+> > add an explicit include of const.h to pickup the macro:
+> >
+> >   | make: *** [Makefile:595: mkfs.btrfs] Error 1
+> >   | make: *** Waiting for unfinished jobs....
+> >   | libbtrfs.a(volumes.o): in function `dev_extent_search_start':
+> >   | /usr/src/debug/btrfs-tools/5.12.1-r0/git/kernel-shared/volumes.c:464: undefined reference to `__ALIGN_KERNEL'
+> >   | collect2: error: ld returned 1 exit status
+> >
+> > This is safe for older kernels as well, since the header still
+> > exists, and is valid to include.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >
+> > I've started a discussion if this is required upstream, but didn't
+> > want to wait on sending this.
+> >
+> > I'm working on the update to libc-headers 5.13+ and ran into this
+> > build error .. only on musl and mips64. Which is why there is
+> > hesitation on if this is needed upstream.
+> >
+> > Cheers,
+> >
+> > Bruce
+> >
+> >
+> >  ...ude-linux-const.h-to-fix-build-with-.patch | 42 +++++++++++++++++++
+> >  .../btrfs-tools/btrfs-tools_5.12.1.bb         |  1 +
+> >  2 files changed, 43 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+> >
+> > diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+> > new file mode 100644
+> > index 0000000000..d7188881da
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+> > @@ -0,0 +1,42 @@
+> > +From 3d19b0fb882c5e195362a9f0909c474e60070ca0 Mon Sep 17 00:00:00 2001
+> > +From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > +Date: Fri, 18 Jun 2021 11:10:36 -0400
+> > +Subject: [PATCH] btrfs-progs: include linux/const.h to fix build with 5.12+
+> > + headers
+> > +
+> > +btrfs-tools compile fails with mips, musl and 5.12+ headers.
+> > +
+> > +The definition of __ALIGN_KERNEL has moved in 5.12+ kernels, so we
+> > +add an explicit include of const.h to pickup the macro:
+> > +
+> > +  | make: *** [Makefile:595: mkfs.btrfs] Error 1
+> > +  | make: *** Waiting for unfinished jobs....
+> > +  | libbtrfs.a(volumes.o): in function `dev_extent_search_start':
+> > +  | /usr/src/debug/btrfs-tools/5.12.1-r0/git/kernel-shared/volumes.c:464: undefined reference to `__ALIGN_KERNEL'
+> > +  | collect2: error: ld returned 1 exit status
+> > +
+> > +This is safe for older kernel's as well, since the header still
+> > +exists, and is valid to include.
+> > +
+> > +Upstream-status: OE Specific [mips64 + musl + libc-headers]
+>
+> I think it's not specific to musl or mips64 or OE, it should be worth
+> upstreaming to btrfs-tools.
 
-Fixes:
-  AssertionError: Failed ptests:
-  {'python3': ['test_find_library_with_gcc', 'test_find_library_with_ld']}
+The build error says otherwise.  It quite literally only breaks on
+musl and mips64 with the updated libc-headers, but I didn't dig into
+how or why the other arches and glibc aren't hitting the error, so who
+knows :D
 
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
----
- ...pes.test_find-skip-without-tools-sdk.patch | 33 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.9.5.bb |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+But yes, as I mentioned, I will send it upstream after a bit more soaking.
 
-diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-new file mode 100644
-index 00000000000..7d684b3c43c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-@@ -0,0 +1,33 @@
-+From 7a2bddfa437be633bb6945d0e6b7d6f27da870ad Mon Sep 17 00:00:00 2001
-+From: Tim Orling <timothy.t.orling@intel.com>
-+Date: Fri, 18 Jun 2021 11:56:50 -0700
-+Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk
-+
-+These tests need full packagegroup-core-buildessential, the
-+easiest way to dynamically check for that is looking for
-+'tools-sdk' in IMAGE_FEATURES.
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Tim Orling <timothy.t.orlign@intel.com>
-+---
-+ Lib/ctypes/test/test_find.py | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/Lib/ctypes/test/test_find.py b/Lib/ctypes/test/test_find.py
-+index 92ac184..0d009d1 100644
-+--- a/Lib/ctypes/test/test_find.py
-++++ b/Lib/ctypes/test/test_find.py
-+@@ -112,10 +112,12 @@ class FindLibraryLinux(unittest.TestCase):
-+                 # LD_LIBRARY_PATH)
-+                 self.assertEqual(find_library(libname), 'lib%s.so' % libname)
-+ 
-++    @unittest.skip("Needs IMAGE_FEATURE += \"tools-sdk\"")
-+     def test_find_library_with_gcc(self):
-+         with unittest.mock.patch("ctypes.util._findSoname_ldconfig", lambda *args: None):
-+             self.assertNotEqual(find_library('c'), None)
-+ 
-++    @unittest.skip("Needs IMAGE_FEATURE += \"tools-sdk\"")
-+     def test_find_library_with_ld(self):
-+         with unittest.mock.patch("ctypes.util._findSoname_ldconfig", lambda *args: None), \
-+              unittest.mock.patch("ctypes.util._findLib_gcc", lambda *args: None):
-diff --git a/meta/recipes-devtools/python/python3_3.9.5.bb b/meta/recipes-devtools/python/python3_3.9.5.bb
-index f4002f2516f..1717ff737d4 100644
---- a/meta/recipes-devtools/python/python3_3.9.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.5.bb
-@@ -31,6 +31,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-            file://0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch \
-            file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
-+           ${@bb.utils.contains('IMAGE_FEATURES', 'tools-sdk', '', 'file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch', d)} \
-            "
- 
- SRC_URI_append_class-native = " \
+Bruce
+
+>
+> > +
+> > +Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > +---
+> > + kerncompat.h | 1 +
+> > + 1 file changed, 1 insertion(+)
+> > +
+> > +diff --git a/kerncompat.h b/kerncompat.h
+> > +index df167fe6..254235bd 100644
+> > +--- a/kerncompat.h
+> > ++++ b/kerncompat.h
+> > +@@ -30,6 +30,7 @@
+> > + #include <linux/types.h>
+> > + #include <linux/kernel.h>
+> > + #include <stdint.h>
+> > ++#include <linux/const.h>
+> > +
+> > + #include <features.h>
+> > +
+> > +--
+> > +2.25.1
+> > +
+> > diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
+> > index 3fc959bf8e..d0c9cf2a99 100644
+> > --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
+> > +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb
+> > @@ -18,6 +18,7 @@ DEPENDS_append_class-target = " udev"
+> >
+> >  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+> >             file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+> > +           file://0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch \
+> >             "
+> >  SRCREV = "96d77fcefdd3b9fd297b5aabbce6dc43e2315ee2"
+> >  S = "${WORKDIR}/git"
+> > --
+> > 2.19.1
+> >
+> >
+> > 
+> >
+
+
+
 -- 
-2.30.2
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
