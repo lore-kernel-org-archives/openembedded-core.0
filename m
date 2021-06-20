@@ -1,79 +1,614 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web12.28096.1624147613511552086
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.web09.27939.1624147620193008381
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Jun 2021 17:06:54 -0700
+ Sat, 19 Jun 2021 17:07:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=j7yZikEh;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f171.google.com with SMTP id t140so15533750oih.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Jun 2021 17:06:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=otm313u7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.174, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f174.google.com with SMTP id w127so15501792oig.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Jun 2021 17:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=IRJ+Yb5sMTZAYSSL+rVKOoDYLUgDdWBUKIrvCHE7yBA=;
-        b=j7yZikEh+Bhi9y98P/tpK7pDw4vdCDi7xU8JCb2iN/7ZdniXj/6KzEknzODsIzEVYZ
-         WdqhDHZ9C3hh3ARyaCEjQ1H8aMp4t8AFowAgMDW2qp+NWVUEsmAwvQ9zjgPfSFts4M0n
-         5ETx3krZVx9GDymQVaCP6rUCm8poWWppPqFyNRntXIUGxBJbwLodwESzc4FddZkYX2JX
-         qeL5C037jj1tiHbVFvLEI82SaJQRq5vEnWT/pv2XCtkkQIwojeORTPsOIeZsaaKCCEVf
-         JJE8EvZ4w1mmjCBMqY3iPZDfp4D5/PU4lrz3jCTnYQPB8zu/cAwuEFJrhs6CLVr+ldFp
-         rF4A==
+        bh=/mAlExO8yHgIvw7X9ZtB/mZwSev9gHVbsyKM7b/eVk0=;
+        b=otm313u7CSLWuiz6br6WTdxA7T2wsTGiO7egFZqxIM9iHkYQ6AxaUmwP9+3D4ELylL
+         z2ZdA/ZFRBtH57cnwnoI0APMwLKLr0QCijD85hAl+ofoePpppbLZ+DYNrzCFHgElhHar
+         IXDNgkRev/c1oQoLpcpPqKqKpIfghP/KRYEAVUV2ivH+J/lypHkoZ3i6x3KzmOVI3VSJ
+         54CtqggEuK+ouuPsXdvNyw+0fQnasnY11+ESMSExN94sMpONa7SBykd5ZOm4VE82F3wA
+         9SUeJcyhVdhOCaHS68Ut/R8GV/gDT0iv8YldvPphK8Jyl6kx72PazCifS8CjHbXl83UQ
+         y8ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IRJ+Yb5sMTZAYSSL+rVKOoDYLUgDdWBUKIrvCHE7yBA=;
-        b=sy8F6+LzNm0fCYxunEQMVyLCE7Z0ntxyNBZe5DNpIo1lM2c8qTwg+K4VjGFBSHM5tG
-         M9BhNwSuiERzR88hER4fTadAd52Hnqjeqzv4RDpX4hDPeF+eHrE0LgqEJIq4BEFsIhmM
-         yCu+o4533cbZNafk8bYtUsOwEuY4fL2M9dyUdjZtzQVM9QQx+paPy1k7UYU3p0PvkLxI
-         m6HAeOozq3cfG7W2XYn59n9krD9/YdsSgCS5RJu6AaLje6SXpif/84RBk8gxA/4uFUuM
-         FZ7xgBj0AofQer5Byy8EIJ+vFeBWEwyXES5OYGgbjBVIBil9LWD0oU3DZ3iuCx4hN4BX
-         1/IQ==
-X-Gm-Message-State: AOAM530s1RikZrJvVNfJz7/BC2PNofdJcB/x8LMDzEU+VF1ZPQyGBRPz
-	ui/6BzGWZJdNoMAxGUpRw7pCMTHh+KQoFkhJU/8=
-X-Google-Smtp-Source: ABdhPJyznPij0nshuGiUcAY8u4uUXPXvktb+scgsgB8y+MBDHatMqABzuaMhD7agNppd/LyAi9Ke8w==
-X-Received: by 2002:aca:d5cd:: with SMTP id m196mr19393620oig.138.1624147612427;
-        Sat, 19 Jun 2021 17:06:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/mAlExO8yHgIvw7X9ZtB/mZwSev9gHVbsyKM7b/eVk0=;
+        b=tpSLH9JjqIlGgEJRMb4DhveqwbCN9nZ3KMMjBfX3HB+2War5KgsIpwD2rb9ZlBON4p
+         yT4jCF9A+PtJThbyVrM6dr7GTubn4QuXR0rhjF6WnToeCz3pvUQGs6v4NLEz3ogROXs6
+         IouXGDfdMowSj4pZv0KHOfiFN+1gYfs/qh2vHJphsPtm018dqlyiZu9Hy/Jad0tKJEGC
+         XTzU40L+A/AKMxKTiv+8P9kB/VX7wg24hTXayyh3ixVYxnoYEAwzDKX6z7KtZi5kMiEd
+         XW0IyqHtRvzNDazBB26qzqX8k5TX591NsVZ0wPz4Gri672PGsiqWYVvQKINfmgZOWprm
+         ZWKg==
+X-Gm-Message-State: AOAM530V0u3nbJY/whRrk4v3FYxvz4oc6LPBBO2feL0IAwEawAut+Fpy
+	GOSw+9uqKb7fSaPsBv9geKDTC+qq3Rzux1FHj44=
+X-Google-Smtp-Source: ABdhPJxyrkHAFnKS1InGUYrnnMFotSO8yWetYFQZTXytYJJYpXTDtCPnFFhqaBywkZ9C9POWyLwD/Q==
+X-Received: by 2002:a05:6808:aa1:: with SMTP id r1mr10846438oij.157.1624147618826;
+        Sat, 19 Jun 2021 17:06:58 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id b20sm1000016otq.41.2021.06.19.17.06.48
+        by smtp.gmail.com with ESMTPSA id b20sm1000016otq.41.2021.06.19.17.06.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Jun 2021 17:06:51 -0700 (PDT)
+        Sat, 19 Jun 2021 17:06:58 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/1] Pull request
-Date: Sat, 19 Jun 2021 14:06:28 -1000
-Message-Id: <cover.1624147329.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/1] Revert "python3: fix CVE-2021-23336"
+Date: Sat, 19 Jun 2021 14:06:29 -1000
+Message-Id: <ac8181d9b9ad8360f7dba03aba8b00f008c6ebb4.1624147329.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1624147329.git.steve@sakoman.com>
+References: <cover.1624147329.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Unfortunately I neglected to remove "python3: fix CVE-2021-23336" before
-sending my last review and pull request. It caused autobuilder issues and
-should not have been included.
+Causes build failures on autobuilder
 
-This revert should be included prior to the 3.1.9 build next week.
-
-Sorry for any inconvenience.
-
-The following changes since commit f5fc716d744745d5c2ea83f0b1d63907cfe04c06:
-
-  kernel.bbclass: fix do_sizecheck() comparison (2021-06-15 06:37:17 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Steve Sakoman (1):
-  Revert "python3: fix CVE-2021-23336"
-
+This reverts commit 8a59c47ce4c101b2470a06ecf101ca5ab7d1f82e.
+---
  .../python/python3/CVE-2021-23336.patch       | 530 ------------------
  meta/recipes-devtools/python/python3_3.8.2.bb |   1 -
  2 files changed, 531 deletions(-)
  delete mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
 
+diff --git a/meta/recipes-devtools/python/python3/CVE-2021-23336.patch b/meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+deleted file mode 100644
+index 2a885b9d37..0000000000
+--- a/meta/recipes-devtools/python/python3/CVE-2021-23336.patch
++++ /dev/null
+@@ -1,530 +0,0 @@
+-From 3ab6f812653e79d008d5eba31dc25d34f3ca7170 Mon Sep 17 00:00:00 2001
+-From: Senthil Kumaran <senthil@uthcode.com>
+-Date: Mon, 15 Feb 2021 10:15:02 -0800
+-Subject: [PATCH] bpo-42967: only use '&' as a query string separator
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+- (GH-24297)  (#24529)
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-* bpo-42967: only use '&' as a query string separator (#24297)
+-
+-bpo-42967: [security] Address a web cache-poisoning issue reported in
+-urllib.parse.parse_qsl().
+-
+-urllib.parse will only us "&" as query string separator by default
+-instead of both ";" and "&" as allowed in earlier versions. An optional
+-argument seperator with default value "&" is added to specify the
+-separator.
+-
+-Co-authored-by: Éric Araujo <merwok@netwok.org>
+-Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
+-Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
+-Co-authored-by: Éric Araujo <merwok@netwok.org>
+-(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
+-
+-* [3.8] bpo-42967: only use '&' as a query string separator (GH-24297)
+-
+-bpo-42967: [security] Address a web cache-poisoning issue reported in urllib.parse.parse_qsl().
+-
+-urllib.parse will only us "&" as query string separator by default instead of both ";" and "&" as allowed in earlier versions. An optional argument seperator with default value "&" is added to specify the separator.
+-
+-Co-authored-by: Éric Araujo <merwok@netwok.org>
+-Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
+-Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
+-Co-authored-by: Éric Araujo <merwok@netwok.org>.
+-(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
+-
+-Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
+-
+-* Update correct version information.
+-
+-* fix docs and make logic clearer
+-
+-Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
+-Co-authored-by: Fidget-Spinner <28750310+Fidget-Spinner@users.noreply.github.com>
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/e3110c3cfbb7daa690d54d0eff6c264c870a71bf]
+-CVE: CVE-2020-23336
+-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+-
+----
+- Doc/library/cgi.rst                           | 11 ++-
+- Doc/library/urllib.parse.rst                  | 22 +++++-
+- Doc/whatsnew/3.6.rst                          | 13 ++++
+- Doc/whatsnew/3.7.rst                          | 13 ++++
+- Lib/cgi.py                                    | 23 ++++---
+- Lib/test/test_cgi.py                          | 29 ++++++--
+- Lib/test/test_urlparse.py                     | 68 +++++++++++++------
+- Lib/urllib/parse.py                           | 19 ++++--
+- .../2021-02-14-15-59-16.bpo-42967.YApqDS.rst  |  1 +
+- 9 files changed, 153 insertions(+), 46 deletions(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
+-
+-diff --git a/Doc/library/cgi.rst b/Doc/library/cgi.rst
+-index 4048592..880074b 100644
+---- a/Doc/library/cgi.rst
+-+++ b/Doc/library/cgi.rst
+-@@ -277,14 +277,16 @@ These are useful if you want more control, or if you want to employ some of the
+- algorithms implemented in this module in other circumstances.
+- 
+- 
+--.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False)
+-+.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False, separator="&")
+- 
+-    Parse a query in the environment or from a file (the file defaults to
+--   ``sys.stdin``).  The *keep_blank_values* and *strict_parsing* parameters are
+-+   ``sys.stdin``).  The *keep_blank_values*, *strict_parsing* and *separator* parameters are
+-    passed to :func:`urllib.parse.parse_qs` unchanged.
+- 
+-+   .. versionchanged:: 3.8.8
+-+      Added the *separator* parameter.
+- 
+--.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace")
+-+.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator="&")
+- 
+-    Parse input of type :mimetype:`multipart/form-data` (for  file uploads).
+-    Arguments are *fp* for the input file, *pdict* for a dictionary containing
+-@@ -303,6 +305,9 @@ algorithms implemented in this module in other circumstances.
+-       Added the *encoding* and *errors* parameters.  For non-file fields, the
+-       value is now a list of strings, not bytes.
+- 
+-+   .. versionchanged:: 3.8.8
+-+      Added the *separator* parameter.
+-+
+- 
+- .. function:: parse_header(string)
+- 
+-diff --git a/Doc/library/urllib.parse.rst b/Doc/library/urllib.parse.rst
+-index 52f98ef..45ca03a 100644
+---- a/Doc/library/urllib.parse.rst
+-+++ b/Doc/library/urllib.parse.rst
+-@@ -165,7 +165,7 @@ or on combining URL components into a URL string.
+-       now raise :exc:`ValueError`.
+- 
+- 
+--.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
+-+.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
+- 
+-    Parse a query string given as a string argument (data of type
+-    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a
+-@@ -190,6 +190,9 @@ or on combining URL components into a URL string.
+-    read. If set, then throws a :exc:`ValueError` if there are more than
+-    *max_num_fields* fields read.
+- 
+-+   The optional argument *separator* is the symbol to use for separating the
+-+   query arguments. It defaults to ``&``.
+-+
+-    Use the :func:`urllib.parse.urlencode` function (with the ``doseq``
+-    parameter set to ``True``) to convert such dictionaries into query
+-    strings.
+-@@ -201,8 +204,14 @@ or on combining URL components into a URL string.
+-    .. versionchanged:: 3.8
+-       Added *max_num_fields* parameter.
+- 
+-+   .. versionchanged:: 3.8.8
+-+      Added *separator* parameter with the default value of ``&``. Python
+-+      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
+-+      query parameter separator. This has been changed to allow only a single
+-+      separator key, with ``&`` as the default separator.
+-+
+- 
+--.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
+-+.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
+- 
+-    Parse a query string given as a string argument (data of type
+-    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a list of
+-@@ -226,6 +235,9 @@ or on combining URL components into a URL string.
+-    read. If set, then throws a :exc:`ValueError` if there are more than
+-    *max_num_fields* fields read.
+- 
+-+   The optional argument *separator* is the symbol to use for separating the
+-+   query arguments. It defaults to ``&``.
+-+
+-    Use the :func:`urllib.parse.urlencode` function to convert such lists of pairs into
+-    query strings.
+- 
+-@@ -235,6 +247,12 @@ or on combining URL components into a URL string.
+-    .. versionchanged:: 3.8
+-       Added *max_num_fields* parameter.
+- 
+-+   .. versionchanged:: 3.8.8
+-+      Added *separator* parameter with the default value of ``&``. Python
+-+      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
+-+      query parameter separator. This has been changed to allow only a single
+-+      separator key, with ``&`` as the default separator.
+-+
+- 
+- .. function:: urlunparse(parts)
+- 
+-diff --git a/Doc/whatsnew/3.6.rst b/Doc/whatsnew/3.6.rst
+-index 04c1f7e..4409a3a 100644
+---- a/Doc/whatsnew/3.6.rst
+-+++ b/Doc/whatsnew/3.6.rst
+-@@ -2443,3 +2443,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
+- details, see the documentation for ``loop.create_datagram_endpoint()``.
+- (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
+- :issue:`37228`.)
+-+
+-+Notable changes in Python 3.6.13
+-+================================
+-+
+-+Earlier Python versions allowed using both ``;`` and ``&`` as
+-+query parameter separators in :func:`urllib.parse.parse_qs` and
+-+:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
+-+newer W3C recommendations, this has been changed to allow only a single
+-+separator key, with ``&`` as the default.  This change also affects
+-+:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
+-+functions internally. For more details, please see their respective
+-+documentation.
+-+(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
+-diff --git a/Doc/whatsnew/3.7.rst b/Doc/whatsnew/3.7.rst
+-index b9b5021..8f47a9f 100644
+---- a/Doc/whatsnew/3.7.rst
+-+++ b/Doc/whatsnew/3.7.rst
+-@@ -2556,3 +2556,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
+- details, see the documentation for ``loop.create_datagram_endpoint()``.
+- (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
+- :issue:`37228`.)
+-+
+-+Notable changes in Python 3.7.10
+-+================================
+-+
+-+Earlier Python versions allowed using both ``;`` and ``&`` as
+-+query parameter separators in :func:`urllib.parse.parse_qs` and
+-+:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
+-+newer W3C recommendations, this has been changed to allow only a single
+-+separator key, with ``&`` as the default.  This change also affects
+-+:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
+-+functions internally. For more details, please see their respective
+-+documentation.
+-+(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
+-diff --git a/Lib/cgi.py b/Lib/cgi.py
+-index 5ace46a..13255a9 100755
+---- a/Lib/cgi.py
+-+++ b/Lib/cgi.py
+-@@ -106,7 +106,8 @@ log = initlog           # The current logging function
+- # 0 ==> unlimited input
+- maxlen = 0
+- 
+--def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
+-+def parse(fp=None, environ=os.environ, keep_blank_values=0,
+-+          strict_parsing=0, separator='&'):
+-     """Parse a query in the environment or from a file (default stdin)
+- 
+-         Arguments, all optional:
+-@@ -125,6 +126,9 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
+-         strict_parsing: flag indicating what to do with parsing errors.
+-             If false (the default), errors are silently ignored.
+-             If true, errors raise a ValueError exception.
+-+
+-+        separator: str. The symbol to use for separating the query arguments.
+-+            Defaults to &.
+-     """
+-     if fp is None:
+-         fp = sys.stdin
+-@@ -145,7 +149,7 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
+-     if environ['REQUEST_METHOD'] == 'POST':
+-         ctype, pdict = parse_header(environ['CONTENT_TYPE'])
+-         if ctype == 'multipart/form-data':
+--            return parse_multipart(fp, pdict)
+-+            return parse_multipart(fp, pdict, separator=separator)
+-         elif ctype == 'application/x-www-form-urlencoded':
+-             clength = int(environ['CONTENT_LENGTH'])
+-             if maxlen and clength > maxlen:
+-@@ -169,10 +173,10 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
+-             qs = ""
+-         environ['QUERY_STRING'] = qs    # XXX Shouldn't, really
+-     return urllib.parse.parse_qs(qs, keep_blank_values, strict_parsing,
+--                                 encoding=encoding)
+-+                                 encoding=encoding, separator=separator)
+- 
+- 
+--def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
+-+def parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator='&'):
+-     """Parse multipart input.
+- 
+-     Arguments:
+-@@ -193,7 +197,7 @@ def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
+-     headers.set_type(ctype)
+-     headers['Content-Length'] = pdict['CONTENT-LENGTH']
+-     fs = FieldStorage(fp, headers=headers, encoding=encoding, errors=errors,
+--        environ={'REQUEST_METHOD': 'POST'})
+-+        environ={'REQUEST_METHOD': 'POST'}, separator=separator)
+-     return {k: fs.getlist(k) for k in fs}
+- 
+- def _parseparam(s):
+-@@ -303,7 +307,7 @@ class FieldStorage:
+-     def __init__(self, fp=None, headers=None, outerboundary=b'',
+-                  environ=os.environ, keep_blank_values=0, strict_parsing=0,
+-                  limit=None, encoding='utf-8', errors='replace',
+--                 max_num_fields=None):
+-+                 max_num_fields=None, separator='&'):
+-         """Constructor.  Read multipart/* until last part.
+- 
+-         Arguments, all optional:
+-@@ -351,6 +355,7 @@ class FieldStorage:
+-         self.keep_blank_values = keep_blank_values
+-         self.strict_parsing = strict_parsing
+-         self.max_num_fields = max_num_fields
+-+        self.separator = separator
+-         if 'REQUEST_METHOD' in environ:
+-             method = environ['REQUEST_METHOD'].upper()
+-         self.qs_on_post = None
+-@@ -577,7 +582,7 @@ class FieldStorage:
+-         query = urllib.parse.parse_qsl(
+-             qs, self.keep_blank_values, self.strict_parsing,
+-             encoding=self.encoding, errors=self.errors,
+--            max_num_fields=self.max_num_fields)
+-+            max_num_fields=self.max_num_fields, separator=self.separator)
+-         self.list = [MiniFieldStorage(key, value) for key, value in query]
+-         self.skip_lines()
+- 
+-@@ -593,7 +598,7 @@ class FieldStorage:
+-             query = urllib.parse.parse_qsl(
+-                 self.qs_on_post, self.keep_blank_values, self.strict_parsing,
+-                 encoding=self.encoding, errors=self.errors,
+--                max_num_fields=self.max_num_fields)
+-+                max_num_fields=self.max_num_fields, separator=self.separator)
+-             self.list.extend(MiniFieldStorage(key, value) for key, value in query)
+- 
+-         klass = self.FieldStorageClass or self.__class__
+-@@ -637,7 +642,7 @@ class FieldStorage:
+-                 else self.limit - self.bytes_read
+-             part = klass(self.fp, headers, ib, environ, keep_blank_values,
+-                          strict_parsing, limit,
+--                         self.encoding, self.errors, max_num_fields)
+-+                         self.encoding, self.errors, max_num_fields, self.separator)
+- 
+-             if max_num_fields is not None:
+-                 max_num_fields -= 1
+-diff --git a/Lib/test/test_cgi.py b/Lib/test/test_cgi.py
+-index ab86771..bda03ee 100644
+---- a/Lib/test/test_cgi.py
+-+++ b/Lib/test/test_cgi.py
+-@@ -53,12 +53,9 @@ parse_strict_test_cases = [
+-     ("", ValueError("bad query field: ''")),
+-     ("&", ValueError("bad query field: ''")),
+-     ("&&", ValueError("bad query field: ''")),
+--    (";", ValueError("bad query field: ''")),
+--    (";&;", ValueError("bad query field: ''")),
+-     # Should the next few really be valid?
+-     ("=", {}),
+-     ("=&=", {}),
+--    ("=;=", {}),
+-     # This rest seem to make sense
+-     ("=a", {'': ['a']}),
+-     ("&=a", ValueError("bad query field: ''")),
+-@@ -73,8 +70,6 @@ parse_strict_test_cases = [
+-     ("a=a+b&b=b+c", {'a': ['a b'], 'b': ['b c']}),
+-     ("a=a+b&a=b+a", {'a': ['a b', 'b a']}),
+-     ("x=1&y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
+--    ("x=1;y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
+--    ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
+-     ("Hbc5161168c542333633315dee1182227:key_store_seqid=400006&cuyer=r&view=bustomer&order_id=0bb2e248638833d48cb7fed300000f1b&expire=964546263&lobale=en-US&kid=130003.300038&ss=env",
+-      {'Hbc5161168c542333633315dee1182227:key_store_seqid': ['400006'],
+-       'cuyer': ['r'],
+-@@ -187,6 +182,30 @@ Content-Length: 3
+-                     else:
+-                         self.assertEqual(fs.getvalue(key), expect_val[0])
+- 
+-+    def test_separator(self):
+-+        parse_semicolon = [
+-+            ("x=1;y=2.0", {'x': ['1'], 'y': ['2.0']}),
+-+            ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
+-+            (";", ValueError("bad query field: ''")),
+-+            (";;", ValueError("bad query field: ''")),
+-+            ("=;a", ValueError("bad query field: 'a'")),
+-+            (";b=a", ValueError("bad query field: ''")),
+-+            ("b;=a", ValueError("bad query field: 'b'")),
+-+            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
+-+            ("a=a+b;a=b+a", {'a': ['a b', 'b a']}),
+-+        ]
+-+        for orig, expect in parse_semicolon:
+-+            env = {'QUERY_STRING': orig}
+-+            fs = cgi.FieldStorage(separator=';', environ=env)
+-+            if isinstance(expect, dict):
+-+                for key in expect.keys():
+-+                    expect_val = expect[key]
+-+                    self.assertIn(key, fs)
+-+                    if len(expect_val) > 1:
+-+                        self.assertEqual(fs.getvalue(key), expect_val)
+-+                    else:
+-+                        self.assertEqual(fs.getvalue(key), expect_val[0])
+-+
+-     def test_log(self):
+-         cgi.log("Testing")
+- 
+-diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
+-index 4ae6ed3..90c8d69 100644
+---- a/Lib/test/test_urlparse.py
+-+++ b/Lib/test/test_urlparse.py
+-@@ -32,16 +32,10 @@ parse_qsl_test_cases = [
+-     (b"&a=b", [(b'a', b'b')]),
+-     (b"a=a+b&b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
+-     (b"a=1&a=2", [(b'a', b'1'), (b'a', b'2')]),
+--    (";", []),
+--    (";;", []),
+--    (";a=b", [('a', 'b')]),
+--    ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
+--    ("a=1;a=2", [('a', '1'), ('a', '2')]),
+--    (b";", []),
+--    (b";;", []),
+--    (b";a=b", [(b'a', b'b')]),
+--    (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
+--    (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
+-+    (";a=b", [(';a', 'b')]),
+-+    ("a=a+b;b=b+c", [('a', 'a b;b=b c')]),
+-+    (b";a=b", [(b';a', b'b')]),
+-+    (b"a=a+b;b=b+c", [(b'a', b'a b;b=b c')]),
+- ]
+- 
+- # Each parse_qs testcase is a two-tuple that contains
+-@@ -68,16 +62,10 @@ parse_qs_test_cases = [
+-     (b"&a=b", {b'a': [b'b']}),
+-     (b"a=a+b&b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
+-     (b"a=1&a=2", {b'a': [b'1', b'2']}),
+--    (";", {}),
+--    (";;", {}),
+--    (";a=b", {'a': ['b']}),
+--    ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
+--    ("a=1;a=2", {'a': ['1', '2']}),
+--    (b";", {}),
+--    (b";;", {}),
+--    (b";a=b", {b'a': [b'b']}),
+--    (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
+--    (b"a=1;a=2", {b'a': [b'1', b'2']}),
+-+    (";a=b", {';a': ['b']}),
+-+    ("a=a+b;b=b+c", {'a': ['a b;b=b c']}),
+-+    (b";a=b", {b';a': [b'b']}),
+-+    (b"a=a+b;b=b+c", {b'a':[ b'a b;b=b c']}),
+- ]
+- 
+- class UrlParseTestCase(unittest.TestCase):
+-@@ -884,10 +872,46 @@ class UrlParseTestCase(unittest.TestCase):
+-     def test_parse_qsl_max_num_fields(self):
+-         with self.assertRaises(ValueError):
+-             urllib.parse.parse_qs('&'.join(['a=a']*11), max_num_fields=10)
+--        with self.assertRaises(ValueError):
+--            urllib.parse.parse_qs(';'.join(['a=a']*11), max_num_fields=10)
+-         urllib.parse.parse_qs('&'.join(['a=a']*10), max_num_fields=10)
+- 
+-+    def test_parse_qs_separator(self):
+-+        parse_qs_semicolon_cases = [
+-+            (";", {}),
+-+            (";;", {}),
+-+            (";a=b", {'a': ['b']}),
+-+            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
+-+            ("a=1;a=2", {'a': ['1', '2']}),
+-+            (b";", {}),
+-+            (b";;", {}),
+-+            (b";a=b", {b'a': [b'b']}),
+-+            (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
+-+            (b"a=1;a=2", {b'a': [b'1', b'2']}),
+-+        ]
+-+        for orig, expect in parse_qs_semicolon_cases:
+-+            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
+-+                result = urllib.parse.parse_qs(orig, separator=';')
+-+                self.assertEqual(result, expect, "Error parsing %r" % orig)
+-+
+-+
+-+    def test_parse_qsl_separator(self):
+-+        parse_qsl_semicolon_cases = [
+-+            (";", []),
+-+            (";;", []),
+-+            (";a=b", [('a', 'b')]),
+-+            ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
+-+            ("a=1;a=2", [('a', '1'), ('a', '2')]),
+-+            (b";", []),
+-+            (b";;", []),
+-+            (b";a=b", [(b'a', b'b')]),
+-+            (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
+-+            (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
+-+        ]
+-+        for orig, expect in parse_qsl_semicolon_cases:
+-+            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
+-+                result = urllib.parse.parse_qsl(orig, separator=';')
+-+                self.assertEqual(result, expect, "Error parsing %r" % orig)
+-+
+-+
+-     def test_urlencode_sequences(self):
+-         # Other tests incidentally urlencode things; test non-covered cases:
+-         # Sequence and object values.
+-diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
+-index e2b6f13..5a3e847 100644
+---- a/Lib/urllib/parse.py
+-+++ b/Lib/urllib/parse.py
+-@@ -648,7 +648,7 @@ def unquote(string, encoding='utf-8', errors='replace'):
+- 
+- 
+- def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
+--             encoding='utf-8', errors='replace', max_num_fields=None):
+-+             encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
+-     """Parse a query given as a string argument.
+- 
+-         Arguments:
+-@@ -672,12 +672,15 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
+-         max_num_fields: int. If set, then throws a ValueError if there
+-             are more than n fields read by parse_qsl().
+- 
+-+        separator: str. The symbol to use for separating the query arguments.
+-+            Defaults to &.
+-+
+-         Returns a dictionary.
+-     """
+-     parsed_result = {}
+-     pairs = parse_qsl(qs, keep_blank_values, strict_parsing,
+-                       encoding=encoding, errors=errors,
+--                      max_num_fields=max_num_fields)
+-+                      max_num_fields=max_num_fields, separator=separator)
+-     for name, value in pairs:
+-         if name in parsed_result:
+-             parsed_result[name].append(value)
+-@@ -687,7 +690,7 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
+- 
+- 
+- def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
+--              encoding='utf-8', errors='replace', max_num_fields=None):
+-+              encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
+-     """Parse a query given as a string argument.
+- 
+-         Arguments:
+-@@ -710,19 +713,25 @@ def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
+-         max_num_fields: int. If set, then throws a ValueError
+-             if there are more than n fields read by parse_qsl().
+- 
+-+        separator: str. The symbol to use for separating the query arguments.
+-+            Defaults to &.
+-+
+-         Returns a list, as G-d intended.
+-     """
+-     qs, _coerce_result = _coerce_args(qs)
+- 
+-+    if not separator or (not isinstance(separator, (str, bytes))):
+-+        raise ValueError("Separator must be of type string or bytes.")
+-+
+-     # If max_num_fields is defined then check that the number of fields
+-     # is less than max_num_fields. This prevents a memory exhaustion DOS
+-     # attack via post bodies with many fields.
+-     if max_num_fields is not None:
+--        num_fields = 1 + qs.count('&') + qs.count(';')
+-+        num_fields = 1 + qs.count(separator)
+-         if max_num_fields < num_fields:
+-             raise ValueError('Max number of fields exceeded')
+- 
+--    pairs = [s2 for s1 in qs.split('&') for s2 in s1.split(';')]
+-+    pairs = [s1 for s1 in qs.split(separator)]
+-     r = []
+-     for name_value in pairs:
+-         if not name_value and not strict_parsing:
+-diff --git a/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
+-new file mode 100644
+-index 0000000..f08489b
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
+-@@ -0,0 +1 @@
+-+Fix web cache poisoning vulnerability by defaulting the query args separator to ``&``, and allowing the user to choose a custom separator.
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index 762e9444b8..072ce97472 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -39,7 +39,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://CVE-2020-26116.patch \
+            file://CVE-2020-27619.patch \
+            file://CVE-2021-3177.patch \
+-	   file://CVE-2021-23336.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
 -- 
 2.25.1
 
