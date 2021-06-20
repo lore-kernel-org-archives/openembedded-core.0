@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.32454.1624189110576045402
+ by mx.groups.io with SMTP id smtpd.web11.32527.1624189110577784587
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Jun 2021 04:38:30 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A410D38C1193
+	by mail.yoctoproject.org (Postfix) with ESMTP id A0E8338C1186
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Jun 2021 11:38:29 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] bash: upgrading to 5.1.8 FAILED
-Message-ID: <MADEUP.168A47640F4FB1A3.8577@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0413471229255645843=="
+Subject: [AUH] python3-git: upgrading to 3.1.18 SUCCEEDED
+Message-ID: <MADEUP.168A47640FBA57D2.8577@lists.openembedded.org>
+X-Groupsio-MsgNum: 153109
+Content-Type: multipart/mixed; boundary="===============1773007657132917602=="
 
---===============0413471229255645843==
+--===============1773007657132917602==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,109 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *bash* to *5.1.8* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-git* to *3.1.18* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-git-upgrade-3.1.17-3.1.18.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe bash failed.
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry...
-NOTE: Retrying server connection (#1)...
-NOTE: Reconnecting to bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry...
-NOTE: Previous bitbake instance shutting down?, waiting to retry...
-NOTE: Retrying server connection (#1)...
-NOTE: Retrying server connection (#1)...
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1455 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-ae5122fe14757852a56ab91091bccd8af7d5aff6"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:ae5122fe14757852a56ab91091bccd8af7d5aff6"
-workspace            = "master:f585bf4c959ae0b52be8462d278cd289db79b813"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.gnu.org/gnu/bash/bash-5.1.8.tar.gz;name=tarball...
-Loading cache...done.
-Loaded 1455 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 819 .bb files complete (817 cached, 2 parsed). 1456 targets, 32 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-ae5122fe14757852a56ab91091bccd8af7d5aff6"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:ae5122fe14757852a56ab91091bccd8af7d5aff6"
-workspace            = "master:f585bf4c959ae0b52be8462d278cd289db79b813"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 2cc85bedaac460f56f4c6e8c4283594c500f0a83' failed:
-First, rewinding head to replay your work on top of it...
-Applying: 			     BASH PATCH REPORT
-Using index info to reconstruct a base tree...
-M	Makefile.in
-M	builtins/Makefile.in
-M	patchlevel.h
-Falling back to patching base and 3-way merge...
-Auto-merging patchlevel.h
-CONFLICT (content): Merge conflict in patchlevel.h
-error: Failed to merge in the changes.
-hint: Use 'git am --show-current-patch' to see the failed patch
-Patch failed at 0001 			     BASH PATCH REPORT
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/bash
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/bash/bash_5.1.8.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -133,4 +44,77 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0413471229255645843==--
+--===============1773007657132917602==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-git: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git: SRC_URI changed from "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-3.1.17.tar.gz" to "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-3.1.18.tar.gz"
+packages/core2-32-poky-linux/python3-git: PV changed from "3.1.17" to "3.1.18"
+packages/core2-32-poky-linux/python3-git/python3-git-dbg: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-dbg: PV changed from "3.1.17" to "3.1.18"
+packages/core2-32-poky-linux/python3-git/python3-git-dev: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-dev: PV changed from "3.1.17" to "3.1.18"
+packages/core2-32-poky-linux/python3-git/python3-git-doc: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-doc: PV changed from "3.1.17" to "3.1.18"
+packages/core2-32-poky-linux/python3-git/python3-git-locale: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-locale: PV changed from "3.1.17" to "3.1.18"
+packages/core2-32-poky-linux/python3-git/python3-git-src: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-src: PV changed from "3.1.17" to "3.1.18"
+packages/core2-32-poky-linux/python3-git/python3-git-staticdev: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-staticdev: PV changed from "3.1.17" to "3.1.18"
+packages/core2-32-poky-linux/python3-git/python3-git: PKGV changed from 3.1.17 [default] to 3.1.18 [default]
+packages/core2-32-poky-linux/python3-git/python3-git: PKGSIZE changed from 934684 to 955569 (+2%)
+packages/core2-32-poky-linux/python3-git/python3-git: PV changed from "3.1.17" to "3.1.18"
+Changes to packages/core2-32-poky-linux/python3-git (sysroot):
+  /usr/lib/python3.9/site-packages/GitPython-3.1.17-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/GitPython-3.1.18-py3.9.egg-info
+
+--===============1773007657132917602==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-git (sysroot):
+  /usr/lib/python3.9/site-packages/GitPython-3.1.17-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/GitPython-3.1.18-py3.9.egg-info
+
+--===============1773007657132917602==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-python3-git-upgrade-3.1.17-3.1.18.patch"
+
+From bb00dcc14282b346e552953c4330fc0aa9e52190 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 20 Jun 2021 08:57:16 +0000
+Subject: [PATCH] python3-git: upgrade 3.1.17 -> 3.1.18
+
+---
+ .../python/{python3-git_3.1.17.bb => python3-git_3.1.18.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-git_3.1.17.bb => python3-git_3.1.18.bb} (92%)
+
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.17.bb b/meta/recipes-devtools/python/python3-git_3.1.18.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-git_3.1.17.bb
+rename to meta/recipes-devtools/python/python3-git_3.1.18.bb
+index 009cac6609..955418c0e4 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.17.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.18.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "GitPython"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "ee24bdc93dce357630764db659edaf6b8d664d4ff5447ccfeedd2dc5c253f41e"
++SRC_URI[sha256sum] = "b838a895977b45ab6f0cc926a9045c8d1c44e2b653c1fcc39fe91f42c6e8f05b"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
+-- 
+2.20.1
+
+
+--===============1773007657132917602==--
