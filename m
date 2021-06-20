@@ -1,83 +1,79 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web09.25202.1624130052152052211
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web12.28096.1624147613511552086
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Jun 2021 12:14:12 -0700
+ Sat, 19 Jun 2021 17:06:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W2JzX8KL;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id r7so10197291qta.12
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Jun 2021 12:14:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=j7yZikEh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id t140so15533750oih.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Jun 2021 17:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=q+8mHQItCATfoPtcu9uq0ExQSpcrM1lhv1oKZWEnv5I=;
-        b=W2JzX8KLyhIbBtrkBiYZeOPoMHMzKn3WYiVsETaHFTtUruCSQeqQgC23CYig//xEAs
-         oSm19yriwL4L/dS981AcB1RNVXnvSYJK2S3SsN3zkaLN6gCBLS4xjw9RJxqhKzA2Xivr
-         lCYHR1MyE9IfEeMpgMq6iiON9KjfKLZ0NQ+/ilfD1ANKTEp42yKCp9C12v9MlIg1YcfT
-         jikzmw54lgTMisBazGMLHZB/I6BcsBrW6MqjdXDWI1WcVoCDtDIbOxqq8QtOlISPuzp1
-         ubfFpcdbP66pqfIg6Pz9aoJ9tdLBfPkYC4IpjK2ZuPucd2EqBz8LAwZpmUFaKAkjYFAZ
-         C3rQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IRJ+Yb5sMTZAYSSL+rVKOoDYLUgDdWBUKIrvCHE7yBA=;
+        b=j7yZikEh+Bhi9y98P/tpK7pDw4vdCDi7xU8JCb2iN/7ZdniXj/6KzEknzODsIzEVYZ
+         WdqhDHZ9C3hh3ARyaCEjQ1H8aMp4t8AFowAgMDW2qp+NWVUEsmAwvQ9zjgPfSFts4M0n
+         5ETx3krZVx9GDymQVaCP6rUCm8poWWppPqFyNRntXIUGxBJbwLodwESzc4FddZkYX2JX
+         qeL5C037jj1tiHbVFvLEI82SaJQRq5vEnWT/pv2XCtkkQIwojeORTPsOIeZsaaKCCEVf
+         JJE8EvZ4w1mmjCBMqY3iPZDfp4D5/PU4lrz3jCTnYQPB8zu/cAwuEFJrhs6CLVr+ldFp
+         rF4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=q+8mHQItCATfoPtcu9uq0ExQSpcrM1lhv1oKZWEnv5I=;
-        b=WYg5wmTraeieJv0Vekr6Jt7z/4aRQ32IEkhBuHoHrHF0SggVjgW/wmAxVw0IOEFrvG
-         ZtNZGnr7yKumzVDn+AppsKgVC6AKCKhrrIx7fJOi+/lMaRWJeXLlfpwv70/rREQS0n2L
-         t7lIUs/o+s/nGf3TB2rpOMDgq6NxinYY3BQ59tqBLFq4hhCsCQg9+ID/dKlfUDwYcbfO
-         RWu7hBQjz7mVBO6GOaUdQC64HrGYN+iq39Q9LMajmRDBWdO/lHSKeqX+rtpsQizz9KTc
-         B7RIRJuWo+oxJw6hMs1ruHCrmFYWyviyOdi5FzycP2EW900OceGQGMK0LXyrh5+yjcvp
-         mFUA==
-X-Gm-Message-State: AOAM533sushh6dZQkwwif/LOCJuOI9Ck+AEIsVckigmrfIAGyQi+0i4S
-	81ZoZ7JjE0O9/JdvxDI0xWNur7HDrtv8KL8D5sw=
-X-Google-Smtp-Source: ABdhPJzyu2ijP2g/9F48I6lh/Dk2Nwg3NXDcG3RybvBDGWQk/qrarc/n6b9M+MYKA3vco8x4f7mp7wneAoc3fXTLQGc=
-X-Received: by 2002:ac8:4b4b:: with SMTP id e11mr5498301qts.289.1624130051169;
- Sat, 19 Jun 2021 12:14:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IRJ+Yb5sMTZAYSSL+rVKOoDYLUgDdWBUKIrvCHE7yBA=;
+        b=sy8F6+LzNm0fCYxunEQMVyLCE7Z0ntxyNBZe5DNpIo1lM2c8qTwg+K4VjGFBSHM5tG
+         M9BhNwSuiERzR88hER4fTadAd52Hnqjeqzv4RDpX4hDPeF+eHrE0LgqEJIq4BEFsIhmM
+         yCu+o4533cbZNafk8bYtUsOwEuY4fL2M9dyUdjZtzQVM9QQx+paPy1k7UYU3p0PvkLxI
+         m6HAeOozq3cfG7W2XYn59n9krD9/YdsSgCS5RJu6AaLje6SXpif/84RBk8gxA/4uFUuM
+         FZ7xgBj0AofQer5Byy8EIJ+vFeBWEwyXES5OYGgbjBVIBil9LWD0oU3DZ3iuCx4hN4BX
+         1/IQ==
+X-Gm-Message-State: AOAM530s1RikZrJvVNfJz7/BC2PNofdJcB/x8LMDzEU+VF1ZPQyGBRPz
+	ui/6BzGWZJdNoMAxGUpRw7pCMTHh+KQoFkhJU/8=
+X-Google-Smtp-Source: ABdhPJyznPij0nshuGiUcAY8u4uUXPXvktb+scgsgB8y+MBDHatMqABzuaMhD7agNppd/LyAi9Ke8w==
+X-Received: by 2002:aca:d5cd:: with SMTP id m196mr19393620oig.138.1624147612427;
+        Sat, 19 Jun 2021 17:06:52 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id b20sm1000016otq.41.2021.06.19.17.06.48
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Jun 2021 17:06:51 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/1] Pull request
+Date: Sat, 19 Jun 2021 14:06:28 -1000
+Message-Id: <cover.1624147329.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210619095845.1853470-1-alex.kanavin@gmail.com> <20210619095845.1853470-2-alex.kanavin@gmail.com>
-In-Reply-To: <20210619095845.1853470-2-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 19 Jun 2021 12:13:45 -0700
-Message-ID: <CAMKF1sqdh+8bVneqeJ-Z8YygAk8MhmRKiqyHYBcMqkXA7eARtQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] glibc: do not enable memory tagging on aarch64 just yet
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 19, 2021 at 2:59 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Sadly, it seems to break copy-on-write as reported here:
-> https://lists.openembedded.org/g/openembedded-core/message/153082
->
+Unfortunately I neglected to remove "python3: fix CVE-2021-23336" before
+sending my last review and pull request. It caused autobuilder issues and
+should not have been included.
 
-looks ok thanks for the patch
+This revert should be included prior to the 3.1.9 build next week.
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-core/glibc/glibc_2.33.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-> index b70cd0978a..caa2e2ae18 100644
-> --- a/meta/recipes-core/glibc/glibc_2.33.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.33.bb
-> @@ -90,10 +90,10 @@ EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
->
->  EXTRA_OECONF_append_x86 = " --enable-cet"
->  EXTRA_OECONF_append_x86-64 = " --enable-cet"
-> -EXTRA_OECONF_append_aarch64 = " --enable-memory-tagging"
->
->  PACKAGECONFIG ??= "nscd"
->  PACKAGECONFIG[nscd] = "--enable-nscd,--disable-nscd"
-> +PACKAGECONFIG[memory-tagging] = "--enable-memory-tagging,--disable-memory-tagging"
->
->  do_patch_append() {
->      bb.build.exec_func('do_fix_readlib_c', d)
-> --
-> 2.31.1
->
->
-> 
->
+Sorry for any inconvenience.
+
+The following changes since commit f5fc716d744745d5c2ea83f0b1d63907cfe04c06:
+
+  kernel.bbclass: fix do_sizecheck() comparison (2021-06-15 06:37:17 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Steve Sakoman (1):
+  Revert "python3: fix CVE-2021-23336"
+
+ .../python/python3/CVE-2021-23336.patch       | 530 ------------------
+ meta/recipes-devtools/python/python3_3.8.2.bb |   1 -
+ 2 files changed, 531 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+
+-- 
+2.25.1
+
