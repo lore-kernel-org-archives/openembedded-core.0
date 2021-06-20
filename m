@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.32503.1624189110495386393
+ by mx.groups.io with SMTP id smtpd.web11.32526.1624189110533005392
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Jun 2021 04:38:30 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8E32C38C1164
+	by mail.yoctoproject.org (Postfix) with ESMTP id 967ED38C1175
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Jun 2021 11:38:29 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnu-config: upgrading to 4550d2f15b3a7ce2451c1f29500b9339430c877f FAILED
-Message-ID: <MADEUP.168A47640BFB1FCB.3236@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============5439135983246480517=="
+Subject: [AUH] mtools: upgrading to 4.0.31 SUCCEEDED
+Message-ID: <MADEUP.168A47640CDAAEF9.1783@lists.openembedded.org>
+X-Groupsio-MsgNum: 153107
+Content-Type: multipart/mixed; boundary="===============0239329700174599882=="
 
---===============5439135983246480517==
+--===============0239329700174599882==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,55 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnu-config* to *4550d2f15b3a7ce2451c1f29500b9339430c877f* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *mtools* to *4.0.31* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-mtools-upgrade-4.0.29-4.0.31.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade gnu-config -S 4550d2f15b3a7ce2451c1f29500b9339430c877f
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1455 entries from dependency cache.
-INFO: Extracting current version source...
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-cc8931ae019b14292a48d5a03020d4b767ce3c3a"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cc8931ae019b14292a48d5a03020d4b767ce3c3a"
-workspace            = "master:f585bf4c959ae0b52be8462d278cd289db79b813"
-
-Initialising tasks...done.
-Sstate summary: Wanted 8 Local 0 Network 0 Missed 8 Current 12 (0% match, 60% complete)
-Removing 6 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-ERROR: Command '['rm', '-rf', '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/git']' returned non-zero exit status 1.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/temp/log.do_unpack.21601
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/2021052
- 2+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; git -c core.fsyncobjectfiles=0 branch master --set-upstream-to origin/master failed with exit code 128, output:
-fatal: not a git repository (or any of the parent directories): .git
-
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/temp/log.do_unpack.21597
-Log data follows:
-| rm: cannot remove '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/git/.git': Directory not empty
-| ERROR: Command '['rm', '-rf', '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20210522+gitAUTOINC+92fac9b5ce-r0/devtooltmp-nex9mece/workdir/git']' returned non-zero exit status 1.
-NOTE: Tasks Summary: Attempted 56 tasks of which 51 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-ERROR: Extracting source for gnu-config failed
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -79,4 +44,93 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5439135983246480517==--
+--===============0239329700174599882==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.29.tar.bz2 file://mtools-makeinfo.patch file://no-x11.gplv3.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.31.tar.bz2 file://mtools-makeinfo.patch file://no-x11.gplv3.patch file://clang_UNUSED.patch"
+packages/core2-32-poky-linux/mtools: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools: PV changed from "4.0.29" to "4.0.31"
+packages/core2-32-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 739452 to 735832 (-0%)
+packages/core2-32-poky-linux/mtools/mtools-dbg: PV changed from "4.0.29" to "4.0.31"
+packages/core2-32-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools/mtools-dev: PV changed from "4.0.29" to "4.0.31"
+packages/core2-32-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools/mtools-doc: PKGSIZE changed from 244977 to 244979 (+0%)
+packages/core2-32-poky-linux/mtools/mtools-doc: PV changed from "4.0.29" to "4.0.31"
+packages/core2-32-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools/mtools-locale: PV changed from "4.0.29" to "4.0.31"
+packages/core2-32-poky-linux/mtools/mtools-src: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools/mtools-src: PKGSIZE changed from 572865 to 589409 (+3%)
+packages/core2-32-poky-linux/mtools/mtools-src: PV changed from "4.0.29" to "4.0.31"
+packages/core2-32-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.29" to "4.0.31"
+packages/core2-32-poky-linux/mtools/mtools: PKGV changed from 4.0.29 [default] to 4.0.31 [default]
+packages/core2-32-poky-linux/mtools/mtools: PKGSIZE changed from 257436 to 257692 (+0%)
+packages/core2-32-poky-linux/mtools/mtools: PV changed from "4.0.29" to "4.0.31"
+
+--===============0239329700174599882==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-mtools-upgrade-4.0.29-4.0.31.patch"
+
+From ccc96cd75a3772660cb0ad6feb9f94016de5b4ac Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 20 Jun 2021 08:44:29 +0000
+Subject: [PATCH] mtools: upgrade 4.0.29 -> 4.0.31
+
+---
+ .../mtools/mtools/disable-hardcoded-configs.patch           | 6 +++---
+ .../mtools/{mtools_4.0.29.bb => mtools_4.0.31.bb}           | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.29.bb => mtools_4.0.31.bb} (93%)
+
+diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+index f187487096..7240a039e6 100644
+--- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
++++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+@@ -1,4 +1,4 @@
+-From 9590860ba35cbd524cec51bdd009f0c63a7dd417 Mon Sep 17 00:00:00 2001
++From 589a05f9377e3899082ced46c1736f90c0a4dc9b Mon Sep 17 00:00:00 2001
+ From: Ed Bartosh <ed.bartosh@linux.intel.com>
+ Date: Tue, 13 Jun 2017 14:55:52 +0300
+ Subject: [PATCH] Disabled reading host configs.
+@@ -12,10 +12,10 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+  1 file changed, 8 deletions(-)
+ 
+ diff --git a/config.c b/config.c
+-index 415755f..b61a49d 100644
++index f91004b..b72f8ea 100644
+ --- a/config.c
+ +++ b/config.c
+-@@ -774,14 +774,6 @@ void read_config(void)
++@@ -827,14 +827,6 @@ void read_config(void)
+  	memcpy(devices, const_devices,
+  	       nr_const_devices*sizeof(struct device));
+  
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.29.bb b/meta/recipes-devtools/mtools/mtools_4.0.31.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.29.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.31.bb
+index 38de1dd923..103036e518 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.29.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.31.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS_${PN}_libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "c6b50b4603e7afe54ba0109094669373028db9af743f5c541bca4b7664aefec7"
++SRC_URI[sha256sum] = "538999277f8f2fa901f3898855d1b0ccb184666457fefddb70001cac612dd586"
+ 
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
+-- 
+2.20.1
+
+
+--===============0239329700174599882==--
