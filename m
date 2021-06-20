@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.32333.1624189110617956074
+ by mx.groups.io with SMTP id smtpd.web08.32455.1624189110629067668
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Jun 2021 04:38:30 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A580F38C11D3
+	by mail.yoctoproject.org (Postfix) with ESMTP id A6BCA38C11E1
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Jun 2021 11:38:29 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-helloworld: upgrading to 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4 FAILED
-Message-ID: <MADEUP.168A47641172EF7E.3236@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============7490528686271161792=="
+Subject: [AUH] adwaita-icon-theme: upgrading to 40.1.1 FAILED
+Message-ID: <MADEUP.168A476412444303.15584@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============3663892476697324914=="
 
---===============7490528686271161792==
+--===============3663892476697324914==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,43 +23,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-helloworld* to *09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *adwaita-icon-theme* to *40.1.1* has Failed(other errors).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade go-helloworld -S 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1455 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-ae5122fe14757852a56ab91091bccd8af7d5aff6"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:ae5122fe14757852a56ab91091bccd8af7d5aff6"
-workspace            = "master:f585bf4c959ae0b52be8462d278cd289db79b813"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting upgraded version source...
-ERROR: Execution of 'git checkout 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4' failed with exit code 128:
-fatal: reference is not a tree: 09c3a5e06b5dbcbe35b7c0861f91088f47c02ac4
+Failed(unknown error)
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/upgrade-helper.py", line 481, in run
+    step(self.devtool, self.bb, self.git, self.opts, pkg_ctx)
+  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/modules/steps.py", line 39, in load_env
+    os.mkdir(pkg_ctx['workdir'])
+FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/auh/build/build/build/upgrade-helper/20210620050039/all/adwaita-icon-theme'
 
 
 
@@ -70,4 +44,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7490528686271161792==--
+--===============3663892476697324914==--
