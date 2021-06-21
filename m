@@ -1,103 +1,272 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web12.45832.1624274987180165504
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+ by mx.groups.io with SMTP id smtpd.web09.46034.1624276814079161135
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jun 2021 04:29:47 -0700
+ Mon, 21 Jun 2021 05:00:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pDY6kx45;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id j2so29627422lfg.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jun 2021 04:29:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MrDQDcEA;
+ spf=pass (domain: gmail.com, ip: 209.85.222.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f44.google.com with SMTP id r9so4905173ual.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jun 2021 05:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xtKx4o2lIFsp6NAaA+PzWnQu40vW4Ii3gJiuhUfUSIg=;
-        b=pDY6kx45IAZx9Te2jZn4CrsjOEk5n2aUF582KjL5kh1DiKD+oJuj35YaG5y82uy6E9
-         +m+1h4a07H626x1b/R888QOPGmZBs8EJFhzPGG5zYjMZ/Q6P3g7fuc9vTZoAcGGvNG9N
-         mFdnv6eYIyQJvBgRUf5ol5VLrKjjQj8BkicfqyYLZBmvtwAG7/tArUoHNZNa/H7OqVwy
-         5hczjJRu/GbAotmJ8JjeHqQLBZIfHtmXzTBQFpQLgYoFdmD15UudZgrzErjNl0chaOdJ
-         I4hmllSwfBmikgzj6P5Gs96UVEQ+1e3faZCnxM5gHRl+Vorwwro0jOKjNstgLZt8qJD2
-         ByjA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mNPLUw7HFiufYQO6q4P1vx1BzmFYF0gbyBWXz3Z+SbQ=;
+        b=MrDQDcEANQk/x/uBSLUhRxMetGtxfhrILeqIuzxGi9kj7YOHdyOow6AJCCLUai3VKw
+         svDPfeiRwPYNpGjH9aeTJ+HhKADN07HJXwfd14R6L290sWIfCWWmj/qwrKMgXqidZLHk
+         C9wgWbl37zKB19mBqZ7RhU/Srdim96M6ZTp55xI+yA7atratq+SeOwIm48rPmA3ZvqAI
+         EwmTM4zpos6hNDXk5gYAkIzy8oARNZCBh6Owro9Y0VFUjVHsbzsr0+GckAIvLNIdDreN
+         Mk7L6gDaqmNnFh1ozRTt49jIQYVC9zT+Re13GzHB1/Grz68JiFf3b52PllSlTswkM07s
+         kRvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xtKx4o2lIFsp6NAaA+PzWnQu40vW4Ii3gJiuhUfUSIg=;
-        b=m9ee+YWRMYmqezxJq5pKpegvuOAx+facY7GNWfnKWObSkYiXiowi+jQh0Fn79P/pJg
-         61Ikk5XI1fBzyhsu11baoGBp7I0OT/Dpk6gPIsFRR9jysbOdSpdQppr20Gej3nwwiLau
-         UqJiS/Oa+fPEMZBV0oEqld28VCCHpejaStyy0gCIe8077IxBjazrenN1iXx9hyZKWNWf
-         pNMTWqbRLiavnaDK+dAzff36+a+7PPua6bHT3RC0IF6THVXpkyFQ/yQSAxqqLBSYMuUJ
-         HAfR3GZBMZCBSMdRB3BwXU3OQWEi3ADS5xN8ouCjibKMRSwNmiMyDWUcihGYKZc2PCMl
-         YbEw==
-X-Gm-Message-State: AOAM532Kd2JS2IpA8EyJNPS6ucJ0nR1Gs26MJZhssjfnSJCvH+eCg4Tm
-	8KpmRpImfitkzFGX03v6Rlu4dcbkFDg=
-X-Google-Smtp-Source: ABdhPJwGcOE8v5jOf2CqeuaF8G2JEaEFJgdrO2kR/PVJfQNSir+cYY2vAPelUHWVyZy6tA7nxqGkow==
-X-Received: by 2002:a05:6512:16a8:: with SMTP id bu40mr13994576lfb.170.1624274985238;
-        Mon, 21 Jun 2021 04:29:45 -0700 (PDT)
-Return-Path: <liu.ming50@gmail.com>
-Received: from localhost.localdomain ([90.129.198.108])
-        by smtp.gmail.com with ESMTPSA id v18sm2154099ljg.114.2021.06.21.04.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 04:29:44 -0700 (PDT)
-From: "Ming Liu" <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH] uboot-sign.bbclass: fix some install commands
-Date: Mon, 21 Jun 2021 13:29:39 +0200
-Message-Id: <20210621112939.661381-1-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.29.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mNPLUw7HFiufYQO6q4P1vx1BzmFYF0gbyBWXz3Z+SbQ=;
+        b=XUB3gSbcIMfzU07EygSheCbaS/Xc8Ud76LBh1QMnX1WDLGM2s3dlaYWay+aS0aMrk5
+         zyyRPGXYM5uYv2gpurN8ZV0E08Fwmakk1D4KCfXyrXr529/4//xynNYitEdehmPS/ane
+         TWRP5LRE48c7seXfl+Kb0uckroGk+atro+Oac9xiYwSnpbGL8AHeTeDW5gZnbafgUHSA
+         5lUBZKiDZd87+YYFwGVQRvKcNXmVqXh+XinZG2WiMh/Gpp79r5MUanvzjezN2zVVaiB3
+         VUX9osmQpWg1hDlH0o77X17WpRxuP/O1BR7XyLdNGQfIwzc9gDPzPmzdzUFxIg+ksXwD
+         2oZg==
+X-Gm-Message-State: AOAM5310TUpLGBLrE/kYql4fnoqJ6AYhXziJtrbGzubwudaKUyPdPv9a
+	FbDuVA0pdHYJ1XBAZr3kS4RaQQkdmfkZL+LaMLs=
+X-Google-Smtp-Source: ABdhPJyn65KuLSSbWFMHO2rFt20DKldUN4ZbtjKHYH18qA6LeyiRmQfarBOMhgDFMKCid4Uq4DyBPuoNtqdsXcCJWnc=
+X-Received: by 2002:ab0:3e8:: with SMTP id 95mr21638529uau.71.1624276810220;
+ Mon, 21 Jun 2021 05:00:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1624060313.git.timothy.t.orling@intel.com> <4207e03bcbbfd8b6113c04bc7c35ceb516af31f6.1624060313.git.timothy.t.orling@intel.com>
+In-Reply-To: <4207e03bcbbfd8b6113c04bc7c35ceb516af31f6.1624060313.git.timothy.t.orling@intel.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 21 Jun 2021 13:59:59 +0200
+Message-ID: <CANNYZj8diO0prd1g6ixjhXVc6NFB0otk8dr8yY-Fw2OMEjJjSA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] python3: skip tests requiring tools-sdk
+To: Tim Orling <ticotimo@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Tim Orling <timothy.t.orling@intel.com>
+Content-Type: multipart/alternative; boundary="0000000000004a485f05c5456a5f"
 
-From: Ming Liu <liu.ming50@gmail.com>
+--0000000000004a485f05c5456a5f
+Content-Type: text/plain; charset="UTF-8"
 
-A "install -d" command is missing when dealing with
-${UBOOT_NODTB_BINARY} in install_spl_helper function, this can lead
-to invalid install error saying:
+Wait. How does this work, if IMAGE_FEATURES are set from image recipes, and
+not globally?
 
-| install: cannot create .../usr/share/u-boot-nodtb-2021.04-r0.bin': No such file or directory
+I'm afraid this may have to be reverted, as it just made it to master.
 
-Let's drop all "install -d" and replace them with "install -Dm" in
-install_helper/install_spl_helper functions.
+Alex
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/uboot-sign.bbclass | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+On Sat, 19 Jun 2021 at 02:00, Tim Orling <ticotimo@gmail.com> wrote:
 
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index 29b2edc833..9671cf76a5 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -196,10 +196,9 @@ concat_spl_dtb() {
- # signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
- install_helper() {
- 	if [ -f "${UBOOT_DTB_BINARY}" ]; then
--		install -d ${D}${datadir}
- 		# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
- 		# need both of them.
--		install ${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
-+		install -Dm 0644 ${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
- 		ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
- 	else
- 		bbwarn "${UBOOT_DTB_BINARY} not found"
-@@ -209,14 +208,13 @@ install_helper() {
- # Install SPL dtb and u-boot nodtb to datadir, 
- install_spl_helper() {
- 	if [ -f "${SPL_DIR}/${SPL_DTB_BINARY}" ]; then
--		install -d ${D}${datadir}
--		install ${SPL_DIR}/${SPL_DTB_BINARY} ${D}${datadir}/${SPL_DTB_IMAGE}
-+		install -Dm 0644 ${SPL_DIR}/${SPL_DTB_BINARY} ${D}${datadir}/${SPL_DTB_IMAGE}
- 		ln -sf ${SPL_DTB_IMAGE} ${D}${datadir}/${SPL_DTB_BINARY}
- 	else
- 		bbwarn "${SPL_DTB_BINARY} not found"
- 	fi
- 	if [ -f "${UBOOT_NODTB_BINARY}" ] ; then
--		install ${UBOOT_NODTB_BINARY} ${D}${datadir}/${UBOOT_NODTB_IMAGE}
-+		install -Dm 0644 ${UBOOT_NODTB_BINARY} ${D}${datadir}/${UBOOT_NODTB_IMAGE}
- 		ln -sf ${UBOOT_NODTB_IMAGE} ${D}${datadir}/${UBOOT_NODTB_BINARY}
- 	else
- 		bbwarn "${UBOOT_NODTB_BINARY} not found"
--- 
-2.29.0
+> Conditionally skip test_ctypes.test_find unless
+> IMAGE_FEATURES contains 'tools-sdk' as these test
+> cases require full packagegroup-core-buildessential
+>
+> Fixes:
+>   AssertionError: Failed ptests:
+>   {'python3': ['test_find_library_with_gcc', 'test_find_library_with_ld']}
+>
+> Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+> ---
+>  ...pes.test_find-skip-without-tools-sdk.patch | 33 +++++++++++++++++++
+>  meta/recipes-devtools/python/python3_3.9.5.bb |  1 +
+>  2 files changed, 34 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+>
+> diff --git
+> a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+> b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+> new file mode 100644
+> index 00000000000..7d684b3c43c
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+> @@ -0,0 +1,33 @@
+> +From 7a2bddfa437be633bb6945d0e6b7d6f27da870ad Mon Sep 17 00:00:00 2001
+> +From: Tim Orling <timothy.t.orling@intel.com>
+> +Date: Fri, 18 Jun 2021 11:56:50 -0700
+> +Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk
+> +
+> +These tests need full packagegroup-core-buildessential, the
+> +easiest way to dynamically check for that is looking for
+> +'tools-sdk' in IMAGE_FEATURES.
+> +
+> +Upstream-Status: Inappropriate [oe-specific]
+> +
+> +Signed-off-by: Tim Orling <timothy.t.orlign@intel.com>
+> +---
+> + Lib/ctypes/test/test_find.py | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/Lib/ctypes/test/test_find.py b/Lib/ctypes/test/test_find.py
+> +index 92ac184..0d009d1 100644
+> +--- a/Lib/ctypes/test/test_find.py
+> ++++ b/Lib/ctypes/test/test_find.py
+> +@@ -112,10 +112,12 @@ class FindLibraryLinux(unittest.TestCase):
+> +                 # LD_LIBRARY_PATH)
+> +                 self.assertEqual(find_library(libname), 'lib%s.so' %
+> libname)
+> +
+> ++    @unittest.skip("Needs IMAGE_FEATURE += \"tools-sdk\"")
+> +     def test_find_library_with_gcc(self):
+> +         with unittest.mock.patch("ctypes.util._findSoname_ldconfig",
+> lambda *args: None):
+> +             self.assertNotEqual(find_library('c'), None)
+> +
+> ++    @unittest.skip("Needs IMAGE_FEATURE += \"tools-sdk\"")
+> +     def test_find_library_with_ld(self):
+> +         with unittest.mock.patch("ctypes.util._findSoname_ldconfig",
+> lambda *args: None), \
+> +              unittest.mock.patch("ctypes.util._findLib_gcc", lambda
+> *args: None):
+> diff --git a/meta/recipes-devtools/python/python3_3.9.5.bb
+> b/meta/recipes-devtools/python/python3_3.9.5.bb
+> index f4002f2516f..1717ff737d4 100644
+> --- a/meta/recipes-devtools/python/python3_3.9.5.bb
+> +++ b/meta/recipes-devtools/python/python3_3.9.5.bb
+> @@ -31,6 +31,7 @@ SRC_URI = "
+> http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+>
+> file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+>
+> file://0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch \
+>
+> file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
+> +           ${@bb.utils.contains('IMAGE_FEATURES', 'tools-sdk', '',
+> 'file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch', d)} \
+>             "
+>
+>  SRC_URI_append_class-native = " \
+> --
+> 2.30.2
+>
+>
+> 
+>
+>
 
+--0000000000004a485f05c5456a5f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Wait. How does this work, if IMAGE_FEATURES are set f=
+rom image recipes, and not globally?</div><div><br></div><div>I&#39;m afrai=
+d this may have to be reverted, as it just made it to master.<br></div><div=
+><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=
+=3D"ltr" class=3D"gmail_attr">On Sat, 19 Jun 2021 at 02:00, Tim Orling &lt=
+;<a href=3D"mailto:ticotimo@gmail.com">ticotimo@gmail.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">Conditionally skip=
+ test_ctypes.test_find unless<br>
+IMAGE_FEATURES contains &#39;tools-sdk&#39; as these test<br>
+cases require full packagegroup-core-buildessential<br>
+<br>
+Fixes:<br>
+=C2=A0 AssertionError: Failed ptests:<br>
+=C2=A0 {&#39;python3&#39;: [&#39;test_find_library_with_gcc&#39;, &#39;tes=
+t_find_library_with_ld&#39;]}<br>
+<br>
+Signed-off-by: Tim Orling &lt;<a href=3D"mailto:timothy.t.orling@intel.com=
+" target=3D"_blank">timothy.t.orling@intel.com</a>&gt;<br>
+---<br>
+=C2=A0...pes.test_find-skip-without-tools-sdk.patch | 33 +++++++++++++++++=
+++<br>
+=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3_3.9.5.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">python3_3.9.5.bb</a> |=C2=A0 1 +<br>
+=C2=A02 files changed, 34 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3/0001-test_ct=
+ypes.test_find-skip-without-tools-sdk.patch<br>
+<br>
+diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_fi=
+nd-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001=
+-test_ctypes.test_find-skip-without-tools-sdk.patch<br>
+new file mode 100644<br>
+index 00000000000..7d684b3c43c<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip=
+-without-tools-sdk.patch<br>
+@@ -0,0 +1,33 @@<br>
++From 7a2bddfa437be633bb6945d0e6b7d6f27da870ad Mon Sep 17 00:00:00 2001<br=
+>
++From: Tim Orling &lt;<a href=3D"mailto:timothy.t.orling@intel.com" target=
+=
+=3D"_blank">timothy.t.orling@intel.com</a>&gt;<br>
++Date: Fri, 18 Jun 2021 11:56:50 -0700<br>
++Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk<br>
++<br>
++These tests need full packagegroup-core-buildessential, the<br>
++easiest way to dynamically check for that is looking for<br>
++&#39;tools-sdk&#39; in IMAGE_FEATURES.<br>
++<br>
++Upstream-Status: Inappropriate [oe-specific]<br>
++<br>
++Signed-off-by: Tim Orling &lt;<a href=3D"mailto:timothy.t.orlign@intel.co=
+m" target=3D"_blank">timothy.t.orlign@intel.com</a>&gt;<br>
++---<br>
++ Lib/ctypes/test/test_find.py | 2 ++<br>
++ 1 file changed, 2 insertions(+)<br>
++<br>
++diff --git a/Lib/ctypes/test/test_find.py b/Lib/ctypes/test/test_find.py<=
+br>
++index 92ac184..0d009d1 100644<br>
++--- a/Lib/ctypes/test/test_find.py<br>
+++++ b/Lib/ctypes/test/test_find.py<br>
++@@ -112,10 +112,12 @@ class FindLibraryLinux(unittest.TestCase):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# LD_LIBRAR=
+Y_PATH)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assert=
+Equal(find_library(libname), &#39;lib%s.so&#39; % libname)<br>
++ <br>
+++=C2=A0 =C2=A0 @unittest.skip(&quot;Needs IMAGE_FEATURE +=3D \&quot;tools=
+-sdk\&quot;&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0def test_find_library_with_gcc(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with unittest.mock.patch(&quot;ctypes.u=
+til._findSoname_ldconfig&quot;, lambda *args: None):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertNotEqual(find_=
+library(&#39;c&#39;), None)<br>
++ <br>
+++=C2=A0 =C2=A0 @unittest.skip(&quot;Needs IMAGE_FEATURE +=3D \&quot;tools=
+-sdk\&quot;&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0def test_find_library_with_ld(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with unittest.mock.patch(&quot;ctypes.u=
+til._findSoname_ldconfig&quot;, lambda *args: None), \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unittest.mock.patch(&quo=
+t;ctypes.util._findLib_gcc&quot;, lambda *args: None):<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.9.5.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3_3.9.5.bb</a> b/meta/recipe=
+s-devtools/python/<a href=3D"http://python3_3.9.5.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">python3_3.9.5.bb</a><br>
+index f4002f2516f..1717ff737d4 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.9.5.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">python3_3.9.5.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.9.5.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">python3_3.9.5.bb</a><br>
+@@ -31,6 +31,7 @@ SRC_URI =3D &quot;<a href=3D"http://www.python.org/ftp/p=
+ython/$%7BPV%7D/Python-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blan=
+k">http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0020-configure.ac-setup.p=
+y-do-not-add-a-curses-include-pa.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Lib-sysconfig.py-use=
+-libdir-values-from-configuratio.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Skip-failing-tests-d=
+ue-to-load-variability-on-YP-AB.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;IMAGE_=
+FEATURES&#39;, &#39;tools-sdk&#39;, &#39;&#39;, &#39;file://0001-test_ctype=
+s.test_find-skip-without-tools-sdk.patch&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI_append_class-native =3D &quot; \<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000004a485f05c5456a5f--
