@@ -1,177 +1,327 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web09.50090.1624294987854477472
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web08.50322.1624294989559544278
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jun 2021 10:03:07 -0700
+ Mon, 21 Jun 2021 10:03:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QGn8Eyha;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id q192so7569294pfc.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jun 2021 10:03:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=egmAADg5;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id a127so3590501pfa.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jun 2021 10:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8vqxayWWna7B/wigH6xf3PyTd/3a83q50lzuD+bExyg=;
-        b=QGn8Eyhajz7ronAUHz4U8GZduWd7LLYCjaVs2XDqEhTUhl8ucr4GJIU1ao6XslP0GQ
-         WfcUN5NID/0DiIuS8bNBJsSneIO+S5fUSVWgxpYNPqD00R41vE0E8ash0zb2vNipiAJj
-         0tPsmsNjTxT1fC9rdlm4kYvm5cUAcfeLuSyeQc6OpTOkH4+m+QGyeCaRu/K2Q2Ypj0bQ
-         UAyEVtptwS2KAY5p8PNBQ4XK4gotSZzm5KfSx1kv05P2ZYfa9OOuk59DN/d61saVDnzx
-         yTay5xuQmjkTzoFPDBtSG411C6cMbOP15lR5fRT8AVGndUM5cyxvoMVMOtlsXRj1Ni+n
-         BS0A==
+        bh=D27KQ1E2DaK6c3y/B3eG1PY6C6SGTkhT7MR34XRObSs=;
+        b=egmAADg5Oa43Fh0Ufz5o1aJI9ed7X71CekIvb5rlME467Ng9iZN1nfOo/GFCU4SX8w
+         0jW4AK9e34VrQ4HM1Z4IZxSpWmSbETUudT7JwTxKUmrIJK40p/wVqRx1YPijN6PTKXW0
+         LYUe8lscdDeTOgmQKna8EQZ6k0AiWvrbjXqSQxA7eSjXehil5eTJbm6bL4jmI6z+bsqX
+         jPCuYFwoGICk1mhU/oiO3kD1wo4QNVgNxG7Lp5DD3hy3i9WLpVta3v4IttBGw3vewiLx
+         77eO47pvui7IGTovipm9lzKgoAw4Jfjbj8lVmRU6HC7syLyoxbWcK9dpEfybXTekxBAi
+         Fblg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8vqxayWWna7B/wigH6xf3PyTd/3a83q50lzuD+bExyg=;
-        b=N1rnTnyGzmt1bh2Zi69z3BsmnbkWrvk1C/rCR/iJr2sE+LULO2vS5jf50i1Toop4Hx
-         R/2rH9EtlwlzYbJWTDt2b3Aj9ju7obGETrnmBCYXI19u9Bq5hiC0is2kIKeZjxejdS7Y
-         6KpFtJWUoPt0CskAu5z7KTL8od7Fvfs9kKImIRUeY3SFq4JPYNlo0JxV4Kq7VwpJQhjg
-         akrXp0+CFya+L0EzZnkVoh1CRGxVprXwpJwiVrp/MAuQ4v5H0XBIXE7A0reDIiJGNAIZ
-         02byssR6QjUkCD6h2LOYKBvMXrC5SAUq93owM4fLsrbR3seyQV8F+k6oEsoxKmaVaVkL
-         ZD0g==
-X-Gm-Message-State: AOAM530JqasNkwJCb65/Q//1A69AV5lZfMaYhfjyrVGPW3qu7c/gIDtV
-	fnZjVgHgrF6p0VMH69sSm9Q/Z3WqGDOyfg==
-X-Google-Smtp-Source: ABdhPJzk0A9E6R9J42mZ2sA7LrDxmB7zZfizUaULorRq6GyhGPfSeBFR77uMeB+oO5MOHm/NJlyNXQ==
-X-Received: by 2002:aa7:8702:0:b029:303:6c92:dc8e with SMTP id b2-20020aa787020000b02903036c92dc8emr6207810pfo.63.1624294987166;
-        Mon, 21 Jun 2021 10:03:07 -0700 (PDT)
+        bh=D27KQ1E2DaK6c3y/B3eG1PY6C6SGTkhT7MR34XRObSs=;
+        b=NBF0WxkAnLkKFwT3O4ueJOaZl00EgXPYkjBOusukBNavS13KOcd32Jm9bzi+Qo+4mP
+         65RrOcvwGZ+I4hpQGn38L6xEfo7bKvN+8QVhkjjsDCgnuSJVcguGNk251sA24lzFu6oo
+         /3tF6V9kpYpCJxz1QdJ0HmmiilbYwUe4CUwjbW9jLeSAY2PGyBq+QZ3WC5sI6M93/1W7
+         p8CPCrYeE7tv9ytYt/V5P+QoLsqz1S2NrGr8zzCOOg3noGcLIKxHlU9HxpdxcnfjnCBT
+         NQbo0oDGSVJ6fdPVL88scygNC5iC6njYTDUjtcRl6D0NrtLm/zD0FDamAZt1BdmRwa2S
+         Fxcg==
+X-Gm-Message-State: AOAM530ZGiUu0RVBuBTEc0pD421pSNWnc8/hJ9/LV1M1WVAi7N7jV8Hg
+	iIbIHbg1sVGEpecmjaK6EsA9ECXmoDd0Rg==
+X-Google-Smtp-Source: ABdhPJzCAUFmH2jTrkJ0N2guFbTufIjl/QsiltxwMXmqyb73xMReKPmSNqDWUJiD2/MIEThSsXLEcQ==
+X-Received: by 2002:a62:14c8:0:b029:2fb:3d9e:bc35 with SMTP id 191-20020a6214c80000b02902fb3d9ebc35mr20319064pfu.40.1624294988794;
+        Mon, 21 Jun 2021 10:03:08 -0700 (PDT)
 Return-Path: <ticotimo@gmail.com>
 Received: from nereus.local ([2601:1c0:6000:9640:8a50:f0aa:6cd5:a7ef])
-        by smtp.gmail.com with ESMTPSA id s125sm6002868pgc.63.2021.06.21.10.03.06
+        by smtp.gmail.com with ESMTPSA id s125sm6002868pgc.63.2021.06.21.10.03.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 10:03:06 -0700 (PDT)
+        Mon, 21 Jun 2021 10:03:08 -0700 (PDT)
 From: "Tim Orling" <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [RFC PATCH 05/10][dunfell] python3: upgrade 3.8.6 -> 3.8.7
-Date: Mon, 21 Jun 2021 10:02:52 -0700
-Message-Id: <606416841dd2a59b8e429e8dbd4e873b0d305a3f.1624294059.git.timothy.t.orling@intel.com>
+Subject: [RFC PATCH 06/10][dunfell] python3: upgrade 3.8.7 -> 3.8.8
+Date: Mon, 21 Jun 2021 10:02:53 -0700
+Message-Id: <a8d20250c1776378d13920008a004668bc2f5cf9.1624294059.git.timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1624294059.git.timothy.t.orling@intel.com>
 References: <cover.1624294059.git.timothy.t.orling@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Release Date: Dec. 21, 2020
+Release Date: Feb. 19, 2021
 
-Note: The release you're looking at is Python 3.8.7, a bugfix release for the
+Note: The release you're looking at is Python 3.8.8, a bugfix release for the
 legacy 3.8 series. Python 3.9 is now the latest feature release series of
 Python 3.
 
-* Drop patch for CVE-2020-27619 fixed in 3.8.7
+Notable changes in Python 3.8.8
+
+Earlier Python versions allowed using both ; and & as query parameter
+separators in urllib.parse.parse_qs() and urllib.parse.parse_qsl(). Due to
+security concerns, and to conform with newer W3C recommendations, this has been
+changed to allow only a single separator key, with & as the default. This
+change also affects cgi.parse() and cgi.parse_multipart() as they use the
+affected functions internally. For more details, please see their respective
+documentation. (Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin
+in bpo-42967.)
+
+License-Update: update copyright years
+
+Drop patches fixed in 3.8.8:
+- CVE-2021-3177
+
+Fixes:
+CVE: CVE-2021-3426
+CVE: CVE-2021-23336
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2020-27619
-https://www.python.org/downloads/release/python-387/
-https://docs.python.org/release/3.8.7/whatsnew/changelog.html
+https://www.python.org/downloads/release/python-388/
+https://docs.python.org/release/3.8.8/whatsnew/changelog.html#changelog
+https://docs.python.org/3/whatsnew/3.8.html#notable-changes-in-python-3-8-8
+https://nvd.nist.gov/vuln/detail/CVE-2021-3177
+https://nvd.nist.gov/vuln/detail/CVE-2021-3426
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- .../python/python3/CVE-2020-27619.patch       | 70 -------------------
- .../{python3_3.8.6.bb => python3_3.8.7.bb}    |  5 +-
- 2 files changed, 2 insertions(+), 73 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2020-27619.patch
- rename meta/recipes-devtools/python/{python3_3.8.6.bb => python3_3.8.7.bb} (98%)
+ .../python/python3/CVE-2021-3177.patch        | 191 ------------------
+ .../{python3_3.8.7.bb => python3_3.8.8.bb}    |   7 +-
+ 2 files changed, 3 insertions(+), 195 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+ rename meta/recipes-devtools/python/{python3_3.8.7.bb => python3_3.8.8.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2020-27619.patch b/meta/recipes-devtools/python/python3/CVE-2020-27619.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2021-3177.patch b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
 deleted file mode 100644
-index bafa1cb9991..00000000000
---- a/meta/recipes-devtools/python/python3/CVE-2020-27619.patch
+index 43d678db467..00000000000
+--- a/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
 +++ /dev/null
-@@ -1,70 +0,0 @@
--From 6c6c256df3636ff6f6136820afaefa5a10a3ac33 Mon Sep 17 00:00:00 2001
--From: "Miss Skeleton (bot)" <31488909+miss-islington@users.noreply.github.com>
--Date: Tue, 6 Oct 2020 05:38:54 -0700
--Subject: [PATCH] bpo-41944: No longer call eval() on content received via HTTP
-- in the CJK codec tests (GH-22566) (GH-22577)
+@@ -1,191 +0,0 @@
+-From ece5dfd403dac211f8d3c72701fe7ba7b7aa5b5f Mon Sep 17 00:00:00 2001
+-From: "Miss Islington (bot)"
+- <31488909+miss-islington@users.noreply.github.com>
+-Date: Mon, 18 Jan 2021 13:28:52 -0800
+-Subject: [PATCH] closes bpo-42938: Replace snprintf with Python unicode
+- formatting in ctypes param reprs. (GH-24248)
 -
--(cherry picked from commit 2ef5caa58febc8968e670e39e3d37cf8eef3cab8)
+-(cherry picked from commit 916610ef90a0d0761f08747f7b0905541f0977c7)
 -
--Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
+-Co-authored-by: Benjamin Peterson <benjamin@python.org>
 -
--Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
+-Co-authored-by: Benjamin Peterson <benjamin@python.org>
 -
--Upstream-Status: Backport [https://github.com/python/cpython/commit/6c6c256df3636ff6f6136820afaefa5a10a3ac33]
--CVE: CVE-2020-27619
--Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+-CVE: CVE-2021-3177
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/ece5dfd403dac211f8d3c72701fe7ba7b7aa5b5f]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ----
-- Lib/test/multibytecodec_support.py            | 22 +++++++------------
-- .../2020-10-05-17-43-46.bpo-41944.rf1dYb.rst  |  1 +
-- 2 files changed, 9 insertions(+), 14 deletions(-)
-- create mode 100644 Misc/NEWS.d/next/Tests/2020-10-05-17-43-46.bpo-41944.rf1dYb.rst
+- Lib/ctypes/test/test_parameters.py            | 43 ++++++++++++++++
+- .../2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst  |  2 +
+- Modules/_ctypes/callproc.c                    | 51 +++++++------------
+- 3 files changed, 64 insertions(+), 32 deletions(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
 -
--diff --git a/Lib/test/multibytecodec_support.py b/Lib/test/multibytecodec_support.py
--index cca8af67d6d1d..f76c0153f5ecf 100644
----- a/Lib/test/multibytecodec_support.py
--+++ b/Lib/test/multibytecodec_support.py
--@@ -305,29 +305,23 @@ def test_mapping_file(self):
--             self._test_mapping_file_plain()
+-diff --git a/Lib/ctypes/test/test_parameters.py b/Lib/ctypes/test/test_parameters.py
+-index e4c25fd880cef..531894fdec838 100644
+---- a/Lib/ctypes/test/test_parameters.py
+-+++ b/Lib/ctypes/test/test_parameters.py
+-@@ -201,6 +201,49 @@ def __dict__(self):
+-         with self.assertRaises(ZeroDivisionError):
+-             WorseStruct().__setstate__({}, b'foo')
 - 
--     def _test_mapping_file_plain(self):
---        unichrs = lambda s: ''.join(map(chr, map(eval, s.split('+'))))
--+        def unichrs(s):
--+            return ''.join(chr(int(x, 16)) for x in s.split('+'))
+-+    def test_parameter_repr(self):
+-+        from ctypes import (
+-+            c_bool,
+-+            c_char,
+-+            c_wchar,
+-+            c_byte,
+-+            c_ubyte,
+-+            c_short,
+-+            c_ushort,
+-+            c_int,
+-+            c_uint,
+-+            c_long,
+-+            c_ulong,
+-+            c_longlong,
+-+            c_ulonglong,
+-+            c_float,
+-+            c_double,
+-+            c_longdouble,
+-+            c_char_p,
+-+            c_wchar_p,
+-+            c_void_p,
+-+        )
+-+        self.assertRegex(repr(c_bool.from_param(True)), r"^<cparam '\?' at 0x[A-Fa-f0-9]+>$")
+-+        self.assertEqual(repr(c_char.from_param(97)), "<cparam 'c' ('a')>")
+-+        self.assertRegex(repr(c_wchar.from_param('a')), r"^<cparam 'u' at 0x[A-Fa-f0-9]+>$")
+-+        self.assertEqual(repr(c_byte.from_param(98)), "<cparam 'b' (98)>")
+-+        self.assertEqual(repr(c_ubyte.from_param(98)), "<cparam 'B' (98)>")
+-+        self.assertEqual(repr(c_short.from_param(511)), "<cparam 'h' (511)>")
+-+        self.assertEqual(repr(c_ushort.from_param(511)), "<cparam 'H' (511)>")
+-+        self.assertRegex(repr(c_int.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+-+        self.assertRegex(repr(c_uint.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+-+        self.assertRegex(repr(c_long.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+-+        self.assertRegex(repr(c_ulong.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+-+        self.assertRegex(repr(c_longlong.from_param(20000)), r"^<cparam '[liq]' \(20000\)>$")
+-+        self.assertRegex(repr(c_ulonglong.from_param(20000)), r"^<cparam '[LIQ]' \(20000\)>$")
+-+        self.assertEqual(repr(c_float.from_param(1.5)), "<cparam 'f' (1.5)>")
+-+        self.assertEqual(repr(c_double.from_param(1.5)), "<cparam 'd' (1.5)>")
+-+        self.assertEqual(repr(c_double.from_param(1e300)), "<cparam 'd' (1e+300)>")
+-+        self.assertRegex(repr(c_longdouble.from_param(1.5)), r"^<cparam ('d' \(1.5\)|'g' at 0x[A-Fa-f0-9]+)>$")
+-+        self.assertRegex(repr(c_char_p.from_param(b'hihi')), "^<cparam 'z' \(0x[A-Fa-f0-9]+\)>$")
+-+        self.assertRegex(repr(c_wchar_p.from_param('hihi')), "^<cparam 'Z' \(0x[A-Fa-f0-9]+\)>$")
+-+        self.assertRegex(repr(c_void_p.from_param(0x12)), r"^<cparam 'P' \(0x0*12\)>$")
 -+
--         urt_wa = {}
+- ################################################################
 - 
--         with self.open_mapping_file() as f:
--             for line in f:
--                 if not line:
--                     break
---                data = line.split('#')[0].strip().split()
--+                data = line.split('#')[0].split()
--                 if len(data) != 2:
--                     continue
-- 
---                csetval = eval(data[0])
---                if csetval <= 0x7F:
---                    csetch = bytes([csetval & 0xff])
---                elif csetval >= 0x1000000:
---                    csetch = bytes([(csetval >> 24), ((csetval >> 16) & 0xff),
---                                    ((csetval >> 8) & 0xff), (csetval & 0xff)])
---                elif csetval >= 0x10000:
---                    csetch = bytes([(csetval >> 16), ((csetval >> 8) & 0xff),
---                                    (csetval & 0xff)])
---                elif csetval >= 0x100:
---                    csetch = bytes([(csetval >> 8), (csetval & 0xff)])
---                else:
--+                if data[0][:2] != '0x':
--+                    self.fail(f"Invalid line: {line!r}")
--+                csetch = bytes.fromhex(data[0][2:])
--+                if len(csetch) == 1 and 0x80 <= csetch[0]:
--                     continue
-- 
--                 unich = unichrs(data[1])
--diff --git a/Misc/NEWS.d/next/Tests/2020-10-05-17-43-46.bpo-41944.rf1dYb.rst b/Misc/NEWS.d/next/Tests/2020-10-05-17-43-46.bpo-41944.rf1dYb.rst
+- if __name__ == '__main__':
+-diff --git a/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
 -new file mode 100644
--index 0000000000000..4f9782f1c85af
+-index 0000000000000..7df65a156feab
 ---- /dev/null
--+++ b/Misc/NEWS.d/next/Tests/2020-10-05-17-43-46.bpo-41944.rf1dYb.rst
--@@ -0,0 +1 @@
--+Tests for CJK codecs no longer call ``eval()`` on content received via HTTP.
-diff --git a/meta/recipes-devtools/python/python3_3.8.6.bb b/meta/recipes-devtools/python/python3_3.8.7.bb
+-+++ b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
+-@@ -0,0 +1,2 @@
+-+Avoid static buffers when computing the repr of :class:`ctypes.c_double` and
+-+:class:`ctypes.c_longdouble` values.
+-diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
+-index a9b8675cd951b..de75918d49f37 100644
+---- a/Modules/_ctypes/callproc.c
+-+++ b/Modules/_ctypes/callproc.c
+-@@ -484,58 +484,47 @@ is_literal_char(unsigned char c)
+- static PyObject *
+- PyCArg_repr(PyCArgObject *self)
+- {
+--    char buffer[256];
+-     switch(self->tag) {
+-     case 'b':
+-     case 'B':
+--        sprintf(buffer, "<cparam '%c' (%d)>",
+-+        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
+-             self->tag, self->value.b);
+--        break;
+-     case 'h':
+-     case 'H':
+--        sprintf(buffer, "<cparam '%c' (%d)>",
+-+        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
+-             self->tag, self->value.h);
+--        break;
+-     case 'i':
+-     case 'I':
+--        sprintf(buffer, "<cparam '%c' (%d)>",
+-+        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
+-             self->tag, self->value.i);
+--        break;
+-     case 'l':
+-     case 'L':
+--        sprintf(buffer, "<cparam '%c' (%ld)>",
+-+        return PyUnicode_FromFormat("<cparam '%c' (%ld)>",
+-             self->tag, self->value.l);
+--        break;
+- 
+-     case 'q':
+-     case 'Q':
+--        sprintf(buffer,
+--#ifdef MS_WIN32
+--            "<cparam '%c' (%I64d)>",
+--#else
+--            "<cparam '%c' (%lld)>",
+--#endif
+-+        return PyUnicode_FromFormat("<cparam '%c' (%lld)>",
+-             self->tag, self->value.q);
+--        break;
+-     case 'd':
+--        sprintf(buffer, "<cparam '%c' (%f)>",
+--            self->tag, self->value.d);
+--        break;
+--    case 'f':
+--        sprintf(buffer, "<cparam '%c' (%f)>",
+--            self->tag, self->value.f);
+--        break;
+--
+-+    case 'f': {
+-+        PyObject *f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
+-+        if (f == NULL) {
+-+            return NULL;
+-+        }
+-+        PyObject *result = PyUnicode_FromFormat("<cparam '%c' (%R)>", self->tag, f);
+-+        Py_DECREF(f);
+-+        return result;
+-+    }
+-     case 'c':
+-         if (is_literal_char((unsigned char)self->value.c)) {
+--            sprintf(buffer, "<cparam '%c' ('%c')>",
+-+            return PyUnicode_FromFormat("<cparam '%c' ('%c')>",
+-                 self->tag, self->value.c);
+-         }
+-         else {
+--            sprintf(buffer, "<cparam '%c' ('\\x%02x')>",
+-+            return PyUnicode_FromFormat("<cparam '%c' ('\\x%02x')>",
+-                 self->tag, (unsigned char)self->value.c);
+-         }
+--        break;
+- 
+- /* Hm, are these 'z' and 'Z' codes useful at all?
+-    Shouldn't they be replaced by the functionality of c_string
+-@@ -544,22 +533,20 @@ PyCArg_repr(PyCArgObject *self)
+-     case 'z':
+-     case 'Z':
+-     case 'P':
+--        sprintf(buffer, "<cparam '%c' (%p)>",
+-+        return PyUnicode_FromFormat("<cparam '%c' (%p)>",
+-             self->tag, self->value.p);
+-         break;
+- 
+-     default:
+-         if (is_literal_char((unsigned char)self->tag)) {
+--            sprintf(buffer, "<cparam '%c' at %p>",
+-+            return PyUnicode_FromFormat("<cparam '%c' at %p>",
+-                 (unsigned char)self->tag, (void *)self);
+-         }
+-         else {
+--            sprintf(buffer, "<cparam 0x%02x at %p>",
+-+            return PyUnicode_FromFormat("<cparam 0x%02x at %p>",
+-                 (unsigned char)self->tag, (void *)self);
+-         }
+--        break;
+-     }
+--    return PyUnicode_FromString(buffer);
+- }
+- 
+- static PyMemberDef PyCArgType_members[] = {
+-
+diff --git a/meta/recipes-devtools/python/python3_3.8.7.bb b/meta/recipes-devtools/python/python3_3.8.8.bb
 similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.8.6.bb
-rename to meta/recipes-devtools/python/python3_3.8.7.bb
-index bf33fce891b..11a69ea808a 100644
---- a/meta/recipes-devtools/python/python3_3.8.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.7.bb
+rename from meta/recipes-devtools/python/python3_3.8.7.bb
+rename to meta/recipes-devtools/python/python3_3.8.8.bb
+index 11a69ea808a..d77c7d87fb7 100644
+--- a/meta/recipes-devtools/python/python3_3.8.7.bb
++++ b/meta/recipes-devtools/python/python3_3.8.8.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
+ LICENSE = "PSF-2.0 & BSD-0-Clause"
+ SECTION = "devel/python"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=33223c9ef60c31e3f0e866cb09b65e83"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c22d2438294c784731bf9dd224a467b7"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://run-ptest \
 @@ -33,7 +33,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
             file://0001-configure.ac-fix-LIBPL.patch \
             file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
             file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
--           file://CVE-2020-27619.patch \
-            file://CVE-2021-3177.patch \
+-           file://CVE-2021-3177.patch \
             "
  
-@@ -43,8 +42,8 @@ SRC_URI_append_class-native = " \
+ SRC_URI_append_class-native = " \
+@@ -42,8 +41,8 @@ SRC_URI_append_class-native = " \
             file://0001-Don-t-search-system-for-headers-libraries.patch \
             "
  
--SRC_URI[md5sum] = "69e73c49eeb1a853cefd26d18c9d069d"
--SRC_URI[sha256sum] = "a9e0b79d27aa056eb9cce8d63a427b5f9bab1465dee3f942dcfdb25a82f4ab8a"
-+SRC_URI[md5sum] = "60fe018fffc7f33818e6c340d29e2db9"
-+SRC_URI[sha256sum] = "ddcc1df16bb5b87aa42ec5d20a5b902f2d088caa269b28e01590f97a798ec50a"
+-SRC_URI[md5sum] = "60fe018fffc7f33818e6c340d29e2db9"
+-SRC_URI[sha256sum] = "ddcc1df16bb5b87aa42ec5d20a5b902f2d088caa269b28e01590f97a798ec50a"
++SRC_URI[md5sum] = "23e6b769857233c1ac07b6be7442eff4"
++SRC_URI[sha256sum] = "7c664249ff77e443d6ea0e4cf0e587eae918ca3c48d081d1915fe2a1f1bcc5cc"
  
  # exclude pre-releases for both python 2.x and 3.x
  UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
