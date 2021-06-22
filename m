@@ -1,138 +1,65 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.8466.1624365780075262491
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web08.10127.1624372230191689007
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jun 2021 05:43:00 -0700
+ Tue, 22 Jun 2021 07:30:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uyx/FkvD;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id ji1so28261497ejc.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 05:42:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Yza5bM47;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id a13so2136770wrf.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 07:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ony/Vb3W8/KzxGVcwEThMWANGS4I91XUvCuYkb/sVl4=;
-        b=uyx/FkvDpDh1tvMf/tVaDwphWOz913mCJbwHsooymWXT/Q0kxGN4JjOoaisbmSxw0f
-         DILZ9AL/i0RMRODaHKNBO7OUI5EAM5UHTK/e5T3o9SUGpcNWEd4gx8LvmPcBzdTA6F37
-         sR/8AUjiUzo2u9ub1P5nTRo5AywpBDCB2Xx+Kbhc/BZ+YM6xiHPK4HLKt7ZNNTtRs382
-         /Ozh/2+iof+SUN0fw9FB9PzC+kZl1UaYkmktUpNkQW5O7VYmFDiRnQ2QZIh5KFc4cFGe
-         gY6ZJeYKEO3T4IrqiuoqOKI+4Fx0ercyeDulDokU0BQ+ETXh78MsAJac73Oq7Rtg3btB
-         gb4Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=oXg7tQdu69mBthNnu2/UKWnowuj9YjF4F1LWNHg7eho=;
+        b=Yza5bM47RK4jfao0ziWcNpQX33Q3nBViurHP1d6RmQW79re39/Bx/sqV+asDc2Uc9P
+         peFU2sKdaIvgEL35Gae8UGFl15e5A5XlhiihDsNX9yUTPcgrvBz5w3QjuMPfiX3KpOdD
+         +fV0lQa4fEpnHk1jb5IgB8rDERAvFoCLB6vmo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ony/Vb3W8/KzxGVcwEThMWANGS4I91XUvCuYkb/sVl4=;
-        b=rXAPGvh3EeEBeZfNqfUO1wjtCqWaEb5brzg2rWTN0WbQ/7SoA3omGfpT3Rl3VzXuX6
-         OxUQIVikzHS2tuUlKMABFbuCZkGh41/dvltHRMHHsfsRw6GuROLOTpgqf0BVVuFmkDXM
-         GcmS4OddRSHLQokT4pnScG4cwvKT0y8qA/x2tW8wtnc15l8oltwIs35MnWn44F34RVKo
-         eEVyh4DYa83MmF94ctiaLCrcZ6t6uH/+HIgh4tfGODw62SZHtZdTorxHu0E9vCQF5haz
-         lCfFLBHFJp/sMVOdJvbSFnOidn1ucuO5KhQgMlEgs9Sci+8gzOQgwJ8VodK6MxYAFVb4
-         4o4A==
-X-Gm-Message-State: AOAM532Jc7IjN04AsWUK3q9NIbPs6a974JZzlj+23cTsmbSXXs/1r+CA
-	kVOCoODLPcSDyn0RLnwPgb+wrK3YTUkgBd4GkkM=
-X-Google-Smtp-Source: ABdhPJw4hmj60A0fBZ5B/aA5ZQjxtsFYcuAPa0wIyJBD5yfM7oLfPxE/e96l22XmT9Joo9kS5aN5N1PmCBb8fTMuolE=
-X-Received: by 2002:a17:906:4c58:: with SMTP id d24mr3752175ejw.298.1624365778152;
- Tue, 22 Jun 2021 05:42:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210622121531.13424-1-andrej.valek@siemens.com>
-In-Reply-To: <20210622121531.13424-1-andrej.valek@siemens.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 22 Jun 2021 08:42:46 -0400
-Message-ID: <CADkTA4PkEuH2XFOUcnM0gJJq6u_t3grqPoUjEz7hsCutXd7sCg@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=oXg7tQdu69mBthNnu2/UKWnowuj9YjF4F1LWNHg7eho=;
+        b=Ubp7BqLDZSRiYAZZ2inbixaY8+0JHiPfqkzKLk16bgApJiUpTL0ddCSjqfo3b7hl0a
+         ji/CQVRgvzHjiMb/9Y3iVzCepQha5sX+YDpoMUiFr/KxULPlUq1epZSsqeG74nHSiJn+
+         FLPVf+aC/m9HeAiv0UOn1hL/MxHJB9JUduIAFmvy9EqcmPq0fBKy3GgktTtw+GxJIoPg
+         uIHCns9Eg3vkQY1uOi94/bDbtO8dFcm8YUHIKCrJ1AgSFfLbRW+kWyYUz5p0qkDl5xvj
+         73ce1iHja+b4vGIMH2CBJkC4UNGMKXe+numH5mdCr4PKKNX6VsB+wegc1zvugKIx49a8
+         QUyA==
+X-Gm-Message-State: AOAM530kqH5muOXdvy/2jNxW2j5nmjBOyKHTt5HRojql2IYjDu4wnzpM
+	uj/yEArndOiyAmcveqVJQizj1w==
+X-Google-Smtp-Source: ABdhPJxDUpdWKXnv3PZ1OBFg+8oNxVRnxcJexjQtkBLTr9H0281rBuJ+WniNunHnanNq+F8dWKUb1Q==
+X-Received: by 2002:adf:f706:: with SMTP id r6mr5065314wrp.280.1624372228680;
+        Tue, 22 Jun 2021 07:30:28 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:9ff1:dbee:2c00:96a7? ([2001:8b0:aba:5f3c:9ff1:dbee:2c00:96a7])
+        by smtp.gmail.com with ESMTPSA id d15sm22612037wrb.42.2021.06.22.07.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 07:30:28 -0700 (PDT)
+Message-ID: <7f71e01f08587aadb7032ab157d5341132b772ca.camel@linuxfoundation.org>
 Subject: Re: [OE-core][PATCH] ca-certificates: revert mktemp patch in update-ca-certificates script
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Steve Sakoman <steve@sakoman.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com
+Date: Tue, 22 Jun 2021 15:30:25 +0100
+In-Reply-To: <20210622121531.13424-1-andrej.valek@siemens.com>
+References: <20210622121531.13424-1-andrej.valek@siemens.com>
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 22, 2021 at 8:16 AM Andrej Valek <andrej.valek@siemens.com> wrote:
->
+On Tue, 2021-06-22 at 14:15 +0200, Andrej Valek wrote:
 > - revert f3eabbb5c15fb55ae3d46b2377c09bb58226d965
 > - mktemp from busybox does not support '--tmpdir' option
 > - coreutils is usually not possible to use because of 'GPLv3+' LICENSE
 
-This should say "coreutils may not be possible" .. many folks don't
-care about GPLv3, so "usually" is not appropriate here.
+I suspect the better long term solution here is to submit a patch to add 
+--tmpdir to busybox since we're likely to lose deprecated options from 
+coreutils and upstream already moved to the non-deprecated options.
 
-Also: What Alex said in his review.
+Cheers,
 
-Bruce
+Richard
 
->
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> ---
->  .../ca-certificates/ca-certificates/sbindir.patch   | 10 ++--------
->  .../update-ca-certificates-support-Toybox.patch     | 21 +++++++++++----------
->  2 files changed, 13 insertions(+), 18 deletions(-)
->
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch b/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
-> index f343ebf16e..a113fa8b15 100644
-> --- a/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
-> @@ -1,12 +1,6 @@
-> -sbin/Makefile: Allow the sbin path to be configurable
-> +Upstream-Status: Pending
->
-> -Some project sharing ca-certificates from Debian allow configuration
-> -of the installation location. Make the sbin location configurable.
-> -
-> -Also ensure the target directory exists
-> -
-> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -Upstream-Status: Submitted [https://salsa.debian.org/debian/ca-certificates/-/merge_requests/5]
-> +Let us alter the install destination of the script via SBINDIR
->
->  --- ca-certificates-20130119.orig/sbin/Makefile
->  +++ ca-certificates-20130119/sbin/Makefile
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch b/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
-> index f78790923c..6e2171f758 100644
-> --- a/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
-> @@ -1,13 +1,14 @@
-> -update-ca-certificates: Replace deprecated mktemp -t with mktemp --tmpdir
-> +From 30378026d136efa779732e3f6664e2ecf461e458 Mon Sep 17 00:00:00 2001
-> +From: Patrick Ohly <patrick.ohly@intel.com>
-> +Date: Thu, 17 Mar 2016 12:38:09 +0100
-> +Subject: [PATCH] update-ca-certificates: support Toybox
->
-> -According to coreutils docs, mktemp -t is deprecated, switch to the
-> ---tmpdir option instead.
-> +"mktemp -t" is deprecated and does not work when using Toybox. Replace
-> +with something that works also with Toybox.
->
-> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -Upstream-Status: Submitted [https://salsa.debian.org/debian/ca-certificates/-/merge_requests/5]
-> +Upstream-Status: Pending
->
-> -[This was originally for compatibility with toybox but toybox now
-> -supports -t]
-> +Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
->  ---
->   sbin/update-ca-certificates | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> @@ -23,9 +24,9 @@ index 79c41bb..ae9e3f1 100755
->  -TEMPBUNDLE="$(mktemp -t "${CERTBUNDLE}.tmp.XXXXXX")"
->  -ADDED="$(mktemp -t "ca-certificates.tmp.XXXXXX")"
->  -REMOVED="$(mktemp -t "ca-certificates.tmp.XXXXXX")"
-> -+TEMPBUNDLE="$(mktemp --tmpdir "${CERTBUNDLE}.tmp.XXXXXX")"
-> -+ADDED="$(mktemp --tmpdir "ca-certificates.tmp.XXXXXX")"
-> -+REMOVED="$(mktemp --tmpdir "ca-certificates.tmp.XXXXXX")"
-> ++TEMPBUNDLE="$(mktemp -p${TMPDIR:-/tmp} "${CERTBUNDLE}.tmp.XXXXXX")"
-> ++ADDED="$(mktemp -p${TMPDIR:-/tmp} "ca-certificates.tmp.XXXXXX")"
-> ++REMOVED="$(mktemp -p${TMPDIR:-/tmp} "ca-certificates.tmp.XXXXXX")"
->
->   # Adds a certificate to the list of trusted ones.  This includes a symlink
->   # in /etc/ssl/certs to the certificate file and its inclusion into the
-> --
-> 2.11.0
->
->
-> 
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
