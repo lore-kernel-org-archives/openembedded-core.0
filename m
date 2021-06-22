@@ -1,87 +1,65 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
- by mx.groups.io with SMTP id smtpd.web10.3267.1624309815432912971
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.6656.1624355461602327474
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jun 2021 14:10:15 -0700
+ Tue, 22 Jun 2021 02:51:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pVbcxkLN;
- spf=pass (domain: gmail.com, ip: 209.85.222.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f43.google.com with SMTP id f1so6847522uaj.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jun 2021 14:10:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GTgCX+MLMD1TPuxIi7n4+IC/Mm20gLRPuNyNciZpIeo=;
-        b=pVbcxkLNMI5WnCTLLWvsbRIvqgwHmGZK+VFYC229cvx9E0BaA7to+IfV/bJwedAejY
-         DRz4L3wA2QoNgjAhvgLdeOySCjT47ywFQ46dPBaMDXHq9V6VZkC9DSglZm4cbhxXs6/O
-         nnlrNTg27FNpLeAPI+opzk+XqJY3riOcA3LHOqF9PtalNPMqALH2YUoeD4qCunnsd8bN
-         xZbnZ1/lMxs1PKEWBB1I5Qc8xqXWH68bH10e90ssxo4Mq9E4rS8TJEjUUNOtKWYJuTKT
-         +yqcTHghfd/RubKgWfToF8U2wyygS1Sku6UWKuo7gkAgfgx1zOXp2Y536OFAGr8HI+VT
-         dkDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GTgCX+MLMD1TPuxIi7n4+IC/Mm20gLRPuNyNciZpIeo=;
-        b=Euo9Ty9p+qmGjzQhbEjIO3h3JpFO5zU7wFkhfxWeDfrIMdrTObLlC1d0WzRCBaMbOi
-         OevMgoPjun2xq0K3YRnAgiK2DXQeuzksgLeXpgs3EHmzM0jxSA+grbA3Erq+0KI0W0Xr
-         H/YAA7C4ZiVdU9WP4Qf3o+x1lsATYvqB4ksH47ttHjMEoMYSHELT+ni2DZ/iiM9DIIDt
-         EyXddFlgZwdw26VPNsS5u6lMIACCVwJb6kaJHQyccuxeXmEmovv5U5MFvfMQNQR6ZHZN
-         FoNb/g9ivU3CSQ6QLR2wewoXxAKmnO4LANOu7Ntm3mKu1+5B7tNjRELhl2RfuCpuDrG6
-         rbTA==
-X-Gm-Message-State: AOAM531126QLRz9qDp1a8QBJwJIgrkvdxs/SScYsCasgPQZdaOUCjCti
-	2ruSV1zPkbIwjtCvTw4oeJ6RsZe07t4RCaJt6LQ=
-X-Google-Smtp-Source: ABdhPJypZ5Kjvr+rLumA4ZdQYgJBXbVDWJ+RB34axQHvg58HHZ5MeZsAqJNcA/knMhm6OzmTpc90w9Ulz8eaProY/iI=
-X-Received: by 2002:a9f:31b1:: with SMTP id v46mr749957uad.22.1624309814593;
- Mon, 21 Jun 2021 14:10:14 -0700 (PDT)
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Efpaeb6Rlo20lKbqZWc47WXRFAZZ0wX/TGLka+TLunjiHAJSNGg00K2rugEL7bi81gTujc6+nI
+ TEKAUGRL/F8w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="204014065"
+X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
+   d="scan'208";a="204014065"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 02:50:56 -0700
+IronPort-SDR: QznPOWCeoYv9bsCUrB3fBcuQWsX980xWXwmSb2qgQCKazS0gbJA9lyhLxtGEIOacrWQw0alyxh
+ rwjzfM2V9SWQ==
+X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
+   d="scan'208";a="423260016"
+Received: from leexiaoy-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.150.96])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 02:50:55 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH 03/13] util-linux.inc: Do not modify BPN
+Date: Tue, 22 Jun 2021 17:50:22 +0800
+Message-Id: <28a0e2cd75619ecc76293da145a81ae44f3f496f.1624352878.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1624352878.git.anuj.mittal@intel.com>
+References: <cover.1624352878.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-References: <cover.1624060313.git.timothy.t.orling@intel.com>
- <4207e03bcbbfd8b6113c04bc7c35ceb516af31f6.1624060313.git.timothy.t.orling@intel.com>
- <CANNYZj8diO0prd1g6ixjhXVc6NFB0otk8dr8yY-Fw2OMEjJjSA@mail.gmail.com>
- <CANx9H-D3cnMKVNJq5-xu-kNGPDKCMqhggmfxFY8K22iDsTfYWw@mail.gmail.com> <9fc0beb461ef23b8ad98aa19e7948c9301ff6280.camel@linuxfoundation.org>
-In-Reply-To: <9fc0beb461ef23b8ad98aa19e7948c9301ff6280.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 21 Jun 2021 23:10:03 +0200
-Message-ID: <CANNYZj-2F_WYzFppo7o0uGzuOj3UX3XY4RZEcxs-HgajiSGYUg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] python3: skip tests requiring tools-sdk
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tim Orling <ticotimo@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>, 
-	Tim Orling <timothy.t.orling@intel.com>
-Content-Type: multipart/alternative; boundary="000000000000810dcc05c54d1943"
+Content-Transfer-Encoding: 8bit
 
---000000000000810dcc05c54d1943
-Content-Type: text/plain; charset="UTF-8"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-On Mon, 21 Jun 2021 at 22:51, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Changing BPN to be "util-linux" regardless if it is the util-linux
+recipe or the util-linux-libuuid recipe that is being built was an
+easy way to allow ${BPN} and ${BP} to be used in the SRC_URI for both
+recipes. However, it causes problems for native.bbclass where there
+are expectations that ${BPN} and ${PN} match each other.
 
-> I think we're all fine with disabling these tests. The issue is that
-> IMAGE_FEATURES isn't available in a recipe. As such we may as well
-> unconditionally disable them as that is effectively what the current
-> change does.
->
+Use "util-linux" directly in the SRC_URI instead to avoid the problem.
 
-I'm ok with this too, although I'd prefer a check with a fallback to a skip
-in the test.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 701ef7ff0e1b17150424a64acfafbb83f518f9c9)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Alex
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index cbf6102ee0..6b47f417aa 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -27,8 +27,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da
+ 
+ FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
+ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+-BPN = "util-linux"
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.xz \
+            file://configure-sbindir.patch \
+            file://runuser.pamd \
+            file://runuser-l.pamd \
+-- 
+2.31.1
 
---000000000000810dcc05c54d1943
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, 21 Jun 2021 at 22:51, Richard Purdie &lt;<a href=3D"mailto:r=
-ichard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I thin=
-k we&#39;re all fine with disabling these tests. The issue is that=C2=A0<br=
->
-IMAGE_FEATURES isn&#39;t available in a recipe. As such we may as well <br>
-unconditionally disable them as that is effectively what the current<br>
-change does.<br>
-</blockquote><div><br></div><div>I&#39;m ok with this too, although I&#39;d=
- prefer a check with a fallback to a skip in the test.</div><div><br></div>=
-<div>Alex<br></div></div></div>
-
---000000000000810dcc05c54d1943--
