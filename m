@@ -1,50 +1,50 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web08.7775.1624360896495009674
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web08.7776.1624360897170856426
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jun 2021 04:21:36 -0700
+ Tue, 22 Jun 2021 04:21:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RQeRtT4A;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id q14so1812197eds.5
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=V8HYxLUv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id s6so23080916edu.10
         for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 04:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=c20AkMVin4BW4kOH46uRANrXBVFZjNfj4slAaHaAHYE=;
-        b=RQeRtT4AIXOI9GVXjjqa9rl/E7xp/7H1xg070dDSH//Wpfw/Ie7xxMyqL6bgFnT0zR
-         Q+eKvhF0zrMFoubTcI8bQN6KAEoQzQDR7xRRz1seMf7G50FT46RSxtjy2uW77WZ37uEw
-         i+c5yydvjhFvarToAy7Dp14hsPHyV5/4VfDcNEPvjj1FiaW4+4XLtLtyrL/wZ8Se6EH+
-         x7upNLwsau87pGagvscJvhrByCj4zz3j67DemrQVFroq3dpTNoCm6gg15Mb5hkgRkCHr
-         oBzwJlJjomjhtH+dKyg0v1NLygD8xYLx8XkErNdKcoerbVAZVKuDAMwJYgqm7W19cqUr
-         0beg==
+        bh=42uP7nwk1DKS6fSwWnJDtRsgXYDuikgTlUvQyezJHRk=;
+        b=V8HYxLUvcI+io7dUbr3rfTU7jsR72OBzD1C3pNhIqItvirku0WGp3F7bd9Ap/gmJ/y
+         MyETkEF2Us9YaKeldVfsuXI6d6rt3wI36hf+sXXpjYipYbo2KvP12MO6Vqg7Ty6qOf1S
+         l6B6we5eWrOhVA3gzbOM9/NWIAiW4eKaIboCZ/aRo1dMGmUtHF5fOFTd66NZTMWzOHgY
+         rUxm+LuoeVvdRG9EZQpqIbS6lEYBSh2J8jPozO6aM4XdDDzVmjpYBojbOB/LEDsuLfru
+         7UdkXZaWuxW6HM6XjwL6MbqVW+B32J3YsQiVHtRlmmqI/1pgCygz3YJ+urYqLgTE8Trp
+         wdVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=c20AkMVin4BW4kOH46uRANrXBVFZjNfj4slAaHaAHYE=;
-        b=gIDL7r4VC5ziNFps84bniwOgFXI9NOG7oMoeGv7q0T/IYRybODFNBx/Tfgdu4IzaLJ
-         cXan7fpCCf42tKb8gKI34hxV/carSI2hdsKLfDOW9YNjlp5bRMsm88Ezf38Sx9r0kKpG
-         uS0aJzkdbtOw0Wmh2n1JGk4o6C9lT07QoDK001Ps2l+Kn0so4gqFGx+myONGk9Z22MTO
-         ntOzvZ+cj0xlNCv5L+A+y1KLNQvzcFcNmphmK/Z++x7gih1VtQGM06xpdEY73JIDCmGJ
-         X9J4ULV4N+925wMfYbVGarPhbM0RbpWNTCnUhaMMXmrFoUuBCLsvJgEGDfbIIY1uWW/P
-         Q3ZQ==
-X-Gm-Message-State: AOAM530zlxDICNQUKjx6cCRvILg0HKgovNQA9h83v/c5Jpyc6MSKi1gN
-	Cq+oFqyexFseXclAU7IWEn1Hd8Ys7RMs/g==
-X-Google-Smtp-Source: ABdhPJx7YrriMV7uGdkxBPQGqBYfbfZDX7hIHC3pkIjv1dNrbBf9T3RD4UvSc12NIDRvMywE8refEw==
-X-Received: by 2002:a05:6402:31b4:: with SMTP id dj20mr4293293edb.186.1624360895127;
+        bh=42uP7nwk1DKS6fSwWnJDtRsgXYDuikgTlUvQyezJHRk=;
+        b=lYn660fiIxLZxVoZymMwcScLoFojlGa2fB9XwlxxP5aCW5WcKDdL90/WjUnYP5up55
+         CnFTZs2hc2TstyjJ+2FqUktD/BWiGpktQZL2CqhFQVEBAJqFFnwj8ejx1jmTy1nGSKZI
+         vBT/r+DS0/9JXCSMVCAZ4bZzvvexoiKQOxFxep9xlATRyG6UOe1GzwqsPKysTo4T5JMO
+         1YRM1yumx38igqhtebQmr9ZZYt9GoojVXeUvkt+bDPMCAZ+OgWxrAJEMBIKuIdb6jWMd
+         Svy4x6G8H7+R7JZY394HTI5qFtqYafD5fUq1iln8oSGW1DoGTjAYuXtIoADUP1n53NFN
+         hqBQ==
+X-Gm-Message-State: AOAM532BjQ2q3CKRxbbB3U22n7DBlxZ6vNKDI6tY7N0wbaIXWkrBE4vp
+	+E1fRtLPz8V6CnVFE+x677pxKN1WJvGbVw==
+X-Google-Smtp-Source: ABdhPJzBKT0jwMaIJDVeyNYuUQsMS/NJPHVTJmOlXprPFTTRoPcqXEuyHLd4he+wO1K+dWyNSdeMfQ==
+X-Received: by 2002:a05:6402:1d11:: with SMTP id dg17mr4358458edb.30.1624360895774;
         Tue, 22 Jun 2021 04:21:35 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id n2sm11987416edi.32.2021.06.22.04.21.34
+        by smtp.gmail.com with ESMTPSA id n2sm11987416edi.32.2021.06.22.04.21.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 04:21:34 -0700 (PDT)
+        Tue, 22 Jun 2021 04:21:35 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 07/19] bind: upgrade 9.16.16 -> 9.16.18
-Date: Tue, 22 Jun 2021 13:21:14 +0200
-Message-Id: <20210622112126.2026646-7-alex.kanavin@gmail.com>
+Subject: [PATCH 08/19] bluez5: upgrade 5.58 -> 5.59
+Date: Tue, 22 Jun 2021 13:21:15 +0200
+Message-Id: <20210622112126.2026646-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210622112126.2026646-1-alex.kanavin@gmail.com>
 References: <20210622112126.2026646-1-alex.kanavin@gmail.com>
@@ -53,89 +53,79 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch             | 0
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
- .../bind/{bind-9.16.16 => bind-9.16.18}/bind9                 | 0
- .../bind/{bind-9.16.16 => bind-9.16.18}/conf.patch            | 0
- .../bind/{bind-9.16.16 => bind-9.16.18}/generate-rndc-key.sh  | 0
- .../init.d-add-support-for-read-only-rootfs.patch             | 0
- .../make-etc-initd-bind-stop-work.patch                       | 0
- .../bind/{bind-9.16.16 => bind-9.16.18}/named.service         | 0
- .../bind/{bind_9.16.16.bb => bind_9.16.18.bb}                 | 4 +---
- 10 files changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.18}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.16.16.bb => bind_9.16.18.bb} (96%)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  2 +-
+ ....am-add-missing-mkdir-for-ell-shared.patch | 25 -------------------
+ .../bluez5/{bluez5_5.58.bb => bluez5_5.59.bb} |  2 +-
+ 3 files changed, 2 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.58.bb => bluez5_5.59.bb} (95%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.18/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.18/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.18/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.18/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.18/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.18/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/bind9 b/meta/recipes-connectivity/bind/bind-9.16.18/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/bind9
-rename to meta/recipes-connectivity/bind/bind-9.16.18/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.18/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.18/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.18/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.16.18/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.18/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.18/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.18/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.18/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/named.service b/meta/recipes-connectivity/bind/bind-9.16.18/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.16/named.service
-rename to meta/recipes-connectivity/bind/bind-9.16.18/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.16.bb b/meta/recipes-connectivity/bind/bind_9.16.18.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.16.16.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.18.bb
-index b152598402..e7a1c5d9e9 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.16.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.18.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 635cad813e..f2d9a4f937 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -45,6 +45,7 @@ PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
+ PACKAGECONFIG[mesh] = "--enable-mesh --enable-external-ell,--disable-mesh, json-c ell"
+ PACKAGECONFIG[btpclient] = "--enable-btpclient --enable-external-ell,--disable-btpclient, ell"
+ PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
++PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,python3-docutils-native"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://init \
+@@ -53,7 +54,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch \
+-           file://0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch \
             "
+ S = "${WORKDIR}/bluez-${PV}"
  
--SRC_URI[sha256sum] = "6c913902adf878e7dc5e229cea94faefc9d40f44775a30213edd08860f761d7b"
-+SRC_URI[sha256sum] = "3c6263a4364eb5dce233f9f22b90acfa1ec2488d534f91d21663d0ac25ce5e65"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+deleted file mode 100644
+index 03b42f73cb..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From d341ba650af1b7068d9ad034732b4f41b91bb2c1 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Sun, 25 Apr 2021 18:56:41 +0200
+-Subject: [PATCH] Makefile.am: add missing mkdir for ell/shared
+-
+-This addresses build errors out of source tree.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- Makefile.am | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index be5d5c7..72ad425 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -623,6 +623,7 @@ lib/bluetooth/%.h: lib/%.h
+- 	$(AM_V_GEN)$(LN_S) -f $(abspath $<) $@
+- 
+- ell/shared: Makefile
+-+	$(AM_V_at)$(MKDIR_P) ell
+- 	$(AM_V_GEN)for f in $(ell_shared) ; do \
+- 		if [ ! -f $$f ] ; then \
+- 			$(LN_S) -t ell -f $(abs_srcdir)/../ell/$$f ; \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.58.bb b/meta/recipes-connectivity/bluez5/bluez5_5.59.bb
+similarity index 95%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.58.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.59.bb
+index eb8475ec1e..7842eac76d 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.58.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.59.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.16 follow the ESV versions divisible by 4
-@@ -62,8 +62,6 @@ SYSTEMD_SERVICE_${PN} = "named.service"
+-SRC_URI[sha256sum] = "c8065e75a5eb67236849ef68a354b1700540305a8c88ef0a0fd6288f19daf1f1"
++SRC_URI[sha256sum] = "046b95b386d0bfb2a16311fe799d517ee7735045512d89902c4ed701db477316"
  
- do_install_append() {
- 
--	rmdir "${D}${localstatedir}/run"
--	rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
- 	install -d -o bind "${D}${localstatedir}/cache/bind"
- 	install -d "${D}${sysconfdir}/bind"
- 	install -d "${D}${sysconfdir}/init.d"
+ # These issues have kernel fixes rather than bluez fixes so exclude here
+ CVE_CHECK_WHITELIST += "CVE-2020-12352 CVE-2020-24490"
 -- 
 2.31.1
 
