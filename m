@@ -1,26 +1,26 @@
 Received: from mx.walter.deinstapel.de (mx.walter.deinstapel.de [116.202.209.171])
- by mx.groups.io with SMTP id smtpd.web08.8275.1624363692165784295
+ by mx.groups.io with SMTP id smtpd.web09.8062.1624363788898188844
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jun 2021 05:08:13 -0700
+ Tue, 22 Jun 2021 05:09:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@fancydomain.eu header.s=mail header.b=bzrc+C4h;
+ dkim=fail reason="no key for verify" header.i=@fancydomain.eu header.s=mail header.b=KlX22rSN;
  spf=pass (domain: fancydomain.eu, ip: 116.202.209.171, mailfrom: jasper@fancydomain.eu)
 From: "Jasper Orschulko" <jasper@fancydomain.eu>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fancydomain.eu;
-	s=mail; t=1624363690;
-	bh=YpwsWZSBQ/g+tB2iwYxcwwhUEaThQDSLJtYq5nmDLFw=;
+	s=mail; t=1624363787;
+	bh=31rVQEkCUr3iihjT1gl7wLgztO6XhbQAJc7mpYHdYHk=;
 	h=From:To:Cc:Subject;
-	b=bzrc+C4h8Wu4zgUcnzWpEsjbBV6uBmwAdLjKPbZAokd3TP53rtlV9KEFt8fQwB9BA
-	 kbWjnJbdIBzyJJohhjIv2mDwrf8LtTouw3devRKktvlpLeM2JXUsIpiegP/S+HJnrA
-	 DswLKDYBG9SSydEpzB0+Et1pLxliv7OvAZD8nKTw5ICN04Exa14xkT3d/t8ZbZkmei
-	 4Zu8N18ljbcDbyn3WtVWBXGDMrKdaREUtogAIoyNudnia/0j5Vx7oU5YuiWDdjK84+
-	 vaBB6a63oSBwevKPe/3YWtyVDIoNZaoLQcDjw965Q3GbPWyndt60LvsWZzp2vOk4Jm
-	 blmbYRYtxtmDw==
+	b=KlX22rSNtx6l4KzUXDVUuOxcBvAOi6NkwlG/Lonbb/gr6NUZ0k4Vc2SJvownfXd06
+	 yvoACx7aV7+raESkLeueFoxzWXCRwo8cSVPYZXGE7Y4oLh3LxQTL3L2x9U9HMf7QJV
+	 PWOiZM7mcQzbDy5lZnZad/ov7mtnbLXuRn9t+zyN4qLyvvJ5K53TTBA8Y0IO5g2Jg8
+	 4dAiACc1yNFDgmJYnWSAe6HZlQNpd79F0E0xrvmAD7apNg37sjWiZHtkx635c+kJKX
+	 SkGFFCGzofQanRBD5fqKMbYwKPsNmgGeZGEH1fKYQctQubZ+wW3dm+V5cjRtPhrNLx
+	 KO9w81CIy9YfA==
 To: openembedded-core@lists.openembedded.org
 Cc: Jasper Orschulko <jasper@fancydomain.eu>
-Subject: [oe-core][dunfell][PATCH] libx11: Fix CVE-2021-31535
-Date: Tue, 22 Jun 2021 14:07:12 +0200
-Message-Id: <20210622120712.110884-1-jasper@fancydomain.eu>
+Subject: [oe-core][dunfell][PATCH v2] libx11: Fix CVE-2021-31535
+Date: Tue, 22 Jun 2021 14:08:47 +0200
+Message-Id: <20210622120847.111023-1-jasper@fancydomain.eu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
@@ -32,8 +32,8 @@ controlled by an external application (for instance a color name that
 can be emitted via a terminal control sequence) it can lead to the
 emission of extra X protocol requests to the X server.
 
-Upstream-Status: Backported [https://gitlab.freedesktop.org/xorg/lib/libx=
-11/-/commit/8d2e02ae650f00c4a53deb625211a0527126c605]
+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libx11=
+/-/commit/8d2e02ae650f00c4a53deb625211a0527126c605]
 CVE: CVE-2021-31535
 Signed-off-by: Jasper Orschulko <jasper@fancydomain.eu>
 ---
