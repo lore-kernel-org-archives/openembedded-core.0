@@ -1,70 +1,111 @@
-Received: from mga11.intel.com (mga11.intel.com [])
- by mx.groups.io with SMTP id smtpd.web10.6657.1624355465315229946
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web08.7774.1624360892648261616
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jun 2021 02:51:11 -0700
+ Tue, 22 Jun 2021 04:21:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: K3FpQtpiPvXt373Q1uoQyfPaaOL0b8maHLfrf+n2Y5mWkNcA1JmlHDCbZgWAV/W3SfDVntwT2R
- nIKsYHIXpmyg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="204014103"
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
-   d="scan'208";a="204014103"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 02:51:11 -0700
-IronPort-SDR: 4zT1XC+luPzR4HBZ7T8oEjrx529Jt4W72Fz2marNhH8YCI98At8RHEdkAmtPOsRsLSebFAkzKI
- JzZmq1ZbcRcA==
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; 
-   d="scan'208";a="423260090"
-Received: from leexiaoy-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.150.96])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2021 02:51:10 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KZfyrJ70;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id s15so23101939edt.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 04:21:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oHGZM9FshOtJFv7qF42Z8ayEihfzDfEHS1f6in9alBs=;
+        b=KZfyrJ70brzuCvoUqVUTb/oes3fZtzqoM8GGIFG6APCAETpmrWgtSAj0rh+GcgX1UI
+         1JGkuoGsHHKe2gBm/I+DVIMtr0zH2EVaGjuVKyI4UnrKJi3GgoLIdzJiwPny2jdSRydN
+         VY4dbl2lkvooxoM/ngR9jcpP5pI/rzlqylSe88GzXOALWZmuSLVCrW76oxhQaKeTozXb
+         rgptpjpkhv/CXVobjYHVG1jz/Xd1Hi44o9yjfXv2yICfAWwIH9jhREhoz5LnmcxI2yMw
+         aTjIL2y5B1AHSD0fH2VkcU4ubv23MzYr3lJBLxVwaoJGqKaqmwuRSPRGreJabKIxrW7o
+         1HAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oHGZM9FshOtJFv7qF42Z8ayEihfzDfEHS1f6in9alBs=;
+        b=kguj9l0/x+aaDUbd6757YFwk4E9FbVO2EaeMN0oI7kff8A9L7HJv1k5hCEfQ2RGfRK
+         FL7GvDWI/yb4fp7U/8H7wNsj4gSjidBdi6Z2ZR/dgVuFXyhSAx1FcOmNr3Q3BX/t8Q6t
+         8anPMKt3W9R3Akovc5eYxK2bBP4hPgdrMcsVQRmIG8Yz1DYWVVJkO+QcW/KLwrCazvbL
+         eeaJFs9GIO3LYwNGXr1tIaRMx8PQUX8sAIswRk/zQ4tZcgnhkLnjfxnEirFELnNUcVUA
+         puJTZesVepav3m5ma4FtJ7pRdoCrwqBxM4nvbJYyecnKVkQCc6crd51dNd2ZU3oZfzLg
+         uDFA==
+X-Gm-Message-State: AOAM531U3LFH0sFagSOtLwVpoRvI+SXRLT8buGRVKYFd1ssvTryS+OHV
+	74r6G6y3zyFkZjFh4gb2nzWSqPvsF+EB+Q==
+X-Google-Smtp-Source: ABdhPJzc97iZkP3hBYvdSmoaq+Aqeil0PqA1atMqnZgBN6PFnaS2CNgHnmlxnHndLndbZNukR0eQCw==
+X-Received: by 2002:aa7:d799:: with SMTP id s25mr4195301edq.161.1624360891219;
+        Tue, 22 Jun 2021 04:21:31 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id n2sm11987416edi.32.2021.06.22.04.21.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 04:21:30 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 13/13] kernel.bbclass: fix do_sizecheck() comparison
-Date: Tue, 22 Jun 2021 17:50:32 +0800
-Message-Id: <61feebd88960eb4e074a80a0e45b36a7a1db869c.1624352878.git.anuj.mittal@intel.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/19] devtool upgrade: rebase override-only patches as well
+Date: Tue, 22 Jun 2021 13:21:08 +0200
+Message-Id: <20210622112126.2026646-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1624352878.git.anuj.mittal@intel.com>
-References: <cover.1624352878.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Andrea Adami <andrea.adami@gmail.com>
+There's a number of recipes (such as nettle or glib) which were upgraded
+incorrectly due to rebasing only the default set of patches in main SRC_URI.
+Native-only or musl-only patches were not handled, causing do_patch fails
+and overall misery.
 
-The routine do_sizecheck() was historically needed by legacy
-devices with limited flash memory.
-The lowest extreme is probably with Zaurus collie having exactly
-1024*1024 = 1048576 bytes for the kernel partition.
+Unfortunately, this also necessitates aborting any incomplete rebases as
+devtool needs to be able to return to the original branch to complete
+the upgrade command.
 
-In the years the KERNEL_IMAGE_MAXSIZE has been converted to kilobytes
-thus rounded so we have now KERNEL_IMAGE_MAXSIZE_collie = "1024".
+Also, do not add devtool-patched-%version tags, as they are not used anywhere,
+and it's unclear how to extend them to cover multiple override branches.
 
-The effect is that now the check fails because we hit curiously this
- | WARNING: This kernel zImage (size=1024(K) > 1024(K)) is too big for...
-even though zImage is 1047288 bytes (kernel + kexecboot-klibc-initramfs).
-
-Fix this case using test -gt (greater) instead of -ge (greater or equal).
-
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 254ca956d63b4ce6aa294213b60bb943f9f3a9e6)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/devtool/upgrade.py | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 8693ab86be..379bed44f2 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -714,7 +714,7 @@ do_sizecheck() {
- 		at_least_one_fits=
- 		for imageType in ${KERNEL_IMAGETYPES} ; do
- 			size=`du -ks ${B}/${KERNEL_OUTPUT_DIR}/$imageType | awk '{print $1}'`
--			if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
-+			if [ $size -gt ${KERNEL_IMAGE_MAXSIZE} ]; then
- 				bbwarn "This kernel $imageType (size=$size(K) > ${KERNEL_IMAGE_MAXSIZE}(K)) is too big for your device."
- 			else
- 				at_least_one_fits=y
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+index 24e3700ece..c6d98299da 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -261,21 +261,20 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
+             logger.warning('By user choice, the following patches will NOT be applied to the new source tree:\n  %s' % '\n  '.join([os.path.basename(patch) for patch in patches]))
+     else:
+         __run('git checkout devtool-patched -b %s' % branch)
+-        skiptag = False
+-        try:
+-            __run('git rebase %s' % rev)
+-        except bb.process.ExecutionError as e:
+-            skiptag = True
+-            if 'conflict' in e.stdout:
+-                logger.warning('Command \'%s\' failed:\n%s\n\nYou will need to resolve conflicts in order to complete the upgrade.' % (e.command, e.stdout.rstrip()))
+-            else:
+-                logger.warning('Command \'%s\' failed:\n%s' % (e.command, e.stdout))
+-        if not skiptag:
+-            if uri.startswith('git://') or uri.startswith('gitsm://'):
+-                suffix = 'new'
+-            else:
+-                suffix = newpv
+-            __run('git tag -f devtool-patched-%s' % suffix)
++        (stdout, _) = __run('git branch --list devtool-override-*')
++        branches_to_rebase = [branch] + stdout.split()
++        for b in branches_to_rebase:
++            logger.info("Rebasing {} onto {}".format(b, rev))
++            __run('git checkout %s' % b)
++            try:
++                __run('git rebase %s' % rev)
++            except bb.process.ExecutionError as e:
++                if 'conflict' in e.stdout:
++                    logger.warning('Command \'%s\' failed:\n%s\n\nYou will need to resolve conflicts in order to complete the upgrade.' % (e.command, e.stdout.rstrip()))
++                    __run('git rebase --abort')
++                else:
++                    logger.warning('Command \'%s\' failed:\n%s' % (e.command, e.stdout))
++        __run('git checkout %s' % branch)
+ 
+     if tmpsrctree:
+         if keep_temp:
 -- 
 2.31.1
 
