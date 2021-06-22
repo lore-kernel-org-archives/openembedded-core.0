@@ -1,1342 +1,350 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web08.253.1624380810686639248
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web09.26.1624383474132376503
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jun 2021 09:53:30 -0700
+ Tue, 22 Jun 2021 10:37:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kgxwH1wQ;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id t19-20020a17090ae513b029016f66a73701so2079770pjy.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 09:53:30 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=DCSJ7YOj;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1807ab70cc=trevor.gamblin@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15MHXOPV003370
+	for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 10:37:53 -0700
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
+	by mx0a-0064b401.pphosted.com with ESMTP id 39b47h8ksb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 10:37:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JVPKtDCOgz+c9T52RE8a0yY5J60ZKVbn3K7tUN6XKCtflgdKR4U312vnZCM5OvcqsLCp68P9VNRri2Cyq3CGj4QtFAjZq47rlmKSW6BU7OFqtGBkrRFTiZJnxmXOzfx2OvUvngtFHr73zDUQlw7uRgFkH2Q0hCElFHzu3PXCSlFcN5CVbaf6dgBclhf4si27920Yif/fx0IFf46NTrgmWtcW4Yw4Lq3HnNdRc4vci7MMkHTmOg+JB7/YfRMKR/iFUhfnK709uTlQO4iLUwKKj4YY31xmrejfC4qi+E0gqFLVBP+D/czuk/ZSg6HVMo2hFEgH3mGnWA7PqoTj2FyR0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xnOHwWzIaXJJbDy3rk1u2oDoGEOH3E/+kglnT/IC/uQ=;
+ b=LQgGh93Qfb3Y65zORiXWgESaEPpFLPpdKzLFlmqD86wXx0KEgtPf6vH2NrcVdllH5mmkJ48RfAERSBy2fszfCaAan1vSt1liM66SL1Hm14I2gvCvl28tlOxpP5oihnAjMS3PV0Isnq0FAUY4bbpI3mtU05jQ/++EszXTv89sbjGa+ypGoYI4gghDV0PgHGdBq71go+tkHyn0cUz4jNpci6t9UdxCAdkk1YZakKrOxgJEJYMTXU1r2ETqzisnGmeT1O/kCCBjeGl+guqWYLrylsT5a3wdSSZAvsz1xXEKPUELLV+b+Vhxa0UuawTgZp+4yYug6vXeVPNB+nFpOEWkLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fvuw71eC6JOLIK8+C1/jXYKPYL1mt0vXO/oKlOh2Bxo=;
-        b=kgxwH1wQkIgutP5f20Ji/ewD8iTle6yO2/qEW6CD4wifImBGUEOROJ0SeTM+X8MSgV
-         eze1EKm9WolGDnL45sXZ+MJYyWzGxDc6WkbQlI+slpmtmIEkcfQBORx8d3brKO8sZkix
-         rOaKjvhu2DzZRTtbDQlCmNRPtyX4RNlbmeYV2L7a6Fby1ShRn6dQm/+A7OPg05k5lspd
-         S0iVXjwSslxDN+ud1jmWVa5hZpm5ejD8omp89owa2F3ORxKxMiaLVSfUKgn8UWd6ykuH
-         OKjHN9oNJh6hurL0dCSaxUaiT2xjGfSB6R/7CtoZDAmjUgiGHTuCHjzSyTdPW/2myTU1
-         6H+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=fvuw71eC6JOLIK8+C1/jXYKPYL1mt0vXO/oKlOh2Bxo=;
-        b=AB/DjevzskYxsHbJ5ykjXgW49R7K5+mdatrAobaA80ekwCYL6hzf4q+IsVgIO5Ei0D
-         VuQcC/HkTumRw4+A9JObnrncZ68F6FF8Bse7WN2sC7ZcEs2PDKZzdy661PxUoAwFJObZ
-         qxAwwKWJJZHTOL0mb05YZ3oxDc0tptCWqT08P7JiyxL9SKeODQ8+bSBOHjQc4hJu321v
-         BLTLFJyICGue10ALVI8XenEa1KJqViaVtRTyA4czvgdI7LbhGh2+70NbK26/n+kWq1RS
-         2J9WyBtAuvDE12RkeWTR5H4HssiMG9epMO4bpUHNjGm6NQXD5Xxz8cSKoKXHH9zC+J+y
-         yYTA==
-X-Gm-Message-State: AOAM533DLSNkkoa9NkvBgHZOWOnoPSSQQp9QUvbr/m7NxMlfka2xYM0R
-	/6Mgi5sbSpX6+w6oL0W/o6/mMhOOrXKLpg==
-X-Google-Smtp-Source: ABdhPJxbyd7Ey4OjWrmOUEWzFjcKXRcbsnWHv/Z/F3AP/j1+OU8jgg/EuOpVQAlLObtpefS7XRSLjQ==
-X-Received: by 2002:a17:90b:1893:: with SMTP id mn19mr4957437pjb.51.1624380809519;
-        Tue, 22 Jun 2021 09:53:29 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:d102:fdcb:61de:2062? ([2601:646:9200:a0f0:d102:fdcb:61de:2062])
-        by smtp.gmail.com with ESMTPSA id 10sm10558792pgl.42.2021.06.22.09.53.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jun 2021 09:53:28 -0700 (PDT)
-Subject: Re: [OE-core] [RFC PATCH 1/2] glibc: backport MTE improvements from master
-To: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
-References: <20210622162459.1449458-1-ross.burton@arm.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <244e236f-09a5-2afa-eeff-d7191304ed19@gmail.com>
-Date: Tue, 22 Jun 2021 09:53:27 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xnOHwWzIaXJJbDy3rk1u2oDoGEOH3E/+kglnT/IC/uQ=;
+ b=DCSJ7YOj3933zduEtvKKXgVz7YnVFAbYRTvXoc6Uu0X9UX3kIWSmA4bHj0XED7wd3WKG2hVWzA3xljDA8kqqtOzQAX5Iq6ofsHJpsYRhxPPHlR3XpT4gx9NIHpc4qJZK8I9s+PeGTDMiM5iQ+vkO9R46im64lbcdOcoAYtYwOrY=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
+ by SJ0PR11MB4800.namprd11.prod.outlook.com (2603:10b6:a03:2af::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Tue, 22 Jun
+ 2021 17:37:50 +0000
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::b5ac:be57:85a9:f240]) by BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::b5ac:be57:85a9:f240%3]) with mapi id 15.20.4264.018; Tue, 22 Jun 2021
+ 17:37:50 +0000
+From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 1/2] python3-pip: upgrade 20.0.2 -> 21.1.2
+Date: Tue, 22 Jun 2021 13:37:42 -0400
+Message-Id: <20210622173743.1231362-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.31.1
+X-Originating-IP: [128.224.252.2]
+X-ClientProxiedBy: BYAPR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::19) To BY5PR11MB3909.namprd11.prod.outlook.com
+ (2603:10b6:a03:191::13)
 MIME-Version: 1.0
-In-Reply-To: <20210622162459.1449458-1-ross.burton@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yow-tgamblin-fedora2.wrs.com (128.224.252.2) by BYAPR03CA0006.namprd03.prod.outlook.com (2603:10b6:a02:a8::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16 via Frontend Transport; Tue, 22 Jun 2021 17:37:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5a241981-14b9-410a-6937-08d935a47502
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4800:
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR11MB4800AB53D5FA5BD512667F8F9F099@SJ0PR11MB4800.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	5REVrPeKyewg7vntiCboC1RNHQeHXETArktMTB8O35iAXyL6LNQw8g8s2Hla901FaZA4QgvwVqgXP+q/A5MIDAY76cOzdJMcOpaLTo9Ai4h59Kk5zODrMsWR7smkPHw1qaVk87EdTVSJH7IeQQhNFlMxJY+touOW25lUrC5PtO0JyPH4KclUzHlC7cVXMgHExXC3wkSPasj0vBagAM+aoMv2bAGTHAXuDdIzSvm9o2Hl3VivTKPhJ9UY4gG/t55Dk+DARiE+Wo0gDssZUQelslZFA28ZODMtsZHY8SpNDxGbNNj+6FuBhcTa4NIQ7KVT1SEoulTYZEl3lAT2bWG30g53lB2CnwiQZU96PJz9ZaLfYTfsK8yPW1wNjFS9bKdmEi7KsnVO9Dgp+iDL734B2PaP3bLf+CCNomvqgg+LrTWvS6l+2xXKofyMRwwDSmMFjswiJkrB1uio98WT9wnBg8gzodRITM9dpbmThQrohYyGGISlDf5WcifCNyGDIPQSg8DtxywMheJNBn4+dbN822eoHUn7y09xrQj19TC91lFP3bt1YJ0dc4i/OJoo/Zl5Z50gGLZ/sznPkE42BJ6KCX2QKc+afXR8fimSqjeRuIVswO6AGvTbVPx2nNzQZNECvRjn1gM6pCX0Cds5McytU3jl43eyph64CC3UIzp7l1BBETBPmNKHTgd8fLCTv6Ub2ni8VIslHK31grE1jMTSrLh/rEatDcmr0xD5cMJRXuvnZm20SED6SpWLcl7p33avOU+CsTvz8Tx66mXA0jAKk0Wq+4mHv+emgrW/lXOIys34LKJkV1eBQvkiIWgWzi77ls+jImjGJu4Ls2ntFbdMQF3P9S2zwuJF2Ux8eHhsEec=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39840400004)(346002)(376002)(396003)(136003)(366004)(2906002)(956004)(86362001)(478600001)(44832011)(6666004)(2616005)(6916009)(83380400001)(6486002)(186003)(8936002)(66574015)(1076003)(6512007)(6506007)(52116002)(36756003)(316002)(8676002)(66556008)(66946007)(66476007)(5660300002)(16526019)(38100700002)(26005)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?UUpkeG51Q1VVZ09WNS9uWXZDYnZDTDE5UjRKb2JGN0pncmgvODB6Um4rQkRU?=
+ =?utf-8?B?TENzd1JRV293ME0rWXBNL1NFc01rVHZ0dmlvcDBtdGpXS0d5WFdsSCtiVlI3?=
+ =?utf-8?B?Sk12eXZQLzJFNzY2SWhsbTZLN0syOU8xWXMvME92VXljaTdJNHBUYTlyc3V2?=
+ =?utf-8?B?WllFeUplSkRlL0RYZFIra0tYamRMY3NZS0R2UFlyOWV5cWV4RnVtODh3S0Uv?=
+ =?utf-8?B?WW03cTQrTVJPQUhUWVAwMlVNS0JjaEZZTXFxQ2NnZk1DMVRQWWFXSFZ5ajNx?=
+ =?utf-8?B?US80NGthWFIrVVY0TFVISUFITWFMdXgzR2hseTdJRjh0MzFFdGhXdkFmYk0z?=
+ =?utf-8?B?b2V2Smt1VGZxbEpQN3FVYVNQc0hJY0ErWVZ0ZExzQ0JXMmdQV1dZajFFYXVv?=
+ =?utf-8?B?V1ZxMkJneU5qd2lsZ3BPTEhxYVE1VEc4MVBjYUdmOVdQQThjUTVzaEZwUkph?=
+ =?utf-8?B?ck41dEo5Nk9TMnBOd3R4SHFIcXpBOGFXNytZdVlOOTVqaTN4MW5FYTcvQnpQ?=
+ =?utf-8?B?amNKRVlDSVVqYTdodXBTcERHNkNMMmM3WEZYQkFpTlVONnFYU1RBRWZmYVJ6?=
+ =?utf-8?B?ZUc2T1pLdGlPVnV5S29xYVZ4VVNZbXRldFUzLzhUdEZTOGpWVjREb3huQlAw?=
+ =?utf-8?B?VHBEWG9XNjJRNUw3TVVQaTUzRitDdzk2aWt0dzVackxxb1FaeE05N2NMQnJT?=
+ =?utf-8?B?NUFGL3ZrYlZNYnZRbmFacmM2SGVGaEZCZ2JmQzA2SWk4bktqVk00anBJbmp5?=
+ =?utf-8?B?SG1PZ0pGRER3cVFtNEVYSlA4ZXBuWFdWNGJsaFRTdG1tZXFOSmIvRFFJRGF1?=
+ =?utf-8?B?bFdENEJtaWFrNmh1ZkZjSCtBaEYwSjRTamIxOEJCWGpMTVdXaDFvQXB6eTZk?=
+ =?utf-8?B?VkdWaGd2L3hLNGVkWE5Xbk1mOER5cUUwWHZ1YjBLcUJVZXJDcDVaRzE1ZjlX?=
+ =?utf-8?B?UFNSbWhoSk5CRUFlVzVhREppR1UyRDV1SU00aURCaG85dzFKaXFEM2RUQ0VW?=
+ =?utf-8?B?NERIeWRzS3JNaE9BZGtta2Vid2RYVzROdGl1ckRRcUc2UUFjYnF3NW1NbjRH?=
+ =?utf-8?B?UFdRSHkweDJ3N3F6UUVBaG5YYUZ6THJvMkZvenFaUytkdzFBdCtsMThkWm5S?=
+ =?utf-8?B?R3FpOUNURkJsK3l5djdiajI3SDE1QzlrQTR6eGpYeGhBb0NqODZ0Yyt2ZWs5?=
+ =?utf-8?B?YVJ6K0M3cUVEdjBhN2VEeFhtd0dvbXVnL1l3MFBjT2UrVjhoa2JxYWF0QTZ3?=
+ =?utf-8?B?SmhwTjI0UG9lR21BRDVuZW1oL2lsU0R0ZHdibjFjNHRLQTdlSVByZHRITE52?=
+ =?utf-8?B?UjZvVkdtdE9MZHlTaEFkSkZWRVBZS1NTUGdNd0xmZ2tUenRzVHAxNTFzMWw2?=
+ =?utf-8?B?Q3k5L3h5UjAyYVZMR3gwL1I1RldBcWFQK1BRaEFxUERMQ0JObUJkVitWZWxV?=
+ =?utf-8?B?SjZwMkZyUkxiV1lEUUR0SnNYVzE5cDFLRm1rUzd4eGNRRFZGSGt4WnNMNmlW?=
+ =?utf-8?B?N0p2SDliNXIyUXpzTG1xMUFsUXh3MlB0VlJOeGZ3VTN3b09oNHV1aVFJaTVx?=
+ =?utf-8?B?MHp2ajB2MHZqNmVTS2tqaGdrbG8rSlg2cXNENk9aSFE1eGJNNDhEZGRRRTN5?=
+ =?utf-8?B?LzVITTdtRDZLWmZRNm9IOVBobjJyVEZTbkN0b3VVZi9CUnFzZ25NajA4MVpC?=
+ =?utf-8?B?NE0wT1IvM0loSGpxR3Y0bXlQdXhGYVROZTlQVmMxeEtOYzBHQi9wMUVuMlVw?=
+ =?utf-8?Q?EDZ8fMjWOOPAydq5XikmC5Eh5fE6poC5c6QwmNE?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a241981-14b9-410a-6937-08d935a47502
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 17:37:50.5425
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WH8bArVlnjvOIKXnG8mHAU7OJKCj1F/Xtzu/QSsHSI7fXuLjpKRVhu+ZnxS2+PqKf5cE/HjY0ENhDjhg/UrbegtmH4nEv5YnjBBJ0zN7o2Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4800
+X-Proofpoint-GUID: 3mnDiRntwuzDBFgUB_-QllOO_qq6EfBb
+X-Proofpoint-ORIG-GUID: 3mnDiRntwuzDBFgUB_-QllOO_qq6EfBb
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-06-22_11:2021-06-22,2021-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 spamscore=0 mlxlogscore=999 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106220108
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 15MHXOPV003370
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ross
+21.1.2 contains a fix for CVE-2021-3572
+(https://github.com/pypa/pip/commit/e46bdda9711392fec0c45c1175bae6db847cb=
+30b)
 
-This looks fine, I have been using master/2.34 so did not see this 
-issue, at this time I do have 2.34 ready for testing here [1]
+The LICENSE.txt signature changed due to an update to the copyright
+dates, but the terms are the same.
 
-[1] 
-https://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/glibc-2.34
+Also update 0001-change-shebang-to-python3.patch to cover all files in
+pip's src directory, since we need to ensure compatibility.
 
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ .../0001-change-shebang-to-python3.patch      | 128 ++++++++++++++----
+ ...n3-pip_20.0.2.bb =3D> python3-pip_21.1.2.bb} |   6 +-
+ 2 files changed, 101 insertions(+), 33 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pip_20.0.2.bb =3D> python3-=
+pip_21.1.2.bb} (73%)
 
+diff --git a/meta/recipes-devtools/python/python3-pip/0001-change-shebang=
+-to-python3.patch b/meta/recipes-devtools/python/python3-pip/0001-change-=
+shebang-to-python3.patch
+index 00cffe169b..0187001168 100644
+--- a/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pyt=
+hon3.patch
++++ b/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pyt=
+hon3.patch
+@@ -1,32 +1,30 @@
+-From e7a00e9b5104ae2fbcea32a35c85760b77fae7e5 Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Thu, 23 Apr 2020 09:42:10 +0000
++From baa85a4dab2e8d64eb25d1181b6420db25ce919a Mon Sep 17 00:00:00 2001
++From: Trevor Gamblin <trevor.gamblin@windriver.com>
++Date: Tue, 22 Jun 2021 12:31:46 -0400
+ Subject: [PATCH] change shebang to python3
+=20
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate (OE-specific)
+=20
+-pip will drop support of python2 from 21.0
++Despite no longer supporting python2, some files in the pip source refer
++to "python" instead of "python3", so patch them as needed to ensure that
++they correctly reference the python3 binary.
+=20
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+ ---
+- src/pip/_internal/__init__.py             | 2 +-
+- src/pip/_vendor/appdirs.py                | 2 +-
+- src/pip/_vendor/chardet/cli/chardetect.py | 2 +-
+- src/pip/_vendor/requests/certs.py         | 2 +-
+- 4 files changed, 4 insertions(+), 4 deletions(-)
++ src/pip/_vendor/appdirs.py                    | 2 +-
++ src/pip/_vendor/chardet/langbulgarianmodel.py | 2 +-
++ src/pip/_vendor/chardet/langgreekmodel.py     | 2 +-
++ src/pip/_vendor/chardet/langhebrewmodel.py    | 2 +-
++ src/pip/_vendor/chardet/langhungarianmodel.py | 2 +-
++ src/pip/_vendor/chardet/langrussianmodel.py   | 2 +-
++ src/pip/_vendor/chardet/langthaimodel.py      | 2 +-
++ src/pip/_vendor/chardet/langturkishmodel.py   | 2 +-
++ src/pip/_vendor/chardet/metadata/languages.py | 2 +-
++ src/pip/_vendor/requests/certs.py             | 2 +-
++ 10 files changed, 10 insertions(+), 10 deletions(-)
+=20
+-diff --git a/src/pip/_internal/__init__.py b/src/pip/_internal/__init__.=
+py
+-index 3aa8a46..e1ad179 100755
+---- a/src/pip/_internal/__init__.py
+-+++ b/src/pip/_internal/__init__.py
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- import pip._internal.utils.inject_securetransport  # noqa
+- from pip._internal.utils.typing import MYPY_CHECK_RUNNING
+-=20
+ diff --git a/src/pip/_vendor/appdirs.py b/src/pip/_vendor/appdirs.py
+-index 3a52b75..ad3f81d 100644
++index 33a3b7741..60b9ef5f7 100644
+ --- a/src/pip/_vendor/appdirs.py
+ +++ b/src/pip/_vendor/appdirs.py
+ @@ -1,4 +1,4 @@
+@@ -35,18 +33,88 @@ index 3a52b75..ad3f81d 100644
+  # -*- coding: utf-8 -*-
+  # Copyright (c) 2005-2010 ActiveState Software Inc.
+  # Copyright (c) 2013 Eddy Petri=C8=99or
+-diff --git a/src/pip/_vendor/chardet/cli/chardetect.py b/src/pip/_vendor=
+/chardet/cli/chardetect.py
+-index c61136b..a497e98 100644
+---- a/src/pip/_vendor/chardet/cli/chardetect.py
+-+++ b/src/pip/_vendor/chardet/cli/chardetect.py
++diff --git a/src/pip/_vendor/chardet/langbulgarianmodel.py b/src/pip/_ve=
+ndor/chardet/langbulgarianmodel.py
++index e963a5097..97ea6cea8 100644
++--- a/src/pip/_vendor/chardet/langbulgarianmodel.py
+++++ b/src/pip/_vendor/chardet/langbulgarianmodel.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++=20
++ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel
++diff --git a/src/pip/_vendor/chardet/langgreekmodel.py b/src/pip/_vendor=
+/chardet/langgreekmodel.py
++index d99528ede..4a127ea83 100644
++--- a/src/pip/_vendor/chardet/langgreekmodel.py
+++++ b/src/pip/_vendor/chardet/langgreekmodel.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++=20
++ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel
++diff --git a/src/pip/_vendor/chardet/langhebrewmodel.py b/src/pip/_vendo=
+r/chardet/langhebrewmodel.py
++index 484c652a4..676c1a711 100644
++--- a/src/pip/_vendor/chardet/langhebrewmodel.py
+++++ b/src/pip/_vendor/chardet/langhebrewmodel.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++=20
++ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel
++diff --git a/src/pip/_vendor/chardet/langhungarianmodel.py b/src/pip/_ve=
+ndor/chardet/langhungarianmodel.py
++index bbc5cda64..042eae70a 100644
++--- a/src/pip/_vendor/chardet/langhungarianmodel.py
+++++ b/src/pip/_vendor/chardet/langhungarianmodel.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++=20
++ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel
++diff --git a/src/pip/_vendor/chardet/langrussianmodel.py b/src/pip/_vend=
+or/chardet/langrussianmodel.py
++index 5594452b5..564b02e58 100644
++--- a/src/pip/_vendor/chardet/langrussianmodel.py
+++++ b/src/pip/_vendor/chardet/langrussianmodel.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++=20
++ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel
++diff --git a/src/pip/_vendor/chardet/langthaimodel.py b/src/pip/_vendor/=
+chardet/langthaimodel.py
++index 9a37db573..c97487959 100644
++--- a/src/pip/_vendor/chardet/langthaimodel.py
+++++ b/src/pip/_vendor/chardet/langthaimodel.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++=20
++ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel
++diff --git a/src/pip/_vendor/chardet/langturkishmodel.py b/src/pip/_vend=
+or/chardet/langturkishmodel.py
++index 43f4230ae..7e710c371 100644
++--- a/src/pip/_vendor/chardet/langturkishmodel.py
+++++ b/src/pip/_vendor/chardet/langturkishmodel.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
++=20
++ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel
++diff --git a/src/pip/_vendor/chardet/metadata/languages.py b/src/pip/_ve=
+ndor/chardet/metadata/languages.py
++index 3237d5abf..aa2ec7c35 100644
++--- a/src/pip/_vendor/chardet/metadata/languages.py
+++++ b/src/pip/_vendor/chardet/metadata/languages.py
+ @@ -1,4 +1,4 @@
+ -#!/usr/bin/env python
+ +#!/usr/bin/env python3
++ # -*- coding: utf-8 -*-
+  """
+- Script which takes one or more file paths and reports on their detected
+- encodings
++ Metadata about languages used by our model training code for our
+ diff --git a/src/pip/_vendor/requests/certs.py b/src/pip/_vendor/request=
+s/certs.py
+-index 06a594e..bfa7839 100644
++index 06a594e58..bfa7839a4 100644
+ --- a/src/pip/_vendor/requests/certs.py
+ +++ b/src/pip/_vendor/requests/certs.py
+ @@ -1,4 +1,4 @@
+@@ -56,5 +124,5 @@ index 06a594e..bfa7839 100644
+ =20
+  """
+ --=20
+-2.24.1
++2.31.1
+=20
+diff --git a/meta/recipes-devtools/python/python3-pip_20.0.2.bb b/meta/re=
+cipes-devtools/python/python3-pip_21.1.2.bb
+similarity index 73%
+rename from meta/recipes-devtools/python/python3-pip_20.0.2.bb
+rename to meta/recipes-devtools/python/python3-pip_21.1.2.bb
+index 99eeea2edf..fd7a145205 100644
+--- a/meta/recipes-devtools/python/python3-pip_20.0.2.bb
++++ b/meta/recipes-devtools/python/python3-pip_21.1.2.bb
+@@ -2,14 +2,14 @@ SUMMARY =3D "The PyPA recommended tool for installing P=
+ython packages"
+ HOMEPAGE =3D "https://pypi.org/project/pip"
+ SECTION =3D "devel/python"
+ LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D8ba06d529c955048e5ddd7c45=
+459eb2e"
++LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Dc4fa2b50f55649f43060fa04b=
+0919b9b"
+=20
+ DEPENDS +=3D "python3 python3-setuptools-native"
+=20
+ SRC_URI +=3D "file://0001-change-shebang-to-python3.patch"
+=20
+-SRC_URI[md5sum] =3D "7d42ba49b809604f0df3d55df1c3fd86"
+-SRC_URI[sha256sum] =3D "7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa49499=
+20675563a5a6967f"
++SRC_URI[md5sum] =3D "a867fd51eacfd5293f5b7e0c2e7867a7"
++SRC_URI[sha256sum] =3D "eb5df6b9ab0af50fe1098a52fd439b04730b6e066887ff74=
+97357b9ebd19f79b"
+=20
+ inherit pypi distutils3
+=20
+--=20
+2.31.1
 
-On 6/22/21 9:24 AM, Ross Burton wrote:
-> After realising that the MTE support in 2.33 was suboptimal, discussion with
-> upstream revealed that these issues are known and already fixed.
-> 
-> They will be in glibc 2.34 which is scheduled for August, so backport the
-> fixes for now.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->   .../glibc/glibc/mte-backports.patch           | 1238 +++++++++++++++++
->   meta/recipes-core/glibc/glibc_2.33.bb         |    1 +
->   2 files changed, 1239 insertions(+)
->   create mode 100644 meta/recipes-core/glibc/glibc/mte-backports.patch
-> 
-> diff --git a/meta/recipes-core/glibc/glibc/mte-backports.patch b/meta/recipes-core/glibc/glibc/mte-backports.patch
-> new file mode 100644
-> index 00000000000..d9604fdf45a
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/mte-backports.patch
-> @@ -0,0 +1,1238 @@
-> +Backport a number of patches from master to improve Arm MTE support.
-> +
-> +Upstream-Status: Backport [will be in 2.34]
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +
-> +From 2643466c2928a93de7b80a61f6a8f61a653862e1 Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Thu, 11 Mar 2021 14:09:56 +0000
-> +Subject: [PATCH 01/11] malloc: Fix a potential realloc issue with memory
-> + tagging
-> +
-> +At an _int_free call site in realloc the wrong size was used for tag
-> +clearing: the chunk header of the next chunk was also cleared which
-> +in practice may work, but logically wrong.
-> +
-> +The tag clearing is moved before the memcpy to save a tag computation,
-> +this avoids a chunk2mem.  Another chunk2mem is removed because newmem
-> +does not have to be recomputed. Whitespaces got fixed too.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/malloc.c | 14 +++++++-------
-> + 1 file changed, 7 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 8f8f12c276..51cec67e55 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -4851,14 +4851,14 @@ _int_realloc(mstate av, mchunkptr oldp, INTERNAL_SIZE_T oldsize,
-> +             }
-> +           else
-> +             {
-> +-	      void *oldmem = chunk2mem (oldp);
-> ++	      void *oldmem = chunk2rawmem (oldp);
-> ++	      size_t sz = CHUNK_AVAILABLE_SIZE (oldp) - CHUNK_HDR_SZ;
-> ++	      (void) TAG_REGION (oldmem, sz);
-> + 	      newmem = TAG_NEW_USABLE (newmem);
-> +-	      memcpy (newmem, oldmem,
-> +-		      CHUNK_AVAILABLE_SIZE (oldp) - CHUNK_HDR_SZ);
-> +-	      (void) TAG_REGION (chunk2rawmem (oldp), oldsize);
-> +-              _int_free (av, oldp, 1);
-> +-              check_inuse_chunk (av, newp);
-> +-              return chunk2mem (newp);
-> ++	      memcpy (newmem, oldmem, sz);
-> ++	      _int_free (av, oldp, 1);
-> ++	      check_inuse_chunk (av, newp);
-> ++	      return newmem;
-> +             }
-> +         }
-> +     }
-> +--
-> +2.25.1
-> +
-> +
-> +From 32f3132be063e4b16a5cdb058980af354126e2f4 Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Thu, 28 Jan 2021 17:34:36 +0000
-> +Subject: [PATCH 02/11] malloc: Move MTAG_MMAP_FLAGS definition
-> +
-> +This is only used internally in malloc.c, the extern declaration
-> +was wrong, __mtag_mmap_flags has internal linkage.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + include/malloc.h | 7 -------
-> + malloc/malloc.c  | 2 ++
-> + 2 files changed, 2 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/include/malloc.h b/include/malloc.h
-> +index 7ae08d53d3..b77761f74d 100644
-> +--- a/include/malloc.h
-> ++++ b/include/malloc.h
-> +@@ -16,11 +16,4 @@ typedef struct malloc_state *mstate;
-> +
-> + # endif /* !_ISOMAC */
-> +
-> +-#ifdef USE_MTAG
-> +-extern int __mtag_mmap_flags;
-> +-#define MTAG_MMAP_FLAGS __mtag_mmap_flags
-> +-#else
-> +-#define MTAG_MMAP_FLAGS 0
-> +-#endif
-> +-
-> + #endif
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 51cec67e55..61c25d0f93 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -463,11 +463,13 @@ static void *(*__tag_region)(void *, size_t) = __default_tag_region;
-> + static void *(*__tag_new_usable)(void *) = __default_tag_nop;
-> + static void *(*__tag_at)(void *) = __default_tag_nop;
-> +
-> ++# define MTAG_MMAP_FLAGS __mtag_mmap_flags
-> + # define TAG_NEW_MEMSET(ptr, val, size) __tag_new_memset (ptr, val, size)
-> + # define TAG_REGION(ptr, size) __tag_region (ptr, size)
-> + # define TAG_NEW_USABLE(ptr) __tag_new_usable (ptr)
-> + # define TAG_AT(ptr) __tag_at (ptr)
-> + #else
-> ++# define MTAG_MMAP_FLAGS 0
-> + # define TAG_NEW_MEMSET(ptr, val, size) memset (ptr, val, size)
-> + # define TAG_REGION(ptr, size) (ptr)
-> + # define TAG_NEW_USABLE(ptr) (ptr)
-> +--
-> +2.25.1
-> +
-> +
-> +From 4b13f77fb97f9618a7868ab767d05e0c2d7c6f6f Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Thu, 4 Feb 2021 11:38:23 +0000
-> +Subject: [PATCH 03/11] malloc: Simplify __mtag_tag_new_usable
-> +
-> +The chunk cannot be a dumped one here.  The only non-obvious cases
-> +are free and realloc which may be called on a dumped area chunk,
-> +but in both cases it can be verified that tagging is already
-> +avoided for dumped area chunks.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/arena.c | 5 -----
-> + 1 file changed, 5 deletions(-)
-> +
-> +diff --git a/malloc/arena.c b/malloc/arena.c
-> +index bf17be27d4..0777dc70c6 100644
-> +--- a/malloc/arena.c
-> ++++ b/malloc/arena.c
-> +@@ -298,11 +298,6 @@ __mtag_tag_new_usable (void *ptr)
-> +   if (ptr)
-> +     {
-> +       mchunkptr cp = mem2chunk(ptr);
-> +-      /* This likely will never happen, but we can't handle retagging
-> +-	 chunks from the dumped main arena.  So just return the
-> +-	 existing pointer.  */
-> +-      if (DUMPED_MAIN_ARENA_CHUNK (cp))
-> +-	return ptr;
-> +       ptr = __libc_mtag_tag_region (__libc_mtag_new_tag (ptr),
-> + 				    CHUNK_AVAILABLE_SIZE (cp) - CHUNK_HDR_SZ);
-> +     }
-> +--
-> +2.25.1
-> +
-> +
-> +From 4f05837ba6934c5b8bbc6738f8883890493f50b6 Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Thu, 4 Feb 2021 11:52:14 +0000
-> +Subject: [PATCH 04/11] malloc: Avoid taggig mmaped memory on free
-> +
-> +Either the memory belongs to the dumped area, in which case we don't
-> +want to tag (the dumped area has the same tag as malloc internal data
-> +so tagging is unnecessary, but chunks there may not have the right
-> +alignment for the tag granule), or the memory will be unmapped
-> +immediately (and thus tagging is not useful).
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/malloc.c | 7 ++++---
-> + 1 file changed, 4 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 61c25d0f93..ecb87350b0 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -3284,9 +3284,6 @@ __libc_free (void *mem)
-> +
-> +   p = mem2chunk (mem);
-> +
-> +-  /* Mark the chunk as belonging to the library again.  */
-> +-  (void)TAG_REGION (chunk2rawmem (p), CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> +-
-> +   if (chunk_is_mmapped (p))                       /* release mmapped memory. */
-> +     {
-> +       /* See if the dynamic brk/mmap threshold needs adjusting.
-> +@@ -3307,6 +3304,10 @@ __libc_free (void *mem)
-> +     {
-> +       MAYBE_INIT_TCACHE ();
-> +
-> ++      /* Mark the chunk as belonging to the library again.  */
-> ++      (void)TAG_REGION (chunk2rawmem (p),
-> ++			CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> ++
-> +       ar_ptr = arena_for_chunk (p);
-> +       _int_free (ar_ptr, p, 0);
-> +     }
-> +--
-> +2.25.1
-> +
-> +
-> +From 673fad3798846101b77a89595cfa17f334a1c898 Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Tue, 16 Feb 2021 14:12:25 +0000
-> +Subject: [PATCH 05/11] malloc: Refactor TAG_ macros to avoid indirection
-> +
-> +This does not change behaviour, just removes one layer of indirection
-> +in the internal memory tagging logic.
-> +
-> +Use tag_ and mtag_ prefixes instead of __tag_ and __mtag_ since these
-> +are all symbols with internal linkage, private to malloc.c, so there
-> +is no user namespace pollution issue.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/arena.c  | 16 +++++-----
-> + malloc/hooks.c  | 10 +++---
-> + malloc/malloc.c | 81 +++++++++++++++++++++++--------------------------
-> + 3 files changed, 51 insertions(+), 56 deletions(-)
-> +
-> +diff --git a/malloc/arena.c b/malloc/arena.c
-> +index 0777dc70c6..d0778fea92 100644
-> +--- a/malloc/arena.c
-> ++++ b/malloc/arena.c
-> +@@ -332,12 +332,12 @@ ptmalloc_init (void)
-> +       if (__MTAG_SBRK_UNTAGGED)
-> + 	__morecore = __failing_morecore;
-> +
-> +-      __mtag_mmap_flags = __MTAG_MMAP_FLAGS;
-> +-      __tag_new_memset = __mtag_tag_new_memset;
-> +-      __tag_region = __libc_mtag_tag_region;
-> +-      __tag_new_usable = __mtag_tag_new_usable;
-> +-      __tag_at = __libc_mtag_address_get_tag;
-> +-      __mtag_granule_mask = ~(size_t)(__MTAG_GRANULE_SIZE - 1);
-> ++      mtag_mmap_flags = __MTAG_MMAP_FLAGS;
-> ++      tag_new_memset = __mtag_tag_new_memset;
-> ++      tag_region = __libc_mtag_tag_region;
-> ++      tag_new_usable = __mtag_tag_new_usable;
-> ++      tag_at = __libc_mtag_address_get_tag;
-> ++      mtag_granule_mask = ~(size_t)(__MTAG_GRANULE_SIZE - 1);
-> +     }
-> + #endif
-> +
-> +@@ -557,7 +557,7 @@ new_heap (size_t size, size_t top_pad)
-> +             }
-> +         }
-> +     }
-> +-  if (__mprotect (p2, size, MTAG_MMAP_FLAGS | PROT_READ | PROT_WRITE) != 0)
-> ++  if (__mprotect (p2, size, mtag_mmap_flags | PROT_READ | PROT_WRITE) != 0)
-> +     {
-> +       __munmap (p2, HEAP_MAX_SIZE);
-> +       return 0;
-> +@@ -587,7 +587,7 @@ grow_heap (heap_info *h, long diff)
-> +     {
-> +       if (__mprotect ((char *) h + h->mprotect_size,
-> +                       (unsigned long) new_size - h->mprotect_size,
-> +-                      MTAG_MMAP_FLAGS | PROT_READ | PROT_WRITE) != 0)
-> ++                      mtag_mmap_flags | PROT_READ | PROT_WRITE) != 0)
-> +         return -2;
-> +
-> +       h->mprotect_size = new_size;
-> +diff --git a/malloc/hooks.c b/malloc/hooks.c
-> +index efec05f0a8..d8e304c31c 100644
-> +--- a/malloc/hooks.c
-> ++++ b/malloc/hooks.c
-> +@@ -68,7 +68,7 @@ __malloc_check_init (void)
-> +    tags, so fetch the tag at each location before dereferencing
-> +    it.  */
-> + #define SAFE_CHAR_OFFSET(p,offset) \
-> +-  ((unsigned char *) TAG_AT (((unsigned char *) p) + offset))
-> ++  ((unsigned char *) tag_at (((unsigned char *) p) + offset))
-> +
-> + /* A simple, standard set of debugging hooks.  Overhead is `only' one
-> +    byte per chunk; still this will catch most cases of double frees or
-> +@@ -249,7 +249,7 @@ malloc_check (size_t sz, const void *caller)
-> +   top_check ();
-> +   victim = _int_malloc (&main_arena, nb);
-> +   __libc_lock_unlock (main_arena.mutex);
-> +-  return mem2mem_check (TAG_NEW_USABLE (victim), sz);
-> ++  return mem2mem_check (tag_new_usable (victim), sz);
-> + }
-> +
-> + static void
-> +@@ -280,7 +280,7 @@ free_check (void *mem, const void *caller)
-> +   else
-> +     {
-> +       /* Mark the chunk as belonging to the library again.  */
-> +-      (void)TAG_REGION (chunk2rawmem (p), CHUNK_AVAILABLE_SIZE (p)
-> ++      (void)tag_region (chunk2rawmem (p), CHUNK_AVAILABLE_SIZE (p)
-> +                                          - CHUNK_HDR_SZ);
-> +       _int_free (&main_arena, p, 1);
-> +       __libc_lock_unlock (main_arena.mutex);
-> +@@ -375,7 +375,7 @@ invert:
-> +
-> +   __libc_lock_unlock (main_arena.mutex);
-> +
-> +-  return mem2mem_check (TAG_NEW_USABLE (newmem), bytes);
-> ++  return mem2mem_check (tag_new_usable (newmem), bytes);
-> + }
-> +
-> + static void *
-> +@@ -417,7 +417,7 @@ memalign_check (size_t alignment, size_t bytes, const void *caller)
-> +   top_check ();
-> +   mem = _int_memalign (&main_arena, alignment, bytes + 1);
-> +   __libc_lock_unlock (main_arena.mutex);
-> +-  return mem2mem_check (TAG_NEW_USABLE (mem), bytes);
-> ++  return mem2mem_check (tag_new_usable (mem), bytes);
-> + }
-> +
-> + #if SHLIB_COMPAT (libc, GLIBC_2_0, GLIBC_2_25)
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index ecb87350b0..62d00f54cc 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -413,26 +413,26 @@ void *(*__morecore)(ptrdiff_t) = __default_morecore;
-> +    operations can continue to be used.  Support macros are used to do
-> +    this:
-> +
-> +-   void *TAG_NEW_MEMSET (void *ptr, int, val, size_t size)
-> ++   void *tag_new_memset (void *ptr, int, val, size_t size)
-> +
-> +    Has the same interface as memset(), but additionally allocates a
-> +    new tag, colors the memory with that tag and returns a pointer that
-> +    is correctly colored for that location.  The non-tagging version
-> +    will simply call memset.
-> +
-> +-   void *TAG_REGION (void *ptr, size_t size)
-> ++   void *tag_region (void *ptr, size_t size)
-> +
-> +    Color the region of memory pointed to by PTR and size SIZE with
-> +    the color of PTR.  Returns the original pointer.
-> +
-> +-   void *TAG_NEW_USABLE (void *ptr)
-> ++   void *tag_new_usable (void *ptr)
-> +
-> +    Allocate a new random color and use it to color the user region of
-> +    a chunk; this may include data from the subsequent chunk's header
-> +    if tagging is sufficiently fine grained.  Returns PTR suitably
-> +    recolored for accessing the memory there.
-> +
-> +-   void *TAG_AT (void *ptr)
-> ++   void *tag_at (void *ptr)
-> +
-> +    Read the current color of the memory at the address pointed to by
-> +    PTR (ignoring it's current color) and return PTR recolored to that
-> +@@ -455,25 +455,20 @@ __default_tag_nop (void *ptr)
-> +   return ptr;
-> + }
-> +
-> +-static int __mtag_mmap_flags = 0;
-> +-static size_t __mtag_granule_mask = ~(size_t)0;
-> ++static int mtag_mmap_flags = 0;
-> ++static size_t mtag_granule_mask = ~(size_t)0;
-> +
-> +-static void *(*__tag_new_memset)(void *, int, size_t) = memset;
-> +-static void *(*__tag_region)(void *, size_t) = __default_tag_region;
-> +-static void *(*__tag_new_usable)(void *) = __default_tag_nop;
-> +-static void *(*__tag_at)(void *) = __default_tag_nop;
-> ++static void *(*tag_new_memset)(void *, int, size_t) = memset;
-> ++static void *(*tag_region)(void *, size_t) = __default_tag_region;
-> ++static void *(*tag_new_usable)(void *) = __default_tag_nop;
-> ++static void *(*tag_at)(void *) = __default_tag_nop;
-> +
-> +-# define MTAG_MMAP_FLAGS __mtag_mmap_flags
-> +-# define TAG_NEW_MEMSET(ptr, val, size) __tag_new_memset (ptr, val, size)
-> +-# define TAG_REGION(ptr, size) __tag_region (ptr, size)
-> +-# define TAG_NEW_USABLE(ptr) __tag_new_usable (ptr)
-> +-# define TAG_AT(ptr) __tag_at (ptr)
-> + #else
-> +-# define MTAG_MMAP_FLAGS 0
-> +-# define TAG_NEW_MEMSET(ptr, val, size) memset (ptr, val, size)
-> +-# define TAG_REGION(ptr, size) (ptr)
-> +-# define TAG_NEW_USABLE(ptr) (ptr)
-> +-# define TAG_AT(ptr) (ptr)
-> ++# define mtag_mmap_flags 0
-> ++# define tag_new_memset(ptr, val, size) memset (ptr, val, size)
-> ++# define tag_region(ptr, size) (ptr)
-> ++# define tag_new_usable(ptr) (ptr)
-> ++# define tag_at(ptr) (ptr)
-> + #endif
-> +
-> + #include <string.h>
-> +@@ -1305,8 +1300,8 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-> + /* Convert between user mem pointers and chunk pointers, updating any
-> +    memory tags on the pointer to respect the tag value at that
-> +    location.  */
-> +-#define chunk2mem(p) ((void*)TAG_AT (((char*)(p) + CHUNK_HDR_SZ)))
-> +-#define mem2chunk(mem) ((mchunkptr)TAG_AT (((char*)(mem) - CHUNK_HDR_SZ)))
-> ++#define chunk2mem(p) ((void *)tag_at (((char*)(p) + CHUNK_HDR_SZ)))
-> ++#define mem2chunk(mem) ((mchunkptr)tag_at (((char*)(mem) - CHUNK_HDR_SZ)))
-> +
-> + /* The smallest possible chunk */
-> + #define MIN_CHUNK_SIZE        (offsetof(struct malloc_chunk, fd_nextsize))
-> +@@ -1337,7 +1332,7 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-> + #ifdef USE_MTAG
-> + #define CHUNK_AVAILABLE_SIZE(p) \
-> +   ((chunksize (p) + (chunk_is_mmapped (p) ? 0 : SIZE_SZ))	\
-> +-   & __mtag_granule_mask)
-> ++   & mtag_granule_mask)
-> + #else
-> + #define CHUNK_AVAILABLE_SIZE(p) \
-> +   (chunksize (p) + (chunk_is_mmapped (p) ? 0 : SIZE_SZ))
-> +@@ -1361,7 +1356,7 @@ checked_request2size (size_t req, size_t *sz) __nonnull (1)
-> +      number.  Ideally, this would be part of request2size(), but that
-> +      must be a macro that produces a compile time constant if passed
-> +      a constant literal.  */
-> +-  req = (req + ~__mtag_granule_mask) & __mtag_granule_mask;
-> ++  req = (req + ~mtag_granule_mask) & mtag_granule_mask;
-> + #endif
-> +
-> +   *sz = request2size (req);
-> +@@ -2467,7 +2462,7 @@ sysmalloc (INTERNAL_SIZE_T nb, mstate av)
-> +       if ((unsigned long) (size) > (unsigned long) (nb))
-> +         {
-> +           mm = (char *) (MMAP (0, size,
-> +-			       MTAG_MMAP_FLAGS | PROT_READ | PROT_WRITE, 0));
-> ++			       mtag_mmap_flags | PROT_READ | PROT_WRITE, 0));
-> +
-> +           if (mm != MAP_FAILED)
-> +             {
-> +@@ -2665,7 +2660,7 @@ sysmalloc (INTERNAL_SIZE_T nb, mstate av)
-> +           if ((unsigned long) (size) > (unsigned long) (nb))
-> +             {
-> +               char *mbrk = (char *) (MMAP (0, size,
-> +-					   MTAG_MMAP_FLAGS | PROT_READ | PROT_WRITE,
-> ++					   mtag_mmap_flags | PROT_READ | PROT_WRITE,
-> + 					   0));
-> +
-> +               if (mbrk != MAP_FAILED)
-> +@@ -3221,14 +3216,14 @@ __libc_malloc (size_t bytes)
-> +       && tcache->counts[tc_idx] > 0)
-> +     {
-> +       victim = tcache_get (tc_idx);
-> +-      return TAG_NEW_USABLE (victim);
-> ++      return tag_new_usable (victim);
-> +     }
-> +   DIAG_POP_NEEDS_COMMENT;
-> + #endif
-> +
-> +   if (SINGLE_THREAD_P)
-> +     {
-> +-      victim = TAG_NEW_USABLE (_int_malloc (&main_arena, bytes));
-> ++      victim = tag_new_usable (_int_malloc (&main_arena, bytes));
-> +       assert (!victim || chunk_is_mmapped (mem2chunk (victim)) ||
-> + 	      &main_arena == arena_for_chunk (mem2chunk (victim)));
-> +       return victim;
-> +@@ -3249,7 +3244,7 @@ __libc_malloc (size_t bytes)
-> +   if (ar_ptr != NULL)
-> +     __libc_lock_unlock (ar_ptr->mutex);
-> +
-> +-  victim = TAG_NEW_USABLE (victim);
-> ++  victim = tag_new_usable (victim);
-> +
-> +   assert (!victim || chunk_is_mmapped (mem2chunk (victim)) ||
-> +           ar_ptr == arena_for_chunk (mem2chunk (victim)));
-> +@@ -3305,7 +3300,7 @@ __libc_free (void *mem)
-> +       MAYBE_INIT_TCACHE ();
-> +
-> +       /* Mark the chunk as belonging to the library again.  */
-> +-      (void)TAG_REGION (chunk2rawmem (p),
-> ++      (void)tag_region (chunk2rawmem (p),
-> + 			CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> +
-> +       ar_ptr = arena_for_chunk (p);
-> +@@ -3408,7 +3403,7 @@ __libc_realloc (void *oldmem, size_t bytes)
-> + 	     reused.  There's a performance hit for both us and the
-> + 	     caller for doing this, so we might want to
-> + 	     reconsider.  */
-> +-	  return TAG_NEW_USABLE (newmem);
-> ++	  return tag_new_usable (newmem);
-> + 	}
-> + #endif
-> +       /* Note the extra SIZE_SZ overhead. */
-> +@@ -3451,7 +3446,7 @@ __libc_realloc (void *oldmem, size_t bytes)
-> +         {
-> + 	  size_t sz = CHUNK_AVAILABLE_SIZE (oldp) - CHUNK_HDR_SZ;
-> + 	  memcpy (newp, oldmem, sz);
-> +-	  (void) TAG_REGION (chunk2rawmem (oldp), sz);
-> ++	  (void) tag_region (chunk2rawmem (oldp), sz);
-> +           _int_free (ar_ptr, oldp, 0);
-> +         }
-> +     }
-> +@@ -3509,7 +3504,7 @@ _mid_memalign (size_t alignment, size_t bytes, void *address)
-> +       p = _int_memalign (&main_arena, alignment, bytes);
-> +       assert (!p || chunk_is_mmapped (mem2chunk (p)) ||
-> + 	      &main_arena == arena_for_chunk (mem2chunk (p)));
-> +-      return TAG_NEW_USABLE (p);
-> ++      return tag_new_usable (p);
-> +     }
-> +
-> +   arena_get (ar_ptr, bytes + alignment + MINSIZE);
-> +@@ -3527,7 +3522,7 @@ _mid_memalign (size_t alignment, size_t bytes, void *address)
-> +
-> +   assert (!p || chunk_is_mmapped (mem2chunk (p)) ||
-> +           ar_ptr == arena_for_chunk (mem2chunk (p)));
-> +-  return TAG_NEW_USABLE (p);
-> ++  return tag_new_usable (p);
-> + }
-> + /* For ISO C11.  */
-> + weak_alias (__libc_memalign, aligned_alloc)
-> +@@ -3544,7 +3539,7 @@ __libc_valloc (size_t bytes)
-> +   void *address = RETURN_ADDRESS (0);
-> +   size_t pagesize = GLRO (dl_pagesize);
-> +   p = _mid_memalign (pagesize, bytes, address);
-> +-  return TAG_NEW_USABLE (p);
-> ++  return tag_new_usable (p);
-> + }
-> +
-> + void *
-> +@@ -3569,7 +3564,7 @@ __libc_pvalloc (size_t bytes)
-> +   rounded_bytes = rounded_bytes & -(pagesize - 1);
-> +
-> +   p = _mid_memalign (pagesize, rounded_bytes, address);
-> +-  return TAG_NEW_USABLE (p);
-> ++  return tag_new_usable (p);
-> + }
-> +
-> + void *
-> +@@ -3666,7 +3661,7 @@ __libc_calloc (size_t n, size_t elem_size)
-> +      regardless of MORECORE_CLEARS, so we zero the whole block while
-> +      doing so.  */
-> + #ifdef USE_MTAG
-> +-  return TAG_NEW_MEMSET (mem, 0, CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> ++  return tag_new_memset (mem, 0, CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> + #else
-> +   INTERNAL_SIZE_T csz = chunksize (p);
-> +
-> +@@ -4821,7 +4816,7 @@ _int_realloc(mstate av, mchunkptr oldp, INTERNAL_SIZE_T oldsize,
-> +           av->top = chunk_at_offset (oldp, nb);
-> +           set_head (av->top, (newsize - nb) | PREV_INUSE);
-> +           check_inuse_chunk (av, oldp);
-> +-          return TAG_NEW_USABLE (chunk2rawmem (oldp));
-> ++          return tag_new_usable (chunk2rawmem (oldp));
-> +         }
-> +
-> +       /* Try to expand forward into next chunk;  split off remainder below */
-> +@@ -4856,8 +4851,8 @@ _int_realloc(mstate av, mchunkptr oldp, INTERNAL_SIZE_T oldsize,
-> +             {
-> + 	      void *oldmem = chunk2rawmem (oldp);
-> + 	      size_t sz = CHUNK_AVAILABLE_SIZE (oldp) - CHUNK_HDR_SZ;
-> +-	      (void) TAG_REGION (oldmem, sz);
-> +-	      newmem = TAG_NEW_USABLE (newmem);
-> ++	      (void) tag_region (oldmem, sz);
-> ++	      newmem = tag_new_usable (newmem);
-> + 	      memcpy (newmem, oldmem, sz);
-> + 	      _int_free (av, oldp, 1);
-> + 	      check_inuse_chunk (av, newp);
-> +@@ -4881,7 +4876,7 @@ _int_realloc(mstate av, mchunkptr oldp, INTERNAL_SIZE_T oldsize,
-> +     {
-> +       remainder = chunk_at_offset (newp, nb);
-> +       /* Clear any user-space tags before writing the header.  */
-> +-      remainder = TAG_REGION (remainder, remainder_size);
-> ++      remainder = tag_region (remainder, remainder_size);
-> +       set_head_size (newp, nb | (av != &main_arena ? NON_MAIN_ARENA : 0));
-> +       set_head (remainder, remainder_size | PREV_INUSE |
-> +                 (av != &main_arena ? NON_MAIN_ARENA : 0));
-> +@@ -4891,7 +4886,7 @@ _int_realloc(mstate av, mchunkptr oldp, INTERNAL_SIZE_T oldsize,
-> +     }
-> +
-> +   check_inuse_chunk (av, newp);
-> +-  return TAG_NEW_USABLE (chunk2rawmem (newp));
-> ++  return tag_new_usable (chunk2rawmem (newp));
-> + }
-> +
-> + /*
-> +@@ -5108,7 +5103,7 @@ musable (void *mem)
-> +       /* The usable space may be reduced if memory tagging is needed,
-> + 	 since we cannot share the user-space data with malloc's internal
-> + 	 data structure.  */
-> +-      result &= __mtag_granule_mask;
-> ++      result &= mtag_granule_mask;
-> + #endif
-> +       return result;
-> +     }
-> +--
-> +2.25.1
-> +
-> +
-> +From f0ea41e819f40aacedf25431bedd95da9c5db534 Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Wed, 27 Jan 2021 15:45:43 +0000
-> +Subject: [PATCH 06/11] malloc: Use global flag instead of function pointer
-> + dispatch for mtag
-> +
-> +A flag check can be faster than function pointers because of how
-> +branch prediction and speculation works and it can also remove a layer
-> +of indirection when there is a mismatch between the malloc internal
-> +tag_* api and __libc_mtag_* target hooks.
-> +
-> +Memory tagging wrapper functions are moved to malloc.c from arena.c and
-> +the logic now checks mmap_enabled.  The definition of tag_new_usable is
-> +moved after chunk related definitions.
-> +
-> +This refactoring also allows using mtag_enabled checks instead of
-> +USE_MTAG ifdefs when memory tagging support only changes code logic
-> +when memory tagging is enabled at runtime. Note: an "if (false)" code
-> +block is optimized away even at -O0 by gcc.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/arena.c  | 33 +---------------------------
-> + malloc/malloc.c | 58 ++++++++++++++++++++++++++++++++-----------------
-> + 2 files changed, 39 insertions(+), 52 deletions(-)
-> +
-> +diff --git a/malloc/arena.c b/malloc/arena.c
-> +index d0778fea92..1e83bb66bd 100644
-> +--- a/malloc/arena.c
-> ++++ b/malloc/arena.c
-> +@@ -287,34 +287,6 @@ extern struct dl_open_hook *_dl_open_hook;
-> + libc_hidden_proto (_dl_open_hook);
-> + #endif
-> +
-> +-#ifdef USE_MTAG
-> +-
-> +-/* Generate a new (random) tag value for PTR and tag the memory it
-> +-   points to upto the end of the usable size for the chunk containing
-> +-   it.  Return the newly tagged pointer.  */
-> +-static void *
-> +-__mtag_tag_new_usable (void *ptr)
-> +-{
-> +-  if (ptr)
-> +-    {
-> +-      mchunkptr cp = mem2chunk(ptr);
-> +-      ptr = __libc_mtag_tag_region (__libc_mtag_new_tag (ptr),
-> +-				    CHUNK_AVAILABLE_SIZE (cp) - CHUNK_HDR_SZ);
-> +-    }
-> +-  return ptr;
-> +-}
-> +-
-> +-/* Generate a new (random) tag value for PTR, set the tags for the
-> +-   memory to the new tag and initialize the memory contents to VAL.
-> +-   In practice this function will only be called with VAL=0, but we
-> +-   keep this parameter to maintain the same prototype as memset.  */
-> +-static void *
-> +-__mtag_tag_new_memset (void *ptr, int val, size_t size)
-> +-{
-> +-  return __libc_mtag_memset_with_tag (__libc_mtag_new_tag (ptr), val, size);
-> +-}
-> +-#endif
-> +-
-> + static void
-> + ptmalloc_init (void)
-> + {
-> +@@ -332,11 +304,8 @@ ptmalloc_init (void)
-> +       if (__MTAG_SBRK_UNTAGGED)
-> + 	__morecore = __failing_morecore;
-> +
-> ++      mtag_enabled = true;
-> +       mtag_mmap_flags = __MTAG_MMAP_FLAGS;
-> +-      tag_new_memset = __mtag_tag_new_memset;
-> +-      tag_region = __libc_mtag_tag_region;
-> +-      tag_new_usable = __mtag_tag_new_usable;
-> +-      tag_at = __libc_mtag_address_get_tag;
-> +       mtag_granule_mask = ~(size_t)(__MTAG_GRANULE_SIZE - 1);
-> +     }
-> + #endif
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 62d00f54cc..253a919ec5 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -441,35 +441,41 @@ void *(*__morecore)(ptrdiff_t) = __default_morecore;
-> + */
-> +
-> + #ifdef USE_MTAG
-> ++static bool mtag_enabled = false;
-> ++static int mtag_mmap_flags = 0;
-> ++static size_t mtag_granule_mask = ~(size_t)0;
-> ++#else
-> ++# define mtag_enabled false
-> ++# define mtag_mmap_flags 0
-> ++#endif
-> +
-> +-/* Default implementaions when memory tagging is supported, but disabled.  */
-> +-static void *
-> +-__default_tag_region (void *ptr, size_t size)
-> ++static __always_inline void *
-> ++tag_region (void *ptr, size_t size)
-> + {
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    return __libc_mtag_tag_region (ptr, size);
-> +   return ptr;
-> + }
-> +
-> +-static void *
-> +-__default_tag_nop (void *ptr)
-> ++static __always_inline void *
-> ++tag_new_memset (void *ptr, int val, size_t size)
-> + {
-> +-  return ptr;
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    return __libc_mtag_memset_with_tag (__libc_mtag_new_tag (ptr), val, size);
-> ++  return memset (ptr, val, size);
-> + }
-> +
-> +-static int mtag_mmap_flags = 0;
-> +-static size_t mtag_granule_mask = ~(size_t)0;
-> +-
-> +-static void *(*tag_new_memset)(void *, int, size_t) = memset;
-> +-static void *(*tag_region)(void *, size_t) = __default_tag_region;
-> +-static void *(*tag_new_usable)(void *) = __default_tag_nop;
-> +-static void *(*tag_at)(void *) = __default_tag_nop;
-> ++/* Defined later.  */
-> ++static void *
-> ++tag_new_usable (void *ptr);
-> +
-> +-#else
-> +-# define mtag_mmap_flags 0
-> +-# define tag_new_memset(ptr, val, size) memset (ptr, val, size)
-> +-# define tag_region(ptr, size) (ptr)
-> +-# define tag_new_usable(ptr) (ptr)
-> +-# define tag_at(ptr) (ptr)
-> +-#endif
-> ++static __always_inline void *
-> ++tag_at (void *ptr)
-> ++{
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    return __libc_mtag_address_get_tag (ptr);
-> ++  return ptr;
-> ++}
-> +
-> + #include <string.h>
-> +
-> +@@ -1460,6 +1466,18 @@ checked_request2size (size_t req, size_t *sz) __nonnull (1)
-> + #pragma GCC poison mchunk_size
-> + #pragma GCC poison mchunk_prev_size
-> +
-> ++static __always_inline void *
-> ++tag_new_usable (void *ptr)
-> ++{
-> ++  if (__glibc_unlikely (mtag_enabled) && ptr)
-> ++    {
-> ++      mchunkptr cp = mem2chunk(ptr);
-> ++      ptr = __libc_mtag_tag_region (__libc_mtag_new_tag (ptr),
-> ++				    CHUNK_AVAILABLE_SIZE (cp) - CHUNK_HDR_SZ);
-> ++    }
-> ++  return ptr;
-> ++}
-> ++
-> + /*
-> +    -------------------- Internal data structures --------------------
-> +
-> +--
-> +2.25.1
-> +
-> +
-> +From 8597244d5c3edbd672b285eea5f6dea833256f9d Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Wed, 17 Feb 2021 10:39:37 +0000
-> +Subject: [PATCH 07/11] malloc: Ensure the generic mtag hooks are not used
-> +
-> +Use inline functions instead of macros, because macros can cause unused
-> +variable warnings and type conversion issues.  We assume these functions
-> +may appear in the code but only in dead code paths (hidden by a runtime
-> +check), so it's important that they can compile with correct types, but
-> +if they are actually used that should be an error.
-> +
-> +Currently the hooks are only used when USE_MTAG is true which only
-> +happens on aarch64 and then the aarch64 specific code is used not this
-> +generic header.  However followup refactoring will allow the hooks to
-> +be used with !USE_MTAG.
-> +
-> +Note: the const qualifier in the comment was wrong: changing tags is a
-> +write operation.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + sysdeps/generic/libc-mtag.h | 41 ++++++++++++++++++++++++++++---------
-> + 1 file changed, 31 insertions(+), 10 deletions(-)
-> +
-> +diff --git a/sysdeps/generic/libc-mtag.h b/sysdeps/generic/libc-mtag.h
-> +index 1a866cdc0c..e8fc236b6c 100644
-> +--- a/sysdeps/generic/libc-mtag.h
-> ++++ b/sysdeps/generic/libc-mtag.h
-> +@@ -31,22 +31,43 @@
-> + /* Extra flags to pass to mmap() to request a tagged region of memory.  */
-> + #define __MTAG_MMAP_FLAGS 0
-> +
-> ++/* Memory tagging target hooks are only called when memory tagging is
-> ++   enabled at runtime.  The generic definitions here must not be used.  */
-> ++void __libc_mtag_link_error (void);
-> ++
-> + /* Set the tags for a region of memory, which must have size and alignment
-> +-   that are multiples of __MTAG_GRANULE_SIZE.  Size cannot be zero.
-> +-   void *__libc_mtag_tag_region (const void *, size_t)  */
-> +-#define __libc_mtag_tag_region(p, s) (p)
-> ++   that are multiples of __MTAG_GRANULE_SIZE.  Size cannot be zero.  */
-> ++static inline void *
-> ++__libc_mtag_tag_region (void *p, size_t n)
-> ++{
-> ++  __libc_mtag_link_error ();
-> ++  return p;
-> ++}
-> +
-> + /* Optimized equivalent to __libc_mtag_tag_region followed by memset.  */
-> +-#define __libc_mtag_memset_with_tag memset
-> ++static inline void *
-> ++__libc_mtag_memset_with_tag (void *p, int c, size_t n)
-> ++{
-> ++  __libc_mtag_link_error ();
-> ++  return memset (p, c, n);
-> ++}
-> +
-> + /* Convert address P to a pointer that is tagged correctly for that
-> +-   location.
-> +-   void *__libc_mtag_address_get_tag (void*)  */
-> +-#define __libc_mtag_address_get_tag(p) (p)
-> ++   location.  */
-> ++static inline void *
-> ++__libc_mtag_address_get_tag (void *p)
-> ++{
-> ++  __libc_mtag_link_error ();
-> ++  return p;
-> ++}
-> +
-> + /* Assign a new (random) tag to a pointer P (does not adjust the tag on
-> +-   the memory addressed).
-> +-   void *__libc_mtag_new_tag (void*)  */
-> +-#define __libc_mtag_new_tag(p) (p)
-> ++   the memory addressed).  */
-> ++static inline void *
-> ++__libc_mtag_new_tag (void *p)
-> ++{
-> ++  __libc_mtag_link_error ();
-> ++  return p;
-> ++}
-> +
-> + #endif /* _GENERIC_LIBC_MTAG_H */
-> +--
-> +2.25.1
-> +
-> +
-> +From 3d9e16280ad881d038aedba0b6fcbd9e78b29072 Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Fri, 29 Jan 2021 17:07:28 +0000
-> +Subject: [PATCH 08/11] malloc: Only support zeroing and not arbitrary memset
-> + with mtag
-> +
-> +The memset api is suboptimal and does not provide much benefit. Memory
-> +tagging only needs a zeroing memset (and only for memory that's sized
-> +and aligned to multiples of the tag granule), so change the internal
-> +api and the target hooks accordingly.  This is to simplify the
-> +implementation of the target hook.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/malloc.c                                | 17 ++++++++---------
-> + sysdeps/aarch64/Makefile                       |  2 +-
-> + ...g_memset_tag.S => __mtag_tag_zero_region.S} | 18 +++++++-----------
-> + sysdeps/aarch64/libc-mtag.h                    |  4 ++--
-> + sysdeps/generic/libc-mtag.h                    |  6 +++---
-> + 5 files changed, 21 insertions(+), 26 deletions(-)
-> + rename sysdeps/aarch64/{__mtag_memset_tag.S => __mtag_tag_zero_region.S} (82%)
-> +
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 253a919ec5..01cf6e9325 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -413,12 +413,11 @@ void *(*__morecore)(ptrdiff_t) = __default_morecore;
-> +    operations can continue to be used.  Support macros are used to do
-> +    this:
-> +
-> +-   void *tag_new_memset (void *ptr, int, val, size_t size)
-> ++   void *tag_new_zero_region (void *ptr, size_t size)
-> +
-> +-   Has the same interface as memset(), but additionally allocates a
-> +-   new tag, colors the memory with that tag and returns a pointer that
-> +-   is correctly colored for that location.  The non-tagging version
-> +-   will simply call memset.
-> ++   Allocates a new tag, colors the memory with that tag, zeros the
-> ++   memory and returns a pointer that is correctly colored for that
-> ++   location.  The non-tagging version will simply call memset with 0.
-> +
-> +    void *tag_region (void *ptr, size_t size)
-> +
-> +@@ -458,11 +457,11 @@ tag_region (void *ptr, size_t size)
-> + }
-> +
-> + static __always_inline void *
-> +-tag_new_memset (void *ptr, int val, size_t size)
-> ++tag_new_zero_region (void *ptr, size_t size)
-> + {
-> +   if (__glibc_unlikely (mtag_enabled))
-> +-    return __libc_mtag_memset_with_tag (__libc_mtag_new_tag (ptr), val, size);
-> +-  return memset (ptr, val, size);
-> ++    return __libc_mtag_tag_zero_region (__libc_mtag_new_tag (ptr), size);
-> ++  return memset (ptr, 0, size);
-> + }
-> +
-> + /* Defined later.  */
-> +@@ -3679,7 +3678,7 @@ __libc_calloc (size_t n, size_t elem_size)
-> +      regardless of MORECORE_CLEARS, so we zero the whole block while
-> +      doing so.  */
-> + #ifdef USE_MTAG
-> +-  return tag_new_memset (mem, 0, CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> ++  return tag_new_zero_region (mem, CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> + #else
-> +   INTERNAL_SIZE_T csz = chunksize (p);
-> +
-> +diff --git a/sysdeps/aarch64/Makefile b/sysdeps/aarch64/Makefile
-> +index d3ab37a40a..259070cfad 100644
-> +--- a/sysdeps/aarch64/Makefile
-> ++++ b/sysdeps/aarch64/Makefile
-> +@@ -41,7 +41,7 @@ endif
-> + ifeq ($(subdir),misc)
-> + sysdep_headers += sys/ifunc.h
-> + sysdep_routines += __mtag_address_get_tag \
-> +-		   __mtag_memset_tag \
-> ++		   __mtag_tag_zero_region \
-> + 		   __mtag_new_tag \
-> + 		   __mtag_tag_region
-> +
-> +diff --git a/sysdeps/aarch64/__mtag_memset_tag.S b/sysdeps/aarch64/__mtag_tag_zero_region.S
-> +similarity index 82%
-> +rename from sysdeps/aarch64/__mtag_memset_tag.S
-> +rename to sysdeps/aarch64/__mtag_tag_zero_region.S
-> +index 3c202888a4..74d398bba5 100644
-> +--- a/sysdeps/aarch64/__mtag_memset_tag.S
-> ++++ b/sysdeps/aarch64/__mtag_tag_zero_region.S
-> +@@ -20,9 +20,6 @@
-> +
-> + #ifdef USE_MTAG
-> +
-> +-/* Use the same register names and assignments as memset.  */
-> +-#include "memset-reg.h"
-> +-
-> + 	.arch armv8.5-a
-> + 	.arch_extension memtag
-> +
-> +@@ -31,16 +28,15 @@
-> + /* FIXME: This is a minimal implementation.  We could do much better than
-> +    this for large values of COUNT.  */
-> +
-> +-ENTRY(__libc_mtag_memset_with_tag)
-> ++#define dstin x0
-> ++#define count x1
-> ++#define dst   x2
-> +
-> +-	and	valw, valw, 255
-> +-	orr	valw, valw, valw, lsl 8
-> +-	orr	valw, valw, valw, lsl 16
-> +-	orr	val, val, val, lsl 32
-> +-	mov	dst, dstin
-> ++ENTRY(__libc_mtag_tag_zero_region)
-> +
-> ++	mov	dst, dstin
-> + L(loop):
-> +-	stgp	val, val, [dst], #16
-> ++	stzg	dst, [dst], #16
-> + 	subs	count, count, 16
-> + 	bne	L(loop)
-> + #if 0
-> +@@ -49,5 +45,5 @@ L(loop):
-> + 	ldg	dstin, [dstin] // Recover the tag created (might be untagged).
-> + #endif
-> + 	ret
-> +-END (__libc_mtag_memset_with_tag)
-> ++END (__libc_mtag_tag_zero_region)
-> + #endif /* USE_MTAG */
-> +diff --git a/sysdeps/aarch64/libc-mtag.h b/sysdeps/aarch64/libc-mtag.h
-> +index 979cbb743e..f58402ccf9 100644
-> +--- a/sysdeps/aarch64/libc-mtag.h
-> ++++ b/sysdeps/aarch64/libc-mtag.h
-> +@@ -39,8 +39,8 @@
-> +    void *__libc_mtag_tag_region (const void *, size_t)  */
-> + void *__libc_mtag_tag_region (void *, size_t);
-> +
-> +-/* Optimized equivalent to __libc_mtag_tag_region followed by memset.  */
-> +-void *__libc_mtag_memset_with_tag (void *, int, size_t);
-> ++/* Optimized equivalent to __libc_mtag_tag_region followed by memset to 0.  */
-> ++void *__libc_mtag_tag_zero_region (void *, size_t);
-> +
-> + /* Convert address P to a pointer that is tagged correctly for that
-> +    location.
-> +diff --git a/sysdeps/generic/libc-mtag.h b/sysdeps/generic/libc-mtag.h
-> +index e8fc236b6c..4743e873f1 100644
-> +--- a/sysdeps/generic/libc-mtag.h
-> ++++ b/sysdeps/generic/libc-mtag.h
-> +@@ -44,12 +44,12 @@ __libc_mtag_tag_region (void *p, size_t n)
-> +   return p;
-> + }
-> +
-> +-/* Optimized equivalent to __libc_mtag_tag_region followed by memset.  */
-> ++/* Optimized equivalent to __libc_mtag_tag_region followed by memset to 0.  */
-> + static inline void *
-> +-__libc_mtag_memset_with_tag (void *p, int c, size_t n)
-> ++__libc_mtag_tag_zero_region (void *p, size_t n)
-> + {
-> +   __libc_mtag_link_error ();
-> +-  return memset (p, c, n);
-> ++  return memset (p, 0, n);
-> + }
-> +
-> + /* Convert address P to a pointer that is tagged correctly for that
-> +--
-> +2.25.1
-> +
-> +
-> +From 4d596cb72342ba0734dc847653431e078a70edfc Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Tue, 16 Feb 2021 17:02:44 +0000
-> +Subject: [PATCH 09/11] malloc: Change calloc when tagging is disabled
-> +
-> +When glibc is built with memory tagging support (USE_MTAG) but it is not
-> +enabled at runtime (mtag_enabled) then unconditional memset was used
-> +even though that can be often avoided.
-> +
-> +This is for performance when tagging is supported but not enabled.
-> +The extra check should have no overhead: tag_new_zero_region already
-> +had a runtime check which the compiler can now optimize away.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/malloc.c | 10 ++++------
-> + 1 file changed, 4 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 01cf6e9325..0b2aff3768 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -3591,11 +3591,9 @@ __libc_calloc (size_t n, size_t elem_size)
-> +   mchunkptr oldtop;
-> +   INTERNAL_SIZE_T sz, oldtopsize;
-> +   void *mem;
-> +-#ifndef USE_MTAG
-> +   unsigned long clearsize;
-> +   unsigned long nclears;
-> +   INTERNAL_SIZE_T *d;
-> +-#endif
-> +   ptrdiff_t bytes;
-> +
-> +   if (__glibc_unlikely (__builtin_mul_overflow (n, elem_size, &bytes)))
-> +@@ -3674,12 +3672,13 @@ __libc_calloc (size_t n, size_t elem_size)
-> +     return 0;
-> +
-> +   mchunkptr p = mem2chunk (mem);
-> ++
-> +   /* If we are using memory tagging, then we need to set the tags
-> +      regardless of MORECORE_CLEARS, so we zero the whole block while
-> +      doing so.  */
-> +-#ifdef USE_MTAG
-> +-  return tag_new_zero_region (mem, CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> +-#else
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    return tag_new_zero_region (mem, CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ);
-> ++
-> +   INTERNAL_SIZE_T csz = chunksize (p);
-> +
-> +   /* Two optional cases in which clearing not necessary */
-> +@@ -3733,7 +3732,6 @@ __libc_calloc (size_t n, size_t elem_size)
-> +     }
-> +
-> +   return mem;
-> +-#endif
-> + }
-> +
-> + /*
-> +--
-> +2.25.1
-> +
-> +
-> +From 287a35fba55a0a817db7af71ee966a37b7642bf0 Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Mon, 8 Feb 2021 12:39:01 +0000
-> +Subject: [PATCH 10/11] malloc: Use branches instead of mtag_granule_mask
-> +
-> +The branches may be better optimized since mtag_enabled is widely used.
-> +
-> +Granule size larger than a chunk header is not supported since then we
-> +cannot have both the chunk header and user area granule aligned.  To
-> +fix that for targets with large granule, the chunk layout has to change.
-> +
-> +So code that attempted to handle the granule mask generally was changed.
-> +This simplified CHUNK_AVAILABLE_SIZE and the logic in malloc_usable_size.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/arena.c  |  1 -
-> + malloc/malloc.c | 34 ++++++++++++++--------------------
-> + 2 files changed, 14 insertions(+), 21 deletions(-)
-> +
-> +diff --git a/malloc/arena.c b/malloc/arena.c
-> +index 1e83bb66bd..9fbbb38a15 100644
-> +--- a/malloc/arena.c
-> ++++ b/malloc/arena.c
-> +@@ -306,7 +306,6 @@ ptmalloc_init (void)
-> +
-> +       mtag_enabled = true;
-> +       mtag_mmap_flags = __MTAG_MMAP_FLAGS;
-> +-      mtag_granule_mask = ~(size_t)(__MTAG_GRANULE_SIZE - 1);
-> +     }
-> + #endif
-> +
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 0b2aff3768..849bd8e2c9 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -442,7 +442,6 @@ void *(*__morecore)(ptrdiff_t) = __default_morecore;
-> + #ifdef USE_MTAG
-> + static bool mtag_enabled = false;
-> + static int mtag_mmap_flags = 0;
-> +-static size_t mtag_granule_mask = ~(size_t)0;
-> + #else
-> + # define mtag_enabled false
-> + # define mtag_mmap_flags 0
-> +@@ -1333,15 +1332,16 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-> +    ((req) + SIZE_SZ + MALLOC_ALIGN_MASK) & ~MALLOC_ALIGN_MASK)
-> +
-> + /* Available size of chunk.  This is the size of the real usable data
-> +-   in the chunk, plus the chunk header.  */
-> +-#ifdef USE_MTAG
-> +-#define CHUNK_AVAILABLE_SIZE(p) \
-> +-  ((chunksize (p) + (chunk_is_mmapped (p) ? 0 : SIZE_SZ))	\
-> +-   & mtag_granule_mask)
-> +-#else
-> +-#define CHUNK_AVAILABLE_SIZE(p) \
-> +-  (chunksize (p) + (chunk_is_mmapped (p) ? 0 : SIZE_SZ))
-> +-#endif
-> ++   in the chunk, plus the chunk header.  Note: If memory tagging is
-> ++   enabled the layout changes to accomodate the granule size, this is
-> ++   wasteful for small allocations so not done by default.  The logic
-> ++   does not work if chunk headers are not granule aligned.  */
-> ++_Static_assert (__MTAG_GRANULE_SIZE <= CHUNK_HDR_SZ,
-> ++		"memory tagging is not supported with large granule.");
-> ++#define CHUNK_AVAILABLE_SIZE(p)                                       \
-> ++  (__MTAG_GRANULE_SIZE > SIZE_SZ && __glibc_unlikely (mtag_enabled) ? \
-> ++    chunksize (p) :                                                   \
-> ++    chunksize (p) + (chunk_is_mmapped (p) ? 0 : SIZE_SZ))
-> +
-> + /* Check if REQ overflows when padded and aligned and if the resulting value
-> +    is less than PTRDIFF_T.  Returns TRUE and the requested size or MINSIZE in
-> +@@ -1353,7 +1353,6 @@ checked_request2size (size_t req, size_t *sz) __nonnull (1)
-> +   if (__glibc_unlikely (req > PTRDIFF_MAX))
-> +     return false;
-> +
-> +-#ifdef USE_MTAG
-> +   /* When using tagged memory, we cannot share the end of the user
-> +      block with the header for the next chunk, so ensure that we
-> +      allocate blocks that are rounded up to the granule size.  Take
-> +@@ -1361,8 +1360,9 @@ checked_request2size (size_t req, size_t *sz) __nonnull (1)
-> +      number.  Ideally, this would be part of request2size(), but that
-> +      must be a macro that produces a compile time constant if passed
-> +      a constant literal.  */
-> +-  req = (req + ~mtag_granule_mask) & mtag_granule_mask;
-> +-#endif
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    req = (req + (__MTAG_GRANULE_SIZE - 1)) &
-> ++	  ~(size_t)(__MTAG_GRANULE_SIZE - 1);
-> +
-> +   *sz = request2size (req);
-> +   return true;
-> +@@ -5112,14 +5112,8 @@ musable (void *mem)
-> + 	    result = chunksize (p) - CHUNK_HDR_SZ;
-> + 	}
-> +       else if (inuse (p))
-> +-	result = chunksize (p) - SIZE_SZ;
-> ++	result = CHUNK_AVAILABLE_SIZE (p) - CHUNK_HDR_SZ;
-> +
-> +-#ifdef USE_MTAG
-> +-      /* The usable space may be reduced if memory tagging is needed,
-> +-	 since we cannot share the user-space data with malloc's internal
-> +-	 data structure.  */
-> +-      result &= mtag_granule_mask;
-> +-#endif
-> +       return result;
-> +     }
-> +   return 0;
-> +--
-> +2.25.1
-> +
-> +
-> +From 66de173bf919e601e408dc78772c6841ad6388ab Mon Sep 17 00:00:00 2001
-> +From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-> +Date: Wed, 17 Feb 2021 10:15:18 +0000
-> +Subject: [PATCH 11/11] malloc: Use mtag_enabled instead of USE_MTAG
-> +
-> +Use the runtime check where possible: it should not cause slow down in
-> +the !USE_MTAG case since then mtag_enabled is constant false, but it
-> +allows compiling the tagging logic so it's less likely to break or
-> +diverge when developers only test the !USE_MTAG case.
-> +
-> +Reviewed-by: DJ Delorie <dj@redhat.com>
-> +---
-> + malloc/hooks.c  | 10 ++++------
-> + malloc/malloc.c | 10 ++++------
-> + 2 files changed, 8 insertions(+), 12 deletions(-)
-> +
-> +diff --git a/malloc/hooks.c b/malloc/hooks.c
-> +index d8e304c31c..9474e199c3 100644
-> +--- a/malloc/hooks.c
-> ++++ b/malloc/hooks.c
-> +@@ -262,11 +262,10 @@ free_check (void *mem, const void *caller)
-> +
-> +   int err = errno;
-> +
-> +-#ifdef USE_MTAG
-> +   /* Quickly check that the freed pointer matches the tag for the memory.
-> +      This gives a useful double-free detection.  */
-> +-  *(volatile char *)mem;
-> +-#endif
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    *(volatile char *)mem;
-> +
-> +   __libc_lock_lock (main_arena.mutex);
-> +   p = mem2chunk_check (mem, NULL);
-> +@@ -310,11 +309,10 @@ realloc_check (void *oldmem, size_t bytes, const void *caller)
-> +       return NULL;
-> +     }
-> +
-> +-#ifdef USE_MTAG
-> +   /* Quickly check that the freed pointer matches the tag for the memory.
-> +      This gives a useful double-free detection.  */
-> +-  *(volatile char *)oldmem;
-> +-#endif
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    *(volatile char *)oldmem;
-> +
-> +   __libc_lock_lock (main_arena.mutex);
-> +   const mchunkptr oldp = mem2chunk_check (oldmem, &magic_p);
-> +diff --git a/malloc/malloc.c b/malloc/malloc.c
-> +index 849bd8e2c9..36583120ce 100644
-> +--- a/malloc/malloc.c
-> ++++ b/malloc/malloc.c
-> +@@ -3286,11 +3286,10 @@ __libc_free (void *mem)
-> +   if (mem == 0)                              /* free(0) has no effect */
-> +     return;
-> +
-> +-#ifdef USE_MTAG
-> +   /* Quickly check that the freed pointer matches the tag for the memory.
-> +      This gives a useful double-free detection.  */
-> +-  *(volatile char *)mem;
-> +-#endif
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    *(volatile char *)mem;
-> +
-> +   int err = errno;
-> +
-> +@@ -3352,11 +3351,10 @@ __libc_realloc (void *oldmem, size_t bytes)
-> +   if (oldmem == 0)
-> +     return __libc_malloc (bytes);
-> +
-> +-#ifdef USE_MTAG
-> +   /* Perform a quick check to ensure that the pointer's tag matches the
-> +      memory's tag.  */
-> +-  *(volatile char*) oldmem;
-> +-#endif
-> ++  if (__glibc_unlikely (mtag_enabled))
-> ++    *(volatile char*) oldmem;
-> +
-> +   /* chunk corresponding to oldmem */
-> +   const mchunkptr oldp = mem2chunk (oldmem);
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-> index caa2e2ae187..c6e4aaab9d7 100644
-> --- a/meta/recipes-core/glibc/glibc_2.33.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.33.bb
-> @@ -56,6 +56,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->              file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
->              file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
->              file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
-> +           file://mte-backports.patch \
->              "
->   S = "${WORKDIR}/git"
->   B = "${WORKDIR}/build-${TARGET_SYS}"
-> 
-> 
-> 
-> 
-> 
