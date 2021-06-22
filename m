@@ -1,618 +1,76 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
- by mx.groups.io with SMTP id smtpd.web12.948.1624387688574439037
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web10.1455.1624390050858670107
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jun 2021 11:48:08 -0700
+ Tue, 22 Jun 2021 12:27:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B5Gv0SU6;
- spf=pass (domain: gmail.com, ip: 209.85.221.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f177.google.com with SMTP id az3so4679707vkb.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 11:48:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lujNm6q/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id i5so308030eds.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 12:27:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BxCrVKk9sU52pTzhlBqxl+WDEcKlrbeUU4qX8DNIZHA=;
-        b=B5Gv0SU6CH0FFsEeSNn4P4BTs6ENdCzS6N0O3rNksdmKCudaBG7+ueg/aPXe6JuBsd
-         3pxGgQhlvbD4TLsX739X8mQrWkwVta1WZF9fIO+eVg6onYfvVYX8HaTA8sYYmvTs48T1
-         LkOUyChbKzWstQYtBdL4rHJgLkUFwFWGLgWKkER1K71ib8wPrwF//rBeqQ4JFPPm37qw
-         7Zi1vftL6UbKgIWkVufDLGNG0J2dZ3WCZ9YEbWGGyDhFUxRyuqk6J3EjgQ9Z4RBXcD9e
-         Ai9c8hTAXqW01FneSORrnB47bGheDMulM1z3tiacCU7Ln+VlYBGWFFd8UoBjivrfdIzg
-         wVug==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rf02lVhntN81xEbM6JyiC5gnn/UdDhQUV9g36RTErao=;
+        b=lujNm6q/DCJ4sdiewFLtoWrGelS+V2lXVjd3XwVWl3YNYT2j89VOgxWeCgWOYMr6BM
+         ymBabjBnCLoioXxt63nGqzD2HF2V/b3auBAEOXizzcziiOY/XgsIQ3hLkhQWCLg8/Isa
+         tFK6p1Gwzts/BOPUkSXfBNyjhE4aIZXQ+mHeUO9uS9fFDv8TW5zKMTTkwmYJ+l8KWQrH
+         5ZzeTYuMSj+1ur7ngf1yQ3iv6NwaCDCv2rR3SqXYqK5qxPBhNdITt036aHzEXMgLQS8w
+         Ydi81jrXfpbtSB41y/iZV727Tpft963hJPgKaQtSXFwUXLzSPZUZGonhoWXYgIBu5wN/
+         EJbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BxCrVKk9sU52pTzhlBqxl+WDEcKlrbeUU4qX8DNIZHA=;
-        b=mht+XzSAfKxMuXaZtysKCBax0N+hOPRzHniUMPlUZeyjFGVv1+XwA8tJ2IksNogS/p
-         jk3vOi8WIQZQ6Hl9zdS8AT8YlCNuK3iQ5LuNbmCvyrLBB6ykvsHP/RyaaJJUP4zY++Qu
-         cVOe8RLyIFlfirzyFUaVumjIGi5yADAVcmPJlL+5J7CMjSFiE7NUW27Zn5b02iO+ak+J
-         JwP3cJu4gEQ3COTZWw7lFLBDNtFUeNDYjV2FsUq/vOyiB+gOfS5iH9O7U7mzjMcHSb9b
-         SETMG93l0ykb077ixs/ApWmFdMTNzWv2ekQH9jg15moi45uEmeHkFbmk5yFuubRV8aDd
-         qouw==
-X-Gm-Message-State: AOAM530uIK+sYFbgSlhbLw0gsBdL2YE6+MecXoyfc3jXpruivY/1vzHX
-	gmoyGtjjtc+mv5StKLJWS+BmmsJLeYwPsqrsYXODmJMPy6g=
-X-Google-Smtp-Source: ABdhPJzpFRrxKJUBIKOL6l9oMxTHf18DWdEJFbtjb6ZR987cFKOEKwQGANKyDDdbvryINyez2EugvVgOLGXpuQ3rwf0=
-X-Received: by 2002:ac5:cbc4:: with SMTP id h4mr9789386vkn.10.1624387687690;
- Tue, 22 Jun 2021 11:48:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210622173743.1231362-1-trevor.gamblin@windriver.com> <168AFBC4AA915097.26331@lists.openembedded.org>
-In-Reply-To: <168AFBC4AA915097.26331@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rf02lVhntN81xEbM6JyiC5gnn/UdDhQUV9g36RTErao=;
+        b=mMgvyTF/b1xH2EFixP1VjhIousrvOqwv8jik13oyPdWrF1cHEnCblBBvSvtIAyJ1L8
+         wIa69VaxyKM47rqzjkqZv/78w66DKTAooxka5a1G2r63neKBnwqz3Z9SXXMxZFVRm+3V
+         yocMw0RubjR/jzEptlYIye/E5zYta+5k5f+Gv8wD5amX1NmrKpNN8prF5CwGrXJZ6QJI
+         c2Dnj32pAariET+8NrY5sfpRqQLdc96mszA80ZeKFa4WCyjKPD1zyVFfyptcAK0dvFq7
+         zGUXTjNKiuW/Gnx7gh3GEu5wNdIiOiEZfJdrgeO8WDBwR7vm7o/hBlclqgxDRQePZukw
+         AMaA==
+X-Gm-Message-State: AOAM5315+GbDWihY5s2sverHWBZTEcV5qSFfj9itIqAnbfVv8nK/rbVZ
+	5iX1AeT6yyewAk/TsBJh207rXOMfbXWlVA==
+X-Google-Smtp-Source: ABdhPJzr4n2KesRoWW21cymdsG0ICLN5INz5uq9d9Ulqk1SyuHzOPBnSJDclhs3Xy3HzD6+0as2/uA==
+X-Received: by 2002:a05:6402:151:: with SMTP id s17mr7195919edu.233.1624390049012;
+        Tue, 22 Jun 2021 12:27:29 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id e8sm5826806ejl.74.2021.06.22.12.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 12:27:28 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 22 Jun 2021 20:47:56 +0200
-Message-ID: <CANNYZj9vsQVv--NmAGoHtwn6NbR18E9vb7GQJOx_iJ72e3r0rQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] python3-pip: upgrade 20.0.2 -> 21.1.2
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Trevor Gamblin <trevor.gamblin@windriver.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001a36d005c55f3b35"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] pypi: set SRC_URI with =, not with +=
+Date: Tue, 22 Jun 2021 21:27:23 +0200
+Message-Id: <20210622192723.2041345-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---0000000000001a36d005c55f3b35
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This did not cause problems in builds, but broke some devtool
+workflows such as version upgrades or checking the latest version
+from upstream. Tarballs should come first, not the patches.
 
-Ah, because pypi.bbclass sets SRC_URI +=3D instead of =3D. I'll queue a pat=
-ch
-to fix the class.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/classes/pypi.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
+index 87b4c85fc0..899126e9e8 100644
+--- a/meta/classes/pypi.bbclass
++++ b/meta/classes/pypi.bbclass
+@@ -19,7 +19,7 @@ PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
+ 
+ HOMEPAGE ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
+ SECTION = "devel/python"
+-SRC_URI += "${PYPI_SRC_URI}"
++SRC_URI = "${PYPI_SRC_URI}"
+ S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
+ 
+ UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
+-- 
+2.31.1
 
-On Tue, 22 Jun 2021 at 20:44, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
-
-> Can you please check why 'devtool check-upgrade-status' wasn't able to
-> report that all these new versions have been available?
->
-> Alex
->
-> On Tue, 22 Jun 2021 at 19:37, Trevor Gamblin <trevor.gamblin@windriver.c=
-om>
-> wrote:
->
->> 21.1.2 contains a fix for CVE-2021-3572
->> (
->> https://github.com/pypa/pip/commit/e46bdda9711392fec0c45c1175bae6db847c=
-b30b
->> )
->>
->> The LICENSE.txt signature changed due to an update to the copyright
->> dates, but the terms are the same.
->>
->> Also update 0001-change-shebang-to-python3.patch to cover all files in
->> pip's src directory, since we need to ensure compatibility.
->>
->> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
->> ---
->>  .../0001-change-shebang-to-python3.patch      | 128 ++++++++++++++----
->>  ...n3-pip_20.0.2.bb =3D> python3-pip_21.1.2.bb} |   6 +-
->>  2 files changed, 101 insertions(+), 33 deletions(-)
->>  rename meta/recipes-devtools/python/{python3-pip_20.0.2.bb =3D>
->> python3-pip_21.1.2.bb} (73%)
->>
->> diff --git
->> a/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pytho=
-n3.patch
->> b/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pytho=
-n3.patch
->> index 00cffe169b..0187001168 100644
->> ---
->> a/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pytho=
-n3.patch
->> +++
->> b/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pytho=
-n3.patch
->> @@ -1,32 +1,30 @@
->> -From e7a00e9b5104ae2fbcea32a35c85760b77fae7e5 Mon Sep 17 00:00:00 2001
->> -From: Changqing Li <changqing.li@windriver.com>
->> -Date: Thu, 23 Apr 2020 09:42:10 +0000
->> +From baa85a4dab2e8d64eb25d1181b6420db25ce919a Mon Sep 17 00:00:00 2001
->> +From: Trevor Gamblin <trevor.gamblin@windriver.com>
->> +Date: Tue, 22 Jun 2021 12:31:46 -0400
->>  Subject: [PATCH] change shebang to python3
->>
->> -Upstream-Status: Pending
->> +Upstream-Status: Inappropriate (OE-specific)
->>
->> -pip will drop support of python2 from 21.0
->> +Despite no longer supporting python2, some files in the pip source ref=
-er
->> +to "python" instead of "python3", so patch them as needed to ensure th=
-at
->> +they correctly reference the python3 binary.
->>
->> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
->>  ---
->> - src/pip/_internal/__init__.py             | 2 +-
->> - src/pip/_vendor/appdirs.py                | 2 +-
->> - src/pip/_vendor/chardet/cli/chardetect.py | 2 +-
->> - src/pip/_vendor/requests/certs.py         | 2 +-
->> - 4 files changed, 4 insertions(+), 4 deletions(-)
->> + src/pip/_vendor/appdirs.py                    | 2 +-
->> + src/pip/_vendor/chardet/langbulgarianmodel.py | 2 +-
->> + src/pip/_vendor/chardet/langgreekmodel.py     | 2 +-
->> + src/pip/_vendor/chardet/langhebrewmodel.py    | 2 +-
->> + src/pip/_vendor/chardet/langhungarianmodel.py | 2 +-
->> + src/pip/_vendor/chardet/langrussianmodel.py   | 2 +-
->> + src/pip/_vendor/chardet/langthaimodel.py      | 2 +-
->> + src/pip/_vendor/chardet/langturkishmodel.py   | 2 +-
->> + src/pip/_vendor/chardet/metadata/languages.py | 2 +-
->> + src/pip/_vendor/requests/certs.py             | 2 +-
->> + 10 files changed, 10 insertions(+), 10 deletions(-)
->>
->> -diff --git a/src/pip/_internal/__init__.py
->> b/src/pip/_internal/__init__.py
->> -index 3aa8a46..e1ad179 100755
->> ---- a/src/pip/_internal/__init__.py
->> -+++ b/src/pip/_internal/__init__.py
->> -@@ -1,4 +1,4 @@
->> --#!/usr/bin/env python
->> -+#!/usr/bin/env python3
->> - import pip._internal.utils.inject_securetransport  # noqa
->> - from pip._internal.utils.typing import MYPY_CHECK_RUNNING
->> -
->>  diff --git a/src/pip/_vendor/appdirs.py b/src/pip/_vendor/appdirs.py
->> -index 3a52b75..ad3f81d 100644
->> +index 33a3b7741..60b9ef5f7 100644
->>  --- a/src/pip/_vendor/appdirs.py
->>  +++ b/src/pip/_vendor/appdirs.py
->>  @@ -1,4 +1,4 @@
->> @@ -35,18 +33,88 @@ index 3a52b75..ad3f81d 100644
->>   # -*- coding: utf-8 -*-
->>   # Copyright (c) 2005-2010 ActiveState Software Inc.
->>   # Copyright (c) 2013 Eddy Petri=C8=99or
->> -diff --git a/src/pip/_vendor/chardet/cli/chardetect.py
->> b/src/pip/_vendor/chardet/cli/chardetect.py
->> -index c61136b..a497e98 100644
->> ---- a/src/pip/_vendor/chardet/cli/chardetect.py
->> -+++ b/src/pip/_vendor/chardet/cli/chardetect.py
->> +diff --git a/src/pip/_vendor/chardet/langbulgarianmodel.py
->> b/src/pip/_vendor/chardet/langbulgarianmodel.py
->> +index e963a5097..97ea6cea8 100644
->> +--- a/src/pip/_vendor/chardet/langbulgarianmodel.py
->> ++++ b/src/pip/_vendor/chardet/langbulgarianmodel.py
->> +@@ -1,4 +1,4 @@
->> +-#!/usr/bin/env python
->> ++#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->> +
->> + from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetMode=
-l
->> +diff --git a/src/pip/_vendor/chardet/langgreekmodel.py
->> b/src/pip/_vendor/chardet/langgreekmodel.py
->> +index d99528ede..4a127ea83 100644
->> +--- a/src/pip/_vendor/chardet/langgreekmodel.py
->> ++++ b/src/pip/_vendor/chardet/langgreekmodel.py
->> +@@ -1,4 +1,4 @@
->> +-#!/usr/bin/env python
->> ++#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->> +
->> + from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetMode=
-l
->> +diff --git a/src/pip/_vendor/chardet/langhebrewmodel.py
->> b/src/pip/_vendor/chardet/langhebrewmodel.py
->> +index 484c652a4..676c1a711 100644
->> +--- a/src/pip/_vendor/chardet/langhebrewmodel.py
->> ++++ b/src/pip/_vendor/chardet/langhebrewmodel.py
->> +@@ -1,4 +1,4 @@
->> +-#!/usr/bin/env python
->> ++#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->> +
->> + from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetMode=
-l
->> +diff --git a/src/pip/_vendor/chardet/langhungarianmodel.py
->> b/src/pip/_vendor/chardet/langhungarianmodel.py
->> +index bbc5cda64..042eae70a 100644
->> +--- a/src/pip/_vendor/chardet/langhungarianmodel.py
->> ++++ b/src/pip/_vendor/chardet/langhungarianmodel.py
->> +@@ -1,4 +1,4 @@
->> +-#!/usr/bin/env python
->> ++#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->> +
->> + from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetMode=
-l
->> +diff --git a/src/pip/_vendor/chardet/langrussianmodel.py
->> b/src/pip/_vendor/chardet/langrussianmodel.py
->> +index 5594452b5..564b02e58 100644
->> +--- a/src/pip/_vendor/chardet/langrussianmodel.py
->> ++++ b/src/pip/_vendor/chardet/langrussianmodel.py
->> +@@ -1,4 +1,4 @@
->> +-#!/usr/bin/env python
->> ++#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->> +
->> + from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetMode=
-l
->> +diff --git a/src/pip/_vendor/chardet/langthaimodel.py
->> b/src/pip/_vendor/chardet/langthaimodel.py
->> +index 9a37db573..c97487959 100644
->> +--- a/src/pip/_vendor/chardet/langthaimodel.py
->> ++++ b/src/pip/_vendor/chardet/langthaimodel.py
->> +@@ -1,4 +1,4 @@
->> +-#!/usr/bin/env python
->> ++#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->> +
->> + from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetMode=
-l
->> +diff --git a/src/pip/_vendor/chardet/langturkishmodel.py
->> b/src/pip/_vendor/chardet/langturkishmodel.py
->> +index 43f4230ae..7e710c371 100644
->> +--- a/src/pip/_vendor/chardet/langturkishmodel.py
->> ++++ b/src/pip/_vendor/chardet/langturkishmodel.py
->> +@@ -1,4 +1,4 @@
->> +-#!/usr/bin/env python
->> ++#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->> +
->> + from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetMode=
-l
->> +diff --git a/src/pip/_vendor/chardet/metadata/languages.py
->> b/src/pip/_vendor/chardet/metadata/languages.py
->> +index 3237d5abf..aa2ec7c35 100644
->> +--- a/src/pip/_vendor/chardet/metadata/languages.py
->> ++++ b/src/pip/_vendor/chardet/metadata/languages.py
->>  @@ -1,4 +1,4 @@
->>  -#!/usr/bin/env python
->>  +#!/usr/bin/env python3
->> + # -*- coding: utf-8 -*-
->>   """
->> - Script which takes one or more file paths and reports on their detect=
-ed
->> - encodings
->> + Metadata about languages used by our model training code for our
->>  diff --git a/src/pip/_vendor/requests/certs.py
->> b/src/pip/_vendor/requests/certs.py
->> -index 06a594e..bfa7839 100644
->> +index 06a594e58..bfa7839a4 100644
->>  --- a/src/pip/_vendor/requests/certs.py
->>  +++ b/src/pip/_vendor/requests/certs.py
->>  @@ -1,4 +1,4 @@
->> @@ -56,5 +124,5 @@ index 06a594e..bfa7839 100644
->>
->>   """
->>  --
->> -2.24.1
->> +2.31.1
->>
->> diff --git a/meta/recipes-devtools/python/python3-pip_20.0.2.bb
->> b/meta/recipes-devtools/python/python3-pip_21.1.2.bb
->> similarity index 73%
->> rename from meta/recipes-devtools/python/python3-pip_20.0.2.bb
->> rename to meta/recipes-devtools/python/python3-pip_21.1.2.bb
->> index 99eeea2edf..fd7a145205 100644
->> --- a/meta/recipes-devtools/python/python3-pip_20.0.2.bb
->> +++ b/meta/recipes-devtools/python/python3-pip_21.1.2.bb
->> @@ -2,14 +2,14 @@ SUMMARY =3D "The PyPA recommended tool for installing
->> Python packages"
->>  HOMEPAGE =3D "https://pypi.org/project/pip"
->>  SECTION =3D "devel/python"
->>  LICENSE =3D "MIT"
->> -LIC_FILES_CHKSUM =3D
->> "file://LICENSE.txt;md5=3D8ba06d529c955048e5ddd7c45459eb2e"
->> +LIC_FILES_CHKSUM =3D
->> "file://LICENSE.txt;md5=3Dc4fa2b50f55649f43060fa04b0919b9b"
->>
->>  DEPENDS +=3D "python3 python3-setuptools-native"
->>
->>  SRC_URI +=3D "file://0001-change-shebang-to-python3.patch"
->>
->> -SRC_URI[md5sum] =3D "7d42ba49b809604f0df3d55df1c3fd86"
->> -SRC_URI[sha256sum] =3D
->> "7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa4949920675563a5a6967f"
->> +SRC_URI[md5sum] =3D "a867fd51eacfd5293f5b7e0c2e7867a7"
->> +SRC_URI[sha256sum] =3D
->> "eb5df6b9ab0af50fe1098a52fd439b04730b6e066887ff7497357b9ebd19f79b"
->>
->>  inherit pypi distutils3
->>
->> --
->> 2.31.1
->>
->>
->>
->>
->>
->=20
->
->
-
---0000000000001a36d005c55f3b35
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Ah, because pypi.bbclass sets SRC_URI +=3D instead of=
- =3D. I&#39;ll queue a patch to fix the class.</div><div><br></div><div>Ale=
-x<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
-mail_attr">On Tue, 22 Jun 2021 at 20:44, Alexander Kanavin via <a href=3D"h=
-ttp://lists.openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=
-=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.ope=
-nembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex"><div dir=3D"ltr"><div>Can you please check why &#39;devtool ch=
-eck-upgrade-status&#39; wasn&#39;t able to report that all these new versio=
-ns have been available?</div><div><br></div><div>Alex<br></div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 22 J=
-un 2021 at 19:37, Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windr=
-iver.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">21.1.2 contains a f=
-ix for CVE-2021-3572<br>
-(<a href=3D"https://github.com/pypa/pip/commit/e46bdda9711392fec0c45c1175b=
-ae6db847cb30b" rel=3D"noreferrer" target=3D"_blank">https://github.com/pypa=
-/pip/commit/e46bdda9711392fec0c45c1175bae6db847cb30b</a>)<br>
-<br>
-The LICENSE.txt signature changed due to an update to the copyright<br>
-dates, but the terms are the same.<br>
-<br>
-Also update 0001-change-shebang-to-python3.patch to cover all files in<br>
-pip&#39;s src directory, since we need to ensure compatibility.<br>
-<br>
-Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windriv=
-er.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
----<br>
-=C2=A0.../0001-change-shebang-to-python3.patch=C2=A0 =C2=A0 =C2=A0 | 128 +=
-+++++++++++++----<br>
-=C2=A0...<a href=3D"http://n3-pip_20.0.2.bb" rel=3D"noreferrer" target=3D"=
-_blank">n3-pip_20.0.2.bb</a> =3D&gt; <a href=3D"http://python3-pip_21.1.2.b=
-b" rel=3D"noreferrer" target=3D"_blank">python3-pip_21.1.2.bb</a>} |=C2=A0 =
-=
-=C2=A06 +-<br>
-=C2=A02 files changed, 101 insertions(+), 33 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-pip_2=
-0.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-pip_20.0.2.bb</a> =
-=3D&gt; <a href=3D"http://python3-pip_21.1.2.bb" rel=3D"noreferrer" target=
-=
-=3D"_blank">python3-pip_21.1.2.bb</a>} (73%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python3-pip/0001-change-shebang-=
-to-python3.patch b/meta/recipes-devtools/python/python3-pip/0001-change-she=
-bang-to-python3.patch<br>
-index 00cffe169b..0187001168 100644<br>
---- a/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pyth=
-on3.patch<br>
-+++ b/meta/recipes-devtools/python/python3-pip/0001-change-shebang-to-pyth=
-on3.patch<br>
-@@ -1,32 +1,30 @@<br>
--From e7a00e9b5104ae2fbcea32a35c85760b77fae7e5 Mon Sep 17 00:00:00 2001<br=
->
--From: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.com" targ=
-et=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
--Date: Thu, 23 Apr 2020 09:42:10 +0000<br>
-+From baa85a4dab2e8d64eb25d1181b6420db25ce919a Mon Sep 17 00:00:00 2001<br=
->
-+From: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windriver.com" =
-target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
-+Date: Tue, 22 Jun 2021 12:31:46 -0400<br>
-=C2=A0Subject: [PATCH] change shebang to python3<br>
-<br>
--Upstream-Status: Pending<br>
-+Upstream-Status: Inappropriate (OE-specific)<br>
-<br>
--pip will drop support of python2 from 21.0<br>
-+Despite no longer supporting python2, some files in the pip source refer<=
-br>
-+to &quot;python&quot; instead of &quot;python3&quot;, so patch them as ne=
-eded to ensure that<br>
-+they correctly reference the python3 binary.<br>
-<br>
--Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.=
-com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
-+Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windri=
-ver.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
-=C2=A0---<br>
-- src/pip/_internal/__init__.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 2 +-<br>
-- src/pip/_vendor/appdirs.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 2 +-<br>
-- src/pip/_vendor/chardet/cli/chardetect.py | 2 +-<br>
-- src/pip/_vendor/requests/certs.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +=
--<br>
-- 4 files changed, 4 insertions(+), 4 deletions(-)<br>
-+ src/pip/_vendor/appdirs.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-+ src/pip/_vendor/chardet/langbulgarianmodel.py | 2 +-<br>
-+ src/pip/_vendor/chardet/langgreekmodel.py=C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-+ src/pip/_vendor/chardet/langhebrewmodel.py=C2=A0 =C2=A0 | 2 +-<br>
-+ src/pip/_vendor/chardet/langhungarianmodel.py | 2 +-<br>
-+ src/pip/_vendor/chardet/langrussianmodel.py=C2=A0 =C2=A0| 2 +-<br>
-+ src/pip/_vendor/chardet/langthaimodel.py=C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-+ src/pip/_vendor/chardet/langturkishmodel.py=C2=A0 =C2=A0| 2 +-<br>
-+ src/pip/_vendor/chardet/metadata/languages.py | 2 +-<br>
-+ src/pip/_vendor/requests/certs.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 2 +-<br>
-+ 10 files changed, 10 insertions(+), 10 deletions(-)<br>
-<br>
--diff --git a/src/pip/_internal/__init__.py b/src/pip/_internal/__init__.p=
-y<br>
--index 3aa8a46..e1ad179 100755<br>
----- a/src/pip/_internal/__init__.py<br>
--+++ b/src/pip/_internal/__init__.py<br>
--@@ -1,4 +1,4 @@<br>
---#!/usr/bin/env python<br>
--+#!/usr/bin/env python3<br>
-- import pip._internal.utils.inject_securetransport=C2=A0 # noqa<br>
-- from pip._internal.utils.typing import MYPY_CHECK_RUNNING<br>
-- <br>
-=C2=A0diff --git a/src/pip/_vendor/appdirs.py b/src/pip/_vendor/appdirs.py=
-<br>
--index 3a52b75..ad3f81d 100644<br>
-+index 33a3b7741..60b9ef5f7 100644<br>
-=C2=A0--- a/src/pip/_vendor/appdirs.py<br>
-=C2=A0+++ b/src/pip/_vendor/appdirs.py<br>
-=C2=A0@@ -1,4 +1,4 @@<br>
-@@ -35,18 +33,88 @@ index 3a52b75..ad3f81d 100644<br>
-=C2=A0 # -*- coding: utf-8 -*-<br>
-=C2=A0 # Copyright (c) 2005-2010 ActiveState Software Inc.<br>
-=C2=A0 # Copyright (c) 2013 Eddy Petri=C8=99or<br>
--diff --git a/src/pip/_vendor/chardet/cli/chardetect.py b/src/pip/_vendor/=
-chardet/cli/chardetect.py<br>
--index c61136b..a497e98 100644<br>
----- a/src/pip/_vendor/chardet/cli/chardetect.py<br>
--+++ b/src/pip/_vendor/chardet/cli/chardetect.py<br>
-+diff --git a/src/pip/_vendor/chardet/langbulgarianmodel.py b/src/pip/_ven=
-dor/chardet/langbulgarianmodel.py<br>
-+index e963a5097..97ea6cea8 100644<br>
-+--- a/src/pip/_vendor/chardet/langbulgarianmodel.py<br>
-++++ b/src/pip/_vendor/chardet/langbulgarianmodel.py<br>
-+@@ -1,4 +1,4 @@<br>
-+-#!/usr/bin/env python<br>
-++#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-+ <br>
-+ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel<b=
-r>
-+diff --git a/src/pip/_vendor/chardet/langgreekmodel.py b/src/pip/_vendor/=
-chardet/langgreekmodel.py<br>
-+index d99528ede..4a127ea83 100644<br>
-+--- a/src/pip/_vendor/chardet/langgreekmodel.py<br>
-++++ b/src/pip/_vendor/chardet/langgreekmodel.py<br>
-+@@ -1,4 +1,4 @@<br>
-+-#!/usr/bin/env python<br>
-++#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-+ <br>
-+ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel<b=
-r>
-+diff --git a/src/pip/_vendor/chardet/langhebrewmodel.py b/src/pip/_vendor=
-/chardet/langhebrewmodel.py<br>
-+index 484c652a4..676c1a711 100644<br>
-+--- a/src/pip/_vendor/chardet/langhebrewmodel.py<br>
-++++ b/src/pip/_vendor/chardet/langhebrewmodel.py<br>
-+@@ -1,4 +1,4 @@<br>
-+-#!/usr/bin/env python<br>
-++#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-+ <br>
-+ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel<b=
-r>
-+diff --git a/src/pip/_vendor/chardet/langhungarianmodel.py b/src/pip/_ven=
-dor/chardet/langhungarianmodel.py<br>
-+index bbc5cda64..042eae70a 100644<br>
-+--- a/src/pip/_vendor/chardet/langhungarianmodel.py<br>
-++++ b/src/pip/_vendor/chardet/langhungarianmodel.py<br>
-+@@ -1,4 +1,4 @@<br>
-+-#!/usr/bin/env python<br>
-++#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-+ <br>
-+ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel<b=
-r>
-+diff --git a/src/pip/_vendor/chardet/langrussianmodel.py b/src/pip/_vendo=
-r/chardet/langrussianmodel.py<br>
-+index 5594452b5..564b02e58 100644<br>
-+--- a/src/pip/_vendor/chardet/langrussianmodel.py<br>
-++++ b/src/pip/_vendor/chardet/langrussianmodel.py<br>
-+@@ -1,4 +1,4 @@<br>
-+-#!/usr/bin/env python<br>
-++#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-+ <br>
-+ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel<b=
-r>
-+diff --git a/src/pip/_vendor/chardet/langthaimodel.py b/src/pip/_vendor/c=
-hardet/langthaimodel.py<br>
-+index 9a37db573..c97487959 100644<br>
-+--- a/src/pip/_vendor/chardet/langthaimodel.py<br>
-++++ b/src/pip/_vendor/chardet/langthaimodel.py<br>
-+@@ -1,4 +1,4 @@<br>
-+-#!/usr/bin/env python<br>
-++#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-+ <br>
-+ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel<b=
-r>
-+diff --git a/src/pip/_vendor/chardet/langturkishmodel.py b/src/pip/_vendo=
-r/chardet/langturkishmodel.py<br>
-+index 43f4230ae..7e710c371 100644<br>
-+--- a/src/pip/_vendor/chardet/langturkishmodel.py<br>
-++++ b/src/pip/_vendor/chardet/langturkishmodel.py<br>
-+@@ -1,4 +1,4 @@<br>
-+-#!/usr/bin/env python<br>
-++#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-+ <br>
-+ from pip._vendor.chardet.sbcharsetprober import SingleByteCharSetModel<b=
-r>
-+diff --git a/src/pip/_vendor/chardet/metadata/languages.py b/src/pip/_ven=
-dor/chardet/metadata/languages.py<br>
-+index 3237d5abf..aa2ec7c35 100644<br>
-+--- a/src/pip/_vendor/chardet/metadata/languages.py<br>
-++++ b/src/pip/_vendor/chardet/metadata/languages.py<br>
-=C2=A0@@ -1,4 +1,4 @@<br>
-=C2=A0-#!/usr/bin/env python<br>
-=C2=A0+#!/usr/bin/env python3<br>
-+ # -*- coding: utf-8 -*-<br>
-=C2=A0 &quot;&quot;&quot;<br>
-- Script which takes one or more file paths and reports on their detected<=
-br>
-- encodings<br>
-+ Metadata about languages used by our model training code for our<br>
-=C2=A0diff --git a/src/pip/_vendor/requests/certs.py b/src/pip/_vendor/req=
-uests/certs.py<br>
--index 06a594e..bfa7839 100644<br>
-+index 06a594e58..bfa7839a4 100644<br>
-=C2=A0--- a/src/pip/_vendor/requests/certs.py<br>
-=C2=A0+++ b/src/pip/_vendor/requests/certs.py<br>
-=C2=A0@@ -1,4 +1,4 @@<br>
-@@ -56,5 +124,5 @@ index 06a594e..bfa7839 100644<br>
-<br>
-=C2=A0 &quot;&quot;&quot;<br>
-=C2=A0-- <br>
--2.24.1<br>
-+2.31.1<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-pip_20=
-.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-pip_20.0.2.bb</a> b/m=
-eta/recipes-devtools/python/<a href=3D"http://python3-pip_21.1.2.bb" rel=3D=
-"noreferrer" target=3D"_blank">python3-pip_21.1.2.bb</a><br>
-similarity index 73%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python3-pip_20.=
-0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-pip_20.0.2.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python3-pip_21.1.=
-2.bb" rel=3D"noreferrer" target=3D"_blank">python3-pip_21.1.2.bb</a><br>
-index 99eeea2edf..fd7a145205 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-pip_20.0.2.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3-pip_20.0.2.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pip_21.1.2.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3-pip_21.1.2.bb</a><br>
-@@ -2,14 +2,14 @@ SUMMARY =3D &quot;The PyPA recommended tool for installi=
-ng Python packages&quot;<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"https://pypi.org/project/pip" rel=3D"n=
-oreferrer" target=3D"_blank">https://pypi.org/project/pip</a>&quot;<br>
-=C2=A0SECTION =3D &quot;devel/python&quot;<br>
-=C2=A0LICENSE =3D &quot;MIT&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3D8ba06d529c955048e5ddd=
-7c45459eb2e&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3Dc4fa2b50f55649f43060f=
-a04b0919b9b&quot;<br>
-<br>
-=C2=A0DEPENDS +=3D &quot;python3 python3-setuptools-native&quot;<br>
-<br>
-=C2=A0SRC_URI +=3D &quot;file://0001-change-shebang-to-python3.patch&quot;=
-<br>
-<br>
--SRC_URI[md5sum] =3D &quot;7d42ba49b809604f0df3d55df1c3fd86&quot;<br>
--SRC_URI[sha256sum] =3D &quot;7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa4=
-949920675563a5a6967f&quot;<br>
-+SRC_URI[md5sum] =3D &quot;a867fd51eacfd5293f5b7e0c2e7867a7&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;eb5df6b9ab0af50fe1098a52fd439b04730b6e066887=
-ff7497357b9ebd19f79b&quot;<br>
-<br>
-=C2=A0inherit pypi distutils3<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000001a36d005c55f3b35--
