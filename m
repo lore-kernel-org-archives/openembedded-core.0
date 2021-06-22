@@ -1,131 +1,95 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
- by mx.groups.io with SMTP id smtpd.web09.606.1624405930469502751
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.82])
+ by mx.groups.io with SMTP id smtpd.web10.600.1624405935423697970
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jun 2021 16:52:11 -0700
+ Tue, 22 Jun 2021 16:52:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=WDd5a0cW;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=IjGf7e+V;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.82, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1624405928; i=@fujitsu.com;
-	bh=27HIKoBtpzH6DTSa1M3Bn/t+VnrirLjqe3vA1lhHszg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=WDd5a0cWqdf3s76Rm2gNST5zCZENhm1nvk9YRsejAHX1wHBBKw2wOoVDjTi6YPAEA
-	 SnuiQyku9T+Zscus05Q9q3kfR/6Y0yh6yUc9s7jIxE4a/OdD9/ZJhtnohhxX2cNBfw
-	 b1YW/PMxGDU/kkg6LxX+3xr51ASZRaJ5sCxatkPXQ+Xu48D3M1CX4y+G5PB5KKCeJI
-	 GsV0z+2T8enbFmJBitaH/mf+GwQoSohAvIa7HvhslI92Da07wCP/+rn43I88Wr+nxI
-	 8dKu5etU6GI/8eg2s4b2nPC7pVEioJznKxG9nyYUPna1Px2nmZGO7Pb55jLikdTm9i
-	 wj8n+RZtzSd1g==
-Received: from [100.113.2.110] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id D2/A5-52906-7A772D06; Tue, 22 Jun 2021 23:52:07 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCIsWRWlGSWpSXmKPExsViZ8MRoru8/FK
-  Cwc5jGhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bCzz9YCmaKVrS9WsvSwPhYqIuRi0NIYBaT
-  xJYVR1ggnBOMEveunGPsYuTkYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv3vYQWxhAXOJh
-  ju/mEBsFgFVicmPP7KA2LwCThKLPt9hA7ElBBQkpjx8zwwRF5Q4OfMJC8QcCYmDL14wQ9QoSs
-  y+3MwCYVdIvD58iXkCI+8sJC2zkLQsYGRaxWiZVJSZnlGSm5iZo2toYKBraGisa6xraGaol1i
-  lm6iXWqqbnJpXUpQIlNVLLC/WK67MTc5J0ctLLdnECAywlELmhTsYf7z+oHeIUZKDSUmUl6vo
-  UoIQX1J+SmVGYnFGfFFpTmrxIUYZDg4lCd6tpUA5waLU9NSKtMwcYLDDpCU4eJREeLtAWnmLC
-  xJzizPTIVKnGHU5Vh2YvopZiCUvPy9VSpzXD2SGAEhRRmke3AhY5F1ilJUS5mVkYGAQ4ilILc
-  rNLEGVf8UozsGoJMwbCjKFJzOvBG7TK6AjmICOUPh9EeSIkkSElFQDk6pJmtT7SwtuS7prWs5
-  90c1/yJpbZ3Njn3XJtOD0Zplrfs86nbUl3N4InukWXtbCzsAUsfeSmk7H1IcdJ/8tUn+2wGL2
-  heO6zUyXeO5O5xDd6/Tp8RIj4+XiuUx6lx1tQkQubBPYfCIwTkzuQcT731ONdvlG5Yn4CPaJv
-  Jmdv/ZGtNYKE0HmA56cFb4rWu9onGnsZLF/YK9swSv3e6flmaSNLy4lsb5/3vTD+017wVW2Dy
-  FffOY8Y3nU26y7KTK/2GRT+XP/ds2ElJjFvxJn6Ca65czqaMzpWfBB/dXCsF+rZSYuciryaHb
-  i2Ls4QD3pU+bJv0eO38mR2vKw6f3OqjtvRX7vWXN18d6acu7rSizFGYmGWsxFxYkA/oY36TcD
-  AAA=
+	s=170520fj; t=1624405933; i=@fujitsu.com;
+	bh=hnJehqZSo5ogMknBDQgJ7wRp/wQbT4FdnYwHBEQojOM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=IjGf7e+V4lUwptSIFiK38EecgOfzY1BHLIAmKtd7YbHXaKce8dGO9A8fQTVMinyFx
+	 1n9n7XFR7Ox8ryZnb3Kki/FYeLmBpdacn6JyU+Boe0n1XysQq/NGv0OYYscrgq3jB7
+	 9HOOW7XBlKARqvy2Rk5igd9T2fMvo/bMQAk7DMUuf6b/wij4MIeSSwZda6oNFZqEcI
+	 6LUCzbT8tXiYkU7D2SAQgFtSSVrNO5lhVGNTJ1rj4ImtWyCnmxWqGPBAWE8ClOpQkl
+	 F7Ky4Xv5dWYdA9MCysDzgogSNIPMCLpt5RhSnMtUAtO5WdVhakORkGEZgSPWvCFlbB
+	 cD133pq7LDSJQ==
+Received: from [100.112.198.210] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id CF/4E-08493-DA772D06; Tue, 22 Jun 2021 23:52:13 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRqrum/FK
+  CwcxH+hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a+p89YC5o4K2ZtP8jWwLiAo4uRi0NIYBaT
+  xOuFk9kgnBOMEvNufGbvYuTkYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv3vASoQFrCW+3
+  NjNBmKzCKhK3H/7gwnE5hVwkmg7284IYksIKEhMefieGcTmFHCW+Pd5C1ivEFDN89XToeoFJU
+  7OfMICMV9C4uCLF8wQvYoSsy83s0DYFRKvD19insDIPwtJyywkLQsYmVYxWiQVZaZnlOQmZub
+  oGhoY6BoaGukaWlroGhma6iVW6SbppZbqlqcWl+ga6iWWF+sVV+Ym56To5aWWbGIEhmNKwbHr
+  Oxivvv6gd4hRkoNJSZSXq+hSghBfUn5KZUZicUZ8UWlOavEhRhkODiUJ3q2lQDnBotT01Iq0z
+  BxgbMCkJTh4lER4u0BaeYsLEnOLM9MhUqcYFaXEef1A+gRAEhmleXBtsHi8xCgrJczLyMDAIM
+  RTkFqUm1mCKv+KUZyDUUmYNxRkCk9mXgnc9FdAi5mAFiv8vgiyuCQRISXVwMRzLj1UMtl/o1F
+  7e1/Me+MnbLu0j/DyJz18f+yY8JX0h4tfF9Q6GuX5nNzJUl79uOMt5zy+idk56uV+v5vKw25u
+  ++CzR1xgyWY19oJgxb78Q4srE7ZX+r66ns8pGmHl/uxW6JItYevnHGgw5pHmuPrRqSio9d6hi
+  wr1Ny0Tz7Azsvyq/Hz+1QddA5Mv00LWy4fWcJ3O33rP8053ztKQ6xGb+v79sd+ygeXwJaFpyX
+  7TFFlF4j+vurRSbFnMmRzmaMnVD/Vsaj4GbOK+9bTacqP4m385R/ZeVrDLe9ZVYn9Y5aPv0QX
+  nvz30WFknUOJ7dOmfmDUTbzg6Ok/wbBG1t679KfpU46n2hmPakzfbeyixFGckGmoxFxUnAgC+
+  BMc2QgMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-9.tower-232.messagelabs.com!1624405927!120134!1
-X-Originating-IP: [62.60.8.84]
+X-Msg-Ref: server-19.tower-285.messagelabs.com!1624405932!100006!1
+X-Originating-IP: [62.60.8.85]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 24448 invoked from network); 22 Jun 2021 23:52:07 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-9.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Jun 2021 23:52:07 -0000
+Received: (qmail 29528 invoked from network); 22 Jun 2021 23:52:12 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-19.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Jun 2021 23:52:12 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15MNq1JT032409
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15MNq7BT013496
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 00:52:06 +0100
+	for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 00:52:12 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Wed, 23 Jun 2021 00:51:59 +0100
+ (TLS) id 15.0.1497.18; Wed, 23 Jun 2021 00:52:05 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libcap: upgrade 2.50 -> 2.51
-Date: Wed, 23 Jun 2021 07:51:38 +0800
-Message-ID: <1624405899-80322-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libhandy: upgrade 1.2.2 -> 1.2.3
+Date: Wed, 23 Jun 2021 07:51:39 +0800
+Message-ID: <1624405899-80322-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1624405899-80322-1-git-send-email-wangmy@fujitsu.com>
+References: <1624405899-80322-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-refresh 0001-tests-do-not-statically-link-a-test.patch
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../0001-tests-do-not-statically-link-a-test.patch     | 10 ++++++----
- .../libcap/{libcap_2.50.bb => libcap_2.51.bb}          |  2 +-
- 2 files changed, 7 insertions(+), 5 deletions(-)
- rename meta/recipes-support/libcap/{libcap_2.50.bb => libcap_2.51.bb} (95%)
+ .../libhandy/{libhandy_1.2.2.bb => libhandy_1.2.3.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/libhandy/{libhandy_1.2.2.bb => libhandy_1.2.3.bb} (92%)
 
-diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-index 414e45a6f4..55872aa8fa 100644
---- a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-+++ b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-@@ -7,14 +7,13 @@ This fails on e.g. centos 7
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.2.2.bb b/meta/recipes-gnome/libhandy/libhandy_1.2.3.bb
+similarity index 92%
+rename from meta/recipes-gnome/libhandy/libhandy_1.2.2.bb
+rename to meta/recipes-gnome/libhandy/libhandy_1.2.3.bb
+index 9652948a35..acb6e53b72 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.2.2.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.2.3.bb
+@@ -9,8 +9,8 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libhandy/-/issues"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  progs/Makefile | 2 +-
-  tests/Makefile | 4 ++--
-  2 files changed, 3 insertions(+), 3 deletions(-)
+-SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https"
+-SRCREV = "09f36006b26f41a2bb383b0c853e954c5792cfe1"
++SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-2"
++SRCREV = "e9ca4ac4b134bbd6ab91b6f916a915192fd3a465"
+ S = "${WORKDIR}/git"
  
- diff --git a/progs/Makefile b/progs/Makefile
--index 289186e..071a285 100644
-+index 3e82862..48533f3 100644
- --- a/progs/Makefile
- +++ b/progs/Makefile
- @@ -49,7 +49,7 @@ capsh: capsh.c capshdoc.h.cf $(DEPS)
-@@ -24,8 +23,8 @@ index 289186e..071a285 100644
- -	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS) --static
- +	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS)
-  
-- sudotest: test tcapsh-static
-- 	sudo $(LDPATH) ./quicktest.sh
-+ uns_test: ../tests/uns_test.c
-+ 	$(MAKE) -C ../tests uns_test
- diff --git a/tests/Makefile b/tests/Makefile
- index 4a5f2f9..4266d86 100644
- --- a/tests/Makefile
-@@ -48,3 +47,6 @@ index 4a5f2f9..4266d86 100644
-  
-  clean:
-  	rm -f psx_test libcap_psx_test libcap_launch_test uns_test *~
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libcap/libcap_2.50.bb b/meta/recipes-support/libcap/libcap_2.51.bb
-similarity index 95%
-rename from meta/recipes-support/libcap/libcap_2.50.bb
-rename to meta/recipes-support/libcap/libcap_2.51.bb
-index 15137f0ac0..a43dca9f13 100644
---- a/meta/recipes-support/libcap/libcap_2.50.bb
-+++ b/meta/recipes-support/libcap/libcap_2.51.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
-            file://0002-tests-do-not-run-target-executables.patch \
-            file://0001-tests-do-not-statically-link-a-test.patch \
-            "
--SRC_URI[sha256sum] = "47a57b8bd238b84c93c921a9b4ff82337551dbcb0cca071316aadf3e23b19261"
-+SRC_URI[sha256sum] = "6609f3ab7aebcc8f9277f53a577c657d9f3056d1352ea623da7fd7c0f00890f9"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
- 
+ GIR_MESON_ENABLE_FLAG = 'enabled'
 -- 
 2.25.1
 
