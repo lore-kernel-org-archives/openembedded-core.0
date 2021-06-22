@@ -1,50 +1,50 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web09.7550.1624360897816929249
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.7597.1624360898420989253
  for <openembedded-core@lists.openembedded.org>;
  Tue, 22 Jun 2021 04:21:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zqf75esr;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id c7so22177943edn.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 04:21:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BDvi8kTy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id hq39so6913423ejc.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jun 2021 04:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3rAdTViX74hNU3wB0m+IWQGAmUrYTnyb/uyrN6X65io=;
-        b=Zqf75esrBCITd+Z1FXgCIjR1Pb3svg+8Wirc9J1mVD0RdHYeMa5cGynf3MuUISQ2/F
-         xvXHOaZA2U8sX4dZhSz0ArLUukpRsDIuBGrAjEvYUwSoP7opHlMurhlu/jdskFInMbNv
-         EdfjxDa5aZnQ+SUzdM28Px2ALuBtqirLF7byETbZVd7YaOwZwSCGVW7uaDn4Bhrw5Kq9
-         DyU3EqCWlAMmOqS8LBLfuaa37wU86KgqFwSbZ7Z5EH6mXZftIMc0SBvrbYNPP7a9P23s
-         iVY/X8X2bHj5k32k0DoEiHjz4vel5mH5yORCnd+qxV4uswVFv2f/IDWRi6xP2q0neGbD
-         DFcA==
+        bh=5/XINCvWnv7HDnms6uauQgnauCgiAnDg6GqOhANpdpY=;
+        b=BDvi8kTyvhw2/TBVdZLjsOm1HsL8Te/oSp7RZWxL9v9vYHUXvPvrlZwkGMnRs/A9zB
+         EWdWfonTx6BsqSHcwUGGCfIfIDbE7Zm4zKVqJE/hXCt7IYvmbvnuzQxbyd6tzNBE0+Wb
+         1hR8OgaX7xore4am9WjQYoTlwm8/mrh6h757rKVyd/fhsbrZotw1iYJCfSNULB1Dlodf
+         O0utNXKuzsT0p5GFpR/1UafteYaHsKRP1lWdkeZRpLR3g7l3V2IxNacXyrBado03XKHc
+         /c4BtN5qwzzUsoSOxfPqVbdqwgOA41GlCNfQ+eUkrOtReKRfxn5WKUGBozNJR5JD+LQl
+         zSiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3rAdTViX74hNU3wB0m+IWQGAmUrYTnyb/uyrN6X65io=;
-        b=F6D/CPwjfdbsN6fRcDS0SkElAaPXPiOZE720ZyKHmaWzJ4bhxONaZRuW4JLxfvDp9j
-         8Uq1RVfROP34f4zjiLeyiHL8ydr9NZwCKEkAaDBgW7dj3llaK49zNA53SzWLggB2/3Zv
-         aexSCta6ko7K+Wvd1+jWRunpqZKRlcnalbrho3XE5cCkbkunhSQ+dXlEShWoAZF903rP
-         6Eqz96ZkswAil90+SLMtdwErKJcSgqRaxbFWbL686aZ6l+BN8HLopdrhcuGRIvWuQ1FF
-         gc9HE+3xJRJDYDx2hZtR2oo4rY6ieAivkmD4EemwBmnQ3EVVT5Jv6qOyZu5eOVxkn7Zg
-         tQkQ==
-X-Gm-Message-State: AOAM530Hci0LQoblNq09E4oTZ/gEVecJSxhqKAQap5ykDB85fvUvQyyA
-	gEkdATxPDptg0/WXW9mQYrM/xkJYYCD9cg==
-X-Google-Smtp-Source: ABdhPJx6TK1AfX1IGHmRxVu2Xq/BJzilcYkxCPy9DIwbbV5yckob6/RGzk4v2bbno/N1UYopIsLVFw==
-X-Received: by 2002:aa7:cac9:: with SMTP id l9mr4195814edt.373.1624360896421;
-        Tue, 22 Jun 2021 04:21:36 -0700 (PDT)
+        bh=5/XINCvWnv7HDnms6uauQgnauCgiAnDg6GqOhANpdpY=;
+        b=EwaK+6yn09ESb/ZOgM39dW8z/7KE/5wTfPxgrEdlsFnWz2sQIqF/qosVrDiiUX08+S
+         RKMm7xBqQH2s5HeHgYG+f1h2KRcOqMfVPCqE4VDvRLWv2nKt4SLo25oiaivWF26uuDTO
+         IpjiDd7s1UNmGSRKLayrvLLS3M7O/Tb8fapDX9Y+PV8qN7hetA5K2ZybbhgmIWEF8tCB
+         m9p3hMT6yFaAilat9zRfWhUu7HEYIlWv4YK0/97HuByI9KIOUi9KfmiMCR44QjmlL2Ze
+         UBSvNvJ1Ug8po7+U9AChRSwUfysSFVDqIW4QXPtZHzs07au9K83PbLhRXuPQ46GL4oYg
+         ebqQ==
+X-Gm-Message-State: AOAM533odI2IZZW5GMtEG/y3883LfgoTEitRMl5OFs3xcGe/idPd2uK2
+	Z9D0EN0m0g9lGR6vtrMYYaJHI2fcxb20Eg==
+X-Google-Smtp-Source: ABdhPJwP0gW+wODcWg3N1ea12AbwdMFVQQN9UFTwoHmpIHpQCQBkA+FnN4R8hI+3Of7FWmTl0zToig==
+X-Received: by 2002:a17:907:7ba3:: with SMTP id ne35mr3351394ejc.12.1624360897067;
+        Tue, 22 Jun 2021 04:21:37 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id n2sm11987416edi.32.2021.06.22.04.21.35
+        by smtp.gmail.com with ESMTPSA id n2sm11987416edi.32.2021.06.22.04.21.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 22 Jun 2021 04:21:36 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 09/19] dejagnu: upgrade 1.6.2 -> 1.6.3
-Date: Tue, 22 Jun 2021 13:21:16 +0200
-Message-Id: <20210622112126.2026646-9-alex.kanavin@gmail.com>
+Subject: [PATCH 10/19] gdbm: upgrade 1.19 -> 1.20
+Date: Tue, 22 Jun 2021 13:21:17 +0200
+Message-Id: <20210622112126.2026646-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210622112126.2026646-1-alex.kanavin@gmail.com>
 References: <20210622112126.2026646-1-alex.kanavin@gmail.com>
@@ -53,26 +53,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../dejagnu/{dejagnu_1.6.2.bb => dejagnu_1.6.3.bb}             | 3 +--
+ meta/recipes-support/gdbm/{gdbm_1.19.bb => gdbm_1.20.bb} | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/dejagnu/{dejagnu_1.6.2.bb => dejagnu_1.6.3.bb} (78%)
+ rename meta/recipes-support/gdbm/{gdbm_1.19.bb => gdbm_1.20.bb} (90%)
 
-diff --git a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb b/meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb
-similarity index 78%
-rename from meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
-rename to meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb
-index ce242c3593..ce35b806ba 100644
---- a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
-+++ b/meta/recipes-devtools/dejagnu/dejagnu_1.6.3.bb
-@@ -13,7 +13,6 @@ inherit autotools
+diff --git a/meta/recipes-support/gdbm/gdbm_1.19.bb b/meta/recipes-support/gdbm/gdbm_1.20.bb
+similarity index 90%
+rename from meta/recipes-support/gdbm/gdbm_1.19.bb
+rename to meta/recipes-support/gdbm/gdbm_1.20.bb
+index cd2617b130..51f9d17e49 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.19.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.20.bb
+@@ -13,8 +13,7 @@ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
+            file://ptest.patch \
+           "
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz"
+-SRC_URI[md5sum] = "aeb29c6a90350a4c959cd1df38cd0a7e"
+-SRC_URI[sha256sum] = "37ed12214122b972e18a0d94995039e57748191939ef74115b1d41d8811364bc"
++SRC_URI[sha256sum] = "3aeac05648b3482a10a2da986b9f3a380a29ad650be80b9817a435fb8114a292"
  
--SRC_URI[md5sum] = "e1b07516533f351b3aba3423fafeffd6"
--SRC_URI[sha256sum] = "0d0671e1b45189c5fc8ade4b3b01635fb9eeab45cf54f57db23e4c4c1a17d261"
-+SRC_URI[sha256sum] = "87daefacd7958b4a69f88c6856dbd1634261963c414079d0c371f589cd66a2e3"
+ inherit autotools gettext texinfo lib_package ptest
  
- BBCLASSEXTEND = "native"
 -- 
 2.31.1
 
