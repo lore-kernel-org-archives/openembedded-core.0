@@ -1,95 +1,161 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web08.1028.1624474013445688633
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web12.1571.1624476423994874555
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Jun 2021 11:46:53 -0700
+ Wed, 23 Jun 2021 12:27:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gu6+mjXy;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bkylerussell@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id x6so1974580qvx.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 11:46:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fe1kaJS+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: andrea.adami@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id s6so4991149edu.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 12:27:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aZkh3Toyr82x5K7+fLAh3q4Ubl9BNdcirHiaMVF5R1g=;
-        b=gu6+mjXyuGqM5kWdzlHb1/W48ITMDNEG9OPaTgRj47FGBOT5HDW+Ty72WQPGvJKJgt
-         4bAmxbDTNGZ+gslqXdVFGUh2wc16GXbLBov8DwpkmDYNB+qzzmeUoHRJZqsOXHWACRtn
-         ql1YLmYOQSoYIfYZ6takqeCn/MGemosPhrILgk+erAqnCku3jNlymtst5jZC4khdpYR1
-         1Iuq2tj70/tTNiKkHH8+RTNkcTGC3AOh3sdEnU1wMOXJEHBVBYy2LgvpPlrM/jCHH0Dt
-         G2DqIc/FESszPw73PB5vq1XBj3NdMdjBnW3oZjLkDINXO3XzknJ4o0wsiMTpYJDj4FxK
-         pCgA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ygBgDLb2IXJewG7i6o0GnkMgZIOMrpLSEzbh/Ve+ubc=;
+        b=fe1kaJS+I9z2G+gel9/da4zBW2SgQPw3S7YkkXHuH1MfNizj07pF636m8itNzMMa/e
+         iYSg/b6SnJ3/Ftn2JbZIK0bNirv2NfIkbCcCYoP1xK++LGtjgyj5XlC+6hzvzINKb5+D
+         WoKVXx2fDONqTdeXTiFRJ5GUbQX3Nb8wIaZYHEakqOepf9db4lSTgHTXOXN5N0BQUc6h
+         uGQxoYDdAh+iRcnbQ3i40de8DOtWAb3CaojAHsnGbCKixPtRy8y0/hqAEn9GrN/bK06J
+         sn54YMZU8K2D4qH/W7/PLjsjGQVm6a9uPHqZnO4q7ivIca2DSo7qRso4Nv2EZKStO/3S
+         A6rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aZkh3Toyr82x5K7+fLAh3q4Ubl9BNdcirHiaMVF5R1g=;
-        b=ou7jnjiCWiFb18P43WV6IFsSNcC0SqTkpGuB/Hx5mrw8AlNgkfQKrdM47klhyHIszu
-         Iz9PB/zWb1hEg9V4+8qR+22c2Tnzu2oYQ2V8hDSMZPfnjKJCmPTkVPuWSWBnaEQJSOgu
-         D4ycernyO0lsvb6ngdJSOzwM7sXYPU6I2htmUGODT7JTlamYeqdnQisghUHgiG1uZt3V
-         ueJZayspnQP4TT1aCWgCgmX/pKHQritjHKv/Xh5pHGDRQjIQ+skNNo2XXI6CUa1Az2ta
-         yksiJJxBth4Av2FTtAP/770P6QdDU158dzuh2Bl78Um54PkMGFhtQDspo/uvJIc4BRP7
-         DEOg==
-X-Gm-Message-State: AOAM532YCuTjYvitz/cyScnhOIm6kjDSy4zXnPcGI9vwM6+1OCfrhjgr
-	HxNWYxJ9xwEwSJMzmRKpWIDHVxSQwa0s2A==
-X-Google-Smtp-Source: ABdhPJwsE8prKluS93d0qUyRH42HRPddr65zfUghStlMvvdg23NgtWno7Ik26xWEnucupoEVR2vp1A==
-X-Received: by 2002:a05:6214:686:: with SMTP id r6mr1391325qvz.19.1624474012489;
-        Wed, 23 Jun 2021 11:46:52 -0700 (PDT)
-Return-Path: <bkylerussell@gmail.com>
-Received: from poirot.file.core.windows.net (cpe-65-24-166-29.columbus.res.rr.com. [65.24.166.29])
-        by smtp.gmail.com with ESMTPSA id x7sm495838qke.62.2021.06.23.11.46.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jun 2021 11:46:51 -0700 (PDT)
-From: bkylerussell@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Kyle Russell <bkylerussell@gmail.com>
-Subject: [PATCH] uninative: allow PREMIRRORS to use versioned url subpath
-Date: Wed, 23 Jun 2021 14:46:44 -0400
-Message-Id: <20210623184644.12328-1-bkylerussell@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ygBgDLb2IXJewG7i6o0GnkMgZIOMrpLSEzbh/Ve+ubc=;
+        b=MNY5rruReVlsrb7201WVeCMDIgEE2a2QS25Df2/gvt3dW+zBfBa2SgULaieAtwBhAH
+         Fwk2q/Ty+4TV29iOXVD7Me5sSYAc3HL8e9XqvldOsb00LxoocWuKuMWgfWBzkFESjvIh
+         UuLBqFv5mRfwsL1/MtkMOxRAB3k2paBp1dGkVerX/GGa9/poST4qjGtgXqHJEm1WtTJM
+         qEBRB/82mFmqgHDC+8Xf5OaacN04GFboRAFK0sAAZoCOycyMRacU7isOw3rypUJcrrC+
+         W0DM9Y1rEMVEexUuOBY8ebZi3gy8NDbUyz4reTHWeCxpS1TxhRaARCPZC3oeWDEiCNB9
+         5xFw==
+X-Gm-Message-State: AOAM5326ThJodIB4esvVS4VgUfwOFuGWt7ifm8ZYdsN+9GyWG3QQ43pB
+	+tLKv74ZqeCJPoEPZnaWVEni+20i7t+6aVmWHqU=
+X-Google-Smtp-Source: ABdhPJztj4S88DlnxxN5n264v/XAt48ubviXqN1FE6D4tw14DpVv5lOx6OhfrISlEEOdLZ2/QXeGcLWMbT1jPF3TUNY=
+X-Received: by 2002:a05:6402:26ce:: with SMTP id x14mr1944870edd.104.1624476422365;
+ Wed, 23 Jun 2021 12:27:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210622221818.4613-1-andrea.adami@gmail.com> <20210622221818.4613-2-andrea.adami@gmail.com>
+ <e7a7a1a335404229b99a7815b2b6e15b@XBOX03.axis.com> <CAAQYJAtBoiaX180FxOKzXPwm0hciYQths0eOYiTRSyZypmdrkA@mail.gmail.com>
+ <CAHtQpK5erwo++s8pLwHdkjbBvuwwZzNZb6ejjPvxx5g=w1dNdQ@mail.gmail.com>
+ <CAAQYJAv9ear6oUz8c1c5QaFyMfxuVG7xN==dfpC+yXPQJNdgwg@mail.gmail.com> <20210623160222.ftqara6lcqmn4vgj@jama>
+In-Reply-To: <20210623160222.ftqara6lcqmn4vgj@jama>
+From: "Andrea Adami" <andrea.adami@gmail.com>
+Date: Wed, 23 Jun 2021 21:26:51 +0200
+Message-ID: <CAAQYJAsjdcB_okKOXupCcp3AQB_rcL7KXA6KWvuDVLYPp0qgBQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/2] kernel.bbclass: inherit kernel_devicetree only if KERNEL_DEVICETREE is set
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This allows users running their own mirrors to store uninative tarballs
-under versioned paths just like the default UNINATIVE_URL without having
-to completely override UNINATIVE_URL in their distro configuration and
-manually update the versioned URL on each upgrade.
+Thank you, I'll send v2.
+I am waiting RP comments about the other patch of the series for
+kernel.bbclass which exposed this one issue.
 
-The hashed subpath is left for compatibility, but not practical for
-mirror management.
+Martin, I tried to remove the patch from patchwork but all stops end 2020.
+Am I missing something? New links?
+Thanks all
+A.A.
 
-Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
----
- meta/classes/uninative.bbclass               | 1 +
- meta/conf/distro/include/yocto-uninative.inc | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 1e19917a97..543f747358 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -64,6 +64,7 @@ python uninative_event_fetchloader() {
-                     continue
-                 if find.startswith("http"):
-                     localdata.appendVar("PREMIRRORS", " ${UNINATIVE_URL}${UNINATIVE_TARBALL} %s/uninative/%s/${UNINATIVE_TARBALL}" % (replace, chksum))
-+                    localdata.appendVar("PREMIRRORS", " ${UNINATIVE_URL}${UNINATIVE_TARBALL} %s/uninative/${UNINATIVE_VERSION}/${UNINATIVE_TARBALL}" % replace)
- 
-             srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};sha256sum=%s" % chksum)
-             bb.note("Fetching uninative binary shim %s (will check PREMIRRORS first)" % srcuri)
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 740cca0ecf..d7d1e2cb59 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -7,8 +7,9 @@
- #
- 
- UNINATIVE_MAXGLIBCVERSION = "2.33"
-+UNINATIVE_VERSION = "3.2"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.2/"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
- UNINATIVE_CHECKSUM[aarch64] ?= "4f0872cdca2775b637a8a99815ca5c8dd42146abe903a24a50ee0448358c764b"
- UNINATIVE_CHECKSUM[i686] ?= "e2eeab92e67263db37d9bb6d4c58579abd1f47ff4cded3171bde572fece124b2"
- UNINATIVE_CHECKSUM[x86_64] ?= "3ee8c7d55e2d4c7ae3887cddb97219f97b94efddfeee2e24923c0cb0e8ce84c6"
--- 
-2.25.1
-
+On Wed, Jun 23, 2021 at 6:02 PM Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> On Wed, Jun 23, 2021 at 05:22:21PM +0200, Andrea Adami wrote:
+> > On Wed, Jun 23, 2021 at 3:51 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+> > >
+> > > Hello Andrea,
+> > >
+> > > On Wed, Jun 23, 2021 at 3:16 PM Andrea Adami <andrea.adami@gmail.com> wrote:
+> > > >
+> > > > On Wed, Jun 23, 2021 at 11:32 AM Peter Kjellerstedt
+> > > > <peter.kjellerstedt@axis.com> wrote:
+> > > > >
+> > > > > > -----Original Message-----
+> > > > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > > > core@lists.openembedded.org> On Behalf Of Andrea Adami
+> > > > > > Sent: den 23 juni 2021 00:18
+> > > > > > To: openembedded-core@lists.openembedded.org
+> > > > > > Subject: [OE-core][PATCH 2/2] kernel.bbclass: inherit kernel_devicetree
+> > > > > > only if KERNEL_DEVICETREE is set
+> > > > > >
+> > > > > > Now it unconditionally tries to create package kernel-devicetre even for
+> > > > > > legacy devices w/out DT.
+> > > > > >
+> > > > > > Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+> > > > > > ---
+> > > > > >  meta/classes/kernel.bbclass | 2 +-
+> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > > > > > index 06e6446a08..68369e3791 100644
+> > > > > > --- a/meta/classes/kernel.bbclass
+> > > > > > +++ b/meta/classes/kernel.bbclass
+> > > > > > @@ -779,4 +779,4 @@ addtask deploy after do_populate_sysroot
+> > > > > > do_packagedata
+> > > > > >  EXPORT_FUNCTIONS do_deploy
+> > > > > >
+> > > > > >  # Add using Device Tree support
+> > > > > > -inherit kernel-devicetree
+> > > > > > +inherit ${@ "" if d.getVar("KERNEL_DEVICETREE" == "") else "kernel-devicetree" }
+> > > > >
+> > > > > That doesn't look correct. Don't you mean something like this:
+> > > > >
+> > > > > inherit ${@ "kernel-devicetree" if d.getVar("KERNEL_DEVICETREE") else "" }
+> > > > >
+> > > >
+> > > > As you prefer, I don't think bitbake has likely/unlikely optimization.
+> > > > I took the style-example from line 6 where it reads
+> > > >
+> > > > KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") ==
+> > > > "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
+> > > >
+> > > > I am for any option providing a guard.
+> > >
+> > > I guess you've missed the closing bracket in your statement, please
+> > > take a look at the comparison operator.
+> >
+> > The code as it is doesn't raise any parse error.
+> > There is opening bracket and closing bracket, what more?
+>
+> d.getVar("KERNEL_DEVICETREE" == "")
+> vs
+> d.getVar("KERNEL_DEVICETREE") == ""
+>
+> > We can discuss about the form, someone suggested anonymous python for
+> > both patches.
+> >
+> > Thanks for reviewing
+> > A.A.
+> >
+> > >
+> > > As yet another option, maybe even something like this:
+> > > inherit ${@oe.utils.ifelse(d.getVar('KERNEL_DEVICETREE') == '', '',
+> > > 'kernel-devicetree')}
+> > >
+> > > However, I'm not sure what would happened if KERNEL_DEVICETREE is
+> > > undefined, as in this case bitbake should return "None" according to
+> > > the documentation.
+> > >
+> > > >
+> > > > Cheers
+> > > > A.A.
+> > > >
+> > > >
+> > > > > > --
+> > > > > > 2.17.1
+> > > > >
+> > > > > //Peter
+> > > > >
+> > > >
+> > > >
+> > > >
+> > >
+> > >
+> > > --
+> > > Regards,
+> > > Andrey.
+>
+> >
+> > 
+> >
+>
