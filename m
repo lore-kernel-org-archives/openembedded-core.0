@@ -1,73 +1,166 @@
-Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
- by mx.groups.io with SMTP id smtpd.web10.4956.1624438603155317300
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.5272.1624440421426466255
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Jun 2021 01:56:44 -0700
+ Wed, 23 Jun 2021 02:27:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=neutral (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: ito-yuichi@fujitsu.com)
-IronPort-SDR: 2DOzxj3QHtxWU2KAYIobLedwttLUynH5Ik3cf5IKEqoY6CwRS6qGXEqp2HLstTK+va0fWXQtlZ
- /ipCcli0hxLn/n0XXocTeQKR4GuMup7PCJP6Y0yFtjS5anLwE7CJ0J4nVqlFGObtXpQTdn9Ihy
- 9Fm/LufvFyY9bAawqR/VqU7RYAYHzAvs8Eg8UDGUue5Mc20I8Svm9sxqAUgNZAYNAbMPfKb60V
- QLOP4/cUSYMJ5mLY5Fnq/C3sYqXpj1Uq0daaH5ISQXyoy5PHlOT5q6vyDbjIlvnugiQzQQvrkm
- 6q0=
-X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="22048508"
-X-IronPort-AV: E=Sophos;i="5.83,293,1616425200"; 
-   d="scan'208";a="22048508"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP; 23 Jun 2021 17:56:40 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 9FD921FB303
-	for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 17:56:39 +0900 (JST)
-Received: from yto-om1.fujitsu.com (yto-om1.o.css.fujitsu.com [10.128.89.162])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id C3A78B4E4F
-	for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 17:56:38 +0900 (JST)
-Received: from pumpkin.openstacklocal (pumpkin.fct.css.fujitsu.com [10.130.70.189])
-	by yto-om1.fujitsu.com (Postfix) with ESMTP id AAF6140573307
-	for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 17:56:38 +0900 (JST)
-From: "ito-yuichi@fujitsu.com" <ito-yuichi@fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cve-check: Add allowlist that is same function of whitelist.
-Date: Wed, 23 Jun 2021 17:56:33 +0900
-Message-Id: <20210623085633.3186982-1-ito-yuichi@fujitsu.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=d7HzvXb2;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1624440422;
+  x=1655976422;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=GMejh7DZcPTZK7zJzsolomWL/Ge33wiNQ4T+v6I/0Iw=;
+  b=d7HzvXb2sDgbXdl4JqwwBvri8k139ujsP63KQmKd2CrGmX1QISPgVhKs
+   UoLZYGH4SMLBlIJYiSdmyuIorowD36CrLIPd9zEDOkFzo4CE8xU4d2fUm
+   45jSeKda6Cu5EYnzLwBls4/lrojrKuWL/6ST1MK39nJKKIL3yzH11EWdV
+   HI++8EyUSX2c/U2i4PCL9d7GpfV6EJa5OYtNpvW/LrggLo01jOIaRGNza
+   qp44WP14sw8kRYfjwhwLldwyVOnS5+DPumU7St+WetALZxpadCYXBG2FA
+   RiaLhBovtXxdVOWAqT7PNO/pjv5aFUtFEzT1sFSty2xk+oaq+xXEyp853
+   g==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Konrad Weihmann
+	<kweihmann@outlook.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] pypi: set SRC_URI with =, not with +=
+Thread-Topic: [OE-core] [PATCH] pypi: set SRC_URI with =, not with +=
+Thread-Index: AQHXZ5yror6OUKCk7EGo8Z7MVUoue6shClOAgAAaFoCAAC31gA==
+Date: Wed, 23 Jun 2021 09:26:58 +0000
+Message-ID: <6dd3291340e74358bdd444d563077690@XBOX03.axis.com>
+References: <20210622192723.2041345-1-alex.kanavin@gmail.com>
+ <3324.1624431667479717516@lists.openembedded.org>
+ <CANNYZj_wbfFtDL+8HSAJzqvrmx+y0ofbmmrve91qBd8PfO9WFw@mail.gmail.com>
+In-Reply-To: <CANNYZj_wbfFtDL+8HSAJzqvrmx+y0ofbmmrve91qBd8PfO9WFw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6dd3291340e74358bdd444d563077690XBOX03axiscom_"
 
-The Linux team plan to removed references to racially-charged jargon from
-their code for more neutral and inclusive language.
-So replace use of "whitelist" with "allowlist" in cve-check.
+--_000_6dd3291340e74358bdd444d563077690XBOX03axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-First, we add CVE_CHECK_ALLOWLIST and it is considered patched as well as
-CVE_CHECK_WHITELIST.
-We plan to replace about other word later and eventualy, replace all
-"whitelist" to "allowlist".
+SSBzdWdnZXN0IHlvdSB1c2UgPSsgaW5zdGVhZCBvZiBfcHJlcGVuZCB0byBtYWludGFpbiBleHBh
+bnNpb24gb3JkZXIuIEkuZS4sIGlmIHNvbWVvbmUgZG9lczoNCg0KaW5oZXJpdCBweXBpDQoNClNS
+Q19VUkkgPSAiaHR0cDovL3NvbWVfdXJsICR7UFlQSV9TUkNfVVJJfSINCg0KSG93ZXZlciwgYW55
+IHdheSB5b3UgY2hhbmdlIGl0LCB5b3UgcmlzayBicmVha2luZyBzb21lb25l4oCZcyB1c2UgY2Fz
+ZSwgYnV0IEkgYmVsaWV2ZSB1c2luZyA9KyBpbnN0ZWFkIG9mICs9IHNob3VsZCBiZSB0aGUgbGVh
+c3QgaW52YXNpdmUgY2hhbmdlIGNvbXBhcmVkIHRvIHRoZSBjdXJyZW50IHZlcnNpb24uDQoNCi8v
+UGV0ZXINCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8
+b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEFs
+ZXhhbmRlciBLYW5hdmluDQpTZW50OiBkZW4gMjMganVuaSAyMDIxIDEwOjM0DQpUbzogS29ucmFk
+IFdlaWhtYW5uIDxrd2VpaG1hbm5Ab3V0bG9vay5jb20+DQpDYzogT0UtY29yZSA8b3BlbmVtYmVk
+ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
+W1BBVENIXSBweXBpOiBzZXQgU1JDX1VSSSB3aXRoID0sIG5vdCB3aXRoICs9DQoNClJpZ2h0LCBJ
+IHNlbnQgYW4gdXBkYXRlZCBwYXRjaC4NCg0KQWxleA0KDQpPbiBXZWQsIDIzIEp1biAyMDIxIGF0
+IDA5OjAxLCBLb25yYWQgV2VpaG1hbm4gPGt3ZWlobWFubkBvdXRsb29rLmNvbTxtYWlsdG86a3dl
+aWhtYW5uQG91dGxvb2suY29tPj4gd3JvdGU6DQoNClRoYXQgZG9lc24ndCBsb29rIGNvbXBsZXRl
+bHkgcmlnaHQgdG8gbWUuDQoNCllvdSdyZSBhYnNvbHV0ZWx5IHJpZ2h0IGFib3V0IGRldnRvb2wg
+ZXhwZWN0aW5nIHRoZSB0YXJiYWxsIGluIGFzIHRoZSAxc3QgaXRlbSwgYnV0IHRoaXMgcGF0Y2gg
+aGVyZSBicmVha3MgZXhpc3RpbmcgcmVjaXBlcyBsaWtlDQoNClNSQ19VUkkgKz0gImZpbGU6Ly9z
+b21lLnBhdGNoIg0KDQppbmhlcml0IHB5cGkNCg0KYXMgdGhlIHBhdGNoIHdpbGwgbm93IGJlIGRy
+b3BwZWQuDQoNCg0KDQpJIHdvdWxkIHN1Z2dlc3QgdG8gZ28gZm9yIFNSQ19VUklfcHJlcGVuZCA9
+ICIke1BZUElfU1JDX1VSSX0gIiB3aGljaCBmaXhlcyB0aGUgaXNzdWUgKmFuZCogZG9lc24ndCBi
+cmVhayBleGlzaXRpbmcgc2V0dXBzDQoNCg0K
 
-Signed-off-by: Yuichi Ito <ito-yuichi@fujitsu.com>
----
- meta/classes/cve-check.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--_000_6dd3291340e74358bdd444d563077690XBOX03axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 112ee3379d..5e3441a783 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -52,6 +52,7 @@ CVE_CHECK_PN_WHITELIST ?= ""
- # CVE_CHECK_WHITELIST = 'CVE-2014-2524 CVE-2018-1234'
- #
- CVE_CHECK_WHITELIST ?= ""
-+CVE_CHECK_ALLOWLIST ?= ""
- 
- # Layers to be excluded
- CVE_CHECK_LAYER_EXCLUDELIST ??= ""
-@@ -238,7 +239,7 @@ def check_cves(d, patched_cves):
-     old_cve_whitelist =  d.getVar("CVE_CHECK_CVE_WHITELIST")
-     if old_cve_whitelist:
-         bb.warn("CVE_CHECK_CVE_WHITELIST is deprecated, please use CVE_CHECK_WHITELIST.")
--    cve_whitelist = d.getVar("CVE_CHECK_WHITELIST").split()
-+    cve_whitelist = d.getVar("CVE_CHECK_ALLOWLIST").split() + d.getVar("CVE_CHECK_WHITELIST").split()
- 
-     import sqlite3
-     db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
--- 
-2.25.1
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
+IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCWZvbnQtc2l6ZTox
+MS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KYTpsaW5rLCBzcGFu
+Lk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0
+ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTIwDQoJe21zby1zdHls
+ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
+Ow0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5bGU6bm9y
+bWFsO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdlOkVO
+LVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJn
+aW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJ
+e3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+
+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4
+dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxh
+eW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IlNWIiBsaW5rPSJi
+bHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJyZWFrLXdvcmQiPg0KPGRpdiBj
+bGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVO
+LVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+SSBz
+dWdnZXN0IHlvdSB1c2UgPSYjNDM7IGluc3RlYWQgb2YgX3ByZXBlbmQgdG8gbWFpbnRhaW4gZXhw
+YW5zaW9uIG9yZGVyLiBJLmUuLCBpZiBzb21lb25lIGRvZXM6PG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjoj
+OTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6Q29u
+c29sYXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+aW5oZXJpdCBw
+eXBpPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9ImZvbnQtZmFtaWx5OkNvbnNvbGFzO2NvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3Vh
+Z2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQzNjM0O21zby1m
+YXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5TUkNfVVJJID0gJnF1b3Q7aHR0cDovL3NvbWVfdXJsICR7
+UFlQSV9TUkNfVVJJfSZxdW90OzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVO
+LVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3Vh
+Z2U6RU4tVVMiPkhvd2V2ZXIsIGFueSB3YXkgeW91IGNoYW5nZSBpdCwgeW91IHJpc2sgYnJlYWtp
+bmcgc29tZW9uZeKAmXMgdXNlIGNhc2UsIGJ1dCBJIGJlbGlldmUgdXNpbmcgPSYjNDM7IGluc3Rl
+YWQgb2YgJiM0Mzs9IHNob3VsZCBiZSB0aGUgbGVhc3QgaW52YXNpdmUgY2hhbmdlIGNvbXBhcmVk
+IHRvIHRoZSBjdXJyZW50IHZlcnNpb24uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1m
+YXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1s
+YW5ndWFnZTpFTi1VUyI+Ly9QZXRlcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdl
+OkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6
+bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4w
+cHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0Ux
+RTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4t
+VVMiPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1i
+ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwv
+Yj5BbGV4YW5kZXIgS2FuYXZpbjxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjMganVuaSAyMDIxIDEw
+OjM0PGJyPg0KPGI+VG86PC9iPiBLb25yYWQgV2VpaG1hbm4gJmx0O2t3ZWlobWFubkBvdXRsb29r
+LmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29y
+ZV0gW1BBVENIXSBweXBpOiBzZXQgU1JDX1VSSSB3aXRoID0sIG5vdCB3aXRoICYjNDM7PTxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+UmlnaHQsIEkgc2VudCBhbiB1cGRhdGVkIHBhdGNoLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4N
+CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5BbGV4PG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFdlZCwgMjMgSnVuIDIwMjEgYXQgMDk6
+MDEsIEtvbnJhZCBXZWlobWFubiAmbHQ7PGEgaHJlZj0ibWFpbHRvOmt3ZWlobWFubkBvdXRsb29r
+LmNvbSI+a3dlaWhtYW5uQG91dGxvb2suY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xp
+ZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44
+cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cD5UaGF0IGRvZXNuJ3QgbG9vayBjb21wbGV0ZWx5IHJp
+Z2h0IHRvIG1lLjxicj4NCjxicj4NCllvdSdyZSBhYnNvbHV0ZWx5IHJpZ2h0IGFib3V0IGRldnRv
+b2wgZXhwZWN0aW5nIHRoZSB0YXJiYWxsIGluIGFzIHRoZSAxc3QgaXRlbSwgYnV0IHRoaXMgcGF0
+Y2ggaGVyZSBicmVha3MgZXhpc3RpbmcgcmVjaXBlcyBsaWtlPGJyPg0KPGJyPg0KU1JDX1VSSSAm
+IzQzOz0gJnF1b3Q7PGEgaHJlZj0iZmlsZTovL3NvbWUucGF0Y2giPmZpbGU6Ly9zb21lLnBhdGNo
+PC9hPiZxdW90Ozxicj4NCjxicj4NCmluaGVyaXQgcHlwaTxicj4NCjxicj4NCmFzIHRoZSBwYXRj
+aCB3aWxsIG5vdyBiZSBkcm9wcGVkLjxvOnA+PC9vOnA+PC9wPg0KPHA+Jm5ic3A7PG86cD48L286
+cD48L3A+DQo8cD5JIHdvdWxkIHN1Z2dlc3QgdG8gZ28gZm9yIFNSQ19VUklfcHJlcGVuZCA9ICZx
+dW90OyR7UFlQSV9TUkNfVVJJfSAmcXVvdDsgd2hpY2ggZml4ZXMgdGhlIGlzc3VlICphbmQqIGRv
+ZXNuJ3QgYnJlYWsgZXhpc2l0aW5nIHNldHVwczxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij48YnI+DQo8YnI+DQo8bzpwPjwv
+bzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4N
+CjwvaHRtbD4NCg==
 
+--_000_6dd3291340e74358bdd444d563077690XBOX03axiscom_--
