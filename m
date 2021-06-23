@@ -1,86 +1,189 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.9513.1624462870648427984
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.9788.1624464145638465938
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Jun 2021 08:41:10 -0700
+ Wed, 23 Jun 2021 09:02:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TafgJqoW;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id y14so2071040pgs.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 08:41:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=F02fktHn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id n20so4180049edv.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Jun 2021 09:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=8QmgyYuTjvp77xePQiHvtHmfwqnqzgpFk3AiE4UkuKs=;
-        b=TafgJqoW8fatwBXc9Es7QHGKwTklAwhkkg0vr4RZGf1mMnkQXkTQ44gF9HY0nPDRtW
-         dTnKTCaAQUAPE9EZEw91Stw4wvHOsAk/NKX9P94W8Etf5FOTbDhg1LRT/8FlxD0ZzA2f
-         Pksey3VAxPEFQZ6b/EgrpmaS6S71/CeCII+Q9xPMlDRNG0eoety43RDP66U7Gt51nDSi
-         vfiW544RGP6PxLgFNg3s71ahe5h46bBukbJl3XE5hCMrK71lSxtJo+XFIUc03LlEbdWm
-         dJTVO/ILa/U9bmF/Q7kYLvsvfSN83VbjPXTIVzoqqLwmqXApM3RGh1lh5gDh4lpwA8mb
-         Nu8g==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fW9JiE/1QWqUSDumDKtD0CNC0XbMgCuqNABeKaF04BY=;
+        b=F02fktHncceb1j5SM3cFYv/gj1F2Oe8uPnCni1wd8XSo9WbOtNv2z6L7Vvtapvhc7H
+         GbNAifnyRpVk2vEPRAkHToWT1ccHNHPaKx9sx25JxjdolbHbfv4NpHwyj/6EwV9JuJzN
+         lR+0cv9giFEgxJSfWAmOs/4kGUGG0J9oKGSMm1QZW/CNXMPnXLG7tIkvdfl2K0V80ViI
+         KxTFcj6UB50/xQCgtZe7NSLKJrve+GNQOropb4LBKaxXZYJ17R+4Vd77w6w4lYbi5TeK
+         B1P/dkZapcLfdZKbvviC8AXCFNeGbkEAmxZX2NLujcw4Io74jqngylhMiJ54VTpISAeJ
+         iXXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8QmgyYuTjvp77xePQiHvtHmfwqnqzgpFk3AiE4UkuKs=;
-        b=RsAEdoeTkVQvnZVpfh6ACJ8n7+GArOU3PmI6BdPfT8P+WivdgLpxUyGQ+l6+UJGWsN
-         jcpx5JF8Xy1WMSYlqWSkFdzwwyUmPZtewsB6C3ichZlAO62SPRLebbfBspyfoHWj6dsl
-         9JkDqTp7+d21z3xknjI3pOPGj0uQHciXAWrRb1yPzrEb1B6VTzAb7ZpgRMJs7krxhyhq
-         gpnyGYzZhH0U8yKu07JxprGLOprrI/7TswpkDEaM0e0vcnLFLgvHGTg3gFHS3sx28g7D
-         hTF076lAf/Ut6QZw2tx41kvxTaryw5+ADpipBwklnCAKFmidrGUU+dBsZ0VrDgoLt1mw
-         ePtA==
-X-Gm-Message-State: AOAM532m8cK9Q95TIY1Ss6cYKsklItDiVj1G8jb2aXgYfprc6Gn/8R5w
-	vauINVxNNh0wAEL80TsoxHZ8tnmGAMvYFQ==
-X-Google-Smtp-Source: ABdhPJxI4BSP5jq0L2CfEHVC+eGiAJWrk2BGeblIYzrtAPfar7N/orEBA4DcOrJzsggs1/mlSgVoeg==
-X-Received: by 2002:a65:5c4a:: with SMTP id v10mr134215pgr.142.1624462869743;
-        Wed, 23 Jun 2021 08:41:09 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::bfd0? ([2601:646:9200:a0f0::bfd0])
-        by smtp.gmail.com with ESMTPSA id r14sm268581pgm.28.2021.06.23.08.41.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jun 2021 08:41:09 -0700 (PDT)
-Subject: Re: [OE-core] should a layer supply its own "local.conf" file?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
- OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <b58585ae-7c43-731a-71fa-2832828ead6@crashcourse.ca>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <0b66a272-b15f-1fab-fbdd-f52e3e7460ee@gmail.com>
-Date: Wed, 23 Jun 2021 08:41:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fW9JiE/1QWqUSDumDKtD0CNC0XbMgCuqNABeKaF04BY=;
+        b=jyxGoyz29wwCm3dtlhOhbIeGTkbiaN7gSl+8PVikh+WrD2mm3tqmUTeWXhZWRJ8snp
+         iWKM8D1O3OErDkjpN6Eug3AxGZ4nDCtIoQh/lt3b34j4PPnqclRn7JROsH3ZUw20PdH8
+         zfhbv32imuoEP8gIeL2q+2UcrTIbtsGz548nDTMPrRhaND7t2picY1VDZ4rF6gIW7QHI
+         peWbuTeYxNq0+gMgO/KbgxBIcyM6+2h+woJZ+NKNmw9lgLqBnESOx8ysY2yQQQrbpLp2
+         7Y8eSINPyhsbQrT3ZQEGmn0Y9SJKynm/ixRix5qghbFvlLXMLhFDyBUMCptd5zSgeevM
+         9mgA==
+X-Gm-Message-State: AOAM532lXoCTJYzG/TNfWG0NqZiaIREe4jDTK2HPMgd/wuUPZgqeiPYU
+	X7XvTP6UZ0iysXw1KvaUo+8=
+X-Google-Smtp-Source: ABdhPJwGS7z7v2uM4pjfYtJaR3FpBQy+C8D3XdlcFrvZK8cyFES2PEMQQ//IbcRm7eW5TNAiPSX+AA==
+X-Received: by 2002:a05:6402:31a5:: with SMTP id dj5mr569032edb.229.1624464144233;
+        Wed, 23 Jun 2021 09:02:24 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id f14sm255063edd.69.2021.06.23.09.02.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 09:02:23 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 23 Jun 2021 18:02:22 +0200
+To: Andrea Adami <andrea.adami@gmail.com>
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH 2/2] kernel.bbclass: inherit kernel_devicetree only if KERNEL_DEVICETREE is set
+Message-ID: <20210623160222.ftqara6lcqmn4vgj@jama>
+References: <20210622221818.4613-1-andrea.adami@gmail.com>
+ <20210622221818.4613-2-andrea.adami@gmail.com>
+ <e7a7a1a335404229b99a7815b2b6e15b@XBOX03.axis.com>
+ <CAAQYJAtBoiaX180FxOKzXPwm0hciYQths0eOYiTRSyZypmdrkA@mail.gmail.com>
+ <CAHtQpK5erwo++s8pLwHdkjbBvuwwZzNZb6ejjPvxx5g=w1dNdQ@mail.gmail.com>
+ <CAAQYJAv9ear6oUz8c1c5QaFyMfxuVG7xN==dfpC+yXPQJNdgwg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b58585ae-7c43-731a-71fa-2832828ead6@crashcourse.ca>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAAQYJAv9ear6oUz8c1c5QaFyMfxuVG7xN==dfpC+yXPQJNdgwg@mail.gmail.com>
+X-Groupsio-MsgNum: 153244
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="4pj76scsiaccc6um"
+Content-Disposition: inline
+
+--4pj76scsiaccc6um
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jun 23, 2021 at 05:22:21PM +0200, Andrea Adami wrote:
+> On Wed, Jun 23, 2021 at 3:51 PM Andrey Zhizhikin <andrey.z@gmail.com> wr=
+ote:
+> >
+> > Hello Andrea,
+> >
+> > On Wed, Jun 23, 2021 at 3:16 PM Andrea Adami <andrea.adami@gmail.com> =
+wrote:
+> > >
+> > > On Wed, Jun 23, 2021 at 11:32 AM Peter Kjellerstedt
+> > > <peter.kjellerstedt@axis.com> wrote:
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > > core@lists.openembedded.org> On Behalf Of Andrea Adami
+> > > > > Sent: den 23 juni 2021 00:18
+> > > > > To: openembedded-core@lists.openembedded.org
+> > > > > Subject: [OE-core][PATCH 2/2] kernel.bbclass: inherit kernel_dev=
+icetree
+> > > > > only if KERNEL_DEVICETREE is set
+> > > > >
+> > > > > Now it unconditionally tries to create package kernel-devicetre =
+even for
+> > > > > legacy devices w/out DT.
+> > > > >
+> > > > > Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+> > > > > ---
+> > > > >  meta/classes/kernel.bbclass | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.b=
+bclass
+> > > > > index 06e6446a08..68369e3791 100644
+> > > > > --- a/meta/classes/kernel.bbclass
+> > > > > +++ b/meta/classes/kernel.bbclass
+> > > > > @@ -779,4 +779,4 @@ addtask deploy after do_populate_sysroot
+> > > > > do_packagedata
+> > > > >  EXPORT_FUNCTIONS do_deploy
+> > > > >
+> > > > >  # Add using Device Tree support
+> > > > > -inherit kernel-devicetree
+> > > > > +inherit ${@ "" if d.getVar("KERNEL_DEVICETREE" =3D=3D "") else =
+"kernel-devicetree" }
+> > > >
+> > > > That doesn't look correct. Don't you mean something like this:
+> > > >
+> > > > inherit ${@ "kernel-devicetree" if d.getVar("KERNEL_DEVICETREE") e=
+lse "" }
+> > > >
+> > >
+> > > As you prefer, I don't think bitbake has likely/unlikely optimizatio=
+n.
+> > > I took the style-example from line 6 where it reads
+> > >
+> > > KERNEL_DEPLOYSUBDIR ??=3D "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME"=
+) =3D=3D
+> > > "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
+> > >
+> > > I am for any option providing a guard.
+> >
+> > I guess you've missed the closing bracket in your statement, please
+> > take a look at the comparison operator.
+>=20
+> The code as it is doesn't raise any parse error.
+> There is opening bracket and closing bracket, what more?
+
+d.getVar("KERNEL_DEVICETREE" =3D=3D "")
+vs
+d.getVar("KERNEL_DEVICETREE") =3D=3D ""
+
+> We can discuss about the form, someone suggested anonymous python for
+> both patches.
+>=20
+> Thanks for reviewing
+> A.A.
+>=20
+> >
+> > As yet another option, maybe even something like this:
+> > inherit ${@oe.utils.ifelse(d.getVar('KERNEL_DEVICETREE') =3D=3D '', ''=
+,
+> > 'kernel-devicetree')}
+> >
+> > However, I'm not sure what would happened if KERNEL_DEVICETREE is
+> > undefined, as in this case bitbake should return "None" according to
+> > the documentation.
+> >
+> > >
+> > > Cheers
+> > > A.A.
+> > >
+> > >
+> > > > > --
+> > > > > 2.17.1
+> > > >
+> > > > //Peter
+> > > >
+> > >
+> > >=20
+> > >
+> >
+> >
+> > --
+> > Regards,
+> > Andrey.
+
+>=20
+>=20
+>=20
 
 
+--4pj76scsiaccc6um
+Content-Type: application/pgp-signature; name="signature.asc"
 
-On 6/23/21 3:48 AM, Robert P. J. Day wrote:
-> 
->    long story short -- was having trouble figuring out why basic
-> settings i was adding to my build directory's conf/local.conf were
-> being ignored, and traced it back to the internal layer i was using
-> having its own "local.conf" file (in its conf directory, sitting
-> quietly next to the layer's "layer.conf" file).
-> 
->    argh.
-> 
->    i'm assuming that it was *that* local.conf that was being consulted
-> by the config process (overriding mine). is there some rationale for
-> that? that doesn't strike me as proper design, but i'm willing to be
-> educated.
+-----BEGIN PGP SIGNATURE-----
 
-you can check output of bitbake -e <some recipe> and see which 
-local.conf is being picked up and also trace the history of it
-sometimes it could be included by layer.conf from particular layer etc.
-there are multiple ways it can come into mix.
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYNNbDQAKCRA3VSO3ZXaA
+HGV3AJ9BcUsXdx0ySr63HuaXq4KOH8qRWwCfcoqBR8LmjxcZLjj6mPoZgCA3dps=
+=Du8Q
+-----END PGP SIGNATURE-----
 
-> 
-> rday
-> 
-> 
-> 
-> 
-> 
+--4pj76scsiaccc6um--
