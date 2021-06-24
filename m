@@ -1,115 +1,280 @@
-Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
- by mx.groups.io with SMTP id smtpd.web12.5726.1624531225438608028
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web09.7537.1624541355816621181
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jun 2021 03:40:26 -0700
+ Thu, 24 Jun 2021 06:29:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=Vapknx5u;
- spf=pass (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=802adda74=michael.ho@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ums6Myn7;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: flowergom@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id x16so5137100pfa.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jun 2021 06:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1624531225; x=1656067225;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/RAaJjgGBnb0H9wf6O6ntpBnbc6+p4eEFPQr54iwOo0=;
-  b=Vapknx5un8R1hlJaq/vYyrWoA0h2vASmXfhYelmO2ri037k9mlh65rrp
-   C/vGN59PG83/4pnJcpOF3Wd38xYyO4HZE/yYFlK95kU3Wiu7Y7EVm25Dm
-   Kll5ySTuhCcUsIqkezOhEPnbVoRB+DjKrhIzR89lvzu9fsmvIv63teqEX
-   4=;
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 24 Jun 2021 12:40:22 +0200
-Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
- 24 Jun 2021 12:40:22 +0200
-Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
- by esabb5.muc with ESMTP/TLS; 24 Jun 2021 12:40:22 +0200
-Received: from michael-pcx.bmw-carit.intra (192.168.221.41) by
- smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
- Thu, 24 Jun 2021 12:40:22 +0200
-From: "Michael Ho" <Michael.Ho@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Michael Ho <Michael.Ho@bmw.de>
-Subject: [PATCH] sstate.bbclass: fix errors about read-only sstate mirrors
-Date: Thu, 24 Jun 2021 12:40:09 +0200
-Message-ID: <20210624104009.1177045-1-michael.ho@bmw.de>
-X-Mailer: git-send-email 2.25.1
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=emP3CNy5EcIsh+7bwUhAqyQLwUdYJsPntamhoyx5ZOo=;
+        b=Ums6Myn7QnirQ+NUYGFxAsGZ0svU+g1TnUwM3VYPbhlqVr2n6TNFbr/a765qXPs9QA
+         8P9fMqY65lda5POHIcBLOrHW/nVzrtai94O1xsvHEBBiuhHME7DGA+s9q6cUXAGialdp
+         kyLm7OfPiyTfsys94KpA9fKqTYC26jmf9ChI9xTBaXVEdsiP2rI6Qbz5AOuqEIKEgk47
+         Tj0x8p2h/j9izytFUTgwVRk1O+F4UUDp6B7iDgBA/pIiIJx8KLhbAK62TCu1sMDfS+Xp
+         p2yzEGtfQZnFXyMl71Cd5xFVrmwMjlnvlVYFfYpAuzJiErGlSKmrwMEbrPHvMh5XhsnH
+         MWwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=emP3CNy5EcIsh+7bwUhAqyQLwUdYJsPntamhoyx5ZOo=;
+        b=UMXGWZ9jaAAB2mR1pKZ9fTPbUuJFIZyE/jrNVYrsrNX4yxoEwNbtcygK66SywuMBAc
+         yo5IxF/SAMsn+cTBlBwfzUKV6tYhkwHYX93aefNIdIDgoKo5RB6u13+zTHFy59fcBHBN
+         GoQLvPVMLlNtLbJAi+SVwmKJZlS2Qn1wJsN/Q+RINlLrSH7jEFkkgy5Wtv0kk9Rq4s5w
+         sa1AIXXQ821JAgsJY6pO3XSTwZwjgxum14ZQ9Mz1qqkQZckVb5y+a3XqWIEVFsFZoQQd
+         dlM4ykoxdQ95OL2eStki4hvVWTyYHYjrW91Wmt53zxLL6K8VRjepncl01nKvPE39Bwrk
+         cvpg==
+X-Gm-Message-State: AOAM532iR3AWfT9mUNnEcnu4hBjXGmpF8HUwJrVOcMV8pon+Gezu8xcD
+	oxBG77d/uCxSKsZNsvAsfxpGz8pBBVbAaes+
+X-Google-Smtp-Source: ABdhPJydh9Ou7/M+2YtN+wb0kzV0Ra4N1zy/PXX9BYMakGz2wmfBMZ+/pyYl3EWBdbtZQvwVqVkJmA==
+X-Received: by 2002:a63:e507:: with SMTP id r7mr4747708pgh.435.1624541354833;
+        Thu, 24 Jun 2021 06:29:14 -0700 (PDT)
+Return-Path: <flowergom@gmail.com>
+Received: from localhost.localdomain ([59.6.144.168])
+        by smtp.gmail.com with ESMTPSA id k13sm3171347pfu.57.2021.06.24.06.29.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 24 Jun 2021 06:29:14 -0700 (PDT)
+From: "Minjae Kim" <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] rpm: fix CVE-2021-3421
+Date: Thu, 24 Jun 2021 22:29:04 +0900
+Message-Id: <20210624132904.873-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Return-Path: michael.ho@bmw.de
-X-ClientProxiedBy: smucm15l.europe.bmw.corp (160.48.96.68) To
- smucm09k.europe.bmw.corp (160.48.96.43)
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Michael Ho <Michael.Ho@bmw.de>
+unsigned signature header leads to string injection into an rpm database
 
-If a read-only sstate mirror is used in conjunction with hash equiv,
-then OSError will be raised when an sstate-cache hit is achieved.
-
-This is because sstate_task_postfunc will try to "touch" the symlinks
-that point to the read-only sstate mirror when sstate_report_unihash
-has changed SSTATE_PKG.
-
-This commit adds an additional exception handler to silently mask read
-only rootfs errors thrown during the touch.
-
-The fix is also duplicated to sstate_eventhandler as the code is very
-similar but it may not be needed there.
-
-Example of the error:
-
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:sstate_task_postfunc(d)
-     0003:
-File: '/poky/meta/classes/sstate.bbclass', lineno: 774, function: sstate_task_postfunc
-     0770:
-     0771:    omask = os.umask(0o002)
-     0772:    if omask != 0o002:
-     0773:       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
- *** 0774:    sstate_package(shared_state, d)
-     0775:    os.umask(omask)
-     0776:
-     0777:    sstateinst = d.getVar("SSTATE_INSTDIR")
-     0778:    d.setVar('SSTATE_FIXMEDIR', shared_state['fixmedir'])
-File: '/poky/meta/classes/sstate.bbclass', lineno: 703, function: sstate_package
-     0699:    if not os.path.exists(siginfo):
-     0700:        bb.siggen.dump_this_task(siginfo, d)
-     0701:    else:
-     0702:        try:
- *** 0703:            os.utime(siginfo, None)
-     0704:        except PermissionError:
-     0705:            pass
-     0706:
-     0707:    return
-Exception: OSError: [Errno 30] Read-only file system
+reference:
+https://nvd.nist.gov/vuln/detail/CVE-2021-3421
+https://github.com/rpm-software-management/rpm/commit/d6a86b5e69e46cc283b1e06c92343319beb42e21
 ---
- meta/classes/sstate.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../rpm/files/CVE-2021-3421.patch             | 197 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
+ 2 files changed, 198 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 3a3f7cc24b..163f97495c 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -703,6 +703,10 @@ def sstate_package(ss, d):
-             os.utime(siginfo, None)
-         except PermissionError:
-             pass
-+        except OSError as e:
-+            # Handle read-only file systems gracefully
-+            if not e.errno == 30:
-+                raise e
+diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-3421.patch b/meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
+new file mode 100644
+index 0000000000..b1a05b6863
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
+@@ -0,0 +1,197 @@
++From 1e5b70cab83c95aa138107a38ecda75ff70e8985 Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowergom@gmail.com>
++Date: Thu, 24 Jun 2021 01:11:26 +0000
++Subject: [PATCH] Be much more careful about copying data from the signature
++ header
++
++Only look for known tags, and ensure correct type and size where known
++before copying over. Bump the old arbitrary 16k count limit to 16M limit
++though, it's not inconceivable that a package could have that many files.
++While at it, ensure none of these tags exist in the main header,
++which would confuse us greatly.
++
++This is optimized for backporting ease, upstream can remove redundancies
++and further improve checking later.
++
++Reported and initial patches by Demi Marie Obenour.
++
++Fixes: RhBug:1935049, RhBug:1933867, RhBug:1935035, RhBug:1934125, ...
++
++Fixes: CVE-2021-3421, CVE-2021-20271
++
++Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/d6a86b5e69e46cc283b1e06c92343319beb42e21]
++CVE: CVE-2021-3421
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ lib/package.c | 115 ++++++++++++++++++++++++--------------------------
++ lib/rpmtag.h  |   4 ++
++ 2 files changed, 58 insertions(+), 61 deletions(-)
++
++diff --git a/lib/package.c b/lib/package.c
++index 081123d84e..7c26ea323f 100644
++--- a/lib/package.c
+++++ b/lib/package.c
++@@ -20,76 +20,68 @@
++ 
++ #include "debug.h"
++ 
+++struct taglate_s {
+++    rpmTagVal stag;
+++    rpmTagVal xtag;
+++    rpm_count_t count;
+++} const xlateTags[] = {
+++    { RPMSIGTAG_SIZE, RPMTAG_SIGSIZE, 1 },
+++    { RPMSIGTAG_PGP, RPMTAG_SIGPGP, 0 },
+++    { RPMSIGTAG_MD5, RPMTAG_SIGMD5, 16 },
+++    { RPMSIGTAG_GPG, RPMTAG_SIGGPG, 0 },
+++    /* { RPMSIGTAG_PGP5, RPMTAG_SIGPGP5, 0 }, */ /* long obsolete, dont use */
+++    { RPMSIGTAG_PAYLOADSIZE, RPMTAG_ARCHIVESIZE, 1 },
+++    { RPMSIGTAG_FILESIGNATURES, RPMTAG_FILESIGNATURES, 0 },
+++    { RPMSIGTAG_FILESIGNATURELENGTH, RPMTAG_FILESIGNATURELENGTH, 1 },
+++    { RPMSIGTAG_SHA1, RPMTAG_SHA1HEADER, 1 },
+++    { RPMSIGTAG_SHA256, RPMTAG_SHA256HEADER, 1 },
+++    { RPMSIGTAG_DSA, RPMTAG_DSAHEADER, 0 },
+++    { RPMSIGTAG_RSA, RPMTAG_RSAHEADER, 0 },
+++    { RPMSIGTAG_LONGSIZE, RPMTAG_LONGSIGSIZE, 1 },
+++    { RPMSIGTAG_LONGARCHIVESIZE, RPMTAG_LONGARCHIVESIZE, 1 },
+++    { 0 }
+++};
+++
++ /** \ingroup header
++  * Translate and merge legacy signature tags into header.
++  * @param h		header (dest)
++  * @param sigh		signature header (src)
++  */
++ static
++-void headerMergeLegacySigs(Header h, Header sigh)
+++rpmTagVal headerMergeLegacySigs(Header h, Header sigh, char **msg)
++ {
++-    HeaderIterator hi;
+++    const struct taglate_s *xl;
++     struct rpmtd_s td;
++ 
++-    hi = headerInitIterator(sigh);
++-    for (; headerNext(hi, &td); rpmtdFreeData(&td))
++-    {
++-	switch (td.tag) {
++-	/* XXX Translate legacy signature tag values. */
++-	case RPMSIGTAG_SIZE:
++-	    td.tag = RPMTAG_SIGSIZE;
++-	    break;
++-	case RPMSIGTAG_PGP:
++-	    td.tag = RPMTAG_SIGPGP;
++-	    break;
++-	case RPMSIGTAG_MD5:
++-	    td.tag = RPMTAG_SIGMD5;
++-	    break;
++-	case RPMSIGTAG_GPG:
++-	    td.tag = RPMTAG_SIGGPG;
++-	    break;
++-	case RPMSIGTAG_PGP5:
++-	    td.tag = RPMTAG_SIGPGP5;
++-	    break;
++-	case RPMSIGTAG_PAYLOADSIZE:
++-	    td.tag = RPMTAG_ARCHIVESIZE;
++-	    break;
++-	case RPMSIGTAG_SHA1:
++-	case RPMSIGTAG_SHA256:
++-	case RPMSIGTAG_DSA:
++-	case RPMSIGTAG_RSA:
++-	default:
++-	    if (!(td.tag >= HEADER_SIGBASE && td.tag < HEADER_TAGBASE))
++-		continue;
++-	    break;
++-	}
++-	if (!headerIsEntry(h, td.tag)) {
++-	    switch (td.type) {
++-	    case RPM_NULL_TYPE:
++-		continue;
++-		break;
++-	    case RPM_CHAR_TYPE:
++-	    case RPM_INT8_TYPE:
++-	    case RPM_INT16_TYPE:
++-	    case RPM_INT32_TYPE:
++-	    case RPM_INT64_TYPE:
++-		if (td.count != 1)
++-		    continue;
++-		break;
++-	    case RPM_STRING_TYPE:
++-	    case RPM_BIN_TYPE:
++-		if (td.count >= 16*1024)
++-		    continue;
++-		break;
++-	    case RPM_STRING_ARRAY_TYPE:
++-	    case RPM_I18NSTRING_TYPE:
++-		continue;
++-		break;
++-	    }
++-	    (void) headerPut(h, &td, HEADERPUT_DEFAULT);
++-	}
+++    rpmtdReset(&td);
+++    for (xl = xlateTags; xl->stag; xl++) {
+++        /* There mustn't be one in the main header */
+++        if (headerIsEntry(h, xl->xtag))
+++            break;
+++        if (headerGet(sigh, xl->stag, &td, HEADERGET_RAW|HEADERGET_MINMEM)) {
+++            /* Translate legacy tags */
+++            if (xl->stag != xl->xtag)
+++                td.tag = xl->xtag;
+++            /* Ensure type and tag size match expectations */
+++            if (td.type != rpmTagGetTagType(td.tag))
+++                break;
+++            if (td.count < 1 || td.count > 16*1024*1024)
+++                break;
+++            if (xl->count && td.count != xl->count)
+++                break;
+++            if (!headerPut(h, &td, HEADERPUT_DEFAULT))
+++                break;
+++            rpmtdFreeData(&td);
+++        }
+++    }
+++    rpmtdFreeData(&td);
+++
+++    if (xl->stag) {
+++        rasprintf(msg, "invalid signature tag %s (%d)",
+++                        rpmTagGetName(xl->xtag), xl->xtag);
++     }
++-    headerFreeIterator(hi);
+++
+++    return xl->stag;
++ }
++ 
++ /**
++@@ -337,7 +329,8 @@ rpmRC rpmReadPackageFile(rpmts ts, FD_t fd, const char * fn, Header * hdrp)
++ 		goto exit;
++ 
++ 	    /* Append (and remap) signature tags to the metadata. */
++-	    headerMergeLegacySigs(h, sigh);
+++	    if (headerMergeLegacySigs(h, sigh,&msg))
+++		    goto exit;
++ 	    applyRetrofits(h);
++ 
++ 	    /* Bump reference count for return. */
++diff --git a/lib/rpmtag.h b/lib/rpmtag.h
++index 8c718b31b5..d562572c6f 100644
++--- a/lib/rpmtag.h
+++++ b/lib/rpmtag.h
++@@ -65,6 +65,8 @@ typedef enum rpmTag_e {
++     RPMTAG_LONGARCHIVESIZE	= RPMTAG_SIG_BASE+15,	/* l */
++     /* RPMTAG_SIG_BASE+16 reserved */
++     RPMTAG_SHA256HEADER		= RPMTAG_SIG_BASE+17,	/* s */
+++    /* RPMTAG_SIG_BASE+18 reserved for RPMSIGTAG_FILESIGNATURES */
+++    /* RPMTAG_SIG_BASE+19 reserved for RPMSIGTAG_FILESIGNATURELENGTH */
++ 
++     RPMTAG_NAME  		= 1000,	/* s */
++ #define	RPMTAG_N	RPMTAG_NAME	/* s */
++@@ -422,6 +424,8 @@ typedef enum rpmSigTag_e {
++     RPMSIGTAG_LONGSIZE	= RPMTAG_LONGSIGSIZE,	/*!< internal Header+Payload size (64bit) in bytes. */
++     RPMSIGTAG_LONGARCHIVESIZE = RPMTAG_LONGARCHIVESIZE, /*!< internal uncompressed payload size (64bit) in bytes. */
++     RPMSIGTAG_SHA256	= RPMTAG_SHA256HEADER,
+++    RPMSIGTAG_FILESIGNATURES            = RPMTAG_SIG_BASE + 18,
+++    RPMSIGTAG_FILESIGNATURELENGTH       = RPMTAG_SIG_BASE + 19,
++ } rpmSigTag;
++ 
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+index 4029217d08..018b2f8700 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+@@ -44,6 +44,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0001-mono-find-provides-requires-do-not-use-monodis-from-.patch \
+            file://0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD160.patch \
+            file://0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch \
++           file://CVE-2021-3421.patch \
+            "
  
-     return
- 
-@@ -1145,6 +1149,10 @@ python sstate_eventhandler() {
-                 os.utime(siginfo, None)
-             except PermissionError:
-                 pass
-+            except OSError as e:
-+                # Handle read-only file systems gracefully
-+                if not e.errno == 30:
-+                    raise e
- 
- }
- 
+ PE = "1"
 -- 
-2.25.1
+2.24.3 (Apple Git-128)
 
