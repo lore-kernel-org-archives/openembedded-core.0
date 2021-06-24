@@ -1,106 +1,115 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web09.4675.1624523324669049860
+Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
+ by mx.groups.io with SMTP id smtpd.web12.5726.1624531225438608028
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jun 2021 01:28:44 -0700
+ Thu, 24 Jun 2021 03:40:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QtXf9reJ;
- spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id n61so1909683uan.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jun 2021 01:28:44 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=Vapknx5u;
+ spf=pass (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=802adda74=michael.ho@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FcJ9meLCY/pjr9i8WlUbHMZv2EbS7zENGcCO3P9/+FQ=;
-        b=QtXf9reJsIxLEfoBz5naz/LD+NEHKpoipLqf9nMua83TqssKQWvzzRn2/DOqam4lYe
-         C6z3cSWpq6CTRUIvr4Mrb0Xzpi584GmelDwL/E6eAoaLquOTWj2ZJDO55o46ljYYEG/Q
-         obqh80CdmJFh/I9Ojws99ACWK7PQOOJJPzdjRvWyhrM5c7AEaMddZMixbBUw/FP/NHHb
-         nsxNiErKR+GCSDjWHNpxDxYx/gxBJ2PqWonEiS8x0iwLQe4einQOVL1hSf2oyrTCbxxd
-         zEIRMx6TDHvjFPY4UkrIDKlGQGRKL7eeTD2pMlli3MMVG0hpThT2CW46n7bLs6fVgu+y
-         Wy0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FcJ9meLCY/pjr9i8WlUbHMZv2EbS7zENGcCO3P9/+FQ=;
-        b=sH7wQ2LsUOn1r7tJeQ00+lRPcytnOT9DzfQnYqpBfHfwQrVDIyvBBt+/5skgCjhgLG
-         z8cjGeT0TIVxElymw19i//uQyvaDxT9PQfqxDfs+QdnqrgutWL3myEew72EbTCocgS1t
-         i0PEi0nYSho9noC0bg2CIookk4htCL+ATmq45jXaJSn+v4wIdV+ZKIJyJOYMA8kqzRIH
-         39QB18nRhZmioZBkVU5RpQyIP2Jpjo5DjrucDzlaDdLDHVNL0LU5+HJk1yv8c32+098G
-         BWk7RrHVOJI+Ps/3LP77MlqTr/X+3Q0GC0nLA5IE+2BkZbu50/029Y1INUzw8Y7+x3qE
-         UfOw==
-X-Gm-Message-State: AOAM531jZdkS35sENBUqRVvmivFj9MNAbtSkmtA3ut7MrpHLE3lZNR7R
-	YwUkir2Dsphc25NqujSOQjvaw6R6fExqtqvLDcg=
-X-Google-Smtp-Source: ABdhPJwcm6jAN1dZW+yLElYuWJHdAnZlWfEvab0d9gKF0PSEPCLT/RBV1kEYrCvYSEGlqGccw7SFN8DPFm/6oC2A3rQ=
-X-Received: by 2002:ab0:5962:: with SMTP id o31mr4077422uad.89.1624523323847;
- Thu, 24 Jun 2021 01:28:43 -0700 (PDT)
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1624531225; x=1656067225;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/RAaJjgGBnb0H9wf6O6ntpBnbc6+p4eEFPQr54iwOo0=;
+  b=Vapknx5un8R1hlJaq/vYyrWoA0h2vASmXfhYelmO2ri037k9mlh65rrp
+   C/vGN59PG83/4pnJcpOF3Wd38xYyO4HZE/yYFlK95kU3Wiu7Y7EVm25Dm
+   Kll5ySTuhCcUsIqkezOhEPnbVoRB+DjKrhIzR89lvzu9fsmvIv63teqEX
+   4=;
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 24 Jun 2021 12:40:22 +0200
+Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
+ 24 Jun 2021 12:40:22 +0200
+Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
+ by esabb5.muc with ESMTP/TLS; 24 Jun 2021 12:40:22 +0200
+Received: from michael-pcx.bmw-carit.intra (192.168.221.41) by
+ smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
+ Thu, 24 Jun 2021 12:40:22 +0200
+From: "Michael Ho" <Michael.Ho@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Michael Ho <Michael.Ho@bmw.de>
+Subject: [PATCH] sstate.bbclass: fix errors about read-only sstate mirrors
+Date: Thu, 24 Jun 2021 12:40:09 +0200
+Message-ID: <20210624104009.1177045-1-michael.ho@bmw.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210622192723.2041345-1-alex.kanavin@gmail.com>
- <3324.1624431667479717516@lists.openembedded.org> <CANNYZj_wbfFtDL+8HSAJzqvrmx+y0ofbmmrve91qBd8PfO9WFw@mail.gmail.com>
- <6dd3291340e74358bdd444d563077690@XBOX03.axis.com> <CANNYZj9M5diDQ_jirzug2rRDCugTrCnhjHS7a6tXNwBrMAFwvA@mail.gmail.com>
- <CAJ86T=WnCZ9pFtejfiNOe5TVzu3niRiaRPoGLfEJX9hC99Q2bQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=WnCZ9pFtejfiNOe5TVzu3niRiaRPoGLfEJX9hC99Q2bQ@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 24 Jun 2021 10:28:32 +0200
-Message-ID: <CANNYZj9dGnOrZPC8i5mA706BLMMNsgu-5+huje230WH9G+EXQQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] pypi: set SRC_URI with =, not with +=
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Konrad Weihmann <kweihmann@outlook.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a5b6f105c57ecf51"
+Return-Path: michael.ho@bmw.de
+X-ClientProxiedBy: smucm15l.europe.bmw.corp (160.48.96.68) To
+ smucm09k.europe.bmw.corp (160.48.96.43)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---000000000000a5b6f105c57ecf51
-Content-Type: text/plain; charset="UTF-8"
+From: Michael Ho <Michael.Ho@bmw.de>
 
-On Thu, 24 Jun 2021 at 09:21, Andre McCurdy <armccurdy@gmail.com> wrote:
+If a read-only sstate mirror is used in conjunction with hash equiv,
+then OSError will be raised when an sstate-cache hit is achieved.
 
-> On Wed, Jun 23, 2021 at 3:18 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Frankly guys, I think maybe we should just break stuff in this case, and
-> have it fixed up properly, then try to guess what workaround might work.
-> >
-> > From that perspective the original patch is the most clear.
->
-> The typical ordering of variables etc in recipes is to put SRC_URI
-> before inherit.
->
-> From the perspective of trying to get recipes to stick to a standard
-> ordering of variables etc, _prepend seems to be the best solution.
->
+This is because sstate_task_postfunc will try to "touch" the symlinks
+that point to the read-only sstate mirror when sstate_report_unihash
+has changed SSTATE_PKG.
 
-That's fine with me, we should probably fix up gnomebase.bbclass as well,
-as using = there adds friction to how SRC_URI must be set in the recipes.
+This commit adds an additional exception handler to silently mask read
+only rootfs errors thrown during the touch.
 
-Alex
+The fix is also duplicated to sstate_eventhandler as the code is very
+similar but it may not be needed there.
 
---000000000000a5b6f105c57ecf51
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Example of the error:
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 24 Jun 2021 at 09:21, Andre McCurdy &lt;<a href=3D"mailto:ar=
-mccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">On Wed, Jun 23, 2021 at 3:18 AM Alexa=
-nder Kanavin<br>
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
-n@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Frankly guys, I think maybe we should just break stuff in this case, a=
-nd have it fixed up properly, then try to guess what workaround might work.=
-<br>
-&gt;<br>
-&gt; From that perspective the original patch is the most clear.<br>
-<br>
-The typical ordering of variables etc in recipes is to put SRC_URI<br>
-before inherit.<br>
-<br>
-From the perspective of trying to get recipes to stick to a standard<br>
-ordering of variables etc, _prepend seems to be the best solution.<br></blo=
-ckquote><div><br></div>That&#39;s fine with me, we should probably fix up g=
-nomebase.bbclass as well, as using =3D there adds friction to how SRC_URI m=
-ust be set in the recipes.<br></div><div class=3D"gmail_quote"><div></div><=
-div><br></div><div>Alex<br></div><div><br></div></div></div>
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:sstate_task_postfunc(d)
+     0003:
+File: '/poky/meta/classes/sstate.bbclass', lineno: 774, function: sstate_task_postfunc
+     0770:
+     0771:    omask = os.umask(0o002)
+     0772:    if omask != 0o002:
+     0773:       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
+ *** 0774:    sstate_package(shared_state, d)
+     0775:    os.umask(omask)
+     0776:
+     0777:    sstateinst = d.getVar("SSTATE_INSTDIR")
+     0778:    d.setVar('SSTATE_FIXMEDIR', shared_state['fixmedir'])
+File: '/poky/meta/classes/sstate.bbclass', lineno: 703, function: sstate_package
+     0699:    if not os.path.exists(siginfo):
+     0700:        bb.siggen.dump_this_task(siginfo, d)
+     0701:    else:
+     0702:        try:
+ *** 0703:            os.utime(siginfo, None)
+     0704:        except PermissionError:
+     0705:            pass
+     0706:
+     0707:    return
+Exception: OSError: [Errno 30] Read-only file system
+---
+ meta/classes/sstate.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
---000000000000a5b6f105c57ecf51--
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 3a3f7cc24b..163f97495c 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -703,6 +703,10 @@ def sstate_package(ss, d):
+             os.utime(siginfo, None)
+         except PermissionError:
+             pass
++        except OSError as e:
++            # Handle read-only file systems gracefully
++            if not e.errno == 30:
++                raise e
+ 
+     return
+ 
+@@ -1145,6 +1149,10 @@ python sstate_eventhandler() {
+                 os.utime(siginfo, None)
+             except PermissionError:
+                 pass
++            except OSError as e:
++                # Handle read-only file systems gracefully
++                if not e.errno == 30:
++                    raise e
+ 
+ }
+ 
+-- 
+2.25.1
+
