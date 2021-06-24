@@ -1,149 +1,106 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web09.4310.1624520576807967681
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+ by mx.groups.io with SMTP id smtpd.web09.4675.1624523324669049860
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jun 2021 00:42:57 -0700
+ Thu, 24 Jun 2021 01:28:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: F19s9FzIGs9Wqk0vYuXpT/aIPFhML0BakETCOE48XKjTQyuyahBc/VcVmjVFrjQ4/L9GL3LlxQ
- m0eP0c/Dea6Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="207357341"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="207357341"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 00:42:56 -0700
-IronPort-SDR: RBWMmUJg4Iy56+eyUWvDbKZtc+uZyQmrxUTsVsLLcp7tpVUAlwz0IHVgzEhxORygKwevFJfHAf
- J4HEZOWaxXDA==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="487657363"
-Received: from seng-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.180.105])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 00:42:54 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: sander.visser.2@consultant.volvo.com
-Subject: [hardknott][PATCH] curl: fix build when proxy is not enabled in PACKAGECONFIG
-Date: Thu, 24 Jun 2021 15:42:43 +0800
-Message-Id: <20210624074243.163441-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QtXf9reJ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f52.google.com with SMTP id n61so1909683uan.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jun 2021 01:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FcJ9meLCY/pjr9i8WlUbHMZv2EbS7zENGcCO3P9/+FQ=;
+        b=QtXf9reJsIxLEfoBz5naz/LD+NEHKpoipLqf9nMua83TqssKQWvzzRn2/DOqam4lYe
+         C6z3cSWpq6CTRUIvr4Mrb0Xzpi584GmelDwL/E6eAoaLquOTWj2ZJDO55o46ljYYEG/Q
+         obqh80CdmJFh/I9Ojws99ACWK7PQOOJJPzdjRvWyhrM5c7AEaMddZMixbBUw/FP/NHHb
+         nsxNiErKR+GCSDjWHNpxDxYx/gxBJ2PqWonEiS8x0iwLQe4einQOVL1hSf2oyrTCbxxd
+         zEIRMx6TDHvjFPY4UkrIDKlGQGRKL7eeTD2pMlli3MMVG0hpThT2CW46n7bLs6fVgu+y
+         Wy0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FcJ9meLCY/pjr9i8WlUbHMZv2EbS7zENGcCO3P9/+FQ=;
+        b=sH7wQ2LsUOn1r7tJeQ00+lRPcytnOT9DzfQnYqpBfHfwQrVDIyvBBt+/5skgCjhgLG
+         z8cjGeT0TIVxElymw19i//uQyvaDxT9PQfqxDfs+QdnqrgutWL3myEew72EbTCocgS1t
+         i0PEi0nYSho9noC0bg2CIookk4htCL+ATmq45jXaJSn+v4wIdV+ZKIJyJOYMA8kqzRIH
+         39QB18nRhZmioZBkVU5RpQyIP2Jpjo5DjrucDzlaDdLDHVNL0LU5+HJk1yv8c32+098G
+         BWk7RrHVOJI+Ps/3LP77MlqTr/X+3Q0GC0nLA5IE+2BkZbu50/029Y1INUzw8Y7+x3qE
+         UfOw==
+X-Gm-Message-State: AOAM531jZdkS35sENBUqRVvmivFj9MNAbtSkmtA3ut7MrpHLE3lZNR7R
+	YwUkir2Dsphc25NqujSOQjvaw6R6fExqtqvLDcg=
+X-Google-Smtp-Source: ABdhPJwcm6jAN1dZW+yLElYuWJHdAnZlWfEvab0d9gKF0PSEPCLT/RBV1kEYrCvYSEGlqGccw7SFN8DPFm/6oC2A3rQ=
+X-Received: by 2002:ab0:5962:: with SMTP id o31mr4077422uad.89.1624523323847;
+ Thu, 24 Jun 2021 01:28:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210622192723.2041345-1-alex.kanavin@gmail.com>
+ <3324.1624431667479717516@lists.openembedded.org> <CANNYZj_wbfFtDL+8HSAJzqvrmx+y0ofbmmrve91qBd8PfO9WFw@mail.gmail.com>
+ <6dd3291340e74358bdd444d563077690@XBOX03.axis.com> <CANNYZj9M5diDQ_jirzug2rRDCugTrCnhjHS7a6tXNwBrMAFwvA@mail.gmail.com>
+ <CAJ86T=WnCZ9pFtejfiNOe5TVzu3niRiaRPoGLfEJX9hC99Q2bQ@mail.gmail.com>
+In-Reply-To: <CAJ86T=WnCZ9pFtejfiNOe5TVzu3niRiaRPoGLfEJX9hC99Q2bQ@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 24 Jun 2021 10:28:32 +0200
+Message-ID: <CANNYZj9dGnOrZPC8i5mA706BLMMNsgu-5+huje230WH9G+EXQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] pypi: set SRC_URI with =, not with +=
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Konrad Weihmann <kweihmann@outlook.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a5b6f105c57ecf51"
 
-Backport upstream patches to fix issues introduced by a backported CVE
-patch. Fixes:
+--000000000000a5b6f105c57ecf51
+Content-Type: text/plain; charset="UTF-8"
 
-| ../../curl-7.75.0/lib/vtls/vtls.c: In function ‘Curl_ssl_addsessionid’:
-| ../../curl-7.75.0/lib/vtls/vtls.c:508:14: error: ‘isProxy’ redeclared as different kind of symbol
-|   508 |   const bool isProxy = FALSE;
-|       |              ^~~~~~~
-| ../../curl-7.75.0/lib/vtls/vtls.c:488:37: note: previous definition of ‘isProxy’ with type ‘_Bool’
-|   488 |                                bool isProxy,
-|       |                                     ^
+On Thu, 24 Jun 2021 at 09:21, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../curl/curl/vtls-fix-addsessionid.patch     | 31 ++++++++++++++
- .../curl/curl/vtls-fix-warning.patch          | 40 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.75.0.bb      |  2 +
- 3 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/vtls-fix-addsessionid.patch
- create mode 100644 meta/recipes-support/curl/curl/vtls-fix-warning.patch
+> On Wed, Jun 23, 2021 at 3:18 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > Frankly guys, I think maybe we should just break stuff in this case, and
+> have it fixed up properly, then try to guess what workaround might work.
+> >
+> > From that perspective the original patch is the most clear.
+>
+> The typical ordering of variables etc in recipes is to put SRC_URI
+> before inherit.
+>
+> From the perspective of trying to get recipes to stick to a standard
+> ordering of variables etc, _prepend seems to be the best solution.
+>
 
-diff --git a/meta/recipes-support/curl/curl/vtls-fix-addsessionid.patch b/meta/recipes-support/curl/curl/vtls-fix-addsessionid.patch
-new file mode 100644
-index 0000000000..a4b9cb8931
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/vtls-fix-addsessionid.patch
-@@ -0,0 +1,31 @@
-+From 2c26eeef12f0204fb85d6bf40b4e7a1e2ddcdf24 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 29 Mar 2021 12:50:57 +0200
-+Subject: [PATCH] vtls: fix addsessionid for non-proxy builds
-+
-+Follow-up to b09c8ee15771c61
-+Fixes #6812
-+Closes #6811
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/2c26eeef12f0204fb85d6bf40b4e7a1e2ddcdf24]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ lib/vtls/vtls.c | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index 95fd6356285f..2e07df0a0462 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -504,11 +504,8 @@ CURLcode Curl_ssl_addsessionid(struct Curl_easy *data,
-+   const char *hostname = isProxy ? conn->http_proxy.host.name :
-+     conn->host.name;
-+ #else
-+-  /* proxy support disabled */
-+-  const bool isProxy = FALSE;
-+   struct ssl_primary_config * const ssl_config = &conn->ssl_config;
-+   const char *hostname = conn->host.name;
-+-  (void)sockindex;
-+ #endif
-+   (void)sockindex;
-+   DEBUGASSERT(SSL_SET_OPTION(primary.sessionid));
-diff --git a/meta/recipes-support/curl/curl/vtls-fix-warning.patch b/meta/recipes-support/curl/curl/vtls-fix-warning.patch
-new file mode 100644
-index 0000000000..113b6fd116
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/vtls-fix-warning.patch
-@@ -0,0 +1,40 @@
-+From b31d9ccfc2da288900e6857ad8d048c612328cac Mon Sep 17 00:00:00 2001
-+From: Jay Satiro <raysatiro@yahoo.com>
-+Date: Sun, 20 Jun 2021 16:42:58 -0400
-+Subject: [PATCH] vtls: fix warning due to function prototype mismatch
-+
-+b09c8ee changed the function prototype. Caught by Visual Studio.
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/b31d9ccfc2da288900e6857ad8d048c612328cac]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ lib/vtls/vtls.c | 2 +-
-+ lib/vtls/vtls.h | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index 82883c9c55e2..fe43703bf8b8 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -497,7 +497,7 @@ void Curl_ssl_delsessionid(struct Curl_easy *data, void *ssl_sessionid)
-+  */
-+ CURLcode Curl_ssl_addsessionid(struct Curl_easy *data,
-+                                struct connectdata *conn,
-+-                               bool isProxy,
-++                               const bool isProxy,
-+                                void *ssl_sessionid,
-+                                size_t idsize,
-+                                int sockindex)
-+diff --git a/lib/vtls/vtls.h b/lib/vtls/vtls.h
-+index a0585c9cec4c..f1a9b8033ae5 100644
-+--- a/lib/vtls/vtls.h
-++++ b/lib/vtls/vtls.h
-+@@ -247,7 +247,7 @@ void Curl_ssl_sessionid_unlock(struct Curl_easy *data);
-+  */
-+ bool Curl_ssl_getsessionid(struct Curl_easy *data,
-+                            struct connectdata *conn,
-+-                           const bool isproxy,
-++                           const bool isProxy,
-+                            void **ssl_sessionid,
-+                            size_t *idsize, /* set 0 if unknown */
-+                            int sockindex);
-diff --git a/meta/recipes-support/curl/curl_7.75.0.bb b/meta/recipes-support/curl/curl_7.75.0.bb
-index 7c7b363ae3..f7a8202bc9 100644
---- a/meta/recipes-support/curl/curl_7.75.0.bb
-+++ b/meta/recipes-support/curl/curl_7.75.0.bb
-@@ -13,6 +13,8 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
-            file://0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch \
-            file://0002-transfer-strip-credentials-from-the-auto-referer-hea.patch \
-+           file://vtls-fix-addsessionid.patch \
-+           file://vtls-fix-warning.patch \
- "
- 
- SRC_URI[sha256sum] = "50552d4501c178e4cc68baaecc487f466a3d6d19bbf4e50a01869effb316d026"
--- 
-2.31.1
+That's fine with me, we should probably fix up gnomebase.bbclass as well,
+as using = there adds friction to how SRC_URI must be set in the recipes.
 
+Alex
+
+--000000000000a5b6f105c57ecf51
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 24 Jun 2021 at 09:21, Andre McCurdy &lt;<a href=3D"mailto:ar=
+mccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">On Wed, Jun 23, 2021 at 3:18 AM Alexa=
+nder Kanavin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Frankly guys, I think maybe we should just break stuff in this case, a=
+nd have it fixed up properly, then try to guess what workaround might work.=
+<br>
+&gt;<br>
+&gt; From that perspective the original patch is the most clear.<br>
+<br>
+The typical ordering of variables etc in recipes is to put SRC_URI<br>
+before inherit.<br>
+<br>
+From the perspective of trying to get recipes to stick to a standard<br>
+ordering of variables etc, _prepend seems to be the best solution.<br></blo=
+ckquote><div><br></div>That&#39;s fine with me, we should probably fix up g=
+nomebase.bbclass as well, as using =3D there adds friction to how SRC_URI m=
+ust be set in the recipes.<br></div><div class=3D"gmail_quote"><div></div><=
+div><br></div><div>Alex<br></div><div><br></div></div></div>
+
+--000000000000a5b6f105c57ecf51--
