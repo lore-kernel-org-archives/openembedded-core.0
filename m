@@ -1,100 +1,56 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.3868.1624516242333095096
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web09.3935.1624517510680924547
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Jun 2021 23:30:42 -0700
+ Wed, 23 Jun 2021 23:51:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: mhtVDOaO5q019KW6xX9PozrXKQRMnLnbuabPbHZRQnSY5HopljshLHlAmCATDRsTjSH2xW5Nvh
- QQesEXlQtglA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="205579323"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: HI6Nx3cmWsW4ZNiFpl9bDyhaDQjF5E2xvtScHD43+iIIkzGqfe0t+5uVGePYJoA88xd0oWZd6O
+ jVOK2pl25/fA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="194548493"
 X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; 
-   d="scan'208";a="205579323"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 23:30:17 -0700
-IronPort-SDR: zrAXIUFxrqouNVnh7hgh531r8xDrPhXqEPFyCo051jw11QCpPJyVbAGKnVngYZOc/wPNa0cUqs
- yg+Tu7amumfg==
+   d="scan'208";a="194548493"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 23:51:48 -0700
+IronPort-SDR: QID35KGJAMS/fdjaKhyCGnoew7YjMdM/Z1Yw8C8ls8KQOhM2WBC2S3NyyWJ/omsWQjqHklHv2g
+ d7jf59XGVmrg==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; 
-   d="scan'208";a="445205290"
-Received: from seng-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.180.105])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 23:30:16 -0700
+   d="scan'208";a="454942543"
+Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
+  by fmsmga008.fm.intel.com with ESMTP; 23 Jun 2021 23:51:44 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Thu, 24 Jun 2021 14:51:44 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2242.008;
+ Thu, 24 Jun 2021 14:51:44 +0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/13] pull request (cover letter only)
-Date: Thu, 24 Jun 2021 14:30:10 +0800
-Message-Id: <cover.1624516137.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"sander.visser.2@consultant.volvo.com" <sander.visser.2@consultant.volvo.com>
+Subject: Re: [OE-core] Curl CVE-2021-22876 backport in hardknott
+Thread-Topic: [OE-core] Curl CVE-2021-22876 backport in hardknott
+Thread-Index: AddowXoZJo54LY/gRJuZdOeZFV4Z////gbeA
+Date: Thu, 24 Jun 2021 06:51:43 +0000
+Message-ID: <be1586b7e4492069aed01964790f8d419fc5aaa4.camel@intel.com>
+References: <AM9PR05MB8794557053459960C7945AC4C5079@AM9PR05MB8794.eurprd05.prod.outlook.com>
+In-Reply-To: <AM9PR05MB8794557053459960C7945AC4C5079@AM9PR05MB8794.eurprd05.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5E3730887CC5DD4ABAC760B3606A5079@intel.com>
+Content-Transfer-Encoding: base64
 
-Please merge these changes in hardknott.
-
-Thanks,
-
-Anuj
-
-The following changes since commit bfe25c99e914062b0527a6e74ebb8ce1eaad4ca8:
-
-  linux-firmware: upgrade 20210315 -> 20210511 (2021-06-11 11:46:53 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Andrea Adami (1):
-  kernel.bbclass: fix do_sizecheck() comparison
-
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.124
-  linux-yocto/5.4: update to v5.4.125
-
-Kai Kang (1):
-  libx11: fix CVE-2021-31535
-
-Khem Raj (1):
-  linuxloader: Be aware of riscv32 ldso
-
-Peter Kjellerstedt (2):
-  util-linux.inc: Do not modify BPN
-  native.bbclass: Do not remove "-native" in the middle of recipe names
-
-Richard Purdie (2):
-  lttng-tools: upgrade 2.12.3 -> 2.12.4
-  perf: Use python3targetconfig to ensure we use target libraries
-
-Ross Burton (1):
-  avahi: apply fix for CVE-2021-3468
-
-Tony Tascioglu (2):
-  valgrind: remove buggy ptest from arm64
-  valgrind: Actually install list of non-deterministic ptests
-
-Trevor Gamblin (1):
-  curl: cleanup CVE patches for hardknott
-
- meta/classes/kernel.bbclass                   |   2 +-
- meta/classes/linuxloader.bbclass              |   2 +
- meta/classes/native.bbclass                   |   8 +-
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   1 +
- .../avahi/files/handle-hup.patch              |  41 +++
- meta/recipes-core/util-linux/util-linux.inc   |   3 +-
- .../valgrind/valgrind/remove-for-aarch64      |   1 +
- .../valgrind/valgrind/run-ptest               |   4 +-
- .../valgrind/taskset_nondeterministic_tests   |   2 -
- .../valgrind/valgrind_3.16.1.bb               |   2 +
- .../xorg-lib/libx11/fix-CVE-2021-31535.patch  | 320 ++++++++++++++++++
- .../recipes-graphics/xorg-lib/libx11_1.7.0.bb |   5 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- ...-tools_2.12.3.bb => lttng-tools_2.12.4.bb} |   9 +-
- meta/recipes-kernel/perf/perf.bb              |   2 +-
- ...-argument-to-Curl_ssl_get-addsession.patch |  16 +-
- ...redentials-from-the-auto-referer-hea.patch |   5 +-
- 19 files changed, 417 insertions(+), 42 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/handle-hup.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/fix-CVE-2021-31535.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.12.3.bb => lttng-tools_2.12.4.bb} (94%)
-
--- 
-2.31.1
-
+T24gVGh1LCAyMDIxLTA2LTI0IGF0IDA2OjIzICswMDAwLCBTYW5kZXIgVmlzc2VyIHdyb3RlOg0K
+PiBIaQ0KPiDCoA0KPiAwMDAyLXRyYW5zZmVyLXN0cmlwLWNyZWRlbnRpYWxzLWZyb20tdGhlLWF1
+dG8tcmVmZXJlci1oZWEucGF0Y2ggZG9lcw0KPiBub3QgYWxsb3cgYnVpbGRpbmcgb2YgQ3VybCB3
+aXRob3V0IFBBQ0tBR0VDT05GSUcg4oCccHJveHnigJ0NCj4gwqANCg0KSSB0aGluayB3ZSBuZWVk
+IHRoaXMgdG9vOg0KDQpodHRwczovL2dpdGh1Yi5jb20vY3VybC9jdXJsL2NvbW1pdC8yYzI2ZWVl
+ZjEyZjAyMDRmYjg1ZDZiZjQwYjRlN2ExZTJkZGNkZjI0LnBhdGNoDQoNCkkgd2lsbCBzZW5kIGEg
+cGF0Y2ggYW5kIGluY2x1ZGUgdGhpcyBpbiBteSBuZXh0IHF1ZXVlLg0KDQpUaGFua3MsDQoNCkFu
+dWoNCg==
