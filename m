@@ -1,194 +1,140 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web08.9409.1624635708005874472
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.118])
+ by mx.groups.io with SMTP id smtpd.web08.9462.1624635959673582043
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jun 2021 08:41:48 -0700
+ Fri, 25 Jun 2021 08:46:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W64UQLfr;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id y21so4915160plb.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jun 2021 08:41:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iBOhhy92+QrCX10wCL7E0NT1gYBLPLmV8s0he87GVc8=;
-        b=W64UQLfrhclbqzYCxg23NBzWELECKlCxs6Ls3zA5sEifzi7CETNGyhfYud0TAHw60F
-         K06KyZ8G0cycEAqiNkXXkxU1B6sXXW+/DoPdRd0KF7xwDcoP4so/G7icfIufh/7P77pM
-         W/3JT9TbdC9UxbljNoBV0mM0lnfxSLOqPv3A077UA1HW1CgrEjnNLZjwZHGLPN7Pw0+J
-         TbmnviEHZhCdSGVohpJT7RvLYzIlVnMuzfKWG17HeMBdq1K+F8GTDru993dBeKZx00NC
-         duwjJuCLDioVL5Rh+ev9Rwiczi6e+y3jwDeDsgI1agNvw3Wt6PUHGdFZi84oA+IjhNGe
-         XSVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=iBOhhy92+QrCX10wCL7E0NT1gYBLPLmV8s0he87GVc8=;
-        b=YcYMvIyuWTmAAoMirjiWq56lbqyxip459DtI2AzmaJL8/ern+GCYb8Wmq/5OVpTovG
-         4cSaK8+sOiAur6WodHc4Ysgs2suoelVpUAaKH3HmfV4ahhWIzyZZjKd2bNsCeV8KDjhY
-         +0GCBdYvxjl9Sp0JeJ5YI3HM+nlmI2gu+3cLSvCqt0qqyBB79DCQc9JxsJAjNs69fO1H
-         DTaaMzjoaKOOdDTtrz5JNFCTRDYRS90Wh2LMGbmuW88Qd4Q4nFkAyNNhOkUYTTmzeL98
-         6CI/cboTYCG4rCcrvr4QPTdoBl9df4Rn24WamOZqlRI2zdZL1tUOTgZ2F69P/kSPEhpw
-         5VLw==
-X-Gm-Message-State: AOAM530WhcTtqH5vIAuB4DPWzhOChzMK/JUqdr1DJJuJN+UqQD+V0ROY
-	Z928acwn8NuDnSwDGGWWXq8=
-X-Google-Smtp-Source: ABdhPJyj4y1pX9b5uVbJrRqd2GaFf2cOEYoOsGhiRTHBz08rz8RdtKmHiqm3OqdrplKGaz9xXM9fOg==
-X-Received: by 2002:a17:90a:194a:: with SMTP id 10mr21519492pjh.188.1624635707349;
-        Fri, 25 Jun 2021 08:41:47 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:9c2:2fa:950b:5920? ([2601:646:9200:a0f0:9c2:2fa:950b:5920])
-        by smtp.gmail.com with ESMTPSA id gg5sm5811846pjb.18.2021.06.25.08.41.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Jun 2021 08:41:46 -0700 (PDT)
-Subject: Re: [OE-core][PATCH] busybox: add tmpdir option into mktemp applet
-To: Andrej Valek <andrej.valek@siemens.com>,
- openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com, Peter Marko <peter.marko@siemens.com>
-References: <20210622121531.13424-1-andrej.valek@siemens.com>
- <20210625061011.10871-1-andrej.valek@siemens.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <bdb3cd51-b2b7-f5d6-4353-287d339dcbc6@gmail.com>
-Date: Fri, 25 Jun 2021 08:41:45 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ dkim=pass header.i=@prevas.dk header.s=selector1 header.b=lM3mHfCa;
+ spf=pass (domain: prevas.dk, ip: 40.107.8.118, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YUJcSgjNhxPv0E2Luk8OwZxsA3vNhkVJwkcYwHXLvWK/l7UM2o60S2Jfs7lCvbow+r4jHq/ryiTpSEUk9hGxM8ctPJ4uEEffgyyowr2wBBUqyoyefKzBx/9bqzypUS7IGO/6+9EzAgHIF7adQjv1SCeoniXjs0hlbCblGzQuuDgoS4bLuiSysU37mZH5iY/dsH8m85BysQjlGr+uCHrZDfWi9IMZx98EYG1CcegrUtJYdWsOp6NzpMnsPCnAlWlXevJJ9CsGXijeHhmoindEgmCrnMSD7IjRzfu9cUx9IQlzXRbS0qS/W7fqg/3viLyiUVQ1K7tugZZ7Wdeg/AG6hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/I0xw4jNUVS7ZkJO3Bx2KH7FB0/RS6K+fXgeCrFeKEU=;
+ b=LaTyq4xhytDmKSDvxpmhfZK225dkJBfjjafu6ZtFF8AX0me35BQnRn4L/ENfIT/bNY0L+k3CvYcBj13LcwdsBZrLwNFGB/HZk6fhrsFmULHQmClN8Hjgt+Ud6buF9ITaQ+ISbRYji+0YS+m1BKUt9ffzGDIfjyBIwmwYKMzMUQVnan5cALNGUCJpjDpgcJqXI10WP3u8nLcbhjR1VI0RtZdXKvyYMD5PjPD8nRpBsuPn4iBcL/fSB5oQK/3TX6Sc6EXY4gmr6cmaaOVgU6idIXMpf7ibIFAHQQgk9syLDgswdyqkc146U4mZC7CDmwFxtpsfYbXgQU0+e1j7STGb6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/I0xw4jNUVS7ZkJO3Bx2KH7FB0/RS6K+fXgeCrFeKEU=;
+ b=lM3mHfCabt1slrtA0sl/uredgyfz4kQuDzRyHh2RDPEQryh6IuyyqURYJPoo67sQ9vuPh3j4Dux5vB5gFNli9PJN1fLlXRCKNZORxnIL+GepFHcmd1KpMTgXfF9XPI74Ss0/duGMW6+P7Lp94qefod/9vCzNa1fXNmbajlC289o=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=prevas.dk;
+Received: from AM6PR10MB1880.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:2f::12)
+ by AM6PR10MB2952.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:eb::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Fri, 25 Jun
+ 2021 15:45:56 +0000
+Received: from AM6PR10MB1880.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::78e7:758a:9dd5:6b52]) by AM6PR10MB1880.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::78e7:758a:9dd5:6b52%7]) with mapi id 15.20.4264.020; Fri, 25 Jun 2021
+ 15:45:56 +0000
+Subject: Re: [OE-core] RRECOMMENDS "masking" unsatisfiable IMAGE_INSTALL
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <5d6b6934-bd33-04e5-cf55-ce09895bbd6c@prevas.dk>
+ <599d48303a40d8c4db4d0d380d4cfcc5f0c7acfb.camel@linuxfoundation.org>
+From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
+Message-ID: <6f831e07-bfc3-8803-07a8-39050f92b3f6@prevas.dk>
+Date: Fri, 25 Jun 2021 17:45:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <599d48303a40d8c4db4d0d380d4cfcc5f0c7acfb.camel@linuxfoundation.org>
+X-Originating-IP: [80.208.64.110]
+X-ClientProxiedBy: AM7PR04CA0012.eurprd04.prod.outlook.com
+ (2603:10a6:20b:110::22) To AM6PR10MB1880.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:2f::12)
+Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
-In-Reply-To: <20210625061011.10871-1-andrej.valek@siemens.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.149] (80.208.64.110) by AM7PR04CA0012.eurprd04.prod.outlook.com (2603:10a6:20b:110::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend Transport; Fri, 25 Jun 2021 15:45:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 37aa98db-4492-4336-8490-08d937f0524e
+X-MS-TrafficTypeDiagnostic: AM6PR10MB2952:
+X-Microsoft-Antispam-PRVS: 
+	<AM6PR10MB2952E872FAE9A5AAF23BFFC693069@AM6PR10MB2952.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Sujp8e3PpHTdlE3oaBdRzhhC7MTJfQkeSvpfTE6+xu5UT+KmJ6ISJjVuGvJybdOmCEf/8eMyR+CI6frwU8EFSVe/KtDf5wEIP4ujy+4d2jzOH5JN5OJZqjcWjOeoDa1CN5Tvv0pVDNvDaUxWkwyYi6HWZCJptEJ4xTBsrD98W0E9uJmcJ566CVyoVbhe2QTMNXhBhc6kLGEjwnuCu5/uLjRGjll4oO4eMJNZCrBQvhvrOrsc1owfr6aiIyxwbS/F1BPDu0PE7lfEjU+uG2Xa5g6JJqF9mhPlr75ExzYM4Ws6waNywJRSLyOU7ZKjc6FGtXP3znxCZDn7SbFfxjF9nYE1Zj2AZikmSDlFy1b81lifWqqkxCgBuAPAsWwfk6jgKIU1aSUh8t65Y2gpMvx3YdAFGh3Y61xsOyhQsT4JRhRA5BmDTjw5nlpFNAxdgzO+bk982leDKDZBiv6kOWTnCg2IIbFJDvh5jLuAZVHDEuWCyodwhkZ4AbBygLt5bs8Ehqp7piIW7VlO6/F0ueUW8Bn+r2zPFiOmMi5EP0A+Zjm9kL1QHf9k0P7OdiZZ9+vAXCeEyExtvWzg9ovUbtP1uISR+txFr2GRpmDlL2ej2C2S3wXoxKpR8jxMZQZY6atNGMfIYRI2UbiNqrdXAq6raK6EXvccH9xxZB/rQ6aNNAD0sdi+LHN2oYHsYJy0g9HREo5TYqepDm83Hv/L26bqxA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR10MB1880.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(346002)(376002)(396003)(366004)(136003)(39830400003)(52116002)(66556008)(66476007)(6486002)(66946007)(956004)(2616005)(31696002)(44832011)(36756003)(16526019)(86362001)(38350700002)(38100700002)(31686004)(110136005)(8676002)(8936002)(8976002)(26005)(186003)(2906002)(478600001)(16576012)(5660300002)(83380400001)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RTB2SmphdmhNTzRvUyszSnYyVHo1czZVT3hyZDZERzBiV3VRNDI1MnZZVHd5?=
+ =?utf-8?B?R3RKV0hlc1VBbEVyNHoyS1paRzg3WTdZWDFrR3lwbGxyWFlqbjBZSnQ3UThp?=
+ =?utf-8?B?Q0VSdUZ6QzlZTC9wZUNXSTA4dC96UW83b2JlUW9seGRVUm42QjZKV2w3QlpL?=
+ =?utf-8?B?ZU9zVUVRbWtUUk01VndNT2tRdUkyTXJvcnhPNGZFaFBvWkUwUWdGOUN4dFFF?=
+ =?utf-8?B?Z3oxaWhlVzlHUC9GejZudmxqQjdrZVNZb2I2V29kajR6WXdFcURWR2RaSXdq?=
+ =?utf-8?B?Nk1UeFk3b0l6MXd1SFd5SnRUZzd6R3UvTTdnQ3d5QkErajJCWnljb2x1d0RV?=
+ =?utf-8?B?R1QwOVM4TGdGWkdDVnNFaG9LVWxjSE9oL2Z2WHF6SXZnWkNGRXlFZlZ3b21K?=
+ =?utf-8?B?bHh0WEpLL2VxTzNLeHNyS0FZZmJjS3ZoZ2hjTGZVVXVzaVJDUlhPMEZzUEs0?=
+ =?utf-8?B?Y2phazRDbDdtdm9IUG9ZaktGeU5FcGV3OFVpK0R2Rmw0K3o4TFZHQmxFOEZL?=
+ =?utf-8?B?M3VmV0NjTTFWRDE5YURjRGdIMDhMTFNoMmdyUEhDdWZZTmpxL2RwbDFqc0M2?=
+ =?utf-8?B?ajc5WDd5SGxzVndFOVlNb25zQytmQk1xWi9uQ3RpcEQyaG4rVGVIakZpT3J5?=
+ =?utf-8?B?TFRQajZ5cy9QUnBmMy9vMWVSeTY1S1pNNTBnZERwbUlydHRvYW9pa0lKSHBF?=
+ =?utf-8?B?OEwxdEFBRU5LaG5NcEt6V1k3M2JzQklxendoVFA0NG1oNmxLcGhjdXVLdkx4?=
+ =?utf-8?B?ZUVkUFc0Q0o4OGxjVzgzeVBHMWJYaE1vVnA2aC9Wc3NYUHNZKzBnVHlyMFQv?=
+ =?utf-8?B?dkpPNG4wMU53QmcwOEUzSlRXK05ENWZtUFV6Z2xvTHdvSGhNdU5OMTk1a3Ni?=
+ =?utf-8?B?U2xKTkE1TC9OUHpFZ2ZITGpjS3lsRHIyWW1WKzZVNXVWWERJU2hpL2txdFJZ?=
+ =?utf-8?B?aTZOQU1iZm91SnJRNGhmd2ROcG01NjY3YzA5ei9wdS9sVTVQNDJOWjd5aW0r?=
+ =?utf-8?B?S2Fuc282TWNTaVRkYzEzbFVQRnYvS2xVdlZGRGJqaksyNFZRNVBQSlpPNy8r?=
+ =?utf-8?B?SWU5WjJncXFOVUZOSTJqbjF2bTBaNzBId0xJV0NRdFc2UGFEVzY0dmhDTkl4?=
+ =?utf-8?B?aU1XZml2TmIwaEhKVlpKMHB2aHM5QzdJeG1wd1ZiS3pBMHB1OWRzT3N4bUI4?=
+ =?utf-8?B?eFpKekRsT01IOWZWV0RIRDRpb1pGeW9JSktnYSt6YW16ai95UEljMGtmNXJH?=
+ =?utf-8?B?YmN0V2xjUHBvRkExQS93VDBMNFBxNjloM0NiWVB4M296bVhPdGIxc0lXck1m?=
+ =?utf-8?B?QStZQ05DQ1YyaDhoUEFxNXB0UGgrV3ZJWWNHU2JDeWlRcWxyeGpNcnpmUEkr?=
+ =?utf-8?B?ZWczYjJabURuVVNSTlowNzByYVVOc0Y4MUZqOFlSSW02TERONWhXYW5EaDNO?=
+ =?utf-8?B?TkNoNHg3U3RIY1VMYzRpZ3Y2MXV5cktBZjFpeE5MRTZKOHBpYjVzTm5FRnNq?=
+ =?utf-8?B?ZUlQQTREZjZYaXNKS00yRVJodTdHWmwvRjA1TEZlSHd5VVZsTitmOVh0TVRj?=
+ =?utf-8?B?NDgyZFo5N3J2T3Z1d3JtV1MyaG9hSUlNN0ZQMzh4WVFZTkhyQ3dweUMzUXk2?=
+ =?utf-8?B?djhVSWNpVGJYbUNoenBRaUdjVys1bmN3VnVRbUhNYmd2b05haHRJT1M1UkIy?=
+ =?utf-8?B?QS9ZclFTR09nWFBsZ3FmYkZFbzYycTdwUWNOMzVzUG1PT3lPWmJpK3kvb0RV?=
+ =?utf-8?Q?MuLwe61vwA2h8OphtqTMvnnCYfHP6DF5N5xOQa2?=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37aa98db-4492-4336-8490-08d937f0524e
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR10MB1880.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 15:45:56.7109
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6HC1J6sBGl5+vfNbKKDzYi1LkyV9FtfEyr3eAGmUBhkcJdIYY2A4deTLyGoP8XXEqK7Q/ZPrSZGJVy3n5oUQZHpj6jg6sTIa2cA5I88CJec=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB2952
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
+On 25/06/2021 14.16, Richard Purdie wrote:
+> On Fri, 2021-06-25 at 09:37 +0200, Rasmus Villemoes via lists.openembedded.org wrote:
+>> I noticed that if I have an image recipe that says
+>>
+>> IMAGE_INSTALL += "kernel-module-foo"
+>>
+>> it fails as expected when the kernel hasn't been built with CONFIG_FOO=m.
+>>
+>> However, if at the same time some other package which happens to get
+>> installed in the same image says
+>>
+>> RRECOMMENDS_${PN} += "kernel-module-foo"
+>>
+>> the image build silently succeeds, obviously without any foo.ko
+>> included. This doesn't seem right. [I'm well aware that the RRECOMMENDS
+>> line alone works as expected, this is about the case where both the
+>> above lines are in play.]
+> 
+> Which package backend are you using and does this happen if you
+> use a different one, particularly swapping ipk and rpm?
+> 
+> That might tell us if this is a package manager issue or a bitbake
+> metadata one.
 
+I was using ipk. It seems to work as expected (i.e. fail the build) when
+using rpm.
 
-On 6/24/21 11:10 PM, Andrej Valek wrote:
-> - Make mktemp applet compatible with --tmpdir option in ca-certificate
-> update script.
-> 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->   .../busybox/0001-mktemp-add-tmpdir-option.patch    | 81 ++++++++++++++++++++++
->   meta/recipes-core/busybox/busybox_1.33.1.bb        |  5 +-
->   2 files changed, 84 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
-> 
-> diff --git a/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
-> new file mode 100644
-> index 0000000000..4a1960dff2
-> --- /dev/null
-> +++ b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
-> @@ -0,0 +1,81 @@
-> +From ceb378209f953ea745ed93a8645567196380ce3c Mon Sep 17 00:00:00 2001
-> +From: Andrej Valek <andrej.valek@siemens.com>
-> +Date: Thu, 24 Jun 2021 19:13:22 +0200
-> +Subject: [PATCH] mktemp: add tmpdir option
-> +
-> +Make mktemp more compatible with coreutils.
-> +- add "--tmpdir" option
-> +- add long variants for "d,q,u" options
-> +
-> +Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2021-June/088932.html]
-> +
-
-lgtm, this is right approach
-
-> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + coreutils/mktemp.c | 26 ++++++++++++++++++--------
-> + 1 file changed, 18 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/coreutils/mktemp.c b/coreutils/mktemp.c
-> +index 5393320a5..05c6d98c6 100644
-> +--- a/coreutils/mktemp.c
-> ++++ b/coreutils/mktemp.c
-> +@@ -39,16 +39,17 @@
-> + //kbuild:lib-$(CONFIG_MKTEMP) += mktemp.o
-> +
-> + //usage:#define mktemp_trivial_usage
-> +-//usage:       "[-dt] [-p DIR] [TEMPLATE]"
-> ++//usage:       "[-dt] [-p DIR, --tmpdir[=DIR]] [TEMPLATE]"
-> + //usage:#define mktemp_full_usage "\n\n"
-> + //usage:       "Create a temporary file with name based on TEMPLATE and print its name.\n"
-> + //usage:       "TEMPLATE must end with XXXXXX (e.g. [/dir/]nameXXXXXX).\n"
-> + //usage:       "Without TEMPLATE, -t tmp.XXXXXX is assumed.\n"
-> +-//usage:     "\n	-d	Make directory, not file"
-> +-//usage:     "\n	-q	Fail silently on errors"
-> +-//usage:     "\n	-t	Prepend base directory name to TEMPLATE"
-> +-//usage:     "\n	-p DIR	Use DIR as a base directory (implies -t)"
-> +-//usage:     "\n	-u	Do not create anything; print a name"
-> ++//usage:     "\n	-d			Make directory, not file"
-> ++//usage:     "\n	-q			Fail silently on errors"
-> ++//usage:     "\n	-t			Prepend base directory name to TEMPLATE"
-> ++//usage:     "\n	-p DIR, --tmpdir[=DIR]	Use DIR as a base directory (implies -t)"
-> ++//usage:     "\n				For --tmpdir is a optional one."
-> ++//usage:     "\n	-u			Do not create anything; print a name"
-> + //usage:     "\n"
-> + //usage:     "\nBase directory is: -p DIR, else $TMPDIR, else /tmp"
-> + //usage:
-> +@@ -72,13 +73,22 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
-> + 		OPT_t = 1 << 2,
-> + 		OPT_p = 1 << 3,
-> + 		OPT_u = 1 << 4,
-> ++		OPT_td = 1 << 5,
-> + 	};
-> +
-> + 	path = getenv("TMPDIR");
-> + 	if (!path || path[0] == '\0')
-> + 		path = "/tmp";
-> +
-> +-	opts = getopt32(argv, "^" "dqtp:u" "\0" "?1"/*1 arg max*/, &path);
-> ++	opts = getopt32long(argv, "^"
-> ++	       "dqtp:u\0"
-> ++	       "?1" /* 1 arg max */,
-> ++	       "directory\0" No_argument       "d"
-> ++	       "quiet\0"     No_argument       "q"
-> ++	       "dry-run\0"   No_argument       "u"
-> ++	       "tmpdir\0"    Optional_argument "\xff"
-> ++	       , &path, &path
-> ++	);
-> +
-> + 	chp = argv[optind];
-> + 	if (!chp) {
-> +@@ -95,7 +105,7 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
-> + 		goto error;
-> + 	}
-> + #endif
-> +-	if (opts & (OPT_t|OPT_p))
-> ++	if (opts & (OPT_t|OPT_p|OPT_td))
-> + 		chp = concat_path_file(path, chp);
-> +
-> + 	if (opts & OPT_u) {
-> +--
-> +2.11.0
-> +
-> diff --git a/meta/recipes-core/busybox/busybox_1.33.1.bb b/meta/recipes-core/busybox/busybox_1.33.1.bb
-> index a71ff530cb..4c2bc1106d 100644
-> --- a/meta/recipes-core/busybox/busybox_1.33.1.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.33.1.bb
-> @@ -38,6 +38,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->              ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
->              file://syslog.cfg \
->              file://unicode.cfg \
-> +           file://rev.cfg \
-> +           file://pgrep.cfg \
->              file://rcS \
->              file://rcK \
->              file://makefile-libbb-race.patch \
-> @@ -45,9 +47,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->              file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
->              file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
->              file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
-> -           file://rev.cfg \
-> -           file://pgrep.cfg \
->              file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
-> +           file://0001-mktemp-add-tmpdir-option.patch \
->              "
->   SRC_URI_append_libc-musl = " file://musl.cfg "
->   
-> 
-> 
-> 
-> 
-> 
+Rasmus
