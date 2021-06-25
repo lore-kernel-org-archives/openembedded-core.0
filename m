@@ -1,170 +1,152 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web12.3760.1624600303701145648
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+ by mx.groups.io with SMTP id smtpd.web09.3804.1624601449998663368
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jun 2021 22:51:43 -0700
+ Thu, 24 Jun 2021 23:10:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: wMbF5kxiRD3D3soN04TL/+uj7dXcpoZuLr++hpjDKXPHa7TULOx/uudlc5txokiDRsNCF4SGJg
- il9q2/el6IsA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="187303252"
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; 
-   d="scan'208";a="187303252"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 22:51:41 -0700
-IronPort-SDR: tm6+Nu0GfyAjiIN7lNJ9fz2AXe9gJnMtfWT2sEFU8n5yuC7ngMI4QdGdUqQmP+a3asvpR7z2mN
- ZZXo5wwgElfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; 
-   d="scan'208";a="488058324"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jun 2021 22:51:40 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 15P6AlJ6022454
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Jun 2021 08:10:47 +0200
+Received: from dev.vm6.ccp.siemens.com ([144.145.220.59])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 15P6Ak3Z016873;
+	Fri, 25 Jun 2021 08:10:47 +0200
+Received: from dev.localdomain (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 9FA5A950A87;
+	Fri, 25 Jun 2021 08:10:46 +0200 (CEST)
+From: "Andrej Valek" <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu: fix CVE-2021-3527
-Date: Fri, 25 Jun 2021 13:51:39 +0800
-Message-Id: <20210625055139.14491-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Cc: steve@sakoman.com, Andrej Valek <andrej.valek@siemens.com>,
+        Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] busybox: add tmpdir option into mktemp applet
+Date: Fri, 25 Jun 2021 08:10:11 +0200
+Message-Id: <20210625061011.10871-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20210622121531.13424-1-andrej.valek@siemens.com>
+References: <20210622121531.13424-1-andrej.valek@siemens.com>
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+- Make mktemp applet compatible with --tmpdir option in ca-certificate
+update script.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  2 +
- .../qemu/qemu/CVE-2021-3527-1.patch           | 42 +++++++++++++
- .../qemu/qemu/CVE-2021-3527-2.patch           | 59 +++++++++++++++++++
- 3 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
+ .../busybox/0001-mktemp-add-tmpdir-option.patch    | 81 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.33.1.bb        |  5 +-
+ 2 files changed, 84 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 6674936fef..33a8baea7f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -37,6 +37,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0006-vhost-user-gpu-fix-memory-leak-in-virgl_resource_att.patch \
-            file://0007-vhost-user-gpu-fix-OOB-write-in-virgl_cmd_get_capset.patch \
-            file://0001-linux-user-Tag-vsx-with-ieee128-fpbits.patch \
-+           file://CVE-2021-3527-1.patch \
-+           file://CVE-2021-3527-2.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
+diff --git a/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
 new file mode 100644
-index 0000000000..77a5385692
+index 0000000000..4a1960dff2
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
-@@ -0,0 +1,42 @@
-+From 05a40b172e4d691371534828078be47e7fff524c Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Mon, 3 May 2021 15:29:15 +0200
-+Subject: [PATCH] usb: limit combined packets to 1 MiB (CVE-2021-3527)
++++ b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+@@ -0,0 +1,81 @@
++From ceb378209f953ea745ed93a8645567196380ce3c Mon Sep 17 00:00:00 2001
++From: Andrej Valek <andrej.valek@siemens.com>
++Date: Thu, 24 Jun 2021 19:13:22 +0200
++Subject: [PATCH] mktemp: add tmpdir option
 +
-+usb-host and usb-redirect try to batch bulk transfers by combining many
-+small usb packets into a single, large transfer request, to reduce the
-+overhead and improve performance.
++Make mktemp more compatible with coreutils.
++- add "--tmpdir" option
++- add long variants for "d,q,u" options
 +
-+This patch adds a size limit of 1 MiB for those combined packets to
-+restrict the host resources the guest can bind that way.
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2021-June/088932.html]
 +
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Message-Id: <20210503132915.2335822-6-kraxel@redhat.com>
-+
-+Upstream-Status: Backport
-+https://gitlab.com/qemu-project/qemu/-/commit/05a40b172e4d691371534828078be47e7fff524c
-+CVE: CVE-2021-3527
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ hw/usb/combined-packet.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
++ coreutils/mktemp.c | 26 ++++++++++++++++++--------
++ 1 file changed, 18 insertions(+), 8 deletions(-)
 +
-+diff --git a/hw/usb/combined-packet.c b/hw/usb/combined-packet.c
-+index 5d57e883dc..e56802f89a 100644
-+--- a/hw/usb/combined-packet.c
-++++ b/hw/usb/combined-packet.c
-+@@ -171,7 +171,9 @@ void usb_ep_combine_input_packets(USBEndpoint *ep)
-+         if ((p->iov.size % ep->max_packet_size) != 0 || !p->short_not_ok ||
-+                 next == NULL ||
-+                 /* Work around for Linux usbfs bulk splitting + migration */
-+-                (totalsize == (16 * KiB - 36) && p->int_req)) {
-++                (totalsize == (16 * KiB - 36) && p->int_req) ||
-++                /* Next package may grow combined package over 1MiB */
-++                totalsize > 1 * MiB - ep->max_packet_size) {
-+             usb_device_handle_data(ep->dev, first);
-+             assert(first->status == USB_RET_ASYNC);
-+             if (first->combined) {
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
-new file mode 100644
-index 0000000000..6371aced12
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
-@@ -0,0 +1,59 @@
-+From 7ec54f9eb62b5d177e30eb8b1cad795a5f8d8986 Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Mon, 3 May 2021 15:29:12 +0200
-+Subject: [PATCH] usb/redir: avoid dynamic stack allocation (CVE-2021-3527)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Use autofree heap allocation instead.
-+
-+Fixes: 4f4321c11ff ("usb: use iovecs in USBPacket")
-+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Message-Id: <20210503132915.2335822-3-kraxel@redhat.com>
-+
-+Upstream-Status: Backport
-+https://gitlab.com/qemu-project/qemu/-/commit/7ec54f9eb62b5d177e30eb8b1cad795a5f8d8986
-+CVE: CVE-2021-3527
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ hw/usb/redirect.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-+index 17f06f3417..6a75b0dc4a 100644
-+--- a/hw/usb/redirect.c
-++++ b/hw/usb/redirect.c
-+@@ -620,7 +620,7 @@ static void usbredir_handle_iso_data(USBRedirDevice *dev, USBPacket *p,
-+                 .endpoint = ep,
-+                 .length = p->iov.size
-+             };
-+-            uint8_t buf[p->iov.size];
-++            g_autofree uint8_t *buf = g_malloc(p->iov.size);
-+             /* No id, we look at the ep when receiving a status back */
-+             usb_packet_copy(p, buf, p->iov.size);
-+             usbredirparser_send_iso_packet(dev->parser, 0, &iso_packet,
-+@@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice *dev, USBPacket *p,
-+         usbredirparser_send_bulk_packet(dev->parser, p->id,
-+                                         &bulk_packet, NULL, 0);
-+     } else {
-+-        uint8_t buf[size];
-++        g_autofree uint8_t *buf = g_malloc(size);
-+         usb_packet_copy(p, buf, size);
-+         usbredir_log_data(dev, "bulk data out:", buf, size);
-+         usbredirparser_send_bulk_packet(dev->parser, p->id,
-+@@ -923,7 +923,7 @@ static void usbredir_handle_interrupt_out_data(USBRedirDevice *dev,
-+                                                USBPacket *p, uint8_t ep)
-+ {
-+     struct usb_redir_interrupt_packet_header interrupt_packet;
-+-    uint8_t buf[p->iov.size];
-++    g_autofree uint8_t *buf = g_malloc(p->iov.size);
++diff --git a/coreutils/mktemp.c b/coreutils/mktemp.c
++index 5393320a5..05c6d98c6 100644
++--- a/coreutils/mktemp.c
+++++ b/coreutils/mktemp.c
++@@ -39,16 +39,17 @@
++ //kbuild:lib-$(CONFIG_MKTEMP) += mktemp.o
 + 
-+     DPRINTF("interrupt-out ep %02X len %zd id %"PRIu64"\n", ep,
-+             p->iov.size, p->id);
++ //usage:#define mktemp_trivial_usage
++-//usage:       "[-dt] [-p DIR] [TEMPLATE]"
+++//usage:       "[-dt] [-p DIR, --tmpdir[=DIR]] [TEMPLATE]"
++ //usage:#define mktemp_full_usage "\n\n"
++ //usage:       "Create a temporary file with name based on TEMPLATE and print its name.\n"
++ //usage:       "TEMPLATE must end with XXXXXX (e.g. [/dir/]nameXXXXXX).\n"
++ //usage:       "Without TEMPLATE, -t tmp.XXXXXX is assumed.\n"
++-//usage:     "\n	-d	Make directory, not file"
++-//usage:     "\n	-q	Fail silently on errors"
++-//usage:     "\n	-t	Prepend base directory name to TEMPLATE"
++-//usage:     "\n	-p DIR	Use DIR as a base directory (implies -t)"
++-//usage:     "\n	-u	Do not create anything; print a name"
+++//usage:     "\n	-d			Make directory, not file"
+++//usage:     "\n	-q			Fail silently on errors"
+++//usage:     "\n	-t			Prepend base directory name to TEMPLATE"
+++//usage:     "\n	-p DIR, --tmpdir[=DIR]	Use DIR as a base directory (implies -t)"
+++//usage:     "\n				For --tmpdir is a optional one."
+++//usage:     "\n	-u			Do not create anything; print a name"
++ //usage:     "\n"
++ //usage:     "\nBase directory is: -p DIR, else $TMPDIR, else /tmp"
++ //usage:
++@@ -72,13 +73,22 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
++ 		OPT_t = 1 << 2,
++ 		OPT_p = 1 << 3,
++ 		OPT_u = 1 << 4,
+++		OPT_td = 1 << 5,
++ 	};
++ 
++ 	path = getenv("TMPDIR");
++ 	if (!path || path[0] == '\0')
++ 		path = "/tmp";
++ 
++-	opts = getopt32(argv, "^" "dqtp:u" "\0" "?1"/*1 arg max*/, &path);
+++	opts = getopt32long(argv, "^"
+++	       "dqtp:u\0"
+++	       "?1" /* 1 arg max */,
+++	       "directory\0" No_argument       "d"
+++	       "quiet\0"     No_argument       "q"
+++	       "dry-run\0"   No_argument       "u"
+++	       "tmpdir\0"    Optional_argument "\xff"
+++	       , &path, &path
+++	);
++ 
++ 	chp = argv[optind];
++ 	if (!chp) {
++@@ -95,7 +105,7 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
++ 		goto error;
++ 	}
++ #endif
++-	if (opts & (OPT_t|OPT_p))
+++	if (opts & (OPT_t|OPT_p|OPT_td))
++ 		chp = concat_path_file(path, chp);
++ 
++ 	if (opts & OPT_u) {
 +-- 
-+GitLab
++2.11.0
 +
+diff --git a/meta/recipes-core/busybox/busybox_1.33.1.bb b/meta/recipes-core/busybox/busybox_1.33.1.bb
+index a71ff530cb..4c2bc1106d 100644
+--- a/meta/recipes-core/busybox/busybox_1.33.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.33.1.bb
+@@ -38,6 +38,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
+            file://syslog.cfg \
+            file://unicode.cfg \
++           file://rev.cfg \
++           file://pgrep.cfg \
+            file://rcS \
+            file://rcK \
+            file://makefile-libbb-race.patch \
+@@ -45,9 +47,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+-           file://rev.cfg \
+-           file://pgrep.cfg \
+            file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
++           file://0001-mktemp-add-tmpdir-option.patch \
+            "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
 -- 
-2.17.1
+2.11.0
 
