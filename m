@@ -1,84 +1,134 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.4884.1624701870264279136
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.6953.1624716109775274806
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Jun 2021 03:04:30 -0700
+ Sat, 26 Jun 2021 07:01:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VmAJUtpE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id a13so13541203wrf.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Jun 2021 03:04:30 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hSYzeLe8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id i94so14031157wri.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Jun 2021 07:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=riMS3z6xMPp5UnMsOGHwf79BBIg77dMoBBiAp5uhl9M=;
-        b=VmAJUtpEc3pUhatv5iCx99kqjoRqObvUs4OY4QbV2U29kNYEEXTZubpg7O1lCM5HfH
-         sMsQBubtrWO/1WG3n17ytkhcIWbPpAJXTV8Ftps2VA8ozJ1z6DZnKVBdgDXK0JcnVSDi
-         20trvXIXkrL+Tn1kaL8rGAqRpdTtdS0+RJIHA=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fLUj/Q07vfPx5yt2UQT7Rs1PzMKTwbkBJF6DZKV+7IA=;
+        b=hSYzeLe8Is/kfaK02W/nNvogScuvgdMBnkag0xC+bsK+ZyqL+LhFQ+xKu2SBy4gt4R
+         ZZAgnFT6JQ0kxZZ5E9lwgMcf28YX0tDhtFf/oyhxLH0Y203m+ptyeFiGpjFHaFdgHNFh
+         lYlZUD10wXIgiSvL5QiKBkUvpWj1autRjMQ7Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=riMS3z6xMPp5UnMsOGHwf79BBIg77dMoBBiAp5uhl9M=;
-        b=j34ecAVakk3HEZABkyjkiuRTDfxNCSkByZC0l1nHXoNA3B1IXLif6nQd8iiHIIvwBD
-         lF21Pu115gfKqa45ny/0ssDR2U+tO2JMiqoqWBPRxxSvW8hjQ1co36LnnZJdt7AABEJB
-         Ekf5jeMR3GGEEFfMTuEPdqdvymamDupdR59w4O5AHkTxcOY1SE00TQNXZWRpqygdvZ+g
-         3tUMEPfKZAbAEjRNtuuAxYEeVFBaM7Hp4uVkvphIpwKw7k3cmqJYdP66MdLIb0VWlSc0
-         Zslu09B3E8gXslrqTKHUii02aEw5iUGjRyFMrgct0D+LasjpCFE+5Q2QgyECXAU8p4yb
-         KMhw==
-X-Gm-Message-State: AOAM530HtHJUh7GGbxvJPqolmo5Enb50j1a3s1erQyIg05kpBomZNnMZ
-	bLxl8ZoQAHeINrz53KMjxleyDA==
-X-Google-Smtp-Source: ABdhPJyALf6sTw9sWWYqM2JpBGVaWE9NDRhT4Wmz+ZfzI+hqARNsDIEsKUStvFQd4JjEAetpj6bknw==
-X-Received: by 2002:a5d:4fd0:: with SMTP id h16mr16641524wrw.302.1624701868741;
-        Sat, 26 Jun 2021 03:04:28 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fLUj/Q07vfPx5yt2UQT7Rs1PzMKTwbkBJF6DZKV+7IA=;
+        b=uICsDh5tCdOZB3NgFW2sZRyKSC+ZTN/HTfux0lWTaJGzFoygD9RMigUk9A853TCET8
+         H2pm2vHcbO4QY2Hg8wqATUgqL8f9nzGL4ffymieUcH+haMaoQah5602kzBnXzAruDDrT
+         95D9UG5eJLjs2tVGHd6c3YXwkhIho2g6ebbSfQR5ol3IyPldm3D2ihPXQEPuE9gMyvni
+         QS/G9dVQYoBvtYHnOAwgbO0zXvgXl3xyom5hpKfSXkV9IUZzpruBfHaBltR/9FkuNQEM
+         7EYSjIytHDV5jPGiGQ5oOZQK7JsxpqA94kY6NEiQAYsCOIuq2zhho8nBRn4V85/+TjiJ
+         p0FQ==
+X-Gm-Message-State: AOAM5317nLeIJxQgoFPs3gGEe/kArEJ4Pvnd20pLleEw7DxkRgrSORLP
+	U+DtTnkonIGiskdVnvgUrxIdrxa6A/hsjw==
+X-Google-Smtp-Source: ABdhPJy9NsoQdJC6ZcmS2hfab3VY0dsdcxjX2x42g1l1QojO9g68qU4JcpOWxP1faIM49SQU0m/fxg==
+X-Received: by 2002:a5d:528d:: with SMTP id c13mr17500119wrv.343.1624716107750;
+        Sat, 26 Jun 2021 07:01:47 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:2c6f:d408:8eb3:4ab2? ([2001:8b0:aba:5f3c:2c6f:d408:8eb3:4ab2])
-        by smtp.gmail.com with ESMTPSA id g7sm5001895wmq.27.2021.06.26.03.04.28
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2c6f:d408:8eb3:4ab2])
+        by smtp.gmail.com with ESMTPSA id t82sm8201652wmf.22.2021.06.26.07.01.47
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Jun 2021 03:04:28 -0700 (PDT)
-Message-ID: <b7b05b428677e6d8f39c700ff4ce212a9baa8918.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] cve-check: Add allowlist that is same function of whitelist.
+        Sat, 26 Jun 2021 07:01:47 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "ito-yuichi@fujitsu.com" <ito-yuichi@fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 26 Jun 2021 11:04:27 +0100
-In-Reply-To: <20210623085633.3186982-1-ito-yuichi@fujitsu.com>
-References: <20210623085633.3186982-1-ito-yuichi@fujitsu.com>
-User-Agent: Evolution 3.40.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] selftest/fetch: Avoid occasional selftest failure from poor temp file name choice
+Date: Sat, 26 Jun 2021 15:01:46 +0100
+Message-Id: <20210626140146.3646503-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-06-23 at 17:56 +0900, ito-yuichi@fujitsu.com wrote:
-> The Linux team plan to removed references to racially-charged jargon from
-> their code for more neutral and inclusive language.
-> So replace use of "whitelist" with "allowlist" in cve-check.
-> 
-> First, we add CVE_CHECK_ALLOWLIST and it is considered patched as well as
-> CVE_CHECK_WHITELIST.
-> We plan to replace about other word later and eventualy, replace all
-> "whitelist" to "allowlist".
-> 
-> Signed-off-by: Yuichi Ito <ito-yuichi@fujitsu.com>
+The temp file name may contain "_" characters. Switch to a temporary directory
+and a fixed filename to avoid this to avoid errors like:
 
-The TSC did discuss this and proposed a plan on how we should go about 
-addressing these issues:
+bb.data_smart.ExpansionError: Failure expanding variable PN, expression was
+${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'}
+which triggered exception ParseError:
+ParseError in /tmp/tmpd_f2__to.bb: Unable to generate default variables from
+filename (too many underscores)
 
-https://lists.openembedded.org/g/openembedded-architecture/topic/inclusive_language_summary/75821819
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/fetch.py | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-I appreciate this patch has good intent but I would really like to
-see a wider plan on how we address this rather than changing single 
-variables piecemeal. 
-
-For example we may want to standardise on the term "IGNORE" rather than
-"ALLOW" or even "FILTER" or "VERIFIED" or something more specific to the meaning
-of CVEs and CVE checking.
-
-There is an opportunity to try and make the metadata and variable names
-more consistent and understandable but if we just change single things at
-a time this opportunity would be missed.
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/cases/fetch.py b/meta/lib/oeqa/selftest/cases/fetch.py
+index 67e85d3e4c7..cd15f651291 100644
+--- a/meta/lib/oeqa/selftest/cases/fetch.py
++++ b/meta/lib/oeqa/selftest/cases/fetch.py
+@@ -55,25 +55,26 @@ MIRRORS_forcevariable = "git://.*/.* http://downloads.yoctoproject.org/mirror/so
+ 
+ 
+ class Dependencies(OESelftestTestCase):
+-    def write_recipe(self, content):
+-        f = tempfile.NamedTemporaryFile(mode="wt", suffix=".bb")
+-        f.write(content)
+-        f.flush()
++    def write_recipe(self, content, tempdir):
++        f = os.path.join(tempdir, "test.bb")
++        with open(f, "w") as fd:
++            fd.write(content)
+         return f
+ 
+     def test_dependencies(self):
+         """
+         Verify that the correct dependencies are generated for specific SRC_URI entries.
+         """
+-        with bb.tinfoil.Tinfoil() as tinfoil:
++
++        with bb.tinfoil.Tinfoil() as tinfoil, tempfile.TemporaryDirectory(prefix="selftest-fetch") as tempdir:
+             tinfoil.prepare(config_only=False, quiet=2)
+ 
+             r = """
+             LICENSE="CLOSED"
+             SRC_URI="http://example.com/tarball.zip"
+             """
+-            f = self.write_recipe(textwrap.dedent(r))
+-            d = tinfoil.parse_recipe_file(f.name)
++            f = self.write_recipe(textwrap.dedent(r), tempdir)
++            d = tinfoil.parse_recipe_file(f)
+             self.assertIn("wget-native", d.getVarFlag("do_fetch", "depends"))
+             self.assertIn("unzip-native", d.getVarFlag("do_unpack", "depends"))
+ 
+@@ -82,8 +83,8 @@ class Dependencies(OESelftestTestCase):
+             LICENSE="CLOSED"
+             SRC_URI="https://example.com/tarball;downloadfilename=something.zip"
+             """
+-            f = self.write_recipe(textwrap.dedent(r))
+-            d = tinfoil.parse_recipe_file(f.name)
++            f = self.write_recipe(textwrap.dedent(r), tempdir)
++            d = tinfoil.parse_recipe_file(f)
+             self.assertIn("wget-native", d.getVarFlag("do_fetch", "depends"))
+             self.assertIn("unzip-native", d.getVarFlag("do_unpack", "depends") or "")
+ 
+@@ -91,8 +92,8 @@ class Dependencies(OESelftestTestCase):
+             LICENSE="CLOSED"
+             SRC_URI="ftp://example.com/tarball.lz"
+             """
+-            f = self.write_recipe(textwrap.dedent(r))
+-            d = tinfoil.parse_recipe_file(f.name)
++            f = self.write_recipe(textwrap.dedent(r), tempdir)
++            d = tinfoil.parse_recipe_file(f)
+             self.assertIn("wget-native", d.getVarFlag("do_fetch", "depends"))
+             self.assertIn("lzip-native", d.getVarFlag("do_unpack", "depends"))
+ 
+@@ -100,6 +101,6 @@ class Dependencies(OESelftestTestCase):
+             LICENSE="CLOSED"
+             SRC_URI="git://example.com/repo"
+             """
+-            f = self.write_recipe(textwrap.dedent(r))
+-            d = tinfoil.parse_recipe_file(f.name)
++            f = self.write_recipe(textwrap.dedent(r), tempdir)
++            d = tinfoil.parse_recipe_file(f)
+             self.assertIn("git-native", d.getVarFlag("do_fetch", "depends"))
+-- 
+2.30.2
 
