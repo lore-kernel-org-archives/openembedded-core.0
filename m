@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.5883.1624805202663018503
+ by mx.groups.io with SMTP id smtpd.web09.5774.1624805202718703933
  for <openembedded-core@lists.openembedded.org>;
  Sun, 27 Jun 2021 07:46:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [127.0.1.1] (unknown [172.29.10.115])
-	by mail.yoctoproject.org (Postfix) with ESMTP id EC1EF38C128C
-	for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 14:46:41 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 07EA038C12A4
+	for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 14:46:42 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libglu: upgrading to 9.0.2 SUCCEEDED
-Message-ID: <MADEUP.168C77B92D3E8850.29174@lists.openembedded.org>
-X-Groupsio-MsgNum: 153308
-Content-Type: multipart/mixed; boundary="===============8804507071625717157=="
+Subject: [AUH] vulkan-samples: upgrading to b3e8d49dcc2f94f4a14cafb64f02d1dca71c9565 FAILED
+Message-ID: <MADEUP.168C77B92FDDB45F.8895@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============2511639847433313821=="
 
---===============8804507071625717157==
+--===============2511639847433313821==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,52 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libglu* to *9.0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *vulkan-samples* to *b3e8d49dcc2f94f4a14cafb64f02d1dca71c9565* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libglu-upgrade-9.0.1-9.0.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade vulkan-samples -S b3e8d49dcc2f94f4a14cafb64f02d1dca71c9565
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1455 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-2d6ba0911668c530c215d0b7db11b8eff5fab02c"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:2d6ba0911668c530c215d0b7db11b8eff5fab02c"
+workspace            = "master:3ea3e3435fc7d94e6eb04cf9cd9f66ee946f6af6"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+ERROR: Command Error: 'sh -c 'PATCHFILE="0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch" git -c user.name="OpenEmbedded" -c user.email="oe.patch@oe" commit -F /tmp/tmprcays2j8 --author="Alexander Kanavin <alex.kanavin@gmail.com>" --date="Sun, 1 Nov 2020 23:19:22 +0000"'' exited with 0  Output:
+stdout: On branch devtool-orig
+Changes not staged for commit:
+	modified:   third_party/spirv-cross (modified content)
+
+no changes added to commit
+
+stderr: 
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-b2_6sd1u/temp/log.do_patch.20252
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+ERROR: Extracting source for vulkan-samples failed
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,100 +76,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8804507071625717157==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/libglu/libglu-dev: PKGSIZE changed from 20805 to 17427 (-16%)
-Changes to packages/core2-32-poky-linux/libglu (sysroot):
-  /usr/include/GL/glu_mangle.h was removed
-
---===============8804507071625717157==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-libglu-upgrade-9.0.1-9.0.2.patch"
-
-From 4760c1e0b584bbd028f8dbd5aa54117f2a1efc32 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 27 Jun 2021 13:02:00 +0000
-Subject: [PATCH] libglu: upgrade 9.0.1 -> 9.0.2
-
----
- .../mesa/{libglu_9.0.1.bb => libglu_9.0.2.bb}                 | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-graphics/mesa/{libglu_9.0.1.bb => libglu_9.0.2.bb} (84%)
-
-diff --git a/meta/recipes-graphics/mesa/libglu_9.0.1.bb b/meta/recipes-graphics/mesa/libglu_9.0.2.bb
-similarity index 84%
-rename from meta/recipes-graphics/mesa/libglu_9.0.1.bb
-rename to meta/recipes-graphics/mesa/libglu_9.0.2.bb
-index 703f131f79..ae18f86532 100644
---- a/meta/recipes-graphics/mesa/libglu_9.0.1.bb
-+++ b/meta/recipes-graphics/mesa/libglu_9.0.2.bb
-@@ -10,12 +10,10 @@ LIC_FILES_CHKSUM = "file://include/GL/glu.h;endline=29;md5=6b79c570f644363b35645
- 
- # Epoch as this used to be part of mesa
- PE = "2"
--PR = "0"
- 
- SRC_URI = "https://mesa.freedesktop.org/archive/glu/glu-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "5599a0e0a97335e10239d9165aced60d"
--SRC_URI[sha256sum] = "f6f484cfcd51e489afe88031afdea1e173aa652697e4c19ddbcb8260579a10f7"
-+SRC_URI[sha256sum] = "24effdfb952453cc00e275e1c82ca9787506aba0282145fff054498e60e19a65"
- 
- S = "${WORKDIR}/glu-${PV}"
- 
--- 
-2.17.1
-
-
---===============8804507071625717157==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libglu: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu: PR changed from "0" to "r0"
-packages/core2-32-poky-linux/libglu: SRC_URI changed from "https://mesa.freedesktop.org/archive/glu/glu-9.0.1.tar.gz" to "https://mesa.freedesktop.org/archive/glu/glu-9.0.2.tar.gz"
-packages/core2-32-poky-linux/libglu/libglu-dbg: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu/libglu-dbg: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu/libglu-dbg: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu/libglu-dbg: PR changed from "0" to "r0"
-packages/core2-32-poky-linux/libglu/libglu-dev: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu/libglu-dev: PKGSIZE changed from 20805 to 17427 (-16%)
-packages/core2-32-poky-linux/libglu/libglu-dev: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu/libglu-dev: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu/libglu-dev: PR changed from "0" to "r0"
-packages/core2-32-poky-linux/libglu/libglu-doc: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu/libglu-doc: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu/libglu-doc: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu/libglu-doc: PR changed from "0" to "r0"
-packages/core2-32-poky-linux/libglu/libglu-locale: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu/libglu-locale: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu/libglu-locale: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu/libglu-locale: PR changed from "0" to "r0"
-packages/core2-32-poky-linux/libglu/libglu-src: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu/libglu-src: PKGSIZE changed from 1661958 to 1661939 (-0%)
-packages/core2-32-poky-linux/libglu/libglu-src: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu/libglu-src: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu/libglu-src: PR changed from "0" to "r0"
-packages/core2-32-poky-linux/libglu/libglu-staticdev: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu/libglu-staticdev: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu/libglu-staticdev: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu/libglu-staticdev: PR changed from "0" to "r0"
-packages/core2-32-poky-linux/libglu/libglu: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/libglu/libglu: PKGR changed from 0 [default] to r0 [default]
-packages/core2-32-poky-linux/libglu/libglu: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/libglu/libglu: PR changed from "0" to "r0"
-Changes to packages/core2-32-poky-linux/libglu (sysroot):
-  /usr/include/GL/glu_mangle.h was removed
-
---===============8804507071625717157==--
+--===============2511639847433313821==--
