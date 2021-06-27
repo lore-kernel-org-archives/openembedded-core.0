@@ -1,72 +1,112 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web08.3687.1624831252121546436
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web08.3719.1624831446903878724
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jun 2021 15:00:52 -0700
+ Sun, 27 Jun 2021 15:04:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Q+fZ+Zt2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id j2so18383193wrs.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 15:00:51 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NhpbEGnA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id l8so9617853wry.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 15:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=PxGNwAmTqzv5nUvSiPFU5LbtPBp14OXcag+tU3bJQXs=;
-        b=Q+fZ+Zt2WpNsVMo/n2a/m5ZCB39Y6xzQJzjgtyU2N2lHGnS9yhDPxyEp78MUvScJqG
-         LzQqIisKQ2d1ptwgz9vWZo35D6A5+sNV5th35lM+C3EpyvVYf4/6yj+YuKEpgnt5M82G
-         hhF6pe4jeXWVbzjNxWUCRLusQkZoEdsdIZ1VU=
+        bh=uj2gtukUeJG9w1qyAs7TBajtD+FpD7hWu+FACFXfXWM=;
+        b=NhpbEGnAFomY1OEgrYKZV0VixNOeOlEdqX3G0tXDNPd7+SqrIYltaru6/1C0yOG82p
+         Fx6UvO/MY+Ru7rhhpRRdPKj6J/DTLg6iKT9gAB+XYTnq06RJMYp2N1ocgkT0hGgI1fEi
+         6whpXtfGB7LrqhNZn/n2t/JEs6MVLZTNZVz/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=PxGNwAmTqzv5nUvSiPFU5LbtPBp14OXcag+tU3bJQXs=;
-        b=FPBHnTUwrMocRiKZJC3s+DwQX5McUnT0FzJyML7OTW/DJGvOx7sO/7QvxUJA0IeSFZ
-         iLw7SMAeEsUm0kc5TJZ2L4W1ShIp01mLT9f7AkYdtOM8iiuJb3HHBSIVd0lC5LLWPlVp
-         CmrEgaPlhk+fdC00UYQoT/qjLHZOqSBljK3CT5mZjVryiL5vhqIJg7FrBRpM6eLPytZr
-         mkeIbdmQeun0LG762w7gZzu2KkrVRthgcljvdr+obmt0NH+fzrWBkWok4GQDDpjexYWW
-         uP2ILaIuJCVGwKoTnsma9+KwBbBth13MrmOUv4S7tEQ0Fg89Tj6wuyvbZbju9r2gIVFK
-         kfNA==
-X-Gm-Message-State: AOAM532WX5N/5zEcmKKHEhPQnsLvknnb/+FJcU1jsD/Vf6WnoqkGumBH
-	v8vy69syXta70bNuZCaB7CraNg==
-X-Google-Smtp-Source: ABdhPJxmnEmQ22FuLaynmOeDXehnlVjhk4EdJ+UngDeS2J84ZPEPzhtIXzaZ09wx8ktbGcsiFGE8yQ==
-X-Received: by 2002:adf:eacc:: with SMTP id o12mr23530638wrn.3.1624831250588;
-        Sun, 27 Jun 2021 15:00:50 -0700 (PDT)
+        bh=uj2gtukUeJG9w1qyAs7TBajtD+FpD7hWu+FACFXfXWM=;
+        b=IDxEpMlZTMrXDcwyIXIGwyr7W3rUj/HIpEIK2h4S2JRBKQhI/yTBVWG3jKHlNkpDQY
+         2+oAu91yuW7d5SdgFmtwG1rtxfN6ktKl0A2b2I48AMlMOkpiPBnU4y9sBJa8RMgUxmfH
+         wr2y2L3Z57yydpDr5wkTGtxH696CDMYzo3dCmVZVrFTkthiTN7Bv7+ypU+NqnXtOPffF
+         atcjQUQG0T7bAD+izouJpu3rbhmHFMYk3IW0ot/ihjEVZkCYJ7pk+Mc/AVrXtd7NUmlv
+         8gKDu5F5O5HW3PK0TjTZLi72d32xrjqe9V2qGvYv3slt32JTbQIk/9JmPjB4Ss6pqOgM
+         jX7A==
+X-Gm-Message-State: AOAM530nJR5mVk7mBpnNSvUKgxIVEO91o6FHqRWnHN6SwsmGpnlL4onG
+	/sMOs+PwgopxDbhlatZrTlUHRQ==
+X-Google-Smtp-Source: ABdhPJwfolW++QacT3VdmPxAxMYijNCha6T5SUHL9hreDWWoCpmlXv3HUG2CmJ4bzuqUjV5/SI+/9w==
+X-Received: by 2002:a5d:62c2:: with SMTP id o2mr7313096wrv.234.1624831445612;
+        Sun, 27 Jun 2021 15:04:05 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:6f48:4aa9:490d:a26? ([2001:8b0:aba:5f3c:6f48:4aa9:490d:a26])
-        by smtp.gmail.com with ESMTPSA id v15sm17674593wmj.39.2021.06.27.15.00.50
+        by smtp.gmail.com with ESMTPSA id i5sm1116781wrr.4.2021.06.27.15.04.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jun 2021 15:00:50 -0700 (PDT)
-Message-ID: <76618960f73199585debc705dfd09775472d38f8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] package.bbclass: manage external sources for debug source file packaging
+        Sun, 27 Jun 2021 15:04:05 -0700 (PDT)
+Message-ID: <4510a378b3264d7ba29be80af9078510cef1a633.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] externalsrc.bbclass: dynamical change of DEBUG_PREFIX_MAP
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: Frederic Martinsons <frederic.martinsons@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Sun, 27 Jun 2021 23:00:49 +0100
-In-Reply-To: <CA+cAkeoV-ncBLKpcGm4MKeuqYjSXyKsCU4NWdNTmO51iUAaqZg@mail.gmail.com>
+Date: Sun, 27 Jun 2021 23:04:04 +0100
+In-Reply-To: <20210623130637.3314755-1-frederic.martinsons@gmail.com>
 References: <20210623130637.3314755-1-frederic.martinsons@gmail.com>
-	 <20210623130637.3314755-2-frederic.martinsons@gmail.com>
-	 <CA+cAkeoV-ncBLKpcGm4MKeuqYjSXyKsCU4NWdNTmO51iUAaqZg@mail.gmail.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-06-23 at 15:09 +0200, Frederic Martinsons wrote:
-> Hello, I would like to add a link to a yocto mail where I expose my problematic that led 
-> to this patch series:  
-> https://lists.yoctoproject.org/g/yocto/topic/83622035?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,83622035
+On Wed, 2021-06-23 at 15:06 +0200, Frederic Martinsons wrote:
+> When using external source manager (devtool), the debug symbol generated
+> by the compilation doesn't point to the right directory.
+> This is normally handled by gcc options that are defined
+> in DEBUG_PREFIX_MAP in conf/bitbake.conf.
 > 
-> After further research, I think these patch can be simplified by modified only 
-> WORKDIR variable to be os.path.dirname(EXTERNALSRC) but I fear of consequence 
-> to have WORKDIR outside of TMPDIR so I didn't take this path.
+> But the path in it are hardcoded and point to WORKDIR which is
+> not overloaded by devtool.
+> 
+> This patch takes the parent directory of external source directory
+> and prepend correct path to DEBUG_PREFIX_MAP.
+> 
+> Moreover, to avoid wrong path resolution during dwarfsrcfiles step
+> in splitdebuginfo, it make B variable point to the same
+> structure as EXTERNALSRC (if EXTERNALSRC_BUILD is not defined).
+> 
+> Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+> ---
+>  meta/classes/externalsrc.bbclass | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+> index 3d6b80bee2..de5ef714b4 100644
+> --- a/meta/classes/externalsrc.bbclass
+> +++ b/meta/classes/externalsrc.bbclass
+> @@ -53,14 +53,26 @@ python () {
+>              d.setVar('BB_DONT_CACHE', '1')
+>  
+> 
+>      if externalsrc:
+> +        import os
+>          import oe.recipeutils
+>          import oe.path
+>  
+> 
+> +        pn = d.getVar('PN')
+> +        # taken from bitbake.conf
+> +        debugsrcdir = "/usr/src/debug/%s/%s%s-%s" % (pn, d.getVar('EXTENDPE'), d.getVar('PV'), d.getVar('PR'))
+> +        externalsrc_parentdir = os.path.dirname(externalsrc)
+> +
+> +        debug_prefix_map_ext = "-fmacro-prefix-map=%s=%s " % (externalsrc_parentdir, debugsrcdir)
+> +        macro_prefix_map_ext = "-fdebug-prefix-map=%s=%s " % (externalsrc_parentdir, debugsrcdir)
+> +        d.prependVar('DEBUG_PREFIX_MAP', debug_prefix_map_ext)
+> +        d.prependVar('DEBUG_PREFIX_MAP', macro_prefix_map_ext)
+> +
+>          d.setVar('S', externalsrc)
+>          if externalsrcbuild:
+>              d.setVar('B', externalsrcbuild)
+>          else:
+> -            d.setVar('B', '${WORKDIR}/${BPN}-${PV}/')
+> +            builddir = os.path.join(externalsrc_parentdir, "%s-build" % pn)
+> +            d.setVar('B', builddir)
+>  
 
-Changing WORKDIR would no doubt solve your immediate problem but would create
-a ton of others :(.
-
-The issue is that the class wants to re-declare S but some of our code makes
-assumptions about the location of WORKDIR with regard to S (and B). There
-is more inside WORKDIR than just S and EXTERNALSRC does really correspond to S,
-not WORKDIR...
+I'm ok with adding some prefix mappings however the commit message doesn't really 
+make it clear that you're actually inventing a new build directory here too. We 
+can't just poke around the parent directory of the externalsrc like this since we
+have no idea what that directory is and we've not been asked to "touch" it.
 
 Cheers,
 
