@@ -1,122 +1,118 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web12.5809.1624804424571266636
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web09.5773.1624805202312776029
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jun 2021 07:33:44 -0700
+ Sun, 27 Jun 2021 07:46:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Fx7rLJmf;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id d12so12989022pgd.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 07:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=y/U5X7awSaqgYvowcF/FQS+n/KWlJOqG2I0wphTaQx4=;
-        b=Fx7rLJmfGyysd0bBAG1njInyIdT1Vh52vhxQiFlS4yrxeAVBlIRlcL2Ct/XCse4Jm9
-         HuLk/CJrtY0zg0U9H2+3rkEq5bxm7Qc0Rl0+A4M9y8h/mgeuYHQEqV3V5atLJngocYgZ
-         rjp3M0CgBH41N3fFHte2gZnTQyTeEIJyzw5H1NBEaw56u4hUgzdb7mk9pJkV+8VH9ox8
-         CoevPVroPhKTxJF17MQrrlXI+kT9ueNpj4X5taXz0akJVkSUlLVjyXBC4RjMkcD/zS9v
-         ToHOxdz77M3JCessqUQ44VJWmUGT5mIemdtx3Mb3Y7aSHGiRS6fhBNyrJ9Vl0Wwy/An1
-         R9Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=y/U5X7awSaqgYvowcF/FQS+n/KWlJOqG2I0wphTaQx4=;
-        b=mgytS1cqfUwGcNwm/8QlvShSoiSsh0oshn3MF2wjBomM+qiYkjKRRRLR1J7fNsQ59P
-         JmEJg7OMfrdLEQqhJgwJ9Tn48FLZ80Gr+eIa3vVoIEvUu5DlijEvo+vkieB1oRFJDDe7
-         MyEVW3uTJ04tGllvSb/P1nHGWo0y88c+6Y/x3NWcQ1ur56T4upjFy2u7WKiRoeFF/+EQ
-         GM5Zlmcs4sCrkvQmJJNV5CXsJeby14YrQO4MhVxWZjGaOkVZtuWSLcNPF48S1vrk4A7s
-         xo3ZmEGT9q6WhVc7SLG0GiNCwL/TXFY/DagxoP3tUuEyOU6XVfol7bHmlD2B5NUwz4+R
-         s53w==
-X-Gm-Message-State: AOAM531VzS54a76y3wA05F3+nCyOmJam8GotfgACA0BpDvparIaZ0kes
-	dNw7F9SyloZ8DKwMEtT4fJR3B2MAqbfENc5F2Bs=
-X-Google-Smtp-Source: ABdhPJxzCdwdYsdLY/M7rpiuP8Wl1esNt7XguRQKfSHINeQuCf/rVHLAx3K3C2gewe+l/PgeVP+gnA==
-X-Received: by 2002:a05:6a00:2138:b029:301:7db0:bd93 with SMTP id n24-20020a056a002138b02903017db0bd93mr20209086pfj.14.1624804423395;
-        Sun, 27 Jun 2021 07:33:43 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id u7sm11668568pjd.55.2021.06.27.07.33.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jun 2021 07:33:43 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id CADD4960334; Sun, 27 Jun 2021 04:33:33 -1000 (HST)
-Subject: OE-core CVE metrics for dunfell on Sun 27 Jun 2021 04:30:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210627143333.CADD4960334@nuc.router0800d9.com>
-Date: Sun, 27 Jun 2021 04:33:33 -1000 (HST)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+Received: from [127.0.1.1] (unknown [172.29.10.115])
+	by mail.yoctoproject.org (Postfix) with ESMTP id C31A438C08E7
+	for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 14:46:41 +0000 (UTC)
+MIME-Version: 1.0
+From: auh@auh.yoctoproject.org
+To: Zang Ruochen <zangrc.fnst@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pbr: upgrading to 5.6.0 SUCCEEDED
+Message-ID: <MADEUP.168C77B917D25C94.8895@lists.openembedded.org>
+X-Groupsio-MsgNum: 153299
+Content-Type: multipart/mixed; boundary="===============6362425826213912124=="
 
-Branch: dunfell
+--===============6362425826213912124==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-New this week: 0 CVEs
+Hello,
 
-Removed this week: 0 CVEs
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *python3-pbr* to *5.6.0* has Succeeded.
 
-Full list:  Found 67 unpatched CVEs
-CVE-2013-0340: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0340 *
-CVE-2018-21232: re2c:re2c-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2020-12829: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
-CVE-2020-13253: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
-CVE-2020-13754: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
-CVE-2020-13791: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
-CVE-2020-14372: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
-CVE-2020-15469: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
-CVE-2020-15705: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15859: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-16590: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16590 *
-CVE-2020-16591: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16591 *
-CVE-2020-16593: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16593 *
-CVE-2020-16599: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16599 *
-CVE-2020-17380: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17380 *
-CVE-2020-25632: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
-CVE-2020-25647: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
-CVE-2020-25742: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-27749: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
-CVE-2020-27779: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
-CVE-2020-27821: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
-CVE-2020-29510: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29510 *
-CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35504: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35504 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20181: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20181 *
-CVE-2021-20221: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20221 *
-CVE-2021-20225: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
-CVE-2021-20227: sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20227 *
-CVE-2021-20233: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
-CVE-2021-20240: gdk-pixbuf:gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20240 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-20266: rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20266 *
-CVE-2021-20294: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20294 *
-CVE-2021-20305: nettle:nettle-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20305 *
-CVE-2021-23336: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-23336 *
-CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
-CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
-CVE-2021-27218: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27218 *
-CVE-2021-27219: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27219 *
-CVE-2021-27918: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27918 *
-CVE-2021-28041: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28041 *
-CVE-2021-28153: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28153 *
-CVE-2021-29921: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-29921 *
-CVE-2021-3156: sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3156 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-3200: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3200 *
-CVE-2021-33574: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33574 *
-CVE-2021-3409: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
-CVE-2021-3416: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3416 *
-CVE-2021-3418: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
-CVE-2021-3421: rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3421 *
-CVE-2021-3426: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3426 *
-CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-3497: gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3497 *
-CVE-2021-3498: gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3498 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-3518: libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3518 *
-CVE-2021-3527: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3527 *
+Next steps:
+    - apply the patch: git am 0001-python3-pbr-upgrade-5.4.4-5.6.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============6362425826213912124==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-pbr (sysroot):
+  /usr/lib/python3.9/site-packages/pbr-5.4.4-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/pbr-5.6.0-py3.9.egg-info
+
+--===============6362425826213912124==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-python3-pbr-upgrade-5.4.4-5.6.0.patch"
+
+From 3bfb3e44797305cf3a5ed5525f8b6c9161776f83 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 27 Jun 2021 11:33:23 +0000
+Subject: [PATCH] python3-pbr: upgrade 5.4.4 -> 5.6.0
+
+---
+ .../python/{python3-pbr_5.4.4.bb => python3-pbr_5.6.0.bb}      | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pbr_5.4.4.bb => python3-pbr_5.6.0.bb} (23%)
+
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.4.bb b/meta/recipes-devtools/python/python3-pbr_5.6.0.bb
+similarity index 23%
+rename from meta/recipes-devtools/python/python3-pbr_5.4.4.bb
+rename to meta/recipes-devtools/python/python3-pbr_5.6.0.bb
+index 6f335ea341..132e6e52b6 100644
+--- a/meta/recipes-devtools/python/python3-pbr_5.4.4.bb
++++ b/meta/recipes-devtools/python/python3-pbr_5.6.0.bb
+@@ -1,5 +1,4 @@
+ inherit setuptools3
+ require python-pbr.inc
+ 
+-SRC_URI[md5sum] = "65cdc32e1a1ff56d481fc15aa8caf988"
+-SRC_URI[sha256sum] = "139d2625547dbfa5fb0b81daebb39601c478c21956dc57e2e07b74450a8c506b"
++SRC_URI[sha256sum] = "42df03e7797b796625b1029c0400279c7c34fd7df24a7d7818a1abb5b38710dd"
+-- 
+2.17.1
+
+
+--===============6362425826213912124==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-pbr: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pbr/pbr-5.4.4.tar.gz file://0001-change-shebang-to-python3.patch" to "https://files.pythonhosted.org/packages/source/p/pbr/pbr-5.6.0.tar.gz file://0001-change-shebang-to-python3.patch"
+packages/core2-32-poky-linux/python3-pbr: PV changed from "5.4.4" to "5.6.0"
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-dbg: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-dbg: PV changed from "5.4.4" to "5.6.0"
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-dev: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-dev: PV changed from "5.4.4" to "5.6.0"
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-doc: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-doc: PV changed from "5.4.4" to "5.6.0"
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-locale: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-locale: PV changed from "5.4.4" to "5.6.0"
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-src: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-src: PV changed from "5.4.4" to "5.6.0"
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-staticdev: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr/python3-pbr-staticdev: PV changed from "5.4.4" to "5.6.0"
+packages/core2-32-poky-linux/python3-pbr/python3-pbr: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
+packages/core2-32-poky-linux/python3-pbr/python3-pbr: PKGSIZE changed from 497812 to 505477 (+2%)
+packages/core2-32-poky-linux/python3-pbr/python3-pbr: PV changed from "5.4.4" to "5.6.0"
+Changes to packages/core2-32-poky-linux/python3-pbr (sysroot):
+  /usr/lib/python3.9/site-packages/pbr-5.4.4-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/pbr-5.6.0-py3.9.egg-info
+
+--===============6362425826213912124==--
