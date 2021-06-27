@@ -1,100 +1,76 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.3637.1624831124346159408
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.3687.1624831252121546436
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jun 2021 14:58:44 -0700
+ Sun, 27 Jun 2021 15:00:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FLGgLE+W;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id j11-20020a05600c1c0bb02901e23d4c0977so11667674wms.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 14:58:44 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Q+fZ+Zt2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id j2so18383193wrs.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 15:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=twlCgDKfpJ06Ug6j7udrSJDDemkKRi8k3f4w7bHp3vI=;
-        b=FLGgLE+Whh1aDjkSpeAnLSAvp1oZ8c2LG/bFNIsosdYAlV8iclIEAX1tbKXcDNisUs
-         LkwjflYaiL2SH0/1YThlvNGmu7vFjV+dJT33O1C9uqBFscGKngivgv9orubu+z6aaqC3
-         1SVTSNFxVSP4gjDwrtCzcVa9pOcHTTtT1EMQ4=
+        bh=PxGNwAmTqzv5nUvSiPFU5LbtPBp14OXcag+tU3bJQXs=;
+        b=Q+fZ+Zt2WpNsVMo/n2a/m5ZCB39Y6xzQJzjgtyU2N2lHGnS9yhDPxyEp78MUvScJqG
+         LzQqIisKQ2d1ptwgz9vWZo35D6A5+sNV5th35lM+C3EpyvVYf4/6yj+YuKEpgnt5M82G
+         hhF6pe4jeXWVbzjNxWUCRLusQkZoEdsdIZ1VU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=twlCgDKfpJ06Ug6j7udrSJDDemkKRi8k3f4w7bHp3vI=;
-        b=o0tp55kvGBFbJYBiaaoj7fxyQFw49ylllczJ9+816YKDF3q/jTa1WY0RPuESXUZ08x
-         +G9EnjycNr7S8CDtRgZ41ZdB0Ckg1lz81Wlid8gfdrCb4LbNJ1xPMAhr/xuF6MsRWm8y
-         cCBdqlS9JpOLxdIVNL3X9dmUioJYzSxLxpxq1zajgJYEfDTaJjfpG6CUKSfCwlpevhB/
-         PWSoQvR+ExiCQRDnvvxEaklc1C4dw/2Jjl1oZ505xAeb5BMXtMhMgYDmG2oJv7PqoSeN
-         zE8ia0U9c+iwOH2LtqNO+9flvaX0ZrD+SeU1MU2lUoTXdSpdgANuaC+9fzsVgirjj1G8
-         oL4w==
-X-Gm-Message-State: AOAM5303Nydcodn3AWhwXTmuiFvNpixt77vuBwETZX2WeMRxV/6mTGiS
-	kaBtAVZp9LX4Fo7rSDcN+Oo8WQ==
-X-Google-Smtp-Source: ABdhPJySUrn/w08GQVGMT7QcqwSaN3VZMw8ZX9cOcka3vLyIOdl6OLyXjIq3lGwzG6hclPGigiwBwQ==
-X-Received: by 2002:a05:600c:1c08:: with SMTP id j8mr23246565wms.73.1624831122821;
-        Sun, 27 Jun 2021 14:58:42 -0700 (PDT)
+        bh=PxGNwAmTqzv5nUvSiPFU5LbtPBp14OXcag+tU3bJQXs=;
+        b=FPBHnTUwrMocRiKZJC3s+DwQX5McUnT0FzJyML7OTW/DJGvOx7sO/7QvxUJA0IeSFZ
+         iLw7SMAeEsUm0kc5TJZ2L4W1ShIp01mLT9f7AkYdtOM8iiuJb3HHBSIVd0lC5LLWPlVp
+         CmrEgaPlhk+fdC00UYQoT/qjLHZOqSBljK3CT5mZjVryiL5vhqIJg7FrBRpM6eLPytZr
+         mkeIbdmQeun0LG762w7gZzu2KkrVRthgcljvdr+obmt0NH+fzrWBkWok4GQDDpjexYWW
+         uP2ILaIuJCVGwKoTnsma9+KwBbBth13MrmOUv4S7tEQ0Fg89Tj6wuyvbZbju9r2gIVFK
+         kfNA==
+X-Gm-Message-State: AOAM532WX5N/5zEcmKKHEhPQnsLvknnb/+FJcU1jsD/Vf6WnoqkGumBH
+	v8vy69syXta70bNuZCaB7CraNg==
+X-Google-Smtp-Source: ABdhPJxmnEmQ22FuLaynmOeDXehnlVjhk4EdJ+UngDeS2J84ZPEPzhtIXzaZ09wx8ktbGcsiFGE8yQ==
+X-Received: by 2002:adf:eacc:: with SMTP id o12mr23530638wrn.3.1624831250588;
+        Sun, 27 Jun 2021 15:00:50 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:6f48:4aa9:490d:a26? ([2001:8b0:aba:5f3c:6f48:4aa9:490d:a26])
-        by smtp.gmail.com with ESMTPSA id j35sm6043985wms.7.2021.06.27.14.58.42
+        by smtp.gmail.com with ESMTPSA id v15sm17674593wmj.39.2021.06.27.15.00.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jun 2021 14:58:42 -0700 (PDT)
-Message-ID: <607af1f2d3d906f0f3d044844cb68d18f3651e57.camel@linuxfoundation.org>
+        Sun, 27 Jun 2021 15:00:50 -0700 (PDT)
+Message-ID: <76618960f73199585debc705dfd09775472d38f8.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH 2/2] package.bbclass: manage external sources for debug source file packaging
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: Frederic Martinsons <frederic.martinsons@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Sun, 27 Jun 2021 22:58:41 +0100
-In-Reply-To: <20210623130637.3314755-2-frederic.martinsons@gmail.com>
+Date: Sun, 27 Jun 2021 23:00:49 +0100
+In-Reply-To: <CA+cAkeoV-ncBLKpcGm4MKeuqYjSXyKsCU4NWdNTmO51iUAaqZg@mail.gmail.com>
 References: <20210623130637.3314755-1-frederic.martinsons@gmail.com>
 	 <20210623130637.3314755-2-frederic.martinsons@gmail.com>
+	 <CA+cAkeoV-ncBLKpcGm4MKeuqYjSXyKsCU4NWdNTmO51iUAaqZg@mail.gmail.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-06-23 at 15:06 +0200, Frederic Martinsons wrote:
-> Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
-> ---
->  meta/classes/package.bbclass | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+On Wed, 2021-06-23 at 15:09 +0200, Frederic Martinsons wrote:
+> Hello, I would like to add a link to a yocto mail where I expose my problematic that led 
+> to this patch series:  
+> https://lists.yoctoproject.org/g/yocto/topic/83622035?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,83622035
 > 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index cf30f33f3d..38e9065f25 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -560,13 +560,20 @@ def copydebugsources(debugsrcdir, sources, d):
->          strip = d.getVar("STRIP")
->          objcopy = d.getVar("OBJCOPY")
->          workdir = d.getVar("WORKDIR")
-> -        workparentdir = os.path.dirname(os.path.dirname(workdir))
-> +        externalsrc = d.getVar('EXTERNALSRC')
-> +        if externalsrc:
-> +            workparentdir = os.path.dirname(externalsrc)
-> +        else:
-> +            workparentdir = os.path.dirname(os.path.dirname(workdir))
-> +
->          workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
->  
-> 
->          # If build path exists in sourcefile, it means toolchain did not use
->          # -fdebug-prefix-map to compile
->          if checkbuildpath(sourcefile, d):
->              localsrc_prefix = workparentdir + "/"
-> +        elif externalsrc:
-> +            localsrc_prefix = os.path.join("/usr/src/debug/", workbasedir) + "/"
->          else:
->              localsrc_prefix = "/usr/src/debug/"
->  
+> After further research, I think these patch can be simplified by modified only 
+> WORKDIR variable to be os.path.dirname(EXTERNALSRC) but I fear of consequence 
+> to have WORKDIR outside of TMPDIR so I didn't take this path.
 
-Having to change package.bbbclass to work around whatever externalsrc is doing 
-feels rather wrong. This looks/feels like we're adding hacks on top of hacks 
-and is going to end up with an unmaintainable mess. I'd note there are also
-no test cases monitoring whether this is working or regressing.
+Changing WORKDIR would no doubt solve your immediate problem but would create
+a ton of others :(.
 
-The patch doesn't have a commit message and explaining anything about the 
-problem being solved either. I don't doubt there is one but I don't think
-this patch is right or ready to go in...
+The issue is that the class wants to re-declare S but some of our code makes
+assumptions about the location of WORKDIR with regard to S (and B). There
+is more inside WORKDIR than just S and EXTERNALSRC does really correspond to S,
+not WORKDIR...
 
 Cheers,
 
 Richard
+
 
 
