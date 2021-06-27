@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.5882.1624805202621218889
+ by mx.groups.io with SMTP id smtpd.web12.5932.1624805202708719725
  for <openembedded-core@lists.openembedded.org>;
  Sun, 27 Jun 2021 07:46:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [127.0.1.1] (unknown [172.29.10.115])
-	by mail.yoctoproject.org (Postfix) with ESMTP id E0DF238C1283
-	for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 14:46:41 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0670738C1297
+	for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 14:46:42 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] adwaita-icon-theme: upgrading to 40.1.1 FAILED
-Message-ID: <MADEUP.168C77B92A507D8D.19577@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============6893786161048727196=="
+Subject: [AUH] spirv-tools: upgrading to 2021.2 FAILED
+Message-ID: <MADEUP.168C77B92E526B63.19577@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============5990902718935742222=="
 
---===============6893786161048727196==
+--===============5990902718935742222==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,17 +23,43 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *adwaita-icon-theme* to *40.1.1* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *spirv-tools* to *2021.2* has Failed (devtool error).
 
 Detailed error information:
 
-Failed(unknown error)
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/upgrade-helper.py", line 481, in run
-    step(self.devtool, self.bb, self.git, self.opts, pkg_ctx)
-  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/modules/steps.py", line 39, in load_env
-    os.mkdir(pkg_ctx['workdir'])
-FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/auh/build/build/build/upgrade-helper/20210627050303/all/adwaita-icon-theme'
+The following devtool command failed:  upgrade spirv-tools -V 2021.2 -S e70a037ab97a490502a6b9bfb95142d2ca20a3b7
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1455 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-2d6ba0911668c530c215d0b7db11b8eff5fab02c"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:2d6ba0911668c530c215d0b7db11b8eff5fab02c"
+workspace            = "master:3ea3e3435fc7d94e6eb04cf9cd9f66ee946f6af6"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+ERROR: Execution of 'git checkout e70a037ab97a490502a6b9bfb95142d2ca20a3b7' failed with exit code 128:
+fatal: reference is not a tree: e70a037ab97a490502a6b9bfb95142d2ca20a3b7
 
 
 
@@ -44,4 +70,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6893786161048727196==--
+--===============5990902718935742222==--
