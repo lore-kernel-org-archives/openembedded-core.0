@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.5773.1624805202312776029
+ by mx.groups.io with SMTP id smtpd.web11.5825.1624805202312941077
  for <openembedded-core@lists.openembedded.org>;
  Sun, 27 Jun 2021 07:46:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [127.0.1.1] (unknown [172.29.10.115])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C31A438C08E7
+	by mail.yoctoproject.org (Postfix) with ESMTP id C970B38C113E
 	for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 14:46:41 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Zang Ruochen <zangrc.fnst@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pbr: upgrading to 5.6.0 SUCCEEDED
-Message-ID: <MADEUP.168C77B917D25C94.8895@lists.openembedded.org>
-X-Groupsio-MsgNum: 153299
-Content-Type: multipart/mixed; boundary="===============6362425826213912124=="
+Subject: [AUH] python3-pip: upgrading to 21.1.3 FAILED
+Message-ID: <MADEUP.168C77B917DEC1BF.17375@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============8081398114592571341=="
 
---===============6362425826213912124==
+--===============8081398114592571341==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,104 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pbr* to *5.6.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-pip* to *21.1.3* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-pbr-upgrade-5.4.4-5.6.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe python3-pip failed.
+NOTE: Starting bitbake server...
+Loading cache...done.
+Loaded 1455 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-8b21b2bb542ba146138c09d40e34a936e34ae6f4"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8b21b2bb542ba146138c09d40e34a936e34ae6f4"
+workspace            = "master:3ea3e3435fc7d94e6eb04cf9cd9f66ee946f6af6"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 6 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/p/pip/pip-21.1.3.tar.gz...
+Loading cache...done.
+Loaded 1455 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 819 .bb files complete (817 cached, 2 parsed). 1456 targets, 32 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.51.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3+snapshot-8b21b2bb542ba146138c09d40e34a936e34ae6f4"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8b21b2bb542ba146138c09d40e34a936e34ae6f4"
+workspace            = "master:3ea3e3435fc7d94e6eb04cf9cd9f66ee946f6af6"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  26% |#########                           | ETA:  0:00:00
+Adding changed files:  52% |##################                  | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Rebasing devtool onto 8765c99ed063f3828d55f5456c98bc654becd43f
+WARNING: Command 'git rebase 8765c99ed063f3828d55f5456c98bc654becd43f' failed:
+First, rewinding head to replay your work on top of it...
+Applying: change shebang to python3
+Using index info to reconstruct a base tree...
+M	src/pip/_internal/__init__.py
+M	src/pip/_vendor/appdirs.py
+M	src/pip/_vendor/chardet/cli/chardetect.py
+Falling back to patching base and 3-way merge...
+Auto-merging src/pip/_vendor/chardet/cli/chardetect.py
+CONFLICT (content): Merge conflict in src/pip/_vendor/chardet/cli/chardetect.py
+Auto-merging src/pip/_vendor/appdirs.py
+Auto-merging src/pip/_internal/__init__.py
+CONFLICT (content): Merge conflict in src/pip/_internal/__init__.py
+error: Failed to merge in the changes.
+Patch failed at 0001 change shebang to python3
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-pip
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3-pip/python3-pip_21.1.3.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,75 +128,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6362425826213912124==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.9/site-packages/pbr-5.4.4-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/pbr-5.6.0-py3.9.egg-info
-
---===============6362425826213912124==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-python3-pbr-upgrade-5.4.4-5.6.0.patch"
-
-From 3bfb3e44797305cf3a5ed5525f8b6c9161776f83 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 27 Jun 2021 11:33:23 +0000
-Subject: [PATCH] python3-pbr: upgrade 5.4.4 -> 5.6.0
-
----
- .../python/{python3-pbr_5.4.4.bb => python3-pbr_5.6.0.bb}      | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pbr_5.4.4.bb => python3-pbr_5.6.0.bb} (23%)
-
-diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.4.bb b/meta/recipes-devtools/python/python3-pbr_5.6.0.bb
-similarity index 23%
-rename from meta/recipes-devtools/python/python3-pbr_5.4.4.bb
-rename to meta/recipes-devtools/python/python3-pbr_5.6.0.bb
-index 6f335ea341..132e6e52b6 100644
---- a/meta/recipes-devtools/python/python3-pbr_5.4.4.bb
-+++ b/meta/recipes-devtools/python/python3-pbr_5.6.0.bb
-@@ -1,5 +1,4 @@
- inherit setuptools3
- require python-pbr.inc
- 
--SRC_URI[md5sum] = "65cdc32e1a1ff56d481fc15aa8caf988"
--SRC_URI[sha256sum] = "139d2625547dbfa5fb0b81daebb39601c478c21956dc57e2e07b74450a8c506b"
-+SRC_URI[sha256sum] = "42df03e7797b796625b1029c0400279c7c34fd7df24a7d7818a1abb5b38710dd"
--- 
-2.17.1
-
-
---===============6362425826213912124==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-pbr: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pbr/pbr-5.4.4.tar.gz file://0001-change-shebang-to-python3.patch" to "https://files.pythonhosted.org/packages/source/p/pbr/pbr-5.6.0.tar.gz file://0001-change-shebang-to-python3.patch"
-packages/core2-32-poky-linux/python3-pbr: PV changed from "5.4.4" to "5.6.0"
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-dbg: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-dbg: PV changed from "5.4.4" to "5.6.0"
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-dev: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-dev: PV changed from "5.4.4" to "5.6.0"
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-doc: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-doc: PV changed from "5.4.4" to "5.6.0"
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-locale: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-locale: PV changed from "5.4.4" to "5.6.0"
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-src: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-src: PV changed from "5.4.4" to "5.6.0"
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-staticdev: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr/python3-pbr-staticdev: PV changed from "5.4.4" to "5.6.0"
-packages/core2-32-poky-linux/python3-pbr/python3-pbr: PKGV changed from 5.4.4 [default] to 5.6.0 [default]
-packages/core2-32-poky-linux/python3-pbr/python3-pbr: PKGSIZE changed from 497812 to 505477 (+2%)
-packages/core2-32-poky-linux/python3-pbr/python3-pbr: PV changed from "5.4.4" to "5.6.0"
-Changes to packages/core2-32-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.9/site-packages/pbr-5.4.4-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/pbr-5.6.0-py3.9.egg-info
-
---===============6362425826213912124==--
+--===============8081398114592571341==--
