@@ -1,109 +1,87 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.10944.1624885828103304047
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.11724.1624889670120138563
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jun 2021 06:10:28 -0700
+ Mon, 28 Jun 2021 07:14:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=d0PKa5xi;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: andrea.adami@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id o5so4864125ejy.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 06:10:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TxDwWBLW;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: fbberton@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id r3so7061003wmq.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 07:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=REUry7njz1CQXEvnqqZmB+dVPAIhTfOKgj/KnrFn7+g=;
-        b=d0PKa5xi2iCZMjAVA11URBuQVq+psYs48PzpnA9q1WE/VIiT2lMswuXZL3tYpK62bp
-         rdqMdE8R+SXow1d92DrvcTL/mJniDqp0YRgzYTuICI64LLa/1KSNuCkfm9iZ+2AxvV3T
-         eHN3AOFLs8Qat6a+4n7yXaK7j7yq/jnOB1BFpaMX/5teUak9zGWiH+LP2btPox5GpTDs
-         mK/g1B5GbNDwTauVAHalZcB41NbhGTcIPSGiRPKYWb2AO4hQQNHTH2U3OPy2fLT70hqp
-         zuTOWbDokHujn/+qEXWhxV0nC3ODARQZCOJBkzuqR/qXb9qYVb7KeHToLReWnJTqff34
-         uGkA==
+        h=from:to:subject:date:message-id;
+        bh=ns+RcuDG7akrhpT41Ya8Tvigxjw0YnaAYfxcsLhPdhI=;
+        b=TxDwWBLWylUPWDPKRhJW+fcSaCES4Fcz6WkeYUzjyOoM+RYxxXAlWRYkN/9sGMtHZa
+         tJrf4plvYx3fX6YI9rOKdXVR6LS9jZPQ4OCpwv3zUvpPVJeyk8sX2TMV3rOYUlI+7cH6
+         eZm+HxsqpmNnJJtPsNDjOOiKnm4EHR9sDGHwQZ+IXlloHyKbaNRT7A9SJ4Gi67AVaziY
+         hmAG/iALjGBfSmYKGG9MXu+0tWQaDCGR4W2+p7WRNoP6aI6fwYqKhWc6dMRlPNFlqqMK
+         7zK7MWwrpNqu2PyMXYMn/SEc6NARS5PAG+QQHkEbRqL3QvQIk46Lhh8Y5WDAL2XaH/56
+         hT1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=REUry7njz1CQXEvnqqZmB+dVPAIhTfOKgj/KnrFn7+g=;
-        b=N3F6T4HQMAchVQqc8SbwQFc/b4QYBTE0DRGSvpB4AfDnFTbTQIn6P9uWPlW2bhBq7N
-         k78Q0BF2Lnq9/tZpx3wbuqw/0Wbo4HBrHnLdx/p6rOGzR0kVI9mjpmxlVflfu1JDTNX3
-         B3BMvTi2phuNFRGk8nfbPXC6i4JzDVFOO16U0jltqxJQAUx6NsnvQ5j+3zKBMetBg1E8
-         rbAmzh+geCDgHdk8KyMN5FrirlVgDaHLfUDlG6zRRWqRV6I8A2WwxxSoopguK8x3fSBt
-         O/UNAQRJFGUN1s5MVtDdZ0jcgENdElPsO4D8tBRY+BxdSfEyZsfwGlM/8OnbnZfDmd37
-         JbiA==
-X-Gm-Message-State: AOAM5326ZMln8vpyklRGKpyYPX9VH/KPr1VPjGtiF59Bur2YJS69RSN2
-	RGdM4CTg4dwQudwlDPBfmR6OptRjZ3ike4EokGw=
-X-Google-Smtp-Source: ABdhPJx8xp61KhWjXeUJRAl/jDqmc3Tx3noe1WXomgmELiVaubPghhNa3OBj8TsUT0yCoTrQ94DROMZeJ9Wc7iH7zDY=
-X-Received: by 2002:a17:906:b05:: with SMTP id u5mr6592076ejg.142.1624885826537;
- Mon, 28 Jun 2021 06:10:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAAQYJAvFsFr-1WDMkqeSLReq6V2irGR04XOEoVa_GnXAK+abqA@mail.gmail.com>
- <CANNYZj_yZHkpbGKPaec_x4AQDQ8jR_rLk1mroBZxn6JCpQ9WbQ@mail.gmail.com>
- <CAAQYJAspv72aL7J_fYri+vk_OfL=PDNCvGk9C6O=CisB3dEPeg@mail.gmail.com>
- <CANNYZj-XL7NB0S=3bTv9DMvhbMTmUfJFK627YAqQ4for3QMDqA@mail.gmail.com>
- <CAAQYJAvGNSy2CAD6Dwk2-LYz-KGUp-pFjXtOLKD_1iD4SOaghQ@mail.gmail.com> <41c8f86302dbdf6be6d6dc4f057619e26b05c7ad.camel@linuxfoundation.org>
-In-Reply-To: <41c8f86302dbdf6be6d6dc4f057619e26b05c7ad.camel@linuxfoundation.org>
-From: "Andrea Adami" <andrea.adami@gmail.com>
-Date: Mon, 28 Jun 2021 15:10:15 +0200
-Message-ID: <CAAQYJAsGgbw4NEyYVXQ70hMLgHmiVu3z1UaWemMN169UyFWkUw@mail.gmail.com>
-Subject: Re: [OE-core] RFC: pulseaudio vs. meson vs. neon
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=ns+RcuDG7akrhpT41Ya8Tvigxjw0YnaAYfxcsLhPdhI=;
+        b=oJ9ACeDjGUaQAvWL6S9Im2qv+W7W7kyP+/F+6EhV4K4H4WpLc/D57h9i4hqVhT4HIZ
+         jn/k8QLwg8kD/t9idcRintRXsjYgMK6XbkUMq5PJGzlvSvOO4DupIK3yVvu5yUTZi6ab
+         jFZbmWcgOnv9is+Y9goHLYIdlDoGm49rVaBmClVqeAmWMiq1sJvowooTNQvENIaX1Mwj
+         jFkn5soNwKbT2PralEdvqCPrD4aH8Lq4gW+6g7cd1CvyMxttD2Egse2IP8FHNSpm6fG1
+         P1cxqdV4TZhqQmfx2hbzzSzpDN6kLcLt+VeQ7LyfAA266luSUWxHgQmy6wEGXusZL0yO
+         bo3A==
+X-Gm-Message-State: AOAM5310CyZ21XhzjM+ev6E177XPlWg/GhpySgpMEBdBHJarlretBxmt
+	N0G4g1TKwiB9MNkxZ+1nuyHqhncs0FS+dzS7
+X-Google-Smtp-Source: ABdhPJyLa0bAYl17zqmQIZfz2f4v4w7+ne3JabSjcDOVRP8LetGdZU55kkat1QH+ueOpa+cpbIaWUQ==
+X-Received: by 2002:a05:600c:1d11:: with SMTP id l17mr193639wms.180.1624889668363;
+        Mon, 28 Jun 2021 07:14:28 -0700 (PDT)
+Return-Path: <fbberton@gmail.com>
+Received: from ctw-bre-003.bmw.criticaltechworks.com ([83.240.214.249])
+        by smtp.gmail.com with ESMTPSA id x18sm14814975wrw.19.2021.06.28.07.14.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jun 2021 07:14:28 -0700 (PDT)
+From: "Fabio Berton" <fbberton@gmail.com>
+X-Google-Original-From: Fabio Berton <fabio.berton@criticaltechworks.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] lib/oe/package_manager: Don't ignore installation failures in install_complementary
+Date: Mon, 28 Jun 2021 15:14:27 +0100
+Message-Id: <20210628141427.32687-1-fabio.berton@criticaltechworks.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, Jun 28, 2021 at 3:03 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2021-06-28 at 14:44 +0200, Andrea Adami wrote:
-> > On Mon, Jun 28, 2021 at 2:36 PM Alexander Kanavin
-> > <alex.kanavin@gmail.com> wrote:
-> > >
-> > > What I am saying is, can you discuss this with upstream first please?
-> >
-> > Sorry, no, I'm not in the position to do that.
-> > Besides, I am dispatching my armv4/armv5te Zaurus hardware so I will
-> > not be able to test anymore.
-> >
-> > My point here is, for this pulseaudio 14.x release (in Honister) we
-> > could do an effort and patch the damn file.
-> > I write this because this is the only failing recipe for
-> > core-image-sato for armv4 and this arch is still supported in oe-core
-> > (thank you so much Khem).
-> >
-> > So I'd say as long as armv4 and armv5t are supported we need to patch
-> > the recipe.
-> >
-> > With next pulseaudio 15.x the older arm will maybe lose support, I
-> > don't know now.
->
-> We've left armv4 "support" in there mainly as it doesn't really cost us
-> anything to do so and does help some users. We're not in a position
-> where we have many people interested in helping carry patches like this
-> to pulseaudio.
->
-> What that means is that where there are fixes, they need to be easy to
-> maintain and not impact the more modern tunes.
->
-> Hacking CC as in the patch you linked to isn't particularly nice, nor
-> is a global export it requires (changing the behaviour of other arches).
-> It is also risky as the pulseaudio build system tries to do something
-> quite different and this workaround is liable to break.
->
-> I'm not against patching in an explicit option to pulseaudio but it
-> would also be good to mention that to upstream, raising the fact there
-> is a problem, contra to what their commit says.
->
-> Cheers,
->
-> Richard
->
->
-Richard,
-thanks for reviewing this.
-As you know I'm mumbling about this on irc these days.
-Please let's wait and read what Khem proposes.
+When attempt_only flag is set to True all installation failures are
+ignored. Disable attempt_only, that is the default in install function,
+to raise error in install_complementary and to prevent do_populate_sdk
+task to treat errors as warnings.
 
-Note that the switch to meson wasn't mandatory.
-"we will be dropping support for the autotools build in 15.0"
+Signed-off-by: Fabio Berton <fabio.berton@criticaltechworks.com>
+---
+ meta/lib/oe/package_manager/__init__.py | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-A.A.
->
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+index 4d22bc0296..de5916d7d8 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -344,10 +344,8 @@ class PackageManager(object, metaclass=ABCMeta):
+     def install_complementary(self, globs=None):
+         """
+         Install complementary packages based upon the list of currently installed
+-        packages e.g. locales, *-dev, *-dbg, etc. This will only attempt to install
+-        these packages, if they don't exist then no error will occur.  Note: every
+-        backend needs to call this function explicitly after the normal package
+-        installation
++        packages e.g. locales, *-dev, *-dbg, etc. Note: every backend needs to
++        call this function explicitly after the normal package installation.
+         """
+         if globs is None:
+             globs = self.d.getVar('IMAGE_INSTALL_COMPLEMENTARY')
+@@ -398,7 +396,7 @@ class PackageManager(object, metaclass=ABCMeta):
+                 bb.note("Installing complementary packages ... %s (skipped already provided packages %s)" % (
+                     ' '.join(install_pkgs),
+                     ' '.join(skip_pkgs)))
+-                self.install(install_pkgs, attempt_only=True)
++                self.install(install_pkgs)
+             except subprocess.CalledProcessError as e:
+                 bb.fatal("Could not compute complementary packages list. Command "
+                          "'%s' returned %d:\n%s" %
+-- 
+2.17.1
+
