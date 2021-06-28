@@ -1,82 +1,150 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web09.4957.1624840122170247328
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web09.5075.1624841091949310209
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jun 2021 17:28:42 -0700
+ Sun, 27 Jun 2021 17:44:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UfWczqfL;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: jeanbouch418@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id h3so2762433qto.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 17:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wutD8k+6HeAIBbJ6g+mGzm68Y0iUr32IOdDXkTSX0hM=;
-        b=UfWczqfLYjQdtutr0YHzO/WQEyzhMl2mjbEWm6ZweKeZrLuwqjXOREWF/yCzwHqub+
-         N+w8REVCL9hrhO8lDZKdojIfIRTmbbW2VG8CsTJvV6EC66jkoC6PUCjJj0RvtdPJhMBc
-         t0a26avnn0YQp+OusgCqRAcI59YAL0zo3RruvJtuH5eonVILa7k8ag5A83NkjtOyClx3
-         2X3KodvGy+Kkc+6lrgSzF4IEeN4cZN59NDMci+ItBWdiNQSycIS9Iz36q1NGsijIm38z
-         1PJmQ8gyob72Qht2excpSArEEsaNjDuvdzjH0pe37JLvKiJydt36iswfE64ZqMgfFNQO
-         ZE1Q==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: christophm30@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id nd37so26671097ejc.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 17:44:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=wutD8k+6HeAIBbJ6g+mGzm68Y0iUr32IOdDXkTSX0hM=;
-        b=o85DGkUUtB6X/kV4GS50yVMBKEzy75DKEoNv/HCWqCuof1Pz900EKdRQZrWstEv+/x
-         a88ukLl+aEL24X/W4BpAmTiCeLGgxnYLeycdZE/+Ghs5RWEZHetSFIaXbBk+jcOVTk4h
-         Fto2JtxRlgZIs2zc9MnSTNZM0wOESeIj0ewZcK5fN9EyPQtVfGuqLz7dK9nAvpqDHbwC
-         XOAP+KiWWhPG308XXXoY8WJM6V+RBjaCCUqwZguGtW7Z4xTGTHTPc9Bz51pdCGcbco1C
-         TxNGp2PFtF8ZYbwlUXjNG6wHvmouZRFeUO5gyK6t1B56FA8jzx5LUHm2qQVL3sbu1iBS
-         2nmA==
-X-Gm-Message-State: AOAM532JT2JA120QaZTpPoGWcRYRdh0vmq/93PgkRsywwui29Y1y/oZc
-	UDI5HET1ZRXLvdSVDPn98b+Tw5HhQe8ANw==
-X-Google-Smtp-Source: ABdhPJxOsSsSVbpEOr7OHyBuODGPNfq37XNhEHtoBP56ajbbo1aPK6G+a9d7nFRru+jqk/eBrKiaMQ==
-X-Received: by 2002:ac8:4c9a:: with SMTP id j26mr9883232qtv.271.1624840121081;
-        Sun, 27 Jun 2021 17:28:41 -0700 (PDT)
-Return-Path: <jeanbouch418@gmail.com>
-Received: from fedora.. (modemcable125.136-200-24.mc.videotron.ca. [24.200.136.125])
-        by smtp.gmail.com with ESMTPSA id t139sm9269799qka.85.2021.06.27.17.28.39
+        bh=IIJfSLpHIWFDXCXHqC5AyTGlL2jGPaRNO+huMytEIzk=;
+        b=MG3tTtJI6y9u5za4RAAwO8OXOcOKVQoeBHZR/S7+8jOapJQwZXSfvhKynD7JL/t/+8
+         ufrR/V62nxwgdaJzWmF4QpTUEv3nh8MRqfLTG164owOUEC2sFP3YjzdaxQDRFMr8IGWm
+         fwFqwi6YcvHiwyY1CIOaX+c1ORA4iTbkga6DcgIVVNs5bVPdIJGQWERrWZq98uXRTzgL
+         MGp1xx3XQIgxj1v8EJ4q1WbA5duM991qtv8GrHcpNLeems9sk5NgPA6u0ZF/+yB7AuRm
+         AZ0p+TYvzPuEHhGHu1o3C1fEq39TVWC504kDBThTZI6OPKaWemFIe1ilcFROdafFk5u2
+         KYGw==
+X-Gm-Message-State: AOAM532y2GazEB+Yk5urTsoCT/ZbGLpQhWrlmpmaWF0MheEOh4JXlJJZ
+	pK1jIhfTj1E9YX7on6CIH53OhvAuqEOPGQ==
+X-Google-Smtp-Source: ABdhPJwkp7TSHvB78HUAW5FWfLpIADo7M8GN1bWcKqUX7jcANtCPMgZnWmDClYGUguY7L+ALkuVlYQ==
+X-Received: by 2002:a17:906:b254:: with SMTP id ce20mr21826050ejb.480.1624841090103;
+        Sun, 27 Jun 2021 17:44:50 -0700 (PDT)
+Return-Path: <christophm30@gmail.com>
+Received: from t14s.fritz.box (62-178-148-172.cable.dynamic.surfer.at. [62.178.148.172])
+        by smtp.gmail.com with ESMTPSA id h14sm2661860ejl.118.2021.06.27.17.44.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jun 2021 17:28:40 -0700 (PDT)
-From: "jbouchard" <jeanbouch418@gmail.com>
+        Sun, 27 Jun 2021 17:44:49 -0700 (PDT)
+From: christophm30@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: jbouchard <jeanbouch418@gmail.com>
-Subject: [wic][PATH] Use the label provided when formating a dos partition
-Date: Sun, 27 Jun 2021 20:28:37 -0400
-Message-Id: <20210628002837.3842-1-jeanbouch418@gmail.com>
+Cc: Christoph Muellner <cmuellner@linux.com>
+Subject: [PATCH] ldconfig-native: Add RISC-V support
+Date: Mon, 28 Jun 2021 02:44:46 +0200
+Message-Id: <20210628004446.2045624-1-cmuellner@linux.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Previously the bootimg-pcbios wic plugin was not respecting
-the --label option provided from the wks file. The plugin
-was setting the label to 'boot'. With this fix, the --label
-option is use. If no option are specified, then the default
-is 'boot'.
+The current version of ldconfig does not support RISC-V.
+Let's add a patch, that adds the required constant definitions
+(from upstream glibc) and the necessary case statements.
 
-Signed-off-by: jbouchard <jeanbouch418@gmail.com>
+Signed-off-by: Christoph Muellner <cmuellner@linux.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../add-riscv-support.patch                   | 79 +++++++++++++++++++
+ .../glibc/ldconfig-native_2.12.1.bb           |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index f2639e7004..32e47f1831 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -186,8 +186,10 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
- 
--        dosfs_cmd = "mkdosfs -n boot -i %s -S 512 -C %s %d" % \
--                    (part.fsuuid, bootimg, blocks)
-+        label = part.label if part.label else "boot"
+diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch
+new file mode 100644
+index 0000000000..fc41aee264
+--- /dev/null
++++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch
+@@ -0,0 +1,79 @@
++From fd50228cc213d2d87f5e3cf1f123acb3fda9b04e Mon Sep 17 00:00:00 2001
++From: Christoph Muellner <cmuellner@linux.com>
++Date: Mon, 28 Jun 2021 00:34:12 +0200
++Subject: [PATCH] ldconfig: Add RISC-V support
 +
-+        dosfs_cmd = "mkdosfs -n %s -i %s -S 512 -C %s %d" % \
-+                    (label, part.fsuuid, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
++ldconfig-native does not support RISC-V at the moment.
++Let's pull the reqired constants from upstream and add
++the required parsing code.
++
++Upstream-Status: Backport
++
++Signed-off-by: Christoph Muellner <cmuellner@linux.com>
++---
++ cache.c      |  6 ++++++
++ ldconfig.h   |  2 ++
++ readelflib.c | 10 ++++++++++
++ 3 files changed, 18 insertions(+)
++
++diff --git a/cache.c b/cache.c
++index c4f5411..a3b9e70 100644
++--- a/cache.c
+++++ b/cache.c
++@@ -125,6 +125,12 @@ print_entry (const char *lib, int flag, unsigned int osversion,
++     case FLAG_AARCH64_LIB64:
++       fputs (",AArch64", stdout);
++       break;
+++    case FLAG_RISCV_FLOAT_ABI_SOFT:
+++      fputs (",soft-float", stdout);
+++      break;
+++    case FLAG_RISCV_FLOAT_ABI_DOUBLE:
+++      fputs (",double-float", stdout);
+++      break;
++     case 0:
++       break;
++     default:
++diff --git a/ldconfig.h b/ldconfig.h
++index 6a8a750..2e5e379 100644
++--- a/ldconfig.h
+++++ b/ldconfig.h
++@@ -38,6 +38,8 @@
++ #define FLAG_ARM_LIBHF			0x0900
++ #define FLAG_AARCH64_LIB64		0x0a00
++ #define FLAG_ARM_LIBSF			0x0b00
+++#define FLAG_RISCV_FLOAT_ABI_SOFT	0x0f00
+++#define FLAG_RISCV_FLOAT_ABI_DOUBLE	0x1000
++ 
++ /* Name of auxiliary cache.  */
++ #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
++diff --git a/readelflib.c b/readelflib.c
++index 9ec0a54..a01e1ce 100644
++--- a/readelflib.c
+++++ b/readelflib.c
++@@ -33,6 +33,10 @@
++ #define EM_AARCH64	183		/* ARM AARCH64 */
++ #endif
++ 
+++#ifndef EM_RISCV
+++#define EM_RISCV	243		/* RISC-V */
+++#endif
+++
++ #undef check_ptr
++ #define check_ptr(ptr)						\
++ do								\
++@@ -331,6 +335,12 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
++       /* see sysdeps/unix/sysv/linux/arm/readelflib.c */
++       *flag |= FLAG_AARCH64_LIB64|FLAG_ELF_LIBC6;
++       break;
+++    case EM_RISCV:
+++      /* RISC-V libraries are always libc.so.6+. */
+++      /* NOTE: This does not correctly handle soft-float binaries */
+++      /* see sysdeps/unix/sysv/linux/riscv/readelflib.c */
+++      *flag |= FLAG_RISCV_FLOAT_ABI_DOUBLE|FLAG_ELF_LIBC6;
+++      break;
++     default:
++       error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
++             file_name, (long)elf_header->e_machine);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+index 919d11417d..fd1630b73b 100644
+--- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
++++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+@@ -15,6 +15,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
+            file://endian-ness_handling_fix.patch \
+            file://add-64-bit-flag-for-ELF64-entries.patch \
+            file://no-aux-cache.patch \
++           file://add-riscv-support.patch \
+ "
  
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
+ PR = "r2"
 -- 
 2.31.1
 
