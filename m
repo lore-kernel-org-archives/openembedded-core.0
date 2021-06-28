@@ -1,50 +1,50 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web08.12507.1624892812097000653
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web11.12448.1624892817007173342
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jun 2021 08:06:52 -0700
+ Mon, 28 Jun 2021 08:06:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MjSLka12;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.182, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f182.google.com with SMTP id b2so19942193oiy.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 08:06:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KwGKBDWO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id b2so19942502oiy.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 08:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=f1G6nP6XeF2dG5HjucgBlmLxUwJl8TS56DO/qCk3ptY=;
-        b=MjSLka12pc5p+ZbbAmGvX4sRtzWjMCunGtmSGVPevUHVjCWrN+UlKbRlmnQWktYkMu
-         t9g7RzWdzCZfSKLOwOI5giIT68ElrgInKxO/vz/6n/lISOhUD6Nahdk/CEya8PMNZshW
-         UYcirWWTzvpSONCp8dP+jOmSllsZTxx0agvNwKeUU/fYTKqERIxSXJ6kXhbz/O5EADbs
-         /rzksow9TqL6junRi2mzpNFINjyjNd+j3WrPQ/WCyNrFXUuDFgWkLfVqXPtcDHpTytNi
-         BYRhzuSviTp6NU/8CZW95yESRt4NoeiIHNuuezWZ8Ms+Pe/NBnoihgQKbMiNhheSnON7
-         jHEg==
+        bh=lltM2NYBs0ea0tiWmwCapYng6EkuDHRAqz2JVBKzMAU=;
+        b=KwGKBDWOLPfHHHiwqwTtf5zf48j6sQgh3reInQ6/kp8Zr2OVaNhJzGGNHhZG4UYPUt
+         FnuF2H0LJ0NPvHkJUeuVXOwhIkUFxXB3JWP3ZKh40K7JRrbdLTtA82MhKTf7p9oCTclz
+         EHyI5JNJKKtv5i9AxjjB1X7zwKcLlCVdIpyWtoA9iBlzdFDL/v2csfiksZbhaxBEQR32
+         uRNGm75gV28sg0S9qE8MR0dJTVHg2AJ7bOe+W3yIkedmwKanvFjGOB1mr0PnBJQiqXXj
+         IGTtcpsQsY9waceFp5ieUOeX/EuDcxzc5cf89jlCfpG0jUW21F6c54bwb9rKpS3mcTXE
+         iD0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=f1G6nP6XeF2dG5HjucgBlmLxUwJl8TS56DO/qCk3ptY=;
-        b=Qh4oepPJzLngxiDfrskhJ8q00mqU9qg9XjqKbof7giqb/m5ZBN/hED3j1CC26PFlzd
-         nNftkivmRjiU30hAOQDRHyhl+QGN+bsNT2woO2QSdkaLXrTG8BUaRSaVSrnOZBFNxe4Y
-         qidkh2coTeJe8Wsql53LAVEZrO0IlnXdGr5xt2HH3kF5/S6m2/Nbr2vD4ObGX4pEJsmC
-         /qruOZ+3l53KSGzhZ37e6sLZDXqXBR54FxuY7waXlgk2chsxL/G9QVTfWpi5DQXsBLmt
-         KRzgGczh3IdiuKFEB0J/EUx/VcHdTBiowmBDae8NlPI0Z2dlodQnWg6gdhzJLDXJJH/g
-         Lehg==
-X-Gm-Message-State: AOAM5318+JZWJ7Zt/UfY6q25K2IxKiR5iLwAP9hRaE8zUOvZyXng9AyK
-	i9tBZViLbuP1Zz2k93bggte7dSKnPwmHlkgJLso=
-X-Google-Smtp-Source: ABdhPJwqWnjELsmFxQMlSK4jJDAsTPPBhMmkCS9cIaV3HhuQPgCR8dui/hOmZdgOmUYVFCk7OVvIww==
-X-Received: by 2002:aca:4f16:: with SMTP id d22mr5673752oib.44.1624892810654;
-        Mon, 28 Jun 2021 08:06:50 -0700 (PDT)
+        bh=lltM2NYBs0ea0tiWmwCapYng6EkuDHRAqz2JVBKzMAU=;
+        b=KJBD3vzdMUt8YOdFG/2o2BDWf68DAHL4uP9PZJrZtoTyzByFs9xVnnSrqQv6p3EQwc
+         l4WkTwnJW/48VnA9UJZp60KMCzc0s65sP5Vhe7HipjZKTBFlLzRpDbOsla+E0AC6ilBq
+         7zpcOYXwJ/lWyzjGOKyZWG4JiS5XfpWWkwhMEiw1sobnX8+MfLwugQjWmD0X/cxKtSyB
+         n3+sSGKazYnjvd9cVcL3eqp0sLSnl504amKkpkFpVg09Vev2pIKq5cpr6PLSobqoEbKN
+         v7tZzs7GNUm5EYogjT43DDL9pdLzM1U36cYwlKne6y+W4Lmt+kQbL/2uMGzXaJBMU3ga
+         XKyA==
+X-Gm-Message-State: AOAM530zHHvkC3gKFaTj8cAfm2h4zFINPEf+bBzhWG2u8ASlDiAW8V9D
+	erUJGLUsY7Hd/aqz33BAzcvaKrTKemYmcMCOPuo=
+X-Google-Smtp-Source: ABdhPJzdjuHZdU4L2qgLvj0KJlELwWwQew/VxJQiT8l74iiKidlUEJz2TZRfeNK8FFXORugT1KrM9A==
+X-Received: by 2002:a05:6808:301:: with SMTP id i1mr17112460oie.144.1624892815899;
+        Mon, 28 Jun 2021 08:06:55 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id c21sm2095892otp.8.2021.06.28.08.06.47
+        by smtp.gmail.com with ESMTPSA id c21sm2095892otp.8.2021.06.28.08.06.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jun 2021 08:06:50 -0700 (PDT)
+        Mon, 28 Jun 2021 08:06:55 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/14] powertop: fix aclocal error too many loops
-Date: Mon, 28 Jun 2021 05:05:28 -1000
-Message-Id: <5a7e1e531d70eb41638c247b70791f2f3aea8793.1624892565.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/14] python3: upgrade 3.8.8 -> 3.8.9
+Date: Mon, 28 Jun 2021 05:05:29 -1000
+Message-Id: <fe037d895e045c5de7ea834c38d09a1c08d8b8a2.1624892565.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1624892565.git.steve@sakoman.com>
 References: <cover.1624892565.git.steve@sakoman.com>
@@ -53,158 +53,105 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@intel.com>
 
-Backport configure.ac patches to fix
-aclocal: error: too many loops
+Release Date: April 2, 2021
 
-Adds build dependency on autoconf-archive
+Note: The release you're looking at is Python 3.8.9, a bugfix release for the
+legacy 3.8 series. Python 3.9 is now the latest feature release series of
+Python 3.
+
+* Refresh test_local.py patch for upstream changes
+* Add DEPENDS on autoconf-archive:
+  - bpo-43617: Improve configure.ac: Check for presence of autoconf-archive
+    package and remove our copies of M4 macros.
 
 References:
-https://bugzilla.redhat.com/show_bug.cgi?id=1826935
+https://www.python.org/downloads/release/python-389/
+https://docs.python.org/release/3.8.9/whatsnew/changelog.html#python-3-8-9
+https://bugs.python.org/issue43617
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...2-configure.ac-ax_add_fortify_source.patch | 70 +++++++++++++++++++
- ...003-configure-Use-AX_REQUIRE_DEFINED.patch | 29 ++++++++
- meta/recipes-kernel/powertop/powertop_2.10.bb |  8 ++-
- 3 files changed, 104 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-kernel/powertop/powertop/0002-configure.ac-ax_add_fortify_source.patch
- create mode 100644 meta/recipes-kernel/powertop/powertop/0003-configure-Use-AX_REQUIRE_DEFINED.patch
+ ...le.py-correct-the-test-output-format.patch | 24 ++++++++++---------
+ .../{python3_3.8.8.bb => python3_3.8.9.bb}    |  6 ++---
+ 2 files changed, 16 insertions(+), 14 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.8.8.bb => python3_3.8.9.bb} (98%)
 
-diff --git a/meta/recipes-kernel/powertop/powertop/0002-configure.ac-ax_add_fortify_source.patch b/meta/recipes-kernel/powertop/powertop/0002-configure.ac-ax_add_fortify_source.patch
-new file mode 100644
-index 0000000000..4ccbdbfcd1
---- /dev/null
-+++ b/meta/recipes-kernel/powertop/powertop/0002-configure.ac-ax_add_fortify_source.patch
-@@ -0,0 +1,70 @@
-+From 0d833743954ac1c58773cbf7a78fe0dc8105ae4a Mon Sep 17 00:00:00 2001
-+From: Joe Konno <joe.konno@linux.intel.com>
-+Date: Tue, 11 Feb 2020 14:15:42 -0800
-+Subject: [PATCH] configure.ac: ax_add_fortify_source
+diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+index 35b7e0c480..f9d2eadc11 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+@@ -1,6 +1,6 @@
+-From b94995e0c694ec9561efec0d1a59b323340e6105 Mon Sep 17 00:00:00 2001
+-From: Mingli Yu <mingli.yu@windriver.com>
+-Date: Mon, 5 Aug 2019 15:57:39 +0800
++From e11787d373baa6d7b0e0d94aff8ccd373203bfb1 Mon Sep 17 00:00:00 2001
++From: Tim Orling <ticotimo@gmail.com>
++Date: Wed, 16 Jun 2021 07:49:52 -0700
+ Subject: [PATCH] test_locale.py: correct the test output format
+ 
+ Before this patch:
+@@ -24,23 +24,25 @@ Before this patch:
+ Upstream-Status: Submitted [https://github.com/python/cpython/pull/15132]
+ 
+ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 +
-+Use a maintained autoconf-archive macro to determine whether we need to
-+add -D_FORTIFY_SOURCE=3D2, or if the underlying OS (or toolchain) has it
-+baked in.
 +
-+Signed-off-by: Joe Konno <joe.konno@intel.com>
++Refresh patch for upstream changes in 3.8.9
 +
-+Fixes:
-+  aclocal: error: too many loops
-+
-+Upstream-Status: Backport from 2.12
 +Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
-+---
-+ configure.ac                |  2 +-
-+ m4/gcc_fortify_source_cc.m4 | 29 -----------------------------
-+ 2 files changed, 1 insertion(+), 30 deletions(-)
-+ delete mode 100644 m4/gcc_fortify_source_cc.m4
-+
-+diff --git a/configure.ac b/configure.ac
-+index d6a15e1..d68369c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -36,7 +36,7 @@ AC_PROG_LIBTOOL
-+ AC_PROG_CC
-+ AC_PROG_INSTALL
-+ AM_PROG_CC_C_O
-+-GCC_FORTIFY_SOURCE_CC
-++AX_ADD_FORTIFY_SOURCE
-+ AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
-+ 
-+ # Checks for libraries.
-+diff --git a/m4/gcc_fortify_source_cc.m4 b/m4/gcc_fortify_source_cc.m4
-+deleted file mode 100644
-+index 1206672..0000000
-+--- a/m4/gcc_fortify_source_cc.m4
-++++ /dev/null
-+@@ -1,29 +0,0 @@
-+-dnl GCC_FORTIFY_SOURCE_CC
-+-dnl checks -D_FORTIFY_SOURCE with the C++ compiler, if it exists then
-+-dnl updates CXXCPP
-+-AC_DEFUN([GCC_FORTIFY_SOURCE_CC],[
-+-  AC_LANG_ASSERT([C++])
-+-  AS_IF([test "X$CXX" != "X"], [
-+-    AC_MSG_CHECKING([for FORTIFY_SOURCE support])
-+-    fs_old_cxxcpp="$CXXCPP"
-+-    fs_old_cxxflags="$CXXFLAGS"
-+-    CXXCPP="$CXXCPP -D_FORTIFY_SOURCE=2"
-+-    CXXFLAGS="$CXXFLAGS -Werror"
-+-    AC_COMPILE_IFELSE([
-+-      AC_LANG_PROGRAM([[]], [[
-+-        int main(void) {
-+-        #if !(__GNUC_PREREQ (4, 1) )
-+-        #error No FORTIFY_SOURCE support
-+-        #endif
-+-          return 0;
-+-        }
-+-      ]], [
-+-        AC_MSG_RESULT([yes])
-+-      ], [
-+-        AC_MSG_RESULT([no])
-+-        CXXCPP="$fs_old_cxxcpp"
-+-      ])
-+-    ])
-+-    CXXFLAGS="$fs_old_cxxflags"
-+-  ])
-+-])
-diff --git a/meta/recipes-kernel/powertop/powertop/0003-configure-Use-AX_REQUIRE_DEFINED.patch b/meta/recipes-kernel/powertop/powertop/0003-configure-Use-AX_REQUIRE_DEFINED.patch
-new file mode 100644
-index 0000000000..ac728f4a39
---- /dev/null
-+++ b/meta/recipes-kernel/powertop/powertop/0003-configure-Use-AX_REQUIRE_DEFINED.patch
-@@ -0,0 +1,29 @@
-+From fbf74492236676e844b021b0dbb45b1ca43a0410 Mon Sep 17 00:00:00 2001
-+From: David King <amigadave@amigadave.com>
-+Date: Thu, 15 Apr 2021 11:45:13 +0100
-+Subject: [PATCH] configure: Use AX_REQUIRE_DEFINED
-+
-+Require additional macros to be defined early, to avoid an aclocal
-+"too many loops" error when copying macros.
-+
-+Upstream-Status: Backport from tip
-+
-+Signed-off-by: Tim Orling <ticotimo@gmail.com>
-+---
-+ configure.ac | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index d68369c..b90831b 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -29,6 +29,9 @@ AM_GNU_GETTEXT([external])
-+ AM_GNU_GETTEXT_VERSION([0.18.2])
-+ 
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
-++AX_REQUIRE_DEFINED([AX_ADD_FORTIFY_SOURCE])
-++AX_REQUIRE_DEFINED([AX_CXX_COMPILE_STDCXX])
-++AX_REQUIRE_DEFINED([AX_PTHREAD])
-+ # Checks for programs.
-+ AC_PROG_CPP
-+ AC_PROG_CXX
-diff --git a/meta/recipes-kernel/powertop/powertop_2.10.bb b/meta/recipes-kernel/powertop/powertop_2.10.bb
-index f1b0e92b2b..ffa3b4685c 100644
---- a/meta/recipes-kernel/powertop/powertop_2.10.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.10.bb
-@@ -2,13 +2,15 @@ SUMMARY = "Power usage tool"
- DESCRIPTION = "Linux tool to diagnose issues with power consumption and power management."
- HOMEPAGE = "https://01.org/powertop/"
- BUGTRACKER = "https://app.devzing.com/powertopbugs/bugzilla"
--DEPENDS = "ncurses libnl pciutils"
-+DEPENDS = "ncurses libnl pciutils autoconf-archive"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
+ ---
+  Lib/test/test_locale.py | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "git://github.com/fenrus75/powertop;protocol=https \
--    file://0001-wakeup_xxx.h-include-limits.h.patch \
--"
-+           file://0001-wakeup_xxx.h-include-limits.h.patch \
-+           file://0002-configure.ac-ax_add_fortify_source.patch \
-+           file://0003-configure-Use-AX_REQUIRE_DEFINED.patch \
-+           "
- SRCREV = "e8765b5475b22b7a2b6e9e8a031c68a268a0b0b3"
+ diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
+-index e2c2178..558d63c 100644
++index 39091c0..5050f3d 100644
+ --- a/Lib/test/test_locale.py
+ +++ b/Lib/test/test_locale.py
+-@@ -527,7 +527,7 @@ class TestMiscellaneous(unittest.TestCase):
++@@ -563,7 +563,7 @@ class TestMiscellaneous(unittest.TestCase):
+              self.skipTest('test needs Turkish locale')
+          loc = locale.getlocale(locale.LC_CTYPE)
+          if verbose:
+ -            print('testing with %a' % (loc,), end=' ', flush=True)
+ +            print('testing with %a...' % (loc,), end=' ', flush=True)
+-         locale.setlocale(locale.LC_CTYPE, loc)
+-         self.assertEqual(loc, locale.getlocale(locale.LC_CTYPE))
+- 
+--- 
+-2.7.4
+-
++         try:
++             locale.setlocale(locale.LC_CTYPE, loc)
++         except locale.Error as exc:
+diff --git a/meta/recipes-devtools/python/python3_3.8.8.bb b/meta/recipes-devtools/python/python3_3.8.9.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.8.8.bb
+rename to meta/recipes-devtools/python/python3_3.8.9.bb
+index d77c7d87fb..13d3b8e5b5 100644
+--- a/meta/recipes-devtools/python/python3_3.8.8.bb
++++ b/meta/recipes-devtools/python/python3_3.8.9.bb
+@@ -41,8 +41,8 @@ SRC_URI_append_class-native = " \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
+            "
  
- S = "${WORKDIR}/git"
+-SRC_URI[md5sum] = "23e6b769857233c1ac07b6be7442eff4"
+-SRC_URI[sha256sum] = "7c664249ff77e443d6ea0e4cf0e587eae918ca3c48d081d1915fe2a1f1bcc5cc"
++SRC_URI[md5sum] = "51b5bbf2ab447e66d15af4883db1c133"
++SRC_URI[sha256sum] = "5e391f3ec45da2954419cab0beaefd8be38895ea5ce33577c3ec14940c4b9572"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+@@ -72,7 +72,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
+ ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
+ 
+ 
+-DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2"
++DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2 autoconf-archive"
+ DEPENDS_append_class-target = " python3-native"
+ DEPENDS_append_class-nativesdk = " python3-native"
+ 
 -- 
 2.25.1
 
