@@ -1,174 +1,440 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
- by mx.groups.io with SMTP id smtpd.web11.7124.1624855584698179072
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web08.7514.1624859958866692290
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jun 2021 21:46:24 -0700
+ Sun, 27 Jun 2021 22:59:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ewBX9cou;
- spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-oi1-f180.google.com with SMTP id w127so20589440oig.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 21:46:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BHUCn61o;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id 21so13239655pfp.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 22:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EPEyDMB3KoEC7BWlthlArijzkgI0Evlz4KP6xnVxrmw=;
-        b=ewBX9coucIGlRVhjTou754ryc50sgx+7Hy/ZeoI7rPBWpGqQ0pml+yyaxY4lOy5UWe
-         IiEp21zHbFXSgdmFEz4NDLNJpOEGaUOTtYWf4X0s3c2mvPPvFr7vx1+w3PCG2jzUp5eI
-         01jmwLx+L++Zsk9QQWqmxByKMRoF8QWD8juU38TeHKNxt8jMxfvYlk7V+jLtYyONLrzU
-         VwJmTyP2WjdI6D7tD2ZnsoE2wM47ilekbsIBMUwp5vERXpOkwLn/GRMDatmwkj//QHrc
-         loVqXHUKUIohGnb8Z6Fg26rreEADZ0mFnnzRxIWwbcNS0kPAFu8nRDcRXjozmxD/MN1e
-         VuvA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rsMaNIGN75e1IKN+UMD09Ze97GOpNrjjXQ8mMEUq3io=;
+        b=BHUCn61oH2Fgqn5LNEOsEZaP8pm3OXRrGZlI5Xfzhw2sxeU1crRlagPaxH2CX1ovTP
+         zevRORT0aL6TuwXf00n6zpROK3iixITY7C1y41+h++NFBtpr2Jdby6kllHaiJey+9fbe
+         008/w46P0BOUL/Kztb3hZ5rO4VWJKCTMIJYBE1EfdRBWTnL+Ip4+QCZoHBRGlLx1BPxm
+         bNepZWg4sLBLNP4tt/h70DTfgGLebQZt8eZ7Wmgh49VxvDwxj7D20hhMDpznTfwN7KXx
+         6mkhxFnYgTaKeRcsJSmJcRj+395pNXqvyZmkY/AE/IdAL4D0m+KyZB04Lvx0+rqbsz47
+         BUIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EPEyDMB3KoEC7BWlthlArijzkgI0Evlz4KP6xnVxrmw=;
-        b=D0IXsZ0VIipXoryu8+dkC3jKC2//6ot2esuzGl4akXe/WHHIqLm93Fg4rDfyudH+Qf
-         glmkaeTbYd3kOXsk3TUQMhbSmQJrmG973zt1s4PANVSOXTV7iZiJZ1H63NoRfW7c0yyq
-         o2d4QhuXlVai657m+8uvVfXXVhjG2XTQV9oLxVFVXBEb35mbCEw8dfSUDl3uvSTNXJtW
-         npzHvr+ATWfWBG6Imp51cA0csPg0koBatFvI2QvnemJapaAIzgv1n/2fvQNPb3ZpXK5D
-         zWF2bP2UUroGaHiO/AnVqY6MXLB0773xCsAiWJX81aSSoHcZLXxRAYbz6M47NBMOW3NZ
-         6SPQ==
-X-Gm-Message-State: AOAM5335DglMXjkBV0ehvc//KdOwNCH7zUY4gCz++w1AaSxJAyfXRaXf
-	Ub5lofjOWIRDeOF0MPhGyYnyySh+qPChbW4gl1Y=
-X-Google-Smtp-Source: ABdhPJwkkW+IOy52YaTibbgnzGiD6P9Ej0p+yxEwPqhYUwAgO0xxtkw8xa7cm+PtWqnLG9TN9svkst9P/TeXn168Q+w=
-X-Received: by 2002:a05:6808:346:: with SMTP id j6mr2934279oie.142.1624855584041;
- Sun, 27 Jun 2021 21:46:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rsMaNIGN75e1IKN+UMD09Ze97GOpNrjjXQ8mMEUq3io=;
+        b=Shs0WaDByDrZ3DQXlogsYH2tT3Jj6kklWD1iYIcJ1tgnQt6AzOiPg5cIeurPVNeIp5
+         yRrZFAg4VdxEt0sshB2SvhD49v3+v6q3zX/R49Vl3gW5BX+9rzEHC7Vb8+6FmmCSunUV
+         ny6C9tQ92nUGR5XtFbgUFGz93ipQWHEwahX8fCvd+MO8gQpAZrGPA9QPRSeDi9SacE8n
+         ZMUnRlzR1/68WBohqiu5445kaQrOXlbZeyZQbOfdEjESfSWxTAC2q8+BmpUyE6CQsR5h
+         Tkny7MQEOJTXy1tdrcFCMd7otlC+3xhpWYSqb1FDzgF5ly+9K5uYLvu+gkOcfINxJggw
+         YVNw==
+X-Gm-Message-State: AOAM530Ib42W53vfnfEBQCoe7lBnWChFXLtmO2TXtzy98lhB/6sijaWx
+	uR0sQgG0lmftNOYfK3Bkf7E3o9k3aKmuUg==
+X-Google-Smtp-Source: ABdhPJxaqKfPISe9cn0XFubOR8i4gnEp2KIDmz31qucutDbSD90LyAo3jP4woE6zJ4V/3Ld904pp9w==
+X-Received: by 2002:a65:498e:: with SMTP id r14mr21840236pgs.57.1624859957866;
+        Sun, 27 Jun 2021 22:59:17 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::b522])
+        by smtp.gmail.com with ESMTPSA id c18sm12768912pgf.66.2021.06.27.22.59.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Jun 2021 22:59:17 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: persianpros <persianpros@yahoo.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/8] PEP8 double aggressive E401
+Date: Sun, 27 Jun 2021 22:59:08 -0700
+Message-Id: <20210628055915.1107-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210623130637.3314755-1-frederic.martinsons@gmail.com>
- <20210623130637.3314755-2-frederic.martinsons@gmail.com> <CA+cAkeoV-ncBLKpcGm4MKeuqYjSXyKsCU4NWdNTmO51iUAaqZg@mail.gmail.com>
- <76618960f73199585debc705dfd09775472d38f8.camel@linuxfoundation.org>
-In-Reply-To: <76618960f73199585debc705dfd09775472d38f8.camel@linuxfoundation.org>
-From: "Frederic Martinsons" <frederic.martinsons@gmail.com>
-Date: Mon, 28 Jun 2021 06:46:13 +0200
-Message-ID: <CA+cAkeqMzE4uSwPxtzeMdRb7j4YWrn6qGcJSX_SgPa+f3FAuXg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] package.bbclass: manage external sources for debug source file packaging
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e5eeb705c5cc2b3d"
+Content-Transfer-Encoding: 8bit
 
---000000000000e5eeb705c5cc2b3d
-Content-Type: text/plain; charset="UTF-8"
+From: persianpros <persianpros@yahoo.com>
 
-Hello Richard,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/lib/oe/package.py                                |  9 +++++++--
+ meta/lib/oe/qa.py                                     |  4 +++-
+ meta/lib/oe/utils.py                                  |  6 ++++--
+ meta/lib/oeqa/oetest.py                               |  4 +++-
+ meta/lib/oeqa/sdk/case.py                             |  3 ++-
+ meta/lib/oeqa/sdk/cases/buildlzip.py                  |  5 ++++-
+ meta/lib/oeqa/sdk/cases/python.py                     |  3 ++-
+ meta/lib/oeqa/sdk/testsdk.py                          |  3 ++-
+ meta/lib/oeqa/selftest/cases/oelib/path.py            |  3 ++-
+ meta/lib/oeqa/selftest/cases/package.py               |  7 +++++--
+ meta/lib/oeqa/selftest/cases/runtime_test.py          |  3 ++-
+ meta/lib/oeqa/utils/testexport.py                     |  6 +++++-
+ .../texinfo-dummy-native/texinfo-dummy/template.py    |  4 +++-
+ scripts/combo-layer                                   |  3 ++-
+ scripts/contrib/patchreview.py                        | 11 ++++++++---
+ scripts/lnr                                           |  3 ++-
+ scripts/oe-pkgdata-browser                            |  5 ++++-
+ .../pybootchartgui/tests/parser_test.py               |  7 ++++++-
+ scripts/send-error-report                             |  3 ++-
+ scripts/verify-bashisms                               |  9 +++++++--
+ 20 files changed, 75 insertions(+), 26 deletions(-)
 
-First, sorry for the commit message (I gave details in the first patch on
-externalsrc.bbclass but not on this one). I agree with you that it seems an
-hack but I don't know to make package;bbclass find the sources correctly.
-The "culprit" is the following command (
-https://github.com/openembedded/openembedded-core/blob/master/meta/classes/package.bbclass#L591)
-and especially the last part of it:
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index dd700cbb0c..fc5408d5f8 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -107,7 +107,10 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
+     :param qa_already_stripped: Set to True if already-stripped' in ${INSANE_SKIP}
+     This is for proper logging and messages only.
+     """
+-    import stat, errno, oe.path, oe.utils
++    import stat
++    import errno
++    import oe.path
++    import oe.utils
+ 
+     elffiles = {}
+     inodes = {}
+@@ -187,7 +190,9 @@ def file_translate(file):
+     return ft
+ 
+ def filedeprunner(arg):
+-    import re, subprocess, shlex
++    import re
++    import subprocess
++    import shlex
+ 
+     (pkg, pkgfiles, rpmdeps, pkgdest) = arg
+     provides = {}
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index e8a854a302..38c2e0cc1c 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -2,7 +2,9 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
+-import os, struct, mmap
++import os
++import struct
++import mmap
+ 
+ class NotELFFileError(Exception):
+     pass
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index a84039f585..789bad33f6 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -376,7 +376,8 @@ def format_pkg_list(pkg_dict, ret_format=None):
+ # Helper function to get the host compiler version
+ # Do not assume the compiler is gcc
+ def get_host_compiler_version(d, taskcontextonly=False):
+-    import re, subprocess
++    import re
++    import subprocess
+ 
+     if taskcontextonly and d.getVar('BB_WORKERCONTEXT') != '1':
+         return
+@@ -404,7 +405,8 @@ def get_host_compiler_version(d, taskcontextonly=False):
+ 
+ 
+ def host_gcc_version(d, taskcontextonly=False):
+-    import re, subprocess
++    import re
++    import subprocess
+ 
+     if taskcontextonly and d.getVar('BB_WORKERCONTEXT') != '1':
+         return
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 9c84466dd0..3136ac2ce5 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -9,7 +9,9 @@
+ 
+ # It also has some helper functions and it's responsible for actually starting the tests
+ 
+-import os, re, sys
++import os
++import re
++import sys
+ import unittest
+ import inspect
+ import subprocess
+diff --git a/meta/lib/oeqa/sdk/case.py b/meta/lib/oeqa/sdk/case.py
+index c45882689c..86ac199197 100644
+--- a/meta/lib/oeqa/sdk/case.py
++++ b/meta/lib/oeqa/sdk/case.py
+@@ -35,7 +35,8 @@ class OESDKTestCase(OETestCase):
+         OS/architecture, or if not specified the currently configured MACHINE's
+         OS/architecture.
+         """
+-        import oe.qa, oe.elf
++        import oe.qa
++        import oe.elf
+ 
+         if not target_os or not target_arch:
+             output = self._run("echo $OECORE_TARGET_OS:$OECORE_TARGET_ARCH")
+diff --git a/meta/lib/oeqa/sdk/cases/buildlzip.py b/meta/lib/oeqa/sdk/cases/buildlzip.py
+index 49ae756bf3..04c4a0ec16 100644
+--- a/meta/lib/oeqa/sdk/cases/buildlzip.py
++++ b/meta/lib/oeqa/sdk/cases/buildlzip.py
+@@ -2,7 +2,10 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
+-import os, tempfile, subprocess, unittest
++import os
++import tempfile
++import subprocess
++import unittest
+ from oeqa.sdk.case import OESDKTestCase
+ from oeqa.utils.subprocesstweak import errors_have_output
+ errors_have_output()
+diff --git a/meta/lib/oeqa/sdk/cases/python.py b/meta/lib/oeqa/sdk/cases/python.py
+index a334abce5f..2848481f33 100644
+--- a/meta/lib/oeqa/sdk/cases/python.py
++++ b/meta/lib/oeqa/sdk/cases/python.py
+@@ -2,7 +2,8 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
+-import subprocess, unittest
++import subprocess
++import unittest
+ from oeqa.sdk.case import OESDKTestCase
+ 
+ from oeqa.utils.subprocesstweak import errors_have_output
+diff --git a/meta/lib/oeqa/sdk/testsdk.py b/meta/lib/oeqa/sdk/testsdk.py
+index 35e40187bc..18e03cb8ef 100644
+--- a/meta/lib/oeqa/sdk/testsdk.py
++++ b/meta/lib/oeqa/sdk/testsdk.py
+@@ -95,7 +95,8 @@ class TestSDK(TestSDKBase):
+         processes = d.getVar("TESTIMAGE_NUMBER_THREADS") or d.getVar("BB_NUMBER_THREADS")
+         if processes:
+             try:
+-                import testtools, subunit
++                import testtools
++                import subunit
+             except ImportError:
+                 bb.warn("Failed to import testtools or subunit, the testcases will run serially")
+                 processes = None
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/path.py b/meta/lib/oeqa/selftest/cases/oelib/path.py
+index a1cfa08c09..098734fa5d 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/path.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/path.py
+@@ -3,7 +3,8 @@
+ #
+ 
+ from unittest.case import TestCase
+-import oe, oe.path
++import oe
++import oe.path
+ import tempfile
+ import os
+ import errno
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index 7166c3991f..82aa1bde1c 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -5,7 +5,8 @@
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_vars, get_bb_var, runqemu
+ import stat
+-import subprocess, os
++import subprocess
++import os
+ import oe.path
+ import re
+ 
+@@ -150,7 +151,9 @@ class PackageTests(OESelftestTestCase):
+                     self.fail('GDB %s failed' % binary)
+ 
+     def test_preserve_ownership(self):
+-        import os, stat, oe.cachedpath
++        import os
++        import stat
++        import oe.cachedpath
+         features = 'IMAGE_INSTALL_append = " selftest-chown"\n'
+         self.write_config(features)
+         bitbake("core-image-minimal")
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index d0c2440722..54a80dfdc0 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -211,7 +211,8 @@ class TestImage(OESelftestTestCase):
+         Product: oe-core
+         Author: Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+-        import subprocess, os
++        import subprocess
++        import os
+         try:
+             content = os.listdir("/dev/dri")
+             if len([i for i in content if i.startswith('render')]) == 0:
+diff --git a/meta/lib/oeqa/utils/testexport.py b/meta/lib/oeqa/utils/testexport.py
+index e89d130a9c..383e57a6b2 100644
+--- a/meta/lib/oeqa/utils/testexport.py
++++ b/meta/lib/oeqa/utils/testexport.py
+@@ -6,7 +6,11 @@
+ 
+ # Provides functions to help with exporting binaries obtained from built targets
+ 
+-import os, re, glob as g, shutil as sh,sys
++import os
++import re
++import glob as g
++import shutil as sh
++import sys
+ from time import sleep
+ from .commands import runCmd
+ from difflib import SequenceMatcher as SM
+diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+index 86c7c1811a..75c01b83bf 100644
+--- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
++++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+@@ -28,7 +28,9 @@
+ # of the executable from argv[0] and emulate the corresponding program, so
+ # multiple copies of this script will exist under different names.
+ 
+-import sys, os, argparse
++import sys
++import os
++import argparse
+ 
+ 
+ this_binary = sys.argv[0].split("/")[-1]
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 045de65642..835a6bcd09 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -11,7 +11,8 @@
+ #
+ 
+ import fnmatch
+-import os, sys
++import os
++import sys
+ import optparse
+ import logging
+ import subprocess
+diff --git a/scripts/contrib/patchreview.py b/scripts/contrib/patchreview.py
+index 62c509f51c..744dcfb49e 100755
+--- a/scripts/contrib/patchreview.py
++++ b/scripts/contrib/patchreview.py
+@@ -40,7 +40,8 @@ def blame_patch(patch):
+                                     "--", patch)).decode("utf-8").splitlines()
+ 
+ def patchreview(path, patches):
+-    import re, os.path
++    import re
++    import os.path
+ 
+     # General pattern: start of line, optional whitespace, tag with optional
+     # hyphen or spaces, maybe a colon, some whitespace, then the value, all case
+@@ -198,7 +199,9 @@ def histogram(results):
+ 
+ 
+ if __name__ == "__main__":
+-    import argparse, subprocess, os
++    import argparse
++    import subprocess
++    import os
+ 
+     args = argparse.ArgumentParser(description="Patch Review Tool")
+     args.add_argument("-b", "--blame", action="store_true", help="show blame for malformed patches")
+@@ -213,7 +216,9 @@ if __name__ == "__main__":
+     analyse(results, want_blame=args.blame, verbose=args.verbose)
+ 
+     if args.json:
+-        import json, os.path, collections
++        import json
++        import os.path
++        import collections
+         if os.path.isfile(args.json):
+             data = json.load(open(args.json))
+         else:
+diff --git a/scripts/lnr b/scripts/lnr
+index a2ac4fec0f..e223b1e0e6 100755
+--- a/scripts/lnr
++++ b/scripts/lnr
+@@ -6,7 +6,8 @@
+ # Create a *relative* symlink, just like ln --relative does but without needing
+ # coreutils 8.16.
+ 
+-import sys, os
++import sys
++import os
+ 
+ if len(sys.argv) != 3:
+    print("$ lnr TARGET LINK_NAME")
+diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
+index 8d223185a4..5834f59845 100755
+--- a/scripts/oe-pkgdata-browser
++++ b/scripts/oe-pkgdata-browser
+@@ -1,6 +1,9 @@
+ #! /usr/bin/env python3
+ 
+-import os, sys, enum, ast
++import os
++import sys
++import enum
++import ast
+ 
+ scripts_path = os.path.dirname(os.path.realpath(__file__))
+ lib_path = scripts_path + '/lib'
+diff --git a/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py b/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py
+index 00fb3bf797..c005cf341f 100644
+--- a/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py
++++ b/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py
+@@ -1,4 +1,9 @@
+-import sys, os, re, struct, operator, math
++import sys
++import os
++import re
++import struct
++import operator
++import math
+ from collections import defaultdict
+ import unittest
+ 
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index cfbcaa52cb..ffa0a199b1 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -10,7 +10,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
+-import urllib.request, urllib.error
++import urllib.request
++import urllib.error
+ import sys
+ import json
+ import os
+diff --git a/scripts/verify-bashisms b/scripts/verify-bashisms
+index 14d8c298e9..a63f6c8115 100755
+--- a/scripts/verify-bashisms
++++ b/scripts/verify-bashisms
+@@ -3,7 +3,11 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
+-import sys, os, subprocess, re, shutil
++import sys
++import os
++import subprocess
++import re
++import shutil
+ 
+ whitelist = (
+     # type is supported by dash
+@@ -92,7 +96,8 @@ def get_tinfoil():
+     return tinfoil
+ 
+ if __name__=='__main__':
+-    import argparse, shutil
++    import argparse
++    import shutil
+ 
+     parser = argparse.ArgumentParser(description='Bashim detector for shell fragments in recipes.')
+     parser.add_argument("recipes", metavar="RECIPE", nargs="*", help="recipes to check (if not specified, all will be checked)")
+-- 
+2.32.0
 
-processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s'
-> 2>/dev/null)"
-
-
-this command explicitely goes into *workparentdir *and wait for the sources
-to be in it thanks to the input list that was calculated as the output of
-dwarfsrcfiles earlier call (with *localsrc_prefix *remove from them).
-
-Have you an idea (or even a lead that I can explore) on how make things
-correct here ?
-
-On Mon, 28 Jun 2021 at 00:00, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Wed, 2021-06-23 at 15:09 +0200, Frederic Martinsons wrote:
-> > Hello, I would like to add a link to a yocto mail where I expose my
-> problematic that led
-> > to this patch series:
-> >
-> https://lists.yoctoproject.org/g/yocto/topic/83622035?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,83622035
-> >
-> > After further research, I think these patch can be simplified by
-> modified only
-> > WORKDIR variable to be os.path.dirname(EXTERNALSRC) but I fear of
-> consequence
-> > to have WORKDIR outside of TMPDIR so I didn't take this path.
->
-> Changing WORKDIR would no doubt solve your immediate problem but would
-> create
-> a ton of others :(.
->
-> The issue is that the class wants to re-declare S but some of our code
-> makes
-> assumptions about the location of WORKDIR with regard to S (and B). There
-> is more inside WORKDIR than just S and EXTERNALSRC does really correspond
-> to S,
-> not WORKDIR...
->
-> Cheers,
->
-> Richard
->
->
->
->
-
---000000000000e5eeb705c5cc2b3d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello Richard,<div><br></div><div>First, sorry for the com=
-mit message (I gave details in the first patch on externalsrc.bbclass but n=
-ot on this one). I agree with you that it seems an hack but I don&#39;t kno=
-w to make package;bbclass find the sources correctly.</div><div>The &quot;c=
-ulprit&quot; is the following command (<a href=3D"https://github.com/openem=
-bedded/openembedded-core/blob/master/meta/classes/package.bbclass#L591">htt=
-ps://github.com/openembedded/openembedded-core/blob/master/meta/classes/pac=
-kage.bbclass#L591</a>) and especially the last part of it:</div><div><br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex"><span style=3D"color:=
-rgb(36,41,46);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,C=
-onsolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-sp=
-ace:pre"> </span>processdebugsrc<span style=3D"color:rgb(36,41,46);font-fam=
-ily:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Consolas,&quot;Liberati=
-on Mono&quot;,Menlo,monospace;font-size:12px;white-space:pre"> +=3D &quot;(=
-cd &#39;%s&#39; ; cpio -pd0mlL --no-preserve-owner &#39;%s%s&#39; 2&gt;/dev=
-/null)&quot;</span></blockquote><div><br></div><div>this command explicitel=
-y=C2=A0goes into <b>workparentdir=C2=A0</b>and wait for the sources to be i=
-n it thanks to the input list that was calculated as the output of dwarfsrc=
-files=C2=A0earlier call (with <b>localsrc_prefix </b>remove from them).</di=
-v><div><br></div><div>Have you an idea (or even a lead that I can explore) =
-on how make things correct here ?</div></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 28 Jun 2021 at 00:00, Richar=
-d Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.=
-purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Wed, 2021-06-23 at 15:09 +0200, Frederic Marti=
-nsons wrote:<br>
-&gt; Hello, I would like to add a link to a yocto mail where I expose my pr=
-oblematic that led=C2=A0<br>
-&gt; to this patch series:=C2=A0 <br>
-&gt; <a href=3D"https://lists.yoctoproject.org/g/yocto/topic/83622035?p=3D,=
-,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,83622035" rel=3D"noreferrer" t=
-arget=3D"_blank">https://lists.yoctoproject.org/g/yocto/topic/83622035?p=3D=
-,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,83622035</a><br>
-&gt; <br>
-&gt; After further research, I think these patch can be simplified by modif=
-ied only=C2=A0<br>
-&gt; WORKDIR variable to be os.path.dirname(EXTERNALSRC) but I fear of cons=
-equence=C2=A0<br>
-&gt; to have WORKDIR outside of TMPDIR so I didn&#39;t take this path.<br>
-<br>
-Changing WORKDIR would no doubt solve your immediate problem but would crea=
-te<br>
-a ton of others :(.<br>
-<br>
-The issue is that the class wants to re-declare S but some of our code make=
-s<br>
-assumptions about the location of WORKDIR with regard to S (and B). There<b=
-r>
-is more inside WORKDIR than just S and EXTERNALSRC does really correspond t=
-o S,<br>
-not WORKDIR...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000e5eeb705c5cc2b3d--
