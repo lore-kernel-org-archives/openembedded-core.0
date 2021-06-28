@@ -1,51 +1,51 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.7569.1624859960291652780
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.7516.1624859961726401961
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jun 2021 22:59:20 -0700
+ Sun, 27 Jun 2021 22:59:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AOOdPg1T;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id c5so13219398pfv.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 22:59:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EOyuBmYK;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id bb10-20020a17090b008ab029016eef083425so12084083pjb.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 22:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YKSw4BoBbKm1ZC8TgFIzIMoJDT1BYYf6nzPli0RCv7I=;
-        b=AOOdPg1TZTX1BzqmZsLVntia7zkvO1aLvZAsyuk9EfiF3GAreJHivsgXs+Rw4JNpr+
-         qSSvVM3XxecFXW3U4xsbCBS1fEPXDJeZrx4w1Vyy+evdVkGrhl1oie6xkFBhbJAQCsNc
-         8UD+VOz4MNDKizS4s7hXhK0GeNc3jFFdCozRt9+5dadrLkMzOa87LA+nffFQ7187rc9n
-         xcwc5IpzMd+NvlZMCuUFvmCsIjLkMmi6cWswRkUwTmkv0pXh/kCs4h+nzSBRzcZrNRc9
-         vkRAgKgPKpwCRivi9ZQAgDRh6hizOjNSjxNUD0PxSYvbTjVS2nhtYKv/AGQBWxNdqla2
-         BumQ==
+        bh=+49RFbC808YHvYRGUoQc3frH82WLZJ0JBRKWMb3GPfE=;
+        b=EOyuBmYKqDGKfidmENNXc3Mv3kj0zkEVqYYGviaL8fflvoZ/xUjUvlHEuZnQj9e9CK
+         9gVT3cXTe2svRyI0yxEu39UEekR6BXTSnoA3Jc1JskkgBN/wf3PL0lSVW7+Oz8ZomUgX
+         N7B9gFIG5JL4xxOcBEBJ7XsOzgDQ98Tsg96DP8jcfBinI0XTx2kBulW42qoAc7lsJ+WU
+         ukF8xuR1vPMSbIFbnJyuxvQnJPuTXL3kvQyypWIBfArRMPULQNeIuWQpGUkTDvKMsl2A
+         hUHpbR5Yz35w+vK86phJuEXlmkULHkZtO0j17BDzpC5Z1gvVtBvKj4lAt9oYeGrxXZi2
+         m7sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YKSw4BoBbKm1ZC8TgFIzIMoJDT1BYYf6nzPli0RCv7I=;
-        b=ugg+085XwOfEPdM3XBEZXcgjwdoOSuctfTGATP8NZd/fEV/jhKgT/lr6irUeFDMc/d
-         vF5WnqtRJRQFGeEWkXXT57QRa6fMOkMZvkci9iIMLUBeRYofSwS3IhAJw1FXQfG+CZ5p
-         LyQ9rB+zTSr1L/zDvr/ohqKtC1YdInwq3YKEh4QfK/JmCNYOLjeOYUR4JF75JJCcAitW
-         2ENmKVNAluoSo/eqMafAgBHhGoGzmz7Z6a4YPiibNstQ2TXqfFHlFEUPsw5SSsJZZzLg
-         FHYxWYTraU8ACAClNobIIXIC+tUWJ4yeqUVYagX7AftF9kCFche1+rLV3rkUjBfImPyz
-         Ffdw==
-X-Gm-Message-State: AOAM532XnxeEXoBjqp9BboBtYT7gybZ+piyMRs2XmIFZgNCKlsMXNn4P
-	8HW5gf/F37TbBRLPYgAR849MMhoJynmaFw==
-X-Google-Smtp-Source: ABdhPJwDSTJaqUx4I6hvVUugrAfCpnsLQs7MGpjB0Vx82xhH++8l1k8r/VHQ/J8AcpJSRrgqwTQe9Q==
-X-Received: by 2002:a63:2503:: with SMTP id l3mr21618978pgl.237.1624859958970;
-        Sun, 27 Jun 2021 22:59:18 -0700 (PDT)
+        bh=+49RFbC808YHvYRGUoQc3frH82WLZJ0JBRKWMb3GPfE=;
+        b=gOJ8n5QVBrl88KkCpoAsMUF9oQNa2i4INnQENxFL1WpcxaAE1odawbB6bIO9sPwULZ
+         v6FjJucz2UiT38hzp7H5F5rwIrNPVznPKHkbALkdputLtRsJTYYkQRpKEHM4PYbtUvbZ
+         K2fjlwoAzqqhIbHW56eStwARoNd+wGGLZz+14wtSbpLJvhLdTTuQzu9dyN7LStIaSHFs
+         O+KVJe5t+D74vWG/Azx24Xe9UU46p/2k0bmHhdtRl6tX2myOi06JzYE9lAjDgWve/DF0
+         AYhsqkxNtlu3VcHx6sxQ03fKfH78ns0juAziX/A+zdFVgqzWAXWRwjJPIZfwaaFeOdTV
+         RnQw==
+X-Gm-Message-State: AOAM531Wv+oekao3FRG8ffbISjOL0+oeTG4Y6W4U6TCSqheXu/lJA42z
+	qRFM1SlXNC0AvMOMcQ4YywXM2KKNvxPnLw==
+X-Google-Smtp-Source: ABdhPJzi6FFf2486x59AzZJ5vZUTY/WF7NCKLDRF3UHd0bUU0IDj+LF9JbPI2PC2ww5fyemDo0TWvg==
+X-Received: by 2002:a17:90a:5401:: with SMTP id z1mr25216727pjh.7.1624859960091;
+        Sun, 27 Jun 2021 22:59:20 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::b522])
-        by smtp.gmail.com with ESMTPSA id c18sm12768912pgf.66.2021.06.27.22.59.18
+        by smtp.gmail.com with ESMTPSA id c18sm12768912pgf.66.2021.06.27.22.59.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jun 2021 22:59:18 -0700 (PDT)
+        Sun, 27 Jun 2021 22:59:19 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: persianpros <persianpros@yahoo.com>,
 	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/8] PEP8 double aggressive E701, E70 and E502
-Date: Sun, 27 Jun 2021 22:59:09 -0700
-Message-Id: <20210628055915.1107-2-raj.khem@gmail.com>
+Subject: [PATCH 3/8] PEP8 double aggressive E251 and E252
+Date: Sun, 27 Jun 2021 22:59:10 -0700
+Message-Id: <20210628055915.1107-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210628055915.1107-1-raj.khem@gmail.com>
 References: <20210628055915.1107-1-raj.khem@gmail.com>
@@ -56,1879 +56,1939 @@ From: persianpros <persianpros@yahoo.com>
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oe/buildhistory_analysis.py          |  4 +-
- meta/lib/oe/distro_check.py                   |  3 +-
- meta/lib/oe/gpg_sign.py                       |  2 +-
- meta/lib/oe/package_manager/__init__.py       | 11 +--
- meta/lib/oe/package_manager/deb/__init__.py   |  4 +-
- meta/lib/oe/package_manager/deb/rootfs.py     |  4 +-
- meta/lib/oe/package_manager/ipk/rootfs.py     |  4 +-
+ .../lib/oeqa/runtime/cases/dnf_runtime.py     |  8 ++--
+ .../lib/oeqa/selftest/cases/external-layer.py |  2 +-
+ meta/lib/oe/buildhistory_analysis.py          |  2 +-
+ meta/lib/oe/cachedpath.py                     |  2 +-
+ meta/lib/oe/classextend.py                    |  6 +--
+ meta/lib/oe/package_manager/rpm/__init__.py   |  8 ++--
+ meta/lib/oe/patch.py                          | 26 ++++++-------
+ meta/lib/oe/path.py                           |  2 +-
  meta/lib/oe/prservice.py                      |  2 +-
- meta/lib/oe/sdk.py                            |  2 +-
- meta/lib/oe/terminal.py                       |  3 +-
- meta/lib/oe/utils.py                          |  4 +-
+ meta/lib/oe/sstatesig.py                      |  4 +-
+ meta/lib/oe/terminal.py                       |  2 +-
+ meta/lib/oe/types.py                          |  2 +-
+ meta/lib/oe/utils.py                          |  2 +-
  meta/lib/oeqa/core/case.py                    |  2 +-
- meta/lib/oeqa/core/context.py                 |  4 +-
- meta/lib/oeqa/core/decorator/data.py          |  2 +-
- meta/lib/oeqa/core/decorator/depends.py       |  6 +-
- meta/lib/oeqa/core/loader.py                  | 18 ++---
- meta/lib/oeqa/oetest.py                       |  4 +-
- meta/lib/oeqa/runtime/context.py              | 10 +--
- meta/lib/oeqa/sdk/case.py                     |  2 +-
- meta/lib/oeqa/sdk/cases/buildgalculator.py    |  2 +-
- meta/lib/oeqa/sdk/cases/gcc.py                |  2 +-
- meta/lib/oeqa/sdk/context.py                  |  8 +--
- meta/lib/oeqa/sdkext/case.py                  |  2 +-
- meta/lib/oeqa/sdkext/cases/devtool.py         |  2 +-
- meta/lib/oeqa/sdkext/testsdk.py               |  4 +-
- meta/lib/oeqa/selftest/case.py                |  8 +--
- meta/lib/oeqa/selftest/cases/manifest.py      | 38 ++++++-----
- meta/lib/oeqa/selftest/cases/wic.py           | 68 +++++++++----------
- meta/lib/oeqa/selftest/context.py             |  4 +-
- meta/lib/oeqa/utils/__init__.py               |  8 +--
- meta/lib/oeqa/utils/testexport.py             |  6 +-
- meta/recipes-rt/rt-tests/files/rt_bmark.py    |  2 +-
- scripts/bitbake-whatchanged                   |  4 +-
- scripts/combo-layer                           | 12 ++--
- scripts/lib/checklayer/__init__.py            |  4 +-
- scripts/lib/checklayer/cases/bsp.py           |  4 +-
- scripts/lib/checklayer/cases/common.py        |  4 +-
- scripts/lib/checklayer/cases/distro.py        |  4 +-
- scripts/lib/devtool/sdk.py                    |  4 +-
- scripts/lib/wic/engine.py                     |  6 +-
- scripts/lib/wic/filemap.py                    |  2 +-
- scripts/lib/wic/ksparser.py                   |  4 +-
- scripts/lib/wic/misc.py                       |  2 +-
- scripts/lib/wic/plugins/imager/direct.py      | 18 ++---
- scripts/lib/wic/plugins/source/bootimg-efi.py |  2 +-
- .../wic/plugins/source/bootimg-partition.py   |  2 +-
- .../wic/plugins/source/isoimage-isohybrid.py  | 10 +--
- scripts/oe-pkgdata-browser                    |  2 +-
- .../pybootchartgui/pybootchartgui/batch.py    |  2 +-
- scripts/pybootchartgui/pybootchartgui/draw.py | 62 ++++++++---------
- .../pybootchartgui/pybootchartgui/parsing.py  |  8 ++-
+ meta/lib/oeqa/core/runner.py                  | 22 +++++------
+ meta/lib/oeqa/core/target/qemu.py             |  4 +-
+ meta/lib/oeqa/core/tests/test_decorators.py   |  2 +-
+ meta/lib/oeqa/core/utils/concurrencytest.py   | 18 ++++-----
+ meta/lib/oeqa/oetest.py                       |  2 +-
+ meta/lib/oeqa/runexported.py                  |  2 +-
+ meta/lib/oeqa/runtime/cases/apt.py            |  2 +-
+ meta/lib/oeqa/runtime/cases/boot.py           |  2 +-
+ meta/lib/oeqa/runtime/cases/buildcpio.py      |  2 +-
+ .../lib/oeqa/runtime/cases/buildgalculator.py |  2 +-
+ meta/lib/oeqa/runtime/cases/buildlzip.py      |  2 +-
+ meta/lib/oeqa/runtime/cases/dnf.py            |  2 +-
+ meta/lib/oeqa/runtime/cases/logrotate.py      | 18 ++++-----
+ meta/lib/oeqa/runtime/cases/opkg.py           |  2 +-
+ meta/lib/oeqa/runtime/cases/pam.py            |  8 ++--
+ meta/lib/oeqa/runtime/cases/parselogs.py      |  2 +-
+ meta/lib/oeqa/runtime/cases/ping.py           |  2 +-
+ meta/lib/oeqa/runtime/cases/scp.py            |  2 +-
+ meta/lib/oeqa/runtime/cases/storage.py        | 20 +++++-----
+ meta/lib/oeqa/runtime/cases/suspend.py        |  6 +--
+ meta/lib/oeqa/runtime/cases/usb_hid.py        |  4 +-
+ meta/lib/oeqa/selftest/cases/bblayers.py      | 18 ++++-----
+ meta/lib/oeqa/selftest/cases/bbtests.py       | 28 +++++++-------
+ meta/lib/oeqa/selftest/cases/binutils.py      |  2 +-
+ meta/lib/oeqa/selftest/cases/buildoptions.py  | 20 +++++-----
+ meta/lib/oeqa/selftest/cases/devtool.py       |  4 +-
+ meta/lib/oeqa/selftest/cases/gcc.py           |  6 +--
+ meta/lib/oeqa/selftest/cases/glibc.py         |  6 +--
+ meta/lib/oeqa/selftest/cases/manifest.py      |  6 +--
+ .../oeqa/selftest/cases/oelib/buildhistory.py | 12 +++---
+ meta/lib/oeqa/selftest/cases/oelib/path.py    |  6 +--
+ meta/lib/oeqa/selftest/cases/pkgdata.py       |  2 +-
+ meta/lib/oeqa/selftest/cases/sstatetests.py   |  6 +--
+ meta/lib/oeqa/targetcontrol.py                | 38 +++++++++----------
+ meta/lib/oeqa/utils/__init__.py               |  2 +-
+ meta/lib/oeqa/utils/network.py                |  2 +-
+ meta/lib/oeqa/utils/nfs.py                    |  8 ++--
+ meta/lib/oeqa/utils/qemurunner.py             |  8 ++--
+ meta/lib/oeqa/utils/qemutinyrunner.py         |  2 +-
+ meta/lib/oeqa/utils/sshcontrol.py             |  2 +-
+ .../glibc/glibc/check-test-wrapper            |  2 +-
+ scripts/bitbake-whatchanged                   | 10 ++---
+ scripts/buildhistory-collect-srcrevs          | 10 ++---
+ scripts/buildhistory-diff                     |  2 +-
+ scripts/combo-layer                           | 30 +++++++--------
+ scripts/contrib/list-packageconfig-flags.py   | 10 ++---
+ scripts/contrib/verify-homepage.py            |  2 +-
+ scripts/lib/checklayer/__init__.py            |  2 +-
+ scripts/lib/scriptutils.py                    |  2 +-
+ scripts/lib/wic/ksparser.py                   |  2 +-
+ scripts/lib/wic/partition.py                  |  2 +-
+ scripts/lib/wic/plugins/source/rootfs.py      |  2 +-
+ scripts/oe-depends-dot                        | 10 ++---
+ scripts/pybootchartgui/pybootchartgui/draw.py |  4 +-
+ .../pybootchartgui/process_tree.py            |  8 ++--
  .../pybootchartgui/pybootchartgui/samples.py  |  2 +-
- .../pybootchartgui/tests/parser_test.py       |  2 +-
  .../pybootchartgui/tests/process_tree_test.py |  2 +-
- scripts/relocate_sdk.py                       | 10 +--
- scripts/runqemu                               |  4 +-
- scripts/tiny/dirsize.py                       |  2 +-
- scripts/tiny/ksize.py                         |  8 +--
- scripts/tiny/ksum.py                          | 12 ++--
- scripts/yocto-check-layer                     |  6 +-
- 60 files changed, 230 insertions(+), 219 deletions(-)
+ 71 files changed, 238 insertions(+), 238 deletions(-)
 
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+index 64a3502370..837a15730a 100644
+--- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
++++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+@@ -41,10 +41,10 @@ class DnfSelftest(DnfTest):
+         import re
+         # Use '-y' for non-interactive mode: automatically import the feed signing key
+         output_makecache = self.dnf('-vy makecache')
+-        self.assertTrue(re.match(r".*Failed to synchronize cache", output_makecache, re.DOTALL) is None, msg = "dnf makecache failed to synchronize repo: %s" %(output_makecache))
+-        self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg = "dnf makecache failed: %s" %(output_makecache))
++        self.assertTrue(re.match(r".*Failed to synchronize cache", output_makecache, re.DOTALL) is None, msg="dnf makecache failed to synchronize repo: %s" %(output_makecache))
++        self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg="dnf makecache failed: %s" %(output_makecache))
+ 
+         output_repoinfo = self.dnf('-v repoinfo')
+         matchobj = re.match(r".*Repo-pkgs\s*:\s*(?P<n_pkgs>[0-9]+)", output_repoinfo, re.DOTALL)
+-        self.assertTrue(matchobj is not None, msg = "Could not find the amount of packages in dnf repoinfo output: %s" %(output_repoinfo))
+-        self.assertTrue(int(matchobj.group('n_pkgs')) > 0, msg = "Amount of remote packages is not more than zero: %s\n" %(output_repoinfo))
++        self.assertTrue(matchobj is not None, msg="Could not find the amount of packages in dnf repoinfo output: %s" %(output_repoinfo))
++        self.assertTrue(int(matchobj.group('n_pkgs')) > 0, msg="Amount of remote packages is not more than zero: %s\n" %(output_repoinfo))
+diff --git a/meta-selftest/lib/oeqa/selftest/cases/external-layer.py b/meta-selftest/lib/oeqa/selftest/cases/external-layer.py
+index 59b1afab7d..351332bf2c 100644
+--- a/meta-selftest/lib/oeqa/selftest/cases/external-layer.py
++++ b/meta-selftest/lib/oeqa/selftest/cases/external-layer.py
+@@ -13,4 +13,4 @@ class ImportedTests(OESelftestTestCase):
+         Author: Mariano Lopez <mariano.lopez@intel.com
+         """
+ 
+-        self.assertEqual(True, True, msg = "Impossible to fail this test")
++        self.assertEqual(True, True, msg="Impossible to fail this test")
 diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index b1856846b6..9869564e7f 100644
+index 9869564e7f..5a50eef711 100644
 --- a/meta/lib/oe/buildhistory_analysis.py
 +++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -89,9 +89,9 @@ class ChangeRecord:
-         def detect_renamed_dirs(aitems, bitems):
-             adirs = set(map(os.path.dirname, aitems))
-             bdirs = set(map(os.path.dirname, bitems))
--            files_ab = [(name, sorted(os.path.basename(item) for item in aitems if os.path.dirname(item) == name)) \
-+            files_ab = [(name, sorted(os.path.basename(item) for item in aitems if os.path.dirname(item) == name))
-                                 for name in adirs - bdirs]
--            files_ba = [(name, sorted(os.path.basename(item) for item in bitems if os.path.dirname(item) == name)) \
-+            files_ba = [(name, sorted(os.path.basename(item) for item in bitems if os.path.dirname(item) == name))
-                                 for name in bdirs - adirs]
-             renamed_dirs = []
-             for dir1, files1 in files_ab:
-diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index 88e46c354d..3daff5f547 100644
---- a/meta/lib/oe/distro_check.py
-+++ b/meta/lib/oe/distro_check.py
-@@ -69,7 +69,8 @@ def get_source_package_list_from_url_by_letter(url, section, d):
-         try:
-             packages |= get_source_package_list_from_url(url + "/" + letter, section, d)
-         except HTTPError as e:
--            if e.code != 404: raise
-+            if e.code != 404:
-+                raise
-     return packages
+@@ -215,7 +215,7 @@ class FileChange:
+     changetype_link = 'L'
+     changetype_move = 'M'
  
- def get_latest_released_fedora_source_package_list(d):
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 492f096eaa..d9045ecd94 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -82,7 +82,7 @@ class LocalSigner(object):
-         try:
-             if passphrase_file:
-                 with open(passphrase_file) as fobj:
--                    passphrase = fobj.readline();
-+                    passphrase = fobj.readline()
+-    def __init__(self, path, changetype, oldvalue = None, newvalue = None):
++    def __init__(self, path, changetype, oldvalue=None, newvalue=None):
+         self.path = path
+         self.changetype = changetype
+         self.oldvalue = oldvalue
+diff --git a/meta/lib/oe/cachedpath.py b/meta/lib/oe/cachedpath.py
+index 254257a83f..607421e29d 100644
+--- a/meta/lib/oe/cachedpath.py
++++ b/meta/lib/oe/cachedpath.py
+@@ -198,7 +198,7 @@ class CachedPath(object):
  
-             job = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-             (_, stderr) = job.communicate(passphrase.encode("utf-8"))
-diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
-index 4d22bc0296..1a039edda4 100644
---- a/meta/lib/oe/package_manager/__init__.py
-+++ b/meta/lib/oe/package_manager/__init__.py
-@@ -97,7 +97,7 @@ Details of the failure are in %s.""" %(pkgs, log_path))
- def generate_locale_archive(d, rootfs, target_arch, localedir):
-     # Pretty sure we don't need this for locale archive generation but
-     # keeping it to be safe...
--    locale_arch_options = { \
-+    locale_arch_options = {
-         "arc": ["--uint32-align=4", "--little-endian"],
-         "arceb": ["--uint32-align=4", "--big-endian"],
-         "arm": ["--uint32-align=4", "--little-endian"],
-@@ -239,7 +239,8 @@ class PackageManager(object, metaclass=ABCMeta):
+         return (file, is_dir)
  
-             try:
-                 output = subprocess.check_output(script_full, stderr=subprocess.STDOUT)
--                if output: bb.note(output.decode("utf-8"))
-+                if output:
-+                    bb.note(output.decode("utf-8"))
-             except subprocess.CalledProcessError as e:
-                 bb.note("Exit code %d. Output:\n%s" % (e.returncode, e.output.decode("utf-8")))
-                 if populate_sdk == 'host':
-@@ -331,7 +332,8 @@ class PackageManager(object, metaclass=ABCMeta):
-             bb.note('Running %s' % cmd)
-             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-             stdout, stderr = proc.communicate()
--            if stderr: bb.note(stderr.decode("utf-8"))
-+            if stderr:
-+                bb.note(stderr.decode("utf-8"))
-             pkgs = stdout.decode("utf-8")
-             self.install(pkgs.split(), attempt_only=True)
-         except subprocess.CalledProcessError as e:
-@@ -390,7 +392,8 @@ class PackageManager(object, metaclass=ABCMeta):
-                 bb.note('Running %s' % cmd)
-                 proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                 stdout, stderr = proc.communicate()
--                if stderr: bb.note(stderr.decode("utf-8"))
-+                if stderr:
-+                    bb.note(stderr.decode("utf-8"))
-                 complementary_pkgs = stdout.decode("utf-8")
-                 complementary_pkgs = set(complementary_pkgs.split())
-                 skip_pkgs = sorted(complementary_pkgs & provided_pkgs)
-diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
-index a4b6b6f647..f877e6ea9a 100644
---- a/meta/lib/oe/package_manager/deb/__init__.py
-+++ b/meta/lib/oe/package_manager/deb/__init__.py
-@@ -419,7 +419,7 @@ class DpkgPM(OpkgDpkgPM):
-                                    os.path.join(self.deploy_dir, arch))
+-    def realpath(self, file, root, use_physdir = True, loop_cnt = 100, assume_dir = False):
++    def realpath(self, file, root, use_physdir=True, loop_cnt=100, assume_dir=False):
+         """ Returns the canonical path of 'file' with assuming a
+         toplevel 'root' directory. When 'use_physdir' is set, all
+         preceding path components of 'file' will be resolved first;
+diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
+index d3d8fbe724..20366f78be 100644
+--- a/meta/lib/oe/classextend.py
++++ b/meta/lib/oe/classextend.py
+@@ -40,7 +40,7 @@ class ClassExtender(object):
+             return self.extname + "-" + name
+         return name
  
-         base_arch_list = base_archs.split()
--        multilib_variants = self.d.getVar("MULTILIB_VARIANTS");
-+        multilib_variants = self.d.getVar("MULTILIB_VARIANTS")
-         for variant in multilib_variants.split():
-             localdata = bb.data.createCopy(self.d)
-             variant_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + variant, False)
-@@ -437,7 +437,7 @@ class DpkgPM(OpkgDpkgPM):
-                     if match_arch:
-                         for base_arch in base_arch_list:
-                             architectures += "\"%s\";" % base_arch
--                        apt_conf.write("  Architectures {%s};\n" % architectures);
-+                        apt_conf.write("  Architectures {%s};\n" % architectures)
-                         apt_conf.write("  Architecture \"%s\";\n" % base_archs)
-                     else:
-                         line = re.sub(r"#ROOTFS#", self.target_rootfs, line)
-diff --git a/meta/lib/oe/package_manager/deb/rootfs.py b/meta/lib/oe/package_manager/deb/rootfs.py
-index 8fbaca11d6..56ed7e2359 100644
---- a/meta/lib/oe/package_manager/deb/rootfs.py
-+++ b/meta/lib/oe/package_manager/deb/rootfs.py
-@@ -81,8 +81,8 @@ class DpkgOpkgRootfs(Rootfs):
-             for edge in graph[node]:
-                 if edge not in resolved:
-                     if edge in seen:
--                        raise RuntimeError("Packages %s and %s have " \
--                                "a circular dependency in postinsts scripts." \
-+                        raise RuntimeError("Packages %s and %s have "
-+                                "a circular dependency in postinsts scripts."
-                                 % (node, edge))
-                     _dep_resolve(graph, edge, resolved, seen)
+-    def map_variable(self, varname, setvar = True):
++    def map_variable(self, varname, setvar=True):
+         var = self.d.getVar(varname)
+         if not var:
+             return ""
+@@ -53,7 +53,7 @@ class ClassExtender(object):
+             self.d.setVar(varname, newdata)
+         return newdata
  
-diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-index 26dbee6f6a..077c061c91 100644
---- a/meta/lib/oe/package_manager/ipk/rootfs.py
-+++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-@@ -82,8 +82,8 @@ class DpkgOpkgRootfs(Rootfs):
-             for edge in graph[node]:
-                 if edge not in resolved:
-                     if edge in seen:
--                        raise RuntimeError("Packages %s and %s have " \
--                                "a circular dependency in postinsts scripts." \
-+                        raise RuntimeError("Packages %s and %s have "
-+                                "a circular dependency in postinsts scripts."
-                                 % (node, edge))
-                     _dep_resolve(graph, edge, resolved, seen)
+-    def map_regexp_variable(self, varname, setvar = True):
++    def map_regexp_variable(self, varname, setvar=True):
+         var = self.d.getVar(varname)
+         if not var:
+             return ""
+@@ -84,7 +84,7 @@ class ClassExtender(object):
+                         return dep
+             return self.extend_name(dep)
  
+-    def map_depends_variable(self, varname, suffix = ""):
++    def map_depends_variable(self, varname, suffix=""):
+         # We need to preserve EXTENDPKGV so it can be expanded correctly later
+         if suffix:
+             varname = varname + "_" + suffix
+diff --git a/meta/lib/oe/package_manager/rpm/__init__.py b/meta/lib/oe/package_manager/rpm/__init__.py
+index b392581069..c5419a3bc7 100644
+--- a/meta/lib/oe/package_manager/rpm/__init__.py
++++ b/meta/lib/oe/package_manager/rpm/__init__.py
+@@ -181,7 +181,7 @@ class RpmPM(PackageManager):
+         os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
+ 
+ 
+-    def install(self, pkgs, attempt_only = False):
++    def install(self, pkgs, attempt_only=False):
+         if len(pkgs) == 0:
+             return
+         self._prepare_pkg_transaction()
+@@ -208,7 +208,7 @@ class RpmPM(PackageManager):
+         if len(failed_scriptlets_pkgnames) > 0:
+             failed_postinsts_abort(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+ 
+-    def remove(self, pkgs, with_dependencies = True):
++    def remove(self, pkgs, with_dependencies=True):
+         if not pkgs:
+             return
+ 
+@@ -268,7 +268,7 @@ class RpmPM(PackageManager):
+ 
+     def list_installed(self):
+         output = self._invoke_dnf(["repoquery", "--installed", "--queryformat", "Package: %{name} %{arch} %{version} %{name}-%{version}-%{release}.%{arch}.rpm\nDependencies:\n%{requires}\nRecommendations:\n%{recommends}\nDependenciesEndHere:\n"],
+-                                  print_output = False)
++                                  print_output=False)
+         packages = {}
+         current_package = None
+         current_deps = None
+@@ -300,7 +300,7 @@ class RpmPM(PackageManager):
+     def update(self):
+         self._invoke_dnf(["makecache", "--refresh"])
+ 
+-    def _invoke_dnf(self, dnf_args, fatal = True, print_output = True ):
++    def _invoke_dnf(self, dnf_args, fatal=True, print_output=True ):
+         os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
+ 
+         dnf_cmd = bb.utils.which(os.getenv('PATH'), "dnf")
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index fccbedb519..eeea18ef04 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -23,7 +23,7 @@ class CmdError(bb.BBHandledException):
+                 (self.command, self.status, self.output)
+ 
+ 
+-def runcmd(args, dir = None):
++def runcmd(args, dir=None):
+     import pipes
+     import subprocess
+ 
+@@ -106,7 +106,7 @@ class PatchSet(object):
+     def Pop(self, force):
+         raise NotImplementedError()
+ 
+-    def Refresh(self, remote = None, all = None):
++    def Refresh(self, remote=None, all=None):
+         raise NotImplementedError()
+ 
+     @staticmethod
+@@ -199,7 +199,7 @@ class PatchTree(PatchSet):
+         patch['strippath'] = p.split(",")[1]
+         self._applypatch(patch, False, True)
+ 
+-    def _removePatchFile(self, all = False):
++    def _removePatchFile(self, all=False):
+         if not os.path.exists(self.seriespath):
+             return
+         with open(self.seriespath, 'r+') as f:
+@@ -215,7 +215,7 @@ class PatchTree(PatchSet):
+             for p in patches:
+                 f.write(p)
+          
+-    def Import(self, patch, force = None):
++    def Import(self, patch, force=None):
+         """"""
+         PatchSet.Import(self, patch, force)
+ 
+@@ -225,7 +225,7 @@ class PatchTree(PatchSet):
+             i = 0
+         self.patches.insert(i, patch)
+ 
+-    def _applypatch(self, patch, force = False, reverse = False, run = True):
++    def _applypatch(self, patch, force=False, reverse=False, run=True):
+         shellcmd = ["cat", patch['file'], "|", "patch", "--no-backup-if-mismatch", "-p", patch['strippath']]
+         if reverse:
+             shellcmd.append('-R')
+@@ -253,7 +253,7 @@ class PatchTree(PatchSet):
+ 
+         return output
+ 
+-    def Push(self, force = False, all = False, run = True):
++    def Push(self, force=False, all=False, run=True):
+         bb.note("self._current is %s" % self._current)
+         bb.note("patches is %s" % self.patches)
+         if all:
+@@ -273,7 +273,7 @@ class PatchTree(PatchSet):
+             self._current = next
+             return ret
+ 
+-    def Pop(self, force = None, all = None):
++    def Pop(self, force=None, all=None):
+         if all:
+             self._removePatchFile(True)
+             self._current = None
+@@ -478,10 +478,10 @@ class GitApplyTree(PatchTree):
+         finally:
+             shutil.rmtree(tempdir)
+ 
+-    def _applypatch(self, patch, force = False, reverse = False, run = True):
++    def _applypatch(self, patch, force=False, reverse=False, run=True):
+         import shutil
+ 
+-        def _applypatchhelper(shellcmd, patch, force = False, reverse = False, run = True):
++        def _applypatchhelper(shellcmd, patch, force=False, reverse=False, run=True):
+             if reverse:
+                 shellcmd.append('-R')
+ 
+@@ -560,7 +560,7 @@ class GitApplyTree(PatchTree):
+ 
+ 
+ class QuiltTree(PatchSet):
+-    def _runcmd(self, args, run = True):
++    def _runcmd(self, args, run=True):
+         quiltrc = self.d.getVar('QUILTRCFILE')
+         if not run:
+             return ["quilt"] + ["--quiltrc"] + [quiltrc] + args
+@@ -616,7 +616,7 @@ class QuiltTree(PatchSet):
+                     self._current = self.patches.index(patch)
+         self.initialized = True
+ 
+-    def Import(self, patch, force = None):
++    def Import(self, patch, force=None):
+         if not self.initialized:
+             self.InitFromDir()
+         PatchSet.Import(self, patch, force)
+@@ -633,7 +633,7 @@ class QuiltTree(PatchSet):
+         self.patches.insert(self._current or 0, patch)
+ 
+ 
+-    def Push(self, force = False, all = False, run = True):
++    def Push(self, force=False, all=False, run=True):
+         # quilt push [-f]
+ 
+         args = ["push"]
+@@ -651,7 +651,7 @@ class QuiltTree(PatchSet):
+         else:
+             self._current = 0
+ 
+-    def Pop(self, force = None, all = None):
++    def Pop(self, force=None, all=None):
+         # quilt pop [-f]
+         args = ["pop"]
+         if force:
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index c8d8ad05b9..c92a4f98cd 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -229,7 +229,7 @@ def __realpath(file, root, loop_cnt, assume_dir):
+ 
+     return (file, is_dir)
+ 
+-def realpath(file, root, use_physdir = True, loop_cnt = 100, assume_dir = False):
++def realpath(file, root, use_physdir=True, loop_cnt=100, assume_dir=False):
+     """ Returns the canonical path of 'file' with assuming a
+     toplevel 'root' directory. When 'use_physdir' is set, all
+     preceding path components of 'file' will be resolved first;
 diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
-index 15ce060ff6..a8d82783c4 100644
+index a8d82783c4..afc8ea23bc 100644
 --- a/meta/lib/oe/prservice.py
 +++ b/meta/lib/oe/prservice.py
-@@ -82,7 +82,7 @@ def prserv_export_tofile(d, metainfo, datainfo, lockdown, nomax=False):
-     with open(df, "a") as f:
-         if metainfo:
-             #dump column info
--            f.write("#PR_core_ver = \"%s\"\n\n" % metainfo['core_ver']);
-+            f.write("#PR_core_ver = \"%s\"\n\n" % metainfo['core_ver'])
-             f.write("#Table: %s\n" % metainfo['tbl_name'])
-             f.write("#Columns:\n")
-             f.write("#name      \t type    \t notn    \t dflt    \t pk\n")
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 37b59afd1a..5e854b7c62 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -93,7 +93,7 @@ class Sdk(object, metaclass=ABCMeta):
-             if linguas == "all":
-                 pm.install_glob("nativesdk-glibc-binary-localedata-*.utf-8", sdk=True)
-             else:
--                pm.install(["nativesdk-glibc-binary-localedata-%s.utf-8" % \
-+                pm.install(["nativesdk-glibc-binary-localedata-%s.utf-8" %
-                            lang for lang in linguas.split()])
-             # Generate a locale archive of them
-             target_arch = self.d.getVar('SDK_ARCH')
+@@ -2,7 +2,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
+-def prserv_make_conn(d, check = False):
++def prserv_make_conn(d, check=False):
+     import prserv.serv
+     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
+     try:
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 47f3ca4efb..5198203367 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -90,7 +90,7 @@ class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
+         self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE") or "").split()
+         self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS") or "").split()
+         pass
+-    def rundep_check(self, fn, recipename, task, dep, depname, dataCaches = None):
++    def rundep_check(self, fn, recipename, task, dep, depname, dataCaches=None):
+         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCaches)
+ 
+ class SignatureGeneratorOEBasicHashMixIn(object):
+@@ -131,7 +131,7 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+             newsafedeps.append(a1 + "->" + a2)
+         self.saferecipedeps = newsafedeps
+ 
+-    def rundep_check(self, fn, recipename, task, dep, depname, dataCaches = None):
++    def rundep_check(self, fn, recipename, task, dep, depname, dataCaches=None):
+         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCaches)
+ 
+     def get_taskdata(self):
 diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 59aa80de66..80e76adc21 100644
+index 80e76adc21..116c104536 100644
 --- a/meta/lib/oe/terminal.py
 +++ b/meta/lib/oe/terminal.py
-@@ -63,7 +63,8 @@ class Gnome(XTerminal):
-         # https://bugzilla.gnome.org/show_bug.cgi?id=732127; as a workaround,
-         # clearing the LC_ALL environment variable so it uses the locale.
-         # Once fixed on the gnome-terminal project, this should be removed.
--        if os.getenv('LC_ALL'): os.putenv('LC_ALL','')
-+        if os.getenv('LC_ALL'):
-+            os.putenv('LC_ALL','')
+@@ -234,7 +234,7 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+     # until it exits.
+     import tempfile
+     import time
+-    pidfile = tempfile.NamedTemporaryFile(delete = False).name
++    pidfile = tempfile.NamedTemporaryFile(delete=False).name
+     try:
+         sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
+         pipe = terminal(sh_cmd, title, env, d)
+diff --git a/meta/lib/oe/types.py b/meta/lib/oe/types.py
+index bbbabafbf6..ee7cc0e659 100644
+--- a/meta/lib/oe/types.py
++++ b/meta/lib/oe/types.py
+@@ -17,7 +17,7 @@ class OEList(list):
  
-         XTerminal.__init__(self, sh_cmd, title, env, d)
+     name = "list"
  
+-    def __init__(self, value, separator = None):
++    def __init__(self, value, separator=None):
+         if value is not None:
+             list.__init__(self, value.split(separator))
+         else:
 diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 789bad33f6..c9b2be9dc3 100644
+index c9b2be9dc3..b33d049722 100644
 --- a/meta/lib/oe/utils.py
 +++ b/meta/lib/oe/utils.py
-@@ -391,7 +391,7 @@ def get_host_compiler_version(d, taskcontextonly=False):
-         # datastore PATH does not contain session PATH as set by environment-setup-...
-         # this breaks the install-buildtools use-case
-         # env["PATH"] = d.getVar("PATH")
--        output = subprocess.check_output("%s --version" % compiler, \
-+        output = subprocess.check_output("%s --version" % compiler,
-                     shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
-     except subprocess.CalledProcessError as e:
-         bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
-@@ -418,7 +418,7 @@ def host_gcc_version(d, taskcontextonly=False):
-     try:
-         env = os.environ.copy()
-         env["PATH"] = d.getVar("PATH")
--        output = subprocess.check_output("%s --version" % compiler, \
-+        output = subprocess.check_output("%s --version" % compiler,
-                     shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
-     except subprocess.CalledProcessError as e:
-         bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
+@@ -17,7 +17,7 @@ def read_file(filename):
+         return data
+     return None
+ 
+-def ifelse(condition, iftrue = True, iffalse = False):
++def ifelse(condition, iftrue=True, iffalse=False):
+     if condition:
+         return iftrue
+     else:
 diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
-index bc4446a938..0a8aff182e 100644
+index 0a8aff182e..84daa343d8 100644
 --- a/meta/lib/oeqa/core/case.py
 +++ b/meta/lib/oeqa/core/case.py
-@@ -14,7 +14,7 @@ def _validate_td_vars(td, td_vars, type_msg):
-     if td_vars:
-         for v in td_vars:
-             if not v in td:
--                raise OEQAMissingVariable("Test %s need %s variable but"\
-+                raise OEQAMissingVariable("Test %s need %s variable but"
-                         " isn't into td" % (type_msg, v))
+@@ -74,7 +74,7 @@ class OEPTestResultTestCase:
+             self.extraresults = {"ptestresult.sections" : {}}
+         self.extraresults["ptestresult.rawlogs"] = {"log" : self._compress_log(log)}
  
- class OETestCase(unittest.TestCase):
-diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-index 2abe353d27..cb460f7496 100644
---- a/meta/lib/oeqa/core/context.py
-+++ b/meta/lib/oeqa/core/context.py
-@@ -144,7 +144,7 @@ class OETestContextExecutor(object):
-         if self.default_cases:
-             self.parser.add_argument('CASES_PATHS', action='store',
-                     default=self.default_cases, nargs='*',
--                    help="paths to directories with test cases, default: %s"\
-+                    help="paths to directories with test cases, default: %s"
-                             % self.default_cases)
-         else:
-             self.parser.add_argument('CASES_PATHS', action='store',
-@@ -153,7 +153,7 @@ class OETestContextExecutor(object):
-         self.parser.set_defaults(func=self.run)
+-    def ptest_section(self, section, duration = None, log = None, logfile = None, exitcode = None):
++    def ptest_section(self, section, duration=None, log=None, logfile=None, exitcode=None):
+         if not hasattr(self, "extraresults"):
+             self.extraresults = {"ptestresult.sections" : {}}
  
-     def _setup_logger(self, logger, args):
--        formatter = logging.Formatter('%(asctime)s - ' + self.name + \
-+        formatter = logging.Formatter('%(asctime)s - ' + self.name +
-                 ' - %(levelname)s - %(message)s')
-         sh = logger.handlers[0]
-         sh.setFormatter(formatter)
-diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
-index bc4939e87c..23555bc8d3 100644
---- a/meta/lib/oeqa/core/decorator/data.py
-+++ b/meta/lib/oeqa/core/decorator/data.py
-@@ -113,7 +113,7 @@ class OETestDataDepends(OETestDecorator):
-             try:
-                 value = self.case.td[v]
-             except KeyError:
--                raise OEQAMissingVariable("Test case need %s variable but"\
-+                raise OEQAMissingVariable("Test case need %s variable but"
-                         " isn't into td" % v)
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index d50690ab37..1d325e188d 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -130,7 +130,7 @@ class OETestResult(_TestResult):
  
- @registerDecorator
-diff --git a/meta/lib/oeqa/core/decorator/depends.py b/meta/lib/oeqa/core/decorator/depends.py
-index 33f0841cab..eef5c8f7ab 100644
---- a/meta/lib/oeqa/core/decorator/depends.py
-+++ b/meta/lib/oeqa/core/decorator/depends.py
-@@ -37,7 +37,7 @@ def _validate_test_case_depends(cases, depends):
-             continue
-         for dep in depends[case]:
-             if not dep in cases:
--                raise OEQADependency("TestCase %s depends on %s and isn't available"\
-+                raise OEQADependency("TestCase %s depends on %s and isn't available"
-                        ", cases available %s." % (case, dep, str(cases.keys())))
+         return 'UNKNOWN', None
  
- def _order_test_case_by_depends(cases, depends):
-@@ -46,7 +46,7 @@ def _order_test_case_by_depends(cases, depends):
-         for edge in graph[node]:
-             if edge not in resolved:
-                 if edge in seen:
--                    raise OEQADependency("Test cases %s and %s have a circular" \
-+                    raise OEQADependency("Test cases %s and %s have a circular"
-                                        " dependency." % (node, edge))
-                 _dep_resolve(graph, edge, resolved, seen)
-         resolved.append(node)
-@@ -73,7 +73,7 @@ def _skipTestDependency(case, depends):
-                 found = True
-                 break
-         if not found:
--            raise SkipTest("Test case %s depends on %s but it didn't pass/run." \
-+            raise SkipTest("Test case %s depends on %s but it didn't pass/run."
-                         % (case.id(), dep))
+-    def extractExtraResults(self, test, details = None):
++    def extractExtraResults(self, test, details=None):
+         extraresults = None
+         if details is not None and "extraresults" in details:
+             extraresults = details.get("extraresults", {})
+@@ -145,26 +145,26 @@ class OETestResult(_TestResult):
+                 else:
+                     self.extraresults[k] = v
  
- @registerDecorator
-diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
-index 11978213b8..df7cd5ecc2 100644
---- a/meta/lib/oeqa/core/loader.py
-+++ b/meta/lib/oeqa/core/loader.py
-@@ -106,7 +106,7 @@ class OETestLoader(unittest.TestLoader):
-         def _handle(obj):
-             if isinstance(obj, OETestDecorator):
-                 if not obj.__class__ in decoratorClasses:
--                    raise Exception("Decorator %s isn't registered" \
-+                    raise Exception("Decorator %s isn't registered"
-                             " in decoratorClasses." % obj.__name__)
-                 obj.bind(self.tc._registry, case)
+-    def addError(self, test, *args, details = None):
+-        self.extractExtraResults(test, details = details)
++    def addError(self, test, *args, details=None):
++        self.extractExtraResults(test, details=details)
+         return super(OETestResult, self).addError(test, *args)
  
-@@ -217,11 +217,11 @@ class OETestLoader(unittest.TestLoader):
-             Returns a suite of all tests cases contained in testCaseClass.
-         """
-         if issubclass(testCaseClass, unittest.suite.TestSuite):
--            raise TypeError("Test cases should not be derived from TestSuite." \
--                                " Maybe you meant to derive %s from TestCase?" \
-+            raise TypeError("Test cases should not be derived from TestSuite."
-+                                " Maybe you meant to derive %s from TestCase?"
-                                 % testCaseClass.__name__)
-         if not issubclass(testCaseClass, unittest.case.TestCase):
--            raise TypeError("Test %s is not derived from %s" % \
-+            raise TypeError("Test %s is not derived from %s" %
-                     (testCaseClass.__name__, unittest.case.TestCase.__name__))
+-    def addFailure(self, test, *args, details = None):
+-        self.extractExtraResults(test, details = details)
++    def addFailure(self, test, *args, details=None):
++        self.extractExtraResults(test, details=details)
+         return super(OETestResult, self).addFailure(test, *args)
  
-         testCaseNames = self.getTestCaseNames(testCaseClass)
-@@ -262,7 +262,7 @@ class OETestLoader(unittest.TestLoader):
-                     break
+-    def addSuccess(self, test, details = None):
++    def addSuccess(self, test, details=None):
+         #Added so we can keep track of successes too
+         self.successes.append((test, None))
+-        self.extractExtraResults(test, details = details)
++        self.extractExtraResults(test, details=details)
+         return super(OETestResult, self).addSuccess(test)
  
-             if not found:
--                raise OEQATestNotFound("Not found %s in loaded test cases" % \
-+                raise OEQATestNotFound("Not found %s in loaded test cases" %
-                         module)
+-    def addExpectedFailure(self, test, *args, details = None):
+-        self.extractExtraResults(test, details = details)
++    def addExpectedFailure(self, test, *args, details=None):
++        self.extractExtraResults(test, details=details)
+         return super(OETestResult, self).addExpectedFailure(test, *args)
  
-     def discover(self):
-@@ -300,14 +300,14 @@ class OETestLoader(unittest.TestLoader):
-         # module list.
-         # Underscore modules are loaded only if specified in module list.
-         load_module = True if not module_name.startswith('_') \
--                              and (not self.modules \
--                                   or module_name in self.modules \
--                                   or module_name_small in self.modules \
-+                              and (not self.modules
-+                                   or module_name in self.modules
-+                                   or module_name_small in self.modules
-                                    or 'auto' in self.modules) \
-                            else False
+-    def addUnexpectedSuccess(self, test, details = None):
+-        self.extractExtraResults(test, details = details)
++    def addUnexpectedSuccess(self, test, details=None):
++        self.extractExtraResults(test, details=details)
+         return super(OETestResult, self).addUnexpectedSuccess(test)
  
-         load_underscore = True if module_name.startswith('_') \
--                                  and (module_name in self.modules or \
-+                                  and (module_name in self.modules or
-                                   module_name_small in self.modules) \
-                                else False
+     def logDetails(self, json_file_dir=None, configuration=None, result_id=None,
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index 79fd724f7d..bb93b4ee99 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -24,7 +24,7 @@ class OEQemuTarget(OESSHTarget):
+             port=None, machine='', rootfs='', kernel='', kvm=False, slirp=False,
+             dump_dir='', dump_host_cmds='', display='', bootlog='',
+             tmpdir='', dir_image='', boottime=60, serial_ports=2,
+-            boot_patterns = defaultdict(str), ovmf=False, tmpfsdir=None, **kwargs):
++            boot_patterns=defaultdict(str), ovmf=False, tmpfsdir=None, **kwargs):
  
+         super(OEQemuTarget, self).__init__(logger, None, server_ip, timeout,
+                 user, port)
+@@ -46,7 +46,7 @@ class OEQemuTarget(OESSHTarget):
+                                  logfile=bootlog, boottime=boottime,
+                                  use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir,
+                                  dump_host_cmds=dump_host_cmds, logger=logger,
+-                                 serial_ports=serial_ports, boot_patterns = boot_patterns, 
++                                 serial_ports=serial_ports, boot_patterns=boot_patterns, 
+                                  use_ovmf=ovmf, tmpfsdir=tmpfsdir)
+         dump_monitor_cmds = kwargs.get("testimage_dump_monitor")
+         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
+diff --git a/meta/lib/oeqa/core/tests/test_decorators.py b/meta/lib/oeqa/core/tests/test_decorators.py
+index 5095f39948..39e5e2164f 100755
+--- a/meta/lib/oeqa/core/tests/test_decorators.py
++++ b/meta/lib/oeqa/core/tests/test_decorators.py
+@@ -16,7 +16,7 @@ from oeqa.core.utils.test import getCaseMethod, getSuiteCasesNames, getSuiteCase
+ 
+ class TestTagDecorator(TestBase):
+     def _runTest(self, modules, filterfn, expect):
+-        tc = self._testLoader(modules = modules, tags_filter = filterfn)
++        tc = self._testLoader(modules=modules, tags_filter=filterfn)
+         test_loaded = set(getSuiteCasesIDs(tc.suites))
+         self.assertEqual(expect, test_loaded)
+ 
+diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
+index 161a2f6e90..678484243b 100644
+--- a/meta/lib/oeqa/core/utils/concurrencytest.py
++++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+@@ -85,22 +85,22 @@ class ProxyTestResult:
+         self.result = target
+         self.failed_tests = 0
+ 
+-    def _addResult(self, method, test, *args, exception = False, **kwargs):
++    def _addResult(self, method, test, *args, exception=False, **kwargs):
+         return method(test, *args, **kwargs)
+ 
+-    def addError(self, test, err = None, **kwargs):
++    def addError(self, test, err=None, **kwargs):
+         self.failed_tests += 1
+-        self._addResult(self.result.addError, test, err, exception = True, **kwargs)
++        self._addResult(self.result.addError, test, err, exception=True, **kwargs)
+ 
+-    def addFailure(self, test, err = None, **kwargs):
++    def addFailure(self, test, err=None, **kwargs):
+         self.failed_tests += 1
+-        self._addResult(self.result.addFailure, test, err, exception = True, **kwargs)
++        self._addResult(self.result.addFailure, test, err, exception=True, **kwargs)
+ 
+     def addSuccess(self, test, **kwargs):
+         self._addResult(self.result.addSuccess, test, **kwargs)
+ 
+-    def addExpectedFailure(self, test, err = None, **kwargs):
+-        self._addResult(self.result.addExpectedFailure, test, err, exception = True, **kwargs)
++    def addExpectedFailure(self, test, err=None, **kwargs):
++        self._addResult(self.result.addExpectedFailure, test, err, exception=True, **kwargs)
+ 
+     def addUnexpectedSuccess(self, test, **kwargs):
+         self._addResult(self.result.addUnexpectedSuccess, test, **kwargs)
+@@ -112,7 +112,7 @@ class ProxyTestResult:
+         return getattr(self.result, attr)
+ 
+ class ExtraResultsDecoderTestResult(ProxyTestResult):
+-    def _addResult(self, method, test, *args, exception = False, **kwargs):
++    def _addResult(self, method, test, *args, exception=False, **kwargs):
+         if "details" in kwargs and "extraresults" in kwargs["details"]:
+             if isinstance(kwargs["details"]["extraresults"], Content):
+                 kwargs = kwargs.copy()
+@@ -126,7 +126,7 @@ class ExtraResultsDecoderTestResult(ProxyTestResult):
+         return method(test, *args, **kwargs)
+ 
+ class ExtraResultsEncoderTestResult(ProxyTestResult):
+-    def _addResult(self, method, test, *args, exception = False, **kwargs):
++    def _addResult(self, method, test, *args, exception=False, **kwargs):
+         if hasattr(test, "extraresults"):
+             extras = lambda : [json.dumps(test.extraresults).encode()]
+             kwargs = kwargs.copy()
 diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 3136ac2ce5..1f4993c9d5 100644
+index 1f4993c9d5..2ee67586f6 100644
 --- a/meta/lib/oeqa/oetest.py
 +++ b/meta/lib/oeqa/oetest.py
-@@ -145,8 +145,8 @@ def skipModule(reason, pos=2):
-     if modname not in oeTest.tc.testsrequired:
-         raise unittest.SkipTest("%s: %s" % (modname, reason))
-     else:
--        raise Exception("\nTest %s wants to be skipped.\nReason is: %s" \
--                "\nTest was required in TEST_SUITES, so either the condition for skipping is wrong" \
-+        raise Exception("\nTest %s wants to be skipped.\nReason is: %s"
-+                "\nTest was required in TEST_SUITES, so either the condition for skipping is wrong"
-                 "\nor the image really doesn't have the required feature/package when it should." % (modname, reason))
+@@ -101,7 +101,7 @@ class oeRuntimeTest(oeTest):
+         if self.tc.sigterm:
+             self.fail("Got SIGTERM")
+         elif (type(self.target).__name__ == "QemuTarget"):
+-            self.assertTrue(self.target.check(), msg = "Qemu not running?")
++            self.assertTrue(self.target.check(), msg="Qemu not running?")
  
- def skipModuleIf(cond, reason):
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index 3826f27642..0ea67bee2f 100644
---- a/meta/lib/oeqa/runtime/context.py
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -62,15 +62,15 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+         self.setUpLocal()
  
-         runtime_group.add_argument('--target-type', action='store',
-                 default=self.default_target_type, choices=['simpleremote', 'qemu'],
--                help="Target type of device under test, default: %s" \
-+                help="Target type of device under test, default: %s"
-                 % self.default_target_type)
-         runtime_group.add_argument('--target-ip', action='store',
-                 default=self.default_target_ip,
--                help="IP address of device under test, default: %s" \
-+                help="IP address of device under test, default: %s"
-                 % self.default_target_ip)
-         runtime_group.add_argument('--server-ip', action='store',
-                 default=self.default_target_ip,
--                help="IP address of device under test, default: %s" \
-+                help="IP address of device under test, default: %s"
-                 % self.default_server_ip)
+diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
+index 7e37213df6..5f087bc950 100755
+--- a/meta/lib/oeqa/runexported.py
++++ b/meta/lib/oeqa/runexported.py
+@@ -66,7 +66,7 @@ class FakeTarget(object):
  
-         runtime_group.add_argument('--host-dumper-dir', action='store',
-@@ -78,12 +78,12 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
  
-         runtime_group.add_argument('--packages-manifest', action='store',
-                 default=self.default_manifest,
--                help="Package manifest of the image under test, default: %s" \
-+                help="Package manifest of the image under test, default: %s"
-                 % self.default_manifest)
+ class MyDataDict(dict):
+-    def getVar(self, key, unused = None):
++    def getVar(self, key, unused=None):
+         return self.get(key, "")
  
-         runtime_group.add_argument('--extract-dir', action='store',
-                 default=self.default_extract_dir,
--                help='Directory where extracted packages reside, default: %s' \
-+                help='Directory where extracted packages reside, default: %s'
-                 % self.default_extract_dir)
+ def main():
+diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/cases/apt.py
+index 53745df93f..1e01138760 100644
+--- a/meta/lib/oeqa/runtime/cases/apt.py
++++ b/meta/lib/oeqa/runtime/cases/apt.py
+@@ -10,7 +10,7 @@ from oeqa.runtime.decorator.package import OEHasPackage
  
-         runtime_group.add_argument('--qemu-boot', action='store',
-diff --git a/meta/lib/oeqa/sdk/case.py b/meta/lib/oeqa/sdk/case.py
-index 86ac199197..6b8eab3258 100644
---- a/meta/lib/oeqa/sdk/case.py
-+++ b/meta/lib/oeqa/sdk/case.py
-@@ -11,7 +11,7 @@ from oeqa.core.case import OETestCase
+ class AptTest(OERuntimeTestCase):
  
- class OESDKTestCase(OETestCase):
-     def _run(self, cmd):
--        return subprocess.check_output(". %s > /dev/null; %s;" % \
-+        return subprocess.check_output(". %s > /dev/null; %s;" %
-                 (self.tc.sdk_env, cmd), shell=True, executable="/bin/bash",
-                 stderr=subprocess.STDOUT, universal_newlines=True)
- 
-diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-index eb3c8ddf39..c6de032b29 100644
---- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
-+++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-@@ -16,7 +16,7 @@ class GalculatorTest(OESDKTestCase):
-     Test that autotools and GTK+ 3 compiles correctly.
-     """
-     def setUp(self):
--        if not (self.tc.hasTargetPackage("gtk+3", multilib=True) or \
-+        if not (self.tc.hasTargetPackage("gtk+3", multilib=True) or
-                 self.tc.hasTargetPackage("libgtk-3.0", multilib=True)):
-             raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
-         if not (self.tc.hasHostPackage("nativesdk-gettext-dev")):
-diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
-index eb08eadd28..71e71dee0a 100644
---- a/meta/lib/oeqa/sdk/cases/gcc.py
-+++ b/meta/lib/oeqa/sdk/cases/gcc.py
-@@ -43,7 +43,7 @@ class GccCompileTest(OESDKTestCase):
+-    def pkg(self, command, expected = 0):
++    def pkg(self, command, expected=0):
+         command = 'apt-get %s' % command
+         status, output = self.target.run(command, 1500)
+         message = os.linesep.join([command, output])
+diff --git a/meta/lib/oeqa/runtime/cases/boot.py b/meta/lib/oeqa/runtime/cases/boot.py
+index 2142f400a0..b801d13fc0 100644
+--- a/meta/lib/oeqa/runtime/cases/boot.py
++++ b/meta/lib/oeqa/runtime/cases/boot.py
+@@ -30,4 +30,4 @@ class BootTest(OERuntimeTestCase):
+                 count = 0
+         msg = ('Expected 5 consecutive, got %d.\n'
+                'ping output is:\n%s' % (count,output))
+-        self.assertEqual(count, 5, msg = msg)
++        self.assertEqual(count, 5, msg=msg)
+diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
+index e29bf16ccb..095a82c10b 100644
+--- a/meta/lib/oeqa/runtime/cases/buildcpio.py
++++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
+@@ -15,7 +15,7 @@ class BuildCpioTest(OERuntimeTestCase):
+         uri = 'https://downloads.yoctoproject.org/mirror/sources/cpio-2.13.tar.gz'
+         cls.project = TargetBuildProject(cls.tc.target,
+                                          uri,
+-                                         dl_dir = cls.tc.td['DL_DIR'])
++                                         dl_dir=cls.tc.td['DL_DIR'])
  
      @classmethod
-     def tearDownClass(self):
--        files = [os.path.join(self.tc.sdk_dir, f) \
-+        files = [os.path.join(self.tc.sdk_dir, f)
-                 for f in ['test.c', 'test.cpp', 'test.o', 'test',
-                     'testsdkmakefile']]
-         for f in files:
-diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
-index 01c38c24e6..b1a705c776 100644
---- a/meta/lib/oeqa/sdk/context.py
-+++ b/meta/lib/oeqa/sdk/context.py
-@@ -120,7 +120,7 @@ class OESDKTestContextExecutor(OETestContextExecutor):
-         return sdk_env
- 
-     def _display_sdk_envs(self, log, args, sdk_envs):
--        log("Available SDK environments at directory %s:" \
-+        log("Available SDK environments at directory %s:"
-                 % args.sdk_dir)
-         log("")
-         for env in sdk_envs:
-@@ -130,12 +130,12 @@ class OESDKTestContextExecutor(OETestContextExecutor):
-         import argparse_oe
- 
-         if not args.sdk_dir:
--            raise argparse_oe.ArgumentUsageError("No SDK directory "\
-+            raise argparse_oe.ArgumentUsageError("No SDK directory "
-                    "specified please do, --sdk-dir SDK_DIR", self.name)
- 
-         sdk_envs = OESDKTestContextExecutor._get_sdk_environs(args.sdk_dir)
-         if not sdk_envs:
--            raise argparse_oe.ArgumentUsageError("No available SDK "\
-+            raise argparse_oe.ArgumentUsageError("No available SDK "
-                    "environments found at %s" % args.sdk_dir, self.name)
- 
-         if args.list_sdk_env:
-@@ -144,7 +144,7 @@ class OESDKTestContextExecutor(OETestContextExecutor):
- 
-         if not args.sdk_env in sdk_envs:
-             self._display_sdk_envs(logger.error, args, sdk_envs)
--            raise argparse_oe.ArgumentUsageError("No valid SDK "\
-+            raise argparse_oe.ArgumentUsageError("No valid SDK "
-                    "environment (%s) specified" % args.sdk_env, self.name)
- 
-         self.sdk_env = sdk_envs[args.sdk_env]
-diff --git a/meta/lib/oeqa/sdkext/case.py b/meta/lib/oeqa/sdkext/case.py
-index 668faec9b9..8a36c1f8ce 100644
---- a/meta/lib/oeqa/sdkext/case.py
-+++ b/meta/lib/oeqa/sdkext/case.py
-@@ -19,6 +19,6 @@ class OESDKExtTestCase(OESDKTestCase):
-         paths_to_avoid = ['bitbake/bin', 'poky/scripts']
-         env['PATH'] = avoid_paths_in_environ(paths_to_avoid)
- 
--        return subprocess.check_output(". %s > /dev/null;"\
-+        return subprocess.check_output(". %s > /dev/null;"
-             " %s;" % (self.tc.sdk_env, cmd), stderr=subprocess.STDOUT,
-             shell=True, env=env, universal_newlines=True)
-diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
-index a5c6a76e02..ef5dea1f47 100644
---- a/meta/lib/oeqa/sdkext/cases/devtool.py
-+++ b/meta/lib/oeqa/sdkext/cases/devtool.py
-@@ -52,7 +52,7 @@ class DevtoolTest(OESDKExtTestCase):
- 
-     def test_devtool_location(self):
-         output = self._run('which devtool')
--        self.assertEqual(output.startswith(self.tc.sdk_dir), True, \
-+        self.assertEqual(output.startswith(self.tc.sdk_dir), True,
-             msg="Seems that devtool isn't the eSDK one: %s" % output)
- 
-     def test_devtool_add_reset(self):
-diff --git a/meta/lib/oeqa/sdkext/testsdk.py b/meta/lib/oeqa/sdkext/testsdk.py
-index ffd185ec55..ae4f55970c 100644
---- a/meta/lib/oeqa/sdkext/testsdk.py
-+++ b/meta/lib/oeqa/sdkext/testsdk.py
-@@ -30,7 +30,7 @@ class TestSDKExt(TestSDKBase):
- 
-         tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
-         if not os.path.exists(tcname):
--            bb.fatal("The toolchain ext %s is not built. Build it before running the" \
-+            bb.fatal("The toolchain ext %s is not built. Build it before running the"
-                     " tests: 'bitbake <image> -c populate_sdk_ext' ." % tcname)
- 
-         tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.testdata.json")
-@@ -73,7 +73,7 @@ class TestSDKExt(TestSDKBase):
-                 f.write('PREMIRRORS_prepend = " git://git.yoctoproject.org/.* git://%s/git2/git.yoctoproject.org.BASENAME \\n "\n' % test_data.get('DL_DIR'))
- 
-             # We need to do this in case we have a minimal SDK
--            subprocess.check_output(". %s > /dev/null; devtool sdk-install meta-extsdk-toolchain" % \
-+            subprocess.check_output(". %s > /dev/null; devtool sdk-install meta-extsdk-toolchain" %
-                     sdk_env, cwd=sdk_dir, shell=True, stderr=subprocess.STDOUT)
- 
-             tc = OESDKExtTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
-diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
-index dcad4f76ec..4ff187ff8c 100644
---- a/meta/lib/oeqa/selftest/case.py
-+++ b/meta/lib/oeqa/selftest/case.py
-@@ -55,13 +55,13 @@ class OESelftestTestCase(OETestCase):
-         if "#include added by oe-selftest" \
-             not in ftools.read_file(os.path.join(cls.builddir, "conf/local.conf")):
-                 cls.logger.info("Adding: \"include selftest.inc\" in %s" % os.path.join(cls.builddir, "conf/local.conf"))
--                ftools.append_file(os.path.join(cls.builddir, "conf/local.conf"), \
-+                ftools.append_file(os.path.join(cls.builddir, "conf/local.conf"),
-                         "\n#include added by oe-selftest\ninclude machine.inc\ninclude selftest.inc")
- 
-         if "#include added by oe-selftest" \
-             not in ftools.read_file(os.path.join(cls.builddir, "conf/bblayers.conf")):
-                 cls.logger.info("Adding: \"include bblayers.inc\" in bblayers.conf")
--                ftools.append_file(os.path.join(cls.builddir, "conf/bblayers.conf"), \
-+                ftools.append_file(os.path.join(cls.builddir, "conf/bblayers.conf"),
-                         "\n#include added by oe-selftest\ninclude bblayers.inc")
+     def tearDownClass(cls):
+diff --git a/meta/lib/oeqa/runtime/cases/buildgalculator.py b/meta/lib/oeqa/runtime/cases/buildgalculator.py
+index e5cc3e2888..f7af48c3be 100644
+--- a/meta/lib/oeqa/runtime/cases/buildgalculator.py
++++ b/meta/lib/oeqa/runtime/cases/buildgalculator.py
+@@ -15,7 +15,7 @@ class GalculatorTest(OERuntimeTestCase):
+         uri = 'http://galculator.mnim.org/downloads/galculator-2.1.4.tar.bz2'
+         cls.project = TargetBuildProject(cls.tc.target,
+                                          uri,
+-                                         dl_dir = cls.tc.td['DL_DIR'])
++                                         dl_dir=cls.tc.td['DL_DIR'])
  
      @classmethod
-@@ -69,13 +69,13 @@ class OESelftestTestCase(OETestCase):
-         if "#include added by oe-selftest.py" \
-             in ftools.read_file(os.path.join(cls.builddir, "conf/local.conf")):
-                 cls.logger.info("Removing the include from local.conf")
--                ftools.remove_from_file(os.path.join(cls.builddir, "conf/local.conf"), \
-+                ftools.remove_from_file(os.path.join(cls.builddir, "conf/local.conf"),
-                         "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
- 
-         if "#include added by oe-selftest.py" \
-             in ftools.read_file(os.path.join(cls.builddir, "conf/bblayers.conf")):
-                 cls.logger.info("Removing the include from bblayers.conf")
--                ftools.remove_from_file(os.path.join(cls.builddir, "conf/bblayers.conf"), \
-+                ftools.remove_from_file(os.path.join(cls.builddir, "conf/bblayers.conf"),
-                         "\n#include added by oe-selftest.py\ninclude bblayers.inc")
+     def tearDownClass(cls):
+diff --git a/meta/lib/oeqa/runtime/cases/buildlzip.py b/meta/lib/oeqa/runtime/cases/buildlzip.py
+index bc70b41461..ef4c9cebac 100644
+--- a/meta/lib/oeqa/runtime/cases/buildlzip.py
++++ b/meta/lib/oeqa/runtime/cases/buildlzip.py
+@@ -16,7 +16,7 @@ class BuildLzipTest(OERuntimeTestCase):
+         uri = '%s/lzip-1.19.tar.gz' % uri
+         cls.project = TargetBuildProject(cls.tc.target,
+                                          uri,
+-                                         dl_dir = cls.tc.td['DL_DIR'])
++                                         dl_dir=cls.tc.td['DL_DIR'])
  
      @classmethod
+     def tearDownClass(cls):
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+index f40c63026e..aeef8c6086 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -14,7 +14,7 @@ from oeqa.runtime.decorator.package import OEHasPackage
+ 
+ class DnfTest(OERuntimeTestCase):
+ 
+-    def dnf(self, command, expected = 0):
++    def dnf(self, command, expected=0):
+         command = 'dnf %s' % command
+         status, output = self.target.run(command, 1500)
+         message = os.linesep.join([command, output])
+diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
+index a4efcd07c0..7d7dbb7afb 100644
+--- a/meta/lib/oeqa/runtime/cases/logrotate.py
++++ b/meta/lib/oeqa/runtime/cases/logrotate.py
+@@ -27,45 +27,45 @@ class LogrotateTest(OERuntimeTestCase):
+         # /var/log/wtmp may not always exist initially, so use touch to ensure it is present
+         status, output = self.target.run('touch /var/log/wtmp')
+         msg = ('Could not create/update /var/log/wtmp with touch')
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+ 
+         status, output = self.target.run('mkdir $HOME/logrotate_dir')
+         msg = ('Could not create logrotate_dir. Output: %s' % output)
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+ 
+         status, output = self.target.run('echo "create \n olddir $HOME/logrotate_dir \n include /etc/logrotate.d/wtmp" > /tmp/logrotate-test.conf')
+         msg = ('Could not write to /tmp/logrotate-test.conf')
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+         
+         # If logrotate fails to rotate the log, view the verbose output of logrotate to see what prevented it
+         _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test.conf')
+         status, _ = self.target.run('find $HOME/logrotate_dir -type f | grep wtmp.1')
+         msg = ("logrotate did not successfully rotate the wtmp log. Output from logrotate -vf: \n%s" % (logrotate_output))
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+        
+     @OETestDepends(['logrotate.LogrotateTest.test_logrotate_wtmp'])
+     def test_logrotate_newlog(self):
+         
+         status, output = self.target.run('echo "oeqa logrotate test file" > /var/log/logrotate_testfile')
+         msg = ('Could not create logrotate test file in /var/log')
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+         
+         status, output = self.target.run('echo "/var/log/logrotate_testfile {\n missingok \n monthly \n rotate 1" > /etc/logrotate.d/logrotate_testfile')
+         msg = ('Could not write to /etc/logrotate.d/logrotate_testfile')
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+ 
+         status, output = self.target.run('echo "create \n olddir $HOME/logrotate_dir \n include /etc/logrotate.d/logrotate_testfile" > /tmp/logrotate-test2.conf')
+         msg = ('Could not write to /tmp/logrotate_test2.conf')
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+ 
+         status, output = self.target.run('find $HOME/logrotate_dir -type f | grep logrotate_testfile.1')
+         msg = ('A rotated log for logrotate_testfile is already present in logrotate_dir')
+-        self.assertEqual(status, 1, msg = msg)
++        self.assertEqual(status, 1, msg=msg)
+ 
+         # If logrotate fails to rotate the log, view the verbose output of logrotate instead of just listing the files in olddir
+         _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test2.conf')
+         status, _ = self.target.run('find $HOME/logrotate_dir -type f | grep logrotate_testfile.1')
+         msg = ('logrotate did not successfully rotate the logrotate_test log. Output from logrotate -vf: \n%s' % (logrotate_output))
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+ 
+ 
+diff --git a/meta/lib/oeqa/runtime/cases/opkg.py b/meta/lib/oeqa/runtime/cases/opkg.py
+index 9cfee1cd88..de96b3ff3a 100644
+--- a/meta/lib/oeqa/runtime/cases/opkg.py
++++ b/meta/lib/oeqa/runtime/cases/opkg.py
+@@ -10,7 +10,7 @@ from oeqa.runtime.decorator.package import OEHasPackage
+ 
+ class OpkgTest(OERuntimeTestCase):
+ 
+-    def pkg(self, command, expected = 0):
++    def pkg(self, command, expected=0):
+         command = 'opkg %s' % command
+         status, output = self.target.run(command, 1500)
+         message = os.linesep.join([command, output])
+diff --git a/meta/lib/oeqa/runtime/cases/pam.py b/meta/lib/oeqa/runtime/cases/pam.py
+index a482ded945..4cd5325201 100644
+--- a/meta/lib/oeqa/runtime/cases/pam.py
++++ b/meta/lib/oeqa/runtime/cases/pam.py
+@@ -20,19 +20,19 @@ class PamBasicTest(OERuntimeTestCase):
+         status, output = self.target.run('login --help')
+         msg = ('login command does not work as expected. '
+                'Status and output:%s and %s' % (status, output))
+-        self.assertEqual(status, 1, msg = msg)
++        self.assertEqual(status, 1, msg=msg)
+ 
+         status, output = self.target.run('passwd --help')
+         msg = ('passwd command does not work as expected. '
+                'Status and output:%s and %s' % (status, output))
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+ 
+         status, output = self.target.run('su --help')
+         msg = ('su command does not work as expected. '
+                'Status and output:%s and %s' % (status, output))
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+ 
+         status, output = self.target.run('useradd --help')
+         msg = ('useradd command does not work as expected. '
+                'Status and output:%s and %s' % (status, output))
+-        self.assertEqual(status, 0, msg = msg)
++        self.assertEqual(status, 0, msg=msg)
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 1bb0425521..d58968923e 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -328,7 +328,7 @@ class ParseLogsTest(OERuntimeTestCase):
+     # Grep only the errors so that their context could be collected.
+     # Default context is 10 lines before and after the error itself
+     def parse_logs(self, errors, ignore_errors, logs,
+-                   lines_before = 10, lines_after = 10):
++                   lines_before=10, lines_after=10):
+         results = {}
+         rez = []
+         grep_output = ''
+diff --git a/meta/lib/oeqa/runtime/cases/ping.py b/meta/lib/oeqa/runtime/cases/ping.py
+index f6603f75ec..d550efe17f 100644
+--- a/meta/lib/oeqa/runtime/cases/ping.py
++++ b/meta/lib/oeqa/runtime/cases/ping.py
+@@ -23,4 +23,4 @@ class PingTest(OERuntimeTestCase):
+                 count = 0
+         msg = ('Expected 5 consecutive, got %d.\n'
+                'ping output is:\n%s' % (count,output))
+-        self.assertEqual(count, 5, msg = msg)
++        self.assertEqual(count, 5, msg=msg)
+diff --git a/meta/lib/oeqa/runtime/cases/scp.py b/meta/lib/oeqa/runtime/cases/scp.py
+index 3a5f292152..aca9bd673a 100644
+--- a/meta/lib/oeqa/runtime/cases/scp.py
++++ b/meta/lib/oeqa/runtime/cases/scp.py
+@@ -32,6 +32,6 @@ class ScpTest(OERuntimeTestCase):
+         self.assertEqual(status, 0, msg=msg)
+ 
+         (status, output) = self.target.run('ls -la %s' % dst)
+-        self.assertEqual(status, 0, msg = 'SCP test failed')
++        self.assertEqual(status, 0, msg='SCP test failed')
+ 
+         self.target.run('rm %s' % dst)
+diff --git a/meta/lib/oeqa/runtime/cases/storage.py b/meta/lib/oeqa/runtime/cases/storage.py
+index 166d26b252..1d037ef2e0 100644
+--- a/meta/lib/oeqa/runtime/cases/storage.py
++++ b/meta/lib/oeqa/runtime/cases/storage.py
+@@ -15,35 +15,35 @@ class StorageBase(OERuntimeTestCase):
+         (status, output) = cls.target.run('mkdir -p %s' % cls.mount_point)
+         (status, output) = cls.target.run('mount %s %s' % (cls.device, cls.mount_point))
+         msg = ('Mount failed: %s.' % status)
+-        cls.assertFalse(output, msg = msg)
++        cls.assertFalse(output, msg=msg)
+         time.sleep(tmo)
+         (status, output) = cls.target.run('cat /proc/mounts')
+         match = re.search('%s' % cls.device, output)
+         if match:
+             msg = ('Device %s not mounted.' % cls.device)
+-            cls.assertTrue(match, msg = msg)
++            cls.assertTrue(match, msg=msg)
+ 
+         (status, output) = cls.target.run('mkdir -p %s' % cls.test_dir)
+ 
+         (status, output) = cls.target.run('rm -f %s/*' % cls.test_dir)
+         msg = ('Failed to cleanup files @ %s/*' % cls.test_dir)
+-        cls.assertFalse(output, msg = msg)
++        cls.assertFalse(output, msg=msg)
+ 
+ 
+     def storage_basic(cls):
+         # create file on device
+         (status, output) = cls.target.run('touch %s/%s' % (cls.test_dir, cls.test_file))
+         msg = ('File %s not created on %s' % (cls.test_file, cls.device))
+-        cls.assertFalse(status, msg = msg)
++        cls.assertFalse(status, msg=msg)
+         # move file
+         (status, output) = cls.target.run('mv %s/%s %s/%s1' %  
+                 (cls.test_dir, cls.test_file, cls.test_dir, cls.test_file))
+         msg = ('File %s not moved to %s' % (cls.test_file, cls.device))
+-        cls.assertFalse(status, msg = msg)
++        cls.assertFalse(status, msg=msg)
+         # remove file
+         (status, output) = cls.target.run('rm %s/%s1' % (cls.test_dir, cls.test_file))
+         msg = ('File %s not removed on %s' % (cls.test_file, cls.device))
+-        cls.assertFalse(status, msg = msg)
++        cls.assertFalse(status, msg=msg)
+ 
+     def storage_read(cls):
+         # check if message is in file
+@@ -52,14 +52,14 @@ class StorageBase(OERuntimeTestCase):
+ 
+         match = re.search('%s' % cls.test_msg, output)
+         msg = ('Test message %s not in file %s.' % (cls.test_msg, cls.test_file))
+-        cls.assertEqual(status, 0,  msg = msg)
++        cls.assertEqual(status, 0,  msg=msg)
+ 
+     def storage_write(cls):
+         # create test message in file on device
+         (status, output) = cls.target.run('echo "%s" >  %s/%s' % 
+                 (cls.test_msg, cls.test_dir, cls.test_file))
+         msg = ('File %s not create test message on %s' % (cls.test_file, cls.device))
+-        cls.assertEqual(status, 0,  msg = msg)
++        cls.assertEqual(status, 0,  msg=msg)
+ 
+     def storage_umount(cls, tmo=1):
+         time.sleep(tmo)
+@@ -70,13 +70,13 @@ class StorageBase(OERuntimeTestCase):
+             return
+         else:
+             msg = ('Device not unmount %s' % cls.mount_point)
+-            cls.assertEqual(status, 0,  msg = msg)
++            cls.assertEqual(status, 0,  msg=msg)
+ 
+         (status, output) = cls.target.run('cat /proc/mounts')
+         match = re.search('%s' % cls.device, output)
+         if match:
+             msg = ('Device %s still mounted.' % cls.device)
+-            cls.assertTrue(match, msg = msg)
++            cls.assertTrue(match, msg=msg)
+ 
+ 
+ class UsbTest(StorageBase):
+diff --git a/meta/lib/oeqa/runtime/cases/suspend.py b/meta/lib/oeqa/runtime/cases/suspend.py
+index 67b6f7e56f..9aa1cf6f5d 100644
+--- a/meta/lib/oeqa/runtime/cases/suspend.py
++++ b/meta/lib/oeqa/runtime/cases/suspend.py
+@@ -8,7 +8,7 @@ class Suspend_Test(OERuntimeTestCase):
+ 
+     def test_date(self): 
+         (status, output) = self.target.run('date')
+-        self.assertEqual(status, 0,  msg = 'Failed to run date command, output : %s' % output)
++        self.assertEqual(status, 0,  msg='Failed to run date command, output : %s' % output)
+         
+     def test_ping(self):
+         t_thread = threading.Thread(target=self.target.run, args=("ping 8.8.8.8",))
+@@ -17,11 +17,11 @@ class Suspend_Test(OERuntimeTestCase):
+         
+         status, output = self.target.run('pidof ping')
+         self.target.run('kill -9 %s' % output)
+-        self.assertEqual(status, 0, msg = 'Not able to find process that runs ping, output : %s' % output)  
++        self.assertEqual(status, 0, msg='Not able to find process that runs ping, output : %s' % output)  
+         
+     def set_suspend(self): 
+         (status, output) = self.target.run('sudo rtcwake -m mem -s 10')
+-        self.assertEqual(status, 0,  msg = 'Failed to suspends your system to RAM, output : %s' % output)
++        self.assertEqual(status, 0,  msg='Failed to suspends your system to RAM, output : %s' % output)
+     
+     @skipIfQemu('qemuall', 'Test only runs on real hardware')
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+diff --git a/meta/lib/oeqa/runtime/cases/usb_hid.py b/meta/lib/oeqa/runtime/cases/usb_hid.py
+index 3c292cf661..dbc8eada74 100644
+--- a/meta/lib/oeqa/runtime/cases/usb_hid.py
++++ b/meta/lib/oeqa/runtime/cases/usb_hid.py
+@@ -7,11 +7,11 @@ class USB_HID_Test(OERuntimeTestCase):
+ 
+     def keyboard_mouse_simulation(self): 
+         (status, output) = self.target.run('export DISPLAY=:0 && xdotool key F2 && xdotool mousemove 100 100')
+-        return self.assertEqual(status, 0,  msg = 'Failed to simulate keyboard/mouse input event, output : %s' % output)
++        return self.assertEqual(status, 0,  msg='Failed to simulate keyboard/mouse input event, output : %s' % output)
+              
+     def set_suspend(self): 
+         (status, output) = self.target.run('sudo rtcwake -m mem -s 10')
+-        return self.assertEqual(status, 0,  msg = 'Failed to suspends your system to RAM, output : %s' % output)
++        return self.assertEqual(status, 0,  msg='Failed to suspends your system to RAM, output : %s' % output)
+     
+     @OEHasPackage(['xdotool'])
+     @skipIfQemu('qemuall', 'Test only runs on real hardware')
+diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
+index 7d74833f61..139c65978f 100644
+--- a/meta/lib/oeqa/selftest/cases/bblayers.py
++++ b/meta/lib/oeqa/selftest/cases/bblayers.py
+@@ -15,7 +15,7 @@ class BitbakeLayers(OESelftestTestCase):
+     def test_bitbakelayers_layerindexshowdepends(self):
+         result = runCmd('bitbake-layers layerindex-show-depends meta-poky')
+         find_in_contents = re.search("openembedded-core", result.output)
+-        self.assertTrue(find_in_contents, msg = "openembedded-core should have been listed at this step. bitbake-layers layerindex-show-depends meta-poky output: %s" % result.output)
++        self.assertTrue(find_in_contents, msg="openembedded-core should have been listed at this step. bitbake-layers layerindex-show-depends meta-poky output: %s" % result.output)
+ 
+     def test_bitbakelayers_showcrossdepends(self):
+         result = runCmd('bitbake-layers show-cross-depends')
+@@ -40,14 +40,14 @@ class BitbakeLayers(OESelftestTestCase):
+         recipe_path = "recipes-graphics/xcursor-transparent-theme"
+         recipe_file = self.get_recipe_basename(recipe)
+         testoutdir = os.path.join(self.builddir, 'test_bitbakelayers_flatten')
+-        self.assertFalse(os.path.isdir(testoutdir), msg = "test_bitbakelayers_flatten should not exist at this point in time")
++        self.assertFalse(os.path.isdir(testoutdir), msg="test_bitbakelayers_flatten should not exist at this point in time")
+         self.track_for_cleanup(testoutdir)
+         result = runCmd('bitbake-layers flatten %s' % testoutdir)
+         bb_file = os.path.join(testoutdir, recipe_path, recipe_file)
+-        self.assertTrue(os.path.isfile(bb_file), msg = "Cannot find xcursor-transparent-theme_0.1.1.bb in the test_bitbakelayers_flatten local dir.")
++        self.assertTrue(os.path.isfile(bb_file), msg="Cannot find xcursor-transparent-theme_0.1.1.bb in the test_bitbakelayers_flatten local dir.")
+         contents = ftools.read_file(bb_file)
+         find_in_contents = re.search("##### bbappended from meta-selftest #####\n(.*\n)*include test_recipe.inc", contents)
+-        self.assertTrue(find_in_contents, msg = "Flattening layers did not work. bitbake-layers flatten output: %s" % result.output)
++        self.assertTrue(find_in_contents, msg="Flattening layers did not work. bitbake-layers flatten output: %s" % result.output)
+ 
+     def test_bitbakelayers_add_remove(self):
+         test_layer = os.path.join(get_bb_var('COREBASE'), 'meta-skeleton')
+@@ -55,16 +55,16 @@ class BitbakeLayers(OESelftestTestCase):
+         self.assertNotIn('meta-skeleton', result.output, "This test cannot run with meta-skeleton in bblayers.conf. bitbake-layers show-layers output: %s" % result.output)
+         result = runCmd('bitbake-layers add-layer %s' % test_layer)
+         result = runCmd('bitbake-layers show-layers')
+-        self.assertIn('meta-skeleton', result.output, msg = "Something wrong happened. meta-skeleton layer was not added to conf/bblayers.conf.  bitbake-layers show-layers output: %s" % result.output)
++        self.assertIn('meta-skeleton', result.output, msg="Something wrong happened. meta-skeleton layer was not added to conf/bblayers.conf.  bitbake-layers show-layers output: %s" % result.output)
+         result = runCmd('bitbake-layers remove-layer %s' % test_layer)
+         result = runCmd('bitbake-layers show-layers')
+-        self.assertNotIn('meta-skeleton', result.output, msg = "meta-skeleton should have been removed at this step.  bitbake-layers show-layers output: %s" % result.output)
++        self.assertNotIn('meta-skeleton', result.output, msg="meta-skeleton should have been removed at this step.  bitbake-layers show-layers output: %s" % result.output)
+         result = runCmd('bitbake-layers add-layer %s' % test_layer)
+         result = runCmd('bitbake-layers show-layers')
+-        self.assertIn('meta-skeleton', result.output, msg = "Something wrong happened. meta-skeleton layer was not added to conf/bblayers.conf.  bitbake-layers show-layers output: %s" % result.output)
++        self.assertIn('meta-skeleton', result.output, msg="Something wrong happened. meta-skeleton layer was not added to conf/bblayers.conf.  bitbake-layers show-layers output: %s" % result.output)
+         result = runCmd('bitbake-layers remove-layer */meta-skeleton')
+         result = runCmd('bitbake-layers show-layers')
+-        self.assertNotIn('meta-skeleton', result.output, msg = "meta-skeleton should have been removed at this step.  bitbake-layers show-layers output: %s" % result.output)
++        self.assertNotIn('meta-skeleton', result.output, msg="meta-skeleton should have been removed at this step.  bitbake-layers show-layers output: %s" % result.output)
+ 
+     def test_bitbakelayers_showrecipes(self):
+         result = runCmd('bitbake-layers show-recipes')
+@@ -119,5 +119,5 @@ class BitbakeLayers(OESelftestTestCase):
+                 recipe_file = line
+                 break
+ 
+-        self.assertTrue(os.path.isfile(recipe_file), msg = "Can't find recipe file for %s" % recipe)
++        self.assertTrue(os.path.isfile(recipe_file), msg="Can't find recipe file for %s" % recipe)
+         return os.path.basename(recipe_file)
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index 79390acc0d..e8ce78480b 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -20,21 +20,21 @@ class BitbakeTests(OESelftestTestCase):
+     # Test bitbake can run from the <builddir>/conf directory
+     def test_run_bitbake_from_dir_1(self):
+         os.chdir(os.path.join(self.builddir, 'conf'))
+-        self.assertEqual(bitbake('-e').status, 0, msg = "bitbake couldn't run from \"conf\" dir")
++        self.assertEqual(bitbake('-e').status, 0, msg="bitbake couldn't run from \"conf\" dir")
+ 
+     # Test bitbake can run from the <builddir>'s parent directory
+     def test_run_bitbake_from_dir_2(self):
+         my_env = os.environ.copy()
+         my_env['BBPATH'] = my_env['BUILDDIR']
+         os.chdir(os.path.dirname(os.environ['BUILDDIR']))
+-        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg = "bitbake couldn't run from builddir's parent directory")
++        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg="bitbake couldn't run from builddir's parent directory")
+ 
+     # Test bitbake can run from some other random system location (we use /tmp/)
+     def test_run_bitbake_from_dir_3(self):
+         my_env = os.environ.copy()
+         my_env['BBPATH'] = my_env['BUILDDIR']
+         os.chdir("/tmp/")
+-        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg = "bitbake couldn't run from /tmp/")
++        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg="bitbake couldn't run from /tmp/")
+ 
+ 
+     def test_event_handler(self):
+@@ -42,8 +42,8 @@ class BitbakeTests(OESelftestTestCase):
+         result = bitbake('m4-native')
+         find_build_started = re.search(r"NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Executing.*Tasks", result.output)
+         find_build_completed = re.search(r"Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
+-        self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
+-        self.assertTrue(find_build_completed, msg = "Match failed in:\n%s" % result.output)
++        self.assertTrue(find_build_started, msg="Match failed in:\n%s"  % result.output)
++        self.assertTrue(find_build_completed, msg="Match failed in:\n%s" % result.output)
+         self.assertNotIn('Test for bb.event.InvalidEvent', result.output)
+ 
+     def test_local_sstate(self):
+@@ -51,11 +51,11 @@ class BitbakeTests(OESelftestTestCase):
+         bitbake('m4-native -cclean')
+         result = bitbake('m4-native')
+         find_setscene = re.search("m4-native.*do_.*_setscene", result.output)
+-        self.assertTrue(find_setscene, msg = "No \"m4-native.*do_.*_setscene\" message found during bitbake m4-native. bitbake output: %s" % result.output )
++        self.assertTrue(find_setscene, msg="No \"m4-native.*do_.*_setscene\" message found during bitbake m4-native. bitbake output: %s" % result.output )
+ 
+     def test_bitbake_invalid_recipe(self):
+         result = bitbake('-b asdf', ignore_status=True)
+-        self.assertTrue("ERROR: Unable to find any recipe file matching 'asdf'" in result.output, msg = "Though asdf recipe doesn't exist, bitbake didn't output any err. message. bitbake output: %s" % result.output)
++        self.assertTrue("ERROR: Unable to find any recipe file matching 'asdf'" in result.output, msg="Though asdf recipe doesn't exist, bitbake didn't output any err. message. bitbake output: %s" % result.output)
+ 
+     def test_bitbake_invalid_target(self):
+         result = bitbake('asdf', ignore_status=True)
+@@ -79,7 +79,7 @@ class BitbakeTests(OESelftestTestCase):
+         for l in result.output.split('\n'):
+             if l.startswith("ERROR:") and "failed" in l and "do_patch" in l:
+                 found = l
+-        self.assertTrue(found and found.startswith("ERROR:"), msg = "Incorrectly formed patch application didn't fail. bitbake output: %s" % result.output)
++        self.assertTrue(found and found.startswith("ERROR:"), msg="Incorrectly formed patch application didn't fail. bitbake output: %s" % result.output)
+ 
+     def test_force_task_1(self):
+         # test 1 from bug 5875
+@@ -123,7 +123,7 @@ class BitbakeTests(OESelftestTestCase):
+         result = bitbake('-g %s' % recipe)
+         for f in ['pn-buildlist', 'task-depends.dot']:
+             self.addCleanup(os.remove, f)
+-        self.assertTrue('Task dependencies saved to \'task-depends.dot\'' in result.output, msg = "No task dependency \"task-depends.dot\" file was generated for the given task target. bitbake output: %s" % result.output)
++        self.assertTrue('Task dependencies saved to \'task-depends.dot\'' in result.output, msg="No task dependency \"task-depends.dot\" file was generated for the given task target. bitbake output: %s" % result.output)
+         self.assertIn(recipe, ftools.read_file(os.path.join(self.builddir, 'task-depends.dot')))
+ 
+     def test_image_manifest(self):
+@@ -150,7 +150,7 @@ INHERIT_remove = \"report-error\"
+         self.assertEqual(result.status, 1, msg="Command succeded when it should have failed. bitbake output: %s" % result.output)
+         self.assertIn('Fetcher failure: Unable to find file file://invalid anywhere. The paths that were searched were:', result.output)
+         line = self.getline(result, 'Fetcher failure for URL: \'file://invalid\'. Unable to fetch URL from any source.')
+-        self.assertTrue(line and line.startswith("ERROR:"), msg = "\"invalid\" file \
++        self.assertTrue(line and line.startswith("ERROR:"), msg="\"invalid\" file \
+ doesn't exist, yet fetcher didn't report any error. bitbake output: %s" % result.output)
+ 
+     def test_rename_downloaded_file(self):
+@@ -165,9 +165,9 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         self.write_recipeinc('aspell', data)
+         result = bitbake('-f -c fetch aspell', ignore_status=True)
+         self.delete_recipeinc('aspell')
+-        self.assertEqual(result.status, 0, msg = "Couldn't fetch aspell. %s" % result.output)
++        self.assertEqual(result.status, 0, msg="Couldn't fetch aspell. %s" % result.output)
+         dl_dir = get_bb_var("DL_DIR")
+-        self.assertTrue(os.path.isfile(os.path.join(dl_dir, 'test-aspell.tar.gz')), msg = "File rename failed. No corresponding test-aspell.tar.gz file found under %s" % dl_dir)
++        self.assertTrue(os.path.isfile(os.path.join(dl_dir, 'test-aspell.tar.gz')), msg="File rename failed. No corresponding test-aspell.tar.gz file found under %s" % dl_dir)
+         self.assertTrue(os.path.isfile(os.path.join(dl_dir, 'test-aspell.tar.gz.done')), "File rename failed. No corresponding test-aspell.tar.gz.done file found under %s" % dl_dir)
+ 
+     def test_environment(self):
+@@ -208,7 +208,7 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+ 
+     def test_checkuri(self):
+         result = runCmd('bitbake -c checkuri m4')
+-        self.assertEqual(0, result.status, msg = "\"checkuri\" task was not executed. bitbake output: %s" % result.output)
++        self.assertEqual(0, result.status, msg="\"checkuri\" task was not executed. bitbake output: %s" % result.output)
+ 
+     def test_continue(self):
+         self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
+@@ -222,7 +222,7 @@ INHERIT_remove = \"report-error\"
+         errorpos = result.output.find('ERROR: Function failed: do_fail_task')
+         manver = re.search("NOTE: recipe xcursor-transparent-theme-(.*?): task do_unpack: Started", result.output)
+         continuepos = result.output.find('NOTE: recipe xcursor-transparent-theme-%s: task do_unpack: Started' % manver.group(1))
+-        self.assertLess(errorpos,continuepos, msg = "bitbake didn't pass do_fail_task. bitbake output: %s" % result.output)
++        self.assertLess(errorpos,continuepos, msg="bitbake didn't pass do_fail_task. bitbake output: %s" % result.output)
+ 
+     def test_non_gplv3(self):
+         self.write_config('INCOMPATIBLE_LICENSE = "GPLv3"')
+diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
+index 821f52f5a8..2f6aeadffc 100644
+--- a/meta/lib/oeqa/selftest/cases/binutils.py
++++ b/meta/lib/oeqa/selftest/cases/binutils.py
+@@ -43,7 +43,7 @@ class BinutilsCrossSelfTest(OESelftestTestCase, OEPTestResultTestCase):
+         logpath = os.path.splitext(sumspath)[0] + ".log"
+ 
+         ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
+-        self.ptest_section(ptestsuite, logfile = logpath)
++        self.ptest_section(ptestsuite, logfile=logpath)
+         with open(sumspath, "r") as f:
+             for test, result in parse_values(f):
+                 self.ptest_result(ptestsuite, test, result)
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index 754b77defd..35ff0cbcf2 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -26,17 +26,17 @@ class ImageOptionsTests(OESelftestTestCase):
+         log_data_created = ftools.read_file(log_data_file)
+         incremental_created = re.search(r"Installing\s*:\s*packagegroup-core-ssh-openssh", log_data_created)
+         self.remove_config('IMAGE_FEATURES += "ssh-server-openssh"')
+-        self.assertTrue(incremental_created, msg = "Match failed in:\n%s" % log_data_created)
++        self.assertTrue(incremental_created, msg="Match failed in:\n%s" % log_data_created)
+         bitbake("core-image-minimal")
+         log_data_removed = ftools.read_file(log_data_file)
+         incremental_removed = re.search(r"Erasing\s*:\s*packagegroup-core-ssh-openssh", log_data_removed)
+-        self.assertTrue(incremental_removed, msg = "Match failed in:\n%s" % log_data_removed)
++        self.assertTrue(incremental_removed, msg="Match failed in:\n%s" % log_data_removed)
+ 
+     def test_ccache_tool(self):
+         bitbake("ccache-native")
+         bb_vars = get_bb_vars(['SYSROOT_DESTDIR', 'bindir'], 'ccache-native')
+         p = bb_vars['SYSROOT_DESTDIR'] + bb_vars['bindir'] + "/" + "ccache"
+-        self.assertTrue(os.path.isfile(p), msg = "No ccache found (%s)" % p)
++        self.assertTrue(os.path.isfile(p), msg="No ccache found (%s)" % p)
+         self.write_config('INHERIT += "ccache"')
+         recipe = "libgcc-initial"
+         self.add_command_to_tearDown('bitbake -c clean %s' % recipe)
+@@ -59,16 +59,16 @@ class DiskMonTest(OESelftestTestCase):
+ 
+     def test_stoptask_behavior(self):
+         self.write_config('BB_DISKMON_DIRS = "STOPTASKS,${TMPDIR},100000G,100K"\nBB_HEARTBEAT_EVENT = "1"')
+-        res = bitbake("delay -c delay", ignore_status = True)
+-        self.assertTrue('ERROR: No new tasks can be executed since the disk space monitor action is "STOPTASKS"!' in res.output, msg = "Tasks should have stopped. Disk monitor is set to STOPTASK: %s" % res.output)
+-        self.assertEqual(res.status, 1, msg = "bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
++        res = bitbake("delay -c delay", ignore_status=True)
++        self.assertTrue('ERROR: No new tasks can be executed since the disk space monitor action is "STOPTASKS"!' in res.output, msg="Tasks should have stopped. Disk monitor is set to STOPTASK: %s" % res.output)
++        self.assertEqual(res.status, 1, msg="bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
+         self.write_config('BB_DISKMON_DIRS = "ABORT,${TMPDIR},100000G,100K"\nBB_HEARTBEAT_EVENT = "1"')
+-        res = bitbake("delay -c delay", ignore_status = True)
++        res = bitbake("delay -c delay", ignore_status=True)
+         self.assertTrue('ERROR: Immediately abort since the disk space monitor action is "ABORT"!' in res.output, "Tasks should have been aborted immediatelly. Disk monitor is set to ABORT: %s" % res.output)
+-        self.assertEqual(res.status, 1, msg = "bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
++        self.assertEqual(res.status, 1, msg="bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
+         self.write_config('BB_DISKMON_DIRS = "WARN,${TMPDIR},100000G,100K"\nBB_HEARTBEAT_EVENT = "1"')
+         res = bitbake("delay -c delay")
+-        self.assertTrue('WARNING: The free space' in res.output, msg = "A warning should have been displayed for disk monitor is set to WARN: %s" %res.output)
++        self.assertTrue('WARNING: The free space' in res.output, msg="A warning should have been displayed for disk monitor is set to WARN: %s" %res.output)
+ 
+ class SanityOptionsTest(OESelftestTestCase):
+     def getline(self, res, line):
+@@ -88,7 +88,7 @@ class SanityOptionsTest(OESelftestTestCase):
+         self.delete_recipeinc('xcursor-transparent-theme')
+         line = self.getline(res, "QA Issue: xcursor-transparent-theme-dbg is listed in PACKAGES multiple times, this leads to packaging errors.")
+         self.assertTrue(line and line.startswith("ERROR:"), msg=res.output)
+-        self.assertEqual(res.status, 1, msg = "bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
++        self.assertEqual(res.status, 1, msg="bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
+         self.write_recipeinc('xcursor-transparent-theme', 'PACKAGES += \"${PN}-dbg\"')
+         self.append_config('ERROR_QA_remove = "packages-list"')
+         self.append_config('WARN_QA_append = " packages-list"')
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 3385546e8e..95142aeaa7 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -249,14 +249,14 @@ class DevtoolTests(DevtoolBase):
+         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir)
+         result = runCmd('devtool create-workspace %s' % tempdir)
+-        self.assertTrue(os.path.isfile(os.path.join(tempdir, 'conf', 'layer.conf')), msg = "No workspace created. devtool output: %s " % result.output)
++        self.assertTrue(os.path.isfile(os.path.join(tempdir, 'conf', 'layer.conf')), msg="No workspace created. devtool output: %s " % result.output)
+         result = runCmd('bitbake-layers show-layers')
+         self.assertIn(tempdir, result.output)
+         # Try creating a workspace layer with the default path
+         self.track_for_cleanup(self.workspacedir)
+         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+         result = runCmd('devtool create-workspace')
+-        self.assertTrue(os.path.isfile(os.path.join(self.workspacedir, 'conf', 'layer.conf')), msg = "No workspace created. devtool output: %s " % result.output)
++        self.assertTrue(os.path.isfile(os.path.join(self.workspacedir, 'conf', 'layer.conf')), msg="No workspace created. devtool output: %s " % result.output)
+         result = runCmd('bitbake-layers show-layers')
+         self.assertNotIn(tempdir, result.output)
+         self.assertIn(self.workspacedir, result.output)
+diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
+index 3efe15228f..46fd9813d6 100644
+--- a/meta/lib/oeqa/selftest/cases/gcc.py
++++ b/meta/lib/oeqa/selftest/cases/gcc.py
+@@ -18,7 +18,7 @@ class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+         if suite not in targets:
+             self.skipTest("Target does not use {0}".format(suite))
+ 
+-    def run_check(self, *suites, ssh = None):
++    def run_check(self, *suites, ssh=None):
+         targets = set()
+         for s in suites:
+             if s == "gcc":
+@@ -54,7 +54,7 @@ class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+ 
+             ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
+             ptestsuite = ptestsuite + "-user" if ssh is None else ptestsuite
+-            self.ptest_section(ptestsuite, logfile = logpath)
++            self.ptest_section(ptestsuite, logfile=logpath)
+             with open(sumspath, "r") as f:
+                 for test, result in parse_values(f):
+                     self.ptest_result(ptestsuite, test, result)
+@@ -69,7 +69,7 @@ class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+         bitbake("core-image-minimal")
+ 
+         # wrap the execution with a qemu instance
+-        with runqemu("core-image-minimal", runqemuparams = "nographic") as qemu:
++        with runqemu("core-image-minimal", runqemuparams="nographic") as qemu:
+             # validate that SSH is working
+             status, _ = qemu.run("uname")
+             self.assertEqual(status, 0)
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index c687f6ef93..852c8635df 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -15,7 +15,7 @@ def parse_values(content):
+                 break
+ 
+ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+-    def run_check(self, ssh = None):
++    def run_check(self, ssh=None):
+         # configure ssh target
+         features = []
+         if ssh is not None:
+@@ -61,7 +61,7 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             bitbake("core-image-minimal")
+ 
+             # start runqemu
+-            qemu = s.enter_context(runqemu("core-image-minimal", runqemuparams = "nographic"))
++            qemu = s.enter_context(runqemu("core-image-minimal", runqemuparams="nographic"))
+ 
+             # validate that SSH is working
+             status, _ = qemu.run("uname")
+@@ -75,7 +75,7 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             if status != 0:
+                 raise Exception("Failed to setup NFS mount on target ({})".format(repr(output)))
+ 
+-            self.run_check(ssh = qemu.ip)
++            self.run_check(ssh=qemu.ip)
+ 
+ @OETestTag("toolchain-user")
+ class GlibcSelfTest(GlibcSelfTestBase):
 diff --git a/meta/lib/oeqa/selftest/cases/manifest.py b/meta/lib/oeqa/selftest/cases/manifest.py
-index 5d13f35468..e4755c595b 100644
+index e4755c595b..b5505fa60e 100644
 --- a/meta/lib/oeqa/selftest/cases/manifest.py
 +++ b/meta/lib/oeqa/selftest/cases/manifest.py
-@@ -23,14 +23,14 @@ class VerifyManifest(OESelftestTestCase):
-             with open(manifest, "r") as mfile:
-                 for line in mfile:
-                     manifest_entry = os.path.join(path, line.split()[0])
--                    self.logger.debug("{}: looking for {}"\
-+                    self.logger.debug("{}: looking for {}"
-                                     .format(self.classname, manifest_entry))
-                     if not os.path.isfile(manifest_entry):
-                         manifest_errors.append(manifest_entry)
--                        self.logger.debug("{}: {} not found"\
-+                        self.logger.debug("{}: {} not found"
-                                     .format(self.classname, manifest_entry))
-         except OSError as e:
--            self.logger.debug("{}: checking of {} failed"\
-+            self.logger.debug("{}: checking of {} failed"
-                     .format(self.classname, manifest))
-             raise e
+@@ -38,7 +38,7 @@ class VerifyManifest(OESelftestTestCase):
  
-@@ -40,9 +40,9 @@ class VerifyManifest(OESelftestTestCase):
+     #this will possibly move from here
      @classmethod
-     def get_dir_from_bb_var(self, bb_var, target = None):
+-    def get_dir_from_bb_var(self, bb_var, target = None):
++    def get_dir_from_bb_var(self, bb_var, target=None):
          target == self.buildtarget if target == None else target
--        directory = get_bb_var(bb_var, target);
-+        directory = get_bb_var(bb_var, target)
+         directory = get_bb_var(bb_var, target)
          if not directory or not os.path.isdir(directory):
--            self.logger.debug("{}: {} points to {} when target = {}"\
-+            self.logger.debug("{}: {} points to {} when target = {}"
-                     .format(self.classname, bb_var, directory, target))
-             raise OSError
-         return directory
-@@ -54,12 +54,12 @@ class VerifyManifest(OESelftestTestCase):
-         self.buildtarget = 'core-image-minimal'
-         self.classname = 'VerifyManifest'
+@@ -81,8 +81,8 @@ class VerifyManifest(OESelftestTestCase):
+         pkgdata_dir = reverse_dir = {}
+         mfilename = mpath = m_entry = {}
+         # get manifest location based on target to query about
+-        d_target= dict(target = self.buildtarget,
+-                         host = 'nativesdk-packagegroup-sdk-host')
++        d_target= dict(target=self.buildtarget,
++                         host='nativesdk-packagegroup-sdk-host')
+         try:
+             mdir = self.get_dir_from_bb_var('SDK_DEPLOY', self.buildtarget)
+             for k in d_target.keys():
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
+index 802a91a488..8b0fb8a8f6 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
+@@ -28,7 +28,7 @@ class TestBlobParsing(OESelftestTestCase):
+         import shutil
+         shutil.rmtree(self.repo_path)
  
--        self.logger.info("{}: doing bitbake {} as a prerequisite of the test"\
-+        self.logger.info("{}: doing bitbake {} as a prerequisite of the test"
-                 .format(self.classname, self.buildtarget))
-         if bitbake(self.buildtarget).status:
--            self.logger.debug("{} Failed to setup {}"\
-+            self.logger.debug("{} Failed to setup {}"
-                     .format(self.classname, self.buildtarget))
--            self.skipTest("{}: Cannot setup testing scenario"\
-+            self.skipTest("{}: Cannot setup testing scenario"
-                     .format(self.classname))
+-    def commit_vars(self, to_add={}, to_remove = [], msg="A commit message"):
++    def commit_vars(self, to_add={}, to_remove=[], msg="A commit message"):
+         if len(to_add) == 0 and len(to_remove) == 0:
+             return
  
-     def test_SDK_manifest_entries(self):
-@@ -69,12 +69,12 @@ class VerifyManifest(OESelftestTestCase):
-         # to do an additional setup for the sdk
-         sdktask = '-c populate_sdk'
-         bbargs = sdktask + ' ' + self.buildtarget
--        self.logger.debug("{}: doing bitbake {} as a prerequisite of the test"\
-+        self.logger.debug("{}: doing bitbake {} as a prerequisite of the test"
-                 .format(self.classname, bbargs))
-         if bitbake(bbargs).status:
--            self.logger.debug("{} Failed to bitbake {}"\
-+            self.logger.debug("{} Failed to bitbake {}"
-                     .format(self.classname, bbargs))
--            self.skipTest("{}: Cannot setup testing scenario"\
-+            self.skipTest("{}: Cannot setup testing scenario"
-                     .format(self.classname))
- 
- 
-@@ -104,7 +104,7 @@ class VerifyManifest(OESelftestTestCase):
-                         self.classname, reverse_dir[k]))
-                     raise IOError
-         except OSError:
--            raise self.skipTest("{}: Error in obtaining manifest dirs"\
-+            raise self.skipTest("{}: Error in obtaining manifest dirs"
-                 .format(self.classname))
-         except IOError:
-             msg = "{}: Error cannot find manifests in the specified dir:\n{}"\
-@@ -115,7 +115,7 @@ class VerifyManifest(OESelftestTestCase):
-             self.logger.debug("{}: Check manifest {}".format(
-                 self.classname, m_entry[k].file))
- 
--            m_entry[k].missing = self.check_manifest_entries(\
-+            m_entry[k].missing = self.check_manifest_entries(
-                                                m_entry[k].file,reverse_dir[k])
-             if m_entry[k].missing:
-                 msg = '{}: {} Error has the following missing entries'\
-@@ -135,25 +135,27 @@ class VerifyManifest(OESelftestTestCase):
-             mfilename = get_bb_var("IMAGE_LINK_NAME", self.buildtarget)\
-                     + ".manifest"
-             mpath = os.path.join(mdir, mfilename)
--            if not os.path.isfile(mpath): raise IOError
-+            if not os.path.isfile(mpath):
-+                raise IOError
-             m_entry = ManifestEntry(mpath)
- 
-             pkgdata_dir = {}
-             pkgdata_dir = self.get_dir_from_bb_var('PKGDATA_DIR',
-                                                 self.buildtarget)
-             revdir = os.path.join(pkgdata_dir, 'runtime-reverse')
--            if not os.path.exists(revdir): raise IOError
-+            if not os.path.exists(revdir):
-+                raise IOError
-         except OSError:
--            raise self.skipTest("{}: Error in obtaining manifest dirs"\
-+            raise self.skipTest("{}: Error in obtaining manifest dirs"
-                 .format(self.classname))
-         except IOError:
-             msg = "{}: Error cannot find manifests in dir:\n{}"\
-                     .format(self.classname, mdir)
-             self.fail(msg)
- 
--        self.logger.debug("{}: Check manifest {}"\
-+        self.logger.debug("{}: Check manifest {}"
-                             .format(self.classname, m_entry.file))
--        m_entry.missing = self.check_manifest_entries(\
-+        m_entry.missing = self.check_manifest_entries(
-                                                     m_entry.file, revdir)
-         if m_entry.missing:
-             msg = '{}: {} Error has the following missing entries'\
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index a11e2d0781..ad1c1fbe67 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -59,7 +59,7 @@ def extract_files(debugfs_output):
-      /92/040755/1002/1002/tmp//\n
-     """
-     # NOTE the occasional ^M in file names
--    return [line.split('/')[5].strip() for line in \
-+    return [line.split('/')[5].strip() for line in
-             debugfs_output.strip().split('/\n')]
- 
- def files_own_by_root(debugfs_output):
-@@ -402,7 +402,7 @@ part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path usr
- part /usr --source rootfs --ondisk mmcblk0 --fstype=ext4 --rootfs-dir %s/usr
- part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --rootfs-dir %s/usr"""
-                           % (rootfs_dir, rootfs_dir))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
-+            runCmd("wic create %s -e core-image-minimal -o %s"
-                                        % (wks_file, self.resultdir))
- 
-             os.remove(wks_file)
-@@ -433,7 +433,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
- 
-             # Test partition 1, should contain the normal root directories, except
-             # /usr.
--            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % \
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" %
-                              os.path.join(self.resultdir, "selftest_img.part1"))
-             files = extract_files(res.output)
-             self.assertIn("etc", files)
-@@ -441,7 +441,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
- 
-             # Partition 2, should contain common directories for /usr, not root
-             # directories.
--            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % \
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" %
-                              os.path.join(self.resultdir, "selftest_img.part2"))
-             files = extract_files(res.output)
-             self.assertNotIn("etc", files)
-@@ -450,14 +450,14 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
- 
-             # Partition 3, should contain the same as partition 2, including the bin
-             # directory, but not the files inside it.
--            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % \
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" %
-                              os.path.join(self.resultdir, "selftest_img.part3"))
-             files = extract_files(res.output)
-             self.assertNotIn("etc", files)
-             self.assertNotIn("usr", files)
-             self.assertIn("share", files)
-             self.assertIn("bin", files)
--            res = runCmd("debugfs -R 'ls -p bin' %s 2>/dev/null" % \
-+            res = runCmd("debugfs -R 'ls -p bin' %s 2>/dev/null" %
-                              os.path.join(self.resultdir, "selftest_img.part3"))
-             files = extract_files(res.output)
-             self.assertIn(".", files)
-@@ -489,7 +489,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
- part /part1 --source rootfs --ondisk mmcblk0 --fstype=ext4
- part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
-                           % (include_path))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
-+            runCmd("wic create %s -e core-image-minimal -o %s"
-                                        % (wks_file, self.resultdir))
- 
-             part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-@@ -526,7 +526,7 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
-                 wks.write("""
- part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-image-minimal-mtdutils export/"""
-                           % (include_path))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
-+            runCmd("wic create %s -e core-image-minimal -o %s"
-                                        % (wks_file, self.resultdir))
- 
-             part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-@@ -551,21 +551,21 @@ part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-imag
-         # Absolute argument.
-         with open(wks_file, 'w') as wks:
-             wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils /export")
--        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s"
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-         # Argument pointing to parent directory.
-         with open(wks_file, 'w') as wks:
-             wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils ././..")
--        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s"
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-         # 3 Argument pointing to parent directory.
-         with open(wks_file, 'w') as wks:
-             wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils export/ dummy")
--        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s"
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-@@ -576,14 +576,14 @@ part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-imag
-         # Absolute argument.
-         with open(wks_file, 'w') as wks:
-             wks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path /usr")
--        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s"
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-         # Argument pointing to parent directory.
-         with open(wks_file, 'w') as wks:
-             wks.write("part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path ././..")
--        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s"
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-@@ -619,7 +619,7 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
-                 wks_file = os.path.join(include_path, 'temp.wks')
-                 with open(wks_file, 'w') as wks:
-                     wks.write(test)
--                runCmd("wic create %s -e core-image-minimal -o %s" \
-+                runCmd("wic create %s -e core-image-minimal -o %s"
-                                        % (wks_file, self.resultdir))
- 
-                 for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
-@@ -656,7 +656,7 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
-             wks_file = os.path.join(include_path, 'temp.wks')
-             with open(wks_file, 'w') as wks:
-                 wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
--            runCmd("wic create %s -e core-image-minimal -o %s" \
-+            runCmd("wic create %s -e core-image-minimal -o %s"
-                                        % (wks_file, self.resultdir))
- 
-             part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-@@ -675,14 +675,14 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
-         # Absolute argument.
-         with open(wks_file, 'w') as wks:
-             wks.write("part / --source rootfs --fstype=ext4 --change-directory /usr")
--        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s"
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-         # Argument pointing to parent directory.
-         with open(wks_file, 'w') as wks:
-             wks.write("part / --source rootfs --fstype=ext4 --change-directory ././..")
--        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s"
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-@@ -816,7 +816,7 @@ class Wic2(WicTestCase):
+@@ -50,7 +50,7 @@ class TestBlobParsing(OESelftestTestCase):
          """
-         with NamedTemporaryFile("w", suffix=".wks", delete=False) as tempf:
-             wkspath = tempf.name
--            tempf.write("part " \
-+            tempf.write("part "
-                      "--source rootfs --ondisk hda --align 4 --fixed-size %d "
-                      "--fstype=ext4\n" % size)
+         from oe.buildhistory_analysis import blob_to_dict
+         valuesmap = { "foo" : "1", "bar" : "2" }
+-        self.commit_vars(to_add = valuesmap)
++        self.commit_vars(to_add=valuesmap)
  
-@@ -881,8 +881,8 @@ class Wic2(WicTestCase):
+         blob = self.repo.head.commit.tree.blobs[0]
+         self.assertEqual(valuesmap, blob_to_dict(blob),
+@@ -64,10 +64,10 @@ class TestBlobParsing(OESelftestTestCase):
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             # Test that partitions are placed at the correct offsets, default KB
--            tempf.write("bootloader --ptable gpt\n" \
--                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
-+            tempf.write("bootloader --ptable gpt\n"
-+                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n"
-                         "part /bar                 --ondisk hda --offset 102432 --fixed-size 100M --fstype=ext4\n")
-             tempf.flush()
+         changesmap = { "foo-2" : ("2", "8"), "bar" : ("","4"), "bar-2" : ("","5")}
  
-@@ -894,8 +894,8 @@ class Wic2(WicTestCase):
+-        self.commit_vars(to_add = { "foo" : "1", "foo-2" : "2", "foo-3" : "3" })
++        self.commit_vars(to_add={ "foo" : "1", "foo-2" : "2", "foo-3" : "3" })
+         blob1 = self.repo.heads.master.commit.tree.blobs[0]
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             # Test that partitions are placed at the correct offsets, same with explicit KB
--            tempf.write("bootloader --ptable gpt\n" \
--                        "part /    --source rootfs --ondisk hda --offset 32K     --fixed-size 100M --fstype=ext4\n" \
-+            tempf.write("bootloader --ptable gpt\n"
-+                        "part /    --source rootfs --ondisk hda --offset 32K     --fixed-size 100M --fstype=ext4\n"
-                         "part /bar                 --ondisk hda --offset 102432K --fixed-size 100M --fstype=ext4\n")
-             tempf.flush()
+-        self.commit_vars(to_add = { "foo-2" : "8", "bar" : "4", "bar-2" : "5" })
++        self.commit_vars(to_add={ "foo-2" : "8", "bar" : "4", "bar-2" : "5" })
+         blob2 = self.repo.heads.master.commit.tree.blobs[0]
  
-@@ -907,8 +907,8 @@ class Wic2(WicTestCase):
+         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
+@@ -83,10 +83,10 @@ class TestBlobParsing(OESelftestTestCase):
+         from oe.buildhistory_analysis import compare_dict_blobs
+         defaultmap = { x : ("default", "1")  for x in ["PKG", "PKGE", "PKGV", "PKGR"]}
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             # Test that partitions are placed at the correct offsets using MB
--            tempf.write("bootloader --ptable gpt\n" \
--                        "part /    --source rootfs --ondisk hda --offset 32K  --fixed-size 100M --fstype=ext4\n" \
-+            tempf.write("bootloader --ptable gpt\n"
-+                        "part /    --source rootfs --ondisk hda --offset 32K  --fixed-size 100M --fstype=ext4\n"
-                         "part /bar                 --ondisk hda --offset 101M --fixed-size 100M --fstype=ext4\n")
-             tempf.flush()
+-        self.commit_vars(to_add = { "foo" : "1" })
++        self.commit_vars(to_add={ "foo" : "1" })
+         blob1 = self.repo.heads.master.commit.tree.blobs[0]
  
-@@ -920,8 +920,8 @@ class Wic2(WicTestCase):
+-        self.commit_vars(to_add = { "PKG" : "1", "PKGE" : "1", "PKGV" : "1", "PKGR" : "1" })
++        self.commit_vars(to_add={ "PKG" : "1", "PKGE" : "1", "PKGV" : "1", "PKGR" : "1" })
+         blob2 = self.repo.heads.master.commit.tree.blobs[0]
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             # Test that partitions can be placed on a 512 byte sector boundary
--            tempf.write("bootloader --ptable gpt\n" \
--                        "part /    --source rootfs --ondisk hda --offset 65s --fixed-size 99M --fstype=ext4\n" \
-+            tempf.write("bootloader --ptable gpt\n"
-+                        "part /    --source rootfs --ondisk hda --offset 65s --fixed-size 99M --fstype=ext4\n"
-                         "part /bar                 --ondisk hda --offset 102432 --fixed-size 100M --fstype=ext4\n")
-             tempf.flush()
+         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/path.py b/meta/lib/oeqa/selftest/cases/oelib/path.py
+index 098734fa5d..39e683ab5a 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/path.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/path.py
+@@ -44,7 +44,7 @@ class TestRealPath(TestCase):
+     ]
  
-@@ -933,7 +933,7 @@ class Wic2(WicTestCase):
+     def setUp(self):
+-        self.tmpdir = tempfile.mkdtemp(prefix = "oe-test_path")
++        self.tmpdir = tempfile.mkdtemp(prefix="oe-test_path")
+         self.root = os.path.join(self.tmpdir, "R")
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             # Test that a partition can be placed immediately after a MSDOS partition table
--            tempf.write("bootloader --ptable msdos\n" \
-+            tempf.write("bootloader --ptable msdos\n"
-                         "part /    --source rootfs --ondisk hda --offset 1s --fixed-size 100M --fstype=ext4\n")
-             tempf.flush()
+         os.mkdir(os.path.join(self.tmpdir, "_real"))
+@@ -60,9 +60,9 @@ class TestRealPath(TestCase):
+     def tearDown(self):
+         shutil.rmtree(self.tmpdir)
  
-@@ -944,8 +944,8 @@ class Wic2(WicTestCase):
+-    def __realpath(self, file, use_physdir, assume_dir = True):
++    def __realpath(self, file, use_physdir, assume_dir=True):
+         return oe.path.realpath(os.path.join(self.root, file), self.root,
+-                                use_physdir, assume_dir = assume_dir)
++                                use_physdir, assume_dir=assume_dir)
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             # Test that image creation fails if the partitions would overlap
--            tempf.write("bootloader --ptable gpt\n" \
--                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
-+            tempf.write("bootloader --ptable gpt\n"
-+                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n"
-                         "part /bar                 --ondisk hda --offset 102431 --fixed-size 100M --fstype=ext4\n")
-             tempf.flush()
+     def test_norm(self):
+         for l in self.LINKS:
+diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/selftest/cases/pkgdata.py
+index 254abc40c6..e837daf8b1 100644
+--- a/meta/lib/oeqa/selftest/cases/pkgdata.py
++++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
+@@ -223,4 +223,4 @@ class OePkgdataUtilTests(OESelftestTestCase):
+         result = runCmd('oe-pkgdata-util', ignore_status=True)
+         self.assertEqual(result.status, 2, "Status different than 2. output: %s" % result.output)
+         currpos = result.output.find('usage: oe-pkgdata-util')
+-        self.assertTrue(currpos != -1, msg = "Test is Failed. Help is not Displayed in %s" % result.output)
++        self.assertTrue(currpos != -1, msg="Test is Failed. Help is not Displayed in %s" % result.output)
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 9db2a0bb44..9b62e5164e 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -137,7 +137,7 @@ class SStateTests(SStateBase):
+             filtered_results.append(r)
+         self.assertTrue(filtered_results == [], msg="Found distro non-specific sstate for: %s (%s)" % (', '.join(map(str, targets)), str(filtered_results)))
+         file_tracker_1 = self.search_sstate('|'.join(map(str, [s + r'.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
+-        self.assertTrue(len(file_tracker_1) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
++        self.assertTrue(len(file_tracker_1) >= len(targets), msg="Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
  
-@@ -954,7 +954,7 @@ class Wic2(WicTestCase):
+         self.track_for_cleanup(self.distro_specific_sstate + "_old")
+         shutil.copytree(self.distro_specific_sstate, self.distro_specific_sstate + "_old")
+@@ -146,7 +146,7 @@ class SStateTests(SStateBase):
+         bitbake(['-cclean'] + targets)
+         bitbake(targets)
+         file_tracker_2 = self.search_sstate('|'.join(map(str, [s + r'.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
+-        self.assertTrue(len(file_tracker_2) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
++        self.assertTrue(len(file_tracker_2) >= len(targets), msg="Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             # Test that partitions are not allowed to overlap with the booloader
--            tempf.write("bootloader --ptable gpt\n" \
-+            tempf.write("bootloader --ptable gpt\n"
-                         "part /    --source rootfs --ondisk hda --offset 8 --fixed-size 100M --fstype=ext4\n")
-             tempf.flush()
+         not_recreated = [x for x in file_tracker_1 if x not in file_tracker_2]
+         self.assertTrue(not_recreated == [], msg="The following sstate files ware not recreated: %s" % ', '.join(map(str, not_recreated)))
+@@ -196,7 +196,7 @@ class SStateTests(SStateBase):
+                 expected_remaining_sstate += [x for x in target_sstate_after_build if x not in target_sstate_before_build if not any(pattern in x for pattern in ignore_patterns)]
+             self.remove_config(global_config[idx])
+             self.remove_recipeinc(target, target_config[idx])
+-            self.assertEqual(result.status, 0, msg = "build of %s failed with %s" % (target, result.output))
++            self.assertEqual(result.status, 0, msg="build of %s failed with %s" % (target, result.output))
  
-@@ -965,7 +965,7 @@ class Wic2(WicTestCase):
-         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
+         runCmd("sstate-cache-management.sh -y --cache-dir=%s --remove-duplicated --extra-archs=%s" % (self.sstate_path, ','.join(map(str, sstate_archs_list))))
+         actual_remaining_sstate = [x for x in self.search_sstate(target + r'.*?\.tgz$') if not any(pattern in x for pattern in ignore_patterns)]
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 005ebaa7f3..751d1303cf 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -127,28 +127,28 @@ class QemuTarget(BaseTarget):
+         if d.getVar("DISTRO") == "poky-tiny":
+             self.runner = QemuTinyRunner(machine=d.getVar("MACHINE"),
+                             rootfs=self.rootfs,
+-                            tmpdir = d.getVar("TMPDIR"),
+-                            deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE"),
+-                            display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY"),
+-                            logfile = self.qemulog,
+-                            kernel = self.kernel,
+-                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
+-                            tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+-                            logger = logger)
++                            tmpdir=d.getVar("TMPDIR"),
++                            deploy_dir_image=d.getVar("DEPLOY_DIR_IMAGE"),
++                            display=d.getVar("BB_ORIGENV", False).getVar("DISPLAY"),
++                            logfile=self.qemulog,
++                            kernel=self.kernel,
++                            boottime=int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
++                            tmpfsdir=d.getVar("RUNQEMU_TMPFS_DIR"),
++                            logger=logger)
+         else:
+             self.runner = QemuRunner(machine=d.getVar("MACHINE"),
+                             rootfs=self.rootfs,
+-                            tmpdir = d.getVar("TMPDIR"),
+-                            deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE"),
+-                            display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY"),
+-                            logfile = self.qemulog,
+-                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
+-                            use_kvm = use_kvm,
+-                            dump_dir = dump_dir,
+-                            dump_host_cmds = d.getVar("testimage_dump_host"),
+-                            logger = logger,
+-                            tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+-                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
++                            tmpdir=d.getVar("TMPDIR"),
++                            deploy_dir_image=d.getVar("DEPLOY_DIR_IMAGE"),
++                            display=d.getVar("BB_ORIGENV", False).getVar("DISPLAY"),
++                            logfile=self.qemulog,
++                            boottime=int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
++                            use_kvm=use_kvm,
++                            dump_dir=dump_dir,
++                            dump_host_cmds=d.getVar("testimage_dump_host"),
++                            logger=logger,
++                            tmpfsdir=d.getVar("RUNQEMU_TMPFS_DIR"),
++                            serial_ports=len(d.getVar("SERIAL_CONSOLES").split()))
  
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
--            tempf.write("bootloader --ptable gpt\n" \
-+            tempf.write("bootloader --ptable gpt\n"
-                         "part /     --source rootfs --ondisk hda --extra-space 200M --fstype=ext4\n")
-             tempf.flush()
- 
-@@ -1002,7 +1002,7 @@ class Wic2(WicTestCase):
-         machine = get_bb_var('MACHINE', img)
-         with NamedTemporaryFile("w", suffix=".wks") as wks:
-             wks.writelines(['part /boot --active --source bootimg-pcbios\n',
--                            'part / --source rawcopy --sourceparams="file=%s-%s.ext4" --use-uuid\n'\
-+                            'part / --source rawcopy --sourceparams="file=%s-%s.ext4" --use-uuid\n'
-                              % (img, machine),
-                             'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
-             wks.flush()
-@@ -1080,7 +1080,7 @@ class Wic2(WicTestCase):
-         img = 'core-image-minimal'
-         with NamedTemporaryFile("w", suffix=".wks") as wks:
-             wks.writelines(['part /boot --active --source bootimg-biosplusefi --sourceparams="loader=grub-efi"\n',
--                            'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
-+                            'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'
-                             'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
-             wks.flush()
-             cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-@@ -1111,7 +1111,7 @@ class Wic2(WicTestCase):
-     def test_kickstart_parser(self):
-         """Test wks parser options"""
-         with NamedTemporaryFile("w", suffix=".wks") as wks:
--            wks.writelines(['part / --fstype ext3 --source rootfs --system-id 0xFF '\
-+            wks.writelines(['part / --fstype ext3 --source rootfs --system-id 0xFF '
-                             '--overhead-factor 1.2 --size 100k\n'])
-             wks.flush()
-             cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 1659926975..1b5546d273 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -133,7 +133,7 @@ class OESelftestTestContext(OETestContext):
-             self.custommachine = machine
-             if machine == 'random':
-                 self.custommachine = choice(self.machines)
--            self.logger.info('Run tests with custom MACHINE set to: %s' % \
-+            self.logger.info('Run tests with custom MACHINE set to: %s' %
-                     self.custommachine)
-         return super(OESelftestTestContext, self).runTests(processes, skips)
- 
-@@ -289,7 +289,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
- 
-         def _add_layer_libs():
-             bbpath = self.tc.td['BBPATH'].split(':')
--            layer_libdirs = [p for p in (os.path.join(l, 'lib') \
-+            layer_libdirs = [p for p in (os.path.join(l, 'lib')
-                     for l in bbpath) if os.path.exists(p)]
-             if layer_libdirs:
-                 self.tc.logger.info("Adding layer libraries:")
+         self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
+         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
 diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
-index 6d1ec4cb99..96926746cc 100644
+index 96926746cc..fb81c136f0 100644
 --- a/meta/lib/oeqa/utils/__init__.py
 +++ b/meta/lib/oeqa/utils/__init__.py
-@@ -69,13 +69,13 @@ def load_test_components(logger, executor):
-                 comp_name = file
-                 comp_context = os.path.join(base_dir, file, 'context.py')
-                 if os.path.exists(comp_context):
--                    comp_plugin = importlib.import_module('oeqa.%s.%s' % \
-+                    comp_plugin = importlib.import_module('oeqa.%s.%s' %
-                             (comp_name, 'context'))
-                     try:
-                         if not issubclass(comp_plugin._executor_class,
-                                 OETestContextExecutor):
--                            raise TypeError("Component %s in %s, _executor_class "\
--                                "isn't derived from OETestContextExecutor."\
-+                            raise TypeError("Component %s in %s, _executor_class "
-+                                "isn't derived from OETestContextExecutor."
-                                 % (comp_name, comp_context))
+@@ -8,7 +8,7 @@ __path__ = extend_path(__path__, __name__)
+ # Borrowed from CalledProcessError
  
-                         if comp_plugin._executor_class._script_executor \
-@@ -84,7 +84,7 @@ def load_test_components(logger, executor):
+ class CommandError(Exception):
+-    def __init__(self, retcode, cmd, output = None):
++    def __init__(self, retcode, cmd, output=None):
+         self.retcode = retcode
+         self.cmd = cmd
+         self.output = output
+diff --git a/meta/lib/oeqa/utils/network.py b/meta/lib/oeqa/utils/network.py
+index 59d01723a1..0436d27582 100644
+--- a/meta/lib/oeqa/utils/network.py
++++ b/meta/lib/oeqa/utils/network.py
+@@ -4,7 +4,7 @@
  
-                         components[comp_name] = comp_plugin._executor_class()
-                     except AttributeError:
--                        raise AttributeError("Component %s in %s don't have "\
-+                        raise AttributeError("Component %s in %s don't have "
-                                 "_executor_class defined." % (comp_name, comp_context))
+ import socket
  
-     return components
-diff --git a/meta/lib/oeqa/utils/testexport.py b/meta/lib/oeqa/utils/testexport.py
-index 383e57a6b2..e90462d127 100644
---- a/meta/lib/oeqa/utils/testexport.py
-+++ b/meta/lib/oeqa/utils/testexport.py
-@@ -86,8 +86,10 @@ def process_binaries(d, params):
-         packaged_bin_dir = os.path.join(exportpath,"binaries", arch, "packaged_binaries")
-         # creating necessary directory structure in case testing is done in poky env.
-         if export_env == "0":
--            if not os.path.exists(extracted_bin_dir): bb.utils.mkdirhier(extracted_bin_dir)
--            if not os.path.exists(packaged_bin_dir): bb.utils.mkdirhier(packaged_bin_dir)
-+            if not os.path.exists(extracted_bin_dir):
-+                bb.utils.mkdirhier(extracted_bin_dir)
-+            if not os.path.exists(packaged_bin_dir):
-+                bb.utils.mkdirhier(packaged_bin_dir)
+-def get_free_port(udp = False):
++def get_free_port(udp=False):
+     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM if not udp else socket.SOCK_DGRAM)
+     s.bind(('', 0))
+     addr = s.getsockname()
+diff --git a/meta/lib/oeqa/utils/nfs.py b/meta/lib/oeqa/utils/nfs.py
+index a37686c914..1dd65588bb 100644
+--- a/meta/lib/oeqa/utils/nfs.py
++++ b/meta/lib/oeqa/utils/nfs.py
+@@ -8,7 +8,7 @@ from oeqa.utils.commands import bitbake, get_bb_var, Command
+ from oeqa.utils.network import get_free_port
  
-         if param_list[3] == "native":
-             if export_env == "1": #this is a native package and we only need to copy it. no need for extraction
-diff --git a/meta/recipes-rt/rt-tests/files/rt_bmark.py b/meta/recipes-rt/rt-tests/files/rt_bmark.py
-index 3b84447a0f..7c87a14758 100755
---- a/meta/recipes-rt/rt-tests/files/rt_bmark.py
-+++ b/meta/recipes-rt/rt-tests/files/rt_bmark.py
-@@ -193,7 +193,7 @@ def end_stress(p):
- def us2hms_str(us):
-         s = (us+500000) // 1000000 # Round microseconds to s
-         m = s//60
--        s -= 60*m;
-+        s -= 60*m
-         h = m//60
-         m -= 60*h
+ @contextlib.contextmanager
+-def unfs_server(directory, logger = None):
++def unfs_server(directory, logger=None):
+     unfs_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "unfs3-native")
+     if not os.path.exists(os.path.join(unfs_sysroot, "usr", "bin", "unfsd")):
+         # build native tool
+@@ -18,16 +18,16 @@ def unfs_server(directory, logger = None):
+     cmd = None
+     try:
+         # create the exports file
+-        with tempfile.NamedTemporaryFile(delete = False) as exports:
++        with tempfile.NamedTemporaryFile(delete=False) as exports:
+             exports.write("{0} (rw,no_root_squash,no_all_squash,insecure)\n".format(directory).encode())
  
+         # find some ports for the server
+-        nfsport, mountport = get_free_port(udp = True), get_free_port(udp = True)
++        nfsport, mountport = get_free_port(udp=True), get_free_port(udp=True)
+ 
+         nenv = dict(os.environ)
+         nenv['PATH'] = "{0}/sbin:{0}/usr/sbin:{0}/usr/bin:".format(unfs_sysroot) + nenv.get('PATH', '')
+         cmd = Command(["unfsd", "-d", "-p", "-N", "-e", exports.name, "-n", str(nfsport), "-m", str(mountport)],
+-                bg = True, env = nenv, output_log = logger)
++                bg=True, env=nenv, output_log=logger)
+         cmd.run()
+         yield nfsport, mountport
+     finally:
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index c7f7860317..96355fbfc3 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -34,7 +34,7 @@ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
+ class QemuRunner:
+ 
+     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds,
+-                 use_kvm, logger, use_slirp=False, serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None):
++                 use_kvm, logger, use_slirp=False, serial_ports=2, boot_patterns=defaultdict(str), use_ovmf=False, workdir=None, tmpfsdir=None):
+ 
+         # Popen object for runqemu
+         self.runqemu = None
+@@ -134,7 +134,7 @@ class QemuRunner:
+                 self.stop()
+                 self._dump_host()
+ 
+-    def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
++    def start(self, qemuparams=None, get_ip=True, extra_bootparams=None, runqemuparams='', launch_cmd=None, discard_writes=True):
+         env = os.environ.copy()
+         if self.display:
+             env["DISPLAY"] = self.display
+@@ -175,7 +175,7 @@ class QemuRunner:
+ 
+         return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
+ 
+-    def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
++    def launch(self, launch_cmd, get_ip=True, qemuparams=None, extra_bootparams=None, env=None):
+         # use logfile to determine the recipe-sysroot-native path and
+         # then add in the site-packages path components and add that
+         # to the python sys.path so qmp.py can be found.
+@@ -574,7 +574,7 @@ class QemuRunner:
+         if self.thread:
+             self.thread.allowexit()
+ 
+-    def restart(self, qemuparams = None):
++    def restart(self, qemuparams=None):
+         self.logger.warning("Restarting qemu process")
+         if self.runqemu.poll() is None:
+             self.stop()
+diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
+index 20009401ca..be82a7947a 100644
+--- a/meta/lib/oeqa/utils/qemutinyrunner.py
++++ b/meta/lib/oeqa/utils/qemutinyrunner.py
+@@ -64,7 +64,7 @@ class QemuTinyRunner(QemuRunner):
+             with open(self.logfile, "a") as f:
+                 f.write("%s" % msg)
+ 
+-    def start(self, qemuparams = None, ssh=True, extra_bootparams=None, runqemuparams='', discard_writes=True):
++    def start(self, qemuparams=None, ssh=True, extra_bootparams=None, runqemuparams='', discard_writes=True):
+ 
+         if self.display:
+             os.environ["DISPLAY"] = self.display
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 36c2ecb3db..403bad7b1f 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -120,7 +120,7 @@ class SSHControl(object):
+             with open(self.logfile, "a") as f:
+                 f.write("%s\n" % msg)
+ 
+-    def _internal_run(self, command, timeout=None, ignore_status = True):
++    def _internal_run(self, command, timeout=None, ignore_status=True):
+         self.log("[Running]$ %s" % " ".join(command))
+ 
+         proc = SSHProcess()
+diff --git a/meta/recipes-core/glibc/glibc/check-test-wrapper b/meta/recipes-core/glibc/glibc/check-test-wrapper
+index 6ec9b9b29e..820d4732da 100644
+--- a/meta/recipes-core/glibc/glibc/check-test-wrapper
++++ b/meta/recipes-core/glibc/glibc/check-test-wrapper
+@@ -73,7 +73,7 @@ else:
+     sys.exit(-1)
+ 
+ try:
+-    r = subprocess.run(command, timeout = 1800, env = env)
++    r = subprocess.run(command, timeout=1800, env=env)
+     sys.exit(r.returncode)
+ except subprocess.TimeoutExpired:
+     sys.exit(-1)
 diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
-index 6f4b268119..674d690450 100755
+index 674d690450..8c4486ee62 100755
 --- a/scripts/bitbake-whatchanged
 +++ b/scripts/bitbake-whatchanged
-@@ -302,10 +302,10 @@ Note:
+@@ -104,7 +104,7 @@ def split_pntask(s):
+     return (tmp.group(1), tmp.group(2))
  
-         print("\n=== Summary: (%s changed, %s unchanged)" % (total_changed, cnt_unchanged))
-         if args.verbose:
--            print("Newly added: %s\nDependencies changed: %s\n" % \
-+            print("Newly added: %s\nDependencies changed: %s\n" %
-                 (cnt_added, cnt_dep))
-         else:
--            print("Newly added: %s\nPV changed: %s\nPR changed: %s\nDependencies changed: %s\n" % \
-+            print("Newly added: %s\nPV changed: %s\nPR changed: %s\nDependencies changed: %s\n" %
-                 (cnt_added, cnt_rv.get('pv') or 0, cnt_rv.get('pr') or 0, cnt_dep))
-     except:
-         print("ERROR occurred!")
+ 
+-def print_added(d_new = None, d_old = None):
++def print_added(d_new=None, d_old=None):
+     """
+     Print the newly added tasks
+     """
+@@ -137,7 +137,7 @@ def print_added(d_new = None, d_old = None):
+ 
+     return counter
+ 
+-def print_vrchanged(d_new = None, d_old = None, vr = None):
++def print_vrchanged(d_new=None, d_old=None, vr=None):
+     """
+     Print the pv or pr changed tasks.
+     The arg "vr" is "pv" or "pr"
+@@ -165,7 +165,7 @@ def print_vrchanged(d_new = None, d_old = None, vr = None):
+ 
+     return counter
+ 
+-def print_depchanged(d_new = None, d_old = None, verbose = False):
++def print_depchanged(d_new=None, d_old=None, verbose=False):
+     """
+     Print the dependency changes
+     """
+@@ -210,7 +210,7 @@ def main():
+     3) Use bb.siggen.compare_sigfiles to diff the old and new stamps
+     """
+ 
+-    parser = argparse_oe.ArgumentParser(usage = """%(prog)s [options] [package ...]
++    parser = argparse_oe.ArgumentParser(usage="""%(prog)s [options] [package ...]
+ print what will be done between the current and last builds, for example:
+ 
+     $ bitbake core-image-sato
+@@ -226,7 +226,7 @@ Note:
+ """
+ )
+     parser.add_argument("recipe", help="recipe to check")
+-    parser.add_argument("-v", "--verbose", help = "print the verbose changes", action = "store_true")
++    parser.add_argument("-v", "--verbose", help="print the verbose changes", action="store_true")
+     args = parser.parse_args()
+ 
+     # Get the STAMPS_DIR
+diff --git a/scripts/buildhistory-collect-srcrevs b/scripts/buildhistory-collect-srcrevs
+index 340bee78bb..653972a969 100755
+--- a/scripts/buildhistory-collect-srcrevs
++++ b/scripts/buildhistory-collect-srcrevs
+@@ -26,18 +26,18 @@ logger = logger_create()
+ 
+ def main():
+     parser = optparse.OptionParser(
+-        description = "Collects the recorded SRCREV values from buildhistory and reports on them.",
+-        usage = """
++        description="Collects the recorded SRCREV values from buildhistory and reports on them.",
++        usage="""
+     %prog [options]""")
+ 
+     parser.add_option("-a", "--report-all",
+-            help = "Report all SRCREV values, not just ones where AUTOREV has been used",
++            help="Report all SRCREV values, not just ones where AUTOREV has been used",
+             action="store_true", dest="reportall")
+     parser.add_option("-f", "--forcevariable",
+-            help = "Use forcevariable override for all output lines",
++            help="Use forcevariable override for all output lines",
+             action="store_true", dest="forcevariable")
+     parser.add_option("-p", "--buildhistory-dir",
+-            help = "Specify path to buildhistory directory (defaults to buildhistory/ under cwd)",
++            help="Specify path to buildhistory directory (defaults to buildhistory/ under cwd)",
+             action="store", dest="buildhistory_dir", default='buildhistory/')
+ 
+     options, args = parser.parse_args(sys.argv)
+diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
+index 3bd40a2a1e..f176857fdd 100755
+--- a/scripts/buildhistory-diff
++++ b/scripts/buildhistory-diff
+@@ -63,7 +63,7 @@ def get_args_parser():
+                         default="auto",
+                         help="Whether to colourise (defaults to auto)")
+     parser.add_argument('revisions',
+-                        default = ['build-minus-1', 'HEAD'],
++                        default=['build-minus-1', 'HEAD'],
+                         nargs='*',
+                         help=argparse.SUPPRESS)
+     return parser
 diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 835a6bcd09..d0ed701e91 100755
+index d0ed701e91..5aea6971c7 100755
 --- a/scripts/combo-layer
 +++ b/scripts/combo-layer
-@@ -517,10 +517,10 @@ def drop_to_shell(workdir=None):
-         return False
+@@ -746,7 +746,7 @@ def conf_commit_msg(conf, components):
  
-     shell = os.environ.get('SHELL', 'bash')
--    print('Dropping to shell "%s"\n' \
--          'When you are finished, run the following to continue:\n' \
--          '       exit    -- continue to apply the patches\n' \
--          '       exit 1  -- abort\n' % shell);
-+    print('Dropping to shell "%s"\n'
-+          'When you are finished, run the following to continue:\n'
-+          '       exit    -- continue to apply the patches\n'
-+          '       exit 1  -- abort\n' % shell)
-     ret = subprocess.call([shell], cwd=workdir)
-     if ret != 0:
-         print("Aborting")
-@@ -725,8 +725,8 @@ def update_with_patches(conf, components, revisions, repos):
+     # expand the template with known values
+     template = Template(conf.commit_msg_template)
+-    msg = template.substitute(components = component_str)
++    msg = template.substitute(components=component_str)
+     return msg
  
-     # Step 5: invoke bash for user to edit patch and patch list
-     if conf.interactive:
--        print('You may now edit the patch and patch list in %s\n' \
--              'For example, you can remove unwanted patch entries from patchlist-*, so that they will be not applied later' % patch_dir);
-+        print('You may now edit the patch and patch list in %s\n'
-+              'For example, you can remove unwanted patch entries from patchlist-*, so that they will be not applied later' % patch_dir)
-         if not drop_to_shell(patch_dir):
-             sys.exit(1)
+ def commit_conf_file(conf, components, commit=True):
+@@ -1307,8 +1307,8 @@ actions = {
  
+ def main():
+     parser = optparse.OptionParser(
+-        version = "Combo Layer Repo Tool version %s" % __version__,
+-        usage = """%prog [options] action
++        version="Combo Layer Repo Tool version %s" % __version__,
++        usage="""%prog [options] action
+ 
+ Create and update a combination layer repository from multiple component repositories.
+ 
+@@ -1318,24 +1318,24 @@ Action:
+   pull [components]    just pull component repos only
+   splitpatch [commit]  generate commit patch and split per component, default commit is HEAD""")
+ 
+-    parser.add_option("-c", "--conf", help = "specify the config file (conf/combo-layer.conf is the default).",
+-               action = "store", dest = "conffile", default = "conf/combo-layer.conf")
++    parser.add_option("-c", "--conf", help="specify the config file (conf/combo-layer.conf is the default).",
++               action="store", dest="conffile", default="conf/combo-layer.conf")
+ 
+-    parser.add_option("-i", "--interactive", help = "interactive mode, user can edit the patch list and patches",
+-               action = "store_true", dest = "interactive", default = False)
++    parser.add_option("-i", "--interactive", help="interactive mode, user can edit the patch list and patches",
++               action="store_true", dest="interactive", default=False)
+ 
+-    parser.add_option("-D", "--debug", help = "output debug information",
+-               action = "store_true", dest = "debug", default = False)
++    parser.add_option("-D", "--debug", help="output debug information",
++               action="store_true", dest="debug", default=False)
+ 
+-    parser.add_option("-n", "--no-pull", help = "skip pulling component repos during update",
+-               action = "store_true", dest = "nopull", default = False)
++    parser.add_option("-n", "--no-pull", help="skip pulling component repos during update",
++               action="store_true", dest="nopull", default=False)
+ 
+     parser.add_option("--hard-reset",
+-               help = "instead of pull do fetch and hard-reset in component repos",
+-               action = "store_true", dest = "hard_reset", default = False)
++               help="instead of pull do fetch and hard-reset in component repos",
++               action="store_true", dest="hard_reset", default=False)
+ 
+-    parser.add_option("-H", "--history", help = "import full history of components during init",
+-                      action = "store_true", default = False)
++    parser.add_option("-H", "--history", help="import full history of components during init",
++                      action="store_true", default=False)
+ 
+     options, args = parser.parse_args(sys.argv)
+ 
+diff --git a/scripts/contrib/list-packageconfig-flags.py b/scripts/contrib/list-packageconfig-flags.py
+index bb288e9099..d88de43bd2 100755
+--- a/scripts/contrib/list-packageconfig-flags.py
++++ b/scripts/contrib/list-packageconfig-flags.py
+@@ -132,18 +132,18 @@ def main():
+ 
+     # Collect and validate input
+     parser = optparse.OptionParser(
+-        description = "Lists recipes and PACKAGECONFIG flags. Without -a or -f, recipes and their available PACKAGECONFIG flags are listed.",
+-        usage = """
++        description="Lists recipes and PACKAGECONFIG flags. Without -a or -f, recipes and their available PACKAGECONFIG flags are listed.",
++        usage="""
+     %prog [options]""")
+ 
+     parser.add_option("-f", "--flags",
+-            help = "list available PACKAGECONFIG flags and affected recipes",
++            help="list available PACKAGECONFIG flags and affected recipes",
+             action="store_const", dest="listtype", const="flags", default="recipes")
+     parser.add_option("-a", "--all",
+-            help = "list all recipes and PACKAGECONFIG information",
++            help="list all recipes and PACKAGECONFIG information",
+             action="store_const", dest="listtype", const="all")
+     parser.add_option("-p", "--preferred-only",
+-            help = "where multiple recipe versions are available, list only the preferred version",
++            help="where multiple recipe versions are available, list only the preferred version",
+             action="store_true", dest="preferred", default=False)
+ 
+     options, args = parser.parse_args(sys.argv)
+diff --git a/scripts/contrib/verify-homepage.py b/scripts/contrib/verify-homepage.py
+index 7bffa78e23..9991b35395 100755
+--- a/scripts/contrib/verify-homepage.py
++++ b/scripts/contrib/verify-homepage.py
+@@ -27,7 +27,7 @@ import bb.tinfoil
+ logger = scriptutils.logger_create('verify_homepage')
+ 
+ def wgetHomepage(pn, homepage):
+-    result = subprocess.call('wget ' + '-q -T 5 -t 1 --spider ' + homepage, shell = True)
++    result = subprocess.call('wget ' + '-q -T 5 -t 1 --spider ' + homepage, shell=True)
+     if result:
+         logger.warning("%s: failed to verify HOMEPAGE: %s " % (pn, homepage))
+         return 1
 diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index fe545607bb..f526111be5 100644
+index f526111be5..b849843154 100644
 --- a/scripts/lib/checklayer/__init__.py
 +++ b/scripts/lib/checklayer/__init__.py
-@@ -158,7 +158,7 @@ def _find_layer_depends(depend, layers):
+@@ -157,7 +157,7 @@ def _find_layer_depends(depend, layers):
+     return None
  
  def add_layer_dependencies(bblayersconf, layer, layers, logger):
-     def recurse_dependencies(depends, layer, layers, logger, ret = []):
--        logger.debug('Processing dependencies %s for layer %s.' % \
-+        logger.debug('Processing dependencies %s for layer %s.' %
+-    def recurse_dependencies(depends, layer, layers, logger, ret = []):
++    def recurse_dependencies(depends, layer, layers, logger, ret=[]):
+         logger.debug('Processing dependencies %s for layer %s.' %
                      (depends, layer['name']))
  
-         for depend in depends.split():
-@@ -168,7 +168,7 @@ def add_layer_dependencies(bblayersconf, layer, layers, logger):
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+index f92255d8dc..b3a51c7553 100644
+--- a/scripts/lib/scriptutils.py
++++ b/scripts/lib/scriptutils.py
+@@ -37,7 +37,7 @@ class KeepAliveStreamHandler(logging.StreamHandler):
+                         self.emit(logging.LogRecord("keepalive", logging.INFO,
+                             None, None, "Keepalive message", None, None))
  
-             layer_depend = _find_layer_depends(depend, layers)
-             if not layer_depend:
--                logger.error('Layer %s depends on %s and isn\'t found.' % \
-+                logger.error('Layer %s depends on %s and isn\'t found.' %
-                         (layer['name'], depend))
-                 ret = None
-                 continue
-diff --git a/scripts/lib/checklayer/cases/bsp.py b/scripts/lib/checklayer/cases/bsp.py
-index 7fd56f5d36..f019d88f17 100644
---- a/scripts/lib/checklayer/cases/bsp.py
-+++ b/scripts/lib/checklayer/cases/bsp.py
-@@ -12,7 +12,7 @@ class BSPCheckLayer(OECheckLayerTestCase):
-     @classmethod
-     def setUpClass(self):
-         if self.tc.layer['type'] != LayerType.BSP:
--            raise unittest.SkipTest("BSPCheckLayer: Layer %s isn't BSP one." %\
-+            raise unittest.SkipTest("BSPCheckLayer: Layer %s isn't BSP one." %
-                 self.tc.layer['name'])
+-        self._thread = threading.Thread(target = thread, daemon = True)
++        self._thread = threading.Thread(target=thread, daemon=True)
+         self._thread.start()
  
-     def test_bsp_defines_machines(self):
-@@ -24,7 +24,7 @@ class BSPCheckLayer(OECheckLayerTestCase):
- 
-         machine = get_bb_var('MACHINE')
-         self.assertEqual(self.td['bbvars']['MACHINE'], machine,
--                msg="Layer %s modified machine %s -> %s" % \
-+                msg="Layer %s modified machine %s -> %s" %
-                     (self.tc.layer['name'], self.td['bbvars']['MACHINE'], machine))
- 
- 
-diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
-index b82304e361..3c3562c931 100644
---- a/scripts/lib/checklayer/cases/common.py
-+++ b/scripts/lib/checklayer/cases/common.py
-@@ -46,7 +46,7 @@ class CommonCheckLayer(OECheckLayerTestCase):
-     def test_signatures(self):
-         if self.tc.layer['type'] == LayerType.SOFTWARE and \
-            not self.tc.test_software_layer_signatures:
--            raise unittest.SkipTest("Not testing for signature changes in a software layer %s." \
-+            raise unittest.SkipTest("Not testing for signature changes in a software layer %s."
-                      % self.tc.layer['name'])
- 
-         curr_sigs, _ = get_signatures(self.td['builddir'], failsafe=True)
-@@ -56,5 +56,5 @@ class CommonCheckLayer(OECheckLayerTestCase):
- 
-     def test_layerseries_compat(self):
-         for collection_name, collection_data in self.tc.layer['collections'].items():
--            self.assertTrue(collection_data['compat'], "Collection %s from layer %s does not set compatible oe-core versions via LAYERSERIES_COMPAT_collection." \
-+            self.assertTrue(collection_data['compat'], "Collection %s from layer %s does not set compatible oe-core versions via LAYERSERIES_COMPAT_collection."
-                  % (collection_name, self.tc.layer['name']))
-diff --git a/scripts/lib/checklayer/cases/distro.py b/scripts/lib/checklayer/cases/distro.py
-index f0bee5493c..4efde4b44a 100644
---- a/scripts/lib/checklayer/cases/distro.py
-+++ b/scripts/lib/checklayer/cases/distro.py
-@@ -12,7 +12,7 @@ class DistroCheckLayer(OECheckLayerTestCase):
-     @classmethod
-     def setUpClass(self):
-         if self.tc.layer['type'] != LayerType.DISTRO:
--            raise unittest.SkipTest("DistroCheckLayer: Layer %s isn't Distro one." %\
-+            raise unittest.SkipTest("DistroCheckLayer: Layer %s isn't Distro one." %
-                 self.tc.layer['name'])
- 
-     def test_distro_defines_distros(self):
-@@ -24,5 +24,5 @@ class DistroCheckLayer(OECheckLayerTestCase):
- 
-         distro = get_bb_var('DISTRO')
-         self.assertEqual(self.td['bbvars']['DISTRO'], distro,
--                msg="Layer %s modified distro %s -> %s" % \
-+                msg="Layer %s modified distro %s -> %s" %
-                     (self.tc.layer['name'], self.td['bbvars']['DISTRO'], distro))
-diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
-index 3aa42a1466..5e22f91507 100644
---- a/scripts/lib/devtool/sdk.py
-+++ b/scripts/lib/devtool/sdk.py
-@@ -150,8 +150,8 @@ def sdk_update(args, config, basepath, workspace):
-             if not out:
-                 ret = subprocess.call("git fetch --all; git reset --hard @{u}", shell=True, cwd=layers_dir)
-             else:
--                logger.error("Failed to update metadata as there have been changes made to it. Aborting.");
--                logger.error("Changed files:\n%s" % out);
-+                logger.error("Failed to update metadata as there have been changes made to it. Aborting.")
-+                logger.error("Changed files:\n%s" % out)
-                 return -1
-         else:
-             ret = -1
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 018815b966..bee6b391e7 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -76,7 +76,7 @@ def find_canned_image(scripts_path, wks_file):
-             for fname in files:
-                 if fname.endswith("~") or fname.endswith("#"):
-                     continue
--                if ((fname.endswith(".wks") and wks_file + ".wks" == fname) or \
-+                if ((fname.endswith(".wks") and wks_file + ".wks" == fname) or
-                    (fname.endswith(".wks.in") and wks_file + ".wks.in" == fname)):
-                     fullpath = os.path.join(canned_wks_dir, fname)
-                     return fullpath
-@@ -519,7 +519,7 @@ class Disk:
-                         partimg = self._get_part_image(pnum)
-                         sparse_copy(partimg, partfname)
-                         exec_cmd("{} -pf {}".format(self.e2fsck, partfname))
--                        exec_cmd("{} {} {}s".format(\
-+                        exec_cmd("{} {} {}s".format(
-                                  self.resize2fs, partfname, part['size']))
-                     elif fstype.startswith('fat'):
-                         logger.info("copying content of the fat partition {}".format(pnum))
-@@ -561,7 +561,7 @@ def wic_ls(args, native_sysroot):
-         if disk.partitions:
-             print('Num     Start        End          Size      Fstype')
-             for part in disk.partitions.values():
--                print("{:2d}  {:12d} {:12d} {:12d}  {}".format(\
-+                print("{:2d}  {:12d} {:12d} {:12d}  {}".format(
-                           part.pnum, part.start, part.end,
-                           part.size, part.fstype))
-     else:
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index 4d9da28172..65987d4c94 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -215,7 +215,7 @@ class FilemapSeek(_FilemapBase):
-         try:
-             tmp_obj = tempfile.TemporaryFile("w+", dir=directory)
-         except IOError as err:
--            raise ErrorNotSupp("cannot create a temporary in \"%s\": %s" \
-+            raise ErrorNotSupp("cannot create a temporary in \"%s\": %s"
-                               % (directory, err))
- 
-         try:
+     def close(self):
 diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 7a4cc83af5..8968b2f651 100644
+index 8968b2f651..03c3d71594 100644
 --- a/scripts/lib/wic/ksparser.py
 +++ b/scripts/lib/wic/ksparser.py
-@@ -217,7 +217,7 @@ class KickStart():
-                         line_args = shlex.split(line)
-                         parsed = parser.parse_args(line_args)
-                     except ArgumentError as err:
--                        raise KickStartError('%s:%d: %s' % \
-+                        raise KickStartError('%s:%d: %s' %
-                                              (confpath, lineno, err))
-                     if line.startswith('part'):
-                         # SquashFS does not support filesystem UUID
-@@ -286,7 +286,7 @@ class KickStart():
-                             # Concatenate the strings set in APPEND
-                             append_var = get_bitbake_var("APPEND")
-                             if append_var:
--                                self.bootloader.append = ' '.join(filter(None, \
-+                                self.bootloader.append = ' '.join(filter(None,
-                                                          (self.bootloader.append, append_var)))
-                         else:
-                             err = "%s:%d: more than one bootloader specified" \
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index 57c042c503..767b34dd24 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -99,7 +99,7 @@ def _exec_cmd(cmd_and_args, as_shell=False):
-         ret, out = runtool(args)
-     out = out.strip()
-     if ret != 0:
--        raise WicError("_exec_cmd: %s returned '%s' instead of 0\noutput: %s" % \
-+        raise WicError("_exec_cmd: %s returned '%s' instead of 0\noutput: %s" %
-                        (cmd_and_args, ret, out))
+@@ -169,7 +169,7 @@ class KickStart():
+         part.add_argument('--part-type')
+         part.add_argument('--rootfs-dir')
+         part.add_argument('--type', default='primary',
+-                choices = ('primary', 'logical'))
++                choices=('primary', 'logical'))
  
-     logger.debug("_exec_cmd: output for %s (rc = %d): %s",
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 96168aadb4..54ca5f87b3 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -209,7 +209,7 @@ class DirectPlugin(ImagerPlugin):
-             logger.debug("Generating bmap file for %s", disk_name)
-             python = os.path.join(self.native_sysroot, 'usr/bin/python3-native/python3')
-             bmaptool = os.path.join(self.native_sysroot, 'usr/bin/bmaptool')
--            exec_native_cmd("%s %s create %s -o %s.bmap" % \
-+            exec_native_cmd("%s %s create %s -o %s.bmap" %
-                             (python, bmaptool, full_path, full_path), self.native_sysroot)
-         # Compress the image
-         if self.compressor:
-@@ -377,14 +377,14 @@ class PartitionedImage():
-             part = self.partitions[num]
+         # --size and --fixed-size cannot be specified together; options
+         # ----extra-space and --overhead-factor should also raise a parser
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index e0b2c5bdf2..d4ca39a09e 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -199,7 +199,7 @@ class Partition():
+                            (self.mountpoint, self.size, self.fixed_size))
  
-             if self.ptable_format == 'msdos' and part.part_name:
--                raise WicError("setting custom partition name is not " \
-+                raise WicError("setting custom partition name is not "
-                                "implemented for msdos partitions")
+     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
+-                       native_sysroot, real_rootfs = True, pseudo_dir = None):
++                       native_sysroot, real_rootfs=True, pseudo_dir=None):
+         """
+         Prepare content for a rootfs partition i.e. create a partition
+         and fill it from a /rootfs dir.
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index 96d940a91d..03b642f4fa 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -230,4 +230,4 @@ class RootfsPlugin(SourcePlugin):
  
-             if self.ptable_format == 'msdos' and part.part_type:
-                 # The --part-type can also be implemented for MBR partitions,
-                 # in which case it would map to the 1-byte "partition type"
-                 # filed at offset 3 of the partition entry.
--                raise WicError("setting custom partition type is not " \
-+                raise WicError("setting custom partition type is not "
-                                "implemented for msdos partitions")
+         part.prepare_rootfs(cr_workdir, oe_builddir,
+                             new_rootfs or part.rootfs_dir, native_sysroot,
+-                            pseudo_dir = new_pseudo or pseudo_dir)
++                            pseudo_dir=new_pseudo or pseudo_dir)
+diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
+index 5eb3e12769..14ad54008b 100755
+--- a/scripts/oe-depends-dot
++++ b/scripts/oe-depends-dot
+@@ -17,18 +17,18 @@ class Dot(object):
+             description="Analyse recipe-depends.dot generated by bitbake -g",
+             epilog="Use %(prog)s --help to get help")
+         parser.add_argument("dotfile",
+-            help = "Specify the dotfile", nargs = 1, action='store', default='')
++            help="Specify the dotfile", nargs=1, action='store', default='')
+         parser.add_argument("-k", "--key",
+-            help = "Specify the key, e.g., recipe name",
++            help="Specify the key, e.g., recipe name",
+             action="store", default='')
+         parser.add_argument("-d", "--depends",
+-            help = "Print the key's dependencies",
++            help="Print the key's dependencies",
+             action="store_true", default=False)
+         parser.add_argument("-w", "--why",
+-            help = "Print why the key is built",
++            help="Print why the key is built",
+             action="store_true", default=False)
+         parser.add_argument("-r", "--remove",
+-            help = "Remove duplicated dependencies to reduce the size of the dot files."
++            help="Remove duplicated dependencies to reduce the size of the dot files."
+                     " For example, A->B, B->C, A->C, then A->C can be removed.",
+             action="store_true", default=False)
  
-             # Get the disk where the partition is located
-@@ -562,28 +562,28 @@ class PartitionedImage():
-             if part.part_name:
-                 logger.debug("partition %d: set name to %s",
-                              part.num, part.part_name)
--                exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
-+                exec_native_cmd("sgdisk --change-name=%d:%s %s" %
-                                          (part.num, part.part_name,
-                                           self.path), self.native_sysroot)
- 
-             if part.part_type:
-                 logger.debug("partition %d: set type UID to %s",
-                              part.num, part.part_type)
--                exec_native_cmd("sgdisk --typecode=%d:%s %s" % \
-+                exec_native_cmd("sgdisk --typecode=%d:%s %s" %
-                                          (part.num, part.part_type,
-                                           self.path), self.native_sysroot)
- 
-             if part.uuid and self.ptable_format == "gpt":
-                 logger.debug("partition %d: set UUID to %s",
-                              part.num, part.uuid)
--                exec_native_cmd("sgdisk --partition-guid=%d:%s %s" % \
-+                exec_native_cmd("sgdisk --partition-guid=%d:%s %s" %
-                                 (part.num, part.uuid, self.path),
-                                 self.native_sysroot)
- 
-             if part.label and self.ptable_format == "gpt":
-                 logger.debug("partition %d: set name to %s",
-                              part.num, part.label)
--                exec_native_cmd("parted -s %s name %d %s" % \
-+                exec_native_cmd("parted -s %s name %d %s" %
-                                 (self.path, part.num, part.label),
-                                 self.native_sysroot)
- 
-@@ -591,11 +591,11 @@ class PartitionedImage():
-                 flag_name = "legacy_boot" if self.ptable_format == 'gpt' else "boot"
-                 logger.debug("Set '%s' flag for partition '%s' on disk '%s'",
-                              flag_name, part.num, self.path)
--                exec_native_cmd("parted -s %s set %d %s on" % \
-+                exec_native_cmd("parted -s %s set %d %s on" %
-                                 (self.path, part.num, flag_name),
-                                 self.native_sysroot)
-             if part.system_id:
--                exec_native_cmd("sfdisk --part-type %s %s %s" % \
-+                exec_native_cmd("sfdisk --part-type %s %s %s" %
-                                 (self.path, part.num, part.system_id),
-                                 self.native_sysroot)
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index cdc72543c2..d4f2f928d9 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -241,7 +241,7 @@ class BootimgEFIPlugin(SourcePlugin):
-                 logger.debug('Destination entry: %r', dst_entry)
-                 deploy_files.append(dst_entry)
- 
--            cls.install_task = [];
-+            cls.install_task = []
-             for deploy_entry in deploy_files:
-                 src, dst = deploy_entry
-                 if '*' in src:
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 5dbe2558d2..c59b476661 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -76,7 +76,7 @@ class BootimgPartitionPlugin(SourcePlugin):
-             logger.debug('Destination entry: %r', dst_entry)
-             deploy_files.append(dst_entry)
- 
--        cls.install_task = [];
-+        cls.install_task = []
-         for deploy_entry in deploy_files:
-             src, dst = deploy_entry
-             if '*' in src:
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index afc9ea0f8f..3645d07990 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -170,24 +170,24 @@ class IsoImagePlugin(SourcePlugin):
-             # Create initrd from rootfs directory
-             initrd = "%s/initrd.cpio.gz" % cr_workdir
-             initrd_dir = "%s/INITRD" % cr_workdir
--            shutil.copytree("%s" % rootfs_dir, \
-+            shutil.copytree("%s" % rootfs_dir,
-                             "%s" % initrd_dir, symlinks=True)
- 
-             if os.path.isfile("%s/init" % rootfs_dir):
-                 shutil.copy2("%s/init" % rootfs_dir, "%s/init" % initrd_dir)
-             elif os.path.lexists("%s/init" % rootfs_dir):
--                os.symlink(os.readlink("%s/init" % rootfs_dir), \
-+                os.symlink(os.readlink("%s/init" % rootfs_dir),
-                             "%s/init" % initrd_dir)
-             elif os.path.isfile("%s/sbin/init" % rootfs_dir):
--                shutil.copy2("%s/sbin/init" % rootfs_dir, \
-+                shutil.copy2("%s/sbin/init" % rootfs_dir,
-                             "%s" % initrd_dir)
-             elif os.path.lexists("%s/sbin/init" % rootfs_dir):
--                os.symlink(os.readlink("%s/sbin/init" % rootfs_dir), \
-+                os.symlink(os.readlink("%s/sbin/init" % rootfs_dir),
-                             "%s/init" % initrd_dir)
-             else:
-                 raise WicError("Couldn't find or build initrd, exiting.")
- 
--            exec_cmd("cd %s && find . | cpio -o -H newc -R root:root >%s/initrd.cpio " \
-+            exec_cmd("cd %s && find . | cpio -o -H newc -R root:root >%s/initrd.cpio "
-                      % (initrd_dir, cr_workdir), as_shell=True)
-             exec_cmd("gzip -f -9 %s/initrd.cpio" % cr_workdir, as_shell=True)
-             shutil.rmtree(initrd_dir)
-diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
-index 5834f59845..ade13e244b 100755
---- a/scripts/oe-pkgdata-browser
-+++ b/scripts/oe-pkgdata-browser
-@@ -31,7 +31,7 @@ def timeit(f):
-         print ("func:%r calling" % f.__name__)
-         result = f(*args, **kw)
-         te = time.time()
--        print ('func:%r args:[%r, %r] took: %2.4f sec' % \
-+        print ('func:%r args:[%r, %r] took: %2.4f sec' %
-           (f.__name__, args, kw, te-ts))
-         return result
-     return timed
-diff --git a/scripts/pybootchartgui/pybootchartgui/batch.py b/scripts/pybootchartgui/pybootchartgui/batch.py
-index 05c714e95e..1fc2b9b882 100644
---- a/scripts/pybootchartgui/pybootchartgui/batch.py
-+++ b/scripts/pybootchartgui/pybootchartgui/batch.py
-@@ -19,7 +19,7 @@ from .draw import RenderOptions
- 
- def render(writer, trace, app_options, filename):
-     handlers = {
--        "png": (lambda w, h: cairo.ImageSurface(cairo.FORMAT_ARGB32, w, h), \
-+        "png": (lambda w, h: cairo.ImageSurface(cairo.FORMAT_ARGB32, w, h),
-                 lambda sfc: sfc.write_to_png(filename)),
-         "pdf": (lambda w, h: cairo.PDFSurface(filename, w, h), lambda sfc: 0),
-         "svg": (lambda w, h: cairo.SVGSurface(filename, w, h), lambda sfc: 0)
 diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
-index 29eb7505bc..1dc9bd02a6 100644
+index 1dc9bd02a6..802ca7d5a9 100644
 --- a/scripts/pybootchartgui/pybootchartgui/draw.py
 +++ b/scripts/pybootchartgui/pybootchartgui/draw.py
-@@ -152,7 +152,7 @@ STATE_WAITING   = 3
- STATE_STOPPED   = 4
- STATE_ZOMBIE    = 5
- 
--STATE_COLORS = [(0, 0, 0, 0), PROC_COLOR_R, PROC_COLOR_S, PROC_COLOR_D, \
-+STATE_COLORS = [(0, 0, 0, 0), PROC_COLOR_R, PROC_COLOR_S, PROC_COLOR_D,
-         PROC_COLOR_T, PROC_COLOR_Z, PROC_COLOR_X, PROC_COLOR_W]
- 
- # CumulativeStats Types
-@@ -256,7 +256,7 @@ def draw_chart(ctx, color, fill, chart_bounds, data, proc_tree, data_range):
-     ctx.set_line_width(0.5)
-     x_shift = proc_tree.start_time
- 
--    def transform_point_coords(point, x_base, y_base, \
-+    def transform_point_coords(point, x_base, y_base,
-                    xscale, yscale, x_trans, y_trans):
-         x = (point[0] - x_base) * xscale + x_trans
-         y = (point[1] - y_base) * -yscale + y_trans + chart_bounds[3]
-@@ -278,15 +278,15 @@ def draw_chart(ctx, color, fill, chart_bounds, data, proc_tree, data_range):
-         yscale = float(chart_bounds[3]) / max_y
-         ybase = 0
- 
--    first = transform_point_coords (data[0], x_shift, ybase, xscale, yscale, \
-+    first = transform_point_coords (data[0], x_shift, ybase, xscale, yscale,
-                         chart_bounds[0], chart_bounds[1])
--    last =  transform_point_coords (data[-1], x_shift, ybase, xscale, yscale, \
-+    last =  transform_point_coords (data[-1], x_shift, ybase, xscale, yscale,
-                         chart_bounds[0], chart_bounds[1])
- 
-     ctx.set_source_rgba(*color)
-     ctx.move_to(*first)
-     for point in data:
--        x, y = transform_point_coords (point, x_shift, ybase, xscale, yscale, \
-+        x, y = transform_point_coords (point, x_shift, ybase, xscale, yscale,
-                            chart_bounds[0], chart_bounds[1])
-         ctx.line_to(x, y)
-     if fill:
-@@ -370,12 +370,12 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
-         if clip_visible (clip, chart_rect):
-             draw_box_ticks (ctx, chart_rect, sec_w)
-             draw_annotations (ctx, proc_tree, trace.times, chart_rect)
--            draw_chart (ctx, IO_COLOR, True, chart_rect, \
--                    [(sample.time, sample.user + sample.sys + sample.io) for sample in trace.cpu_stats], \
-+            draw_chart (ctx, IO_COLOR, True, chart_rect,
-+                    [(sample.time, sample.user + sample.sys + sample.io) for sample in trace.cpu_stats],
-                     proc_tree, None)
-             # render CPU load
--            draw_chart (ctx, CPU_COLOR, True, chart_rect, \
--                    [(sample.time, sample.user + sample.sys) for sample in trace.cpu_stats], \
-+            draw_chart (ctx, CPU_COLOR, True, chart_rect,
-+                    [(sample.time, sample.user + sample.sys) for sample in trace.cpu_stats],
-                     proc_tree, None)
- 
-         curr_y = curr_y + 30 + bar_h
-@@ -390,15 +390,15 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
-         if clip_visible (clip, chart_rect):
-             draw_box_ticks (ctx, chart_rect, sec_w)
-             draw_annotations (ctx, proc_tree, trace.times, chart_rect)
--            draw_chart (ctx, IO_COLOR, True, chart_rect, \
--                    [(sample.time, sample.util) for sample in trace.disk_stats], \
-+            draw_chart (ctx, IO_COLOR, True, chart_rect,
-+                    [(sample.time, sample.util) for sample in trace.disk_stats],
+@@ -395,7 +395,7 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
                      proc_tree, None)
  
          # render disk throughput
-         max_sample = max (trace.disk_stats, key = lambda s: s.tput)
+-        max_sample = max (trace.disk_stats, key = lambda s: s.tput)
++        max_sample = max (trace.disk_stats, key=lambda s: s.tput)
          if clip_visible (clip, chart_rect):
--            draw_chart (ctx, DISK_TPUT_COLOR, False, chart_rect, \
--                    [(sample.time, sample.tput) for sample in trace.disk_stats], \
-+            draw_chart (ctx, DISK_TPUT_COLOR, False, chart_rect,
-+                    [(sample.time, sample.tput) for sample in trace.disk_stats],
-                     proc_tree, None)
+             draw_chart (ctx, DISK_TPUT_COLOR, False, chart_rect,
+                     [(sample.time, sample.tput) for sample in trace.disk_stats],
+@@ -782,7 +782,7 @@ class CumlSample:
  
-         pos_x = off_x + ((max_sample.time - proc_tree.start_time) * w / proc_tree.duration)
-@@ -450,7 +450,7 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
-             draw_box_ticks (ctx, chart_rect, sec_w)
-             draw_annotations (ctx, proc_tree, trace.times, chart_rect)
-             for i in range(len(volumes), 0, -1):
--                draw_chart (ctx, VOLUME_COLORS[(i - 1) % len(VOLUME_COLORS)], True, chart_rect, \
-+                draw_chart (ctx, VOLUME_COLORS[(i - 1) % len(VOLUME_COLORS)], True, chart_rect,
-                             [(sample.time,
-                               # Sum up used space of all volumes including the current one
-                               # so that the graphs appear as stacked on top of each other.
-@@ -472,21 +472,21 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
-         draw_legend_box(ctx, "Mem cached (scale: %u MiB)" % (float(mem_scale) / 1024), MEM_CACHED_COLOR, off_x, curr_y+20, leg_s)
-         draw_legend_box(ctx, "Used", MEM_USED_COLOR, off_x + 240, curr_y+20, leg_s)
-         draw_legend_box(ctx, "Buffers", MEM_BUFFERS_COLOR, off_x + 360, curr_y+20, leg_s)
--        draw_legend_line(ctx, "Swap (scale: %u MiB)" % max([(sample.swap)/1024 for sample in mem_stats]), \
-+        draw_legend_line(ctx, "Swap (scale: %u MiB)" % max([(sample.swap)/1024 for sample in mem_stats]),
-                  MEM_SWAP_COLOR, off_x + 480, curr_y+20, leg_s)
-         draw_box_ticks(ctx, chart_rect, sec_w)
-         draw_annotations(ctx, proc_tree, trace.times, chart_rect)
--        draw_chart(ctx, MEM_BUFFERS_COLOR, True, chart_rect, \
--               [(sample.time, sample.buffers) for sample in trace.mem_stats], \
-+        draw_chart(ctx, MEM_BUFFERS_COLOR, True, chart_rect,
-+               [(sample.time, sample.buffers) for sample in trace.mem_stats],
-                proc_tree, [0, mem_scale])
--        draw_chart(ctx, MEM_USED_COLOR, True, chart_rect, \
--               [(sample.time, sample.used) for sample in mem_stats], \
-+        draw_chart(ctx, MEM_USED_COLOR, True, chart_rect,
-+               [(sample.time, sample.used) for sample in mem_stats],
-                proc_tree, [0, mem_scale])
--        draw_chart(ctx, MEM_CACHED_COLOR, True, chart_rect, \
--               [(sample.time, sample.cached) for sample in mem_stats], \
-+        draw_chart(ctx, MEM_CACHED_COLOR, True, chart_rect,
-+               [(sample.time, sample.cached) for sample in mem_stats],
-                proc_tree, [0, mem_scale])
--        draw_chart(ctx, MEM_SWAP_COLOR, False, chart_rect, \
--               [(sample.time, float(sample.swap)) for sample in mem_stats], \
-+        draw_chart(ctx, MEM_SWAP_COLOR, False, chart_rect,
-+               [(sample.time, float(sample.swap)) for sample in mem_stats],
-                proc_tree, None)
+     def merge_samples(self, proc):
+         self.samples.extend (proc.samples)
+-        self.samples.sort (key = lambda p: p.time)
++        self.samples.sort (key=lambda p: p.time)
  
-         curr_y = curr_y + meminfo_bar_h
-@@ -496,17 +496,17 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
- def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
-     chart_rect = [off_x, curr_y+header_h, w, h - curr_y - 1 * off_y - header_h  ]
+     def next(self):
+         global palette_idx
+diff --git a/scripts/pybootchartgui/pybootchartgui/process_tree.py b/scripts/pybootchartgui/pybootchartgui/process_tree.py
+index cf88110b1c..5572c5d19c 100644
+--- a/scripts/pybootchartgui/pybootchartgui/process_tree.py
++++ b/scripts/pybootchartgui/pybootchartgui/process_tree.py
+@@ -39,7 +39,7 @@ class ProcessTree:
  
--    draw_legend_box (ctx, "Configure", \
-+    draw_legend_box (ctx, "Configure",
-              TASK_COLOR_CONFIGURE, off_x  , curr_y + 45, leg_s)
--    draw_legend_box (ctx, "Compile", \
-+    draw_legend_box (ctx, "Compile",
-              TASK_COLOR_COMPILE, off_x+120, curr_y + 45, leg_s)
--    draw_legend_box (ctx, "Install", \
-+    draw_legend_box (ctx, "Install",
-              TASK_COLOR_INSTALL, off_x+240, curr_y + 45, leg_s)
--    draw_legend_box (ctx, "Populate Sysroot", \
-+    draw_legend_box (ctx, "Populate Sysroot",
-              TASK_COLOR_SYSROOT, off_x+360, curr_y + 45, leg_s)
--    draw_legend_box (ctx, "Package", \
-+    draw_legend_box (ctx, "Package",
-              TASK_COLOR_PACKAGE, off_x+480, curr_y + 45, leg_s)
--    draw_legend_box (ctx, "Package Write", \
-+    draw_legend_box (ctx, "Package Write",
-              TASK_COLOR_PACKAGE_WRITE, off_x+600, curr_y + 45, leg_s)
+     def __init__(self, writer, kernel, psstats, sample_period,
+                  monitoredApp, prune, idle, taskstats,
+-                 accurate_parentage, for_testing = False):
++                 accurate_parentage, for_testing=False):
+         self.writer = writer
+         self.process_tree = []
+         self.taskstats = taskstats
+@@ -49,7 +49,7 @@ class ProcessTree:
+             process_list = psstats.process_map.values()
+         else:
+             process_list = list(kernel) + list(psstats.process_map.values())
+-        self.process_list = sorted(process_list, key = lambda p: p.pid)
++        self.process_list = sorted(process_list, key=lambda p: p.pid)
+         self.sample_period = sample_period
  
-     ctx.set_font_size(PROC_TEXT_FONT_SIZE)
-@@ -575,7 +575,7 @@ def render(ctx, options, xscale, trace):
-     ctx.select_font_face(FONT_NAME)
-     draw_fill_rect(ctx, WHITE, (0, 0, max(w, MIN_IMG_W), h))
-     w -= 2*off_x
--    curr_y = off_y;
-+    curr_y = off_y
+         self.build()
+@@ -94,7 +94,7 @@ class ProcessTree:
+     def sort(self, process_subtree):
+         """Sort process tree."""
+         for p in process_subtree:
+-            p.child_list.sort(key = lambda p: p.pid)
++            p.child_list.sort(key=lambda p: p.pid)
+             self.sort(p.child_list)
  
-     if options.charts:
-         curr_y = render_charts (ctx, options, clip, trace, curr_y, w, h, sec_w)
-@@ -595,7 +595,7 @@ def render(ctx, options, xscale, trace):
-     if not options.kernel_only:
-         curr_y = draw_header (ctx, trace.headers, duration)
-     else:
--        curr_y = off_y;
-+        curr_y = off_y
- 
-     # draw process boxes
-     proc_height = h
-diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
-index b42dac6b88..d527bce2fc 100644
---- a/scripts/pybootchartgui/pybootchartgui/parsing.py
-+++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
-@@ -297,7 +297,8 @@ def _parse_proc_ps_log(writer, file):
-     timed_blocks = _parse_timed_blocks(file)
-     for time, lines in timed_blocks:
-         for line in lines:
--            if not line: continue
-+            if not line:
-+                continue
-             tokens = line.split(' ')
-             if len(tokens) < 21:
-                 continue
-@@ -352,7 +353,8 @@ def _parse_taskstats_log(writer, file):
-             ltime = time
- #                       continue
-         for line in lines:
--            if not line: continue
-+            if not line:
-+                continue
-             tokens = line.split(' ')
-             if len(tokens) != 6:
-                 continue
-@@ -380,7 +382,7 @@ def _parse_taskstats_log(writer, file):
-                     process = process.split (writer, pid, cmd, ppid, time)
-                     processMap[pid] = process
-                 else:
--                    process.cmd = cmd;
-+                    process.cmd = cmd
-             else:
-                 process = Process(writer, pid, cmd, ppid, time)
-                 processMap[pid] = process
+     def num_nodes(self, process_list):
+@@ -284,7 +284,7 @@ class ProcessTree:
+     def merge_processes(self, p1, p2):
+         """Merges two process' samples."""
+         p1.samples.extend(p2.samples)
+-        p1.samples.sort( key = lambda p: p.time )
++        p1.samples.sort( key=lambda p: p.time )
+         p1time = p1.start_time
+         p2time = p2.start_time
+         p1.start_time = min(p1time, p2time)
 diff --git a/scripts/pybootchartgui/pybootchartgui/samples.py b/scripts/pybootchartgui/pybootchartgui/samples.py
-index 9fc309b3ab..ab573329f2 100644
+index ab573329f2..69299fbd21 100644
 --- a/scripts/pybootchartgui/pybootchartgui/samples.py
 +++ b/scripts/pybootchartgui/pybootchartgui/samples.py
-@@ -160,7 +160,7 @@ class Process:
-             self.parent = processMap.get (self.ppid)
-             if self.parent == None and self.pid // 1000 > 1 and \
-                 not (self.ppid == 2000 or self.pid == 2000): # kernel threads: ppid=2
--                self.writer.warn("Missing CONFIG_PROC_EVENTS: no parent for pid '%i' ('%s') with ppid '%i'" \
-+                self.writer.warn("Missing CONFIG_PROC_EVENTS: no parent for pid '%i' ('%s') with ppid '%i'"
-                                  % (self.pid,self.cmd,self.ppid))
+@@ -22,7 +22,7 @@ class DiskStatSample:
+         self.diskdata = [ a + b for a, b in zip(self.diskdata, new_diskdata) ]
  
-     def get_end_time(self):
-diff --git a/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py b/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py
-index c005cf341f..18943f3037 100644
---- a/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py
-+++ b/scripts/pybootchartgui/pybootchartgui/tests/parser_test.py
-@@ -51,7 +51,7 @@ class TestBCParser(unittest.TestCase):
- 
- 		ps_data = open(self.mk_fname('extract2.proc_ps.log'))
- 		for index, line in enumerate(ps_data):
--			tokens = line.split();
-+			tokens = line.split()
- 			process = sorted_processes[index]
- 			if debug:
- 				print(tokens[0:4])
+ class CPUSample:
+-    def __init__(self, time, user, sys, io = 0.0, swap = 0.0):
++    def __init__(self, time, user, sys, io=0.0, swap=0.0):
+         self.time = time
+         self.user = user
+         self.sys = sys
 diff --git a/scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py b/scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py
-index 6f46a1c03d..47249056fd 100644
+index 47249056fd..a30e13ca06 100644
 --- a/scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py
 +++ b/scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py
-@@ -24,7 +24,7 @@ class TestProcessTree(unittest.TestCase):
- 
+@@ -25,7 +25,7 @@ class TestProcessTree(unittest.TestCase):
          parsing.parse_file(writer, trace, self.mk_fname('proc_ps.log'))
          trace.compile(writer)
--        self.processtree = process_tree.ProcessTree(writer, None, trace.ps_stats, \
-+        self.processtree = process_tree.ProcessTree(writer, None, trace.ps_stats,
-             trace.ps_stats.sample_period, None, options.prune, None, None, False, for_testing = True)
+         self.processtree = process_tree.ProcessTree(writer, None, trace.ps_stats,
+-            trace.ps_stats.sample_period, None, options.prune, None, None, False, for_testing = True)
++            trace.ps_stats.sample_period, None, options.prune, None, None, False, for_testing=True)
  
      def mk_fname(self,f):
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 8c0fdb986a..692a9d5ed6 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -95,7 +95,7 @@ def change_interpreter(elf_file_name):
-             if p_filesz == 0:
-                 break
-             if (len(new_dl_path) >= p_filesz):
--                print("ERROR: could not relocate %s, interp size = %i and %i is needed." \
-+                print("ERROR: could not relocate %s, interp size = %i and %i is needed."
-                     % (elf_file_name, p_memsz, len(new_dl_path) + 1))
-                 break
-             dl_path = new_dl_path + b("\0") * (p_filesz - len(new_dl_path))
-@@ -149,7 +149,7 @@ def change_dl_sysdirs(elf_file_name):
-                 new_ldsocache_path = old_prefix.sub(new_prefix, ldsocache_path)
-                 new_ldsocache_path = new_ldsocache_path.rstrip(b("\0"))
-                 if (len(new_ldsocache_path) >= sh_size):
--                    print("ERROR: could not relocate %s, .ldsocache section size = %i and %i is needed." \
-+                    print("ERROR: could not relocate %s, .ldsocache section size = %i and %i is needed."
-                     % (elf_file_name, sh_size, len(new_ldsocache_path)))
-                     sys.exit(-1)
-                 # pad with zeros
-@@ -164,7 +164,7 @@ def change_dl_sysdirs(elf_file_name):
-                     new_path = old_prefix.sub(new_prefix, path)
-                     new_path = new_path.rstrip(b("\0"))
-                     if (len(new_path) >= 4096):
--                        print("ERROR: could not relocate %s, max path size = 4096 and %i is needed." \
-+                        print("ERROR: could not relocate %s, max path size = 4096 and %i is needed."
-                         % (elf_file_name, len(new_path)))
-                         sys.exit(-1)
-                     # pad with zeros
-@@ -227,8 +227,8 @@ for e in executables_list:
-     except IOError:
-         exctype, ioex = sys.exc_info()[:2]
-         if ioex.errno == errno.ETXTBSY:
--            print("Could not open %s. File used by another process.\nPlease "\
--                  "make sure you exit all processes that might use any SDK "\
-+            print("Could not open %s. File used by another process.\nPlease "
-+                  "make sure you exit all processes that might use any SDK "
-                   "binaries." % e)
-         else:
-             print("Could not open %s: %s(%d)" % (e, ioex.strerror, ioex.errno))
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 1f332ef525..2f2ef17fa1 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -521,7 +521,7 @@ class BaseConfig(object):
-                     unknown_arg = arg
-                 else:
-                     raise RunQemuError("Can't handle two unknown args: %s %s\n"
--                                       "Try 'runqemu help' on how to use it" % \
-+                                       "Try 'runqemu help' on how to use it" %
-                                         (unknown_arg, arg))
-         # Check to make sure it is a valid machine
-         if unknown_arg and self.get('MACHINE') != unknown_arg:
-@@ -1239,7 +1239,7 @@ class BaseConfig(object):
-                         logger.info('Using ide drive')
-                         vm_drive = "-drive file=%s,format=%s" % (self.rootfs, rootfs_format)
-                     elif drive_type.startswith("/dev/vdb"):
--                        logger.info('Using block virtio drive');
-+                        logger.info('Using block virtio drive')
-                         vm_drive = '-drive id=disk0,file=%s,if=none,format=%s -device virtio-blk-device,drive=disk0%s' \
-                                     % (self.rootfs, rootfs_format,qb_rootfs_extra_opt)
-                     else:
-diff --git a/scripts/tiny/dirsize.py b/scripts/tiny/dirsize.py
-index 501516b0d4..8e41126183 100755
---- a/scripts/tiny/dirsize.py
-+++ b/scripts/tiny/dirsize.py
-@@ -67,7 +67,7 @@ def main():
-         minsize = int(sys.argv[1])
-     rootfs = Record.create(".")
-     total = rootfs.show(minsize)
--    print("Displayed %d/%d bytes (%.2f%%)" % \
-+    print("Displayed %d/%d bytes (%.2f%%)" %
-           (total, rootfs.size, 100 * float(total) / rootfs.size))
- 
- 
-diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
-index db2b9ec39f..01c561b9a9 100755
---- a/scripts/tiny/ksize.py
-+++ b/scripts/tiny/ksize.py
-@@ -39,7 +39,7 @@ class Sizes:
-             self.text = self.data = self.bss = self.total = 0
- 
-     def show(self, indent=""):
--        print("%-32s %10d | %10d %10d %10d" % \
-+        print("%-32s %10d | %10d %10d %10d" %
-               (indent+self.title, self.total, self.text, self.data, self.bss))
- 
- 
-@@ -85,7 +85,7 @@ class Report:
- 
-     def show(self, indent=""):
-         rule = str.ljust(indent, 80, '-')
--        print("%-32s %10s | %10s %10s %10s" % \
-+        print("%-32s %10s | %10s %10s %10s" %
-               (indent+self.title, "total", "text", "data", "bss"))
-         print(rule)
-         self.sizes.show(indent)
-@@ -94,10 +94,10 @@ class Report:
-             if p.sizes.total > 0:
-                 p.sizes.show(indent)
-         print(rule)
--        print("%-32s %10d | %10d %10d %10d" % \
-+        print("%-32s %10d | %10d %10d %10d" %
-               (indent+"sum", self.totals["total"], self.totals["text"],
-                self.totals["data"], self.totals["bss"]))
--        print("%-32s %10d | %10d %10d %10d" % \
-+        print("%-32s %10d | %10d %10d %10d" %
-               (indent+"delta", self.deltas["total"], self.deltas["text"],
-                self.deltas["data"], self.deltas["bss"]))
-         print("\n")
-diff --git a/scripts/tiny/ksum.py b/scripts/tiny/ksum.py
-index 8f0e4c0517..e1ca4033f5 100755
---- a/scripts/tiny/ksum.py
-+++ b/scripts/tiny/ksum.py
-@@ -78,7 +78,7 @@ def add_ko_file(filename):
-         if len(output) > 2:
-             sizes = output[-1].split()[0:4]
-             if verbose:
--                print("     %10d %10d %10d %10d\t" % \
-+                print("     %10d %10d %10d %10d\t" %
-                     (int(sizes[0]), int(sizes[1]), int(sizes[2]), int(sizes[3])), end=' ')
-                 print("%s" % filename[len(os.getcwd()) + 1:])
-             global n_ko_files, ko_text, ko_data, ko_bss, ko_total
-@@ -94,7 +94,7 @@ def get_vmlinux_totals():
-         if len(output) > 2:
-             sizes = output[-1].split()[0:4]
-             if verbose:
--                print("     %10d %10d %10d %10d\t" % \
-+                print("     %10d %10d %10d %10d\t" %
-                     (int(sizes[0]), int(sizes[1]), int(sizes[2]), int(sizes[3])), end=' ')
-                 print("%s" % vmlinux_file[len(os.getcwd()) + 1:])
-             global vmlinux_text, vmlinux_data, vmlinux_bss, vmlinux_total
-@@ -132,16 +132,16 @@ def main():
-     print("\nTotals:")
-     print("\nvmlinux:")
-     print("    text\tdata\t\tbss\t\ttotal")
--    print("    %-10d\t%-10d\t%-10d\t%-10d" % \
-+    print("    %-10d\t%-10d\t%-10d\t%-10d" %
-         (vmlinux_text, vmlinux_data, vmlinux_bss, vmlinux_total))
-     print("\nmodules (%d):" % n_ko_files)
-     print("    text\tdata\t\tbss\t\ttotal")
--    print("    %-10d\t%-10d\t%-10d\t%-10d" % \
-+    print("    %-10d\t%-10d\t%-10d\t%-10d" %
-         (ko_text, ko_data, ko_bss, ko_total))
-     print("\nvmlinux + modules:")
-     print("    text\tdata\t\tbss\t\ttotal")
--    print("    %-10d\t%-10d\t%-10d\t%-10d" % \
--        (vmlinux_text + ko_text, vmlinux_data + ko_data, \
-+    print("    %-10d\t%-10d\t%-10d\t%-10d" %
-+        (vmlinux_text + ko_text, vmlinux_data + ko_data,
-          vmlinux_bss + ko_bss, vmlinux_total + ko_total))
- 
- if __name__ == "__main__":
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-index 44e77b73d0..c345ca5674 100755
---- a/scripts/yocto-check-layer
-+++ b/scripts/yocto-check-layer
-@@ -107,12 +107,12 @@ def main():
-     logger.info("Detected layers:")
-     for layer in layers:
-         if layer['type'] == LayerType.ERROR_BSP_DISTRO:
--            logger.error("%s: Can't be DISTRO and BSP type at the same time."\
--                     " Both conf/distro and conf/machine folders were found."\
-+            logger.error("%s: Can't be DISTRO and BSP type at the same time."
-+                     " Both conf/distro and conf/machine folders were found."
-                      % layer['name'])
-             layers.remove(layer)
-         elif layer['type'] == LayerType.ERROR_NO_LAYER_CONF:
--            logger.info("%s: Doesn't have conf/layer.conf file, so ignoring"\
-+            logger.info("%s: Doesn't have conf/layer.conf file, so ignoring"
-                      % layer['name'])
-             layers.remove(layer)
-         else:
+         return os.path.join(self.rootdir, f)
 -- 
 2.32.0
 
