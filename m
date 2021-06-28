@@ -1,52 +1,87 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.13216.1624896290503748148
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.13787.1624898113339327037
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jun 2021 09:04:50 -0700
+ Mon, 28 Jun 2021 09:35:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED9E0106F
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 09:04:49 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9874D3F718
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 09:04:49 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] cantarell-fonts: fix SRC_URI
-Date: Mon, 28 Jun 2021 17:04:45 +0100
-Message-Id: <20210628160445.945187-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210628160445.945187-1-ross.burton@arm.com>
-References: <20210628160445.945187-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZajpABVg;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id e33so15910232pgm.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 09:35:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mAtycKPybK4JCepasNYyG7bTCjit4z7si9X34Im5jOo=;
+        b=ZajpABVgeItzaG/OEjlSEyR0JKHVW4Y5C11ANHd3uycr7xnjycTL5umfgz86dwQYhU
+         VxZxA0N3+55IHMfEH/Kpqokm9mcuizx3LkzgCW2P7Jk9xhC/Gt9q7xI0/cGhC45t9Bz3
+         MAbyyDGJWpf0pGMC5Rv1E2sTrzHXdjnK7tfRIeFeaBIVqZTzbFc/J2zVJqR4URhD2Z82
+         VhO1z+QvPolLqMEK+OmaoHNR1cjYwKtaIuGUtWQIaVRmPqNdN6znv6gE0Wirksy4rnV/
+         lfI9Hu04nCsIcRMKqWKMD9Xw+s46raPdUBKhUcu43FrL/vxdx64hj8zbKwWZAwidcuM1
+         Zm4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=mAtycKPybK4JCepasNYyG7bTCjit4z7si9X34Im5jOo=;
+        b=JLAn9eNSHjuI3uvfWngtazBUmE7wtX7rqrERARNI6oz7S9rVLFP4QKFYrVXB86eCLf
+         1PLZE3hV4nNh0R+AOl5klXLXUj6YqTvn+shoq/fJvT/vYlns/WQmIL1Wi1Fyup7lTGRq
+         Tu2lGIhJXKkHa4tI+ufrymoSLFuODuj8wcAGvL72Al5ZsltalPW1u0TWkQwEflxl7hcz
+         1vfAEZqrP1z3Z2yuqnEp4cJSir62mppXCtH+S7hyAL8QEyBAuC5haJ0H9mrca3ce0283
+         LMWu9FSdSy+Qcc0D1wRHRtamif4x1PPdFQpaA9/8vcAZAb/fGsJs3OwdfJPDIsAuJE4m
+         +bOg==
+X-Gm-Message-State: AOAM530xuUqxhWqxvLr+MorItNMy/7vQyGPBGVS/2yunjynXDX/K0nps
+	VcRdboDbdNszHOP7jKuTpFMlU0InymWq2g==
+X-Google-Smtp-Source: ABdhPJx3mSrqLI55ttIjEQC0eW+wk0iD9JivLooMEEORSpb3xMmIr6h6yB34/DmztbLY4gTqo4hT4g==
+X-Received: by 2002:a62:ae19:0:b029:307:403b:5d7f with SMTP id q25-20020a62ae190000b0290307403b5d7fmr25598346pff.5.1624898112534;
+        Mon, 28 Jun 2021 09:35:12 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:7ccb:5507:b206:6695? ([2601:646:9200:a0f0:7ccb:5507:b206:6695])
+        by smtp.gmail.com with ESMTPSA id 7sm15521677pfu.24.2021.06.28.09.35.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Jun 2021 09:35:12 -0700 (PDT)
+Subject: Re: glibc 2.34 upgrade pre-release testing
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core <openembedded-core@lists.openembedded.org>
+References: <eb4def6008fbb03a36417b5dcb9e42f1d3675498.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <f6a8544c-5ab7-57ec-7587-20e039b62db5@gmail.com>
+Date: Mon, 28 Jun 2021 09:35:10 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <eb4def6008fbb03a36417b5dcb9e42f1d3675498.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-Since oe-core fa8950d0c the logic to turn a version into a directory name
-doesn't work for versions which are too short.
 
-Solve this by overriding gnome_verdir() to return the version as-is, as
-that is what the directory is called.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../cantarell-fonts/cantarell-fonts_0.301.bb                 | 5 +++++
- 1 file changed, 5 insertions(+)
+On 6/28/21 12:23 AM, Richard Purdie wrote:
+> Hi Khem,
+> 
+> I put the branch in for testing:
+> 
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/glibc-2.34
+> 
+> which resulted in:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2292
+> 
+> Mainly looks like an issue running on target test builds not being
+> able to find pthread. Also nativesdk patch fuzz.
 
-diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.=
-bb b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb
-index 8dc4ceb399e..b0ce56127d8 100644
---- a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb
-+++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb
-@@ -20,3 +20,8 @@ HASHEQUIV_HASH_VERSION .=3D ".2"
- EXTRA_OEMESON +=3D "-Duseprebuilt=3Dtrue -Dbuildappstream=3Dfalse"
-=20
- FILES_${PN} =3D "${datadir}/fonts ${datadir}/fontconfig"
-+
-+# This isn't a GNOME-style version do gnome_verdir fails. Just return th=
-e
-+# version as that is how the directory is structured.
-+def gnome_verdir(v):
-+    return v
---=20
-2.25.1
+thanks, I will fix the fuzz, since I have been updating the SRCREV but 
+not patches.
 
+libpthread and librt is being merged into libc in 2.34 lots of content 
+is moving that way, these libs maynot disappear but glibc is treading 
+the same path as musl, ( one library for all ) so the pthread issue 
+seems to be related to that, I will take a look.
+
+> 
+> Cheers,
+> 
+> Richard
+> 
