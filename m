@@ -1,138 +1,94 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web12.10646.1624884312491464970
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web09.10468.1624884584447669005
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jun 2021 05:45:12 -0700
+ Mon, 28 Jun 2021 05:49:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Dmy6iPvW;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: andrea.adami@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id v20so11192936eji.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 05:45:12 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IhwKwCCd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id m41-20020a05600c3b29b02901dcd3733f24so13674918wms.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 05:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=u6SZ/6rLsf1NutvLEdJj6PToCB6XQXSOaSmQUq9k744=;
-        b=Dmy6iPvWgirv4qVeM0MX5xLpn7J4Byy+mIwQQpuh9hmseIe/mO0JVnume45syzkzT1
-         Y9M5rZAKN3TiIy3yzJ1puySLvt3pr2Tqd/NRT+pbOVJjrEOmhRBvZG/NpmShbvFe1lld
-         WGnm4SydeZjW8t21CGW2pHhcRkR85GKch5mhc0DM/cuLt8QDQuIZB4H5UnnKTw5Cvu6T
-         lC8ZzYaDUKuLZJlq0mqq62rTf6nB48WgDmA0d9XaHaiMDglVn1viWkbg/zgBqcxYIUqq
-         /dUqb2HxQZ2qGjzUy55yMTMoIZ9nVC5h1hMzyoB67CVzw8EGbU9qVcn3Frlki/oR7tKx
-         Aqjw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=a+ffIls1u7cY02MNZL/HQudKl22QcT73uuDyG6hZE3I=;
+        b=IhwKwCCdVUDEwYW+DqBug8hMylQQLyVzVEpLcXw+Hazd2laOqDU1pkGkKZ1Ql/qwdD
+         +4FAls5tTJPBJIHG8pp5rK9PY4Rki9YJJkapSG4n02ocxs3uC4mE6OdGGY79sAfQGsY2
+         g9BJR/sKpBvQkN9PlVoJrGLIvCkRcmMm5J1+U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=u6SZ/6rLsf1NutvLEdJj6PToCB6XQXSOaSmQUq9k744=;
-        b=pcFCGWp7b14ylY7YR2s5zzqNs7UROIyfm8FTRrQCvj252s6Y8GJ16NNdcLxJMGymfL
-         vqWJiSelxmESIZvRCjvyH9q22gr99KhFeQpxkfjHm1+t5Yh2YDc+BBhTfEXdD40AjfpZ
-         lSY6LDkaX3VOHEV517/GBLWUfZ3v6/WdjKMgAaqLFdmhTStZDwqWSIi2qwV3FUPnntpq
-         oOmiArwSafAQj6Fqnmq2CwoA8s5e5aWBHnYmtH8vARivobZyMld7lO+XI4HiT84Tph3F
-         HOXc+sqWfGByZoV7DNnuXh5ajceVKAyC8LfskZJGHbFJu8Kz3Ai09q2gNHjlRUDFpOFE
-         QFPg==
-X-Gm-Message-State: AOAM533e7cW8PwauIdAMmp0Qqkmvnl4lUmkWssrZEJtqntSd0etCs+FV
-	GeKMwMpOmt628r13Gpm6vPX8jQ9VzqzQ9YmjU4E=
-X-Google-Smtp-Source: ABdhPJwwgkNQTFyYZOwDYBW890/DKmwyZm6TZlcbr8C/4vVYfMiA6GCruEixk7gaetebZCVhr7NL/0hbtA8qNpyz3l0=
-X-Received: by 2002:a17:907:2d07:: with SMTP id gs7mr23903976ejc.375.1624884310408;
- Mon, 28 Jun 2021 05:45:10 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=a+ffIls1u7cY02MNZL/HQudKl22QcT73uuDyG6hZE3I=;
+        b=tfQCaZVaUDpXOg7PRk8ZW0ucxziDU8liNbzh5i2q55+UsfVnEMN4AYrlHu4T3RvRmv
+         6JXyEfh3XnNo2lajNZWFGjcBz8MnIX3mfPslg63rEG3eQEbJCUoVhJRhhfu8kvl2uhXS
+         Vkl/TaE6YqZTTfzZTWC/jN2Sr5okhLSrhkR2x3kdtQLu9ndOa4x89m0NnC6rNbwTYMfV
+         hYH1kDUO/Hu7pIJ232VJYxybMcilYUP1IxxbhDnLxRVG8OqiXXNjTrcC+toKNpoOGa+b
+         Uy19oQO+GEBhI5lwZ0uJWI4A0RisUdB/jXsmoYwuu6GEfPHiXq/ebto+2OpXLBqJK2HT
+         G2kg==
+X-Gm-Message-State: AOAM53191gmAGMjw5ejO3F/V/xRMGooyKH2gyxF8ZfqfegfGVW3+V1O2
+	Z7bgth0bgN0snov6xS1tD00/Sg==
+X-Google-Smtp-Source: ABdhPJzxQGct5gBP3p8ae6pqQ9fa+PR7ZVRzc89WayX3X7CEo960ZFJV5WDZ2rGemkFPTJ8WEQq+0A==
+X-Received: by 2002:a1c:b3d7:: with SMTP id c206mr26590435wmf.148.1624884583064;
+        Mon, 28 Jun 2021 05:49:43 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:6f48:4aa9:490d:a26? ([2001:8b0:aba:5f3c:6f48:4aa9:490d:a26])
+        by smtp.gmail.com with ESMTPSA id t64sm13368529wma.44.2021.06.28.05.49.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jun 2021 05:49:42 -0700 (PDT)
+Message-ID: <c48956c8a5358d081fb9e8b9b04cf27848bde756.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Hardknott (GCC10) Compiler Issues
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Chuck Wolber <chuckwolber@gmail.com>, 
+	openembedded-core@lists.openembedded.org, Yocto-mailing-list
+	 <yocto@yoctoproject.org>
+Date: Mon, 28 Jun 2021 13:49:41 +0100
+In-Reply-To: <CAB=6tBQR1S=2niGMojS_55-JebtQX4LybA2aEh_6YNtXf_3yNA@mail.gmail.com>
+References: 
+	<CAB=6tBQR1S=2niGMojS_55-JebtQX4LybA2aEh_6YNtXf_3yNA@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-References: <CAAQYJAvFsFr-1WDMkqeSLReq6V2irGR04XOEoVa_GnXAK+abqA@mail.gmail.com>
- <CANNYZj_yZHkpbGKPaec_x4AQDQ8jR_rLk1mroBZxn6JCpQ9WbQ@mail.gmail.com>
- <CAAQYJAspv72aL7J_fYri+vk_OfL=PDNCvGk9C6O=CisB3dEPeg@mail.gmail.com> <CANNYZj-XL7NB0S=3bTv9DMvhbMTmUfJFK627YAqQ4for3QMDqA@mail.gmail.com>
-In-Reply-To: <CANNYZj-XL7NB0S=3bTv9DMvhbMTmUfJFK627YAqQ4for3QMDqA@mail.gmail.com>
-From: "Andrea Adami" <andrea.adami@gmail.com>
-Date: Mon, 28 Jun 2021 14:44:59 +0200
-Message-ID: <CAAQYJAvGNSy2CAD6Dwk2-LYz-KGUp-pFjXtOLKD_1iD4SOaghQ@mail.gmail.com>
-Subject: Re: [OE-core] RFC: pulseaudio vs. meson vs. neon
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 28, 2021 at 2:36 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> What I am saying is, can you discuss this with upstream first please?
+On Thu, 2021-06-24 at 21:48 -0700, Chuck Wolber wrote:
+> All,
+> 
+> Please accept my apologies in advance for the detailed submission. I think 
+> it is warranted in this case.
+> 
+> There is something... "odd" about the GCC 10 compiler that is delivered with 
+> Hardknott. I am still chasing it down, so I am not yet ready to declare a 
+> root cause or submit a bug, but I am posting what I have now in case anyone 
+> has some insights to offer.
 
-Sorry, no, I'm not in the position to do that.
-Besides, I am dispatching my armv4/armv5te Zaurus hardware so I will
-not be able to test anymore.
+The issue you describe does sound strange. I was a little unclear about exactly
+which combinations were passing/failing. Are you saying that some versions of 
+buildtools let the system work but some do not? We now have gcc 11 in master 
+so it would be interesting to know how things worked there and if any 
+regression was fixed.
 
-My point here is, for this pulseaudio 14.x release (in Honister) we
-could do an effort and patch the damn file.
-I write this because this is the only failing recipe for
-core-image-sato for armv4 and this arch is still supported in oe-core
-(thank you so much Khem).
+I have also heard reports of issues with bison segfaulting from other sources
+but I don't have anything I can point to specifically about it.
 
-So I'd say as long as armv4 and armv5t are supported we need to patch
-the recipe.
+The target system should be independent of buildtools version and the target
+system should also be binary reproducible so if that were changing through
+changing buildtools tarball, that would be worrying in itself.
 
-With next pulseaudio 15.x the older arm will maybe lose support, I
-don't know now.
+> P.P.S. For the sake of completeness, I had to add the following files to the buildtools-extended
+> sysroot to fully complete the build of our images:
+> 
+> /usr/include/magic.h -> util-linux "more" command requires this.
+> /usr/include/zstd.h -> I do not recall which recipe required this.
+> /usr/bin/free -> The OpenJDK 8 build scripts need this.
+> /usr/include/sys/* -> openjdk-8-native
+> /lib/libcap.so.2 -> The binutils "dir" command quietly breaks the build without this. I am not a fan of the
+>                             lack of error checking in the binutils build...
+> /usr/include/sensors/error.h and sensors.h -> mesa-native
+> /usr/include/zstd_errors.h -> qemu-system-native
 
-My 2 cents
-A.A.
+It is great to have this list, outside the non-jdk issues are probably issues we 
+should look at fixing in OE-Core. Do you mean binutils above for the dir command?
 
+Cheers,
 
-
->
-> Alex
->
-> On Mon, 28 Jun 2021 at 14:08, Andrea Adami <andrea.adami@gmail.com> wrote:
->>
->> On Mon, Jun 28, 2021 at 1:00 PM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > Seems like an upstream problem rather than a Yocto one?
->>
->> Indeed,
->>
->> from
->> https://www.freedesktop.org/wiki/Software/PulseAudio/Notes/14.0/
->> "
->> One difference from Autotools is that the --disable-neon-opt option
->> for disabling NEON optimizations doesn't have a counterpart in Meson
->> due to how Meson's NEON detection works. NEON will always be enabled
->> if the compiler supports it, but even if the target machine doesn't
->> support NEON, that shouldn't be a problem, because PulseAudio disables
->> NEON at run-time if the processor doesn't support it.
->> "
->> Upstream *thinks* this is not an issue because all will be fine at runtime :)
->>
->> Cheers
->> A.A:
->>
->> >
->> > Alex
->> >
->> > On Mon, 28 Jun 2021 at 12:02, Andrea Adami <andrea.adami@gmail.com> wrote:
->> >>
->> >> Hello,
->> >>
->> >> during a core-image-sato build for armv4 I got one single build
->> >> failure with pulseaudio.
->> >>
->> >> This happens after commit 80bbea0 pulseaudio: switch build system from
->> >> Autotools to Meson. In the commit text it is evidenced:
->> >>
->> >> "
->> >> With Meson there's no option for disabling Neon optimizations if the
->> >> compiler supports Neon. If -mfpu is set in CC or CFLAGS, it's ignored,
->> >> because the build system adds -mfpu=neon at the end of the compiler
->> >> command line, overriding any earlier -mfpu options. This shouldn't be
->> >> a problem, because PulseAudio detects at runtime whether the CPU
->> >> supports Neon instructions.
->> >> "
->> >>
->> >> At the moment to build pulseaudio for armv4/5 I have reverted to using
->> >> autotools.
->> >>
->> >>
->> >> There was around a patch but has not been merged.
->> >> https://lists.openembedded.org/g/openembedded-core/message/146375
->> >>
->> >> Maybe a v2 will be accepted?
->> >>
->> >> Cheers
->> >> A.A.
->> >>
->> >> 
->> >>
