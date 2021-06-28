@@ -1,167 +1,98 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web11.5236.1624841479244314420
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.2])
+ by mx.groups.io with SMTP id smtpd.web08.6510.1624850786007173701
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jun 2021 17:51:19 -0700
+ Sun, 27 Jun 2021 20:26:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IHbhjmfk;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id e3so12419115qte.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jun 2021 17:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PqqO6nrvGvzKO7J45HQnHMNVcVoAO8RbgrEWNTU6v9U=;
-        b=IHbhjmfkupcGfmz6I7q+2/mYyCiB1dVIyM1splEsjsdk4vP94tcKIl0LaQL7hRlf3e
-         PhOhpMnlcwec/+Z0xdq7x1yRwVcD/3bbEQW2OlDhRGG6X8eozAJzmmFD4TXiVXljSnje
-         zdjaiuLoi9FLlnYIUrZq+QJ4TMY0UcRSy4dJmf2sjGFYN8S32pos79xMORymHxYEQVhI
-         MCUI9USVkWduOzQCrXsII+oi0i7R0lrt8pnOpFEjMs6GPnFFFcpKn581ccKztseDyp8n
-         JTMtE/bT5Xczq9GUTq5sETR1FRnT/PCm2lCPTcEIYuvvEq3CTk6NHWUUAd+7ytXZNbKT
-         JU0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PqqO6nrvGvzKO7J45HQnHMNVcVoAO8RbgrEWNTU6v9U=;
-        b=FCGM6lc/O/KaZw/Pyx9qDHeTRNVlZ3BuW9TA2sKKJqeyIYmjVzuvSSSsNByrYU0ne/
-         Im1C8XIJ+QpX9jm0z8CEQ867g7Edc6a3ZAaosgVxFucH7EwDPUuuteCM0ukgMNAA3FLf
-         gkjSG8P73VK/sZ9Lg8eikqDc2ToihnHyyN1yrntd3nP/iIy7EEeuc2LsViKpalsk9Pov
-         kIM/OFFWLqBFQ9w5Bf0MulVfOsl+X5E3TtjtxPsBLMd3eOjA3uJeqL2Lp/CA0DorWP5c
-         6/34tSqeLIz04woBAetLjbFBnX50w+fXu1JDWXVoNvRHHTZzQnj7T13YWWl17GwpukDZ
-         bz0Q==
-X-Gm-Message-State: AOAM532oZu9j2nvAvOnG2CaWiZBL4KoLhXrXJHtDuxwWf0+edHRPfvvA
-	zUL1Uig2bI/mFJtbOG5VjOoE1Z+7ES8U+DcNqOc=
-X-Google-Smtp-Source: ABdhPJwdqMsu+tPcpDGGRS6IC9by7rHg6f/BjUmskUV4xbKi+dI5109rKe4oxKrVae4QgI42gwkFrT/pOUsYKOlM1TE=
-X-Received: by 2002:ac8:678f:: with SMTP id b15mr6674897qtp.214.1624841478395;
- Sun, 27 Jun 2021 17:51:18 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=DS7YBGoE;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1624850784; i=@fujitsu.com;
+	bh=os9YFe+ZXUrpC7qcgWwUqYdLf9Sxtz4p15Zex4DNZxs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=DS7YBGoEqBM7phtCJlz0n8MDSlLjzHm5ExmX01ZtlAzxRkDztO9KdBIq07QqTMtKY
+	 gSGG3ih+Ub7xr0YbM6fVFVPZri2QIOQJ2QIM5R5tIN3aB8qJmY1n6ooSnZvINtyNWU
+	 GGLYcmcaQJ41FG/ewHtHP8yzz9U6/3fN9FlFnBf1X+bIqFwnk9s+hp7bj/5mOl2GbF
+	 JsNnfyiO+sb6mtoVPuz4PxpwTz8pARILR+4VAoyfUIpLypNCvzAoLwnk5LN9lSHC4G
+	 ZSlPKvj3EliN5PRBvLd8HLqEo8JUboIzKRDAMCcg3s/Blj3h0rgpS9xZvDzbg3brFv
+	 IzU6WhHMS7//A==
+Received: from [100.112.195.193] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id 64/BD-39326-F5149D06; Mon, 28 Jun 2021 03:26:23 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBIsWRWlGSWpSXmKPExsViZ8MxRTfe8Wa
+  Cwcs7shZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aRZbEF7zkrWvf0MzYw9nN2MXJxCAnMYpLY
+  MukHC4RzglHi+57HrF2MnBxsAmoS02/dALI5OEQE9CSu/hMFCTMLqEi8+N3DDmILC9hJ7F+wm
+  x2khEVAVWLmFTOQMK+Ak8TupUfASiQEFCSmPHzPDBEXlDg58wkLxBgJiYMvXjBD1ChKzL7czA
+  JhV0i8PnyJeQIj7ywkLbOQtCxgZFrFaJ5UlJmeUZKbmJmja2hgoGtoaKRraGmka2Kil1ilm6i
+  XWqpbnlpcomuol1herFdcmZuck6KXl1qyiREYWCkFB3R2MP589UHvEKMkB5OSKK+J+M0EIb6k
+  /JTKjMTijPii0pzU4kOMMhwcShK87g5AOcGi1PTUirTMHGCQw6QlOHiURHi/2gGleYsLEnOLM
+  9MhUqcYXTmerV2yiJljw7ylQPL/3btAsn/BwdXMHDfbD61mFmLJy89LlRLnXWkP1CwA0pxRmg
+  c3GhahlxhlpYR5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ8waDXMiTmVcCd8EroOOYgI5T+XAV5Li
+  SRISUVAOTR8wJx1up88uOlsvcf73PMePfx2dbC39elL7t8cCghOPTRBcj1pxF7IaqUpsMa81C
+  2PT+a35zjVxSquuck5DGd+6ZXZVV8ff3a/hEBPUOLJjdzVp8lsWsLPeiaqfmEQmeqV2P565VY
+  ura+MfwkKGQnUm0yyEloU0GruJR6t4HsvzXRvWfizWL7jn4+iqrIytDMgt36MMdz4/pqPKaPr
+  m1bO9lppLVUcJV1im69/y3TVnm+uaoebHgp5e7pk7ecsOLOSzy8U37c5MF56xtnPdq177uz/9
+  O/mRVtbwU+7P/p9nVxcWngqzOBD7cHT+Lt+HNzV8vozgWbD0Ztiw7SXLeHTe+3uz4CZ/qOoKO
+  dS1UYinOSDTUYi4qTgQA0JYPg0sDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-5.tower-265.messagelabs.com!1624850783!208319!1
+X-Originating-IP: [62.60.8.148]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 23339 invoked from network); 28 Jun 2021 03:26:23 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-5.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 28 Jun 2021 03:26:23 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15S3QEkg029305
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Jun 2021 04:26:23 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Mon, 28 Jun 2021 04:26:13 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-pbr: upgrade 5.4.4 -> 5.6.0
+Date: Mon, 28 Jun 2021 11:25:50 +0800
+Message-ID: <1624850750-94689-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210628004446.2045624-1-cmuellner@linux.com>
-In-Reply-To: <20210628004446.2045624-1-cmuellner@linux.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sun, 27 Jun 2021 17:50:49 -0700
-Message-ID: <CAMKF1soFaEyyXs4pHANk2ywb0P_HJrZom41C1qbQCdwHDuZ=0A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ldconfig-native: Add RISC-V support
-To: Christoph Muellner <christophm30@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Christoph Muellner <cmuellner@linux.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-this looks good.
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ meta/recipes-devtools/python/python3-pbr_5.4.4.bb | 5 -----
+ meta/recipes-devtools/python/python3-pbr_5.6.0.bb | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.4.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pbr_5.6.0.bb
 
-On Sun, Jun 27, 2021 at 5:44 PM Christoph Muellner
-<christophm30@gmail.com> wrote:
->
-> The current version of ldconfig does not support RISC-V.
-> Let's add a patch, that adds the required constant definitions
-> (from upstream glibc) and the necessary case statements.
->
-> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-> ---
->  .../add-riscv-support.patch                   | 79 +++++++++++++++++++
->  .../glibc/ldconfig-native_2.12.1.bb           |  1 +
->  2 files changed, 80 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch
->
-> diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch
-> new file mode 100644
-> index 0000000000..fc41aee264
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-riscv-support.patch
-> @@ -0,0 +1,79 @@
-> +From fd50228cc213d2d87f5e3cf1f123acb3fda9b04e Mon Sep 17 00:00:00 2001
-> +From: Christoph Muellner <cmuellner@linux.com>
-> +Date: Mon, 28 Jun 2021 00:34:12 +0200
-> +Subject: [PATCH] ldconfig: Add RISC-V support
-> +
-> +ldconfig-native does not support RISC-V at the moment.
-> +Let's pull the reqired constants from upstream and add
-> +the required parsing code.
-> +
-> +Upstream-Status: Backport
-> +
-> +Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-> +---
-> + cache.c      |  6 ++++++
-> + ldconfig.h   |  2 ++
-> + readelflib.c | 10 ++++++++++
-> + 3 files changed, 18 insertions(+)
-> +
-> +diff --git a/cache.c b/cache.c
-> +index c4f5411..a3b9e70 100644
-> +--- a/cache.c
-> ++++ b/cache.c
-> +@@ -125,6 +125,12 @@ print_entry (const char *lib, int flag, unsigned int osversion,
-> +     case FLAG_AARCH64_LIB64:
-> +       fputs (",AArch64", stdout);
-> +       break;
-> ++    case FLAG_RISCV_FLOAT_ABI_SOFT:
-> ++      fputs (",soft-float", stdout);
-> ++      break;
-> ++    case FLAG_RISCV_FLOAT_ABI_DOUBLE:
-> ++      fputs (",double-float", stdout);
-> ++      break;
-> +     case 0:
-> +       break;
-> +     default:
-> +diff --git a/ldconfig.h b/ldconfig.h
-> +index 6a8a750..2e5e379 100644
-> +--- a/ldconfig.h
-> ++++ b/ldconfig.h
-> +@@ -38,6 +38,8 @@
-> + #define FLAG_ARM_LIBHF                        0x0900
-> + #define FLAG_AARCH64_LIB64            0x0a00
-> + #define FLAG_ARM_LIBSF                        0x0b00
-> ++#define FLAG_RISCV_FLOAT_ABI_SOFT     0x0f00
-> ++#define FLAG_RISCV_FLOAT_ABI_DOUBLE   0x1000
-> +
-> + /* Name of auxiliary cache.  */
-> + #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
-> +diff --git a/readelflib.c b/readelflib.c
-> +index 9ec0a54..a01e1ce 100644
-> +--- a/readelflib.c
-> ++++ b/readelflib.c
-> +@@ -33,6 +33,10 @@
-> + #define EM_AARCH64    183             /* ARM AARCH64 */
-> + #endif
-> +
-> ++#ifndef EM_RISCV
-> ++#define EM_RISCV      243             /* RISC-V */
-> ++#endif
-> ++
-> + #undef check_ptr
-> + #define check_ptr(ptr)                                                \
-> + do                                                            \
-> +@@ -331,6 +335,12 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-> +       /* see sysdeps/unix/sysv/linux/arm/readelflib.c */
-> +       *flag |= FLAG_AARCH64_LIB64|FLAG_ELF_LIBC6;
-> +       break;
-> ++    case EM_RISCV:
-> ++      /* RISC-V libraries are always libc.so.6+. */
-> ++      /* NOTE: This does not correctly handle soft-float binaries */
-> ++      /* see sysdeps/unix/sysv/linux/riscv/readelflib.c */
-> ++      *flag |= FLAG_RISCV_FLOAT_ABI_DOUBLE|FLAG_ELF_LIBC6;
-> ++      break;
-> +     default:
-> +       error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
-> +             file_name, (long)elf_header->e_machine);
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-> index 919d11417d..fd1630b73b 100644
-> --- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-> +++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-> @@ -15,6 +15,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
->             file://endian-ness_handling_fix.patch \
->             file://add-64-bit-flag-for-ELF64-entries.patch \
->             file://no-aux-cache.patch \
-> +           file://add-riscv-support.patch \
->  "
->
->  PR = "r2"
-> --
-> 2.31.1
->
->
-> 
->
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.4.bb b/meta/recipes-devtools/python/python3-pbr_5.4.4.bb
+deleted file mode 100644
+index 6f335ea341..0000000000
+--- a/meta/recipes-devtools/python/python3-pbr_5.4.4.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-inherit setuptools3
+-require python-pbr.inc
+-
+-SRC_URI[md5sum] = "65cdc32e1a1ff56d481fc15aa8caf988"
+-SRC_URI[sha256sum] = "139d2625547dbfa5fb0b81daebb39601c478c21956dc57e2e07b74450a8c506b"
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.6.0.bb b/meta/recipes-devtools/python/python3-pbr_5.6.0.bb
+new file mode 100644
+index 0000000000..c5ad778cd0
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pbr_5.6.0.bb
+@@ -0,0 +1,5 @@
++inherit setuptools3
++require python-pbr.inc
++
++SRC_URI[md5sum] = "62565acc6bf3e7e10b082463421f8b46"
++SRC_URI[sha256sum] = "42df03e7797b796625b1029c0400279c7c34fd7df24a7d7818a1abb5b38710dd"
+-- 
+2.25.1
+
