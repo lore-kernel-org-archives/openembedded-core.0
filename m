@@ -1,74 +1,59 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web10.10929.1624984364012804986
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web12.13007.1624993266351442186
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jun 2021 09:32:44 -0700
+ Tue, 29 Jun 2021 12:01:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=kBWd+PzQ;
- spf=pass (domain: konsulko.com, ip: 209.85.210.46, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f46.google.com with SMTP id o17-20020a9d76510000b02903eabfc221a9so23325193otl.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Jun 2021 09:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mPEOF2gkTAMq9jbNax+WTJ3Jj6N/vQ/bzMSLK3/iElA=;
-        b=kBWd+PzQaovMvS+YhgDI9zn3Znc/6KRjfgwuNJBuvEGzljEPUuUsdbkU+Q/Me3SlUJ
-         VyDczLAfVrc1dyPjzg+pFmU4SaMp3oPViZ4aRJ919WL2WOYM+Y3lCr5xw/4uzbs2hAIH
-         7cZ+vZki5KWN+IxTGXcSvSZfG/+jsxYBRhcOk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mPEOF2gkTAMq9jbNax+WTJ3Jj6N/vQ/bzMSLK3/iElA=;
-        b=OWLxHmHvlp2ZXU2U4w1nANNSM28J6rhH4f3hDIHAho+gV3HBXn98hXbfo1gc6doBPo
-         IBt+iK5FqjdIjTTpJWdeXLpyKhwwBDMT3wGjUQvu6VkzR0NB4EgHx+47gfGCudU7XydO
-         w7l7KyB5OqnBn6jNXTYD7csnSXSCxS4QO8ZcuATo57TSyiAVvd7DUOF1wPy2nu16g13y
-         6nyEGyotOIv8FtyJu3QtFD2voE39X+q5dpOdMOV+Vp54j5cRQjcu3iUb0ptESz6yWikg
-         BOwDsHtAjJu5htWCV/j19+Q7lg3DRKybh59tTeSAVLQYSH397DgRLsHEP1Jsyu1uy3/0
-         O6Kg==
-X-Gm-Message-State: AOAM531smtH/Sew2TBC8A20fSzLS3igGDPMeSCHm+XrcoKaGL8GaQLaY
-	vmOia9UnKNgwCj3IpE0zIry4dMr1JP+qfaeFFMtTew==
-X-Google-Smtp-Source: ABdhPJwdl9+NC7V2TAYiFzxEUIo+VVCbkQKJTE/K2jHTyfcDBHmSHyJUokIkLyKdKJus2EWRp02NOFvLEM7FTxp6SXk=
-X-Received: by 2002:a9d:4501:: with SMTP id w1mr5224828ote.305.1624984363314;
- Tue, 29 Jun 2021 09:32:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210629140826.13243-1-akuster808@gmail.com> <CAM9ZRVvTUj6zNH-hg1ymQc+kGmKg5o0WrXAhct=LFqjNZgJ6-g@mail.gmail.com>
- <1684669268.2868693.1624983560306@mail.yahoo.com>
-In-Reply-To: <1684669268.2868693.1624983560306@mail.yahoo.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 29 Jun 2021 17:32:33 +0100
-Message-ID: <CAM9ZRVsNs-vxRFqxn3KvPCgBzYMheDCMwsG_w4ebELnnv_be1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/8] Safe PEP8
-To: Persian Prince <persianpros@yahoo.com>
-Cc: Armin Kuster <akuster808@gmail.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.168.0.2])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 15TJ14jB014716
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jun 2021 14:01:05 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] populate_sdk_ext: Error if trying to generate an eSDK from a mulitconfig
+Date: Tue, 29 Jun 2021 14:01:04 -0500
+Message-Id: <20210629190104.100253-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
 
-On Tue, 29 Jun 2021 at 17:19, Persian Prince <persianpros@yahoo.com> wrote:
->
-> @Paul Barker
->
-> I spent days and nights for testing the outcome of my PEP8.sh script and I used it on more than 100 repos to check the results, what you see now is the result of that.
->
-> People at https://github.com/OpenVisionE2 , https://github.com/OpenPLi , https://github.com/oe-alliance and more other teams like ViX, ATV and ... trusted my work and all those are using the changed codes for months!
->
-> This is why I write "Safe PEP8" not just "PEP8" as if you just run a normal PEP8 on your repos you'll end up with dead ones.
->
-> If you check https://github.com/openembedded/meta-openembedded you're using my changes for 3 months on this repo also so I don't get you being rude.
+Running a build such as:
 
-Please start with
-https://docs.yoctoproject.org/dev-manual/common-tasks.html#making-changes-to-the-yocto-project
-which documents the way to make contributions to the project. If
-you're using an automated tool please give a quick description of it
-alongside the changes, preferably with a link to its source code.
+  bitbake mc:my_config:core-image-minimal -c populate_sdk-ext
 
-You may also want to check
-https://git.openembedded.org/openembedded-core/tree/scripts/oe-pylint.
-Running that script should flag up errors which we do want to see
-fixed. If there are more warnings & errors to consider then these
-should be added to that script or to a pylint/pep8/flake8 config file
-so that we can run this against all new patches in the future.
+will result in an error like:
 
+ERROR: Task base-files.do_fetch attempted to execute unexpectedly
+Task .../poky/build-mc/tmp-my_config-glibc/work/qemuarm64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata, unihash ec5ba0e6b31561daba005fb49c5239c8e46913465b51166b5905f3e5ffcf2741, taskhash ec5ba0e6b31561daba005fb49c5239c8e46913465b51166b5905f3e5ffcf2741
+Task .../poky/build-mc/tmp-my_config-glibc/work/qemuarm64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm, unihash 1c7d7509c2ff6dcf11009fbec444726826214795d60474ec8d3262d89c40a955, taskhash 1c7d7509c2ff6dcf11009fbec444726826214795d60474ec8d3262d89c40a955
+Task .../poky/build-mc/tmp-my_config-glibc/work/qemuarm64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot, unihash 9cc3672f4fa62491f545b15cf617a64cd77d15a2cfd432b57d4b936bc415f40d, taskhash 9cc3672f4fa62491f545b15cf617a64cd77d15a2cfd432b57d4b936bc415f40d
+Task .../poky/build-mc/tmp-my_config-glibc/work/qemuarm64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_qa, unihash 8ada5f62092c971df8dda1d71c728e42994e1dcf2bbdab419de43867d77b64cc, taskhash 8ada5f62092c971df8dda1d71c728e42994e1dcf2bbdab419de43867d77b64cc
+Task .../poky/build-mc/tmp-my_config-glibc/work/qemuarm64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/poky/meta/recipes-core/images/core-image-minimal.bb:do_image_qa, unihash 16656a339389e407a5fdca5d64983af845288f3b3cc5582398e5247efb393257, taskhash 16656a339389e407a5fdca5d64983af845288f3b3cc5582398e5247efb393257
+Task .../poky/build-mc/tmp-my_config-glibc/work/qemuarm64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/poky/meta/recipes-core/images/core-image-minimal.bb:do_image_complete, unihash ef88c74a9f4ae4d252c421eb4e399773aa50cea7c51ffbeed9011e5198a16abb, taskhash ef88c74a9f4ae4d252c421eb4e399773aa50cea7c51ffbeed9011e5198a16abb
+This is usually due to missing setscene tasks. Those missing in this build were: {'.../poky/build-mc/tmp-my_config-glibc/work/qemuarm64-poky-linux/core-image-minimal/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_qa',
+
+Instead of letting the system error, we simply tell the user this is not supported.
+
+As long as the eSDK is constructed based on the primary library, it works fine.
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+---
+ meta/classes/populate_sdk_ext.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 517b4e45ff0..4aabafa079b 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -750,6 +750,11 @@ fakeroot python do_populate_sdk_ext() {
+     if d.getVar('SDK_ARCH') != d.getVar('BUILD_ARCH'):
+         bb.fatal('The extensible SDK can currently only be built for the same architecture as the machine being built on - SDK_ARCH is set to %s (likely via setting SDKMACHINE) which is different from the architecture of the build machine (%s). Unable to continue.' % (d.getVar('SDK_ARCH'), d.getVar('BUILD_ARCH')))
+ 
++    # FIXME hopefully we can remove this restriction at some point, but the eSDK
++    # can only be built for the primary (default) multiconfig
++    if d.getVar('BB_CURRENT_MC') != 'default':
++        bb.fatal('The extensible SDK can currently only be built for the default multiconfig.  Currently trying to build for %s.' % d.getVar('BB_CURRENT_MC'))
++
+     d.setVar('SDK_INSTALL_TARGETS', get_sdk_install_targets(d))
+     if d.getVar('SDK_INCLUDE_BUILDTOOLS') == '1':
+         buildtools_fn = get_current_buildtools(d)
 -- 
-Paul Barker
-Konsulko Group
+2.17.1
+
