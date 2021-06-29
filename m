@@ -1,92 +1,57 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
- by mx.groups.io with SMTP id smtpd.web11.9499.1624979133110281687
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web12.10181.1624982057671289915
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jun 2021 08:05:33 -0700
+ Tue, 29 Jun 2021 08:54:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=JnTHlZX3;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1624979130; i=@fujitsu.com;
-	bh=KrQAKeRK3FhocOF7xVw7sWD32F0r2U8G7ckwAe1Yefs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=JnTHlZX3H51mS3yM+Rbzfs5ILfTx9dg4H6vLzi9MpQZ284zKGO6QpIYd9v8Q/24y3
-	 zS2H9uB0io/fUfJ2UaCuwmgPAu/KDh5FX6hAiftwoPMVZoSFHSIcVlHHzIM7InZPXb
-	 9wLwOmYAFGygq1N6P/NLRZhU6AN5AimrKKzG83NLN1Wwj7YxHtEVB6m1td2iCdwIJV
-	 q5uHd6naP8iLxb6ONIi9ezZMj91JQf57w8nY8iGfWcb6fO/kFa5sxIDdqWWe/V6GMz
-	 b32iFVT98WGnxXHygg2Mxa1MJ1t5Ou4f04TbYnsS2g0js86ORWlULEL7jacKszjbAi
-	 4Ct9APAJgWJVA==
-Received: from [100.113.7.10] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id 8A/8C-27273-AB63BD06; Tue, 29 Jun 2021 15:05:30 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8MRorvL7Ha
-  CwYrXPBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bN6W+ZCh5wVGx69o6xgXESRxcjF4eQwCwm
-  ib/71jFDOCcYJVY8esXUxcjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvfvewg9jCAm4S2
-  5u+sILYLAKqEqc7rrOAlPMKOEnM7AcrkRBQkJjy8D0ziM0p4Cyxed9cRpASIaCSxZ8lQcK8Ao
-  ISJ2c+YYGYLiFx8MULZohWRYnZl5tZIOwKideHLzFPYOSfhaRlFpKWBYxMqxgtk4oy0zNKchM
-  zc3QNDQx0DQ2Ndc2BLFO9xCrdJL3UUt3k1LySokSgrF5iebFecWVuck6KXl5qySZGYDCmFLJn
-  7mCc/OaD3iFGSQ4mJVHeS3q3E4T4kvJTKjMSizPii0pzUosPMcpwcChJ8F4wAcoJFqWmp1akZ
-  eYAIwMmLcHBoyTCOxkkzVtckJhbnJkOkTrFqMtx+fq8RcxCLHn5ealS4rycpkBFAiBFGaV5cC
-  NgUXqJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjDvbZBVPJl5JXCbXgEdwQR0xKInN0GOKEl
-  ESEk1MLnbiC8zdGw4HHRFdka6+wzz94/2/t6ip7BdQ+/UTIYE9m12ksYhCXUqe78dXZchKTyJ
-  3/bxf+U7hcwCF08FHTJ78Ly6kc/hbvl7EZ6rjzrbm2bNCjw34YdaomLfhxshsmsTPxltOp1Wn
-  cvQpL185uXv0/7p21bf/b9rRk3IPcWejoLLS3rfsXnEbb17L/tsHJfcOf3FKkc8F69tEr2qfn
-  it5b6FtcwfLba7uu37lXFHdf51poN7TftSXftCuzYKfJLKsc2eVrgz9eYEjz8xLTM5/x5Wsc/
-  7peXwWYjrk3OBm1zi+c+bEz+dOqAnv4r/xTnBzY/jSxykGVZNWh9i+NekJNdi9hQB9Tkc7fdM
-  rJRYijMSDbWYi4oTAbiXErZNAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-11.tower-238.messagelabs.com!1624979129!38806!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 27653 invoked from network); 29 Jun 2021 15:05:30 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-11.tower-238.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Jun 2021 15:05:30 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15TF5QYm007165
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jun 2021 16:05:29 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Tue, 29 Jun 2021 16:05:27 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] xf86-input-libinput: upgrade 1.0.1 -> 1.1.0
-Date: Tue, 29 Jun 2021 23:04:53 +0800
-Message-ID: <1624979093-98912-5-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1624979093-98912-1-git-send-email-wangmy@fujitsu.com>
-References: <1624979093-98912-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@konsulko.com header.s=google header.b=qfCgqeTz;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.176, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f176.google.com with SMTP id u11so26831765oiv.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Jun 2021 08:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EqGIu3EBq2FjRN1Mvfb9Ya+REpsA+FiJoa2kBdxopv4=;
+        b=qfCgqeTz26mt6H2oDNdlDeSNpbCz2CdGPoOrSsgyoXncR+2/M7cx1zfJFv/sQcO3+Y
+         S305/1HO7ZLEsh1T7ci9teTTEXK0MFJhiP+lfm56G5xqifsjpLWk/8BucSv72MexiRy5
+         YGaWmRcfJhkJ8bYnPsfvEZ90AnLNaj7pzqU0Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EqGIu3EBq2FjRN1Mvfb9Ya+REpsA+FiJoa2kBdxopv4=;
+        b=my1PUE+Qd7ErQ2Fbocj7NpMyhxI5nMS1HFfMkRgaZcLQTG2z2HYXBi+XKjLQXBfZLu
+         AgZKJEzkVW9aQP1mB8zfFRa6slFRtSjmRChPVnbJdg8Lw6fZL2tFu4ZhGuJ+BNVPnrWe
+         OINOwRo6N3yBl8MH/Ju4xQ0J3iWxUfrC5COLr1XCsgfAhZyD8nhwEZmKYmjgscAPWbXE
+         9Hwr9m28E9837PIcTK7WV4rYKoDZA5v3C15IL8dgqJJm4kTn2KZUNJjUP8LEJhG0Xc6v
+         RNTx5ULKav2nrQ0Z8yQ4RTPGKHs+U6Ks8+MVdyOdqCnnQqBWVhWsFKH0oPoDcPj/eJrQ
+         gCrw==
+X-Gm-Message-State: AOAM533BCskXHiG7i6F7hxKdO9z1Djf6CNlqCO0i/sUGI7OYtb6P1Ma/
+	OA3IOUKfX7/nlYyMsXBl0gRnOU9lZ2NkuBrj1dJxMQ==
+X-Google-Smtp-Source: ABdhPJxo+uCC3ya4HasBAOrmA2aWT01le6Z5Tg/bp7K5NlYNed4HcQUCDRca4WDl8kZqYhxBN/QpZcX1atrHGqUarZM=
+X-Received: by 2002:aca:3047:: with SMTP id w68mr18121263oiw.6.1624982057057;
+ Tue, 29 Jun 2021 08:54:17 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+References: <20210629140826.13243-1-akuster808@gmail.com>
+In-Reply-To: <20210629140826.13243-1-akuster808@gmail.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 29 Jun 2021 16:54:06 +0100
+Message-ID: <CAM9ZRVvTUj6zNH-hg1ymQc+kGmKg5o0WrXAhct=LFqjNZgJ6-g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/8] Safe PEP8
+To: Armin Kuster <akuster808@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, persianpros@yahoo.com
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- ...f86-input-libinput_1.0.1.bb => xf86-input-libinput_1.1.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_1.0.1.bb => xf86-input-libinput_1.1.0.bb} (74%)
+On Tue, 29 Jun 2021 at 15:08, Armin Kuster <akuster808@gmail.com> wrote:
+>
+> I am forwarding a pull request;
+> https://github.com/openembedded/openembedded-core/pull/71
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.0.1.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.1.0.bb
-similarity index 74%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.0.1.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.1.0.bb
-index 1777492ed9..5688eb4767 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.0.1.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.1.0.bb
-@@ -6,6 +6,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a22925127bd3c827c384cedd23ed2309"
- 
- DEPENDS += "libinput"
- 
--SRC_URI[sha256sum] = "fddec49c115591918475155bf16aaf23017d7f814cee7823a0c11f867aca245b"
-+SRC_URI[sha256sum] = "e11d2a41419124a6e9b148f1df181bf7819fc7398c8ee9a1b6390b0742c68d16"
- 
- FILES_${PN} += "${datadir}/X11/xorg.conf.d"
+Looking at the comments on that pull request, "I did this on more than
+100 repos" suggests this hasn't been done with any attention to the
+specifics of openembedded-core/bitbake. In my opinion that approach is
+a waste of maintainer's time.
+
 -- 
-2.25.1
-
+Paul Barker
+Konsulko Group
