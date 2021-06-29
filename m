@@ -1,24 +1,24 @@
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.9378.1624978639519315933
+ by mx.groups.io with SMTP id smtpd.web08.9268.1624978639979788203
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jun 2021 07:57:19 -0700
+ Tue, 29 Jun 2021 07:57:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Qwyd5c9k;
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ZwpIEGGb;
  spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=281492f5e1=saul.wold@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15TEo4Ka014342
+	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15TEo4Kb014342
 	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jun 2021 07:57:19 -0700
 Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by mx0a-0064b401.pphosted.com with ESMTP id 39g5a800uh-2
+	by mx0a-0064b401.pphosted.com with ESMTP id 39g5a800uh-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jun 2021 07:57:19 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XhxfAngKlkL7T+vQUjJGlD58CtCsGq6FUhYGOegcg1n6vL3j1EYaxsHdvUmzL3T+ehzbGEYcwsdTfsxfKVhI0sPdN4cCbXBDlm8ETDGrVm6ml7NzM7l8DJgS5/OcZJSP38+4e8qL0hjpui64jook6oKBgmuOznwxRb11VnjAbONLXk0rXtgTrUeVm0wU1o6H2RZYlT+KxOpV3Ih6VNo23/PfOvDzbqm4MQ5sO5An/sTsGHbBm046cK8dNNys81cj9WZRIjFWS4p858mkSrtbBWtGxHhsQVIE+H7km0vKnk/p2WioadsH1x3hpjdMSa9ixUe4NX2KgCPAapL9vsBFpw==
+ b=JxORJFAQBZs9ILFwEnA9S9VnyWR0TFLlG/SbVj53Yiuk/84pDYApYA6bGUNrb2mnZGtjEs3HdqYp/dRHsiCmnQa1KrE2H+nbCBa6UdgdJ0Jixvn5S3z8DHi0CZnnLemIajYiO3gQL3SGjP+0Nuy2TI/ffdV6/+HNjo/W7tG0vdCXuthQLUQS7HP+GdCRc/5/VPGIUgokRsQ+LyJs2nAqgMJxOPBnrecxZyWGWcUxVafq5nR2ePBGirEdcrPHTfdyJqwtM7mvW34Owk9lt7BDIgULyEq3JPIvhPVXBcp5HP9xLeKjvHRZg+4jNG2OON61VpH33DVnoBWxVWH4jLQvKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3y6c3x5VUil9fKEmslcDO2esJok1do8xOxCse98QJ7s=;
- b=kYu+OCQAV5c0/pmOE5qVBh+lN6bSlZv4SD89WNkJ97o7O9Y6vM7OnAY48Xa+ft2XYlowdqndoI6hy9UWTgnqD4SPd+c81jxKSdjaSfwtfIIFzcsG8FlOpszczSjUVCifTV+JCJPyg3QLzM+zphmnCTWJgvNTfYmXzJtSABwmZ4iap26+YXGHptzM20lyhB9VMynDBH/lqyW1TDo4cKxvcs1v3aLvltwpn2jaQDgJaHCF2bP1GtElrYK45REe41OxsGHoKImfr+jJJcdlFQqqzjmNsgl3EAk8AhttfOoOJoI0SR1JDsSaum94MRW++XFbIQxi5ESRK49rO9puSINYaw==
+ bh=zl1JhZA8dbwnMB+A08rc+AG1RC58ZZbF3GSbljunC0c=;
+ b=McNkek4Bv31NlDonFMdytaxkzgc+6uwQWpx4IJVv4t2ETKbFGYTURJ71gwjShInAZt12W2Sa53vGfBFkQ36Kp3wV9+GaeJoEVd1WxBqV3jmZ3p15v+mBzCxwo/9nea3aGm4c0jM3+DIfGUePjC5nKXdfuu8amfHs3ptCa2CJBQpA3y3WPSJBI0soCSqm6TaWG50tBuu6Zud/komIcaVTDaY5LqQHlXcdrOQ0v8FjJ5pHgotnfqdDZ8ybr8AzlLBoOkB02YHe4IHLNvnXjV/juNgwLZNmwOWNHJs/Nwly86sfrWYcR5WQ8jHsdbyhIRFJdQiMw3wPJsqOdPF9/+KdBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -26,8 +26,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3y6c3x5VUil9fKEmslcDO2esJok1do8xOxCse98QJ7s=;
- b=Qwyd5c9k9kG+++LmlHlmiLkL7mCM5cT5ioURRlDEABEIGe1fBj40Z7Iu4NqH/g6cypXKQyaNpdKPd5m0MnOX2pumtNoDhglq5UZJ1JkXpNemnGahoRrzcotbqoJWCtfQGXVq94TTYxK6UHppcyf6oLuhLe45EzyNumalJX1N2/Q=
+ bh=zl1JhZA8dbwnMB+A08rc+AG1RC58ZZbF3GSbljunC0c=;
+ b=ZwpIEGGbtCcqGJ+6VMZUDiU7J5IEiKIbQv3mpxxv1jqFZDi0TcDrFjsmuvsjoZXn2Loh2VhBwIqAK85ZAXjA8lIhe2o2qgqUQueAqMNXcWjMKIQ6Ew7ke5a7mQWuUgjiRX7/k5K26X7hrI37wAUkuS8m9PG4GOnSbB/RPubShBw=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
@@ -42,9 +42,9 @@ Received: from SJ0PR11MB5085.namprd11.prod.outlook.com
  14:57:15 +0000
 From: "Saul Wold" <Saul.Wold@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] oeqa/dump.py: Add support for QMP command arguments
-Date: Tue, 29 Jun 2021 07:57:02 -0700
-Message-Id: <20210629145703.979269-2-saul.wold@windriver.com>
+Subject: [PATCH 3/3] testimage.bbclass: Add dump-guest-memory cmd
+Date: Tue, 29 Jun 2021 07:57:03 -0700
+Message-Id: <20210629145703.979269-3-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210629145703.979269-1-saul.wold@windriver.com>
 References: <20210629145703.979269-1-saul.wold@windriver.com>
@@ -54,143 +54,91 @@ X-ClientProxiedBy: MW2PR2101CA0013.namprd21.prod.outlook.com
  (2603:10b6:a03:2db::10)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yocto-hs.bigsur.com.bigsur.com (71.238.119.71) by MW2PR2101CA0013.namprd21.prod.outlook.com (2603:10b6:302:1::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.4 via Frontend Transport; Tue, 29 Jun 2021 14:57:13 +0000
+Received: from yocto-hs.bigsur.com.bigsur.com (71.238.119.71) by MW2PR2101CA0013.namprd21.prod.outlook.com (2603:10b6:302:1::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.4 via Frontend Transport; Tue, 29 Jun 2021 14:57:15 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ce8c2c7d-b209-4e5e-be42-08d93b0e2e54
+X-MS-Office365-Filtering-Correlation-Id: 488db7cc-dc4d-417a-7415-08d93b0e2f1b
 X-MS-TrafficTypeDiagnostic: BY5PR11MB4401:
 X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB4401CF5763C8C87E691644EFEE029@BY5PR11MB4401.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1051;
+	<BY5PR11MB44016CF53810743C6A421E0DEE029@BY5PR11MB4401.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:311;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	TZXS9h6vZzGes6HpgU0bNa2cN6KvrHJvV8QUcmVUYIy3OEy2yShTFLp/5y+llKEiMSg6lIRZujNZOd1cOCIbrmxy5APKjKB91shSqDgDdrixdgYvOkM6Wip00uPzvfRI6tn+LKjYeSZIZ+OLmXY8saii+Hhk4QkMjovNdL8JjRbnyETGpzmcejLUetoW0tXTT7EtQV0wFfpimXPzvStfFsv4X20DdtwhTfbkq4IUY6b/0HWbpuWn4e/1G99SrPlHsbbj3yo7uNvWg/ODAleMTx9BtNWskFYHO1PUoV056pofppv0nIxMdI9tD/4SzMlsUGU6NnLlKugwiYSnmANvsleQei0PUQiwx/axM+1MxrrnuSW9/EOPWsXO6mySCSLu2sKuoS5tK6GZV0/INxh+1gT+ObVlT1jMmB8PkkzwNw7JTABa5NtTloEj4lMxr2brmzXGN8PWfz9vKMp+Ip3mFjADK6AoJmNyv8QjMiG006jVSLLuwgiLjoYX1v2s90bR4aOPzjT1WyAGF5KuktN03J4SSy2wdG4eB+LinYHMt0BamF8Y5wg7faA6mZO5aiwOrUMit7Jn+sGSEMot2qQsr158tonkC3tPrbQcKw46YTBkyxR50QEuETeOwODDVmtZr8KWKTWF+0vsz9WJsUAZlEP/+ZacmSPi6PWh1Exw3TzvtY6cMuH2UEDnszXYdFK0LY67XkcCvEpZBrsPrNxcFvtdkNayuTYwGgOlWOYGYJI=
+	LYcfQqaB/cCwcXlAsbwVV5CMrzOsFaXIEo8LGGuLDBgIrEu2IQIQUC/YVFdJCx1/oG04uvovIRt0xACqm//7XKceY/qkAVUt5Gml6/ZimbRYcNlh0wUFbW4sJvJ3LMZGfkfNAV94GKLmz8RqAwCBHtsa+PN1El+c9VNTD2Xznj384RyQOeu1Xqb8wBLRscYsTp9TzNCaKqIwNGpCKjCfMW9Gr+VrlQ4q9AaIWc795ZMVQSWgKt15REmy/AWoWKni5p+/B+NLSsZuMUDbu2uia+jqqS+j54YxoRxz+fu4e1ZB+mIJselMKc7+7g8jV6HT8SwgkD0CiHcBwlCABlgOT4nBZ5Yrxoviagi9YUTZYH9hpkaHFP33B/iKazMz3XuW+JxdEw8L0mJ00cOiadO/X7iuUMrDKr5A2TmmiyesV5gPv/1sCfLcX/saKAw0h1+9VsClBRcghAljqwIRqiHsGIv7qOdoGVHh1aGndvTbZBy/6OVJTHxJUn51tJiwM+Ia9YOe/XOPHiem7zuW4T0UM3j7s1X6oYK5zYtpu0iRODo8w7Cl0kihWo/VYq6wpVYksHVAsMxBrNwLvycIUpqxBZoTTq/IzQL+JUGzN/uftAAXPCrAqAELhdxVSoacn3WkZS/T5rSJ7KylVVpL1VpwtQs4b6xBgqdtQvbrFGZTWZh53L4Yn/4X++tR9I+ZIYCE7YTupMQEtDk0/clSumDwgA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5085.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39850400004)(376002)(346002)(366004)(8936002)(316002)(6512007)(6916009)(38350700002)(186003)(86362001)(26005)(83380400001)(38100700002)(52116002)(6486002)(956004)(6506007)(66946007)(8676002)(1076003)(66476007)(5660300002)(2906002)(16526019)(36756003)(6666004)(2616005)(66556008)(478600001)(44832011)(403724002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5085.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39850400004)(376002)(346002)(366004)(8936002)(316002)(6512007)(6916009)(38350700002)(186003)(86362001)(26005)(83380400001)(38100700002)(4744005)(52116002)(6486002)(956004)(6506007)(66946007)(8676002)(1076003)(66476007)(5660300002)(2906002)(16526019)(36756003)(6666004)(2616005)(66556008)(478600001)(44832011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2Y4ULEKdDPHumf29tn1ib9YGW2rk82hKkcIy1V2vJYL5K+Dd5Rzza9C2PAUz?=
- =?us-ascii?Q?zJgVZUbhwI8H2ZQH88kdRBceMdFvmN5DALdRoBNz0XQzCy7ut6zo7QlQXFnU?=
- =?us-ascii?Q?7u16xd74wmexMWtGpRo+DvWdRe9XGZdm2EvgJSmBLVhqVgFeq1TmzS6Vrqun?=
- =?us-ascii?Q?FD5HNUgZinrtJzvHUk7bNA7yKAthr/WlwTcM/Epv7DqvPSCmjb1QAmJAg1KF?=
- =?us-ascii?Q?L2PNtd0+A9V1Bck+iSKPXI3FlOU4kp1sjbqLkiC29NZ3FSJ0b6dRUGHtub8c?=
- =?us-ascii?Q?CyZcgX/2csT9oF+3Z7TpfGMEX1Ui22twgt4icBlL8CDhnYN+xYq1cMLeNDBZ?=
- =?us-ascii?Q?xZcDJ48lN+yY5AHinrBukNjKXvE9lvFg2YVeDxWPtdMqms+WdJR5StBiJQjn?=
- =?us-ascii?Q?FrCK8O+2z/PaBCh7pB+sC3xqjtCwEPJYx6qzH5C43uEKfv38+jmg8VkZcnb2?=
- =?us-ascii?Q?FrcGlgVpZM6T6CnBQtqpek0S8e0S6JRF+C56E72NIGEKRQ6i0tyc9lI8e6ut?=
- =?us-ascii?Q?5OddZFCLF19hSYnMnxWlqs08yaiDWH7548608zkoSI4FEnMH8QthZ3PB3xDc?=
- =?us-ascii?Q?MTcjhvAbRQl99lgvw0tTwOrNlNvaaoGtLtuposvmHi8nes5X9mml9PN4AaAx?=
- =?us-ascii?Q?dnaM+eItsadc0QA9C+wobwduSBE7+AWdC32VHvdo34uxgQA/TXL7K6X7oq7p?=
- =?us-ascii?Q?MXlrY82F1TSg3CYQKfZlreAe0E31nM1aexrlhIaQts7iX19eO4Ny1jrNlD9n?=
- =?us-ascii?Q?fdjBPG4zNFvYgp8NH3ar/IlHoZM+BglIgVupCEzY8lcZDzB6yi+9a92iviyQ?=
- =?us-ascii?Q?7hNCjYl52hcdFIgduK2Qpc4GBrhkydXeaPWLDXr57i0uPB0JTRhqN0OCM8E5?=
- =?us-ascii?Q?oYoyFU5cyOpFEDyfHgEuy69cF+bt7SMPsjnCr8iNyzRL06XWihklc7ezivtz?=
- =?us-ascii?Q?5eyX8g96Qm0tWHyBkaSx8SWENkmOWEJ12MJSgxyM7VnWUQSa3qdD7miYixFC?=
- =?us-ascii?Q?AT7Da58Ahf8Nv5iCxMW1kIFJTzpWdNFgbLW5RuKf13O2cqufK0LKHsVIttp6?=
- =?us-ascii?Q?RcPsYxmMjXXqHs6Uw0Nq6kBglKzoflN28UZHHYA02W/srqqM0tuA8RD43eas?=
- =?us-ascii?Q?hdkUuTIp3Zz4xeIOk6pKh/ET+eDS7qoqUbXvZ5NOgFOF29Jbbp9bl13ssH5Y?=
- =?us-ascii?Q?P8MEkiGwJeDG8GUelzOhZtg0OL30htJRiXURG9pTyrHrOrD1uZOiKOWjB0P2?=
- =?us-ascii?Q?6WrdjrvsFmZLe7RZpMnNqx4BSbJWdR7Lr4ZmJ3esYiuPJR2w0TTtZyrX5ZM2?=
- =?us-ascii?Q?alll3+U3OcG34JyEv0E/o73R?=
+	=?us-ascii?Q?cpH8sxAhgdVqj+YKT/3GpsmYUqwOm3Cd8G+UClSQFZTvLZtLrhHHQZOUHR3C?=
+ =?us-ascii?Q?cdpoaYAyb9RHxXWQKBAWN/B6cmmpZkxS3r8EnvIJsEX2u2d68KJDiHWwfDe3?=
+ =?us-ascii?Q?ihzYNvcw+XW69SRIbG8AMlT0jyY6sXDN+43jUjLgLV43RXGG9s6kExaLL9p9?=
+ =?us-ascii?Q?wnAINp0sZuwylWb8ZSUq6rkJR6e29oQJkxBRine2m4c7FsMJrLXsagJexKm8?=
+ =?us-ascii?Q?LHM/AzT+5O5C+xmo+tuFgZ3LeDOgH9cVD73IsoPSd8RJjXX29VBRAxKYLI6F?=
+ =?us-ascii?Q?Qwbmiz1lo8Hm6HuM8JxOwkQVIssDh1xULiYU0RhSVwuAtlxWO2Uo3ehaVpDZ?=
+ =?us-ascii?Q?X133+P8iSlTvWlHlgadNyRXzsfjAWz+o3TOxLfO2cfueyKfsT79Jtk2FP2IY?=
+ =?us-ascii?Q?nLzbpbSRsCC5e9IKaBQILpBKmhUxpc1w9DzGIyX35ilTPyBJK9TGL1pLz3Lx?=
+ =?us-ascii?Q?NI25i5J3u9+MRp7BWizAdrCvBe+Sf3gdjHQyOyUolEx4yUuR8+M/PJ97XK/i?=
+ =?us-ascii?Q?8ZBb0Fw2W4qRyY5ZxK8k2i4i9IIzKXZFupC9LjRTVF8ZbjluuitejydZdEUk?=
+ =?us-ascii?Q?wrZSKSJUoJthvOoek9heq0rYYXgsHH7ssMhiKJl4tKHKq57KemYJH/flVQ0T?=
+ =?us-ascii?Q?0g/Nbj1t6ZfxUgHSiGIl9PtkNA9j3wIKGOjwqyUcEINaZZjsGtHic7i54p8s?=
+ =?us-ascii?Q?rpIq+JwMIPR2/NNvuEVsZ7YO4DxU3FRxHnn9nr/L+ZzRgqu071JlUtmrpySL?=
+ =?us-ascii?Q?pHLApdYDU98hkZdnz9YtXh0tr1ukUtKNKfZ7lLL+i/Yc+7ubJwGQpbj53IRc?=
+ =?us-ascii?Q?sHSaU6HpXqG35Jl3mrI9YC8T+CfSBzeLV64T3NJGKlQegeoj9TriFFwIexrb?=
+ =?us-ascii?Q?21/dACthtk9SAXjZP22w0ZoB950shf5EVMgH/mVw6YhGWXG7zpYwLr0qNZZ2?=
+ =?us-ascii?Q?x3AC0vRhrH/bI73ycyIetfpibN4MEiHFWvz+AvuCQrE5RGyXIrpv+OrGmYd0?=
+ =?us-ascii?Q?u948iB2gAMFrg+bg0jNqPYb50WjcL74MhcO9IUSnlNTkL91Jz07zPgLqMtIn?=
+ =?us-ascii?Q?03E/roWloNlyv+o/x4tleCNaThjB69m4/jSXHUp+4KiLhEOR5jLFNv/M+TCg?=
+ =?us-ascii?Q?eal2M7vBgPhZZPg9Z88UPDh1blvXEduTnml8oGwk6dBRu2537MHRLz2EbxY2?=
+ =?us-ascii?Q?Jxaww2A0dlxnHZ2GheqhyfHM+pbrJgMpj3m4OYsbBgBH/6r9XbxqlCCOI6vy?=
+ =?us-ascii?Q?OpNaum00Nk380Jyni7yuVT0HXsz16Xs/IcpcbnkznHw/iPGFmJ9So1pIv8Tw?=
+ =?us-ascii?Q?Epi0/sQ3dT0Lh9t3BHtLarBX?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce8c2c7d-b209-4e5e-be42-08d93b0e2e54
+X-MS-Exchange-CrossTenant-Network-Message-Id: 488db7cc-dc4d-417a-7415-08d93b0e2f1b
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5085.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 14:57:14.9252
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 14:57:15.8163
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o+W+0kqUiVegx3R2TQQU5tqtJt6H3acQKSHk7I6+iLSaTDqCoMXgDrCrDb0bc3D8mMKpm58nCARDVyD7j7ii0w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: D83HNURUvnY6t/zDnzDy+VtMmKqNffASrJdiA1uF2xJhoB/Q3U1N4muj7MyRh/oIwEivCmP5yxxCLqd+g9+Feg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4401
-X-Proofpoint-GUID: fDri5uHTEn6BWnPJoNrgApDvCv2uPJs5
-X-Proofpoint-ORIG-GUID: fDri5uHTEn6BWnPJoNrgApDvCv2uPJs5
+X-Proofpoint-GUID: ogOk-dkxqququa-OShKL8MvTA2gFn_aW
+X-Proofpoint-ORIG-GUID: ogOk-dkxqququa-OShKL8MvTA2gFn_aW
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
  definitions=2021-06-29_07:2021-06-29,2021-06-29 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=98 mlxscore=0
+ suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=0 mlxscore=0
  lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2106290097
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Need to ensure that the dump_dir is created correctly and available
-When command arguemnts are passed construct a filename if needed and
-convert the arguements to a json object to pass to QMP.
+This command takes a set of command arguments, one of which requires
+a filename so use %s which the MonitorDumper will translate to a
+unique filename in the dated qmp directory.
+
+CMD Before: {paging:false,protocol:file:%s.img}
+CMD After: {paging:false,protocol:file:/yocto/poky/build/tmp/log/runtime-hostdump/qmp_00_dump-guest-memory.img}
 
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/lib/oeqa/targetcontrol.py |  2 ++
- meta/lib/oeqa/utils/dump.py    | 23 ++++++++++++++++++-----
- 2 files changed, 20 insertions(+), 5 deletions(-)
+ meta/classes/testimage.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 005ebaa7f39..5b925e4fa4f 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -152,6 +152,8 @@ class QemuTarget(BaseTarget):
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 43de9d4d767..ed3a885bdf2 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -130,6 +130,7 @@ testimage_dump_host () {
+ testimage_dump_monitor () {
+     query-status
+     query-block
++    dump-guest-memory {"paging":false,"protocol":"file:%s.img"}
+ }
  
-         self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
-         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
-+        if (self.monitor_dumper):
-+            self.host_dumper.create_dir("qmp")
- 
-     def deploy(self):
-         bb.utils.mkdirhier(self.testdir)
-diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
-index 843e19fe8a6..bb067f48462 100644
---- a/meta/lib/oeqa/utils/dump.py
-+++ b/meta/lib/oeqa/utils/dump.py
-@@ -18,6 +18,7 @@ class BaseDumper(object):
-         # Some testing doesn't inherit testimage, so it is needed
-         # to set some defaults.
-         self.parent_dir = parent_dir
-+        self.dump_dir = parent_dir
-         dft_cmds = """  top -bn1
-                         iostat -x -z -N -d -p ALL 20 2
-                         ps -ef
-@@ -47,7 +48,7 @@ class BaseDumper(object):
-                 raise err
-         self.dump_dir = dump_dir
- 
--    def _write_dump(self, command, output):
-+    def _construct_filename(self, command):
-         if isinstance(self, HostDumper):
-             prefix = "host"
-         elif isinstance(self, TargetDumper):
-@@ -61,6 +62,10 @@ class BaseDumper(object):
-             fullname = os.path.join(self.dump_dir, filename)
-             if not os.path.exists(fullname):
-                 break
-+        return fullname
-+
-+    def _write_dump(self, command, output):
-+        fullname = self._construct_filename(command)
-         if isinstance(self, MonitorDumper):
-             with open(fullname, 'w') as json_file:
-                 json.dump(output, json_file, indent=4)
-@@ -117,8 +122,16 @@ class MonitorDumper(BaseDumper):
-         if dump_dir:
-             self.dump_dir = dump_dir
-         for cmd in self.cmds:
-+            cmd_name = cmd.split()[0]
-             try:
--                output = self.runner.run_monitor(cmd)
--                self._write_dump(cmd, output)
--            except:
--                print("Failed to dump QMP CMD: %s" % (cmd))
-+                if len(cmd.split()) > 1:
-+                    cmd_args = cmd.split()[1]
-+                    if "%s" in cmd_args:
-+                        filename = self._construct_filename(cmd_name)
-+                    cmd_data = json.loads(cmd_args % (filename))
-+                    output = self.runner.run_monitor(cmd_name, cmd_data)
-+                else:
-+                    output = self.runner.run_monitor(cmd_name)
-+                self._write_dump(cmd_name, output)
-+            except Exception as e:
-+                print("Failed to dump QMP CMD: %s with\nExecption: %s" % (cmd_name, e))
+ python do_testimage() {
 -- 
 2.25.1
 
