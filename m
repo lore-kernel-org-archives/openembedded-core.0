@@ -1,146 +1,150 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web09.4934.1625055137564466547
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.1996.1625082340412923478
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Jun 2021 05:12:17 -0700
+ Wed, 30 Jun 2021 12:45:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BuyghtsB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id r9-20020a7bc0890000b02901f347b31d55so1386297wmh.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jun 2021 05:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=DUHs56WsBIZYNUVQgnHM76o4fDXNil981RgGM9A/NNo=;
-        b=BuyghtsBCIU3rCMCEnkqVYauCAs8AX8zJomo2AJB3Q7JmL2jIL2KuzM4iDflAeb50k
-         HJLFbJ2mHoqduNwlXeD4tnVF05Zm+fbXSD9f80xcpx1BfnJeEHuEEe+Sxk+nLsBt1Pv/
-         Lsy43u07GJK85Z8Es1sKmH/k5sPMWDXKL2Odk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DUHs56WsBIZYNUVQgnHM76o4fDXNil981RgGM9A/NNo=;
-        b=I3ZaNPVGqzx1z5tg0gH9XZ5XYCBGYghjojC5RCSoEZSydJTrA/+uloFIh95yuES/9r
-         WAfekSxQ3ChbyLU2ltTa76v6YmM1RkUIkEueXDYcMumHETcHgQ4+osZb7gPflxQguFoV
-         BOpmkl8X5xolVZstwaSCvjTnkW9d+JnqO3G0E6FZ3pcm9Uc2YuBUgn8beeswWi8cfTwY
-         TQ82OeNeHEcx9G/ZFSySi1Uoz2PDFhe9+ELv0DQfc3IER+cf2vCm64/nKO/VsGJ9C5jN
-         jBt7CgL/b8gEadnaTISvf4o48g5cml1G2S0hMeDE7oKMcGjLlByjBFrZkCldOMzmUmJ9
-         2+Cg==
-X-Gm-Message-State: AOAM533p6l4LyMhePWSI6M8ee4RF9usPrXELa2iVjWosgqH0ybcKluJD
-	CJQeAfGp7xd13ZY4veTVvStuEDG6BEv5bQ==
-X-Google-Smtp-Source: ABdhPJwduG11FyJEo6/CmVSDeTpBv5oufqnACTmkD1PalGowLYJRbZIlGUdQG9RFrOgbj7lbpAnJxw==
-X-Received: by 2002:a7b:cc8d:: with SMTP id p13mr6001342wma.33.1625055136106;
-        Wed, 30 Jun 2021 05:12:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fa9c:ff43:b5c6:d04f])
-        by smtp.gmail.com with ESMTPSA id i14sm6862076wmq.5.2021.06.30.05.12.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jun 2021 05:12:15 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] sstate/staging: Handle directory creation race issue
-Date: Wed, 30 Jun 2021 13:12:14 +0100
-Message-Id: <20210630121214.1965373-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210630121214.1965373-1-richard.purdie@linuxfoundation.org>
-References: <20210630121214.1965373-1-richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 12B3A20005;
+	Wed, 30 Jun 2021 19:45:36 +0000 (UTC)
+Date: Wed, 30 Jun 2021 21:45:36 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: douglas.royds@taitradio.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] license_image: Use sstate to populate license directory
+Message-ID: <YNzJ4P5cKQxXmhg/@piout.net>
+References: <20210629051801.107631-1-douglas.royds@taitradio.com>
 MIME-Version: 1.0
+In-Reply-To: <20210629051801.107631-1-douglas.royds@taitradio.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-The sstate code tries to be careful about racing around directory creation.
-In particular, the copyhardlinktree code creates the directory tree first
-allowing for "already exists" errors and ignoring them, then hardlinks the
-files in.
+Hello,
 
-Unfortunately the sstate removal code can race against this since it
-will try and remove empty directories. If there is some bad timing,
-a newly created directory can be removed before it was populated, leading
-to build failures.
+On 29/06/2021 17:18:01+1200, Douglas via lists.openembedded.org wrote:
+> We were getting an endlessly-growing list of directories in
+> build/tmp/deploy/licenses/ of the form myimage-mymachine-20210629010203.
+> Use the normal sstate behaviour to clean them. Brings license_image in
+> line with the do_populate_lic behaviour in license.bbclass.
+> 
+> We must only clean the (new) WORKDIR/license-destdir at do_rootfs time,
+> as the write_package_manifest and license_create_manifest rootfs
+> postprocess commands write the package.manifest and license.manifest
+> files at that time. They get stored in the sstate cache at
+> do_populate_lic_deploy time, alongside the image_license.manifest.
+> 
+> Looks like this:
+> 
+>     license-destdir/
+>     ├── myimage-mymachine -> myimage-mymachine-20210629025723/
+>     └── myimage-mymachine-20210629025723/
+>         ├── image_license.manifest
+>         ├── license.manifest
+>         └── package.manifest
+> 
 
-We could try and add locking but this would damage performance, we've been
-there before. It is also unclear where to actually place locks just based on
-the contents of a manifest file which may cover multiple sstate install
-locations for a given task.
+Unfortunately, this patch led to the following failures:
 
-Instead, lets disable directory removal in the problematic "shared" core
-path. This could result in a few more empty directories being left on disk
-but those should be harmless and better than locking hurting performance
-or rare build races.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/3637/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/3630/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/3613/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/3605/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/3594/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/3601/steps/14/logs/stdio
 
-[YOCTO #13999]
-[YOCTO #14379]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sstate.bbclass  | 8 +++++---
- meta/classes/staging.bbclass | 6 +++---
- 2 files changed, 8 insertions(+), 6 deletions(-)
+> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+> ---
+>  meta/classes/license_image.bbclass | 35 ++++++++++++++++--------------
+>  1 file changed, 19 insertions(+), 16 deletions(-)
+> 
+> diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+> index 73cebb4d55e..4afbb5ed575 100644
+> --- a/meta/classes/license_image.bbclass
+> +++ b/meta/classes/license_image.bbclass
+> @@ -1,8 +1,9 @@
+>  ROOTFS_LICENSE_DIR = "${IMAGE_ROOTFS}/usr/share/common-licenses"
+> +LICSSTATEDIR = "${WORKDIR}/license-destdir/"
+>  
+>  python write_package_manifest() {
+>      # Get list of installed packages
+> -    license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
+> +    license_image_dir = d.expand('${LICSSTATEDIR}/${IMAGE_NAME}')
+>      bb.utils.mkdirhier(license_image_dir)
+>      from oe.rootfs import image_list_installed_packages
+>      from oe.utils import format_pkg_list
+> @@ -32,7 +33,7 @@ python license_create_manifest() {
+>              pkg_lic_name = "LICENSE_" + pkg_name
+>              pkg_dic[pkg_name]["LICENSE"] = pkg_dic[pkg_name][pkg_lic_name]
+>  
+> -    rootfs_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY'),
+> +    rootfs_license_manifest = os.path.join(d.getVar('LICSSTATEDIR'),
+>                          d.getVar('IMAGE_NAME'), 'license.manifest')
+>      write_license_files(d, rootfs_license_manifest, pkg_dic, rootfs=True)
+>  }
+> @@ -196,23 +197,15 @@ def license_deployed_manifest(d):
+>                  key,val = line.split(": ", 1)
+>                  man_dic[dep][key] = val[:-1]
+>  
+> -    lic_manifest_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
+> -                                    d.getVar('IMAGE_NAME'))
+> -    bb.utils.mkdirhier(lic_manifest_dir)
+> -    image_license_manifest = os.path.join(lic_manifest_dir, 'image_license.manifest')
+> +    licsstatedir = d.getVar('LICSSTATEDIR')
+> +    image_name = d.getVar('IMAGE_NAME')
+> +    image_license_manifest = os.path.join(licsstatedir, image_name, 'image_license.manifest')
+>      write_license_files(d, image_license_manifest, man_dic, rootfs=False)
+>  
+>      link_name = d.getVar('IMAGE_LINK_NAME')
+>      if link_name:
+> -        lic_manifest_symlink_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
+> -                                    link_name)
+> -        # remove old symlink
+> -        if os.path.islink(lic_manifest_symlink_dir):
+> -            os.unlink(lic_manifest_symlink_dir)
+> -
+> -        # create the image dir symlink
+> -        if lic_manifest_dir != lic_manifest_symlink_dir:
+> -            os.symlink(lic_manifest_dir, lic_manifest_symlink_dir)
+> +        if image_name != link_name:
+> +            os.symlink(image_name, os.path.join(licsstatedir, link_name))
+>  
+>  def get_deployed_dependencies(d):
+>      """
+> @@ -260,14 +253,24 @@ def get_deployed_files(man_file):
+>      return dep_files
+>  
+>  ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
+> +do_rootfs[cleandirs] += "${LICSSTATEDIR}"
+>  do_rootfs[recrdeptask] += "do_populate_lic"
+>  
+>  python do_populate_lic_deploy() {
+>      license_deployed_manifest(d)
+>  }
+> -
+>  addtask populate_lic_deploy before do_build after do_image_complete
+> +
+> +SSTATETASKS += "do_populate_lic_deploy"
+> +do_populate_lic_deploy[dirs] = "${LICSSTATEDIR}/${IMAGE_NAME}"
+>  do_populate_lic_deploy[recrdeptask] += "do_populate_lic do_deploy"
+> +do_populate_lic_deploy[sstate-inputdirs] = "${LICSSTATEDIR}"
+> +do_populate_lic_deploy[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
+> +
+> +python do_populate_lic_deploy_setscene () {
+> +    sstate_setscene(d)
+> +}
+> +addtask do_populate_lic_deploy_setscene
+>  
+>  python license_qa_dead_symlink() {
+>      import os
+> -- 
+> 2.25.1
+> 
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 72eebd70c91..6c8e64ed00d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -483,7 +483,7 @@ def sstate_clean_cachefiles(d):
-         ss = sstate_state_fromvars(ld, task)
-         sstate_clean_cachefile(ss, ld)
- 
--def sstate_clean_manifest(manifest, d, prefix=None):
-+def sstate_clean_manifest(manifest, d, canrace=False, prefix=None):
-     import oe.path
- 
-     mfile = open(manifest)
-@@ -501,7 +501,9 @@ def sstate_clean_manifest(manifest, d, prefix=None):
-             if entry.endswith("/"):
-                 if os.path.islink(entry[:-1]):
-                     os.remove(entry[:-1])
--                elif os.path.exists(entry) and len(os.listdir(entry)) == 0:
-+                elif os.path.exists(entry) and len(os.listdir(entry)) == 0 and not canrace:
-+                    # Removing directories whilst builds are in progress exposes a race. Only
-+                    # do it in contexts where it is safe to do so.
-                     os.rmdir(entry[:-1])
-             else:
-                 os.remove(entry)
-@@ -539,7 +541,7 @@ def sstate_clean(ss, d):
-         for lock in ss['lockfiles']:
-             locks.append(bb.utils.lockfile(lock))
- 
--        sstate_clean_manifest(manifest, d)
-+        sstate_clean_manifest(manifest, d, canrace=True)
- 
-         for lock in locks:
-             bb.utils.unlockfile(lock)
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 806a85773af..29005ac0b62 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -409,7 +409,7 @@ python extend_recipe_sysroot() {
-         if os.path.islink(f) and not os.path.exists(f):
-             bb.note("%s no longer exists, removing from sysroot" % f)
-             lnk = os.readlink(f.replace(".complete", ""))
--            sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
-+            sstate_clean_manifest(depdir + "/" + lnk, d, True, workdir)
-             os.unlink(f)
-             os.unlink(f.replace(".complete", ""))
- 
-@@ -454,7 +454,7 @@ python extend_recipe_sysroot() {
-             fl = depdir + "/" + l
-             bb.note("Task %s no longer depends on %s, removing from sysroot" % (mytaskname, l))
-             lnk = os.readlink(fl)
--            sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
-+            sstate_clean_manifest(depdir + "/" + lnk, d, True, workdir)
-             os.unlink(fl)
-             os.unlink(fl + ".complete")
- 
-@@ -475,7 +475,7 @@ python extend_recipe_sysroot() {
-                 continue
-             else:
-                 bb.note("%s exists in sysroot, but is stale (%s vs. %s), removing." % (c, lnk, c + "." + taskhash))
--                sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
-+                sstate_clean_manifest(depdir + "/" + lnk, d, True, workdir)
-                 os.unlink(depdir + "/" + c)
-                 if os.path.lexists(depdir + "/" + c + ".complete"):
-                     os.unlink(depdir + "/" + c + ".complete")
+
+
 -- 
-2.30.2
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
