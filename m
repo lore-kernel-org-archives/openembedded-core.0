@@ -1,136 +1,138 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.2088.1625082771840185279
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.133])
+ by mx.groups.io with SMTP id smtpd.web10.2857.1625086365947497824
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Jun 2021 12:52:52 -0700
+ Wed, 30 Jun 2021 13:52:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 33F59FF807;
-	Wed, 30 Jun 2021 19:52:48 +0000 (UTC)
-Date: Wed, 30 Jun 2021 21:52:48 +0200
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: Saul Wold <Saul.Wold@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/3] oeqa/dump.py: Add support for QMP command arguments
-Message-ID: <YNzLkLTOrICDIM7q@piout.net>
-References: <20210629145703.979269-1-saul.wold@windriver.com>
- <20210629145703.979269-2-saul.wold@windriver.com>
+ dkim=fail reason="body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=C/RsUTuC;
+ spf=pass (domain: prevas.dk, ip: 40.107.22.133, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RX6Wlf87jghYMHxqagPCDZiu9JSQn6Si+FA2aGwFFebT7rdr+lfwdfqO0SwYcABKHwI2yyvpDoS9/xJn9nfZ4Bkpbc/ALpnd+8251zzDW+1vArp1KhB+xK5GTvQsoZzwWMTpoXoRWtX/3MHHlCXN7hmwxIMfjDaGWooqTMi+dTL8DpXZzBpmrbZ8En/b+jH7XwT1X5463eS/WurgozohhA1A/6p3OpXFj4h4+56jH2FzY1txLIplMKRZPByIkwrqT2wLMvXXWrqG7PygenA6sdkS31PPr7+/VqarYsqPJbJJwDxUGhPWl1VyqMQct7ZD8e1aAJ/n7BxeaLFmPlJ3Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e99UhCTnICSxLHGF8+SoWJGVA3IcKGkkrksFmktf8R4=;
+ b=JMsHWekJE9KlSFIYC05RG2f01waHEhUWbm4NolmKuu3BEJD58ZID4c5VvoT6y4KmC6s6kNoJ+7e5c6qASAJo2YuUXf31VafvS0lMwpkQ58m0QDyX1t43K/RmDM5yTW35SsCFLt5ro9uzk977zfeHucRf23Jgte7YjgBn5/SYe8H5laYTYOR10Av13xh3aiwg3ZxJRJAHKn8fM8vYGx85753+pOhbv8OJJeKaAgtsXc+LswUpt0K1VuhQxiYi7Ew4Zv2zqV+zOHSSJP6FAz4MiHSSw/9V4miL2EiXCt3kF4pNJWCiALla7Q4dj9AdHn+d6TK9IiuINdvlshsGJWz5JA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e99UhCTnICSxLHGF8+SoWJGVA3IcKGkkrksFmktf8R4=;
+ b=C/RsUTuCr3TaR0fWavSGxeoP28ttLEkhLU57veO6lbKKSCo9TgYPZ2hDHVQJZbNiB6uaTPHCLi2BVUDgUatcu+w854JnWdp2QpSjie+/j7ddY829XjmMOwv/tj7xRTlPXj9Q+73o/kAYGTnj1s61iX4p6iLviH2SQsZRMV4+X7g=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=prevas.dk;
+Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
+ by AM0PR10MB2114.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:42::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.21; Wed, 30 Jun
+ 2021 20:52:42 +0000
+Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::fc83:36a5:db02:3dbb]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::fc83:36a5:db02:3dbb%7]) with mapi id 15.20.4264.028; Wed, 30 Jun 2021
+ 20:52:42 +0000
+From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
+To: openembedded-core@lists.openembedded.org
+CC: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: [PATCH] recipes-kernel: vdsotest: new recipe
+Date: Wed, 30 Jun 2021 22:52:33 +0200
+Message-ID: <20210630205233.23046-1-rasmus.villemoes@prevas.dk>
+X-Mailer: git-send-email 2.31.1
+X-Originating-IP: [80.208.64.110]
+X-ClientProxiedBy: AM5PR0601CA0055.eurprd06.prod.outlook.com
+ (2603:10a6:206::20) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:3f::10)
+Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
-In-Reply-To: <20210629145703.979269-2-saul.wold@windriver.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from prevas-ravi.prevas.se (80.208.64.110) by AM5PR0601CA0055.eurprd06.prod.outlook.com (2603:10a6:206::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.21 via Frontend Transport; Wed, 30 Jun 2021 20:52:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dfdd0db0-b681-4ce3-04d9-08d93c09015c
+X-MS-TrafficTypeDiagnostic: AM0PR10MB2114:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<AM0PR10MB21142D00F1B4C16AA295E78193019@AM0PR10MB2114.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	S9ox1jJ6x4cT/sh+MSvFGq7UiYyCHvgr6f82zbuAxHwg2JXMvekLn9wiJMLb3pI+7Gr6h6JXuqNWrEq7g7eUIGijt9A4O1tcbxZztPgiezmRoYLS45KFskDCMqG1eC66Wr0w+EtxasKoD209OnPXdbKRPhB5/L1OB9u0HPPoMpuvdBJfa5wda+JaAOnGMdxSiztV+DjT+gzkIThN6nxB73hh2oELRQF6I4ZZmv10yss3Vfp9pE/45rkgnI95c2+j//vCTUvaBynmO5gCq394rosPX2pxYYut8nWaMzH01RNqtgJq1TWyC/QLe9jVtZyR3mWxzK8orxdbjBEkibEQVBTiFxzSlxkYpuerGHNirMAvWN2QAM+D4XKjKBxCL6UqoAV/CeuaBohS/XIybHAnQIQA3zeQuWLktLGS14v+5kRGVIrvVMa0ZqxZTu2hLmZajqfAowNMJHVAdZZmi2SDqkJtiRRpzvpCLUZk9mlK87o5qTEB5D4xnx3DMmlqWAVMp+Hrov2/w/91LEAEGfNlnrOTS10/+xZeqTnKHqpckEYr5vg0u1OBNudTGrS8Z77bwxEi1ClgEdvlr8VCPi3/9oYKleK+8gdP6DmcvsQHJ6xm8GCF+91IbG6ENN4nYjNu+RvQIUF1Zd6/mo567V0mTBuBWPZz8RrC6qQpImNVP7hvDVT8nDFtIDJAcQPMUO7KKWAwmmkQRkqnFQ3eONIhhUvPvUdUbnm7bPiS22fH6Ky3eGsJamYKtc0ED+6r2owggFC4Xq8oiWSuc3QtaZeoIy3bivQtzYlRkINDFIhtvvaX7U3yCLtOrvDyqUNsBtK0YFL+YKsPCOtZfImHSBY9Dw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(376002)(136003)(396003)(366004)(346002)(39840400004)(16526019)(316002)(52116002)(1076003)(186003)(66946007)(6666004)(86362001)(6512007)(8676002)(54906003)(4326008)(5660300002)(44832011)(66476007)(956004)(6916009)(38100700002)(8936002)(38350700002)(2616005)(107886003)(8976002)(478600001)(66556008)(83380400001)(6506007)(2906002)(6486002)(36756003)(26005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?chrIgXvq+XfRtIg4zwRFWcZE+k8eVGGjZ+/0WH4BmX6ldqpO+gW86HErLzbe?=
+ =?us-ascii?Q?TJ+k/7Msm5n6dAN9wZ0n30G8j3sOI3Fta2Vu88ticA0P1XGYoWQUFu3pi7DM?=
+ =?us-ascii?Q?j0p5WCxrO+lm1OYL2eaWc4ePAb3pYlbu6/ZpZrlzl3aMmN7Eo2HJuYCY76mL?=
+ =?us-ascii?Q?j+acwQRprr2GSxDH6W8SsPYbDGJ0Mi5Jr6zEkeHCKu9Mm9t8rVCqWpdCF+po?=
+ =?us-ascii?Q?uGu9KzFcKK8cAWhZXELWYJTRn+qvsW3l1AHZVL55Uvbj9A4zC9LaX0oejEZo?=
+ =?us-ascii?Q?smVdmRgVjo3m9KnYeux2t9Vt/EPUB3kthEEusdSWtSzdjOb7ta84j+KznvQ4?=
+ =?us-ascii?Q?3TAe2HuQ0xTa3VwhhKOVtmO31MZFi0AxdYlVh+pfak8hX/mQo2YR8zsZCam8?=
+ =?us-ascii?Q?NLteHU0cjqoZ9REPUZzDLXMju4384BTKezVbWanOMtza+fQBAtzGZ5aLFXxx?=
+ =?us-ascii?Q?uADPrj2q4LoTthEVICQmVPgu5kqEZx4KUtV1AJskjKTWSpHzDBatKll5rw6J?=
+ =?us-ascii?Q?6OQynegSmZVwn+y00wq4wPNrxKo5QkRkRHb+BLvVXuJOKqRAJIE2MC8Xo5Ar?=
+ =?us-ascii?Q?yyjliMwc7DBnm2mLRsTURT8rYteYQ9bssPBdK4NkWUu5e+w1WSZ4l8GTo78+?=
+ =?us-ascii?Q?EVmjhmb5USfGKwZgoN8ZvrnQg16ZZ3ULN4M5Ujsm28pDaHmuNboBJIm76d8w?=
+ =?us-ascii?Q?fckL8fQHG/yva7EBV+rzSYHQwykBVN1g97aMh/E2+fP/5kZm3HftvNIg1Via?=
+ =?us-ascii?Q?mgFqKk0KWDnS87cUgNxwHAYLQLxTkhssWALaA/HAbk+jUMxidYL9DtGhpSz0?=
+ =?us-ascii?Q?Mo/ZxO68zu5fEEO1tqwM9w3He5JHJrTocsXVNhABr8BlhOk5T45wcn8MtV4V?=
+ =?us-ascii?Q?telyRXU/mB9wxoxBCjSZxy+fPUd8IfdvJief81oFhtQyHm5LeAvBX0aSko2c?=
+ =?us-ascii?Q?7a7kfY/n/mcXdB3wPf2XY6B/MJq5+UZN04ZWUsdQHiZn/tCCzDwYZ7CgKrd/?=
+ =?us-ascii?Q?H8Guia0odHTqFTOti7YXXnvDFcG8xnvrph2De3Wp30lV3t9UceFPOuu+Otc6?=
+ =?us-ascii?Q?6o1lwRawVKreoGOlhluY9dMZZ0bAkL0zhCE9RkUy1Sv3F5lm5IuWlnPOSStG?=
+ =?us-ascii?Q?ig+2cqTHm+j6yrz8Y83P8ccdBS/eZPYCccWc4xO7ZBeztBcd5ltYIdGM+DWl?=
+ =?us-ascii?Q?dIJXs+P79PkDVWkdvo5SkW23DTKWg9efHg90VnZ6U6qcaLP4K3SRTl+A2rce?=
+ =?us-ascii?Q?O2js0/C5ATURbWqZiwFPGIjlWf1DIFKw40Jtc26GGmPMQuzZ3HO7Bk2TLkuN?=
+ =?us-ascii?Q?2AupDUGg5mo/Mxj+UHjpCerw?=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfdd0db0-b681-4ce3-04d9-08d93c09015c
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2021 20:52:42.6304
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kwAbHhsAoPVhqms88DzYADockWJNhmeEG2QONBz2hwtPnJ/tQnhQIr7fhgGG+a3zDEhrhJqAAIcYZqVvfxwgb9KFELmAB62LhG74zntHdck=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2114
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hello Saul,
+vdsotest is a handy tool for testing and benchmarking the vDSO,
+e.g. to measure the overhead of clock_gettime() done via the vDSO
+compared to an actual system call.
 
-On 29/06/2021 07:57:02-0700, Saul Wold wrote:
-> Need to ensure that the dump_dir is created correctly and available
-> When command arguemnts are passed construct a filename if needed and
-> convert the arguements to a json object to pass to QMP.
-> 
-> Signed-off-by: Saul Wold <saul.wold@windriver.com>
-> ---
->  meta/lib/oeqa/targetcontrol.py |  2 ++
->  meta/lib/oeqa/utils/dump.py    | 23 ++++++++++++++++++-----
->  2 files changed, 20 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-> index 005ebaa7f39..5b925e4fa4f 100644
-> --- a/meta/lib/oeqa/targetcontrol.py
-> +++ b/meta/lib/oeqa/targetcontrol.py
-> @@ -152,6 +152,8 @@ class QemuTarget(BaseTarget):
->  
->          self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
->          self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
-> +        if (self.monitor_dumper):
-> +            self.host_dumper.create_dir("qmp")
->  
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+---
+Resending because the list rejected the first attempt, sent from a
+wrong email address. Apologies to anyone receiving this again.
 
-This seems to fail:
-2021-06-30 01:10:20,391 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/selftest/cases/gcc.py", line 151, in test_libitm
-    self.run_check_emulated("libitm")
-  File "/home/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/selftest/cases/gcc.py", line 72, in run_check_emulated
-    with runqemu("core-image-minimal", runqemuparams = "nographic") as qemu:
-  File "/usr/lib64/python3.6/contextlib.py", line 81, in __enter__
-    return next(self.gen)
-  File "/home/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/utils/commands.py", line 340, in runqemu
-    qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype)
-  File "/home/pokybuild/yocto-worker/qemux86/build/meta/lib/oeqa/targetcontrol.py", line 156, in __init__
-    self.host_dumper.create_dir("qmp")
-AttributeError: 'QemuTarget' object has no attribute 'host_dumper'
+ meta/recipes-kernel/vdsotest/vdsotest_0.3.bb | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 meta/recipes-kernel/vdsotest/vdsotest_0.3.bb
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/3602/steps/18/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2260/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/2237/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/2239/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2274/steps/14/logs/stdio
+diff --git a/meta/recipes-kernel/vdsotest/vdsotest_0.3.bb b/meta/recipes-ke=
+rnel/vdsotest/vdsotest_0.3.bb
+new file mode 100644
+index 0000000000..5f94909102
+--- /dev/null
++++ b/meta/recipes-kernel/vdsotest/vdsotest_0.3.bb
+@@ -0,0 +1,11 @@
++SUMMARY =3D "vdsotest is a utility for testing and benchmarking a Linux VD=
+SO"
++HOMEPAGE =3D "https://github.com/nlynch-mentor/vdsotest"
++LICENSE =3D "GPL-2.0"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a426=
+3"
++
++SRC_URI =3D "git://github.com/nlynch-mentor/vdsotest.git"
++SRCREV =3D "4ad733fb25364e4afaf4060e57c2429a93b686c5"
++
++S =3D "${WORKDIR}/git"
++
++inherit autotools
+--=20
+2.31.1
 
-
->      def deploy(self):
->          bb.utils.mkdirhier(self.testdir)
-> diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
-> index 843e19fe8a6..bb067f48462 100644
-> --- a/meta/lib/oeqa/utils/dump.py
-> +++ b/meta/lib/oeqa/utils/dump.py
-> @@ -18,6 +18,7 @@ class BaseDumper(object):
->          # Some testing doesn't inherit testimage, so it is needed
->          # to set some defaults.
->          self.parent_dir = parent_dir
-> +        self.dump_dir = parent_dir
->          dft_cmds = """  top -bn1
->                          iostat -x -z -N -d -p ALL 20 2
->                          ps -ef
-> @@ -47,7 +48,7 @@ class BaseDumper(object):
->                  raise err
->          self.dump_dir = dump_dir
->  
-> -    def _write_dump(self, command, output):
-> +    def _construct_filename(self, command):
->          if isinstance(self, HostDumper):
->              prefix = "host"
->          elif isinstance(self, TargetDumper):
-> @@ -61,6 +62,10 @@ class BaseDumper(object):
->              fullname = os.path.join(self.dump_dir, filename)
->              if not os.path.exists(fullname):
->                  break
-> +        return fullname
-> +
-> +    def _write_dump(self, command, output):
-> +        fullname = self._construct_filename(command)
->          if isinstance(self, MonitorDumper):
->              with open(fullname, 'w') as json_file:
->                  json.dump(output, json_file, indent=4)
-> @@ -117,8 +122,16 @@ class MonitorDumper(BaseDumper):
->          if dump_dir:
->              self.dump_dir = dump_dir
->          for cmd in self.cmds:
-> +            cmd_name = cmd.split()[0]
->              try:
-> -                output = self.runner.run_monitor(cmd)
-> -                self._write_dump(cmd, output)
-> -            except:
-> -                print("Failed to dump QMP CMD: %s" % (cmd))
-> +                if len(cmd.split()) > 1:
-> +                    cmd_args = cmd.split()[1]
-> +                    if "%s" in cmd_args:
-> +                        filename = self._construct_filename(cmd_name)
-> +                    cmd_data = json.loads(cmd_args % (filename))
-> +                    output = self.runner.run_monitor(cmd_name, cmd_data)
-> +                else:
-> +                    output = self.runner.run_monitor(cmd_name)
-> +                self._write_dump(cmd_name, output)
-> +            except Exception as e:
-> +                print("Failed to dump QMP CMD: %s with\nExecption: %s" % (cmd_name, e))
-> -- 
-> 2.25.1
-> 
-
-> 
-> 
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
