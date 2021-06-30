@@ -1,65 +1,56 @@
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.82])
- by mx.groups.io with SMTP id smtpd.web11.2065.1625031602177270826
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.2492.1625035336417341449
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jun 2021 22:40:02 -0700
+ Tue, 29 Jun 2021 23:42:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=wg3jE+vL;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.82, mailfrom: zhengrq.fnst@fujitsu.com)
-Return-Path: <zhengrq.fnst@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1625031599; i=@fujitsu.com;
-	bh=QAok9QmlASWqJnHDhiXdT88EtG4lVooD6Z2mApEaIXU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=wg3jE+vL2jUZilDdsJOi0deSPIX2/wvD3t7MmzlNx01kzod4JbFUCmiUJgd6vT8cG
-	 qB40yMng+uM7dow7McheIkUM2ugPxNrJ5U+VXIqG09LX9+23mMfy5eicqYgliqF+X1
-	 WtqwR7b+IqtCgzfFCo1ri8r+/Y8g96fAuPuGTi5YKgmeyd3xFODxXGp2Y8v4gHHsXm
-	 m76jeo9V0E2GIZP+aZSx4kkS1N2APvMOYvIDm4tMrThVGz9qh5fKFQsh1ROmopM+OJ
-	 e3hCh7Hv+Nyz2qg8CxpoYp5ZFgi/hQoHf7e/sT1fTbDimk6ff9zZ/mtpEvsrl9bLAR
-	 j8zGGnJSIvHBQ==
-Received: from [100.112.197.63] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 3B/66-07802-FA30CD06; Wed, 30 Jun 2021 05:39:59 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRWlGSWpSXmKPExsViZ8MxVXc9850
-  EgzenWC3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oyFR+YxF/zmqjh5dRtzA2MrVxcjF4eQwCwm
-  ibNPP7JCOHsYJeYuvMjYxcjJwSagK3Hu8Vr2LkYODhEBPYmr/0RBwsICARK3Pu8GC7MIqErMm
-  WwOEuYV8JCY3zGJGcSWEFCQmPLwPTNEXFDi5MwnLCA2s4CExMEXL5hBWiUEFCVmT5eHKK+QmD
-  FjG9sERp5ZSDpmIelYwMi0itEiqSgzPaMkNzEzR9fQwEDX0NBI19DSQtfI0FQvsUo3SS+1VLc
-  8tbhE11AvsbxYr7gyNzknRS8vtWQTIzCEUgqOXd/BePX1B71DjJIcTEqivFNu3E4Q4kvKT6nM
-  SCzOiC8qzUktPsQow8GhJMEbw3QnQUiwKDU9tSItMwcYzjBpCQ4eJRFe9/9ArbzFBYm5xZnpE
-  KlTjLoc734uXsQsxJKXn5cqJc7LBDJDAKQoozQPbgQsti4xykoJ8zIyMDAI8RSkFuVmlqDKv2
-  IU52BUEuadzgg0hSczrwRu0yugI5iAjlj05CbIESWJCCmpBqaUCG4nad/n06L6/t06OD+D75+
-  N6PzpbB9c/mvv4FOe773iwGSlmV1r2+86BsmU62vlHpi5zfYmz6bF81Z9OP29I/57/WPHyX+W
-  r+r5FcNVfee4i6JMIZPMd3ZTvfj3O74trnsStvtA07RwY5Wr3GsFl+uzhPCsfj9DJOTLrmUp7
-  kJm6zxdebmuWuhN/bV8KauvkYoqT0TMAj+neTabvZi4mD5bdHswcCyL4F1q1tvF6Lzb/seFZ0
-  IPeZ0ev566ymiCdSKTeXnPZv3dmyXabjd2rT8wOVHZb1EhK3/bYcsY4aaeeO+FniesdP3+RZ2
-  pa5rSuOoZT27yHab62wsmbty96azT731anCXH5i1NvajEUpyRaKjFXFScCAApnQqfKAMAAA==
-X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-8.tower-285.messagelabs.com!1625031598!489806!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 12974 invoked from network); 30 Jun 2021 05:39:59 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-8.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 30 Jun 2021 05:39:59 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 15U5dmoj022894
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Jun 2021 06:39:58 +0100
-Received: from localhost.localdomain (10.167.225.35) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Wed, 30 Jun 2021 06:39:47 +0100
-From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH v2] python3-importlib-metadata: upgrade 4.5.0 -> 4.6.0
-Date: Wed, 30 Jun 2021 13:39:36 +0800
-Message-ID: <1625031576-67231-1-git-send-email-zhengrq.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tOPCMNE0;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id s14so1567293pfg.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Jun 2021 23:42:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=294Y05eKOl/lpxhHrW/b9kDSa/5TZk7RcKMESXx05oU=;
+        b=tOPCMNE0xX/cgiEG802C0GOu+oMOxtTlA61YYakIYN/7Ff0sAX7qKdRh7Z6RtfoEMR
+         RkAAk3dm6DJMFyKJryhGMstQR8GZAkgSJxXrcoswkCmXvyUccnpLHrXVf1Jm7trBSYGT
+         CYycOjq86JFEGtRB+e1mkob0bLLu0hNJ85OLiru85grNZzuvxWChbvguY78OAAhUo0ZB
+         DFuzQ8gJItWD9fcOZy8zWsenv9WEnIE0trRecpwMEHLxM4VoIme1sHF0kQ15fo4o06qQ
+         Vj7NqvoAZlwjkJZqEfef9Xcr/JfnvfUfhaNQDG9Ljio6BM4UZNd5/BIqCLWNLbhODGS9
+         ts0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=294Y05eKOl/lpxhHrW/b9kDSa/5TZk7RcKMESXx05oU=;
+        b=IDccViNEjNA40fKGiMaupcfE1J5qvyGMDCYZv0Vw57HF/FtmLFEr6gIH8+el2o5h8+
+         IVnBZEEpb+bfIImSF2epI2TEaCCrDCsbHFCyz+Jq6VheyYyoh6ZIfMyc6+d2gtGT5E4A
+         q0YHgJqfVSuJ9YDcfKgAdgJ1SZ7D3FcIkIFJqJjS2xr7U23Til8CENcrNRQ2nI/EeqFI
+         efjyLeHqhy8W3BweFlo+OP01XXan+VCOpo/e6RVXCT3DPlYUnofjyTwh+woGzXdJ3kli
+         5u92ZzmQrBsjNwjU63SwQqFpPoItp46oPp6AsNuYHUAgntNrhfp5eQrQHSXD1AmmKvN3
+         AUig==
+X-Gm-Message-State: AOAM5309d9OPXjg/rqBstIS4V9h11x8ye/eoZ8wtbYvOtdCPDL49ft3L
+	NoxTix/67SvRh3SY9S5z+g0teHkik1xc1w==
+X-Google-Smtp-Source: ABdhPJz9FCaATK/48n6fxRh0XerqfHgsGKqF0iCJiKtEr370vI8rsBfGmTw557lKLQ3ZryDUGBhwkw==
+X-Received: by 2002:a65:568c:: with SMTP id v12mr32973695pgs.88.1625035335611;
+        Tue, 29 Jun 2021 23:42:15 -0700 (PDT)
+Return-Path: <ticotimo@gmail.com>
+Received: from nereus.local ([2601:1c0:6000:9640:6643:31d:878c:751d])
+        by smtp.gmail.com with ESMTPSA id y206sm19507636pfb.3.2021.06.29.23.42.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jun 2021 23:42:15 -0700 (PDT)
+From: "Tim Orling" <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@intel.com>
+Subject: [PATCH] python3-importlib-metadata: upgrade 4.5.0 -> 4.6.0
+Date: Tue, 29 Jun 2021 23:42:08 -0700
+Message-Id: <20210630064208.2866-1-timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+
+Upstream release notes:
 
 v4.6.0
 ======
@@ -69,7 +60,7 @@ v4.6.0
   To disable these tests, which require network access
   and a git checkout, pass ``-p no:perf`` to pytest.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
  ...ib-metadata_4.5.0.bb => python3-importlib-metadata_4.6.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -79,7 +70,7 @@ diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_4.5.0.bb b/
 similarity index 88%
 rename from meta/recipes-devtools/python/python3-importlib-metadata_4.5.0.bb
 rename to meta/recipes-devtools/python/python3-importlib-metadata_4.6.0.bb
-index 7c156787a0..b9fd2fe59e 100644
+index 7c156787a03..b9fd2fe59e2 100644
 --- a/meta/recipes-devtools/python/python3-importlib-metadata_4.5.0.bb
 +++ b/meta/recipes-devtools/python/python3-importlib-metadata_4.6.0.bb
 @@ -8,7 +8,7 @@ inherit pypi setuptools3
@@ -92,5 +83,5 @@ index 7c156787a0..b9fd2fe59e 100644
  S = "${WORKDIR}/importlib_metadata-${PV}"
  
 -- 
-2.25.1
+2.30.2
 
