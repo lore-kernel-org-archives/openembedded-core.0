@@ -1,116 +1,118 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web08.7539.1625148030054564581
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.9357.1625155227337441522
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jul 2021 07:00:30 -0700
+ Thu, 01 Jul 2021 09:00:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=unhZVZ1R;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f172.google.com with SMTP id 22so7342540oix.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jul 2021 07:00:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iRbFyR3E;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id j11-20020a05600c1c0bb02901e23d4c0977so7203275wms.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jul 2021 09:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VNdwksFBlS1nheRc4dm/+w8F+RskstkxpHMAk+Ia9ic=;
-        b=unhZVZ1RJIbAj4Dg/V+Gw4hpTfLPS3Z9KGrVd84hZM7sZkb1PUNYH0+WHhRy3l0pjm
-         cmzM5BtX3kQHPDhI9XAfQvwG3TRCYZGmtj/IBJ4IwCNX7IlwGCdN0/kaF6UtG7Ax4/DD
-         6v52QqEY3PJc1S2gmw4yVi0lU9eIK+Qfph5ImHpwqkENsknYTi6ZW4LYCS/q8DuqVjWd
-         SJVkldlmJu2QqRp/P1Kz983IzDQdpRj2UHgpO9QbFRhFHqig7Qtmrmxh5PsHf9MJJ4gi
-         i7aGC7RWkC2OCDAmYiTWOgvbSiyEg6WOVZmuu7AJclU8bbUgzj1lKpBmB6EW1JLnf2sb
-         Yb/A==
+        bh=F8QOzhYSJO2Gi3zlHt6XTaggcKtTBkLZXr1fqdGQdKc=;
+        b=iRbFyR3EYs/gZ9ZSmpNuGsV0ghadMT6I6TXig2nlvNBvhlyw0GUn8YdwQVsFbfWsgP
+         dYJderSbozjh9qUw3pohvTkJhCYGDlmLxZ8qhqtcqr2Ww8znwTL5nAORXGiHK9gDQuxo
+         GPMjUdsFSRYlpwW61BwTPvtklTTtHLpw0c9RA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VNdwksFBlS1nheRc4dm/+w8F+RskstkxpHMAk+Ia9ic=;
-        b=aymcb7Rg31kJknJqB9pm1IENVIrEwu4io3znywOYpCtur2yhZYhF1nfoqXpdXy7E4s
-         MMqy8L9hdxh5OvOEko9DXQiYfsr2Ya9khP12Io0mq6sE/nsROdrj0y1LacyoNJOmQcsN
-         NY4wb3DkczN1aTAtNXALedSv73o88rJgamQuRiIttxJBwR3pDTFIV4c++jzYM3Gjf9Ku
-         Y9G2vaVoqdWswbdl6zOScvyqb1XuhDj6EiiXuTxiR2/85h1d9me0smaTo27sOl87Ksya
-         Qs33605MDmKBeTH27qvM4ZlBZZNqP1+INPjgXyqR1TrvSBA6XBCXk24BlUGADPDifz12
-         jZ+w==
-X-Gm-Message-State: AOAM533CE1Yk6kmVKN49gZLH3Jy37Z9AuRJHKuRGwCpYtf+4lRa4MvuU
-	bQfGiqnsXJlrwLeY6+u4aA8saF0DdOLJcS4OA2M=
-X-Google-Smtp-Source: ABdhPJxlOjByrr/nhjBJaQR1sNmg6nPheVXR8jjk2DfmP8SfqJoucEVvoJR+Vjb9KTm29bgxWRIbSQ==
-X-Received: by 2002:aca:4482:: with SMTP id r124mr30046539oia.153.1625148028843;
-        Thu, 01 Jul 2021 07:00:28 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id n16sm4433953oor.47.2021.07.01.07.00.25
+        bh=F8QOzhYSJO2Gi3zlHt6XTaggcKtTBkLZXr1fqdGQdKc=;
+        b=Fa5UKpYsleihnKlwEzR9iKpKTPZDZVFJiGBoe/KMZnhhXo5pxZH1/64yp3IjRdObr/
+         +KjwHvxkms8UkAUwJkxxbkkdPF7u/Xd8EC/x+Flvhyp4mJjkfFWQagrgEBlIaWIzCCae
+         ILnf6lW+scX/3sQ0Wp4iALdzmBh4RRpOay8/YOVPfFM+Z+cXBd+Y1eN59kLM1szHUux9
+         Pna0yZpUVnJ9SxJNOajgfUxozwn7OzehVPSwKMws+xbkFPzWu6I5my8e2MNUria5T0wy
+         kCqgKjX4KFTJuctPJh8KG1VF5sxWD+ODWtWjPW/o6zEmfbv/It8TSPosA96xwAz1Ytcy
+         /t0A==
+X-Gm-Message-State: AOAM530EwmH6egI1P2o4WoeqDuwQCzwlqiDzp10+0v8OPbi7jOvNTs3j
+	nJ+v9AOsLM6kO+n8HPAqwmBWIiEnjBM32Q==
+X-Google-Smtp-Source: ABdhPJw40Y4y3LNyCFI6DD+YwzdUCkLjtlkwq6WjMU6CfV0kkVxuRuiElmHgrG632WOHtJdoglHZlg==
+X-Received: by 2002:a1c:4646:: with SMTP id t67mr458367wma.70.1625155225350;
+        Thu, 01 Jul 2021 09:00:25 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:a683:959f:4ccb:54d6])
+        by smtp.gmail.com with ESMTPSA id g10sm406168wmh.33.2021.07.01.09.00.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jul 2021 07:00:28 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+        Thu, 01 Jul 2021 09:00:25 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/14] Pull request (cover letter only)
-Date: Thu,  1 Jul 2021 04:00:07 -1000
-Message-Id: <cover.1625147867.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH] oeqa/selftest/archiver: Allow tests to ignore empty directories
+Date: Thu,  1 Jul 2021 17:00:24 +0100
+Message-Id: <20210701160024.1989912-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit ac8181d9b9ad8360f7dba03aba8b00f008c6ebb4:
+If we tweak sstate to not remove empty directories under conditions
+where a race could occur, we see failures from:
 
-  Revert "python3: fix CVE-2021-23336" (2021-06-19 13:11:58 -1000)
+"oe-selftest -r archiver.Archiver.test_archiver_filters_by_type archiver.Archiver.test_archiver_filters_by_type_and_name"
 
-are available in the Git repository at:
+since an empty directory is left behind. Update the tests to ignore
+empty directories.
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/archiver.py | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Jasper Orschulko (3):
-  expat: fix CVE-2013-0340
-  libxml2: Fix CVE-2021-3518
-  libx11: Fix CVE-2021-31535
-
-Michael Halstead (1):
-  uninative: Upgrade to 3.2 (gcc11 support)
-
-Tim Orling (10):
-  python3: upgrade 3.8.2 -> 3.8.3
-  python3: upgrade 3.8.3 -> 3.8.4
-  python3: upgrade 3.8.4 -> 3.8.5
-  python3: upgrade 3.8.5 -> 3.8.6
-  python3: upgrade 3.8.6 -> 3.8.7
-  python3: upgrade 3.8.7 -> 3.8.8
-  powertop: fix aclocal error too many loops
-  python3: upgrade 3.8.8 -> 3.8.9
-  python3: upgrade 3.8.9 -> 3.8.10
-  python3-ptest: add newly discovered missing rdeps
-
- meta/conf/distro/include/yocto-uninative.inc  |    8 +-
- .../expat/expat/CVE-2013-0340.patch           | 1758 +++++++++++++++++
- .../expat/expat/libtool-tag.patch             |   41 +-
- meta/recipes-core/expat/expat_2.2.9.bb        |   12 +-
- .../libxml/libxml2/CVE-2021-3518.patch        |  112 ++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |    1 +
- ...20-8492-Fix-AbstractBasicAuthHandler.patch |  248 ---
- ...le.py-correct-the-test-output-format.patch |   24 +-
- .../python/python3/CVE-2019-20907.patch       |   44 -
- .../python/python3/CVE-2020-14422.patch       |   77 -
- .../python/python3/CVE-2020-26116.patch       |  104 -
- .../python/python3/CVE-2020-27619.patch       |   70 -
- .../python/python3/CVE-2021-3177.patch        |  191 --
- .../{python3_3.8.2.bb => python3_3.8.10.bb}   |   19 +-
- .../xorg-lib/libx11/CVE-2021-31535.patch      |  333 ++++
- .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |    1 +
- ...2-configure.ac-ax_add_fortify_source.patch |   70 +
- ...003-configure-Use-AX_REQUIRE_DEFINED.patch |   29 +
- meta/recipes-kernel/powertop/powertop_2.10.bb |    8 +-
- 19 files changed, 2357 insertions(+), 793 deletions(-)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2013-0340.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3518.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2020-14422.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2020-26116.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2020-27619.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
- rename meta/recipes-devtools/python/{python3_3.8.2.bb => python3_3.8.10.bb} (95%)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2021-31535.patch
- create mode 100644 meta/recipes-kernel/powertop/powertop/0002-configure.ac-ax_add_fortify_source.patch
- create mode 100644 meta/recipes-kernel/powertop/powertop/0003-configure-Use-AX_REQUIRE_DEFINED.patch
-
+diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
+index ddd08ecf847..0194ae9f69c 100644
+--- a/meta/lib/oeqa/selftest/cases/archiver.py
++++ b/meta/lib/oeqa/selftest/cases/archiver.py
+@@ -35,11 +35,11 @@ class Archiver(OESelftestTestCase):
+         src_path = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['TARGET_SYS'])
+ 
+         # Check that include_recipe was included
+-        included_present = len(glob.glob(src_path + '/%s-*' % include_recipe))
++        included_present = len(glob.glob(src_path + '/%s-*/*' % include_recipe))
+         self.assertTrue(included_present, 'Recipe %s was not included.' % include_recipe)
+ 
+         # Check that exclude_recipe was excluded
+-        excluded_present = len(glob.glob(src_path + '/%s-*' % exclude_recipe))
++        excluded_present = len(glob.glob(src_path + '/%s-*/*' % exclude_recipe))
+         self.assertFalse(excluded_present, 'Recipe %s was not excluded.' % exclude_recipe)
+ 
+     def test_archiver_filters_by_type(self):
+@@ -67,11 +67,11 @@ class Archiver(OESelftestTestCase):
+         src_path_native = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['BUILD_SYS'])
+ 
+         # Check that target_recipe was included
+-        included_present = len(glob.glob(src_path_target + '/%s-*' % target_recipe))
++        included_present = len(glob.glob(src_path_target + '/%s-*/*' % target_recipe))
+         self.assertTrue(included_present, 'Recipe %s was not included.' % target_recipe)
+ 
+         # Check that native_recipe was excluded
+-        excluded_present = len(glob.glob(src_path_native + '/%s-*' % native_recipe))
++        excluded_present = len(glob.glob(src_path_native + '/%s-*/*' % native_recipe))
+         self.assertFalse(excluded_present, 'Recipe %s was not excluded.' % native_recipe)
+ 
+     def test_archiver_filters_by_type_and_name(self):
+@@ -104,17 +104,17 @@ class Archiver(OESelftestTestCase):
+         src_path_native = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['BUILD_SYS'])
+ 
+         # Check that target_recipe[0] and native_recipes[1] were included
+-        included_present = len(glob.glob(src_path_target + '/%s-*' % target_recipes[0]))
++        included_present = len(glob.glob(src_path_target + '/%s-*/*' % target_recipes[0]))
+         self.assertTrue(included_present, 'Recipe %s was not included.' % target_recipes[0])
+ 
+-        included_present = len(glob.glob(src_path_native + '/%s-*' % native_recipes[1]))
++        included_present = len(glob.glob(src_path_native + '/%s-*/*' % native_recipes[1]))
+         self.assertTrue(included_present, 'Recipe %s was not included.' % native_recipes[1])
+ 
+         # Check that native_recipes[0] and target_recipes[1] were excluded
+-        excluded_present = len(glob.glob(src_path_native + '/%s-*' % native_recipes[0]))
++        excluded_present = len(glob.glob(src_path_native + '/%s-*/*' % native_recipes[0]))
+         self.assertFalse(excluded_present, 'Recipe %s was not excluded.' % native_recipes[0])
+ 
+-        excluded_present = len(glob.glob(src_path_target + '/%s-*' % target_recipes[1]))
++        excluded_present = len(glob.glob(src_path_target + '/%s-*/*' % target_recipes[1]))
+         self.assertFalse(excluded_present, 'Recipe %s was not excluded.' % target_recipes[1])
+ 
+ 
 -- 
-2.25.1
+2.30.2
 
