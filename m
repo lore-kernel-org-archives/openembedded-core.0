@@ -1,78 +1,140 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web12.1992.1625168304197651705
+Received: from smtp0.taitradio.net (smtp0.taitradio.net [202.37.96.22])
+ by mx.groups.io with SMTP id smtpd.web11.1541.1625176220706289587
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jul 2021 12:38:24 -0700
+ Thu, 01 Jul 2021 14:50:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Csy/ul5x;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id r16so10019760ljk.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jul 2021 12:38:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=/q+BSYieX4FKnKhFufoFwK/SQXteDWAQHuC52V3EKms=;
-        b=Csy/ul5x/yk68n/A7SZ2gNQAYcGS6jxreGL6Q3nDqtSFEI0VHeLMMyhoNiLYfcu4HB
-         XrR7pAmN1g0jGmhjzdDJx/keA8qWuNgzd6eO06EyeL8/y5BXJV7izTWpoRN/Ax0KigRj
-         k12kYwuL2nYGMyNBmVS1nfGWcSrtZp9aoFRdNhS/JYKX4Lmnv5EudGcom4OS2J/JR+Y/
-         pS8dt8gnuWemlbGUwgHRRjU5G4Xw5gFq6ITdo5xRkblEeHZBcUBGk+xbdN4yP4rRWEuD
-         06JWY7Qwk86DHcAsRt8N/ToO2Q3pKVpa4Z0omBDoHCTD+MHqtIfsa6ePl0ffpZQ8cz1d
-         68LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=/q+BSYieX4FKnKhFufoFwK/SQXteDWAQHuC52V3EKms=;
-        b=TeVd6J9CKKBe4qvatB3zXlXWGIU2s/KET2mpVoABgfhi4+IvAxrwYR2PAlJRsWtnXO
-         EbZU27AR1fnPOwlIbHaDe/e2L1MZfE49Tl1Ycphoj55ZsU7HWmxDfqnlr1lLo3f2H+qw
-         sN2YzeWI21kVxCGg8Au1ztRJ9sjjYfNhtZm/Wg3mW+wcw6mRJ5H5Q9DyXdKIWAqErXN4
-         DR8mA9r3BsrouUTrcp7EMSUID0Lmv1QAV3Mlh/oRtsIp27/Ygs3f55yjlBWJW62Pl1sX
-         8K0nxFtUpmVEkhax061DG3vmfxbS3QKQNUa5tAzrWbmAftBL45MN3+92t5jUSljD6npc
-         Zf+Q==
-X-Gm-Message-State: AOAM530U9cnjrLhCHjL2J31nxNh/lAlyNtet4TolXvC4W4YVs8ZuHwdw
-	fH4B3DSU92t673OE4BJ9DWdlQwM1kZuZfQ9l6cc=
-X-Google-Smtp-Source: ABdhPJxJbBSmKZ9meXk7vjlaBcEI/xpk1Oa7AonyCkFvQsRInYqPQ7EHe+ypVyOXh4YtWX5LeR4RMeaYdiNh1ZGdMeo=
-X-Received: by 2002:a2e:7306:: with SMTP id o6mr882120ljc.125.1625168302042;
- Thu, 01 Jul 2021 12:38:22 -0700 (PDT)
+ dkim=missing; spf=pass (domain: taitradio.com, ip: 202.37.96.22, mailfrom: douglas.royds@taitradio.com)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp0.taitradio.net (Postfix) with ESMTP id D5010E00BC;
+	Fri,  2 Jul 2021 09:44:42 +1200 (NZST)
+From: "Douglas" <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Douglas Royds <douglas.royds@taitradio.com>
+Subject: [PATCH v2] license_image: Use sstate to populate license directory
+Date: Fri,  2 Jul 2021 09:44:37 +1200
+Message-Id: <20210701214437.732187-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <9IIF.1625162494577129155.qxBE@lists.openembedded.org>
-In-Reply-To: <9IIF.1625162494577129155.qxBE@lists.openembedded.org>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Thu, 1 Jul 2021 21:38:10 +0200
-Message-ID: <CAHtQpK7evQSrL_HpOthgFHQGtAA5JjtRp2XAnrX3pDiDh=knPw@mail.gmail.com>
-Subject: Re: [OE-core] SGTL5000 audio codec freescale
-To: nanotech.ei@gmail.com
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hello "nanotech.ei",
+We were getting an endlessly-growing list of directories in
+build/tmp/deploy/licenses/ of the form myimage-mymachine-20210629010203.
+Use the normal sstate behaviour to clean them. Brings license_image in
+line with the do_populate_lic behaviour in license.bbclass.
 
-On Thu, Jul 1, 2021 at 8:01 PM <nanotech.ei@gmail.com> wrote:
->
-> na =C3=A1rvore de arquivos do kernel linux padr=C3=A3o tem os arquivos "=
-sgtl5000.c" e "sgtl5000.h" que controlam o chip do codec. Como fa=C3=A7o pa=
-ra incluir esses arquivos ao construir uma nova distro com o yocto?
+We must only clean the (new) WORKDIR/license-destdir at do_rootfs time,
+as the write_package_manifest and license_create_manifest rootfs
+postprocess commands write the package.manifest and license.manifest
+files at that time. They get stored in the sstate cache at
+do_populate_lic_deploy time, alongside the image_license.manifest.
 
-I believe that vast majority of the recipients are multi-lingual and
-you would have better chances to address your questions in English.
+Looks like this:
 
-In addition, this is a cross-posting of the similar question you tried
-to address on the [meta-freescale] ML
-(https://lists.yoctoproject.org/g/meta-freescale/message/24705) where
-you asked about Raspberry PI HW. This machine is not a Freescale/NXP
-machine, and this perhaps left your question unattended.
+    license-destdir/
+    =E2=94=9C=E2=94=80=E2=94=80 myimage-mymachine -> myimage-mymachine-20=
+210629025723/
+    =E2=94=94=E2=94=80=E2=94=80 myimage-mymachine-20210629025723/
+        =E2=94=9C=E2=94=80=E2=94=80 image_license.manifest
+        =E2=94=9C=E2=94=80=E2=94=80 license.manifest
+        =E2=94=94=E2=94=80=E2=94=80 package.manifest
 
-I guess a bit more specific information is required about the target
-HW you're trying to integrate this codec with.
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+---
+ meta/classes/license_image.bbclass | 38 +++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
 
-As for the Kernel: mainline does provide support for SGTL5000 IC
-(since 2011), have a look at the SND_SOC_SGTL5000 config option in the
-kernel.
-
->=20
->
-
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_im=
+age.bbclass
+index 73cebb4d55e..30204b47b1c 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -1,8 +1,9 @@
+ ROOTFS_LICENSE_DIR =3D "${IMAGE_ROOTFS}/usr/share/common-licenses"
++LICSSTATEDIR =3D "${WORKDIR}/license-destdir/"
+=20
+ python write_package_manifest() {
+     # Get list of installed packages
+-    license_image_dir =3D d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
++    license_image_dir =3D d.expand('${LICSSTATEDIR}/${IMAGE_NAME}')
+     bb.utils.mkdirhier(license_image_dir)
+     from oe.rootfs import image_list_installed_packages
+     from oe.utils import format_pkg_list
+@@ -32,7 +33,7 @@ python license_create_manifest() {
+             pkg_lic_name =3D "LICENSE_" + pkg_name
+             pkg_dic[pkg_name]["LICENSE"] =3D pkg_dic[pkg_name][pkg_lic_n=
+ame]
+=20
+-    rootfs_license_manifest =3D os.path.join(d.getVar('LICENSE_DIRECTORY=
+'),
++    rootfs_license_manifest =3D os.path.join(d.getVar('LICSSTATEDIR'),
+                         d.getVar('IMAGE_NAME'), 'license.manifest')
+     write_license_files(d, rootfs_license_manifest, pkg_dic, rootfs=3DTr=
+ue)
+ }
+@@ -196,23 +197,18 @@ def license_deployed_manifest(d):
+                 key,val =3D line.split(": ", 1)
+                 man_dic[dep][key] =3D val[:-1]
+=20
+-    lic_manifest_dir =3D os.path.join(d.getVar('LICENSE_DIRECTORY'),
+-                                    d.getVar('IMAGE_NAME'))
+-    bb.utils.mkdirhier(lic_manifest_dir)
+-    image_license_manifest =3D os.path.join(lic_manifest_dir, 'image_lic=
+ense.manifest')
++    licsstatedir =3D d.getVar('LICSSTATEDIR')
++    image_name =3D d.getVar('IMAGE_NAME')
++    image_license_manifest =3D os.path.join(licsstatedir, image_name, 'i=
+mage_license.manifest')
+     write_license_files(d, image_license_manifest, man_dic, rootfs=3DFal=
+se)
+=20
+     link_name =3D d.getVar('IMAGE_LINK_NAME')
+     if link_name:
+-        lic_manifest_symlink_dir =3D os.path.join(d.getVar('LICENSE_DIRE=
+CTORY'),
+-                                    link_name)
+-        # remove old symlink
+-        if os.path.islink(lic_manifest_symlink_dir):
+-            os.unlink(lic_manifest_symlink_dir)
+-
+-        # create the image dir symlink
+-        if lic_manifest_dir !=3D lic_manifest_symlink_dir:
+-            os.symlink(lic_manifest_dir, lic_manifest_symlink_dir)
++        if image_name !=3D link_name:
++            link_path =3D os.path.join(licsstatedir, link_name)
++            if os.path.lexists(link_path):
++                os.remove(link_path)
++            os.symlink(image_name, link_path)
+=20
+ def get_deployed_dependencies(d):
+     """
+@@ -260,14 +256,24 @@ def get_deployed_files(man_file):
+     return dep_files
+=20
+ ROOTFS_POSTPROCESS_COMMAND_prepend =3D "write_package_manifest; license_=
+create_manifest; "
++do_rootfs[cleandirs] +=3D "${LICSSTATEDIR}"
+ do_rootfs[recrdeptask] +=3D "do_populate_lic"
+=20
+ python do_populate_lic_deploy() {
+     license_deployed_manifest(d)
+ }
+-
+ addtask populate_lic_deploy before do_build after do_image_complete
++
++SSTATETASKS +=3D "do_populate_lic_deploy"
++do_populate_lic_deploy[dirs] =3D "${LICSSTATEDIR}/${IMAGE_NAME}"
+ do_populate_lic_deploy[recrdeptask] +=3D "do_populate_lic do_deploy"
++do_populate_lic_deploy[sstate-inputdirs] =3D "${LICSSTATEDIR}"
++do_populate_lic_deploy[sstate-outputdirs] =3D "${LICENSE_DIRECTORY}/"
++
++python do_populate_lic_deploy_setscene () {
++    sstate_setscene(d)
++}
++addtask do_populate_lic_deploy_setscene
+=20
+ python license_qa_dead_symlink() {
+     import os
 --=20
-Regards,
-Andrey.
+2.25.1
+
