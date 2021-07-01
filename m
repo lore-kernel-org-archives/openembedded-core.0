@@ -1,94 +1,116 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web09.5718.1625139616566236996
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+ by mx.groups.io with SMTP id smtpd.web08.7539.1625148030054564581
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jul 2021 04:40:16 -0700
+ Thu, 01 Jul 2021 07:00:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kMX0rDr5;
- spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id p13so2321713uao.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jul 2021 04:40:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=unhZVZ1R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f172.google.com with SMTP id 22so7342540oix.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Jul 2021 07:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Lyukosbsvuz9HY9+0HUv7nh6/bIqfQoolsAYlNGcXsg=;
-        b=kMX0rDr5ezjAEd6yxONk5PeX6sYYD6OK63NMxVdcM9ezWlcV+bun1P+7a3IfanNvXZ
-         D2FSpp2cB3onUPwG+uPYcUzQC6uD8zhiHyfYvQUMEPrjNr2y+huSGEKSp9ELzWfJ4tpk
-         JoMV7R/Uek1vZhEz+yK+WPomUAiD+GtztBFfn+EKIaNEIT6RtOn4Zjri3Muf+6uBevwR
-         NxPT+xyyuYFheX3ZCHas3MO/AYdg3zmUZ9OLGjaWWRGdHSB/S1kD5ndIMbiQB64Cpm/O
-         VESnaAFTSs5YdTEgym6bheRuVXZ7MvHhYphmfvRdhHQDp5NTemD9M2udiC1RoIU3Uw4r
-         40DQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VNdwksFBlS1nheRc4dm/+w8F+RskstkxpHMAk+Ia9ic=;
+        b=unhZVZ1RJIbAj4Dg/V+Gw4hpTfLPS3Z9KGrVd84hZM7sZkb1PUNYH0+WHhRy3l0pjm
+         cmzM5BtX3kQHPDhI9XAfQvwG3TRCYZGmtj/IBJ4IwCNX7IlwGCdN0/kaF6UtG7Ax4/DD
+         6v52QqEY3PJc1S2gmw4yVi0lU9eIK+Qfph5ImHpwqkENsknYTi6ZW4LYCS/q8DuqVjWd
+         SJVkldlmJu2QqRp/P1Kz983IzDQdpRj2UHgpO9QbFRhFHqig7Qtmrmxh5PsHf9MJJ4gi
+         i7aGC7RWkC2OCDAmYiTWOgvbSiyEg6WOVZmuu7AJclU8bbUgzj1lKpBmB6EW1JLnf2sb
+         Yb/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Lyukosbsvuz9HY9+0HUv7nh6/bIqfQoolsAYlNGcXsg=;
-        b=CkcDlwbSGbZmx9wxEUmR/gvNhW4bc3brwowhyhSszC27qG1XkY+bIgxJI0NrglI/WE
-         i0iVGEQiXl5m8xQ5Dl7/i/mYWboCfRFrob0ndUlJkprjshQtPf4UWNFMOJH4Xq3ag9vN
-         d+Me31cbknHE0EhXB1Ik6PDxF8No+UqdR3yPsEfRCjNgEswfKfPcpfV8EnerlLRCN6fB
-         dfm1+tArPVMNP1DhWbn4XmmZsDYLuDd1b/mkgUsI1Jusz4nenwVKz0tjn4b4lJhdpjo2
-         i3bF2o5+oRLZEp+8YvUhd7PaDUJiEEmE59lo8OueFckXBFY3v8TdTv/1O0srdnFbMNXo
-         yadQ==
-X-Gm-Message-State: AOAM530dM1HZBDhB7I24swwEdTM8QO+zp6S+jA7Et43klGVwbUMWGewp
-	1E74ZswuhmukFvhMTXv52J/mW5r6RQDKgg/r+7s=
-X-Google-Smtp-Source: ABdhPJxBr4h5UZFclQtzsSY65vLgvpbwrv16F4oqjK36NKhMLLEXl2T1IFKMvs+VCaNg/rsEWbMRNqh76+cKXc7+bvk=
-X-Received: by 2002:ab0:5962:: with SMTP id o31mr38605808uad.89.1625139615705;
- Thu, 01 Jul 2021 04:40:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VNdwksFBlS1nheRc4dm/+w8F+RskstkxpHMAk+Ia9ic=;
+        b=aymcb7Rg31kJknJqB9pm1IENVIrEwu4io3znywOYpCtur2yhZYhF1nfoqXpdXy7E4s
+         MMqy8L9hdxh5OvOEko9DXQiYfsr2Ya9khP12Io0mq6sE/nsROdrj0y1LacyoNJOmQcsN
+         NY4wb3DkczN1aTAtNXALedSv73o88rJgamQuRiIttxJBwR3pDTFIV4c++jzYM3Gjf9Ku
+         Y9G2vaVoqdWswbdl6zOScvyqb1XuhDj6EiiXuTxiR2/85h1d9me0smaTo27sOl87Ksya
+         Qs33605MDmKBeTH27qvM4ZlBZZNqP1+INPjgXyqR1TrvSBA6XBCXk24BlUGADPDifz12
+         jZ+w==
+X-Gm-Message-State: AOAM533CE1Yk6kmVKN49gZLH3Jy37Z9AuRJHKuRGwCpYtf+4lRa4MvuU
+	bQfGiqnsXJlrwLeY6+u4aA8saF0DdOLJcS4OA2M=
+X-Google-Smtp-Source: ABdhPJxlOjByrr/nhjBJaQR1sNmg6nPheVXR8jjk2DfmP8SfqJoucEVvoJR+Vjb9KTm29bgxWRIbSQ==
+X-Received: by 2002:aca:4482:: with SMTP id r124mr30046539oia.153.1625148028843;
+        Thu, 01 Jul 2021 07:00:28 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id n16sm4433953oor.47.2021.07.01.07.00.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jul 2021 07:00:28 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/14] Pull request (cover letter only)
+Date: Thu,  1 Jul 2021 04:00:07 -1000
+Message-Id: <cover.1625147867.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210630205233.23046-1-rasmus.villemoes@prevas.dk>
- <CANNYZj_BzozcbaQ27aD2WsJ0e_cCmNCzBzzmT=8yvWVXJJyyhw@mail.gmail.com> <cec2d722-095e-5ca6-eea5-80b4d906f679@prevas.dk>
-In-Reply-To: <cec2d722-095e-5ca6-eea5-80b4d906f679@prevas.dk>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 1 Jul 2021 13:40:04 +0200
-Message-ID: <CANNYZj9grFii0C45oCAOXy6CYvBn4DM_PduJLj34811J8DW=Mg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] recipes-kernel: vdsotest: new recipe
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000812f1405c60e4dc7"
+Content-Transfer-Encoding: 8bit
 
---000000000000812f1405c60e4dc7
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit ac8181d9b9ad8360f7dba03aba8b00f008c6ebb4:
 
-On Thu, 1 Jul 2021 at 11:46, Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-wrote:
+  Revert "python3: fix CVE-2021-23336" (2021-06-19 13:11:58 -1000)
 
-> > Should this be in meta-oe rather than oe-core?
->
-> Perhaps. Could you share some of your thought process that led you to
-> ask that question? I honestly didn't think much about it, but it did
-> seem to fit well with the other "userspace tools closely tied to how the
-> linux kernel works".
->
+are available in the Git repository at:
 
-The bar for adding new recipes to oe-core is pretty high; the recipe needs
-to be a basic requirement for a functioning embedded use case, a core
-toolchain piece, a broadly useful diagnostic tool, or a hard dependency for
-any of those. This recipe does not seem to fulfil that.
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Alex
+Jasper Orschulko (3):
+  expat: fix CVE-2013-0340
+  libxml2: Fix CVE-2021-3518
+  libx11: Fix CVE-2021-31535
 
---000000000000812f1405c60e4dc7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Michael Halstead (1):
+  uninative: Upgrade to 3.2 (gcc11 support)
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 1 Jul 2021 at 11:46, Rasmus Villemoes &lt;<a href=3D"mailto:=
-rasmus.villemoes@prevas.dk">rasmus.villemoes@prevas.dk</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; Should this be i=
-n meta-oe rather than oe-core?<br>
-<br>
-Perhaps. Could you share some of your thought process that led you to<br>
-ask that question? I honestly didn&#39;t think much about it, but it did<br=
->
-seem to fit well with the other &quot;userspace tools closely tied to how t=
-he<br>
-linux kernel works&quot;.<br></blockquote><div><br></div><div>The bar for a=
-dding new recipes to oe-core is pretty high; the recipe needs to be a basic=
- requirement for a functioning embedded use case, a core toolchain piece, a=
- broadly useful diagnostic tool, or a hard dependency for any of those. Thi=
-s recipe does not seem to fulfil that.</div><div><br></div><div>Alex<br></d=
-iv></div></div>
+Tim Orling (10):
+  python3: upgrade 3.8.2 -> 3.8.3
+  python3: upgrade 3.8.3 -> 3.8.4
+  python3: upgrade 3.8.4 -> 3.8.5
+  python3: upgrade 3.8.5 -> 3.8.6
+  python3: upgrade 3.8.6 -> 3.8.7
+  python3: upgrade 3.8.7 -> 3.8.8
+  powertop: fix aclocal error too many loops
+  python3: upgrade 3.8.8 -> 3.8.9
+  python3: upgrade 3.8.9 -> 3.8.10
+  python3-ptest: add newly discovered missing rdeps
 
---000000000000812f1405c60e4dc7--
+ meta/conf/distro/include/yocto-uninative.inc  |    8 +-
+ .../expat/expat/CVE-2013-0340.patch           | 1758 +++++++++++++++++
+ .../expat/expat/libtool-tag.patch             |   41 +-
+ meta/recipes-core/expat/expat_2.2.9.bb        |   12 +-
+ .../libxml/libxml2/CVE-2021-3518.patch        |  112 ++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |    1 +
+ ...20-8492-Fix-AbstractBasicAuthHandler.patch |  248 ---
+ ...le.py-correct-the-test-output-format.patch |   24 +-
+ .../python/python3/CVE-2019-20907.patch       |   44 -
+ .../python/python3/CVE-2020-14422.patch       |   77 -
+ .../python/python3/CVE-2020-26116.patch       |  104 -
+ .../python/python3/CVE-2020-27619.patch       |   70 -
+ .../python/python3/CVE-2021-3177.patch        |  191 --
+ .../{python3_3.8.2.bb => python3_3.8.10.bb}   |   19 +-
+ .../xorg-lib/libx11/CVE-2021-31535.patch      |  333 ++++
+ .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |    1 +
+ ...2-configure.ac-ax_add_fortify_source.patch |   70 +
+ ...003-configure-Use-AX_REQUIRE_DEFINED.patch |   29 +
+ meta/recipes-kernel/powertop/powertop_2.10.bb |    8 +-
+ 19 files changed, 2357 insertions(+), 793 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2013-0340.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3518.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2020-14422.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2020-26116.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2020-27619.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+ rename meta/recipes-devtools/python/{python3_3.8.2.bb => python3_3.8.10.bb} (95%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2021-31535.patch
+ create mode 100644 meta/recipes-kernel/powertop/powertop/0002-configure.ac-ax_add_fortify_source.patch
+ create mode 100644 meta/recipes-kernel/powertop/powertop/0003-configure-Use-AX_REQUIRE_DEFINED.patch
+
+-- 
+2.25.1
+
