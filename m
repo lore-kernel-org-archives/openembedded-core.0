@@ -1,82 +1,93 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web08.15463.1625259952266672572
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web12.15726.1625262381724992700
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 14:05:53 -0700
+ Fri, 02 Jul 2021 14:46:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=URFu28fo;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.181, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f181.google.com with SMTP id j10so6228198qtx.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 14:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=G/tek3/jMZXbRb8zb1cTWXZCFQZlApB49ENStzhLgPk=;
-        b=URFu28foct6n62E+HF9pPZm822NVl8tb/kJ3zS/6f6o5b3ndh61/dpJYGNAhK6D7IQ
-         Y/b5bzK7ggprhTjHYWm8+fYn0Z/phQHdaeBus9lxxhbejJOmktf/f1/UOwOHNvCKuu6r
-         TkpSdu1SrJVhJl2Pg6d1SAGgtTEUa8SFFXGxkDyIYD/zzxCIfV1rGxt5tAsaJdAT+674
-         +8rVrDw0J+OApOZPYrrAdCuM+8J0Taj99B5LVVPU6XsSL7+nnvLiQMxMTmij4rQIGOaP
-         Ar5oI/ad38lASjWNRublotO00xLPoGWTaNBoYMUbhoCDZGtsv1+X4P9bxhi5rwVdNs7G
-         1N1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=G/tek3/jMZXbRb8zb1cTWXZCFQZlApB49ENStzhLgPk=;
-        b=UAQiyxrTme7uL6TkPZ6bG7ii3f0SKK6rUKXw6408tWichTX92AjQ0YefpeAeAlnACs
-         9+e6W/hvPMtOk9g1T+1XviFaKreWyF0wvJx0vRCzIqxQ29NX2u0UHugMGCwbLh7eN+EW
-         6y63l44PelaN/wY8QxssxsRptWp0MDFMqthSxzVETMK+NaWmNTZtZAKhWgUBDGaJQTYv
-         1r/jimrh6PWkZhor5Bry8S28Pd3Vmujl4jU+Xamy9E7v+Fxp2TlZhmFIAq+cA/N46cre
-         +S4srLNgCLy412hwBdwZuCC8heuEHFhIHUrXZaDTHo33tETFXEAjmRJjiHFsGJAXfP/S
-         X63Q==
-X-Gm-Message-State: AOAM531P0TasdhcEVFKkfsDp2QvxqnjAupKJWLYE0T8DM4nDgcNDH8vu
-	X6CSsm09SLYwnV/6mynl95Eaks9nMeAEv2oU
-X-Google-Smtp-Source: ABdhPJxn+ArDNreRwKHlgnDPf0BtIDuKLUYAlJywvOs/eyV1IRTFR9Ey57kBsRnz2JAHeZt7XYvHtw==
-X-Received: by 2002:ac8:7d06:: with SMTP id g6mr1634045qtb.231.1625259951246;
-        Fri, 02 Jul 2021 14:05:51 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
-        by smtp.gmail.com with ESMTPSA id 65sm1872628qkl.91.2021.07.02.14.05.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jul 2021 14:05:50 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f177.google.com with SMTP id 19so10656098qky.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 14:05:50 -0700 (PDT)
-X-Received: by 2002:a37:6d6:: with SMTP id 205mr27661qkg.197.1625259950333;
- Fri, 02 Jul 2021 14:05:50 -0700 (PDT)
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id C820BE0005;
+	Fri,  2 Jul 2021 21:46:18 +0000 (UTC)
+Date: Fri, 2 Jul 2021 23:46:18 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: Einar Gunnarsson <tolvupostur@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [update-rc.d][PATCH] update-rc.d: Fix enable/disable command
+Message-ID: <YN+JKnHwZ1WCkArT@piout.net>
+References: <168DFB55CCAE8B91.30759@lists.openembedded.org>
+ <CABhNV22NUYR0EU4Dr4zPKoNPcEK-QcOPZNWaTe8fWsGZrJnKFQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210702115900.19417-1-peter@berginkonsult.se>
-In-Reply-To: <20210702115900.19417-1-peter@berginkonsult.se>
-Date: Fri, 2 Jul 2021 18:05:38 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo4HQJ8tTq8se2nQjnZrEb1xXfu-gOWMYwicCX34MV6XQ@mail.gmail.com>
-Message-ID: <CAP9ODKo4HQJ8tTq8se2nQjnZrEb1xXfu-gOWMYwicCX34MV6XQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
-To: Peter Bergin <peter@berginkonsult.se>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Otavio Salvador <otavio@ossystems.com.br>, Ming Liu <liu.ming50@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CABhNV22NUYR0EU4Dr4zPKoNPcEK-QcOPZNWaTe8fWsGZrJnKFQ@mail.gmail.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Em sex., 2 de jul. de 2021 =C3=A0s 08:59, Peter Bergin
-<peter@berginkonsult.se> escreveu:
->
-> This reverts commit 10aa1291979fb90bed1beb49be4d406ed0e1e4d5.
->
-> As there is no build dependency between libubootenv and the configuration
-> of u-boot there is no reason to check for UBOOT_CONFIG or UBOOT_MACHINE
-> by adding the class uboot-config. Revert this in order to remove useless
-> workaround in bsp layer (meta-freescale).
->
-> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+On 02/07/2021 15:57:03+0200, Einar Gunnarsson wrote:
+> I forgot the third error in this line:
+> Links numbered 91 or higher will create a single digit link.
+> 
+> # update-rc.d -v  -n smack disable
+> rename /etc/rc2.d/S91smack -> /etc/rc2.d/K9smack
+> 
+> I guess this fixes all three:
+> 
+> printf -v newnn "%02d" $((100-${oldnn#0}))
+> 
+> How do I resubmit a patch?
+> 
 
-Thank you; I second the revert of this for sure.
+Simply send the new patch with [PATCH v2] instead of [PATCH].
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> 
+> On Fri, 2 Jul 2021 at 15:10, Einar Gunnarsson via lists.openembedded.org
+> <tolvupostur=gmail.com@lists.openembedded.org> wrote:
+> 
+> > $[] is a bashism and does not work on POSIX shells
+> >
+> > enable/disable on links numbered 08 and 09 gives the error:
+> > 'bash: 100-08: value too great for base (error token is "08")'
+> >
+> > Signed-off-by: Einar Gunnarsson <tolvupostur@gmail.com>
+> > ---
+> >  update-rc.d | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/update-rc.d b/update-rc.d
+> > index c9355d7..24ac752 100644
+> > --- a/update-rc.d
+> > +++ b/update-rc.d
+> > @@ -114,7 +114,7 @@ renamelink()
+> >          # or stop link to start link with a sequence number equal to the
+> > difference of 100 minus the original sequence number.
+> >         if ls ${etcd}${lev}.d/${oldstartstop}*${bn} >/dev/null 2>&1; then
+> >                 oldnn=`basename ${etcd}${lev}.d/${oldstartstop}*${bn}|cut
+> > -c2-3`
+> > -               newnn=$[100-$oldnn]
+> > +               newnn=$((100-${oldnn#0}))
+> >                 [ $verbose -eq 1 ] && echo "rename
+> > ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} ->
+> > ${etcd}${lev}.d/${newstartstop}${newnn}${bn}"
+> >                 if [ $notreally -eq 0 ];then
+> >                         mv ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn}
+> > ${etcd}${lev}.d/${newstartstop}${newnn}${bn}
+> > --
+> > 2.17.1
+> >
+> >
+> > 
+> >
+> >
+> 
+> -- 
+> Regards
+> Einar Jón
+> +31 610 957234
+
+> 
+> 
+> 
 
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
