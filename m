@@ -1,73 +1,125 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.9316.1625231385898246664
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.9544.1625232588034308439
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 06:09:46 -0700
+ Fri, 02 Jul 2021 06:29:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rtZ6v0zq;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: tolvupostur@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id i5so13220057eds.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 06:09:45 -0700 (PDT)
+ dkim=pass header.i=@qtec.com header.s=google header.b=Yk1cQCeu;
+ spf=pass (domain: qtec.com, ip: 209.85.208.172, mailfrom: daniel@qtec.com)
+Received: by mail-lj1-f172.google.com with SMTP id d25so13303824lji.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 06:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=dR7CDOZ6d6AKHW8h7gcYRaWpgNzWiw4S6xDmCdksNlo=;
-        b=rtZ6v0zqWhrMCdLADyoaKZraLF1PUXJPBrJKY3GucK8U+wDkkUgagVUS8hshgHUWXv
-         Bj9mXN/FR2jyg5ehQI8hUVL0dRW/IbO7FeY4/H36nXV9UYbb7hAoD4Ivsly3/uazAq1W
-         DRslrrmtZQS2l5eIVDKq1Gg9O6P8zsRmOB5cibO54eaxAlmBlmgRcvvrSPvYnqkgAJka
-         TDqJBvlTAJW1M8us5dzHVkMC2DG0azJuZNfLo557OYwD9Amn+U5YAZMSyyjRnyXhc8cA
-         rkGaCAaufMizPnOatu+Divvn3m5HxlkBry8V9L5wbrMUnjj0Te3Oo5KhqjTVPVpxzNhP
-         LSnA==
+        d=qtec.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=+3aPTVyUpn3kvv1pzzRd8WGG5xM9t7aWml7xoSqrVKU=;
+        b=Yk1cQCeug4xQ00h+W/yDOhpqylLramZKARjdQYiQfKOCGadPqkazUnBlXB47Y0i8b+
+         PdAcTGmRd8kN6Ze7vs8DkznE/NPuI419aH7FBuR1JOj/Vf2RHeo9maXRUXfiF/8i1kMn
+         Qvvtxj/Wh3ta6MYVgTQzzkzE2dmaIYS1A5KcbGUF4WeaL4ny9DS+HxpyEdu+HVM8K3fz
+         VOrT+d8gp5NRFbimFkt4ZJf5Is82gTOXdzKU9JkXpMfEz4MC40Q3Wsit9xKcJhtq4LTG
+         v99yFwDxJFnBgD8+IVvIdch2lY3iMVRONeHWyZz7bb+MTtuUkQ8HpxV7FG/e4guz/su3
+         YQQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=dR7CDOZ6d6AKHW8h7gcYRaWpgNzWiw4S6xDmCdksNlo=;
-        b=ilbLW57LgpIqcivVUZ632DvwDxktgWyxdUx0szEU0t/LNDPPZPZ040FktJDyo+RKdx
-         2PFfDnLLgFTR6bGX2kJW/kUOnMe+jGYfhSrcKPJKKVQBB1Mq6EwNtIuQ15AzzuqbJ+al
-         140yIVJ+nTRE+zlYEPsnQNc7UkVk2j2ztwxVQ/Wv6MSS+uckyTU7sRTF+Gi+52iAMWp0
-         6EgveuErdxe7fvTVuIqSaJ0lV757YXO+9JwJP0p2Q14snkhLD334i7KKNzQkyk3jMzdy
-         Q/oQcTxPBVsJs7Ioc0lRD5ymfJ395Qmmi1H1K8hRI64HjNIKvZrL86OQ6oPH19KaKt0q
-         kkUA==
-X-Gm-Message-State: AOAM531GFa5vy9+icgIzck8GIipqWxS0o8N7lxTnwxgtrEeybZXro1p4
-	eNtQ6oH8GzMEnHkZpMQXCkwbd6ib0Aeew22tCXcblA==
-X-Google-Smtp-Source: ABdhPJxJUC96NyX8CnMsNEHGcovkBqkPsqpXB+FzcgWjyVivFNu4FfdRQG6wK0OTLQ8cARSfkS/o/g==
-X-Received: by 2002:a05:6402:26c1:: with SMTP id x1mr6621325edd.261.1625231384376;
-        Fri, 02 Jul 2021 06:09:44 -0700 (PDT)
-Return-Path: <tolvupostur@gmail.com>
-Received: from vision312-sde.vie.at.tttech.ttt ([213.143.114.199])
-        by smtp.gmail.com with ESMTPSA id c6sm1268848ede.17.2021.07.02.06.09.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jul 2021 06:09:44 -0700 (PDT)
-From: tolvupostur@gmail.com
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=+3aPTVyUpn3kvv1pzzRd8WGG5xM9t7aWml7xoSqrVKU=;
+        b=Ia0s+RYRI+Me2xvwZ0BsP/eZsEcqH0mMCZN0wUD0GaQFrFJOq3HKEebLqAA/FggcbC
+         RIhwj6JQ7zqIK+XakqnN2mQ4PFMtZlqGWutpR8vzOYFkgUQeRHDH0qCeTbOGQxH3uQQ1
+         wODHQJD0ZL0CmbADf4XiYIfhkLIrY6ZWv8jBuwvLJ0jSYmtS7Z5KjTFEjZvFLZ/O1RH4
+         ogWblq1b9oGISGjY2OTFLUC71Q7uzB2sS7zBbdpFNrOMGktiXHcjo+VBi1q43yi7ltd+
+         YqQjMLNsVPIX/IDJG5O44aJfnHdPoTIYxCraxFtz18DLFeEwp+FWoPpEtw/bue8KeYKp
+         ty2w==
+X-Gm-Message-State: AOAM531dcFwqwmEzA43UEhZKuE0iCIbRH2KxsZY7UyNTSY4mxS7AyL0o
+	fV7XONQC98lba8LTp5wb0Y+8nO3Al8Py7fXWs2iO+IfvjYQRdw==
+X-Google-Smtp-Source: ABdhPJyRM8kcGtrbUEl6rSMrkHwvdPOJZtQ1jr/+zbatQTbxlEjyiAgMctze7rOghazIczhImUOrosmWInUtBMcLAVA=
+X-Received: by 2002:a2e:8e33:: with SMTP id r19mr3926710ljk.222.1625232585784;
+ Fri, 02 Jul 2021 06:29:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAH1Ww+Tuf+jwcvybK1KyrkKOg6nvygR3+=YGKRGM0am5OAcdHg@mail.gmail.com>
+In-Reply-To: <CAH1Ww+Tuf+jwcvybK1KyrkKOg6nvygR3+=YGKRGM0am5OAcdHg@mail.gmail.com>
+From: "Daniel Gomez" <daniel@qtec.com>
+Date: Fri, 2 Jul 2021 15:29:34 +0200
+Message-ID: <CAH1Ww+RHDziZot3faTKTOaOQ0y=L+bNTkS-x4m5q1=vt6dEtKg@mail.gmail.com>
+Subject: Re: sstate not used due to runtaskdeps
 To: openembedded-core@lists.openembedded.org
-Cc: Einar Gunnarsson <tolvupostur@gmail.com>
-Subject: [update-rc.d][PATCH] update-rc.d: Fix enable/disable command
-Date: Fri,  2 Jul 2021 15:09:40 +0200
-Message-Id: <20210702130940.7405-1-tolvupostur@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset="UTF-8"
 
-$[] is a bashism and does not work on POSIX shells
+On Fri, 2 Jul 2021 at 13:10, Daniel Gomez <daniel@qtec.com> wrote:
+>
+> Hi all,
+>
+> I'm having a problem with perf recipe sstate not being reused in one
+> of my 'sstate clients' due to the following difference/change:
+>
+> pokyuser@da642d39231a:/workdir/build$ bitbake-diffsigs -t perf do_configure
+> runtaskdeps changed:
+> perf/perf.bb:do_deploy_source_date_epoch with hash
+> 5bb942d026e5da1235e70eec6e1568262f9d3efc5f73e73500192308d8ee09a6
+>   changed to
+> perf/perf.bb:do_deploy_source_date_epoch with hash
+> 366a660a6f7db7d5222216e8100b50ce8baccc22b0ab8df940a5b721e666994c
+> Hash for dependent task perf/perf.bb:do_deploy_source_date_epoch
+> changed from 5bb942d026e5da1235e70eec6e1568262f9d3efc5f73e73500192308d8ee09a6
+> to 366a660a6f7db7d5222216e8100b50ce8baccc22b0ab8df940a5b721e666994c
 
-enable/disable on links numbered 08 and 09 gives the error:
-'bash: 100-08: value too great for base (error token is "08")'
+I've continued with this issue looking at the task dependencies for
+the perf which are the following:
 
-Signed-off-by: Einar Gunnarsson <tolvupostur@gmail.com>
----
- update-rc.d | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+bitbake -g perf
+cat task-depends.dot | grep "perf.do_configure\|perf.do_deploy_source"
+"perf.do_compile" -> "perf.do_configure"
+"perf.do_configure" [label="perf
+do_configure\n:1.0-r9\n/workdir/repo/poky/meta/recipes-kernel/perf/perf.bb"]
+"perf.do_configure" -> "linux-qtec.do_shared_workdir"
+"perf.do_configure" -> "perf.do_deploy_source_date_epoch"
+"perf.do_configure" -> "perf.do_patch"
+"perf.do_configure" -> "perf.do_prepare_recipe_sysroot"
+"perf.do_deploy_source_date_epoch" [label="perf
+do_deploy_source_date_epoch\n:1.0-r9\n/workdir/repo/poky/meta/recipes-kernel/perf/perf.bb"]
+"perf.do_deploy_source_date_epoch" -> "perf.do_patch"
 
-diff --git a/update-rc.d b/update-rc.d
-index c9355d7..24ac752 100644
---- a/update-rc.d
-+++ b/update-rc.d
-@@ -114,7 +114,7 @@ renamelink()
-         # or stop link to start link with a sequence number equal to the difference of 100 minus the original sequence number.
- 	if ls ${etcd}${lev}.d/${oldstartstop}*${bn} >/dev/null 2>&1; then
- 		oldnn=`basename ${etcd}${lev}.d/${oldstartstop}*${bn}|cut -c2-3`
--		newnn=$[100-$oldnn]
-+		newnn=$((100-${oldnn#0}))
- 		[ $verbose -eq 1 ] && echo "rename ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} -> ${etcd}${lev}.d/${newstartstop}${newnn}${bn}"
- 		if [ $notreally -eq 0 ];then
- 			mv ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} ${etcd}${lev}.d/${newstartstop}${newnn}${bn}
--- 
-2.17.1
+In my case, both recipes linux-qtec (custom kernel) and perf are not
+using the sstate. I have also compared the sigdata for the
+linux-qtec.do_shared_workdir task between BUILDA and BUILDB and both
+have the same hash:
+qt5222-poky-linux/linux-qtec/5.13+gitAUTOINC+e6f9eb0341-r0.do_shared_workdir.1c27b593...
+and still they don't reuse the sstate. The rest of the tasks locally
+generated in the client have the same hash as the server.
 
+Any idea what can I do/debug next?
+
+
+>
+> Basically, my BUILDA (yocto server) has generated the perf sstate and
+> for debugging this error, the sigdata which I have compared with my
+> BUILDB (yocto sstate client) figuring out that do_configure task was
+> the first one to differ in between builds. According to [1] I should
+> see the changes in between builds so I assume in my case it is the
+> runtaskdeps but not sure how to proceed now. Comparing the 2 sigdata
+> for the do_deploy_source_date_epoch task using bitbake-diffsigs makes
+> no output. So, I tried to use bitbake-dumpsig in between them and
+> compare the output with diff:
+>
+> bitbake-dumpsig
+> 1.0-r9.do_deploy_source_date_epoch.sigdata.366a660a6f7db7d5222216e8100b50ce8baccc22b0ab8df940a5b721e666994c
+>  | less > 366.log
+> bitbake-dumpsig
+> 1.0-r9.do_deploy_source_date_epoch.sigdata.5bb942d026e5da1235e70eec6e1568262f9d3efc5f73e73500192308d8ee09a6
+>  | less > 5bb.log
+> diff -u 366.log 5bb.log
+>
+> Where you see things like this:
+> -List of dependencies for variable libdir is {'baselib', 'exec_prefix'}
+> +List of dependencies for variable libdir is {'exec_prefix', 'baselib'}
+>
+> Or lines being added/removed.
+>
+> For reference, here the links I've followed:
+> [1] https://wiki.yoctoproject.org/wiki/TipsAndTricks/Understanding_what_changed_(diffsigs_etc)
+> [2] https://www.openembedded.org/pipermail/openembedded-core/2014-June/211563.html
+>
+> Any suggestions on what I should do next to find out what is causing
+> the sstate not being reused on the client/consumer of the sstate side?
+>
+> Thanks in advance,
+>
+> Daniel
