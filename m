@@ -1,146 +1,154 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.7375.1625218220516338160
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web12.7384.1625218972907703347
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 02:30:20 -0700
+ Fri, 02 Jul 2021 02:42:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1629UG3p029139
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 2 Jul 2021 02:30:16 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 2 Jul 2021 02:30:15 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Fri, 2 Jul 2021 02:30:14 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-        <richard.purdie@linuxfoundation.org>, <alex.kanavin@gmail.com>
-Subject: [PATCH v2] perlcross: check the file if patched or not
-Date: Fri, 2 Jul 2021 17:29:21 +0800
-Message-ID: <20210702092921.17572-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <168B66A0894A0B49.14658@lists.openembedded.org>
-References: <168B66A0894A0B49.14658@lists.openembedded.org>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gvUsYgfp;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id hp26so2459965ejc.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 02:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SUnhJEUolqLKt1eTIXrbOuBmW0rpyI1S0F+kbwGyLVk=;
+        b=gvUsYgfpYKh+e9ZHeb2SOl1Gmj0xMMIqIyITgYonTPNpAH3x/r8M0rHmPXOXsbgxXU
+         6uyKmfCcD5zrY9ciJCmgVp2MH5Mry2WjW51gmcEPWS0PGKlyFYc3M0XZ5yCCg9f6yn0h
+         577tFbi4nONoaW8cVMZswQDXkcYlUf/ELUN5BuE5C3+etwcgSzjWb2vWOyf2hpcf6a8K
+         DFrVmnyjH1deVTcVwp73Cmwt3cU2FfDFeg39kYUXn2KxdiP9gZ4oqDPjwTgfPKOiLKYI
+         81FEpH8+dMGXvjrhvEnQdikn6LCoevXdOQ0smRvKYMes5DepeJ9kU34dHxC48G38eOD2
+         vG6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SUnhJEUolqLKt1eTIXrbOuBmW0rpyI1S0F+kbwGyLVk=;
+        b=kqegp0fhwy3VTlu30pZIrV5n+tVccyDMLcdHL2CpIrbe48bTqMmY7oJYQNNcGH+TeV
+         LxFCY6eUXG2mWBAsp1BIWli6qtIFDRoMfZdGO1qGeSkf21q7BZVMd2kiUxbKYlXnmm6Q
+         ntTVrONa/pe8mOf19i2LLzhq9QtO9wTO+DxOB1mPVZZZXUd96mc1J+6wRC1FZYWY5Nnm
+         pwIdZlCXJnKBGoEXr1+N9Qt3BcUlWK55sfL75M++VfXKE346LlS2WwGCeb00U+sZzucx
+         lb3PIH1ABry9sDONs/jBVgIjk7KEuwKkptl7ge08lxwUS+8dWmwODxHHr9kO3MOaq6E5
+         EBXw==
+X-Gm-Message-State: AOAM5301WvIyzFQkeKPGk7nFu9F2OwSVDSQX11yf0ZMh8Cq3oHad5YRm
+	SXFKd88unEQFQC13vSyPX4hXQxo18gZdLpABTHU=
+X-Google-Smtp-Source: ABdhPJzcvZt0JV6H3hGHYSEVC5FgWJrHc17kTC9cj/KMS18PRBW4RyBbF+sL5DB6HbBKMF9SAsmMCWe87hfftqWS69U=
+X-Received: by 2002:a17:907:72cf:: with SMTP id du15mr4556176ejc.54.1625218971308;
+ Fri, 02 Jul 2021 02:42:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20210623083403.2060507-1-alex.kanavin@gmail.com>
+In-Reply-To: <20210623083403.2060507-1-alex.kanavin@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Fri, 2 Jul 2021 11:42:40 +0200
+Message-ID: <CA+chaQfyEEPdvQqqfKw0NKQK2A2RS_ChnNja4jeHYbgr4vuRiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] pypi: set SRC_URI with _prepend, not with +=
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007797d005c620c7f8"
 
-From: Mingli Yu <mingli.yu@windriver.com>
+--0000000000007797d005c620c7f8
+Content-Type: text/plain; charset="UTF-8"
 
-After the commit(60dcb230f6 perl: split perl-cross into its own recipe)
-introduced, the source files mainly come from two parts, one is from
-SRI_URI during do_fetch and the other with below means during do_configure.
-do_configure_prepend() {
-    cp -rfp ${STAGING_DATADIR_NATIVE}/perl-cross/* ${S}
-}
+FYI this breaks podman-compose in meta-virtualization which was setting own
+git:// SRC_URI after pypi inherit and now both entries end in SRC_URI and
+fetch fails with:
 
-And the source files will be changed during do_compile with below
-logic in Makefile.
-$(CROSSPATCHED): %.applied: %.patch
-        patch -p1 -i $< && touch $@
+ERROR: podman-compose-0.1.5-r0 do_fetch: No checksum specified for
+'/OE/build/oe-core/downloads/podman-compose-0.1.5.tar.gz', please add at
+least one to the recipe:
+SRC_URI[sha256sum] =
+"fb229362f188980ea3fbdee2a25d0a2dd6a0b886d925d5213e22e09f1062ebe9"
+ERROR: podman-compose-0.1.5-r0 do_fetch: Fetcher failure for URL: '
+https://files.pythonhosted.org/packages/source/p/podman-compose/podman-compose-0.1.5.tar.gz'.
+Missing SRC_URI checksum
 
-And there comes build failure with below steps:
- $ bitbake perl-native
+I'll send fix for Bruce.
 
-Make a change as below
- $ git diff
- diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
- index b77bbd1fd4..4c5e35ab80 100644
- --- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
- +++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
- @@ -33,6 +33,7 @@ do_compile () {
-  do_install_class-native() {
-      mkdir -p ${D}/${datadir}/perl-cross/
-      cp -rf ${S}/* ${D}/${datadir}/perl-cross/
- +    echo "test" > ${D}/${datadir}/perl-cross/testfile
- }
+On Wed, Jun 23, 2021 at 10:34 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
- $ bitbake perl-native
- | NOTE: make -j 48
- | make crosspatch
- | make[1]: Entering directory '/buildarea1/myu2/wr_build/wr1021_20210616_perl/build/tmp-glibc/work/x86_64-linux/perl-native/5.34.0-r0/perl-5.34.0'
- | patch -p1 -i cnf/diffs/perl5-5.34.0/time-hires.patch && touch cnf/diffs/perl5-5.34.0/time-hires.applied
- | patch -p1 -i cnf/diffs/perl5-5.34.0/xconfig.patch && touch cnf/diffs/perl5-5.34.0/xconfig.applied
- | patch -p1 -i cnf/diffs/perl5-5.34.0/posix-makefile.patch && touch cnf/diffs/perl5-5.34.0/posix-makefile.applied
- | File dist/Time-HiRes/Makefile.PL is read-only; trying to patch anyway
- | patching file dist/Time-HiRes/Makefile.PL
- | Reversed (or previously applied) patch detected!  Assume -R? [n]
- | Apply anyway? [n]
- | Skipping patch.
- | 4 out of 4 hunks ignored -- saving rejects to file dist/Time-HiRes/Makefile.PL.rej
- | patch -p1 -i cnf/diffs/perl5-5.34.0/test-commonsense.patch && touch cnf/diffs/perl5-5.34.0/test-commonsense.applied
- | File perl.h is read-only; trying to patch anyway
- | patching file perl.h
- | Reversed (or previously applied) patch detected!  Assume -R? [n]
- | Apply anyway? [n]
- | Skipping patch.
- | 1 out of 1 hunk ignored -- saving rejects to file perl.h.rej
- | make[1]: *** [Makefile:64: cnf/diffs/perl5-5.34.0/time-hires.applied] Error 1
- [snip]
+> This did not cause problems in builds, but broke some devtool
+> workflows such as version upgrades or checking the latest version
+> from upstream. Tarballs should come first, not the patches.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/classes/pypi.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
+> index 87b4c85fc0..384a209874 100644
+> --- a/meta/classes/pypi.bbclass
+> +++ b/meta/classes/pypi.bbclass
+> @@ -19,7 +19,7 @@ PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
+>
+>  HOMEPAGE ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
+>  SECTION = "devel/python"
+> -SRC_URI += "${PYPI_SRC_URI}"
+> +SRC_URI_prepend = "${PYPI_SRC_URI} "
+>  S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
+>
+>  UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
+> --
+> 2.31.1
+>
+>
+> 
+>
+>
 
-It's because the source files patched twice, so check the file if patched
-or not to avoid the source files patched more than one time to fix the
-build failure as above.
+--0000000000007797d005c620c7f8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- ...ile-check-the-file-if-patched-or-not.patch | 31 +++++++++++++++++++
- .../perl-cross/perlcross_1.3.6.bb             |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
+<div dir=3D"ltr">FYI this breaks podman-compose in meta-virtualization whic=
+h was setting own git:// SRC_URI after pypi inherit and now both entries en=
+d in SRC_URI and fetch fails with:<div><br><div>ERROR: podman-compose-0.1.5=
+-r0 do_fetch: No checksum specified for &#39;/OE/build/oe-core/downloads/po=
+dman-compose-0.1.5.tar.gz&#39;, please add at least one to the recipe:<br>S=
+RC_URI[sha256sum] =3D &quot;fb229362f188980ea3fbdee2a25d0a2dd6a0b886d925d52=
+13e22e09f1062ebe9&quot;<br>ERROR: podman-compose-0.1.5-r0 do_fetch: Fetcher=
+ failure for URL: &#39;<a href=3D"https://files.pythonhosted.org/packages/s=
+ource/p/podman-compose/podman-compose-0.1.5.tar.gz">https://files.pythonhos=
+ted.org/packages/source/p/podman-compose/podman-compose-0.1.5.tar.gz</a>&#3=
+9;. Missing SRC_URI checksum<br></div></div><div><br></div><div>I&#39;ll se=
+nd fix for Bruce.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
+" class=3D"gmail_attr">On Wed, Jun 23, 2021 at 10:34 AM Alexander Kanavin &=
+lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This did=
+ not cause problems in builds, but broke some devtool<br>
+workflows such as version upgrades or checking the latest version<br>
+from upstream. Tarballs should come first, not the patches.<br>
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
+com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/pypi.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass<br>
+index 87b4c85fc0..384a209874 100644<br>
+--- a/meta/classes/pypi.bbclass<br>
++++ b/meta/classes/pypi.bbclass<br>
+@@ -19,7 +19,7 @@ PYPI_SRC_URI ?=3D &quot;${@pypi_src_uri(d)}&quot;<br>
+<br>
+=C2=A0HOMEPAGE ?=3D &quot;<a href=3D"https://pypi.python.org/pypi/$%7BPYPI=
+_PACKAGE%7D/" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/=
+pypi/${PYPI_PACKAGE}/</a>&quot;<br>
+=C2=A0SECTION =3D &quot;devel/python&quot;<br>
+-SRC_URI +=3D &quot;${PYPI_SRC_URI}&quot;<br>
++SRC_URI_prepend =3D &quot;${PYPI_SRC_URI} &quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/${PYPI_PACKAGE}-${PV}&quot;<br>
+<br>
+=C2=A0UPSTREAM_CHECK_URI ?=3D &quot;<a href=3D"https://pypi.org/project/$%=
+7BPYPI_PACKAGE%7D/" rel=3D"noreferrer" target=3D"_blank">https://pypi.org/p=
+roject/${PYPI_PACKAGE}/</a>&quot;<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
-new file mode 100644
-index 0000000000..fb7b287599
---- /dev/null
-+++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
-@@ -0,0 +1,31 @@
-+From 24a3e0c48f9ebe473b5f1078663e275c27d0537f Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Fri, 2 Jul 2021 09:08:21 +0000
-+Subject: [PATCH] Makefile: check the file if patched or not
-+
-+Check the file if patched or not to avoid patched more than
-+one time.
-+
-+Upstream-Status: Inappropriate (OE-specific)
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index f4a26f5..7bc748e 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -61,7 +61,7 @@ miniperlmain$O: $(CROSSPATCHED)
-+ # Original versions are not saved anymore; patch generally takes care of this,
-+ # and if that fails, reaching for the source tarball is the safest option.
-+ $(CROSSPATCHED): %.applied: %.patch
-+-	patch -p1 -i $< && touch $@
-++	test ! -f $@ && (patch -p1 -i $< && touch $@)
-+ 
-+ # ---[ common ]-----------------------------------------------------------------
-+ 
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-index b77bbd1fd4..b19692b2f3 100644
---- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-+++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
-            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
-            file://determinism.patch \
-            file://0001-cnf-configure_func_sel.sh-disable-thread_safe_nl_lan.patch \
-+           file://0001-Makefile-check-the-file-if-patched-or-not.patch \
-            "
- UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
- 
--- 
-2.29.2
-
+--0000000000007797d005c620c7f8--
