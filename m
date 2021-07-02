@@ -1,140 +1,141 @@
-Received: from smtp0.taitradio.net (smtp0.taitradio.net [202.37.96.22])
- by mx.groups.io with SMTP id smtpd.web11.1541.1625176220706289587
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.6802.1625213457528224289
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jul 2021 14:50:21 -0700
+ Fri, 02 Jul 2021 01:10:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: taitradio.com, ip: 202.37.96.22, mailfrom: douglas.royds@taitradio.com)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id D5010E00BC;
-	Fri,  2 Jul 2021 09:44:42 +1200 (NZST)
-From: "Douglas" <douglas.royds@taitradio.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Douglas Royds <douglas.royds@taitradio.com>
-Subject: [PATCH v2] license_image: Use sstate to populate license directory
-Date: Fri,  2 Jul 2021 09:44:37 +1200
-Message-Id: <20210701214437.732187-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1628Aj9b026286
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 2 Jul 2021 01:10:46 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Fri, 2 Jul 2021 01:10:45 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Fri, 2 Jul 2021 01:10:44 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>, <tanuk@iki.fi>,
+        <armccurdy@gmail.com>
+Subject: [PATCH v3] pulseaudio: check if NEON code can be compiled on arm
+Date: Fri, 2 Jul 2021 16:09:51 +0800
+Message-ID: <20210702080951.7938-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <afabe035831b1987521868bfda74a6dc43298aa7.camel@linuxfoundation.org>
+References: <afabe035831b1987521868bfda74a6dc43298aa7.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-We were getting an endlessly-growing list of directories in
-build/tmp/deploy/licenses/ of the form myimage-mymachine-20210629010203.
-Use the normal sstate behaviour to clean them. Brings license_image in
-line with the do_populate_lic behaviour in license.bbclass.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-We must only clean the (new) WORKDIR/license-destdir at do_rootfs time,
-as the write_package_manifest and license_create_manifest rootfs
-postprocess commands write the package.manifest and license.manifest
-files at that time. They get stored in the sstate cache at
-do_populate_lic_deploy time, alongside the image_license.manifest.
+Backport a patch to check if NEON code can be compiled on arm to
+fix below issue:
+ | /prj/tmp-glibc/work/armv5e-wrs-linux-gnueabi/pulseaudio/14.0-r0/recipe-sysroot-native/usr/lib/arm-wrs-linux-gnueabi/gcc/arm-wrs-linux-gnueabi/10.2.0/include/arm_neon.h:31:2: error: #error "NEON intrinsics not available with the soft-float ABI.  Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+ |  31 | #error "NEON intrinsics not available with the soft-float ABI.  Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+      |  ^~~~~
+ | ../pulseaudio-14.0/src/pulsecore/mix_neon.c: In function 'pa_mix_ch2_s16ne_neon':
+ | ../pulseaudio-14.0/src/pulsecore/mix_neon.c:38:9: error: unknown type name 'int32x4_t'; did you mean 'int32_t'?
+ |   38 |         int32x4_t sum0, sum1;
 
-Looks like this:
-
-    license-destdir/
-    =E2=94=9C=E2=94=80=E2=94=80 myimage-mymachine -> myimage-mymachine-20=
-210629025723/
-    =E2=94=94=E2=94=80=E2=94=80 myimage-mymachine-20210629025723/
-        =E2=94=9C=E2=94=80=E2=94=80 image_license.manifest
-        =E2=94=9C=E2=94=80=E2=94=80 license.manifest
-        =E2=94=94=E2=94=80=E2=94=80 package.manifest
-
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/classes/license_image.bbclass | 38 +++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 16 deletions(-)
+ ...check-if-NEON-code-can-be-compiled-o.patch | 71 +++++++++++++++++++
+ .../pulseaudio/pulseaudio_14.2.bb             |  1 +
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-meson-check-if-NEON-code-can-be-compiled-o.patch
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_im=
-age.bbclass
-index 73cebb4d55e..30204b47b1c 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -1,8 +1,9 @@
- ROOTFS_LICENSE_DIR =3D "${IMAGE_ROOTFS}/usr/share/common-licenses"
-+LICSSTATEDIR =3D "${WORKDIR}/license-destdir/"
-=20
- python write_package_manifest() {
-     # Get list of installed packages
--    license_image_dir =3D d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
-+    license_image_dir =3D d.expand('${LICSSTATEDIR}/${IMAGE_NAME}')
-     bb.utils.mkdirhier(license_image_dir)
-     from oe.rootfs import image_list_installed_packages
-     from oe.utils import format_pkg_list
-@@ -32,7 +33,7 @@ python license_create_manifest() {
-             pkg_lic_name =3D "LICENSE_" + pkg_name
-             pkg_dic[pkg_name]["LICENSE"] =3D pkg_dic[pkg_name][pkg_lic_n=
-ame]
-=20
--    rootfs_license_manifest =3D os.path.join(d.getVar('LICENSE_DIRECTORY=
-'),
-+    rootfs_license_manifest =3D os.path.join(d.getVar('LICSSTATEDIR'),
-                         d.getVar('IMAGE_NAME'), 'license.manifest')
-     write_license_files(d, rootfs_license_manifest, pkg_dic, rootfs=3DTr=
-ue)
- }
-@@ -196,23 +197,18 @@ def license_deployed_manifest(d):
-                 key,val =3D line.split(": ", 1)
-                 man_dic[dep][key] =3D val[:-1]
-=20
--    lic_manifest_dir =3D os.path.join(d.getVar('LICENSE_DIRECTORY'),
--                                    d.getVar('IMAGE_NAME'))
--    bb.utils.mkdirhier(lic_manifest_dir)
--    image_license_manifest =3D os.path.join(lic_manifest_dir, 'image_lic=
-ense.manifest')
-+    licsstatedir =3D d.getVar('LICSSTATEDIR')
-+    image_name =3D d.getVar('IMAGE_NAME')
-+    image_license_manifest =3D os.path.join(licsstatedir, image_name, 'i=
-mage_license.manifest')
-     write_license_files(d, image_license_manifest, man_dic, rootfs=3DFal=
-se)
-=20
-     link_name =3D d.getVar('IMAGE_LINK_NAME')
-     if link_name:
--        lic_manifest_symlink_dir =3D os.path.join(d.getVar('LICENSE_DIRE=
-CTORY'),
--                                    link_name)
--        # remove old symlink
--        if os.path.islink(lic_manifest_symlink_dir):
--            os.unlink(lic_manifest_symlink_dir)
--
--        # create the image dir symlink
--        if lic_manifest_dir !=3D lic_manifest_symlink_dir:
--            os.symlink(lic_manifest_dir, lic_manifest_symlink_dir)
-+        if image_name !=3D link_name:
-+            link_path =3D os.path.join(licsstatedir, link_name)
-+            if os.path.lexists(link_path):
-+                os.remove(link_path)
-+            os.symlink(image_name, link_path)
-=20
- def get_deployed_dependencies(d):
-     """
-@@ -260,14 +256,24 @@ def get_deployed_files(man_file):
-     return dep_files
-=20
- ROOTFS_POSTPROCESS_COMMAND_prepend =3D "write_package_manifest; license_=
-create_manifest; "
-+do_rootfs[cleandirs] +=3D "${LICSSTATEDIR}"
- do_rootfs[recrdeptask] +=3D "do_populate_lic"
-=20
- python do_populate_lic_deploy() {
-     license_deployed_manifest(d)
- }
--
- addtask populate_lic_deploy before do_build after do_image_complete
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-meson-check-if-NEON-code-can-be-compiled-o.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-meson-check-if-NEON-code-can-be-compiled-o.patch
+new file mode 100644
+index 0000000000..5d9370fb16
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-meson-check-if-NEON-code-can-be-compiled-o.patch
+@@ -0,0 +1,71 @@
++From 09f846fbdeb19193e778ce51baa77bd03c38372e Mon Sep 17 00:00:00 2001
++From: garrison <garrison@qemu15.qemu-network>
++Date: Fri, 4 Jun 2021 22:13:02 +0000
++Subject: [PATCH] build-sys: meson: check if NEON code can be compiled on arm
 +
-+SSTATETASKS +=3D "do_populate_lic_deploy"
-+do_populate_lic_deploy[dirs] =3D "${LICSSTATEDIR}/${IMAGE_NAME}"
- do_populate_lic_deploy[recrdeptask] +=3D "do_populate_lic do_deploy"
-+do_populate_lic_deploy[sstate-inputdirs] =3D "${LICSSTATEDIR}"
-+do_populate_lic_deploy[sstate-outputdirs] =3D "${LICENSE_DIRECTORY}/"
++When Meson SIMD module returns HAVE_NEON=1 on arm host, do extra compile check
++to verify compiler can actually handle NEON code.
 +
-+python do_populate_lic_deploy_setscene () {
-+    sstate_setscene(d)
-+}
-+addtask do_populate_lic_deploy_setscene
-=20
- python license_qa_dead_symlink() {
-     import os
---=20
-2.25.1
++Related Meson issue #6361 https://github.com/mesonbuild/meson/issues/6361
++
++Part-of: <https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_requests/574>
++
++Upstream-Status: Backport[https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/commit/6d2a49a6a1eacc2096d0d9473a074421c181ab56]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ src/pulsecore/meson.build | 41 +++++++++++++++++++++++++++++----------
++ 1 file changed, 31 insertions(+), 10 deletions(-)
++
++diff --git a/src/pulsecore/meson.build b/src/pulsecore/meson.build
++index 99a702e..d0b7990 100644
++--- a/src/pulsecore/meson.build
+++++ b/src/pulsecore/meson.build
++@@ -172,16 +172,37 @@ endif
++ 
++ # FIXME: SIMD support (ORC)
++ simd = import('unstable-simd')
++-libpulsecore_simd = simd.check('libpulsecore_simd',
++-  mmx : ['remap_mmx.c', 'svolume_mmx.c'],
++-  sse : ['remap_sse.c', 'sconv_sse.c', 'svolume_sse.c'],
++-  neon : ['remap_neon.c', 'sconv_neon.c', 'mix_neon.c'],
++-  c_args : [pa_c_args],
++-  include_directories : [configinc, topinc],
++-  implicit_include_directories : false,
++-  compiler : cc)
++-libpulsecore_simd_lib = libpulsecore_simd[0]
++-cdata.merge_from(libpulsecore_simd[1])
+++simd_variants = [
+++  { 'mmx' : ['remap_mmx.c', 'svolume_mmx.c'] },
+++  { 'sse' : ['remap_sse.c', 'sconv_sse.c', 'svolume_sse.c'] },
+++  { 'neon' : ['remap_neon.c', 'sconv_neon.c', 'mix_neon.c'] },
+++]
+++
+++libpulsecore_simd_lib = []
+++
+++foreach simd_kwargs : simd_variants
+++
+++  if host_machine.cpu_family() == 'arm' and 'neon' in simd_kwargs
+++    if not cc.compiles('''
+++        #include <arm_neon.h>
+++        int main() {
+++            return sizeof(uint8x8_t) + sizeof(int32x4_t) + sizeof(float32x4_t);
+++        }
+++        ''', name : 'neon code')
+++      continue
+++    endif
+++  endif
+++
+++  libpulsecore_simd = simd.check('libpulsecore_simd',
+++    kwargs : simd_kwargs,
+++    c_args : [pa_c_args],
+++    include_directories : [configinc, topinc],
+++    implicit_include_directories : false,
+++    compiler : cc)
+++
+++  libpulsecore_simd_lib += libpulsecore_simd[0]
+++  cdata.merge_from(libpulsecore_simd[1])
+++endforeach
++ 
++ # FIXME: Implement Windows support
++ #'mutex-win32.c',
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
+index 9b8338a665..a7ea8caccb 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
+@@ -7,6 +7,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+            file://0001-meson-Check-for-__get_cpuid.patch \
+            file://volatiles.04_pulse \
+            file://0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch \
++           file://0001-build-sys-meson-check-if-NEON-code-can-be-compiled-o.patch \
+            "
+ SRC_URI[md5sum] = "1efc916251910f1e9d4df7810e3e69f8"
+ SRC_URI[sha256sum] = "75d3f7742c1ae449049a4c88900e454b8b350ecaa8c544f3488a2562a9ff66f1"
+-- 
+2.29.2
 
