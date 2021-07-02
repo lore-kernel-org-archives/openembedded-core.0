@@ -1,157 +1,73 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web08.8909.1625229319185872404
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.9316.1625231385898246664
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 05:35:19 -0700
+ Fri, 02 Jul 2021 06:09:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 4B987C0007;
-	Fri,  2 Jul 2021 12:35:16 +0000 (UTC)
-Date: Fri, 2 Jul 2021 14:35:16 +0200
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: douglas.royds@taitradio.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] license_image: Use sstate to populate license directory
-Message-ID: <YN8IBAtecvRvHaNi@piout.net>
-References: <20210701214437.732187-1-douglas.royds@taitradio.com>
-MIME-Version: 1.0
-In-Reply-To: <20210701214437.732187-1-douglas.royds@taitradio.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rtZ6v0zq;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: tolvupostur@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id i5so13220057eds.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 06:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=dR7CDOZ6d6AKHW8h7gcYRaWpgNzWiw4S6xDmCdksNlo=;
+        b=rtZ6v0zqWhrMCdLADyoaKZraLF1PUXJPBrJKY3GucK8U+wDkkUgagVUS8hshgHUWXv
+         Bj9mXN/FR2jyg5ehQI8hUVL0dRW/IbO7FeY4/H36nXV9UYbb7hAoD4Ivsly3/uazAq1W
+         DRslrrmtZQS2l5eIVDKq1Gg9O6P8zsRmOB5cibO54eaxAlmBlmgRcvvrSPvYnqkgAJka
+         TDqJBvlTAJW1M8us5dzHVkMC2DG0azJuZNfLo557OYwD9Amn+U5YAZMSyyjRnyXhc8cA
+         rkGaCAaufMizPnOatu+Divvn3m5HxlkBry8V9L5wbrMUnjj0Te3Oo5KhqjTVPVpxzNhP
+         LSnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=dR7CDOZ6d6AKHW8h7gcYRaWpgNzWiw4S6xDmCdksNlo=;
+        b=ilbLW57LgpIqcivVUZ632DvwDxktgWyxdUx0szEU0t/LNDPPZPZ040FktJDyo+RKdx
+         2PFfDnLLgFTR6bGX2kJW/kUOnMe+jGYfhSrcKPJKKVQBB1Mq6EwNtIuQ15AzzuqbJ+al
+         140yIVJ+nTRE+zlYEPsnQNc7UkVk2j2ztwxVQ/Wv6MSS+uckyTU7sRTF+Gi+52iAMWp0
+         6EgveuErdxe7fvTVuIqSaJ0lV757YXO+9JwJP0p2Q14snkhLD334i7KKNzQkyk3jMzdy
+         Q/oQcTxPBVsJs7Ioc0lRD5ymfJ395Qmmi1H1K8hRI64HjNIKvZrL86OQ6oPH19KaKt0q
+         kkUA==
+X-Gm-Message-State: AOAM531GFa5vy9+icgIzck8GIipqWxS0o8N7lxTnwxgtrEeybZXro1p4
+	eNtQ6oH8GzMEnHkZpMQXCkwbd6ib0Aeew22tCXcblA==
+X-Google-Smtp-Source: ABdhPJxJUC96NyX8CnMsNEHGcovkBqkPsqpXB+FzcgWjyVivFNu4FfdRQG6wK0OTLQ8cARSfkS/o/g==
+X-Received: by 2002:a05:6402:26c1:: with SMTP id x1mr6621325edd.261.1625231384376;
+        Fri, 02 Jul 2021 06:09:44 -0700 (PDT)
+Return-Path: <tolvupostur@gmail.com>
+Received: from vision312-sde.vie.at.tttech.ttt ([213.143.114.199])
+        by smtp.gmail.com with ESMTPSA id c6sm1268848ede.17.2021.07.02.06.09.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jul 2021 06:09:44 -0700 (PDT)
+From: tolvupostur@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Einar Gunnarsson <tolvupostur@gmail.com>
+Subject: [update-rc.d][PATCH] update-rc.d: Fix enable/disable command
+Date: Fri,  2 Jul 2021 15:09:40 +0200
+Message-Id: <20210702130940.7405-1-tolvupostur@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Hello Douglas,
+$[] is a bashism and does not work on POSIX shells
 
-Thank you for this patch,
+enable/disable on links numbered 08 and 09 gives the error:
+'bash: 100-08: value too great for base (error token is "08")'
 
-On 02/07/2021 09:44:37+1200, Douglas via lists.openembedded.org wrote:
-> We were getting an endlessly-growing list of directories in
-> build/tmp/deploy/licenses/ of the form myimage-mymachine-20210629010203.
-> Use the normal sstate behaviour to clean them. Brings license_image in
-> line with the do_populate_lic behaviour in license.bbclass.
-> 
-> We must only clean the (new) WORKDIR/license-destdir at do_rootfs time,
-> as the write_package_manifest and license_create_manifest rootfs
-> postprocess commands write the package.manifest and license.manifest
-> files at that time. They get stored in the sstate cache at
-> do_populate_lic_deploy time, alongside the image_license.manifest.
-> 
-> Looks like this:
-> 
->     license-destdir/
->     ├── myimage-mymachine -> myimage-mymachine-20210629025723/
->     └── myimage-mymachine-20210629025723/
->         ├── image_license.manifest
->         ├── license.manifest
->         └── package.manifest
-> 
+Signed-off-by: Einar Gunnarsson <tolvupostur@gmail.com>
+---
+ update-rc.d | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This ran on the autobuilders and I do believe it is the cause of the
-following failures:
-
-https://autobuilder.yoctoproject.org/typhoon/#builders/79/builds/2269/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#builders/86/builds/2247/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#builders/87/builds/2282/steps/14/logs/stdio
-
-Those seem to be pseudo aborts because the link is changing.
-
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
->  meta/classes/license_image.bbclass | 38 +++++++++++++++++-------------
->  1 file changed, 22 insertions(+), 16 deletions(-)
-> 
-> diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-> index 73cebb4d55e..30204b47b1c 100644
-> --- a/meta/classes/license_image.bbclass
-> +++ b/meta/classes/license_image.bbclass
-> @@ -1,8 +1,9 @@
->  ROOTFS_LICENSE_DIR = "${IMAGE_ROOTFS}/usr/share/common-licenses"
-> +LICSSTATEDIR = "${WORKDIR}/license-destdir/"
->  
->  python write_package_manifest() {
->      # Get list of installed packages
-> -    license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
-> +    license_image_dir = d.expand('${LICSSTATEDIR}/${IMAGE_NAME}')
->      bb.utils.mkdirhier(license_image_dir)
->      from oe.rootfs import image_list_installed_packages
->      from oe.utils import format_pkg_list
-> @@ -32,7 +33,7 @@ python license_create_manifest() {
->              pkg_lic_name = "LICENSE_" + pkg_name
->              pkg_dic[pkg_name]["LICENSE"] = pkg_dic[pkg_name][pkg_lic_name]
->  
-> -    rootfs_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-> +    rootfs_license_manifest = os.path.join(d.getVar('LICSSTATEDIR'),
->                          d.getVar('IMAGE_NAME'), 'license.manifest')
->      write_license_files(d, rootfs_license_manifest, pkg_dic, rootfs=True)
->  }
-> @@ -196,23 +197,18 @@ def license_deployed_manifest(d):
->                  key,val = line.split(": ", 1)
->                  man_dic[dep][key] = val[:-1]
->  
-> -    lic_manifest_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-> -                                    d.getVar('IMAGE_NAME'))
-> -    bb.utils.mkdirhier(lic_manifest_dir)
-> -    image_license_manifest = os.path.join(lic_manifest_dir, 'image_license.manifest')
-> +    licsstatedir = d.getVar('LICSSTATEDIR')
-> +    image_name = d.getVar('IMAGE_NAME')
-> +    image_license_manifest = os.path.join(licsstatedir, image_name, 'image_license.manifest')
->      write_license_files(d, image_license_manifest, man_dic, rootfs=False)
->  
->      link_name = d.getVar('IMAGE_LINK_NAME')
->      if link_name:
-> -        lic_manifest_symlink_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-> -                                    link_name)
-> -        # remove old symlink
-> -        if os.path.islink(lic_manifest_symlink_dir):
-> -            os.unlink(lic_manifest_symlink_dir)
-> -
-> -        # create the image dir symlink
-> -        if lic_manifest_dir != lic_manifest_symlink_dir:
-> -            os.symlink(lic_manifest_dir, lic_manifest_symlink_dir)
-> +        if image_name != link_name:
-> +            link_path = os.path.join(licsstatedir, link_name)
-> +            if os.path.lexists(link_path):
-> +                os.remove(link_path)
-> +            os.symlink(image_name, link_path)
->  
->  def get_deployed_dependencies(d):
->      """
-> @@ -260,14 +256,24 @@ def get_deployed_files(man_file):
->      return dep_files
->  
->  ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
-> +do_rootfs[cleandirs] += "${LICSSTATEDIR}"
->  do_rootfs[recrdeptask] += "do_populate_lic"
->  
->  python do_populate_lic_deploy() {
->      license_deployed_manifest(d)
->  }
-> -
->  addtask populate_lic_deploy before do_build after do_image_complete
-> +
-> +SSTATETASKS += "do_populate_lic_deploy"
-> +do_populate_lic_deploy[dirs] = "${LICSSTATEDIR}/${IMAGE_NAME}"
->  do_populate_lic_deploy[recrdeptask] += "do_populate_lic do_deploy"
-> +do_populate_lic_deploy[sstate-inputdirs] = "${LICSSTATEDIR}"
-> +do_populate_lic_deploy[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
-> +
-> +python do_populate_lic_deploy_setscene () {
-> +    sstate_setscene(d)
-> +}
-> +addtask do_populate_lic_deploy_setscene
->  
->  python license_qa_dead_symlink() {
->      import os
-> -- 
-> 2.25.1
-> 
-
-> 
-> 
-> 
-
-
+diff --git a/update-rc.d b/update-rc.d
+index c9355d7..24ac752 100644
+--- a/update-rc.d
++++ b/update-rc.d
+@@ -114,7 +114,7 @@ renamelink()
+         # or stop link to start link with a sequence number equal to the difference of 100 minus the original sequence number.
+ 	if ls ${etcd}${lev}.d/${oldstartstop}*${bn} >/dev/null 2>&1; then
+ 		oldnn=`basename ${etcd}${lev}.d/${oldstartstop}*${bn}|cut -c2-3`
+-		newnn=$[100-$oldnn]
++		newnn=$((100-${oldnn#0}))
+ 		[ $verbose -eq 1 ] && echo "rename ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} -> ${etcd}${lev}.d/${newstartstop}${newnn}${bn}"
+ 		if [ $notreally -eq 0 ];then
+ 			mv ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} ${etcd}${lev}.d/${newstartstop}${newnn}${bn}
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.17.1
+
