@@ -1,91 +1,126 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.16079.1625264372506714495
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web12.16075.1625264373022861879
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 15:19:32 -0700
+ Fri, 02 Jul 2021 15:19:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jV0M0kZX;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id n25so15143817edw.9
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=a13HRXns;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id o5so18524110ejy.7
         for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 15:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ooIiIN+GSoU5HigI2yrgwl4ElOC7eRA5pZSl3pqx4PM=;
-        b=jV0M0kZX9qj5wopKPtV49dW/Yde14kQqeZdNXlJ50ici+jHvtV6iQeBWjDhj3yn62U
-         iNZ9JwS/RAabyH21J8IL+Zay7wtDi1OsdpI9aB0aWF6E1rCxwddq4cjrGkfz8aRY3dUa
-         ZgeWgUs3z/2R9BDJzU02YWOyDdr2ACRAYsPr92jnGvhnX7ql77jSV1VTBmBfinK8EiNX
-         8bQChCQikwkHXZh5FELbSaVkaEySDhBMisIlVERD8NMO/VxoRXMYwu71LtPD5NKQ8dP6
-         +eLTplu572htfE9kqNnY+4ja1S1r/RTW3SxsFvnX29FnYSrRKOb9IyiyLIk/K55iw5Hb
-         t+kQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=uMeLJNgPZjpjup9pDDxHePCcK6lqCHgD+jGDVthzlxE=;
+        b=a13HRXnsIneU0eNaTX+1LqmIxvVE3nKh8z3OMXfkUes2yW4A20LFP/jNBgM8n7bRYn
+         7MMVPubx6FNSQHrWNhx/myxWfMAPQnxn3ZHtU5O/0rbmfcV46GZ4cJFdOgsAK6f5wvQ2
+         /CQnTsgpSsG/GUkJBEd1ORlOrs3KmzT6hEX/nyHpVjfjT5P4FqlTlHz7leK28zvaxI47
+         HNYJ0afQJH+38jmusCOHjBysDW9HJIhR1Kk8Op6D6EZ6PYGdxLbuGDJY7Bb81XrHAPyc
+         8E8QDVC73t1RXC48lAdRChx3Ner/czoX7sYmy4RDNT4CxJHNdZITrykb/bSvo/1d5P9A
+         ATEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ooIiIN+GSoU5HigI2yrgwl4ElOC7eRA5pZSl3pqx4PM=;
-        b=GW7+EMbLaQ9nCPrvVO7gCqyWJpURlNwBeWXbQbkaUs0VNusxcb53ndB3Bt5fL+CutQ
-         k7xP6HzN3USYAVJXnn9Avcl8EFNEGn91E0r4Iy+ICSuLJBdb6Llt0I5OFQTBTnLLDSaN
-         1MXbIXfcAmVj3oNmPyJ95KoYuXjGcnkfFQTYSbOIBy9roipXa2xunmXplQnVwF55F47W
-         chBDzBzrFRYvnxyoaegT1UPjND95OiXtRm3lw0nc0e8oMluQD7uUlXb0muFE2Qw9hH2E
-         mbv+uMPy2EDPv1qOfEUuQNNQVTT6iFJ5OkdbQ2Mnaub488+1xwJW6DpSLaXNfWK6Klwk
-         3HSw==
-X-Gm-Message-State: AOAM531C5rDyKW12B+TYaGcrrUXbP1pbrrHaIzOFxU5PhDkp6G/0oEyM
-	Ndnl5VitXK9PY9A5KrWezd4hkEmmeAcCeg==
-X-Google-Smtp-Source: ABdhPJwxQDopS6Se/xaQ1AsEmndmBxDzVu8QwjzvVLRr57w1hRZ/Blh3wLMOh8lO9ay7/4pFiYrXMg==
-X-Received: by 2002:a05:6402:164f:: with SMTP id s15mr2057816edx.238.1625264370960;
-        Fri, 02 Jul 2021 15:19:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uMeLJNgPZjpjup9pDDxHePCcK6lqCHgD+jGDVthzlxE=;
+        b=dsO+AbRRkY4f0gQSzm49HhYs8CwY9aVPpctTmCHpPc6MeNQU1iuNpHXUCDJFq3MK21
+         YuTbSx1+Xf7IBVaKPsy7m4mtY6hfO6mdZj62Ug40HenKSJ7JA2imW/FvuNBYFE4d0709
+         0m79wsPIqRIme5jGL/yB21Opc/QS/o2BLSrvVDR9V1T2sX4adDMZLQXMGzA4NKDIBh2x
+         GY7RDKSULlLFSvZKVQ7akbkZokTllbUtse1j4CjgvgQChd+FWJpQLhxJ9tyRpv9187gY
+         Hao7l9gB53jK2mzrmIGPhBCuaRY8Xk3KCzu9SpEPVDE+qrzGQjTfe2i+T2ar6DrH/aP9
+         Y4zA==
+X-Gm-Message-State: AOAM530Xq+Hd3OrSCAIic4G5lnvA8dHVkexYNSsGOzJsMD877WEm1D9c
+	Gw0uF0iGewL4xDnW3+Bo0Y8oa5QOTmYPZg==
+X-Google-Smtp-Source: ABdhPJxzxhaVw6B59IX3Zx2dODUQMAFGb94UkCIcXOlRTyOfJj8iM02mmjd7+12ovk4JZl+chGF+0w==
+X-Received: by 2002:a17:907:97c8:: with SMTP id js8mr1920539ejc.308.1625264371667;
+        Fri, 02 Jul 2021 15:19:31 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id jx17sm1492414ejc.60.2021.07.02.15.19.30
+        by smtp.gmail.com with ESMTPSA id jx17sm1492414ejc.60.2021.07.02.15.19.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jul 2021 15:19:30 -0700 (PDT)
+        Fri, 02 Jul 2021 15:19:31 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/4] man-pages: upgrade 5.11 -> 5.12
-Date: Sat,  3 Jul 2021 00:19:21 +0200
-Message-Id: <20210702221924.2342084-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/4] rt-tests: update 1.10 -> 2.1
+Date: Sat,  3 Jul 2021 00:19:22 +0200
+Message-Id: <20210702221924.2342084-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210702221924.2342084-1-alex.kanavin@gmail.com>
+References: <20210702221924.2342084-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: installation instructions
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../man-pages/{man-pages_5.11.bb => man-pages_5.12.bb}      | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_5.11.bb => man-pages_5.12.bb} (80%)
+ ...Makefile-Allow-for-CC-and-AR-to-be-overridden.patch | 10 ++++------
+ .../{hwlatdetect_1.10.bb => hwlatdetect_git.bb}        |  0
+ meta/recipes-rt/rt-tests/rt-tests.inc                  |  6 +++---
+ .../rt-tests/{rt-tests_1.10.bb => rt-tests_git.bb}     |  0
+ 4 files changed, 7 insertions(+), 9 deletions(-)
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_1.10.bb => hwlatdetect_git.bb} (100%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_1.10.bb => rt-tests_git.bb} (100%)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_5.11.bb b/meta/recipes-extended/man-pages/man-pages_5.12.bb
-similarity index 80%
-rename from meta/recipes-extended/man-pages/man-pages_5.11.bb
-rename to meta/recipes-extended/man-pages/man-pages_5.12.bb
-index 3cd0bc5259..a5b2c30305 100644
---- a/meta/recipes-extended/man-pages/man-pages_5.11.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_5.12.bb
-@@ -4,10 +4,10 @@ SECTION = "console/utils"
- HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
- LICENSE = "GPLv2+"
+diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+index b177ff7c5f..56556dfe63 100644
+--- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
++++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+@@ -1,4 +1,4 @@
+-From b608a817df2b652cd5fa1b5a7cf14b7d2d8afd5f Mon Sep 17 00:00:00 2001
++From 7b0ab10370cad38e26c5ffaaa55a1fd77fff0f18 Mon Sep 17 00:00:00 2001
+ From: Randy Witt <randy.e.witt@intel.com>
+ Date: Fri, 16 Oct 2020 16:54:30 -0700
+ Subject: [PATCH] Makefile: Allow for CC and AR to be overridden
+@@ -9,16 +9,17 @@ commit 7763cf316d7896fa05b816a46998f0827ab6e6eb.
+ Signed-off-by: Randy Witt <randy.e.witt@intel.com>
  
--LIC_FILES_CHKSUM = "file://README;md5=207f70f56526417514ac46b6680e314f"
-+LIC_FILES_CHKSUM = "file://README;md5=92cd5ee2e0b35d782817e7e277b6ce4b"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
+ Upstream-Status: Inappropriate [other]
++
+ ---
+  Makefile | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
--SRC_URI[sha256sum] = "3759aee7cd4a229173d3cb651fbba438777bee6206da8d75ea04caaa7c8662b0"
-+SRC_URI[sha256sum] = "2684d42ab53184d7607105834e277577daa7e854cdce0d4aacf9f7ad8437c7ce"
+ diff --git a/Makefile b/Makefile
+-index 636f191..9f57d2c 100644
++index 63cd77c..495d6bb 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -1,6 +1,6 @@
+- VERSION = 1.10
++ VERSION = 2.1
+ -CC = $(CROSS_COMPILE)gcc
+ -AR = $(CROSS_COMPILE)ar
+ +CC ?= $(CROSS_COMPILE)gcc
+@@ -26,6 +27,3 @@ index 636f191..9f57d2c 100644
+  
+  OBJDIR = bld
+  
+--- 
+-2.29.2
+-
+diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_1.10.bb b/meta/recipes-rt/rt-tests/hwlatdetect_git.bb
+similarity index 100%
+rename from meta/recipes-rt/rt-tests/hwlatdetect_1.10.bb
+rename to meta/recipes-rt/rt-tests/hwlatdetect_git.bb
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index e97140add7..5ce4d298b9 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -1,7 +1,7 @@
+-SRCREV = "c9051a36d934503b4673ca5615f631bae36dead0"
+-PV = "1.10+git${SRCPV}"
++SRCREV = "667e1aae896f8448615b062d27c818b32cb960ff"
++PV = "2.1"
+ PE = "1"
  
- inherit manpages
+-SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=unstable/devel/latest"
++SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main"
  
-@@ -20,7 +20,7 @@ do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- 
- do_install() {
--        oe_runmake install DESTDIR=${D}
-+        oe_runmake install prefix=${prefix} DESTDIR=${D}
- }
- 
- # Only deliveres man-pages so FILES_${PN} gets everything
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_1.10.bb b/meta/recipes-rt/rt-tests/rt-tests_git.bb
+similarity index 100%
+rename from meta/recipes-rt/rt-tests/rt-tests_1.10.bb
+rename to meta/recipes-rt/rt-tests/rt-tests_git.bb
 -- 
 2.31.1
 
