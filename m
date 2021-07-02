@@ -1,125 +1,173 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.9544.1625232588034308439
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.9996.1625234240099480637
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 06:29:49 -0700
+ Fri, 02 Jul 2021 06:57:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qtec.com header.s=google header.b=Yk1cQCeu;
- spf=pass (domain: qtec.com, ip: 209.85.208.172, mailfrom: daniel@qtec.com)
-Received: by mail-lj1-f172.google.com with SMTP id d25so13303824lji.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 06:29:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JkpjHgvb;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: tolvupostur@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id a15so18226048lfr.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 06:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=+3aPTVyUpn3kvv1pzzRd8WGG5xM9t7aWml7xoSqrVKU=;
-        b=Yk1cQCeug4xQ00h+W/yDOhpqylLramZKARjdQYiQfKOCGadPqkazUnBlXB47Y0i8b+
-         PdAcTGmRd8kN6Ze7vs8DkznE/NPuI419aH7FBuR1JOj/Vf2RHeo9maXRUXfiF/8i1kMn
-         Qvvtxj/Wh3ta6MYVgTQzzkzE2dmaIYS1A5KcbGUF4WeaL4ny9DS+HxpyEdu+HVM8K3fz
-         VOrT+d8gp5NRFbimFkt4ZJf5Is82gTOXdzKU9JkXpMfEz4MC40Q3Wsit9xKcJhtq4LTG
-         v99yFwDxJFnBgD8+IVvIdch2lY3iMVRONeHWyZz7bb+MTtuUkQ8HpxV7FG/e4guz/su3
-         YQQg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UE7K59VAPptWcFWuA+Fq5rUtS+B1AUFHIUfCtLTRzZE=;
+        b=JkpjHgvbvzvP4mVggACMWNkRT77FXUANbUD9HhsaW9rDI1AG/WgdBTORXNwlfDn50U
+         UbRuMsGl28WT7K2OwrlOCK3847sZ3OvimgoK4PPPzrGFXR5hIVJe1oURf6uqzDtrmQZE
+         J2EFfOsT/EMXJaf2QIuXeRdtS+KtVfraORqbjUKaEb4LCTdpJrYPl0u0RHBjM1iH5ml+
+         6RwiEVTBujiQ4tz7IPL3LmpqJGpdwhpq0fc97WsilYfpoOfHRKfp5XaIq62Qw4l0OlLc
+         k5RMcFkQHEk+7Zn26jQTVFgaETGElCmUrBOiIiGWGqu8apU7bg5KD9ySNiwaJ4Y1/oGZ
+         aCcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=+3aPTVyUpn3kvv1pzzRd8WGG5xM9t7aWml7xoSqrVKU=;
-        b=Ia0s+RYRI+Me2xvwZ0BsP/eZsEcqH0mMCZN0wUD0GaQFrFJOq3HKEebLqAA/FggcbC
-         RIhwj6JQ7zqIK+XakqnN2mQ4PFMtZlqGWutpR8vzOYFkgUQeRHDH0qCeTbOGQxH3uQQ1
-         wODHQJD0ZL0CmbADf4XiYIfhkLIrY6ZWv8jBuwvLJ0jSYmtS7Z5KjTFEjZvFLZ/O1RH4
-         ogWblq1b9oGISGjY2OTFLUC71Q7uzB2sS7zBbdpFNrOMGktiXHcjo+VBi1q43yi7ltd+
-         YqQjMLNsVPIX/IDJG5O44aJfnHdPoTIYxCraxFtz18DLFeEwp+FWoPpEtw/bue8KeYKp
-         ty2w==
-X-Gm-Message-State: AOAM531dcFwqwmEzA43UEhZKuE0iCIbRH2KxsZY7UyNTSY4mxS7AyL0o
-	fV7XONQC98lba8LTp5wb0Y+8nO3Al8Py7fXWs2iO+IfvjYQRdw==
-X-Google-Smtp-Source: ABdhPJyRM8kcGtrbUEl6rSMrkHwvdPOJZtQ1jr/+zbatQTbxlEjyiAgMctze7rOghazIczhImUOrosmWInUtBMcLAVA=
-X-Received: by 2002:a2e:8e33:: with SMTP id r19mr3926710ljk.222.1625232585784;
- Fri, 02 Jul 2021 06:29:45 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=UE7K59VAPptWcFWuA+Fq5rUtS+B1AUFHIUfCtLTRzZE=;
+        b=YV61l9qyIUkSwg2Qf1tyi+9JXQtR4h+/u00c751XTkm/j8E9C2vN2C9/HaCzy94aKt
+         H7LtQEAsMSZBNA+UhFkz11t9Bpd5w9j4JFuqyGFcRQDSQor7xSJf/Mv0qUXHA+sqN3Os
+         HDR6oGm0Zsvuf2rwyJCWuyZLEy3tkwTR9bPJn47csxfFIVvYQilm92lfDbxobwRBWxa3
+         PpFMkalz4nq5ZRFaabSTo+RTZE1jjM9Zg90ZGpz6fd3z8ZoADciI3QnXzUeABFBQTZOe
+         ahUSl7fcgIcmn8/9F3fr1Dz7wWgdO8/+lEiHMTRSfbWJvqUuFGrDgYKmR9Z3q2Os06+v
+         uylQ==
+X-Gm-Message-State: AOAM533OYft13u6fO9z8kb7MqUBZ2/SCS5KcQVx1ub3nyZsHoAJYbfdc
+	YRjn4DKy4Lwe/OTrkLICbUAPkqSxuW4CPVwSd44=
+X-Google-Smtp-Source: ABdhPJzuwY73poeUiYun+yOpyO780boSzyQYEowSY2GewgK9opKWWuxDZCs+luIeOI0HUMJJ2Lyq1fMM6Zg9E1vR+jQ=
+X-Received: by 2002:ac2:4187:: with SMTP id z7mr3897682lfh.574.1625234234025;
+ Fri, 02 Jul 2021 06:57:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAH1Ww+Tuf+jwcvybK1KyrkKOg6nvygR3+=YGKRGM0am5OAcdHg@mail.gmail.com>
-In-Reply-To: <CAH1Ww+Tuf+jwcvybK1KyrkKOg6nvygR3+=YGKRGM0am5OAcdHg@mail.gmail.com>
-From: "Daniel Gomez" <daniel@qtec.com>
-Date: Fri, 2 Jul 2021 15:29:34 +0200
-Message-ID: <CAH1Ww+RHDziZot3faTKTOaOQ0y=L+bNTkS-x4m5q1=vt6dEtKg@mail.gmail.com>
-Subject: Re: sstate not used due to runtaskdeps
-To: openembedded-core@lists.openembedded.org
+References: <168DFB55CCAE8B91.30759@lists.openembedded.org>
+In-Reply-To: <168DFB55CCAE8B91.30759@lists.openembedded.org>
+From: "Einar Gunnarsson" <tolvupostur@gmail.com>
+Date: Fri, 2 Jul 2021 15:57:03 +0200
+Message-ID: <CABhNV22NUYR0EU4Dr4zPKoNPcEK-QcOPZNWaTe8fWsGZrJnKFQ@mail.gmail.com>
+Subject: Re: [OE-core] [update-rc.d][PATCH] update-rc.d: Fix enable/disable command
+To: Einar Jon Gunnarsson <tolvupostur@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000322e7305c624559a"
+
+--000000000000322e7305c624559a
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2 Jul 2021 at 13:10, Daniel Gomez <daniel@qtec.com> wrote:
->
-> Hi all,
->
-> I'm having a problem with perf recipe sstate not being reused in one
-> of my 'sstate clients' due to the following difference/change:
->
-> pokyuser@da642d39231a:/workdir/build$ bitbake-diffsigs -t perf do_configure
-> runtaskdeps changed:
-> perf/perf.bb:do_deploy_source_date_epoch with hash
-> 5bb942d026e5da1235e70eec6e1568262f9d3efc5f73e73500192308d8ee09a6
->   changed to
-> perf/perf.bb:do_deploy_source_date_epoch with hash
-> 366a660a6f7db7d5222216e8100b50ce8baccc22b0ab8df940a5b721e666994c
-> Hash for dependent task perf/perf.bb:do_deploy_source_date_epoch
-> changed from 5bb942d026e5da1235e70eec6e1568262f9d3efc5f73e73500192308d8ee09a6
-> to 366a660a6f7db7d5222216e8100b50ce8baccc22b0ab8df940a5b721e666994c
+I forgot the third error in this line:
+Links numbered 91 or higher will create a single digit link.
 
-I've continued with this issue looking at the task dependencies for
-the perf which are the following:
+# update-rc.d -v  -n smack disable
+rename /etc/rc2.d/S91smack -> /etc/rc2.d/K9smack
 
-bitbake -g perf
-cat task-depends.dot | grep "perf.do_configure\|perf.do_deploy_source"
-"perf.do_compile" -> "perf.do_configure"
-"perf.do_configure" [label="perf
-do_configure\n:1.0-r9\n/workdir/repo/poky/meta/recipes-kernel/perf/perf.bb"]
-"perf.do_configure" -> "linux-qtec.do_shared_workdir"
-"perf.do_configure" -> "perf.do_deploy_source_date_epoch"
-"perf.do_configure" -> "perf.do_patch"
-"perf.do_configure" -> "perf.do_prepare_recipe_sysroot"
-"perf.do_deploy_source_date_epoch" [label="perf
-do_deploy_source_date_epoch\n:1.0-r9\n/workdir/repo/poky/meta/recipes-kernel/perf/perf.bb"]
-"perf.do_deploy_source_date_epoch" -> "perf.do_patch"
+I guess this fixes all three:
 
-In my case, both recipes linux-qtec (custom kernel) and perf are not
-using the sstate. I have also compared the sigdata for the
-linux-qtec.do_shared_workdir task between BUILDA and BUILDB and both
-have the same hash:
-qt5222-poky-linux/linux-qtec/5.13+gitAUTOINC+e6f9eb0341-r0.do_shared_workdir.1c27b593...
-and still they don't reuse the sstate. The rest of the tasks locally
-generated in the client have the same hash as the server.
+printf -v newnn "%02d" $((100-${oldnn#0}))
 
-Any idea what can I do/debug next?
+How do I resubmit a patch?
 
 
+On Fri, 2 Jul 2021 at 15:10, Einar Gunnarsson via lists.openembedded.org
+<tolvupostur=3Dgmail.com@lists.openembedded.org> wrote:
+
+> $[] is a bashism and does not work on POSIX shells
 >
-> Basically, my BUILDA (yocto server) has generated the perf sstate and
-> for debugging this error, the sigdata which I have compared with my
-> BUILDB (yocto sstate client) figuring out that do_configure task was
-> the first one to differ in between builds. According to [1] I should
-> see the changes in between builds so I assume in my case it is the
-> runtaskdeps but not sure how to proceed now. Comparing the 2 sigdata
-> for the do_deploy_source_date_epoch task using bitbake-diffsigs makes
-> no output. So, I tried to use bitbake-dumpsig in between them and
-> compare the output with diff:
+> enable/disable on links numbered 08 and 09 gives the error:
+> 'bash: 100-08: value too great for base (error token is "08")'
 >
-> bitbake-dumpsig
-> 1.0-r9.do_deploy_source_date_epoch.sigdata.366a660a6f7db7d5222216e8100b50ce8baccc22b0ab8df940a5b721e666994c
->  | less > 366.log
-> bitbake-dumpsig
-> 1.0-r9.do_deploy_source_date_epoch.sigdata.5bb942d026e5da1235e70eec6e1568262f9d3efc5f73e73500192308d8ee09a6
->  | less > 5bb.log
-> diff -u 366.log 5bb.log
+> Signed-off-by: Einar Gunnarsson <tolvupostur@gmail.com>
+> ---
+>  update-rc.d | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Where you see things like this:
-> -List of dependencies for variable libdir is {'baselib', 'exec_prefix'}
-> +List of dependencies for variable libdir is {'exec_prefix', 'baselib'}
+> diff --git a/update-rc.d b/update-rc.d
+> index c9355d7..24ac752 100644
+> --- a/update-rc.d
+> +++ b/update-rc.d
+> @@ -114,7 +114,7 @@ renamelink()
+>          # or stop link to start link with a sequence number equal to th=
+e
+> difference of 100 minus the original sequence number.
+>         if ls ${etcd}${lev}.d/${oldstartstop}*${bn} >/dev/null 2>&1; the=
+n
+>                 oldnn=3D`basename ${etcd}${lev}.d/${oldstartstop}*${bn}|=
+cut
+> -c2-3`
+> -               newnn=3D$[100-$oldnn]
+> +               newnn=3D$((100-${oldnn#0}))
+>                 [ $verbose -eq 1 ] && echo "rename
+> ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} ->
+> ${etcd}${lev}.d/${newstartstop}${newnn}${bn}"
+>                 if [ $notreally -eq 0 ];then
+>                         mv ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn}
+> ${etcd}${lev}.d/${newstartstop}${newnn}${bn}
+> --
+> 2.17.1
 >
-> Or lines being added/removed.
 >
-> For reference, here the links I've followed:
-> [1] https://wiki.yoctoproject.org/wiki/TipsAndTricks/Understanding_what_changed_(diffsigs_etc)
-> [2] https://www.openembedded.org/pipermail/openembedded-core/2014-June/211563.html
+>=20
 >
-> Any suggestions on what I should do next to find out what is causing
-> the sstate not being reused on the client/consumer of the sstate side?
 >
-> Thanks in advance,
->
-> Daniel
+
+--=20
+Regards
+Einar J=C3=B3n
++31 610 957234
+
+--000000000000322e7305c624559a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I forgot the third error in this line:<br>Links numbered 9=
+1 or higher will create a single digit link.<br><br># update-rc.d -v =C2=A0=
+-n smack disable<br>rename /etc/rc2.d/S91smack -&gt; /etc/rc2.d/K9smack<br>=
+<br>I guess this fixes all three:<br><br>printf -v newnn &quot;%02d&quot; $=
+((100-${oldnn#0}))<br><br>How do I resubmit a patch?<br><br></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 2 Jul 2=
+021 at 15:10, Einar Gunnarsson via <a href=3D"http://lists.openembedded.org=
+">lists.openembedded.org</a> &lt;tolvupostur=3D<a href=3D"mailto:gmail.com@=
+lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">$[] is a bashism an=
+d does not work on POSIX shells<br>
+<br>
+enable/disable on links numbered 08 and 09 gives the error:<br>
+&#39;bash: 100-08: value too great for base (error token is &quot;08&quot;=
+)&#39;<br>
+<br>
+Signed-off-by: Einar Gunnarsson &lt;<a href=3D"mailto:tolvupostur@gmail.co=
+m" target=3D"_blank">tolvupostur@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0update-rc.d | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/update-rc.d b/update-rc.d<br>
+index c9355d7..24ac752 100644<br>
+--- a/update-rc.d<br>
++++ b/update-rc.d<br>
+@@ -114,7 +114,7 @@ renamelink()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# or stop link to start link with a sequ=
+ence number equal to the difference of 100 minus the original sequence numb=
+er.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ls ${etcd}${lev}.d/${oldstartstop}*${bn} &g=
+t;/dev/null 2&gt;&amp;1; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oldnn=3D`basename =
+${etcd}${lev}.d/${oldstartstop}*${bn}|cut -c2-3`<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0newnn=3D$[100-$old=
+nn]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0newnn=3D$((100-${o=
+ldnn#0}))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [ $verbose -eq 1 ]=
+ &amp;&amp; echo &quot;rename ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} =
+-&gt; ${etcd}${lev}.d/${newstartstop}${newnn}${bn}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ $notreally -e=
+q 0 ];then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 mv ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} ${etcd}${lev}.d=
+/${newstartstop}${newnn}${bn}<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">Regards<br>Einar J=C3=B3n<br>+31 610 957234</di=
+v>
+
+--000000000000322e7305c624559a--
