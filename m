@@ -1,154 +1,193 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web12.7384.1625218972907703347
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web09.7716.1625221231972327117
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 02:42:53 -0700
+ Fri, 02 Jul 2021 03:20:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gvUsYgfp;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id hp26so2459965ejc.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 02:42:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tNCh/6zU;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: andrea.adami@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id hp26so2612450ejc.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 03:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SUnhJEUolqLKt1eTIXrbOuBmW0rpyI1S0F+kbwGyLVk=;
-        b=gvUsYgfpYKh+e9ZHeb2SOl1Gmj0xMMIqIyITgYonTPNpAH3x/r8M0rHmPXOXsbgxXU
-         6uyKmfCcD5zrY9ciJCmgVp2MH5Mry2WjW51gmcEPWS0PGKlyFYc3M0XZ5yCCg9f6yn0h
-         577tFbi4nONoaW8cVMZswQDXkcYlUf/ELUN5BuE5C3+etwcgSzjWb2vWOyf2hpcf6a8K
-         DFrVmnyjH1deVTcVwp73Cmwt3cU2FfDFeg39kYUXn2KxdiP9gZ4oqDPjwTgfPKOiLKYI
-         81FEpH8+dMGXvjrhvEnQdikn6LCoevXdOQ0smRvKYMes5DepeJ9kU34dHxC48G38eOD2
-         vG6A==
+         :cc:content-transfer-encoding;
+        bh=8QzDWz7Bs0KEQuHMCySbBSeZ403iFj+VizT1WVwxYQc=;
+        b=tNCh/6zUw6UPAEmPA4slQ1F68q4pW9dHG2DzjoH9sKJE6ZzYQlX4zqoq2vgEoocMxY
+         eST29K/qLWBMdHcMXISOANwPLv7E1h7/Ku0WZuKUEHAIeljXbUvQ0A+5NzN+Z9f8VcU6
+         I9oGS9xQBmOYwNVPTpqu+UobQr/u4tohQOPM1UvGUSmPfe9bXpKmwG2470T5xQ2bkvb8
+         h30O3j8SYRaRA0fdrY7eziOtyB0unEoBP8gBNQrE7xYCzfaCsdgrYoULpk1iA+Iq/Zwg
+         mTl0BzDashiB3aveAuHl0pGI0B4Y6ysKw2352qVNtm/+i+q7nsvF7tyO2Y//VAjffNio
+         cJyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SUnhJEUolqLKt1eTIXrbOuBmW0rpyI1S0F+kbwGyLVk=;
-        b=kqegp0fhwy3VTlu30pZIrV5n+tVccyDMLcdHL2CpIrbe48bTqMmY7oJYQNNcGH+TeV
-         LxFCY6eUXG2mWBAsp1BIWli6qtIFDRoMfZdGO1qGeSkf21q7BZVMd2kiUxbKYlXnmm6Q
-         ntTVrONa/pe8mOf19i2LLzhq9QtO9wTO+DxOB1mPVZZZXUd96mc1J+6wRC1FZYWY5Nnm
-         pwIdZlCXJnKBGoEXr1+N9Qt3BcUlWK55sfL75M++VfXKE346LlS2WwGCeb00U+sZzucx
-         lb3PIH1ABry9sDONs/jBVgIjk7KEuwKkptl7ge08lxwUS+8dWmwODxHHr9kO3MOaq6E5
-         EBXw==
-X-Gm-Message-State: AOAM5301WvIyzFQkeKPGk7nFu9F2OwSVDSQX11yf0ZMh8Cq3oHad5YRm
-	SXFKd88unEQFQC13vSyPX4hXQxo18gZdLpABTHU=
-X-Google-Smtp-Source: ABdhPJzcvZt0JV6H3hGHYSEVC5FgWJrHc17kTC9cj/KMS18PRBW4RyBbF+sL5DB6HbBKMF9SAsmMCWe87hfftqWS69U=
-X-Received: by 2002:a17:907:72cf:: with SMTP id du15mr4556176ejc.54.1625218971308;
- Fri, 02 Jul 2021 02:42:51 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8QzDWz7Bs0KEQuHMCySbBSeZ403iFj+VizT1WVwxYQc=;
+        b=SH22qKPoDNIxgEqDBPuzNDqqNbEJrQUpr+qEmOCCQTtFPweySZBlIweXuhflopsSeP
+         8BVX/olMNkB2KBvxew7RwI7xMj4Y7W8MSmSO5n4dFYIY4Kmh5+Nibae8z4C5IZDNVgL5
+         F4T59Ys2N4pNF84y6D9x4Lq4HXt2DZeCMl9fXhkEO1ZSa52Z5PgtWbjcDYzlT8C49jSw
+         p8n+4+InHegate9aCvbcqVxmvs3r6jFEWPuhye2XEzS+Hw7dIRN2dOqoItSyybLpNXbt
+         x34lcHFA2ZdtAOhTaDNnjTZCUUEAjCWWC+32z1x20XlUxRbcTtjt66xqD8/Ir30eHX/f
+         U1+w==
+X-Gm-Message-State: AOAM531D7YB4HfI2q4NKnse5MZ+pxAzv3lcrWIzRT8TGaonqHNG4vHBf
+	nvgptd95uNrb/HIO8iHQoc8XcUxSBip0aYeIjlY=
+X-Google-Smtp-Source: ABdhPJwuND/xwfmuBH74kLI2Nzb7SiyUcl3kZ95NHyUxROQBA9K0qVNtR2Fe0xsJlGRjNlwLfYFnkW9v2IMnmpsUQxA=
+X-Received: by 2002:a17:907:3f92:: with SMTP id hr18mr4634694ejc.462.1625221230404;
+ Fri, 02 Jul 2021 03:20:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210623083403.2060507-1-alex.kanavin@gmail.com>
-In-Reply-To: <20210623083403.2060507-1-alex.kanavin@gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Fri, 2 Jul 2021 11:42:40 +0200
-Message-ID: <CA+chaQfyEEPdvQqqfKw0NKQK2A2RS_ChnNja4jeHYbgr4vuRiw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] pypi: set SRC_URI with _prepend, not with +=
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007797d005c620c7f8"
-
---0000000000007797d005c620c7f8
+References: <afabe035831b1987521868bfda74a6dc43298aa7.camel@linuxfoundation.org>
+ <20210702080951.7938-1-mingli.yu@windriver.com>
+In-Reply-To: <20210702080951.7938-1-mingli.yu@windriver.com>
+From: "Andrea Adami" <andrea.adami@gmail.com>
+Date: Fri, 2 Jul 2021 12:20:19 +0200
+Message-ID: <CAAQYJAu5i-X-GWsns0-ozMWWg_pKHM_K4jm3nRGnrLxf4Y2JVw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] pulseaudio: check if NEON code can be compiled on arm
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, tanuk@iki.fi, 
+	Andre McCurdy <armccurdy@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-
-FYI this breaks podman-compose in meta-virtualization which was setting own
-git:// SRC_URI after pypi inherit and now both entries end in SRC_URI and
-fetch fails with:
-
-ERROR: podman-compose-0.1.5-r0 do_fetch: No checksum specified for
-'/OE/build/oe-core/downloads/podman-compose-0.1.5.tar.gz', please add at
-least one to the recipe:
-SRC_URI[sha256sum] =
-"fb229362f188980ea3fbdee2a25d0a2dd6a0b886d925d5213e22e09f1062ebe9"
-ERROR: podman-compose-0.1.5-r0 do_fetch: Fetcher failure for URL: '
-https://files.pythonhosted.org/packages/source/p/podman-compose/podman-compose-0.1.5.tar.gz'.
-Missing SRC_URI checksum
-
-I'll send fix for Bruce.
-
-On Wed, Jun 23, 2021 at 10:34 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> This did not cause problems in builds, but broke some devtool
-> workflows such as version upgrades or checking the latest version
-> from upstream. Tarballs should come first, not the patches.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/classes/pypi.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
-> index 87b4c85fc0..384a209874 100644
-> --- a/meta/classes/pypi.bbclass
-> +++ b/meta/classes/pypi.bbclass
-> @@ -19,7 +19,7 @@ PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
->
->  HOMEPAGE ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
->  SECTION = "devel/python"
-> -SRC_URI += "${PYPI_SRC_URI}"
-> +SRC_URI_prepend = "${PYPI_SRC_URI} "
->  S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
->
->  UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
-> --
-> 2.31.1
->
->
-> 
->
->
-
---0000000000007797d005c620c7f8
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">FYI this breaks podman-compose in meta-virtualization whic=
-h was setting own git:// SRC_URI after pypi inherit and now both entries en=
-d in SRC_URI and fetch fails with:<div><br><div>ERROR: podman-compose-0.1.5=
--r0 do_fetch: No checksum specified for &#39;/OE/build/oe-core/downloads/po=
-dman-compose-0.1.5.tar.gz&#39;, please add at least one to the recipe:<br>S=
-RC_URI[sha256sum] =3D &quot;fb229362f188980ea3fbdee2a25d0a2dd6a0b886d925d52=
-13e22e09f1062ebe9&quot;<br>ERROR: podman-compose-0.1.5-r0 do_fetch: Fetcher=
- failure for URL: &#39;<a href=3D"https://files.pythonhosted.org/packages/s=
-ource/p/podman-compose/podman-compose-0.1.5.tar.gz">https://files.pythonhos=
-ted.org/packages/source/p/podman-compose/podman-compose-0.1.5.tar.gz</a>&#3=
-9;. Missing SRC_URI checksum<br></div></div><div><br></div><div>I&#39;ll se=
-nd fix for Bruce.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Wed, Jun 23, 2021 at 10:34 AM Alexander Kanavin &=
-lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This did=
- not cause problems in builds, but broke some devtool<br>
-workflows such as version upgrades or checking the latest version<br>
-from upstream. Tarballs should come first, not the patches.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
-com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/pypi.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass<br>
-index 87b4c85fc0..384a209874 100644<br>
---- a/meta/classes/pypi.bbclass<br>
-+++ b/meta/classes/pypi.bbclass<br>
-@@ -19,7 +19,7 @@ PYPI_SRC_URI ?=3D &quot;${@pypi_src_uri(d)}&quot;<br>
-<br>
-=C2=A0HOMEPAGE ?=3D &quot;<a href=3D"https://pypi.python.org/pypi/$%7BPYPI=
-_PACKAGE%7D/" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/=
-pypi/${PYPI_PACKAGE}/</a>&quot;<br>
-=C2=A0SECTION =3D &quot;devel/python&quot;<br>
--SRC_URI +=3D &quot;${PYPI_SRC_URI}&quot;<br>
-+SRC_URI_prepend =3D &quot;${PYPI_SRC_URI} &quot;<br>
-=C2=A0S =3D &quot;${WORKDIR}/${PYPI_PACKAGE}-${PV}&quot;<br>
-<br>
-=C2=A0UPSTREAM_CHECK_URI ?=3D &quot;<a href=3D"https://pypi.org/project/$%=
-7BPYPI_PACKAGE%7D/" rel=3D"noreferrer" target=3D"_blank">https://pypi.org/p=
-roject/${PYPI_PACKAGE}/</a>&quot;<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+On Fri, Jul 2, 2021 at 10:11 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
+>
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> Backport a patch to check if NEON code can be compiled on arm to
+> fix below issue:
+>  | /prj/tmp-glibc/work/armv5e-wrs-linux-gnueabi/pulseaudio/14.0-r0/recip=
+e-sysroot-native/usr/lib/arm-wrs-linux-gnueabi/gcc/arm-wrs-linux-gnueabi/10=
+.2.0/include/arm_neon.h:31:2: error: #error "NEON intrinsics not available =
+with the soft-float ABI.  Please use -mfloat-abi=3Dsoftfp or -mfloat-abi=3D=
+hard"
+>  |  31 | #error "NEON intrinsics not available with the soft-float ABI. =
+ Please use -mfloat-abi=3Dsoftfp or -mfloat-abi=3Dhard"
+>       |  ^~~~~
+>  | ../pulseaudio-14.0/src/pulsecore/mix_neon.c: In function 'pa_mix_ch2_=
+s16ne_neon':
+>  | ../pulseaudio-14.0/src/pulsecore/mix_neon.c:38:9: error: unknown type=
+ name 'int32x4_t'; did you mean 'int32_t'?
+>  |   38 |         int32x4_t sum0, sum1;
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  ...check-if-NEON-code-can-be-compiled-o.patch | 71 +++++++++++++++++++
+>  .../pulseaudio/pulseaudio_14.2.bb             |  1 +
+>  2 files changed, 72 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-b=
+uild-sys-meson-check-if-NEON-code-can-be-compiled-o.patch
+>
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sy=
+s-meson-check-if-NEON-code-can-be-compiled-o.patch b/meta/recipes-multimedi=
+a/pulseaudio/pulseaudio/0001-build-sys-meson-check-if-NEON-code-can-be-comp=
+iled-o.patch
+> new file mode 100644
+> index 0000000000..5d9370fb16
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-meson=
+-check-if-NEON-code-can-be-compiled-o.patch
+> @@ -0,0 +1,71 @@
+> +From 09f846fbdeb19193e778ce51baa77bd03c38372e Mon Sep 17 00:00:00 2001
+> +From: garrison <garrison@qemu15.qemu-network>
+> +Date: Fri, 4 Jun 2021 22:13:02 +0000
+> +Subject: [PATCH] build-sys: meson: check if NEON code can be compiled o=
+n arm
+> +
+> +When Meson SIMD module returns HAVE_NEON=3D1 on arm host, do extra comp=
+ile check
+> +to verify compiler can actually handle NEON code.
+> +
+> +Related Meson issue #6361 https://github.com/mesonbuild/meson/issues/63=
+61
+> +
+> +Part-of: <https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_=
+requests/574>
+> +
+> +Upstream-Status: Backport[https://gitlab.freedesktop.org/pulseaudio/pul=
+seaudio/-/commit/6d2a49a6a1eacc2096d0d9473a074421c181ab56]
+> +
+> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> +---
+> + src/pulsecore/meson.build | 41 +++++++++++++++++++++++++++++----------
+> + 1 file changed, 31 insertions(+), 10 deletions(-)
+> +
+> +diff --git a/src/pulsecore/meson.build b/src/pulsecore/meson.build
+> +index 99a702e..d0b7990 100644
+> +--- a/src/pulsecore/meson.build
+> ++++ b/src/pulsecore/meson.build
+> +@@ -172,16 +172,37 @@ endif
+> +
+> + # FIXME: SIMD support (ORC)
+> + simd =3D import('unstable-simd')
+> +-libpulsecore_simd =3D simd.check('libpulsecore_simd',
+> +-  mmx : ['remap_mmx.c', 'svolume_mmx.c'],
+> +-  sse : ['remap_sse.c', 'sconv_sse.c', 'svolume_sse.c'],
+> +-  neon : ['remap_neon.c', 'sconv_neon.c', 'mix_neon.c'],
+> +-  c_args : [pa_c_args],
+> +-  include_directories : [configinc, topinc],
+> +-  implicit_include_directories : false,
+> +-  compiler : cc)
+> +-libpulsecore_simd_lib =3D libpulsecore_simd[0]
+> +-cdata.merge_from(libpulsecore_simd[1])
+> ++simd_variants =3D [
+> ++  { 'mmx' : ['remap_mmx.c', 'svolume_mmx.c'] },
+> ++  { 'sse' : ['remap_sse.c', 'sconv_sse.c', 'svolume_sse.c'] },
+> ++  { 'neon' : ['remap_neon.c', 'sconv_neon.c', 'mix_neon.c'] },
+> ++]
+> ++
+> ++libpulsecore_simd_lib =3D []
+> ++
+> ++foreach simd_kwargs : simd_variants
+> ++
+> ++  if host_machine.cpu_family() =3D=3D 'arm' and 'neon' in simd_kwargs
+> ++    if not cc.compiles('''
+> ++        #include <arm_neon.h>
+> ++        int main() {
+> ++            return sizeof(uint8x8_t) + sizeof(int32x4_t) + sizeof(floa=
+t32x4_t);
+> ++        }
+> ++        ''', name : 'neon code')
+> ++      continue
+> ++    endif
+> ++  endif
+> ++
+> ++  libpulsecore_simd =3D simd.check('libpulsecore_simd',
+> ++    kwargs : simd_kwargs,
+> ++    c_args : [pa_c_args],
+> ++    include_directories : [configinc, topinc],
+> ++    implicit_include_directories : false,
+> ++    compiler : cc)
+> ++
+> ++  libpulsecore_simd_lib +=3D libpulsecore_simd[0]
+> ++  cdata.merge_from(libpulsecore_simd[1])
+> ++endforeach
+> +
+> + # FIXME: Implement Windows support
+> + #'mutex-win32.c',
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb b/met=
+a/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
+> index 9b8338a665..a7ea8caccb 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
+> @@ -7,6 +7,7 @@ SRC_URI =3D "http://freedesktop.org/software/pulseaudio/=
+releases/${BP}.tar.xz \
+>             file://0001-meson-Check-for-__get_cpuid.patch \
+>             file://volatiles.04_pulse \
+>             file://0001-doxygen-meson.build-remove-dependency-on-doxygen=
+-bin.patch \
+> +           file://0001-build-sys-meson-check-if-NEON-code-can-be-compil=
+ed-o.patch \
+>             "
+>  SRC_URI[md5sum] =3D "1efc916251910f1e9d4df7810e3e69f8"
+>  SRC_URI[sha256sum] =3D "75d3f7742c1ae449049a4c88900e454b8b350ecaa8c544f=
+3488a2562a9ff66f1"
+> --
+> 2.29.2
+>
+>
+>=20
+>
 
---0000000000007797d005c620c7f8--
+Successfully built pulseaudio for armv4 / collie. Thanks.
+
+Tested-by: Andrea Adami <andrea.adami@gmail.com>
