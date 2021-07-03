@@ -1,74 +1,70 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web12.16076.1625264374455053528
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web12.23372.1625324148215554760
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jul 2021 15:19:34 -0700
+ Sat, 03 Jul 2021 07:55:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TCGypXMG;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id m1so15133143edq.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Jul 2021 15:19:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JvEe25zBiItdN0mECpuX/X6sKU7DW5PKfFJzWVn7Mms=;
-        b=TCGypXMGcCpy/U3Bz5D4tpksQtS4RokFerUyXlO/sGN/c2Yom24Ooe+fuVzwFtjBbm
-         tS0N1yR7WEnGLm/celL6Zv3OZRDU2q0fO2MqO9AMG/o17mcvrtgPn+n1fbg8z2pTpulX
-         jN4TJhHRJCXtSgLJ/cMS+qo+MwYIfib0INKxqCcoF4X2WnrD6RE6c4RxPSRzWIenK+Ne
-         cMphkUsMFbctWNbSDfbFD7o0ynAV1VapJ2DrSrGDg6aixUGElbuTnwEIVOHC8dCsfFNY
-         7PvSNpEM5L1ozDQM0NLIFLFj/TY4dVdLrhl48yCEhf/EkQsW6Dua5tfIpzqIla9IPkNm
-         HKeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JvEe25zBiItdN0mECpuX/X6sKU7DW5PKfFJzWVn7Mms=;
-        b=EJnwlA2WcKjR5BgxT9TlZ/mAQUfkhaPQE4JuDk6nTGjjOqCrJeI/UKd5f+1A3Fq8p6
-         t2UPDPAPFV25iZRIEB1tAV+V5DWTQZKRcrPr9IJiQNnHqlhdovEv4HQtJDTFpF5BFHVj
-         iekcD+bGeCHs2NUPWjkhhmQgGyueZgRiFhRVm9lUvBtyfTT+jLwE6hT4NnbBnIex2keM
-         ZqOX/l3p3z/ef0Lvo4QRWfOZ9tCzdvUUtYyVlkSGqAujensQFfWdG1SxQQSQ0kAKSVuw
-         ClIAGSXOXzHIv/wn2BI8gqraNoOs4khm76X0UdAGSW/ojoAHUUrh3E1PHyaFBWMP+JQG
-         hEJw==
-X-Gm-Message-State: AOAM532FGoaZ6syPTbizVGw3jINXa2+ND3UlMlSjTeoOHxGLtCJetQHZ
-	3Q9SYBEtZvqPLStyDuMYZTuADy7An2GkFA==
-X-Google-Smtp-Source: ABdhPJy28kCVdxMtDHNTnL44AcJFu1kGX9Cmn24HUx1DD2Aw8FW+gmjzzKGV5DmQ91kl0GgKax6YSw==
-X-Received: by 2002:aa7:c996:: with SMTP id c22mr2017735edt.374.1625264373112;
-        Fri, 02 Jul 2021 15:19:33 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id jx17sm1492414ejc.60.2021.07.02.15.19.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jul 2021 15:19:32 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 4/4] iputils: correct upstream version check
-Date: Sat,  3 Jul 2021 00:19:24 +0200
-Message-Id: <20210702221924.2342084-4-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210702221924.2342084-1-alex.kanavin@gmail.com>
-References: <20210702221924.2342084-1-alex.kanavin@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10034"; a="230534661"
+X-IronPort-AV: E=Sophos;i="5.83,322,1616482800"; 
+   d="scan'208";a="230534661"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2021 07:55:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,322,1616482800"; 
+   d="scan'208";a="459166684"
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Jul 2021 07:55:45 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Sat, 3 Jul 2021 22:55:42 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2242.008;
+ Sat, 3 Jul 2021 22:55:42 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "peter@berginkonsult.se"
+	<peter@berginkonsult.se>
+CC: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"liu.ming50@gmail.com" <liu.ming50@gmail.com>
+Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
+Thread-Topic: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
+Thread-Index: AQHXbzm0dRf4kFWDY06Zd4FK+4QYDqsw0myA
+Date: Sat, 3 Jul 2021 14:55:42 +0000
+Message-ID: <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
+References: <20210702115900.19417-1-peter@berginkonsult.se>
+In-Reply-To: <20210702115900.19417-1-peter@berginkonsult.se>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E5E147BBE0319A48A328C55FAAB7854C@intel.com>
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-extended/iputils/iputils_20210202.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/iputils/iputils_20210202.bb b/meta/recipes-extended/iputils/iputils_20210202.bb
-index 6200b2c1d7..02a303782e 100644
---- a/meta/recipes-extended/iputils/iputils_20210202.bb
-+++ b/meta/recipes-extended/iputils/iputils_20210202.bb
-@@ -17,7 +17,7 @@ SRCREV = "cc16da6b574ce6637f3e6e9ab3c1a728663006ff"
- 
- S = "${WORKDIR}/git"
- 
--UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>20\d+)"
- 
- # Fixed in 2000-10-10, but the versioning of iputils
- # breaks the version order.
--- 
-2.31.1
-
+T24gRnJpLCAyMDIxLTA3LTAyIGF0IDEzOjU5ICswMjAwLCBQZXRlciBCZXJnaW4gd3JvdGU6DQo+
+IFRoaXMgcmV2ZXJ0cyBjb21taXQgMTBhYTEyOTE5NzlmYjkwYmVkMWJlYjQ5YmU0ZDQwNmVkMGUx
+ZTRkNS4NCj4gDQo+IEFzIHRoZXJlIGlzIG5vIGJ1aWxkIGRlcGVuZGVuY3kgYmV0d2VlbiBsaWJ1
+Ym9vdGVudiBhbmQgdGhlDQo+IGNvbmZpZ3VyYXRpb24NCj4gb2YgdS1ib290IHRoZXJlIGlzIG5v
+IHJlYXNvbiB0byBjaGVjayBmb3IgVUJPT1RfQ09ORklHIG9yIFVCT09UX01BQ0hJTkUNCj4gYnkg
+YWRkaW5nIHRoZSBjbGFzcyB1Ym9vdC1jb25maWcuIFJldmVydCB0aGlzIGluIG9yZGVyIHRvIHJl
+bW92ZQ0KPiB1c2VsZXNzDQo+IHdvcmthcm91bmQgaW4gYnNwIGxheWVyIChtZXRhLWZyZWVzY2Fs
+ZSkuDQoNClRoaXMgd2FzIGFkZGVkIHRvIGFkZHJlc3MgZmFpbHVyZXMgaW4gd29ybGQgYnVpbGRz
+Og0KDQpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9t
+ZXNzYWdlLzE0MTc1Nw0KDQpJZiB0aGlzIGlzIG5vdCByZXF1aXJlZCwgdGhlbiBJIHRoaW5rIHdl
+J2QgbmVlZCB0byBhZGRyZXNzIHRob3NlDQpmYWlsdXJlcy4NCg0KVGhhbmtzLA0KDQpBbnVqDQoN
+Cj4gDQo+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEJlcmdpbiA8cGV0ZXJAYmVyZ2lua29uc3VsdC5z
+ZT4NCj4gLS0tDQo+IMKgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvbGlidWJvb3RlbnZfMC4zLjIu
+YmIgfCAyICstDQo+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvbGlidWJvb3Rl
+bnZfMC4zLjIuYmINCj4gYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC9saWJ1Ym9vdGVudl8wLjMu
+Mi5iYg0KPiBpbmRleCAyY2Y4N2M3OTRlLi4zMDYyOTY5MjJjIDEwMDY0NA0KPiAtLS0gYS9tZXRh
+L3JlY2lwZXMtYnNwL3UtYm9vdC9saWJ1Ym9vdGVudl8wLjMuMi5iYg0KPiArKysgYi9tZXRhL3Jl
+Y2lwZXMtYnNwL3UtYm9vdC9saWJ1Ym9vdGVudl8wLjMuMi5iYg0KPiBAQCAtMTUsNyArMTUsNyBA
+QCBTUkNSRVYgPSAiYmE3NTY0ZjUwMDZkMDliZWM1MTA1OGNmNGY1YWM5MGQ0ZGMxOGIzYyINCj4g
+wqANCj4gwqBTID0gIiR7V09SS0RJUn0vZ2l0Ig0KPiDCoA0KPiAtaW5oZXJpdCB1Ym9vdC1jb25m
+aWcgY21ha2UgbGliX3BhY2thZ2UNCj4gK2luaGVyaXQgY21ha2UgbGliX3BhY2thZ2UNCj4gwqAN
+Cj4gwqBFWFRSQV9PRUNNQUtFID0gIi1EQ01BS0VfQlVJTERfVFlQRT1SZWxlYXNlIg0KPiDCoA0K
+PiANCj4gDQo+IA0KDQo=
