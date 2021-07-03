@@ -1,70 +1,75 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web12.23372.1625324148215554760
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web09.23742.1625326047316425901
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Jul 2021 07:55:48 -0700
+ Sat, 03 Jul 2021 08:27:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10034"; a="230534661"
-X-IronPort-AV: E=Sophos;i="5.83,322,1616482800"; 
-   d="scan'208";a="230534661"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2021 07:55:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,322,1616482800"; 
-   d="scan'208";a="459166684"
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Jul 2021 07:55:45 -0700
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Sat, 3 Jul 2021 22:55:42 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2242.008;
- Sat, 3 Jul 2021 22:55:42 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "peter@berginkonsult.se"
-	<peter@berginkonsult.se>
-CC: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"liu.ming50@gmail.com" <liu.ming50@gmail.com>
-Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
-Thread-Topic: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
-Thread-Index: AQHXbzm0dRf4kFWDY06Zd4FK+4QYDqsw0myA
-Date: Sat, 3 Jul 2021 14:55:42 +0000
-Message-ID: <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
-References: <20210702115900.19417-1-peter@berginkonsult.se>
-In-Reply-To: <20210702115900.19417-1-peter@berginkonsult.se>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
-MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E5E147BBE0319A48A328C55FAAB7854C@intel.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lJm4UBKM;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: tolvupostur@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id hr1so18077966ejc.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Jul 2021 08:27:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=yuDl7i6/5vdaELH4iw4Op0nu1ERLnNZ+6j4kGuZgj0I=;
+        b=lJm4UBKM6YSkLg81kPUKHdvQErJ1P1+/t0neyKlA+iAWYOjEub5qRzdtlmFOZyaARI
+         eSqq+KsURBec5h/RRJPOwA3UvzESL92ofp2OhUE23fX9yMk1diVt+xmd91/GmFZhImDi
+         VUvYcPx1CiIUWSUd3X6QXhzB8Qote5kPh/s8puM0o1oP0dj/MDKfCkh6hPdqzCXsm4R6
+         kBbcxviILHmMy5E4UP35rqmXEA7B2XB4t4Axc/MqAvw3kRmXtln79N3Cgql9sxgy/p5V
+         hO6SNZVA8l8An7f2enUf89FzaQ0d0LXGJMY8RTy54ZBGmLZl/Rvyni3O7qT0NUO6mQHQ
+         nwyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=yuDl7i6/5vdaELH4iw4Op0nu1ERLnNZ+6j4kGuZgj0I=;
+        b=kKsSqzJUGWvQ5zUFWbSsgTq8oqy6Rcb4avSWKvVyMzbKpU/Yd1Hr79pgy3lmvWJuZL
+         KWONMM6wIGKfJ0dFgqt2YJccz1d28p4bQPHw2O4mn6iU2uFRTHu1vWTfOb5qDeelJOfT
+         W91I8okLKglblhAJonp4QbOtJCx5XbhceH7cT1FzuhPNCR4kI+P8rvUpOjdZOpgcvmR/
+         RkD/tjdoGf0ljvm0qymi45Q0z9uPS/3/zGopTVXeNmIzu5tVqxkPG6CkfKQjOlVFZa9B
+         mhDhAltGv9Qyckft4Yb/9F/cunm7UvoAWki1EWnrXP5njhkSDnNMQeD5tNSsE/xeuuXH
+         Qa5g==
+X-Gm-Message-State: AOAM532u+o/O6eSqKsa1Ufa1QbhhED2Xif1hjImry4pl7otoFTQ1WAWf
+	uKimuR4I2o4pG02XeywVjIXN0Ufkq2lHjBW7lao=
+X-Google-Smtp-Source: ABdhPJwH/xvOLLQTzatH+SUWs3LBiwlYx7RhvYk2Ws2zgND48dys0Ut2ZpAQoInHiRym6KdS3AW2Ug==
+X-Received: by 2002:a17:906:551:: with SMTP id k17mr5105652eja.435.1625326045713;
+        Sat, 03 Jul 2021 08:27:25 -0700 (PDT)
+Return-Path: <tolvupostur@gmail.com>
+Received: from vision312-sde.vie.at.tttech.ttt ([213.143.114.199])
+        by smtp.gmail.com with ESMTPSA id s12sm2656635edd.68.2021.07.03.08.27.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jul 2021 08:27:25 -0700 (PDT)
+From: "Einar Gunnarsson" <tolvupostur@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Einar Gunnarsson <tolvupostur@gmail.com>
+Subject: [PATCH v2] update-rc.d: Fix enable/disable command
+Date: Sat,  3 Jul 2021 17:27:18 +0200
+Message-Id: <20210703152718.8806-1-tolvupostur@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-T24gRnJpLCAyMDIxLTA3LTAyIGF0IDEzOjU5ICswMjAwLCBQZXRlciBCZXJnaW4gd3JvdGU6DQo+
-IFRoaXMgcmV2ZXJ0cyBjb21taXQgMTBhYTEyOTE5NzlmYjkwYmVkMWJlYjQ5YmU0ZDQwNmVkMGUx
-ZTRkNS4NCj4gDQo+IEFzIHRoZXJlIGlzIG5vIGJ1aWxkIGRlcGVuZGVuY3kgYmV0d2VlbiBsaWJ1
-Ym9vdGVudiBhbmQgdGhlDQo+IGNvbmZpZ3VyYXRpb24NCj4gb2YgdS1ib290IHRoZXJlIGlzIG5v
-IHJlYXNvbiB0byBjaGVjayBmb3IgVUJPT1RfQ09ORklHIG9yIFVCT09UX01BQ0hJTkUNCj4gYnkg
-YWRkaW5nIHRoZSBjbGFzcyB1Ym9vdC1jb25maWcuIFJldmVydCB0aGlzIGluIG9yZGVyIHRvIHJl
-bW92ZQ0KPiB1c2VsZXNzDQo+IHdvcmthcm91bmQgaW4gYnNwIGxheWVyIChtZXRhLWZyZWVzY2Fs
-ZSkuDQoNClRoaXMgd2FzIGFkZGVkIHRvIGFkZHJlc3MgZmFpbHVyZXMgaW4gd29ybGQgYnVpbGRz
-Og0KDQpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9t
-ZXNzYWdlLzE0MTc1Nw0KDQpJZiB0aGlzIGlzIG5vdCByZXF1aXJlZCwgdGhlbiBJIHRoaW5rIHdl
-J2QgbmVlZCB0byBhZGRyZXNzIHRob3NlDQpmYWlsdXJlcy4NCg0KVGhhbmtzLA0KDQpBbnVqDQoN
-Cj4gDQo+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEJlcmdpbiA8cGV0ZXJAYmVyZ2lua29uc3VsdC5z
-ZT4NCj4gLS0tDQo+IMKgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvbGlidWJvb3RlbnZfMC4zLjIu
-YmIgfCAyICstDQo+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvbGlidWJvb3Rl
-bnZfMC4zLjIuYmINCj4gYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC9saWJ1Ym9vdGVudl8wLjMu
-Mi5iYg0KPiBpbmRleCAyY2Y4N2M3OTRlLi4zMDYyOTY5MjJjIDEwMDY0NA0KPiAtLS0gYS9tZXRh
-L3JlY2lwZXMtYnNwL3UtYm9vdC9saWJ1Ym9vdGVudl8wLjMuMi5iYg0KPiArKysgYi9tZXRhL3Jl
-Y2lwZXMtYnNwL3UtYm9vdC9saWJ1Ym9vdGVudl8wLjMuMi5iYg0KPiBAQCAtMTUsNyArMTUsNyBA
-QCBTUkNSRVYgPSAiYmE3NTY0ZjUwMDZkMDliZWM1MTA1OGNmNGY1YWM5MGQ0ZGMxOGIzYyINCj4g
-wqANCj4gwqBTID0gIiR7V09SS0RJUn0vZ2l0Ig0KPiDCoA0KPiAtaW5oZXJpdCB1Ym9vdC1jb25m
-aWcgY21ha2UgbGliX3BhY2thZ2UNCj4gK2luaGVyaXQgY21ha2UgbGliX3BhY2thZ2UNCj4gwqAN
-Cj4gwqBFWFRSQV9PRUNNQUtFID0gIi1EQ01BS0VfQlVJTERfVFlQRT1SZWxlYXNlIg0KPiDCoA0K
-PiANCj4gDQo+IA0KDQo=
+Now works for any number 01-99 in both bash and busybox sh.
+
+$[] is a bashism and does not work on POSIX shells.
+Links numbered 91-99 created a single digit link.
+Links numbered 08 and 09 gave the error:
+'bash: 100-08: value too great for base (error token is "08")'
+
+Signed-off-by: Einar Gunnarsson <tolvupostur@gmail.com>
+---
+ update-rc.d | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/update-rc.d b/update-rc.d
+index c9355d7..95d1c22 100644
+--- a/update-rc.d
++++ b/update-rc.d
+@@ -114,7 +114,7 @@ renamelink()
+         # or stop link to start link with a sequence number equal to the difference of 100 minus the original sequence number.
+ 	if ls ${etcd}${lev}.d/${oldstartstop}*${bn} >/dev/null 2>&1; then
+ 		oldnn=`basename ${etcd}${lev}.d/${oldstartstop}*${bn}|cut -c2-3`
+-		newnn=$[100-$oldnn]
++		newnn=$(printf "%02d" $((100-${oldnn#0})))
+ 		[ $verbose -eq 1 ] && echo "rename ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} -> ${etcd}${lev}.d/${newstartstop}${newnn}${bn}"
+ 		if [ $notreally -eq 0 ];then
+ 			mv ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} ${etcd}${lev}.d/${newstartstop}${newnn}${bn}
+-- 
+2.17.1
+
