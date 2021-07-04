@@ -1,120 +1,93 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web11.5351.1625366605103647474
+Received: from mailrelay4-2.pub.mailoutpod1-cph3.one.com (mailrelay4-2.pub.mailoutpod1-cph3.one.com [46.30.212.3])
+ by mx.groups.io with SMTP id smtpd.web08.7278.1625389180849366288
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Jul 2021 19:43:25 -0700
+ Sun, 04 Jul 2021 01:59:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=X+P143Fy;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id t3so18904784edc.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Jul 2021 19:43:24 -0700 (PDT)
+ dkim=pass header.i=@berginkonsult.se header.s=20191106 header.b=EycLWLHV;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.3, mailfrom: peter@berginkonsult.se)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LhxjabSAJ76E16RSzXYePJDjWKjfFuUBQzJuqSoBCw0=;
-        b=X+P143FyMPWO+Now34y4lO7S3+YL3uKS8z2+Jo0LeUDhOZedKkAOBSZTORjQy6PXsE
-         4RPF+Bt4hYNMPevtfXKKvEOLGVrZ4lt+RKLZk7LGH+/t2bOCBtYrg0oS9Czvad6qzYAe
-         I1fgn0TwVNpJDDb6ozTIgZbUbHw2HCAO5DOADcbJ+4UH0JOCuTnNvaTgeHxvo7B56QzF
-         1aKH/4u4NgOx709ShWlCWEkOo61qlZhOfbNH2XrwlGYqv0BthqA+6npudEXQkK0+9ndh
-         TmwVxY98EOLMyJ5HSOIQgufTmSGQF+Rx30PgRuqQPJzQ+nw9BQfzNKqehdb82Mf2r34A
-         VSYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LhxjabSAJ76E16RSzXYePJDjWKjfFuUBQzJuqSoBCw0=;
-        b=oMon7WSbC0zzGzfxpU10AL9OLTnjsmLKG/7nMTRzir7L4PBYWrC03ilFtIk1MYNM0T
-         Jm8lOnL2ljRol5TB4VV5P2ektydxynfttxEnFpTHuBGG47u2GYYGlqE7PmBbIVcgKy/N
-         DjRjLkzy7GTocb9p5n53Bm8WAI7AF2DplfGnJQiqQPsNwgsMwwnAg8fJvc0cjK/FntWv
-         p33uW1e0NvXNwEsm568PYrJqbydnyPdH/6PELLMQcGhFt0G9Mz54nHiNX9HyOOWVB2/d
-         6a4CqQR6GnerjAr/NsXnJ383UU102/7oh7Hj+mXphKMM/dVaCcJcsE/RPuNtHTRiURcZ
-         +uFQ==
-X-Gm-Message-State: AOAM530mRn4kBKdY0LciV9uwMleD0JQTQcpC15HH9dR5PDi4Fatm0APJ
-	dhg1ig+6VAI2fZ6/o9Sg80nng4oVNvP9ekfZSgg=
-X-Google-Smtp-Source: ABdhPJw0S0V56a6HMH0UC65GZF8CQ4XrPEVsXohmyDcsajbpe7nyAo5FvWFGp1ptN3QTafGrQpfhuR6UZrbpv7UBjjk=
-X-Received: by 2002:a05:6402:58:: with SMTP id f24mr8340142edu.234.1625366603437;
- Sat, 03 Jul 2021 19:43:23 -0700 (PDT)
+	d=berginkonsult.se; s=20191106;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	 message-id:from:references:cc:to:subject:from;
+	bh=QFNydt+Pm5LjMTCmxV7VlES9iieIMG3xGHyyGGmwNoE=;
+	b=EycLWLHVvOasIo6tQhIs/TBJdHukdPMjFeQQrldnxGnP3Dn5e2nydVqmYHQD/ZZBt0GDrFbYJtSNM
+	 Z4QB4DL6yVHU6z5VWoIbnuXIyNzJvT5uDuslfwLwwthmONwIttYS+HPrTPJ2OE0YXr2xmEvQYen5FX
+	 3+Bvjowph5r/km8XmadWFxEieXf0QWDp8lcUUA1BBPJF3QkBJhJwsHjCf4vdaXGAlpBjxb9wTOw8/i
+	 EOtWYtnSIgrBO/Cct6TWOYTNF56UInCTPM05UUWBA4m2bW09fxMiEZvXUQwgSUW8pPlX7hqxCs5p/0
+	 IC2lUb+6OLvJCby5iVGMqabH0AhrDCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=rsa1;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	 message-id:from:references:cc:to:subject:from;
+	bh=QFNydt+Pm5LjMTCmxV7VlES9iieIMG3xGHyyGGmwNoE=;
+	b=x+HHssMj32jj1YwpbDjaSRjh2XJlP9nFM2JogtZaEpr96mDOdlE1cnJXbN5R3evVG/BJ4Uuf+yQeC
+	 /7S49YyF8iS6E8BTU67pSIg61qhvG64dKCnuAjfVLGMGU4uwyniik10tXfZVKset8TGKS5q4bojPqB
+	 c03V8fDjw+oiIVz7hhiQdJKMq6Iix8ymMM+Zx1HeykTeXpVjBw05KGQSJf6rfpKHdYKhe0E5FzDX3l
+	 14Tun9mlrGx21cxQMiOEJVt9jVpZddY7PQmZluZbxqhzbxfwjZ/ls21gQu+AU01gKTniEwYjVN7kps
+	 WnrbaxGuQQbzBcNJz5zHX5Tx7DIJeGg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed1;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	 message-id:from:references:cc:to:subject:from;
+	bh=QFNydt+Pm5LjMTCmxV7VlES9iieIMG3xGHyyGGmwNoE=;
+	b=RRGDpStolds0OzG9QIVQZ2bsujPvNgUGZ5KQPKSLs/tGrElg6pewFUWbtOkzcgdrXiB+IWRouzJVl
+	 sUdFx13Cg==
+X-HalOne-Cookie: 973b5e9400a7a3578f4e28b4a39d70fcd7cbc999
+X-HalOne-ID: 2919b857-dca6-11eb-a90d-d0431ea8bb10
+Received: from [192.168.100.145] (ua-85-227-233-29.bbcust.telenor.se [85.227.233.29])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 2919b857-dca6-11eb-a90d-d0431ea8bb10;
+	Sun, 04 Jul 2021 08:59:38 +0000 (UTC)
+Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
+To: "Mittal, Anuj" <anuj.mittal@intel.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+ "liu.ming50@gmail.com" <liu.ming50@gmail.com>
+References: <20210702115900.19417-1-peter@berginkonsult.se>
+ <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
+From: "Peter Bergin" <peter@berginkonsult.se>
+Message-ID: <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se>
+Date: Sun, 4 Jul 2021 10:59:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <cover.1625238537.git.bruce.ashfield@gmail.com> <16e9488d8d4b8f200f506a6debb464e54a4bb0d9.camel@linuxfoundation.org>
-In-Reply-To: <16e9488d8d4b8f200f506a6debb464e54a4bb0d9.camel@linuxfoundation.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sat, 3 Jul 2021 22:43:12 -0400
-Message-ID: <CADkTA4NeOtUJKavuXXvGpTjtkEaXKDq_D_VkJNOEOseoUYWWsg@mail.gmail.com>
-Subject: Re: [PATCH 0/8] linux-yocto: consolidated pull request
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-
-On Sat, Jul 3, 2021 at 6:02 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Hi Bruce,
->
-> On Fri, 2021-07-02 at 11:13 -0400, bruce.ashfield@gmail.com wrote:
-> > Here's the next consolidated pull request. It has two normal -stable updates
-> > for 5.10 and 5.4, as well as the first steps in bringing 5.13 in as the
-> > reference kernel (and then dropping 5.4 from master).
-> >
-> > I've built and booted 5.13 as the default for qemu*, as well as building it
-> > against both musl and glibc with the 5.13 libc-headers. I didn't run into
-> > any issues, and neither did my AB runs (I'd like to think it is all the
-> > other patches that have been sent as linux-yocto-dev moved foward that made
-> > this relatively few patches now).
-> >
-> > I've also ensured that AB intermittent fixes are in place for 5.13, so it
-> > is safe from that point of vew as well. Folks without exlcit versions set,
-> > will get 5.13, but it is already sane and fit for that purpose.
-> >
-> > Obviously you can pick and chose what you need from this if there are issues,
-> > and I'm around to trouble shoot anything that pops up.
->
-> Thanks for this. In general it looks good, there is just one failure worrying
-> me a bit:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/425
->
-> which in diffoscope speak is:
->
-> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210702-c3hu90kc/packages/diff-html/
->
-> You may wonder what this pull request has to do with a gcc-sanitisers failure?
->
-> If you don't speak dwarfish or elvish, it means that perf_branch_sample_type_shift
-> was declared on line 162 in one build and 182 in another. I wondered about a
-> bit flip however it is two bits and linux/perf_events.h has
-> perf_branch_sample_type_shift at line number 162 in 5.10 and 182 is 5.13 and that
-> file comes from linux-libc-headers. The logical conclusion is that one was built
-> with one header and the other, from the other header. Why/how this could happen
-> I simply don't know. The problem build came from sstate so there is no real
-> audit trail to follow :(.
-
-I've done multiple header fixups with perf and libc-headers disagreeing, due to
-captured copies being different from the uapi.
-
-This is likely a variant of that.
-
-... that being said, I've never seen anything that varied between
-builds. It either
-broke or it didn't.
-
-This is libc-headers 5.13 and the 5.10 perf ?
-
-Bruce
-
->
-> I'm not sure this blocks the pull request as the issue is probably somewhere else
-> and this just exposed it but any ideas on what happened are very welcome...
->
-> Cheers,
->
-> Richard
->
->
->
+In-Reply-To: <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+On 2021-07-03 16:55, Mittal, Anuj wrote:
+> On Fri, 2021-07-02 at 13:59 +0200, Peter Bergin wrote:
+>> This reverts commit 10aa1291979fb90bed1beb49be4d406ed0e1e4d5.
+>>
+>> As there is no build dependency between libubootenv and the
+>> configuration
+>> of u-boot there is no reason to check for UBOOT_CONFIG or UBOOT_MACHINE
+>> by adding the class uboot-config. Revert this in order to remove
+>> useless
+>> workaround in bsp layer (meta-freescale).
+> This was added to address failures in world builds:
+>
+> https://lists.openembedded.org/g/openembedded-core/message/141757
+>
+> If this is not required, then I think we'd need to address those
+> failures.
+
+Thanks for the pointer about the reason for this patch. I searched a bit 
+but could not find it.
+
+Can you please help me define 'world builds'?
+
+By reading the mail thread my thoughts are that the obvious thing is 
+that the build has a bad configuration as u-boot is skipped. This should 
+be the thing to solve.
+
+Do we have other examples in oe-core where we have a RRECOMMENDS and a 
+requirement that another package is built. Isn't RDEPENDS used for that 
+case?
+
+Best regards,
+/Peter
+
