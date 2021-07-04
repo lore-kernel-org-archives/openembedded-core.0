@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.7589.1625391858673886386
+ by mx.groups.io with SMTP id smtpd.web12.7586.1625391858419585365
  for <openembedded-core@lists.openembedded.org>;
  Sun, 04 Jul 2021 02:44:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-1.yocto.io (unknown [172.29.10.55])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D6CEE38C1279
+	by mail.yoctoproject.org (Postfix) with ESMTP id D8C2838C127D
 	for <openembedded-core@lists.openembedded.org>; Sun,  4 Jul 2021 09:44:17 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to 2757f4fcf78b2f1659425f58a4e33c18973b8d09 FAILED
-Message-ID: <MADEUP.168E8D48AC00BDB5.2482@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============3601803433107272080=="
+Subject: [AUH] xwayland: upgrading to 21.1.1.901 SUCCEEDED
+Message-ID: <MADEUP.168E8D48A9E397D8.5985@lists.openembedded.org>
+X-Groupsio-MsgNum: 153532
+Content-Type: multipart/mixed; boundary="===============0081087958097024833=="
 
---===============3601803433107272080==
+--===============0081087958097024833==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,52 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-samples* to *2757f4fcf78b2f1659425f58a4e33c18973b8d09* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *xwayland* to *21.1.1.901* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-xwayland-upgrade-21.1.1-21.1.1.901.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade vulkan-samples -S 2757f4fcf78b2f1659425f58a4e33c18973b8d09
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1455 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-c72481fe3ef7973c4be7a2c616e2cdb1add94fec"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:c72481fe3ef7973c4be7a2c616e2cdb1add94fec"
-workspace            = "master:be1cf223bf9c514ee81820ded5b13318458c0daf"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-ERROR: Command Error: 'sh -c 'PATCHFILE="0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch" git -c user.name="OpenEmbedded" -c user.email="oe.patch@oe" commit -F /tmp/tmp6dl7jm8e --author="Alexander Kanavin <alex.kanavin@gmail.com>" --date="Sun, 1 Nov 2020 23:19:22 +0000"'' exited with 0  Output:
-stdout: On branch devtool-orig
-Changes not staged for commit:
-	modified:   third_party/spirv-cross (modified content)
-
-no changes added to commit
-
-stderr: 
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-jpaoq8h8/temp/log.do_patch.27494
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-ERROR: Extracting source for vulkan-samples failed
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -76,4 +44,69 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3601803433107272080==--
+--===============0081087958097024833==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/xwayland: SRC_URI changed from "https://www.x.org/archive/individual/xserver/xwayland-21.1.1.tar.xz" to "https://www.x.org/archive/individual/xserver/xwayland-21.1.1.901.tar.xz"
+packages/core2-32-poky-linux/xwayland: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGSIZE changed from 10052424 to 10054260 (+0%)
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-dev: PKGSIZE changed from 184 to 188 (+2%)
+packages/core2-32-poky-linux/xwayland/xwayland-dev: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland/xwayland-dev: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-doc: PKGSIZE changed from 28366 to 28374 (+0%)
+packages/core2-32-poky-linux/xwayland/xwayland-doc: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland/xwayland-doc: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-locale: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland/xwayland-locale: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-src: PKGSIZE changed from 8412469 to 8414057 (+0%)
+packages/core2-32-poky-linux/xwayland/xwayland-src: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland/xwayland-src: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+packages/core2-32-poky-linux/xwayland/xwayland: PV changed from "21.1.1" to "21.1.1.901"
+packages/core2-32-poky-linux/xwayland/xwayland: PKGV changed from 21.1.1 [default] to 21.1.1.901 [default]
+
+--===============0081087958097024833==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-xwayland-upgrade-21.1.1-21.1.1.901.patch"
+
+From 284d3757295951acf8de92249625a2fba87df515 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 4 Jul 2021 08:51:19 +0000
+Subject: [PATCH] xwayland: upgrade 21.1.1 -> 21.1.1.901
+
+---
+ .../xwayland/{xwayland_21.1.1.bb => xwayland_21.1.1.901.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xwayland/{xwayland_21.1.1.bb => xwayland_21.1.1.901.bb} (95%)
+
+diff --git a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb b/meta/recipes-graphics/xwayland/xwayland_21.1.1.901.bb
+similarity index 95%
+rename from meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
+rename to meta/recipes-graphics/xwayland/xwayland_21.1.1.901.bb
+index faf166f788..15c8a859b3 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_21.1.1.901.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT-X"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+ 
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "31f261ce51bbee76a6ca3ec02aa367ffa2b5efa2b98412df57ccefd7a19003ce"
++SRC_URI[sha256sum] = "0ab0f98f097e090c19612fe8658d67fe7294c252b4181f7c0882189f78d21769"
+ 
+ inherit meson features_check
+ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+-- 
+2.20.1
+
+
+--===============0081087958097024833==--
