@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.7613.1625391858148273936
+ by mx.groups.io with SMTP id smtpd.web12.7585.1625391858180475319
  for <openembedded-core@lists.openembedded.org>;
  Sun, 04 Jul 2021 02:44:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-1.yocto.io (unknown [172.29.10.55])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9044838C06D7
+	by mail.yoctoproject.org (Postfix) with ESMTP id 93CF238C08BA
 	for <openembedded-core@lists.openembedded.org>; Sun,  4 Jul 2021 09:44:17 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] iproute2: upgrading to 5.13.0 SUCCEEDED
-Message-ID: <MADEUP.168E8D488D58FF3D.2482@lists.openembedded.org>
-X-Groupsio-MsgNum: 153517
-Content-Type: multipart/mixed; boundary="===============4016723038437540427=="
+Subject: [AUH] update-rc.d: upgrading to 8636cf478d426b568c1be11dbd9346f67e03adac SUCCEEDED
+Message-ID: <MADEUP.168E8D488D1FEE75.5985@lists.openembedded.org>
+X-Groupsio-MsgNum: 153518
+Content-Type: multipart/mixed; boundary="===============2446490255342162365=="
 
---===============4016723038437540427==
+--===============2446490255342162365==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *iproute2* to *5.13.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *update-rc.d* to *8636cf478d426b568c1be11dbd9346f67e03adac* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-iproute2-upgrade-5.12.0-5.13.0.patch
+    - apply the patch: git am 0001-update-rc.d-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,95 +44,45 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4016723038437540427==
+--===============2446490255342162365==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-iproute2-upgrade-5.12.0-5.13.0.patch"
+ filename="0001-update-rc.d-upgrade-to-latest-revision.patch"
 
-From d01be6ea2bdc4d18126c3fa1598816b34f79cb84 Mon Sep 17 00:00:00 2001
+From 201eb397c49ceb2a680de812bb89423f962d521b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 4 Jul 2021 07:30:27 +0000
-Subject: [PATCH] iproute2: upgrade 5.12.0 -> 5.13.0
+Date: Sun, 4 Jul 2021 07:31:54 +0000
+Subject: [PATCH] update-rc.d: upgrade to latest revision
 
 ---
- .../iproute2/{iproute2_5.12.0.bb => iproute2_5.13.0.bb}         | 2 +-
+ meta/recipes-core/update-rc.d/update-rc.d_0.8.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_5.12.0.bb => iproute2_5.13.0.bb} (75%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-similarity index 75%
-rename from meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-index 3631123374..b117637e36 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-@@ -4,7 +4,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-libc-compat.h-add-musl-workaround.patch \
-            "
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+index 75632d9434..da716674c3 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=d40a07c27f535425934bb5001f2037d9"
  
--SRC_URI[sha256sum] = "9d268db98a36ee2a0e3ff3b92b2efff66fc1138a51e409bdef6ab3cfe15f326f"
-+SRC_URI[sha256sum] = "72a2e53774cac9e65f7b617deebb2059f87e8960d6e9713e4d788cea966f1b36"
+ SRC_URI = "git://git.yoctoproject.org/update-rc.d"
+-SRCREV = "4b150b25b38de688d25cde2b2d22c268ed65a748"
++SRCREV = "8636cf478d426b568c1be11dbd9346f67e03adac"
  
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
 -- 
 2.20.1
 
 
---===============4016723038437540427==
+--===============2446490255342162365==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/iproute2/iproute2-bash-completion: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-bash-completion: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-dbg: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-dbg: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-dbg: PKGSIZE changed from 6183916 to 6221204 (+1%)
-packages/core2-32-poky-linux/iproute2/iproute2-dev: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-dev: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-devlink: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-devlink: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-doc: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-doc: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-genl: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-genl: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PKGSIZE changed from 95672 to 99768 (+4%)
-packages/core2-32-poky-linux/iproute2/iproute2-ip: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-ip: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-ip: PKGSIZE changed from 771547 to 779748 (+1%)
-packages/core2-32-poky-linux/iproute2/iproute2-lnstat: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-lnstat: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-locale: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-locale: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-nstat: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-nstat: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-rdma: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-rdma: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-rtacct: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-rtacct: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-src: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-src: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-src: PKGSIZE changed from 3316960 to 3370588 (+2%)
-packages/core2-32-poky-linux/iproute2/iproute2-ss: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-ss: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-ss: PKGSIZE changed from 193488 to 197584 (+2%)
-packages/core2-32-poky-linux/iproute2/iproute2-staticdev: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-staticdev: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-tc: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-tc: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-tipc: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2-tipc: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2/iproute2-tipc: PKGSIZE changed from 148920 to 157192 (+6%)
-packages/core2-32-poky-linux/iproute2/iproute2: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2/iproute2: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
-packages/core2-32-poky-linux/iproute2: PV changed from "5.12.0" to "5.13.0"
-packages/core2-32-poky-linux/iproute2: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.12.0.tar.xz file://0001-libc-compat.h-add-musl-workaround.patch" to "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.13.0.tar.xz file://0001-libc-compat.h-add-musl-workaround.patch"
+packages/all-poky-linux/update-rc.d/update-rc.d: PKGSIZE changed from 6365 to 6388 (+0%)
 
---===============4016723038437540427==--
+--===============2446490255342162365==--
