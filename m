@@ -1,101 +1,96 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.3118.1625349775736718338
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web12.4341.1625358502329502935
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Jul 2021 15:02:56 -0700
+ Sat, 03 Jul 2021 17:28:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QicDrw/f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id n33so1353210wms.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Jul 2021 15:02:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BUllnr6U;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bkylerussell@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id z3so13483947qkl.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Jul 2021 17:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=6J4JvXO9XrQ5ec4CkI6XSAL0+Nc8+04OGGomRPaZc7s=;
-        b=QicDrw/fiWKqAmuuft0cGj+2n1jdGqUGbI3aP2fzXescQeQ63d+MCY9OV8yS2JOCl0
-         7hhxfuxiuBp2O2wpgfE4uP6f3jv1z76po8pSc7PQLJE3vx7X3dNhVflc9T5XnIeYbvm9
-         ByT4Ugynp5yD7HQ2Sty3rWMaNUj/wEAoNGjnQ=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eSmrg7qo1RF/pd9QPxTbExG5ELbvEDJMBiwBmSNvnxE=;
+        b=BUllnr6Uj5o5X8XUxT6i5PVSq+2BQZ9wfLIh1wNtFqmA6dgzRaaxBX64LidTgUvbWc
+         /3MyfeP07whnt6gCG/G9GKlEFcXRpp4rkubhd1D3GkV/bZc2G47Qs7rpjOVgroQ4cJbt
+         htabkoe+1Bo4QWs8oKlRFgIdnI4GLif/E9QCC9CJtn5a+OCuHBRc+sUiikJ87rAgblKI
+         oqkd6O4Uib+qKsP54h7V2PTmzGEA+ftUofhDilFlEPX1bTGJckMulONPVLVYdFf1nama
+         4EN1Kl++xGiMGYJ1HCCyfYSyDY9Veu+cC4f9lhV48VA9P4gRKS6ut7OjK5OHUYOvO3Io
+         IxIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6J4JvXO9XrQ5ec4CkI6XSAL0+Nc8+04OGGomRPaZc7s=;
-        b=P4BBd12li2UYuimHgWptRrJViMHck/+5t6f1jBXWD6XVOjQABfQRDHlPp8apJ76o6D
-         sCvXobqtnGnKmonrlNWnn+kkrcko1dlo2FASjyEkpYFgnCE5efC1oKfMa9EJEkP3loW2
-         sMdzWrNw3VgjvYHJq8486qC+pinllm/vm9fqwE5DVRFgUMLYDLYtHWlyqSnd6J9qjo0R
-         Jzygs5w28fAQp+VRNWKkiHBsD2x26PEwqRnWclvnhczCBs8LypEXZa1S5v/ZSep7a2M0
-         GOWAlzojjH9/af/ClruTPq999k5+wiNbjkgv3/y+oNSISwIHjBHkbI09hM82yjRp6DyF
-         DKdA==
-X-Gm-Message-State: AOAM531O+9YUyyJ9ge4AvHdYN0jDiGYMqzU+mhUErJVaI2zL0UdgJp88
-	UZHJMqQRhm6aiKqNcmNxd9At1Q==
-X-Google-Smtp-Source: ABdhPJwS+v18DEE/Q12muiQQxS68rF15aK/14cJxvWUhArcu1VmhL6D9QAGyOxiDFX5uIC8kwLyxzw==
-X-Received: by 2002:a05:600c:3782:: with SMTP id o2mr6516967wmr.152.1625349774222;
-        Sat, 03 Jul 2021 15:02:54 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f8cb:97a3:103a:4a52? ([2001:8b0:aba:5f3c:f8cb:97a3:103a:4a52])
-        by smtp.gmail.com with ESMTPSA id y13sm7843049wrp.80.2021.07.03.15.02.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eSmrg7qo1RF/pd9QPxTbExG5ELbvEDJMBiwBmSNvnxE=;
+        b=OSPte6aeOskXAOFCdGmk1OoYmkaOqXK8z/8rWk7KK0hlAv3HP3q7kCoDPXcEm3aPg1
+         bFEuS+4dsUWWh56OaSaUE6oYxPAYNBu6Z0Lh/suRhgqQNoZHof3yFJo2F0VOxYfbrmbC
+         dyXTKESW3Gh7f8TPyTYtrzBZMyLjF4/I37PgB1CN8KCqSJswkORH6DRO3D0r5rpFT70s
+         x7jtNjDip8mE993tApk7b1YMpzzTuf2VMHCxh1cm55BzcjUerfEwyfVddR8PjIHmuHaH
+         lEIadD+ST/tl5b/mDI1F+a/yD6QcSgvhZjqnNR26LNO+kxK4gpMoEUEIkgTn8dgEtTEv
+         gEFg==
+X-Gm-Message-State: AOAM5316I8DvczIJ+9ExZt91P3RgKsef8x8dXzUvmfDZleElj/VUwqat
+	qB09CwNWTEaW9n+gJLtajuZSz2/2GJvzTg==
+X-Google-Smtp-Source: ABdhPJwg8SrzV5pa7OBn2DYp+IT0wtjDW95yips1i1LECKXpI2Uq/Ty6xmPctZGojjJZMyusnPdE6A==
+X-Received: by 2002:a37:f60a:: with SMTP id y10mr7232163qkj.375.1625358501394;
+        Sat, 03 Jul 2021 17:28:21 -0700 (PDT)
+Return-Path: <bkylerussell@gmail.com>
+Received: from poirot.file.core.windows.net (cpe-74-138-104-174.kya.res.rr.com. [74.138.104.174])
+        by smtp.gmail.com with ESMTPSA id c22sm1848303qtd.42.2021.07.03.17.28.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Jul 2021 15:02:53 -0700 (PDT)
-Message-ID: <16e9488d8d4b8f200f506a6debb464e54a4bb0d9.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/8] linux-yocto: consolidated pull request
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: bruce.ashfield@gmail.com
-Cc: openembedded-core@lists.openembedded.org, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Date: Sat, 03 Jul 2021 23:02:52 +0100
-In-Reply-To: <cover.1625238537.git.bruce.ashfield@gmail.com>
-References: <cover.1625238537.git.bruce.ashfield@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        Sat, 03 Jul 2021 17:28:21 -0700 (PDT)
+From: bkylerussell@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Kyle Russell <bkylerussell@gmail.com>
+Subject: [PATCH] gstreamer: add libgst packages to PACKAGES_DYNAMIC
+Date: Sat,  3 Jul 2021 20:28:11 -0400
+Message-Id: <20210704002811.103424-1-bkylerussell@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Hi Bruce,
+This allows the dynamic libgst* plugin packages and libgstrtspserver-1.0
+to be used correctly in RDEPENDS.
 
-On Fri, 2021-07-02 at 11:13 -0400, bruce.ashfield@gmail.com wrote:
-> Here's the next consolidated pull request. It has two normal -stable updates
-> for 5.10 and 5.4, as well as the first steps in bringing 5.13 in as the
-> reference kernel (and then dropping 5.4 from master).
-> 
-> I've built and booted 5.13 as the default for qemu*, as well as building it
-> against both musl and glibc with the 5.13 libc-headers. I didn't run into
-> any issues, and neither did my AB runs (I'd like to think it is all the
-> other patches that have been sent as linux-yocto-dev moved foward that made
-> this relatively few patches now).
-> 
-> I've also ensured that AB intermittent fixes are in place for 5.13, so it
-> is safe from that point of vew as well. Folks without exlcit versions set,
-> will get 5.13, but it is already sane and fit for that purpose.
-> 
-> Obviously you can pick and chose what you need from this if there are issues,
-> and I'm around to trouble shoot anything that pops up.
+All gstreamer1.0-plugins-* recipes and gstreamer1.0-rtsp-server include
+gstreamer1.0-plugins-packaging.inc, which creates multiple libgst*
+packages through split_gstreamer10_packages(), but only one of the
+do_split_packages() regexes was included in PACKAGES_DYNAMIC, and only
+for the plugins packages (through gstreamer1.0-plugins-common.inc).
+Now the PACKAGES_DYNAMIC definition exists with the do_split_packages()
+regexes.
 
-Thanks for this. In general it looks good, there is just one failure worrying
-me a bit:
+Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
+---
+ .../gstreamer/gstreamer1.0-plugins-common.inc                  | 3 ---
+ .../gstreamer/gstreamer1.0-plugins-packaging.inc               | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/425
-
-which in diffoscope speak is:
-
-http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210702-c3hu90kc/packages/diff-html/
-
-You may wonder what this pull request has to do with a gcc-sanitisers failure?
-
-If you don't speak dwarfish or elvish, it means that perf_branch_sample_type_shift 
-was declared on line 162 in one build and 182 in another. I wondered about a 
-bit flip however it is two bits and linux/perf_events.h has 
-perf_branch_sample_type_shift at line number 162 in 5.10 and 182 is 5.13 and that 
-file comes from linux-libc-headers. The logical conclusion is that one was built
-with one header and the other, from the other header. Why/how this could happen
-I simply don't know. The problem build came from sstate so there is no real 
-audit trail to follow :(.
-
-I'm not sure this blocks the pull request as the issue is probably somewhere else
-and this just exposed it but any ideas on what happened are very welcome...
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+index dba96e0f6e..cb1c9aaec1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+@@ -45,6 +45,3 @@ EXTRA_OEMESON += " \
+ 
+ GIR_MESON_ENABLE_FLAG = "enabled"
+ GIR_MESON_DISABLE_FLAG = "disabled"
+-
+-# Dynamically generate packages for all enabled plugins
+-PACKAGES_DYNAMIC = "^${PN}-.*"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
+index 9a7a1b6afe..5b80a46b40 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
+@@ -6,6 +6,9 @@
+ # This is mainly used by the gstreamer1.0-plugins-* plugin set recipes,
+ # but can be used in any recipe that produces GStreamer plugins.
+ 
++# Dynamically generate packages for all enabled plugins
++PACKAGES_DYNAMIC = "^${PN}-.* ^libgst.*"
++
+ PACKAGESPLITFUNCS_prepend = " split_gstreamer10_packages "
+ PACKAGESPLITFUNCS_append = " set_gstreamer10_metapkg_rdepends "
+ 
+-- 
+2.25.1
 
