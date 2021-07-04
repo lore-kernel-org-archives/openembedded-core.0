@@ -1,137 +1,170 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
- by mx.groups.io with SMTP id smtpd.web10.7763.1625393078001554866
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.8205.1625397617218059696
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jul 2021 03:04:38 -0700
+ Sun, 04 Jul 2021 04:20:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aB5kY+xx;
- spf=pass (domain: gmail.com, ip: 209.85.221.173, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f173.google.com with SMTP id x125so2736892vkf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jul 2021 03:04:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G7n2xZRn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id a6so20500877ljq.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jul 2021 04:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Z5puKwI2DKYxWVAuYX9viyH4qGZnzybGxhJkW6kVuG4=;
-        b=aB5kY+xx+TYgwiAui9ccy51bTzydIMRSmc/odr+bhed+NXeQefh38WPYexWKqv1GJw
-         es0Jzrh+UDmJTeW2YIHr8JAcpQC5eiFl2n35UVkQCErlqbdV8PzNby4Yuu8OAq32SdV2
-         v2qga7Tk7pY7kfWcyncNpfXS68ipLSuqPAY7Qr6J+LRGoZIytBoX20sdbeIo/PsybEWi
-         QgsmNacseaZIeI0dF0EgKLdL/i0LcqBpDE/61HumLdx/qrM2zF28Pmx2/lPiTLb4ByNr
-         cdX33KPPEmE53swxyVrZXXW50ZZP83uooFMHpPC3cFc4AwWeAJJX8boNTlVQW99jX6i/
-         lM+w==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=Qs3fv9gq2+bZCHWX2a1ezSxzX+jueN8E83zOL1pxVfc=;
+        b=G7n2xZRnZqAxH4HiWrd9D3jS2KkE1Ry0UJlAxTunoPrBeh5sxWyNvY0tS+M2FSrDdT
+         Zq70hyLLDehGp+vr5uVaY7D89jhBXdW/YPQQggkhRXNFZJP+7oM9buoywtxzhhgOuL1B
+         V+aJHmm2JVOVYxaa5H/fMqrSR7AZW06pIuZQhVYPyICgLaT4ua54gnszWDZEpIiY3CtX
+         hVYCt9yxWvv2RYH2fc7cMXJxTA5ZOVYxxQr4cbPKAEuAhhjluVQIJpLxzA1t7DksZ7RO
+         X0IRtzVhbxVpt2Xc4XTCpbl81DJj393uMfxa1ojTo7pemLGE0+hRVYBB8i7wFhCJ9JzU
+         dESw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z5puKwI2DKYxWVAuYX9viyH4qGZnzybGxhJkW6kVuG4=;
-        b=OeMO6e0E/UPbAV0DRSEFXKenCiPFPtXd1A3+I2aVsFHWV5/p/lt8NMj9h7x14Vr26p
-         FDKTo3pb2h15Te6WGhtbmdxrevpIxxUtFyxwdj6AUFXGpe88j27781o+penJ6aga8njb
-         DX93si9iy23gChTfNuiHi/YnG5rwbBWpK40JhYRSCOQgaD+CvgP/fFYrpIagPGZLHiFt
-         GjlT8VVimHQMkS7E+JfBPfbHBoPFM+eBQWK/CCepzimFSOufRxCJiPGGJaFPvz2DTUKv
-         ey+RHk3+/rXA/owVAfHu7+DBBiCOEg3k4bHm/yxDFG0zt5/J+aD83174/K+Gbry+iRs4
-         5Fgg==
-X-Gm-Message-State: AOAM530ht6lhHshz2R+gMSBD9CBJdUdIVPMnf2P7vdkJtVRi6reWegeR
-	M1Ns/3OAEuQiNU+En49Gzo57VIVf5xoXK7uWWW234P4DhAw=
-X-Google-Smtp-Source: ABdhPJx9ehK44GgXtGSiOrNyERrq4PLrgai0hiRyCXxkMgmkjFfc0E5uTMLRx2W4VvSbYbYFuXrMAoazZuF7y6jwN78=
-X-Received: by 2002:a1f:9303:: with SMTP id v3mr5584959vkd.16.1625393077136;
- Sun, 04 Jul 2021 03:04:37 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=Qs3fv9gq2+bZCHWX2a1ezSxzX+jueN8E83zOL1pxVfc=;
+        b=fL0qpL5NZGIaxpXygn7EqCKmTSN5pclNztWTQhL4bMB8VN+ZnKOdfC7wEyRsZdZUv6
+         GxKUa6oubnNv+8wmiE+kKJoq5/VXivmtTkxlNi2xxUHNbHuZQvjc1hkuW2+5tbBGcIbJ
+         1hbAenE8NH7goXUsqTWwsHqJaxsI1Qssgy2IUEJ4XrdQrxzm7tkEBWwe2WoH6I0YrD4T
+         5VuPf3ojVOeB7YJ6IIVeXBmkwPqepm6uE3y0FuhpA64OHyc6MMqsj5cMTnb2O7/+y+mh
+         qvqIVriZhFqWl4oz6q1JeFr6V4XHDgDKi6H8MN/yc4fxqKb6IBg+LJAK0B4c6JLBBBcK
+         24Qg==
+X-Gm-Message-State: AOAM531xQ1Fge022H/j+PqQVn+9rbBgWaKxQI6OzkkXkY9tqGDBjQyyG
+	hXpqcToI5BwFDTnHSvHzHuPH7Ga5gmbnY2VIXPw=
+X-Google-Smtp-Source: ABdhPJwgaxdVOg04klOeQv9hYi0R8SwP6hEuI/hnT5OaAi1Ci1Li+vT33V6mbOC/x1P8aCUb9rP5ZCyZtbrKOjcWkaM=
+X-Received: by 2002:a2e:804d:: with SMTP id p13mr7030096ljg.324.1625397615372;
+ Sun, 04 Jul 2021 04:20:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <MADEUP.168E8D48A1A5BDBD.5985@lists.openembedded.org>
-In-Reply-To: <MADEUP.168E8D48A1A5BDBD.5985@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 4 Jul 2021 12:04:25 +0200
-Message-ID: <CANNYZj89A2Sq6cRRd2=AqfNJMWVe-jUps9wfy7bs9dgp_LQMZQ@mail.gmail.com>
-Subject: Re: [OE-core] [AUH] iputils: upgrading to s20200821 SUCCEEDED
-To: OE-core <openembedded-core@lists.openembedded.org>
-Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000fbae7405c6495066"
+From: "Vinay Kumar" <vinay.m.engg@gmail.com>
+Date: Sun, 4 Jul 2021 16:50:04 +0530
+Message-ID: <CANUMPcU0ibVFbf5x0OzEunTymSd8+_chCD3432xa3CTeL7QzjA@mail.gmail.com>
+Subject: glibc-testsuite-2.33-r0 do_populate_sysroot: Error executing a python function in exec_python_func() autogenerated:
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: Randy MacLeod <rwmacleod@gmail.com>, umesh kalappa0 <umesh.kalappa0@gmail.com>, shivahms@gmail.com
+X-Groupsio-MsgNum: 153541
+Content-Type: multipart/mixed; boundary="0000000000007bc34605c64a5f7d"
 
---000000000000fbae7405c6495066
+--0000000000007bc34605c64a5f7d
 Content-Type: text/plain; charset="UTF-8"
 
-Bogus update to an earlier version, please ignore. I sent a patch to
-correct version check.
+Hi Richard,
 
-Alex
+Getting error with "MACHINE=qemuarm bitbake glibc-testsuite" on poky
+master branch with below commit id.
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=e14c2a4986242d2a2c0eb070d4be550c56a3dded
 
-On Sun, 4 Jul 2021 at 11:45, <auh@auh.yoctoproject.org> wrote:
+Attached error log for your reference.
 
-> Hello,
->
-> this email is a notification from the Auto Upgrade Helper
-> that the automatic attempt to upgrade the recipe *iputils* to *s20200821*
-> has Succeeded.
->
-> Next steps:
->     - apply the patch: git am 0001-iputils-upgrade-20210202-s20200821.patch
->     - check the changes to upstream patches and summarize them in the
-> commit message,
->     - compile an image that contains the package
->     - perform some basic sanity tests
->     - amend the patch and sign it off: git commit -s --reset-author --amend
->     - send it to the appropriate mailing list
->
-> Alternatively, if you believe the recipe should not be upgraded at this
-> time,
-> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-> automatic upgrades would no longer be attempted.
->
-> Please review the attached files for further information and build/update
-> failures.
-> Any problem please file a bug at
-> https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
->
-> Regards,
-> The Upgrade Helper
->
-> 
->
->
+Regards,
+Vinay
 
---000000000000fbae7405c6495066
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--0000000000007bc34605c64a5f7d
+Content-Type: application/octet-stream; 
+	name="log.do_populate_sysroot.129678"
+Content-Disposition: attachment; filename="log.do_populate_sysroot.129678"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kqp3qqdi0>
+X-Attachment-Id: f_kqp3qqdi0
 
-<div dir=3D"ltr"><div>Bogus update to an earlier version, please ignore. I =
-sent a patch to correct version check.</div><div><br></div><div>Alex<br></d=
-iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Sun, 4 Jul 2021 at 11:45, &lt;<a href=3D"mailto:auh@auh.yoctoproject.=
-org">auh@auh.yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Hello,<br>
-<br>
-this email is a notification from the Auto Upgrade Helper<br>
-that the automatic attempt to upgrade the recipe *iputils* to *s20200821* =
-has Succeeded.<br>
-<br>
-Next steps:<br>
-=C2=A0 =C2=A0 - apply the patch: git am 0001-iputils-upgrade-20210202-s202=
-00821.patch<br>
-=C2=A0 =C2=A0 - check the changes to upstream patches and summarize them i=
-n the commit message,<br>
-=C2=A0 =C2=A0 - compile an image that contains the package<br>
-=C2=A0 =C2=A0 - perform some basic sanity tests<br>
-=C2=A0 =C2=A0 - amend the patch and sign it off: git commit -s --reset-aut=
-hor --amend<br>
-=C2=A0 =C2=A0 - send it to the appropriate mailing list<br>
-<br>
-Alternatively, if you believe the recipe should not be upgraded at this ti=
-me,<br>
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that<br>
-automatic upgrades would no longer be attempted.<br>
-<br>
-Please review the attached files for further information and build/update =
-failures.<br>
-Any problem please file a bug at <a href=3D"https://bugzilla.yoctoproject.=
-org/enter_bug.cgi?product=3DAutomated%20Update%20Handler" rel=3D"noreferrer=
-" target=3D"_blank">https://bugzilla.yoctoproject.org/enter_bug.cgi?product=
-=
-=3DAutomated%20Update%20Handler</a><br>
-<br>
-Regards,<br>
-The Upgrade Helper<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+REVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVuY3Rpb24gc3N0YXRlX3Rhc2tfcHJlZnVuYwpERUJV
+RzogUHl0aG9uIGZ1bmN0aW9uIHNzdGF0ZV90YXNrX3ByZWZ1bmMgZmluaXNoZWQKREVCVUc6IEV4
+ZWN1dGluZyBweXRob24gZnVuY3Rpb24gZXh0ZW5kX3JlY2lwZV9zeXNyb290Ck5PVEU6IERpcmVj
+dCBkZXBlbmRlbmNpZXMgYXJlIFsnL2FsYS1scGdncDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9wb2t5
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlscy1jcm9zc18yLjM2LmJiOmRv
+X3BvcHVsYXRlX3N5c3Jvb3QnXQpOT1RFOiBJbnN0YWxsZWQgaW50byBzeXNyb290OiBbJ2JpbnV0
+aWxzLWNyb3NzLWFybScsICdxdWlsdC1uYXRpdmUnLCAnZ251LWNvbmZpZy1uYXRpdmUnLCAnemxp
+Yi1uYXRpdmUnLCAnZmxleC1uYXRpdmUnLCAnYXV0b2NvbmYtbmF0aXZlJywgJ3RleGluZm8tZHVt
+bXktbmF0aXZlJywgJ3h6LW5hdGl2ZScsICdnZXR0ZXh0LW1pbmltYWwtbmF0aXZlJywgJ2xpYnRv
+b2wtbmF0aXZlJywgJ2F1dG9tYWtlLW5hdGl2ZScsICdtNC1uYXRpdmUnXQpOT1RFOiBTa2lwcGlu
+ZyBhcyBhbHJlYWR5IGV4aXN0cyBpbiBzeXNyb290OiBbXQpERUJVRzogc2VkIC1lICdzOl5bXi9d
+Ki86L2FsYS1scGdncDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9ibGQtYXJtL3RtcC93b3JrL2FybXY3
+dmV0MmhmLW5lb24tcG9reS1saW51eC1nbnVlYWJpL2dsaWJjLXRlc3RzdWl0ZS8yLjMzLXIwL3Jl
+Y2lwZS1zeXNyb290LW5hdGl2ZS86ZycgL2FsYS1scGdncDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9i
+bGQtYXJtL3RtcC9zeXNyb290cy1jb21wb25lbnRzL3g4Nl82NC9xdWlsdC1uYXRpdmUvZml4bWVw
+YXRoIC9hbGEtbHBnZ3AzMS92aW5heS90Y3dybGdjYy0zOTkvYmxkLWFybS90bXAvc3lzcm9vdHMt
+Y29tcG9uZW50cy94ODZfNjQvZ251LWNvbmZpZy1uYXRpdmUvZml4bWVwYXRoIC9hbGEtbHBnZ3Az
+MS92aW5heS90Y3dybGdjYy0zOTkvYmxkLWFybS90bXAvc3lzcm9vdHMtY29tcG9uZW50cy94ODZf
+NjQvYXV0b2NvbmYtbmF0aXZlL2ZpeG1lcGF0aCAvYWxhLWxwZ2dwMzEvdmluYXkvdGN3cmxnY2Mt
+Mzk5L2JsZC1hcm0vdG1wL3N5c3Jvb3RzLWNvbXBvbmVudHMveDg2XzY0L2xpYnRvb2wtbmF0aXZl
+L2ZpeG1lcGF0aCAvYWxhLWxwZ2dwMzEvdmluYXkvdGN3cmxnY2MtMzk5L2JsZC1hcm0vdG1wL3N5
+c3Jvb3RzLWNvbXBvbmVudHMveDg2XzY0L2F1dG9tYWtlLW5hdGl2ZS9maXhtZXBhdGggfCB4YXJn
+cyBzZWQgLWkgLWUgJ3M6RklYTUVTVEFHSU5HRElSVEFSR0VUOi9hbGEtbHBnZ3AzMS92aW5heS90
+Y3dybGdjYy0zOTkvYmxkLWFybS90bXAvd29yay9hcm12N3ZldDJoZi1uZW9uLXBva3ktbGludXgt
+Z251ZWFiaS9nbGliYy10ZXN0c3VpdGUvMi4zMy1yMC9yZWNpcGUtc3lzcm9vdDpnOyBzOkZJWE1F
+U1RBR0lOR0RJUkhPU1Q6L2FsYS1scGdncDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9ibGQtYXJtL3Rt
+cC93b3JrL2FybXY3dmV0MmhmLW5lb24tcG9reS1saW51eC1nbnVlYWJpL2dsaWJjLXRlc3RzdWl0
+ZS8yLjMzLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZTpnJyAtZSAnczpGSVhNRV9QU0VVRE9fU1lT
+Uk9PVDovYWxhLWxwZ2dwMzEvdmluYXkvdGN3cmxnY2MtMzk5L2JsZC1hcm0vdG1wL3N5c3Jvb3Rz
+LWNvbXBvbmVudHMveDg2XzY0L3BzZXVkby1uYXRpdmU6ZycgLWUgJ3M6RklYTUVfSE9TVFRPT0xT
+X0RJUjovYWxhLWxwZ2dwMzEvdmluYXkvdGN3cmxnY2MtMzk5L2JsZC1hcm0vdG1wL2hvc3R0b29s
+czpnJyAtZSAnczpGSVhNRV9QS0dEQVRBX0RJUjovYWxhLWxwZ2dwMzEvdmluYXkvdGN3cmxnY2Mt
+Mzk5L2JsZC1hcm0vdG1wL3BrZ2RhdGEvcWVtdWFybTpnJyAtZSAnczpGSVhNRV9QU0VVRE9fTE9D
+QUxTVEFURURJUjovYWxhLWxwZ2dwMzEvdmluYXkvdGN3cmxnY2MtMzk5L2JsZC1hcm0vdG1wL3dv
+cmsvYXJtdjd2ZXQyaGYtbmVvbi1wb2t5LWxpbnV4LWdudWVhYmkvZ2xpYmMtdGVzdHN1aXRlLzIu
+MzMtcjAvcHNldWRvLzpnJyAtZSAnczpGSVhNRV9MT0dGSUZPOi9hbGEtbHBnZ3AzMS92aW5heS90
+Y3dybGdjYy0zOTkvYmxkLWFybS90bXAvd29yay9hcm12N3ZldDJoZi1uZW9uLXBva3ktbGludXgt
+Z251ZWFiaS9nbGliYy10ZXN0c3VpdGUvMi4zMy1yMC90ZW1wL2ZpZm8uMTI5Njc4OmcnCkRFQlVH
+OiBQeXRob24gZnVuY3Rpb24gZXh0ZW5kX3JlY2lwZV9zeXNyb290IGZpbmlzaGVkCkRFQlVHOiBF
+eGVjdXRpbmcgcHl0aG9uIGZ1bmN0aW9uIGRvX3BvcHVsYXRlX3N5c3Jvb3QKREVCVUc6IEV4ZWN1
+dGluZyBzaGVsbCBmdW5jdGlvbiBzeXNyb290X3N0YWdlX2FsbApERUJVRzogU2hlbGwgZnVuY3Rp
+b24gc3lzcm9vdF9zdGFnZV9hbGwgZmluaXNoZWQKREVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVu
+Y3Rpb24gc3lzcm9vdF9zdHJpcApERUJVRzogUHl0aG9uIGZ1bmN0aW9uIHN5c3Jvb3Rfc3RyaXAg
+ZmluaXNoZWQKREVCVUc6IEV4ZWN1dGluZyBzaGVsbCBmdW5jdGlvbiBzdGFzaF9sb2NhbGVfc3lz
+cm9vdF9jbGVhbnVwCnJtZGlyOiBmYWlsZWQgdG8gcmVtb3ZlICcvYWxhLWxwZ2dwMzEvdmluYXkv
+dGN3cmxnY2MtMzk5L2JsZC1hcm0vdG1wL3dvcmsvYXJtdjd2ZXQyaGYtbmVvbi1wb2t5LWxpbnV4
+LWdudWVhYmkvZ2xpYmMtdGVzdHN1aXRlLzIuMzMtcjAvc3lzcm9vdC1kZXN0ZGlyL3Vzci9zaGFy
+ZSc6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKV0FSTklORzogZXhpdCBjb2RlIDEgZnJvbSBh
+IHNoZWxsIGNvbW1hbmQuCkVSUk9SOiBFcnJvciBleGVjdXRpbmcgYSBweXRob24gZnVuY3Rpb24g
+aW4gZXhlY19weXRob25fZnVuYygpIGF1dG9nZW5lcmF0ZWQ6CgpUaGUgc3RhY2sgdHJhY2Ugb2Yg
+cHl0aG9uIGNhbGxzIHRoYXQgcmVzdWx0ZWQgaW4gdGhpcyBleGNlcHRpb24vZmFpbHVyZSB3YXM6
+CkZpbGU6ICdleGVjX3B5dGhvbl9mdW5jKCkgYXV0b2dlbmVyYXRlZCcsIGxpbmVubzogMiwgZnVu
+Y3Rpb246IDxtb2R1bGU+CiAgICAgMDAwMToKICoqKiAwMDAyOmRvX3BvcHVsYXRlX3N5c3Jvb3Qo
+ZCkKICAgICAwMDAzOgpGaWxlOiAnL2FsYS1scGdncDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9wb2t5
+L21ldGEvY2xhc3Nlcy9zdGFnaW5nLmJiY2xhc3MnLCBsaW5lbm86IDEwNCwgZnVuY3Rpb246IGRv
+X3BvcHVsYXRlX3N5c3Jvb3QKICAgICAwMTAwOiAgICAjIFNZU1JPT1QgJ3ZlcnNpb24nIDIKICAg
+ICAwMTAxOiAgICBiYi5idWlsZC5leGVjX2Z1bmMoInN5c3Jvb3Rfc3RhZ2VfYWxsIiwgZCkKICAg
+ICAwMTAyOiAgICBiYi5idWlsZC5leGVjX2Z1bmMoInN5c3Jvb3Rfc3RyaXAiLCBkKQogICAgIDAx
+MDM6ICAgIGZvciBmIGluIChkLmdldFZhcignU1lTUk9PVF9QUkVQUk9DRVNTX0ZVTkNTJykgb3Ig
+JycpLnNwbGl0KCk6CiAqKiogMDEwNDogICAgICAgIGJiLmJ1aWxkLmV4ZWNfZnVuYyhmLCBkKQog
+ICAgIDAxMDU6ICAgIHBuID0gZC5nZXRWYXIoIlBOIikKICAgICAwMTA2OiAgICBtdWx0aXByb3Yg
+PSBkLmdldFZhcigiTVVMVElfUFJPVklERVJfV0hJVEVMSVNUIikuc3BsaXQoKQogICAgIDAxMDc6
+ICAgIHByb3ZkaXIgPSBkLmV4cGFuZCgiJHtTWVNST09UX0RFU1RESVJ9JHtiYXNlX3ByZWZpeH0v
+c3lzcm9vdC1wcm92aWRlcnMvIikKICAgICAwMTA4OiAgICBiYi51dGlscy5ta2RpcmhpZXIocHJv
+dmRpcikKRmlsZTogJy9hbGEtbHBnZ3AzMS92aW5heS90Y3dybGdjYy0zOTkvcG9reS9iaXRiYWtl
+L2xpYi9iYi9idWlsZC5weScsIGxpbmVubzogMjU2LCBmdW5jdGlvbjogZXhlY19mdW5jCiAgICAg
+MDI1MjogICAgd2l0aCBiYi51dGlscy5maWxlc2xvY2tlZChsb2NrZmlsZXMpOgogICAgIDAyNTM6
+ICAgICAgICBpZiBpc3B5dGhvbjoKICAgICAwMjU0OiAgICAgICAgICAgIGV4ZWNfZnVuY19weXRo
+b24oZnVuYywgZCwgcnVuZmlsZSwgY3dkPWFkaXIpCiAgICAgMDI1NTogICAgICAgIGVsc2U6CiAq
+KiogMDI1NjogICAgICAgICAgICBleGVjX2Z1bmNfc2hlbGwoZnVuYywgZCwgcnVuZmlsZSwgY3dk
+PWFkaXIpCiAgICAgMDI1NzoKICAgICAwMjU4OiAgICB0cnk6CiAgICAgMDI1OTogICAgICAgIGN1
+cmN3ZCA9IG9zLmdldGN3ZCgpCiAgICAgMDI2MDogICAgZXhjZXB0OgpGaWxlOiAnL2FsYS1scGdn
+cDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9wb2t5L2JpdGJha2UvbGliL2JiL2J1aWxkLnB5JywgbGlu
+ZW5vOiA1MDMsIGZ1bmN0aW9uOiBleGVjX2Z1bmNfc2hlbGwKICAgICAwNDk5OiAgICB3aXRoIG9w
+ZW4oZmlmb3BhdGgsICdyK2InLCBidWZmZXJpbmc9MCkgYXMgZmlmbzoKICAgICAwNTAwOiAgICAg
+ICAgdHJ5OgogICAgIDA1MDE6ICAgICAgICAgICAgYmIuZGVidWcoMiwgIkV4ZWN1dGluZyBzaGVs
+bCBmdW5jdGlvbiAlcyIgJSBmdW5jKQogICAgIDA1MDI6ICAgICAgICAgICAgd2l0aCBvcGVuKG9z
+LmRldm51bGwsICdyKycpIGFzIHN0ZGluLCBsb2dmaWxlOgogKioqIDA1MDM6ICAgICAgICAgICAg
+ICAgIGJiLnByb2Nlc3MucnVuKGNtZCwgc2hlbGw9RmFsc2UsIHN0ZGluPXN0ZGluLCBsb2c9bG9n
+ZmlsZSwgZXh0cmFmaWxlcz1bKGZpZm8scmVhZGZpZm8pXSkKICAgICAwNTA0OiAgICAgICAgZXhj
+ZXB0IGJiLnByb2Nlc3MuRXhlY3V0aW9uRXJyb3IgYXMgZXhlOgogICAgIDA1MDU6ICAgICAgICAg
+ICAgIyBGaW5kIHRoZSBiYWNrdHJhY2UgdGhhdCB0aGUgc2hlbGwgdHJhcCBnZW5lcmF0ZWQKICAg
+ICAwNTA2OiAgICAgICAgICAgIGJhY2t0cmFjZV9tYXJrZXJfcmVnZXggPSByZS5jb21waWxlKHIi
+V0FSTklORzogQmFja3RyYWNlIFwoQkIgZ2VuZXJhdGVkIHNjcmlwdFwpIikKICAgICAwNTA3OiAg
+ICAgICAgICAgIHN0ZG91dF9saW5lcyA9IChleGUuc3Rkb3V0IG9yICIiKS5zcGxpdCgiXG4iKQpG
+aWxlOiAnL2FsYS1scGdncDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9wb2t5L2JpdGJha2UvbGliL2Ji
+L3Byb2Nlc3MucHknLCBsaW5lbm86IDE4NCwgZnVuY3Rpb246IHJ1bgogICAgIDAxODA6ICAgICAg
+ICBpZiBub3Qgc3RkZXJyIGlzIE5vbmU6CiAgICAgMDE4MTogICAgICAgICAgICBzdGRlcnIgPSBz
+dGRlcnIuZGVjb2RlKCJ1dGYtOCIpCiAgICAgMDE4MjoKICAgICAwMTgzOiAgICBpZiBwaXBlLnJl
+dHVybmNvZGUgIT0gMDoKICoqKiAwMTg0OiAgICAgICAgcmFpc2UgRXhlY3V0aW9uRXJyb3IoY21k
+LCBwaXBlLnJldHVybmNvZGUsIHN0ZG91dCwgc3RkZXJyKQogICAgIDAxODU6ICAgIHJldHVybiBz
+dGRvdXQsIHN0ZGVycgpFeGNlcHRpb246IGJiLnByb2Nlc3MuRXhlY3V0aW9uRXJyb3I6IEV4ZWN1
+dGlvbiBvZiAnL2FsYS1scGdncDMxL3ZpbmF5L3Rjd3JsZ2NjLTM5OS9ibGQtYXJtL3RtcC93b3Jr
+L2FybXY3dmV0MmhmLW5lb24tcG9reS1saW51eC1nbnVlYWJpL2dsaWJjLXRlc3RzdWl0ZS8yLjMz
+LXIwL3RlbXAvcnVuLnN0YXNoX2xvY2FsZV9zeXNyb290X2NsZWFudXAuMTI5Njc4JyBmYWlsZWQg
+d2l0aCBleGl0IGNvZGUgMToKcm1kaXI6IGZhaWxlZCB0byByZW1vdmUgJy9hbGEtbHBnZ3AzMS92
+aW5heS90Y3dybGdjYy0zOTkvYmxkLWFybS90bXAvd29yay9hcm12N3ZldDJoZi1uZW9uLXBva3kt
+bGludXgtZ251ZWFiaS9nbGliYy10ZXN0c3VpdGUvMi4zMy1yMC9zeXNyb290LWRlc3RkaXIvdXNy
+L3NoYXJlJzogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQpXQVJOSU5HOiBleGl0IGNvZGUgMSBm
+cm9tIGEgc2hlbGwgY29tbWFuZC4KCgpERUJVRzogUHl0aG9uIGZ1bmN0aW9uIGRvX3BvcHVsYXRl
+X3N5c3Jvb3QgZmluaXNoZWQK
 
---000000000000fbae7405c6495066--
+--0000000000007bc34605c64a5f7d--
