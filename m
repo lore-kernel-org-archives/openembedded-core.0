@@ -1,81 +1,64 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web11.8224.1625397729867102291
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.9674.1625407434067294600
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jul 2021 04:22:10 -0700
+ Sun, 04 Jul 2021 07:03:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DVDJzoto;
- spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id h11so7334575qtp.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jul 2021 04:22:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1YAIQUb/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id f17so2468864pfj.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jul 2021 07:03:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LQLl+tZc1AjuGbGIGpAiIHpMa7XvJXoC/eT1W38QSVM=;
-        b=DVDJzotoK/fXqCU9gfn3ttXGxUS/LdXWw/DbbPXz3ZAuXdsdMhGGzLjMvD8vBrOBsv
-         vlUH3AxotzfV0KS9I5NXU7+uXPjPXTKLipq+1x59zN5VgoM4SyDc3mEVYPY+CKzB2iCK
-         UIylLNZlW/Ra1+2c5sTSuk8z4ye/JfezzvEv/rwy3xeGP7fSW1zm0KfoGlxKSqBVVyZI
-         PAz1c3J72Q/hPSVBQX3YyKUGHSjR9+wYRnfyZ1O8B9zfYw8l8hOUPiGzW0FzFBfz51Fy
-         Hl+NeO/dwQcwA4o9i808/8b81Ro4O+IZIEramZ8oIwsZweVpY5d+P8RgUqfJbt8MLGA4
-         FueA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=nyheoofopJmNSPU/BsN1uJUTpAvBUDfkI0yVzaPLLXs=;
+        b=1YAIQUb/t0/PcdiToMZeaml0yaXkFE3fRMLHby3jRVAsTlM2kKxClOXsPn7u5HPd23
+         waF0FH/hrtOW0Sj+uugQKw2xIDohuGFTFBJ2uQSq+X7YuZ9zNTKNCoSan6nXFP2n+Iyg
+         rx5X6L0ncHG8r1enUSK0Z6PPaEbyPA2KZLC72q7ri8dx4LABB68Swyf4R1SMYbSZT6iE
+         ziE4pwHbGAEYkdeyz62ZcTPDAfDX05zmhw3SwbRZhKKAvbMWmOV3H68Vk7o2UDy6m4La
+         oeFb8WwsyUsl/2Ps5GhGjHtzC8SZRDqlN6GtOjNLwxqP+v9Qut9ALtxB5KGZMKbz7UN6
+         ogNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LQLl+tZc1AjuGbGIGpAiIHpMa7XvJXoC/eT1W38QSVM=;
-        b=GDcgvhZ95FsYUtS6M86cpHZdtC7TDDSB8OyvQQK3KOqA8YbNFTkGC+026HMYebQDDT
-         mK8Rgj8Uo/9pcJh2pnjFcIZx9dXEdQq26of/RBLwLRZhpA3yn3xjdfObJnmsSsgGN5g1
-         Wh2nRGTeHicaTuI+EPYmZyxS8p6dYAWjAsfpWo0VZv9EAZh840fXK4riyhVv9303CYnD
-         sHxsWlGQwvYWj+e8ult8fS55/dw87MPmPjhiLQJxNCsX8FTLuTsG7cUgpWC0WRLaG6QV
-         hAzZ+0ymDvelbuvSGSqO6DPBPOdWE4qICYgcknJ1UXH7+0iwjOsuOsSrJchBTMrCUYGc
-         qDhA==
-X-Gm-Message-State: AOAM530/nFbKLo4xy8sI7vlvReYUnU5RxhnyHzS2IDXBwczAGHsg1C3V
-	GnszrNFzo0sZcYE9yNbaOFw=
-X-Google-Smtp-Source: ABdhPJzVDf7n2KXnC/0+V+TAO6ZBFZWmW8vab4JDJiU92QZKGUi8C8GiXW/aH+J6KmJR8FI+Zn/uxQ==
-X-Received: by 2002:ac8:7f0e:: with SMTP id f14mr7932604qtk.103.1625397729020;
-        Sun, 04 Jul 2021 04:22:09 -0700 (PDT)
-Return-Path: <vinay.m.engg@gmail.com>
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id s25sm3901418qks.129.2021.07.04.04.22.07
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=nyheoofopJmNSPU/BsN1uJUTpAvBUDfkI0yVzaPLLXs=;
+        b=KH0s1QqTbjZKqQNlXEnyj760lVXP4C2TQyE8RTfYwOUN+ZZzQ3LvBl/ZcIq0VK9Z6C
+         ebi6sp00nbXKjEuUTVgXBMuhzyy5XMmpYkoUH/1l/YDAc6pjqx3mwKYbr9wovln83VyP
+         kIrWVp2G7PE417dFlkEExUysWZXuBwjC2jDcfQ3wGqEBTlDJZkVvX5SqheiHF/vj+bgk
+         ppQKE3jHO4eyDpAwJ7ZG72goBM7uppbaKNoH11MgcRMdpkPihy7u82ig57XB78RIjLB8
+         +H7DzlpLD+TiIJQwzll/FYmaUxGq7OiNbR5uO/Gt/p0491tONBZBRe700PoOsqi+qmkb
+         yFCg==
+X-Gm-Message-State: AOAM5334Ax0GAqixoxigWhBgJk/ymKWUH9ElHD03sCGl3OIk8F/WOFA6
+	NmNTv4F9VlZ2nwtnmCUQHBC/rQB+8vQKbM7Ct9w=
+X-Google-Smtp-Source: ABdhPJxodrGmMlOo/Huf5zMp7Ev2hcGvtthcOhAxl1FA5mCcqG6+cMX0O/kSDnKqV7j3sCAsCbf19w==
+X-Received: by 2002:a63:c62:: with SMTP id 34mr4519887pgm.32.1625407432981;
+        Sun, 04 Jul 2021 07:03:52 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id c14sm9758923pfj.205.2021.07.04.07.03.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jul 2021 04:22:08 -0700 (PDT)
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-To: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	vinay.kumar@blackfigtech.com,
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH] glibc-package.inc: To fix build issue with glibc-testsuite.
-Date: Sun,  4 Jul 2021 04:21:59 -0700
-Message-Id: <20210704112159.150061-1-vinay.m.engg@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <CANUMPcU0ibVFbf5x0OzEunTymSd8+_chCD3432xa3CTeL7QzjA@mail.gmail.com>
-References: <CANUMPcU0ibVFbf5x0OzEunTymSd8+_chCD3432xa3CTeL7QzjA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 04 Jul 2021 07:03:52 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 98D2F96033A; Sun,  4 Jul 2021 04:03:42 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 04 Jul 2021 04:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210704140342.98D2F96033A@nuc.router0800d9.com>
+Date: Sun,  4 Jul 2021 04:03:42 -1000 (HST)
 
-Added condition to check "$cleanupdir${datadir}" exists.
+Branch: master
 
-Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 2 ++
- 1 file changed, 2 insertions(+)
+New this week: 0 CVEs
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 92e5dbac61..df3f612192 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -230,7 +230,9 @@ stash_locale_cleanup () {
- 	rm -rf $cleanupdir${libdir}/gconv
- 	rm -rf $cleanupdir${localedir}
- 	rm -rf $cleanupdir${datadir}/locale
-+  if [ -d $cleanupdir${datadir} ]; then
- 	rmdir --ignore-fail-on-non-empty $cleanupdir${datadir}
-+  fi;
- 
- 	if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
- 		if [ -d "$cleanupdir${exec_prefix}/lib" ]; then
--- 
-2.31.1
+Removed this week: 0 CVEs
 
+Full list:  Found 9 unpatched CVEs
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2020-27748: xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-33574: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33574 *
+CVE-2021-3421: rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3421 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
