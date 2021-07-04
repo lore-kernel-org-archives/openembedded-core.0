@@ -1,102 +1,138 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.7529.1625390513273494952
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web11.7613.1625391858148273936
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jul 2021 02:21:53 -0700
+ Sun, 04 Jul 2021 02:44:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UBN1sVNp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso11951170wmh.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jul 2021 02:21:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=+v1FN81bPLd58eJ2+aCl04dJ9xCpzHPY6ObJ+lD/WVk=;
-        b=UBN1sVNpiOQ+JirgKN7sMPLbP+aBNkRQRjrpwyXEVBSJtFKPvem90WalgmtqrvrTFZ
-         h9NEKHsIEKzcqUOof+Bpjf6hlDifViZbrlwQRf7THDT5H9KiF4YkTJ8Xb5KkGFNvohC6
-         uk4sFOawe0imfSR4J64JnmuwrrhceYmUsX7Y8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=+v1FN81bPLd58eJ2+aCl04dJ9xCpzHPY6ObJ+lD/WVk=;
-        b=rF3p0y8RuJL5R857ibONMUhjUdXEFvRIphhUlw8lJz2wNqIy2ibt0oU0vF1hNBqqMI
-         jHLbzT+iGSTNqOGk8uPXD2izvAY9iMdG4A2M2who9eqb0GgCljwKX0+MIrCm1+U0Nldh
-         oynUjUP99rfhV6J2BW5X8xy/oi+iKYDsPx/krj+bS1rPh31qjMujBN5ytnCIPRnKHMLK
-         MMstJAGtZtvC2p3ZTirFJ8YzFOgiKS3V+yexdracaDQ0Gt02Zt7Xf7RTFkNqNDsn1rBs
-         dfc3TiOAwluJeNVEScOtS6JEybr+e8cR4AfwDYdJpkZeVSpshvCTTRx4/QQ8SK6+LZM1
-         3PPA==
-X-Gm-Message-State: AOAM5323fv5kMSMBlnqARwG1ZX/clXD/JkrFxcoNkkIe8ZhA353xcEkk
-	qbzete+SyqbXetEKO9kENwCeWw==
-X-Google-Smtp-Source: ABdhPJzqOtHNcDVvMR7v6GorRMkzUJBZldRQuu6YJOAwxBxJ/eXhpcjNKkjQI4R+n4VeWnH2ziYpGw==
-X-Received: by 2002:a7b:c76b:: with SMTP id x11mr9085940wmk.66.1625390511688;
-        Sun, 04 Jul 2021 02:21:51 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f8cb:97a3:103a:4a52? ([2001:8b0:aba:5f3c:f8cb:97a3:103a:4a52])
-        by smtp.gmail.com with ESMTPSA id d186sm18968580wmd.14.2021.07.04.02.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jul 2021 02:21:51 -0700 (PDT)
-Message-ID: <a3f45eab0d82dea6f34936d821d902b79c43abbd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Peter Bergin <peter@berginkonsult.se>, "Mittal, Anuj"
-	 <anuj.mittal@intel.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>, 
-	"liu.ming50@gmail.com"
-	 <liu.ming50@gmail.com>
-Date: Sun, 04 Jul 2021 10:21:48 +0100
-In-Reply-To: <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se>
-References: <20210702115900.19417-1-peter@berginkonsult.se>
-	 <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
-	 <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se>
-User-Agent: Evolution 3.40.0-1 
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+Received: from debian10-ty-1.yocto.io (unknown [172.29.10.55])
+	by mail.yoctoproject.org (Postfix) with ESMTP id 9044838C06D7
+	for <openembedded-core@lists.openembedded.org>; Sun,  4 Jul 2021 09:44:17 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: auh@auh.yoctoproject.org
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] iproute2: upgrading to 5.13.0 SUCCEEDED
+Message-ID: <MADEUP.168E8D488D58FF3D.2482@lists.openembedded.org>
+X-Groupsio-MsgNum: 153517
+Content-Type: multipart/mixed; boundary="===============4016723038437540427=="
+
+--===============4016723038437540427==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2021-07-04 at 10:59 +0200, Peter Bergin wrote:
-> On 2021-07-03 16:55, Mittal, Anuj wrote:
-> > On Fri, 2021-07-02 at 13:59 +0200, Peter Bergin wrote:
-> > > This reverts commit 10aa1291979fb90bed1beb49be4d406ed0e1e4d5.
-> > > 
-> > > As there is no build dependency between libubootenv and the
-> > > configuration
-> > > of u-boot there is no reason to check for UBOOT_CONFIG or UBOOT_MACHINE
-> > > by adding the class uboot-config. Revert this in order to remove
-> > > useless
-> > > workaround in bsp layer (meta-freescale).
-> > This was added to address failures in world builds:
-> > 
-> > https://lists.openembedded.org/g/openembedded-core/message/141757
-> > 
-> > If this is not required, then I think we'd need to address those
-> > failures.
-> 
-> Thanks for the pointer about the reason for this patch. I searched a bit 
-> but could not find it.
-> 
-> Can you please help me define 'world builds'?
+Hello,
 
-"bitbake world"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *iproute2* to *5.13.0* has Succeeded.
 
-i.e. build everything
+Next steps:
+    - apply the patch: git am 0001-iproute2-upgrade-5.12.0-5.13.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-> By reading the mail thread my thoughts are that the obvious thing is 
-> that the build has a bad configuration as u-boot is skipped. This should 
-> be the thing to solve.
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
-Not every MACHINE will support u-boot or have a configuration for it.
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
-> Do we have other examples in oe-core where we have a RRECOMMENDS and a 
-> requirement that another package is built. Isn't RDEPENDS used for that 
-> case?
+Regards,
+The Upgrade Helper
 
-RDEPENDS is a hard requirement, RRECOMMENDS is a "soft" one. Bitbake
-treats them the same in the sense it will always follow them, the destinction
-is left to the package manager at the root filesystem creation time.
+--===============4016723038437540427==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-iproute2-upgrade-5.12.0-5.13.0.patch"
 
-Cheers,
+From d01be6ea2bdc4d18126c3fa1598816b34f79cb84 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 4 Jul 2021 07:30:27 +0000
+Subject: [PATCH] iproute2: upgrade 5.12.0 -> 5.13.0
 
-Richard
+---
+ .../iproute2/{iproute2_5.12.0.bb => iproute2_5.13.0.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_5.12.0.bb => iproute2_5.13.0.bb} (75%)
 
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
+similarity index 75%
+rename from meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
+index 3631123374..b117637e36 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
+@@ -4,7 +4,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "9d268db98a36ee2a0e3ff3b92b2efff66fc1138a51e409bdef6ab3cfe15f326f"
++SRC_URI[sha256sum] = "72a2e53774cac9e65f7b617deebb2059f87e8960d6e9713e4d788cea966f1b36"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
+-- 
+2.20.1
+
+
+--===============4016723038437540427==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/iproute2/iproute2-bash-completion: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-bash-completion: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-dbg: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-dbg: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-dbg: PKGSIZE changed from 6183916 to 6221204 (+1%)
+packages/core2-32-poky-linux/iproute2/iproute2-dev: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-dev: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-devlink: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-devlink: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-doc: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-doc: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-genl: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-genl: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-ifstat: PKGSIZE changed from 95672 to 99768 (+4%)
+packages/core2-32-poky-linux/iproute2/iproute2-ip: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-ip: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-ip: PKGSIZE changed from 771547 to 779748 (+1%)
+packages/core2-32-poky-linux/iproute2/iproute2-lnstat: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-lnstat: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-locale: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-locale: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-nstat: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-nstat: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-rdma: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-rdma: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-rtacct: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-rtacct: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-src: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-src: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-src: PKGSIZE changed from 3316960 to 3370588 (+2%)
+packages/core2-32-poky-linux/iproute2/iproute2-ss: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-ss: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-ss: PKGSIZE changed from 193488 to 197584 (+2%)
+packages/core2-32-poky-linux/iproute2/iproute2-staticdev: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-staticdev: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-tc: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-tc: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-tipc: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2-tipc: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2/iproute2-tipc: PKGSIZE changed from 148920 to 157192 (+6%)
+packages/core2-32-poky-linux/iproute2/iproute2: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2/iproute2: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2: PKGV changed from 5.12.0 [default] to 5.13.0 [default]
+packages/core2-32-poky-linux/iproute2: PV changed from "5.12.0" to "5.13.0"
+packages/core2-32-poky-linux/iproute2: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.12.0.tar.xz file://0001-libc-compat.h-add-musl-workaround.patch" to "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.13.0.tar.xz file://0001-libc-compat.h-add-musl-workaround.patch"
+
+--===============4016723038437540427==--
