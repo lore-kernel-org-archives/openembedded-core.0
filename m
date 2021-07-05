@@ -1,134 +1,86 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web11.537.1625524609378172993
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web11.539.1625524615741640268
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 15:36:49 -0700
+ Mon, 05 Jul 2021 15:36:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PD76WFoZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.51, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f51.google.com with SMTP id 59-20020a9d0ac10000b0290462f0ab0800so19677500otq.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 15:36:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vT62G5Ah;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f177.google.com with SMTP id h9so22362908oih.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 15:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=mzL1MF7EAjl8IqjPj3w9baMVwyySUZSrXoCxGu4Fr9o=;
-        b=PD76WFoZhoh/misXWzKB4K8u/+3ZHb0z4PmP4h83UznFOp64iY2PG4zY+RZ6xURZat
-         bcZrVzT6ue7prfZXiA5t0XRKWjbD8GONA+yC3mNO0DxszdTGKVSu2194ODz6isRtxh3i
-         Ya0Ki6s+Y22nJfmCywEVlH8AH2//uxMUJbpa0kxhyX5dqKZH12PUk2Z4rFSpUO4Qo/sl
-         4sFKoMbl0bR3D/VA6PHtfqVcgUmerDoCQs7dAgVkNicC1bxUktmc/yYA0qswHP5mwdGQ
-         cJYsqN596ct6K1rYoYS1Kxl6GpgpZcQ34sB+xALfeOheoajYNsharoPkwnfGK6XpnGzz
-         tOPQ==
+        bh=dKiiKYHUxIbzg0j/racQPAupG+3elTe/P0WIzZ4iLOk=;
+        b=vT62G5AhxRzzbpsty8diSRbcBHxcL3fhYeJ3IQ1/d+X4NmqFeeruAtVA1Fbm49bBuF
+         eSf/x9/UxLdqhe/FYeeaYSNlbV60G8MpiWPrkOZAIUlGa7FGwvg97CHQhF6JYzN0Q4dY
+         EyWiQ/wvwf8LW0Iw48VP4ZyEycSMsTJMHbhAZJjkercYJpDheKfPqG3Majkr21158aBM
+         B0CUn9Bae0VeoGaSXLnVJIGauYTOAhVbSD3xlUYRmRL3IRv0wvxFc5nKnK9uuF1HnfAb
+         gm2ECsmDNiC3IX18SMny+2xUf3oUlWiKAtoaSl3so6SvTbr3R/oowseakKoEFyODU2Zj
+         JC5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mzL1MF7EAjl8IqjPj3w9baMVwyySUZSrXoCxGu4Fr9o=;
-        b=F5hk+u+Uc0kUW2C6NXZmDPqFaFOg86RQyqNEIzvf8JFViPG3HXIgctERRJ3piNeol5
-         0M1kTItuihDqyJcD2O0H5gUVfdOALN1lEePPfwj2/VJn/LPvYn7gU4DWpkKf2rKmsfHr
-         SdFBTc4r4c7ReOrHiYnOQ1mvHEiukAZ1BTkeoFkZh6t+PaEYtg0CMpdsXxx3YESdAUk5
-         pzZIo6xZuzzNVwXXl4aSkSSaRQ4CoAr/EbsnIXai8vNSCqYpUDE/6vdpIpND0N/sOuBi
-         D3wTasWlohtLzUmPZIrC/pvLyYmLfSclBoe5TlAvse65hQn48W+6K04XYLX9cP1WN5VV
-         1z0A==
-X-Gm-Message-State: AOAM530wh/WSleIxxsXdI7qKM+VP6dYZ8lk/pdTK1tlWmnbS4Xyb5sal
-	XvwPXdhwzOBT6X3ClQ/Kmels5ELvsULOT9Ab
-X-Google-Smtp-Source: ABdhPJwZnjVbFY9KK68tVbXQsgNZeAEhF4oplwxJEGJhwh4N697w9RBq/arHWJY5NVyMEY2s47G0AA==
-X-Received: by 2002:a9d:2923:: with SMTP id d32mr12392344otb.67.1625524608355;
-        Mon, 05 Jul 2021 15:36:48 -0700 (PDT)
+        bh=dKiiKYHUxIbzg0j/racQPAupG+3elTe/P0WIzZ4iLOk=;
+        b=VPAMXPivb2RFCxCfSFBMQXR8gOm/t7I8Zm4xlak9HDxmKl6Wsgo3QYA/Jv6hlNnAMi
+         js8q1KIMG7XS6HGpX/A6VYMBBP5FxVj5jORXWick4Bv/NBdea1FTLRLoqngo98HP4xQ2
+         pMc2SzpeGNMA1pmmTSDUAS7t2kcaidSzvd/f2O4IvnSjGmhogRMVAQFDA1VH/SRyojBB
+         Y2x8KfwQfwmsvv4yB+0WSvQhO8iZn1f0oBCJfONLjgz9rpcC8jkv2twjuFfWbyA3ydh1
+         4VMw/8Tj00sSnO9vEgMUVVQxn4P8StZFVEaBhaDvWxM4nT7VrKP9EU5JTQE/rScx19oU
+         oOLg==
+X-Gm-Message-State: AOAM533iPP6fDStjoFq1ovyLJLkxeXaoSeuL231wuxhpCUJoasyjvu/U
+	1LW3Y5qmXs+S4NVcnP704RFKsX5F1tlHw+Y1
+X-Google-Smtp-Source: ABdhPJzwwPgYxoQ449+9LOvFxODroxXxaloISRBIDnTqzxt/NxOVVPyMl2FGaBIqg+8CypT8FS93sQ==
+X-Received: by 2002:aca:4952:: with SMTP id w79mr1045187oia.33.1625524614702;
+        Mon, 05 Jul 2021 15:36:54 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id i16sm2870178otp.7.2021.07.05.15.36.44
+        by smtp.gmail.com with ESMTPSA id i16sm2870178otp.7.2021.07.05.15.36.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 15:36:47 -0700 (PDT)
+        Mon, 05 Jul 2021 15:36:54 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/19] sstate.bbclass: fix errors about read-only sstate mirrors
-Date: Mon,  5 Jul 2021 12:34:52 -1000
-Message-Id: <4b5ab8868a563e12bea4df0bfb8309eff004e3e2.1625511812.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/19] oeqa/selftest/runcmd: Tweal test timeouts
+Date: Mon,  5 Jul 2021 12:34:53 -1000
+Message-Id: <d5216cd934a28fd99dfba7d1a27c743e21f0b9c6.1625511812.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1625511812.git.steve@sakoman.com>
 References: <cover.1625511812.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Michael Ho <Michael.Ho@bmw.de>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-If a read-only sstate mirror is used in conjunction with hash equiv,
-then OSError will be raised when an sstate-cache hit is achieved.
+Load on the autobuilder meant we see occasionaly timeout issues with these tests.
+Slightly increase the test timeouts to better reflect the real world timings we
+see.
 
-This is because sstate_task_postfunc will try to "touch" the symlinks
-that point to the read-only sstate mirror when sstate_report_unihash
-has changed SSTATE_PKG.
+[YOCTO #14262]
 
-This commit adds an additional exception handler to silently mask read
-only rootfs errors thrown during the touch.
-
-The fix is also duplicated to sstate_eventhandler as the code is very
-similar but it may not be needed there.
-
-Example of the error:
-
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:sstate_task_postfunc(d)
-     0003:
-File: '/poky/meta/classes/sstate.bbclass', lineno: 774, function: sstate_task_postfunc
-     0770:
-     0771:    omask = os.umask(0o002)
-     0772:    if omask != 0o002:
-     0773:       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
- *** 0774:    sstate_package(shared_state, d)
-     0775:    os.umask(omask)
-     0776:
-     0777:    sstateinst = d.getVar("SSTATE_INSTDIR")
-     0778:    d.setVar('SSTATE_FIXMEDIR', shared_state['fixmedir'])
-File: '/poky/meta/classes/sstate.bbclass', lineno: 703, function: sstate_package
-     0699:    if not os.path.exists(siginfo):
-     0700:        bb.siggen.dump_this_task(siginfo, d)
-     0701:    else:
-     0702:        try:
- *** 0703:            os.utime(siginfo, None)
-     0704:        except PermissionError:
-     0705:            pass
-     0706:
-     0707:    return
-Exception: OSError: [Errno 30] Read-only file system
-
-Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 244b3be0358a66e0cca4016fe26144e3d7323390)
+(cherry picked from commit fccd2ade0e345625ed9a4b74a7431b000ce2214f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/sstate.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/lib/oeqa/selftest/cases/runcmd.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index a689f7f677..53dcfc8274 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -703,6 +703,10 @@ def sstate_package(ss, d):
-             os.utime(siginfo, None)
-         except PermissionError:
-             pass
-+        except OSError as e:
-+            # Handle read-only file systems gracefully
-+            if e.errno != errno.EROFS:
-+                raise e
+diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
+index fa6113d7fa..e9612389fe 100644
+--- a/meta/lib/oeqa/selftest/cases/runcmd.py
++++ b/meta/lib/oeqa/selftest/cases/runcmd.py
+@@ -27,8 +27,8 @@ class RunCmdTests(OESelftestTestCase):
  
-     return
+     # The delta is intentionally smaller than the timeout, to detect cases where
+     # we incorrectly apply the timeout more than once.
+-    TIMEOUT = 5
+-    DELTA = 3
++    TIMEOUT = 10
++    DELTA = 8
  
-@@ -1141,6 +1145,10 @@ python sstate_eventhandler() {
-                 os.utime(siginfo, None)
-             except PermissionError:
-                 pass
-+            except OSError as e:
-+                # Handle read-only file systems gracefully
-+                if e.errno != errno.EROFS:
-+                    raise e
- 
- }
- 
+     def test_result_okay(self):
+         result = runCmd("true")
 -- 
 2.25.1
 
