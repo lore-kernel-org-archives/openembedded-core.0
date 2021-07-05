@@ -1,128 +1,125 @@
 Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web09.537.1625524518199564767
+ by mx.groups.io with SMTP id smtpd.web11.517.1625524528178604806
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 15:35:18 -0700
+ Mon, 05 Jul 2021 15:35:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=FIl8NWLo;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=VQh0Hxcx;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.42, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f42.google.com with SMTP id 7-20020a9d0d070000b0290439abcef697so19740949oti.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 15:35:18 -0700 (PDT)
+Received: by mail-ot1-f42.google.com with SMTP id o17-20020a9d76510000b02903eabfc221a9so19775333otl.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 15:35:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=My3ixA4tC16zFyCPxMhasRwtk7KZ7X/tSYbLvV8sYyU=;
-        b=FIl8NWLo+w6ooJzJ8sb/V/Fh6EdJ3UnGtSjh0qzSdQdi3/+QxV4U7K/iXvnOpveGWm
-         n2BdT8DF4W/C2VWcCn5+mkptUjzTF167z862Rpg6WD4oFBXkWcvcRQvWv5LuO8buBnM6
-         I+o0dza+8VEYwHbJUss04WplfFGUdP4935WYlZncMktQ3dlA3uct/64XgthLASJTMZ3a
-         TcchvibJgnVGAdQJmGojU+WW7o1LIa94v2x1g84R6pvhsS4srntY9qx0XrT7NIdieeJq
-         pZ8bvU0rfjieMZLRhfi+N2jjr6MtM5nNW1hUb7xeH3oQRkrTUL8HOxkRZl31FxAJFSCG
-         8kMQ==
+        bh=JHbE/Yr+Oo8mRHTqnU1161uosddmp9I7neHtd37nkMY=;
+        b=VQh0Hxcxi5ASW+eaXiCmBGBwAx8wen+rnwjJhN1ivtJdJ6rTea/rD1YfpNJynIgoML
+         NVb9oeNWhNkZpKGRI67gOZeSo7Z4dXlJKluDQS3uuL5gs/dZoRBKe5BB8EnAUxDN17HC
+         57peqCL5CDLWT9s5mQTZTXorUHv7iGjA4PcpKAvnQDCaElwYjGVBg7i4buhcAupYMmZ1
+         dZ8m6tySEBvraZEAZ+lk4KtfxXh73vwQRPt5kukIgo2gBMNrHk78e3zl8BFS1gxp2ewh
+         BkFTqQkz5kN735DT3hzoXht7wMaK2T7Y4jWrdZBrzK/VOcoV2sxOKqius3xzoEuv1K7t
+         kN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=My3ixA4tC16zFyCPxMhasRwtk7KZ7X/tSYbLvV8sYyU=;
-        b=RXSzd4xfKs9Q3f4+G8RqaqX/Wt6G1MMdOEeqjqc7ZCS/Pv0U1w93k84EdCJvFC5JKo
-         yRAYLd6R/dEk2RSpcsUsgAc3PIsLGrChod6PHD23oE9AHISO6gy5Gmq/fjx08F/t/h+U
-         zO5dr2Ar9YY/lMKuBTR47j3m8Ly0A9EQDhk82Gcezy9I/1GexXPakn2YI9vTV7KE0V1U
-         5SnlQZutFi6FCQb3D4tL1ezPzhAGhEy+KwlxUTr1Gnllq/a683/GSYNqlHUCmBhl6vCv
-         UD/JCtr5DnFo2vl0UqLCTTjnnoXaXltZwXAW1SJmPnbKI6ZHIsfkAonPQa8OtFpDI3Is
-         sXZA==
-X-Gm-Message-State: AOAM531zS8bSS1gSdHN9s6hwSR6s7JmIcjLRLRBOLoco2e6zr/xKzDn5
-	PQ+++pkjN/jTooUllT62f4/cF6It25HlThj5
-X-Google-Smtp-Source: ABdhPJw0Y3x0i4pLTDOHFBwgpM9eHiO+3AMqn0qS4jkdnwTbzNMH+nFgzk6jJ8BioZcLR35jmZBXQQ==
-X-Received: by 2002:a05:6830:3185:: with SMTP id p5mr6213797ots.135.1625524517032;
-        Mon, 05 Jul 2021 15:35:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JHbE/Yr+Oo8mRHTqnU1161uosddmp9I7neHtd37nkMY=;
+        b=H5TKQvLlnTNuPptSz7sfAuyPA7JfSrd2B60V8ZV1jV6VVhOhfIrdZ6hOGEDQzO2IDC
+         XHzG3963r+E0X5gV7p84OC3IHo2R+GC+ondbHBKNA/Sx0soQmubntC4n/Fo7aZR0p5Lg
+         f454U2lyqyNyVogySSXhVNcV4BjyHVQeaMjQjKWQOtEzkZoI4366fuHnEWGTPabXEYpQ
+         HTzH2pvSofcoBbggVtVEbre/y/nSsxPA6IRViF+ge73lWMgHJakllVRAVCWQHE93C1s1
+         SZXIml0UU2OKvHu3v5nhJl+Eqq8QMiQDsyxI9ptITFf0gifodWaJ8tIWuL71EUozTJ1/
+         6Yng==
+X-Gm-Message-State: AOAM531B8sjv9GpK+OfsjXnIoWlYK8HL/4jhXPhZCyF9h/OFj4aJuZy5
+	b0Rh3R9SJ2T0WJGaGBJyFxSTRipIdLHETQno
+X-Google-Smtp-Source: ABdhPJzoMxWpjZm8tbhuUTBicLnscCmvttt4T8U6izsZHT4HbAj0FwFsWkjR8hIwpNcz164fnjIUuA==
+X-Received: by 2002:a9d:5506:: with SMTP id l6mr12877620oth.176.1625524527141;
+        Mon, 05 Jul 2021 15:35:27 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id i16sm2870178otp.7.2021.07.05.15.35.13
+        by smtp.gmail.com with ESMTPSA id i16sm2870178otp.7.2021.07.05.15.35.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 15:35:16 -0700 (PDT)
+        Mon, 05 Jul 2021 15:35:26 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/19] Patch review
-Date: Mon,  5 Jul 2021 12:34:37 -1000
-Message-Id: <cover.1625511812.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/19] python3: skip tests requiring tools-sdk
+Date: Mon,  5 Jul 2021 12:34:38 -1000
+Message-Id: <63bc36dbd93c46be8adf7db00e3fc22897eb1846.1625511812.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1625511812.git.steve@sakoman.com>
+References: <cover.1625511812.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Pleas review this next set of patches for dunfell and have comments back by
-end of day Wednesday.
+From: Tim Orling <timothy.t.orling@intel.com>
 
-Passed a-full on autobuilder:
+Conditionally skip test_ctypes.test_find unless
+IMAGE_FEATURES contains 'tools-sdk' as these test
+cases require full packagegroup-core-buildessential
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2318
+Fixes:
+AssertionError: Failed ptests:
+{'python3': ['test_find_library_with_gcc', 'test_find_library_with_ld']}
 
-The following changes since commit 9423ad8f0f42d249c2fcb1b86ec9abb75854f011:
-
-  python3-ptest: add newly discovered missing rdeps (2021-06-28 05:01:39 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (3):
-  python3: apply test skipping patch unconditionally
-  selftest: do not hardcode /tmp/sdk
-  pypi: set SRC_URI with _prepend, not with +=
-
-Bruce Ashfield (4):
-  linux-yocto/5.4: update to v5.4.124
-  linux-yocto/5.4: update to v5.4.125
-  linux-yocto/5.4: update to v5.4.128
-  linux-yocto/5.4: update to v5.4.129
-
-Florian Amstutz (1):
-  devtool: deploy-target: Fix preserving attributes when using --strip
-
-Michael Ho (1):
-  sstate.bbclass: fix errors about read-only sstate mirrors
-
-Minjae Kim (2):
-  rpm: fix CVE-2021-3421
-  gstreamer-plugins-base: fix CVE-2021-3522
-
-Richard Purdie (7):
-  kernel: Fix interaction when packaging disabled
-  kernel-devicetree: Fix interaction when packaging disabled
-  perf: Use python3targetconfig to ensure we use target libraries
-  package_pkgdata: Avoid task hash mismatches for generic task changes
-  oeqa/selftest/runcmd: Tweal test timeouts
-  sstate/staging: Handle directory creation race issue
-  oeqa/selftest/archiver: Allow tests to ignore empty directories
-
-Tim Orling (1):
-  python3: skip tests requiring tools-sdk
-
- meta/classes/kernel-devicetree.bbclass        |  11 +-
- meta/classes/kernel.bbclass                   |   2 +
- meta/classes/package_pkgdata.bbclass          |   2 +-
- meta/classes/pypi.bbclass                     |   2 +-
- meta/classes/sstate.bbclass                   |  16 +-
- meta/classes/staging.bbclass                  |   6 +-
- meta/lib/oeqa/selftest/cases/archiver.py      |  16 +-
- meta/lib/oeqa/selftest/cases/runcmd.py        |   4 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |  28 ++-
- ...pes.test_find-skip-without-tools-sdk.patch |  33 +++
- .../recipes-devtools/python/python3_3.8.10.bb |   1 +
- .../rpm/files/CVE-2021-3421.patch             | 197 ++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- meta/recipes-kernel/perf/perf.bb              |   2 +-
- .../CVE-2021-3522.patch                       |  36 ++++
- .../gstreamer1.0-plugins-base_1.16.3.bb       |   1 +
- scripts/lib/devtool/deploy.py                 |   2 +-
- 20 files changed, 338 insertions(+), 58 deletions(-)
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...pes.test_find-skip-without-tools-sdk.patch | 33 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.8.10.bb |  1 +
+ 2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
- create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
 
+diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+new file mode 100644
+index 0000000000..a44d3396a6
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+@@ -0,0 +1,33 @@
++From 7a2bddfa437be633bb6945d0e6b7d6f27da870ad Mon Sep 17 00:00:00 2001
++From: Tim Orling <timothy.t.orling@intel.com>
++Date: Fri, 18 Jun 2021 11:56:50 -0700
++Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk
++
++These tests need full packagegroup-core-buildessential, the
++easiest way to dynamically check for that is looking for
++'tools-sdk' in IMAGE_FEATURES.
++
++Upstream-Status: Inappropriate [oe-specific]
++
++Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
++---
++ Lib/ctypes/test/test_find.py | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/Lib/ctypes/test/test_find.py b/Lib/ctypes/test/test_find.py
++index 92ac184..0d009d1 100644
++--- a/Lib/ctypes/test/test_find.py
+++++ b/Lib/ctypes/test/test_find.py
++@@ -112,10 +112,12 @@ class FindLibraryLinux(unittest.TestCase):
++                 # LD_LIBRARY_PATH)
++                 self.assertEqual(find_library(libname), 'lib%s.so' % libname)
++
+++    @unittest.skip("Needs IMAGE_FEATURES += \"tools-sdk\"")
++     def test_find_library_with_gcc(self):
++         with unittest.mock.patch("ctypes.util._findSoname_ldconfig", lambda *args: None):
++             self.assertNotEqual(find_library('c'), None)
++
+++    @unittest.skip("Needs IMAGE_FEATURES += \"tools-sdk\"")
++     def test_find_library_with_ld(self):
++         with unittest.mock.patch("ctypes.util._findSoname_ldconfig", lambda *args: None), \
++              unittest.mock.patch("ctypes.util._findLib_gcc", lambda *args: None):
+diff --git a/meta/recipes-devtools/python/python3_3.8.10.bb b/meta/recipes-devtools/python/python3_3.8.10.bb
+index ae32ccc40e..c3da6718a8 100644
+--- a/meta/recipes-devtools/python/python3_3.8.10.bb
++++ b/meta/recipes-devtools/python/python3_3.8.10.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-configure.ac-fix-LIBPL.patch \
+            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
++           ${@bb.utils.contains('IMAGE_FEATURES', 'tools-sdk', '', 'file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch', d)} \
+            "
+ 
+ SRC_URI_append_class-native = " \
 -- 
 2.25.1
 
