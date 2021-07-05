@@ -1,199 +1,118 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.8256.1625474890642062581
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web10.8601.1625478094737303622
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 01:48:11 -0700
+ Mon, 05 Jul 2021 02:41:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jJ941U7o;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id c28so7720493lfp.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 01:48:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XJ/a2hNz;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: flowergom@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id h1-20020a17090a3d01b0290172d33bb8bcso1987851pjc.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 02:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DD3agODxK3tJucLl5w1w8evKaQgANYWTql5k7DlT7JE=;
-        b=jJ941U7oL632yFCwOw7lM3ti1JqhTE4SmtRnJgawQIvSLSzV2YAeOtbCJYmY97o2D8
-         IPdYZhQtMXKxKtv5x+WMDnpKZ7NYrScXatHWk8rxMSfnGI4wTo9tw1yaPRPu2eCR3mfl
-         9dHkLGNrBOaCnVA7lFXUefJmsZGrI2f6XUiYoyN2u7CJgT6XK2/mUoyd5pkWG6d4Q4uk
-         Br2naBJ4FO+ExCOsx+hOeofvlHiKNV/k1kWcLuF7he9QgjcY2+R+ZX92AhQBfdnJJ6Ik
-         8oS2Jr7xUqcPvfYzp3larRtSKWu/QcoU7Kzv2RqZkvrDoe/SsqR10bHqeFv0+78qkzxz
-         PUlg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KyWB4drtz5NXq3lxZYSTgul4FNKvikVn5RZ5rlTbATE=;
+        b=XJ/a2hNz68fgk329/PesZeZKidC8z5eXEp6IOzHrr5qexJieiILnDcgBte2P59t95e
+         n05SRz0nkG4KC8BbZIvHWqoodJXDfF1cx1kH/JDoImSK8mZzUyNXMKCkqhZfOkamgJOS
+         NfX+JEGNp0xgeTb9H5/6eHvFAJ1hj8tNf1+aSYT7yLr6nCaFMPVIRqsiZqhTDSPBBgxC
+         3vZj29I5HndkPN/7eYExH1oMEN4ocvkbuHCr1ie+h+ae8ML9uNMVfW+aFsdTRGluU0vL
+         sgwF7BBW7FKwTEH9sSq9Xz7a0kL2v++6yr/Ben/Au/ouL8tACCpV1IRwCvWXen2MeVcg
+         Ip6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DD3agODxK3tJucLl5w1w8evKaQgANYWTql5k7DlT7JE=;
-        b=fSubaf+Zrn6U6g33uYfoPCVN7D+knCmeIeXuufUeWmwAxUwOIoq+R7PAagZ9o9KwEs
-         RSt1IMnZm5TmPSpgmZm0vZTCCWxdQK+mZ06GGN9FpnKpNdIg/U+P1qi3Ooqwl5urq3W5
-         1bi+VYEtT+7pY0psd+AE3Ib3dthrPRGfq5hhvtwt8IqEWduVCl29dybhG8PNuGYQ6tgW
-         OHWbBC9rw71jBT1kIf0bDL7FtBZ59+EtWycHEa5LItBcpTnZOIPgHT+AeUiJdqjVw6HL
-         Xx+tHsdY2zNbz4/z5knSQIsB53srMXGPjNchwnvI7Tvkx2D57Nao89IHrAs2RkB0SCwo
-         o3ww==
-X-Gm-Message-State: AOAM532f9tDDdR+7EkxRNSSJ/Uzr1sSaSl6zStREnwKir43HeaGVuIqB
-	7++KIaukjn5PU1z1FndR5LfDOWDETC3vybX0Hjc=
-X-Google-Smtp-Source: ABdhPJyuwd3934rGXJXfUnFFXZc2uATm+euYu+n2u7VSrhwJvkkapSfPWFBzCo3zEvtRhZId1lgcCTZIp+BjIw3jkXc=
-X-Received: by 2002:ac2:5619:: with SMTP id v25mr9505876lfd.434.1625474888479;
- Mon, 05 Jul 2021 01:48:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KyWB4drtz5NXq3lxZYSTgul4FNKvikVn5RZ5rlTbATE=;
+        b=Uv4d/T0zxeJXsUxVLDvfZKgGnE+9vF+SoFlT94IkS2ZR4IVxXKbsgu6BLK8OafERCo
+         337iNp8fEAoj8JnYcMtf+M+t5A3BDT7+DYl1yKU3QS68R4IJAhhdvSYKaSGPaXNDJm9W
+         SeAxaN8PIrNuk0wshLa67P9U+RwPJ7TFzRRdyT+tSm1zoyQqPwW7k3/5UExSq3dgetYk
+         4TZQ1GtgWHZxVgsL056c0CMTXaLtv9QW13EF5PIInc8mvfaAgsfCJyrGgKG1aPg1Fhab
+         CsbN+FAQ5tVDzbSIv0114DBhRNRpO5OCSnKTHw57a9wByfKF8lAQu36CYn7Yf7r1Vdvz
+         nVPw==
+X-Gm-Message-State: AOAM532DS8wqqR0H0OuWMCfuFkHOhz/2NnTZFWdsxQDGxieL/Qnvix53
+	sBYsq+kVbGXgcA2lL7KoyftbDApT7yGZrtf/
+X-Google-Smtp-Source: ABdhPJxu1Yg1PKKPTBKSm1fVGQzh8Q8GAOsLOxYLoahVEHl86HG4ieWURoJ2020dvFP7X+fhxEkCuQ==
+X-Received: by 2002:a17:90a:c28a:: with SMTP id f10mr14963933pjt.15.1625478093993;
+        Mon, 05 Jul 2021 02:41:33 -0700 (PDT)
+Return-Path: <flowergom@gmail.com>
+Received: from localhost.localdomain ([59.6.144.168])
+        by smtp.gmail.com with ESMTPSA id bx12sm10850302pjb.22.2021.07.05.02.41.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 05 Jul 2021 02:41:33 -0700 (PDT)
+From: "Minjae Kim" <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] gstreamer-plugins-base: fix CVE-2021-3522
+Date: Mon,  5 Jul 2021 18:41:13 +0900
+Message-Id: <20210705094113.1053-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-References: <CANUMPcU0ibVFbf5x0OzEunTymSd8+_chCD3432xa3CTeL7QzjA@mail.gmail.com>
- <20210704112159.150061-1-vinay.m.engg@gmail.com> <CANNYZj9_peVZSZNZX_aB_ETx6Hsnk1YK1Ok4Yc0vjSBNxFXxGw@mail.gmail.com>
-In-Reply-To: <CANNYZj9_peVZSZNZX_aB_ETx6Hsnk1YK1Ok4Yc0vjSBNxFXxGw@mail.gmail.com>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Mon, 5 Jul 2021 14:17:57 +0530
-Message-ID: <CANUMPcX-_mC+b3Cf2bWR+iuE8Hfp+2XE7gQLk0OMf61=8y109Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc-package.inc: To fix build issue with glibc-testsuite.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Randy MacLeod <rwmacleod@gmail.com>, umesh kalappa0 <umesh.kalappa0@gmail.com>, 
-	vinay.kumar@blackfigtech.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Alex,
+Out-of-bounds read in ID3v2 tag parsing
 
-Here is my analysis,
+reference:
+https://gstreamer.freedesktop.org/security/sa-2021-0001.html
+---
+ .../CVE-2021-3522.patch                       | 36 +++++++++++++++++++
+ .../gstreamer1.0-plugins-base_1.16.3.bb       |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
 
-$bitbake -e glibc-testsuite
-==============================
- 2 # line: 222, file:
-/ala-lpggp31/vinay/tcwrlgcc-399/poky/meta/recipes-core/glibc/glibc-package.inc
- 3 stash_locale_cleanup() {
- 4   cleanupdir=$1
- 5   # Remove all files which do_stash_locale() copies
- 6   for i in mtrace sotruss xtrace; do
- 7     rm -f $cleanupdir/usr/bin/$i
- 8   done
- 9   rm -f $cleanupdir/usr/bin/localedef
-10   rm -rf $cleanupdir/usr/share/i18n
-11   rm -rf $cleanupdir/usr/lib/gconv
-12   rm -rf $cleanupdir/usr/lib/locale
-13   rm -rf $cleanupdir/usr/share/locale
-14   rmdir --ignore-fail-on-non-empty $cleanupdir/usr/share
-15
-16   if [ "/usr/lib" != "/usr/lib" ] && [ "/lib" != "/usr/lib" ]; then
-17     if [ -d "$cleanupdir/usr/lib" ]; then
-18       if [ -z "" -o \
-19            ! -e "$cleanupdir/usr/lib/" ]; then
-20         # error out if directory isn't empty
-21         # this dir should only contain locale dir
-22         # which has been deleted in the previous step
-23         rmdir $cleanupdir/usr/lib
-24       fi
-25     fi
-26   fi
-27 }
-28
-29 # line: 251, file:
-/ala-lpggp31/vinay/tcwrlgcc-399/poky/meta/recipes-core/glibc/glibc-package.inc
-30 stash_locale_package_cleanup() {
-31   stash_locale_cleanup
-/ala-lpggp31/vinay/tcwrlgcc-399/bld-arm/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc-testsuite/2.33-r0/package
-32 }
-33
-34 # line: 248, file:
-/ala-lpggp31/vinay/tcwrlgcc-399/poky/meta/recipes-core/glibc/glibc-package.inc
-35 stash_locale_sysroot_cleanup() {
-36   stash_locale_cleanup
-/ala-lpggp31/vinay/tcwrlgcc-399/bld-arm/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc-testsuite/2.33-r0/sysroot-destdir
-37 }
-==============================
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
+new file mode 100644
+index 0000000000..3717f0cf3a
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
+@@ -0,0 +1,36 @@
++From 067e759136904b82bba9c6d1d781c4408dfecfe6 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
++Date: Wed, 3 Mar 2021 01:08:25 +0000
++Subject: [PATCH] tag: id3v2: fix frame size check and potential invalid reads
++
++Check the right variable when checking if there's
++enough data left to read the frame size.
++
++Closes https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/issues/876
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/merge_requests/1066>
++
++Upstream-Status: Backport
++[https://gstreamer.freedesktop.org/security/sa-2021-0001.html]
++CVE: 	CVE-2021-3522
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ gst-libs/gst/tag/id3v2frames.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gst-libs/gst/tag/id3v2frames.c b/gst-libs/gst/tag/id3v2frames.c
++index 8e9f782..f39659b 100644
++--- a/gst-libs/gst/tag/id3v2frames.c
+++++ b/gst-libs/gst/tag/id3v2frames.c
++@@ -109,7 +109,7 @@ id3v2_parse_frame (ID3TagsWorking * work)
++ 
++   if (work->frame_flags & (ID3V2_FRAME_FORMAT_COMPRESSION |
++           ID3V2_FRAME_FORMAT_DATA_LENGTH_INDICATOR)) {
++-    if (work->hdr.frame_data_size <= 4)
+++    if (frame_data_size <= 4)
++       return FALSE;
++     if (ID3V2_VER_MAJOR (work->hdr.version) == 3) {
++       work->parse_size = GST_READ_UINT32_BE (frame_data);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
+index f8f5caa94a..bcfdef3bbd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
+@@ -15,6 +15,7 @@ SRC_URI = " \
+             file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
+             file://0005-viv-fb-Make-sure-config.h-is-included.patch \
+             file://0009-glimagesink-Downrank-to-marginal.patch \
++            file://CVE-2021-3522.patch \
+             "
+ SRC_URI[md5sum] = "e3ddb1bae9fb510b49a295f212f1e6e4"
+ SRC_URI[sha256sum] = "9f02678b0bbbcc9eff107d3bd89d83ce92fec2154cd607c7c8bd34dc7fee491c"
+-- 
+2.24.3 (Apple Git-128)
 
-Its trying to remove "usr/share" at
-"bld-arm/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc-testsuite/2.33-r0/sysroot-destdir"
-which does not exists in glibc-testsuite case.
-
-Contents of "bld-arm/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc-testsuite/2.33-r0/sysroot-destdir"
-are
-"sysroot-providers/glibc-testsuite"
-
-$bitbake -e glibc
-==============================
-19167 # line: 222, file:
-/ala-lpggp31/vinay/tcwrlgcc-399/poky/meta/recipes-core/glibc/glibc-package.inc
- 1 stash_locale_cleanup() {
- 2   cleanupdir=$1
- 3   # Remove all files which do_stash_locale() copies
- 4   for i in mtrace sotruss xtrace; do
- 5     rm -f $cleanupdir/usr/bin/$i
- 6   done
- 7   rm -f $cleanupdir/usr/bin/localedef
- 8   rm -rf $cleanupdir/usr/share/i18n
- 9   rm -rf $cleanupdir/usr/lib/gconv
-10   rm -rf $cleanupdir/usr/lib/locale
-11   rm -rf $cleanupdir/usr/share/locale
-12   rmdir --ignore-fail-on-non-empty $cleanupdir/usr/share
-13
-14   if [ "/usr/lib" != "/usr/lib" ] && [ "/lib" != "/usr/lib" ]; then
-15     if [ -d "$cleanupdir/usr/lib" ]; then
-16       if [ -z "" -o \
-17            ! -e "$cleanupdir/usr/lib/" ]; then
-18         # error out if directory isn't empty
-19         # this dir should only contain locale dir
-20         # which has been deleted in the previous step
-21         rmdir $cleanupdir/usr/lib
-22       fi
-23     fi
-24   fi
-25 }
-26
-27 # line: 251, file:
-/ala-lpggp31/vinay/tcwrlgcc-399/poky/meta/recipes-core/glibc/glibc-package.inc
-28 stash_locale_package_cleanup() {
-29   stash_locale_cleanup
-/ala-lpggp31/vinay/tcwrlgcc-399/bld-arm/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc/2.33-r0/package
-30 }
-31
-32 # line: 248, file:
-/ala-lpggp31/vinay/tcwrlgcc-399/poky/meta/recipes-core/glibc/glibc-package.inc
-33 stash_locale_sysroot_cleanup() {
-34   stash_locale_cleanup
-/ala-lpggp31/vinay/tcwrlgcc-399/bld-arm/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc/2.33-r0/sysroot-destdir
-35 }
-==============================
-
-In case of "bitbake glibc" the same "usr/share" directory exists at
-"bld-arm/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/glibc/2.33-r0/sysroot-destdir/"
-so
-no error occurs.
-
-Regards,
-Vinay
-
-On Sun, Jul 4, 2021 at 10:33 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> This looks like a workaround that does not fix the actual issue. Can you please look into what is causing the failure, if it is reproducible reliably, and at which point it regressed?
->
-> Alex
->
-> Alex
->
-> On Sun, 4 Jul 2021 at 13:22, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
->>
->> Added condition to check "$cleanupdir${datadir}" exists.
->>
->> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
->> ---
->>  meta/recipes-core/glibc/glibc-package.inc | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
->> index 92e5dbac61..df3f612192 100644
->> --- a/meta/recipes-core/glibc/glibc-package.inc
->> +++ b/meta/recipes-core/glibc/glibc-package.inc
->> @@ -230,7 +230,9 @@ stash_locale_cleanup () {
->>         rm -rf $cleanupdir${libdir}/gconv
->>         rm -rf $cleanupdir${localedir}
->>         rm -rf $cleanupdir${datadir}/locale
->> +  if [ -d $cleanupdir${datadir} ]; then
->>         rmdir --ignore-fail-on-non-empty $cleanupdir${datadir}
->> +  fi;
->>
->>         if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
->>                 if [ -d "$cleanupdir${exec_prefix}/lib" ]; then
->> --
->> 2.31.1
->>
->>
->> 
->>
