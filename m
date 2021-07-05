@@ -1,50 +1,50 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web09.541.1625524541747729374
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web10.519.1625524546709052550
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 15:35:41 -0700
+ Mon, 05 Jul 2021 15:35:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=M2kzONUn;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.42, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f42.google.com with SMTP id t24-20020a9d7f980000b029046f4a1a5ec4so19753023otp.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 15:35:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KUN7bYLq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.52, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f52.google.com with SMTP id x22-20020a9d6d960000b0290474a76f8bd4so18107550otp.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 15:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vTIBK3lCh7EIBTfsEuLSvtEO/JDNfKzVh8TSKqLZExI=;
-        b=M2kzONUnNxzcqDa9NU/2n5o/zMZCj5Qh6htHXn/ITWL7ol60Twi5UxlmMcOroLSfD1
-         SfyXGc34l3MgMTu2l7JOu3PIw2stHzV5iDpKxKWjlDOBXnq1sT8lhWt7OOtmaTShmIMj
-         rnKBGmgZTTdv4Jx1+Hkl2AR76E2o1n2tTFC8HyPgBp4jGaGolzBeU6I8/Ds5eh4GoYRP
-         /AvH6+na3Lzrw7+aaE5uVuOncqJnvM4CqM7c2YLQulqxqXi+4m+DHuYDEmQCKZYp41tW
-         2L936iTsDXu70FEiZwSMKwZ6zcNrtRg7rjOIJPyMdByFnNhx55YyzYr9a4kwaHHbATj1
-         0B3Q==
+        bh=fNO68ia9CPHm9khPNaJi+3E9nboLR2WARVfel1EXjjo=;
+        b=KUN7bYLqMdnD35k4BbnB9R4+lCLOafVQle+qXBqNDfOkBS4u/9GiH0aTnETvUEAdDO
+         jMGIDbOpu+VesKfV/Mgsl+mwHM0I2TWDBmcevE3bRk3NqhcOCgNzGFkaoJU7UwOtwWB8
+         Yz9LYb3rheu/VAAASM2UDQtFJl1VdhEKW3ulIOSBvPYFvSuliL7OE2N3mebWIHs8Rai+
+         MmVUUkO0ERTAghPMxAyUMxn+48TIPl2GyY5rgMhyGaHN+pyINBx/9MZAjuszTCEjtrIu
+         uP82QnxY4ussV3NOJS3s57pXzkQ0gQZb/ljuNiOhqqTiCvNA3dUCGF4fae9pzvUo5IKF
+         swog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vTIBK3lCh7EIBTfsEuLSvtEO/JDNfKzVh8TSKqLZExI=;
-        b=YAoNan9FpypWYAPVA17dxLpR/L2bIfOX7G1ledIwMY2g5WlSFf+VpY7a9lYi5NTom8
-         CKKLVjInoB6cwY+8t4uCjBq6O6OsXZSvcp0ESVR+ZdhJNQZa9pvOfhhMx+eMecGbYsSd
-         Nf+qgexl07udLNBGDp2ifCKQ8Vni0oDHkIY9lgSiLkVst0F9dBafy8QKHXqt9kBtK3ox
-         16SYoHupInSMc8mC+evuu15a89+DcHKrXCHi5DpISi7IA87FBi9eaGFVr4PabVujRlOD
-         8QpPvwQQUJIweVDlIRm11a+MD/OoCpvr1atctkSHLUuhgRLO2rFWzLUGPEDn9NzK3cYY
-         l2Fw==
-X-Gm-Message-State: AOAM531PA5SJkj0w/ohb+9fvjJ6I2j51Xjiki6swDp2gqbZzc0KJG13+
-	hp08hDKnj9b+6Kf120eL/W6tlPNsV9xIo7ec
-X-Google-Smtp-Source: ABdhPJwKnipo+EXV8UYleuh7GoxltIFlMKkuEzsOsZVPi2sKJHHieO343y9B+2h/M/f7JXC//W1Iww==
-X-Received: by 2002:a9d:39e3:: with SMTP id y90mr12809352otb.257.1625524540663;
-        Mon, 05 Jul 2021 15:35:40 -0700 (PDT)
+        bh=fNO68ia9CPHm9khPNaJi+3E9nboLR2WARVfel1EXjjo=;
+        b=Bzwkk0SexbeWkDVqIiRbBngrDbu1/3aBhUD6v4200O04ftjxnIODcXGlQUrtr9Zynt
+         F4cp4e8ELufJ8pPSD+XlblNeOrub6WJW92QRkf6MtOV/y/RxtrYSigOpB6P+PgGB7zQN
+         WGw7Dj0L5GbwDdrATuMF3dpOXUMtJhAviFW51D8lNxbfiUKpVK5P0a1yO5r4xhaCbY5O
+         31p2DS+4XO4i6TTEjB65/v8yd9zgWPrO9txpuTTWQ8e4fY8F2x/px+WBKWBpiB6ZjOh3
+         MuPSpF8RoJcQaFGjsNCzGoGJOWEiGgPzHO48EMMp9WoSn2dJoWyKFyliAZG7sJxKMJCa
+         kBiw==
+X-Gm-Message-State: AOAM530vRL9QyqUoSnbyCc8ebuajqBmsc62sCGVFZ6AVA5+6/qAUQn7O
+	3SsH/hMY4rryx222kgoTosSrXg+S+/b1eG1G
+X-Google-Smtp-Source: ABdhPJz4XWuLOoMbjZ7UJIU40woq4kX7Nczk2t9WOhjSTKpOnopGHB32K7pRIq6L1MahyQkd7jWkkQ==
+X-Received: by 2002:a9d:7547:: with SMTP id b7mr12640266otl.362.1625524545662;
+        Mon, 05 Jul 2021 15:35:45 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id i16sm2870178otp.7.2021.07.05.15.35.36
+        by smtp.gmail.com with ESMTPSA id i16sm2870178otp.7.2021.07.05.15.35.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 15:35:40 -0700 (PDT)
+        Mon, 05 Jul 2021 15:35:45 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/19] rpm: fix CVE-2021-3421
-Date: Mon,  5 Jul 2021 12:34:40 -1000
-Message-Id: <eb1183cac91a9948ac47acc56454b8841764ba72.1625511812.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/19] gstreamer-plugins-base: fix CVE-2021-3522
+Date: Mon,  5 Jul 2021 12:34:41 -1000
+Message-Id: <8cab9d3dd226e854d40e12df497456adc3d3f81d.1625511812.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1625511812.git.steve@sakoman.com>
 References: <cover.1625511812.git.steve@sakoman.com>
@@ -53,233 +53,71 @@ Content-Transfer-Encoding: 8bit
 
 From: Minjae Kim <flowergom@gmail.com>
 
-unsigned signature header leads to string injection into an rpm database
+Out-of-bounds read in ID3v2 tag parsing
 
 reference:
-https://nvd.nist.gov/vuln/detail/CVE-2021-3421
-https://github.com/rpm-software-management/rpm/commit/d6a86b5e69e46cc283b1e06c92343319beb42e21
+https://gstreamer.freedesktop.org/security/sa-2021-0001.html
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../rpm/files/CVE-2021-3421.patch             | 197 ++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
- 2 files changed, 198 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
+ .../CVE-2021-3522.patch                       | 36 +++++++++++++++++++
+ .../gstreamer1.0-plugins-base_1.16.3.bb       |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-3421.patch b/meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
 new file mode 100644
-index 0000000000..b1a05b6863
+index 0000000000..3717f0cf3a
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
-@@ -0,0 +1,197 @@
-+From 1e5b70cab83c95aa138107a38ecda75ff70e8985 Mon Sep 17 00:00:00 2001
-+From: Minjae Kim <flowergom@gmail.com>
-+Date: Thu, 24 Jun 2021 01:11:26 +0000
-+Subject: [PATCH] Be much more careful about copying data from the signature
-+ header
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
+@@ -0,0 +1,36 @@
++From 067e759136904b82bba9c6d1d781c4408dfecfe6 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
++Date: Wed, 3 Mar 2021 01:08:25 +0000
++Subject: [PATCH] tag: id3v2: fix frame size check and potential invalid reads
 +
-+Only look for known tags, and ensure correct type and size where known
-+before copying over. Bump the old arbitrary 16k count limit to 16M limit
-+though, it's not inconceivable that a package could have that many files.
-+While at it, ensure none of these tags exist in the main header,
-+which would confuse us greatly.
++Check the right variable when checking if there's
++enough data left to read the frame size.
 +
-+This is optimized for backporting ease, upstream can remove redundancies
-+and further improve checking later.
++Closes https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/issues/876
 +
-+Reported and initial patches by Demi Marie Obenour.
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/merge_requests/1066>
 +
-+Fixes: RhBug:1935049, RhBug:1933867, RhBug:1935035, RhBug:1934125, ...
-+
-+Fixes: CVE-2021-3421, CVE-2021-20271
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/d6a86b5e69e46cc283b1e06c92343319beb42e21]
-+CVE: CVE-2021-3421
++Upstream-Status: Backport
++[https://gstreamer.freedesktop.org/security/sa-2021-0001.html]
++CVE: 	CVE-2021-3522
 +Signed-off-by: Minjae Kim <flowergom@gmail.com>
 +---
-+ lib/package.c | 115 ++++++++++++++++++++++++--------------------------
-+ lib/rpmtag.h  |   4 ++
-+ 2 files changed, 58 insertions(+), 61 deletions(-)
++ gst-libs/gst/tag/id3v2frames.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/lib/package.c b/lib/package.c
-+index 081123d84e..7c26ea323f 100644
-+--- a/lib/package.c
-++++ b/lib/package.c
-+@@ -20,76 +20,68 @@
++diff --git a/gst-libs/gst/tag/id3v2frames.c b/gst-libs/gst/tag/id3v2frames.c
++index 8e9f782..f39659b 100644
++--- a/gst-libs/gst/tag/id3v2frames.c
+++++ b/gst-libs/gst/tag/id3v2frames.c
++@@ -109,7 +109,7 @@ id3v2_parse_frame (ID3TagsWorking * work)
 + 
-+ #include "debug.h"
-+ 
-++struct taglate_s {
-++    rpmTagVal stag;
-++    rpmTagVal xtag;
-++    rpm_count_t count;
-++} const xlateTags[] = {
-++    { RPMSIGTAG_SIZE, RPMTAG_SIGSIZE, 1 },
-++    { RPMSIGTAG_PGP, RPMTAG_SIGPGP, 0 },
-++    { RPMSIGTAG_MD5, RPMTAG_SIGMD5, 16 },
-++    { RPMSIGTAG_GPG, RPMTAG_SIGGPG, 0 },
-++    /* { RPMSIGTAG_PGP5, RPMTAG_SIGPGP5, 0 }, */ /* long obsolete, dont use */
-++    { RPMSIGTAG_PAYLOADSIZE, RPMTAG_ARCHIVESIZE, 1 },
-++    { RPMSIGTAG_FILESIGNATURES, RPMTAG_FILESIGNATURES, 0 },
-++    { RPMSIGTAG_FILESIGNATURELENGTH, RPMTAG_FILESIGNATURELENGTH, 1 },
-++    { RPMSIGTAG_SHA1, RPMTAG_SHA1HEADER, 1 },
-++    { RPMSIGTAG_SHA256, RPMTAG_SHA256HEADER, 1 },
-++    { RPMSIGTAG_DSA, RPMTAG_DSAHEADER, 0 },
-++    { RPMSIGTAG_RSA, RPMTAG_RSAHEADER, 0 },
-++    { RPMSIGTAG_LONGSIZE, RPMTAG_LONGSIGSIZE, 1 },
-++    { RPMSIGTAG_LONGARCHIVESIZE, RPMTAG_LONGARCHIVESIZE, 1 },
-++    { 0 }
-++};
-++
-+ /** \ingroup header
-+  * Translate and merge legacy signature tags into header.
-+  * @param h		header (dest)
-+  * @param sigh		signature header (src)
-+  */
-+ static
-+-void headerMergeLegacySigs(Header h, Header sigh)
-++rpmTagVal headerMergeLegacySigs(Header h, Header sigh, char **msg)
-+ {
-+-    HeaderIterator hi;
-++    const struct taglate_s *xl;
-+     struct rpmtd_s td;
-+ 
-+-    hi = headerInitIterator(sigh);
-+-    for (; headerNext(hi, &td); rpmtdFreeData(&td))
-+-    {
-+-	switch (td.tag) {
-+-	/* XXX Translate legacy signature tag values. */
-+-	case RPMSIGTAG_SIZE:
-+-	    td.tag = RPMTAG_SIGSIZE;
-+-	    break;
-+-	case RPMSIGTAG_PGP:
-+-	    td.tag = RPMTAG_SIGPGP;
-+-	    break;
-+-	case RPMSIGTAG_MD5:
-+-	    td.tag = RPMTAG_SIGMD5;
-+-	    break;
-+-	case RPMSIGTAG_GPG:
-+-	    td.tag = RPMTAG_SIGGPG;
-+-	    break;
-+-	case RPMSIGTAG_PGP5:
-+-	    td.tag = RPMTAG_SIGPGP5;
-+-	    break;
-+-	case RPMSIGTAG_PAYLOADSIZE:
-+-	    td.tag = RPMTAG_ARCHIVESIZE;
-+-	    break;
-+-	case RPMSIGTAG_SHA1:
-+-	case RPMSIGTAG_SHA256:
-+-	case RPMSIGTAG_DSA:
-+-	case RPMSIGTAG_RSA:
-+-	default:
-+-	    if (!(td.tag >= HEADER_SIGBASE && td.tag < HEADER_TAGBASE))
-+-		continue;
-+-	    break;
-+-	}
-+-	if (!headerIsEntry(h, td.tag)) {
-+-	    switch (td.type) {
-+-	    case RPM_NULL_TYPE:
-+-		continue;
-+-		break;
-+-	    case RPM_CHAR_TYPE:
-+-	    case RPM_INT8_TYPE:
-+-	    case RPM_INT16_TYPE:
-+-	    case RPM_INT32_TYPE:
-+-	    case RPM_INT64_TYPE:
-+-		if (td.count != 1)
-+-		    continue;
-+-		break;
-+-	    case RPM_STRING_TYPE:
-+-	    case RPM_BIN_TYPE:
-+-		if (td.count >= 16*1024)
-+-		    continue;
-+-		break;
-+-	    case RPM_STRING_ARRAY_TYPE:
-+-	    case RPM_I18NSTRING_TYPE:
-+-		continue;
-+-		break;
-+-	    }
-+-	    (void) headerPut(h, &td, HEADERPUT_DEFAULT);
-+-	}
-++    rpmtdReset(&td);
-++    for (xl = xlateTags; xl->stag; xl++) {
-++        /* There mustn't be one in the main header */
-++        if (headerIsEntry(h, xl->xtag))
-++            break;
-++        if (headerGet(sigh, xl->stag, &td, HEADERGET_RAW|HEADERGET_MINMEM)) {
-++            /* Translate legacy tags */
-++            if (xl->stag != xl->xtag)
-++                td.tag = xl->xtag;
-++            /* Ensure type and tag size match expectations */
-++            if (td.type != rpmTagGetTagType(td.tag))
-++                break;
-++            if (td.count < 1 || td.count > 16*1024*1024)
-++                break;
-++            if (xl->count && td.count != xl->count)
-++                break;
-++            if (!headerPut(h, &td, HEADERPUT_DEFAULT))
-++                break;
-++            rpmtdFreeData(&td);
-++        }
-++    }
-++    rpmtdFreeData(&td);
-++
-++    if (xl->stag) {
-++        rasprintf(msg, "invalid signature tag %s (%d)",
-++                        rpmTagGetName(xl->xtag), xl->xtag);
-+     }
-+-    headerFreeIterator(hi);
-++
-++    return xl->stag;
-+ }
-+ 
-+ /**
-+@@ -337,7 +329,8 @@ rpmRC rpmReadPackageFile(rpmts ts, FD_t fd, const char * fn, Header * hdrp)
-+ 		goto exit;
-+ 
-+ 	    /* Append (and remap) signature tags to the metadata. */
-+-	    headerMergeLegacySigs(h, sigh);
-++	    if (headerMergeLegacySigs(h, sigh,&msg))
-++		    goto exit;
-+ 	    applyRetrofits(h);
-+ 
-+ 	    /* Bump reference count for return. */
-+diff --git a/lib/rpmtag.h b/lib/rpmtag.h
-+index 8c718b31b5..d562572c6f 100644
-+--- a/lib/rpmtag.h
-++++ b/lib/rpmtag.h
-+@@ -65,6 +65,8 @@ typedef enum rpmTag_e {
-+     RPMTAG_LONGARCHIVESIZE	= RPMTAG_SIG_BASE+15,	/* l */
-+     /* RPMTAG_SIG_BASE+16 reserved */
-+     RPMTAG_SHA256HEADER		= RPMTAG_SIG_BASE+17,	/* s */
-++    /* RPMTAG_SIG_BASE+18 reserved for RPMSIGTAG_FILESIGNATURES */
-++    /* RPMTAG_SIG_BASE+19 reserved for RPMSIGTAG_FILESIGNATURELENGTH */
-+ 
-+     RPMTAG_NAME  		= 1000,	/* s */
-+ #define	RPMTAG_N	RPMTAG_NAME	/* s */
-+@@ -422,6 +424,8 @@ typedef enum rpmSigTag_e {
-+     RPMSIGTAG_LONGSIZE	= RPMTAG_LONGSIGSIZE,	/*!< internal Header+Payload size (64bit) in bytes. */
-+     RPMSIGTAG_LONGARCHIVESIZE = RPMTAG_LONGARCHIVESIZE, /*!< internal uncompressed payload size (64bit) in bytes. */
-+     RPMSIGTAG_SHA256	= RPMTAG_SHA256HEADER,
-++    RPMSIGTAG_FILESIGNATURES            = RPMTAG_SIG_BASE + 18,
-++    RPMSIGTAG_FILESIGNATURELENGTH       = RPMTAG_SIG_BASE + 19,
-+ } rpmSigTag;
-+ 
-+ 
++   if (work->frame_flags & (ID3V2_FRAME_FORMAT_COMPRESSION |
++           ID3V2_FRAME_FORMAT_DATA_LENGTH_INDICATOR)) {
++-    if (work->hdr.frame_data_size <= 4)
+++    if (frame_data_size <= 4)
++       return FALSE;
++     if (ID3V2_VER_MAJOR (work->hdr.version) == 3) {
++       work->parse_size = GST_READ_UINT32_BE (frame_data);
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-index 4029217d08..018b2f8700 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-@@ -44,6 +44,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-            file://0001-mono-find-provides-requires-do-not-use-monodis-from-.patch \
-            file://0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD160.patch \
-            file://0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch \
-+           file://CVE-2021-3421.patch \
-            "
- 
- PE = "1"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
+index f8f5caa94a..bcfdef3bbd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
+@@ -15,6 +15,7 @@ SRC_URI = " \
+             file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
+             file://0005-viv-fb-Make-sure-config.h-is-included.patch \
+             file://0009-glimagesink-Downrank-to-marginal.patch \
++            file://CVE-2021-3522.patch \
+             "
+ SRC_URI[md5sum] = "e3ddb1bae9fb510b49a295f212f1e6e4"
+ SRC_URI[sha256sum] = "9f02678b0bbbcc9eff107d3bd89d83ce92fec2154cd607c7c8bd34dc7fee491c"
 -- 
 2.25.1
 
