@@ -1,94 +1,110 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.14337.1625510590052342475
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web12.14907.1625512119783356996
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 11:43:10 -0700
+ Mon, 05 Jul 2021 12:08:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uhhwD1dv;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id m1so24673468edq.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 11:43:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=t9oc1kh3;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id d12so19129528pgd.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 12:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=M66UAMrVhLfwM6vm3alBl7smSR/ViI9AdbCh0YIzC7Y=;
-        b=uhhwD1dvRINDqPz1sDyGDHc4VTYWDklSStzUAsKsysafJ9ntxnx98sV9QagDAmZPto
-         Q1U24RviM7zaK0kETeN5l2HGGwEsjUf7D2NYHZ9xRi2TB8/Kjk9eyCPcMrs1MTUkdnJd
-         IFC7NyW6mWqgbohlodO1KpTpL7RJVbrKmiuX/gVCVb4hzjc7ZMAwiAl4Np37rul6raoZ
-         qELDbrCnLDKfI/Zhc5CFiWnnunYWfGEuge+2DiLHknRG/rp4KbkqGsHET4vYWBsoxMxN
-         AZBjUF3SVGwjzYI1bSyJblPoOSFmj7pJSQzlQkHA4LTJr208Ktc9vhi6HGN37dH+Q6Kk
-         C6JA==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=7JRBkqQr56ds7QNdvXdZSq6SbEvDZ2ysDY4sHY3hH9E=;
+        b=t9oc1kh3/aCbeMZY1MXmC/qG/eLfKjT9/znfGIhxbgwZl2SqqGpjSyCyn7HO+DoD37
+         +688a7+uy9KuAQPFdcOAsVZ/SWXvvPxfZIvLCC4FxhgiIHUBx73c3W2VYE2Ljcv372Wi
+         Zzfsnru1dBThvgyHKF+4e7SmtnCvXCaV34HzwAdAOpYyIFstEqmniqtY1Yj4vABj5CTa
+         AcwCQzSaL4xy+Z6ARg4CC0dE75gAXi1+belpfR+Ky4gkTviixWcb+kqi23N5/EKHP57/
+         nqDFIPohChLj8/EJ5JaO3lSwlYDmWGdo14urUmjSA2aL3ANwel8d2w3lPhDHarA1tksT
+         NGrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=M66UAMrVhLfwM6vm3alBl7smSR/ViI9AdbCh0YIzC7Y=;
-        b=GnVK9RLazCJ8A8HJ65JIiK49pMFnvTQluUZGWxj2DZ0i3Zpg4sa5JcL27E4v/6OUmG
-         pkD1ux+VaElHVY2nMQFeXeNqT8sqUmfncaVCCpnOPZxTdbYhVaCpF+EaTt3FWKgVkpWH
-         ShMXBZMyYuPnEIblypuR3lHrekos3OHQAfh4PIMkZYgztaeVK0xo0kh/rRnajWphKoec
-         sYVHMR7cK7MXJCYuueHVUN4fVDg6ix1vGIEh1upAklNeXPJ0uV3HHAsQl1TIAJf3Yf0C
-         lpzF4OQSAC1z+YWBMNHRsHD3dZtLqGrAZggNuZLhpwwniwP7sHem7a+hzezQbvLNtTLx
-         UF3Q==
-X-Gm-Message-State: AOAM530nxR3jVFEbHS93LQzmnkTZ8+6M5ES2xLs2FooXx2YeSpDl3JiE
-	GsBA9Su6FjTITYz+lguQuX5JqaHpNKk=
-X-Google-Smtp-Source: ABdhPJzgulymSFkQVfoVMzE2BFn9LXSt02onkJ72OfxN0O6LEgBUXGm/cD4kP7spZWy04vNzmD/IeA==
-X-Received: by 2002:a05:6402:204:: with SMTP id t4mr17761860edv.34.1625510588689;
-        Mon, 05 Jul 2021 11:43:08 -0700 (PDT)
-Return-Path: <schnitzeltony@gmail.com>
-Received: from thanks-buchmuellers.speedport.ip (p200300f07f3d403323b289d7a4d4d153.dip0.t-ipconnect.de. [2003:f0:7f3d:4033:23b2:89d7:a4d4:d153])
-        by smtp.gmail.com with ESMTPSA id ec40sm5872578edb.57.2021.07.05.11.43.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 11:43:08 -0700 (PDT)
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] pango: upgrade 1.48.5 -> 1.48.7
-Date: Mon,  5 Jul 2021 20:42:59 +0200
-Message-Id: <20210705184259.2125023-3-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210705184259.2125023-1-schnitzeltony@gmail.com>
-References: <20210705184259.2125023-1-schnitzeltony@gmail.com>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=7JRBkqQr56ds7QNdvXdZSq6SbEvDZ2ysDY4sHY3hH9E=;
+        b=muHwaJmC+08nxF1pJ9sIeZ1OAf+DNmgKnjfkXQRx7+OjRjAnWWRm5tAHP+9RA4Fv/m
+         EsdznJvoILm3JHT3+goN0gNB8/qQFCq8zSjqKEcA7gxBmc1DCJ6jtnPhUKbUUwCDSnr+
+         lH8+kckjcDzmWBrBzYVYs6hqzknsAKicW+jvgMVli0AUvQAmQHTazn5oq7rHWwh38h5a
+         ST4vDly7xbpbigJnBjgMS8+X2q+V8yfPr8WFcowXbCPjyx20HBkQECbD2w40VLoWqDXj
+         /dhzgijRm/sFS4BX8dkAKiXwbWJG2gsonleP56PW3qL7Sc/ENJuIIn+o5DRH49CvwVzp
+         DW+w==
+X-Gm-Message-State: AOAM530WVBuVMmgE0c1fMxHTC8WEZyy2jkNNfryGg7b6tVqExIdKGEFP
+	olfaTVF8ytQeYMCyANZrRFiVwbz9cQTbqg==
+X-Google-Smtp-Source: ABdhPJz/0vvywhzJr5UWynKlJDBX2jOhLBgeIumd4KmR6M622YUE7ZpxdTjbhpQGFDT3rIJGJCKj6Q==
+X-Received: by 2002:a63:4302:: with SMTP id q2mr16954828pga.428.1625512119020;
+        Mon, 05 Jul 2021 12:08:39 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:37df:273f:1e4f:b167? ([2601:202:4180:a5c0:37df:273f:1e4f:b167])
+        by smtp.gmail.com with ESMTPSA id d20sm13555028pfn.219.2021.07.05.12.08.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jul 2021 12:08:38 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] cve-check: Add allowlist that is same function of whitelist.
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ "ito-yuichi@fujitsu.com" <ito-yuichi@fujitsu.com>,
+ openembedded-core@lists.openembedded.org
+References: <20210623085633.3186982-1-ito-yuichi@fujitsu.com>
+ <b7b05b428677e6d8f39c700ff4ce212a9baa8918.camel@linuxfoundation.org>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <7ddffb54-dbc6-e221-fa69-5dff83ef5983@gmail.com>
+Date: Mon, 5 Jul 2021 12:08:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <b7b05b428677e6d8f39c700ff4ce212a9baa8918.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Overview of changes in 1.48.7
-=============================
-- Fix a thread-safety issue in fontmap initialization
-- Small documentation improvements
 
-Overview of changes in 1.48.6
-=============================
-- Avoid attribute index overflow
-- Add a new pango-segmentation utility
-- Documentation cleanups and fixes
-- Update script property data for gravity
-- Bring back careful glyph position rounding
-- Add a few missing bidi types
-- Add more tests
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- .../recipes-graphics/pango/{pango_1.48.5.bb => pango_1.48.7.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.48.5.bb => pango_1.48.7.bb} (94%)
+On 6/26/21 3:04 AM, Richard Purdie wrote:
+> On Wed, 2021-06-23 at 17:56 +0900, ito-yuichi@fujitsu.com wrote:
+>> The Linux team plan to removed references to racially-charged jargon from
+>> their code for more neutral and inclusive language.
+>> So replace use of "whitelist" with "allowlist" in cve-check.
+>>
+>> First, we add CVE_CHECK_ALLOWLIST and it is considered patched as well as
+>> CVE_CHECK_WHITELIST.
+>> We plan to replace about other word later and eventualy, replace all
+>> "whitelist" to "allowlist".
+>>
+>> Signed-off-by: Yuichi Ito <ito-yuichi@fujitsu.com>
+> The TSC did discuss this and proposed a plan on how we should go about 
+> addressing these issues:
+>
+> https://lists.openembedded.org/g/openembedded-architecture/topic/inclusive_language_summary/75821819
+>
+> I appreciate this patch has good intent but I would really like to
+> see a wider plan on how we address this rather than changing single 
+> variables piecemeal. 
+>
+> For example we may want to standardise on the term "IGNORE" rather than
+> "ALLOW" or even "FILTER" or "VERIFIED" or something more specific to the meaning
+> of CVEs and CVE checking.
+>
+> There is an opportunity to try and make the metadata and variable names
+> more consistent and understandable but if we just change single things at
+> a time this opportunity would be missed.
 
-diff --git a/meta/recipes-graphics/pango/pango_1.48.5.bb b/meta/recipes-graphics/pango/pango_1.48.7.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.48.5.bb
-rename to meta/recipes-graphics/pango/pango_1.48.7.bb
-index b29c3c2d96..963fd5d01c 100644
---- a/meta/recipes-graphics/pango/pango_1.48.5.bb
-+++ b/meta/recipes-graphics/pango/pango_1.48.7.bb
-@@ -20,7 +20,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
- 
- SRC_URI += "file://run-ptest"
- 
--SRC_URI[archive.sha256sum] = "501e74496173c02dcd024ded7fbb3f09efd37e2a488e248aa40799424dbb3b2a"
-+SRC_URI[archive.sha256sum] = "28a82f6a6cab60aa3b75a90f04197ead2d311fa8fe8b7bfdf8666e2781d506dc"
- 
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- 
--- 
-2.31.1
+I have created a wiki page to collate our thoughts and agreements to
+help us move foreword in a coherent manner to address renaming some
+troubling variable names.
+https://wiki.yoctoproject.org/wiki/Inclusive_language
+
+I logged some variable names along with a few renaming examples. Maybe
+this can turn into a plan???
+
+Since it's a wiki, please edit accordingly.
+
+- armin
+
+
+Cheers,
+> Richard
+>
+>
+> 
+>
 
