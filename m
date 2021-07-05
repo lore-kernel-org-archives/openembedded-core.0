@@ -1,146 +1,77 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.5764.1625451118114009861
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web08.7539.1625468899019217257
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jul 2021 19:11:58 -0700
+ Mon, 05 Jul 2021 00:08:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1652BqQj007399
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 4 Jul 2021 19:11:53 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Sun, 4 Jul 2021 19:11:52 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Sun, 4 Jul 2021 19:11:51 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-        <richard.purdie@linuxfoundation.org>, <alex.kanavin@gmail.com>
-Subject: [PATCH v3] perlcross: check the file if patched or not
-Date: Mon, 5 Jul 2021 10:10:50 +0800
-Message-ID: <20210705021050.9066-1-mingli.yu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=t39mYkqn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: tolvupostur@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id m1so22431743edq.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 00:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=0dc5mjeReCTk9J5mwxUidH1uuZoxKMY5bzYHSBhfA90=;
+        b=t39mYkqnYxGJBg+HVuv5si4yrKAZ0KO1PhnQpLOO/k2HxX2vUii2AEPUHr8K4G+iHJ
+         Lcseo4GIfpi3Zm93lErJeMfZ33989yjlusRdQCtg815Bgc9ERLR5BQdG9pa7RjXbI+am
+         t8K0o2xpVxjoivLZ4djCe4KMqQUclEVOfbLRiFtM9VDPJmSseuZjIzPvRnEh3Cw78gV3
+         lJX3OyaPXriFgzuduow8CfJCNQuxW7kdcfAIlTT376JySF2zaLkZHjqb+VS0WqB+dqR2
+         Hy6gzUvOrMgH5xkGXAA2wVQMClEZ5Ny1fxwmBnL9cGAfzzRTyXtnmT/DfC4V8u+8z22d
+         v+9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=0dc5mjeReCTk9J5mwxUidH1uuZoxKMY5bzYHSBhfA90=;
+        b=Bansgt3RPTo9JoM2+tTMxGt9dyaV+to46wD23ktfMU0xSKV6HJvOcRTN58yJ3XuviD
+         PR1tf6f0iLVAbYWJUzJMr24cJPtEXIA/m3QWFRrz5ONiUZjDvzunjJfxo+rifoPUylED
+         evH+LV+Xl6QiI0jfnQv3YJ9ZzboRjoyX73lMIqn2F1a4TO3EKvA9MEQOc4EERb0KtBBw
+         vMRIfitWIvEmDmWaLWz4ChIVwGxxcG0EVMDC6niOeUlBxkJO8VGQOLkTUqzXIMKxTChy
+         2I1XsB/bWC+IPnHYez9bugA9A2nzgnaCe3fU8VdM4k5eQIH9upaXsrbpwkTLZqY3VX91
+         KryQ==
+X-Gm-Message-State: AOAM530ieJ73rl9nianqZaGhuxmvIi1z1HECprtXzaDhebx5/R7V0Zla
+	xEgMlN/zSByIxf/3P9gvYDFtQKC4Nr9A7gDOA4w=
+X-Google-Smtp-Source: ABdhPJx/dVZu1ArtMwBleShpOlSZ9ZGNBcsWSRIe8rc95BRaI88QYsiuk4eyosE1eCWjvhj4/aNXcQ==
+X-Received: by 2002:a05:6402:4cf:: with SMTP id n15mr14917147edw.162.1625468897319;
+        Mon, 05 Jul 2021 00:08:17 -0700 (PDT)
+Return-Path: <tolvupostur@gmail.com>
+Received: from vision312-sde.vie.at.tttech.ttt ([213.143.114.199])
+        by smtp.gmail.com with ESMTPSA id lg16sm3964004ejb.69.2021.07.05.00.08.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jul 2021 00:08:16 -0700 (PDT)
+From: "Einar Gunnarsson" <tolvupostur@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Einar Gunnarsson <tolvupostur@gmail.com>
+Subject: [PATCH] update-rc.d: Fix enable/disable command
+Date: Mon,  5 Jul 2021 09:07:40 +0200
+Message-Id: <20210705070740.10780-1-tolvupostur@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <168DEF5C6D6F9DC2.7033@lists.openembedded.org>
-References: <168DEF5C6D6F9DC2.7033@lists.openembedded.org>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+$[] is a bashism and does not work on POSIX shells.
 
-After the commit(60dcb230f6 perl: split perl-cross into its own recipe)
-introduced, the source files for perl recipe mainly come from two parts,
-one is from SRI_URI during do_fetch and the other with below means during
-do_configure.
-do_configure_prepend() {
-    cp -rfp ${STAGING_DATADIR_NATIVE}/perl-cross/* ${S}
-}
+enable/disable on links numbered 08 and 09 gave the error:
+'bash: 100-08: value too great for base (error token is "08")'
+Links numbered 91-99 created a single digit link.
 
-And the source files for perl recipe will be changed during do_compile
-with below logic in Makefile.
-$(CROSSPATCHED): %.applied: %.patch
-        patch -p1 -i $< && touch $@
+Links numbered 91 or higher now create a double digit link
+with a leading zero.
 
-And there comes build failure with below steps:
- $ bitbake perl-native
-
-Make a change as below
- $ git diff
- diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
- index b77bbd1fd4..4c5e35ab80 100644
- --- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
- +++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
- @@ -33,6 +33,7 @@ do_compile () {
-  do_install_class-native() {
-      mkdir -p ${D}/${datadir}/perl-cross/
-      cp -rf ${S}/* ${D}/${datadir}/perl-cross/
- +    echo "test" > ${D}/${datadir}/perl-cross/testfile
- }
-
- $ bitbake perl-native
- | NOTE: make -j 48
- | make crosspatch
- | make[1]: Entering directory '/buildarea1/myu2/wr_build/wr1021_20210616_perl/build/tmp-glibc/work/x86_64-linux/perl-native/5.34.0-r0/perl-5.34.0'
- | patch -p1 -i cnf/diffs/perl5-5.34.0/time-hires.patch && touch cnf/diffs/perl5-5.34.0/time-hires.applied
- | patch -p1 -i cnf/diffs/perl5-5.34.0/xconfig.patch && touch cnf/diffs/perl5-5.34.0/xconfig.applied
- | patch -p1 -i cnf/diffs/perl5-5.34.0/posix-makefile.patch && touch cnf/diffs/perl5-5.34.0/posix-makefile.applied
- | File dist/Time-HiRes/Makefile.PL is read-only; trying to patch anyway
- | patching file dist/Time-HiRes/Makefile.PL
- | Reversed (or previously applied) patch detected!  Assume -R? [n]
- | Apply anyway? [n]
- | Skipping patch.
- | 4 out of 4 hunks ignored -- saving rejects to file dist/Time-HiRes/Makefile.PL.rej
- | patch -p1 -i cnf/diffs/perl5-5.34.0/test-commonsense.patch && touch cnf/diffs/perl5-5.34.0/test-commonsense.applied
- | File perl.h is read-only; trying to patch anyway
- | patching file perl.h
- | Reversed (or previously applied) patch detected!  Assume -R? [n]
- | Apply anyway? [n]
- | Skipping patch.
- | 1 out of 1 hunk ignored -- saving rejects to file perl.h.rej
- | make[1]: *** [Makefile:64: cnf/diffs/perl5-5.34.0/time-hires.applied] Error 1
- [snip]
-
-It's because the source files patched twice, so check the file if patched
-or not to avoid the source files patched more than one time to fix the
-above build failure.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Einar Gunnarsson <tolvupostur@gmail.com>
 ---
- ...ile-check-the-file-if-patched-or-not.patch | 31 +++++++++++++++++++
- .../perl-cross/perlcross_1.3.6.bb             |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
+ update-rc.d | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
-new file mode 100644
-index 0000000000..fb7b287599
---- /dev/null
-+++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
-@@ -0,0 +1,31 @@
-+From 24a3e0c48f9ebe473b5f1078663e275c27d0537f Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Fri, 2 Jul 2021 09:08:21 +0000
-+Subject: [PATCH] Makefile: check the file if patched or not
-+
-+Check the file if patched or not to avoid patched more than
-+one time.
-+
-+Upstream-Status: Inappropriate (OE-specific)
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index f4a26f5..7bc748e 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -61,7 +61,7 @@ miniperlmain$O: $(CROSSPATCHED)
-+ # Original versions are not saved anymore; patch generally takes care of this,
-+ # and if that fails, reaching for the source tarball is the safest option.
-+ $(CROSSPATCHED): %.applied: %.patch
-+-	patch -p1 -i $< && touch $@
-++	test ! -f $@ && (patch -p1 -i $< && touch $@)
-+ 
-+ # ---[ common ]-----------------------------------------------------------------
-+ 
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-index b77bbd1fd4..b19692b2f3 100644
---- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-+++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
-            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
-            file://determinism.patch \
-            file://0001-cnf-configure_func_sel.sh-disable-thread_safe_nl_lan.patch \
-+           file://0001-Makefile-check-the-file-if-patched-or-not.patch \
-            "
- UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
- 
+diff --git a/update-rc.d b/update-rc.d
+index c9355d7..95d1c22 100644
+--- a/update-rc.d
++++ b/update-rc.d
+@@ -114,7 +114,7 @@ renamelink()
+         # or stop link to start link with a sequence number equal to the difference of 100 minus the original sequence number.
+ 	if ls ${etcd}${lev}.d/${oldstartstop}*${bn} >/dev/null 2>&1; then
+ 		oldnn=`basename ${etcd}${lev}.d/${oldstartstop}*${bn}|cut -c2-3`
+-		newnn=$[100-$oldnn]
++		newnn=$(printf "%02d" $((100-${oldnn#0})))
+ 		[ $verbose -eq 1 ] && echo "rename ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} -> ${etcd}${lev}.d/${newstartstop}${newnn}${bn}"
+ 		if [ $notreally -eq 0 ];then
+ 			mv ${etcd}${lev}.d/${oldstartstop}${oldnn}${bn} ${etcd}${lev}.d/${newstartstop}${newnn}${bn}
 -- 
 2.17.1
 
