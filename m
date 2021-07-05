@@ -1,76 +1,146 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web11.3115.1625432863912703484
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.5764.1625451118114009861
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jul 2021 14:07:44 -0700
+ Sun, 04 Jul 2021 19:11:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WzsR9LSy;
- spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f181.google.com with SMTP id s18so1253835pgg.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Jul 2021 14:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4lkw1RnWThh/eCoYW5olebXswdcooBEdX91N+L8SPEA=;
-        b=WzsR9LSyC1vyqB4IcXxA7X8yeFP/ebcyWmZsCaDvRu+ZkwbcQOXjNCqBHJ8c/PYtcI
-         awbsy30YiCVbDLBZi0Ng3JoIQ38456vzFgg5zlQU7/LXGJ/lGsYmjexPHPESEXIzeku+
-         /etSTHlPfxrb0C7T5VVoW1wnUD2PoDIS8UJm/NBAXkp3c8vymgaFnegqH0rOGHcTDiSr
-         yjTZG1Og7KQTaWi3tPLzXrT25hxy4bS799Tna1bBohae/NJxiOndtTOyr1RPVJ5cxzwz
-         v76oFcsBSaLcG3SmtiHrskTDGSITCLqYDyliTVEiT1GpppbTdcl5+I1a5YbQdp7eamET
-         3img==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4lkw1RnWThh/eCoYW5olebXswdcooBEdX91N+L8SPEA=;
-        b=Za4pa8sBFgd2oxWs2NGOUI4qvuJvYWxMmVKyyyotoDdfzwuAVBLp3/kCpcsbelMskf
-         1bcZbsgNW8Ew6RvxWjGk4gzDpy/68ecHnTZqoI9QPHzjUobS2/ZTEMCPJy/PhKemXABa
-         Nlz9arF/3mwYzlhWJrU0fPvYKF/GTPReyuoD2VcnqmrneoqdBrJ+nYQhMLK+Vm5qp4/W
-         BKwwJ5yEUAQRKipDnUU7Dq4oMkcQhwvYp/NDn0VX8bP9MLqH7wi7/Uv5J4KCqrxRzfA7
-         4rEkRC3YRPRkbyqQL5gUfX4rIdDTI5JiZIKaA+dN3ArTR5yh8nWAmTgZOdJ80vn1FW/J
-         T1xg==
-X-Gm-Message-State: AOAM532gElB2NfvtoaJ3ik1Wj7wY1v6uxm0fJ0A4JJQLvoqgwMlJeiMp
-	1YKzkn2v5hoW+6tjx4KreS4u1Nx2CF5NfA==
-X-Google-Smtp-Source: ABdhPJw/f9RwrYnjAQ+H75PVY7n5qaJoUVZySvP7cLAMQwckAtN/6bitE73g/fi6xWgG8rDxk4KGUg==
-X-Received: by 2002:a63:405:: with SMTP id 5mr12167498pge.132.1625432863237;
-        Sun, 04 Jul 2021 14:07:43 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1c2d])
-        by smtp.gmail.com with ESMTPSA id v13sm19450873pja.44.2021.07.04.14.07.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jul 2021 14:07:42 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libubootenv: Disable for ppc/ppc64 qemu machines
-Date: Sun,  4 Jul 2021 14:07:40 -0700
-Message-Id: <20210704210740.581650-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1652BqQj007399
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sun, 4 Jul 2021 19:11:53 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Sun, 4 Jul 2021 19:11:52 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Sun, 4 Jul 2021 19:11:51 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>, <alex.kanavin@gmail.com>
+Subject: [PATCH v3] perlcross: check the file if patched or not
+Date: Mon, 5 Jul 2021 10:10:50 +0800
+Message-ID: <20210705021050.9066-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <168DEF5C6D6F9DC2.7033@lists.openembedded.org>
+References: <168DEF5C6D6F9DC2.7033@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This recipe depends on u-boot and u-boot is not available for
-qemuppc/qemuppc64 and there is no defconfig available either
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+After the commit(60dcb230f6 perl: split perl-cross into its own recipe)
+introduced, the source files for perl recipe mainly come from two parts,
+one is from SRI_URI during do_fetch and the other with below means during
+do_configure.
+do_configure_prepend() {
+    cp -rfp ${STAGING_DATADIR_NATIVE}/perl-cross/* ${S}
+}
+
+And the source files for perl recipe will be changed during do_compile
+with below logic in Makefile.
+$(CROSSPATCHED): %.applied: %.patch
+        patch -p1 -i $< && touch $@
+
+And there comes build failure with below steps:
+ $ bitbake perl-native
+
+Make a change as below
+ $ git diff
+ diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+ index b77bbd1fd4..4c5e35ab80 100644
+ --- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+ +++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+ @@ -33,6 +33,7 @@ do_compile () {
+  do_install_class-native() {
+      mkdir -p ${D}/${datadir}/perl-cross/
+      cp -rf ${S}/* ${D}/${datadir}/perl-cross/
+ +    echo "test" > ${D}/${datadir}/perl-cross/testfile
+ }
+
+ $ bitbake perl-native
+ | NOTE: make -j 48
+ | make crosspatch
+ | make[1]: Entering directory '/buildarea1/myu2/wr_build/wr1021_20210616_perl/build/tmp-glibc/work/x86_64-linux/perl-native/5.34.0-r0/perl-5.34.0'
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/time-hires.patch && touch cnf/diffs/perl5-5.34.0/time-hires.applied
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/xconfig.patch && touch cnf/diffs/perl5-5.34.0/xconfig.applied
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/posix-makefile.patch && touch cnf/diffs/perl5-5.34.0/posix-makefile.applied
+ | File dist/Time-HiRes/Makefile.PL is read-only; trying to patch anyway
+ | patching file dist/Time-HiRes/Makefile.PL
+ | Reversed (or previously applied) patch detected!  Assume -R? [n]
+ | Apply anyway? [n]
+ | Skipping patch.
+ | 4 out of 4 hunks ignored -- saving rejects to file dist/Time-HiRes/Makefile.PL.rej
+ | patch -p1 -i cnf/diffs/perl5-5.34.0/test-commonsense.patch && touch cnf/diffs/perl5-5.34.0/test-commonsense.applied
+ | File perl.h is read-only; trying to patch anyway
+ | patching file perl.h
+ | Reversed (or previously applied) patch detected!  Assume -R? [n]
+ | Apply anyway? [n]
+ | Skipping patch.
+ | 1 out of 1 hunk ignored -- saving rejects to file perl.h.rej
+ | make[1]: *** [Makefile:64: cnf/diffs/perl5-5.34.0/time-hires.applied] Error 1
+ [snip]
+
+It's because the source files patched twice, so check the file if patched
+or not to avoid the source files patched more than one time to fix the
+above build failure.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ ...ile-check-the-file-if-patched-or-not.patch | 31 +++++++++++++++++++
+ .../perl-cross/perlcross_1.3.6.bb             |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
 
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-index 306296922c..88a8397c3c 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-@@ -25,6 +25,9 @@ RPROVIDES_${PN}-bin += "u-boot-fw-utils"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-+COMPATIBLE_HOST_qemuppc64 = "null"
-+COMPATIBLE_HOST_qemuppc = "null"
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
+new file mode 100644
+index 0000000000..fb7b287599
+--- /dev/null
++++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
+@@ -0,0 +1,31 @@
++From 24a3e0c48f9ebe473b5f1078663e275c27d0537f Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Fri, 2 Jul 2021 09:08:21 +0000
++Subject: [PATCH] Makefile: check the file if patched or not
 +
- RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
++Check the file if patched or not to avoid patched more than
++one time.
++
++Upstream-Status: Inappropriate (OE-specific)
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index f4a26f5..7bc748e 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -61,7 +61,7 @@ miniperlmain$O: $(CROSSPATCHED)
++ # Original versions are not saved anymore; patch generally takes care of this,
++ # and if that fails, reaching for the source tarball is the safest option.
++ $(CROSSPATCHED): %.applied: %.patch
++-	patch -p1 -i $< && touch $@
+++	test ! -f $@ && (patch -p1 -i $< && touch $@)
++ 
++ # ---[ common ]-----------------------------------------------------------------
++ 
++-- 
++2.29.2
++
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+index b77bbd1fd4..b19692b2f3 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.3.6.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
+            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
+            file://determinism.patch \
+            file://0001-cnf-configure_func_sel.sh-disable-thread_safe_nl_lan.patch \
++           file://0001-Makefile-check-the-file-if-patched-or-not.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
  
- BBCLASSEXTEND = "native"
 -- 
-2.32.0
+2.17.1
 
