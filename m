@@ -1,105 +1,67 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.3593.1625560904303527032
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.3756.1625562435116234922
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 01:41:44 -0700
+ Tue, 06 Jul 2021 02:07:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UvPp4UEj;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id g14so9387014qvo.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 01:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Q2ozJlIR8TnDkF0HWVE2IOtLhGKeGRoMlrKOex2KnIw=;
-        b=UvPp4UEjOCOhCIZwqX+viGbsqoqVb9sB5xItTr96DAen2qsPOUzmKhtwH+vrbKPtMA
-         P2MXh/FON7ufW4rdICsvJlfT+xbXt/BZ8enzNjbefP1FJnuVF8IZ705Tcmpp21YZBVgN
-         zFjJzygqX+A9F93Ur1+FO3bpIQkw+69Cc8nFM6sKNixvDI1JiJWzRUsCvjk8BLnipFP7
-         Xp37w1Dd60FLNygdkDi6TgAJ+CkIb4BOWuFZnR4A/nO/iFitItdgUxGvKfKlDszgECOw
-         Oq4zN1PRjt8yhIs9tRiMD/3kQsBgvipYM2VFTDKw0HOL5V4PjmxcShzCeN4x++zmCkkO
-         Ym/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Q2ozJlIR8TnDkF0HWVE2IOtLhGKeGRoMlrKOex2KnIw=;
-        b=tBKj9zheGbDhr38AbrzyKlFkRNDg8RavQWutz/SYmMKAf5bceaIFMry7yt3g1/QIIV
-         pgWbZ3iK2bobAfxop0yDnqPegmm0JuPT5eTJV8oT6Ai/kjujZSRQAER/CRxuS6VYMDZg
-         hEMOpY2rBcxN/9d/0Wlxtcr5ZXY0trjFyegaecgyVhGESAseqJDeuNYN8szCnJ6xZjo3
-         yzgN08rAwZp7nre+qATbNgguJDma1ix+pYvwQnrQ80T9/MjUedBLQRh75sLC03xGLHZL
-         prabumgeWtwuZnSfhwHGGXLu5yblpPp6FIJFQYcUlz8QWNx4P3YySed8ZS4Y0ggldUGE
-         XJNA==
-X-Gm-Message-State: AOAM530sb6ZiTQK8tm1k+eo7vz7mBfzZuEgP4vdMJAXNClhoLe/MLc7e
-	QrBFb3juby4Mwz9HEoQV2MdQVhy5P2fj9g5m7/A=
-X-Google-Smtp-Source: ABdhPJzD0XHYXlwo0Y1DCeo4i4Oc7+yV9tkv5akQhFWKvaS2CxJ4zPFnM/AWf71yVbGTmSGvjeruZmP84OLYOPEiyYI=
-X-Received: by 2002:a05:6214:1244:: with SMTP id q4mr17232880qvv.50.1625560903125;
- Tue, 06 Jul 2021 01:41:43 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 16697DiW026247
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 6 Jul 2021 02:07:13 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 6 Jul 2021 02:07:13 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Tue, 6 Jul 2021 02:07:12 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] perl: correct libpth and glibpth
+Date: Tue, 6 Jul 2021 17:06:08 +0800
+Message-ID: <20210706090608.46166-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <cover.1625511812.git.steve@sakoman.com> <e8d6eda3435226a11f8f31ac1767892c42593a73.1625511812.git.steve@sakoman.com>
- <CA+chaQeDf-ejU-XxZggWWTQnm-oFAC34mnZBgGZh_DOkwvNQ5A@mail.gmail.com>
-In-Reply-To: <CA+chaQeDf-ejU-XxZggWWTQnm-oFAC34mnZBgGZh_DOkwvNQ5A@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 6 Jul 2021 01:41:17 -0700
-Message-ID: <CAMKF1soz8W1Agk7FeR8w4A5gjfsZHvohy0FcuQD8sjJJmWzy+A@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 13/19] pypi: set SRC_URI with _prepend, not with +=
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Steve Sakoman <steve@sakoman.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Jul 6, 2021 at 1:31 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
->
-> Is this one worth backporting? It breaks some recipes in other layers (e=
-.g. podman-compose in meta-virtualization http://git.yoctoproject.org/cgit/=
-cgit.cgi/meta-virtualization/commit/?id=3D92f976404b7f82c97996ffce94ca2d20b=
-e2dcbda) and it's only fixing issue with devtool which imho isn't so import=
-ant in dunfell compared to master.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-I guess it perhaps isnt bad if we can coordinate meta-virtualization
-fix along with it. but there is a chance that it might break some
-internal cases for users which we can't control
+Previouly there is a logic as below used to set libpth in config.sh.
+libpth='@LIBDIR@ @BASELIBDIR@'
 
->
-> Regards,
->
-> On Tue, Jul 6, 2021 at 12:36 AM Steve Sakoman <steve@sakoman.com> wrote:
->>
->> From: Alexander Kanavin <alex.kanavin@gmail.com>
->>
->> This did not cause problems in builds, but broke some devtool
->> workflows such as version upgrades or checking the latest version
->> from upstream. Tarballs should come first, not the patches.
->>
->> (From OE-Core rev: 5cee50c25197102658e0689f635b2d567a375471)
->>
->> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
->> (cherry picked from commit 8f17b8bce85efb0e9a7e15d0b98a5cf7b6bd9750)
->> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->> ---
->>  meta/classes/pypi.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
->> index 87b4c85fc0..384a209874 100644
->> --- a/meta/classes/pypi.bbclass
->> +++ b/meta/classes/pypi.bbclass
->> @@ -19,7 +19,7 @@ PYPI_SRC_URI ?=3D "${@pypi_src_uri(d)}"
->>
->>  HOMEPAGE ?=3D "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
->>  SECTION =3D "devel/python"
->> -SRC_URI +=3D "${PYPI_SRC_URI}"
->> +SRC_URI_prepend =3D "${PYPI_SRC_URI} "
->>  S =3D "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
->>
->>  UPSTREAM_CHECK_URI ?=3D "https://pypi.org/project/${PYPI_PACKAGE}/"
->> --
->> 2.25.1
->>
->>
->>
->>
->
->=20
->
+But after the below commits introduced, the above logic is dropped.
+52f2828314 perl: add a version that builds the recipe using perl-cross, and update to 5.28.1
+68552c3532 perl: remove the previous version of the recipe
+
+So correct the value of libpth and glibpth to add the dropped logic
+back to avoid confusing.
+
+Before the patch(on 64bits system):
+ # perl -V:libpth
+ libpth='/usr/lib /lib';
+
+After the patch(on 64bits system):
+ # perl -V:libpth
+ libpth='/usr/lib64 /lib64';
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-devtools/perl/perl_5.34.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+index 7935a58723..434535c5ee 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+@@ -53,6 +53,8 @@ do_configure_class-target() {
+     -Dsoname=libperl.so.5 \
+     -Dvendorprefix=${prefix} \
+     -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux \
++    -Dlibpth='${libdir} ${base_libdir}' \
++    -Dglibpth='${libdir} ${base_libdir}' \
+     ${PACKAGECONFIG_CONFARGS}
+ 
+     #perl.c uses an ARCHLIB_EXP define to generate compile-time code that
+-- 
+2.17.1
+
