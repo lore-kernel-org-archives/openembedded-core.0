@@ -1,81 +1,93 @@
 Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web09.7507.1625584377708841763
+ by mx.groups.io with SMTP id smtpd.web08.7704.1625584705877891090
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 08:12:58 -0700
+ Tue, 06 Jul 2021 08:18:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=l6LKQgqf;
+ dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=C5nE2Wqp;
  spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
 Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
 	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.89)
 	(envelope-from <zboszor@pr.hu>)
-	id 1m0mkp-0001Hl-4L; Tue, 06 Jul 2021 17:12:55 +0200
+	id 1m0mq7-0001pr-Uv; Tue, 06 Jul 2021 17:18:23 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=zTo4RffjATDi5vVSb5VdQdk8PS7Fgi4vdHaXXMk1UOg=; b=l6LKQgqfmnFr/anD/FmQSFI+8N
-	XaV8mUTp6ezNod4hTvjYB6HXQdmfXzbdqn+8nDJCibfmPWXAWZan4wq5HwxCz3WklRMGbmPv7oYqL
-	1m+RZnhOMtAgEDB1yAQF6DEm/4y1AvZB27dA5l2U4llC1dKKbqg4gNHvQBZGM9/YYI5LFZfi5StCu
-	AeT4C/iufrWGUatUnKEIDjxr6lXFy14+LvR0hTJ/22b/Wb594fIMMSSVX+cjF0LeI5efVsM9QcMM1
-	R8syrp3DSAtBq5sstKNGlzYkutP9FICp1CG9JAkRIDFJFSd/+bT211e/MpplQOYGRte1S0B9McUbF
-	NyfDeezA==;
+	bh=Fg/KSs6GDP224z2Pa+/dPDyB0g0idF/cfb0O9LNwKCs=; b=C5nE2WqpAYKunFNjs2h0YoYu2l
+	/H2Hdww2wFeaIuLhGozlGNrf3ZZEv2oSPe5jLVTP8R+mllGG/SbasTqsqMwwpIhlT+lpWzUsA9KbU
+	TQM+Xe+oqPNmHFoiRVJ9srtZ2VcVNR5iNXFlaICnkG6U3LCYVTp/FrSHg1YzhO1TH5GwmFtiy9Fdj
+	8Djx3yvAl4oum3iboA/VhjhkGXC0U7EM+am2A2PaBeJd5QUb2V3imwcLYdwIK8DVeuPR7ASiqzdoD
+	yIkjzB2bVcyKB5ajHfHGa5MqwHm1E40Jm/AWbL8Fcq8HAJdYa0lbaO5PdBBrA8glcG+u6uvoi8Cxp
+	SwxfPqyQ==;
 Received: from host-87-242-23-58.prtelecom.hu ([87.242.23.58] helo=localhost.localdomain)
-	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.92)
 	(envelope-from <zboszor@pr.hu>)
-	id 1m0mkl-0005x3-63; Tue, 06 Jul 2021 17:12:53 +0200
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+	id 1m0mq3-000101-Lv; Tue, 06 Jul 2021 17:18:21 +0200
+Subject: Re: [OE-core] [PATCH] tzdata: Allow controlling zoneinfo binary format
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] tzdata: Allow controlling zoneinfo binary format
-Date: Tue,  6 Jul 2021 17:12:40 +0200
-Message-Id: <20210706151240.238438-1-zboszor@pr.hu>
-X-Mailer: git-send-email 2.31.1
+Cc: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+References: <168F3C6148F999C2.26257@lists.openembedded.org>
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+Message-ID: <1c608a24-c1c3-1658-a0eb-c41aab3f0f9a@pr.hu>
+Date: Tue, 6 Jul 2021 17:18:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <168F3C6148F999C2.26257@lists.openembedded.org>
 X-Spam-Score: -0.9 (/)
-X-Scan-Signature: dda648b1d3e643e91fd1a0320e0a0c7d
-X-Spam-Tracer: backend.mail.pr.hu -0.9 20210706151253Z
-Content-Type: text/plain; charset=UTF-8
+X-Scan-Signature: 897afa41943fbf854db707890184f9ae
+X-Spam-Tracer: backend.mail.pr.hu -0.9 20210706151821Z
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-From: Zoltán Böszörményi <zboszor@gmail.com>
+2021. 07. 06. 17:12 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
+> From: Zoltán Böszörményi <zboszor@gmail.com>
+> 
+> tzcode 2020b changed the default format from "-b fat" to "-b slim".
+> Allow external control for the binary format.
+> 
+> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+> ---
+>   meta/recipes-extended/timezone/tzdata.bb | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+> index f8443110d5..09145e1ed0 100644
+> --- a/meta/recipes-extended/timezone/tzdata.bb
+> +++ b/meta/recipes-extended/timezone/tzdata.bb
+> @@ -19,13 +19,17 @@ TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
+>           "
+>   # pacificnew
+>   
+> +# "slim" is the default since 2020b
+> +# "fat" is needed by e.g. MariaDB's mysql_tzinfo_to_sql
 
-tzcode 2020b changed the default format from "-b fat" to "-b slim".
-Allow external control for the binary format.
+FYI, the issue fixed by this change is:
+https://jira.mariadb.org/browse/MDEV-26093
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
----
- meta/recipes-extended/timezone/tzdata.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
-index f8443110d5..09145e1ed0 100644
---- a/meta/recipes-extended/timezone/tzdata.bb
-+++ b/meta/recipes-extended/timezone/tzdata.bb
-@@ -19,13 +19,17 @@ TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
-         "
- # pacificnew 
- 
-+# "slim" is the default since 2020b
-+# "fat" is needed by e.g. MariaDB's mysql_tzinfo_to_sql
-+ZIC_FMT ?= "slim"
-+
- do_compile () {
-         for zone in ${TZONES}; do \
--            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
-+            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
-                 ${S}/${zone} ; \
--            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
-+            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
-                 ${S}/${zone} ; \
--            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
-+            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
-                 ${S}/${zone} ; \
-         done
- }
--- 
-2.31.1
+> +ZIC_FMT ?= "slim"
+> +
+>   do_compile () {
+>           for zone in ${TZONES}; do \
+> -            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
+> +            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
+>                   ${S}/${zone} ; \
+> -            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
+> +            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
+>                   ${S}/${zone} ; \
+> -            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
+> +            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
+>                   ${S}/${zone} ; \
+>           done
+>   }
+> 
+> 
+> 
+> 
+> 
 
