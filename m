@@ -1,25 +1,25 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.3756.1625562435116234922
+ by mx.groups.io with SMTP id smtpd.web09.3813.1625563457061663284
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 02:07:15 -0700
+ Tue, 06 Jul 2021 02:24:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 16697DiW026247
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1669OFGw027364
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 6 Jul 2021 02:07:13 -0700
+	for <openembedded-core@lists.openembedded.org>; Tue, 6 Jul 2021 02:24:15 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 6 Jul 2021 02:07:13 -0700
+ 15.1.2242.10; Tue, 6 Jul 2021 02:24:15 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Tue, 6 Jul 2021 02:07:12 -0700
+ 15.1.2242.10 via Frontend Transport; Tue, 6 Jul 2021 02:24:14 -0700
 From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] perl: correct libpth and glibpth
-Date: Tue, 6 Jul 2021 17:06:08 +0800
-Message-ID: <20210706090608.46166-1-mingli.yu@windriver.com>
+Subject: [hardknott][PATCH] perl: correct libpth and glibpth
+Date: Tue, 6 Jul 2021 17:23:09 +0800
+Message-ID: <20210706092309.8813-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -46,14 +46,14 @@ After the patch(on 64bits system):
 
 Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-devtools/perl/perl_5.34.0.bb | 2 ++
+ meta/recipes-devtools/perl/perl_5.32.1.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-index 7935a58723..434535c5ee 100644
---- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-@@ -53,6 +53,8 @@ do_configure_class-target() {
+diff --git a/meta/recipes-devtools/perl/perl_5.32.1.bb b/meta/recipes-devtools/perl/perl_5.32.1.bb
+index b28040c7fb..f8893af3e2 100644
+--- a/meta/recipes-devtools/perl/perl_5.32.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.32.1.bb
+@@ -62,6 +62,8 @@ do_configure_class-target() {
      -Dsoname=libperl.so.5 \
      -Dvendorprefix=${prefix} \
      -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux \
