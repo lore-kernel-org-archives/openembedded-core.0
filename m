@@ -1,93 +1,76 @@
-Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web08.7704.1625584705877891090
+Received: from mailrelay3-2.pub.mailoutpod1-cph3.one.com (mailrelay3-2.pub.mailoutpod1-cph3.one.com [46.30.212.2])
+ by mx.groups.io with SMTP id smtpd.web09.8191.1625586969655378114
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 08:18:27 -0700
+ Tue, 06 Jul 2021 08:56:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=C5nE2Wqp;
- spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1m0mq7-0001pr-Uv; Tue, 06 Jul 2021 17:18:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Fg/KSs6GDP224z2Pa+/dPDyB0g0idF/cfb0O9LNwKCs=; b=C5nE2WqpAYKunFNjs2h0YoYu2l
-	/H2Hdww2wFeaIuLhGozlGNrf3ZZEv2oSPe5jLVTP8R+mllGG/SbasTqsqMwwpIhlT+lpWzUsA9KbU
-	TQM+Xe+oqPNmHFoiRVJ9srtZ2VcVNR5iNXFlaICnkG6U3LCYVTp/FrSHg1YzhO1TH5GwmFtiy9Fdj
-	8Djx3yvAl4oum3iboA/VhjhkGXC0U7EM+am2A2PaBeJd5QUb2V3imwcLYdwIK8DVeuPR7ASiqzdoD
-	yIkjzB2bVcyKB5ajHfHGa5MqwHm1E40Jm/AWbL8Fcq8HAJdYa0lbaO5PdBBrA8glcG+u6uvoi8Cxp
-	SwxfPqyQ==;
-Received: from host-87-242-23-58.prtelecom.hu ([87.242.23.58] helo=localhost.localdomain)
-	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <zboszor@pr.hu>)
-	id 1m0mq3-000101-Lv; Tue, 06 Jul 2021 17:18:21 +0200
-Subject: Re: [OE-core] [PATCH] tzdata: Allow controlling zoneinfo binary format
+ dkim=pass header.i=@berginkonsult.se header.s=20191106 header.b=q7ex/nnw;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.2, mailfrom: peter@berginkonsult.se)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=20191106;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=5EF8KWGkS1xb2750aIxDOYV/4czaEJ3QsOFqtZ1Vksk=;
+	b=q7ex/nnwiQKEJLeAiG/PGf1/NfcAWbyR+rU3UKHG8q/eWRtD+x0FU/Y4aXkGVdBznQZ72qP4sUnif
+	 w/dGXtCb5Y6dmWOMZtBkj4fIcqYkbDXFZ7KmymFHsaXkoM6OTQaUS2juLOma9yktvUx+07ZyBN00dj
+	 UwVN8nYeG+aPGvICkEIN7f28vPMno8BDpjR/oGmAXhaOaJoHLxf0t3XCzKXeshIe7Ka7x77dRM/55W
+	 ZsEDwPv1saFOGTKX3tiHpn+Wc7MziCa8+vPbOMvjgDlcOf/4wgpqjGt1hlcREUe/FZ6HtFRLjUka1I
+	 r61ykmUMGEmcPjL1IjXyLGgxm8gBtiw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=rsa1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=5EF8KWGkS1xb2750aIxDOYV/4czaEJ3QsOFqtZ1Vksk=;
+	b=GdcO6u+MzbptXID9EbLHuHR+IRGWPi6fJFVHurc8W288M76IJhDPoobeLLuppkNyyPfx6AFZhIlnp
+	 Qxz2PasZRJZtMbZxCBYeQqCMmaJhK7qS3skHHUPfgg4z4mrSVwt1uB273Y90RKMZ9izKYbAZaO2ITe
+	 weX2s5ZRtjQBxuT3GZTqpGXluqNkVSOkGfN+ynvAwDyQ0ec8/1AdmNxTDfKtcwIWOS8v6tJonlMgSY
+	 Wzz7NSxXJtUjQVpGCK6mjU6jYWOQfyESoLd3eP8353gJkcMxJK+28LYtc00O6s4A0SjGi5BSx0eEDh
+	 ZNWNbunZsjJ7bk7NhmsCPMrlyxT5+ew==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=5EF8KWGkS1xb2750aIxDOYV/4czaEJ3QsOFqtZ1Vksk=;
+	b=eLkXBqEXffAbVmbJQcWNbKrXQm2uCu8hcjWjTNWHQqMdE89QMVnKOWKezGVDDWQ3qJEnxx2lcjM1h
+	 bAKfU4xCA==
+X-HalOne-Cookie: f9db52b2790f2d1794e89ae4193ddb0b7be91d0f
+X-HalOne-ID: aa19cd75-de72-11eb-8cdd-d0431ea8bb03
+Received: from localhost.localdomain (ua-85-227-233-29.bbcust.telenor.se [85.227.233.29])
+	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id aa19cd75-de72-11eb-8cdd-d0431ea8bb03;
+	Tue, 06 Jul 2021 15:56:07 +0000 (UTC)
+From: "Peter Bergin" <peter@berginkonsult.se>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
-References: <168F3C6148F999C2.26257@lists.openembedded.org>
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Message-ID: <1c608a24-c1c3-1658-a0eb-c41aab3f0f9a@pr.hu>
-Date: Tue, 6 Jul 2021 17:18:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Cc: anuj.mittal@intel.com,
+	richard.purdie@linuxfoundation.org,
+	otavio@ossystems.com.br,
+	Peter Bergin <peter@berginkonsult.se>
+Subject: [RFC][PATCH] libubootenv: exclude from world build if no u-boot config
+Date: Tue,  6 Jul 2021 17:55:51 +0200
+Message-Id: <20210706155551.8958-1-peter@berginkonsult.se>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <168F3C6148F999C2.26257@lists.openembedded.org>
-X-Spam-Score: -0.9 (/)
-X-Scan-Signature: 897afa41943fbf854db707890184f9ae
-X-Spam-Tracer: backend.mail.pr.hu -0.9 20210706151821Z
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-2021. 07. 06. 17:12 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
-> From: Zoltán Böszörményi <zboszor@gmail.com>
-> 
-> tzcode 2020b changed the default format from "-b fat" to "-b slim".
-> Allow external control for the binary format.
-> 
-> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
-> ---
->   meta/recipes-extended/timezone/tzdata.bb | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
-> index f8443110d5..09145e1ed0 100644
-> --- a/meta/recipes-extended/timezone/tzdata.bb
-> +++ b/meta/recipes-extended/timezone/tzdata.bb
-> @@ -19,13 +19,17 @@ TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
->           "
->   # pacificnew
->   
-> +# "slim" is the default since 2020b
-> +# "fat" is needed by e.g. MariaDB's mysql_tzinfo_to_sql
+As a fix for failing the world build for targets not using u-boot
+as boot loader libubootenv is excluded from world builds if
+both UBOOT_MACHINE and UBOOT_CONFIG variables are empty.
 
-FYI, the issue fixed by this change is:
-https://jira.mariadb.org/browse/MDEV-26093
+Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+---
+ meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> +ZIC_FMT ?= "slim"
-> +
->   do_compile () {
->           for zone in ${TZONES}; do \
-> -            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
-> +            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
->                   ${S}/${zone} ; \
-> -            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
-> +            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
->                   ${S}/${zone} ; \
-> -            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
-> +            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
->                   ${S}/${zone} ; \
->           done
->   }
-> 
-> 
-> 
-> 
-> 
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+index 306296922c..6774290ea5 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+@@ -28,3 +28,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
+ 
+ BBCLASSEXTEND = "native"
++
++# Exclude this package from world build if there is no config for u-boot
++EXCLUDE_FROM_WORLD = "${@'1' if not d.getVar('UBOOT_MACHINE') and not (d.getVar('UBOOT_CONFIG') or '').split() else '0'}"
+-- 
+2.25.1
 
