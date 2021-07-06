@@ -1,83 +1,88 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.1328.1625540585898479676
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.1297.1625540588692405901
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 20:03:06 -0700
+ Mon, 05 Jul 2021 20:03:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PkJfoEX4;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id l19so5990680plg.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 20:03:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fjTcxIm8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso866410pjx.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 20:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7WOYlNM6TwhYBrAHPCoyk8KYBz1L4uqibgVytfxFWRk=;
-        b=PkJfoEX4FUbkLZbwkGRsmu0ee54ybZSFZbUf+xRp4GPHdd/GaPs0nbZ7GiN+n/9JUF
-         htaBBEewnkokTKpfhxRNgh6yLSFMO9DOPN+uBlIzB+LnAGNztai+5jZ5ZPf6G7NaV5s+
-         Kx4SLpLwnYIUXef7ZI4g/kdegbruP7Kx7p1YByKT+EKmpWbNFy32ATyI4mDHSFHJ7qcL
-         kRKTguHjbC8id0MgBh+A9UULp/6hdgTevQFg8GwlJMukdADoTUQpoatRV2zs6ovUSDd3
-         M9+cxjjAA/UhCE1Q33Zi25xBluxxNKY0eXskT68Gb8S79S3+ZV5pUJWkhkE6OmTZGVa8
-         C3Bw==
+        bh=ZEOX2I1PydozsEUV1BcJH+fCbCKGNmOtXNfBjW35iiw=;
+        b=fjTcxIm8fw4QDVrmFK8EmenuJHIgtBt2LK2lyYuDHZwEkM/TNy6VqPSgKZKQZeSQBM
+         YW+7pS8SzOPyryRB7C4/IcSYh8hwjh512b6YsiPEbXuYHEvbkzNbQPNtkZLzswXtSESZ
+         5ZszFJlw0lY/BSTablH5b8PtDl5qx+aq6uMm3zuh8DwikCrojBwvxMD6j5s5/JAaem9o
+         jrn5TLxJ5JuP/TpnhcVpQcgRxsAsUshyQHvn6hW7vpsGbHypjoMqJrnf6r02SXoElbNg
+         e8BXgl9VBr5RxIAK4SCJkFUONdxPuaAIF5nVazghNDrTt9DY4X17OSk5O5SJlagtb0a3
+         qQ9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7WOYlNM6TwhYBrAHPCoyk8KYBz1L4uqibgVytfxFWRk=;
-        b=Jlgw6kOSGVBNcpqix2rjt5ByH2P+nFK7fa9c4RvOiR9FGw0l2YBTUztNKtlbKX28qk
-         DHKnG2hWmG+S2ydUq/aPC0DivNR2hcWx9QzpOsdMH0MeUX0XrLBoCoTDCAHZrbiSU1zv
-         I1x0e4FhIzdImMHFwUMxjbxMrd6Pos50ixU5Bud8MNNjPKfLL11a1bgFP0rZIivPQjnF
-         wRX8MYk4yLCnROi1WlwHVZGjCerjzk4QkEMswnx76k+p8+agnavFfj3wLiIuRlFMW4eX
-         9wTjwI4tobbQ4fHHMyB1PqvhBlfUFKCsgkTXmBqtsRCDZtq+6R5WD84QW8Puii9dtXwC
-         rZDA==
-X-Gm-Message-State: AOAM533ndUPB+6iTlrxf7LOKPoW8HXqk2QDLLUy+RE1du/xEaPS2ltQV
-	JxvV4+6r8+6E+Rgark1+U8ZRmsUWbasyMA==
-X-Google-Smtp-Source: ABdhPJwomOFZtXE9vDAIzpSLWMi9457A+xfhciQEXaIsBuWgfafe7kI7PUPVT5ZZ/OvXQ5VC+vXulw==
-X-Received: by 2002:a17:902:9042:b029:129:7ee5:ac27 with SMTP id w2-20020a1709029042b02901297ee5ac27mr9422274plz.83.1625540585274;
-        Mon, 05 Jul 2021 20:03:05 -0700 (PDT)
+        bh=ZEOX2I1PydozsEUV1BcJH+fCbCKGNmOtXNfBjW35iiw=;
+        b=unE3BtdxbznHHvEbe0MEwHN/QcxgS0j01o5wSDLVZ7UNYu4VBUobW+O8mH5RChUSj7
+         GvCY6gYF55U9YpbrGriN2h0tpQZy5FKRjGmQv9ysMQC8Y737nh9BqWIbn9QbZjkLcvwf
+         Z0lxjB5cMuLWYKrT1gnpc5vlKWVV0Nkep4XH1o7LpAZjEpp2CTir/JfXjTDbP5ASZWKg
+         ievv9QDNaDitO2QWgRcC5+sWt2pxmBgI4GjPE9b/8j4TdjTDvAOmo0HhjUTPJiz9u3Jd
+         5GmIWbDK3OZxuXiqnLL6J9/hm0ade4MgdZMQe8K+bHQNgSAiAoM1zyGMydBxOTA7a/pE
+         a3Bg==
+X-Gm-Message-State: AOAM531cg1tAoHmoTy/6XfnY2ANNPA81d1i83QFVYrRv796fhDOvSlYR
+	y7ckz0LN60k4yPrBmEmkLgi9iM6ygHXiWQ==
+X-Google-Smtp-Source: ABdhPJydqtwOY06uHNKygem0C/hkZT0TNRUkkcWk+W3wDTIgiWA4m2iV0VxOGGTofjYjYwmsYIXmBw==
+X-Received: by 2002:a17:902:9a02:b029:118:307e:a9dd with SMTP id v2-20020a1709029a02b0290118307ea9ddmr14900230plp.47.1625540588090;
+        Mon, 05 Jul 2021 20:03:08 -0700 (PDT)
 Return-Path: <ticotimo@gmail.com>
 Received: from nereus.local ([2601:1c0:6000:9640:4baa:c5cf:22ae:7c01])
-        by smtp.gmail.com with ESMTPSA id o20sm16000395pgv.80.2021.07.05.20.03.04
+        by smtp.gmail.com with ESMTPSA id o20sm16000395pgv.80.2021.07.05.20.03.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 20:03:05 -0700 (PDT)
+        Mon, 05 Jul 2021 20:03:07 -0700 (PDT)
 From: "Tim Orling" <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH 2/3] python3-hypothesis: upgrade 6.14.0 -> 6.14.1
-Date: Mon,  5 Jul 2021 20:02:36 -0700
-Message-Id: <20210706030237.307204-2-timothy.t.orling@intel.com>
+Subject: [PATCH 3/3] python3-zipp: upgrade 3.4.1 -> 3.5.0
+Date: Mon,  5 Jul 2021 20:02:37 -0700
+Message-Id: <20210706030237.307204-3-timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706030237.307204-1-timothy.t.orling@intel.com>
 References: <20210706030237.307204-1-timothy.t.orling@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.14.1 - 2021-07-02
+v3.5.0
+Issue 74 and bpo-44095: Added .suffix, .suffixes, and .stem properties.
 
-This patch updates some internal type annotations. There is no user-visible change.
+References:
+https://github.com/jaraco/zipp/issues/74
+https://bugs.python.org/issue44095
+https://github.com/python/cpython/pull/26129
 
 Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
 ---
- ...ython3-hypothesis_6.14.0.bb => python3-hypothesis_6.14.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.14.0.bb => python3-hypothesis_6.14.1.bb} (85%)
+ .../python/{python3-zipp_3.4.1.bb => python3-zipp_3.5.0.bb}    | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-zipp_3.4.1.bb => python3-zipp_3.5.0.bb} (77%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.14.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.14.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.14.0.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.14.1.bb
-index 89071b2a974..61598c3a161 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.14.0.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.14.1.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "hypothesis"
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.4.1.bb b/meta/recipes-devtools/python/python3-zipp_3.5.0.bb
+similarity index 77%
+rename from meta/recipes-devtools/python/python3-zipp_3.4.1.bb
+rename to meta/recipes-devtools/python/python3-zipp_3.5.0.bb
+index 191d3b38ad6..ab12601e4e9 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.4.1.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.5.0.bb
+@@ -3,8 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
  
- inherit pypi setuptools3
+-SRC_URI[md5sum] = "3d91c7ab73b62ac3674210df94df600a"
+-SRC_URI[sha256sum] = "3607921face881ba3e026887d8150cca609d517579abe052ac81fc5aeffdbd76"
++SRC_URI[sha256sum] = "f5812b1e007e48cff63449a5e9f4e7ebea716b4111f9c4f9a645f91d579bf0c4"
  
--SRC_URI[sha256sum] = "9bdee01ae260329b16117e9b0229a839b4a77747a985922653f595bd2a6a541a"
-+SRC_URI[sha256sum] = "88b0736a5691b68b8e16a4b7ee8e4c8596810c5a20989ea5b5f64870a7c25740"
+ DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
  
- RDEPENDS_${PN} += " \
-     python3-attrs \
 -- 
 2.30.2
 
