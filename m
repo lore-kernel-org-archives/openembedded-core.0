@@ -1,450 +1,78 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web10.1459.1625529932153267762
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web08.1154.1625539462019164844
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 17:05:32 -0700
+ Mon, 05 Jul 2021 19:44:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jVfOac6/;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id 37so1001665pgq.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 17:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ndflJk+kzhWGWYFAX0Z1Djtz9r5vSgkfAQwqZWv4FMg=;
-        b=jVfOac6/3xNLWMg+nwMbdK1pQgEpGHevkkjt+warPFryI4OS2sCEuLyMtK4KRObiZr
-         CmG8OXgfSrayeEYhVC0LS4LbfnpvfEW+zGuq+WDdDkRGmhI2WfzSSGQuNfTdTjhxHi7F
-         WQe78830rnn819zTH0CfQN/NAIQ8rVlT3zegmWncLaXH2nEzieSsIOKQh5OtWzYsOIYK
-         u9lab7uqo9XTq1d3fBkEvOVbYr45oxuYQ+NBjvFU9hQn+FyLQ7WwvdSYp+aeejzOqIoJ
-         wBrlT5WyRqX/MRhe54BVSQg51njNc9azuLP1ag5TZfPyi6uKRhZ+lF/bP8p8tlNhs+QI
-         /Drw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ndflJk+kzhWGWYFAX0Z1Djtz9r5vSgkfAQwqZWv4FMg=;
-        b=Hctkv3y16h2ovKODIH5GBf5cg7r4cJYguogU/l5wIsMus+prZsJnx9iPL4v9AOtwmX
-         Srv31l5Hi8Ci6DoflWvhxj8RjAse83pvztf7J6BFo2XZZmkpMcv1O1Cc/d1uVHWxva8y
-         A7JsUe8mhGV8AhuGmGp+iYKvn5Qy7ehoWMmGMVcVgMaN8dLy4RQN7pR5ND6fvKgPaZYB
-         i3ydLSksysvHgXUfJKRRITwehvMqtw3IWMaziFC5famS2mC1cK/TBbBOVCdl4ozxky0P
-         OYjTX5gzv/qHcvhkQ0aiwbquyKTgqmotpU7GL07cUXyhCjcIkkWQG6JcUfJ6Ikf2gFRe
-         dyaQ==
-X-Gm-Message-State: AOAM532Kn5GCsk1GLYoHHiCZVFqNuX8WKUDPcH7KDygv+D4QpInZorTi
-	FZzDOyue3V4RdV6tx1alHyXuCigZlOR1tA==
-X-Google-Smtp-Source: ABdhPJyrwWYqFZcgR7+RvQCDxkcrZWyyFUhK3g0QmvxAFqsSCZ1efArTQKbbxAZdEvRVj6d4+XZf9w==
-X-Received: by 2002:a63:5064:: with SMTP id q36mr17971189pgl.196.1625529931415;
-        Mon, 05 Jul 2021 17:05:31 -0700 (PDT)
-Return-Path: <ticotimo@gmail.com>
-Received: from nereus.local ([2601:1c0:6000:9640:4baa:c5cf:22ae:7c01])
-        by smtp.gmail.com with ESMTPSA id s8sm8656623pfd.82.2021.07.05.17.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 17:05:31 -0700 (PDT)
-From: "Tim Orling" <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [dunfell][PATCH] python3: upgrade 3.8.10 -> 3.8.11
-Date: Mon,  5 Jul 2021 17:05:15 -0700
-Message-Id: <20210706000515.1980205-1-timothy.t.orling@intel.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10036"; a="196328554"
+X-IronPort-AV: E=Sophos;i="5.83,327,1616482800"; 
+   d="scan'208";a="196328554"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2021 19:44:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,327,1616482800"; 
+   d="scan'208";a="496320868"
+Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143])
+  by fmsmga002.fm.intel.com with ESMTP; 05 Jul 2021 19:44:16 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ kmsmsx603.gar.corp.intel.com (172.21.219.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 6 Jul 2021 10:44:16 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2242.008;
+ Tue, 6 Jul 2021 10:44:16 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "peter@berginkonsult.se"
+	<peter@berginkonsult.se>
+CC: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"liu.ming50@gmail.com" <liu.ming50@gmail.com>
+Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
+Thread-Topic: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
+Thread-Index: AQHXbzm0dRf4kFWDY06Zd4FK+4QYDqsw0myAgAEu2YCAAAYyAIACtZeA
+Date: Tue, 6 Jul 2021 02:44:15 +0000
+Message-ID: <0e446811e98bcb4833cdc0c7f5dd40fcd8f07a43.camel@intel.com>
+References: <20210702115900.19417-1-peter@berginkonsult.se>
+	 <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
+	 <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se>
+	 <a3f45eab0d82dea6f34936d821d902b79c43abbd.camel@linuxfoundation.org>
+In-Reply-To: <a3f45eab0d82dea6f34936d821d902b79c43abbd.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E446A789A55ABC418A8E61F6A2620F2C@intel.com>
+Content-Transfer-Encoding: base64
 
-Release Date: June 28, 2021
-
-This is a security release of Python 3.8
-
-Note: The release you're looking at is Python 3.8.11, a security bugfix release
-for the legacy 3.8 series. Python 3.9 is now the latest feature release series
-of Python 3. Get the latest release of 3.9.x here.
-
-Security content in this release contains three fixes. There's also two fixes
-for 3.8.10 regressions. Take a look at the change log for details.
-
-According to the release calendar specified in PEP 569, Python 3.8 is now in
-security fixes only stage of its life cycle: 3.8 branch only accepts security
-fixes and releases of those are made irregularly in source-only form until
-October 2024. Python 3.8 isn't receiving regular bugfixes anymore, and binary
-installers are no longer provided for it. Python 3.8.10 was the last full
-bugfix release of Python 3.8 with binary installers.
-
-References:
-https://docs.python.org/release/3.8.11/whatsnew/changelog.html#python-3-8-11-final
-
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
----
- .../recipes-devtools/python/python3_3.8.11.bb | 362 ++++++++++++++++++
- 1 file changed, 362 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3_3.8.11.bb
-
-diff --git a/meta/recipes-devtools/python/python3_3.8.11.bb b/meta/recipes-devtools/python/python3_3.8.11.bb
-new file mode 100644
-index 00000000000..f549bb22058
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3_3.8.11.bb
-@@ -0,0 +1,362 @@
-+SUMMARY = "The Python Programming Language"
-+HOMEPAGE = "http://www.python.org"
-+DESCRIPTION = "Python is a programming language that lets you work more quickly and integrate your systems more effectively."
-+LICENSE = "PSF-2.0 & BSD-0-Clause"
-+SECTION = "devel/python"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c22d2438294c784731bf9dd224a467b7"
-+
-+SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-+           file://run-ptest \
-+           file://create_manifest3.py \
-+           file://get_module_deps3.py \
-+           file://python3-manifest.json \
-+           file://check_build_completeness.py \
-+           file://cgi_py.patch \
-+           file://0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
-+           file://0001-Do-not-use-the-shell-version-of-python-config-that-w.patch \
-+           file://python-config.patch \
-+           file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch \
-+           file://0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch \
-+           file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch \
-+           file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
-+           file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
-+           file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
-+           file://crosspythonpath.patch \
-+           file://reformat_sysconfig.py \
-+           file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-+           file://0001-test_locale.py-correct-the-test-output-format.patch \
-+           file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
-+           file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-+           file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
-+           file://0001-configure.ac-fix-LIBPL.patch \
-+           file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-+           file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-+           "
-+
-+SRC_URI_append_class-native = " \
-+           file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
-+           file://12-distutils-prefix-is-inside-staging-area.patch \
-+           file://0001-Don-t-search-system-for-headers-libraries.patch \
-+           "
-+
-+SRC_URI[md5sum] = "5840ba601128f48fee4e7c98fbdac65d"
-+SRC_URI[sha256sum] = "fb1a1114ebfe9e97199603c6083e20b236a0e007a2c51f29283ffb50c1420fb2"
-+
-+# exclude pre-releases for both python 2.x and 3.x
-+UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-+
-+CVE_PRODUCT = "python"
-+
-+# Upstream consider this expected behaviour
-+CVE_CHECK_WHITELIST += "CVE-2007-4559"
-+# This is not exploitable when glibc has CVE-2016-10739 fixed.
-+CVE_CHECK_WHITELIST += "CVE-2019-18348"
-+
-+# This is windows only issue.
-+CVE_CHECK_WHITELIST += "CVE-2020-15523"
-+
-+PYTHON_MAJMIN = "3.8"
-+
-+S = "${WORKDIR}/Python-${PV}"
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
-+inherit autotools pkgconfig qemu ptest multilib_header update-alternatives
-+
-+MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
-+
-+ALTERNATIVE_${PN}-dev = "python3-config"
-+ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config"
-+ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
-+
-+
-+DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2 autoconf-archive"
-+DEPENDS_append_class-target = " python3-native"
-+DEPENDS_append_class-nativesdk = " python3-native"
-+
-+EXTRA_OECONF = " --without-ensurepip --enable-shared"
-+EXTRA_OECONF_append_class-native = " --bindir=${bindir}/${PN}"
-+
-+export CROSSPYTHONPATH="${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/"
-+
-+EXTRANATIVEPATH += "python3-native"
-+
-+CACHED_CONFIGUREVARS = " \
-+                ac_cv_file__dev_ptmx=yes \
-+                ac_cv_file__dev_ptc=no \
-+                ac_cv_working_tzset=yes \
-+"
-+python() {
-+    # PGO currently causes builds to not be reproducible, so disable it for
-+    # now. See YOCTO #13407
-+    if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d) and d.getVar('BUILD_REPRODUCIBLE_BINARIES') != '1':
-+        d.setVar('PACKAGECONFIG_PGO', 'pgo')
-+    else:
-+        d.setVar('PACKAGECONFIG_PGO', '')
-+}
-+
-+PACKAGECONFIG_class-target ??= "readline ${PACKAGECONFIG_PGO} gdbm"
-+PACKAGECONFIG_class-native ??= "readline gdbm"
-+PACKAGECONFIG_class-nativesdk ??= "readline gdbm"
-+PACKAGECONFIG[readline] = ",,readline"
-+# Use profile guided optimisation by running PyBench inside qemu-user
-+PACKAGECONFIG[pgo] = "--enable-optimizations,,qemu-native"
-+PACKAGECONFIG[tk] = ",,tk"
-+PACKAGECONFIG[gdbm] = ",,gdbm"
-+
-+do_configure_prepend () {
-+    mkdir -p ${B}/Modules
-+    cat > ${B}/Modules/Setup.local << EOF
-+*disabled*
-+${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '_gdbm _dbm', d)}
-+${@bb.utils.contains('PACKAGECONFIG', 'readline', '', 'readline', d)}
-+EOF
-+}
-+
-+CPPFLAGS_append = " -I${STAGING_INCDIR}/ncursesw -I${STAGING_INCDIR}/uuid"
-+
-+EXTRA_OEMAKE = '\
-+  STAGING_LIBDIR=${STAGING_LIBDIR} \
-+  STAGING_INCDIR=${STAGING_INCDIR} \
-+  LIB=${baselib} \
-+'
-+
-+do_compile_prepend_class-target() {
-+       if ${@bb.utils.contains('PACKAGECONFIG', 'pgo', 'true', 'false', d)}; then
-+                qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_TARGET}', ['${B}', '${STAGING_DIR_TARGET}/${base_libdir}'])}"
-+                cat >pgo-wrapper <<EOF
-+#!/bin/sh
-+cd ${B}
-+$qemu_binary "\$@"
-+EOF
-+                chmod +x pgo-wrapper
-+        fi
-+}
-+
-+do_install_prepend() {
-+        ${WORKDIR}/check_build_completeness.py ${T}/log.do_compile
-+}
-+
-+do_install_append_class-target() {
-+        oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
-+}
-+
-+do_install_append_class-native() {
-+        # Make sure we use /usr/bin/env python
-+        for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
-+                sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
-+        done
-+        # Add a symlink to the native Python so that scripts can just invoke
-+        # "nativepython" and get the right one without needing absolute paths
-+        # (these often end up too long for the #! parser in the kernel as the
-+        # buffer is 128 bytes long).
-+        ln -s python3-native/python3 ${D}${bindir}/nativepython3
-+}
-+
-+do_install_append() {
-+        mkdir -p ${D}${libdir}/python-sysconfigdata
-+        sysconfigfile=`find ${D} -name _sysconfig*.py`
-+        cp $sysconfigfile ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
-+
-+        sed -i  \
-+                -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
-+                -e "s,^ 'INCLUDEDIR'.*, 'INCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
-+                -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
-+                -e "/^ 'INCLDIRSTOMAKE'/{N; s,/usr/include,${STAGING_INCDIR},g}" \
-+                -e "/^ 'INCLUDEPY'/s,/usr/include,${STAGING_INCDIR},g" \
-+                ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
-+}
-+
-+do_install_append_class-nativesdk () {
-+    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
-+}
-+
-+SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
-+PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
-+
-+py_package_preprocess () {
-+        # Remove references to buildmachine paths in target Makefile and _sysconfigdata
-+        sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
-+                -e 's|${DEBUG_PREFIX_MAP}||g' \
-+                -e 's:${HOSTTOOLS_DIR}/::g' \
-+                -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+                -e 's:${RECIPE_SYSROOT}::g' \
-+                -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
-+                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile \
-+                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py \
-+                ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
-+
-+        # Reformat _sysconfigdata after modifying it so that it remains
-+        # reproducible
-+        for c in ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
-+            python3 ${WORKDIR}/reformat_sysconfig.py $c
-+        done
-+
-+        # Recompile _sysconfigdata after modifying it
-+        cd ${PKGD}
-+        sysconfigfile=`find . -name _sysconfigdata_*.py`
-+        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-+             -c "from py_compile import compile; compile('$sysconfigfile')"
-+        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-+             -c "from py_compile import compile; compile('$sysconfigfile', optimize=1)"
-+        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-+             -c "from py_compile import compile; compile('$sysconfigfile', optimize=2)"
-+        cd -
-+
-+        mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
-+        
-+        #Remove the unneeded copy of target sysconfig data
-+        rm -rf ${PKGD}/${libdir}/python-sysconfigdata
-+}
-+
-+# We want bytecode precompiled .py files (.pyc's) by default
-+# but the user may set it on their own conf
-+INCLUDE_PYCS ?= "1"
-+
-+python(){
-+    import collections, json
-+
-+    filename = os.path.join(d.getVar('THISDIR'), 'python3', 'python3-manifest.json')
-+    # This python changes the datastore based on the contents of a file, so mark
-+    # that dependency.
-+    bb.parse.mark_dependency(d, filename)
-+
-+    with open(filename) as manifest_file:
-+        manifest_str =  manifest_file.read()
-+        json_start = manifest_str.find('# EOC') + 6
-+        manifest_file.seek(json_start)
-+        manifest_str = manifest_file.read()
-+        python_manifest = json.loads(manifest_str, object_pairs_hook=collections.OrderedDict)
-+
-+    # First set RPROVIDES for -native case
-+    # Hardcoded since it cant be python3-native-foo, should be python3-foo-native
-+    pn = 'python3'
-+    rprovides = d.getVar('RPROVIDES').split()
-+
-+    # ${PN}-misc-native is not in the manifest
-+    rprovides.append(pn + '-misc-native')
-+
-+    for key in python_manifest:
-+        pypackage = pn + '-' + key + '-native'
-+        if pypackage not in rprovides:
-+              rprovides.append(pypackage)
-+
-+    d.setVar('RPROVIDES_class-native', ' '.join(rprovides))
-+
-+    # Then work on the target
-+    include_pycs = d.getVar('INCLUDE_PYCS')
-+
-+    packages = d.getVar('PACKAGES').split()
-+    pn = d.getVar('PN')
-+
-+    newpackages=[]
-+    for key in python_manifest:
-+        pypackage = pn + '-' + key
-+
-+        if pypackage not in packages:
-+            # We need to prepend, otherwise python-misc gets everything
-+            # so we use a new variable
-+            newpackages.append(pypackage)
-+
-+        # "Build" python's manifest FILES, RDEPENDS and SUMMARY
-+        d.setVar('FILES_' + pypackage, '')
-+        for value in python_manifest[key]['files']:
-+            d.appendVar('FILES_' + pypackage, ' ' + value)
-+
-+        # Add cached files
-+        if include_pycs == '1':
-+            for value in python_manifest[key]['cached']:
-+                    d.appendVar('FILES_' + pypackage, ' ' + value)
-+
-+        for value in python_manifest[key]['rdepends']:
-+            # Make it work with or without $PN
-+            if '${PN}' in value:
-+                value=value.split('-', 1)[1]
-+            d.appendVar('RDEPENDS_' + pypackage, ' ' + pn + '-' + value)
-+
-+        for value in python_manifest[key].get('rrecommends', ()):
-+            if '${PN}' in value:
-+                value=value.split('-', 1)[1]
-+            d.appendVar('RRECOMMENDS_' + pypackage, ' ' + pn + '-' + value)
-+
-+        d.setVar('SUMMARY_' + pypackage, python_manifest[key]['summary'])
-+
-+    # Prepending so to avoid python-misc getting everything
-+    packages = newpackages + packages
-+    d.setVar('PACKAGES', ' '.join(packages))
-+    d.setVar('ALLOW_EMPTY_${PN}-modules', '1')
-+    d.setVar('ALLOW_EMPTY_${PN}-pkgutil', '1')
-+}
-+
-+# Files needed to create a new manifest
-+
-+do_create_manifest() {
-+    # This task should be run with every new release of Python.
-+    # We must ensure that PACKAGECONFIG enables everything when creating
-+    # a new manifest, this is to base our new manifest on a complete
-+    # native python build, containing all dependencies, otherwise the task
-+    # wont be able to find the required files.
-+    # e.g. BerkeleyDB is an optional build dependency so it may or may not
-+    # be present, we must ensure it is.
-+
-+    cd ${WORKDIR}
-+    # This needs to be executed by python-native and NOT by HOST's python
-+    nativepython3 create_manifest3.py ${PYTHON_MAJMIN}
-+    cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.json
-+}
-+
-+# bitbake python -c create_manifest
-+# Make sure we have native python ready when we create a new manifest
-+addtask do_create_manifest after do_patch do_prepare_recipe_sysroot
-+
-+# manual dependency additions
-+RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
-+RRECOMMENDS_${PN}-crypt_append_class-target = " openssl ca-certificates"
-+RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
-+
-+# For historical reasons PN is empty and provided by python3-modules
-+FILES_${PN} = ""
-+RPROVIDES_${PN}-modules = "${PN}"
-+
-+FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
-+FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
-+
-+# provide python-pyvenv from python3-venv
-+RPROVIDES_${PN}-venv += "python3-pyvenv"
-+
-+# package libpython3
-+PACKAGES =+ "libpython3 libpython3-staticdev"
-+FILES_libpython3 = "${libdir}/libpython*.so.*"
-+FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
-+INSANE_SKIP_${PN}-dev += "dev-elf"
-+INSANE_SKIP_${PN}-ptest += "dev-deps"
-+
-+# catch all the rest (unsorted)
-+PACKAGES += "${PN}-misc"
-+RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
-+RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
-+RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
-+FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
-+
-+# catch manpage
-+PACKAGES += "${PN}-man"
-+FILES_${PN}-man = "${datadir}/man"
-+
-+# See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
-+RDEPENDS_libpython3_append_libc-glibc = " libgcc"
-+RDEPENDS_${PN}-ctypes_append_libc-glibc = " ${MLPREFIX}ldconfig"
-+RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev unzip bzip2 libgcc tzdata-europe coreutils sed"
-+RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
-+RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
-+RDEPENDS_${PN}-dev = ""
-+
-+RDEPENDS_${PN}-tests_append_class-target = " bash"
-+RDEPENDS_${PN}-tests_append_class-nativesdk = " bash"
-+
-+# Python's tests contain large numbers of files we don't need in the recipe sysroots
-+SYSROOT_PREPROCESS_FUNCS += " py3_sysroot_cleanup"
-+py3_sysroot_cleanup () {
-+	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
-+}
--- 
-2.30.2
-
+SGkgUGV0ZXIsDQoNCk9uIFN1biwgMjAyMS0wNy0wNCBhdCAxMDoyMSArMDEwMCwgUmljaGFyZCBQ
+dXJkaWUgd3JvdGU6DQo+IE9uIFN1biwgMjAyMS0wNy0wNCBhdCAxMDo1OSArMDIwMCwgUGV0ZXIg
+QmVyZ2luIHdyb3RlOg0KPiA+IE9uIDIwMjEtMDctMDMgMTY6NTUsIE1pdHRhbCwgQW51aiB3cm90
+ZToNCj4gPiA+IE9uIEZyaSwgMjAyMS0wNy0wMiBhdCAxMzo1OSArMDIwMCwgUGV0ZXIgQmVyZ2lu
+IHdyb3RlOg0KPiA+ID4gPiBUaGlzIHJldmVydHMgY29tbWl0IDEwYWExMjkxOTc5ZmI5MGJlZDFi
+ZWI0OWJlNGQ0MDZlZDBlMWU0ZDUuDQo+ID4gPiA+IA0KPiA+ID4gPiBBcyB0aGVyZSBpcyBubyBi
+dWlsZCBkZXBlbmRlbmN5IGJldHdlZW4gbGlidWJvb3RlbnYgYW5kIHRoZQ0KPiA+ID4gPiBjb25m
+aWd1cmF0aW9uDQo+ID4gPiA+IG9mIHUtYm9vdCB0aGVyZSBpcyBubyByZWFzb24gdG8gY2hlY2sg
+Zm9yIFVCT09UX0NPTkZJRyBvcg0KPiA+ID4gPiBVQk9PVF9NQUNISU5FDQo+ID4gPiA+IGJ5IGFk
+ZGluZyB0aGUgY2xhc3MgdWJvb3QtY29uZmlnLiBSZXZlcnQgdGhpcyBpbiBvcmRlciB0bw0KPiA+
+ID4gPiByZW1vdmUNCj4gPiA+ID4gdXNlbGVzcw0KPiA+ID4gPiB3b3JrYXJvdW5kIGluIGJzcCBs
+YXllciAobWV0YS1mcmVlc2NhbGUpLg0KPiA+ID4gVGhpcyB3YXMgYWRkZWQgdG8gYWRkcmVzcyBm
+YWlsdXJlcyBpbiB3b3JsZCBidWlsZHM6DQo+ID4gPiANCj4gPiA+IGh0dHBzOi8vbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTQxNzU3DQo+ID4gPiAN
+Cj4gPiA+IElmIHRoaXMgaXMgbm90IHJlcXVpcmVkLCB0aGVuIEkgdGhpbmsgd2UnZCBuZWVkIHRv
+IGFkZHJlc3MgdGhvc2UNCj4gPiA+IGZhaWx1cmVzLg0KPiA+IA0KPiA+IFRoYW5rcyBmb3IgdGhl
+IHBvaW50ZXIgYWJvdXQgdGhlIHJlYXNvbiBmb3IgdGhpcyBwYXRjaC4gSSBzZWFyY2hlZA0KPiA+
+IGEgYml0IA0KPiA+IGJ1dCBjb3VsZCBub3QgZmluZCBpdC4NCj4gPiANCj4gPiBDYW4geW91IHBs
+ZWFzZSBoZWxwIG1lIGRlZmluZSAnd29ybGQgYnVpbGRzJz8NCj4gDQo+ICJiaXRiYWtlIHdvcmxk
+Ig0KPiANCj4gaS5lLiBidWlsZCBldmVyeXRoaW5nDQo+IA0KPiA+IEJ5IHJlYWRpbmcgdGhlIG1h
+aWwgdGhyZWFkIG15IHRob3VnaHRzIGFyZSB0aGF0IHRoZSBvYnZpb3VzIHRoaW5nDQo+ID4gaXMg
+DQo+ID4gdGhhdCB0aGUgYnVpbGQgaGFzIGEgYmFkIGNvbmZpZ3VyYXRpb24gYXMgdS1ib290IGlz
+IHNraXBwZWQuIFRoaXMNCj4gPiBzaG91bGQgDQo+ID4gYmUgdGhlIHRoaW5nIHRvIHNvbHZlLg0K
+PiANCj4gTm90IGV2ZXJ5IE1BQ0hJTkUgd2lsbCBzdXBwb3J0IHUtYm9vdCBvciBoYXZlIGEgY29u
+ZmlndXJhdGlvbiBmb3IgaXQuDQoNCkRvIHlvdSBoYXZlIGEgZml4IGZvciB0aGlzPyBUaGlzIHBh
+dGNoIHdhcyBhcHBsaWVkIGFuZCBub3cgdGhlIHdvcmxkDQpidWlsZHMgZm9yIE1BQ0hJTkVzIG5v
+dCBzdXBwb3J0aW5nIHUtYm9vdCBhcmUgZmFpbGluZy4gRG8geW91IG1pbmQgaWYgSQ0Kc2VuZCBh
+IHJldmVydCBvZiB5b3VyIHBhdGNoPw0KDQpUaGFua3MsDQoNCkFudWoNCg0K
