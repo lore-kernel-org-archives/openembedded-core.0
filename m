@@ -1,363 +1,450 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web09.797.1625526068221721637
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.1459.1625529932153267762
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jul 2021 16:01:08 -0700
+ Mon, 05 Jul 2021 17:05:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=D+pXz7k7;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id h11so10274403qtp.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 16:01:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jVfOac6/;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 37so1001665pgq.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jul 2021 17:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8AV5TttPLZ8VjvpAYJUYU4I5pSBdqnHp2KVpupMZpNE=;
-        b=D+pXz7k7XkpALnYeXEkvudMaBsBx+CoaMiMjJSIcDu0rJCbQX/nudrp0I1wqN4vTcc
-         yMmaLUyb//+lZcprCdLbUxFe6okw5RE7WECC5NXOeMlROJQC6DYvwoAyRmEMIqk5sV7B
-         wypDkZQXiQ15/uJUpDoq9ShEpPahDONz21rMHATjNd5uqXxHBh+6FEskrwxXgZde6fxk
-         zju4mHPoN8KP/xxQqtEMJ0GSRA7hqDza7+x55Stf54k4hUO2V/FwENGM3IQUY8Ak/Oy8
-         mefLOqRfMtWCvAl/RpecoKEEhH78lF/EDMfVy+7/d+61NCX4VQpXncaoFTfcofSXjQ9+
-         aglA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ndflJk+kzhWGWYFAX0Z1Djtz9r5vSgkfAQwqZWv4FMg=;
+        b=jVfOac6/3xNLWMg+nwMbdK1pQgEpGHevkkjt+warPFryI4OS2sCEuLyMtK4KRObiZr
+         CmG8OXgfSrayeEYhVC0LS4LbfnpvfEW+zGuq+WDdDkRGmhI2WfzSSGQuNfTdTjhxHi7F
+         WQe78830rnn819zTH0CfQN/NAIQ8rVlT3zegmWncLaXH2nEzieSsIOKQh5OtWzYsOIYK
+         u9lab7uqo9XTq1d3fBkEvOVbYr45oxuYQ+NBjvFU9hQn+FyLQ7WwvdSYp+aeejzOqIoJ
+         wBrlT5WyRqX/MRhe54BVSQg51njNc9azuLP1ag5TZfPyi6uKRhZ+lF/bP8p8tlNhs+QI
+         /Drw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8AV5TttPLZ8VjvpAYJUYU4I5pSBdqnHp2KVpupMZpNE=;
-        b=A+cfSfVTpXafdnbvC7CHSGiCfwGgnLxrjQthJP7AOgD9Tc6y7ZNBgdUkdvkUZ4nET/
-         e87b5TjhOFkAz9A6BTRY9TBRLZ2W3NH6iyaoMIU6AOdbxdQhXf5u9qPp9RxrCSz2ypEG
-         X+CFZDN38FpDrValm80Ww8+vu5EFlK0vBkA02VcuyFTDWhTSaft09baJ7N0/wd3iomIV
-         6bJEMbWrgyeb4nRdKCpHGUPNIGjQvEfCEdnwwpkUVQzG6+JlqxpIqhZXq2L6rv4kby83
-         i86+upEmsDQWmx7gDuGTP/LJd5xA5c2W8gDg2kqvpunZ09G481aOGbySiKrL9Rz6FbTF
-         g0OQ==
-X-Gm-Message-State: AOAM533PPdBdNTv/ghghU5Q7zOEViIJ071mlxd3nYQobjmv8X8Xfu0Cj
-	fPIJ3KWNoWvzWo2CfJOCdsDggyb0Fc2gl67TDY0=
-X-Google-Smtp-Source: ABdhPJxb2sx/U3rmNpUQPftOqrrSffUEPOD18fTKDggQywH5dzVe/3h0QKc9yskOOzqhOcrzWCWDXzjoLbjXfJ8BJwg=
-X-Received: by 2002:ac8:544:: with SMTP id c4mr14745420qth.299.1625526067251;
- Mon, 05 Jul 2021 16:01:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ndflJk+kzhWGWYFAX0Z1Djtz9r5vSgkfAQwqZWv4FMg=;
+        b=Hctkv3y16h2ovKODIH5GBf5cg7r4cJYguogU/l5wIsMus+prZsJnx9iPL4v9AOtwmX
+         Srv31l5Hi8Ci6DoflWvhxj8RjAse83pvztf7J6BFo2XZZmkpMcv1O1Cc/d1uVHWxva8y
+         A7JsUe8mhGV8AhuGmGp+iYKvn5Qy7ehoWMmGMVcVgMaN8dLy4RQN7pR5ND6fvKgPaZYB
+         i3ydLSksysvHgXUfJKRRITwehvMqtw3IWMaziFC5famS2mC1cK/TBbBOVCdl4ozxky0P
+         OYjTX5gzv/qHcvhkQ0aiwbquyKTgqmotpU7GL07cUXyhCjcIkkWQG6JcUfJ6Ikf2gFRe
+         dyaQ==
+X-Gm-Message-State: AOAM532Kn5GCsk1GLYoHHiCZVFqNuX8WKUDPcH7KDygv+D4QpInZorTi
+	FZzDOyue3V4RdV6tx1alHyXuCigZlOR1tA==
+X-Google-Smtp-Source: ABdhPJyrwWYqFZcgR7+RvQCDxkcrZWyyFUhK3g0QmvxAFqsSCZ1efArTQKbbxAZdEvRVj6d4+XZf9w==
+X-Received: by 2002:a63:5064:: with SMTP id q36mr17971189pgl.196.1625529931415;
+        Mon, 05 Jul 2021 17:05:31 -0700 (PDT)
+Return-Path: <ticotimo@gmail.com>
+Received: from nereus.local ([2601:1c0:6000:9640:4baa:c5cf:22ae:7c01])
+        by smtp.gmail.com with ESMTPSA id s8sm8656623pfd.82.2021.07.05.17.05.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jul 2021 17:05:31 -0700 (PDT)
+From: "Tim Orling" <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@intel.com>
+Subject: [dunfell][PATCH] python3: upgrade 3.8.10 -> 3.8.11
+Date: Mon,  5 Jul 2021 17:05:15 -0700
+Message-Id: <20210706000515.1980205-1-timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210705183526.72564-1-alex.kanavin@gmail.com>
-In-Reply-To: <20210705183526.72564-1-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 5 Jul 2021 16:00:41 -0700
-Message-ID: <CAMKF1srpfEMgmzyMuadLMDPFEK2xKWXpho-pCfmOk_-VJD_GJg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] texinfo: update 6.7 -> 6.8
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 5, 2021 at 11:35 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Drop texinfo-4.12-zlib.patch as it completely lacks a description,
+Release Date: June 28, 2021
 
-if it is not described then perhaps adding description to it will make
-things better, the patch is adding gz compressed
-info files which should reduce the size of these files which is quite
-good for embedded systems. Distros like fedora and suse
-are carrying this patch too.
+This is a security release of Python 3.8
 
-> was added together with the original recipe without an explanation in
-> the commit message, and is difficult to rebase.
->
+Note: The release you're looking at is Python 3.8.11, a security bugfix release
+for the legacy 3.8 series. Python 3.9 is now the latest feature release series
+of Python 3. Get the latest release of 3.9.x here.
 
-Get it from https://src.fedoraproject.org/rpms/texinfo/raw/rawhide/f/texinfo-4.12-zlib.patch
-this time.
+Security content in this release contains three fixes. There's also two fixes
+for 3.8.10 regressions. Take a look at the change log for details.
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../texinfo/texinfo/texinfo-4.12-zlib.patch   | 254 ------------------
->  .../{texinfo_6.7.bb => texinfo_6.8.bb}        |   4 +-
->  2 files changed, 1 insertion(+), 257 deletions(-)
->  delete mode 100644 meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
->  rename meta/recipes-extended/texinfo/{texinfo_6.7.bb => texinfo_6.8.bb} (94%)
->
-> diff --git a/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch b/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
-> deleted file mode 100644
-> index f72097e639..0000000000
-> --- a/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
-> +++ /dev/null
-> @@ -1,254 +0,0 @@
-> -From 3d3b66cf398853c666e724c3dbcc37d53a2240d5 Mon Sep 17 00:00:00 2001
-> -From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> -Date: Tue, 29 Nov 2016 12:27:17 -0600
-> -Subject: [PATCH] texinfo-4.12-zlib
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> -Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> -
-> ----
-> - install-info/Makefile.in    |  2 +-
-> - install-info/install-info.c | 79 ++++++++++++++++++++++---------------
-> - 2 files changed, 48 insertions(+), 33 deletions(-)
-> -
-> -diff --git a/install-info/Makefile.in b/install-info/Makefile.in
-> -index c924509..746df05 100644
-> ---- a/install-info/Makefile.in
-> -+++ b/install-info/Makefile.in
-> -@@ -218,7 +218,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
-> - PROGRAMS = $(bin_PROGRAMS)
-> - am_ginstall_info_OBJECTS = install-info.$(OBJEXT)
-> - ginstall_info_OBJECTS = $(am_ginstall_info_OBJECTS)
-> --ginstall_info_LDADD = $(LDADD)
-> -+ginstall_info_LDADD = $(LDADD) -lz
-> - am__DEPENDENCIES_1 =
-> - ginstall_info_DEPENDENCIES = $(top_builddir)/gnulib/lib/libgnu.a \
-> -       $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-> -diff --git a/install-info/install-info.c b/install-info/install-info.c
-> -index 21f4fe3..a7aba82 100644
-> ---- a/install-info/install-info.c
-> -+++ b/install-info/install-info.c
-> -@@ -19,6 +19,7 @@
-> - #include <getopt.h>
-> - #include <regex.h>
-> - #include <argz.h>
-> -+#include <zlib.h>
-> -
-> - #define TAB_WIDTH 8
-> -
-> -@@ -681,15 +682,15 @@ The first time you invoke Info you start off looking at this node.\n\
-> -
-> -    Return either stdin reading the file, or a non-stdin pipe reading
-> -    the output of the compression program.  */
-> --FILE *
-> -+void *
-> - open_possibly_compressed_file (char *filename,
-> -     void (*create_callback) (char *),
-> --    char **opened_filename, char **compression_program)
-> -+    char **opened_filename, char **compression_program, int *is_pipe)
-> - {
-> -   char *local_opened_filename, *local_compression_program;
-> -   int nread;
-> -   char data[13];
-> --  FILE *f;
-> -+  gzFile *f;
-> -
-> -   /* We let them pass NULL if they don't want this info, but it's easier
-> -      to always determine it.  */
-> -@@ -697,48 +698,48 @@ open_possibly_compressed_file (char *filename,
-> -     opened_filename = &local_opened_filename;
-> -
-> -   *opened_filename = filename;
-> --  f = fopen (*opened_filename, FOPEN_RBIN);
-> -+  f = gzopen (*opened_filename, FOPEN_RBIN);
-> -   if (!f)
-> -     {
-> -       *opened_filename = concat (filename, ".gz", "");
-> --      f = fopen (*opened_filename, FOPEN_RBIN);
-> -+      f = gzopen (*opened_filename, FOPEN_RBIN);
-> -     }
-> -   if (!f)
-> -     {
-> -       free (*opened_filename);
-> -       *opened_filename = concat (filename, ".xz", "");
-> --      f = fopen (*opened_filename, FOPEN_RBIN);
-> -+      f = gzopen (*opened_filename, FOPEN_RBIN);
-> -     }
-> -   if (!f)
-> -     {
-> -       free (*opened_filename);
-> -       *opened_filename = concat (filename, ".bz2", "");
-> --      f = fopen (*opened_filename, FOPEN_RBIN);
-> -+      f = gzopen (*opened_filename, FOPEN_RBIN);
-> -     }
-> -   if (!f)
-> -     {
-> -       free (*opened_filename);
-> -       *opened_filename = concat (filename, ".lz", "");
-> --      f = fopen (*opened_filename, FOPEN_RBIN);
-> -+      f = gzopen (*opened_filename, FOPEN_RBIN);
-> -     }
-> -   if (!f)
-> -     {
-> -      free (*opened_filename);
-> -      *opened_filename = concat (filename, ".lzma", "");
-> --     f = fopen (*opened_filename, FOPEN_RBIN);
-> -+     f = gzopen (*opened_filename, FOPEN_RBIN);
-> -     }
-> - #ifdef __MSDOS__
-> -   if (!f)
-> -     {
-> -       free (*opened_filename);
-> -       *opened_filename = concat (filename, ".igz", "");
-> --      f = fopen (*opened_filename, FOPEN_RBIN);
-> -+      f = gzopen (*opened_filename, FOPEN_RBIN);
-> -     }
-> -   if (!f)
-> -     {
-> -       free (*opened_filename);
-> -       *opened_filename = concat (filename, ".inz", "");
-> --      f = fopen (*opened_filename, FOPEN_RBIN);
-> -+      f = gzopen (*opened_filename, FOPEN_RBIN);
-> -     }
-> - #endif /* __MSDOS__ */
-> -   if (!f)
-> -@@ -754,7 +755,7 @@ open_possibly_compressed_file (char *filename,
-> -           (*create_callback) (filename);
-> -
-> -           /* And try opening it again.  */
-> --          f = fopen (*opened_filename, FOPEN_RBIN);
-> -+          f = gzopen (*opened_filename, FOPEN_RBIN);
-> -           if (!f)
-> -             return 0;
-> -         }
-> -@@ -764,26 +765,26 @@ open_possibly_compressed_file (char *filename,
-> -
-> -   /* Read first few bytes of file rather than relying on the filename.
-> -      If the file is shorter than this it can't be usable anyway.  */
-> --  nread = fread (data, sizeof (data), 1, f);
-> --  if (nread != 1)
-> -+  nread = gzread (f, data, sizeof (data));
-> -+  if (nread != sizeof (data))
-> -     {
-> --      if (nread == 0)
-> -+      if (nread >= 0)
-> -         {
-> -           /* Try to create the file if its empty. */
-> --          if (feof (f) && create_callback)
-> -+          if (gzeof(f) && create_callback)
-> -             {
-> --              if (fclose (f) != 0)
-> -+              if (gzclose(f) != 0)
-> -                 return 0; /* unknown error closing file */
-> -
-> --              if (remove (filename) != 0)
-> -+              if (remove(filename) != 0)
-> -                 return 0; /* unknown error deleting file */
-> -
-> -               (*create_callback) (filename);
-> --              f = fopen (*opened_filename, FOPEN_RBIN);
-> -+              f = gzopen (*opened_filename, FOPEN_RBIN);
-> -               if (!f)
-> -                 return 0;
-> --              nread = fread (data, sizeof (data), 1, f);
-> --              if (nread == 0)
-> -+              nread = gzread(f, data, sizeof (data));
-> -+              if (nread >= 0)
-> -                 return 0;
-> -               goto determine_file_type; /* success */
-> -             }
-> -@@ -854,35 +855,40 @@ determine_file_type:
-> -     *compression_program = NULL;
-> -
-> -   /* Seek back over the magic bytes.  */
-> --  if (fseek (f, 0, 0) < 0)
-> -+  if (gzseek (f, 0, SEEK_SET) == -1)
-> -     return 0;
-> -
-> -   if (*compression_program)
-> -     { /* It's compressed, so open a pipe.  */
-> -+      FILE *p;
-> -       char *command = concat (*compression_program, " -d", "");
-> -
-> --      if (fclose (f) < 0)
-> -+      if (gzclose (f) < 0)
-> -         return 0;
-> --      f = freopen (*opened_filename, FOPEN_RBIN, stdin);
-> --      if (!f)
-> -+      p = freopen (*opened_filename, FOPEN_RBIN, stdin);
-> -+      if (!p)
-> -         return 0;
-> --      f = popen (command, "r");
-> --      if (!f)
-> -+      p = popen (command, "r");
-> -+      if (!p)
-> -         {
-> -           /* Used for error message in calling code. */
-> -           *opened_filename = command;
-> -           return 0;
-> -         }
-> -+      else
-> -+        *is_pipe = 1;
-> -+      return p;
-> -     }
-> -   else
-> -     {
-> --#if O_BINARY
-> -+#if 0 && O_BINARY
-> -       /* Since this is a text file, and we opened it in binary mode,
-> -          switch back to text mode.  */
-> -       f = freopen (*opened_filename, "r", f);
-> -       if (! f)
-> -       return 0;
-> - #endif
-> -+      *is_pipe = 0;
-> -     }
-> -
-> -   return f;
-> -@@ -901,7 +907,8 @@ readfile (char *filename, int *sizep,
-> -     void (*create_callback) (char *), char **opened_filename,
-> -     char **compression_program)
-> - {
-> --  FILE *f;
-> -+  void *f;
-> -+  int pipe_p;
-> -   int filled = 0;
-> -   int data_size = 8192;
-> -   char *data = xmalloc (data_size);
-> -@@ -909,14 +916,20 @@ readfile (char *filename, int *sizep,
-> -   /* If they passed the space for the file name to return, use it.  */
-> -   f = open_possibly_compressed_file (filename, create_callback,
-> -                                      opened_filename,
-> --                                     compression_program);
-> -+                                     compression_program,
-> -+                                     &pipe_p);
-> -
-> -   if (!f)
-> -     return 0;
-> -
-> -   for (;;)
-> -     {
-> --      int nread = fread (data + filled, 1, data_size - filled, f);
-> -+      int nread;
-> -+
-> -+      if (pipe_p)
-> -+        nread = fread (data + filled, 1, data_size - filled, f);
-> -+      else
-> -+        nread = gzread (f, data + filled, data_size - filled);
-> -       if (nread < 0)
-> -         return 0;
-> -       if (nread == 0)
-> -@@ -935,8 +948,10 @@ readfile (char *filename, int *sizep,
-> -   /* We need to close the stream, since on some systems the pipe created
-> -      by popen is simulated by a temporary file which only gets removed
-> -      inside pclose.  */
-> --  if (f != stdin)
-> -+  if (pipe_p)
-> -     pclose (f);
-> -+  else
-> -+    gzclose (f);
-> -
-> -   *sizep = filled;
-> -   return data;
-> diff --git a/meta/recipes-extended/texinfo/texinfo_6.7.bb b/meta/recipes-extended/texinfo/texinfo_6.8.bb
-> similarity index 94%
-> rename from meta/recipes-extended/texinfo/texinfo_6.7.bb
-> rename to meta/recipes-extended/texinfo/texinfo_6.8.bb
-> index d421b79a0b..e5046ffbe1 100644
-> --- a/meta/recipes-extended/texinfo/texinfo_6.7.bb
-> +++ b/meta/recipes-extended/texinfo/texinfo_6.8.bb
-> @@ -29,15 +29,13 @@ TARGET_PATCH = "file://use_host_makedoc.patch"
->  TARGET_PATCH_class-native = ""
->
->  SRC_URI = "${GNU_MIRROR}/texinfo/${BP}.tar.gz \
-> -           file://texinfo-4.12-zlib.patch \
->             file://disable-native-tools.patch \
->             file://link-zip.patch \
->             file://dont-depend-on-help2man.patch \
->             ${TARGET_PATCH} \
->             "
->
-> -SRC_URI[md5sum] = "f0c1782f68ef73738d74bd1e9e30793a"
-> -SRC_URI[sha256sum] = "a52d05076b90032cb2523673c50e53185938746482cf3ca0213e9b4b50ac2d3e"
-> +SRC_URI[sha256sum] = "8e09cf753ad1833695d2bac0f57dc3bd6bcbbfbf279450e1ba3bc2d7fb297d08"
->
->  tex_texinfo = "texmf/tex/texinfo"
->
-> --
-> 2.31.1
->
->
-> 
->
+According to the release calendar specified in PEP 569, Python 3.8 is now in
+security fixes only stage of its life cycle: 3.8 branch only accepts security
+fixes and releases of those are made irregularly in source-only form until
+October 2024. Python 3.8 isn't receiving regular bugfixes anymore, and binary
+installers are no longer provided for it. Python 3.8.10 was the last full
+bugfix release of Python 3.8 with binary installers.
+
+References:
+https://docs.python.org/release/3.8.11/whatsnew/changelog.html#python-3-8-11-final
+
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+---
+ .../recipes-devtools/python/python3_3.8.11.bb | 362 ++++++++++++++++++
+ 1 file changed, 362 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3_3.8.11.bb
+
+diff --git a/meta/recipes-devtools/python/python3_3.8.11.bb b/meta/recipes-devtools/python/python3_3.8.11.bb
+new file mode 100644
+index 00000000000..f549bb22058
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3_3.8.11.bb
+@@ -0,0 +1,362 @@
++SUMMARY = "The Python Programming Language"
++HOMEPAGE = "http://www.python.org"
++DESCRIPTION = "Python is a programming language that lets you work more quickly and integrate your systems more effectively."
++LICENSE = "PSF-2.0 & BSD-0-Clause"
++SECTION = "devel/python"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c22d2438294c784731bf9dd224a467b7"
++
++SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
++           file://run-ptest \
++           file://create_manifest3.py \
++           file://get_module_deps3.py \
++           file://python3-manifest.json \
++           file://check_build_completeness.py \
++           file://cgi_py.patch \
++           file://0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch \
++           ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
++           file://0001-Do-not-use-the-shell-version-of-python-config-that-w.patch \
++           file://python-config.patch \
++           file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch \
++           file://0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch \
++           file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch \
++           file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
++           file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
++           file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
++           file://crosspythonpath.patch \
++           file://reformat_sysconfig.py \
++           file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
++           file://0001-test_locale.py-correct-the-test-output-format.patch \
++           file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
++           file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
++           file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
++           file://0001-configure.ac-fix-LIBPL.patch \
++           file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
++           file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
++           "
++
++SRC_URI_append_class-native = " \
++           file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
++           file://12-distutils-prefix-is-inside-staging-area.patch \
++           file://0001-Don-t-search-system-for-headers-libraries.patch \
++           "
++
++SRC_URI[md5sum] = "5840ba601128f48fee4e7c98fbdac65d"
++SRC_URI[sha256sum] = "fb1a1114ebfe9e97199603c6083e20b236a0e007a2c51f29283ffb50c1420fb2"
++
++# exclude pre-releases for both python 2.x and 3.x
++UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
++
++CVE_PRODUCT = "python"
++
++# Upstream consider this expected behaviour
++CVE_CHECK_WHITELIST += "CVE-2007-4559"
++# This is not exploitable when glibc has CVE-2016-10739 fixed.
++CVE_CHECK_WHITELIST += "CVE-2019-18348"
++
++# This is windows only issue.
++CVE_CHECK_WHITELIST += "CVE-2020-15523"
++
++PYTHON_MAJMIN = "3.8"
++
++S = "${WORKDIR}/Python-${PV}"
++
++BBCLASSEXTEND = "native nativesdk"
++
++inherit autotools pkgconfig qemu ptest multilib_header update-alternatives
++
++MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
++
++ALTERNATIVE_${PN}-dev = "python3-config"
++ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config"
++ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
++
++
++DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2 autoconf-archive"
++DEPENDS_append_class-target = " python3-native"
++DEPENDS_append_class-nativesdk = " python3-native"
++
++EXTRA_OECONF = " --without-ensurepip --enable-shared"
++EXTRA_OECONF_append_class-native = " --bindir=${bindir}/${PN}"
++
++export CROSSPYTHONPATH="${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/"
++
++EXTRANATIVEPATH += "python3-native"
++
++CACHED_CONFIGUREVARS = " \
++                ac_cv_file__dev_ptmx=yes \
++                ac_cv_file__dev_ptc=no \
++                ac_cv_working_tzset=yes \
++"
++python() {
++    # PGO currently causes builds to not be reproducible, so disable it for
++    # now. See YOCTO #13407
++    if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d) and d.getVar('BUILD_REPRODUCIBLE_BINARIES') != '1':
++        d.setVar('PACKAGECONFIG_PGO', 'pgo')
++    else:
++        d.setVar('PACKAGECONFIG_PGO', '')
++}
++
++PACKAGECONFIG_class-target ??= "readline ${PACKAGECONFIG_PGO} gdbm"
++PACKAGECONFIG_class-native ??= "readline gdbm"
++PACKAGECONFIG_class-nativesdk ??= "readline gdbm"
++PACKAGECONFIG[readline] = ",,readline"
++# Use profile guided optimisation by running PyBench inside qemu-user
++PACKAGECONFIG[pgo] = "--enable-optimizations,,qemu-native"
++PACKAGECONFIG[tk] = ",,tk"
++PACKAGECONFIG[gdbm] = ",,gdbm"
++
++do_configure_prepend () {
++    mkdir -p ${B}/Modules
++    cat > ${B}/Modules/Setup.local << EOF
++*disabled*
++${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '_gdbm _dbm', d)}
++${@bb.utils.contains('PACKAGECONFIG', 'readline', '', 'readline', d)}
++EOF
++}
++
++CPPFLAGS_append = " -I${STAGING_INCDIR}/ncursesw -I${STAGING_INCDIR}/uuid"
++
++EXTRA_OEMAKE = '\
++  STAGING_LIBDIR=${STAGING_LIBDIR} \
++  STAGING_INCDIR=${STAGING_INCDIR} \
++  LIB=${baselib} \
++'
++
++do_compile_prepend_class-target() {
++       if ${@bb.utils.contains('PACKAGECONFIG', 'pgo', 'true', 'false', d)}; then
++                qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_TARGET}', ['${B}', '${STAGING_DIR_TARGET}/${base_libdir}'])}"
++                cat >pgo-wrapper <<EOF
++#!/bin/sh
++cd ${B}
++$qemu_binary "\$@"
++EOF
++                chmod +x pgo-wrapper
++        fi
++}
++
++do_install_prepend() {
++        ${WORKDIR}/check_build_completeness.py ${T}/log.do_compile
++}
++
++do_install_append_class-target() {
++        oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
++}
++
++do_install_append_class-native() {
++        # Make sure we use /usr/bin/env python
++        for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
++                sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
++        done
++        # Add a symlink to the native Python so that scripts can just invoke
++        # "nativepython" and get the right one without needing absolute paths
++        # (these often end up too long for the #! parser in the kernel as the
++        # buffer is 128 bytes long).
++        ln -s python3-native/python3 ${D}${bindir}/nativepython3
++}
++
++do_install_append() {
++        mkdir -p ${D}${libdir}/python-sysconfigdata
++        sysconfigfile=`find ${D} -name _sysconfig*.py`
++        cp $sysconfigfile ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
++
++        sed -i  \
++                -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
++                -e "s,^ 'INCLUDEDIR'.*, 'INCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
++                -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
++                -e "/^ 'INCLDIRSTOMAKE'/{N; s,/usr/include,${STAGING_INCDIR},g}" \
++                -e "/^ 'INCLUDEPY'/s,/usr/include,${STAGING_INCDIR},g" \
++                ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
++}
++
++do_install_append_class-nativesdk () {
++    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
++}
++
++SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
++PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
++
++py_package_preprocess () {
++        # Remove references to buildmachine paths in target Makefile and _sysconfigdata
++        sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
++                -e 's|${DEBUG_PREFIX_MAP}||g' \
++                -e 's:${HOSTTOOLS_DIR}/::g' \
++                -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
++                -e 's:${RECIPE_SYSROOT}::g' \
++                -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
++                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile \
++                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py \
++                ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
++
++        # Reformat _sysconfigdata after modifying it so that it remains
++        # reproducible
++        for c in ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
++            python3 ${WORKDIR}/reformat_sysconfig.py $c
++        done
++
++        # Recompile _sysconfigdata after modifying it
++        cd ${PKGD}
++        sysconfigfile=`find . -name _sysconfigdata_*.py`
++        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
++             -c "from py_compile import compile; compile('$sysconfigfile')"
++        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
++             -c "from py_compile import compile; compile('$sysconfigfile', optimize=1)"
++        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
++             -c "from py_compile import compile; compile('$sysconfigfile', optimize=2)"
++        cd -
++
++        mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
++        
++        #Remove the unneeded copy of target sysconfig data
++        rm -rf ${PKGD}/${libdir}/python-sysconfigdata
++}
++
++# We want bytecode precompiled .py files (.pyc's) by default
++# but the user may set it on their own conf
++INCLUDE_PYCS ?= "1"
++
++python(){
++    import collections, json
++
++    filename = os.path.join(d.getVar('THISDIR'), 'python3', 'python3-manifest.json')
++    # This python changes the datastore based on the contents of a file, so mark
++    # that dependency.
++    bb.parse.mark_dependency(d, filename)
++
++    with open(filename) as manifest_file:
++        manifest_str =  manifest_file.read()
++        json_start = manifest_str.find('# EOC') + 6
++        manifest_file.seek(json_start)
++        manifest_str = manifest_file.read()
++        python_manifest = json.loads(manifest_str, object_pairs_hook=collections.OrderedDict)
++
++    # First set RPROVIDES for -native case
++    # Hardcoded since it cant be python3-native-foo, should be python3-foo-native
++    pn = 'python3'
++    rprovides = d.getVar('RPROVIDES').split()
++
++    # ${PN}-misc-native is not in the manifest
++    rprovides.append(pn + '-misc-native')
++
++    for key in python_manifest:
++        pypackage = pn + '-' + key + '-native'
++        if pypackage not in rprovides:
++              rprovides.append(pypackage)
++
++    d.setVar('RPROVIDES_class-native', ' '.join(rprovides))
++
++    # Then work on the target
++    include_pycs = d.getVar('INCLUDE_PYCS')
++
++    packages = d.getVar('PACKAGES').split()
++    pn = d.getVar('PN')
++
++    newpackages=[]
++    for key in python_manifest:
++        pypackage = pn + '-' + key
++
++        if pypackage not in packages:
++            # We need to prepend, otherwise python-misc gets everything
++            # so we use a new variable
++            newpackages.append(pypackage)
++
++        # "Build" python's manifest FILES, RDEPENDS and SUMMARY
++        d.setVar('FILES_' + pypackage, '')
++        for value in python_manifest[key]['files']:
++            d.appendVar('FILES_' + pypackage, ' ' + value)
++
++        # Add cached files
++        if include_pycs == '1':
++            for value in python_manifest[key]['cached']:
++                    d.appendVar('FILES_' + pypackage, ' ' + value)
++
++        for value in python_manifest[key]['rdepends']:
++            # Make it work with or without $PN
++            if '${PN}' in value:
++                value=value.split('-', 1)[1]
++            d.appendVar('RDEPENDS_' + pypackage, ' ' + pn + '-' + value)
++
++        for value in python_manifest[key].get('rrecommends', ()):
++            if '${PN}' in value:
++                value=value.split('-', 1)[1]
++            d.appendVar('RRECOMMENDS_' + pypackage, ' ' + pn + '-' + value)
++
++        d.setVar('SUMMARY_' + pypackage, python_manifest[key]['summary'])
++
++    # Prepending so to avoid python-misc getting everything
++    packages = newpackages + packages
++    d.setVar('PACKAGES', ' '.join(packages))
++    d.setVar('ALLOW_EMPTY_${PN}-modules', '1')
++    d.setVar('ALLOW_EMPTY_${PN}-pkgutil', '1')
++}
++
++# Files needed to create a new manifest
++
++do_create_manifest() {
++    # This task should be run with every new release of Python.
++    # We must ensure that PACKAGECONFIG enables everything when creating
++    # a new manifest, this is to base our new manifest on a complete
++    # native python build, containing all dependencies, otherwise the task
++    # wont be able to find the required files.
++    # e.g. BerkeleyDB is an optional build dependency so it may or may not
++    # be present, we must ensure it is.
++
++    cd ${WORKDIR}
++    # This needs to be executed by python-native and NOT by HOST's python
++    nativepython3 create_manifest3.py ${PYTHON_MAJMIN}
++    cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.json
++}
++
++# bitbake python -c create_manifest
++# Make sure we have native python ready when we create a new manifest
++addtask do_create_manifest after do_patch do_prepare_recipe_sysroot
++
++# manual dependency additions
++RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
++RRECOMMENDS_${PN}-crypt_append_class-target = " openssl ca-certificates"
++RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
++
++# For historical reasons PN is empty and provided by python3-modules
++FILES_${PN} = ""
++RPROVIDES_${PN}-modules = "${PN}"
++
++FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
++FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
++
++# provide python-pyvenv from python3-venv
++RPROVIDES_${PN}-venv += "python3-pyvenv"
++
++# package libpython3
++PACKAGES =+ "libpython3 libpython3-staticdev"
++FILES_libpython3 = "${libdir}/libpython*.so.*"
++FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
++INSANE_SKIP_${PN}-dev += "dev-elf"
++INSANE_SKIP_${PN}-ptest += "dev-deps"
++
++# catch all the rest (unsorted)
++PACKAGES += "${PN}-misc"
++RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
++RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
++RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
++FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
++
++# catch manpage
++PACKAGES += "${PN}-man"
++FILES_${PN}-man = "${datadir}/man"
++
++# See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
++RDEPENDS_libpython3_append_libc-glibc = " libgcc"
++RDEPENDS_${PN}-ctypes_append_libc-glibc = " ${MLPREFIX}ldconfig"
++RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev unzip bzip2 libgcc tzdata-europe coreutils sed"
++RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
++RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
++RDEPENDS_${PN}-dev = ""
++
++RDEPENDS_${PN}-tests_append_class-target = " bash"
++RDEPENDS_${PN}-tests_append_class-nativesdk = " bash"
++
++# Python's tests contain large numbers of files we don't need in the recipe sysroots
++SYSROOT_PREPROCESS_FUNCS += " py3_sysroot_cleanup"
++py3_sysroot_cleanup () {
++	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
++}
+-- 
+2.30.2
+
