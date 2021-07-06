@@ -1,160 +1,156 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.10035.1625594592016963694
+Received: from mailrelay2-2.pub.mailoutpod1-cph3.one.com (mailrelay2-2.pub.mailoutpod1-cph3.one.com [46.30.212.1])
+ by mx.groups.io with SMTP id smtpd.web10.10500.1625596765315731158
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 11:03:12 -0700
+ Tue, 06 Jul 2021 11:39:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EKUSyABf;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id l24so29212032edr.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 11:03:11 -0700 (PDT)
+ dkim=pass header.i=@berginkonsult.se header.s=20191106 header.b=kviDb5sO;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.1, mailfrom: peter@berginkonsult.se)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XmgIIc7xodztNsUFprGx0QYRLsmxuBu73Z6zX02jqTc=;
-        b=EKUSyABfmtHS0yvao25wg+h/MOOOh1gSme25OUA+Lai4o47dgwAsvA0+8f3jmxpmP7
-         0XelWWxHhVR36cfsfVOV3OAgvHIHT/DWu9OEwWK3jJfyumIkejFrBq9Wga2FSiZnLx1q
-         M6eMr5Gy3idHCxzxiD4Bska4jzwCurqHvKjc/Eqq5f3pGWKyN2UDTSFjiwoU25U07U8x
-         p4hpiCwh85Bn9U77gzN5dUe9atq5IZCqFeZdS2xI4tUUFULqVzx+EmEV6YTcB2FtItaj
-         7mVIJc8rLJwYzMbZZTVEF9RmSn/YrqB8JB013y32frq/WEXKlpXluR4hTU13gs/AMOT0
-         vS8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XmgIIc7xodztNsUFprGx0QYRLsmxuBu73Z6zX02jqTc=;
-        b=Ab2oLuGSNfhNIo7oE3cjCAjBUn6i837CqHVrdvUAt62WBdMWUYYWk/5OeMGOXqXEgE
-         47MYIjtynzA+6Axx7+jm19rHDt6hxLI8aeYhH7ZA2uErgsSgEhfsXFZLRNfnMbcwAjUd
-         CyPW8q+ob897TDqXMNh7kkXXqgqiPANrw2W5E3KdMV2qrFU6EcFGfhjFAsuYUCxJn6xz
-         fij+untevTul9QcpIQoyWfny5O7r8QLFCZA70aMMV1Ny0OAf9D2dMpCCHVmRmfwj4aUW
-         Am0U9EIc8jYQtSZ8CF/WMDnmzV6ua+Mqo360oo6GG5d9GnEVxetA+AR8HEdAJX19NBsb
-         spaQ==
-X-Gm-Message-State: AOAM533gpelyxHxIaU1hB8qcqq19JlJKf5N9z/5r4JXK7NUKmIWu0zo9
-	Xi+XVgkHLr6uDDgjbBoN0+Gf35hT/44isGBtL9w=
-X-Google-Smtp-Source: ABdhPJxr/0Kg2iW0Qc7bq/V9TvW076vVwQ3GLcRNN5Onq0KL+tyE7te7NMXDpwlIqMA96VYK3AsNVhDJvuEmctsNrmU=
-X-Received: by 2002:a05:6402:1d25:: with SMTP id dh5mr25214047edb.355.1625594590435;
- Tue, 06 Jul 2021 11:03:10 -0700 (PDT)
+	d=berginkonsult.se; s=20191106;
+	h=content-type:in-reply-to:mime-version:date:message-id:from:references:cc:to:
+	 subject:from;
+	bh=msjW9+bAbb2cXBVhZahgRQyihscq4gRvyRexUUnxGuM=;
+	b=kviDb5sOQEZqJ9LuLqeZ2Bk+2dqv4h5cToxRqXL90Ptgjs3c3Af7p03kmSXaqZZ0kelFEkpLlfZe1
+	 QR6dp2T04mYv+0kvXc5kTLZhGsDu/jF98VONS9t0d9ZPK57NT4BGVlQBuYmT+5P1rxOfYXKwlEDxwt
+	 TrtGHrs3Nug7TKDGWCFyAXvfH1/Y7VhyseGmsAGlROj12OSsx2P+Q1xc5t/bqrBYL1MfxpxJypapLo
+	 38uwTMiYn7Skf4brhf7xsHKaX9GiKmyPH3SnUnUdOHAHYoi2QrHOxrNHaGWl+s8/4mZMaDVlRbgsJq
+	 hYQjsTnIQ86geEKossEeQND8+oSmM+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=rsa1;
+	h=content-type:in-reply-to:mime-version:date:message-id:from:references:cc:to:
+	 subject:from;
+	bh=msjW9+bAbb2cXBVhZahgRQyihscq4gRvyRexUUnxGuM=;
+	b=e7GrIKkl8U3bciSJpHHvIPe2kqyGjc7haigRCcnNwFlOu79ubmzdu+6QpiEqUnQVSxXNfIsnjGEc/
+	 7IWEUT7HrqR1HkfYwlzrXyLI9kUQ8obr+RcVRxn6YX3EiNV7DjHc6/wSfo4HnEGbHcmR9DNTuFsIsL
+	 CdstB4VwumSO7ziMUurSOcbtszVmSTJjIFxItqnoRI/2nXzsUkbHJ10n6g0kRBMQFPWQIyD5ApN3ds
+	 yUaQHwchIeGSkzY3+gbocgz0x9iW5zk7sIYjxozYUbUye9F9LZzgFc3rA12RvAxlOP/ASBq05ISXXO
+	 tfuwdl/bLvo0OiR+Zvll0w+hsBroueQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed1;
+	h=content-type:in-reply-to:mime-version:date:message-id:from:references:cc:to:
+	 subject:from;
+	bh=msjW9+bAbb2cXBVhZahgRQyihscq4gRvyRexUUnxGuM=;
+	b=0xGrGcsmlTKbtjesOwFC0wIg16Bt4jBPZJ5mPeBwn/a6cbeOOhUrLzCngmr7jFFGEjzq6g60QZ2XF
+	 oVxEoJkAA==
+X-HalOne-Cookie: cc8f65e962646fd0fca01682dd07e3e48bbee8cb
+X-HalOne-ID: 7b123142-de89-11eb-b56e-d0431ea8a290
+Received: from [192.168.100.145] (ua-85-227-233-29.bbcust.telenor.se [85.227.233.29])
+	by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 7b123142-de89-11eb-b56e-d0431ea8a290;
+	Tue, 06 Jul 2021 18:39:22 +0000 (UTC)
+Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Anuj Mittal <anuj.mittal@intel.com>,
+ "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+ "liu.ming50@gmail.com" <liu.ming50@gmail.com>
+References: <20210702115900.19417-1-peter@berginkonsult.se>
+ <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
+ <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se>
+ <a3f45eab0d82dea6f34936d821d902b79c43abbd.camel@linuxfoundation.org>
+ <0e446811e98bcb4833cdc0c7f5dd40fcd8f07a43.camel@intel.com>
+ <d83ff556-cab9-3616-f4ad-506e8675eda5@berginkonsult.se>
+ <db03a0b4-d292-4db8-694e-56b3fa1c99cc@berginkonsult.se>
+ <CAP9ODKrSEHz26EPkkOvPqpd37x3fzmTTJ9vuPxByFMnraJVmvg@mail.gmail.com>
+From: "Peter Bergin" <peter@berginkonsult.se>
+Message-ID: <a2041c84-be88-e981-1f7f-3c40da3ca60c@berginkonsult.se>
+Date: Tue, 6 Jul 2021 20:39:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <cover.1625238537.git.bruce.ashfield@gmail.com>
- <781bf3c1a48245f2a1cfc4ba66bf085c348fa9ae.1625238537.git.bruce.ashfield@gmail.com>
- <CAMKF1sp3+vJCWEJ3EegBhx10RaQGLREP1weFtjqVZr0mOWBBsg@mail.gmail.com>
-In-Reply-To: <CAMKF1sp3+vJCWEJ3EegBhx10RaQGLREP1weFtjqVZr0mOWBBsg@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 6 Jul 2021 14:02:58 -0400
-Message-ID: <CADkTA4MAdV_jE9kVkZvdYV2T9R9myPDcx5h8GK4Vd4rSLFdmCA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/8] linux-libc-headers: update to 5.13
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAP9ODKrSEHz26EPkkOvPqpd37x3fzmTTJ9vuPxByFMnraJVmvg@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------6223F1729AFCBAAF01655E2A"
+Content-Language: en-US
 
-On Tue, Jul 6, 2021 at 1:43 PM Khem Raj <raj.khem@gmail.com> wrote:
+--------------6223F1729AFCBAAF01655E2A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi Otavio,
+
+On 2021-07-06 18:56, Otavio Salvador wrote:
 >
-> Hi Bruce
 >
-> On Fri, Jul 2, 2021 at 8:14 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Bumping the libc-headers to match the latest OE core reference
-> > kernel.
-> >
-> > We refresh one of the musl patches to udpate to the 5.12+ context of
-> > the header, but otherwise everything is unchanged.
-> >
+> Em ter., 6 de jul. de 2021 às 12:12, Peter Bergin 
+> <peter@berginkonsult.se <mailto:peter@berginkonsult.se>> escreveu:
 >
-> This is primarily going ok, I see one failure however with keepalived here
+>     Then I can correct my earlier statement and a new wisdom that
+>     run-time
+>     dependecies are scanned already in the early phases. Apparently it is
+>     not possible to build libubootenv due to RRECOMMENDS to
+>     u-boot-default-env. The build for a 'non-u-boot config' will fail
+>     if we
+>     add 'inherit uboot-config' and it will fail without. What is the
+>     difference for a 'world' build?
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1388
 >
-
-I launched a build for keepalived, I'll see if the issue reproduces here.
-
-Were you going to debug, or did you want me to have a look ? (We've
-both looked at this at the same time in the past, and that's not a
-great use of time).
-
-I'll just start looking at a version bump, since that is the easiest
-place to start.
-
-Bruce
-
+> The dependency on the default-env seems too strong. It could be 
+> relaxed as it works without it.
 >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > ---
-> >  meta/conf/distro/include/tcmode-default.inc          |  2 +-
-> >  ...3-remove-inclusion-of-sysinfo.h-in-kernel.h.patch | 12 ++++++------
-> >  ...bc-headers_5.10.bb => linux-libc-headers_5.13.bb} |  5 ++---
-> >  3 files changed, 9 insertions(+), 10 deletions(-)
-> >  rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.10.bb => linux-libc-headers_5.13.bb} (80%)
-> >
-> > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> > index c6e5ac61d7..68e5d848ba 100644
-> > --- a/meta/conf/distro/include/tcmode-default.inc
-> > +++ b/meta/conf/distro/include/tcmode-default.inc
-> > @@ -21,7 +21,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
-> >  BINUVERSION ?= "2.36%"
-> >  GDBVERSION ?= "10.%"
-> >  GLIBCVERSION ?= "2.33"
-> > -LINUXLIBCVERSION ?= "5.10%"
-> > +LINUXLIBCVERSION ?= "5.13%"
-> >  QEMUVERSION ?= "6.0%"
-> >  GOVERSION ?= "1.16%"
-> >  # This can not use wildcards like 8.0.% since it is also used in mesa to denote
-> > diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
-> > index b5c4e1750e..b0e7014138 100644
-> > --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
-> > +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
-> > @@ -13,17 +13,17 @@ Upstream-Status: Submitted
-> >   include/uapi/linux/kernel.h | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > -Index: linux-4.8-rc4/include/uapi/linux/kernel.h
-> > +Index: linux-5.12.11/include/uapi/linux/kernel.h
-> >  ===================================================================
-> > ---- linux-4.8-rc4.orig/include/uapi/linux/kernel.h
-> > -+++ linux-4.8-rc4/include/uapi/linux/kernel.h
-> > -@@ -1,7 +1,9 @@
-> > +--- linux-5.12.11.orig/include/uapi/linux/kernel.h
-> > ++++ linux-5.12.11/include/uapi/linux/kernel.h
-> > +@@ -2,7 +2,9 @@
-> >   #ifndef _UAPI_LINUX_KERNEL_H
-> >   #define _UAPI_LINUX_KERNEL_H
-> >
-> >  +#ifdef __GLIBC__
-> >   #include <linux/sysinfo.h>
-> > + #include <linux/const.h>
-> >  +#endif
-> >
-> > - /*
-> > -  * 'kernel.h' contains some often-used function prototypes etc
-> > + #endif /* _UAPI_LINUX_KERNEL_H */
-> > diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
-> > similarity index 80%
-> > rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb
-> > rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
-> > index d6a4d5aa61..251d00440d 100644
-> > --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb
-> > +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
-> > @@ -14,6 +14,5 @@ SRC_URI_append = "\
-> >
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-> >
-> > -SRC_URI[md5sum] = "753adc474bf799d569dec4f165ed92c3"
-> > -SRC_URI[sha256sum] = "dcdf99e43e98330d925016985bfbc7b83c66d367b714b2de0cbbfcbf83d8ca43"
-> > -
-> > +SRC_URI[md5sum] = "76c60fb304510a7bbd9c838790bc5fe4"
-> > +SRC_URI[sha256sum] = "3f6baa97f37518439f51df2e4f3d65a822ca5ff016aa8e60d2cc53b95a6c89d9"
-> > --
-> > 2.19.1
-> >
-> >
-> > 
-> >
+Do we have a run-time dependency that is 'lesser than' RRECOMMENDS? Or 
+do you suggest removing the dependency?
+
+/Peter
 
 
+--------------6223F1729AFCBAAF01655E2A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Otavio,<br>
+    </p>
+    <div class="moz-cite-prefix">On 2021-07-06 18:56, Otavio Salvador
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAP9ODKrSEHz26EPkkOvPqpd37x3fzmTTJ9vuPxByFMnraJVmvg@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr"><br>
+        </div>
+        <br>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">Em ter., 6 de jul. de 2021
+            às 12:12, Peter Bergin &lt;<a
+              href="mailto:peter@berginkonsult.se"
+              moz-do-not-send="true">peter@berginkonsult.se</a>&gt;
+            escreveu:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">Then I can correct my
+            earlier statement and a new wisdom that run-time <br>
+            dependecies are scanned already in the early phases.
+            Apparently it is <br>
+            not possible to build libubootenv due to RRECOMMENDS to <br>
+            u-boot-default-env. The build for a 'non-u-boot config' will
+            fail if we <br>
+            add 'inherit uboot-config' and it will fail without. What is
+            the <br>
+            difference for a 'world' build?<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>The dependency on the default-env seems too strong. It
+            could be relaxed as it works without it. <br>
+          </div>
+        </div>
+      </div>
+      <br>
+    </blockquote>
+    <p>Do we have a run-time dependency that is 'lesser than'
+      RRECOMMENDS? Or do you suggest removing the dependency?</p>
+    <p>/Peter<br>
+    </p>
+  </body>
+</html>
+
+--------------6223F1729AFCBAAF01655E2A--
