@@ -1,218 +1,164 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web09.7227.1625583261486978658
+Received: from mailrelay1-2.pub.mailoutpod1-cph3.one.com (mailrelay1-2.pub.mailoutpod1-cph3.one.com [46.30.212.0])
+ by mx.groups.io with SMTP id smtpd.web12.7626.1625584322339955416
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 07:54:21 -0700
+ Tue, 06 Jul 2021 08:12:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lgN5/CBE;
- spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-ot1-f44.google.com with SMTP id l17-20020a9d6a910000b029048a51f0bc3cso10039378otq.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 07:54:21 -0700 (PDT)
+ dkim=pass header.i=@berginkonsult.se header.s=20191106 header.b=O9bpLxBs;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.0, mailfrom: peter@berginkonsult.se)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QYfs7WYUPBr2CxS6RQX7xk21j6fzZvYfwiqrUu6jne4=;
-        b=lgN5/CBENxyL9QK1IDiqu0R+smacQhnWt4sEFEIUxd0g7lwu1FdcOp3YDFFU3Jr0K5
-         IgqbW4nnFeMP8PaNO03xh1Ysh5BjhfG1QJTcfycTV6+ZMW0N8kajlqiGKwCD+P64NLbJ
-         OJMqwe8J+89eqKrcbY6FHQgiRpfJKAjwsIVOaBG8ODJijN29UKZpfxDJg7ETzO7HcnWq
-         f+82/gJo1V1gYrExiiUbLr+429PL11MD8eKr864zkf17PH9FO6PTCLLG86dO/vYCY0k6
-         54Dc54/Ez4O2f01gtKoZ31M0zwH53Gs+Ktpi5j70KckAzKAxEZOSjL/tX5uRK+1Jmtum
-         mEMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QYfs7WYUPBr2CxS6RQX7xk21j6fzZvYfwiqrUu6jne4=;
-        b=sOYJmecZPO9Y5itMP5PKC9CKtMn6hCmo/2yXZFFBFK4eIv1L3Ajj1YDzPjhKexh7tj
-         WsBIVIsX2FmImAuv+is7mr6vv8ez2f2fTHY5ozMdQYlFRHWNke6E2I3xEvecccP4C67C
-         5fQQP4RE85w1qjn8pgZZ35h+6JdpOB/+oq/JrzjZzAdfGHNb/VO59pOGc3zFCyGCO48y
-         bkGB37xsvaiALGaTGXL9jYmPD0gmFUIikUGY++efpJtXPZnv/SCgNTX1crR7ZmgFKN5+
-         lnCAgSO7zflSZ6Sy04Ewzr3BfcMPwObbsGaPwxr4d8N4iUbANXyMadE0iwCxFE6E6eyA
-         B/tQ==
-X-Gm-Message-State: AOAM5317OYSRIVfwFHf/VGKwX1dLbd0lNJtv/tC0pPinDoYdwqFK+Ch4
-	VLKXQAeMKrF4bZ2HjxuMlFeQLH7/MEUGpiKxJJA=
-X-Google-Smtp-Source: ABdhPJzIEjrfdrnvbIo29u3Jp/x/B78xOdGXLsYeYenECJ3OLcOWG16y9L6hGUsnU4zyNdbCeEdlFqWk0UChLICXkn0=
-X-Received: by 2002:a9d:75c9:: with SMTP id c9mr15256181otl.154.1625583260837;
- Tue, 06 Jul 2021 07:54:20 -0700 (PDT)
+	d=berginkonsult.se; s=20191106;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	 message-id:references:cc:to:from:subject:from;
+	bh=NFN7b4WDgz6en/aSUqDNixNdzy/p+e5TNj9HsrZEW7I=;
+	b=O9bpLxBsc20CzLzvEh8WRHyuDMo+zF+tUUUCTHSX8IBd2uDqq1Tjjq7AY3DCzfMa193HIa2fPraN4
+	 nswKsR+gsb9SE0Dl1CDbNDYvS292r5eTi0jvMH+P2odIyzyIqNUewC1WAfvHRAtmkzbucppnVaLsYb
+	 YQW+sRtZotuLJuCdRyfmK6s7ipXBMeOvjVzVarS/lCim22Nx5B2OMANE/uRxyUBkOPHByKhQGmq/fv
+	 LV6bv04D7RIWburEnnaPFAz/tCJiBpTmZ/zo5+2r5fx+EP07G1pUV/uscY2XazduWmpWKwdrmObGyq
+	 Syxlyqap3ylR1k2AA0jsQkdG7ZvegnQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=rsa1;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	 message-id:references:cc:to:from:subject:from;
+	bh=NFN7b4WDgz6en/aSUqDNixNdzy/p+e5TNj9HsrZEW7I=;
+	b=D4/vHfABOYAqkeLZRAR+y8YXhgM/ghjt0sj+TL5+VHm+slfePOSYtFwnD658hEB5DSsmyqMmM1Heg
+	 d87T5pqBPoSkuNkuEOw1OXpRbs5USvm2Z7JbFLtJDY/u2hqmgHEMGZqnP5TThAPS+8TvaLX/YcHoEq
+	 Vdm6zpq9NEMMde+mF+cgg8asEDFvsr5IUQsQZt08hqJ8m7wTyYoJTLhgvUWS4V4GeYWDfJPFQM/XA7
+	 361bPs09vHwtY1ZQePve/SYM5Vu4EN5Npe2Ii+e12yqB3RubXODnuzGRAM3+b2vd/9a3DBAp1lPaYE
+	 XOoIjbHqNl0GVw5d4pwTViwcCIQfh0Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed1;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	 message-id:references:cc:to:from:subject:from;
+	bh=NFN7b4WDgz6en/aSUqDNixNdzy/p+e5TNj9HsrZEW7I=;
+	b=bGVmTSXRZmkEWLWquwScNg2f0l7ua9/tv+Ct4POUWXX8Rx517oxRxGD0xAIlXdMRvVHyHef6/MwL5
+	 A0KkXqzBQ==
+X-HalOne-Cookie: d0a8fb692031a5c939e7965839feb712f758b9ed
+X-HalOne-ID: 82231e48-de6c-11eb-925e-d0431ea8a283
+Received: from [192.168.100.145] (ua-85-227-233-29.bbcust.telenor.se [85.227.233.29])
+	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 82231e48-de6c-11eb-925e-d0431ea8a283;
+	Tue, 06 Jul 2021 15:11:59 +0000 (UTC)
+Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
+From: "Peter Bergin" <peter@berginkonsult.se>
+To: Anuj Mittal <anuj.mittal@intel.com>,
+ "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+ "liu.ming50@gmail.com" <liu.ming50@gmail.com>
+References: <20210702115900.19417-1-peter@berginkonsult.se>
+ <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
+ <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se>
+ <a3f45eab0d82dea6f34936d821d902b79c43abbd.camel@linuxfoundation.org>
+ <0e446811e98bcb4833cdc0c7f5dd40fcd8f07a43.camel@intel.com>
+ <d83ff556-cab9-3616-f4ad-506e8675eda5@berginkonsult.se>
+Message-ID: <db03a0b4-d292-4db8-694e-56b3fa1c99cc@berginkonsult.se>
+Date: Tue, 6 Jul 2021 17:11:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210623130637.3314755-1-frederic.martinsons@gmail.com>
- <20210623130637.3314755-2-frederic.martinsons@gmail.com> <CA+cAkeoV-ncBLKpcGm4MKeuqYjSXyKsCU4NWdNTmO51iUAaqZg@mail.gmail.com>
- <76618960f73199585debc705dfd09775472d38f8.camel@linuxfoundation.org> <168CA58BB55AA64E.608@lists.openembedded.org>
-In-Reply-To: <168CA58BB55AA64E.608@lists.openembedded.org>
-From: "Frederic Martinsons" <frederic.martinsons@gmail.com>
-Date: Tue, 6 Jul 2021 16:54:07 +0200
-Message-ID: <CA+cAkerg6zSoav0mDD8uiQFmdvBpJRxPm__VQQAUUkg20cD8Yg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] package.bbclass: manage external sources for debug source file packaging
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d0a9e605c6759870"
+In-Reply-To: <d83ff556-cab9-3616-f4ad-506e8675eda5@berginkonsult.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---000000000000d0a9e605c6759870
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi again,
 
-Hello again,
+sorry for the noise but did some investigations and was able to 
+reproduce....
 
-Since my patches doesn't meet the requirements and considering that you
-acknowledge the issue (please correct if I mistaken), should I open a bug?
-
-Of course I'll give as many details as I can in this report.
-
-Thanks.
-
-Le lun. 28 juin 2021 =C3=A0 06:46, Frederic Martinsons via lists.openembed=
-ded.org
-<frederic.martinsons=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
-
-> Hello Richard,
+On 2021-07-06 15:42, Peter Bergin wrote:
+> Hi,
 >
-> First, sorry for the commit message (I gave details in the first patch o=
-n
-> externalsrc.bbclass but not on this one). I agree with you that it seems=
- an
-> hack but I don't know to make package;bbclass find the sources correctly=
-.
-> The "culprit" is the following command (
-> https://github.com/openembedded/openembedded-core/blob/master/meta/class=
-es/package.bbclass#L591)
-> and especially the last part of it:
->
-> processdebugsrc +=3D "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s'
->> 2>/dev/null)"
->
->
-> this command explicitely goes into *workparentdir *and wait for the
-> sources to be in it thanks to the input list that was calculated as the
-> output of dwarfsrcfiles earlier call (with *localsrc_prefix *remove from
-> them).
->
-> Have you an idea (or even a lead that I can explore) on how make things
-> correct here ?
->
-> On Mon, 28 Jun 2021 at 00:00, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Wed, 2021-06-23 at 15:09 +0200, Frederic Martinsons wrote:
->> > Hello, I would like to add a link to a yocto mail where I expose my
->> problematic that led
->> > to this patch series:
->> >
->> https://lists.yoctoproject.org/g/yocto/topic/83622035?p=3D,,,20,0,0,0::=
-recentpostdate%2Fsticky,,,20,2,0,83622035
->> >
->> > After further research, I think these patch can be simplified by
->> modified only
->> > WORKDIR variable to be os.path.dirname(EXTERNALSRC) but I fear of
->> consequence
->> > to have WORKDIR outside of TMPDIR so I didn't take this path.
+> On 2021-07-06 04:44, Anuj Mittal wrote:
+>> Hi Peter,
 >>
->> Changing WORKDIR would no doubt solve your immediate problem but would
->> create
->> a ton of others :(.
+>> On Sun, 2021-07-04 at 10:21 +0100, Richard Purdie wrote:
+>>> On Sun, 2021-07-04 at 10:59 +0200, Peter Bergin wrote:
+>>>> On 2021-07-03 16:55, Mittal, Anuj wrote:
+>>>>> On Fri, 2021-07-02 at 13:59 +0200, Peter Bergin wrote:
+>>>>>> This reverts commit 10aa1291979fb90bed1beb49be4d406ed0e1e4d5.
+>>>>>>
+>>>>>> As there is no build dependency between libubootenv and the
+>>>>>> configuration
+>>>>>> of u-boot there is no reason to check for UBOOT_CONFIG or
+>>>>>> UBOOT_MACHINE
+>>>>>> by adding the class uboot-config. Revert this in order to
+>>>>>> remove
+>>>>>> useless
+>>>>>> workaround in bsp layer (meta-freescale).
+>>>>> This was added to address failures in world builds:
+>>>>>
+>>>>> https://lists.openembedded.org/g/openembedded-core/message/141757
+>>>>>
+>>>>> If this is not required, then I think we'd need to address those
+>>>>> failures.
+>>>> Thanks for the pointer about the reason for this patch. I searched
+>>>> a bit
+>>>> but could not find it.
+>>>>
+>>>> Can you please help me define 'world builds'?
+>>> "bitbake world"
+>>>
+>>> i.e. build everything
+>>>
+>>>> By reading the mail thread my thoughts are that the obvious thing
+>>>> is
+>>>> that the build has a bad configuration as u-boot is skipped. This
+>>>> should
+>>>> be the thing to solve.
+>>> Not every MACHINE will support u-boot or have a configuration for it.
+>> Do you have a fix for this? This patch was applied and now the world
+>> builds for MACHINEs not supporting u-boot are failing. Do you mind if I
+>> send a revert of your patch?
 >>
->> The issue is that the class wants to re-declare S but some of our code
->> makes
->> assumptions about the location of WORKDIR with regard to S (and B). The=
-re
->> is more inside WORKDIR than just S and EXTERNALSRC does really correspo=
-nd
->> to S,
->> not WORKDIR...
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
->>
->=20
+>
+> I don't mind but I think it is the wrong thing to do, at least without 
+> analyzing the failing builds and get to the root of the problem.
+>
+> My view on this, correct me if I'm wrong here. If you just want to 
+> build libubootenv you should be able to do it for any machine, with or 
+> without u-boot support as there is no build dependency between 
+> libubootenv and u-boot. If you have libubootenv in your image there 
+> will be a RRECOMMENDS to u-boot-env and in that case you must have 
+> NO_RECOMMENDATION=0 or a valid u-boot configuration. If the world 
+> build is failing I guess there is a configuration for a target without 
+> u-boot that includes libubootenv in an image. Or what is the exact 
+> failure? Can you send a reference with a log to the failing build?
+>
+> /Peter
 >
 >
+>
+     $ bitbake libubootenv
+     Loading cache: 100% 
+|######################################################################################################| 
+     Time: 0:00:00
+     Loaded 3462 entries from dependency cache.
+     NOTE: Resolving any missing task queue dependencies
+     ERROR: Nothing RPROVIDES 'u-boot-default-env' (but 
+meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb RDEPENDS on or otherwise 
+requires it)
+     NOTE: Runtime target 'u-boot-default-env' is unbuildable, removing...
+     Missing or unbuildable dependency chain was: ['u-boot-default-env']
+     ERROR: Required build target 'libubootenv' has no buildable providers.
+     Missing or unbuildable dependency chain was: ['libubootenv', 
+'u-boot-default-env']
 
---000000000000d0a9e605c6759870
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+     Summary: There was 1 WARNING message shown.
+     Summary: There were 2 ERROR messages shown, returning a non-zero 
+exit code.
 
-<div dir=3D"auto">Hello again,<div dir=3D"auto"><br></div><div dir=3D"auto"=
->Since my patches doesn&#39;t meet the requirements and considering that yo=
-u acknowledge the issue (please correct if I mistaken), should I open a bug=
-?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Of course I&#39;ll giv=
-e as many details as I can in this report.</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">Thanks.=C2=A0</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Le lun. 28 juin 2021 =C3=A0 06:46, Fr=
-ederic Martinsons via <a href=3D"http://lists.openembedded.org">lists.opene=
-mbedded.org</a> &lt;frederic.martinsons=3D<a href=3D"mailto:gmail.com@lists=
-.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=
-=
-=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Hello Richar=
-d,<div><br></div><div>First, sorry for the commit message (I gave details i=
-n the first patch on externalsrc.bbclass but not on this one). I agree with=
- you that it seems an hack but I don&#39;t know to make package;bbclass fin=
-d the sources correctly.</div><div>The &quot;culprit&quot; is the following=
- command (<a href=3D"https://github.com/openembedded/openembedded-core/blob=
-/master/meta/classes/package.bbclass#L591" target=3D"_blank" rel=3D"norefer=
-rer">https://github.com/openembedded/openembedded-core/blob/master/meta/cla=
-sses/package.bbclass#L591</a>) and especially the last part of it:</div><di=
-v><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><span style=
-=3D"color:rgb(36,41,46);font-family:ui-monospace,SFMono-Regular,&quot;SF M=
-ono&quot;,Consolas,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12=
-px;white-space:pre-wrap"> </span>processdebugsrc<span style=3D"color:rgb(36=
-,41,46);font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Consola=
-s,&quot;Liberation Mono&quot;,Menlo,monospace;font-size:12px;white-space:pr=
-e-wrap"> +=3D &quot;(cd &#39;%s&#39; ; cpio -pd0mlL --no-preserve-owner &#3=
-9;%s%s&#39; 2&gt;/dev/null)&quot;</span></blockquote><div><br></div><div>th=
-is command explicitely=C2=A0goes into <b>workparentdir=C2=A0</b>and wait fo=
-r the sources to be in it thanks to the input list that was calculated as t=
-he output of dwarfsrcfiles=C2=A0earlier call (with <b>localsrc_prefix </b>r=
-emove from them).</div><div><br></div><div>Have you an idea (or even a lead=
- that I can explore) on how make things correct here ?</div></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 28 Jun =
-2021 at 00:00, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfound=
-ation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">On Wed, 2021-06-23 at 15:09 +0200, Frederic Martinsons wrote:<b=
-r>
-&gt; Hello, I would like to add a link to a yocto mail where I expose my p=
-roblematic that led=C2=A0<br>
-&gt; to this patch series:=C2=A0 <br>
-&gt; <a href=3D"https://lists.yoctoproject.org/g/yocto/topic/83622035?p=3D=
-,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,83622035" rel=3D"noreferrer n=
-oreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/yocto/topic/8=
-3622035?p=3D,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,83622035</a><br>
-&gt; <br>
-&gt; After further research, I think these patch can be simplified by modi=
-fied only=C2=A0<br>
-&gt; WORKDIR variable to be os.path.dirname(EXTERNALSRC) but I fear of con=
-sequence=C2=A0<br>
-&gt; to have WORKDIR outside of TMPDIR so I didn&#39;t take this path.<br>
-<br>
-Changing WORKDIR would no doubt solve your immediate problem but would cre=
-ate<br>
-a ton of others :(.<br>
-<br>
-The issue is that the class wants to re-declare S but some of our code mak=
-es<br>
-assumptions about the location of WORKDIR with regard to S (and B). There<=
-br>
-is more inside WORKDIR than just S and EXTERNALSRC does really correspond =
-to S,<br>
-not WORKDIR...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-<br>
-<br>
-<br>
-</blockquote></div>
+The setup above was to use a machine from (meta-intel) with grub as 
+bootloader.
 
---000000000000d0a9e605c6759870--
+Then I can correct my earlier statement and a new wisdom that run-time 
+dependecies are scanned already in the early phases. Apparently it is 
+not possible to build libubootenv due to RRECOMMENDS to 
+u-boot-default-env. The build for a 'non-u-boot config' will fail if we 
+add 'inherit uboot-config' and it will fail without. What is the 
+difference for a 'world' build?
+
+/Peter
+
+
