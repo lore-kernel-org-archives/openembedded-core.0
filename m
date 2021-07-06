@@ -1,137 +1,120 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web11.9772.1625593400018246075
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web08.9901.1625594304636001225
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 10:43:20 -0700
+ Tue, 06 Jul 2021 10:58:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=POKxn745;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id g4so20996038qkl.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 10:43:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vJGFASR6;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id x24so5225419qts.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 10:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gB7rSNDBXeRTyK9b/mpci4PKcaDGpTzbZrEERJSDf2A=;
-        b=POKxn745N83caAM/XqcmkbYBQ/YFTJBSZuTr9kfd5AN3wiEiYFLoIETYdbf+6/A4Kc
-         afFwdlNuR3voO55Pr47b7CdaJIUpZMNGiEBsqANRS6SyjVU7F1wPJczbEI16Me2XRoQ3
-         1ogEIOodl749hL+MhKYrS0MC+35d+ZWJrDJ15oCUx2q1awx+3OgvIcSPrMGlasqXN8W0
-         z7wnIdga+nMyFiiES+onkhFOrDj/dtlyj3wxtuWej9D8x9QqWcBhCBknly9xnVzrBPDw
-         qh1A6ZDKiJulZLNKWt2z0d8WbwUWeg5luNU35YOCD6Kafu2sStEB+kvM8Gu80ZrDV9lg
-         qw3g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yQFVqKi4+18oHI01Cby5VdMMtVj44BSslJqGQJla4l0=;
+        b=vJGFASR68pbbOLb6sO/BnmBg5doo+cGZ/db1dLwoYm/z0UfQLTxpAjoYg5hQncOnmD
+         eJbLnLOaTQnUeIVTvqkLuStS5jiRIA5vRIxoyCFFq45k2TBmn9bdkYjFMBLi7ZTxafF0
+         RDvKjm7aj1ZKzWJvo5jEKLqo7gPzaj0GrVNFn/Mhx0XaxMx/TbaCWtyCk4JOajPUVOOo
+         FqoNdfbcP2JJXn0Bqrm70pYINl3c+J5EjXgRM+H4nT7/MFW7fUqd7gWmujCX0aW4H3Tm
+         SW6NeDuNYixS32tDJfc3+MPo3RYIx1JiaFa4CdFb6cdjPykDxWyeGPMj7Ad5LxggNRNO
+         XhfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gB7rSNDBXeRTyK9b/mpci4PKcaDGpTzbZrEERJSDf2A=;
-        b=ts2GkP8d1+UMmNO2mwpk5pDE+wF5UuSbnNW3z8RRYB1oF5eSNt5TWJgRTu2vbiF/mj
-         d+4J6+Sz9wbfnbz2WY9i4s7zFCAs2qzvMjtxjuEGhTlS+gcRyPcgdGMvIW3XrLjwXdHq
-         vTQCrcMg1uyCYFW8zJ2UaoOuzG86wu4G5BX2mXLsDJkFdyL2IGRFiimDVmcIJxDEVALd
-         n1RAZ1ui7EgATZHH+jthGpykigELFHLFc9YA05hvU7n6MYzYX+O25CJCwie8hQzoS2z8
-         N3DKsKnHwxsqZ0cAEtsb9NjyLIAbfFlfuXoiCa3p43PiWvcIsFJH3T4jh2OfMKpwHhs1
-         cfzQ==
-X-Gm-Message-State: AOAM533PjiGqhInNhEm2nm4e21/GVjTilqhrDmlOKpkQP7VCQAxpLs+1
-	troPuANqeGP9c4H58YJQ6ggsXBBypNyF3gWDCjk=
-X-Google-Smtp-Source: ABdhPJyDWGR8Fa22c+nhXvX9Dw7P80ovvaPp3RiTagxCLWdSjaBMAfC8CDpU+tqrx4uVIlag675h9ouv1ECvsIkSBK8=
-X-Received: by 2002:a37:59c7:: with SMTP id n190mr20985431qkb.146.1625593399161;
- Tue, 06 Jul 2021 10:43:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yQFVqKi4+18oHI01Cby5VdMMtVj44BSslJqGQJla4l0=;
+        b=qQ+WOkoZe/FDACtvt0oF2VGVaH1ZnqwV1+00L0MacyNlcf4pe79iYstSr7jbgmyBRg
+         7WcQXEqNsvuwg3F86L0DLaxBzJsdHgyqRY8ERv3315qFQnbKQ/X1CX65XxD53TFcL8ox
+         2jHGupEbbie2Pg8+7A5UzEJCHdNWhurxwggg4IF19dmKfMv4S5rrI02QSsRd8Ss8aqy+
+         R8O8y1u+hqSFRqVwq1uk2jN2HzsXu1jJwofNRJ/v7vzzqqno5//IN5U3wpAJ0lvxjrTf
+         2tUhSTMWD95gVShc55Hb5GLO0LUz8iH8YWTIXoo/gAV855824uCQqp+a7Wi2jX2ps5Ya
+         9Lfg==
+X-Gm-Message-State: AOAM531G3v6OnohohYF0pGmgAvORfPaMu13GdQjUAQp3S+5f+jviMMgl
+	kG9V90nka6p3j2HXLczV6RQ=
+X-Google-Smtp-Source: ABdhPJwFXRjPwdg1vkEMuP4vclJmSVWeqQ5vTaa8sYV6V5vfEo6ojZanUYsNguKaokoMys8gwYLoag==
+X-Received: by 2002:ac8:ece:: with SMTP id w14mr18676661qti.5.1625594303716;
+        Tue, 06 Jul 2021 10:58:23 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id l6sm7330264qkk.117.2021.07.06.10.58.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jul 2021 10:58:23 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/5.13: add devupstream support
+Date: Tue,  6 Jul 2021 13:58:21 -0400
+Message-Id: <20210706175821.41519-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <cover.1625238537.git.bruce.ashfield@gmail.com> <781bf3c1a48245f2a1cfc4ba66bf085c348fa9ae.1625238537.git.bruce.ashfield@gmail.com>
-In-Reply-To: <781bf3c1a48245f2a1cfc4ba66bf085c348fa9ae.1625238537.git.bruce.ashfield@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 6 Jul 2021 10:42:53 -0700
-Message-ID: <CAMKF1sp3+vJCWEJ3EegBhx10RaQGLREP1weFtjqVZr0mOWBBsg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/8] linux-libc-headers: update to 5.13
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Bruce
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-On Fri, Jul 2, 2021 at 8:14 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> Bumping the libc-headers to match the latest OE core reference
-> kernel.
->
-> We refresh one of the musl patches to udpate to the 5.12+ context of
-> the header, but otherwise everything is unchanged.
->
+We are always getting questions about building -stable, or mainline
+master. Rather than introducing a separate set of recipes, we can
+facilitate this sort of testing by using the existing devupstream
+bbclass support.
 
-This is primarily going ok, I see one failure however with keepalived here
+To build an unpatched or otherwise modifed -stable of 5.13, simply
+set the linux-yocto preferred version to:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1388
+  upstream+5.13%
+
+And your wish will be granted, as the build will use v5.13/base
+which matches the main linux-yocto version, simply with no extra
+changes applied.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+
+Richard,
+
+This is the patch that I was talking about earlier in the yocto dev
+meeting.
+
+I personally find this the easiest to maintain, since it is just
+a variant of linux-yocto_<version>, and ends up just being a
+different branch versus anything radically different.
+
+I am open to making this a different / named recipe to make the
+distinction more clear, but I'm worried about the impression
+that we were doing extensive testing on the bare -stable branches
+when most of the testing (which is transient to the base -stable)
+happens on our standard/base branch.
+
+Either way, I'll work on getting this and the -dev tweaks I sent
+earlier added to some part of our AB testing to make sure that
+they stay in good shape.
+
+Cheers,
+
+Bruce
 
 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->  meta/conf/distro/include/tcmode-default.inc          |  2 +-
->  ...3-remove-inclusion-of-sysinfo.h-in-kernel.h.patch | 12 ++++++------
->  ...bc-headers_5.10.bb => linux-libc-headers_5.13.bb} |  5 ++---
->  3 files changed, 9 insertions(+), 10 deletions(-)
->  rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.10.bb => linux-libc-headers_5.13.bb} (80%)
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index c6e5ac61d7..68e5d848ba 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -21,7 +21,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
->  BINUVERSION ?= "2.36%"
->  GDBVERSION ?= "10.%"
->  GLIBCVERSION ?= "2.33"
-> -LINUXLIBCVERSION ?= "5.10%"
-> +LINUXLIBCVERSION ?= "5.13%"
->  QEMUVERSION ?= "6.0%"
->  GOVERSION ?= "1.16%"
->  # This can not use wildcards like 8.0.% since it is also used in mesa to denote
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
-> index b5c4e1750e..b0e7014138 100644
-> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
-> @@ -13,17 +13,17 @@ Upstream-Status: Submitted
->   include/uapi/linux/kernel.h | 2 ++
->   1 file changed, 2 insertions(+)
->
-> -Index: linux-4.8-rc4/include/uapi/linux/kernel.h
-> +Index: linux-5.12.11/include/uapi/linux/kernel.h
->  ===================================================================
-> ---- linux-4.8-rc4.orig/include/uapi/linux/kernel.h
-> -+++ linux-4.8-rc4/include/uapi/linux/kernel.h
-> -@@ -1,7 +1,9 @@
-> +--- linux-5.12.11.orig/include/uapi/linux/kernel.h
-> ++++ linux-5.12.11/include/uapi/linux/kernel.h
-> +@@ -2,7 +2,9 @@
->   #ifndef _UAPI_LINUX_KERNEL_H
->   #define _UAPI_LINUX_KERNEL_H
->
->  +#ifdef __GLIBC__
->   #include <linux/sysinfo.h>
-> + #include <linux/const.h>
->  +#endif
->
-> - /*
-> -  * 'kernel.h' contains some often-used function prototypes etc
-> + #endif /* _UAPI_LINUX_KERNEL_H */
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
-> similarity index 80%
-> rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb
-> rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
-> index d6a4d5aa61..251d00440d 100644
-> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
-> @@ -14,6 +14,5 @@ SRC_URI_append = "\
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
->
-> -SRC_URI[md5sum] = "753adc474bf799d569dec4f165ed92c3"
-> -SRC_URI[sha256sum] = "dcdf99e43e98330d925016985bfbc7b83c66d367b714b2de0cbbfcbf83d8ca43"
-> -
-> +SRC_URI[md5sum] = "76c60fb304510a7bbd9c838790bc5fe4"
-> +SRC_URI[sha256sum] = "3f6baa97f37518439f51df2e4f3d65a822ca5ff016aa8e60d2cc53b95a6c89d9"
-> --
-> 2.19.1
->
->
-> 
->
+ meta/recipes-kernel/linux/linux-yocto_5.13.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.13.bb b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
+index 66384d8f7d..cd51e04b95 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.13.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
+@@ -25,6 +25,15 @@ SRCREV_machine_qemumips64 ?= "b74fe3dcca0653609fcb75aad883b1db07619081"
+ SRCREV_machine ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+ SRCREV_meta ?= "ceb5fa598d08902fe2934c041875aa92d9a6fa19"
+ 
++# set your preferred version of linux-yocto to 'upstream+<version>%', and you'll
++# get the <version>/base branch, which is pure upstream -stable, and the same
++# meta SRCREV as the linux-yocto-standard builds
++BBCLASSEXTEND = "devupstream:target"
++DEFAULT_PREFERENCE_class-devupstream = "-1"
++SRCREV_class-devupstream = "62fb9874f5da54fdb243003b386128037319b219"
++PV_class-devupstream = "upstream+${LINUX_VERSION}+git${SRCPV}"
++KBRANCH_class-devupstream = "v5.13/base"
++
+ # remap qemuarm to qemuarma15 for the 5.8 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+ 
+-- 
+2.19.1
+
