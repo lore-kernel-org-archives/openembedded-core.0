@@ -1,180 +1,128 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web10.12810.1625606577289649892
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+ by mx.groups.io with SMTP id smtpd.web09.13086.1625608126603332286
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 14:22:57 -0700
+ Tue, 06 Jul 2021 14:48:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=uPujAVe+;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.172, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f172.google.com with SMTP id q190so21694581qkd.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 14:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=9I3wk5gQMINsxANoRx3aG2xeembN/9KAWMhpMCXEosw=;
-        b=uPujAVe+fLYQjIC3Rnt8Pi1fBW3OWn+BS5E+bke0EcgX0wqYnuAxf1JR8vT1FENVuA
-         h6zzcyHiLVUFYprsh5gTXNCCmZHzQJSCUmili8r5+whMorLPBtxkjlRQuL3fl4CC02LK
-         RjEPreoS8vcWExQpmdQaL0VJSpsBHELwmCbOJjty5FrE9dqaXKI221wg+1MbeDmRzHBK
-         BReBOAL0lzd+SAb/khrP+idNFLdvMysqV3T1kn8VF515CNTmAXBpiuxFcBbF6/lFIH4d
-         ywRLMOeb14kJmPLUAlmeDzuPhqNy94wbYqEThMxlIuu0U/CEsmNWvWFffNfnr1dnktF7
-         ksag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=9I3wk5gQMINsxANoRx3aG2xeembN/9KAWMhpMCXEosw=;
-        b=fKAT4/zloq1ZqFwPbgv8XMubviQiDTYHU3JMaGJFfvPUyzgSOajOjtY4Cc8z+m2hwu
-         GeppH40IfW5e6h/3FCZEs33JW+c7rVSSi4VXCsSjTR0YK2f+pSlai1wxHCFeHUbNCl1d
-         ya8hTSENx9q8AcMbqwrbuAVBghp5WQufsWiGMalSpqZkkZ2o8/HqjwfMIe/pD9piRDDr
-         q7onqH4DFf2zzvOnFF+c5h/qT2nrId1YCRnGb8M8IUqU0FmOZGl90t3ek9f+QVbylk4Q
-         cKwonn5h7+lBd+A0Ya/hHJP2xSbU6xDpiE/Mp43TM93LyeZ0xrYf8cdpUxKe6OwGcx+V
-         IFWA==
-X-Gm-Message-State: AOAM532bD/+PQPpygeGgqnCYHTHxsxXUg1MMe7SMoHDJv0x8dWYvEetS
-	UCaexQ7XewJvjuSDfECxtnrfpiccN7Duqve1
-X-Google-Smtp-Source: ABdhPJzShgPZIUWESw4wpmPb5Ux8DJstqB0yw2FVKQQhk5U6eklluOML20Oy/xP1bqA0Vjqyt+wJ+g==
-X-Received: by 2002:ae9:e911:: with SMTP id x17mr21699062qkf.371.1625606576219;
-        Tue, 06 Jul 2021 14:22:56 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com. [209.85.160.177])
-        by smtp.gmail.com with ESMTPSA id m3sm7475071qkh.135.2021.07.06.14.22.55
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jul 2021 14:22:55 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f177.google.com with SMTP id n9so488871qtk.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 14:22:55 -0700 (PDT)
-X-Received: by 2002:a05:622a:11cd:: with SMTP id n13mr19354655qtk.233.1625606575492;
- Tue, 06 Jul 2021 14:22:55 -0700 (PDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=l/VKadnc;
+ spf=pass (domain: pbarker.dev, ip: 64.147.123.19, mailfrom: paul@pbarker.dev)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.west.internal (Postfix) with ESMTP id E44E832009A2;
+	Tue,  6 Jul 2021 17:48:45 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 06 Jul 2021 17:48:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	date:from:to:cc:subject:message-id:in-reply-to:references
+	:mime-version:content-type; s=fm1; bh=uKDZABKmATLcJgrRY3u+AZ/qoK
+	fK55swUi3d89I17AI=; b=l/VKadnc1yj9G9/LXG4RcbPavEtNiiXbgm7fdQR3Cx
+	AgjPpnq8es2//S2Z93mIU1/w1m89vrwU0/65xR2TKftIZzWeMSXy+u5yN8zUq1t8
+	utxna1eh6OL5UmNDHUyMQNCPdSUvQCWsl3Zj1kla+qCPOO5buFMZYtSha88IzjrP
+	vO5JcHPUo+Rl7whTpGhZvIKLyvu4P8bBMyFqvawr5DANCT56cdQZuFLKsCtHpBql
+	OILoPM67Z8IQi2TDS8Uu3mLpx+TIUypbDyDAEiyKJOKNGH6bcWUhZ1eDyNqUJsHV
+	JolXoVIeJzXM+l5dqQdZGz7B4dpLk0fFTI+k+fS3CrFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=uKDZAB
+	KmATLcJgrRY3u+AZ/qoKfK55swUi3d89I17AI=; b=EeCiek2NCQHJOLrdWv5PT3
+	VaiBx21cd+WySL7fPRI/wFKPE6zo1BjDht2+rkP2V6USJRwGfCiRkIfLCDyPwfj8
+	6MfuqVleXhdvmM9OvYc1nIDmKH2tQ2alkimvkOSXxDAfk+5lO7wKrSsBQbYyy83W
+	b8WrtMDuUsElZ7XePQZ5/n6PsJBZs6OtkH23bVmsaDd4Z0skpoQhic/CsTWpsTOo
+	jJt5OEp1jg8XZPVtG99SnAz6wEhX2B0AInZ+DWYa8jFdcKAzLGNdyrkYucCUDYVv
+	xHhLoND6iUJhXxwhizD4IHno9pGb9A0Em5k9JVjG/OJQGVYOd9D44uMCxPY70EiQ
+	==
+X-ME-Sender: <xms:vc_kYJJo5IS8BeWUigKAdw9aabJhtdQtkvV9izotU1rezh9q6fNP3w>
+    <xme:vc_kYFLOwRWcoGVVg8G8c-dQ_1mt7SJDGYetQZGLyMYaQ9CVOR-dg0b9lIRZci8Eh
+    nfjF_PPiGMEGjnvu6c>
+X-ME-Received: <xmr:vc_kYBvd2qnPowVbp5nIsCrfLmdH63g-dfRhMRzSJFEO9FH8MIMSdbapOAR53CpWMY_KFip81Mt_S20PASS1eZXJq54BlsqdOVRG1mq8chOzYaIxGRxd3y6BH1c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddtgdduvdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfgjfhfogggtsehgtderreertddvnecuhfhrohhmpefrrghulhcu
+    uegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrh
+    hnpeehteejiefhheelfefhjeehfeettddtheeuffeifeejfeegvddvueeuffeiteeuvden
+    ucffohhmrghinhepphgsrghrkhgvrhdruggvvhenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvh
+X-ME-Proxy: <xmx:vc_kYKbSnXjM9Pbg5wefwOUobL71fFg3c3jNrecf8xiTIrAIfG-Iog>
+    <xmx:vc_kYAaZv4cXbNAgNVN33ilVqezK5MErkqyEjuMRvx4AvojKDB6woA>
+    <xmx:vc_kYOAnfrYyxUFjRv2WzyMEq3mXHY5H9lBX65QteJ_ASBUH5kZtuw>
+    <xmx:vc_kYLxMgjn2StpQ6h7C79_FLH571U-0fL6fsyE1HbX9zY3N_-Kahg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Jul 2021 17:48:44 -0400 (EDT)
+Date: Tue, 6 Jul 2021 22:48:30 +0100
+From: "Paul Barker" <paul@pbarker.dev>
+To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Cc: richard.purdie@linuxfoundation.org,
+ openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] linux-yocto/5.13: add devupstream support
+Message-ID: <20210706224830.7bd3f5e7.paul@pbarker.dev>
+In-Reply-To: <20210706175821.41519-1-bruce.ashfield@gmail.com>
+References: <20210706175821.41519-1-bruce.ashfield@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-References: <20210702115900.19417-1-peter@berginkonsult.se>
- <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
- <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se> <a3f45eab0d82dea6f34936d821d902b79c43abbd.camel@linuxfoundation.org>
- <0e446811e98bcb4833cdc0c7f5dd40fcd8f07a43.camel@intel.com>
- <d83ff556-cab9-3616-f4ad-506e8675eda5@berginkonsult.se> <db03a0b4-d292-4db8-694e-56b3fa1c99cc@berginkonsult.se>
- <CAP9ODKrSEHz26EPkkOvPqpd37x3fzmTTJ9vuPxByFMnraJVmvg@mail.gmail.com> <a2041c84-be88-e981-1f7f-3c40da3ca60c@berginkonsult.se>
-In-Reply-To: <a2041c84-be88-e981-1f7f-3c40da3ca60c@berginkonsult.se>
-Date: Tue, 6 Jul 2021 18:22:43 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpOFb11gM6V2rqSUtfaB=MJSYiVibQLKip=xsOau9=Org@mail.gmail.com>
-Message-ID: <CAP9ODKpOFb11gM6V2rqSUtfaB=MJSYiVibQLKip=xsOau9=Org@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
-To: Peter Bergin <peter@berginkonsult.se>
-Cc: Anuj Mittal <anuj.mittal@intel.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"otavio@ossystems.com.br" <otavio@ossystems.com.br>, "liu.ming50@gmail.com" <liu.ming50@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000007a159605c67b0614"
+X-Groupsio-MsgNum: 153628
+Content-Type: multipart/signed; boundary="Sig_/vIuPkFcOZ7g0qk8NdnAEBRz";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---0000000000007a159605c67b0614
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/vIuPkFcOZ7g0qk8NdnAEBRz
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Em ter., 6 de jul. de 2021 =C3=A0s 15:39, Peter Bergin <peter@berginkonsult=
-.se>
-escreveu:
+On Tue,  6 Jul 2021 13:58:21 -0400
+"Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
 
-> Hi Otavio,
-> On 2021-07-06 18:56, Otavio Salvador wrote:
->
->
->
-> Em ter., 6 de jul. de 2021 =C3=A0s 12:12, Peter Bergin <peter@berginkonsu=
-lt.se>
-> escreveu:
->
->> Then I can correct my earlier statement and a new wisdom that run-time
->> dependecies are scanned already in the early phases. Apparently it is
->> not possible to build libubootenv due to RRECOMMENDS to
->> u-boot-default-env. The build for a 'non-u-boot config' will fail if we
->> add 'inherit uboot-config' and it will fail without. What is the
->> difference for a 'world' build?
->>
->
-> The dependency on the default-env seems too strong. It could be relaxed a=
-s
-> it works without it.
->
-> Do we have a run-time dependency that is 'lesser than' RRECOMMENDS? Or do
-> you suggest removing the dependency?
->
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>=20
+> We are always getting questions about building -stable, or mainline
+> master. Rather than introducing a separate set of recipes, we can
+> facilitate this sort of testing by using the existing devupstream
+> bbclass support.
+>=20
+> To build an unpatched or otherwise modifed -stable of 5.13, simply
+> set the linux-yocto preferred version to:
+>=20
+>   upstream+5.13%
+>=20
+> And your wish will be granted, as the build will use v5.13/base
+> which matches the main linux-yocto version, simply with no extra
+> changes applied.
+>=20
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-There is RSUGGESTS but I am unsure package managers handle it properly.
-Ideally, we'd have a dummy one which would be replaced by the machine one
-if available.
+This looks like a good thing to have in oe-core, in the basic case of
+just wanting the latest mainline as-is you'd not need to add extra
+layers any longer. meta-linux-mainline would still fill a niche as it
+provides recipes for older stable kernels and supports using mainline &
+newer stable kernels on dunfell & hardknott.
 
+I guess the meta repository (yocto-kernel-cache) would still be cloned
+and the upstream kernel could still be modified by patches or config
+fragments enabled by KERNEL_FEATURES. That may be worth noting in the
+documentation if I'm right. For my use-case where I want to use the
+exact upstream defconfig I would probably need to override this, e.g.
+`KERNEL_FEATURES_forcevariable =3D ""`, to make use of this.
 
+I also guess this would also allow you to follow newer kernel releases
+as they're added to linux-yocto recipes by setting the preferred version
+to 'upstream%' (or maybe 'upstream+%' to be more restrictive). That
+would then avoid the build breaking when the 5.13 recipe disappears and
+is replaced by 5.14 or something else later.
+
+Thanks,
 
 --=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Paul Barker
+https://pbarker.dev/
 
---0000000000007a159605c67b0614
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--Sig_/vIuPkFcOZ7g0qk8NdnAEBRz
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Em ter., 6 de jul. de 2021 =C3=A0s 15=
-:39, Peter Bergin &lt;<a href=3D"mailto:peter@berginkonsult.se">peter@bergi=
-nkonsult.se</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
- =20
-   =20
- =20
-  <div>
-    <p>Hi Otavio,<br>
-    </p>
-    <div>On 2021-07-06 18:56, Otavio Salvador
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">
-        <div dir=3D"ltr"><br>
-        </div>
-        <br>
-        <div class=3D"gmail_quote">
-          <div dir=3D"ltr" class=3D"gmail_attr">Em ter., 6 de jul. de 2021
-            =C3=A0s 12:12, Peter Bergin &lt;<a href=3D"mailto:peter@bergink=
-onsult.se" target=3D"_blank">peter@berginkonsult.se</a>&gt;
-            escreveu:<br>
-          </div>
-          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Then I can corr=
-ect my
-            earlier statement and a new wisdom that run-time <br>
-            dependecies are scanned already in the early phases.
-            Apparently it is <br>
-            not possible to build libubootenv due to RRECOMMENDS to <br>
-            u-boot-default-env. The build for a &#39;non-u-boot config&#39;=
- will
-            fail if we <br>
-            add &#39;inherit uboot-config&#39; and it will fail without. Wh=
-at is
-            the <br>
-            difference for a &#39;world&#39; build?<br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>The dependency on the default-env seems too strong. It
-            could be relaxed as it works without it. <br>
-          </div>
-        </div>
-      </div>
-      <br>
-    </blockquote>
-    <p>Do we have a run-time dependency that is &#39;lesser than&#39;
-      RRECOMMENDS? Or do you suggest removing the dependency?</p></div></bl=
-ockquote><div><br></div><div>There is RSUGGESTS but I am unsure package man=
-agers handle it properly. Ideally, we&#39;d have a dummy one which would be=
- replaced by the machine one if available.</div><div><br></div><div><br></d=
-iv><div>=C2=A0</div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature"=
->Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http:/=
-/www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" target=
-=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-785=
-4 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
+-----BEGIN PGP SIGNATURE-----
 
---0000000000007a159605c67b0614--
+iHUEARYIAB0WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCYOTPrgAKCRCrY1Tsnbr0
+bkufAQCmcLvKxtcn4hWu1mpSOhDrtesK7bQGhlKqLfPonOcTogD/ZLoB7UVS79LT
+4sVktxYwN0LCNyD3++mOGhTzzqaXogE=
+=9bzm
+-----END PGP SIGNATURE-----
+
+--Sig_/vIuPkFcOZ7g0qk8NdnAEBRz--
