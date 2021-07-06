@@ -1,128 +1,166 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web09.13086.1625608126603332286
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web12.13266.1625608915472360944
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jul 2021 14:48:46 -0700
+ Tue, 06 Jul 2021 15:01:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=l/VKadnc;
- spf=pass (domain: pbarker.dev, ip: 64.147.123.19, mailfrom: paul@pbarker.dev)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.west.internal (Postfix) with ESMTP id E44E832009A2;
-	Tue,  6 Jul 2021 17:48:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 06 Jul 2021 17:48:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	date:from:to:cc:subject:message-id:in-reply-to:references
-	:mime-version:content-type; s=fm1; bh=uKDZABKmATLcJgrRY3u+AZ/qoK
-	fK55swUi3d89I17AI=; b=l/VKadnc1yj9G9/LXG4RcbPavEtNiiXbgm7fdQR3Cx
-	AgjPpnq8es2//S2Z93mIU1/w1m89vrwU0/65xR2TKftIZzWeMSXy+u5yN8zUq1t8
-	utxna1eh6OL5UmNDHUyMQNCPdSUvQCWsl3Zj1kla+qCPOO5buFMZYtSha88IzjrP
-	vO5JcHPUo+Rl7whTpGhZvIKLyvu4P8bBMyFqvawr5DANCT56cdQZuFLKsCtHpBql
-	OILoPM67Z8IQi2TDS8Uu3mLpx+TIUypbDyDAEiyKJOKNGH6bcWUhZ1eDyNqUJsHV
-	JolXoVIeJzXM+l5dqQdZGz7B4dpLk0fFTI+k+fS3CrFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=uKDZAB
-	KmATLcJgrRY3u+AZ/qoKfK55swUi3d89I17AI=; b=EeCiek2NCQHJOLrdWv5PT3
-	VaiBx21cd+WySL7fPRI/wFKPE6zo1BjDht2+rkP2V6USJRwGfCiRkIfLCDyPwfj8
-	6MfuqVleXhdvmM9OvYc1nIDmKH2tQ2alkimvkOSXxDAfk+5lO7wKrSsBQbYyy83W
-	b8WrtMDuUsElZ7XePQZ5/n6PsJBZs6OtkH23bVmsaDd4Z0skpoQhic/CsTWpsTOo
-	jJt5OEp1jg8XZPVtG99SnAz6wEhX2B0AInZ+DWYa8jFdcKAzLGNdyrkYucCUDYVv
-	xHhLoND6iUJhXxwhizD4IHno9pGb9A0Em5k9JVjG/OJQGVYOd9D44uMCxPY70EiQ
-	==
-X-ME-Sender: <xms:vc_kYJJo5IS8BeWUigKAdw9aabJhtdQtkvV9izotU1rezh9q6fNP3w>
-    <xme:vc_kYFLOwRWcoGVVg8G8c-dQ_1mt7SJDGYetQZGLyMYaQ9CVOR-dg0b9lIRZci8Eh
-    nfjF_PPiGMEGjnvu6c>
-X-ME-Received: <xmr:vc_kYBvd2qnPowVbp5nIsCrfLmdH63g-dfRhMRzSJFEO9FH8MIMSdbapOAR53CpWMY_KFip81Mt_S20PASS1eZXJq54BlsqdOVRG1mq8chOzYaIxGRxd3y6BH1c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddtgdduvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfgjfhfogggtsehgtderreertddvnecuhfhrohhmpefrrghulhcu
-    uegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrh
-    hnpeehteejiefhheelfefhjeehfeettddtheeuffeifeejfeegvddvueeuffeiteeuvden
-    ucffohhmrghinhepphgsrghrkhgvrhdruggvvhenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvh
-X-ME-Proxy: <xmx:vc_kYKbSnXjM9Pbg5wefwOUobL71fFg3c3jNrecf8xiTIrAIfG-Iog>
-    <xmx:vc_kYAaZv4cXbNAgNVN33ilVqezK5MErkqyEjuMRvx4AvojKDB6woA>
-    <xmx:vc_kYOAnfrYyxUFjRv2WzyMEq3mXHY5H9lBX65QteJ_ASBUH5kZtuw>
-    <xmx:vc_kYLxMgjn2StpQ6h7C79_FLH571U-0fL6fsyE1HbX9zY3N_-Kahg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 17:48:44 -0400 (EDT)
-Date: Tue, 6 Jul 2021 22:48:30 +0100
-From: "Paul Barker" <paul@pbarker.dev>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Cc: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] linux-yocto/5.13: add devupstream support
-Message-ID: <20210706224830.7bd3f5e7.paul@pbarker.dev>
-In-Reply-To: <20210706175821.41519-1-bruce.ashfield@gmail.com>
-References: <20210706175821.41519-1-bruce.ashfield@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vfNwJzKJ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id g8so552338qth.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jul 2021 15:01:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ln/tULHGkbltjNUiRw4W2JsqkFNm74XD/EWurVjP5cQ=;
+        b=vfNwJzKJCtOZ9B9PVuwz4ofUiQ2W0YYhBk782PTz/p2hvCciAz/+ptxHM7xA1Rfj4Q
+         1qyUol8xjLgYKcwcr8Oz2CE9lRk9oAVRCP/HEPP8Icnjp8mihpzu0sFpkhe0vLzFRRZr
+         3lF+ElzKAkf0GHSA0P1q4sxx82HQCWxiJIVscdpIlbjX36hWEWtkWv8ZcgTO74kw30c8
+         qksOtV8n1AIdBvbiA7w200v/ERJY43UbSEUd8evvV6jd9FCjRX4p9McDc3zM5OKExFvw
+         5F02JE6WHnpuNo5hQlUfDfHj20gsltf6++UCNMJf6Is4h0eBom0KSTh7F6elOIzfje8C
+         tjTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ln/tULHGkbltjNUiRw4W2JsqkFNm74XD/EWurVjP5cQ=;
+        b=dqoLBe+BsJJq+DBuXD1BdFLetlwVHjzGW+c84gFiVtLWbHuA2wnlbSqkQCM8gq2aNn
+         dcu/sDMfml2X4DmAU6iAeZyzXcJN+1oKAUqzf8VcXYw81uWNiwtAfpCGXAIqPYOwnpNo
+         sInu8n/zBWM0R+4NWmmxsxXJLpdjOsP0sox4OQaqlxvoDEQke6+2ZMhp0AVTgEegbkmW
+         qBlZMPHhZgnUAKzXERPJvlQPFtv4E9kI2cx0eaCsxmKATB7GC1ubAmvhRw5oeRdunSWF
+         sK/1MJzMYTc/pkQ3eCNZMvMcNHlXrfgMeFnO8sxrgv1LeA4KTbWDdbtrqFS5mf1ZUWhQ
+         5Z9w==
+X-Gm-Message-State: AOAM5308oq0uu/R8+ExlJDwqTEMNPBo7wp19zQOA6Q3TkYqYdMSgwdVR
+	USCNDhToaKp7byoeAVTKNjLTwSnYho6PMLvMEQA=
+X-Google-Smtp-Source: ABdhPJx7YxHeeSL6MkqUXED4IxD8dn8I1pDG5Xru9QbkCAjz1Ka0qqvGdNuIv4ETbxuwKkEQ///5cTx2P64D6x8QKNE=
+X-Received: by 2002:ac8:544:: with SMTP id c4mr19529360qth.299.1625608914564;
+ Tue, 06 Jul 2021 15:01:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Groupsio-MsgNum: 153628
-Content-Type: multipart/signed; boundary="Sig_/vIuPkFcOZ7g0qk8NdnAEBRz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <cover.1625238537.git.bruce.ashfield@gmail.com>
+ <781bf3c1a48245f2a1cfc4ba66bf085c348fa9ae.1625238537.git.bruce.ashfield@gmail.com>
+ <CAMKF1sp3+vJCWEJ3EegBhx10RaQGLREP1weFtjqVZr0mOWBBsg@mail.gmail.com> <CADkTA4MAdV_jE9kVkZvdYV2T9R9myPDcx5h8GK4Vd4rSLFdmCA@mail.gmail.com>
+In-Reply-To: <CADkTA4MAdV_jE9kVkZvdYV2T9R9myPDcx5h8GK4Vd4rSLFdmCA@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 6 Jul 2021 15:01:28 -0700
+Message-ID: <CAMKF1sqev2mhPtZx-YF+YXnc3E9ZnOycCr1ptS0FXZe4o-3GpQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/8] linux-libc-headers: update to 5.13
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
---Sig_/vIuPkFcOZ7g0qk8NdnAEBRz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jul 6, 2021 at 11:03 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> On Tue, Jul 6, 2021 at 1:43 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Hi Bruce
+> >
+> > On Fri, Jul 2, 2021 at 8:14 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> > >
+> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > >
+> > > Bumping the libc-headers to match the latest OE core reference
+> > > kernel.
+> > >
+> > > We refresh one of the musl patches to udpate to the 5.12+ context of
+> > > the header, but otherwise everything is unchanged.
+> > >
+> >
+> > This is primarily going ok, I see one failure however with keepalived here
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1388
+> >
+>
+> I launched a build for keepalived, I'll see if the issue reproduces here.
+>
+> Were you going to debug, or did you want me to have a look ? (We've
+> both looked at this at the same time in the past, and that's not a
+> great use of time).
+>
+> I'll just start looking at a version bump, since that is the easiest
+> place to start.
 
-On Tue,  6 Jul 2021 13:58:21 -0400
-"Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
+thats good. If it does not fail for you, it means its due to glibc
+2.34 and I can take care of that
 
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->=20
-> We are always getting questions about building -stable, or mainline
-> master. Rather than introducing a separate set of recipes, we can
-> facilitate this sort of testing by using the existing devupstream
-> bbclass support.
->=20
-> To build an unpatched or otherwise modifed -stable of 5.13, simply
-> set the linux-yocto preferred version to:
->=20
->   upstream+5.13%
->=20
-> And your wish will be granted, as the build will use v5.13/base
-> which matches the main linux-yocto version, simply with no extra
-> changes applied.
->=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-This looks like a good thing to have in oe-core, in the basic case of
-just wanting the latest mainline as-is you'd not need to add extra
-layers any longer. meta-linux-mainline would still fill a niche as it
-provides recipes for older stable kernels and supports using mainline &
-newer stable kernels on dunfell & hardknott.
-
-I guess the meta repository (yocto-kernel-cache) would still be cloned
-and the upstream kernel could still be modified by patches or config
-fragments enabled by KERNEL_FEATURES. That may be worth noting in the
-documentation if I'm right. For my use-case where I want to use the
-exact upstream defconfig I would probably need to override this, e.g.
-`KERNEL_FEATURES_forcevariable =3D ""`, to make use of this.
-
-I also guess this would also allow you to follow newer kernel releases
-as they're added to linux-yocto recipes by setting the preferred version
-to 'upstream%' (or maybe 'upstream+%' to be more restrictive). That
-would then avoid the build breaking when the 5.13 recipe disappears and
-is replaced by 5.14 or something else later.
-
-Thanks,
-
---=20
-Paul Barker
-https://pbarker.dev/
-
---Sig_/vIuPkFcOZ7g0qk8NdnAEBRz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYIAB0WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCYOTPrgAKCRCrY1Tsnbr0
-bkufAQCmcLvKxtcn4hWu1mpSOhDrtesK7bQGhlKqLfPonOcTogD/ZLoB7UVS79LT
-4sVktxYwN0LCNyD3++mOGhTzzqaXogE=
-=9bzm
------END PGP SIGNATURE-----
-
---Sig_/vIuPkFcOZ7g0qk8NdnAEBRz--
+>
+> Bruce
+>
+> >
+> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > ---
+> > >  meta/conf/distro/include/tcmode-default.inc          |  2 +-
+> > >  ...3-remove-inclusion-of-sysinfo.h-in-kernel.h.patch | 12 ++++++------
+> > >  ...bc-headers_5.10.bb => linux-libc-headers_5.13.bb} |  5 ++---
+> > >  3 files changed, 9 insertions(+), 10 deletions(-)
+> > >  rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.10.bb => linux-libc-headers_5.13.bb} (80%)
+> > >
+> > > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> > > index c6e5ac61d7..68e5d848ba 100644
+> > > --- a/meta/conf/distro/include/tcmode-default.inc
+> > > +++ b/meta/conf/distro/include/tcmode-default.inc
+> > > @@ -21,7 +21,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+> > >  BINUVERSION ?= "2.36%"
+> > >  GDBVERSION ?= "10.%"
+> > >  GLIBCVERSION ?= "2.33"
+> > > -LINUXLIBCVERSION ?= "5.10%"
+> > > +LINUXLIBCVERSION ?= "5.13%"
+> > >  QEMUVERSION ?= "6.0%"
+> > >  GOVERSION ?= "1.16%"
+> > >  # This can not use wildcards like 8.0.% since it is also used in mesa to denote
+> > > diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
+> > > index b5c4e1750e..b0e7014138 100644
+> > > --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
+> > > +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch
+> > > @@ -13,17 +13,17 @@ Upstream-Status: Submitted
+> > >   include/uapi/linux/kernel.h | 2 ++
+> > >   1 file changed, 2 insertions(+)
+> > >
+> > > -Index: linux-4.8-rc4/include/uapi/linux/kernel.h
+> > > +Index: linux-5.12.11/include/uapi/linux/kernel.h
+> > >  ===================================================================
+> > > ---- linux-4.8-rc4.orig/include/uapi/linux/kernel.h
+> > > -+++ linux-4.8-rc4/include/uapi/linux/kernel.h
+> > > -@@ -1,7 +1,9 @@
+> > > +--- linux-5.12.11.orig/include/uapi/linux/kernel.h
+> > > ++++ linux-5.12.11/include/uapi/linux/kernel.h
+> > > +@@ -2,7 +2,9 @@
+> > >   #ifndef _UAPI_LINUX_KERNEL_H
+> > >   #define _UAPI_LINUX_KERNEL_H
+> > >
+> > >  +#ifdef __GLIBC__
+> > >   #include <linux/sysinfo.h>
+> > > + #include <linux/const.h>
+> > >  +#endif
+> > >
+> > > - /*
+> > > -  * 'kernel.h' contains some often-used function prototypes etc
+> > > + #endif /* _UAPI_LINUX_KERNEL_H */
+> > > diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
+> > > similarity index 80%
+> > > rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb
+> > > rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
+> > > index d6a4d5aa61..251d00440d 100644
+> > > --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.10.bb
+> > > +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.13.bb
+> > > @@ -14,6 +14,5 @@ SRC_URI_append = "\
+> > >
+> > >  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+> > >
+> > > -SRC_URI[md5sum] = "753adc474bf799d569dec4f165ed92c3"
+> > > -SRC_URI[sha256sum] = "dcdf99e43e98330d925016985bfbc7b83c66d367b714b2de0cbbfcbf83d8ca43"
+> > > -
+> > > +SRC_URI[md5sum] = "76c60fb304510a7bbd9c838790bc5fe4"
+> > > +SRC_URI[sha256sum] = "3f6baa97f37518439f51df2e4f3d65a822ca5ff016aa8e60d2cc53b95a6c89d9"
+> > > --
+> > > 2.19.1
+> > >
+> > >
+> > > 
+> > >
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
