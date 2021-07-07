@@ -1,63 +1,89 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.1769.1625684195368062934
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web09.4169.1625695533075644155
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 11:56:35 -0700
+ Wed, 07 Jul 2021 15:05:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TNmYd5ze;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id i94so4264239wri.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 11:56:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qxgMPtr2;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id oj10-20020a17090b4d8ab0290172f77377ebso2559753pjb.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 15:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=lx2ykwDRJ/MoLXzEfNWsIqZ3Z3aRQO6ULlh3/PaV7iM=;
-        b=TNmYd5zeokYPWzVtnUUOPKXRxEqM5wg5R6iVPj5Y6TxoSN1nE17+2IgpK61FQhzrFw
-         dH67Z8OHqgV3UMsfKNjbX6uEIlB9rtcNNHcLWvlNSm4a5cLo28QscbcBcaCMtP/XwG2s
-         5wbDy1cXcSpGk5Ur8zpDOJbzI3/vE8G3lVloc=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5tB0HLRDOP1m0sgqRG0yxN9DVO2gH2UrC4SlSdStpjU=;
+        b=qxgMPtr20rfScQW6k8QfFWr+hkVDiLYWi2FCcb0n5hKjZVfqW8z09FKPdf16WnCcJm
+         K8/K7LJOpkkk5IfHz3mAuns3DhoF0NKNau3rn2tqWa7QdOJYSh+Ae/d4dmc5pAfrmEAx
+         D+5UADkG0/Ei42iLTdjjejdgFIwXd1rrwjz0BCaYlCh0oi3P4PZw0LEGdjqnzw92eJQS
+         zJB2O1wRaAush0DJBRHZRU+b3jxUYS2Fti8jkEMn19AsEEiRbboOUJr9kmYaxwvPGSzc
+         hY5ZcSECiAJ8CVV9p6wFD3PmdxrJzkZIQAzkzJDAHECAc2g9GNiMZYjzjDPidAQMTXwC
+         2sjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=lx2ykwDRJ/MoLXzEfNWsIqZ3Z3aRQO6ULlh3/PaV7iM=;
-        b=Dwlc/jjSrB+o1XR6s1w2pXwFp2PtkkKUNzPoQbovoLa6NVYfTdEGO6SeP8PHojwCMr
-         UUOimkGha2d9cryDI3fiBL4HKUoCS6u0f+uDJrqArNdvZg1YcOa/lZmQiBJ3uGtc6Sbt
-         ivBv42kDzd+0Pf23pGNO5FBk2tJGpyCtWgWSJQxreELhWN9Ko3QhY1VcLOgvuhd9BDSd
-         GJZWmrcSamcdAzmKFCqZZ51dYAO5Nuci5mMytVeHjAjEbhHWIaS5AXyfSg1qYedkRDqn
-         dFh7p6lRijIC3IMLKBMRMe+qvXjLikYrWXAI8YxvBKVyf/PaS274ABoIZWb1eq06tpTX
-         PLVA==
-X-Gm-Message-State: AOAM531pBzps3fC6XVZX2IDi0N3PR1CTBQbt2uH98AT+wN2w4hR1iRKG
-	XByKdeo9HuhHD7Cdfq9v1eOxLA==
-X-Google-Smtp-Source: ABdhPJxTSC08+P6F6iIcC75pOLBaa1S9CaSiY2nNV59Q2QliNYCccBaLRER9Nj3VNXTKlirqVjm/Nw==
-X-Received: by 2002:adf:e385:: with SMTP id e5mr29640746wrm.264.1625684193976;
-        Wed, 07 Jul 2021 11:56:33 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5? ([2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5])
-        by smtp.gmail.com with ESMTPSA id w8sm20927475wre.70.2021.07.07.11.56.33
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5tB0HLRDOP1m0sgqRG0yxN9DVO2gH2UrC4SlSdStpjU=;
+        b=BEGCjTUOOAQuSpstmvdPyyVfhYwGOEuM4gQGLA+TUfKhac8rMEOS2YUBbw96QYjl/w
+         tIVim8FBaAQFJr5ahikSlLUI8j2OMeDDRtEGYUtvCUhUj9z7E7D+PhQVZ4RZyirxVP7t
+         c5Gel+818jmIdaHU4ArwpYW71zoWzFR3jQ8sHDqwNGd2QgPRcnayW0OAwMsftQV5vw7m
+         bn0qC/HMxjsBlvYrvh/GQamHJ3KaI195Wyln+HLZj/foRZe9Tz2+QxozQZeTaD0dAHI5
+         fIz/CIW0Ja+cY9/WqEGsDI4yOo+GEz7u9lUOPKay88AgtY3/wY+wHFhPB9ERkAIs6z1I
+         kq/w==
+X-Gm-Message-State: AOAM532X6daN4Ypay/VQl/HJ1M90XFyehjEbmnToFL/6qqQKtoIl/2aA
+	jRmQ+BwJcyW4RmrK/+IQwBXJYWsk/JClNA==
+X-Google-Smtp-Source: ABdhPJxV/u9iTAQEU7X5KXezrJZu1lCxi8bUe24KNLNZhn+4ThklW25wpJszfZhHyRYa0gtHoEfp4Q==
+X-Received: by 2002:a17:90b:3142:: with SMTP id ip2mr1184935pjb.63.1625695532334;
+        Wed, 07 Jul 2021 15:05:32 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1c2d])
+        by smtp.gmail.com with ESMTPSA id c20sm189828pfd.64.2021.07.07.15.05.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 11:56:33 -0700 (PDT)
-Message-ID: <47b04bdc1681e428c9333ff3285de31cc875740e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] python3-setuptools: upgrade 57.0.0 -> 57.1.0
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, wangmy <wangmy@fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 07 Jul 2021 19:56:32 +0100
-In-Reply-To: <CANNYZj8hv+OZvKpYd=azJb7ReSEJKzYxc88dsG-y=hQ5SE3S9w@mail.gmail.com>
-References: <1625672669-3918-1-git-send-email-wangmy@fujitsu.com>
-	 <1625672669-3918-3-git-send-email-wangmy@fujitsu.com>
-	 <CANNYZj8hv+OZvKpYd=azJb7ReSEJKzYxc88dsG-y=hQ5SE3S9w@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        Wed, 07 Jul 2021 15:05:31 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH] util-linux: Disable chfn-chsh on non-target builds
+Date: Wed,  7 Jul 2021 15:05:30 -0700
+Message-Id: <20210707220530.2494245-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-07-07 at 17:49 +0200, Alexander Kanavin wrote:
-> Seems like reproducibility.patch can actually be removed, as it was accepted upstream?
+They are also provided by shadow-native e.g. when building native
+recipes and packages where they depend on both shadow-native and
+util-linux-native, this can conflict
 
-Yes, upstream tweaked it slightly and we can drop that patch here.
+Fixes
+ERROR: systemd-1_248.3-r0 do_prepare_recipe_sysroot: The file /usr/bin/chsh is installed by both util-linux-native and shadow-native, aborting
 
-Cheers,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-core/util-linux/util-linux_2.37.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Richard
-
+diff --git a/meta/recipes-core/util-linux/util-linux_2.37.bb b/meta/recipes-core/util-linux/util-linux_2.37.bb
+index 399f66d6a0..285e182e0f 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.37.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.37.bb
+@@ -91,7 +91,7 @@ EXTRA_OECONF_append = " --disable-hwclock-gplv3"
+ # build host versions during development
+ #
+ PACKAGECONFIG ?= "pcre2"
+-PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
++PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} chfn-chsh"
+ PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
+ # Respect the systemd feature for uuidd
+ PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}, --without-systemd --without-systemdsystemunitdir,systemd"
+@@ -102,6 +102,7 @@ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ # PCRE support in hardlink
+ PACKAGECONFIG[pcre2] = ",,libpcre2"
+ PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
++PACKAGECONFIG[chfn-chsh] = "--enable-chfn-chsh,--disable-chfn-chsh,"
+ 
+ EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
+ 
+-- 
+2.32.0
 
