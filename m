@@ -1,62 +1,62 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.3])
- by mx.groups.io with SMTP id smtpd.web11.22895.1625672694009725817
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.116])
+ by mx.groups.io with SMTP id smtpd.web11.22896.1625672694441330444
  for <openembedded-core@lists.openembedded.org>;
  Wed, 07 Jul 2021 08:44:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=GubjA5s4;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.3, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=BqO1B0te;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.116, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1625672692; i=@fujitsu.com;
-	bh=eHQ2ZrHSdHnIV70Pk4vQJzYiO7xEkj6+ItLKAkDxbVk=;
+	bh=LeLQQKa/Qt5eIqfQVTHZwE5N0vhU4kGMwFcDOqGOL1k=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=GubjA5s4L/FM+jEKEmAT8Pfde5bdKTK0W8liu1OFElKY3KLH1dFGn0iH5ZbJJ5MT6
-	 odaEI6+j9weOJ+9UwSlNsPI1grpeXc+7F2w01QuaqW6H1WZkN7iIyiC5Xtf6rs9ELO
-	 BjMwMRLyGaazoEs+vRrmIZipz/kUt99NK5TLnBPohPEgoEtyrzG4T3g6ILUb+XVjaT
-	 ewtxasqAEElrq+jVGEcTMBR5W0aw+fNTQMO4TZp3XMVbKDvq78LVOAbzI3TV8Rdz5s
-	 U08jsJodS5Me1WHMXraPOJXrI3UiIjv3maAoL2ZKVccnVcQttK8phLhnzpg0kEo9LC
-	 5Iq+/YOQVsjQA==
-Received: from [100.113.1.116] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-central-1.aws.symcld.net id 8E/73-07651-3FBC5E06; Wed, 07 Jul 2021 15:44:51 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8MRqvv59NM
-  Eg81L1C3u/HzH7sDocW7jCsYAxijWzLyk/IoE1ozji/ewF0yQr9h18yhLA+N/qS5GLg4hgZlM
-  Ek8OdrBDOMcZJbYc/sLSxcjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvfvewg4SFBdwlO
-  nfygIRZgMLb1vaygti8Ao4SbQ9+MYPYEgIKElMevmcGKecUcJKY+VILJCwEVDL70VyockGJkz
-  OfsEBMl5A4+OIFVKuixOzLzSwQdoXE68OXmCcw8s9C0jILScsCRqZVjJZJRZnpGSW5iZk5uoY
-  GBrqGhsa6xrqGliZ6iVW6iXqppbrJqXklRYlAWb3E8mK94src5JwUvbzUkk2MwGBMKWQ+tIPx
-  yesPeocYJTmYlER5Z654miDEl5SfUpmRWJwRX1Sak1p8iFGGg0NJgtftFFBOsCg1PbUiLTMHG
-  BkwaQkOHiUR3tkgad7igsTc4sx0iNQpRl2Odz8XL2IWYsnLz0uVEucNBykSACnKKM2DGwGL0k
-  uMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHlTQKbwZOaVwG16BXQEE9ARDIfBjihJREhJNTD
-  tClre9UL8Ru9Hh80i1a8f1veu2BZzNNn74vVPwjWia7PO2D6L87p9/0Wnvemq556Va89EKn+2
-  7lwqkvlOb2LeqtQdeoudPzg3NDt36Ho8TLjMkW6+dv9UQaerNTPLpDeGXJgm86bGr29hZlv1v
-  p1LuYPVd+7a8EyA75Wa8n9bZ8PSm4vn6srZFh5c9vLKlEThzSubG1ff2vd0cRqvRNCrz8t2n9
-  zDetPP6fYaxV3ueawLVt0L2TFnmdokV670+Yeacgtaa17dyD64+mb5kbpjlu9F9/guerxDybn
-  69dlr/h7PufMdZHcxxE8K+Tuz2u+41OV9GsLTW84/bzlwpoNlQ26cZEqOwbLYFjP7TrEqJZbi
-  jERDLeai4kQA8FX8Bk0DAAA=
+	b=BqO1B0teGNGe1euDY8ADW1cm0O52CzTzKAvFO6EcPI5bALG691LuGerIdfFk0Pe4x
+	 9AjX0NT1KnbJ677ZAP8y03eOZVZKo8JJBjNNDXnOIZPAWiU9ljvRWBOh9V9efxJAxr
+	 tyB3wkuydxTYFlIN+PPUSToLPiLs4hyErYMTjdJy6h4mjuoE5ok50d8q2tm22T1VTr
+	 yYMdUjesD/7ubwyhZvZ8A19YlNm6FDfBn/hzyaJWT6gfIgkq+wtBwv2Ec3PZ/8+8y/
+	 XnfsL3mgIH5EAVc9kcrBCWhs6smJTDHJlzBmTXAV1Wg1wVThL3z4cM7IXzdd4jDRTw
+	 kSldpogSHpb4g==
+Received: from [100.113.4.179] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id 56/3E-07230-3FBC5E06; Wed, 07 Jul 2021 15:44:51 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNIsWRWlGSWpSXmKPExsViZ8MRqvv59NM
+  Egw/bNCzu/HzH7sDocW7jCsYAxijWzLyk/IoE1ozv8z+yF9znqbi16z9jA+My7i5GLg4hgZlM
+  Eqt+bGaBcI4zSlxpPsXUxcjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvfvewg9jCArYSu
+  3ZMYAEpYQGKXz8IVsIr4CgxYdEbVhBbQkBBYsrD98wgJZwCThIzX2qBhIWASmY/mssKUS4ocX
+  LmExaI6RISB1+8YIZoVZSYfbmZBcKukHh9+BLzBEb+WUhaZiFpWcDItIrRIqkoMz2jJDcxM0f
+  X0MBA19DQWNdM18JcL7FKN0kvtVQ3OTWvpCgRKKmXWF6sV1yZm5yTopeXWrKJERiKKYVs4TsY
+  z7z+oHeIUZKDSUmUd+aKpwlCfEn5KZUZicUZ8UWlOanFhxhlODiUJHjdTgHlBItS01Mr0jJzg
+  HEBk5bg4FES4Z0NkuYtLkjMLc5Mh0idYrTneLN2ySJmjrZ7d4HkzAUHVzNz3G8/tJpZiCUvPy
+  9VSpw3HKRNAKQtozQPbigsji8xykoJ8zIyMDAI8RSkFuVmlqDKv2IU52BUEuZNAZnCk5lXArf
+  7FdBZTEBnMRwGO6skESEl1cA0zUBI0uco00GPlymm3z44T4mPXcm5Ynnlx0+7DYtZZJUCbdkL
+  Xyrf9rrftiT945kp+35/3HD5WMLBRLWCA/MPxfCfi3rfq2M45YrgJbvMBU3/PM0iV5132uK+N
+  ZM5/KtQ79M018k8XzqnveM83LwrLNKIRYRF/PzPdfvD/Q7P8C52/LvpQfKnMmWPG9+mH2KR8v
+  jy14xp0u72uelbHU8rFu5c9bHA9X/SjksuhskLLugFJ+S9+H75vdJZs/MT8/XM3wfI2n3cdCi
+  +weff6ReL51yNDV46o2AL52nW7u9f+x9Ydnvr24o8Mo2KSZC/ufZI7e+3i28aPcu6KlX1Vf2o
+  ofLyRcr7QiMFeq9vX7xruhJLcUaioRZzUXEiAE8zvZ9eAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-4.tower-232.messagelabs.com!1625672691!188373!1
+X-Msg-Ref: server-11.tower-248.messagelabs.com!1625672691!37070!1
 X-Originating-IP: [62.60.8.85]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 11913 invoked from network); 7 Jul 2021 15:44:51 -0000
+Received: (qmail 19876 invoked from network); 7 Jul 2021 15:44:51 -0000
 Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-4.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Jul 2021 15:44:51 -0000
+  by server-11.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Jul 2021 15:44:51 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 167Fil7n003293
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 167Fil7o003293
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jul 2021 16:44:50 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Wed, 7 Jul 2021 16:44:45 +0100
+ (TLS) id 15.0.1497.18; Wed, 7 Jul 2021 16:44:47 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-setuptools: upgrade 57.0.0 -> 57.1.0
-Date: Wed, 7 Jul 2021 23:44:28 +0800
-Message-ID: <1625672669-3918-3-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] u-boot: upgrade 2021.04 -> 2021.07
+Date: Wed, 7 Jul 2021 23:44:29 +0800
+Message-ID: <1625672669-3918-4-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1625672669-3918-1-git-send-email-wangmy@fujitsu.com>
 References: <1625672669-3918-1-git-send-email-wangmy@fujitsu.com>
@@ -66,97 +66,42 @@ X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-refresh reproducibility.patch
+(Changes of v2021.07)
 
-v57.1.0
--------
-
-Changes
-^^^^^^^
-* #2692: Globs are now sorted in 'license_files' restoring reproducibility by eliminating variance from disk order.
-* #2714: Update to distutils at pypa/distutils@e2627b7.
-* #2715: Removed reliance on deprecated ssl.match_hostname by removing the ssl support. Now any index operations rely on the native SSL implementation.
-
-Documentation changes
-^^^^^^^^^^^^^^^^^^^^^
-* #2604: Revamped the backward/cross tool compatibility section to remove
-  some confusion.
-  Add some examples and the version since when ``entry_points`` are
-  supported in declarative configuration.
-  Tried to make the reading flow a bit leaner, gather some informations
-  that were a bit dispersed.
+Processed 1730 csets from 187 developers
+29 employers found
+A total of 402449 lines added, 82710 removed (delta 319739)
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../python3-setuptools/reproducibility.patch  | 21 ++++++++++++-------
- ...57.0.0.bb => python3-setuptools_57.1.0.bb} |  2 +-
- 2 files changed, 15 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_57.0.0.bb => python3-setuptools_57.1.0.bb} (94%)
+ meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
+ .../u-boot/{u-boot-tools_2021.04.bb => u-boot-tools_2021.07.bb} | 0
+ .../recipes-bsp/u-boot/{u-boot_2021.04.bb => u-boot_2021.07.bb} | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2021.04.bb => u-boot-tools_2021.07.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2021.04.bb => u-boot_2021.07.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/reproducibility.patch b/meta/recipes-devtools/python/python3-setuptools/reproducibility.patch
-index 149d8ad5ce..fda520658e 100644
---- a/meta/recipes-devtools/python/python3-setuptools/reproducibility.patch
-+++ b/meta/recipes-devtools/python/python3-setuptools/reproducibility.patch
-@@ -1,4 +1,4 @@
--The License-File lines in PKG-INFO change ordering depending on the order on disk, 
-+The License-File lines in PKG-INFO change ordering depending on the order on disk,
- for example for python-packaging, one build shows:
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index dbbb9ff145..6b9253806f 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,7 +12,7 @@ PE = "1"
  
- License-File: LICENSE
-@@ -15,11 +15,15 @@ This is because glob uses os.listdir() which is unsorted. Sort the result to avo
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "b46dd116ce03e235f2a7d4843c6278e1da44b5e1"
++SRCREV = "840658b093976390e9537724f802281c9c8439f5"
  
- Upstream-Status: Submitted [https://github.com/pypa/setuptools/issues/2691]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-+---
-+ setuptools/dist.py | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
- 
--Index: setuptools-57.0.0/setuptools/dist.py
--===================================================================
----- setuptools-57.0.0.orig/setuptools/dist.py
--+++ setuptools-57.0.0/setuptools/dist.py
-+diff --git a/setuptools/dist.py b/setuptools/dist.py
-+index df071c1..fe3c5da 100644
-+--- a/setuptools/dist.py
-++++ b/setuptools/dist.py
- @@ -15,7 +15,7 @@ import distutils.command
-  from distutils.util import strtobool
-  from distutils.debug import DEBUG
-@@ -29,12 +33,15 @@ Index: setuptools-57.0.0/setuptools/dist.py
-  import itertools
-  import textwrap
-  from typing import List, Optional, TYPE_CHECKING
--@@ -603,7 +603,7 @@ class Distribution(_Distribution):
-+@@ -609,7 +609,7 @@ class Distribution(_Distribution):
-          return (
-              path
-              for pattern in patterns
---            for path in iglob(pattern)
-+-            for path in sorted(iglob(pattern))
- +            for path in sorted(glob(pattern))
-              if not path.endswith('~')
-              and os.path.isfile(path)
-          )
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-index a15b51e31c..3c7aa4c4c5 100644
---- a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-@@ -11,7 +11,7 @@ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-e
- SRC_URI += "file://0001-change-shebang-to-python3.patch \
-             file://reproducibility.patch"
- 
--SRC_URI[sha256sum] = "401cbf33a7bf817d08014d51560fc003b895c4cdc1a5b521ad2969e928a07535"
-+SRC_URI[sha256sum] = "cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63afddd82d681de4d22a597b"
- 
- DEPENDS += "${PYTHON_PN}"
- 
+ SRC_URI = "git://git.denx.de/u-boot.git \
+           "
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2021.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2021.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2021.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2021.07.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2021.04.bb b/meta/recipes-bsp/u-boot/u-boot_2021.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2021.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2021.07.bb
 -- 
 2.25.1
 
