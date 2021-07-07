@@ -1,87 +1,74 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.315.1625677569717418759
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web11.459.1625678164164907213
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 10:06:10 -0700
+ Wed, 07 Jul 2021 10:16:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fs1DgiY4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id y21-20020a7bc1950000b02902161fccabf1so1589499wmi.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 10:06:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=k/6bvOrb;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id i125so2690181qke.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 10:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C/IBBwB5Dxk3g0WeC6zUOvjTF+NiG/7yxZVjXw2o9L8=;
-        b=Fs1DgiY4v0qJi43t1uC02T2MSZncJyLgWx+qIgY/5nL75pl5mWVfouu11z7hi6uQh2
-         nGBNj7Ltl8ojySVPOCnAEZci8CeeqFg8zwTB4p9/DV9aoTHEgqBYFndKfSst33U5Mm4N
-         N4jBOtSTOoDJ4AxRv/g47TydJmIdo8Z6vVmfk=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=4x2g2m4N5StXRs+GFqznnXyJQzwU5g8S9LHXY07WqnA=;
+        b=k/6bvOrbQvXp9UGNBFbcn9Qwxh4vQTSkyApbagb1oaV8TSuM0J1Dzmo4/s/voroc1r
+         Td9VyBQXCEmaSjgnbxnAEKrTOjfyhxm+FFTUSHexjhD3FmJ+P3tqOQThusiWArbxAAmI
+         eKSVuqz3ZpOeH4fRo5do0zIGkbqctGHSePILeutEWZnLAb7ND/HPPEN9tmAl/wEk8Flb
+         oqcuscP21GKhv2D5vmY51HxO0sCMYrWPQ9ecp0krAdYqiln38c6jhFbjS5psDyvurgyt
+         2eZFkh1VQx2X5eDwbHhwTEg82krkaznxCKM8sUThRllKLuhX9iwnSokmTFQY/w33wGK0
+         1dVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C/IBBwB5Dxk3g0WeC6zUOvjTF+NiG/7yxZVjXw2o9L8=;
-        b=fTvjaVa72eRgB9QWMsRD2tXw1GkFSxoaB2IAMfQck0Eo1BxDzB3TAzoFydWTuDQXOC
-         7xmeIfiIevhEjLFH3MMGyX6FJMvyXdFISftAzYleSto47oLj7ZfKDM9442ydxE8JWgn6
-         XvHmqtl0bAXnDMhbag1kK9oMLbGp2aoJ6oZNX8w19Ce2sXF0VN+uR5bEkCiTL3NnOJIR
-         NnQM7F8EsntjEOeRSie9rL2r0rfHs6bTG8CFQxmMC8MujF3XKS7dM6eu2bgr7upDot/Z
-         Z5fYrYeyrjC1PJHYR7FlxCgPnYjo1CHkvBgPiMQ/78iEANQJmUIelBoLPwYTaUb7A2hV
-         ZvYg==
-X-Gm-Message-State: AOAM533jMKRNSh0KGRPVpzdxdm4KhKZsM+SQ2+LXpKPesn1hzZlSuGI7
-	wmZCRic+lS7W2fcrB9rTAsZGEbHebis5Tw==
-X-Google-Smtp-Source: ABdhPJxWaKIOUJZbiZDt/jJqzgRF3Wp1BeK4zhqdIeaXtDWgZbQsXueR2EQKFHVbHH6b5QOwMZO4jg==
-X-Received: by 2002:a1c:f206:: with SMTP id s6mr60415wmc.15.1625677568098;
-        Wed, 07 Jul 2021 10:06:08 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5])
-        by smtp.gmail.com with ESMTPSA id r15sm6529180wmq.15.2021.07.07.10.06.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 10:06:07 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] license: Drop adding RRECOMMENDS for license packages
-Date: Wed,  7 Jul 2021 18:06:07 +0100
-Message-Id: <20210707170607.2698337-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=4x2g2m4N5StXRs+GFqznnXyJQzwU5g8S9LHXY07WqnA=;
+        b=TIw2rSm4dUpRxBTLfeOg7CiVwYzq4N0KPNR8Xzoz1VFaI7UmF2Evf3BryN+0c5lyJo
+         JFeIJyG/TRKO6LRvT7hhtUOLzsiSz+RwGroaPrxcn6Oa6ttYTLD3ZnYsjRaRDHv6Lcb0
+         0cwt50WCzGv1nQBbAv7+jrr1I6KMYfJuTsE0KqGX3ANi4Hw68D1jji3GHlulfY+Ithwi
+         lmpc7mT0V3Fy1iHmue9YU26v9Frd0vQPS3xvcMMglFQ0NXrjIUOvxKym8mz5gBURsA5f
+         SS6ByeeWyQWNJEGVxxUnfNL1HXQll0F/0XeOZ2h1z73HwuyEiPrjrrTwXnrye5Iok+oB
+         C84w==
+X-Gm-Message-State: AOAM531ejhLcQQMDZtSnsIK+XNV+HNd6YRig8lzrzYxnRIwkUHAHy8bF
+	4go1PN9J10QUGsI+OFOq/HMvkEQieSNV2miOELZwE5wY2J0=
+X-Google-Smtp-Source: ABdhPJzWQXAPeOioTX2G7O2EO7nLSxFQy0LMPCJi4KHVTjJhzkmpWO6f5/Fqu6kRts1cJxpzlcrCpO+m+ZIDlgXMu2g=
+X-Received: by 2002:ae9:f201:: with SMTP id m1mr25970449qkg.381.1625678163133;
+ Wed, 07 Jul 2021 10:16:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210704210740.581650-1-raj.khem@gmail.com>
+In-Reply-To: <20210704210740.581650-1-raj.khem@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 7 Jul 2021 10:15:37 -0700
+Message-ID: <CAMKF1sqg7QMojTsPo=GSjzpEEb-QwmF8_GNXXj8SaC45wtJ73Q@mail.gmail.com>
+Subject: Re: [PATCH] libubootenv: Disable for ppc/ppc64 qemu machines
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This changes behaviour when LICENSE_CREATE_PACKAGE is in use. Packages
-no longer have RRECOMMENDS adding to them.
+ping
 
-It was highlighted that this doesn't apply to PACKAGES_DYNAMIC, nor can
-it easily be made to do so. There is also a much easier way to handle this
-which is:
-
-IMAGE_INSTALL_COMPLEMENTARY += "*-lic"
-
-which works on a per image basis and doesn't change the underlying
-package dependencies. I propose we switch to this instead.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/license.bbclass | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index f7978e266b6..c87473cbb85 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -63,14 +63,6 @@ def add_package_and_files(d):
-         # first in PACKAGES to be sure that nothing else gets LICENSE_FILES_DIRECTORY
-         d.setVar('PACKAGES', "%s %s" % (pn_lic, packages))
-         d.setVar('FILES_' + pn_lic, files)
--    for pn in packages.split():
--        if pn == pn_lic:
--            continue
--        rrecommends_pn = d.getVar('RRECOMMENDS_' + pn)
--        if rrecommends_pn:
--            d.setVar('RRECOMMENDS_' + pn, "%s %s" % (pn_lic, rrecommends_pn))
--        else:
--            d.setVar('RRECOMMENDS_' + pn, "%s" % (pn_lic))
- 
- def copy_license_files(lic_files_paths, destdir):
-     import shutil
--- 
-2.30.2
-
+On Sun, Jul 4, 2021 at 2:07 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This recipe depends on u-boot and u-boot is not available for
+> qemuppc/qemuppc64 and there is no defconfig available either
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+> index 306296922c..88a8397c3c 100644
+> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+> @@ -25,6 +25,9 @@ RPROVIDES_${PN}-bin += "u-boot-fw-utils"
+>
+>  PACKAGE_ARCH = "${MACHINE_ARCH}"
+>
+> +COMPATIBLE_HOST_qemuppc64 = "null"
+> +COMPATIBLE_HOST_qemuppc = "null"
+> +
+>  RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
+>
+>  BBCLASSEXTEND = "native"
+> --
+> 2.32.0
+>
