@@ -1,82 +1,106 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.18591.1625648128824472858
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.18670.1625648664295873668
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 01:55:29 -0700
+ Wed, 07 Jul 2021 02:04:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1678tRGY024704
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jul 2021 01:55:28 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 7 Jul 2021 01:55:27 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Wed, 7 Jul 2021 01:55:26 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] qemuarm64.conf: change the cpu model to max
-Date: Wed, 7 Jul 2021 16:54:19 +0800
-Message-ID: <20210707085419.2610-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1AA9FED1
+	for <openembedded-core@lists.openembedded.org>; Wed,  7 Jul 2021 02:04:23 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B78A43F694
+	for <openembedded-core@lists.openembedded.org>; Wed,  7 Jul 2021 02:04:22 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] glib-2.0: fix g-file-into modification time test
+Date: Wed,  7 Jul 2021 10:04:14 +0100
+Message-Id: <20210707090414.2896696-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-From: Mingli Yu <mingli.yu@windriver.com>
+The GFileInfo modification time test assumed that the difference between
+a modification timestamp in seconds and in microseconds must be greater
+than 0.
 
-After rng-tools upgraded to 6.13, the below logic introduced.
-9070a04 Add support for ARM v8.5A "rndr" instruction
+Mathmatically, there's a one-in-a-million chance that it will be 0.  It
+turns out that one-in-a-million chances happen approximately once every
+fortnight on the autobuilder.
 
-It means there is another entropy source rndr added for arm64,
-so modify the cpu model to max [1] to make the rndr entropy source
-function available and also used to silence the below failed message
-when start rngd service on qemuarm64.
-"[rndr ]: Initialization Failed"
+[ YOCTO 14373 ]
 
-Before the patch:
- $ systemctl status rngd
- [snip]
- Jul 05 07:15:47 qemuarm64 systemd[1]: Started Hardware RNG Entropy Gatherer Daemon.
- Jul 05 07:15:48 qemuarm64 rngd[152]: Initializing available sources
- Jul 05 07:15:48 qemuarm64 rngd[152]: [hwrng ]: Initialized
- Jul 05 07:15:48 qemuarm64 rngd[152]: [rndr ]: No HW SUPPORT
- Jul 05 07:15:48 qemuarm64 rngd[152]: [rndr ]: Initialization Failed
- Jul 05 07:15:48 qemuarm64 rngd[152]: [jitter]: Initializing AES buffer
- Jul 05 07:16:14 qemuarm64 rngd[152]: [jitter]: Enabling JITTER rng support
- Jul 05 07:16:14 qemuarm64 rngd[152]: [jitter]: Initialized
-
-After the patch:
- $ systemctl status rngd
- [snip]
- Jul 07 08:48:30 qemuarm64 systemd[1]: Started Hardware RNG Entropy Gatherer Daemon.
- Jul 07 08:48:34 qemuarm64 rngd[164]: Initializing available sources
- Jul 07 08:48:34 qemuarm64 rngd[164]: [hwrng ]: Initialized
- Jul 07 08:48:34 qemuarm64 rngd[164]: [rndr  ]: Enabling aarch64 RNDR rng support
- Jul 07 08:48:34 qemuarm64 rngd[164]: [rndr  ]: Initialized
- Jul 07 08:48:35 qemuarm64 rngd[164]: [jitter]: Initializing AES buffer
-
-[1] https://github.com/nhorman/rng-tools/pull/128
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/conf/machine/qemuarm64.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../glib-2.0/glib-2.0/time-test.patch         | 40 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/time-test.patch
 
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index 150a0744eb..a792dc32e6 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -15,7 +15,7 @@ SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
- # For runqemu
- QB_SYSTEM_NAME = "qemu-system-aarch64"
- QB_MACHINE = "-machine virt"
--QB_CPU = "-cpu cortex-a57"
-+QB_CPU = "-cpu max"
- QB_SMP = "-smp 4"
- QB_CPU_KVM = "-cpu host -machine gic-version=3"
- # For graphics to work we need to define the VGA device as well as the necessary USB devices
--- 
-2.17.1
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/time-test.patch b/meta/r=
+ecipes-core/glib-2.0/glib-2.0/time-test.patch
+new file mode 100644
+index 00000000000..4d7ef97bb56
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/time-test.patch
+@@ -0,0 +1,40 @@
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_=
+requests/2177]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From 289f8be1b397a453cfcf35641455f3ae5fb4faeb Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Tue, 6 Jul 2021 19:26:03 +0100
++Subject: [PATCH] gio/tests/g-file-info: don't assume million-in-one even=
+ts
++ don't happen
++
++The modification time test creates a file, gets the modification time in
++seconds, then gets the modification time in microseconds and assumes
++that the difference between the two has to be above 0.
++
++As rare as this may be, it can happen:
++
++$ stat g-file-info-test-50A450 -c %y
++2021-07-06 18:24:56.000000767 +0100
++
++Change the test to simply assert that the difference not negative to
++handle this case.
++---
++ gio/tests/g-file-info.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gio/tests/g-file-info.c b/gio/tests/g-file-info.c
++index c11c50462..fd0c64b55 100644
++--- a/gio/tests/g-file-info.c
+++++ b/gio/tests/g-file-info.c
++@@ -178,7 +178,7 @@ test_g_file_info_modification_time (void)
++   g_assert_nonnull (dt_usecs);
++=20
++   ts =3D g_date_time_difference (dt_usecs, dt);
++-  g_assert_cmpint (ts, >, 0);
+++  g_assert_cmpint (ts, >=3D, 0);
++   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
++=20
++   /* Try round-tripping the modification time. */
++--=20
++2.25.1
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.68.3.bb
+index 2a3a00fadae..62c8d49464f 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb
+@@ -17,6 +17,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
+}.tar.xz \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
+            file://0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.=
+patch \
++           file://time-test.patch \
+            "
+ SRC_URI_append_class-native =3D " file://relocate-modules.patch"
+=20
+--=20
+2.25.1
 
