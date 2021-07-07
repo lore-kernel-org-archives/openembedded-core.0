@@ -1,74 +1,93 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web08.19166.1625653070297595265
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.19326.1625653424679510742
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 03:17:50 -0700
+ Wed, 07 Jul 2021 03:23:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NWw2LbTN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id q18-20020a1ce9120000b02901f259f3a250so1319499wmc.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 03:17:50 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YZ8upjhJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id h18-20020a05600c3512b029020e4ceb9588so3822619wmq.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 03:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=kNO+pq5XOby4+e3+wYKOb4xV10bBQftiFwS9v1pT1dU=;
-        b=NWw2LbTNMTVSTmzu7qIkGIq0aoUK9x63tv2aA723JVAQtREw5Sy1m9fBQO6OldZ52s
-         /R+OpoGzTV+kSH6NVdhLDBsbhOR9sjN14cxF+0z+aifJ6uqF8fhJJsOsKDWdN87TaKf4
-         Ik8n0vgjsYDVApZ5IdVa4i1KYpxMHArpqh+hM=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=7fkGLeZtuNrKsSIGYrQVtwqPDk1x8HaUZVtBzy29TpA=;
+        b=YZ8upjhJKPHuWynTsojpGRUw/ZTDPbSasstnw5PDCCbDs0oObkQIrYT5jMYXSknk3W
+         LJwqIwkHKvM0uTIEV+2ApSZ+1tjCOofXOkXJ4xJ8VcoF3TipL3tCX7K09USaugmxTAyH
+         FeFLJ6oLkMimswrPv04h8evTjUxNXZ6MpZ4Qc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kNO+pq5XOby4+e3+wYKOb4xV10bBQftiFwS9v1pT1dU=;
-        b=ApjrnPIjBjHjfnoAnqhBH20X0qQMIjehhwzEQ4QD9wm9q95c/E4TPIKyeCWWLhhH07
-         kW/MJ6F7xkA0k78qmvxzScNoHHcYIUqtCIOisdC4w9AXR+AZENRRqURW0fzuOJG+S2gi
-         A3BbdCPuXwHp1RV+HH3SQ2lSqnLV9VLVC/juyiC6ve4H/NiucpTZ8pdDHyMnyMBIwsV8
-         W3yGTPi92ObED6bICYIQOI9+xyM8jZGN2H062AVppKavFYTM9W+8OXpSQZ3VRNZhXvJY
-         D0RAi4k1J/kinJKKtcYndK5wYxuH+F8O0IOrgm+qrcnDaENtHnIjEUMvm7npGFlXT8VX
-         6VZg==
-X-Gm-Message-State: AOAM532yp4/xqEOY4jLXVjBBdhHJ9tVE/p+z/0b85X9q2Q1BQ8tJMDpL
-	XM8L44JHl5XaP/kMHGxOVASJsEh6rE+jug==
-X-Google-Smtp-Source: ABdhPJwax5pW90++PVT2HekAw/qNfHjvLDFcWWmGPug6PIrpLY56kaOlxpKDKxqTX6YsD+rEOFSnvQ==
-X-Received: by 2002:a05:600c:3205:: with SMTP id r5mr5746976wmp.75.1625653068870;
-        Wed, 07 Jul 2021 03:17:48 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=7fkGLeZtuNrKsSIGYrQVtwqPDk1x8HaUZVtBzy29TpA=;
+        b=mH23fCcEqCwBJGYta2Pfz+IQU/IQJtre1mTJD2EJnZDKA+hY4kHLxWgdRDFTJNr3Ho
+         8VFgldkQVtIBthWdKAAoiwoddN4/vCxXLqHf9T1Gx+MziJHL96zLQJ2YSvjypcSse4aQ
+         clIYMmrpcRRu8O8OyHZd946Cp6mgJv+sVNSO99MFBPxDzM2KaI1L+tNVpNmnSroZJ27O
+         46ybu+kHCY7zD6BpJ/93jpx50N3OhmyYRuEEj/ZaeJwE79bwi8TWwx1t9hk1/MotSQTk
+         1jC9l5beSD+auWl3+K15GmO7n5bX4CEoPkoOx/9YFRZSCKEyCwpHogNZp9wsj4nTlOkI
+         Z+yA==
+X-Gm-Message-State: AOAM531vStWI0qRl4BfCSAEahfHSENUHtM3g6RbkIOeLTRtQtfXNtDXN
+	i1fIIgJ3KONZyXfnu3cYvp1N1w==
+X-Google-Smtp-Source: ABdhPJwS1diBOgzqg5aSkLqd1riaWiBs/VHywoo0fTEzYcos4/f+iZtGv2AQRAeJty0q8l3JGkrjxw==
+X-Received: by 2002:a1c:f717:: with SMTP id v23mr5906348wmh.32.1625653423175;
+        Wed, 07 Jul 2021 03:23:43 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5])
-        by smtp.gmail.com with ESMTPSA id q1sm15828170wma.27.2021.07.07.03.17.48
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5? ([2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5])
+        by smtp.gmail.com with ESMTPSA id i2sm5817961wmq.43.2021.07.07.03.23.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 03:17:48 -0700 (PDT)
+        Wed, 07 Jul 2021 03:23:42 -0700 (PDT)
+Message-ID: <df63dbb62b4702110d8e74f5326a713640c99e7d.camel@linuxfoundation.org>
+Subject: Re: [PATCH] glibc-package.inc: To fix build issue with glibc-testsuite.
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] glibc-testsuite: Fix build failures when directly running recipe
-Date: Wed,  7 Jul 2021 11:17:47 +0100
-Message-Id: <20210707101747.2689765-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210707101747.2689765-1-richard.purdie@linuxfoundation.org>
-References: <20210707101747.2689765-1-richard.purdie@linuxfoundation.org>
+To: Vinay Kumar <vinay.m.engg@gmail.com>, 
+	openembedded-core@lists.openembedded.org, Alexander Kanavin
+	 <alex.kanavin@gmail.com>
+Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com,
+ vinay.kumar@blackfigtech.com
+Date: Wed, 07 Jul 2021 11:23:40 +0100
+In-Reply-To: <20210704112159.150061-1-vinay.m.engg@gmail.com>
+References: 
+	<CANUMPcU0ibVFbf5x0OzEunTymSd8+_chCD3432xa3CTeL7QzjA@mail.gmail.com>
+	 <20210704112159.150061-1-vinay.m.engg@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-If you try and run the glibc-testsuite's build task, you see failures
-as do_populate_sysroot can't work. We don't have a do_install, get
-rid of do_populate_sysroot as well.
+On Sun, 2021-07-04 at 04:21 -0700, Vinay Kumar wrote:
+> Added condition to check "$cleanupdir${datadir}" exists.
+> 
+> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> ---
+>  meta/recipes-core/glibc/glibc-package.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+> index 92e5dbac61..df3f612192 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -230,7 +230,9 @@ stash_locale_cleanup () {
+>  	rm -rf $cleanupdir${libdir}/gconv
+>  	rm -rf $cleanupdir${localedir}
+>  	rm -rf $cleanupdir${datadir}/locale
+> +  if [ -d $cleanupdir${datadir} ]; then
+>  	rmdir --ignore-fail-on-non-empty $cleanupdir${datadir}
+> +  fi;
+>  
+> 
+> 
+> 
+>  	if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
+>  		if [ -d "$cleanupdir${exec_prefix}/lib" ]; then
 
-The recipe is not included in world builds by default which is why
-we don't see the issue more widely.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/glibc/glibc-testsuite_2.33.bb | 1 +
- 1 file changed, 1 insertion(+)
+I had a look into this issue in more detail and you're right, if you 
+bitbake the recipe it does indeed fail. The reason it doesn't fail 
+everywhere in testing is that it is excluded from world builds.
+Since there is no do_install task, the do_populate_sysroot task
+is also pointless. I've sent a patch just to delete the task.
 
-diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.33.bb b/meta/recipes-core/glibc/glibc-testsuite_2.33.bb
-index d887aeff79a..659d3132fa6 100644
---- a/meta/recipes-core/glibc/glibc-testsuite_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc-testsuite_2.33.bb
-@@ -61,3 +61,4 @@ addtask do_check after do_compile
- inherit nopackages
- deltask do_stash_locale
- deltask do_install
-+deltask do_populate_sysroot
--- 
-2.30.2
+Cheers,
+
+Richard
 
