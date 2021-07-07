@@ -1,62 +1,62 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.1])
- by mx.groups.io with SMTP id smtpd.web08.22872.1625672763514279401
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
+ by mx.groups.io with SMTP id smtpd.web10.22853.1625672766963469523
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 08:46:03 -0700
+ Wed, 07 Jul 2021 08:46:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=CDx534lR;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.1, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=LUKLdWoe;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1625672761; i=@fujitsu.com;
-	bh=/bjY4B92fLbElWG6s3P6WuBTT74A7IG0tqlkJs5qmcE=;
+	s=170520fj; t=1625672765; i=@fujitsu.com;
+	bh=soywD9qwEopJUMHgFLnB9xrn62Vn5HojUlQ65/qL6sY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=CDx534lR+NawBRrJgLUtwRsbUTb1X/lOq5UqCdwn4SDhgTzWo95RkDxahp9VVprl6
-	 7FYHoVrhXRWiiSp495fZj5Qi5gSCdsvRzcm3kBsEPGYntu0cyVoBE+zWrPTscvJA5A
-	 OqAkn6JZlI38ynU5GYzHDhwvzHHpjDF0A9Smw56Ga0l2wpuk/8M/In0+Zg4vnXaWGy
-	 kSnNDJzm86FGB+PzU/IBdMPdbc8nXpI0iPQI9wL+wjKJj3jWF7eQJVIVqSNSIj/BRi
-	 xS517bkoiri8SjvF+pEddsJnH0rgdvwDTW6dfF40aZfzNe9jzzVnMktEX69kR/V8yQ
-	 ltp9pOdOHgBJw==
-Received: from [100.112.193.7] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-a.eu-west-1.aws.symcld.net id B9/78-31114-93CC5E06; Wed, 07 Jul 2021 15:46:01 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEIsWRWlGSWpSXmKPExsViZ8MRqmt55mm
-  CwZpnXBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a7rZcYC7ZxVuzdPoG9gfEwRxcjF4eQwEwm
-  iWcPVzBDOMcZJV59OALkcHKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfPewgYWEBD4k/G
-  0pBwixA4TkTHjCDhHkFHCXmvFcFCUsIKEhMefgebCCngJPE4/6/YLYQUEnTjxcsIDavgKDEyZ
-  lPWCCmS0gcfPGCGaJXUWL25WYWCLtC4vXhS8wTGPlnIWmZhaRlASPTKkbzpKLM9IyS3MTMHF1
-  DAwNdQ0MjXUNLI10TE73EKt1EvdRS3fLU4hJdQ73E8mK94src5JwUvbzUkk2MwEBMKTigs4Px
-  56sPeocYJTmYlER5Z654miDEl5SfUpmRWJwRX1Sak1p8iFGGg0NJgtftFFBOsCg1PbUiLTMHG
-  BUwaQkOHiUR3tkgad7igsTc4sx0iNQpxnCON2uXLGLmeAsm2+7dBZLtYHLmgoOrmTlmgcn77Y
-  eA5AMQKcSSl5+XKiXOGw4yTgBkXEZpHtwyWNRfYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCT
-  MmwIyhSczrwTupldA5zIBnctwGOzckkSElFQDk7p0lZ/RK7mAQ5lFK7dUSEbM2Sq2Nc5owXn5
-  n+uLhGYvDN8g18Jqr/DiV+GcCxfvX2Vq+vxL+5pa9rIpeeFLtLn9/9U6OGWeStUusf/KPDtBv
-  kN0Uoh2DIutXNOEaH3mVSqRFzoFdB1P+rRHNP2MkNb6U1RUOGWyw3/HlKAnEQGHgmvzxeXDF4
-  oW69kzrLywTlq8pUflcQnf2Zb3/9PbWAzbnKKuTg+/fGva12+MHgtZ7nx8eiPFLNNExfJwSvf
-  h/Nfll+KFDCZIrN7R4sGRJfIzK0nw/FTmZ2+LzZVnevDIv6zxf87C9ZGHR9nEwXLHissuB7YI
-  JBVMNNWsrtzPuo73c8buZqPDFVpnjZVYijMSDbWYi4oTAT5G0OZ1AwAA
+	b=LUKLdWoeX20th5tL9ing8JIGR5loD4iUlK5rvMz433Ly59nQKtv6bUMoniByynmZc
+	 awefQ5Rxw0sCA+ly4ER4yrTiz8j4ofpDOOWBAw+vqicfwOuahN4Xo5+wIWzHi+9rPN
+	 Rnxa4HrM2GGZ65NXjzYx1Q+4EOz3L6zOj1i+jAc555zNyXvpc6PXbDb/zAY+bh3x7K
+	 Q2xPy0aaJpumeDziMucPcbUbVLiF+iKn5Kji3DN9V7+5i/ZDzt2HaFKV+2GyYyb8os
+	 p5v92/J0PFGbvavsNy9G64hv2lpCuMLbtfPOiAkz1kuRvqMYPb+emIAuTCx1/OvO01
+	 ETEYOHPgHV8vA==
+Received: from [100.113.1.116] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id FA/58-07223-C3CC5E06; Wed, 07 Jul 2021 15:46:04 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxRdfmzNM
+  Eg2+nVCzu/HzH7sDocW7jCsYAxijWzLyk/IoE1oybr14yFdzjqni9diVzA+NLzi5GLg4hgZlM
+  En9fnWbrYuQEco4zSvR+FACx2QTUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7x52EFtYwF1iS
+  tt6FhCbBSje//o7M4jNK+AosWbObrC4hICCxJSH78HinAJOEo/7/zJDrHKUaPrxggWiXlDi5M
+  wnLBDzJSQOvnjBDNGrKDH7cjPUnAqJ14cvMU9g5J+FpGUWkpYFjEyrGC2TijLTM0pyEzNzdA0
+  NDHQNDY11DXWNjMz0Eqt0E/VSS3WTU/NKihKBsnqJ5cV6xZW5yTkpenmpJZsYgeGYUsj4aAfj
+  6dcf9A4xSnIwKYnyzlzxNEGILyk/pTIjsTgjvqg0J7X4EKMMB4eSBK/bKaCcYFFqempFWmYOM
+  DZg0hIcPEoivLNB0rzFBYm5xZnpEKlTjIpS4rzhIAkBkERGaR5cGyweLzHKSgnzMjIwMAjxFK
+  QW5WaWoMq/YhTnYFQS5k0BmcKTmVcCN/0V0GImoMUMh8EWlyQipKQamFJZf+Te97l7WKZg9aV
+  jbQ8VyxbIss6N2Oe9um/h+cS8ggbOwPo4WelU8yfP5hd8uXNESuSz+dRtKTZVvdmqs85PfNNR
+  LaOk8dVmUY+pyacDF+X7nqpamj/benHDzVijqRzGs7bUPGCUv8+cc7Ba7OM3p3XLjoq+E7oro
+  niAL2RC16defbcVSq+nn33OeCs8c15STuqlgN3abk9ZzHtmPPVeXVhxcWqSyYofP7I8J7Be2O
+  vVLPmdI0Atc7m51aVXRkebI3aefXjC7mWUPIPXdquzFk+mSBgtXTbV3zNs5Y/z26LOxF9N2lo
+  lEvuxvkX0/qR1AgL/zsYFVdtppZwrrtsjf4TtuPaBmyrvjrYz8imxFGckGmoxFxUnAgBjYtA7
+  QgMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-16.tower-267.messagelabs.com!1625672760!189105!1
-X-Originating-IP: [62.60.8.85]
+X-Msg-Ref: server-20.tower-226.messagelabs.com!1625672763!7914!1
+X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 28430 invoked from network); 7 Jul 2021 15:46:01 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-16.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Jul 2021 15:46:01 -0000
+Received: (qmail 15878 invoked from network); 7 Jul 2021 15:46:04 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-20.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Jul 2021 15:46:04 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 167Fk0DG004199
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 167Fk3Bn004502
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jul 2021 16:46:00 +0100
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jul 2021 16:46:03 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Wed, 7 Jul 2021 16:45:58 +0100
+ (TLS) id 15.0.1497.18; Wed, 7 Jul 2021 16:46:01 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 2/3] vulkan-loader: upgrade 1.2.176 -> 1.2.182
-Date: Wed, 7 Jul 2021 23:45:47 +0800
-Message-ID: <1625672748-3956-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 3/3] vulkan-tools: upgrade 1.2.176 -> 1.2.182
+Date: Wed, 7 Jul 2021 23:45:48 +0800
+Message-ID: <1625672748-3956-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1625672748-3956-1-git-send-email-wangmy@fujitsu.com>
 References: <1625672748-3956-1-git-send-email-wangmy@fujitsu.com>
@@ -68,29 +68,32 @@ Content-Type: text/plain
 
 build: Update to header 1.2.182
 - Update known-good
+- Add support for printing `int64_t` in `scripts/vulkaninfo_generator.py`
 - Disable codegen for VK_HUAWEI_subpass_shading
   KhronosGroup/Vulkan-Docs#1564
 - Generate source
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{vulkan-loader_1.2.176.0.bb => vulkan-loader_1.2.182.0.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-loader_1.2.176.0.bb => vulkan-loader_1.2.182.0.bb} (96%)
+ .../{vulkan-tools_1.2.176.0.bb => vulkan-tools_1.2.182.0.bb}  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-tools_1.2.176.0.bb => vulkan-tools_1.2.182.0.bb} (94%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.176.0.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/vulkan/vulkan-loader_1.2.176.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb
-index e241a2f156..ec09fd0f72 100644
---- a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.176.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.182.0.bb
-@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git \
-            "
--SRCREV = "eb6d6f95dff809d66e95b903105da6424e75862f"
-+SRCREV = "1896143df69d439b0933c1bb485f5a4587bdf2dc"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.2.176.0.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb
+similarity index 94%
+rename from meta/recipes-graphics/vulkan/vulkan-tools_1.2.176.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb
+index 10fa0fdb3a..d0a298ecfc 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-tools_1.2.176.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.2.182.0.bb
+@@ -6,8 +6,8 @@ SECTION = "libs"
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.2.176"
+-SRCREV = "eb3d67bd17ee433e2b0a8e56a7249bd83908812e"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.2.182"
++SRCREV = "9d3305731c3be8de05c9f223a79959d448506a37"
  
  S = "${WORKDIR}/git"
  
