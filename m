@@ -1,212 +1,89 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web10.20283.1625660468630174775
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.20321.1625660721686140271
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 05:21:08 -0700
+ Wed, 07 Jul 2021 05:25:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kXTMjJ3l;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id o12so1442017vsr.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 05:21:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YxpJyY5e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id u8so2818471wrq.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 05:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O62OTozJpdrBfiHUs0xcILha6OKszp79iSo5Lr3YOw4=;
-        b=kXTMjJ3lyZcbKUfe7GXfyz4VlMC0Ye7iJq8GapQnwZZ7KZls9ikqQLnLRjf3oY8guW
-         iFgXL2LOk56VfvHsIo9aAgcmDtzbBZDTSbr1H4X7Ow+djuvtdiPREDvIZbWetm7KQymF
-         gfuw0/6M63FFAfOYAiz7SQPMNevrn9fHSkW43rGfS5Hog73zAIJjmQtuc8jjjfTnmZf6
-         DbAhq/pYxJtotJiqJ9ZtdTWgAyeFDiJg5vSuEqy48/7IrFeJSxzW2DTtn+gGHScbTgX5
-         YvRcMs1FCCXE89DhhAig1NOChN20OB0FKN7WfvSamhmWswXQD0uvRLuorr2GQA53b2sm
-         sygQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=FTZOJeZBkUsa8rcyrrukkKVJ5QwBZ9tyUtvegjV6fiI=;
+        b=YxpJyY5ekoeDZtILUsmOgrrNA37n6xdYQYDDzTJbHaS+3qm/5Dm+F+6oqEiABuONO1
+         fIWKMiomF2Rzzk+0ppWN5nFNCA92eLfHXj2izrbY8hqiNo0GEW/kYS+iwp+c29oHvKIU
+         /6ETFd7hKCd+NALfRT6QG4fTJyWByDKl5IMC8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O62OTozJpdrBfiHUs0xcILha6OKszp79iSo5Lr3YOw4=;
-        b=n7lxZ3Nt4tPsGEMsSrMIK0Jftha/eyZqHmYI3EASXO29fXJPwhc3egaNOeXGuEt9ZW
-         CW85XFy7gbEKs/+ZmXqEKZpTW+6ZZzT6JIHYCbK0/j4FLnP+MHsswdX+i6pZQO9GO3n3
-         s2qKnCG+zuKp8l8zSogNkjABvxhNHCnDdkclERwWYbl/950yyIf1DfLbzWfHSqkHRgV8
-         cgB6aJXvc8b3EG6AzdH/UzGFgmf2B5NH7Sc+E8sJ6H+k5LZd5Ds7DPUAjyilZeR5ljpP
-         oTTRCz/1V3T2R/aAh2Sv172NfGDuOTstYcPOzoQ3h0S1ad/Fy97vTuXpYoERHfuoB6QS
-         Pp1w==
-X-Gm-Message-State: AOAM532tuu5mnAcZ/WFrYK4nfxbMTBvFLZZrulFVJuFNk/9wV+4OJlJM
-	y5phMLn4LBAdqQFtJ7EKAs5pImNZS+MFULhcNOebwpZELAY=
-X-Google-Smtp-Source: ABdhPJxKqJZN9ZgWrDiN7JKAxgB2EQ4sJuzdng/VNzLgkUsiQk/vtgHaDvP6NrYvKTCQI3g6ovyRZAe6bH19y6JABnI=
-X-Received: by 2002:a67:ec11:: with SMTP id d17mr20376041vso.54.1625660467706;
- Wed, 07 Jul 2021 05:21:07 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=FTZOJeZBkUsa8rcyrrukkKVJ5QwBZ9tyUtvegjV6fiI=;
+        b=ZV0dBNfaCbtg9Dw9xHAOZJUMj5oZrXmAn6wLpjI8DakjTAr41gXQYcIakkba6YOC7v
+         MtsfnN1jtxmAbNcX9R7zA0hT5EHiu9NF7XkTE07gR+UNB0Fg9v0Mb2HA+nVa5OVoXF2V
+         VBXcJ0vmPKn/QbPpHUGHqYPU0N2MEdMLPgOb7i7XaYsa/clLH2M3G3FgZYc1pWTDxI/p
+         K3WTm1bjMNoFmL4NGoblOKwUU8YP/dMUTHVSaAYZdR0NbCnWLRGgq+InuRtg+8kPH5Ug
+         hJMSyNJW0o+3bYxV4pskcM7dR91K+nSDBOTLV9fWbUwQ56wbXvFTCCUoMB/aXh9G8q6a
+         vvgg==
+X-Gm-Message-State: AOAM533vyNXKNkPag0Tul6ekBmHYxh5QiWxtHpbZDQrt5HsM5bCSSR/X
+	LkNCU80gy3B63No8Ez2S1oh5Og==
+X-Google-Smtp-Source: ABdhPJzRtWBBMGXzXgWnmcxc7CyilCv79DkfumKeIlnQWYEyJ8GSDNCx5etA0Ln/LtCK+6CxJsmxXw==
+X-Received: by 2002:a5d:4e43:: with SMTP id r3mr27621894wrt.132.1625660720107;
+        Wed, 07 Jul 2021 05:25:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5? ([2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5])
+        by smtp.gmail.com with ESMTPSA id u1sm6252890wmn.23.2021.07.07.05.25.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 05:25:19 -0700 (PDT)
+Message-ID: <f78a557b2ce4df340b55194f551e599bffbe21ae.camel@linuxfoundation.org>
+Subject: Re: [OE-core] license.bbclass does not add recommends to dynamic packages
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: yocto@mac.mcrowe.com, openembedded-core@lists.openembedded.org
+Date: Wed, 07 Jul 2021 13:25:17 +0100
+In-Reply-To: <20210707115334.GA498@mcrowe.com>
+References: <20210707115334.GA498@mcrowe.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-References: <20210707085419.2610-1-mingli.yu@windriver.com>
-In-Reply-To: <20210707085419.2610-1-mingli.yu@windriver.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 7 Jul 2021 14:20:56 +0200
-Message-ID: <CANNYZj8QTxMG0O5mQs5kRQRedPRRNZMxiwPGZGgBiK8jL=DAOg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemuarm64.conf: change the cpu model to max
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b3fcfa05c687922a"
-
---000000000000b3fcfa05c687922a
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-'max' implies that it's not stable and will change depending on qemu
-version and build settings. Can you set it to a specific model?
-
-Alex
-
-On Wed, 7 Jul 2021 at 10:55, Yu, Mingli <mingli.yu@windriver.com> wrote:
-
-> From: Mingli Yu <mingli.yu@windriver.com>
->
-> After rng-tools upgraded to 6.13, the below logic introduced.
-> 9070a04 Add support for ARM v8.5A "rndr" instruction
->
-> It means there is another entropy source rndr added for arm64,
-> so modify the cpu model to max [1] to make the rndr entropy source
-> function available and also used to silence the below failed message
-> when start rngd service on qemuarm64.
-> "[rndr ]: Initialization Failed"
->
-> Before the patch:
->  $ systemctl status rngd
->  [snip]
->  Jul 05 07:15:47 qemuarm64 systemd[1]: Started Hardware RNG Entropy
-> Gatherer Daemon.
->  Jul 05 07:15:48 qemuarm64 rngd[152]: Initializing available sources
->  Jul 05 07:15:48 qemuarm64 rngd[152]: [hwrng ]: Initialized
->  Jul 05 07:15:48 qemuarm64 rngd[152]: [rndr ]: No HW SUPPORT
->  Jul 05 07:15:48 qemuarm64 rngd[152]: [rndr ]: Initialization Failed
->  Jul 05 07:15:48 qemuarm64 rngd[152]: [jitter]: Initializing AES buffer
->  Jul 05 07:16:14 qemuarm64 rngd[152]: [jitter]: Enabling JITTER rng support
->  Jul 05 07:16:14 qemuarm64 rngd[152]: [jitter]: Initialized
->
-> After the patch:
->  $ systemctl status rngd
->  [snip]
->  Jul 07 08:48:30 qemuarm64 systemd[1]: Started Hardware RNG Entropy
-> Gatherer Daemon.
->  Jul 07 08:48:34 qemuarm64 rngd[164]: Initializing available sources
->  Jul 07 08:48:34 qemuarm64 rngd[164]: [hwrng ]: Initialized
->  Jul 07 08:48:34 qemuarm64 rngd[164]: [rndr  ]: Enabling aarch64 RNDR rng
-> support
->  Jul 07 08:48:34 qemuarm64 rngd[164]: [rndr  ]: Initialized
->  Jul 07 08:48:35 qemuarm64 rngd[164]: [jitter]: Initializing AES buffer
->
-> [1] https://github.com/nhorman/rng-tools/pull/128
->
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/conf/machine/qemuarm64.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/machine/qemuarm64.conf
-> b/meta/conf/machine/qemuarm64.conf
-> index 150a0744eb..a792dc32e6 100644
-> --- a/meta/conf/machine/qemuarm64.conf
-> +++ b/meta/conf/machine/qemuarm64.conf
-> @@ -15,7 +15,7 @@ SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
->  # For runqemu
->  QB_SYSTEM_NAME = "qemu-system-aarch64"
->  QB_MACHINE = "-machine virt"
-> -QB_CPU = "-cpu cortex-a57"
-> +QB_CPU = "-cpu max"
->  QB_SMP = "-smp 4"
->  QB_CPU_KVM = "-cpu host -machine gic-version=3"
->  # For graphics to work we need to define the VGA device as well as the
-> necessary USB devices
-> --
-> 2.17.1
->
->
+On Wed, 2021-07-07 at 12:53 +0100, Mike Crowe via lists.openembedded.org wrote:
+> We're using LICENSE_CREATE_PACKAGE to create ${PN}-lic package files and
+> relying on the automatically generated recommends to cause them to be
+> installed in the image. This works well for most packages, but fails for
+> packages where we only install package created using PACKAGES_DYNAMIC.
 > 
->
->
+> For example, liborc is being installed in our image but that package lacks
+> a recommends for orc-lic, so the licences that apply to it are not being
+> installed. This is because license.bbclass:add_package_and_files iterates
+> only over the packages listed in PACKAGES.
+> 
+> Steps to reproduce on current master:
+> 
+> $ echo 'LICENSE_CREATE_PACKAGE = "1"' >> conf/local.conf
+> $ bitbake orc
+> $ dpkg-deb -I tmp-glibc/deploy/ipk/armv7vet2hf-neon/orc_0.4.32-r0_armv7vet2hf-neon.ipk|grep Recommends
+>  Recommends: orc-lic
+> $ dpkg-deb -I tmp-glibc/deploy/ipk/armv7vet2hf-neon/liborc-0.4-0_0.4.32-r0_armv7vet2hf-neon.ipk|grep Recommends
+> $
+> 
+> (I would have expected the last command to produce the same output as the
+> penultimate one.)
+> 
+> Even if I could fathom out how to fix orc and any other recipes so that they
+> did add the ${PN}-lic dependency, I'd be worried about not noticing that
+> the problem affected other recipes in the future.
+> 
+> Is there a way to teach license.bbclass:add_package_and_files to add the
+> ${PN}-lic recommends for dynamic packages, or would it be necessary to
+> teach package.bbclass to do so?
 
---000000000000b3fcfa05c687922a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That all sounds rather horrible :/.
 
-<div dir=3D"ltr"><div>&#39;max&#39; implies that it&#39;s not stable and wi=
-ll change depending on qemu version and build settings. Can you set it to a=
- specific model?</div><div><br></div><div>Alex<br></div></div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 7 Jul 2021 =
-at 10:55, Yu, Mingli &lt;<a href=3D"mailto:mingli.yu@windriver.com">mingli.=
-yu@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.c=
-om" target=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
-<br>
-After rng-tools upgraded to 6.13, the below logic introduced.<br>
-9070a04 Add support for ARM v8.5A &quot;rndr&quot; instruction<br>
-<br>
-It means there is another entropy source rndr added for arm64,<br>
-so modify the cpu model to max [1] to make the rndr entropy source<br>
-function available and also used to silence the below failed message<br>
-when start rngd service on qemuarm64.<br>
-&quot;[rndr ]: Initialization Failed&quot;<br>
-<br>
-Before the patch:<br>
-=C2=A0$ systemctl status rngd<br>
-=C2=A0[snip]<br>
-=C2=A0Jul 05 07:15:47 qemuarm64 systemd[1]: Started Hardware RNG Entropy G=
-atherer Daemon.<br>
-=C2=A0Jul 05 07:15:48 qemuarm64 rngd[152]: Initializing available sources<=
-br>
-=C2=A0Jul 05 07:15:48 qemuarm64 rngd[152]: [hwrng ]: Initialized<br>
-=C2=A0Jul 05 07:15:48 qemuarm64 rngd[152]: [rndr ]: No HW SUPPORT<br>
-=C2=A0Jul 05 07:15:48 qemuarm64 rngd[152]: [rndr ]: Initialization Failed<=
-br>
-=C2=A0Jul 05 07:15:48 qemuarm64 rngd[152]: [jitter]: Initializing AES buff=
-er<br>
-=C2=A0Jul 05 07:16:14 qemuarm64 rngd[152]: [jitter]: Enabling JITTER rng s=
-upport<br>
-=C2=A0Jul 05 07:16:14 qemuarm64 rngd[152]: [jitter]: Initialized<br>
-<br>
-After the patch:<br>
-=C2=A0$ systemctl status rngd<br>
-=C2=A0[snip]<br>
-=C2=A0Jul 07 08:48:30 qemuarm64 systemd[1]: Started Hardware RNG Entropy G=
-atherer Daemon.<br>
-=C2=A0Jul 07 08:48:34 qemuarm64 rngd[164]: Initializing available sources<=
-br>
-=C2=A0Jul 07 08:48:34 qemuarm64 rngd[164]: [hwrng ]: Initialized<br>
-=C2=A0Jul 07 08:48:34 qemuarm64 rngd[164]: [rndr=C2=A0 ]: Enabling aarch64=
- RNDR rng support<br>
-=C2=A0Jul 07 08:48:34 qemuarm64 rngd[164]: [rndr=C2=A0 ]: Initialized<br>
-=C2=A0Jul 07 08:48:35 qemuarm64 rngd[164]: [jitter]: Initializing AES buff=
-er<br>
-<br>
-[1] <a href=3D"https://github.com/nhorman/rng-tools/pull/128" rel=3D"noref=
-errer" target=3D"_blank">https://github.com/nhorman/rng-tools/pull/128</a><=
-br>
-<br>
-Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" ta=
-rget=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/machine/qemuarm64.conf | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm6=
-4.conf<br>
-index 150a0744eb..a792dc32e6 100644<br>
---- a/meta/conf/machine/qemuarm64.conf<br>
-+++ b/meta/conf/machine/qemuarm64.conf<br>
-@@ -15,7 +15,7 @@ SERIAL_CONSOLES_CHECK =3D &quot;${SERIAL_CONSOLES}&quot;=
-<br>
-=C2=A0# For runqemu<br>
-=C2=A0QB_SYSTEM_NAME =3D &quot;qemu-system-aarch64&quot;<br>
-=C2=A0QB_MACHINE =3D &quot;-machine virt&quot;<br>
--QB_CPU =3D &quot;-cpu cortex-a57&quot;<br>
-+QB_CPU =3D &quot;-cpu max&quot;<br>
-=C2=A0QB_SMP =3D &quot;-smp 4&quot;<br>
-=C2=A0QB_CPU_KVM =3D &quot;-cpu host -machine gic-version=3D3&quot;<br>
-=C2=A0# For graphics to work we need to define the VGA device as well as t=
-he necessary USB devices<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+Would IMAGE_INSTALL_COMPLEMENTARY += "*-lic" work instead?
 
---000000000000b3fcfa05c687922a--
+Cheers,
+
+Richard
+
