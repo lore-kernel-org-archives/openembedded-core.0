@@ -1,137 +1,116 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.18997.1625651443419296604
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.19289.1625653070185342327
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 02:50:43 -0700
+ Wed, 07 Jul 2021 03:17:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZofB0SGF;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: liu.ming50@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id a8so2329769wrp.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 02:50:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F6aL4aBx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id u8-20020a7bcb080000b02901e44e9caa2aso1310381wmj.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 03:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3X8QZvp0CXoAsqq1aPZlOP2KLp++OwJi+qoYcObHTV4=;
-        b=ZofB0SGFvw7Leot4Ebzk4W0D1cvZmU0IbYw50KjdiiFBG6t7ABSalnOpUvECn8aAK2
-         BQXsiQtJrx278Yz881Zt61mXrBcw45e9e6QsTQGeGKPTrBjcxJjwY7ejvlOZpDZmhbOy
-         qAWWxm24R0OTGTKfLzUW92cHbyP4pkvRoT1C7dsGXtVXfT4oKjqeZNCrnF1ay07c1RGA
-         mKCZxG0N+y2NAiyMRmRqCYGP8PTmQi7nfCywSQzleQjjZgUg+Mj6C9PVlAaYyRdnj3Vi
-         Z9SLKSrjdnteUe3LA2lddIaPEQcMqie5XE2bau/oKDWq1YUQF/BCoGnJwVxn3NIxS6Wm
-         Z9lg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h0p5Eh2R9e18RLtr3WFXbdWYwqpa7WlwG+DXF+7vAlI=;
+        b=F6aL4aBxGs/gLHSAvm56Y+y+cUyS7UQnSiKlHXIefTl3LfT8G92cfuFfKMUZ2r1TCI
+         OFfpFrx5i7BAgJyLcxThuA51Z6qVsIg+fvF4mJ0OFU3tOWjuLV+1J6KWZyU44I6+25YU
+         a+wWOtVJd8BlQBs4mgWCzxonMJUZIm2uXNL9E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3X8QZvp0CXoAsqq1aPZlOP2KLp++OwJi+qoYcObHTV4=;
-        b=I76WIR6MzHQRzZzfcqPkY0Gj3AHlhEJxEIujMwfAG6BqF/+rf2Xbkjx6m/oXU9wtxS
-         RVsL4Y6E7SuM4bx7KLdtr3h4OjnyCy5ywDR5L2Yi7vVV6eTgYPPute+0I4hdbNklCJ16
-         wO3SNcspxmLzYlcsaEk38nFPQrz7d9lzCx2DrWWwBeefNFKG073CBJb+vRw+1DtYh3xy
-         xuKOS3sPUC4tyU8hEcJi+ArhxYqEhPYBMINJiOlhpBNCoXtD/iqCHu4FzgJAnWmZx8Jq
-         iEywVIV/6i0D8JXwGhqNNYzl5OtlUveP/HdmjWzlDNOI17D8gEZ5UxxqYwRnRj3wVsd3
-         adkA==
-X-Gm-Message-State: AOAM533u0sjEYSS7jTjnJUiM0D2XrArZIGlKWgMUjHbbHVT9e18Dkebf
-	SgRGXhNdw42hqRYMFHaXYL0Nm+8D4+o+G35h7YM=
-X-Google-Smtp-Source: ABdhPJwna+klk7JQLDteAgKYXqAT2YDFNKlw5BjYX2dW+EvUC2pxWb/xn36lvTTPHwxyL8U9GLlrlLF2Yw+OPQmnTjA=
-X-Received: by 2002:adf:b605:: with SMTP id f5mr27003677wre.419.1625651441761;
- Wed, 07 Jul 2021 02:50:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h0p5Eh2R9e18RLtr3WFXbdWYwqpa7WlwG+DXF+7vAlI=;
+        b=lMmuxbzESqy3yRT8mJPmncy1y6YI7myDpFf3xffxbS8Bd/Xisp1a67X4Soffd/L3W0
+         O/O518mpoegfk8/buiW2ZnAKtl6F8Fv7dTBfD4e9xLeKW7lCBphhTj+KD/QRl1d8DPN8
+         Xu9b6FTbvbDjDrT6AooQk1oKprJI0ycuTVK1Oehn8M2RSoyAbv44PKBQewFsrTXlUn7z
+         YSDlalTjAnQYIs64ln0QImxx37vW63OErt4NkHmRMn2tAYUjgxhusaRupYp1ZUivUbGL
+         6MmGas+9zhhyWIFUarFkFfWnlMHaPf1M8o2A39bFuuLM6h9S2iaQ83+xqpRMrMXyj7XG
+         cl/w==
+X-Gm-Message-State: AOAM533ZwE8KJZGkxqHcLLQD9r33MWMWFIcJYvLdNlpDLCOz5kohMv/t
+	9RvYFJmVTGsG6gm388OGnk8KnNxarL0cXA==
+X-Google-Smtp-Source: ABdhPJwOq9kwGHBoQJrn/GAYlcBj4RtWfxk2xhMPX6R9i/GVBc96afl3zJO3vhNle0RHE+xzLlv/VA==
+X-Received: by 2002:a05:600c:3546:: with SMTP id i6mr19184869wmq.26.1625653068528;
+        Wed, 07 Jul 2021 03:17:48 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8f67:c2fd:32f6:7bc5])
+        by smtp.gmail.com with ESMTPSA id q1sm15828170wma.27.2021.07.07.03.17.48
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 03:17:48 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] runqemu: Remove potential lock races around tap device handling
+Date: Wed,  7 Jul 2021 11:17:46 +0100
+Message-Id: <20210707101747.2689765-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210702115900.19417-1-peter@berginkonsult.se>
- <bc5cdd46cfb003f45c1ed7762ee140c0f4f5cca5.camel@intel.com>
- <775af313-1b19-146e-b0f3-113d5af0a992@berginkonsult.se> <a3f45eab0d82dea6f34936d821d902b79c43abbd.camel@linuxfoundation.org>
- <0e446811e98bcb4833cdc0c7f5dd40fcd8f07a43.camel@intel.com>
- <d83ff556-cab9-3616-f4ad-506e8675eda5@berginkonsult.se> <db03a0b4-d292-4db8-694e-56b3fa1c99cc@berginkonsult.se>
- <CAP9ODKrSEHz26EPkkOvPqpd37x3fzmTTJ9vuPxByFMnraJVmvg@mail.gmail.com>
-In-Reply-To: <CAP9ODKrSEHz26EPkkOvPqpd37x3fzmTTJ9vuPxByFMnraJVmvg@mail.gmail.com>
-From: "Ming Liu" <liu.ming50@gmail.com>
-Date: Wed, 7 Jul 2021 11:50:31 +0200
-Message-ID: <CALatG=5ege67ZqNtxaKVVifg=pRnDBCKin2ZPtvejCgWDVu5QQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Revert "libubootenv: inherit uboot-config"
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Peter Bergin <peter@berginkonsult.se>, Anuj Mittal <anuj.mittal@intel.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"otavio@ossystems.com.br" <otavio@ossystems.com.br>
-Content-Type: multipart/alternative; boundary="000000000000b7028905c68578fd"
+Content-Transfer-Encoding: 8bit
 
---000000000000b7028905c68578fd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The qemu tap device handling is potentially race ridden. We pass the
+fd to the main qemu subprocess which is good as it means the lock is held
+as long as the qemu process exists. This means we shouldn't unlock it
+ourselves though, only close the file. We also can't delete the file
+as we have no idea if qemu is still using it. We could try and obtain
+an exclusive new lock, then the file would be safe to unlink but it
+doesn't seem worth it.
 
-@Otavio Salvador <otavio.salvador@ossystems.com.br>
+Also fix the same issue in the port lock code.
 
-libubootenv will fall back to read environment from /etc/u-boot-initial-env
-if loading /etc/fw_env.config fails, so attempt to say it's not too wrong.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/runqemu | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-To avoid world build failures, maybe set EXCLUDE_FROM_WORLD =3D "1"?
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 1f332ef5252..2914f15d06c 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -233,9 +233,12 @@ class BaseConfig(object):
+     def release_taplock(self):
+         if self.taplock_descriptor:
+             logger.debug("Releasing lockfile for tap device '%s'" % self.tap)
+-            fcntl.flock(self.taplock_descriptor, fcntl.LOCK_UN)
++            # We pass the fd to the qemu process and if we unlock here, it would unlock for
++            # that too. Therefore don't unlock, just close
++            # fcntl.flock(self.taplock_descriptor, fcntl.LOCK_UN)
+             self.taplock_descriptor.close()
+-            os.remove(self.taplock)
++            # Removing the file is a potential race, don't do that either
++            # os.remove(self.taplock)
+             self.taplock_descriptor = None
+ 
+     def check_free_port(self, host, port, lockdir):
+@@ -273,17 +276,23 @@ class BaseConfig(object):
+ 
+     def release_portlock(self, lockfile=None):
+         if lockfile != None:
+-           logger.debug("Releasing lockfile '%s'" % lockfile)
+-           fcntl.flock(self.portlocks[lockfile], fcntl.LOCK_UN)
+-           self.portlocks[lockfile].close()
+-           os.remove(lockfile)
+-           del self.portlocks[lockfile]
++            logger.debug("Releasing lockfile '%s'" % lockfile)
++            # We pass the fd to the qemu process and if we unlock here, it would unlock for
++            # that too. Therefore don't unlock, just close
++            # fcntl.flock(self.portlocks[lockfile], fcntl.LOCK_UN)
++            self.portlocks[lockfile].close()
++            # Removing the file is a potential race, don't do that either
++            # os.remove(lockfile)
++            del self.portlocks[lockfile]
+         elif len(self.portlocks):
+             for lockfile, descriptor in self.portlocks.items():
+                 logger.debug("Releasing lockfile '%s'" % lockfile)
+-                fcntl.flock(descriptor, fcntl.LOCK_UN)
++                # We pass the fd to the qemu process and if we unlock here, it would unlock for
++                # that too. Therefore don't unlock, just close
++                # fcntl.flock(descriptor, fcntl.LOCK_UN)
+                 descriptor.close()
+-                os.remove(lockfile)
++                # Removing the file is a potential race, don't do that either
++                # os.remove(lockfile)
+             self.portlocks = {}
+ 
+     def get(self, key):
+-- 
+2.30.2
 
-//Ming Liu
-
-Otavio Salvador <otavio.salvador@ossystems.com.br> =E6=96=BC 2021=E5=B9=B47=
-=E6=9C=886=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=886:56=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-
->
->
-> Em ter., 6 de jul. de 2021 =C3=A0s 12:12, Peter Bergin <peter@berginkonsu=
-lt.se>
-> escreveu:
->
->> Then I can correct my earlier statement and a new wisdom that run-time
->> dependecies are scanned already in the early phases. Apparently it is
->> not possible to build libubootenv due to RRECOMMENDS to
->> u-boot-default-env. The build for a 'non-u-boot config' will fail if we
->> add 'inherit uboot-config' and it will fail without. What is the
->> difference for a 'world' build?
->>
->
-> The dependency on the default-env seems too strong. It could be relaxed a=
-s
-> it works without it.
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
->
-
---000000000000b7028905c68578fd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><a class=3D"gmail_plusreply" id=3D"plusReplyChip-0" href=
-=3D"mailto:otavio.salvador@ossystems.com.br" tabindex=3D"-1">@Otavio Salvad=
-or</a>=C2=A0<div><br></div><div>libubootenv will fall back to read environm=
-ent from=C2=A0/etc/u-boot-initial-env if loading /etc/fw_env.config fails, =
-so attempt to say it&#39;s not too wrong.</div><div><br></div><div>To avoid=
- world build failures, maybe set=C2=A0EXCLUDE_FROM_WORLD =3D &quot;1&quot;?=
-</div><div><br></div><div>//Ming Liu</div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">Otavio Salvador &lt;<a href=3D"ma=
-ilto:otavio.salvador@ossystems.com.br">otavio.salvador@ossystems.com.br</a>=
-&gt; =E6=96=BC 2021=E5=B9=B47=E6=9C=886=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=
-=8B=E5=8D=886:56=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Em ter., =
-6 de jul. de 2021 =C3=A0s 12:12, Peter Bergin &lt;<a href=3D"mailto:peter@b=
-erginkonsult.se" target=3D"_blank">peter@berginkonsult.se</a>&gt; escreveu:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Then I can corr=
-ect my earlier statement and a new wisdom that run-time <br>
-dependecies are scanned already in the early phases. Apparently it is <br>
-not possible to build libubootenv due to RRECOMMENDS to <br>
-u-boot-default-env. The build for a &#39;non-u-boot config&#39; will fail i=
-f we <br>
-add &#39;inherit uboot-config&#39; and it will fail without. What is the <b=
-r>
-difference for a &#39;world&#39; build?<br></blockquote><div><br></div><div=
->The dependency on the default-env seems too strong. It could be relaxed as=
- it works without it. <br></div><div> <br></div></div>-- <br><div dir=3D"lt=
-r">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http:/=
-/www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" target=
-=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-785=
-4 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
-</blockquote></div>
-
---000000000000b7028905c68578fd--
