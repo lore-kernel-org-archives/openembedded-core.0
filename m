@@ -1,74 +1,98 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web11.459.1625678164164907213
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web08.450.1625678203076196882
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 10:16:04 -0700
+ Wed, 07 Jul 2021 10:16:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=k/6bvOrb;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id i125so2690181qke.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 10:16:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hWBWrfWI;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id d2so1411647qvh.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 10:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=4x2g2m4N5StXRs+GFqznnXyJQzwU5g8S9LHXY07WqnA=;
-        b=k/6bvOrbQvXp9UGNBFbcn9Qwxh4vQTSkyApbagb1oaV8TSuM0J1Dzmo4/s/voroc1r
-         Td9VyBQXCEmaSjgnbxnAEKrTOjfyhxm+FFTUSHexjhD3FmJ+P3tqOQThusiWArbxAAmI
-         eKSVuqz3ZpOeH4fRo5do0zIGkbqctGHSePILeutEWZnLAb7ND/HPPEN9tmAl/wEk8Flb
-         oqcuscP21GKhv2D5vmY51HxO0sCMYrWPQ9ecp0krAdYqiln38c6jhFbjS5psDyvurgyt
-         2eZFkh1VQx2X5eDwbHhwTEg82krkaznxCKM8sUThRllKLuhX9iwnSokmTFQY/w33wGK0
-         1dVw==
+        bh=5AGsIXLo3Q3Kgx+dwIPNyfAfaXYKfJ5eTEXeBN/Lyzs=;
+        b=hWBWrfWIDM1/gkigQdGClMhwUADKgKgacA21tQ9FqLsEStmOjurCHKZarxivv4wZaP
+         G/ufdzj1TzcXIkEtev4sCOUfz/E7iuKRBSG0KHMOcqtc0GYmMnQhShtnbsdiSC/sBKAT
+         5IBwHNOU6MBA+n+g1VNI1qoX2AWjSmzTFSiqN+NfCgRX2YYddpMZsfDwiqWEPbt0E0g8
+         HPGViPm5gK9eXyy8i09N5qIJg157ftvQ4UgMtwucm4l4veDESrRe33x82rgdMrFGq6r6
+         A12mQZHP7uPUpC+EHne/3vx+7KyAl01JKsp3lLFEuBe9TRbOZIE46WLKuuqKnY1+EARy
+         wgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to;
-        bh=4x2g2m4N5StXRs+GFqznnXyJQzwU5g8S9LHXY07WqnA=;
-        b=TIw2rSm4dUpRxBTLfeOg7CiVwYzq4N0KPNR8Xzoz1VFaI7UmF2Evf3BryN+0c5lyJo
-         JFeIJyG/TRKO6LRvT7hhtUOLzsiSz+RwGroaPrxcn6Oa6ttYTLD3ZnYsjRaRDHv6Lcb0
-         0cwt50WCzGv1nQBbAv7+jrr1I6KMYfJuTsE0KqGX3ANi4Hw68D1jji3GHlulfY+Ithwi
-         lmpc7mT0V3Fy1iHmue9YU26v9Frd0vQPS3xvcMMglFQ0NXrjIUOvxKym8mz5gBURsA5f
-         SS6ByeeWyQWNJEGVxxUnfNL1HXQll0F/0XeOZ2h1z73HwuyEiPrjrrTwXnrye5Iok+oB
-         C84w==
-X-Gm-Message-State: AOAM531ejhLcQQMDZtSnsIK+XNV+HNd6YRig8lzrzYxnRIwkUHAHy8bF
-	4go1PN9J10QUGsI+OFOq/HMvkEQieSNV2miOELZwE5wY2J0=
-X-Google-Smtp-Source: ABdhPJzWQXAPeOioTX2G7O2EO7nLSxFQy0LMPCJi4KHVTjJhzkmpWO6f5/Fqu6kRts1cJxpzlcrCpO+m+ZIDlgXMu2g=
-X-Received: by 2002:ae9:f201:: with SMTP id m1mr25970449qkg.381.1625678163133;
- Wed, 07 Jul 2021 10:16:03 -0700 (PDT)
+        bh=5AGsIXLo3Q3Kgx+dwIPNyfAfaXYKfJ5eTEXeBN/Lyzs=;
+        b=c3VWs9zYIxp+9gwAfoq9uFlm/eW9OIVaJAJBMtXsIW4essl1Zs85Okq9Ydp4dt4P6Q
+         Sy17D3ET9IOMRPHM67Haxy+WBvFx7g7/V2TKJtHI7Du+BoNIjhaO88gQU6+eFW5kHlPC
+         N5pKPwigXsHLNFJCVkJpQtqGiqJPxiLUnknKygMQ6RlfDFcYwQzIAuG9vzy1M4xOupcM
+         FYWrm1lNZvyo7bhg0jorDDISwlW7BTHRPWiOcx0VhcmMNxrExLFvNgzDYfd13xJJjkNH
+         WyD9TkNKw1v/RbNpp8Gtq5Dz3vKUlNHLnwsELHBY+l7uL/ALP2Yu0xc3cYK+NNdmZ1ZB
+         lp6Q==
+X-Gm-Message-State: AOAM533MhSTY8olyps+gBNjSTcznJywW61BzC7W6g4HvnVUn7+9tPmgT
+	UlrAyNIKMg2xFluN+jP/XpkCzC3W/Bndl03Hal62xeuFPuo=
+X-Google-Smtp-Source: ABdhPJy5DhobZ6WSNN7OkV1cmabDWx4SpJZUsJz66kVB2BDWUmefKwTNABc6Vem7rKIm15AoLdQD1Ho0Pti5aCgJ8cY=
+X-Received: by 2002:a0c:ecc8:: with SMTP id o8mr25087574qvq.55.1625678202073;
+ Wed, 07 Jul 2021 10:16:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210704210740.581650-1-raj.khem@gmail.com>
-In-Reply-To: <20210704210740.581650-1-raj.khem@gmail.com>
+References: <20210624165421.32088-1-raj.khem@gmail.com>
+In-Reply-To: <20210624165421.32088-1-raj.khem@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 7 Jul 2021 10:15:37 -0700
-Message-ID: <CAMKF1sqg7QMojTsPo=GSjzpEEb-QwmF8_GNXXj8SaC45wtJ73Q@mail.gmail.com>
-Subject: Re: [PATCH] libubootenv: Disable for ppc/ppc64 qemu machines
+Date: Wed, 7 Jul 2021 10:16:16 -0700
+Message-ID: <CAMKF1soqvCNDPaZtAStEyT6W1S_KdQyyfuu_L0inj3re9AQosQ@mail.gmail.com>
+Subject: Re: [PATCH] esdk: locked sig mismatch warnings when build from esdk env
 To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
 ping
 
-On Sun, Jul 4, 2021 at 2:07 PM Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, Jun 24, 2021 at 9:54 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> This recipe depends on u-boot and u-boot is not available for
-> qemuppc/qemuppc64 and there is no defconfig available either
+> From: Mani Selvaraj <mani_selvaraj@comcast.com>
 >
+> A repo with multiple layers are placed under /layers/ and a repo
+> with single layer is placed under /layers/openembedded-core in esdk.
+> This tiggered locked sig mismatch warnings when building image from
+> esdk environment.
+> -----
+> TOPDIR=/Code/build
+> corebase=/Code/openembedded-core
+> -----
+> /Code/meta-java
+> /Code/meta-gplv2
+> /Code/meta-openembedded/meta-webserver
+> /Code/meta-openembedded/meta-oe
+> /Code/openembedded-core/meta
+> Are moved to
+> /sdk_org/layers/openembedded-core/meta-gplv2
+> /sdk_org/layers/openembedded-core/meta-java
+> /sdk_org/layers/meta-openembedded/meta-webserver
+> /sdk_org/layers/meta-openembedded/meta-oe
+> /sdk_org/layers/openembedded-core/meta
+>
+> here fix it to move all layers under /layers dir.
+>
+> to check this fix build image from esdk environment and
+> check for sig mismatch warnings.
+>
+> Signed-off-by: Mani Selvaraj <mani_selvaraj@comcast.com>
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
->  1 file changed, 3 insertions(+)
+>  meta/lib/oe/copy_buildsystem.py | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> index 306296922c..88a8397c3c 100644
-> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> @@ -25,6 +25,9 @@ RPROVIDES_${PN}-bin += "u-boot-fw-utils"
->
->  PACKAGE_ARCH = "${MACHINE_ARCH}"
->
-> +COMPATIBLE_HOST_qemuppc64 = "null"
-> +COMPATIBLE_HOST_qemuppc = "null"
-> +
->  RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
->
->  BBCLASSEXTEND = "native"
+> diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+> index d97bf9d1b9..4998afa60f 100644
+> --- a/meta/lib/oe/copy_buildsystem.py
+> +++ b/meta/lib/oe/copy_buildsystem.py
+> @@ -102,8 +102,6 @@ class BuildSystem(object):
+>                  layerdestpath += '/' + os.path.basename(corebase)
+>              else:
+>                  layer_relative = os.path.relpath(layer, corebase)
+> -                if os.path.dirname(layer_relative) == corebase_relative:
+> -                    layer_relative = os.path.dirname(corebase_relative) + '/' + layernewname
+>                  layer_relative = os.path.basename(corebase) + '/' + layer_relative
+>                  if os.path.dirname(layer_relative) != layernewname:
+>                      layerdestpath += '/' + os.path.dirname(layer_relative)
 > --
 > 2.32.0
 >
