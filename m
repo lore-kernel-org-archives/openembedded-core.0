@@ -1,74 +1,89 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.22525.1625671050427272476
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.66])
+ by mx.groups.io with SMTP id smtpd.web11.22893.1625672689516312821
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 08:17:30 -0700
+ Wed, 07 Jul 2021 08:44:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NWhsqcqJ;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id q18-20020a1ce9120000b02901f259f3a250so1944779wmc.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 08:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ElBKzA/sCDPJWgNEMjBiRnm7MV+x+rYUkffg41T6ZS4=;
-        b=NWhsqcqJbIdNCn7Th1i7xmKYXVt1I7Hu3slsVwXbB3UtPc5wEQdub6d+Wz5GZK2tvr
-         JvaZVnXEAzxeXIlyDwMR2a+E3Gozgl5ktGOY7te/PFxMYo5hUqmrccv8bQiT+tprCOM1
-         g6h2cvkmMEr44K5TvH+3ejx0O6ARNQ26VmfeukycrCWh1ChGMAsOGSK/k1mzi4iZq7UT
-         dVDFovjke5KshLdhOy0kP0j8nIcBHLYyFj5MxSnGlXkr94rivB7Ew4P4d2Hul2LToanU
-         gmeuSNqxoS/j2JjH3o/fsYzp3YfDGW4+fjv+sxyb22xQiD+4GEuJ2gkMSIIx68kkpyNk
-         u0uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ElBKzA/sCDPJWgNEMjBiRnm7MV+x+rYUkffg41T6ZS4=;
-        b=LlsTuFhFBO4NpICZg8PXbVYHC9lMvVYhU6M1ZudfGo6brocXY7hzjEunKaxOlPOK2H
-         L9dbclrgEQRH3FRyfECccwhlmRNcvEHls0S+EH7wljwZ2qHVbIxbrMZa+rvjMyem5Xbs
-         w+6o2frYvFZUruk2WL5aKJnuSclNBMQ8gmziN13Fu8ILJ7Y3dBRhrE0M2ZEJUs/xym1q
-         b23PQukz76QdBR908wQwZKqGAqeazvknDl9UcpjwAAnoNC9KsbuM5+pTksDk/DlY6asL
-         WllfdTrxrfJkYSEE0OUj5byrqT4bP6CyJHYouCYqcVsKHSQSjVB/a4Q5XnwI8IA9GeeH
-         kpIQ==
-X-Gm-Message-State: AOAM531e2THly7AnspRJIJm5QsEHCjHYLh9no5z83VnqZv3uyTxxUg4l
-	XPn0ws+8lxjZQl0FxcThqVJ0HSsUYdH6CQ==
-X-Google-Smtp-Source: ABdhPJzJj5hYLo/YDqJk/dmo4/bupQdHVFmviYQiErnpFECvRdGz2QxRR3e4FDBBtExvtrjTFSFqXQ==
-X-Received: by 2002:a1c:e90d:: with SMTP id q13mr27295963wmc.163.1625671048939;
-        Wed, 07 Jul 2021 08:17:28 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id s17sm20272043wrt.58.2021.07.07.08.17.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 08:17:28 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] xwayland: exclude development snapshots from upstream version checks
-Date: Wed,  7 Jul 2021 17:17:22 +0200
-Message-Id: <20210707151722.134952-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210707151722.134952-1-alex.kanavin@gmail.com>
-References: <20210707151722.134952-1-alex.kanavin@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=rIJGLBQz;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.66, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1625672687; i=@fujitsu.com;
+	bh=YyXmVTKpHvR4WHPqcES8bBBsHHgdkcQyISdHGDR6ixI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=rIJGLBQzemg0fvk+SqYc+4Z1QJk1ITWfnXG/7c8lNock7g7XWEjzjDQJGpRyBl1q8
+	 wlovoLcEt8TqJtJUTM2Xd6llvrNWr7JVKuFe8tzyZmjCpLF8nt1VOboN3Wg0KDdcjf
+	 nhjwqP7BDuxzO08gS4I8hiHwfaXmVagODnkMHAbhsFJqxWUYaSKEZbMGrQsjkKFXD4
+	 /7Y8+SyQf06ax/pP+ZjrT7cTseSno2cgAJKMfUPEzfKL0WLHszFfzfTxEcbg3VdTPV
+	 Dq2WGjPZyaVfa5a1SOmCeuUUE7OtddX76rsulQ3H/TiOBI3Kbqyyt0NLPEa0Yqs2Aw
+	 k1UqDuDdBLgeQ==
+Received: from [100.112.199.57] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 1B/F9-27654-FEBC5E06; Wed, 07 Jul 2021 15:44:47 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MRovv+9NM
+  Egxt3OS3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oxdF3czFkziqnh74xJLA+Nazi5GTg4hgZlM
+  Eiv+pHYxcgHZxxkl5u9/wQiSYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv3vYQWxhAS+JK
+  SdPMYHYLEDxC52vweK8Ao4SpxZ1s4DYEgIKElMevmeGiAtKnJz5hAVijoTEwRcvmCFqFCVmX2
+  6Gqq+QeH34EvMERt5ZSFpmIWlZwMi0itEiqSgzPaMkNzEzR9fQwEDX0NBI19DSUtfIyFwvsUo
+  3SS+1VLc8tbhE11AvsbxYr7gyNzknRS8vtWQTIzC4UgqOP97BuOLNB71DjJIcTEqivDNXPE0Q
+  4kvKT6nMSCzOiC8qzUktPsQow8GhJMHrdgooJ1iUmp5akZaZAwx0mLQEB4+SCO9skDRvcUFib
+  nFmOkTqFKOilDhvOEhCACSRUZoH1waLrkuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHlTQK
+  bwZOaVwE1/BbSYCWgxw2GwxSWJCCmpBqbdC1V//lj6r2zLpkczBCwkkhaWy82VYRQ4zRh8f6G
+  A5vvEhiz5a3Pi7sTHJpUx33foNbAPN9u2L/nSQ7kry5Sj82Wlt3k3373y/9fqjfXJcXEmP+wj
+  bvKf5iw8pOn7y+xv9ApuLxblZpU1rXnlZoxqtq4rrrb9WFGn09o0b1WJZGKjcUr6YRv2adnFi
+  7+59GT9u1+wcH9Mw49tn5SlQoKzC9X2nr7w98rEo2WZry6/Dg089yfRrZv5gJJPfIbnzoZrhX
+  e73hofDOyO0italfFE5vD77nOrhU0Kr4bNvNHxdk22j81Kk8eh9y0m+6tZvi4JO+Vu9XTRyWU
+  i1vUxX3OyvSNtth/VOpG3b/VBUSWW4oxEQy3mouJEAEfoRxIpAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-18.tower-287.messagelabs.com!1625672686!50756!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 16338 invoked from network); 7 Jul 2021 15:44:47 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-18.tower-287.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Jul 2021 15:44:47 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 167Fifmw024237
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jul 2021 16:44:46 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Wed, 7 Jul 2021 16:44:39 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] gnome-desktop-testing: upgrade 2018.1 -> 2021.1
+Date: Wed, 7 Jul 2021 23:44:26 +0800
+Message-ID: <1625672669-3918-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-graphics/xwayland/xwayland_21.1.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...esktop-testing_2018.1.bb => gnome-desktop-testing_2021.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/gnome-desktop-testing/{gnome-desktop-testing_2018.1.bb => gnome-desktop-testing_2021.1.bb} (94%)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb b/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-index faf166f788..f5db7cc5db 100644
---- a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-@@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
- SRC_URI[sha256sum] = "31f261ce51bbee76a6ca3ec02aa367ffa2b5efa2b98412df57ccefd7a19003ce"
+diff --git a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb
+similarity index 94%
+rename from meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb
+rename to meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb
+index e5c69c0c46..b82eb8af2e 100644
+--- a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb
++++ b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+                     file://src/gnome-desktop-testing-runner.c;beginline=1;endline=20;md5=7ef3ad9da2ffcf7707dc11151fe007f4"
  
-+UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
-+
- inherit meson features_check
- REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ SRC_URI = "git://gitlab.gnome.org/GNOME/gnome-desktop-testing.git;protocol=http"
+-SRCREV = "4decade67b29ad170fcf3de148e41695fc459f48"
++SRCREV = "e346cd4ed2e2102c9b195b614f3c642d23f5f6e7"
+ 
+ DEPENDS = "glib-2.0"
  
 -- 
-2.31.1
+2.25.1
 
