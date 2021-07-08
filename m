@@ -1,131 +1,79 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web08.7292.1625715446607075309
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web12.7591.1625716205524612644
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 20:37:26 -0700
+ Wed, 07 Jul 2021 20:50:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="189116291"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
-   d="scan'208";a="189116291"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2021 20:37:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
-   d="scan'208";a="449790012"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga007.jf.intel.com with ESMTP; 07 Jul 2021 20:37:12 -0700
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: khairul.rohaizzat.jamaluddin@intel.com
-Subject: [PATCH][hardknott] curl: Fix CVE-2021-22897
-Date: Thu,  8 Jul 2021 11:37:12 +0800
-Message-Id: <20210708033712.41975-1-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.32.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VOWeTudE;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id o6so429150qvw.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 20:50:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k4CNFQq7v/ved8NTMfY5WfwdpAJZJWbi+Z3f/P2GglA=;
+        b=VOWeTudEIRwvXXCgmds8eGAILW8IG2mYHGfTvYtnBxrgTq9NbR56az5BMf72M5hUDj
+         P+dVPDIuX4ipuFu5QAt1kVsilbm1ua5kgHIdCW2Zcr1S8/XZKWlnPZ6mT/e4suQePF5m
+         XoAcIV/iP4RqwTnwa/tMqO8fUgZiazsyBv7Jde3orkYmkgbU621bjuONPJLeDxSynQTq
+         ibw+PaKJNRof8fcWsNaT9+XIoE9r2OuzY/Cm7SL5S6fj5MS2q5s29snSI0cjIwEGqHOV
+         cQjyYFiVeoQ61GRY1ewyR9/SMyuYDv5NfYxzWb7h+v4RJBXF97RaXxweChazRu0xnmnA
+         e7Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k4CNFQq7v/ved8NTMfY5WfwdpAJZJWbi+Z3f/P2GglA=;
+        b=pc8l+9YvUDMsydYwfMnbmskrrUnPrHcSOuUVAO1eXuJBSDetkHmynGuAoI2mJcqsZT
+         n87qoCp+go3R4C05h152OXbAx4ClConBa7AWjXlH0o0jT89DI8jmsPz6hbF83nAy3L3s
+         jOHF120bAVszIna2/3PIqdL/3q0gmOl7bNAklBUdFkmv3G1B8e2YB7p2wa1+jhmmy2lr
+         j52a33vC5AW1K9smZU+rUxi7RUFaOC2mCR7miP/b4hEwHC3Axw++soQVLdtVCNDu/Uud
+         vAnkntYV9Lsr1m0g49yx42lv3hdYzm0Ijpzgw98a6JoATph+hYC1gIYScB9Lf03JTCm+
+         5qZw==
+X-Gm-Message-State: AOAM532IKLPXqlNUpBAYgH5Y+XGokPIJhi1JlQnS5UrS9+1MeSgrvYEZ
+	u0mc0V8lPBqlMBpGZqOKQUojhdN1+7RPx49B0F4=
+X-Google-Smtp-Source: ABdhPJzLp9lqoz5PweQPZIjFYhkDUC2LWleBIgDQLu6FF5pJDaUk6oykFn+u1rKzjAtTTzRMd7KGwEaHXDVxs7p9Lo4=
+X-Received: by 2002:a05:6214:c8c:: with SMTP id r12mr27454742qvr.16.1625716204743;
+ Wed, 07 Jul 2021 20:50:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1625672669-3918-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1625672669-3918-1-git-send-email-wangmy@fujitsu.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 7 Jul 2021 20:49:38 -0700
+Message-ID: <CAMKF1sqnh0w_psbrNdfTNHq-zkyEzP197mXeY89mX8rvJ5oipg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gnome-desktop-testing: upgrade 2018.1 -> 2021.1
+To: wangmy <wangmy@fujitsu.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+fails to build on mips https://errors.yoctoproject.org/Errors/Details/587476/
 
-CVE:
-CVE-2021-22897
-
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
----
- .../curl/curl/CVE-2021-22897.patch            | 72 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.75.0.bb      |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22897.patch
-
-diff --git a/meta/recipes-support/curl/curl/CVE-2021-22897.patch b/meta/recipes-support/curl/curl/CVE-2021-22897.patch
-new file mode 100644
-index 0000000000..fcd11b7674
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2021-22897.patch
-@@ -0,0 +1,72 @@
-+From bbb71507b7bab52002f9b1e0880bed6a32834511 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 23 Apr 2021 10:54:10 +0200
-+Subject: [PATCH] schannel: don't use static to store selected ciphers
-+
-+CVE-2021-22897
-+
-+Bug: https://curl.se/docs/CVE-2021-22897.html
-+
-+Upstream-Status: Backport
-+[https://github.com/curl/curl/commit/bbb71507b7bab52002f9b1e0880bed6a32834511]
-+
-+CVE: CVE-2021-22897
-+
-+Signed-off-by: Daniel Stenberg <daniel@haxx.se>
-+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-+---
-+ lib/vtls/schannel.c | 9 +++++----
-+ lib/vtls/schannel.h | 3 +++
-+ 2 files changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/vtls/schannel.c b/lib/vtls/schannel.c
-+index 8c25ac5dd5a5..dba7072273a9 100644
-+--- a/lib/vtls/schannel.c
-++++ b/lib/vtls/schannel.c
-+@@ -328,12 +328,12 @@ get_alg_id_by_name(char *name)
-+ }
-+ 
-+ static CURLcode
-+-set_ssl_ciphers(SCHANNEL_CRED *schannel_cred, char *ciphers)
-++set_ssl_ciphers(SCHANNEL_CRED *schannel_cred, char *ciphers,
-++                int *algIds)
-+ {
-+   char *startCur = ciphers;
-+   int algCount = 0;
-+-  static ALG_ID algIds[45]; /*There are 45 listed in the MS headers*/
-+-  while(startCur && (0 != *startCur) && (algCount < 45)) {
-++  while(startCur && (0 != *startCur) && (algCount < NUMOF_CIPHERS)) {
-+     long alg = strtol(startCur, 0, 0);
-+     if(!alg)
-+       alg = get_alg_id_by_name(startCur);
-+@@ -593,7 +593,8 @@ schannel_connect_step1(struct Curl_easy *data, struct connectdata *conn,
-+     }
-+ 
-+     if(SSL_CONN_CONFIG(cipher_list)) {
-+-      result = set_ssl_ciphers(&schannel_cred, SSL_CONN_CONFIG(cipher_list));
-++      result = set_ssl_ciphers(&schannel_cred, SSL_CONN_CONFIG(cipher_list),
-++                               BACKEND->algIds);
-+       if(CURLE_OK != result) {
-+         failf(data, "Unable to set ciphers to passed via SSL_CONN_CONFIG");
-+         return result;
-+diff --git a/lib/vtls/schannel.h b/lib/vtls/schannel.h
-+index 2952caa1a5a1..77853aa30f96 100644
-+--- a/lib/vtls/schannel.h
-++++ b/lib/vtls/schannel.h
-+@@ -71,6 +71,8 @@ CURLcode Curl_verify_certificate(struct Curl_easy *data,
-+ #endif
-+ #endif
-+ 
-++#define NUMOF_CIPHERS 45 /* There are 45 listed in the MS headers */
-++
-+ struct Curl_schannel_cred {
-+   CredHandle cred_handle;
-+   TimeStamp time_stamp;
-+@@ -102,6 +104,7 @@ struct ssl_backend_data {
-+ #ifdef HAS_MANUAL_VERIFY_API
-+   bool use_manual_cred_validation; /* true if manual cred validation is used */
-+ #endif
-++  ALG_ID algIds[NUMOF_CIPHERS];
-+ };
-+ #endif /* EXPOSE_SCHANNEL_INTERNAL_STRUCTS */
-+ 
-diff --git a/meta/recipes-support/curl/curl_7.75.0.bb b/meta/recipes-support/curl/curl_7.75.0.bb
-index c905659967..10ef559281 100644
---- a/meta/recipes-support/curl/curl_7.75.0.bb
-+++ b/meta/recipes-support/curl/curl_7.75.0.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-vtls-add-isproxy-argument-to-Curl_ssl_get-addsession.patch \
-            file://0002-transfer-strip-credentials-from-the-auto-referer-hea.patch \
-            file://CVE-2021-22898.patch \
-+           file://CVE-2021-22897.patch \
- "
- 
- SRC_URI[sha256sum] = "50552d4501c178e4cc68baaecc487f466a3d6d19bbf4e50a01869effb316d026"
--- 
-2.32.0
-
+On Wed, Jul 7, 2021 at 8:45 AM wangmy <wangmy@fujitsu.com> wrote:
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...esktop-testing_2018.1.bb => gnome-desktop-testing_2021.1.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-support/gnome-desktop-testing/{gnome-desktop-testing_2018.1.bb => gnome-desktop-testing_2021.1.bb} (94%)
+>
+> diff --git a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb
+> similarity index 94%
+> rename from meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb
+> rename to meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb
+> index e5c69c0c46..b82eb8af2e 100644
+> --- a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb
+> +++ b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb
+> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>                      file://src/gnome-desktop-testing-runner.c;beginline=1;endline=20;md5=7ef3ad9da2ffcf7707dc11151fe007f4"
+>
+>  SRC_URI = "git://gitlab.gnome.org/GNOME/gnome-desktop-testing.git;protocol=http"
+> -SRCREV = "4decade67b29ad170fcf3de148e41695fc459f48"
+> +SRCREV = "e346cd4ed2e2102c9b195b614f3c642d23f5f6e7"
+>
+>  DEPENDS = "glib-2.0"
+>
+> --
+> 2.25.1
+>
+>
+> 
+>
