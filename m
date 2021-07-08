@@ -1,130 +1,100 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.8516.1625727406073901751
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web09.8701.1625728073769021544
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 23:56:46 -0700
+ Thu, 08 Jul 2021 00:07:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1686udSJ017894
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 7 Jul 2021 23:56:39 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 7 Jul 2021 23:56:38 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Wed, 7 Jul 2021 23:56:37 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <anuj.mittal@intel.com>
-Subject: [hardknott][PATCH v2] busybox: upgrade 1.33.0 -> 1.33.1
-Date: Thu, 8 Jul 2021 14:55:27 +0800
-Message-ID: <20210708065527.17420-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <a47e873a4c7cd91ca798e92f6ecc04c9332037c5.camel@intel.com>
-References: <a47e873a4c7cd91ca798e92f6ecc04c9332037c5.camel@intel.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d8w20eNF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id w13so3380958wmc.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jul 2021 00:07:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=LW6jBM00vU1Fd0tHKvCyuAQaIDjto01EWuUqo/7k38k=;
+        b=d8w20eNFKbu9Ks/gDYiabRQhzhffNYCTsd285GuM5B6YaqDzth2t5s08nthWjaZgiK
+         lOG3pyaAKhh7MzIJKoGczqdNIxhxkUzMPJLaGeyPXN9kca4r+2yLuRUGTu3gCTtpdF6+
+         yGvnfGUiBfhAbf1jOzkPWT0QZ93t+/YWdsEYI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=LW6jBM00vU1Fd0tHKvCyuAQaIDjto01EWuUqo/7k38k=;
+        b=qfubgXFSBh9TZ5EhMkpZ5+Q90MFCIit060b62OW/YaQWZbRxqDpL51F+gT+MiEzYUr
+         Z5qttAakfBqJcooytTDeVCM993uotawkVcSQ1x4JjUfiC+cCYEvxw/G0JvPnpkT7Bhym
+         6uAPEsn9XJOn+SeU86vL1M1xwjgkocOOm5Wyw+pL38HSnVHbMOrOHenL/7ptM5vYlFfx
+         jOvjgh9+/l94IsSwz1evntIvlGCpRnZTHXqFwZDagMGb1GyP3034PjuUNg2xIONQujDY
+         h8OYO3ZSVx5HOtB5FBvdR3ruJzPOAh89KOHwgDaXB4SC9RTRjb+Yd/Wfe8rnRWcE51wU
+         FbwA==
+X-Gm-Message-State: AOAM532VSauoxo33IsOQVn38NNjXb2+mEtQSQ+81IYXmQa0cO5BuyNET
+	jBHTbFJUL9zyN6lq7t4zaT372A==
+X-Google-Smtp-Source: ABdhPJzcPr3ZAWwBCm69lXJIWdUrpS/1puuEUGAOvIwFDni2HEc3FJ8+ZjoxRKq3x0+r/5kcoveTIQ==
+X-Received: by 2002:a05:600c:4304:: with SMTP id p4mr3384876wme.43.1625728072121;
+        Thu, 08 Jul 2021 00:07:52 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:226d:2875:5aa2:565b? ([2001:8b0:aba:5f3c:226d:2875:5aa2:565b])
+        by smtp.gmail.com with ESMTPSA id b20sm1129450wmj.7.2021.07.08.00.07.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jul 2021 00:07:51 -0700 (PDT)
+Message-ID: <54f75f5235de458ba76f53ed6ef77a98092b9da7.camel@linuxfoundation.org>
+Subject: Re: [RFC][PATCH] libubootenv: exclude from world build if no u-boot config
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Peter Bergin <peter@berginkonsult.se>, 
+	openembedded-core@lists.openembedded.org
+Cc: anuj.mittal@intel.com, otavio@ossystems.com.br
+Date: Thu, 08 Jul 2021 08:07:48 +0100
+In-Reply-To: <20210706155551.8958-1-peter@berginkonsult.se>
+References: <20210706155551.8958-1-peter@berginkonsult.se>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: zhengruoqin <zhengrq.fnst@fujitsu.com>
+On Tue, 2021-07-06 at 17:55 +0200, Peter Bergin wrote:
+> As a fix for failing the world build for targets not using u-boot
+> as boot loader libubootenv is excluded from world builds if
+> both UBOOT_MACHINE and UBOOT_CONFIG variables are empty.
+> 
+> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+> ---
+>  meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+> index 306296922c..6774290ea5 100644
+> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+> @@ -28,3 +28,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+>  RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
+>  
+> 
+> 
+> 
+>  BBCLASSEXTEND = "native"
+> +
+> +# Exclude this package from world build if there is no config for u-boot
+> +EXCLUDE_FROM_WORLD = "${@'1' if not d.getVar('UBOOT_MACHINE') and not (d.getVar('UBOOT_CONFIG') or '').split() else '0'}"
 
-0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
-removed since it is included in 1.33.1
+To be honest I'm still struggling to understand the problem here.
+(I'm also not sure we need the split() above)
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 544236b12a72ee5be5ef0147249ead112082b871)
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch | 58 -------------------
- .../{busybox_1.33.0.bb => busybox_1.33.1.bb}  |  3 +-
- 2 files changed, 1 insertion(+), 60 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
- rename meta/recipes-core/busybox/{busybox_1.33.0.bb => busybox_1.33.1.bb} (92%)
+You previously said "If you just want to build libubootenv you should be 
+able to do it for any machine, with or without u-boot support as there is 
+no build dependency between libubootenv and u-boot." which does make sense 
+to me but the above doesn't seem to be much better than the original
+inherit?
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch b/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
-deleted file mode 100644
-index 67c9f189cc..0000000000
---- a/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
-+++ /dev/null
-@@ -1,58 +0,0 @@
--From fe791386ebc270219ca00406c9fdadc5130b64ee Mon Sep 17 00:00:00 2001
--From: Samuel Sapalski <samuel.sapalski@nokia.com>
--Date: Wed, 3 Mar 2021 16:31:22 +0100
--Subject: [PATCH] decompress_gunzip: Fix DoS if gzip is corrupt
--
--On certain corrupt gzip files, huft_build will set the error bit on
--the result pointer. If afterwards abort_unzip is called huft_free
--might run into a segmentation fault or an invalid pointer to
--free(p).
--
--In order to mitigate this, we check in huft_free if the error bit
--is set and clear it before the linked list is freed.
--
--Signed-off-by: Samuel Sapalski <samuel.sapalski@nokia.com>
--Signed-off-by: Peter Kaestle <peter.kaestle@nokia.com>
--Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
--
--Upstream-Status: Backport
--CVE: CVE-2021-28831
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- archival/libarchive/decompress_gunzip.c | 12 ++++++++++--
-- 1 file changed, 10 insertions(+), 2 deletions(-)
--
--diff --git a/archival/libarchive/decompress_gunzip.c b/archival/libarchive/decompress_gunzip.c
--index eb3b64930..e93cd5005 100644
----- a/archival/libarchive/decompress_gunzip.c
--+++ b/archival/libarchive/decompress_gunzip.c
--@@ -220,10 +220,20 @@ static const uint8_t border[] ALIGN1 = {
--  * each table.
--  * t: table to free
--  */
--+#define BAD_HUFT(p) ((uintptr_t)(p) & 1)
--+#define ERR_RET     ((huft_t*)(uintptr_t)1)
-- static void huft_free(huft_t *p)
-- {
-- 	huft_t *q;
-- 
--+	/*
--+	 * If 'p' has the error bit set we have to clear it, otherwise we might run
--+	 * into a segmentation fault or an invalid pointer to free(p)
--+	 */
--+	if (BAD_HUFT(p)) {
--+		p = (huft_t*)((uintptr_t)(p) ^ (uintptr_t)(ERR_RET));
--+	}
--+
-- 	/* Go through linked list, freeing from the malloced (t[-1]) address. */
-- 	while (p) {
-- 		q = (--p)->v.t;
--@@ -289,8 +299,6 @@ static unsigned fill_bitbuffer(STATE_PARAM unsigned bitbuffer, unsigned *current
--  * or a valid pointer to a Huffman table, ORed with 0x1 if incompete table
--  * is given: "fixed inflate" decoder feeds us such data.
--  */
---#define BAD_HUFT(p) ((uintptr_t)(p) & 1)
---#define ERR_RET     ((huft_t*)(uintptr_t)1)
-- static huft_t* huft_build(const unsigned *b, const unsigned n,
-- 			const unsigned s, const struct cp_ext *cp_ext,
-- 			unsigned *m)
-diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.1.bb
-similarity index 92%
-rename from meta/recipes-core/busybox/busybox_1.33.0.bb
-rename to meta/recipes-core/busybox/busybox_1.33.1.bb
-index b2a30ba16f..3a70a8056e 100644
---- a/meta/recipes-core/busybox/busybox_1.33.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.33.1.bb
-@@ -46,9 +46,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
-            file://rev.cfg \
-            file://pgrep.cfg \
--           file://0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch \
-            file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
-            "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
--SRC_URI[tarball.sha256sum] = "d568681c91a85edc6710770cebc1e80e042ad74d305b5c2e6d57a5f3de3b8fbd"
-+SRC_URI[tarball.sha256sum] = "12cec6bd2b16d8a9446dd16130f2b92982f1819f6e1c5f5887b6db03f5660d28"
--- 
-2.29.2
+Perhaps we should be doing something like:
+
+python () {
+    if d.getVar('UBOOT_MACHINE') or d.getVar('UBOOT_CONFIG'):
+        d.setVar('RRECOMMENDS_${PN}-bin_append_class-target', " u-boot-default-env")
+}
+
+since the recipe is marked as machine specific (which I worry about in 
+itself).
+
+Cheers,
+
+Richard
 
