@@ -1,150 +1,82 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web09.11747.1625750571749220514
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web12.12101.1625751248736149851
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jul 2021 06:22:51 -0700
+ Thu, 08 Jul 2021 06:34:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ak6TElwG;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: flowergom@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id l11so3519736pji.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jul 2021 06:22:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aCDI/TkhyNxyvELrH1UG0R5DDrIGkVuaMvAKqvFBQTw=;
-        b=Ak6TElwGOeDLKBRehAZijcnZP952iT2CdZC0LXXqSjuh7a0ahPhEgT+n2Cxp3s76ot
-         p5rzM5d8NV5mrJ7GgEcAe+Xf6PNMowDomYR+VRX9ElS/BTBOFogtPYzbvSZlmt8yHO8t
-         zM4dmU7DqecpHC66ti13wucqxPSE4zFv0WT8LkhMzXwUcHDXDJy3Gs3kd/qunRd0wCn9
-         ztLWExScx4xohV67zn6NOcOTv3LDo0tyjNu9wUGvXWwvCevv72roke81EC8sUW+lQ9AZ
-         G4JEyAuh4cnc3Pbz9wGkx+IDdh/+pbZZJPJR1fByjuXd6B5OUNPkYmGY1tnxRYPZ+U7Y
-         PwWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aCDI/TkhyNxyvELrH1UG0R5DDrIGkVuaMvAKqvFBQTw=;
-        b=M60Vi+6Vp43/BShbdeo1e90J58HEMdYDkCe/eBW2gbx9WPloCDlK2t/aHVQOnE3ghE
-         ApydaipManqofOsdPNEIFM1nt4yHpKYBUSa3B9UhkobfYIBLunebyQQpJIxRhPbjVglX
-         TU46annAwEorMYnqsJYuo/Us4ht4Spv/D8hvGaaT/PyboOEQ2M79PaefklUG9Xqa0xPh
-         lZ5rootIv2UlG6cDOKAzb6S9K7tNQUeLZGCDjTONuOfeCX8gmVIL2wsGL5NWfndb/FWq
-         A4C7pxLDgbtlNaqL9A0/NRKDl60zZIAlXfk0w6VQXDcAtb++KA/081EHpE94FTkwPU3x
-         JIqw==
-X-Gm-Message-State: AOAM533LIVF5I8SGR+uk8a/ZumM8XSBhFxfmuFSQFCOhMuT47ZMRPNh1
-	WwVZeM6qzGrN4wl41nhzl+JFuLCXxvSMlLyB
-X-Google-Smtp-Source: ABdhPJxhzjoUeisa2WA4Jib52AtL0YntIm4K+ypmq4c0Ic/U+Avc1zECfBTZV4ExSW7YHHz+FDjAKQ==
-X-Received: by 2002:a17:90a:ca8d:: with SMTP id y13mr4299149pjt.61.1625750570967;
-        Thu, 08 Jul 2021 06:22:50 -0700 (PDT)
-Return-Path: <flowergom@gmail.com>
-Received: from localhost.localdomain ([59.6.144.168])
-        by smtp.gmail.com with ESMTPSA id a5sm3032230pff.143.2021.07.08.06.22.49
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 08 Jul 2021 06:22:50 -0700 (PDT)
-From: "Minjae Kim" <flowergom@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=zd/EYMY6;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 926E38318E;
+	Thu,  8 Jul 2021 15:34:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1625751245;
+	bh=XSmRb/VDXOLpHLYsXoskqGWWnpPXyDf1xMYcW+Bidtk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=zd/EYMY65XqXEQKsMI29CoUdWBqiGPI7UNts2x0qzCBg4VtrPEcNWtqPIqGBZxJqX
+	 QxBLR9RfG42ajbaPw+7klnpnp5AiV8kF74nmLKtv4dC66LIOxUIJJ2/NwQikagjG3e
+	 YGq3p/4EyGrT6pMmdaTrESZZ27cj61RHPmIB0as7jamWVr2g+F7kfPRuV8R4IM/W+r
+	 fIAm3ZQAXnLqfcyrcXD3bix8LLckX0vR3+Psw5OsMH4iBaMgYWXG8EAQZ9+yZSoUdy
+	 ug6BdmeJWZNi4oJ7Wv/EjRX/2ZVNldB5IDqDHK0TTpKxVC5GaEp/wuiDXfn1YlLTDM
+	 HpHqR164TNafQ==
+From: "Marek Vasut" <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH] dhcp: fix CVE-2021-25217
-Date: Thu,  8 Jul 2021 22:22:40 +0900
-Message-Id: <20210708132240.925-1-flowergom@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+Cc: ch@denx.de,
+	Marek Vasut <marex@denx.de>,
+	Tanu Kaskinen <tanuk@iki.fi>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] pulseaudio: Drop pulseaudio-conf
+Date: Thu,  8 Jul 2021 15:33:49 +0200
+Message-Id: <20210708133349.66014-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-A buffer overrun in lease file parsing code
-can be used to exploit a common vulnerability shared by dhcpd and dhclient.
+The pulseaudio.inc currently contains these two assignments:
+  FILES_${PN}-conf =3D "${sysconfdir}"
+  FILES_${PN}-server =3D "... ${sysconfdir} ..."
+This results in pulseaudio-server shipping the configuration
+in /etc/pulse/ , and based on CONFFILES_${PN}-server and co.,
+this is how it was intended to work.
 
-reference:
-https://www.openwall.com/lists/oss-security/2021/05/26/6
-https://kb.isc.org/docs/cve-2021-25217
+However, that also means FILES_${PN}-conf is not useful. In fact,
+FILES_${PN}-conf is likely meant for MACHINE specific configuration,
+which would better be packaged in separate recipe like e.g. systemd
+does in systemd-conf_%.bb . Better yet, such pulseaudio-conf_%.bb
+could ship MACHINE specific configuration overrides, which according
+to pulse-daemon.conf(5) are picked from /etc/pulse/daemon.conf.d ,
+while pulseaudio-server would ship the default configuration files.
+
+Remove FILES_${PN}-conf .
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Tanu Kaskinen <tanuk@iki.fi>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../dhcp/dhcp/CVE-2021-25217.patch            | 66 +++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
-new file mode 100644
-index 0000000000..91aaf83a77
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
-@@ -0,0 +1,66 @@
-+From 5a7344b05081d84343a1627e47478f3990b17700 Mon Sep 17 00:00:00 2001
-+From: Minjae Kim <flowergom@gmail.com>
-+Date: Thu, 8 Jul 2021 00:08:25 +0000
-+Subject: [PATCH] ISC has disclosed a vulnerability in ISC DHCP
-+ (CVE-2021-25217)
-+
-+On May 26, 2021, we (Internet Systems Consortium) disclosed a
-+vulnerability affecting our ISC DHCP software:
-+
-+    CVE-2021-25217: A buffer overrun in lease file parsing code can be
-+    used to exploit a common vulnerability shared by dhcpd and dhclient
-+    https://kb.isc.org/docs/cve-2021-25217
-+
-+New versions of ISC DHCP are available from https://www.isc.org/downloads
-+
-+Operators and package maintainers who prefer to apply patches selectively can
-+find individual vulnerability-specific patches in the "patches" subdirectory
-+of the release directories for our two stable release branches (4.4 and 4.1-ESV)
-+
-+   https://downloads.isc.org/isc/dhcp/4.4.2-P1/patches
-+   https://downloads.isc.org/isc/dhcp/4.1-ESV-R16-P1/patches
-+
-+With the public announcement of this vulnerability, the embargo
-+period is ended and any updated software packages that have been
-+prepared may be released.
-+
-+Upstream-Status: Accepted [https://www.openwall.com/lists/oss-security/2021/05/26/6]
-+CVE: CVE-2021-25217
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
-+---
-+ common/parse.c | 7 ++++---
-+ 1 file changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/common/parse.c b/common/parse.c
-+index 386a632..fc7b39c 100644
-+--- a/common/parse.c
-++++ b/common/parse.c
-+@@ -3,7 +3,7 @@
-+    Common parser code for dhcpd and dhclient. */
-+ 
-+ /*
-+- * Copyright (c) 2004-2019 by Internet Systems Consortium, Inc. ("ISC")
-++ * Copyright (c) 2004-2021 by Internet Systems Consortium, Inc. ("ISC")
-+  * Copyright (c) 1995-2003 by Internet Software Consortium
-+  *
-+  * This Source Code Form is subject to the terms of the Mozilla Public
-+@@ -5556,13 +5556,14 @@ int parse_X (cfile, buf, max)
-+ 				skip_to_semi (cfile);
-+ 				return 0;
-+ 			}
-+-			convert_num (cfile, &buf [len], val, 16, 8);
-+-			if (len++ > max) {
-++			if (len >= max) {
-+ 				parse_warn (cfile,
-+ 					    "hexadecimal constant too long.");
-+ 				skip_to_semi (cfile);
-+ 				return 0;
-+ 			}
-++			convert_num (cfile, &buf [len], val, 16, 8);
-++			len++;
-+ 			token = peek_token (&val, (unsigned *)0, cfile);
-+ 			if (token == COLON)
-+ 				token = next_token (&val,
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-index b56a204821..5609a350cc 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
-             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
-             file://0013-fixup_use_libbind.patch \
-             file://0001-workaround-busybox-limitation-in-linux-dhclient-script.patch \
-+            file://CVE-2021-25217.patch \
- "
- 
- SRC_URI[md5sum] = "2afdaf8498dc1edaf3012efdd589b3e1"
--- 
-2.24.3 (Apple Git-128)
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/rec=
+ipes-multimedia/pulseaudio/pulseaudio.inc
+index 005cb36b8e..2c9e8167c4 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -183,7 +183,6 @@ FILES_libpulse-simple =3D "${libdir}/libpulse-simple.=
+so.*"
+ FILES_libpulse-mainloop-glib =3D "${libdir}/libpulse-mainloop-glib.so.*"
+=20
+ FILES_${PN}-dev +=3D "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala=
+ ${libdir}/cmake"  =20
+-FILES_${PN}-conf =3D "${sysconfdir}"
+ FILES_${PN}-bin +=3D "${sysconfdir}/default/volatiles/04_pulse"
+ FILES_${PN}-pa-info =3D "${bindir}/pa-info"
+ FILES_${PN}-server =3D "${bindir}/pulseaudio ${bindir}/start-* ${sysconf=
+dir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${sy=
+stemd_user_unitdir}/*"
+--=20
+2.30.2
 
