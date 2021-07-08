@@ -1,111 +1,95 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
- by mx.groups.io with SMTP id smtpd.web11.6070.1625706903600222453
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web08.6590.1625710447498970748
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 18:15:04 -0700
+ Wed, 07 Jul 2021 19:14:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=I1576Nr7;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: zhengrq.fnst@fujitsu.com)
-Return-Path: <zhengrq.fnst@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1625706900; i=@fujitsu.com;
-	bh=+Y3Zbyu2Fvah5mvK81hHs3tK20cuiVlDYg+MfE292io=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=I1576Nr7VW+mdjNQYulp2asdFIP5f8zwTjLwDhvcaJs2eWpQVqV4lV5MiIvvGPjZL
-	 Clmk4OXHQajgebXaXJag123mzfWwKy2r4/WF4Z6xCgfRAPUIgRJ21TaigLWLHPJgX2
-	 bOGw7IECKAS0U/3j0wqqoCExZG8oWo0aj6X2coOBJOg4s4MYcrKDQ4sXasLIQI2fyr
-	 5D1+I+gZnkGUBCIYYJFO7H6C0PdMtHRHHjUOMjJdDrfJvt/NIJ4zu/bBoTRrKmZfkb
-	 +7aHuy5h6gBSOIA3dTJvx396EHUM62XAf/XoMAWIku+Lk3nMI0miw0UewPyDRKimg/
-	 zPskpE33iQ5kA==
-Received: from [100.113.4.179] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id CB/B5-07224-49156E06; Thu, 08 Jul 2021 01:15:00 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+GYqjs58Fm
-  CwZeZRhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8appnPsBdP5Kjb9nM/YwHiNp4uRi0NIYCaT
-  xNWmZhYIZzejxNnu9WxdjJwcbAK6Eucer2XvYuTgEBHQk7j6TxQkLCzgLNH78ykziM0ioCKx/
-  sx6VpASXgEPiXcf+UHCEgIKElMevgcr4RUQlDg58wkLiM0sICFx8MULZpByCQFFidnT5SHKKy
-  RmzNjGNoGRZxaSjllIOhYwMq1itEwqykzPKMlNzMzRNTQw0DU0NNY11TUyMdRLrNJN0kst1U1
-  OzSspSgTK6iWWF+sVV+Ym56To5aWWbGIEBlFKIevHHYyHXn/QO8QoycGkJMp70ulZghBfUn5K
-  ZUZicUZ8UWlOavEhRhkODiUJ3iX+QDnBotT01Iq0zBxgQMOkJTh4lER420HSvMUFibnFmekQq
-  VOMilLivOYgCQGQREZpHlwbLIouMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLmDQ0AmsKTmV
-  cCN/0V0GImoMUMh5+CLC5JREhJNTCtYk4R90lmW/TMT5E14Ey+0sp8aW8xGe1uKxPb33byHd+
-  nm0lxRQRdO6b159ranT9LTFktBT5wsBe92zfz5EmtyiZpvri3bQb3WJt84mee+ldiKNN+acvt
-  k+9CLq3jW6kwXen5XuHfTU7Hbb4seqW7rFMhMrfnZbe8TudElZzyK8YRbEcU2jwqDyUeE99wh
-  iVMsrxfpMs5wHx2mu0c63jm/Dur5kivn9SoFnv/CX/t3glrIzozHDd4v2QP33tj+4muvczPz5
-  lVlpkeahZ5+nVZ4fmSR38jHRYVBDndaMhrXvD99PqpohenSz49u/VZbeRti7fqKtav0q2Ptd5
-  vdT9pk8Z29s6ZT3u+bFwdH6HEUpyRaKjFXFScCACtODT3HQMAAA==
-X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-19.tower-238.messagelabs.com!1625706899!307777!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 10182 invoked from network); 8 Jul 2021 01:14:59 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-19.tower-238.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Jul 2021 01:14:59 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1681EsBh005591
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Jul 2021 02:14:59 +0100
-Received: from localhost.localdomain (10.167.225.35) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Thu, 8 Jul 2021 02:14:53 +0100
-From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1682E6nX032511
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jul 2021 19:14:06 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1682E5Ea002789
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jul 2021 19:14:06 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Wed, 7 Jul 2021 19:14:04 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Wed, 7 Jul 2021 19:14:03 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] python3-pathlib2: upgrade 2.3.5 -> 2.3.6
-Date: Thu, 8 Jul 2021 09:14:30 +0800
-Message-ID: <1625706870-83847-1-git-send-email-zhengrq.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Subject: [hardknott][PATCH] busybox: fix traceroute failure
+Date: Thu, 8 Jul 2021 10:12:53 +0800
+Message-ID: <20210708021253.38713-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-License-Update: file format changed from "ASCII text" to
-"ASCII text, with CRLF line terminators"
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Version 2.3.6
-^^^^^^^^^^^^^
+Backport a patch to fix the below traceroute failure:
+ $ traceroute -f 64 -I -n -m 240 10.226.43.84 46
+traceroute: NO OPT x!
 
-- Fix minor unicode bugs in with_name and with_suffix. Many thanks to
-  ppentchev for reporting and for providing a fix.
-
-- Fix a few minor bugs.
-
-- Allow unicode file paths on systems that support it
-  (note: unicode file paths will not work on Windows
-  due a broken filesystem encoder on Windows on Python 2).
-
-- Remove travis and add github actions for regression testing.
-
-- Fix mypy warnings.
-
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../{python3-pathlib2_2.3.5.bb => python3-pathlib2_2.3.6.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-pathlib2_2.3.5.bb => python3-pathlib2_2.3.6.bb} (52%)
+ .../0001-traceroute-fix-option-parsing.patch  | 31 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.33.0.bb   |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-traceroute-fix-option-parsing.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb b/meta/recipes-devtools/python/python3-pathlib2_2.3.6.bb
-similarity index 52%
-rename from meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
-rename to meta/recipes-devtools/python/python3-pathlib2_2.3.6.bb
-index a022701ad0..8516bbe4d4 100644
---- a/meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
-+++ b/meta/recipes-devtools/python/python3-pathlib2_2.3.6.bb
-@@ -1,10 +1,9 @@
- DESCRIPTION = "Object-oriented filesystem paths"
- HOMEPAGE = "https://github.com/mcmtroffaes/pathlib2"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=042856c23a3e903b33bf361ea1cbe29a"
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=2dc08586cce3ab91bfa091b655c0e440"
- 
--SRC_URI[md5sum] = "f2bd0a363eb0f8fa0556f35c1d9e66fb"
--SRC_URI[sha256sum] = "6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868"
-+SRC_URI[sha256sum] = "7d8bcb5555003cdf4a8d2872c538faa3a0f5d20630cb360e518ca3b981795e5f"
- 
- inherit pypi setuptools3
+diff --git a/meta/recipes-core/busybox/busybox/0001-traceroute-fix-option-parsing.patch b/meta/recipes-core/busybox/busybox/0001-traceroute-fix-option-parsing.patch
+new file mode 100644
+index 0000000000..1e03b7dbfb
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-traceroute-fix-option-parsing.patch
+@@ -0,0 +1,31 @@
++From 89358a7131d3e75c74af834bb117b4fad7914983 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Tue, 2 Feb 2021 13:48:21 +0100
++Subject: [PATCH] traceroute: fix option parsing
++
++Fix option parsing
++
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?h=1_33_stable&id=89358a7131d3e75c74af834bb117b4fad7914983]
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ networking/traceroute.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/networking/traceroute.c b/networking/traceroute.c
++index 3f1a9ab46..29f5e480b 100644
++--- a/networking/traceroute.c
+++++ b/networking/traceroute.c
++@@ -896,7 +896,7 @@ traceroute_init(int op, char **argv)
++ 
++ 	op |= getopt32(argv, "^"
++ 		OPT_STRING
++-		"\0" "-1:x-x" /* minimum 1 arg */
+++		"\0" "-1" /* minimum 1 arg */
++ 		, &tos_str, &device, &max_ttl_str, &port_str, &nprobes_str
++ 		, &source, &waittime_str, &pausemsecs_str, &first_ttl_str
++ 	);
++-- 
++2.31.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.0.bb
+index b2a30ba16f..2d18ec072c 100644
+--- a/meta/recipes-core/busybox/busybox_1.33.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
+@@ -48,6 +48,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://pgrep.cfg \
+            file://0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch \
+            file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
++           file://0001-traceroute-fix-option-parsing.patch \
+            "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
  
 -- 
-2.25.1
+2.17.1
 
