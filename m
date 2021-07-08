@@ -1,100 +1,97 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web09.8701.1625728073769021544
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web09.8931.1625730256801646706
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jul 2021 00:07:54 -0700
+ Thu, 08 Jul 2021 00:44:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d8w20eNF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id w13so3380958wmc.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jul 2021 00:07:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=LW6jBM00vU1Fd0tHKvCyuAQaIDjto01EWuUqo/7k38k=;
-        b=d8w20eNFKbu9Ks/gDYiabRQhzhffNYCTsd285GuM5B6YaqDzth2t5s08nthWjaZgiK
-         lOG3pyaAKhh7MzIJKoGczqdNIxhxkUzMPJLaGeyPXN9kca4r+2yLuRUGTu3gCTtpdF6+
-         yGvnfGUiBfhAbf1jOzkPWT0QZ93t+/YWdsEYI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=LW6jBM00vU1Fd0tHKvCyuAQaIDjto01EWuUqo/7k38k=;
-        b=qfubgXFSBh9TZ5EhMkpZ5+Q90MFCIit060b62OW/YaQWZbRxqDpL51F+gT+MiEzYUr
-         Z5qttAakfBqJcooytTDeVCM993uotawkVcSQ1x4JjUfiC+cCYEvxw/G0JvPnpkT7Bhym
-         6uAPEsn9XJOn+SeU86vL1M1xwjgkocOOm5Wyw+pL38HSnVHbMOrOHenL/7ptM5vYlFfx
-         jOvjgh9+/l94IsSwz1evntIvlGCpRnZTHXqFwZDagMGb1GyP3034PjuUNg2xIONQujDY
-         h8OYO3ZSVx5HOtB5FBvdR3ruJzPOAh89KOHwgDaXB4SC9RTRjb+Yd/Wfe8rnRWcE51wU
-         FbwA==
-X-Gm-Message-State: AOAM532VSauoxo33IsOQVn38NNjXb2+mEtQSQ+81IYXmQa0cO5BuyNET
-	jBHTbFJUL9zyN6lq7t4zaT372A==
-X-Google-Smtp-Source: ABdhPJzcPr3ZAWwBCm69lXJIWdUrpS/1puuEUGAOvIwFDni2HEc3FJ8+ZjoxRKq3x0+r/5kcoveTIQ==
-X-Received: by 2002:a05:600c:4304:: with SMTP id p4mr3384876wme.43.1625728072121;
-        Thu, 08 Jul 2021 00:07:52 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:226d:2875:5aa2:565b? ([2001:8b0:aba:5f3c:226d:2875:5aa2:565b])
-        by smtp.gmail.com with ESMTPSA id b20sm1129450wmj.7.2021.07.08.00.07.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jul 2021 00:07:51 -0700 (PDT)
-Message-ID: <54f75f5235de458ba76f53ed6ef77a98092b9da7.camel@linuxfoundation.org>
-Subject: Re: [RFC][PATCH] libubootenv: exclude from world build if no u-boot config
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Peter Bergin <peter@berginkonsult.se>, 
-	openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com, otavio@ossystems.com.br
-Date: Thu, 08 Jul 2021 08:07:48 +0100
-In-Reply-To: <20210706155551.8958-1-peter@berginkonsult.se>
-References: <20210706155551.8958-1-peter@berginkonsult.se>
-User-Agent: Evolution 3.40.0-1 
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1687iGRp024772
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Jul 2021 00:44:16 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1687iFZM017545
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Jul 2021 00:44:15 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 8 Jul 2021 00:44:15 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Thu, 8 Jul 2021 00:44:14 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] libconvert-asn1-perl: fix CVE-2013-7488
+Date: Thu, 8 Jul 2021 15:43:04 +0800
+Message-ID: <20210708074304.20482-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, 2021-07-06 at 17:55 +0200, Peter Bergin wrote:
-> As a fix for failing the world build for targets not using u-boot
-> as boot loader libubootenv is excluded from world builds if
-> both UBOOT_MACHINE and UBOOT_CONFIG variables are empty.
-> 
-> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
-> ---
->  meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> index 306296922c..6774290ea5 100644
-> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> @@ -28,3 +28,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
->  RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
->  
-> 
-> 
-> 
->  BBCLASSEXTEND = "native"
-> +
-> +# Exclude this package from world build if there is no config for u-boot
-> +EXCLUDE_FROM_WORLD = "${@'1' if not d.getVar('UBOOT_MACHINE') and not (d.getVar('UBOOT_CONFIG') or '').split() else '0'}"
+From: Changqing Li <changqing.li@windriver.com>
 
-To be honest I'm still struggling to understand the problem here.
-(I'm also not sure we need the split() above)
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../libconvert-asn1-perl/CVE-2013-7488.patch  | 35 +++++++++++++++++++
+ .../perl/libconvert-asn1-perl_0.27.bb         |  3 +-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2013-7488.patch
 
-You previously said "If you just want to build libubootenv you should be 
-able to do it for any machine, with or without u-boot support as there is 
-no build dependency between libubootenv and u-boot." which does make sense 
-to me but the above doesn't seem to be much better than the original
-inherit?
-
-Perhaps we should be doing something like:
-
-python () {
-    if d.getVar('UBOOT_MACHINE') or d.getVar('UBOOT_CONFIG'):
-        d.setVar('RRECOMMENDS_${PN}-bin_append_class-target', " u-boot-default-env")
-}
-
-since the recipe is marked as machine specific (which I worry about in 
-itself).
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2013-7488.patch b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2013-7488.patch
+new file mode 100644
+index 0000000000..d0aca65393
+--- /dev/null
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2013-7488.patch
+@@ -0,0 +1,35 @@
++From 8070c6a4931801b6550c79c5766dfd3a99976036 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 8 Jul 2021 14:48:36 +0800
++Subject: [PATCH] Merge pull request #15 from danaj/danaj/unsafe-decoding
++
++Upstream-Status: Backport[https://github.com/gbarr/perl-Convert-ASN1/commit/108e784417db7893f348c381c837537c3bd39373]
++CVE: CVE-2013-7488
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ lib/Convert/ASN1/_decode.pm | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/lib/Convert/ASN1/_decode.pm b/lib/Convert/ASN1/_decode.pm
++index cd173f9..495e1bf 100644
++--- a/lib/Convert/ASN1/_decode.pm
+++++ b/lib/Convert/ASN1/_decode.pm
++@@ -683,12 +683,14 @@ sub _scan_indef {
++       $pos += 2;
++       next;
++     }
+++    return if $pos >= $end;
++ 
++     my $tag = substr($_[0], $pos++, 1);
++ 
++     if((unpack("C",$tag) & 0x1f) == 0x1f) {
++       my $b;
++       do {
+++        return if $pos >= $end;
++ 	$tag .= substr($_[0],$pos++,1);
++ 	$b = ord substr($tag,-1);
++       } while($b & 0x80);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
+index 409a8f3896..8ec96860ad 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
+@@ -5,7 +5,8 @@ DESCRIPTION = "Convert::ASN1 is a perl library for encoding/decoding data using
+ LICENSE = "Artistic-1.0 | GPL-1.0+"
+ LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8e8e0d3d23e096a63f"
+ 
+-SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/Convert-ASN1-${PV}.tar.gz"
++SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/Convert-ASN1-${PV}.tar.gz \
++           file://CVE-2013-7488.patch"
+ 
+ SRC_URI[md5sum] = "68723e96be0b258a9e20480276e8a62c"
+ SRC_URI[sha256sum] = "74a4a78ae0c5e973100ac0a8f203a110f76fb047b79dae4fc1fd7d6814d3d58a"
+-- 
+2.17.1
 
