@@ -1,153 +1,134 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web12.8607.1625725752403431694
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.8502.1625727312059932715
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 23:29:12 -0700
+ Wed, 07 Jul 2021 23:55:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="209413467"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
-   d="scan'208";a="209413467"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2021 23:29:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
-   d="scan'208";a="428224396"
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
-  by orsmga002.jf.intel.com with ESMTP; 07 Jul 2021 23:29:11 -0700
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 1686t4sJ021220
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Wed, 7 Jul 2021 23:55:04 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1686t3Jl009601
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 7 Jul 2021 23:55:04 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 8 Jul 2021 14:29:10 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2242.008;
- Thu, 8 Jul 2021 14:29:10 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/6] linux-yocto-dev: base AUTOREV on specified version
-Thread-Topic: [OE-core] [PATCH 1/6] linux-yocto-dev: base AUTOREV on specified
- version
-Thread-Index: AQHXcaUIQwAYWi3CKkyk0ma4wp1k46s0ub6AgAABKQCAA2DQgA==
-Date: Thu, 8 Jul 2021 06:29:09 +0000
-Message-ID: <ad12e307f017b53f78ff1e93eedf2d60f5aca716.camel@intel.com>
-References: <cover.1623876372.git.bruce.ashfield@gmail.com>
-	 <3b93416cddd4db742f8bd957614b11ce9b796e51.1623876372.git.bruce.ashfield@gmail.com>
-	 <CADkTA4Pzsfk+1-D8daFnzmmuqa+7Rj0wDUBY1DDA7uEWzr+x3A@mail.gmail.com>
-	 <f90709882e71f4b21d3e5ab60427769facd0dfba.camel@intel.com>
-	 <CADkTA4M4Kfs=aAzjOT2JAFtrqiZr8wavbDxdUgiJhvs=ZJDe1g@mail.gmail.com>
-In-Reply-To: <CADkTA4M4Kfs=aAzjOT2JAFtrqiZr8wavbDxdUgiJhvs=ZJDe1g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
+ 15.1.2242.10; Wed, 7 Jul 2021 23:55:03 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Wed, 7 Jul 2021 23:55:02 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <anuj.mittal@intel.com>
+Subject: [PATCH v2] busybox: upgrade 1.33.0 -> 1.33.1
+Date: Thu, 8 Jul 2021 14:53:52 +0800
+Message-ID: <20210708065352.3999-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <a47e873a4c7cd91ca798e92f6ecc04c9332037c5.camel@intel.com>
+References: <a47e873a4c7cd91ca798e92f6ecc04c9332037c5.camel@intel.com>
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D4086DE009E69D49831F0EF7221616D9@intel.com>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-T24gTW9uLCAyMDIxLTA3LTA1IGF0IDIyOjUzIC0wNDAwLCBCcnVjZSBBc2hmaWVsZCB3cm90ZToN
-Cj4gT24gTW9uLCBKdWwgNSwgMjAyMSBhdCAxMDo0OSBQTSBNaXR0YWwsIEFudWogPGFudWoubWl0
-dGFsQGludGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4gDQo+ID4gSGkgQnJ1Y2UsDQo+ID4gDQo+ID4g
-T24gTW9uLCAyMDIxLTA3LTA1IGF0IDA5OjUyIC0wNDAwLCBCcnVjZSBBc2hmaWVsZCB3cm90ZToN
-Cj4gPiA+IEhpIEFudWosDQo+ID4gPiANCj4gPiA+IENvdWxkIHlvdSBxdWV1ZSB0aGlzIHBhdGNo
-IGZvciBjaGVycnktcGlja2luZyBpbnRvIHlvdXIgbmV4dA0KPiA+ID4gaGFyZGtub3R0IHVwZGF0
-ZSA/DQo+ID4gPiANCj4gPiA+IEl0IGlzIG5vdyBpbiBtYXN0ZXIsIGFuZCBJIGRlc2lnbmVkIGl0
-IHRvIGhlbHAgZm9sa3Mgb3V0IHVzaW5nIG91cg0KPiA+ID4gLXN0YWJsZSByZWxlYXNlcyBzbyBs
-aW51eC15b2N0by1kZXYgd2lsbCBzdGF5IG9uIHRoZSB2ZXJzaW9uIHRoYXQNCj4gPiA+IHdhcw0K
-PiA+ID4gYXZhaWxhYmxlIGluIHRoZSByZWxlYXNlIHRpbWVmcmFtZS4NCj4gPiANCj4gPiBZZXMs
-IEkgd2lsbCBpbmNsdWRlIGl0LiBXb3VsZCBpdCBhbHNvIGhlbHAgdG8gc3dpdGNoIG9uZSBvZiB0
-aGUgYnVpbGQNCj4gPiBjb25maWd1cmF0aW9ucyBvbiBhdXRvYnVpbGRlciBmb3IgZnV0dXJlIHJl
-bGVhc2VzIHRvIHVzZSAtZGV2IGtlcm5lbA0KPiA+IHNvDQo+ID4gaXQgZ2V0cyBidWlsdC90ZXN0
-ZWQ/DQo+IA0KPiBIbW0sIHllcywgdGhhdCBpcyBhIGdvb2QgaWRlYS4NCj4gDQo+IEknbSBub3Qg
-ZXhhY3RseSBzdXJlIGhvdyB0byBkbyB0aGF0LCBkbyB5b3UgaGF2ZSBhIHBvaW50ZXIgPyBJIGtu
-b3cNCj4gd2UndmUgdGFsa2VkIGFib3V0IHRlc3RpbmcgLWRldiBvbiB0aGUgYXV0b2J1aWxkZXIs
-IHNvIGhhdmluZyBhIGNvbmZpZw0KPiBmb3IgdGhpcyBpbiBtYXN0ZXIgd291bGQgd29yaywgYW5k
-IHRoZW4gaXQgd291bGQgdHJpY2tsZSBpbnRvIHJlbGVhc2VkDQo+IHZlcnNpb25zIGZvciBtb3Jl
-IHRlc3RpbmcuDQoNClRoZSBhdXRvYnVpbGRlciBjb25maWd1cmF0aW9uIHdvdWxkIGhhdmUgdG8g
-YmUgY2hhbmdlZDoNCg0KaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dp
-L3lvY3RvLWF1dG9idWlsZGVyLWhlbHBlci90cmVlL2NvbmZpZy5qc29uDQoNClRoaXMgd2lsbCBo
-YXZlIGltcGFjdCBvbiB0aGUgdGVzdCBtYXRyaXggYW5kIHRoZSB0aW1lIGl0IHRha2VzIHRvIGJ1
-aWxkDQpzbyBJIGFtIG5vdCBzdXJlIHdoYXQgZXhhY3RseSBzaG91bGQgYmUgYWRkZWQgb3IgY2hh
-bmdlZC7CoFBlcmhhcHMgd2UNCmNhbiBhZGQgb25lIG1vcmUgc3RlcCB0byBxZW11LWFsdCBjb25m
-aWd1cmF0aW9ucyB0byBidWlsZCBvbmx5IHRoZQ0KbWluaW1hbCBpbWFnZSB1c2luZyBsaW51eC15
-b2N0by1kZXYga2VybmVsIGFuZCB0aGVuIHJ1biB0ZXN0aW1hZ2U/DQoNClRoYW5rcywNCg0KQW51
-ag0KDQo+IA0KPiBCcnVjZQ0KPiANCj4gPiANCj4gPiBUaGFua3MsDQo+ID4gDQo+ID4gQW51ag0K
-PiA+IA0KPiA+ID4gDQo+ID4gPiBCcnVjZQ0KPiA+ID4gDQo+ID4gPiBPbiBXZWQsIEp1biAxNiwg
-MjAyMSBhdCA0OjQ4IFBNIDxicnVjZS5hc2hmaWVsZEBnbWFpbC5jb20+IHdyb3RlOg0KPiA+ID4g
-PiANCj4gPiA+ID4gRnJvbTogQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNv
-bT4NCj4gPiA+ID4gDQo+ID4gPiA+IGxpbnV4LXlvY3RvLWRldiB0cmFja3MgdGhlIGxhdGVzdCBt
-YWlubGluZSBrZXJuZWwsIGFuZCB1c2VzDQo+ID4gPiA+IHN0YW5kYXJkLyogZm9yIHRoYXQgc3Vw
-cG9ydC4NCj4gPiA+ID4gDQo+ID4gPiA+IEFyY2hpdmVkIC1kZXYgdmVyc2lvbnMgYXJlIHVuZGVy
-IHY8a2VybmVsIHZlcnNpb24+L3N0YW5kYXJkL2Jhc2UuDQo+ID4gPiA+IA0KPiA+ID4gPiBUaGlz
-IHBvbGljeSB3b3JrcywgZXhjZXB0IHRoYXQgYSByZWxlYXNlZCBicmFuY2ggd2lsbCBzdGlsbA0K
-PiA+ID4gPiBmb2xsb3cNCj4gPiA+ID4gdGhlIG5ldyBrZXJuZWwgdmVyc2lvbnMsIGNhdXNpbmcg
-cG90ZW50aWFsIGJyZWFrYWdlIHdpdGggbmV3ZXINCj4gPiA+ID4ga2VybmVscyB0aGFuIGFyZSBz
-dXBwb3J0ZWQgaW4gdGhhdCByZWxlYXNlLg0KPiA+ID4gPiANCj4gPiA+ID4gUmF0aGVyIHRoYW4g
-bG9jayB0aGUgU1JDUkVWcyBhbmQgdXBkYXRlIGJyYW5jaGVzIGluIG9sZCByZWxlYXNlcywNCj4g
-PiA+ID4gd2UgY2FuIHByZXNlcnZlIHRoZSBBVVRPUkVWIG5hdHVyZSBvZiAtZGV2LCBhbmQgYWxs
-b3cgdGhlbSB0bw0KPiA+ID4gPiBzd2l0Y2ggYXV0b21hdGljYWxseSB0byB0aGUgYXJjaGl2ZWQg
-YnJhbmNoIGJhc2VkIG9uIHRoZQ0KPiA+ID4gPiBMSU5VWF9WRVJTSU9ODQo+ID4gPiA+IGluIHRo
-ZSAtZGV2IHJlY2lwZSAod2hpY2ggaXMgdW5jaGFuZ2VkIGluIHRoZSByZWxlYXNlIGJyYW5jaCku
-DQo+ID4gPiA+IA0KPiA+ID4gPiBUaGlzIGlzIGNvbnNpc3RlbnQgd2l0aCB0aGUgb3RoZXIgYnJh
-bmNoIHN3aXRjaGluZyBkb25lIGZvciB0aGUNCj4gPiA+ID4ga2VybmVscyBhbmQgd2l0aCB0aGUg
-LWRldiB3b3JrZmxvdy4NCj4gPiA+ID4gDQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEJydWNlIEFz
-aGZpZWxkIDxicnVjZS5hc2hmaWVsZEBnbWFpbC5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiDC
-oG1ldGEvY2xhc3Nlcy9rZXJuZWwteW9jdG8uYmJjbGFzcyB8IDI0ICsrKysrKysrKysrKysrKysr
-KysrKysrKw0KPiA+ID4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspDQo+ID4g
-PiA+IA0KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2tlcm5lbC15b2N0by5iYmNs
-YXNzDQo+ID4gPiA+IGIvbWV0YS9jbGFzc2VzL2tlcm5lbC15b2N0by5iYmNsYXNzDQo+ID4gPiA+
-IGluZGV4IGJhMTM5ZGQ3ZjguLjBkZjYxY2RlZjAgMTAwNjQ0DQo+ID4gPiA+IC0tLSBhL21ldGEv
-Y2xhc3Nlcy9rZXJuZWwteW9jdG8uYmJjbGFzcw0KPiA+ID4gPiArKysgYi9tZXRhL2NsYXNzZXMv
-a2VybmVsLXlvY3RvLmJiY2xhc3MNCj4gPiA+ID4gQEAgLTYzMSw3ICs2MzEsMzEgQEAgZG9fdmFs
-aWRhdGVfYnJhbmNoZXMoKSB7DQo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgICMgaWYgU1JDUkVWIGlz
-IEFVVE9SRVYgaXQgc2hvd3MgdXAgYXMgQVVUT0lOQyB0aGVyZSdzDQo+ID4gPiA+IG5vdGhpbmcg
-dG8NCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqAgIyBjaGVjayBhbmQgd2UgY2FuIGV4aXQgZWFybHkN
-Cj4gPiA+ID4gwqDCoMKgwqDCoMKgwqAgaWYgWyAiJHttYWNoaW5lX3NyY3Jldn0iID0gIkFVVE9J
-TkMiIF07IHRoZW4NCj4gPiA+ID4gKw0KPiA+ID4gPiBsaW51eF95b2N0b19kZXY9JyR7QG9lLnV0
-aWxzLmNvbmRpdGlvbmFsKCJQUkVGRVJSRURfUFJPVklERVJfdmlydA0KPiA+ID4gPiB1YQ0KPiA+
-ID4gPiBsL2tlcm5lbCIsICJsaW51eC15b2N0by1kZXYiLCAiMSIsICIiLCBkKX0nDQo+ID4gPiA+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBbIC1uICIkbGludXhfeW9jdG9fZGV2IiBdOyB0aGVu
-DQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdpdCBjaGVja291dCAtcSAt
-ZiAke21hY2hpbmVfYnJhbmNofQ0KPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCB2ZXI9JChncmVwICJeVkVSU0lPTiA9IiAke1N9L01ha2VmaWxlIHwgc2VkDQo+ID4gPiA+IHMv
-Lio9XA0KPiA+ID4gPiAqLy8pDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHBhdGNobGV2ZWw9JChncmVwICJeUEFUQ0hMRVZFTCA9IiAke1N9L01ha2VmaWxlIHwNCj4gPiA+
-ID4gc2VkIHMvLio9XCAqLy8pDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHN1YmxldmVsPSQoZ3JlcCAiXlNVQkxFVkVMID0iICR7U30vTWFrZWZpbGUgfCBzZWQNCj4gPiA+
-ID4gcy8uKj1cICovLykNCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAga3Zl
-cj0iJHZlci4kcGF0Y2hsZXZlbCINCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgYmJub3RlICJkZXYga2VybmVsOiBwZXJmb3JtaW5nIHZlcnNpb24gLT4gYnJhbmNoDQo+ID4g
-PiA+IC0+DQo+ID4gPiA+IFNSQ1JFViB2YWxpZGF0aW9uIg0KPiA+ID4gPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBiYm5vdGUgImRldiBrZXJuZWw6IHJlY2lwZSB2ZXJzaW9uDQo+ID4g
-PiA+ICR7TElOVVhfVkVSU0lPTn0sIHNyYyB2ZXJzaW9uOiAka3ZlciINCj4gPiA+ID4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZWNobyAiJHtMSU5VWF9WRVJTSU9OfSIgfCBncmVwIC1x
-ICRrdmVyDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIFsgJD8gLW5l
-IDAgXTsgdGhlbg0KPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHZlcnNpb249IiQoZWNobyAke0xJTlVYX1ZFUlNJT059IHwgc2VkDQo+ID4gPiA+ICdzL1wrLiok
-Ly9nJykiDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdmVy
-c2lvbmVkX2JyYW5jaD0idiR2ZXJzaW9uLyRtYWNoaW5lX2JyYW5jaCINCj4gPiA+ID4gKw0KPiA+
-ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1hY2hpbmVfYnJhbmNo
-PSR2ZXJzaW9uZWRfYnJhbmNoDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgZm9yY2Vfc3JjcmV2PSIkKGdpdCByZXYtcGFyc2UgJG1hY2hpbmVfYnJhbmNoDQo+
-ID4gPiA+IDI+IC9kZXYvbnVsbCkiDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgaWYgWyAkPyAtbmUgMCBdOyB0aGVuDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiYmZhdGFsICJrZXJuZWwgdmVyc2lvbiBt
-aXNtYXRjaA0KPiA+ID4gPiBkZXRlY3RlZCwNCj4gPiA+ID4gYW5kIG5vIHZhbGlkIGJyYW5jaCAk
-bWFjaGluZV9icmFuY2ggZGV0ZWN0ZWQiDQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgZmkNCj4gPiA+ID4gKw0KPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGJibm90ZSAiZGV2IGtlcm5lbDogYWRqdXN0aW5nIGJyYW5jaCB0
-bw0KPiA+ID4gPiAkbWFjaGluZV9icmFuY2gsIHNyY3JldiB0bzogJGZvcmNlX3NyY3JldiINCj4g
-PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmkNCj4gPiA+ID4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgIGVsc2UNCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGJibm90ZSAiU1JDUkVWIHZhbGlkYXRpb24gaXMgbm90IHJlcXVpcmVkIGZvcg0KPiA+ID4gPiBB
-VVRPUkVWIg0KPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmkNCj4gPiA+ID4gwqDCoMKg
-wqDCoMKgwqAgZWxpZiBbICIke21hY2hpbmVfc3JjcmV2fSIgPSAiIiBdOyB0aGVuDQo+ID4gPiA+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBbICIke1NSQ1JFVn0iICE9ICJBVVRP
-SU5DIiBdICYmIFsgIiR7U1JDUkVWfSINCj4gPiA+ID4gIT0NCj4gPiA+ID4gIklOVkFMSUQiIF07
-IHRoZW4NCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgIyBTUkNSRVZfbWFjaGluZV88TUFDSElORT4gd2FzIG5vdCBzZXQuDQo+ID4gPiA+IFRoaXMN
-Cj4gPiA+ID4gbWVhbnMgdGhhdCBhIGN1c3RvbSByZWNpcGUNCj4gPiA+ID4gLS0NCj4gPiA+ID4g
-Mi4xOS4xDQo+ID4gPiA+IA0KPiA+ID4gDQo+ID4gPiANCj4gPiANCj4gDQo+IA0KPiANCj4gDQo+
-IA0KDQo=
+From: zhengruoqin <zhengrq.fnst@fujitsu.com>
+
+0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
+removed since it is included in 1.33.1
+
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 544236b12a72ee5be5ef0147249ead112082b871)
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch | 58 -------------------
+ .../{busybox_1.33.0.bb => busybox_1.33.1.bb}  |  3 +-
+ 2 files changed, 1 insertion(+), 60 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
+ rename meta/recipes-core/busybox/{busybox_1.33.0.bb => busybox_1.33.1.bb} (92%)
+
+diff --git a/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch b/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
+deleted file mode 100644
+index 67c9f189cc..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From fe791386ebc270219ca00406c9fdadc5130b64ee Mon Sep 17 00:00:00 2001
+-From: Samuel Sapalski <samuel.sapalski@nokia.com>
+-Date: Wed, 3 Mar 2021 16:31:22 +0100
+-Subject: [PATCH] decompress_gunzip: Fix DoS if gzip is corrupt
+-
+-On certain corrupt gzip files, huft_build will set the error bit on
+-the result pointer. If afterwards abort_unzip is called huft_free
+-might run into a segmentation fault or an invalid pointer to
+-free(p).
+-
+-In order to mitigate this, we check in huft_free if the error bit
+-is set and clear it before the linked list is freed.
+-
+-Signed-off-by: Samuel Sapalski <samuel.sapalski@nokia.com>
+-Signed-off-by: Peter Kaestle <peter.kaestle@nokia.com>
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+-
+-Upstream-Status: Backport
+-CVE: CVE-2021-28831
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- archival/libarchive/decompress_gunzip.c | 12 ++++++++++--
+- 1 file changed, 10 insertions(+), 2 deletions(-)
+-
+-diff --git a/archival/libarchive/decompress_gunzip.c b/archival/libarchive/decompress_gunzip.c
+-index eb3b64930..e93cd5005 100644
+---- a/archival/libarchive/decompress_gunzip.c
+-+++ b/archival/libarchive/decompress_gunzip.c
+-@@ -220,10 +220,20 @@ static const uint8_t border[] ALIGN1 = {
+-  * each table.
+-  * t: table to free
+-  */
+-+#define BAD_HUFT(p) ((uintptr_t)(p) & 1)
+-+#define ERR_RET     ((huft_t*)(uintptr_t)1)
+- static void huft_free(huft_t *p)
+- {
+- 	huft_t *q;
+- 
+-+	/*
+-+	 * If 'p' has the error bit set we have to clear it, otherwise we might run
+-+	 * into a segmentation fault or an invalid pointer to free(p)
+-+	 */
+-+	if (BAD_HUFT(p)) {
+-+		p = (huft_t*)((uintptr_t)(p) ^ (uintptr_t)(ERR_RET));
+-+	}
+-+
+- 	/* Go through linked list, freeing from the malloced (t[-1]) address. */
+- 	while (p) {
+- 		q = (--p)->v.t;
+-@@ -289,8 +299,6 @@ static unsigned fill_bitbuffer(STATE_PARAM unsigned bitbuffer, unsigned *current
+-  * or a valid pointer to a Huffman table, ORed with 0x1 if incompete table
+-  * is given: "fixed inflate" decoder feeds us such data.
+-  */
+--#define BAD_HUFT(p) ((uintptr_t)(p) & 1)
+--#define ERR_RET     ((huft_t*)(uintptr_t)1)
+- static huft_t* huft_build(const unsigned *b, const unsigned n,
+- 			const unsigned s, const struct cp_ext *cp_ext,
+- 			unsigned *m)
+diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.1.bb
+similarity index 92%
+rename from meta/recipes-core/busybox/busybox_1.33.0.bb
+rename to meta/recipes-core/busybox/busybox_1.33.1.bb
+index b2a30ba16f..3a70a8056e 100644
+--- a/meta/recipes-core/busybox/busybox_1.33.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.33.1.bb
+@@ -46,9 +46,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+            file://rev.cfg \
+            file://pgrep.cfg \
+-           file://0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch \
+            file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
+            "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
+-SRC_URI[tarball.sha256sum] = "d568681c91a85edc6710770cebc1e80e042ad74d305b5c2e6d57a5f3de3b8fbd"
++SRC_URI[tarball.sha256sum] = "12cec6bd2b16d8a9446dd16130f2b92982f1819f6e1c5f5887b6db03f5660d28"
+-- 
+2.29.2
+
