@@ -1,119 +1,111 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web08.5553.1625703861864311761
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
+ by mx.groups.io with SMTP id smtpd.web11.6070.1625706903600222453
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jul 2021 17:24:22 -0700
+ Wed, 07 Jul 2021 18:15:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=S1oJjhOC;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.43, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f43.google.com with SMTP id 75-20020a9d08510000b02904acfe6bcccaso4098881oty.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jul 2021 17:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BMtHYdLUyNY4XU5kh2piGGXosvNY78QjwOiZWrv8soU=;
-        b=S1oJjhOCMS+L1jtMGam2tGzb4Mx0eXxajkp5aPHwK6ufGkvKtlDj+R2uQSMI51TyCq
-         TGhR5VnyrLYXWJAZAG5rceDZBQpHR9SgOvbE2ws6cETLQUh+ZCCQsAkgXSVXKuI73d7X
-         ZG7Kotw6dSCxY+vp8LIsP6ARmbsU++HjOt4Y3g4Q4wDFfSvuN6RJzYGmQJWDdxQJ+PPX
-         XRi4T1D9aj5ZeVNdE2ClLR69oDwXuoi9FVUbDE8ecmKUFfAqtcM6dG3NV6H72hIQXh19
-         uuvhEQZ27m6wnzacEDTWAE2x9A98jmM8H47VK7dbC+aXb8C5TrJ6xz9KEIT/mKQCUK4u
-         UNfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BMtHYdLUyNY4XU5kh2piGGXosvNY78QjwOiZWrv8soU=;
-        b=V4Q+n3EL95uKYEVD2s6OUB0/VzE+06KIkLy4kTZY/PgqkRpmE9HNeLP+8dZiLoz1So
-         2ECcWh+Fmerox6C0S7C3vygB8kaSMmmfj03CWQ0K/+VSt/n8+AH+eMikYsV6eKv1JA46
-         lilnDNXK7ixA7f49IpawhXc/43HzTPgJP4jHFlSSH24F4UgBCP2NHwKhbM0DTfWJOEfa
-         EKY4+K5w+Lqvvv9o/6YDYUB0q8MvWNAIvwSJ3u9+sw8ImTtpJKJ0xl+QRR7E8C0F9AxS
-         BfeMjtq5IlX6/uy7m+53oe0JjD3JJrH0T5H98WDKbcJLsajbe0crI2kPvo72WdqBFKtq
-         7RHw==
-X-Gm-Message-State: AOAM530z6T2g+/ciARV1lWobV9lA2jpL30jNbSOmh5v85tkqFM8sHd3h
-	8aXrB9b+fcPYV2b14MZ+f290WULKM/zj+Nb0
-X-Google-Smtp-Source: ABdhPJzeQUXVeGqPNBgHy8lxF1bi67u1mH1TBZHxpYW76PrizP4xUSd+VuxEfHKm2coUBnl9MfU23A==
-X-Received: by 2002:a9d:1ec:: with SMTP id e99mr16349831ote.89.1625703860616;
-        Wed, 07 Jul 2021 17:24:20 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id o20sm95706ook.40.2021.07.07.17.24.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 17:24:20 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/18] Pull request (cover letter only)
-Date: Wed,  7 Jul 2021 14:23:06 -1000
-Message-Id: <cover.1625703708.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=I1576Nr7;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: zhengrq.fnst@fujitsu.com)
+Return-Path: <zhengrq.fnst@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1625706900; i=@fujitsu.com;
+	bh=+Y3Zbyu2Fvah5mvK81hHs3tK20cuiVlDYg+MfE292io=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=I1576Nr7VW+mdjNQYulp2asdFIP5f8zwTjLwDhvcaJs2eWpQVqV4lV5MiIvvGPjZL
+	 Clmk4OXHQajgebXaXJag123mzfWwKy2r4/WF4Z6xCgfRAPUIgRJ21TaigLWLHPJgX2
+	 bOGw7IECKAS0U/3j0wqqoCExZG8oWo0aj6X2coOBJOg4s4MYcrKDQ4sXasLIQI2fyr
+	 5D1+I+gZnkGUBCIYYJFO7H6C0PdMtHRHHjUOMjJdDrfJvt/NIJ4zu/bBoTRrKmZfkb
+	 +7aHuy5h6gBSOIA3dTJvx396EHUM62XAf/XoMAWIku+Lk3nMI0miw0UewPyDRKimg/
+	 zPskpE33iQ5kA==
+Received: from [100.113.4.179] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id CB/B5-07224-49156E06; Thu, 08 Jul 2021 01:15:00 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+GYqjs58Fm
+  CwZeZRhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8appnPsBdP5Kjb9nM/YwHiNp4uRi0NIYCaT
+  xNWmZhYIZzejxNnu9WxdjJwcbAK6Eucer2XvYuTgEBHQk7j6TxQkLCzgLNH78ykziM0ioCKx/
+  sx6VpASXgEPiXcf+UHCEgIKElMevgcr4RUQlDg58wkLiM0sICFx8MULZpByCQFFidnT5SHKKy
+  RmzNjGNoGRZxaSjllIOhYwMq1itEwqykzPKMlNzMzRNTQw0DU0NNY11TUyMdRLrNJN0kst1U1
+  OzSspSgTK6iWWF+sVV+Ym56To5aWWbGIEBlFKIevHHYyHXn/QO8QoycGkJMp70ulZghBfUn5K
+  ZUZicUZ8UWlOavEhRhkODiUJ3iX+QDnBotT01Iq0zBxgQMOkJTh4lER420HSvMUFibnFmekQq
+  VOMilLivOYgCQGQREZpHlwbLIouMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLmDQ0AmsKTmV
+  cCN/0V0GImoMUMh5+CLC5JREhJNTCtYk4R90lmW/TMT5E14Ey+0sp8aW8xGe1uKxPb33byHd+
+  nm0lxRQRdO6b159ranT9LTFktBT5wsBe92zfz5EmtyiZpvri3bQb3WJt84mee+ldiKNN+acvt
+  k+9CLq3jW6kwXen5XuHfTU7Hbb4seqW7rFMhMrfnZbe8TudElZzyK8YRbEcU2jwqDyUeE99wh
+  iVMsrxfpMs5wHx2mu0c63jm/Dur5kivn9SoFnv/CX/t3glrIzozHDd4v2QP33tj+4muvczPz5
+  lVlpkeahZ5+nVZ4fmSR38jHRYVBDndaMhrXvD99PqpohenSz49u/VZbeRti7fqKtav0q2Ptd5
+  vdT9pk8Z29s6ZT3u+bFwdH6HEUpyRaKjFXFScCACtODT3HQMAAA==
+X-Env-Sender: zhengrq.fnst@fujitsu.com
+X-Msg-Ref: server-19.tower-238.messagelabs.com!1625706899!307777!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 10182 invoked from network); 8 Jul 2021 01:14:59 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-19.tower-238.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Jul 2021 01:14:59 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1681EsBh005591
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Jul 2021 02:14:59 +0100
+Received: from localhost.localdomain (10.167.225.35) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Thu, 8 Jul 2021 02:14:53 +0100
+From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] python3-pathlib2: upgrade 2.3.5 -> 2.3.6
+Date: Thu, 8 Jul 2021 09:14:30 +0800
+Message-ID: <1625706870-83847-1-git-send-email-zhengrq.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-The following changes since commit 9423ad8f0f42d249c2fcb1b86ec9abb75854f011:
+License-Update: file format changed from "ASCII text" to
+"ASCII text, with CRLF line terminators"
 
-  python3-ptest: add newly discovered missing rdeps (2021-06-28 05:01:39 -1000)
+Version 2.3.6
+^^^^^^^^^^^^^
 
-are available in the Git repository at:
+- Fix minor unicode bugs in with_name and with_suffix. Many thanks to
+  ppentchev for reporting and for providing a fix.
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+- Fix a few minor bugs.
 
-Alexander Kanavin (2):
-  python3: apply test skipping patch unconditionally
-  selftest: do not hardcode /tmp/sdk
+- Allow unicode file paths on systems that support it
+  (note: unicode file paths will not work on Windows
+  due a broken filesystem encoder on Windows on Python 2).
 
-Bruce Ashfield (4):
-  linux-yocto/5.4: update to v5.4.124
-  linux-yocto/5.4: update to v5.4.125
-  linux-yocto/5.4: update to v5.4.128
-  linux-yocto/5.4: update to v5.4.129
+- Remove travis and add github actions for regression testing.
 
-Florian Amstutz (1):
-  devtool: deploy-target: Fix preserving attributes when using --strip
+- Fix mypy warnings.
 
-Michael Ho (1):
-  sstate.bbclass: fix errors about read-only sstate mirrors
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+---
+ .../{python3-pathlib2_2.3.5.bb => python3-pathlib2_2.3.6.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pathlib2_2.3.5.bb => python3-pathlib2_2.3.6.bb} (52%)
 
-Minjae Kim (2):
-  rpm: fix CVE-2021-3421
-  gstreamer-plugins-base: fix CVE-2021-3522
-
-Richard Purdie (7):
-  kernel: Fix interaction when packaging disabled
-  kernel-devicetree: Fix interaction when packaging disabled
-  perf: Use python3targetconfig to ensure we use target libraries
-  package_pkgdata: Avoid task hash mismatches for generic task changes
-  oeqa/selftest/runcmd: Tweal test timeouts
-  sstate/staging: Handle directory creation race issue
-  oeqa/selftest/archiver: Allow tests to ignore empty directories
-
-Tim Orling (1):
-  python3: skip tests requiring tools-sdk
-
- meta/classes/kernel-devicetree.bbclass        |  11 +-
- meta/classes/kernel.bbclass                   |   2 +
- meta/classes/package_pkgdata.bbclass          |   2 +-
- meta/classes/sstate.bbclass                   |  16 +-
- meta/classes/staging.bbclass                  |   6 +-
- meta/lib/oeqa/selftest/cases/archiver.py      |  16 +-
- meta/lib/oeqa/selftest/cases/runcmd.py        |   4 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |  28 ++-
- ...pes.test_find-skip-without-tools-sdk.patch |  33 +++
- .../recipes-devtools/python/python3_3.8.10.bb |   1 +
- .../rpm/files/CVE-2021-3421.patch             | 197 ++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- meta/recipes-kernel/perf/perf.bb              |   2 +-
- .../CVE-2021-3522.patch                       |  36 ++++
- .../gstreamer1.0-plugins-base_1.16.3.bb       |   1 +
- scripts/lib/devtool/deploy.py                 |   2 +-
- 19 files changed, 337 insertions(+), 57 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
- create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3421.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2021-3522.patch
-
+diff --git a/meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb b/meta/recipes-devtools/python/python3-pathlib2_2.3.6.bb
+similarity index 52%
+rename from meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
+rename to meta/recipes-devtools/python/python3-pathlib2_2.3.6.bb
+index a022701ad0..8516bbe4d4 100644
+--- a/meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
++++ b/meta/recipes-devtools/python/python3-pathlib2_2.3.6.bb
+@@ -1,10 +1,9 @@
+ DESCRIPTION = "Object-oriented filesystem paths"
+ HOMEPAGE = "https://github.com/mcmtroffaes/pathlib2"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=042856c23a3e903b33bf361ea1cbe29a"
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=2dc08586cce3ab91bfa091b655c0e440"
+ 
+-SRC_URI[md5sum] = "f2bd0a363eb0f8fa0556f35c1d9e66fb"
+-SRC_URI[sha256sum] = "6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868"
++SRC_URI[sha256sum] = "7d8bcb5555003cdf4a8d2872c538faa3a0f5d20630cb360e518ca3b981795e5f"
+ 
+ inherit pypi setuptools3
+ 
 -- 
 2.25.1
 
