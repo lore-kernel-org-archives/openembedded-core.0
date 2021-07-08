@@ -1,158 +1,150 @@
-Received: from mailrelay1-2.pub.mailoutpod1-cph3.one.com (mailrelay1-2.pub.mailoutpod1-cph3.one.com [46.30.212.0])
- by mx.groups.io with SMTP id smtpd.web09.9705.1625737420504830302
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web09.11747.1625750571749220514
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jul 2021 02:43:41 -0700
+ Thu, 08 Jul 2021 06:22:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@berginkonsult.se header.s=20191106 header.b=kUmDXfhr;
- spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.0, mailfrom: peter@berginkonsult.se)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ak6TElwG;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: flowergom@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id l11so3519736pji.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jul 2021 06:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=20191106;
-	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-	 message-id:from:references:cc:to:subject:from;
-	bh=IrkEBjI7CLoe6opFg1DijYfQ68fS++H562o4JYcvUts=;
-	b=kUmDXfhrC4uvqum0FYcVnj30MQJQGdwxrNEobeadD2CpuVs1+naVjPPYkZB+8ME6M56U2nH8ZGzA4
-	 Dohq+3yg2CPW8Po6n9H48Nz1He7jZMDTuS7G3hdHcLqMZo1Ti62nBz6T8h+bMLRYrl02PaDr0aiQqi
-	 asvxxUFeBUqqYeJPhHA88dRPmdmvsy61suaMO07fZi9f9rcMsoCxEn5Hgl1Hxt0i4Fx1kYLsYE2OD/
-	 kDydIGnTtuXb2V7qccwENmatYJgPepjTaahIzRASqs+fYIY+gB4y6lTzvrU1nauxtIWXYMLqT+VLmk
-	 YGJs/qz2aQkGUMK8xoaVBSU77ZUcpQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=rsa1;
-	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-	 message-id:from:references:cc:to:subject:from;
-	bh=IrkEBjI7CLoe6opFg1DijYfQ68fS++H562o4JYcvUts=;
-	b=E3JNxnuNjg8W+LzRp3i1auvhvObtrX52CXLyTqpPK8lLPDleQuV7stKB7i2Y6x38fLZQvJKaXONIc
-	 JsfK9xaoxHbPM52XPMTvN6CiJOYBSGRdVIUMfDzdgDq91xBjju4wXI1643fBLjiEDqlSnf/9gSroJm
-	 RYwoFIYIHb6z8GWlAuBB6mKz8XSrv6sVs/MXJfr75+XpbOMNBJsZ6d0zz0z9blKTMV1xxPuyp9agmA
-	 hedxpWsYdBxQtjGO1G7dqac7T2PGioD3h4mm4i9QmZ19j4ZRYFkHvtnxIXktqb5L55hrN62dJu038M
-	 KdtsGKsM+Xfq4eEjBeCCqdguIkVIFrg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=ed1;
-	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-	 message-id:from:references:cc:to:subject:from;
-	bh=IrkEBjI7CLoe6opFg1DijYfQ68fS++H562o4JYcvUts=;
-	b=pyJGOPLuyBPCdT25cQHgJV6+YkbxziudkQtGLYNFe4vBoA4X7xTyL1w+Bvt9rwlq6MD7cl2OnJwVL
-	 PxksC4+DA==
-X-HalOne-Cookie: 49b97bcb9dfae20567f59d7419b2d533f1b8650e
-X-HalOne-ID: f818f22f-dfd0-11eb-925e-d0431ea8a283
-Received: from [192.168.12.21] (h-79-136-99-68.na.cust.bahnhof.se [79.136.99.68])
-	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id f818f22f-dfd0-11eb-925e-d0431ea8a283;
-	Thu, 08 Jul 2021 09:43:37 +0000 (UTC)
-Subject: Re: [OE-core] [RFC][PATCH] libubootenv: exclude from world build if no u-boot config
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com, otavio@ossystems.com.br
-References: <20210706155551.8958-1-peter@berginkonsult.se>
- <54f75f5235de458ba76f53ed6ef77a98092b9da7.camel@linuxfoundation.org>
-From: "Peter Bergin" <peter@berginkonsult.se>
-Message-ID: <a9a36c96-c9e3-c665-28f7-ace236d06603@berginkonsult.se>
-Date: Thu, 8 Jul 2021 11:43:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aCDI/TkhyNxyvELrH1UG0R5DDrIGkVuaMvAKqvFBQTw=;
+        b=Ak6TElwGOeDLKBRehAZijcnZP952iT2CdZC0LXXqSjuh7a0ahPhEgT+n2Cxp3s76ot
+         p5rzM5d8NV5mrJ7GgEcAe+Xf6PNMowDomYR+VRX9ElS/BTBOFogtPYzbvSZlmt8yHO8t
+         zM4dmU7DqecpHC66ti13wucqxPSE4zFv0WT8LkhMzXwUcHDXDJy3Gs3kd/qunRd0wCn9
+         ztLWExScx4xohV67zn6NOcOTv3LDo0tyjNu9wUGvXWwvCevv72roke81EC8sUW+lQ9AZ
+         G4JEyAuh4cnc3Pbz9wGkx+IDdh/+pbZZJPJR1fByjuXd6B5OUNPkYmGY1tnxRYPZ+U7Y
+         PwWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aCDI/TkhyNxyvELrH1UG0R5DDrIGkVuaMvAKqvFBQTw=;
+        b=M60Vi+6Vp43/BShbdeo1e90J58HEMdYDkCe/eBW2gbx9WPloCDlK2t/aHVQOnE3ghE
+         ApydaipManqofOsdPNEIFM1nt4yHpKYBUSa3B9UhkobfYIBLunebyQQpJIxRhPbjVglX
+         TU46annAwEorMYnqsJYuo/Us4ht4Spv/D8hvGaaT/PyboOEQ2M79PaefklUG9Xqa0xPh
+         lZ5rootIv2UlG6cDOKAzb6S9K7tNQUeLZGCDjTONuOfeCX8gmVIL2wsGL5NWfndb/FWq
+         A4C7pxLDgbtlNaqL9A0/NRKDl60zZIAlXfk0w6VQXDcAtb++KA/081EHpE94FTkwPU3x
+         JIqw==
+X-Gm-Message-State: AOAM533LIVF5I8SGR+uk8a/ZumM8XSBhFxfmuFSQFCOhMuT47ZMRPNh1
+	WwVZeM6qzGrN4wl41nhzl+JFuLCXxvSMlLyB
+X-Google-Smtp-Source: ABdhPJxhzjoUeisa2WA4Jib52AtL0YntIm4K+ypmq4c0Ic/U+Avc1zECfBTZV4ExSW7YHHz+FDjAKQ==
+X-Received: by 2002:a17:90a:ca8d:: with SMTP id y13mr4299149pjt.61.1625750570967;
+        Thu, 08 Jul 2021 06:22:50 -0700 (PDT)
+Return-Path: <flowergom@gmail.com>
+Received: from localhost.localdomain ([59.6.144.168])
+        by smtp.gmail.com with ESMTPSA id a5sm3032230pff.143.2021.07.08.06.22.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 08 Jul 2021 06:22:50 -0700 (PDT)
+From: "Minjae Kim" <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] dhcp: fix CVE-2021-25217
+Date: Thu,  8 Jul 2021 22:22:40 +0900
+Message-Id: <20210708132240.925-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <54f75f5235de458ba76f53ed6ef77a98092b9da7.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-On 2021-07-08 09:07, Richard Purdie wrote:
-> On Tue, 2021-07-06 at 17:55 +0200, Peter Bergin wrote:
->> As a fix for failing the world build for targets not using u-boot
->> as boot loader libubootenv is excluded from world builds if
->> both UBOOT_MACHINE and UBOOT_CONFIG variables are empty.
->>
->> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
->> ---
->>   meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
->> index 306296922c..6774290ea5 100644
->> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
->> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
->> @@ -28,3 +28,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
->>   RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
->>   
->>
->>
->>
->>   BBCLASSEXTEND = "native"
->> +
->> +# Exclude this package from world build if there is no config for u-boot
->> +EXCLUDE_FROM_WORLD = "${@'1' if not d.getVar('UBOOT_MACHINE') and not (d.getVar('UBOOT_CONFIG') or '').split() else '0'}"
-> To be honest I'm still struggling to understand the problem here.
-> (I'm also not sure we need the split() above)
-I am also trying to understand the root of this and relate to other 
-packages and dependencies in oe-core. Haven't found anything similar 
-yet. The closest but not really related constructions is for 
-'RDEPENDS_${PN} = "kernel-module-*"'  that (as far as I understand) 
-ignored in build process and assumed provided. Otherwise I guess 
-constructions similar to this are handled with COMPATIBLE_MACHINE but 
-this is not related to MACHINE but to bootloader and we don't have a 
-config for that.
-> You previously said "If you just want to build libubootenv you should be
-> able to do it for any machine, with or without u-boot support as there is
-> no build dependency between libubootenv and u-boot." which does make sense
-> to me but the above doesn't seem to be much better than the original
-> inherit?
+A buffer overrun in lease file parsing code
+can be used to exploit a common vulnerability shared by dhcpd and dhclient.
 
-llibubootenv can be built for all targets independent of bootloader. If 
-libubootenv should be useful on target it should have configuration 
-files in filesystem which are produced by u-boot as the source of 
-information is there. So for me the general question is how we handle 
-the case where package A needs (a config file from) package B to work 
-properly on target but package B is not possible to build for this 
-configuration?
+reference:
+https://www.openwall.com/lists/oss-security/2021/05/26/6
+https://kb.isc.org/docs/cve-2021-25217
+---
+ .../dhcp/dhcp/CVE-2021-25217.patch            | 66 +++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
 
-Agree that it is possibly small improvement with this and still a 
-workaround (as inherit uboot-config was). The improvement for 
-meta-freescale is to avoid another workaround for this. In 
-meta-freescale the variables UBOOT_MACHINE and UBOOT_CONFIG is in some 
-cases set per recipe as configuration names for one machine differs 
-between forks of u-boot.
-
->
-> Perhaps we should be doing something like:
->
-> python () {
->      if d.getVar('UBOOT_MACHINE') or d.getVar('UBOOT_CONFIG'):
->          d.setVar('RRECOMMENDS_${PN}-bin_append_class-target', " u-boot-default-env")
-> }
->
-> since the recipe is marked as machine specific (which I worry about in
-> itself).
-
-The reason for machine specific setting of this package from commit 
-(02d55cd35aa) message:
-
-     "...Also add u-boot-default-env to RRECOMMENDS since
-     /etc/u-boot-initial-env is being referred in libubootenv source, and
-     turns libubootenv's PACKAGE_ARCH to be MACHINE_ARCH since
-     u-boot-default-env is a machine-arch package."
-
-So it turns out we make the recipe of libubootenv machine specific 
-because we need a config file from another machine specific recipe.
-
-The files /etc/fw_env.config and/etc/u-boot-initial-env is referenced in 
-libubbotenv as the default paths to configuration. The programs tries to 
-read and parse those files and if not found the programs exit out with 
-error code and a clear message to the user. I agree with Otavios comment 
-in the other mail thread that RDEPENDS is a too strong dependency 
-between libubootenv-bin and u-boot-default-env.
-
-This is probably a small issue and I'm a bit unsure how much more effort 
-to spend on this? We should solve the issue with failing world build for 
-'non-u-boot' configs caused by my initial revert. Is the way forward to 
-make a conditional RDEPENDS as suggested? To keep it simple I would 
-suggest to either:
-
-1) removing RDEPENDS
-2) change RDEPENDS->RSUGGESTS which seems to fix the build issue
-
-In both cases above I think we can make libubootenv non-machine specific 
-again. What do you think?
-
-Best regards,
-
-/Peter
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
+new file mode 100644
+index 0000000000..91aaf83a77
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
+@@ -0,0 +1,66 @@
++From 5a7344b05081d84343a1627e47478f3990b17700 Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowergom@gmail.com>
++Date: Thu, 8 Jul 2021 00:08:25 +0000
++Subject: [PATCH] ISC has disclosed a vulnerability in ISC DHCP
++ (CVE-2021-25217)
++
++On May 26, 2021, we (Internet Systems Consortium) disclosed a
++vulnerability affecting our ISC DHCP software:
++
++    CVE-2021-25217: A buffer overrun in lease file parsing code can be
++    used to exploit a common vulnerability shared by dhcpd and dhclient
++    https://kb.isc.org/docs/cve-2021-25217
++
++New versions of ISC DHCP are available from https://www.isc.org/downloads
++
++Operators and package maintainers who prefer to apply patches selectively can
++find individual vulnerability-specific patches in the "patches" subdirectory
++of the release directories for our two stable release branches (4.4 and 4.1-ESV)
++
++   https://downloads.isc.org/isc/dhcp/4.4.2-P1/patches
++   https://downloads.isc.org/isc/dhcp/4.1-ESV-R16-P1/patches
++
++With the public announcement of this vulnerability, the embargo
++period is ended and any updated software packages that have been
++prepared may be released.
++
++Upstream-Status: Accepted [https://www.openwall.com/lists/oss-security/2021/05/26/6]
++CVE: CVE-2021-25217
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ common/parse.c | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
++
++diff --git a/common/parse.c b/common/parse.c
++index 386a632..fc7b39c 100644
++--- a/common/parse.c
+++++ b/common/parse.c
++@@ -3,7 +3,7 @@
++    Common parser code for dhcpd and dhclient. */
++ 
++ /*
++- * Copyright (c) 2004-2019 by Internet Systems Consortium, Inc. ("ISC")
+++ * Copyright (c) 2004-2021 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 1995-2003 by Internet Software Consortium
++  *
++  * This Source Code Form is subject to the terms of the Mozilla Public
++@@ -5556,13 +5556,14 @@ int parse_X (cfile, buf, max)
++ 				skip_to_semi (cfile);
++ 				return 0;
++ 			}
++-			convert_num (cfile, &buf [len], val, 16, 8);
++-			if (len++ > max) {
+++			if (len >= max) {
++ 				parse_warn (cfile,
++ 					    "hexadecimal constant too long.");
++ 				skip_to_semi (cfile);
++ 				return 0;
++ 			}
+++			convert_num (cfile, &buf [len], val, 16, 8);
+++			len++;
++ 			token = peek_token (&val, (unsigned *)0, cfile);
++ 			if (token == COLON)
++ 				token = next_token (&val,
++-- 
++2.17.1
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
+index b56a204821..5609a350cc 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
+             file://0013-fixup_use_libbind.patch \
+             file://0001-workaround-busybox-limitation-in-linux-dhclient-script.patch \
++            file://CVE-2021-25217.patch \
+ "
+ 
+ SRC_URI[md5sum] = "2afdaf8498dc1edaf3012efdd589b3e1"
+-- 
+2.24.3 (Apple Git-128)
 
