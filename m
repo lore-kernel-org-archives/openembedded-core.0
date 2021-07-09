@@ -1,118 +1,148 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web09.9621.1625830375667673446
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 09 Jul 2021 04:32:55 -0700
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web11.12442.1625843352194266885
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 09 Jul 2021 08:09:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sCCqSiKL;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: uvv.mail@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id h6so12081538iok.6
-        for <Openembedded-core@lists.openembedded.org>; Fri, 09 Jul 2021 04:32:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Elr6EC74;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id q190so9613794qkd.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jul 2021 08:09:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=R6Ma+iQ4IbfZcsMnb+cefqGmQZiBn/c9c7kN69ip2FU=;
-        b=sCCqSiKLA8HzB8SoPgWvmePUammoCNDOBrU/ahlZXoteTiq0tcqm7Wjiuq2FLb3ZIx
-         9OFN2KV0pZW0GJquPPRPoJOoqMlxD6afopWuA8vHDC7S38XtnbrGl6wdOa6IVo83A+d6
-         fCKr9Nmuu2kW1jaSRywFQ83ngs43pJ3HhPRgFgGOQtCIkJ/NKol2ScPmbpbbrfGAEtd/
-         X0MdqScpCK76WAcLMq+/RbmvxEtgGTE4Dkn8zc8ZnErEb9nVkgfjVWnejtT/bxOsbaoU
-         5X85Z+fM4gRfkLFLl8up11aaLutrpj78xO/KzvTRvHhq5HCjHxLFOYpZz1+VNvQuYxsU
-         cmMw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=OfNCIebNwU+S6bREj4CA8o+iaUEFFZ7B8SiIbTeZfQQ=;
+        b=Elr6EC74yRj0hjhu89k2lwc1g/Y4IxXhFDfiQH3xx/fv+U0/jAjCJ3XJ9Uz/izPfbi
+         jY9T7cfCE2GRjzUVnYZ+xOpADivewPSKuW6Slzbke1QdvjsUP02nDWXmzXlHhYUN7v/s
+         kkA1LipXzb7uXQDFKXYJxv1dU9uj4cB8QfeisR8uHP4iqKgz2UT1I4idlGfO3wb5z/tA
+         JtKCp2zitimt2yLK3rSpY7CBXM9HVo6As0sma0H7p1ttPXwuGAx7QIFgCVQ9/06BR2au
+         FeQ2BXbebBQA6x38iurbOgX62VdF9B6naAiMYa21M54xsgjgY8L8vmXEzA+j9I7MXvgM
+         3lsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=R6Ma+iQ4IbfZcsMnb+cefqGmQZiBn/c9c7kN69ip2FU=;
-        b=D/LpKkKfI7VYagA6A7uyMk3tjpFL+a2boeQhnqmDHhMs9sZtyFuOvFUEvYhlvoRMUO
-         YQKGg3ElPAd2FiMrCcFm8s7VPfN7bz7UP2RzVd7u6bI/4N4Aan5+zydZ1srzwFNsk7Ey
-         pPy2DE7OZ5KxNaI06GkCoI1je1i/xSzrhRuDI+1trdcWnmR2EnWVRAcScTcmmGwr55VZ
-         MpH1u2g0Ibptvk9TJjfHYLI7sj8+kFwpHIyL/L8eGYgH9t4uYcwHyWaLhPV3HRMEHBQm
-         /qoOVWt7PAKRDDyFQXXfJgBaEMz6nZeBigbBZfxAurZ3ipCxQOb+ssH2FayooVktOY7c
-         y0BA==
-X-Gm-Message-State: AOAM533WmKu1NsAhmrBHjD6TiGymn+K+XSco/N7rMSxJI9CRlLSFuAAI
-	Ls7KlcInzXZWW3y91rC5dCECSaROjynUsw==
-X-Google-Smtp-Source: ABdhPJweMCdKJD9FG4xzvIdfGjCIgjw4m7vK16498mbtz3XUW9w/wEmTMYkrBfGxU/n3pKZ6J/FRcg==
-X-Received: by 2002:a02:9a02:: with SMTP id b2mr26231479jal.107.1625830374792;
-        Fri, 09 Jul 2021 04:32:54 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from slackware.local ([37.120.205.173])
-        by smtp.gmail.com with ESMTPSA id q7sm2570463ilv.17.2021.07.09.04.32.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 04:32:54 -0700 (PDT)
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH v2 8/8] docs: add overlayfs class
-Date: Fri,  9 Jul 2021 13:31:46 +0200
-Message-Id: <20210709113146.69020-8-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210709113146.69020-1-uvv.mail@gmail.com>
-References: <20210709113146.69020-1-uvv.mail@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=OfNCIebNwU+S6bREj4CA8o+iaUEFFZ7B8SiIbTeZfQQ=;
+        b=nlmM3F4DhjPDMXR69lFZ8KmfgWOXIpmieg8whIm1M51dT2Qh43zw3fg0/waIgysogE
+         CcLU7j+R+ASes/tNWi6Q0b/49Do68EB6s7x5xW6Z29gWDCZioTODUZXkiAKIT7h3TNeL
+         ZEnAWW0pdTJeCXNqjBKglCcHLF3ZazYiMhyta9O9eHN9ang95gsW5SscJmPvAw1wTeyz
+         3p/Lrzofks3w1BNcLclxUkU+VhwVSWvCkTgJq2cDuj/Gnrvi/RZetFjvIvZneFo/tzT/
+         ta0JvcL+GJHWIeBDCTXWfUseDUogIdJszF7oPk+uWLoSVdXWmiU/NJrKlOLXmeOWTInP
+         cgHA==
+X-Gm-Message-State: AOAM531SDl7IcpsvLN5ft5lFyqLQaSjjcUwlt73VMYXmh9RHzyewH2io
+	Yp/6BwzgA8y5wWyh7pcERVl7tE1/cCCd8LSw3h4=
+X-Google-Smtp-Source: ABdhPJy+XAhQ9z5mADDWlmsN9tVa253QQBLa3N7///cMQaoBwkpn4f5jRwkKoHT2bhzMX8R9mINhVWZK0ZG5mF2gcwk=
+X-Received: by 2002:a37:bb82:: with SMTP id l124mr38033793qkf.119.1625843351281;
+ Fri, 09 Jul 2021 08:09:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1625672669-3918-1-git-send-email-wangmy@fujitsu.com>
+ <CAMKF1sqnh0w_psbrNdfTNHq-zkyEzP197mXeY89mX8rvJ5oipg@mail.gmail.com> <OSBPR01MB1845A73BC124CB75DF38D976DC189@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB1845A73BC124CB75DF38D976DC189@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 9 Jul 2021 08:08:45 -0700
+Message-ID: <CAMKF1sqRC4Qw873s3Mp8HkKPY59-HmSeqoWjuu64XjFR+VuUSA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gnome-desktop-testing: upgrade 2018.1 -> 2021.1
+To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
----
- documentation/ref-manual/classes.rst | 46 ++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+On Thu, Jul 8, 2021 at 11:30 PM wangmy@fujitsu.com <wangmy@fujitsu.com> wro=
+te:
+>
+> I used the default configuration of mips, and the compiler was mips-poky=
+-linux-gcc, which did not reproduce this problem.
+>
+> The compiler in the log you sent me is mips-yoe-linux-clang.
+>
+> Could you tell me how I can use this compiler.
 
-diff --git a/documentation/ref-manual/classes.rst b/documentation/ref-manual/classes.rst
-index 09878c480f..6d80e7dc4f 100644
---- a/documentation/ref-manual/classes.rst
-+++ b/documentation/ref-manual/classes.rst
-@@ -1708,6 +1708,52 @@ one such example. However, being aware of this class can reduce the
- proliferation of different versions of similar classes across multiple
- layers.
- 
-+.. _ref-classes-overlayfs:
-+
-+``overlayfs.bbclass``
-+=======================
-+
-+
-+It's often desired in Embedded System design to have a read-only rootfs.
-+But a lot of different applications might want to have a read-write access to
-+some parts of a filesystem. It can be especially useful when your update mechanism
-+overwrites the whole rootfs, but you want your application data to be preserved
-+between updates. The ``overlayfs`` class provides a way to achieve that by means
-+of overlayfs and at the same time keeping the base rootfs read-only.
-+
-+To use this class, set a mount point for a partition overlayfs is going to use as upper
-+layer in your machine configuration. Underlying file system can be anything that
-+is supported by overlayfs. This has to be done in your machine configuration::
-+
-+  OVERLAYFS_MOUNT_POINT[data] = "/data"
-+
-+.. note::
-+
-+  QA check fails to catch file existence if you redefine this variable in your recipe!
-+
-+The class assumes you have a data.mount systemd unit defined elsewhere in your BSP
-+(e.g. in systemd-machine-units recipe) and it's installed to the image.
-+
-+Then you can specify writable directories on a recipe basis::
-+
-+  OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
-+
-+To support several mount points you can use a different variable flag. Assume we
-+want to have a writable location on the file system, but not interested where the data
-+survive a reboot. Then we could have a mnt-overlay.mount unit for a tmpfs file system.
-+
-+In your machine configuration::
-+
-+  OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-+
-+and then in your recipe::
-+
-+  OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
-+
-+.. note::
-+
-+   The class does not support /etc directory itself, because systemd depends on it
-+
- .. _ref-classes-own-mirrors:
- 
- ``own-mirrors.bbclass``
--- 
-2.28.0
+Yeah, this issue happens when compiling with clang, architecture is
+not important. you can use meta-clang layer to reproduce it
+and set TOOLCHAIN =3D "clang" in local.conf
 
+I have sent a fix for the issue already
+
+>
+>   --
+> Best Regards
+> ---------------------------------------------------
+> Wang Mingyu
+> Development Dept.I
+> Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST) No. 6 Wenzhu Road, =
+Nanjing, 210012, China
+> TEL: +86+25-86630566-8568
+> COINS: 79988548
+> FAX: +86+25-83317685
+> MAIL: wangmy@fujitsu.com
+> http://www.fujitsu.com/cn/fnst/
+>
+> > -----Original Message-----
+> > From: Khem Raj <raj.khem@gmail.com>
+> > Sent: Thursday, July 8, 2021 11:50 AM
+> > To: Wang, Mingyu/=E7=8E=8B =E9=B8=A3=E7=91=9C <wangmy@fujitsu.com>
+> > Cc: Patches and discussions about the oe-core layer
+> > <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH] gnome-desktop-testing: upgrade 2018.1 -=
+>
+> > 2021.1
+> >
+> > fails to build on mips https://errors.yoctoproject.org/Errors/Details/=
+587476/
+> >
+> > On Wed, Jul 7, 2021 at 8:45 AM wangmy <wangmy@fujitsu.com> wrote:
+> > >
+> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > > ---
+> > >  ...esktop-testing_2018.1.bb =3D> gnome-desktop-testing_2021.1.bb} |=
+ 2
+> > > +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)  rename
+> > > meta/recipes-support/gnome-desktop-testing/{gnome-desktop-testing_20=
+18
+> > > .1.bb =3D> gnome-desktop-testing_2021.1.bb} (94%)
+> > >
+> > > diff --git
+> > > a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2=
+01
+> > > 8.1.bb
+> > > b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2=
+02
+> > > 1.1.bb
+> > > similarity index 94%
+> > > rename from
+> > > meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_201=
+8.
+> > > 1.bb rename to
+> > > meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_202=
+1.
+> > > 1.bb
+> > > index e5c69c0c46..b82eb8af2e 100644
+> > > ---
+> > > a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2=
+01
+> > > 8.1.bb
+> > > +++ b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testi=
+ng
+> > > +++ _2021.1.bb
+> > > @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D3bf50002aefd002f49e7bb854063f7e7 \
+> > >
+> > file://src/gnome-desktop-testing-runner.c;beginline=3D1;endline=3D20;m=
+d5=3D7ef3ad9
+> > da2ffcf7707dc11151fe007f4"
+> > >
+> > >  SRC_URI =3D
+> > "git://gitlab.gnome.org/GNOME/gnome-desktop-testing.git;protocol=3Dhtt=
+p"
+> > > -SRCREV =3D "4decade67b29ad170fcf3de148e41695fc459f48"
+> > > +SRCREV =3D "e346cd4ed2e2102c9b195b614f3c642d23f5f6e7"
+> > >
+> > >  DEPENDS =3D "glib-2.0"
+> > >
+> > > --
+> > > 2.25.1
+> > >
+> > >
+> > >=20
+> > >
