@@ -1,48 +1,135 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web09.15401.1625856969908702313
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.16988.1625864035917171466
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jul 2021 11:56:11 -0700
+ Fri, 09 Jul 2021 13:53:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=jjYwlc3T;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id DA1F28323F;
-	Fri,  9 Jul 2021 20:56:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1625856967;
-	bh=MFCfocyk5Nu9gRgHdFvEhUYzJRvua1dZJ4yWoMKgT14=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=jjYwlc3Tu52VU8bRR9CqtgNV/bkl+vSyZjY6yzYhXV9CLfqRyTooUXdjov0Sczcpj
-	 med7yWpumbsTIbDG/jE2S8O+ndss5LVvmmOgtqmrR9fPod/Jik8XB+QM/KROacoAHA
-	 ABdHO09UnOXUt1Ys+8jyICOCwONZfiJuQxBV2eLNYhY+FSP3v3+URmeAqIncV4ju1r
-	 aUM/6v9jBQFP3Lzdlo7GZv/lxgWKaqmgW61cta0YQUUEb2dX+qvlpEGuvcVhKRzvOX
-	 nKZ+LeHlBdCw4bAJBrF+UqeSB0nRsqDiCeuHuvmZ3G5YNQX0QwoUyIQ+HiF1rs9xpA
-	 Cqz3m9gnuDkaA==
-Subject: Re: [PATCH][dunfell] update-rc.d: update SRCREV to pull in fix for non-bash shell support
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- Changqing Li <changqing.li@windriver.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20210709181630.63081-1-marex@denx.de>
- <CAOSpxdayDMfbkBP8bs062Ft=2uvAJ3PHR7bfLunD5NsBDb5osg@mail.gmail.com>
-From: "Marek Vasut" <marex@denx.de>
-Message-ID: <b416c2cb-7a39-3187-a932-c998b84bb45b@denx.de>
-Date: Fri, 9 Jul 2021 20:56:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 169Krqe5019046
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 Jul 2021 13:53:54 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Fri, 9 Jul 2021 13:53:52 -0700
+Received: from localhost.localdomain (128.224.72.142) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Fri, 9 Jul 2021 13:53:51 -0700
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/2] buildstats.bbclass: log host data on failure to task specific file
+Date: Fri, 9 Jul 2021 16:53:43 -0400
+Message-ID: <20210709205344.233257-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdayDMfbkBP8bs062Ft=2uvAJ3PHR7bfLunD5NsBDb5osg@mail.gmail.com>
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 7/9/21 8:32 PM, Steve Sakoman wrote:
-> I'll cherry-pick this into dunfell once it hits master.
+host data, for both interval and failure, was previously
+logged into the same file which was difficult to read
+as the files file were usually large.
 
-Thank you
+host data is now logged into separate files, for each
+type of logging (failure and interval) and also for each
+failed task making it easier to read/parse.
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ meta/classes/buildstats.bbclass | 44 +++++++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
+
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index 8a1466d3fec..0de605200a8 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -108,25 +108,31 @@ def write_host_data(logfile, e, d, type):
+     import subprocess, os, datetime
+     # minimum time allowed for each command to run, in seconds
+     time_threshold = 0.5
++    limit = 10
+     # the total number of commands
+     num_cmds = 0
+-    # interval at which data will be logged
+-    interval = int(d.getVar("BB_HEARTBEAT_EVENT", False))
+     msg = ""
+     if type == "interval":
++        # interval at which data will be logged
++        interval = d.getVar("BB_HEARTBEAT_EVENT", False)
++        if interval is None:
++            bb.warn("buildstats: Collecting host data at intervals failed. Set BB_HEARTBEAT_EVENT=\"<interval>\" in conf/local.conf for the interval at which host data will be logged.")
++            d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
++            return
++        interval = int(interval)
+         cmds = d.getVar('BB_LOG_HOST_STAT_CMDS_INTERVAL')
+-        msg = "Host Stats: Collecting data at interval.\n"
++        msg = "Host Stats: Collecting data at %d second intervals.\n" % interval
+         if cmds is None:
+             d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
+-            bb.warn("buildstats: Collecting host data at intervals failed. Set BB_LOG_HOST_STAT_CMDS_INTERVAL=\"command1 ; command2 ; ... \" in conf/local.conf\n")
++            bb.warn("buildstats: Collecting host data at intervals failed. Set BB_LOG_HOST_STAT_CMDS_INTERVAL=\"command1 ; command2 ; ... \" in conf/local.conf.")
+             return
+     if type == "failure":
+         cmds = d.getVar('BB_LOG_HOST_STAT_CMDS_FAILURE')
+         msg = "Host Stats: Collecting data on failure.\n"
+-        msg += "Failed at task " + e.task + "\n"
++        msg += "Failed at task: " + e.task + "\n"
+         if cmds is None:
+             d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
+-            bb.warn("buildstats: Collecting host data on failure failed. Set BB_LOG_HOST_STAT_CMDS_FAILURE=\"command1 ; command2 ; ... \" in conf/local.conf\n")
++            bb.warn("buildstats: Collecting host data on failure failed. Set BB_LOG_HOST_STAT_CMDS_FAILURE=\"command1 ; command2 ; ... \" in conf/local.conf.")
+             return
+     c_san = []
+     for cmd in cmds.split(";"):
+@@ -134,18 +140,20 @@ def write_host_data(logfile, e, d, type):
+             continue
+         num_cmds += 1
+         c_san.append(cmd)
+-    if num_cmds <= 0:
+-        d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
+-        d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
++    if num_cmds == 0:
++        if type == "interval":
++            d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
++        if type == "failure":
++            d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
+         return
+ 
+     # return if the interval is not enough to run all commands within the specified BB_HEARTBEAT_EVENT interval
+-    limit = interval / num_cmds
+-    if limit <= time_threshold:
+-        d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
+-        d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
+-        bb.warn("buildstats: Collecting host data failed. BB_HEARTBEAT_EVENT interval not enough to run the specified commands. HINT: Increase value of BB_HEARTBEAT_EVENT in conf/local.conf\n")
+-        return
++    if type == "interval":
++        limit = interval / num_cmds
++        if limit <= time_threshold:
++            d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
++            bb.warn("buildstats: Collecting host data failed. BB_HEARTBEAT_EVENT interval not enough to run the specified commands. Increase value of BB_HEARTBEAT_EVENT in conf/local.conf.")
++            return
+ 
+     # set the environment variables 
+     path = d.getVar("PATH")
+@@ -179,7 +187,7 @@ python run_buildstats () {
+         taskdir = os.path.join(bsdir, d.getVar('PF'))
+         if isinstance(e, bb.event.HeartbeatEvent) and bb.utils.to_boolean(d.getVar("BB_LOG_HOST_STAT_ON_INTERVAL")):
+             bb.utils.mkdirhier(bsdir)
+-            write_host_data(os.path.join(bsdir, "host_stats"), e, d, "interval")
++            write_host_data(os.path.join(bsdir, "host_stats_interval"), e, d, "interval")
+ 
+     if isinstance(e, bb.event.BuildStarted):
+         ########################################################################
+@@ -254,8 +262,8 @@ python run_buildstats () {
+         build_status = os.path.join(bsdir, "build_stats")
+         with open(build_status, "a") as f:
+             f.write(d.expand("Failed at: ${PF} at task: %s \n" % e.task))
+-            if bb.utils.to_boolean(d.getVar("BB_LOG_HOST_STAT_ON_FAILURE")):
+-                write_host_data(os.path.join(bsdir, "host_stats"), e, d, "failure")
++        if bb.utils.to_boolean(d.getVar("BB_LOG_HOST_STAT_ON_FAILURE")):
++            write_host_data(os.path.join(bsdir, "host_stats_%s_failure" % e.task), e, d, "failure")
+ }
+ 
+ addhandler run_buildstats
+-- 
+2.25.1
+
