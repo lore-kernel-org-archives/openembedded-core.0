@@ -1,104 +1,70 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web12.9635.1625830369856692043
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web12.9636.1625830371205148647
  for <Openembedded-core@lists.openembedded.org>;
- Fri, 09 Jul 2021 04:32:49 -0700
+ Fri, 09 Jul 2021 04:32:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=S5eRWgqG;
- spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: uvv.mail@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id l5so12032119iok.7
-        for <Openembedded-core@lists.openembedded.org>; Fri, 09 Jul 2021 04:32:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AJbd6nUs;
+ spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: uvv.mail@gmail.com)
+Received: by mail-il1-f176.google.com with SMTP id b6so422526iln.12
+        for <Openembedded-core@lists.openembedded.org>; Fri, 09 Jul 2021 04:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=izj81jdoTw+au03RnFA6LCUrF+ukVU7gSKiN+qB//3E=;
-        b=S5eRWgqGMN26uKZfOkepKakVR4YegR3SBiA8mXAm8sZuaipCbpWwht4jNd/vC/1Wmi
-         jeWj8G8pFC0YN4erEZaZ/jVmSm5L+LS96GRx5EigytZalLEG3ZZ/1nNJsl+GuLqGZdyz
-         0LSnT6ZtCyWb8kcdVbX13KruyFKrax+cxvOhT1y9XerQL1Zgr+vn7hADL4Dq44RCQd40
-         OzozgMsFPiIODi7AXv69sCc/yNTBzDfOsuao7+zM1arSdLc+HW7ChWUO9meX8R5d4rOH
-         5aIOL6shlbuA0BsxuWTyIJxSuq1Zje74NkfOjsILk7TuqeXA0FPaZsu6R+NdmTk82yOw
-         vvyg==
+        bh=FIAy+YKj/LxATTUVTQLj1bzHaPd2wXIcZodejctvdvw=;
+        b=AJbd6nUsVKAqT/Si2tS2J7hVDVRnjcWR+4Aw1yBudKU/tsPDi9QUDuryuCKYwFDMzY
+         JquvMegQKOBSebDve1hGZnC2WHGGFcg4d3NsRd4x6dOzSAg9IqY9djbgf2oZUPUb57td
+         VSOrdu3ZQUDTpHgEu8tkdwF0tZnwuuP4kysVzl2N+8lMmC1vuipovHVLrHrGSBUINV1T
+         x9UUFAESOF4VUNo2eI52svSpqnY1lvdjWruryvkXb0L5sxSBK+SftZbkqSJS7pGoFHch
+         pNyGg8gNxmvQK9IeeY4InaOjB8ptFvwMgecRB5dFwIlPOMBhx0CG+BCzwWm1wGGUIF/O
+         eLgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=izj81jdoTw+au03RnFA6LCUrF+ukVU7gSKiN+qB//3E=;
-        b=NZ57aPr6ck1mW9hKI8ZSOTrGW8VNYIMAU9Pq4WZHUizFXd10Mxcn0jdppAzyhueUOe
-         eV9UnsVgTQQIgwYf0uWyDhK+8XUvz04lkMyAqYvBOBte6XZrlREd827TDlZn5FuTaZHT
-         esPL4oSiOF7fPgsjQuHLo3Oxnyzqyu7RSTI4a+Vb3BQ8F0625l8fxbaTGqC05iwvd/LC
-         aH8H4ywY6ArexBtw6YZcB1cX0M019uCU1y5S03RhcoW+Ccpv/vU+SzQ0zDLgFt13PjCp
-         sMVQNOAxQfhagyX/5rnQKXaMWRQ5q60DQPabYsIQjxZFUud2t9ywd0CZOFHC3XgKNT0r
-         czdA==
-X-Gm-Message-State: AOAM533xvR+RWhrulGl9+0IsQb4Te++S53/Fdsu3eqIleWaOTQdnCbCv
-	HNQpfwmZkfUyESpb3tIeO7rV5RkuvtKPpA==
-X-Google-Smtp-Source: ABdhPJxeOteDV7qfhLWOLgfTaK9PYB3TM1/G0hiuXRPpUo/6ZgTmLyX/bTpykr1r+B1aI3YRUdbTXA==
-X-Received: by 2002:a02:204:: with SMTP id 4mr14825618jau.66.1625830369180;
-        Fri, 09 Jul 2021 04:32:49 -0700 (PDT)
+        bh=FIAy+YKj/LxATTUVTQLj1bzHaPd2wXIcZodejctvdvw=;
+        b=FQNuqZWoVsChC5dEp6zHuZmKyeux5Mojv5c1nfLyWGd+xuaxW9RRC5OVaDoxBVQ0XZ
+         H+ffwUP1QpeO8+Oy7U+ZDBFAfm3mrWz+zmuQzIlnE3AhmLTiIPoVokSgxXRnBfhEB5Z+
+         Dkziyj9RB9ZJ6KCgxKInQ/zNpNd2M3QwHgI8/NFI/6XRi+SdG+iugUzzHMxcTww2FnEP
+         D0wdjl91HeUNWrXqUmxWgTkDSB8+iVy2DQkFieQKyQ4l8Xjxin5D5mAFrXNJsEtGMZuX
+         rVW4oLDx+NweDzPocHddG7oTNfUv/cqHe4JEx/wlC8GdnAkfJiR/DuSsxJRL+LOI1dq0
+         EJyQ==
+X-Gm-Message-State: AOAM531kA5y3j33Dc5Tv3t0UfSuqIZw0wmwvvEMoSkuo5B0EjPKEHNKn
+	ERKIGlXAjOPP8OzDfBk2t9a81UGjMc6kuQ==
+X-Google-Smtp-Source: ABdhPJx+1xVNwQa8iEQqegqYOmjXbI2/7/5vzDH7ocPlImtdRl2TICdmZWjlL4oNfhnhvzh4d7Dt3Q==
+X-Received: by 2002:a92:874f:: with SMTP id d15mr9141850ilm.294.1625830370495;
+        Fri, 09 Jul 2021 04:32:50 -0700 (PDT)
 Return-Path: <uvv.mail@gmail.com>
 Received: from slackware.local ([37.120.205.173])
-        by smtp.gmail.com with ESMTPSA id q7sm2570463ilv.17.2021.07.09.04.32.48
+        by smtp.gmail.com with ESMTPSA id q7sm2570463ilv.17.2021.07.09.04.32.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 04:32:48 -0700 (PDT)
+        Fri, 09 Jul 2021 04:32:50 -0700 (PDT)
 From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
 To: Openembedded-core@lists.openembedded.org
 Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH v2 4/8] rootfs-postcommands: add QA check for overlayfs
-Date: Fri,  9 Jul 2021 13:31:42 +0200
-Message-Id: <20210709113146.69020-4-uvv.mail@gmail.com>
+Subject: [PATCH v2 5/8] systemd-machine-units: add bbappend for meta-selftest
+Date: Fri,  9 Jul 2021 13:31:43 +0200
+Message-Id: <20210709113146.69020-5-uvv.mail@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210709113146.69020-1-uvv.mail@gmail.com>
 References: <20210709113146.69020-1-uvv.mail@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The check is conditional and only enabled when overlayfs is set in
-DISTRO_FEATURES
-
 Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ .../systemd-machine-units/systemd-machine-units_%.bbappend      | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/systemd-machine-units/systemd-machine-units_%.bbappend
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index e66ed5938b..b6ddf5475c 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -39,7 +39,10 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd"
- 
- ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
- 
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "overlayfs", "overlayfs_qa_check;", "", d)}'
-+
- inherit image-artifact-names
-+inherit ${@bb.utils.contains("DISTRO_FEATURES", "overlayfs", "overlayfs-qa", "", d)}
- 
- # Sort the user and group entries in /etc by ID in order to make the content
- # deterministic. Package installs are not deterministic, causing the ordering
-@@ -373,3 +376,24 @@ rootfs_reproducible () {
- 		fi
- 	fi
- }
-+
-+python overlayfs_qa_check() {
-+    # this is a dumb check for unit existence, not its validity
-+    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-+    imagepath = d.getVar("IMAGE_ROOTFS")
-+    searchpaths = [oe.path.join(imagepath, d.getVar("sysconfdir"), "systemd", "system"),
-+                   oe.path.join(imagepath, d.getVar("systemd_system_unitdir"))]
-+
-+    allUnitExist = True;
-+    for mountPoint in overlayMountPoints:
-+        path = d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint)
-+        unit = mountUnitName(path)
-+
-+        if not any(os.path.isfile(oe.path.join(dirpath, unit))
-+                   for dirpath in searchpaths):
-+            bb.warn('Unit name %s not found in systemd unit directories' % unit)
-+            allUnitExist = False;
-+
-+    if not allUnitExist:
-+        bb.fatal('Not all mount units are installed by the BSP')
-+}
+diff --git a/meta-selftest/recipes-test/systemd-machine-units/systemd-machine-units_%.bbappend b/meta-selftest/recipes-test/systemd-machine-units/systemd-machine-units_%.bbappend
+new file mode 100644
+index 0000000000..205720982c
+--- /dev/null
++++ b/meta-selftest/recipes-test/systemd-machine-units/systemd-machine-units_%.bbappend
+@@ -0,0 +1,2 @@
++# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
++include test_recipe.inc
 -- 
 2.28.0
 
