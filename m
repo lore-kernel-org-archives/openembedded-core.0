@@ -1,93 +1,83 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.9390.1625828932348001148
- for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jul 2021 04:08:52 -0700
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web09.9616.1625830366080373989
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 09 Jul 2021 04:32:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F5C8ED1
-	for <openembedded-core@lists.openembedded.org>; Fri,  9 Jul 2021 04:08:51 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 214DA3F5A1
-	for <openembedded-core@lists.openembedded.org>; Fri,  9 Jul 2021 04:08:51 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] parted: improve ptest execution
-Date: Fri,  9 Jul 2021 12:08:47 +0100
-Message-Id: <20210709110847.3758093-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XQRWf0dw;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: uvv.mail@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id k11so12091327ioa.5
+        for <Openembedded-core@lists.openembedded.org>; Fri, 09 Jul 2021 04:32:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vAEfBaXNse5l7mIe/9xZLHM8pPnmoMNHvjUfTfkzK3k=;
+        b=XQRWf0dw+YKEcPxITbAVublK3usc4WaRWakm21LrGxxDQPrcydX3K7zn5YDnY8uA2q
+         P5axlVB3kUwVAHUXTk/FgwzUD7CaCd/bUmcQ9wyn/ZMdMdWin4VqIxLcQVPZncMvunVA
+         9ePdnpuXD7hF0R4x7nAllRvf9pQJEm9sLr1rWqtbJ8zv8dHS7w/22LzjqjW+GwNIUaTH
+         eZpqE4g36ES9h3tFfXHtHP6/WkTXeiVf37E8ra8a+9wxqOYjfI5IYBD0YH9bEBAQo3PM
+         PjZKKlHk8WfTJGOgOKaV/JmBxZLInX2zFRK2oeSq65KzCLM/fn1lnGuT8CQIq4c+hwQ/
+         6A2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vAEfBaXNse5l7mIe/9xZLHM8pPnmoMNHvjUfTfkzK3k=;
+        b=gk+1flGBpT7T158UhjNL7EkVyIv4aTFiju11UhJCE8/h3zJHNRiHeEjpBfJRKlLTv/
+         iaS70d2EfuAMIiQJ/8AKuVQo7JZWTnrc7d9VipiRsj3vMME8Q7EPO209sTWXHR3131Zm
+         jqExqWRYAtxflIaydn0PafQ8dIN7rO/iJo2qV7/xevbMjmTYzAeH9nFnJi9QvzziX9Sd
+         tahdqiWtkJRDQPgMKrpgRTnnzZhwTeT2M5sY2w1jTJYza7dJ383F1Ux70Z7rAeYaUVEa
+         5bDrHl+uf1YzJIRTf5y+5ikfJXXvZZaZjz8hM4k7+9umjujVlc7NrFO13TiN/cQOYnsX
+         qfHQ==
+X-Gm-Message-State: AOAM532VytDgJdmBHzPImI7hFPM3nKUoJ34i/pG4nySYFGCz9ETOMndd
+	IQnZHQ4FJl+OnanpSXF8f7TP1qUz+Vwc4g==
+X-Google-Smtp-Source: ABdhPJyFs2MIByMv+W9JAse7gNM6tFcUfnlwcDIqWfJFGvSWSXaurdyw7nQLVD/22z/YDG80fOjnRQ==
+X-Received: by 2002:a02:a38f:: with SMTP id y15mr6762236jak.108.1625830365236;
+        Fri, 09 Jul 2021 04:32:45 -0700 (PDT)
+Return-Path: <uvv.mail@gmail.com>
+Received: from slackware.local ([37.120.205.173])
+        by smtp.gmail.com with ESMTPSA id q7sm2570463ilv.17.2021.07.09.04.32.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jul 2021 04:32:44 -0700 (PDT)
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH v2 1/8] overlayfs-qa: common functions for overlayfs
+Date: Fri,  9 Jul 2021 13:31:39 +0200
+Message-Id: <20210709113146.69020-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Delete the right log files in run-ptest so the tests can be executed
-more than once.
+This class provides commom functions for overlayfs and its QA check,
+which is performed in ROOTFS_POSTPROCESS_COMMAND
 
-Install config.h so the tests which examine the build configuration will
-do the right thing, specifically this causes the tests using libblkid to
-execute instead of skip.
-
-Add missing RDEPENDS: mkswap and tune2fs binaries, loop and vfat kernel
-modules.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/recipes-extended/parted/files/run-ptest |  2 +-
- meta/recipes-extended/parted/parted_3.4.bb   | 10 ++++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ meta/classes/overlayfs-qa.bbclass | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 meta/classes/overlayfs-qa.bbclass
 
-diff --git a/meta/recipes-extended/parted/files/run-ptest b/meta/recipes-=
-extended/parted/files/run-ptest
-index 374f1bfbc9b..c3d6fca3391 100644
---- a/meta/recipes-extended/parted/files/run-ptest
-+++ b/meta/recipes-extended/parted/files/run-ptest
-@@ -2,6 +2,6 @@
-=20
- mkdir -p /etc/udev/mount.blacklist.d
- echo /dev/sda1 >> /etc/udev/mount.blacklist.d/parted-tmp
--rm -f *.log
-+rm -f tests/*.log
- make -C tests test-suite.log
- rm /etc/udev/mount.blacklist.d/parted-tmp
-diff --git a/meta/recipes-extended/parted/parted_3.4.bb b/meta/recipes-ex=
-tended/parted/parted_3.4.bb
-index fb583489f83..4b76ca48616 100644
---- a/meta/recipes-extended/parted/parted_3.4.bb
-+++ b/meta/recipes-extended/parted/parted_3.4.bb
-@@ -35,10 +35,13 @@ do_install_ptest() {
- 	cp ${S}/build-aux/test-driver $t/build-aux/
- 	cp -r ${S}/tests $t
- 	cp ${B}/tests/Makefile $t/tests/
-+	mkdir $t/lib
-+	cp ${B}/lib/config.h $t/lib
- 	sed -i "s|^VERSION.*|VERSION =3D ${PV}|g" $t/tests/Makefile
- 	sed -i "s|^srcdir =3D.*|srcdir =3D \.|g" $t/tests/Makefile
- 	sed -i "s|^abs_srcdir =3D.*|abs_srcdir =3D \.|g" $t/tests/Makefile
--	sed -i "s|^abs_top_srcdir =3D.*|abs_top_srcdir =3D \.\.|g" $t/tests/Mak=
-efile
-+	sed -i "s|^abs_top_srcdir =3D.*|abs_top_srcdir =3D "${PTEST_PATH}"|g" $=
-t/tests/Makefile
-+	sed -i "s|^abs_top_builddir =3D.*|abs_top_builddir =3D "${PTEST_PATH}"|=
-g" $t/tests/Makefile
- 	sed -i "s|^Makefile:.*|Makefile:|g" $t/tests/Makefile
- 	sed -i "/^BUILDINFO.*$/d" $t/tests/Makefile
- 	for i in print-align print-max print-flags dup-clobber duplicate fs-res=
-ize; \
-@@ -46,9 +49,8 @@ do_install_ptest() {
- 	done
- 	sed -e 's| ../parted||' -i $t/tests/*.sh
- }
--
--RDEPENDS_${PN}-ptest =3D "bash coreutils perl util-linux-losetup python3=
- make gawk e2fsprogs-mke2fs python3-core dosfstools"
--RRECOMMENDS_${PN}-ptest =3D "kernel-module-scsi-debug"
-+RDEPENDS_${PN}-ptest =3D "bash coreutils perl util-linux-losetup util-li=
-nux-mkswap python3 make gawk e2fsprogs-mke2fs e2fsprogs-tune2fs python3-c=
-ore dosfstools"
-+RRECOMMENDS_${PN}-ptest =3D "kernel-module-scsi-debug kernel-module-loop=
- kernel-module-vfat"
- RDEPENDS_${PN}-ptest_append_libc-glibc =3D "\
-         glibc-utils \
-         locale-base-en-us \
---=20
-2.25.1
+diff --git a/meta/classes/overlayfs-qa.bbclass b/meta/classes/overlayfs-qa.bbclass
+new file mode 100644
+index 0000000000..54fa8316a2
+--- /dev/null
++++ b/meta/classes/overlayfs-qa.bbclass
+@@ -0,0 +1,14 @@
++# This class contains common functions for overlayfs and its QA check,
++# which is performed in ROOTFS_POSTPROCESS_COMMAND
++
++# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
++def escapeSystemdUnitName(path):
++    escapeMap = {
++        '/': '-',
++        '-': "\\x2d",
++        '\\': "\\x5d"
++    }
++    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
++
++def mountUnitName(unit):
++    return escapeSystemdUnitName(unit) + '.mount'
+-- 
+2.28.0
 
