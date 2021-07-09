@@ -1,34 +1,35 @@
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web08.14889.1625854540057324756
+ by mx.groups.io with SMTP id smtpd.web08.14908.1625854601624377641
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jul 2021 11:15:41 -0700
+ Fri, 09 Jul 2021 11:16:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=v3VWcqja;
+ dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=Y2x56BEg;
  spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id EECBA8323F;
-	Fri,  9 Jul 2021 20:15:36 +0200 (CEST)
+	by phobos.denx.de (Postfix) with ESMTPSA id 80B758323F;
+	Fri,  9 Jul 2021 20:16:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1625854537;
-	bh=Iv+9g05rBUwzRNDmIsvA5Y0nWWp7MPUViJ095UFVe/I=;
+	s=phobos-20191101; t=1625854600;
+	bh=10wQePubbF2QluMuxPrK/bm0UC4EhiYpcqTRnGUga60=;
 	h=From:To:Cc:Subject:Date:From;
-	b=v3VWcqjaUMtT4UarMeakHs/bJESpM5JLzAQ78vOfes3RvnaCo5NE2RCwM5NHojOTg
-	 8CnaH5jo2Z7oLGAIbdcJSQZmL6nPc4xw0QO7zYsbRuHNz0u5qGmKMweStWOP1Vd8vb
-	 vziIwBo3Tu8ihA0Y/dcN29XX0z1hYZ9TNj+kOEAI/PluB29V2+++ss70ZDrGQ4WC6f
-	 kHrZR0DXygwh5F1v4JDd9IvyvSdO8pwAwaQ8i63eeYUF4qgI91fT3A5FL5nogAwxi5
-	 Ov+t4z97kgNfijYiw4xEOHi+Ihfs4WGexILYQ+d2D71ck/mjuT3ZuG20ni9L/LRwuB
-	 ajXuVeY5pV7Kw==
+	b=Y2x56BEg1FKzid8Udswxkh4dhkTkyoW0xHlojYry+i8YBoxj5aIWF/qWU1dOZ/r4c
+	 +r12uafx0r9sTfmY1tNuhLthuxq/OaPHwDYkiftsvojh5hadrUOGY45A40oyYGALO0
+	 yJ2XEUfPUeAWWrlk+KW/oxpstbXRjbHI1Zaqivat3krKWjmGef/RKSM0YyTzjMn6Gr
+	 WPdGRs7BRHgE8vlDzzxvG+JHSy0qXG/pEMN0zGserNDUTrYepwj0iyYmmYZ3QIsAfH
+	 4iz4XmK0cGcTISsxHbVsnYAe8g8rCTqfk2D0Qm2m1GPHbMEavHUSwPM8pIDRkCmLmP
+	 NmNhkj+/XbXzg==
 From: "Marek Vasut" <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Marek Vasut <marex@denx.de>,
 	Changqing Li <changqing.li@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] update-rc.d: update SRCREV to pull in fix for non-bash shell support
-Date: Fri,  9 Jul 2021 20:15:20 +0200
-Message-Id: <20210709181520.62938-1-marex@denx.de>
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH][dunfell] update-rc.d: update SRCREV to pull in fix for non-bash shell support
+Date: Fri,  9 Jul 2021 20:16:30 +0200
+Message-Id: <20210709181630.63081-1-marex@denx.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
@@ -42,6 +43,7 @@ update-rc.d works with e.g. dash shell again.
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Changqing Li <changqing.li@windriver.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-core/update-rc.d/update-rc.d_0.8.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
