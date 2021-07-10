@@ -1,129 +1,86 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.851.1625954309864419080
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web09.997.1625954862805951952
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Jul 2021 14:58:30 -0700
+ Sat, 10 Jul 2021 15:07:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bOidz7OG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id k4so11696939wrc.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Jul 2021 14:58:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AvkxQhok;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id k4so11727174wrc.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Jul 2021 15:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Dkfvsmg4t46udH1V61Tgq96e9VNnTjYKSvfmUiUWSmc=;
-        b=bOidz7OGoMNXgI+B+cTK6YIfNdaXMWLTUTJjsdivvJpTjoE9iC8gRXAAXpk/AqzPiH
-         8BHd9GEIdsTZN9nQqr+ULaOj0DqySmgP28Euz/wtoCYIq9ftGStTOv4Iqli7yZmBAoTZ
-         j3UQR0DJ0EyPq8Q2m/BpJh19XkQCg/NDp6m+I=
+        bh=Ejl3jgXkHPK5LW/7wUCr2B26D1HGWRc9cMNjNf/dbII=;
+        b=AvkxQhokSIQa63K1sifMXQd0W0ODn3OjZhXMO8D7cDkhC++YiGdzDhCuMT9PDBjsp/
+         LZG7xopBR6CG8fyGzS6qsPyMfIJaXjooBdzrfrQgROh8dfhhNkbN3zOzrWu2zq0XLWD1
+         RI8P67IpQ35eikgMUQ38FsUDqaZoHNvFdBbXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Dkfvsmg4t46udH1V61Tgq96e9VNnTjYKSvfmUiUWSmc=;
-        b=clYOgLzTHyMp8BcrGeUAt0oqQOLFucLZBuc2Dh/1PtypVTPYLansG4lrC4AQX63P1r
-         shX7yKz4H2m98y5MAdDxyAiJAAXjSViHqToi1QFdCL3eeazenhy48SjOwUFPqkCpltja
-         a9iPArNB4PpzsvPi6V7f6zuaDRg/3Vsml0TJeveo5DGbo66CpXTy+U6kr0/DwXrSjekK
-         MHm149+7Whbu3KIFuSc9uN/K1cXXZqQiLfgc1Xfv42Dh3YVKFB1B+hq2OnaVN6a75pA8
-         FYT90EIlNIOCmPHuW+6XPXfeLKqXfZPspxF5I/tqcR/ddw6jEJzOibns4+7dfGBHql/A
-         oGdQ==
-X-Gm-Message-State: AOAM533mBE42j4E2GJnr57GKkAF8OQVFFVdqDgpxn0m9kVWM3WIByOhk
-	JUH8mSRJ4JOPldM/0yHFDa6uNWBS1tg1xA==
-X-Google-Smtp-Source: ABdhPJx2WBhrMNsjaPrj3mG/Tqp7ZhVcwToI8Ud/MEVu7d7pjYCeYnKXz31tnxDqsg1xlRgnUz/dZQ==
-X-Received: by 2002:a5d:4912:: with SMTP id x18mr18481908wrq.310.1625954308227;
-        Sat, 10 Jul 2021 14:58:28 -0700 (PDT)
+        bh=Ejl3jgXkHPK5LW/7wUCr2B26D1HGWRc9cMNjNf/dbII=;
+        b=hd5iv4+nE8kpvlu31BBawz80aeBBV9ZlS3XNWOqzx/JYvuxq4/WV3x4f9z6HYgw7bQ
+         qfCg5fWjtkln39u7liP8VwpwCC52OQvBcZgqiwgZQnt4aISlgPjvGU8WgHlzCEtEtrcx
+         /IEkzxBorsWpFPBXCqr90PeK+YGg+T228PcBOgve4Xvpkbqh4lQ09TVmyfgsg3Fwkxze
+         +zuLvds6irVAGCvOZDoQ8Vebfak9JsbfiBGYeOZxBV30P+To8bse2Q0oyT1huffLQ7zI
+         Ub+z7NQVGKDgaJfpueLzn5AtbTigix+315omOy6Kzi8fF5XoRrsX3QSwuP2kzCVUUk8Z
+         Kayg==
+X-Gm-Message-State: AOAM533Sn+1bcgIFhjworizdS/up/qd4Wmcu/qsfEeeDDzaVy1I9KDrX
+	zoDeKCM4Hp+wHQLdOcki0k0B6XNd8XcvSg==
+X-Google-Smtp-Source: ABdhPJwTPfDgS45D8GEZTipjlcmEBh461iG5cCnRDuyHwJbTwNGi+HnGIP6RRwmRUevrF+I8wGxxlA==
+X-Received: by 2002:a5d:414b:: with SMTP id c11mr10232125wrq.162.1625954861182;
+        Sat, 10 Jul 2021 15:07:41 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5e67:1ea9:260d:3e7f])
-        by smtp.gmail.com with ESMTPSA id v18sm11131611wrr.54.2021.07.10.14.58.27
+        by smtp.gmail.com with ESMTPSA id t3sm5146334wmi.14.2021.07.10.15.07.40
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jul 2021 14:58:27 -0700 (PDT)
+        Sat, 10 Jul 2021 15:07:40 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: seebs@seebs.net
-Subject: [PATCH] ports/linux: Always build statx support
-Date: Sat, 10 Jul 2021 22:58:27 +0100
-Message-Id: <20210710215827.2793347-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/3] pseudo: Add uninative configuration sanity check
+Date: Sat, 10 Jul 2021 23:07:38 +0100
+Message-Id: <20210710220740.2793958-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We want a pseudo which can build on a system without statx support but work on
-one with statx support. By adding a copy of the struct we can do this and then
-work correclty with OE's uninative again.
+When building pseudo-native to work with uninative, we need to ensure the
+configuration will work on all supported target systems. This means
+"new clone" semantics, xattr and statvfs support in particular. It is
+extremely unlikely we'd run on a system without any of these but add
+a check just to be sure when uninative is enabled.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ports/linux/nostatx/portdefs.h | 38 ++++++++++++++++++++++++++++++++++
- ports/linux/subports           |  5 +++++
- 2 files changed, 43 insertions(+)
- create mode 100644 ports/linux/nostatx/portdefs.h
+ meta/recipes-devtools/pseudo/pseudo.inc | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/ports/linux/nostatx/portdefs.h b/ports/linux/nostatx/portdefs.h
-new file mode 100644
-index 0000000..ded8ff9
---- /dev/null
-+++ b/ports/linux/nostatx/portdefs.h
-@@ -0,0 +1,38 @@
-+/*
-+ * SPDX-License-Identifier: LGPL-2.1-only
-+ *
-+ * Copy of the statx struct to allow a pseudo built on a system without
-+ * statx to work on one with statx and hence work with OE's uninative
-+ */
-+
-+struct statx_timestamp
-+{
-+  __int64_t tv_sec;
-+  __uint32_t tv_nsec;
-+  __int32_t __statx_timestamp_pad1[1];
-+};
-+
-+struct statx
-+{
-+  __uint32_t stx_mask;
-+  __uint32_t stx_blksize;
-+  __uint64_t stx_attributes;
-+  __uint32_t stx_nlink;
-+  __uint32_t stx_uid;
-+  __uint32_t stx_gid;
-+  __uint16_t stx_mode;
-+  __uint16_t __statx_pad1[1];
-+  __uint64_t stx_ino;
-+  __uint64_t stx_size;
-+  __uint64_t stx_blocks;
-+  __uint64_t stx_attributes_mask;
-+  struct statx_timestamp stx_atime;
-+  struct statx_timestamp stx_btime;
-+  struct statx_timestamp stx_ctime;
-+  struct statx_timestamp stx_mtime;
-+  __uint32_t stx_rdev_major;
-+  __uint32_t stx_rdev_minor;
-+  __uint32_t stx_dev_major;
-+  __uint32_t stx_dev_minor;
-+  __uint64_t __statx_pad2[14];
-+};
-diff --git a/ports/linux/subports b/ports/linux/subports
-index 740ec83..099ea59 100755
---- a/ports/linux/subports
-+++ b/ports/linux/subports
-@@ -55,6 +55,8 @@ else
- fi
- rm -f dummy.c dummy.o
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 65d6e5068db..e6512bc6e68 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -112,6 +112,19 @@ do_compile_prepend_class-nativesdk () {
+ 	fi
+ }
  
-+# For statx, we want a pseudo which can work with OE's uninative, i.e. build on a system without
-+# statx but work on one with it. We have a header in nostatx to allow this.
- cat > dummy.c <<EOF
- #define _GNU_SOURCE
- #include <sys/stat.h>
-@@ -62,6 +64,9 @@ struct statx x;
- EOF
- if ${CC} -c -o dummy.o dummy.c >/dev/null 2>&1; then
- 	echo "linux/statx"
-+else
-+	echo "linux/nostatx"
-+	echo "linux/statx"
- fi
- rm -f dummy.c dummy.o
- 
++do_compile_append_class-native () {
++	if [ '${@bb.data.inherits_class('uninative', d)}' = 'True' ]; then
++		for i in PSEUDO_PORT_UNIX_SYNCFS PSEUDO_PORT_UIDS_GENERIC PSEUDO_PORT_LINUX_NEWCLONE PSEUDO_PORT_LINUX_XATTR PSEUDO_PORT_LINUX_STATVFS; do
++			grep $i.1 ${S}/pseudo_ports.h
++			if [ $? != 0 ]; then
++				echo "$i not enabled in pseudo which is incompatible with uninative"
++				exit 1
++			fi
++		done
++	fi
++}
++
++
+ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' ${MAKEOPTS} 'LIB=lib/pseudo/lib$(MARK64)' install
+ }
 -- 
 2.30.2
 
