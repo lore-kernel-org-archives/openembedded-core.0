@@ -1,198 +1,129 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.26824.1625937350119250110
- for <Openembedded-core@lists.openembedded.org>;
- Sat, 10 Jul 2021 10:15:50 -0700
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.851.1625954309864419080
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 10 Jul 2021 14:58:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 2541C20008;
-	Sat, 10 Jul 2021 17:15:46 +0000 (UTC)
-Date: Sat, 10 Jul 2021 19:15:46 +0200
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Cc: Openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH v2 7/8] oeqa/selftest: overlayfs unit tests
-Message-ID: <YOnVwpvuj3OFT5Ti@piout.net>
-References: <20210709113146.69020-1-uvv.mail@gmail.com>
- <20210709113146.69020-7-uvv.mail@gmail.com>
- <YOlrZMKjhMGDaJz2@piout.net>
- <cbaa979e-a0fc-7d3a-8789-4bb265abc759@gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bOidz7OG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id k4so11696939wrc.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Jul 2021 14:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Dkfvsmg4t46udH1V61Tgq96e9VNnTjYKSvfmUiUWSmc=;
+        b=bOidz7OGoMNXgI+B+cTK6YIfNdaXMWLTUTJjsdivvJpTjoE9iC8gRXAAXpk/AqzPiH
+         8BHd9GEIdsTZN9nQqr+ULaOj0DqySmgP28Euz/wtoCYIq9ftGStTOv4Iqli7yZmBAoTZ
+         j3UQR0DJ0EyPq8Q2m/BpJh19XkQCg/NDp6m+I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Dkfvsmg4t46udH1V61Tgq96e9VNnTjYKSvfmUiUWSmc=;
+        b=clYOgLzTHyMp8BcrGeUAt0oqQOLFucLZBuc2Dh/1PtypVTPYLansG4lrC4AQX63P1r
+         shX7yKz4H2m98y5MAdDxyAiJAAXjSViHqToi1QFdCL3eeazenhy48SjOwUFPqkCpltja
+         a9iPArNB4PpzsvPi6V7f6zuaDRg/3Vsml0TJeveo5DGbo66CpXTy+U6kr0/DwXrSjekK
+         MHm149+7Whbu3KIFuSc9uN/K1cXXZqQiLfgc1Xfv42Dh3YVKFB1B+hq2OnaVN6a75pA8
+         FYT90EIlNIOCmPHuW+6XPXfeLKqXfZPspxF5I/tqcR/ddw6jEJzOibns4+7dfGBHql/A
+         oGdQ==
+X-Gm-Message-State: AOAM533mBE42j4E2GJnr57GKkAF8OQVFFVdqDgpxn0m9kVWM3WIByOhk
+	JUH8mSRJ4JOPldM/0yHFDa6uNWBS1tg1xA==
+X-Google-Smtp-Source: ABdhPJx2WBhrMNsjaPrj3mG/Tqp7ZhVcwToI8Ud/MEVu7d7pjYCeYnKXz31tnxDqsg1xlRgnUz/dZQ==
+X-Received: by 2002:a5d:4912:: with SMTP id x18mr18481908wrq.310.1625954308227;
+        Sat, 10 Jul 2021 14:58:28 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5e67:1ea9:260d:3e7f])
+        by smtp.gmail.com with ESMTPSA id v18sm11131611wrr.54.2021.07.10.14.58.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jul 2021 14:58:27 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: seebs@seebs.net
+Subject: [PATCH] ports/linux: Always build statx support
+Date: Sat, 10 Jul 2021 22:58:27 +0100
+Message-Id: <20210710215827.2793347-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <cbaa979e-a0fc-7d3a-8789-4bb265abc759@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 10/07/2021 14:47:01+0200, Vyacheslav Yurkov wrote:
-> Hi Alexandre,
-> Thanks for the build.
-> Seems like I forgot a space in _append :/
-> 
-> I'd like to address Alex request too to include a run-time test. Is there a
-> way to update only this patch without resending the whole series?
-> 
+We want a pseudo which can build on a system without statx support but work on
+one with statx support. By adding a copy of the struct we can do this and then
+work correclty with OE's uninative again.
 
-If you send a v2, of this one, I can queue it with the other ones,
-please use --in-reply-to
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ports/linux/nostatx/portdefs.h | 38 ++++++++++++++++++++++++++++++++++
+ ports/linux/subports           |  5 +++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 ports/linux/nostatx/portdefs.h
 
-> Thanks,
-> Vyacheslav
-> 
-> On 10.07.2021 11:41, Alexandre Belloni wrote:
-> > Hello,
-> > 
-> > On 09/07/2021 13:31:45+0200, Vyacheslav Yurkov wrote:
-> > > Unit tests for overlayfs.bbclass
-> > > 
-> > I believe I properly applied the series but it fails with:
-> > 
-> > Parsing recipes...ERROR: /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-1517413/meta-selftest/recipes-test/overlayfs/overlayfs-user.bb: A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration
-> > 
-> > See https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2290/steps/14/logs/stdio
-> > 
-> > > Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > > ---
-> > >   meta/lib/oeqa/selftest/cases/overlayfs.py | 126 ++++++++++++++++++++++
-> > >   1 file changed, 126 insertions(+)
-> > >   create mode 100644 meta/lib/oeqa/selftest/cases/overlayfs.py
-> > > 
-> > > diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-> > > new file mode 100644
-> > > index 0000000000..74bf1c4167
-> > > --- /dev/null
-> > > +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-> > > @@ -0,0 +1,126 @@
-> > > +#
-> > > +# SPDX-License-Identifier: MIT
-> > > +#
-> > > +
-> > > +from oeqa.selftest.case import OESelftestTestCase
-> > > +from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
-> > > +
-> > > +class OverlayFSTests(OESelftestTestCase):
-> > > +    """Overlayfs class usage tests"""
-> > > +
-> > > +    def getline(self, res, line):
-> > > +        for l in res.output.split('\n'):
-> > > +            if line in l:
-> > > +                return l
-> > > +
-> > > +    def test_distro_features_missing(self):
-> > > +        """
-> > > +        Summary:   Check that required DISTRO_FEATURES are set
-> > > +        Expected:  Fail when either systemd or overlayfs are not in DISTRO_FEATURES
-> > > +        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > > +        """
-> > > +
-> > > +        config = """
-> > > +OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-> > > +IMAGE_INSTALL_append = "overlayfs-user"
-> > > +"""
-> > > +        self.write_config(config)
-> > > +        res = bitbake('core-image-minimal', ignore_status=True)
-> > > +        line = self.getline(res, "overlayfs-user was skipped: missing required distro features")
-> > > +        self.assertTrue("overlayfs" in res.output, msg=res.output)
-> > > +        self.assertTrue("systemd" in res.output, msg=res.output)
-> > > +        self.assertTrue("ERROR: Required build target 'core-image-minimal' has no buildable providers." in res.output, msg=res.output)
-> > > +
-> > > +    def test_not_all_units_installed(self):
-> > > +        """
-> > > +        Summary:   Test QA check that we have required mount units in the image
-> > > +        Expected:  Fail because mount unit for overlay partition is not installed
-> > > +        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > > +        """
-> > > +
-> > > +        config = """
-> > > +OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-> > > +IMAGE_INSTALL_append = "overlayfs-user"
-> > > +DISTRO_FEATURES += "systemd overlayfs"
-> > > +"""
-> > > +        self.write_config(config)
-> > > +        res = bitbake('core-image-minimal', ignore_status=True)
-> > > +        line = self.getline(res, "Unit name mnt-overlay.mount not found in systemd unit directories")
-> > > +        self.assertTrue(line and line.startswith("WARNING:"), msg=res.output)
-> > > +        line = self.getline(res, "Not all mount units are installed by the BSP")
-> > > +        self.assertTrue(line and line.startswith("ERROR:"), msg=res.output)
-> > > +
-> > > +    def test_mount_unit_not_set(self):
-> > > +        """
-> > > +        Summary:   Test whether mount unit was set properly
-> > > +        Expected:  Fail because mount unit was not set
-> > > +        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > > +        """
-> > > +
-> > > +        config = """
-> > > +IMAGE_INSTALL_append = "overlayfs-user"
-> > > +DISTRO_FEATURES += "systemd overlayfs"
-> > > +"""
-> > > +        self.write_config(config)
-> > > +        res = bitbake('core-image-minimal', ignore_status=True)
-> > > +        line = self.getline(res, "A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
-> > > +        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
-> > > +
-> > > +    def test_wrong_mount_unit_set(self):
-> > > +        """
-> > > +        Summary:   Test whether mount unit was set properly
-> > > +        Expected:  Fail because not the correct flag used for mount unit
-> > > +        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > > +        """
-> > > +
-> > > +        config = """
-> > > +OVERLAYFS_MOUNT_POINT[usr-share-overlay] = "/usr/share/overlay"
-> > > +IMAGE_INSTALL_append = "overlayfs-user"
-> > > +DISTRO_FEATURES += "systemd overlayfs"
-> > > +"""
-> > > +        self.write_config(config)
-> > > +        res = bitbake('core-image-minimal', ignore_status=True)
-> > > +        line = self.getline(res, "Missing required mount point for OVERLAYFS_MOUNT_POINT[mnt-overlay] in your MACHINE configuration")
-> > > +        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
-> > > +
-> > > +    def test_correct_image(self):
-> > > +        """
-> > > +        Summary:   Check that we can create an image when all parameters are
-> > > +                   set correctly
-> > > +        Expected:  Image is created successfully
-> > > +        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > > +        """
-> > > +
-> > > +        config = """
-> > > +OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-> > > +IMAGE_INSTALL_append = "overlayfs-user systemd-machine-units"
-> > > +DISTRO_FEATURES += "systemd overlayfs"
-> > > +"""
-> > > +
-> > > +        systemd_machine_unit_append = """
-> > > +SYSTEMD_SERVICE_${PN} += " \
-> > > +    mnt-overlay.mount \
-> > > +"
-> > > +
-> > > +do_install() {
-> > > +    install -d ${D}${systemd_unitdir}/system
-> > > +    cat <<EOT > ${D}${systemd_unitdir}/system/mnt-overlay.mount
-> > > +[Unit]
-> > > +Description=Tmpfs directory
-> > > +DefaultDependencies=no
-> > > +
-> > > +[Mount]
-> > > +What=tmpfs
-> > > +Where=/mnt/overlay
-> > > +Type=tmpfs
-> > > +Options=mode=1777,strictatime,nosuid,nodev
-> > > +
-> > > +[Install]
-> > > +WantedBy=multi-user.target
-> > > +EOT
-> > > +}
-> > > +
-> > > +"""
-> > > +        self.write_config(config)
-> > > +        self.write_recipeinc('systemd-machine-units', systemd_machine_unit_append)
-> > > +        bitbake('core-image-minimal')
-> > > -- 
-> > > 2.28.0
-> > > 
-
+diff --git a/ports/linux/nostatx/portdefs.h b/ports/linux/nostatx/portdefs.h
+new file mode 100644
+index 0000000..ded8ff9
+--- /dev/null
++++ b/ports/linux/nostatx/portdefs.h
+@@ -0,0 +1,38 @@
++/*
++ * SPDX-License-Identifier: LGPL-2.1-only
++ *
++ * Copy of the statx struct to allow a pseudo built on a system without
++ * statx to work on one with statx and hence work with OE's uninative
++ */
++
++struct statx_timestamp
++{
++  __int64_t tv_sec;
++  __uint32_t tv_nsec;
++  __int32_t __statx_timestamp_pad1[1];
++};
++
++struct statx
++{
++  __uint32_t stx_mask;
++  __uint32_t stx_blksize;
++  __uint64_t stx_attributes;
++  __uint32_t stx_nlink;
++  __uint32_t stx_uid;
++  __uint32_t stx_gid;
++  __uint16_t stx_mode;
++  __uint16_t __statx_pad1[1];
++  __uint64_t stx_ino;
++  __uint64_t stx_size;
++  __uint64_t stx_blocks;
++  __uint64_t stx_attributes_mask;
++  struct statx_timestamp stx_atime;
++  struct statx_timestamp stx_btime;
++  struct statx_timestamp stx_ctime;
++  struct statx_timestamp stx_mtime;
++  __uint32_t stx_rdev_major;
++  __uint32_t stx_rdev_minor;
++  __uint32_t stx_dev_major;
++  __uint32_t stx_dev_minor;
++  __uint64_t __statx_pad2[14];
++};
+diff --git a/ports/linux/subports b/ports/linux/subports
+index 740ec83..099ea59 100755
+--- a/ports/linux/subports
++++ b/ports/linux/subports
+@@ -55,6 +55,8 @@ else
+ fi
+ rm -f dummy.c dummy.o
+ 
++# For statx, we want a pseudo which can work with OE's uninative, i.e. build on a system without
++# statx but work on one with it. We have a header in nostatx to allow this.
+ cat > dummy.c <<EOF
+ #define _GNU_SOURCE
+ #include <sys/stat.h>
+@@ -62,6 +64,9 @@ struct statx x;
+ EOF
+ if ${CC} -c -o dummy.o dummy.c >/dev/null 2>&1; then
+ 	echo "linux/statx"
++else
++	echo "linux/nostatx"
++	echo "linux/statx"
+ fi
+ rm -f dummy.c dummy.o
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
+
