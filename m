@@ -1,239 +1,154 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web12.8120.1626016644200616138
- for <Openembedded-core@lists.openembedded.org>;
- Sun, 11 Jul 2021 08:17:24 -0700
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.8664.1626019837877868746
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 11 Jul 2021 09:10:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SP+Dwqqv;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: uvv.mail@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id f13so36195540lfh.6
-        for <Openembedded-core@lists.openembedded.org>; Sun, 11 Jul 2021 08:17:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fIcdq08+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id go30so1371224ejc.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Jul 2021 09:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LwjRag3OHNLcZ/p/cuzZo42vq7INJeT3Vh3AWZv4XFo=;
-        b=SP+Dwqqv0PjYUFOe90AuQhfBZOsjgxhrW5Ew8iiVTSzqNUH/Vxb+O6cypCZY0SHPAm
-         QtVqcw+yLXV1ji3hqwQ6dkQ1HyJzK4wtHg+VvykhflivRc3+o/qzP2bp+kTSktecVgJH
-         3fTwpvaFbRGnakpDENgAdyeL4Ed3RQ3zdr2gIk6Hd07mDaoneUdjJyNUQhx8ACbAZxqj
-         zW4yriuL4z8zUF+XWeFEEUh5rGnXFitxhUIhCRLQY8TuUNaQKCbK3jP/ZwJkXpaUfHKz
-         ul86kG6qvkYq4uC3uARKUkgC9J+KA+00Sd74DtdVDhoG4ly9WLaRAFB6CX8T2zcfJ17w
-         WRHw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZUrDSLUAKYa6EiJDArfO+1Fr3/ePM2NBkMKPJP0mWUA=;
+        b=fIcdq08+o6lwxOKf3XiPG5Vc9LWKqXktWwVUrHzFFzXKr3O56d6MWvVFrHWSoaAnuJ
+         qh/dum0+kmJrrJRQ9h5++bXJT094sThfpdw/4RfnTjeGvuLf10NuJQMWP4g/0gTMCV5m
+         r99nhEhLce4LPN+MOtqbyROoF2n8zTleAfTNXZmKfc5yGStPlsj/l4R87ZJWeSnA5E4H
+         2hxLqDB12EnOQ5rRCd7ruyAQ/e4CukaWG+m4ejG4xdH2nJnrND3nDipiKXFYvvurCyF2
+         viOPG5I+qaJgVg4zCrNaeNy1zMimv8Sm1SqpyLXlyclgmZ8qaHEUI+RCh6uPSUHIYMWS
+         6EcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LwjRag3OHNLcZ/p/cuzZo42vq7INJeT3Vh3AWZv4XFo=;
-        b=p8jkiUmCFd6t5BmoBSGVe0TZH9+ReXdVmxy3wqJpIjQV02B9DtoDViADhGe7/74tDg
-         nLyoZbfwc/x3QWyba4UIeC0L34TnRjTvlHolXvn3RGINB+sYEsVp+WrRmNU5yP9G/g6T
-         4Bjggf0J5C3ryaY4G1Pb/Z4/HFSYBg5CDL7OCSGsicTSUyA8P0C3bQ4UxyQ/9KUJeuJX
-         UOugsfIpSFOjPp6Zv0sN8lqrTkMdnfoKAN9Nw/TIvnUW4FGm4aJFHXchbiYvSQr7+OqB
-         YCmfwVkFlnZ9v7033ekvVT4XSXhSWPortY0AvUST6noTlUsy//aB/EZTDdXZpjmkGBaK
-         tpxQ==
-X-Gm-Message-State: AOAM533qnl0Isr4ahvs2f8fmJSOJ9XuiTi2e8/BcoV9uLbUmcZD5CoNV
-	d/vp6y0eQc2kDuT/zU30qWWnFYL0Cs7L42I0
-X-Google-Smtp-Source: ABdhPJyMJjbMVqjR8k/XUkb5baKLy6PV8cX12RkEONFIedhVo8TgZrgUEhOZI33ba15gscpjpaqevA==
-X-Received: by 2002:ac2:569a:: with SMTP id 26mr36034252lfr.19.1626016642064;
-        Sun, 11 Jul 2021 08:17:22 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from slackware.local ([185.253.97.14])
-        by smtp.gmail.com with ESMTPSA id z12sm163367lfu.53.2021.07.11.08.17.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jul 2021 08:17:21 -0700 (PDT)
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH v2 7/8] oeqa/selftest: overlayfs unit tests
-Date: Sun, 11 Jul 2021 17:16:29 +0200
-Message-Id: <20210711151629.40035-1-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <YOnVwpvuj3OFT5Ti@piout.net>
-References: <YOnVwpvuj3OFT5Ti@piout.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZUrDSLUAKYa6EiJDArfO+1Fr3/ePM2NBkMKPJP0mWUA=;
+        b=TJ3e83sV74OVM4EERWdjXRrJmPbRMkcrntR+V/ixIebYS6OSZnKNfXbdvrFLSo/9VF
+         aOP2vNP8l/SEOs5wvg28dTyFramgalKzQVxAOET8ZO4DKfQTTEYLVgxa9tueFgKBHP//
+         2h/idnttwvAyl71Hor8vCxEzXz0L4MzdRRazWy/UhuPJdwGSYRT2p2wJb9Wv1PJZXwNO
+         XjdUhuiA0MMxtdtvl+2w3jlCBc3w8jys6xNAjT8ZweX0dkO129bcjTkgHwzKqRHCBLc3
+         wsCLKlK6jKRPEKdsIHu30kdbS1qT+/qOpZua0RQ/nxZmzHW0bNtwY0WHbaE/Y5wsWIwM
+         kr9Q==
+X-Gm-Message-State: AOAM531Hw/bKz0UyLkiUFcgtYht/ZqmBr1XTlfYwqNPJwCi3iJajgfgF
+	Vd+Aj2stmRB9eVtV1I+HeHKGgKgLNTuPYqdDQFo=
+X-Google-Smtp-Source: ABdhPJwGygpSRO8dhdEwt/NXmRdVm/GihRXMuLdAOCj62Wmepiba/wYDfTY14OW5CeYQgNeqt6YxYweKTpEEXNFnSYc=
+X-Received: by 2002:a17:907:3e22:: with SMTP id hp34mr2250508ejc.334.1626019836370;
+ Sun, 11 Jul 2021 09:10:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210706175821.41519-1-bruce.ashfield@gmail.com> <d781befb33cb4f3b53e1e7989311ef52ce56e927.camel@linuxfoundation.org>
+In-Reply-To: <d781befb33cb4f3b53e1e7989311ef52ce56e927.camel@linuxfoundation.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Sun, 11 Jul 2021 12:10:25 -0400
+Message-ID: <CADkTA4OBhNxtY+z=i4F9LJq2w0rbq9whmcQH-dyxLpWJa2-qiA@mail.gmail.com>
+Subject: Re: [PATCH] linux-yocto/5.13: add devupstream support
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Unit tests for overlayfs.bbclass
+On Sun, Jul 11, 2021 at 5:53 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2021-07-06 at 13:58 -0400, bruce.ashfield@gmail.com wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > We are always getting questions about building -stable, or mainline
+> > master. Rather than introducing a separate set of recipes, we can
+> > facilitate this sort of testing by using the existing devupstream
+> > bbclass support.
+> >
+> > To build an unpatched or otherwise modifed -stable of 5.13, simply
+> > set the linux-yocto preferred version to:
+> >
+> >   upstream+5.13%
+> >
+> > And your wish will be granted, as the build will use v5.13/base
+> > which matches the main linux-yocto version, simply with no extra
+> > changes applied.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >
+> > Richard,
+> >
+> > This is the patch that I was talking about earlier in the yocto dev
+> > meeting.
+> >
+> > I personally find this the easiest to maintain, since it is just
+> > a variant of linux-yocto_<version>, and ends up just being a
+> > different branch versus anything radically different.
+> >
+> > I am open to making this a different / named recipe to make the
+> > distinction more clear, but I'm worried about the impression
+> > that we were doing extensive testing on the bare -stable branches
+> > when most of the testing (which is transient to the base -stable)
+> > happens on our standard/base branch.
+> >
+> > Either way, I'll work on getting this and the -dev tweaks I sent
+> > earlier added to some part of our AB testing to make sure that
+> > they stay in good shape.
+>
+> Sorry for the delay on this one, I wanted to try something. I have a
+> tweak to propose and since patches speak louder than words:
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.13.bb b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
+> index cd51e04b95d..ab81a977b8a 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.13.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
+> @@ -25,13 +25,13 @@ SRCREV_machine_qemumips64 ?= "b74fe3dcca0653609fcb75aad883b1db07619081"
+>  SRCREV_machine ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+>  SRCREV_meta ?= "ceb5fa598d08902fe2934c041875aa92d9a6fa19"
+>
+> -# set your preferred version of linux-yocto to 'upstream+<version>%', and you'll
+> +# set your preferred provider of virtual/kernel to 'linux-yocto-upstream', and you'll
+>  # get the <version>/base branch, which is pure upstream -stable, and the same
+>  # meta SRCREV as the linux-yocto-standard builds
+>  BBCLASSEXTEND = "devupstream:target"
+>  DEFAULT_PREFERENCE_class-devupstream = "-1"
+>  SRCREV_class-devupstream = "62fb9874f5da54fdb243003b386128037319b219"
+> -PV_class-devupstream = "upstream+${LINUX_VERSION}+git${SRCPV}"
+> +PN_class-devupstream = "linux-yocto-upstream"
+>  KBRANCH_class-devupstream = "v5.13/base"
+>
+>  # remap qemuarm to qemuarma15 for the 5.8 kernel
+>
+> Basically this does what you were doing but brings with it the advantages
+> of having the target in it's own recipe namespace by changing PN.
+>
+> This means you'd set:
+>
+> PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-upstream"
+>
+> to enable and the advantage is that if multiple linux-yocto recipes have
+> this, you can do:
+>
+> PREFERRED_VERSION_linux-yocto-upstream = "5.13%"
+>
+> or whatever, it all works as normal.
+>
+> This drops the hacked up PV field and I think makes things work nicely.
+>
+> Does that seem reasonable to you? It should work just as well with your workflows?
+>
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
----
- meta/lib/oeqa/selftest/cases/overlayfs.py | 167 ++++++++++++++++++++++
- 1 file changed, 167 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/overlayfs.py
+Most definitely.
 
-diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-new file mode 100644
-index 0000000000..a5a4792eb0
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-@@ -0,0 +1,167 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
-+
-+class OverlayFSTests(OESelftestTestCase):
-+    """Overlayfs class usage tests"""
-+
-+    def getline(self, res, line):
-+        for l in res.output.split('\n'):
-+            if line in l:
-+                return l
-+
-+    def add_overlay_conf_to_machine(self):
-+        machine_inc = """
-+OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-+"""
-+        self.set_machine_config(machine_inc)
-+
-+    def test_distro_features_missing(self):
-+        """
-+        Summary:   Check that required DISTRO_FEATURES are set
-+        Expected:  Fail when either systemd or overlayfs are not in DISTRO_FEATURES
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+"""
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "overlayfs-user was skipped: missing required distro features")
-+        self.assertTrue("overlayfs" in res.output, msg=res.output)
-+        self.assertTrue("systemd" in res.output, msg=res.output)
-+        self.assertTrue("ERROR: Required build target 'core-image-minimal' has no buildable providers." in res.output, msg=res.output)
-+
-+    def test_not_all_units_installed(self):
-+        """
-+        Summary:   Test QA check that we have required mount units in the image
-+        Expected:  Fail because mount unit for overlay partition is not installed
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
-+
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "Unit name mnt-overlay.mount not found in systemd unit directories")
-+        self.assertTrue(line and line.startswith("WARNING:"), msg=res.output)
-+        line = self.getline(res, "Not all mount units are installed by the BSP")
-+        self.assertTrue(line and line.startswith("ERROR:"), msg=res.output)
-+
-+    def test_mount_unit_not_set(self):
-+        """
-+        Summary:   Test whether mount unit was set properly
-+        Expected:  Fail because mount unit was not set
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
-+
-+        self.write_config(config)
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
-+        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
-+
-+    def test_wrong_mount_unit_set(self):
-+        """
-+        Summary:   Test whether mount unit was set properly
-+        Expected:  Fail because not the correct flag used for mount unit
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
-+
-+        wrong_machine_config = """
-+OVERLAYFS_MOUNT_POINT[usr-share-overlay] = "/usr/share/overlay"
-+"""
-+
-+        self.write_config(config)
-+        self.set_machine_config(wrong_machine_config)
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "Missing required mount point for OVERLAYFS_MOUNT_POINT[mnt-overlay] in your MACHINE configuration")
-+        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
-+
-+    def test_correct_image(self):
-+        """
-+        Summary:   Check that we can create an image when all parameters are
-+                   set correctly
-+        Expected:  Image is created successfully
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user systemd-machine-units"
-+DISTRO_FEATURES += "systemd overlayfs"
-+
-+# Use systemd as init manager
-+VIRTUAL-RUNTIME_init_manager = "systemd"
-+
-+# enable overlayfs in the kernel
-+KERNEL_EXTRA_FEATURES_append = " features/overlayfs/overlayfs.scc"
-+"""
-+
-+        systemd_machine_unit_append = """
-+SYSTEMD_SERVICE_${PN} += " \
-+    mnt-overlay.mount \
-+"
-+
-+do_install_append() {
-+    install -d ${D}${systemd_system_unitdir}
-+    cat <<EOT > ${D}${systemd_system_unitdir}/mnt-overlay.mount
-+[Unit]
-+Description=Tmpfs directory
-+DefaultDependencies=no
-+
-+[Mount]
-+What=tmpfs
-+Where=/mnt/overlay
-+Type=tmpfs
-+Options=mode=1777,strictatime,nosuid,nodev
-+
-+[Install]
-+WantedBy=multi-user.target
-+EOT
-+}
-+
-+"""
-+
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+        self.write_recipeinc('systemd-machine-units', systemd_machine_unit_append)
-+
-+        bitbake('core-image-minimal')
-+
-+        def getline_qemu(out, line):
-+            for l in out.split('\n'):
-+                if line in l:
-+                    return l
-+
-+        with runqemu('core-image-minimal') as qemu:
-+            # Check that we have /mnt/overlay fs mounted as tmpfs and
-+            # /usr/share/my-application as an overlay (see overlayfs-user recipe)
-+            status, output = qemu.run_serial("/bin/mount -t tmpfs,overlay")
-+
-+            line = getline_qemu(output, "on /mnt/overlay")
-+            self.assertTrue(line and line.startswith("tmpfs"), msg=output)
-+
-+            line = getline_qemu(output, "upperdir=/mnt/overlay/upper/usr/share/my-application")
-+            self.assertTrue(line and line.startswith("overlay"), msg=output)
+That meets my goals of just having one more SRCREV to bump in the main
+recipe, and it is easily accessible.
+
+I can spin a v2, unless you want to just take your changes and merge
+them as-is ?
+
+Bruce
+
+
+> Cheers,
+>
+> Richard
+>
+>
+
+
 -- 
-2.28.0
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
