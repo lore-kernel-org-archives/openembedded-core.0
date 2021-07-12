@@ -1,84 +1,118 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web12.12819.1626103961672064847
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web09.12761.1626103962637612911
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 08:32:41 -0700
+ Mon, 12 Jul 2021 08:32:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=a8t84Ydb;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id o201so11667132pfd.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fWXLEoOY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d12so16759101pfj.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bXa2/DbHVMX2OvOBccaj+KBLzUdOrafHqgwR7HWfW+Y=;
-        b=a8t84Ydby4Yzj5VSOVTkrbGbMRsJBvLfdaGwr7gYfPBBl7GjsJKWuhi8o7tmFf+Rbd
-         ePG8g0M6WO7yX6V5sxdo7kQBhZnLEhD3gLKqoe2lHA8LuBYH5/SYfAv04w9K6Uy8Yq5v
-         HaUb4A4dIgdOESr6X37H7xUgf9nyWmHgE18gX76OXoVv1uUG1Im33Sas78Jn2rIw7mXW
-         e8ybghBtFpa4v3eF3dWM/bJ6JH/wffWFlhHAHolGzeXmeoDF5DppSy8/DlhEu4wfckAK
-         OtLzUF5j1vFBkv4QPahG/tppYRURgXu3h/k8/zFluCaGA87xnAEWaM9J+cq2lU2OqLyp
-         FpBw==
+        bh=DOVS6K0jogfqj/xKNg96pOYeCzvcCPC8xyqKHP22jVo=;
+        b=fWXLEoOYsd6l+7y1SRWSLscMbijnsKA3hEP+ltN3SSEMriu4ZSgsz9NULXWqUMT+HW
+         m4Y6vm7/SIXW+NIVO1h9iIhfLcCS8KDvheJlz0DB+7iXuO1230vA2RJD13DN5eVwx7KK
+         mwJA90v/MwUrsIJzqfxXx+NzW8uNt+IqGPCX/wyz9T2PL0pL4zJJ1xk7Qt+oxb/SGxAz
+         NVihwzrZt2cIsyEWr3pAD3meL9rDz7L34zZi/rVT/RrBnMYFpikbtIApHSqc139C86P2
+         FwyTYoPnnGtG6chOL6wgzW+UmmgJNlz7G3q+PLMNbsgR5dWzuP7pWCmsgcLJC2EPesQX
+         Q4oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bXa2/DbHVMX2OvOBccaj+KBLzUdOrafHqgwR7HWfW+Y=;
-        b=q660hxgO8PkVVDhEyL4SGG4gIans/E6HVpz/yReVo0KIoFFeP0h/2WHgKWYIAVnC4X
-         ECUfi1phlqa1WpS9rCEX9vFJuMX3NBeDoAc9sqewsdIwUfxuSY3EKdQ/zoflYqDx63KB
-         1T0tzF0kW4kNBnexJ5uMngbkIvDpkFdgQmSc1iZg70IeV8LVPUiwGlxwAkL57rbHdUnR
-         iTFSL5kx370mwxMxrEn4ITrtVIZRy/lnHGDyO1EpoSF1Hw/PwO+7Vlhd48seNfxcqxEh
-         k8l2n7L4DnlYke5LA3YxpJ8+uc/P75inXz2I8vxt6PA+3D5X4Xo920Pg3gwX4qTd4gwM
-         bnvw==
-X-Gm-Message-State: AOAM531J0kf1Ddh8wGKOY1U59rLVq58kAelWu2UufTVwjlkfx1g+cHIR
-	KirA6Np5g4CNDwNDtSmyVy16OA2wVW3ldbCb
-X-Google-Smtp-Source: ABdhPJxP99gbfTCwtIKdlfBFatBZJEQYyQRFpAZFqTVTAT0STNKHwX1kVbUxOLdDEJljcYxzjYYu/g==
-X-Received: by 2002:a63:e046:: with SMTP id n6mr7211784pgj.15.1626103960847;
-        Mon, 12 Jul 2021 08:32:40 -0700 (PDT)
+        bh=DOVS6K0jogfqj/xKNg96pOYeCzvcCPC8xyqKHP22jVo=;
+        b=UTzxP6x7JEiwUx8zU1piGL6YycCjxyc5Cb9wxbxBp3rerVqBuZ+PA0f7arzzbhoY6B
+         3SqDaeXAhJKyr2XypSbm5fCezKewSWRxO9NLrmoIL4DUJp1+AnGJjelmvLJFspxlbRJv
+         6S1HrIa1yb82e1RPQ7V2sUkf2gW/vVSnUZLRktvjhAnytq1foJSSaOEbBzM/8XbIK5Mw
+         D4dgTscjtqdZMabUeXpp6XGcsekBszZ4zHmnulPy9dOQ3vDZaOg36v2tJ29fHmCRcLgH
+         DSvq6kX7NjWj2+pDJoYnWIo9UDROfcacoDZSaWaQDhk5MXy56wLUExEdjm/0taoKCekk
+         u3Cg==
+X-Gm-Message-State: AOAM531Luqdlz9vjqtGPukmaAcYulK6M4EW07Ef7alWYV64Hww8JG4BW
+	7arGmqlqlpu6VCjBd7khFUkVwb2/+zFFUDRE
+X-Google-Smtp-Source: ABdhPJw244u/xvYNNB0nUVMDykC1x8OEoJuaprOq4g0recIcsgWp3GXRgnh/rjvThXcta5Go8xF52w==
+X-Received: by 2002:a65:63c1:: with SMTP id n1mr54224649pgv.398.1626103956762;
+        Mon, 12 Jul 2021 08:32:36 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.39
+        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 08:32:40 -0700 (PDT)
+        Mon, 12 Jul 2021 08:32:36 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/12] glibc: update to lastest 2.31 release HEAD
-Date: Mon, 12 Jul 2021 05:31:57 -1000
-Message-Id: <eb03d3f72472539b10de49a32bdd3c68c34b658e.1626103708.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/12] webkitgtk: upgrade 2.28.2 -> 2.28.3
+Date: Mon, 12 Jul 2021 05:31:55 -1000
+Message-Id: <a452fbbdb9646cb2a2f37a680a269b41f4bf215b.1626103708.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1626103708.git.steve@sakoman.com>
 References: <cover.1626103708.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Includes the following fixes:
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-4f0a61f753 wordexp: handle overflow in positional parameter number (bug 28011)
-8e88c0d888 Fix SXID_ERASE behavior in setuid programs (BZ #27471)
-74a4425fae Enhance setuid-tunables test
-bb5bb87959 tst-env-setuid: Use support_capture_subprogram_self_sgid
-700264179c support: Add capability to fork an sgid child
-7fa6d30eea support: Typo and formatting fixes
-0de2b69c31 support: Pass environ to child process
-0c92f409a7 S390: Also check vector support in memmove ifunc-selector [BZ #27511]
+This is a bug fix release in the stable 2.28 series.
 
+- Enable kinetic scrolling with async scrolling.
+- Fix web process hangs on large GitHub pages.
+- Bubblewrap sandbox should not attempt to bind empty paths.
+- Fix threading issues in the media player.
+- Fix several crashes and rendering issues.
+
+Remove CVE-2020-13753.patch since fix is included in 2.28.3
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1e67e325ba620fe91ef11ab2a1029fbbc54b3c69)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../webkit/webkitgtk/CVE-2020-13753.patch         | 15 ---------------
+ .../{webkitgtk_2.28.2.bb => webkitgtk_2.28.3.bb}  |  4 +---
+ 2 files changed, 1 insertion(+), 18 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.28.2.bb => webkitgtk_2.28.3.bb} (97%)
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 7ae64a190f..aac0d9b3bf 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.31/master"
- PV = "2.31+git${SRCPV}"
--SRCREV_glibc ?= "f84949f1c4bbf20e6a1d9a5859cf012cde060ede"
-+SRCREV_glibc ?= "4f0a61f75385c9a5879cbe7202042e88f692a3c8"
- SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
+deleted file mode 100644
+index d8504c2b36..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Backport [https://trac.webkit.org/changeset/262368/webkit?format=diff&new=262368]
+-CVE: CVE-2020-13753
+-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+-
+-Index: a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp
+-===================================================================
+---- a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp	(revision 262367)
+-+++ b/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp	(revision 262368)
+-@@ -642,5 +642,5 @@
+-         int r;
+-         if (rule.arg)
+--            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 1, rule.arg);
+-+            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 1, *rule.arg);
+-         else
+-             r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 0);
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
+index cf6b2ffae7..44de685548 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
+@@ -19,10 +19,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://cross-compile.patch \
+            file://0001-Fix-build-with-musl.patch \
+            file://include_array.patch \
+-           file://CVE-2020-13753.patch \
+            "
+-SRC_URI[md5sum] = "ec0ef870ca37e3a5ebbead2f268a28ec"
+-SRC_URI[sha256sum] = "b9d23525cfd8d22c37b5d964a9fe9a8ce7583042a2f8d3922e71e6bbc68c30bd"
++SRC_URI[sha256sum] = "f0898ac072c220e13a4aee819408421a6cb56a6eb89170ceafe52468b0903522"
  
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
 -- 
 2.25.1
 
