@@ -1,81 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.11243.1626097928152241718
- for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 06:52:08 -0700
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web08.12150.1626101940052320379
+ for <Openembedded-core@lists.openembedded.org>;
+ Mon, 12 Jul 2021 07:59:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B73856D
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 06:52:07 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 621063F7D8
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 06:52:07 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 9/9] tcl: increase timeouts in interp.test
-Date: Mon, 12 Jul 2021 14:51:59 +0100
-Message-Id: <20210712135159.2131269-9-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210712135159.2131269-1-ross.burton@arm.com>
-References: <20210712135159.2131269-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=erCRZlcH;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: uvv.mail@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id u13so4628539lfs.11
+        for <Openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 07:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GlZDxty1fm6DgLbGfKOhwxTaC840PD5r23rOBxCNWic=;
+        b=erCRZlcHobBLCHddIva588Igt11D9ydBvV7W3+S3kfe0RSWc7zs5pPLzeGAe3YThzg
+         j9phR2KciBssnMs8q6J2v9vUBqM9Yt6lntpTf1C3cGYCw9pU3jtr0ytqe0FnotLE8DEy
+         CP47neNA6jYoTNDhq+dTZy7H7FAjcU2NGOU7+30wtGWYaqoaPGFnDrIQuF0nMz6InyVq
+         KXw87JcmHvY/WCZ//mstwZsDqLDI0bLbpyq6B4zFzbMn/OwnDbJP6szMZtXVjkbscbm/
+         UHoNA6M3lt0friEzqOJ4sVAtFhHjsOLMpfDIY6qPxAMlXCrs+8I4v4OsF56CJnlKntvq
+         r1Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GlZDxty1fm6DgLbGfKOhwxTaC840PD5r23rOBxCNWic=;
+        b=Ph++RjHzq7AoTY1D7A3Ofvz3ZmNIf3PI+vSmT78iICrwHyYHnjgKvr3wsEwoDXlfKU
+         ZWfi+xTcfqXLJvmLxuYbWC5keNDg7Cna5BDkjmJpkDKKuc3OCDx8Hhk5PTs01LHD5elD
+         K8Q7I6DNCVGG/Cnxdg4EKMnAGG0IeKv5GjOAPIzconT6gIcZbLAIX7aUhPnzVm6HZvLl
+         b3JK8Ow2R/Rs/39ec/P7IEFFh5oCYcKZLH/rzyX7pzsit6ON6Ccsm/Pk+EsA0oXlA5xr
+         hInmAD0ApbhiZpKIWXrpG7s4adapulgUv4yk0zdHl4uq3Czkmq7/0tQMIZJVV+xuzkI6
+         e6tA==
+X-Gm-Message-State: AOAM530U9VnCSSL3pui54QwFW77SHhSE7K0XIZveS7x3/zHTlnLHbmd3
+	eOz/Cpib1pY3dptYR+UhyIFLxuSn9Thw1Q==
+X-Google-Smtp-Source: ABdhPJwgd3Nu6au8GzpKKlEFAeaxvv96C7fRZSxU/B0OV1W0pFEZRIUfV3oB4ud/WQDBiZdqgz8pEQ==
+X-Received: by 2002:a05:6512:33d0:: with SMTP id d16mr32113279lfg.311.1626101926915;
+        Mon, 12 Jul 2021 07:58:46 -0700 (PDT)
+Return-Path: <uvv.mail@gmail.com>
+Received: from slackware.local ([185.253.97.13])
+        by smtp.gmail.com with ESMTPSA id u10sm1529817ljl.122.2021.07.12.07.58.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jul 2021 07:58:46 -0700 (PDT)
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH v2 6/8] overlayfs: meta-selftest recipe
+Date: Mon, 12 Jul 2021 16:58:38 +0200
+Message-Id: <20210712145838.120424-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <169101B9490F777E.4752@lists.openembedded.org>
+References: <169101B9490F777E.4752@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+The recipe demonstrates example usage of overlayfs bbclass
+
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/recipes-devtools/tcltk/tcl/interp.patch | 23 ++++++++++++++++++++
- meta/recipes-devtools/tcltk/tcl_8.6.11.bb    |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-devtools/tcltk/tcl/interp.patch
+ .../overlayfs-user/overlayfs-user.bb            | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/interp.patch b/meta/recipes-=
-devtools/tcltk/tcl/interp.patch
+diff --git a/meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb b/meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb
 new file mode 100644
-index 0000000000..f33dbb21ac
+index 0000000000..5c7be7da97
 --- /dev/null
-+++ b/meta/recipes-devtools/tcltk/tcl/interp.patch
-@@ -0,0 +1,23 @@
-+Sometimes this test fails, and it appears as if this is because if the s=
-ystem is
-+loaded then the 'after 0' and 'after 10' blocks happen in the same itera=
-tion of
-+the interpretter and are executed in the wrong order.
++++ b/meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb
+@@ -0,0 +1,17 @@
++SUMMARY = "Overlayfs class unit test"
++DESCRIPTION = "Contains an overlayfs configuration"
++LICENSE = "MIT"
 +
-+Increase the timeout on the 10ms interval to 1000ms to be a little more =
-forgiving
-+of system load.
++INHIBIT_DEFAULT_DEPS = "1"
++EXCLUDE_FROM_WORLD = "1"
 +
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
++inherit ${@bb.utils.contains("DISTRO_FEATURES", "overlayfs", "overlayfs", "", d)}
++include test_recipe.inc
 +
-+diff --git a/tests/interp.test b/tests/interp.test
-+index 385d3e2ab..3b07ce30c 100644
-+--- a/tests/interp.test
-++++ b/tests/interp.test
-+@@ -3599,7 +3599,7 @@ test interp-36.7 {ChildBgerror sets error handler =
-of child [1999035]} -setup {
-+     child eval {
-+         variable done {}
-+         after 0 error foo
-+-        after 10 [list ::set [namespace which -variable done] {}]
-++        after 1000 [list ::set [namespace which -variable done] {}]
-+         vwait [namespace which -variable done]
-+     }
-+     set result
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-dev=
-tools/tcltk/tcl_8.6.11.bb
-index 0d7c2e4ac3..57a86e4c64 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-@@ -22,6 +22,7 @@ SRC_URI =3D "${BASE_SRC_URI} \
-            file://fix_issue_with_old_distro_glibc.patch \
-            file://tcl-remove-hardcoded-install-path.patch \
-            file://alter-includedir.patch \
-+           file://interp.patch \
-            file://run-ptest \
- "
- SRC_URI[sha256sum] =3D "cfb49aab82bd179651e23eeeb69606f51b0ddc575ca55c3d=
-35e2457469024cfa"
---=20
-2.25.1
++OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/my-application"
++
++do_install() {
++    install -d ${D}/usr/share/my-application
++}
++
++FILES_${PN} += "/usr"
+-- 
+2.28.0
 
