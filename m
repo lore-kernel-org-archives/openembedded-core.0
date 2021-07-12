@@ -1,214 +1,163 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
- by mx.groups.io with SMTP id smtpd.web09.7961.1626076132246701382
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
+ by mx.groups.io with SMTP id smtpd.web12.8066.1626076630267724134
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 00:48:52 -0700
+ Mon, 12 Jul 2021 00:57:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PEEiVSc1;
- spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f182.google.com with SMTP id h16so3771288vkk.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 00:48:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=19e7E4BPnQYoUwV99LHegApxPkYpvLFgq9NYyoMVEEw=;
-        b=PEEiVSc1qSwP8tLknHHr4QxsLnoPAlugJHgQIeH4euNeamRnGjjKfpclOuL/qbT80T
-         kNgNW9u8MmviPZU08WJTqS720Tpstek06rGhsv9HWVSAJnwDr2UMc1h9aisOLH32wErq
-         xQAfSqp7Q80Ya8pA5IBeqESZediHxjbTzv0Xu9FFALaA1pfazP6wVLfo7YatXyn7gjN0
-         q70/zkmnnrMh4SHRPctWcK+fAh3NTI+tiFOuMuIXoXDgu4dD2rpY3klAUoPasqRDw7AT
-         wiMQcyFt0AJD1iY8MCqyBumOsz4A5uOCQSkxwmbu95dKBOWQSjq7yr9Se6j3uBS3cP31
-         bcjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=19e7E4BPnQYoUwV99LHegApxPkYpvLFgq9NYyoMVEEw=;
-        b=R8KsNsXw+9VnqNaPzDuxXq7EcWMWnnK5s6M3Dbz6Xn4dyuo6nr0+GkcwlzFnhNzV60
-         G2eCK5bT+lBYxUEEi1TRlZhwHerL98OpCPtRoFrf2Law/TZQ7ZwwvNpSQLHkV3vz+OQA
-         s64i6aOBSg17IqxYBSH4kYpFQISEastnUSk4IqP+sOAm2Hy+e/+1lezmbBIqTVHbX5rN
-         gfkR6TSu98Ov11phS8VcTYHLJKFSwgwfFFUDUB4tMFGY4jkxuzwFB6SwZiRQkA8p5ROw
-         Wp4rGPBMBVqJSJMaU+N68UaP1bDgMLM6y6nAJnXwyt8jAfXQ7auVA2leaqjA/hfXSuEY
-         jd3A==
-X-Gm-Message-State: AOAM531CzIw5wnGsx2zswV5LSj8tsP4JAgb4mI2qREAyMudi1CnRTAHj
-	l+I0yiBSSDvqXn/kxVw/NUsoyhKqvvUK5ARBP+M=
-X-Google-Smtp-Source: ABdhPJw5re4rf7epm0AxQ4zPhA2jJJV0zfzNEP4uMv5CYBMxzeck8dEeLxTV5ec6eP1k7EVYwVENYhkA8meNSPAQKBo=
-X-Received: by 2002:a1f:960a:: with SMTP id y10mr41779131vkd.8.1626076131463;
- Mon, 12 Jul 2021 00:48:51 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=aJImmvvi;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1626076627; i=@fujitsu.com;
+	bh=5ZdbWRLqqfY0vG6gXqsrhyhz/VRQ7tBpta1Hz66JnSg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=aJImmvvigOYZULqjDZ5cqBQl0qrhTW/MVRGzv1KsYmRkwsY4zj9siDnztOCsXTcqR
+	 gKPsudINkUHNNe67fnt5yNEkGmzwPUOMkUiRuPBWt/jDLqXP+XvuwJTARbNFJD8tFb
+	 aPGkIY8WABo5MdqaPDC7Nw6Pwt35I3/1gdrFjiPnOiOCQbFlXta3L4Vys8xOZ59/oC
+	 kXn62Tgy1nwq9B/0WpafwJ+YMVcoOCxC+dC+5Ik39PTd2ff1BBE8F1OwJPX119Bnvr
+	 YMIOpOtgcEYsvLrCu+jp4JKSZ9eX66Pn4yW3GgCYs9O0HfYzWTIoD5UgJ+LYqp0ist
+	 l955+QKmHBCsA==
+Received: from [100.113.7.10] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id FF/3E-07224-3D5FBE06; Mon, 12 Jul 2021 07:57:07 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRWlGSWpSXmKPExsViZ8MRqnv56+s
+  Eg+cVFnd+vmN3YPQ4t3EFYwBjFGtmXlJ+RQJrRkv7G/aCjXIVXccmsDUwnpXqYuTiEBLYyiTx
+  /+VCxi5GTiDnJKPEvXMFIDabgJrE9Fs3WLsYOThEBPQkrv4TBQkzC6hIvPjdww5iCwt4S6z5f
+  wjMZhFQlbi9YS3YGF4BJ4nWt70sILaEgILElIfvmSHighInZz5hgZgjIXHwxQtmiBpFidmXm1
+  lAVkkIVErceJw6gZF3FpKOWUg6FjAyrWK0TCrKTM8oyU3MzNE1NDDQNTQ01jXXNTI10kus0k3
+  SSy3VTU7NKylKBMrqJZYX6xVX5ibnpOjlpZZsYgSGVkoh+58djNdff9A7xCjJwaQkyqtz+XWC
+  EF9SfkplRmJxRnxRaU5q8SFGGQ4OJQleT2CwCgkWpaanVqRl5gDDHCYtwcGjJMJb/gUozVtck
+  JhbnJkOkTrFqMvx7ufiRcxCLHn5ealS4rxTPwEVCYAUZZTmwY2AxdwlRlkpYV5GBgYGIZ6C1K
+  LczBJU+VeM4hyMSsK8TiCreDLzSuA2vQI6ggnoiMIdL0GOKElESEk1MC059XuWraOBwsHJa+8
+  8X1IVW7mfVauioz9tKYNtyjebc4pegQvEhQw0dt2a2zX3eu+kahGWMKcgvQnKC9+9+pz445F0
+  n+m7/O8HrQqVpX2ztyQ0bTC+PO/ss67wq0WzTP+nHnt6d/p94yUBHdFPZ3VtOM//lqVM3fOUX
+  WjL1PILK+6r35iaGsAjbxNW97T+dpn6jyn386VZeoMMX8yzzHu9skRjX7BUwIFSid3L+S8pPz
+  hz7uS7OvUo81mrT0yyz/7q0/9u1fIdXwLm7RO7v39fwl2O0pdej/lnXVY/0bzMc0aj+L11zJ1
+  3PBf33J5860rP79OnezdOitxeVvHBdePM8Oz3T9r/mV65ea+9rW+bEktxRqKhFnNRcSIApeGK
+  xTQDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-8.tower-245.messagelabs.com!1626076626!228346!1
+X-Originating-IP: [62.60.8.85]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 24840 invoked from network); 12 Jul 2021 07:57:06 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-8.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 12 Jul 2021 07:57:06 -0000
+Received: from R01UKEXCASM223.r01.fujitsu.local (ex2k13_223.fs.fujitsu.com [10.182.185.121])
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 16C7v0al028560
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:57:06 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Mon, 12 Jul 2021 08:56:59 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v4] python3-setuptools: upgrade 57.0.0 -> 57.1.0
+Date: Mon, 12 Jul 2021 15:56:48 +0800
+Message-ID: <1626076608-17034-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <1626052555-16162-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1626052555-16162-1-git-send-email-wangmy@fujitsu.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 12 Jul 2021 09:48:40 +0200
-Message-ID: <CANNYZj-HZDupeZ5xX2tibaLSZFGHngWAW3WQE8oLAYG-vGroYQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] python3-setuptools: upgrade 57.0.0 -> 57.1.0
-To: wangmy <wangmy@fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003194aa05c6e85a19"
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
+Content-Type: text/plain
 
---0000000000003194aa05c6e85a19
-Content-Type: text/plain; charset="UTF-8"
+reproducibility.patch
+deleted since it's been merged upstream.
 
-Sorry, but the file is still not deleted. Please remember to look at the
-patches before sending them.
+v57.1.0
+-------
 
-Alex
+Changes
+^^^^^^^
+* #2692: Globs are now sorted in 'license_files' restoring reproducibility by eliminating variance from disk order.
+* #2714: Update to distutils at pypa/distutils@e2627b7.
+* #2715: Removed reliance on deprecated ssl.match_hostname by removing the ssl support. Now any index operations rely on the native SSL implementation.
 
-On Mon, 12 Jul 2021 at 03:16, wangmy <wangmy@fujitsu.com> wrote:
+Documentation changes
+^^^^^^^^^^^^^^^^^^^^^
+* #2604: Revamped the backward/cross tool compatibility section to remove
+  some confusion.
+  Add some examples and the version since when ``entry_points`` are
+  supported in declarative configuration.
+  Tried to make the reading flow a bit leaner, gather some informations
+  that were a bit dispersed.
 
-> reproducibility.patch
-> deleted since it's been merged upstream.
->
-> v57.1.0
-> -------
->
-> Changes
-> ^^^^^^^
-> * #2692: Globs are now sorted in 'license_files' restoring reproducibility
-> by eliminating variance from disk order.
-> * #2714: Update to distutils at pypa/distutils@e2627b7.
-> * #2715: Removed reliance on deprecated ssl.match_hostname by removing the
-> ssl support. Now any index operations rely on the native SSL implementation.
->
-> Documentation changes
-> ^^^^^^^^^^^^^^^^^^^^^
-> * #2604: Revamped the backward/cross tool compatibility section to remove
->   some confusion.
->   Add some examples and the version since when ``entry_points`` are
->   supported in declarative configuration.
->   Tried to make the reading flow a bit leaner, gather some informations
->   that were a bit dispersed.
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  ...on3-setuptools_57.0.0.bb => python3-setuptools_57.1.0.bb} | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->  rename meta/recipes-devtools/python/{python3-setuptools_57.0.0.bb =>
-> python3-setuptools_57.1.0.bb} (88%)
->
-> diff --git a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
-> b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-> similarity index 88%
-> rename from meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
-> rename to meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-> index a15b51e31c..c066d8209f 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
-> +++ b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-> @@ -8,10 +8,9 @@ inherit pypi setuptools3
->
->  SRC_URI_append_class-native = "
-> file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
->
-> -SRC_URI += "file://0001-change-shebang-to-python3.patch \
-> -            file://reproducibility.patch"
-> +SRC_URI += "file://0001-change-shebang-to-python3.patch"
->
-> -SRC_URI[sha256sum] =
-> "401cbf33a7bf817d08014d51560fc003b895c4cdc1a5b521ad2969e928a07535"
-> +SRC_URI[sha256sum] =
-> "cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63afddd82d681de4d22a597b"
->
->  DEPENDS += "${PYTHON_PN}"
->
-> --
-> 2.25.1
->
->
-> 
->
->
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../python3-setuptools/reproducibility.patch  | 40 -------------------
+ ...57.0.0.bb => python3-setuptools_57.1.0.bb} |  5 +--
+ 2 files changed, 2 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-setuptools/reproducibility.patch
+ rename meta/recipes-devtools/python/{python3-setuptools_57.0.0.bb => python3-setuptools_57.1.0.bb} (88%)
 
---0000000000003194aa05c6e85a19
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/python/python3-setuptools/reproducibility.patch b/meta/recipes-devtools/python/python3-setuptools/reproducibility.patch
+deleted file mode 100644
+index 149d8ad5ce..0000000000
+--- a/meta/recipes-devtools/python/python3-setuptools/reproducibility.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-The License-File lines in PKG-INFO change ordering depending on the order on disk, 
+-for example for python-packaging, one build shows:
+-
+-License-File: LICENSE
+-License-File: LICENSE.APACHE
+-License-File: LICENSE.BSD
+-
+-and the other shows:
+-
+-License-File: LICENSE
+-License-File: LICENSE.BSD
+-License-File: LICENSE.APACHE
+-
+-This is because glob uses os.listdir() which is unsorted. Sort the result to avoid this.
+-
+-Upstream-Status: Submitted [https://github.com/pypa/setuptools/issues/2691]
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Index: setuptools-57.0.0/setuptools/dist.py
+-===================================================================
+---- setuptools-57.0.0.orig/setuptools/dist.py
+-+++ setuptools-57.0.0/setuptools/dist.py
+-@@ -15,7 +15,7 @@ import distutils.command
+- from distutils.util import strtobool
+- from distutils.debug import DEBUG
+- from distutils.fancy_getopt import translate_longopt
+--from glob import iglob
+-+from glob import glob
+- import itertools
+- import textwrap
+- from typing import List, Optional, TYPE_CHECKING
+-@@ -603,7 +603,7 @@ class Distribution(_Distribution):
+-         return (
+-             path
+-             for pattern in patterns
+--            for path in iglob(pattern)
+-+            for path in sorted(glob(pattern))
+-             if not path.endswith('~')
+-             and os.path.isfile(path)
+-         )
+diff --git a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
+index a15b51e31c..c066d8209f 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
+@@ -8,10 +8,9 @@ inherit pypi setuptools3
+ 
+ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ 
+-SRC_URI += "file://0001-change-shebang-to-python3.patch \
+-            file://reproducibility.patch"
++SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ 
+-SRC_URI[sha256sum] = "401cbf33a7bf817d08014d51560fc003b895c4cdc1a5b521ad2969e928a07535"
++SRC_URI[sha256sum] = "cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63afddd82d681de4d22a597b"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+-- 
+2.25.1
 
-<div dir=3D"ltr"><div>Sorry, but the file is still not deleted. Please reme=
-mber to look at the patches before sending them.<br></div><div><br></div><d=
-iv>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Mon, 12 Jul 2021 at 03:16, wangmy &lt;<a href=3D"mailto=
-:wangmy@fujitsu.com">wangmy@fujitsu.com</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">reproducibility.patch<br>
-deleted since it&#39;s been merged upstream.<br>
-<br>
-v57.1.0<br>
--------<br>
-<br>
-Changes<br>
-^^^^^^^<br>
-* #2692: Globs are now sorted in &#39;license_files&#39; restoring reprodu=
-cibility by eliminating variance from disk order.<br>
-* #2714: Update to distutils at pypa/distutils@e2627b7.<br>
-* #2715: Removed reliance on deprecated ssl.match_hostname by removing the=
- ssl support. Now any index operations rely on the native SSL implementatio=
-n.<br>
-<br>
-Documentation changes<br>
-^^^^^^^^^^^^^^^^^^^^^<br>
-* #2604: Revamped the backward/cross tool compatibility section to remove<=
-br>
-=C2=A0 some confusion.<br>
-=C2=A0 Add some examples and the version since when ``entry_points`` are<b=
-r>
-=C2=A0 supported in declarative configuration.<br>
-=C2=A0 Tried to make the reading flow a bit leaner, gather some informatio=
-ns<br>
-=C2=A0 that were a bit dispersed.<br>
-<br>
-Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.com" targe=
-t=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0...<a href=3D"http://on3-setuptools_57.0.0.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">on3-setuptools_57.0.0.bb</a> =3D&gt; <a href=3D"http://pyth=
-on3-setuptools_57.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setu=
-ptools_57.1.0.bb</a>} | 5 ++---<br>
-=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-setup=
-tools_57.0.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_57=
-.0.0.bb</a> =3D&gt; <a href=3D"http://python3-setuptools_57.1.0.bb" rel=3D"=
-noreferrer" target=3D"_blank">python3-setuptools_57.1.0.bb</a>} (88%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-setupt=
-ools_57.0.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_57.=
-0.0.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-setupto=
-ols_57.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_57.1=
-.0.bb</a><br>
-similarity index 88%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python3-setupto=
-ols_57.0.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_57.0=
-.0.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python3-setuptool=
-s_57.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_57.1.0=
-.bb</a><br>
-index a15b51e31c..c066d8209f 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-setuptools_57=
-.0.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_57.0.0.bb<=
-/a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-setuptools_57=
-.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_57.1.0.bb<=
-/a><br>
-@@ -8,10 +8,9 @@ inherit pypi setuptools3<br>
-<br>
-=C2=A0SRC_URI_append_class-native =3D &quot; file://0001-conditionally-do-=
-not-fetch-code-by-easy_install.patch&quot;<br>
-<br>
--SRC_URI +=3D &quot;file://0001-change-shebang-to-python3.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://reproducibility.patch&qu=
-ot;<br>
-+SRC_URI +=3D &quot;file://0001-change-shebang-to-python3.patch&quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;401cbf33a7bf817d08014d51560fc003b895c4cdc1a5=
-b521ad2969e928a07535&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63af=
-ddd82d681de4d22a597b&quot;<br>
-<br>
-=C2=A0DEPENDS +=3D &quot;${PYTHON_PN}&quot;<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000003194aa05c6e85a19--
