@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.5888.1626056248347432763
+ by mx.groups.io with SMTP id smtpd.web11.5901.1626056248491899798
  for <openembedded-core@lists.openembedded.org>;
  Sun, 11 Jul 2021 19:17:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 3BABA38C117B
+	by mail.yoctoproject.org (Postfix) with ESMTP id 3D8F638C1236
 	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 02:17:27 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster@mvista.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libuv: upgrading to 1.41.1 FAILED
-Message-ID: <MADEUP.1690E98AF3A274DF.22557@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0624640916815406006=="
+Subject: [AUH] systemd-boot: upgrading to 249 FAILED
+Message-ID: <MADEUP.1690E98AFB62DE85.27803@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============3674129914498926370=="
 
---===============0624640916815406006==
+--===============3674129914498926370==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,11 +23,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libuv* to *1.41.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *systemd-boot* to *249* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade libuv -V 1.41.1 -S 8c438ced8f36e787280800e94c21a82560219a1c
+The following devtool command failed:  upgrade systemd-boot -V 249 -S f6278558da0304ec6b646bb172ce4688c7f162a5
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -58,9 +58,10 @@ NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 INFO: Extracting upgraded version source...
-ERROR: Execution of 'git checkout 8c438ced8f36e787280800e94c21a82560219a1c' failed with exit code 128:
-fatal: reference is not a tree: 8c438ced8f36e787280800e94c21a82560219a1c
-
+ERROR: Revision f6278558da0304ec6b646bb172ce4688c7f162a5 was found on multiple branches: 
+  main
+  v249-stable
+Please provide the correct branch in the devtool command with "--srcbranch" or "-B" option.
 
 
 
@@ -70,4 +71,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0624640916815406006==--
+--===============3674129914498926370==--
