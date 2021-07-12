@@ -1,95 +1,86 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web09.12766.1626103974445568328
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web08.12699.1626103979573133470
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 08:32:54 -0700
+ Mon, 12 Jul 2021 08:32:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=2OWhF3Yz;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id h1-20020a17090a3d01b0290172d33bb8bcso13018054pjc.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YMhUPAXd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id k20so11657418pgg.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ak4J0QR9BaCembKS5SsDW/2uOyLjYcPQ2mPFsVz46IU=;
-        b=2OWhF3YzArF5xq4zAtl/c8fTpHJIzdkzTxkG80VwZs+7hoBFwoEHk+FRE2M3lPJA3z
-         s3thA4Pm/Dk0aoaa2baH0CUBWEjxCyIjw5s/7KHIBfWeSVCfU0yFfgxJ0mDRh79cwJE6
-         Po+AMDEw9DPg6dV1Sga4hOMz4A1bkqgdQNYJHz9yKIf+6j89SDxR6UByPDGsnUmq5sAS
-         A0jNkQdKS7lNxhhxMRywZ56xbQcxtayfEX7yya/941vGfE3pGLoOF6Hpzmh+4aRjFxnb
-         IL1mOQeZmQPr2lbqYR4Osm5cEs47I3vBTOnEHmA4DuwBjHBeFfGTiTFCsGWPr3V0iVtB
-         251g==
+        bh=PmjhS/1hWxIIciRwWhs7UZdL2qqBJ53bdLluUnAZb/s=;
+        b=YMhUPAXdGD0EfjQhQwp6w4tHuaIoJYXYJWuiN9IaD8eHEQ7B0rI3zUzPQymThmTM/M
+         sdDhzUUdvogDYCf4CTrIJB7romnvXGHvo4qCyT+7owctl670xp5mBGNmH1D8UYdODSQv
+         XWWJBR/LVYJIXlB7lrHeCCxuAatlejPP/ddf7c2/GVHEnSRjI+dnhYr3i3ZwBIE3YnfX
+         cCx569DUiyC7MBXA2mHs46hUP0Hbub1j7RMkB2Uzl9AMXmCEvnm5mveK/g2yutc1J85H
+         NYe3porzopzWbOw2zLRPgRpy4YYeQfcQu0d2C66QZcBS7a3spskRj2LjfInxELlnUfVu
+         FOxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ak4J0QR9BaCembKS5SsDW/2uOyLjYcPQ2mPFsVz46IU=;
-        b=ogExWnsRsyxqbjqgbEUrEpjvl+m630Do4bZorFDnnJkVGxCICMLUdt04UUpls6XPc/
-         qeD0P27bMrRHjo2M4w/j1vCCCl/y5NX0ijFVQTeTdtGmaoyYM6g9eVCp0N7E2RK9WDrr
-         e0t9zd9AoZejJuMJ5mwK7pUcQIUTcoT79AWyAhuJ9ET8rESpVV07M2E9Tq6d8xg8jBTe
-         6xyJ+uAstxx7FApye0DvIZNL9jlq8nWZBJUVyWWI7HXxt7fzzVU09pKiXHGn+O/l35Xx
-         WPBBEkGjqTQomaYIt7Lr7OtZ9cQXV6BxWKJPzK+Rbggxhl8hj7JOhbYNFI5fq4OU7lXV
-         TRRA==
-X-Gm-Message-State: AOAM533ONBu2BUiwutZnL23rFcQI1lEHKh2geiblrT9n+ZtsANlxQmxT
-	W6qcDViuf1QLxk+pq5yOCCeNIhNaaBBH15yL
-X-Google-Smtp-Source: ABdhPJwOnSb9Ku7AkXNq+AHkDXfb2p0QC5SUJ33HIEEXYpAn91J3qHxjgJty/FItqi5uYQEINevb6Q==
-X-Received: by 2002:a17:902:7108:b029:129:5858:b388 with SMTP id a8-20020a1709027108b02901295858b388mr43820351pll.37.1626103973599;
-        Mon, 12 Jul 2021 08:32:53 -0700 (PDT)
+        bh=PmjhS/1hWxIIciRwWhs7UZdL2qqBJ53bdLluUnAZb/s=;
+        b=XOhTRI7bJw3NdNKLqIuIIcQNUXPHSxqFC/OdXxk9LRwSPK+9JG75p6DsZcGhzkDpvm
+         X+9pElgA1za2IFrnSKobxJRkNjvTli1fOVZkldLKNBSbxe6C+NxFZEii7bCp7xKMj4IE
+         +acVVDvIxR6MJkInKwgFIA341L3777WOYQSpCIsfi0ZyixCsVdGCzxUg9kb4RNDLBuQk
+         bLVv8jsgJ8f5X7CzaV28IgrbtzZ2TqIj24NiJ5bemt1/KXMqFT81QSOVO8tVZ7XTy0LV
+         TIc03kyL/53GRmInODxrqoL8udLxFxVuB/vwsUQ9Z1MGULGHch60zDUfR6VK5PHXP7kj
+         dH3w==
+X-Gm-Message-State: AOAM533PRxCBKlXkCFdxWhc24WjYdTW7g37WqlYxLg+ap8W26ClwoNMY
+	P2cebui8BdxYcETUnBdC1KO5EJFTSF9dZfmX
+X-Google-Smtp-Source: ABdhPJzMukFQPX0pqp5DTWaf8MURfnT7l2GEQ8zGNQexcl224q3thNmRDGYL8e6Gn635lK6m8vE99w==
+X-Received: by 2002:a63:de18:: with SMTP id f24mr47736805pgg.112.1626103978749;
+        Mon, 12 Jul 2021 08:32:58 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.52
+        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 08:32:53 -0700 (PDT)
+        Mon, 12 Jul 2021 08:32:58 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/12] tzdata: Allow controlling zoneinfo binary format
-Date: Mon, 12 Jul 2021 05:32:03 -1000
-Message-Id: <1e9393cae53b4de260ec951e7855d74f206730d0.1626103708.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/12] update-rc.d: update SRCREV to pull in fix for non-bash shell support
+Date: Mon, 12 Jul 2021 05:32:04 -1000
+Message-Id: <2a692b74f49952636098427ca523bc1590b9d81c.1626103708.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1626103708.git.steve@sakoman.com>
 References: <cover.1626103708.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Zoltán Böszörményi <zboszor@gmail.com>
+From: Marek Vasut <marex@denx.de>
 
-tzcode 2020b changed the default format from "-b fat" to "-b slim".
-Allow external control for the binary format.
+This pulls in non-bash shell fix for enable/disable command, upstream
+commit 8636cf4 ("update-rc.d: Fix enable/disable command"). This way
+update-rc.d works with e.g. dash shell again.
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Changqing Li <changqing.li@windriver.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c9e8b716eb71d4526517825eacefb91ab2c1781c)
+(cherry picked from commit f697332a3a753898183d7c5d2965dd75db9b0a24)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/timezone/tzdata.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-core/update-rc.d/update-rc.d_0.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
-index e6a0655afe..cc6206ac70 100644
---- a/meta/recipes-extended/timezone/tzdata.bb
-+++ b/meta/recipes-extended/timezone/tzdata.bb
-@@ -19,13 +19,17 @@ TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
-         "
- # pacificnew 
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+index 75632d9434..da716674c3 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=d40a07c27f535425934bb5001f2037d9"
  
-+# "slim" is the default since 2020b
-+# "fat" is needed by e.g. MariaDB's mysql_tzinfo_to_sql
-+ZIC_FMT ?= "slim"
-+
- do_compile () {
-         for zone in ${TZONES}; do \
--            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
-+            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
-                 ${S}/${zone} ; \
--            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
-+            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
-                 ${S}/${zone} ; \
--            ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
-+            ${STAGING_BINDIR_NATIVE}/zic -b ${ZIC_FMT} -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
-                 ${S}/${zone} ; \
-         done
- }
+ SRC_URI = "git://git.yoctoproject.org/update-rc.d"
+-SRCREV = "4b150b25b38de688d25cde2b2d22c268ed65a748"
++SRCREV = "8636cf478d426b568c1be11dbd9346f67e03adac"
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
 -- 
 2.25.1
 
