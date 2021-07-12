@@ -1,155 +1,123 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web08.12694.1626103968093800798
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.12651.1626103970187391562
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 08:32:48 -0700
+ Mon, 12 Jul 2021 08:32:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LfZpCTDf;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id b12so6482355plh.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bGCAalV0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id oj10-20020a17090b4d8ab0290172f77377ebso239885pjb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=cWuMYMJwSywFtzi/Dvr6hxwswQTkPE+AjSXuFf7i4yQ=;
-        b=LfZpCTDfKyA8VvMKSR1etMpa98TYYLGKWxEhZRZIEoKgwzxUOpyFc20BEFvPvfPrXf
-         Lmo6vyG6KSNJkyJ3WeJRKAq7G/16u379QlIQR3gidhiVYLhF+I1wzeaGpL+W93Y7g5Vm
-         aiNdN30T0Jl9REs4aqZ66gRMY03EYLtUqAI67lzjrmaAYZ+jNUQDfHZ0/oEZ1wMzwOjc
-         BeIrXfn9TpnXTYfyvtmwG3sgwM+I6b/OjPtO1innG8vRwJCOQZiqpS1gk3B5T6LjLQMp
-         gPBXpCfOeJVTxAbPPZN7vHDSkTyXe+cte/UzrrMwV4Z/Q/sWF5yxJ44vsVwYOeKpsWz9
-         echg==
+        bh=B/WrZU6SH0nfWYyS3poyWxosU3N1kQFS8oAvSWLl5/w=;
+        b=bGCAalV0bSt/6bWgl/NXMUrKOULIg1HOTCnDdlQTrb6Qe38t0yKohAc1p4thuycP8N
+         i3yrCLMAypB62nsUyTw0nMO1j6oEeqnePy83tqhDBKmuQRheIEXv7pT+uT+O/Bx258Gs
+         1H/Cr6/8vbp6Ygo9JNK8nigH4PScWuJ1nk+dBHfJGCg5mYkppE3T+a/DAcxhgprc1ghT
+         Ae3Mp6CNtW/eITiTTTjFrP7jpzNedBR1rX/zQ7ccTAILhKtXmmXMcqJVfYFMNIa0db/Q
+         FNTQ/s6/NEhS1Jr0xafCDr+tGjIV0f4AHuVtzPbov6UwGhoAeoxqRPkwGlkaoAxDao4b
+         VuAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cWuMYMJwSywFtzi/Dvr6hxwswQTkPE+AjSXuFf7i4yQ=;
-        b=sYN7qdfC0tokcvsRCVVbL61RWIHPbl1FVVe9oHOeui+V9YjYaA2g1Q28DDfnDHlIgI
-         lD4kYMk2FdRvDfNYlX31/KOlVqqB3VS+Zxz5X1XpZBsmCcj8XgKu2/6BzRoRCfA0Vlbj
-         14Ny9BZbaqMbciUUOEMKzki1XmGgKuJ+T/XuFn5Evpi5EY3LzEDInwNpFt0PEbEaeAZT
-         OaYxnM3P2F54Gi5BZ2t1EKQqMWuGasw+jESrgzeg42Z/RbCiK+2N7hWsl57LWfbFKTLk
-         gHGNDErkrMz6F14G6lbKSNxCqtQQm4DH87M5FXQJNtw/VvBTbxWX5psDpKEk0eEvOY/D
-         uMzw==
-X-Gm-Message-State: AOAM532f4eU1MQh/mT48N2T5a39JF98XaI/YmfStuv1KOd1fZRHxxnia
-	4ioBGEGTenpe9os2n6A4EFkY7mv36sKXtWxC
-X-Google-Smtp-Source: ABdhPJxLulVaW6kT1gqW2j/gzv6QXjaHdWAwO9dlh5/aBdJuU8TYhRQhovPWI8YdKFezS8Ym9GRDSw==
-X-Received: by 2002:a17:90a:66ca:: with SMTP id z10mr53027119pjl.78.1626103967246;
-        Mon, 12 Jul 2021 08:32:47 -0700 (PDT)
+        bh=B/WrZU6SH0nfWYyS3poyWxosU3N1kQFS8oAvSWLl5/w=;
+        b=d40k22QhtOLyoWtMLeodZOYtsI08ned1xNLQQKmqSufnxd7dh/+xo6+f2KKjuzw17v
+         Trj3BkE9ZRuBAs2LAW5JQ4gGziKFk4oJOQI46cceYOLjr6yqcyJKtpDtvB2xNXSvoZag
+         Woxfo0Sl3BJxZxkJfhoWfEJbrSw1/mVC2LFjfRt/7KYKzsdH28fM8U2j+2wwZnu23wuu
+         zbsVv9GSpI5vvInA81OVr9buZ8OOw6049fqapt3f9t663mTlm+HbTuqUUjtB5EirpcTu
+         Cl8N1ijKWpuIQZ9TsTm5YoMvrBP+5J1aLUxAvnq+Kcnbo/GQFZf1RLaHOKeUrTyIt6q2
+         w4ow==
+X-Gm-Message-State: AOAM532bYC9DIUTOdyEvB48nPOL1EbH3iz7/Cv/MR3UulZv7k/2CUy4X
+	TUQu7q2gQ8+RTTzl4BolqU2h/kYECV7TK1nP
+X-Google-Smtp-Source: ABdhPJzdE1BWczSFOveUKj+FLoLd/JfdnUy0ajzzuwugDV1u3KaDOqbWi77XREN3TAWhy5IOo8gW1g==
+X-Received: by 2002:a17:903:186:b029:129:5733:85c8 with SMTP id z6-20020a1709030186b0290129573385c8mr44302012plg.39.1626103969317;
+        Mon, 12 Jul 2021 08:32:49 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.45
+        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 08:32:46 -0700 (PDT)
+        Mon, 12 Jul 2021 08:32:48 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/12] dhcp: fix CVE-2021-25217
-Date: Mon, 12 Jul 2021 05:32:00 -1000
-Message-Id: <58fa175702f0cd8f00dc5e7938fb55108921d324.1626103708.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/12] dwarfsrcfiles: Avoid races over debug-link files
+Date: Mon, 12 Jul 2021 05:32:01 -1000
+Message-Id: <317e334518c6394ecba4a3fdd4ba18b185822d22.1626103708.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1626103708.git.steve@sakoman.com>
 References: <cover.1626103708.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Minjae Kim <flowergom@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-A buffer overrun in lease file parsing code
-can be used to exploit a common vulnerability shared by dhcpd and dhclient.
+We use dwarfsrcfiles in package.bbclass to list the source files used by a binary.
+This is done before they're stripped and linked to debug symbols in separate files.
 
-reference:
-https://www.openwall.com/lists/oss-security/2021/05/26/6
-https://kb.isc.org/docs/cve-2021-25217
+It is possible a binary may already have a link to separate debug symbols, e.g.
+some of the test binaries in lttng-tools ptest. In those cases, the linked binary
+may be changed by package.bbclass code whilst dwarfsrcfiles is reading it. That
+would result in a rare SIGBUS race causing the binary to fail.
+
+To avoid this, break the debug file search path so no other binaries are found.
+
+Also fix a segfault if no binary is specified while here.
+
+[YOCTO #14400]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit efef732859e265533acf16f2f4da3b29d50e0df4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../dhcp/dhcp/CVE-2021-25217.patch            | 66 +++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
+ .../dwarfsrcfiles/files/dwarfsrcfiles.c             | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
-new file mode 100644
-index 0000000000..91aaf83a77
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
-@@ -0,0 +1,66 @@
-+From 5a7344b05081d84343a1627e47478f3990b17700 Mon Sep 17 00:00:00 2001
-+From: Minjae Kim <flowergom@gmail.com>
-+Date: Thu, 8 Jul 2021 00:08:25 +0000
-+Subject: [PATCH] ISC has disclosed a vulnerability in ISC DHCP
-+ (CVE-2021-25217)
-+
-+On May 26, 2021, we (Internet Systems Consortium) disclosed a
-+vulnerability affecting our ISC DHCP software:
-+
-+    CVE-2021-25217: A buffer overrun in lease file parsing code can be
-+    used to exploit a common vulnerability shared by dhcpd and dhclient
-+    https://kb.isc.org/docs/cve-2021-25217
-+
-+New versions of ISC DHCP are available from https://www.isc.org/downloads
-+
-+Operators and package maintainers who prefer to apply patches selectively can
-+find individual vulnerability-specific patches in the "patches" subdirectory
-+of the release directories for our two stable release branches (4.4 and 4.1-ESV)
-+
-+   https://downloads.isc.org/isc/dhcp/4.4.2-P1/patches
-+   https://downloads.isc.org/isc/dhcp/4.1-ESV-R16-P1/patches
-+
-+With the public announcement of this vulnerability, the embargo
-+period is ended and any updated software packages that have been
-+prepared may be released.
-+
-+Upstream-Status: Accepted [https://www.openwall.com/lists/oss-security/2021/05/26/6]
-+CVE: CVE-2021-25217
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
-+---
-+ common/parse.c | 7 ++++---
-+ 1 file changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/common/parse.c b/common/parse.c
-+index 386a632..fc7b39c 100644
-+--- a/common/parse.c
-++++ b/common/parse.c
-+@@ -3,7 +3,7 @@
-+    Common parser code for dhcpd and dhclient. */
-+ 
-+ /*
-+- * Copyright (c) 2004-2019 by Internet Systems Consortium, Inc. ("ISC")
-++ * Copyright (c) 2004-2021 by Internet Systems Consortium, Inc. ("ISC")
-+  * Copyright (c) 1995-2003 by Internet Software Consortium
-+  *
-+  * This Source Code Form is subject to the terms of the Mozilla Public
-+@@ -5556,13 +5556,14 @@ int parse_X (cfile, buf, max)
-+ 				skip_to_semi (cfile);
-+ 				return 0;
-+ 			}
-+-			convert_num (cfile, &buf [len], val, 16, 8);
-+-			if (len++ > max) {
-++			if (len >= max) {
-+ 				parse_warn (cfile,
-+ 					    "hexadecimal constant too long.");
-+ 				skip_to_semi (cfile);
-+ 				return 0;
-+ 			}
-++			convert_num (cfile, &buf [len], val, 16, 8);
-++			len++;
-+ 			token = peek_token (&val, (unsigned *)0, cfile);
-+ 			if (token == COLON)
-+ 				token = next_token (&val,
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-index b56a204821..5609a350cc 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
-             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
-             file://0013-fixup_use_libbind.patch \
-             file://0001-workaround-busybox-limitation-in-linux-dhclient-script.patch \
-+            file://CVE-2021-25217.patch \
- "
+diff --git a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
+index af7af524eb..9eb5ca807a 100644
+--- a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
++++ b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
+@@ -9,6 +9,7 @@
  
- SRC_URI[md5sum] = "2afdaf8498dc1edaf3012efdd589b3e1"
+ #include <argp.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ 
+ #include <dwarf.h>
+ #include <elfutils/libdw.h>
+@@ -83,13 +84,15 @@ process_cu (Dwarf_Die *cu_die)
+ int
+ main (int argc, char **argv)
+ {
+-  char* args[3];
++  char* args[5];
+   int res = 0;
+   Dwfl *dwfl;
+   Dwarf_Addr bias;
+   
+-  if (argc != 2)
++  if (argc != 2) {
+     fprintf(stderr, "Usage %s <file>", argv[0]);
++    exit(EXIT_FAILURE);
++  }
+   
+   // Pretend "dwarfsrcfiles -e <file>" was given, so we can use standard
+   // dwfl argp parser to open the file for us and get our Dwfl. Useful
+@@ -98,8 +101,12 @@ main (int argc, char **argv)
+   args[0] = argv[0];
+   args[1] = "-e";
+   args[2] = argv[1];
++  // We don't want to follow debug linked files due to the way OE processes
++  // files, could race against changes in the linked binary (e.g. objcopy on it)
++  args[3] = "--debuginfo-path";
++  args[4] = "/not/exist";
+   
+-  argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &dwfl);
++  argp_parse (dwfl_standard_argp (), 5, args, 0, NULL, &dwfl);
+   
+   Dwarf_Die *cu = NULL;
+   while ((cu = dwfl_nextcu (dwfl, cu, &bias)) != NULL)
 -- 
 2.25.1
 
