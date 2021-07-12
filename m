@@ -1,242 +1,125 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web09.12293.1626102036206068045
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 08:00:36 -0700
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.12890.1626103938992990046
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 12 Jul 2021 08:32:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r+Uy4xq4;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: uvv.mail@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id t17so43949234lfq.0
-        for <Openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:00:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=nwIv9dre;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id p14-20020a17090ad30eb02901731c776526so10674447pju.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=36XJMgPpHrUN0WWLD7YWYVFSPm8vMNSeYK+pQVCOFMQ=;
-        b=r+Uy4xq4TbNMTUFX4RuDL+wy5Q71y4Z8aUe9RW+3ey8NtaY6bFW7d4W1WMqDSOuiRk
-         cAXjDVCJTSKCwe0gDPCurnc/Dw16kf+b7080N4U4c6HpL9feVIk0tVO/XODBdG747cw3
-         7lCk1Of7OSGXxRmonyxLOlAT0Cuav/L7GFqH/OAlIpb0VEyKofV6gT/KC3ImNIH2KOYZ
-         6TGy8qQQHkZpFf2A4XkxnI3r4eGV/36zsF44HE25BlhfKQCJ/kc14QkDbc2IMJ2IutJb
-         /J36qqaxCQMSYpFIplyDxLToKGD2QyfejPO3EIsYUhJ78L6bVyNwzgGYieWGVr6YwS3G
-         9E4Q==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4p1EC151P5WIZZhVvsvAVtHdcFNW/JsOoTMrZyXyM94=;
+        b=nwIv9dreyFzaoxGcR3kLy9YYUkkXNeJ1ZRg73ABYwEdeFZtdJEU13TN26sYyJSpPP3
+         5NlUxrmtaj1bPLGgbee7YPjjRafC1W36ZdTSapO0zrUVAYxdy85Wrst6bPGjIC5Mlqa8
+         vHvjeu7wlzedMRJTUbb+4sQj/eOEigd0WpaQA56CZegDvW1eyD8yD/qUsV0nSoEwusi2
+         wnQnxEe85SyE+hVhD1OgneuWzNbNxyWkVao/UT1TwGOBpGiOG0hu2ohISCnoebucBWMA
+         jDJHPFlYDpw1YBJb1IPgSILFmXfRsE+6o7feHxvyIaopGLR/Gua8haL5CMymgRETIPJC
+         NO9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=36XJMgPpHrUN0WWLD7YWYVFSPm8vMNSeYK+pQVCOFMQ=;
-        b=r1LtCG/rlx0anYc0wToCa+ipBXYQkttGJCbHD2QsPBHHtAUsWfA3rrGkYz6jq9HAC4
-         /xHG+lYghKCxha2LYkQ0UoysA6y6o7m969QKsoGGT14dYRHVXWh2v41JzKkjrWZRJy4G
-         NWUh2tNFLaXzdJzU13PyF5JUpjhTMf6QYQDi+PJ3w4zfu9WDDsoNGNcR+iSEpNwmeAI2
-         p7JXUx1xdRYWURlLYm0DqAp7BzepYvRwxfOVuqCUI1lsbYNTZDauzeeIp7tGu8xuYe0X
-         HgV8Bh7M6tAmHTBKTAgHcKC9aJJAzQoNYwJ365h3ZUCDiXL9WTuBfchiIr0cHoKJyTDc
-         HhCQ==
-X-Gm-Message-State: AOAM532bnkE9YdlVIYDdU1hyTYhkMuFSHuDypeaMMqvB5YpDJbZg6nzL
-	qK8mdMKsH8fuUFTkC81p6dE/oPy5gl7QXg==
-X-Google-Smtp-Source: ABdhPJyIiy7K5fePQJ3fNRVHbc3Fw/Is15q+d5/GkOx0356TxfwrZLYgVmLNKGhTRDEvQeBAn/EaLA==
-X-Received: by 2002:a05:6512:3138:: with SMTP id p24mr15350232lfd.214.1626102034243;
-        Mon, 12 Jul 2021 08:00:34 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from slackware.local ([185.253.97.13])
-        by smtp.gmail.com with ESMTPSA id b6sm650061lfe.173.2021.07.12.08.00.32
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4p1EC151P5WIZZhVvsvAVtHdcFNW/JsOoTMrZyXyM94=;
+        b=MqrdHmWG0WFkfu3E0mumoNF6krPblxzD/HV0QzL8UMFA2qIHSpxcFAjSBAjoq/LBW1
+         GzXfh6BBM1GZriiI/j1forI1DQQIcTVKEIMweM50+d94Yc1Onhkcz4lH/R4i1JkV9Htq
+         PeDa+zY+ISliXBRAiMh00AMijfL/j+6u7CTXJpadHuevOanoCxyIJETQJAOJv1mYoom8
+         oTQ/10twHFn5MXHjA51Yt2ZQ+vVdG+Zu2b2V3R1HnAmTOCZeC9T2vkpLor+R/S5jBMfd
+         9jD41Vpqo7COtuffSU9EjIVOsjM4Ewd7JPbnSdg4W8iMDNb65OtAAwxz34CEw7k1Ln7A
+         oLnA==
+X-Gm-Message-State: AOAM533LityCmD7Fly+V0G+aYoN/LviRhbxg9K1FX9GM+hEc6BmaOPLS
+	dXfSXOj7G9ysgmA54rAFjP8E3lnp1MuuMydV
+X-Google-Smtp-Source: ABdhPJyRcXb41Dzd4aA+hPuNjkXuGV5Q2uWe+SJTeljegqo+IBKLUeEQ0pOfJeK1bvYD8r9AntZ3nQ==
+X-Received: by 2002:a17:90a:f00b:: with SMTP id bt11mr14857216pjb.10.1626103937883;
+        Mon, 12 Jul 2021 08:32:17 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.16
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 08:00:32 -0700 (PDT)
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH v2 7/8] oeqa/selftest: overlayfs unit tests
-Date: Mon, 12 Jul 2021 17:00:22 +0200
-Message-Id: <20210712150022.120478-1-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <169101D2B14E1B11.4752@lists.openembedded.org>
-References: <169101D2B14E1B11.4752@lists.openembedded.org>
+        Mon, 12 Jul 2021 08:32:17 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/12] Patch review
+Date: Mon, 12 Jul 2021 05:31:53 -1000
+Message-Id: <cover.1626103708.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Unit tests for overlayfs.bbclass
+Please review this next set of patches for dunfell and have comments back by
+end of day Wednesday.
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
----
- meta/lib/oeqa/selftest/cases/overlayfs.py | 171 ++++++++++++++++++++++
- 1 file changed, 171 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/overlayfs.py
+Passed a-full on autobuilder:
 
-diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-new file mode 100644
-index 0000000000..f679a71182
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-@@ -0,0 +1,171 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
-+
-+class OverlayFSTests(OESelftestTestCase):
-+    """Overlayfs class usage tests"""
-+
-+    def getline(self, res, line):
-+        for l in res.output.split('\n'):
-+            if line in l:
-+                return l
-+
-+    def add_overlay_conf_to_machine(self):
-+        machine_inc = """
-+OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-+"""
-+        self.set_machine_config(machine_inc)
-+
-+    def test_distro_features_missing(self):
-+        """
-+        Summary:   Check that required DISTRO_FEATURES are set
-+        Expected:  Fail when either systemd or overlayfs are not in DISTRO_FEATURES
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+"""
-+        overlayfs_recipe_append = """
-+inherit overlayfs
-+"""
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+        self.write_recipeinc('overlayfs-user', overlayfs_recipe_append)
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "overlayfs-user was skipped: missing required distro features")
-+        self.assertTrue("overlayfs" in res.output, msg=res.output)
-+        self.assertTrue("systemd" in res.output, msg=res.output)
-+        self.assertTrue("ERROR: Required build target 'core-image-minimal' has no buildable providers." in res.output, msg=res.output)
-+
-+    def test_not_all_units_installed(self):
-+        """
-+        Summary:   Test QA check that we have required mount units in the image
-+        Expected:  Fail because mount unit for overlay partition is not installed
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
-+
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "Unit name mnt-overlay.mount not found in systemd unit directories")
-+        self.assertTrue(line and line.startswith("WARNING:"), msg=res.output)
-+        line = self.getline(res, "Not all mount units are installed by the BSP")
-+        self.assertTrue(line and line.startswith("ERROR:"), msg=res.output)
-+
-+    def test_mount_unit_not_set(self):
-+        """
-+        Summary:   Test whether mount unit was set properly
-+        Expected:  Fail because mount unit was not set
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
-+
-+        self.write_config(config)
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
-+        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
-+
-+    def test_wrong_mount_unit_set(self):
-+        """
-+        Summary:   Test whether mount unit was set properly
-+        Expected:  Fail because not the correct flag used for mount unit
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
-+
-+        wrong_machine_config = """
-+OVERLAYFS_MOUNT_POINT[usr-share-overlay] = "/usr/share/overlay"
-+"""
-+
-+        self.write_config(config)
-+        self.set_machine_config(wrong_machine_config)
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "Missing required mount point for OVERLAYFS_MOUNT_POINT[mnt-overlay] in your MACHINE configuration")
-+        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
-+
-+    def test_correct_image(self):
-+        """
-+        Summary:   Check that we can create an image when all parameters are
-+                   set correctly
-+        Expected:  Image is created successfully
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user systemd-machine-units"
-+DISTRO_FEATURES += "systemd overlayfs"
-+
-+# Use systemd as init manager
-+VIRTUAL-RUNTIME_init_manager = "systemd"
-+
-+# enable overlayfs in the kernel
-+KERNEL_EXTRA_FEATURES_append = " features/overlayfs/overlayfs.scc"
-+"""
-+
-+        systemd_machine_unit_append = """
-+SYSTEMD_SERVICE_${PN} += " \
-+    mnt-overlay.mount \
-+"
-+
-+do_install_append() {
-+    install -d ${D}${systemd_system_unitdir}
-+    cat <<EOT > ${D}${systemd_system_unitdir}/mnt-overlay.mount
-+[Unit]
-+Description=Tmpfs directory
-+DefaultDependencies=no
-+
-+[Mount]
-+What=tmpfs
-+Where=/mnt/overlay
-+Type=tmpfs
-+Options=mode=1777,strictatime,nosuid,nodev
-+
-+[Install]
-+WantedBy=multi-user.target
-+EOT
-+}
-+
-+"""
-+
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+        self.write_recipeinc('systemd-machine-units', systemd_machine_unit_append)
-+
-+        bitbake('core-image-minimal')
-+
-+        def getline_qemu(out, line):
-+            for l in out.split('\n'):
-+                if line in l:
-+                    return l
-+
-+        with runqemu('core-image-minimal') as qemu:
-+            # Check that we have /mnt/overlay fs mounted as tmpfs and
-+            # /usr/share/my-application as an overlay (see overlayfs-user recipe)
-+            status, output = qemu.run_serial("/bin/mount -t tmpfs,overlay")
-+
-+            line = getline_qemu(output, "on /mnt/overlay")
-+            self.assertTrue(line and line.startswith("tmpfs"), msg=output)
-+
-+            line = getline_qemu(output, "upperdir=/mnt/overlay/upper/usr/share/my-application")
-+            self.assertTrue(line and line.startswith("overlay"), msg=output)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2338
+
+The following changes since commit c96bcf97272f243df14598c84a41097746884b65:
+
+  oeqa/selftest/archiver: Allow tests to ignore empty directories (2021-07-06 04:37:02 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (1):
+  bootchart2: update 0.14.8 -> 0.14.9
+
+Chen Qi (1):
+  busybox: fix CVE-2021-28831
+
+Khem Raj (1):
+  webkitgtk: Upgrade to 2.28.4
+
+Marek Vasut (1):
+  update-rc.d: update SRCREV to pull in fix for non-bash shell support
+
+Minjae Kim (1):
+  dhcp: fix CVE-2021-25217
+
+Richard Purdie (4):
+  webkitgtk: upgrade 2.28.2 -> 2.28.3
+  dwarfsrcfiles: Avoid races over debug-link files
+  oeqa/selftest/multiprocesslauch: Fix test race
+  report-error: Drop pointless inherit
+
+Steve Sakoman (1):
+  glibc: update to lastest 2.31 release HEAD
+
+Tim Orling (1):
+  python3: upgrade 3.8.10 -> 3.8.11
+
+Zoltán Böszörményi (1):
+  tzdata: Allow controlling zoneinfo binary format
+
+ meta/classes/report-error.bbclass             |   2 -
+ meta/lib/oeqa/selftest/cases/oelib/utils.py   |   3 +-
+ .../dhcp/dhcp/CVE-2021-25217.patch            |  66 ++++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |   1 +
+ ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch |  51 +++
+ meta/recipes-core/busybox/busybox_1.31.1.bb   |   3 +-
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../update-rc.d/update-rc.d_0.8.bb            |   2 +-
+ ...tchart2_0.14.8.bb => bootchart2_0.14.9.bb} |   3 +-
+ .../dwarfsrcfiles/files/dwarfsrcfiles.c       |  13 +-
+ .../recipes-devtools/python/python3_3.8.11.bb | 362 ++++++++++++++++++
+ meta/recipes-extended/timezone/tzdata.bb      |  10 +-
+ ...build-errors-due-to-WWc-11-narrowing.patch |  66 ++++
+ .../webkit/webkitgtk/CVE-2020-13753.patch     |  15 -
+ ...ebkitgtk_2.28.2.bb => webkitgtk_2.28.4.bb} |   5 +-
+ 15 files changed, 571 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
+ rename meta/recipes-devtools/bootchart2/{bootchart2_0.14.8.bb => bootchart2_0.14.9.bb} (99%)
+ create mode 100644 meta/recipes-devtools/python/python3_3.8.11.bb
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.28.2.bb => webkitgtk_2.28.4.bb} (97%)
+
 -- 
-2.28.0
+2.25.1
 
