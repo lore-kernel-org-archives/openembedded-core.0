@@ -1,80 +1,90 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web08.12702.1626103982175267022
+Received: from avasout04.plus.net (avasout04.plus.net [212.159.14.19])
+ by mx.groups.io with SMTP id smtpd.web08.12744.1626104171794569809
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 08:33:02 -0700
+ Mon, 12 Jul 2021 08:36:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tGR5H/pM;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id v7so18646717pgl.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=Itp/pCWYyaMCrP04GlmHQPMOTqcGd/BoVMV5zmLyTbs=;
-        b=tGR5H/pMHONSlAfXyt2FFv+EKu/xPqOUaGtf2prePFMvldrR6rqxifPUcG+d5RXvvX
-         JlwBE6WZ5IgNx/c91XsL//jTGcuBgEYx5EVkqfI4/WxJJdNc+4FHCpKpvdcZtSn9b4f3
-         LgxUFBVIwS/wFoou7EhJyKLwn3X+sh4W+j3RhCc9X2hXx2koQ0jiaZMHgXiH/DonhOas
-         Sz9SZMz90D1+F+7qfKGdpXSKXnfaTBfyD0GYz+44vOWIYeEr+VJVXTUGsNJr5YUqoE5e
-         M8OMxYqfohjDWkedz+h3xz8j/es634CH60ODSK1wOzKCkRgPU+Yi1eZz1jAfmpvBJLYb
-         MzQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Itp/pCWYyaMCrP04GlmHQPMOTqcGd/BoVMV5zmLyTbs=;
-        b=DaukRcvKqLIC7Ss4i7BNhVYZ6Iqm9Lhmmrxs6CvgWkmIVfwGhp9acx2HggcsF1RoRq
-         loM3XqonMIXxpsuvALkTs6ab12Mlo3uLDgjU0GhIiFfYXUZ5FvyILnTF1tVbjAXjomKM
-         F/Xs4XHTr3ZuLZYR7VfmRVItfdbrU2UOD/+kCF7DQ+yA2xPQD8NQOXb1kQXWtf6fCsPZ
-         eDZaOXRRCAXkVtYvOYXD4KBFk8uUdWBlzYPF3QLhWvefn2WFrhzbIWonZj9I5ao2WybS
-         OhNwYGFoHB6Qdnh0a0KFLM3vIMfm/lLvII/sYnZ7xM1czEQjAle4uho3Jak0z/qDddns
-         c+OA==
-X-Gm-Message-State: AOAM532sH99nC7nK8Hj5KCb6L0mombpBOqU6a7bC37YxEwJZzwQar2WY
-	utcNC8/Ea0ITxzgvIq7jvyI0/jX5jn7vPfCV
-X-Google-Smtp-Source: ABdhPJyulx/GM0ymFzUvE5BAjMEnEH/T1ssZvhEOcop3ORqYnpuovAaN1hWx9rj1w1PLQ/905CWNIg==
-X-Received: by 2002:a05:6a00:21c7:b029:2ec:2bfa:d0d1 with SMTP id t7-20020a056a0021c7b02902ec2bfad0d1mr53769145pfj.14.1626103981285;
-        Mon, 12 Jul 2021 08:33:01 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.33.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 08:33:00 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=pHYibghY;
+ spf=pass (domain: mcrowe.com, ip: 212.159.14.19, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id 2xyamPTUyOQhv2xybmEj9z; Mon, 12 Jul 2021 16:36:10 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=IvmFjI3g c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=e_q4qTt1xDgA:10 a=-An2I_7KAAAA:8 a=T9JUtYPXkN-NqOx8j4EA:9
+ a=Sq34B_EcNBM9_nrAYB9S:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=k+lNAziUKVkrV096SHUbb3BBAKEcYucQVyGwKiZENi8=; b=pH
+	YibghYD4t2ZSmNNCOHFcCH/GzpkfbHJmLYe4Z9UbznFOTnt8uCiWGIee7z1uR2lJBNb4AiRogSqSF
+	azZHW/vhmsUzR5OzULxgr/bHii9GHvV7HtwJI80kJy7xdO48YMY6q4tciIztpm38bvFyTx+zKvCQy
+	ybS8nprqCpBI6W1xoZV3YvQNrWeqogQPTJX0RxyhyIYpzMQI6I5JI/5TSrLnx9koMVAx/HXQ9yYHI
+	GYs0TBmsr8sQ9W7hsIYfQxTWknoyWaZMbboK7af404TfO1TIjIjpv4GG89ZNtphmgQTE/L+5qC5No
+	Zr0YdW02pgbYwlhjojfaTYk2bhKJ7Gqg==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1m2xyZ-000641-FA; Mon, 12 Jul 2021 16:36:07 +0100
+From: "Mike Crowe" <yocto@mac.mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/12] report-error: Drop pointless inherit
-Date: Mon, 12 Jul 2021 05:32:05 -1000
-Message-Id: <cfd74f2bae51413d9c327e0f08ecf751325c2d74.1626103708.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1626103708.git.steve@sakoman.com>
-References: <cover.1626103708.git.steve@sakoman.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] licence_image: Add lic-pkgs IMAGE_FEATURE
+Date: Mon, 12 Jul 2021 16:35:58 +0100
+Message-Id: <20210712153558.2628745-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+X-CMAE-Envelope: MS4wfNbPrYpsAJW7k3uw7zrdvZ/yQKZkx5ParizAqwJ7JL3Belu1FI5ovJUNDZ7EmJ5I0a4CDXbC+vIl6L4HDYRO9RAS3dNDDc+E3KNi1A03OIesIMS6AIK/
+ sm7al0VKOMS7XtWY7pAjZISLyU1e26kJkxR0W7CD9h7SNC+VQ/+o+5/Dy+fDD+c6yOVa5h4x8tByLg==
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Installing license packages is similar to installing -dev or -dbg
+packages, so let's invent a "lic-pkgs" IMAGE_FEATURE that does so and
+document it in core-image.bbclass.
 
-The base class is always inherited, drop the unneeded inherit.
+This image feature only works if LICENSE_CREATE_PACKAGE is set, so
+refuse to generate an image if the lic-pkgs feature is enabled without
+LICENSE_CREATE_PACKAGE.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 837d62c066589e5a12a0bf894ae7b24e8b048665)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/classes/report-error.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/core-image.bbclass    |  2 ++
+ meta/classes/license_image.bbclass | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 9cb6b0bd31..de48e4ff0f 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -6,8 +6,6 @@
- #
- # Licensed under the MIT license, see COPYING.MIT for details
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index d81f68bd2e..84fd3eeb38 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -31,6 +31,8 @@
+ #   - post-install-logging
+ # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
+ # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
++# - lic-pkgs            - license packages for all installed pacakges in the rootfs, requires
++#                         LICENSE_CREATE_PACKAGE="1" to be set when building packages too
+ # - doc-pkgs            - documentation packages for all installed packages in the rootfs
+ # - bash-completion-pkgs - bash-completion packages for recipes using bash-completion bbclass
+ # - ptest-pkgs          - ptest packages for all ptest-enabled recipes
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 73cebb4d55..5dbec288a4 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -1,5 +1,15 @@
+ ROOTFS_LICENSE_DIR = "${IMAGE_ROOTFS}/usr/share/common-licenses"
  
--inherit base
--
- ERR_REPORT_DIR ?= "${LOG_DIR}/error-report"
- 
- def errorreport_getdata(e):
++# This requires LICENSE_CREATE_PACKAGE=1 to work too
++COMPLEMENTARY_GLOB[lic-pkgs] = "*-lic"
++
++python() {
++    if not oe.data.typed_value('LICENSE_CREATE_PACKAGE', d):
++        features = set(oe.data.typed_value('IMAGE_FEATURES', d))
++        if 'lic-pkgs' in features:
++            bb.error("'lic-pkgs' in IMAGE_FEATURES but LICENSE_CREATE_PACKAGE not enabled to generate -lic packages")
++}
++
+ python write_package_manifest() {
+     # Get list of installed packages
+     license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
 -- 
-2.25.1
+2.30.2
 
