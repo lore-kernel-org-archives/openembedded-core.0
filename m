@@ -1,114 +1,117 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.4])
- by mx.groups.io with SMTP id smtpd.web11.5386.1626052582070948275
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.5892.1626056248347062294
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Jul 2021 18:16:22 -0700
+ Sun, 11 Jul 2021 19:17:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=r+uMM2OK;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.4, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1626052579; i=@fujitsu.com;
-	bh=YQQgcOKDHIztM0G7On3D3uB86FUc3ib38LXvNvurqw0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=r+uMM2OKt5uR0nCf+2i32Xs+hZDCPip2ZY8IuFv6EDZOqLIWIUsk0IpRcO9+RGXrP
-	 zmam2nrWOfcB5W0K/Xd9yU84iduyCwJk/O48gjpkhAkrCfJVzu4CC037NXalmKTzr4
-	 iF/ANjNP7lISxfblHVOP45WLGpsaKFtnGT5F82k2tteE1JtxuMN3wH1dk5W6p9x/fo
-	 j/pNTwq0Wg249cMCPEBg/i7YH+a/g3V/lMdlgkWyIpkju33XK60d0QusY6RTdnCjlq
-	 JlvK97Fjw5B2FKsMolhyngvSe7CNhVMCzrEvG+GQRa5KqQByYfXA94KtT0uvYqzyqD
-	 fh9FPnciFhqjw==
-Received: from [100.112.192.148] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-west-1.aws.symcld.net id 35/28-07274-3E79BE06; Mon, 12 Jul 2021 01:16:19 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRWlGSWpSXmKPExsViZ8MxVffx9Nc
-  JBm3z2S3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oyX/T+YCz7yV6w6rNPAOI2vi5GLQ0hgK5PE
-  j42vmbsYOYGck4wSHybLgthsAmoS02/dYO1i5OAQEdCTuPpPFCTMLKAi8eJ3DzuILSzgJbHv1
-  DqwVhYBVYkXrxcxgdi8Ak4S/zd/BbMlBBQkpjx8zwwRF5Q4OfMJC8QcCYmDL14wQ9QoSsy+3M
-  wCskpCoFLixuPUCYy8s5B0zELSsYCRaRWjRVJRZnpGSW5iZo6uoYGBrqGhka6hJRAbmeklVuk
-  m6qWW6panFpfoGuollhfrFVfmJuek6OWllmxiBAZWSsGBuh2MD15/0DvEKMnBpCTK28vyMkGI
-  Lyk/pTIjsTgjvqg0J7X4EKMMB4eSBO/2qa8ThASLUtNTK9Iyc4BBDpOW4OBREuHNBEnzFhck5
-  hZnpkOkTjEqSonzigFjQ0gAJJFRmgfXBousS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5GJWEeR
-  umAU3hycwrgZv+CmgxE9Diwh0vQRaXJCKkpBqYEovM7/6+c8zK6rLUp/+rj0RvWhsbeXvKPG8
-  Op5zn7I08vvcYRH3mrT29vMh7waH3/evSz37g0r3+c0GKJ0OYv8ULnRz13f4PFv5wVZe7qRoU
-  /sm2Q3j98qzL4j7fVtTP/pTw1F9N7+7l+au+X85jan7+0tzutpSnUlzG2nu566PiGgXl7cSOT
-  w4pnqmmNpHx6Imj/n8fPr/VUn79+uynzRnuW6xcs46kKN+4MlHeY9fOSW7/km75B0hMkLV7de
-  vqszkvOl597Njho/GqONsxcHnbK76MOyEff+7NsuuO+10aJ7My5NHkHzKvXFfNtGC6Gevjk+O
-  71FxBWdbUbI6kyplpdw4c1sgtWHHqaOOLTiWW4oxEQy3mouJEAOcqDMEnAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-265.messagelabs.com!1626052578!452900!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 2255 invoked from network); 12 Jul 2021 01:16:19 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-5.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 12 Jul 2021 01:16:19 -0000
-Received: from R01UKEXCASM223.r01.fujitsu.local (ex2k13_223.fs.fujitsu.com [10.182.185.121])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 16C1GAeC004435
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 02:16:18 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.18; Mon, 12 Jul 2021 02:16:08 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v3] python3-setuptools: upgrade 57.0.0 -> 57.1.0
-Date: Mon, 12 Jul 2021 09:15:55 +0800
-Message-ID: <1626052555-16162-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
+	by mail.yoctoproject.org (Postfix) with ESMTP id 28AA338C08CF
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 02:17:27 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-Content-Type: text/plain
+From: auh@auh.yoctoproject.org
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] bluez5: upgrading to 5.60 SUCCEEDED
+Message-ID: <MADEUP.1690E98AF18D7FA3.2174@lists.openembedded.org>
+X-Groupsio-MsgNum: 153733
+Content-Type: multipart/mixed; boundary="===============0847242426432638149=="
 
-reproducibility.patch
-deleted since it's been merged upstream.
+--===============0847242426432638149==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-v57.1.0
--------
+Hello,
 
-Changes
-^^^^^^^
-* #2692: Globs are now sorted in 'license_files' restoring reproducibility by eliminating variance from disk order.
-* #2714: Update to distutils at pypa/distutils@e2627b7.
-* #2715: Removed reliance on deprecated ssl.match_hostname by removing the ssl support. Now any index operations rely on the native SSL implementation.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *bluez5* to *5.60* has Succeeded.
 
-Documentation changes
-^^^^^^^^^^^^^^^^^^^^^
-* #2604: Revamped the backward/cross tool compatibility section to remove
-  some confusion.
-  Add some examples and the version since when ``entry_points`` are
-  supported in declarative configuration.
-  Tried to make the reading flow a bit leaner, gather some informations
-  that were a bit dispersed.
+Next steps:
+    - apply the patch: git am 0001-bluez5-upgrade-5.59-5.60.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============0847242426432638149==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-bluez5-upgrade-5.59-5.60.patch"
+
+From ff35fefa5b45f46bc122039e1e5c049e5d9ebb6b Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 11 Jul 2021 18:58:00 +0000
+Subject: [PATCH] bluez5: upgrade 5.59 -> 5.60
+
 ---
- ...on3-setuptools_57.0.0.bb => python3-setuptools_57.1.0.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_57.0.0.bb => python3-setuptools_57.1.0.bb} (88%)
+ .../bluez5/{bluez5_5.59.bb => bluez5_5.60.bb}                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.59.bb => bluez5_5.60.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-index a15b51e31c..c066d8209f 100644
---- a/meta/recipes-devtools/python/python3-setuptools_57.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
-@@ -8,10 +8,9 @@ inherit pypi setuptools3
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.59.bb b/meta/recipes-connectivity/bluez5/bluez5_5.60.bb
+similarity index 95%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.59.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.60.bb
+index 7842eac76d..defa0c15cd 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.59.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.60.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
  
- SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+-SRC_URI[sha256sum] = "046b95b386d0bfb2a16311fe799d517ee7735045512d89902c4ed701db477316"
++SRC_URI[sha256sum] = "710999580d01ee59ec585e5e7c07fd94eddedc001aa26fe7464c546f9d945304"
  
--SRC_URI += "file://0001-change-shebang-to-python3.patch \
--            file://reproducibility.patch"
-+SRC_URI += "file://0001-change-shebang-to-python3.patch"
- 
--SRC_URI[sha256sum] = "401cbf33a7bf817d08014d51560fc003b895c4cdc1a5b521ad2969e928a07535"
-+SRC_URI[sha256sum] = "cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63afddd82d681de4d22a597b"
- 
- DEPENDS += "${PYTHON_PN}"
- 
+ # These issues have kernel fixes rather than bluez fixes so exclude here
+ CVE_CHECK_WHITELIST += "CVE-2020-12352 CVE-2020-24490"
 -- 
-2.25.1
+2.20.1
 
+
+--===============0847242426432638149==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/bluez5/bluez5-dbg: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-dbg: PKGSIZE changed from 24072124 to 24076112 (+0%)
+packages/core2-32-poky-linux/bluez5/bluez5-dbg: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-dev: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-dev: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-doc: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-doc: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-locale: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-locale: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-noinst-tools: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-noinst-tools: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-obex: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-obex: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-ptest: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-ptest: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-src: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-src: PKGSIZE changed from 7299412 to 7301766 (+0%)
+packages/core2-32-poky-linux/bluez5/bluez5-src: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-staticdev: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-staticdev: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-testtools: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5-testtools: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5/bluez5: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5/bluez5: PKGV changed from 5.59 [default] to 5.60 [default]
+packages/core2-32-poky-linux/bluez5: PV changed from "5.59" to "5.60"
+packages/core2-32-poky-linux/bluez5: SRC_URI changed from "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.59.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch" to "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.60.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch"
+packages/core2-32-poky-linux/bluez5: PKGV changed from 5.59 [default] to 5.60 [default]
+
+--===============0847242426432638149==--
