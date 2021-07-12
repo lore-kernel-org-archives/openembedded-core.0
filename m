@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.5880.1626056248727241533
+ by mx.groups.io with SMTP id smtpd.web08.5879.1626056248724513209
  for <openembedded-core@lists.openembedded.org>;
  Sun, 11 Jul 2021 19:17:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 779E138C127B
+	by mail.yoctoproject.org (Postfix) with ESMTP id 7498A38C1276
 	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 02:17:27 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 5.13 SUCCEEDED
-Message-ID: <MADEUP.1690E98B0ABA0178.2174@lists.openembedded.org>
-X-Groupsio-MsgNum: 153744
-Content-Type: multipart/mixed; boundary="===============0691133369763476320=="
+Subject: [AUH] ruby: upgrading to 3.0.2 SUCCEEDED
+Message-ID: <MADEUP.1690E98B0AE68C73.22557@lists.openembedded.org>
+X-Groupsio-MsgNum: 153745
+Content-Type: multipart/mixed; boundary="===============0998210940201147956=="
 
---===============0691133369763476320==
+--===============0998210940201147956==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ethtool* to *5.13* has Succeeded.
+that the automatic attempt to upgrade the recipe *ruby* to *3.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-5.12-5.13.patch
+    - apply the patch: git am 0001-ruby-upgrade-3.0.1-3.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,99 +44,243 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0691133369763476320==
+--===============0998210940201147956==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/ruby/ruby-dev: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+packages/core2-32-poky-linux/ruby/ruby-doc: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+packages/core2-32-poky-linux/ruby/ruby-locale: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+packages/core2-32-poky-linux/ruby/ruby-ptest: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+packages/core2-32-poky-linux/ruby/ruby-rdoc: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+packages/core2-32-poky-linux/ruby/ruby-ri-docs: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+packages/core2-32-poky-linux/ruby/ruby-staticdev: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+packages/core2-32-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, removed "/usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec /usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec", added "/usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/libruby.so.3.0.2 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb"
+Changes to packages/core2-32-poky-linux/ruby (sysroot):
+  /usr/lib/libruby.so.3.0 changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/include/ruby-3.0.0/i686-linux-gnu/rb_mjit_min_header-3.0.1.h moved to /usr/include/ruby-3.0.0/i686-linux-gnu/rb_mjit_min_header-3.0.2.h
+  /usr/lib/libruby.so.3.0.1 moved to /usr/lib/libruby.so.3.0.2
+  /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15 moved to /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22
+  /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.1 moved to /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.2
+  /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0 moved to /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1
+  /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec
+  /usr/lib/ruby/3.0.0/bundler/source_map.rb was added
+  /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb was added
+  /usr/lib/ruby/3.0.0/rdoc/markup/table.rb was added
+  /usr/share/ri/3.0.0/system/Complex/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/check_openssl-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_cert-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_private_key-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/GemcutterUtilities/otp-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/capture_subprocess_io-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml_file-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/_synchronize-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/without_any_upwards_gemfiles-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/FTP/use_pasv_ip-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError/cdesc-UnknownResponseError.ri was added
+  /usr/share/ri/3.0.0/system/Object/stub-i.ri was added
+  /usr/share/ri/3.0.0/system/Rational/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/cdesc-Git.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/create_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_info-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/parse_date-i.ri was added
+Changes to packages/x86_64-linux/ruby-native (sysroot):
+  /usr/lib/libruby.so.3.0 changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/include/ruby-3.0.0/x86_64-linux-gnu/rb_mjit_min_header-3.0.1.h moved to /usr/include/ruby-3.0.0/x86_64-linux-gnu/rb_mjit_min_header-3.0.2.h
+  /usr/lib/libruby.so.3.0.1 moved to /usr/lib/libruby.so.3.0.2
+  /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15 moved to /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22
+  /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.1 moved to /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.2
+  /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0 moved to /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1
+  /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec
+  /usr/lib/ruby/3.0.0/bundler/source_map.rb was added
+  /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb was added
+  /usr/lib/ruby/3.0.0/rdoc/markup/table.rb was added
+  /usr/share/ri/3.0.0/system/Complex/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/check_openssl-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_cert-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_private_key-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/GemcutterUtilities/otp-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/capture_subprocess_io-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml_file-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/_synchronize-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/without_any_upwards_gemfiles-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/FTP/use_pasv_ip-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError/cdesc-UnknownResponseError.ri was added
+  /usr/share/ri/3.0.0/system/Object/stub-i.ri was added
+  /usr/share/ri/3.0.0/system/Rational/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/cdesc-Git.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/create_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_info-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/parse_date-i.ri was added
+
+--===============0998210940201147956==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-ethtool-upgrade-5.12-5.13.patch"
+ filename="0001-ruby-upgrade-3.0.1-3.0.2.patch"
 
-From 905960f4fd0217bc93b98168d2e421a2d4adce21 Mon Sep 17 00:00:00 2001
+From 6af667b852e279293bbe6804513d2d060e5e2fef Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 11 Jul 2021 20:10:16 +0000
-Subject: [PATCH] ethtool: upgrade 5.12 -> 5.13
+Date: Sun, 11 Jul 2021 20:05:52 +0000
+Subject: [PATCH] ruby: upgrade 3.0.1 -> 3.0.2
 
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
- .../ethtool/{ethtool_5.12.bb => ethtool_5.13.bb}            | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_5.12.bb => ethtool_5.13.bb} (93%)
+ meta/recipes-devtools/ruby/{ruby_3.0.1.bb => ruby_3.0.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/ruby/{ruby_3.0.1.bb => ruby_3.0.2.bb} (97%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index b3f3de4a16..3b639ebb67 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From b493e2fb472307997576eef33cce784594070f44 Mon Sep 17 00:00:00 2001
-+From e652ccd8965895087887c270fc0d380b61f96b11 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 13c2bc0..0b6ca1d 100644
-+index 6b620bf..ff62b2a 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 5.12, netdev@vger.kernel.org)
-+ AC_INIT(ethtool, 5.13, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_SRCDIR([ethtool.c])
- -AM_INIT_AUTOMAKE([gnu subdir-objects])
-diff --git a/meta/recipes-extended/ethtool/ethtool_5.12.bb b/meta/recipes-extended/ethtool/ethtool_5.13.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_5.12.bb
-rename to meta/recipes-extended/ethtool/ethtool_5.13.bb
-index df7dd47748..8f6a7904a2 100644
---- a/meta/recipes-extended/ethtool/ethtool_5.12.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_5.13.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
+diff --git a/meta/recipes-devtools/ruby/ruby_3.0.1.bb b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
+similarity index 97%
+rename from meta/recipes-devtools/ruby/ruby_3.0.1.bb
+rename to meta/recipes-devtools/ruby/ruby_3.0.2.bb
+index 944cb81c1d..f88e874c7b 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.0.1.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
+@@ -8,7 +8,7 @@ SRC_URI += " \
+            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
             "
  
--SRC_URI[sha256sum] = "7ca623cc1dd25ba66531573da6a11f1ecde9b62b00742d9ba54f9ba983439bfa"
-+SRC_URI[sha256sum] = "e66ab0d74d2a888fd64a0053290dbea66ddc9b75b3d21d117b7edd9576b9db60"
+-SRC_URI[sha256sum] = "369825db2199f6aeef16b408df6a04ebaddb664fb9af0ec8c686b0ce7ab77727"
++SRC_URI[sha256sum] = "5085dee0ad9f06996a8acec7ebea4a8735e6fac22f22e2d98c3f2bc3bef7e6f1"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
- 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -- 
 2.20.1
 
 
---===============0691133369763476320==
+--===============0998210940201147956==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3153940 to 3318280 (+5%)
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 37567 to 38463 (+2%)
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1390973 to 1433439 (+3%)
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1202432 to 1243902 (+3%)
-packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool/ethtool: PKGSIZE changed from 539208 to 555600 (+3%)
-packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "5.12" to "5.13"
-packages/core2-32-poky-linux/ethtool: PKGV changed from 5.12 [default] to 5.13 [default]
-packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-5.12.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-5.13.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
-packages/core2-32-poky-linux/ethtool: PV changed from "5.12" to "5.13"
+packages/core2-32-poky-linux/ruby: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.1.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://remove_has_include_macros.patch file://run-ptest file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch" to "http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://remove_has_include_macros.patch file://run-ptest file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch"
+packages/core2-32-poky-linux/ruby/ruby-dbg: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-dbg: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-dbg: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 9842072 to 9846768 (+0%)
+packages/core2-32-poky-linux/ruby/ruby-dev: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-dev: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-dev: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-dev: PKGSIZE changed from 1832515 to 1832718 (+0%)
+packages/core2-32-poky-linux/ruby/ruby-doc: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-doc: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-doc: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-locale: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-locale: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-locale: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-ptest: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-ptest: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-ptest: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 13976338 to 14282013 (+2%)
+packages/core2-32-poky-linux/ruby/ruby-rdoc: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-rdoc: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-rdoc: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-rdoc: PKGSIZE changed from 1702052 to 1721893 (+1%)
+packages/core2-32-poky-linux/ruby/ruby-ri-docs: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-ri-docs: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-ri-docs: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-ri-docs: PKGSIZE changed from 9040176 to 9047940 (+0%)
+packages/core2-32-poky-linux/ruby/ruby-src: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-src: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-src: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-src: PKGSIZE changed from 30908365 to 30915564 (+0%)
+packages/core2-32-poky-linux/ruby/ruby-staticdev: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby-staticdev: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby-staticdev: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby: PKGV changed from 3.0.1 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/ruby/ruby: PV changed from "3.0.1" to "3.0.2"
+packages/core2-32-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0/exe -> /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1/exe, directory renamed /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15/libexec -> /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22/libexec, removed "/usr/lib/libruby.so.3.0.1 /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec", added "/usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb /usr/lib/ruby/3.0.0/bundler/source_map.rb /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec /usr/lib/libruby.so.3.0.2"
+packages/core2-32-poky-linux/ruby/ruby: PKGSIZE changed from 21492885 to 21502247 (+0%)
+Changes to packages/core2-32-poky-linux/ruby (sysroot):
+  /usr/lib/libruby.so.3.0 changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/include/ruby-3.0.0/i686-linux-gnu/rb_mjit_min_header-3.0.1.h moved to /usr/include/ruby-3.0.0/i686-linux-gnu/rb_mjit_min_header-3.0.2.h
+  /usr/lib/libruby.so.3.0.1 moved to /usr/lib/libruby.so.3.0.2
+  /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15 moved to /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22
+  /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.1 moved to /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.2
+  /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0 moved to /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1
+  /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec
+  /usr/lib/ruby/3.0.0/bundler/source_map.rb was added
+  /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb was added
+  /usr/lib/ruby/3.0.0/rdoc/markup/table.rb was added
+  /usr/share/ri/3.0.0/system/Complex/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/check_openssl-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_cert-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_private_key-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/GemcutterUtilities/otp-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/capture_subprocess_io-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml_file-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/_synchronize-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/without_any_upwards_gemfiles-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/FTP/use_pasv_ip-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError/cdesc-UnknownResponseError.ri was added
+  /usr/share/ri/3.0.0/system/Object/stub-i.ri was added
+  /usr/share/ri/3.0.0/system/Rational/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/cdesc-Git.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/create_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_info-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/parse_date-i.ri was added
+Changes to packages/x86_64-linux/ruby-native (sysroot):
+  /usr/lib/libruby.so.3.0 changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/lib/libruby.so changed symlink target from libruby.so.3.0.1 to libruby.so.3.0.2
+  /usr/include/ruby-3.0.0/x86_64-linux-gnu/rb_mjit_min_header-3.0.1.h moved to /usr/include/ruby-3.0.0/x86_64-linux-gnu/rb_mjit_min_header-3.0.2.h
+  /usr/lib/libruby.so.3.0.1 moved to /usr/lib/libruby.so.3.0.2
+  /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.15 moved to /usr/lib/ruby/gems/3.0.0/gems/bundler-2.2.22
+  /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.1 moved to /usr/lib/ruby/gems/3.0.0/gems/net-ftp-0.1.2
+  /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.0 moved to /usr/lib/ruby/gems/3.0.0/gems/rdoc-6.3.1
+  /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.15.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/bundler-2.2.22.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.1.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/net-ftp-0.1.2.gemspec
+  /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.0.gemspec moved to /usr/lib/ruby/gems/3.0.0/specifications/default/rdoc-6.3.1.gemspec
+  /usr/lib/ruby/3.0.0/bundler/source_map.rb was added
+  /usr/lib/ruby/3.0.0/bundler/source/rubygems_aggregate.rb was added
+  /usr/lib/ruby/3.0.0/rdoc/markup/table.rb was added
+  /usr/share/ri/3.0.0/system/Complex/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/check_openssl-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_cert-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/Commands/CertCommand/open_private_key-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/GemcutterUtilities/otp-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/capture_subprocess_io-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml_file-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/load_yaml-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/_synchronize-i.ri was added
+  /usr/share/ri/3.0.0/system/Gem/TestCase/without_any_upwards_gemfiles-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/FTP/use_pasv_ip-i.ri was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError was added
+  /usr/share/ri/3.0.0/system/Net/IMAP/UnknownResponseError/cdesc-UnknownResponseError.ri was added
+  /usr/share/ri/3.0.0/system/Object/stub-i.ri was added
+  /usr/share/ri/3.0.0/system/Rational/hash-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/cdesc-Git.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/create_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_entries-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/Git/parse_info-i.ri was added
+  /usr/share/ri/3.0.0/system/RDoc/Parser/ChangeLog/parse_date-i.ri was added
 
---===============0691133369763476320==--
+--===============0998210940201147956==--
