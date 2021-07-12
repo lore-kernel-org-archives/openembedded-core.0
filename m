@@ -1,90 +1,106 @@
-Received: from avasout04.plus.net (avasout04.plus.net [212.159.14.19])
- by mx.groups.io with SMTP id smtpd.web08.12744.1626104171794569809
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.13233.1626106109449714936
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 08:36:13 -0700
+ Mon, 12 Jul 2021 09:08:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=pHYibghY;
- spf=pass (domain: mcrowe.com, ip: 212.159.14.19, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id 2xyamPTUyOQhv2xybmEj9z; Mon, 12 Jul 2021 16:36:10 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=IvmFjI3g c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=e_q4qTt1xDgA:10 a=-An2I_7KAAAA:8 a=T9JUtYPXkN-NqOx8j4EA:9
- a=Sq34B_EcNBM9_nrAYB9S:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=k+lNAziUKVkrV096SHUbb3BBAKEcYucQVyGwKiZENi8=; b=pH
-	YibghYD4t2ZSmNNCOHFcCH/GzpkfbHJmLYe4Z9UbznFOTnt8uCiWGIee7z1uR2lJBNb4AiRogSqSF
-	azZHW/vhmsUzR5OzULxgr/bHii9GHvV7HtwJI80kJy7xdO48YMY6q4tciIztpm38bvFyTx+zKvCQy
-	ybS8nprqCpBI6W1xoZV3YvQNrWeqogQPTJX0RxyhyIYpzMQI6I5JI/5TSrLnx9koMVAx/HXQ9yYHI
-	GYs0TBmsr8sQ9W7hsIYfQxTWknoyWaZMbboK7af404TfO1TIjIjpv4GG89ZNtphmgQTE/L+5qC5No
-	Zr0YdW02pgbYwlhjojfaTYk2bhKJ7Gqg==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
-	(envelope-from <mac@mcrowe.com>)
-	id 1m2xyZ-000641-FA; Mon, 12 Jul 2021 16:36:07 +0100
-From: "Mike Crowe" <yocto@mac.mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] licence_image: Add lic-pkgs IMAGE_FEATURE
-Date: Mon, 12 Jul 2021 16:35:58 +0100
-Message-Id: <20210712153558.2628745-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=qCA4jeeh;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.54, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f54.google.com with SMTP id d2so26423460wrn.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 09:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
+        bh=acB+82lpMCxrznAC/XA9gASnGJRSYIIeZpIpw84q6Go=;
+        b=qCA4jeehvzSYzingyLyCrPHEycsrZ8SI/sfFkPpcYXY37C9h7dDkoY1hZxlYXDEZ7R
+         D2Z99bweVWv9ht8hJkLUdmNgq8CPb6FlnyzVJ7FrbIcrxtkRoKAK4d22c101g51Uw0qH
+         Sbfx20+00Bcx1FuiXIkwbAF1nH6ZGnliUBD4rEOvB6vjuAsjYadE+dAU/WqzTZqzkVYU
+         kk7HsbZJMlihvauZoo2/OSFHZSAfIHy67dFAjD7E9u4X20FxFNU93v/Vxx+0uhO/9Wr7
+         BrPJThijap4rpduLvp1jLVEkuAzhdaUbeez4McQC+KI7fLXooN41q1ObKr5MEio4LNlE
+         dB7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:cc;
+        bh=acB+82lpMCxrznAC/XA9gASnGJRSYIIeZpIpw84q6Go=;
+        b=dzgJ98xxrixC60Ebhaio3UQxWU3V6//4k8eNIPe/XpltBzLEJAwpAUdNy/s3ec2Qjt
+         i1xmWF+pZ/WCm/IL8YPw+a62nFALO82CX89HgFZlpwryR4Lmdptcn9A/M4K0+2iux8DD
+         BF+kUujeYFlw1vKyWZMcfrzUzbH1pQoax/iBKRKbUYKKmKu+Oxxnozda+w1pPy6oWeZ+
+         moUUpUoCgWr8HR+OvE6fOqH3leETOFGP6pDlbM5uG8ydpstcZuqEYHeF8t37vrwwoRzs
+         X45utslVy6ZqBu+LBJb7QHiTd+kC+w4Hm+mxrjVG4ilmUwMzIXcQka99Fc2WDwgEW+/U
+         U7CQ==
+X-Gm-Message-State: AOAM533GOdXU9lt96dZi0PsQxRi35HAhrQho/x4Z2vDlVUcEihrutzqk
+	HrtCkPN92IdWrntx2be9XBdwKIRGFOUhrfDg6XRbrfTt8x1J4Q==
+X-Google-Smtp-Source: ABdhPJyvbmwjOcu8Sot3imuQ84nENs802mlAzH5R+biNJAVlA9TB//KW9qNA0ka5YQ6WAs9Fs69bUuAFjbESZcTH/Os=
+X-Received: by 2002:a05:6000:1867:: with SMTP id d7mr4308844wri.199.1626106107371;
+ Mon, 12 Jul 2021 09:08:27 -0700 (PDT)
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfNbPrYpsAJW7k3uw7zrdvZ/yQKZkx5ParizAqwJ7JL3Belu1FI5ovJUNDZ7EmJ5I0a4CDXbC+vIl6L4HDYRO9RAS3dNDDc+E3KNi1A03OIesIMS6AIK/
- sm7al0VKOMS7XtWY7pAjZISLyU1e26kJkxR0W7CD9h7SNC+VQ/+o+5/Dy+fDD+c6yOVa5h4x8tByLg==
-Content-Transfer-Encoding: 8bit
+References: <20210712135159.2131269-1-ross.burton@arm.com> <20210712135159.2131269-9-ross.burton@arm.com>
+In-Reply-To: <20210712135159.2131269-9-ross.burton@arm.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 12 Jul 2021 17:08:16 +0100
+Message-ID: <CAAnfSTstJ4V4iHTB0=NCV2WCaPO4vJwgARkG9hSWVbk2UcKb6Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 9/9] tcl: increase timeouts in interp.test
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Installing license packages is similar to installing -dev or -dbg
-packages, so let's invent a "lic-pkgs" IMAGE_FEATURE that does so and
-document it in core-image.bbclass.
+Hold off this patch, I have a better version incoming.
 
-This image feature only works if LICENSE_CREATE_PACKAGE is set, so
-refuse to generate an image if the lic-pkgs feature is enabled without
-LICENSE_CREATE_PACKAGE.
+Ross
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/core-image.bbclass    |  2 ++
- meta/classes/license_image.bbclass | 10 ++++++++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index d81f68bd2e..84fd3eeb38 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -31,6 +31,8 @@
- #   - post-install-logging
- # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
- # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
-+# - lic-pkgs            - license packages for all installed pacakges in the rootfs, requires
-+#                         LICENSE_CREATE_PACKAGE="1" to be set when building packages too
- # - doc-pkgs            - documentation packages for all installed packages in the rootfs
- # - bash-completion-pkgs - bash-completion packages for recipes using bash-completion bbclass
- # - ptest-pkgs          - ptest packages for all ptest-enabled recipes
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 73cebb4d55..5dbec288a4 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -1,5 +1,15 @@
- ROOTFS_LICENSE_DIR = "${IMAGE_ROOTFS}/usr/share/common-licenses"
- 
-+# This requires LICENSE_CREATE_PACKAGE=1 to work too
-+COMPLEMENTARY_GLOB[lic-pkgs] = "*-lic"
-+
-+python() {
-+    if not oe.data.typed_value('LICENSE_CREATE_PACKAGE', d):
-+        features = set(oe.data.typed_value('IMAGE_FEATURES', d))
-+        if 'lic-pkgs' in features:
-+            bb.error("'lic-pkgs' in IMAGE_FEATURES but LICENSE_CREATE_PACKAGE not enabled to generate -lic packages")
-+}
-+
- python write_package_manifest() {
-     # Get list of installed packages
-     license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
--- 
-2.30.2
-
+On Mon, 12 Jul 2021 at 14:52, Ross Burton via lists.openembedded.org
+<ross=burtonini.com@lists.openembedded.org> wrote:
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/tcltk/tcl/interp.patch | 23 ++++++++++++++++++++
+>  meta/recipes-devtools/tcltk/tcl_8.6.11.bb    |  1 +
+>  2 files changed, 24 insertions(+)
+>  create mode 100644 meta/recipes-devtools/tcltk/tcl/interp.patch
+>
+> diff --git a/meta/recipes-devtools/tcltk/tcl/interp.patch b/meta/recipes-devtools/tcltk/tcl/interp.patch
+> new file mode 100644
+> index 0000000000..f33dbb21ac
+> --- /dev/null
+> +++ b/meta/recipes-devtools/tcltk/tcl/interp.patch
+> @@ -0,0 +1,23 @@
+> +Sometimes this test fails, and it appears as if this is because if the system is
+> +loaded then the 'after 0' and 'after 10' blocks happen in the same iteration of
+> +the interpretter and are executed in the wrong order.
+> +
+> +Increase the timeout on the 10ms interval to 1000ms to be a little more forgiving
+> +of system load.
+> +
+> +Upstream-Status: Inappropriate
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +
+> +diff --git a/tests/interp.test b/tests/interp.test
+> +index 385d3e2ab..3b07ce30c 100644
+> +--- a/tests/interp.test
+> ++++ b/tests/interp.test
+> +@@ -3599,7 +3599,7 @@ test interp-36.7 {ChildBgerror sets error handler of child [1999035]} -setup {
+> +     child eval {
+> +         variable done {}
+> +         after 0 error foo
+> +-        after 10 [list ::set [namespace which -variable done] {}]
+> ++        after 1000 [list ::set [namespace which -variable done] {}]
+> +         vwait [namespace which -variable done]
+> +     }
+> +     set result
+> diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+> index 0d7c2e4ac3..57a86e4c64 100644
+> --- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+> +++ b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+> @@ -22,6 +22,7 @@ SRC_URI = "${BASE_SRC_URI} \
+>             file://fix_issue_with_old_distro_glibc.patch \
+>             file://tcl-remove-hardcoded-install-path.patch \
+>             file://alter-includedir.patch \
+> +           file://interp.patch \
+>             file://run-ptest \
+>  "
+>  SRC_URI[sha256sum] = "cfb49aab82bd179651e23eeeb69606f51b0ddc575ca55c3d35e2457469024cfa"
+> --
+> 2.25.1
+>
+>
+> 
+>
