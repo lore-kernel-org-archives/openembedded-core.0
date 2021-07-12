@@ -1,50 +1,50 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.12651.1626103970187391562
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.12652.1626103972181434902
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 08:32:50 -0700
+ Mon, 12 Jul 2021 08:32:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bGCAalV0;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id oj10-20020a17090b4d8ab0290172f77377ebso239885pjb.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=oO6u5Zoe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id o3-20020a17090a6783b0290173ce472b8aso1860479pjj.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 08:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=B/WrZU6SH0nfWYyS3poyWxosU3N1kQFS8oAvSWLl5/w=;
-        b=bGCAalV0bSt/6bWgl/NXMUrKOULIg1HOTCnDdlQTrb6Qe38t0yKohAc1p4thuycP8N
-         i3yrCLMAypB62nsUyTw0nMO1j6oEeqnePy83tqhDBKmuQRheIEXv7pT+uT+O/Bx258Gs
-         1H/Cr6/8vbp6Ygo9JNK8nigH4PScWuJ1nk+dBHfJGCg5mYkppE3T+a/DAcxhgprc1ghT
-         Ae3Mp6CNtW/eITiTTTjFrP7jpzNedBR1rX/zQ7ccTAILhKtXmmXMcqJVfYFMNIa0db/Q
-         FNTQ/s6/NEhS1Jr0xafCDr+tGjIV0f4AHuVtzPbov6UwGhoAeoxqRPkwGlkaoAxDao4b
-         VuAg==
+        bh=T4bX87sw7gohXGmqanJrAwhHcNMhzm4hGskWpeIwgiw=;
+        b=oO6u5ZoeT0ZeWvb+s0HjDMca452rMT7mL9C1eaF24XAG5NkgYkM6C7E+EvIkESKXt0
+         Eyij6VgFWKQq3TDIx7DqGbgKMZB5Ii4+8yARaMSDOS3ISfauCPRvm53g5P4ANO6H5mJL
+         QchuJi7tEsPSuYvhl7foTj3Wby7CSzCXJ/yeg/JK66lqBu4igZanuhCnTqtsQLugh2Hn
+         ZG3stHSStG1W1tj3im2Tth61HeqavNn9uu5Ny4P+yLqoPujaSFomhI3Qaz1cHba3vMo2
+         QDZyfKH3rXX/kOuZarETe5V8Wa8Bh0ECbL8/Oa2jsS6hzKSboP0SkhXQvVs+CoX/DKyj
+         fyfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=B/WrZU6SH0nfWYyS3poyWxosU3N1kQFS8oAvSWLl5/w=;
-        b=d40k22QhtOLyoWtMLeodZOYtsI08ned1xNLQQKmqSufnxd7dh/+xo6+f2KKjuzw17v
-         Trj3BkE9ZRuBAs2LAW5JQ4gGziKFk4oJOQI46cceYOLjr6yqcyJKtpDtvB2xNXSvoZag
-         Woxfo0Sl3BJxZxkJfhoWfEJbrSw1/mVC2LFjfRt/7KYKzsdH28fM8U2j+2wwZnu23wuu
-         zbsVv9GSpI5vvInA81OVr9buZ8OOw6049fqapt3f9t663mTlm+HbTuqUUjtB5EirpcTu
-         Cl8N1ijKWpuIQZ9TsTm5YoMvrBP+5J1aLUxAvnq+Kcnbo/GQFZf1RLaHOKeUrTyIt6q2
-         w4ow==
-X-Gm-Message-State: AOAM532bYC9DIUTOdyEvB48nPOL1EbH3iz7/Cv/MR3UulZv7k/2CUy4X
-	TUQu7q2gQ8+RTTzl4BolqU2h/kYECV7TK1nP
-X-Google-Smtp-Source: ABdhPJzdE1BWczSFOveUKj+FLoLd/JfdnUy0ajzzuwugDV1u3KaDOqbWi77XREN3TAWhy5IOo8gW1g==
-X-Received: by 2002:a17:903:186:b029:129:5733:85c8 with SMTP id z6-20020a1709030186b0290129573385c8mr44302012plg.39.1626103969317;
-        Mon, 12 Jul 2021 08:32:49 -0700 (PDT)
+        bh=T4bX87sw7gohXGmqanJrAwhHcNMhzm4hGskWpeIwgiw=;
+        b=VKwoalWEc8P5Hxcn5bAyCFmUeEaDWBWydqDcmP9baJ6shp3C5Drb5bCzroQZKo7uVL
+         RITS+p+IwKWWpNzEfwekPq5MTzTwY9Jh5O327bGMpjFEUHYDNcNCcw1gjTOSLBuEkFn3
+         avK8eQBED55Zu9tshow/ZoNNm3zFHcujx6QBMAqjP6MB970hMc/wXGdJpJfcrx/mQG1c
+         HyoIPdRSgIJ5y8ce3dPZ1lWUK4mqTTRRYJgGvtnm4wxpPVm0a8mDB290hahgE+Rlu3KO
+         pYG5DKHeusn3i6O28bnxbOl5+8xAEoFnBHKtYVkcsejPQhaUYupvdyO+SRBQMUibY1En
+         1jqA==
+X-Gm-Message-State: AOAM533pVtX1atQHoZqIeR50IIZcUG4415l9HIKSOFU3/Kp1rvsMF5KC
+	rF26MmjBazVfX8/ZIwzVu5PyOvWZ28IqShpP
+X-Google-Smtp-Source: ABdhPJxB1NLikCWQLZM1nypxzY+iFI28jqEKiA0dVDwobbYfoO7Q8VHepAOHdRYGPXHRO31VB39S8w==
+X-Received: by 2002:a17:90a:ab07:: with SMTP id m7mr25578222pjq.27.1626103971309;
+        Mon, 12 Jul 2021 08:32:51 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.48
+        by smtp.gmail.com with ESMTPSA id n3sm16765942pfn.216.2021.07.12.08.32.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jul 2021 08:32:48 -0700 (PDT)
+        Mon, 12 Jul 2021 08:32:50 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/12] dwarfsrcfiles: Avoid races over debug-link files
-Date: Mon, 12 Jul 2021 05:32:01 -1000
-Message-Id: <317e334518c6394ecba4a3fdd4ba18b185822d22.1626103708.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/12] oeqa/selftest/multiprocesslauch: Fix test race
+Date: Mon, 12 Jul 2021 05:32:02 -1000
+Message-Id: <5df87fc7d3353abb8a8f4a25b544e7927c8b39eb.1626103708.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1626103708.git.steve@sakoman.com>
 References: <cover.1626103708.git.steve@sakoman.com>
@@ -53,71 +53,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We use dwarfsrcfiles in package.bbclass to list the source files used by a binary.
-This is done before they're stripped and linked to debug symbols in separate files.
+Having two possible failures in multiprocesslauch creates a race where one failure
+may occur and stop processes being lanuched meaning the second failure may not
+be seen. Rather than having periodic races appearing on the autobuilder, only
+have one failure, making the test much more deterministic.
 
-It is possible a binary may already have a link to separate debug symbols, e.g.
-some of the test binaries in lttng-tools ptest. In those cases, the linked binary
-may be changed by package.bbclass code whilst dwarfsrcfiles is reading it. That
-would result in a rare SIGBUS race causing the binary to fail.
-
-To avoid this, break the debug file search path so no other binaries are found.
-
-Also fix a segfault if no binary is specified while here.
-
-[YOCTO #14400]
+[YOCTO #13054]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit efef732859e265533acf16f2f4da3b29d50e0df4)
+(cherry picked from commit 31e9dcda40aae3ce0801580c838928956e1455e3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../dwarfsrcfiles/files/dwarfsrcfiles.c             | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/oelib/utils.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-index af7af524eb..9eb5ca807a 100644
---- a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-+++ b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-@@ -9,6 +9,7 @@
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/utils.py b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+index a7214beb4c..bbf67bf9c9 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/utils.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+@@ -64,7 +64,7 @@ class TestMultiprocessLaunch(TestCase):
+         import bb
  
- #include <argp.h>
- #include <stdio.h>
-+#include <stdlib.h>
+         def testfunction(item, d):
+-            if item == "2" or item == "1":
++            if item == "2":
+                 raise KeyError("Invalid number %s" % item)
+             return "Found %s" % item
  
- #include <dwarf.h>
- #include <elfutils/libdw.h>
-@@ -83,13 +84,15 @@ process_cu (Dwarf_Die *cu_die)
- int
- main (int argc, char **argv)
- {
--  char* args[3];
-+  char* args[5];
-   int res = 0;
-   Dwfl *dwfl;
-   Dwarf_Addr bias;
-   
--  if (argc != 2)
-+  if (argc != 2) {
-     fprintf(stderr, "Usage %s <file>", argv[0]);
-+    exit(EXIT_FAILURE);
-+  }
-   
-   // Pretend "dwarfsrcfiles -e <file>" was given, so we can use standard
-   // dwfl argp parser to open the file for us and get our Dwfl. Useful
-@@ -98,8 +101,12 @@ main (int argc, char **argv)
-   args[0] = argv[0];
-   args[1] = "-e";
-   args[2] = argv[1];
-+  // We don't want to follow debug linked files due to the way OE processes
-+  // files, could race against changes in the linked binary (e.g. objcopy on it)
-+  args[3] = "--debuginfo-path";
-+  args[4] = "/not/exist";
-   
--  argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &dwfl);
-+  argp_parse (dwfl_standard_argp (), 5, args, 0, NULL, &dwfl);
-   
-   Dwarf_Die *cu = NULL;
-   while ((cu = dwfl_nextcu (dwfl, cu, &bias)) != NULL)
+@@ -99,5 +99,4 @@ class TestMultiprocessLaunch(TestCase):
+         # Assert the function prints exceptions
+         with captured_output() as (out, err):
+             self.assertRaises(bb.BBHandledException, multiprocess_launch, testfunction, ["1", "2", "3", "4", "5", "6"], d, extraargs=(d,))
+-        self.assertIn("KeyError: 'Invalid number 1'", out.getvalue())
+         self.assertIn("KeyError: 'Invalid number 2'", out.getvalue())
 -- 
 2.25.1
 
