@@ -1,488 +1,275 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.4783.1626184174213431249
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web08.5577.1626187628947531401
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jul 2021 06:49:34 -0700
+ Tue, 13 Jul 2021 07:47:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qtx5/VI2;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id i5so20560406lfe.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jul 2021 06:49:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZobOTzxL;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id a2so21826751pgi.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jul 2021 07:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CP/hmKdfiMZsYSxFkQ11IrhPTH6W5h14UKG/Fs/gPrA=;
-        b=Qtx5/VI2vVKYve5xYsPL2WaRPzC1WSllrif9wa8sii8jX/Z3nIV33cX0TfrE0UGhdu
-         SGhd2Fgz92fR2DbvMylW1Ma/p/WD5jT+kC6yaGNqYEbktuc6O7YrGkyRnrD8WXle2HUU
-         AnYodqf4yNyUDG2Apa2g+pb3dzLdIBG9AwwvlDT/Hf8QSC++LCDYmuIrYaDLDQEL+cie
-         7L1aM8DvqDM1uRXvwRWX9Yb0SHITzZ5Y1S0nVi3248M9Z0hNUeIrpFS6Gma8m95DJxHG
-         K2EkIE3l8KN2tItnegsA2rTdUBF5k14trn4vsfiqinb+bBR8BD9fTEfkrX5TunN/EA+s
-         69kw==
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=3mf5UsWIWXV1mr4IUqwQ/oROMswlyUEsGTx0oc/kiIQ=;
+        b=ZobOTzxLgT9Zjdg7+z8vh8/N1ORRQwtVh3m+CM2+pD++0GsQRUZo4izSYbHm4C6dj4
+         ZDkhAQy4/smq9wA+3DAGiv/mg8BoZPedoL2cfYpAq5siz03iB2dlCCPqsiu4dpxDJn5m
+         13tiRU7XV0y4FjXM0ySZF0asS4WRoWnP8H1/iw1Z/WkaKw5d7Ln0vf2yyQt393FwEQm5
+         u7WzMcbM/2qAdaA/gwFuXGsJ8/fR/TJ4KlIqULgE8/UaWnf7DGLfdVoAzTSCA83GXCT6
+         nhdh0CXlJvr6cfGz0DIaFfO6wdbvrJL0N9RAy0r71dYOdnGE5wSKVen1ILlbQZg84pXI
+         Rdhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CP/hmKdfiMZsYSxFkQ11IrhPTH6W5h14UKG/Fs/gPrA=;
-        b=kTpp6ToSExhY4kj+KJ8HLmeSFf3kkDW3nAfMaAmXJV2xd41gudNzK4bMv0uZvUIrjY
-         LXLkwf/9mbtV08CjRRjmPqXaEr0oZ4HnREWoq0esBcoVcdBcQao/WVf1KVApgUFwj5Gb
-         LONWcnsOWeXNLIRfRqg2WXtJca0E8thcQZOyZekitHJMqmEyTYfMe2Si2WM++9uYVeiD
-         fDiyqM4+oWFLTDducAPGpCAoEZ23cMjWyBKlAH76P2VhKKxaooVUAKP2NZ1U17+2288y
-         Gthrw1DBDvKbiRhEu8/ELTfivZq8vMv95k03Yezqt5OSOPdmns3auW5A7sXjmhedj7Jf
-         CF6w==
-X-Gm-Message-State: AOAM533iduqYHjF5srXh5Fa4skToS1NONyKP6XerQnSEKir9ITNawIbD
-	W0uKj3KdhkbKndbJMJnN999EoVTkeXqjM0lgzJA=
-X-Google-Smtp-Source: ABdhPJxJs2LxSFl2BaoFOKoT2EDEHli7kV5NHP44X5Lnv2gov35qUS3oL4E8uzJ95q6p9pUstRGseH+7dR0IHiuUw18=
-X-Received: by 2002:ac2:52a1:: with SMTP id r1mr3708689lfm.242.1626184172181;
- Tue, 13 Jul 2021 06:49:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=3mf5UsWIWXV1mr4IUqwQ/oROMswlyUEsGTx0oc/kiIQ=;
+        b=JCwLKwZIj0cosrcq6MbI2bskKm/PTyrdBCgbwl8N6oc/OUk993yF2V/IJ2RiNWtGuc
+         uPhE2O0ZCoe5jnzQtH4fdR48kTSNbJ9Hwen+NOAlJ5kBcsiHhXFopc33cGBQBjJn9lS4
+         71QtavMaF31Tkrm22c6mwjm7vwDSX05ddZaMgip8Ouhcfma4dIyHIuLsJtEZr+vlAKMQ
+         KPfpdEmFCPFT7JTywVu5TskZjIKJHsoJbWPa38iyjCdgXw+1EVPD3Jf914aSgOYRYUwl
+         JBk9vdrtImVUOuVE6aaKIaL9bHhcV0c93I4jcaMleXjlIaS7OsT4cnHnzOOcAm8aWm40
+         HV/Q==
+X-Gm-Message-State: AOAM533fa9grtYl/yx3wMtf06Iu/JVGAtZCPBZG8e3SqKAb2bkZ5gVaS
+	EEIGwXuUUUZAjivM5yzsrWY=
+X-Google-Smtp-Source: ABdhPJx9OEQv5TxlX2WDU7AWOLXZ8yM4nN+fdOpDRQsTFhVhIgmOoiP69hY6HLk3UhJ9NK9lULUqwg==
+X-Received: by 2002:a62:2cce:0:b029:327:6418:abc7 with SMTP id s197-20020a622cce0000b02903276418abc7mr4849199pfs.27.1626187628360;
+        Tue, 13 Jul 2021 07:47:08 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (ip68-106-21-142.ph.ph.cox.net. [68.106.21.142])
+        by smtp.gmail.com with ESMTPSA id s2sm19648370pgr.12.2021.07.13.07.47.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Jul 2021 07:47:07 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Tue, 13 Jul 2021 07:47:07 -0700
+Message-ID: <131001d777f5$f49e0ad0$ddda2070$@gmail.com>
 MIME-Version: 1.0
-References: <20210702112238.114484-1-vinay.m.engg@gmail.com> <16915DBBAEEB81DE.15464@lists.openembedded.org>
-In-Reply-To: <16915DBBAEEB81DE.15464@lists.openembedded.org>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Tue, 13 Jul 2021 19:19:20 +0530
-Message-ID: <CANUMPcX2-DSmpoqwLU4ocTiVdh0SD6o9mJs1i=VoPMeA13ay=Q@mail.gmail.com>
-Subject: Re: [OE-core] [hardknott][PATCH v4] binutils: Fix CVE-2021-20197
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Randy MacLeod <rwmacleod@gmail.com>, umesh kalappa0 <umesh.kalappa0@gmail.com>, 
-	vinay.kumar@blackfigtech.com
-Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJJ8eqf9fG/RfHsHyD6o1WBdJWJsw==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_1311_01D777BB.483F32D0"
+Content-Language: en-us
 
-Hi Anuj,
+------=_NextPart_000_1311_01D777BB.483F32D0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-This patch is a cherry-pick of
-"f628b052f6c4a957472f2520adfb4b816ef83d95" from master branch.
+All,
 
-Regards,
-Vinay
+ 
 
-On Tue, Jul 13, 2021 at 7:16 PM Vinay Kumar via lists.openembedded.org
-<vinay.m.engg=gmail.com@lists.openembedded.org> wrote:
->
-> Source: git://sourceware.org/git/binutils-gdb.git
-> Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=26945
->
-> Backported upstream commit d3edaa91d4cf7202ec14342410194841e2f67f12 to
-> binutils-2.36 source along with commit id dependencies
-> (8e03235147a9e774d3ba084e93c2da1aa94d1cec and 8b69e61d4be276bb862698aaafddc3e779d23c8f).
->
-> Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=d3edaa91d4cf7202ec14342410194841e2f67f12]
->
-> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> ---
->  .../binutils/binutils-2.36.inc                |   1 +
->  .../binutils/binutils/CVE-2021-20197.patch    | 388 ++++++++++++++++++
->  2 files changed, 389 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.36.inc b/meta/recipes-devtools/binutils/binutils-2.36.inc
-> index 2968291889..6d0293b4bc 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.36.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.36.inc
-> @@ -41,5 +41,6 @@ SRC_URI = "\
->       file://0014-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
->       file://0015-sync-with-OE-libtool-changes.patch \
->       file://0016-Check-for-clang-before-checking-gcc-version.patch \
-> +     file://CVE-2021-20197.patch \
->  "
->  S  = "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
-> new file mode 100644
-> index 0000000000..d6117b65a4
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
-> @@ -0,0 +1,388 @@
-> +From d3edaa91d4cf7202ec14342410194841e2f67f12 Mon Sep 17 00:00:00 2001
-> +From: Alan Modra <amodra@gmail.com>
-> +Date: Fri, 26 Feb 2021 11:30:32 +1030
-> +Subject: [PATCH] Reinstate various pieces backed out from smart_rename changes
-> +
-> +In the interests of a stable release various last minute smart_rename
-> +patches were backed out of the 2.36 branch.  The main reason to
-> +reinstate some of those backed out changes here is to make necessary
-> +followup fixes to commit 8e03235147a9 simple cherry-picks from
-> +mainline.  A secondary reason is that ar -M support isn't fixed for
-> +pr26945 without this patch.
-> +
-> +        PR 26945
-> +        * ar.c: Don't include libbfd.h.
-> +        (write_archive): Replace xmalloc+strcpy with xstrdup.
-> +        * arsup.c (temp_name, real_ofd): New static variables.
-> +        (ar_open): Use make_tempname and bfd_fdopenw.
-> +        (ar_save): Adjust to suit ar_open changes.
-> +        * objcopy.c: Don't include libbfd.h.
-> +        * rename.c: Rename and reorder variables.
-> +
-> +(cherry picked from commit 95b91a043aeaeb546d2fea556d84a2de1e917770)
-> +
-> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=d3edaa91d4cf7202ec14342410194841e2f67f12]
-> +CVE: CVE-2021-20197
-> +Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> +---
-> + binutils/ar.c      |   6 +-
-> + binutils/arsup.c   |  37 ++++++++----
-> + binutils/bucomm.h  |   3 +-
-> + binutils/objcopy.c |   9 +--
-> + binutils/rename.c  | 148 +++++++++++----------------------------------
-> + 5 files changed, 67 insertions(+), 136 deletions(-)
-> +
-> +diff --git a/binutils/ar.c b/binutils/ar.c
-> +index 45a34e3a6cf..44df48c5c67 100644
-> +--- a/binutils/ar.c
-> ++++ b/binutils/ar.c
-> +@@ -25,7 +25,6 @@
-> +
-> + #include "sysdep.h"
-> + #include "bfd.h"
-> +-#include "libbfd.h"
-> + #include "libiberty.h"
-> + #include "progress.h"
-> + #include "getopt.h"
-> +@@ -1255,8 +1254,7 @@ write_archive (bfd *iarch)
-> +   bfd *contents_head = iarch->archive_next;
-> +   int ofd = -1;
-> +
-> +-  old_name = (char *) xmalloc (strlen (bfd_get_filename (iarch)) + 1);
-> +-  strcpy (old_name, bfd_get_filename (iarch));
-> ++  old_name = xstrdup (bfd_get_filename (iarch));
-> +   new_name = make_tempname (old_name, &ofd);
-> +
-> +   if (new_name == NULL)
-> +@@ -1308,7 +1306,7 @@ write_archive (bfd *iarch)
-> +   /* We don't care if this fails; we might be creating the archive.  */
-> +   bfd_close (iarch);
-> +
-> +-  if (smart_rename (new_name, old_name, 0) != 0)
-> ++  if (smart_rename (new_name, old_name, NULL) != 0)
-> +     xexit (1);
-> +   free (old_name);
-> +   free (new_name);
-> +diff --git a/binutils/arsup.c b/binutils/arsup.c
-> +index 5403a0c5d74..f7ce8f0bc82 100644
-> +--- a/binutils/arsup.c
-> ++++ b/binutils/arsup.c
-> +@@ -42,6 +42,8 @@ extern int deterministic;
-> +
-> + static bfd *obfd;
-> + static char *real_name;
-> ++static char *temp_name;
-> ++static int real_ofd;
-> + static FILE *outfile;
-> +
-> + static void
-> +@@ -149,27 +151,24 @@ maybequit (void)
-> + void
-> + ar_open (char *name, int t)
-> + {
-> +-  char *tname;
-> +-  const char *bname = lbasename (name);
-> +-  real_name = name;
-> ++  real_name = xstrdup (name);
-> ++  temp_name = make_tempname (real_name, &real_ofd);
-> +
-> +-  /* Prepend tmp- to the beginning, to avoid file-name clashes after
-> +-     truncation on filesystems with limited namespaces (DOS).  */
-> +-  if (asprintf (&tname, "%.*stmp-%s", (int) (bname - name), name, bname) == -1)
-> ++  if (temp_name == NULL)
-> +     {
-> +-      fprintf (stderr, _("%s: Can't allocate memory for temp name (%s)\n"),
-> ++      fprintf (stderr, _("%s: Can't open temporary file (%s)\n"),
-> +              program_name, strerror(errno));
-> +       maybequit ();
-> +       return;
-> +     }
-> +
-> +-  obfd = bfd_openw (tname, NULL);
-> ++  obfd = bfd_fdopenw (temp_name, NULL, real_ofd);
-> +
-> +   if (!obfd)
-> +     {
-> +       fprintf (stderr,
-> +              _("%s: Can't open output archive %s\n"),
-> +-             program_name,  tname);
-> ++             program_name, temp_name);
-> +
-> +       maybequit ();
-> +     }
-> +@@ -344,16 +343,30 @@ ar_save (void)
-> +     }
-> +   else
-> +     {
-> +-      char *ofilename = xstrdup (bfd_get_filename (obfd));
-> ++      struct stat target_stat;
-> +
-> +       if (deterministic > 0)
-> +         obfd->flags |= BFD_DETERMINISTIC_OUTPUT;
-> +
-> +       bfd_close (obfd);
-> +
-> +-      smart_rename (ofilename, real_name, 0);
-> ++      if (stat (real_name, &target_stat) != 0)
-> ++      {
-> ++        /* The temp file created in ar_open has mode 0600 as per mkstemp.
-> ++           Create the real empty output file here so smart_rename will
-> ++           update the mode according to the process umask.  */
-> ++        obfd = bfd_openw (real_name, NULL);
-> ++        if (obfd != NULL)
-> ++          {
-> ++            bfd_set_format (obfd, bfd_archive);
-> ++            bfd_close (obfd);
-> ++          }
-> ++      }
-> ++
-> ++      smart_rename (temp_name, real_name, NULL);
-> +       obfd = 0;
-> +-      free (ofilename);
-> ++      free (temp_name);
-> ++      free (real_name);
-> +     }
-> + }
-> +
-> +diff --git a/binutils/bucomm.h b/binutils/bucomm.h
-> +index 91f6a5b228f..aa7e33d8cd1 100644
-> +--- a/binutils/bucomm.h
-> ++++ b/binutils/bucomm.h
-> +@@ -71,7 +71,8 @@ extern void print_version (const char *);
-> + /* In rename.c.  */
-> + extern void set_times (const char *, const struct stat *);
-> +
-> +-extern int smart_rename (const char *, const char *, int);
-> ++extern int smart_rename (const char *, const char *, struct stat *);
-> ++
-> +
-> + /* In libiberty.  */
-> + void *xmalloc (size_t);
-> +diff --git a/binutils/objcopy.c b/binutils/objcopy.c
-> +index eab3b6db585..73aa8bc2514 100644
-> +--- a/binutils/objcopy.c
-> ++++ b/binutils/objcopy.c
-> +@@ -20,7 +20,6 @@
-> +
-> + #include "sysdep.h"
-> + #include "bfd.h"
-> +-#include "libbfd.h"
-> + #include "progress.h"
-> + #include "getopt.h"
-> + #include "libiberty.h"
-> +@@ -4861,12 +4860,10 @@ strip_main (int argc, char *argv[])
-> +                output_target, NULL);
-> +       if (status == 0)
-> +       {
-> +-        if (preserve_dates)
-> +-          set_times (tmpname, &statbuf);
-> +         if (output_file != tmpname)
-> +           status = (smart_rename (tmpname,
-> +                                   output_file ? output_file : argv[i],
-> +-                                  preserve_dates) != 0);
-> ++                                  preserve_dates ? &statbuf : NULL) != 0);
-> +         if (status == 0)
-> +           status = hold_status;
-> +       }
-> +@@ -5931,11 +5928,9 @@ copy_main (int argc, char *argv[])
-> +            output_target, input_arch);
-> +   if (status == 0)
-> +     {
-> +-      if (preserve_dates)
-> +-      set_times (tmpname, &statbuf);
-> +       if (tmpname != output_filename)
-> +       status = (smart_rename (tmpname, input_filename,
-> +-                              preserve_dates) != 0);
-> ++                              preserve_dates ? &statbuf : NULL) != 0);
-> +     }
-> +   else
-> +     unlink_if_ordinary (tmpname);
-> +diff --git a/binutils/rename.c b/binutils/rename.c
-> +index 65ad5bf52c4..72a9323d72c 100644
-> +--- a/binutils/rename.c
-> ++++ b/binutils/rename.c
-> +@@ -24,14 +24,9 @@
-> +
-> + #ifdef HAVE_GOOD_UTIME_H
-> + #include <utime.h>
-> +-#else /* ! HAVE_GOOD_UTIME_H */
-> +-#ifdef HAVE_UTIMES
-> ++#elif defined HAVE_UTIMES
-> + #include <sys/time.h>
-> +-#endif /* HAVE_UTIMES */
-> +-#endif /* ! HAVE_GOOD_UTIME_H */
-> +-
-> +-#if ! defined (_WIN32) || defined (__CYGWIN32__)
-> +-static int simple_copy (const char *, const char *);
-> ++#endif
-> +
-> + /* The number of bytes to copy at once.  */
-> + #define COPY_BUF 8192
-> +@@ -82,7 +77,6 @@ simple_copy (const char *from, const char *to)
-> +     }
-> +   return 0;
-> + }
-> +-#endif /* __CYGWIN32__ or not _WIN32 */
-> +
-> + /* Set the times of the file DESTINATION to be the same as those in
-> +    STATBUF.  */
-> +@@ -91,122 +85,52 @@ void
-> + set_times (const char *destination, const struct stat *statbuf)
-> + {
-> +   int result;
-> +-
-> +-  {
-> + #ifdef HAVE_GOOD_UTIME_H
-> +-    struct utimbuf tb;
-> +-
-> +-    tb.actime = statbuf->st_atime;
-> +-    tb.modtime = statbuf->st_mtime;
-> +-    result = utime (destination, &tb);
-> +-#else /* ! HAVE_GOOD_UTIME_H */
-> +-#ifndef HAVE_UTIMES
-> +-    long tb[2];
-> +-
-> +-    tb[0] = statbuf->st_atime;
-> +-    tb[1] = statbuf->st_mtime;
-> +-    result = utime (destination, tb);
-> +-#else /* HAVE_UTIMES */
-> +-    struct timeval tv[2];
-> +-
-> +-    tv[0].tv_sec = statbuf->st_atime;
-> +-    tv[0].tv_usec = 0;
-> +-    tv[1].tv_sec = statbuf->st_mtime;
-> +-    tv[1].tv_usec = 0;
-> +-    result = utimes (destination, tv);
-> +-#endif /* HAVE_UTIMES */
-> +-#endif /* ! HAVE_GOOD_UTIME_H */
-> +-  }
-> ++  struct utimbuf tb;
-> ++
-> ++  tb.actime = statbuf->st_atime;
-> ++  tb.modtime = statbuf->st_mtime;
-> ++  result = utime (destination, &tb);
-> ++#elif defined HAVE_UTIMES
-> ++  struct timeval tv[2];
-> ++
-> ++  tv[0].tv_sec = statbuf->st_atime;
-> ++  tv[0].tv_usec = 0;
-> ++  tv[1].tv_sec = statbuf->st_mtime;
-> ++  tv[1].tv_usec = 0;
-> ++  result = utimes (destination, tv);
-> ++#else
-> ++  long tb[2];
-> ++
-> ++  tb[0] = statbuf->st_atime;
-> ++  tb[1] = statbuf->st_mtime;
-> ++  result = utime (destination, tb);
-> ++#endif
-> +
-> +   if (result != 0)
-> +     non_fatal (_("%s: cannot set time: %s"), destination, strerror (errno));
-> + }
-> +
-> +-#ifndef S_ISLNK
-> +-#ifdef S_IFLNK
-> +-#define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
-> +-#else
-> +-#define S_ISLNK(m) 0
-> +-#define lstat stat
-> +-#endif
-> +-#endif
-> +-
-> +-/* Rename FROM to TO, copying if TO is a link.
-> +-   Return 0 if ok, -1 if error.  */
-> ++/* Copy FROM to TO.  TARGET_STAT has the file status that, if non-NULL,
-> ++   is used to fix up timestamps.  Return 0 if ok, -1 if error.
-> ++   At one time this function renamed files, but file permissions are
-> ++   tricky to update given the number of different schemes used by
-> ++   various systems.  So now we just copy.  */
-> +
-> + int
-> +-smart_rename (const char *from, const char *to, int preserve_dates ATTRIBUTE_UNUSED)
-> ++smart_rename (const char *from, const char *to,
-> ++            struct stat *target_stat)
-> + {
-> +-  bfd_boolean exists;
-> +-  struct stat s;
-> +-  int ret = 0;
-> +-
-> +-  exists = lstat (to, &s) == 0;
-> +-
-> +-#if defined (_WIN32) && !defined (__CYGWIN32__)
-> +-  /* Win32, unlike unix, will not erase `to' in `rename(from, to)' but
-> +-     fail instead.  Also, chown is not present.  */
-> ++  int ret;
-> +
-> +-  if (exists)
-> +-    remove (to);
-> +-
-> +-  ret = rename (from, to);
-> ++  ret = simple_copy (from, to);
-> +   if (ret != 0)
-> +-    {
-> +-      /* We have to clean up here.  */
-> +-      non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
-> +-      unlink (from);
-> +-    }
-> +-#else
-> +-  /* Use rename only if TO is not a symbolic link and has
-> +-     only one hard link, and we have permission to write to it.  */
-> +-  if (! exists
-> +-      || (!S_ISLNK (s.st_mode)
-> +-        && S_ISREG (s.st_mode)
-> +-        && (s.st_mode & S_IWUSR)
-> +-        && s.st_nlink == 1)
-> +-      )
-> +-    {
-> +-      ret = rename (from, to);
-> +-      if (ret == 0)
-> +-      {
-> +-        if (exists)
-> +-          {
-> +-            /* Try to preserve the permission bits and ownership of
-> +-               TO.  First get the mode right except for the setuid
-> +-               bit.  Then change the ownership.  Then fix the setuid
-> +-               bit.  We do the chmod before the chown because if the
-> +-               chown succeeds, and we are a normal user, we won't be
-> +-               able to do the chmod afterward.  We don't bother to
-> +-               fix the setuid bit first because that might introduce
-> +-               a fleeting security problem, and because the chown
-> +-               will clear the setuid bit anyhow.  We only fix the
-> +-               setuid bit if the chown succeeds, because we don't
-> +-               want to introduce an unexpected setuid file owned by
-> +-               the user running objcopy.  */
-> +-            chmod (to, s.st_mode & 0777);
-> +-            if (chown (to, s.st_uid, s.st_gid) >= 0)
-> +-              chmod (to, s.st_mode & 07777);
-> +-          }
-> +-      }
-> +-      else
-> +-      {
-> +-        /* We have to clean up here.  */
-> +-        non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
-> +-        unlink (from);
-> +-      }
-> +-    }
-> +-  else
-> +-    {
-> +-      ret = simple_copy (from, to);
-> +-      if (ret != 0)
-> +-      non_fatal (_("unable to copy file '%s'; reason: %s"), to, strerror (errno));
-> ++    non_fatal (_("unable to copy file '%s'; reason: %s"),
-> ++             to, strerror (errno));
-> +
-> +-      if (preserve_dates)
-> +-      set_times (to, &s);
-> +-      unlink (from);
-> +-    }
-> +-#endif /* _WIN32 && !__CYGWIN32__ */
-> ++  if (target_stat != NULL)
-> ++    set_times (to, target_stat);
-> ++  unlink (from);
-> +
-> +   return ret;
-> + }
-> +--
-> +2.17.1
-> +
-> --
-> 2.31.1
->
->
-> 
->
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 360
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_1311_01D777BB.483F32D0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_28F8_01D7723A.5A195C00";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 360 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_1311_01D777BB.483F32D0--
