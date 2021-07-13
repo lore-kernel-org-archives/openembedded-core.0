@@ -1,319 +1,296 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web09.209.1626119276516057558
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.82])
+ by mx.groups.io with SMTP id smtpd.web08.867.1626155829064560109
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Jul 2021 12:47:57 -0700
+ Mon, 12 Jul 2021 22:57:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=XJNVmzho;
- spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2827e6ef37=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16CJXfQj019655
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 19:47:55 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com with ESMTP id 39r5bq0srx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 19:47:55 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16CJltC2012550
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Jul 2021 19:47:55 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
-	by mx0a-0064b401.pphosted.com with ESMTP id 39r5bq0srw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 12 Jul 2021 19:47:55 +0000
+ dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=Y7u1m6MF;
+ spf=pass (domain: siemens.com, ip: 40.107.13.82, mailfrom: andrej.valek@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=decuw5du+gJuikZOVJ8AVUJf22asFrhER2LJ7Z0W/1dVQirefw8vkJFdmwCSopZbK7Edx5H+ZNuYqMXma0M7kdRDoKktfhaY5ls3sGR0YHaa4UEoDed5yJ1zTEan5GHMIiabU5Hg/TK7RLVcaS2l5YfuFJyw88h0A2z4qgC90T87nYhZKf7e/3hLQmps5qHYJxtfGWDf+fjxv2KHMpO30AN1BygEBW1PalJRkG1shxIefyuhpTsvHFq4RVZP89SabPJhdUqnLAectlGS2Uw0Ha2JKLr4tc9gHT31yS+ZEgOQeFHfWpWXPkTJc5R2ecIjU1SxvleUYvSg2XxncnUoOQ==
+ b=CoosjsJRKgylQCqKq7yZcYHkFX8BA+hVhkfvhixpoV/NX/59hZzx6p0H3Wd6KxITAw0pak8g5F25OvWnfOv/G68BsNqRvmbC8vugyMGOoEqwmdOBOVlGsxgpt4vWxnGmnh7LnLVcXi9YjOgGK0JyzWiiAmlStPT5jljhtDsHhWOUeLpMqVDUHqn21SiGNplGxvew06P8YcOyxj/5MlC1p/lvK5ru3HRS46G6dmnCXolyqeRf0wAVfsNRwC1ASka9quHPxoq+mrJkAKudxv3X+GcRyVsuIAtoZhLzVg1h9vMuMs3wZk/zLLLTYznrLthQsVnBCFC+gStQXoCA6Y1SgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G1RIXd0LKZZBrGpfP/tPNn1dQ/vNNdQ3BiQUq5RK6K8=;
- b=FTiiGatoZjujt/0bd6F6WAFXbfHHNwzOhwYBHPzS/tgS8LlTVW5Rz25Z7WEbSyJtvE8JwpjYQHXl7b3qkeo+KdinCj2lPzykKStd0R9GIriS5wx1ftnrS1Kc0L1AwHLrT94bnLBNUok5vwXUvMqj1lIP7OHlhbj1/uP79zOyS04BoeQHb29r5L6RfemCOL26yNl2HUOwJnYQJ61jJhYJH0aPkIma75r7ZHoyVOOmtfYJjMdSSaiLr7ZukX+9SHHSundGgtY2ulcwwlWDSznqpO74PGnVfCKWbxP5Y/P9MojLFESg+qujf7x4qO+JH02eL5FPBzvDMBNyu7b2iAq2rA==
+ bh=UBOMPCAbdC3D2JwgSTmp8/SMYWt/6atQE2SGZUY+rKQ=;
+ b=B8Z8uaUkzrU/oMjhpRxg/MULfymGdc7Ot903XP660xgIoJT9Qnblv43UDoWWwTXzOiwd4XXvFQfzhn4ZRe73wKUkspMEvKolj6cPSnPDPs6acCTlVeZt5eJPTZ676E758x3uER6YAe1VEYF2jN3vXVsJjgN/a+OyawzF3ZKMEE1K38P2DInnRfVozr3BCHsBBCzPM10Rl5Zp/eXO+kOTaB62bByu6+6iv7kl9g5KgXNJ48D9vhrJ9cFytQKBaX9XnopAiPxoSOJq+SjQw8VQyU/rbUicq6YllIwM8nwFEs0jQzEM9avFZEdjoldg+FNVVpjOB7f24LQCIEUXmSDUog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G1RIXd0LKZZBrGpfP/tPNn1dQ/vNNdQ3BiQUq5RK6K8=;
- b=XJNVmzho4y8IpmEv9VjoMe8QqGRdkIp1Pjr0HlCrE3Dfins/nfscpQUMLn883HEkeTqy7gVa/K6oq0llIMknq0O+7hq0BP3REaKAe12X3Q71tCGKwRjPGbXTh/edKApb1OeCgRszaeLhM3bwCK8+2UsaMbx1p0v5vYszTLgKg+8=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM4PR11MB5472.namprd11.prod.outlook.com (2603:10b6:5:39e::9) with
+ bh=UBOMPCAbdC3D2JwgSTmp8/SMYWt/6atQE2SGZUY+rKQ=;
+ b=Y7u1m6MForCqbSm2bcufcer+Dl89wy7Ie0ZvWYcC4hBsaB1woZDLiRCFC/M734+oVXZok7zypmtsG/V1vtSOM+6meQ7yFp4UHEGk4R8/G9+yLBQP0fKNvQi7uLIRLa6eyb/DX7oH8OaxzOgWP2IPPzYzpTuytCGbpNEaSCje0cw=
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
+ by DB8PR10MB3578.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:131::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20; Mon, 12 Jul
- 2021 19:47:53 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::c413:9f51:c32e:a579]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::c413:9f51:c32e:a579%6]) with mapi id 15.20.4308.026; Mon, 12 Jul 2021
- 19:47:53 +0000
-Subject: Re: [OE-core] Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on the first Tuesday (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <100201d7773c$23a44430$6aeccc90$@gmail.com>
-Cc: "sjolley.yp.pm@gmail.com" <sjolley.yp.pm@gmail.com>
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-Message-ID: <e43fafbb-c3d5-1759-9dc9-c91c7d38a637@windriver.com>
-Date: Mon, 12 Jul 2021 15:47:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <100201d7773c$23a44430$6aeccc90$@gmail.com>
-X-ClientProxiedBy: BYAPR01CA0047.prod.exchangelabs.com (2603:10b6:a03:94::24)
- To DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Tue, 13 Jul
+ 2021 05:57:06 +0000
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::2ce8:8499:f719:8472]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::2ce8:8499:f719:8472%7]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
+ 05:57:06 +0000
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: "steve@sakoman.com" <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] busybox: add tmpdir option into mktemp applet
+Thread-Topic: [OE-core][PATCH] busybox: add tmpdir option into mktemp applet
+Thread-Index: AQHXadid9WxOoimYtkSERXIlfgxm/qtAg7yQ
+Date: Tue, 13 Jul 2021 05:57:06 +0000
+Message-ID: 
+ <DB8PR10MB39779534C416E7949A0AEEC192149@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+References: <20210622121531.13424-1-andrej.valek@siemens.com>
+ <20210625061011.10871-1-andrej.valek@siemens.com>
+ <bdb3cd51-b2b7-f5d6-4353-287d339dcbc6@gmail.com>
+In-Reply-To: <bdb3cd51-b2b7-f5d6-4353-287d339dcbc6@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2021-07-13T05:57:03Z;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=0d24bacf-28c9-41eb-b9bd-943a53ad8900;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
+document_confidentiality: Restricted
+authentication-results: sakoman.com; dkim=none (message not signed)
+ header.d=none;sakoman.com; dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 91189637-b299-41ee-7e84-08d945c30b72
+x-ms-traffictypediagnostic: DB8PR10MB3578:
+x-microsoft-antispam-prvs: 
+ <DB8PR10MB3578FACC86B8D9343692CEC892149@DB8PR10MB3578.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:19;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ Y8LZxoRg7oW2JphTDJDFN7pqGn1UafAJMS+K2bVgTlO3HGaFgv1b9l02GHv0ZCWhWjJcs85v5z77SImDLrnHWNdjhuPrbYCe3LSiyBNfRsVBtGMXL8cf9eKW8Qk7nXcgjzPCG3k6YpmipHVL8mgvwCX5G+28UE5bNyDMVtOFvl91mbzLmKwVocLmj7bg6nC45vAm2qh9mRkdd0vtlr11/VM7x0eLFI+/Gxf3J0omhpuAp7pf+Y2F2zYaMYocjc16nsdW8oe3U558mDNAQKU5qgck7FTzQILu2tDPK/9GhIKheTTwqfpKGkkPRo+dLs7Ito9bCA4++pz5n/zF3dNUceOrDdtpb5eokqQWPsVa3XLORNOk5Rferpbo6BVDk7+asnbLvWxcK+hAHNtpIoeGYIKEcr+H4nHccyS1TRQUaY8f3AvHwFOGqFd7HWd9K4Icwbvze9coNriHgZzicP6EPkLhdzOdRGupSsQDCg9y7cat1kE2fxoJuauXbaBc/9VS93xndw+73Yai4qccqZEpJ7ZL3PS7ihoSXlJEy0/Z2yC92T2/EK6EG4/oYg4zzpYZwtOHqDIRl5s0EyBdyIpe5fUWasV9XfNDP3y50/vLE0yPbZn/T4glBP9OOhESIOEDc3YgrYXJS1tyNAeUIX7hme/hzemJp4QJ2iMILu4n8RbEo5OGtT6ARkW/zUlKFPNIMiRNfGCe878BZ2Ytug8G+QTG1raEsw8CicvVMGXiDtG1qvbarFBawUE57QAh7bQzorTIQbZYDQ8mcn0zdpWXuQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(39860400002)(376002)(366004)(346002)(8936002)(83380400001)(316002)(64756008)(66556008)(66476007)(66446008)(76116006)(66946007)(966005)(7696005)(6506007)(4326008)(2906002)(26005)(186003)(33656002)(478600001)(45080400002)(71200400001)(8676002)(5660300002)(53546011)(122000001)(86362001)(52536014)(6916009)(38100700002)(55016002)(9686003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?2Xjbl/KO4U3Jejz2AqHzJ5npBNAnV8FKiNZjrP8sGVzh+a5zAnRUss++VuAn?=
+ =?us-ascii?Q?O2ApxkOUO6YUaWHE7mdVrHk+ruc/+7O3shkHGJezuQ+nIMc8oRy1kF+hN0Ep?=
+ =?us-ascii?Q?hUzYXnJhIsu+/M8ES6BmhU0YFASoFsCkHXJqmtPqwPq/zam87Ho49a1JAqtx?=
+ =?us-ascii?Q?eL6opBSiOzUuZFhwzJ7qIOyjGOWG2/Y1j3xa+Bf4ECVv6NpeJUJ2NVFuViO3?=
+ =?us-ascii?Q?P5vKlH1DA2dK+hS+3nGexW8RmW0wf8IfAeMz7ZoH/9czESOSTypIxbjKi+6P?=
+ =?us-ascii?Q?rAYQjygXw8A7vKRzxN+42kCdHVQJHrRldCgI6wApdADs/hZwcxL275zF2pJQ?=
+ =?us-ascii?Q?WFZCzny4ohZXG8q/0eSKbRJS3c8baRNwWmgH0H7C/U9gcx3Hwyz3h56ua5Wq?=
+ =?us-ascii?Q?XpNn5pxx0FduNGjcmbc9jGYOB2GXT7OGHIDXoVm2UiH/8n1Y7vb3XMZGHfF7?=
+ =?us-ascii?Q?TXLMqNkJqd2SpvivhdnuOEGMXHAo+SnnvvXnLFuwzLJp+xPUb7Jk0XQVGvUy?=
+ =?us-ascii?Q?GhhwZj1HhPRUw/6HI9KKF6F3VCganufbuixky/VuKumskjGxvf3xvpuXToX8?=
+ =?us-ascii?Q?Rn2RAn55ZZ3gVxQKrWwzo16D5PSW0K2RQUmRm7zItTrW/Dg2ytzEjbNr6EGB?=
+ =?us-ascii?Q?NPXO/oQXtOwDyF/A7SQBCU5oesId6nyaWbiELirzcmC2+zZfXbwUEzB4jrIP?=
+ =?us-ascii?Q?45GYH23Dmde8hZtilvgsJ3wo0KYEQUp0+YraTq1VEk7lpA/TafsSlrpkdWNZ?=
+ =?us-ascii?Q?VcpoDgJzcRc0hbZEV1nnYBt1l0OAEFUT7scNTbyYzlxFyzp9tbeBuOoVSl03?=
+ =?us-ascii?Q?t9m2ecct0uO04aaTeEu7TjtowVRyvsibJqASg7VEdZQDNr2xRitQgeSMB8DF?=
+ =?us-ascii?Q?tbHWYaH3s6Kl8RmyuraJQxOybTj4RQ55vV76S9oe40ewHYLN/yXK+N/Gv+Rw?=
+ =?us-ascii?Q?babjKD2z0xPiFacRQB7WuAGHaj2MT+UXk5VlCoW2DeWVzTyIu+tmXAOLodrY?=
+ =?us-ascii?Q?sTOr9KOqu+karPtyzPuKg+C3CFXeaEGa3n+dMU8ZtivSjbGGbtZqw3quxJjq?=
+ =?us-ascii?Q?e2vI+DTanSIvQ4c2RPje4xMmnoinhrVcu98IwBi1JiIVmEgPfgmnURrcoy7R?=
+ =?us-ascii?Q?vz/QX4cspSYmIEbagB783YJ8L1FWPLbqeGLPU0oV2RMfxHxODtK7lr/Wkke6?=
+ =?us-ascii?Q?T82+h+6itpLdEHQG2DKx/czpc7g8VSmBVCS15ojzbFfJMCgUK60wri+HYTph?=
+ =?us-ascii?Q?TUD9+fR5X/c8BJ3VIFqxo6g0rAgY3hMY7rZpBKc1u6oVRTLd4Df02/M8afhJ?=
+ =?us-ascii?Q?kQA=3D?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.25.44.2] (198.48.226.187) by BYAPR01CA0047.prod.exchangelabs.com (2603:10b6:a03:94::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend Transport; Mon, 12 Jul 2021 19:47:52 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2fa3137d-de94-4a4b-a927-08d9456df028
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5472:
-X-Microsoft-Antispam-PRVS: 
-	<DM4PR11MB54727B23E6EB193F29B45BA7F8159@DM4PR11MB5472.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+tuhPKNw5TRrn33+PRCoI70CIAkrkdDdC5PwuFljrDvuw1o4+wDx3JrAtyYw6udaCmQPxbu1qVSc/sqr+mSD43o0iFYy3hNZFvYg90mH9lSHzOTUpTOHmY4JsqOZa/zJ3xsooakaog+vJUTL7t91/u9s2WkEBnmVlhuxH/mkzNBFrFgoDuPrwWEBf5u6lnf6ZxV9IUpiCSuoSCzhc/U5NJnP1oVGvrAfOk4ytAQHAaXMUQGvulUMXFm6Db7wAlVUQ7OC8iFlYTrv1tGghzlroC33zFCc8l+TdnpW7DrYnWnF02ajDdU6Akn9KK+hVd6u4F/tc/YPwkUmwZEG9DNrMisdWI3IIAcjgoE/q7HM5+SmPjENwNjD9IiLP6d3pTOeHs3OGMibvGhd2uLEHGVg2d4EbRX7vRjxlQ0xzzLTQbmtzfolChkDaKPc1rLv1qt0qvg7HkJKaPMyHOg7WeaooLd0UTfFe3kaDmCtPgUAU8B8XCOL6oUirEcemjwA5OSMeGj6S7kQ/NbJ9XuMNzcYGm85CAPfwmjhQYZ7yRCdf9uOZc78EP35RcuCCh3E7cqvR7ppUeNPdzp/gVK0qxEc3/xAbcPsiQ7ndd+rl4hzqictbKwzcbJE1Pw7iT5YJ2JTHx1sAoD8CT0fyu4fxPlE1cKJ+EDnBtM51SEqAgzntiQcZHUxTH8/HJczapi8qQb0j0ZI3Q8S5M+mPP7t57W/TWp9UHfZr+n4GI+j0SqaeAigPZk21lh/k3eViFbamcs+iLi5kRcgA4pPFJezvaY9U8+ph7b9Y9wInKlMeTUWXti7F1ydxuTCVC2CuONWz6fyOPE3AW9IPeiAIkHJGg4rvw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(396003)(376002)(39850400004)(346002)(5660300002)(66946007)(8676002)(2906002)(8936002)(6916009)(31686004)(6666004)(66476007)(36756003)(956004)(2616005)(66556008)(16576012)(316002)(4326008)(6486002)(52116002)(166002)(31696002)(86362001)(38100700002)(38350700002)(53546011)(26005)(478600001)(186003)(966005)(83380400001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?Windows-1252?Q?fp9+/smQRp0oOHv5rnxR5MfCW/q84oNsbih14Jwu9sZuX4EtK+FZJU/u?=
- =?Windows-1252?Q?aALeBQuQMIJVROLIpbmxtbnvMuz8uraf/P6oIvdjNooNTfheINA0WERL?=
- =?Windows-1252?Q?84uH3xH0z13Ok4NDHfkGqFXrXb1PvZrQOq38VdFfVsgHXRhufQt9ITf2?=
- =?Windows-1252?Q?RUoSi/rUis5EXB2Iqj3Od/AiA1KnFLNb6yCbXRi4FBgT/cMSYjS3GeuG?=
- =?Windows-1252?Q?4S3hg1IqiI/jwILBIi7bEbSsH9j6Ib4Z6kTGzRgUGicf5ZHwQJrD+4qj?=
- =?Windows-1252?Q?KYchKBg3zuCTWFIMsQC5e1M8i03r/XIs9JcwrJUxE6FdxEwy6P/lsnGG?=
- =?Windows-1252?Q?gYTfkEJZuOu7GTfXsV9OUePdrLuvEVenwQpfCTKSGaFvhsX9rxposjCl?=
- =?Windows-1252?Q?pWc5OYJmvpnJSS7LFr1RQWWYGieJnVfUrJD74B16pVphC4bbHtnmqPn1?=
- =?Windows-1252?Q?pESBSbUqu8Q+KPIfQ/1ikQzBYUfuVrFndDoq/mTPqaP88XGXumufyD8+?=
- =?Windows-1252?Q?4+0P1nhnzM/vTH1Cbaq5JbI0gxY9teQaIQvUnGGRuujWMnloHjcci03k?=
- =?Windows-1252?Q?a/hn1dAAHxJCAskvXCmExhAc1SI8EXxeE8HpEYOq+Gogu+c05J4kfhZP?=
- =?Windows-1252?Q?FjpNHj6dG8iJHRyzL5EX85N13+bJ5qy+azQzYVZoBs1Of/eIYbd5q9Go?=
- =?Windows-1252?Q?RoplaaQwxM7JdRBSV8SeE4E5oUBauhHIEWOSxNRSWZroiqIXjwSx9yza?=
- =?Windows-1252?Q?CtDw/cBryRKpNq8pl5YMBvLU78p/kxChGf2XP5NS4g/waIPOMwNIuRXR?=
- =?Windows-1252?Q?pKldI1vS+tUJWP7a/HQ60CK9595+bt3WyL+1KsY5jA7iN0qSog9DokbO?=
- =?Windows-1252?Q?hGqXZe/ab6Ap2ocj4WGhKNUZi7e+SUwAzXvxYT1ShtFIfycYaN8OO56N?=
- =?Windows-1252?Q?4nAnuwR3mKl/aKGEVHAkgxszonkoKgkdGTtGfReYNB+T2mQWpzLkmJlQ?=
- =?Windows-1252?Q?sO9ZuAKe+P2sEyHx2+Oc1T0qsaGYdkYSNblSinNZJrV1ahJ6BEQhVj1C?=
- =?Windows-1252?Q?/qYRDlxka4ObON8TSTPkthCzLUOM7mn435KLx0EdqHrqdWtckhEJk3EZ?=
- =?Windows-1252?Q?LqOzN+qKH3yeVNB29PUeA/jRMfMvn/HGQ2AvzYpnORj61GH9bvhUFpj5?=
- =?Windows-1252?Q?nkHS6Ry8nBaDzYXFqCyPREzY9RC2llg0x3x6DMK+AE6roNFLfzB/LN4F?=
- =?Windows-1252?Q?J/CKPh0Q5qWA0ws/Z1AHv2z2cECpBye8D9BqVpbPBCx9jzPyeVmHSP4p?=
- =?Windows-1252?Q?p6SLE6U3u8tpXrZ4stn75JMiL+pX6t/LPeUrbONlrdi73NLAH3A7Wu+E?=
- =?Windows-1252?Q?LZd6Kw9QvjcTa2zZm4FcjQKz863jxit+v2y36nNQp6XwVmJuRnOlfi/9?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fa3137d-de94-4a4b-a927-08d9456df028
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 19:47:53.5142
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91189637-b299-41ee-7e84-08d945c30b72
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2021 05:57:06.1891
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L8rT4cp781vbO3EtzgvoWU68py4XBMilkQ5FwubjBtLYMHQCg5TSRWuMjk8QSuX1exUcqCS2PkPZGQIgKCahrzCaASr3kxyXOFria30SN1Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5472
-X-Proofpoint-ORIG-GUID: AK9MFKv6QLgY2Ronv4tceZIsgYNE1r_b
-X-Proofpoint-GUID: iOM62oJDGFN80u2wXwMiUTm3l2TYftk8
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-12_11:2021-07-12,2021-07-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 suspectscore=0
- malwarescore=0 lowpriorityscore=0 mlxlogscore=999 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107120138
-Content-Type: multipart/alternative;
- boundary="------------ACE806F4378FB7E0D7CDA1EA"
-Content-Language: en-CA
-
---------------ACE806F4378FB7E0D7CDA1EA
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zR2YCR2Zwa98iaC5woibFnOJPgaf1TaJGvyZQy0TgrmpKdqupPxf4Hfz2oB5X6GfIUNOftBBSbGKW5JfXTFis6r+JxkGM0HYATOZgRY5apk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3578
+Content-Class: 
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 16CJXfQj019655
 
-On 2021-07-12 12:36 p.m., Stephen Jolley wrote:
->
-> All,
->
-> Just a reminder we will hold the monthly Yocto Project Technical=20
-> Meeting at 8am PST tomorrow. (7/13)
->
-> Yocto Project Technical Team Meeting: We encourage people attending=20
-> the meeting to logon and announce themselves on the Yocto Project IRC=20
-> chancel during the meeting (optional):
->
-> Yocto IRC: http://webchat.freenode.net/?channels=3D#yocto=20
-> <https://urldefense.com/v3/__http://webchat.freenode.net/?channels=3D*yo=
-cto__;Iw!!AjveYdw8EvQ!Jh4d7ZGGRci5HwdlmdBdqSHHiBiNag3wx2OYkbhgu50o0bZRN7JJd=
-aQ2R4ykzPvc4MIeHQ$>
->
-This has been moved to 'libera' IRC now.
+Hello Steve,
 
-https://web.libera.chat/#yocto
+Would it be possible to include it into dunfell branch too? Or do I need t=
+o submit the patch again?
 
-../Randy
+Thank you,
+Andrej
 
-
-> Wiki: https://www.yoctoproject.org/public-virtual-meetings/=20
-> <https://urldefense.com/v3/__https://www.yoctoproject.org/public-virtual=
--meetings/__;!!AjveYdw8EvQ!Jh4d7ZGGRci5HwdlmdBdqSHHiBiNag3wx2OYkbhgu50o0bZR=
-N7JJdaQ2R4ykzPvkWowzSA$>
->
-> When=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Monthly from 8am to 9am on the fir=
-st Tuesday Pacific Time
->
-> Where=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Zoom Meeting:=20
-> https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09=20
-> <https://urldefense.com/v3/__https://zoom.us/j/990892712?pwd=3DcHU1MjhoM=
-2x6ck81bkcrYjRrcmJsUT09__;!!AjveYdw8EvQ!Jh4d7ZGGRci5HwdlmdBdqSHHiBiNag3wx2O=
-Ykbhgu50o0bZRN7JJdaQ2R4ykzPutOX6p0w$>
->
-> We are tracking the minutes at:=20
-> https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWV=
-Dg9dDH4/edit?pli=3D1=20
-> <https://urldefense.com/v3/__https://docs.google.com/document/d/1ly8nyhO=
-14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1__;!!AjveYdw8EvQ!Jh4d7ZGGR=
-ci5HwdlmdBdqSHHiBiNag3wx2OYkbhgu50o0bZRN7JJdaQ2R4ykzPsC4p0QpA$>Please=20
-> request access if you want to assist in editing them.=A0 The world=20
-> should have view access.
->
-> Thanks,
->
-> */Stephen K. Jolley/**//*
->
-> *Yocto Project Program Manager*
->
-> (*Cell*: (208) 244-4460
->
-> * *Email*:_sjolley.yp.pm@gmail.com <mailto:sjolley.yp.pm@gmail.com>_
->
->
+On 6/24/21 11:10 PM, Andrej Valek wrote:
+> - Make mktemp applet compatible with --tmpdir option in ca-certificate=
+=20
+> update script.
 >=20
->
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>   .../busybox/0001-mktemp-add-tmpdir-option.patch    | 81 ++++++++++++++=
+++++++++
+>   meta/recipes-core/busybox/busybox_1.33.1.bb        |  5 +-
+>   2 files changed, 84 insertions(+), 2 deletions(-)
+>   create mode 100644=20
+> meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+>=20
+> diff --git=20
+> a/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patc
+> h=20
+> b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patc
+> h
+> new file mode 100644
+> index 0000000000..4a1960dff2
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.
+> +++ patch
+> @@ -0,0 +1,81 @@
+> +From ceb378209f953ea745ed93a8645567196380ce3c Mon Sep 17 00:00:00=20
+> +2001
+> +From: Andrej Valek <andrej.valek@siemens.com>
+> +Date: Thu, 24 Jun 2021 19:13:22 +0200
+> +Subject: [PATCH] mktemp: add tmpdir option
+> +
+> +Make mktemp more compatible with coreutils.
+> +- add "--tmpdir" option
+> +- add long variants for "d,q,u" options
+> +
+> +Upstream-Status: Submitted=20
+> +[https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Flis
+> +ts.busybox.net%2Fpipermail%2Fbusybox%2F2021-June%2F088932.html&amp;da
+> +ta=3D04%7C01%7Candrej.valek%40siemens.com%7Cd0399684a66a4ee5460508d937e
+> +fbf1f%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C637602325103746151
+> +%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6
+> +Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3Dljy4RuZ8pCX8keUHlquCLCJ1hojHg
+> +v9qfY%2BcXPB6T5o%3D&amp;reserved=3D0]
+> +
 
---=20
-# Randy MacLeod
-# Wind River Linux
+lgtm, this is right approach
 
-
---------------ACE806F4378FB7E0D7CDA1EA
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2021-07-12 12:36 p.m., Stephen
-      Jolley wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:100201d7773c$23a44430$6aeccc90$@gmail.com">
-      
-      <meta name="Generator" content="Microsoft Word 15 (filtered
-        medium)">
-      <style>@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}div.WordSection1
-	{page:WordSection1;}</style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext="edit" spidmax="1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext="edit">
-<o:idmap v:ext="edit" data="1" />
-</o:shapelayout></xml><![endif]-->
-      <div class="WordSection1">
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">All,</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">&nbsp;</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">Just a reminder we will hold the
-            monthly Yocto Project Technical Meeting at 8am PST tomorrow.
-            (7/13)&nbsp; <o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">Yocto Project Technical Team Meeting:
-            We encourage people attending the meeting to logon and
-            announce themselves on the Yocto Project IRC chancel during
-            the meeting (optional):</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">Yocto IRC: </span><a href="https://urldefense.com/v3/__http://webchat.freenode.net/?channels=*yocto__;Iw!!AjveYdw8EvQ!Jh4d7ZGGRci5HwdlmdBdqSHHiBiNag3wx2OYkbhgu50o0bZRN7JJdaQ2R4ykzPvc4MIeHQ$" moz-do-not-send="true">http://webchat.freenode.net/?channels=#yocto</a></p>
-      </div>
-    </blockquote>
-    <p>This has been moved to 'libera' IRC now.</p>
-    <p><a class="moz-txt-link-freetext" href="https://web.libera.chat/#yocto">https://web.libera.chat/#yocto</a></p>
-    <p>../Randy<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:100201d7773c$23a44430$6aeccc90$@gmail.com">
-      <div class="WordSection1">
-        <p class="MsoNormal" style="text-autospace:none"><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">&nbsp;</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">Wiki: </span><a href="https://urldefense.com/v3/__https://www.yoctoproject.org/public-virtual-meetings/__;!!AjveYdw8EvQ!Jh4d7ZGGRci5HwdlmdBdqSHHiBiNag3wx2OYkbhgu50o0bZRN7JJdaQ2R4ykzPvkWowzSA$" moz-do-not-send="true">https://www.yoctoproject.org/public-virtual-meetings/</a><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">&nbsp;</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Monthly from 8am to
-            9am on the first Tuesday Pacific Time</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Zoom Meeting: <a href="https://urldefense.com/v3/__https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09__;!!AjveYdw8EvQ!Jh4d7ZGGRci5HwdlmdBdqSHHiBiNag3wx2OYkbhgu50o0bZRN7JJdaQ2R4ykzPutOX6p0w$" moz-do-not-send="true">https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">&nbsp;</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">We are tracking the minutes at: </span><a href="https://urldefense.com/v3/__https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=1__;!!AjveYdw8EvQ!Jh4d7ZGGRci5HwdlmdBdqSHHiBiNag3wx2OYkbhgu50o0bZRN7JJdaQ2R4ykzPsC4p0QpA$" moz-do-not-send="true">https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=1</a><span style="color:#1F497D"> Please request access if you want to
-            assist in editing them.&nbsp; The world should have view access.
-          </span><span style="font-size:12.0pt;font-family:&quot;Times
-            New Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">&nbsp;</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><span style="color:#1F497D">Thanks,</span><span style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p></o:p></span></p>
-        <p class="MsoNormal" style="text-autospace:none"><o:p>&nbsp;</o:p></p>
-        <p class="MsoNormal" style="page-break-after:avoid;text-autospace:none"><b><i><span style="font-size:16.0pt;font-family:&quot;Times New
-                Roman&quot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style="font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple"><o:p></o:p></span></i></b></p>
-        <p class="MsoNormal"><b><span style="font-size:8.0pt;font-family:&quot;Courier
-              New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></span></b></p>
-        <p class="MsoNormal"><span style="font-size:9.0pt;font-family:Wingdings;color:black">(</span><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp; </span><b><span style="font-size:8.0pt;font-family:&quot;Comic Sans
-              MS&quot;;color:teal">Cell</span></b><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;">(208) 244-4460<span style="color:black"><o:p></o:p></span></span></p>
-        <p class="MsoNormal"><span style="font-size:9.0pt;font-family:Wingdings">* </span><b><span style="font-size:8.0pt;font-family:&quot;Comic Sans
-              MS&quot;;color:teal" lang="FR">Email</span></b><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal" lang="FR">:</span><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;" lang="FR">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><span style="color:blue"><a href="mailto:sjolley.yp.pm@gmail.com" moz-do-not-send="true">sjolley.yp.pm@gmail.com</a></span></u></span><span style="font-size:12.0pt;font-family:&quot;Arial&quot;,sans-serif" lang="FR"><o:p></o:p></span></p>
-        <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------ACE806F4378FB7E0D7CDA1EA--
+> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> +---
+> + coreutils/mktemp.c | 26 ++++++++++++++++++--------
+> + 1 file changed, 18 insertions(+), 8 deletions(-)
+> +
+> +diff --git a/coreutils/mktemp.c b/coreutils/mktemp.c index=20
+> +5393320a5..05c6d98c6 100644
+> +--- a/coreutils/mktemp.c
+> ++++ b/coreutils/mktemp.c
+> +@@ -39,16 +39,17 @@
+> + //kbuild:lib-$(CONFIG_MKTEMP) +=3D mktemp.o
+> +
+> + //usage:#define mktemp_trivial_usage
+> +-//usage:       "[-dt] [-p DIR] [TEMPLATE]"
+> ++//usage:       "[-dt] [-p DIR, --tmpdir[=3DDIR]] [TEMPLATE]"
+> + //usage:#define mktemp_full_usage "\n\n"
+> + //usage:       "Create a temporary file with name based on TEMPLATE an=
+d print its name.\n"
+> + //usage:       "TEMPLATE must end with XXXXXX (e.g. [/dir/]nameXXXXXX)=
+.\n"
+> + //usage:       "Without TEMPLATE, -t tmp.XXXXXX is assumed.\n"
+> +-//usage:     "\n	-d	Make directory, not file"
+> +-//usage:     "\n	-q	Fail silently on errors"
+> +-//usage:     "\n	-t	Prepend base directory name to TEMPLATE"
+> +-//usage:     "\n	-p DIR	Use DIR as a base directory (implies -t)"
+> +-//usage:     "\n	-u	Do not create anything; print a name"
+> ++//usage:     "\n	-d	=09	Make directory, not file"
+> ++//usage:     "\n	-q	=09	Fail silently on errors"
+> ++//usage:     "\n	-t	=09	Prepend base directory name to TEMPLATE"
+> ++//usage:     "\n	-p DIR, --tmpdir[=3DDIR]	Use DIR as a base directory =
+(implies -t)"
+> ++//usage:     "\n	=09	=09For --tmpdir is a optional one."
+> ++//usage:     "\n	-u	=09	Do not create anything; print a name"
+> + //usage:     "\n"
+> + //usage:     "\nBase directory is: -p DIR, else $TMPDIR, else /tmp"
+> + //usage:
+> +@@ -72,13 +73,22 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
+> + =09	OPT_t =3D 1 << 2,
+> + =09	OPT_p =3D 1 << 3,
+> + =09	OPT_u =3D 1 << 4,
+> ++	=09OPT_td =3D 1 << 5,
+> + =09};
+> +
+> + =09path =3D getenv("TMPDIR");
+> + =09if (!path || path[0] =3D=3D '\0')
+> + =09	path =3D "/tmp";
+> +
+> +-	opts =3D getopt32(argv, "^" "dqtp:u" "\0" "?1"/*1 arg max*/, &path);
+> ++	opts =3D getopt32long(argv, "^"
+> ++	       "dqtp:u\0"
+> ++	       "?1" /* 1 arg max */,
+> ++	       "directory\0" No_argument       "d"
+> ++	       "quiet\0"     No_argument       "q"
+> ++	       "dry-run\0"   No_argument       "u"
+> ++	       "tmpdir\0"    Optional_argument "\xff"
+> ++	       , &path, &path
+> ++	);
+> +
+> + =09chp =3D argv[optind];
+> + =09if (!chp) {
+> +@@ -95,7 +105,7 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
+> + =09	goto error;
+> + =09}
+> + #endif
+> +-	if (opts & (OPT_t|OPT_p))
+> ++	if (opts & (OPT_t|OPT_p|OPT_td))
+> + =09	chp =3D concat_path_file(path, chp);
+> +
+> + =09if (opts & OPT_u) {
+> +--
+> +2.11.0
+> +
+> diff --git a/meta/recipes-core/busybox/busybox_1.33.1.bb=20
+> b/meta/recipes-core/busybox/busybox_1.33.1.bb
+> index a71ff530cb..4c2bc1106d 100644
+> --- a/meta/recipes-core/busybox/busybox_1.33.1.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.33.1.bb
+> @@ -38,6 +38,8 @@ SRC_URI =3D "https://eur01.safelinks.protection.outloo=
+k.com/?url=3Dhttps%3A%2F%2Fbusybox.net%2Fdownloads%2Fbusybox-%24&amp;data=
+=3D04%7C01%7Candrej.valek%40siemens.com%7Cd0399684a66a4ee5460508d937efbf1f=
+%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C637602325103756104%7CUnknown%=
+7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6M=
+n0%3D%7C1000&amp;sdata=3DN3SXB3FD0hAF7wAV7Hv4AgT5f%2BEHAQr%2FRVNv1KcZqxs%3D=
+&amp;reserved=3D0{PV}.tar.bz2;name=3Dtarball \
+>              ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_m=
+anager') =3D=3D 'busybox-mdev')]} \
+>              file://syslog.cfg \
+>              file://unicode.cfg \
+> +           file://rev.cfg \
+> +           file://pgrep.cfg \
+>              file://rcS \
+>              file://rcK \
+>              file://makefile-libbb-race.patch \ @@ -45,9 +47,8 @@=20
+> SRC_URI =3D "https://eur01.safelinks.protection.outlook.com/?url=3Dhttps=
+%3A%2F%2Fbusybox.net%2Fdownloads%2Fbusybox-%24&amp;data=3D04%7C01%7Candrej.=
+valek%40siemens.com%7Cd0399684a66a4ee5460508d937efbf1f%7C38ae3bcd95794fd4ad=
+dab42e1495d55a%7C1%7C0%7C637602325103756104%7CUnknown%7CTWFpbGZsb3d8eyJWIjo=
+iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdat=
+a=3DN3SXB3FD0hAF7wAV7Hv4AgT5f%2BEHAQr%2FRVNv1KcZqxs%3D&amp;reserved=3D0{PV}=
+.tar.bz2;name=3Dtarball \
+>              file://0001-testsuite-use-https://eur01.safelinks.protectio=
+n.outlook.com/?url=3Dhttp%3A%2F%2Fwww.example.org-for-wget-test-cases.patch=
+%2F&amp;data=3D04%7C01%7Candrej.valek%40siemens.com%7Cd0399684a66a4ee546050=
+8d937efbf1f%7C38ae3bcd95794fd4addab42e1495d55a%7C1%7C0%7C637602325103756104=
+%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
+wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DxHlfVfFwwfCPyRhSt%2BjwIHpJHxpCW8T52kPfw=
+JZyo3U%3D&amp;reserved=3D0 \
+>              file://0001-du-l-works-fix-to-use-145-instead-of-144.patch =
+\
+>              file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-s=
+ys-ne.patch \
+> -           file://rev.cfg \
+> -           file://pgrep.cfg \
+>              
+> file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch=
+=20
+> \
+> +           file://0001-mktemp-add-tmpdir-option.patch \
+>              "
+>   SRC_URI_append_libc-musl =3D " file://musl.cfg "
+>  =20
+>=20
+>=20
+>=20
+>=20
+>=20
