@@ -1,403 +1,124 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.3363.1626177394621898036
+Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
+ by mx.groups.io with SMTP id smtpd.web09.4413.1626182541347720352
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jul 2021 04:56:35 -0700
+ Tue, 13 Jul 2021 06:22:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58BDE1FB
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jul 2021 04:56:33 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DAEF53F694
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Jul 2021 04:56:32 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cups: update to 2.3.3op2
-Date: Tue, 13 Jul 2021 12:56:30 +0100
-Message-Id: <20210713115630.1879319-1-ross.burton@arm.com>
+ dkim=fail reason="signature has expired" header.i=@phytec.de header.s=a4 header.b=JIaoqkl7;
+ spf=pass (domain: phytec.de, ip: 195.145.39.210, mailfrom: w.egorov@phytec.de)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+	q=dns/txt; i=@phytec.de; t=1626182539; x=1628774539;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=POy1D8a5f4h+Axxjzv8HJ2BImb7omfw3saxY8NLU/8Y=;
+	b=JIaoqkl7o6qzDKjQIJTCqvYRwCXlFD1C42olYjwJNQGQHFoPtCSZ/Zb7MxFU/jEm
+	O8I8GVzoZmsSfqflvAGbr6j6RM57O8pNIWv7sLGuTsjkCqBcIQ6opJoLeYkX6hr6
+	K6Wtm5uIwyiXH2cKGgycT9fSddyHn1CpnxbOTXi5d4o=;
+X-AuditID: c39127d2-1e4f970000001daf-e1-60ed938a2fee
+Received: from berlix.phytec.de (Berlix.phytec.de [172.16.0.117])
+	(using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(Client did not present a certificate)
+	by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 08.FC.07599.A839DE06; Tue, 13 Jul 2021 15:22:18 +0200 (CEST)
+Received: from augenblix2.phytec.de (172.16.0.116) by Berlix.phytec.de
+ (172.16.0.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 13 Jul
+ 2021 15:22:18 +0200
+From: "Wadim Egorov" <w.egorov@phytec.de>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] xserver-xorg: Fix builds without glx
+Date: Tue, 13 Jul 2021 15:22:10 +0200
+Message-ID: <20210713132210.2512813-1-w.egorov@phytec.de>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Return-Path: w.egorov@phytec.de
+X-Originating-IP: [172.16.0.116]
+X-ClientProxiedBy: Berlix.phytec.de (172.16.0.117) To Berlix.phytec.de
+ (172.16.0.117)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmluLIzCtJLcpLzFFi42JZI8BQqts1+W2CwaUnNhZ3fr5jd2D0OLdx
+	BWMAYxSXTUpqTmZZapG+XQJXxp376xgLbktUvD03k6mB8YRoFyMnh4SAicTXP60sXYxcHEIC
+	y5kkJj09wQSSEBJ4yiix9Uo1iM0moC5xZ8M31i5GDg4RAT2Jq//AeoUFHCTuPHvNDGKzCKhK
+	7Nj9iRmkhFfAUmLeWyOI8fISMy99ZwexeQUEJU7OfMICYjMDxZu3zmaGsCUkDr54wQyxVV7i
+	xaXlLBC9ChJzf09khrDDJd6e+s08gZF/FpJRs5CMmoVk1AJG5lWMQrmZydmpRZnZegUZlSWp
+	yXopqZsYgQF2eKL6pR2MfXM8DjEycTAeYpTgYFYS4V1q9DZBiDclsbIqtSg/vqg0J7X4EKM0
+	B4uSOO8G3pIwIYH0xJLU7NTUgtQimCwTB6dUAyPj3sv7Z2Qm12qeqPi0OepqMpNu+L0TC2wy
+	Yj8Vab89cHTGhYUbqldOndia0X3r0vw9mtMOs2586id3T6xCIdt99kaDg7UtHSffbX5w5VHy
+	fK8Fgq9TNss+jFi4cybzWcbDn39P8aos4F2uqiJfep/7Q29IGvupHRMKflYbvTCftDCCkZPv
+	5rUNSizFGYmGWsxFxYkAAi6REx4CAAA=
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Apple are no longer maintaining CUPS, and future development is now
-happening under the OpenPrinting project:
-
-https://ftp.pwg.org/pub/pwg/liaison/openprinting/presentations/cups-plena=
-ry-may-2021.pdf
-
-Also stop disabling the manpage installation as manpages are useful, and
-remove some patch chunks that are not required.
-
-The CVE-2020-10001 patch is dropped as this is incorporated into 2.3.3op2=
-.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
 ---
- meta/recipes-extended/cups/cups.inc           | 28 ++-----
- ...-don-t-try-to-run-generated-binaries.patch | 42 -----------
- ...003-cups_1.4.6.bb-Fix-build-on-ppc64.patch | 51 -------------
- .../cups/cups/CVE-2020-10001.patch            | 74 -------------------
- .../cups/cups/libexecdir.patch                | 27 +++++++
- meta/recipes-extended/cups/cups_2.3.3.bb      |  6 --
- meta/recipes-extended/cups/cups_2.3.3op2.bb   |  5 ++
- 7 files changed, 39 insertions(+), 194 deletions(-)
- delete mode 100644 meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fi=
-x-build-on-ppc64.patch
- delete mode 100644 meta/recipes-extended/cups/cups/CVE-2020-10001.patch
- create mode 100644 meta/recipes-extended/cups/cups/libexecdir.patch
- delete mode 100644 meta/recipes-extended/cups/cups_2.3.3.bb
- create mode 100644 meta/recipes-extended/cups/cups_2.3.3op2.bb
+ ...nd-Makefile.am-fix-build-without-glx.patch | 46 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.10.bb      |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/=
-cups/cups.inc
-index be5a11c944..df23825466 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -8,18 +8,17 @@ SECTION =3D "console/utils"
- LICENSE =3D "Apache-2.0"
- DEPENDS =3D "libpng jpeg dbus zlib libusb1"
-=20
--SRC_URI =3D "https://github.com/apple/cups/releases/download/v${PV}/${BP=
-}-source.tar.gz \
-+SRC_URI =3D "https://github.com/OpenPrinting/cups/releases/download/v${P=
-V}/cups-${PV}-source.tar.gz \
-            file://0001-use-echo-only-in-init.patch \
-            file://0002-don-t-try-to-run-generated-binaries.patch \
--           file://0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch \
-+           file://libexecdir.patch \
-            file://0004-cups-fix-multilib-install-file-conflicts.patch \
-            file://volatiles.99_cups \
-            file://cups-volatiles.conf \
--           file://CVE-2020-10001.patch \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
+new file mode 100644
+index 0000000000..dee8479396
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
+@@ -0,0 +1,46 @@
++From 836f93de99b35050d78d61d3654f7c5655184144 Mon Sep 17 00:00:00 2001
++From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
++Date: Fri, 19 Apr 2019 10:19:50 +0200
++Subject: [PATCH] hw/xwayland/Makefile.am: fix build without glx
++
++Commit d8ec33fe0542141aed1d9016d2ecaf52da944b4b added libglxvnd.la to
++Xwayland_LDFLAGS but GLX can be disabled through --disable-glx.
++In this case, build fails on:
++
++make[3]: *** No rule to make target '../../glx/libglxvnd.la', needed by 'Xwayland'.  Stop.
++make[3]: *** Waiting for unfinished jobs....
++
++Fixes:
++ - http://autobuild.buildroot.org/results/397f8098c57fc6c88aa12dc8d35ebb1b933d52ef
++
++Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
++
++Upstream-Status: Accepted [https://gitlab.freedesktop.org/xorg/xserver/-/commit/836f93de99b35050d78d61d3654f7c5655184144]
++Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
++---
++ hw/xwayland/Makefile.am | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/hw/xwayland/Makefile.am b/hw/xwayland/Makefile.am
++index bc1cb8506..502879e2a 100644
++--- a/hw/xwayland/Makefile.am
+++++ b/hw/xwayland/Makefile.am
++@@ -21,10 +21,14 @@ Xwayland_SOURCES =				\
++ 	$(top_srcdir)/Xi/stubs.c		\
++ 	$(top_srcdir)/mi/miinitext.c
++ 
+++if GLX
+++GLXVND_LIB = $(top_builddir)/glx/libglxvnd.la
+++endif
+++
++ Xwayland_LDADD =				\
++ 	$(glamor_lib)				\
++ 	$(XWAYLAND_LIBS)			\
++-	$(top_builddir)/glx/libglxvnd.la	\
+++	$(GLXVND_LIB)				\
++ 	$(XWAYLAND_SYS_LIBS)			\
++ 	$(top_builddir)/Xext/libXvidmode.la	\
++ 	$(XSERVER_SYS_LIBS)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
+index 755a762a73..e0551fa999 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+            file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
+            file://CVE-2021-3472.patch \
++           file://0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch \
             "
-=20
--UPSTREAM_CHECK_URI =3D "https://github.com/apple/cups/releases"
--UPSTREAM_CHECK_REGEX =3D "cups-(?P<pver>\d+\.\d+(\.\d+)?)-source.tar"
-+UPSTREAM_CHECK_URI =3D "https://github.com/OpenPrinting/cups/releases"
-+UPSTREAM_CHECK_REGEX =3D "cups-(?P<pver>.+)-source.tar"
-=20
- # Issue only applies to MacOS
- CVE_CHECK_WHITELIST +=3D "CVE-2008-1033"
-@@ -37,7 +36,7 @@ inherit autotools-brokensep binconfig useradd systemd p=
-kgconfig multilib_script
- USERADD_PACKAGES =3D "${PN}"
- GROUPADD_PARAM_${PN} =3D "--system lpadmin"
-=20
--SYSTEMD_SERVICE_${PN} =3D "org.cups.cupsd.socket org.cups.cupsd.path org=
-.cups.cupsd.service org.cups.cups-lpd.socket"
-+SYSTEMD_SERVICE_${PN} =3D "cups.socket cups.path cups.service cups-lpd.s=
-ocket"
-=20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf',=
- 'avahi', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd', =
-d)}"
-@@ -63,20 +62,8 @@ EXTRA_OECONF =3D " \
-=20
- EXTRA_AUTORECONF +=3D "--exclude=3Dautoheader"
-=20
--do_compile () {
--	echo "all:"    >  man/Makefile
--	echo "libs:" >> man/Makefile
--	echo "install:" >> man/Makefile
--	echo "install-data:" >> man/Makefile
--	echo "install-exec:" >> man/Makefile
--	echo "install-headers:" >> man/Makefile
--	echo "install-libs:" >> man/Makefile
--
--	oe_runmake
--}
--
- do_install () {
--	oe_runmake "DSTROOT=3D${D}" install
-+	oe_runmake "DESTDIR=3D${D}" install
-=20
- 	# Remove /var/run from package as cupsd will populate it on startup
- 	rm -fr ${D}/${localstatedir}/run
-@@ -105,8 +92,7 @@ do_install () {
- PACKAGES =3D+ "${PN}-lib ${PN}-libimage"
-=20
- RDEPENDS_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit',=
- 'procps', '', d)}"
--FILES_${PN} +=3D "${libexecdir}/cups/ \
--	       "
-+FILES_${PN} +=3D "${libexecdir}/cups/"
-=20
- FILES_${PN}-lib =3D "${libdir}/libcups.so.*"
-=20
-diff --git a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-genera=
-ted-binaries.patch b/meta/recipes-extended/cups/cups/0002-don-t-try-to-ru=
-n-generated-binaries.patch
-index ea248e4710..2bc26edbfc 100644
---- a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-bin=
-aries.patch
-+++ b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-bin=
-aries.patch
-@@ -25,48 +25,6 @@ index 32e2e0b..f1478d4 100644
- +#	./genstrings >sample.c
- =20
- =20
-- #
--@@ -205,9 +205,9 @@ ppdc-static:		ppdc.o libcupsppdc.a ../cups/$(LIBCUPS=
-STATIC) foo.drv foo-fr.po
-- 	$(LD_CXX) $(ARCHFLAGS) $(ALL_LDFLAGS) -o ppdc-static ppdc.o libcupsppd=
-c.a \
-- 		$(LINKCUPSSTATIC)
-- 	$(CODE_SIGN) -s "$(CODE_SIGN_IDENTITY)" $@
---	echo Testing PPD compiler...
---	./ppdc-static -l en,fr -I ../data foo.drv
---	./ppdc-static -l en,fr -z -I ../data foo.drv
--+#	echo Testing PPD compiler...
--+#	./ppdc-static -l en,fr -I ../data foo.drv
--+#	./ppdc-static -l en,fr -z -I ../data foo.drv
--=20
--=20
-- #
--@@ -235,17 +235,17 @@ ppdi-static:		ppdc-static ppdi.o libcupsppdc.a ../=
-cups/$(LIBCUPSSTATIC)
-- 	$(LD_CXX) $(ARCHFLAGS) $(ALL_LDFLAGS) -o ppdi-static ppdi.o libcupsppd=
-c.a \
-- 		$(LINKCUPSSTATIC)
-- 	$(CODE_SIGN) -s "$(CODE_SIGN_IDENTITY)" $@
---	echo Testing PPD importer...
---	$(RM) -r ppd ppd2 sample-import.drv
---	./ppdc-static -l en -I ../data sample.drv
---	./ppdi-static -I ../data -o sample-import.drv ppd/*
---	./ppdc-static -l en -I ../data -d ppd2 sample-import.drv
---	if diff -r ppd ppd2 >/dev/null; then \
---		echo PPD import OK; \
---	else \
---		echo PPD import FAILED; \
---		exit 1; \
---	fi
--+#	echo Testing PPD importer...
--+#	$(RM) -r ppd ppd2 sample-import.drv
--+#	./ppdc-static -l en -I ../data sample.drv
--+#	./ppdi-static -I ../data -o sample-import.drv ppd/*
--+#	./ppdc-static -l en -I ../data -d ppd2 sample-import.drv
--+#	if diff -r ppd ppd2 >/dev/null; then \
--+#		echo PPD import OK; \
--+#	else \
--+#		echo PPD import FAILED; \
--+#		exit 1; \
--+#	fi
--=20
--=20
-  #
- --=20
- 2.17.1
-diff --git a/meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fix-build=
--on-ppc64.patch b/meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fix-=
-build-on-ppc64.patch
-deleted file mode 100644
-index b48c7a9ad2..0000000000
---- a/meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fix-build-on-ppc=
-64.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--From 66c2079ae91389ee0f9d704bf0d2cccd53b2c603 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 22 Jul 2012 16:54:17 -0700
--Subject: [PATCH 3/4] cups_1.4.6.bb: Fix build on ppc64
--
--Make CUPS_SERVERBIN relative to libdir otherwise on 64bit arches
--e.g. ppc64 where base libdir is lib64 this does not go well
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Inappropriate [OE config specific]
--
--Update on 20190904:
--Redefine CUPS_SERVERBIN to "$libexecdir/cups" which solves file conflict=
-ion
--when multilib is enabled.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
-----
-- config-scripts/cups-directories.m4 | 2 +-
-- configure                          | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/config-scripts/cups-directories.m4 b/config-scripts/cups-di=
-rectories.m4
--index b74083a..9a5abb2 100644
----- a/config-scripts/cups-directories.m4
--+++ b/config-scripts/cups-directories.m4
--@@ -270,7 +270,7 @@ case "$host_os_name" in
-- 	*)
-- 		# All others
-- 		INSTALL_SYSV=3D"install-sysv"
---		CUPS_SERVERBIN=3D"$exec_prefix/lib/cups"
--+		CUPS_SERVERBIN=3D"$libexecdir/cups"
-- 		;;
-- esac
--=20
--diff --git a/configure b/configure
--index d3df145..bc68a6c 100755
----- a/configure
--+++ b/configure
--@@ -6420,7 +6420,7 @@ case "$host_os_name" in
-- 	*)
-- 		# All others
-- 		INSTALL_SYSV=3D"install-sysv"
---		CUPS_SERVERBIN=3D"$exec_prefix/lib/cups"
--+		CUPS_SERVERBIN=3D"$libexecdir/cups"
-- 		;;
-- esac
--=20
----=20
--2.17.1
--
-diff --git a/meta/recipes-extended/cups/cups/CVE-2020-10001.patch b/meta/=
-recipes-extended/cups/cups/CVE-2020-10001.patch
-deleted file mode 100644
-index 09a0a5765d..0000000000
---- a/meta/recipes-extended/cups/cups/CVE-2020-10001.patch
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From efbea1742bd30f842fbbfb87a473e5c84f4162f9 Mon Sep 17 00:00:00 2001
--From: Michael R Sweet <msweet@msweet.org>
--Date: Mon, 1 Feb 2021 15:02:32 -0500
--Subject: [PATCH] Fix a buffer (read) overflow in ippReadIO (CVE-2020-100=
-01)
--
--Upstream-Status: Backport
--CVE: CVE-2020-10001
--
--Reference to upstream patch:
--[https://github.com/OpenPrinting/cups/commit/efbea1742bd30f842fbbfb87a47=
-3e5c84f4162f9]
--
--[SG: Addapted for version 2.3.3]
--Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-----
-- CHANGES.md | 2 ++
-- cups/ipp.c | 8 +++++---
-- 2 files changed, 7 insertions(+), 3 deletions(-)
--
--diff --git a/CHANGES.md b/CHANGES.md
--index df72892..5ca12da 100644
----- a/CHANGES.md
--+++ b/CHANGES.md
--@@ -4,6 +4,8 @@ CHANGES - 2.3.3 - 2020-04-24
-- Changes in CUPS v2.3.3
-- ----------------------
--=20
--+- Security: Fixed a buffer (read) overflow in the `ippReadIO` function
--+  (CVE-2020-10001)
-- - CVE-2020-3898: The `ppdOpen` function did not handle invalid UI
--   constraint.  `ppdcSource::get_resolution` function did not handle
--   invalid resolution strings.
--diff --git a/cups/ipp.c b/cups/ipp.c
--index 3d52934..adbb26f 100644
----- a/cups/ipp.c
--+++ b/cups/ipp.c
--@@ -2866,7 +2866,8 @@ ippReadIO(void       *src,		/* I - Data source */
--   unsigned char		*buffer,	/* Data buffer */
-- 			string[IPP_MAX_TEXT],
-- 					/* Small string buffer */
---			*bufptr;	/* Pointer into buffer */
--+			*bufptr,	/* Pointer into buffer */
--+			*bufend;	/* End of buffer */
--   ipp_attribute_t	*attr;		/* Current attribute */
--   ipp_tag_t		tag;		/* Current tag */
--   ipp_tag_t		value_tag;	/* Current value tag */
--@@ -3441,6 +3442,7 @@ ippReadIO(void       *src,		/* I - Data source */
-- 		}
--=20
--                 bufptr =3D buffer;
--+                bufend =3D buffer + n;
--=20
-- 	       /*
-- 	        * text-with-language and name-with-language are composite
--@@ -3454,7 +3456,7 @@ ippReadIO(void       *src,		/* I - Data source */
--=20
-- 		n =3D (bufptr[0] << 8) | bufptr[1];
--=20
---		if ((bufptr + 2 + n) >=3D (buffer + IPP_BUF_SIZE) || n >=3D (int)size=
-of(string))
--+		if ((bufptr + 2 + n + 2) > bufend || n >=3D (int)sizeof(string))
-- 		{
-- 		  _cupsSetError(IPP_STATUS_ERROR_INTERNAL,
-- 		                _("IPP language length overflows value."), 1);
--@@ -3481,7 +3483,7 @@ ippReadIO(void       *src,		/* I - Data source */
--                 bufptr +=3D 2 + n;
-- 		n =3D (bufptr[0] << 8) | bufptr[1];
--=20
---		if ((bufptr + 2 + n) >=3D (buffer + IPP_BUF_SIZE))
--+		if ((bufptr + 2 + n) > bufend)
-- 		{
-- 		  _cupsSetError(IPP_STATUS_ERROR_INTERNAL,
-- 		                _("IPP string length overflows value."), 1);
----=20
--2.17.1
--
-diff --git a/meta/recipes-extended/cups/cups/libexecdir.patch b/meta/reci=
-pes-extended/cups/cups/libexecdir.patch
-new file mode 100644
-index 0000000000..2e15841b0d
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/libexecdir.patch
-@@ -0,0 +1,27 @@
-+Use $libexecdir instead of hardcoding $prefix/lib as this breaks multili=
-b builds.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/config-scripts/cups-directories.m4 b/config-scripts/cups-di=
-rectories.m4
-+index 1430af3a6..6efedc604 100644
-+--- a/config-scripts/cups-directories.m4
-++++ b/config-scripts/cups-directories.m4
-+@@ -265,7 +265,7 @@ case "$host_os_name" in
-+ 	*-gnu)
-+ 		# GNUs
-+ 		INSTALL_SYSV=3D"install-sysv"
-+-		CUPS_SERVERBIN=3D"$exec_prefix/lib/cups"
-++		CUPS_SERVERBIN=3D"$libexecdir/cups"
-+ 		;;
-+ 	*bsd* | darwin*)
-+ 		# *BSD and Darwin (macOS)
-+@@ -275,7 +275,7 @@ case "$host_os_name" in
-+ 	*)
-+ 		# All others
-+ 		INSTALL_SYSV=3D"install-sysv"
-+-		CUPS_SERVERBIN=3D"$exec_prefix/lib/cups"
-++		CUPS_SERVERBIN=3D"$libexecdir/cups"
-+ 		;;
-+ esac
-+=20
-\ No newline at end of file
-diff --git a/meta/recipes-extended/cups/cups_2.3.3.bb b/meta/recipes-exte=
-nded/cups/cups_2.3.3.bb
-deleted file mode 100644
-index 5caeb6f58b..0000000000
---- a/meta/recipes-extended/cups/cups_2.3.3.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require cups.inc
--
--LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
-d57"
--
--SRC_URI[md5sum] =3D "412434ceefbdf3ec71bc9188a035f589"
--SRC_URI[sha256sum] =3D "261fd948bce8647b6d5cb2a1784f0c24cc52b5c4e827b71d=
-726020bcc502f3ee"
-diff --git a/meta/recipes-extended/cups/cups_2.3.3op2.bb b/meta/recipes-e=
-xtended/cups/cups_2.3.3op2.bb
-new file mode 100644
-index 0000000000..fc2aa702f5
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups_2.3.3op2.bb
-@@ -0,0 +1,5 @@
-+require cups.inc
-+
-+LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
-d57"
-+
-+SRC_URI[sha256sum] =3D "deb3575bbe79c0ae963402787f265bfcf8d804a71fc2c943=
-18a74efec86f96df"
---=20
+ SRC_URI[sha256sum] = "977420c082450dc808de301ef56af4856d653eea71519a973c3490a780cb7c99"
+ 
+-- 
 2.25.1
 
