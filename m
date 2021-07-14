@@ -1,92 +1,138 @@
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.5901.1626265578116897115
+ by mx.groups.io with SMTP id smtpd.web10.6052.1626265578750372834
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jul 2021 05:26:18 -0700
+ Wed, 14 Jul 2021 05:26:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eUL8Z4FX;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PXaNeRZS;
  spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id n4so1466650wms.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 05:26:17 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id k32so1454405wms.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 05:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sRpB8shK9s+qlfDfGE4H3Dae+dYW//VnXTortgQjgUc=;
-        b=eUL8Z4FXl8Fjdf8qOfZg93RdU+2bhB5iktkijRm4PHAildUvCsTlau1gPIqzRB3Sv9
-         cnTMugk2+gOgDn6w10LSOHvFcFKahna+LAAf/rF54gg2UPeR5+hlBbACG2BqD0JfmKlk
-         YVpKNVxRRXzhoCk5nWoYTfXDtFVKAbpb4GutL+qlLwu3vjVj9AI5y3C7ckQeYV+rrXfl
-         iD5z5yGxfGIYGt3XqZFez27AyEHFT34jeYRpmm0Gdat4G8pjZHhYfc0v7gpmsliLuOrX
-         M3pRusAItnp0ljPzMV0qaT2FTbE/EYqRgu9VkWKjj9OOb+s3z7Bl7moQ3WmLeb/rX87K
-         apVA==
+        bh=3nvDX4TY1Pe8Kn+2n8z98K6DuXLS8IjVc1zOaWVT8Qw=;
+        b=PXaNeRZSl895iepIYxrdaIyU/Q4gZwSUQrdk1afyJhkvnOv6t1eR/bgBj4d4hq96uW
+         uTLTwhpY1MWH2UQOC3yS1CKRcX2qmO2/eGN85YcUF2AUIHMSqVeNDgufuvLJ/wcu+l+7
+         BCvoWH5W5fan/8YVBkM67tu9JyOMckgIYA5Sor6nMVT47GtUFFf9k9Wj7EshFJgkk9c4
+         UseUgIkEdH7bnkMXOm77x/1p9EtXhSOC/2bxUL3bJSWJjfkFEs1oTPHdHh2Rl+M4/aIP
+         teQu1hWdIKjVaPoNQogdwca3elHi7gbu7YCn6Hf2r67f0zm/CYxCXvOTSUlCsvFuP7PS
+         pIXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sRpB8shK9s+qlfDfGE4H3Dae+dYW//VnXTortgQjgUc=;
-        b=uBR7A3dw/h7v8G0s8E1rzW9acRCbpB4qqQzgXM4qgFm03dfJhGU6yco8+kQ6Fglc+y
-         qnCEZfcNYcomATeAOfduwsdsh+HaEuKOST0xdEVOA9WYS9PJdju5E5shNsnUvkd6AzyE
-         U9yq8EDOc3Gz8fwcAK3Vm6lwEAnFmaWggRZrO0k6PVdW1vJlSSL5P61tewfRCUb69V7+
-         kVPq4GfoLK/vKpYUGQ9q+CwMMz0fvngz/AVA+CifY4NITUyTRjsY1mDefPQRk7UG5ohP
-         zMEAvk2OT5dp93X7HWglNA03wjMdm6g7FahIqwEgrgX/n1SXztKbhrQQxVwSGD8bGutD
-         2w4g==
-X-Gm-Message-State: AOAM530bL6zTq1IlBt6pTRjK9LINNBAePuPaFMRu+0Hir7+e8QPi2Pwe
-	ezqz7dfckgG7uCFrIpxXxIDFoloCLYY=
-X-Google-Smtp-Source: ABdhPJw7bPngqtY/G4fIvgNArw7J3E3B+mHWSwX6gRmPzonKKG2tM95I9O2WMBjC4pQWVNVWJFZIkQ==
-X-Received: by 2002:a05:600c:4e86:: with SMTP id f6mr3375828wmq.14.1626265576798;
-        Wed, 14 Jul 2021 05:26:16 -0700 (PDT)
+        bh=3nvDX4TY1Pe8Kn+2n8z98K6DuXLS8IjVc1zOaWVT8Qw=;
+        b=a4+Nw7+DmolljPahRqBEO4tmyFEGbroV6UurcGmLYhAzRlRSNoWyrr0CnYRS1iyYID
+         IN+4tM9n/nsX+HSpbfKlkRetB1O1YspGnAQySAvuqags+QvYcf/s+sAeh61gO2DK0cla
+         MkZ1y1ICPsz+PHaXZIjQfERhPQnzm1t6sNIon/rIt4pCDLb90SIwtPrgUEDUtRrm+WvY
+         57Xt0rNQDQTQn5/FYjdXk2RVYpCHfPLJ6TscFRZzaVM5ceblc2ePn5y212HcIKDxTKut
+         SxTDd4SrntYSmxTiZJTIgN7zb4UNk3d7sdKsCe9ta26cXyfX2UAYRhYlVv4ly8JBvIKf
+         7PBw==
+X-Gm-Message-State: AOAM5300J9JveUmoKJ5vcGxZ4WkPG+kmYEkbRs23zE/3ZR+IjehQu1ZV
+	SWo3ngQWae6Dnzvs1Yivse47mFxTOvo=
+X-Google-Smtp-Source: ABdhPJz8gD8lYGA2HQbAOxdPyKtYq3QoaZuWPOZNYFE1AR2JrmfVdNnRINc6kCbyEQm0qenAh1v6Uw==
+X-Received: by 2002:a05:600c:6d8:: with SMTP id b24mr3797480wmn.111.1626265577385;
+        Wed, 14 Jul 2021 05:26:17 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id g18sm1969395wmk.37.2021.07.14.05.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 05:26:16 -0700 (PDT)
+        Wed, 14 Jul 2021 05:26:17 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 06/21] xserver-xorg: update 1.20.11 -> 1.20.12
-Date: Wed, 14 Jul 2021 14:25:51 +0200
-Message-Id: <20210714122606.605142-6-alex.kanavin@gmail.com>
+Subject: [PATCH 07/21] libmodulemd: update 2.12.1 -> 2.13.0
+Date: Wed, 14 Jul 2021 14:25:52 +0200
+Message-Id: <20210714122606.605142-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210714122606.605142-1-alex.kanavin@gmail.com>
 References: <20210714122606.605142-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Delete patch, as the issue is fixed upstream.
+
+Disable python bindings as they're not used anywhere,
+and require functional gobject introspection.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc             | 2 +-
- .../{xserver-xorg_1.20.11.bb => xserver-xorg_1.20.12.bb}        | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.11.bb => xserver-xorg_1.20.12.bb} (93%)
+ ...e-the-manpage-only-if-the-feature-is.patch | 28 -------------------
+ .../libmodulemd/libmodulemd_git.bb            | 16 ++++-------
+ 2 files changed, 6 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-devtools/libmodulemd/libmodulemd/0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index e2fefd9db8..8b0cc27488 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -15,7 +15,7 @@ PROVIDES += "virtual/xserver"
- PE = "2"
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd/0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch b/meta/recipes-devtools/libmodulemd/libmodulemd/0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch
+deleted file mode 100644
+index d5c87a1154..0000000000
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd/0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From a04fd2c8ac9e0f7a6fc17f02b2a95227b3d0aae4 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 31 Mar 2020 16:06:39 +0200
+-Subject: [PATCH] modulemd: generate the manpage only if the feature is enabled
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- modulemd/meson.build | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/modulemd/meson.build b/modulemd/meson.build
+-index 9ef1902..9f71e72 100644
+---- a/modulemd/meson.build
+-+++ b/modulemd/meson.build
+-@@ -494,6 +494,7 @@ if with_docs
+-     )
+- endif
+- 
+-+if with_manpages == 'enabled'
+- help2man_opts = [
+-   '--no-info',
+-   '--section=1',
+-@@ -506,3 +507,4 @@ custom_target(
+-     ],
+-     install: true,
+-     install_dir: join_paths(get_option('mandir'), 'man1'))
+-+endif
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index 771b2c094f..963e881d6c 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -4,25 +4,21 @@ DESCRIPTION = "${SUMMARY}"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=25a3927bff3ee4f5b21bcb0ed3fcd6bb"
  
- XORG_PN = "xorg-server"
--SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
-+SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.xz"
+-SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main \
+-           file://0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch \
+-           "
++SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main"
  
- UPSTREAM_CHECK_REGEX = "xorg-server-(?P<pver>\d+(\.(?!99)\d+)+)\.tar"
+-PV = "2.12.1"
+-SRCREV = "c0897fa0e9d7d1305fd4813b1010c1d4cca42346"
++PV = "2.13.0"
++SRCREV = "1a032da198333ee77bdbe4be65e60eb4115ea73f"
  
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.11.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.12.bb
-similarity index 93%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.11.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.12.bb
-index 1eb2056b8a..8f86bea878 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.11.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.12.bb
-@@ -8,7 +8,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-            file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
-            "
--SRC_URI[sha256sum] = "914c796e3ffabe1af48071d40ccc85e92117c97a9082ed1df29e4d64e3c34c49"
-+SRC_URI[sha256sum] = "336dc093431d81ecc03fa36af771f1181334f2746b7de7796f3cc6a8fa9e8cac"
+ S = "${WORKDIR}/git"
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+-inherit meson gobject-introspection python3-dir
++inherit meson gobject-introspection
+ 
+-EXTRA_OEMESON = "-Dwith_docs=false -Drpmio=disabled -Dlibmagic=disabled -Dwith_manpages=disabled -Dgobject_overrides_dir_py3=${PYTHON_SITEPACKAGES_DIR}/gi/overrides"
++EXTRA_OEMESON = "-Dwith_py3=false -Dwith_docs=false -Drpmio=disabled -Dlibmagic=disabled -Dwith_manpages=disabled -Dgobject_overrides_dir_py3=${PYTHON_SITEPACKAGES_DIR}/gi/overrides"
+ 
+-DEPENDS += "glib-2.0 libyaml glib-2.0-native python3"
++DEPENDS += "glib-2.0 libyaml glib-2.0-native"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ GIR_MESON_OPTION = 'skip_introspection'
+ GIR_MESON_ENABLE_FLAG = 'false'
+ GIR_MESON_DISABLE_FLAG = 'true'
+-
+-FILES_${PN} += "${libdir}/${PYTHON_DIR}/*"
 -- 
 2.31.1
 
