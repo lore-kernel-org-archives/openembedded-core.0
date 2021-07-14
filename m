@@ -1,33 +1,33 @@
-Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.48])
- by mx.groups.io with SMTP id smtpd.web09.6099.1626266895603992484
+Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.58])
+ by mx.groups.io with SMTP id smtpd.web10.6305.1626267038057870011
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jul 2021 05:48:16 -0700
+ Wed, 14 Jul 2021 05:50:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=YJwVG0it;
- spf=pass (domain: kpit.com, ip: 40.107.139.48, mailfrom: saloni.jain@kpit.com)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=lyeLHL9N;
+ spf=pass (domain: kpit.com, ip: 40.107.139.58, mailfrom: saloni.jain@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XxnX0vcxX49/uKJTihUo4FEzPdnvQq52Bl/mCzfecKQlm8jC1KgF7WroHzRNquv/LEqkhgGKqP00sm+wzjNrnEPLVk3fHiF6L2ti1jW2KMpfDeKlR0rDEvCr2Ubjf8Vw99WI2l2KEPRuxDREbtZ2cilbpvc3TNkRljpCF4HOYzImro5y1Vi9TOEsr7iXi22TV+GeJgWGjRPuHpupb976jPXs9rV7g9ncxZt0uK2eFEGxB1iBERxJYh7Y9Nuq+hMNMHV8gCo0juUu78xqXnVU60Md0NmvJG3gDjFrCrfAX/ReQrLqjj1uje4jCEvn1sV6y0ti02eyRBfyXSP+rp3ByA==
+ b=bS7jVL6rhPw5UC7IiZgZep8UXxBxxKTYAqJ59S3ioJD/W/ke2rCVuIhGYvXArrmfez+6Vg1j9AcaWQ/ncewblLGY1WRy0cELEKZyImChO1W+IlyZTFX+dUGJd3eAfMxfTsgORso/PP+xxQ6CC08taHUG3BV3D0M4mc6MNMk4ays4FJxDBYw8OInmWaXpP9mZsLLbw6r5HzLudNHPyiHW/IqjJzW9+pEapBqBlvmN/sACbMRdqTbvheV6TSb/1zzWYbVfoNsE7g9xCeNJjSXCYjpei9mjQj76EjUF4ZqozBSaj236rVR97UjiGngoUFx5HUWH7VQEw9NDuXQlf8roQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jezli5XJS7I/8WrrhTjBT2r6sUK1oauI550gnYzL5Z4=;
- b=PQxKhsKB8U3HyORKy0fQpyEnTdWc4WdBliSwF16RzN+TNgaFBtcaH7kpoH6VFGdUiex5JXcpNe0qAokNGtopKib8BZB3k9XUbTL1984B2LAQDodml+pGJRWp0yet5tZyARj5DgJgubiCOV6tUB6N/tvZ02ODdbcDsA0Oz4/iO0r8qUNSDCBCaPtusD47CpdPNOlKDB2eI8X0qf60RXMY9kQr0d9XDa3Py0CkuDuPdXMsysS3KU0pE07KihCZScWoOFmW06/5j/BfvJC8UvJskY5SZNY8/s1fR16Jsj9Iy68l5jpqMlVraK6LlW7bpWeXygdJte+83mokjT6m/5BBUg==
+ bh=tQGgLCzBRCo2IZF1Zo00OsFJdYDFTesJKSKDoXkn+uY=;
+ b=U/qZaCODGV+0MzMieaHRPNVinjOpgUcDPc8TSC6sARJcWVPcv0CkUZeTXuu6OryDmJFie0XG4h3DWKtRYvF0QTVBWkzPUdfyUTLFEfOttCZ6FQP58MLxkmE/Ic70OS/Y/N9/HgvmfiLRb77ksPA1mfsRefyuijkdC34U0oYZst6A4+a8uwPXCr0Z1GEptVlQTJrfU1pkfClEwBqVcjbHmJ1ICBnRU44Kc2XEC+HdMapNq2duqUkdox/oWJLD6RniQsRgdBnZAyj/7tV9S9l2EJjYmG3ongbLU3UfD1bC+AtukxTOZPOeBZvwxrnIzrQKTlg/dC2rFroZmdGKEZ28LQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
  dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jezli5XJS7I/8WrrhTjBT2r6sUK1oauI550gnYzL5Z4=;
- b=YJwVG0its5qKCu1EE9SERRZ+vT6crej7iaQtQ/73cdtmbTwoUeTRzQ1TUjiOuTY16YVfUvQKrciZvpuxtRRcLJZLgixEe8bJEbSL45cxA+CDoJSBwqxJxlVDuU4CLdCaZEyoFiaNC/UCAfcMyE5D0QKTb12UFYIf5JBD7xdE2S0=
+ bh=tQGgLCzBRCo2IZF1Zo00OsFJdYDFTesJKSKDoXkn+uY=;
+ b=lyeLHL9NkiKGG0LcEQiBwF/5NneB4gJ2qkgWY1bifGxqFla4ThsLS+liqbFet7tp+LSIBBPRllz50WU6ta1oFIe7Or855QUrm250braqG3o4kGpVmAr9aaiuz9akOMcv/ri4AZOHbHFvP2QN1kB7eDbwfiltw7vl8KOT/bT4kQc=
 Received: from MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:78::11)
- by MA1PR01MB3420.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:75::17) with
+ by MA1PR0101MB1205.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:24::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Wed, 14 Jul
- 2021 12:48:09 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Wed, 14 Jul
+ 2021 12:50:32 +0000
 Received: from MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::e58d:b799:ba51:4fa5]) by MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::e58d:b799:ba51:4fa5%7]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
- 12:48:09 +0000
+ 12:50:32 +0000
 From: "saloni" <saloni.jain@kpit.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
@@ -35,12 +35,14 @@ To: "openembedded-core@lists.openembedded.org"
 Subject: Re: [OE-core] [poky][dunfell][PATCH] openssh: Add fixes for CVEs reported for openssh
 Thread-Topic: [OE-core] [poky][dunfell][PATCH] openssh: Add fixes for CVEs
  reported for openssh
-Thread-Index: AQHXU+6+MF4D1oMctk6r4wSlqBqDqatCtOig
-Date: Wed, 14 Jul 2021 12:48:09 +0000
+Thread-Index: AQHXU+6+MF4D1oMctk6r4wSlqBqDqatCtOiggAAAsE8=
+Date: Wed, 14 Jul 2021 12:50:32 +0000
 Message-ID: 
+ <MA1PR01MB4108FE57C0DFA126303272C087139@MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM>
+References: 
+ <20210528182415.22031-1-nishaparrakat@gmail.com>,<MA1PR01MB41084D68932879F937B0770187139@MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: 
  <MA1PR01MB41084D68932879F937B0770187139@MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM>
-References: <20210528182415.22031-1-nishaparrakat@gmail.com>
-In-Reply-To: <20210528182415.22031-1-nishaparrakat@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -48,63 +50,79 @@ authentication-results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=kpit.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 06542b95-4038-499c-c51f-08d946c5a23a
-x-ms-traffictypediagnostic: MA1PR01MB3420:
+x-ms-office365-filtering-correlation-id: f65bacfc-2334-445e-9377-08d946c5f77c
+x-ms-traffictypediagnostic: MA1PR0101MB1205:
 x-microsoft-antispam-prvs: 
- <MA1PR01MB3420B14C1DDC651A4AB9253587139@MA1PR01MB3420.INDPRD01.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:1201;
+ <MA1PR0101MB1205D507FA10F8222A226C3B87139@MA1PR0101MB1205.INDPRD01.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:1824;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- Efqu5EZek17YJUX9PpDT8vaiuENCFOhfBZlQuoF2DU7P1r1wXkQiWUsrsUYJu0wvHFSZ7DqRglirQJ9rW51/VkgudmecSlXgO0Kfm36aqftsPi/CjER4519GDfXziRPDBTydFY+0HAiq4QdaObKRWvM/gNya0FjHWZGlOS+lZuAaLgseAe/cEq80ByBqtfBAg7PdhO2PTpKE7Uwg26+KUVULNvoRnwPN7aUDudR8wwrtTMvCuRlb2bNOE2TQxRa+cFLnsIkCxuc4xMoq1s1QwlWto2AyeU7lwXd0npZZUznJh25udJ8skJF78ldHQk9qbVLvlaJqubmLjcilzKF+/77fn9aHdtiiUB8z4cE13llbe2ivr/SfvF1ob44XBC4q6pmhsUhzL7xUyJGrmwvbOzwLWwkl1AQJ0dtgDRW7BcKMs11yNqqtIrj0GR+5RhzT75/HFuBxRp/BTi5zpY0M934YiAGDe22Da1hFkXT86ADmIh6w4oQGrEqb+dFCcrlmSpJJ9oxN/z2FCwAQg4wbUzNO985VgMfYBX4vABc1GI51ITZO4lsgyyHTQ0kNEPKy0Nu6KNpzB8MOgX79myJRNudeGZ4LuqBCEXn0DCAbk73DlT8MXl5ax3LhkApss4p++BBNxFBXpQ2JGp29bYc91lIZyXT/6s4iFL7nqAxly+gQ2BLWQUNrCIfAvbs5Aaa1/qjl64BGBQsRV4IHF7UtaJmyyuwJvFyy1tTmT55MaovorGXbcBouRsZuolF7SRcW27HBxWtNMsb/g2eTYIJ+pXKBU1dX8hO1B1pywDXTQKmVnyZegVcFOVgyjO80naoK
+ JS6+6fAVlkD7x3PWRmOc6TdXeykULPC9PSRLlXZAvWRdcG4FmTeQaM7yHP8j1GN8JhfyxBZ79d3GvCJ+KEGiV6dpSORmj2yxW9QCVc3KX0c85RTdYEADglVwW2GGz12VHhVIRX0+dIdKaJAttmJj/O/w9VE27DSOPM50mqi0nPjsNgAzZJyx57z5wo1wm4dN6MjO3shW6EKHmJFWvQygbRVdyts/qCYzhUjYN9qU7hFhmirnuG6bIGg6tcsMjWX4GR/PXSaQaOT1pOhHH3uzNcGQ2TO/U435peLcUFNSwpLioBqlc3mPCljMAK0PHG7UtTgnDoTsRnhQwqlo6a4EmnAIcYwLdLYsoEFKEu0dUD1lLiBUjUMUPCvBzkedE5kPodk40LrbezQlFPtOpTsXjLNGyDF+2X7L+YR0mz9n8b/E7m2vCWHTLFBI+DO7mPBT+zt0CpGrl3s5ibnpLEDFoJgmD5CnRWkC0ICGIRIly+14ZwesATDfYA9vktP4wPse+jIlUKc4XMtko//UYBGXhbbA8xP2M7AysVwAckrHE7Dr+ym6Kx+fcBIIHJuaQvm/TH41c5yP1hpZpoQ41i/zQSEHrZIP4gE+sZQEi6iXLHejkTalPbj8xrKpr9Kao4tmA7AcEqywKZcLkYdrXkNybE3DvkFshBnc64K+NpnWl7yDQUXbY6wlSQwMKNyTqTGPNI0AaTnsDhr2EvuvbmAVzj1PpL5mn7nuGpdTFul5vqWJtrDkNvCEjowqv81aNhjfnymfcSmrbwr0g4fHs5d6A55rcNgL3mHMatjdibxM0p71d/2Lvow1SlSBbRRrl4Wa
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(136003)(39850400004)(376002)(346002)(30864003)(18265965003)(18074004)(166002)(71200400001)(76116006)(122000001)(38100700002)(33656002)(66946007)(45080400002)(8676002)(83380400001)(478600001)(316002)(966005)(7696005)(55016002)(110136005)(9686003)(6506007)(66574015)(66446008)(64756008)(66476007)(2906002)(66556008)(186003)(52536014)(19627405001)(86362001)(8936002)(5660300002)(38070700004);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(136003)(396003)(346002)(376002)(38100700002)(122000001)(316002)(166002)(9686003)(110136005)(478600001)(19627405001)(66574015)(7696005)(71200400001)(18074004)(6506007)(76116006)(86362001)(5660300002)(52536014)(45080400002)(53546011)(66946007)(186003)(66476007)(2906002)(30864003)(966005)(33656002)(66446008)(18265965003)(83380400001)(64756008)(8936002)(55016002)(66556008)(2940100002)(8676002)(38070700004);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?uwYGQr1MUFjAMWLeY3fnV109t3hd0Czyn/hqx9mYSsCmFytK2SGBOrDiAZoi?=
- =?us-ascii?Q?wmxDG0JyO4ej2ppWMBUKHcL9bp2CZ8e7c0d+PLUujeBvmRnlBvGbISBi1aPf?=
- =?us-ascii?Q?Pz5jiqXl38fw7XWRBrGW3mMPoHIWom2OnDWyj/jeXujPfmDsFdzLPkMP3SYr?=
- =?us-ascii?Q?fDNcH2Wes8W1yr76tMH1gKCQCihfcqKY6XMBqKLB8O7J/3/aiE3+m+hTc9dJ?=
- =?us-ascii?Q?CiYHfM53EJ6+UgvgUrAEmQsUMDS4ui5Y1Wh21wcc6iLJnMueT2FNKNllKZDF?=
- =?us-ascii?Q?6WRoLAPM4YPV5gD28L5+hO2sCvtvLJThwqTWMObEFozFrFujpZD/99OfWR8f?=
- =?us-ascii?Q?ktRlEzFIhVQ5lZdYJHBeMTuYiPWYLXuOwA0v/zD7SbBfqdYf8j85exK/W56g?=
- =?us-ascii?Q?yBynNNXlOP+otu2CPH/eQLProV6lKvyEUaJ4gvKZsjnY8n7WnRRYKo6/zOYB?=
- =?us-ascii?Q?PqFnYadaOpb8vRCXqrdUrs2LKggAKfet4ztTMhY4SEz0gaNPjt7P2689zweY?=
- =?us-ascii?Q?Ma/vMlnFjgnX7uWlbbRbasFgL+aRhL0CQ1fcRHT1HZggMqZn2M/tyhK3GFyV?=
- =?us-ascii?Q?gsGFAvDf3MINcoOVmhCRCdGCjMMmr6q4y9U++b7qajc25ZW/oI6PNRcR6hyp?=
- =?us-ascii?Q?BFtscLWMmCOOb4LTZNdunrUAorNNk5kWELOJiGE6uhnmzlv6ieOviOtWd/qo?=
- =?us-ascii?Q?pit18I60Z6YqETrSspj9pix3Qpwh3CtRxKRSixgMSLZDJz6cKmPtlS0nfclj?=
- =?us-ascii?Q?2Am9HzVFfZo6eS/Wym4O/WjY5UqqsLc36vTxgEvh68ucqyYKP4EGPEyBD4ES?=
- =?us-ascii?Q?3EaKw/dT3LnwEqgzzxq+5Om+YdzU4x0NFZuSqnm50uc23FZ0G6xsaAenh5O5?=
- =?us-ascii?Q?SlbirzmUVuE+Jarx4Dzt6n3Tbx8srzEQXXcX0GG5hVuNbNFxXvF+Ig+vDK1r?=
- =?us-ascii?Q?nClUR1kcgplS17cPEQx/RFLnBBxSlrgC6RjLYktwcHYpVcLMgesLdTMI084N?=
- =?us-ascii?Q?QRdj4BhcXwEg0mATlPjMLJcL9iReRF90nAI0IpxMy3g6uHFkFo+qOForNDFW?=
- =?us-ascii?Q?wKRrqYUvfm8hfZTLKxBb1EBxXE7ZvmlV6CJMnFpv0BSq3tkRMynTUSOAYPkR?=
- =?us-ascii?Q?SDG9yqTaebDbXbSKgsl4piQoytYX699vYDnBTXrIKW/Pvwj7gZcVOPP93Xxl?=
- =?us-ascii?Q?m8Rffmaqa/Lnj/56qaq8ROo6illi51FGtXc2xjd711mxqRNGdoNja+r1e9mQ?=
- =?us-ascii?Q?+Hcs799/JRasmnzIBX9vyTHnmlXWuPhEEBlRs06NTkGOMFYUMw+d+jy0su+n?=
- =?us-ascii?Q?7j2olGgssqtmME8erOtdUbO6xli8Q0jVwKaDdvJuZzl/wOp98ee3zPlZmt+w?=
- =?us-ascii?Q?pjn9Dx6T8izHm+rQMcc62tsbtUy8?=
+ =?us-ascii?Q?SBJLH6RLZHhHDXkpO34J6NV4kdvihKZ3jr+v5GFqrocFTL/3HUVR7FmtHnn9?=
+ =?us-ascii?Q?pup4r6hhAGoj6pmNDqF43It8HRMfq0GwNXGmNtIXiQV9ykUqAqaAwDMC9uVB?=
+ =?us-ascii?Q?DS4nypbpOwTDq3HL7R0i6Y4oHFTdWAXe9a4iELCu+LkNlOq4d/AyjFTupoK5?=
+ =?us-ascii?Q?4p3pV+3pZHyxN7XsfFGqUf2T78LvUHTFBau3EItKcKpaJbmBiL6gR0uHmsJq?=
+ =?us-ascii?Q?iESZY05ieDt4rMMUQHf3iOALEBHBMl1R1e1ICO2PXaQ8/87xutCkZ5onXqbm?=
+ =?us-ascii?Q?yN2FSkvN3TIh509YzZ/4At8Lwodbd6pReFq88lgRCiQ2qiAph+ASXEwl7dcA?=
+ =?us-ascii?Q?fjXyKI5+JrRSey+MIirFB8gu/oiOcc3/J7/BLsULcg7EyGiS+coFTd8Az1qi?=
+ =?us-ascii?Q?wI7MX0BxMtSVQp7CIRGpnXTQdVSG4154SDL9VCWX13Tx6tp72f+DcNLWID+j?=
+ =?us-ascii?Q?JGazTWaFatsrznpadRaH1TNlPEZcRcG5yAP4ij8hl1yqhMtOf9RC+voRYjFR?=
+ =?us-ascii?Q?3dUS1uU79a4NFyyrG4Y6pD7H/t6+wsWvnW3A+kejAPZ4H3fF166bUC2kzc+2?=
+ =?us-ascii?Q?MO2f0YZM2ptUMxO6AD444Gborbpd8GSIOUdl0dLFR82wf5k4qmwQ0JgDlFYU?=
+ =?us-ascii?Q?ZRpL+kuMT1kbfX0ZR+BexcP+I4nRuY2b19Y7c4CAORlLyui4TUKMyTKQBEfi?=
+ =?us-ascii?Q?Kh9n8KlI/IiVnQuMsdFjiZOlWD3AdvsdgI3bd3OhJF+lMC2V27oUHczMQZsv?=
+ =?us-ascii?Q?3thVUuS5+PBo+vMoeyodRP1w+7OAxbRKqoX7m7UlU8xPOW2GKBWsumpEkjGR?=
+ =?us-ascii?Q?HiL+rsaB3lEQJdcAG3HzfD6dZ2IuhcW13NGS2tp5MuKmUFNBSjBe7UTwvkM4?=
+ =?us-ascii?Q?bYkwBpP549KIuSZz1RkcJb/oKjQNVAaHzr97Y/T7hYt/bH2Kwg2uWIwx5F4N?=
+ =?us-ascii?Q?Ai9Fv//5rskGGyca9TzkBXITtas0Q64i08tp6dx2BvCNgYLiBKZERo1huBoU?=
+ =?us-ascii?Q?920kZ+e0BSe05kZcU5WuTwgTZhTT/arjYsgz3HfzuoNLhwO6jhqqCpQNNZAK?=
+ =?us-ascii?Q?YrM9iu+gTwdfS+JFrDSz+qTVl94TN9A8PAt5CUabIy/TY0nkN7pS4mSyX8oq?=
+ =?us-ascii?Q?Es0fPhRAGl1UmoVPjtMA8mdrzrGiSgxoH5KdRxyCSEs4JuQdDuPFwho78os0?=
+ =?us-ascii?Q?Nobs1C+E9UXp6j1ferMzpB1WdaKZnS90TBsu4/vVcZtu50AsP5SjqUuh9E24?=
+ =?us-ascii?Q?3rdWi/BiE/6uu3L7Xm9crdj9yzD1ycOHMVGGRTu4hja0IpVnF0D9kcGbJJ/Q?=
+ =?us-ascii?Q?Eje3UH1kmTZUQ9ySYQ8jewWoHBd5p6EcxGgNjga/Xzo9xja9reV4sx043AXj?=
+ =?us-ascii?Q?If4p+SqxL0N8pOFNcIrscd0aVkSF?=
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: kpit.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MA1PR01MB4108.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06542b95-4038-499c-c51f-08d946c5a23a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2021 12:48:09.2029
+X-MS-Exchange-CrossTenant-Network-Message-Id: f65bacfc-2334-445e-9377-08d946c5f77c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2021 12:50:32.3274
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: H7AQNr2LN4t/MgRqxLg8PW3sJzCvWbCWunawRPkE+5AxONY8rUEQv56ZienfaE4YIA97P/G+U8hFd0ukeN4m8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PR01MB3420
+X-MS-Exchange-CrossTenant-userprincipalname: /h1TYflYOkQofAhzK41SWEI8osWZdfoUBw13LnHg5IrNeQvTDO4jXhKH3bFE7ONb8+T5gVX6ofrgWriSUU7F3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PR0101MB1205
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_MA1PR01MB41084D68932879F937B0770187139MA1PR01MB4108INDP_"
+	boundary="_000_MA1PR01MB4108FE57C0DFA126303272C087139MA1PR01MB4108INDP_"
 
---_000_MA1PR01MB41084D68932879F937B0770187139MA1PR01MB4108INDP_
+--_000_MA1PR01MB4108FE57C0DFA126303272C087139MA1PR01MB4108INDP_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+Sorry, please ignore the above mail, the changes have already been merged i=
+n dunfell branches, Thanks!
+
+Thanks & Regards,
+Saloni
+________________________________
+From: Saloni Jain <Saloni.Jain@kpit.com>
+Sent: Wednesday, July 14, 2021 6:18 PM
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>; raj.khem@gmail.com <raj.khem@gmail.com>; nishaparrakat@gmail.=
+com <nishaparrakat@gmail.com>
+Subject: Re: [OE-core] [poky][dunfell][PATCH] openssh: Add fixes for CVEs r=
+eported for openssh
 
 Hello,
 
@@ -392,7 +410,7 @@ r, please notify the sender immediately and delete all copies of this messa=
 ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
  mails.
 
---_000_MA1PR01MB41084D68932879F937B0770187139MA1PR01MB4108INDP_
+--_000_MA1PR01MB4108FE57C0DFA126303272C087139MA1PR01MB4108INDP_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -404,8 +422,55 @@ Content-Transfer-Encoding: quoted-printable
 ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
+<div>
+<div>
+<div name=3D"divtagdefaultwrapper" style=3D"font-family:Calibri,Arial,Helve=
+tica,sans-serif; font-size:; margin:0">
 <div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
 : 12pt; color: rgb(0, 0, 0);">
+Hello,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Sorry, please ignore the above mail, the changes have already been merged i=
+n dunfell branches, Thanks!</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div></div>
+<div>Thanks &amp; Regards,</div>
+<div>Saloni <br>
+</div>
+</div>
+</div>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Saloni Jain &lt;Salon=
+i.Jain@kpit.com&gt;<br>
+<b>Sent:</b> Wednesday, July 14, 2021 6:18 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;; raj.khem@gmail.com &lt;raj.khem@gmail.com&gt;; n=
+ishaparrakat@gmail.com &lt;nishaparrakat@gmail.com&gt;<br>
+<b>Subject:</b> Re: [OE-core] [poky][dunfell][PATCH] openssh: Add fixes for=
+ CVEs reported for openssh</font>
+<div>&nbsp;</div>
+</div>
+<style type=3D"text/css" style=3D"display:none">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
+<div dir=3D"ltr">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
 Hello,<br>
 <div><br>
 </div>
@@ -413,7 +478,7 @@ Hello,<br>
 h.<br>
 <div>
 <div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;margin:0">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; margin:0">
 <div><br>
 </div>
 <div>Thanks &amp; Regards,</div>
@@ -424,10 +489,10 @@ h.<br>
 <br>
 </div>
 <div>
-<div id=3D"Signature">
+<div id=3D"x_Signature">
 <div>
-<div name=3D"divtagdefaultwrapper" style=3D"font-family:Calibri,Arial,Helve=
-tica,sans-serif; font-size:; margin:0">
+<div name=3D"x_divtagdefaultwrapper" style=3D"font-family:Calibri,Arial,Hel=
+vetica,sans-serif; font-size:; margin:0">
 <div><br>
 </div>
 <div><br>
@@ -439,12 +504,12 @@ tica,sans-serif; font-size:; margin:0">
 </div>
 </div>
 </div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
-alf of Nisha Parrakat via lists.openembedded.org
+<div id=3D"x_appendonsend"></div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> openembedded-core@l=
+ists.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on b=
+ehalf of Nisha Parrakat via lists.openembedded.org
  &lt;nishaparrakat=3Dgmail.com@lists.openembedded.org&gt;<br>
 <b>Sent:</b> Friday, May 28, 2021 11:54 PM<br>
 <b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
@@ -455,9 +520,9 @@ ists.openembedded.org&gt;; raj.khem@gmail.com &lt;raj.khem@gmail.com&gt;<br=
 s reported for openssh</font>
 <div>&nbsp;</div>
 </div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">From: Sana Kazi &lt;Sana.Kazi@kpit.com&gt;<br>
+<div class=3D"x_BodyFragment"><font size=3D"2"><span style=3D"font-size:11p=
+t">
+<div class=3D"x_PlainText">From: Sana Kazi &lt;Sana.Kazi@kpit.com&gt;<br>
 <br>
 Applied patch for CVE-2020-14145<br>
 Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=3Dhttp=
@@ -817,6 +882,7 @@ r>
 <br>
 </div>
 </span></font></div>
+</div>
 This message contains information that may be privileged or confidential an=
 d is the property of the KPIT Technologies Ltd. It is intended only for the=
  person to whom it is addressed. If you are not the intended recipient, you=
@@ -829,4 +895,4 @@ tely and delete all copies of this message. KPIT Technologies Ltd. does not=
 </body>
 </html>
 
---_000_MA1PR01MB41084D68932879F937B0770187139MA1PR01MB4108INDP_--
+--_000_MA1PR01MB4108FE57C0DFA126303272C087139MA1PR01MB4108INDP_--
