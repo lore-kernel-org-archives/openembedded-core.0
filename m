@@ -1,102 +1,117 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.1910.1626214773185261549
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.1613.1626228805440214807
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Jul 2021 15:19:33 -0700
+ Tue, 13 Jul 2021 19:13:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XmJw54P5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id j34so310261wms.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jul 2021 15:19:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ig2UfQDe;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id m83so626173pfd.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Jul 2021 19:13:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CugxHVteKTrN3DnaiK4nG41IxlsdTFB22u7EayNMX1M=;
-        b=XmJw54P5NZMSkkg9LS9+oaAzSqlHZ3lWu9FEaxdb9ZJONNJTPYT6FVtkWANqzuQG1W
-         R9s6XdRD7uOAv7gQeH0jd3mX4/GKUbcJi2w92bVCraK8M1TVGc6us5SmJKhpgSO3zMa8
-         lXO6l1OCe+1AZCIkkamO74M3+EpxCvFX2WsWI=
+        bh=4YOlNyydCZ5ZiqU9OxD3SYOq/wGrQbBTMN3FDqwQWTs=;
+        b=ig2UfQDetLTqvl8451GOaF+Z/to5e0WbsbMnw6Vh7whoizO4DpZS3VVuYRUEFP5YB1
+         zos61vz+Dd3aIg6QIhmQwVmNs/55JrTmstrHtJiC0VkCHoz7r1xBifv4xUAFTCi/mgKE
+         9RGsy005vBB2p/xunFQPiPoNeu0RO2cR6jQOFEgclNCLDBbFPByXh86gPxmDeLKartvh
+         DkeZQ4+J2O0pqKhsMgeemzG2d6aoG+H089xiZzdBTXWyKBeayitHdS65HkYjMxkjwnBf
+         ApxrCSed4//afMeVkwxz6m2LGdJoyHlj8Vz51IdxASDal/pYMxEFD/6vkWN5R5Nwezad
+         9Ffw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CugxHVteKTrN3DnaiK4nG41IxlsdTFB22u7EayNMX1M=;
-        b=KbjUlX6wnEil5Mj3T96AYSQM91aReIWLM3RjrkjrxXwkyPRBQe5XCzPpfBruCkw+x5
-         xjcx5zKGilcBke5UXLxznkZ8eNoDVaotM8lr1OjZnKjwnFQg5ty5+7k9GBdPkS9rgMfF
-         5iZnYMjnBU7W6gRngrrb71ngALXTRhoiw1sw1FKoIGDkmglReFNSLBU4QBmmrJnKzRw0
-         Kbzz7xnuxh+B+YYxPHJ3Ipu6vuUDhlMt7o9nx7OTQejvHtoyNEKMee0kAdoVgxy+3Ha9
-         ICzy8p9zfSU4AwLmYshm0HmDK8v5zyw+SNkrLm7zD/LfDf7O++3ohPPOiuJVaO210gS1
-         dJvg==
-X-Gm-Message-State: AOAM532ozzKEtq8KCNzAZ1C6QLcmqEmdbFg9IVRDMpr4fO0ImMCKb8OC
-	7DEXt6xMML+CfsFJ1opYyrE36KiHgBiX+g==
-X-Google-Smtp-Source: ABdhPJyG1hjWvDqITYUDzMFB6rXM32GddKPolr9znjs6CJdrfPfn3wSf/gR3oFbaXsWsGU8MYT+G7g==
-X-Received: by 2002:a7b:c958:: with SMTP id i24mr409283wml.177.1626214771109;
-        Tue, 13 Jul 2021 15:19:31 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:bb3:54c5:c899:49e])
-        by smtp.gmail.com with ESMTPSA id w22sm3649803wmc.4.2021.07.13.15.19.30
-        for <openembedded-core@lists.openembedded.org>
+        bh=4YOlNyydCZ5ZiqU9OxD3SYOq/wGrQbBTMN3FDqwQWTs=;
+        b=boQtPxDbh9fgrOAx9JhzLyI9H/AVY3smDts2iT9/yHHUq0luJYMeUUI1Y0jjVF5yL8
+         7DDGs9NYOZV8v0l5+C52yBcAYjmj6ctn6sU+K6EDshojsNdV8uUup1O22e2w3mekc5kM
+         A56YA/V8ogVtZ+p5LQuqidYU5Ov3lUmEj9Hqa7i1es1suxQRzLZ4QbgbaVqvEH9saYr5
+         xBeyStxkjzf9kbNgW61J+uECNvUAWhBLDZqxGHUz88/dFGROJ/vPzANivd0MOiO3xaRP
+         SDHGXgqL1CLDCfD1isIbjAr8iPwuy3B6M+OecrgFUHvdSB+7Mk0NOVKEgPG8UmOI+BbO
+         ULqg==
+X-Gm-Message-State: AOAM531E0WG+TpGDD/muZ99CU0XrINFspHng/v6YPkQ0Lg4Z1NRflkZ0
+	Vlj0T/EGdLAnovNHNB0Ir4weAzy1IRVTPQ==
+X-Google-Smtp-Source: ABdhPJxZPtQy1x5gqLG1pOTWFIenc8ICysFAYcunWBYETcwnxgTRjdLENPTqf+n7tSetxm1r+tZ59Q==
+X-Received: by 2002:a63:5e46:: with SMTP id s67mr7080916pgb.397.1626228804848;
+        Tue, 13 Jul 2021 19:13:24 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::5593])
+        by smtp.gmail.com with ESMTPSA id f5sm458321pfn.134.2021.07.13.19.13.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 15:19:30 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Tue, 13 Jul 2021 19:13:24 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: Add a fix for a make install race
-Date: Tue, 13 Jul 2021 23:19:29 +0100
-Message-Id: <20210713221929.2879805-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] libseccomp: Update to main branch
+Date: Tue, 13 Jul 2021 19:13:21 -0700
+Message-Id: <20210714021322.1245535-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a fix for reproducibility issues where pyc files for python-config.py
-may not always be generated.
+Get RV32 imlementation
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python/python3/makerace.patch             | 23 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.9.6.bb |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/makerace.patch
+ ...-configure.ac-Bump-version-to-2.5.99.patch | 26 +++++++++++++++++++
+ .../libseccomp/libseccomp_2.5.1.bb            |  7 +++--
+ 2 files changed, 29 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/libseccomp/files/0001-configure.ac-Bump-version-to-2.5.99.patch
 
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
+diff --git a/meta/recipes-support/libseccomp/files/0001-configure.ac-Bump-version-to-2.5.99.patch b/meta/recipes-support/libseccomp/files/0001-configure.ac-Bump-version-to-2.5.99.patch
 new file mode 100644
-index 00000000000..96744cb5570
+index 0000000000..f30ca77465
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -0,0 +1,23 @@
-+libainstall installs python-config.py but the .pyc cache files are generated
-+by the libinstall target. This means some builds may not generate the pyc files
-+for python-config.py depending on the order things happen in. This means builds
-+are not always reproducible.
++++ b/meta/recipes-support/libseccomp/files/0001-configure.ac-Bump-version-to-2.5.99.patch
+@@ -0,0 +1,26 @@
++From 00b6bc440a75443f9bea431bbb41df50469b5093 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 8 Jun 2021 23:13:20 -0700
++Subject: [PATCH] configure.ac: Bump version to 2.5.99
 +
-+Add a dependency to avoid the race.
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+Upstream-Status: Pending
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++diff --git a/configure.ac b/configure.ac
++index 3e87734..48e796f 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -19,7 +19,7 @@ dnl #
++ dnl ####
++ dnl libseccomp defines
++ dnl ####
++-AC_INIT([libseccomp], [0.0.0])
+++AC_INIT([libseccomp], [2.5.99])
++ 
++ dnl ####
++ dnl autoconf configuration
++-- 
++2.32.0
 +
-+Index: Python-3.9.6/Makefile.pre.in
-+===================================================================
-+--- Python-3.9.6.orig/Makefile.pre.in
-++++ Python-3.9.6/Makefile.pre.in
-+@@ -1486,7 +1486,7 @@ LIBSUBDIRS=	tkinter tkinter/test tkinter
-+ 		venv venv/scripts venv/scripts/common venv/scripts/posix \
-+ 		curses pydoc_data \
-+ 		zoneinfo
-+-libinstall:	build_all $(srcdir)/Modules/xxmodule.c
-++libinstall:	build_all $(srcdir)/Modules/xxmodule.c libainstall
-+ 	@for i in $(SCRIPTDIR) $(LIBDEST); \
-+ 	do \
-+ 		if test ! -d $(DESTDIR)$$i; then \
-diff --git a/meta/recipes-devtools/python/python3_3.9.6.bb b/meta/recipes-devtools/python/python3_3.9.6.bb
-index af7ed208b9c..986dfda83dc 100644
---- a/meta/recipes-devtools/python/python3_3.9.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.6.bb
-@@ -31,6 +31,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch \
-            file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
-            file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch \
-+           file://makerace.patch \
+diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
+index 8fe1023901..5f79f3dbcb 100644
+--- a/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
++++ b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
+@@ -7,14 +7,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357c
+ 
+ DEPENDS += "gperf-native"
+ 
+-SRCREV = "4bf70431a339a2886ab8c82e9a45378f30c6e6c7"
++SRCREV = "${AUTOREV}"
+ 
+-SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.5 \
++SRC_URI = "git://github.com/kraj/libseccomp.git;branch=riscv32 \
++           file://0001-configure.ac-Bump-version-to-2.5.99.patch \
+            file://run-ptest \
             "
  
- SRC_URI_append_class-native = " \
+-COMPATIBLE_HOST_riscv32 = "null"
+-
+ S = "${WORKDIR}/git"
+ 
+ inherit autotools-brokensep pkgconfig ptest features_check
 -- 
-2.30.2
+2.32.0
 
