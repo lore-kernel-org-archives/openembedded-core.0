@@ -1,146 +1,93 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.9812.1626282106757229986
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web09.9791.1626282457673060970
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jul 2021 10:01:46 -0700
+ Wed, 14 Jul 2021 10:07:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dMAjrt0K;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d1so1797998plg.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 10:01:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TSlw8J7B;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id l11so1987864pji.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 10:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rZ2pzrgfVuokxYO+diQrHR3RYPd3G9YyiqhxW+b3RhI=;
-        b=dMAjrt0KUT/uznDlPE6PDk38PWvM10kHANUzugdI7Pwyu5VgYkSzizXGtxf4UxgmYL
-         /7+zpOVrOBc2ilUCATT5Sl8uS9p8zjr9M/qADo+eqt7UcZqhE7Tn5WZIAfazAjgLlQ93
-         cOvdsd/2VPNHcp7Jk52fORngHBA0L4p5FBJkVxquaVf8+20dYMBOSNCsQJzQCGl8KnNQ
-         9Ob3mss1NcweQQ6QKtrQSf85gCfK/mTSiFPEIGJQoZKVPLSOzjGwUV0jzo+0m7Hpnydm
-         Z4oIxhwQzT4E5Ax53faikl+Pv1hvNFu6j9cEkWRyr4bIaqi0sKff5LYRh9kYqRXyjw9U
-         zMuA==
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=CAxfToTcd1wCZXKLC4rPLc7iEAlnyP2qp8rNN37nMSQ=;
+        b=TSlw8J7BDi6ixNVqU/9A+sl0XgiFp5EoF19cTSd0jV6wS/klOVu+3PxVceWot7gecW
+         VObXb7OQwoFhSKFsMi7iw4dG7A59KLHBBSmh/CSpyHhogPoVMSyyAu8d3fqP6arbT9Iw
+         LiPvuYYeRHgTn4mjMiBbRcwXUgt9YNA0+iw/BAwXIrJOxJkQ7qR33YOYJhEpcuQCWh+H
+         55mcBR580bg8zRAbivvmjkUrjnfaXEHB7kuHM06bNNhnu+gDr7Or16pwK3pPZGTU7M3k
+         cnT2dXGuA3xoA12atagrM+SXanQU6eJ0NDDQZIy6HJj+oBIbUQnYl0iCV7kF/lSC5w1k
+         vRrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
+        h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=rZ2pzrgfVuokxYO+diQrHR3RYPd3G9YyiqhxW+b3RhI=;
-        b=uZ8g9lorEZrZ9ExU9/cYPIcpvDspplqZrweT2TXEi+GleNGvn4GeGzOaDEn/aq/LJD
-         rrsKseZwnOSkylAii0MElxyrqXCl/f2YigYGtohTGlM0dVjYilPFOURHuWW0YhpVb+Rc
-         LoqXuKTeYNRm+ldlJyLdipWFeD7A8OmO45qM4/bO5m4RH00VI0xvLvzhC6Drs8BqamMw
-         rrh+/5ElRZ0qjkagN3fGao5bG/FfAr8j6sgcqssiqpbCSIyzgIligDIEmYXXZx2zFI9p
-         OxZeLrvz0I0QVuPjj7GD+Oo4sBIa24PSrk2G1C1A4bqziGp3nwvS+I4wucHT7qBLdqqQ
-         JS6Q==
-X-Gm-Message-State: AOAM533ILWvDCO71nvsPQDc74MSsw5RU514LUw9Q+eaSu7JZdPhf3y/D
-	xYPKNNhzo0X9Nd7lV2aFhIv2lcsRHtXNQQ==
-X-Google-Smtp-Source: ABdhPJwIR3/Rrc7aNR2gmSIJ/GbbRT0E+NYKZfODjX/2WVKXodtElSL5KrvbIoQ/pve5dcbNMD+4bw==
-X-Received: by 2002:a17:90a:fb51:: with SMTP id iq17mr4738711pjb.36.1626282105944;
-        Wed, 14 Jul 2021 10:01:45 -0700 (PDT)
+        bh=CAxfToTcd1wCZXKLC4rPLc7iEAlnyP2qp8rNN37nMSQ=;
+        b=DaCrd74qyPatm0Qleg3UoppPlLrdjFQ1b5XDp0rfjwMP13J3EdWtV4fVDrP06cNEc4
+         3on3kDGsmMJrDfDqPlATocArnQuXf5XCa2mvGSu6qtT7jUXuX2LiB80/qY8Z70p98gxg
+         eQsg/y9xBDX1ifi71/KfvpUWLmXUBhs8HK7Pok5xZoWWb8+GylMoxB39XE12KVirBahL
+         nzV5q8E6IiQ0tpox0z/6jFuB2LjdL1JJS+S6C8F3stMPSLmLA0DDtOBung6ZA2vy6vsC
+         GzqIwWAJDh+51o4ok2V5nDsorkkEl8IYBcxcBDai59ZvlKu3sGfk5g+Lc7mXr0TUPTUJ
+         2Gow==
+X-Gm-Message-State: AOAM5311fBlkksipkPMYmWd0KEpdU0sXNvC6VJ5Yt4ZlpkBFh/ptYz8l
+	hd0aoUPLncJO8Hqoo84uJd8xG6WUb05gSQ==
+X-Google-Smtp-Source: ABdhPJw10kV1pQyfpNkUOYmMaDQ3k+Eh4zlJGQQ5reIvFatygUbrVyJrrKpq9ez6u4O2z4Vv9hvETg==
+X-Received: by 2002:a17:90a:5644:: with SMTP id d4mr10605314pji.9.1626282456956;
+        Wed, 14 Jul 2021 10:07:36 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:a0f0:9c22:5530:e06f:dd43? ([2601:646:9200:a0f0:9c22:5530:e06f:dd43])
-        by smtp.gmail.com with ESMTPSA id ca16sm2767200pjb.44.2021.07.14.10.01.45
+        by smtp.gmail.com with ESMTPSA id 1sm3478495pfm.123.2021.07.14.10.07.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jul 2021 10:01:45 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH v2] tcmode-default.inc: do not set PREFERRED_VERSION for toolchain items
+        Wed, 14 Jul 2021 10:07:36 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 02/21] tcmode-default.inc: do not set PREFERRED_VERSION for toolchain items
 To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210714140239.609611-1-alex.kanavin@gmail.com>
+ Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20210714122606.605142-1-alex.kanavin@gmail.com>
+ <20210714122606.605142-2-alex.kanavin@gmail.com>
+ <CADkTA4N09rGXOSwev-C4oEihwWsvwqtCpY=XHNShF_xUUzkWZA@mail.gmail.com>
+ <CANNYZj9wDZfHK5mrn-UsgZcHHOF8+Xv8UXRUX1r+Mkcvr9+xMQ@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <c22fcaa4-11d0-0c86-b39f-b1cc8a55ed47@gmail.com>
-Date: Wed, 14 Jul 2021 10:01:44 -0700
+Message-ID: <ed840838-7425-3455-1572-732912bb1cf6@gmail.com>
+Date: Wed, 14 Jul 2021 10:07:35 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210714140239.609611-1-alex.kanavin@gmail.com>
+In-Reply-To: <CANNYZj9wDZfHK5mrn-UsgZcHHOF8+Xv8UXRUX1r+Mkcvr9+xMQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
 
 
-On 7/14/21 7:02 AM, Alexander Kanavin wrote:
-> oe-core has not been providing multiple versions for any of these items
-> for a long time, it's not likely to change anytime soon, and it makes
-> automated (or semi-automated) versions updates with devtool impossible,
-> as PREFERRED_VERSION masks the updated recipe in devtool workspace.
+On 7/14/21 7:04 AM, Alexander Kanavin wrote:
+> On Wed, 14 Jul 2021 at 16:02, Bruce Ashfield <bruce.ashfield@gmail.com 
+> <mailto:bruce.ashfield@gmail.com>> wrote:
 > 
-> Specifically, this was prompted by investigating why automated llvm update
-> doesn't work; it does now.
 > 
-> v2: GCC is excluded as overriding the version through GCCVERSION is used
-> across several layers, and the list of things to override is large.
+>     I'd prefer that libcheaders stays explicitly set.
 > 
-there maybe other layers providing toolchain recipes or keeping old 
-versions around. These knobs give control to distro maintainers to make
-those choices. So unless there is some problem these versions are 
-causing, its not wise to delete them.
+>     Bumping libc-headers is something we do carefully, and should not be a
+>     common devtool
+>     operation, and is not something that we want automated at all. Having
+>     that extra variable
+>     to set is a good thing for the headers, it helps reenforce that you
+>     really should know what
+>     you are doing.
+> 
+> 
+> Right, I'll respin the patch once more.
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   meta/conf/distro/include/tcmode-default.inc | 40 ---------------------
->   1 file changed, 40 deletions(-)
+if this is not fixing anything besides cleanup then, its not worth doing 
+it, there are layers which may not be public which use these variables 
+to choose toolchain from external layers which may not be in layer index
+
 > 
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index 1d4aa1e11f..3489b01812 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -18,12 +18,6 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
->   
->   GCCVERSION ?= "11.%"
->   SDKGCCVERSION ?= "${GCCVERSION}"
-> -BINUVERSION ?= "2.36%"
-> -GDBVERSION ?= "10.%"
-> -GLIBCVERSION ?= "2.33"
-> -LINUXLIBCVERSION ?= "5.13%"
-> -QEMUVERSION ?= "6.0%"
-> -GOVERSION ?= "1.16%"
->   # This can not use wildcards like 8.0.% since it is also used in mesa to denote
->   # llvm version being used, so always bump it with llvm recipe version bump
->   LLVMVERSION ?= "12.0.1"
-> @@ -42,42 +36,8 @@ PREFERRED_VERSION_libgfortran ?= "${GCCVERSION}"
->   PREFERRED_VERSION_nativesdk-gcc ?= "${SDKGCCVERSION}"
->   PREFERRED_VERSION_nativesdk-libgcc ?= "${SDKGCCVERSION}"
->   PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${SDKGCCVERSION}"
-> -PREFERRED_VERSION_binutils ?= "${BINUVERSION}"
-> -PREFERRED_VERSION_binutils-native ?= "${BINUVERSION}"
-> -PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?= "${BINUVERSION}"
-> -PREFERRED_VERSION_binutils-crosssdk-${SDK_SYS} ?= "${BINUVERSION}"
-> -PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${BINUVERSION}"
-> -PREFERRED_VERSION_gdb ?= "${GDBVERSION}"
-> -PREFERRED_VERSION_gdb-cross-${TARGET_ARCH} ?= "${GDBVERSION}"
-> -PREFERRED_VERSION_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GDBVERSION}"
-> -
-> -PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
-> -PREFERRED_VERSION_nativesdk-linux-libc-headers ?= "${LINUXLIBCVERSION}"
-> -PREFERRED_VERSION_glibc                    ?= "${GLIBCVERSION}"
-> -PREFERRED_VERSION_glibc-locale             ?= "${GLIBCVERSION}"
-> -PREFERRED_VERSION_glibc-mtrace             ?= "${GLIBCVERSION}"
-> -PREFERRED_VERSION_glibc-scripts            ?= "${GLIBCVERSION}"
-> -PREFERRED_VERSION_nativesdk-glibc          ?= "${GLIBCVERSION}"
-> -PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
-> -
-> -PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
-> -PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
-> -PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
->   
->   # Bootstrap Go using a binary release from golang.org.  If you want to bootstrap
->   # from source using the C-implemented Go 1.4 (only supports x86-64 hosts) then use
->   # go-native.
->   PREFERRED_PROVIDER_go-native ?= "go-binary-native"
-> -PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
-> -PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?= "${GOVERSION}"
-> -PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
-> -PREFERRED_VERSION_go-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GOVERSION}"
-> -PREFERRED_VERSION_go ?= "${GOVERSION}"
-> -PREFERRED_VERSION_go-native ?= "${GOVERSION}"
-> -PREFERRED_VERSION_go-runtime ?= "${GOVERSION}"
-> -PREFERRED_VERSION_nativesdk-go ?= "${GOVERSION}"
-> -PREFERRED_VERSION_nativesdk-go-runtime ?= "${GOVERSION}"
-> -
-> -PREFERRED_VERSION_llvm = "${LLVMVERSION}"
-> -PREFERRED_VERSION_llvm-native = "${LLVMVERSION}"
-> -PREFERRED_VERSION_nativesdk-llvm = "${LLVMVERSION}"
-> 
+> Alex
 > 
 > 
 > 
