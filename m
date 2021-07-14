@@ -1,105 +1,82 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
- by mx.groups.io with SMTP id smtpd.web09.6748.1626270016220029240
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web09.6787.1626270174225845147
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jul 2021 06:40:16 -0700
+ Wed, 14 Jul 2021 06:42:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JdJRMuUU;
- spf=pass (domain: gmail.com, ip: 209.85.222.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f44.google.com with SMTP id e20so635314ual.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 06:40:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dD7PzP2V;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id j27-20020a4a751b0000b029025fb3e97502so595552ooc.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 06:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iuBVlR7WinFboT+Oe5QjQ6KReTBAHtkCZtcBtubFjUs=;
-        b=JdJRMuUUlHOJgtpdQ1qanfRK1IiMgS3aUNOBanglMjRO+743it/UrW1lfDBFQErukq
-         hj4sR6VfzwLepWQouK+mYeHo3Nn06JBsveFVcOwNbY8ORdjZaoiaHOu9kBYdfPGNf7EE
-         /LgxXu2MHSe8T8r8mtyY7N2TukpAmR2L7jjNqKleJmk3kGuET8Af4/FX4+oWjmKw89Kt
-         R2ov0PWKuUtcNTHg06FMoD62zeLqt2XRG9uC1MNXeZVsbUs8hCGF15sp73QsI1o0iPoP
-         fZ4NVzXYdmPDjO/ITXMnGYifszv2d7MWF7EyrNQqCddMhnecK4BtVZ0oZC7aFY69K5kJ
-         Wmpw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b7JqDcUQ5Waw7w0+cZlHJS51rIKh3mVTONZWAP0gwm0=;
+        b=dD7PzP2V55yVcg6zDeqJ23UBV9vzt5juog5UnqjoEW+OsyDGHcvfWhAMt2f7al0efC
+         0fX5QAyVeGAUUtpRQ6SbBr67McEZ8sYQo8Q/7jWeMldJTtT3s1EB0CEDi2QEIpqCNFKr
+         LLQgoIlr2MHqoSeCX3CvNjT1SjtwQWeaR9E8KLxYGSmGQ/BpUNFrOC+lYWg59++j/vVT
+         de/FcMdEIa6L1bfo+OJ6/n6mLfoUQh6qZ6IA0Cpm4rcGAvzmVdldheapBjTYnrN/XKH5
+         4yVtztTWbKry9TAZQrYl4H7XdSrft+581s0NNX9oEJ3KgPCVcY72Rp3KQ4DURmBzDLPx
+         ZB+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iuBVlR7WinFboT+Oe5QjQ6KReTBAHtkCZtcBtubFjUs=;
-        b=fYy1mpMqmHHoab998IK+dTUIrY3XLlI3Yscif9lnArBA4aGYqVD0GGDQBvCiQMWGk9
-         73hHXWCMKBbcwQchys8O1qUfqtwmwVEZwj2aAmnztm/MnvMcbhh5KL1cOyhKONlir4HB
-         S4xSGN4eXxENA4F7luiKNvLd20hSADWItr8OkFe/D1Vo0V7YSbMtOY2Q6zlWN9KciTlw
-         oqq5j/AfpI8K5tT40gKB73K9fGBedqwMHVWMCaclmGmC1vqY21KDvmtQpe2NvAB3JiqJ
-         ZB6cv3OUgE7atVrs+g2vUZo7Ljltd3c158LG6nN0PXE4Z3HyTL/FGCwmAJDYXlN0OIp1
-         F7mQ==
-X-Gm-Message-State: AOAM532TW565sqzcxDFsKmiulbQ3CVI+wwPiF5ttqrOBDY3ZOYwPtRXt
-	FE106SAC4DAUxVs40OiNfWY7gBMZCWp2Hibz+ww=
-X-Google-Smtp-Source: ABdhPJycvT+nJiuYag9BG+ADCGuTToh5RvEV/8V/WjuJozkXzwDSnsraNLR+nH/sFq/TVrf6pQCC5+plJGA+GBqu3BQ=
-X-Received: by 2002:ab0:2381:: with SMTP id b1mr13932184uan.93.1626270015326;
- Wed, 14 Jul 2021 06:40:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b7JqDcUQ5Waw7w0+cZlHJS51rIKh3mVTONZWAP0gwm0=;
+        b=lAovvYyGJICO8D46dSAu9xThrg7eRPEMcUREE1q7tsY54jA3yIxwzAqPcyZ5JMWCbb
+         4Oao6yUwT18k7YCLu6aLIhrGeVo0ezKHAiE8xUgeLKawUIIQkG8oiuenztP1qpvs5kLM
+         jIyKj9PqfcYaiYtrNbLAy1sSz93OOAav7GcT4gDjNS1rBd9S6D2j5B8Pca8UHTomuwjM
+         P6JoJhr1w4NXyTr9RTW0mSlPZ2goXvBMD4AvdYgqybCEHuCdQvdPdtobNKO8f9HyfPzt
+         qH5dOHQ3HBIGy4gPgqUj/PEBnDBQ30UQCLTFmuAnAoR/0Oel9fzpPWxqHq5k2N3FIUP0
+         5X1g==
+X-Gm-Message-State: AOAM530jqBlOeKSBHOn1ILtrI/TVWQY3KlzOx0T6KVUDFupOCTfPKwEe
+	SpkhkG/9rPOfmBT+xjm0gmT7BApe8QA=
+X-Google-Smtp-Source: ABdhPJxVYNEitkEOz+wBcSiydLLGSou/fMjUnezpAI0fBgvZx/+FNqhKVpXi29Ckk891u7QadXd+wA==
+X-Received: by 2002:a4a:8802:: with SMTP id d2mr8016976ooi.28.1626270173430;
+        Wed, 14 Jul 2021 06:42:53 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id e10sm490042otr.47.2021.07.14.06.42.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jul 2021 06:42:53 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] bitbake.conf: Add lz4c, pzstd and zstd
+Date: Wed, 14 Jul 2021 08:42:48 -0500
+Message-Id: <20210714134248.21366-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210714122606.605142-1-alex.kanavin@gmail.com>
- <20210714122606.605142-2-alex.kanavin@gmail.com> <7304a1fd6d1ccfb9da17ec47125de68035094256.camel@linuxfoundation.org>
-In-Reply-To: <7304a1fd6d1ccfb9da17ec47125de68035094256.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 14 Jul 2021 15:40:03 +0200
-Message-ID: <CANNYZj8hsgF9fkYinpzPdn6gsjhDXWB1YqTFEANGLNhg1vmn7w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 02/21] tcmode-default.inc: do not set PREFERRED_VERSION for toolchain items
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000928b3305c7157e3f"
+Content-Transfer-Encoding: 8bit
 
---000000000000928b3305c7157e3f
-Content-Type: text/plain; charset="UTF-8"
+Adds the command line compression tools which are needed by bitbake
 
-On Wed, 14 Jul 2021 at 14:55, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/conf/bitbake.conf | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> At the very least the GCC variable is well used in other layers as it is
-> hard to
-> remember all the different bits of gcc that are listed here so I think
-> that
-> should stay. Some of these can probably be removed but I'm not sure how far
-> we could/should go. glibc's list of recipes isn't trivial either...
->
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f451ba6a47..3801db7d42 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -484,12 +484,12 @@ HOSTTOOLS += " \
+     [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
+     cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
+     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
+-    head hostname iconv id install ld ldd ln ls make md5sum mkdir mkfifo mknod \
++    head hostname iconv id install ld ldd ln ls lz4c make md5sum mkdir mkfifo mknod \
+     mktemp mv nm objcopy objdump od patch perl pr printf pwd \
+-    python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
++    python3 pzstd ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
+     sha1sum sha224sum sha256sum sha384sum sha512sum \
+     sleep sort split stat strings strip tail tar tee test touch tr true uname \
+-    uniq wc wget which xargs \
++    uniq wc wget which xargs zstd \
+ "
+ 
+ # Tools needed to run testimage runtime image testing
+-- 
+2.32.0
 
-I used layerindex to check. Alternative gcc versions are provided by
-multiple layers (mostly arm-related), but an alternative older glibc is
-only in meta-debian and that is using neither PREFERRED_VERSION directly
-nor the *LIBCVERSION convenience (so not sure how it's meant to be used). I
-will send a v2 with gcc added back.
-
-Anyone else should probably just copy the PREFERRED_VERSION lines for what
-they want to adjust into the layers directly. But let's see what Khem says
-- I do think getting help from AUH/devtool in doing the updates fully, or
-at least using 'devtool upgrade' locally to prepare the git trees for
-manual patch rebasing is valuable.
-
-Alex
-
---000000000000928b3305c7157e3f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 14 Jul 2021 at 14:55, Richard Purdie &lt;<a href=3D"mailto:r=
-ichard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfo=
-undation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">At the very least the GCC variable is well used in other layers=
- as it is hard to <br>
-remember all the different bits of gcc that are listed here so I think that=
- <br>
-should stay. Some of these can probably be removed but I&#39;m not sure how=
- far<br>
-we could/should go. glibc&#39;s list of recipes isn&#39;t trivial either...=
-<br></blockquote><div><br></div><div>I used layerindex to check. Alternativ=
-e gcc versions are provided by multiple layers (mostly arm-related), but an=
- alternative older glibc is only in meta-debian and that is using neither P=
-REFERRED_VERSION directly nor the *LIBCVERSION convenience (so not sure how=
- it&#39;s meant to be used). I will send a v2 with gcc added back.<br></div=
-><div><br></div><div>Anyone else should probably just copy the PREFERRED_VE=
-RSION lines for what they want to adjust into the layers directly. But let&=
-#39;s see what Khem says - I do think getting help from AUH/devtool in doin=
-g the updates fully, or at least using &#39;devtool upgrade&#39; locally to=
- prepare the git trees for manual patch rebasing is valuable.<br></div><div=
-><br></div><div>Alex<br></div></div></div>
-
---000000000000928b3305c7157e3f--
