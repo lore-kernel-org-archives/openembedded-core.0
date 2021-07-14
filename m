@@ -1,50 +1,50 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.6054.1626265582831010116
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web08.5905.1626265583364462395
  for <openembedded-core@lists.openembedded.org>;
  Wed, 14 Jul 2021 05:26:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mF5T3MtQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id g12so1465220wme.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 05:26:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=u6nVq/C4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id a5-20020a7bc1c50000b02901e3bbe0939bso1329989wmj.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 05:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iIDcly3OUgF+h/GMwVaZcf5XWyL++WiBkZ0MqBczWl0=;
-        b=mF5T3MtQJ0fnkD3+F21mYZ7+pHmvP22qI+JKRZLMKr2sQJcWzkK2V3Lgyvjp5fFRqe
-         0JNJAxber9S6yewU2cTw3ZD+xpl6GG0/C2RLXZ7r3Mn+VgFOB/Fw/RjGnNm+meI7hqKM
-         bY/Z7Mo1EzAndZEIQN2u4F84Ndj7H8GqhKIdEQs86c4P4ZUlXkc/s5hT4PtvX3qRKbBj
-         HoYeODLcEIgvLVTsD6A8RrJMPuyI2vOlguYsLhKwYtnD+j1/793Gm2TdS9d2YpqdRhxT
-         RJ4D52/gfvo4fK/u2gdgVm8fJpIWFxl0GSG71A7mxnSLbbHEp8/n2elfxKEP4Ly4FpTd
-         lM2w==
+        bh=T+Kcr6qzKje1cvFexhItUqgVhMjVTA3zJP0fAFXmzaI=;
+        b=u6nVq/C4MRXN8CoJHQBo0dsZ5zYFjpjV+6JxbGAJdu39QWIMxK2d98x+hf/SP9FFoE
+         fQ4q0k6FTa0g0kMUjYQvg2lMAke09fYiwO0otJuLV4lVj90xOyD9bwc4gh7wiTGiyLKF
+         aSXErHgfg2jKo8lkZXtWtkwZb/BkqAZl4NhdbaEYArTvFps6qYfkQi/aZEQZ2MnkzEnt
+         CV5PGkpLjBxFbyczBNTbit5rxQnIHcOnK6x0J5uRf4ZDJRsMm2giao5t8Nk7D37aFYWH
+         oauj2tUJEheYSmAQRcvezD8yl0ccf9l9eiuCF/JSQLQjbMpgwWzJmRd84FG6tbDW+vdR
+         BFEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iIDcly3OUgF+h/GMwVaZcf5XWyL++WiBkZ0MqBczWl0=;
-        b=D4Wkpqxt05qZ0tBcJuSrvZxyBAHaWh14lYWTgU7RRLylKAo/20llUju3A5GbKAJiXo
-         Qj9Xfc6CiwaSb3NYXTDXT0/lpw6kzNqB+Gyn5Wk3m6MnW+4Yzpv854rfBAm3fMeuGchw
-         wJGeCMtzc+R83z10ueyzM8tNxXrzB/zmvDn59+WZ/tk/WMZHWIJNbxiXfHlcnmcvdtbG
-         Ft2bpXWoZkbCPVgVnF48IglTwk7G8CkP5S6aY84TAIQS3F2VA0UIZrjdIbbYk2ZHLcV2
-         fI5ap4XKJ+izD1yOuM7vK84Rx1jjGS734hULiJCUQw6q1B4cc5NStT3A7Jo8xb1+AU4+
-         Ep4A==
-X-Gm-Message-State: AOAM5332qarW5sY3QbcijzlAOZfC4V+Z5i42d8E6b08lM46yzEDlFvN/
-	2MWFgy/GmY/8ilHnQbt+fs7/uXI6Bu8=
-X-Google-Smtp-Source: ABdhPJzjBpyWwuDD77RiVQPgBUPpMQaxY/BsiKhgDYp1inFONM4V2ZCEWx2Mr7TeNe7p/PyfDXqHiQ==
-X-Received: by 2002:a1c:9886:: with SMTP id a128mr11092494wme.150.1626265581475;
-        Wed, 14 Jul 2021 05:26:21 -0700 (PDT)
+        bh=T+Kcr6qzKje1cvFexhItUqgVhMjVTA3zJP0fAFXmzaI=;
+        b=BiWu4cFHTn33B0a+7TZhGj34r5jUeoFjPXRo9XAaNzPJuQWPJ971oCyMAw+NQvNQ78
+         dld8VOSwKzdIC5/NZkTuIaZWN7NJpGkodmWThP0Slbp4Ya2pUtTtVIaiw9Mi6tOvpe8/
+         zj++DOdBGjl6FmiuVEoU7gm7mzuh2+NrTA9QrBO4QqoS6qOo/krCrnPUtb99h1v76HAe
+         Xsgg8yF9V3mb6LNdWKZnW6SJtODREiJyGgiUQkj3xnGv7/x6Rw2A+3sQ8oXsUZwsvPCk
+         wpE1aJk/lty1wpM7IASVizzt5JyptYXJKE3pwYmCy4c5iOjP6Phnc4YIH1v66ZLgkMIJ
+         8AMw==
+X-Gm-Message-State: AOAM533hWS9G0D/j6B4NAUNjqJWQ9Ss1HRH6Or93IaHxeodzFQ6szWpc
+	0I9cKiPErZFEhj+7dSTxdkHyV1mGRA8=
+X-Google-Smtp-Source: ABdhPJxIpywZc2QDhIzpqrAjTxOHf1pRS+qDfX3w05zANS87yjO8Fd3HfhxFzbLCV/sw5cbRlbs3kw==
+X-Received: by 2002:a05:600c:a4c:: with SMTP id c12mr3753978wmq.38.1626265582038;
+        Wed, 14 Jul 2021 05:26:22 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id g18sm1969395wmk.37.2021.07.14.05.26.20
+        by smtp.gmail.com with ESMTPSA id g18sm1969395wmk.37.2021.07.14.05.26.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 14 Jul 2021 05:26:21 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 13/21] iproute2: upgrade 5.12.0 -> 5.13.0
-Date: Wed, 14 Jul 2021 14:25:58 +0200
-Message-Id: <20210714122606.605142-13-alex.kanavin@gmail.com>
+Subject: [PATCH 14/21] libgit2: upgrade 1.1.0 -> 1.1.1
+Date: Wed, 14 Jul 2021 14:25:59 +0200
+Message-Id: <20210714122606.605142-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210714122606.605142-1-alex.kanavin@gmail.com>
 References: <20210714122606.605142-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../iproute2/{iproute2_5.12.0.bb => iproute2_5.13.0.bb}         | 2 +-
+ .../libgit2/{libgit2_1.1.0.bb => libgit2_1.1.1.bb}              | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_5.12.0.bb => iproute2_5.13.0.bb} (75%)
+ rename meta/recipes-support/libgit2/{libgit2_1.1.0.bb => libgit2_1.1.1.bb} (91%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-similarity index 75%
-rename from meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-index 3631123374..b117637e36 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.12.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb
-@@ -4,7 +4,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-libc-compat.h-add-musl-workaround.patch \
-            "
+diff --git a/meta/recipes-support/libgit2/libgit2_1.1.0.bb b/meta/recipes-support/libgit2/libgit2_1.1.1.bb
+similarity index 91%
+rename from meta/recipes-support/libgit2/libgit2_1.1.0.bb
+rename to meta/recipes-support/libgit2/libgit2_1.1.1.bb
+index 2bbf59ea74..ae30a7a100 100644
+--- a/meta/recipes-support/libgit2/libgit2_1.1.0.bb
++++ b/meta/recipes-support/libgit2/libgit2_1.1.1.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b002a195fb7ea2d8d583f07eaff3a8e"
+ DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
  
--SRC_URI[sha256sum] = "9d268db98a36ee2a0e3ff3b92b2efff66fc1138a51e409bdef6ab3cfe15f326f"
-+SRC_URI[sha256sum] = "72a2e53774cac9e65f7b617deebb2059f87e8960d6e9713e4d788cea966f1b36"
+ SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.1"
+-SRCREV = "7f4fa178629d559c037a1f72f79f79af9c1ef8ce"
++SRCREV = "8a0dc6783c340e61a44c179c48f832165ad2053c"
  
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.31.1
 
