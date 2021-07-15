@@ -1,50 +1,50 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web11.228.1626377416068800117
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web09.224.1626377416939589667
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jul 2021 12:30:16 -0700
+ Thu, 15 Jul 2021 12:30:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kGUlDNHu;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id t185so6325721qkd.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 12:30:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bCRRJl/r;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id 23so6346616qke.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 12:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9F6Arbva3gIWnyhp0nYUCzDBzjSUVMgQ9ZD5O5LQrN4=;
-        b=kGUlDNHuiyNRNfpQ0O//PPXrBjrp4seas/92zAnTeCCiMk+XiCOUpeEUrdbYwsANxx
-         /l1uEdseTnqHr5hawdpvwSy1qt0xqgOsUxRbFWChG0BKd/SeS6wGbWbfqQgvfHcBLfxg
-         ISD03gpMMzZv59HurKAuA6QfZ+kveVp6c1ZVErNwyDyL0EnW+fJGr6gYu+yF496JHoJM
-         tK2xQCoos4a02tgmqU9gEkMIkp1NHOzsZJ5MCCsWTwYIJBBeHz1zlYpY0Z94/Q+urfag
-         wHLdCFRwWQaedKV9zracwr1Bktm0YZd7lEQ4XpNnx77jfwoqH8tL7kENGgXxXzYUa2DM
-         73vA==
+        bh=tH/beTE3GEoYW5g7Zb/HEQLSjNDJDDivx/ept9cYhnw=;
+        b=bCRRJl/rOcKXbxK0FJvl1gL8nykRE/5r1S+1UX/MTkFSJh1vvBBdSlBL/u3T16mf/+
+         9rsrwk0eVbDpFYT2j+UUe6DhfxxIAwHD9xUQ5Pp0dEwd9FTwPRe9yMZ01Lih+9rfsofq
+         s32sxBL0bgBzMLCSBB+qLGgLTKpeS7sMzVcm6L3s0+CLmAE3+tYSRvm5s79rq2yA7KLf
+         UtnhKBT/I2Rc0S3HY/qnBNaba5Gnq72/53TrOp/aVFvEHsgiXiXAcngkeOt672etiZtM
+         S3Isxl3FcgXqs6Qf/MgENd7FZ2wJELy4mYXvobjVCX263YcwEfUiO9XvMX4u6wv6EGpO
+         HbYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9F6Arbva3gIWnyhp0nYUCzDBzjSUVMgQ9ZD5O5LQrN4=;
-        b=MHI/L/8xPaZyPO71vHjvVOPFwrgI1nlrD+0BWB5XwWjxyVih6yBPBhDNWuLwygwMtg
-         Po6Or1knQ+ggYRqmEyPUkYSSe3znSmKqzAcdG45Kq5v2u2E717Ukd5cP++oU26IQ/rAj
-         CIaphLE0HkUX77+9bRKPCeIITqn4fY7ryXcjvtLhKTJ213+03EkFJMnTEKvgm7AIBBYN
-         CrgBR6G1wBRwa7u5zt0hIJi506hY2b2x7QDNOvFQcLWnI4L53ppyipQwJC8Cd6QdaWlN
-         G2vsjy7f2QJrtH0qyFr6v3r1kHhRPsSezGLRZpEIORtt5Sfh2K6OpYX9PFte3T7tDfyB
-         Abnw==
-X-Gm-Message-State: AOAM5330SfexxTnfcdwhknj3NuuG4Fz1oqwMtijywUWA2ZSNwroEDmp4
-	ONxLgmJeAXwKY0p62vH9MW0=
-X-Google-Smtp-Source: ABdhPJwKtqYZBdu8EmXgzc4Hbzw0CehDHadjW8vbo6mrKgspUtUzm3R1Sd7seHbgOzjrvZrYuPvGWQ==
-X-Received: by 2002:ae9:f702:: with SMTP id s2mr5709726qkg.475.1626377415212;
-        Thu, 15 Jul 2021 12:30:15 -0700 (PDT)
+        bh=tH/beTE3GEoYW5g7Zb/HEQLSjNDJDDivx/ept9cYhnw=;
+        b=oK9Xs1SYxw7xq+nmL5MCJ+WUIDdBhByS9H1SrhgwBpzU7lD1OHKYNoYHUe2eVHVV7g
+         VXmFZQ6i8zs+FDG0Ft2+k6KUTUGn5sKJarzJg+zJ+5RZIpREg16sfYOddKSCJjyck6Jh
+         0K27WMFKTEjO6YMlxOrbg9bDGe/8YePPFVMIuFG+KwPiiZ/dKUYgIgK1oXkyuOSzYKpM
+         JLI5NqS1j2kS1wU/Vyd8hUXXGch5sskCy+XH318uaSSrpKw0S7iTwGpGTTROapromi5R
+         KRDlvP5iQ2h1faKmhFzN/zp7GBsluFLowiT+JQTZWk71gIFoY0eDs6KWe229+ZacPvyn
+         D+Gw==
+X-Gm-Message-State: AOAM530vX/EEO3zRP9ip49fdpm53lL0QAADKnZ//GfKJtvaHkzlNByn0
+	XmTWXl3hhqyiK9frIaZcNP0=
+X-Google-Smtp-Source: ABdhPJzWGDdVPm0nbTNg7s4gZDtF+dXd6VPP5uPKARSUWJrQlpZZwU+42DYU6yyAawlH+7Ikx5OTFA==
+X-Received: by 2002:ae9:dfc7:: with SMTP id t190mr5480423qkf.293.1626377416082;
+        Thu, 15 Jul 2021 12:30:16 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id f36sm2340670qtb.40.2021.07.15.12.30.14
+        by smtp.gmail.com with ESMTPSA id f36sm2340670qtb.40.2021.07.15.12.30.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jul 2021 12:30:14 -0700 (PDT)
+        Thu, 15 Jul 2021 12:30:15 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/8] linux-yocto/5.13: add devupstream support
-Date: Thu, 15 Jul 2021 15:30:05 -0400
-Message-Id: <e61ea2b89a1919b8b61d3d3c4ee08252c2e7782c.1626377295.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 2/8] linux-yocto-rt/5.13: integrate -rt1
+Date: Thu, 15 Jul 2021 15:30:06 -0400
+Message-Id: <c27aaab879ff0430db11f9d4cfe5aada807cbd8f.1626377295.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1626377295.git.bruce.ashfield@gmail.com>
 References: <cover.1626377295.git.bruce.ashfield@gmail.com>
@@ -53,48 +53,81 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-We are always getting questions about building -stable, or mainline
-master. Rather than introducing a separate set of recipes, we can
-facilitate this sort of usecase by using the existing devupstream
-bbclass support.
-
-To build an unpatched or otherwise modifed -stable of 5.13, simply
-set the linux-yocto preferred provider to:
-
-  linux-yocto-upstream
-
-and the PREFERRED_VERSION_linux-yocto-upstream to one with support.
-
-And your wish will be granted, as the build will use v5.13/base
-which matches the main linux-yocto version, simply with no extra
-changes applied.
+-rt1 has been released for 5.13, we integrate those commits to our
+preempt-rt/* branches.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_5.13.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../linux/linux-yocto-rt_5.13.bb              |  4 ++--
+ .../linux/linux-yocto-tiny_5.13.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.13.bb | 22 +++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
+index f87ab6bcfd..8dd6791b02 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
+@@ -11,8 +11,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_meta ?= "ceb5fa598d08902fe2934c041875aa92d9a6fa19"
++SRCREV_machine ?= "e60f9507dee72c63193cbafe0a3c754210ff69fc"
++SRCREV_meta ?= "f80d46c2e088f4a33430442058aa881b1a31b95c"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.13;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
+index f01133c761..83cfdba568 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "84e5292c5adf2e715e842a9eb3985034941e0798"
+-SRCREV_machine ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_meta ?= "ceb5fa598d08902fe2934c041875aa92d9a6fa19"
++SRCREV_machine_qemuarm ?= "51e261b235385efcee08c4b5489c544fb2935e2a"
++SRCREV_machine ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_meta ?= "f80d46c2e088f4a33430442058aa881b1a31b95c"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 diff --git a/meta/recipes-kernel/linux/linux-yocto_5.13.bb b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
-index 66384d8f7d..74699d03ae 100644
+index 74699d03ae..a96eab7fdb 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_5.13.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
-@@ -25,6 +25,16 @@ SRCREV_machine_qemumips64 ?= "b74fe3dcca0653609fcb75aad883b1db07619081"
- SRCREV_machine ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
- SRCREV_meta ?= "ceb5fa598d08902fe2934c041875aa92d9a6fa19"
+@@ -13,17 +13,17 @@ KBRANCH_qemux86  ?= "v5.13/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.13/standard/base"
+ KBRANCH_qemumips64 ?= "v5.13/standard/mti-malta64"
  
-+# set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
-+# get the <version>/base branch, which is pure upstream -stable, and the same
-+# meta SRCREV as the linux-yocto-standard builds. Select your version using the
-+# normal PREFERRED_VERSION settings.
-+BBCLASSEXTEND = "devupstream:target"
-+DEFAULT_PREFERENCE_class-devupstream = "-1"
-+SRCREV_class-devupstream = "62fb9874f5da54fdb243003b386128037319b219"
-+PN_class-devupstream = "linux-yocto-upstream"
-+KBRANCH_class-devupstream = "v5.13/base"
-+
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+-SRCREV_machine_qemuarm ?= "9c2fd4b59ebf57f1900f82d49d6bf4fe074cf818"
+-SRCREV_machine_qemuarm64 ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_machine_qemumips ?= "1ea414ef9e3a9744ec09f7ecebcc3b9aeffe39d0"
+-SRCREV_machine_qemuppc ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_machine_qemuriscv64 ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_machine_qemuriscv32 ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_machine_qemux86 ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_machine_qemux86-64 ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_machine_qemumips64 ?= "b74fe3dcca0653609fcb75aad883b1db07619081"
+-SRCREV_machine ?= "b1cead8d98582ca687f93e06438543b97144e5bf"
+-SRCREV_meta ?= "ceb5fa598d08902fe2934c041875aa92d9a6fa19"
++SRCREV_machine_qemuarm ?= "60de9ae7ec5086c7aab26fef79c5ee22673e984b"
++SRCREV_machine_qemuarm64 ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_machine_qemumips ?= "4ba021f55cd0f90d34d2432de21282e792e6ad06"
++SRCREV_machine_qemuppc ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_machine_qemuriscv64 ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_machine_qemuriscv32 ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_machine_qemux86 ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_machine_qemux86-64 ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_machine_qemumips64 ?= "1fb4f7d7204bffe99a86e72b3cffe84c770be3ee"
++SRCREV_machine ?= "4fd6245b88c0700dfb7ffd951d5a7cd460935330"
++SRCREV_meta ?= "f80d46c2e088f4a33430442058aa881b1a31b95c"
  
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.19.1
 
