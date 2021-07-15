@@ -1,50 +1,50 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web08.8324.1626358123686899591
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web09.8399.1626358125870357570
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jul 2021 07:08:43 -0700
+ Thu, 15 Jul 2021 07:08:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Mb6hc2xg;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id k20so6398151pgg.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 07:08:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ODIyrkqf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id o4so1790668pgs.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 07:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=CTH353Qk8IeYjwBvcn1jCEsALvj2HN933Ru7m2Cdw7o=;
-        b=Mb6hc2xgS58/+dkVuPSAlOESotFktAqBvEY51QHA4EKr2zDrkbjLnAHAq280f9jbaA
-         FNZJDcmQaDfpGmrexyWVsu9LMbzbhVP/HIcdt1yLbzmdktH08Fy5A1yXsfD61xJFu7gb
-         Zd3CjsUiDn5OBJqGgd7kfTABD9N/4sz6ENnJbOIaoF3sFu3+DiLBt1M71X12H2S5y2kL
-         sTNsZDoBrfiaFQXHwvaJbnN+5UngPXY5iscJ3qwJ72C8xCBkzmmrRyzfEENSJZRXdeLF
-         N6CdVjr2ojuLgB3Qvx0X+YpegZ3y65LnCVMEoKVUydtylUY4ql6haAdMQ68o9jpzTQlR
-         EE2Q==
+        bh=4BCo4U+bIrjGxhC/17qVtcz0mTUR4P6NiFkkZRx0W1w=;
+        b=ODIyrkqfVEaxqVrcl4Lzolva3ynGOk0TP2tuX1+YRGPyILeqb7A9DrHUqDpXGrSevr
+         O4BQSzeXtm0oTB+iCUA+p129E7TZw/g6o5npHDsJs6HrFp6npdBesP5/cGG4i18qlZH1
+         B9GFUaYwSYwP9Xzjd4NAmuinsjziVbj60YueNX45KLpKE18MD90av/hvqehYsjEXPvml
+         Ukil7PlE5KtR+J/edWai69DzI0vC5n7XVReop7RynBJ7eIIDmiTjdTgEzttlmRtrHbk7
+         gxRQhSKg8WIYiRDybVG0UzrqyO39aiwLUvbao9QF77KNbeE342iP+PvPVplQlilYSTly
+         vm2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CTH353Qk8IeYjwBvcn1jCEsALvj2HN933Ru7m2Cdw7o=;
-        b=hTaZHv5WuaQtZJBcH01m3+xCfvr6u3hbCvBfm14lBZeRU1YspeJqUis2eu+QAaGU2x
-         vazJDknzUbEuuIlskZZMVGTLFtNy9OSmXScpyi0Wh0gh/ulcnnTcdJZDE+RakgTsxQUT
-         CXKyjVcpwyMfHSe0EbnCrw/G3yyh3BWQCa1MPszAdaSBwhATWtxrfwm2yA8uWoqKYYis
-         hCg4yden1zjlxzN1XVSkzu8QvSk7P3yi/kDa+dbsy99ljr43chwK2nd3MBp9cNunk/c9
-         SEmYodKt5hg0oOBewaT5ZVvHixbwZuYPkaxp0nCL2uydkF33ucc45nSrmaMHaEz4fwId
-         dsLg==
-X-Gm-Message-State: AOAM532etehD2U5Wt5wUCFZRihmdDltdewA4It/Ptigi+npGywFkrXtk
-	aqSpb7R6r1TK9XnEUI+SBPjIpDSQJCjV3z6D
-X-Google-Smtp-Source: ABdhPJxgDNrW/pCXR7J+3JYOVkFVdsNq27h4oY+DM5qTKo4Hyn+e0dYkGo4MwZ23IN7Hy6BhjVvCmg==
-X-Received: by 2002:a63:dc4e:: with SMTP id f14mr4724037pgj.378.1626358122797;
-        Thu, 15 Jul 2021 07:08:42 -0700 (PDT)
+        bh=4BCo4U+bIrjGxhC/17qVtcz0mTUR4P6NiFkkZRx0W1w=;
+        b=BXHu4Iwuh8ygzUoPpbj6enfLbGt/LlodNFCAjT1CzHUGP4CFZ/Af1m5c/xlXKmq2Ua
+         hbEcgVFbHYGi293QyUUF7DaDzeHvhu2WOXWJNr2BSorBuLvvCqn/MnCdYAMyIffy0AfN
+         LSFvmobDWjwGV82f7/WvfidzWEp+ULW/z3N8Q5cvsnYP3cEW6UPX5KACo33TlQbmd585
+         wAmGDFB7WOQsll3nVxDi/3V8drc12N/wCVhEeN5hqjXn4fnkvCN3uw9XWw273N+/UWo4
+         6mSI2PnWTOHCbj5WoCMg5XLAvz1yg6KBPArMtSvT390NrfcxeNUSQMG7Q2PFz+OmyIlp
+         fHZw==
+X-Gm-Message-State: AOAM533Mf85w6nDMIWw2fQ/uPj3KmbjcbHZMlYduMRdUVHtAyvDhdhin
+	S3bwPm9AzATZOmf9o8q28HZm5Tz+cc3RjICE
+X-Google-Smtp-Source: ABdhPJyQciH2iU58hLFpxLxOfP5LvrV+EqMgcLfuF2n/O2fdFubW+Ko7ti0ep+jlfktw05o0RpwzMA==
+X-Received: by 2002:a65:6442:: with SMTP id s2mr4832715pgv.420.1626358125004;
+        Thu, 15 Jul 2021 07:08:45 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u185sm6915353pfu.49.2021.07.15.07.08.41
+        by smtp.gmail.com with ESMTPSA id u185sm6915353pfu.49.2021.07.15.07.08.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jul 2021 07:08:42 -0700 (PDT)
+        Thu, 15 Jul 2021 07:08:44 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/7] pseudo: Add uninative configuration sanity check
-Date: Thu, 15 Jul 2021 04:07:22 -1000
-Message-Id: <262b70f94c34762f5879f637dc918e2d5928f2d0.1626357703.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 5/7] pseudo: Update to latest version including statx fix
+Date: Thu, 15 Jul 2021 04:07:23 -1000
+Message-Id: <c78d82c60acd8cf1eabc728d614bf4631a96c2ad.1626357703.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1626357703.git.steve@sakoman.com>
 References: <cover.1626357703.git.steve@sakoman.com>
@@ -53,43 +53,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When building pseudo-native to work with uninative, we need to ensure the
-configuration will work on all supported target systems. This means
-"new clone" semantics, xattr and statvfs support in particular. It is
-extremely unlikely we'd run on a system without any of these but add
-a check just to be sure when uninative is enabled.
+This updates to the latest pseudo version which includes:
+
+ Revert "client: Fix some compiler warnings"
+ ports/linux: Always build statx support
+ makewrappers: Handle parameters marked as nonnull
+ client: Fix some compiler warnings
+ wrappers: Avoid -Wcast-function-type warning
+
+In particular, this pseudo version always has statx enabled which means
+we can then remove the need to make pseudo-native host distro specific
+which fixes an eSDK issue.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ea5b208ee25752bea6037cd0f3b28da7d2c9905e)
+(cherry picked from commit 58cc70940ff998be49a9b89e1ad0538242cb7998)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/pseudo/pseudo.inc | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 65d6e5068d..e6512bc6e6 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -112,6 +112,19 @@ do_compile_prepend_class-nativesdk () {
- 	fi
- }
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 4eab133128..0ba460f3e6 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+            file://fallback-group \
+            "
  
-+do_compile_append_class-native () {
-+	if [ '${@bb.data.inherits_class('uninative', d)}' = 'True' ]; then
-+		for i in PSEUDO_PORT_UNIX_SYNCFS PSEUDO_PORT_UIDS_GENERIC PSEUDO_PORT_LINUX_NEWCLONE PSEUDO_PORT_LINUX_XATTR PSEUDO_PORT_LINUX_STATVFS; do
-+			grep $i.1 ${S}/pseudo_ports.h
-+			if [ $? != 0 ]; then
-+				echo "$i not enabled in pseudo which is incompatible with uninative"
-+				exit 1
-+			fi
-+		done
-+	fi
-+}
-+
-+
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' ${MAKEOPTS} 'LIB=lib/pseudo/lib$(MARK64)' install
- }
+-SRCREV = "ee24ebec9e5a11dd5208c9be2870f35eab3b9e20"
++SRCREV = "b988b0a6b8afd8d459bc9a2528e834f63a3d59b2"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
+ 
 -- 
 2.25.1
 
