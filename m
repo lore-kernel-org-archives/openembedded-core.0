@@ -1,134 +1,104 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web12.2445.1626375382196844962
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web10.220.1626377415340104063
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jul 2021 11:56:22 -0700
+ Thu, 15 Jul 2021 12:30:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Trw9FGvV;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id d1so5296618qto.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 11:56:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HLESER9q;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id w26so5342914qto.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 12:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=22CtTK+YaeB1yNnXVfdOlVR4LjBPYO/JN1GkEmBS/5U=;
-        b=Trw9FGvVz3MEfh8ZrlrYiMXbiqYYFhpFzKoZ4dkvpZhmhp3SqhFioTXvZ/wcWwMce4
-         4sxZtsWdDqtw8Osi7+Q9IrxW6rfAlN4Y7Hk5f3kuglZJA+UKZN6mL3QVRrSApfrq6Xoc
-         HkUrjVX+yXc4jiVNUf7RLPlNMHHenuPmt3FVkwQy+rAVOndi8SSDtQuAPBc8GYP7BElG
-         T+OHbgUxN/uRoy7GEQukuDYWUrSa6ekEh/5iSg8C0n0SmPiKxvZyK864tHEzpeCVOVBM
-         dXhuhWZEPX5gg1+TXQAlOCOOwUqU5TB2Yn/5WRFDiNW1SATdHsQe4CKWkOx2JLZRmBCN
-         p7yA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=moCFH8QiCqdfdb3ciqF2x4aTv/8A8Wy82Du9RWw1gAI=;
+        b=HLESER9q/5CjGpXsQ1Z37+4NoTv5mN7ZiRq3iWF23m1U06IDppSitboT81dliJJG77
+         zjCqTjh2gviR6YfSNjS61T7vHCAM4WVRZd3AyJ2tJBJ2+R200H4nJyb6/7VlzZbqTmAK
+         d7BB+8s1EXHHgrJT0sPgJ49Kk5Lhwxc7W/99Hi0kzmxGpEAKjhnYztd+dZW5SRbeLSVd
+         mdQs2WiPGLNEiFxKPqDjudbvGjl3ZDzcd4ARXWgHUvOdt9V6Lh+2HV/pSUo9CCXBRS8D
+         yMwk8uvlwy8csnlIrMuFvIk3HAvUNu0ARK2r5le0pscTlo3ilEHd8bLsbOBLEYdRFOZE
+         35ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=22CtTK+YaeB1yNnXVfdOlVR4LjBPYO/JN1GkEmBS/5U=;
-        b=KY34jPG3UunhubaQHf9HV4e3O6/HYi4Ix8E18N8o/id86+WFrvDqVTg4iimwSLBAtm
-         WeQWsynEuEC2SSNT7i+dGROUBl+kwzfMdDWcTVyNr2ZLDmRnMERtTsCKsk5DG2cY5OW5
-         Q1QIQFHemUZpZwB+kRxnwM0hHZ8tslUY5CKKxjFj7fn258D5NLZIwDU2Z6r27Eo4oTEL
-         33ofaC7QXKgwiLZvym1VC+b/kNFmjPzrP7AnIC0Pm/plfPdCfAbYkmMjkGY7RAUeEG6+
-         kzvhf2Z3cnJutf72pQpytXRGnsI/hvTY17Xn7A/Y1BMbDW092YT1FiW6DvPCIkXWeylO
-         uV4g==
-X-Gm-Message-State: AOAM533W8YikD2ou2oUgEBOXUxw3zRPg+WpucYxUfSJsO7UIr7uA1/JE
-	7aGLnaq1N/QQEO61tSpdQ1CMxwAaMz0CB18cw+o=
-X-Google-Smtp-Source: ABdhPJz1Ma4YAxO8pgkZSdUfWa6P7mC5y6RmingYqWViDsuIMkagL+JzHIWFleIykrZR50at/o7WxZZZ8kgSx06KsmM=
-X-Received: by 2002:ac8:5d4f:: with SMTP id g15mr5333688qtx.289.1626375381264;
- Thu, 15 Jul 2021 11:56:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=moCFH8QiCqdfdb3ciqF2x4aTv/8A8Wy82Du9RWw1gAI=;
+        b=e3430EPgNHmInqQyb44GtHELINkuBzruXVdkWiSrpJQ4/aTiYT6zRwcVmQwSAXXRSt
+         sqEjc9Ke3dZTyMdgK7Z7bq4lJNV/67ghGwmreGBIqNbJOjZ2oZLEucKwXd9auNxVoqgY
+         ALPFFJVgvLCPh8sbsxhmTl7yZFG3ZHhQotGst9ILVIUGs5kv60xKR5fJLJQQSVIdL2jh
+         ckwddeE3NW904HV3e91x8GO4B4n30fA5xdUWba1X14nrjYn/iefLPHirfI2oy90yWalj
+         f63IVDVb9LEETcwwFA6J93/igprdQjTXLBeEzFnmJgS0jFLEn8GTkJYuKg8i7GJ2rjFb
+         8n0A==
+X-Gm-Message-State: AOAM532/0iNnTngiAqZIicHNf08SfdxTq3BHmYhQc+ykWzRL4VdIuBC3
+	lBxmJqYJhkXrr5gQg27YVn4=
+X-Google-Smtp-Source: ABdhPJx9lUakJpThXPloKKVihQLUWHogyoZrclukOQcSY8ltulLpB1BWzut+S6yEXpvV0z61s6+uyw==
+X-Received: by 2002:ac8:724c:: with SMTP id l12mr5525684qtp.372.1626377414451;
+        Thu, 15 Jul 2021 12:30:14 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id f36sm2340670qtb.40.2021.07.15.12.30.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jul 2021 12:30:13 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/8] linux-yocto: consolidated pull request
+Date: Thu, 15 Jul 2021 15:30:04 -0400
+Message-Id: <cover.1626377295.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <1626076608-17034-1-git-send-email-wangmy@fujitsu.com>
- <CA+chaQfWtGf7gsUCLXcTuB985YYHM=FQszdX1d2y4fcjjEepOg@mail.gmail.com>
- <17064fad-db99-80e0-f9b7-ab8c4685ec7d@gmail.com> <AM9PR09MB46422B3F8BEFD4663D00D74DA8129@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: <AM9PR09MB46422B3F8BEFD4663D00D74DA8129@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 15 Jul 2021 11:55:54 -0700
-Message-ID: <CAMKF1sqeWORxEneNHxn7YiRAFkC=eUnb7p2U=tfeGRFDpsLeqw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] python3-setuptools: upgrade 57.0.0 -> 57.1.0
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Martin Jansa <Martin.Jansa@gmail.com>, wangmy <wangmy@fujitsu.com>, 
-	Leon Anavi <leon.anavi@konsulko.com>, Derek Straka <derek@asterius.io>, 
-	Trevor Gamblin <trevor.gamblin@windriver.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 15, 2021 at 10:57 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
->
-> On 15.07.21 19:22, Khem Raj wrote:
-> >
-> >
-> > On 7/15/21 7:43 AM, Martin Jansa wrote:
-> >> On Mon, Jul 12, 2021 at 9:57 AM wangmy <wangmy@fujitsu.com
-> >> <mailto:wangmy@fujitsu.com>> wrote:
-> >>
-> >>     reproducibility.patch
-> >>     deleted since it's been merged upstream.
-> >>
-> >>     v57.1.0
-> >>     -------
-> >>
-> >>     Changes
-> >>     ^^^^^^^
-> >>     * #2692: Globs are now sorted in 'license_files' restoring
-> >>     reproducibility by eliminating variance from disk order.
-> >>     * #2714: Update to distutils at pypa/distutils@e2627b7.
-> >>     * #2715: Removed reliance on deprecated ssl.match_hostname by
-> >>     removing the ssl support. Now any index operations rely on the
-> >>     native SSL implementation.
-> >>
-> >>
-> >> FWIW: this change
-> >> breaks  meta-openembedded/meta-python/recipes-devtools/python/python3-cassandra-driver_3.25.0.bb:do_install:
-> >>
-> >>
-> >> + people who might be interested in python3-cassandra-driver.
-> >>
-> >> | Installed
-> >> /jenkins/mjansa/build/ros/ros2-rolling-honister/tmp-glibc/work/core2-64-oe-linux/python3-cassandra-driver/3.25.0-r0/recipe-sysroot-native/usr/lib/python3.9/site-packages/cassandra_driver-3.25.0-py3.9-linux-x86_64.egg
-> >>
-> >> | Processing dependencies for cassandra-driver==3.25.0
-> >> | Searching for geomet<0.3,>=0.1
-> >> | Reading https://pypi.org/simple/geomet/
-> >> <https://pypi.org/simple/geomet/>
-> >> | Download error on https://pypi.org/simple/geomet/
-> >> <https://pypi.org/simple/geomet/>: [SSL: CERTIFICATE_VERIFY_FAILED]
-> >> certificate verify failed: unable to get local issuer certificate
-> >> (_ssl.c:1129) -- Some packages may not be found!
-> >> | Couldn't find index page for 'geomet' (maybe misspelled?)
-> >> | Scanning index of all packages (this may take a while)
-> >> | Reading https://pypi.org/simple/ <https://pypi.org/simple/>
-> >> | Download error on https://pypi.org/simple/
-> >> <https://pypi.org/simple/>: [SSL: CERTIFICATE_VERIFY_FAILED]
-> >> certificate verify failed: unable to get local issuer certificate
-> >> (_ssl.c:1129) -- Some packages may not be found!
-> >> | No local packages or working download links found for geomet<0.3,>=0.1
->
-> But that not directly an issue of the setuptools upgrade, but a not well
-> written recipe here.
-> I'm more than lucky that this update revealed the issue, because
-> otherwise no one would have really noticed that the original recipe of
-> cassandra-driver is pulling sources while installing.
-> So just in case I would rather pull in this upgrade than to mind the
-> broken recipe from meta-python here (just my 2c)
->
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-i am fine with whatever the right fix is. Its normal that some base
-infra component dependency
-drives a change in another recipe if thats inline with expected design
-then change the component
-to work with new update.
+Richard,
 
-> >> | error: Could not find suitable distribution for
-> >> Requirement.parse('geomet<0.3,>=0.1')
-> >>
-> >>
-> >
-> > yes its reproduced on AB as well.
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1397
-> >
-> >>
-> >>
-> >>
-> >>
-> >
-> >
-> > 
-> >
+Here's the next round of -stable and configuration tweaks for the kernel
+recipes in master.
+
+This is probably the last bump (for master) of 5.4, as I'll drop it and
+make 5.13 the default shortly.
+
+This pull request also contains the v2 of the devupstream support for
+linux-yocto, with the tweaks to PN versus PV that you suggested to v1.
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 262d2c6b6c4f357a8ec083af0934dcbb3acd169c:
+
+  python3-setuptools: upgrade 57.0.0 -> 57.1.0 (2021-07-13 14:27:53 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (8):
+  linux-yocto/5.13: add devupstream support
+  linux-yocto-rt/5.13: integrate -rt1
+  linux-yocto: add vfat KERNEL_FEATURE when MACHINE_FEATURES include
+    vfat
+  linux-yocto/5.10: update to v5.10.49
+  linux-yocto/5.4: update to v5.4.131
+  linux-yocto/5.13: update to v5.13.2
+  linux-yocto/5.10: update to v5.10.50
+  linux-yocto/5.4: update to v5.4.132
+
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++--
+ .../linux/linux-yocto-rt_5.13.bb              |  6 ++--
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 ++---
+ .../linux/linux-yocto-tiny_5.13.bb            |  8 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 ++---
+ meta/recipes-kernel/linux/linux-yocto.inc     |  1 +
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++-------
+ meta/recipes-kernel/linux/linux-yocto_5.13.bb | 34 ++++++++++++-------
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++------
+ 10 files changed, 67 insertions(+), 56 deletions(-)
+
+-- 
+2.19.1
+
