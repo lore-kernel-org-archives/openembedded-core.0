@@ -1,118 +1,58 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web12.1818.1626309854256812628
+Received: from a1i711.smtp2go.com (a1i711.smtp2go.com [43.228.186.199])
+ by mx.groups.io with SMTP id smtpd.web10.1897.1626310079874293855
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Jul 2021 17:44:14 -0700
+ Wed, 14 Jul 2021 17:48:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mYRv92cH;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id j199so3537582pfd.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Jul 2021 17:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QKjFQhS3uC0GgR3TVZpYDLs3Thp8ufWOZBqOsy0c4v4=;
-        b=mYRv92cHhBjwhK23iTOmzhydg3CgwBzqCjcXE4W7KfCCjlcJ+EiaiGVB18WEX5QM6S
-         mG+gVky7C8J8S1Emi+UquyEuPeVmJbNOhT/FsnE+tDQyG4xOrmWkorxctGWXHbI/9d0n
-         TBYeihzQ7QjVy11nEQ90L5Ztto1XrGDwk7xvN+YZOtkaYTWxg4ySVQPXO1GUim1VmCuv
-         rDmANKNyj3XQPpi/YV17TB+dE7XXCM5mJyXj8BQfB9sG+sPBeyxauNx4HPLPUFLtBQ44
-         rSi2CZ0fZ7WutNMiB4oYsu8gRR+z1zr68QePHME2cdoJD2TOL8FglzolJbh+7yna7L1I
-         Mnuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QKjFQhS3uC0GgR3TVZpYDLs3Thp8ufWOZBqOsy0c4v4=;
-        b=ml3nDoxeH+mmyJR9Ibl2yGdwVGAEImv3opGSN44n/7oKDJ89e0IO9FA1+z0GReb2D1
-         UH61aqr26oZsD+zTadol+gLIzcuYGS/kD8xrzUYWY4vXdOlxFVDrfhkXyFzCPTDAKmLL
-         T42tv0sKuqsoMZDl0rNSASW43htCb+1gD1OYZkmu2A2o0a01yJbhOsc3dYuklG6sqY8O
-         ZKDBQY38UKuQMF0AQvbYL90fv+l/aMP533um2Bz7mASAJp0ecGgpTldDDL6NFxhbljwp
-         KrDL4/NP2DRbJ7lL93MA9VUvAxENS6CUFWuxpwmOHkTU5KyvCbPEvp+Gi3Eqjoivosx6
-         5quw==
-X-Gm-Message-State: AOAM532R9oYlrF/1pI2xlM6sYL9KmWZCLvY4o1cmBvT12OvyC/IGLO5H
-	PNtZwVGDZ9UGzGgyAeoxp4SLRoQ7Im7MxNpL
-X-Google-Smtp-Source: ABdhPJz3XsyzjdYYCx4IpLdf1fWAaldK6JP176PZn9ZKwGn35Qpq78A6KBMNMZxJon75aMP4HDgsIA==
-X-Received: by 2002:a63:eb04:: with SMTP id t4mr829758pgh.84.1626309853197;
-        Wed, 14 Jul 2021 17:44:13 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id j6sm4354273pgq.0.2021.07.14.17.44.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 17:44:12 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+ dkim=fail reason="signature has expired" header.i=@smtpservice.net header.s=m3y3p0.a1-4.dyn header.b=Lgd7WSTn;
+ spf=pass (domain: return.smtpservice.net, ip: 43.228.186.199, mailfrom: bt.mg0o3e1u20=ufb165favpi4=d1lzsjjrou@return.smtpservice.net)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=smtpservice.net; s=m3y3p0.a1-4.dyn; x=1626310980; h=Feedback-ID:
+	X-Smtpcorp-Track:Message-Id:Date:Subject:To:From:Reply-To:Sender:
+	List-Unsubscribe; bh=qTSMKc06/YinQ+JxqlDkGMmPCE98Jfrnq389OJMwMbE=; b=Lgd7WSTn
+	DdIwcVCcNWfiettPTtPiD7QBiG2u/SFi5Tp7l48yb5bLQ1ybur/uzOd2UfZl2+/g2l4MkbLD46xjc
+	AafFD+GQ4WlRnYtPT3/2COLBBqRtT5yQj4u8WPoV2pHmkp1sMgiD5nsv15F5U4feOFsUbAYzg7TwA
+	xD6IlxwuZ6oZgzSS4CLZEfcHRc24Dcl/cEVSyfHZ18QpBJy11WFpODoy1UE5lH9KqlDrwUHwEh5UV
+	nnZUUt+dXCvvcixusJE7J13lKi3T4LdeXIq3cbVJabafNlfrfNamzXWEk/72Jx0Km3Ls7Xy/zAvmd
+	Jj08nFwsoquCcvQaWy7rrUIk4w==;
+Received: from [10.139.162.187] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
+ (TLS1.2:ECDHE_SECP256R1__RSA_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2-S2G) (envelope-from <tony.tascioglu@windriver.com>)
+ id 1m3pXh-bePHtl-9m; Thu, 15 Jul 2021 00:47:57 +0000
+Received: from [10.178.243.31] (helo=localhost.localdomain)
+ by smtpcorp.com with esmtpsa (TLS1.2:ECDHE_RSA_SECP256R1__AES_128_GCM:128)
+ (Exim 4.94.2-S2G) (envelope-from <tony.tascioglu@windriver.com>)
+ id 1m3pXf-4XaDXz-Jt; Thu, 15 Jul 2021 00:47:55 +0000
+From: "Tony Tascioglu" <tony.tascioglu@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Pull request (cover letter only)
-Date: Wed, 14 Jul 2021 14:44:03 -1000
-Message-Id: <cover.1626309787.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Cc: randy.macleod@windriver.com,
+	tony.tascioglu@windriver.com
+Subject: [PATCH] valgrind: skip flaky ptest fb_test_amd64
+Date: Wed, 14 Jul 2021 20:48:13 -0400
+Message-Id: <20210715004813.3628596-1-tony.tascioglu@windriver.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Smtpcorp-Track: 1X3pbf4baDbzJt.77W67lr-GkVlQ
+Feedback-ID: 184165m:184165a_VbNsp:184165sQ_BoxyVVD
+X-Report-Abuse: Please forward a copy of this message, including all headers,
+ to <abuse-report@smtp2go.com>
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit c96bcf97272f243df14598c84a41097746884b65:
+Recently, the none/tests/amd64/fb_test_amd64 test had been flaky and
+causing failures on the auto-builder. Until we can get to the root cause
+of the issue, we are going to skip the test to reduce the noise from the
+ptests.
 
-  oeqa/selftest/archiver: Allow tests to ignore empty directories (2021-07-06 04:37:02 -1000)
+Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
+---
+ meta/recipes-devtools/valgrind/valgrind/remove-for-all | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Alexander Kanavin (1):
-  bootchart2: update 0.14.8 -> 0.14.9
-
-Chen Qi (1):
-  busybox: fix CVE-2021-28831
-
-Khem Raj (1):
-  webkitgtk: Upgrade to 2.28.4
-
-Marek Vasut (1):
-  update-rc.d: update SRCREV to pull in fix for non-bash shell support
-
-Minjae Kim (1):
-  dhcp: fix CVE-2021-25217
-
-Richard Purdie (4):
-  webkitgtk: upgrade 2.28.2 -> 2.28.3
-  dwarfsrcfiles: Avoid races over debug-link files
-  oeqa/selftest/multiprocesslauch: Fix test race
-  report-error: Drop pointless inherit
-
-Steve Sakoman (1):
-  glibc: update to lastest 2.31 release HEAD
-
-Tim Orling (1):
-  python3: upgrade 3.8.10 -> 3.8.11
-
-Zoltán Böszörményi (1):
-  tzdata: Allow controlling zoneinfo binary format
-
- meta/classes/report-error.bbclass             |   2 -
- meta/lib/oeqa/selftest/cases/oelib/utils.py   |   3 +-
- .../dhcp/dhcp/CVE-2021-25217.patch            |  66 ++++
- meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |   1 +
- ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch |  51 +++
- meta/recipes-core/busybox/busybox_1.31.1.bb   |   3 +-
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- .../update-rc.d/update-rc.d_0.8.bb            |   2 +-
- ...tchart2_0.14.8.bb => bootchart2_0.14.9.bb} |   3 +-
- .../dwarfsrcfiles/files/dwarfsrcfiles.c       |  13 +-
- .../recipes-devtools/python/python3_3.8.11.bb | 362 ++++++++++++++++++
- meta/recipes-extended/timezone/tzdata.bb      |  10 +-
- ...build-errors-due-to-WWc-11-narrowing.patch |  66 ++++
- .../webkit/webkitgtk/CVE-2020-13753.patch     |  15 -
- ...ebkitgtk_2.28.2.bb => webkitgtk_2.28.4.bb} |   5 +-
- 15 files changed, 571 insertions(+), 33 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2021-25217.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
- rename meta/recipes-devtools/bootchart2/{bootchart2_0.14.8.bb => bootchart2_0.14.9.bb} (99%)
- create mode 100644 meta/recipes-devtools/python/python3_3.8.11.bb
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.28.2.bb => webkitgtk_2.28.4.bb} (97%)
-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-all b/meta/recipes-devtools/valgrind/valgrind/remove-for-all
+index e69de29bb2..c3fc639066 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-for-all
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-all
+@@ -0,0 +1 @@
++none/tests/amd64/fb_test_amd64
 -- 
-2.25.1
+2.32.0
 
