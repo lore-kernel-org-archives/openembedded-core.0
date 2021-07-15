@@ -1,241 +1,118 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.55.1626378005220523272
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.45.1626378006488262758
  for <Openembedded-core@lists.openembedded.org>;
- Thu, 15 Jul 2021 12:40:05 -0700
+ Thu, 15 Jul 2021 12:40:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GTAQQmPu;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id u8-20020a7bcb080000b02901e44e9caa2aso4352280wmj.4
-        for <Openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 12:40:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sPVHr/kd;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id v5so9274108wrt.3
+        for <Openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 12:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=36XJMgPpHrUN0WWLD7YWYVFSPm8vMNSeYK+pQVCOFMQ=;
-        b=GTAQQmPu6lZok82Oqe4SDd8HMG3w/TVe3r/QGFwOXxc0gxtu641xFNqUdGR+DMlLS+
-         j3AEAlOvuxsi0i9raHfepm8L10zo+BX+zYqSMaWSZMwaJjoxOl2cFqVEDUKSvJCnUJnV
-         B2PzLpjJ5E51eO4pivrhj1o1y3mu5PxWaBhKZYaireYuwg8PmqDdHRPWg8hpaLORjdc5
-         62+9AwsEJk9k5hl9OwWiKwIZWh2sdITKlSMorEtgq+KpCZFu3DlTUemyRm3scP0x+iFL
-         XD+qJid9pxB88ZZQHN7y+KlIJU3GBfy5garQ5gNJfAtGjPftn/VTvCd86l5shWMWi/us
-         4ndw==
+        bh=R6Ma+iQ4IbfZcsMnb+cefqGmQZiBn/c9c7kN69ip2FU=;
+        b=sPVHr/kdV0mI8594V9b3MnukC715MlZExzTTz6vOeFxJWJbE01Hb+N9z9fGcx3NOt7
+         ukWuf2lKP+4v4y+7n8zSwsIvHeH3Y2M6hW58bLwl/dbRE1koo/KjDgLSijolG6HKwwZA
+         Fhxt9bveIRP7FqZkIlFcdjCz4zf8OnO3YT/NY2A3DNYwqIybDWIt/9foqSMxaRtqJ8Ka
+         eJL99JiS+Q8glv5G4lyv71YV3/Jzt9qqRkAaRorcNr25uPuAJzHIbZuEadK2TtHkVaYA
+         71rkrFL1mIUvJ3yRG0LXGlvALRH3JEMecStsR7NFDVERIsOKMAMen03UzVUkoJ7AQyi+
+         N6Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=36XJMgPpHrUN0WWLD7YWYVFSPm8vMNSeYK+pQVCOFMQ=;
-        b=kdLpHsdSUEltArPwPnyi7/osHzf+AzD1JCvMiTRcjHr7DRbx1EmqFFBgf47dA30MJy
-         TjfRF434BR4M40oMIxOMaU2OOwfm/nKfUnGgXLgE1Uq2pzAGAJyDzlwuCtAXsocK8wBe
-         c3NefBCFuAEq/QuHpDrfLTdDaa46uu5xE1UL4l1ixflVDckewPb2TIfjI3ThaheNHeG9
-         4HnmepCyFChXRdq/YfGzjpE7Pm6MDIatrZ93wG5z/TuUbsTMiyfU6gDLTMt3YQNK7zeb
-         JoHjoCw/O2k9KL7J3Q5oZr3elQUrM4flGb4XK4Ffy3TL34rO12bei3yioiyDdfvzV6o1
-         /oOQ==
-X-Gm-Message-State: AOAM531MbCvwpIvJq/Z7ajTi75iD1dQzISAsUlTog6zX/UJqWqkVFviS
-	law8gOWzWtEqkO5c/8scxv47/i43YMUzfA==
-X-Google-Smtp-Source: ABdhPJwdEV16vTyfs6DdZ20M7i0SdqTa3GGFF5x20vfy5iEsRLvKeWA0PldsPIoRDZ3BfXOqi2iy+A==
-X-Received: by 2002:a1c:494:: with SMTP id 142mr6380949wme.60.1626378003550;
-        Thu, 15 Jul 2021 12:40:03 -0700 (PDT)
+        bh=R6Ma+iQ4IbfZcsMnb+cefqGmQZiBn/c9c7kN69ip2FU=;
+        b=fxE4dtizN4pR00I1IuAp+YvoxLb0g6iqJR2IRd+fW7z3BSlCLRTHCq0pl+1di3dHCd
+         Uuv0cIUdU+4QJni1LxyCXTXKXRdW/mG2zfzQy36J/SUSYO3ApycPHludhN2mRlpP2+5/
+         +t+8DfOhRY8cAuRhs1e0NMZ1grA8YEdb1nEBDwNCOi0nOI5FwmAkv1U3n0lmPlT5vNM2
+         uauCKQrVLNyokd+rhWSUpEjhMhFR7DVlwyvcfkPGhtXkUZrAPSeJKPnYVEnGDaFUBrvA
+         4cxgejdMLYK509udJk18dfHdK6+OSH84d6Zgr8qGlFnf+rmQYknYQ+5WvF3uXLyDkk2O
+         NHxQ==
+X-Gm-Message-State: AOAM531tvNX/rtXWL4ViHIIolhgk081TmF/PX32y5uOyaSGJsRPVabF/
+	6MWzOE4KWa0RMKoFkvBa8wCpmS8TeOmY/A==
+X-Google-Smtp-Source: ABdhPJz9i970Cdlg8MxGXEEJCnjdePLj0dThrzVEH4/pkse6Msjo0LCg21bqycy0CTvP1SStDOoBLA==
+X-Received: by 2002:adf:b307:: with SMTP id j7mr7649067wrd.243.1626378004687;
+        Thu, 15 Jul 2021 12:40:04 -0700 (PDT)
 Return-Path: <uvv.mail@gmail.com>
 Received: from slackware.local ([194.99.105.68])
-        by smtp.gmail.com with ESMTPSA id p11sm7533809wrw.53.2021.07.15.12.40.02
+        by smtp.gmail.com with ESMTPSA id p11sm7533809wrw.53.2021.07.15.12.40.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jul 2021 12:40:03 -0700 (PDT)
+        Thu, 15 Jul 2021 12:40:04 -0700 (PDT)
 From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
 To: Openembedded-core@lists.openembedded.org
 Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH v3 7/8] oeqa/selftest: overlayfs unit tests
-Date: Thu, 15 Jul 2021 21:39:32 +0200
-Message-Id: <20210715193933.66120-7-uvv.mail@gmail.com>
+Subject: [PATCH v3 8/8] docs: add overlayfs class
+Date: Thu, 15 Jul 2021 21:39:33 +0200
+Message-Id: <20210715193933.66120-8-uvv.mail@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210715193933.66120-1-uvv.mail@gmail.com>
 References: <20210715193933.66120-1-uvv.mail@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Unit tests for overlayfs.bbclass
-
 Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/overlayfs.py | 171 ++++++++++++++++++++++
- 1 file changed, 171 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/overlayfs.py
+ documentation/ref-manual/classes.rst | 46 ++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-new file mode 100644
-index 0000000000..f679a71182
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-@@ -0,0 +1,171 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
+diff --git a/documentation/ref-manual/classes.rst b/documentation/ref-manual/classes.rst
+index 09878c480f..6d80e7dc4f 100644
+--- a/documentation/ref-manual/classes.rst
++++ b/documentation/ref-manual/classes.rst
+@@ -1708,6 +1708,52 @@ one such example. However, being aware of this class can reduce the
+ proliferation of different versions of similar classes across multiple
+ layers.
+ 
++.. _ref-classes-overlayfs:
 +
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
++``overlayfs.bbclass``
++=======================
 +
-+class OverlayFSTests(OESelftestTestCase):
-+    """Overlayfs class usage tests"""
 +
-+    def getline(self, res, line):
-+        for l in res.output.split('\n'):
-+            if line in l:
-+                return l
++It's often desired in Embedded System design to have a read-only rootfs.
++But a lot of different applications might want to have a read-write access to
++some parts of a filesystem. It can be especially useful when your update mechanism
++overwrites the whole rootfs, but you want your application data to be preserved
++between updates. The ``overlayfs`` class provides a way to achieve that by means
++of overlayfs and at the same time keeping the base rootfs read-only.
 +
-+    def add_overlay_conf_to_machine(self):
-+        machine_inc = """
-+OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-+"""
-+        self.set_machine_config(machine_inc)
++To use this class, set a mount point for a partition overlayfs is going to use as upper
++layer in your machine configuration. Underlying file system can be anything that
++is supported by overlayfs. This has to be done in your machine configuration::
 +
-+    def test_distro_features_missing(self):
-+        """
-+        Summary:   Check that required DISTRO_FEATURES are set
-+        Expected:  Fail when either systemd or overlayfs are not in DISTRO_FEATURES
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
++  OVERLAYFS_MOUNT_POINT[data] = "/data"
 +
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+"""
-+        overlayfs_recipe_append = """
-+inherit overlayfs
-+"""
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+        self.write_recipeinc('overlayfs-user', overlayfs_recipe_append)
++.. note::
 +
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "overlayfs-user was skipped: missing required distro features")
-+        self.assertTrue("overlayfs" in res.output, msg=res.output)
-+        self.assertTrue("systemd" in res.output, msg=res.output)
-+        self.assertTrue("ERROR: Required build target 'core-image-minimal' has no buildable providers." in res.output, msg=res.output)
++  QA check fails to catch file existence if you redefine this variable in your recipe!
 +
-+    def test_not_all_units_installed(self):
-+        """
-+        Summary:   Test QA check that we have required mount units in the image
-+        Expected:  Fail because mount unit for overlay partition is not installed
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
++The class assumes you have a data.mount systemd unit defined elsewhere in your BSP
++(e.g. in systemd-machine-units recipe) and it's installed to the image.
 +
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
++Then you can specify writable directories on a recipe basis::
 +
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
++  OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
 +
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "Unit name mnt-overlay.mount not found in systemd unit directories")
-+        self.assertTrue(line and line.startswith("WARNING:"), msg=res.output)
-+        line = self.getline(res, "Not all mount units are installed by the BSP")
-+        self.assertTrue(line and line.startswith("ERROR:"), msg=res.output)
++To support several mount points you can use a different variable flag. Assume we
++want to have a writable location on the file system, but not interested where the data
++survive a reboot. Then we could have a mnt-overlay.mount unit for a tmpfs file system.
 +
-+    def test_mount_unit_not_set(self):
-+        """
-+        Summary:   Test whether mount unit was set properly
-+        Expected:  Fail because mount unit was not set
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
++In your machine configuration::
 +
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
++  OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
 +
-+        self.write_config(config)
++and then in your recipe::
 +
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
-+        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
++  OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
 +
-+    def test_wrong_mount_unit_set(self):
-+        """
-+        Summary:   Test whether mount unit was set properly
-+        Expected:  Fail because not the correct flag used for mount unit
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
++.. note::
 +
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user"
-+DISTRO_FEATURES += "systemd overlayfs"
-+"""
++   The class does not support /etc directory itself, because systemd depends on it
 +
-+        wrong_machine_config = """
-+OVERLAYFS_MOUNT_POINT[usr-share-overlay] = "/usr/share/overlay"
-+"""
-+
-+        self.write_config(config)
-+        self.set_machine_config(wrong_machine_config)
-+
-+        res = bitbake('core-image-minimal', ignore_status=True)
-+        line = self.getline(res, "Missing required mount point for OVERLAYFS_MOUNT_POINT[mnt-overlay] in your MACHINE configuration")
-+        self.assertTrue(line and line.startswith("Parsing recipes...ERROR:"), msg=res.output)
-+
-+    def test_correct_image(self):
-+        """
-+        Summary:   Check that we can create an image when all parameters are
-+                   set correctly
-+        Expected:  Image is created successfully
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+
-+        config = """
-+IMAGE_INSTALL_append = " overlayfs-user systemd-machine-units"
-+DISTRO_FEATURES += "systemd overlayfs"
-+
-+# Use systemd as init manager
-+VIRTUAL-RUNTIME_init_manager = "systemd"
-+
-+# enable overlayfs in the kernel
-+KERNEL_EXTRA_FEATURES_append = " features/overlayfs/overlayfs.scc"
-+"""
-+
-+        systemd_machine_unit_append = """
-+SYSTEMD_SERVICE_${PN} += " \
-+    mnt-overlay.mount \
-+"
-+
-+do_install_append() {
-+    install -d ${D}${systemd_system_unitdir}
-+    cat <<EOT > ${D}${systemd_system_unitdir}/mnt-overlay.mount
-+[Unit]
-+Description=Tmpfs directory
-+DefaultDependencies=no
-+
-+[Mount]
-+What=tmpfs
-+Where=/mnt/overlay
-+Type=tmpfs
-+Options=mode=1777,strictatime,nosuid,nodev
-+
-+[Install]
-+WantedBy=multi-user.target
-+EOT
-+}
-+
-+"""
-+
-+        self.write_config(config)
-+        self.add_overlay_conf_to_machine()
-+        self.write_recipeinc('systemd-machine-units', systemd_machine_unit_append)
-+
-+        bitbake('core-image-minimal')
-+
-+        def getline_qemu(out, line):
-+            for l in out.split('\n'):
-+                if line in l:
-+                    return l
-+
-+        with runqemu('core-image-minimal') as qemu:
-+            # Check that we have /mnt/overlay fs mounted as tmpfs and
-+            # /usr/share/my-application as an overlay (see overlayfs-user recipe)
-+            status, output = qemu.run_serial("/bin/mount -t tmpfs,overlay")
-+
-+            line = getline_qemu(output, "on /mnt/overlay")
-+            self.assertTrue(line and line.startswith("tmpfs"), msg=output)
-+
-+            line = getline_qemu(output, "upperdir=/mnt/overlay/upper/usr/share/my-application")
-+            self.assertTrue(line and line.startswith("overlay"), msg=output)
+ .. _ref-classes-own-mirrors:
+ 
+ ``own-mirrors.bbclass``
 -- 
 2.28.0
 
