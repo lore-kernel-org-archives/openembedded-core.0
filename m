@@ -1,107 +1,164 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web08.1553.1626388136893196173
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web10.1466.1626403353753587249
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jul 2021 15:28:56 -0700
+ Thu, 15 Jul 2021 19:42:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cRK1vE6e;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id gp5-20020a17090adf05b0290175c085e7a5so442697pjb.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 15:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Fyz3TnQ4F6GzWSzhx0Drk09kEw82NTx/zsR47pOSHcE=;
-        b=cRK1vE6eK5FFQwphog6Dv1x7kioN3YUY5UGq/Ep5w6QnPs7F9lC4UKpJWYa6TmlZe4
-         7jPhuto82q1tWmKXFjponDKiwfvXnM41x3w6UXaXlEnq0qMZXQqK7SCzI9TV/FIT7gMc
-         +oKDcyAKX9LDY5eyFauiEB5huQ8QqBLAmbw57gzGE3v/walfCCNQ4Lu24FoqzdH8G51c
-         z4bS55ZoN5Q3ZFCSYECi+4YtFfLMtSBt0b7wjHOKLyj+MHS8Nx4jl/6d+cSwVGf5+Z33
-         e8h0XQ/Ngwn6Xr33MfwvPeFPs2ftewxoeJQ14rjm3KbvPEPPWjrpQephGhZndJmiB4Es
-         fZ4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Fyz3TnQ4F6GzWSzhx0Drk09kEw82NTx/zsR47pOSHcE=;
-        b=ua3WwFiYhiq350GPuOO5ww5DWOeUBEnRZ0ChPwu9CtwAPNX63Y3iZmv48IrGli1Mjf
-         Z4xGK8r0F6QcYzP4aT+0IU0kF4ylB53vnM8Th+G9fAiQ/doPiWz9u2/O6LLcN1ytd6r1
-         axkQuu6M3R1ifrnbrzZ03j65ZDrq8eUgcTR6g6aYIN/AjPKB3Y9o4jtE3GTJiwjOJzT6
-         NlqX0pAenM1/z5tArKCN9EvTIo8Q+8BKFOKBQesiXWJ7fBJc1Bij77I57QyRBPseMLsc
-         k0HhYmZDdw1iuz4Gc4kRpzD0b9NaRVuivbUc+8wKNO0smT7sDtQs7dqwtPwgUpQNkZJQ
-         xkLw==
-X-Gm-Message-State: AOAM530D5kwg3vxr3Ah5MTBrAYY3PtfB2Nn0xzHyby2ajkdGKZbY77WZ
-	6PSpcrk7+f4/FRKMao4/rkWkUlpBxLawAQ==
-X-Google-Smtp-Source: ABdhPJxMyINxTqYlCTyrve5TKi/zPHeIv+RQyJAZzvms2pPL8T9vtxLfcpkVurDorev+I6QogzWigw==
-X-Received: by 2002:a17:902:6a84:b029:12b:53ab:4fed with SMTP id n4-20020a1709026a84b029012b53ab4fedmr5123815plk.57.1626388136140;
-        Thu, 15 Jul 2021 15:28:56 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::5593])
-        by smtp.gmail.com with ESMTPSA id c5sm7859602pfn.144.2021.07.15.15.28.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jul 2021 15:28:55 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232494544"
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+   d="scan'208";a="232494544"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:42:31 -0700
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+   d="scan'208";a="656075372"
+Received: from unknown (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.225.206])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:42:30 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gpgme: Use glibc provided closefrom API when available
-Date: Thu, 15 Jul 2021 15:28:52 -0700
-Message-Id: <20210715222852.2041590-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
+Subject: [hardknott][PATCH 00/28] review request
+Date: Fri, 16 Jul 2021 10:41:58 +0800
+Message-Id: <cover.1626403078.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-glibc 2.34+ has added this API new
+Please review these changes for hardknott. Builds cleanly on autobuilder
+except for two intermittent ptest failures in lttng-tools and parted.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...se-closefrom-on-linux-and-glibc-2.34.patch | 24 +++++++++++++++++++
- meta/recipes-support/gpgme/gpgme_1.16.0.bb    |  3 ++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
+Thanks,
 
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-new file mode 100644
-index 0000000000..1c46684c6d
---- /dev/null
-+++ b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-@@ -0,0 +1,24 @@
-+From adb1d4e5498a19e9d591ac8f42f9ddfdb23a1354 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 15 Jul 2021 12:33:13 -0700
-+Subject: [PATCH] use closefrom() on linux and glibc 2.34+
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/posix-io.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/posix-io.c b/src/posix-io.c
-+index e712ef2..ab8ded9 100644
-+--- a/src/posix-io.c
-++++ b/src/posix-io.c
-+@@ -570,7 +570,7 @@ _gpgme_io_spawn (const char *path, char *const argv[], unsigned int flags,
-+               if (fd_list[i].fd > fd)
-+                 fd = fd_list[i].fd;
-+             fd++;
-+-#if defined(__sun) || defined(__FreeBSD__)
-++#if defined(__sun) || defined(__FreeBSD__) || (defined(__GLIBC__) && __GNUC_PREREQ(2, 34))
-+             closefrom (fd);
-+             max_fds = fd;
-+ #else /*!__sun */
-diff --git a/meta/recipes-support/gpgme/gpgme_1.16.0.bb b/meta/recipes-support/gpgme/gpgme_1.16.0.bb
-index da413c80a0..86dd69f0a1 100644
---- a/meta/recipes-support/gpgme/gpgme_1.16.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.16.0.bb
-@@ -20,7 +20,8 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0006-fix-build-path-issue.patch \
-            file://0007-python-Add-variables-to-tests.patch \
-            file://0008-do-not-auto-check-var-PYTHON.patch \
--          "
-+           file://0001-use-closefrom-on-linux-and-glibc-2.34.patch \
-+           "
- 
- SRC_URI[sha256sum] = "6c8cc4aedb10d5d4c905894ba1d850544619ee765606ac43df7405865de29ed0"
- 
+Anuj
+
+The following changes since commit 4c2c3d3b84d883b2f1ad94095187e6b5b39e663f:
+
+  lttng-modules: update to v2.12.6 (2021-07-02 11:14:53 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
+
+Andrej Valek (1):
+  busybox: add tmpdir option into mktemp applet
+
+Asfak Rahman (1):
+  openssh: Remove temporary keys before generating new ones
+
+Bruce Ashfield (6):
+  linux-yocto/5.10: update to v5.10.47
+  linux-yocto/5.4: update to v5.4.129
+  linux-yocto/5.10: scsi-debug needs scsi-disk
+  linux-yocto-dev: base AUTOREV on specified version
+  kernel-devsrc: fix scripts/prepare for ARM64
+  kernel-devsrc: fix scripts prepare for powerpc
+
+Changqing Li (2):
+  libconvert-asn1-perl: fix CVE-2013-7488
+  boost-build-native: workaround one rarely hang problem on fedora34
+
+Florian Amstutz (1):
+  devtool: deploy-target: Fix preserving attributes when using --strip
+
+Kai Kang (1):
+  rxvt-unicode: fix CVE-2021-33477
+
+Khairul Rohaizzat Jamaluddin (2):
+  curl: Fix CVE-2021-22898
+  curl: Fix CVE-2021-22897
+
+Marek Vasut (1):
+  linux-firmware: Package RSI 911x WiFi firmware
+
+Mingli Yu (1):
+  perl: correct libpth and glibpth
+
+Richard Purdie (7):
+  oeqa/selftest/runcmd: Tweal test timeouts
+  sstate/staging: Handle directory creation race issue
+  oeqa/selftest/archiver: Allow tests to ignore empty directories
+  runqemu: Remove potential lock races around tap device handling
+  glibc-testsuite: Fix build failures when directly running recipe
+  oeqa/selftest/multiprocesslauch: Fix test race
+  dwarfsrcfiles: Avoid races over debug-link files
+
+Vinay Kumar (1):
+  binutils: Fix CVE-2021-20197
+
+Wadim Egorov (1):
+  xserver-xorg: Fix builds without glx
+
+wangmy (2):
+  go: upgrade 1.16.3 -> 1.16.4
+  go: upgrade 1.16.4 -> 1.16.5
+
+zhengruoqin (1):
+  busybox: upgrade 1.33.0 -> 1.33.1
+
+ meta/classes/kernel-yocto.bbclass             |  24 +++
+ meta/classes/sstate.bbclass                   |   8 +-
+ meta/classes/staging.bbclass                  |   6 +-
+ meta/lib/oeqa/selftest/cases/archiver.py      |  16 +-
+ meta/lib/oeqa/selftest/cases/oelib/utils.py   |   3 +-
+ meta/lib/oeqa/selftest/cases/runcmd.py        |   4 +-
+ .../openssh/openssh/sshd_check_keys           |   1 +
+ ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch |  58 -----
+ .../0001-mktemp-add-tmpdir-option.patch       |  81 +++++++
+ .../{busybox_1.33.0.bb => busybox_1.33.1.bb}  |   8 +-
+ .../glibc/glibc-testsuite_2.33.bb             |   1 +
+ .../binutils/binutils-2.36.inc                |   3 +
+ .../binutils/0001-CVE-2021-20197.patch        | 201 ++++++++++++++++++
+ .../binutils/0002-CVE-2021-20197.patch        | 170 +++++++++++++++
+ .../binutils/0003-CVE-2021-20197.patch        | 171 +++++++++++++++
+ .../dwarfsrcfiles/files/dwarfsrcfiles.c       |  13 +-
+ .../go/{go-1.16.3.inc => go-1.16.5.inc}       |   4 +-
+ ...e_1.16.3.bb => go-binary-native_1.16.5.bb} |   4 +-
+ ..._1.16.3.bb => go-cross-canadian_1.16.5.bb} |   0
+ ...{go-cross_1.16.3.bb => go-cross_1.16.5.bb} |   0
+ ...osssdk_1.16.3.bb => go-crosssdk_1.16.5.bb} |   0
+ ...o-native_1.16.3.bb => go-native_1.16.5.bb} |   0
+ ...runtime_1.16.3.bb => go-runtime_1.16.5.bb} |   0
+ .../go/{go_1.16.3.bb => go_1.16.5.bb}         |   0
+ meta/recipes-devtools/perl/perl_5.32.1.bb     |   2 +
+ .../libconvert-asn1-perl/CVE-2013-7488.patch  |  35 +++
+ .../perl/libconvert-asn1-perl_0.27.bb         |   3 +-
+ ...nd-Makefile.am-fix-build-without-glx.patch |  46 ++++
+ .../xorg-xserver/xserver-xorg_1.20.10.bb      |   1 +
+ .../linux-firmware/linux-firmware_20210511.bb |  11 +
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  22 +-
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../rxvt-unicode-fix-CVE-2021-33477.patch     |  33 +++
+ .../rxvt-unicode/rxvt-unicode_9.22.bb         |   4 +-
+ .../boost/boost-build-native_4.3.0.bb         |   2 +-
+ .../curl/curl/CVE-2021-22897.patch            |  72 +++++++
+ .../curl/curl/CVE-2021-22898.patch            |  32 +++
+ meta/recipes-support/curl/curl_7.75.0.bb      |   2 +
+ scripts/lib/devtool/deploy.py                 |   2 +-
+ scripts/runqemu                               |  27 ++-
+ 45 files changed, 1006 insertions(+), 138 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+ rename meta/recipes-core/busybox/{busybox_1.33.0.bb => busybox_1.33.1.bb} (92%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-20197.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0002-CVE-2021-20197.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0003-CVE-2021-20197.patch
+ rename meta/recipes-devtools/go/{go-1.16.3.inc => go-1.16.5.inc} (88%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.16.3.bb => go-binary-native_1.16.5.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.16.3.bb => go-cross-canadian_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.16.3.bb => go-cross_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.16.3.bb => go-crosssdk_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.16.3.bb => go-native_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.16.3.bb => go-runtime_1.16.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.16.3.bb => go_1.16.5.bb} (100%)
+ create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2013-7488.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
+ create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt-unicode-fix-CVE-2021-33477.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22897.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22898.patch
+
 -- 
-2.32.0
+2.31.1
 
