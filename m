@@ -1,96 +1,71 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
  by mx.groups.io with SMTP id smtpd.web10.1470.1626403376126661608
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jul 2021 19:43:07 -0700
+ Thu, 15 Jul 2021 19:43:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232494684"
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232494692"
 X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
-   d="scan'208";a="232494684"
+   d="scan'208";a="232494692"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:43:07 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:43:09 -0700
 X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
-   d="scan'208";a="656075564"
+   d="scan'208";a="656075569"
 Received: from unknown (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.225.206])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:43:06 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:43:07 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 24/28] dwarfsrcfiles: Avoid races over debug-link files
-Date: Fri, 16 Jul 2021 10:42:22 +0800
-Message-Id: <52382a03c10a6985ecb6ada24523cb9daf9c6201.1626403078.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 25/28] kernel-devsrc: fix scripts/prepare for ARM64
+Date: Fri, 16 Jul 2021 10:42:23 +0800
+Message-Id: <f7dca74b768ca001dd72562b80e501f6257bdaa8.1626403078.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626403078.git.anuj.mittal@intel.com>
 References: <cover.1626403078.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-We use dwarfsrcfiles in package.bbclass to list the source files used by a binary.
-This is done before they're stripped and linked to debug symbols in separate files.
+There are two new tools in 5.13+ required for on target
+recreation of the build environment.
 
-It is possible a binary may already have a link to separate debug symbols, e.g.
-some of the test binaries in lttng-tools ptest. In those cases, the linked binary
-may be changed by package.bbclass code whilst dwarfsrcfiles is reading it. That
-would result in a rare SIGBUS race causing the binary to fail.
+We conditionally add them to the devsrc recipe to support
+both 5.13 and older kernels.
 
-To avoid this, break the debug file search path so no other binaries are found.
-
-Also fix a segfault if no binary is specified while here.
-
-[YOCTO #14400]
-
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit efef732859e265533acf16f2f4da3b29d50e0df4)
+(cherry picked from commit cb1b7e76f20dc7f11a667fa00958ab56e680c632)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../dwarfsrcfiles/files/dwarfsrcfiles.c             | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-index af7af524eb..9eb5ca807a 100644
---- a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-+++ b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-@@ -9,6 +9,7 @@
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 84e99233e6..b1837b3a51 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -163,6 +163,14 @@ do_install() {
+             cp -a --parents arch/arm64/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
  
- #include <argp.h>
- #include <stdio.h>
-+#include <stdlib.h>
+             cp -a --parents arch/arm64/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
++
++            # 5.13+ needs these tools
++            cp -a --parents arch/arm64/tools/gen-cpucaps.awk $kerneldir/build/ 2>/dev/null || :
++            cp -a --parents arch/arm64/tools/cpucaps $kerneldir/build/ 2>/dev/null || :
++
++            if [ -e $kerneldir/build/arch/arm64/tools/gen-cpucaps.awk ]; then
++                 sed -i -e "s,#!.*awk.*,#!${USRBINPATH}/env awk," $kerneldir/build/arch/arm64/tools/gen-cpucaps.awk
++            fi
+ 	fi
  
- #include <dwarf.h>
- #include <elfutils/libdw.h>
-@@ -83,13 +84,15 @@ process_cu (Dwarf_Die *cu_die)
- int
- main (int argc, char **argv)
- {
--  char* args[3];
-+  char* args[5];
-   int res = 0;
-   Dwfl *dwfl;
-   Dwarf_Addr bias;
-   
--  if (argc != 2)
-+  if (argc != 2) {
-     fprintf(stderr, "Usage %s <file>", argv[0]);
-+    exit(EXIT_FAILURE);
-+  }
-   
-   // Pretend "dwarfsrcfiles -e <file>" was given, so we can use standard
-   // dwfl argp parser to open the file for us and get our Dwfl. Useful
-@@ -98,8 +101,12 @@ main (int argc, char **argv)
-   args[0] = argv[0];
-   args[1] = "-e";
-   args[2] = argv[1];
-+  // We don't want to follow debug linked files due to the way OE processes
-+  // files, could race against changes in the linked binary (e.g. objcopy on it)
-+  args[3] = "--debuginfo-path";
-+  args[4] = "/not/exist";
-   
--  argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &dwfl);
-+  argp_parse (dwfl_standard_argp (), 5, args, 0, NULL, &dwfl);
-   
-   Dwarf_Die *cu = NULL;
-   while ((cu = dwfl_nextcu (dwfl, cu, &bias)) != NULL)
+ 	if [ "${ARCH}" = "powerpc" ]; then
+@@ -307,3 +315,5 @@ RDEPENDS_${PN} += "openssl-dev util-linux"
+ RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '', d)}"
+ # 5.8+ needs gcc-plugins libmpc-dev
+ RDEPENDS_${PN} += "gcc-plugins libmpc-dev"
++# 5.13+ needs awk for arm64
++RDEPENDS_${PN}_append_aarch64 = " gawk"
 -- 
 2.31.1
 
