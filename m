@@ -1,103 +1,80 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web10.1470.1626403376126661608
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web09.1453.1626403788589895937
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Jul 2021 19:43:13 -0700
+ Thu, 15 Jul 2021 19:49:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232494708"
-X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
-   d="scan'208";a="232494708"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:43:13 -0700
-X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
-   d="scan'208";a="656075593"
-Received: from unknown (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.225.206])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 19:43:12 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eGFwciSj;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id 21so7638276pfp.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Jul 2021 19:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=79V4liGDUzBQ1c55FyFNuC+AQEHE5nxQ40VHepA3J0Q=;
+        b=eGFwciSj7HH5P3Oyi0sgQodKvshMHtIkmHzm91M+Xz3z5XAdj5IeqjXp6exFHftSf8
+         ZDT5+hOwtdroCHP0qgv0mdne36tEvjhpOWPf2JnLTdCNFClvGLdSZHs1iJXlw+Vqgk9V
+         xQmvxjxPNxsLOn0gicpYBQJw6pp5Bo1dhoJFCexpDAJSzo6hDHAD3XqknfpL8pID6Kz8
+         XSXgTD84yQ2HhdHYP3wvNOWpkpcPLtHGiuvFcFtJmVCWlvjGXLzT/seyB8RFQ7YZhH0V
+         2tP7kqfe8fyRBk/ZvLF4XWQH2bUGYuHpe8npsxYcEDYS0a+sPHgZVZfCxD4LEmMlABBs
+         7qMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=79V4liGDUzBQ1c55FyFNuC+AQEHE5nxQ40VHepA3J0Q=;
+        b=IJxlNQeZItjf41h30ZtrqtpH2dmmyxzbw6ocXz79MwvcutLb2j+Pi5OAnhdC8ktH9S
+         N+20gf/izj1MPY8hkrFQy0rj0cpcBzA0lFbY8r+N02AX5MC1/6MknVz+fQ2yBWknd3xX
+         Vz/sDNOM7fD9/iJN0CvRZpmc7kYVfm7iL9T8CP0V/ENx+vB4oYhwj1uaQk6yEMekZ8YZ
+         2sGU75bZkVlxlnMbYuUS6Oj9JBuFOyu1JcM2ORS29H8IKgKpbb8kj3nRK/NjfRrYuysl
+         4yDLJMYviQQHrcLyET7VnDYIYuzojjtGuobwepj+DC2m5NYY0CnVnZxrGJvkYgwTZk0X
+         rLGg==
+X-Gm-Message-State: AOAM530KEN2bXPMZOvGIMATKAMYn7GXRwZen/4FkmfN78YBNrCtznBh9
+	wuVnXOqRWFxSe8G4VojCxjquMlt45oXziA==
+X-Google-Smtp-Source: ABdhPJxjUFZbgMG9x5qZLqOEsVTPw/895zcg6QXOfmxqDTBl0i5hSGWy1txX+8GCyma8Z3HHKFz83w==
+X-Received: by 2002:a63:1f0e:: with SMTP id f14mr3281347pgf.65.1626403787673;
+        Thu, 15 Jul 2021 19:49:47 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::5593])
+        by smtp.gmail.com with ESMTPSA id j12sm7675961pfj.208.2021.07.15.19.49.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jul 2021 19:49:47 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 28/28] xserver-xorg: Fix builds without glx
-Date: Fri, 16 Jul 2021 10:42:26 +0800
-Message-Id: <e458c15627e7b27392d158cbb9417f66424aa7d5.1626403078.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1626403078.git.anuj.mittal@intel.com>
-References: <cover.1626403078.git.anuj.mittal@intel.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] stress-ng: Upgrade to 0.12.12 release
+Date: Thu, 15 Jul 2021 19:49:45 -0700
+Message-Id: <20210716024945.2095082-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wadim Egorov <w.egorov@phytec.de>
+Here is detail of changes [1]
 
-Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+[1] https://github.com/ColinIanKing/stress-ng/commit/9d8069c2dc6060c8629ae8f9abbf6fd61c76bf7f
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...nd-Makefile.am-fix-build-without-glx.patch | 46 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.20.10.bb      |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
+ .../stress-ng/{stress-ng_0.12.11.bb => stress-ng_0.12.12.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.12.11.bb => stress-ng_0.12.12.bb} (90%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
-new file mode 100644
-index 0000000000..4c9cb0ebb2
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
-@@ -0,0 +1,46 @@
-+From 836f93de99b35050d78d61d3654f7c5655184144 Mon Sep 17 00:00:00 2001
-+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-+Date: Fri, 19 Apr 2019 10:19:50 +0200
-+Subject: [PATCH] hw/xwayland/Makefile.am: fix build without glx
-+
-+Commit d8ec33fe0542141aed1d9016d2ecaf52da944b4b added libglxvnd.la to
-+Xwayland_LDFLAGS but GLX can be disabled through --disable-glx.
-+In this case, build fails on:
-+
-+make[3]: *** No rule to make target '../../glx/libglxvnd.la', needed by 'Xwayland'.  Stop.
-+make[3]: *** Waiting for unfinished jobs....
-+
-+Fixes:
-+ - http://autobuild.buildroot.org/results/397f8098c57fc6c88aa12dc8d35ebb1b933d52ef
-+
-+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/836f93de99b35050d78d61d3654f7c5655184144]
-+Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
-+---
-+ hw/xwayland/Makefile.am | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/hw/xwayland/Makefile.am b/hw/xwayland/Makefile.am
-+index bc1cb8506..502879e2a 100644
-+--- a/hw/xwayland/Makefile.am
-++++ b/hw/xwayland/Makefile.am
-+@@ -21,10 +21,14 @@ Xwayland_SOURCES =				\
-+ 	$(top_srcdir)/Xi/stubs.c		\
-+ 	$(top_srcdir)/mi/miinitext.c
-+ 
-++if GLX
-++GLXVND_LIB = $(top_builddir)/glx/libglxvnd.la
-++endif
-++
-+ Xwayland_LDADD =				\
-+ 	$(glamor_lib)				\
-+ 	$(XWAYLAND_LIBS)			\
-+-	$(top_builddir)/glx/libglxvnd.la	\
-++	$(GLXVND_LIB)				\
-+ 	$(XWAYLAND_SYS_LIBS)			\
-+ 	$(top_builddir)/Xext/libXvidmode.la	\
-+ 	$(XSERVER_SYS_LIBS)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-index 755a762a73..e0551fa999 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-            file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
-            file://CVE-2021-3472.patch \
-+           file://0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch \
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.11.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.12.bb
+similarity index 90%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.12.11.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.12.12.bb
+index d0cf45f42d..97eaa75d18 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.12.11.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.12.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            file://no_daddr_t.patch \
             "
- SRC_URI[sha256sum] = "977420c082450dc808de301ef56af4856d653eea71519a973c3490a780cb7c99"
+-SRC_URI[sha256sum] = "971393075321c24c3d5769acfabb705911d1f411ced5937b7cfea58528c1b4e6"
++SRC_URI[sha256sum] = "f27af50f6f2308e707fef927674bdd209a046b116734281b792aeca35a4e4499"
+ 
+ DEPENDS = "coreutils-native"
  
 -- 
-2.31.1
+2.32.0
 
