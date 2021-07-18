@@ -1,101 +1,70 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.13273.1626600382440807613
+ by mx.groups.io with SMTP id smtpd.web12.13216.1626600382142043398
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jul 2021 02:26:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 973D838C1382
+	by mail.yoctoproject.org (Postfix) with ESMTP id BAC1B38C13A2
 	for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 09:26:21 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Adrian Bunk <bunk@kernel.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wireless-regdb: upgrading to 2021.07.14 SUCCEEDED
-Message-ID: <MADEUP.1692D86E0B8E650C.12794@lists.openembedded.org>
-X-Groupsio-MsgNum: 153972
-Content-Type: multipart/mixed; boundary="===============7163748874924022823=="
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2021-07-18
+Message-ID: <MADEUP.1692D86E1A142C95.32522@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============1221476052269941555=="
 
---===============7163748874924022823==
+--===============1221476052269941555==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-Hello,
+Recipe upgrade statistics:
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wireless-regdb* to *2021.07.14* has Succeeded.
+    * Failed (devtool error): 8
+        libuv, 1.41.1, Armin Kuster <akuster@mvista.com>
+        systemd-boot, 249, Chen Qi <Qi.Chen@windriver.com>
+        systemd, 249, Chen Qi <Qi.Chen@windriver.com>
+        gnu-config, 20210620-new-commits-available, Robert Yang <liezhi.yang@windriver.com>
+        mtools, 4.0.33, Anuj Mittal <anuj.mittal@intel.com>
+        python3-testtools, 2.5.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        go-helloworld, 0.1-new-commits-available, Khem Raj <raj.khem@gmail.com>
+        vulkan-samples, git-new-commits-available, Ross Burton <ross.burton@arm.com>
+    * Failed(do_compile): 6
+        btrfs-tools, 5.13, Wang Mingyu <wangmy@fujitsu.com>
+        cmake, 3.21.0, Pascal Bach <pascal.bach@siemens.com>
+        go-runtime, 1.16.6, Khem Raj <raj.khem@gmail.com>
+        go, 1.16.6, Khem Raj <raj.khem@gmail.com>
+        llvm, 12.0.1, Khem Raj <raj.khem@gmail.com>
+        gdbm, 1.20, Alexander Kanavin <alex.kanavin@gmail.com>
+    * Succeeded: 7
+        libedit, 20210714-3.1, Khem Raj <raj.khem@gmail.com>
+        python3-cython, 0.29.24, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        python3-hypothesis, 6.14.3, Tim Orling <timothy.t.orling@intel.com>
+        python3-setuptools, 57.2.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        mesa, 21.1.5, Otavio Salvador <otavio.salvador@ossystems.com.br>
+        wireless-regdb, 2021.07.14, Adrian Bunk <bunk@kernel.org>
+        diffoscope, 178, Joshua Watt <JPEWhacker@gmail.com>
+    * Failed(other errors): 1
+        adwaita-icon-theme, 40.1.1, Ross Burton <ross.burton@arm.com>
 
-Next steps:
-    - apply the patch: git am 0001-wireless-regdb-upgrade-2021.04.21-2021.07.14.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+    TOTAL: attempted=22 succeeded=7(31.82%) failed=15(68.18%)
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Recipe upgrade statistics per Maintainer:
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+    Robert Yang <liezhi.yang: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Armin Kuster <akuster: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Khem Raj <raj.khem: attempted=5 succeeded=1(20.00%) failed=4(80.00%)
+    Anuj Mittal <anuj.mittal: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Adrian Bunk <bunk: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Tim Orling <timothy.t.orling: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Oleksandr Kravchuk <open.source: attempted=3 succeeded=2(66.67%) failed=1(33.33%)
+    Joshua Watt <JPEWhacker: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Chen Qi <Qi.Chen: attempted=2 succeeded=0(0.00%) failed=2(100.00%)
+    Wang Mingyu <wangmy: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Alexander Kanavin <alex.kanavin: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Pascal Bach <pascal.bach: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Otavio Salvador <otavio.salvador: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Ross Burton <ross.burton: attempted=2 succeeded=0(0.00%) failed=2(100.00%)
 
-Regards,
-The Upgrade Helper
-
---===============7163748874924022823==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/all-poky-linux/wireless-regdb: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
-packages/all-poky-linux/wireless-regdb: PV changed from "2021.04.21" to "2021.07.14"
-packages/all-poky-linux/wireless-regdb: SRC_URI changed from "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2021.04.21.tar.xz" to "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2021.07.14.tar.xz"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PV changed from "2021.04.21" to "2021.07.14"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PV changed from "2021.04.21" to "2021.07.14"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGSIZE changed from 5198 to 5218 (+0%)
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PV changed from "2021.04.21" to "2021.07.14"
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGSIZE changed from 6039 to 6067 (+0%)
-
---===============7163748874924022823==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-wireless-regdb-upgrade-2021.04.21-2021.07.14.patch"
-
-From 25b5e2dcc10cdb31c4e2cfb6b92e5aa611eab0c0 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 18 Jul 2021 08:37:40 +0000
-Subject: [PATCH] wireless-regdb: upgrade 2021.04.21 -> 2021.07.14
-
----
- ...ireless-regdb_2021.04.21.bb => wireless-regdb_2021.07.14.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.04.21.bb => wireless-regdb_2021.07.14.bb} (94%)
-
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.07.14.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.07.14.bb
-index f79c0b29ea..40b4d563f0 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.07.14.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
- 
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "9e4c02b2a9710df4dbdb327c39612e8cbbae6495987afeddaebab28c1ea3d8fa"
-+SRC_URI[sha256sum] = "2e2dd216a5f1a310b849774af63e6309d94c2207c34771a534c47ae18b162742"
- 
- inherit bin_package allarch
- 
--- 
-2.27.0
-
-
---===============7163748874924022823==--
+--===============1221476052269941555==--
