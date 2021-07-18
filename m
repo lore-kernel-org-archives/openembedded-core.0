@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.13212.1626600381831147846
+ by mx.groups.io with SMTP id smtpd.web10.13270.1626600381832327608
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jul 2021 02:26:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0A68738C094A
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0BDBF38C1185
 	for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 09:26:21 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemd-boot: upgrading to 249 FAILED
-Message-ID: <MADEUP.1692D86DE5C9757E.27710@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0470901891925496007=="
+Subject: [AUH] systemd: upgrading to 249 FAILED
+Message-ID: <MADEUP.1692D86DE6514E6C.32522@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============1288533822724595890=="
 
---===============0470901891925496007==
+--===============1288533822724595890==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,17 +23,18 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemd-boot* to *249* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *systemd* to *249* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade systemd-boot -V 249 -S f6278558da0304ec6b646bb172ce4688c7f162a5
+The following devtool command failed:  upgrade systemd -V 249 -S f6278558da0304ec6b646bb172ce4688c7f162a5
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1458 entries from dependency cache.
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -57,6 +58,7 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 0 seconds
+INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
 ERROR: Revision f6278558da0304ec6b646bb172ce4688c7f162a5 was found on multiple branches: 
   main
@@ -71,4 +73,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0470901891925496007==--
+--===============1288533822724595890==--
