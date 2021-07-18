@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.13215.1626600382113580412
+ by mx.groups.io with SMTP id smtpd.web12.13219.1626600382393223314
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jul 2021 02:26:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8B60A38C1370
+	by mail.yoctoproject.org (Postfix) with ESMTP id 9079B38C1377
 	for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 09:26:21 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] adwaita-icon-theme: upgrading to 40.1.1 FAILED
-Message-ID: <MADEUP.1692D86E062AC72D.32522@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0345496260366627305=="
+Subject: [AUH] mesa: upgrading to 21.1.5 SUCCEEDED
+Message-ID: <MADEUP.1692D86E08948604.32522@lists.openembedded.org>
+X-Groupsio-MsgNum: 153971
+Content-Type: multipart/mixed; boundary="===============4233843011756831545=="
 
---===============0345496260366627305==
+--===============4233843011756831545==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,20 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *adwaita-icon-theme* to *40.1.1* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *mesa* to *21.1.5* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-mesa-upgrade-21.1.4-21.1.5.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Failed(unknown error)
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/upgrade-helper.py", line 481, in run
-    step(self.devtool, self.bb, self.git, self.opts, pkg_ctx)
-  File "/home/pokybuild/yocto-worker/auh/build/build/auto-upgrade-helper/modules/steps.py", line 39, in load_env
-    os.mkdir(pkg_ctx['workdir'])
-FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/auh/build/build/build/upgrade-helper/20210718050052/all/adwaita-icon-theme'
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,4 +44,111 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0345496260366627305==--
+--===============4233843011756831545==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-21.1.4.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch" to "https://mesa.freedesktop.org/archive/mesa-21.1.5.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch"
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgbm: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libglapi: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 195255296 to 195271804 (+0%)
+packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 30553866 to 30554786 (+0%)
+packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 96736085 to 96737125 (+0%)
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "21.1.4" to "21.1.5"
+packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
+packages/core2-32-poky-linux/mesa/mesa: PV changed from "21.1.4" to "21.1.5"
+
+--===============4233843011756831545==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-mesa-upgrade-21.1.4-21.1.5.patch"
+
+From bf08ae2d40f202859f211e18a965a406ea869a7d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 18 Jul 2021 08:33:37 +0000
+Subject: [PATCH] mesa: upgrade 21.1.4 -> 21.1.5
+
+---
+ meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
+ meta/recipes-graphics/mesa/{mesa_21.1.4.bb => mesa_21.1.5.bb} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa_21.1.4.bb => mesa_21.1.5.bb} (100%)
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 6a102585a1..6a0df4fa2e 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "1f177f44098164b65731c5ded4c928fd58b14f6c9d2087aa0e37bc79bf79e90b"
++SRC_URI[sha256sum] = "022c7293074aeeced2278c872db4fa693147c70f8595b076cf3f1ef81520766d"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_21.1.4.bb b/meta/recipes-graphics/mesa/mesa_21.1.5.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_21.1.4.bb
+rename to meta/recipes-graphics/mesa/mesa_21.1.5.bb
+-- 
+2.27.0
+
+
+--===============4233843011756831545==--
