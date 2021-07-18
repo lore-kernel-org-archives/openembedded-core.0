@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.13217.1626600382174827404
+ by mx.groups.io with SMTP id smtpd.web12.13218.1626600382223520703
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jul 2021 02:26:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 76F3F38C1323
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8422338C1355
 	for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 09:26:21 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Tim Orling <timothy.t.orling@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mtools: upgrading to 4.0.33 FAILED
-Message-ID: <MADEUP.1692D86DF96F72F2.32641@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============3606055336015795667=="
+Subject: [AUH] python3-hypothesis: upgrading to 6.14.3 SUCCEEDED
+Message-ID: <MADEUP.1692D86DFBBF4389.12794@lists.openembedded.org>
+X-Groupsio-MsgNum: 153963
+Content-Type: multipart/mixed; boundary="===============9060663307856731827=="
 
---===============3606055336015795667==
+--===============9060663307856731827==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,108 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mtools* to *4.0.33* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.14.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.14.1-6.14.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe mtools failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1458 entries from dependency cache.
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-c9c29a549670b20f2d65a9a6be4d405287648317"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:c9c29a549670b20f2d65a9a6be4d405287648317"
-workspace            = "master:84fbf8632d78afa82d04d39cb89c19b822849dfb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.gnu.org/gnu/mtools/mtools-4.0.33.tar.bz2...
-Loading cache...done.
-Loaded 1458 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 822 .bb files complete (820 cached, 2 parsed). 1459 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-c9c29a549670b20f2d65a9a6be4d405287648317"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:c9c29a549670b20f2d65a9a6be4d405287648317"
-workspace            = "master:84fbf8632d78afa82d04d39cb89c19b822849dfb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Rebasing devtool onto 9d935299ec157cabdab6b881ee0778fd2362dbd0
-WARNING: Command 'git rebase 9d935299ec157cabdab6b881ee0778fd2362dbd0' failed:
-Rebasing (1/3)
-Rebasing (2/3)
-error: could not apply 0e41b16... Disable building with X11 support.
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 0e41b16... Disable building with X11 support.
-Auto-merging Makefile.in
-CONFLICT (content): Merge conflict in Makefile.in
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto 9d935299ec157cabdab6b881ee0778fd2362dbd0
-WARNING: Command 'git rebase 9d935299ec157cabdab6b881ee0778fd2362dbd0' failed:
-Rebasing (1/4)
-Rebasing (2/4)
-error: could not apply 0e41b16... Disable building with X11 support.
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 0e41b16... Disable building with X11 support.
-Auto-merging Makefile.in
-CONFLICT (content): Merge conflict in Makefile.in
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/mtools
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/mtools/mtools_4.0.33.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -132,4 +44,76 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3606055336015795667==--
+--===============9060663307856731827==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.14.1.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.14.3.tar.gz"
+packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis: PV changed from "6.14.1" to "6.14.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.14.1" to "6.14.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.14.1" to "6.14.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.14.1" to "6.14.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.14.1" to "6.14.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.14.1" to "6.14.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.14.1" to "6.14.3"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 1883658 to 1883703 (+0%)
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.14.1 [default] to 6.14.3 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.14.1" to "6.14.3"
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.9/site-packages/hypothesis-6.14.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/hypothesis-6.14.3-py3.9.egg-info
+
+--===============9060663307856731827==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.9/site-packages/hypothesis-6.14.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/hypothesis-6.14.3-py3.9.egg-info
+
+--===============9060663307856731827==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-hypothesis-upgrade-6.14.1-6.14.3.patch"
+
+From 6ea3b968ca392606b00c69ac19b0e615ab01bb71 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 18 Jul 2021 08:03:21 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.14.1 -> 6.14.3
+
+---
+ ...ython3-hypothesis_6.14.1.bb => python3-hypothesis_6.14.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.14.1.bb => python3-hypothesis_6.14.3.bb} (85%)
+
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.14.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.14.3.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.14.1.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.14.3.bb
+index 61598c3a16..83c9917a04 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.14.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.14.3.bb
+@@ -7,7 +7,7 @@ PYPI_PACKAGE = "hypothesis"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "88b0736a5691b68b8e16a4b7ee8e4c8596810c5a20989ea5b5f64870a7c25740"
++SRC_URI[sha256sum] = "1c8776d9fc8c598cf1b93b99bd87976f9d9b589fc58843d85a30090700f14a8a"
+ 
+ RDEPENDS_${PN} += " \
+     python3-attrs \
+-- 
+2.27.0
+
+
+--===============9060663307856731827==--
