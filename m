@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.13219.1626600382393223314
+ by mx.groups.io with SMTP id smtpd.web10.13273.1626600382440807613
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jul 2021 02:26:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9079B38C1377
+	by mail.yoctoproject.org (Postfix) with ESMTP id 973D838C1382
 	for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 09:26:21 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Adrian Bunk <bunk@kernel.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 21.1.5 SUCCEEDED
-Message-ID: <MADEUP.1692D86E08948604.32522@lists.openembedded.org>
-X-Groupsio-MsgNum: 153971
-Content-Type: multipart/mixed; boundary="===============4233843011756831545=="
+Subject: [AUH] wireless-regdb: upgrading to 2021.07.14 SUCCEEDED
+Message-ID: <MADEUP.1692D86E0B8E650C.12794@lists.openembedded.org>
+X-Groupsio-MsgNum: 153972
+Content-Type: multipart/mixed; boundary="===============7163748874924022823=="
 
---===============4233843011756831545==
+--===============7163748874924022823==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *21.1.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *wireless-regdb* to *2021.07.14* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-21.1.4-21.1.5.patch
+    - apply the patch: git am 0001-wireless-regdb-upgrade-2021.04.21-2021.07.14.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,111 +44,58 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4233843011756831545==
+--===============7163748874924022823==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-21.1.4.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch" to "https://mesa.freedesktop.org/archive/mesa-21.1.5.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0002-meson.build-make-TLS-ELF-optional.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch"
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgbm: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libglapi: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 195255296 to 195271804 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 30553866 to 30554786 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 96736085 to 96737125 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "21.1.4" to "21.1.5"
-packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 21.1.4 [default] to 21.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa: PV changed from "21.1.4" to "21.1.5"
+packages/all-poky-linux/wireless-regdb: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
+packages/all-poky-linux/wireless-regdb: PV changed from "2021.04.21" to "2021.07.14"
+packages/all-poky-linux/wireless-regdb: SRC_URI changed from "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2021.04.21.tar.xz" to "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2021.07.14.tar.xz"
+packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
+packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PV changed from "2021.04.21" to "2021.07.14"
+packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
+packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PV changed from "2021.04.21" to "2021.07.14"
+packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGSIZE changed from 5198 to 5218 (+0%)
+packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGV changed from 2021.04.21 [default] to 2021.07.14 [default]
+packages/all-poky-linux/wireless-regdb/wireless-regdb: PV changed from "2021.04.21" to "2021.07.14"
+packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGSIZE changed from 6039 to 6067 (+0%)
 
---===============4233843011756831545==
+--===============7163748874924022823==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-mesa-upgrade-21.1.4-21.1.5.patch"
+ filename="0001-wireless-regdb-upgrade-2021.04.21-2021.07.14.patch"
 
-From bf08ae2d40f202859f211e18a965a406ea869a7d Mon Sep 17 00:00:00 2001
+From 25b5e2dcc10cdb31c4e2cfb6b92e5aa611eab0c0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 18 Jul 2021 08:33:37 +0000
-Subject: [PATCH] mesa: upgrade 21.1.4 -> 21.1.5
+Date: Sun, 18 Jul 2021 08:37:40 +0000
+Subject: [PATCH] wireless-regdb: upgrade 2021.04.21 -> 2021.07.14
 
 ---
- meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
- meta/recipes-graphics/mesa/{mesa_21.1.4.bb => mesa_21.1.5.bb} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa_21.1.4.bb => mesa_21.1.5.bb} (100%)
+ ...ireless-regdb_2021.04.21.bb => wireless-regdb_2021.07.14.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.04.21.bb => wireless-regdb_2021.07.14.bb} (94%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 6a102585a1..6a0df4fa2e 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            "
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.07.14.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.07.14.bb
+index f79c0b29ea..40b4d563f0 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.07.14.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
--SRC_URI[sha256sum] = "1f177f44098164b65731c5ded4c928fd58b14f6c9d2087aa0e37bc79bf79e90b"
-+SRC_URI[sha256sum] = "022c7293074aeeced2278c872db4fa693147c70f8595b076cf3f1ef81520766d"
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "9e4c02b2a9710df4dbdb327c39612e8cbbae6495987afeddaebab28c1ea3d8fa"
++SRC_URI[sha256sum] = "2e2dd216a5f1a310b849774af63e6309d94c2207c34771a534c47ae18b162742"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ inherit bin_package allarch
  
-diff --git a/meta/recipes-graphics/mesa/mesa_21.1.4.bb b/meta/recipes-graphics/mesa/mesa_21.1.5.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.1.4.bb
-rename to meta/recipes-graphics/mesa/mesa_21.1.5.bb
 -- 
 2.27.0
 
 
---===============4233843011756831545==--
+--===============7163748874924022823==--
