@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.13301.1626600382130186146
+ by mx.groups.io with SMTP id smtpd.web11.13044.1626600382488889474
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Jul 2021 02:26:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-1.yocto.io (unknown [172.29.10.61])
-	by mail.yoctoproject.org (Postfix) with ESMTP id B3B7938C139B
+	by mail.yoctoproject.org (Postfix) with ESMTP id B919838C139E
 	for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 09:26:21 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 178 SUCCEEDED
-Message-ID: <MADEUP.1692D86E0E0A0CEC.32641@lists.openembedded.org>
-X-Groupsio-MsgNum: 153974
-Content-Type: multipart/mixed; boundary="===============8546723495904830239=="
+Subject: [AUH] gdbm: upgrading to 1.20 FAILED
+Message-ID: <MADEUP.1692D86E114271F9.27710@lists.openembedded.org>
+X-Groupsio-MsgNum: 153975
+Content-Type: multipart/mixed; boundary="===============7057539732930918390=="
 
---===============8546723495904830239==
+--===============7057539732930918390==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *diffoscope* to *178* has Succeeded.
+that the automatic attempt to upgrade the recipe *gdbm* to *1.20* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-177-178.patch
+    - apply the patch: git am 0001-gdbm-upgrade-1.19-1.20.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,51 +50,85 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8546723495904830239==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 821 .bb files complete (0 cached, 821 parsed). 1458 targets, 43 skipped, 0 masked, 0 errors.
-Removing 149 recipes from the core2-32 sysroot...done.
-Removing 153 recipes from the qemux86 sysroot...done.
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============8546723495904830239==
+--===============7057539732930918390==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 177 [default] to 178 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 177 [default] to 178 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 177 [default] to 178 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 177 [default] to 178 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 177 [default] to 178 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 177 [default] to 178 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 945397 to 976063 (+3%)
-packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 177 [default] to 178 [default]
-packages/core2-32-poky-linux/diffoscope: PV changed from "177" to "178"
-packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-177.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-178.tar.gz"
-packages/core2-32-poky-linux/diffoscope: PKGV changed from 177 [default] to 178 [default]
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.9/site-packages/diffoscope-177-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/diffoscope-178-py3.9.egg-info
+packages/core2-32-poky-linux/gdbm/gdbm-bin: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-bin: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-compat: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-compat: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-dbg: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-dbg: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-dbg: PKGSIZE changed from 801880 to 859532 (+7%)
+packages/core2-32-poky-linux/gdbm/gdbm-dev: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-dev: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-dev: PKGSIZE changed from 14270 to 14680 (+3%)
+packages/core2-32-poky-linux/gdbm/gdbm-doc: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-doc: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-doc: PKGSIZE changed from 179576 to 187167 (+4%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-da: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-da: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-da: PKGSIZE changed from 14387 to 14022 (-3%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-de: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-de: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-de: PKGSIZE changed from 16763 to 18206 (+9%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-eo: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-eo: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-eo: PKGSIZE changed from 16039 to 17436 (+9%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-es: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-es: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-es: PKGSIZE changed from 14847 to 14486 (-2%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-fi: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-fi: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-fi: PKGSIZE changed from 12299 to 11953 (-3%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-fr: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-fr: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-fr: PKGSIZE changed from 17153 to 18703 (+9%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-ja: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-ja: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-ja: PKGSIZE changed from 6164 to 5762 (-7%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-pl: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-pl: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-pl: PKGSIZE changed from 16737 to 18088 (+8%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-pt-br: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-pt-br: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-pt-br: PKGSIZE changed from 16594 to 18079 (+9%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-ru: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-ru: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-ru: PKGSIZE changed from 21254 to 22974 (+8%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-sr: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-sr: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-sr: PKGSIZE changed from 21057 to 22827 (+8%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-sv: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-sv: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-sv: PKGSIZE changed from 16096 to 17439 (+8%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-uk: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-uk: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-uk: PKGSIZE changed from 21800 to 23644 (+8%)
+packages/core2-32-poky-linux/gdbm/gdbm-locale-vi: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-locale-vi: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-locale-vi: PKGSIZE changed from 18101 to 17383 (-4%)
+packages/core2-32-poky-linux/gdbm/gdbm-ptest: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-ptest: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-ptest: PKGSIZE changed from 325415 to 325414 (-0%)
+packages/core2-32-poky-linux/gdbm/gdbm-src: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-src: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm-src: PKGSIZE changed from 397009 to 419951 (+6%)
+packages/core2-32-poky-linux/gdbm/gdbm-staticdev: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm-staticdev: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm/gdbm: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm/gdbm: PKGSIZE changed from 71080 to 79272 (+12%)
+packages/core2-32-poky-linux/gdbm: PKGV changed from 1.19 [default] to 1.20 [default]
+packages/core2-32-poky-linux/gdbm: PV changed from "1.19" to "1.20"
+packages/core2-32-poky-linux/gdbm: SRC_URI changed from "https://ftp.gnu.org/gnu/gdbm/gdbm-1.19.tar.gz file://run-ptest file://ptest.patch" to "https://ftp.gnu.org/gnu/gdbm/gdbm-1.20.tar.gz file://run-ptest file://ptest.patch"
+packages/core2-32-poky-linux/perl/perl-dbg: PKGSIZE changed from 16787764 to 16789892 (+0%)
+packages/core2-32-poky-linux/python3/python3-dbg: PKGSIZE changed from 15028224 to 15029372 (+0%)
 
---===============8546723495904830239==
+--===============7057539732930918390==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -98,7 +138,8 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 821 .bb files complete (0 cached, 821 parsed). 1458 targets, 52 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemuarm sysroot...done.
+Removing 2 recipes from the armv7vet2hf-neon sysroot...done.
+Removing 2 recipes from the qemuarm sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -108,5392 +149,1028 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "arm-poky-linux-gnueabi"
 MACHINE              = "qemuarm"
 DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
+DISTRO_VERSION       = "3.3+snapshot-a3482b7f0f28304ad81fed2a241248b2e6070c03"
 TUNE_FEATURES        = "arm armv7ve vfp thumb neon callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
+meta-yocto-bsp       = "tmp-auh-upgrades:a3482b7f0f28304ad81fed2a241248b2e6070c03"
 workspace            = "master:84fbf8632d78afa82d04d39cb89c19b822849dfb"
 
 Initialising tasks...done.
-Sstate summary: Wanted 172 Local 5 Network 0 Missed 167 Current 901 (2% match, 84% complete)
-Removing 4 stale sstate objects for arch qemuarm...done.
+Sstate summary: Wanted 155 Local 5 Network 0 Missed 150 Current 598 (3% match, 80% complete)
+Removing 104 stale sstate objects for arch armv7vet2hf-neon...done.
+Removing 38 stale sstate objects for arch qemuarm...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 915 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 916 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 925 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb:do_packagedata_setscene)
-NOTE: Running setscene task 926 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb:do_packagedata_setscene)
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Started
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: Running task 1336 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_fetch)
-NOTE: Running task 1347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_fetch)
-NOTE: Running task 1380 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_fetch)
-NOTE: Running task 1388 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_fetch)
-NOTE: Running task 1458 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_fetch)
-NOTE: Running task 1493 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_fetch)
-NOTE: Running task 1506 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_fetch)
-NOTE: Running task 1527 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_fetch)
-NOTE: Running task 1585 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_fetch)
-NOTE: Running task 1586 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_write_config)
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Started
-NOTE: Running task 1605 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_fetch)
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1644 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_unpack)
-NOTE: Running task 1645 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_unpack)
-NOTE: Running task 1646 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Started
-NOTE: Running task 1652 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_fetch)
-NOTE: Running task 1653 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_fetch)
-NOTE: Running task 1654 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_fetch)
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1679 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_unpack)
-NOTE: Running task 1685 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_fetch)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1709 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_unpack)
-NOTE: Running task 1721 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_write_config)
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Started
-NOTE: Running task 1745 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_write_config)
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1775 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_unpack)
-NOTE: Running task 1776 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1779 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
-NOTE: Running task 1789 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_unpack)
-NOTE: Running task 1790 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Started
-NOTE: recipe icu-69.1-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Started
-NOTE: Running task 1791 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_unpack)
-NOTE: Running task 1792 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_unpack)
-NOTE: recipe icu-69.1-r0: task do_fetch: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1831 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_unpack)
-NOTE: Running task 1832 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_unpack)
-NOTE: Running task 1835 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1866 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_write_config)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Started
-NOTE: Running task 1906 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Succeeded
-NOTE: Running task 1951 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_write_config)
-NOTE: Running task 1952 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_write_config)
-NOTE: Running task 1960 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_write_config)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Started
-NOTE: Running task 1964 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_unpack)
-NOTE: Running task 1965 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Started
-NOTE: Running task 1975 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_fetch)
-NOTE: Running task 1976 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_unpack)
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Started
-NOTE: Running task 1986 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_fetch)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
-NOTE: Running task 2007 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_fetch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2015 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_unpack)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2030 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_fetch)
-NOTE: Running task 2031 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_fetch)
-NOTE: Running task 2032 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_fetch)
-NOTE: Running task 2033 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_fetch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Started
-NOTE: Running task 2035 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_unpack)
-NOTE: Running task 2053 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_patch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2068 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
-NOTE: Running task 2069 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Started
-NOTE: Running task 2080 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_write_config)
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Succeeded
-NOTE: recipe icu-69.1-r0: task do_unpack: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Started
-NOTE: Running task 2114 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_patch)
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Started
-NOTE: Running task 2127 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_fetch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Started
-NOTE: Running task 2143 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_write_config)
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Started
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Started
-NOTE: Running task 2170 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_unpack)
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2178 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_unpack)
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Started
-NOTE: Running task 2186 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_patch)
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Started
-NOTE: Running task 2190 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Started
-NOTE: Running task 2191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Started
-NOTE: Running task 2192 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 2193 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 2197 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_write_config)
-NOTE: Running task 2198 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_write_config)
-NOTE: Running task 2204 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_unpack)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Succeeded
-NOTE: Running task 2222 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_unpack)
-NOTE: Running task 2223 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_unpack)
-NOTE: Running task 2224 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Started
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Started
-NOTE: Running task 2225 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
-NOTE: Running task 2245 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_patch)
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2256 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_unpack)
-NOTE: Running task 2270 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_unpack)
-NOTE: Running task 2282 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_fetch)
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Started
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Started
-NOTE: Running task 2343 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_fetch)
-NOTE: Running task 2344 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_fetch)
-NOTE: Running task 2345 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_fetch)
-NOTE: Running task 2346 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 2347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Succeeded
-NOTE: Running task 2414 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Started
-NOTE: Running task 2415 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: Running task 2428 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_unpack)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2449 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: Running task 2457 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_patch)
+NOTE: Running task 563 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_fetch)
+NOTE: Running task 970 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gdbm-1.20-r0: task do_fetch: Started
+NOTE: recipe gdbm-1.20-r0: task do_fetch: Succeeded
+NOTE: Running task 1041 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_unpack)
+NOTE: Running task 1042 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1088 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1127 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe gdbm-1.20-r0: task do_unpack: Started
+NOTE: recipe gdbm-1.20-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gdbm-1.20-r0: task do_unpack: Succeeded
+NOTE: Running task 1128 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_patch)
+NOTE: Running task 1199 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1209 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1315 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gdbm-1.20-r0: task do_patch: Started
+NOTE: recipe gdbm-1.20-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe kmod-29-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkeyboard-config-2.33-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gdbm-1.20-r0: task do_patch: Succeeded
+NOTE: Running task 1751 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_deploy_source_date_epoch)
+NOTE: recipe libidn2-2.3.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gdbm-1.20-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2075 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_populate_lic)
+NOTE: recipe gdbm-1.20-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2076 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_configure)
+NOTE: recipe gdbm-1.20-r0: task do_populate_lic: Started
 NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: Running task 2458 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_patch)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: Running task 2470 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Started
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Succeeded
-NOTE: Running task 2489 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_patch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2503 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Started
-NOTE: Running task 2504 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe diffoscope-178-r0: task do_fetch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Started
-NOTE: Running task 2520 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
-NOTE: Running task 2521 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-178-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: Running task 2536 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_unpack)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Started
-NOTE: Running task 2560 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Started
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: Running task 2561 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_unpack)
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2579 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Succeeded
-NOTE: Running task 2592 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: Running task 2593 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_patch)
-NOTE: Running task 2594 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_patch)
-NOTE: Running task 2595 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_unpack)
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Started
-NOTE: Running task 2624 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2652 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
-NOTE: Running task 2653 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_unpack)
-NOTE: Running task 2654 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: Running task 2655 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_unpack: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2656 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2680 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_patch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Started
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2741 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_patch)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Started
-NOTE: Running task 2773 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Succeeded
-NOTE: Running task 2774 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Succeeded
-NOTE: Running task 2800 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Started
-NOTE: Running task 2813 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-178-r0: task do_unpack: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2821 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_patch)
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Succeeded
-NOTE: Running task 2835 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2836 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_patch)
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
-NOTE: Running task 2883 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_patch)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2894 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_patch: Started
-NOTE: Running task 2895 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_patch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Started
-NOTE: Running task 2912 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_patch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2925 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: Running task 2933 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_patch)
-NOTE: recipe atk-2.36.0-r0: task do_patch: Succeeded
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2975 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2983 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_patch)
-NOTE: recipe diffoscope-178-r0: task do_patch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 2984 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: Running task 2985 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
-NOTE: Running task 2986 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2987 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.48.7-r0: task do_patch: Started
-NOTE: Running task 2988 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Started
-NOTE: Running task 2989 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gdbm-1.20-r0: task do_configure: Started
+NOTE: recipe gdbm-1.20-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_populate_lic unihash changed to 673c8d4979d82e60932bb0b2d09bc84eaaa7447ace02394e1e610069c8f9bd76
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2077 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_configure)
+NOTE: recipe xcb-proto-1.14.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2078 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_configure)
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.33-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_configure: Started
+NOTE: Running task 2079 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_configure)
+NOTE: recipe kmod-29-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2080 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_configure)
 NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2990 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2991 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_patch: Succeeded
-NOTE: Running task 2992 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Succeeded
-NOTE: Running task 2993 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2994 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Succeeded
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2995 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2996 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_patch)
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: Running task 2997 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2998 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 2081 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 2082 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe xkeyboard-config-2.33-r0: task do_configure: Started
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: Running task 2999 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: Running task 3000 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Succeeded
-NOTE: Running task 3001 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 3002 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_configure)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3003 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3004 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Succeeded
-NOTE: Running task 3005 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3006 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_deploy_source_date_epoch)
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: Running task 3007 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3008 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_patch)
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3009 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_configure)
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: Running task 3010 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_patch: Succeeded
-NOTE: Running task 3011 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3012 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3013 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_configure)
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3014 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Started
-NOTE: Running task 3015 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Succeeded
-NOTE: Running task 3016 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe kmod-29-r0: task do_configure: Started
+NOTE: recipe libidn2-2.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2083 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_configure)
+NOTE: recipe libidn2-2.3.1-r0: task do_configure: Started
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 2a3512e34bb8c88292f266a4cf8ceac3ca881fc19e8d9bdd9a831abf7b881d9d
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 3035 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Started
-NOTE: Running task 3036 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_patch)
-NOTE: Running task 3041 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot)
-NOTE: Running task 3063 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3064 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3065 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3066 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_configure)
-NOTE: Running task 3079 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic unihash changed to c1bdea9b31c3a913284a1ee075196b1c0949fc02cbc4c9459ea49ccef6f3b340
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe icu-69.1-r0: task do_unpack: Succeeded
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_configure: Succeeded
+NOTE: Running task 2084 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_compile)
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_compile: Started
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_compile: Succeeded
+NOTE: Running task 2085 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_install)
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_install: Started
 NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 3088 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_patch)
-NOTE: Running task 3089 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3090 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3091 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3092 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_configure)
+NOTE: Running task 2086 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
-NOTE: Running task 3093 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
-NOTE: recipe icu-69.1-r0: task do_patch: Started
-NOTE: recipe diffoscope-178-r0: task do_configure: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Succeeded
-NOTE: Running task 3094 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3095 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_configure)
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
-NOTE: recipe diffoscope-178-r0: task do_configure: Succeeded
-NOTE: Running task 3096 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_compile)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Succeeded
-NOTE: Running task 3097 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_compile)
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Started
-NOTE: recipe icu-69.1-r0: task do_patch: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Started
-NOTE: Running task 3098 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_make_icudata)
-NOTE: Running task 3099 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3100 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_patch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Succeeded
-NOTE: Running task 3101 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_compile)
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Started
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 69003abec21630d75e8d49ace4cba7ec76fcc8f9328d483319f958abafff2414
 NOTE: Setscene tasks completed
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Succeeded
-NOTE: Running task 3137 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Succeeded
-NOTE: Running task 3138 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Started
-NOTE: Running task 3145 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Succeeded
-NOTE: Running task 3146 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2087 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
 NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3147 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_configure)
-NOTE: recipe diffoscope-178-r0: task do_compile: Succeeded
-NOTE: Running task 3148 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_install)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Succeeded
-NOTE: Running task 3149 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Succeeded
-NOTE: Running task 3150 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_install)
-NOTE: recipe icu-69.1-r0: task do_configure: Started
-NOTE: recipe diffoscope-178-r0: task do_install: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Succeeded
-NOTE: Running task 3151 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3152 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_configure)
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Started
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3153 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: Running task 3154 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_configure)
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Started
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_install: Succeeded
+NOTE: Running task 2088 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_populate_sysroot)
+NOTE: Running task 2089 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_package)
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_package: Started
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_populate_sysroot: Started
 NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: Running task 3155 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Succeeded
-NOTE: Running task 3156 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_patch)
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Succeeded
-NOTE: Running task 3157 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_compile)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Started
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Succeeded
-NOTE: Running task 3158 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Succeeded
-NOTE: Running task 3159 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package)
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Succeeded
-NOTE: Running task 3160 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_deploy_source_date_epoch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Succeeded
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3161 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_compile)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 3162 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_compile)
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Started
-NOTE: recipe diffoscope-178-r0: task do_install: Succeeded
-NOTE: Running task 3163 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package)
-NOTE: Running task 3164 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-178-r0: task do_package: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Succeeded
-NOTE: Running task 3165 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_packagedata)
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Succeeded
-NOTE: Running task 3166 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Succeeded
-NOTE: Running task 3167 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_install)
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Succeeded
-NOTE: Running task 3168 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package_write_rpm)
-NOTE: Running task 3169 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package_write_rpm)
-NOTE: recipe diffoscope-178-r0: task do_package: Succeeded
-NOTE: Running task 3170 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Succeeded
-NOTE: Running task 3171 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_populate_sysroot)
-NOTE: Running task 3172 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package)
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Started
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 3173 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_compile)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 3174 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_install)
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Succeeded
-NOTE: Running task 3175 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_packagedata)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: Running task 3176 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Succeeded
-NOTE: Running task 3177 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_populate_sysroot)
-NOTE: Running task 3178 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Succeeded
-NOTE: Running task 3179 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package_write_rpm)
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 3180 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Succeeded
-NOTE: Running task 3181 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_install)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: Running task 3182 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 3183 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Succeeded
-NOTE: Running task 3184 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot)
-NOTE: Running task 3185 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package)
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Succeeded
-NOTE: Running task 3186 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_packagedata)
-NOTE: recipe icu-69.1-r0: task do_configure: Succeeded
-NOTE: Running task 3187 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_compile)
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_compile: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Succeeded
-NOTE: Running task 3188 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_compile)
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3189 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package_write_rpm)
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Succeeded
-NOTE: Running task 3190 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_compile)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Succeeded
-NOTE: Running task 3191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata)
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3192 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package_write_rpm)
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 3193 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
-NOTE: Running task 3194 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Succeeded
-NOTE: Running task 3195 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: Running task 3196 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package_write_rpm)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
-NOTE: Running task 3197 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Succeeded
-NOTE: Running task 3198 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_compile)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
-NOTE: Running task 3199 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
-NOTE: Running task 3200 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Succeeded
-NOTE: Running task 3201 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_install)
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Succeeded
-NOTE: Running task 3202 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Succeeded
-NOTE: Running task 3203 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_install)
-NOTE: recipe libpng-1.6.37-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3204 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 3205 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
-NOTE: Running task 3206 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3207 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
-NOTE: recipe libpng-1.6.37-r0: task do_install: Succeeded
-NOTE: Running task 3208 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot)
-NOTE: Running task 3209 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package)
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: Running task 3210 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package: Started
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Succeeded
-NOTE: Running task 3211 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_populate_sysroot)
-NOTE: Running task 3212 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Succeeded
-NOTE: Running task 3213 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_populate_sysroot)
-NOTE: Running task 3214 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Started
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3215 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 3216 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3217 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 3218 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
-NOTE: Running task 3219 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
-NOTE: Running task 3220 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
-NOTE: Running task 3221 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3222 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3223 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package: Succeeded
-NOTE: Running task 3224 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Succeeded
-NOTE: Running task 3225 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_packagedata)
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3226 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3227 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: Running task 3228 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Succeeded
-NOTE: Running task 3229 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package_write_rpm)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 3230 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package_write_rpm)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Succeeded
-NOTE: Running task 3231 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_packagedata)
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 3232 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: Running task 3233 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
-NOTE: Running task 3234 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3235 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package_write_rpm)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 3236 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3237 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3238 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3239 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3240 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 3241 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 3242 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3243 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_configure)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 3244 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3245 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 3246 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Succeeded
-NOTE: Running task 3247 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3248 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package_write_rpm)
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 3249 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_install)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Succeeded
-NOTE: Running task 3250 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_populate_sysroot)
-NOTE: Running task 3251 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3252 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3253 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Succeeded
-NOTE: Running task 3254 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_compile)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Started
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Succeeded
-NOTE: Running task 3255 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_install)
-NOTE: recipe freetype-2.10.4-r0: task do_install: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Succeeded
-NOTE: Running task 3256 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_install)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3257 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_configure)
-NOTE: recipe freetype-2.10.4-r0: task do_install: Succeeded
-NOTE: Running task 3258 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_populate_sysroot)
-NOTE: Running task 3259 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package)
-NOTE: recipe atk-2.36.0-r0: task do_configure: Started
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Succeeded
-NOTE: Running task 3260 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_populate_sysroot)
-NOTE: Running task 3261 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3262 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Succeeded
-NOTE: Running task 3263 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_packagedata)
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3264 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3265 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3266 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_configure)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3267 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package_write_rpm)
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Succeeded
-NOTE: Running task 3268 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_packagedata)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3269 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_configure)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Started
-NOTE: recipe atk-2.36.0-r0: task do_configure: Succeeded
-NOTE: Running task 3270 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Started
-NOTE: recipe atk-2.36.0-r0: task do_compile: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package: Succeeded
-NOTE: Running task 3271 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_packagedata)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3272 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package_write_rpm)
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Started
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3273 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package_write_rpm)
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Succeeded
-NOTE: Running task 3274 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3275 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Succeeded
-NOTE: Running task 3276 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_compile)
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Started
-NOTE: recipe atk-2.36.0-r0: task do_compile: Succeeded
-NOTE: Running task 3277 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_install)
-NOTE: recipe atk-2.36.0-r0: task do_install: Started
-NOTE: recipe atk-2.36.0-r0: task do_install: Succeeded
-NOTE: Running task 3278 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_populate_sysroot)
-NOTE: Running task 3279 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package)
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Succeeded
-NOTE: Running task 3280 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_install)
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Succeeded
-NOTE: Running task 3281 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3282 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Succeeded
-NOTE: Running task 3283 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Succeeded
-NOTE: Running task 3284 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_populate_sysroot)
-NOTE: Running task 3285 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Succeeded
-NOTE: Running task 3286 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_populate_sysroot)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Started
-NOTE: Running task 3287 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package)
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Succeeded
-NOTE: Running task 3288 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_packagedata)
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3289 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3290 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3291 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_configure)
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3292 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_configure)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Started
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3293 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package_write_rpm)
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Succeeded
-NOTE: Running task 3294 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_compile)
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Succeeded
-NOTE: Running task 3295 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install_ptest_base)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Succeeded
-NOTE: Running task 3296 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_packagedata)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3297 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_populate_sysroot)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Succeeded
-NOTE: Running task 3298 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_compile)
-NOTE: Running task 3299 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Succeeded
-NOTE: Running task 3300 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_compile)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 3301 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_compile)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Succeeded
-NOTE: Running task 3302 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_install)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Started
-NOTE: Running task 3303 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package_write_rpm)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Started
-NOTE: recipe icu-69.1-r0: task do_compile: Succeeded
-NOTE: Running task 3304 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_install)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Succeeded
-NOTE: Running task 3305 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_populate_sysroot)
-NOTE: recipe icu-69.1-r0: task do_install: Started
-NOTE: Running task 3306 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Succeeded
-NOTE: Running task 3307 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_install)
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Succeeded
-NOTE: Running task 3308 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_packagedata)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Succeeded
-NOTE: Running task 3309 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_packagedata)
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3310 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package_write_rpm)
-NOTE: recipe icu-69.1-r0: task do_install: Succeeded
-NOTE: Running task 3311 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_populate_sysroot)
-NOTE: Running task 3312 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Started
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Started
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-NOTE: recipe icu-69.1-r0: task do_package: Started
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Succeeded
-NOTE: Running task 3313 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_populate_sysroot)
-NOTE: Running task 3314 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package)
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3315 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3316 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3317 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Succeeded
-NOTE: Running task 3318 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3319 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3320 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_configure)
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Succeeded
-NOTE: Running task 3321 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Succeeded
-NOTE: Running task 3322 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_install)
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3324 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package_write_rpm)
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 3326 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package_write_rpm)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Succeeded
-NOTE: Running task 3327 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Started
-NOTE: recipe icu-69.1-r0: task do_package: Succeeded
-NOTE: Running task 3328 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_packagedata)
-NOTE: recipe icu-69.1-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3329 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package_write_rpm)
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Succeeded
-NOTE: Running task 3330 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Succeeded
-NOTE: Running task 3331 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_compile)
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3332 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Succeeded
-NOTE: Running task 3333 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 3334 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_install)
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Succeeded
-NOTE: Running task 3335 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_populate_sysroot)
-NOTE: Running task 3336 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package)
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 3337 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_populate_sysroot)
-NOTE: Running task 3338 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package)
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Succeeded
-NOTE: Running task 3339 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3340 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package_write_rpm)
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 3341 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 3342 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Succeeded
-NOTE: Running task 3343 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_compile)
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Succeeded
-NOTE: Running task 3344 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_install)
-NOTE: recipe cairo-1.16.0-r0: task do_install: Started
-NOTE: recipe cairo-1.16.0-r0: task do_install: Succeeded
-NOTE: Running task 3345 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot)
-NOTE: Running task 3346 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package)
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3348 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Succeeded
-NOTE: Running task 3349 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata)
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3350 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3351 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_compile)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3352 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_install)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Succeeded
-NOTE: Running task 3353 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_populate_sysroot)
-NOTE: Running task 3354 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3355 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3356 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure)
-NOTE: recipe pango-1.48.7-r0: task do_configure: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Succeeded
-NOTE: Running task 3357 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_packagedata)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3358 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package_write_rpm)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure: Succeeded
-NOTE: Running task 3359 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3360 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile)
-NOTE: recipe pango-1.48.7-r0: task do_compile: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_compile: Succeeded
-NOTE: Running task 3361 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3362 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install)
-NOTE: recipe pango-1.48.7-r0: task do_install: Started
-NOTE: recipe pango-1.48.7-r0: task do_install: Succeeded
-NOTE: Running task 3363 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3364 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_populate_sysroot)
-NOTE: Running task 3365 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package)
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_package: Started
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3366 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3367 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_configure)
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Started
-NOTE: recipe pango-1.48.7-r0: task do_package: Succeeded
-NOTE: Running task 3368 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_packagedata)
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 3369 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package_write_rpm)
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Succeeded
-NOTE: Running task 3370 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_compile)
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Succeeded
-NOTE: Running task 3371 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_install)
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Succeeded
-NOTE: Running task 3372 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package)
-NOTE: Running task 3373 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_populate_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3374 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3379 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Succeeded
-NOTE: Running task 3380 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_packagedata)
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Succeeded
-NOTE: Running task 3384 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package_write_rpm)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3385 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3386 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3387 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3388 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3389 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3390 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_write_rpm)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: Running task 3391 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_qa)
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3392 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_build)
-NOTE: Tasks Summary: Attempted 3392 tasks of which 2973 didn't need to be rerun and all succeeded.
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_populate_sysroot unihash changed to 7df15c4ce3669dbb31ad33bc78b3c3eebdae9359a5973d4be7be56cc577ca60b
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 794 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 818 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 819 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe xcb-proto-1.14.1-r0: task do_configure: Succeeded
+NOTE: Running task 2090 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_compile)
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_compile: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_compile: Succeeded
+NOTE: Running task 2091 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_install)
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 828 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_package: Succeeded
+NOTE: Running task 2092 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_packagedata)
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_install: Started
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_packagedata: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_packagedata unihash changed to 9456328b31a8633b19f027ac17e4bbe9d977ba1d0b1bd33091e06e76a0e0da8c
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata became valid
+NOTE: Running setscene task 855 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_package_setscene)
+NOTE: Running setscene task 856 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 857 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_package_setscene)
+NOTE: Running setscene task 858 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 859 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 861 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_setscene)
+NOTE: Running setscene task 862 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 865 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package_setscene)
+NOTE: Running setscene task 866 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package_write_rpm_setscene)
+NOTE: Running task 2113 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_package_write_rpm)
+NOTE: recipe xcb-proto-1.14.1-r0: task do_install: Succeeded
+NOTE: Running task 2114 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot)
+NOTE: Running task 2115 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package)
+NOTE: recipe libice-1_1.0.10-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_package_write_rpm: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_package: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_package_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_package_setscene: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 888 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 889 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: recipe libsm-1_1.2.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot unihash changed to 576c9a71c93e3b88cd5accca140e7e9c1bd6e934cb97a4def283b301a828f73c
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_populate_sysroot became valid
+NOTE: recipe xkeyboard-config-2.33-r0: task do_configure: Succeeded
+NOTE: Running setscene task 944 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_populate_sysroot_setscene)
+NOTE: Running task 2116 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_compile)
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.33-r0: task do_compile: Started
+NOTE: recipe libx11-1_1.7.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_package: Succeeded
+NOTE: Running task 2117 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata)
+NOTE: recipe libx11-1_1.7.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 947 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Started
+NOTE: recipe xorgproto-2021.4.99.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.4.99.2.bb:do_package_write_rpm unihash changed to d32deb97e91ae849fbc905b6eaaaa1c5c1eb3a2a27e46c94259401c2f40565ea
+NOTE: recipe xkeyboard-config-2.33-r0: task do_compile: Succeeded
+NOTE: Running task 2118 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_install)
+NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_setscene: Succeeded
+NOTE: recipe libice-1_1.0.10-r0: task do_package_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.33-r0: task do_install: Started
+NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 948 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
+NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata unihash changed to 6926f14a6d797fd2c33a3a58ff029020e418aee47f9d7a50f63608bd987e3ec5
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata became valid
+NOTE: Running setscene task 975 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 976 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_package_setscene)
+NOTE: Running setscene task 977 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_package_write_rpm_setscene)
+NOTE: Running task 2136 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_write_rpm)
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.7.2-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm: Started
+NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libxcb-1.14-r0: task do_package_setscene: Started
+NOTE: recipe libx11-1_1.7.2-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 996 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libx11-1_1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_write_rpm unihash changed to 880c8268981d992b7905b407f530de8c3fa3cf429f9af5ee96b387429a5f1afe
+NOTE: recipe libx11-1_1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 998 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.33-r0: task do_install: Succeeded
+NOTE: Running task 2142 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_populate_sysroot)
+NOTE: Running task 2143 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_package)
+NOTE: recipe xkeyboard-config-2.33-r0: task do_populate_sysroot: Started
+NOTE: recipe xkeyboard-config-2.33-r0: task do_package: Started
+ERROR: libxcb-1.14-r0 do_packagedata_setscene: Error executing a python function in exec_python_func() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:buildhistory_emit_pkghistory(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/buildhistory.bbclass', lineno: 323, function: buildhistory_emit_pkghistory
+     0319:
+     0320:        write_pkghistory(pkginfo, d)
+     0321:
+     0322:    # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
+ *** 0323:    bb.build.exec_func("buildhistory_list_pkg_files", d)
+     0324:}
+     0325:
+     0326:python buildhistory_emit_outputsigs() {
+     0327:    if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/build.py', lineno: 256, function: exec_func
+     0252:    with bb.utils.fileslocked(lockfiles):
+     0253:        if ispython:
+     0254:            exec_func_python(func, d, runfile, cwd=adir)
+     0255:        else:
+ *** 0256:            exec_func_shell(func, d, runfile, cwd=adir)
+     0257:
+     0258:    try:
+     0259:        curcwd = os.getcwd()
+     0260:    except:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/build.py', lineno: 503, function: exec_func_shell
+     0499:    with open(fifopath, 'r+b', buffering=0) as fifo:
+     0500:        try:
+     0501:            bb.debug(2, "Executing shell function %s" % func)
+     0502:            with open(os.devnull, 'r+') as stdin, logfile:
+ *** 0503:                bb.process.run(cmd, shell=False, stdin=stdin, log=logfile, extrafiles=[(fifo,readfifo)])
+     0504:        except bb.process.ExecutionError as exe:
+     0505:            # Find the backtrace that the shell trap generated
+     0506:            backtrace_marker_regex = re.compile(r"WARNING: Backtrace \(BB generated script\)")
+     0507:            stdout_lines = (exe.stdout or "").split("\n")
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/process.py', lineno: 184, function: run
+     0180:        if not stderr is None:
+     0181:            stderr = stderr.decode("utf-8")
+     0182:
+     0183:    if pipe.returncode != 0:
+ *** 0184:        raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
+     0185:    return stdout, stderr
+Exception: bb.process.ExecutionError: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/temp/run.buildhistory_list_pkg_files.1921824' failed with exit code 1:
+/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/temp/run.buildhistory_list_pkg_files.1921824: line 195: cd: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/packages-split/libxcb-staticdev: No such file or directory
+WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/temp/run.buildhistory_list_pkg_files.1921824:192 exit 1 from 'buildhistory_list_files $pkgdir $outfile fakeroot'
+WARNING: Backtrace (BB generated script): 
+	#1: buildhistory_list_files, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/temp/run.buildhistory_list_pkg_files.1921824, line 192
+	#2: buildhistory_list_pkg_files, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/temp/run.buildhistory_list_pkg_files.1921824, line 165
+	#3: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/temp/run.buildhistory_list_pkg_files.1921824, line 214
+
+Backtrace (metadata-relative locations):
+	#1: buildhistory_list_files, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/buildhistory.bbclass, line 549
+	#2: buildhistory_list_pkg_files, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/buildhistory.bbclass, line 586
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/armv7vet2hf-neon-poky-linux-gnueabi/libxcb/1.14-r0/temp/log.do_packagedata_setscene.1921824
+NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Failed
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe libxcb-1.14-r0: task do_package_setscene: Succeeded
+NOTE: Running task 2145 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata)
+NOTE: recipe xkeyboard-config-2.33-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_populate_sysroot unihash changed to 2f5ee1679565bfd25bdae52b6026d27e69edb2a65299a96ee44719420e3fe8fe
+NOTE: recipe libxcb-1.14-r0: task do_packagedata: Started
+NOTE: Setscene tasks completed
+NOTE: recipe libxcb-1.14-r0: task do_packagedata: Succeeded
+NOTE: recipe xkeyboard-config-2.33-r0: task do_package: Succeeded
+NOTE: Running task 2150 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_packagedata)
+NOTE: recipe xkeyboard-config-2.33-r0: task do_packagedata: Started
+NOTE: recipe gdbm-1.20-r0: task do_configure: Succeeded
+NOTE: Running task 2151 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_configure_ptest_base)
+NOTE: recipe gdbm-1.20-r0: task do_configure_ptest_base: Started
+NOTE: recipe gdbm-1.20-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2152 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_compile)
+NOTE: recipe gdbm-1.20-r0: task do_compile: Started
+NOTE: recipe xkeyboard-config-2.33-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_packagedata unihash changed to 27cc6a6d81755d3902ea4ca20abe99aab04873e9907b25da480a5f8553cb0840
+NOTE: Setscene tasks completed
+NOTE: Running task 2153 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_package_write_rpm)
+NOTE: recipe xkeyboard-config-2.33-r0: task do_package_write_rpm: Started
+NOTE: recipe gdbm-1.20-r0: task do_compile: Succeeded
+NOTE: Running task 2154 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_compile_ptest_base)
+NOTE: recipe gdbm-1.20-r0: task do_compile_ptest_base: Started
+NOTE: recipe kmod-29-r0: task do_configure: Succeeded
+NOTE: Running task 2155 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_compile)
+NOTE: recipe kmod-29-r0: task do_compile: Started
+NOTE: recipe kmod-29-r0: task do_compile: Succeeded
+NOTE: Running task 2156 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_install)
+NOTE: recipe xkeyboard-config-2.33-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.33.bb:do_package_write_rpm unihash changed to acf2e1ee7f7d6b71f461847eb4e15859c9f0a0cb10426f420e99a52686e40e32
+NOTE: recipe kmod-29-r0: task do_install: Started
+NOTE: recipe kmod-29-r0: task do_install: Succeeded
+NOTE: Running task 2157 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_populate_sysroot)
+NOTE: Running task 2158 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package)
+NOTE: recipe kmod-29-r0: task do_populate_sysroot: Started
+NOTE: recipe kmod-29-r0: task do_package: Started
+NOTE: recipe kmod-29-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_populate_sysroot unihash changed to 98c1fe378ec245066f87fcaadd5c68a15743256045c876b526c7aaa0b3fe3bf5
+NOTE: Setscene tasks completed
+NOTE: recipe gdbm-1.20-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2159 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_install)
+NOTE: recipe gdbm-1.20-r0: task do_install: Started
+NOTE: recipe kmod-29-r0: task do_package: Succeeded
+NOTE: Running task 2160 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata)
+NOTE: recipe kmod-29-r0: task do_packagedata: Started
+NOTE: recipe gdbm-1.20-r0: task do_install: Succeeded
+NOTE: Running task 2161 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_install_ptest_base)
+NOTE: recipe kmod-29-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata unihash changed to cad5b13defea93fc5f82940679b6f8439b1de28ab1259d10c644d969e8f8e793
+NOTE: Setscene tasks completed
+NOTE: Running task 2162 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm)
+NOTE: recipe gdbm-1.20-r0: task do_install_ptest_base: Started
+NOTE: recipe kmod-29-r0: task do_package_write_rpm: Started
+NOTE: recipe gdbm-1.20-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2163 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_populate_sysroot)
+NOTE: Running task 2164 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_package)
+NOTE: recipe gdbm-1.20-r0: task do_populate_sysroot: Started
+NOTE: recipe gdbm-1.20-r0: task do_package: Started
+NOTE: recipe gdbm-1.20-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2165 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2166 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe kmod-29-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm unihash changed to b763e0896baceea30b3ba8100771e6feb3fdbf929324cf66bf806440e6eeb06d
+NOTE: recipe perl-5.34.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-3.9.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe perl-5.34.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2167 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_configure)
+NOTE: recipe perl-5.34.0-r0: task do_configure: Started
+NOTE: recipe gdbm-1.20-r0: task do_package: Succeeded
+NOTE: Running task 2168 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_packagedata)
+NOTE: recipe python3-3.9.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2169 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_configure)
+NOTE: recipe gdbm-1.20-r0: task do_packagedata: Started
+NOTE: recipe python3-3.9.6-r0: task do_configure: Started
+NOTE: recipe gdbm-1.20-r0: task do_packagedata: Succeeded
+NOTE: Running task 2170 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_package_write_rpm)
+NOTE: Running task 2171 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_package_qa)
+NOTE: recipe gdbm-1.20-r0: task do_package_write_rpm: Started
+NOTE: recipe gdbm-1.20-r0: task do_package_qa: Started
+NOTE: recipe gdbm-1.20-r0: task do_package_qa: Succeeded
+NOTE: recipe gdbm-1.20-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libidn2-2.3.1-r0: task do_configure: Succeeded
+NOTE: Running task 2172 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_compile)
+NOTE: recipe libidn2-2.3.1-r0: task do_compile: Started
+NOTE: recipe libidn2-2.3.1-r0: task do_compile: Succeeded
+NOTE: Running task 2173 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_install)
+NOTE: recipe libidn2-2.3.1-r0: task do_install: Started
+NOTE: recipe libidn2-2.3.1-r0: task do_install: Succeeded
+NOTE: Running task 2174 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_populate_sysroot)
+NOTE: Running task 2175 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_package)
+NOTE: recipe libidn2-2.3.1-r0: task do_package: Started
+NOTE: recipe libidn2-2.3.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libidn2-2.3.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_populate_sysroot unihash changed to 10f04ca952e3d5d38763ce3b94c52237db63ac4a8b7957334d5daedc4c1892bd
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.77.0.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 1202 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.77.0.bb:do_populate_sysroot_setscene)
+NOTE: Running task 2176 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe curl-7.77.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe curl-7.77.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libidn2-2.3.1-r0: task do_package: Succeeded
+NOTE: Running task 2182 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_packagedata)
+NOTE: recipe gnutls-3.7.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2183 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_configure)
+NOTE: recipe libidn2-2.3.1-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_configure: Started
+NOTE: recipe libidn2-2.3.1-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_packagedata unihash changed to 73f2ea16043bd78b36bd04f79340f0a29b28cd53ca7eea4580e0d964defa94c2
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.77.0.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.77.0.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.77.0.bb:do_packagedata became valid
+NOTE: Running setscene task 1216 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.77.0.bb:do_package_write_rpm_setscene)
+NOTE: Running task 2184 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_package_write_rpm)
+NOTE: recipe curl-7.77.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libidn2-2.3.1-r0: task do_package_write_rpm: Started
+NOTE: recipe curl-7.77.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 1222 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.77.0.bb:do_packagedata_setscene)
+NOTE: recipe curl-7.77.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-7.77.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libidn2-2.3.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.1.bb:do_package_write_rpm unihash changed to 39847a787e67eeb014b86aeb37f7c069015dc9774801ecaa7704d335d0771a0f
+NOTE: recipe python3-3.9.6-r0: task do_configure: Succeeded
+NOTE: Running task 2188 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_configure_ptest_base)
+NOTE: recipe python3-3.9.6-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-3.9.6-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2189 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_compile)
+NOTE: recipe python3-3.9.6-r0: task do_compile: Started
+NOTE: recipe perl-5.34.0-r0: task do_configure: Succeeded
+NOTE: Running task 2190 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_configure_ptest_base)
+NOTE: recipe perl-5.34.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe perl-5.34.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2191 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_compile)
+NOTE: recipe perl-5.34.0-r0: task do_compile: Started
+NOTE: recipe python3-3.9.6-r0: task do_compile: Succeeded
+NOTE: Running task 2192 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_compile_ptest_base)
+NOTE: recipe python3-3.9.6-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-3.9.6-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2193 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_install)
+NOTE: recipe python3-3.9.6-r0: task do_install: Started
+NOTE: recipe perl-5.34.0-r0: task do_compile: Succeeded
+NOTE: Running task 2194 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_compile_ptest_base)
+NOTE: recipe perl-5.34.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe perl-5.34.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2195 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_install)
+NOTE: recipe perl-5.34.0-r0: task do_install: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2196 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_compile)
+NOTE: recipe gnutls-3.7.2-r0: task do_compile: Started
+NOTE: recipe python3-3.9.6-r0: task do_install: Succeeded
+NOTE: Running task 2197 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_install_ptest_base)
+NOTE: recipe python3-3.9.6-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-3.9.6-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2198 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_populate_sysroot)
+NOTE: Running task 2199 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_package)
+NOTE: recipe python3-3.9.6-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-3.9.6-r0: task do_package: Started
+NOTE: recipe python3-3.9.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2200 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxml2-2.9.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2201 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_configure)
+NOTE: recipe libxml2-2.9.12-r0: task do_configure: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_configure: Succeeded
+NOTE: Running task 2202 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_configure_ptest_base)
+NOTE: recipe gnutls-3.7.2-r0: task do_compile: Succeeded
+NOTE: Running task 2203 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_install)
+NOTE: recipe libxml2-2.9.12-r0: task do_configure_ptest_base: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2204 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_compile)
+NOTE: recipe libxml2-2.9.12-r0: task do_compile: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_install: Started
+NOTE: recipe perl-5.34.0-r0: task do_install: Succeeded
+NOTE: Running task 2205 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_install_ptest_base)
+NOTE: recipe perl-5.34.0-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-3.9.6-r0: task do_package: Succeeded
+NOTE: Running task 2206 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_packagedata)
+NOTE: recipe python3-3.9.6-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_install: Succeeded
+NOTE: Running task 2207 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_populate_sysroot)
+NOTE: Running task 2208 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_package)
+NOTE: recipe gnutls-3.7.2-r0: task do_populate_sysroot: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_package: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_populate_sysroot unihash changed to c97191575474bae8cae5adf3d5f4f2820285859a78b7a0bca6ed7f5208ae092b
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.185.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 1236 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.185.bb:do_populate_sysroot_setscene)
+NOTE: recipe elfutils-0.185-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe elfutils-0.185-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1240 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_populate_sysroot_setscene)
+NOTE: recipe libmicrohttpd-0.9.73-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.9.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 2209 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.6.bb:do_package_write_rpm)
+NOTE: recipe libmicrohttpd-0.9.73-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2227 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.5.bb:do_package_write_rpm)
+NOTE: recipe python3-3.9.6-r0: task do_package_write_rpm: Started
+NOTE: recipe opkg-utils-0.4.5-r0: task do_package_write_rpm: Started
+NOTE: recipe opkg-utils-0.4.5-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.5.bb:do_package_write_rpm unihash changed to bcf5d04a5f029fd5671f675ffad16400a1ba87fc0a51cd62329fe27ff77f4e53
+NOTE: recipe gnutls-3.7.2-r0: task do_package: Succeeded
+NOTE: Running task 2228 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_packagedata)
+NOTE: recipe gnutls-3.7.2-r0: task do_packagedata: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_packagedata unihash changed to bdd24635f3631e510f3fb913cd7e004146648544320ae0dcb7eee15d320eda3d
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.185.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.185.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.185.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb:do_package became valid
+NOTE: Running setscene task 1241 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 1244 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.185.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 1249 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_package_write_rpm_setscene)
+NOTE: Running task 2229 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_package_write_rpm)
+NOTE: recipe libmicrohttpd-0.9.73-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe elfutils-0.185-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe iproute2-5.13.0-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe gnutls-3.7.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libmicrohttpd-0.9.73-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe iproute2-5.13.0-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe elfutils-0.185-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 1250 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.13.0.bb:do_packagedata_setscene)
+NOTE: recipe iproute2-5.13.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe iproute2-5.13.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1252 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.185.bb:do_packagedata_setscene)
+NOTE: recipe elfutils-0.185-r0: task do_packagedata_setscene: Started
+NOTE: recipe elfutils-0.185-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.9.12-r0: task do_compile: Succeeded
+NOTE: Running setscene task 1254 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb:do_packagedata_setscene)
+NOTE: Running task 2230 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_compile_ptest_base)
+NOTE: recipe libmicrohttpd-0.9.73-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_compile_ptest_base: Started
+NOTE: recipe libmicrohttpd-0.9.73-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe gnutls-3.7.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.2.bb:do_package_write_rpm unihash changed to 41961f88b173c1fcb3d109f9c384cebe0c621620ad71118e674eccd244560ecb
+NOTE: recipe python3-3.9.6-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe perl-5.34.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2240 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_populate_sysroot)
+NOTE: Running task 2241 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_package)
+NOTE: recipe perl-5.34.0-r0: task do_populate_sysroot: Started
+NOTE: recipe perl-5.34.0-r0: task do_package: Started
+NOTE: recipe perl-5.34.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_populate_sysroot unihash changed to 59a43adee4731f94e854ac5ddf460ea8b14783f1e31e5e1afc4896b922cb1a36
+NOTE: Setscene tasks completed
+NOTE: recipe libxml2-2.9.12-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2250 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_install)
+NOTE: recipe libxml2-2.9.12-r0: task do_install: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_install: Succeeded
+NOTE: Running task 2251 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_install_ptest_base)
+NOTE: recipe libxml2-2.9.12-r0: task do_install_ptest_base: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2252 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_populate_sysroot)
+NOTE: Running task 2253 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_package)
+NOTE: recipe libxml2-2.9.12-r0: task do_populate_sysroot: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_package: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_populate_sysroot unihash changed to 0a64125fb9b1cd699441c4a0523753e89ee31107ff68a1fbb0346cdea18e98a3
+NOTE: Setscene tasks completed
+NOTE: Running task 2254 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe wayland-1.19.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe wayland-1.19.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2255 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_configure)
+NOTE: recipe wayland-1.19.0-r0: task do_configure: Started
+NOTE: recipe wayland-1.19.0-r0: task do_configure: Succeeded
+NOTE: Running task 2256 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_configure_ptest_base)
+NOTE: recipe wayland-1.19.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe wayland-1.19.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2257 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_compile)
+NOTE: recipe wayland-1.19.0-r0: task do_compile: Started
+NOTE: recipe wayland-1.19.0-r0: task do_compile: Succeeded
+NOTE: Running task 2258 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_compile_ptest_base)
+NOTE: recipe wayland-1.19.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe wayland-1.19.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2259 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_install)
+NOTE: recipe wayland-1.19.0-r0: task do_install: Started
+NOTE: recipe wayland-1.19.0-r0: task do_install: Succeeded
+NOTE: Running task 2260 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_install_ptest_base)
+NOTE: recipe wayland-1.19.0-r0: task do_install_ptest_base: Started
+NOTE: recipe wayland-1.19.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2261 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_populate_sysroot)
+NOTE: recipe wayland-1.19.0-r0: task do_populate_sysroot: Started
+NOTE: recipe wayland-1.19.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_populate_sysroot unihash changed to f2202eb505697efd0ccecc270b966c10535e5d0eef4d0a90f21dca839b4fb7fe
+NOTE: Setscene tasks completed
+NOTE: Running task 2262 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2263 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_configure)
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_configure: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_configure: Succeeded
+NOTE: Running task 2264 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_compile)
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_compile: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_compile: Succeeded
+NOTE: Running task 2265 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_install)
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_install: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_install: Succeeded
+NOTE: Running task 2266 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_populate_sysroot)
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_populate_sysroot unihash changed to 6ecab7c5d009ff98193c70f59e6e120b8e680eb6906bfa2385e605e54a922cea
+NOTE: Setscene tasks completed
+NOTE: Running task 2267 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe systemd-1_248.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe systemd-1_248.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2268 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_configure)
+NOTE: recipe systemd-1_248.3-r0: task do_configure: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_package: Succeeded
+NOTE: Running task 2269 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_packagedata)
+NOTE: recipe libxml2-2.9.12-r0: task do_packagedata: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_packagedata unihash changed to 40b437ad7d5bdb21faf527e51846b97e0be9f00e877d82c4324544362a97e6fe
+NOTE: Setscene tasks completed
+NOTE: Running task 2270 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_package)
+NOTE: Running task 2271 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_package_write_rpm)
+NOTE: recipe wayland-1.19.0-r0: task do_package: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_package_write_rpm: Started
+NOTE: recipe wayland-1.19.0-r0: task do_package: Succeeded
+NOTE: Running task 2272 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_packagedata)
+NOTE: recipe wayland-1.19.0-r0: task do_packagedata: Started
+NOTE: recipe perl-5.34.0-r0: task do_package: Succeeded
+NOTE: Running task 2273 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_packagedata)
+NOTE: recipe wayland-1.19.0-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_packagedata unihash changed to 3fede0c6d98ffcc77997fa53cefd886851cdb577677677f671452c12de20bbe6
+NOTE: Setscene tasks completed
+NOTE: Running task 2274 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_package)
+NOTE: recipe perl-5.34.0-r0: task do_packagedata: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_package: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_package: Succeeded
+NOTE: Running task 2275 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_packagedata)
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_packagedata: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_packagedata unihash changed to 6e8ffb38b900955009ea1bec932ee67a7de8736c768dddd0b24fbcb87bc2ad6f
+NOTE: Setscene tasks completed
+NOTE: Running task 2276 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_package_write_rpm)
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libxkbcommon-1.3.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.3.0.bb:do_package_write_rpm unihash changed to 6baf1246ffe7d844e172d548fb1266ba1f3a20697f13fd956166b1799db61b65
+NOTE: recipe systemd-1_248.3-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2277 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_compile)
+NOTE: recipe systemd-1_248.3-r0: task do_compile: Started
+NOTE: recipe libxml2-2.9.12-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.12.bb:do_package_write_rpm unihash changed to 3cfd740c368738cd446642b039dc0190e0acc822e39a444073ae8fd19de666ce
+NOTE: recipe perl-5.34.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2278 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_package)
+NOTE: Running task 2279 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_package_write_rpm)
+NOTE: Running task 2280 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_package_write_rpm)
+NOTE: Running task 2281 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_package_write_rpm)
+NOTE: Running task 2282 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb:do_package_write_rpm)
+NOTE: Running task 2283 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.8.bb:do_package_write_rpm)
+NOTE: Running task 2284 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.0.bb:do_package_write_rpm)
+NOTE: Running task 2285 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/diffutils/diffutils_3.7.bb:do_package_write_rpm)
+NOTE: recipe systemd-1_248.3-r0: task do_compile: Succeeded
+NOTE: Running task 2286 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_install)
+NOTE: recipe perl-5.34.0-r0: task do_package_write_rpm: Started
+NOTE: recipe liberror-perl-0.17029-r0: task do_package: Started
+NOTE: recipe attr-2.5.1-r0: task do_package_write_rpm: Started
+NOTE: recipe acl-2.3.1-r0: task do_package_write_rpm: Started
+NOTE: recipe sed-4.8-r0: task do_package_write_rpm: Started
+NOTE: recipe bash-5.1.8-r0: task do_package_write_rpm: Started
+NOTE: recipe diffutils-3.7-r0: task do_package_write_rpm: Started
+NOTE: recipe openssl-1.1.1k-r0: task do_package_write_rpm: Started
+NOTE: recipe systemd-1_248.3-r0: task do_install: Started
+NOTE: recipe acl-2.3.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_package_write_rpm unihash changed to 3fa27d2053f8ff92c74b927716ddd7626f32c64f8c0225a1a772a99ed3defccf
+NOTE: recipe attr-2.5.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_package_write_rpm unihash changed to 2187c9b11a81406365cec60b8bc80b661dbe0841aed8fb684a65e0c509847138
+NOTE: recipe liberror-perl-0.17029-r0: task do_package: Succeeded
+NOTE: Running task 2287 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_packagedata)
+NOTE: recipe liberror-perl-0.17029-r0: task do_packagedata: Started
+NOTE: recipe liberror-perl-0.17029-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_packagedata unihash changed to a44db07fd77f04dfbc4fcea2c44b156e7daecc3cf40bd621ae3687bb4c271643
+NOTE: Setscene tasks completed
+NOTE: Running task 2288 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_package_write_rpm)
+NOTE: Running task 2289 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_8.32.bb:do_package_write_rpm)
+NOTE: recipe systemd-1_248.3-r0: task do_install: Succeeded
+NOTE: Running task 2290 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_populate_sysroot)
+NOTE: Running task 2291 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package)
+NOTE: recipe sed-4.8-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_package_write_rpm unihash changed to c9c2ad82e382c23264cb30aec0cdd2a12111e9625553adfc2d71f6d94e21d1a3
+NOTE: recipe liberror-perl-0.17029-r0: task do_package_write_rpm: Started
+NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot: Started
+NOTE: recipe coreutils-8.32-r0: task do_package_write_rpm: Started
+NOTE: recipe diffutils-3.7-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/diffutils/diffutils_3.7.bb:do_package_write_rpm unihash changed to 7d02cda38aa4152ed6a3b011ead21c28a75c68be07a655aea1e17dec71c0e92d
+NOTE: recipe systemd-1_248.3-r0: task do_package: Started
+NOTE: recipe liberror-perl-0.17029-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_package_write_rpm unihash changed to 626106c4fcf1fe5ea0a2d6d5abbab9547b38253356582be30920b6dccb35c5bd
+NOTE: recipe systemd-1_248.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2292 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2293 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2294 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe procps-3.3.17-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dbus-1.12.20-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe bash-5.1.8-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.8.bb:do_package_write_rpm unihash changed to b1b9e6cd31533c158dd1eba8585fd30fd20f831e4e87498a3a8eebf598772baa
+NOTE: recipe dbus-1.12.20-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2295 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_configure)
+NOTE: recipe dbus-1.12.20-r0: task do_configure: Started
+NOTE: recipe procps-3.3.17-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2296 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_configure)
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2297 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_configure)
+NOTE: recipe procps-3.3.17-r0: task do_configure: Started
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_configure: Started
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_configure: Succeeded
+NOTE: Running task 2298 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_compile)
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_compile: Started
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_compile: Succeeded
+NOTE: Running task 2299 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_install)
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_install: Started
+NOTE: recipe systemd-1_248.3-r0: task do_package: Succeeded
+NOTE: Running task 2300 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_packagedata)
+NOTE: recipe systemd-1_248.3-r0: task do_packagedata: Started
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_install: Succeeded
+NOTE: recipe systemd-1_248.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2301 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package)
+NOTE: Running task 2302 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-compat-units.bb:do_package_write_rpm)
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_package: Started
+NOTE: recipe systemd-compat-units-1.0-r29: task do_package_write_rpm: Started
+NOTE: recipe systemd-compat-units-1.0-r29: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-compat-units.bb:do_package_write_rpm unihash changed to ba47dd24fb0824548d4cc0d02df8793f04de681dfca68372682000eefed0b29c
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_package: Succeeded
+NOTE: Running task 2303 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_packagedata)
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata: Started
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_packagedata unihash changed to b35604de4c710adcb7b05472724179815239e193a4decc61f9fcce6c3dcb9fde
+NOTE: Setscene tasks completed
+NOTE: Running task 2304 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package_write_rpm)
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm: Started
+NOTE: recipe procps-3.3.17-r0: task do_configure: Succeeded
+NOTE: Running task 2305 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_compile)
+NOTE: recipe procps-3.3.17-r0: task do_compile: Started
+NOTE: recipe procps-3.3.17-r0: task do_compile: Succeeded
+NOTE: Running task 2306 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_install)
+NOTE: recipe procps-3.3.17-r0: task do_install: Started
+NOTE: recipe procps-3.3.17-r0: task do_install: Succeeded
+NOTE: Running task 2307 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package)
+NOTE: recipe btrfs-tools-5.12.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.12.1.bb:do_package_write_rpm unihash changed to 22901ef85c62689117a70c5aa5b4804295622e39456736b082d29e22fc923dbc
+NOTE: recipe procps-3.3.17-r0: task do_package: Started
+NOTE: recipe coreutils-8.32-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_8.32.bb:do_package_write_rpm unihash changed to d32762584235088984fdae81d619923a8a8df9d56505ef67d71c33d9c16ba19c
+NOTE: recipe openssl-1.1.1k-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb:do_package_write_rpm unihash changed to 01fac3340d17644bdb01220075548e2568edd682e28e866d5edf0ba4b215a5d6
+NOTE: recipe procps-3.3.17-r0: task do_package: Succeeded
+NOTE: Running task 2308 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_packagedata)
+NOTE: recipe procps-3.3.17-r0: task do_packagedata: Started
+NOTE: recipe procps-3.3.17-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_packagedata unihash changed to f353d6f78c0cb2142f0c47407a0c326b65f8de20a666120730a5a9b8b84b19f0
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.bb:do_package_write_rpm became valid
+NOTE: Running setscene task 1541 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.bb:do_package_write_rpm_setscene)
+NOTE: Running task 2309 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package_write_rpm)
+NOTE: Running task 2310 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb:do_package_write_rpm)
+NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm: Started
+NOTE: recipe util-linux-2.37-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe util-linux-2.37-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe e2fsprogs-1.46.2-r0: task do_package_write_rpm: Started
+NOTE: recipe dbus-1.12.20-r0: task do_configure: Succeeded
+NOTE: Running task 2312 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_compile)
+NOTE: recipe dbus-1.12.20-r0: task do_compile: Started
+NOTE: recipe procps-3.3.17-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.17.bb:do_package_write_rpm unihash changed to a065b56690102b6482a2ae9486fdc977e034be1f96441409bfae5fadb13b29a0
+NOTE: recipe dbus-1.12.20-r0: task do_compile: Succeeded
+NOTE: Running task 2313 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_install)
+NOTE: recipe dbus-1.12.20-r0: task do_install: Started
+NOTE: recipe perl-5.34.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe dbus-1.12.20-r0: task do_install: Succeeded
+NOTE: Running task 2314 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_populate_sysroot)
+NOTE: Running task 2315 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package)
+NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot: Started
+NOTE: recipe dbus-1.12.20-r0: task do_package: Started
+NOTE: recipe dbus-1.12.20-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2316 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb:do_package_write_rpm unihash changed to d53a4a7b3669047290beaf9e9dd92c0f6c504adcf757e8b3ee19e081bfbf5c52
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2317 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_configure: Started
+NOTE: recipe dbus-1.12.20-r0: task do_package: Succeeded
+NOTE: Running task 2318 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata)
+NOTE: recipe dbus-1.12.20-r0: task do_packagedata: Started
+NOTE: recipe dbus-1.12.20-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata unihash changed to 929c9233a84387a3cc67b677b2dd932409893e664d3132ec2803f1d5626094f0
+NOTE: Setscene tasks completed
+NOTE: Running task 2319 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package_write_rpm)
+NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm: Started
+NOTE: recipe systemd-1_248.3-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_248.3.bb:do_package_write_rpm unihash changed to 5f310167a343c9e72eb880b9168619231a0674474f5c05db0619bec4bf383f47
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2320 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2321 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_compile: Succeeded
+NOTE: Running task 2322 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_compile_ptest_base)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2323 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_install)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_install: Succeeded
+NOTE: Running task 2324 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2325 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_populate_sysroot)
+NOTE: Running task 2326 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_package)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_populate_sysroot unihash changed to f27811d79cb2e16ba451e7ff24450d253a14b73368c7456e64f7f31d807157e5
+NOTE: Setscene tasks completed
+NOTE: Running task 2327 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2328 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2329 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2330 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe shared-mime-info-2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2331 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe dbus-test-1.12.20-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2332 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_configure: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2333 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_configure)
+NOTE: recipe libcroco-0.6.13-r0: task do_configure: Started
+NOTE: recipe shared-mime-info-2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2334 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_configure)
+NOTE: recipe shared-mime-info-2.1-r0: task do_configure: Started
+NOTE: recipe shared-mime-info-2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2335 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_compile)
+NOTE: recipe shared-mime-info-2.1-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_package: Succeeded
+NOTE: Running task 2336 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_packagedata: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: Running task 2337 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
+NOTE: Running task 2338 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_packagedata: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
+NOTE: Running task 2339 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
+NOTE: recipe shared-mime-info-2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2340 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_install)
+NOTE: recipe shared-mime-info-2.1-r0: task do_install: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_configure: Succeeded
+NOTE: Running task 2341 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_compile)
+NOTE: recipe libcroco-0.6.13-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
+NOTE: Running task 2342 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata unihash changed to 129add58397887849a1bfcc56ad3ff1a07723314344d3cf9e6e3b0746f5f2241
+NOTE: Setscene tasks completed
+NOTE: Running task 2343 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
+NOTE: recipe shared-mime-info-2.1-r0: task do_install: Succeeded
+NOTE: Running task 2344 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package)
+NOTE: recipe libcroco-0.6.13-r0: task do_compile: Succeeded
+NOTE: Running task 2345 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_install)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm unihash changed to a19acfa8461a3bd02c900e6bf9275921654409bee7b860efdd4cf41580b8d648
+NOTE: recipe shared-mime-info-2.1-r0: task do_package: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_install: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_install: Succeeded
+NOTE: Running task 2346 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_populate_sysroot)
+NOTE: Running task 2347 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_package)
+NOTE: recipe libcroco-0.6.13-r0: task do_populate_sysroot: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_package: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_populate_sysroot unihash changed to 1b6163d5347d202182222c54cc694bf59d861adddd87b1983b49abe1dc61faf1
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 1610 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe bison-3.7.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bison-3.7.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1611 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sysroot_setscene)
+NOTE: recipe gettext-0.21-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gettext-0.21-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libcroco-0.6.13-r0: task do_package: Succeeded
+NOTE: Running task 2365 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_packagedata)
+NOTE: recipe libcroco-0.6.13-r0: task do_packagedata: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_packagedata unihash changed to 7862512d73db55a03de26da83db7a7a9b526f60888a497b79aab5e0709a1efc2
+NOTE: Setscene tasks completed
+NOTE: Running task 2366 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_package)
+NOTE: Running task 2367 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_package_write_rpm)
+NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm: Started
+NOTE: recipe gettext-0.21-r0: task do_package: Started
+NOTE: recipe shared-mime-info-2.1-r0: task do_package: Succeeded
+NOTE: Running task 2368 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata)
+NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata: Started
+NOTE: recipe libcroco-0.6.13-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcroco/libcroco_0.6.13.bb:do_package_write_rpm unihash changed to f9aea9ffb691b85c71288a4464b9b55162606973429b2f00ca22c9c57ede82d0
+NOTE: recipe shared-mime-info-2.1-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata unihash changed to dd7c9d9da8fb2b85e304a0c5e968962b6fcbd3754a675449df8bbc4a266183b5
+NOTE: Setscene tasks completed
+NOTE: Running task 2369 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
+NOTE: Running task 2370 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_package_write_rpm)
+NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_package_write_rpm: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_configure: Succeeded
+NOTE: Running task 2371 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_configure_ptest_base)
+NOTE: recipe dbus-test-1.12.20-r0: task do_configure_ptest_base: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2372 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_compile)
+NOTE: recipe dbus-test-1.12.20-r0: task do_compile: Started
+NOTE: recipe shared-mime-info-2.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm unihash changed to 723c659ec96239950c69e97501c1f57f564f53301fa575e3ece82aa62fcb2c98
+NOTE: recipe dbus-test-1.12.20-r0: task do_compile: Succeeded
+NOTE: Running task 2373 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_compile_ptest_base)
+NOTE: recipe dbus-test-1.12.20-r0: task do_compile_ptest_base: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2374 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_install)
+NOTE: recipe dbus-test-1.12.20-r0: task do_install: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_install: Succeeded
+NOTE: Running task 2375 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_install_ptest_base)
+NOTE: recipe dbus-test-1.12.20-r0: task do_install_ptest_base: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2376 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package)
+NOTE: recipe dbus-test-1.12.20-r0: task do_package: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_package: Succeeded
+NOTE: Running task 2377 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata)
+NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata: Started
+NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata unihash changed to 5c53d8fc7e5b5897dce957d48ac403817d3d9f3034b02a6ea75e6856e90ba861
+NOTE: Setscene tasks completed
+NOTE: Running task 2378 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm)
+NOTE: Running task 2379 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm)
+NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm: Started
+NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-2.0-1_2.68.3-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb:do_package_write_rpm unihash changed to e27c21daeb6ae00f8bdc522166c6dd5e129c08e5eafaf14f0df11c1e0fcccaa7
+NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm unihash changed to 31da475465da3f514ad9d59ae89c5e198e335f893cdd17935bf7a47b904b3ec5
+NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm unihash changed to f263aad4109b57d9445919d81f258aae2d18912932da26135ed38275ffe9e0dc
+NOTE: recipe gettext-0.21-r0: task do_package: Succeeded
+NOTE: Running task 2380 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_packagedata)
+NOTE: recipe gettext-0.21-r0: task do_packagedata: Started
+NOTE: recipe gettext-0.21-r0: task do_packagedata: Succeeded
+NOTE: Running task 2381 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_package)
+NOTE: Running task 2382 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_package_write_rpm)
+NOTE: recipe gettext-0.21-r0: task do_package_write_rpm: Started
+NOTE: recipe bison-3.7.6-r0: task do_package: Started
+NOTE: recipe bison-3.7.6-r0: task do_package: Succeeded
+NOTE: Running task 2383 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_packagedata)
+NOTE: recipe bison-3.7.6-r0: task do_packagedata: Started
+NOTE: recipe bison-3.7.6-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_packagedata unihash changed to 72fd335ab356ac62f9d6c1419e0956b431cb4acf23a710e3b3c198c4d99a905e
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.36.bb:do_package_write_rpm became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.36.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.36.bb:do_package became valid
+NOTE: Running setscene task 1626 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.36.bb:do_package_write_rpm_setscene)
+NOTE: Running task 2384 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_package_write_rpm)
+NOTE: recipe binutils-2.36.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm: Started
+NOTE: recipe binutils-2.36.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 1629 of 753 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.36.bb:do_packagedata_setscene)
+NOTE: recipe binutils-2.36.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gettext-0.21-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_package_write_rpm unihash changed to f782cbe44d69f4225cdc482273b89a088a53c363d608832a6e69328c9305974c
+NOTE: recipe binutils-2.36.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2388 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_package_write_rpm)
+NOTE: recipe wayland-1.19.0-r0: task do_package_write_rpm: Started
+NOTE: recipe bison-3.7.6-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.6.bb:do_package_write_rpm unihash changed to 04cfca3caf31ff3ba3ba1f42ea2101ee9792feecc3155dfca53ad2c0be575f8f
+NOTE: recipe wayland-1.19.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.19.0.bb:do_package_write_rpm unihash changed to 8ba7e3648bde731f0ced87f01323a00e9177f1cd62d79056ba608ac2c27c483b
+NOTE: Running noexec task 2389 of 2389 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.20.bb:do_build)
+NOTE: Tasks Summary: Attempted 2389 tasks of which 2173 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
-Summary: There were 28 ERROR messages shown, returning a non-zero exit code.
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
---===============8546723495904830239==
+--===============7057539732930918390==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.9/site-packages/diffoscope-177-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/diffoscope-178-py3.9.egg-info
+packages/core2-32-poky-linux/gdbm/gdbm: PKGSIZE changed from 71080 to 79272 (+12%)
 
---===============8546723495904830239==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 821 .bb files complete (0 cached, 821 parsed). 1458 targets, 61 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
-workspace            = "master:84fbf8632d78afa82d04d39cb89c19b822849dfb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 172 Local 5 Network 0 Missed 167 Current 901 (2% match, 84% complete)
-Removing 4 stale sstate objects for arch qemumips...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 915 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 916 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 925 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb:do_packagedata_setscene)
-NOTE: Running setscene task 926 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb:do_packagedata_setscene)
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Started
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: Running task 1336 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_fetch)
-NOTE: Running task 1347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_fetch)
-NOTE: Running task 1380 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_fetch)
-NOTE: Running task 1388 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_fetch)
-NOTE: Running task 1458 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_fetch)
-NOTE: Running task 1493 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_fetch)
-NOTE: Running task 1506 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_fetch)
-NOTE: Running task 1527 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_fetch)
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Started
-NOTE: Running task 1585 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_fetch)
-NOTE: Running task 1586 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_write_config)
-NOTE: Running task 1605 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_fetch)
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1618 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_unpack)
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Started
-NOTE: Running task 1619 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_unpack)
-NOTE: Running task 1620 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1652 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_fetch)
-NOTE: Running task 1653 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_fetch)
-NOTE: Running task 1654 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_fetch)
-NOTE: Running task 1658 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_unpack)
-NOTE: Running task 1659 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_unpack)
-NOTE: Running task 1686 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_fetch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Started
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1721 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_write_config)
-NOTE: Running task 1726 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_unpack)
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1745 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_unpack)
-NOTE: Running task 1746 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_unpack)
-NOTE: Running task 1747 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Started
-NOTE: recipe icu-69.1-r0: task do_fetch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Started
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1748 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_unpack)
-NOTE: Running task 1750 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_write_config)
-NOTE: Running task 1751 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe icu-69.1-r0: task do_fetch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Started
-NOTE: Running task 1752 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_unpack)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Succeeded
-NOTE: Running task 1782 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_unpack)
-NOTE: Running task 1785 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Started
-NOTE: Running task 1835 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Started
-NOTE: Running task 1844 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_unpack)
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1867 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_write_config)
-NOTE: Running task 1878 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_unpack)
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Started
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1898 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_unpack)
-NOTE: Running task 1909 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Succeeded
-NOTE: Running task 1950 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_unpack)
-NOTE: Running task 1955 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_write_config)
-NOTE: Running task 1956 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_write_config)
-NOTE: Running task 1957 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1965 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_write_config)
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1978 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_fetch)
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Started
-NOTE: Running task 1979 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_patch)
-NOTE: recipe icu-69.1-r0: task do_unpack: Started
-NOTE: Running task 1989 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_fetch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2009 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_patch)
-NOTE: Running task 2011 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_fetch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
-NOTE: Running task 2033 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_fetch)
-NOTE: Running task 2034 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_fetch)
-NOTE: Running task 2035 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_fetch)
-NOTE: Running task 2036 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_fetch)
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2056 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_patch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2071 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
-NOTE: Running task 2072 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2082 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_write_config)
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Started
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Started
-NOTE: Running task 2101 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_patch)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Started
-NOTE: Running task 2129 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_fetch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Started
-NOTE: Running task 2145 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_write_config)
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2176 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_unpack)
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Started
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Started
-NOTE: Running task 2190 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 2191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 2192 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: Running task 2193 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
-NOTE: Running task 2197 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_write_config)
-NOTE: Running task 2198 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_write_config)
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Started
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2208 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_unpack)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2234 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_unpack)
-NOTE: Running task 2236 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_unpack)
-NOTE: Running task 2249 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Started
-NOTE: Running task 2278 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_fetch)
-NOTE: Running task 2279 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_patch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Succeeded
-NOTE: Running task 2306 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_unpack)
-NOTE: Running task 2307 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_unpack)
-NOTE: Running task 2308 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Started
-NOTE: Running task 2309 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Started
-NOTE: Running task 2323 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Succeeded
-NOTE: Running task 2345 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_fetch)
-NOTE: Running task 2346 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: Running task 2347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_fetch)
-NOTE: Running task 2348 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_fetch)
-NOTE: Running task 2349 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Started
-NOTE: Running task 2391 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_patch)
-NOTE: Running task 2392 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Started
-NOTE: Running task 2408 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
-NOTE: Running task 2409 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: Running task 2441 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_unpack)
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Started
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Started
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2468 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_fetch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Succeeded
-NOTE: Running task 2480 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: Running task 2481 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: Running task 2482 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_fetch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Started
-NOTE: Running task 2483 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2484 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2485 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_unpack)
-NOTE: Running task 2486 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Succeeded
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: Running task 2501 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_unpack)
-NOTE: Running task 2511 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_unpack)
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2535 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_patch)
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Started
-NOTE: Running task 2536 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2566 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Succeeded
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2567 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_patch)
-NOTE: Running task 2568 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_patch)
-NOTE: Running task 2569 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_patch)
-NOTE: Running task 2570 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: Running task 2596 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_unpack)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_unpack: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2642 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: Running task 2657 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: Running task 2658 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_prepare_recipe_sysroot)
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Succeeded
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Started
-NOTE: Running task 2659 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2660 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_patch)
-NOTE: Running task 2661 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_patch)
-NOTE: Running task 2662 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Started
-NOTE: Running task 2663 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_patch)
-NOTE: recipe diffoscope-178-r0: task do_unpack: Succeeded
-NOTE: Running task 2677 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_patch)
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Started
-NOTE: Running task 2678 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_patch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Started
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: Running task 2700 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_patch)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Succeeded
-NOTE: Running task 2726 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Started
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2757 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_deploy_source_date_epoch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2801 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2821 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: Running task 2822 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2832 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_patch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
-NOTE: Running task 2845 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_patch)
-NOTE: Running task 2846 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2866 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_patch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Succeeded
-NOTE: Running task 2905 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2906 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2914 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2936 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
-NOTE: Running task 2954 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.48.7-r0: task do_patch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: Running task 2991 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Succeeded
-NOTE: Running task 2992 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: Running task 2993 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
-NOTE: Running task 2994 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe atk-2.36.0-r0: task do_patch: Started
-NOTE: Running task 2995 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2996 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2997 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2998 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2999 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_configure)
-NOTE: recipe atk-2.36.0-r0: task do_patch: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3000 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3001 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: Running task 3002 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Succeeded
-NOTE: Running task 3003 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Succeeded
-NOTE: Running task 3004 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: Running task 3005 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3006 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3007 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_configure)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: Running task 3008 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3009 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_configure)
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3010 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3011 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Started
-NOTE: Running task 3012 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3013 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_patch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Started
-NOTE: Running task 3014 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3015 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic)
-NOTE: Running task 3016 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_configure)
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3017 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_configure)
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
-NOTE: Running task 3018 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_deploy_source_date_epoch)
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3019 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 70910aa6f5200a5576064a1a8f4bf358162b2cfea2e677eff1e3ac4e51e30845
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3038 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Started
-NOTE: Running task 3039 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_patch)
-NOTE: Running task 3044 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3066 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3067 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
-NOTE: Running task 3068 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: Running task 3082 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe icu-69.1-r0: task do_unpack: Succeeded
-NOTE: Running task 3090 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_patch)
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic unihash changed to c1bdea9b31c3a913284a1ee075196b1c0949fc02cbc4c9459ea49ccef6f3b340
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 3091 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3092 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3093 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3094 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_configure)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Started
-NOTE: Running task 3095 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_patch)
-NOTE: recipe icu-69.1-r0: task do_patch: Started
-NOTE: recipe diffoscope-178-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 3096 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Started
-NOTE: recipe diffoscope-178-r0: task do_configure: Succeeded
-NOTE: Running task 3097 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_compile)
-NOTE: Running task 3098 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Succeeded
-NOTE: Running task 3099 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_compile)
-NOTE: recipe icu-69.1-r0: task do_patch: Succeeded
-NOTE: Running task 3100 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_make_icudata)
-NOTE: Running task 3101 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3102 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_patch)
-NOTE: recipe diffoscope-178-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Started
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Started
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Succeeded
-NOTE: Running task 3103 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Succeeded
-NOTE: Running task 3104 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Succeeded
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3105 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 531ff89e61a44056ea795b323115f489e696f558da7386c12095418e49c4082e
-NOTE: Setscene tasks completed
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3112 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_configure)
-NOTE: Running task 3142 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe diffoscope-178-r0: task do_compile: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Succeeded
-NOTE: Running task 3149 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_install)
-NOTE: Running task 3150 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3151 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_install)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe icu-69.1-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Succeeded
-NOTE: Running task 3152 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3153 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_configure)
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_install: Started
-NOTE: Running task 3154 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Started
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3155 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3156 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_configure)
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 3157 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_compile)
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Succeeded
-NOTE: Running task 3158 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_patch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Succeeded
-NOTE: Running task 3159 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package)
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Succeeded
-NOTE: Running task 3160 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_compile)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Succeeded
-NOTE: Running task 3161 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package)
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Started
-NOTE: recipe diffoscope-178-r0: task do_install: Succeeded
-NOTE: Running task 3162 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package)
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Succeeded
-NOTE: Running task 3163 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3164 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_sysroot)
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_package: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Succeeded
-NOTE: Running task 3165 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_packagedata)
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Succeeded
-NOTE: Running task 3166 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3167 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package_write_rpm)
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Succeeded
-NOTE: Running task 3168 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package_write_rpm)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Succeeded
-NOTE: Running task 3169 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_install)
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Started
-NOTE: recipe diffoscope-178-r0: task do_package: Succeeded
-NOTE: Running task 3170 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_packagedata)
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Succeeded
-NOTE: Running task 3171 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_populate_sysroot)
-NOTE: Running task 3172 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package)
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 3173 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_install)
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Succeeded
-NOTE: Running task 3174 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_populate_sysroot)
-NOTE: Running task 3175 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Succeeded
-NOTE: Running task 3176 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_install)
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: Running task 3177 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Succeeded
-NOTE: Running task 3178 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_packagedata)
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Succeeded
-NOTE: Running task 3179 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot)
-NOTE: Running task 3180 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package)
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Succeeded
-NOTE: Running task 3181 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_compile)
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Succeeded
-NOTE: Running task 3182 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 3183 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_compile)
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Succeeded
-NOTE: Running task 3184 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_packagedata)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 3185 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3186 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package_write_rpm)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: Running task 3187 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: Running task 3188 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Succeeded
-NOTE: Running task 3189 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata)
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Succeeded
-NOTE: Running task 3190 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_compile)
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_configure: Succeeded
-NOTE: Running task 3191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_compile)
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe icu-69.1-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3192 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package_write_rpm)
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Succeeded
-NOTE: Running task 3193 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_compile)
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Succeeded
-NOTE: Running task 3194 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_compile)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
-NOTE: Running task 3195 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
-NOTE: Running task 3196 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Succeeded
-NOTE: Running task 3197 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_install)
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Succeeded
-NOTE: Running task 3198 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 3199 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Succeeded
-NOTE: Running task 3200 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_populate_sysroot)
-NOTE: Running task 3201 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
-NOTE: Running task 3202 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
-NOTE: Running task 3203 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Succeeded
-NOTE: Running task 3204 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
-NOTE: Running task 3205 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_populate_sysroot)
-NOTE: Running task 3206 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package)
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: Running task 3207 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package_write_rpm)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
-NOTE: Running task 3208 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
-NOTE: Running task 3209 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3210 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3211 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3212 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Succeeded
-NOTE: Running task 3213 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: Running task 3214 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_packagedata)
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 3215 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_install)
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Succeeded
-NOTE: Running task 3216 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_install: Started
-NOTE: Running task 3217 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_configure)
-NOTE: Running task 3218 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 3219 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 3220 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe libpng-1.6.37-r0: task do_install: Succeeded
-NOTE: Running task 3221 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 3222 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package)
-NOTE: Running task 3223 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package_write_rpm)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3224 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package_write_rpm)
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3225 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package_write_rpm)
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
-NOTE: Running task 3226 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3227 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 3228 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3229 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_configure)
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3230 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3231 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: Running task 3232 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package: Succeeded
-NOTE: Running task 3233 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata)
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 3234 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 3235 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: Running task 3236 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Succeeded
-NOTE: Running task 3237 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package_write_rpm)
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3238 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 3239 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 3240 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3241 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3242 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3243 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 3244 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 3245 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3246 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package_write_rpm)
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3247 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Succeeded
-NOTE: Running task 3248 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Succeeded
-NOTE: Running task 3249 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_compile)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Succeeded
-NOTE: Running task 3250 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_install)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 3251 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_install)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Succeeded
-NOTE: Running task 3252 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_populate_sysroot)
-NOTE: Running task 3253 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Succeeded
-NOTE: Running task 3254 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_populate_sysroot)
-NOTE: Running task 3255 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Succeeded
-NOTE: Running task 3256 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_packagedata)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3257 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3258 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3259 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3260 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package_write_rpm)
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Succeeded
-NOTE: Running task 3261 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Started
-NOTE: recipe freetype-2.10.4-r0: task do_install: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_install: Succeeded
-NOTE: Running task 3262 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_populate_sysroot)
-NOTE: Running task 3263 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package)
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3264 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_configure)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3265 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_configure)
-NOTE: recipe atk-2.36.0-r0: task do_configure: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Started
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3266 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3267 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_configure)
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Succeeded
-NOTE: Running task 3268 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_packagedata)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3269 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package_write_rpm)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe atk-2.36.0-r0: task do_configure: Succeeded
-NOTE: Running task 3270 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_compile)
-NOTE: recipe atk-2.36.0-r0: task do_compile: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package: Succeeded
-NOTE: Running task 3271 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_packagedata)
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3272 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Started
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3273 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package_write_rpm)
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Succeeded
-NOTE: Running task 3274 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Succeeded
-NOTE: Running task 3275 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe atk-2.36.0-r0: task do_compile: Succeeded
-NOTE: Running task 3276 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 3277 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile)
-NOTE: recipe atk-2.36.0-r0: task do_install: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Succeeded
-NOTE: Running task 3278 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Succeeded
-NOTE: Running task 3279 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_populate_sysroot)
-NOTE: Running task 3280 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package)
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Started
-NOTE: recipe atk-2.36.0-r0: task do_install: Succeeded
-NOTE: Running task 3281 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_populate_sysroot)
-NOTE: Running task 3282 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package)
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3283 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Succeeded
-NOTE: Running task 3284 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_install)
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Started
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3285 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_configure)
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 3286 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Succeeded
-NOTE: Running task 3287 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_populate_sysroot)
-NOTE: Running task 3288 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package)
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3289 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Succeeded
-NOTE: Running task 3290 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_packagedata)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Succeeded
-NOTE: Running task 3291 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile_ptest_base)
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3292 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3293 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Started
-NOTE: recipe icu-69.1-r0: task do_compile: Succeeded
-NOTE: Running task 3294 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_install)
-NOTE: recipe icu-69.1-r0: task do_install: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Succeeded
-NOTE: Running task 3295 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_compile)
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Succeeded
-NOTE: Running task 3296 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Succeeded
-NOTE: Running task 3297 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_packagedata)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Started
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3298 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package_write_rpm)
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Succeeded
-NOTE: Running task 3299 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Succeeded
-NOTE: Running task 3300 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_packagedata)
-NOTE: Running task 3301 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_compile)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Started
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3302 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package_write_rpm)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Succeeded
-NOTE: Running task 3303 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_populate_sysroot)
-NOTE: Running task 3304 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3305 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package_write_rpm)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Succeeded
-NOTE: Running task 3306 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install_ptest_base)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3307 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_populate_sysroot)
-NOTE: Running task 3308 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Started
-NOTE: recipe icu-69.1-r0: task do_install: Succeeded
-NOTE: Running task 3309 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_populate_sysroot)
-NOTE: Running task 3310 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package)
-NOTE: recipe icu-69.1-r0: task do_package: Started
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Succeeded
-NOTE: Running task 3311 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_packagedata)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3312 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package_write_rpm)
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Succeeded
-NOTE: Running task 3313 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_install)
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Succeeded
-NOTE: Running task 3314 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_populate_sysroot)
-NOTE: Running task 3315 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package)
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3316 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3317 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3318 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_configure)
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3319 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_configure)
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Succeeded
-NOTE: Running task 3320 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_packagedata)
-NOTE: recipe icu-69.1-r0: task do_package: Succeeded
-NOTE: Running task 3321 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Succeeded
-NOTE: Running task 3322 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_packagedata: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Succeeded
-NOTE: Running task 3323 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3324 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package_write_rpm)
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3326 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package_write_rpm)
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 3328 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Succeeded
-NOTE: Running task 3329 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Succeeded
-NOTE: Running task 3330 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Succeeded
-NOTE: Running task 3331 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_compile)
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3332 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Succeeded
-NOTE: Running task 3333 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_install)
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 3334 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_install)
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Succeeded
-NOTE: Running task 3335 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_populate_sysroot)
-NOTE: Running task 3336 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package)
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 3337 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_populate_sysroot)
-NOTE: Running task 3338 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package)
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Succeeded
-NOTE: Running task 3339 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 3340 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_packagedata)
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3341 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package_write_rpm)
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Started
-NOTE: Running task 3342 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Succeeded
-NOTE: Running task 3343 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_compile)
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Succeeded
-NOTE: Running task 3344 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_install)
-NOTE: recipe cairo-1.16.0-r0: task do_install: Started
-NOTE: recipe cairo-1.16.0-r0: task do_install: Succeeded
-NOTE: Running task 3345 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot)
-NOTE: Running task 3346 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package)
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3348 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Succeeded
-NOTE: Running task 3349 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata)
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3350 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3351 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_compile)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3352 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_install)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Succeeded
-NOTE: Running task 3353 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_populate_sysroot)
-NOTE: Running task 3354 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3355 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3356 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure)
-NOTE: recipe pango-1.48.7-r0: task do_configure: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Succeeded
-NOTE: Running task 3357 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_packagedata)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3358 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package_write_rpm)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure: Succeeded
-NOTE: Running task 3359 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3360 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile)
-NOTE: recipe pango-1.48.7-r0: task do_compile: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_compile: Succeeded
-NOTE: Running task 3361 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3362 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install)
-NOTE: recipe pango-1.48.7-r0: task do_install: Started
-NOTE: recipe pango-1.48.7-r0: task do_install: Succeeded
-NOTE: Running task 3363 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3364 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_populate_sysroot)
-NOTE: Running task 3365 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package)
-NOTE: recipe pango-1.48.7-r0: task do_package: Started
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3366 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3367 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_configure)
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Started
-NOTE: recipe pango-1.48.7-r0: task do_package: Succeeded
-NOTE: Running task 3368 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_packagedata)
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 3369 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package_write_rpm)
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Succeeded
-NOTE: Running task 3370 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_compile)
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Succeeded
-NOTE: Running task 3371 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_install)
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Succeeded
-NOTE: Running task 3372 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package)
-NOTE: Running task 3373 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_populate_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3374 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3379 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Succeeded
-NOTE: Running task 3380 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_packagedata)
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Succeeded
-NOTE: Running task 3384 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package_write_rpm)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3385 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3386 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3387 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3388 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3389 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3390 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_write_rpm)
-NOTE: Running task 3391 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_qa)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3392 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_build)
-NOTE: Tasks Summary: Attempted 3392 tasks of which 2973 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: There were 28 ERROR messages shown, returning a non-zero exit code.
-
---===============8546723495904830239==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 821 .bb files complete (0 cached, 821 parsed). 1458 targets, 67 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
-workspace            = "master:84fbf8632d78afa82d04d39cb89c19b822849dfb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 172 Local 5 Network 0 Missed 167 Current 901 (2% match, 84% complete)
-Removing 4 stale sstate objects for arch qemuppc...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 915 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 916 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 925 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb:do_packagedata_setscene)
-NOTE: Running setscene task 926 of 1073 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb:do_packagedata_setscene)
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Started
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1336 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_fetch)
-NOTE: Running task 1347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_fetch)
-NOTE: Running task 1380 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_fetch)
-NOTE: Running task 1388 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_fetch)
-NOTE: Running task 1458 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_fetch)
-NOTE: Running task 1493 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_fetch)
-NOTE: Running task 1506 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_fetch)
-NOTE: Running task 1527 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_fetch)
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Started
-NOTE: Running task 1585 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_fetch)
-NOTE: Running task 1586 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_unpack)
-NOTE: Running task 1587 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_write_config)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Succeeded
-NOTE: Running task 1606 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_fetch)
-NOTE: Running task 1607 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_unpack)
-NOTE: Running task 1608 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1621 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_unpack)
-NOTE: Running task 1629 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_unpack)
-NOTE: Running task 1654 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_fetch)
-NOTE: Running task 1655 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_fetch)
-NOTE: Running task 1656 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_fetch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Started
-NOTE: Running task 1686 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_fetch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Started
-NOTE: Running task 1698 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_unpack)
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1711 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_unpack)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1718 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_unpack)
-NOTE: Running task 1719 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_unpack)
-NOTE: Running task 1725 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_write_config)
-NOTE: Running task 1726 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Started
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Started
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Started
-NOTE: recipe icu-69.1-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Succeeded
-NOTE: Running task 1750 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_write_config)
-NOTE: Running task 1751 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Started
-NOTE: Running task 1758 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Started
-NOTE: recipe icu-69.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1782 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_unpack)
-NOTE: Running task 1785 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
-NOTE: Running task 1787 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_unpack)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Started
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Started
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Succeeded
-NOTE: Running task 1809 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_unpack)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1819 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_unpack)
-NOTE: Running task 1820 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_patch)
-NOTE: Running task 1821 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_unpack)
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Started
-NOTE: Running task 1840 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1848 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_patch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1872 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_write_config)
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1893 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_patch)
-NOTE: recipe icu-69.1-r0: task do_unpack: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1901 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Started
-NOTE: Running task 1914 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1959 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_write_config)
-NOTE: Running task 1960 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_write_config)
-NOTE: Running task 1961 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1969 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_write_config)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Started
-NOTE: Running task 1982 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_fetch)
-NOTE: Running task 1992 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_fetch)
-NOTE: Running task 1999 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
-NOTE: Running task 2012 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_patch)
-NOTE: Running task 2015 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_fetch)
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Succeeded
-NOTE: Running task 2037 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_fetch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Started
-NOTE: Running task 2038 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_fetch)
-NOTE: Running task 2039 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_fetch)
-NOTE: Running task 2040 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_fetch)
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Started
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Started
-NOTE: Running task 2083 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_write_config)
-NOTE: Running task 2092 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_patch)
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Started
-NOTE: Running task 2130 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_fetch)
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2146 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_write_config)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2147 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_unpack)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Started
-NOTE: Running task 2163 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Succeeded
-NOTE: Running task 2192 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 2193 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 2194 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: Running task 2195 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
-NOTE: Running task 2199 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_write_config)
-NOTE: Running task 2200 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_write_config)
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2245 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_unpack)
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Started
-NOTE: Running task 2246 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_patch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Started
-NOTE: Running task 2278 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_fetch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2290 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_unpack)
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Started
-NOTE: Running task 2304 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_unpack)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Started
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Started
-NOTE: Running task 2323 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_unpack)
-NOTE: Running task 2324 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2325 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_patch)
-NOTE: Running task 2339 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_unpack)
-NOTE: Running task 2340 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Started
-NOTE: Running task 2341 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_unpack)
-NOTE: Running task 2347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: Running task 2348 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_fetch)
-NOTE: Running task 2349 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_fetch)
-NOTE: Running task 2350 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 2351 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_fetch)
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: Running task 2390 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_deploy_source_date_epoch)
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Started
-NOTE: recipe diffoscope-178-r0: task do_fetch: Started
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Succeeded
-NOTE: Running task 2409 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
-NOTE: recipe diffoscope-178-r0: task do_fetch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2410 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Succeeded
-NOTE: Running task 2411 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Succeeded
-NOTE: Running task 2412 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2413 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_unpack)
-NOTE: Running task 2414 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: Running task 2415 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: Running task 2416 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_unpack)
-NOTE: Running task 2417 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Started
-NOTE: Running task 2418 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Started
-NOTE: Running task 2419 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2420 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
-NOTE: Running task 2421 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2437 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_patch)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Succeeded
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: Running task 2495 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_patch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_unpack: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2544 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_unpack)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2545 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_unpack)
-NOTE: Running task 2551 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_unpack)
-NOTE: Running task 2556 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_patch)
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: Running task 2561 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Started
-NOTE: Running task 2572 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Started
-NOTE: Running task 2573 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_patch)
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2578 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2591 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: Running task 2592 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2593 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Succeeded
-NOTE: Running task 2615 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_patch)
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2644 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_patch)
-NOTE: Running task 2664 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-178-r0: task do_unpack: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Started
-NOTE: Running task 2665 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_patch)
-NOTE: Running task 2666 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Started
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: Running task 2697 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Succeeded
-NOTE: Running task 2706 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_patch)
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2716 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2730 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_patch)
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_patch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_patch: Started
-NOTE: Running task 2781 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_patch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: Running task 2853 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2854 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_patch)
-NOTE: Running task 2858 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Succeeded
-NOTE: Running task 2861 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_patch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Succeeded
-NOTE: Running task 2872 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2880 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Started
-NOTE: Running task 2905 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_deploy_source_date_epoch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Succeeded
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2906 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_generate_toolchain_file)
-NOTE: Running task 2907 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2908 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Started
-NOTE: Running task 2938 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_patch)
-NOTE: Running task 2950 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2994 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
-NOTE: Running task 2995 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 994964385f6ac588debff6649b2bcee96d470267242d45df0b9a617d8aa01f86
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_patch: Started
-NOTE: Running task 3014 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3019 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot)
-NOTE: recipe atk-2.36.0-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3029 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Succeeded
-NOTE: Running task 3032 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: Running task 3033 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3034 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3045 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Succeeded
-NOTE: Running task 3046 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3047 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3048 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Succeeded
-NOTE: Running task 3049 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3050 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 3051 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_patch)
-NOTE: Running task 3064 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3073 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3074 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_configure)
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3075 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_configure)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3076 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3077 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 3078 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: Running task 3079 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Started
-NOTE: Running task 3080 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_patch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3081 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_configure)
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3082 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3083 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3084 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: Running task 3085 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3086 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
-NOTE: Running task 3087 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
-NOTE: recipe diffoscope-178-r0: task do_patch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: Running task 3088 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3089 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe icu-69.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3090 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_configure)
-NOTE: Running task 3091 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_patch)
-NOTE: Running task 3092 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: recipe icu-69.1-r0: task do_patch: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to d505b3a40ada80a814d775ee23d14cf06a96c4aededb01057d9908a933216865
-NOTE: Setscene tasks completed
-NOTE: Running task 3128 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Succeeded
-NOTE: Running task 3129 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Succeeded
-NOTE: Running task 3136 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_compile)
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3137 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic unihash changed to c1bdea9b31c3a913284a1ee075196b1c0949fc02cbc4c9459ea49ccef6f3b340
-NOTE: Running task 3138 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3139 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_configure)
-NOTE: recipe icu-69.1-r0: task do_patch: Succeeded
-NOTE: Running task 3140 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_make_icudata)
-NOTE: Running task 3141 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Started
-NOTE: recipe diffoscope-178-r0: task do_configure: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3142 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_patch)
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Started
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_configure: Succeeded
-NOTE: Running task 3143 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_compile)
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Succeeded
-NOTE: Running task 3144 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Succeeded
-NOTE: Running task 3145 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_compile)
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Started
-NOTE: recipe diffoscope-178-r0: task do_compile: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3146 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Succeeded
-NOTE: Running task 3147 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_configure)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Started
-NOTE: Running task 3148 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_install)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe icu-69.1-r0: task do_configure: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3149 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3150 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3151 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_configure)
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Succeeded
-NOTE: Running task 3152 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3153 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_install)
-NOTE: recipe diffoscope-178-r0: task do_compile: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: Running task 3154 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3155 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Started
-NOTE: recipe diffoscope-178-r0: task do_install: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Succeeded
-NOTE: Running task 3156 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_compile)
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Started
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Succeeded
-NOTE: Running task 3157 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_patch)
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Succeeded
-NOTE: Running task 3158 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package)
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 3159 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_compile)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Succeeded
-NOTE: Running task 3160 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package)
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Succeeded
-NOTE: Running task 3161 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_deploy_source_date_epoch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Succeeded
-NOTE: Running task 3162 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_compile)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_install: Succeeded
-NOTE: Running task 3163 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package)
-NOTE: Running task 3164 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_sysroot)
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Started
-NOTE: Running task 3165 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_packagedata)
-NOTE: recipe diffoscope-178-r0: task do_package: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Succeeded
-NOTE: Running task 3166 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Succeeded
-NOTE: Running task 3167 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package_write_rpm)
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Succeeded
-NOTE: Running task 3168 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_install)
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3169 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package_write_rpm)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Succeeded
-NOTE: Running task 3170 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_populate_sysroot)
-NOTE: Running task 3171 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package)
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_package: Succeeded
-NOTE: Running task 3172 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_packagedata)
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 3173 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_compile)
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 3174 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_install)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Succeeded
-NOTE: Running task 3175 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_packagedata)
-NOTE: Running task 3176 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_populate_sysroot)
-NOTE: Running task 3177 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: Running task 3178 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Succeeded
-NOTE: Running task 3179 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package_write_rpm)
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 3180 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: Running task 3181 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: Running task 3182 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Succeeded
-NOTE: Running task 3183 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_install)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Succeeded
-NOTE: Running task 3184 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_packagedata)
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_configure: Succeeded
-NOTE: Running task 3185 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Succeeded
-NOTE: Running task 3186 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_compile)
-NOTE: recipe icu-69.1-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3187 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Succeeded
-NOTE: Running task 3188 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot)
-NOTE: Running task 3189 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Started
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Succeeded
-NOTE: Running task 3190 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_compile)
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Succeeded
-NOTE: Running task 3191 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata)
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Succeeded
-NOTE: Running task 3192 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_compile)
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3193 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package_write_rpm)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 3194 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Succeeded
-NOTE: Running task 3195 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: Running task 3196 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package_write_rpm)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
-NOTE: Running task 3197 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Started
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Succeeded
-NOTE: Running task 3198 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_install)
-NOTE: recipe libpng-1.6.37-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Succeeded
-NOTE: Running task 3199 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_populate_sysroot)
-NOTE: Running task 3200 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Succeeded
-NOTE: Running task 3201 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_compile)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 3202 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_install: Succeeded
-NOTE: Running task 3203 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot)
-NOTE: Running task 3204 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package)
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 3205 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
-NOTE: Running task 3206 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Succeeded
-NOTE: Running task 3207 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_install)
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3208 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
-NOTE: Running task 3209 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Started
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
-NOTE: Running task 3210 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_configure)
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 3211 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Succeeded
-NOTE: Running task 3212 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_populate_sysroot)
-NOTE: Running task 3213 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package)
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
-NOTE: Running task 3214 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
-NOTE: Running task 3215 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Succeeded
-NOTE: Running task 3216 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
-NOTE: Running task 3217 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Started
-NOTE: Running task 3218 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3219 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 3220 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package_write_rpm)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3221 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package: Succeeded
-NOTE: Running task 3222 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3223 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 3224 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: Running task 3225 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Succeeded
-NOTE: Running task 3226 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3227 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Succeeded
-NOTE: Running task 3228 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package_write_rpm)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: Running task 3229 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: Running task 3230 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
-NOTE: Running task 3231 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 3232 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3233 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3234 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package_write_rpm)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3235 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package_write_rpm)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3236 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 3237 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 3238 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3239 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: Running task 3240 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3241 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 3242 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3243 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3244 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 3245 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3246 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Succeeded
-NOTE: Running task 3247 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3248 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package_write_rpm)
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 3249 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_install)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Succeeded
-NOTE: Running task 3250 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_populate_sysroot)
-NOTE: Running task 3251 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Succeeded
-NOTE: Running task 3252 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_compile)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3253 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3254 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Succeeded
-NOTE: Running task 3255 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_install)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Started
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Succeeded
-NOTE: Running task 3256 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_install)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Succeeded
-NOTE: Running task 3257 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_populate_sysroot)
-NOTE: Running task 3258 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package)
-NOTE: recipe freetype-2.10.4-r0: task do_install: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3259 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_configure)
-NOTE: recipe atk-2.36.0-r0: task do_configure: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3260 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe freetype-2.10.4-r0: task do_install: Succeeded
-NOTE: Running task 3261 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_populate_sysroot)
-NOTE: Running task 3262 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3263 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure)
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Succeeded
-NOTE: Running task 3264 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_packagedata)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Started
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3265 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Succeeded
-NOTE: Running task 3266 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_packagedata)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3267 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package_write_rpm)
-NOTE: Running task 3268 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_configure)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Started
-NOTE: Running task 3269 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_configure)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3270 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package_write_rpm)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Started
-NOTE: recipe atk-2.36.0-r0: task do_configure: Succeeded
-NOTE: Running task 3271 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_compile)
-NOTE: recipe atk-2.36.0-r0: task do_compile: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_package: Succeeded
-NOTE: Running task 3272 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_packagedata)
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Succeeded
-NOTE: Running task 3273 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3274 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile)
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3275 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package_write_rpm)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Succeeded
-NOTE: Running task 3276 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_compile: Succeeded
-NOTE: Running task 3277 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_install)
-NOTE: recipe atk-2.36.0-r0: task do_install: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_install: Succeeded
-NOTE: Running task 3278 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_populate_sysroot)
-NOTE: Running task 3279 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package)
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Succeeded
-NOTE: Running task 3280 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_install)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Started
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Succeeded
-NOTE: Running task 3281 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile_ptest_base)
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Succeeded
-NOTE: Running task 3282 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3283 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Succeeded
-NOTE: Running task 3284 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_populate_sysroot)
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Succeeded
-NOTE: Running task 3285 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_populate_sysroot)
-NOTE: Running task 3286 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package)
-NOTE: Running task 3287 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Succeeded
-NOTE: Running task 3288 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_packagedata)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3289 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3290 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Succeeded
-NOTE: Running task 3291 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3292 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_populate_sysroot)
-NOTE: Running task 3293 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package)
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3294 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Started
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3295 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package_write_rpm)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Succeeded
-NOTE: Running task 3296 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_packagedata)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3297 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_configure)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 3298 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_compile)
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Succeeded
-NOTE: Running task 3299 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Started
-NOTE: Running task 3300 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package_write_rpm)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Succeeded
-NOTE: Running task 3301 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_compile)
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Started
-NOTE: recipe icu-69.1-r0: task do_compile: Succeeded
-NOTE: Running task 3302 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_install)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Succeeded
-NOTE: Running task 3303 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_install)
-NOTE: recipe icu-69.1-r0: task do_install: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Succeeded
-NOTE: Running task 3304 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_populate_sysroot)
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 3305 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Succeeded
-NOTE: Running task 3306 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_compile)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Succeeded
-NOTE: Running task 3307 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_packagedata)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_install: Succeeded
-NOTE: Running task 3308 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_populate_sysroot)
-NOTE: Running task 3309 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package)
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Started
-NOTE: recipe icu-69.1-r0: task do_package: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3310 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package_write_rpm)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Started
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Succeeded
-NOTE: Running task 3311 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Succeeded
-NOTE: Running task 3312 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_packagedata)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Started
-NOTE: Running task 3313 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_packagedata)
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Started
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3314 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Succeeded
-NOTE: Running task 3315 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_populate_sysroot)
-NOTE: Running task 3316 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package)
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3317 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3318 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 3319 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package_write_rpm)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3320 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_configure)
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3321 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_configure)
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Succeeded
-NOTE: Running task 3322 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_packagedata)
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3324 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package_write_rpm)
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Succeeded
-NOTE: Running task 3326 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_install)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Started
-NOTE: recipe icu-69.1-r0: task do_package: Succeeded
-NOTE: Running task 3327 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_packagedata)
-NOTE: recipe icu-69.1-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3328 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package_write_rpm)
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Succeeded
-NOTE: Running task 3329 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 3330 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_install)
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 3331 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_populate_sysroot)
-NOTE: Running task 3332 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package)
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Succeeded
-NOTE: Running task 3333 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_compile)
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Succeeded
-NOTE: Running task 3334 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Succeeded
-NOTE: Running task 3335 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_install)
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Succeeded
-NOTE: Running task 3336 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_populate_sysroot)
-NOTE: Running task 3337 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package)
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 3338 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_packagedata)
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3339 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package_write_rpm)
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 3340 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Succeeded
-NOTE: Running task 3341 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3342 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package_write_rpm)
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Succeeded
-NOTE: Running task 3343 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_compile)
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Succeeded
-NOTE: Running task 3344 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_install)
-NOTE: recipe cairo-1.16.0-r0: task do_install: Started
-NOTE: recipe cairo-1.16.0-r0: task do_install: Succeeded
-NOTE: Running task 3345 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot)
-NOTE: Running task 3346 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package)
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3347 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3348 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Succeeded
-NOTE: Running task 3349 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata)
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3350 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3351 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_compile)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3352 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_install)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Succeeded
-NOTE: Running task 3353 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_populate_sysroot)
-NOTE: Running task 3354 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3355 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3356 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure)
-NOTE: recipe pango-1.48.7-r0: task do_configure: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Succeeded
-NOTE: Running task 3357 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_packagedata)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3358 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package_write_rpm)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure: Succeeded
-NOTE: Running task 3359 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3360 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile)
-NOTE: recipe pango-1.48.7-r0: task do_compile: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_compile: Succeeded
-NOTE: Running task 3361 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3362 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install)
-NOTE: recipe pango-1.48.7-r0: task do_install: Started
-NOTE: recipe pango-1.48.7-r0: task do_install: Succeeded
-NOTE: Running task 3363 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3364 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_populate_sysroot)
-NOTE: Running task 3365 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package)
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_package: Started
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3366 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3367 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_configure)
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Started
-NOTE: recipe pango-1.48.7-r0: task do_package: Succeeded
-NOTE: Running task 3368 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_packagedata)
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 3369 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package_write_rpm)
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Succeeded
-NOTE: Running task 3370 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_compile)
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Succeeded
-NOTE: Running task 3371 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_install)
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Succeeded
-NOTE: Running task 3372 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package)
-NOTE: Running task 3373 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_populate_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3374 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3379 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Succeeded
-NOTE: Running task 3380 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_packagedata)
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Succeeded
-NOTE: Running task 3384 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package_write_rpm)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3385 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3386 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3387 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3388 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3389 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3390 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_write_rpm)
-NOTE: Running task 3391 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_qa)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3392 of 3392 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_build)
-NOTE: Tasks Summary: Attempted 3392 tasks of which 2973 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: There were 28 ERROR messages shown, returning a non-zero exit code.
-
---===============8546723495904830239==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-Loading cache...done.
-Loaded 1459 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 821 .bb files complete (820 cached, 1 parsed). 1458 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.51.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3+snapshot-eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:eff2df9e92ba1fc5bbf5c265d5bae9de66d24943"
-workspace            = "master:84fbf8632d78afa82d04d39cb89c19b822849dfb"
-
-Initialising tasks...done.
-Sstate summary: Wanted 176 Local 9 Network 0 Missed 167 Current 901 (5% match, 84% complete)
-Removing 4 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 913 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 916 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 918 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 926 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb:do_package_write_rpm_setscene)
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe cantarell-fonts-0.301-r1: task do_package_write_rpm_setscene: Started
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 1063 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_packagedata_setscene)
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 1064 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.4.bb:do_packagedata_setscene)
-NOTE: recipe cantarell-fonts-0.301-r1: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 1065 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb:do_packagedata_setscene)
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 1077 of 1077 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb:do_packagedata_setscene)
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Started
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe liberation-fonts-1_2.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cantarell-fonts-0.301-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe hicolor-icon-theme-0.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1191 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe adwaita-icon-theme-3.34.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1336 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_fetch)
-NOTE: Running task 1347 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_fetch)
-NOTE: Running task 1380 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_fetch)
-NOTE: Running task 1388 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_fetch)
-NOTE: Running task 1458 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_fetch)
-NOTE: Running task 1493 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_fetch)
-NOTE: Running task 1506 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_fetch)
-NOTE: Running task 1527 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_fetch)
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Started
-NOTE: Running task 1585 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_fetch)
-NOTE: Running task 1588 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_write_config)
-NOTE: recipe freetype-2.10.4-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Started
-NOTE: Running task 1600 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_unpack)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Started
-NOTE: Running task 1608 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_fetch)
-NOTE: recipe libpng-1.6.37-r0: task do_fetch: Succeeded
-NOTE: Running task 1613 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_unpack)
-NOTE: Running task 1614 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1630 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_unpack)
-NOTE: Running task 1638 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_unpack)
-NOTE: Running task 1656 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_fetch)
-NOTE: Running task 1657 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_fetch)
-NOTE: Running task 1658 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_fetch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Started
-NOTE: Running task 1688 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_fetch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Started
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1716 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_unpack)
-NOTE: Running task 1728 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_write_config)
-NOTE: recipe mesa-2_21.1.4-r0: task do_fetch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1740 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_unpack)
-NOTE: Running task 1741 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_unpack)
-NOTE: Running task 1742 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_fetch: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Started
-NOTE: recipe icu-69.1-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Started
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Started
-NOTE: Running task 1743 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_unpack)
-NOTE: Running task 1756 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_write_config)
-NOTE: Running task 1757 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Started
-NOTE: Running task 1789 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_fetch)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_write_config: Succeeded
-NOTE: recipe icu-69.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1806 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_unpack)
-NOTE: recipe fribidi-1.0.10-r0: task do_fetch: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_fetch: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1816 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_unpack)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1817 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_unpack)
-NOTE: Running task 1818 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_unpack)
-NOTE: Running task 1824 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_unpack)
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Started
-NOTE: Running task 1856 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.48.7-r0: task do_fetch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Started
-NOTE: Running task 1857 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_unpack)
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Started
-NOTE: Running task 1888 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_write_config)
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1927 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_patch)
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Started
-NOTE: Running task 1929 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_unpack: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_write_config: Succeeded
-NOTE: Running task 1962 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_patch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_fetch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Started
-NOTE: Running task 1975 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_write_config)
-NOTE: Running task 1976 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_write_config)
-NOTE: Running task 1977 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pixman-1_0.40.0-r0: task do_write_config: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Started
-NOTE: Running task 1978 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_unpack)
-NOTE: Running task 1986 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_write_config)
-NOTE: Running task 1999 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_fetch)
-NOTE: recipe icu-69.1-r0: task do_unpack: Started
-NOTE: Running task 2009 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_fetch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Started
-NOTE: Running task 2016 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2017 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_patch)
-NOTE: Running task 2032 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_fetch)
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Started
-NOTE: Running task 2054 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_fetch)
-NOTE: Running task 2055 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_fetch)
-NOTE: Running task 2056 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_fetch)
-NOTE: Running task 2057 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_fetch)
-NOTE: recipe libxft-1_2.3.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2075 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_patch)
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Started
-NOTE: recipe libpng-1.6.37-r0: task do_unpack: Succeeded
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2101 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_write_config)
-NOTE: Running task 2109 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_patch)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Started
-NOTE: recipe libpng-1.6.37-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2148 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_fetch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_write_config: Succeeded
-NOTE: Running task 2164 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_write_config)
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_unpack: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2208 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
-NOTE: Running task 2209 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
-NOTE: Running task 2210 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
-NOTE: Running task 2211 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
-NOTE: Running task 2215 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_write_config)
-NOTE: Running task 2216 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_write_config)
-NOTE: Running task 2217 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Started
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_write_config: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe freetype-2.10.4-r0: task do_unpack: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2275 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_patch)
-NOTE: Running task 2285 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_unpack)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_fetch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_write_config: Succeeded
-NOTE: Running task 2294 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_unpack)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Started
-NOTE: recipe atk-2.36.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2295 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Started
-NOTE: Running task 2296 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_unpack)
-NOTE: Running task 2298 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_fetch)
-NOTE: recipe pango-1.48.7-r0: task do_write_config: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_fetch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2318 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_unpack)
-NOTE: Running task 2319 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Started
-NOTE: Running task 2320 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_unpack)
-NOTE: recipe libepoxy-1.5.8-r0: task do_fetch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
-NOTE: Running task 2342 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_unpack)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_fetch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
-NOTE: Running task 2359 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_unpack)
-NOTE: recipe libpng-1.6.37-r0: task do_patch: Succeeded
-NOTE: Running task 2364 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_fetch)
-NOTE: Running task 2365 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_fetch)
-NOTE: Running task 2366 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: Running task 2367 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_fetch)
-NOTE: Running task 2368 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_unpack: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2399 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2400 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_patch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Started
-NOTE: recipe atk-2.36.0-r0: task do_write_config: Succeeded
-NOTE: Running task 2401 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
-NOTE: Running task 2402 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
-NOTE: Running task 2409 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Started
-NOTE: recipe popt-1.18-r0: task do_fetch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_unpack: Succeeded
-NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
-NOTE: Running task 2423 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Started
-NOTE: Running task 2424 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_fetch: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_patch: Succeeded
-NOTE: Running task 2425 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_patch)
-NOTE: Running task 2426 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_unpack)
-NOTE: Running task 2427 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_write_config: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_fetch: Started
-NOTE: Running task 2428 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
-NOTE: Running task 2429 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_patch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_write_config: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2430 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_write_config: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Started
-NOTE: recipe diffoscope-178-r0: task do_fetch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Started
-NOTE: Running task 2466 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_unpack)
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_patch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_fetch: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2482 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2490 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_fetch: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_fetch: Succeeded
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_unpack: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_unpack: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
-NOTE: Running task 2516 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_patch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
-NOTE: Running task 2517 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_patch)
-NOTE: Running task 2518 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_patch)
-NOTE: Running task 2526 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_unpack)
-NOTE: Running task 2527 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_unpack)
-NOTE: Running task 2528 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_unpack)
-NOTE: Running task 2529 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Started
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_unpack: Succeeded
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe freetype-2.10.4-r0: task do_patch: Succeeded
-NOTE: Running task 2572 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_patch)
-NOTE: Running task 2584 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe popt-1.18-r0: task do_unpack: Started
-NOTE: Running task 2585 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2594 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Started
-NOTE: recipe diffoscope-178-r0: task do_unpack: Started
-NOTE: recipe icu-69.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_patch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2641 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
-NOTE: recipe fribidi-1.0.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2642 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Started
-NOTE: Running task 2681 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_unpack: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2682 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2683 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe diffoscope-178-r0: task do_unpack: Succeeded
-NOTE: Running task 2684 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
-NOTE: recipe atk-2.36.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2685 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_patch)
-NOTE: Running task 2686 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_unpack: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_patch: Started
-NOTE: Running task 2687 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_patch)
-NOTE: Running task 2688 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_patch)
-NOTE: Running task 2689 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_patch)
-NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2690 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_configure)
-NOTE: recipe libepoxy-1.5.8-r0: task do_unpack: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2691 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_patch)
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2692 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_patch)
-NOTE: Running task 2693 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
-NOTE: recipe pango-1.48.7-r0: task do_patch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_patch: Started
-NOTE: Running task 2707 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxft-1_2.3.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2734 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_patch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2756 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: Running task 2757 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2820 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_configure)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
-NOTE: Running task 2845 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_patch: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_patch: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Started
-NOTE: Running task 2903 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe atk-2.36.0-r0: task do_patch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Started
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_patch: Succeeded
-NOTE: Running task 3011 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3012 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: Running task 3013 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe fribidi-1.0.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3014 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_configure)
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_patch: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_patch: Succeeded
-NOTE: Running task 3015 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3016 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 3017 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3018 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_generate_toolchain_file)
-NOTE: Running task 3019 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3020 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_patch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_patch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_patch: Succeeded
-NOTE: Running task 3021 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3022 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_patch: Succeeded
-NOTE: Running task 3023 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_patch: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3024 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.48.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
-NOTE: Running task 3025 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_patch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Started
-NOTE: Running task 3026 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_patch: Succeeded
-NOTE: Running task 3027 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: Running task 3028 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 8575f60d419eabdaaae3a37e8422c8caedda7884d40ee20858a504b96e1e4fe6
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Started
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3047 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3052 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3060 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_configure)
-NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3075 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-magic-0.4.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3076 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
-NOTE: Running task 3089 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe atk-2.36.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3098 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_configure)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 3099 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3100 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3101 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_configure)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Started
-NOTE: recipe diffoscope-178-r0: task do_patch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3102 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3103 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic)
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-178-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 3104 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_patch)
-NOTE: Running task 3105 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3106 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
-NOTE: recipe python3-magic-0.4.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3107 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_configure)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Started
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
-NOTE: Running task 3108 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3109 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_configure)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_patch: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
-NOTE: Running task 3110 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_lic unihash changed to c1bdea9b31c3a913284a1ee075196b1c0949fc02cbc4c9459ea49ccef6f3b340
-NOTE: recipe icu-69.1-r0: task do_unpack: Succeeded
-NOTE: Running task 3111 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_patch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_configure: Succeeded
-NOTE: Running task 3112 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_compile)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3113 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 3114 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_unpack: Succeeded
-NOTE: Running task 3115 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_patch)
-NOTE: recipe icu-69.1-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_configure: Succeeded
-NOTE: Running task 3116 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_compile)
-NOTE: recipe diffoscope-178-r0: task do_configure: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 3fccbe62c8e32893a85996d541fa163f3964128b381f8be7d99c1760acce381e
-NOTE: Setscene tasks completed
-NOTE: recipe harfbuzz-2.8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3152 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3159 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_patch)
-NOTE: recipe diffoscope-178-r0: task do_configure: Succeeded
-NOTE: recipe icu-69.1-r0: task do_patch: Succeeded
-NOTE: Running task 3160 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_compile)
-NOTE: Running task 3161 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_make_icudata)
-NOTE: Running task 3162 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_patch: Succeeded
-NOTE: Running task 3163 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.24-r0: task do_compile: Succeeded
-NOTE: Running task 3164 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_install)
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Started
-NOTE: recipe diffoscope-178-r0: task do_compile: Started
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_patch: Succeeded
-NOTE: Running task 3165 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_compile: Succeeded
-NOTE: Running task 3166 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_install)
-NOTE: recipe icu-69.1-r0: task do_make_icudata: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_configure: Succeeded
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3167 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_compile)
-NOTE: Running task 3168 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe icu-69.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3169 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_configure)
-NOTE: recipe diffoscope-178-r0: task do_compile: Succeeded
-NOTE: Running task 3170 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_install)
-NOTE: recipe cairo-1.16.0-r0: task do_patch: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3171 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3172 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_configure)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe icu-69.1-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-178-r0: task do_install: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3173 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_install: Succeeded
-NOTE: Running task 3174 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package)
-NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3175 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_configure)
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_install: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_unpack: Succeeded
-NOTE: Running task 3176 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_patch)
-NOTE: Running task 3177 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 3178 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_compile)
-NOTE: recipe pixman-1_0.40.0-r0: task do_configure: Succeeded
-NOTE: Running task 3179 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_compile)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Started
-NOTE: recipe shared-mime-info-2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_patch: Succeeded
-NOTE: Running task 3180 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_deploy_source_date_epoch)
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_package: Succeeded
-NOTE: Running task 3181 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_packagedata)
-NOTE: recipe gtk+3-3.24.30-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Started
-NOTE: recipe diffoscope-178-r0: task do_install: Succeeded
-NOTE: Running task 3182 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package)
-NOTE: Running task 3183 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_populate_sysroot)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package: Succeeded
-NOTE: Running task 3184 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_packagedata)
-NOTE: recipe fribidi-1.0.10-r0: task do_compile: Succeeded
-NOTE: Running task 3185 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_install)
-NOTE: recipe diffoscope-178-r0: task do_package: Started
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_packagedata: Succeeded
-NOTE: Running task 3186 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.24.bb:do_package_write_rpm)
-NOTE: recipe diffoscope-178-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Started
-NOTE: Running task 3187 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_3.1.bb:do_package_write_rpm)
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_install: Succeeded
-NOTE: Running task 3188 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_populate_sysroot)
-NOTE: Running task 3189 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package)
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Started
-NOTE: recipe python3-magic-0.4.24-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-libarchive-c-3.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_package: Succeeded
-NOTE: Running task 3190 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_packagedata)
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Started
-NOTE: recipe diffoscope-178-r0: task do_packagedata: Succeeded
-NOTE: recipe fribidi-1.0.10-r0: task do_package: Succeeded
-NOTE: Running task 3191 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_packagedata)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 3192 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_compile)
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_packagedata: Succeeded
-NOTE: Running task 3193 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_package_write_rpm)
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
-NOTE: Running task 3194 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
-NOTE: recipe fribidi-1.0.10-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
-NOTE: Running task 3195 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 3196 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_install)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
-NOTE: Running task 3197 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
-NOTE: Running task 3198 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_install: Succeeded
-NOTE: Running task 3199 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_populate_sysroot)
-NOTE: Running task 3200 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe icu-69.1-r0: task do_configure: Succeeded
-NOTE: Running task 3201 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_compile)
-NOTE: recipe icu-69.1-r0: task do_compile: Started
-NOTE: recipe libpng-1.6.37-r0: task do_configure: Succeeded
-NOTE: Running task 3202 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_compile)
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_configure: Succeeded
-NOTE: Running task 3203 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_compile)
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package: Succeeded
-NOTE: Running task 3204 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_packagedata)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_configure: Succeeded
-NOTE: Running task 3205 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_compile)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_configure: Succeeded
-NOTE: Running task 3206 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_compile)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
-NOTE: Running task 3207 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_configure: Succeeded
-NOTE: Running task 3208 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_compile)
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3209 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.0.bb:do_package_write_rpm)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_compile: Succeeded
-NOTE: Running task 3210 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_install)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
-NOTE: Running task 3211 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package_write_rpm)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_compile: Succeeded
-NOTE: Running task 3212 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_install)
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
-NOTE: Running task 3213 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_compile: Succeeded
-NOTE: Running task 3214 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_install: Succeeded
-NOTE: Running task 3215 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_populate_sysroot)
-NOTE: Running task 3216 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_install: Succeeded
-NOTE: Running task 3217 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_compile: Succeeded
-NOTE: Running task 3218 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package)
-NOTE: Running task 3219 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
-NOTE: Running task 3220 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
-NOTE: Running task 3221 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
-NOTE: recipe libpng-1.6.37-r0: task do_compile: Succeeded
-NOTE: Running task 3222 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_install)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
-NOTE: recipe libpng-1.6.37-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe desktop-file-utils-0.26-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_install: Succeeded
-NOTE: Running task 3223 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_populate_sysroot)
-NOTE: Running task 3224 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package)
-NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3225 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Started
-NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
-NOTE: Running task 3226 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
-NOTE: recipe libpng-1.6.37-r0: task do_install: Succeeded
-NOTE: Running task 3227 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot)
-NOTE: Running task 3228 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_install: Succeeded
-NOTE: Running task 3229 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_populate_sysroot)
-NOTE: Running task 3230 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3231 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_compile: Started
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Started
-NOTE: recipe libpng-1.6.37-r0: task do_package: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: Running task 3232 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_package: Succeeded
-NOTE: Running task 3233 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3234 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3235 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libjpeg-turbo-1_2.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package: Succeeded
-NOTE: Running task 3236 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_packagedata)
-NOTE: recipe freetype-2.10.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3237 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_configure)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3238 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Started
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 3239 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3240 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
-NOTE: Running task 3241 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
-NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
-NOTE: Running task 3242 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
-NOTE: recipe popt-1.18-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package: Succeeded
-NOTE: Running task 3243 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_packagedata)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata: Succeeded
-NOTE: Running task 3244 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_package_write_rpm)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3245 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3246 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package: Succeeded
-NOTE: Running task 3247 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_packagedata)
-NOTE: recipe libpng-1.6.37-r0: task do_package: Succeeded
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Started
-NOTE: Running task 3248 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Started
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: Running task 3249 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3250 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.0.bb:do_package_write_rpm)
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata: Succeeded
-NOTE: Running task 3251 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.7.99.2.bb:do_package_write_rpm)
-NOTE: Running task 3252 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_package_write_rpm)
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_install: Succeeded
-NOTE: Running task 3253 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
-NOTE: Running task 3254 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Started
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
-NOTE: recipe popt-1.18-r0: task do_package: Started
-NOTE: recipe lz4-1_1.9.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3255 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3256 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe libxi-1_1.7.99.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 3257 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3258 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3259 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_configure)
-NOTE: recipe popt-1.18-r0: task do_package: Succeeded
-NOTE: Running task 3260 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Started
-NOTE: recipe popt-1.18-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 3261 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
-NOTE: Running task 3262 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3263 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package_write_rpm)
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 3264 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3265 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package_write_rpm)
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 3266 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_install)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Started
-NOTE: recipe freetype-2.10.4-r0: task do_configure: Succeeded
-NOTE: Running task 3267 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_compile)
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_install: Succeeded
-NOTE: Running task 3268 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_populate_sysroot)
-NOTE: Running task 3269 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Started
-NOTE: recipe popt-1.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3270 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3271 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxt-1_1.2.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxtst-1_1.2.3-r0: task do_configure: Succeeded
-NOTE: Running task 3272 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_compile)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Started
-NOTE: recipe freetype-2.10.4-r0: task do_compile: Succeeded
-NOTE: Running task 3273 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_install)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_compile: Succeeded
-NOTE: Running task 3274 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_install)
-NOTE: recipe freetype-2.10.4-r0: task do_install: Started
-NOTE: recipe atk-2.36.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3275 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_configure)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Started
-NOTE: recipe atk-2.36.0-r0: task do_configure: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_install: Succeeded
-NOTE: Running task 3276 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_populate_sysroot)
-NOTE: Running task 3277 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3278 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Started
-NOTE: recipe freetype-2.10.4-r0: task do_install: Succeeded
-NOTE: Running task 3279 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_populate_sysroot)
-NOTE: Running task 3280 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Started
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package: Succeeded
-NOTE: Running task 3281 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_packagedata)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3282 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3283 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb:do_package_write_rpm)
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe freetype-2.10.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3284 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package: Succeeded
-NOTE: Running task 3285 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_packagedata)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3286 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_configure)
-NOTE: Running task 3287 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_configure)
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Started
-NOTE: recipe atk-2.36.0-r0: task do_configure: Succeeded
-NOTE: Running task 3288 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_compile)
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3289 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_package_write_rpm)
-NOTE: recipe atk-2.36.0-r0: task do_compile: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package: Succeeded
-NOTE: Running task 3290 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_packagedata)
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe freetype-2.10.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3291 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.4.bb:do_package_write_rpm)
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure: Succeeded
-NOTE: Running task 3292 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_configure_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3293 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Started
-NOTE: recipe gobject-introspection-1.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_configure: Succeeded
-NOTE: Running task 3294 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Started
-NOTE: recipe freetype-2.10.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_compile: Succeeded
-NOTE: Running task 3295 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_install)
-NOTE: recipe atk-2.36.0-r0: task do_install: Started
-NOTE: recipe atk-2.36.0-r0: task do_install: Succeeded
-NOTE: Running task 3296 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_populate_sysroot)
-NOTE: Running task 3297 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package)
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile: Succeeded
-NOTE: Running task 3298 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_compile_ptest_base)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_compile: Succeeded
-NOTE: Running task 3299 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_install)
-NOTE: recipe atk-2.36.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Started
-NOTE: Running task 3300 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_install: Succeeded
-NOTE: Running task 3301 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_populate_sysroot)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_configure: Succeeded
-NOTE: Running task 3302 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package)
-NOTE: Running task 3303 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Started
-NOTE: recipe atk-2.36.0-r0: task do_package: Succeeded
-NOTE: Running task 3304 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_packagedata)
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3305 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install: Succeeded
-NOTE: Running task 3306 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_install_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3307 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3308 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_populate_sysroot)
-NOTE: Running task 3309 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Started
-NOTE: recipe atk-2.36.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3310 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.36.0.bb:do_package_write_rpm)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Started
-NOTE: recipe icu-69.1-r0: task do_compile: Succeeded
-NOTE: Running task 3311 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_install)
-NOTE: recipe icu-69.1-r0: task do_install: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_configure: Succeeded
-NOTE: Running task 3312 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_compile)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package: Succeeded
-NOTE: Running task 3313 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_packagedata)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_configure: Succeeded
-NOTE: Running task 3314 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_compile)
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_compile: Succeeded
-NOTE: Running task 3315 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_install)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3316 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.40.3.bb:do_package_write_rpm)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_install: Succeeded
-NOTE: Running task 3317 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_populate_sysroot)
-NOTE: Running task 3318 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe icu-69.1-r0: task do_install: Succeeded
-NOTE: Running task 3319 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_populate_sysroot)
-NOTE: Running task 3320 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package)
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Started
-NOTE: recipe icu-69.1-r0: task do_package: Started
-NOTE: recipe atk-2.36.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe icu-69.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package: Succeeded
-NOTE: Running task 3321 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_compile: Succeeded
-NOTE: Running task 3322 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_install)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3323 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_package_write_rpm)
-NOTE: recipe at-spi2-core-2.40.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package: Succeeded
-NOTE: Running task 3324 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_packagedata)
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_compile: Succeeded
-NOTE: Running task 3325 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_install)
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe fontconfig-2.13.1-r0: task do_install: Succeeded
-NOTE: Running task 3326 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_populate_sysroot)
-NOTE: Running task 3327 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package)
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_install: Succeeded
-NOTE: Running task 3328 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package)
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 3329 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb:do_package_write_rpm)
-NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3330 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3331 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_configure)
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package: Succeeded
-NOTE: Running task 3332 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_packagedata)
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3334 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_package_write_rpm)
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Started
-NOTE: recipe icu-69.1-r0: task do_package: Succeeded
-NOTE: Running task 3336 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_packagedata)
-NOTE: recipe icu-69.1-r0: task do_packagedata: Started
-NOTE: recipe icu-69.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3337 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_69.1.bb:do_package_write_rpm)
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Started
-NOTE: recipe fontconfig-2.13.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package: Succeeded
-NOTE: Running task 3338 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_packagedata)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3339 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb:do_package_write_rpm)
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Started
-NOTE: recipe gdk-pixbuf-2.42.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_configure: Succeeded
-NOTE: Running task 3340 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_compile)
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Started
-NOTE: recipe rpm-1_4.16.1.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_compile: Succeeded
-NOTE: Running task 3341 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_install)
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_install: Succeeded
-NOTE: Running task 3342 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_populate_sysroot)
-NOTE: Running task 3343 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package)
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.3-r0: task do_package: Succeeded
-NOTE: Running task 3344 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 3345 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_package_write_rpm)
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe icu-69.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_compile: Succeeded
-NOTE: Running task 3346 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_install)
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_install: Succeeded
-NOTE: Running task 3347 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_populate_sysroot)
-NOTE: Running task 3348 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3349 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3350 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3351 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_configure)
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3352 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_configure)
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_configure: Succeeded
-NOTE: Running task 3353 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_compile)
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Started
-NOTE: recipe mesa-2_21.1.4-r0: task do_package: Succeeded
-NOTE: Running task 3354 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_packagedata)
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Started
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-ERROR: mesa-2_21.1.4-r0 do_packagedata: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:21.1.5-r0 to 2:21.1.4-r0) [version-going-backwards]
-NOTE: recipe mesa-2_21.1.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3355 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_21.1.4.bb:do_package_write_rpm)
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_compile: Succeeded
-NOTE: Running task 3356 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_install)
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_install: Succeeded
-NOTE: Running task 3357 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_populate_sysroot)
-NOTE: Running task 3358 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package)
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libepoxy-1.5.8-r0: task do_package: Succeeded
-NOTE: Running task 3359 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_packagedata)
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 3360 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.8.bb:do_package_write_rpm)
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Started
-NOTE: recipe libepoxy-1.5.8-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe mesa-2_21.1.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_configure: Succeeded
-NOTE: Running task 3361 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_compile)
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_compile: Succeeded
-NOTE: Running task 3362 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_install)
-NOTE: recipe cairo-1.16.0-r0: task do_install: Started
-NOTE: recipe cairo-1.16.0-r0: task do_install: Succeeded
-NOTE: Running task 3363 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot)
-NOTE: Running task 3364 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package)
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3365 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3366 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_configure)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package: Succeeded
-NOTE: Running task 3367 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata)
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3368 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_package_write_rpm)
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3369 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_compile)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Started
-NOTE: recipe cairo-1.16.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe harfbuzz-2.8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3370 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_install)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_install: Succeeded
-NOTE: Running task 3371 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_populate_sysroot)
-NOTE: Running task 3372 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3373 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3374 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure)
-NOTE: recipe pango-1.48.7-r0: task do_configure: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package: Succeeded
-NOTE: Running task 3375 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_packagedata)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3376 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb:do_package_write_rpm)
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure: Succeeded
-NOTE: Running task 3377 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3378 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile)
-NOTE: recipe pango-1.48.7-r0: task do_compile: Started
-NOTE: recipe harfbuzz-2.8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.48.7-r0: task do_compile: Succeeded
-NOTE: Running task 3379 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3380 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install)
-NOTE: recipe pango-1.48.7-r0: task do_install: Started
-NOTE: recipe pango-1.48.7-r0: task do_install: Succeeded
-NOTE: Running task 3381 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.48.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3382 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_populate_sysroot)
-NOTE: Running task 3383 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package)
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.48.7-r0: task do_package: Started
-NOTE: recipe pango-1.48.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3384 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3385 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_configure)
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Started
-NOTE: recipe pango-1.48.7-r0: task do_package: Succeeded
-NOTE: Running task 3386 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_packagedata)
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.48.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 3387 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.7.bb:do_package_write_rpm)
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.48.7-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gtk+3-3.24.30-r0: task do_configure: Succeeded
-NOTE: Running task 3388 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_compile)
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_compile: Succeeded
-NOTE: Running task 3389 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_install)
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_install: Succeeded
-NOTE: Running task 3390 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package)
-NOTE: Running task 3391 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_populate_sysroot)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3392 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3397 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package: Succeeded
-NOTE: Running task 3398 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_packagedata)
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_packagedata: Succeeded
-NOTE: Running task 3402 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.30.bb:do_package_write_rpm)
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3403 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3404 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3405 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe gtk+3-3.24.30-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3406 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3407 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3408 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_write_rpm)
-NOTE: Running task 3409 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_package_qa)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-178-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-178-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3410 of 3410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_178.bb:do_build)
-NOTE: Tasks Summary: Attempted 3410 tasks of which 2991 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: There were 28 ERROR messages shown, returning a non-zero exit code.
-
---===============8546723495904830239==
+--===============7057539732930918390==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-177-178.patch"
+Content-Disposition: attachment; filename="0001-gdbm-upgrade-1.19-1.20.patch"
 
-From 2a7c84d492bf334967f56647a427ca62552c2b82 Mon Sep 17 00:00:00 2001
+From 5735e713f6769957b2d6466d19597ba1bd2cdfa6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 18 Jul 2021 09:02:36 +0000
-Subject: [PATCH] diffoscope: upgrade 177 -> 178
+Date: Sun, 18 Jul 2021 09:26:20 +0000
+Subject: [PATCH] gdbm: upgrade 1.19 -> 1.20
 
 ---
- .../diffoscope/{diffoscope_177.bb => diffoscope_178.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_177.bb => diffoscope_178.bb} (92%)
+ meta/recipes-support/gdbm/{gdbm_1.19.bb => gdbm_1.20.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/gdbm/{gdbm_1.19.bb => gdbm_1.20.bb} (90%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_177.bb b/meta/recipes-support/diffoscope/diffoscope_178.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_177.bb
-rename to meta/recipes-support/diffoscope/diffoscope_178.bb
-index 0d9061dda0..4bf6ee64c9 100644
---- a/meta/recipes-support/diffoscope/diffoscope_177.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_178.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-support/gdbm/gdbm_1.19.bb b/meta/recipes-support/gdbm/gdbm_1.20.bb
+similarity index 90%
+rename from meta/recipes-support/gdbm/gdbm_1.19.bb
+rename to meta/recipes-support/gdbm/gdbm_1.20.bb
+index cd2617b130..51f9d17e49 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.19.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.20.bb
+@@ -13,8 +13,7 @@ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
+            file://ptest.patch \
+           "
  
- inherit pypi setuptools3
+-SRC_URI[md5sum] = "aeb29c6a90350a4c959cd1df38cd0a7e"
+-SRC_URI[sha256sum] = "37ed12214122b972e18a0d94995039e57748191939ef74115b1d41d8811364bc"
++SRC_URI[sha256sum] = "3aeac05648b3482a10a2da986b9f3a380a29ad650be80b9817a435fb8114a292"
  
--SRC_URI[sha256sum] = "8ac0cad150914bab2a53caa3f21876a78b092f3d2a36b9134874cd5c04a26b2e"
-+SRC_URI[sha256sum] = "7454cf417725ef81ffad16e8cc2f62753282f5171b1c651732b99c0b3c19e137"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
+ inherit autotools gettext texinfo lib_package ptest
  
 -- 
 2.27.0
 
 
---===============8546723495904830239==--
+--===============7057539732930918390==--
