@@ -1,323 +1,104 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.21356.1626653705872176206
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web09.21422.1626653716088055491
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Jul 2021 17:15:05 -0700
+ Sun, 18 Jul 2021 17:15:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CouORqSB;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id p14-20020a17090ad30eb02901731c776526so13026642pju.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 17:15:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=seT7MOS7;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id o3-20020a17090a6783b0290173ce472b8aso13041581pjj.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Jul 2021 17:15:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+mzyCFmM8vRy7elmrPpoaomSz6HfZTYMIZfQcK+e1PU=;
-        b=CouORqSBn/I4zqMItVbLnMlgUd6zZJPqIZsZv/NBFHxn8YJVYoRN4/gd8RFEKeDwSD
-         HjfFJMloyRSYC3xBzA8W1yWryYJPFv2BQdSKlS3fME1CVtsHKlpZA9ANiWwr0BkBvU+S
-         00GIifZeEJN6RD11a2Z83nQlnUe7i2lpafC//W1Vc9u4tf7fhNBnW+C9ctUSFpTGzlk6
-         VERaNJA2hiJEB+5+bXKWT+G5/4DZUH82IZFqngqUazlPn0rvtBMyUSNreBDS7Su4MCv5
-         DdmS3NaQpvJqU5A93Hqqz69dfhV7qmpE6HWLuQDqmvLhEoJl6VRTXbKswsWEk+R8uVZu
-         AsKQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xD7OF4oH5cq89cMM228jJWhcpbxEmB4kKr4UfW6ovj4=;
+        b=seT7MOS7p5BXbExbDnzRP3WJjg1Tl3RdleN8W0201C3bunrI6QF908MHDLtsr6llwg
+         L7CgBYEyVUc21IKs06eax3QPdG5xGpGm48itqdl0XasM6psQZHqKmNPORbymIElvs9f8
+         RdDu4oYkeNX4sQAB8XCN0NG21H6ZjWjgULA9+ai5HW/cXOkPHbzFCTzwlVmNZ35GW804
+         tN5Ap1lj/knrtM+HYdm8iuak8lR14wuIJGqBtHT1NyBxhkDVCWx4d7MQCJXUg0jD+mEz
+         DbGOy43BmFpgted1VIlZ4myXlkGt2HEDlVDIFhdn2qHOwfdgh3LoHS7zzGM6w8onnTW6
+         +t7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+mzyCFmM8vRy7elmrPpoaomSz6HfZTYMIZfQcK+e1PU=;
-        b=Fcn0RJdcvAM+JROcOlgX8AyJXckYYvwrNgHNIVapDcHuStG4fmWo5Nf7dgnwjEoFbD
-         CrlDhCjTQ9fZmfSuqd47tT0i9i+YXF0zSr01Va3BRYI/2sPdHnw2Y1dCh7ceKYh3J9wI
-         ayMzNhSB1dkfnF9ijjE58gnBU0TKClSJbsVIMazLxv8hNRp4S3ujganNGKVn0a4pTgU7
-         WJ4sCXDk2HW7cwjr6WPW5iXRTivIu10G9+o6qn52FjKON0wXStRi81BRqgY6437yyCGv
-         GtLPUtdghnkMOAPUzvjB+On3aBzw0GLRiIccqoq+gtH81yg09SNIJsUfJ8EP87DJDIeN
-         S+BQ==
-X-Gm-Message-State: AOAM5315G4tA02dXJPUlefL3S0E8ldeyFV16Dj11Mb2xZnH14WtsG6ew
-	hFUT/3ZXi/nSBIbcp8toBHALvabzMCZ+kQ==
-X-Google-Smtp-Source: ABdhPJwgp5gLgbIDpILVO/wtJoP3vKUc/tvcpyImrqv8vIcQfJ6pAe2MWVMEVPuPn+Er+B3HtEQgqQ==
-X-Received: by 2002:a17:90a:658c:: with SMTP id k12mr27117049pjj.167.1626653705018;
-        Sun, 18 Jul 2021 17:15:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xD7OF4oH5cq89cMM228jJWhcpbxEmB4kKr4UfW6ovj4=;
+        b=GtqRffi3mjiI6X3XiIMQt0bf9UosNCC04vg65vARYpZuSaUVKS1qb2UO2E86NJ+19X
+         qMI5SmjomxThm8eSeiM9S3Vlvohp1U42ceH8XlYF0aITEw0xEIZVX5lMEPvZZRZzByEA
+         LsWypsgWlG7AiIVtthnZZ+B0L5Grwf5FjBJf5j5bUr3Yt6m5yth4H1JltCfvY6s2xXTu
+         9P/gaaAGef1DY0V1t+obue1xdBZ2mig33gtaVBpDb0vNVr3ux6sb/4WAkSAdNY5ZYJcj
+         Qi9wvkkGJroYFejrB36l99m80K68uq7XavrSfv3ykwfM5qryxX+IgyJAnjn4cg0CB//0
+         FbDA==
+X-Gm-Message-State: AOAM532Gmz6vZJ2QzN+wpMeK7IIvATgsHDulOrp2gjhGHoytbRTZ5wVF
+	nnH6/ty5SrLO27X4Sc13bOMYyt993EK9Yg==
+X-Google-Smtp-Source: ABdhPJxMNFLNk9GUPGfcPy8j8iURVGUd5fJaXCsr4z43W98jZ1iOTTbeNMt9qRMDJZ72iFqA+UD3ZQ==
+X-Received: by 2002:a17:902:b684:b029:12b:8104:b4dc with SMTP id c4-20020a170902b684b029012b8104b4dcmr4940901pls.63.1626653715232;
+        Sun, 18 Jul 2021 17:15:15 -0700 (PDT)
 Return-Path: <ticotimo@gmail.com>
 Received: from nereus.local ([2601:1c0:6000:1830:d2e4:4478:7db4:dfbd])
-        by smtp.gmail.com with ESMTPSA id x30sm17344225pfh.126.2021.07.18.17.15.04
+        by smtp.gmail.com with ESMTPSA id c204sm2152083pfb.90.2021.07.18.17.15.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jul 2021 17:15:04 -0700 (PDT)
+        Sun, 18 Jul 2021 17:15:14 -0700 (PDT)
 From: "Tim Orling" <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tony Tascioglu <tony.tascioglu@windriver.com>,
+Cc: steve@sakoman.com,
+	Tony Tascioglu <tony.tascioglu@windriver.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Tim Orling <timothy.t.orling@intel.com>,
-	steve@sakoman.com
-Subject: [dunfell][PATCH 0/1] libxml2: Update to 2.9.12
-Date: Sun, 18 Jul 2021 17:14:47 -0700
-Message-Id: <cover.1626652989.git.timothy.t.orling@intel.com>
+	Tim Orling <timothy.t.orling@intel.com>
+Subject: [dunfell][PATCH 1/1] libxml2: Update to 2.9.12
+Date: Sun, 18 Jul 2021 17:15:05 -0700
+Message-Id: <c68ee1d5c1c5e3bac27ee0aa33ed78f900824419.1626652989.git.timothy.t.orling@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1626652989.git.timothy.t.orling@intel.com>
+References: <cover.1626652989.git.timothy.t.orling@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Cherry-pick/back port commit from master.
+From: Tony Tascioglu <tony.tascioglu@windriver.com>
 
-Since 2.9.10, upstream libxml2 has enabled fuzz testing and MANY
-commits have been added with fixes and security patches.
+Drop CVE patches which are fixed by the new upstream version.
 
-Of the 239 commits since 2.9.10, 94 have "Fix" in the shortlog.
-A quick scan of the rest of the commits (see below) shows that the
-vast majority are bug fixes or security related.
+Modify conflicting patches to apply to the new versions:
+   libxml2/libxml-m4-use-pkgconfig.patch
+   libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
 
-While we have been patching individual CVEs in the past, it seems
-like 2.9.12 contains enough significant value from a security
-perspective to warrant the version update in dunfell.
+Drop fix-python39, which is merged upstream.
 
-$ git log --oneline v2.9.10..v2.9.12:
-b48e77cf Release of libxml2-2.9.12
-e1bcffea Release of libxml2-2.9.11
-8598060b Patch for security issue CVE-2021-3541
-bfd2f430 Fix null deref in legacy SAX1 parser
-ce00c36e Store per-element parser state in a struct
-de5b624f Fix handling of unexpected EOF in xmlParseContent
-3e80560d Fix line numbers in error messages for mismatched tags
-7279d236 Fix htmlTagLookup
-33468d7e update for xsd:language type check
-babe7503 Propagate error in xmlParseElementChildrenContentDeclPriv
-5465a8e5 Update INSTALL.libxml2
-1098c30a Fix user-after-free with `xmllint --xinclude --dropdtd`
-72b3c067 Fix dangling pointer with `xmllint --dropdtd`
-bf227135 Validate UTF8 in xmlEncodeEntities
-1358d157 Fix use-after-free with `xmllint --html --push`
-fb08d9fe Fix include order in c14n.h
-d3a02679 CMake: Only add postfixes if MSVC
-868e49cf Allow FP division by zero in xmlXPathInit
-d25460da Fix XPath NaN/Inf for older GCC versions
-e20c9c14 Fix xmlGetNodePath with invalid node types
-c3fd8c42 Fix exponential behavior with recursive entities
-683de7ef Fix duplicate xmlStrEqual calls in htmlParseEndTag
-8095365b Speed up htmlCheckAutoClose
-b25acce8 Speed up htmlTagLookup
-ad101bb5 Clarify xmlNewDocProp documentation
-a6e6498f Stop checking attributes for UTF-8 validity
-8446d459 Reduce some fuzzer timeouts
-688b41a0 Fix quadratic behavior when looking up xml:* attributes
-ce2fbaa8 Only run a few CI tests unless scheduled
-85c817a2 Improve fuzzer stability
-f9ccb3b8 Check for feature flags in fuzzer tests
-88c657d6 Use CMake PROJECT_VERSION
-7a90bdfa Another attempt at improving fuzzer stability
-0fb3ae58 Revert "Improve HTML fuzzer stability"
-0987001c Add charset names to fuzzing dictionaries
-de1b51ed Improve HTML fuzzer stability
-09320f05 Add CI for MSVC x86
-dcb80b92 Fix slow parsing of HTML with encoding errors
-02bee4c4 Add a flag to not output anything when xmllint succeeded
-4defa2c2 Fix warnings in libxml.m4 with autoconf 2.70+.
-cbe1212d Fix null deref introduced with previous commit
-01411e7c Check for invalid redeclarations of predefined entities
-07920b43 Add the copy of type from original xmlDoc in xmlCopyDoc()
-2065d340 Add CI for CMake on MSVC
-afad3721 parser.c: shrink the input buffer when appropriate
-ec808a44 Speed up HTML fuzzer
-e6495e47 Remove unused encoding parameter of HTML output functions
-954696e7 Fix infinite loop in HTML parser introduced with recent commits
-acb35667 Fix quadratic runtime when parsing CDATA sections
-f93ca3e1 Update minimum required CMake version
-00487289 Add variables for configured options to CMake config files
-95519737 Check if variables exist when defining targets
-c26e4525 Check if target exists when reading target properties
-ec119875 Add xmlcatalog target and definition to config files
-2377a312 Remove include directories for link-only dependencies
-26835480 Fix ICU build in CMake
-296ab61e Configure pkgconfig, xml2-config, and xml2Conf.sh file
-79301d3d Fix timeout when handling recursive entities
-45da175c Fix memory leak in xmlParseElementMixedContentDecl
-1d73f07d Fix null deref in xmlStringGetNodeList
-e2b975c3 Handle malloc failures in fuzzing code
-a67b63d1 use new htmlParseLookupCommentEnd to find comment ends
-29f5d20e htmlParseComment: treat `--!>` as if it closed the comment
-e28d9347 add test coverage for incorrectly-closed comments
-9086988f Enforce maximum length of fuzz input
-1fe38530 Remove temporary members from struct _xmlXPathContext
-8ca3a59b Fix integer overflow in xmlSchemaGetParticleTotalRangeMin
-649d02ea encoding: fix memleak in xmlRegisterCharEncodingHandler()
-cb7a572b xmlschemastypes.c: xmlSchemaGetFacetValueAsULong add, check "facet->val"
-84b76d99 Update CMake config files
-d0ccb3a6 Add xmlcatalog and xmllint to CMake export
-acdc2ff3 Simplify xmlexports.h
-a218ff0e Fix null pointer deref in xmlXPtrRangeInsideFunction
-94c2e415 Fix quadratic runtime in HTML push parser with null bytes
-1c4f9a6d Require dependencies based on enabled CMake options
-faea2fa9 Avoid quadratic checking of identity-constraints
-8272db53 Use NAMELINK_COMPONENT in CMake install
-5c7bdbc9 Add CMake files to EXTRA_DIST
-7a62870a Add missing compile definition for static builds to CMake
-e028d293 Add CI for CMake on Linux and MinGW
-b516ed18 Fix building with ICU 68.
-ac5e9991 Convert python/libxml.c to PY_SSIZE_T_CLEAN
-f42a0524 Build the Python extension with PY_SSIZE_T_CLEAN
-0ace6c4d Add CI test for Python 3
-7c06d99e Fix xmlURIEscape memory leaks.
-31c6ce3b Avoid call stack overflow with XML reader and recursive XIncludes
-7d6837ba Fix caret in regexp character group
-8a85263f Add fuzzing dictionaries to EXTRA_DIST
-1bde1040 Add 'fuzz' subdirectory to DIST_SUBDIRS
-c0c26ff2 parser.c: xmlParseCharData peek behavior fixed wrt newlines
-b46016b8 Allow port numbers up to INT_MAX
-46837d47 Fix memory leaks in XPointer string-range function
-0b3c64d9 Handle dumps of corrupted documents more gracefully
-847a3a11 Fix use-after-free when XIncluding text from Reader
-7929f057 Fix SEGV in xmlSAXParseFileWithData
-e6ec58ec Fix null deref in XPointer expression error path
-4e9cc18b Fix variable name in win32/configure.js
-5614c078 Fix version parsing in win32/configure.js
-8b88503a Don't call xmlXPathInit directly
-b215c270 Fix cleanup of attributes in XML reader
-f0fd1b67 Limit size of free lists in XML reader when fuzzing
-ba589adc Fix double free in XML reader with XIncludes
-6f1470a5 Hardcode maximum XPath recursion depth
-8c3ef083 Pass URL of main entity in XML fuzzer
-0d5f3710 Consolidate seed corpus generation
-0d9da029 Test fuzz targets with dummy driver
-3fcf3193 Fix regression introduced with commit d88df4b
-87d20b55 Fix regression introduced with commit 74dcc10b
-fbb7fa9a Fix memory leak in xmlXIncludeAddNode error paths
-19cae17f Revert "Fix quadratic runtime in xi:fallback processing"
-d63cfeca Add TODO comment in xinclude.c
-804c5297 Stop using maxParserDepth in xpath.c
-74dcc10b Remove dead code in xinclude.c
-0ff52748 Fix autotools warnings
-2c747129 Fix error reporting with xi:fallback
-27119ec3 Fix quadratic runtime in xi:fallback processing
-d88df4bd Fix corner case with empty xi:fallback
-00a86d41 Don't add formatting newlines to XInclude nodes
-dba82a8c Fix XInclude regression introduced with recent commit
-e1c2d0ad Fix memory leak in runtest.c
-2b4769a6 Make "xmllint --push --recovery" work
-99fc048d Don't use SAX1 if all element handlers are NULL
-c1ba6f54 Revert "Do not URI escape in server side includes"
-b82fa3dd Fix column number accounting in xmlParse*NameAndCompare
-438e595a Stop counting nbChars in parser context
-f6a9541f Remove unneeded progress checks in HTML parser
-9de7b94d Use strcmp when fuzzing
-10a07948 Fix XPath fuzzer
-6c128fd5 Fuzz XInclude engine
-50f06b3e Fix out-of-bounds read with 'xmllint --htmlout'
-1abf2967 Fix exponential runtime and memory in xi:fallback processing
-11b57459 Don't process siblings of root in xmlXIncludeProcess
-0f9817c7 Don't recurse into xi:include children in xmlXIncludeDoProcess
-5725c115 Fix memory leak in xmlXIncludeIncludeNode error paths
-ad26a60f Add XPath and XPointer fuzzer
-956534e0 Check for custom free function in global destructor
-8e7c20a1 Fix integer overflow when comparing schema dates
-905820a4 Update fuzzing code
-68eadabd Fix exponential runtime in xmlFARecurseDeterminism
-1a360c1c More *NodeDumpOutput fixes
-7b2e5172 Fix *NodeDumpOutput functions
-dc6f0092 Make xmlNodeDumpOutputInternal non-recursive
-5330153d Make xhtmlNodeDumpOutput non-recursive
-b79ab6e6 Make htmlNodeDumpFormatOutput non-recursive
-21ca8829 Don't try to handle namespaces when building HTML documents
-93ce33c2 Fix several quadratic runtime issues in HTML push parser
-10d09472 Fix .gitattributes
-173a0830 Fix quadratic runtime when push parsing HTML start tags
-0e5c4fec Reset XML parser input before reporting errors
-6995eed0 Fix quadratic runtime when push parsing HTML entity refs
-8e219b15 Fix HTML push parser lookahead
-e050062c Make htmlCurrentChar always translate U+0000
-dfd4e330 Rework control flow in htmlCurrentChar
-922bebcc Make 'xmllint --html --push -' read from stdin
-1493130e Fix UTF-8 decoder in HTML parser
-beb7d71a Remove misleading comments in xpath.c
-50078922 Fix quadratic runtime when parsing HTML script content
-d6761e70 Update to Devhelp index file format version 2
-d514e2bd Set project language to C
-5ddf02f2 Update config.h.cmake.in
-8bec210d Add variable for working directory of XML Conformance Test Suite
-270e1655 Add additional tests and XML Conformance Test Suite
-e6ba4bd7 Add command line option for temp directory in runtest
-40e7ceaa Ensure LF line endings for test files
-9ecf5ad6 Enable runtests and testThreads
-3f18e748 Reset HTML parser input before reporting error
-3da8d947 Fix more quadratic runtime issues in HTML push parser
-741b0d0a Fix regression introduced with 477c7f6a
-fc842f6e Limit regexp nesting depth
-1e41e4fa Fix return values and documentation in encoding.c
-6b4717d6 Add regexp regression tests
-477c7f6a Fix quadratic runtime in HTML parser
-f8329fdc Report error for invalid regexp quantifiers
-13ba5b61 Reset HTML parser input before reporting encoding error
-1e7851b5 Fix integer overflow in xmlFAParseQuantExact
-84bab955 Fix return value of xmlC14NDocDumpMemory
-43a8836c Fix rebuilding docs, by hiding __attribute__((...)) behind a macro.
-9f42f6ba Don't follow next pointer on documents in xmlXPathRunStreamEval
-c0440868 Copy xs:duration parser from libexslt
-18425d3a Fix integer overflow in _xmlSchemaParseGYear
-070d635e Fix integer overflow when parsing {min,max}Occurs
-50f18830 Fix another memory leak in xmlSchemaValAtomicType
-eac1c7e2 Fuzz target for XML Schemas
-ffd31dbe Move entity recorder to fuzz.c
-681f094e Fix unsigned integer overflow in htmlParseTryOrFinish
-31ca4a72 Fix integer overflow in htmlParseCharRef
-2f938203 Fix undefined behavior in UTF16LEToUTF8
-536f421d Fuzz target for HTML parser
-a697ed1e Fix return value of xmlCharEncOutput
-af893a58 Update GitLab CI container
-a28f7d87 Never expand parameter entities in text declaration
-487871b0 Fix undefined behavior in xmlXPathTryStreamCompile
-e98150d4 Add options file for xml fuzzer
-2af3c2a8 Fix use-after-free with validating reader
-00ed736e Add a couple of libFuzzer targets
-2e8cc66d xmlParseBalancedChunkMemory must not be called with NULL doc
-a0a8059b Revert "Fix memory leak in xmlParseBalancedChunkMemoryRecover"
-ff009f99 Fix memory leak in xmlXIncludeLoadDoc error path
-a230b728 win32: allow passing *FLAGS on command line
-4f2aee18 Make schema validation fail with multiple top-level elements
-106757e8 Guard new calls to xmlValidatePopElement in xml_reader.c
-386fb276 Add LIBXML_VALID_ENABLED to xmlreader
-e7ff2efc Configure file xmlwin32version.h.in on MSVC
-e2f10494 List headers individually
-2a2c38f3 Add CMake build files
-9fa3200c Call xmlCleanupParser on ELF destruction
-e4fb3684 Parenthesize Py<type>_Check() in ifs
-20c60886 Fix typos
-2a7b6684 Disable LeakSanitizer
-c005c7a0 Stop calling SAX getEntity handler from XMLReader
-32cb5dcc Add test case for recursive external parsed entities
-f20daa9e Enable error tests with entity substitution
-eddfbc38 Don't load external entity from xmlSAX2GetEntity
-1a3e584a Merge code paths loading external entities
-5c7e0a9a Copy some XMLReader option flags to parser context
-f9ea1a24 Fix copying of entities in xmlParseReference
-7ffcd44d Fix memory leak in xmlSchemaValidateStream
-e45e06de Fix xmlSchemaGetCanonValue formatting for date and dateTime
-c7c526d6 Fix memory leak when shared libxml.dll is unloaded
-453bdfb9 Fix potentially-uninitialized critical section in Win32 DLL builds
-c2e09f44 Add xmlPopOutputCallbacks
-b0725121 Fix integer overflow in xmlBufferResize
-3e7e75be Minor fixes to configure.js
-52649b63 Check for overflow when allocating two-dimensional arrays
-9bd7abfb Remove useless comparisons
-c9faa292 Fix overflow check in xmlNodeDump
-8f62ac92 Updated Python test reader2.py
-8c3e52eb Updated python/tests/tstLastError.py
-0e1a49c8 Fix infinite loop in xmlStringLenDecodeEntities
-0815302d Fix freeing of nested documents
-2c80fc91 Fix more memory leaks in error paths of XPath parser
-3c8a3e99 Use random seed in xmlDictComputeFastKey
-42942066 Fix memory leaks of encoding handlers in xmlsave.c
-2a357ab9 Fix xml2-config error code
-d5f2f74d Fix memory leak in error path of XPath expr parser
-bf2e9617 Fix overflow handling in xmlBufBackToBuffer
-d7248615 Null pointer handling in catalog.c
-29740ed1 xml2-config.in: fix regressions introduced by commit 2f2bf4b2c
-db0c0450 Enable more undefined behavior sanitizers
+Removed hunk for tstLastError.py from
+   libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
+since it has been fixed upstream by:
 
-The following changes since commit cfd74f2bae51413d9c327e0f08ecf751325c2d74:
+   8c3e52e: Updated python/tests/tstLastError.py
 
-  report-error: Drop pointless inherit (2021-07-11 06:19:43 -1000)
+   libxml2.registerErrorHandler(None,None):
+   None is not acceptable as first argument
+   failUnlessEqual replaced by assertEqual
 
-are available in the Git repository at:
+The checksums for the licence file changed because a typo was fixed
+across the files. The licence remains the same.
+The obsolete MD5 checksums for the tar files have been dropped in
+favor of SHA256.
 
-  git://push.openembedded.org/openembedded-core-contrib timo/dunfell/libxml2-2.9.12
+The new release also adds fuzz tests, which are removed from the
+makefile to allow the ptests to run. Fuzz testing is done upstream
+and there is no need to run them as part of ptests which are
+intended for functionality testing.
 
-Tony Tascioglu (1):
-  libxml2: Update to 2.9.12
+(From OE-Core rev: c7c429d05ca51b0404f09981f6c9bcad7dc33222)
 
+Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Backport to dunfell
+Fixes CVE-2021-3541
+
+References:
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3541
+https://bugzilla.redhat.com/show_bug.cgi?id=1950515
+
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+---
  ...he-python-tests-if-python-is-enabled.patch | 34 +++++----------
  .../libxml/libxml2/CVE-2019-20388.patch       | 37 ----------------
  .../libxml/libxml2/CVE-2020-24977.patch       | 41 ------------------
@@ -332,6 +113,379 @@ Tony Tascioglu (1):
  create mode 100644 meta/recipes-core/libxml/libxml2/remove-fuzz-from-ptests.patch
  rename meta/recipes-core/libxml/{libxml2_2.9.10.bb => libxml2_2.9.12.bb} (85%)
 
+diff --git a/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch b/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
+index 5e9a0a506bd..6d9ede61941 100644
+--- a/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
++++ b/meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
+@@ -1,4 +1,4 @@
+-From 2b5fb416aa275fd2a17a0139a2f783998bcb42cc Mon Sep 17 00:00:00 2001
++From ea1993d1d9a18c5e61b9cb271892b0a48f508d32 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Fri, 9 Jun 2017 17:50:46 +0200
+ Subject: [PATCH] Make ptest run the python tests if python is enabled
+@@ -8,16 +8,14 @@ be due to the fact that the tests are forced to run with Python 3.
+ 
+ Upstream-Status: Inappropriate [OE specific]
+ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+-
+ ---
+- Makefile.am                  |  2 +-
+- python/Makefile.am           |  9 +++++++++
+- python/tests/Makefile.am     | 10 ++++++++++
+- python/tests/tstLastError.py |  2 +-
+- 4 files changed, 21 insertions(+), 2 deletions(-)
++ Makefile.am              |  2 +-
++ python/Makefile.am       |  9 +++++++++
++ python/tests/Makefile.am | 10 ++++++++++
++ 3 files changed, 20 insertions(+), 1 deletion(-)
+ 
+ diff --git a/Makefile.am b/Makefile.am
+-index ae62274..bd1e425 100644
++index b428452b..dc18d6dd 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+ @@ -203,9 +203,9 @@ install-ptest:
+@@ -32,7 +30,7 @@ index ae62274..bd1e425 100644
+  runtests: runtest$(EXEEXT) testrecurse$(EXEEXT) testapi$(EXEEXT) \
+            testchar$(EXEEXT) testdict$(EXEEXT) runxmlconf$(EXEEXT)
+ diff --git a/python/Makefile.am b/python/Makefile.am
+-index 34aed96..ba3ec6a 100644
++index 34aed96c..ba3ec6a4 100644
+ --- a/python/Makefile.am
+ +++ b/python/Makefile.am
+ @@ -48,7 +48,16 @@ GENERATED = libxml2class.py libxml2class.txt $(BUILT_SOURCES)
+@@ -53,7 +51,7 @@ index 34aed96..ba3ec6a 100644
+  tests test: all
+  	cd tests && $(MAKE) tests
+ diff --git a/python/tests/Makefile.am b/python/tests/Makefile.am
+-index 227e24d..021bb29 100644
++index 227e24df..3568c2d2 100644
+ --- a/python/tests/Makefile.am
+ +++ b/python/tests/Makefile.am
+ @@ -59,6 +59,11 @@ XMLS=		\
+@@ -83,16 +81,6 @@ index 227e24d..021bb29 100644
+ +
+  tests:
+  endif
+-diff --git a/python/tests/tstLastError.py b/python/tests/tstLastError.py
+-index 81d0acc..162c8db 100755
+---- a/python/tests/tstLastError.py
+-+++ b/python/tests/tstLastError.py
+-@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
+-         when the exception is raised, check the libxml2.lastError for
+-         expected values."""
+-         # disable the default error handler
+--        libxml2.registerErrorHandler(None,None)
+-+        libxml2.registerErrorHandler(lambda ctx,str: None,None)
+-         try:
+-             f(*args)
+-         except exc:
++--
++2.25.1
++
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch b/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
+deleted file mode 100644
+index 88eb65a6a5e..00000000000
+--- a/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 7ffcd44d7e6c46704f8af0321d9314cd26e0e18a Mon Sep 17 00:00:00 2001
+-From: Zhipeng Xie <xiezhipeng1@huawei.com>
+-Date: Tue, 20 Aug 2019 16:33:06 +0800
+-Subject: [PATCH] Fix memory leak in xmlSchemaValidateStream
+-
+-When ctxt->schema is NULL, xmlSchemaSAXPlug->xmlSchemaPreRun
+-alloc a new schema for ctxt->schema and set vctxt->xsiAssemble
+-to 1. Then xmlSchemaVStart->xmlSchemaPreRun initialize
+-vctxt->xsiAssemble to 0 again which cause the alloced schema
+-can not be freed anymore.
+-
+-Found with libFuzzer.
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/7ffcd44d7e6c46704f8af0321d9314cd26e0e18a]
+-CVE: CVE-2019-20388
+-
+-Signed-off-by: Zhipeng Xie <xiezhipeng1@huawei.com>
+-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+----
+- xmlschemas.c | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/xmlschemas.c b/xmlschemas.c
+-index 301c8449..39d92182 100644
+---- a/xmlschemas.c
+-+++ b/xmlschemas.c
+-@@ -28090,7 +28090,6 @@ xmlSchemaPreRun(xmlSchemaValidCtxtPtr vctxt) {
+-     vctxt->nberrors = 0;
+-     vctxt->depth = -1;
+-     vctxt->skipDepth = -1;
+--    vctxt->xsiAssemble = 0;
+-     vctxt->hasKeyrefs = 0;
+- #ifdef ENABLE_IDC_NODE_TABLES_TEST
+-     vctxt->createIDCNodeTables = 1;
+--- 
+-2.24.1
+-
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2020-24977.patch b/meta/recipes-core/libxml/libxml2/CVE-2020-24977.patch
+deleted file mode 100644
+index 82243466607..00000000000
+--- a/meta/recipes-core/libxml/libxml2/CVE-2020-24977.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 50f06b3efb638efb0abd95dc62dca05ae67882c2 Mon Sep 17 00:00:00 2001
+-From: Nick Wellnhofer <wellnhofer@aevum.de>
+-Date: Fri, 7 Aug 2020 21:54:27 +0200
+-Subject: [PATCH] Fix out-of-bounds read with 'xmllint --htmlout'
+-
+-Make sure that truncated UTF-8 sequences don't cause an out-of-bounds
+-array access.
+-
+-Thanks to @SuhwanSong and the Agency for Defense Development (ADD) for
+-the report.
+-
+-Fixes #178.
+-
+-CVE: CVE-2020-24977
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/50f06b3efb638efb0abd95dc62dca05ae67882c2]
+-
+-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+----
+- xmllint.c | 6 ++++++
+- 1 file changed, 6 insertions(+)
+-
+-diff --git a/xmllint.c b/xmllint.c
+-index f6a8e463..c647486f 100644
+---- a/xmllint.c
+-+++ b/xmllint.c
+-@@ -528,6 +528,12 @@ static void
+- xmlHTMLEncodeSend(void) {
+-     char *result;
+- 
+-+    /*
+-+     * xmlEncodeEntitiesReentrant assumes valid UTF-8, but the buffer might
+-+     * end with a truncated UTF-8 sequence. This is a hack to at least avoid
+-+     * an out-of-bounds read.
+-+     */
+-+    memset(&buffer[sizeof(buffer)-4], 0, 4);
+-     result = (char *) xmlEncodeEntitiesReentrant(NULL, BAD_CAST buffer);
+-     if (result) {
+- 	xmlGenericError(xmlGenericErrorContext, "%s", result);
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2020-7595.patch b/meta/recipes-core/libxml/libxml2/CVE-2020-7595.patch
+deleted file mode 100644
+index facfefd3626..00000000000
+--- a/meta/recipes-core/libxml/libxml2/CVE-2020-7595.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 0e1a49c8907645d2e155f0d89d4d9895ac5112b5 Mon Sep 17 00:00:00 2001
+-From: Zhipeng Xie <xiezhipeng1@huawei.com>
+-Date: Thu, 12 Dec 2019 17:30:55 +0800
+-Subject: [PATCH] Fix infinite loop in xmlStringLenDecodeEntities
+-
+-When ctxt->instate == XML_PARSER_EOF,xmlParseStringEntityRef
+-return NULL which cause a infinite loop in xmlStringLenDecodeEntities
+-
+-Found with libFuzzer.
+-
+-Signed-off-by: Zhipeng Xie <xiezhipeng1@huawei.com>
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/0e1a49c89076]
+-CVE: CVE-2020-7595
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com> 
+----
+- parser.c | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/parser.c b/parser.c
+-index d1c31963..a34bb6cd 100644
+---- a/parser.c
+-+++ b/parser.c
+-@@ -2646,7 +2646,8 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
+-     else
+-         c = 0;
+-     while ((c != 0) && (c != end) && /* non input consuming loop */
+--	   (c != end2) && (c != end3)) {
+-+           (c != end2) && (c != end3) &&
+-+           (ctxt->instate != XML_PARSER_EOF)) {
+- 
+- 	if (c == 0) break;
+-         if ((c == '&') && (str[1] == '#')) {
+--- 
+-2.24.1
+-
+diff --git a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
+index e6998f6e683..90fa1937751 100644
+--- a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
++++ b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
+@@ -1,7 +1,8 @@
+-From 43edc9a445ed66cceb7533eadeef242940b4592c Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Sat, 11 May 2019 20:37:12 +0800
++From f57da62218cf72c1342da82abafdac6b0a2e4997 Mon Sep 17 00:00:00 2001
++From: Tony Tascioglu <tony.tascioglu@windriver.com>
++Date: Fri, 14 May 2021 11:50:35 -0400
+ Subject: [PATCH] AM_PATH_XML2 uses xml-config which we disable through
++
+ binconfig-disabled.bbclass, so port it to use pkg-config instead.
+ 
+ Upstream-Status: Pending
+@@ -9,16 +10,22 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+ Rebase to 2.9.9
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
++Updated to apply cleanly to v2.9.12
++
++Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
+ ---
+- libxml.m4 | 186 ++------------------------------------------------------------
+- 1 file changed, 5 insertions(+), 181 deletions(-)
++ libxml.m4 | 190 ++----------------------------------------------------
++ 1 file changed, 5 insertions(+), 185 deletions(-)
+ 
+ diff --git a/libxml.m4 b/libxml.m4
+-index 2d7a6f5..1c53585 100644
++index 09de9fe2..1c535853 100644
+ --- a/libxml.m4
+ +++ b/libxml.m4
+-@@ -1,188 +1,12 @@
++@@ -1,192 +1,12 @@
+ -# Configure paths for LIBXML2
++-# Simon Josefsson 2020-02-12
++-# Fix autoconf 2.70+ warnings
+ -# Mike Hommey 2004-06-19
+ -# use CPPFLAGS instead of CFLAGS
+ -# Toshio Kuratomi 2001-04-21
+@@ -78,7 +85,8 @@ index 2d7a6f5..1c53585 100644
+ -dnl (Also sanity checks the results of xml2-config to some extent)
+ -dnl
+ -      rm -f conf.xmltest
+--      AC_TRY_RUN([
++-      AC_RUN_IFELSE(
++-            [AC_LANG_SOURCE([[
+ -#include <stdlib.h>
+ -#include <stdio.h>
+ -#include <string.h>
+@@ -148,12 +156,12 @@ index 2d7a6f5..1c53585 100644
+ -        printf("*** being found. The easiest way to fix this is to remove the old version\n");
+ -        printf("*** of LIBXML, but you can also set the XML2_CONFIG environment to point to the\n");
+ -        printf("*** correct copy of xml2-config. (In this case, you will have to\n");
+--        printf("*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf\n");
++-        printf("*** modify your LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf\n");
+ -        printf("*** so that the correct libraries are found at run-time))\n");
+ -    }
+ -  return 1;
+ -}
+--],, no_xml=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
++-]])],, no_xml=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+ -       CPPFLAGS="$ac_save_CPPFLAGS"
+ -       LIBS="$ac_save_LIBS"
+ -     fi
+@@ -178,10 +186,11 @@ index 2d7a6f5..1c53585 100644
+ -          echo "*** Could not run libxml test program, checking why..."
+ -          CPPFLAGS="$CPPFLAGS $XML_CPPFLAGS"
+ -          LIBS="$LIBS $XML_LIBS"
+--          AC_TRY_LINK([
++-	  AC_LINK_IFELSE(
++-            [AC_LANG_PROGRAM([[
+ -#include <libxml/xmlversion.h>
+ -#include <stdio.h>
+--],      [ LIBXML_TEST_VERSION; return 0;],
++-]],    [[ LIBXML_TEST_VERSION; return 0;]])],
+ -        [ echo "*** The test program compiled, but did not run. This usually means"
+ -          echo "*** that the run-time linker is not finding LIBXML or finding the wrong"
+ -          echo "*** version of LIBXML. If it is not finding LIBXML, you'll need to set your"
+diff --git a/meta/recipes-core/libxml/libxml2/remove-fuzz-from-ptests.patch b/meta/recipes-core/libxml/libxml2/remove-fuzz-from-ptests.patch
+new file mode 100644
+index 00000000000..e80c46054e5
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/remove-fuzz-from-ptests.patch
+@@ -0,0 +1,43 @@
++From e49a0d4a8f3f725d6f683854e1cad36a3cd02962 Mon Sep 17 00:00:00 2001
++From: Tony Tascioglu <tony.tascioglu@windriver.com>
++Date: Wed, 19 May 2021 19:43:56 -0400
++Subject: [PATCH] Remove fuzz testing from executing with ptests.
++
++Upstream version 2.9.12 introduced new fuzz-testing and a corresponding
++folder fuzz. These tests are not required for ptests of this package.
++
++This patch removes the fuzz testing targets from the Makefile.
++Otherwise, running the ptests will fail due to the invalid directory.
++
++Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
++---
++ Makefile.am | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index a9284b95..3d7b344d 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -2,9 +2,9 @@
++
++ ACLOCAL_AMFLAGS = -I m4
++
++-SUBDIRS = include . doc example fuzz xstc $(PYTHON_SUBDIR)
+++SUBDIRS = include . doc example xstc $(PYTHON_SUBDIR)
++
++-DIST_SUBDIRS = include . doc example fuzz python xstc
+++DIST_SUBDIRS = include . doc example python xstc
++
++ AM_CPPFLAGS = -I$(top_builddir)/include -I$(srcdir)/include
++
++@@ -210,7 +210,6 @@ runtests: runtest$(EXEEXT) testrecurse$(EXEEXT) testapi$(EXEEXT) \
++ 	    $(CHECKER) ./runxmlconf$(EXEEXT)
++ 	@(if [ "$(PYTHON_SUBDIR)" != "" ] ; then cd python ; \
++ 	    $(MAKE) tests ; fi)
++-	@cd fuzz; $(MAKE) tests
++
++ check: all runtests
++
++--
++2.25.1
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.12.bb
+similarity index 85%
+rename from meta/recipes-core/libxml/libxml2_2.9.10.bb
+rename to meta/recipes-core/libxml/libxml2_2.9.12.bb
+index b5fb3e6315e..cb228576098 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.12.bb
+@@ -5,9 +5,9 @@ BUGTRACKER = "http://bugzilla.gnome.org/buglist.cgi?product=libxml2"
+ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
+-                    file://hash.c;beginline=6;endline=15;md5=96f7296605eae807670fb08947829969 \
+-                    file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
+-                    file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
++                    file://hash.c;beginline=6;endline=15;md5=e77f77b12cb69e203d8b4090a0eee879 \
++                    file://list.c;beginline=4;endline=13;md5=b9c25b021ccaf287e50060602d20f3a7 \
++                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f"
+ 
+ DEPENDS = "zlib virtual/libiconv"
+ 
+@@ -20,17 +20,10 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            file://fix-execution-of-ptests.patch \
+-           file://CVE-2020-7595.patch \
+-           file://CVE-2019-20388.patch \
+-           file://CVE-2020-24977.patch \
+-           file://CVE-2021-3517.patch \
+-           file://CVE-2021-3537.patch \
+-           file://CVE-2021-3518.patch \
++           file://remove-fuzz-from-ptests.patch \
+            "
+ 
+-SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
+-SRC_URI[libtar.sha256sum] = "aafee193ffb8fe0c82d4afef6ef91972cbaf5feea100edc2f262750611b4be1f"
+-SRC_URI[testtar.md5sum] = "ae3d1ebe000a3972afa104ca7f0e1b4a"
++SRC_URI[libtar.sha256sum] = "c8d6681e38c56f172892c85ddc0852e1fd4b53b4209e7f4ebf17f7e2eae71d92"
+ SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
+ 
+ BINCONFIG = "${bindir}/xml2-config"
 -- 
 2.30.2
 
