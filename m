@@ -1,80 +1,76 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.4475.1626765164432274295
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web12.5047.1626770535811350974
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jul 2021 00:12:44 -0700
+ Tue, 20 Jul 2021 01:42:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 16K7Cf46028572
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Tue, 20 Jul 2021 00:12:41 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 16K7Cfbg002965
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 20 Jul 2021 00:12:41 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 20 Jul 2021 00:12:40 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.10 via Frontend Transport; Tue, 20 Jul 2021 00:12:39 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <alex.kanavin@gmail.com>,
-        <raj.khem@gmail.com>
-Subject: [PATCH v2] parselogs.py: ignore rndr initialization failure
-Date: Tue, 20 Jul 2021 15:10:55 +0800
-Message-ID: <20210720071055.30404-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAMKF1so_itQESzrcEM1wnvAdYz-mJepxYSw-8QRFzh4aKdAuAA@mail.gmail.com>
-References: <CAMKF1so_itQESzrcEM1wnvAdYz-mJepxYSw-8QRFzh4aKdAuAA@mail.gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fSuef0Rp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id k4so25080461wrc.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jul 2021 01:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YQj7LinNz3BG+dG0tK+t0hAjXiyUC+7yZb5wYX5aIuc=;
+        b=fSuef0RpecFBTzGRUCPF/NrMBM6ksV7uFfcBtIf4HKEsi83Or08dQA1+l5/cJkjEpP
+         zepowfolPZsIppdjU+Ngf2DivnLoVO+IiGMv7sJmgMV/J97zndezJjRBHXH67+k9bR1d
+         ZqJ8J9kNRO9yLR4KW+7gzucv0lCTz6EaO3u5I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YQj7LinNz3BG+dG0tK+t0hAjXiyUC+7yZb5wYX5aIuc=;
+        b=YmP0rIGR20ViUy7zZJWH7Tt4CZfmYIfmDSk7px160HZzYfPb3jg/7ua2pVWuyBQPx/
+         E1HZB+fNsLa80PujjNhPz+NAHLQa6nQ73gpGr45d+oe/LOZuYVVpHIkuXZ0otiCJmBd/
+         BXv0diswgno8c5SwVz3NPxaJ18Tmy7MOUU8VWgDIOAayaynOA9n7GnDdiEhcb+PJyiYY
+         lSGqlGgd1lMrLtfvIDBi3DNxwZMVMHuNpT2dhmmQsoZ/pzrYR2I5okFoqzDZkJTOh5bm
+         pBvxlrOM3eu2I6qJ80ZBeqor55N5+1cPDt21kqMR4v8WIGadNvzsvRndQpUjB0DjViHQ
+         r6pQ==
+X-Gm-Message-State: AOAM531JNa5eXulZXMuUGNwe7Nx2XBsN69EkoZWyoyjy7hoLU83vap+H
+	N8pJJD2ljSXoqKS6YinTf2KzWj7c0CO6SQ==
+X-Google-Smtp-Source: ABdhPJxaNB07r6FSvJSJ0gpT2mgSUnrHi/ALhaG/pDcVbVoJsvnMkmqP++DLrB7Q3w4kG/XF/S58rQ==
+X-Received: by 2002:adf:ed07:: with SMTP id a7mr35765538wro.70.1626770534174;
+        Tue, 20 Jul 2021 01:42:14 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2cd8:e78f:29a5:f753])
+        by smtp.gmail.com with ESMTPSA id s4sm21582372wmh.41.2021.07.20.01.42.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 01:42:13 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] zstd: Include pzstd in the build
+Date: Tue, 20 Jul 2021 09:42:12 +0100
+Message-Id: <20210720084213.3032232-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+We don't currently build the parallel version of zstd but we should. Add
+this to the build. It will then be used in buildtools-tarball.
 
-After rng-tools upgraded to 6.13, the RNDR instruction added
-as an entropy source [1]. But for some cpu which doesn't support
-rndr, there comes below warning message:
- # systemctl status rngd
- [snip]
- Jul 20 06:48:07 qemuarm64 rngd[163]: [rndr  ]: No HW SUPPORT
- Jul 20 06:48:07 qemuarm64 rngd[163]: [rndr  ]: Initialization Failed
- [snip]
-
-Actually the failed message doesn't matter as it only indicates
-one entropy source rndr fails to initialize and won't affect rngd
-function, so ignore the failure message to fix below error during
-do_testimage.
-NOTE: ======================================================================
-NOTE: FAIL: test_parselogs (parselogs.ParseLogsTest)
-NOTE: ----------------------------------------------------------------------
-NOTE: Traceback (most recent call last):
-  File "/build/layers/oe-core/meta/lib/oeqa/core/decorator/__init__.py", line 36, in wrapped_f
-    return func(*args, **kwargs)
-  File "/build/layers/oe-core/meta/lib/oeqa/runtime/cases/parselogs.py", line 382, in test_parselogs
-    self.assertEqual(errcount, 0, msg=self.msg)
-AssertionError: 1 != 0 : Log: /build/tmp/work/qemuarm64-wrs-linux/wrlinux-image-std/1.0-r5/target_logs/daemon.log
------------------------
-Central error: 2021-06-23T20:44:18.374494+00:00 qemuarm64 rngd[162]: [rndr  ]: Initialization Failed
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/zstd/zstd_1.5.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index 1bb0425521..73243c3659 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -59,6 +59,7 @@ common_errors = [
-     "Failed to process device, ignoring: Device or resource busy",
-     "Cannot find a map file",
-     "[rdrand]: Initialization Failed",
-+    "[rndr  ]: Initialization Failed",
-     "[pulseaudio] authkey.c: Failed to open cookie file",
-     "[pulseaudio] authkey.c: Failed to load authentication key",
-     ]
+diff --git a/meta/recipes-extended/zstd/zstd_1.5.0.bb b/meta/recipes-extended/zstd/zstd_1.5.0.bb
+index 806edb63c39..3786058731d 100644
+--- a/meta/recipes-extended/zstd/zstd_1.5.0.bb
++++ b/meta/recipes-extended/zstd/zstd_1.5.0.bb
+@@ -29,10 +29,12 @@ ZSTD_LEGACY_SUPPORT ??= "4"
+ 
+ do_compile () {
+     oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=${ZSTD_LEGACY_SUPPORT}
++    oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=${ZSTD_LEGACY_SUPPORT} -C contrib/pzstd
+ }
+ 
+ do_install () {
+     oe_runmake install 'DESTDIR=${D}'
++    oe_runmake install 'DESTDIR=${D}' PREFIX=${prefix} -C contrib/pzstd
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-2.17.1
+2.30.2
 
