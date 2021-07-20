@@ -1,163 +1,79 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web08.9593.1626795977131243021
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web09.77.1626801116823328092
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jul 2021 08:46:17 -0700
+ Tue, 20 Jul 2021 10:11:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="233044503"
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; 
-   d="scan'208";a="233044503"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2021 08:46:15 -0700
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; 
-   d="scan'208";a="657582511"
-Received: from kimkeech-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.226.28])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2021 08:46:14 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/28] pull request (cover letter only)
-Date: Tue, 20 Jul 2021 23:46:08 +0800
-Message-Id: <cover.1626795804.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DE23840BEB;
+	Tue, 20 Jul 2021 17:11:55 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9xf9Yxn7jjAR; Tue, 20 Jul 2021 17:11:55 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B958F40951;
+	Tue, 20 Jul 2021 17:11:53 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 3063217463D; Tue, 20 Jul 2021 13:11:53 -0400 (EDT)
+Date: Tue, 20 Jul 2021 13:11:53 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 02/21] tcmode-default.inc: do not set PREFERRED_VERSION for toolchain items
+Message-ID: <20210720171153.GH1528@denix.org>
+References: <20210714122606.605142-1-alex.kanavin@gmail.com>
+ <20210714122606.605142-2-alex.kanavin@gmail.com>
+ <7304a1fd6d1ccfb9da17ec47125de68035094256.camel@linuxfoundation.org>
+ <CANNYZj8hsgF9fkYinpzPdn6gsjhDXWB1YqTFEANGLNhg1vmn7w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANNYZj8hsgF9fkYinpzPdn6gsjhDXWB1YqTFEANGLNhg1vmn7w@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Please merge these changes.
+On Wed, Jul 14, 2021 at 03:40:03PM +0200, Alexander Kanavin wrote:
+> On Wed, 14 Jul 2021 at 14:55, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> 
+> > At the very least the GCC variable is well used in other layers as it is
+> > hard to
+> > remember all the different bits of gcc that are listed here so I think
+> > that
+> > should stay. Some of these can probably be removed but I'm not sure how far
+> > we could/should go. glibc's list of recipes isn't trivial either...
+> >
+> 
+> I used layerindex to check. Alternative gcc versions are provided by
+> multiple layers (mostly arm-related), but an alternative older glibc is
+> only in meta-debian and that is using neither PREFERRED_VERSION directly
+> nor the *LIBCVERSION convenience (so not sure how it's meant to be used). I
+> will send a v2 with gcc added back.
 
-Thanks,
+Reusing those variables is common in layers dealing with multiple toolchains, 
+such as external binary toolchains and such. Might be good to keep them in 
+OE-Core for consistency:
 
-Anuj
+GCCVERSION ?= "9.%"
+SDKGCCVERSION ?= "${GCCVERSION}"
+BINUVERSION ?= "2.34%"
+GDBVERSION ?= "9.%"
+GLIBCVERSION ?= "2.31%"
+LINUXLIBCVERSION ?= "5.4%"
 
-The following changes since commit 4c2c3d3b84d883b2f1ad94095187e6b5b39e663f:
 
-  lttng-modules: update to v2.12.6 (2021-07-02 11:14:53 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Andrej Valek (1):
-  busybox: add tmpdir option into mktemp applet
-
-Asfak Rahman (1):
-  openssh: Remove temporary keys before generating new ones
-
-Bruce Ashfield (6):
-  linux-yocto/5.10: update to v5.10.47
-  linux-yocto/5.4: update to v5.4.129
-  linux-yocto/5.10: scsi-debug needs scsi-disk
-  linux-yocto-dev: base AUTOREV on specified version
-  kernel-devsrc: fix scripts/prepare for ARM64
-  kernel-devsrc: fix scripts prepare for powerpc
-
-Changqing Li (2):
-  libconvert-asn1-perl: fix CVE-2013-7488
-  boost-build-native: workaround one rarely hang problem on fedora34
-
-Florian Amstutz (1):
-  devtool: deploy-target: Fix preserving attributes when using --strip
-
-Kai Kang (1):
-  rxvt-unicode: fix CVE-2021-33477
-
-Khairul Rohaizzat Jamaluddin (2):
-  curl: Fix CVE-2021-22898
-  curl: Fix CVE-2021-22897
-
-Marek Vasut (1):
-  linux-firmware: Package RSI 911x WiFi firmware
-
-Mingli Yu (1):
-  perl: correct libpth and glibpth
-
-Richard Purdie (7):
-  oeqa/selftest/runcmd: Tweal test timeouts
-  sstate/staging: Handle directory creation race issue
-  oeqa/selftest/archiver: Allow tests to ignore empty directories
-  runqemu: Remove potential lock races around tap device handling
-  glibc-testsuite: Fix build failures when directly running recipe
-  oeqa/selftest/multiprocesslauch: Fix test race
-  dwarfsrcfiles: Avoid races over debug-link files
-
-Vinay Kumar (1):
-  binutils: Fix CVE-2021-20197
-
-Wadim Egorov (1):
-  xserver-xorg: Fix builds without glx
-
-wangmy (2):
-  go: upgrade 1.16.3 -> 1.16.4
-  go: upgrade 1.16.4 -> 1.16.5
-
-zhengruoqin (1):
-  busybox: upgrade 1.33.0 -> 1.33.1
-
- meta/classes/kernel-yocto.bbclass             |  24 +++
- meta/classes/sstate.bbclass                   |   8 +-
- meta/classes/staging.bbclass                  |   6 +-
- meta/lib/oeqa/selftest/cases/archiver.py      |  16 +-
- meta/lib/oeqa/selftest/cases/oelib/utils.py   |   3 +-
- meta/lib/oeqa/selftest/cases/runcmd.py        |   4 +-
- .../openssh/openssh/sshd_check_keys           |   1 +
- ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch |  58 -----
- .../0001-mktemp-add-tmpdir-option.patch       |  81 +++++++
- .../{busybox_1.33.0.bb => busybox_1.33.1.bb}  |   8 +-
- .../glibc/glibc-testsuite_2.33.bb             |   1 +
- .../binutils/binutils-2.36.inc                |   3 +
- .../binutils/0001-CVE-2021-20197.patch        | 201 ++++++++++++++++++
- .../binutils/0002-CVE-2021-20197.patch        | 170 +++++++++++++++
- .../binutils/0003-CVE-2021-20197.patch        | 171 +++++++++++++++
- .../dwarfsrcfiles/files/dwarfsrcfiles.c       |  13 +-
- .../go/{go-1.16.3.inc => go-1.16.5.inc}       |   4 +-
- ...e_1.16.3.bb => go-binary-native_1.16.5.bb} |   4 +-
- ..._1.16.3.bb => go-cross-canadian_1.16.5.bb} |   0
- ...{go-cross_1.16.3.bb => go-cross_1.16.5.bb} |   0
- ...osssdk_1.16.3.bb => go-crosssdk_1.16.5.bb} |   0
- ...o-native_1.16.3.bb => go-native_1.16.5.bb} |   0
- ...runtime_1.16.3.bb => go-runtime_1.16.5.bb} |   0
- .../go/{go_1.16.3.bb => go_1.16.5.bb}         |   0
- meta/recipes-devtools/perl/perl_5.32.1.bb     |   2 +
- .../libconvert-asn1-perl/CVE-2013-7488.patch  |  35 +++
- .../perl/libconvert-asn1-perl_0.27.bb         |   3 +-
- ...nd-Makefile.am-fix-build-without-glx.patch |  46 ++++
- .../xorg-xserver/xserver-xorg_1.20.10.bb      |   1 +
- .../linux-firmware/linux-firmware_20210511.bb |  11 +
- meta/recipes-kernel/linux/kernel-devsrc.bb    |  22 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- .../rxvt-unicode-fix-CVE-2021-33477.patch     |  33 +++
- .../rxvt-unicode/rxvt-unicode_9.22.bb         |   4 +-
- .../boost/boost-build-native_4.3.0.bb         |   2 +-
- .../curl/curl/CVE-2021-22897.patch            |  72 +++++++
- .../curl/curl/CVE-2021-22898.patch            |  32 +++
- meta/recipes-support/curl/curl_7.75.0.bb      |   2 +
- scripts/lib/devtool/deploy.py                 |   2 +-
- scripts/runqemu                               |  27 ++-
- 45 files changed, 1006 insertions(+), 138 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
- rename meta/recipes-core/busybox/{busybox_1.33.0.bb => busybox_1.33.1.bb} (92%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-20197.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0002-CVE-2021-20197.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0003-CVE-2021-20197.patch
- rename meta/recipes-devtools/go/{go-1.16.3.inc => go-1.16.5.inc} (88%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.3.bb => go-binary-native_1.16.5.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.3.bb => go-cross-canadian_1.16.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.3.bb => go-cross_1.16.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.3.bb => go-crosssdk_1.16.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.3.bb => go-native_1.16.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.3.bb => go-runtime_1.16.5.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.3.bb => go_1.16.5.bb} (100%)
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2013-7488.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch
- create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt-unicode-fix-CVE-2021-33477.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22897.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22898.patch
+> Anyone else should probably just copy the PREFERRED_VERSION lines for what
+> they want to adjust into the layers directly. But let's see what Khem says
+> - I do think getting help from AUH/devtool in doing the updates fully, or
+> at least using 'devtool upgrade' locally to prepare the git trees for
+> manual patch rebasing is valuable.
+> 
+> Alex
 
 -- 
-2.31.1
-
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
