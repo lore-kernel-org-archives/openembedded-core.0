@@ -1,205 +1,68 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web11.1852.1626837726250268293
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.1951.1626860189396160327
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jul 2021 20:22:06 -0700
+ Wed, 21 Jul 2021 02:36:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="209462742"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; 
-   d="scan'208";a="209462742"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2021 20:22:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; 
-   d="scan'208";a="462256620"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga008.jf.intel.com with ESMTP; 20 Jul 2021 20:22:04 -0700
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: khairul.rohaizzat.jamaluddin@intel.com
-Subject: [PATCH][hardknott] glibc: Fix CVE-2021-33574
-Date: Wed, 21 Jul 2021 11:22:03 +0800
-Message-Id: <20210721032203.55915-1-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.32.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h+xeW7Nr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id k14-20020a05600c1c8eb02901f13dd1672aso510908wms.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Jul 2021 02:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=bjV7+vNGgh+FjO0tH6b7scfbRgRiu2ZMScAyMhzokFY=;
+        b=h+xeW7Nrh3ksdHRcuUX5Thu46UCqIVzXCFYA0JcnVqg+9MBzmM+gX9sw8ID1OwvgaV
+         66lshGYd4rxxMzOYmnwbi72mLFlUjjEU6nfTC7lVFGRuaZ7/iq0sBwfPQYj+1HAw6tXz
+         pwoodwdKXbePLb7NaepUtJZakyz8wz1VfNS08=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=bjV7+vNGgh+FjO0tH6b7scfbRgRiu2ZMScAyMhzokFY=;
+        b=DmcZTCAFXEu8TJgmEYo+d3E1XafDC4L1zryeTKzb60Jg5ZUxedYN21EtDeZtJyayX4
+         O+lzyH3Qg/E23qgGpl0aBy43O107XjAiQ3UxNykcW5VjwJuWAQno0M8xE3LM/XW3AX5u
+         rMMnhzdcqUaxHKs60oKXgV18Av79gzKe7pSeB8DE+oBjvmwf+LmWu3FRAsFySJBu+osy
+         fYZ1HPlYb4gkU6x5gXlA3t4NNKLqjw7z3Lf5I44PL8agYQSch9dOzgx6Iahbld9/dITM
+         CD+hRAIhdhPMdKQFDYEapHT2YTObYPUydFhNqMSV+SoPlJYi58PYeD9Cy4m8o1IEUWYN
+         68nw==
+X-Gm-Message-State: AOAM530THWGywFW27LQQWffqRSLcmKCN+YDeKtir8mI28grx/CKgHzox
+	LvsOVCXfXD2zP8OURUaddajR1g==
+X-Google-Smtp-Source: ABdhPJy93LL8f78YT73MFYQxvibVZkKfIC55lcsS0GhSLoLoWLLIyJgaW888cK1YfecUp0sD8Inw/g==
+X-Received: by 2002:a1c:7e44:: with SMTP id z65mr3107623wmc.1.1626860187563;
+        Wed, 21 Jul 2021 02:36:27 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:ca4a:a3b0:9d05:9957? ([2001:8b0:aba:5f3c:ca4a:a3b0:9d05:9957])
+        by smtp.gmail.com with ESMTPSA id e8sm4725325wrc.6.2021.07.21.02.36.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jul 2021 02:36:27 -0700 (PDT)
+Message-ID: <530d825cf7c40b354a4127df8181e5311267d1ef.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libcap-ng: use update-alternatives for libcap-ng.so
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 21 Jul 2021 10:36:25 +0100
+In-Reply-To: <1626829912-1826-1-git-send-email-wangmy@fujitsu.com>
+References: <1626829912-1826-1-git-send-email-wangmy@fujitsu.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+On Wed, 2021-07-21 at 09:11 +0800, wangmy wrote:
+>     open-iscsi-user also uses the doc 'libcap-ng.so'.
 
-CVE:
-CVE-2021-33574
+A "doc"? If it is in libdir this is a dev symlink? Is it an alternate 
+provider of this library or is this some  kind of linking intercept 
+functionality? It seems like a bad idea...
+> 
+> +inherit update-alternatives
+> +
+> +ALTERNATIVE_PRIORITY = "100"
+> +ALTERNATIVE_${PN}-dev = "libcap-ng.so"
+> +ALTERNATIVE_LINK_NAME[libcap-ng.so] = "${libdir}/libcap-ng.so"
 
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
----
- .../glibc/glibc/CVE-2021-33574_1.patch        | 76 +++++++++++++++++++
- .../glibc/glibc/CVE-2021-33574_2.patch        | 61 +++++++++++++++
- meta/recipes-core/glibc/glibc_2.33.bb         |  2 +
- 3 files changed, 139 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch b/meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch
-new file mode 100644
-index 0000000000..21f07ac303
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch
-@@ -0,0 +1,76 @@
-+From 709674ec86c3c6da4f0995897f6b0205c16d049d Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@linux-m68k.org>
-+Date: Thu, 27 May 2021 12:49:47 +0200
-+Subject: [PATCH] Use __pthread_attr_copy in mq_notify (bug 27896)
-+
-+Make a deep copy of the pthread attribute object to remove a potential
-+use-after-free issue.
-+
-+Upstream-Status: Backport
-+[https://sourceware.org/git/?p=glibc.git;a=commit;h=42d359350510506b87101cf77202fefcbfc790cb]
-+
-+CVE:
-+CVE-2021-33574
-+
-+Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-+---
-+ NEWS                                |  4 ++++
-+ sysdeps/unix/sysv/linux/mq_notify.c | 15 ++++++++++-----
-+ 2 files changed, 14 insertions(+), 5 deletions(-)
-+
-+diff --git a/NEWS b/NEWS
-+index 71f5d20324..017d656433 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -118,6 +118,10 @@ Security related changes:
-+   CVE-2019-25013: A buffer overflow has been fixed in the iconv function when
-+   invoked with EUC-KR input containing invalid multibyte input sequences.
-+ 
-++  CVE-2021-33574: The mq_notify function has a potential use-after-free
-++  issue when using a notification type of SIGEV_THREAD and a thread
-++  attribute with a non-default affinity mask.
-++
-+ The following bugs are resolved with this release:
-+ 
-+   [10635] libc: realpath portability patches
-+diff --git a/sysdeps/unix/sysv/linux/mq_notify.c b/sysdeps/unix/sysv/linux/mq_notify.c
-+index cc575a0cdd..f7ddfe5a6c 100644
-+--- a/sysdeps/unix/sysv/linux/mq_notify.c
-++++ b/sysdeps/unix/sysv/linux/mq_notify.c
-+@@ -133,8 +133,11 @@ helper_thread (void *arg)
-+ 	    (void) __pthread_barrier_wait (&notify_barrier);
-+ 	}
-+       else if (data.raw[NOTIFY_COOKIE_LEN - 1] == NOTIFY_REMOVED)
-+-	/* The only state we keep is the copy of the thread attributes.  */
-+-	free (data.attr);
-++	{
-++	  /* The only state we keep is the copy of the thread attributes.  */
-++	  pthread_attr_destroy (data.attr);
-++	  free (data.attr);
-++	}
-+     }
-+   return NULL;
-+ }
-+@@ -255,8 +258,7 @@ mq_notify (mqd_t mqdes, const struct sigevent *notification)
-+       if (data.attr == NULL)
-+ 	return -1;
-+ 
-+-      memcpy (data.attr, notification->sigev_notify_attributes,
-+-	      sizeof (pthread_attr_t));
-++      __pthread_attr_copy (data.attr, notification->sigev_notify_attributes);
-+     }
-+ 
-+   /* Construct the new request.  */
-+@@ -270,7 +272,10 @@ mq_notify (mqd_t mqdes, const struct sigevent *notification)
-+ 
-+   /* If it failed, free the allocated memory.  */
-+   if (__glibc_unlikely (retval != 0))
-+-    free (data.attr);
-++    {
-++      pthread_attr_destroy (data.attr);
-++      free (data.attr);
-++    }
-+ 
-+   return retval;
-+ }
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch b/meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch
-new file mode 100644
-index 0000000000..befccd7ac7
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch
-@@ -0,0 +1,61 @@
-+From 217b6dc298156bdb0d6aea9ea93e7e394a5ff091 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Tue, 1 Jun 2021 17:51:41 +0200
-+Subject: [PATCH] Fix use of __pthread_attr_copy in mq_notify (bug 27896)
-+
-+__pthread_attr_copy can fail and does not initialize the attribute
-+structure in that case.
-+
-+If __pthread_attr_copy is never called and there is no allocated
-+attribute, pthread_attr_destroy should not be called, otherwise
-+there is a null pointer dereference in rt/tst-mqueue6.
-+
-+Fixes commit 42d359350510506b87101cf77202fefcbfc790cb
-+("Use __pthread_attr_copy in mq_notify (bug 27896)").
-+
-+Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+
-+Upstream-Status: Backport
-+[https://sourceware.org/git/?p=glibc.git;a=commit;h=217b6dc298156bdb0d6aea9ea93e7e394a5ff091]
-+
-+CVE:
-+CVE-2021-33574
-+
-+Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-+---
-+ sysdeps/unix/sysv/linux/mq_notify.c | 11 +++++++++--
-+ 1 file changed, 9 insertions(+), 2 deletions(-)
-+
-+diff --git a/sysdeps/unix/sysv/linux/mq_notify.c b/sysdeps/unix/sysv/linux/mq_notify.c
-+index f7ddfe5a6c..6f46d29d1d 100644
-+--- a/sysdeps/unix/sysv/linux/mq_notify.c
-++++ b/sysdeps/unix/sysv/linux/mq_notify.c
-+@@ -258,7 +258,14 @@ mq_notify (mqd_t mqdes, const struct sigevent *notification)
-+       if (data.attr == NULL)
-+ 	return -1;
-+ 
-+-      __pthread_attr_copy (data.attr, notification->sigev_notify_attributes);
-++      int ret = __pthread_attr_copy (data.attr,
-++				     notification->sigev_notify_attributes);
-++      if (ret != 0)
-++	{
-++	  free (data.attr);
-++	  __set_errno (ret);
-++	  return -1;
-++	}
-+     }
-+ 
-+   /* Construct the new request.  */
-+@@ -271,7 +278,7 @@ mq_notify (mqd_t mqdes, const struct sigevent *notification)
-+   int retval = INLINE_SYSCALL (mq_notify, 2, mqdes, &se);
-+ 
-+   /* If it failed, free the allocated memory.  */
-+-  if (__glibc_unlikely (retval != 0))
-++  if (retval != 0 && data.attr != NULL)
-+     {
-+       pthread_attr_destroy (data.attr);
-+       free (data.attr);
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index 75a1f36d6b..bb35c50c98 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -61,6 +61,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0033-x86-Handle-_SC_LEVEL1_ICACHE_LINESIZE-BZ-27444.patch \
-            file://CVE-2021-27645.patch \
-            file://0001-nptl-Remove-private-futex-optimization-BZ-27304.patch \
-+           file://CVE-2021-33574_1.patch \
-+           file://CVE-2021-33574_2.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.32.0
+Cheers,
+
+Richard
 
