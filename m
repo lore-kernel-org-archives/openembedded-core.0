@@ -1,122 +1,93 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.4222.1626875703014553929
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by mx.groups.io with SMTP id smtpd.web12.4516.1626876717462519853
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Jul 2021 06:55:03 -0700
+ Wed, 21 Jul 2021 07:11:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC2A11042
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Jul 2021 06:55:01 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 55B323F73D
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Jul 2021 06:55:01 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=fail reason="signature has expired" header.i=@tq-group.com header.s=key1 header.b=GcVIg/4Q;
+ spf=pass (domain: ew.tq-group.com, ip: 93.104.207.81, mailfrom: matthias.schiffer@ew.tq-group.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1626876717; x=1658412717;
+  h=from:to:cc:subject:date:message-id;
+  bh=O1g6GB2++wUiDDOWPczs/lpjAAwzWGDVUCF/ZWQlu+o=;
+  b=GcVIg/4Q/TJt1xUrYPqYta4fX3vQ24k60tXnj7ogwOFG2Y070W9NuriP
+   h+emvrwUV8rHe+KRLEdwto62e4ZgV5DRF9gBYQU+G3Mayr4JX5jm5a/4x
+   gObGZLg8P+gqQV7SEeMGcfePXzWuR7YIlQuMKXdCgube0k4RnqMwPQQHS
+   HGGOx/HV8M3XRBAkiwWteq2Mx14CaXVFNT6CCWVW2zTFGx20VPHi3kmlV
+   gOaOKHJP/3bQpz5fHSztJ14vnBHHfxuML1XqCrGB2of8vvfG1PXp6s5Ar
+   eYtfpkfOB8wSJ4joYAHOZpjGLgg4UC6jYx4NkTDg3jYAYph5E7ZcNqRB6
+   w==;
+X-IronPort-AV: E=Sophos;i="5.84,258,1620684000"; 
+   d="scan'208";a="18573452"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 21 Jul 2021 16:11:54 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 21 Jul 2021 16:11:54 +0200
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Wed, 21 Jul 2021 16:11:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1626876714; x=1658412714;
+  h=from:to:cc:subject:date:message-id;
+  bh=O1g6GB2++wUiDDOWPczs/lpjAAwzWGDVUCF/ZWQlu+o=;
+  b=fYTG8qShucxHVV/k0LElMv2aC+cci+dtyKvKL6cOXupyyZVtKVaAU8jq
+   FM1zLjFbejuie2rkFIOXBhatStNXxDzIla9E98xz5PSAt3DdpWQEzH0g6
+   nTUFdLe/WBLvfXe3sUEuKKPXgp4TwvMZYogDqrkVQo4s9Bsouvi8Ou/0J
+   8RnoZHvpcKh69YslBuV7pU9fZlYhErhNNnyZ7M08T2cFLoynjI32yeizZ
+   +irgSDNuHpRgWtJWyih1MrgzDAaqgSOxZ8qeIY4dJeobMWadIDOb9tfsv
+   MZe8S0ARo5UNZlTnioLiuOEyWOCGfldfe2WcF6U0LyHcD799k3ZLM89LN
+   w==;
+X-IronPort-AV: E=Sophos;i="5.84,258,1620684000"; 
+   d="scan'208";a="18573451"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 21 Jul 2021 16:11:54 +0200
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de [10.121.48.12])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 86DA6280070;
+	Wed, 21 Jul 2021 16:11:54 +0200 (CEST)
+From: "Matthias Schiffer" <matthias.schiffer@ew.tq-group.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] oeqa/sdk: add some buildtools tests
-Date: Wed, 21 Jul 2021 14:54:58 +0100
-Message-Id: <20210721135458.427938-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210721135458.427938-1-ross.burton@arm.com>
-References: <20210721135458.427938-1-ross.burton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Subject: [PATCH 1/3] initscripts: populate-volatile.sh: do not log to tty0
+Date: Wed, 21 Jul 2021 16:10:14 +0200
+Message-Id: <0fb2381b97f71a3469e6c5a0de98b2c3e7aa75c2.1626875447.git.matthias.schiffer@ew.tq-group.com>
+X-Mailer: git-send-email 2.17.1
 
-These two tests are designed to exercise the buildtools-tarball.
+tty0 may not be the intended console for log messages, or it may not
+exist at all in kernel configurations without CONFIG_VT. Just use the
+default stdout/stderr instead.
 
-SanityTests simply verifies that inside the SDK, some commands are used
-from the SDK.
-
-BuildTests creates a new OE build directory and builds virtual/libc to
-verify that a basic build works correctly. DL_DIR is reused to avoid
-needless downloading, but sstate is not shared to ensure a build does
-happen.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 ---
- meta/lib/oeqa/sdk/buildtools-cases/README    |  2 ++
- meta/lib/oeqa/sdk/buildtools-cases/build.py  | 23 ++++++++++++++++++++
- meta/lib/oeqa/sdk/buildtools-cases/sanity.py | 22 +++++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/README
- create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/build.py
- create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/sanity.py
+ .../initscripts/initscripts-1.0/populate-volatile.sh      | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/README b/meta/lib/oeqa/sd=
-k/buildtools-cases/README
-new file mode 100644
-index 0000000000..d4f20faa9f
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/README
-@@ -0,0 +1,2 @@
-+These test cases are used by buildtools-tarball, and are not used by the=
- testsdk
-+class.
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/build.py b/meta/lib/oeqa/=
-sdk/buildtools-cases/build.py
-new file mode 100644
-index 0000000000..5a17ab98c6
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/build.py
-@@ -0,0 +1,23 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import os, tempfile
-+from oeqa.sdk.case import OESDKTestCase
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
-+class BuildTests(OESDKTestCase):
-+    """
-+    Verify that bitbake can build virtual/libc inside the buildtools.
-+    """
-+    def test_libc(self):
-+        with tempfile.TemporaryDirectory(prefix=3D'bitbake-build-', dir=3D=
-self.tc.sdk_dir) as testdir:
-+            corebase =3D self.td['COREBASE']
-+
-+            self._run('. %s/oe-init-build-env %s' % (corebase, testdir))
-+            with open(os.path.join(testdir, 'conf', 'local.conf'), 'ta')=
- as conf:
-+                conf.write('\n')
-+                conf.write('DL_DIR =3D "%s"\n' % self.td['DL_DIR'])
-+
-+            self._run('. %s/oe-init-build-env %s && bitbake virtual/libc=
-' % (corebase, testdir))
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/sanity.py b/meta/lib/oeqa=
-/sdk/buildtools-cases/sanity.py
-new file mode 100644
-index 0000000000..64baaa8f84
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/sanity.py
-@@ -0,0 +1,22 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import shutil
-+import os.path
-+from oeqa.sdk.case import OESDKTestCase
-+
-+class SanityTests(OESDKTestCase):
-+    def test_tools(self):
-+        """
-+        Test that wget and tar come from the buildtools, not the host. T=
-his
-+        verifies that the buildtools have installed correctly. We can't =
-check
-+        for gcc as that is only installed by buildtools-extended.
-+        """
-+        for command in ("tar", "wget"):
-+            # Canonicalise the SDK root
-+            sdk_base =3D os.path.realpath(self.tc.sdk_dir)
-+            # Canonicalise the location of this command
-+            tool_path =3D os.path.realpath(self._run("command -v %s" % c=
-ommand).strip())
-+            # Assert that the tool was found inside the SDK root
-+            self.assertEquals(os.path.commonprefix((sdk_base, tool_path)=
-), sdk_base)
---=20
-2.25.1
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index f21f48dd30..f8b42c6893 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -37,8 +37,8 @@ create_file() {
+ 	fi
+ 	EXEC="
+ 	${EXEC}
+-	chown ${TUSER}:${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
+-	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
++	chown ${TUSER}:${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\";
++	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" "
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 
+@@ -60,8 +60,8 @@ create_file() {
+ mk_dir() {
+ 	EXEC="
+ 	mkdir -p \"$1\";
+-	chown ${TUSER}:${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
+-	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
++	chown ${TUSER}:${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\";
++	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" "
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 	if [ -e "$1" ]; then
+-- 
+2.17.1
 
