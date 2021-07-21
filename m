@@ -1,88 +1,93 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web09.646.1626818257853685776
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
+ by mx.groups.io with SMTP id smtpd.web11.702.1626829933749995876
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Jul 2021 14:57:37 -0700
+ Tue, 20 Jul 2021 18:12:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hH9Zx6xd;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id o4so19193601pgs.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Jul 2021 14:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=mvjsyeyMSjI33aLoRZW02nnZvqic24FWnvIsUwg/G14=;
-        b=hH9Zx6xdpJ55zVOop2/a06V07g8Z3lYxMBN9TcGkBzTQEC7UgrsoulfKBo5055Rqbs
-         hzzX/XMxG+pL2EhsyYq5d+TviCWz3vFVcPCBVUpjcn7LKu6Qhlk3nhZi2buJCG/d0z3a
-         OVWVkb+ha3R6cl+E2QY1/lvSmYzK3t1yfdS6kfs41cItzdixH/3FAMN5D3KHcqqYSyfw
-         g3FENjBZhQAQqmm1BuRxCVkrfTyIdFzEla8nJZtIAWIKe8r3qbaM8qjXOnPzdzz79vRb
-         IiMzkbfCl8m9GQvq9Q+w8wct/Qvm8t50Dop3SCkWO4XALn3CSehfFFnayxHCYxsb2chm
-         3dwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mvjsyeyMSjI33aLoRZW02nnZvqic24FWnvIsUwg/G14=;
-        b=I6pIm0TRu9uBz4MpZ+wAoRry6A5kzh/Jbms+m9T2ndY7S9a/jAqu+ALBwmpppWC4Et
-         VdTl8IqE+jnTH38cM2Ra2WXhxB9u8tiEmnSERUOU59H5Hd3JYST1/8I2pGeRkAhRn+wa
-         nrY0EMYUCV3RgP4yyfqS7v3NETTAsPNp4VImeHOJrt7RKq6aLHs9oOjL5yhIWJ7q8rua
-         Zp4lz4cgnxcLV6DoMo3eLZuJfTqP1x13WCnFmo9IzlQQ0bSl3DKD47GfkOxLCzMbv/37
-         /INg0XSLzQxA9WU/z91ixu6vFipvCW62JbKCZSXx++1e0RWNPM+I3HnHOqDAlLhjW3Xt
-         PpcQ==
-X-Gm-Message-State: AOAM532QXk9vqL8xPDJD2ohQsRasj23dEps45hiHtPnSTbVXcMaUU6NG
-	ZdODdqacYQy6f0tdHDcnXVKlVCQtj6DO+ShK
-X-Google-Smtp-Source: ABdhPJzxhTzOfHTLEeUvFlowYnnR4OTKdDajn7cPBtJksG7merwXdafVvjYtqiPfUfLZBR5MyXbatA==
-X-Received: by 2002:aa7:8ec5:0:b029:33b:7b34:9cba with SMTP id b5-20020aa78ec50000b029033b7b349cbamr20853169pfr.35.1626818257024;
-        Tue, 20 Jul 2021 14:57:37 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id r7sm3556874pjl.16.2021.07.20.14.57.35
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 14:57:36 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 3/3] kernel-devsrc: fix 32bit ARM devsrc builds
-Date: Tue, 20 Jul 2021 11:57:16 -1000
-Message-Id: <9ae339ace9274be71bfd3b5e5da64dceac9fa963.1626818018.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1626818018.git.steve@sakoman.com>
-References: <cover.1626818018.git.steve@sakoman.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=XwDqnYks;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1626829931; i=@fujitsu.com;
+	bh=QkgEYPjk577AlvCFiRfjuhJBFp974TmczVPDzBiuUPg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=XwDqnYkswPdgBc7hwTaG2AVpapHxuBqanFULJyZNmK33COFBGPpYO3G6gipP9RR7H
+	 GRfNPac3zg+6HrMkfeCZTbW39TCNMMnyXJsd0O9RYqpc6OBZWFSHT+uUylqNJe8P0m
+	 3yYdQChfKIydHdyliSCwaWPrRgnMT16B9o/XWJl9k57odB8VF8HeH6OnUxRMXfencT
+	 aEEcm3eZ+aPKPXcebLwgOPBtv1dGTQgKpyzJfWcoW4z4Qsv5hRP/alkrBvX/h9X88u
+	 O6NTjvAgFSl5+s1U7esIz/GALa8LA0H+EbW/7pr2TURBNNKe4BK9FDJUFT7aLMqHwy
+	 wpctYDJ/yenGw==
+Received: from [100.113.6.207] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id 01/E9-07224-B6477F06; Wed, 21 Jul 2021 01:12:11 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRWlGSWpSXmKPExsViZ8MRoptd8j3
+  BYPEbdos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePavjamgm72im/TDzM2MC5n62Lk4hAS2Mok
+  MXPOfyYI5ySjxJepaxi7GDk52ATUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7x52EFtYwE/i/
+  MSVTCA2i4CqxOYH71hBbF4BR4kby3rBaiQEFCSmPHzPDBEXlDg58wkLxBwJiYMvXjBD1ChKzL
+  7czAKySkKgUuLG49QJjLyzkHTMQtKxgJFpFaNlUlFmekZJbmJmjq6hgYGuoaGxromuobGBXmK
+  VbpJeaqlucmpeSVEiUFYvsbxYr7gyNzknRS8vtWQTIzC8UgpZmnYw/n71Qe8QoyQHk5Io71m2
+  bwlCfEn5KZUZicUZ8UWlOanFhxhlODiUJHhTir4nCAkWpaanVqRl5gBDHSYtwcGjJML7MA8oz
+  VtckJhbnJkOkTrFqCglzjsFpE8AJJFRmgfXBouvS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5GJ
+  WEeVcXA03hycwrgZv+CmgxE9DiXdO+giwuSURISTUwrSou+fLCP3XygXrtkqdWF1x2zFjzN7X
+  l6az8zPgVJ2Q/63ypuSIcefFV2IGXt5n49JofHEu/WaEm1bfN7opb6yGL/czZCu2Xsvd1cX9k
+  UL4vohN0nDnV7k3bktzbOytvZBfJbM614Hn56fDM2t75+572yM9feWZm/5Likrs7JDX/sPwR2
+  3TSq2nz4fnFqT/XrGX+lz4/uHdlS7bjvf5lv88VHfbtXLDT8cXGNW05DKcmG1Sf/rO6bqrPPM
+  dKozWG0SdvctgJJ9Q83vmrYHLb1IVnDq+daSCvpx23a87jxXvXXFm0dqVaD9+ksJ6PMYkaFY9
+  jOV/uOnn5tFq1VfiMxv1JUkyvJYXO6i942VG1oEKJpTgj0VCLuag4EQDnW+TGKgMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-7.tower-248.messagelabs.com!1626829930!252284!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 32585 invoked from network); 21 Jul 2021 01:12:11 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-7.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 21 Jul 2021 01:12:11 -0000
+Received: from R01UKEXCASM223.r01.fujitsu.local (ex2k13_223.fs.fujitsu.com [10.182.185.121])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 16L1C33a002205
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Jul 2021 02:12:10 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Wed, 21 Jul 2021 02:12:00 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libcap-ng: use update-alternatives for libcap-ng.so
+Date: Wed, 21 Jul 2021 09:11:52 +0800
+Message-ID: <1626829912-1826-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
+Content-Type: text/plain
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+    open-iscsi-user also uses the doc 'libcap-ng.so'.
 
-As a follow up to commit: 0fc66a0b64953 [kernel: provide module.lds
-for out of tree builds in v5.10+], we must not only copy module.lds
-from its new location, we have to not error when it isn't found in
-the old location.
+    open-iscsi-user has a priority of 60.
 
-With this tweak, we have coverage on all supported arches for the
-new location of module.lds, and backwards compatibility through
-kernel versions.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cb940d8af359fa370254bd4c2b36ba26708bb54b)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 951e7635cc..887e1e2430 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -177,7 +177,7 @@ do_install() {
- 	        cp -a --parents $SYSCALL_TOOLS $kerneldir/build/
-             fi
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb
+index 6e6de45494..7581c29f3f 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb
++++ b/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb
+@@ -6,6 +6,12 @@ EXTRA_OECONF += "--without-python --without-python3"
  
--            cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/
-+            cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
- 	fi
+ BBCLASSEXTEND = "native nativesdk"
  
- 	if [ -d arch/${ARCH}/include ]; then
++inherit update-alternatives
++
++ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_${PN}-dev = "libcap-ng.so"
++ALTERNATIVE_LINK_NAME[libcap-ng.so] = "${libdir}/libcap-ng.so"
++
+ do_install_append() {
+ 	# Moving libcap-ng to base_libdir
+ 	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
 -- 
 2.25.1
 
