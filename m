@@ -1,97 +1,74 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by mx.groups.io with SMTP id smtpd.web12.4516.1626876717462519853
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.1352.1626885685590995367
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Jul 2021 07:12:00 -0700
+ Wed, 21 Jul 2021 09:41:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@tq-group.com header.s=key1 header.b=XVbuE4ms;
- spf=pass (domain: ew.tq-group.com, ip: 93.104.207.81, mailfrom: matthias.schiffer@ew.tq-group.com)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=TXC1ep2q;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.54, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f54.google.com with SMTP id v6so4092242lfp.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Jul 2021 09:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1626876720; x=1658412720;
-  h=from:to:cc:subject:date:message-id;
-  bh=YEjIatjGSRlPE0HzQ8rMx+Ke3PoiQxi6MQKl9BpmdMY=;
-  b=XVbuE4msIINqZasBHoXGqUkcSvLIk2noyNQTUtG+fJwixut7uGenxKr5
-   ZiujnBG5NzgNwZ3itpVCt1eGsmddJdLSRLDw2XlGuCrT8In23Vpj2/sH2
-   hTxWGRbqvjraJRHbrUX7gs4jDmoRt+zSdGIi5B+/GGjdH/TJZG9O6Dgsh
-   TXPCLexwx0tMmGYIKFYQoGLC+3Nfm0SgEgCizupL+xqoPB7w0N2ilFvkA
-   TmsJUVA885anQdiX0L0WvORU+mQ+TZg+BkfkeMujdss0liJ5kgd7c0DiG
-   sSYM1ghKt86v6aTK1Al5skiZfBt6Sa2euinX3iajpCyLD51mfTpJaG/vW
-   w==;
-X-IronPort-AV: E=Sophos;i="5.84,258,1620684000"; 
-   d="scan'208";a="18573456"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 21 Jul 2021 16:11:54 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 21 Jul 2021 16:11:54 +0200
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Wed, 21 Jul 2021 16:11:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1626876714; x=1658412714;
-  h=from:to:cc:subject:date:message-id;
-  bh=YEjIatjGSRlPE0HzQ8rMx+Ke3PoiQxi6MQKl9BpmdMY=;
-  b=lgV6rlxVDHv9pGQ+XIsR8F8TqNeK1oSBsLyv7IRdtENhKdiiwm2hsShg
-   rRNEKX90d8V6l6X9q6af296VqmJOTgu2pDQy5ywcxpm4JR0wT45HIRYIM
-   6Y4Fb2rV5J7+jA216V3RDsU3sOy8mfBIhVn82pfdDAL/y8JPo3YlK8zOe
-   UirgQ9sguMJERKCO6lKslr6B7wObS9aOa8YiPtRwhIDP6AlHrGXYpUrjK
-   NXqECFKBsDedfyugb0TzDMqYsq0iEt3vtLawVpf20FOyQsc6OvZkx+izh
-   5iRDxYh0GAbu+e6fQEcGWCcloEy+NMFi/KrmGlAF0YBRBweTIxuOqqIhq
-   w==;
-X-IronPort-AV: E=Sophos;i="5.84,258,1620684000"; 
-   d="scan'208";a="18573455"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 21 Jul 2021 16:11:54 +0200
-Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de [10.121.48.12])
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id A7E0A280078;
-	Wed, 21 Jul 2021 16:11:54 +0200 (CEST)
-From: "Matthias Schiffer" <matthias.schiffer@ew.tq-group.com>
+        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Q9VTVG48PzHQobXeVqQBDSEZASTyrd3stHr1v5s7qA=;
+        b=TXC1ep2qdEkBWnME5Os7VOQMpi0Z2zeMs9rVTQhLukNHhfMUr1K1H7Ry1HfqylvbzX
+         0bgmHdkbma7suzvQK+rcUDNxt2nvIcxP0GPZZfoQHQkhN3JjOk4M/UM7eU5xcGxd38Hj
+         b2n9fspqC6uK7F8QrlQW/NHRk/1XYT1BnaEfNczOEe6/PVcvUeb6yNDJmghWjv1KO9/Y
+         Xvc9jZyyeajV5FyuyxGscw4JYMjKMG+yvP9SL/Ttb2YNHGR0I/1CuC9H4S04KYYB3sGY
+         D/HjcL8Z64neqsk6YMphmfp031ZcFGIbyMwIwUhFvfHc7KEXVyeR01Z4TabeQL9Nk3Az
+         vdNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Q9VTVG48PzHQobXeVqQBDSEZASTyrd3stHr1v5s7qA=;
+        b=PvyOLCzgQnmcx57CkmiMLiOa1dkK0JIaBq2EtBKoMRO7+lWoM8t65Shs5cjoIoWG+Y
+         sdrwiEPbnYlmF5wh2hx4qDRs+2zfPFK9BTX1RMOulvGjRYaEkHOWrbi+mUNpH6JO2PGs
+         4wCHAloHhKeefWousbhh0+Lij9CMEaa9iZeyazAilZ4hvSRGiW0bD1QOiV5SE80SKgy/
+         11MbBP9wqwQMQGAwvCddsSbWcBf73KubTvMlejd1piUtbBp2De5OfeGsmYfACE+hQTfp
+         2Ff6meivdsaM9+njQ+RMAgp83NvBaBwZSrg7KpYJAXq561+TtV2i5Eg9nJSAnQtwX7q0
+         88iQ==
+X-Gm-Message-State: AOAM5337EQtyyrFjGBQpwgUl9bd2kz+Ib8rxogjf8sGKPpoce7M/oF3O
+	TZRqfXT1nuv7AMyfUuFbY+Uzba0TaHLT2v9x
+X-Google-Smtp-Source: ABdhPJwzPF9WvKpALvix+yAvYqcnYAdiy3rGr+TnURvsoi27ZSEkUmjGkzgDjEiZlUoevBQCExiqOA==
+X-Received: by 2002:ac2:58ef:: with SMTP id v15mr25432843lfo.408.1626885683342;
+        Wed, 21 Jul 2021 09:41:23 -0700 (PDT)
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from localhost.localdomain (c-e21d524e.023-160-67626725.bbcust.telenor.se. [78.82.29.226])
+        by smtp.gmail.com with ESMTPSA id y13sm2858967ljn.119.2021.07.21.09.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jul 2021 09:41:22 -0700 (PDT)
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Subject: [PATCH 3/3] initscripts: fix creation order for /var/log with VOLATILE_LOG_DIR=true
-Date: Wed, 21 Jul 2021 16:10:16 +0200
-Message-Id: <f41298a4ab1593f5fd3e9d24d9960196ab4006f0.1626875447.git.matthias.schiffer@ew.tq-group.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <0fb2381b97f71a3469e6c5a0de98b2c3e7aa75c2.1626875447.git.matthias.schiffer@ew.tq-group.com>
-References: <0fb2381b97f71a3469e6c5a0de98b2c3e7aa75c2.1626875447.git.matthias.schiffer@ew.tq-group.com>
-In-Reply-To: <0fb2381b97f71a3469e6c5a0de98b2c3e7aa75c2.1626875447.git.matthias.schiffer@ew.tq-group.com>
-References: <0fb2381b97f71a3469e6c5a0de98b2c3e7aa75c2.1626875447.git.matthias.schiffer@ew.tq-group.com>
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] bitbake.conf: change GNOME_MIRROR to new one
+Date: Wed, 21 Jul 2021 18:41:16 +0200
+Message-Id: <20210721164116.56809-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Create the /var/log symlink directly after /var/volatile/log, so
-/var/log is available for the creation of /var/log/wtmp a few lines
-later.
+URI has been permanently moved and returns HTTP 301.
 
-Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-An alternative solution would be to move the creation of the /var/log
-link (and possibly /var/volatile/log itself) to a separate volatile list
-that is applied before 00_core. This would simplify the code and improve
-compatiblity with patch [1] (currently applied downstream by
-WindRiver Linux, I'm not sure what the status is regarding inclusion in
-OpenEmbedded core).
-
-
-[1] https://patchwork.openembedded.org/patch/176834/
-
-
- meta/recipes-core/initscripts/initscripts_1.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 5e994f2b7f..65f9c0ae8d 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -106,7 +106,8 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
- 	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
--		echo "l root root 0755 /var/log /var/volatile/log" >> ${D}${sysconfdir}/default/volatiles/00_core
-+		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root 0755 /var/log /var/volatile/log' \
-+			${D}${sysconfdir}/default/volatiles/00_core
- 	fi
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 160abf40ee..821dae2ba6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -639,7 +639,7 @@ CPAN_MIRROR = "https://search.cpan.org/CPAN"
+ DEBIAN_MIRROR = "http://ftp.debian.org/debian/pool"
+ GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
+ GNOME_GIT = "git://gitlab.gnome.org/GNOME"
+-GNOME_MIRROR = "https://ftp.gnome.org/pub/GNOME/sources"
++GNOME_MIRROR = "https://download.gnome.org/sources/"
+ GNU_MIRROR = "https://ftp.gnu.org/gnu"
+ GNUPG_MIRROR = "https://www.gnupg.org/ftp/gcrypt"
+ GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
 -- 
-2.17.1
+2.25.1
 
