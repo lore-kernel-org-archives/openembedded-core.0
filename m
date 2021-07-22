@@ -1,108 +1,100 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.2909.1626986770830452449
- for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 13:46:11 -0700
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web09.62.1626988038608437422
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 22 Jul 2021 14:07:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SiwqGsjL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id k5so30562wrq.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 13:46:10 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GoAYhSHf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id z8so128378wru.7
+        for <Openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 14:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=IAxh1Em/QMJrqWtaJ/+RbjsXAFffTaKRv4E2zNnxPMc=;
-        b=SiwqGsjL3RNC7zI9whp9cAKZGTr+2M8Jq1P+dsjD/yA8muoC4C3V+3Yy+sVtDKnk2U
-         xlHpHceIuUnhdCNgEcgdiTM0OahYBhjr0jBFxSl3+/RZN9tUD597lTrKp9X4KGsstWFU
-         I/9OIRspc9xXc7NE5w14QpdFZ1QzTWC4BeSXw=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=4dkBGjrEPNY5JGTbzwYgOnrib46Rz/C5lfRnngBaJ1k=;
+        b=GoAYhSHfvc2gHImUYvaUXXXOB9MqPJsYJEV5PLspnh1ijOdjmzqumzc0wDn+CvFGfk
+         JOoOZwYW5F0WM1Uvlb63pHXVBAjVxghgegMne08UpMF6prWAa5oFyr8cm0Pj4/re0oOB
+         fRtrKRGIxEZvolaVen0DFXouNfexc2hOHjdhw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=IAxh1Em/QMJrqWtaJ/+RbjsXAFffTaKRv4E2zNnxPMc=;
-        b=RFpZA42iARWSuefy2fKpaC+NSswE75UymU68fuqwozUQPGMPPTSHuBJi0m4JGR77Ij
-         gEfWLEk+/+FcD44BANjMtEJdbiRWa8s0nYGzU1yhXI3NhnkQgHMfSo6bECQptS0WwZXw
-         WTKY/hOcJG1CmOAWOyHnDEqpXs5XUuINXoLy1wwoSAQhVar1foejo1JBWan7VgZCSNYz
-         lxUiPeX40tJ9R5/l8QLe5c3NTR2OnE7+h3WwexHf0pYN8cVVaqeWYtNY5n79JHvydhey
-         M4/iOF7VNVKfh9V8VRYGcxPH7MgtZ2kT66fxehB3FN2T4JpDPh+QUFq4wQn8I8KjWft9
-         Q5SA==
-X-Gm-Message-State: AOAM530L56jHsLZCrmlSdjDieXtbLcFTFYdqucmdZpCsQppCyxCe006Z
-	RXyq3x2QiL3mxqLsjHMBbd0cHw==
-X-Google-Smtp-Source: ABdhPJzGR1CRnsh8hdZdLIIps0kE887RNQ1JGux/P3PoyfcuC+hSSCsRuiT1EicQmL/k9f6jLfyQnw==
-X-Received: by 2002:adf:a31d:: with SMTP id c29mr1807878wrb.344.1626986769318;
-        Thu, 22 Jul 2021 13:46:09 -0700 (PDT)
+        bh=4dkBGjrEPNY5JGTbzwYgOnrib46Rz/C5lfRnngBaJ1k=;
+        b=o+FDidLglBGRHTPMCQCeG3UNr9AjwTkX2FMlAKKEqednopjOASOI0df6fS5e7Jv+Ab
+         rjw+Y3ojnDyyFrxcA2qr+sEGDsSRyelF+7oxGZxwnob8/Gn5VH11dj4RgTmTLyWulh65
+         RpiW/i+s3GJH7v0qE3ME7uf8qb1PJDHCrmzWzT7RS43/jNdFIPSgcYYWZyD6jLFY2uX6
+         G19tTBUSct6b2viZhMTBHOhahVwdk+tMGxiTOa5yfPBAHk2gMhtO2HwRfcgn7zb4CSWt
+         l5nRfrlCQdQFi+RKHBBQqViWm2ALI80o0ke7Z7NcwNfwviDxafvwnsQe/VgKTAB3gwB2
+         iuLQ==
+X-Gm-Message-State: AOAM533d+XLc+zDpp7+oI8wZpMpXIw6hTXDE7M0dFcEbMjWUi3DNDzgS
+	kpwJffu/k96f3vQHS/ZX0dP1fw==
+X-Google-Smtp-Source: ABdhPJyvms2pTvbDJku0hmP3cm5RzJedy3POHsYAbZR1HYBt7xiouh3EBvck26VqTYPnBqw94SKGpQ==
+X-Received: by 2002:adf:f8cd:: with SMTP id f13mr1865464wrq.328.1626988036815;
+        Thu, 22 Jul 2021 14:07:16 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:e1dd:b42c:9243:6ba8? ([2001:8b0:aba:5f3c:e1dd:b42c:9243:6ba8])
-        by smtp.gmail.com with ESMTPSA id l24sm3430433wmi.30.2021.07.22.13.46.08
+        by smtp.gmail.com with ESMTPSA id w3sm30768045wrt.55.2021.07.22.14.07.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 13:46:09 -0700 (PDT)
-Message-ID: <7c8a96980bdc7d6d3d6a81e07b8ba8e1328afcff.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] yocto-check-layer: ensure that all layer dependencies are tested too
+        Thu, 22 Jul 2021 14:07:15 -0700 (PDT)
+Message-ID: <0ba045b9996d35344c96f1208bf189309338f9ee.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 1/8] overlayfs-qa: common functions for overlayfs
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Nicolas Dechesne
-	 <nicolas.dechesne@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Jul 2021 21:46:08 +0100
-In-Reply-To: <CADkTA4MfOnbxF5c9MyfD79r_pmN0Yw4KH6Gx5mjSR1nYkA9Wgg@mail.gmail.com>
-References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
-	 <20210722124644.19962-5-nicolas.dechesne@linaro.org>
-	 <CADkTA4MfOnbxF5c9MyfD79r_pmN0Yw4KH6Gx5mjSR1nYkA9Wgg@mail.gmail.com>
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>, 
+	Openembedded-core@lists.openembedded.org
+Date: Thu, 22 Jul 2021 22:07:14 +0100
+In-Reply-To: <20210715193933.66120-1-uvv.mail@gmail.com>
+References: <20210715193933.66120-1-uvv.mail@gmail.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-07-22 at 09:16 -0400, Bruce Ashfield wrote:
-> 
-> 
-> On Thu, Jul 22, 2021 at 8:47 AM Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
-> > In order to be compliant with the YP compatible status, a layer also
-> > needs to ensure that all its dependencies are compatible
-> > too. Currently yocto-check-layer only checks the requested layer,
-> > without testing any dependencies.
-> > 
-> 
-> 
-> Is that actually written into our compliance statements ? (that dependency 
-> layers must also be compliant)
-> 
-> I had never heard that before, and in my opinion, that will actively encourage 
-> people to copy recipes if they want to be compliant but a dependent layer is 
-> problematic.
+Hi,
 
-It has been the case as it logically doesn't make sense otherwise but the 
-YP Compat pieces need better documentation. The TSC did work on fixing this
-up but we're blocked on a lack of advocacy people to help with the other 
-side of the programme.
-
-Thinking the above though, the reasoning is that if we don't require that, 
-it lets anyone just push their non-compliant bits into meta-non-compatible 
-and then have meta-compatible depend on meta-non-compatible. It also meant
-nobody had much interest in having meta-oe or meta-virt being YP Compat.
-
-The hope is that it causes "bad" layers to get fixed. We've put pieces in place
-to try and at least ensure the core layers pass and stay passing.
-
->  With this change, all dependencies are also checked by default, so the
-> > summary printed at the end will give a clear picture whether all
-> > dependencies pass the script or not. 
-> > 
-> > Using --no-auto-dependency can be used to skip that.
-> > 
+On Thu, 2021-07-15 at 21:39 +0200, Vyacheslav Yurkov wrote:
+> This class provides commom functions for overlayfs and its QA check,
+> which is performed in ROOTFS_POSTPROCESS_COMMAND
 > 
+> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> ---
+>  meta/classes/overlayfs-qa.bbclass | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>  create mode 100644 meta/classes/overlayfs-qa.bbclass
 > 
-> I'd actually prefer the opposite, to make the compliance runs faster by 
-> default, versus someone having to find out about this option later. We 
-> already get complaints about check layer speed, and doing more by default 
-> won't help on that front.
+> diff --git a/meta/classes/overlayfs-qa.bbclass b/meta/classes/overlayfs-qa.bbclass
+> new file mode 100644
+> index 0000000000..54fa8316a2
+> --- /dev/null
+> +++ b/meta/classes/overlayfs-qa.bbclass
+> @@ -0,0 +1,14 @@
+> +# This class contains common functions for overlayfs and its QA check,
+> +# which is performed in ROOTFS_POSTPROCESS_COMMAND
+> +
+> +# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
+> +def escapeSystemdUnitName(path):
+> +    escapeMap = {
+> +        '/': '-',
+> +        '-': "\\x2d",
+> +        '\\': "\\x5d"
+> +    }
+> +    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
+> +
+> +def mountUnitName(unit):
+> +    return escapeSystemdUnitName(unit) + '.mount'
 
-I can see the arguments both ways on this. "The script says it is compatible
-so I can use the badge" :/
+
+Thanks for working on this, it is passing our automated tests but I had 
+some review comments. I think the above would make much more sense as code
+in meta/lib/oe/ somewhere as it is basically just function library code.
+There is a general intent to move the more generic python functions there
+and try to establish some better APIs so if you could move this there as
+new code, that would be great!
 
 Cheers,
 
 Richard
+
+
 
 
 
