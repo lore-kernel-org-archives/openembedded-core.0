@@ -1,142 +1,104 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web12.2099.1626982513927305189
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web08.2077.1626982617655298051
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 12:35:14 -0700
+ Thu, 22 Jul 2021 12:36:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cYQLTIrr;
- spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f169.google.com with SMTP id d2so127154qto.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 12:35:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=if5c1z7e;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id q190so6547687qkd.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 12:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=01VMcqfeMQelgZJLQa0/EPpuhNTONPoaRCT/z7RJvwY=;
-        b=cYQLTIrrx2+FiqaW5FWsJPg8sxaaQYN2atjbAcAM0h/YkUpiOn9QKUPeT66qZ2V/VZ
-         bXbtJvfbx6BvXDbJ4tfqze73jH+4w2Cfz+nWp+oyz+Z6CyoV9BNc9PfvvJhKQBiUNBbJ
-         UPrxfw+jkrcjL0tvIlNXtpWYZYs5ho8GqAIXR1XzQfilZZjJA3VCWx2oqLWUZlSwqMef
-         lTX6pyK3r3HGTwNd36YkNSpTy7gclaxDf6kjEFCmxSxWOMNJlKxoyX4tKQjayz2FdRAk
-         4A7xcdWltSVsJ58RXb3Pwz32eRrwQISggW+wgiSqmGXgcF3+ZEj0HKPg71KQVW5QNjTp
-         kMIA==
+        bh=9E2UVt97fvotSahhA7uY63RfIwGhkqQVBrHG+U0Hlv4=;
+        b=if5c1z7e8eQ5t3YP2eNqOPy/mDoupmV0iEJhhVSCdhtDNuLM0dPngostLd1rR4v/an
+         oo3CEgImxtArKm2VXgpjKoWMsx+iCAfe1LTMj24WJrXA3+IC8eQQo9lmmgSPDa6KY/JT
+         OVf5rkM5wB/IvuotYuANoXT2c+ZHGHUCXywYimK0Zjt4WKwCfMkH60kRUTWuudw7BFEv
+         QJSlH1UpAL3EHCig6CBu0mQ6wN4aVFfhJS991DCrUwGjdGv+FveZcFHRwOvH3AB+mjo2
+         on1sWRj/7t5ZDj/lHltSA85W+SsKpcrGJK1t/WxuBRwX1Qluml1dYh3MA3dfhy+VOJFu
+         T6yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to;
-        bh=01VMcqfeMQelgZJLQa0/EPpuhNTONPoaRCT/z7RJvwY=;
-        b=CiH11zQIqa61DznvqAZ8g8YJ5tmGab1aq5dZVqJgqEcqsMI14+E0rpm3i3Bkpth5GS
-         MEpUTs8AnNvj5PIA/iKzGxVFroKdF9fOtPym6tGOotIXP85dcZit3DE1MA9h+SnUEpox
-         y4CRJ/HFb4VXMDuFU0JUbeQV4WaB7LN8xC8hdRA5a9kwMhFmmXZahawAS+mPjh4GU3Bc
-         kpKMMpqiTgdtiaOWFtkA5xWgv8b9NXz1BniF3Ci1dTXpCeX1p+WXRwU8HO+nZRfLVAEh
-         sgsfsZ0sY5u0b06LGm/0XVwTBL+Li5J7BiAHqrYUmz7lQYqlOFh5mlTf8suXdqGth7qG
-         Za2Q==
-X-Gm-Message-State: AOAM5328K7OmCdm/5IJcGsOVTh+MxfhW3/PcVwUkekREqnNtPlHd/ox5
-	jiHFmKMc5c2fU4PQDe1vtPmSy0WKbX+7WA7HD9BoIED8uL4a4Q==
-X-Google-Smtp-Source: ABdhPJw1dynYslXBaZ2l4VZZWOgwQmKwboFPpdSDplyLIyZWzYT4Ciu0WO5h3YssruSZ8gRjP7GECwUEgO7XDTibZOg=
-X-Received: by 2002:ac8:41cd:: with SMTP id o13mr1088663qtm.289.1626982512848;
- Thu, 22 Jul 2021 12:35:12 -0700 (PDT)
+        bh=9E2UVt97fvotSahhA7uY63RfIwGhkqQVBrHG+U0Hlv4=;
+        b=XqERp8sXZLvZ9+HriqLUo3/bcw0aopFESKpeuaenakGIG1VtZ/7x/T2lxwn7MN0bFy
+         zxUhtpeUmRD8gr+WGxlQaZIozULQXgIO8qcfVL/8Cb2xx4/ykbJcSzhQ9sEWMCfDHQUJ
+         XMPqJKEthJK+/Mtq4vvBzpY4SdDlL2bVsTVIbaOtBAlP1tFBbJaUaIl6dTuhPyUHPza3
+         7aSe6vclrQ3zV3+oJTnSAGni6p3/BhLSFJLETJvoWyqj5DCAMM0q9qSuX0bQ8T8xcy7H
+         +RcrkHAakDT37i2hIZmbwmHyeOtLclVW54UWTwNgga+p4ZEAUGQ8SyHJPBPO/DMvgVr1
+         KN6w==
+X-Gm-Message-State: AOAM5320s3ZGbDT7ZeXuSDOWqrIlgd5ORFRhnSBrtT76CYkWpiCHb8D/
+	ijICw2ufuMmouAJemscYSZDHg+3cO2Fze0WIb/7N6yA0A6k=
+X-Google-Smtp-Source: ABdhPJzB5f8HJozO8NhT2wnpNuZNzj2N5iCq+Zwh7j9Vw/l9W0cxFajtYq0KIV3nnrte1fnSVw+vCs8SqSW9ozmt/aQ=
+X-Received: by 2002:ae9:f201:: with SMTP id m1mr1236153qkg.381.1626982616600;
+ Thu, 22 Jul 2021 12:36:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210704210740.581650-1-raj.khem@gmail.com> <CAMKF1sqg7QMojTsPo=GSjzpEEb-QwmF8_GNXXj8SaC45wtJ73Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sqg7QMojTsPo=GSjzpEEb-QwmF8_GNXXj8SaC45wtJ73Q@mail.gmail.com>
+References: <20210624165421.32088-1-raj.khem@gmail.com> <CAMKF1soqvCNDPaZtAStEyT6W1S_KdQyyfuu_L0inj3re9AQosQ@mail.gmail.com>
+In-Reply-To: <CAMKF1soqvCNDPaZtAStEyT6W1S_KdQyyfuu_L0inj3re9AQosQ@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 22 Jul 2021 12:34:47 -0700
-Message-ID: <CAMKF1sr0M_Tz066uNr55jGW5pOvDh_i+W9vYor50zB83rHK3Bg@mail.gmail.com>
-Subject: Re: [PATCH] libubootenv: Disable for ppc/ppc64 qemu machines
+Date: Thu, 22 Jul 2021 12:36:30 -0700
+Message-ID: <CAMKF1sqMvVhVK4j6k5Y7dUp7=jnh6xrwQNPtSDrf6L07FFpLWA@mail.gmail.com>
+Subject: Re: [PATCH] esdk: locked sig mismatch warnings when build from esdk env
 To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-ping^2
+ping^2, this helps with installing ESDK which has components using
+multiple git repos in SRC_URI
+if there is any issue with this patch, please reply here.
 
-Is there any issue with this patch ? If so please let me know
-
-I am seeing following on qemuppc64
-
-ERROR: Nothing RPROVIDES 'u-boot-default-env' (but
-/mnt/b/yoe/master/sources/openembedded-core/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-RDEPENDS on or otherwise requires it)
-u-boot-starfive RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-hardkernel RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-poplar RPROVIDES u-boot-default-env but was skipped: Either
-UBOOT_MACHINE or UBOOT_CONFIG must be set in the qemuppc64 machine
-configuration.
-u-boot-imx-mfgtool RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-toradex RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-ti-mainline RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-juno RPROVIDES u-boot-default-env but was skipped: Either
-UBOOT_MACHINE or UBOOT_CONFIG must be set in the qemuppc64 machine
-configuration.
-u-boot-qoriq RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-ti-staging RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-timesys RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-congatec RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-qoriq RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-imx RPROVIDES u-boot-default-env but was skipped: incompatible
-with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot RPROVIDES u-boot-default-env but was skipped: Either
-UBOOT_MACHINE or UBOOT_CONFIG must be set in the qemuppc64 machine
-configuration.
-u-boot-fslc RPROVIDES u-boot-default-env but was skipped: incompatible
-with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-gateworks-imx RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-boundary RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-orangepi-i96 RPROVIDES u-boot-default-env but was skipped:
-Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the qemuppc64
-machine configuration.
-u-boot-fslc-mfgtool RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-kontron RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-remarkable2 RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-variscite RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-u-boot-ti-staging RPROVIDES u-boot-default-env but was skipped:
-incompatible with machine qemuppc64 (not in COMPATIBLE_MACHINE)
-NOTE: Runtime target 'u-boot-default-env' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['u-boot-default-env']
-ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
-Missing or unbuildable dependency chain was: ['meta-world-pkgdata',
-'libubootenv', 'u-boot-default-env']
-
-
-On Wed, Jul 7, 2021 at 10:15 AM Khem Raj <raj.khem@gmail.com> wrote:
+On Wed, Jul 7, 2021 at 10:16 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
 > ping
 >
-> On Sun, Jul 4, 2021 at 2:07 PM Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Jun 24, 2021 at 9:54 AM Khem Raj <raj.khem@gmail.com> wrote:
 > >
-> > This recipe depends on u-boot and u-boot is not available for
-> > qemuppc/qemuppc64 and there is no defconfig available either
+> > From: Mani Selvaraj <mani_selvaraj@comcast.com>
 > >
+> > A repo with multiple layers are placed under /layers/ and a repo
+> > with single layer is placed under /layers/openembedded-core in esdk.
+> > This tiggered locked sig mismatch warnings when building image from
+> > esdk environment.
+> > -----
+> > TOPDIR=/Code/build
+> > corebase=/Code/openembedded-core
+> > -----
+> > /Code/meta-java
+> > /Code/meta-gplv2
+> > /Code/meta-openembedded/meta-webserver
+> > /Code/meta-openembedded/meta-oe
+> > /Code/openembedded-core/meta
+> > Are moved to
+> > /sdk_org/layers/openembedded-core/meta-gplv2
+> > /sdk_org/layers/openembedded-core/meta-java
+> > /sdk_org/layers/meta-openembedded/meta-webserver
+> > /sdk_org/layers/meta-openembedded/meta-oe
+> > /sdk_org/layers/openembedded-core/meta
+> >
+> > here fix it to move all layers under /layers dir.
+> >
+> > to check this fix build image from esdk environment and
+> > check for sig mismatch warnings.
+> >
+> > Signed-off-by: Mani Selvaraj <mani_selvaraj@comcast.com>
 > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > > ---
-> >  meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 3 +++
-> >  1 file changed, 3 insertions(+)
+> >  meta/lib/oe/copy_buildsystem.py | 2 --
+> >  1 file changed, 2 deletions(-)
 > >
-> > diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> > index 306296922c..88a8397c3c 100644
-> > --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> > +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-> > @@ -25,6 +25,9 @@ RPROVIDES_${PN}-bin += "u-boot-fw-utils"
-> >
-> >  PACKAGE_ARCH = "${MACHINE_ARCH}"
-> >
-> > +COMPATIBLE_HOST_qemuppc64 = "null"
-> > +COMPATIBLE_HOST_qemuppc = "null"
-> > +
-> >  RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
-> >
-> >  BBCLASSEXTEND = "native"
+> > diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+> > index d97bf9d1b9..4998afa60f 100644
+> > --- a/meta/lib/oe/copy_buildsystem.py
+> > +++ b/meta/lib/oe/copy_buildsystem.py
+> > @@ -102,8 +102,6 @@ class BuildSystem(object):
+> >                  layerdestpath += '/' + os.path.basename(corebase)
+> >              else:
+> >                  layer_relative = os.path.relpath(layer, corebase)
+> > -                if os.path.dirname(layer_relative) == corebase_relative:
+> > -                    layer_relative = os.path.dirname(corebase_relative) + '/' + layernewname
+> >                  layer_relative = os.path.basename(corebase) + '/' + layer_relative
+> >                  if os.path.dirname(layer_relative) != layernewname:
+> >                      layerdestpath += '/' + os.path.dirname(layer_relative)
 > > --
 > > 2.32.0
 > >
