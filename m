@@ -1,59 +1,87 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web08.446.1626989881793135315
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.web12.598.1626990673706486986
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 14:38:02 -0700
+ Thu, 22 Jul 2021 14:51:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.232, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay12.mail.gandi.net (Postfix) with ESMTPSA id AE027200004;
-	Thu, 22 Jul 2021 21:37:59 +0000 (UTC)
-Date: Thu, 22 Jul 2021 23:37:59 +0200
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] binutils: Upgrade to 2.37 branch
-Message-ID: <YPnlN0HaML6IFFLy@piout.net>
-References: <20210721021108.1082410-1-raj.khem@gmail.com>
- <YPkqwl0OiCwPtuer@piout.net>
- <CAMKF1soNY99BuAgNxgj7U=FukWY14VUa+_axra0zLB1bqe9u3A@mail.gmail.com>
+ dkim=pass header.i=@cisco.com header.s=iport header.b=KxRQeCMI;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: fib@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=1425; q=dns/txt; s=iport;
+  t=1626990673; x=1628200273;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=YnIwMF1uQP+hVAu9y6149NT4jcQ9LZtpxDzMSsCJNYA=;
+  b=KxRQeCMIA62Nfta5OyZPwYI1cRpafMfm5UKZzOBgJkvHt2KvLxjoVsqA
+   1Yw3wxf0yk8wd79EAaTfRmntPIOFMonVZyd3vQ6I6FsCDtjThg2JcfcgD
+   56Y/lfopGDNbeqKEJB5MB+awk4dkuXucV+tYTbVDLHmjKlE0LIJbmFfO8
+   U=;
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3At7UauaGwBfMyA7eKpLqE78eALOsnbusQ8z?=
+ =?us-ascii?q?AXPo5KJiC9Ffbo8PxG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNG?=
+ =?us-ascii?q?KNhILrFvAG0WKI+VPd8kPFmtK1rZ0QEJSXzLbLfCFHZQGQ2njfL+od?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AsGQDm5vlg/5pdJa1agmICgil3Vzo?=
+ =?us-ascii?q?xlGUBAQUBgT4DA4pXEIZOiimBfAsBAQENAQE1DAQBAYRXAoJ3AiU0CQ4CBAE?=
+ =?us-ascii?q?BARIBAQUBAQECAQYEexOFaA1DARABhXEGMgEYAS0QHgIxIQsrGYJxAYJVAwk?=
+ =?us-ascii?q?lAQ+ofYIsgQGDHwEtAYN8DYJIgToBiHuEcCccfYEQglCCKIIggWuBBoUuBIM?=
+ =?us-ascii?q?cgQ4sIoE+IzqUZYtBnDNcgzCKNo4nhUcaK4UqoTmiPIM0kQmEHQIEBgUCFoF?=
+ =?us-ascii?q?gO4FZMxoIGxWDJAlHGQ6RdxmGUYQtITICNgIGCwEBAwmEOYRZgkcBAQ?=
+X-IronPort-AV: E=Sophos;i="5.84,262,1620691200"; 
+   d="scan'208";a="887924879"
+Received: from rcdn-core-3.cisco.com ([173.37.93.154])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 22 Jul 2021 21:51:12 +0000
+Received: from sjc-ads-259.cisco.com (sjc-ads-259.cisco.com [171.71.190.191])
+	by rcdn-core-3.cisco.com (8.15.2/8.15.2) with ESMTPS id 16MLpBE3010371
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 22 Jul 2021 21:51:12 GMT
+Received: by sjc-ads-259.cisco.com (Postfix, from userid 488756)
+	id B74D7CC128E; Thu, 22 Jul 2021 14:51:11 -0700 (PDT)
+From: "Ruslan Babayev (fib)" <fib@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Samuli Piippo <samuli.piippo@gmail.com>,
+        Samuli Piippo <samuli.piippo@qt.io>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/2] cmake-native: enabled zstd support
+Date: Thu, 22 Jul 2021 14:50:46 -0700
+Message-Id: <20210722215047.1735683-2-fib@cisco.com>
+X-Mailer: git-send-email 2.26.2.Cisco
+In-Reply-To: <20210722215047.1735683-1-fib@cisco.com>
+References: <20210722215047.1735683-1-fib@cisco.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soNY99BuAgNxgj7U=FukWY14VUa+_axra0zLB1bqe9u3A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Outbound-SMTP-Client: 171.71.190.191, sjc-ads-259.cisco.com
+X-Outbound-Node: rcdn-core-3.cisco.com
 Content-Transfer-Encoding: 8bit
 
-On 22/07/2021 07:56:11-0700, Khem Raj wrote:
-> On Thu, Jul 22, 2021 at 1:22 AM Alexandre Belloni <
-> alexandre.belloni@bootlin.com> wrote:
-> 
-> > Hi Khem,
-> >
-> > On 20/07/2021 19:11:08-0700, Khem Raj wrote:
-> > > This izOs next/latest release branch for binutils
-> > > Drop backports and CVE fixes which already are applied upstream
-> > >
-> > > bfd_stdint.h has been removed in favor of using stdint.h
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > > V2: Fixes SDK builds for mingw and glew build with GLES
-> > >
-> >
-> > This didn't apply properly, I fixed it up, can you check
-> >
-> > https://git.openembedded.org/openembedded-core-contrib/commit/?h=abelloni/master-next&id=efb06e3e03c750944bfa40314dae70c054bdaed4
-> >
-> 
-> What portion did not apply ? It looks alright to me but want to know so I
-> can correct my branch since I have few other patches lined up before it I
-> wonder if that’s the issue or something else
+From: Samuli Piippo <samuli.piippo@gmail.com>
 
-Almost none of it applied, it is most likely caused by whitespace
-changes as this was the main difference between v1 and v2. What I did is
-take v1 and changed the SRCREV to be the one of v2.
+CMake depends on having all formats supported and build issues can
+arise when zstd is not available:
+https://gitlab.kitware.com/cmake/cmake/-/issues/21552
 
+Quote from a CMake dev:
+"As far as CMake's design is concerned, we have no optional formats.
+All should be supported. That's why we bundle sufficiently new versions
+of libarchive and libzstd. If a distro builds with an older libarchive
+that doesn't have zstd support, then that is not a proper packaging of CMake."
 
+Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/cmake/cmake-native_3.16.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb b/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
+index b2952ee5f5..6034b654da 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
+@@ -1,7 +1,7 @@
+ require cmake.inc
+ inherit native
+ 
+-DEPENDS += "bzip2-replacement-native expat-native xz-native zlib-native curl-native ncurses-native"
++DEPENDS += "bzip2-replacement-native expat-native xz-native zlib-native curl-native ncurses-native zstd-native"
+ 
+ SRC_URI += "file://OEToolchainConfig.cmake \
+             file://environment.d-cmake.sh \
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.26.2.Cisco
+
