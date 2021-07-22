@@ -1,72 +1,59 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
- by mx.groups.io with SMTP id smtpd.web11.5722.1626947325156681049
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.5627.1626947348613332551
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 02:48:46 -0700
+ Thu, 22 Jul 2021 02:49:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=dwrobel@ertelnet.rybnik.pl header.s=ertelnet header.b=MYJoiVmP;
- spf=pass (domain: ertelnet.rybnik.pl, ip: 136.143.188.14, mailfrom: dwrobel@ertelnet.rybnik.pl)
-ARC-Seal: i=1; a=rsa-sha256; t=1626947323; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=PznSeWco/HML3TB+UUOwe/zLlYNcxc4y5Kh8whG1mS9Xiho6H0aPvxZmNGFUqHyAOoyFEX2BIWTyphPmMX/ZIh/nRb+oWfP3K0S5U4l5/QAbDMRlOlbgAUpj5NylxQ9CyMpqWhjqcm59u9NruDz1gxbyCO/VYrI/1HlSC1xWT8Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1626947323; h=Content-Transfer-Encoding:Date:From:MIME-Version:Message-ID:Subject:To; 
-	bh=EvMtBeKj1JdAY6vXdP+sBNw0sWoSiAB0gfmDfWqql4c=; 
-	b=OW4niSV0TSzELuEz/t5FBqVrhe2RfQekpnz1kn3B345pn7xxYNHd5hOAtBS+El+bja+60YAI6nOhENegwb5w9dV2GUVXymNY8ybUjIG877gfH0d6b/OSe6i73ovP5/tXYACaMCsjZSzIumPh73IndLDxNyvSLRoNj6QYbftH+Bo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ertelnet.rybnik.pl;
-	spf=pass  smtp.mailfrom=dwrobel@ertelnet.rybnik.pl;
-	dmarc=pass header.from=<dwrobel@ertelnet.rybnik.pl>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1626947323;
-	s=ertelnet; d=ertelnet.rybnik.pl; i=dwrobel@ertelnet.rybnik.pl;
-	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
-	bh=EvMtBeKj1JdAY6vXdP+sBNw0sWoSiAB0gfmDfWqql4c=;
-	b=MYJoiVmPbMCNC2xMfwP1/JsYQxIBDuaLvhqPpzp+/Izhq4o/kofNxz0RCW4uSA+l
-	V2k7jrGb4RKB8Uk7wk8S3AkW32YDwT2PN0ye0O+Z6vac8Qdsrk/Gm4wVbnkWprylZnq
-	TLydSAMlbpfeJQykca16KY8Zxl7HwRiYTPSK2lE0=
-Received: from localhost.localdomain.pl (91.230.58.69 [91.230.58.69]) by mx.zohomail.com
-	with SMTPS id 1626947318966891.0954819446272; Thu, 22 Jul 2021 02:48:38 -0700 (PDT)
-From: "Damian Wrobel" <dwrobel@ertelnet.rybnik.pl>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rootfs: remove ldconfig auxiliary cache where appropriate
-Date: Thu, 22 Jul 2021 11:48:22 +0200
-Message-Id: <20210722094822.1102062-1-dwrobel@ertelnet.rybnik.pl>
-X-Mailer: git-send-email 2.31.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 16M9n7Li010072
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 02:49:08 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 16M9n7SX006259
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 02:49:07 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 22 Jul 2021 02:49:07 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Thu, 22 Jul 2021 02:49:06 -0700
+From: "kai" <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] u-boot_2021.07: incompatible with qemumips and qemumips64
+Date: Thu, 22 Jul 2021 17:49:03 +0800
+Message-ID: <20210722094903.27281-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-ZohoMailClient: External
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Removes the /var/cache/ldconfig auxiliary cache directory from
-the rootfs when:
- - read-only-rootfs is in DISTRO_FEATURES,
- - ldconfig is not in DISTRO_FEATURES.
+From: Kai Kang <kai.kang@windriver.com>
 
-In both cases the /var/cache/ldconfig/aux-cache is useless.
+u-boot 2021.07 is not compatible with qemumips and qemumips64:
 
-Signed-off-by: Damian Wrobel <dwrobel@ertelnet.rybnik.pl>
+| *** Can't find default configuration "arch/../configs/qemu_mips64_defconfig"!
+
+The supports have been removed by upstream:
+
+https://source.denx.de/u-boot/u-boot/-/commit/5308a71
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/lib/oe/rootfs.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-bsp/u-boot/u-boot_2021.07.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index ad9fd77c8b..80673fab3f 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -302,6 +302,15 @@ class Rootfs(object, metaclass=ABCMeta):
-             self._exec_shell_cmd(['ldconfig', '-r', self.image_rootfs, '-c',
-                                   'new', '-v', '-X'])
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2021.07.bb b/meta/recipes-bsp/u-boot/u-boot_2021.07.bb
+index bbbc99bf8d..64c20537e6 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2021.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2021.07.bb
+@@ -4,3 +4,6 @@ require u-boot.inc
+ SRC_URI_append = " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch"
  
-+        image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
-+                                        True, False, self.d)
-+        ldconfig_in_features = bb.utils.contains("IMAGE_FEATURES", "ldconfig",
-+                                                 True, False, self.d)
-+        if image_rorfs or not ldconfig_in_features:
-+            ldconfig_cache_dir = os.path.join(self.image_rootfs, "var/cache/ldconfig")
-+            bb.note("Removing ldconfig auxiliary cache...")
-+            shutil.rmtree(ldconfig_cache_dir)
+ DEPENDS += "bc-native dtc-native python3-setuptools-native"
 +
-     def _check_for_kernel_modules(self, modules_dir):
-         for root, dirs, files in os.walk(modules_dir, topdown=True):
-             for name in files:
++COMPATIBLE_MACHINE_qemumips = '(!.*mips).*'
++COMPATIBLE_MACHINE_qemumips64 = '(!.*mips64).*'
 -- 
-2.31.1
+2.17.1
 
