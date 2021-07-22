@@ -1,110 +1,90 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.7169.1626958025838469718
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web08.7170.1626958026462526477
  for <openembedded-core@lists.openembedded.org>;
  Thu, 22 Jul 2021 05:47:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=K4Ru0B0R;
- spf=pass (domain: linaro.org, ip: 209.85.128.54, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-wm1-f54.google.com with SMTP id f10-20020a05600c4e8ab029023e8d74d693so2894827wmq.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 05:47:05 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=HajR+QO7;
+ spf=pass (domain: linaro.org, ip: 209.85.128.46, mailfrom: nicolas.dechesne@linaro.org)
+Received: by mail-wm1-f46.google.com with SMTP id m38-20020a05600c3b26b02902161fccabf1so1481576wms.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 05:47:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TPfWR9esXk04Nj9J6stE3E2JcSYA/Dhq/7vD1gEcbTQ=;
-        b=K4Ru0B0R41vvuyIhm/hwENYTTrIx3YYUcDACqyyD1QiYiKG7ydR/aMWZR8tvFQY62i
-         rhaex06qUXCnZ/Q7nml7tZPqkTmi21VqDwj7RGM0vsiCWXb1Zb7t+X/0Cgeq9/a6D/nX
-         nuUftyJTykFv70p1k5HRZkm3QBZj9XopmWS3u7z30rbG8WGVm6BkfrjB0Td/mcVDxzBI
-         pE8JbU/aYw0SFCCrIYNb0KY2JktyvCwW0NZ+NmChns2vB8Xwif3mwZKL26is84rPEtxm
-         is8gGJ1v1gShVdwz2c9A7Ig0xhwpPWO1EbGG3UfE8HSN2HxRLZkehbhdsjRAaGhYDJl3
-         vz7Q==
+        bh=2lbrcQaiXy53GWtM7GCSjmWfS/wC9CvdEHXOKi7b3y4=;
+        b=HajR+QO7bb1X8HCjjJaKrDL06JlCEWSAN0aJ5Ciu1HYU0MGHUOwtDJHCG9Rc7MjJpC
+         WmquthJcuVDhNcFR6PgJTKrWdIkeS5fIovSZaT8MpOeAPw9CrfozdS9EhZRvdzZ6zx/4
+         OmYpwFRv9hmARgRDOweTUqPjRdHeCNnxMAZbDmr8m8cvemeOj4BLqGiGwFf7jT0jcld8
+         ZcIhQcJNl+RXg6or6J4q4ceMUJj+/pov9/+YJ7vliEtUQUMtp7giK43A8ktjlJboBZyh
+         ewpaoFURAwAmjg2WDuD6/ujNoHY21UwSM8d22oOriOSsIoU2fymPNsI2IEMxXeO/ZpnY
+         rrOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TPfWR9esXk04Nj9J6stE3E2JcSYA/Dhq/7vD1gEcbTQ=;
-        b=Mln7J9GJnGN4+yx7b6Q4osvVM6XszVpqtLWsO1YiaVeFCJ/+p8QtuRRyyCpyqZpJZy
-         CqU52EjnwqCUmM3lbQ4IY2RZXEQi0ItG/S0PWjy/Vvfbm8geTIE8LL4y3F+LHKBLddAZ
-         NuQOMWhDp7B3K0/cC4WwGfG620Lp6/rKrU7DeNz6kKD9Xc6qB7mUrXzc2gIsIeuY2VOY
-         Q0akGBRwo3O/jfKFmyh8knwp5lv1Qp4m3B8PP8Rx6sXlFpRJAU5BBpmOs9iRFYjDtGNd
-         9Q4JC58cVnWZlmHyB+TzuQrN6/tWtVkWLhJYApeYEChLlFD9Ofq8qS8CbeCOA67FpAkL
-         jxdw==
-X-Gm-Message-State: AOAM533beas9cE7UBJwjQgT5lC6Hg7Omj8pmis2/qvIX3VR55ymPUqS+
-	5msNqjDEghAioapPfNh+hnlSd8WWlpN/xw==
-X-Google-Smtp-Source: ABdhPJwwUI+ThLsC2Vga7oq9bZWyICGaGvBa20N2H9BrFmpQzKsEuNQ4ba4oaaEzDkHj/17r5Jkxgw==
-X-Received: by 2002:a7b:c013:: with SMTP id c19mr8820361wmb.158.1626958024072;
+        bh=2lbrcQaiXy53GWtM7GCSjmWfS/wC9CvdEHXOKi7b3y4=;
+        b=mZGvo+ukWYOgTMT0sTKNxysL5e2BiCR7cygpBqFWrzsOf52Lwf8pvrfzzSZgO8/3S8
+         BGM2UYUZlb3KCVfEDg9BmnIG9Yl7C5WUZ8p2/kANGfrFJjbxh5kMt64DeDqhctoHxsd8
+         ytzXm1K4hGSgI6g3XJNIWVC/ORe/IuCxlgcKK3OgG866DwBOAAPWlwyfznXptHFgl36k
+         bm36GV6Tuk3LdfPM9+/GbN3FJ/QEqs/RdVFc+8oK4FS4gIkfmy4HMXY64Kn/QkcNjBSw
+         jOvc3T69z4MIEots1iywr3Ckm2aQh7lvD0C/N3ypM05FxPWbJMn6EHgEAdORf+uOWNGn
+         Nbkw==
+X-Gm-Message-State: AOAM5312BOzWK4AHVA9vLaPA6s4Iv1yGFOreNMKO8y9BlwMarI6mNRcV
+	qUwH6YHbHNR7WbPRQx17ONmRNPW3HgTsxA==
+X-Google-Smtp-Source: ABdhPJxDBq9XGKLYPh/wtbYxyoMFL/f2w90YY0n7Gm7ZvkVDph1NiTLtBS7YDzr0C5WZgq5d/dfXyg==
+X-Received: by 2002:a1c:5458:: with SMTP id p24mr33936131wmi.131.1626958024765;
         Thu, 22 Jul 2021 05:47:04 -0700 (PDT)
 Return-Path: <nicolas.dechesne@linaro.org>
 Received: from qcom-hackbox.linaro.org.net (163-172-5-244.rev.poneytelecom.eu. [163.172.5.244])
-        by smtp.gmail.com with ESMTPSA id p18sm2468610wmg.46.2021.07.22.05.47.03
+        by smtp.gmail.com with ESMTPSA id p18sm2468610wmg.46.2021.07.22.05.47.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 05:47:03 -0700 (PDT)
+        Thu, 22 Jul 2021 05:47:04 -0700 (PDT)
 From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH 1/4] yocto-check-layer: improve missed dependencies
-Date: Thu, 22 Jul 2021 14:46:41 +0200
-Message-Id: <20210722124644.19962-2-nicolas.dechesne@linaro.org>
+Subject: [PATCH 2/4] checklayer: new function get_layer_dependencies()
+Date: Thu, 22 Jul 2021 14:46:42 +0200
+Message-Id: <20210722124644.19962-3-nicolas.dechesne@linaro.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
 References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The first 2 calls to add_layer_dependencies() are here to add all
-dependencies for the 'layer under test' and the additional layers
-provided by the users.
-
-In both cases, we use misssing_dependencies boolean to indicate if any
-dependency is missing. But we then never really use
-missing_dependencies. Instead the script is calling
-add_layer_dependencies() again (for both the layer under test, and the
-additional layers) to detect if there are any missing dependency. As a
-result, we are trying to add again all dependencies, and we can see
-that from the traces:
-
-INFO: Detected layers:
-INFO: meta-aws: LayerType.SOFTWARE, /work/oe/sources/meta-aws
-INFO: checklayer: Doesn't have conf/layer.conf file, so ignoring
-INFO:
-INFO: Setting up for meta-aws(LayerType.SOFTWARE), /work/oe/sources/meta-aws
-INFO: Adding layer meta-python
-INFO: Adding layer meta-oe
-INFO: Adding layer meta-networking
--->
-INFO: Adding layer meta-python
-INFO: meta-python is already in /work/oe/poky/master/build-checklayer/conf/bblayers.conf
-INFO: Adding layer meta-oe
-INFO: meta-oe is already in /work/oe/poky/master/build-checklayer/conf/bblayers.conf
-INFO: Adding layer meta-networking
-INFO: meta-networking is already in /work/oe/poky/master/build-checklayer/conf/bblayers.conf
-<--
-INFO: Getting initial bitbake variables ...
-
-The code appears more complex than it should, and we can simply
-replace the complex if statement by using missing_dependencies, and
-avoid duplicating the call to add_layer_dependencies().
+Split add_layer_dependencies() into 2 parts. First search for layer
+dependencies, and then add them to the config. That allows us to
+call get_layer_dependencies() independently.
 
 Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 ---
- scripts/yocto-check-layer | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ scripts/lib/checklayer/__init__.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-index 44e77b73d0..a179240fd0 100755
---- a/scripts/yocto-check-layer
-+++ b/scripts/yocto-check-layer
-@@ -160,9 +160,7 @@ def main():
-                 if not add_layer_dependencies(bblayersconf, additional_layer, dep_layers, logger):
-                     missing_dependencies = True
-                     break
--        if not add_layer_dependencies(bblayersconf, layer, dep_layers, logger) or \
--           any(map(lambda additional_layer: not add_layer_dependencies(bblayersconf, additional_layer, dep_layers, logger),
--                   additional_layers)):
-+        if missing_dependencies:
-             logger.info('Skipping %s due to missing dependencies.' % layer['name'])
-             results[layer['name']] = None
-             results_status[layer['name']] = 'SKIPPED (Missing dependencies)'
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index fe545607bb..72d9df0a62 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -156,7 +156,7 @@ def _find_layer_depends(depend, layers):
+                 return layer
+     return None
+ 
+-def add_layer_dependencies(bblayersconf, layer, layers, logger):
++def get_layer_dependencies(layer, layers, logger):
+     def recurse_dependencies(depends, layer, layers, logger, ret = []):
+         logger.debug('Processing dependencies %s for layer %s.' % \
+                     (depends, layer['name']))
+@@ -203,6 +203,11 @@ def add_layer_dependencies(bblayersconf, layer, layers, logger):
+         layer_depends = recurse_dependencies(depends, layer, layers, logger, layer_depends)
+ 
+     # Note: [] (empty) is allowed, None is not!
++    return layer_depends
++
++def add_layer_dependencies(bblayersconf, layer, layers, logger):
++
++    layer_depends = get_layer_dependencies(layer, layers, logger)
+     if layer_depends is None:
+         return False
+     else:
 -- 
 2.29.2
 
