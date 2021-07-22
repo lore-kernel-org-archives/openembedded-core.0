@@ -1,104 +1,66 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web08.2077.1626982617655298051
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web08.2250.1626983355720353602
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 12:36:57 -0700
+ Thu, 22 Jul 2021 12:49:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=if5c1z7e;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id q190so6547687qkd.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 12:36:57 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=LSJ4Sv+J;
+ spf=pass (domain: konsulko.com, ip: 209.85.219.47, mailfrom: trini@konsulko.com)
+Received: by mail-qv1-f47.google.com with SMTP id w6so289889qvh.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 12:49:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=9E2UVt97fvotSahhA7uY63RfIwGhkqQVBrHG+U0Hlv4=;
-        b=if5c1z7e8eQ5t3YP2eNqOPy/mDoupmV0iEJhhVSCdhtDNuLM0dPngostLd1rR4v/an
-         oo3CEgImxtArKm2VXgpjKoWMsx+iCAfe1LTMj24WJrXA3+IC8eQQo9lmmgSPDa6KY/JT
-         OVf5rkM5wB/IvuotYuANoXT2c+ZHGHUCXywYimK0Zjt4WKwCfMkH60kRUTWuudw7BFEv
-         QJSlH1UpAL3EHCig6CBu0mQ6wN4aVFfhJS991DCrUwGjdGv+FveZcFHRwOvH3AB+mjo2
-         on1sWRj/7t5ZDj/lHltSA85W+SsKpcrGJK1t/WxuBRwX1Qluml1dYh3MA3dfhy+VOJFu
-         T6yQ==
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZfTgDP93Ll3XPNFKxxJcOiYTDwbRGxUvAii/WLiPPQU=;
+        b=LSJ4Sv+Jt/M5i8XZmsYTXy+14JUf9QQLrWhZwrYaqV7nk76z9zeyAOffvXDNX/qQqj
+         qG1NZWgJFuLzfKjBb7eIYQv6XfDugIIz9oKzvKmEm7/vp8H7IjudSIej7tr24Y4qbUmF
+         R0kXz/7X6bZybbLR9OWNKqBMVA4tXnsjZg9ic=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=9E2UVt97fvotSahhA7uY63RfIwGhkqQVBrHG+U0Hlv4=;
-        b=XqERp8sXZLvZ9+HriqLUo3/bcw0aopFESKpeuaenakGIG1VtZ/7x/T2lxwn7MN0bFy
-         zxUhtpeUmRD8gr+WGxlQaZIozULQXgIO8qcfVL/8Cb2xx4/ykbJcSzhQ9sEWMCfDHQUJ
-         XMPqJKEthJK+/Mtq4vvBzpY4SdDlL2bVsTVIbaOtBAlP1tFBbJaUaIl6dTuhPyUHPza3
-         7aSe6vclrQ3zV3+oJTnSAGni6p3/BhLSFJLETJvoWyqj5DCAMM0q9qSuX0bQ8T8xcy7H
-         +RcrkHAakDT37i2hIZmbwmHyeOtLclVW54UWTwNgga+p4ZEAUGQ8SyHJPBPO/DMvgVr1
-         KN6w==
-X-Gm-Message-State: AOAM5320s3ZGbDT7ZeXuSDOWqrIlgd5ORFRhnSBrtT76CYkWpiCHb8D/
-	ijICw2ufuMmouAJemscYSZDHg+3cO2Fze0WIb/7N6yA0A6k=
-X-Google-Smtp-Source: ABdhPJzB5f8HJozO8NhT2wnpNuZNzj2N5iCq+Zwh7j9Vw/l9W0cxFajtYq0KIV3nnrte1fnSVw+vCs8SqSW9ozmt/aQ=
-X-Received: by 2002:ae9:f201:: with SMTP id m1mr1236153qkg.381.1626982616600;
- Thu, 22 Jul 2021 12:36:56 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZfTgDP93Ll3XPNFKxxJcOiYTDwbRGxUvAii/WLiPPQU=;
+        b=YdSEqVkbh/hIuK5ieZvQRiLl9Ev5l/pbuJSUB1WESjvvG4WUc6N8FmWUKcxLcKd89o
+         z1gpmzeuw9Xm5kqkOWQDocAif5Ima3pOmVF7cirGEZnqooXBRPGh/IXPd/dzwJ0CYxZQ
+         D+s2PYJVimtpoMTtOGXNUqVyT9bNoiPGEEyTrVguGI0yT1AVfdogbbKX6Uz2i22ha8YB
+         J572K9zqSVPzHGgMRzMfbogBAuhqOrq1Ko2kUd66gXzLI/0JuCD/m8f9B7G9vdZK+x1y
+         rMgQc/7lJJhDu1w0F0KhEC41o7uVbqrhPrrJai9sgBXHOoa//vaAUAk0TBtCFMuFdrDc
+         lBQQ==
+X-Gm-Message-State: AOAM531KoOsMit3DURKmpVti8nrQQhz+6Y6frkY/28LjLCXjuDEeofCF
+	zHqJZZCaaC63GbZ2y3Sq+/iB3g==
+X-Google-Smtp-Source: ABdhPJxODY6A+RKjzmJ7cqx9NuFVlKjETFgDRCCGJTJSur48NOEpuKg+/Cc1UKsjwn71Qy0LGDpo4A==
+X-Received: by 2002:a05:6214:d08:: with SMTP id 8mr1460277qvh.32.1626983354896;
+        Thu, 22 Jul 2021 12:49:14 -0700 (PDT)
+Return-Path: <trini@konsulko.com>
+Received: from bill-the-cat (2603-6081-7b01-cbda-5560-078f-fb66-41c1.res6.spectrum.com. [2603:6081:7b01:cbda:5560:78f:fb66:41c1])
+        by smtp.gmail.com with ESMTPSA id x14sm10505082qtv.17.2021.07.22.12.49.14
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 22 Jul 2021 12:49:14 -0700 (PDT)
+Date: Thu, 22 Jul 2021 15:49:12 -0400
+From: "Tom Rini" <trini@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] libubootenv: Disable for ppc/ppc64 qemu machines
+Message-ID: <20210722194912.GH9379@bill-the-cat>
+References: <20210704210740.581650-1-raj.khem@gmail.com>
+ <CAMKF1sqg7QMojTsPo=GSjzpEEb-QwmF8_GNXXj8SaC45wtJ73Q@mail.gmail.com>
+ <CAMKF1sr0M_Tz066uNr55jGW5pOvDh_i+W9vYor50zB83rHK3Bg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210624165421.32088-1-raj.khem@gmail.com> <CAMKF1soqvCNDPaZtAStEyT6W1S_KdQyyfuu_L0inj3re9AQosQ@mail.gmail.com>
-In-Reply-To: <CAMKF1soqvCNDPaZtAStEyT6W1S_KdQyyfuu_L0inj3re9AQosQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 22 Jul 2021 12:36:30 -0700
-Message-ID: <CAMKF1sqMvVhVK4j6k5Y7dUp7=jnh6xrwQNPtSDrf6L07FFpLWA@mail.gmail.com>
-Subject: Re: [PATCH] esdk: locked sig mismatch warnings when build from esdk env
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMKF1sr0M_Tz066uNr55jGW5pOvDh_i+W9vYor50zB83rHK3Bg@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-ping^2, this helps with installing ESDK which has components using
-multiple git repos in SRC_URI
-if there is any issue with this patch, please reply here.
+On Thu, Jul 22, 2021 at 12:34:47PM -0700, Khem Raj wrote:
 
-On Wed, Jul 7, 2021 at 10:16 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> ping
->
-> On Thu, Jun 24, 2021 at 9:54 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > From: Mani Selvaraj <mani_selvaraj@comcast.com>
-> >
-> > A repo with multiple layers are placed under /layers/ and a repo
-> > with single layer is placed under /layers/openembedded-core in esdk.
-> > This tiggered locked sig mismatch warnings when building image from
-> > esdk environment.
-> > -----
-> > TOPDIR=/Code/build
-> > corebase=/Code/openembedded-core
-> > -----
-> > /Code/meta-java
-> > /Code/meta-gplv2
-> > /Code/meta-openembedded/meta-webserver
-> > /Code/meta-openembedded/meta-oe
-> > /Code/openembedded-core/meta
-> > Are moved to
-> > /sdk_org/layers/openembedded-core/meta-gplv2
-> > /sdk_org/layers/openembedded-core/meta-java
-> > /sdk_org/layers/meta-openembedded/meta-webserver
-> > /sdk_org/layers/meta-openembedded/meta-oe
-> > /sdk_org/layers/openembedded-core/meta
-> >
-> > here fix it to move all layers under /layers dir.
-> >
-> > to check this fix build image from esdk environment and
-> > check for sig mismatch warnings.
-> >
-> > Signed-off-by: Mani Selvaraj <mani_selvaraj@comcast.com>
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/lib/oe/copy_buildsystem.py | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-> > index d97bf9d1b9..4998afa60f 100644
-> > --- a/meta/lib/oe/copy_buildsystem.py
-> > +++ b/meta/lib/oe/copy_buildsystem.py
-> > @@ -102,8 +102,6 @@ class BuildSystem(object):
-> >                  layerdestpath += '/' + os.path.basename(corebase)
-> >              else:
-> >                  layer_relative = os.path.relpath(layer, corebase)
-> > -                if os.path.dirname(layer_relative) == corebase_relative:
-> > -                    layer_relative = os.path.dirname(corebase_relative) + '/' + layernewname
-> >                  layer_relative = os.path.basename(corebase) + '/' + layer_relative
-> >                  if os.path.dirname(layer_relative) != layernewname:
-> >                      layerdestpath += '/' + os.path.dirname(layer_relative)
-> > --
-> > 2.32.0
-> >
+> ping^2
+> 
+> Is there any issue with this patch ? If so please let me know
+
+Note that qemu-ppce500_defconfig would be a good target to use for ppc
+for U-Boot, but not ppc64 and wouldn't cover the mac99 machine type OE
+uses anyhow.
+
+-- 
+Tom
