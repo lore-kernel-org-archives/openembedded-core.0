@@ -1,101 +1,71 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web08.5685.1626947689958539895
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web12.7119.1626958021961692043
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 02:54:50 -0700
+ Thu, 22 Jul 2021 05:47:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FeySCCHm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id o3-20020a05600c5103b029024c0f9e1a5fso932934wms.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 02:54:49 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FTlaJrFr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id d2so5860440wrn.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 05:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=OI0/Tb/7jPaO6/3CjAP6VBh4NazW34StEJyS07EjNdY=;
-        b=FeySCCHm7GQ0bFSjeKFnMmT25pEXgPsc1Vstirck4e/0+1/iLdKgF6PB4GtKRFhHUN
-         dHDAvRc7W7f7HopcdiVsMQG5Vjk8Qab2qNR8HpoM7p+5lSzl9vSLk2brHy1kUgaP+N9A
-         p4779DBLSeNmmyMcD3dJJ2zUlvsjqJicUlxzg=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=JEspthNrEzEru5xGuyIMXfcjCLq6UthcUdhD3jMqBZc=;
+        b=FTlaJrFr3gT8jkDumTVrdRhYs4VgRzWQUUIJ0/n/Ow1cK1WkZnWFXtbVDKUAwE8Wht
+         dD5/C0sNjF7oodvO5HazxOVixRsOcPUURJTKTq+BBQVcBqHXUB9KIpqcpaXgQoemzEjn
+         wgxrHyZWuNXr14eUr+lIHswuuJhjepGGCR60M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=OI0/Tb/7jPaO6/3CjAP6VBh4NazW34StEJyS07EjNdY=;
-        b=J6utuZjiAlziP8APpgw8QZ8mN3Nn7y0FNHhHwGt4VWLpP8fSjItyZYP9NGqiPHkIuQ
-         ZMkYAtpilIblzaEAAVvX1LGVpkuuQXnC1OjJZCimYTbTt1DGe4iLbLRXvUwKhWlwBAPp
-         I9Ju5Lk8AuSsTVLN2Dcc9rGSOgLqjXaTjH42QJ8eY55K4a6Ebh7sK8BWc2TO4V4i4sPD
-         cfy3C7jjTlB4ouRXTezclHMnhjET0+/IdV+0Hx/n5B3V8Om+HdwaT1chc8UKD+8jrYVf
-         5D5bIr9J281VZl9LTsYPvZBZee+hvbX+lacpB7yC0jw4x00UtIOk+vvoQV7ApIL+qYsb
-         xmqQ==
-X-Gm-Message-State: AOAM532AHBp3kuRjwIu2bmWwT3WBtD4ARnyHk0AjH6ER4WZnSgk9psbq
-	WIDv8HzfBblw9LBGRECiM39jfw==
-X-Google-Smtp-Source: ABdhPJyM50A0KzOIBpSYOKBnTaSCsUUUuj3V6f1DoOrRDvILa8pyihl4+8pzPHdpJvRL9rbSPPmIcg==
-X-Received: by 2002:a1c:7706:: with SMTP id t6mr41687420wmi.36.1626947688408;
-        Thu, 22 Jul 2021 02:54:48 -0700 (PDT)
+        bh=JEspthNrEzEru5xGuyIMXfcjCLq6UthcUdhD3jMqBZc=;
+        b=l+O0aeRW/x9MnKW7XJA1pC+lp42rzDbzXSc7WXYWnyHRfm6YuoBnATvmz6KJJQJpsG
+         P8ZhJ+gfLKyeHalocv2gIZao9B4heNDZrC3Pbbo/XKw15f3lXG1LT6e0+NDV8zthgsyr
+         d3GOLv4LCtbrkArLDmJ9W8mWfx7ndgc6AlQTcVq1k6tlVOA65eqM8w7Nns+nNGnI6qLn
+         akEJu2akEhNKa1tiNEcczDnEyMN14QKFEJVQ4NQyBs6o6Pv5jhjM5piGpDNdPlitwyxE
+         zz9WvMDHEExjFyOBm7n5uPZJG5b4zcH56wSDKbk5jT3toTdVvOu+nyL3rZ8xltPJ9gYF
+         Ohtw==
+X-Gm-Message-State: AOAM532STt8Ql3MfWj5ST7eeIHjlmKsd/z7aYe7voF/z3whRjznj4PYQ
+	23Jy5nzEI9ZbUoFqf2nmNGb32g==
+X-Google-Smtp-Source: ABdhPJxAzpXR2mUiMx9habkrU6uYI1+O7y9WvzFXYQ1K/FlU/hrk6kO4u2GaG5U2QseXUdp/7AQHiA==
+X-Received: by 2002:a5d:64c2:: with SMTP id f2mr48160168wri.374.1626958020326;
+        Thu, 22 Jul 2021 05:47:00 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:40b3:3f27:e412:a801? ([2001:8b0:aba:5f3c:40b3:3f27:e412:a801])
-        by smtp.gmail.com with ESMTPSA id b15sm34563261wrr.27.2021.07.22.02.54.48
+        by smtp.gmail.com with ESMTPSA id e3sm30096256wra.15.2021.07.22.05.47.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 02:54:48 -0700 (PDT)
-Message-ID: <c1e1b6baaf6f997dcfa869811b4b5e7061948881.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] yocto-check-layer: Avoid bug when iterating and autoadding dependencies
+        Thu, 22 Jul 2021 05:47:00 -0700 (PDT)
+Message-ID: <4a2223e5f3429811786cd2f3dc41ee7e7134af2b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] u-boot_2021.07: incompatible with qemumips and qemumips64
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Jul 2021 10:54:46 +0100
-In-Reply-To: <CAP71Wjyp8kXrxzKU0DZA5Znvg+5vgy50pU16k668nUueSqGhpg@mail.gmail.com>
-References: <20210424142633.1646440-1-richard.purdie@linuxfoundation.org>
-	 <CAP71Wjyp8kXrxzKU0DZA5Znvg+5vgy50pU16k668nUueSqGhpg@mail.gmail.com>
+To: kai <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 22 Jul 2021 13:46:57 +0100
+In-Reply-To: <20210722094903.27281-1-kai.kang@windriver.com>
+References: <20210722094903.27281-1-kai.kang@windriver.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-07-22 at 11:34 +0200, Nicolas Dechesne wrote:
-> hey Richard,
+On Thu, 2021-07-22 at 17:49 +0800, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
 > 
-> better late than never they say ;) 
+> u-boot 2021.07 is not compatible with qemumips and qemumips64:
 > 
-> On Sat, Apr 24, 2021 at 4:26 PM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> > If iterating a layer with multiple components and auto-adding dependencies
-> > the tests can break since layers are never removed and order isn't guaranteed
-> > to account for that.
-> > 
-> > Fix this by resetting the layer list back to the original list each time
-> > before auto-adding the dependencies in each case.
-> > 
-> > This fixes scanning of meta-openembedded in particular where the sublayers
-> > may not be added in order of minimal dependency.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  scripts/yocto-check-layer | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-> > index b7c83c8b543..deba3cb4f8c 100755
-> > --- a/scripts/yocto-check-layer
-> > +++ b/scripts/yocto-check-layer
-> > @@ -138,6 +138,9 @@ def main():
-> >                  layer['type'] == LayerType.ERROR_BSP_DISTRO:
-> >              continue
-> > 
-> > +        # Reset to a clean backup copy for each run
-> > +        shutil.copyfile(bblayersconf + '.backup', bblayersconf)
-> > +
-> > 
+> > *** Can't find default configuration "arch/../configs/qemu_mips64_defconfig"!
 > 
+> The supports have been removed by upstream:
 > 
-> I was spending some time in yocto-check-layer, and noticed this patch. You have 
-> the exact same statement 10 lines later. I think this patch should have moved the 
-> statement before the call to check_bblayers() instead of duplicating it. And I 
-> think this patch is a fix for a problem introduced in be02e8dbfb0d (checklayer: 
-> check layer in BBLAYERS before test).
+> https://source.denx.de/u-boot/u-boot/-/commit/5308a71
 > 
-> I can send a patch to remove the duplicate statement, or if simpler for you, you 
-> can do it directly. 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot_2021.07.bb | 3 +++
+>  1 file changed, 3 insertions(+)
 
-I've queued and sent out a patch, well spotted, thanks!
+Reading the link above, shouldn't we change the UBOOT_MACHINE definition
+for qemumips/qemumips64 to point at malta instead?
 
 Cheers,
 
