@@ -1,74 +1,46 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web09.217.1626973848695953500
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.1339.1626978859102254446
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 10:10:49 -0700
+ Thu, 22 Jul 2021 11:34:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=OAVRtPFG;
- spf=pass (domain: linaro.org, ip: 209.85.222.170, mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-qk1-f170.google.com with SMTP id bm6so6114555qkb.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 10:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UaL6StRNu9TKxKjvconRLqKdmTqMXHnax3Gvo4t/qsQ=;
-        b=OAVRtPFGyarsVekjfvT20iTPAX6q5l5/S8rupYrKdTt2czGL1SKp0tozZtWsjEbWd9
-         f0JN5wx183XdbGXkO08KUB3RGDxU6PEndleClRd2QbfxWIvgbHDVgRlqFmKDFIK1ZTHt
-         ms2NZDh4Ga2S2ulSqJsHupb/OdCTK2zJ02zJtuX5SXcclds6N0+NR/TOYzCKgIBCcjxk
-         sFGqew0/w7LAQJk/naMtvyvQldoPhWhGBGmwBTTutdqoO6o8rQYAPwr8y6Hxmdmwvskf
-         gteJjqi9W/wYx4DHKQPNmkfLMbtp0GyvLk4Vavgv1eVt9Jvx01alzQ5NlFPrNpXmFQvQ
-         bBLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UaL6StRNu9TKxKjvconRLqKdmTqMXHnax3Gvo4t/qsQ=;
-        b=iWTkoAYZO7gtqHeHaTrD/yokRYqb2bXn3UAivYKobGsz+memIej0Kyr7E/EiRBi+dR
-         B0u3Cx1p1T31hAOuKXrPmeKPj5LxoTL+EqPzOmR4r89DBX6jzdsLmJGh2aX47GM9X0ns
-         PresDdg4l9dQ1dtpVd1au4Pe6GLH8CdPcsnrIHb1fobVGc/9MzSdj0OOCD3IkB4gfCNh
-         Z+u24I9uYIbc72a9ycABf4BsUNzLVNsEJwy/LYjbHXr6QIjRW4xX3s4njtQFkxTCrB0J
-         xXze3Ie5GWYXk9rkWCM31YB3ljpP+NdU93nP7zSzAGdMo0Uu6zZs7W6ZDE0Vxs8Z8pFx
-         Sbew==
-X-Gm-Message-State: AOAM532Wewh6jx6tO4AZcm0h9K5EByg97+J9FRlgiC9ma3YS0BT4OOnQ
-	NQnHO/yqRzogRnVgXxtuuj2AngL6M9hFdw==
-X-Google-Smtp-Source: ABdhPJwWJetbMvio8NOhNKVSyZR0Jf0FwCTIYN1nww/mNYdqfrNaSwBiudsWYxJEFIodB6h1XphOlQ==
-X-Received: by 2002:a05:620a:1fc:: with SMTP id x28mr723547qkn.84.1626973847841;
-        Thu, 22 Jul 2021 10:10:47 -0700 (PDT)
-Return-Path: <ralph.siemsen@linaro.org>
-Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id f11sm10610298qtp.85.2021.07.22.10.10.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 10:10:47 -0700 (PDT)
-From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: [PATCH] oeqa/manual/toaster: fix small typo
-Date: Thu, 22 Jul 2021 13:10:37 -0400
-Message-Id: <20210722171037.3743744-1-ralph.siemsen@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 2B88F40A03;
+	Thu, 22 Jul 2021 18:34:18 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XSdkVJ5jfzFw; Thu, 22 Jul 2021 18:34:18 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id E6C89407FE;
+	Thu, 22 Jul 2021 18:34:13 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 48CF7174645; Thu, 22 Jul 2021 14:34:13 -0400 (EDT)
+Date: Thu, 22 Jul 2021 14:34:13 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour July 28 5pm/1700 UTC
+Message-ID: <20210722183413.GO1528@denix.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-PACKAGE_CLASES should be PACKAGE_CLASSES.
+Hi,
 
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
----
- meta/lib/oeqa/manual/toaster-managed-mode.json | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Just a reminder about our upcoming OpenEmbedded Happy Hour on July 28 for
+Europe/Americas timezones @ 1700/5pm UTC (1pm ET / 10am PT):
 
-diff --git a/meta/lib/oeqa/manual/toaster-managed-mode.json b/meta/lib/oeqa/manual/toaster-managed-mode.json
-index 12374c7c64..6a63d146a3 100644
---- a/meta/lib/oeqa/manual/toaster-managed-mode.json
-+++ b/meta/lib/oeqa/manual/toaster-managed-mode.json
-@@ -136,7 +136,7 @@
-           "expected_results": ""
-         },
-         "3": {
--          "action": "Check that default values are as follows: \n\tDISTRO - poky \n\tIMAGE_FSTYPES - ext3 jffs2 tar.bz2 \n\tIMAGE_INSTALL_append - \"Not set\" \n\tPACKAGE_CLASES - package_rpm \n        SSTATE_DIR  - /homeDirectory/poky/sstate-cache \n\n",
-+          "action": "Check that default values are as follows: \n\tDISTRO - poky \n\tIMAGE_FSTYPES - ext3 jffs2 tar.bz2 \n\tIMAGE_INSTALL_append - \"Not set\" \n\tPACKAGE_CLASSES - package_rpm \n        SSTATE_DIR  - /homeDirectory/poky/sstate-cache \n\n",
-           "expected_results": ""
-         },
-         "4": {
+https://www.openembedded.org/wiki/Calendar
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+July+28&iso=20210728T17
+
 -- 
-2.25.1
-
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
