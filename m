@@ -1,181 +1,72 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web09.5562.1626946510333829810
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+ by mx.groups.io with SMTP id smtpd.web11.5722.1626947325156681049
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 02:35:10 -0700
+ Thu, 22 Jul 2021 02:48:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Ep1h8G+A;
- spf=pass (domain: linaro.org, ip: 209.85.208.41, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-ed1-f41.google.com with SMTP id v1so5968437edt.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 02:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sesB0ZMbYzDM/9QINf2A+oFLpUNHdV6sH3KGNJDYbNw=;
-        b=Ep1h8G+AkiIS3yiH9BDArwBhY9bpLi4XTOUs1hGXvIxdUTqZYdmRzIBcfcr9La1Xl2
-         0bmgdn34MpLdMO2DPsWlsZTX3b4VgD9nAe2uUruSxKhTTMDhUQGa4ou9hiHyBCUBO0hH
-         WDJEPmx2m+VuLMlPm7OOn8/s2okbgm67TqfrGAEaYp8tvOzp4ABR0Bzwvta3QgESCgh2
-         8b+b9Mv1uaVjcG1ToMzQEjsxUHVMqOQXt/YSL0r5jjvbSVIhjmT4GBucGYeCsAmr6HnI
-         9hZ6YNmcwZhs7cco+AKC/XyqAMzlw55w9SXzKt6yg9Q3r0vUdzHarAURjDQDH8jiGGrR
-         DY0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sesB0ZMbYzDM/9QINf2A+oFLpUNHdV6sH3KGNJDYbNw=;
-        b=udrPGfOQ3Ju0tUgSZZ7aVslIgmbwIR5b24abjTrr4cuio5T3aLL1OKOQZsUnhlBju1
-         vcQbQbV1JYT+yhbW92xTYbaQPxx7yrNtU8uT9gpJqOUtP2RC975dRO4JmdRlXGWJt85T
-         6NwH7xv0dLK/jJ7zstdtvDbIYoVP3Fbor/E4bHW3otftsZuFVunywJeRlMQHxK8EBq8B
-         Q8suddq1wU5ByuBrufPjr3G3GFQlNubSxzb18fgbgXWi5xw4viyOZN3GuGZDdjltRcK4
-         +5syYnOycjRHMJ7bRVHncj9IRcNNbaPvWSOIg82hctrgAtgBjhoopdBe/M7XejF2pnK5
-         XXnw==
-X-Gm-Message-State: AOAM530pVD1f2YOFAf1pBKzfP12TR5jQ/t2EY/9aDXYu6wZ+LlteZ2+U
-	rR3EcPa2bSnUQ1igs9/djasgit96nUW3e+Lpt1pgvw==
-X-Google-Smtp-Source: ABdhPJzKs4TefDVDf7b0ftF5xeR6fsVTVrm5CVNEH6BVyI+pvLWZ1dcgsEQfI50+OfFGTnddcU+j7I5KhR6Q24ZC6oE=
-X-Received: by 2002:aa7:cc8e:: with SMTP id p14mr26520151edt.26.1626946508768;
- Thu, 22 Jul 2021 02:35:08 -0700 (PDT)
+ dkim=pass header.i=dwrobel@ertelnet.rybnik.pl header.s=ertelnet header.b=MYJoiVmP;
+ spf=pass (domain: ertelnet.rybnik.pl, ip: 136.143.188.14, mailfrom: dwrobel@ertelnet.rybnik.pl)
+ARC-Seal: i=1; a=rsa-sha256; t=1626947323; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=PznSeWco/HML3TB+UUOwe/zLlYNcxc4y5Kh8whG1mS9Xiho6H0aPvxZmNGFUqHyAOoyFEX2BIWTyphPmMX/ZIh/nRb+oWfP3K0S5U4l5/QAbDMRlOlbgAUpj5NylxQ9CyMpqWhjqcm59u9NruDz1gxbyCO/VYrI/1HlSC1xWT8Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1626947323; h=Content-Transfer-Encoding:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=EvMtBeKj1JdAY6vXdP+sBNw0sWoSiAB0gfmDfWqql4c=; 
+	b=OW4niSV0TSzELuEz/t5FBqVrhe2RfQekpnz1kn3B345pn7xxYNHd5hOAtBS+El+bja+60YAI6nOhENegwb5w9dV2GUVXymNY8ybUjIG877gfH0d6b/OSe6i73ovP5/tXYACaMCsjZSzIumPh73IndLDxNyvSLRoNj6QYbftH+Bo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ertelnet.rybnik.pl;
+	spf=pass  smtp.mailfrom=dwrobel@ertelnet.rybnik.pl;
+	dmarc=pass header.from=<dwrobel@ertelnet.rybnik.pl>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1626947323;
+	s=ertelnet; d=ertelnet.rybnik.pl; i=dwrobel@ertelnet.rybnik.pl;
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+	bh=EvMtBeKj1JdAY6vXdP+sBNw0sWoSiAB0gfmDfWqql4c=;
+	b=MYJoiVmPbMCNC2xMfwP1/JsYQxIBDuaLvhqPpzp+/Izhq4o/kofNxz0RCW4uSA+l
+	V2k7jrGb4RKB8Uk7wk8S3AkW32YDwT2PN0ye0O+Z6vac8Qdsrk/Gm4wVbnkWprylZnq
+	TLydSAMlbpfeJQykca16KY8Zxl7HwRiYTPSK2lE0=
+Received: from localhost.localdomain.pl (91.230.58.69 [91.230.58.69]) by mx.zohomail.com
+	with SMTPS id 1626947318966891.0954819446272; Thu, 22 Jul 2021 02:48:38 -0700 (PDT)
+From: "Damian Wrobel" <dwrobel@ertelnet.rybnik.pl>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] rootfs: remove ldconfig auxiliary cache where appropriate
+Date: Thu, 22 Jul 2021 11:48:22 +0200
+Message-Id: <20210722094822.1102062-1-dwrobel@ertelnet.rybnik.pl>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210424142633.1646440-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20210424142633.1646440-1-richard.purdie@linuxfoundation.org>
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-Date: Thu, 22 Jul 2021 11:34:58 +0200
-Message-ID: <CAP71Wjyp8kXrxzKU0DZA5Znvg+5vgy50pU16k668nUueSqGhpg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] yocto-check-layer: Avoid bug when iterating and autoadding dependencies
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b9620e05c7b3003c"
+X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
---000000000000b9620e05c7b3003c
-Content-Type: text/plain; charset="UTF-8"
+Removes the /var/cache/ldconfig auxiliary cache directory from
+the rootfs when:
+ - read-only-rootfs is in DISTRO_FEATURES,
+ - ldconfig is not in DISTRO_FEATURES.
 
-hey Richard,
+In both cases the /var/cache/ldconfig/aux-cache is useless.
 
-better late than never they say ;)
+Signed-off-by: Damian Wrobel <dwrobel@ertelnet.rybnik.pl>
+---
+ meta/lib/oe/rootfs.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-On Sat, Apr 24, 2021 at 4:26 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index ad9fd77c8b..80673fab3f 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -302,6 +302,15 @@ class Rootfs(object, metaclass=ABCMeta):
+             self._exec_shell_cmd(['ldconfig', '-r', self.image_rootfs, '-c',
+                                   'new', '-v', '-X'])
+ 
++        image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
++                                        True, False, self.d)
++        ldconfig_in_features = bb.utils.contains("IMAGE_FEATURES", "ldconfig",
++                                                 True, False, self.d)
++        if image_rorfs or not ldconfig_in_features:
++            ldconfig_cache_dir = os.path.join(self.image_rootfs, "var/cache/ldconfig")
++            bb.note("Removing ldconfig auxiliary cache...")
++            shutil.rmtree(ldconfig_cache_dir)
++
+     def _check_for_kernel_modules(self, modules_dir):
+         for root, dirs, files in os.walk(modules_dir, topdown=True):
+             for name in files:
+-- 
+2.31.1
 
-> If iterating a layer with multiple components and auto-adding dependencies
-> the tests can break since layers are never removed and order isn't
-> guaranteed
-> to account for that.
->
-> Fix this by resetting the layer list back to the original list each time
-> before auto-adding the dependencies in each case.
->
-> This fixes scanning of meta-openembedded in particular where the sublayers
-> may not be added in order of minimal dependency.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  scripts/yocto-check-layer | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-> index b7c83c8b543..deba3cb4f8c 100755
-> --- a/scripts/yocto-check-layer
-> +++ b/scripts/yocto-check-layer
-> @@ -138,6 +138,9 @@ def main():
->                  layer['type'] == LayerType.ERROR_BSP_DISTRO:
->              continue
->
-> +        # Reset to a clean backup copy for each run
-> +        shutil.copyfile(bblayersconf + '.backup', bblayersconf)
-> +
->
-
-I was spending some time in yocto-check-layer, and noticed this patch. You
-have the exact same statement 10 lines later. I think this patch should
-have moved the statement before the call to check_bblayers() instead of
-duplicating it. And I think this patch is a fix for a problem introduced in
-be02e8dbfb0d (checklayer: check layer in BBLAYERS before test).
-
-I can send a patch to remove the duplicate statement, or if simpler for
-you, you can do it directly.
-
-
->          if check_bblayers(bblayersconf, layer['path'], logger):
->              logger.info("%s already in %s. To capture initial
-> signatures, layer under test should not present "
->                 "in BBLAYERS. Please remove %s from BBLAYERS." %
-> (layer['name'], bblayersconf, layer['name']))
-> --
-> 2.30.2
->
->
-> 
->
->
-
---000000000000b9620e05c7b3003c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>hey Richard,</div><div><br></div><div>better late tha=
-n never they say ;)=C2=A0</div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Sat, Apr 24, 2021 at 4:26 PM Richard Purdie &lt=
-;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linux=
-foundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">If iterating a layer with multiple components and auto-adding=
- dependencies<br>
-the tests can break since layers are never removed and order isn&#39;t gua=
-ranteed<br>
-to account for that.<br>
-<br>
-Fix this by resetting the layer list back to the original list each time<b=
-r>
-before auto-adding the dependencies in each case.<br>
-<br>
-This fixes scanning of meta-openembedded in particular where the sublayers=
-<br>
-may not be added in order of minimal dependency.<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
-br>
----<br>
-=C2=A0scripts/yocto-check-layer | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer<br>
-index b7c83c8b543..deba3cb4f8c 100755<br>
---- a/scripts/yocto-check-layer<br>
-+++ b/scripts/yocto-check-layer<br>
-@@ -138,6 +138,9 @@ def main():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0layer[&#39;t=
-ype&#39;] =3D=3D LayerType.ERROR_BSP_DISTRO:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Reset to a clean backup copy for each run<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.copyfile(bblayersconf + &#39;.backup&#=
-39;, bblayersconf)<br>
-+<br></blockquote><div><br></div><div>I was spending some time in yocto-ch=
-eck-layer, and noticed this patch. You have the exact same statement 10 lin=
-es later. I think this patch should have moved the statement before the cal=
-l to check_bblayers() instead of duplicating=C2=A0it. And I think this patc=
-h is a fix for a problem introduced in=C2=A0</div><div>be02e8dbfb0d (checkl=
-ayer: check layer in BBLAYERS before test).<br></div><div><br></div><div>I =
-can send a patch to remove the duplicate statement, or if simpler for you, =
-you can do it directly.=C2=A0</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if check_bblayers(bblayersconf, layer[&#=
-39;path&#39;], logger):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://logger.i=
-nfo" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;%s already =
-in %s. To capture initial signatures, layer under test should not present &=
-quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;in BBLAYERS.=
- Please remove %s from BBLAYERS.&quot; % (layer[&#39;name&#39;], bblayersco=
-nf, layer[&#39;name&#39;]))<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000b9620e05c7b3003c--
