@@ -1,84 +1,73 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web11.2054.1626982163993433322
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.2066.1626982284342100190
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 12:29:24 -0700
+ Thu, 22 Jul 2021 12:31:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qRQ46KEm;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id 23so6582527qke.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 12:29:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iYpm4KcF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id a14so454621plh.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 12:31:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j9sBsy5tyRzpuU6mvJAm3esXbkqVRt/iOV/BAZPa4rA=;
-        b=qRQ46KEmAqVnE8yF+WbKMyCkjha2yfjJwP/Z/8BDyRrTqOjpuvKAmJwgFe7rFigWcx
-         sKqEK1q/c285ZQf8cOT/kpaeTg/gwQNSpd+vn9qdO1tEciDPSxEIVoAzaBS8Y5oF16We
-         dSyTghby/yQ6JACV+xUTrTMyAbq2Yzhfu2qnhh7uQDplMzoGN3fPum3EUAv5oMtxnYtW
-         Yo4eN8RvdQJ36pBdGssKIFmwSMtVBcINLKGQ9AUJYUBzpa5SKDTmIkPtOWGatDOZEDH/
-         hGu5//aAMCIrHLAzMnPisjpVUtz27yIUBh4vtl+juF0pF51EK4rcRM4tOe4WTzjxeXZv
-         gFAg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XUJ5Xt4dGffSXwf1rd0zsL04RaQfirKerkhOUfEfeNo=;
+        b=iYpm4KcFRrNi2quyhRrIWi6tXwOlAZkNfnCHX2tA8XuyVlpUiOCtXjSFGfF0qXa9YT
+         R0RkEUzK+u7MMb5Y8jKDU2qCPzbT+37f25OL2Pxufyssh7SMVCzMjWqTYW9AfI/NMTwB
+         9fXWVETan0GtqPATLyNma8ruasQmodqbo/DbllcMBwfkCgFMtAtSkmHYlm2WRV7N1BzH
+         qkpkJW85oaSm07VIkln9E/R7HpxPmo5wFYZgVeKDEBFAgFjnq6DwOQ4Cv0ZMQG+mU9To
+         k1pW8vFERWt5OWd/eellInf4QZv/yBZV8lw4RuLWWUZfTCP6fv2vvhKIwfvKvH6ylZ3N
+         m43w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j9sBsy5tyRzpuU6mvJAm3esXbkqVRt/iOV/BAZPa4rA=;
-        b=B8femyO2r7Tjmz60SiWAFlQx/jtltNcj4dDqcefK07RvbjaUoxsxvv5UDR3XUc2huH
-         tenGOde7cgbJVf2oDdMgkMtUtmuyfQlsYV2ye68rMy4tSNO1efiMj1vKOIN/rtL8h6gA
-         BCuQ39YQClnePfki5tAjSByf6IzeCocyy8ZDFo7wUEqmZYYnZ+H4yhYsk83uZPlT2wYT
-         T0raBZ0x96ZpJvf56/uYpPg+u8rdDKphR/hZJoVhlIHs62bNaCt2s2o4Xu8CdOaiW1wW
-         N+aW1KzLPhmFXTAnY8pNfTtwNUHi33d5QYgq/JUPHrVO9v7b87kIOSkpHERklfR5qD3B
-         CV3Q==
-X-Gm-Message-State: AOAM530yaURJO1m2CuqGi72LOM4qSCaqrQyC8NF556U/PB4gZPinWJ/J
-	3KI2JxSIy4eY7V2eanyOke3t/LpsylcHn9i0HfY=
-X-Google-Smtp-Source: ABdhPJyanebxFzumo9uC6j5EqHC5AzAy/p4CKrMMPkKVp91ZO9Sz9EM+Klz1pp5DVWWRtz449djOqp1bn3QsVLol/WY=
-X-Received: by 2002:a37:bb82:: with SMTP id l124mr1224146qkf.119.1626982163090;
- Thu, 22 Jul 2021 12:29:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210722094903.27281-1-kai.kang@windriver.com>
-In-Reply-To: <20210722094903.27281-1-kai.kang@windriver.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XUJ5Xt4dGffSXwf1rd0zsL04RaQfirKerkhOUfEfeNo=;
+        b=L75T9XxtJOU4+w+ALJvcgw6dQaQwSVeVVM/wggsX7eHDylrFDzBzTBKzIIi1q2GTRe
+         2spKOcDxbJRzQxS37VSPaP1dV9IiG9cB3O+GaQsiTvCUIojBu30iZyyyPcnX9E6qizZK
+         +03BRdk/UJpyeqrCunzQV7n2dZ/a2SP4b4spVFe9CMDYfz1kw61maLO2JOyrjdgyEAKD
+         ykZ+dCeaiHktdbao7vltzw1aqiZJa7UaXIVuGKECoSbqiaVDs301G59Pq610njp6xMuw
+         qnP+JxG4PCY+d9VvSS6Yt3G+cfEjyBJ7Yzt87lBErVmcT+MlR2y1aKdncLtDyN3sPS0e
+         wneA==
+X-Gm-Message-State: AOAM531pXzGSwvh/U6ZYqCcOENbAmf9I8l7n3ulXtCjAM+/SQBZ3m14d
+	Z14/YUCkoPBcbFW+H5hbgJJoElQWM735Xw==
+X-Google-Smtp-Source: ABdhPJz4upmxk5cnqo7K38MpH232AiQG33o+ess4T7MaVV1lUFtyhxQduj8ZN5QBAyGpj7OJZC2m2g==
+X-Received: by 2002:a05:6a00:bd6:b029:329:9432:9660 with SMTP id x22-20020a056a000bd6b029032994329660mr1135195pfu.22.1626982283636;
+        Thu, 22 Jul 2021 12:31:23 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e8d6])
+        by smtp.gmail.com with ESMTPSA id m16sm31141715pfo.152.2021.07.22.12.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jul 2021 12:31:22 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 22 Jul 2021 12:28:57 -0700
-Message-ID: <CAMKF1so-Y9k-vg_uL2N98nHVvOKj-WcugyvajoaQV0civ+C8iQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] u-boot_2021.07: incompatible with qemumips and qemumips64
-To: kai <kai.kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Remove obsolete --enable-stackguard-randomization
+Date: Thu, 22 Jul 2021 12:31:18 -0700
+Message-Id: <20210722193119.145837-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 22, 2021 at 2:49 AM kai <kai.kang@windriver.com> wrote:
->
-> From: Kai Kang <kai.kang@windriver.com>
->
-> u-boot 2021.07 is not compatible with qemumips and qemumips64:
->
-> | *** Can't find default configuration "arch/../configs/qemu_mips64_defconfig"!
->
-> The supports have been removed by upstream:
->
-> https://source.denx.de/u-boot/u-boot/-/commit/5308a71
->
+this has been removed in 2.34 onwards
 
-thanks, I was seeing this failing in my world builds.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc_2.34.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot_2021.07.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2021.07.bb b/meta/recipes-bsp/u-boot/u-boot_2021.07.bb
-> index bbbc99bf8d..64c20537e6 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2021.07.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2021.07.bb
-> @@ -4,3 +4,6 @@ require u-boot.inc
->  SRC_URI_append = " file://0001-riscv32-Use-double-float-ABI-for-rv32.patch"
->
->  DEPENDS += "bc-native dtc-native python3-setuptools-native"
-> +
-> +COMPATIBLE_MACHINE_qemumips = '(!.*mips).*'
-> +COMPATIBLE_MACHINE_qemumips64 = '(!.*mips64).*'
-> --
-> 2.17.1
->
->
-> 
->
+diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
+index b396cd1d59..c713faaff2 100644
+--- a/meta/recipes-core/glibc/glibc_2.34.bb
++++ b/meta/recipes-core/glibc/glibc_2.34.bb
+@@ -80,7 +80,6 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+                 --enable-tunables \
+                 --enable-bind-now \
+                 --enable-stack-protector=strong \
+-                --enable-stackguard-randomization \
+                 --disable-crypt \
+                 --with-default-link \
+                 ${@bb.utils.contains_any('SELECTED_OPTIMIZATION', '-O0 -Og', '--disable-werror', '', d)} \
+-- 
+2.32.0
+
