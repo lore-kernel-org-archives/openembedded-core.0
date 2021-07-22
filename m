@@ -1,148 +1,150 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.160.1626988410464488915
- for <Openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 14:13:30 -0700
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web08.182.1626988635738994972
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 22 Jul 2021 14:17:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JZpRfxh+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id g15so178872wrd.3
-        for <Openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 14:13:30 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=ZvnAfSg2;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.51, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f51.google.com with SMTP id w12so95564wro.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 14:17:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=MF2KBpj2ZyiY+QC//fkLWXuCfUH5U0Gp2I/WEck36EU=;
-        b=JZpRfxh+W73zPaL/JB2Rh6S0g4jZUjReCjvSfTE0BMIP6zWyeRW+aOC33ocCt0l8Vv
-         D1YMKo+KYw8Ls89uuMGt9N3miRlJ68iBmrzegBfChPwqWy6K3Uybz+UgLiVQ8KK+CuBy
-         5ni2bR4et6k3z4i4aF3EMbF7A/A12tV5M2c14=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=U4XmGaILJuqubt4VbS5+44kj+n0m13TXvzf9XqPXUeY=;
+        b=ZvnAfSg2eZohKl8D0k3wMFZDQeAM0TUmhZpu4+lQLyZZ6BZfbIAU/Vbmpdi9TBPRJf
+         aNi/mqoMlbxP0n6NUCBbK2NO+xcqi6exLdQKyivVJadh2Qiyql8ap2JAR0OZ3aN5g7hb
+         yA5WhS/F04S1EFdSGab3Xk8NhCUlrHI4RPQW7OaJQMqm1MZ4B55JYcwAtlVdx8f7j7BU
+         N34tqxKjfg/AZWO1ermcPX+UbizrXzPdK3Rtmcu0J5r35HymqsV0DlG9CaCQfe8f8PBk
+         nbqIe0JIsuxqQhWSmPklBHuKfltM2WGblvP+PcpAZXG6hjMKqxDx/N1QQWXNNON2tlxf
+         CPhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=MF2KBpj2ZyiY+QC//fkLWXuCfUH5U0Gp2I/WEck36EU=;
-        b=b3Dih42e493IcQYka4kOP7V8cuEiLNfvLH+tmFmbdxev9BJgLVbqr6dZXsHIvDJUj7
-         3zBMCuJSgm7ATeFwRrIJSts8aGR2pS+q0UlIKCydAdroIE64BkzXDgY0kVeK0FYoCiQU
-         VCTyIoqEMuNEKjm9Bj66hUywHJO6tbE3tA4n+IX9nqNPYkqNB2hcXEq3d7yOTWkFNaHp
-         lTa7p5sok2QXyuPGPgmcaOkUbn5546jaTNHCeIndo27JZQQfLAVG3/q9lfkjpUyZhGIy
-         q4NIeg5BOmoGEOX+Fmz72XIqlqJM6BYyJrrVQf+JHhkMA4Q9hMMQ2eim2t8feACEJQ1c
-         TMFA==
-X-Gm-Message-State: AOAM5308z3iiPVSeBH+qbmZcHmFY8BYd1I1Xt6q6XmS/af1X+2xKSFcD
-	0Of2XqFKDfP1uq8GZICou9GM+A==
-X-Google-Smtp-Source: ABdhPJwRThaZijS33e/nongIuuN24jV1vdQBV69kOj2v9GEA5TMuwYODtNj+3RKXIYzkS9RXSLrGqg==
-X-Received: by 2002:adf:dd92:: with SMTP id x18mr1832504wrl.421.1626988408918;
-        Thu, 22 Jul 2021 14:13:28 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:e1dd:b42c:9243:6ba8? ([2001:8b0:aba:5f3c:e1dd:b42c:9243:6ba8])
-        by smtp.gmail.com with ESMTPSA id b15sm36309977wrr.27.2021.07.22.14.13.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 14:13:28 -0700 (PDT)
-Message-ID: <3374ac50d1997cf849fc5a8d83109dc05cc1926f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 2/8] overlayfs.bbclass: generate overlayfs mount units
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>, 
-	Openembedded-core@lists.openembedded.org
-Date: Thu, 22 Jul 2021 22:13:27 +0100
-In-Reply-To: <20210715193933.66120-2-uvv.mail@gmail.com>
-References: <20210715193933.66120-1-uvv.mail@gmail.com>
-	 <20210715193933.66120-2-uvv.mail@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U4XmGaILJuqubt4VbS5+44kj+n0m13TXvzf9XqPXUeY=;
+        b=WCHBuU8zeu/uLKGbnBiVuAA8Dj7d/jt1EqEy2aktmRmfioQJOMMAQ52x1lZ9nBhBqe
+         tJrtizcqmjdwdC+nHdQmbqCA9ZUF9jziydu+CM80FgfXCB+2XaghwxsgZbu6TWT2ZQT4
+         jUopB1zWoAtMbfWMIVUfiSl5lUUC0CHxpCzpXhYw6fdlILK8kD2lW9crfx7XAFmqe1wR
+         7BLRUHvMHl6IVJGnqoTnqzsBqzr8BRSsQzvbWRcV2iD6zUXYK8ubaUe2bz4k9pYOG4QV
+         L2t0P2/Tx2Y9VBhYef3hv/IXR54nli69iJkZrGonSuIRswHmrWpGGF8Sr/lQwvpezeVl
+         MGdg==
+X-Gm-Message-State: AOAM532lVkKKdBVFUmbpxBZim+OiLag7xakOr/ymey/vhUgtZK3A+vhj
+	Xd7y0EruUOGQ+yONHHMgLYXeoaEwV+OXj0PSRk/y2Q==
+X-Google-Smtp-Source: ABdhPJwIQbbiAJKrO3e+Pnl3JjRpw8B5XEsNWLbosMxLTV+U/aFi35q1nvmeaYRWJa5A2ikyDVK4tFwUK7VYDJRUrdU=
+X-Received: by 2002:a05:6000:1141:: with SMTP id d1mr1963173wrx.396.1626988634261;
+ Thu, 22 Jul 2021 14:17:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210722153916.2550020-1-ross.burton@arm.com> <CAMKF1sruKHkmOd8E2=hrESYO8gwb_fR3K8F5rxO-bQOnLy7a2Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sruKHkmOd8E2=hrESYO8gwb_fR3K8F5rxO-bQOnLy7a2Q@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Thu, 22 Jul 2021 22:17:03 +0100
+Message-ID: <CAAnfSTtFVX-0n0d1dRp9BG3RYnfqrFh4SnZBLm0tzkAA==TRRA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glew: fix Makefile race
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-07-15 at 21:39 +0200, Vyacheslav Yurkov wrote:
-> It's often desired in Embedded System design to have a read-only rootfs.
-> But a lot of different applications might want to have a read-write access
-> to some parts of a filesystem. It can be especially useful when your update
-> mechanism overwrites the whole rootfs, but you want your application data
-> to be preserved between updates. This class provides a way to achieve that
-> by means of overlayfs and at the same time keeping the base rootfs read-only.
-> 
-> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> ---
->  meta/classes/overlayfs.bbclass | 133 +++++++++++++++++++++++++++++++++
->  1 file changed, 133 insertions(+)
->  create mode 100644 meta/classes/overlayfs.bbclass
-> 
-> diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
-> new file mode 100644
-> index 0000000000..40e6107f0d
-> --- /dev/null
-> +++ b/meta/classes/overlayfs.bbclass
-> @@ -0,0 +1,133 @@
-> +# Class for generation of overlayfs mount units
-> +#
-> +# It's often desired in Embedded System design to have a read-only rootfs.
-> +# But a lot of different applications might want to have a read-write access to
-> +# some parts of a filesystem. It can be especially useful when your update mechanism
-> +# overwrites the whole rootfs, but you want your application data to be preserved
-> +# between updates. This class provides a way to achieve that by means
-> +# of overlayfs and at the same time keeping the base rootfs read-only.
-> +#
-> +# Usage example.
-> +#
-> +# Set a mount point for a partition overlayfs is going to use as upper layer
-> +# in your machine configuration. Underlying file system can be anything that
-> +# is supported by overlayfs. This has to be done in your machine configuration.
-> +# QA check fails to catch file existence if you redefine this variable in your recipe!
-> +#
-> +#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
-> +#
-> +# The class assumes you have a data.mount systemd unit defined in your
-> +# systemd-machine-units recipe and installed to the image.
-> +#
-> +# Then you can specify writable directories on a recipe base
-> +#
-> +#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
-> +#
-> +# To support several mount points you can use a different variable flag. Assume we
-> +# want to have a writable location on the file system, but not interested where the data
-> +# survive a reboot. Then we could have a mnt-overlay.mount unit for a tmpfs file system:
-> +#
-> +#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
-> +#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
-> +#
-> +# Note: the class does not support /etc directory itself, because systemd depends on it
-> +
-> +REQUIRED_DISTRO_FEATURES += "systemd overlayfs"
-> +
-> +inherit systemd features_check overlayfs-qa
-> +
-> +def strForBash(s):
-> +    return s.replace('\\', '\\\\')
-> +
-> +def unitFileList(d):
-> +    fileList = []
-> +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-> +
-> +    if not overlayMountPoints:
-> +        bb.fatal("A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
-> +
-> +    # check that we have required mount points set first
-> +    requiredMountPoints = d.getVarFlags('OVERLAYFS_WRITABLE_PATHS')
-> +    for mountPoint in requiredMountPoints:
-> +        if mountPoint not in overlayMountPoints:
-> +            bb.fatal("Missing required mount point for OVERLAYFS_MOUNT_POINT[%s] in your MACHINE configuration" % mountPoint)
-> +
-> +    for mountPoint in overlayMountPoints:
-> +        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
-> +            fileList.append(mountUnitName(path))
-> +            fileList.append(helperUnitName(path))
-> +
-> +    return fileList
-> +
-> +def helperUnitName(unit):
-> +    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
+Classic Makefile anti-pattern of just fundamentally not understanding
+how parallel jobs work.  One day, people will stop using Make :)
 
-Again, I'm a little torn on some of the functions. Would some of these
-be better as part of a function library in meta/lib/oe/ ?
+Ross
 
-The downside is that variable dependencies are no longer automatic so
-the dependency on OVERLAYFS_WRITABLE_PATHS may be missed, I don't think
-it would see OVERLAYFS_MOUNT_POINT as I'm not sure the magic parsing
-code understand getVarFlags (compared to getVarFlag which it does).
-
-Cheers,
-
-Richard
-
+On Thu, 22 Jul 2021 at 20:27, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> ah thanks I think binutils upgrade patch was also seeing this problem.
+>
+> On Thu, Jul 22, 2021 at 8:39 AM Ross Burton <ross@burtonini.com> wrote:
+> >
+> > Fix a Makefile race resulting in the target creating a directory being
+> > executed after the target to write into that directory.
+> >
+> > [ YOCTO #14485 ]
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  .../0001-Fix-build-race-in-Makefile.patch     | 56 +++++++++++++++++++
+> >  meta/recipes-graphics/glew/glew_2.2.0.bb      |  1 +
+> >  2 files changed, 57 insertions(+)
+> >  create mode 100644 meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
+> >
+> > diff --git a/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch b/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
+> > new file mode 100644
+> > index 0000000000..7edcfe8de8
+> > --- /dev/null
+> > +++ b/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
+> > @@ -0,0 +1,56 @@
+> > +Upstream-Status: Submitted [https://github.com/nigels-com/glew/pull/311]
+> > +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > +
+> > +From 0ce0a85597db48a2fca619bd95e34af091e54ae8 Mon Sep 17 00:00:00 2001
+> > +From: Ross Burton <ross.burton@arm.com>
+> > +Date: Thu, 22 Jul 2021 16:31:11 +0100
+> > +Subject: [PATCH] Fix build race in Makefile
+> > +
+> > +The current rule for the binaries is:
+> > +
+> > +glew.bin: glew.lib bin bin/$(GLEWINFO.BIN) bin/$(VISUALINFO.BIN)
+> > +
+> > +In parallel builds, all of those targets happen at the same time. This
+> > +means that 'bin' can happen *after* 'bin/$(GLEWINFO.BIN)', which is a
+> > +problem as the 'bin' target's responsibility is to create the directory
+> > +that the other target writes into.
+> > +
+> > +Solve this by not having a separate 'create directory' target which is
+> > +fundamentally racy, and simply mkdir in each target which writes into it.
+> > +---
+> > + Makefile | 9 ++++-----
+> > + 1 file changed, 4 insertions(+), 5 deletions(-)
+> > +
+> > +diff --git a/Makefile b/Makefile
+> > +index d0e4614..04af44c 100644
+> > +--- a/Makefile
+> > ++++ b/Makefile
+> > +@@ -171,21 +171,20 @@ VISUALINFO.BIN.OBJ := $(VISUALINFO.BIN.OBJ:.c=.o)
+> > + # Don't build glewinfo or visualinfo for NaCL, yet.
+> > +
+> > + ifneq ($(filter nacl%,$(SYSTEM)),)
+> > +-glew.bin: glew.lib bin
+> > ++glew.bin: glew.lib
+> > + else
+> > +-glew.bin: glew.lib bin bin/$(GLEWINFO.BIN) bin/$(VISUALINFO.BIN)
+> > ++glew.bin: glew.lib bin/$(GLEWINFO.BIN) bin/$(VISUALINFO.BIN)
+> > + endif
+> > +
+> > +-bin:
+> > +-      mkdir bin
+> > +-
+> > + bin/$(GLEWINFO.BIN): $(GLEWINFO.BIN.OBJ) $(LIB.SHARED.DIR)/$(LIB.SHARED)
+> > ++      @mkdir -p $(dir $@)
+> > +       $(CC) $(CFLAGS) -o $@ $(GLEWINFO.BIN.OBJ) $(BIN.LIBS)
+> > + ifneq ($(STRIP),)
+> > +       $(STRIP) -x $@
+> > + endif
+> > +
+> > + bin/$(VISUALINFO.BIN): $(VISUALINFO.BIN.OBJ) $(LIB.SHARED.DIR)/$(LIB.SHARED)
+> > ++      @mkdir -p $(dir $@)
+> > +       $(CC) $(CFLAGS) -o $@ $(VISUALINFO.BIN.OBJ) $(BIN.LIBS)
+> > + ifneq ($(STRIP),)
+> > +       $(STRIP) -x $@
+> > +--
+> > +2.25.1
+> > +
+> > diff --git a/meta/recipes-graphics/glew/glew_2.2.0.bb b/meta/recipes-graphics/glew/glew_2.2.0.bb
+> > index 8948444e08..92b6083648 100644
+> > --- a/meta/recipes-graphics/glew/glew_2.2.0.bb
+> > +++ b/meta/recipes-graphics/glew/glew_2.2.0.bb
+> > @@ -6,6 +6,7 @@ LICENSE = "MIT"
+> >  LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
+> >
+> >  SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+> > +           file://0001-Fix-build-race-in-Makefile.patch \
+> >             file://no-strip.patch"
+> >
+> >  SRC_URI[md5sum] = "3579164bccaef09e36c0af7f4fd5c7c7"
+> > --
+> > 2.25.1
+> >
+> >
+> > 
+> >
