@@ -1,116 +1,78 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.7171.1626958028025149856
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.7224.1626958315332233538
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 05:47:08 -0700
+ Thu, 22 Jul 2021 05:51:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=OLv2dcaQ;
- spf=pass (domain: linaro.org, ip: 209.85.128.42, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-wm1-f42.google.com with SMTP id l6so3275415wmq.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 05:47:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZU5JncsG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id t5so5805044wrw.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 05:51:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=sAimK3ZA2Plh7xV9xtV3ADwZEUOkDxLGMEZGQ1XTybs=;
-        b=OLv2dcaQV9zu2yU/J5ekjS8rKJRqtOprM1+xVw2m64Zl9KjiMHxisGZ45wV7gYgYAh
-         bbyfFb69oFtMQDm9FiNIyZhzfhEZEOJpiu0HJOAsKJbGv8xLcQs21NEGbsUwcP9ymsOF
-         cwYB0u+nzpH/A8Rz6skKh+bYMccG3zAeObITY9/eHXQlm8I3uSmtlhEqULvfe9rDyvXJ
-         OyaRsRUlC9VjDfjUo62Fi5QzKgyd4H3lbX0M/Romgc1Orj729Fonla07QHAsSZCVU9qM
-         E0GT+zA1oje7XiTyl4C9ySNNh3c5ULG/7WaewTUFTcG8rAdK4rFNnYaxR5z607BkXoH/
-         KZcQ==
+        bh=OHMUYK5IrJYiYrFwq/QknAioeDm9r9yGmcJeRM/hEm4=;
+        b=ZU5JncsGjBj74ESQqle8NQ0u+ukdB5M4N5c3I3wx/e562CD+o7U4eqJK1w+hSLDLqb
+         KZ0POIXXwCVFl4C90C3siipbma/Pqli4fLSJ6KYcUbHE0nG+0hho9cMsNp1daWanw4fY
+         shbl+bnO2F0UF7IYZYlXlA+JTMSbz72T0DhWQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sAimK3ZA2Plh7xV9xtV3ADwZEUOkDxLGMEZGQ1XTybs=;
-        b=K0YkU/uUiFSKZdkuA9K7BAL/W9cljeA0/JwqRgtc1SuzEZByVB6LKLyo9J8l3ElJ/F
-         Q3Z5WI4CwuhlQMXaL4+TauZaM+iK2jAyiSLfEe5soSRMOEsP2PBj2VNOWCtXRrM09sp8
-         8BUv75aj0EgWyTZ7Z4NF/grdRjByRjGoTAins/cR8W1dX1xkczrfk5pjM19z2M77lwnt
-         URTc1CzSd+tnUNgAIpAnt4YKTfMsXjxo10Sy56iNNatCbaAM1h0oymsnSuU8zFtzHQPB
-         V+9z2ecO/1AJ+mQADTsry4mHAXRDKIsXJRnFgsZ9oJagnWZ1ErEjDOQdZ/Fkt2ob88Rc
-         Hy+w==
-X-Gm-Message-State: AOAM533glvaTHDjc+Xoa0uwVDJvRdeBzsEj4cFCX3Ks/jAM5WgtBpDGA
-	EtiV+wv8oVYyh6HpXzNT76h7wXhsHZbfNg==
-X-Google-Smtp-Source: ABdhPJyuDh7yISh+Lfb6THaKkrbtCEssJo0P3qrMJfyOU8Z5dYW9b8Sax2526y+j/f3TkpF6yc/kuw==
-X-Received: by 2002:a1c:1f09:: with SMTP id f9mr9045744wmf.110.1626958026448;
-        Thu, 22 Jul 2021 05:47:06 -0700 (PDT)
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from qcom-hackbox.linaro.org.net (163-172-5-244.rev.poneytelecom.eu. [163.172.5.244])
-        by smtp.gmail.com with ESMTPSA id p18sm2468610wmg.46.2021.07.22.05.47.05
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=OHMUYK5IrJYiYrFwq/QknAioeDm9r9yGmcJeRM/hEm4=;
+        b=Acd7hOs9Cjwax7VxuDwrrQBBcwJcYgIG176hna0FbjSirlAJgiXMqNylrTyEcLy2AN
+         ns46UoMK5GTjdEOpDilFTyk71KXE7O97zmYA9uwbXgFb+AhjUG2hhTUYiUeqMdZXvbUO
+         9McBzJFHgJQO527BToiw85T84Ys7XcKbmZ3p1sYQ9k20iH+73jXG+mQr3BypkeUO2Rgl
+         WnNgsL3Odk8uOd9Kl2BqHqdguZ/NvHL4l65RiDs6UP66sbguXfOsIugyJo3InY+csgjC
+         GLZuYcJ1WkAv0j+uN+JhkFBLSROaDvlKT77TMnQaGOeVZcJqTPEAHJQFN0p6XDu4QYrQ
+         uRdw==
+X-Gm-Message-State: AOAM532zSWC4l1Hdf+JcKO/pheb9ZBUFOn9vkYTa69OIWk1cv5YLxbhE
+	IvPZue01uH1WRmjigCfg5NcspQ==
+X-Google-Smtp-Source: ABdhPJztxCvkInbKOr4YO1nzNYTPMLRpT4pt0qZ/1LFoPkVgCNHa7BN+E3OuQ7q/1iWoMDJrcDqU7w==
+X-Received: by 2002:a5d:408a:: with SMTP id o10mr47003099wrp.272.1626958313772;
+        Thu, 22 Jul 2021 05:51:53 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:40b3:3f27:e412:a801? ([2001:8b0:aba:5f3c:40b3:3f27:e412:a801])
+        by smtp.gmail.com with ESMTPSA id i10sm16864377wml.31.2021.07.22.05.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 05:47:06 -0700 (PDT)
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH 4/4] yocto-check-layer: ensure that all layer dependencies are tested too
-Date: Thu, 22 Jul 2021 14:46:44 +0200
-Message-Id: <20210722124644.19962-5-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.29.2
+        Thu, 22 Jul 2021 05:51:53 -0700 (PDT)
+Message-ID: <103451053486f29a5fee270e987f9016f5572467.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/4] yocto-check-layer: add support to check for dependencies
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 22 Jul 2021 13:51:52 +0100
 In-Reply-To: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
 References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-In order to be compliant with the YP compatible status, a layer also
-needs to ensure that all its dependencies are compatible
-too. Currently yocto-check-layer only checks the requested layer,
-without testing any dependencies.
+On Thu, 2021-07-22 at 14:46 +0200, Nicolas Dechesne wrote:
+> It has been recentely mentioned to me by the YP TSC that a layer must
+> not only pass the yocto-check-layer script, but also all its
+> dependencies. These patches add support for testing dependencies
+> automatically.
+> 
+> Patch #1 and #3 are not much related, but improvements I made along
+> the lines. 
+> 
+> Patch #2 split the internal function into 2 parts, so that we can get
+> the list of dependencies from the main script. 
+> 
+> Patch #4 is where the processing of the dependencies is done. I chose
+> to enable checking the dependencies by default, and use
+> '--no-auto-dependency' to disable it, we could decide the other way
+> around. For any dependency of the 'layers under test' we will simply
+> add them to the list of layers to test unless they are already there.
 
-With this change, all dependencies are also checked by default, so the
-summary printed at the end will give a clear picture whether all
-dependencies pass the script or not.
+I'm fine with the changes, thanks for doing it. I think we'll need to add
+this option to the yocto-autobuilder-helper config.json entries else
+the current testing will take much longer. We're safe there to
+assume that dependencies are tested separately.
 
-Using --no-auto-dependency can be used to skip that.
+Cheers,
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- scripts/yocto-check-layer | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-index a179240fd0..e3a4c940ec 100755
---- a/scripts/yocto-check-layer
-+++ b/scripts/yocto-check-layer
-@@ -24,7 +24,7 @@ import scriptpath
- scriptpath.add_oe_lib_path()
- scriptpath.add_bitbake_lib_path()
- 
--from checklayer import LayerType, detect_layers, add_layers, add_layer_dependencies, get_signatures, check_bblayers
-+from checklayer import LayerType, detect_layers, add_layers, add_layer_dependencies, get_layer_dependencies, get_signatures, check_bblayers
- from oeqa.utils.commands import get_bb_vars
- 
- PROGNAME = 'yocto-check-layer'
-@@ -51,6 +51,8 @@ def main():
-             help='File to output log (optional)', action='store')
-     parser.add_argument('--dependency', nargs="+",
-             help='Layers to process for dependencies', action='store')
-+    parser.add_argument('--no-auto-dependency', help='Disable automatic testing of dependencies',
-+            action='store_true')
-     parser.add_argument('--machines', nargs="+",
-             help='List of MACHINEs to be used during testing', action='store')
-     parser.add_argument('--additional-layers', nargs="+",
-@@ -121,6 +123,21 @@ def main():
-     if not layers:
-         return 1
- 
-+    # Find all dependencies, and get them checked too
-+    if not args.no_auto_dependency:
-+        depends = []
-+        for layer in layers:
-+            layer_depends = get_layer_dependencies(layer, dep_layers, logger)
-+            if layer_depends:
-+                for d in layer_depends:
-+                    if d not in depends:
-+                        depends.append(d)
-+
-+        for d in depends:
-+            if d not in layers:
-+                logger.info("Adding %s to the list of layers to test, as a dependency", d['name'])
-+                layers.append(d)
-+
-     shutil.copyfile(bblayersconf, bblayersconf + '.backup')
-     def cleanup_bblayers(signum, frame):
-         shutil.copyfile(bblayersconf + '.backup', bblayersconf)
--- 
-2.29.2
+Richard
 
