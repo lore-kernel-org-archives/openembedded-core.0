@@ -1,131 +1,78 @@
 Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.1195.1626993917530510351
+ by mx.groups.io with SMTP id smtpd.web08.1170.1626993918494812643
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 15:45:17 -0700
+ Thu, 22 Jul 2021 15:45:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZSZFMCjH;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cDiR72Jt;
  spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id l6so4236999wmq.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 15:45:17 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id o3-20020a05600c5103b029024c0f9e1a5fso2177092wms.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 15:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MP/b1T8gD49Un8G+3LeLr+wE1BgfX+M72vrDMgeABO4=;
-        b=ZSZFMCjH5kwAp3hxn3yS4xnRRnsVGlq0jLMg8iEgAQ7RYGTGuML9rHdJLIxtyHjl5S
-         gvtaJ6vtUq0/7eZemzqBMy1zSMymP60DX3fccE/995WmEX9HajOa8/rkqRkNmuetnkWS
-         UGCtzzr835NTDZ9oeTWm8H+/Hb15e+eKAkd7G/4RM/Pk0PBVo51PQvirXqLWGmT8iN4/
-         QBdotd7GytS8kJ7VJv3eTWj/wgZcXzQbiRJPnlURZl8Pyjj7jZw2tnOxoEYENQyTe0ak
-         c68SJ1J3rKDfgRiFHTAnTSVdVOsJTsutjc14bjZRtJld9vouA5tV10/0BKAs6QNwhNgL
-         r+bQ==
+        bh=sSKO7CmIF+b191UiKGWnWffZxPeiabkB5PfOdQ1BhnI=;
+        b=cDiR72JtZjtFLp7HkT+SFA1U6JAOVBJz3dqtaEsR9FPkkbE/pUZYeRTbJOmbjIs4an
+         cHnJ+2nFQ5vhYjLKvoTpjCIuzsjukZh/EB0SKp8G2IlXh8RJM1oMxMVyqsVdnssMmOuw
+         NT3Xe8CLb36btrispgg6BmKWrrZ66FSm83CyXilYBLd1aT7pRFUnuToQQW0pg62SKf3Y
+         BRQBxsp0ai58eSqwHshxDM40/vadEj4bOnldsQe2/KNN4v9gabehXSfqjGbCk4lirJMY
+         zzLbKN+CMJs5woxnUi6O/ZfFFWadUhj5SUl2+9Z9ZCkf61YnfK7FzBpN6Ns11bTzZtPH
+         ixcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MP/b1T8gD49Un8G+3LeLr+wE1BgfX+M72vrDMgeABO4=;
-        b=pUsm6MNJ7RnUg6AL2NcJFpKDZI9c6yWE2Fmj2wWfrUYKFQDPmt+wZ1qZ/N38mhtYwO
-         0xGqaVi+mmbBMgqcXWuGSlyzQt093taq7e3NAm+Ru7x97Q0TTqDHlnr0fLJ9zRNgh7zk
-         7TUA9e6rVObd/Uxp4OoO09qeI05W7wp/DgA5/XpGQdKqeGJe6eRcfSmnAeoUA2ucEjPh
-         l+yHQxIQxCKTuSmWOUGQjuqVvCFxUCUcUxfu5mEzQ1LzUwbQVKsVjsCG3hLqQhJ2HUcH
-         4E2iL6GWSpXZ7pBw7nChJ9luCvXzTy1UcmPnrqdlgaB20iXy9spjbGaPLadzqGDDTjF1
-         z4aA==
-X-Gm-Message-State: AOAM5324YALoGR75qsfEuTJeqeBUQepX3NSt9UJqFKce5S6dGc8JnRuq
-	tI3cfNyFQcx4v9nm0VOjEXYm1ILKj29ryA==
-X-Google-Smtp-Source: ABdhPJzg+R9hZey2qqQKhKBKSNAsQCYkmO5DYG/UyDnXiXBoOgTDXbapJZ5OeKpj9zVEmc6/mID6yA==
-X-Received: by 2002:a05:600c:4fcf:: with SMTP id o15mr11230548wmq.116.1626993916184;
+        bh=sSKO7CmIF+b191UiKGWnWffZxPeiabkB5PfOdQ1BhnI=;
+        b=UzLAsGHRf+vzl2EG4eR0VvDMLy4k6bePdwkJG7VgaXj42Jek5FbeVUFV3Z3SIHhKSn
+         7jvL9vo5wTE0SAvx7dItZ+z9mgihq42Y/hcXwEGcNQgjxlyFrax7fFABd6hrJxyiBe8Y
+         22C7PPz1nlBzCoYfCKE5Eub3s9APhZh6QBUmxpu6o1+lds1zqP1863xWmMWbOC9V3Wpe
+         ZRYXLwOMoghaGG32OU+TUFM/tqUT8wU1Btim8nG090lmJyw7TwF7NrYca1oShfckp1tc
+         AFIIAJsFXAYhcmIXcXGuIPBh3UMrtNTRlkaA+lXZrLvFQ2NDx/it0pbXvPiBY4t4tKei
+         yOsg==
+X-Gm-Message-State: AOAM5305T6Rx4chyV/eA4MdKfqhNbzbf1hCAUHQrMNpo9UkKDLLBDYQe
+	dcfEsQhlW69GHAiWhKTOo9xmU/7JxayVpQ==
+X-Google-Smtp-Source: ABdhPJy1HzIweeixs04lcJinzEFX15tXoxy5/PGANojXVAIQdFD79gP3g4xJTS7DHP3dJlLA7DKuzg==
+X-Received: by 2002:a05:600c:4e86:: with SMTP id f6mr11411544wmq.14.1626993916784;
         Thu, 22 Jul 2021 15:45:16 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id n5sm24337739wrp.80.2021.07.22.15.45.15
+        by smtp.gmail.com with ESMTPSA id n5sm24337739wrp.80.2021.07.22.15.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 15:45:15 -0700 (PDT)
+        Thu, 22 Jul 2021 15:45:16 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 5/8] mtools: update 4.0.32 -> 4.0.33
-Date: Fri, 23 Jul 2021 00:45:05 +0200
-Message-Id: <20210722224508.51967-5-alex.kanavin@gmail.com>
+Subject: [PATCH 6/8] libuv: update 1.41.0 -> 1.42.0
+Date: Fri, 23 Jul 2021 00:45:06 +0200
+Message-Id: <20210722224508.51967-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210722224508.51967-1-alex.kanavin@gmail.com>
 References: <20210722224508.51967-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop no-x11.gplv3.patch (the libraries are now
-dynamically enabled from configure.in).
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../mtools/disable-hardcoded-configs.patch     |  4 ++--
- .../mtools/mtools/no-x11.gplv3.patch           | 18 ------------------
- .../{mtools_4.0.32.bb => mtools_4.0.33.bb}     |  3 +--
- 3 files changed, 3 insertions(+), 22 deletions(-)
- delete mode 100644 meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
- rename meta/recipes-devtools/mtools/{mtools_4.0.32.bb => mtools_4.0.33.bb} (91%)
+ .../libuv/{libuv_1.41.0.bb => libuv_1.42.0.bb}                  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/libuv/{libuv_1.41.0.bb => libuv_1.42.0.bb} (92%)
 
-diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-index 81d76d060e..90573dcb1a 100644
---- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-+++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-@@ -1,4 +1,4 @@
--From 630dbcabc408cf5d73edaa7cf64a48194976b290 Mon Sep 17 00:00:00 2001
-+From 7efdb47246413f938e3b2d8378ce9c363d98b371 Mon Sep 17 00:00:00 2001
- From: Ed Bartosh <ed.bartosh@linux.intel.com>
- Date: Tue, 13 Jun 2017 14:55:52 +0300
- Subject: [PATCH] Disabled reading host configs.
-@@ -12,7 +12,7 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-  1 file changed, 8 deletions(-)
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.41.0.bb b/meta/recipes-connectivity/libuv/libuv_1.42.0.bb
+similarity index 92%
+rename from meta/recipes-connectivity/libuv/libuv_1.41.0.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.42.0.bb
+index 4987331dc8..169bd6206b 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.41.0.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.42.0.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
  
- diff --git a/config.c b/config.c
--index bb13682..9186c77 100644
-+index 173eae0..0654cc1 100644
- --- a/config.c
- +++ b/config.c
- @@ -836,14 +836,6 @@ void read_config(void)
-diff --git a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch b/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
-deleted file mode 100644
-index 9cb3e39f5c..0000000000
---- a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--Disable building with X11 support.
--
--Upstream-Status: Inappropriate [disable feature]
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--
--diff -urN mtools-4.0.15.orig//Makefile.in mtools-4.0.15//Makefile.in
----- mtools-4.0.15.orig//Makefile.in	2010-10-17 08:41:09.000000000 -0700
--+++ mtools-4.0.15//Makefile.in	2010-11-23 13:59:49.258258374 -0800
--@@ -146,7 +146,7 @@
-- CXXFLAGS  = $(CPPFLAGS) $(DEFS) $(MYCXXFLAGS) -I. @extraincludedir@ -I@srcdir@ $(USERCFLAGS)
-- LINK      = $(CC) $(LDFLAGS) $(USERLDFLAGS) @extralibdir@
-- ALLLIBS   = $(USERLDLIBS) $(MACHDEPLIBS) $(SHLIB) $(LIBS)
---X_LDFLAGS = $(X_EXTRA_LIBS) $(X_LIBS) -lXau -lX11 $(LIBS)
--+X_LDFLAGS = $(X_EXTRA_LIBS) $(X_LIBS) $(LIBS)
-- X_CCFLAGS = $(X_CFLAGS) $(CFLAGS)
-- 
-- all:    mtools $(LINKS) mkmanifest @FLOPPYD@ mtools.1 mtools.5
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.32.bb b/meta/recipes-devtools/mtools/mtools_4.0.33.bb
-similarity index 91%
-rename from meta/recipes-devtools/mtools/mtools_4.0.32.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.33.bb
-index 501875037a..fd9febb01d 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.32.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.33.bb
-@@ -24,11 +24,10 @@ RRECOMMENDS_${PN}_libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "62498cd51ae7c79a27c879a45f0d2a8c44e1404cbb901372d09b02735ef5ad89"
-+SRC_URI[sha256sum] = "1cb10f8e1e20302f86eaa9c5db262f4559d1dc94bd11fdda7692bc2d1beab954"
+-SRCREV = "1dff88e5161cba5c59276d2070d2e304e4dcb242"
++SRCREV = "6ce14710da7079eb248868171f6343bc409ea3a4"
+ SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
  
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
--           file://no-x11.gplv3.patch \
-            file://clang_UNUSED.patch \
-            "
- 
+ S = "${WORKDIR}/git"
 -- 
 2.31.1
 
