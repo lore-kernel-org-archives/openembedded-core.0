@@ -1,59 +1,123 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web08.2139.1626999573704100664
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web09.3884.1627010975117915539
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 17:19:33 -0700
+ Thu, 22 Jul 2021 20:29:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="199041409"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
-   d="scan'208";a="199041409"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 17:19:32 -0700
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
-   d="scan'208";a="577499412"
-Received: from brfu-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.226.95])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 17:19:31 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Revert "Revert "libubootenv: inherit uboot-config""
-Date: Fri, 23 Jul 2021 08:19:27 +0800
-Message-Id: <20210723001927.42892-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=X/JRWS8V;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id gt31so1471282ejc.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 20:29:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ruFyR+0kapesZp8LAg1nziwiFimylXIYeTNJuqi8T+M=;
+        b=X/JRWS8V8YnoH3hMsQ3+2ROaw5rTrvYEEVqHRk9/d03Z78/9/CnzsaFHov9chXOjYs
+         s1eSoeiidEwyXxisu0RYCeT72lnYtottpYD9ntL6BKQZbuWApAOl6zy3KbKlRO+NSPIq
+         YDNiZWwXRWOS+hz3gn+UNZiJkPNui4aF6bDo8LweqU2Nmwtb/pNiRRKuLyjZvByXjkpF
+         g52BoAi8YdWQlLc8Zy/M35YyNl7E9v5WDLu4XVtLv/1Ib7+2wxrm3Mj2FUFIPNZCu4nq
+         F2dUtp7Wc2F2r7AanE/5gGhXga5KFhmKG1MVXZHd/fX+1/n9yoFSVFmwg3DcF+8DEIrW
+         K6HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ruFyR+0kapesZp8LAg1nziwiFimylXIYeTNJuqi8T+M=;
+        b=TtBHU7OE6GApnGuXRdUhkOr8I6T1o1RThCYUHA0bEPqICBUGje8BIXtW71QG/5QRFv
+         umI83UsVXEIebevBd8f4nJihVfUtaEBrqFebbyoITn/6IkSzRmPeYFJD7eEESVtT1RTg
+         VDRD4zNmxhCbSvCJOy8jpUaR/LG3JbHT1xQ3jInNqdqcQlgyxwv5krNrPBTqNjANZE0F
+         2cONcQ6m1CbdNNM4mQ+ZUNIclghbAXlQ4pVDlajF96tDtz6nn8jsgBZQ6rn5fYpkkAEb
+         TQHADpI3Svfxprf/HlbbnhaM3N53HNj1EEREn2Lh/QT4hisTEb5pM7hX2lgHI75zJsnD
+         rsJQ==
+X-Gm-Message-State: AOAM532dwDT+X+NKLnnVlC/QFKEJKihgZ5fSXlm+PU0vLqBsIAmyrQds
+	hNFbC33ZV6/qiDo+rgTE58vabOEUuWDUZHQ35EQ=
+X-Google-Smtp-Source: ABdhPJwPIOWN5ml+y4dEQNtGoaQRK9TA8NCk4gsd0p6xhji8vQAPtX+mfeEk3EJHFVP5Js6tndRBcFbs4NoOJCphT3s=
+X-Received: by 2002:a17:907:1b29:: with SMTP id mp41mr2805424ejc.459.1627010973482;
+ Thu, 22 Jul 2021 20:29:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
+ <20210722124644.19962-5-nicolas.dechesne@linaro.org> <CADkTA4MfOnbxF5c9MyfD79r_pmN0Yw4KH6Gx5mjSR1nYkA9Wgg@mail.gmail.com>
+ <7c8a96980bdc7d6d3d6a81e07b8ba8e1328afcff.camel@linuxfoundation.org>
+In-Reply-To: <7c8a96980bdc7d6d3d6a81e07b8ba8e1328afcff.camel@linuxfoundation.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 22 Jul 2021 23:29:22 -0400
+Message-ID: <CADkTA4MA1BkRg85VfTLQLkE9rj+7C0Mjvw2CPw2rnGOqS-NhZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/4] yocto-check-layer: ensure that all layer dependencies are tested too
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This reverts commit be1cf223bf9c514ee81820ded5b13318458c0daf.
+On Thu, Jul 22, 2021 at 4:46 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2021-07-22 at 09:16 -0400, Bruce Ashfield wrote:
+> >
+> >
+> > On Thu, Jul 22, 2021 at 8:47 AM Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
+> > > In order to be compliant with the YP compatible status, a layer also
+> > > needs to ensure that all its dependencies are compatible
+> > > too. Currently yocto-check-layer only checks the requested layer,
+> > > without testing any dependencies.
+> > >
+> >
+> >
+> > Is that actually written into our compliance statements ? (that dependency
+> > layers must also be compliant)
+> >
+> > I had never heard that before, and in my opinion, that will actively encourage
+> > people to copy recipes if they want to be compliant but a dependent layer is
+> > problematic.
+>
+> It has been the case as it logically doesn't make sense otherwise but the
+> YP Compat pieces need better documentation. The TSC did work on fixing this
+> up but we're blocked on a lack of advocacy people to help with the other
+> side of the programme.
+>
+> Thinking the above though, the reasoning is that if we don't require that,
+> it lets anyone just push their non-compliant bits into meta-non-compatible
+> and then have meta-compatible depend on meta-non-compatible. It also meant
+> nobody had much interest in having meta-oe or meta-virt being YP Compat.
 
-The original change was added to resolve build errors [1] for MACHINE
-values that don't have u-boot support. This recipe was, after that
-change, skipped in world builds for those MACHINEs.
+Indeed. I can see that happening as well.
 
-But we should be able to build libubootenv with or without u-boot
-support [2] so the original solution to inherit uboot-config was not
-perfect. But until we have a better solution, revert this so
-builds don't fail for others.
+I'll cross the bridge if meta-virt goes incompatible due to a
+dependency when it happens!
 
-[1] https://lists.openembedded.org/g/openembedded-core/message/153508
-[2] https://lists.openembedded.org/g/openembedded-core/message/153614
+>
+> The hope is that it causes "bad" layers to get fixed. We've put pieces in place
+> to try and at least ensure the core layers pass and stay passing.
+>
+> >  With this change, all dependencies are also checked by default, so the
+> > > summary printed at the end will give a clear picture whether all
+> > > dependencies pass the script or not.
+> > >
+> > > Using --no-auto-dependency can be used to skip that.
+> > >
+> >
+> >
+> > I'd actually prefer the opposite, to make the compliance runs faster by
+> > default, versus someone having to find out about this option later. We
+> > already get complaints about check layer speed, and doing more by default
+> > won't help on that front.
+>
+> I can see the arguments both ways on this. "The script says it is compatible
+> so I can use the badge" :/
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Agreed. It is obviously up to you on this. I just wanted to make sure.
 
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-index 6774290ea5..cb59dd3f1d 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-@@ -15,7 +15,7 @@ SRCREV = "ba7564f5006d09bec51058cf4f5ac90d4dc18b3c"
- 
- S = "${WORKDIR}/git"
- 
--inherit cmake lib_package
-+inherit uboot-config cmake lib_package
- 
- EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release"
- 
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+
 -- 
-2.31.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
