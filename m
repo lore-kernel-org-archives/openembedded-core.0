@@ -1,75 +1,76 @@
-Received: from sender4-op-o13.zoho.com (sender4-op-o13.zoho.com [136.143.188.13])
- by mx.groups.io with SMTP id smtpd.web08.6036.1627032122764956487
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+ by mx.groups.io with SMTP id smtpd.web12.6351.1627035781170016531
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jul 2021 02:22:02 -0700
+ Fri, 23 Jul 2021 03:23:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=dwrobel@ertelnet.rybnik.pl header.s=ertelnet header.b=FffMezRk;
- spf=pass (domain: ertelnet.rybnik.pl, ip: 136.143.188.13, mailfrom: dwrobel@ertelnet.rybnik.pl)
-ARC-Seal: i=1; a=rsa-sha256; t=1627032120; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ex52QDf1K6G4oXseoLfshkUJjlb/1zqE6IgBT/iZYLfTYiEt41orGy2ZE3PBkSFcsJZs90mBi5zJh7ZYwZuq0z3gubYDcmPa6n0vx1KTXnZW+ikq+o51DmxykOnjgRuH1jiiBh0A5274DdIbJIXJkFrsBXa8gOQAeqOE6dCAjOQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1627032120; h=Content-Transfer-Encoding:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=Qsuvn69Afl5Ifjcec05LqozQajdovywbKU3JZY/Qnm4=; 
-	b=CLMHMJQ/Sg9D0iT7jwPQU4w1k84FOGcdqVjIJQYLR0zMy2G9y7C49jkeH2L4W6NMTs46QmLy6B3bKGlZfJL5eVqYoNDGBIqfGvOEEIm96ph/I0f70EysKzkXVW90IWqGNqE9ArqBUgkDMmO0KGRDqa9YaEbAuLwUt00yEB6/4hM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ertelnet.rybnik.pl;
-	spf=pass  smtp.mailfrom=dwrobel@ertelnet.rybnik.pl;
-	dmarc=pass header.from=<dwrobel@ertelnet.rybnik.pl>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1627032120;
-	s=ertelnet; d=ertelnet.rybnik.pl; i=dwrobel@ertelnet.rybnik.pl;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=Qsuvn69Afl5Ifjcec05LqozQajdovywbKU3JZY/Qnm4=;
-	b=FffMezRklkyLR7HZgtKzseUgH3JJgL+1SvJTpmJL58or29Vr77UYtemisnEcgj0J
-	2befWwPiSFSVZJtfPm+zh85mjBgnUe9pjMMzGgiorcjJ6pbRaTmfSJtCTpxIZoSjkyS
-	lWkwvqAfKPH8+5nv8Txc3yS6v9KgIyLNERhVzmfo=
-Received: from dell.wrobel.ignorelist.com (178.217.216.129 [178.217.216.129]) by mx.zohomail.com
-	with SMTPS id 1627032117222892.8796839761451; Fri, 23 Jul 2021 02:21:57 -0700 (PDT)
-From: "Damian Wrobel" <dwrobel@ertelnet.rybnik.pl>
+ dkim=pass header.i=@gherzan.com header.s=fm2 header.b=Y8qsXvxJ;
+ spf=pass (domain: gherzan.com, ip: 64.147.123.21, mailfrom: andrei@gherzan.com)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 8EC9132008C3;
+	Fri, 23 Jul 2021 06:22:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Fri, 23 Jul 2021 06:22:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=YkQCyXyTbdvldT6NYI/aMfSfQd
+	5dDVN1wnZ1wYD1adM=; b=Y8qsXvxJGu9KAQFDdH3Es1Ag3D2MuhVl5Dc6cuwEmM
+	oMr9CNxHFCdaSIrPaPDgF3kaPm+aVT+alGUXcmR2skvmWzT5a7/WYQN4ZLo7zQ71
+	hKhc7ec7+ekbmRqRkUnMWmwBXfApp6lcrlIr0vcR9SX6m/8+ozQAXHv17YQ1N8LW
+	PZT13ILwbCKGObwMC2FYdyxgFxS1wuaCx23lFTwH93g94xOZ5oimTtE398Ru7Nrp
+	6Y5SrsyTFhq5BSe44D2clDM8mSKDiv2Wh8LLy/rXkCMX5URQ2JIyzAXLJ96/M8C+
+	HChg0UH4winacQkG6msSm0SES7+8VqZyS0AoaA0aUSKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YkQCyXyTbdvldT6NY
+	I/aMfSfQd5dDVN1wnZ1wYD1adM=; b=cEYIlGnAbZCHvc4M5+vjNP6Qqb3e+508e
+	v7Ol70/MqQVBTUajNux0yyV5HXTkpq/OpCpS1RlGZ/CIle6XVi9sa9XNl/d1cJcW
+	Dych+Y6w0XnExpWaVfX1+t3FIOYWRzFG8tNouvZZFr3XpzRskWHObewIEig0L5Vi
+	PgEu+Wc4GoLpMnULuB3E8pcsyapMQPRzMCnjQY9IdtSS22Hx5jBKbTXNZgzEnQso
+	gvt5dzgbGCRtqTGwgSGqjNqYqv06pPpZ8AMTMHuyMME2iRCO0Ii6aJ9JRf0hc+k9
+	IF5GLA/fCfFcqolKRyQ206aKmG673FiTIFFJE6zGG2tFfSKzVczsQ==
+X-ME-Sender: <xms:gZj6YMcOrokRCUqkiipuAwKniqsGlI5xWLC3CwFQzfHr3SwLjyLKGg>
+    <xme:gZj6YOMwzXlY8qu72cBX9JhYqXTEqc97nMoR_3cAseb0JNue0jzWu_dLeHMXxFJuG
+    mVHta_o90bBmSieM8o>
+X-ME-Received: <xmr:gZj6YNga7hjHGE0R26lZyVHqPijPflHEY9RSgrApLbxLnQU0avzGGzZLe-jFL3C8HQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeekgddvjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhhvghr
+    iigrnhdrtghomheqnecuggftrfgrthhtvghrnhepvdetuedtuedthfevgffgieefheevte
+    fhueffkeegieeigfekhfehheejieejjedunecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
+X-ME-Proxy: <xmx:gZj6YB_qgt2h96jCeYKniyBQJKUtDkSP16fINFLDpVkAwuqQzcSmEA>
+    <xmx:gZj6YItN7eFRialAokJSlLuwG4mEqOws5D8qc_suOigk5PsUsXqTmA>
+    <xmx:gZj6YIGCv-xB4Jl2mt5nnszbBCD2mpIQQl7TzVuPhpcm5PtU5tA5nw>
+    <xmx:gpj6YFV6GxDmQSXloZ3Zczk5FnD_sMLV3EczVX7MWOvWXD_Jt33jaw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 23 Jul 2021 06:22:55 -0400 (EDT)
+From: "Andrei Gherzan" <andrei@gherzan.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] rootfs: remove ldconfig auxiliary cache where appropriate
-Date: Fri, 23 Jul 2021 11:21:41 +0200
-Message-Id: <20210723092141.366318-1-dwrobel@ertelnet.rybnik.pl>
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [dunfell][PATCH 0/1] Backport an ovmf GCC11 fix
+Date: Fri, 23 Jul 2021 11:22:22 +0100
+Message-Id: <20210723102223.3349354-1-andrei@gherzan.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <YPnzFOuJhmDW/kb4@piout.net>
-References: <YPnzFOuJhmDW/kb4@piout.net>
 MIME-Version: 1.0
-X-ZohoMailClient: External
 Content-Transfer-Encoding: 8bit
 
-Removes the /var/cache/ldconfig auxiliary cache directory from
-the rootfs when:
- - read-only-rootfs is in DISTRO_FEATURES,
- - ldconfig is not in DISTRO_FEATURES.
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-In both cases the /var/cache/ldconfig/aux-cache is useless.
+There can be situations where downstreamers work with updated GCC
+versions and this fix would help. Even if that is not the case, the fix
+is an improvement nevertheless.
 
-Signed-off-by: Damian Wrobel <dwrobel@ertelnet.rybnik.pl>
----
- meta/lib/oe/rootfs.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Khem Raj (1):
+  ovmf: Fix VLA warnings with GCC 11
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index ad9fd77c8b..8e63ebac9b 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -302,6 +302,16 @@ class Rootfs(object, metaclass=ABCMeta):
-             self._exec_shell_cmd(['ldconfig', '-r', self.image_rootfs, '-c',
-                                   'new', '-v', '-X'])
- 
-+        image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
-+                                        True, False, self.d)
-+        ldconfig_in_features = bb.utils.contains("IMAGE_FEATURES", "ldconfig",
-+                                                 True, False, self.d)
-+        if image_rorfs or not ldconfig_in_features:
-+            ldconfig_cache_dir = os.path.join(self.image_rootfs, "var/cache/ldconfig")
-+            if os.path.exists(ldconfig_cache_dir):
-+                bb.note("Removing ldconfig auxiliary cache...")
-+                shutil.rmtree(ldconfig_cache_dir)
-+
-     def _check_for_kernel_modules(self, modules_dir):
-         for root, dirs, files in os.walk(modules_dir, topdown=True):
-             for name in files:
+ .../ovmf/0001-Fix-VLA-parameter-warning.patch | 51 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  3 +-
+ 2 files changed, 53 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Fix-VLA-parameter-warning.patch
+
 -- 
 2.31.1
 
