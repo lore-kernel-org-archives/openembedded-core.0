@@ -1,81 +1,103 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web08.1171.1626993919349347380
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web08.1972.1626998436579128482
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Jul 2021 15:45:19 -0700
+ Thu, 22 Jul 2021 17:00:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AjS/Oc0a;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id j6-20020a05600c1906b029023e8d74d693so524909wmq.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 15:45:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TPvPur5F;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id h10so580915qth.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Jul 2021 17:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=r9U8W3SwCHRgh0691Zz7Yjdv11waDUf2SgZs96zif84=;
-        b=AjS/Oc0aKCl1aycMmTTUitF6kq/s+el+PcNtaHCuKauOwUeUEZy2JpBt68cPjyGX4y
-         GaigIB3EchVJ502gWwT/RqbAEAvkRH90CrGgwVf44TLVTxgpSXaYo6gAIMC1ht0aCoYQ
-         S/mMjZ98yxQLQA41pl22xGu5vw7j0dnX1d79oFAtPVoJFS+ttG0tB4uwoheUPPeAODVg
-         ttNagPYpD/bJvc6FsVSwhmSIB8TopYH5pfOvhZJUY3LqUX/dpLe7XmhVqzvhbknlL5iU
-         XhSI7EI9RQcl8iAd8VhzGgW7cYWCi5duHMeTNdznei/XIbjOva6q6Trx6J/T7AlmI8KY
-         Tf6Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e1ZITzb2oajUl5h21sfB1hfo/oZ0Mqvsa3ZZIC5RvMw=;
+        b=TPvPur5FDIyiohRMWlLJ5ZWNxuhCmDWTbinXPp3i59l8vovf/FYFH/mCA3qSYwVvrh
+         qYHy+Go7ICxVs80Mkcqe1Oe6jomAEQ3nNzX82y55MLYIqCBiy0G4srqdoc92LBZ6ZTRw
+         erX9VVIrp2DV0G8fT5w8o0MkRuAh5sq1WmZRB+in7zvgeUmbnw3jEZ2fY7QJ4dIq43s7
+         X2isWX7sLkdJSDWiTAyoQFVDOsFvVyvA7ZCnFiUArlrVdXZY7qsJlUQ/tVHxQvrVF34x
+         Yh+MiYz7nHmFJoM35qgRZoew76/seMQWDJ036KfDGpR4oppuC6d/s+hJ9kdOw2v/gAPI
+         elMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=r9U8W3SwCHRgh0691Zz7Yjdv11waDUf2SgZs96zif84=;
-        b=neiNWX09vSeqeouykZVhKV4dLh3gc0B/xngvkia5vXq/rqZEcU+BoYEYUlRbZV+COM
-         JLCDT32YKwVuhxVFe5TXtw+kqsOgUWJEQwSUqZ+s90hPhQsx9y4yhLyPQrOjsG+lBnYi
-         3tBJvcz+st48C3u8uoDNwfAc/CDZvwxxDq4KdJOw9OsnV5SmQJyVTVKlmCEfIhqEk08q
-         HIc6HQytgDg6PSvhSEYFOJ1/XpDEc8hFs6OZy7uJY1Yz4Lvb3q7dBF/N/FY+V8+LjAZR
-         P/9pNmZcbMOhypaN13G+YQZycw1zZu3q+UGw/xdCx/dccxfOa1UOcgACh3TQQXKFR5aH
-         3bpg==
-X-Gm-Message-State: AOAM530ZW+ah9/GRL383RbODnbbr1urv3f9RXqC3vebUDT0+ukIluZrW
-	C+hdLqp58fRI/X+ldvDKGGDibiUGMyaQCg==
-X-Google-Smtp-Source: ABdhPJz7jpbMxINo155Yq/at0t3NtJ5XehCyxEa0YauVPlMn6OOHhRCQtzIuTAlcmbmyLbqDmQt27A==
-X-Received: by 2002:a05:600c:35cb:: with SMTP id r11mr11204208wmq.179.1626993918009;
-        Thu, 22 Jul 2021 15:45:18 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id n5sm24337739wrp.80.2021.07.22.15.45.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 15:45:17 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 8/8] vulkan-samples: update to latest revision
-Date: Fri, 23 Jul 2021 00:45:08 +0200
-Message-Id: <20210722224508.51967-8-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210722224508.51967-1-alex.kanavin@gmail.com>
-References: <20210722224508.51967-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e1ZITzb2oajUl5h21sfB1hfo/oZ0Mqvsa3ZZIC5RvMw=;
+        b=a50VDRLHWBE6irh+3aPQLPiXOk+SJhGochsWiA81EFfBRRp9fLM1VhRoz/fIdOLT5m
+         me8lqNvioO6qbMYdrAfWZpYkOk+LmFvQCZKl5tfrEv2YzsV13WBURVOiW7Y7ZZ7rc8ej
+         QuNjXitH9l9SkiHxsf11PnhKEWzP3+7KU2KExIG9XWvLeftODSxe8jGwELAFPjtXcTjy
+         VNDVh4tiVHNZ9wfbgwgeKG8TjoYKRSbDRoy4/TGV7hQwZgSpbIJYsFcfBQ5DQMijITIW
+         RmBDD2Fy/gALNbwwWl6HlRJNLrv81CcWI7QD4mqf1eJKwy77mZuWnNqdCgV2TTMWHEoT
+         8WSg==
+X-Gm-Message-State: AOAM532aK7yf2djEGAtTA5lFplFwclNLGLqkXbbA7trkQTrO1Mr9Y/o4
+	ixlxC5C0ANl8/Koq774on1HZ5eoPHixXx3Rb0PU=
+X-Google-Smtp-Source: ABdhPJzps3ehzE4HDfpVmLzlab6ed2CmnD+BFbHmWCt1SxhSh39LcLCHCE6JlzBYtukmSnou+SOvx0khusALbcTpsB0=
+X-Received: by 2002:a05:622a:10d:: with SMTP id u13mr1964988qtw.369.1626998435705;
+ Thu, 22 Jul 2021 17:00:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210624165421.32088-1-raj.khem@gmail.com> <CAMKF1soqvCNDPaZtAStEyT6W1S_KdQyyfuu_L0inj3re9AQosQ@mail.gmail.com>
+ <CAMKF1sqMvVhVK4j6k5Y7dUp7=jnh6xrwQNPtSDrf6L07FFpLWA@mail.gmail.com> <b5db19ce0db64893e7aa0e2d678584244347a4c9.camel@linuxfoundation.org>
+In-Reply-To: <b5db19ce0db64893e7aa0e2d678584244347a4c9.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 22 Jul 2021 17:00:25 -0700
+Message-ID: <CAMKF1sqEYW8vEOOCib6hOxbwZbcgo=+nQY_8qAHaMWfYRy7Cqw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] esdk: locked sig mismatch warnings when build from esdk env
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000cf775505c7bf1703"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+--000000000000cf775505c7bf1703
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 972173ef50..503b058101 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -11,7 +11,7 @@ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git \
-            "
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "47c5237be21209afc945e43d03ae409fa80a0155"
-+SRCREV = "43ee480644a20dbc8d4983b22578068f8bed7571"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
- S = "${WORKDIR}/git"
-@@ -32,3 +32,6 @@ EXTRA_OECMAKE += "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${P
- # from some builds depending on the point the PCH was compiled. Disable it to be
- # deterministic
- EXTRA_OECMAKE += "-DCMAKE_DISABLE_PRECOMPILE_HEADERS=ON"
-+
-+# This needs to be specified explicitly to avoid xcb/xlib dependencies
-+EXTRA_OECMAKE += "-DVKB_WSI_SELECTION=D2D"
--- 
-2.31.1
+On Thu, Jul 22, 2021 at 1:12 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
+> On Thu, 2021-07-22 at 12:36 -0700, Khem Raj wrote:
+> > ping^2, this helps with installing ESDK which has components using
+> > multiple git repos in SRC_URI
+> > if there is any issue with this patch, please reply here.
+>
+> I think it may break when you add repos like meta-selftest which exist
+> alongside meta in OE-Core. I haven't had time to prove/disprove that
+> thought though...
+>
+
+Ok so how can we validate that I can help test that out
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--000000000000cf775505c7bf1703
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Jul 22, 2021 at 1:12 PM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, 2021-=
+07-22 at 12:36 -0700, Khem Raj wrote:<br>
+&gt; ping^2, this helps with installing ESDK which has components using<br>
+&gt; multiple git repos in SRC_URI<br>
+&gt; if there is any issue with this patch, please reply here.<br>
+<br>
+I think it may break when you add repos like meta-selftest which exist=C2=
+=A0<br>
+alongside meta in OE-Core. I haven&#39;t had time to prove/disprove that<br=
+>
+thought though...<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ok so how can we=
+ validate that I can help test that out=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
+
+--000000000000cf775505c7bf1703--
