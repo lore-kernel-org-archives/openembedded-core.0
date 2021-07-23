@@ -1,73 +1,94 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.820.1627064167076411040
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.901.1627064501776451506
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jul 2021 11:16:07 -0700
+ Fri, 23 Jul 2021 11:21:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ulVQUQoE;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id g13so3412930lfj.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jul 2021 11:16:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fedyU/Ln;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id z2so3553234lft.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jul 2021 11:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8Wkr3fNKLOeAXN8EmBgvJ78yKug8r8if0OzV6/LCOLA=;
-        b=ulVQUQoEYkl+/o07A+bbgDlz16GD/KkjRmIprWW/vSQ/tPWtmYibcpQdCE/gjU7mFH
-         CuGpe8qssSbYMZGLNFlNLDKkNps24mSVE6tdfwZW3TPlrlsYnUqr3kscs7o2BhybOy3I
-         TUAYf5yu4TmkubNqDVAcX4TrsEP968pMAhd0IVa6AgPg+HeEVNjpqeRuReMXVbKW2f8v
-         7hc+wZGkdmX1MbUdqLc6APBiw2uKZ+Gii+gwbyEruzoCZC1j7zaaW4eX5qeRt9992me1
-         NWC8/nXVPIkkskI6bCMJgiQUCiPjpJj2l3Z9G4qqmdgK0k8U5tNwV76mWHxS0PLvMnj4
-         VdZg==
+        bh=6kd1SLDBCA0outcTatLoC7UPkg+WBO1RlJzt2zIF2MM=;
+        b=fedyU/LnNgHBnFgMmq+05eeA17B0f7nIpm/3GMG4JPdaSPk9gzTbV8+iGSdUq/DsUb
+         cTR+PiVnBelouI+pQTH/xLymPXZkvvj4+xKeHvWnuGKBz+HYtwkQquSg8nJveRFTpe/M
+         5T2/1zAyKNE5M/x3ROMTSdBgFKb965wrDa15rbfXjmKhhXSXyq4cjFGFLB8vvOhqfxnD
+         mbe2GdI/vIC9DeT90sANNdCtI1tlics9AzQ3pUdrX1tQ4Ss6lrG2WmC4iVhVwgBWPDx8
+         kN7PddlPe2ANqt5XG/JzVEshtC/1ev35ngzeD+7G7r1OdpzxaJdTk+ZHSOOM38GYcnKb
+         l+gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8Wkr3fNKLOeAXN8EmBgvJ78yKug8r8if0OzV6/LCOLA=;
-        b=qMv+ulUzJyY4btd6jZ6Hg6xRaFH5JqYUV52hjIOtqhs4EZFOy4m6LatOzlDoj66nEx
-         TPn1oqMBhA2p8y8oVj/trj50FNcPoPQsdQIKts/vcwvVAMXuUs6wpVBwKjq3LGrgZRg9
-         igAn5Jy+cH1qHd8vt7B9d/RoI/9Wof/lKShJGso7xod8Dfz+b/ey+GPVVI9WtQS5aqGK
-         tBIhb7tBCb31gE4tPCJY9ESUX//1QxLtHPmHWKjjIllHQ8kitD/7nRdOjffaK8EYurFU
-         AkRWIl/hOAyDyeL8gvjKBVb87zxv8JCDjFx/URaMpAEfTRTojxEwAjAKwY6dfHHz7VRx
-         iw5g==
-X-Gm-Message-State: AOAM533mlUvZu50ZmRjaguQXYGmp/X65TAHZ7rMKQhlWYGWeF0MTe/0J
-	x4xL71eQbLRrBCUplX7PLEl35ilVxkKIeU822vI=
-X-Google-Smtp-Source: ABdhPJzlMJ9ivQN1ZSFnANtg3nlKcc0e87rFrMKtVjzMkmNlXLe3Jdoz3iEN6RgxqFfX1+3QtB1esJmH1+qUenMKlPI=
-X-Received: by 2002:a05:6512:2205:: with SMTP id h5mr3917397lfu.257.1627064164991;
- Fri, 23 Jul 2021 11:16:04 -0700 (PDT)
+        bh=6kd1SLDBCA0outcTatLoC7UPkg+WBO1RlJzt2zIF2MM=;
+        b=Qwz/sF26xYFQ5KCAP9X5xUPGiUjlb1Z+1URrBd/YvY4zUmC3jndDKQgNxPJaGyuzn4
+         d0DenAbHQ8/9bl8wtVWWsQV3v+73g9MyteX681zFQEscnkh8YMT6I1fdbKuRJ5vOlAXW
+         hYSI/CDbkIyaI67B41o08cr1/sghdSgj8NyyO9RI8NmGKTnkGSuZ1wTrO5Vav/ax/YQY
+         S/C2XAToeEhY+OxsqGpy1zOhl2fQg9R9AtW/9cAOONkcltsiL2bAyvQrLuyJNaN+dVoj
+         lTjRgjp8MH4VGMELapQD05FhQATG7gAfaSmdqknXTydNlaZddCNv3zpLMqPyF3WXnmbG
+         C7/Q==
+X-Gm-Message-State: AOAM533+1rB8R7+JNKLmanhxxXlKHB1CrkYUk1DTkjwEkHK6XQp8wACE
+	BL+mqrChZ0o4KYeeHEFqd0I6Jy6vYz9dfNTHrWI=
+X-Google-Smtp-Source: ABdhPJxlwIigSGXt1L15LLawA71958NZ+vouWGBtr3ftGTBTAy83suVuRtRTYjPyzwz7mifo3IHpgUKLMj7bl/IQm9k=
+X-Received: by 2002:a05:6512:2205:: with SMTP id h5mr3930434lfu.257.1627064499827;
+ Fri, 23 Jul 2021 11:21:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210722094822.1102062-1-dwrobel@ertelnet.rybnik.pl>
- <CAJ86T=WmKA=aSWBF0iNv8=MiWQNu6Rj0n+3ONDKB481OZC2nng@mail.gmail.com> <17ad2a6bf52.1190799f1319848.3273288296398942369@ertelnet.rybnik.pl>
-In-Reply-To: <17ad2a6bf52.1190799f1319848.3273288296398942369@ertelnet.rybnik.pl>
+References: <YPnzFOuJhmDW/kb4@piout.net> <20210723092141.366318-1-dwrobel@ertelnet.rybnik.pl>
+In-Reply-To: <20210723092141.366318-1-dwrobel@ertelnet.rybnik.pl>
 From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Fri, 23 Jul 2021 11:15:54 -0700
-Message-ID: <CAJ86T=U7=keJadAzQ4C6D5xzOnJkvRnAwbo9qAs_FYW-_PC9ew@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rootfs: remove ldconfig auxiliary cache where appropriate
+Date: Fri, 23 Jul 2021 11:21:28 -0700
+Message-ID: <CAJ86T=WoGumcNmbX_7xN1rma5AFcUwVhn6W_H+WKBRYXMXb-wg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] rootfs: remove ldconfig auxiliary cache where appropriate
 To: Damian Wrobel <dwrobel@ertelnet.rybnik.pl>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 23, 2021 at 2:16 AM Damian Wrobel
+On Fri, Jul 23, 2021 at 2:22 AM Damian Wrobel
 <dwrobel@ertelnet.rybnik.pl> wrote:
 >
->  ---- On Thu, 22 Jul 2021 21:00:15 +0200 Andre McCurdy <armccurdy@gmail.com> wrote ----
->  > On Thu, Jul 22, 2021 at 2:48 AM Damian Wrobel
->  > <dwrobel@ertelnet.rybnik.pl> wrote:
->  > >
->  > > Removes the /var/cache/ldconfig auxiliary cache directory from
->  > > the rootfs when:
->  > >  - read-only-rootfs is in DISTRO_FEATURES,
->  > >  - ldconfig is not in DISTRO_FEATURES.
->  > >
->  > > In both cases the /var/cache/ldconfig/aux-cache is useless.
->  >
->  > Should there be a test for package management being supported in the
->  > image too? A read-only rootfs is one case where it's not possible to
->  > install ldconfig support at run time but a writeable rootfs without
->  > package management support would seem to be another?
->
-> It seems to be perfectly fine to use the ldconfig without having any package management system.
+> Removes the /var/cache/ldconfig auxiliary cache directory from
+> the rootfs when:
+>  - read-only-rootfs is in DISTRO_FEATURES,
+>  - ldconfig is not in DISTRO_FEATURES.
 
-Of course. But if ldconfig support is disabled at build time (ie the
-ldconfig distro feature is disabled) and there is no package
-management support (so ldconfig can not be installed at run time) then
-is there any need for /var/cache/ldconfig/aux-cache ?
+Comments say DISTRO_FEATURES but code is checking IMAGE_FEATURES in both cases.
+
+ldconfig is a distro feature and read-only-rootfs is an image feature,
+so both the comments and code seem to be wrong...
+
+> In both cases the /var/cache/ldconfig/aux-cache is useless.
+>
+> Signed-off-by: Damian Wrobel <dwrobel@ertelnet.rybnik.pl>
+> ---
+>  meta/lib/oe/rootfs.py | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> index ad9fd77c8b..8e63ebac9b 100644
+> --- a/meta/lib/oe/rootfs.py
+> +++ b/meta/lib/oe/rootfs.py
+> @@ -302,6 +302,16 @@ class Rootfs(object, metaclass=ABCMeta):
+>              self._exec_shell_cmd(['ldconfig', '-r', self.image_rootfs, '-c',
+>                                    'new', '-v', '-X'])
+>
+> +        image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
+> +                                        True, False, self.d)
+> +        ldconfig_in_features = bb.utils.contains("IMAGE_FEATURES", "ldconfig",
+> +                                                 True, False, self.d)
+> +        if image_rorfs or not ldconfig_in_features:
+> +            ldconfig_cache_dir = os.path.join(self.image_rootfs, "var/cache/ldconfig")
+> +            if os.path.exists(ldconfig_cache_dir):
+> +                bb.note("Removing ldconfig auxiliary cache...")
+> +                shutil.rmtree(ldconfig_cache_dir)
+> +
+>      def _check_for_kernel_modules(self, modules_dir):
+>          for root, dirs, files in os.walk(modules_dir, topdown=True):
+>              for name in files:
+> --
+> 2.31.1
+>
+>
+> 
+>
