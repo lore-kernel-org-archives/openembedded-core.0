@@ -1,139 +1,74 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.8791.1627049522179549132
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web09.9221.1627050639547597717
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jul 2021 07:12:02 -0700
+ Fri, 23 Jul 2021 07:30:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=m36RapmZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id k15so1883950edq.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jul 2021 07:12:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=git4P4Ud;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id u9-20020a17090a1f09b029017554809f35so9104256pja.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Jul 2021 07:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h4hXMZGtUnqX3UzAZyn0V6aRz03L1UWHn5v3D0zxBiw=;
-        b=m36RapmZQlg73XmokN0MulbJqpdWfEn8hnk5pSeHBYzi5pGSLNXwbLfAW0K2y8hU1n
-         M7VVijxAE/756DxcS51YEctXqTDzZL3BxWIR/bgw24f7yIguBzvZaBBVlILzT65O1lYf
-         4WRwT2TN558fi/gOFDV6hVKjaqg9CYdDPBKfzf4hFBtjd8Jbbe6RNMo6K8IiLgDNgmDX
-         mASJvk4BfKQ5EqTHSMR6TjHekwIMiTEc76v2qAgUDAvsFlIlUSaicsOiwLEXDra13VHF
-         7sU8iuaUDn2cdLsIuX80KZVMVNe8rJ4Kaa6O6S9mCmyx1jF8kT7+JNPrMiBF7QECFg17
-         tkmg==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1/+a7y4InjlqiCi0OjBmm+kPG1Sh3aV1CThJQz+u4+E=;
+        b=git4P4Ud9m10gY4uaHvhtNjPoK+o8F9uGWYtEKSG49Y3rzl85Fz0r0EiIXPxS/I1H/
+         uzt4rG1wCLPq4In8nJHKAThFVHPOCNQZiW2QKw0mzv+sd2dO7O/uNKvc1z814dfn/1mN
+         DtC9IoK2CmRpVv+xMXE82GVBxEu6CiDy8bxrI6edqEblWDahBWeeT8uJJdGAIS/Wqe++
+         R7POTR6uH54cADI+GnKgACjwdVaSRR71y0jQZza5e74jn4e7aRWAep/hnggoRShrMSMT
+         PraIPkz6wUzmUPjQV5a8MP9EA1tH9BXcPBN68QvR6vdqd9ozGTStPVaRxbMGp6mkI48T
+         k1PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h4hXMZGtUnqX3UzAZyn0V6aRz03L1UWHn5v3D0zxBiw=;
-        b=QH4o16Hgfa7/5orLlDtUxkl83IpyCHWVygI6WQa+r8R4ERvx/bzMDy+vyTybil6xCL
-         0sqD+gBsxv9I5LN2mOTJIuhi0F3RtvDgcdywLC2dYqDMioTJzSx0EjqXfsCI7tETNRAn
-         cTHxz+nz4lhKjnOSrWcKB4L7j41N88JvL12BPJHuaXyxMwLlY2euM+gSln/RLT5SJzMh
-         hnTB7d54T7LRjvGpCgf2OBXbf8QpHih1p/r5GMCfwidExUcqq0fV4kb7riEvTmBJ2PbK
-         dZ7nWbgQDlfVR6w68fdXiKqZFbWd6J/LXR6apNZIzBln3ZQWmlZcAHks5MTq6LfUsHEW
-         TJgA==
-X-Gm-Message-State: AOAM5339sirVi7+LFs2oYX2BLoTEgpFOyI1Lest3Dt8ce3dFrYlyyxid
-	O/t0oKprJ6H5vfr9Jq1z+rC1saFe3zLJqaY1f5c=
-X-Google-Smtp-Source: ABdhPJxgtC+DlUKQrQ6WteNZGDDcKVrRldCY5CGd3v1Ud7zz3OU9R3nPLLVAND9YEaT+ulFpvWI4WB+xDnVMe7jFUtI=
-X-Received: by 2002:a05:6402:1601:: with SMTP id f1mr5760746edv.388.1627049520405;
- Fri, 23 Jul 2021 07:12:00 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1/+a7y4InjlqiCi0OjBmm+kPG1Sh3aV1CThJQz+u4+E=;
+        b=BhYoSqAUP9hITCxCv974B/lwIRmHTBaJl5NGTHWYvhI8ld6V6PoHhc/i9k0o9xjcZl
+         pnS2tV1MpPiha8GsBMdjfmJAh3gKF7C3eihmyvqE72H0vDYkzBcAJ3cu44JfmmsckXDj
+         nxaU16jaYzLB3kUbz+fB+CtMPt9zAC7a3mg5nT29JWbMwczHdEhgLaEvpbRtySpLP+c1
+         BhWiqn9xR527B+nu4587UjJcl45pQxy3S+ze7IDZGuwiPBCnTb7jXqzbiF4Z9AbOXQqg
+         A9LI8sa4XfntN8RS3MkSg/lkPkb21GtRK3JGRfPPKfUhKRZ01qRd8+BQn8QTzxIKJ+xj
+         WEpA==
+X-Gm-Message-State: AOAM532eNjFezkvs6OJ3M7f1/dSeqdQCLtJ5FoOeufHUo/f932ymL3fS
+	ggty2Fve3p2FD4XeX+7WjBTomMoy4ZTB6uX2
+X-Google-Smtp-Source: ABdhPJzKYfjd08l13JMHyCWOcVu8J2d+kKQHp5ME1jmkqzBUbOM6SwBbmReRV7BsCKQdrnPjMOSe4Q==
+X-Received: by 2002:a17:90a:6708:: with SMTP id n8mr4940433pjj.32.1627050638353;
+        Fri, 23 Jul 2021 07:30:38 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id 201sm13225144pgd.37.2021.07.23.07.30.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jul 2021 07:30:37 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/3] Pull request (cover letter only)
+Date: Fri, 23 Jul 2021 04:30:23 -1000
+Message-Id: <cover.1627050549.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210723135348.87531-1-michael.opdenacker@bootlin.com>
-In-Reply-To: <20210723135348.87531-1-michael.opdenacker@bootlin.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Fri, 23 Jul 2021 16:11:49 +0200
-Message-ID: <CA+chaQe0K89xQd_Yts5UVbPwOc0AYJtBf0f3xASvmng79zdH_g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oe-setup-builddir: update YP docs and OE URLs
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b21dd605c7cafcd3"
+Content-Transfer-Encoding: 8bit
 
---000000000000b21dd605c7cafcd3
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit 9b83aefa9c4a21d9dc1eea4a6b00af379466a288:
 
-The 2nd chunk doesn't look correct, the 's' has eaten the ':'.
+  busybox: add tmpdir option into mktemp applet (2021-07-14 12:27:38 -1000)
 
-On Fri, Jul 23, 2021 at 3:53 PM Michael Opdenacker <
-michael.opdenacker@bootlin.com> wrote:
+are available in the Git repository at:
 
-> This updates the link to the YP docs
-> and proposes to access the OE website through https
->
-> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-> ---
->  scripts/oe-setup-builddir | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-> index 30eaa8efbe..75f63f5680 100755
-> --- a/scripts/oe-setup-builddir
-> +++ b/scripts/oe-setup-builddir
-> @@ -113,10 +113,10 @@ if [ ! -z "$SHOWYPDOC" ]; then
->      cat <<EOM
->  The Yocto Project has extensive documentation about OE including a
-> reference
->  manual which can be found at:
-> -    http://yoctoproject.org/documentation
-> +    https://docs.yoctoproject.org
->
->  For more information about OpenEmbedded see their website:
-> -    http://www.openembedded.org/
-> +    https//www.openembedded.org/
->
->  EOM
->  #    unset SHOWYPDOC
-> --
-> 2.25.1
->
->
-> 
->
->
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
---000000000000b21dd605c7cafcd3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Bruce Ashfield (3):
+  linux-yocto/5.4: update to v5.4.131
+  linux-yocto/5.4: update to v5.4.132
+  kernel-devsrc: fix 32bit ARM devsrc builds
 
-<div dir=3D"ltr">The 2nd chunk doesn&#39;t look correct, the &#39;s&#39; ha=
-s eaten the &#39;:&#39;.</div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Fri, Jul 23, 2021 at 3:53 PM Michael Opdenacker =
-&lt;<a href=3D"mailto:michael.opdenacker@bootlin.com">michael.opdenacker@bo=
-otlin.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">This updates the link to the YP docs<br>
-and proposes to access the OE website through https<br>
-<br>
-Signed-off-by: Michael Opdenacker &lt;<a href=3D"mailto:michael.opdenacker=
-@bootlin.com" target=3D"_blank">michael.opdenacker@bootlin.com</a>&gt;<br>
----<br>
-=C2=A0scripts/oe-setup-builddir | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir<br>
-index 30eaa8efbe..75f63f5680 100755<br>
---- a/scripts/oe-setup-builddir<br>
-+++ b/scripts/oe-setup-builddir<br>
-@@ -113,10 +113,10 @@ if [ ! -z &quot;$SHOWYPDOC&quot; ]; then<br>
-=C2=A0 =C2=A0 =C2=A0cat &lt;&lt;EOM<br>
-=C2=A0The Yocto Project has extensive documentation about OE including a r=
-eference<br>
-=C2=A0manual which can be found at:<br>
--=C2=A0 =C2=A0 <a href=3D"http://yoctoproject.org/documentation" rel=3D"no=
-referrer" target=3D"_blank">http://yoctoproject.org/documentation</a><br>
-+=C2=A0 =C2=A0 <a href=3D"https://docs.yoctoproject.org" rel=3D"noreferrer=
-" target=3D"_blank">https://docs.yoctoproject.org</a><br>
-<br>
-=C2=A0For more information about OpenEmbedded see their website:<br>
--=C2=A0 =C2=A0 <a href=3D"http://www.openembedded.org/" rel=3D"noreferrer"=
- target=3D"_blank">http://www.openembedded.org/</a><br>
-+=C2=A0 =C2=A0 https//<a href=3D"http://www.openembedded.org/" rel=3D"nore=
-ferrer" target=3D"_blank">www.openembedded.org/</a><br>
-<br>
-=C2=A0EOM<br>
-=C2=A0#=C2=A0 =C2=A0 unset SHOWYPDOC<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 4 files changed, 19 insertions(+), 19 deletions(-)
 
---000000000000b21dd605c7cafcd3--
+-- 
+2.25.1
+
