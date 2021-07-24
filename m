@@ -1,66 +1,122 @@
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
- by mx.groups.io with SMTP id smtpd.web08.4389.1627076741556932975
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web09.5141.1627123745240827406
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Jul 2021 14:45:42 -0700
+ Sat, 24 Jul 2021 03:49:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=VExiD5Yu;
- spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: fib@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=829; q=dns/txt; s=iport;
-  t=1627076742; x=1628286342;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=CjWqJjxJtJeEXLzOk3QBIKVhG8V9pvSzQZYvLKPuTMQ=;
-  b=VExiD5Yuid7rWvNvb0HejLEOWSVCY38s7C8/eAerYeD6SO6f32h0bw90
-   R15+z8Siq/sak65Hw0qdhz7xycDMWjSI9JvG3UbW1WEtiZNyede8wJkos
-   BcYFnb49iWxuxi5kD+h5yLUcaDXWAuOLNpCQXZQkxTZmLha2z4lnfZPbQ
-   s=;
-X-IronPort-AV: E=Sophos;i="5.84,265,1620691200"; 
-   d="scan'208";a="725692445"
-Received: from rcdn-core-3.cisco.com ([173.37.93.154])
-  by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 23 Jul 2021 21:45:42 +0000
-Received: from sjc-ads-259.cisco.com (sjc-ads-259.cisco.com [171.71.190.191])
-	by rcdn-core-3.cisco.com (8.15.2/8.15.2) with ESMTPS id 16NLjfTw000340
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 23 Jul 2021 21:45:42 GMT
-Received: by sjc-ads-259.cisco.com (Postfix, from userid 488756)
-	id 8C7DECC128E; Fri, 23 Jul 2021 14:45:41 -0700 (PDT)
-From: "Ruslan Babayev (fib)" <fib@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster808@gmail.com>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Ruslan Babayev <fib@cisco.com>
-Subject: [OE-core][dunfell][PATCH v2 3/3] qemu: Enable seccomp if FEATURE is set
-Date: Fri, 23 Jul 2021 14:45:27 -0700
-Message-Id: <20210723214527.2225841-4-fib@cisco.com>
-X-Mailer: git-send-email 2.26.2.Cisco
-In-Reply-To: <20210723214527.2225841-1-fib@cisco.com>
-References: <20210723214527.2225841-1-fib@cisco.com>
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id 318D9240007;
+	Sat, 24 Jul 2021 10:49:03 +0000 (UTC)
+Date: Sat, 24 Jul 2021 12:49:02 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 5/8] mtools: update 4.0.32 -> 4.0.33
+Message-ID: <YPvwHs6o9qCOlty8@piout.net>
+References: <20210722224508.51967-1-alex.kanavin@gmail.com>
+ <20210722224508.51967-5-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 171.71.190.191, sjc-ads-259.cisco.com
-X-Outbound-Node: rcdn-core-3.cisco.com
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210722224508.51967-5-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Armin Kuster <akuster808@gmail.com>
+Hello,
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Ruslan Babayev <fib@cisco.com>
----
- meta/recipes-devtools/qemu/qemu_4.2.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 23/07/2021 00:45:05+0200, Alexander Kanavin wrote:
+> Drop no-x11.gplv3.patch (the libraries are now
+> dynamically enabled from configure.in).
+> 
 
-diff --git a/meta/recipes-devtools/qemu/qemu_4.2.0.bb b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-index 9c76144749..f9905e2812 100644
---- a/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-@@ -26,5 +26,6 @@ do_install_append_class-nativesdk() {
- PACKAGECONFIG ??= " \
-     fdt sdl kvm \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
- "
- PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
+This update causes failures with wic because mcopy fails with:
+mcopy: No directory slots
+
+Full log here:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/58/builds/3686/steps/11/logs/stdio
+
+12 builds failed so this should be easily reproducible.
+
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../mtools/disable-hardcoded-configs.patch     |  4 ++--
+>  .../mtools/mtools/no-x11.gplv3.patch           | 18 ------------------
+>  .../{mtools_4.0.32.bb => mtools_4.0.33.bb}     |  3 +--
+>  3 files changed, 3 insertions(+), 22 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
+>  rename meta/recipes-devtools/mtools/{mtools_4.0.32.bb => mtools_4.0.33.bb} (91%)
+> 
+> diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+> index 81d76d060e..90573dcb1a 100644
+> --- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+> +++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+> @@ -1,4 +1,4 @@
+> -From 630dbcabc408cf5d73edaa7cf64a48194976b290 Mon Sep 17 00:00:00 2001
+> +From 7efdb47246413f938e3b2d8378ce9c363d98b371 Mon Sep 17 00:00:00 2001
+>  From: Ed Bartosh <ed.bartosh@linux.intel.com>
+>  Date: Tue, 13 Jun 2017 14:55:52 +0300
+>  Subject: [PATCH] Disabled reading host configs.
+> @@ -12,7 +12,7 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>   1 file changed, 8 deletions(-)
+>  
+>  diff --git a/config.c b/config.c
+> -index bb13682..9186c77 100644
+> +index 173eae0..0654cc1 100644
+>  --- a/config.c
+>  +++ b/config.c
+>  @@ -836,14 +836,6 @@ void read_config(void)
+> diff --git a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch b/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
+> deleted file mode 100644
+> index 9cb3e39f5c..0000000000
+> --- a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
+> +++ /dev/null
+> @@ -1,18 +0,0 @@
+> -Disable building with X11 support.
+> -
+> -Upstream-Status: Inappropriate [disable feature]
+> -
+> -Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> -
+> -diff -urN mtools-4.0.15.orig//Makefile.in mtools-4.0.15//Makefile.in
+> ---- mtools-4.0.15.orig//Makefile.in	2010-10-17 08:41:09.000000000 -0700
+> -+++ mtools-4.0.15//Makefile.in	2010-11-23 13:59:49.258258374 -0800
+> -@@ -146,7 +146,7 @@
+> - CXXFLAGS  = $(CPPFLAGS) $(DEFS) $(MYCXXFLAGS) -I. @extraincludedir@ -I@srcdir@ $(USERCFLAGS)
+> - LINK      = $(CC) $(LDFLAGS) $(USERLDFLAGS) @extralibdir@
+> - ALLLIBS   = $(USERLDLIBS) $(MACHDEPLIBS) $(SHLIB) $(LIBS)
+> --X_LDFLAGS = $(X_EXTRA_LIBS) $(X_LIBS) -lXau -lX11 $(LIBS)
+> -+X_LDFLAGS = $(X_EXTRA_LIBS) $(X_LIBS) $(LIBS)
+> - X_CCFLAGS = $(X_CFLAGS) $(CFLAGS)
+> - 
+> - all:    mtools $(LINKS) mkmanifest @FLOPPYD@ mtools.1 mtools.5
+> diff --git a/meta/recipes-devtools/mtools/mtools_4.0.32.bb b/meta/recipes-devtools/mtools/mtools_4.0.33.bb
+> similarity index 91%
+> rename from meta/recipes-devtools/mtools/mtools_4.0.32.bb
+> rename to meta/recipes-devtools/mtools/mtools_4.0.33.bb
+> index 501875037a..fd9febb01d 100644
+> --- a/meta/recipes-devtools/mtools/mtools_4.0.32.bb
+> +++ b/meta/recipes-devtools/mtools/mtools_4.0.33.bb
+> @@ -24,11 +24,10 @@ RRECOMMENDS_${PN}_libc-glibc = "\
+>  	glibc-gconv-ibm866 \
+>  	glibc-gconv-ibm869 \
+>  	"
+> -SRC_URI[sha256sum] = "62498cd51ae7c79a27c879a45f0d2a8c44e1404cbb901372d09b02735ef5ad89"
+> +SRC_URI[sha256sum] = "1cb10f8e1e20302f86eaa9c5db262f4559d1dc94bd11fdda7692bc2d1beab954"
+>  
+>  SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+>             file://mtools-makeinfo.patch \
+> -           file://no-x11.gplv3.patch \
+>             file://clang_UNUSED.patch \
+>             "
+>  
+> -- 
+> 2.31.1
+> 
+
+> 
+> 
+> 
+
+
 -- 
-2.26.2.Cisco
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
