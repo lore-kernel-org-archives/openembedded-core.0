@@ -1,86 +1,72 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web09.18523.1627225463410840179
- for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Jul 2021 08:04:23 -0700
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web12.18825.1627227557106726136
+ for <Openembedded-core@lists.openembedded.org>;
+ Sun, 25 Jul 2021 08:39:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Hr3JJ7w5;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id gv20-20020a17090b11d4b0290173b9578f1cso10741422pjb.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Jul 2021 08:04:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MKuAHnEE;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: vivien.didelot@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id a19so5311719qtx.1
+        for <Openembedded-core@lists.openembedded.org>; Sun, 25 Jul 2021 08:39:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=NW2N+nAQ+AiH/v+pDDbuwgWcnud7w9XKOQdEorbuH2I=;
-        b=Hr3JJ7w5WwF6T/9qBmL2dv3dpDinmD9vM/2FGEgbLjpXSX3MiOlwaZPejc8h5cIr85
-         kBTGcGaoWg9LYvEt+o59r4R6gp1xLQB4DLP+PNZgla0O31sayAV2yAWvmoLJDvqaJ4ne
-         0PeG3odFd6axOF7aB9wX7fr7GN5yvlkJSkFF6V8R1u02IFsm5syrSLFy6SQ6SX4oh6S3
-         Hz/9EC4tH9ocqXLD8LOJHcQ1jCgmlceRWUJq8VHUmcfnG+i6YoPD3XQbrM0jAvbwfRLc
-         Z2Xlt5U3NELFBr3zQqnrWE5pJQn9wibh4+Bb8yxLvz9NOrAT0x1rFKiv5XAHdP98mny1
-         CgzA==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Nx22A3y4GiUJBDHkxT3ygUnmKpn4OX4VVjX3QdGc0EY=;
+        b=MKuAHnEEzASna2jrixJNR0/cjCz1jdM2FD/FVJCAPiVzJLDazC/5q30cmya3wlUtcE
+         K5YGPvcPm+WRCTAol0X9YTosWOJZEofGZ1AXD8f6+a4/ReGYMWEsA2mo/oQGDsKrWbCY
+         EemtRPDFbC9LcTZv1VJBkXd4TLPKthV7loWSuBVrgwpF8IP1Xhnr+Mo+zApsJU9GoXwI
+         mEwhigMqNVu+F9iHHQMvyhlujSFPZ+Mm1wUA3DeeDapK4Ag5LfHFVLMG8y4Zws7HRpVe
+         Xn2yezxSpu7MuxXeskdNpnRNV+WGypfh1CjFtWFhlvV7JMYsyIsUuOpqCDj6E2eO+jlh
+         WY/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=NW2N+nAQ+AiH/v+pDDbuwgWcnud7w9XKOQdEorbuH2I=;
-        b=rbiMxnI+xTk5Gn7ToqGMkjREbkDCHVs1JUdJwxHuuvtwgbCx91dNs5dWrbb8jIrGqr
-         2IByrwonxJngfSZMied6GQ0J7jPrMOsu52LBlAzRXn7wPChAu7BpKosJ//Y6xt9Mshxu
-         vzx2OsLTUPk2doQcCuVNbOdoKuPEavO/2K5+3V9tczW4v2+VpeqJpiGutNIRZXxhLh2/
-         aGm1m8BO49H3kHkLJQWlgb8p2h1GFJ34Ej1nkc6UFDAiyrIwD3gO7H/2mg4g8bHmgC1b
-         eKG/S47jPs0j+bOkWaeVllhkNCPODudMCd3kYPpq9iC0gyL7/9c7yne3wub/23PtTV2T
-         FVJA==
-X-Gm-Message-State: AOAM532pOS4xIAA5n/tvaRsRg4fYWb8FavQdfp3i2VmevjJxHx1qnxQQ
-	9FajKSkgT5EMYZ8lOnTwC/vX9sHDFLvAV42X
-X-Google-Smtp-Source: ABdhPJwPYHcVYnkcrH4VTLN4EhisebNAGFGiNpuB2TT5AI0/m4YQUlon81fu3hkr9iK8ENobI8zlbA==
-X-Received: by 2002:a63:a1c:: with SMTP id 28mr13768620pgk.445.1627225462285;
-        Sun, 25 Jul 2021 08:04:22 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 10sm38209415pjc.41.2021.07.25.08.04.21
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Nx22A3y4GiUJBDHkxT3ygUnmKpn4OX4VVjX3QdGc0EY=;
+        b=IQ9//ln9svUStKqpcJ6WHi0gZX7Dez2imzcqecXyMvF/+dWF5/W28F9W1QGeid0IDm
+         CXx1FAD+oDuKZKSn2qqvmDYCuwLeWmWv8XVyoV4dRBStgMleEz7MQxQwEWf/cvSdRCiW
+         NNYUljwTm0MEufPWBvTBCi12JmDq3j78Pxsb+hP7CAFcRRaLzKkkpGBIeoMDkrCSvg8w
+         n3mFfaQ3V0O9KuBlwGHJOKyqw3jfnbb+92nn24QYzwKS4aQkkFBMZg++v0BOP0ZDaRD1
+         HyTvRuXJfU+e3Rn6V0W0Gw3D4L4F+IjyeszxEr8zAvwxVcljSfp6aeN1Bi8xRBn875LP
+         dUUQ==
+X-Gm-Message-State: AOAM533DknJe+BknhYo5P0Bnoz/dGemdCFDt5ibX7kistAPSpCYwGXA2
+	nIzKA5BSpte8B2UlBO5nO8c1WDsgAXU=
+X-Google-Smtp-Source: ABdhPJw5oDNkStuBifgrAESrBvBPHn5ZpLL0CA2DBF+Dyh7De4pqdmj5RK5jKeKPq3C1yjGwTJN/fg==
+X-Received: by 2002:a05:622a:10d:: with SMTP id u13mr11969419qtw.314.1627227556046;
+        Sun, 25 Jul 2021 08:39:16 -0700 (PDT)
+Return-Path: <vivien.didelot@gmail.com>
+Received: from localhost (bras-base-mtrlpq2848w-grc-41-70-53-240-121.dsl.bell.ca. [70.53.240.121])
+        by smtp.gmail.com with ESMTPSA id h2sm18358853qkf.106.2021.07.25.08.39.15
+        for <Openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jul 2021 08:04:21 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 9391E960318; Sun, 25 Jul 2021 05:04:19 -1000 (HST)
-Subject: OE-core CVE metrics for hardknott on Sun 25 Jul 2021 05:00:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210725150419.9391E960318@nuc.router0800d9.com>
-Date: Sun, 25 Jul 2021 05:04:19 -1000 (HST)
+        Sun, 25 Jul 2021 08:39:15 -0700 (PDT)
+From: "Vivien Didelot" <vivien.didelot@gmail.com>
+X-Google-Original-From: Vivien Didelot <vdidelot@pbsc.com>
+To: Openembedded-core@lists.openembedded.org
+Subject: [PATCH] init-manager-systemd: define weak dev manager
+Date: Sun, 25 Jul 2021 11:39:08 -0400
+Message-Id: <20210725153908.1122555-1-vdidelot@pbsc.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: hardknott
+For a full systemd distro, also add a weak assignment for systemd as
+the dev manager.
 
-New this week: 0 CVEs
+Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
+---
+ meta/conf/distro/include/init-manager-systemd.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Removed this week: 5 CVEs
-CVE-2021-22897: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22897 *
-CVE-2021-22898: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22898 *
-CVE-2021-31525: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31525 *
-CVE-2021-33194: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33194 *
-CVE-2021-33477: rxvt-unicode https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33477 *
+diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/conf/distro/include/init-manager-systemd.inc
+index 1558b85250..4bd950a9aa 100644
+--- a/meta/conf/distro/include/init-manager-systemd.inc
++++ b/meta/conf/distro/include/init-manager-systemd.inc
+@@ -4,3 +4,4 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " sysvinit"
+ VIRTUAL-RUNTIME_init_manager ??= "systemd"
+ VIRTUAL-RUNTIME_initscripts ??= "systemd-compat-units"
+ VIRTUAL-RUNTIME_login_manager ??= "shadow-base"
++VIRTUAL-RUNTIME_dev_manager ??= "systemd"
+-- 
+2.32.0
 
-Full list:  Found 26 unpatched CVEs
-CVE-2013-0340: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0340 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-27748: xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
-CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-0129: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-0129 *
-CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20196: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20196 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-22901: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22901 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-33574: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33574 *
-CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-3527: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3527 *
-CVE-2021-35331: tcl:tcl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35331 *
-CVE-2021-3544: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3544 *
-CVE-2021-3545: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3545 *
-CVE-2021-3546: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3546 *
-CVE-2021-36217: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36217 *
