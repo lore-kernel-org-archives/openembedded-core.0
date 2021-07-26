@@ -1,152 +1,331 @@
-Received: from esa15.fujitsucc.c3s2.iphmx.com (esa15.fujitsucc.c3s2.iphmx.com [68.232.156.107])
- by mx.groups.io with SMTP id smtpd.web08.27383.1627288102323839681
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+ by mx.groups.io with SMTP id smtpd.web12.28160.1627296106254212409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Jul 2021 01:28:22 -0700
+ Mon, 26 Jul 2021 03:41:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=tX93M478;
- spf=pass (domain: fujitsu.com, ip: 68.232.156.107, mailfrom: ito-yuichi@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1627288103; x=1658824103;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=CK+rzFx0Hg2YRLfjEXldp4fQZltdIbq/wmZnfqF4BiU=;
-  b=tX93M478kXW3Npk4Nw9Hs7tCQxP1kzFE658V2n1WLApBy4+Q9k0u6XXY
-   w3tP2Y+FHWb8mKcHQLe37KM0M8eeuNH/bxkqBXUJBqa/JL+Lyl8MTiqQM
-   T9ahgBy8M7dCQzOjsx9yDiQdEDArM2Ftpcdm683Q4ry/bxNpxt66xUFij
-   uXEawQobd/UK0NOElPTmkozkj+KyIw/xlPEVHRNFgzEuYDuS43VUk/uf+
-   kdVIgK+oEczYkJlGK9SYPOCnWtpyogM6jcSwjND9p2mELilujr/aghHQ1
-   4HswhQL+lZ/XbNtqJiedn6XrM0yALww7mgHRudcEamxCCqB4c6BhBnCT4
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="35456800"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620658800"; 
-   d="scan'208";a="35456800"
-Received: from mail-os2jpn01lp2051.outbound.protection.outlook.com (HELO JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.51])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2021 17:28:20 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=efDsx1689UmcADx3Db+fVkBOVCvcRG1DYP/CX8Kbyv+Bc15755xMkBL8fv5FTwtjdUPN51lk9/ciDPLgGueWR7xbr1dzQxA5BPa1kPZ+Y8qZZpd+kmbDLlXlj0WBImGmhKjDFbxfcdwQPEyUVRqcjayObwt432MFb2YSEPXFGxcOsNemUZ+Zj+809xH4+LzSFR4GayzoVZYwQSdDcFkwfn3hw6f0zyzQjpi6+zSLVqkwYeAPn3lul1GjYgEal6qZpx2zzhHCgmz0SDvt23bm+tjm6uNsNtjtp+Rvc+AUUuJZ/YsJ4xeMtUjRhrQwXslQF3AxMiJDsz05Z6nHk2Ordw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CK+rzFx0Hg2YRLfjEXldp4fQZltdIbq/wmZnfqF4BiU=;
- b=Vl8ocB4fTkJYJ2HkaN6DqwK3PzFUKMXXaQ3UN/7UEwDqe8Y3Z91eq0NjJpKheYpnwNhrxCMnqfc+BjaHrib68DiYmxR3cM99/JkQ/W60E2cc8NM4WN+eaqwbT2g4hdwZ2w5yt86TTHW7IEcDCtSL9wcUqp7Gm1O2Ensi6hFDWtX1y+MUgvIGZcgzAKdG6F4I1hBLz3Q3aVwEzldT2e6E125C6L+sVVaqk3Ji+71HXJ8JuPDZBgCpR+5E5o/vspBXfXFhgiTPdrHTF3B3TbONuzr1MB6mSOQJ8K/diyvCpPmGXR0zktDT3ymOD04YDCYFlyPwKyN1XVNyi4S2W/GhAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=S7MleNZI;
+ spf=pass (domain: gmail.com, ip: 209.85.221.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f171.google.com with SMTP id f4so1905798vkb.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Jul 2021 03:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CK+rzFx0Hg2YRLfjEXldp4fQZltdIbq/wmZnfqF4BiU=;
- b=NWfcWywkwUBBufZWfrBlObRZdaygL9RlAXuWubdzpEj+XHC3whKinbAA+dc58/RCZB81zjFRFUVPNRTiWc8OHJu+m1l5kYwfgDpI6+goOmnzapjeBgx0wVirEmbIc/e8qcFudZM5QqW5CduklrRl3184McrWyNJ1HeYaVfyh6S8=
-Received: from TYCPR01MB5599.jpnprd01.prod.outlook.com (2603:1096:400:41::9)
- by TYAPR01MB5963.jpnprd01.prod.outlook.com (2603:1096:402:34::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Mon, 26 Jul
- 2021 08:28:16 +0000
-Received: from TYCPR01MB5599.jpnprd01.prod.outlook.com
- ([fe80::a0a3:8a30:7d79:db67]) by TYCPR01MB5599.jpnprd01.prod.outlook.com
- ([fe80::a0a3:8a30:7d79:db67%4]) with mapi id 15.20.4352.031; Mon, 26 Jul 2021
- 08:28:16 +0000
-From: "ito-yuichi@fujitsu.com" <ito-yuichi@fujitsu.com>
-To: 'akuster808' <akuster808@gmail.com>
-CC: 'Richard Purdie' <richard.purdie@linuxfoundation.org>,
-	"'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] cve-check: Add allowlist that is same function of whitelist.
-Thread-Topic: [OE-core] [PATCH] cve-check: Add allowlist that is same function
- of whitelist.
-Thread-Index: AQHXanKtSp8zYPvAjEKvHUlVZf/v6qs0zWoAgBa3EhCACZNzkA==
-Date: Mon, 26 Jul 2021 08:28:16 +0000
-Message-ID: 
- <TYCPR01MB559993B5B40CA0CE67051A6F8FE89@TYCPR01MB5599.jpnprd01.prod.outlook.com>
-References: <20210623085633.3186982-1-ito-yuichi@fujitsu.com>
- <b7b05b428677e6d8f39c700ff4ce212a9baa8918.camel@linuxfoundation.org>
- <7ddffb54-dbc6-e221-fa69-5dff83ef5983@gmail.com>
- <TYCPR01MB559974130EF14CC85D5D621B8FE29@TYCPR01MB5599.jpnprd01.prod.outlook.com>
-In-Reply-To: 
- <TYCPR01MB559974130EF14CC85D5D621B8FE29@TYCPR01MB5599.jpnprd01.prod.outlook.com>
-Accept-Language: ja-JP, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
- =?utf-8?B?NTBfRW5hYmxlZD10cnVlOyBNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJh?=
- =?utf-8?B?Yy1hYjRkLTNiMGY0ZmVjZTA1MF9TZXREYXRlPTIwMjEtMDctMjBUMDY6MDE6?=
- =?utf-8?B?MzRaOyBNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0?=
- =?utf-8?B?ZmVjZTA1MF9NZXRob2Q9U3RhbmRhcmQ7IE1TSVBfTGFiZWxfYTcyOTVjYzEt?=
- =?utf-8?B?ZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX05hbWU9RlVKSVRTVS1SRVNU?=
- =?utf-8?B?UklDVEVE4oCLOyBNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
- =?utf-8?B?LTNiMGY0ZmVjZTA1MF9TaXRlSWQ9YTE5ZjEyMWQtODFlMS00ODU4LWE5ZDgt?=
- =?utf-8?B?NzM2ZTI2N2ZkNGM3OyBNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1h?=
- =?utf-8?B?YjRkLTNiMGY0ZmVjZTA1MF9BY3Rpb25JZD03ZTZkNDBjMS1mMmFkLTRjNTQt?=
- =?utf-8?B?ODA1NS00YTE5NGZiODRhOWQ7IE1TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00?=
- =?utf-8?B?MmFjLWFiNGQtM2IwZjRmZWNlMDUwX0NvbnRlbnRCaXRzPTA=?=
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d5e8d738-986a-4518-589d-08d9500f5160
-x-ms-traffictypediagnostic: TYAPR01MB5963:
-x-microsoft-antispam-prvs: 
- <TYAPR01MB5963341785055C0B26E9C75E8FE89@TYAPR01MB5963.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- OUNd48A60Yj+tqtD89v4eTtTcfYnQq/YuWxvTzZ80zxg1+adm1XtKufCnUzadPXC8C3jurrdH7v0QaOnuhqpFkS5fT31/zwqbIo8JHnzbrf4QgJ+GQhebKUe+CALjigDEvi+xmT2OCjjceeSwS1tIKkcRIBlOZgvoHWuieY/U1IghgbP/5KuL9fAJdlMLYoNjz7WP0vp6xYpApB5uoGT/biGOqPx+Qr5ez7GUukRrL4qXYUZ+OXwF1lzm3r4LZmAB8YvvUP6EWrJwOgU271i9/2SISbQEC9alMRjTIRbfTSFJmdDw+qJgNa/+a5k/TR15JwDSCvrsVCsR8TqTT4NKoyjupkZtlB2AUKvkM1y+jy8VUeXy8FxArxECplqsJzV71Tpn4Ig6uhHSj5vWEnzkkbF/5qw3SOtlKhDrp0ka4G/IDgCjXVBE5MZPTENDg6kIAc//dKZNsHH4yx9ki8qC2o220k74z09qe+/BBP/6sKFQTmBPeUp3M0/NUTt29dgnHqKBDvU8NoIGn0/cOXpM+eFuN0ZqFsufoKxyQh0rBIhuUU0eM6uJMHk2HbrszVTVGLARTwH1Y/l3NJYX8rkE5q+TbvkpmN7f1roBA+uaOqrHnx2JcVkBqFwllMOME7NTzsyBuuecG/LbGhUvBeHi/CfM9c56ftF1KGcZSJCxZRgUxFCQA2baucpwbvpxEgxDJ17qq7uHn3PbY1OGnx9AA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5599.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(39860400002)(376002)(366004)(396003)(71200400001)(316002)(5660300002)(54906003)(83380400001)(6916009)(4326008)(66556008)(2906002)(66946007)(26005)(186003)(66476007)(6506007)(55016002)(33656002)(38100700002)(64756008)(86362001)(9686003)(478600001)(122000001)(66446008)(76116006)(7696005)(85182001)(8936002)(558084003)(8676002)(52536014)(38070700004);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?N29wM0pYdTQ3S20yZklxclpOcEVVQTM1Z1N6NjZ3QmpHVkFXZkpBUlZueTgx?=
- =?utf-8?B?UmVmYkd6ZFBIN0JXeU1UbHF5WlJCckNCNVFETVV2RVZUWkwzK3Y5UVNQQnRH?=
- =?utf-8?B?WlY1cFk3cnlPamFEVVprWXk3Y2FrMnVtU1YrTmdoKzlxMzFsbXY3bjVmeGJG?=
- =?utf-8?B?MGpCSE5TTndUM054WTdXRXg3RzcraGJxL3hSK3MrenNrRkVwUXJKek8zU2Z4?=
- =?utf-8?B?MXo4cVlLUjQySWtFVTJ0RXZhK1VNb3NDTVU2N21YZDJGRVJHRXNtVzVPOUEx?=
- =?utf-8?B?U0E4UVFtOFZKdFV0QlRrWmZramdPTm5XOFZjSlRFa0psZUtSb1RsZHYrVE52?=
- =?utf-8?B?VndtYmRXM0pyMXd1QjZUQXBmaTZCdi9HOTF0QXN6Q0FRUkJDWmJmMTdlRlN6?=
- =?utf-8?B?N0Q5a0htVU1lMUJlQ2tJZTJzbC96b0NsWUI4MENrdDhMeXl5R2Rsa05mMkRH?=
- =?utf-8?B?dG9IVXFCZmxHeWYxSXlIVUVGcTBKL3lXTWthcHZ3NzNtNEtGUW9MUHdSWU9M?=
- =?utf-8?B?bkJUN3ZqYnlyUm1Wc2FITVJGVjZWV3NJb043dHlYSk02Y0F6TUFacFdHMElO?=
- =?utf-8?B?SUpKalY2dkZlam9hOExTS3RvRjVWZWpjdll1eHdYSlVndE5LeW9zcVVxSzNh?=
- =?utf-8?B?S1V0NEdDSlpNTUR2cGZMc3dlSjIvWDZuMzVEb1Q3UHpOZldkNjdjbGRBVnU3?=
- =?utf-8?B?TnNhMjQwdGZ6N3NES0VKWDhGMkNISzg2ZEJmM05TZGplRlQ3aHZMQXRzNTdm?=
- =?utf-8?B?V3dtNHBOeVVOUis4emNxUEozVG1LM2ZBWGVlYjcyakFlR3NwSFpWOVljYUZX?=
- =?utf-8?B?T3oxV1kwKzNaZG14RkROelNTOHRWb3VSeTJvSnRrZ25mSk5qNkVBM0pwb3B0?=
- =?utf-8?B?dnFCZVdwY2ZkZ2t0YVptMHZlaEFrNzRRVW9abjNRSFhoTXFkU2RRM3BGTDYy?=
- =?utf-8?B?MlhJa3E3Mm92NExaemVoMEUzaU5KNnFMVUE0QmpkNHFGSFprMk53NnM0R3ZV?=
- =?utf-8?B?TGRYaFo0cU1sd0ZoQ0NPbXhUU2UxOFRFUjhlZU45TkEyN0xCc2dTc3g2bnJj?=
- =?utf-8?B?TWVZcVA5NXkxNGhvNVNKTk44akhuWUVlcU5VdFhJVUpxTU1UTnBYUlV1Ukp2?=
- =?utf-8?B?dUVsQkZkeXhnSFhVdFB6bFV0MGsrSzZmUm9SdCt2TjZqVGVralhkNTNkNGtK?=
- =?utf-8?B?NzlqbGMrT3N0aWxMekRDWThHWWtKMVFVVEZYTEh6cFlFK3AzUTc1UWM5SjMw?=
- =?utf-8?B?UzFYUmw3SnppSVA2ZHZWb3ZiaVBPYXNvamp4R1BFTktqM2ppdXNlaGFVR0FG?=
- =?utf-8?B?L0JlUkp0QkpGbGFBOElkdHJNZ0Z5NjlYblhTUStSZHNsaGdIcDNMZk03U3Vl?=
- =?utf-8?B?VVp3K0tzVkhIVm5Oa3kwcENxT2dBTU4vM1FyL1ovRHhOU1FQMVNWczEyQ3pR?=
- =?utf-8?B?SUprSkRaL25EbzFXZDN6ZHhuMkViNFZGUXgrQ2p1aDYyOTlvV0d6SlVGVW4w?=
- =?utf-8?B?RzlnVm1zUWl0NmkzbW15M0pmcm1GcjBwSmVzbUpvKy83Mng1QUEzKytWUlN6?=
- =?utf-8?B?UlQ3bGpONm5nOWZJaE5MV3pXQmRXSWJtVWNQSGN6V0xwUThaUS9hMTdkL3dL?=
- =?utf-8?B?QVM2RGtubkx4WUp3ZUVwcjNqUXdhUEpySk1MalRIQjU2Qi9YS1dxK2lDbXZG?=
- =?utf-8?B?Z3p0L0cvYVVqTmphZ3hIZUVqcGZ0Vk90cGpxQytIcWNSUjJLUWJKRTNkbEUy?=
- =?utf-8?Q?1kyRznzkBJRX02mNtQ=3D?=
-x-ms-exchange-transport-forked: True
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=grweVHadv5I4AGZ0W5/aG/xP7ZYSQycsou22RSZW4zU=;
+        b=S7MleNZITxQvhiztzy+puSztGkbT06RxCWmn7uPYDuwWjHhZKqBqV1WUeWksrYQD8x
+         jbNnynN/o0xK98MiOgcN6GndV5NsP4fTE/Vljj7bH1NuMDAV40vSQY5kAK7FDru+RLxa
+         1CcUhBctiQVsCeHgD+sC03lBmZhcU/OLLsHYwKFqtkP9Mcp+OQe4QLdVxMD0HYGvof5M
+         TXftb48c8wIXHvVzRHDmCfln0D65Sl7IRHSkyYfIFb38Gu/ANBj3UHOUwSxw4iW66lnA
+         DejSu35yHPLZwv9g0R/5m56lgTUYPUjNuQWy3Xp2fg0hkSpzPC3JIfg8Atr1AnawbNoS
+         rK3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=grweVHadv5I4AGZ0W5/aG/xP7ZYSQycsou22RSZW4zU=;
+        b=IUDB7Qi5lmJcBPgX0CVSkcPUd7BjyKxNcCmgkF4E1LLlyLtEtRNQQ2AZ3IEHKdi1wL
+         de65SJwFfOoM4Cr7qGFk7V5SWNxpzh7qV0IITXxRumXg2ZtfIWDCV/ZDUYxKrG9Zjded
+         TTCmTaS8VaMXtre8U9UUEm+AXynqIVMfsDAjoyiLVig8qx+Tec0oEpT0DbWYKEyQBF29
+         CjQ7cEoRFw2eA7KCy/36mj/woodu+JZzcqA0imtmfGhuRvCFFvzU76inVCCqp/Q+B6cd
+         6/XOtVRE9Rty7KtRKBToB3UoBqj5qLR39ytxMH4CldMVvx7WHFtUKv4tXPCWTpaDUInX
+         5xEA==
+X-Gm-Message-State: AOAM532GKgolVBgAwFtSh49ChFieyhOnmFvIeT74lLXgQnjKlrqvaX5m
+	xGr9NASulfGRzAJCvUaGIjZ0M6rd4PaVgwZoz04=
+X-Google-Smtp-Source: ABdhPJxjGQCfnqvm3gueNfvB0/QwZ8ULsDhghXfBXGzsgM9clvhkrkG2e5IN9HYSw8+jNdUo+rM5Y5I2QVT1gnaqBDI=
+X-Received: by 2002:ac5:cd50:: with SMTP id n16mr9757247vkm.7.1627296105395;
+ Mon, 26 Jul 2021 03:41:45 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5599.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5e8d738-986a-4518-589d-08d9500f5160
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2021 08:28:16.8899
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: abynjiuCzvjJYU6QIzuniBDmMQjDAVHCrUq7hFBJ306oBNAgwjal+qJpMXsrWhc0y2Fa3qzBc6c8zprtaCmU8/c3oMhNFHdT7tTgDOzzBnE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5963
-Content-Language: ja-JP
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <20210722224508.51967-1-alex.kanavin@gmail.com>
+ <20210722224508.51967-5-alex.kanavin@gmail.com> <YPvwHs6o9qCOlty8@piout.net>
+In-Reply-To: <YPvwHs6o9qCOlty8@piout.net>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 26 Jul 2021 12:41:34 +0200
+Message-ID: <CANNYZj95QYZ7TMmKXAyjBPtNiWo-1ZeMcrt_6hyVkuQUgbQ6Dw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/8] mtools: update 4.0.32 -> 4.0.33
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004e77ef05c80466a1"
 
-SEksIEFybWluDQoNCj4gSSBjcmVhdGVkIGFjY291bnQgYW5kIGFkZCBDVkVfQ0hFQ0tfV0hJVEVM
-SVNUIGluIFZhcmlhYmxlcy4NCg0KU2hvdWxkbid0IEkgcG9zdCBhIHBhdGNoIGJlZm9yZSB2YXJp
-YWJsZXMgaW4gd2lraSBpcyBhcHByb3ZlZD8NCkFuZCB3aGVuIHdpbGwgdmFyaWFibGVzIGJlIGFw
-cHJvdmVkPw0KDQpQbGVhc2UgbGV0IG1lIGtub3cgaWYgdGhlcmUgaXMgYW55dGhpbmcgSSBjYW4g
-ZG8uDQoNClRoYW5rcywNCg0KWXVpY2hpIEl0bw0K
+--0000000000004e77ef05c80466a1
+Content-Type: text/plain; charset="UTF-8"
+
+Thanks, I think this is fixed by an even newer version. I'll resubmit the
+update.
+
+Alex
+
+On Sat, 24 Jul 2021 at 12:49, Alexandre Belloni <
+alexandre.belloni@bootlin.com> wrote:
+
+> Hello,
+>
+> On 23/07/2021 00:45:05+0200, Alexander Kanavin wrote:
+> > Drop no-x11.gplv3.patch (the libraries are now
+> > dynamically enabled from configure.in).
+> >
+>
+> This update causes failures with wic because mcopy fails with:
+> mcopy: No directory slots
+>
+> Full log here:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/58/builds/3686/steps/11/logs/stdio
+>
+> 12 builds failed so this should be easily reproducible.
+>
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  .../mtools/disable-hardcoded-configs.patch     |  4 ++--
+> >  .../mtools/mtools/no-x11.gplv3.patch           | 18 ------------------
+> >  .../{mtools_4.0.32.bb => mtools_4.0.33.bb}     |  3 +--
+> >  3 files changed, 3 insertions(+), 22 deletions(-)
+> >  delete mode 100644
+> meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
+> >  rename meta/recipes-devtools/mtools/{mtools_4.0.32.bb =>
+> mtools_4.0.33.bb} (91%)
+> >
+> > diff --git
+> a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+> b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+> > index 81d76d060e..90573dcb1a 100644
+> > --- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+> > +++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+> > @@ -1,4 +1,4 @@
+> > -From 630dbcabc408cf5d73edaa7cf64a48194976b290 Mon Sep 17 00:00:00 2001
+> > +From 7efdb47246413f938e3b2d8378ce9c363d98b371 Mon Sep 17 00:00:00 2001
+> >  From: Ed Bartosh <ed.bartosh@linux.intel.com>
+> >  Date: Tue, 13 Jun 2017 14:55:52 +0300
+> >  Subject: [PATCH] Disabled reading host configs.
+> > @@ -12,7 +12,7 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> >   1 file changed, 8 deletions(-)
+> >
+> >  diff --git a/config.c b/config.c
+> > -index bb13682..9186c77 100644
+> > +index 173eae0..0654cc1 100644
+> >  --- a/config.c
+> >  +++ b/config.c
+> >  @@ -836,14 +836,6 @@ void read_config(void)
+> > diff --git a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
+> b/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
+> > deleted file mode 100644
+> > index 9cb3e39f5c..0000000000
+> > --- a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch
+> > +++ /dev/null
+> > @@ -1,18 +0,0 @@
+> > -Disable building with X11 support.
+> > -
+> > -Upstream-Status: Inappropriate [disable feature]
+> > -
+> > -Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> > -
+> > -diff -urN mtools-4.0.15.orig//Makefile.in mtools-4.0.15//Makefile.in
+> > ---- mtools-4.0.15.orig//Makefile.in  2010-10-17 08:41:09.000000000 -0700
+> > -+++ mtools-4.0.15//Makefile.in       2010-11-23 13:59:49.258258374 -0800
+> > -@@ -146,7 +146,7 @@
+> > - CXXFLAGS  = $(CPPFLAGS) $(DEFS) $(MYCXXFLAGS) -I. @extraincludedir@
+> -I@srcdir@ $(USERCFLAGS)
+> > - LINK      = $(CC) $(LDFLAGS) $(USERLDFLAGS) @extralibdir@
+> > - ALLLIBS   = $(USERLDLIBS) $(MACHDEPLIBS) $(SHLIB) $(LIBS)
+> > --X_LDFLAGS = $(X_EXTRA_LIBS) $(X_LIBS) -lXau -lX11 $(LIBS)
+> > -+X_LDFLAGS = $(X_EXTRA_LIBS) $(X_LIBS) $(LIBS)
+> > - X_CCFLAGS = $(X_CFLAGS) $(CFLAGS)
+> > -
+> > - all:    mtools $(LINKS) mkmanifest @FLOPPYD@ mtools.1 mtools.5
+> > diff --git a/meta/recipes-devtools/mtools/mtools_4.0.32.bb
+> b/meta/recipes-devtools/mtools/mtools_4.0.33.bb
+> > similarity index 91%
+> > rename from meta/recipes-devtools/mtools/mtools_4.0.32.bb
+> > rename to meta/recipes-devtools/mtools/mtools_4.0.33.bb
+> > index 501875037a..fd9febb01d 100644
+> > --- a/meta/recipes-devtools/mtools/mtools_4.0.32.bb
+> > +++ b/meta/recipes-devtools/mtools/mtools_4.0.33.bb
+> > @@ -24,11 +24,10 @@ RRECOMMENDS_${PN}_libc-glibc = "\
+> >       glibc-gconv-ibm866 \
+> >       glibc-gconv-ibm869 \
+> >       "
+> > -SRC_URI[sha256sum] =
+> "62498cd51ae7c79a27c879a45f0d2a8c44e1404cbb901372d09b02735ef5ad89"
+> > +SRC_URI[sha256sum] =
+> "1cb10f8e1e20302f86eaa9c5db262f4559d1dc94bd11fdda7692bc2d1beab954"
+> >
+> >  SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+> >             file://mtools-makeinfo.patch \
+> > -           file://no-x11.gplv3.patch \
+> >             file://clang_UNUSED.patch \
+> >             "
+> >
+> > --
+> > 2.31.1
+> >
+>
+> >
+> > 
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+
+--0000000000004e77ef05c80466a1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks, I think this is fixed by an even newer versio=
+n. I&#39;ll resubmit the update.</div><div><br></div><div>Alex<br></div></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Sat, 24 Jul 2021 at 12:49, Alexandre Belloni &lt;<a href=3D"mailto:alexandr=
+e.belloni@bootlin.com">alexandre.belloni@bootlin.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
+<br>
+On 23/07/2021 00:45:05+0200, Alexander Kanavin wrote:<br>
+&gt; Drop no-x11.gplv3.patch (the libraries are now<br>
+&gt; dynamically enabled from <a href=3D"http://configure.in" rel=3D"noref=
+errer" target=3D"_blank">configure.in</a>).<br>
+&gt; <br>
+<br>
+This update causes failures with wic because mcopy fails with:<br>
+mcopy: No directory slots<br>
+<br>
+Full log here:<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/58/buil=
+ds/3686/steps/11/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://a=
+utobuilder.yoctoproject.org/typhoon/#/builders/58/builds/3686/steps/11/logs=
+/stdio</a><br>
+<br>
+12 builds failed so this should be easily reproducible.<br>
+<br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
+mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../mtools/disable-hardcoded-configs.patch=C2=A0 =C2=A0 =C2=A0|=
+=
+=C2=A0 4 ++--<br>
+&gt;=C2=A0 .../mtools/mtools/no-x11.gplv3.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| 18 ------------------<br>
+&gt;=C2=A0 .../{<a href=3D"http://mtools_4.0.32.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">mtools_4.0.32.bb</a> =3D&gt; <a href=3D"http://mtools_4.0.33=
+.bb" rel=3D"noreferrer" target=3D"_blank">mtools_4.0.33.bb</a>}=C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 3 +--<br>
+&gt;=C2=A0 3 files changed, 3 insertions(+), 22 deletions(-)<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/mtools/mtools/no-x11.g=
+plv3.patch<br>
+&gt;=C2=A0 rename meta/recipes-devtools/mtools/{<a href=3D"http://mtools_4=
+.0.32.bb" rel=3D"noreferrer" target=3D"_blank">mtools_4.0.32.bb</a> =3D&gt;=
+ <a href=3D"http://mtools_4.0.33.bb" rel=3D"noreferrer" target=3D"_blank">m=
+tools_4.0.33.bb</a>} (91%)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-co=
+nfigs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs=
+.patch<br>
+&gt; index 81d76d060e..90573dcb1a 100644<br>
+&gt; --- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.p=
+atch<br>
+&gt; +++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.p=
+atch<br>
+&gt; @@ -1,4 +1,4 @@<br>
+&gt; -From 630dbcabc408cf5d73edaa7cf64a48194976b290 Mon Sep 17 00:00:00 20=
+01<br>
+&gt; +From 7efdb47246413f938e3b2d8378ce9c363d98b371 Mon Sep 17 00:00:00 20=
+01<br>
+&gt;=C2=A0 From: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.c=
+om" target=3D"_blank">ed.bartosh@linux.intel.com</a>&gt;<br>
+&gt;=C2=A0 Date: Tue, 13 Jun 2017 14:55:52 +0300<br>
+&gt;=C2=A0 Subject: [PATCH] Disabled reading host configs.<br>
+&gt; @@ -12,7 +12,7 @@ Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.=
+bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.intel.com</a>&g=
+t;<br>
+&gt;=C2=A0 =C2=A01 file changed, 8 deletions(-)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 diff --git a/config.c b/config.c<br>
+&gt; -index bb13682..9186c77 100644<br>
+&gt; +index 173eae0..0654cc1 100644<br>
+&gt;=C2=A0 --- a/config.c<br>
+&gt;=C2=A0 +++ b/config.c<br>
+&gt;=C2=A0 @@ -836,14 +836,6 @@ void read_config(void)<br>
+&gt; diff --git a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch b=
+/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index 9cb3e39f5c..0000000000<br>
+&gt; --- a/meta/recipes-devtools/mtools/mtools/no-x11.gplv3.patch<br>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,18 +0,0 @@<br>
+&gt; -Disable building with X11 support.<br>
+&gt; -<br>
+&gt; -Upstream-Status: Inappropriate [disable feature]<br>
+&gt; -<br>
+&gt; -Signed-off-by: Scott Garman &lt;<a href=3D"mailto:scott.a.garman@int=
+el.com" target=3D"_blank">scott.a.garman@intel.com</a>&gt;<br>
+&gt; -<br>
+&gt; -diff -urN mtools-4.0.15.orig//Makefile.in mtools-4.0.15//Makefile.in=
+<br>
+&gt; ---- mtools-4.0.15.orig//Makefile.in=C2=A0 2010-10-17 08:41:09.000000=
+000 -0700<br>
+&gt; -+++ mtools-4.0.15//Makefile.in=C2=A0 =C2=A0 =C2=A0 =C2=A02010-11-23 =
+13:59:49.258258374 -0800<br>
+&gt; -@@ -146,7 +146,7 @@<br>
+&gt; - CXXFLAGS=C2=A0 =3D $(CPPFLAGS) $(DEFS) $(MYCXXFLAGS) -I. @extraincl=
+udedir@ -I@srcdir@ $(USERCFLAGS)<br>
+&gt; - LINK=C2=A0 =C2=A0 =C2=A0 =3D $(CC) $(LDFLAGS) $(USERLDFLAGS) @extra=
+libdir@<br>
+&gt; - ALLLIBS=C2=A0 =C2=A0=3D $(USERLDLIBS) $(MACHDEPLIBS) $(SHLIB) $(LIB=
+S)<br>
+&gt; --X_LDFLAGS =3D $(X_EXTRA_LIBS) $(X_LIBS) -lXau -lX11 $(LIBS)<br>
+&gt; -+X_LDFLAGS =3D $(X_EXTRA_LIBS) $(X_LIBS) $(LIBS)<br>
+&gt; - X_CCFLAGS =3D $(X_CFLAGS) $(CFLAGS)<br>
+&gt; - <br>
+&gt; - all:=C2=A0 =C2=A0 mtools $(LINKS) mkmanifest @FLOPPYD@ mtools.1 mto=
+ols.5<br>
+&gt; diff --git a/meta/recipes-devtools/mtools/<a href=3D"http://mtools_4.=
+0.32.bb" rel=3D"noreferrer" target=3D"_blank">mtools_4.0.32.bb</a> b/meta/r=
+ecipes-devtools/mtools/<a href=3D"http://mtools_4.0.33.bb" rel=3D"noreferre=
+r" target=3D"_blank">mtools_4.0.33.bb</a><br>
+&gt; similarity index 91%<br>
+&gt; rename from meta/recipes-devtools/mtools/<a href=3D"http://mtools_4.0=
+.32.bb" rel=3D"noreferrer" target=3D"_blank">mtools_4.0.32.bb</a><br>
+&gt; rename to meta/recipes-devtools/mtools/<a href=3D"http://mtools_4.0.3=
+3.bb" rel=3D"noreferrer" target=3D"_blank">mtools_4.0.33.bb</a><br>
+&gt; index 501875037a..fd9febb01d 100644<br>
+&gt; --- a/meta/recipes-devtools/mtools/<a href=3D"http://mtools_4.0.32.bb=
+" rel=3D"noreferrer" target=3D"_blank">mtools_4.0.32.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/mtools/<a href=3D"http://mtools_4.0.33.bb=
+" rel=3D"noreferrer" target=3D"_blank">mtools_4.0.33.bb</a><br>
+&gt; @@ -24,11 +24,10 @@ RRECOMMENDS_${PN}_libc-glibc =3D &quot;\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0glibc-gconv-ibm866 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0glibc-gconv-ibm869 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;62498cd51ae7c79a27c879a45f0d2a8c44e1404=
+cbb901372d09b02735ef5ad89&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;1cb10f8e1e20302f86eaa9c5db262f4559d1dc9=
+4bd11fdda7692bc2d1beab954&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 SRC_URI =3D &quot;${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://mtools-makeinfo=
+.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://no-x11.gplv3.patch \=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://clang_UNUSED.pa=
+tch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.31.1<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+Alexandre Belloni, co-owner and COO, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https=
+://bootlin.com</a><br>
+</blockquote></div>
+
+--0000000000004e77ef05c80466a1--
