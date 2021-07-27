@@ -1,66 +1,88 @@
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
- by mx.groups.io with SMTP id smtpd.web12.4202.1627404770497110957
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.4234.1627405523066135952
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jul 2021 09:52:50 -0700
+ Tue, 27 Jul 2021 10:05:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@seebs.net header.s=mail header.b=Y9Abwi78;
- spf=pass (domain: seebs.net, ip: 162.213.38.76, mailfrom: seebs@seebs.net)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id EE1952E8920;
-	Tue, 27 Jul 2021 11:52:48 -0500 (CDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=seebs.net; s=mail;
-	t=1627404769; bh=Qsf+0OMdH48cw45oe3FRGQTRJaghStvAty0vL5oZq9s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Y9Abwi78BNic8Hihl8U/AP1QXMwiQTzZ9WcMjFIKGT2vJczRtoE5a6BkYZQJ2E776
-	 LWzomXWN+m8/yhNnKxgUDoWj1iMuX/GIdlwL6SqMTqe2DXt6+bzinWMYJfFG6dsgnP
-	 cyh4+SFJkVRe8cTWcaTKGRfxeljpoRNGAeOSaqkXltfD/dE+ep02Eu91RFISLO88y1
-	 +/5ujS7SoWMISclJ//NMt6qKxupGXJnIyg/wkJDCGjjHMcMBU/PkTkhctvqgkNLRoC
-	 u1JGz6lT3jqfupwe26ahRdUcksLXpNqnk3slUm364/3cAJ9GO95Gx0JCV8DUOactyK
-	 S0Rr0J5mdvpxg==
-Date: Tue, 27 Jul 2021 11:52:46 -0500
-From: "Seebs" <seebs@seebs.net>
-To: Damian Wrobel <dwrobel@ertelnet.rybnik.pl>
-Cc: "openembedded-core" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH pseudo 4/4] Do not return address of local variable
-Message-ID: <20210727115246.04b8ffa4@seebsdell>
-In-Reply-To: <17ae8cdb530.110af7c7857737.3405175808509729608@ertelnet.rybnik.pl>
-References: <20210727114906.191837-1-dwrobel@ertelnet.rybnik.pl>
-	<20210727114906.191837-4-dwrobel@ertelnet.rybnik.pl>
-	<20210727104712.385ad146@seebsdell>
-	<17ae8cdb530.110af7c7857737.3405175808509729608@ertelnet.rybnik.pl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gYaVJYjr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id h9so16815341ljq.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jul 2021 10:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A2ktMOmHNDnCi4mn7LSHcR65OoAlVth4RprrUpE0SBE=;
+        b=gYaVJYjrM2+4M8o//TTTM9wLIER/8tYPRBT0ktTk4dhyfCMfjNrGEBz05zho4EQXaq
+         fMX1w/XATMXoCiJR1sUk02RMqA2dCtu/AeCnQVkU52WBm0SSsEj+/4oXaUMpwqMEKf+c
+         4tRg4PnbvczgDWZoSRDPprTOXAfsJhopKSc1ULJ9m/ZLnJlhMuMA2C+n9zyrsOj+dSh5
+         eqO7Bn+YgdIUqV5u6h8WDiKqn4iTHoZrBmkI57WQN1LTF59+L8D5fsuyaywXA4qGayF2
+         TWBv0qxIE01XFRWkQx9AV43/DEb65P0DcSsy/DhwJmpGM2srYpr3UA2rlOwont1IvWh1
+         9NiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A2ktMOmHNDnCi4mn7LSHcR65OoAlVth4RprrUpE0SBE=;
+        b=Qr5drj9yv4AMdXRI9mMTa9Aykx7kmOaIoPw8WqzYDMllgeFZ37U0SLEdcK5gXH8JEb
+         wFFPaRQkEiu0D9tDObEPcRUfUf221/FEecka24G6vU0rmQ7GHgwHYxNkwlLQh3mFHjDX
+         otEli/3FSV2XgTpDcT3WKutYcd2JR/RvYxNnLQ6inW2JzfbD4+gvrded8GCj+BMXDGrm
+         lYS84gNK0oyKncSQ4ngS8NHtzawiMiBuQmjKdRzOe6DhcBHcvgcD6dND34EG+ZaO1T+9
+         fe5dKW9y2N6hUtDBA2K4kqgNJPme+Qf6n68yqwoJyujw25LEgfaBVUH87jjrNbOYgqoo
+         5NcQ==
+X-Gm-Message-State: AOAM530jJZgGfTqV7SXzkPcSwsGbdjfjgcCLbYE8O1IgUYwKohP6bZuu
+	wMaWLh+X6w/RWjlojsnQyYtsVLEbNvDOihXL5Ro=
+X-Google-Smtp-Source: ABdhPJySgbFFWlrhkhqGM8T9fAX5ahGdwJTZRAGJwTXKsC7fO3ETfbJ/U9YlFJQaOYUxH/yqrpMrL8cqEIT1/aMniJQ=
+X-Received: by 2002:a2e:575d:: with SMTP id r29mr16537885ljd.403.1627405521344;
+ Tue, 27 Jul 2021 10:05:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210723214527.2225841-1-fib@cisco.com> <20210723214527.2225841-2-fib@cisco.com>
+ <CAOSpxdYek8qF+oYVSuTGfzP6zq++f711QHJJur9P=xbrFVEWeQ@mail.gmail.com>
+ <SJ0PR11MB4784D0CF9A35F4D8A63630DBADE89@SJ0PR11MB4784.namprd11.prod.outlook.com>
+ <CAOSpxdZj+whn8ktEPHuFxQUL=1=6bVWtD53N=cSM4waNh28JtQ@mail.gmail.com> <9f1f0b45ad9f4ac2e3dfd873d6274c926ef327b2.camel@linuxfoundation.org>
+In-Reply-To: <9f1f0b45ad9f4ac2e3dfd873d6274c926ef327b2.camel@linuxfoundation.org>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Tue, 27 Jul 2021 10:05:09 -0700
+Message-ID: <CAJ86T=WeUSp5n2cosMQ=0=nfyRH0skjLe+Qe9MaiY3PUd67W0A@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH v2 1/3] cmake-native: enabled zstd support
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Steve Sakoman <steve@sakoman.com>, "Ruslan Babayev (fib)" <fib@cisco.com>, 
+	Armin Kuster <akuster808@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Samuli Piippo <samuli.piippo@gmail.com>, Samuli Piippo <samuli.piippo@qt.io>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 27 Jul 2021 18:30:33 +0200
-Damian Wrobel <dwrobel@ertelnet.rybnik.pl> wrote:
+On Tue, Jul 27, 2021 at 12:24 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2021-07-26 at 14:40 -1000, Steve Sakoman wrote:
+> > On Mon, Jul 26, 2021 at 12:27 PM Ruslan Babayev (fib) <fib@cisco.com> wrote:
+> > >
+> > > Hi Steve,
+> > >
+> > > Thanks for reviewing the patches. I understand the problem of merging this
+> > > patch as is.
+> > > But Dunfell currently has a host contamination issue on systems with zstd
+> > > installed as part of base OS resulting in broken cmake-native recipe. Can
+> > > you help bring this up to the attention of the steering committee?
+> >
+> > Perhaps Richard can comment on this.  You are asking for a feature
+> > change to dunfell that involves modifications in both
+> > openembedded-core and meta-openembedded. So both technical steering
+> > committees would need to agree that this is appropriate.
+>
+> We don't have to go straight to the TSC, the layer maintainers can try and
+> agree a plan first.
+>
+> I've added Armin as meta-openembedded maintainer for dunfell.
+>
+> Context: cmake-native suffers host contamination on dunfell due to zstd being
+> detected on the host. The upstream cmake community say they don't support
+> configuring it without it.
+>
+> Do we agree we should move zstd from meta-oe to oe-core in dunfell to fix
+> this? Should we patch cmake in dunfell to try and use it's own copy of zstd
+> internally? The latter is more risky in that we've not tried that and multiple
+> configures can be 'fun' in builds. Moving the recipe has a different kind of
+> pain.
 
-> The returned pointer has to be freed by the caller not by the callee
-> function itself.
-
-So, this predates the public release, but long ago, that was indeed
-how it worked, and then LONG ago it was changed so that the pseudo_ipc
-stuff always used the same object for its returns, so we weren't doing
-alloc/free cycles all the time.
-
-Which means that, in every *other* code path, if we return a non-nil
-msg, it *must not* be freed.
-
-I think probably the solution is to change that object to be static.
-We can't make callers free the results unless we want them ALL to be
-freed, which we absolutely don't, that's devastatingly expensive.
-
-There is exactly one call with OP_CHROOT, and all it checks is whether
-the return is null or not-null. I'd be mildly surprised by the
-theoretically-invalid address of stack garbage actually causing a
-problem on most modern systems, except that I think some systems have
-started doing stack guards. But all we care about here is that the
-address returned be a valid non-null pointer. Heck, we could use
-&xattrdb_data, that already exists, is already static, and we don't
-care about it.
-
-(The reason the `msg` in that function isn't static is so it gets its
-initializer every time. This is not a great reason.)
-
--s
+There's no need to move the recipe, just adding to oe-core should be enough.
