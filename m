@@ -1,77 +1,72 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web09.3711.1627403134597350413
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+ by mx.groups.io with SMTP id smtpd.web11.3755.1627403755574503319
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jul 2021 09:25:35 -0700
+ Tue, 27 Jul 2021 09:35:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=bZCqUeV+;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id DF46D831D6;
-	Tue, 27 Jul 2021 18:25:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1627403133;
-	bh=X1d20yvnKYJjA0rcQ03t8Ay0AFsuc0rFQXvPX6zWrFA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bZCqUeV+AxjpnP8CgDhH4wJKmsr4PwGTn4sgXLVeKvD526SXpl6foVUHoliwx/ZRL
-	 MiwvpR4wVGqikAuoTNuAPucxAUvtq+vBy8Y9OLtTo2w8tpXdIFhTbKKhnP5RI2NIaP
-	 8g3rnm2T2XruWrkwJLi1NpKK+x8w4jhss2BnsTTpEBotgEFA3XgM4T8PvLkfHrd8il
-	 Wa7BS2PbRVwOReSbyj9ZWcWpgyaO5BnsD5NkkMyLveowY9tzm+8TwL0SOrFH2rw0bz
-	 bZxf7zXlnEOJ0BrveICuRNrGb9uLApF3k7V5KxAPEqDo2Po/6bBfq8LxxHXpwB7hpw
-	 U7aTkCD7XCyCg==
-From: "Marek Vasut" <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Sinan Kaya <okaya@kernel.org>
-Subject: [PATCH] kernel-uboot: Handle gzip and lzo compression options
-Date: Tue, 27 Jul 2021 18:25:29 +0200
-Message-Id: <20210727162529.9618-1-marex@denx.de>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=dwrobel@ertelnet.rybnik.pl header.s=ertelnet header.b=DWIlQfMY;
+ spf=pass (domain: ertelnet.rybnik.pl, ip: 136.143.188.14, mailfrom: dwrobel@ertelnet.rybnik.pl)
+ARC-Seal: i=1; a=rsa-sha256; t=1627403752; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UaCBpPUWlyMBxgr3ipxdQ9lvTZaNdprQGiyQ4elUI42X+wB/X7BSP6cMRaD0SEBcH3gFTw+vieAfFuAOdXC8Be1DMY14u4+PYLFj+WDyjEj+vWLIs5tFRiEYdGnPgEhpz1aX3+80weEFRLJURRI/67XWcJU0R4blOdzqsvqVJ00=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1627403752; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=BxUnQWhKo0SWzKrzFVOcl5ztwqlZaVg3qRKlhus5Ur8=; 
+	b=aFr/lJQvbMcftr8Acov2EEtDqDKaxG1EHqnlrCRW8n4jrqMaJpT/uz/DPkcZzTy0Ium/hMHy94cCSVn5E7xgCJlh90p3ycQleI3Z5sMGAllvKC4Gxuy1WgI5pQeAAB998oIu9XnjhTldhdkvP981qiHV911DIhIawtm3wutIf30=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ertelnet.rybnik.pl;
+	spf=pass  smtp.mailfrom=dwrobel@ertelnet.rybnik.pl;
+	dmarc=pass header.from=<dwrobel@ertelnet.rybnik.pl>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1627403752;
+	s=ertelnet; d=ertelnet.rybnik.pl; i=dwrobel@ertelnet.rybnik.pl;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=BxUnQWhKo0SWzKrzFVOcl5ztwqlZaVg3qRKlhus5Ur8=;
+	b=DWIlQfMYQ/Dc7cuDVcdVatgEpnrnyzdWn5HSZYlvKSY0zzydc/2lxIDvzDp1Q9DO
+	B+RCVr74ArTEg7qZ6gK42wthyykGisw37rFZf9GuAHAwptrlKYnHxmFtC1zLJGtmZDF
+	+JrMtvrjBUUsk2Myj7neyE4HwIAlU/hJVQpXd0lM=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1627403750683372.3381106998612; Tue, 27 Jul 2021 09:35:50 -0700 (PDT)
+Date: Tue, 27 Jul 2021 18:35:50 +0200
+From: "Damian Wrobel" <dwrobel@ertelnet.rybnik.pl>
+To: "Seebs" <seebs@seebs.net>
+Cc: "openembedded-core" <openembedded-core@lists.openembedded.org>
+Message-ID: <17ae8d28d09.af318d0d58783.8610860541762814287@ertelnet.rybnik.pl>
+In-Reply-To: <20210727104927.18f26c21@seebsdell>
+References: <20210727114906.191837-1-dwrobel@ertelnet.rybnik.pl> <20210727104927.18f26c21@seebsdell>
+Subject: Re: [OE-core] [PATCH pseudo 1/4] Remove -fno-strict-aliasing and -Wno-deprecated-declarations
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Since 5c72105e29 ("kernel-uboot: allow compression option to be configura=
-ble")
-it is possible to select kernel compression method, however the resulting
-image is always compressed with gzip, so selecting any other method than
-gzip results in unbootable images. Add support for lzo for starters, sinc=
-e
-that is fast to decompress and useful in low boot time scenarios.
 
-Note that we should likely add some check for unsupported compression
-methods. We should also add dependency on lzop-native I think.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Sinan Kaya <okaya@kernel.org>
----
- meta/classes/kernel-uboot.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboo=
-t.bbclass
-index b1e7ac05c2..2daa068298 100644
---- a/meta/classes/kernel-uboot.bbclass
-+++ b/meta/classes/kernel-uboot.bbclass
-@@ -22,7 +22,11 @@ uboot_prep_kimage() {
- 	[ -n "${vmlinux_path}" ] && ${OBJCOPY} -O binary -R .note -R .comment -=
-S "${vmlinux_path}" linux.bin
-=20
- 	if [ "${linux_comp}" !=3D "none" ] ; then
--		gzip -9 linux.bin
-+		if [ "${linux_comp}" =3D "gzip" ] ; then
-+			gzip -9 linux.bin
-+		elif [ "${linux_comp}" =3D "lzo" ] ; then
-+			lzop -9 linux.bin
-+		fi
- 		mv -f "linux.bin${linux_suffix}" linux.bin
- 	fi
-=20
---=20
-2.30.2
+ ---- On Tue, 27 Jul 2021 17:49:27 +0200 Seebs <seebs@seebs.net> wrote ----
+ > On Tue, 27 Jul 2021 13:49:03 +0200
+ > "Damian Wrobel" <dwrobel@ertelnet.rybnik.pl> wrote:
+ > 
+ > > -# no-strict-aliasing is needed for the function pointer trickery.
+ > >  pseudo_wrappers.o: $(GUTS) pseudo_wrappers.c pseudo_wrapfuncs.c
+ > > pseudo_wrapfuncs.h pseudo_tables.h
+ > > -    $(CC) -fno-strict-aliasing $(CFLAGS) $(CFLAGS_PSEUDO)
+ > > -D_GNU_SOURCE -c -o pseudo_wrappers.o pseudo_wrappers.c
+ > 
+ > I would be really uncomfortable relying on that not being needed, even
+ > if it happened to work in specific cases. The function pointer trickery
+ > is black magic and very much undefined behavior, and warning the
+ > compiler away from it seems reasonably likely to be advantageous.
 
+Based on my experience, It's usually better to see this warning and fix the code instead of relying on the back magic.
+
+--
+Regards,
+Damian
+
+ > 
+ > -s
+ > 
+ > 
+ > 
+ > 
