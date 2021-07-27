@@ -1,88 +1,156 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.4234.1627405523066135952
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web10.4523.1627406686477312259
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jul 2021 10:05:23 -0700
+ Tue, 27 Jul 2021 10:24:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gYaVJYjr;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: armccurdy@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id h9so16815341ljq.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jul 2021 10:05:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=C8JTa++g;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id s21-20020a4ae5550000b02902667598672bso3256883oot.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jul 2021 10:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A2ktMOmHNDnCi4mn7LSHcR65OoAlVth4RprrUpE0SBE=;
-        b=gYaVJYjrM2+4M8o//TTTM9wLIER/8tYPRBT0ktTk4dhyfCMfjNrGEBz05zho4EQXaq
-         fMX1w/XATMXoCiJR1sUk02RMqA2dCtu/AeCnQVkU52WBm0SSsEj+/4oXaUMpwqMEKf+c
-         4tRg4PnbvczgDWZoSRDPprTOXAfsJhopKSc1ULJ9m/ZLnJlhMuMA2C+n9zyrsOj+dSh5
-         eqO7Bn+YgdIUqV5u6h8WDiKqn4iTHoZrBmkI57WQN1LTF59+L8D5fsuyaywXA4qGayF2
-         TWBv0qxIE01XFRWkQx9AV43/DEb65P0DcSsy/DhwJmpGM2srYpr3UA2rlOwont1IvWh1
-         9NiQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5oEdrF+TkN9sL6wWYljVzHz9S0in22GgWTSzRU4K2es=;
+        b=C8JTa++gxQV2cgPsQiBopVPbtgFLQVZUmVy1KAbKlh48Rdym5F85WnMKC7TKC3NLzn
+         uUO5FDdGO9lg2L/qL6WxU9roa5TJJ5aN17zX6jWAYvyqP+GnilM2khu61JEoZaGIltcS
+         qCVt5t1CRhtAmtBgqy0fgMeGytok+AaqbHkpVoVltChJRR1tjG7lH9Uptowtc7Y/yxAh
+         QwjT2SgByKmIyGUiPHcAh7BWLK69v8QFerECQZPAwCtUhEQfIFbI3GPpq/dCoJAs4Gun
+         t47rKlJyfKc1zdHjWd/4t5kSznAcAS09xu/8uD4MM3GjD5qrOeZsZ5u2QPSDZshVJ2Ol
+         c7WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A2ktMOmHNDnCi4mn7LSHcR65OoAlVth4RprrUpE0SBE=;
-        b=Qr5drj9yv4AMdXRI9mMTa9Aykx7kmOaIoPw8WqzYDMllgeFZ37U0SLEdcK5gXH8JEb
-         wFFPaRQkEiu0D9tDObEPcRUfUf221/FEecka24G6vU0rmQ7GHgwHYxNkwlLQh3mFHjDX
-         otEli/3FSV2XgTpDcT3WKutYcd2JR/RvYxNnLQ6inW2JzfbD4+gvrded8GCj+BMXDGrm
-         lYS84gNK0oyKncSQ4ngS8NHtzawiMiBuQmjKdRzOe6DhcBHcvgcD6dND34EG+ZaO1T+9
-         fe5dKW9y2N6hUtDBA2K4kqgNJPme+Qf6n68yqwoJyujw25LEgfaBVUH87jjrNbOYgqoo
-         5NcQ==
-X-Gm-Message-State: AOAM530jJZgGfTqV7SXzkPcSwsGbdjfjgcCLbYE8O1IgUYwKohP6bZuu
-	wMaWLh+X6w/RWjlojsnQyYtsVLEbNvDOihXL5Ro=
-X-Google-Smtp-Source: ABdhPJySgbFFWlrhkhqGM8T9fAX5ahGdwJTZRAGJwTXKsC7fO3ETfbJ/U9YlFJQaOYUxH/yqrpMrL8cqEIT1/aMniJQ=
-X-Received: by 2002:a2e:575d:: with SMTP id r29mr16537885ljd.403.1627405521344;
- Tue, 27 Jul 2021 10:05:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5oEdrF+TkN9sL6wWYljVzHz9S0in22GgWTSzRU4K2es=;
+        b=FEKyHVtiiBZsKA1QGuvr4NRfsWsL946D5KX1wyHnIR2+h9X9E1Ppl1HIQy4B8lFTLh
+         WC4/t60iMyn929gsVYiCcOHECh0oS8aVCLnLBHBKzSGjVUE4qzpC0y9ayQfSaSypAzFj
+         0nebejhVmi3XNS4gKImXjQ5VV3I7x+n1Cj53kiUmTuqxVP6w5Ul0mZ7kLH23cRBuPViT
+         tY1C/hnKuHVIs+NvcOHus5CkjYoUNotWP1GlczXXGMfYfApJXARyviTO5g5dwc2smfw/
+         //Lpgd5xFvKzcsEVXIHOQCnVAWJsf31AXnDy8mJcz9daSWQoHvYJpJrmk0aPfLKa0sbf
+         rptA==
+X-Gm-Message-State: AOAM533yscD2mEi8j9Y0iKdtT/+o5cAXjKKjpvnP/k+zcmNQUxbRQlOh
+	+Sy4UqzfTcN/u3Im9elS+FKzSNGm4OLYhg==
+X-Google-Smtp-Source: ABdhPJzM9Hj/6HCbn5FLK5Vcn+XRDfJX0c8rae/E+HEuIxijCbh52lYPMkXzFZT0Z70MjmcSIVJa3Q==
+X-Received: by 2002:a4a:1804:: with SMTP id 4mr5630578ooo.54.1627406685589;
+        Tue, 27 Jul 2021 10:24:45 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id a192sm577549ooc.10.2021.07.27.10.24.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 10:24:45 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] mesa: Fix v3d & vc4 dmabuf import
+Date: Tue, 27 Jul 2021 12:24:43 -0500
+Message-Id: <20210727172443.29972-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210723214527.2225841-1-fib@cisco.com> <20210723214527.2225841-2-fib@cisco.com>
- <CAOSpxdYek8qF+oYVSuTGfzP6zq++f711QHJJur9P=xbrFVEWeQ@mail.gmail.com>
- <SJ0PR11MB4784D0CF9A35F4D8A63630DBADE89@SJ0PR11MB4784.namprd11.prod.outlook.com>
- <CAOSpxdZj+whn8ktEPHuFxQUL=1=6bVWtD53N=cSM4waNh28JtQ@mail.gmail.com> <9f1f0b45ad9f4ac2e3dfd873d6274c926ef327b2.camel@linuxfoundation.org>
-In-Reply-To: <9f1f0b45ad9f4ac2e3dfd873d6274c926ef327b2.camel@linuxfoundation.org>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Tue, 27 Jul 2021 10:05:09 -0700
-Message-ID: <CAJ86T=WeUSp5n2cosMQ=0=nfyRH0skjLe+Qe9MaiY3PUd67W0A@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH v2 1/3] cmake-native: enabled zstd support
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>, "Ruslan Babayev (fib)" <fib@cisco.com>, 
-	Armin Kuster <akuster808@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Samuli Piippo <samuli.piippo@gmail.com>, Samuli Piippo <samuli.piippo@qt.io>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 27, 2021 at 12:24 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2021-07-26 at 14:40 -1000, Steve Sakoman wrote:
-> > On Mon, Jul 26, 2021 at 12:27 PM Ruslan Babayev (fib) <fib@cisco.com> wrote:
-> > >
-> > > Hi Steve,
-> > >
-> > > Thanks for reviewing the patches. I understand the problem of merging this
-> > > patch as is.
-> > > But Dunfell currently has a host contamination issue on systems with zstd
-> > > installed as part of base OS resulting in broken cmake-native recipe. Can
-> > > you help bring this up to the attention of the steering committee?
-> >
-> > Perhaps Richard can comment on this.  You are asking for a feature
-> > change to dunfell that involves modifications in both
-> > openembedded-core and meta-openembedded. So both technical steering
-> > committees would need to agree that this is appropriate.
->
-> We don't have to go straight to the TSC, the layer maintainers can try and
-> agree a plan first.
->
-> I've added Armin as meta-openembedded maintainer for dunfell.
->
-> Context: cmake-native suffers host contamination on dunfell due to zstd being
-> detected on the host. The upstream cmake community say they don't support
-> configuring it without it.
->
-> Do we agree we should move zstd from meta-oe to oe-core in dunfell to fix
-> this? Should we patch cmake in dunfell to try and use it's own copy of zstd
-> internally? The latter is more risky in that we've not tried that and multiple
-> configures can be 'fun' in builds. Moving the recipe has a different kind of
-> pain.
+Mesa would unnecessarily fail in the v3d and vc4 driver if a dmabuf
+could not imported for scanout. In particular, this meant the
+weston-simple-dmabuf-egl test program would fail on a Raspberry Pi.
 
-There's no need to move the recipe, just adding to oe-core should be enough.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ ...mabuf-import-for-non-scanout-buffers.patch | 72 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-v3d-vc4-Fix-dmabuf-import-for-non-scanout-buffers.patch
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-v3d-vc4-Fix-dmabuf-import-for-non-scanout-buffers.patch b/meta/recipes-graphics/mesa/files/0001-v3d-vc4-Fix-dmabuf-import-for-non-scanout-buffers.patch
+new file mode 100644
+index 0000000000..1a8771028b
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-v3d-vc4-Fix-dmabuf-import-for-non-scanout-buffers.patch
+@@ -0,0 +1,72 @@
++From 303c02a31df4e2b8f6090e75982922a9cba33e4c Mon Sep 17 00:00:00 2001
++From: Joshua Watt <JPEWhacker@gmail.com>
++Date: Tue, 27 Jul 2021 11:41:53 -0500
++Subject: [PATCH] v3d, vc4: Fix dmabuf import for non-scanout buffers
++
++Failure to create a buffer for scanout should not be fatal when
++importing a buffer. Buffers allocated from a render-only device may not
++be able to scanned out directly but can still be used for other
++rendering purposes (e.g. as a texture).
++
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/12081]
++---
++ src/gallium/drivers/v3d/v3d_resource.c | 13 +++++--------
++ src/gallium/drivers/vc4/vc4_resource.c |  3 ---
++ 2 files changed, 5 insertions(+), 11 deletions(-)
++
++diff --git a/src/gallium/drivers/v3d/v3d_resource.c b/src/gallium/drivers/v3d/v3d_resource.c
++index 602ba6d8447..02dc29ae6a0 100644
++--- a/src/gallium/drivers/v3d/v3d_resource.c
+++++ b/src/gallium/drivers/v3d/v3d_resource.c
++@@ -433,10 +433,11 @@ v3d_resource_get_handle(struct pipe_screen *pscreen,
++                 return v3d_bo_flink(bo, &whandle->handle);
++         case WINSYS_HANDLE_TYPE_KMS:
++                 if (screen->ro) {
++-                        assert(rsc->scanout);
++-                        bool ok = renderonly_get_handle(rsc->scanout, whandle);
++-                        whandle->stride = rsc->slices[0].stride;
++-                        return ok;
+++                        if (renderonly_get_handle(rsc->scanout, whandle)) {
+++                                whandle->stride = rsc->slices[0].stride;
+++                                return true;
+++                        }
+++                        return false;
++                 }
++                 whandle->handle = bo->handle;
++                 return true;
++@@ -929,10 +930,6 @@ v3d_resource_from_handle(struct pipe_screen *pscreen,
++                         renderonly_create_gpu_import_for_resource(prsc,
++                                                                   screen->ro,
++                                                                   NULL);
++-                if (!rsc->scanout) {
++-                        fprintf(stderr, "Failed to create scanout resource.\n");
++-                        goto fail;
++-                }
++         }
++ 
++         if (rsc->tiled && whandle->stride != slice->stride) {
++diff --git a/src/gallium/drivers/vc4/vc4_resource.c b/src/gallium/drivers/vc4/vc4_resource.c
++index 61e5fd7e5a6..bf3f7656ff8 100644
++--- a/src/gallium/drivers/vc4/vc4_resource.c
+++++ b/src/gallium/drivers/vc4/vc4_resource.c
++@@ -320,7 +320,6 @@ vc4_resource_get_handle(struct pipe_screen *pscreen,
++                 return vc4_bo_flink(rsc->bo, &whandle->handle);
++         case WINSYS_HANDLE_TYPE_KMS:
++                 if (screen->ro) {
++-                        assert(rsc->scanout);
++                         return renderonly_get_handle(rsc->scanout, whandle);
++                 }
++                 whandle->handle = rsc->bo->handle;
++@@ -689,8 +688,6 @@ vc4_resource_from_handle(struct pipe_screen *pscreen,
++                         renderonly_create_gpu_import_for_resource(prsc,
++                                                                   screen->ro,
++                                                                   NULL);
++-                if (!rsc->scanout)
++-                        goto fail;
++         }
++ 
++         if (rsc->tiled && whandle->stride != slice->stride) {
++-- 
++2.32.0
++
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 6a0df4fa2e..85a352f736 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,6 +19,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-meson.build-make-TLS-ELF-optional.patch \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
++           file://0001-v3d-vc4-Fix-dmabuf-import-for-non-scanout-buffers.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "022c7293074aeeced2278c872db4fa693147c70f8595b076cf3f1ef81520766d"
+-- 
+2.32.0
+
