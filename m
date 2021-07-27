@@ -1,44 +1,44 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web09.5648.1627411141268274832
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web10.5970.1627412747270925857
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jul 2021 11:39:01 -0700
+ Tue, 27 Jul 2021 12:05:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UYGxiNSE;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id f13so6436541plj.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jul 2021 11:39:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z148lV2q;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id ds11-20020a17090b08cbb0290172f971883bso6065409pjb.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jul 2021 12:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2QJxsEp1wnPeMXp3HmiLu8Bo4sCwVasyH9aYYIohACM=;
-        b=UYGxiNSEjIFs7NpzUX38btiy2LOcS61d+eRueUyJwbMONq3cljs1mPA9/sSQ3DPq0K
-         oiNtAJAd2lpDjElsXW/EGIt9Mc1b05V/OEfMn52lR39Yaxx/ixFvY5ZPRCHsx7nIyh4B
-         VwH5VRS6n6ZkdOAcNqJH5DIS7k+YTTVY58/0Y5uXFWM3ge9z6VVlrRipGJXlQ4Q9LLEG
-         SxXAv78qcKVk/7mexj5GziYD6ameJQ0uA3PNB1/tKPyJlVD27iSt9RPOgp4MGsHyDOjd
-         AfcNr8Ycfv84zgBNjMHZ7wwipsh90jkkFTIjzTVtKAKa3MkXUnOEBQaNUwwYmdV0rVT4
-         K3Ow==
+        bh=2Sxt5+RK9Rl0BVq5GYbXyWj/O6bR9i3rfKQFoWKLuuc=;
+        b=Z148lV2qqKlTeYi+8ZPDrBVZWqASUJ77tA+JKN0kGQiYt9BaauBySGVuuUQYBXQfPG
+         KnbXNXLfgkz9Kn1q8QNCVnPAqvJhadkI0XXP+uL9IIcjLea0jSzkRCd9euPEQ3xzu3vO
+         fGWeGvdnz3maDZV1YnR7Y7Hsyk+XKo+EBZzrutnT1okkxQxWFEiFrjB6TgLqnfB5bgMC
+         BzFlwIX4Wnj6HOcHhOmtf74Z+9TqqYCXiEUuvuzPRlGOI5P+pwWsCciAg3S/VnMtqs/P
+         4WPLgpE2OMTNdPoBQFqg7bdMJXCWVpmtFRGuL8Bt3cqEx5gMPydeEHdL6IbnEjPZWSmJ
+         ucDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2QJxsEp1wnPeMXp3HmiLu8Bo4sCwVasyH9aYYIohACM=;
-        b=hBk9NKDShOcILRoz1a8Dc6spkc25Qpa7+FT8Usrcr6ZSy028zN/KIpRSgf/elcUbD7
-         iZXTsDB7d2Y9ZVrdlpG9yJiAqzkXg7kjZTEFQn74Tkvs/kBVPCCMc0wDcjQ8RMgf9qQs
-         H9K2B8O+8hMhMUTP2Kxz+cZGMOY/zBBCvuTy53dOabVEtkz2Mqd4+WmdMjPPYwD1TjIj
-         nlE01mwdsFORZ/wS3NTVI1LfBorY+mWv5HHDZrI0jVR/vPpzAEhCQVSciFCcpgzcDWQm
-         XC9xrZY3B6OEvc/V6R8XiDrQCq8qY8fMxPycmRuxUdeVM8QcGn5+8mZQS0oIDZLD+7Jm
-         qgLQ==
-X-Gm-Message-State: AOAM531S6qOOwcReB0BE40N5eun9NmSTWcbccSLowsE/JXWq24ayGhbh
-	q3Ypfqb50DDgdy7vOSXKSgPsDWrymKP90A==
-X-Google-Smtp-Source: ABdhPJxljvyQ39TW1cSbYZ7UZLwbX4nExfrs/H+G3cY9xz3Cw1wESU3SX+Zkgv7bQHezzNtYZQtLzQ==
-X-Received: by 2002:a17:90a:d816:: with SMTP id a22mr16556235pjv.180.1627411140316;
-        Tue, 27 Jul 2021 11:39:00 -0700 (PDT)
+        bh=2Sxt5+RK9Rl0BVq5GYbXyWj/O6bR9i3rfKQFoWKLuuc=;
+        b=dIicSIf5byJAe4rc4fHphT8SW7ywZTeuB/5A+GEH9fFMneoPGi1DCbJmAVK1i/O1aa
+         8NvbemXVsVk2W1JWiKkoEWo0OLR8LBCYHyy0NYRotg5UOIhFburGXraAxOtkRduK3ygn
+         aWhKgl/JmsPyLLU3vmMZKS4CL8L1XCJuZjfhZLEnTRp0iH7CnYM3oWfvxPpi02zlBnxh
+         mSns5RssPuKx4s9Ud3zKyE0hVq74VpvNtc68ucOJUneulSmZpDx9+1ElM5Gv3flmO3cz
+         ycgQfIAJDi21Kb/h2SB+Xdl9J9WDQP51dmuAJ3w184/kigL8mH4QXs3PTgrQGKlMoAv5
+         +D7Q==
+X-Gm-Message-State: AOAM5324Hq0tX5pgO5u+6aoff1Poolz9SIxN2xj7fw/3nWtIhTWp5pde
+	fDluoXt8frDoXZfXiOqE6Y8ylw92c83FMQ==
+X-Google-Smtp-Source: ABdhPJy6hQxU7u9wgh9/49EPrvydjCU0+FIV1vVb/C/yuQkTV0DwUFTS/E+UxVfYM+TI6iOLttY26A==
+X-Received: by 2002:aa7:96dc:0:b029:32e:1b8f:2a3d with SMTP id h28-20020aa796dc0000b029032e1b8f2a3dmr24845526pfq.43.1627412746465;
+        Tue, 27 Jul 2021 12:05:46 -0700 (PDT)
 Return-Path: <vinay.m.engg@gmail.com>
 Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id t17sm4148189pfg.93.2021.07.27.11.38.59
+        by smtp.gmail.com with ESMTPSA id lk5sm3532835pjb.53.2021.07.27.12.05.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 11:38:59 -0700 (PDT)
+        Tue, 27 Jul 2021 12:05:45 -0700 (PDT)
 From: "Vinay Kumar" <vinay.m.engg@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: anuj.mittal@intel.com,
@@ -47,9 +47,9 @@ Cc: anuj.mittal@intel.com,
 	umesh.kalappa0@gmail.com,
 	vinay.kumar@blackfigtech.com,
 	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH] glibc: Fix CVE-2021-33574
-Date: Tue, 27 Jul 2021 11:38:31 -0700
-Message-Id: <20210727183831.100545-1-vinay.m.engg@gmail.com>
+Subject: [hardknott][PATCH] glibc: Fix CVE-2021-33574
+Date: Tue, 27 Jul 2021 12:05:28 -0700
+Message-Id: <20210727190528.110938-1-vinay.m.engg@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -137,13 +137,13 @@ index 0000000000..fd73b23c88
 +   return retval;
 + }
 diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index 925efe8cc6..e9f01a14c5 100644
+index 75a1f36d6b..4b54a0dd59 100644
 --- a/meta/recipes-core/glibc/glibc_2.33.bb
 +++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -57,6 +57,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
-            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
-            file://mte-backports.patch \
+@@ -61,6 +61,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0033-x86-Handle-_SC_LEVEL1_ICACHE_LINESIZE-BZ-27444.patch \
+            file://CVE-2021-27645.patch \
+            file://0001-nptl-Remove-private-futex-optimization-BZ-27304.patch \
 +           file://CVE-2021-33574.patch \
             "
  S = "${WORKDIR}/git"
