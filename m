@@ -1,119 +1,206 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web08.6974.1627417922075268977
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+ by mx.groups.io with SMTP id smtpd.web08.7424.1627419921095888928
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Jul 2021 13:32:02 -0700
+ Tue, 27 Jul 2021 14:05:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vWEJHX2d;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id j18-20020a17090aeb12b029017737e6c349so743783pjz.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jul 2021 13:32:02 -0700 (PDT)
+ dkim=pass header.i=@taitradio.com header.s=google header.b=b8MHtjyp;
+ spf=pass (domain: taitradio.com, ip: 209.85.166.50, mailfrom: douglas.royds@taitradio.com)
+Received: by mail-io1-f50.google.com with SMTP id f11so384511ioj.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Jul 2021 14:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TYxb3kYoMkFc+9B0/0BKbPJ8u8AMl0CgbBjeYt7Aq4g=;
-        b=vWEJHX2dKFHXPKS9dUPizSOMOBqybbVhtOw3vPlpZnAESYv85yQdFkrDQtTKV9Nyt2
-         dNqf1sZ1ExslLOP1RIgAHNf7A52gT8Va9LpNzH1nV1/jup3aQD9eFHTVDPAookiP552B
-         fXrlVFJzt8NWjaaiWzBjcf2IEmKKUiMmZuN2hHHUPDFWdj3dJNIKfYOXsJj4p7ybC+Q5
-         SGLu/a3JdaIS9VsQ4Injs3gGSnkOnkAOOtre63+iIIfB2e0C6EcTqh8zD7I6x+r44omK
-         mQeXihwGRp2vXWMrdAp9k2O9WHkclMuNTiwXqdVsEXNyGNqZrjWZz/iBAhsWrAhEY8gn
-         6z4A==
+        d=taitradio.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IzGxNtzLMRoqHq084HWD2nyX2AGKPvQ4iBoU1W6pgMY=;
+        b=b8MHtjyp4oiYpjlQn+r88SdCOffs8l/20NZcDQYfmWjVx8GjEIggAG5EFyU3sxfQPB
+         LjtsTyl0MeZ118roYoGD6x+2kwfXv0JCrEyUnDFcUUbITFYKZWMd+OlFvPGXs3hMFhQm
+         Gr52rIySKW++fjZp0kSsRyOk5pzRzIOoVIhAA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TYxb3kYoMkFc+9B0/0BKbPJ8u8AMl0CgbBjeYt7Aq4g=;
-        b=ZQAxiqD5nBUDYOlT5RxJO49Sts7G/opzB6UeLYBcslUTWNJA/frma4LmV1vwyRjan1
-         YY5MYvVL0ynzXAIqktYwxbivlsThWx5w0RBUXCMRI6hNs/VhT2O/EzKjs0IYVY7vXsRz
-         1SY3jfWNI9rrJG/iecTGstOvfmx06Efrm4xd/b+/Egk6uMycHukf+0me6gseSBPAmr6c
-         RVtS2sqEVWS9iFfO1Bc0pCEomZgDa2nGEeG45EvaOBFR/cprFThO7K2AG/kvMxTA1gZp
-         2tvRmaOK0+LBXcNv2oJ1icmgLRxc0xV3MAnN7WMO+pg9/31DMU7YTsEp0zBQCcfzFiRj
-         29wg==
-X-Gm-Message-State: AOAM531HerTV7akjR1DiZAm/tjifVlhs1otC7GjUyb50Zymr4s3DOfsX
-	XOHFdFpCMXhCVNwx1XBSFDpYBUGSreJVsQ==
-X-Google-Smtp-Source: ABdhPJw1NwqqAfgBMkrKJzWmxQ50xL8vtphabUkvte1BIOLu6PjQ1YDD+B7/RwTqrQoWRj/ZcbMVlQ==
-X-Received: by 2002:a63:4d5e:: with SMTP id n30mr25525055pgl.159.1627417921366;
-        Tue, 27 Jul 2021 13:32:01 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::d2cb])
-        by smtp.gmail.com with ESMTPSA id m21sm4587261pfo.159.2021.07.27.13.32.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 13:32:00 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] stress-ng: Drop defining daddr_t
-Date: Tue, 27 Jul 2021 13:31:56 -0700
-Message-Id: <20210727203156.2855973-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IzGxNtzLMRoqHq084HWD2nyX2AGKPvQ4iBoU1W6pgMY=;
+        b=l0xu0tDTRaqj2fksWd0NN2lKq82ySpITaXNE6BoDkriL+yej8MUAZ4GYyQ8xmodHfz
+         3ETOyD18ZZFG8n3iE2huC1SdjPLjrMMlDOLK4etdtyiDAZe26SA+pQjavSc2pOvIaZ9M
+         LsYYVclMiOmr2L7zZHlwtNpXUV6bV1oqGIxD218VyYEc5LQu0NAu4UexW4WXqe0n/sm8
+         UY+QcS0cJy/rkB4BVYbS6uFneXujwWSgvKItlt3S4i0q3BKT/uGRaVysCe1kzit7n3j0
+         E0b9wUvn280M5qU/JUpcufMS2pfv+PifbWoEPMwoVNoOANvkiWSFFoa8CC+To9PMgo2m
+         VKow==
+X-Gm-Message-State: AOAM532cPpSShRnKNgaNzj5xfkcM6fDW291KogrX17D2ft5SLD1hkcD9
+	GKm1rs1rfm2V3Qlhb83+qyY4SOPpeGPNPFIE2WnEv66en6nJb/Ou0QMQRkEhuMt6+ZYlmeVtlaf
+	Hgj7uic6Hkd3mM2goYOWFR+4B+84d52S8/nB2VP12KUWjr39d
+X-Google-Smtp-Source: ABdhPJxM8zgHh1r29qAzW/gjd7mBkCP4X3ukTSnjQeRRqoZP3DqZdFNPVA7n6teCEjYtxQgQSOvb8ZtUYq0jVl17nko=
+X-Received: by 2002:a05:6638:3a1:: with SMTP id z1mr22566537jap.77.1627419918992;
+ Tue, 27 Jul 2021 14:05:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210701214437.732187-1-douglas.royds@taitradio.com> <YN8IBAtecvRvHaNi@piout.net>
+In-Reply-To: <YN8IBAtecvRvHaNi@piout.net>
+From: "Douglas" <douglas.royds@taitradio.com>
+Date: Wed, 28 Jul 2021 09:05:08 +1200
+Message-ID: <CAFimOt4FEtZdEqC9sQOqnrfuy5nQ7OT_kvWNfuaiJ9G1A5F4hA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] license_image: Use sstate to populate license directory
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is fixed differently upstream [1]
+On Sat, 3 Jul 2021 at 00:35, Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+> On 02/07/2021 09:44:37+1200, Douglas via lists.openembedded.org wrote:
+> > We were getting an endlessly-growing list of directories in
+> > build/tmp/deploy/licenses/ of the form myimage-mymachine-2021062901020=
+3.
+> > Use the normal sstate behaviour to clean them. Brings license_image in
+> > line with the do_populate_lic behaviour in license.bbclass.
+> >
+> > We must only clean the (new) WORKDIR/license-destdir at do_rootfs time=
+,
+> > as the write_package_manifest and license_create_manifest rootfs
+> > postprocess commands write the package.manifest and license.manifest
+> > files at that time. They get stored in the sstate cache at
+> > do_populate_lic_deploy time, alongside the image_license.manifest.
+> >
+> > Looks like this:
+> >
+> >     license-destdir/
+> >     =E2=94=9C=E2=94=80=E2=94=80 myimage-mymachine -> myimage-mymachine=
+-20210629025723/
+> >     =E2=94=94=E2=94=80=E2=94=80 myimage-mymachine-20210629025723/
+> >         =E2=94=9C=E2=94=80=E2=94=80 image_license.manifest
+> >         =E2=94=9C=E2=94=80=E2=94=80 license.manifest
+> >         =E2=94=94=E2=94=80=E2=94=80 package.manifest
+> >
+>
+> This ran on the autobuilders and I do believe it is the cause of the
+> following failures:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#builders/79/builds/2269/st=
+eps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#builders/86/builds/2247/st=
+eps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#builders/87/builds/2282/st=
+eps/14/logs/stdio
+>
+> Those seem to be pseudo aborts because the link is changing.
 
-[1] https://github.com/ColinIanKing/stress-ng/commit/7e150ab18b0e8954ca426eb5366000a8f0d01110
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../stress-ng/stress-ng/no_daddr_t.patch      | 32 -------------------
- .../stress-ng/stress-ng_0.12.12.bb            |  2 --
- 2 files changed, 34 deletions(-)
- delete mode 100644 meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
+Why would pseudo abort when the link changes? Replacing a symlink
+seems harmless enough ... any ideas?
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch b/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
-deleted file mode 100644
-index dba4494b91..0000000000
---- a/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 55e11765af2bdc8adfac87dab1fb2682f7e6c236 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 9 Jun 2020 22:10:28 -0700
--Subject: [PATCH] Define daddr_t if __DADDR_T_TYPE is not defined
--
--glibc defined daddr_t but musl does not, ideally it should not be used
--and simple int type is enough. However, its better to leave glibc behavior
--as it is and only define it to int if daddr_t is not provided by libc
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- stress-ng.h | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/stress-ng.h b/stress-ng.h
--index 1a66293..802dc25 100644
----- a/stress-ng.h
--+++ b/stress-ng.h
--@@ -3763,6 +3763,10 @@ struct shim_statx {
-- 	uint64_t __spare2[14];
-- };
-- 
--+#ifndef __DADDR_T_TYPE
--+typedef int daddr_t;
--+#endif
--+
-- /* old ustat struct */
-- struct shim_ustat {
-- #if defined(HAVE_DADDR_T)
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.12.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.12.bb
-index 97eaa75d18..430eac0d87 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.12.12.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.12.bb
-@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
-            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
--           file://no_daddr_t.patch \
-            "
- SRC_URI[sha256sum] = "f27af50f6f2308e707fef927674bdd209a046b116734281b792aeca35a4e4499"
- 
-@@ -24,4 +23,3 @@ do_install() {
-     oe_runmake DESTDIR=${D} install
-     ln -s stress-ng ${D}${bindir}/stress
- }
--
--- 
-2.32.0
 
+> > Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+> > ---
+> >  meta/classes/license_image.bbclass | 38 +++++++++++++++++------------=
+-
+> >  1 file changed, 22 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/meta/classes/license_image.bbclass b/meta/classes/license=
+_image.bbclass
+> > index 73cebb4d55e..30204b47b1c 100644
+> > --- a/meta/classes/license_image.bbclass
+> > +++ b/meta/classes/license_image.bbclass
+> > @@ -1,8 +1,9 @@
+> >  ROOTFS_LICENSE_DIR =3D "${IMAGE_ROOTFS}/usr/share/common-licenses"
+> > +LICSSTATEDIR =3D "${WORKDIR}/license-destdir/"
+> >
+> >  python write_package_manifest() {
+> >      # Get list of installed packages
+> > -    license_image_dir =3D d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME=
+}')
+> > +    license_image_dir =3D d.expand('${LICSSTATEDIR}/${IMAGE_NAME}')
+> >      bb.utils.mkdirhier(license_image_dir)
+> >      from oe.rootfs import image_list_installed_packages
+> >      from oe.utils import format_pkg_list
+> > @@ -32,7 +33,7 @@ python license_create_manifest() {
+> >              pkg_lic_name =3D "LICENSE_" + pkg_name
+> >              pkg_dic[pkg_name]["LICENSE"] =3D pkg_dic[pkg_name][pkg_li=
+c_name]
+> >
+> > -    rootfs_license_manifest =3D os.path.join(d.getVar('LICENSE_DIRECT=
+ORY'),
+> > +    rootfs_license_manifest =3D os.path.join(d.getVar('LICSSTATEDIR')=
+,
+> >                          d.getVar('IMAGE_NAME'), 'license.manifest')
+> >      write_license_files(d, rootfs_license_manifest, pkg_dic, rootfs=
+=3DTrue)
+> >  }
+> > @@ -196,23 +197,18 @@ def license_deployed_manifest(d):
+> >                  key,val =3D line.split(": ", 1)
+> >                  man_dic[dep][key] =3D val[:-1]
+> >
+> > -    lic_manifest_dir =3D os.path.join(d.getVar('LICENSE_DIRECTORY'),
+> > -                                    d.getVar('IMAGE_NAME'))
+> > -    bb.utils.mkdirhier(lic_manifest_dir)
+> > -    image_license_manifest =3D os.path.join(lic_manifest_dir, 'image_=
+license.manifest')
+> > +    licsstatedir =3D d.getVar('LICSSTATEDIR')
+> > +    image_name =3D d.getVar('IMAGE_NAME')
+> > +    image_license_manifest =3D os.path.join(licsstatedir, image_name,=
+ 'image_license.manifest')
+> >      write_license_files(d, image_license_manifest, man_dic, rootfs=3D=
+False)
+> >
+> >      link_name =3D d.getVar('IMAGE_LINK_NAME')
+> >      if link_name:
+> > -        lic_manifest_symlink_dir =3D os.path.join(d.getVar('LICENSE_D=
+IRECTORY'),
+> > -                                    link_name)
+> > -        # remove old symlink
+> > -        if os.path.islink(lic_manifest_symlink_dir):
+> > -            os.unlink(lic_manifest_symlink_dir)
+> > -
+> > -        # create the image dir symlink
+> > -        if lic_manifest_dir !=3D lic_manifest_symlink_dir:
+> > -            os.symlink(lic_manifest_dir, lic_manifest_symlink_dir)
+> > +        if image_name !=3D link_name:
+> > +            link_path =3D os.path.join(licsstatedir, link_name)
+> > +            if os.path.lexists(link_path):
+> > +                os.remove(link_path)
+> > +            os.symlink(image_name, link_path)
+> >
+> >  def get_deployed_dependencies(d):
+> >      """
+> > @@ -260,14 +256,24 @@ def get_deployed_files(man_file):
+> >      return dep_files
+> >
+> >  ROOTFS_POSTPROCESS_COMMAND_prepend =3D "write_package_manifest; licen=
+se_create_manifest; "
+> > +do_rootfs[cleandirs] +=3D "${LICSSTATEDIR}"
+> >  do_rootfs[recrdeptask] +=3D "do_populate_lic"
+> >
+> >  python do_populate_lic_deploy() {
+> >      license_deployed_manifest(d)
+> >  }
+> > -
+> >  addtask populate_lic_deploy before do_build after do_image_complete
+> > +
+> > +SSTATETASKS +=3D "do_populate_lic_deploy"
+> > +do_populate_lic_deploy[dirs] =3D "${LICSSTATEDIR}/${IMAGE_NAME}"
+> >  do_populate_lic_deploy[recrdeptask] +=3D "do_populate_lic do_deploy"
+> > +do_populate_lic_deploy[sstate-inputdirs] =3D "${LICSSTATEDIR}"
+> > +do_populate_lic_deploy[sstate-outputdirs] =3D "${LICENSE_DIRECTORY}/"
+> > +
+> > +python do_populate_lic_deploy_setscene () {
+> > +    sstate_setscene(d)
+> > +}
+> > +addtask do_populate_lic_deploy_setscene
+> >
+> >  python license_qa_dead_symlink() {
+> >      import os
+> > --
+> > 2.25.1
+> >
+>
+> >
+> >=20
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+--=20
+This Communication is Confidential. We only send and receive email on the
+basis of the terms set out at www.taitradio.com/email_disclaimer=20
+<http://www.taitradio.com/email_disclaimer>
