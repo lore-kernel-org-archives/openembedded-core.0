@@ -1,80 +1,68 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.197.1627502406401972517
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+ by mx.groups.io with SMTP id smtpd.web10.106.1627503409496152746
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 13:00:06 -0700
+ Wed, 28 Jul 2021 13:16:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b9n4U6eS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id c16so3937547wrp.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 13:00:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=h13yyM7sey7A+b//sD+YBt4CkjMklVUjWIINBgz3+f8=;
-        b=b9n4U6eSJjofNL3w8x8+6zuuKdCnTwiVPpHS43UiDsgb3XCD5c9exy/VPav5td5dpH
-         0Ml/gBROGtCefYvqx+zWx2Q/+QLRxjf8ZiCpDN6s96KayWLHFvy/Kt0YNxQpYvDaFJ9c
-         WyZxi/tSUn0OZDj6SbV6qimnonYhSfJyZHhaY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=h13yyM7sey7A+b//sD+YBt4CkjMklVUjWIINBgz3+f8=;
-        b=heqajyovuEaDKsY1EOvWT2Yg238N4yrHomMSUHdl0QEmmVbaM1OuZqxIN0zmpk1Fdc
-         zHT36SOncxxcn2YcaSi9uF18NILeYytmhDasTg60d5CcYb/PNcSefSmB5Z884u37j27O
-         /HuM67fq+KwIMIpy1cjmqa5OJlxhePg4QcYdiq0B1nLjeSonD4OXCliCUtwIKeE4qzBJ
-         vGflmcFP1sI2F8kHEy2R553OGRsCOCuWraVruh//goKcgmuuSBhbs3cxUZuugHBqiXWc
-         DzrTHOtZvh2Qx/GLkF00Om1fLlyaOmQ4ISoWTNL+yRwRYtWSwgDWsUWBzPa8I8Zt49DD
-         FQJw==
-X-Gm-Message-State: AOAM532KB2W/0hbW9lN3TWG26PH6Py4uc/puiLXp0KMvZaedZRIUypFN
-	1JvoQys6eI/Bh4QdLLOS1OQXgQ==
-X-Google-Smtp-Source: ABdhPJzNBcVrqg6fDo1pu4dx1Vkr0/ApFxFm/2xZ6R5z/dBgI9cSSyJpQciCJGykp/fxk2ms/6MuiA==
-X-Received: by 2002:a5d:6d89:: with SMTP id l9mr964334wrs.371.1627502404885;
-        Wed, 28 Jul 2021 13:00:04 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:824:a750:d1fb:a5cc? ([2001:8b0:aba:5f3c:824:a750:d1fb:a5cc])
-        by smtp.gmail.com with ESMTPSA id z17sm843239wrt.47.2021.07.28.13.00.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 13:00:04 -0700 (PDT)
-Message-ID: <393c82382db7b88aec671e6f4d0c080ebbdef665.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/3] meta: Manual override fixes
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Jul 2021 21:00:02 +0100
-In-Reply-To: <CAJ86T=UNcf=Tzj4hq2uwXJzmtio71YZExLsr6zqOZr-ZAq9trQ@mail.gmail.com>
-References: <20210728141506.3287158-1-richard.purdie@linuxfoundation.org>
-	 <20210728141506.3287158-3-richard.purdie@linuxfoundation.org>
-	 <CAJ86T=UNcf=Tzj4hq2uwXJzmtio71YZExLsr6zqOZr-ZAq9trQ@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
+ dkim=pass header.i=@seebs.net header.s=mail header.b=RnmCaqvd;
+ spf=pass (domain: seebs.net, ip: 162.213.38.76, mailfrom: seebs@seebs.net)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id 1302C2E8939
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 15:16:46 -0500 (CDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=seebs.net; s=mail;
+	t=1627503407; bh=Yi6d0YDMzVe2uFIyyPSEpCQxJ166JcX9OvpTlPB9SNA=;
+	h=Date:From:To:Subject:In-Reply-To:References;
+	b=RnmCaqvdFFPh7oFFoIi4WwB4S5Sn1VHiopLyhsWm8at4HmCnCNCaUiTolQmiDVJIj
+	 Ygluxl+KzAzZbDVARHMlknQpwM6RHvCnnD9aQrFJMOTScLOFbmnJJo1U5aOqFXjqz/
+	 upgGK/3BHkWHpOwgGB6lmg8ewcBy3/wzK982FGOmOCpz9EoS3PlYghNdwgyieB/87r
+	 UGS4f9VhhWXLgLrfbLb+Mio592GT2TJIs9p2JS90mIx7c7V63fetkofZuTWvE2SHLv
+	 pPqmSQiRKbdJyNv9IvS2mVuD6XKqqvszeu313kdB8L6BHPL3LTkePbXRXlydvPKwVT
+	 ublREOVy0yEMA==
+Date: Wed, 28 Jul 2021 15:16:41 -0500
+From: "Seebs" <seebs@seebs.net>
+To: "openembedded-core" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH pseudo 4/4] Do not return address of local variable
+Message-ID: <20210728151641.667338a5@seebsdell>
+In-Reply-To: <17aec78de72.dbb79e7b5562.7908341287383433208@ertelnet.rybnik.pl>
+References: <20210727114906.191837-1-dwrobel@ertelnet.rybnik.pl>
+	<20210727114906.191837-4-dwrobel@ertelnet.rybnik.pl>
+	<20210727104712.385ad146@seebsdell>
+	<17ae8cdb530.110af7c7857737.3405175808509729608@ertelnet.rybnik.pl>
+	<20210727115246.04b8ffa4@seebsdell>
+	<17aec78de72.dbb79e7b5562.7908341287383433208@ertelnet.rybnik.pl>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2021-07-28 at 12:32 -0700, Andre McCurdy wrote:
-> On Wed, Jul 28, 2021 at 7:15 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > The automated conversion of OE-Core to use the new override sytax isn't
-> > perfect. This patches some mis-converted lines and some lines which were missed
-> > by the automation.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > @@ -86,7 +86,7 @@ python systemd_populate_packages() {
-> >          bb.debug(1, 'adding systemd calls to postinst/postrm for %s' % pkg)
-> > 
-> >          paths_escaped = ' '.join(shlex.quote(s) for s in d.getVar('SYSTEMD_SERVICE:' + pkg).split())
-> > -        d.setVar('SYSTEMD_SERVICE:ESCAPED_' + pkg, paths_escaped)
-> > +        d.setVar('SYSTEMD_SERVICE_ESCAPED:' + pkg, paths_escaped)
-> 
-> This is manually fixing the misconversion of _ESCAPED to :ESCAPED,
-> right? If so then does it mean a bug in the automatic conversion
-> script since overrides can't be uppercase?
+On Wed, 28 Jul 2021 11:36:22 +0200
+"Damian Wrobel" <dwrobel@ertelnet.rybnik.pl> wrote:
 
-There are several bugs in the script, yes. The question is how far to go 
-in trying to address them and this wasn't a common issue.
+> Do I correctly assume that pseudo_client_op() has to be fully
+> reentrant?
 
-Cheers,
+No. It's never been even a tiny bit reentrant. We used to do the
+allocate and free thing, and it was incredibly expensive, and the
+nature of the thing requires confidence that we never, ever, have
+more than one thing writing and reading over the socket at a time,
+so it's just Not Reentrant. During one call to pseudo_client_op,
+there will never be another, and all the IPC stuff uses a single
+consistent local buffer that it returns the address of.
 
-Richard
+Declaring that as static without changing the initializer would indeed
+break everything -- we rely on the initializer working. Changing it to
+static means it only gets initialized once...
 
+Changing it to:
+
+	static pseudo_msg_t msg;
+	msg = pseudo_msg_t { .type = PSEUDO_MSG_OP };
+
+would probably be fine, because then it'd be initialized. Otherwise,
+we'd get failures when msg got overwritten and reused.
+
+Or just changing `result = &msg` to something like `result =
+&xattrdb_data`, which would be nonsensical but it turns out not to
+matter, as the only caller that reaches this case is the caller
+that's just checking yes/no "is the return value not a null pointer".
+
+-s
