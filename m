@@ -1,59 +1,85 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.5891.1627483960375819017
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web10.831.1627493548833725878
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 07:52:40 -0700
+ Wed, 28 Jul 2021 10:32:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 8AAB020007;
-	Wed, 28 Jul 2021 14:52:38 +0000 (UTC)
-Subject: Re: [OE-core] [PATCH 1/3] scripts/contrib: Add override conversion script
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20210728141506.3287158-1-richard.purdie@linuxfoundation.org>
-From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-Message-ID: <249a0b12-37c7-e844-9f69-6d2393707f90@bootlin.com>
-Date: Wed, 28 Jul 2021 16:52:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=LrRKDozg;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.173, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f173.google.com with SMTP id o13so2986512qkk.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 10:32:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=72vLoaFOyCOppY5NVkOAn23WdcqGjCd0qXm7BgyMmxA=;
+        b=LrRKDozgk23y04Vtsj94w2nYFDFotMxKjtTYCBcSTUhSDfiiELSzeqIGIiWuW1Ygs9
+         Lr0R0tPznUaSAI8StY/cjLzE/OSd+0QtJzb3lW3RWQMhm26mBCx4GRNWy1HlKYphvXhB
+         UfpuCSlXC12g3vpc1BTjXuRDCf573MCmKpc6yvYzhyOlUm1NVE/adTm5JajnOh+p6+F0
+         Sn279714xkQxKgHDuDC/M3M32HWeHkbpJCszY9HnZneTaDQrih1tuVOp3EcabkIP5CMl
+         vo2vszWDaDcBxiY0OgtyKyNwhxJqhdXuoy8pBIRiIR2299zyeB1z34pkv0dn8p2YwfOD
+         NvaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=72vLoaFOyCOppY5NVkOAn23WdcqGjCd0qXm7BgyMmxA=;
+        b=MUexaPEYP9VSJKaFFR5nlhzN+ylmAqmNaPqrq9zn0oGgnQcBaDjG27PngzWkyDiw/g
+         NMt18F4VCbGpNdu7ARihQDNKkeF0Y8VhGCtj/33RjPxfB3R2ftzxcCD/69nXFjMAa9Ne
+         +a7UzKFvo/MY59q8VOKL0zzhkBGmpW+treLbsaUrAikVL4/RqHnsyAr7R/6bRaug8t7K
+         tXZf8B1ZcHuso2tLl3nn8rEhFIXQzlXVYTP4MC/vd2JZgBqPtIQUiy0a8Bx7eJ2CqlgP
+         sJbhWbYBMZ+4qeZSczcSXfSpl/dLjDnIxnp3timHnI51UrJdEvfoSJtyou/Ea1kCauu5
+         q3jQ==
+X-Gm-Message-State: AOAM5309ChYcIVnCVsJX4NsudvKACxqMhnTTxdiE/uh8uyZzf1WB0dBH
+	Kt6UHGcCAWKhUVaVGSgUfajJruDzoXzOSg==
+X-Google-Smtp-Source: ABdhPJy5NmAih5Pew7LCiaFVdxno0tX/3nMcdahrhsrVTdowNQMITlz7U1P6iJyC6h1akiTLdN4wkw==
+X-Received: by 2002:a37:4042:: with SMTP id n63mr747960qka.425.1627493547721;
+        Wed, 28 Jul 2021 10:32:27 -0700 (PDT)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([2605:a601:a632:4e00:bcd8:ed53:504b:4ba7])
+        by smtp.gmail.com with ESMTPSA id i4sm304041qka.130.2021.07.28.10.32.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 10:32:27 -0700 (PDT)
+From: "Jon Mason" <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] parselogs.py: qemuarm should be qemuarmv5
+Date: Wed, 28 Jul 2021 13:32:26 -0400
+Message-Id: <20210728173226.14546-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210728141506.3287158-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
+All of the errors being masked off for qemuarm are legacy from before
+the migration of qemuarm to qemuarmv5.  Rename the machine to that to
+allow for qemuarmv5 to pass parselog test.  Light testing shows no
+errors in dmesg for qemuarm.
 
-On 7/28/21 4:15 PM, Richard Purdie wrote:
-> This adds a script I've developed to migrate metadata to use the new override
-> syntax. It is a bit rough but since its for a single use with validation, it
-> doesn't need to be perfect. It is run simply as:
->
-> scripts/contrib/convert-overrides.py <directory>
->
-> It is setup and has been tested to work with OE-Core, Bitbake, yocto-docs,
-> meta-yocto, meta-gplv2 and meta-mingw. For OE-Core, it converts around 10,100
-> lines with about 34 manual fixes needed.
->
-> For other layers it would need updating for override names and exclusions for
-> functions/variable names with "append", "prepend" or "remove" in them.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  scripts/contrib/convert-overrides.py | 146 +++++++++++++++++++++++++++
->  1 file changed, 146 insertions(+)
->  create mode 100755 scripts/contrib/convert-overrides.py
->
-> diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/lib/oeqa/runtime/cases/parselogs.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-Tested-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Working fine on documentation sources, though I'll exclude the changes
-to migration guides from past versions.
-Thanks!
-
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 73243c36591d..af8a8d67bd46 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -122,7 +122,7 @@ ignore_errors = {
+         'synth uevent: /devices/vio: failed to send uevent',
+         'PCI 0000:00 Cannot reserve Legacy IO [io  0x10000-0x10fff]',
+         ] + common_errors,
+-    'qemuarm' : [
++    'qemuarmv5' : [
+         'mmci-pl18x: probe of fpga:05 failed with error -22',
+         'mmci-pl18x: probe of fpga:0b failed with error -22',
+         'Failed to load module "glx"',
+@@ -136,6 +136,7 @@ ignore_errors = {
+         'OF: amba_device_add() failed (-19) for /amba/fpga/sci@a000',
+         'Failed to initialize \'/amba/timer@101e3000\': -22',
+         'jitterentropy: Initialization failed with host not compliant with requirements: 2',
++        'clcd-pl11x: probe of 10120000.display failed with error -2',
+         ] + common_errors,
+     'qemuarm64' : [
+         'Fatal server error:',
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.20.1
 
