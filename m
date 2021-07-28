@@ -1,106 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.3652.1627472645785091713
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web12.4106.1627475364982499007
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 04:44:06 -0700
+ Wed, 28 Jul 2021 05:29:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6532E31B
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 04:44:04 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C78E3F66F
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 04:44:03 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ojihviaO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id z24so1950548qkz.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 05:29:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=baEdGXP2g/tuyBuZSzTJjzODGtYsSr/YA5VjZK1ubZk=;
+        b=ojihviaOs69JOi4lJFW8X+MzrEl4w6Mq/3izBfBLko0RH1IWGjItkex30Uk1p0PytA
+         ozDyvMdGpXGOQfzicHXPBcsYiDkC56AvExSsmHqX+uP/I6LD1TwEI6Z+ypaEjrCE3nhW
+         Sy770W1JZvzK7L/Q9QcWIP28UJ+bBVq9Go1qVjklzqsm0YyhN1WdoQ9xAhRbkrXtcdlc
+         I+HxtCWV5YBo6M3MdrUsI4BfwL81bPNTevUOYZafVLmHZ4hWWZKB6b8R7CpXx/6xv8oJ
+         eNiAQNw6x9UjLGu7e5PxlLbY7mdGaOCmns1N/I6RnfyuyvaQVFOb5NMzmKmOq99mlnAt
+         /1Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=baEdGXP2g/tuyBuZSzTJjzODGtYsSr/YA5VjZK1ubZk=;
+        b=Oz52A0ygrMB7tTgJ3xqpyQZSU/3/7iwWO1VXOIMSQTAg4YzGxrbxhsshIhTQYF85hm
+         tRhl81I9n8qCjhHTED/AhFyj89xSjQjHazwZhjYiX/fq48cvBsMjVYT02EfDkFqXPQij
+         iHTA7IO/uXSIZNs6j+MGjnbPWWq2eglGO+wj6XCwlPT1QdSmxnfstfgw4hNvHSSgAymU
+         Cf7GbprgSS8rarRZgs/P6iUv0dHBvJhRDwyuRqw1J64N/HeP8yrnmKZPYa1+W3Pn3qmx
+         OexB4lSohQ9lqQUSqJpHXZPcftNUhqAj00zLdtalU2xOJfaXLbaejNYDROHdHkgT5Q/+
+         c+6A==
+X-Gm-Message-State: AOAM531dVVmFs1TrugU5tOWPRex7HW2Fqju5WZkkp7mSgiFsSREIg0Bg
+	LkbNdrTGuxe7aCIZkFJDblceeHI0BdU=
+X-Google-Smtp-Source: ABdhPJz1WBkFZlwkUTaZI1LfT642DARCTHuzsnWlKHgOXHzUOOo9AUUqFWn+x4GXNRkHDzuHslFKNA==
+X-Received: by 2002:a05:620a:24e:: with SMTP id q14mr27995601qkn.300.1627475363752;
+        Wed, 28 Jul 2021 05:29:23 -0700 (PDT)
+Return-Path: <twoerner@gmail.com>
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id s3sm3211882qke.85.2021.07.28.05.29.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 05:29:23 -0700 (PDT)
+From: "Trevor Woerner" <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libx11: fix xkb compilation with _EVDEVK symbols
-Date: Wed, 28 Jul 2021 12:44:02 +0100
-Message-Id: <20210728114402.2325698-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH] ffmpeg: add libatomic for armv5
+Date: Wed, 28 Jul 2021 08:29:14 -0400
+Message-Id: <20210728122914.1085-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.30.0.rc0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-New xkeyboard-config writes defines that use _EVDEVK(), which makekeys
-can't parse.  Take a patch from upstream to also parse these symbols.
+The GNU Atomic library is a GCC support runtime library for atomic
+operations not supported by hardware.
 
-[ YOCTO #14489 ]
+Otherwise we get the following when building:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+	| arm-oe-linux-gnueabi-gcc -mcpu=3Darm926ej-s -mfpu=3Dvfp -mfloat-abi=3Dha=
+rd -marm --sysroot=3D.../build/tmp-glibc/work/armv5ehf-vfp-oe-linux-gnueabi=
+/ffmpeg/4.4-r0/recipe-sysroot -Llibavcodec -Llibavdevice -Llibavfilter -Lli=
+bavformat -Llibavresample -Llibavutil -Llibpostproc -Llibswscale -Llibswres=
+ample -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -Wl,-O1 -Wl,--hash-sty=
+le=3Dgnu -Wl,--as-needed  --sysroot=3D.../build/tmp-glibc/work/armv5ehf-vfp=
+-oe-linux-gnueabi/ffmpeg/4.4-r0/recipe-sysroot -mcpu=3Darm926ej-s -Wl,--as-=
+needed -Wl,-z,noexecstack -Wl,--warn-common -Wl,-rpath-link=3D:libpostproc:=
+libswresample:libswscale:libavfilter:libavdevice:libavformat:libavcodec:lib=
+avutil:libavresample   -o ffprobe_g fftools/cmdutils.o fftools/ffprobe.o  -=
+lavdevice -lavfilter -lavformat -lavcodec -lavresample -lswresample -lswsca=
+le -lavutil  -lm -lxcb -lxcb-shm -lxcb-shape -lxcb-xfixes -lasound -lXv -lX=
+11 -lXext -pthread -lm -lm -lbz2 -lz -pthread -lm -llzma -lz -ltheoraenc -l=
+theoradec -logg -lm -lm -lm -pthread -lm -lXv -lX11 -lXext
+	| .../build/tmp-glibc/work/armv5ehf-vfp-oe-linux-gnueabi/ffmpeg/4.4-r0/rec=
+ipe-sysroot-native/usr/bin/arm-oe-linux-gnueabi/../../libexec/arm-oe-linux-=
+gnueabi/gcc/arm-oe-linux-gnueabi/11.1.1/ld: libavformat/libavformat.so: und=
+efined reference to `__atomic_fetch_sub_8'
+	| .../build/tmp-glibc/work/armv5ehf-vfp-oe-linux-gnueabi/ffmpeg/4.4-r0/rec=
+ipe-sysroot-native/usr/bin/arm-oe-linux-gnueabi/../../libexec/arm-oe-linux-=
+gnueabi/gcc/arm-oe-linux-gnueabi/11.1.1/ld: libavformat/libavformat.so: und=
+efined reference to `__atomic_store_8'
+	| .../build/tmp-glibc/work/armv5ehf-vfp-oe-linux-gnueabi/ffmpeg/4.4-r0/rec=
+ipe-sysroot-native/usr/bin/arm-oe-linux-gnueabi/../../libexec/arm-oe-linux-=
+gnueabi/gcc/arm-oe-linux-gnueabi/11.1.1/ld: libavformat/libavformat.so: und=
+efined reference to `__atomic_load_8'
+	| .../build/tmp-glibc/work/armv5ehf-vfp-oe-linux-gnueabi/ffmpeg/4.4-r0/rec=
+ipe-sysroot-native/usr/bin/arm-oe-linux-gnueabi/../../libexec/arm-oe-linux-=
+gnueabi/gcc/arm-oe-linux-gnueabi/11.1.1/ld: libavformat/libavformat.so: und=
+efined reference to `__atomic_fetch_add_8'
+	| collect2: error: ld returned 1 exit status
+
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- .../xorg-lib/libx11/keysym.patch              | 46 +++++++++++++++++++
- .../recipes-graphics/xorg-lib/libx11_1.7.2.bb |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/keysym.patch
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/keysym.patch b/meta/re=
-cipes-graphics/xorg-lib/libx11/keysym.patch
-new file mode 100644
-index 0000000000..f4d7419c02
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/keysym.patch
-@@ -0,0 +1,46 @@
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/xorg/lib/libx=
-11/-/merge_requests/79]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From e92efc63acd7b377faa9e534f4bf52aaa86be2a9 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Tue, 27 Jul 2021 11:46:19 +1000
-+Subject: [PATCH] makekeys: handle the new _EVDEVK xorgproto symbols
-+
-+These keys are all defined through a macro in the form:
-+   #define XF86XK_BrightnessAuto		_EVDEVK(0x0F4)
-+
-+The _EVDEVK macro is simply an offset of 0x10081000.
-+Let's parse these lines correctly so those keysyms end up in our
-+hashtables.
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+---
-+ src/util/makekeys.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/src/util/makekeys.c b/src/util/makekeys.c
-+index e847ef4c..4896cc53 100644
-+--- a/src/util/makekeys.c
-++++ b/src/util/makekeys.c
-+@@ -78,6 +78,18 @@ parse_line(const char *buf, char *key, KeySym *val, c=
-har *prefix)
-+         return 1;
-+     }
-+=20
-++    /* See if we can parse one of the _EVDEVK symbols */
-++    i =3D sscanf(buf, "#define %127s _EVDEVK(0x%lx)", key, val);
-++    if (i =3D=3D 2 && (tmp =3D strstr(key, "XK_"))) {
-++        memcpy(prefix, key, (size_t)(tmp - key));
-++        prefix[tmp - key] =3D '\0';
-++        tmp +=3D 3;
-++        memmove(key, tmp, strlen(tmp) + 1);
-++
-++        *val +=3D 0x10081000;
-++        return 1;
-++    }
-++
-+     /* Now try to catch alias (XK_foo XK_bar) definitions, and resolve =
-them
-+      * immediately: if the target is in the form XF86XK_foo, we need to
-+      * canonicalise this to XF86foo before we do the lookup. */
-+--=20
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb b/meta/recipe=
-s-graphics/xorg-lib/libx11_1.7.2.bb
-index 5d7e9e3783..c9ddc12f08 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
-@@ -12,6 +12,7 @@ PE =3D "1"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb b/meta/recipes-mu=
+ltimedia/ffmpeg/ffmpeg_4.4.bb
+index 3ed009bbb7..373a3e7388 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+@@ -130,6 +130,7 @@ EXTRA_OECONF +=3D "${@bb.utils.contains('TUNE_FEATURES'=
+, 'mips32r6', '--disable-mi
+ EXTRA_OECONF_append_mips =3D " --extra-libs=3D-latomic --disable-mips32r5 =
+--disable-mipsdsp --disable-mipsdspr2 \
+                              --disable-loongson2 --disable-loongson3 --dis=
+able-mmi --disable-msa --disable-msa2"
+ EXTRA_OECONF_append_riscv32 =3D " --extra-libs=3D-latomic"
++EXTRA_OECONF_append_armv5 =3D " --extra-libs=3D-latomic"
 =20
- SRC_URI +=3D "file://Fix-hanging-issue-in-_XReply.patch \
-            file://disable_tests.patch \
-+           file://keysym.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "1cfa35e37aaabbe4792e9bb690468efefbfbf6b147d9c69d=
-6f90d13c3092ea6c"
+ # gold crashes on x86, another solution is to --disable-asm but thats more=
+ hacky
+ # ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
 --=20
-2.25.1
+2.30.0.rc0
 
