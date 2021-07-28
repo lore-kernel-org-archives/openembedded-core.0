@@ -1,136 +1,86 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web10.1910.1627458747143336959
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web08.1987.1627458815584852041
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 00:52:27 -0700
+ Wed, 28 Jul 2021 00:53:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LWKWJUEZ;
- spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id o7so1786416ilh.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 00:52:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hor2XvrT;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: nagesh.shamnur@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id k4-20020a17090a5144b02901731c776526so8701684pjm.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 00:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k523uEjBxmRcqqjsGZJ0MA1djkhXTPgykE6uQBZmQjY=;
-        b=LWKWJUEZUx486Jyp5CaadRAyPoH9qWqlkNKaI1ST48k6Cna9bF+5q47Vm6Y0mhKxvb
-         TFLpvnPAVoAIMAspmOTS8UlqlrQPB5W4mF3YZdOs5L1S/S4iCsipCzNTCs0wq15p3MAC
-         Ep11OkxAGa8hhgk6GsgsKz6tX7+/ugcr1XVlkCI1hBQujMknL8s2mjHSzWS1g0O2Ze8j
-         qeVDhwEJBUO6WKPhkHhq3JUIKgVpu8pQNmdeXD3KRJWdLGWEoNxJIIntnre+aMXEieP9
-         xS4ps5jxzFCNhSN0BH8R/0cuMyM02e0VdsfcFt5epypFqz1p44WIqISjz93ZDi0jZLBn
-         4t6w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=QOCkLOBRGz1i1Hsvyd4E6FrOkfRUstU+D1imBU/5imI=;
+        b=hor2XvrTsuYXHROMSXrix8OvhvqCx03zCdoGX/4DfLKm4iZomwQT06oiqZNYXQ5fyW
+         ihZMuT8fpgGH3FrITqoqHdjJGrS33dWIyQVOW+rQAW1XIn3loE6oSGfCXs1C8ypLqqj9
+         Qaldrg5KAHCvOSqNXO8N2rR8AvE+ZaDIn7KqzZxjagqzn17NSu9xx69cQJEj4pOrX8q6
+         DmjbtYwmYXC3Y76nvcrt6gMrhdHYFY3SGc8UwI+ya7WTdWIR/Vfwa7042WrlFdQPXdHG
+         l5JtFLIvFnKYoY2H/3BOp9c2L8Oa/hnAq3sMLg9CB1yr+JWJi7L3F4wJ/0IXJ8TcTGPR
+         GCAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k523uEjBxmRcqqjsGZJ0MA1djkhXTPgykE6uQBZmQjY=;
-        b=bWb2jhE1e6kA4cHbOj50OfDprhQdY5wo3bQ9wBMCEixswvc9eTQMonJUCh3/imKo3I
-         RO0iQrTmB8k3ML0/MV9Rn6efRfcJItCkBT2m9U6+89qmRi2HaCGWC18z3Ug8LuqxgKlX
-         Ntrk332VZ5xaPtNt3QO50cNMa2fG+P6n690IoIc3jJK8QgX+8+qRn3xbRDHB3L6Vdl9W
-         P8B7gogZO+55vGg4YaMSqhn0R9/k9gvePc2baUagkL3Y14eJihamLJ5pKjMPRXI71p75
-         HyOmbMU2cTZoABZmeT9uuNQ+0J06KDWZy9ua8E5oQwzPUm8KLrjZcHNWMtLOVUY8eRal
-         CIbg==
-X-Gm-Message-State: AOAM532JalUIhLmedtWkNCQ7Jsd6YCEpUxHJOYyMngco9xg9kPF9mxbF
-	vUwkE2TM5q4KGjCmyNd2gR/880Jxx4iAaQ==
-X-Google-Smtp-Source: ABdhPJzRSjSbdjeeunnZoihXSZfrPS8+Wk4spWiQAfTfEq5/vAirKfL8X3xwKR0qwHwNlITEXKJUdw==
-X-Received: by 2002:a92:ce49:: with SMTP id a9mr1788970ilr.195.1627458746084;
-        Wed, 28 Jul 2021 00:52:26 -0700 (PDT)
-Return-Path: <vinay.m.engg@gmail.com>
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id y198sm4074801iof.25.2021.07.28.00.52.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 00:52:25 -0700 (PDT)
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com,
-	richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	vinay.kumar@blackfigtech.com,
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH] glibc: Fix CVE-2021-35942
-Date: Wed, 28 Jul 2021 00:52:15 -0700
-Message-Id: <20210728075215.154410-1-vinay.m.engg@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=QOCkLOBRGz1i1Hsvyd4E6FrOkfRUstU+D1imBU/5imI=;
+        b=Nxi5bg+3OmkQiBKxSFP0/BlbpfBeGKOvWRLb7x7rstU1yvyj+OF4fswa2C3GlzMLCI
+         Qqo6t/JiLMva+GLMrwCgYvPkdZTyRYHE+ycyN9Zs5vCSlIILWRgQ4/Q+HWGDE328clk+
+         gNHv3MCiB8t6I6aql9HJ1l4OkJpynC/w+0h3aPYCwrZBp5qbPBbjqbUX+/W2ZizwmvcK
+         CmW12LFD1wYpsI8FzyesaGUSkLpQTSn0LUXbhplUEUloIxYWCsT/NUkTtpFIY9BvR1gr
+         aomt7lYNC0EhlG0ulzpsb+PnSIba4RWMIrw4mlNNw5D2OLnBgXpK5GiSWDqModFL/hsA
+         NoHA==
+X-Gm-Message-State: AOAM530BYAcSG3lgimbs2wl44wlYg6uWr7lRBtmmdhpX/ui49IcBHBp8
+	L1m0rTQ/wfS7WTb+HuNmMdd+KEVSEI6gDX1l9Hn8d0eTmCc=
+X-Google-Smtp-Source: ABdhPJww/0NMIFPyUBlh6Skb4vJW2aOREctIYdWKA7F7MuTwxK/pXpQaM0K0x6Xt3pFuFB5vvigEUud6b/8KpDM7bTk=
+X-Received: by 2002:a05:6a00:16c6:b029:32d:e190:9dd0 with SMTP id
+ l6-20020a056a0016c6b029032de1909dd0mr26854991pfc.70.1627458814803; Wed, 28
+ Jul 2021 00:53:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAA_JV5PZwZh8mMw0ZoVBuCA1570ki0gqSi_Du=UqXfNtuG6P4w@mail.gmail.com>
+In-Reply-To: <CAA_JV5PZwZh8mMw0ZoVBuCA1570ki0gqSi_Du=UqXfNtuG6P4w@mail.gmail.com>
+From: nagesh.shamnur@gmail.com
+Date: Wed, 28 Jul 2021 13:23:23 +0530
+Message-ID: <CAA_JV5OinDTfVwtVN4hYexvr2c08NxL5=A-pAsiBquFqvEUPEQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] fix compilation error when add libgloss under DEPENDS in recipe
+To: openembedded-core@lists.openembedded.org
+X-Groupsio-MsgNum: 154198
+Content-Type: multipart/mixed; boundary="0000000000008b190405c82a4871"
 
-Source: https://sourceware.org/git/glibc.git
-Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28011
+--0000000000008b190405c82a4871
+Content-Type: text/plain; charset="UTF-8"
 
-Backported upstream commit 5adda61f62b77384718b4c0d8336ade8f2b4b35c to
-glibc-2.33 source.
+ Dear Group,
+    When include newlib and libgloss under DEPENDS in custom recipe,
+ then newlib compilation is successful however libgloss compilation
+ fails since it is unable to find the needed include path under
+ recipe-sysroot/usr/include. This patch is to fix this issue by
+ including recipe-sysroot/usr/include while configuring libgloss.
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
+ Regards,
+ Nagesh
 
-Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
----
- .../glibc/glibc/CVE-2021-35942.patch          | 44 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+--0000000000008b190405c82a4871
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-fix-compilation-error-for-libgloss.patch"
+Content-Disposition: attachment; 
+	filename="0001-fix-compilation-error-for-libgloss.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_krn6y81v0>
+X-Attachment-Id: f_krn6y81v0
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
-new file mode 100644
-index 0000000000..5cae1bc91c
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
-@@ -0,0 +1,44 @@
-+From 5adda61f62b77384718b4c0d8336ade8f2b4b35c Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@linux-m68k.org>
-+Date: Fri, 25 Jun 2021 15:02:47 +0200
-+Subject: [PATCH] wordexp: handle overflow in positional parameter number (bug
-+ 28011)
-+
-+Use strtoul instead of atoi so that overflow can be detected.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
-+CVE: CVE-2021-35942
-+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-+---
-+ posix/wordexp-test.c | 1 +
-+ posix/wordexp.c      | 2 +-
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/posix/wordexp-test.c b/posix/wordexp-test.c
-+index f93a546d7e..9df02dbbb3 100644
-+--- a/posix/wordexp-test.c
-++++ b/posix/wordexp-test.c
-+@@ -183,6 +183,7 @@ struct test_case_struct
-+     { 0, NULL, "$var", 0, 0, { NULL, }, IFS },
-+     { 0, NULL, "\"\\n\"", 0, 1, { "\\n", }, IFS },
-+     { 0, NULL, "", 0, 0, { NULL, }, IFS },
-++    { 0, NULL, "${1234567890123456789012}", 0, 0, { NULL, }, IFS },
-+ 
-+     /* Flags not already covered (testit() has special handling for these) */
-+     { 0, NULL, "one two", WRDE_DOOFFS, 2, { "one", "two", }, IFS },
-+diff --git a/posix/wordexp.c b/posix/wordexp.c
-+index bcbe96e48d..1f3b09f721 100644
-+--- a/posix/wordexp.c
-++++ b/posix/wordexp.c
-+@@ -1399,7 +1399,7 @@ envsubst:
-+   /* Is it a numeric parameter? */
-+   else if (isdigit (env[0]))
-+     {
-+-      int n = atoi (env);
-++      unsigned long n = strtoul (env, NULL, 10);
-+ 
-+       if (n >= __libc_argc)
-+ 	/* Substitute NULL. */
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index e9f01a14c5..abb01f8468 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -58,6 +58,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
-            file://mte-backports.patch \
-            file://CVE-2021-33574.patch \
-+           file://CVE-2021-35942.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.31.1
+RnJvbSA3NzNhMTBmYmMyODU4ZjIzOTdhYmNmNjRjNjBlNjQzODRhOTJmMjVmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOYWdlc2ggPG5hZ2VzaC5zaGFtbnVyQGh1YXdlaS5jb20+CkRh
+dGU6IFdlZCwgMjggSnVsIDIwMjEgMTM6MDk6NTAgKzA1MzAKU3ViamVjdDogW1BBVENIIDEvMV0g
+Zml4IGNvbXBpbGF0aW9uIGVycm9yIHdoZW4gYWRkIGxpYmdsb3NzIHVuZGVyCkRFUEVORFMgaW4g
+cmVjaXBlCgpTaWduZWQtb2ZmLWJ5OiBOYWdlc2ggPG5hZ2VzaC5zaGFtbnVyQGh1YXdlaS5jb20+
+Ci0tLQogbWV0YS9yZWNpcGVzLWNvcmUvbmV3bGliL25ld2xpYi5pbmMgfCAxICsKIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL25l
+d2xpYi9uZXdsaWIuaW5jIGIvbWV0YS9yZWNpcGVzLWNvcmUvbmV3bGliL25ld2xpYi5pbmMKaW5k
+ZXggMGFiYTIxZmFlNy4uZWRmNGQxYjUyYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+bmV3bGliL25ld2xpYi5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbmV3bGliL25ld2xpYi5p
+bmMKQEAgLTI2LDYgKzI2LDcgQEAgQiA9ICIke1dPUktESVJ9L2J1aWxkIgogCiAjIyBkaXNhYmxl
+IHN0ZGxpYgogVEFSR0VUX0NDX0FSQ0hfYXBwZW5kID0gIiAtbm9zdGRsaWIiCitDRkxBR1NfcHJl
+cGVuZCA9ICItSSR7UkVDSVBFX1NZU1JPT1R9L3Vzci9pbmNsdWRlIgogCiBFWFRSQV9PRUNPTkYg
+PSAiIFwKICAgICAgICAgICAgICAgICAtLWJ1aWxkPSR7QlVJTERfU1lTfSAgXAotLSAKMi4yNS4x
+Cgo=
 
+--0000000000008b190405c82a4871--
