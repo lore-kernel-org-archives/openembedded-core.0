@@ -1,132 +1,106 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web09.3162.1627468457648693027
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.3652.1627472645785091713
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 03:34:17 -0700
+ Wed, 28 Jul 2021 04:44:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WCOtd1ja;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso3448532pjf.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 03:34:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Cva5IUOzdJxfOr0PHb4gXFPLjw9JRdMJRbxuZDiNVe4=;
-        b=WCOtd1ja6ExKVTZ7ADUltEX9tVtvJjRsORvDCZeBhnhanhuetnw07NR8hbQ2+4abl4
-         y4+3fyh6nWOEw3AWemL6CYrmJ1T5cqoqC9qxg2eMT7rXhGuciOazRWnIKtIXnQYC3Emu
-         VOxmZYWi4W9YCnNMm4ItQmS+aZx4/XKXFNo6Ln2tdq9md8P0nkIXTd6uizXqx6tmavBw
-         aDQIxXjsZKIc38x5TYJVc65qKrb+JmMrpzCvD3D8zuaS4R54U+9rQnOyC0gYfccGw+Xf
-         NMt1jj2R42fCh8+8JFxUBBkNR2jrI7DGn9kxSiPYCNgYZj5uE/NI5eTMIGd+aqbnj8fL
-         Tcug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Cva5IUOzdJxfOr0PHb4gXFPLjw9JRdMJRbxuZDiNVe4=;
-        b=W/8gdr459f9IQbPdr5HlOoOZWLZohuMBTq1aO3ZoeaBCrldFSScr/dSB1OVh2nfZw/
-         27A5xhmY9ipgoR4CFzzBNhk77qLhKyfrDUtHvQt+eDn0mRAPVGYipkosZu1zNFRnT1rP
-         pn3YsaC++5MDJ/msMTra/t3ba+xxLoQRMwvKiQCKok0VlHoN1tyKnipj7vOxU0fNIl9z
-         Ph5Pnlcbt9z+gj29uUY6CrbKCeAeZ6f6VPm/WrmO5KW369s9jKLvAwW6yMpYmL2heFT/
-         N9ZcYI61qiKDx70Dw4H/QtSojuVWgAG/RtRDlc34Q2am5ppHVk91gPbNaAeeq4XU6SjK
-         NSDw==
-X-Gm-Message-State: AOAM531PWEdlEey3Cozf2z+pcFwhLZsAHDQuPTuAeBZwY/W0Irhis+RE
-	WKLGBXxl18LDlcY1Lr0mOP56Yyd57k55hg==
-X-Google-Smtp-Source: ABdhPJzUMDx4/nlDVpNQhI6z10ZOjnRaBtjWXEcO9Qd471GRbhuS8QI01sg84iq/6hGrEEolZsLKBQ==
-X-Received: by 2002:a17:902:c20c:b029:12a:edee:a7fa with SMTP id 12-20020a170902c20cb029012aedeea7famr23003383pll.2.1627468456775;
-        Wed, 28 Jul 2021 03:34:16 -0700 (PDT)
-Return-Path: <vinay.m.engg@gmail.com>
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id f10sm7180200pfa.17.2021.07.28.03.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 03:34:16 -0700 (PDT)
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6532E31B
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 04:44:04 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C78E3F66F
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 04:44:03 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com,
-	richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	vinay.kumar@blackfigtech.com,
-	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [hardknott][PATCH] glibc: Fix CVE-2021-35942
-Date: Wed, 28 Jul 2021 03:25:38 -0700
-Message-Id: <20210728102538.36902-1-vinay.m.engg@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [PATCH] libx11: fix xkb compilation with _EVDEVK symbols
+Date: Wed, 28 Jul 2021 12:44:02 +0100
+Message-Id: <20210728114402.2325698-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-Source: https://sourceware.org/git/glibc.git
-Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28011
+New xkeyboard-config writes defines that use _EVDEVK(), which makekeys
+can't parse.  Take a patch from upstream to also parse these symbols.
 
-Backported upstream commit 5adda61f62b77384718b4c0d8336ade8f2b4b35c to
-glibc-2.33 source.
+[ YOCTO #14489 ]
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
-
-Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../glibc/glibc/CVE-2021-35942.patch          | 40 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+ .../xorg-lib/libx11/keysym.patch              | 46 +++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libx11_1.7.2.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/keysym.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/keysym.patch b/meta/re=
+cipes-graphics/xorg-lib/libx11/keysym.patch
 new file mode 100644
-index 0000000000..349762bd8c
+index 0000000000..f4d7419c02
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
-@@ -0,0 +1,40 @@
-+From 5adda61f62b77384718b4c0d8336ade8f2b4b35c Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@linux-m68k.org>
-+Date: Fri, 25 Jun 2021 15:02:47 +0200
-+Subject: [PATCH] wordexp: handle overflow in positional parameter number (bug
-+ 28011)
++++ b/meta/recipes-graphics/xorg-lib/libx11/keysym.patch
+@@ -0,0 +1,46 @@
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/xorg/lib/libx=
+11/-/merge_requests/79]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
-+Use strtoul instead of atoi so that overflow can be detected.
++From e92efc63acd7b377faa9e534f4bf52aaa86be2a9 Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Tue, 27 Jul 2021 11:46:19 +1000
++Subject: [PATCH] makekeys: handle the new _EVDEVK xorgproto symbols
++
++These keys are all defined through a macro in the form:
++   #define XF86XK_BrightnessAuto		_EVDEVK(0x0F4)
++
++The _EVDEVK macro is simply an offset of 0x10081000.
++Let's parse these lines correctly so those keysyms end up in our
++hashtables.
++
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 +---
-+ posix/wordexp-test.c | 1 +
-+ posix/wordexp.c      | 2 +-
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
++ src/util/makekeys.c | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
 +
-+diff --git a/posix/wordexp-test.c b/posix/wordexp-test.c
-+index f93a546d7e..9df02dbbb3 100644
-+--- a/posix/wordexp-test.c
-++++ b/posix/wordexp-test.c
-+@@ -183,6 +183,7 @@ struct test_case_struct
-+     { 0, NULL, "$var", 0, 0, { NULL, }, IFS },
-+     { 0, NULL, "\"\\n\"", 0, 1, { "\\n", }, IFS },
-+     { 0, NULL, "", 0, 0, { NULL, }, IFS },
-++    { 0, NULL, "${1234567890123456789012}", 0, 0, { NULL, }, IFS },
-+ 
-+     /* Flags not already covered (testit() has special handling for these) */
-+     { 0, NULL, "one two", WRDE_DOOFFS, 2, { "one", "two", }, IFS },
-+diff --git a/posix/wordexp.c b/posix/wordexp.c
-+index bcbe96e48d..1f3b09f721 100644
-+--- a/posix/wordexp.c
-++++ b/posix/wordexp.c
-+@@ -1399,7 +1399,7 @@ envsubst:
-+   /* Is it a numeric parameter? */
-+   else if (isdigit (env[0]))
-+     {
-+-      int n = atoi (env);
-++      unsigned long n = strtoul (env, NULL, 10);
-+ 
-+       if (n >= __libc_argc)
-+ 	/* Substitute NULL. */
-+-- 
-+2.17.1
++diff --git a/src/util/makekeys.c b/src/util/makekeys.c
++index e847ef4c..4896cc53 100644
++--- a/src/util/makekeys.c
+++++ b/src/util/makekeys.c
++@@ -78,6 +78,18 @@ parse_line(const char *buf, char *key, KeySym *val, c=
+har *prefix)
++         return 1;
++     }
++=20
+++    /* See if we can parse one of the _EVDEVK symbols */
+++    i =3D sscanf(buf, "#define %127s _EVDEVK(0x%lx)", key, val);
+++    if (i =3D=3D 2 && (tmp =3D strstr(key, "XK_"))) {
+++        memcpy(prefix, key, (size_t)(tmp - key));
+++        prefix[tmp - key] =3D '\0';
+++        tmp +=3D 3;
+++        memmove(key, tmp, strlen(tmp) + 1);
+++
+++        *val +=3D 0x10081000;
+++        return 1;
+++    }
+++
++     /* Now try to catch alias (XK_foo XK_bar) definitions, and resolve =
+them
++      * immediately: if the target is in the form XF86XK_foo, we need to
++      * canonicalise this to XF86foo before we do the lookup. */
++--=20
++GitLab
 +
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index 4b54a0dd59..eb6c3430e3 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -62,6 +62,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://CVE-2021-27645.patch \
-            file://0001-nptl-Remove-private-futex-optimization-BZ-27304.patch \
-            file://CVE-2021-33574.patch \
-+           file://CVE-2021-35942.patch \
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb b/meta/recipe=
+s-graphics/xorg-lib/libx11_1.7.2.bb
+index 5d7e9e3783..c9ddc12f08 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.2.bb
+@@ -12,6 +12,7 @@ PE =3D "1"
+=20
+ SRC_URI +=3D "file://Fix-hanging-issue-in-_XReply.patch \
+            file://disable_tests.patch \
++           file://keysym.patch \
             "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.31.1
+=20
+ SRC_URI[sha256sum] =3D "1cfa35e37aaabbe4792e9bb690468efefbfbf6b147d9c69d=
+6f90d13c3092ea6c"
+--=20
+2.25.1
 
