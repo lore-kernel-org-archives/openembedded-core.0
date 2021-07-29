@@ -1,433 +1,98 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.6042.1627540074600477264
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.1])
+ by mx.groups.io with SMTP id smtpd.web10.6299.1627542414271602157
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 23:27:54 -0700
+ Thu, 29 Jul 2021 00:06:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 16T6RqrR028900
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 23:27:53 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 28 Jul 2021 23:27:52 -0700
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 28 Jul 2021 23:27:52 -0700
-From: "Chen Qi" <Qi.Chen@windriver.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=OA9BpuEu;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.1, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1627542412; i=@fujitsu.com;
+	bh=uXUg7cX2eZAiJfsIqlxEha0uc/SpQKZtQD4tLyFSCJ8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=OA9BpuEuiq2rtI1pLn2usTKl1VfWB6RI1cSPVWIolIvnEhUrZemxIUFBUNjyn5yxa
+	 /XGjyRg/p/qwpcvFgXrFfApFoXAhakV2QJn7yJaxyOzy5QI4ydbjVJddy5HfbNwHul
+	 ntrU/aRPTUMm94ykje1/1ciBbEw+5YQUnpDSltZAaHFOE3DRxw26sozAW25EZtBPqk
+	 JHSz2ecCpw0Qv2sxowv4qDkIWTbS0jiz86cCwuYeIaYy8KRqZYHCG6PQWKEbdAdzxI
+	 cJK3nuKFkEQosnCIVec4/+by+C+xj4A0V/rgmDi3253NfceViWElMrm60DOlvIPLzb
+	 obcdRhQovRFhg==
+Received: from [100.112.192.148] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-a.eu-west-1.aws.symcld.net id 4D/AE-31114-C8352016; Thu, 29 Jul 2021 07:06:52 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRWlGSWpSXmKPExsViZ8MxVbc7mCn
+  R4PYKY4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPtzKdsBfs4K45fu8nSwHiQo4uRi0NIYBaT
+  xIz9T5i7GDmBnBOMEtuW6oDYbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHidw87iC0sYCFxd
+  dVrpi5Gdg4WAVWJs2DFvAJOEo+vV4IUSAgoSEx5+B5sNqeAs0T3h/VMICVCQCUT10qChHkFBC
+  VOznzCAjFbQuLgixfMEK2KErMvN7NA2BUSs2a1MU1g5J+FpGUWkpYFjEyrGM2TijLTM0pyEzN
+  zdA0NDHQNDY10DS1NdM3M9BKrdBP1Ukt1y1OLS3QN9RLLi/WKK3OTc1L08lJLNjECQzCl4JDT
+  Dsb3rz/oHWKU5GBSEuX9ZceUKMSXlJ9SmZFYnBFfVJqTWnyIUYaDQ0mCd1MQUE6wKDU9tSItM
+  wcYDzBpCQ4eJRFeoQCgNG9xQWJucWY6ROoUo6KUOO/iQKCEAEgiozQPrg0Wg5cYZaWEeRkZGB
+  iEeApSi3IzS1DlXzGKczAqCfOGgkzhycwrgZv+CmgxE9Di2hJGkMUliQgpqQYmTjev1g3NWqm
+  Odaat1YfPTjR0LTgatfLFp+83fx6y3dyncv+60uWj8Twl5wNXWhW2NfEqT7KVsFc6/HHuM7ML
+  Ox8vdZ9Ts1LXZ1XZgfjknnvNvK+eV/6aMJslbr9zmP+H518mLJrwrPt2ik1I8vN5/h/Nvy+P+
+  3jWgs2qK+Cix5b2mToCU93rtk0oOcdwJKK0/GhQksmUCK7loXq19q47AqR8DbbE2MSfeXjrXN
+  Uii9SDBRJGh3KYigv2rvEqmi45t3j6iZfPGI9tvX3L7eH1T1ufeATpz+QwVYu5N3F1ugzfvLU
+  3ufV3G1RJxn1+wr3pWkTICllj8fOqy3gDd5aFyITIhL7RzHv6+/D8zs87lViKMxINtZiLihMB
+  II0QZzwDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-2.tower-265.messagelabs.com!1627542411!63321!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 19899 invoked from network); 29 Jul 2021 07:06:51 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-2.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Jul 2021 07:06:51 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 16T76gGf001513
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jul 2021 08:06:51 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Thu, 29 Jul 2021 08:06:46 +0100
+From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][hardknott][PATCH] systemd: fix CVE-2020-13529
-Date: Wed, 28 Jul 2021 23:27:52 -0700
-Message-ID: <20210729062752.18665-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.30.2
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] i2c-tools: upgrade 4.2 -> 4.3
+Date: Thu, 29 Jul 2021 15:06:28 +0800
+Message-ID: <1627542388-24698-3-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1627542388-24698-1-git-send-email-wangmy@fujitsu.com>
+References: <1627542388-24698-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-Backport patches to fix CVE-2020-13529.
+4.3 (2021-07-22)
+   decode-dimms: Attempt to decode LPDDR3 modules
+   eeprom, eepromer: Removed the tools in favor of eeprog
+   i2cdetect: Sort the bus list by number
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...heck-error-earlier-and-reduce-indent.patch | 172 ++++++++++++++++++
- ...02-sd-dhcp-client-shorten-code-a-bit.patch |  66 +++++++
- ...ogs-when-dhcp-client-unexpectedly-ga.patch |  69 +++++++
- ...entatively-ignore-FORCERENEW-command.patch |  42 +++++
- meta/recipes-core/systemd/systemd_247.6.bb    |   4 +
- 5 files changed, 353 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch
+ .../i2c-tools/{i2c-tools_4.2.bb => i2c-tools_4.3.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/i2c-tools/{i2c-tools_4.2.bb => i2c-tools_4.3.bb} (95%)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch b/meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch
-new file mode 100644
-index 0000000000..ff877d9175
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch
-@@ -0,0 +1,172 @@
-+From ac6c7f2d2389c5c0ae90554a58f1c75f60cc8e5a Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Thu, 24 Jun 2021 00:48:23 +0900
-+Subject: [PATCH] sd-dhcp-client: check error earlier and reduce indentation
-+
-+Upstream-Status: Backport
-+CVE: CVE-2020-13529
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/libsystemd-network/sd-dhcp-client.c | 128 ++++++++++++------------
-+ 1 file changed, 64 insertions(+), 64 deletions(-)
-+
-+diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
-+index d472fcd941..86bc3c6181 100644
-+--- a/src/libsystemd-network/sd-dhcp-client.c
-++++ b/src/libsystemd-network/sd-dhcp-client.c
-+@@ -1770,21 +1770,21 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+         case DHCP_STATE_SELECTING:
-+ 
-+                 r = client_handle_offer(client, message, len);
-+-                if (r >= 0) {
-++                if (r == -ENOMSG)
-++                        return 0; /* invalid message, let's ignore it */
-++                if (r < 0)
-++                        goto error;
-+ 
-+-                        client->state = DHCP_STATE_REQUESTING;
-+-                        client->attempt = 0;
-++                client->state = DHCP_STATE_REQUESTING;
-++                client->attempt = 0;
-+ 
-+-                        r = event_reset_time(client->event, &client->timeout_resend,
-+-                                             clock_boottime_or_monotonic(),
-+-                                             0, 0,
-+-                                             client_timeout_resend, client,
-+-                                             client->event_priority, "dhcp4-resend-timer", true);
-+-                        if (r < 0)
-+-                                goto error;
-+-                } else if (r == -ENOMSG)
-+-                        /* invalid message, let's ignore it */
-+-                        return 0;
-++                r = event_reset_time(client->event, &client->timeout_resend,
-++                                     clock_boottime_or_monotonic(),
-++                                     0, 0,
-++                                     client_timeout_resend, client,
-++                                     client->event_priority, "dhcp4-resend-timer", true);
-++                if (r < 0)
-++                        goto error;
-+ 
-+                 break;
-+ 
-+@@ -1794,47 +1794,9 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+         case DHCP_STATE_REBINDING:
-+ 
-+                 r = client_handle_ack(client, message, len);
-+-                if (r >= 0) {
-+-                        client->start_delay = 0;
-+-                        (void) event_source_disable(client->timeout_resend);
-+-                        client->receive_message =
-+-                                sd_event_source_unref(client->receive_message);
-+-                        client->fd = safe_close(client->fd);
-+-
-+-                        if (IN_SET(client->state, DHCP_STATE_REQUESTING,
-+-                                   DHCP_STATE_REBOOTING))
-+-                                notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
-+-                        else if (r != SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
-+-                                notify_event = r;
-+-
-+-                        client->state = DHCP_STATE_BOUND;
-+-                        client->attempt = 0;
-+-
-+-                        client->last_addr = client->lease->address;
-+-
-+-                        r = client_set_lease_timeouts(client);
-+-                        if (r < 0) {
-+-                                log_dhcp_client(client, "could not set lease timeouts");
-+-                                goto error;
-+-                        }
-+-
-+-                        r = dhcp_network_bind_udp_socket(client->ifindex, client->lease->address, client->port, client->ip_service_type);
-+-                        if (r < 0) {
-+-                                log_dhcp_client(client, "could not bind UDP socket");
-+-                                goto error;
-+-                        }
-+-
-+-                        client->fd = r;
-+-
-+-                        client_initialize_io_events(client, client_receive_message_udp);
-+-
-+-                        if (notify_event) {
-+-                                client_notify(client, notify_event);
-+-                                if (client->state == DHCP_STATE_STOPPED)
-+-                                        return 0;
-+-                        }
-+-
-+-                } else if (r == -EADDRNOTAVAIL) {
-++                if (r == -ENOMSG)
-++                        return 0; /* invalid message, let's ignore it */
-++                if (r == -EADDRNOTAVAIL) {
-+                         /* got a NAK, let's restart the client */
-+                         client_notify(client, SD_DHCP_CLIENT_EVENT_EXPIRED);
-+ 
-+@@ -1853,21 +1815,59 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+                                                     RESTART_AFTER_NAK_MIN_USEC, RESTART_AFTER_NAK_MAX_USEC);
-+ 
-+                         return 0;
-+-                } else if (r == -ENOMSG)
-+-                        /* invalid message, let's ignore it */
-+-                        return 0;
-++                }
-++                if (r < 0)
-++                        goto error;
-++
-++                client->start_delay = 0;
-++                (void) event_source_disable(client->timeout_resend);
-++                client->receive_message = sd_event_source_unref(client->receive_message);
-++                client->fd = safe_close(client->fd);
-++
-++                if (IN_SET(client->state, DHCP_STATE_REQUESTING, DHCP_STATE_REBOOTING))
-++                        notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
-++                else if (r != SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
-++                        notify_event = r;
-++
-++                client->state = DHCP_STATE_BOUND;
-++                client->attempt = 0;
-++
-++                client->last_addr = client->lease->address;
-++
-++                r = client_set_lease_timeouts(client);
-++                if (r < 0) {
-++                        log_dhcp_client(client, "could not set lease timeouts");
-++                        goto error;
-++                }
-++
-++                r = dhcp_network_bind_udp_socket(client->ifindex, client->lease->address, client->port, client->ip_service_type);
-++                if (r < 0) {
-++                        log_dhcp_client(client, "could not bind UDP socket");
-++                        goto error;
-++                }
-++
-++                client->fd = r;
-++
-++                client_initialize_io_events(client, client_receive_message_udp);
-++
-++                if (notify_event) {
-++                        client_notify(client, notify_event);
-++                        if (client->state == DHCP_STATE_STOPPED)
-++                                return 0;
-++                }
-+ 
-+                 break;
-+ 
-+         case DHCP_STATE_BOUND:
-+                 r = client_handle_forcerenew(client, message, len);
-+-                if (r >= 0) {
-+-                        r = client_timeout_t1(NULL, 0, client);
-+-                        if (r < 0)
-+-                                goto error;
-+-                } else if (r == -ENOMSG)
-+-                        /* invalid message, let's ignore it */
-+-                        return 0;
-++                if (r == -ENOMSG)
-++                        return 0; /* invalid message, let's ignore it */
-++                if (r < 0)
-++                        goto error;
-++
-++                r = client_timeout_t1(NULL, 0, client);
-++                if (r < 0)
-++                        goto error;
-+ 
-+                 break;
-+ 
-diff --git a/meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch b/meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch
-new file mode 100644
-index 0000000000..41d0c7b1e4
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch
-@@ -0,0 +1,66 @@
-+From 875f3773e383d99e7d43020f02acad7681a05914 Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Thu, 24 Jun 2021 00:51:52 +0900
-+Subject: [PATCH] sd-dhcp-client: shorten code a bit
-+
-+Upstream-Status: Backport
-+CVE: CVE-2020-13529
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/libsystemd-network/sd-dhcp-client.c | 13 ++++---------
-+ 1 file changed, 4 insertions(+), 9 deletions(-)
-+
-+diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
-+index 86bc3c6181..ef3a7d2c6b 100644
-+--- a/src/libsystemd-network/sd-dhcp-client.c
-++++ b/src/libsystemd-network/sd-dhcp-client.c
-+@@ -1760,7 +1760,7 @@ static int client_set_lease_timeouts(sd_dhcp_client *client) {
-+ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, int len) {
-+         DHCP_CLIENT_DONT_DESTROY(client);
-+         char time_string[FORMAT_TIMESPAN_MAX];
-+-        int r = 0, notify_event = 0;
-++        int r, notify_event = 0;
-+ 
-+         assert(client);
-+         assert(client->event);
-+@@ -1783,9 +1783,6 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+                                      0, 0,
-+                                      client_timeout_resend, client,
-+                                      client->event_priority, "dhcp4-resend-timer", true);
-+-                if (r < 0)
-+-                        goto error;
-+-
-+                 break;
-+ 
-+         case DHCP_STATE_REBOOTING:
-+@@ -1813,7 +1810,6 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+ 
-+                         client->start_delay = CLAMP(client->start_delay * 2,
-+                                                     RESTART_AFTER_NAK_MIN_USEC, RESTART_AFTER_NAK_MAX_USEC);
-+-
-+                         return 0;
-+                 }
-+                 if (r < 0)
-+@@ -1866,19 +1862,18 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+                         goto error;
-+ 
-+                 r = client_timeout_t1(NULL, 0, client);
-+-                if (r < 0)
-+-                        goto error;
-+-
-+                 break;
-+ 
-+         case DHCP_STATE_INIT:
-+         case DHCP_STATE_INIT_REBOOT:
-+-
-++                r = 0;
-+                 break;
-+ 
-+         case DHCP_STATE_STOPPED:
-+                 r = -EINVAL;
-+                 goto error;
-++        default:
-++                assert_not_reached("invalid state");
-+         }
-+ 
-+ error:
-diff --git a/meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch b/meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch
-new file mode 100644
-index 0000000000..07c7da8c21
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch
-@@ -0,0 +1,69 @@
-+From 0ad3b0fffe622bffbe9f380c3e4cb99b0961bef5 Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Thu, 24 Jun 2021 01:14:12 +0900
-+Subject: [PATCH] sd-dhcp-client: logs when dhcp client unexpectedly gains a
-+ new lease
-+
-+Previously, such situation is handled silently.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2020-13529
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/libsystemd-network/sd-dhcp-client.c | 23 ++++++++++++-----------
-+ 1 file changed, 12 insertions(+), 11 deletions(-)
-+
-+diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
-+index ef3a7d2c6b..04a75c6966 100644
-+--- a/src/libsystemd-network/sd-dhcp-client.c
-++++ b/src/libsystemd-network/sd-dhcp-client.c
-+@@ -1760,7 +1760,7 @@ static int client_set_lease_timeouts(sd_dhcp_client *client) {
-+ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, int len) {
-+         DHCP_CLIENT_DONT_DESTROY(client);
-+         char time_string[FORMAT_TIMESPAN_MAX];
-+-        int r, notify_event = 0;
-++        int r, notify_event;
-+ 
-+         assert(client);
-+         assert(client->event);
-+@@ -1815,16 +1815,16 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+                 if (r < 0)
-+                         goto error;
-+ 
-++                if (IN_SET(client->state, DHCP_STATE_REQUESTING, DHCP_STATE_REBOOTING))
-++                        notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
-++                else
-++                        notify_event = r;
-++
-+                 client->start_delay = 0;
-+                 (void) event_source_disable(client->timeout_resend);
-+                 client->receive_message = sd_event_source_unref(client->receive_message);
-+                 client->fd = safe_close(client->fd);
-+ 
-+-                if (IN_SET(client->state, DHCP_STATE_REQUESTING, DHCP_STATE_REBOOTING))
-+-                        notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
-+-                else if (r != SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
-+-                        notify_event = r;
-+-
-+                 client->state = DHCP_STATE_BOUND;
-+                 client->attempt = 0;
-+ 
-+@@ -1846,12 +1846,13 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
-+ 
-+                 client_initialize_io_events(client, client_receive_message_udp);
-+ 
-+-                if (notify_event) {
-++                if (IN_SET(client->state, DHCP_STATE_RENEWING, DHCP_STATE_REBINDING) &&
-++                    notify_event == SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
-++                        /* FIXME: hmm, maybe this is a bug... */
-++                        log_dhcp_client(client, "client_handle_ack() returned SD_DHCP_CLIENT_EVENT_IP_ACQUIRE while DHCP client is %s the address, skipping callback.",
-++                                        client->state == DHCP_STATE_RENEWING ? "renewing" : "rebinding");
-++                else
-+                         client_notify(client, notify_event);
-+-                        if (client->state == DHCP_STATE_STOPPED)
-+-                                return 0;
-+-                }
-+-
-+                 break;
-+ 
-+         case DHCP_STATE_BOUND:
-diff --git a/meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch b/meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch
-new file mode 100644
-index 0000000000..c65fb45ab9
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch
-@@ -0,0 +1,42 @@
-+From ae18277a6cfd04af8a914780f04a867254ab2341 Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Thu, 24 Jun 2021 01:22:07 +0900
-+Subject: [PATCH] sd-dhcp-client: tentatively ignore FORCERENEW command
-+
-+This makes DHCP client ignore FORCERENEW requests, as unauthenticated
-+FORCERENEW requests causes a security issue (TALOS-2020-1142, CVE-2020-13529).
-+
-+Let's re-enable this after RFC3118 (Authentication for DHCP Messages)
-+and/or RFC6704 (Forcerenew Nonce Authentication) are implemented.
-+
-+Fixes #16774.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2020-13529
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/libsystemd-network/sd-dhcp-client.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
-+index 04a75c6966..54eb3a2ab0 100644
-+--- a/src/libsystemd-network/sd-dhcp-client.c
-++++ b/src/libsystemd-network/sd-dhcp-client.c
-+@@ -1536,9 +1536,17 @@ static int client_handle_forcerenew(sd_dhcp_client *client, DHCPMessage *force,
-+         if (r != DHCP_FORCERENEW)
-+                 return -ENOMSG;
-+ 
-++#if 0
-+         log_dhcp_client(client, "FORCERENEW");
-+ 
-+         return 0;
-++#else
-++        /* FIXME: Ignore FORCERENEW requests until we implement RFC3118 (Authentication for DHCP
-++         * Messages) and/or RFC6704 (Forcerenew Nonce Authentication), as unauthenticated FORCERENEW
-++         * requests causes a security issue (TALOS-2020-1142, CVE-2020-13529). */
-++        log_dhcp_client(client, "Received FORCERENEW, ignoring.");
-++        return -ENOMSG;
-++#endif
-+ }
-+ 
-+ static bool lease_equal(const sd_dhcp_lease *a, const sd_dhcp_lease *b) {
-diff --git a/meta/recipes-core/systemd/systemd_247.6.bb b/meta/recipes-core/systemd/systemd_247.6.bb
-index 32afa159ec..f1db1e922b 100644
---- a/meta/recipes-core/systemd/systemd_247.6.bb
-+++ b/meta/recipes-core/systemd/systemd_247.6.bb
-@@ -27,6 +27,10 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch \
-            file://0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch \
-            file://0001-analyze-resolve-executable-path-if-it-is-relative.patch \
-+           file://0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch \
-+           file://0002-sd-dhcp-client-shorten-code-a-bit.patch \
-+           file://0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch \
-+           file://0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch \
-            "
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.2.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.3.bb
+similarity index 95%
+rename from meta/recipes-devtools/i2c-tools/i2c-tools_4.2.bb
+rename to meta/recipes-devtools/i2c-tools/i2c-tools_4.3.bb
+index 9842d1f135..76bd85331a 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.2.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.3.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
+ "
  
- # patches needed by musl
+-SRC_URI[sha256sum] = "7de18ed890e111fa54ab7ea896804d5faa4d1f0462a258aad9fbb7a8cc6b60cc"
++SRC_URI[sha256sum] = "eec464e42301d93586cbeca3845ed61bff40f560670e5b35baec57301d438148"
+ 
+ inherit update-alternatives
+ 
 -- 
-2.30.2
+2.25.1
 
