@@ -1,50 +1,50 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web08.5461.1627534210196079911
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web09.5337.1627534211037521257
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 21:50:10 -0700
+ Wed, 28 Jul 2021 21:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y9TxbRaQ;
- spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f169.google.com with SMTP id a12so3108763qtb.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7ZiriPQ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id t66so4783746qkb.0
         for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 21:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5X6S/TfxOaPoREQVv8qlV7uEsqgE3ijrM3LCuh2pIdY=;
-        b=Y9TxbRaQRVQgFN9AZ6WrkYfYZ8LDTWUcgnFDR2pWBKxWGquPPSUvOu1cTulMN48ocf
-         P3rJT+Xmt58gfiRMajwe5UeYqX9CA0bfFK43Y0bzMk4MhtstMGe6z3LCZEU1z4Cb3ODw
-         cICNSpU3j/akCmO/L/gKqXnjpxXBjQ7BH0RYUP++Bhx9W9JqvWV7XLFtaepv29YBnE6s
-         UK8rCLZXWfk4kGKrOvWkNnDIDUHrriuTVbZ/mdALZ6GjCirrOmvt2jXtL8NxVYLHIFcu
-         Q1lajw9xItIGqThiShT46x3UMbJX4Bz1qtcIZx37mJ4yavPQ1VsNAMZjyrHVO+z9YKw0
-         9y9w==
+        bh=r8WEjK5WwR++Sf6BYnwU4Fcuwx/VbbTFVNdmG0IBcQk=;
+        b=J7ZiriPQX788AED6g8VTlJqgxEdyh8M5tqiACVIY3NzpYXinYYrZRowaynDtLSgO7k
+         lsbJ9eQ6RF8YCn+V2iThXvbRpZUwMExC+l+iZHutRvqGy7Fiz2XGcpHHr6TK0B/Dn5w6
+         NPyTcvVEcdkI/g2LCRXwtQ6QV2VX4MN1Rm7PjleDSqii3fe6pSvT1illByzbzmsVmECm
+         aOG/iyw1fcYH/gwBgRemnOzvy3d/Pey02AQCqmtspKOz7g9sqoo4Csphww1Mh8EMMxiW
+         /o0qeCRYOvNwR5clBF2rVy4BHA3//rAhq7QWh/wpF7O2ZG4GPuk4d82RnP1ex7us16Lh
+         /S8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5X6S/TfxOaPoREQVv8qlV7uEsqgE3ijrM3LCuh2pIdY=;
-        b=BRATBZRkgBcgFh5NJGLKXKSCJtK51kSryWjsVRQTKVbTdkmo3845FOZEE5Pfh6jINI
-         CFRJNS6WA8qSjVYCsUq+4kZH7BzI0GttU4+zGmNrLgNkRolAqXG8tMlbRzlZQJlXep2b
-         xCWw7sYvpr8d+nvvOjKoSbrsmfQn9yesYbbSvmob4HrO0eWaHXEqst4JDqwyeZi5iaZ+
-         utjyWciYM/+dWp9hq86nt4ypaknyUUKCzskhqeCe+FswobUcx3RFFsrSffKK3LCc0VEK
-         gtuGQ9XvIwY/9BNkVRo52WHyZVCCILiBaL57Vl5MdH6EBakzvsJ6XrBrdmnF8gHpqSDQ
-         AMkw==
-X-Gm-Message-State: AOAM532xqHewoBkpkqMyCuaGOyhA+im9avywsJKhgoiqxTkzkp7HGKau
-	84rY8RaGbPDyvJdVI0cFrbw=
-X-Google-Smtp-Source: ABdhPJy0iev5hG5zzhnKRvwGBSoEpmghiNKf5BIa9o7H+XNHXG7jdhN+j+vFWJXjlQjd1UILAauxzg==
-X-Received: by 2002:a05:622a:549:: with SMTP id m9mr2774021qtx.248.1627534209397;
-        Wed, 28 Jul 2021 21:50:09 -0700 (PDT)
+        bh=r8WEjK5WwR++Sf6BYnwU4Fcuwx/VbbTFVNdmG0IBcQk=;
+        b=RihYd+iwjJ8bkTHEgqXKH2ZPT5jlQwXp/RXk1GAECfvj0bVq5NGOmxBVR5HR/TsncQ
+         lnmsvn4beAHwSj7QGFXkjOXSnGbvUjzl5xC6zNT8TaTODRhEVrAYGELfgtek44vEI/px
+         8B+78xQR33V+OWrM7p5OOC0XQQLf7QXPDA2ZROYg5a/Hq+fRecEF4b1aNLNTM7rkWP/D
+         pIfSHdg87LSPwkTwTdlcMFtz5Hh57dxaHpk5O41HSd21ubsi8rLo6/V0mcvfWrogTevq
+         eM7lhlFHiDiOe3BQ1zgiT2QWILEd6iYU1qsLHLnmJcRr1mckETRcRmfTMEFMleldjrv7
+         Fm6g==
+X-Gm-Message-State: AOAM531wEAi9f0Zv+UKcy0AnfDe9f4TMYDe6aWIauorXSk6Mh3iAIlDk
+	6Qy8BpZXRUZK8GEHWRliqT0=
+X-Google-Smtp-Source: ABdhPJyJpTmDBefEUiWbkJc4l4MlLlyLIgy3ZYa+BznWN9hMGlddIxZScqKxcFA2PK+pGZX+qYThTQ==
+X-Received: by 2002:a37:9c04:: with SMTP id f4mr3255553qke.173.1627534210225;
+        Wed, 28 Jul 2021 21:50:10 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id t26sm826147qtc.44.2021.07.28.21.50.08
+        by smtp.gmail.com with ESMTPSA id t26sm826147qtc.44.2021.07.28.21.50.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 28 Jul 2021 21:50:09 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/6] linux-yocto/5.10: enable TYPEC_TCPCI in usbc fragment
-Date: Thu, 29 Jul 2021 00:50:02 -0400
-Message-Id: <adf1e8d5ecc4bbfc83563da2b53cfb45bdac27ea.1627533955.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 6/6] linux-yocto/5.13: enable TYPEC_TCPCI in usbc fragment
+Date: Thu, 29 Jul 2021 00:50:03 -0400
+Message-Id: <94196b0e2d1b21a95f1c0b4f959c7bde024dbaa2.1627533955.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1627533955.git.bruce.ashfield@gmail.com>
 References: <cover.1627533955.git.bruce.ashfield@gmail.com>
@@ -58,50 +58,50 @@ the Type-C Port Controller driver for TCPCI-compliant controller.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb      | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.13.bb      | 2 +-
  3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 944d171928..d365d91ce3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
+index feaad79d92..30c602fda5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
 @@ -12,7 +12,7 @@ python () {
  }
  
- SRCREV_machine ?= "969fef49cbbc8639e9622e6a0655337fbfcc7627"
--SRCREV_meta ?= "26a2a3cf764dde593325b8c08024f5990a5f6f02"
-+SRCREV_meta ?= "3f38ad49cf38519dc4492a3f802b743fde7b467e"
+ SRCREV_machine ?= "f7609685b99c816483dd1eb4d3d7cfd236abcd8a"
+-SRCREV_meta ?= "676addb3befc0f44818ed231d90c58d8e4fc005f"
++SRCREV_meta ?= "45ba17c2208f4b39c36fdb748df5929b8f6b6f83"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 073dff1a5b..580d71d2ac 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.13;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
+index b2e7a2f512..33fe1ea62b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
 @@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
  
- SRCREV_machine_qemuarm ?= "d5a79da206965b27043f558739b28a434efca75c"
- SRCREV_machine ?= "f44b5bb716fdb6f804383fa087c9fdb54584cd5b"
--SRCREV_meta ?= "26a2a3cf764dde593325b8c08024f5990a5f6f02"
-+SRCREV_meta ?= "3f38ad49cf38519dc4492a3f802b743fde7b467e"
+ SRCREV_machine_qemuarm ?= "52d457436c83b3ce994a12d5387c532df7859e3d"
+ SRCREV_machine ?= "e167b61e5f9f6e6de8d57f72ed022ea6cdf9ba85"
+-SRCREV_meta ?= "676addb3befc0f44818ed231d90c58d8e4fc005f"
++SRCREV_meta ?= "45ba17c2208f4b39c36fdb748df5929b8f6b6f83"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 1c072b3e22..362b3ac2cb 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -23,7 +23,7 @@ SRCREV_machine_qemux86 ?= "0b44b705c4f7d5c83e562dd7036cb5188d622285"
- SRCREV_machine_qemux86-64 ?= "0b44b705c4f7d5c83e562dd7036cb5188d622285"
- SRCREV_machine_qemumips64 ?= "643c332e487cfa1557d14050d6e1148d1c5d75da"
- SRCREV_machine ?= "0b44b705c4f7d5c83e562dd7036cb5188d622285"
--SRCREV_meta ?= "26a2a3cf764dde593325b8c08024f5990a5f6f02"
-+SRCREV_meta ?= "3f38ad49cf38519dc4492a3f802b743fde7b467e"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.13.bb b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
+index b26bb22f3f..6e08bae30a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.13.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
+@@ -23,7 +23,7 @@ SRCREV_machine_qemux86 ?= "aa7f96bda2be286bc15b1131be30411bb6016ea1"
+ SRCREV_machine_qemux86-64 ?= "aa7f96bda2be286bc15b1131be30411bb6016ea1"
+ SRCREV_machine_qemumips64 ?= "c6c25c0c1a64480f255a9c2e86895db0aea8b92b"
+ SRCREV_machine ?= "aa7f96bda2be286bc15b1131be30411bb6016ea1"
+-SRCREV_meta ?= "676addb3befc0f44818ed231d90c58d8e4fc005f"
++SRCREV_meta ?= "45ba17c2208f4b39c36fdb748df5929b8f6b6f83"
  
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.19.1
 
