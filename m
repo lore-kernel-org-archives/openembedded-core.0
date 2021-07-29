@@ -1,87 +1,90 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web11.3550.1627521701722762411
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web11.3551.1627521713104973426
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 18:21:41 -0700
+ Wed, 28 Jul 2021 18:21:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: jay.shen.teoh@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="199999054"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: jay.shen.teoh@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="192376763"
 X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; 
-   d="scan'208";a="199999054"
+   d="scan'208";a="192376763"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2021 18:21:36 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2021 18:21:44 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; 
-   d="scan'208";a="517870711"
+   d="scan'208";a="517870742"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2021 18:21:35 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2021 18:21:44 -0700
 From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][Patch 2/7] oeqa/runtime : add test for RTC(Real Time Clock)
-Date: Thu, 29 Jul 2021 09:21:18 +0800
-Message-Id: <20210729012123.27489-2-jay.shen.teoh@intel.com>
+Subject: [dunfell][Patch 3/7] oeqa/runtime/cases: Only disable/enable for current boot
+Date: Thu, 29 Jul 2021 09:21:19 +0800
+Message-Id: <20210729012123.27489-3-jay.shen.teoh@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210729012123.27489-1-jay.shen.teoh@intel.com>
 References: <20210729012123.27489-1-jay.shen.teoh@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Teoh Jay Shen <jay.shen.teoh@intel.com>
+From: Wes Lindauer <wesley.lindauer@gmail.com>
 
-This test is checking the functionality of the RTC(Real Time Clock). The Check_if_RTC_(Real_Time_Clock)_can_work_correctly manual test case from oeqa/manual/bsp-hw can be replace by this runtime test.
+Previously doing a stop/start worked, but using a disable/enable does
+not work on a read-only rootfs. Add a --runtime flag to systemctl so
+that systemd only modifies the current boot and does not attempt to
+write to the filesystem.
 
-(From OE-Core rev: c6961c2fc04edbc5bc3827c7703997085d9c609e)
+This also keeps the test from making a permanent (one could argue
+policy) change to the running system being tested. i.e. What if the
+image being tested had intentionally disabled the timesyncd service in
+preference to using chrony or ntpd? The test shouldn't assume that the
+user wants the timesyncd service enabled.
 
-Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
+(From OE-Core rev: 43dd83b6a325589368c980a3f17cab90935aaeb0)
+
+Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/rtc.py | 38 ++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/rtc.py
+ meta/lib/oeqa/runtime/cases/date.py | 4 ++--
+ meta/lib/oeqa/runtime/cases/rtc.py  | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/meta/lib/oeqa/runtime/cases/date.py b/meta/lib/oeqa/runtime/cases/date.py
+index fdd2a6ae58..e14322911d 100644
+--- a/meta/lib/oeqa/runtime/cases/date.py
++++ b/meta/lib/oeqa/runtime/cases/date.py
+@@ -13,12 +13,12 @@ class DateTest(OERuntimeTestCase):
+     def setUp(self):
+         if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
+             self.logger.debug('Stopping systemd-timesyncd daemon')
+-            self.target.run('systemctl disable --now systemd-timesyncd')
++            self.target.run('systemctl disable --now --runtime systemd-timesyncd')
+ 
+     def tearDown(self):
+         if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
+             self.logger.debug('Starting systemd-timesyncd daemon')
+-            self.target.run('systemctl enable --now systemd-timesyncd')
++            self.target.run('systemctl enable --now --runtime systemd-timesyncd')
+ 
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['coreutils', 'busybox'])
 diff --git a/meta/lib/oeqa/runtime/cases/rtc.py b/meta/lib/oeqa/runtime/cases/rtc.py
-new file mode 100644
-index 0000000000..a34c101a9d
---- /dev/null
+index a34c101a9d..c4e6681324 100644
+--- a/meta/lib/oeqa/runtime/cases/rtc.py
 +++ b/meta/lib/oeqa/runtime/cases/rtc.py
-@@ -0,0 +1,38 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.runtime.decorator.package import OEHasPackage
-+
-+import re
-+
-+class RTCTest(OERuntimeTestCase):
-+
-+    def setUp(self):
-+        if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
-+            self.logger.debug('Stopping systemd-timesyncd daemon')
-+            self.target.run('systemctl disable --now systemd-timesyncd')
-+
-+    def tearDown(self):
-+        if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
-+            self.logger.debug('Starting systemd-timesyncd daemon')
-+            self.target.run('systemctl enable --now systemd-timesyncd')
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage(['coreutils', 'busybox'])
-+    def test_rtc(self):
-+        (status, output) = self.target.run('hwclock -r')
-+        self.assertEqual(status, 0, msg='Failed to get RTC time, output: %s' % output)
-+        
-+        (status, current_datetime) = self.target.run('date +"%m%d%H%M%Y"')
-+        self.assertEqual(status, 0, msg='Failed to get system current date & time, output: %s' % current_datetime)
-+
-+        example_datetime = '062309452008'
-+        (status, output) = self.target.run('date %s ; hwclock -w ; hwclock -r' % example_datetime)
-+        check_hwclock = re.search('2008-06-23 09:45:..', output)
-+        self.assertTrue(check_hwclock, msg='The RTC time was not set correctly, output: %s' % output)
-+
-+        (status, output) = self.target.run('date %s' % current_datetime)
-+        self.assertEqual(status, 0, msg='Failed to reset system date & time, output: %s' % output)
-+        
-+        (status, output) = self.target.run('hwclock -w')
-+        self.assertEqual(status, 0, msg='Failed to reset RTC time, output: %s' % output)
-+        
+@@ -9,12 +9,12 @@ class RTCTest(OERuntimeTestCase):
+     def setUp(self):
+         if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
+             self.logger.debug('Stopping systemd-timesyncd daemon')
+-            self.target.run('systemctl disable --now systemd-timesyncd')
++            self.target.run('systemctl disable --now --runtime systemd-timesyncd')
+ 
+     def tearDown(self):
+         if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
+             self.logger.debug('Starting systemd-timesyncd daemon')
+-            self.target.run('systemctl enable --now systemd-timesyncd')
++            self.target.run('systemctl enable --now --runtime systemd-timesyncd')
+ 
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['coreutils', 'busybox'])
 -- 
 2.32.0
 
