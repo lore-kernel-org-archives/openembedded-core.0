@@ -1,107 +1,433 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web09.5337.1627534211037521257
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.6042.1627540074600477264
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Jul 2021 21:50:11 -0700
+ Wed, 28 Jul 2021 23:27:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7ZiriPQ;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id t66so4783746qkb.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 21:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=r8WEjK5WwR++Sf6BYnwU4Fcuwx/VbbTFVNdmG0IBcQk=;
-        b=J7ZiriPQX788AED6g8VTlJqgxEdyh8M5tqiACVIY3NzpYXinYYrZRowaynDtLSgO7k
-         lsbJ9eQ6RF8YCn+V2iThXvbRpZUwMExC+l+iZHutRvqGy7Fiz2XGcpHHr6TK0B/Dn5w6
-         NPyTcvVEcdkI/g2LCRXwtQ6QV2VX4MN1Rm7PjleDSqii3fe6pSvT1illByzbzmsVmECm
-         aOG/iyw1fcYH/gwBgRemnOzvy3d/Pey02AQCqmtspKOz7g9sqoo4Csphww1Mh8EMMxiW
-         /o0qeCRYOvNwR5clBF2rVy4BHA3//rAhq7QWh/wpF7O2ZG4GPuk4d82RnP1ex7us16Lh
-         /S8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=r8WEjK5WwR++Sf6BYnwU4Fcuwx/VbbTFVNdmG0IBcQk=;
-        b=RihYd+iwjJ8bkTHEgqXKH2ZPT5jlQwXp/RXk1GAECfvj0bVq5NGOmxBVR5HR/TsncQ
-         lnmsvn4beAHwSj7QGFXkjOXSnGbvUjzl5xC6zNT8TaTODRhEVrAYGELfgtek44vEI/px
-         8B+78xQR33V+OWrM7p5OOC0XQQLf7QXPDA2ZROYg5a/Hq+fRecEF4b1aNLNTM7rkWP/D
-         pIfSHdg87LSPwkTwTdlcMFtz5Hh57dxaHpk5O41HSd21ubsi8rLo6/V0mcvfWrogTevq
-         eM7lhlFHiDiOe3BQ1zgiT2QWILEd6iYU1qsLHLnmJcRr1mckETRcRmfTMEFMleldjrv7
-         Fm6g==
-X-Gm-Message-State: AOAM531wEAi9f0Zv+UKcy0AnfDe9f4TMYDe6aWIauorXSk6Mh3iAIlDk
-	6Qy8BpZXRUZK8GEHWRliqT0=
-X-Google-Smtp-Source: ABdhPJyJpTmDBefEUiWbkJc4l4MlLlyLIgy3ZYa+BznWN9hMGlddIxZScqKxcFA2PK+pGZX+qYThTQ==
-X-Received: by 2002:a37:9c04:: with SMTP id f4mr3255553qke.173.1627534210225;
-        Wed, 28 Jul 2021 21:50:10 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id t26sm826147qtc.44.2021.07.28.21.50.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 21:50:09 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] linux-yocto/5.13: enable TYPEC_TCPCI in usbc fragment
-Date: Thu, 29 Jul 2021 00:50:03 -0400
-Message-Id: <94196b0e2d1b21a95f1c0b4f959c7bde024dbaa2.1627533955.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1627533955.git.bruce.ashfield@gmail.com>
-References: <cover.1627533955.git.bruce.ashfield@gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 16T6RqrR028900
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Jul 2021 23:27:53 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 28 Jul 2021 23:27:52 -0700
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Wed, 28 Jul 2021 23:27:52 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][hardknott][PATCH] systemd: fix CVE-2020-13529
+Date: Wed, 28 Jul 2021 23:27:52 -0700
+Message-ID: <20210729062752.18665-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Backport patches to fix CVE-2020-13529.
 
-To make the usbc fragment more generally usable, we enable
-the Type-C Port Controller driver for TCPCI-compliant controller.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.13.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ ...heck-error-earlier-and-reduce-indent.patch | 172 ++++++++++++++++++
+ ...02-sd-dhcp-client-shorten-code-a-bit.patch |  66 +++++++
+ ...ogs-when-dhcp-client-unexpectedly-ga.patch |  69 +++++++
+ ...entatively-ignore-FORCERENEW-command.patch |  42 +++++
+ meta/recipes-core/systemd/systemd_247.6.bb    |   4 +
+ 5 files changed, 353 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
-index feaad79d92..30c602fda5 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.13.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch b/meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch
+new file mode 100644
+index 0000000000..ff877d9175
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch
+@@ -0,0 +1,172 @@
++From ac6c7f2d2389c5c0ae90554a58f1c75f60cc8e5a Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Thu, 24 Jun 2021 00:48:23 +0900
++Subject: [PATCH] sd-dhcp-client: check error earlier and reduce indentation
++
++Upstream-Status: Backport
++CVE: CVE-2020-13529
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ src/libsystemd-network/sd-dhcp-client.c | 128 ++++++++++++------------
++ 1 file changed, 64 insertions(+), 64 deletions(-)
++
++diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
++index d472fcd941..86bc3c6181 100644
++--- a/src/libsystemd-network/sd-dhcp-client.c
+++++ b/src/libsystemd-network/sd-dhcp-client.c
++@@ -1770,21 +1770,21 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++         case DHCP_STATE_SELECTING:
++ 
++                 r = client_handle_offer(client, message, len);
++-                if (r >= 0) {
+++                if (r == -ENOMSG)
+++                        return 0; /* invalid message, let's ignore it */
+++                if (r < 0)
+++                        goto error;
++ 
++-                        client->state = DHCP_STATE_REQUESTING;
++-                        client->attempt = 0;
+++                client->state = DHCP_STATE_REQUESTING;
+++                client->attempt = 0;
++ 
++-                        r = event_reset_time(client->event, &client->timeout_resend,
++-                                             clock_boottime_or_monotonic(),
++-                                             0, 0,
++-                                             client_timeout_resend, client,
++-                                             client->event_priority, "dhcp4-resend-timer", true);
++-                        if (r < 0)
++-                                goto error;
++-                } else if (r == -ENOMSG)
++-                        /* invalid message, let's ignore it */
++-                        return 0;
+++                r = event_reset_time(client->event, &client->timeout_resend,
+++                                     clock_boottime_or_monotonic(),
+++                                     0, 0,
+++                                     client_timeout_resend, client,
+++                                     client->event_priority, "dhcp4-resend-timer", true);
+++                if (r < 0)
+++                        goto error;
++ 
++                 break;
++ 
++@@ -1794,47 +1794,9 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++         case DHCP_STATE_REBINDING:
++ 
++                 r = client_handle_ack(client, message, len);
++-                if (r >= 0) {
++-                        client->start_delay = 0;
++-                        (void) event_source_disable(client->timeout_resend);
++-                        client->receive_message =
++-                                sd_event_source_unref(client->receive_message);
++-                        client->fd = safe_close(client->fd);
++-
++-                        if (IN_SET(client->state, DHCP_STATE_REQUESTING,
++-                                   DHCP_STATE_REBOOTING))
++-                                notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
++-                        else if (r != SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
++-                                notify_event = r;
++-
++-                        client->state = DHCP_STATE_BOUND;
++-                        client->attempt = 0;
++-
++-                        client->last_addr = client->lease->address;
++-
++-                        r = client_set_lease_timeouts(client);
++-                        if (r < 0) {
++-                                log_dhcp_client(client, "could not set lease timeouts");
++-                                goto error;
++-                        }
++-
++-                        r = dhcp_network_bind_udp_socket(client->ifindex, client->lease->address, client->port, client->ip_service_type);
++-                        if (r < 0) {
++-                                log_dhcp_client(client, "could not bind UDP socket");
++-                                goto error;
++-                        }
++-
++-                        client->fd = r;
++-
++-                        client_initialize_io_events(client, client_receive_message_udp);
++-
++-                        if (notify_event) {
++-                                client_notify(client, notify_event);
++-                                if (client->state == DHCP_STATE_STOPPED)
++-                                        return 0;
++-                        }
++-
++-                } else if (r == -EADDRNOTAVAIL) {
+++                if (r == -ENOMSG)
+++                        return 0; /* invalid message, let's ignore it */
+++                if (r == -EADDRNOTAVAIL) {
++                         /* got a NAK, let's restart the client */
++                         client_notify(client, SD_DHCP_CLIENT_EVENT_EXPIRED);
++ 
++@@ -1853,21 +1815,59 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++                                                     RESTART_AFTER_NAK_MIN_USEC, RESTART_AFTER_NAK_MAX_USEC);
++ 
++                         return 0;
++-                } else if (r == -ENOMSG)
++-                        /* invalid message, let's ignore it */
++-                        return 0;
+++                }
+++                if (r < 0)
+++                        goto error;
+++
+++                client->start_delay = 0;
+++                (void) event_source_disable(client->timeout_resend);
+++                client->receive_message = sd_event_source_unref(client->receive_message);
+++                client->fd = safe_close(client->fd);
+++
+++                if (IN_SET(client->state, DHCP_STATE_REQUESTING, DHCP_STATE_REBOOTING))
+++                        notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
+++                else if (r != SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
+++                        notify_event = r;
+++
+++                client->state = DHCP_STATE_BOUND;
+++                client->attempt = 0;
+++
+++                client->last_addr = client->lease->address;
+++
+++                r = client_set_lease_timeouts(client);
+++                if (r < 0) {
+++                        log_dhcp_client(client, "could not set lease timeouts");
+++                        goto error;
+++                }
+++
+++                r = dhcp_network_bind_udp_socket(client->ifindex, client->lease->address, client->port, client->ip_service_type);
+++                if (r < 0) {
+++                        log_dhcp_client(client, "could not bind UDP socket");
+++                        goto error;
+++                }
+++
+++                client->fd = r;
+++
+++                client_initialize_io_events(client, client_receive_message_udp);
+++
+++                if (notify_event) {
+++                        client_notify(client, notify_event);
+++                        if (client->state == DHCP_STATE_STOPPED)
+++                                return 0;
+++                }
++ 
++                 break;
++ 
++         case DHCP_STATE_BOUND:
++                 r = client_handle_forcerenew(client, message, len);
++-                if (r >= 0) {
++-                        r = client_timeout_t1(NULL, 0, client);
++-                        if (r < 0)
++-                                goto error;
++-                } else if (r == -ENOMSG)
++-                        /* invalid message, let's ignore it */
++-                        return 0;
+++                if (r == -ENOMSG)
+++                        return 0; /* invalid message, let's ignore it */
+++                if (r < 0)
+++                        goto error;
+++
+++                r = client_timeout_t1(NULL, 0, client);
+++                if (r < 0)
+++                        goto error;
++ 
++                 break;
++ 
+diff --git a/meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch b/meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch
+new file mode 100644
+index 0000000000..41d0c7b1e4
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch
+@@ -0,0 +1,66 @@
++From 875f3773e383d99e7d43020f02acad7681a05914 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Thu, 24 Jun 2021 00:51:52 +0900
++Subject: [PATCH] sd-dhcp-client: shorten code a bit
++
++Upstream-Status: Backport
++CVE: CVE-2020-13529
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ src/libsystemd-network/sd-dhcp-client.c | 13 ++++---------
++ 1 file changed, 4 insertions(+), 9 deletions(-)
++
++diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
++index 86bc3c6181..ef3a7d2c6b 100644
++--- a/src/libsystemd-network/sd-dhcp-client.c
+++++ b/src/libsystemd-network/sd-dhcp-client.c
++@@ -1760,7 +1760,7 @@ static int client_set_lease_timeouts(sd_dhcp_client *client) {
++ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, int len) {
++         DHCP_CLIENT_DONT_DESTROY(client);
++         char time_string[FORMAT_TIMESPAN_MAX];
++-        int r = 0, notify_event = 0;
+++        int r, notify_event = 0;
++ 
++         assert(client);
++         assert(client->event);
++@@ -1783,9 +1783,6 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++                                      0, 0,
++                                      client_timeout_resend, client,
++                                      client->event_priority, "dhcp4-resend-timer", true);
++-                if (r < 0)
++-                        goto error;
++-
++                 break;
++ 
++         case DHCP_STATE_REBOOTING:
++@@ -1813,7 +1810,6 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++ 
++                         client->start_delay = CLAMP(client->start_delay * 2,
++                                                     RESTART_AFTER_NAK_MIN_USEC, RESTART_AFTER_NAK_MAX_USEC);
++-
++                         return 0;
++                 }
++                 if (r < 0)
++@@ -1866,19 +1862,18 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++                         goto error;
++ 
++                 r = client_timeout_t1(NULL, 0, client);
++-                if (r < 0)
++-                        goto error;
++-
++                 break;
++ 
++         case DHCP_STATE_INIT:
++         case DHCP_STATE_INIT_REBOOT:
++-
+++                r = 0;
++                 break;
++ 
++         case DHCP_STATE_STOPPED:
++                 r = -EINVAL;
++                 goto error;
+++        default:
+++                assert_not_reached("invalid state");
++         }
++ 
++ error:
+diff --git a/meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch b/meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch
+new file mode 100644
+index 0000000000..07c7da8c21
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch
+@@ -0,0 +1,69 @@
++From 0ad3b0fffe622bffbe9f380c3e4cb99b0961bef5 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Thu, 24 Jun 2021 01:14:12 +0900
++Subject: [PATCH] sd-dhcp-client: logs when dhcp client unexpectedly gains a
++ new lease
++
++Previously, such situation is handled silently.
++
++Upstream-Status: Backport
++CVE: CVE-2020-13529
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ src/libsystemd-network/sd-dhcp-client.c | 23 ++++++++++++-----------
++ 1 file changed, 12 insertions(+), 11 deletions(-)
++
++diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
++index ef3a7d2c6b..04a75c6966 100644
++--- a/src/libsystemd-network/sd-dhcp-client.c
+++++ b/src/libsystemd-network/sd-dhcp-client.c
++@@ -1760,7 +1760,7 @@ static int client_set_lease_timeouts(sd_dhcp_client *client) {
++ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, int len) {
++         DHCP_CLIENT_DONT_DESTROY(client);
++         char time_string[FORMAT_TIMESPAN_MAX];
++-        int r, notify_event = 0;
+++        int r, notify_event;
++ 
++         assert(client);
++         assert(client->event);
++@@ -1815,16 +1815,16 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++                 if (r < 0)
++                         goto error;
++ 
+++                if (IN_SET(client->state, DHCP_STATE_REQUESTING, DHCP_STATE_REBOOTING))
+++                        notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
+++                else
+++                        notify_event = r;
+++
++                 client->start_delay = 0;
++                 (void) event_source_disable(client->timeout_resend);
++                 client->receive_message = sd_event_source_unref(client->receive_message);
++                 client->fd = safe_close(client->fd);
++ 
++-                if (IN_SET(client->state, DHCP_STATE_REQUESTING, DHCP_STATE_REBOOTING))
++-                        notify_event = SD_DHCP_CLIENT_EVENT_IP_ACQUIRE;
++-                else if (r != SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
++-                        notify_event = r;
++-
++                 client->state = DHCP_STATE_BOUND;
++                 client->attempt = 0;
++ 
++@@ -1846,12 +1846,13 @@ static int client_handle_message(sd_dhcp_client *client, DHCPMessage *message, i
++ 
++                 client_initialize_io_events(client, client_receive_message_udp);
++ 
++-                if (notify_event) {
+++                if (IN_SET(client->state, DHCP_STATE_RENEWING, DHCP_STATE_REBINDING) &&
+++                    notify_event == SD_DHCP_CLIENT_EVENT_IP_ACQUIRE)
+++                        /* FIXME: hmm, maybe this is a bug... */
+++                        log_dhcp_client(client, "client_handle_ack() returned SD_DHCP_CLIENT_EVENT_IP_ACQUIRE while DHCP client is %s the address, skipping callback.",
+++                                        client->state == DHCP_STATE_RENEWING ? "renewing" : "rebinding");
+++                else
++                         client_notify(client, notify_event);
++-                        if (client->state == DHCP_STATE_STOPPED)
++-                                return 0;
++-                }
++-
++                 break;
++ 
++         case DHCP_STATE_BOUND:
+diff --git a/meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch b/meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch
+new file mode 100644
+index 0000000000..c65fb45ab9
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch
+@@ -0,0 +1,42 @@
++From ae18277a6cfd04af8a914780f04a867254ab2341 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Thu, 24 Jun 2021 01:22:07 +0900
++Subject: [PATCH] sd-dhcp-client: tentatively ignore FORCERENEW command
++
++This makes DHCP client ignore FORCERENEW requests, as unauthenticated
++FORCERENEW requests causes a security issue (TALOS-2020-1142, CVE-2020-13529).
++
++Let's re-enable this after RFC3118 (Authentication for DHCP Messages)
++and/or RFC6704 (Forcerenew Nonce Authentication) are implemented.
++
++Fixes #16774.
++
++Upstream-Status: Backport
++CVE: CVE-2020-13529
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ src/libsystemd-network/sd-dhcp-client.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/src/libsystemd-network/sd-dhcp-client.c b/src/libsystemd-network/sd-dhcp-client.c
++index 04a75c6966..54eb3a2ab0 100644
++--- a/src/libsystemd-network/sd-dhcp-client.c
+++++ b/src/libsystemd-network/sd-dhcp-client.c
++@@ -1536,9 +1536,17 @@ static int client_handle_forcerenew(sd_dhcp_client *client, DHCPMessage *force,
++         if (r != DHCP_FORCERENEW)
++                 return -ENOMSG;
++ 
+++#if 0
++         log_dhcp_client(client, "FORCERENEW");
++ 
++         return 0;
+++#else
+++        /* FIXME: Ignore FORCERENEW requests until we implement RFC3118 (Authentication for DHCP
+++         * Messages) and/or RFC6704 (Forcerenew Nonce Authentication), as unauthenticated FORCERENEW
+++         * requests causes a security issue (TALOS-2020-1142, CVE-2020-13529). */
+++        log_dhcp_client(client, "Received FORCERENEW, ignoring.");
+++        return -ENOMSG;
+++#endif
++ }
++ 
++ static bool lease_equal(const sd_dhcp_lease *a, const sd_dhcp_lease *b) {
+diff --git a/meta/recipes-core/systemd/systemd_247.6.bb b/meta/recipes-core/systemd/systemd_247.6.bb
+index 32afa159ec..f1db1e922b 100644
+--- a/meta/recipes-core/systemd/systemd_247.6.bb
++++ b/meta/recipes-core/systemd/systemd_247.6.bb
+@@ -27,6 +27,10 @@ SRC_URI += "file://touchscreen.rules \
+            file://0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch \
+            file://0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch \
+            file://0001-analyze-resolve-executable-path-if-it-is-relative.patch \
++           file://0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch \
++           file://0002-sd-dhcp-client-shorten-code-a-bit.patch \
++           file://0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch \
++           file://0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch \
+            "
  
- SRCREV_machine ?= "f7609685b99c816483dd1eb4d3d7cfd236abcd8a"
--SRCREV_meta ?= "676addb3befc0f44818ed231d90c58d8e4fc005f"
-+SRCREV_meta ?= "45ba17c2208f4b39c36fdb748df5929b8f6b6f83"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.13;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
-index b2e7a2f512..33fe1ea62b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.13.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "52d457436c83b3ce994a12d5387c532df7859e3d"
- SRCREV_machine ?= "e167b61e5f9f6e6de8d57f72ed022ea6cdf9ba85"
--SRCREV_meta ?= "676addb3befc0f44818ed231d90c58d8e4fc005f"
-+SRCREV_meta ?= "45ba17c2208f4b39c36fdb748df5929b8f6b6f83"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.13.bb b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
-index b26bb22f3f..6e08bae30a 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.13.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.13.bb
-@@ -23,7 +23,7 @@ SRCREV_machine_qemux86 ?= "aa7f96bda2be286bc15b1131be30411bb6016ea1"
- SRCREV_machine_qemux86-64 ?= "aa7f96bda2be286bc15b1131be30411bb6016ea1"
- SRCREV_machine_qemumips64 ?= "c6c25c0c1a64480f255a9c2e86895db0aea8b92b"
- SRCREV_machine ?= "aa7f96bda2be286bc15b1131be30411bb6016ea1"
--SRCREV_meta ?= "676addb3befc0f44818ed231d90c58d8e4fc005f"
-+SRCREV_meta ?= "45ba17c2208f4b39c36fdb748df5929b8f6b6f83"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
+ # patches needed by musl
 -- 
-2.19.1
+2.30.2
 
