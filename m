@@ -1,75 +1,121 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.9000.1627563309491105114
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web12.9525.1627565710741384694
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jul 2021 05:55:09 -0700
+ Thu, 29 Jul 2021 06:35:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VOMegbGF;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: oecore.mailinglist@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id b7so6828607wri.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jul 2021 05:55:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FHSaNgh3rDG+PibircMVYIKIJBtUuGvXf2vGf+y3K20=;
-        b=VOMegbGFFAaIrOddzuP2ZNyPxsE/IkEC6EpSs8zpfs4VmCnrjAfu4sYR/4D616q71y
-         +RbKJCQvsLWnChvM7euTLuDC/LxYJbG04zNqL9DYlt8tMzdtdSNiqA6vZLJ+dqgD/6a8
-         JxkQ2AFAjOrpPZdwJ52l6YQIfgd3wxWDkTnVcwqVrPUKM/57u0WNuc7mXX9z2M6jVqPa
-         Vk/kkfWzqHmdldsawGxENE4ngC0zvVCcPhnNTd+8T709vYgx3FwsJfl/ljDahSr/MOq3
-         6NkpQnAoBtacOI5P/3TUnPM6fSQEhaT3F1gJioL2RQgKfb7Tw0YecXZqUJ/sd7b2JdjR
-         lkzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FHSaNgh3rDG+PibircMVYIKIJBtUuGvXf2vGf+y3K20=;
-        b=g6moEDaZ8HGlTkYM9TsohaHGfjs8KRMqTIdPY4M9iPMjmGtZ1tSMAoBfxT7Q26XWSc
-         ehhld/LV8kknfvCRcC+rg3VEsWNYnsKfT37AgmfKXGrwZbz2J0rOI6+XK9UpvdYlAaJu
-         nXOXss+tisq/Iu2D/+rBtLvR3+kW3SoSBhXL5AIoSzpRQrH64JezruN66h8x8bX0zuO5
-         5TOYKaRuquh9RLEeFQPYdJY2EToGEIo4lRbwvDJNL0UWC9FJgNalMpWI7+SEUDSQN2HE
-         5Egfud9jhJlOQqhhF0mbcfHldgwe3pxP8ZyfY4AWIHM8GTdmPFKTrMsC4W9iAYLjIU7R
-         +6Hg==
-X-Gm-Message-State: AOAM5313/rrtl6/LAtTTwfeY2dc3JztSClbr9k/U5Axhw0ul1wXjDGBx
-	PfwaFTBpiJa2l4aMtnbAtb4=
-X-Google-Smtp-Source: ABdhPJzEovpRyiZKIQEvPzoriZCJjHhQUybvnSTTP3Gj30yi1ZDhRbKXnUp5w6tZlrw2qToywTg5ww==
-X-Received: by 2002:a05:6000:92:: with SMTP id m18mr2155135wrx.277.1627563307923;
-        Thu, 29 Jul 2021 05:55:07 -0700 (PDT)
-Return-Path: <oecore.mailinglist@gmail.com>
-Received: from [192.168.42.52] (ppp-2-86-139-252.home.otenet.gr. [2.86.139.252])
-        by smtp.gmail.com with ESMTPSA id n17sm10279869wmo.18.2021.07.29.05.55.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 05:55:06 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] systemd: Fix build on musl
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Luca Boccassi <luca.boccassi@microsoft.com>
-References: <20210727201325.2215487-1-raj.khem@gmail.com>
-From: "Robert Berger" <oecore.mailinglist@gmail.com>
-Message-ID: <48ff0915-6b83-bf8f-5331-d399c8ae3d84@gmail.com>
-Date: Thu, 29 Jul 2021 15:55:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id DFD981C0007;
+	Thu, 29 Jul 2021 13:35:08 +0000 (UTC)
+From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH] meta-skeleton: add recipe examples from documentation sources
+Date: Thu, 29 Jul 2021 15:34:51 +0200
+Message-Id: <20210729133451.164677-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210727201325.2215487-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This adds three examples previously located in the yocto-docs
+repository (under documentation/ref-manual/examples).
 
-Does this mean we have musl and systemd working together?
+The examples were not used for building the documentation
+so it's better to keep them here where they can automatically be
+tested.
 
-Regards,
+Fixed the "hello-single" to add a version number to the .bb file.
+After this, all examples build fine with the "master" branch of Poky.
 
-Robert
+Note that the "mtd-utils" example, and example of a recipe
+for an Autotools page, was not copied over. It doesn't build any
+more, and anyway, we already have an official recipe for a recent version
+of "mtd-utils" in OE-core.
 
-On 27/07/2021 23:13, Khem Raj wrote:
-> Latest upgrade to 249 broke a working build on musl, this is incremental
-> fix to exisiting patches adapted to 249 release
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> 
-> 
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+---
+ .../hello-autotools/hello_2.10.bb               |  9 +++++++++
+ .../hello-single/files/helloworld.c             |  8 ++++++++
+ .../recipes-skeleton/hello-single/hello_1.0.bb  | 17 +++++++++++++++++
+ .../recipes-skeleton/libxpm/libxpm_3.5.6.bb     | 14 ++++++++++++++
+ 4 files changed, 48 insertions(+)
+ create mode 100644 meta-skeleton/recipes-skeleton/hello-autotools/hello_2.10.bb
+ create mode 100644 meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c
+ create mode 100644 meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb
+ create mode 100644 meta-skeleton/recipes-skeleton/libxpm/libxpm_3.5.6.bb
+
+diff --git a/meta-skeleton/recipes-skeleton/hello-autotools/hello_2.10.bb b/meta-skeleton/recipes-skeleton/hello-autotools/hello_2.10.bb
+new file mode 100644
+index 0000000000..aa2beb9a9b
+--- /dev/null
++++ b/meta-skeleton/recipes-skeleton/hello-autotools/hello_2.10.bb
+@@ -0,0 +1,9 @@
++DESCRIPTION = "GNU Helloworld application"
++SECTION = "examples"
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++
++SRC_URI = "${GNU_MIRROR}/hello/hello-${PV}.tar.gz"
++SRC_URI[sha256sum] = "31e066137a962676e89f69d1b65382de95a7ef7d914b8cb956f41ea72e0f516b"
++
++inherit autotools-brokensep gettext
+diff --git a/meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c b/meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c
+new file mode 100644
+index 0000000000..fc7169b7b8
+--- /dev/null
++++ b/meta-skeleton/recipes-skeleton/hello-single/files/helloworld.c
+@@ -0,0 +1,8 @@
++#include <stdio.h>
++
++int main(void)
++{
++	printf("Hello world!\n");
++
++	return 0;
++}
+diff --git a/meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb b/meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb
+new file mode 100644
+index 0000000000..90d3aefd86
+--- /dev/null
++++ b/meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb
+@@ -0,0 +1,17 @@
++DESCRIPTION = "Simple helloworld application"
++SECTION = "examples"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++SRC_URI = "file://helloworld.c"
++
++S = "${WORKDIR}"
++
++do_compile() {
++	${CC} ${LDFLAGS} helloworld.c -o helloworld
++}
++
++do_install() {
++	install -d ${D}${bindir}
++	install -m 0755 helloworld ${D}${bindir}
++}
+diff --git a/meta-skeleton/recipes-skeleton/libxpm/libxpm_3.5.6.bb b/meta-skeleton/recipes-skeleton/libxpm/libxpm_3.5.6.bb
+new file mode 100644
+index 0000000000..c0c8986405
+--- /dev/null
++++ b/meta-skeleton/recipes-skeleton/libxpm/libxpm_3.5.6.bb
+@@ -0,0 +1,14 @@
++require recipes-graphics/xorg-lib/xorg-lib-common.inc
++
++DESCRIPTION = "X11 Pixmap library"
++LICENSE = "X-BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=3e07763d16963c3af12db271a31abaa5"
++DEPENDS += "libxext"
++PR = "r2"
++PE = "1"
++
++XORG_PN = "libXpm"
++
++PACKAGES =+ "sxpm cxpm"
++FILES_cxpm = "${bindir}/cxpm"
++FILES_sxpm = "${bindir}/sxpm"
+-- 
+2.25.1
 
