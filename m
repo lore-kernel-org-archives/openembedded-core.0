@@ -1,59 +1,72 @@
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
- by mx.groups.io with SMTP id smtpd.web08.10961.1627571325167605865
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web09.11567.1627574483893053988
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Jul 2021 08:08:45 -0700
+ Thu, 29 Jul 2021 09:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@seebs.net header.s=mail header.b=X0nbSHhN;
- spf=pass (domain: seebs.net, ip: 162.213.38.76, mailfrom: seebs@seebs.net)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 186E62E891F
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Jul 2021 10:08:42 -0500 (CDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=seebs.net; s=mail;
-	t=1627571323; bh=NHNIkwxWqEmc6VE8trhJImm0QMDKKQlhUyAxZmf7fpA=;
-	h=Date:From:To:Subject:In-Reply-To:References;
-	b=X0nbSHhNERsWag0CvNFTiULZC5t2MpaSj0Zp1XtrVlmvDZJOWDYw0dGdGMpnUa32k
-	 9+AQz5iBdZX7tcIcm4m7if7bmEUFcnphTCktcqRvC1Gzarfulvj/rT6dManrc3o7yM
-	 uY2rtGt5QyqNahFLwlJwQRYLh6+6YRRAlVooAORbu8AYFIPo8jMP/WweHrjd/0izA+
-	 2PHvfbysz4Qiv0Ec0Eks62cqOHHscrWuf3zn+HJTbe9lOXDorhGflBbX9tfQ0RGi9J
-	 CWCaHOXAPw+LHu0f522d9FCkbF1s1bPaCoi5jHiigqG2NZJqZkMDwrOZC9KpVc8Ynb
-	 6vMQQtypWBnHw==
-Date: Thu, 29 Jul 2021 10:08:38 -0500
-From: "Seebs" <seebs@seebs.net>
-To: "openembedded-core" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH pseudo 4/4] Do not return address of local variable - unverified
-Message-ID: <20210729100838.76076078@seebsdell>
-In-Reply-To: <17af2450a5a.11cd2feba245412.5780322336925190641@ertelnet.rybnik.pl>
-References: <20210727114906.191837-1-dwrobel@ertelnet.rybnik.pl>
-	<20210727114906.191837-4-dwrobel@ertelnet.rybnik.pl>
-	<20210727104712.385ad146@seebsdell>
-	<17ae8cdb530.110af7c7857737.3405175808509729608@ertelnet.rybnik.pl>
-	<20210727115246.04b8ffa4@seebsdell>
-	<17aec78de72.dbb79e7b5562.7908341287383433208@ertelnet.rybnik.pl>
-	<20210728151641.667338a5@seebsdell>
-	<17af2450a5a.11cd2feba245412.5780322336925190641@ertelnet.rybnik.pl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sZEtDXR1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id h27so4244249qtu.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Jul 2021 09:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4J5It2ZwwU4LAigueWmB0Z/WA+njLpeO0owga2pATRA=;
+        b=sZEtDXR1yWDfvmGqqlpzd7XskYjP4k1vR+BFwJNXY6dcwqQQiHMp3u57b52218Lah5
+         XvXkGocS99ClqxsZl+gUDMMEOqhD/oqUhn1MOvaDNuUHdFE5sPUG8pvMM/t/NLlAOBJn
+         GHAhRp70chnVMDtuhfgRyIZFOa77A/2wrNVFgs+L2WWIog8t+lBWTqpI+/DBLei64v0D
+         yNgLsIgj400atDc+YllkMjhtsS+/BDvsXKAyxmXzzoqhaDA2uYeJibpTXI73uwVWCwsO
+         jaowCbk2iR9MWukS2+9K4rj4XOO/ZyAdcqf2mi+jwvELQa1P/QhFsVKByZxNtedd7vds
+         xiNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4J5It2ZwwU4LAigueWmB0Z/WA+njLpeO0owga2pATRA=;
+        b=VqJw1Mv7tFiqZg1/BUQhCoy9UdEiQ/Imc9D7WlwD/4g3tShW21zhAi6E9fVwxkeuX+
+         UueIR3RL5offizK7aI5tnJENEz6qicihEl9a4fYt3G4Fm8eDfIE0h4LDaxgfTs9vmodc
+         6lrNQH6AQwVrgSwmXX53VyZtaA121or57glxIPRxEXwEf232y4jDFBjyesY/Ozjt02vW
+         CeUYFm6FRxNEG1XFobQHLOXLJAv0E54SBQSJzVo624scw4r5GQ89aNUVsWFiZ2byHN3k
+         v35832dKKSg9LxgJG0gbZ6nuMlqRE9hYXWEiLarNb3PJN4Tq+Sc6NnWFsJohuL1xDdMj
+         5muA==
+X-Gm-Message-State: AOAM530PPZLWvUgoNxRwRbZlf11OTYPcJueIZyOaKCVusd0tTfWbTjjr
+	mU7sz7F+/PnWi+WOaSrT7/a2bTec+wVXjlgENhw=
+X-Google-Smtp-Source: ABdhPJwq8r3s5GcijpohdFA+pqkDbnNesYHFh3qeLstC9IKCH4khMu4opvCCspu1JuRKiwBX8yVGyFPXWCK6lTa+gE0=
+X-Received: by 2002:a05:622a:194:: with SMTP id s20mr4855693qtw.82.1627574482960;
+ Thu, 29 Jul 2021 09:01:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210727201325.2215487-1-raj.khem@gmail.com> <48ff0915-6b83-bf8f-5331-d399c8ae3d84@gmail.com>
+In-Reply-To: <48ff0915-6b83-bf8f-5331-d399c8ae3d84@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 29 Jul 2021 09:00:56 -0700
+Message-ID: <CAMKF1sreXdb-s131XDtiPq-0f2VajYwaQNASUNKkmuAxozLA+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] systemd: Fix build on musl
+To: Robert Berger <oecore.mailinglist@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Luca Boccassi <luca.boccassi@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 29 Jul 2021 14:37:28 +0200
-"Damian Wrobel" <dwrobel@ertelnet.rybnik.pl> wrote:
+On Thu, Jul 29, 2021 at 5:55 AM Robert Berger
+<oecore.mailinglist@gmail.com> wrote:
+>
+> Hi,
+>
+> Does this mean we have musl and systemd working together?
+>
 
-> the PSEUDO_MSG_OP is being unconditionally assigned to the msg.type
-> before any real usage of the 'msg' structure. So, if I'm not mistaken
-> that code was already tested and didn't work well and was reverted
-> here[1].
+yes it was always there
 
-I don't think that's identical.
-
-	msg = (pseudo_msg_t) { .type = PSEUDO_MSG_OP };
-
-zeros out a number of other fields.
-
-Anyway, if it fails with msg declared static, I'd be interested in
-a minimal reproducer for it, I don't see anything obvious that ought to
-care about it, but I would easily believe that the other fields not
-being zeroed out would cause weirdness, which is why I suggested a
-complete assignment to it, not just overwriting the .type field.
-
--s
+> Regards,
+>
+> Robert
+>
+> On 27/07/2021 23:13, Khem Raj wrote:
+> > Latest upgrade to 249 broke a working build on musl, this is incremental
+> > fix to exisiting patches adapted to 249 release
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Luca Boccassi <luca.boccassi@microsoft.com>
+> >
+> > 
+> >
+>
