@@ -1,93 +1,78 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.21180.1627632184756097014
- for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jul 2021 01:03:05 -0700
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web12.21087.1627632665287065844
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 30 Jul 2021 01:11:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VsK4NgJ9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id h24-20020a1ccc180000b029022e0571d1a0so5779608wmb.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Jul 2021 01:03:04 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fPUowmPd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id r2so10204760wrl.1
+        for <Openembedded-core@lists.openembedded.org>; Fri, 30 Jul 2021 01:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ilHA4pURpVG5SpiiwsheVkwF/CfUzsqzOYMIHJze9UM=;
-        b=VsK4NgJ9fPl3N82XcmcaRl7dBcxwbuLNF0Kv05TMvXsFscI8qjtLWwAnQJoKxv2FIm
-         POfDaKmK12luex4OWO8DJ1TmHsE/W13t5TYBbOOOQysu1MDW4XvgPyB9CSJj1/fdMkbm
-         LwEPps52TwgcOAcoUTrxmyYzqJh3+75rBKBks=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=vJxRUpEL7lWKysfCF0l79aKUU1njI+6prYXXYn6dRpo=;
+        b=fPUowmPdAaUfdZ/HNbCQieqom57BxoJNMLVxDcWRAlsjny5iJM+uvXpxkHdSnKoaJO
+         snNn8ld4EayKbbkTMi+OrdlGTFrhKNO3BI5VAwmlXy/e6TLsBm/mtnkWhU6yTkv/aFE/
+         Oz3Vr99lVOeOLGUIYED0VFzirRDrb3m2uJu+M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ilHA4pURpVG5SpiiwsheVkwF/CfUzsqzOYMIHJze9UM=;
-        b=R9oSMhGdh4YRhmC9hXn3gfl0XNsHstsi55dIf9iFE1zxEYjYk2poK2C4QzGS04QH9x
-         K0rdD9He+TLEHDkOidCK2G1tFYA/8ZGlHzUsz6ocVfQ7uA6o17hFWrCXcm7Ux1Z1oxok
-         W2lljjESUQ2ujt+kBBaz7mu0AjLKfEkNp7GX6DjtMMm/zLaAjLlPkVaJmchqTzZde/0F
-         +m2ILFWuFBYLfWWny9hCVdSh8czo6TJVLOYrYUYOzMONimFkjR9XajP1nKYHjEdhpdsU
-         IeCodMhoBmlxEabl/0xotjMlojBUJ4f4+e5g0/H/WRTTAwdmD1ewxXwWGhcWjZ2bs36L
-         j8XA==
-X-Gm-Message-State: AOAM531sybepZvIt4Q3sOf3A2aDtipaVoMwJdXLfkf3MrnZkAcPqpa1m
-	GjcDSF53QCaaPjIEFj8Zi9ot9g==
-X-Google-Smtp-Source: ABdhPJyiKCTgODHT+w1okZ9KNEicWYdK+QrD3Ml8oT5htq791CPMEgw9aR+R20y0C2QFJmUL4dIyOA==
-X-Received: by 2002:a05:600c:4f4d:: with SMTP id m13mr1648340wmq.31.1627632183042;
-        Fri, 30 Jul 2021 01:03:03 -0700 (PDT)
+        bh=vJxRUpEL7lWKysfCF0l79aKUU1njI+6prYXXYn6dRpo=;
+        b=XGuOxobdsFC1cGGV9f5S7B8iO8PehC8xpJWGnEQIx48qTs16YUCBU6SKgAJJEKSP+Z
+         ElxZKB3OdWPCCKh9p3F5SnyNqUdKeqeMZw37vT1hz/dZQD70gwdwpsgysaJeRFTsqPWO
+         ae2LHVrlRiuxdAcXJZp9H5O79HLa7V7jVp6LTFe6MU8CfdUoflUYfbs4Q36J3nmkO8G5
+         TMAo5LsoNH4YihjS4QlqZL4Vn/4Z7nOI87SiwlvPGQvKwktDk5AKcc7UTBRBPSLmXKv8
+         MlcleiE/Jm/hGvU/1QqbTJosZmZCnoFf8ESSvduxaWjaK94UY5hb9s3NnKSxhTEWLCwk
+         bx7Q==
+X-Gm-Message-State: AOAM530zyK3ehoIPcpmz710Iga3e5jPEc6leQ1/OTxZOR3b+cm5Btaps
+	/oOoR8DNQHaPDBJGfVTjQdKexg==
+X-Google-Smtp-Source: ABdhPJxhWB89D4c4yoFmU4XH/6yAzAOHRtLA3eYanva7U+n9VwgQf3xSx4HPUzWxmBqhpQq6gqzhog==
+X-Received: by 2002:a05:6000:1a86:: with SMTP id f6mr1591762wry.127.1627632663664;
+        Fri, 30 Jul 2021 01:11:03 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:47e7:2d3d:e4c2:218b? ([2001:8b0:aba:5f3c:47e7:2d3d:e4c2:218b])
-        by smtp.gmail.com with ESMTPSA id a8sm823419wmj.8.2021.07.30.01.03.02
+        by smtp.gmail.com with ESMTPSA id c10sm838582wmb.40.2021.07.30.01.11.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 01:03:02 -0700 (PDT)
-Message-ID: <33b5d60e01b3995046709b17b8014fd45b0c48e5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/4] yocto-check-layer: add support to check for dependencies
+        Fri, 30 Jul 2021 01:11:03 -0700 (PDT)
+Message-ID: <49a1ee543e7d47f6a633aae870f5fada34fb6c78.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 2/8] overlayfs.bbclass: generate overlayfs mount units
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Date: Fri, 30 Jul 2021 09:02:59 +0100
-In-Reply-To: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
-References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>, 
+	Openembedded-core@lists.openembedded.org
+Date: Fri, 30 Jul 2021 09:11:02 +0100
+In-Reply-To: <04ee9e7a-6139-db38-0a08-80962f3e3e24@gmail.com>
+References: <20210715193933.66120-1-uvv.mail@gmail.com>
+	 <20210715193933.66120-2-uvv.mail@gmail.com>
+	 <3374ac50d1997cf849fc5a8d83109dc05cc1926f.camel@linuxfoundation.org>
+	 <04ee9e7a-6139-db38-0a08-80962f3e3e24@gmail.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2021-07-22 at 14:46 +0200, Nicolas Dechesne wrote:
-> It has been recentely mentioned to me by the YP TSC that a layer must
-> not only pass the yocto-check-layer script, but also all its
-> dependencies. These patches add support for testing dependencies
-> automatically.
-> 
-> Patch #1 and #3 are not much related, but improvements I made along
-> the lines. 
-> 
-> Patch #2 split the internal function into 2 parts, so that we can get
-> the list of dependencies from the main script. 
-> 
-> Patch #4 is where the processing of the dependencies is done. I chose
-> to enable checking the dependencies by default, and use
-> '--no-auto-dependency' to disable it, we could decide the other way
-> around. For any dependency of the 'layers under test' we will simply
-> add them to the list of layers to test unless they are already there.
-> 
-> Here is a sample output with these changes:
-> 
-> $ yocto-check-layer /work/oe/sources/meta-aws \ 
->                     --dependency /work/oe/sources/meta-openembedded/ 
-> 
-> INFO: Summary of results:
-> INFO:
-> INFO: meta-aws ... PASS
-> INFO: meta-python ... PASS
-> INFO: meta-oe ... PASS
-> INFO: meta-networking ... PASS
+On Fri, 2021-07-30 at 07:14 +0200, Vyacheslav Yurkov wrote:
+> Sorry for the late response. Do you mean to move only helper functions 
+> to meta/lib/oe, right?
 
-We merged this but have started seeing:
+Correct, yes. The things being defined as "def <function>".
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/121/builds/166
+> By variable dependencies you mean that bitbake would not pick up meta 
+> data changes automatically?
 
-which seems a little strange and is probably related to this series.
+I mean that if a function is something like:
+
+def function(d):
+   d.getVar("VAR")
+
+it will no longer magically depend on the variable VAR.
+
+> I will try to move common parts to meta/lib/oe then and send a v4
+
+Thanks!
 
 Cheers,
 
 Richard
-
 
