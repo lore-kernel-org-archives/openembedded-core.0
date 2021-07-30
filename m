@@ -1,73 +1,95 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.24653.1627655360721656145
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web12.24600.1627655361094958447
  for <openembedded-core@lists.openembedded.org>;
  Fri, 30 Jul 2021 07:29:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a3M7JkFz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id n28-20020a05600c3b9cb02902552e60df56so6531005wms.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NPoyiwtt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id h14so11536534wrx.10
         for <openembedded-core@lists.openembedded.org>; Fri, 30 Jul 2021 07:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=9yGWWGgDcWwNTV4I28o4nqAIxNeVTlWEvkpSKLIIf7Y=;
-        b=a3M7JkFzXTuw/mzbu0olLxQZvUX7By/4IzIrZ7CcPwCAQZhY9s/WEArI7fJMjd8Kjv
-         WC8aFS0Wj/uS/u7F2qAnqfWdoMC7sKb+zwhqL3NEdfQZxxKGuCBgHPDTb3veGXoLn0S4
-         LMBxJmvFMO+5q86uU/ruyvmb9afAHDCPKwPMg=
+        bh=uwSQf2Dcb3g2OyrihumFOjGeb/uOznVbQtW9A7E8hi8=;
+        b=NPoyiwtt1rVBswyxK/XTFX4YSf0dr9e0lU8+z2aNB9QJ6VSV+3DVTmvVJqod+Fc/LI
+         qagbfdxSwmBiR6L/zmh9g0yAlgZZbmwjjY9Gmtzxf4dsLJjZOxEuc47fm+SHdVhA667S
+         mj8a5/FFlVFXZgZJY5t1iXIB7JI6/CecnAT7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9yGWWGgDcWwNTV4I28o4nqAIxNeVTlWEvkpSKLIIf7Y=;
-        b=YaGxrZ936QyrxDFE64+ZCkQLzlwIfZY1B4+ehLwm1OEMD5X1CuMUeIgeaMRdB9yzWQ
-         b5+al9gTI+ZfjmJEbyMYt52P+9SohMZ7miVzLniDCAo18Xy6e9uP3GEVbguiq9a/5GtD
-         RUF9i6Lq1TkiQmBqWkou2qW/aP/L1iGHyM4Sf3gwopXbHwHvRTL9s9sLXdAP8C8jaara
-         fUB+ZPJE6CmfrHGklRC8QF7AAJiZv1gBbsWI+RYg5kbihTEoypvSdBDQ9tKYp4NN4d0a
-         +qMi9+PyWTIg283pQObGFe4gltg8PsXh/WxV5EA2Wy7UaAwaoqLRKn5R1u831eA4cIzX
-         VXQw==
-X-Gm-Message-State: AOAM533kOfJ2IZvSKSDnzWBFiFkz6sE2kSbTRLDcaRNBWI1yUiLHT49O
-	qpxqr+qWZ9SHppcYrZWIQ5nf/BaksxiKNQ==
-X-Google-Smtp-Source: ABdhPJzathVArryNsjaWYrYO+zY4/8jZN498FnBr22ajObRqdfT2oJaH4mIFk5mlKUd5+FTMqm5Y8Q==
-X-Received: by 2002:a7b:c399:: with SMTP id s25mr3415172wmj.180.1627655359134;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uwSQf2Dcb3g2OyrihumFOjGeb/uOznVbQtW9A7E8hi8=;
+        b=LNcZo88f/8GPz+qWLfQK/3ZJ2BIAl/7lPhwjag3TRrAYbcd+yk9gpNjoqRReeczdiP
+         XotcMVYeCoVWQBkypxKCBdYVi8Emdjt2UukFsSDvKkQuobf0Ns7ek8amIxnkaqyXryQf
+         SL5erv7T81U0lcVrRdI+4kgYosuESlUM00xh00srS4aBtDWllscJC7qYmwv3Z7oC3iKJ
+         oKtDVfP9eqF2i0DFdAO2/HromLgH1cW0zdKUOPyDgofr0TIuWZ4V6iYlndj2O/nFUJOx
+         JISprYi6B3ZFXAi+EjMVGnQ1p9FY5VbAABH7j/GoDTLLGBZigSvPBTKCl3VPjrmmX/vF
+         YdLw==
+X-Gm-Message-State: AOAM532dakQMYN4CdpzRsjk52gjxLOiik5zdeeqqreHQv7zqzyrLUObp
+	VJm2oHR3qvALWUAQcTvh7nN0xwC3KuMx8w==
+X-Google-Smtp-Source: ABdhPJzrCRoo+yA2hv5METvlEagBSZ/113m2TtovVZaI2iKhXeoBDh91gj8+LKL/5F/KYbTCfeOfEw==
+X-Received: by 2002:adf:f7cf:: with SMTP id a15mr3378476wrq.95.1627655359563;
         Fri, 30 Jul 2021 07:29:19 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:47e7:2d3d:e4c2:218b])
-        by smtp.gmail.com with ESMTPSA id l7sm1782696wmj.9.2021.07.30.07.29.18
+        by smtp.gmail.com with ESMTPSA id l7sm1782696wmj.9.2021.07.30.07.29.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 07:29:18 -0700 (PDT)
+        Fri, 30 Jul 2021 07:29:19 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] dropbear: Fix incorrect package override for postrm
-Date: Fri, 30 Jul 2021 15:29:17 +0100
-Message-Id: <20210730142918.3364939-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] convert-overrides: Allow script to handle patch/diffs
+Date: Fri, 30 Jul 2021 15:29:18 +0100
+Message-Id: <20210730142918.3364939-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210730142918.3364939-1-richard.purdie@linuxfoundation.org>
+References: <20210730142918.3364939-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This bug has been around for a long time (2011) but fix it to do
-what was intended originally. The postrm is changed by classes but
-those should append to existing entries.
+It is handy to be able to have the script convert a single patch file
+and it turns out to be straightforward to make it do this.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/dropbear/dropbear.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/contrib/convert-overrides.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index b5f3778abec..f2a490c4736 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -114,7 +114,7 @@ ALTERNATIVE:${PN} = "${@bb.utils.filter('BINCOMMANDS', 'scp ssh', d)}"
+diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
+index bfdf785719f..6505b18cf09 100755
+--- a/scripts/contrib/convert-overrides.py
++++ b/scripts/contrib/convert-overrides.py
+@@ -68,15 +68,15 @@ packagevars = packagevars + imagevars
  
- ALTERNATIVE_TARGET = "${sbindir}/dropbearmulti"
+ vars_re = {}
+ for exp in vars:
+-    vars_re[exp] = (re.compile('((^|[\'"\s])[A-Za-z0-9_\-:${}]+)_' + exp), r"\1:" + exp)
++    vars_re[exp] = (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}]+)_' + exp), r"\1:" + exp)
  
--pkg_postrm:append_${PN} () {
-+pkg_postrm:${PN} () {
-   if [ -f "${sysconfdir}/dropbear/dropbear_rsa_host_key" ]; then
-         rm ${sysconfdir}/dropbear/dropbear_rsa_host_key
-   fi
+ shortvars_re = {}
+ for exp in shortvars:
+-    shortvars_re[exp] = (re.compile('((^|[\'"\s])[A-Za-z0-9_\-:${}]+)_' + exp + '([\(\'"\s:])'), r"\1:" + exp + r"\3")
++    shortvars_re[exp] = (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}]+)_' + exp + '([\(\'"\s:])'), r"\1:" + exp + r"\3")
+ 
+ package_re = {}
+ for exp in packagevars:
+-    package_re[exp] = (re.compile('(^|[\'"\s]+)' + exp + '_' + '([$a-z"\'\s%\[<{\\\*].)'), r"\1" + exp + r":\2")
++    package_re[exp] = (re.compile('(^|[\'"\s\-\+]+)' + exp + '_' + '([$a-z"\'\s%\[<{\\\*].)'), r"\1" + exp + r":\2")
+ 
+ # Other substitutions to make
+ subs = {
+@@ -123,6 +123,10 @@ def processfile(fn):
+ ourname = os.path.basename(sys.argv[0])
+ ourversion = "0.9.1"
+ 
++if os.path.isfile(sys.argv[1]):
++    processfile(sys.argv[1])
++    sys.exit(0)
++
+ for targetdir in sys.argv[1:]:
+     print("processing directory '%s'" % targetdir)
+     for root, dirs, files in os.walk(targetdir):
 -- 
 2.30.2
 
