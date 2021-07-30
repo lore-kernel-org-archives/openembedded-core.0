@@ -1,135 +1,125 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.22853.1627645516317263694
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.22829.1627645516982390687
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Jul 2021 04:45:16 -0700
+ Fri, 30 Jul 2021 04:45:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jsuIMUpN;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id b13so81741wrs.3
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WksP76+j;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id b7so10956368wri.8
         for <openembedded-core@lists.openembedded.org>; Fri, 30 Jul 2021 04:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=f3ZbCdAyzEjGmbObYzHkgERdEq7GvDMHC6Gru2+KKOg=;
-        b=jsuIMUpN9mPnFZcN86k8DU6UX9iYCv2hkm434Gdnet41a2dZivoONhI68RexvxF+AR
-         f39RzytdXbCDsrBIJH3IWBVEMeHmaF3T3wQ2cTAryml92lsMil5RlQ5Yijc/t0Pf+jI8
-         /QdyEkyB6v7kCeTnFRRMxgUAMfYvu9dlG2yj4NZRxKNs4eaBk5tYoo0QYxbMOSKBvkAw
-         zyW0mVql/V43uUq7OqBBjgND5jKQwrxFKa7EKEK1s+KT+9WTnlohf94F00bm/gP+9+Zu
-         J3d1oglPqPOaMXyHR4T69qcRB5lQo8ArSjsslVi1qi8/DS5HJ81a7FKQIi/I82R0k+vn
-         lOHw==
+        bh=uddZCl/hgMI7z6Id6DQc0vOu7dMzBCNULkOBp3AlXB0=;
+        b=WksP76+jAyFM7p5Zi46JPE8VvtDEyQ+dUBh8A81YVMwQkGM0mPyg4VhvHmUQuANbYf
+         lMO1oAAxox9I2G+JbCIbb3AhuBAKsZjR8xsOJSipF38gXfM7W7NfbCyKvR2skrRTEOJs
+         cZU4mqslgcVwtUKxpt20DzsLkzzu3dXAdqQvuatJNssUIR9HwB6kth+64LVORTDAbvJi
+         tStQcVNgdRxVYfbtY7yZ3lUxCuJ1aESOmkmBEj/7Qo5t3mbZIcJetcSbgGxY4XUr59BV
+         tq8B4Si6Kl2RoF/w/amIJk33cQvZOpFagc1BcfIKNm6nmZCzvTUesgs7kxYKYccJ8Ika
+         dULA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=f3ZbCdAyzEjGmbObYzHkgERdEq7GvDMHC6Gru2+KKOg=;
-        b=D9NwRoWJDlGaH/krSkvRovxFaVSiaoaoIsokoshkF4z8CEaZ/l8e44OayypCCamtgU
-         gnoBRvQWzJ7BKtrhGtVI4/UW6lNEuM9Z8pKDTS32WwI/kiPOuN+DNoxjPzHIYVYTbTYk
-         GpD//8IMJZATFuTqBp8dwNrSNLIPbGpqoH0RXcl2m9DYzMcoG9QBLL7UPpzctsSFuqKd
-         KxPDbc0LVXFm46TQASJ02fAlECv6M/Zr/iThtuGgM153dQ2h73XtfSlue4QV7z+JTp9m
-         Xzuw1Y52mAfX1MSbdcLD5hQPQKq7RS6DMPJfUWSX4S9tBDsjvlVWqd+pTxVrmgyX8HgU
-         7hlQ==
-X-Gm-Message-State: AOAM531b+qQXegeb4NVs8W0K8uDDN6Xv8oBB93H5hYmjE3bFiiHT4if4
-	70fUGAmnDEzXjHtvKLiYCTyIL0pyiyg=
-X-Google-Smtp-Source: ABdhPJy8ayrn3KZUx/SZ28uJQHg/nhXVmlBFavwjQ+bhytowB3kIrsl6VbCmR7U3Mgt4cuUXkY2WIw==
-X-Received: by 2002:adf:cf0c:: with SMTP id o12mr2564475wrj.143.1627645514925;
-        Fri, 30 Jul 2021 04:45:14 -0700 (PDT)
+        bh=uddZCl/hgMI7z6Id6DQc0vOu7dMzBCNULkOBp3AlXB0=;
+        b=DY9V+Ytx4zCJP3kl2X1KIyekiFZ4BHwGqY6sIvYD5k1XwsFAky+26k4+oWggGoPX2Q
+         ALBATp5aq8bJJjtUQ9AzJKWfcvIHbMfmXjXyjflV0Cu2JBWRW2jm/O6xV6k6LRXoCBoQ
+         UcIU1dU7BCmpBCxzIEKTg/LvZw7nVnJ98cSjPh/hUupxtB8YFLNOdNGA4+2aIl5JiCL5
+         3gE0emQEGKhr7/2B3dzFXiyAPbsUw4v3z5g7XZrV7BGqyc6IYaPAp4OrazBi1hCJUOnN
+         CUps8RGK/xB6KbmGms5kOKYvC62zxkj/tLmRgzeqwLeUzeXmplefU0yplG4iC010S+PZ
+         Sksw==
+X-Gm-Message-State: AOAM531yscEhp648PPrYg86sk/PUKlO2r2ZGyqwOsqQxUK/89b6MjhhL
+	EC2r1AJa3SgWi6D+NA905tEZNrxtgf4=
+X-Google-Smtp-Source: ABdhPJyIPEQ3c+uwBi3QDMBGJ28Ku3bK9v4REDRR2DYq8XN4ZinUdp2xM9xAunGhHRCKoRyDydPKNw==
+X-Received: by 2002:a5d:49c8:: with SMTP id t8mr2527633wrs.365.1627645515578;
+        Fri, 30 Jul 2021 04:45:15 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id s9sm1459792wra.80.2021.07.30.04.45.14
+        by smtp.gmail.com with ESMTPSA id s9sm1459792wra.80.2021.07.30.04.45.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 04:45:14 -0700 (PDT)
+        Fri, 30 Jul 2021 04:45:15 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 4/9] iputils: update 20210202 -> 20210722
-Date: Fri, 30 Jul 2021 13:45:02 +0200
-Message-Id: <20210730114507.732448-4-alex.kanavin@gmail.com>
+Subject: [PATCH 5/9] freetype: update 2.10.4 -> 2.11.0
+Date: Fri, 30 Jul 2021 13:45:03 +0200
+Message-Id: <20210730114507.732448-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210730114507.732448-1-alex.kanavin@gmail.com>
 References: <20210730114507.732448-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop rdisc part from 0001-rarpd-rdisc-Drop-PrivateUsers.patch
-as it's been fixed upstream; rarpd still isn't.
+License-Update: formatting, changed location in source tree.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-rarpd-rdisc-Drop-PrivateUsers.patch  | 31 ++++---------------
- ...putils_20210202.bb => iputils_20210722.bb} |  2 +-
- 2 files changed, 7 insertions(+), 26 deletions(-)
- rename meta/recipes-extended/iputils/{iputils_20210202.bb => iputils_20210722.bb} (98%)
+ .../freetype/freetype/use-right-libtool.patch | 23 ++++++++++++++++---
+ ...{freetype_2.10.4.bb => freetype_2.11.0.bb} |  4 ++--
+ 2 files changed, 22 insertions(+), 5 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype_2.10.4.bb => freetype_2.11.0.bb} (91%)
 
-diff --git a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-index d7367caf78..c61e39dc80 100644
---- a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-+++ b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-@@ -1,20 +1,20 @@
--From 6e51d529988cfc0bb357751fd767e9f1478e2b81 Mon Sep 17 00:00:00 2001
-+From dfeeb3f1328d09f516edeb6349bd63e3c87f9397 Mon Sep 17 00:00:00 2001
- From: Alex Kiernan <alex.kiernan@gmail.com>
- Date: Thu, 13 Feb 2020 06:08:45 +0000
--Subject: [PATCH] rarpd: rdisc: Drop PrivateUsers
-+Subject: [PATCH] rarpd:Drop PrivateUsers
- 
--Neither rarpd nor rdisc can gain the necessary capabilities with
-+rarpd cannot gain the necessary capabilities with
- PrivateUsers enabled.
- 
- Upstream-Status: Pending
- Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+diff --git a/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch b/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
+index 3368f7ddd3..b389455f5d 100644
+--- a/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
++++ b/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
+@@ -1,3 +1,8 @@
++From 50499e4482d40cff2ef05905c658ba4380e7e6fc Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Thu, 7 Jan 2016 21:13:07 +0000
++Subject: [PATCH] freetype: enable out-of-tree builds, and use host zlib
 +
- ---
-  systemd/rarpd.service.in | 1 -
-- systemd/rdisc.service.in | 3 ++-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
-+ 1 file changed, 1 deletion(-)
+ Freetype think that it knows best about where libtool is, and explicitly the
+ libtool autoconf macros telling it where to find the libtool script.  Of course
+ we prefix the script with the target triplet, so it's wrong.  Fix this by
+@@ -7,8 +12,20 @@ put libtool is used.
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
- diff --git a/systemd/rarpd.service.in b/systemd/rarpd.service.in
--index e600c10c93e6..f5d7621a7ce8 100644
-+index e600c10..f5d7621 100644
- --- a/systemd/rarpd.service.in
- +++ b/systemd/rarpd.service.in
- @@ -12,7 +12,6 @@ AmbientCapabilities=CAP_NET_RAW
-@@ -25,22 +25,3 @@ index e600c10c93e6..f5d7621a7ce8 100644
-  ProtectSystem=strict
-  ProtectHome=yes
-  ProtectControlGroups=yes
--diff --git a/systemd/rdisc.service.in b/systemd/rdisc.service.in
--index 4e2a1ec9d0e5..a71b87d36b37 100644
----- a/systemd/rdisc.service.in
--+++ b/systemd/rdisc.service.in
--@@ -8,9 +8,10 @@ After=network.target
-- EnvironmentFile=-/etc/sysconfig/rdisc
-- ExecStart=@sbindir@/rdisc -f -t $OPTIONS $SEND_ADDRESS $RECEIVE_ADDRESS
-- 
--+CapabilityBoundingSet=CAP_NET_RAW
-- AmbientCapabilities=CAP_NET_RAW
-- PrivateTmp=yes
---PrivateUsers=yes
--+DynamicUser=yes
-- ProtectSystem=strict
-- ProtectHome=yes
-- ProtectControlGroups=yes
---- 
--2.17.1
--
-diff --git a/meta/recipes-extended/iputils/iputils_20210202.bb b/meta/recipes-extended/iputils/iputils_20210722.bb
-similarity index 98%
-rename from meta/recipes-extended/iputils/iputils_20210202.bb
-rename to meta/recipes-extended/iputils/iputils_20210722.bb
-index 02a303782e..b5a774073e 100644
---- a/meta/recipes-extended/iputils/iputils_20210202.bb
-+++ b/meta/recipes-extended/iputils/iputils_20210722.bb
-@@ -13,7 +13,7 @@ DEPENDS = "gnutls"
- SRC_URI = "git://github.com/iputils/iputils \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-            "
--SRCREV = "cc16da6b574ce6637f3e6e9ab3c1a728663006ff"
-+SRCREV = "71bb2a6c72e9f658e90ac618c73d873a76bbaa81"
+---- freetype-2.6/builds/unix/unix-cc.in.orig	2016-01-07 19:21:45.244943479 +0000
+-+++ freetype-2.6/builds/unix/unix-cc.in	2016-01-07 19:21:50.213112131 +0000
+-@@ -19,1 +18,1 @@
++---
++ builds/unix/unix-cc.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/builds/unix/unix-cc.in b/builds/unix/unix-cc.in
++index 89be450..72609d3 100644
++--- a/builds/unix/unix-cc.in
+++++ b/builds/unix/unix-cc.in
++@@ -16,7 +16,7 @@ CC           := @CC@
++ COMPILER_SEP := $(SEP)
++ FT_LIBTOOL_DIR ?= $(PLATFORM_DIR)
++ 
+ -LIBTOOL := $(FT_LIBTOOL_DIR)/libtool
+ +LIBTOOL := $(FT_LIBTOOL_DIR)/@LIBTOOL@ --tag CC
++ 
++ 
++ # The object file extension (for standard and static libraries).  This can be
+diff --git a/meta/recipes-graphics/freetype/freetype_2.10.4.bb b/meta/recipes-graphics/freetype/freetype_2.11.0.bb
+similarity index 91%
+rename from meta/recipes-graphics/freetype/freetype_2.10.4.bb
+rename to meta/recipes-graphics/freetype/freetype_2.11.0.bb
+index 8462cd3511..2893e21fec 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.10.4.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.11.0.bb
+@@ -8,14 +8,14 @@ BUGTRACKER = "https://savannah.nongnu.org/bugs/?group=freetype"
+ SECTION = "libs"
  
- S = "${WORKDIR}/git"
+ LICENSE = "FreeType | GPLv2+"
+-LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1 \
++LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=a5927784d823d443c6cae55701d01553 \
+                     file://docs/FTL.TXT;md5=9f37b4e6afa3fef9dba8932b16bd3f97 \
+                     file://docs/GPLv2.TXT;md5=8ef380476f642c20ebf40fecb0add2ec"
+ 
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
+            file://use-right-libtool.patch \
+           "
+-SRC_URI[sha256sum] = "86a854d8905b19698bbc8f23b860bc104246ce4854dcea8e3b0fb21284f75784"
++SRC_URI[sha256sum] = "8bee39bd3968c4804b70614a0a3ad597299ad0e824bc8aad5ce8aaf48067bde7"
+ 
+ UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
  
 -- 
 2.31.1
