@@ -1,74 +1,72 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.3177.1627736127353725139
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web12.3451.1627737256203652626
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jul 2021 05:55:27 -0700
+ Sat, 31 Jul 2021 06:14:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oCn055Bi;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: oecore.mailinglist@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id k4so4226433wrc.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jul 2021 05:55:27 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TGXbElaI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id k4so4277070wrc.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jul 2021 06:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=jnnzr5B0at+yyb+vD5mZA3xOXifZxsZhVsS/xl6hKQU=;
-        b=oCn055BiYTtCPceAlx6POcAowSXcOhu7FrqRCbJco07B7kaZRDxmCfS946O8gt/eaM
-         DVmbG784OIca60HR8Bxf0Pk6vigZBwKw2/03aGSPALUsiMztjHywhYTt/CPm0enaRD4U
-         /60WznJpRFXVxD14Qq1R8Q6pvjfFXD9VIQFsDySEUd0rdIhOCFZlJu24Q0Byat4P/wz9
-         k8h2/LSDgwb5UAaGA9bBedj/CppXIQ0557EPk3dpNH+a9S7zmZ4wWnMJcI0Pr6o5ODlQ
-         zKSfzBBO7CgMsdw1Rm7Or4qBwR7PJzUa2fIJSwd42Cpl3PrMUBgTEB+c4GVHDoKLzC4a
-         vphA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=2j78xaSxOAkiKwz86IZ6GMlVtX8vUQSIZWbHs82ToeE=;
+        b=TGXbElaIhuCKUT+wEbsIHbXkz2cmcdr0i1rLmZ68Gr6SxRvk6K4Oz3ijtceVqV68kD
+         ZtSnQCMJ1QEOVWt+mRUj7JTR7raxCmH9uuKlA7EEBbOyjVe1d1u+vrruWqdJwyf+Rs84
+         q//PGfBzDriHMo/dspCG2Ov0UkSms93aTqBnc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jnnzr5B0at+yyb+vD5mZA3xOXifZxsZhVsS/xl6hKQU=;
-        b=Mh5ZzTAl4M+qXDDz7DpLq5UIsnddRc4yDsseo3CDoAyrwlhu31G2RS4VUR1E6jOy8X
-         rQ19UXxIY5+HGy1IL2neWaubC1jlrDX3OsxP/qUzqeuZxzxzts4f1Q7qsoXLs66W5PLc
-         +uiYnJ2MwnMSusbhuOxC0BihZ7eLLigTcsYTMSvYhEjJQFXDrSorVGqyintq1GhUoWne
-         +AIGC8aQfPaFHI+i53V7rYwLEbMW6wSij+JE7G6nFmALqYH2WWbpPasvDy2se4E+mgop
-         gOo2stXwWEeANPJl06F0eVyAL0BiMv3vMnErLkk5oI7mCJz6NC0p1HUl6pIdbUIVPV1l
-         6ffA==
-X-Gm-Message-State: AOAM532QL3ODDBbcb5hzpPpr/4YvRXMfRaC4ZakA/EYECwgF4jvW1Qbu
-	O1R9Nga9STKqWd27TRMbrogt455UDlY=
-X-Google-Smtp-Source: ABdhPJzprW0Of12xzcT9JBv3G9TQgEsiACnsFxIATuL6035amjaBzQxj/mN1VLL5xpcvVCpwiCWvag==
-X-Received: by 2002:adf:ffd1:: with SMTP id x17mr8138462wrs.391.1627736125730;
-        Sat, 31 Jul 2021 05:55:25 -0700 (PDT)
-Return-Path: <oecore.mailinglist@gmail.com>
-Received: from [192.168.42.52] (ppp-2-86-128-196.home.otenet.gr. [2.86.128.196])
-        by smtp.gmail.com with ESMTPSA id n5sm4752779wme.47.2021.07.31.05.55.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 31 Jul 2021 05:55:25 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=2j78xaSxOAkiKwz86IZ6GMlVtX8vUQSIZWbHs82ToeE=;
+        b=c28C/NWok4UdEmp9iujDkPWX5va6NU1dXRzhe34kYQckGIUT+TEn4OBQu6aeu15q1Y
+         QZ9dpt6ctcEkyH1Ch9K3yjxkOCEjUF4tkrxzszFd4yUegcMdT+qoBvtJ9Wg93DZglNE1
+         qj2yqyVl4AHDwXCuMhdYMkYYN87q2rxWkNJ+lg6BEBZDPlZO+jxaCAyP8wxmH9HMO0xo
+         Gqp2OIcryChZFJowkGC4gR3a7ZYA0ty4Ph3SYS0Ji2IhYSQv/ocG4FG0UOIF/aL8oPyi
+         ryQ+e9lwbb/mbsAhV0Id8IFtsIP2OXJqPGisFsZhT99Le7vh5xeN4gAoCrh/0fc84hUd
+         lbcw==
+X-Gm-Message-State: AOAM5309u73PMjco/JKS2AL3L5sFVl5lRg5+rpW/lYntf5HsmnuXK6ef
+	GL4FFrRWUQOHRU03oPysV4tYag==
+X-Google-Smtp-Source: ABdhPJxZMA1ZJeYNgiHFgtWcxHO8JcLdy9buIzXZl6NTWOWm9wUzi+e5+XgBTVvtvQfgZhIhc3Yd2w==
+X-Received: by 2002:a5d:4f82:: with SMTP id d2mr8294068wru.257.1627737254581;
+        Sat, 31 Jul 2021 06:14:14 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:c6ef:507a:8269:d07b? ([2001:8b0:aba:5f3c:c6ef:507a:8269:d07b])
+        by smtp.gmail.com with ESMTPSA id h8sm4856599wmb.35.2021.07.31.06.14.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Jul 2021 06:14:14 -0700 (PDT)
+Message-ID: <1b4ebc0e442ccb7be375247300986d826c79279c.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH 1/3] scripts/contrib: Add override conversion script
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Robert Berger <oecore.mailinglist@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 31 Jul 2021 14:14:11 +0100
+In-Reply-To: <0d8f3595-8738-4fa6-ac43-4844f06268cc@gmail.com>
 References: <1695F9FE617EA75A.5172@lists.openembedded.org>
- <f147b797e6dff3358dde45fde9e911c01e420c86.camel@linuxfoundation.org>
-From: "Robert Berger" <oecore.mailinglist@gmail.com>
-Message-ID: <0d8f3595-8738-4fa6-ac43-4844f06268cc@gmail.com>
-Date: Sat, 31 Jul 2021 15:55:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	 <f147b797e6dff3358dde45fde9e911c01e420c86.camel@linuxfoundation.org>
+	 <0d8f3595-8738-4fa6-ac43-4844f06268cc@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-In-Reply-To: <f147b797e6dff3358dde45fde9e911c01e420c86.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-Not sure this is the right list and mail I am replying to ;)
-
-I was wondering what's happening with backwards compatibility.
-
-It looks like it will not be possible to have a layer with new syntax 
-fixes which will also work for some older versions (hardknott and older).
-
-Regards,
-
-Robert
-
+On Sat, 2021-07-31 at 15:55 +0300, Robert Berger wrote:
+> Not sure this is the right list and mail I am replying to ;)
 > 
+> I was wondering what's happening with backwards compatibility.
 > 
-> 
+> It looks like it will not be possible to have a layer with new syntax 
+> fixes which will also work for some older versions (hardknott and older).
+
+That isn't correct. There are patches backported to the bitbake 1.50, 1.48 
+and 1.46 branches which mean the older bitbake will accept the new syntax.
+
+This means that converted layers will work with older releases, as long
+as someone has updated to the new version of bitbake for that stable series
+(and the later worked with that release in the first place!).
+
+Cheers,
+
+Richard
+
