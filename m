@@ -1,190 +1,82 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.5416.1627748877676160925
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.5782.1627751116434963394
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Jul 2021 09:27:58 -0700
+ Sat, 31 Jul 2021 10:05:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JZqSpm1d;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id n6so17363413ljp.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jul 2021 09:27:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dPiSZEfZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: oecore.mailinglist@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id d131-20020a1c1d890000b02902516717f562so8402423wmd.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Jul 2021 10:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cXf+w2qcKPl75s6E7nFOQuaX1F5NpcmATOwWjTDreEo=;
-        b=JZqSpm1dwcGyxi+iesAS855fgNb5cdyJMG7B0vdm1iyybc5hiNgAFv+RX2SgJXgk0M
-         FGrl4idaj2N6wWkqbxQwlYJskZc0UMPMNMBD6787fKLnUSpIZTqmJ0nB24CymLXh4DEa
-         q1H4+qg8xrhOdq53UisaxYf1tBTG2ftlvB9Yilpaab/GiH3/0CEIf0fVq2mAu6pJzJXP
-         9MydzlU9abImYTuoLBBLFa2SrJghEH3Y1VKtOuX5ad9JTsJdyUnPQ7OZkzzNCoszpRyO
-         BBDuvMhl5UGl8Bn4YHZX1W4Kuk+ErQejW3mYPTtGWJ1XN3YMvJRPrE98uYEaFrjXaLTE
-         Rjug==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=wZ9j5mxLgQ93oFLva7MJbTx03Q8c/iO78RPtMta+QKM=;
+        b=dPiSZEfZlBJ0McBW9IJR0jPNpR7Qtnc0mU38CHIwX+MMaZNt7xN8VDwIAnTxZQgUNF
+         OeNq/lwH0IjeDyJxInvw6n2Ltg4btpYSs6BLI8w3Pj7QGR85msw8uAfIE5cTOydNf0Jj
+         BZoE5eOw3LT8Y2rM0/A1R96e4DeoMRrm8BBgljeh771zUKITO9Y6ry3QmR+NtGS+vdTa
+         1bZflwNcPpn9VaEHKdtWqbYbURxHs7Se4ceGJqZGp9KYwqXLgynw0Vu5csnifPshuHon
+         X8217VYUGcfpr7SW9dp/rkKk1yakhNeLoRzonBkjrmflye+d9tASItxRPTtOPObOk0Z8
+         2z4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cXf+w2qcKPl75s6E7nFOQuaX1F5NpcmATOwWjTDreEo=;
-        b=cr/zCvyai2YL99lQvzHZHWCpOZscnE9JbNwOb3dIf6elsvQa3XF/cP1yDuUZOwLRDN
-         jLr7Es2enPR/NZ2BgRou8ZFtMHC3TwRl31RGD5dsn8SzmRsiwzhARQMcETw/MkD5Yu06
-         M/TbsmPhxSz2i3i62gh5XyHPXnQe2BJbWDs7nFt3UaCqb8JVIwB4d76Ak8dsJTa9Zk3L
-         x+/LRF9abO/yHmjzRV7nkFn1Vq0AQpIUhYLp4kTBiMB7xEYbHQXErfFevC6XLIHS0Fmb
-         IemIP538IMbxoZhJPH5NdMyf3l5lRIngLZYcW8ozoAoVpgYzPIo1IYWGCb4l8MM/IK8T
-         T9dw==
-X-Gm-Message-State: AOAM5317NTF2sA7VCHzr6yaY8lG8b2RmmMfe/3TGhVZkm3ASw2rdy3lo
-	vBwiExoAwpUFGtD8Cf9KV/eMd5B6up2VtgBByRE=
-X-Google-Smtp-Source: ABdhPJwwsmmXarB0TPBYSorPGjtTD4ogay1PGvhQb8vpiHshBFuFB8VCR9jxRUz9APW80Di85cd6OEJRs5W0wxWb0wY=
-X-Received: by 2002:a2e:894e:: with SMTP id b14mr5763068ljk.344.1627748875532;
- Sat, 31 Jul 2021 09:27:55 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wZ9j5mxLgQ93oFLva7MJbTx03Q8c/iO78RPtMta+QKM=;
+        b=TO4rpJnYVo1oadBPiWuL7VUX+3g0jv/6p9a0DKTBp7VyHntrZ/38iUk8uBdTbK7OSF
+         EhY0slVZT4t58VV8SEjPIqLTrbbwMY/YH9kdbxq1mT3ty0ss4yPDhgVf5TiWHvHzpX/8
+         j2SkQL7lWVAXNvIJYcjRYCQaoPx87kDhzkRUOxMfWiwMf+u+baCNUaH6pXJiuiE/R4Cp
+         HBL3p194HMomSe42kdxtlfY2MLDxWNtYfxzhsa/Pzo0naeXPKaAMoufmVlKvDuADvzD1
+         YnEA5M5ALe960u1x3RFtKDxk4i+Rs71NPrGMRDk4lepXfz+rKvZS7xFfK/X2NCpLBFAg
+         Lc7g==
+X-Gm-Message-State: AOAM533udg2jEpXi9zcLE1Q1JhkxsdQX7oCY6iovJFYsyzBtEMFm51FW
+	d2brMcHXe9/bJvw9swa4FAeWWhe8Za0=
+X-Google-Smtp-Source: ABdhPJwdwtqlHx7lzdDgngayXl7SVGNz9oUW8hKa/EZbeHE3gL+aeGUzNjDgL8ArlFXUoE38oH1Nmw==
+X-Received: by 2002:a1c:6a0c:: with SMTP id f12mr8783679wmc.82.1627751114891;
+        Sat, 31 Jul 2021 10:05:14 -0700 (PDT)
+Return-Path: <oecore.mailinglist@gmail.com>
+Received: from [192.168.42.52] (ppp-2-86-128-196.home.otenet.gr. [2.86.128.196])
+        by smtp.gmail.com with ESMTPSA id c2sm5589844wrs.60.2021.07.31.10.05.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 31 Jul 2021 10:05:14 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 1/3] scripts/contrib: Add override conversion script
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <1695F9FE617EA75A.5172@lists.openembedded.org>
+ <f147b797e6dff3358dde45fde9e911c01e420c86.camel@linuxfoundation.org>
+ <0d8f3595-8738-4fa6-ac43-4844f06268cc@gmail.com>
+ <1b4ebc0e442ccb7be375247300986d826c79279c.camel@linuxfoundation.org>
+From: "Robert Berger" <oecore.mailinglist@gmail.com>
+Message-ID: <ad36c6a2-dcfc-ccf7-a856-18d577028633@gmail.com>
+Date: Sat, 31 Jul 2021 20:05:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210727183831.100545-1-vinay.m.engg@gmail.com> <a3e9bd964546a48124dddfb13008e2bc1e467163.camel@intel.com>
-In-Reply-To: <a3e9bd964546a48124dddfb13008e2bc1e467163.camel@intel.com>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Sat, 31 Jul 2021 21:57:44 +0530
-Message-ID: <CANUMPcVH2STrqcD34DRXQ9ty3id9O0ZgZ_qWg76+F-pQ-6Hx5A@mail.gmail.com>
-Subject: Re: [PATCH] glibc: Fix CVE-2021-33574
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"vinay.kumar@blackfigtech.com" <vinay.kumar@blackfigtech.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"rwmacleod@gmail.com" <rwmacleod@gmail.com>, "umesh.kalappa0@gmail.com" <umesh.kalappa0@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1b4ebc0e442ccb7be375247300986d826c79279c.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Anuj,
+Hi Richard,
 
-The patch is conjugate of both commits.
-https://sourceware.org/git/?p=glibc.git;a=commit;h=42d359350510506b87101cf77202fefcbfc790cb
- https://sourceware.org/git/?p=glibc.git;a=commit;h=217b6dc298156bdb0d6aea9ea93e7e394a5ff091
+On 31/07/2021 16:14, Richard Purdie wrote:
+> 
+> That isn't correct. There are patches backported to the bitbake 1.50, 1.48
+> and 1.46 branches which mean the older bitbake will accept the new syntax.
+> 
+> This means that converted layers will work with older releases, as long
+> as someone has updated to the new version of bitbake for that stable series
+> (and the later worked with that release in the first place!).
 
-Also, the patch is committed to master branch
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=55681d09d7f519a1c7f17d17b18ec59bccdc91ca
+Makes sense. Thanks for the clarification.
 
-Due you want me to resubmit for "hardknott" branch by splitting in to
-2 patches ?
+> 
+> Cheers,
+> 
+> Richard
+> 
 
 Regards,
-Vinay
 
-On Sat, Jul 31, 2021 at 11:52 AM Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
-> On Tue, 2021-07-27 at 11:38 -0700, Vinay Kumar wrote:
-> > Source: https://sourceware.org/git/glibc.git
-> > Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=27896
-> >
-> > Backported upstream commit 42d359350510506b87101cf77202fefcbfc790cb to
-> > glibc-2.33 source with dependent commit id
-> > 217b6dc298156bdb0d6aea9ea93e7e394a5ff091.
-> >
-> > Upstream-Status: Backport
-> > [https://sourceware.org/git/?p=glibc.git;a=commit;h=42d359350510506b87101cf77202fefcbfc790cb
-> > ]
->
-> It looks like you'd need to backport this one too:
->
-> https://sourceware.org/git/?p=glibc.git;a=commit;h=217b6dc298156bdb0d6aea9ea93e7e394a5ff091
->
-> ?
->
-> Thanks,
->
-> Anuj
->
-> >
-> > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> > ---
-> >  .../glibc/glibc/CVE-2021-33574.patch          | 61 +++++++++++++++++++
-> >  meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
-> >  2 files changed, 62 insertions(+)
-> >  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
-> > b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
-> > new file mode 100644
-> > index 0000000000..fd73b23c88
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
-> > @@ -0,0 +1,61 @@
-> > +From 42d359350510506b87101cf77202fefcbfc790cb Mon Sep 17 00:00:00 2001
-> > +From: Andreas Schwab <schwab@linux-m68k.org>
-> > +Date: Thu, 27 May 2021 12:49:47 +0200
-> > +Subject: [PATCH] Use __pthread_attr_copy in mq_notify (bug 27896)
-> > +
-> > +Make a deep copy of the pthread attribute object to remove a potential
-> > +use-after-free issue.
-> > +
-> > +Upstream-Status: Backport
-> > [https://sourceware.org/git/?p=glibc.git;a=commit;h=42d359350510506b87101cf77202fefcbfc790cb
-> > ]
-> > +CVE: CVE-2021-33574
-> > +Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> > +---
-> > +diff --git a/sysdeps/unix/sysv/linux/mq_notify.c
-> > b/sysdeps/unix/sysv/linux/mq_notify.c
-> > +index cc575a0cdd8..6f46d29d1dc 100644
-> > +--- a/sysdeps/unix/sysv/linux/mq_notify.c
-> > ++++ b/sysdeps/unix/sysv/linux/mq_notify.c
-> > +@@ -133,8 +133,11 @@ helper_thread (void *arg)
-> > +           (void) __pthread_barrier_wait (&notify_barrier);
-> > +       }
-> > +       else if (data.raw[NOTIFY_COOKIE_LEN - 1] == NOTIFY_REMOVED)
-> > +-      /* The only state we keep is the copy of the thread
-> > attributes.  */
-> > +-      free (data.attr);
-> > ++      {
-> > ++        /* The only state we keep is the copy of the thread
-> > attributes.  */
-> > ++        pthread_attr_destroy (data.attr);
-> > ++        free (data.attr);
-> > ++      }
-> > +     }
-> > +   return NULL;
-> > + }
-> > +@@ -255,8 +258,14 @@ mq_notify (mqd_t mqdes, const struct sigevent
-> > *notification)
-> > +       if (data.attr == NULL)
-> > +       return -1;
-> > +
-> > +-      memcpy (data.attr, notification->sigev_notify_attributes,
-> > +-            sizeof (pthread_attr_t));
-> > ++      int ret = __pthread_attr_copy (data.attr,
-> > ++                                   notification-
-> > >sigev_notify_attributes);
-> > ++      if (ret != 0)
-> > ++      {
-> > ++        free (data.attr);
-> > ++        __set_errno (ret);
-> > ++        return -1;
-> > ++      }
-> > +     }
-> > +
-> > +   /* Construct the new request.  */
-> > +@@ -269,8 +278,11 @@ mq_notify (mqd_t mqdes, const struct sigevent
-> > *notification)
-> > +   int retval = INLINE_SYSCALL (mq_notify, 2, mqdes, &se);
-> > +
-> > +   /* If it failed, free the allocated memory.  */
-> > +-  if (__glibc_unlikely (retval != 0))
-> > +-    free (data.attr);
-> > ++  if (retval != 0 && data.attr != NULL)
-> > ++    {
-> > ++      pthread_attr_destroy (data.attr);
-> > ++      free (data.attr);
-> > ++    }
-> > +
-> > +   return retval;
-> > + }
-> > diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-
-> > core/glibc/glibc_2.33.bb
-> > index 925efe8cc6..e9f01a14c5 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.33.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.33.bb
-> > @@ -57,6 +57,7 @@ SRC_URI =
-> > "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-> >
-> > file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
-> >
-> > file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
-> >             file://mte-backports.patch \
-> > +           file://CVE-2021-33574.patch \
-> >             "
-> >  S = "${WORKDIR}/git"
-> >  B = "${WORKDIR}/build-${TARGET_SYS}"
->
+Robert
