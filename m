@@ -1,114 +1,69 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web08.6105.1627818099481499324
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.6552.1627821902302049285
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Aug 2021 04:41:39 -0700
+ Sun, 01 Aug 2021 05:45:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 171BfaWJ032402
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Sun, 1 Aug 2021 04:41:36 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 171BfZGC018430
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 1 Aug 2021 04:41:35 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sun, 1 Aug 2021 04:41:35 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sun, 1 Aug 2021 04:41:34 -0700
-From: "kai" <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] python3-pytest: display correct version info
-Date: Sun, 1 Aug 2021 19:41:30 +0800
-Message-ID: <20210801114130.1135-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aVVy1Ray;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id d8so18023139wrm.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 05:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=HLIIY0BlKMQdEZ03MQEBAzFflTE+8EeGKTRkHn5GVTM=;
+        b=aVVy1Rayo0gGyVMSFl0Kkmzd5oDyuGi8GfjN1qKtHAHpQg0WpTsELcrTr3ziMLjtXd
+         NiEkdU4opTlHoPge59gif/ZGrj9/ir/1phHkNSoQW/hUaVP1NHQd+mCGplxMvzaDpl/A
+         ijahcnYjFZCFuwwRPdTwt4hzpNzCIH0bS8Kvk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=HLIIY0BlKMQdEZ03MQEBAzFflTE+8EeGKTRkHn5GVTM=;
+        b=Cwo/HW/57ts8DCY7GHMiUyCA1kcLLWapMUHyKs74ubK5YggbVXrzO6HzYwb0+hORCQ
+         m0FGD37ExJTQPRgQzPVW6Ve8pY/1LE67AhYd/3yrwoIj7m8tSmyIGlJXkzcieOxW5e9P
+         VUwh3o+oOAyL6VIyAaT3j8vSPFqhMLu9RfhrYfrAXem4uZCvQefIs+O9dTIPInmcxCz3
+         UV0Dm9l37JfREJXinJDsC8AW/rjmh2tXHhtfQ4MSiKxKD13XzTLHJzYsNicXtSOx8LJt
+         MgraeFu1448uBAQ1EFDoRXDuIf10b5OfzPDrYIeLsr3Yzuj0ccvBgyO/Oo4HJjycrirS
+         of1g==
+X-Gm-Message-State: AOAM531ppBnF8UeCAguVMV30U3IXShTblQ8i/mJUmM9MEQeO6AArLm7A
+	RkGDesFiUWeRi39Z0xsmpeyxZg==
+X-Google-Smtp-Source: ABdhPJymhadrIwHvpnA7JTzeNOCn3fPkPz/9G8wy5uqw/YHBOZCI785G650HnIjIuQE0t+wWI4tF4A==
+X-Received: by 2002:a5d:5644:: with SMTP id j4mr13250335wrw.66.1627821900724;
+        Sun, 01 Aug 2021 05:45:00 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:9bc2:7fed:cd2f:1c0f? ([2001:8b0:aba:5f3c:9bc2:7fed:cd2f:1c0f])
+        by smtp.gmail.com with ESMTPSA id l5sm8932739wrc.90.2021.08.01.05.45.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Aug 2021 05:45:00 -0700 (PDT)
+Message-ID: <87bff30fe6f1c3b66d845bfa66ce6d556697b387.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc: update 11.1 -> 11.2
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, bero@lindev.ch, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 01 Aug 2021 13:44:57 +0100
+In-Reply-To: <3e853dae-7a3b-ddeb-dc61-d0956259e5ff@gmail.com>
+References: <20210729235242.1230800-1-bero@lindev.ch>
+	 <3e853dae-7a3b-ddeb-dc61-d0956259e5ff@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+On Fri, 2021-07-30 at 10:45 -0700, Khem Raj wrote:
+> Thanks Bero, this looks good, we also need to bump GCCVERSION in
+> meta/conf/distro/include/tcmode-default.inc
 
-It does not show correct version info of python3-pytest:
+Since this is a point release, that doesn't need bumping in this 
+specific case.
 
-$ pip3 list | grep pytest
-pytest             0.0.0
+> and RECIPE_MAINTAINER_pn-gcc-source-11.1.0 to 
+> RECIPE_MAINTAINER_pn-gcc-source-11.2.0 in 
+> meta/conf/distro/include/maintainers.inc
 
-pytest requires setuptools-scm in setup.cfg. It could be met by adding
-python3-setuptools-scm-native to dependency and then it will not
-download egg file of setuptools-scm during do_compile any more. So
-remove 0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
-and depend on python3-setuptools-scm-native to make it show the correct
-version info.
+I added that tweak on tis occasion since the rest of the patch tested ok.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- ...he-setup_requires-for-setuptools-scm.patch | 36 -------------------
- .../python/python3-pytest_6.2.4.bb            |  4 +--
- 2 files changed, 2 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch b/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
-deleted file mode 100644
-index 1abd531c62..0000000000
---- a/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From ead04f2da75efeca3369feff6161ea4a8baecbc9 Mon Sep 17 00:00:00 2001
--From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
--Date: Wed, 28 Aug 2019 16:12:27 +0900
--Subject: [PATCH] setup.py: remove the setup_requires for setuptools-scm
--
--The setup_requires argument forces the download of the egg file for setuptools-scm
--during the do_compile phase.  This download is incompatible with the typical fetch
--and mirror structure.  The only usage of scm is the generation of the _version.py
--file and in the release tarball it is already correctly created
--
--Upstream-Status: Inappropriate [oe specific]
--
--Signed-off-by: Derek Straka <derek@asterius.io>
--
--Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
--
--Rebase for pytest 6.1.0.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
-----
-- setup.cfg | 1 -
-- 1 file changed, 1 deletion(-)
--
--diff --git a/setup.cfg b/setup.cfg
--index 6ed0792..0137090 100644
----- a/setup.cfg
--+++ b/setup.cfg
--@@ -53,7 +53,6 @@ package_dir =
-- 	=src
-- setup_requires = 
-- 	setuptools>=>=42.0
---	setuptools-scm>=3.4
-- zip_safe = no
-- 
-- [options.entry_points]
-diff --git a/meta/recipes-devtools/python/python3-pytest_6.2.4.bb b/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
-index fa43e6ebf0..6d514d17a2 100644
---- a/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
-@@ -5,10 +5,10 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=81eb9f71d006c6b268cf4388e3c98f7b"
- 
--SRC_URI_append = " file://0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch "
--
- SRC_URI[sha256sum] = "50bcad0a0b9c5a72c8e4e7c9855a3ad496ca6a881a3641b4260605450772c54b"
- 
-+DEPENDS = "python3-setuptools-scm-native"
-+
- inherit update-alternatives pypi setuptools3
- 
- RDEPENDS_${PN}_class-target += " \
--- 
-2.17.1
+Richard
 
