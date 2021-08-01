@@ -1,75 +1,70 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web09.6715.1627822138930295104
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web09.7380.1627826569416737642
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Aug 2021 05:48:59 -0700
+ Sun, 01 Aug 2021 07:02:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VbqQIk/3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id n12so18056601wrr.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 05:48:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mD8stJmD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id ds11-20020a17090b08cbb0290172f971883bso27840777pjb.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 07:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1/9bmlHktiP5wA8mNsbrZDFJNcubU9ImTJYYdhrNRNQ=;
-        b=VbqQIk/3jM4SKLCIVR8XdNSF7u40HrYPqZyUI3a0Rjacj5NCab2AMJWm7B/5N0RVwp
-         JznVag1O89LlUIrKWP5GT1jpbSgJ1WN709x1ULYz43WFQpT+bAsHcjlUw7Rq7+eSTfbE
-         jGjH+mK+RTtHyMMStOAWD9wxSsbYV2GgbPbMY=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=5gvgKwimCadXf1JTxTH7rBLeNrxLf4ACeqJfsG6OVqM=;
+        b=mD8stJmDK+nYBNK3gUR4UPia0LGLwrPFE18gljAUwoHjYlIHQizp2yuFf/zWMkp184
+         xJCjuZWbsC84TvxvcvyS/RGsJRnb/LCfD7dc6c/ANKzpS2PTmamNLeO5pG/aLdb8BREy
+         YiQbIr25EC+/MGqjXQz4DjO9vnO2Nf503Kq6nvZgnoWk32CmAsLF25QRI4P4SY+bEV/q
+         bNcX9mmsyZ/Hf+Cq2GGDBIKrHfpK1G7PQAIuoViHiOV1z65DYLHRe708zyOiaE2dL3A3
+         YTtVN3L1voeGJUcwHw4UpXNIdruZYx3OPOQAzKOteJZ7T4QUc9ovFqsX2bbd/1my5fXk
+         3+HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1/9bmlHktiP5wA8mNsbrZDFJNcubU9ImTJYYdhrNRNQ=;
-        b=lKvxeOaQ6XT47z1SJLz0vWi3BKEeYc8q8WOe87sVWry01fPKU09j9TH8diYOCB7yOA
-         7PU25XbdWjTrsupW44FQbAYiZXl+kYU/cRrrBs6RzJ26qyR+1yXrGp346IIM273vRUy0
-         QDuSICu+k7EGqG3sCrD4Ff7p+ox4kuIPiRV33G3oP30c9mv7iX1P7cRVEu3UxT0+uC/M
-         UeowU18GaICwv58+CiWd2YXKnKAuNXufMi3uChLDIYQQ9tJbIHHn+RBJcrTG0ynALaYP
-         vm/nqYH9GbB79jThZAJr5VAOeHs0hmUjcXUXOWVtZryLsh4C+rjs5ElM7piopoQuSwLH
-         lYJg==
-X-Gm-Message-State: AOAM532JtR01uR/NqGZ/c2TDOKt06hmNP6mMkzMy3CVrWRDnZaeBPOko
-	WrtI7bxA+NyB9xWNtjTyjFMp/j3yLsnBbg==
-X-Google-Smtp-Source: ABdhPJwjbTp1NqByjb3Y5eLufhE+TJA5SWuv2aTFZ/47Jok2OSZZCdOqvzyX/xi8ldvqst2vkacqTw==
-X-Received: by 2002:adf:b31e:: with SMTP id j30mr7013697wrd.139.1627822137282;
-        Sun, 01 Aug 2021 05:48:57 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9bc2:7fed:cd2f:1c0f])
-        by smtp.gmail.com with ESMTPSA id m14sm7729790wrs.56.2021.08.01.05.48.56
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=5gvgKwimCadXf1JTxTH7rBLeNrxLf4ACeqJfsG6OVqM=;
+        b=AQO1w/weUYKhJ/ueLs0KTIyd4xqbpb/R63RWobGvGfGcTqemF3FEH9WjWyBsTK0GCK
+         SypNHSshbv7cJbtF1SWNrKYRFWppd+G6IRkOMqBKHl4An3bo2C4G7PRnYMzg+jXI4+JJ
+         S28FPFVA/TjhZ3I6Sh2ZqlKDE4W8e1VNj3/ULB9pCV08ED/umYbgmpNKRB8XVZ80Y7Bb
+         4GINPf1ViEX7Rq/f1elxO79mEY1pekrWNB3T9snVtFiVZU8h5NRLUC2I6qtUC5B27R6z
+         Y6gdhGyl2CLmt+iTWN2oKq0OXm1K5S9zs9S8mWU3zLHVfABezOj504Y+RCf7YaJfQdXc
+         71Kg==
+X-Gm-Message-State: AOAM5319UFnL2MmNBhbZ7gK4goEkKa8PJjnmJg25T/kCshHDamBAMBOF
+	LQJ2Dg/LhgNqMb/ZdCqAC0u+3D93iFyzqrb5
+X-Google-Smtp-Source: ABdhPJwH0R9Xvli/ZUjYcMgn7pucNy/UMg1s+eYFus+18/hdQqB5bJ9C0PaE8Bhbs9XjJ6r3TFnbeA==
+X-Received: by 2002:a62:54c5:0:b029:3a9:d3d9:4fe8 with SMTP id i188-20020a6254c50000b02903a9d3d94fe8mr12324328pfb.36.1627826568308;
+        Sun, 01 Aug 2021 07:02:48 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id y7sm7660939pjb.52.2021.08.01.07.02.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 05:48:57 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sstate: Fix rebuilds when changing layer config
-Date: Sun,  1 Aug 2021 13:48:56 +0100
-Message-Id: <20210801124856.3413781-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 01 Aug 2021 07:02:47 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 2786F960402; Sun,  1 Aug 2021 04:02:45 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 01 Aug 2021 04:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210801140245.2786F960402@nuc.router0800d9.com>
+Date: Sun,  1 Aug 2021 04:02:45 -1000 (HST)
 
-When adding a layer which changed SSTATE_EXCLUDEDEPS_SYSROOT, the state
-hashes were changing when they should not. This was caused by wider use
-of setscene_depvalid which means the dependency on the variable was seen
-when it was previously not.
+Branch: master
 
-Exclude the variable since this should be be included in the hashes.
+New this week: 3 CVEs
+CVE-2019-25051: aspell https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-25051 *
+CVE-2021-34558: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-34558 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sstate.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Removed this week: 1 CVEs
+CVE-2021-33574: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33574 *
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index f6710fc2835..554e401ee25 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -1018,6 +1018,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
- 
-     return found
-+setscene_depvalid[vardepsexclude] = "SSTATE_EXCLUDEDEPS_SYSROOT"
- 
- BB_SETSCENE_DEPVALID = "setscene_depvalid"
- 
--- 
-2.30.2
-
+Full list:  Found 11 unpatched CVEs
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2019-25051: aspell https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-25051 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2020-27748: xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-34558: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-34558 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+CVE-2021-35331: tcl:tcl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35331 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
