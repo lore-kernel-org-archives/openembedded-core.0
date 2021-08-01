@@ -1,121 +1,140 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.7626.1627827829921581469
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.7698.1627828353316200707
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Aug 2021 07:23:50 -0700
+ Sun, 01 Aug 2021 07:32:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B3INr0PM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id m12so13443391wru.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 07:23:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=c2wgdM4C;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so21397145pjd.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 07:32:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YtMr0nH3e5EuFQQdXAEH2ShytpnvaQenkb+jlj1fIE0=;
-        b=B3INr0PMAe/U/CZaQK0ekV3AR0TyuOLCa6N6kmW9P9kFtxmXm2+8HVkFeLItd4S4lv
-         YAtKFzp5muuXjdsUMpJH5TXbjRZ67/qNQpzQxzTkv8LrPwvE0rM0TSXf34kzIhCX2Lw2
-         VjVDbFzeDHbS+F8n5aY+3f1axcIkkscP10QhQ=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=ARU+ZH/tCipHxyUdsqtTXfpacOE9dEql/X/tOTvikJM=;
+        b=c2wgdM4CXprb/s38gKt30a4cIF8iYdWszMY56ruaNLxHmt0O6fUokszpWcmbpMroch
+         n2SDYL71gwNq1edPvAVJWhOrdzHpMtIkSP98ZVMUEW4GC8wdAxj0rlb2o6JbLcKOWLVS
+         TzgfYcrpsllSYYAxTPF0QhPcV1Tpcm7xJH4jrU65a9iWDRSQDbZ0lJKx4XTowGPXDM8L
+         GCp5mlU/HdCqAPPy22HPG3UPUH6RrZJqjgOe/e9p3HqW2ZHckYCP0m2ATfck7q0JPKYL
+         i1Y0UQP/yz3iC1xhrk8XZfsfprigMSOa9XfIE4mnQUYs3x9aDXNBEUzOQ89ikdMMTz2z
+         iQWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YtMr0nH3e5EuFQQdXAEH2ShytpnvaQenkb+jlj1fIE0=;
-        b=iG9KkfbWbgF5j3xzmsADk2h0UAF4fjMJf7G6PWNPPNe4JZotwOuBofh5AZy8watrJT
-         o9u01tG92B0fQwCnbn3QYyI8OHdfGfeYlnpUT6UsyA1Of0M+vl0gqC1LxvJ+X1Xg9vjH
-         UuhXc44uaMT50szF/7ipBLlt/cNFYuGkesQniUOdnxT05RVittRPjbojp+XWffAYLcPA
-         1MKgqtxFVJFOE/DZ+LpWn6WOqy9dAh4ThujeF0NmP4bc4cJPSvweJ010q1n7HPdDxY3t
-         DklNXFxIUiWHnWwxoTsYBr1LSvkin2Qc6vmMNsRQk/CUGxaFHZ/5JwKOzpOjBR8QlwZ1
-         WHNw==
-X-Gm-Message-State: AOAM531tMF+5/0iVIyYYAdQrhIU+RT0nyJ/Z2mOJxZWmTZb53Lm2ejm1
-	jgT86oLYozln1F4z0kw+X/I3Sq8ngeuQZw==
-X-Google-Smtp-Source: ABdhPJwBdXEeAO2HKFZ+HoF0THm9jMGYAU5li5HvVkdo/0EhqvSxovb3DfI9pZpEbY4yhzg2mseZsA==
-X-Received: by 2002:a5d:4dc7:: with SMTP id f7mr13340761wru.118.1627827827919;
-        Sun, 01 Aug 2021 07:23:47 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9bc2:7fed:cd2f:1c0f])
-        by smtp.gmail.com with ESMTPSA id d24sm7609767wmb.42.2021.08.01.07.23.47
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=ARU+ZH/tCipHxyUdsqtTXfpacOE9dEql/X/tOTvikJM=;
+        b=ZZ2c/va5tpxLoasqkJswYxJHaBlLe6pbRUGnZWc5vW+CqRPVQ4AMVDqZYw2YIsMZxc
+         /lj/vt7+PsV9NcHNPKPjWwMf9hvTgiao2g4aFcm6supXFtdyTqBHnkTIMresoS0c4IoU
+         ipL2yDI4DcdJKFJMLACL456WvhMnSyr9mBX6q99xOuZVOBaCs6WlM2wsPhhbeE+9xzPj
+         Z/veOeUEsabxvy4PDgZnqiOx7aufg3rhSi5TM9vIynmnd7F3M5A3yTgIGTPm3YzEnjvm
+         GbPF16OKZ/IIq2e1Bg59MBfq9YPh5ljfYTHJzcjz86eARufLPdHNOJj+sLZ7kp2c1nZ+
+         edOg==
+X-Gm-Message-State: AOAM530a8T8smn6rk2o1NzqpllKY+Vubriwnbx1FG+YFwawRTCUd79FU
+	I/j5uXst1aCJCxBh+2uU9Uak+AR0hNtRdvUw
+X-Google-Smtp-Source: ABdhPJymoQm+NESj08VI1Gcp11p7H5xBiQ7+TM2h4qyWlP4osCLGJVvv1eSVG6gXdsfr6i0LcjoHvg==
+X-Received: by 2002:aa7:80d9:0:b029:2ed:49fa:6dc5 with SMTP id a25-20020aa780d90000b02902ed49fa6dc5mr12467135pfn.3.1627828352031;
+        Sun, 01 Aug 2021 07:32:32 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id x26sm8567334pfm.77.2021.08.01.07.32.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 07:23:47 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] populate_sdk_ext: Fix handling of TOOLCHAIN_HOST_TASK in the eSDK case
-Date: Sun,  1 Aug 2021 15:23:46 +0100
-Message-Id: <20210801142346.3418341-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 01 Aug 2021 07:32:31 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 76583960402; Sun,  1 Aug 2021 04:32:29 -1000 (HST)
+Subject: OE-core CVE metrics for dunfell on Sun 01 Aug 2021 04:30:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210801143229.76583960402@nuc.router0800d9.com>
+Date: Sun,  1 Aug 2021 04:32:29 -1000 (HST)
 
-The current way TOOLCHAIN_HOST_TASK is handled within eSDK builds is
-causing much confusion, even to people who should understand the code.
+Branch: dunfell
 
-For a normal SDK, some layers append to TOOLCHAIN_HOST_TASK unconditionally
-which is fine, until the eSDK tries to override the variable to it's own
-values. It does not support or use packages installed using this variable
-and would use native recipes instead, it is a very different approach.
+New this week: 3 CVEs
+CVE-2019-25051: aspell https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-25051 *
+CVE-2021-34558: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-34558 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
 
-In the referenced bug, binaries are added but not relocated leading to
-confusing errors.
+Removed this week: 0 CVEs
 
-To fix this, add a new variables for the eSDK TOOLCHAIN_HOST_TASK
-to be explict and force the eSDK code to use this instead. The setVar
-in non-parsing context will clear out any appends resolving the current
-issues. The patch also gets rid of some dubious task override use.
-
-[YCOTO #14047]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/populate_sdk_ext.bbclass | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
-
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 10f3265e91b..35679208bcd 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -2,15 +2,11 @@
- 
- inherit populate_sdk_base
- 
--# NOTE: normally you cannot use task overrides for this kind of thing - this
--# only works because of get_sdk_ext_rdepends()
--
--TOOLCHAIN_HOST_TASK:task-populate-sdk-ext = " \
-+# Used to override TOOLCHAIN_HOST_TASK in the eSDK case
-+TOOLCHAIN_HOST_TASK_ESDK = " \
-     meta-environment-extsdk-${MACHINE} \
-     "
- 
--TOOLCHAIN_TARGET_TASK:task-populate-sdk-ext = ""
--
- SDK_RELOCATE_AFTER_INSTALL:task-populate-sdk-ext = "0"
- 
- SDK_EXT = ""
-@@ -755,6 +751,10 @@ fakeroot python do_populate_sdk_ext() {
-     if d.getVar('BB_CURRENT_MC') != 'default':
-         bb.fatal('The extensible SDK can currently only be built for the default multiconfig.  Currently trying to build for %s.' % d.getVar('BB_CURRENT_MC'))
- 
-+    # eSDK dependencies don't use the traditional variables and things don't work properly if they are set
-+    d.setVar("TOOLCHAIN_HOST_TASK", "${TOOLCHAIN_HOST_TASK_ESDK}")
-+    d.setVar("TOOLCHAIN_TARGET_TASK", "")
-+
-     d.setVar('SDK_INSTALL_TARGETS', get_sdk_install_targets(d))
-     if d.getVar('SDK_INCLUDE_BUILDTOOLS') == '1':
-         buildtools_fn = get_current_buildtools(d)
-@@ -800,12 +800,7 @@ do_sdk_depends[dirs] = "${WORKDIR}"
- do_sdk_depends[depends] = "${@get_ext_sdk_depends(d)} meta-extsdk-toolchain:do_populate_sysroot"
- do_sdk_depends[recrdeptask] = "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
- do_sdk_depends[recrdeptask] += "do_populate_lic do_package_qa do_populate_sysroot do_deploy ${SDK_RECRDEP_TASKS}"
--do_sdk_depends[rdepends] = "${@get_sdk_ext_rdepends(d)}"
--
--def get_sdk_ext_rdepends(d):
--    localdata = d.createCopy()
--    localdata.appendVar('OVERRIDES', ':task-populate-sdk-ext')
--    return localdata.getVarFlag('do_populate_sdk', 'rdepends')
-+do_sdk_depends[rdepends] = "${@' '.join([x + ':do_package_write_${IMAGE_PKGTYPE} ' + x + ':do_packagedata' for x in d.getVar('TOOLCHAIN_HOST_TASK_ESDK').split()])}"
- 
- do_populate_sdk_ext[dirs] = "${@d.getVarFlag('do_populate_sdk', 'dirs', False)}"
- 
--- 
-2.30.2
-
+Full list:  Found 82 unpatched CVEs
+CVE-2018-21232: re2c:re2c-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2019-25051: aspell https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-25051 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2020-12829: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
+CVE-2020-13253: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
+CVE-2020-13754: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
+CVE-2020-13791: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
+CVE-2020-14372: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-15469: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
+CVE-2020-15705: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15859: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+CVE-2020-16590: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16590 *
+CVE-2020-16591: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16591 *
+CVE-2020-16593: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16593 *
+CVE-2020-16599: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16599 *
+CVE-2020-17380: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17380 *
+CVE-2020-25632: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-25742: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+CVE-2020-25743: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+CVE-2020-27661: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27661 *
+CVE-2020-27748: xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
+CVE-2020-27749: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2020-27821: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
+CVE-2020-29510: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29510 *
+CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2020-35504: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35504 *
+CVE-2020-35505: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35505 *
+CVE-2020-35506: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35506 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2021-0129: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-0129 *
+CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
+CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
+CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
+CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
+CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
+CVE-2021-20181: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20181 *
+CVE-2021-20221: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20221 *
+CVE-2021-20225: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20233: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-20240: gdk-pixbuf:gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20240 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20266: rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20266 *
+CVE-2021-20294: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20294 *
+CVE-2021-20305: nettle:nettle-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20305 *
+CVE-2021-22897: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22897 *
+CVE-2021-22898: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22898 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-27218: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27218 *
+CVE-2021-27219: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27219 *
+CVE-2021-27918: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27918 *
+CVE-2021-28041: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28041 *
+CVE-2021-28153: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28153 *
+CVE-2021-29921: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-29921 *
+CVE-2021-31525: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31525 *
+CVE-2021-3156: sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3156 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-3200: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3200 *
+CVE-2021-33194: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33194 *
+CVE-2021-33560: libgcrypt:libgcrypt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33560 *
+CVE-2021-33574: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33574 *
+CVE-2021-3409: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
+CVE-2021-3416: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3416 *
+CVE-2021-3418: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
+CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
+CVE-2021-34558: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-34558 *
+CVE-2021-3468: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3468 *
+CVE-2021-3497: gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3497 *
+CVE-2021-3498: gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3498 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+CVE-2021-3522: gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3522 *
+CVE-2021-3527: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3527 *
+CVE-2021-3541: libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3541 *
+CVE-2021-3544: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3544 *
+CVE-2021-3545: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3545 *
+CVE-2021-3546: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3546 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
