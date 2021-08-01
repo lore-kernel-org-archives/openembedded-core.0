@@ -1,69 +1,75 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.6552.1627821902302049285
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.6715.1627822138930295104
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Aug 2021 05:45:02 -0700
+ Sun, 01 Aug 2021 05:48:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aVVy1Ray;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id d8so18023139wrm.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 05:45:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VbqQIk/3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id n12so18056601wrr.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 05:48:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=HLIIY0BlKMQdEZ03MQEBAzFflTE+8EeGKTRkHn5GVTM=;
-        b=aVVy1Rayo0gGyVMSFl0Kkmzd5oDyuGi8GfjN1qKtHAHpQg0WpTsELcrTr3ziMLjtXd
-         NiEkdU4opTlHoPge59gif/ZGrj9/ir/1phHkNSoQW/hUaVP1NHQd+mCGplxMvzaDpl/A
-         ijahcnYjFZCFuwwRPdTwt4hzpNzCIH0bS8Kvk=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1/9bmlHktiP5wA8mNsbrZDFJNcubU9ImTJYYdhrNRNQ=;
+        b=VbqQIk/3jM4SKLCIVR8XdNSF7u40HrYPqZyUI3a0Rjacj5NCab2AMJWm7B/5N0RVwp
+         JznVag1O89LlUIrKWP5GT1jpbSgJ1WN709x1ULYz43WFQpT+bAsHcjlUw7Rq7+eSTfbE
+         jGjH+mK+RTtHyMMStOAWD9wxSsbYV2GgbPbMY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=HLIIY0BlKMQdEZ03MQEBAzFflTE+8EeGKTRkHn5GVTM=;
-        b=Cwo/HW/57ts8DCY7GHMiUyCA1kcLLWapMUHyKs74ubK5YggbVXrzO6HzYwb0+hORCQ
-         m0FGD37ExJTQPRgQzPVW6Ve8pY/1LE67AhYd/3yrwoIj7m8tSmyIGlJXkzcieOxW5e9P
-         VUwh3o+oOAyL6VIyAaT3j8vSPFqhMLu9RfhrYfrAXem4uZCvQefIs+O9dTIPInmcxCz3
-         UV0Dm9l37JfREJXinJDsC8AW/rjmh2tXHhtfQ4MSiKxKD13XzTLHJzYsNicXtSOx8LJt
-         MgraeFu1448uBAQ1EFDoRXDuIf10b5OfzPDrYIeLsr3Yzuj0ccvBgyO/Oo4HJjycrirS
-         of1g==
-X-Gm-Message-State: AOAM531ppBnF8UeCAguVMV30U3IXShTblQ8i/mJUmM9MEQeO6AArLm7A
-	RkGDesFiUWeRi39Z0xsmpeyxZg==
-X-Google-Smtp-Source: ABdhPJymhadrIwHvpnA7JTzeNOCn3fPkPz/9G8wy5uqw/YHBOZCI785G650HnIjIuQE0t+wWI4tF4A==
-X-Received: by 2002:a5d:5644:: with SMTP id j4mr13250335wrw.66.1627821900724;
-        Sun, 01 Aug 2021 05:45:00 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1/9bmlHktiP5wA8mNsbrZDFJNcubU9ImTJYYdhrNRNQ=;
+        b=lKvxeOaQ6XT47z1SJLz0vWi3BKEeYc8q8WOe87sVWry01fPKU09j9TH8diYOCB7yOA
+         7PU25XbdWjTrsupW44FQbAYiZXl+kYU/cRrrBs6RzJ26qyR+1yXrGp346IIM273vRUy0
+         QDuSICu+k7EGqG3sCrD4Ff7p+ox4kuIPiRV33G3oP30c9mv7iX1P7cRVEu3UxT0+uC/M
+         UeowU18GaICwv58+CiWd2YXKnKAuNXufMi3uChLDIYQQ9tJbIHHn+RBJcrTG0ynALaYP
+         vm/nqYH9GbB79jThZAJr5VAOeHs0hmUjcXUXOWVtZryLsh4C+rjs5ElM7piopoQuSwLH
+         lYJg==
+X-Gm-Message-State: AOAM532JtR01uR/NqGZ/c2TDOKt06hmNP6mMkzMy3CVrWRDnZaeBPOko
+	WrtI7bxA+NyB9xWNtjTyjFMp/j3yLsnBbg==
+X-Google-Smtp-Source: ABdhPJwjbTp1NqByjb3Y5eLufhE+TJA5SWuv2aTFZ/47Jok2OSZZCdOqvzyX/xi8ldvqst2vkacqTw==
+X-Received: by 2002:adf:b31e:: with SMTP id j30mr7013697wrd.139.1627822137282;
+        Sun, 01 Aug 2021 05:48:57 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:9bc2:7fed:cd2f:1c0f? ([2001:8b0:aba:5f3c:9bc2:7fed:cd2f:1c0f])
-        by smtp.gmail.com with ESMTPSA id l5sm8932739wrc.90.2021.08.01.05.45.00
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9bc2:7fed:cd2f:1c0f])
+        by smtp.gmail.com with ESMTPSA id m14sm7729790wrs.56.2021.08.01.05.48.56
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 05:45:00 -0700 (PDT)
-Message-ID: <87bff30fe6f1c3b66d845bfa66ce6d556697b387.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gcc: update 11.1 -> 11.2
+        Sun, 01 Aug 2021 05:48:57 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, bero@lindev.ch, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 01 Aug 2021 13:44:57 +0100
-In-Reply-To: <3e853dae-7a3b-ddeb-dc61-d0956259e5ff@gmail.com>
-References: <20210729235242.1230800-1-bero@lindev.ch>
-	 <3e853dae-7a3b-ddeb-dc61-d0956259e5ff@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sstate: Fix rebuilds when changing layer config
+Date: Sun,  1 Aug 2021 13:48:56 +0100
+Message-Id: <20210801124856.3413781-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-07-30 at 10:45 -0700, Khem Raj wrote:
-> Thanks Bero, this looks good, we also need to bump GCCVERSION in
-> meta/conf/distro/include/tcmode-default.inc
+When adding a layer which changed SSTATE_EXCLUDEDEPS_SYSROOT, the state
+hashes were changing when they should not. This was caused by wider use
+of setscene_depvalid which means the dependency on the variable was seen
+when it was previously not.
 
-Since this is a point release, that doesn't need bumping in this 
-specific case.
+Exclude the variable since this should be be included in the hashes.
 
-> and RECIPE_MAINTAINER_pn-gcc-source-11.1.0 to 
-> RECIPE_MAINTAINER_pn-gcc-source-11.2.0 in 
-> meta/conf/distro/include/maintainers.inc
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sstate.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-I added that tweak on tis occasion since the rest of the patch tested ok.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index f6710fc2835..554e401ee25 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -1018,6 +1018,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
+ 
+     return found
++setscene_depvalid[vardepsexclude] = "SSTATE_EXCLUDEDEPS_SYSROOT"
+ 
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
+ 
+-- 
+2.30.2
 
