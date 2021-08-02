@@ -1,124 +1,73 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.21748.1627919205619254712
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web09.21780.1627919206523632093
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 08:46:45 -0700
+ Mon, 02 Aug 2021 08:46:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YCkdx1ts;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id nh14so14007664pjb.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Aug 2021 08:46:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hZ+4A4As;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id e21so20095273pla.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Aug 2021 08:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=y2MtffmOoBC/Rn3c46ycdT+G5Y72ZEijvmjdroE86l8=;
-        b=YCkdx1tsUiSlmLFE6CcIG5CXeOgeueKaC3HmUsBuH+22iTsHkcChTbqlInVW7zbo5H
-         w7429ihA4w+wIZrD9j3dk6uo2eeonWppEx4mbt2GWyJQvdILbzCPFfNl88Hp9/c++7m4
-         G0oKy71kRcaTsQ2i8Mz0LZunfNcV67eGo6/CLz9YJ2NyfgwBMcNhcYVXrkYeY8AOY2Uf
-         p+wPMlRb4cPTyOGKT6l2Xz8l/2zWIiiOigV5sKGpPmZapJjwi7PjtJG9r2CVNTZ1AZFe
-         adttgw3Hcv3+r+XYUbZCQ1b6T+5GafB+T2+CCWcaLOOqDmnB6had+9K9oVkwuGhCFI/q
-         imvA==
+        bh=jpQIbRBHd3xhJr/M+wgd9uhK+kwAUXR0BMc4xSUAn3k=;
+        b=hZ+4A4AsQ50y1KcXeYtHsA0NKoNusI8EdZxbC4OYUtjHcAzz/7dzx5MpeVJt5oiAJ0
+         twuP5lNMt3vItjYd1nNxYA9CkwhlMbO9yG+HZCv7m3/UaO2r9TBU+VmN2Z35xD9a3MU0
+         gBcWCEZcjViqDgMTSaPlKUXCJuqxUEUV3Ge670IzT2ub9b84M3HK77xSkYmnvc4qJBl6
+         wzs42F2o4gS6/fSdQtOGQZGjhEbkiwTle+uVXOBeDzrnVc5wGTmxbnFXrHhlgGUyJClr
+         O0wu/0PFyDCjefBnRWXlhV7XhotUhozsBK35LK+ZNY2dulpgBqUP5FIYDxe5lU/28Qu0
+         vocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y2MtffmOoBC/Rn3c46ycdT+G5Y72ZEijvmjdroE86l8=;
-        b=cQr8A/BPzZAGNm/QbVddB0Y/31sV2NkHUyUdNZe75c90bF65B8hwoTQiBWzXcug8GK
-         HtYZHLfNQKUklOXnQN0SV53D7zhjS7wkiRCnSjmJDVF5dmscmn6fI8D+/Wf8zlb+z6KM
-         2qt8glRDedklVqT1qqmiLT+BjSwD0g5A4tGBlfDIgbDaihCrtRuRd4ImEMfhnCzpSaCb
-         YEu2LoNJUbbIy3+PLiEMnBUFijLwvf1ioJv6DrCAS5EgSllMPzfT7hcY04Vsod2rQWKv
-         m/8x6Mqmk89k2ZZOtulFORBmT98DTqZZvXzqxHzMkAwWQvL4RlAf3+nRsCr9HjABip4F
-         vQgA==
-X-Gm-Message-State: AOAM533nBq6xjI86OUM3thY87xhcZrAzvQodgHWuSbY5DMscNQStVd6p
-	Zab0OkNteHlb8ItZ0ovQQSw/3HjC5yFg9Q==
-X-Google-Smtp-Source: ABdhPJy4Js9wlJPN739LUVdi+XFYczQ+XHQup2YVlyq2AeWPfVuXVRBoqo2Y7Zprevwptjrjb/+n2g==
-X-Received: by 2002:a17:902:b40b:b029:12b:997f:5677 with SMTP id x11-20020a170902b40bb029012b997f5677mr14456885plr.11.1627919204977;
-        Mon, 02 Aug 2021 08:46:44 -0700 (PDT)
+        bh=jpQIbRBHd3xhJr/M+wgd9uhK+kwAUXR0BMc4xSUAn3k=;
+        b=Z4jiU9PyZ857HkBD8oEPGzFmhhpAjkVANg0sopwGU8OsP9yUEwp9oNFIjktFncbXX1
+         ZltbSIVSNKWRjgdn7Ae6D9a38ANCO3JPO6oYtnfExt3rBqheVm+92+32NFmi/m5LS0C+
+         h9d/T5Y9cFli8eqPsUhH7wbeElmRla2CGSjORqG9Hxyhw3U30PdAYzIOKv2nmQWhi7k1
+         dL8Xn9tcbsKqtIcv51lE5SOI9nzRYoCgjJ0Ji7s9vB/BNlWe3KhW/srEjNEmCg/bMLwK
+         nAGY7+ZyLKqZDnRYrEapDCDRO6kxpwkFVfM40OcJNWjMTJN//MpV/pdwjSQ3OGu05Ufd
+         OIbg==
+X-Gm-Message-State: AOAM532uss6Njc6Z1VoVC743vja/bDUiN+P5JiGeKXUHy57J9BL1u/km
+	F/96Yna1iNPXHEwyu87YED4buuAO0JEhpw==
+X-Google-Smtp-Source: ABdhPJwYkWyKfSSpijQqzgv9RXhX8EbUxbO9SR2hlS83PhTLAP622UceeODl1T8KBFypGSczyPQSEw==
+X-Received: by 2002:a17:90a:e513:: with SMTP id t19mr3564476pjy.144.1627919205992;
+        Mon, 02 Aug 2021 08:46:45 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::d2cb])
-        by smtp.gmail.com with ESMTPSA id q5sm11048085pjo.7.2021.08.02.08.46.44
+        by smtp.gmail.com with ESMTPSA id q5sm11048085pjo.7.2021.08.02.08.46.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 08:46:44 -0700 (PDT)
+        Mon, 02 Aug 2021 08:46:45 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 3/4] glibc: Drop DUMMY_LOCALE_T define patch
-Date: Mon,  2 Aug 2021 08:46:38 -0700
-Message-Id: <20210802154639.4181923-3-raj.khem@gmail.com>
+Subject: [PATCH v3 4/4] glibc: Add missing symlinks for libpthread and librt dev files
+Date: Mon,  2 Aug 2021 08:46:39 -0700
+Message-Id: <20210802154639.4181923-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210802154639.4181923-1-raj.khem@gmail.com>
 References: <20210802154639.4181923-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It was needed for very old centos distros which are no longer supported
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../glibc/cross-localedef-native_2.34.bb      |  1 -
- ...Define-DUMMY_LOCALE_T-if-not-defined.patch | 29 -------------------
- meta/recipes-core/glibc/glibc_2.34.bb         |  1 -
- 3 files changed, 31 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc/0023-Define-DUMMY_LOCALE_T-if-not-defined.patch
+ meta/recipes-core/glibc/glibc-package.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.34.bb b/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
-index 1543b92a7e..6100f3d4c4 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.34.bb
-@@ -31,7 +31,6 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0020-eglibc-Help-bootstrap-cross-toolchain.patch \
-            file://0021-eglibc-Resolve-__fpscr_values-on-SH4.patch \
-            file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
--           file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-            file://0024-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
- "
- # Makes for a rather long rev (22 characters), but...
-diff --git a/meta/recipes-core/glibc/glibc/0023-Define-DUMMY_LOCALE_T-if-not-defined.patch b/meta/recipes-core/glibc/glibc/0023-Define-DUMMY_LOCALE_T-if-not-defined.patch
-deleted file mode 100644
-index f195e07891..0000000000
---- a/meta/recipes-core/glibc/glibc/0023-Define-DUMMY_LOCALE_T-if-not-defined.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 9e07bc25e344152d7bf0712152d9c5fe4abcbf46 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 20 Apr 2016 21:11:00 -0700
--Subject: [PATCH] Define DUMMY_LOCALE_T if not defined
--
--This is a hack to fix building the locale bits on an older
--CentOs 5.X machine
--
--Upstream-Status: Inappropriate [other]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- locale/programs/config.h | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/locale/programs/config.h b/locale/programs/config.h
--index 2edcf3696c..5350101e38 100644
----- a/locale/programs/config.h
--+++ b/locale/programs/config.h
--@@ -19,6 +19,9 @@
-- #ifndef _LD_CONFIG_H
-- #define _LD_CONFIG_H	1
--
--+#ifndef DUMMY_LOCALE_T
--+#define DUMMY_LOCALE_T
--+#endif
-- /* Use the internal textdomain used for libc messages.  */
-- #define PACKAGE _libc_intl_domainname
-- #ifndef VERSION
-diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
-index 4beeb10c29..66494c5c23 100644
---- a/meta/recipes-core/glibc/glibc_2.34.bb
-+++ b/meta/recipes-core/glibc/glibc_2.34.bb
-@@ -48,7 +48,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0020-eglibc-Help-bootstrap-cross-toolchain.patch \
-            file://0021-eglibc-Resolve-__fpscr_values-on-SH4.patch \
-            file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
--           file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-            file://0024-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
-            file://0025-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
-            file://0026-intl-Emit-no-lines-in-bison-generated-files.patch \
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 53c615ff06..3026aec9b6 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -119,6 +119,8 @@ do_install() {
+ 		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
+ 				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
+ 	fi
++        lnr ${D}${base_libdir}/libpthread.so.0 ${D}${libdir}/libpthread.so
++        lnr ${D}${base_libdir}/librt.so.1 ${D}${libdir}/librt.so
+ }
+
+ def get_libc_fpu_setting(bb, d):
 --
 2.32.0
