@@ -1,106 +1,181 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
  by mx.groups.io with SMTP id smtpd.web09.17006.1627890765018628590
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 00:52:45 -0700
+ Mon, 02 Aug 2021 00:52:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="193001986"
+X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="193001992"
 X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="193001986"
+   d="scan'208";a="193001992"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:52:45 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:52:46 -0700
 X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="478650953"
+   d="scan'208";a="478650957"
 Received: from chewchoo-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.228.46])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:52:44 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:52:45 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 01/37] python3-pip: fix CVE-2021-3572
-Date: Mon,  2 Aug 2021 15:51:48 +0800
-Message-Id: <fb7a2af241795b82f121381cea6f4b56ce948ebf.1627890114.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 02/37] go: fix CVE-2020-29509, CVE-2020-29511
+Date: Mon,  2 Aug 2021 15:51:49 +0800
+Message-Id: <db6dc9aa669d1f41fb52685754c07fe5c9feec86.1627890114.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1627890114.git.anuj.mittal@intel.com>
 References: <cover.1627890114.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Backport the body of a fix for CVE-2021-3572 since hardknott carries
-20.0.2, and the delta between it and the latest 21.1.3 is more than just
-bugfixes.
+Backport patch to fix CVE-2020-29509, CVE-2020-29511
 
-CVE: CVE-2021-3572
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...git-references-on-unicode-separators.patch | 40 +++++++++++++++++++
- .../python/python3-pip_20.0.2.bb              |  4 +-
- 2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-pip/0001-Don-t-split-git-references-on-unicode-separators.patch
+ meta/recipes-devtools/go/go-1.16.5.inc        |   1 +
+ ...dle-leading-trailing-or-double-colon.patch | 123 ++++++++++++++++++
+ 2 files changed, 124 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.16/0001-encoding-xml-handle-leading-trailing-or-double-colon.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pip/0001-Don-t-split-git-references-on-unicode-separators.patch b/meta/recipes-devtools/python/python3-pip/0001-Don-t-split-git-references-on-unicode-separators.patch
+diff --git a/meta/recipes-devtools/go/go-1.16.5.inc b/meta/recipes-devtools/go/go-1.16.5.inc
+index bd928e44f8..b693315917 100644
+--- a/meta/recipes-devtools/go/go-1.16.5.inc
++++ b/meta/recipes-devtools/go/go-1.16.5.inc
+@@ -16,5 +16,6 @@ SRC_URI += "\
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
++    file://0001-encoding-xml-handle-leading-trailing-or-double-colon.patch \
+ "
+ SRC_URI[main.sha256sum] = "7bfa7e5908c7cc9e75da5ddf3066d7cbcf3fd9fa51945851325eebc17f50ba80"
+diff --git a/meta/recipes-devtools/go/go-1.16/0001-encoding-xml-handle-leading-trailing-or-double-colon.patch b/meta/recipes-devtools/go/go-1.16/0001-encoding-xml-handle-leading-trailing-or-double-colon.patch
 new file mode 100644
-index 0000000000..f85353668a
+index 0000000000..3c47157d1a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pip/0001-Don-t-split-git-references-on-unicode-separators.patch
-@@ -0,0 +1,40 @@
-+From 25c1b92b1add0b81afe2fc6f9e82f66738a2d800 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <trevor.gamblin@windriver.com>
-+Date: Thu, 22 Jul 2021 09:57:53 -0400
-+Subject: [PATCH] Don't split git references on unicode separators
++++ b/meta/recipes-devtools/go/go-1.16/0001-encoding-xml-handle-leading-trailing-or-double-colon.patch
+@@ -0,0 +1,123 @@
++From 4d014e723165f28b34458edb4aa9136e0fb4c702 Mon Sep 17 00:00:00 2001
++From: Filippo Valsorda <filippo@golang.org>
++Date: Tue, 27 Oct 2020 00:17:15 +0100
++Subject: [PATCH] encoding/xml: handle leading, trailing, or double colons in
++ names
 +
-+Upstream-Status: Backport 
-+(https://github.com/pypa/pip/commit/e46bdda9711392fec0c45c1175bae6db847cb30b)
++Before this change, <:name> would parse as <name>, which could cause
++issues in applications that rely on the parse-encode cycle to
++round-trip. Similarly, <x name:=""> would parse as expected but then
++have the attribute dropped when serializing because its name was empty.
++Finally, <a:b:c> would parse and get serialized incorrectly. All these
++values are invalid XML, but to minimize the impact of this change, we
++parse them whole into Name.Local.
 +
-+CVE: CVE-2021-3572
++This issue was reported by Juho Nurminen of Mattermost as it leads to
++round-trip mismatches. See #43168. It's not being fixed in a security
++release because round-trip stability is not a currently supported
++security property of encoding/xml, and we don't believe these fixes
++would be sufficient to reliably guarantee it in the future.
 +
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++Fixes CVE-2020-29509
++Fixes CVE-2020-29511
++Updates #43168
++
++Change-Id: I68321c4d867305046f664347192948a889af3c7f
++Reviewed-on: https://go-review.googlesource.com/c/go/+/277892
++Run-TryBot: Filippo Valsorda <filippo@golang.org>
++TryBot-Result: Go Bot <gobot@golang.org>
++Trust: Filippo Valsorda <filippo@golang.org>
++Reviewed-by: Katie Hockman <katie@golang.org>
++
++CVE: CVE-2020-29509 CVE-2020-29511
++Upstream-Status: Backport [4d014e723165f28b34458edb4aa9136e0fb4c702]
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ src/pip/_internal/vcs/git.py | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
++ src/encoding/xml/xml.go      |  5 ++--
++ src/encoding/xml/xml_test.go | 56 ++++++++++++++++++++++++++++++++++++
++ 2 files changed, 59 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/pip/_internal/vcs/git.py b/src/pip/_internal/vcs/git.py
-+index 7483303a9..d706064e7 100644
-+--- a/src/pip/_internal/vcs/git.py
-++++ b/src/pip/_internal/vcs/git.py
-+@@ -137,9 +137,15 @@ class Git(VersionControl):
-+         output = cls.run_command(['show-ref', rev], cwd=dest,
-+                                  show_stdout=False, on_returncode='ignore')
-+         refs = {}
-+-        for line in output.strip().splitlines():
-++        # NOTE: We do not use splitlines here since that would split on other
-++        #       unicode separators, which can be maliciously used to install a
-++        #       different revision.
-++        for line in output.strip().split("\n"):
-++            line = line.rstrip("\r")
-++            if not line:
-++                continue
-+             try:
-+-                sha, ref = line.split()
-++                sha, ref = line.split(" ", maxsplit=2)
-+             except ValueError:
-+                 # Include the offending line to simplify troubleshooting if
-+                 # this error ever occurs.
++diff --git a/src/encoding/xml/xml.go b/src/encoding/xml/xml.go
++index 384d6ad4b8..c902f1295a 100644
++--- a/src/encoding/xml/xml.go
+++++ b/src/encoding/xml/xml.go
++@@ -1156,8 +1156,9 @@ func (d *Decoder) nsname() (name Name, ok bool) {
++ 	if !ok {
++ 		return
++ 	}
++-	i := strings.Index(s, ":")
++-	if i < 0 {
+++	if strings.Count(s, ":") > 1 {
+++		name.Local = s
+++	} else if i := strings.Index(s, ":"); i < 1 || i > len(s)-2 {
++ 		name.Local = s
++ 	} else {
++ 		name.Space = s[0:i]
++diff --git a/src/encoding/xml/xml_test.go b/src/encoding/xml/xml_test.go
++index 5a10f5309d..47d0c39167 100644
++--- a/src/encoding/xml/xml_test.go
+++++ b/src/encoding/xml/xml_test.go
++@@ -1003,3 +1003,59 @@ func TestTokenUnmarshaler(t *testing.T) {
++ 	d := NewTokenDecoder(tokReader{})
++ 	d.Decode(&Failure{})
++ }
+++
+++func testRoundTrip(t *testing.T, input string) {
+++	d := NewDecoder(strings.NewReader(input))
+++	var tokens []Token
+++	var buf bytes.Buffer
+++	e := NewEncoder(&buf)
+++	for {
+++		tok, err := d.Token()
+++		if err == io.EOF {
+++			break
+++		}
+++		if err != nil {
+++			t.Fatalf("invalid input: %v", err)
+++		}
+++		if err := e.EncodeToken(tok); err != nil {
+++			t.Fatalf("failed to re-encode input: %v", err)
+++		}
+++		tokens = append(tokens, CopyToken(tok))
+++	}
+++	if err := e.Flush(); err != nil {
+++		t.Fatal(err)
+++	}
+++
+++	d = NewDecoder(&buf)
+++	for {
+++		tok, err := d.Token()
+++		if err == io.EOF {
+++			break
+++		}
+++		if err != nil {
+++			t.Fatalf("failed to decode output: %v", err)
+++		}
+++		if len(tokens) == 0 {
+++			t.Fatalf("unexpected token: %#v", tok)
+++		}
+++		a, b := tokens[0], tok
+++		if !reflect.DeepEqual(a, b) {
+++			t.Fatalf("token mismatch: %#v vs %#v", a, b)
+++		}
+++		tokens = tokens[1:]
+++	}
+++	if len(tokens) > 0 {
+++		t.Fatalf("lost tokens: %#v", tokens)
+++	}
+++}
+++
+++func TestRoundTrip(t *testing.T) {
+++	tests := map[string]string{
+++		"leading colon":  `<::Test ::foo="bar"><:::Hello></:::Hello><Hello></Hello></::Test>`,
+++		"trailing colon": `<foo abc:="x"></foo>`,
+++		"double colon":   `<x:y:foo></x:y:foo>`,
+++	}
+++	for name, input := range tests {
+++		t.Run(name, func(t *testing.T) { testRoundTrip(t, input) })
+++	}
+++}
 +-- 
-+2.31.1
++2.25.1
 +
-diff --git a/meta/recipes-devtools/python/python3-pip_20.0.2.bb b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
-index 99eeea2edf..9242d0e82e 100644
---- a/meta/recipes-devtools/python/python3-pip_20.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
-@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
- 
- DEPENDS += "python3 python3-setuptools-native"
- 
--SRC_URI += "file://0001-change-shebang-to-python3.patch"
-+SRC_URI += "file://0001-change-shebang-to-python3.patch \
-+            file://0001-Don-t-split-git-references-on-unicode-separators.patch \
-+            "
- 
- SRC_URI[md5sum] = "7d42ba49b809604f0df3d55df1c3fd86"
- SRC_URI[sha256sum] = "7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa4949920675563a5a6967f"
 -- 
 2.31.1
 
