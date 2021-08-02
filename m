@@ -1,33 +1,35 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.17695.1627896496410830085
+ by mx.groups.io with SMTP id smtpd.web10.17769.1627897191589829501
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 02:28:16 -0700
+ Mon, 02 Aug 2021 02:39:51 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1729SDhk020431
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1729dnC3020688
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 2 Aug 2021 02:28:14 -0700
+	Mon, 2 Aug 2021 02:39:49 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 2 Aug 2021 02:28:13 -0700
+ 15.1.2242.12; Mon, 2 Aug 2021 02:39:48 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 2 Aug 2021 02:28:12 -0700
+ 15.1.2242.12 via Frontend Transport; Mon, 2 Aug 2021 02:39:47 -0700
 From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <anuj.mittal@intel.com>
-Subject: [hardknott][PATCH] curl: fix CVE-2021-22925
-Date: Mon, 2 Aug 2021 17:25:50 +0800
-Message-ID: <20210802092550.31148-1-mingli.yu@windriver.com>
+Subject: [hardknott][PATCH v2] curl: fix CVE-2021-22925
+Date: Mon, 2 Aug 2021 17:37:25 +0800
+Message-ID: <20210802093725.20218-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <1697733D30C260DF.31222@lists.openembedded.org>
+References: <1697733D30C260DF.31222@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Mingli Yu <mingli.yu@windriver.com>
 
-CVS-2021-22925
+CVE-2021-22925
 
 Reported-by: Red Hat Product Security
 Bug: https://curl.se/docs/CVE-2021-22925.html
@@ -41,7 +43,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 
 diff --git a/meta/recipes-support/curl/curl/CVE-2021-22925.patch b/meta/recipes-support/curl/curl/CVE-2021-22925.patch
 new file mode 100644
-index 0000000000..21a79302ce
+index 0000000000..e3009c9533
 --- /dev/null
 +++ b/meta/recipes-support/curl/curl/CVE-2021-22925.patch
 @@ -0,0 +1,50 @@
@@ -50,12 +52,12 @@ index 0000000000..21a79302ce
 +Date: Sat, 12 Jun 2021 18:25:15 +0200
 +Subject: [PATCH] telnet: fix option parser to not send uninitialized contents
 +
-+CVS-2021-22925
++CVE-2021-22925
 +
 +Reported-by: Red Hat Product Security
 +Bug: https://curl.se/docs/CVE-2021-22925.html
 +
-+CVE: CVS-2021-22925
++CVE: CVE-2021-22925
 +
 +Upstream-Status: Backport [https://github.com/curl/curl/commit/894f6ec730597eb243618d33cc84d71add8d6a8a]
 +
