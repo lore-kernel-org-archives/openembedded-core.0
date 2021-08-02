@@ -1,247 +1,127 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web08.18187.1627900514761731693
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+ by mx.groups.io with SMTP id smtpd.web11.18079.1627901075587810959
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 03:35:15 -0700
+ Mon, 02 Aug 2021 03:44:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=x1t4VdrV;
- spf=pass (domain: linaro.org, ip: 209.85.208.48, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-ed1-f48.google.com with SMTP id n2so23755216eda.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Aug 2021 03:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Mql2j/+KeJK0+wTFJ864ISAT88fAXu1H9TFXIrGl+90=;
-        b=x1t4VdrVR13+xe1Pk54fIxVPdA1KerJJCvlkRGnSNDeeFLAt2hzZmf4qvTCt87z8VS
-         sxI3nGTeQ6Fy7fbnKSBn3eCgXX1ObCUNJ8igdzeTiJFoxrV0EJ0zRhuX6Eh8KAOb3BK2
-         P+VgNDv95F/cpGC+nJiHWQc39GWpW6+OMX/z4qEfmFruuhAtd25GTM3z4jsMKUMn8y9k
-         yPXnoT5cdDuvWKpu+GVhsmiapWoWsOmR+YFq2A+eHpj6WPGXj+dVsysFmF/KqDkQkhBB
-         8zOisRvPRNr3FiTklR3cbPE0S+hEfNtxEfsMNYNyw0JR1YWm0lztRaZ0F5NkFX7gWYIM
-         QvOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Mql2j/+KeJK0+wTFJ864ISAT88fAXu1H9TFXIrGl+90=;
-        b=e8YQCYGfSiy/kF7GtdYN0sgWH7ORSSxLNOGtaRTggRXn1uiiMQ6QN3ygxJJP6aB2Mo
-         icXcQRXHRo5wZ/LeK7amQ455MS5jO1B3Ej1Z0gAwIRjqjeAs0ePX379d8Bszkr0R7SGn
-         v3Ea9me05A5uz0jVyWtT4VEF7oja+1iqKlCD3rRCdvmZcSMNu9FrP/apz41m4Ldne9MW
-         IOBCIm145hAG8wtqXDnA4BSbOQoKyrlyjgB1UDDIWUZcQey5My8yMy6z3cD1wHuDJIFq
-         LuHz1EEfXzBpyOPqJswcpAiCfoqNCsHjk7CsxPM9blIMiO6ymiPZKmsdxgztZypouI86
-         yfaw==
-X-Gm-Message-State: AOAM533xcJOkvhA6JxSi6zYPVslrk6fKpetFaAK3ou6oL0rwbOL4g1v9
-	wIghGHjpEJ5V4bJqEtdZkgRSnzvvW62qyp6B8vrwJA==
-X-Google-Smtp-Source: ABdhPJwUTzCJOazRQY32mCfhyTzSzRrPiKbw83J3qbNoxvyMit8RsXnkgxoAPnU3VrJGOtQfxFHJIU6/e/yxplc5rSg=
-X-Received: by 2002:aa7:c9d8:: with SMTP id i24mr18476609edt.79.1627900512858;
- Mon, 02 Aug 2021 03:35:12 -0700 (PDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=qyHoscDa;
+ spf=pass (domain: pbarker.dev, ip: 64.147.123.19, mailfrom: paul@pbarker.dev)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id D997C320010B;
+	Mon,  2 Aug 2021 06:44:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 02 Aug 2021 06:44:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm1; bh=EwST3FVBKFW5Ih/LJZAIub70Nd
+	ph5WL5d8K0uaFH6bQ=; b=qyHoscDapcTOBvpXK7sB5GYkz/jAn9d2ONt/t9zu2n
+	hKKBWF9IxUYYsrmB/XtFbrQaCDtdBgwehN0oqaiQ/9ShcKDZ9K6WMkhiF9SDMAyA
+	PpNt7slFUPIhBciml8B2NqNIP+YG9ZMtAhR0BLzMmGoDJU4HJpHzVZhi5fHa571i
+	qRjEZJkKUk+9/0Y9DZJGi0x2C0GZ0EMTQGukYpD6wA4b4wJle+O3dYeWXCDXDLo7
+	q8vDGETjjOj8ZnQf+E1WeAxKuit/uYKIsDnl2LxDJtlkDpbMrFtjOtHbHK+ECxQR
+	9N/EqCQfzgyoMKkde9E6xGmm7IVHmkHX1G115RcreIvw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=EwST3FVBKFW5Ih/LJ
+	ZAIub70Ndph5WL5d8K0uaFH6bQ=; b=HIRQCqMygH2OQdEAASLBA7oDN6g//WdL4
+	R7CmZrUiOwFhfBCjJaQW7dWm1kwy1EFVAJKjER1vzoP7YZRQSQn28q7VMt0Csz8T
+	44qdN7ft7t843ad28rG/HZ74zZRCIb0RxQqiF7PUvj4BMZe3xi4cDCJLCvhG8X0d
+	nHtSJxIkcKDZ6iu9M2y5XYmnygss5FfvN14Cv8jSk5fbioeWOnkp6ImS+2qfO/A9
+	t/adQ20S6pO76CJWeikgLM3rU9DTn/pv7ekEjhSywL7m05i7mW1vKoiYzjvgoGdG
+	PEJxiabQWY8bIuQ4a+3jrPFtD37w5ugla/2blF9oC1akM8yu9hAfQ==
+X-ME-Sender: <xms:kcwHYaSbHHsFe-3vCqeQnqI2bKzTs36raxCkm0ZbsP5xucK-ORvBag>
+    <xme:kcwHYfy4KRq7-zW1lgeu1W18VG0gap0FQsjWcNRzM0_xljFXmxUQUwys8zE_ny4k6
+    mLdqynZvWi17rDeH2Y>
+X-ME-Received: <xmr:kcwHYX2DpqdohK7B_kGQkfYeY45Lihirg4VdTCuqgR4pS7AnW7utYKoCkokzpY90hVXIN6R_EuAb6P697427XuY-gUJ4q_HF89-fyfDQRiUcyyxLXhBSPAooCa0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddriedvgddvjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheprfgruhhluceurghr
+    khgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepte
+    efleelheeugeejudegiedttddvffdvleefgfdvudegkeduleegudeihfeijedunecuvehl
+    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsg
+    grrhhkvghrrdguvghv
+X-ME-Proxy: <xmx:kcwHYWC2J95mLLDNHkRxKPWhkAy1lmO5jWOtyJSSTgi1Mdn1O7b-MA>
+    <xmx:kcwHYTirhuF5uJQj9SxC2f7bEFCgmg2pSZyqEJDJqr4Ok15FhS0pPA>
+    <xmx:kcwHYSrTsexNqg2dhQLvpnDzlCOryZ41U8zBjNKVE45m_RV3JgaPfg>
+    <xmx:kswHYbYtm2TgVBE_Jd0LFbz6U12beb-nOx6Lfd6FPdZ6MHT4yUI0kg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 2 Aug 2021 06:44:33 -0400 (EDT)
+From: "Paul Barker" <paul@pbarker.dev>
+To: openembedded-core@lists.openembedded.org,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [PATCH] kernel-yocto: Simplify no git repo case in do_kernel_checkout
+Date: Mon,  2 Aug 2021 11:44:30 +0100
+Message-Id: <20210802104430.32402-1-paul@pbarker.dev>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
- <33b5d60e01b3995046709b17b8014fd45b0c48e5.camel@linuxfoundation.org>
- <CAP71WjxcSk64Snj8Hd0Vy9nJyUH8mE9MjnkfAZC095mPt9bd6g@mail.gmail.com> <98ab2870e07ad6d296d29322b7ee78bade43b9ea.camel@linuxfoundation.org>
-In-Reply-To: <98ab2870e07ad6d296d29322b7ee78bade43b9ea.camel@linuxfoundation.org>
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-Date: Mon, 2 Aug 2021 12:35:02 +0200
-Message-ID: <CAP71Wjz5-CQJ7nJzRU+Kij7itOLFeyxsyYkc=XGm=U5iWHqN7w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/4] yocto-check-layer: add support to check for dependencies
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Anuj Mittal <anuj.mittal@intel.com>, 
-	Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: multipart/alternative; boundary="000000000000cc88eb05c8911f8d"
+Content-Transfer-Encoding: 8bit
 
---000000000000cc88eb05c8911f8d
-Content-Type: text/plain; charset="UTF-8"
+If the kernel sources are not fetched via git, a local git repository is
+created in do_kernel_checkout. In this case we know that there will be
+no remote branches and we will already be on the correct branch (since
+only one branch will exist). So we can simplify things by skipping these
+steps.
 
-Richard, Steve, Anuj,
+This also removes the assumption that the default git branch name will
+be "master". Prior to this change, the final git checkout command in
+do_kernel_checkout could fail if a local git repo was created and the
+user had changed init.defaultBranch in their gitconfig.
 
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+---
+ meta/classes/kernel-yocto.bbclass | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-On Fri, Jul 30, 2021 at 11:28 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 0df61cdef0..18b77e2b9f 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -358,6 +358,21 @@ do_kernel_checkout() {
+ 			fi
+ 		fi
+ 		cd ${S}
++
++		# convert any remote branches to local tracking ones
++		for i in `git branch -a --no-color | grep remotes | grep -v HEAD`; do
++			b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
++			git show-ref --quiet --verify -- "refs/heads/$b"
++			if [ $? -ne 0 ]; then
++				git branch $b $i > /dev/null
++			fi
++		done
++
++		# Create a working tree copy of the kernel by checking out a branch
++		machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
++
++		# checkout and clobber any unimportant files
++		git checkout -f ${machine_branch}
+ 	else
+ 		# case: we have no git repository at all. 
+ 		# To support low bandwidth options for building the kernel, we'll just 
+@@ -379,21 +394,6 @@ do_kernel_checkout() {
+ 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
+ 		git clean -d -f
+ 	fi
+-
+-	# convert any remote branches to local tracking ones
+-	for i in `git branch -a --no-color | grep remotes | grep -v HEAD`; do
+-		b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
+-		git show-ref --quiet --verify -- "refs/heads/$b"
+-		if [ $? -ne 0 ]; then
+-			git branch $b $i > /dev/null
+-		fi
+-	done
+-
+-	# Create a working tree copy of the kernel by checking out a branch
+-	machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+-
+-	# checkout and clobber any unimportant files
+-	git checkout -f ${machine_branch}
+ }
+ do_kernel_checkout[dirs] = "${S} ${WORKDIR}"
+ 
+-- 
+2.31.1
 
-> On Fri, 2021-07-30 at 11:08 +0200, Nicolas Dechesne wrote:
-> >
-> >
-> > On Fri, Jul 30, 2021 at 10:03 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > > On Thu, 2021-07-22 at 14:46 +0200, Nicolas Dechesne wrote:
-> > > > It has been recentely mentioned to me by the YP TSC that a layer must
-> > > > not only pass the yocto-check-layer script, but also all its
-> > > > dependencies. These patches add support for testing dependencies
-> > > > automatically.
-> > > >
-> > > > Patch #1 and #3 are not much related, but improvements I made along
-> > > > the lines.
-> > > >
-> > > > Patch #2 split the internal function into 2 parts, so that we can get
-> > > > the list of dependencies from the main script.
-> > > >
-> > > > Patch #4 is where the processing of the dependencies is done. I chose
-> > > > to enable checking the dependencies by default, and use
-> > > > '--no-auto-dependency' to disable it, we could decide the other way
-> > > > around. For any dependency of the 'layers under test' we will simply
-> > > > add them to the list of layers to test unless they are already there.
-> > > >
-> > > > Here is a sample output with these changes:
-> > > >
-> > > > $ yocto-check-layer /work/oe/sources/meta-aws \
-> > > >                     --dependency /work/oe/sources/meta-openembedded/
-> > > >
-> > > > INFO: Summary of results:
-> > > > INFO:
-> > > > INFO: meta-aws ... PASS
-> > > > INFO: meta-python ... PASS
-> > > > INFO: meta-oe ... PASS
-> > > > INFO: meta-networking ... PASS
-> > >
-> > > We merged this but have started seeing:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/121/builds/166
-> > >
-> > > which seems a little strange and is probably related to this series.
-> > >
-> >
-> >
-> > yes, it's related.
-> >
-> > ...
-> > INFO: Adding meta-poky to the list of layers to test, as a dependency
-> > ...
-> > INFO: meta-poky ... SKIPPED (Layer under test should not present in
-> BBLAYERS)
-> >
-> > With these changes, we are now adding all dependencies and trying to
-> test them too. But meta-poky seems to
-> > be in bblayers.conf, and yocto-check-layer won't work since it needs to
-> compute all checksum *without* the
-> > layer in the config first.
-> >
-> > It is probably a good idea to make sure bblayers only has oe-core when
-> we try to perform YP compat.
-> > Alternatively, as discussed, we use --no-auto-dependency on AB..
->
-> Fair enough, I'll update the config to do that.
->
-
-These patches are now merged in master, and I believe they should be merged
-in dunfell and hardknott too. The 4 patches apply as-is in both branches.
-Let me know if you need anything from me!
-
-
-
->
-> Cheers,
->
-> Richard
->
-> >
->
->
->
->
-
---000000000000cc88eb05c8911f8d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Richard, Steve, Anuj,<div><br></div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fr=
-i, Jul 30, 2021 at 11:28 AM Richard Purdie &lt;<a href=3D"mailto:richard.pu=
-rdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2021-07=
--30 at 11:08 +0200, Nicolas Dechesne wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Fri, Jul 30, 2021 at 10:03 AM Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxf=
-oundation.org</a>&gt; wrote:<br>
-&gt; &gt; On Thu, 2021-07-22 at 14:46 +0200, Nicolas Dechesne wrote:<br>
-&gt; &gt; &gt; It has been recentely mentioned to me by the YP TSC that a l=
-ayer must<br>
-&gt; &gt; &gt; not only pass the yocto-check-layer script, but also all its=
-<br>
-&gt; &gt; &gt; dependencies. These patches add support for testing dependen=
-cies<br>
-&gt; &gt; &gt; automatically.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Patch #1 and #3 are not much related, but improvements I mad=
-e along<br>
-&gt; &gt; &gt; the lines. <br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Patch #2 split the internal function into 2 parts, so that w=
-e can get<br>
-&gt; &gt; &gt; the list of dependencies from the main script. <br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Patch #4 is where the processing of the dependencies is done=
-. I chose<br>
-&gt; &gt; &gt; to enable checking the dependencies by default, and use<br>
-&gt; &gt; &gt; &#39;--no-auto-dependency&#39; to disable it, we could decid=
-e the other way<br>
-&gt; &gt; &gt; around. For any dependency of the &#39;layers under test&#39=
-; we will simply<br>
-&gt; &gt; &gt; add them to the list of layers to test unless they are alrea=
-dy there.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Here is a sample output with these changes:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; $ yocto-check-layer /work/oe/sources/meta-aws \ <br>
-&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0--dependency /w=
-ork/oe/sources/meta-openembedded/ <br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; INFO: Summary of results:<br>
-&gt; &gt; &gt; INFO:<br>
-&gt; &gt; &gt; INFO: meta-aws ... PASS<br>
-&gt; &gt; &gt; INFO: meta-python ... PASS<br>
-&gt; &gt; &gt; INFO: meta-oe ... PASS<br>
-&gt; &gt; &gt; INFO: meta-networking ... PASS<br>
-&gt; &gt; <br>
-&gt; &gt; We merged this but have started seeing:<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/121/builds/166" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
-yoctoproject.org/typhoon/#/builders/121/builds/166</a><br>
-&gt; &gt; <br>
-&gt; &gt; which seems a little strange and is probably related to this seri=
-es.<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; yes, it&#39;s related.<br>
-&gt; <br>
-&gt; ...<br>
-&gt; INFO: Adding meta-poky to the list of layers to test, as a dependency<=
-br>
-&gt; ...<br>
-&gt; INFO: meta-poky ... SKIPPED (Layer under test should not present in BB=
-LAYERS)<br>
-&gt; <br>
-&gt; With these changes, we are now adding all dependencies and trying to t=
-est them too. But meta-poky seems to<br>
-&gt; be in bblayers.conf, and yocto-check-layer won&#39;t work since it nee=
-ds to compute all checksum *without* the<br>
-&gt; layer in the config first.=C2=A0<br>
-&gt; <br>
-&gt; It is probably a good idea to make sure bblayers only has oe-core when=
- we try to perform YP compat.<br>
-&gt; Alternatively, as discussed, we use=C2=A0--no-auto-dependency on AB..=
-=C2=A0<br>
-<br>
-Fair enough, I&#39;ll update the config to do that.<br></blockquote><div><b=
-r></div><div>These patches are now merged in master, and I believe they sho=
-uld be merged in dunfell and hardknott too. The 4 patches apply as-is in bo=
-th branches. Let me know if you need anything from me!</div><div><br></div>=
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-&gt; <br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000cc88eb05c8911f8d--
