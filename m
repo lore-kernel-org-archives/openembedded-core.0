@@ -1,23 +1,23 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
  by mx.groups.io with SMTP id smtpd.web09.17006.1627890765018628590
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 00:53:03 -0700
+ Mon, 02 Aug 2021 00:53:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="193002043"
+X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="193002046"
 X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="193002043"
+   d="scan'208";a="193002046"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:03 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:04 -0700
 X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="478651906"
+   d="scan'208";a="478651961"
 Received: from chewchoo-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.228.46])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:02 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:03 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 13/37] linux-yocto/5.10: update to v5.10.49
-Date: Mon,  2 Aug 2021 15:52:00 +0800
-Message-Id: <9b4a59c68c405cf3e2056ccda2efafa425599c2c.1627890114.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 14/37] linux-yocto/5.4: update to v5.4.131
+Date: Mon,  2 Aug 2021 15:52:01 +0800
+Message-Id: <45f4b0475a41e8417f76ca96636c902502817b9e.1627890114.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1627890114.git.anuj.mittal@intel.com>
 References: <cover.1627890114.git.anuj.mittal@intel.com>
@@ -26,121 +26,116 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/5.10 to the latest korg -stable release that comprises
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
 the following commits:
 
-    904ad453baa0 Linux 5.10.49
-    064b57a8da99 xen/events: reset active flag for lateeoi events later
-    a245f6842d21 Hexagon: change jumps to must-extend in futex_atomic_*
-    a7f51048c5a8 Hexagon: add target builtins to kernel
-    243f325ecc90 Hexagon: fix build errors
-    8148665cb7fe media: uvcvideo: Support devices that report an OT as an entity source
-    d5737410d2dd KVM: PPC: Book3S HV: Save and restore FSCR in the P9 path
-    a09a52277207 Linux 5.10.48
-    4dc968042864 Revert "KVM: x86/mmu: Drop kvm_mmu_extended_role.cr4_la57 hack"
-    4ab869e0289d RDMA/mlx5: Block FDB rules when not in switchdev mode
-    348143a38012 gpio: AMD8111 and TQMX86 require HAS_IOPORT_MAP
-    45ca6df5df11 drm/nouveau: fix dma_address check for CPU/GPU sync
-    d191c3d6ad33 gpio: mxc: Fix disabled interrupt wake-up support
-    f77f97238496 scsi: sr: Return appropriate error code when disk is ejected
+    e8d9b740a550 Linux 5.4.131
+    d2f8a8a07ee3 xen/events: reset active flag for lateeoi events later
+    a05499b29a6e KVM: SVM: Call SEV Guest Decommission if ASID binding fails
+    58356f448b61 s390/stack: fix possible register corruption with stack switch helper
+    abbd42939db6 KVM: SVM: Periodically schedule when unregistering regions on destroy
+    8b24c7edc2f2 Linux 5.4.130
+    5e8519c4083b RDMA/mlx5: Block FDB rules when not in switchdev mode
+    c5fb49e12f2c gpio: AMD8111 and TQMX86 require HAS_IOPORT_MAP
+    cf5eb8209723 drm/nouveau: fix dma_address check for CPU/GPU sync
+    3edfd34f1338 scsi: sr: Return appropriate error code when disk is ejected
+    a6c85a8433e0 x86/efi: remove unused variables
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5b203992df8d9866f8cf90a22f39e483376f3912)
+(cherry picked from commit edfd97ac5a11f46b9f3b905373abe3554f4b85db)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index e0d8280128..e0dd954e88 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 7a4267531f..48514bfe83 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
 @@ -11,13 +11,13 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "42032770803ba26765376967cef09945f48abe04"
--SRCREV_meta ?= "82899c6a7119b9668be9ae508159f5ac96554cc2"
-+SRCREV_machine ?= "35a59a3a48fe2513f6d77c1d6bff4ac14c11ecfa"
-+SRCREV_meta ?= "201aedddc2f13640a14cbe3ef229c8f9c78bde07"
+-SRCREV_machine ?= "c86c4081f4764f57bbb26df8a9202c01799c3771"
+-SRCREV_meta ?= "c5e5dc4e13bd4882a8ed96b8026e6fd268b68f8a"
++SRCREV_machine ?= "2bfba6ef5182dbebe73e576c6d8a629285148215"
++SRCREV_meta ?= "4a0bfc329c4d858e5259e05479716cbe34eeecd7"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
  
--LINUX_VERSION ?= "5.10.47"
-+LINUX_VERSION ?= "5.10.49"
+-LINUX_VERSION ?= "5.4.129"
++LINUX_VERSION ?= "5.4.131"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 6b71573a39..6357e0174a 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 5d487ac23f..33d65466a1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
 @@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
  
  require recipes-kernel/linux/linux-yocto.inc
  
--LINUX_VERSION ?= "5.10.47"
-+LINUX_VERSION ?= "5.10.49"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.4.129"
++LINUX_VERSION ?= "5.4.131"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
 @@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "eaad1adbc817d996edf44fdd520da4810e57e66d"
--SRCREV_machine ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_meta ?= "82899c6a7119b9668be9ae508159f5ac96554cc2"
-+SRCREV_machine_qemuarm ?= "bad4d499d5a292e25cc56d35133fb2248c34a272"
-+SRCREV_machine ?= "81c2020f763444e82ac117dd1420a9d005f3f2d4"
-+SRCREV_meta ?= "201aedddc2f13640a14cbe3ef229c8f9c78bde07"
+-SRCREV_machine_qemuarm ?= "ca636d1a2ccbb2626c4eacbdb0da2c30654b108c"
+-SRCREV_machine ?= "d46f8ecb3f81bdba8131b90dc90174ecb36a1b78"
+-SRCREV_meta ?= "c5e5dc4e13bd4882a8ed96b8026e6fd268b68f8a"
++SRCREV_machine_qemuarm ?= "88ff7ffcdf2653941105106e5e26717f0a78d7a9"
++SRCREV_machine ?= "b9bcd1be30f8be9c00797a6368a1f8df7aa21916"
++SRCREV_meta ?= "4a0bfc329c4d858e5259e05479716cbe34eeecd7"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 0315808989..e236154e8f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -13,17 +13,17 @@ KBRANCH_qemux86  ?= "v5.10/standard/base"
- KBRANCH_qemux86-64 ?= "v5.10/standard/base"
- KBRANCH_qemumips64 ?= "v5.10/standard/mti-malta64"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 94605b3942..0430e06995 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "8950bba5dc5b6139af3711cf82b6c35ea3ef873f"
--SRCREV_machine_qemuarm64 ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_machine_qemumips ?= "271e6f3b206246da2937788d83c3b4e57cb33da0"
--SRCREV_machine_qemuppc ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_machine_qemuriscv64 ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_machine_qemuriscv32 ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_machine_qemux86 ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_machine_qemux86-64 ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_machine_qemumips64 ?= "1112c8f8594df02dd6f2bd1cf13848536ca3f536"
--SRCREV_machine ?= "52bcc5b2342739bbfc8fc385d151616883c4425c"
--SRCREV_meta ?= "82899c6a7119b9668be9ae508159f5ac96554cc2"
-+SRCREV_machine_qemuarm ?= "683a13656dad8cac542d5b2eac5f40f00d16010d"
-+SRCREV_machine_qemuarm64 ?= "b799502f8b1f8804ec9e436c95129be76c548d37"
-+SRCREV_machine_qemumips ?= "abdd096fd6503fdbdf7d5c81948a07d5a8fe8ea2"
-+SRCREV_machine_qemuppc ?= "f6e6a1a81c0c3f11c5e42bde6d107c9f0ea45f16"
-+SRCREV_machine_qemuriscv64 ?= "8151429f787ee936c9a960e8db6f5909e81bae43"
-+SRCREV_machine_qemuriscv32 ?= "8151429f787ee936c9a960e8db6f5909e81bae43"
-+SRCREV_machine_qemux86 ?= "8151429f787ee936c9a960e8db6f5909e81bae43"
-+SRCREV_machine_qemux86-64 ?= "8151429f787ee936c9a960e8db6f5909e81bae43"
-+SRCREV_machine_qemumips64 ?= "01bad0d6e0916ce3eae77cbdfc64a141a4ae0ecd"
-+SRCREV_machine ?= "8151429f787ee936c9a960e8db6f5909e81bae43"
-+SRCREV_meta ?= "201aedddc2f13640a14cbe3ef229c8f9c78bde07"
+-SRCREV_machine_qemuarm ?= "dfb964733268c1e6f932900a384a793a0ca8de34"
+-SRCREV_machine_qemuarm64 ?= "7d3eac73a6edc8fdcd701bbb0aa8c21030eb2027"
+-SRCREV_machine_qemumips ?= "a40b68f2f4be601dfe020940ad29ac894cc31298"
+-SRCREV_machine_qemuppc ?= "a3258c8b1690ecfa620eae9552a75cec9224ecd4"
+-SRCREV_machine_qemuriscv64 ?= "e211c039dcd85ad2d4c1f1a70909d0eefef49778"
+-SRCREV_machine_qemux86 ?= "e211c039dcd85ad2d4c1f1a70909d0eefef49778"
+-SRCREV_machine_qemux86-64 ?= "e211c039dcd85ad2d4c1f1a70909d0eefef49778"
+-SRCREV_machine_qemumips64 ?= "dded4f6e58cd90c7333b5257c9327e5e30f78e26"
+-SRCREV_machine ?= "e211c039dcd85ad2d4c1f1a70909d0eefef49778"
+-SRCREV_meta ?= "c5e5dc4e13bd4882a8ed96b8026e6fd268b68f8a"
++SRCREV_machine_qemuarm ?= "1fe32172ee9971daa7debf3fc8165b6ccb80fe85"
++SRCREV_machine_qemuarm64 ?= "087640d0be07b7160b8012ee0e0b08c21915a632"
++SRCREV_machine_qemumips ?= "2e6db18dd388f7b35f70727556e5e55556b5d0a4"
++SRCREV_machine_qemuppc ?= "672230448073e1342fb18137654abff89baacf5f"
++SRCREV_machine_qemuriscv64 ?= "c36ad648e4430819de715bba70fb735ac1f16878"
++SRCREV_machine_qemux86 ?= "c36ad648e4430819de715bba70fb735ac1f16878"
++SRCREV_machine_qemux86-64 ?= "c36ad648e4430819de715bba70fb735ac1f16878"
++SRCREV_machine_qemumips64 ?= "92e0699c1dfc9e9fe6b2dd0015f36a7fcc76092c"
++SRCREV_machine ?= "c36ad648e4430819de715bba70fb735ac1f16878"
++SRCREV_meta ?= "4a0bfc329c4d858e5259e05479716cbe34eeecd7"
  
- # remap qemuarm to qemuarma15 for the 5.8 kernel
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
  # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -32,7 +32,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.10.47"
-+LINUX_VERSION ?= "5.10.49"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.129"
++LINUX_VERSION ?= "5.4.131"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
  DEPENDS += "openssl-native util-linux-native"
