@@ -1,73 +1,97 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web09.15941.1627879905032159306
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.16555.1627885544889850979
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Aug 2021 21:51:45 -0700
+ Sun, 01 Aug 2021 23:25:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fOmYH/c5;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id j3so3217880plx.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Aug 2021 21:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pJS+aj/CK/87CWg2Jtr1ZNjctfSX8Y7KWX5kEyD4PTU=;
-        b=fOmYH/c5rxdFuUuJcLMGryV16rJd9G6FWo5so7gTsE7He3KY/tIzZyI3PcPgX1S6K8
-         XfBCEQVtuL8s+VnGT8lcKFkC1p3I6qMh/q88G2hIP63V8tS9Ycv7bg4cRiilKAiHjsRr
-         fkVzIIeAmWilN6A3B3LaBj/fovFyf4+m8DPrnrc7plXQNCKxb29WEQw2b24A2lNKhyMk
-         fecO0jl0aiKYnURCZu/jl8XHaYLvuLV3nRdN1JuRm1vBO8P4lgZgsktTZJSXFqmx1xnf
-         5RuZ0JwmHvkT9Tx2QOOwlJdSMAtq4W82+pCEdbX4+29/CFOItGFYn3y9YLVQMmWaOZRX
-         v/vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pJS+aj/CK/87CWg2Jtr1ZNjctfSX8Y7KWX5kEyD4PTU=;
-        b=r4IlNac9wOA8qpY1RqgTQt1+rd2rHM0lCJ5/zTO8s8sg652NPnns8Mar6yhXs5h57l
-         mx0NrWcONUDj4AfOERlZp8SCfLleyj59XxAtaWOnXOueWe1uNj/1/AehPV0R7WV0DkEw
-         cK8n+zPadVXmUUEyYwSGgtWWRrYW1D0INIHM8fi6x9JU51SZs+7ot4M8cNNH00UVjzmN
-         fAvKURBOLk9ExbpQ1TWngJSjawz8CJcXDdT2tIp5zOdNuXlY7KGrrUpdK7WHg7HjcIY0
-         4IdMChYWwv/ZDlCwEKolBlTxj7OWkxeuBKDikm9igoK3LvpwcaniiVVH8isO0jP4Lv1+
-         exYA==
-X-Gm-Message-State: AOAM5316hF8L1mSvxsXZYemRATnEye49xZO4+XUR7bNHDdfguqlIuYJG
-	g3CVfqQqYcRC7r8v6K9RY/stfianKuLBiw==
-X-Google-Smtp-Source: ABdhPJzPCegEAGWamNK5vi0Pmsr4JnhDD5+KZJLTojAzbkKyaGiPjCN32aOA5p+1uMM6A//LkQ91dA==
-X-Received: by 2002:a17:902:e8d8:b029:117:8e2c:1ed5 with SMTP id v24-20020a170902e8d8b02901178e2c1ed5mr12653962plg.39.1627879904471;
-        Sun, 01 Aug 2021 21:51:44 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::d2cb])
-        by smtp.gmail.com with ESMTPSA id 16sm10153313pfu.109.2021.08.01.21.51.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 21:51:44 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 4/4] glibc: Add missing symlinks for libpthread and librt dev files
-Date: Sun,  1 Aug 2021 21:51:39 -0700
-Message-Id: <20210802045139.3481193-4-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210802045139.3481193-1-raj.khem@gmail.com>
-References: <20210802045139.3481193-1-raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1726Phd2012509
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Sun, 1 Aug 2021 23:25:44 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Sun, 1 Aug 2021 23:25:43 -0700
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Sun, 1 Aug 2021 23:25:43 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] gobject-introspection: fix default search path for girdir
+Date: Sun, 1 Aug 2021 23:25:43 -0700
+Message-ID: <20210802062543.101415-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+When running g-ir-scanner, we get the following error:
+
+  Couldn't find include 'GObject-2.0.gir' (search path:
+  '['/usr/lib64', 'gir-1.0', '/usr/local/share/gir-1.0', '/usr/share/gir-1.0',
+  '/usr/share/gir-1.0', '/usr/share/gir-1.0']')
+
+This is because g-ir-tool-template.in is not setting girdir correctly.
+It's using the prefix instead of the actual girdir.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ ...-ir-tool-template.in-fix-girdir-path.patch | 33 +++++++++++++++++++
+ .../gobject-introspection_1.68.0.bb           |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index f031a90a33..aeab7de48c 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -119,6 +119,8 @@ do_install() {
- 		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
- 				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
- 	fi
-+        lnr ${D}${base_libdir}/libpthread.so.0 ${D}${libdir}/libpthread.so
-+        lnr ${D}${base_libdir}/librt.so.1 ${D}${libdir}/librt.so
- }
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
+new file mode 100644
+index 0000000000..c0d263946b
+--- /dev/null
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
+@@ -0,0 +1,33 @@
++From b01b448613b76f9acefdfd89ee01686dc7a67df4 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 13 Jul 2021 02:05:11 -0700
++Subject: [PATCH] g-ir-tool-template.in: fix girdir path
++
++In case gir_dir_prefix is set, it's possible that g-ir-scanner
++cannot find the .gir files. This is because that the girdir
++is set to gir_dir_prefix, which is wrong. It's not a prefix,
++it the actual gir dir.
++
++Upstream-Status: Pending
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ tools/g-ir-tool-template.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tools/g-ir-tool-template.in b/tools/g-ir-tool-template.in
++index 6e98f52e..62c07c31 100755
++--- a/tools/g-ir-tool-template.in
+++++ b/tools/g-ir-tool-template.in
++@@ -55,7 +55,7 @@ builtins.__dict__['DATADIR'] = datadir
++ 
++ # Respect gir_dir_prefix
++ girdir = ''
++-girdir = os.path.abspath(os.path.join(filedir, '..', '@gir_dir_prefix@'))
+++girdir = os.path.abspath(os.path.join(filedir, '..', '@gir_dir_prefix@', 'gir-1.0'))
++ builtins.__dict__['GIRDIR'] = [girdir]
++ 
++ # Again, relative paths first so that the installation prefix is relocatable
++-- 
++2.30.2
++
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb
+index 048deabe64..647511f7ad 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
+            file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch \
++           file://0001-g-ir-tool-template.in-fix-girdir-path.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "d229242481a201b84a0c66716de1752bca41db4133672cfcfb37c93eb6e54a27"
+-- 
+2.30.2
 
- def get_libc_fpu_setting(bb, d):
---
-2.32.0
