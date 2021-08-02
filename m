@@ -1,33 +1,48 @@
-Subject: Re: SYSROOTS_EXCLUDEDEPS_SYSROOT changing more hashes than I expect
-To: openembedded-core@lists.openembedded.org
-From: "Jate Sujjavanich" <jatedev@gmail.com>
-X-Originating-Location: Tallahassee, Florida, US (63.148.217.19)
-X-Originating-Platform: Mac Firefox 89
-User-Agent: GROUPS.IO Web Poster
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web09.19690.1627911049437839921
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 02 Aug 2021 06:30:49 -0700
+Authentication-Results: mx.groups.io;
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 570FDFF80B;
+	Mon,  2 Aug 2021 13:30:46 +0000 (UTC)
+Cc: YP docs mailing list <docs@lists.yoctoproject.org>
+Subject: Re: [OE-core] [PATCH] sstate: Fix rebuilds when changing layer config
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20210801124856.3413781-1-richard.purdie@linuxfoundation.org>
+From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+Message-ID: <62a315a0-5015-bd1f-3133-560ceaf051ce@bootlin.com>
+Date: Mon, 2 Aug 2021 15:30:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Date: Mon, 02 Aug 2021 06:22:28 -0700
-References: <a5454ec1aca97562becc961996f37d667cf1dd52.camel@linuxfoundation.org>
-In-Reply-To: <a5454ec1aca97562becc961996f37d667cf1dd52.camel@linuxfoundation.org>
-Message-ID: <11886.1627910548833934951@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="yV3OodUjMC0Ss0vyiD3y"
+In-Reply-To: <20210801124856.3413781-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---yV3OodUjMC0Ss0vyiD3y
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Richard,
 
-Sorry about the crucial mistyping. I tested this out with a local.conf sett=
-ing. After building again, adding the meta-java layer resulted in a much cl=
-eaner build on dunfell.
+On 8/1/21 2:48 PM, Richard Purdie wrote:
+> When adding a layer which changed SSTATE_EXCLUDEDEPS_SYSROOT, the state
+> hashes were changing when they should not. This was caused by wider use
+> of setscene_depvalid which means the dependency on the variable was seen
+> when it was previously not.
+>
+> Exclude the variable since this should be be included in the hashes.
 
-Thanks
-- Jate S.
+I realize that this variable isn't documented in any of the manuals.
+Should be document it?
+Thank you in advance for your advice.
 
---yV3OodUjMC0Ss0vyiD3y
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
+Michael.
 
-Sorry about the crucial mistyping. I tested this out with a local.conf sett=
-ing. After building again, adding the meta-java layer resulted in a much cl=
-eaner build on dunfell.<br /><br />Thanks<br />- Jate S.
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---yV3OodUjMC0Ss0vyiD3y--
