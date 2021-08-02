@@ -1,56 +1,70 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web10.17102.1627890867482698076
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web08.17163.1627891762041249968
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 00:54:27 -0700
+ Mon, 02 Aug 2021 01:09:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="193002105"
-X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="193002105"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:25 -0700
-X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="478654870"
-Received: from chewchoo-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.228.46])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:24 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 24/37] archiver.bbclass: Fix patch error for recipes that inherit dos2unix.
-Date: Mon,  2 Aug 2021 15:52:11 +0800
-Message-Id: <d2405585f0bcdf80950fb41438168d622b1c3181.1627890114.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1627890114.git.anuj.mittal@intel.com>
-References: <cover.1627890114.git.anuj.mittal@intel.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 17289Kc1031133
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 2 Aug 2021 01:09:20 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 17289JbL027905
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 2 Aug 2021 01:09:20 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 2 Aug 2021 01:09:19 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 2 Aug 2021 01:09:18 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] curl: Upgrade to 7.78.0
+Date: Mon, 2 Aug 2021 16:06:56 +0800
+Message-ID: <20210802080656.48809-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: leimaohui <leimaohui@fujitsu.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-do_unpack_and_patch error happens for these recipes inherit dos2unix.
+Remove libmetalink configure option as this rarely used option is
+removed in the new version [1].
 
-Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2ceda7c90c0087f52693c54d5ccab143b27f4d21)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+[1] https://github.com/curl/curl/commit/265b14d6b37c4298bd5556fabcbc37d36f911693
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/classes/archiver.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-support/curl/{curl_7.77.0.bb => curl_7.78.0.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.77.0.bb => curl_7.78.0.bb} (97%)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index a3962306b1..900268971c 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -483,6 +483,9 @@ python do_unpack_and_patch() {
-         src_orig = '%s.orig' % src
-         oe.path.copytree(src, src_orig)
+diff --git a/meta/recipes-support/curl/curl_7.77.0.bb b/meta/recipes-support/curl/curl_7.78.0.bb
+similarity index 97%
+rename from meta/recipes-support/curl/curl_7.77.0.bb
+rename to meta/recipes-support/curl/curl_7.78.0.bb
+index 6b15a6a3e8..2e2be66102 100644
+--- a/meta/recipes-support/curl/curl_7.77.0.bb
++++ b/meta/recipes-support/curl/curl_7.78.0.bb
+@@ -13,7 +13,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
  
-+    if bb.data.inherits_class('dos2unix', d):
-+        bb.build.exec_func('do_convert_crlf_to_lf', d)
-+
-     # Make sure gcc and kernel sources are patched only once
-     if not (d.getVar('SRC_URI') == "" or is_work_shared(d)):
-         bb.build.exec_func('do_patch', d)
+-SRC_URI[sha256sum] = "6c0c28868cb82593859fc43b9c8fdb769314c855c05cf1b56b023acf855df8ea"
++SRC_URI[sha256sum] = "98530b317dc95ccb324bbe4f834f07bb642fbc393b794ddf3434f246a71ea44a"
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+@@ -61,7 +61,6 @@ EXTRA_OECONF = " \
+     --disable-ntlm-wb \
+     --enable-crypto-auth \
+     --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+-    --without-libmetalink \
+     --without-libpsl \
+     --enable-debug \
+     --enable-optimize \
 -- 
-2.31.1
+2.17.1
 
