@@ -1,118 +1,266 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.88])
- by mx.groups.io with SMTP id smtpd.web10.870.1627925213731252149
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web08.2578.1627932843676170675
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 10:26:54 -0700
+ Mon, 02 Aug 2021 12:34:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=HVyAyn2Z;
- spf=pass (domain: xilinx.com, ip: 40.107.237.88, mailfrom: ckalluri@xilinx.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bPI/JHa9GjnT4spMCQF7jbxO+KmM8dWEIZe6t+0D56WPLs5Mfi27cHZkNfjRyjab+SirCQuIVKtmvH+6ftPWQMXZSrhTokRyJzAcOqwLkNlKA5MOQKGluGKpipSMMahcXofzjv1X/2wcGl5Gtr7roRnMvEwh/ofCaDKD6XxZamOFXzBWAbFrZLZ2nlChCVluWcqQRgqAsoDjqO6tppNPE1f5tcnaPvLatCiQ7Zv6ufbL1u3ikmMTpaOfWiGmMBnvpoH+QMTTOvbv+4KELgI4KlP2zStrzBmDdQGlTFvpN5qQwxCe5t1ts3JUCO+UITjyZPHLpHok1wPZ5c3tOkMveA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tKd+/nEEb6Seh/ll0fRIIboiZIY06XhF63E7QqqDpAc=;
- b=LaNRI7bVRudTTUEe+B+QvEICtZFlT/Sk+D9RUyCnl5w0XQJw1F7Ph5cEd71GK1PUP9KfR03rJbFJSVL4ZyK85+F1hy53wESaCFw+8jUkztwz1LpxVFFTTN2YVV1m8Oay0nX44aF+70AQR14G0bXwiOU9rFdxpY4CcrW4bYJSlpC6ZTs8H/4GPZZzWAtl8hnzBNkx21Nem0s3YQ+Xr2akM84O4SeijX3K4K34eSv3oquacC1UnFqxn1n7x4Dwf4ZDptkT18pDhEiLnXWn3DMK5LYtEOlygYUxmEodrVFgCG2lXHP36K4u5aCTiPc7vsjAjL3sd5J8X6TM1I4kfFAwHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=xilinx.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WxfdyxPZ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id qk33so32593326ejc.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Aug 2021 12:34:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tKd+/nEEb6Seh/ll0fRIIboiZIY06XhF63E7QqqDpAc=;
- b=HVyAyn2ZcHzbve1PzdXdE7W9SSrK0ZVQcppUADc6uTgtTqM6x9tlJ73G917TYFjvvMvGBU7TbfliGiVwutH9E+5t9gEZ3Cx+/fZedIxUWp3k+fcm3x5O1ez2ZPBkCGgoX/4Oph5gVH5jPn6rhk3AYOQmRRtL9NtBDGKiNXG91uk=
-Received: from BN9PR03CA0912.namprd03.prod.outlook.com (2603:10b6:408:107::17)
- by DM6PR02MB5836.namprd02.prod.outlook.com (2603:10b6:5:17b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.17; Mon, 2 Aug
- 2021 17:26:51 +0000
-Received: from BN1NAM02FT024.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:107:cafe::c8) by BN9PR03CA0912.outlook.office365.com
- (2603:10b6:408:107::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
- Transport; Mon, 2 Aug 2021 17:26:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- BN1NAM02FT024.mail.protection.outlook.com (10.13.2.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4373.18 via Frontend Transport; Mon, 2 Aug 2021 17:26:51 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 2 Aug 2021 10:26:49 -0700
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Mon, 2 Aug 2021 10:26:49 -0700
-Return-Path: ckalluri@xilinx.com
-Envelope-to: openembedded-core@lists.openembedded.org
-Received: from [172.19.2.12] (port=60982 helo=xsjckalluri50.xilinx.com)
-	by smtp.xilinx.com with esmtp (Exim 4.90)
-	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1mAbiD-0007tp-PY; Mon, 02 Aug 2021 10:26:49 -0700
-From: "Chandana kalluri" <ckalluri@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Subject: [oe][meta-python][master][hardknott][PATCH v2] python3-humanfriendly: Add nativesdk to BBCLASSEXTEND
-Date: Mon, 2 Aug 2021 10:26:48 -0700
-Message-ID: <1627925208-18683-1-git-send-email-chandana.kalluri@xilinx.com>
-X-Mailer: git-send-email 2.7.4
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Dw+CrkjflA7zEy8qoub8KlIp7iqjyW43V6O5vbljknw=;
+        b=WxfdyxPZ3It1p4iXYpfHLsAdVRxEd0yVnGtpkI34BV6YfhxZg8tlGkZAFel1MtzJvI
+         7NKikMaXNoDInkt/CXpGbE2LkCSioUpkBvNDU+YGwSFEsayZkIn8l2iXjd0bpTibyn5E
+         yWKkEnpGI5Od/057YpphNCJtCvDxiwRZasqHSiiKsckQdXqq9YIqbRpOwi/xh3Yf21kO
+         wvL88A0HvYNedr29vW73Y7PRUMEhLJNzJ+kaEolU4JJAUcreQ9njDZVcOecNNfA92UCB
+         wD3Vf6y6UW0cXvzRRQt5p0d8Fbeu6dRhqmbRaLAJkqZbI60t7ndswVY81Uny4gtDw8M2
+         W7QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Dw+CrkjflA7zEy8qoub8KlIp7iqjyW43V6O5vbljknw=;
+        b=XYJZ7POz2f8ynoxJlGZ+i0ympkHt9mdqxWEx+6qjNDlcW85P5mY83oxOf0Q/hRKY4s
+         9bVe+UNaIZPgBW/8c+izXm1J8Mljh1rOzJM3sjqkJWIyRxRtrPzfL28e42HIkQ4AJ/MI
+         0iifBuaJ2krifFhCgPfvkTADhoExpza3rfnOLYMWmsV5y94pYl4w8x3RudLPcEnKeqll
+         7fscS4PyQ0izE9Yj6AVCCnqIQDEwB3TgWyObiE/84WOlbOVm9H/+oQXawLtgIHDYEjzM
+         mHbu3/ZDx0r/WTDP1zo7qxgNjdMfZR2ZDmf605kB1aV805w14cag/23jcduhaWfZdJZ8
+         q6Yw==
+X-Gm-Message-State: AOAM5322F70xyTHtwQctqhFzyV8Eq/WYphdSDaBr1guOXeBVSrf4K+Xk
+	862YORTmnXg7LTfNhB/v5KjXLm5QHZBX8tFvoDA=
+X-Google-Smtp-Source: ABdhPJw3UucCrrOZFetvsV4qCFPw25Uez+mVOwMtY88lFw1IE0ev1BeBHqLbFNvfjGq95SqbpVYKHJbKaMBw/fjdr10=
+X-Received: by 2002:a17:906:c2d7:: with SMTP id ch23mr16306811ejb.298.1627932841888;
+ Mon, 02 Aug 2021 12:34:01 -0700 (PDT)
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b36319b1-ae32-4930-8697-08d955dab737
-X-MS-TrafficTypeDiagnostic: DM6PR02MB5836:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR02MB583636958E48D71EE788964EB0EF9@DM6PR02MB5836.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	QLwjKko5hQ8Vdb91TPV0lhZjaK+ifD0SElT0nvuquwoRhCIktJ2ab8YaeenQvSs1Wdl4AL+N+M4EC7VMOy4BOcdwINsdL5nRJ/Pfv9efmpyHgFX72b+x+5Wbut9mivmv23nheqSdDA4PW83ouEZVT5SHoTpcV7cLE/6k6JxAjoXCqQBXC9y2NyKRdAurKVLhQo0zS4mMvkBfh8aDMkd+LnIxdhkK3WJVqUe2lwKi6KLxKtE1y0vteerszh0F70SQxm1jrbCv/tlENKFhoDvIB9lpMReUJWslwptdLQn5/YGEf+PvGAz16fJ1Boy1EYLiesUzsm92cpOSz9R0aBzvA3QxskLj4Ovllg7csvgaescrY1IzEdxn66pw5CQvGaPcHQdhVX6lXks/T6MlCR/ngqOHpGI9AiRdlU4t5+3MZ2q5NfE89fS1arzulsFbgN+Py/KoABu6lxlPoGJGIckflOWlyvux0YjxHQrAaUJQTR8gpNT+EoY5E9+im3VYG8NpE59HJfOv7N86QMzp8nNwZb2y/s0vexfpnyYAvzsC6GmcTr0IDm1rR+0KEQjCKV37mDoLxa++T08GYgQKaXUzUVvkEP2rsWvZvK74RdXUwJi9Xtq66EtQ6WjvC5n0h+XrPpOpumBABjV8SSywnHh6qmjy1pZcM6JYitk2W7bE9erKN+dC504gOhLhXrR1yMD1rbD1IgsPMMB06zclPfOmvANR/5pEJHaCCSALmg33a+8=
-X-Forefront-Antispam-Report: 
-	CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch02.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(46966006)(36840700001)(2616005)(82310400003)(6916009)(4744005)(36860700001)(4326008)(26005)(7636003)(7696005)(5660300002)(82740400003)(70586007)(83380400001)(8936002)(316002)(70206006)(8676002)(336012)(36906005)(426003)(47076005)(356005)(36756003)(9786002)(478600001)(107886003)(186003)(2906002)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2021 17:26:51.3407
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b36319b1-ae32-4930-8697-08d955dab737
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BN1NAM02FT024.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5836
-Content-Type: text/plain
+References: <20210802104430.32402-1-paul@pbarker.dev>
+In-Reply-To: <20210802104430.32402-1-paul@pbarker.dev>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 2 Aug 2021 15:33:50 -0400
+Message-ID: <CADkTA4OufQ-QKEJrxqYAGLJFc7XhahoGXNb=fRcj0qVPA9=dKA@mail.gmail.com>
+Subject: Re: [PATCH] kernel-yocto: Simplify no git repo case in do_kernel_checkout
+To: Paul Barker <paul@pbarker.dev>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c24def05c898a6ad"
 
-Add nativesdk to BBCLASSEXTEND to enable recipes that produce files intended
-for host portion the SDK
+--000000000000c24def05c898a6ad
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
----
-changelog: 
+On Mon, Aug 2, 2021 at 6:44 AM Paul Barker <paul@pbarker.dev> wrote:
 
-Fix subject line layer information. Patch is for oe/meta-python layer and not oe-core
----
- meta-python/recipes-devtools/python/python3-humanfriendly_9.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> If the kernel sources are not fetched via git, a local git repository is
+> created in do_kernel_checkout. In this case we know that there will be
+> no remote branches and we will already be on the correct branch (since
+> only one branch will exist). So we can simplify things by skipping these
+> steps.
+>
+> This also removes the assumption that the default git branch name will
+> be "master". Prior to this change, the final git checkout command in
+> do_kernel_checkout could fail if a local git repo was created and the
+> user had changed init.defaultBranch in their gitconfig.
+>
 
-diff --git a/meta-python/recipes-devtools/python/python3-humanfriendly_9.2.bb b/meta-python/recipes-devtools/python/python3-humanfriendly_9.2.bb
-index 6be27f7..a6436af 100644
---- a/meta-python/recipes-devtools/python/python3-humanfriendly_9.2.bb
-+++ b/meta-python/recipes-devtools/python/python3-humanfriendly_9.2.bb
-@@ -21,4 +21,4 @@ RDEPENDS_${PN}_class-target += " \
-     ${PYTHON_PN}-stringold \
- "
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+Looks ok to me. No concerns jumped out.
+
+Richard: I can take this into my queue, or you can grab it directly, either
+works for me.
+
+Bruce
+
+
+
+>
+> Signed-off-by: Paul Barker <paul@pbarker.dev>
+> ---
+>  meta/classes/kernel-yocto.bbclass | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass
+> b/meta/classes/kernel-yocto.bbclass
+> index 0df61cdef0..18b77e2b9f 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -358,6 +358,21 @@ do_kernel_checkout() {
+>                         fi
+>                 fi
+>                 cd ${S}
+> +
+> +               # convert any remote branches to local tracking ones
+> +               for i in `git branch -a --no-color | grep remotes | grep
+> -v HEAD`; do
+> +                       b=`echo $i | cut -d' ' -f2 | sed
+> 's%remotes/origin/%%'`;
+> +                       git show-ref --quiet --verify -- "refs/heads/$b"
+> +                       if [ $? -ne 0 ]; then
+> +                               git branch $b $i > /dev/null
+> +                       fi
+> +               done
+> +
+> +               # Create a working tree copy of the kernel by checking out
+> a branch
+> +               machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+> +
+> +               # checkout and clobber any unimportant files
+> +               git checkout -f ${machine_branch}
+>         else
+>                 # case: we have no git repository at all.
+>                 # To support low bandwidth options for building the
+> kernel, we'll just
+> @@ -379,21 +394,6 @@ do_kernel_checkout() {
+>                 git commit -q -m "baseline commit: creating repo for
+> ${PN}-${PV}"
+>                 git clean -d -f
+>         fi
+> -
+> -       # convert any remote branches to local tracking ones
+> -       for i in `git branch -a --no-color | grep remotes | grep -v HEAD`;
+> do
+> -               b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
+> -               git show-ref --quiet --verify -- "refs/heads/$b"
+> -               if [ $? -ne 0 ]; then
+> -                       git branch $b $i > /dev/null
+> -               fi
+> -       done
+> -
+> -       # Create a working tree copy of the kernel by checking out a branch
+> -       machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+> -
+> -       # checkout and clobber any unimportant files
+> -       git checkout -f ${machine_branch}
+>  }
+>  do_kernel_checkout[dirs] = "${S} ${WORKDIR}"
+>
+> --
+> 2.31.1
+>
+>
+
 -- 
-2.7.4
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--000000000000c24def05c898a6ad
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Mon, Aug 2, 2021 at 6:44 AM Paul Barker &lt;<a h=
+ref=3D"mailto:paul@pbarker.dev">paul@pbarker.dev</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">If the kernel sources are n=
+ot fetched via git, a local git repository is<br>
+created in do_kernel_checkout. In this case we know that there will be<br>
+no remote branches and we will already be on the correct branch (since<br>
+only one branch will exist). So we can simplify things by skipping these<br=
+>
+steps.<br>
+<br>
+This also removes the assumption that the default git branch name will<br>
+be &quot;master&quot;. Prior to this change, the final git checkout command=
+ in<br>
+do_kernel_checkout could fail if a local git repo was created and the<br>
+user had changed init.defaultBranch in their gitconfig.<br></blockquote><di=
+v><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">Loo=
+ks ok to me. No concerns jumped out.</div><div class=3D"gmail_default" styl=
+e=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
+size:small">Richard: I can take this into my queue, or you can grab it dire=
+ctly, either works for me.</div><div class=3D"gmail_default" style=3D"font-=
+size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small=
+">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+<br>
+Signed-off-by: Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev" target=
+=3D"_blank">paul@pbarker.dev</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/kernel-yocto.bbclass | 30 +++++++++++++++---------------=
+<br>
+=C2=A01 file changed, 15 insertions(+), 15 deletions(-)<br>
+<br>
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.=
+bbclass<br>
+index 0df61cdef0..18b77e2b9f 100644<br>
+--- a/meta/classes/kernel-yocto.bbclass<br>
++++ b/meta/classes/kernel-yocto.bbclass<br>
+@@ -358,6 +358,21 @@ do_kernel_checkout() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${S}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# convert any remot=
+e branches to local tracking ones<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for i in `git branc=
+h -a --no-color | grep remotes | grep -v HEAD`; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0b=3D`echo $i | cut -d&#39; &#39; -f2 | sed &#39;s%remotes/origin/=
+%%&#39;`;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0git show-ref --quiet --verify -- &quot;refs/heads/$b&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if [ $? -ne 0 ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git branch $b $i &gt; /dev/null<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Create a working =
+tree copy of the kernel by checking out a branch<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0machine_branch=3D&q=
+uot;${@ get_machine_branch(d, &quot;${KBRANCH}&quot; )}&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# checkout and clob=
+ber any unimportant files<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git checkout -f ${m=
+achine_branch}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # case: we have no =
+git repository at all. <br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # To support low ba=
+ndwidth options for building the kernel, we&#39;ll just <br>
+@@ -379,21 +394,6 @@ do_kernel_checkout() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git commit -q -m &q=
+uot;baseline commit: creating repo for ${PN}-${PV}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git clean -d -f<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# convert any remote branches to local tracking=
+ ones<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0for i in `git branch -a --no-color | grep remot=
+es | grep -v HEAD`; do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0b=3D`echo $i | cut =
+-d&#39; &#39; -f2 | sed &#39;s%remotes/origin/%%&#39;`;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git show-ref --quie=
+t --verify -- &quot;refs/heads/$b&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ]; th=
+en<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0git branch $b $i &gt; /dev/null<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Create a working tree copy of the kernel by c=
+hecking out a branch<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0machine_branch=3D&quot;${@ get_machine_branch(d=
+, &quot;${KBRANCH}&quot; )}&quot;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# checkout and clobber any unimportant files<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0git checkout -f ${machine_branch}<br>
+=C2=A0}<br>
+=C2=A0do_kernel_checkout[dirs] =3D &quot;${S} ${WORKDIR}&quot;<br>
+<br>
+-- <br>
+2.31.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div></div>
+
+--000000000000c24def05c898a6ad--
