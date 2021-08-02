@@ -4,63 +4,56 @@ Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
  Mon, 02 Aug 2021 00:53:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="193002139"
+X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="193002145"
 X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="193002139"
+   d="scan'208";a="193002145"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:35 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:39 -0700
 X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
-   d="scan'208";a="478655253"
+   d="scan'208";a="478655307"
 Received: from chewchoo-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.228.46])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:34 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 00:53:38 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 32/37] checklayer: rename _find_layer_depends
-Date: Mon,  2 Aug 2021 15:52:19 +0800
-Message-Id: <fa52d417ed578194274003c12e14cf93bdb8f7fb.1627890114.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 35/37] update-rc.d: update SRCREV to pull in fix for non-bash shell support
+Date: Mon,  2 Aug 2021 15:52:22 +0800
+Message-Id: <4e328b9195024bcc641c34a462c997d600d88a3b.1627890114.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1627890114.git.anuj.mittal@intel.com>
 References: <cover.1627890114.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+From: Marek Vasut <marex@denx.de>
 
-What this function does is really to find a layer, not a 'depends'. We
-are using this function to find a dependent layer, but the name is
-confusing.
+This pulls in non-bash shell fix for enable/disable command, upstream
+commit 8636cf4 ("update-rc.d: Fix enable/disable command"). This way
+update-rc.d works with e.g. dash shell again.
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Changqing Li <changqing.li@windriver.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e9b7690ab30d0e7c07471034f6cb89ccc3168a11)
+(cherry picked from commit f697332a3a753898183d7c5d2965dd75db9b0a24)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/lib/checklayer/__init__.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/update-rc.d/update-rc.d_0.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 72d9df0a62..e69a10f452 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -146,7 +146,7 @@ def detect_layers(layer_directories, no_auto):
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+index 75632d9434..da716674c3 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=d40a07c27f535425934bb5001f2037d9"
  
-     return layers
+ SRC_URI = "git://git.yoctoproject.org/update-rc.d"
+-SRCREV = "4b150b25b38de688d25cde2b2d22c268ed65a748"
++SRCREV = "8636cf478d426b568c1be11dbd9346f67e03adac"
  
--def _find_layer_depends(depend, layers):
-+def _find_layer(depend, layers):
-     for layer in layers:
-         if 'collections' not in layer:
-             continue
-@@ -166,7 +166,7 @@ def get_layer_dependencies(layer, layers, logger):
-             if depend == 'core':
-                 continue
+ UPSTREAM_CHECK_COMMITS = "1"
  
--            layer_depend = _find_layer_depends(depend, layers)
-+            layer_depend = _find_layer(depend, layers)
-             if not layer_depend:
-                 logger.error('Layer %s depends on %s and isn\'t found.' % \
-                         (layer['name'], depend))
 -- 
 2.31.1
 
