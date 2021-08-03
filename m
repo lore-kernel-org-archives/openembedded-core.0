@@ -1,272 +1,156 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web09.2334.1627947495822225684
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.1055.1627965703231229598
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Aug 2021 16:38:15 -0700
+ Mon, 02 Aug 2021 21:41:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Nc1jrIIC;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id c16so21524875plh.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Aug 2021 16:38:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language:importance;
-        bh=7Uyl1tj0Zk/Yz881Ar3eu6rchaHdBgJKaCisH/Bmoro=;
-        b=Nc1jrIICtbB1gmM7D45ANLEKjKGuZeqNW4bvc5pyIDLe02XPaoZOEgiseSKr+ykVXy
-         TsfRNlub4ZKk7r8Nc7wMUIB5BPQGldeYfabIX3IfEfsemIDmCzvIGzeCurfUeUv8K//s
-         5NJD/FUNganfd3q5/l3j4A4HiRX7XHKj67PydJrGVw4bUWJnW7gGlHy83PN3uNaZ1gEU
-         DGIyEOkmF4/+iPzuP2IfiWEdxGjECGIhqWP4wLU6Q/rG53QENQ3KrBhUUMDNaxlSg6KS
-         bio4FwyTjkXltpMJdd5NZmTTyOzOOWgRbVlrSSJRP6uKVkiHq/U4MiC4FvPdD3D5gPRI
-         eW6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language:importance;
-        bh=7Uyl1tj0Zk/Yz881Ar3eu6rchaHdBgJKaCisH/Bmoro=;
-        b=A4/qZmm6fWOQ0d8MDablBjbu16xXpn56axM9FdnMVHPK/RHMNXoWm9cB+GF2XV4H7s
-         O1fbKFVTn5pdKN99SLvqjg+UQKEpnivEcnCu9iL/BdiLGscK5IwGHcTa70KrlibEvuAc
-         LmAlsc5fRiBKhXuoxlfI4dy0WBCheGb4Epw23XitR5ZCqrikgbxTQVBennW0gt5PbayH
-         GQanUQCNJpZJ0F2g8UqFabvUcpXuZHverO2Nd98EoT2dn+NS29Nc11106xYSIuk19n1o
-         Gm+hOI7BX+NID1Po8Oi1OcQq9TRF+m2sjnNx4PFyL9zEoSeGRBBnxZq+1gp01JNYBUQ6
-         qZVQ==
-X-Gm-Message-State: AOAM533tn5esDxtgPhyvuKQXk+PpXA+pMPDn2veIu2qhzSQ2gweBLP3R
-	xoa67EsQpMg3E/8gD+LiIXaiajVD5Q4=
-X-Google-Smtp-Source: ABdhPJztxgflNm6615cLhSGh4n/iJtqmJjdtlTtZGAmeLeq3hStaTP0HSPnZeyEl6w6i95sY6v0zmQ==
-X-Received: by 2002:a65:6441:: with SMTP id s1mr4609387pgv.214.1627947495142;
-        Mon, 02 Aug 2021 16:38:15 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley ([2600:8800:1d98:5b00:ac14:3ef3:9d9b:956b])
-        by smtp.gmail.com with ESMTPSA id g7sm7861151pfv.66.2021.08.02.16.38.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 02 Aug 2021 16:38:14 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on the first Tuesday (PDT)
-Date: Mon, 2 Aug 2021 16:38:14 -0700
-Message-ID: <061201d787f7$7738ec10$65aac430$@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=YH55yWp2;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3849402d18=qiang.zhang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1734bKCe022035
+	for <openembedded-core@lists.openembedded.org>; Mon, 2 Aug 2021 21:41:42 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : content-type : mime-version; s=PPS06212021;
+ bh=2C7Gl0V7Jv34awXilMykpAwHP7hPT/je7zxx1rdjsus=;
+ b=YH55yWp2PSc7yFKFwmCmSskoGKZCEMY2Owtp9rMIfL5z2YwgUhFEln7rQB9xHUhcgXpf
+ 2U6eEebX67VdEHV8MNThwG2BeQnVq4LQ+pOluSQxX4Q/qRW2izRj6AwH9jQmHmlUBfSm
+ TX3oEfwGTjQeg1eWQRiD20LIP95RhWSv9FkxF8TbSLrt/MXftczLKi6iSdaPXdXL3KxA
+ 3IO3YQsuAgT6KelT+pPVt5DeFtmFJ99uYVK3Yg/oD6i+/gwmXUMaTUHev6oDbNlmHOzG
+ ACbDZDqWelxVfNctM7O6xScM153XrpOT6IiPmD0YmPdUvFLA+OREq5xJZ+BIDTVoKCcc 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3a68kjrspj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 02 Aug 2021 21:41:42 -0700
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1734fgBU030747
+	for <openembedded-core@lists.openembedded.org>; Mon, 2 Aug 2021 21:41:42 -0700
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2040.outbound.protection.outlook.com [104.47.73.40])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3a68kjrsph-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Aug 2021 21:41:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lPEyObKG7zPJ8xVvkNiLU3ebSlUtTUdCV7Jb5XriLYAcn5WVFoLhnOBZziqhbX2Wweo31ZcajWoDU7cU5Np/5cATrAhW+q7asqlWAHEYPHZXhtWLTVGXpU5cps8oybpg+ZqJ3Q08rYqvsUnyxdcYKLk2hx/Zb49jXd1QL7Bgu9FU2Vum5BHuHD4kp9Th9FyEtmfcOTY85oWQ54wDKaveOZKhF5ZVtTZBLym1tmijnIN9lqGclDem77my5TKUcEZrGx/f+Np8MYGL/zYlJq/l2WlyA6lQnNZeEJwwri8LmkAg8sM811R3hIrSQu3rstnbpnNgFPjVxKqjeGHV+GxAQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2C7Gl0V7Jv34awXilMykpAwHP7hPT/je7zxx1rdjsus=;
+ b=iNlDOnqQDP8Z/uJR7p+aP3OeixRBzTItpLp/HRIb6hL06R+XLsqSDzJ3VvkQtok1MHUHc2n7vMmyxceGXEE8cvsa4DwncSEi68Xo47D+W2HjH0fKeY6ybpfUNWX92Oz6prf5n/FmQNKJP7DxivCY1ieRtLUhnQjRm9pVPPRLvHoQ3sWawg4S3eS785E16g6djG52zw13J/7eyUasOBk2MwFW3aq8rIcJfQddMusmtbiOe0KL+ztvAV3Qn6BfqZX6hJjWHn8K5ii+P8JSs8wK+K5gYPKzgjLdFczRcLD1c3cl5vp1sIKUt1M/LVQ5lhwavVQGDjWLCfbCziZWElvulg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BL1PR11MB5478.namprd11.prod.outlook.com (2603:10b6:208:31d::12)
+ by MN2PR11MB4286.namprd11.prod.outlook.com (2603:10b6:208:18d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Tue, 3 Aug
+ 2021 04:41:39 +0000
+Received: from BL1PR11MB5478.namprd11.prod.outlook.com
+ ([fe80::a140:b563:8725:5c2b]) by BL1PR11MB5478.namprd11.prod.outlook.com
+ ([fe80::a140:b563:8725:5c2b%9]) with mapi id 15.20.4373.026; Tue, 3 Aug 2021
+ 04:41:39 +0000
+From: "Zhang, Qiang" <qiang.zhang@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] python3: use monotonic clock for condvar if possible
+Date: Tue,  3 Aug 2021 13:11:38 +0800
+Message-Id: <20210803051138.30790-1-qiang.zhang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: HKAPR03CA0005.apcprd03.prod.outlook.com
+ (2603:1096:203:c8::10) To BL1PR11MB5478.namprd11.prod.outlook.com
+ (2603:10b6:208:31d::12)
 MIME-Version: 1.0
-X-Priority: 1 (Highest)
-X-MSMail-Priority: High
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHrGAlvi/D59k9A4KKz/99QhsCkLQ==
-Importance: High
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0613_01D787BC.CADBE8D0"
-Content-Language: en-us
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core1-vm1.wrs.com (60.247.85.82) by HKAPR03CA0005.apcprd03.prod.outlook.com (2603:1096:203:c8::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.6 via Frontend Transport; Tue, 3 Aug 2021 04:41:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a7f48d1b-84d3-418a-d359-08d95638fbb3
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4286:
+X-Microsoft-Antispam-PRVS: 
+	<MN2PR11MB42865CF4B9649B7DCA1F9BFAFFF09@MN2PR11MB4286.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	lZE++dM61O5EW5eEccl2fvrzu+yIkfUyv7NFsvqoHtdfCdQHmqNhI8MBgASgRZfMn6nsvT/JBlKZ1vfg1np7Lw/jHLaRmlCrUKyHzMa7n6xt2vWzF8PjuBQYtIwi68dgGrQbfKFXUeg+F45iN/r6P1eO5wRBsnJ6gQcVr9SMSjetuob8U7hE+RniO1zeIUu6Cx56PO34bJgxHxeHkuc9O5DcPVwmuQUVPnFLqZMdbk/nLZ3J6rfYfws4MzHovICbuWevnA5knR2raFyFxPgFX5MtEINEYYzxlV+rXCg+tDcuBWbB8tUVdbV443MZpNdUKDDdPQZWQWlGIQPbHfV7W+paELOMYAebdlC6FSAZAmULiKvZmDPy0Fy1cQ51kcZbdi8+RMWu0Ry7SOxhdf/VkMjecpBoniugRYDkmfvszu4qcGN68H/+qVg5Q81r6TT4c/Qe/GQiLg4zVSICMD8nkSIpXNRbrOqzEOVDPLHYzxg6MIGOzbS6srYJu6w4N6VCLVSO9NZXlgCNWQxc1ZdB4zX4qJFAwLJ+AT8M3AKmx3nLmJ4Ord0OXkfT91hLhm4sKgzVXL2yIKPe+jF8R5cXMZ++QpQDDwfK1O/GcNZ49SLpeymBd6YR93fG/O/7B6hlH34n4qsitqducH5/BwAlHYlkjMeulagTPRGEWwBcTM2ECTuMXTFggn7AOcCVDpRvk6NOYXz88VAtlTaT2zHvYRPItIX0JCSFJHfYbfdiBnIO2V/iRHC4eRuNxx01JDQSd/LV1UPK2fuhheOAsHjwFl3ZgM4yA9HOZjXWXAF2vrc=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5478.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(346002)(396003)(136003)(39850400004)(36756003)(4326008)(86362001)(6506007)(38100700002)(38350700002)(8936002)(6512007)(6486002)(8676002)(26005)(9686003)(2616005)(956004)(478600001)(83380400001)(66556008)(1076003)(316002)(66476007)(966005)(186003)(5660300002)(6916009)(52116002)(66946007)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?YVUKTHXf0T4FwhvfBrZWiJ5N/cxWIIe2OAJ3RiHap9mC7EXpGL7/O1lmCttD?=
+ =?us-ascii?Q?zzfprtX+vy7IUTB0YLAp2np6+BptfT/ppSvj+p0F3zq6OVUvMDv3faTZUUcf?=
+ =?us-ascii?Q?iFocVYXX6iDEPGG2XFx90hg73Wxp10t+OxIQwGLFbF+HxyK+8Ma7bkMjVkgD?=
+ =?us-ascii?Q?HluxD2S+U6lVEFEW69etFxxXVhkiXLsJRAFgFBVudtvFISaEgqOydsAiczTE?=
+ =?us-ascii?Q?3dcbJJDbvlwOiemxWCNOUAzPM/i0yIiU38AD/B7ic7DXV6UB81zSOprMYOHf?=
+ =?us-ascii?Q?kGVwXEyNY+Akb8rEnglzy0s4kC8p9t28lhe9s2nCoZKogt0kqj1XAIcDJgZh?=
+ =?us-ascii?Q?LR/5BgAT6APqm0092kNB81MhFCdHbOIiVIF3oAo5EmEds+E5qehGyWvR9/iR?=
+ =?us-ascii?Q?ChQxNboYvXiSaUua3HkZBzzGpVeDh3tnblEl9mlN3sEHwBtvdPJs24WKqPcO?=
+ =?us-ascii?Q?4JRKGbRlLZzpHswEh0hnPMKMil4eTscg/oI17Gtn5nEO8O3qkOtFc/bEF1OE?=
+ =?us-ascii?Q?gF0Gbavz44T3+I5jMNo46Xeq4UCo7MAXuTo5n616R0gJWc2Klnoxu3jCmzFC?=
+ =?us-ascii?Q?3b7DTsO0u42L2QwcI5rjobe8o06jU8FFOabPeQWmY9L5DiGIxbxd3lwm1Ll2?=
+ =?us-ascii?Q?6BQwVTyM6cMbCWbf09XaB6RDj/8IG+rFpxKIo0bQDw+tRRk5r3+nCFPGBcRb?=
+ =?us-ascii?Q?/nNcozEH3yRUNNTl8BUEwpIt3pRj+j7rZHSd4Iar7zIVOZQBbtt+FizWHTnm?=
+ =?us-ascii?Q?ogSd8yQPvgmufSQPPsV5cZu6DBBecRsGHx1asKeQAyrBr11Dlw7vJk4ZPUF1?=
+ =?us-ascii?Q?jEqcmfusy1ak6cbjYOf1hugUCQI3pMPF5jRd6CLeKiLgY5X9S+qo0wqAtxLA?=
+ =?us-ascii?Q?yAawrZZgmPeU0B8XnpO8V1dBAD9YXBg3cmbKhXYajfBSiG52cnFJUVFxwW4P?=
+ =?us-ascii?Q?Lt9jzlX4qPFK+QaGswVn2Y3DjowIJl23RpWQcz2oDqcBJOz8aqfjuaW77HfR?=
+ =?us-ascii?Q?DgsRLLMf4gi0HtMBLzncr+6ECfpd3VKzORK+cIzVeKj8W6C63VeZs8FDf1Pg?=
+ =?us-ascii?Q?WlehJcZDWfUbJ+D4hQWTXeHgUoeGyG1HwL7ppuolUkaERpPhL1hPCzhpuhte?=
+ =?us-ascii?Q?RiMo/9e27yWuOWlEv3Dc7jKqOT1VTl3Z8uGdtjNEdvOHRKWsFb7ix9ht+wgK?=
+ =?us-ascii?Q?n2GvjMYDo0ZtklS5YS9C1+/H5HcsSX+ouVHhSpNqrza1Dkg9ljBnbadph0je?=
+ =?us-ascii?Q?LncM8keCXGIDuLJfDx0VwCr1Y/jBeZyhZSPvgenTsDnTt0QHgIyqKOkY6GXr?=
+ =?us-ascii?Q?UwSb84zvZjh9oOTUze5yEnTn?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7f48d1b-84d3-418a-d359-08d95638fbb3
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5478.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 04:41:39.3865
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xazje50BiYb3ePKxiQNfmhM1kSOayrSELGz3W1iUHuIuK5MHCYvz93Fuc6fzh77I4TVZ2VF5Aio59reWjZ4ZfkWkIM0wrd6krSZEMTrwSCU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4286
+X-Proofpoint-ORIG-GUID: arDeJUuM3hjVNO2hFqlckZbIwhVFisFr
+X-Proofpoint-GUID: aixhs-Mjcq431-nHX_RMuZic9DgSOlHL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-02_10,2021-08-02_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=979
+ suspectscore=0 bulkscore=0 mlxscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108030028
+Content-Type: text/plain
 
-------=_NextPart_000_0613_01D787BC.CADBE8D0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Zqiang <qiang.zhang@windriver.com>
 
-All,
+The timeout for threading.Lock, threading.Condition, etc, is not using
+a monotonic clock, it is affected if the system time (realtime clock)
+is set.
 
+This patch will make condvar use monotonic clock.
+Refence: https://bugs.python.org/issue41710
+
+Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+---
+ meta/recipes-devtools/python/python3_3.9.5.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python3_3.9.5.bb b/meta/recipes-devtools/python/python3_3.9.5.bb
+index 82177f4a18..f3f0237c78 100644
+--- a/meta/recipes-devtools/python/python3_3.9.5.bb
++++ b/meta/recipes-devtools/python/python3_3.9.5.bb
+@@ -73,6 +73,9 @@ DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/li
+ DEPENDS_append_class-target = " python3-native"
+ DEPENDS_append_class-nativesdk = " python3-native"
  
-
-Just a reminder we will hold the monthly Yocto Project Technical Meeting at
-8am PST tomorrow. (8/3)  
-
++# force to use the mutex+cond implementation
++CFLAGS += "-DHAVE_BROKEN_POSIX_SEMAPHORES"
++
+ EXTRA_OECONF = " --without-ensurepip --enable-shared --with-platlibdir=${baselib}"
+ EXTRA_OECONF_append_class-native = " --bindir=${bindir}/${PN}"
  
+-- 
+2.17.1
 
-Yocto Project Technical Team Meeting: We encourage people attending the
-meeting to logon and announce themselves on the Yocto Project IRC chancel
-during the meeting (optional):
-
-Yocto IRC: https://web.libera.chat/#yocto 
-
-Wiki: https://www.yoctoproject.org/public-virtual-meetings/
-
- 
-
-When            Monthly from 8am to 9am on the first Tuesday Pacific Time
-
-Where           Zoom Meeting:
-https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-
- 
-
-We are tracking the minutes at:
-https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
-DH4/edit?pli=1 Please request access if you want to assist in editing them.
-The world should have view access. 
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0613_01D787BC.CADBE8D0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_1003_01D77701.77467DA0";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>All,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
-reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
-PST tomorrow. (8/3)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
-Project Technical Team Meeting: We encourage people attending the =
-meeting to logon and announce themselves on the Yocto Project IRC =
-chancel during the meeting (optional):</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p><span =
-style=3D'color:#1F497D'>Yocto IRC: </span><a =
-href=3D"https://web.libera.chat/#yocto">https://web.libera.chat/#yocto</a=
-><span style=3D'color:#1F497D'>&nbsp;</span><o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Wiki: </span><a =
-href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
-w.yoctoproject.org/public-virtual-meetings/</a><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 9am on the first Tuesday =
-Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
-New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; Zoom Meeting: <a =
-href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
-9">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>=
-<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
-tracking the minutes at: </span><a =
-href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
-wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
-4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
-style=3D'color:#1F497D'> Please request access if you want to assist in =
-editing them.&nbsp; The world should have view access. </span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Thanks,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_0613_01D787BC.CADBE8D0--
