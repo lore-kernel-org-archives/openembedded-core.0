@@ -1,72 +1,81 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.12800.1628100056254349897
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.12879.1628100056764618193
  for <openembedded-core@lists.openembedded.org>;
  Wed, 04 Aug 2021 11:00:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=t/5FRPkO;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso4714064pjo.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ORKZ0uze;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id s22-20020a17090a1c16b0290177caeba067so9971950pjs.0
         for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 11:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qvPR4S4FVvnDo6YWm7YI1K777QapP8YTDq///XRFKs8=;
-        b=t/5FRPkOnKa67HpQNi9MObuGL8xpgE4t9SGUl4SdcHLKw1sUBvdtnvBM5RRR8KfesN
-         ZtwGzKUSpKCYuDlCvqz7tIHtcfwt7YQyJ7J5UdYgG6uSzSxD+LFwd7IYZXOeQ1lkcBZW
-         gIfC4cnEz5Lkr5Lr6o8XHLESE7IhHNLM+hopQ8nLLrRWxI9RdSqrmbHtUHU5S5qrkwc2
-         tT0qjfz608IDEpKoSDwC+BoonvixSxrTnWr5LvUPUkmh8UjR5KeBed7JGIwcZwAEWxaP
-         Ave9e7l4mLJj7m/UErDxpfSx1i4r+cleY+gJGtvpX2+4X4Mlvw34egjUEVJED2lJ1pE3
-         5VbQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=vnxHymvD64PMiaDgXy+z30HF6zURv/lGbm5N2TRgW0s=;
+        b=ORKZ0uze1WjsguRo410J7P93Ji5effo3wJ/h5n32wi41ZI5uSlJaaWQscozPk9iyBv
+         2NLHYpRyUWJ/MwnFmh9oV1uWkKFFYAgWh518kHy+TPCfI4ImIiW5tGPUIchXRDsqvgpR
+         lsr7S5At0mfvtOkf9nPtgDvYHcedEMwd+67JS42YIPidXAbbiOfM0BEFIQGYEzxbhgB/
+         5jrAKV2x+YXzjeJFNazzCrNtT8RXG7kYWo5Ij2I82e1Clv5JVmV2xx0306F3EP6yITwE
+         rQPU7Y4HfnnMFji6jWjaYPEb+7DozuEp6nGhD8zLlOEdbF+taT6OkauuMvQ7jB1tewA2
+         vkHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qvPR4S4FVvnDo6YWm7YI1K777QapP8YTDq///XRFKs8=;
-        b=XrJ5wrZc2osfFLLbQAbORRMJfIF2rhabUNdxoD2ZLvmOOePbJ/vD8UoGn7XXm4+KGo
-         vjT3EjqLf8k5BrYg860EN/dK1QiHcG0OJapyGb925cU5bQIiuqvSr4+ef8ZFxE4gRQG1
-         riG1Os48GHSSanXQdn7Qd44d/VCCXMOES42mC/v0RhiZ5xqir7J7D+TPb29ShDRdcTcS
-         YdcT6UHzD96Jta3l1RVjaRr9AQlhWSWOkZTlopSSwMwfY41LsHDf3QNaGVuQQ8k2IWHB
-         I73nQch4MrngCD7Lpx3YzMEJYK4+NcG3MuV0uSW2F2Lm2MThsVEOKpt9wxo5dXeqOAkK
-         ObUg==
-X-Gm-Message-State: AOAM533AL7gOT3t/7+fx9SzQXxcTJLfVCuR/DAyDdlDWkyRlh/1My0aP
-	UG339Rla/cm81CBqGA7wvkvo4tTXOmFMDw==
-X-Google-Smtp-Source: ABdhPJx7fVnrxo2J/TJq6Ek2j1cIz21BieXNBPmCPPKaR1GzUP3/ZKKz+r8yRGOdbaYXbbl7x1nUxw==
-X-Received: by 2002:a17:903:308b:b029:12b:c7ec:998d with SMTP id u11-20020a170903308bb029012bc7ec998dmr328525plc.78.1628100055358;
-        Wed, 04 Aug 2021 11:00:55 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vnxHymvD64PMiaDgXy+z30HF6zURv/lGbm5N2TRgW0s=;
+        b=feZx13dcqQMVy3VgE1jZf+glgD5Lt7ZCrS9s/zAQ0XsDp/89JVVmyKTO6uoy+3B3S1
+         tZsNsBrA/RRQPFfY0KNWaNYQ+Bnyn7epR6p/vSuiQifzAutvNMnRPrvxfkmnE9m+5BE0
+         nYvYBvIcK9bnIRoTYVeqD+Vy2z7gN1E1LJCTEL1VPlkbqr5yutrINwGlTMCwImrCBsVM
+         PH/W3lm+gughLyoVvocNNhia7aAK2UFaI/jOmC7fZXeiFW4+O9WS2BWwMXY86VuHoRX9
+         UZT0hi5/kxGbt88nF7PvBlvXJFBuWL2WIJy+dDJN05IqiOMmQAixL0da5NFk12PVUaBd
+         fYgA==
+X-Gm-Message-State: AOAM530iQx4rsRPP5F9j2oovmUY7l0/SfmJu5JFgFjJ8GgDWu68FzDxi
+	UT4bZI2i88C6qnxqlptjhVaxDHFMDbMKvw==
+X-Google-Smtp-Source: ABdhPJzPwWbf5w0w25iUW3oOukJKMevdigbNBhxq15G+GeIIzpSxQIZG0aATenec67Hx8vpzbKmVWg==
+X-Received: by 2002:a05:6a00:b85:b029:332:1865:fea9 with SMTP id g5-20020a056a000b85b02903321865fea9mr757000pfj.45.1628100056107;
+        Wed, 04 Aug 2021 11:00:56 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0:db81:2f56:60e4:2c64])
-        by smtp.gmail.com with ESMTPSA id p8sm3586094pfw.35.2021.08.04.11.00.54
+        by smtp.gmail.com with ESMTPSA id p8sm3586094pfw.35.2021.08.04.11.00.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 11:00:54 -0700 (PDT)
+        Wed, 04 Aug 2021 11:00:55 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] libssh2: Fix syntax for using ptest override
-Date: Wed,  4 Aug 2021 11:00:49 -0700
-Message-Id: <20210804180051.1865715-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] toaster-managed-mode.json: Correctly specify term with new override syntax
+Date: Wed,  4 Aug 2021 11:00:50 -0700
+Message-Id: <20210804180051.1865715-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210804180051.1865715-1-raj.khem@gmail.com>
+References: <20210804180051.1865715-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libssh2/libssh2_1.9.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/manual/toaster-managed-mode.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libssh2/libssh2_1.9.0.bb b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
-index 9ae736d25a..a0cbb6af6b 100644
---- a/meta/recipes-support/libssh2/libssh2_1.9.0.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
-@@ -14,7 +14,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
-            file://0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch \
- "
- 
--SRC_URI:append_ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
-+SRC_URI:append:ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
- 
- SRC_URI[md5sum] = "1beefafe8963982adc84b408b2959927"
- SRC_URI[sha256sum] = "d5fb8bd563305fd1074dda90bd053fb2d29fc4bce048d182f96eaa466dfadafd"
+diff --git a/meta/lib/oeqa/manual/toaster-managed-mode.json b/meta/lib/oeqa/manual/toaster-managed-mode.json
+index d8bbbece4a..1a71985c3c 100644
+--- a/meta/lib/oeqa/manual/toaster-managed-mode.json
++++ b/meta/lib/oeqa/manual/toaster-managed-mode.json
+@@ -136,7 +136,7 @@
+           "expected_results": ""
+         },
+         "3": {
+-          "action": "Check that default values are as follows: \n\tDISTRO - poky \n\tIMAGE_FSTYPES - ext3 jffs2 tar.bz2 \n\tIMAGE_INSTALL_append - \"Not set\" \n\tPACKAGE_CLASSES - package_rpm \n        SSTATE_DIR  - /homeDirectory/poky/sstate-cache \n\n",
++          "action": "Check that default values are as follows: \n\tDISTRO - poky \n\tIMAGE_FSTYPES - ext3 jffs2 tar.bz2 \n\tIMAGE_INSTALL:append - \"Not set\" \n\tPACKAGE_CLASSES - package_rpm \n        SSTATE_DIR  - /homeDirectory/poky/sstate-cache \n\n",
+           "expected_results": ""
+         },
+         "4": {
+@@ -2569,4 +2569,4 @@
+       "summary": "Download_task_log"
+     }
+   }
+-]
+\ No newline at end of file
++]
 -- 
 2.32.0
 
