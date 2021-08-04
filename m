@@ -1,81 +1,78 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web12.3760.1628043275354060645
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web12.4080.1628045342053430198
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Aug 2021 19:14:35 -0700
+ Tue, 03 Aug 2021 19:49:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id A95D240C16;
-	Wed,  4 Aug 2021 02:14:34 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id z8QrioZyb6lv; Wed,  4 Aug 2021 02:14:34 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 622F740C06;
-	Wed,  4 Aug 2021 02:14:29 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 2001117464E; Tue,  3 Aug 2021 22:14:29 -0400 (EDT)
-Date: Tue, 3 Aug 2021 22:14:29 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	Anuj Mittal <anuj.mittal@intel.com>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [OE-core] [PATCH 0/4] yocto-check-layer: add support to check for dependencies
-Message-ID: <20210804021429.GV1528@denix.org>
-References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
- <33b5d60e01b3995046709b17b8014fd45b0c48e5.camel@linuxfoundation.org>
- <CAP71WjxcSk64Snj8Hd0Vy9nJyUH8mE9MjnkfAZC095mPt9bd6g@mail.gmail.com>
- <98ab2870e07ad6d296d29322b7ee78bade43b9ea.camel@linuxfoundation.org>
- <CAP71Wjz5-CQJ7nJzRU+Kij7itOLFeyxsyYkc=XGm=U5iWHqN7w@mail.gmail.com>
- <CAOSpxdaMyYkAnuM72SjwZYMegvRyPN3oAL+Qo1BjiFjC8R67Yg@mail.gmail.com>
- <7419111ad58a262461b858dd92771c075f7ae1bc.camel@linuxfoundation.org>
- <CAOSpxdY2evRkfm55sJro4HY7Gc29aN-sh9ByNLX2fkjM2=aWdg@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EEpTHGgP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id x15-20020a05683000cfb02904d1f8b9db81so373718oto.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Aug 2021 19:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t2CIW4fgaXM4De4C8COqgtbkxJTLO2MgOsM+Tqxf5Mk=;
+        b=EEpTHGgP9YsWRldMy36dpTie8nSzlZW2Y3lrKV5Zxr8TD9ZNi6FSipufhTSYCnwcwm
+         2yL4jpqq6qXBQkANKyhcgFBcegSY3C3qv+yucj3VDw9fYs3ad5sOZLM3bdh8jNJBPP9J
+         4pf0JM18CsF7fl5g//GRz0B/HPcXtD59XtO0Divr+24bdR2DtVHpOIAYhn5YFqIyXpGG
+         1nAyJqowPtZ7X8UEZdNF4MTIcQsg7HTzGPcYQxhs1qwRjJHQwsOsKg7pYensp5A5EBqY
+         66OVXo62mPS+q07NDcsukAuTfCNs3asnQrPkYy2fE5x2paDPoKHoyJn0uq65QA3gIHfM
+         F2ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t2CIW4fgaXM4De4C8COqgtbkxJTLO2MgOsM+Tqxf5Mk=;
+        b=oiIUesJHdAbOF7deeLrLJqRnHIVGChLCp34kDnHE2GhfeU5YNX48N8Yfnaum5+L+NM
+         3EYZ5susjhWmTf5pvfuMiFsaTGiuoBdJSB8TS5Tzhu5AG7F5UgLOQz6isTuqyUAncb5q
+         rYBPFustIWNjmrBPtBM2/SNj2tN4xepB6IE5k/W0VQAgT05KGPn1FIoKzh2Wg4+ynuWY
+         2yKh5Q8e4PrTC6Z5lEb4oa/MV4yT3jGvFZ1MCoov5liaur5zOf2AH9fknEdkt7BGrBCb
+         n/+uMSv3i8f/epG59QNJcGYuuxJpYl6Q4NNIQ0scOiglQLUyKsNnxO22YZ8j9gM0pi9R
+         nF8g==
+X-Gm-Message-State: AOAM530OhiW5F5an4CtQeMIng/kp36Zylr+DxRUOgc9HT0ZHsqvi4kwK
+	PD565BeouqHmSTu2BDVwI5e43PFZt+OgLw==
+X-Google-Smtp-Source: ABdhPJwpgvDB7R13tl5Q8Wqgc/n2zdzrClXL9pePeFsKaxRDn6dvxyTHQgefX7oHXB7vrwWyBxWHMA==
+X-Received: by 2002:a9d:6ad4:: with SMTP id m20mr18050850otq.338.1628045340834;
+        Tue, 03 Aug 2021 19:49:00 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id w75sm213727oiw.12.2021.08.03.19.49.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Aug 2021 19:49:00 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] libxft: Fix bad PKG value
+Date: Tue,  3 Aug 2021 21:48:50 -0500
+Message-Id: <20210804024850.19048-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdY2evRkfm55sJro4HY7Gc29aN-sh9ByNLX2fkjM2=aWdg@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 02, 2021 at 05:07:41AM -1000, Steve Sakoman wrote:
-> On Mon, Aug 2, 2021 at 5:04 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Mon, 2021-08-02 at 04:57 -1000, Steve Sakoman wrote:
-> > > On Mon, Aug 2, 2021 at 12:35 AM Nicolas Dechesne
-> > > <nicolas.dechesne@linaro.org> wrote:
-> > > >
-> > > > These patches are now merged in master, and I believe they should be merged in
-> > > > dunfell and hardknott too. The 4 patches apply as-is in both branches. Let me
-> > > > know if you need anything from me!
-> > >
-> > > Done.  I assume I also need a version of the autobuilder-helper patch:
-> > >
-> > > https://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-
-> > > helper/commit/?id=fe72e222961d69dcd4d638e7e05b437a65e8f34c
-> > >
-> > > It seems that dunfell is checking a much more limited set of layers
-> > > (only meta-intel for check-layer-nightly)  Should I expand this list?
-> >
-> > There has been work to get some of them working, so yes, I think it would
-> > be good to test and see where we stand.
-> 
-> OK, will do.
+The PKG value should only be munged for DEBIAN_NAMES during
+populate_packages. Otherwise, native packages can have the wrong value.
 
-Steve,
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Would you be able to publish results of your testing on dunfell?
-
-I'm interested in some expanded compat checks in master, but they were blocked 
-by known limitations in dunfell - was wondering if those got resolved yet. 
-Thanks!
-
+diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+index a6fb5642da..9695afd625 100644
+--- a/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+@@ -27,7 +27,7 @@ XORG_PN = "libXft"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-python () {
+-        if d.getVar('DEBIAN_NAMES'):
+-            d.setVar('PKG:${PN}', '${MLPREFIX}libxft2')
++python populate_packages:prepend () {
++    if d.getVar('DEBIAN_NAMES'):
++        d.setVar('PKG:${PN}', '${MLPREFIX}libxft2')
+ }
 -- 
-Regards,
-Denys Dmytriyenko <denis@denix.org>
-PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
-Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
+2.32.0
+
