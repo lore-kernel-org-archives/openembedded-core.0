@@ -1,187 +1,102 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web09.9739.1628087398240407055
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.10309.1628089865892799323
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 07:29:58 -0700
+ Wed, 04 Aug 2021 08:11:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ua5tQHmk;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id o5so4065130ejy.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 07:29:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dIW5321W;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.41, mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f41.google.com with SMTP id c16so2620388wrp.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 08:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=n3EA1ll4ORnKFZOTUFiE7cj9mQinBAMx2FQf9c2wJJs=;
-        b=Ua5tQHmkNt1PIxwSpJBm146LaS1aa3DMd4jLHvxekSu5zsNEmVMe7xkD/h7xTfOFDf
-         P2XTV+NT194RUaQZuaagZgXwCoAf0JcTQO3B3OkUiYJyXeRSTSd27Oed3Y7ZnUQhyaau
-         ++ZaZ1+WHzvrkz6nOfGX3OBC4rVKRcLGfx46HFZEoUXmwF7qqbvYMfc3JqOAOKNsbGq0
-         qFZGk2w/FW2lppGs0IzVHnse8S4kmV+mQp5DewP55LhpJ1kUwPcfcm6O5uZj7cusN6Bb
-         Fsv+c2n5aJoWiRjGpdkUlXPkkcOm8YN3gfv0jaRooqizwzaGIwzawUDPngNqqqWkqT/Y
-         LG3w==
+        bh=Wxkqz3+BJCfqYuqg5mRTEqqDaRfdifByUteaxWMcqUA=;
+        b=dIW5321WNxaob5hbBOFS6PWzeD3LMtBsfnfYZHQbIcL0gRaQg701Z73jFYvBg62Qgp
+         GZLBefAD5JnPmJlib2M44nckKQKgt6llaGOKea16H60xd3LcXTxrteIWjv1P9WnoGp1u
+         i3kG3c5xrtLKuJ97SApegGvoA5iVDXk477QwOoB1LgLXHZCx1fUTtz/4N004dJw50v9X
+         j+xwnc5G/H1mGjhDgxVNJN4VyQcP1tM1CKE6hjUJ+HigY1OvF8lewPDJ4VjvU1aWy0my
+         0XxCFQqY1q1e6BKuLW3NMFHMYiQX8pM7Moi4oWVf7swTW0udl9PjSH8xwMeylKGQwFFd
+         pTkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=n3EA1ll4ORnKFZOTUFiE7cj9mQinBAMx2FQf9c2wJJs=;
-        b=M3I5F9JPkKFgLV0x9jVG+0L27PevXyV8Yg1tKsLOfZtcByhpmFefbgCSYOxlGS9tP6
-         m77dxSzg2jAuJfU2lw5ZfbOO1Ys9xl9FGZijHVKODJCQdxq6Ib9UhHyeS3PFy0H9ATXM
-         l+UdsFX5kTbSU15ni4hpNGN/dOIR2qkcdcIR7zABqc3ASWG42D2X6mtxAgyrMsDUM54b
-         IN1TxFp+FKdAr8+9tqtLwgJgh9FHdhsJd1uZ7zpXr8O8PTZjHxkTSFF1o4ZdaQvN4S8m
-         bQ1usr7N1Jb7Wa3kInwMCw8Riu+MAwNSMMaBIsMu0KPQVXav9DOWNHMyuvDc9o2ghEGI
-         Fs+g==
-X-Gm-Message-State: AOAM530liTxHW3cA0wJibUOSKymfwt6EGkSAK3B4ztVBMLqQBrzG17dX
-	7ut/we5vs+7kyPlPaBjj+jklQf30Y119JfMZorU=
-X-Google-Smtp-Source: ABdhPJyLIuiawHxQ9Zw5XsfMNbvQ1X5BNyjWDT4/aMOK8ZOhN2EG0lrq4leZFlHvOJmK4xQhsFwGpK1ku5HVnOA5L2k=
-X-Received: by 2002:a17:906:3041:: with SMTP id d1mr26693838ejd.54.1628087396697;
- Wed, 04 Aug 2021 07:29:56 -0700 (PDT)
+        bh=Wxkqz3+BJCfqYuqg5mRTEqqDaRfdifByUteaxWMcqUA=;
+        b=gslRSHNFeRMkR/vDC2nN79AzAcAuBOYsFaZTI/vao5gshWdYTVYo4r9JB362nK/sMy
+         gwOSzLNFBdKDpALsh0NUgC2vFGgZub5mSthhJZH92wVUqoSqBQ0biz8sdcFJHewuAUKC
+         +VAFYZUS1wkyTkggqAS/sMLab2umckCHpSPbVXstJMbINVEuytDxjHTx38Trwi0SI0xw
+         1I+vwKQWMJWoJTtbNYEyUOrD6rUwvwjIJzIi6z4UhkCT9CpiZi42Ipd8pIJYJmkBzdk9
+         MtNGtMJTRr3B3ZVCRggTMBtEH3nC5X8u+ceNn3ZQZ3WIaC0fKFPWK7K6QMJwHKJIQPmt
+         OiTA==
+X-Gm-Message-State: AOAM533gTsjST/KuZuHkNlBrETbMbZqp/eCOq0nf19Hr7QoYtViV1Toz
+	gN1Xxg2uiQSKe9HiLp/U+ZkNEC+PwHpa4YItDmKmNw==
+X-Google-Smtp-Source: ABdhPJzwUxG04s0JBHqcKx2tEIsA9VgKN1kb4sg7LhEynYNUUcCMBJZ75ZZSZc54kRpAMVJnwG1H9DYMKvIyYqTmF+8=
+X-Received: by 2002:adf:ee08:: with SMTP id y8mr28998845wrn.299.1628089864024;
+ Wed, 04 Aug 2021 08:11:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <1628040485-45946-1-git-send-email-denis@denix.org>
- <1628040485-45946-2-git-send-email-denis@denix.org> <3abc2853445a6f54a68cca95a87ee63925bf1588.camel@linuxfoundation.org>
-In-Reply-To: <3abc2853445a6f54a68cca95a87ee63925bf1588.camel@linuxfoundation.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 4 Aug 2021 16:29:45 +0200
-Message-ID: <CA+chaQfComiP6AtnyhFbcqbhxzjD8epMuxSbdDNYibDGjFtPOA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] convert-overrides.py: handle few more cases of overrides
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Denys Dmytriyenko <denis@denix.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f18c8805c8bca2df"
-
---000000000000f18c8805c8bca2df
+References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
+ <33b5d60e01b3995046709b17b8014fd45b0c48e5.camel@linuxfoundation.org>
+ <CAP71WjxcSk64Snj8Hd0Vy9nJyUH8mE9MjnkfAZC095mPt9bd6g@mail.gmail.com>
+ <98ab2870e07ad6d296d29322b7ee78bade43b9ea.camel@linuxfoundation.org>
+ <CAP71Wjz5-CQJ7nJzRU+Kij7itOLFeyxsyYkc=XGm=U5iWHqN7w@mail.gmail.com>
+ <CAOSpxdaMyYkAnuM72SjwZYMegvRyPN3oAL+Qo1BjiFjC8R67Yg@mail.gmail.com>
+ <7419111ad58a262461b858dd92771c075f7ae1bc.camel@linuxfoundation.org>
+ <CAOSpxdY2evRkfm55sJro4HY7Gc29aN-sh9ByNLX2fkjM2=aWdg@mail.gmail.com> <20210804021429.GV1528@denix.org>
+In-Reply-To: <20210804021429.GV1528@denix.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Wed, 4 Aug 2021 05:10:52 -1000
+Message-ID: <CAOSpxdapQPPsP70kARWWLGLJ-Y=P5OtgugxeyZaiLM=NsEH7ng@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/4] yocto-check-layer: add support to check for dependencies
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Nicolas Dechesne <nicolas.dechesne@linaro.org>, Anuj Mittal <anuj.mittal@intel.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Yes, I see the same in meta-oe and meta-webosose.
-
-It's easy to spot false translations in incremental conversion where the
-diff is relatively small, but doing initial conversion on big layer with
-this change already included might be more painful.
-
-On Wed, Aug 4, 2021 at 12:31 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Tue, 2021-08-03 at 21:28 -0400, Denys Dmytriyenko wrote:
-> > Add task-configure and few more supported values of TARGET_OS override.
+On Tue, Aug 3, 2021 at 4:14 PM Denys Dmytriyenko <denis@denix.org> wrote:
+>
+> On Mon, Aug 02, 2021 at 05:07:41AM -1000, Steve Sakoman wrote:
+> > On Mon, Aug 2, 2021 at 5:04 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > On Mon, 2021-08-02 at 04:57 -1000, Steve Sakoman wrote:
+> > > > On Mon, Aug 2, 2021 at 12:35 AM Nicolas Dechesne
+> > > > <nicolas.dechesne@linaro.org> wrote:
+> > > > >
+> > > > > These patches are now merged in master, and I believe they should be merged in
+> > > > > dunfell and hardknott too. The 4 patches apply as-is in both branches. Let me
+> > > > > know if you need anything from me!
+> > > >
+> > > > Done.  I assume I also need a version of the autobuilder-helper patch:
+> > > >
+> > > > https://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-
+> > > > helper/commit/?id=fe72e222961d69dcd4d638e7e05b437a65e8f34c
+> > > >
+> > > > It seems that dunfell is checking a much more limited set of layers
+> > > > (only meta-intel for check-layer-nightly)  Should I expand this list?
+> > >
+> > > There has been work to get some of them working, so yes, I think it would
+> > > be good to test and see where we stand.
 > >
-> > Signed-off-by: Denys Dmytriyenko <denis@denix.org>
-> > ---
-> >  scripts/contrib/convert-overrides.py | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/scripts/contrib/convert-overrides.py
-> b/scripts/contrib/convert-overrides.py
-> > index 6505b18..23f63a2 100755
-> > --- a/scripts/contrib/convert-overrides.py
-> > +++ b/scripts/contrib/convert-overrides.py
-> > @@ -36,9 +36,10 @@ vars = vars + ["mipsarch", "x86-x32", "mips16e",
-> "microblaze", "e5500-64b", "mip
-> >  vars = vars + ["class-native", "class-target", "class-cross-canadian",
-> "class-cross", "class-devupstream"]
-> >  vars = vars + ["tune-",  "pn-", "forcevariable"]
-> >  vars = vars + ["libc-musl", "libc-glibc",
-> "libc-newlib","libc-baremetal"]
-> > -vars = vars + ["task-compile", "task-install", "task-clean",
-> "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
-> > +vars = vars + ["task-configure", "task-compile", "task-install",
-> "task-clean", "task-image-qa", "task-rm_work", "task-image-complete",
-> "task-populate-sdk"]
-> >  vars = vars + ["toolchain-clang", "mydistro", "nios2", "sdkmingw32",
-> "overrideone", "overridetwo"]
-> >  vars = vars + ["linux-gnux32", "linux-muslx32", "linux-gnun32",
-> "mingw32", "poky", "darwin", "linuxstdbase"]
-> > +vars = vars + ["linux", "linux-gnueabi", "elf", "eabi"]
+> > OK, will do.
 >
-> I have reservations about linux and elf being here since this does lead to
-> a lot of false translations for OE-Core. Since OE-Core is now translated I
-> guess that isn't the driving factor so I'll probably take this but it is
-> worth
-> being aware of.
+> Steve,
 >
-> I did just have to retest a translation of core so I now need to filter all
-> these out the diff...
+> Would you be able to publish results of your testing on dunfell?
 >
-> Cheers,
->
-> Richard
->
->
-> 
->
->
+> I'm interested in some expanded compat checks in master, but they were blocked
+> by known limitations in dunfell - was wondering if those got resolved yet.
 
---000000000000f18c8805c8bca2df
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I was able to successfully add meta-aws, meta-openembedded and
+meta-virtualization to dunfell check-layer-nightly:
 
-<div dir=3D"ltr">Yes, I see the same in meta-oe and meta-webosose.<div><br>=
-</div><div>It&#39;s easy to spot false translations in incremental conversi=
-on where the diff is relatively small, but doing initial conversion on big =
-layer with this change already included might be more painful.</div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed,=
- Aug 4, 2021 at 12:31 PM Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
-e@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 2021-08-03=
- at 21:28 -0400, Denys Dmytriyenko wrote:<br>
-&gt; Add task-configure and few more supported values of TARGET_OS overrid=
-e.<br>
-&gt; <br>
-&gt; Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.or=
-g" target=3D"_blank">denis@denix.org</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0scripts/contrib/convert-overrides.py | 5 +++--<br>
-&gt; =C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/c=
-onvert-overrides.py<br>
-&gt; index 6505b18..23f63a2 100755<br>
-&gt; --- a/scripts/contrib/convert-overrides.py<br>
-&gt; +++ b/scripts/contrib/convert-overrides.py<br>
-&gt; @@ -36,9 +36,10 @@ vars =3D vars + [&quot;mipsarch&quot;, &quot;x86-x=
-32&quot;, &quot;mips16e&quot;, &quot;microblaze&quot;, &quot;e5500-64b&quot=
-;, &quot;mip<br>
-&gt; =C2=A0vars =3D vars + [&quot;class-native&quot;, &quot;class-target&q=
-uot;, &quot;class-cross-canadian&quot;, &quot;class-cross&quot;, &quot;clas=
-s-devupstream&quot;]<br>
-&gt; =C2=A0vars =3D vars + [&quot;tune-&quot;,=C2=A0 &quot;pn-&quot;, &quo=
-t;forcevariable&quot;]<br>
-&gt; =C2=A0vars =3D vars + [&quot;libc-musl&quot;, &quot;libc-glibc&quot;,=
- &quot;libc-newlib&quot;,&quot;libc-baremetal&quot;]<br>
-&gt; -vars =3D vars + [&quot;task-compile&quot;, &quot;task-install&quot;,=
- &quot;task-clean&quot;, &quot;task-image-qa&quot;, &quot;task-rm_work&quot=
-;, &quot;task-image-complete&quot;, &quot;task-populate-sdk&quot;]<br>
-&gt; +vars =3D vars + [&quot;task-configure&quot;, &quot;task-compile&quot=
-;, &quot;task-install&quot;, &quot;task-clean&quot;, &quot;task-image-qa&qu=
-ot;, &quot;task-rm_work&quot;, &quot;task-image-complete&quot;, &quot;task-=
-populate-sdk&quot;]<br>
-&gt; =C2=A0vars =3D vars + [&quot;toolchain-clang&quot;, &quot;mydistro&qu=
-ot;, &quot;nios2&quot;, &quot;sdkmingw32&quot;, &quot;overrideone&quot;, &q=
-uot;overridetwo&quot;]<br>
-&gt; =C2=A0vars =3D vars + [&quot;linux-gnux32&quot;, &quot;linux-muslx32&=
-quot;, &quot;linux-gnun32&quot;, &quot;mingw32&quot;, &quot;poky&quot;, &qu=
-ot;darwin&quot;, &quot;linuxstdbase&quot;]<br>
-&gt; +vars =3D vars + [&quot;linux&quot;, &quot;linux-gnueabi&quot;, &quot=
-;elf&quot;, &quot;eabi&quot;]<br>
-<br>
-I have reservations about linux and elf being here since this does lead to=
-=
-=C2=A0<br>
-a lot of false translations for OE-Core. Since OE-Core is now translated I=
-<br>
-guess that isn&#39;t the driving factor so I&#39;ll probably take this but=
- it is worth<br>
-being aware of.<br>
-<br>
-I did just have to retest a translation of core so I now need to filter al=
-l<br>
-these out the diff...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/commit/?h=contrib/sakoman&id=f0108c3cdb8d50dfb877ff880fbc1a45e9abe899
 
---000000000000f18c8805c8bca2df--
+The other layers currently in master (meta-agl, meta-arm and meta-ti)
+failed with dunfell.
+
+I'd be happy to add those to dunfell check-layer-nightly once they are fixed.
+
+Steve
