@@ -1,391 +1,188 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web08.11757.1628095506232072359
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.11994.1628096297842459883
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 09:45:06 -0700
+ Wed, 04 Aug 2021 09:58:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dhzlbbqp;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.47, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f47.google.com with SMTP id n12so2979806wrr.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 09:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ov5piMPKNIuCHzgcWP5iFvX1QWB45JyUMGkEarVJTuU=;
-        b=dhzlbbqpJ3uIFlphXGAK/yZe0ZeLBzY9nX8kHUkO4L/g8NDHZUWQOZsXSyUufrjF9G
-         4JCEsERM8ExSO7Fm31RJvl8CqjkGQbJrWLfLnz+ydI+WKtvdHGf2IhmuNPlSh1iEu31v
-         cSNvVoSdSrXv+nSkK9VAiD4SqSEtkQnPVEqXCxQWULBbN0EJBIiEY7Ltm5TosFh+cdkW
-         H0t84PxPAok8m8QjEcp0EnLP5kFvsH6tFTk3/mjQFHuCLEols2RYQapmBxIgFDQwhY5F
-         /VC60beqt9ujUs98OY3jJpYS55XgMdYuZTrSG/AC1Gn08lbk7gPC0rZAd5NcwiluQnXE
-         ZChQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ov5piMPKNIuCHzgcWP5iFvX1QWB45JyUMGkEarVJTuU=;
-        b=E+nfvwCXlLqsUW/WWFNKtX0U6YrdHE9mw2HJUo+orb1nyMD0BWvR4e+HOIEgL3NbZJ
-         te+9H06f7uUe2RgG5uBbo5LI1lA4142oQPGkea2M2EceRNFv6+fQvT+r6YeIqamj2D5+
-         brDkBNAyfQtjKODpbu4HXIeVTSRdldTzNepZoE0FLUMv1xzRlM05Sq/xlh1uiXMsN7Q0
-         hqb3qRHeEwJcd1c1/WuWprYzF5UPZXgaqxiLj5j+AWajXDvSP2a/sIYGHHS6TV5A3WIt
-         YdB+G+3c3YOufup0Pvtl1DWIzjdcHq0+tSHs5YCMd5T2YfwO27S3DqWCHPs6/qsgN+/M
-         riwg==
-X-Gm-Message-State: AOAM5334vj+Fe56JGpPhELatogZ9A3tRWnXeJ5O1Czb8gdAqKcXz2nT8
-	aG2cgQ2C7YFgL8n1Jz0uYKdTnkrRXCK800zksTV4GA==
-X-Google-Smtp-Source: ABdhPJyGfNWStefPcziIReQwaU9OBz25hwoeQnnoFghqzbDHoED7spF9LahvUP9d4szbqH0XHy+AqEaEujGnYTz0maw=
-X-Received: by 2002:a5d:5905:: with SMTP id v5mr270213wrd.205.1628095504289;
- Wed, 04 Aug 2021 09:45:04 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ae3JyoB4;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3850afccf5=joe.slater@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 174F3kJt030500
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Aug 2021 16:58:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=pnOYaeUjCAtrFnqTgfNAx59vPl2g/arvs36uxeoVqOc=;
+ b=ae3JyoB4r9OSZ5Lz8c1GjE+YgGGGmCUkm9Md5gPkgu5xKLKVSecGFMaVo9ilktt1hYqy
+ PVeuviPT9gZDkugiM56QGUSKv/fgcxawwucf9dSYZ68fntcdW84aeSS658/TM4iHXRUX
+ yOu7GvH/Q3SQk2x0Fu1VgiOJO4C9pjZQPySbIMnO3zU78YjpsZJ1HsZDnfFsY9pEBBl/
+ Xf2K7DlIZXoZTyqIW41ymbbisMlJ6SOUE99jYb+JyjfOQ1/1p8FPXs3BQysNB9DO4eJg
+ +icOYPUaWOTXyOzJiz2GPVZ906ZPWVITrmKSiB4zN/QgchgqyGJykSfqmijtEnC7hpDU 0A== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3a7w7182s2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 16:58:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TnuxWwrDEc8GUqaln0yynVnAt6MsNziMmLVupeq10LKTE3sIzmTSeyc6Rr6UiZQj/ekOdL5ewdn6pncHqThPNJapITd/V95Y+L9lNuBX4Bs4WUNPo62zO34hGCwzMcTRv+46Yc3dqeTMrYTex0ow042Gv/5a+l2fi5jawOI4BRjTd6/vIiHw7qyHrH2nhGReHMy2LoJpj+waOaAA8Nq9eGfaWfx9+TlmQ7sEZmT8RVLNHhovw58Aey389Py9cS4LyviRT4pqcpALc3hI44GQCEdBpFLRTuAPhkEFXZh1vZ+XoAuoZAdxRPhONhqFICvDSODCFrb9nM+E30jBp1XxuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pnOYaeUjCAtrFnqTgfNAx59vPl2g/arvs36uxeoVqOc=;
+ b=Yz6Ep/prMyUrYfybbFGuHAfrhHuD6v8wHCtGoMzhpnOLsYHYDN2LIiO88XnePUWwPJhAeLf5izrBkMffGN2/dPF/wRt9qWPkX4v63MIEZjYrDL803+03xmZqg0prH97LL51pFd0z1ctHAzAOX/wbW9E0PvuSnUBC1uOAAMLmPnIKSkNiQFSnzCMhKqubNUguXFt7Ut6jCwjlmvRobffkj6j75mzhx4W6gmVQ6gwgF5Lo4EHOi+ZTrGZssgnULtu9zgU6y1iNJECJBHSXdJjFlasFaj8FtaNpH6xXQCuFy8gbBFurop08oXR6++0ZUGoazVaWlPNwu/OvFdtuHgCYLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
+ by SJ0PR11MB4992.namprd11.prod.outlook.com (2603:10b6:a03:2d4::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15; Wed, 4 Aug
+ 2021 16:58:08 +0000
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::b162:e9cc:d6aa:73b4]) by BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::b162:e9cc:d6aa:73b4%4]) with mapi id 15.20.4394.017; Wed, 4 Aug 2021
+ 16:58:07 +0000
+From: "Joe Slater" <joe.slater@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: joe.slater@windriver.com, randy.macleod@windriver.com
+Subject: [oe-core][hardknott][PATCH 1/1] util-linux: fix CVE 2021-37600
+Date: Wed,  4 Aug 2021 09:57:51 -0700
+Message-Id: <20210804165751.10095-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.31.1
+X-ClientProxiedBy: SJ0PR13CA0161.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::16) To BY5PR11MB3992.namprd11.prod.outlook.com
+ (2603:10b6:a03:188::10)
 MIME-Version: 1.0
-References: <20210804081051.795458-1-mac@mcrowe.com>
-In-Reply-To: <20210804081051.795458-1-mac@mcrowe.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 4 Aug 2021 06:44:51 -1000
-Message-ID: <CAOSpxdbF=wwtijC+q8M8Bn=-=03gQ9DABr3Gk56M51jaRK4qbA@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] curl: Fix CVE-2021-22924 and CVE-2021-22925
-To: Mike Crowe <yocto@mac.mcrowe.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Mike Crowe <mac@mcrowe.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by SJ0PR13CA0161.namprd13.prod.outlook.com (2603:10b6:a03:2c7::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.10 via Frontend Transport; Wed, 4 Aug 2021 16:58:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1f57ecae-ca3b-4d7a-9065-08d957690887
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4992:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR11MB4992D9FBB55DFFA7894B82CA88F19@SJ0PR11MB4992.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:862;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	SIxAuFlpjwqBJ/kZLE7+KefmCO0l3dqTzWm6O6eDmPc3GFoGC0zohi0qoeB7frrJfFoiUCAQt5CZoXr3otFeAfoRq6lrdAoIiH6o7uvpRPbUkCVYTY21lZZETAgYfauhgXMe8lHLI0gS3A9j6b/Me34Ojg1oufq2yjIMKGbPSzl4hZcPa6x0NZg7nr3DwwScySLjalLZRqUqPtOFSBdDPtk/dbusajZiDEW0a7SgfuweFu9nF7V32daL7x8JTxSu96n0KTk/2P3IzXRiElz+oLRVobm/TITToL42w7aFIlgDQ4uP6KqnGfzDl2Bh8MIQg7Si8lmsYk4jx3hjroMa9MiDzrdd+mX+sIlo6zxIcRT4eLBj0Rte6BxoRxO02IGggLgcvSl2zKh0tmH9SFYtssA1MNsYW0TRKpDCIk0d3T4KnOlJLsFb7wAEm1gtb4x2l89WVefDsgX4Hx7jkoMtY8448q/z/zPRsV0eNGGOUhlpYQa1eSQh1TWBRjTZbF22aa0gSis+cCFESPtVlvXthMHJCqrANdoBG1d3/8dxkSl4xoBXWN/G3qVZ5hZU4eg/8arZ/NCMBNkwbXO7vJfjJMWS4I+GqfavV+Rv81KrFHrhwtMN+XL3Gokd48vQTuBJnB1ez5cyr1gI2T7gWcF7F/5SNe4k0BZlCdEC5iR74E4jFGrJD445neTwXqnwDImcfOMIzJJ5KypsdYbBwRX27t4CInwMqRzMDCwHN+kf0I/r6fD1cssozXxCznopQ9N7y8a8cisBa4s2Im2Hv/tiHTKLRd9KMkBlJgJRTK6tDfjdeKwGEHCM0eIuVsarRtAo
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(396003)(376002)(366004)(39850400004)(26005)(6666004)(66476007)(4326008)(6916009)(66946007)(6506007)(86362001)(186003)(38350700002)(38100700002)(52116002)(8936002)(66556008)(36756003)(6512007)(478600001)(2906002)(1076003)(5660300002)(316002)(83380400001)(44832011)(6486002)(966005)(8676002)(107886003)(2616005)(956004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?KMVuOvcjL8TPRJXEUq2WJCgapexkwJqWiRnvByG+CYdiEG2bHAeOXw56m1A8?=
+ =?us-ascii?Q?5BvTuLNfM+1QxCNYqLFE7bMjmzXnvSysbEN4Wrojavn4mmKNObvGICL6FMyx?=
+ =?us-ascii?Q?pOgEOix3OGS6DwqjSVQESdt9a8x+e9I2axudUinxIwYiaNilqqPckzvzsyjR?=
+ =?us-ascii?Q?Re6e93oG+BUAKvVdN1GcBr6ruk2AEjsswaUqQBMK8kvIU7Ql9GIDKPp7WJdv?=
+ =?us-ascii?Q?sISSJM+CXk2q1aZU2/mi3azc223clmH68b2LwKBAZTz7IfmgQ0uQ0ukrpfs/?=
+ =?us-ascii?Q?PSKjDyxogZB4W9/KA8d6ny+wqp0nz0rpYWxl4IMqg1RIW+sOpy3+7I2JoOkn?=
+ =?us-ascii?Q?WkMTMnyUSGdHiNPLudZzp4LsqzoZH0zNE+EDHCx2q3XG2zaKc2oR+TkbmIBD?=
+ =?us-ascii?Q?DdCP4jhP07i9Y2m0WWSMuwxtW+JSNXIHMWSWTPWQAH+2xMhZ3Omx0A/IDhyZ?=
+ =?us-ascii?Q?/wJtO+XGvYHd4JJHvkh1+2fIA2sAc7O1nPIQphYcgNiBrZvwAq2OeLpgtvCQ?=
+ =?us-ascii?Q?wRSlQlAzJU5+uS5bOQiyRJyn7dNZ+qzQSdLfiYUwGprY5ZYiEnJgk4JxprM7?=
+ =?us-ascii?Q?Pm6thoeRfFs8auXIDW65nlnrBJ+B0mgtimH75pfAIp/AKyR4ao9DelQYgRRK?=
+ =?us-ascii?Q?TVpXFujsIevrF7wqmOgVM8VQmxYAADck57bO+QC1XMQ42UrzQl/0/1BZDmhy?=
+ =?us-ascii?Q?cJGeDyY0AyAdXIGxERy4wIbFjXYsn3oqnxCUSd4I5Nh2QFb9I5qxfGz5it8N?=
+ =?us-ascii?Q?xsR2Zfta0Giv1nNnj+gAQa5KBZQz3WLFmjwu5cQeBp8cXn94ejlatXeYWyPL?=
+ =?us-ascii?Q?rFY4TUrZKwGEZ2WXP7PPCus2Ks2SiXQUCFF0cDmtCUsvqQT+M/rTyaUQdM88?=
+ =?us-ascii?Q?SS9wqO3qxgjPRr0xRDJe6ThDsC8yizTYXHbve4FJkoNOB/jGstqCNQabME+c?=
+ =?us-ascii?Q?7np5axlQryuDQ1n0E29TcFd0TnNmmYgK/WxycWfYzFhjy2VleV1lyV/45PNU?=
+ =?us-ascii?Q?S6JXLkQH+DEuE4PuPt8yUv4Tb36YLW12sxP61MdfQU4f69Lg0EBALdf04XOq?=
+ =?us-ascii?Q?AFDrVi1u5GXsN4V9XFulMvo6wKUVy0gJtv2BaUi9rZtI5RGDyA0u4tuux2lW?=
+ =?us-ascii?Q?1nXfyaN54cnZqUjHZJBVKekEGCC3bCBNuDP79Wi/6ZEwzy/LXXKARrZ/Lkq9?=
+ =?us-ascii?Q?r3dHyFlQ+rxM8CMAxuG1H+b2Jc9D1EZkRUiRnXSI0s9Huppnj2Hjx2VGRWeA?=
+ =?us-ascii?Q?jZ1jOMbE91I0YAPs52XdXQPI0eFSON2/JNYwQz6cKjBNgg9v+sjBjp1qFyn9?=
+ =?us-ascii?Q?79teo3Fb7Okpx5SopyesH8cV?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f57ecae-ca3b-4d7a-9065-08d957690887
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3992.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2021 16:58:07.8289
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uwizjlK5OpndxREuHGjnIpTXYxvpn25FXzOqatfZajZIGDtO2zJ2L/9RKjWms5o8uvmq8cQJF2WQjVvxX8zs6rGcinQqG5giVAq2nKCymK0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4992
+X-Proofpoint-ORIG-GUID: OqkXpPnZCrsyD6W0Wq4tfYNIBAkNVWBk
+X-Proofpoint-GUID: OqkXpPnZCrsyD6W0Wq4tfYNIBAkNVWBk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-04_05,2021-08-04_03,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 clxscore=1011
+ mlxscore=0 malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108040097
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Aug 3, 2021 at 10:11 PM Mike Crowe via lists.openembedded.org
-<yocto=mac.mcrowe.com@lists.openembedded.org> wrote:
->
-> curl v7.78 contained fixes for five CVEs:
->
-> CVE-2021-22922 and CVE-2021-22923 are only present when support for
-> metalink is enabled. EXTRA_OECONF contains "--without-libmetalink" so
-> these fixes are unnecessary.
->
-> CVE-2021-22926 only affects builds for MacOS.
->
-> CVE-2021-22924 and CVE-2021-22925 are both applicable. Take the patches
-> from Ubuntu 20.04 curl_7.68.0-1ubuntu2.6 package which is close enough
-> that the patch for CVE-2021-22924 applies without conflicts. The
-> CVE-2021-22925 patch required only a small tweak to apply.
+Backport patch, which should be in next release (2.37.2).
 
-Being curious why none of these are showing up in the reports I
-checked the CPE database and it seems none of them are present!  So
-that explains why.
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc        |  1 +
+ .../util-linux/util-linux/CVE-2021-37600.patch     | 38 ++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
 
-Do you know why they are missing?  Perhaps a status of RESERVED?  See:
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 6b47f41..b21d6d4 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -36,5 +36,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://display_testname_for_subtest.patch \
+            file://avoid_parallel_tests.patch \
+            file://Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch \
++           file://CVE-2021-37600.patch \
+            "
+ SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch b/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
+new file mode 100644
+index 0000000..11934ee
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
+@@ -0,0 +1,38 @@
++From 1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Tue, 27 Jul 2021 11:58:31 +0200
++Subject: [PATCH] sys-utils/ipcutils: be careful when call calloc() for uint64
++ nmembs
++
++Fix: https://github.com/karelzak/util-linux/issues/1395
++Signed-off-by: Karel Zak <kzak@redhat.com>
++
++CVE: CVE-2021-37600
++
++after version 2.37.1
++https://github.com/karelzak/util-linux.git 1c9143d0c1d...
++unmodified
++
++Upstream-Status: Backport
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++---
++ sys-utils/ipcutils.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sys-utils/ipcutils.c b/sys-utils/ipcutils.c
++index e784c4d..18868cf 100644
++--- a/sys-utils/ipcutils.c
+++++ b/sys-utils/ipcutils.c
++@@ -218,7 +218,7 @@ static void get_sem_elements(struct sem_data *p)
++ {
++ 	size_t i;
++ 
++-	if (!p || !p->sem_nsems || p->sem_perm.id < 0)
+++	if (!p || !p->sem_nsems || p->sem_nsems > SIZE_MAX || p->sem_perm.id < 0)
++ 		return;
++ 
++ 	p->elements = xcalloc(p->sem_nsems, sizeof(struct sem_elem));
++-- 
++2.7.4
++
+-- 
+2.7.4
 
-https://nvd.nist.gov/vuln/detail/CVE-2021-22923
-
-Since they seem to be real issues though I can take the patch once you
-send a V2 with the issue below fixed.
-
-It might make sense to whitelist the CVE's that don't apply to us so
-that once the entries hit the database we will already have dealt with
-them.
-
-Steve
-
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> ---
->  .../curl/curl/CVE-2021-22924.patch            | 224 ++++++++++++++++++
->  .../curl/curl/CVE-2021-22925.patch            |  41 ++++
->  meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
->  3 files changed, 267 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22924.patch
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22925.patch
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2021-22924.patch b/meta/recipes-support/curl/curl/CVE-2021-22924.patch
-> new file mode 100644
-> index 0000000000..7f0b53842f
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2021-22924.patch
-> @@ -0,0 +1,224 @@
-> +Subject: [PATCH] vtls: fix connection reuse checks for issuer cert and
-> + case sensitivity CVE-2021-22924
-> +
-> +Reported-by: Harry Sintonen
-> +Bug: https://curl.se/docs/CVE-2021-22924.html
-> +Upstream-Status: backport from Ubuntu curl_7.68.0-1ubuntu2.6
-
-Need to have a CVE tag and your signed-off-by in both patch files.
-
-See the "Patch name convention and commit message" section at:
-https://wiki.yoctoproject.org/wiki/Security
-
-> +---
-> + lib/url.c          |  5 +++--
-> + lib/urldata.h      |  2 +-
-> + lib/vtls/gtls.c    | 10 +++++-----
-> + lib/vtls/nss.c     |  4 ++--
-> + lib/vtls/openssl.c | 12 ++++++------
-> + lib/vtls/vtls.c    | 23 ++++++++++++++++++-----
-> + 6 files changed, 35 insertions(+), 21 deletions(-)
-> +
-> +diff --git a/lib/url.c b/lib/url.c
-> +index 47fc66aed..eebad8d32 100644
-> +--- a/lib/url.c
-> ++++ b/lib/url.c
-> +@@ -3555,6 +3555,9 @@ static CURLcode create_conn(struct Curl_easy *data,
-> +   data->set.proxy_ssl.primary.CApath = data->set.str[STRING_SSL_CAPATH_PROXY];
-> +   data->set.ssl.primary.CAfile = data->set.str[STRING_SSL_CAFILE_ORIG];
-> +   data->set.proxy_ssl.primary.CAfile = data->set.str[STRING_SSL_CAFILE_PROXY];
-> ++  data->set.ssl.primary.issuercert = data->set.str[STRING_SSL_ISSUERCERT_ORIG];
-> ++  data->set.proxy_ssl.primary.issuercert =
-> ++    data->set.str[STRING_SSL_ISSUERCERT_PROXY];
-> +   data->set.ssl.primary.random_file = data->set.str[STRING_SSL_RANDOM_FILE];
-> +   data->set.proxy_ssl.primary.random_file =
-> +     data->set.str[STRING_SSL_RANDOM_FILE];
-> +@@ -3575,8 +3578,6 @@ static CURLcode create_conn(struct Curl_easy *data,
-> +
-> +   data->set.ssl.CRLfile = data->set.str[STRING_SSL_CRLFILE_ORIG];
-> +   data->set.proxy_ssl.CRLfile = data->set.str[STRING_SSL_CRLFILE_PROXY];
-> +-  data->set.ssl.issuercert = data->set.str[STRING_SSL_ISSUERCERT_ORIG];
-> +-  data->set.proxy_ssl.issuercert = data->set.str[STRING_SSL_ISSUERCERT_PROXY];
-> +   data->set.ssl.cert = data->set.str[STRING_CERT_ORIG];
-> +   data->set.proxy_ssl.cert = data->set.str[STRING_CERT_PROXY];
-> +   data->set.ssl.cert_type = data->set.str[STRING_CERT_TYPE_ORIG];
-> +diff --git a/lib/urldata.h b/lib/urldata.h
-> +index fbb8b645e..615fbf369 100644
-> +--- a/lib/urldata.h
-> ++++ b/lib/urldata.h
-> +@@ -224,6 +224,7 @@ struct ssl_primary_config {
-> +   long version_max;      /* max supported version the client wants to use*/
-> +   char *CApath;          /* certificate dir (doesn't work on windows) */
-> +   char *CAfile;          /* certificate to verify peer against */
-> ++  char *issuercert;      /* optional issuer certificate filename */
-> +   char *clientcert;
-> +   char *random_file;     /* path to file containing "random" data */
-> +   char *egdsocket;       /* path to file containing the EGD daemon socket */
-> +@@ -240,7 +241,6 @@ struct ssl_config_data {
-> +   struct ssl_primary_config primary;
-> +   long certverifyresult; /* result from the certificate verification */
-> +   char *CRLfile;   /* CRL to check certificate revocation */
-> +-  char *issuercert;/* optional issuer certificate filename */
-> +   curl_ssl_ctx_callback fsslctx; /* function to initialize ssl ctx */
-> +   void *fsslctxp;        /* parameter for call back */
-> +   char *cert; /* client certificate file name */
-> +diff --git a/lib/vtls/gtls.c b/lib/vtls/gtls.c
-> +index 46e149c7d..8c051024f 100644
-> +--- a/lib/vtls/gtls.c
-> ++++ b/lib/vtls/gtls.c
-> +@@ -1059,7 +1059,7 @@ gtls_connect_step3(struct connectdata *conn,
-> +   if(!chainp) {
-> +     if(SSL_CONN_CONFIG(verifypeer) ||
-> +        SSL_CONN_CONFIG(verifyhost) ||
-> +-       SSL_SET_OPTION(issuercert)) {
-> ++       SSL_CONN_CONFIG(issuercert)) {
-> + #ifdef USE_TLS_SRP
-> +       if(SSL_SET_OPTION(authtype) == CURL_TLSAUTH_SRP
-> +          && SSL_SET_OPTION(username) != NULL
-> +@@ -1241,21 +1241,21 @@ gtls_connect_step3(struct connectdata *conn,
-> +        gnutls_x509_crt_t format */
-> +     gnutls_x509_crt_import(x509_cert, chainp, GNUTLS_X509_FMT_DER);
-> +
-> +-  if(SSL_SET_OPTION(issuercert)) {
-> ++  if(SSL_CONN_CONFIG(issuercert)) {
-> +     gnutls_x509_crt_init(&x509_issuer);
-> +-    issuerp = load_file(SSL_SET_OPTION(issuercert));
-> ++    issuerp = load_file(SSL_CONN_CONFIG(issuercert));
-> +     gnutls_x509_crt_import(x509_issuer, &issuerp, GNUTLS_X509_FMT_PEM);
-> +     rc = gnutls_x509_crt_check_issuer(x509_cert, x509_issuer);
-> +     gnutls_x509_crt_deinit(x509_issuer);
-> +     unload_file(issuerp);
-> +     if(rc <= 0) {
-> +       failf(data, "server certificate issuer check failed (IssuerCert: %s)",
-> +-            SSL_SET_OPTION(issuercert)?SSL_SET_OPTION(issuercert):"none");
-> ++            SSL_CONN_CONFIG(issuercert)?SSL_CONN_CONFIG(issuercert):"none");
-> +       gnutls_x509_crt_deinit(x509_cert);
-> +       return CURLE_SSL_ISSUER_ERROR;
-> +     }
-> +     infof(data, "\t server certificate issuer check OK (Issuer Cert: %s)\n",
-> +-          SSL_SET_OPTION(issuercert)?SSL_SET_OPTION(issuercert):"none");
-> ++          SSL_CONN_CONFIG(issuercert)?SSL_CONN_CONFIG(issuercert):"none");
-> +   }
-> +
-> +   size = sizeof(certbuf);
-> +diff --git a/lib/vtls/nss.c b/lib/vtls/nss.c
-> +index ef51b0d91..375c78b1b 100644
-> +--- a/lib/vtls/nss.c
-> ++++ b/lib/vtls/nss.c
-> +@@ -2151,9 +2151,9 @@ static CURLcode nss_do_connect(struct connectdata *conn, int sockindex)
-> +   if(result)
-> +     goto error;
-> +
-> +-  if(SSL_SET_OPTION(issuercert)) {
-> ++  if(SSL_CONN_CONFIG(issuercert)) {
-> +     SECStatus ret = SECFailure;
-> +-    char *nickname = dup_nickname(data, SSL_SET_OPTION(issuercert));
-> ++    char *nickname = dup_nickname(data, SSL_CONN_CONFIG(issuercert));
-> +     if(nickname) {
-> +       /* we support only nicknames in case of issuercert for now */
-> +       ret = check_issuer_cert(BACKEND->handle, nickname);
-> +diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-> +index 64f43605a..7e81fd3a0 100644
-> +--- a/lib/vtls/openssl.c
-> ++++ b/lib/vtls/openssl.c
-> +@@ -3547,7 +3547,7 @@ static CURLcode servercert(struct connectdata *conn,
-> +        deallocating the certificate. */
-> +
-> +     /* e.g. match issuer name with provided issuer certificate */
-> +-    if(SSL_SET_OPTION(issuercert)) {
-> ++    if(SSL_CONN_CONFIG(issuercert)) {
-> +       fp = BIO_new(BIO_s_file());
-> +       if(fp == NULL) {
-> +         failf(data,
-> +@@ -3560,10 +3560,10 @@ static CURLcode servercert(struct connectdata *conn,
-> +         return CURLE_OUT_OF_MEMORY;
-> +       }
-> +
-> +-      if(BIO_read_filename(fp, SSL_SET_OPTION(issuercert)) <= 0) {
-> ++      if(BIO_read_filename(fp, SSL_CONN_CONFIG(issuercert)) <= 0) {
-> +         if(strict)
-> +           failf(data, "SSL: Unable to open issuer cert (%s)",
-> +-                SSL_SET_OPTION(issuercert));
-> ++                SSL_CONN_CONFIG(issuercert));
-> +         BIO_free(fp);
-> +         X509_free(BACKEND->server_cert);
-> +         BACKEND->server_cert = NULL;
-> +@@ -3574,7 +3574,7 @@ static CURLcode servercert(struct connectdata *conn,
-> +       if(!issuer) {
-> +         if(strict)
-> +           failf(data, "SSL: Unable to read issuer cert (%s)",
-> +-                SSL_SET_OPTION(issuercert));
-> ++                SSL_CONN_CONFIG(issuercert));
-> +         BIO_free(fp);
-> +         X509_free(issuer);
-> +         X509_free(BACKEND->server_cert);
-> +@@ -3585,7 +3585,7 @@ static CURLcode servercert(struct connectdata *conn,
-> +       if(X509_check_issued(issuer, BACKEND->server_cert) != X509_V_OK) {
-> +         if(strict)
-> +           failf(data, "SSL: Certificate issuer check failed (%s)",
-> +-                SSL_SET_OPTION(issuercert));
-> ++                SSL_CONN_CONFIG(issuercert));
-> +         BIO_free(fp);
-> +         X509_free(issuer);
-> +         X509_free(BACKEND->server_cert);
-> +@@ -3594,7 +3594,7 @@ static CURLcode servercert(struct connectdata *conn,
-> +       }
-> +
-> +       infof(data, " SSL certificate issuer check ok (%s)\n",
-> +-            SSL_SET_OPTION(issuercert));
-> ++            SSL_CONN_CONFIG(issuercert));
-> +       BIO_free(fp);
-> +       X509_free(issuer);
-> +     }
-> +diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-> +index aaf73ef8f..8c681da14 100644
-> +--- a/lib/vtls/vtls.c
-> ++++ b/lib/vtls/vtls.c
-> +@@ -82,6 +82,16 @@
-> +   else                                       \
-> +     dest->var = NULL;
-> +
-> ++static bool safecmp(char *a, char *b)
-> ++{
-> ++  if(a && b)
-> ++    return !strcmp(a, b);
-> ++  else if(!a && !b)
-> ++    return TRUE; /* match */
-> ++  return FALSE; /* no match */
-> ++}
-> ++
-> ++
-> + bool
-> + Curl_ssl_config_matches(struct ssl_primary_config* data,
-> +                         struct ssl_primary_config* needle)
-> +@@ -91,11 +101,12 @@ Curl_ssl_config_matches(struct ssl_primary_config* data,
-> +      (data->verifypeer == needle->verifypeer) &&
-> +      (data->verifyhost == needle->verifyhost) &&
-> +      (data->verifystatus == needle->verifystatus) &&
-> +-     Curl_safe_strcasecompare(data->CApath, needle->CApath) &&
-> +-     Curl_safe_strcasecompare(data->CAfile, needle->CAfile) &&
-> +-     Curl_safe_strcasecompare(data->clientcert, needle->clientcert) &&
-> +-     Curl_safe_strcasecompare(data->random_file, needle->random_file) &&
-> +-     Curl_safe_strcasecompare(data->egdsocket, needle->egdsocket) &&
-> ++     safecmp(data->CApath, needle->CApath) &&
-> ++     safecmp(data->CAfile, needle->CAfile) &&
-> ++     safecmp(data->issuercert, needle->issuercert) &&
-> ++     safecmp(data->clientcert, needle->clientcert) &&
-> ++     safecmp(data->random_file, needle->random_file) &&
-> ++     safecmp(data->egdsocket, needle->egdsocket) &&
-> +      Curl_safe_strcasecompare(data->cipher_list, needle->cipher_list) &&
-> +      Curl_safe_strcasecompare(data->cipher_list13, needle->cipher_list13) &&
-> +      Curl_safe_strcasecompare(data->pinned_key, needle->pinned_key))
-> +@@ -117,6 +128,7 @@ Curl_clone_primary_ssl_config(struct ssl_primary_config *source,
-> +
-> +   CLONE_STRING(CApath);
-> +   CLONE_STRING(CAfile);
-> ++  CLONE_STRING(issuercert);
-> +   CLONE_STRING(clientcert);
-> +   CLONE_STRING(random_file);
-> +   CLONE_STRING(egdsocket);
-> +@@ -131,6 +143,7 @@ void Curl_free_primary_ssl_config(struct ssl_primary_config* sslc)
-> + {
-> +   Curl_safefree(sslc->CApath);
-> +   Curl_safefree(sslc->CAfile);
-> ++  Curl_safefree(sslc->issuercert);
-> +   Curl_safefree(sslc->clientcert);
-> +   Curl_safefree(sslc->random_file);
-> +   Curl_safefree(sslc->egdsocket);
-> +--
-> +2.30.2
-> +
-> diff --git a/meta/recipes-support/curl/curl/CVE-2021-22925.patch b/meta/recipes-support/curl/curl/CVE-2021-22925.patch
-> new file mode 100644
-> index 0000000000..c3b13f30f5
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2021-22925.patch
-> @@ -0,0 +1,41 @@
-> +Subject: [PATCH] telnet: fix option parser to not send uninitialized
-> + contents CVE-2021-22925
-> +
-> +Reported-by: Red Hat Product Security
-> +Bug: https://curl.se/docs/CVE-2021-22925.html
-> +Upstream-Status: backport from Ubuntu curl_7.68.0-1ubuntu2.6
-> +---
-> + lib/telnet.c | 17 +++++++++++------
-> + 1 file changed, 11 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/lib/telnet.c b/lib/telnet.c
-> +index 4bf4c652c..3347ad6d1 100644
-> +--- a/lib/telnet.c
-> ++++ b/lib/telnet.c
-> +@@ -967,12 +967,17 @@ static void suboption(struct connectdata *conn)
-> +         size_t tmplen = (strlen(v->data) + 1);
-> +         /* Add the variable only if it fits */
-> +         if(len + tmplen < (int)sizeof(temp)-6) {
-> +-          if(sscanf(v->data, "%127[^,],%127s", varname, varval)) {
-> +-            msnprintf((char *)&temp[len], sizeof(temp) - len,
-> +-                      "%c%s%c%s", CURL_NEW_ENV_VAR, varname,
-> +-                      CURL_NEW_ENV_VALUE, varval);
-> +-            len += tmplen;
-> +-          }
-> ++          int rv;
-> ++          char sep[2] = "";
-> ++          varval[0] = 0;
-> ++          rv = sscanf(v->data, "%127[^,]%1[,]%127s", varname, sep, varval);
-> ++          if(rv == 1)
-> ++            len += msnprintf((char *)&temp[len], sizeof(temp) - len,
-> ++                             "%c%s", CURL_NEW_ENV_VAR, varname);
-> ++          else if(rv >= 2)
-> ++            len += msnprintf((char *)&temp[len], sizeof(temp) - len,
-> ++                             "%c%s%c%s", CURL_NEW_ENV_VAR, varname,
-> ++                             CURL_NEW_ENV_VALUE, varval);
-> +         }
-> +       }
-> +       msnprintf((char *)&temp[len], sizeof(temp) - len,
-> +--
-> +2.30.2
-> +
-> diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-> index 13ab29cf69..0a79feec52 100644
-> --- a/meta/recipes-support/curl/curl_7.69.1.bb
-> +++ b/meta/recipes-support/curl/curl_7.69.1.bb
-> @@ -19,6 +19,8 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->             file://CVE-2020-8286.patch \
->             file://CVE-2021-22876.patch \
->             file://CVE-2021-22890.patch \
-> +           file://CVE-2021-22924.patch \
-> +           file://CVE-2021-22925.patch \
->  "
->
->  SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
-> --
-> 2.30.2
->
->
-> 
->
