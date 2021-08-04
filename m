@@ -1,111 +1,92 @@
 Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web08.8566.1628082650633882086
+ by mx.groups.io with SMTP id smtpd.web10.9672.1628087063316509956
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 06:10:51 -0700
+ Wed, 04 Aug 2021 07:24:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YC/L9/5s;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id l11-20020a7bcf0b0000b0290253545c2997so1428572wmg.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 06:10:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RMRufoV6;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id i10-20020a05600c354ab029025a0f317abfso4065041wmq.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 07:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3aI9sQbwocxnq0xtf7slJnTpMuClu3Wdd+xTCv9YmHA=;
-        b=YC/L9/5siRUa+ulYEmJ+J5EEPJzpDPZKQrNBgdXj5d1jAtfINi5S453sPhkY9/PtgR
-         v38h1+utjCZLAW9dPogJqXvhqxoiFSKVnYE9yCQYWUriWjEsiPl6ow6ZkL+zvwcXeMgW
-         zwpactm0KeCfB69A6zooaqdzQlJ+xLam42dkc=
+        bh=i54VJmv/rxLB3uf/DmrxkGZ4DImi4wH2xy4vgJs/k5w=;
+        b=RMRufoV6AVNyXq8ri1WI4zXorEmbhtcWnco7R/iK94dwjXv9qNaZ7OI9N4i4WNMMMT
+         oarcwbZqAHP+04ZETrH8lCrVYx/prXItgEk3u130DPy3O7s2FIFRwzMf5DaLqPrympUC
+         1IYaHJGJXA3eADxq40Mj3oqVeOicpNc6w+kHBHg05bc7SK6lMq+t5rBvlyCllOJZSy5e
+         AUL60PJ0zOAcMPW1U7kjfum2EV6FLDSy6wfV1KwTxdt5R7OeSB0ZmM1cQgLXYuQakCeB
+         2ncgSZnZxdH4HRoPoDS1mQSMJRm1BMz6Qk8cfujHLYu5kuxwjvhAgmHZaxpQYUx0ervS
+         DRng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3aI9sQbwocxnq0xtf7slJnTpMuClu3Wdd+xTCv9YmHA=;
-        b=jsZW1vsr8ay5P7a4AuxbZlIllU526E/yAk5QsMGzMpo8aUsj/3Ei1FLU9VNSXW4TiM
-         uJvz0WDCIapWyRgiIxUXryPy48EalCQ03Jzlh2aoNhdp/U/wdOoGu04KpBFNgYDdyept
-         EDccLmJyOgPdE5gTlvPATGtnZw2yWHfe1HPwb2ZvEwCTWlrX6F1eV48206yxCdh5ZGSd
-         Dzkoy5RyGkAL5swW1kMeTYvnrUQiHn9WHyORoXudHC+sEvYHeaurbiTe+IWqv7Ejepk5
-         IzZj31fckDH1TqMcDPJF5kgDgYLv81ZkF4F3U1fZYtzrPQCPD3M3dA0x47EHcJG4o6Lg
-         b1CQ==
-X-Gm-Message-State: AOAM533JUwfgF+KjKJOpCYMvmGfsjeTAPTM/wNnjTjxO64Bxc750U6Z5
-	mqfSCMjWR12uqVSuh9pGOZmRsZQq2VHViQ==
-X-Google-Smtp-Source: ABdhPJyYLIppBQqKi7waTsHUEYiiL/lvau0VbCnI7YXvuqqOkdKocOWkPXypaZ64uHNAwuATsNtlUQ==
-X-Received: by 2002:a1c:f30a:: with SMTP id q10mr27508051wmq.138.1628082648845;
-        Wed, 04 Aug 2021 06:10:48 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa])
-        by smtp.gmail.com with ESMTPSA id y4sm2323932wmi.22.2021.08.04.06.10.48
-        for <openembedded-core@lists.openembedded.org>
+        bh=i54VJmv/rxLB3uf/DmrxkGZ4DImi4wH2xy4vgJs/k5w=;
+        b=MfRHPCbk8RBxTMXOUB+bLxguTr+JYMAv19EqnmKNjabvBAXKm7qtM8tCBDAePq4sB4
+         MStRomzZ5MedtozWFlInBPtKqG2NzpqJormWjoDVimv2ovcT45ZrF0Og3wasyL3SYZYz
+         Nk8CoRdjKtssWbaGPo+PHw0OibldS8/cMZSyrM+KY/k//zVvTv/ZIVQNQ/2H/0EW0KpR
+         OrqvlLB3i52qtl7lJopzPqoJKz6Dn4eFDiRVTBbvTRVqdrmWdb/a0cnooiLAm4rAP61W
+         RtvID0oqsx+UAjbRe82l+gAD+SrhmJbr41Fg1P1Apd61MH0CYEpJKeF0P2r+/zQNHGfy
+         LrzA==
+X-Gm-Message-State: AOAM530u08D/mkbc8sszt2hp3qzroX+++wuOY+n++WETGuH1Ety+hchN
+	JDZ7zLz2Cc9ScWhbi3TjVJVrf+1ZKTNrkA==
+X-Google-Smtp-Source: ABdhPJyyImOcsCVQsTltp/L3cdPWwQu3glDBaGHmS7pcq89XznWkh6o1J+0fhrS1ITlU5ca49n+dng==
+X-Received: by 2002:a05:600c:608:: with SMTP id o8mr27345488wmm.104.1628087061489;
+        Wed, 04 Aug 2021 07:24:21 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id g16sm3165511wro.63.2021.08.04.07.24.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 06:10:48 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Wed, 04 Aug 2021 07:24:20 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] devupstream: Allow support of native class extensions
-Date: Wed,  4 Aug 2021 14:10:47 +0100
-Message-Id: <20210804131047.3514984-1-richard.purdie@linuxfoundation.org>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] convert-overrides.py: allow dots before override in vars_re and shortvars_re
+Date: Wed,  4 Aug 2021 16:24:18 +0200
+Message-Id: <20210804142418.251658-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It is useful to be able to use the class with recipes using BBCLASSEXTEND
-for native extensions. This adds the magic required to do that.
+e.g. VIRTUAL-RUNTIME_com.webos.service.flowmanager_armv4 weren't replaced
+with VIRTUAL-RUNTIME_com.webos.service.flowmanager:armv4 or when package
+name contains a dot like in:
+RDEPENDS:gstreamer1.0-meta-base:remove
 
-[YOCTO #11449]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/devupstream.bbclass | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ scripts/contrib/convert-overrides.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/devupstream.bbclass b/meta/classes/devupstream.bbclass
-index 1230fa12ea7..dc9a9472b1c 100644
---- a/meta/classes/devupstream.bbclass
-+++ b/meta/classes/devupstream.bbclass
-@@ -16,8 +16,6 @@
- # - If the fetcher requires native tools (such as subversion-native) then
- #   bitbake won't be able to add them automatically.
+diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
+index 1f395deeeb..97debb6298 100755
+--- a/scripts/contrib/convert-overrides.py
++++ b/scripts/contrib/convert-overrides.py
+@@ -69,11 +69,11 @@ packagevars = packagevars + imagevars
  
--CLASSOVERRIDE .= ":class-devupstream"
--
- python devupstream_virtclass_handler () {
-     # Do nothing if this is inherited, as it's for BBCLASSEXTEND
-     if "devupstream" not in (d.getVar('BBCLASSEXTEND') or ""):
-@@ -25,8 +23,8 @@ python devupstream_virtclass_handler () {
-         return
+ vars_re = {}
+ for exp in vars:
+-    vars_re[exp] = (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}]+)_' + exp), r"\1:" + exp)
++    vars_re[exp] = (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}\.]+)_' + exp), r"\1:" + exp)
  
-     variant = d.getVar("BBEXTENDVARIANT")
--    if variant not in ("target"):
--        bb.error("Pass the variant when using devupstream, for example devupstream:target")
-+    if variant not in ("target", "native"):
-+        bb.error("Unsupported variant %s. Pass the variant when using devupstream, for example devupstream:target" % variant)
-         return
+ shortvars_re = {}
+ for exp in shortvars:
+-    shortvars_re[exp] = (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}]+)_' + exp + '([\(\'"\s:])'), r"\1:" + exp + r"\3")
++    shortvars_re[exp] = (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}\.]+)_' + exp + '([\(\'"\s:])'), r"\1:" + exp + r"\3")
  
-     # Develpment releases are never preferred by default
-@@ -34,14 +32,22 @@ python devupstream_virtclass_handler () {
+ package_re = {}
+ for exp in packagevars:
+@@ -122,7 +122,7 @@ def processfile(fn):
+         pass
  
-     uri = bb.fetch2.URI(d.getVar("SRC_URI").split()[0])
+ ourname = os.path.basename(sys.argv[0])
+-ourversion = "0.9.2"
++ourversion = "0.9.3"
  
--    if uri.scheme == "git":
--        d.setVar("S", "${WORKDIR}/git")
-+    if uri.scheme == "git" and not d.getVar("S:class-devupstream"):
-+        d.setVar("S:class-devupstream", "${WORKDIR}/git")
- 
-     # Modify the PV if the recipe hasn't already overridden it
-     pv = d.getVar("PV")
-     proto_marker = "+" + uri.scheme
--    if proto_marker not in pv:
-+    if proto_marker not in pv and not d.getVar("PV:class-devupstream"):
-         d.setVar("PV", pv + proto_marker + "${SRCPV}")
-+
-+    if variant == "native":
-+        pn = d.getVar("PN")
-+        d.setVar("PN", "%s-native" % (pn))
-+        fn = d.getVar("FILE")
-+        bb.parse.BBHandler.inherit("native", fn, 0, d)
-+
-+    d.appendVar("CLASSOVERRIDE", ":class-devupstream")
- }
- 
- addhandler devupstream_virtclass_handler
+ if os.path.isfile(sys.argv[1]):
+     processfile(sys.argv[1])
 -- 
 2.30.2
 
