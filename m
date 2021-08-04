@@ -1,110 +1,117 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.12028.1628096420877301243
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.12065.1628096671958826479
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 10:00:21 -0700
+ Wed, 04 Aug 2021 10:04:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VUTwt/eo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id l18so3014853wrv.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 10:00:20 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KtvG9+HU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id k4so3070105wrc.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 10:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=f28WasoYXAajPesKcsFKK0NKlMmMOFGVhSlqic10iJo=;
-        b=VUTwt/eojdV3Dois+5Kb/f5XAaFy3SnLEJd2siROa72g9M6nrpsO4aFm+F+ompbryu
-         YfDX8ox77xbfdViFRAlbehC0P+VofYHCpzFSjEcj7ZpLtz1ex8JDls56/uKxCWfLCDdy
-         4kyrlkaBP8OaoHGRVybVAvz3ULDOHttI+5uSY=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=CuImdiNBQGDMx8hm/6YO0M3/Qx2MBuVDvdD/5DqadyI=;
+        b=KtvG9+HUi51Qw7LbX5lKOErute2i6J8SOlyOA99x0Ccju/lPa7uaEs/U6kpyggS3HV
+         7AVBm+0U73ej2nW6FlrVJamtu3JfNpjKRO95uYDwhGHAaSl5uLMUvZUpuqwJGda0Hm/p
+         AlXvsM4UlnaSCkpLEzZOC3hVGaq5aGPa63EwI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=f28WasoYXAajPesKcsFKK0NKlMmMOFGVhSlqic10iJo=;
-        b=ckYS29zqvV3g/Wf5+HO4lp9hCz3Yrqg0SG5u4AcYk3F9JPPqD2kbDegiEA5bGrWW8s
-         aU47Flg4cr4E4YBK2tyeblr3MAzjQ7UVp0/Fls3Z2H2vaGyyL6a+uJiaV+C4wngxCu/t
-         5CVsKemflAyogipR5ZZgQwSbCQsThkjbq493iU8a7CgpcM0VcPC7n6yasr2TU5nBCApz
-         2EYAw5YBYqb++TV+fKpW0yF9JBEfQW99eedNhY5SqEafvIw/E+4xk0V6m8dw/gYkyuoJ
-         3BTyynhVNdNvnMzRHuRepdIiF/OcjOBzSJmQZznHmIs3SBOsdrB7DbxIbO6mc6XtvLSg
-         wXww==
-X-Gm-Message-State: AOAM530CSns/s3LCd5KrEej4PGVa74edrd0zpIzCNGj+rhEMZO8NzvZR
-	ZFWmR2f63ry1Ab69OO0BLRCgb0GsVpNMMw==
-X-Google-Smtp-Source: ABdhPJxbaGcmwZVTxB9P/6249K0tLmaOj7/jXFnsP5AdRtiaZRCFK9PCwqXuZqDX4dOa5Hh58rVs0Q==
-X-Received: by 2002:adf:ec50:: with SMTP id w16mr388316wrn.56.1628096419410;
-        Wed, 04 Aug 2021 10:00:19 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=CuImdiNBQGDMx8hm/6YO0M3/Qx2MBuVDvdD/5DqadyI=;
+        b=JaXNNefrCUIraAK+GYfrpKAPsP98qya+oTzhTGo+XZtvOeMCSneqy6dc4vz8dawp/P
+         4mKwakZa+nFsCS/A7+M63r1cJtBnq38Dc7cC2wuhszE3vR1YUWZBtbuRF/5kQN2sPrqF
+         Ir6hAfMTtj0th5VicKBaXvTYY6zYAIKmWTmlFvsC0F2mPvcJNReA66x0sMioR8Sky+jz
+         Fm5VBJPCMl8OF4UPgsiKgobrxAlJe5xeGV0tu5PSLXNYlz1OEoXgNdyeX4/Nm5eLX1fb
+         jOb42lcOs/dA5YVtbEaj3LKdUhkDk8dl53UFWJhERMSMJiAN7OJH84syUyeurotn9Eku
+         sivg==
+X-Gm-Message-State: AOAM530HsGjMIHqOPmpKBZxelV2fDcag3y8sjFdWi5S3xFT+DVbP2dB1
+	23XhZSILk41O8WO95OcJ7PQoRA==
+X-Google-Smtp-Source: ABdhPJws/b+NPJEgyeD5fLfQtteTuQpn6XqYOsnxPaV9f2m8v06jHs90/Zax9cDH92Ytp4WMl/H6Jg==
+X-Received: by 2002:adf:facb:: with SMTP id a11mr387583wrs.192.1628096670338;
+        Wed, 04 Aug 2021 10:04:30 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa])
-        by smtp.gmail.com with ESMTPSA id s1sm6444221wmj.8.2021.08.04.10.00.18
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa? ([2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa])
+        by smtp.gmail.com with ESMTPSA id n3sm2863934wmi.0.2021.08.04.10.04.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 10:00:19 -0700 (PDT)
+        Wed, 04 Aug 2021 10:04:29 -0700 (PDT)
+Message-ID: <f5b4b10b3e15b813bf5d360a3eebfb27d3dc4f1b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] convert-overrides.py: handle few more cases of overrides
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] strace: Upgrade 5.12 -> 5.13
-Date: Wed,  4 Aug 2021 18:00:17 +0100
-Message-Id: <20210804170017.3532883-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210804170017.3532883-1-richard.purdie@linuxfoundation.org>
-References: <20210804170017.3532883-1-richard.purdie@linuxfoundation.org>
+To: Denys Dmytriyenko <denis@denix.org>, Martin Jansa
+ <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 04 Aug 2021 18:04:27 +0100
+In-Reply-To: <20210804160714.GW1528@denix.org>
+References: <1628040485-45946-1-git-send-email-denis@denix.org>
+	 <1628040485-45946-2-git-send-email-denis@denix.org>
+	 <3abc2853445a6f54a68cca95a87ee63925bf1588.camel@linuxfoundation.org>
+	 <CA+chaQfComiP6AtnyhFbcqbhxzjD8epMuxSbdDNYibDGjFtPOA@mail.gmail.com>
+	 <20210804160714.GW1528@denix.org>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-This includes changes to work with glibc 2.34.
+On Wed, 2021-08-04 at 12:07 -0400, Denys Dmytriyenko wrote:
+> On Wed, Aug 04, 2021 at 04:29:45PM +0200, Martin Jansa wrote:
+> > Yes, I see the same in meta-oe and meta-webosose.
+> > 
+> > It's easy to spot false translations in incremental conversion where the
+> > diff is relatively small, but doing initial conversion on big layer with
+> > this change already included might be more painful.
+> > 
+> > On Wed, Aug 4, 2021 at 12:31 PM Richard Purdie <
+> > richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > > On Tue, 2021-08-03 at 21:28 -0400, Denys Dmytriyenko wrote:
+> > > > Add task-configure and few more supported values of TARGET_OS override.
+> > > > 
+> > > > Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+> > > > ---
+> > > >  scripts/contrib/convert-overrides.py | 5 +++--
+> > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/scripts/contrib/convert-overrides.py
+> > > b/scripts/contrib/convert-overrides.py
+> > > > index 6505b18..23f63a2 100755
+> > > > --- a/scripts/contrib/convert-overrides.py
+> > > > +++ b/scripts/contrib/convert-overrides.py
+> > > > @@ -36,9 +36,10 @@ vars = vars + ["mipsarch", "x86-x32", "mips16e",
+> > > "microblaze", "e5500-64b", "mip
+> > > >  vars = vars + ["class-native", "class-target", "class-cross-canadian",
+> > > "class-cross", "class-devupstream"]
+> > > >  vars = vars + ["tune-",  "pn-", "forcevariable"]
+> > > >  vars = vars + ["libc-musl", "libc-glibc",
+> > > "libc-newlib","libc-baremetal"]
+> > > > -vars = vars + ["task-compile", "task-install", "task-clean",
+> > > "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
+> > > > +vars = vars + ["task-configure", "task-compile", "task-install",
+> > > "task-clean", "task-image-qa", "task-rm_work", "task-image-complete",
+> > > "task-populate-sdk"]
+> > > >  vars = vars + ["toolchain-clang", "mydistro", "nios2", "sdkmingw32",
+> > > "overrideone", "overridetwo"]
+> > > >  vars = vars + ["linux-gnux32", "linux-muslx32", "linux-gnun32",
+> > > "mingw32", "poky", "darwin", "linuxstdbase"]
+> > > > +vars = vars + ["linux", "linux-gnueabi", "elf", "eabi"]
+> > > 
+> > > I have reservations about linux and elf being here since this does lead to
+> > > a lot of false translations for OE-Core. Since OE-Core is now translated I
+> > > guess that isn't the driving factor so I'll probably take this but it is
+> > > worth
+> > > being aware of.
+> > > 
+> > > I did just have to retest a translation of core so I now need to filter all
+> > > these out the diff...
+> 
+> Should I re-submit with 'linux' and 'elf' removed?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../strace/strace/Makefile-ptest.patch                 | 10 +++++-----
- .../strace/{strace_5.12.bb => strace_5.13.bb}          |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/strace/{strace_5.12.bb => strace_5.13.bb} (96%)
+I think given OE-Core isn't alone with the issue, that may be wise. I can tweak 
+the patch if you want?
 
-diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-index 4cef0c0127f..9af77376626 100644
---- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-+++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-@@ -1,4 +1,4 @@
--From 205e7661822987825c7149ada4eefdc5368828ce Mon Sep 17 00:00:00 2001
-+From 1f50e0a09d828be8f5b1f28db9af0b12492a1553 Mon Sep 17 00:00:00 2001
- From: Gabriel Barbu <gabriel.barbu@enea.com>
- Date: Thu, 25 Jul 2013 15:28:33 +0200
- Subject: [PATCH] strace: Add ptest
-@@ -14,7 +14,7 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-  1 file changed, 20 insertions(+)
- 
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index b8efce8..fa9a1af 100644
-+index 55566ee..a7ae6f9 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
- @@ -16,6 +16,7 @@ SIZEOF_LONG = @SIZEOF_LONG@
-@@ -23,9 +23,9 @@ index b8efce8..fa9a1af 100644
-  ARCH_MFLAGS =
- +TEST_SUITE_LOG = test-suite.log
-  AM_CFLAGS = $(WARN_CFLAGS)
-- AM_CPPFLAGS = $(ARCH_MFLAGS) \
-- 	      -I$(builddir) \
--@@ -692,3 +693,22 @@ BUILT_SOURCES = ksysent.h
-+ bundled_CPPFLAGS =
-+ if USE_BUNDLED_HEADERS
-+@@ -703,3 +704,22 @@ BUILT_SOURCES = ksysent.h
-  CLEANFILES = ksysent.h
-  
-  include ../src/scno.am
-diff --git a/meta/recipes-devtools/strace/strace_5.12.bb b/meta/recipes-devtools/strace/strace_5.13.bb
-similarity index 96%
-rename from meta/recipes-devtools/strace/strace_5.12.bb
-rename to meta/recipes-devtools/strace/strace_5.13.bb
-index 24021f866d8..7d93f2da98d 100644
---- a/meta/recipes-devtools/strace/strace_5.12.bb
-+++ b/meta/recipes-devtools/strace/strace_5.13.bb
-@@ -15,7 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://uintptr_t.patch \
-            file://0001-strace-fix-reproducibilty-issues.patch \
-            "
--SRC_URI[sha256sum] = "29171edf9d252f89c988a4c340dfdec662f458cb8c63d85431d64bab5911e7c4"
-+SRC_URI[sha256sum] = "5acc34888b9d510ad6ac915d4a8df08f51cf1ae920ea24649f6a4bb984d0b656"
- 
- inherit autotools ptest
- 
--- 
-2.30.2
+Cheers,
+
+Richard
 
