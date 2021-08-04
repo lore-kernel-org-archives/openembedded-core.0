@@ -1,356 +1,186 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web12.718.1628112823772345661
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.866.1628113462045551188
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 14:33:43 -0700
+ Wed, 04 Aug 2021 14:44:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dibWPTq+;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id k2so4492661plk.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 14:33:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JgRap+Ho;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id c16so3760492wrp.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 14:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZkI4xN6VwOhq9K/afGbc6xm7VyLid/+3lYEN84KF3T4=;
-        b=dibWPTq+Gt+W5EkAHXGKxB0aFz/yc2D+NfcR4jbJQRbnnDnlNqOEWimkLSjCimiruS
-         GcZwQykc6fdaPFOygLE+3Plh348rEc1vaFz71cZbXmuBPQYJV7hLptDgZVIkfEQT6n0b
-         WhZOfSZ7ERC1J+Dq2pTWvV6ZpXM/tN+/2yBiDEXtB4Ry4TNuTuyT7lW++EMdeQ8T0hC7
-         BwtLxhgGdgqaiE8JX5PwzcZIKg4iDro/Z6XqZ7XlpPUzUHK34SBMz9k5PX2I6BYkM1fb
-         DoDMLHDyQjAv5H0cTpSUAL7tL87O2MEttTOC8JWE0A/7ImFcTFATj13zZsAFEdOk1o2B
-         Q6Yw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4hQJDWMfO3vq0O5y3mbRCjbZwiJlfAoVnsGwg3jILb0=;
+        b=JgRap+HodvjI6aMwcWnU1Tj0QfFDfxh+lra037PuSrgqHYB917WCkagD6AY+x2RvTj
+         2i/FhbJL+9sBWOgxIODBtk6GQt8FtIl73WJAATMOg8pIxrtv52fgZn08/XLaLQFK9gNy
+         kwjEWyCgqVD/DCd77xL1e+ysQxEksvTzCHZlkNGjC/5lQRoO1ynkKHXL7NQuk9e1OD0s
+         xdV/EP3ltkEA7hX9GgW7PS0QTfrGNHnccQ2pDMZKKhtGyfhQcyF8YDy8IE5F8m1/lkMO
+         XR5+z+GFQZGYIH+N0byqB+hgta67GfHI8XRFzg0XQ3KV27YANp3uEm2SfPJ9pmeaUkzT
+         5S0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZkI4xN6VwOhq9K/afGbc6xm7VyLid/+3lYEN84KF3T4=;
-        b=FXmOXOszMjCKsM6PY5XBx/8XzhnaTwha2YV9yFWYku6XBHuN/7+TcCQDxXaxSUdIKl
-         4HAdwDrZYApKwJpBxABAI7IMC5YaxfdchdyxgrhJmsqNYN/GhHV1r9uo0KQQ4HpXX3pp
-         uJ7lYmu82hmslz7Y5jbskHQq9H0qUSddtMjyuPqPR7EnmHon0apDrt9hccaU9Z1zV6/2
-         R6UDOa2H8LE/zAY0sSt4XmApto5UYTODmi6knmNRHC/9iTexo5bBz64BzJsYjtDsERcc
-         IXLiq66Ekws5JSeN7+L5q2nmwNzCww6noU6SJC7MRlT7ISIbxwwpc9OJH3nmf7SBb3GE
-         /m+g==
-X-Gm-Message-State: AOAM531v8oucbUN37DZP0vNNoMaz3hpMeUiJSitRcrKcSQc0cSuT1IP+
-	8fUSU+xZ5XnN16D8id7dXX409zwbyr+Pzg==
-X-Google-Smtp-Source: ABdhPJwwQxmq+UdTCt7IJt+bWhvwqRWbzYyn40j9r40VdR4feZP6xP2gx700H33FZqJ+BaqoO84KDA==
-X-Received: by 2002:a62:5f81:0:b029:3c6:abad:345 with SMTP id t123-20020a625f810000b02903c6abad0345mr780382pfb.31.1628112822636;
-        Wed, 04 Aug 2021 14:33:42 -0700 (PDT)
-Return-Path: <ticotimo@gmail.com>
-Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:1830::6173])
-        by smtp.gmail.com with ESMTPSA id d14sm7311687pjc.0.2021.08.04.14.33.42
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4hQJDWMfO3vq0O5y3mbRCjbZwiJlfAoVnsGwg3jILb0=;
+        b=K7GKZDGr2DQudWQPOORo59WkLrUJmoqTtssXVF5s9rC4hDTESnoYYW0rgjD0Jm7dpD
+         BabqtkWJZx55qUEv5paygQHo+VsCzMX6RMUE5hJBzzI9BErQRlP97GUpzHAo9VysEFRK
+         2XMZTW4vdO+Pg1gfPdC0JpFnnp1JWix5hb9lZDcY1m6lPb3HLh6/u/pSf7ywINN5Lh9P
+         h6x6VGdDOm48dyil05GbTOGCb7RLIAUIDtNxgWVC1gcvRZua6ulOGR4UFgPLjT1Wd+Nf
+         EgXUXVifmw0Ecn2jmA2Svm5iksRCuNrzyUdaGaBA+TedA3otPOsORGpb+pQkFQrcMy8l
+         1abg==
+X-Gm-Message-State: AOAM532hRq6+g9XQz+H075I2Mq6vU+bqZjvWxn5ctaFrQJiLxiU+eu4m
+	TVriXq1E1S6584XZqIIqVQEg7pCdBE3ZLw==
+X-Google-Smtp-Source: ABdhPJypGuHTq5XfsM6zkw9ToEE0ie7OBu/VG7zBLGypOhydzJCHBKxvB8oGejqiO8mOACHC4LzE/g==
+X-Received: by 2002:a5d:4f82:: with SMTP id d2mr1344035wru.257.1628113460518;
+        Wed, 04 Aug 2021 14:44:20 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id x18sm3331005wmc.17.2021.08.04.14.44.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 14:33:42 -0700 (PDT)
-From: "Tim Orling" <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+        Wed, 04 Aug 2021 14:44:19 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH] python3-scons{-native}: upgrade 4.1.0 -> 4.2.0
-Date: Wed,  4 Aug 2021 21:33:36 +0000
-Message-Id: <20210804213336.1255184-1-timothy.t.orling@intel.com>
+Cc: alex.kanavin@gmail.com,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCHv3] systemd-boot: use ld.bfd as efi-ld even when gold or lld is used in ${LD}
+Date: Wed,  4 Aug 2021 23:44:11 +0200
+Message-Id: <20210804214411.2699377-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <1697E299D6012A1A.32176@lists.openembedded.org>
+References: <1697E299D6012A1A.32176@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-NOTE: The 4.2.0 Release of SCons will deprecate Python 3.5 Support.
-Python 3.5 support will be dropped in the next major release.
+* since the upgrade to 249.1 in:
+  https://git.openembedded.org/openembedded-core/commit/?id=3D323ec445dfe22=
+860cd450c303db5ed8fcb4e791c
+  the builds with ld-is-gold are failing with:
 
-RELEASE 4.2.0 - Sat, 31 Jul 2021 18:12:46 -0700
+  [17/21] Generating linuxx64.elf.stub with a custom command
+  FAILED: src/boot/efi/linuxx64.elf.stub
+  /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/=
+recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-ld -o src/boo=
+t/efi/linuxx64.elf.stub -T /OE/build/oe-core/tmp-glibc/work/core2-64-oe-lin=
+ux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/elf_x86_64_efi.lds -shared =
+-Bsymbolic -nostdlib -znocombreloc --build-id=3Dsha1 -L /OE/build/oe-core/t=
+mp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/li=
+b /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/=
+recipe-sysroot/usr/lib/crt0-efi-x86_64.o src/boot/efi/string-util-fundament=
+al.c.o src/boot/efi/disk.c.o src/boot/efi/graphics.c.o src/boot/efi/measure=
+.c.o src/boot/efi/pe.c.o src/boot/efi/secure-boot.c.o src/boot/efi/util.c.o=
+ src/boot/efi/linux.c.o src/boot/efi/splash.c.o src/boot/efi/stub.c.o -lefi=
+ -lgnuefi /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/2=
+49.1-r0/recipe-sysroot/usr/lib/../lib/x86_64-oe-linux/11.2.0/libgcc.a
+  /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/=
+recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-ld: internal =
+error in segment_precedes, at ../../gold/layout.cc:3721
+  [18/21] Generating boot.c.o with a custom command
+  ninja: build stopped: subcommand failed.
+  WARNING: exit code 1 from a shell command.
 
-  From Byron Platt:
-    - Fix Install() issue when copytree recursion gives bad arguments
-      that can lead to install side-effects including keeping dangling
-      symlinks and silently failing to copy directories (and their
-      subdirectories) when the directory already exists in the target.
+  as reported in:
+  https://lists.openembedded.org/g/openembedded-core/message/154246
 
-  From Joseph Brill:
-    - Internal MSVS update: Remove unnecessary calls to find all
-      installed versions of msvc when constructing the installed visual
-      studios list.
+* if someone is using lld or ld.lld in ${LD} then it would fail as well:
+  https://github.com/systemd/systemd/commit/e39288193fcdf3a36dbc49b78e6c9bf=
+86a764e31
 
-  From William Deegan:
-    - Improve Subst()'s logic to check for proper callable function or
-      class's argument list. It will now allow callables with expected
-      args, and any extra args as long as they have default arguments.
-      Additionally functions with no defaults for extra arguments as
-      long as they are set using functools.partial to create a new
-      callable which set them.
-    - Fix Issue #3035 - mingw with SHLIBVERSION set fails with either
-      not a dll error or "Multiple ways to build the same target were
-      specified for:".  Now mingw will disable creating the symlinks
-      (and adding version string to ) dlls.  It sets
-      SHLIBNOVERSIONSYMLINKS, IMPLIBNOVERSIONSYMLINKS and
-      LDMODULENOVERSIONSYMLINKS to True.
-    - Added --experimental flag, to enable various experimental
-      features/tools.  You can specify 'all', 'none', or any combination
-      of available experimental features.
-    - Fix Issue #3933 - Remove unguarded print of debug information in
-      SharedLibrary logic when SHLIBVERSION is specified.
-    - Fix versioned shared library naming for MacOS platform.
-      (Previously was libxyz.dylib.1.2.3, has been fixed to
-      libxyz.1.2.3.dylib. Additionally the sonamed symlink had the same
-      issue, that is now resolved as well)
-    - Add experimental ninja builder. (Contributed by MongoDB, Daniel
-      Moody and many others).
-    - Fix #3955 - _LIBDIRFLAGS leaving $( and $) in *COMSTR output.
-      Added affect_signature flag to _concat function.  If set to False,
-      it will prepend and append $( and $). That way the various
-      Environment variables can use that rather than
-      "$( _concat(...)$)".
-    - Fix issue with exparimental ninja tool which would fail on windows
-      or when ninja package wasn't installed but --experimental=ninja was
-      specified.
-    - As part of experimental ninja tool, allow SetOption() to set both
-      disable_execute_ninja and disable_ninja.
+* work around this by always using ld.bfd instead of whatever is set in ${L=
+D}
 
-  From David H:
-    - Fix Issue #3906 - `IMPLICIT_COMMAND_DEPENDENCIES` was not properly
-      disabled when set to any string value (For example ['none','false',
-      'no','off']) Also previously 'All' wouldn't have the desired affect.
+* it needs to be prefixed with ${HOST_PREFIX} to match how LD is constructe=
+d:
+  $ bitbake-getvar -r systemd-boot LD
+  #
+  # $LD [2 operations]
+  #   exported /OE/build/oe-core/openembedded-core/meta/conf/bitbake.conf:5=
+23
+  #     [export] "1"
+  #   set /OE/build/oe-core/openembedded-core/meta/conf/bitbake.conf:523
+  #     "${HOST_PREFIX}ld${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
+  # pre-expansion value:
+  #   "${HOST_PREFIX}ld${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
+  export LD=3D"x86_64-oe-linux-ld --sysroot=3D/OE/build/oe-core/tmp-glibc/w=
+ork/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot  "
 
-  From Ivan Kravets:
-    - Provide a custom argument escape function for `TempFileMunge`
-      using a new `TEMPFILEARGESCFUNC` variable. Useful if you need to
-      apply extra operations on a command argument before writing to a
-      temporary file (fix Windows slashes, normalize paths, etc.)
+  $ bitbake-getvar -r systemd-boot EFI_LD
+  #
+  # $EFI_LD
+  #   set /OE/build/oe-core/openembedded-core/meta/recipes-core/systemd/sys=
+temd-boot_249.1.bb:23
+  #     "${HOST_PREFIX}ld.bfd"
+  EFI_LD=3D"x86_64-oe-linux-ld.bfd"
 
-  From Henrik Maier:
-   - DocbookXslt tool: The XSLT stylesheet file is now initialized to an
-     env.File() Node, such that dependencies work correctly in hierarchical
-     builds (eg when using DocbookXslt in SConscript('subdir/SConscript')
-     context.
+  otherwise first ld.bfd it will find will be from HOSTTOOLS_NONFATAL and
+  fail when host's binutils isn't compatible as in:
+  https://autobuilder.yoctoproject.org/typhoon/#/builders/104/builds/2673/s=
+teps/11/logs/stdio
 
-  From Daniel Moody:
-    - Update CacheDir to use uuid for tmpfile uniqueness instead of pid.
-      This fixes cases for shared cache where two systems write to the
-      same cache tmpfile at the same time because the happened to get the
-      same pid.
-    - Added support for passing custom CacheDir derived classes to
-      SCons. Moved copy_from_cache attribute from the Environment class to
-      CacheDir class. Code contributed by MongoDB.
-    - Update BuildTask to pass all targets to the progress object fixing
-      an issue where multi-target build nodes only got the first target
-      passed to the progress object.
-    - Fix a potential race condition in shared cache environments where
-      the permissions are not writeable for a moment after the file has
-      been renamed and other builds (users) will copy it out of the cache.
-      Small reorganization of logic to copy files from cachedir. Moved
-      CacheDir writeable permission code for copy to cache behind the atomic
-      rename operation.
-    - Added marking of intermediate and and multi target nodes generated
-      from SConf tests so that is_conftest() is more accurate.
-    - Added test for configure check failing to ensure it didn't break
-      generating and running ninja.
+  FAILED: src/boot/efi/linuxx64.elf.stub
+  /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/hosttools/=
+ld.bfd -o src/boot/efi/linuxx64.elf.stub -T /home/pokybuild/yocto-worker/ge=
+nericx86-64-alt/build/build/tmp/work/core2-64-poky-linux/systemd-boot/249.1=
+-r0/recipe-sysroot/usr/lib/elf_x86_64_efi.lds -shared -Bsymbolic -nostdlib =
+-znocombreloc --build-id=3Dsha1 -L /home/pokybuild/yocto-worker/genericx86-=
+64-alt/build/build/tmp/work/core2-64-poky-linux/systemd-boot/249.1-r0/recip=
+e-sysroot/usr/lib /home/pokybuild/yocto-worker/genericx86-64-alt/build/buil=
+d/tmp/work/core2-64-poky-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib=
+/crt0-efi-x86_64.o src/boot/efi/string-util-fundamental.c.o src/boot/efi/di=
+sk.c.o src/boot/efi/graphics.c.o src/boot/efi/measure.c.o src/boot/efi/pe.c=
+.o src/boot/efi/secure-boot.c.o src/boot/efi/util.c.o src/boot/efi/linux.c.=
+o src/boot/efi/splash.c.o src/boot/efi/stub.c.o -lefi -lgnuefi /home/pokybu=
+ild/yocto-worker/genericx86-64-alt/build/build/tmp/work/core2-64-poky-linux=
+/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/../lib/x86_64-poky-linux/11.2=
+.0/libgcc.a
+  /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/hosttools/=
+ld.bfd: warning: /home/pokybuild/yocto-worker/genericx86-64-alt/build/build=
+/tmp/work/core2-64-poky-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/=
+crt0-efi-x86_64.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0010002
+  /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/hosttools/=
+ld.bfd: warning: /home/pokybuild/yocto-worker/genericx86-64-alt/build/build=
+/tmp/work/core2-64-poky-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/=
+crt0-efi-x86_64.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0010001
+  /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/hosttools/=
+ld.bfd: /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work=
+/core2-64-poky-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/crt0-efi-=
+x86_64.o: unable to initialize decompress status for section .debug_line
+  /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/hosttools/=
+ld.bfd: /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work=
+/core2-64-poky-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/crt0-efi-=
+x86_64.o: unable to initialize decompress status for section .debug_line
+  /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work/core2=
+-64-poky-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/crt0-efi-x86_64=
+.o: file not recognized: File format not recognized
 
-  From Mats Wichmann:
-    - Initial support in tests for Python 3.10 - expected bytecode and
-      one changed expected exception message. Change some more regexes
-      to be specified as rawstrings in response to DeprecationWarnings.
-    - Add an example of adding an emitter to User Guide (concept from
-      Jeremy Elson)
-    - Add timing information for sconsign database dump when --debug=time
-      is selected. Also switch to generally using time.perf_counter,
-      which is the Python recommended way for timing short durations.
-    - Drop remaining definitions of dict-like has_key methods, since
-      Python 3 doesn't have a dictionary has_key (maintenance)
-    - Do not treat --site-dir=DIR and --no-site-dir as distinct options.
-      Allows a later instance to override an earlier one.
-    - Ignore empty cmdline arguments when computing targets (issue 2986)
-    - Remove long-deprecated construction variables PDFCOM, WIN32_INSERT_DEF,
-      WIN32DEFPREFIX, WIN32DEFSUFFIX, WIN32EXPPREFIX, WIN32EXPSUFFIX.
-      All have been replaced by other names since at least 1.0.
-    - Add a __iadd__ method to the CLVar class so that inplace adds
-      (+=) also work as expected (issue 2399)
-    - Remove local copy of CLVar in EnvironmentTests unittest file -
-      should be testing against the production version, and they
-      didn't really differ.
-    - Don't strip spaces in INSTALLSTR by using raw subst (issue 2018)
-    - Deprecate Python 3.5 as a supported version.
-    - CPPDEFINES now expands construction variable references (issue
-      2363)
-    - Restore behavior that Install()'d files are writable (issue 3927)
-    - Simplified Mkdir(), the internal mkdir_func no longer needs to
-      handle existing directories, it can now pass exist_ok=True to
-      os.makedirs().
-    - Avoid WhereIs exception if user set a tool name to empty (from
-      issue 1742)
-    - Maintenance: remove obsolete __getslice__ definitions (Py3 never
-      calls); add Node.fs.scandir to call new (Py3.5) os.scandir;
-      Node.fs.makedirs now passes the exist_ok flag; Cachedir creation
-      now uses this flag.
-    - Maintenance: remove unneeded imports and reorganize some.  Fix
-      uses of warnings in some tools which instantiated the class but did
-      nothing with them, need to instead call SCons.Warnings.warn with the
-      warn class.
-    - Drop overridden changed_since_last_build method in Value class.
-    - Resync the SetOption implementation and the manpage, making sure
-      new options are available and adding a notes column for misc
-      information. SetOption equivalents to --hash-chunksize,
-      --implicit-deps-unchanged and --implicit-deps-changed are enabled.
-    - Add tests for SetOption failing on disallowed options and value
-      types.
-    - Maintenance: eliminate lots of checker complaints about Util.py.
-    - Maintenance: fix checker-spotted issues in Environment (apply_tools)
-      and EnvironmentTests (asserts comparing with self). For consistency,
-      env.Tool() now returns a tool object the same way Tool() has done.
-    - Change SConscript() missing SConscript behavior - if must_exist=False,
-      the warning is suppressed.
-    - Make sure TEMPFILEPREFIX can be set to an empty string (issue 3964)
-
-  From Dillan Mills:
-    - Add support for the
-      (TARGET,SOURCE,TARGETS,SOURCES,CHANGED_TARGETS,CHANGED_SOURCES}.relpath
-      property. This will provide a path relative to the top of the build
-      tree (where the SConstruct is located) Fixes #396
-
-  From Andrew Morrow:
-    - Fix issue #3790: Generators in CPPDEFINES now have access to
-      populated source and target lists
-
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...4.1.0.bb => python3-scons-native_4.2.0.bb} |  0
- .../0001-Fix-man-page-installation.patch      | 23 ++-------
- .../python/python3-scons_4.1.0.bb             | 27 -----------
- .../python/python3-scons_4.2.0.bb             | 48 +++++++++++++++++++
- 4 files changed, 51 insertions(+), 47 deletions(-)
- rename meta/recipes-devtools/python/{python3-scons-native_4.1.0.bb => python3-scons-native_4.2.0.bb} (100%)
- delete mode 100644 meta/recipes-devtools/python/python3-scons_4.1.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-scons_4.2.0.bb
+ meta/recipes-core/systemd/systemd-boot_249.1.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-scons-native_4.1.0.bb b/meta/recipes-devtools/python/python3-scons-native_4.2.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-scons-native_4.1.0.bb
-rename to meta/recipes-devtools/python/python3-scons-native_4.2.0.bb
-diff --git a/meta/recipes-devtools/python/python3-scons/0001-Fix-man-page-installation.patch b/meta/recipes-devtools/python/python3-scons/0001-Fix-man-page-installation.patch
-index ff212b85ee..6dffe64809 100644
---- a/meta/recipes-devtools/python/python3-scons/0001-Fix-man-page-installation.patch
-+++ b/meta/recipes-devtools/python/python3-scons/0001-Fix-man-page-installation.patch
-@@ -1,4 +1,4 @@
--From 82be2b7b9758a2f62ee11931da674cd541076041 Mon Sep 17 00:00:00 2001
-+From 8b482e618047e94833545dce3a26924ef4f075db Mon Sep 17 00:00:00 2001
- From: Tim Orling <ticotimo@gmail.com>
- Date: Sat, 22 May 2021 11:20:46 -0700
- Subject: [PATCH] Fix man page installation
-@@ -9,10 +9,10 @@ Fixes:
- Upstream-Status: Inappropriate [oe specific]
- 
- Signed-off-by: Tim Orling <ticotimo@gmail.com>
+diff --git a/meta/recipes-core/systemd/systemd-boot_249.1.bb b/meta/recipes=
+-core/systemd/systemd-boot_249.1.bb
+index d767b5bf8d..c93bc3160b 100644
+--- a/meta/recipes-core/systemd/systemd-boot_249.1.bb
++++ b/meta/recipes-core/systemd/systemd-boot_249.1.bb
+@@ -19,11 +19,14 @@ objcopy =3D ${@meson_array('OBJCOPY', d)}
+ EOF
+ }
+=20
++# need to use ${HOST_PREFIX} here, otherwise ld.bfd could be used from HOS=
+TTOOLS_NONFATAL
++EFI_LD =3D "${HOST_PREFIX}ld.bfd"
 +
- ---
-  MANIFEST.in | 2 +-
-- setup.cfg   | 6 +++---
-- 2 files changed, 4 insertions(+), 4 deletions(-)
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/MANIFEST.in b/MANIFEST.in
- index 04ec000..937f6f3 100644
-@@ -27,20 +27,3 @@ index 04ec000..937f6f3 100644
-  
-  
-  
--diff --git a/setup.cfg b/setup.cfg
--index 37e5204..677c00a 100644
----- a/setup.cfg
--+++ b/setup.cfg
--@@ -56,9 +56,9 @@ console_scripts =
-- scons.tool.docbook = *.*
-- 
-- [options.data_files]
---. = build/doc/man/scons.1
---	build/doc/man/scons-time.1
---	build/doc/man/sconsign.1
--+. = scons.1
--+	scons-time.1
--+	sconsign.1
-- 
-- [sdist]
-- dist-dir = build/dist
-diff --git a/meta/recipes-devtools/python/python3-scons_4.1.0.bb b/meta/recipes-devtools/python/python3-scons_4.1.0.bb
-deleted file mode 100644
-index 5a5b550be0..0000000000
---- a/meta/recipes-devtools/python/python3-scons_4.1.0.bb
-+++ /dev/null
-@@ -1,27 +0,0 @@
--SUMMARY = "Software Construction tool (make/autotools replacement)"
--HOMEPAGE = "https://github.com/SCons/scons"
--SECTION = "devel/python"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=b94c6e2be9670c62b38f7118c12866d2"
--
--SRC_URI += " file://0001-Fix-man-page-installation.patch"
--SRC_URI[sha256sum] = "accb8035be2c9cfbab06471286eaeff86a10037a8064cf4ef4c3df04ea5a7387"
--
--PYPI_PACKAGE = "SCons"
--
--inherit pypi setuptools3
--
--RDEPENDS:${PN}:class-target = "\
--  python3-core \
--  python3-compression \
--  python3-fcntl \
--  python3-importlib-metadata \
--  python3-io \
--  python3-json \
--  python3-shell \
--  python3-pickle \
--  python3-pkg-resources \
--  python3-pprint \
--  "
--
--FILES:${PN}-doc += "${datadir}/scons*.1"
-diff --git a/meta/recipes-devtools/python/python3-scons_4.2.0.bb b/meta/recipes-devtools/python/python3-scons_4.2.0.bb
-new file mode 100644
-index 0000000000..78e10b537a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-scons_4.2.0.bb
-@@ -0,0 +1,48 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,6 +1,6 @@
-+#  MIT License
-+#  
-+# -Copyright (c) 2001 - 2020 The SCons Foundation
-+# +Copyright (c) 2001 - 2021 The SCons Foundation
-+#  
-+#  Permission is hereby granted, free of charge, to any person obtaining
-+#  a copy of this software and associated documentation files (the
-+# 
-+#
-+
-+SUMMARY = "Software Construction tool (make/autotools replacement)"
-+HOMEPAGE = "https://github.com/SCons/scons"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d903b0b8027f461402bac9b5169b36f7"
-+
-+SRC_URI += " file://0001-Fix-man-page-installation.patch"
-+SRC_URI[sha256sum] = "691893b63f38ad14295f5104661d55cb738ec6514421c6261323351c25432b0a"
-+
-+PYPI_PACKAGE = "SCons"
-+
-+inherit pypi setuptools3
-+
-+RDEPENDS:${PN}:class-target = "\
-+  python3-core \
-+  python3-compression \
-+  python3-fcntl \
-+  python3-importlib-metadata \
-+  python3-io \
-+  python3-json \
-+  python3-shell \
-+  python3-pickle \
-+  python3-pkg-resources \
-+  python3-pprint \
-+  "
-+
-+FILES:${PN}-doc += "${datadir}/scons*.1"
--- 
+ EXTRA_OEMESON +=3D "-Defi=3Dtrue \
+                   -Dgnu-efi=3Dtrue \
+                   -Defi-includedir=3D${STAGING_INCDIR}/efi \
+                   -Defi-libdir=3D${STAGING_LIBDIR} \
+-                  -Defi-ld=3D${@ d.getVar('LD').split()[0]} \
++                  -Defi-ld=3D${EFI_LD} \
+                   -Dman=3Dfalse \
+                   --cross-file ${WORKDIR}/meson-${PN}.cross \
+                   "
+--=20
 2.30.2
 
