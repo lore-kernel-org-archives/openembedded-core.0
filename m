@@ -1,410 +1,762 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.12931.1628100340435395649
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web08.12940.1628100783244836629
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 11:05:40 -0700
+ Wed, 04 Aug 2021 11:13:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gHgVodsh;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.44, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f44.google.com with SMTP id k38-20020a05600c1ca6b029025af5e0f38bso4472887wms.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 11:05:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=X2YvawQD;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id l19so4275954pjz.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 11:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hLUFTTXEmgeiNl5UGtEBJFhu8Q6kP+ovyWE6yFCWAJg=;
-        b=gHgVodsh3O0t1EJONHvk4k+3mqJ2SG+fAccZFtLZ6Qp/ookFCVAMTToAMQXQuzcfHm
-         jBM6jnkUKUMsF5lHLQSFih3B7N5Zb4xCNHvDtZLqODiocATkxI/MGpAAbkOZ5+05FAB7
-         keUJHluVgY5j0VATp++7QrOL7tKSki6dVioJB+X17WpPKdtlgX9I7moj+VnydW309OPL
-         FTD2WObjl3F2GyvoDKtZKjL5Klse5Ecpzy0CqvnfqcCz4mOY2mrSH4ESgX46l+fsQuwY
-         0fbNJbBueGAayB4epI1kyu6/+KokO9++azeLK5D3JJhF6DAtp6nc/NzH0mRW8FfQiG5m
-         oKRA==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rWo6wseXGO3g7fdZiD7W7gM/eiXaMJ5i2XApAJ2aCKg=;
+        b=X2YvawQDpi5Vs/GdlNlwDdOh5EyarwxF4362fs8Ei57B+qOGJCe1nEmlsGwJpItsBP
+         8vr0ATY4/8modNdJlRuhLOJCXNzNk4+Gelnm7m5FAKtDXKhIguyA9VJRkAFGGh9OwHIj
+         PbpKm9ngtK/IHOz/7u1uwV+4vWCdRAHr+STau7MSOcxyjJROXWcSDPrbtWKEQUE1T16W
+         fxkLi0XDiVmiNU/dclmCkRsH7GXDWLB7LMzJh5m7OG58Ecsg4Cgt19BpEUv4Q93ZMVOk
+         mLxK0bxmKeU0J46TREjholH1g0l/+TTvvXNBqIosUKJh3xJ5JhYMz7RnzeLUdSSZCDrr
+         XRoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hLUFTTXEmgeiNl5UGtEBJFhu8Q6kP+ovyWE6yFCWAJg=;
-        b=cQ3Hxb29NwR1YRothWilgOc5sbINXPLFoZygpOT7b0l7c1Aaarjkup8nQMMAgHQGIk
-         gSqzDHwG1ALWfs0+sJ5i1UA7zjH1CcD+/VVW5GyOrxeN4uj/MOu5LscGs8cULNlRWxyz
-         OmM1HVdBPs/M116nqsxJaJqRylf+t+95yyrHvzHuamVtCslqj+6B7HxBUrlLliq8pBQ0
-         fS7ydoptx7AbWcqyWPxta/7MXzTsdlD+m+mKiDou+FKLvfbIVyCk2nuFQrKoyCoQozfA
-         7489RclRsplwWM/Z6uV1SQH5co0Pz5b1GNVOQ63zQWITm8+HONR6Mnn5JwD4/52invv3
-         WJeQ==
-X-Gm-Message-State: AOAM531+qUShwlerCbBLvgdYdcXjxJZ2zjjNEfQs2Z34ovI40p54bzha
-	XIpnjBh1R9NjZUOr+so7+acBWC94VkXgZCFU37trsQ==
-X-Google-Smtp-Source: ABdhPJxtXxO8XccSOpRMs80moWgcOYmK2F2OkktPKir6NoCpiqf3tNTGmFjN3U2GzLR9AIMm6WWA7haX1gYuU4ccFzk=
-X-Received: by 2002:a05:600c:4a12:: with SMTP id c18mr10898570wmp.3.1628100338903;
- Wed, 04 Aug 2021 11:05:38 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=rWo6wseXGO3g7fdZiD7W7gM/eiXaMJ5i2XApAJ2aCKg=;
+        b=gPZbfgqEQj/CVfJWoHhMc3AzLrL3fSsO9A0VPfWhXZkmOyYwm4u+vHsugXJm6z3Ofn
+         +vDkleZDF8rvt9WFd+G+WNZDfecnVx1nRrPm0wPkJkTC5SsoHV9NjaS+TBA4LuSbFRZk
+         FMttOmvxiNy8mNRrX21391nTqntkB4lJIr0FT44CZIRUUMC2NmghKpXKTmqjujRBY7aC
+         fPcOSO4DtT0LAmbynXoIoeaY91+COSz/4mabrLuX08paGyBykFQcaTnC+JmRrs/GmHVC
+         x4YWKxH/TR42xGRQwjGVk4VdaPt1wKT/TtAozbxrILsaJeL2NgC4j9n/92F7XacOPA3G
+         X9SQ==
+X-Gm-Message-State: AOAM532gnmdpAKR09jEik5L0gJQwcU/DGa2GBTWbSoSH0hTsSJfpi1uM
+	Ni7qUTAv1MHj3iyvA3+6u081f38Z4MY7zQ==
+X-Google-Smtp-Source: ABdhPJxhtQZck65XuNupE8hqJxQXK3iQbpaOMsj+DDsa6lL1OFiFuQp90wPYxo8CCDSefnLWMeqmmg==
+X-Received: by 2002:aa7:8f05:0:b029:3b4:ff54:9a10 with SMTP id x5-20020aa78f050000b02903b4ff549a10mr824830pfr.29.1628100782252;
+        Wed, 04 Aug 2021 11:13:02 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:61bd:9658:157a:c74c? ([2601:646:9200:a0f0:61bd:9658:157a:c74c])
+        by smtp.gmail.com with ESMTPSA id a13sm4298490pgt.58.2021.08.04.11.13.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Aug 2021 11:13:01 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 6/9] shadow: update 4.8.1 -> 4.9
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ Yi Zhao <yi.zhao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20210730114507.732448-1-alex.kanavin@gmail.com>
+ <20210730114507.732448-6-alex.kanavin@gmail.com>
+ <29613ec1-ed8d-6fdc-284c-cb6ce31d9dce@windriver.com>
+ <CANNYZj8ZH5K3Ok2n=xoCGBZ-fQEp9u_HR1prctbZu4RHpBf6Zw@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <fa019e92-7e26-a422-6603-eb103f4e9633@gmail.com>
+Date: Wed, 4 Aug 2021 11:13:00 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210804170552.1163928-1-mac@mcrowe.com> <16982A916A07A38B.6121@lists.openembedded.org>
-In-Reply-To: <16982A916A07A38B.6121@lists.openembedded.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 4 Aug 2021 08:05:27 -1000
-Message-ID: <CAOSpxdbthf5JtAGYri==t=izjpTXFbWU733YtxRXjTgQ+pjcTg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH v2] curl: Fix CVE-2021-22924 and CVE-2021-22925
-To: Mike Crowe <yocto@mac.mcrowe.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Mike Crowe <mac@mcrowe.com>, 
-	Steve Sakoman <steve@sakoman.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CANNYZj8ZH5K3Ok2n=xoCGBZ-fQEp9u_HR1prctbZu4RHpBf6Zw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 4, 2021 at 7:27 AM Steve Sakoman via
-lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-wrote:
->
-> On Wed, Aug 4, 2021 at 7:06 AM Mike Crowe via lists.openembedded.org
-> <yocto=mac.mcrowe.com@lists.openembedded.org> wrote:
-> >
-> > curl v7.78 contained fixes for five CVEs:
-> >
-> > CVE-2021-22922[1] and CVE-2021-22923[2] are only present when support
-> > for metalink is enabled. EXTRA_OECONF contains "--without-libmetalink"
-> > so these fixes are unnecessary.
-> >
-> > CVE-2021-22926[3] only affects builds for MacOS.
-> >
-> > CVE-2021-22924[4] and CVE-2021-22925[5] are both applicable. Take the
-> > patches from Ubuntu 20.04 curl_7.68.0-1ubuntu2.6 package which is close
-> > enough that the patch for CVE-2021-22924 applies without conflicts. The
-> > CVE-2021-22925 patch required only a small tweak to apply.
-> >
-> > [1] https://curl.se/docs/CVE-2021-22922.html
-> > [2] https://curl.se/docs/CVE-2021-22923.html
-> > [3] https://curl.se/docs/CVE-2021-22926.html
-> > [4] https://curl.se/docs/CVE-2021-22924.html
-> > [5] https://curl.se/docs/CVE-2021-22925.html
->
-> This patch wouldn't apply because there's another curl CVE fix in my
-> testing queue (curl: Fix for CVE-2021-22898):
->
-> https://lists.openembedded.org/g/openembedded-core/message/154145
->
-> I went ahead and did the required fixup so no need for you to do anything.
 
-Sigh. I spoke too soon.  Your CVE-2021-22925 patch and the previous
-CVE-2021-22898 patch both touch lib/telnet.c so your patch won't apply
-now.
 
-You mentioned that you had to tweak the CVE-2021-22925 patch, might
-this be related to the CVE-2021-22898 fix (which is a one-liner)?
-
-Steve
-
-> > Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> > ---
-> >  .../curl/curl/CVE-2021-22924.patch            | 226 ++++++++++++++++++
-> >  .../curl/curl/CVE-2021-22925.patch            |  43 ++++
-> >  meta/recipes-support/curl/curl_7.69.1.bb      |   3 +
-> >  3 files changed, 272 insertions(+)
-> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22924.patch
-> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22925.patch
-> >
-> > diff --git a/meta/recipes-support/curl/curl/CVE-2021-22924.patch b/meta/recipes-support/curl/curl/CVE-2021-22924.patch
-> > new file mode 100644
-> > index 0000000000..68fde45ddf
-> > --- /dev/null
-> > +++ b/meta/recipes-support/curl/curl/CVE-2021-22924.patch
-> > @@ -0,0 +1,226 @@
-> > +Subject: [PATCH] vtls: fix connection reuse checks for issuer cert and
-> > + case sensitivity CVE-2021-22924
-> > +
-> > +Reported-by: Harry Sintonen
-> > +Bug: https://curl.se/docs/CVE-2021-22924.html
-> > +CVE: CVE-2021-22924
-> > +Upstream-Status: backport from Ubuntu curl_7.68.0-1ubuntu2.6
-> > +Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> > +---
-> > + lib/url.c          |  5 +++--
-> > + lib/urldata.h      |  2 +-
-> > + lib/vtls/gtls.c    | 10 +++++-----
-> > + lib/vtls/nss.c     |  4 ++--
-> > + lib/vtls/openssl.c | 12 ++++++------
-> > + lib/vtls/vtls.c    | 23 ++++++++++++++++++-----
-> > + 6 files changed, 35 insertions(+), 21 deletions(-)
-> > +
-> > +diff --git a/lib/url.c b/lib/url.c
-> > +index 47fc66aed..eebad8d32 100644
-> > +--- a/lib/url.c
-> > ++++ b/lib/url.c
-> > +@@ -3555,6 +3555,9 @@ static CURLcode create_conn(struct Curl_easy *data,
-> > +   data->set.proxy_ssl.primary.CApath = data->set.str[STRING_SSL_CAPATH_PROXY];
-> > +   data->set.ssl.primary.CAfile = data->set.str[STRING_SSL_CAFILE_ORIG];
-> > +   data->set.proxy_ssl.primary.CAfile = data->set.str[STRING_SSL_CAFILE_PROXY];
-> > ++  data->set.ssl.primary.issuercert = data->set.str[STRING_SSL_ISSUERCERT_ORIG];
-> > ++  data->set.proxy_ssl.primary.issuercert =
-> > ++    data->set.str[STRING_SSL_ISSUERCERT_PROXY];
-> > +   data->set.ssl.primary.random_file = data->set.str[STRING_SSL_RANDOM_FILE];
-> > +   data->set.proxy_ssl.primary.random_file =
-> > +     data->set.str[STRING_SSL_RANDOM_FILE];
-> > +@@ -3575,8 +3578,6 @@ static CURLcode create_conn(struct Curl_easy *data,
-> > +
-> > +   data->set.ssl.CRLfile = data->set.str[STRING_SSL_CRLFILE_ORIG];
-> > +   data->set.proxy_ssl.CRLfile = data->set.str[STRING_SSL_CRLFILE_PROXY];
-> > +-  data->set.ssl.issuercert = data->set.str[STRING_SSL_ISSUERCERT_ORIG];
-> > +-  data->set.proxy_ssl.issuercert = data->set.str[STRING_SSL_ISSUERCERT_PROXY];
-> > +   data->set.ssl.cert = data->set.str[STRING_CERT_ORIG];
-> > +   data->set.proxy_ssl.cert = data->set.str[STRING_CERT_PROXY];
-> > +   data->set.ssl.cert_type = data->set.str[STRING_CERT_TYPE_ORIG];
-> > +diff --git a/lib/urldata.h b/lib/urldata.h
-> > +index fbb8b645e..615fbf369 100644
-> > +--- a/lib/urldata.h
-> > ++++ b/lib/urldata.h
-> > +@@ -224,6 +224,7 @@ struct ssl_primary_config {
-> > +   long version_max;      /* max supported version the client wants to use*/
-> > +   char *CApath;          /* certificate dir (doesn't work on windows) */
-> > +   char *CAfile;          /* certificate to verify peer against */
-> > ++  char *issuercert;      /* optional issuer certificate filename */
-> > +   char *clientcert;
-> > +   char *random_file;     /* path to file containing "random" data */
-> > +   char *egdsocket;       /* path to file containing the EGD daemon socket */
-> > +@@ -240,7 +241,6 @@ struct ssl_config_data {
-> > +   struct ssl_primary_config primary;
-> > +   long certverifyresult; /* result from the certificate verification */
-> > +   char *CRLfile;   /* CRL to check certificate revocation */
-> > +-  char *issuercert;/* optional issuer certificate filename */
-> > +   curl_ssl_ctx_callback fsslctx; /* function to initialize ssl ctx */
-> > +   void *fsslctxp;        /* parameter for call back */
-> > +   char *cert; /* client certificate file name */
-> > +diff --git a/lib/vtls/gtls.c b/lib/vtls/gtls.c
-> > +index 46e149c7d..8c051024f 100644
-> > +--- a/lib/vtls/gtls.c
-> > ++++ b/lib/vtls/gtls.c
-> > +@@ -1059,7 +1059,7 @@ gtls_connect_step3(struct connectdata *conn,
-> > +   if(!chainp) {
-> > +     if(SSL_CONN_CONFIG(verifypeer) ||
-> > +        SSL_CONN_CONFIG(verifyhost) ||
-> > +-       SSL_SET_OPTION(issuercert)) {
-> > ++       SSL_CONN_CONFIG(issuercert)) {
-> > + #ifdef USE_TLS_SRP
-> > +       if(SSL_SET_OPTION(authtype) == CURL_TLSAUTH_SRP
-> > +          && SSL_SET_OPTION(username) != NULL
-> > +@@ -1241,21 +1241,21 @@ gtls_connect_step3(struct connectdata *conn,
-> > +        gnutls_x509_crt_t format */
-> > +     gnutls_x509_crt_import(x509_cert, chainp, GNUTLS_X509_FMT_DER);
-> > +
-> > +-  if(SSL_SET_OPTION(issuercert)) {
-> > ++  if(SSL_CONN_CONFIG(issuercert)) {
-> > +     gnutls_x509_crt_init(&x509_issuer);
-> > +-    issuerp = load_file(SSL_SET_OPTION(issuercert));
-> > ++    issuerp = load_file(SSL_CONN_CONFIG(issuercert));
-> > +     gnutls_x509_crt_import(x509_issuer, &issuerp, GNUTLS_X509_FMT_PEM);
-> > +     rc = gnutls_x509_crt_check_issuer(x509_cert, x509_issuer);
-> > +     gnutls_x509_crt_deinit(x509_issuer);
-> > +     unload_file(issuerp);
-> > +     if(rc <= 0) {
-> > +       failf(data, "server certificate issuer check failed (IssuerCert: %s)",
-> > +-            SSL_SET_OPTION(issuercert)?SSL_SET_OPTION(issuercert):"none");
-> > ++            SSL_CONN_CONFIG(issuercert)?SSL_CONN_CONFIG(issuercert):"none");
-> > +       gnutls_x509_crt_deinit(x509_cert);
-> > +       return CURLE_SSL_ISSUER_ERROR;
-> > +     }
-> > +     infof(data, "\t server certificate issuer check OK (Issuer Cert: %s)\n",
-> > +-          SSL_SET_OPTION(issuercert)?SSL_SET_OPTION(issuercert):"none");
-> > ++          SSL_CONN_CONFIG(issuercert)?SSL_CONN_CONFIG(issuercert):"none");
-> > +   }
-> > +
-> > +   size = sizeof(certbuf);
-> > +diff --git a/lib/vtls/nss.c b/lib/vtls/nss.c
-> > +index ef51b0d91..375c78b1b 100644
-> > +--- a/lib/vtls/nss.c
-> > ++++ b/lib/vtls/nss.c
-> > +@@ -2151,9 +2151,9 @@ static CURLcode nss_do_connect(struct connectdata *conn, int sockindex)
-> > +   if(result)
-> > +     goto error;
-> > +
-> > +-  if(SSL_SET_OPTION(issuercert)) {
-> > ++  if(SSL_CONN_CONFIG(issuercert)) {
-> > +     SECStatus ret = SECFailure;
-> > +-    char *nickname = dup_nickname(data, SSL_SET_OPTION(issuercert));
-> > ++    char *nickname = dup_nickname(data, SSL_CONN_CONFIG(issuercert));
-> > +     if(nickname) {
-> > +       /* we support only nicknames in case of issuercert for now */
-> > +       ret = check_issuer_cert(BACKEND->handle, nickname);
-> > +diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-> > +index 64f43605a..7e81fd3a0 100644
-> > +--- a/lib/vtls/openssl.c
-> > ++++ b/lib/vtls/openssl.c
-> > +@@ -3547,7 +3547,7 @@ static CURLcode servercert(struct connectdata *conn,
-> > +        deallocating the certificate. */
-> > +
-> > +     /* e.g. match issuer name with provided issuer certificate */
-> > +-    if(SSL_SET_OPTION(issuercert)) {
-> > ++    if(SSL_CONN_CONFIG(issuercert)) {
-> > +       fp = BIO_new(BIO_s_file());
-> > +       if(fp == NULL) {
-> > +         failf(data,
-> > +@@ -3560,10 +3560,10 @@ static CURLcode servercert(struct connectdata *conn,
-> > +         return CURLE_OUT_OF_MEMORY;
-> > +       }
-> > +
-> > +-      if(BIO_read_filename(fp, SSL_SET_OPTION(issuercert)) <= 0) {
-> > ++      if(BIO_read_filename(fp, SSL_CONN_CONFIG(issuercert)) <= 0) {
-> > +         if(strict)
-> > +           failf(data, "SSL: Unable to open issuer cert (%s)",
-> > +-                SSL_SET_OPTION(issuercert));
-> > ++                SSL_CONN_CONFIG(issuercert));
-> > +         BIO_free(fp);
-> > +         X509_free(BACKEND->server_cert);
-> > +         BACKEND->server_cert = NULL;
-> > +@@ -3574,7 +3574,7 @@ static CURLcode servercert(struct connectdata *conn,
-> > +       if(!issuer) {
-> > +         if(strict)
-> > +           failf(data, "SSL: Unable to read issuer cert (%s)",
-> > +-                SSL_SET_OPTION(issuercert));
-> > ++                SSL_CONN_CONFIG(issuercert));
-> > +         BIO_free(fp);
-> > +         X509_free(issuer);
-> > +         X509_free(BACKEND->server_cert);
-> > +@@ -3585,7 +3585,7 @@ static CURLcode servercert(struct connectdata *conn,
-> > +       if(X509_check_issued(issuer, BACKEND->server_cert) != X509_V_OK) {
-> > +         if(strict)
-> > +           failf(data, "SSL: Certificate issuer check failed (%s)",
-> > +-                SSL_SET_OPTION(issuercert));
-> > ++                SSL_CONN_CONFIG(issuercert));
-> > +         BIO_free(fp);
-> > +         X509_free(issuer);
-> > +         X509_free(BACKEND->server_cert);
-> > +@@ -3594,7 +3594,7 @@ static CURLcode servercert(struct connectdata *conn,
-> > +       }
-> > +
-> > +       infof(data, " SSL certificate issuer check ok (%s)\n",
-> > +-            SSL_SET_OPTION(issuercert));
-> > ++            SSL_CONN_CONFIG(issuercert));
-> > +       BIO_free(fp);
-> > +       X509_free(issuer);
-> > +     }
-> > +diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-> > +index aaf73ef8f..8c681da14 100644
-> > +--- a/lib/vtls/vtls.c
-> > ++++ b/lib/vtls/vtls.c
-> > +@@ -82,6 +82,16 @@
-> > +   else                                       \
-> > +     dest->var = NULL;
-> > +
-> > ++static bool safecmp(char *a, char *b)
-> > ++{
-> > ++  if(a && b)
-> > ++    return !strcmp(a, b);
-> > ++  else if(!a && !b)
-> > ++    return TRUE; /* match */
-> > ++  return FALSE; /* no match */
-> > ++}
-> > ++
-> > ++
-> > + bool
-> > + Curl_ssl_config_matches(struct ssl_primary_config* data,
-> > +                         struct ssl_primary_config* needle)
-> > +@@ -91,11 +101,12 @@ Curl_ssl_config_matches(struct ssl_primary_config* data,
-> > +      (data->verifypeer == needle->verifypeer) &&
-> > +      (data->verifyhost == needle->verifyhost) &&
-> > +      (data->verifystatus == needle->verifystatus) &&
-> > +-     Curl_safe_strcasecompare(data->CApath, needle->CApath) &&
-> > +-     Curl_safe_strcasecompare(data->CAfile, needle->CAfile) &&
-> > +-     Curl_safe_strcasecompare(data->clientcert, needle->clientcert) &&
-> > +-     Curl_safe_strcasecompare(data->random_file, needle->random_file) &&
-> > +-     Curl_safe_strcasecompare(data->egdsocket, needle->egdsocket) &&
-> > ++     safecmp(data->CApath, needle->CApath) &&
-> > ++     safecmp(data->CAfile, needle->CAfile) &&
-> > ++     safecmp(data->issuercert, needle->issuercert) &&
-> > ++     safecmp(data->clientcert, needle->clientcert) &&
-> > ++     safecmp(data->random_file, needle->random_file) &&
-> > ++     safecmp(data->egdsocket, needle->egdsocket) &&
-> > +      Curl_safe_strcasecompare(data->cipher_list, needle->cipher_list) &&
-> > +      Curl_safe_strcasecompare(data->cipher_list13, needle->cipher_list13) &&
-> > +      Curl_safe_strcasecompare(data->pinned_key, needle->pinned_key))
-> > +@@ -117,6 +128,7 @@ Curl_clone_primary_ssl_config(struct ssl_primary_config *source,
-> > +
-> > +   CLONE_STRING(CApath);
-> > +   CLONE_STRING(CAfile);
-> > ++  CLONE_STRING(issuercert);
-> > +   CLONE_STRING(clientcert);
-> > +   CLONE_STRING(random_file);
-> > +   CLONE_STRING(egdsocket);
-> > +@@ -131,6 +143,7 @@ void Curl_free_primary_ssl_config(struct ssl_primary_config* sslc)
-> > + {
-> > +   Curl_safefree(sslc->CApath);
-> > +   Curl_safefree(sslc->CAfile);
-> > ++  Curl_safefree(sslc->issuercert);
-> > +   Curl_safefree(sslc->clientcert);
-> > +   Curl_safefree(sslc->random_file);
-> > +   Curl_safefree(sslc->egdsocket);
-> > +--
-> > +2.30.2
-> > +
-> > diff --git a/meta/recipes-support/curl/curl/CVE-2021-22925.patch b/meta/recipes-support/curl/curl/CVE-2021-22925.patch
-> > new file mode 100644
-> > index 0000000000..daca16d4dc
-> > --- /dev/null
-> > +++ b/meta/recipes-support/curl/curl/CVE-2021-22925.patch
-> > @@ -0,0 +1,43 @@
-> > +Subject: [PATCH] telnet: fix option parser to not send uninitialized
-> > + contents CVE-2021-22925
-> > +
-> > +Reported-by: Red Hat Product Security
-> > +Bug: https://curl.se/docs/CVE-2021-22925.html
-> > +CVE: CVE-2021-22925
-> > +Upstream-Status: backport from Ubuntu curl_7.68.0-1ubuntu2.6
-> > +Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> > +---
-> > + lib/telnet.c | 17 +++++++++++------
-> > + 1 file changed, 11 insertions(+), 6 deletions(-)
-> > +
-> > +diff --git a/lib/telnet.c b/lib/telnet.c
-> > +index 4bf4c652c..3347ad6d1 100644
-> > +--- a/lib/telnet.c
-> > ++++ b/lib/telnet.c
-> > +@@ -967,12 +967,17 @@ static void suboption(struct connectdata *conn)
-> > +         size_t tmplen = (strlen(v->data) + 1);
-> > +         /* Add the variable only if it fits */
-> > +         if(len + tmplen < (int)sizeof(temp)-6) {
-> > +-          if(sscanf(v->data, "%127[^,],%127s", varname, varval)) {
-> > +-            msnprintf((char *)&temp[len], sizeof(temp) - len,
-> > +-                      "%c%s%c%s", CURL_NEW_ENV_VAR, varname,
-> > +-                      CURL_NEW_ENV_VALUE, varval);
-> > +-            len += tmplen;
-> > +-          }
-> > ++          int rv;
-> > ++          char sep[2] = "";
-> > ++          varval[0] = 0;
-> > ++          rv = sscanf(v->data, "%127[^,]%1[,]%127s", varname, sep, varval);
-> > ++          if(rv == 1)
-> > ++            len += msnprintf((char *)&temp[len], sizeof(temp) - len,
-> > ++                             "%c%s", CURL_NEW_ENV_VAR, varname);
-> > ++          else if(rv >= 2)
-> > ++            len += msnprintf((char *)&temp[len], sizeof(temp) - len,
-> > ++                             "%c%s%c%s", CURL_NEW_ENV_VAR, varname,
-> > ++                             CURL_NEW_ENV_VALUE, varval);
-> > +         }
-> > +       }
-> > +       msnprintf((char *)&temp[len], sizeof(temp) - len,
-> > +--
-> > +2.30.2
-> > +
-> > diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-> > index 13ab29cf69..27151ca5d7 100644
-> > --- a/meta/recipes-support/curl/curl_7.69.1.bb
-> > +++ b/meta/recipes-support/curl/curl_7.69.1.bb
-> > @@ -19,6 +19,8 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-> >             file://CVE-2020-8286.patch \
-> >             file://CVE-2021-22876.patch \
-> >             file://CVE-2021-22890.patch \
-> > +           file://CVE-2021-22924.patch \
-> > +           file://CVE-2021-22925.patch \
-> >  "
-> >
-> >  SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
-> > @@ -26,6 +28,7 @@ SRC_URI[sha256sum] = "2ff5e5bd507adf6aa88ff4bbafd4c7af464867ffb688be93b9930717a5
-> >
-> >  # Curl has used many names over the years...
-> >  CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
-> > +CVE_CHECK_WHITELIST = "CVE-2021-22922 CVE-2021-22923 CVE-2021-22926"
-> >
-> >  inherit autotools pkgconfig binconfig multilib_header
-> >
-> > --
-> > 2.30.2
-> >
-> >
-> >
-> >
->
+On 8/4/21 3:12 AM, Alexander Kanavin wrote:
+> Yes, plaintext passwords can no longer be there, which is a good thing 
+> I'd say? The hashed/salted passwords can still be provided through the 
+> same class, but this needs to be documented, and perhaps tested too.
 > 
->
+
+Its perhaps fine to discourage plaintext password setting, but it is a 
+user visible feature as it seems. So the documentation should change for 
+sure to not use it and it should also go into migration guide since it 
+has a potential of tripping a lot of folks. I think documenting the 
+intent to move away from plaintext is urgent, then the question is if
+we want to fist deprecate it or delete this option all in one go.
+
+> Alex
+> 
+> On Wed, 4 Aug 2021 at 10:39, Yi Zhao <yi.zhao@windriver.com 
+> <mailto:yi.zhao@windriver.com>> wrote:
+> 
+> 
+>     On 7/30/21 7:45 PM, Alexander Kanavin wrote:
+>>     Add a couple backports to fix builds.
+>>
+>>     Drop 0002-Allow-for-setting-password-in-clear-text.patch;
+>>     what it adds is horribly insecure and AB testing didn't reveal any
+>>     regressions or use cases for it.
+> 
+>     Dropping this patch makes the password setting function in
+>     extrausers.bbclass unavailable:
+>     https://docs.yoctoproject.org/singleindex.html#extrausers-bbclass
+>     <https://docs.yoctoproject.org/singleindex.html#extrausers-bbclass>
+> 
+> 
+>     //Yi
+> 
+> 
+>>     Drop /etc/default/ tweaks as files are no longer installed there.
+>>
+>>     Drop manpage alternatives as manpages are no longer installed.
+>>
+>>     Signed-off-by: Alexander Kanavin<alex.kanavin@gmail.com>  <mailto:alex.kanavin@gmail.com>
+>>     ---
+>>       ...01-Disable-use-of-syslog-for-sysroot.patch |  29 +-
+>>       ...builds-with-respect-to-libsubid-incl.patch | 114 +++++++
+>>       .../0001-libsubid-link-to-PAM-libraries.patch |  31 ++
+>>       ...w-for-setting-password-in-clear-text.patch | 301 ------------------
+>>       ...nexpected-open-failure-in-chroot-env.patch |   6 +-
+>>       meta/recipes-extended/shadow/shadow.inc       |  21 +-
+>>       .../shadow/{shadow_4.8.1.bb  <http://shadow_4.8.1.bb>  =>shadow_4.9.bb  <http://shadow_4.9.bb>} |   0
+>>       7 files changed, 167 insertions(+), 335 deletions(-)
+>>       create mode 100644 meta/recipes-extended/shadow/files/0001-Fix-out-of-tree-builds-with-respect-to-libsubid-incl.patch
+>>       create mode 100644 meta/recipes-extended/shadow/files/0001-libsubid-link-to-PAM-libraries.patch
+>>       delete mode 100644 meta/recipes-extended/shadow/files/0002-Allow-for-setting-password-in-clear-text.patch
+>>       rename meta/recipes-extended/shadow/{shadow_4.8.1.bb  <http://shadow_4.8.1.bb>  =>shadow_4.9.bb  <http://shadow_4.9.bb>} (100%)
+>>
+>>     diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+>>     index ab317b9aa0..95728bcd3f 100644
+>>     --- a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+>>     +++ b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+>>     @@ -1,4 +1,4 @@
+>>     -From fa2d9453656641002802d8165e80adb9e6a729d2 Mon Sep 17 00:00:00 2001
+>>     +From 30a3906a0a21120fa6bbc918b6258ab9303fbeaa Mon Sep 17 00:00:00 2001
+>>       From: Scott Garman<scott.a.garman@intel.com>  <mailto:scott.a.garman@intel.com>
+>>       Date: Thu, 14 Apr 2016 12:28:57 +0200
+>>       Subject: [PATCH] Disable use of syslog for sysroot
+>>     @@ -19,12 +19,12 @@ Signed-off-by: Chen Qi<Qi.Chen@windriver.com>  <mailto:Qi.Chen@windriver.com>
+>>        src/groupmems.c | 3 +++
+>>        src/groupmod.c  | 3 +++
+>>        src/useradd.c   | 3 +++
+>>     - src/userdel.c   | 3 +++
+>>     + src/userdel.c   | 4 ++++
+>>        src/usermod.c   | 3 +++
+>>     - 7 files changed, 21 insertions(+)
+>>     + 7 files changed, 22 insertions(+)
+>>       
+>>       diff --git a/src/groupadd.c b/src/groupadd.c
+>>     -index 2dd8eec..e9c4bb7 100644
+>>     +index d7f68b1..5fe5f43 100644
+>>       --- a/src/groupadd.c
+>>       +++ b/src/groupadd.c
+>>       @@ -34,6 +34,9 @@
+>>     @@ -38,7 +38,7 @@ index 2dd8eec..e9c4bb7 100644
+>>        #include <fcntl.h>
+>>        #include <getopt.h>
+>>       diff --git a/src/groupdel.c b/src/groupdel.c
+>>     -index f941a84..5a70056 100644
+>>     +index 5c89312..2aefc5a 100644
+>>       --- a/src/groupdel.c
+>>       +++ b/src/groupdel.c
+>>       @@ -34,6 +34,9 @@
+>>     @@ -52,7 +52,7 @@ index f941a84..5a70056 100644
+>>        #include <fcntl.h>
+>>        #include <grp.h>
+>>       diff --git a/src/groupmems.c b/src/groupmems.c
+>>     -index fc91c8b..2842514 100644
+>>     +index 654a8f3..6b2026b 100644
+>>       --- a/src/groupmems.c
+>>       +++ b/src/groupmems.c
+>>       @@ -32,6 +32,9 @@
+>>     @@ -66,7 +66,7 @@ index fc91c8b..2842514 100644
+>>        #include <getopt.h>
+>>        #include <grp.h>
+>>       diff --git a/src/groupmod.c b/src/groupmod.c
+>>     -index 1dca5fc..bc14438 100644
+>>     +index acd6f35..a2c5247 100644
+>>       --- a/src/groupmod.c
+>>       +++ b/src/groupmod.c
+>>       @@ -34,6 +34,9 @@
+>>     @@ -80,7 +80,7 @@ index 1dca5fc..bc14438 100644
+>>        #include <fcntl.h>
+>>        #include <getopt.h>
+>>       diff --git a/src/useradd.c b/src/useradd.c
+>>     -index 4af0f7c..1b7bf06 100644
+>>     +index 127177e..b80e505 100644
+>>       --- a/src/useradd.c
+>>       +++ b/src/useradd.c
+>>       @@ -34,6 +34,9 @@
+>>     @@ -94,21 +94,22 @@ index 4af0f7c..1b7bf06 100644
+>>        #include <ctype.h>
+>>        #include <errno.h>
+>>       diff --git a/src/userdel.c b/src/userdel.c
+>>     -index cc951e5..153e0be 100644
+>>     +index 79a7c89..c1e010a 100644
+>>       --- a/src/userdel.c
+>>       +++ b/src/userdel.c
+>>     -@@ -34,6 +34,9 @@
+>>     -
+>>     - #ident "$Id$"
+>>     +@@ -31,6 +31,10 @@
+>>     +  */
+>>        
+>>     + #include <config.h>
+>>     ++
+>>       +/* Disable use of syslog since we're running this command against a sysroot */
+>>       +#undef USE_SYSLOG
+>>       +
+>>        #include <assert.h>
+>>     + #include <dirent.h>
+>>        #include <errno.h>
+>>     - #include <fcntl.h>
+>>       diff --git a/src/usermod.c b/src/usermod.c
+>>     -index 05b9871..21c6da9 100644
+>>     +index 03bb9b9..e15fdd4 100644
+>>       --- a/src/usermod.c
+>>       +++ b/src/usermod.c
+>>       @@ -34,6 +34,9 @@
+>>     diff --git a/meta/recipes-extended/shadow/files/0001-Fix-out-of-tree-builds-with-respect-to-libsubid-incl.patch b/meta/recipes-extended/shadow/files/0001-Fix-out-of-tree-builds-with-respect-to-libsubid-incl.patch
+>>     new file mode 100644
+>>     index 0000000000..c577be6505
+>>     --- /dev/null
+>>     +++ b/meta/recipes-extended/shadow/files/0001-Fix-out-of-tree-builds-with-respect-to-libsubid-incl.patch
+>>     @@ -0,0 +1,114 @@
+>>     +From eced8077b57946fe0b723e7c6c510e8f344ce89b Mon Sep 17 00:00:00 2001
+>>     +From: Serge Hallyn<serge@hallyn.com>  <mailto:serge@hallyn.com>
+>>     +Date: Fri, 23 Jul 2021 17:51:13 -0500
+>>     +Subject: [PATCH] Fix out of tree builds with respect to libsubid includes
+>>     +
+>>     +There's a better way to do this, and I hope to clean that up,
+>>     +but this fixes out of tree builds for me right now.
+>>     +
+>>     +Closes #386
+>>     +
+>>     +Signed-off-by: Serge Hallyn<serge@hallyn.com>  <mailto:serge@hallyn.com>
+>>     +Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/537b8cd90be7b47b45c45cfd27765ef85eb0ebf1  <https://github.com/shadow-maint/shadow/commit/537b8cd90be7b47b45c45cfd27765ef85eb0ebf1>]
+>>     +Signed-off-by: Alexander Kanavin<alex.kanavin@gmail.com>  <mailto:alex.kanavin@gmail.com>
+>>     +---
+>>     + lib/Makefile.am      | 2 ++
+>>     + libmisc/Makefile.am  | 2 +-
+>>     + libsubid/Makefile.am | 4 ++--
+>>     + src/Makefile.am      | 6 ++++++
+>>     + 4 files changed, 11 insertions(+), 3 deletions(-)
+>>     +
+>>     +diff --git a/lib/Makefile.am b/lib/Makefile.am
+>>     +index ecf3ee25..5ac2e111 100644
+>>     +--- a/lib/Makefile.am
+>>     ++++ b/lib/Makefile.am
+>>     +@@ -10,6 +10,8 @@ if HAVE_VENDORDIR
+>>     + libshadow_la_CPPFLAGS += -DVENDORDIR=\"$(VENDORDIR)\"
+>>     + endif
+>>     +
+>>     ++libshadow_la_CPPFLAGS += -I$(top_srcdir)
+>>     ++
+>>     + libshadow_la_SOURCES = \
+>>     + 	commonio.c \
+>>     + 	commonio.h \
+>>     +diff --git a/libmisc/Makefile.am b/libmisc/Makefile.am
+>>     +index 9766a7ec..9f237e0d 100644
+>>     +--- a/libmisc/Makefile.am
+>>     ++++ b/libmisc/Makefile.am
+>>     +@@ -1,7 +1,7 @@
+>>     +
+>>     + EXTRA_DIST = .indent.pro  <http://indent.pro>  xgetXXbyYY.c
+>>     +
+>>     +-AM_CPPFLAGS = -I$(top_srcdir)/lib $(ECONF_CPPFLAGS)
+>>     ++AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir) $(ECONF_CPPFLAGS)
+>>     +
+>>     + noinst_LTLIBRARIES =libmisc.la  <http://libmisc.la>
+>>     +
+>>     +diff --git a/libsubid/Makefile.am b/libsubid/Makefile.am
+>>     +index 189165b0..cdc41fe6 100644
+>>     +--- a/libsubid/Makefile.am
+>>     ++++ b/libsubid/Makefile.am
+>>     +@@ -19,8 +19,8 @@ MISCLIBS = \
+>>     + 	$(LIBTCB)
+>>     +
+>>     + libsubid_la_LIBADD = \
+>>     +-	$(top_srcdir)/lib/libshadow.la  <http://libshadow.la>  \
+>>     +-	$(top_srcdir)/libmisc/libmisc.la  <http://libmisc.la>  \
+>>     ++	$(top_builddir)/lib/libshadow.la  <http://libshadow.la>  \
+>>     ++	$(top_builddir)/libmisc/libmisc.la  <http://libmisc.la>  \
+>>     + 	$(MISCLIBS) -ldl
+>>     +
+>>     + AM_CPPFLAGS = \
+>>     +diff --git a/src/Makefile.am b/src/Makefile.am
+>>     +index 35027013..7c1a3491 100644
+>>     +--- a/src/Makefile.am
+>>     ++++ b/src/Makefile.am
+>>     +@@ -10,6 +10,7 @@ sgidperms = 2755
+>>     + AM_CPPFLAGS = \
+>>     + 	-I${top_srcdir}/lib \
+>>     + 	-I$(top_srcdir)/libmisc \
+>>     ++	-I$(top_srcdir) \
+>>     + 	-DLOCALEDIR=\"$(datadir)/locale\"
+>>     +
+>>     + # XXX why are login and su in /bin anyway (other than for
+>>     +@@ -183,6 +184,7 @@ list_subid_ranges_LDADD = \
+>>     + list_subid_ranges_CPPFLAGS = \
+>>     + 	-I$(top_srcdir)/lib \
+>>     + 	-I$(top_srcdir)/libmisc \
+>>     ++	-I$(top_srcdir) \
+>>     + 	-I$(top_srcdir)/libsubid
+>>     +
+>>     + get_subid_owners_LDADD = \
+>>     +@@ -194,11 +196,13 @@ get_subid_owners_LDADD = \
+>>     + get_subid_owners_CPPFLAGS = \
+>>     + 	-I$(top_srcdir)/lib \
+>>     + 	-I$(top_srcdir)/libmisc \
+>>     ++	-I$(top_srcdir) \
+>>     + 	-I$(top_srcdir)/libsubid
+>>     +
+>>     + new_subid_range_CPPFLAGS = \
+>>     + 	-I$(top_srcdir)/lib \
+>>     + 	-I$(top_srcdir)/libmisc \
+>>     ++	-I$(top_srcdir) \
+>>     + 	-I$(top_srcdir)/libsubid
+>>     +
+>>     + new_subid_range_LDADD = \
+>>     +@@ -210,6 +214,7 @@ new_subid_range_LDADD = \
+>>     + free_subid_range_CPPFLAGS = \
+>>     + 	-I$(top_srcdir)/lib \
+>>     + 	-I$(top_srcdir)/libmisc \
+>>     ++	-I$(top_srcdir) \
+>>     + 	-I$(top_srcdir)/libsubid
+>>     +
+>>     + free_subid_range_LDADD = \
+>>     +@@ -220,6 +225,7 @@ free_subid_range_LDADD = \
+>>     +
+>>     + check_subid_range_CPPFLAGS = \
+>>     + 	-I$(top_srcdir)/lib \
+>>     ++	-I$(top_srcdir) \
+>>     + 	-I$(top_srcdir)/libmisc
+>>     +
+>>     + check_subid_range_LDADD = \
+>>     +--
+>>     +2.31.1
+>>     +
+>>     diff --git a/meta/recipes-extended/shadow/files/0001-libsubid-link-to-PAM-libraries.patch b/meta/recipes-extended/shadow/files/0001-libsubid-link-to-PAM-libraries.patch
+>>     new file mode 100644
+>>     index 0000000000..ea7a99dbf7
+>>     --- /dev/null
+>>     +++ b/meta/recipes-extended/shadow/files/0001-libsubid-link-to-PAM-libraries.patch
+>>     @@ -0,0 +1,31 @@
+>>     +From 4f44617af3a0c59be267ac5fcc33586e3783f5e6 Mon Sep 17 00:00:00 2001
+>>     +From: Xi Ruoyao<xry111@mengyan1223.wang>  <mailto:xry111@mengyan1223.wang>
+>>     +Date: Fri, 23 Jul 2021 14:38:08 +0800
+>>     +Subject: [PATCH] libsubid: link to PAM libraries
+>>     +
+>>     +libsubid.so links to libmisc.a, which contains several routines referring to
+>>     +PAM functions.
+>>     +
+>>     +Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/f4a84efb468b8be21be124700ce35159c444e9d6  <https://github.com/shadow-maint/shadow/commit/f4a84efb468b8be21be124700ce35159c444e9d6>]
+>>     +Signed-off-by: Alexander Kanavin<alex.kanavin@gmail.com>  <mailto:alex.kanavin@gmail.com>
+>>     +---
+>>     + libsubid/Makefile.am | 3 ++-
+>>     + 1 file changed, 2 insertions(+), 1 deletion(-)
+>>     +
+>>     +diff --git a/libsubid/Makefile.am b/libsubid/Makefile.am
+>>     +index cdc41fe6..99308c1f 100644
+>>     +--- a/libsubid/Makefile.am
+>>     ++++ b/libsubid/Makefile.am
+>>     +@@ -16,7 +16,8 @@ MISCLIBS = \
+>>     + 	$(LIBCRYPT) \
+>>     + 	$(LIBACL) \
+>>     + 	$(LIBATTR) \
+>>     +-	$(LIBTCB)
+>>     ++	$(LIBTCB) \
+>>     ++	$(LIBPAM)
+>>     +
+>>     + libsubid_la_LIBADD = \
+>>     + 	$(top_builddir)/lib/libshadow.la  <http://libshadow.la>  \
+>>     +--
+>>     +2.31.1
+>>     +
+>>     diff --git a/meta/recipes-extended/shadow/files/0002-Allow-for-setting-password-in-clear-text.patch b/meta/recipes-extended/shadow/files/0002-Allow-for-setting-password-in-clear-text.patch
+>>     deleted file mode 100644
+>>     index c6332e4f76..0000000000
+>>     --- a/meta/recipes-extended/shadow/files/0002-Allow-for-setting-password-in-clear-text.patch
+>>     +++ /dev/null
+>>     @@ -1,301 +0,0 @@
+>>     -From a7d995228491ad5255ad86c1f04ba071f6880897 Mon Sep 17 00:00:00 2001
+>>     -From: Chen Qi<Qi.Chen@windriver.com>  <mailto:Qi.Chen@windriver.com>
+>>     -Date: Sat, 16 Nov 2013 15:27:47 +0800
+>>     -Subject: [PATCH] Allow for setting password in clear text
+>>     -
+>>     -Upstream-Status: Inappropriate [OE specific]
+>>     -
+>>     -Signed-off-by: Chen Qi<Qi.Chen@windriver.com>  <mailto:Qi.Chen@windriver.com>
+>>     -
+>>     ----
+>>     - src/Makefile.am |  8 ++++----
+>>     - src/groupadd.c  | 20 +++++++++++++++-----
+>>     - src/groupmod.c  | 20 +++++++++++++++-----
+>>     - src/useradd.c   | 21 +++++++++++++++------
+>>     - src/usermod.c   | 20 +++++++++++++++-----
+>>     - 5 files changed, 64 insertions(+), 25 deletions(-)
+>>     -
+>>     -diff --git a/src/Makefile.am b/src/Makefile.am
+>>     -index f31fd7a..4a317a3 100644
+>>     ---- a/src/Makefile.am
+>>     -+++ b/src/Makefile.am
+>>     -@@ -103,10 +103,10 @@ chsh_LDADD     = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT_NOPAM)
+>>     - chpasswd_LDADD = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT) $(LIBECONF)
+>>     - expiry_LDADD = $(LDADD) $(LIBECONF)
+>>     - gpasswd_LDADD  = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT) $(LIBECONF)
+>>     --groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     -+groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF) $(LIBCRYPT)
+>>     - groupdel_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     - groupmems_LDADD = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     --groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     -+groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF) $(LIBCRYPT)
+>>     - grpck_LDADD    = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     - grpconv_LDADD  = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     - grpunconv_LDADD = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     -@@ -127,9 +127,9 @@ su_SOURCES     = \
+>>     - 	suauth.c
+>>     - su_LDADD       = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD) $(LIBECONF)
+>>     - sulogin_LDADD  = $(LDADD) $(LIBCRYPT) $(LIBECONF)
+>>     --useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF)
+>>     -+useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF) $(LIBCRYPT)
+>>     - userdel_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBECONF)
+>>     --usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF)
+>>     -+usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF) $(LIBCRYPT)
+>>     - vipw_LDADD     = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
+>>     -
+>>     - install-am: all-am
+>>     -diff --git a/src/groupadd.c b/src/groupadd.c
+>>     -index e9c4bb7..d572c00 100644
+>>     ---- a/src/groupadd.c
+>>     -+++ b/src/groupadd.c
+>>     -@@ -127,9 +127,10 @@ static /*@noreturn@*/void usage (int status)
+>>     - 	(void) fputs (_("  -o, --non-unique              allow to create groups with duplicate\n"
+>>     - 	                "                                (non-unique) GID\n"), usageout);
+>>     - 	(void) fputs (_("  -p, --password PASSWORD       use this encrypted password for the new group\n"), usageout);
+>>     -+	(void) fputs (_("  -P, --clear-password PASSWORD use this clear password for the new group\n"), usageout);
+>>     - 	(void) fputs (_("  -r, --system                  create a system account\n"), usageout);
+>>     - 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), usageout);
+>>     --	(void) fputs (_("  -P, --prefix PREFIX_DIR       directory prefix\n"), usageout);
+>>     -+	(void) fputs (_("  -A, --prefix PREFIX_DIR       directory prefix\n"), usageout);
+>>     - 	(void) fputs ("\n", usageout);
+>>     - 	exit (status);
+>>     - }
+>>     -@@ -391,13 +392,14 @@ static void process_flags (int argc, char **argv)
+>>     - 		{"key",        required_argument, NULL, 'K'},
+>>     - 		{"non-unique", no_argument,       NULL, 'o'},
+>>     - 		{"password",   required_argument, NULL, 'p'},
+>>     -+		{"clear-password", required_argument, NULL, 'P'},
+>>     - 		{"system",     no_argument,       NULL, 'r'},
+>>     - 		{"root",       required_argument, NULL, 'R'},
+>>     --		{"prefix",     required_argument, NULL, 'P'},
+>>     -+		{"prefix",     required_argument, NULL, 'A'},
+>>     - 		{NULL, 0, NULL, '\0'}
+>>     - 	};
+>>     -
+>>     --	while ((c = getopt_long (argc, argv, "fg:hK:op:rR:P:",
+>>     -+	while ((c = getopt_long (argc, argv, "fg:hK:op:P:rR:A:",
+>>     - 		                 long_options, NULL)) != -1) {
+>>     - 		switch (c) {
+>>     - 		case 'f':
+>>     -@@ -449,12 +451,20 @@ static void process_flags (int argc, char **argv)
+>>     - 			pflg = true;
+>>     - 			group_passwd = optarg;
+>>     - 			break;
+>>     -+		case 'P':
+>>     -+			pflg = true;
+>>     -+			group_passwd = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+>>     -+			break;
+>>     - 		case 'r':
+>>     - 			rflg = true;
+>>     - 			break;
+>>     - 		case 'R': /* no-op, handled in process_root_flag () */
+>>     - 			break;
+>>     --		case 'P': /* no-op, handled in process_prefix_flag () */
+>>     -+		case 'A': /* no-op, handled in process_prefix_flag () */
+>>     -+			fprintf (stderr,
+>>     -+				 _("%s: -A is deliberately not supported \n"),
+>>     -+				 Prog);
+>>     -+			exit (E_BAD_ARG);
+>>     - 			break;
+>>     - 		default:
+>>     - 			usage (E_USAGE);
+>>     -@@ -588,7 +598,7 @@ int main (int argc, char **argv)
+>>     - 	(void) textdomain (PACKAGE);
+>>     -
+>>     - 	process_root_flag ("-R", argc, argv);
+>>     --	prefix = process_prefix_flag ("-P", argc, argv);
+>>     -+	prefix = process_prefix_flag ("-A", argc, argv);
+>>     -
+>>     - 	OPENLOG ("groupadd");
+>>     - #ifdef WITH_AUDIT
+>>     -diff --git a/src/groupmod.c b/src/groupmod.c
+>>     -index bc14438..25ccb44 100644
+>>     ---- a/src/groupmod.c
+>>     -+++ b/src/groupmod.c
+>>     -@@ -138,8 +138,9 @@ static void usage (int status)
+>>     - 	(void) fputs (_("  -o, --non-unique              allow to use a duplicate (non-unique) GID\n"), usageout);
+>>     - 	(void) fputs (_("  -p, --password PASSWORD       change the password to this (encrypted)\n"
+>>     - 	                "                                PASSWORD\n"), usageout);
+>>     -+	(void) fputs (_("  -P, --clear-password PASSWORD change the password to this clear PASSWORD\n"), usageout);
+>>     - 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), usageout);
+>>     --	(void) fputs (_("  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files\n"), usageout);
+>>     -+	(void) fputs (_("  -A, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files\n"), usageout);
+>>     - 	(void) fputs ("\n", usageout);
+>>     - 	exit (status);
+>>     - }
+>>     -@@ -387,11 +388,12 @@ static void process_flags (int argc, char **argv)
+>>     - 		{"new-name",   required_argument, NULL, 'n'},
+>>     - 		{"non-unique", no_argument,       NULL, 'o'},
+>>     - 		{"password",   required_argument, NULL, 'p'},
+>>     -+		{"clear-password", required_argument, NULL, 'P'},
+>>     - 		{"root",       required_argument, NULL, 'R'},
+>>     --		{"prefix",     required_argument, NULL, 'P'},
+>>     -+		{"prefix",     required_argument, NULL, 'A'},
+>>     - 		{NULL, 0, NULL, '\0'}
+>>     - 	};
+>>     --	while ((c = getopt_long (argc, argv, "g:hn:op:R:P:",
+>>     -+	while ((c = getopt_long (argc, argv, "g:hn:op:P:R:A:",
+>>     - 		                 long_options, NULL)) != -1) {
+>>     - 		switch (c) {
+>>     - 		case 'g':
+>>     -@@ -418,9 +420,17 @@ static void process_flags (int argc, char **argv)
+>>     - 			group_passwd = optarg;
+>>     - 			pflg = true;
+>>     - 			break;
+>>     -+		case 'P':
+>>     -+			group_passwd = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+>>     -+			pflg = true;
+>>     -+			break;
+>>     - 		case 'R': /* no-op, handled in process_root_flag () */
+>>     - 			break;
+>>     --		case 'P': /* no-op, handled in process_prefix_flag () */
+>>     -+		case 'A': /* no-op, handled in process_prefix_flag () */
+>>     -+			fprintf (stderr,
+>>     -+				 _("%s: -A is deliberately not supported \n"),
+>>     -+				 Prog);
+>>     -+			exit (E_BAD_ARG);
+>>     - 			break;
+>>     - 		default:
+>>     - 			usage (E_USAGE);
+>>     -@@ -761,7 +771,7 @@ int main (int argc, char **argv)
+>>     - 	(void) textdomain (PACKAGE);
+>>     -
+>>     - 	process_root_flag ("-R", argc, argv);
+>>     --	prefix = process_prefix_flag ("-P", argc, argv);
+>>     -+	prefix = process_prefix_flag ("-A", argc, argv);
+>>     -
+>>     - 	OPENLOG ("groupmod");
+>>     - #ifdef WITH_AUDIT
+>>     -diff --git a/src/useradd.c b/src/useradd.c
+>>     -index 1b7bf06..44f09e2 100644
+>>     ---- a/src/useradd.c
+>>     -+++ b/src/useradd.c
+>>     -@@ -853,9 +853,10 @@ static void usage (int status)
+>>     - 	(void) fputs (_("  -o, --non-unique              allow to create users with duplicate\n"
+>>     - 	                "                                (non-unique) UID\n"), usageout);
+>>     - 	(void) fputs (_("  -p, --password PASSWORD       encrypted password of the new account\n"), usageout);
+>>     -+	(void) fputs (_("  -P, --clear-password PASSWORD clear password of the new account\n"), usageout);
+>>     - 	(void) fputs (_("  -r, --system                  create a system account\n"), usageout);
+>>     - 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), usageout);
+>>     --	(void) fputs (_("  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files\n"), usageout);
+>>     -+	(void) fputs (_("  -A, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files\n"), usageout);
+>>     - 	(void) fputs (_("  -s, --shell SHELL             login shell of the new account\n"), usageout);
+>>     - 	(void) fputs (_("  -u, --uid UID                 user ID of the new account\n"), usageout);
+>>     - 	(void) fputs (_("  -U, --user-group              create a group with the same name as the user\n"), usageout);
+>>     -@@ -1133,9 +1134,10 @@ static void process_flags (int argc, char **argv)
+>>     - 			{"no-user-group",  no_argument,       NULL, 'N'},
+>>     - 			{"non-unique",     no_argument,       NULL, 'o'},
+>>     - 			{"password",       required_argument, NULL, 'p'},
+>>     -+			{"clear-password", required_argument, NULL, 'P'},
+>>     - 			{"system",         no_argument,       NULL, 'r'},
+>>     - 			{"root",           required_argument, NULL, 'R'},
+>>     --			{"prefix",         required_argument, NULL, 'P'},
+>>     -+			{"prefix",         required_argument, NULL, 'A'},
+>>     - 			{"shell",          required_argument, NULL, 's'},
+>>     - 			{"uid",            required_argument, NULL, 'u'},
+>>     - 			{"user-group",     no_argument,       NULL, 'U'},
+>>     -@@ -1146,9 +1148,9 @@ static void process_flags (int argc, char **argv)
+>>     - 		};
+>>     - 		while ((c = getopt_long (argc, argv,
+>>     - #ifdef WITH_SELINUX
+>>     --		                         "b:c:d:De:f:g:G:hk:K:lmMNop:rR:P:s:u:UZ:",
+>>     -+		                         "b:c:d:De:f:g:G:hk:K:lmMNop:P:rR:A:s:u:UZ:",
+>>     - #else				/* !WITH_SELINUX */
+>>     --		                         "b:c:d:De:f:g:G:hk:K:lmMNop:rR:P:s:u:U",
+>>     -+		                         "b:c:d:De:f:g:G:hk:K:lmMNop:P:rR:A:s:u:U",
+>>     - #endif				/* !WITH_SELINUX */
+>>     - 		                         long_options, NULL)) != -1) {
+>>     - 			switch (c) {
+>>     -@@ -1320,12 +1322,19 @@ static void process_flags (int argc, char **argv)
+>>     - 				}
+>>     - 				user_pass = optarg;
+>>     - 				break;
+>>     -+			case 'P': /* set clear text password */
+>>     -+				user_pass = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+>>     -+				break;
+>>     - 			case 'r':
+>>     - 				rflg = true;
+>>     - 				break;
+>>     - 			case 'R': /* no-op, handled in process_root_flag () */
+>>     - 				break;
+>>     --			case 'P': /* no-op, handled in process_prefix_flag () */
+>>     -+			case 'A': /* no-op, handled in process_prefix_flag () */
+>>     -+				fprintf (stderr,
+>>     -+					 _("%s: -A is deliberately not supported \n"),
+>>     -+					 Prog);
+>>     -+				exit (E_BAD_ARG);
+>>     - 				break;
+>>     - 			case 's':
+>>     - 				if (   ( !VALID (optarg) )
+>>     -@@ -2257,7 +2266,7 @@ int main (int argc, char **argv)
+>>     -
+>>     - 	process_root_flag ("-R", argc, argv);
+>>     -
+>>     --	prefix = process_prefix_flag("-P", argc, argv);
+>>     -+	prefix = process_prefix_flag("-A", argc, argv);
+>>     -
+>>     - 	OPENLOG ("useradd");
+>>     - #ifdef WITH_AUDIT
+>>     -diff --git a/src/usermod.c b/src/usermod.c
+>>     -index 21c6da9..cffdb3e 100644
+>>     ---- a/src/usermod.c
+>>     -+++ b/src/usermod.c
+>>     -@@ -431,8 +431,9 @@ static /*@noreturn@*/void usage (int status)
+>>     - 	                "                                new location (use only with -d)\n"), usageout);
+>>     - 	(void) fputs (_("  -o, --non-unique              allow using duplicate (non-unique) UID\n"), usageout);
+>>     - 	(void) fputs (_("  -p, --password PASSWORD       use encrypted password for the new password\n"), usageout);
+>>     -+	(void) fputs (_("  -P, --clear-password PASSWORD use clear password for the new password\n"), usageout);
+>>     - 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), usageout);
+>>     --	(void) fputs (_("  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files\n"), usageout);
+>>     -+	(void) fputs (_("  -A, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files\n"), usageout);
+>>     - 	(void) fputs (_("  -s, --shell SHELL             new login shell for the user account\n"), usageout);
+>>     - 	(void) fputs (_("  -u, --uid UID                 new UID for the user account\n"), usageout);
+>>     - 	(void) fputs (_("  -U, --unlock                  unlock the user account\n"), usageout);
+>>     -@@ -1010,8 +1011,9 @@ static void process_flags (int argc, char **argv)
+>>     - 			{"move-home",    no_argument,       NULL, 'm'},
+>>     - 			{"non-unique",   no_argument,       NULL, 'o'},
+>>     - 			{"password",     required_argument, NULL, 'p'},
+>>     -+			{"clear-password", required_argument, NULL, 'P'},
+>>     - 			{"root",         required_argument, NULL, 'R'},
+>>     --			{"prefix",       required_argument, NULL, 'P'},
+>>     -+			{"prefix",       required_argument, NULL, 'A'},
+>>     - 			{"shell",        required_argument, NULL, 's'},
+>>     - 			{"uid",          required_argument, NULL, 'u'},
+>>     - 			{"unlock",       no_argument,       NULL, 'U'},
+>>     -@@ -1027,7 +1029,7 @@ static void process_flags (int argc, char **argv)
+>>     - 			{NULL, 0, NULL, '\0'}
+>>     - 		};
+>>     - 		while ((c = getopt_long (argc, argv,
+>>     --		                         "abc:d:e:f:g:G:hl:Lmop:R:s:u:UP:"
+>>     -+		                         "abc:d:e:f:g:G:hl:Lmop:P:R:s:u:UA:"
+>>     - #ifdef ENABLE_SUBIDS
+>>     - 		                         "v:w:V:W:"
+>>     - #endif				/* ENABLE_SUBIDS */
+>>     -@@ -1130,9 +1132,17 @@ static void process_flags (int argc, char **argv)
+>>     - 				user_pass = optarg;
+>>     - 				pflg = true;
+>>     - 				break;
+>>     -+			case 'P':
+>>     -+				user_pass = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+>>     -+				pflg = true;
+>>     -+				break;
+>>     - 			case 'R': /* no-op, handled in process_root_flag () */
+>>     - 				break;
+>>     --			case 'P': /* no-op, handled in process_prefix_flag () */
+>>     -+			case 'A': /* no-op, handled in process_prefix_flag () */
+>>     -+				fprintf (stderr,
+>>     -+					 _("%s: -A is deliberately not supported \n"),
+>>     -+					 Prog);
+>>     -+				exit (E_BAD_ARG);
+>>     - 				break;
+>>     - 			case 's':
+>>     - 				if (!VALID (optarg)) {
+>>     -@@ -2127,7 +2137,7 @@ int main (int argc, char **argv)
+>>     - 	(void) textdomain (PACKAGE);
+>>     -
+>>     - 	process_root_flag ("-R", argc, argv);
+>>     --	prefix = process_prefix_flag ("-P", argc, argv);
+>>     -+	prefix = process_prefix_flag ("-A", argc, argv);
+>>     -
+>>     - 	OPENLOG ("usermod");
+>>     - #ifdef WITH_AUDIT
+>>     diff --git a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
+>>     index 9825216369..bd24626a26 100644
+>>     --- a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
+>>     +++ b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
+>>     @@ -1,4 +1,4 @@
+>>     -From 66533c7c6f347d257020675a1ed6e0c59cbbc3f0 Mon Sep 17 00:00:00 2001
+>>     +From 1422c24f7266b553c82100e3d18a10c55cd91063 Mon Sep 17 00:00:00 2001
+>>       From: Chen Qi<Qi.Chen@windriver.com>  <mailto:Qi.Chen@windriver.com>
+>>       Date: Thu, 17 Jul 2014 15:53:34 +0800
+>>       Subject: [PATCH] commonio.c-fix-unexpected-open-failure-in-chroot-env
+>>     @@ -21,10 +21,10 @@ Signed-off-by: Chen Qi<Qi.Chen@windriver.com>  <mailto:Qi.Chen@windriver.com>
+>>        1 file changed, 12 insertions(+), 4 deletions(-)
+>>       
+>>       diff --git a/lib/commonio.c b/lib/commonio.c
+>>     -index 16fa7e7..d6bc297 100644
+>>     +index cef404b..66908fb 100644
+>>       --- a/lib/commonio.c
+>>       +++ b/lib/commonio.c
+>>     -@@ -632,10 +632,18 @@ int commonio_open (struct commonio_db *db, int mode)
+>>     +@@ -646,10 +646,18 @@ int commonio_open (struct commonio_db *db, int mode)
+>>        	db->cursor = NULL;
+>>        	db->changed = false;
+>>        
+>>     diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+>>     index 2cbdfbc1cf..51d2ca5f16 100644
+>>     --- a/meta/recipes-extended/shadow/shadow.inc
+>>     +++ b/meta/recipes-extended/shadow/shadow.inc
+>>     @@ -10,10 +10,12 @@ LIC_FILES_CHKSUM ="file://COPYING;md5=ed80ff1c2b40843cf5768e5229cf16e5 \ DEPENDS = "virtual/crypt"
+>>       
+>>       UPSTREAM_CHECK_URI ="https://github.com/shadow-maint/shadow/releases"  <https://github.com/shadow-maint/shadow/releases>
+>>     -SRC_URI ="https://github.com/shadow-maint/shadow/releases/download/${PV}/${BP}.tar.gz
+>>     \ +SRC_URI = "  <https://github.com/shadow-maint/shadow/releases/download/$%7BPV%7D/$%7BBP%7D.tar.gz%5C+SRC_URI=>https://github.com/shadow-maint/shadow/releases/download/v${PV}/${BP}.tar.gz  <https://github.com/shadow-maint/shadow/releases/download/v$%7BPV%7D/$%7BBP%7D.tar.gz>  \
+>>                  file://shadow-4.1.3-dots-in-usernames.patch \
+>>                  ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
+>>                  file://shadow-relaxed-usernames.patch \
+>>     +           file://0001-Fix-out-of-tree-builds-with-respect-to-libsubid-incl.patch \
+>>     +           file://0001-libsubid-link-to-PAM-libraries.patch \
+>>                  "
+>>       
+>>       SRC_URI_append_class-target = " \
+>>     @@ -23,15 +25,13 @@ SRC_URI_append_class-target = " \
+>>       
+>>       SRC_URI_append_class-native = " \
+>>                  file://0001-Disable-use-of-syslog-for-sysroot.patch  \
+>>     -file://0002-Allow-for-setting-password-in-clear-text.patch  \
+>>                  file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch  \
+>>                  "
+>>       SRC_URI_append_class-nativesdk = " \
+>>                  file://0001-Disable-use-of-syslog-for-sysroot.patch  \
+>>                  "
+>>       
+>>     -SRC_URI[md5sum] = "3d97f11e66bfb0b14702b115fa8be480"
+>>     -SRC_URI[sha256sum] = "3ee3081fbbcbcfea5c8916419e46bc724807bab271072104f23e7a29e9668f3a"
+>>     +SRC_URI[sha256sum] = "6c4627ff9c9422b96664517ae753c944f2902e92809d0698b65f5fef11985212"
+>>       
+>>       # Additional Policy files for PAM
+>>       PAM_SRC_URI ="file://pam.d/chfn \ @@ -115,12 +115,6 @@ do_install() { # Use
+>>     proper encryption for passwords sed -i
+>>     's/^#ENCRYPT_METHOD.*$/ENCRYPT_METHOD SHA512/'
+>>     ${D}${sysconfdir}/login.defs - # Now we don't have a mail system.
+>>     Disable mail creation for now. - sed -i 's:/bin/bash:/bin/sh:g'
+>>     ${D}${sysconfdir}/default/useradd - sed -i '/^CREATE_MAIL_SPOOL/
+>>     s:^:#:' ${D}${sysconfdir}/default/useradd - - # Use users group by
+>>     default - sed -i 's,^GROUP=1000,GROUP=100,g'
+>>     ${D}${sysconfdir}/default/useradd } do_install_append() { @@
+>>     -184,13 +178,6 @@ ALTERNATIVE_${PN}-base = "newgrp groups login su"
+>>       ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
+>>       ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
+>>       
+>>     -ALTERNATIVE_${PN}-doc = "passwd.5 getspnam.3 groups.1 su.1 nologin.8"
+>>     -ALTERNATIVE_LINK_NAME[passwd.5] = "${mandir}/man5/passwd.5"
+>>     -ALTERNATIVE_LINK_NAME[getspnam.3] = "${mandir}/man3/getspnam.3"
+>>     -ALTERNATIVE_LINK_NAME[groups.1] = "${mandir}/man1/groups.1"
+>>     -ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
+>>     -ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
+>>     -
+>>       PACKAGE_WRITE_DEPS += "shadow-native"
+>>       pkg_postinst_${PN}_class-target () {
+>>       	if [ "x$D" != "x" ]; then
+>>     diff --git a/meta/recipes-extended/shadow/shadow_4.8.1.bb  <http://shadow_4.8.1.bb>  b/meta/recipes-extended/shadow/shadow_4.9.bb  <http://shadow_4.9.bb>
+>>     similarity index 100%
+>>     rename from meta/recipes-extended/shadow/shadow_4.8.1.bb  <http://shadow_4.8.1.bb>
+>>     rename to meta/recipes-extended/shadow/shadow_4.9.bb  <http://shadow_4.9.bb>
+>>
+> 
+> 
+> 
+> 
