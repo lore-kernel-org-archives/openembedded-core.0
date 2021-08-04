@@ -1,87 +1,155 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.8338.1628081185482861593
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web09.8466.1628082014315135786
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 05:46:25 -0700
+ Wed, 04 Aug 2021 06:00:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Zn4L3n77;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id m12so2067182wru.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 05:46:25 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gy5SujQH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id f9-20020a05600c1549b029025b0f5d8c6cso3858414wmg.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 06:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=+3W8WHgCXsszDIfWDdu7jRc5q7P9pHHxaG0IRFCgpfQ=;
-        b=Zn4L3n77hFgOcvUuZdwANp+xCUTZDNoZAmcx3NLdZscP8ERpyYZm/spZ649uKk2oJd
-         rQGyyP2WQCzeyAjo8N8g4TIEFSmDXdgph9r+IC/0B2Um/CafCcwL5DGj20/+gvT3c9Hn
-         YBwVFVrn4fnicAOKddqY1711iXg3nRwXW3RS4=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zeYtj1wvTnRvXo+taDDwhERwW3tp0RrfGm99ZnYbYIA=;
+        b=gy5SujQHYKZPS6JBZZCHyL9Cseo16eXaJ3j/jr2h7TvT4zKXLKqxfnHSA92nSpk+Ca
+         P2YckCqTOXpqXoYfEz/NzgiKYulhtmZlMvMFKMyRbWRLyWVFpbouZwWiu8cvV1IFz8rM
+         svVMQalrRsOGUQCGJCvhxF8g7+gm9SqDuUYbI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=+3W8WHgCXsszDIfWDdu7jRc5q7P9pHHxaG0IRFCgpfQ=;
-        b=YQ+829Un9gmiMfQAHXEZ9ntHxl0KjCY+xwDhm9NL9oHYcqJT4xj96cTaf5Fdq2UuUo
-         91g9OFqYxnO3tE+Q5I/MjeD45IGF5L+hSHoGBUIogjeg7PJIp7WeJVtImpFBe3vA1ht/
-         b5qXATksljm/iuoEVOsmniLsYDOdJC/0cz1QSNCE7UjiBOx1sECSCcstjvS0d9eNcMkC
-         Jpli09V7eCia6uzTfA7aevC4RDiCfRXMy+Je8WKCYkUx6el2W2HfTTCQU0kMKqfAR/H+
-         RJlaImpF4Lpi41cJZgFYNVNdWiU/4Bk+vy9HVz+p0VHou9XlvmCb0U44xhQLuBcio8y/
-         dKVw==
-X-Gm-Message-State: AOAM532nTY4/LjAZxTSKmIbUK+2drCGX3iBb79jeGOOQl0t6gLfHaqar
-	WiG4M9Ta3rfxTCB19KqaxdUm2g==
-X-Google-Smtp-Source: ABdhPJyy/hEGfKV/EJcrsMmcB/VwGKBTfczXcjpQ1O5lXTpzG5Z2wIx7WKCBtvXBgxxP8Dab9zjylQ==
-X-Received: by 2002:a5d:54c7:: with SMTP id x7mr28540062wrv.77.1628081183921;
-        Wed, 04 Aug 2021 05:46:23 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zeYtj1wvTnRvXo+taDDwhERwW3tp0RrfGm99ZnYbYIA=;
+        b=E/uwqKdbWDuTmNl7PPPgNZpFsyUVF1YwJxakFdjApfagRqfsXl+Nw9p+2b+wlMHQf8
+         V7eMofid/tOhDwMuMuwo801YW16HE5vr9uxQBbwEKoWUL2SpR6X4hWDxIMP4loTEdgxS
+         RhqtZPnu4AO++sntKTOBSf7Wga/wEy+KVfg7XMrBmB5/9quvNIVxmeX26xcSN7u8fS00
+         Fz1sOWjzWz5b3FivDt3suMBuXyob67TKCHvafrPQTWc3WWFckEUa0In4emMzbRK/1rbB
+         xWRmE+0b2R3tQpp7cj3PvsGY6r7cuRmI0l5wwFDjp/Og78P+mYsYb6k3xuB+iSNFUYdt
+         A+Kw==
+X-Gm-Message-State: AOAM531dltr725N2X4P8P1jETY91i9cz0NDGugY/aaBUXq7hRUvHEqCM
+	IaGj7yVAo7f7Z8cjJQSJzmEsoR76u7g=
+X-Google-Smtp-Source: ABdhPJxEL0vu4nwzNyR3J956JEJoOeOujPVC5KJzxnwwAl4tWDn5pg1u3SSmqZP54dqdEHdakcdAbA==
+X-Received: by 2002:a05:600c:304a:: with SMTP id n10mr9863351wmh.79.1628082012365;
+        Wed, 04 Aug 2021 06:00:12 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa? ([2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa])
-        by smtp.gmail.com with ESMTPSA id j140sm2237461wmj.37.2021.08.04.05.46.22
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa])
+        by smtp.gmail.com with ESMTPSA id w9sm2241488wmc.19.2021.08.04.06.00.11
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 05:46:23 -0700 (PDT)
-Message-ID: <3e567fd7b645657303e7bf2271f8ac1d039709f5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv2] systemd-boot: use ld.bfd as efi-ld even when gold or lld is used in ${LD}
+        Wed, 04 Aug 2021 06:00:12 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com
-Date: Wed, 04 Aug 2021 13:46:22 +0100
-In-Reply-To: <20210804103627.238411-1-Martin.Jansa@gmail.com>
-References: <1697E299D6012A1A.32176@lists.openembedded.org>
-	 <20210804103627.238411-1-Martin.Jansa@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] image/image_types: Convert CONVERSION_CMD/COMPRESS_CMD to new override syntax
+Date: Wed,  4 Aug 2021 14:00:10 +0100
+Message-Id: <20210804130011.3513634-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-08-04 at 12:36 +0200, Martin Jansa wrote:
-> * since the upgrade to 249.1 in:
->   https://git.openembedded.org/openembedded-core/commit/?id=323ec445dfe22860cd450c303db5ed8fcb4e791c
->   the builds with ld-is-gold are failing with:
-> 
->   [17/21] Generating linuxx64.elf.stub with a custom command
->   FAILED: src/boot/efi/linuxx64.elf.stub
->   /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-ld -o src/boot/efi/linuxx64.elf.stub -T /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/elf_x86_64_efi.lds -shared -Bsymbolic -nostdlib -znocombreloc --build-id=sha1 -L /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/crt0-efi-x86_64.o src/boot/efi/string-util-fundamental.c.o src/boot/efi/disk.c.o src/boot/efi/graphics.c.o src/boot/efi/measure.c.o src/boot/efi/pe.c.o src/boot/efi/secure-boot.c.o src/boot/efi/util.c.o src/boot/efi/linux.c.o src/boot/efi/splash.c.o src/boot/efi/stub.c.o -lefi -lgnuefi /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/../lib/x86_64-oe-linux/11.2.0/libgcc.a
->   /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-ld: internal error in segment_precedes, at ../../gold/layout.cc:3721
->   [18/21] Generating boot.c.o with a custom command
->   ninja: build stopped: subcommand failed.
->   WARNING: exit code 1 from a shell command.
-> 
->   as reported in:
->   https://lists.openembedded.org/g/openembedded-core/message/154246
-> 
-> * if someone is using lld or ld.lld in ${LD} then it would fail as well:
->   https://github.com/systemd/systemd/commit/e39288193fcdf3a36dbc49b78e6c9bf86a764e31
-> 
-> * work around this by always using ld.bfd instead of whatever is set in ${LD}
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-core/systemd/systemd-boot_249.1.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+For consistency, use override syntax for these variables as well since
+it is more consistent with the rest of the image code. We may be able to use
+these as proper overrides in due course.
 
-I suspect but haven't confirmed this is probably the cause of:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass           |  6 ++--
+ meta/classes/image_types.bbclass     | 50 ++++++++++++++--------------
+ scripts/contrib/convert-overrides.py |  2 +-
+ 3 files changed, 29 insertions(+), 29 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/104/builds/2673/steps/11/logs/stdio
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 0321b4f7ae0..df34c7884c5 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -457,11 +457,11 @@ python () {
+                     # Create input image first.
+                     gen_conversion_cmds(type)
+                     localdata.setVar('type', type)
+-                    cmd = "\t" + (localdata.getVar("CONVERSION_CMD_" + ctype) or localdata.getVar("COMPRESS_CMD_" + ctype))
++                    cmd = "\t" + (localdata.getVar("CONVERSION_CMD:" + ctype) or localdata.getVar("COMPRESS_CMD:" + ctype))
+                     if cmd not in cmds:
+                         cmds.append(cmd)
+-                    vardeps.add('CONVERSION_CMD_' + ctype)
+-                    vardeps.add('COMPRESS_CMD_' + ctype)
++                    vardeps.add('CONVERSION_CMD:' + ctype)
++                    vardeps.add('COMPRESS_CMD:' + ctype)
+                     subimage = type + "." + ctype
+                     if subimage not in subimages:
+                         subimages.append(subimage)
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 6a88ac85adf..e0eb06c1e3b 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -279,31 +279,31 @@ IMAGE_TYPES = " \
+ COMPRESSIONTYPES ?= ""
+ 
+ CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
+-CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+-CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+-CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+-CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD_zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
+-CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+-CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+-CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
+-CONVERSION_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
+-CONVERSION_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
+-CONVERSION_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
+-CONVERSION_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
+-CONVERSION_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
+-CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
+-CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
+-CONVERSION_CMD_vhdx = "qemu-img convert -O vhdx -o subformat=dynamic ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhdx"
+-CONVERSION_CMD_vhd = "qemu-img convert -O vpc -o subformat=fixed ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhd"
+-CONVERSION_CMD_vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
+-CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
+-CONVERSION_CMD_base64 = "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
+-CONVERSION_CMD_zsync = "zsyncmake_curl ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD_gzsync = "zsyncmake_curl -z ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
++CONVERSION_CMD:bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
++CONVERSION_CMD:lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
++CONVERSION_CMD:lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
++CONVERSION_CMD:sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
++CONVERSION_CMD:md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
++CONVERSION_CMD:sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
++CONVERSION_CMD:sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
++CONVERSION_CMD:sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
++CONVERSION_CMD:sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
++CONVERSION_CMD:sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
++CONVERSION_CMD:bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
++CONVERSION_CMD:u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
++CONVERSION_CMD:vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
++CONVERSION_CMD:vhdx = "qemu-img convert -O vhdx -o subformat=dynamic ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhdx"
++CONVERSION_CMD:vhd = "qemu-img convert -O vpc -o subformat=fixed ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhd"
++CONVERSION_CMD:vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
++CONVERSION_CMD:qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
++CONVERSION_CMD:base64 = "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
++CONVERSION_CMD:zsync = "zsyncmake_curl ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD:gzsync = "zsyncmake_curl -z ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_DEPENDS_lzma = "xz-native"
+ CONVERSION_DEPENDS_gz = "pigz-native"
+ CONVERSION_DEPENDS_bz2 = "pbzip2-native"
+diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
+index fd87deb07b2..1f395deeeb8 100755
+--- a/scripts/contrib/convert-overrides.py
++++ b/scripts/contrib/convert-overrides.py
+@@ -64,7 +64,7 @@ skips = skips + ["get_appends_for_files", "test_doubleref_remove", "test_bitbake
+ skips = skips + ["test_rpm_remove", "test_bitbakelayers_add_remove", "recipe_append_file", "log_data_removed", "recipe_append", "systemd_machine_unit_append"]
+ skips = skips + ["recipetool_append", "changetype_remove", "try_appendfile_wc", "test_qemux86_directdisk", "test_layer_appends", "tgz_removed"]
+ 
+-imagevars = ["IMAGE_CMD", "EXTRA_IMAGECMD", "IMAGE_TYPEDEP"]
++imagevars = ["IMAGE_CMD", "EXTRA_IMAGECMD", "IMAGE_TYPEDEP", "CONVERSION_CMD", "COMPRESS_CMD"]
+ packagevars = packagevars + imagevars
+ 
+ vars_re = {}
+-- 
+2.30.2
 
