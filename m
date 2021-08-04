@@ -1,86 +1,102 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web08.7097.1628073114638413387
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.7182.1628073395348207490
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 03:31:55 -0700
+ Wed, 04 Aug 2021 03:36:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CoRdImgV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id k4so1698975wrc.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 03:31:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oKlB73AB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id b7so2904767edu.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 03:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jfuJhY+eHnVddaXkzApKt6+twGqFODSP7dFfCrHjy60=;
-        b=CoRdImgVH6JJHbQI/60YND3ze+2WoKT0AYUaRwWjgT0KMr5RVgmd6mcyVhc7UWW1AN
-         gEWq1WDXaPYuC1MKDLoB7oSIrW8G0Tp4v06tUzozY+T9pHvFX4wqHZS+8uWfeZyfVMgY
-         XFgDc9bXHG0QzMnJiEGeYEkfVJiojwB0fYbpY=
+        bh=s6vF+LMG6sho0PfRLS3CBRFvjzfeNBiqmrAIvGEoPO4=;
+        b=oKlB73AB4ftw8d+MqVhBb3kWkBlaXNmU5rSoYo+jY/1HNtadYxupSyCDcptVEe0I1b
+         0pjO0KsDFsBLzwtRc7f8NVPRvTeyEAhMQXn/vOIqXJ4XUWziVq0g5TrtmOiHLfP7tERE
+         SgkTAU4PHp9ML/uFH2vpd72Lsuhz6p3pr6Pb+Gzzg/HIlxTxgMnK/LtCHI+DNPv4A8Vj
+         Y3OCigmOV6q/cX4ZzgDPcacylbjj0OfRM8BwYebSUyWNol8SLBXi9lZIlNmnTeI1hcPc
+         d1IzzCxOe55nBVJNtrMdpxsFlkhDIh6kkcY34cmD52yYON04gvpUA9gTO7dSQJB1zxq3
+         02FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=jfuJhY+eHnVddaXkzApKt6+twGqFODSP7dFfCrHjy60=;
-        b=QYyWTWMPvfo8GZt1MVoegsrxrGwN9icIbN74l4I5v8zT29dvBWSewLin6AMnsiMu41
-         jR6669EmGX8qoPbu48kEEkp5MB5ImLgiR+P9l56j/97cFlttwmJaxmnL6sWkh/+T4svh
-         PY1zbMeboGBpulp0Az7wDJoTNZcKgupTJVbWyLF+aQlJKxHL44QFmgczyrWuwzPf7LxM
-         jM1DbMCMZRRTunR/bwXT/FIXouNwJlZKumKtsegYHcjrv0CtyehAqtyRVGeDEC5ppIXB
-         HkaUrLahs/5Mxe6kLetUA1/3DV429y7vwhAecvUNAbZjVuNzeT/qvHIh0hyaM83h2eTz
-         s8Ig==
-X-Gm-Message-State: AOAM532OpLUoHVd+q9g0MrzTMsU9uEwM+2PnSt/ky2Fug9s1ArihNGdE
-	HHXryojUlEzRQSUvLJYlwVMyng==
-X-Google-Smtp-Source: ABdhPJya5byQ4ZhAJ+I3ru9h+0s5UAVUeR1qfLD0jwmS1R8MxzUbKIAuX7mOqzazXoa/+jlBcSCMRQ==
-X-Received: by 2002:adf:ea4b:: with SMTP id j11mr28078369wrn.156.1628073113044;
-        Wed, 04 Aug 2021 03:31:53 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa? ([2001:8b0:aba:5f3c:895b:15d0:6c2e:72fa])
-        by smtp.gmail.com with ESMTPSA id w5sm2364893wro.45.2021.08.04.03.31.52
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=s6vF+LMG6sho0PfRLS3CBRFvjzfeNBiqmrAIvGEoPO4=;
+        b=G7whPhMcptH0tOMTPjO1NqEQHaRB5QPKulv53c93gApiUV6idBtkcW5tsyJxdjxPyJ
+         CWZUwlQZ0T0BBFb55r7OCmfw+lNDTFdOCcyvhZsI2lTTZ71O+IndTxB34vmag7HnnNpp
+         +msHDIaPQUJSdxK4dB8hTMcl1PNsZgAN8MiFK9K/vPRwXuFOiJzuPXZvdkgv5yLREhTl
+         HSHMb5Kvxdoddgtqp3toXIiKMeWIrWRxY4uV3jlS1DLjYpgCnqaIt5zCwvjMSXWpKY7N
+         FKLl7i2xh3qtxhvago35fMiiHhgBXMl7qHCO+l1fO48NENcOv+J6F92uUlzhH67YSKWS
+         L4OA==
+X-Gm-Message-State: AOAM533ttzqizjFEhzgGUFI2z4geTw+lrrG37Di4C3yRralp3CmPc13c
+	Tn7EVoZGmjNilX+0VxxW2SuLKnIv0218Yw==
+X-Google-Smtp-Source: ABdhPJza+RYSuGHM3ZFcuSw8Z1Y0rjQFitbjpjEj/L8tpcf2d2kMI84zv2N9CEo/Bh1gXBNS0ajWLw==
+X-Received: by 2002:a05:6402:26cd:: with SMTP id x13mr31429626edd.184.1628073393782;
+        Wed, 04 Aug 2021 03:36:33 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id p18sm785815edu.8.2021.08.04.03.36.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 03:31:52 -0700 (PDT)
-Message-ID: <3abc2853445a6f54a68cca95a87ee63925bf1588.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] convert-overrides.py: handle few more cases of overrides
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 04 Aug 2021 11:31:51 +0100
-In-Reply-To: <1628040485-45946-2-git-send-email-denis@denix.org>
-References: <1628040485-45946-1-git-send-email-denis@denix.org>
-	 <1628040485-45946-2-git-send-email-denis@denix.org>
-User-Agent: Evolution 3.40.0-1 
+        Wed, 04 Aug 2021 03:36:33 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCHv2] systemd-boot: use ld.bfd as efi-ld even when gold or lld is used in ${LD}
+Date: Wed,  4 Aug 2021 12:36:27 +0200
+Message-Id: <20210804103627.238411-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <1697E299D6012A1A.32176@lists.openembedded.org>
+References: <1697E299D6012A1A.32176@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-08-03 at 21:28 -0400, Denys Dmytriyenko wrote:
-> Add task-configure and few more supported values of TARGET_OS override.
-> 
-> Signed-off-by: Denys Dmytriyenko <denis@denix.org>
-> ---
->  scripts/contrib/convert-overrides.py | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
-> index 6505b18..23f63a2 100755
-> --- a/scripts/contrib/convert-overrides.py
-> +++ b/scripts/contrib/convert-overrides.py
-> @@ -36,9 +36,10 @@ vars = vars + ["mipsarch", "x86-x32", "mips16e", "microblaze", "e5500-64b", "mip
->  vars = vars + ["class-native", "class-target", "class-cross-canadian", "class-cross", "class-devupstream"]
->  vars = vars + ["tune-",  "pn-", "forcevariable"]
->  vars = vars + ["libc-musl", "libc-glibc", "libc-newlib","libc-baremetal"]
-> -vars = vars + ["task-compile", "task-install", "task-clean", "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
-> +vars = vars + ["task-configure", "task-compile", "task-install", "task-clean", "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
->  vars = vars + ["toolchain-clang", "mydistro", "nios2", "sdkmingw32", "overrideone", "overridetwo"]
->  vars = vars + ["linux-gnux32", "linux-muslx32", "linux-gnun32", "mingw32", "poky", "darwin", "linuxstdbase"]
-> +vars = vars + ["linux", "linux-gnueabi", "elf", "eabi"]
+* since the upgrade to 249.1 in:
+  https://git.openembedded.org/openembedded-core/commit/?id=323ec445dfe22860cd450c303db5ed8fcb4e791c
+  the builds with ld-is-gold are failing with:
 
-I have reservations about linux and elf being here since this does lead to 
-a lot of false translations for OE-Core. Since OE-Core is now translated I
-guess that isn't the driving factor so I'll probably take this but it is worth
-being aware of.
+  [17/21] Generating linuxx64.elf.stub with a custom command
+  FAILED: src/boot/efi/linuxx64.elf.stub
+  /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-ld -o src/boot/efi/linuxx64.elf.stub -T /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/elf_x86_64_efi.lds -shared -Bsymbolic -nostdlib -znocombreloc --build-id=sha1 -L /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/crt0-efi-x86_64.o src/boot/efi/string-util-fundamental.c.o src/boot/efi/disk.c.o src/boot/efi/graphics.c.o src/boot/efi/measure.c.o src/boot/efi/pe.c.o src/boot/efi/secure-boot.c.o src/boot/efi/util.c.o src/boot/efi/linux.c.o src/boot/efi/splash.c.o src/boot/efi/stub.c.o -lefi -lgnuefi /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot/usr/lib/../lib/x86_64-oe-linux/11.2.0/libgcc.a
+  /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/systemd-boot/249.1-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-ld: internal error in segment_precedes, at ../../gold/layout.cc:3721
+  [18/21] Generating boot.c.o with a custom command
+  ninja: build stopped: subcommand failed.
+  WARNING: exit code 1 from a shell command.
 
-I did just have to retest a translation of core so I now need to filter all
-these out the diff...
+  as reported in:
+  https://lists.openembedded.org/g/openembedded-core/message/154246
 
-Cheers,
+* if someone is using lld or ld.lld in ${LD} then it would fail as well:
+  https://github.com/systemd/systemd/commit/e39288193fcdf3a36dbc49b78e6c9bf86a764e31
 
-Richard
+* work around this by always using ld.bfd instead of whatever is set in ${LD}
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/systemd/systemd-boot_249.1.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/systemd/systemd-boot_249.1.bb b/meta/recipes-core/systemd/systemd-boot_249.1.bb
+index d767b5bf8d..3c24e7ea4d 100644
+--- a/meta/recipes-core/systemd/systemd-boot_249.1.bb
++++ b/meta/recipes-core/systemd/systemd-boot_249.1.bb
+@@ -19,11 +19,13 @@ objcopy = ${@meson_array('OBJCOPY', d)}
+ EOF
+ }
+ 
++EFI_LD = "ld.bfd"
++
+ EXTRA_OEMESON += "-Defi=true \
+                   -Dgnu-efi=true \
+                   -Defi-includedir=${STAGING_INCDIR}/efi \
+                   -Defi-libdir=${STAGING_LIBDIR} \
+-                  -Defi-ld=${@ d.getVar('LD').split()[0]} \
++                  -Defi-ld=${EFI_LD} \
+                   -Dman=false \
+                   --cross-file ${WORKDIR}/meson-${PN}.cross \
+                   "
+-- 
+2.30.2
 
