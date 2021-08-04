@@ -1,57 +1,81 @@
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web08.3405.1628040858338271881
+ by mx.groups.io with SMTP id smtpd.web12.3760.1628043275354060645
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Aug 2021 18:34:18 -0700
+ Tue, 03 Aug 2021 19:14:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id BA95440C32
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Aug 2021 01:34:17 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id A95D240C16;
+	Wed,  4 Aug 2021 02:14:34 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RVHFMkMJmpoL
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Aug 2021 01:34:17 +0000 (UTC)
+	with ESMTP id z8QrioZyb6lv; Wed,  4 Aug 2021 02:14:34 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id AB9AF40BEC
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Aug 2021 01:34:17 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id 6A9AF17464D;
-	Tue,  3 Aug 2021 21:34:17 -0400 (EDT)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 622F740C06;
+	Wed,  4 Aug 2021 02:14:29 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 2001117464E; Tue,  3 Aug 2021 22:14:29 -0400 (EDT)
+Date: Tue, 3 Aug 2021 22:14:29 -0400
 From: "Denys Dmytriyenko" <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>
-Subject: [PATCH] libwpe: remove rpi-specific custom code
-Date: Tue,  3 Aug 2021 21:34:16 -0400
-Message-Id: <1628040856-46307-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	Anuj Mittal <anuj.mittal@intel.com>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: Re: [OE-core] [PATCH 0/4] yocto-check-layer: add support to check for dependencies
+Message-ID: <20210804021429.GV1528@denix.org>
+References: <20210722124644.19962-1-nicolas.dechesne@linaro.org>
+ <33b5d60e01b3995046709b17b8014fd45b0c48e5.camel@linuxfoundation.org>
+ <CAP71WjxcSk64Snj8Hd0Vy9nJyUH8mE9MjnkfAZC095mPt9bd6g@mail.gmail.com>
+ <98ab2870e07ad6d296d29322b7ee78bade43b9ea.camel@linuxfoundation.org>
+ <CAP71Wjz5-CQJ7nJzRU+Kij7itOLFeyxsyYkc=XGm=U5iWHqN7w@mail.gmail.com>
+ <CAOSpxdaMyYkAnuM72SjwZYMegvRyPN3oAL+Qo1BjiFjC8R67Yg@mail.gmail.com>
+ <7419111ad58a262461b858dd92771c075f7ae1bc.camel@linuxfoundation.org>
+ <CAOSpxdY2evRkfm55sJro4HY7Gc29aN-sh9ByNLX2fkjM2=aWdg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAOSpxdY2evRkfm55sJro4HY7Gc29aN-sh9ByNLX2fkjM2=aWdg@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This recipe was ported from another layer, which had special handling for rpi.
+On Mon, Aug 02, 2021 at 05:07:41AM -1000, Steve Sakoman wrote:
+> On Mon, Aug 2, 2021 at 5:04 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Mon, 2021-08-02 at 04:57 -1000, Steve Sakoman wrote:
+> > > On Mon, Aug 2, 2021 at 12:35 AM Nicolas Dechesne
+> > > <nicolas.dechesne@linaro.org> wrote:
+> > > >
+> > > > These patches are now merged in master, and I believe they should be merged in
+> > > > dunfell and hardknott too. The 4 patches apply as-is in both branches. Let me
+> > > > know if you need anything from me!
+> > >
+> > > Done.  I assume I also need a version of the autobuilder-helper patch:
+> > >
+> > > https://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-
+> > > helper/commit/?id=fe72e222961d69dcd4d638e7e05b437a65e8f34c
+> > >
+> > > It seems that dunfell is checking a much more limited set of layers
+> > > (only meta-intel for check-layer-nightly)  Should I expand this list?
+> >
+> > There has been work to get some of them working, so yes, I think it would
+> > be good to test and see where we stand.
+> 
+> OK, will do.
 
-OE-Core doesn't have 'rpi' override, doesn't define 'vc4graphics' DISTRO_FEATURES
-and overall, BSP-specifics should be handled in downstream layers, not in OE-Core.
+Steve,
 
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
----
- meta/recipes-sato/webkit/libwpe_1.10.1.bb | 3 ---
- 1 file changed, 3 deletions(-)
+Would you be able to publish results of your testing on dunfell?
 
-diff --git a/meta/recipes-sato/webkit/libwpe_1.10.1.bb b/meta/recipes-sato/webkit/libwpe_1.10.1.bb
-index 22fff93..6f2fe1d 100644
---- a/meta/recipes-sato/webkit/libwpe_1.10.1.bb
-+++ b/meta/recipes-sato/webkit/libwpe_1.10.1.bb
-@@ -6,9 +6,6 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=371a616eb4903c6cb79e9893a5f615cc"
- DEPENDS = "virtual/egl libxkbcommon"
- 
--# Workaround build issue with RPi userland EGL libraries.
--CFLAGS:append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', '-D_GNU_SOURCE', d)}"
--
- inherit cmake features_check
- 
- REQUIRED_DISTRO_FEATURES = "opengl"
+I'm interested in some expanded compat checks in master, but they were blocked 
+by known limitations in dunfell - was wondering if those got resolved yet. 
+Thanks!
+
 -- 
-2.7.4
-
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
