@@ -1,90 +1,117 @@
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
- by mx.groups.io with SMTP id smtpd.web10.12106.1628096760451297987
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.12223.1628097399474318552
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 10:06:22 -0700
+ Wed, 04 Aug 2021 10:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=iKUk/e9J;
- spf=pass (domain: mcrowe.com, ip: 212.159.14.17, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id BKLTm7krT7QW9BKLUm5fnH; Wed, 04 Aug 2021 18:06:21 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=H+BAP9Qi c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=kj9zAlcOel0A:10 a=MhDmnRu9jo8A:10 a=Q4-j1AaZAAAA:8 a=PYnjg3YJAAAA:8
- a=Xozt7Z9gXfVz3BerkAAA:9 a=CjuIK1q_8ugA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=96-UuAdfYG6OSYlHWuPe:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	 s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Sender:Reply-To:CC:Content-Transfer-Encoding:Content-ID:
-	Content-Description; bh=a2dmg5BVMPuL5rvCd4HUmvW/WynGKeIvlyfkNlF3FaI=; b=iKUk/
-	e9JX7iYJTr1mqOsvEWljZS22s2GNXgITsC6O3PEBBy/atnMfYaVFXE4S6Z1a1YrSW1dWNoOi7mP1p
-	Kt3lXiTWsE/p8Ploa1SiAa/1g4HAS2inGehSYIbD32ru1o1yA1Hx9zfcIr3nVkct21wKKfDJ8Ban9
-	r7e872lAE4YTJ7JNClEzRIpeP0VErX1fb0qrbep+wSTnL9tXGSneXPyZn9EbVgktusY+cROMkDDax
-	69e7DWUeoq4DHhEwgAr+Shjqy7gR4mhjPAF0+GnXBEUsZPoM4Fa6XOAxsPiPecyBCziopssyEyHQV
-	+bUKWDjO8gWd8N42Zuh4JUi8Cu/uw==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
-	(envelope-from <mac@mcrowe.com>)
-	id 1mBKLT-000726-Ec; Wed, 04 Aug 2021 18:06:19 +0100
-Date: Wed, 4 Aug 2021 18:06:19 +0100
-From: "Mike Crowe" <yocto@mac.mcrowe.com>
-To: Steve Sakoman <steve@sakoman.com>,
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id B162240C1E;
+	Wed,  4 Aug 2021 17:16:38 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jUmVxlC4xwuE; Wed,  4 Aug 2021 17:16:38 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8945840BD6;
+	Wed,  4 Aug 2021 17:16:36 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 430F117464F; Wed,  4 Aug 2021 13:16:36 -0400 (EDT)
+Date: Wed, 4 Aug 2021 13:16:36 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [dunfell][PATCH] curl: Fix CVE-2021-22924 and CVE-2021-22925
-Message-ID: <20210804170619.GA23238@mcrowe.com>
-References: <20210804081051.795458-1-mac@mcrowe.com>
- <CAOSpxdbF=wwtijC+q8M8Bn=-=03gQ9DABr3Gk56M51jaRK4qbA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] convert-overrides.py: handle few more cases of overrides
+Message-ID: <20210804171636.GY1528@denix.org>
+References: <1628040485-45946-1-git-send-email-denis@denix.org>
+ <1628040485-45946-2-git-send-email-denis@denix.org>
+ <3abc2853445a6f54a68cca95a87ee63925bf1588.camel@linuxfoundation.org>
+ <CA+chaQfComiP6AtnyhFbcqbhxzjD8epMuxSbdDNYibDGjFtPOA@mail.gmail.com>
+ <20210804160714.GW1528@denix.org>
+ <f5b4b10b3e15b813bf5d360a3eebfb27d3dc4f1b.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdbF=wwtijC+q8M8Bn=-=03gQ9DABr3Gk56M51jaRK4qbA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Envelope: MS4wfDFK0vg76N6+NMuIPF1nCK+ocPeCoa79n1qD04qiRRtNuLRUUOGdTdj5YsZGkwjOond+YbOfmsJuuyZrboUZWgV0btRlHMPv/NnjJzoUaKeK07W7+NI6
- Soms8kPGbHWClWG9iX6fv3icAQIhQmsJoxrfgz0+V3YtXU82T6axkAvIdvOEsGMbGK2VmWJiYcDFAg==
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <f5b4b10b3e15b813bf5d360a3eebfb27d3dc4f1b.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wednesday 04 August 2021 at 06:44:51 -1000, Steve Sakoman wrote:
-> On Tue, Aug 3, 2021 at 10:11 PM Mike Crowe via lists.openembedded.org
-> <yocto=mac.mcrowe.com@lists.openembedded.org> wrote:
-> >
-> > curl v7.78 contained fixes for five CVEs:
-> >
-> > CVE-2021-22922 and CVE-2021-22923 are only present when support for
-> > metalink is enabled. EXTRA_OECONF contains "--without-libmetalink" so
-> > these fixes are unnecessary.
-> >
-> > CVE-2021-22926 only affects builds for MacOS.
-> >
-> > CVE-2021-22924 and CVE-2021-22925 are both applicable. Take the patches
-> > from Ubuntu 20.04 curl_7.68.0-1ubuntu2.6 package which is close enough
-> > that the patch for CVE-2021-22924 applies without conflicts. The
-> > CVE-2021-22925 patch required only a small tweak to apply.
-> 
-> Being curious why none of these are showing up in the reports I
-> checked the CPE database and it seems none of them are present!  So
-> that explains why.
-> 
-> Do you know why they are missing?  Perhaps a status of RESERVED?  See:
-> 
-> https://nvd.nist.gov/vuln/detail/CVE-2021-22923
+On Wed, Aug 04, 2021 at 06:04:27PM +0100, Richard Purdie wrote:
+> On Wed, 2021-08-04 at 12:07 -0400, Denys Dmytriyenko wrote:
+> > On Wed, Aug 04, 2021 at 04:29:45PM +0200, Martin Jansa wrote:
+> > > Yes, I see the same in meta-oe and meta-webosose.
+> > >=20
+> > > It's easy to spot false translations in incremental conversion wher=
+e the
+> > > diff is relatively small, but doing initial conversion on big layer=
+ with
+> > > this change already included might be more painful.
+> > >=20
+> > > On Wed, Aug 4, 2021 at 12:31 PM Richard Purdie <
+> > > richard.purdie@linuxfoundation.org> wrote:
+> > >=20
+> > > > On Tue, 2021-08-03 at 21:28 -0400, Denys Dmytriyenko wrote:
+> > > > > Add task-configure and few more supported values of TARGET_OS o=
+verride.
+> > > > >=20
+> > > > > Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+> > > > > ---
+> > > > > =A0scripts/contrib/convert-overrides.py | 5 +++--
+> > > > > =A01 file changed, 3 insertions(+), 2 deletions(-)
+> > > > >=20
+> > > > > diff --git a/scripts/contrib/convert-overrides.py
+> > > > b/scripts/contrib/convert-overrides.py
+> > > > > index 6505b18..23f63a2 100755
+> > > > > --- a/scripts/contrib/convert-overrides.py
+> > > > > +++ b/scripts/contrib/convert-overrides.py
+> > > > > @@ -36,9 +36,10 @@ vars =3D vars + ["mipsarch", "x86-x32", "mip=
+s16e",
+> > > > "microblaze", "e5500-64b", "mip
+> > > > > =A0vars =3D vars + ["class-native", "class-target", "class-cros=
+s-canadian",
+> > > > "class-cross", "class-devupstream"]
+> > > > > =A0vars =3D vars + ["tune-",  "pn-", "forcevariable"]
+> > > > > =A0vars =3D vars + ["libc-musl", "libc-glibc",
+> > > > "libc-newlib","libc-baremetal"]
+> > > > > -vars =3D vars + ["task-compile", "task-install", "task-clean",
+> > > > "task-image-qa", "task-rm_work", "task-image-complete", "task-pop=
+ulate-sdk"]
+> > > > > +vars =3D vars + ["task-configure", "task-compile", "task-insta=
+ll",
+> > > > "task-clean", "task-image-qa", "task-rm_work", "task-image-comple=
+te",
+> > > > "task-populate-sdk"]
+> > > > > =A0vars =3D vars + ["toolchain-clang", "mydistro", "nios2", "sd=
+kmingw32",
+> > > > "overrideone", "overridetwo"]
+> > > > > =A0vars =3D vars + ["linux-gnux32", "linux-muslx32", "linux-gnu=
+n32",
+> > > > "mingw32", "poky", "darwin", "linuxstdbase"]
+> > > > > +vars =3D vars + ["linux", "linux-gnueabi", "elf", "eabi"]
+> > > >=20
+> > > > I have reservations about linux and elf being here since this doe=
+s lead to
+> > > > a lot of false translations for OE-Core. Since OE-Core is now tra=
+nslated I
+> > > > guess that isn't the driving factor so I'll probably take this bu=
+t it is
+> > > > worth
+> > > > being aware of.
+> > > >=20
+> > > > I did just have to retest a translation of core so I now need to =
+filter all
+> > > > these out the diff...
+> >=20
+> > Should I re-submit with 'linux' and 'elf' removed?
+>=20
+> I think given OE-Core isn't alone with the issue, that may be wise. I c=
+an tweak=A0
+> the patch if you want?
 
-I'm afraid that I have no idea. :( I just watch curl release announcements
-to assess the security impact on our products and spotted these.
+Richard,
 
-> Since they seem to be real issues though I can take the patch once you
-> send a V2 with the issue below fixed.
+Whichever is easier for you.
 
-> [ Need to have a CVE tag and your signed-off-by in both patch files. ]
-
-v2 should have arrived. I must have sneaked my previous CVE fixes through
-without them somehow. :)
-
-> It might make sense to whitelist the CVE's that don't apply to us so
-> that once the entries hit the database we will already have dealt with
-> them.
-
-Hopefully done.
-
-Thanks.
-
-Mike.
+--=20
+Denys
