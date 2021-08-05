@@ -1,79 +1,78 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web12.10466.1628177700200238539
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web08.10513.1628177705128780732
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 08:35:00 -0700
+ Thu, 05 Aug 2021 08:35:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PULZp53e;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f44.google.com with SMTP id c2-20020a0568303482b029048bcf4c6bd9so5535570otu.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:35:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RLtRi7Tb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f53.google.com with SMTP id z6-20020a0568302906b02904f268d34f86so5225742otu.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:35:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QT0EdX59G7oSrFZa4jwqYYf1k5SMQGJ6NyZcyZzopJ0=;
-        b=PULZp53eyYyYKWdNY+P1ZYtTLOyAS5F1wV43gnsP5z0Ixz1xo5GaZI+U31V+WBbT5k
-         grp/yfPDDSYYIQ9FPArrX60Hpw0OAUbCvn78LKrQ7UCcASIKfK5XG8XWtqh0JuyScMP7
-         j5im1zKJa8yGsHtd6SyVLMLqvPgqSrSYYsLDvMwo0gxbvZAOOBRwTVPJLrNW8S98Y/q3
-         BShONeKSG8V2rsE/xyMJYI7yYUlgH3YHB2XKi8k691cYaqim6QacfoGgOlOsjJ664HIz
-         I1ul10Qh5Ci1qC2IkzPfOnglQZ8OGUI5CFAxbJzaZw6bQALQg/hdKRRmhg3fKr4SshDp
-         4obg==
+        bh=q6iXKrN4bExolIfQ1gTx4xoBk1HqgdeiIRovv+s4ao4=;
+        b=RLtRi7TbEe7TWkJvLBsigWBmfedG6bp87BMLHnpFsctNN+ETWk8fdjnoWELBTvJ7d9
+         x/f2vrr8MMh8fIRbhy/50+4aAdp4rJJ8v9rviGy7HzNlhvgOGcqp8TDBsK3/Ep4BWVAm
+         9Q/FB3VhYIXJcc54alJYhrt84ZdHVZ1MmhbyGjdGGWqONYZC0boVs2v5HX1GpmATNtQa
+         s9aRqD19An1Pk18K+WRvXoShlRAqAY1aALnQXTqkvLrnxf+ch0QljTcU7uawycuvRq90
+         JJ1eVHPthq+4SNaZyHCXu8gK5prb2xf7ukf0UcH8PC6jamdbmQ/qY2VcqHbeZgpYEOyt
+         GbMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QT0EdX59G7oSrFZa4jwqYYf1k5SMQGJ6NyZcyZzopJ0=;
-        b=mtMkHBG5tnYgcb5kMK2v5zG7/jKCXuNJXdfN79VSyf1LR01rX8HNJzjBNNJESJixpc
-         3riqx78odTz6yhq6zToghrG6ccZ/L8Ba6UDyVK91bGETv2UChmenD2sk1v614g09v6JS
-         aDKi88ulcYaWqiloy33P9jD2eAwf8C7w3BVe2tZ5HUA63a2T1nsFanrdz1d6TRpPVxOC
-         zTue9NsdBXLyClAibb0WsPvfPdptxuNc4rxSWkLO8/8RLTCWF+AVyYmpfROfAbTq3y7O
-         nyo2fpxSakJ1f6Zm2i9MwE+9Mz4WnLx83TBvZ41FZ+iEZwUKeOirzSFsS+DSe4fitUBD
-         5nJQ==
-X-Gm-Message-State: AOAM5315cYWzSzVfCVZV+4+9kNZge+ckx2uE3RAaWG+A2I+uc1SKoae+
-	gBtWjMYtpM9GeP/iELDvgRnVvqgQE+1S5Nl6
-X-Google-Smtp-Source: ABdhPJykum7OAvZ2ZJEEhzK3YkqR0w4pat7t1o1N8443uXtkOqxKPScza1rNUOE+uulSHKOVFUYHCw==
-X-Received: by 2002:a05:6830:1386:: with SMTP id d6mr4142318otq.73.1628177699001;
-        Thu, 05 Aug 2021 08:34:59 -0700 (PDT)
+        bh=q6iXKrN4bExolIfQ1gTx4xoBk1HqgdeiIRovv+s4ao4=;
+        b=BazoQJRdzAlZwqq/WG0c7hh05mR7QN8yJKxaGzARCUZdzMRcj1WY8qPZa9KYsWhMaw
+         Oou1eNbEENz4w1sn+xd5W0qJELjsKqlUJuxxzXHBWv0XRFWlfOi0rCom5yCJ0R3xTp9Z
+         BhfbsDP24Bjy4XIQSJWunJxZswdeHzTyKoHfBdhSfVR+e1gFgXUz3pOhzm9ihjhwVAu9
+         re9SXoIewFh9zwsANwmcvY4303GW8CLIcdVZx+wDRaEhhd9FVTGEiWyTwEGjTzcfLSHG
+         dx9whEjgO6wiP2MFVMsmPvdolYeOC+50xcoPPZDHJx6F4IURhITHLW8TB6TFJNwQCvGH
+         QYXg==
+X-Gm-Message-State: AOAM531hVlOzf0qnl7CZev5Q1nKtN7utA//i9MZCk1IAbVa3AYprF3eA
+	9oTu6SxlRouH+wge9vzscQVx3Iq1mN7a3uWP
+X-Google-Smtp-Source: ABdhPJwspTu2VYbuC132Cc3FmrmTC7HQSMe/RaslscUaAK0Az/eFmpL6oK29lQ7cfMSA4VHNfhEX2g==
+X-Received: by 2002:a05:6830:440f:: with SMTP id q15mr4209023otv.349.1628177704090;
+        Thu, 05 Aug 2021 08:35:04 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.34.56
+        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.35.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 08:34:58 -0700 (PDT)
+        Thu, 05 Aug 2021 08:35:03 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/33] Revert "gstreamer-plugins-good: ignore CVE-2021-3497/8 since they are fixed"
-Date: Thu,  5 Aug 2021 05:33:38 -1000
-Message-Id: <8e3d1f6db8b3595f19a4b93d5872537471fe4e43.1628176985.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/33] Revert "gstreamer-plugins-base: ignore CVE-2021-3522 since it is fixed"
+Date: Thu,  5 Aug 2021 05:33:39 -1000
+Message-Id: <0e8f099a0f39236572c69f4f47f71e99a02eb90a.1628176985.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628176985.git.steve@sakoman.com>
 References: <cover.1628176985.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change is correct but should be in gstreamer recipe not gstreamer-plugins-good
+Change is correct but should be in gstreamer recipe not gstreamer-plugins-base
 
-This reverts commit d853e2bde1ea083f8438e8d7a80f041196d2e38d.
+This reverts commit f32e90a7f8918aacda61ef6176eb1655742045b4.
 ---
- .../gstreamer/gstreamer1.0-plugins-good_1.16.3.bb            | 5 -----
- 1 file changed, 5 deletions(-)
+ .../gstreamer/gstreamer1.0-plugins-base_1.16.3.bb             | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-index e8830103ce..1038cbf224 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-@@ -15,11 +15,6 @@ SRC_URI = " \
- SRC_URI[md5sum] = "c79b6c2f8eaadb2bb66615b694db399e"
- SRC_URI[sha256sum] = "d3a23a3fe73de673f591b7655494990c9e8a0e22a3c70d6f1dbf50198b29f85f"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
+index 431468d459..bcfdef3bbd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.3.bb
+@@ -20,10 +20,6 @@ SRC_URI = " \
+ SRC_URI[md5sum] = "e3ddb1bae9fb510b49a295f212f1e6e4"
+ SRC_URI[sha256sum] = "9f02678b0bbbcc9eff107d3bd89d83ce92fec2154cd607c7c8bd34dc7fee491c"
  
--# CPE entries for gst-plugins-good are listed as gstreamer issues
+-# CPE entries for gst-plugins-base are listed as gstreamer issues
 -# so we need to ignore the false hit
--CVE_CHECK_WHITELIST += "CVE-2021-3497"
--CVE_CHECK_WHITELIST += "CVE-2021-3498"
+-CVE_CHECK_WHITELIST += "CVE-2021-3522"
 -
- S = "${WORKDIR}/gst-plugins-good-${PV}"
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
  
- LICENSE = "GPLv2+ & LGPLv2.1+"
+ DEPENDS += "iso-codes util-linux zlib"
 -- 
 2.25.1
 
