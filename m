@@ -1,93 +1,89 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.web11.10527.1628177847135599522
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web08.10555.1628177852845195086
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 08:37:27 -0700
+ Thu, 05 Aug 2021 08:37:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=G3+l3E1o;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.52, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f52.google.com with SMTP id z3-20020a4a98430000b029025f4693434bso1421565ooi.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:37:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=krxcYLJL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id w6so7862726oiv.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vv3Gd8euySR754H7h2HE10Erg6P6kxSrbMRI/s2+wic=;
-        b=G3+l3E1opZfqpqRs2nUCdjoEM+7nqFIa5/5WB3hgsg1cxzP9Zp3Wz1r2Tmr9/3pcg5
-         vRPR+PC/F6HwJReyS+NEMKmmi35a360P2XwggA9hM2sO2+07NQLeoOiLUY0U6NZNHeri
-         REuvSkmyaOsZJtTGWQsgMsAcHYq4nEa/qI4vEErTnDm8FXOCHaaVBV/DghhxL5ZxtzUr
-         TUTE50fSgzbEiRqY6I+uVguf+RV410WbN6O9P0ES+yAFyAjlXHT3hGOdFS1LfRfqnXTb
-         L0F6C99xRZICmqnHagEO5Qj6ckinw2JJFAt2IeHy4iUTBpJUEX/JphYejKfPsV7p8zSr
-         6SYw==
+        bh=xpMPi7CguPHxhtQwacnZyF0ykRMTx9aTz9KJhi6FnYY=;
+        b=krxcYLJLfPzQMkZu/ca9HqC6noi16UxQXSRJfRCCqdlGQgL9KkDOeIAILH9FNA4wKc
+         dYlptZn/fxJgeFXuQMsyzEQBHEclbYkxP0t15XIYHOB/4gYBXvyRUe76X7LA4u6VdUBM
+         Z1vJ1TFbQ7Oavp3sYRP7HEUlNDraLtfZ3C+IM7ulmZD0UYxBb5VmK1OFk04Pae1KbjuC
+         NYKcva5FhHW7Py8lTtSbmCDotIFxkUvlfUE+cahcyTdM47DjuFVb2wvR0uFdR0fodCR1
+         SU/137qyz/vNLot0VGaNGnvxUUzeg8+tIwB5xjPdL9owvfubtTm/BoauxQx9moTTcGUR
+         Pv3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vv3Gd8euySR754H7h2HE10Erg6P6kxSrbMRI/s2+wic=;
-        b=UZJB8l2bRhaySzgwR9SnbnOtWPOpgh48Kc5LTcn/Lubiii6rW4oaW263tQw5ljqTV4
-         Kizw4Q7IN+p74Aabk4Cvu+trn5EHQpqk/wsWYNHsM8GTjmwi5etGnHWS6ir53bnWM9SV
-         ujLvFv9216qIh2EroL4LUnIe36VpCjAZtTKeNVhudkKuwb9ujNUbruuQioCMKkcglxh5
-         e2xz/JsUMOkI84AOL+mNFk50clArMVeJGYdIMZc5fNxHjzLn3ncg2v8kKCfm1GEBo/FX
-         oO1bQ8WUp7p+IeBHQZw5ghgo/poLWDRT0zcWcWr6OlU72rpeZAH+WmSflmNHlbc+xYg5
-         Alsw==
-X-Gm-Message-State: AOAM533AKt4+WjkgXXE+R78Yo2HK2a3swA9sP9wyYoBgXwOOclIrfist
-	BHppsNdemMl3E4B0y+EHKaQqcTTNubRXYmeR
-X-Google-Smtp-Source: ABdhPJykWAt0PEmaObE8HF4WdX+QRFZoujGMbvq8gC3EGXIfqfaK1ZhfMWm7gO1JYLqdqyKlNQPIdQ==
-X-Received: by 2002:a4a:434d:: with SMTP id l13mr3692792ooj.83.1628177846056;
-        Thu, 05 Aug 2021 08:37:26 -0700 (PDT)
+        bh=xpMPi7CguPHxhtQwacnZyF0ykRMTx9aTz9KJhi6FnYY=;
+        b=f1IgiqAI9T1OnjdIsieUld5kUfIL45l4EzRVY+ZMA9AoNltboA5ykFBSIuqmAyxEE9
+         gXgZNRSz00UmxEkRHyGQ4i5mAOmAdOX1kxadS90lbOMr8sFlclnntliNmNHBIqFyugMN
+         eQnAJIN/Zsf8NFvaSZoCQ2u0JGgW9ZjjY5HjFJO+0ri2Go5+NWp7ZwFynF5c5ebCb7Tc
+         /qD8h7dWZjnkT0WUgLHB/Vb0QV8CpJHQbR1BbtcI82DFJmmtIMd+OAQnDLIuKb5KhEzr
+         wJOI8Clb9OlZ9DXm3MsHxkex2ZRpr9zdOeEk9UAplaXam0D04o/PIwFZ9F3mrcRS5vsX
+         S7lA==
+X-Gm-Message-State: AOAM532QjbRdaz46/O9HQIZ0RMmsPQW9FRLHLVMgPikUVlPC+zgHzVkI
+	y1hi4Nx7iWJENW23TLrAPjiKAuExnBCXU88/
+X-Google-Smtp-Source: ABdhPJxgBzahd9mqC7Lr0pWT9Ucq7mdIdqysSvSl7GiwA4lBiIhWigkY7yFZ3D9fYgMp3R4P62u/Xw==
+X-Received: by 2002:a54:4803:: with SMTP id j3mr10300055oij.133.1628177851852;
+        Thu, 05 Aug 2021 08:37:31 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.37.22
+        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.37.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 08:37:25 -0700 (PDT)
+        Thu, 05 Aug 2021 08:37:31 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 24/33] oeqa/runtime: add test for matchbox-terminal
-Date: Thu,  5 Aug 2021 05:34:01 -1000
-Message-Id: <e4d0109bde6f9dce0709106262c3e4f51007b510.1628176985.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 25/33] oeqa/terminal : improve the test case
+Date: Thu,  5 Aug 2021 05:34:02 -1000
+Message-Id: <039cd427cffe37bdf09cbf30c2cc47a85e166330.1628176985.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628176985.git.steve@sakoman.com>
 References: <cover.1628176985.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: TeohJayShen <jay.shen.teoh@intel.com>
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-This test is checking that the terminal application is able to run. The click_terminal_icon_on_X_desktop manual test case from oeqa/manual/bsp-hw can be replace by this runtime test.
+-Improve this test case to fulfill the requirements of replacing the click_terminal_icon_on_X_desktop manual test case from oeqa/manual/bsp-hw :
+1) verify that the terminal window is working without problem
+2) verify that there's only 1 terminal window is launched
 
-Signed-off-by: TeohJayShen <jay.shen.teoh@intel.com>
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cfa9c1ce853bfd31c1febe61d0f7ad9c5d35f709)
+(cherry picked from commit 824713174fae0617240a236d1bbfd2929bf4b24f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/terminal.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/terminal.py
+ meta/lib/oeqa/runtime/cases/terminal.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oeqa/runtime/cases/terminal.py b/meta/lib/oeqa/runtime/cases/terminal.py
-new file mode 100644
-index 0000000000..a268f26880
---- /dev/null
+index a268f26880..8fcca99f47 100644
+--- a/meta/lib/oeqa/runtime/cases/terminal.py
 +++ b/meta/lib/oeqa/runtime/cases/terminal.py
-@@ -0,0 +1,18 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.runtime.decorator.package import OEHasPackage
-+
-+import threading
-+import time
-+
-+class TerminalTest(OERuntimeTestCase):
-+
-+    @OEHasPackage(['matchbox-terminal'])
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_terminal_running(self):
-+        t_thread = threading.Thread(target=self.target.run, args=('export DISPLAY=:0 && matchbox-terminal',))
-+        t_thread.start()
-+        time.sleep(2)
-+        status, output = self.target.run('pidof matchbox-terminal')
-+        self.target.run('kill -9 %s' % output)
-+        self.assertEqual(status, 0, msg='Not able to find process that runs terminal.')   
+@@ -10,9 +10,12 @@ class TerminalTest(OERuntimeTestCase):
+     @OEHasPackage(['matchbox-terminal'])
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     def test_terminal_running(self):
+-        t_thread = threading.Thread(target=self.target.run, args=('export DISPLAY=:0 && matchbox-terminal',))
++        t_thread = threading.Thread(target=self.target.run, args=("export DISPLAY=:0 && matchbox-terminal -e 'sh -c \"uname -a && exec sh\"'",))
+         t_thread.start()
+         time.sleep(2)
++        
+         status, output = self.target.run('pidof matchbox-terminal')
++        number_of_terminal = len(output.split())
++        self.assertEqual(number_of_terminal, 1, msg='There should be only one terminal being launched. Number of terminal launched : %s' % number_of_terminal)
+         self.target.run('kill -9 %s' % output)
+-        self.assertEqual(status, 0, msg='Not able to find process that runs terminal.')   
++        self.assertEqual(status, 0, msg='Not able to find process that runs terminal.')     
 -- 
 2.25.1
 
