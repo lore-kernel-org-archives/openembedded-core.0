@@ -1,71 +1,73 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web09.7176.1628161275110981581
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web09.8108.1628167676405938519
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 04:01:15 -0700
+ Thu, 05 Aug 2021 05:47:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:57018 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1mBb7i-0008Ku-Lk
-	for openembedded-core@lists.openembedded.org; Thu, 05 Aug 2021 07:01:13 -0400
-Date: Thu, 5 Aug 2021 07:01:09 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: should recipes not come with their own systemd/user/group info?
-Message-ID: <d9126d7b-13ed-6a37-1db8-2affecbca83@crashcourse.ca>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WSBcbWFT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id l8-20020a05600c1d08b02902b5acf7d8b5so2899633wms.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 05:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qBZp9JZwN66AE3SZvERKHlYqseJ6QSHyOmtZPPs6lwg=;
+        b=WSBcbWFTgUmCTX2hGv3iM5Ew3VvKg++W1x+lpvu8p5H+dL1uOWXrhCWWsgg9CzJ8XN
+         KP31ty/WWTfF7tBFOuc+lTgrNXBhX5CrNso4X5MWg9vhwy4Yx8ZsDKQa6+r20FmuyE4h
+         KyBaMGJ++2kiY4xraIGJP04cociddxs0kjteQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qBZp9JZwN66AE3SZvERKHlYqseJ6QSHyOmtZPPs6lwg=;
+        b=lj5AFzgnPMFX7XCJoyiHR9Hv3tmx5clDPHT6icHd52mNdHBGAj0LSJhuVGYUviGDXY
+         zLi3mvJTARDxU6NT5DflYPvpJ9FPGYGTBGnEJW14HwWxtX84/27WJFPLf26ncSuYIN09
+         UhTuGbjkir9D20uOyTqi/zd8FEAhKb8yXNuuQYBFmhkX8rHMLXkRdqyNA50JSDGX2Mj7
+         K8lEUIIZkqb+laRF5XIJNFFBG8FZveMylU3+48umOgOV9+lVFHeq4bLN5ujsh5WXYn0j
+         0mvVoosZ3PTODcVL4Jki8I2ehtkDATmxwynk1U9v/RlUWk+XnDnJGGugmDyMDBmUMTnd
+         M+kw==
+X-Gm-Message-State: AOAM530cwmAEZK+IrpxuEZSm6CIGhEGGl84Jh1jhleRqiH09NBlXWbNI
+	30YPMsuMNySsK0D0ROFC06YhKBQzMGIreA==
+X-Google-Smtp-Source: ABdhPJyO9qjzDuN5skQPTJorzM7XWX24BXQ8KRiMrsCkJ1CVndgUJ7k6DFpudARLFbQioiR6ALigiA==
+X-Received: by 2002:a7b:cb44:: with SMTP id v4mr4900675wmj.169.1628167674700;
+        Thu, 05 Aug 2021 05:47:54 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:ea47:91d3:ba71:9eb4])
+        by smtp.gmail.com with ESMTPSA id a12sm8960274wmj.22.2021.08.05.05.47.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 05:47:54 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/runtime/cases/ptest: Increase test timeout from 300s to 450s
+Date: Thu,  5 Aug 2021 13:47:53 +0100
+Message-Id: <20210805124753.3572725-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+Some tests such as lttng-tools are marginal and timing out on the autobuilder
+with the current 300s default. Increase to avoid this noise in the ptest
+failures list.
 
-  style question here, but i'm perusing an OE/YP (actually wind river,
-but effectively the same thing) layer that was handed to me, and i'm
-puzzled by how the internally-written systemd-controlled services are
-implemented.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/runtime/cases/ptest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  on the one hand, there are reasonable recipes that each represent
-some service to be managed by systemd, and they all install their
-executables in the right places and so on. however, rather than each
-recipe also providing its own service file, there is a totally
-separate recipe (call it "systemd-services.bb") which contains under
-its files/ directory dozens and dozens of service files for all of
-those recipes, and is responsible for installing all of them.
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index 0800f3c27f2..00742da2b52 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -57,7 +57,7 @@ class PtestRunnerTest(OERuntimeTestCase):
+         ptest_dirs = [ '/usr/lib' ]
+         if not libdir in ptest_dirs:
+             ptest_dirs.append(libdir)
+-        status, output = self.target.run('ptest-runner -d \"{}\"'.format(' '.join(ptest_dirs)), 0)
++        status, output = self.target.run('ptest-runner -t 450 -d \"{}\"'.format(' '.join(ptest_dirs)), 0)
+         os.makedirs(ptest_log_dir)
+         with open(ptest_runner_log, 'w') as f:
+             f.write(output)
+-- 
+2.30.2
 
-  in short, someone decided that -- for whatever reason -- all of the
-systemd service files should be collected all in one place, and
-installed en masse. is this ... normal? i would have thought that it's
-the responsibility of each recipe to mannage all the content related
-to it, and that would of course include the systemd service file to be
-installed for it. i don't know the rationale for this, and it strikes
-me as a recipe for disaster in trying to keep all these things synced
-up. is there some rationale for doing it this way that i'm unaware
-of?
-
-  and closely related, the same trick was used when defining all the
-new users and groups that would own these services. rather than each
-service looking after itself, there is a recipe file (call it
-"new_users_and_groups.bb") which is hundreds of lines of USERADD_PARAM
-and GROUPADD_PARAM lines that define precisely (numerically) all the
-new user and group accounts to be associated with all sorts of
-services, whereupon i ask the same question -- isn't it more typical
-that each service look after its own user and group info?
-
-  in this second case, it *might* be that all of these values need to
-be hard-coded to be consistent with, i don't know, something else i'm
-unaware of, but it still looks strange.
-
-  thoughts? the above actually works for the time being, but it does
-seem a but unnatural.
-
-rday
