@@ -1,78 +1,84 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web12.10484.1628177777178684056
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.10572.1628177782993953062
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 08:36:17 -0700
+ Thu, 05 Aug 2021 08:36:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ufTYU1cy;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.47, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f47.google.com with SMTP id y16-20020a4ad6500000b0290258a7ff4058so1416649oos.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:36:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=O9T0O5Ip;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.41, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f41.google.com with SMTP id z3-20020a4a98430000b029025f4693434bso1420640ooi.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:36:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=NTKnPgTZC2PlJi82h6/TEbtsuWlioM3dcKFrVLAdyQM=;
-        b=ufTYU1cyMth/85NBZe5ddmCKhZDIjkCAjF/+d1WDaPzdQF5CYPQTL7act0Ap4l/r3f
-         hW0sP5SsCi3Jw04atm8jwgYXafRN9bjEffC90i7Bxki08YXjLQNZjrK+dJaPgmxgJb2n
-         sEecRj1BJ7fGdMKbWXohpbloXD7AQTH1B+icqHgkGMIg5QGyA7x7EQscM9m7deZ7A3bH
-         q8qFfFaOAPlp+rQeMiKeWenmcn0kghLtqOAwYsISd0+FZMTpOvpSrLxNbUCzOILYw86D
-         G8RXP8TZNfA74NyVuXfkT4bGt5TfpRnre/8oZdn/dsKLTMizrssCzclHFNY4B3oAx/hf
-         yRBg==
+        bh=0mYIkzSPKvdrtm/0L5F15GMbz0sx8NkaE4qg4mVyjTc=;
+        b=O9T0O5Ip7xhBHg+nW+GCnVZMp8Znlex9YV3+/ZJcyeAL3AF41D/2CuYSV1OH+fCCRc
+         t7X/JXWfuWbhPLwyrNOdXJXyTLTxW4TxcXzlmxPVlrNxdaXLJ3fVjFE0UKkG+VyqcnDy
+         sDc5uLdsXSV9X1BCC/zowII0/qt+2JIj98qrr7l2Nx/uSNVGE+z9f5jvBnFPH8xY3jVJ
+         AJBa02cRFSGMXoorapCRO82T4jUuJFssqsYesL6DW7p5hWb7wh6jNS8Fq6tEHQLTOAZu
+         wwmRh491YU9VKJ4FRmyS58cbtM9krk7o99sYLINCwBlyJF/XJ7EHhnZ++SUs4416RImn
+         915A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NTKnPgTZC2PlJi82h6/TEbtsuWlioM3dcKFrVLAdyQM=;
-        b=leba1SbBQS6EG/cuusXlflsZpiH9Bk1aB1IQAEoqiLXVrjbi5eyiL9qo3kOdGAGW1J
-         3cF6fWmcKbkBg+i+2NXFSt4u0W2BO83OD1o/Fji6j3UauF65bRsvUqWDhRc8nLCO1QZQ
-         YW/ndlTRLt5ibV+UlbTR8QYZibC7R5jsKfR1oNKi5mdUuZ2eY1wATzqWWvZBPko9pbY3
-         3I8+TH0K1bWym+L4mn2sNKNYB4JzGW7asMgSzXBrkh8IRPDQqZttUpHcXls/LnZpD5c9
-         XWuc4wBrcRJY2ie4/BI+d+PPAoCM89eusbVXSUaPQf6jRWF41xZAq7V/7vdBn14lf2QA
-         TJkA==
-X-Gm-Message-State: AOAM533x+iUAfF50ZFm+e+iCQsbDl0CjtXUlN6Qv0p/FBB0yEqt4qV55
-	jriMKgtGJcagM7/Pf13b1fCArydiZG4Dz9mX
-X-Google-Smtp-Source: ABdhPJyEMHsamEqLh66kh0Tn4R4vkbYpogQIjm+z8vleaqnVLd2oQIPO4fyGpI6cWkkPUWaHzdKSUw==
-X-Received: by 2002:a4a:98b0:: with SMTP id a45mr3760799ooj.22.1628177776120;
-        Thu, 05 Aug 2021 08:36:16 -0700 (PDT)
+        bh=0mYIkzSPKvdrtm/0L5F15GMbz0sx8NkaE4qg4mVyjTc=;
+        b=MT7jgOSdf04oxDtTd7EpSy/xro4iTI9jyl2NbzoRiehvsnNcRknKoNRabd3x/TTtHq
+         j0P0wHI+CbGEbgqsi8vH09MSnjt4eRFMUBM8SmT9H6ezMS6mcf4MVCbceYZPvwHrDfUu
+         /TkcRfmivC+gMuMTIXw4zqhF7UZlkqHI+gteEjBWH0+atGFVPsSPBLkqObOOQ6imzaAr
+         zQNs+M/xfTbQpv466k2rOt9tIMnXkfSInDapkDdhzzcw6pxnM5Ab3tpRZV0sZgp8GjM2
+         K2dbE+FM0cjrvg6ZywGoO1/BZc+xmDF+vqdStgGLzLqfWHptqDG95nArz8vbU0OdVQsF
+         262Q==
+X-Gm-Message-State: AOAM531LI0d6ih4tgtVT1Kvd1nHY6D7ReBr29TxHc5tYeWkv7bXVz/eS
+	ELDxGTwPehZcazzIyB/+tOUz/abOAmuVB7RX
+X-Google-Smtp-Source: ABdhPJwQNKNJkDa801qgDOP7SIWmm/KocVIapiAIR7KSuFX8xOqewSPqO2D0O75H74CrRtVTO8UYLw==
+X-Received: by 2002:a4a:dd04:: with SMTP id m4mr3644985oou.69.1628177781968;
+        Thu, 05 Aug 2021 08:36:21 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.36.13
+        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.36.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 08:36:15 -0700 (PDT)
+        Thu, 05 Aug 2021 08:36:21 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/33] initramfs-framework/setup-live: fix shebang
-Date: Thu,  5 Aug 2021 05:33:50 -1000
-Message-Id: <c9271a5882965d783a88d4f97d03d9bb2bc93c7c.1628176985.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/33] yocto-check-layer: Remove duplicated code
+Date: Thu,  5 Aug 2021 05:33:51 -1000
+Message-Id: <aa8e0928bda4a01623552084fc0ac0658e495b53.1628176985.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628176985.git.steve@sakoman.com>
 References: <cover.1628176985.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ulrich Ölmann <u.oelmann@pengutronix.de>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+Nicolas Dechesne spotted there was duplicate code I had introduced with a
+previous fix. Remove the second statement since the earlier one is correct
+all that is needed.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 71f1f6bc9402ee0fad82aaf0757fffb73da4b706)
+(cherry picked from commit f3e8d9f0e53e73de5498fccce81d049a88f6473b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/setup-live | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/yocto-check-layer | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-index 4c79f41285..7e92f93322 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-@@ -1,4 +1,4 @@
--#/bin/sh
-+#!/bin/sh
- # Copyright (C) 2011 O.S. Systems Software LTDA.
- # Licensed on MIT
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index deba3cb4f8..84fb0011e9 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -152,8 +152,6 @@ def main():
+         logger.info("Setting up for %s(%s), %s" % (layer['name'], layer['type'],
+             layer['path']))
  
+-        shutil.copyfile(bblayersconf + '.backup', bblayersconf)
+-
+         missing_dependencies = not add_layer_dependencies(bblayersconf, layer, dep_layers, logger)
+         if not missing_dependencies:
+             for additional_layer in additional_layers:
 -- 
 2.25.1
 
