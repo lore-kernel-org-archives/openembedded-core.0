@@ -1,1775 +1,223 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.1234.1628115550354144832
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web08.2469.1628122419956847372
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Aug 2021 15:19:10 -0700
+ Wed, 04 Aug 2021 17:13:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LhyNmYrp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id h13so3886618wrp.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Aug 2021 15:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3eAt6n5nNXZRYjZTB9UcreOznLnvuCiARInDPnxtaIw=;
-        b=LhyNmYrpbxIwrBBjF8ucvceOkUPKj6rLbpFKBEVST3Mzb/Y9fGgOvooAcNRMl2PnI4
-         3xXBcwu88hdPKyCGCqS3cPnc1mNPwS0ilxQ3sI7+raiW25sOFo1MpgthvbElBcRWDXBR
-         3emIQrNUBJSuIDSTknvfv2DisEsffTU3y7nQE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3eAt6n5nNXZRYjZTB9UcreOznLnvuCiARInDPnxtaIw=;
-        b=WQ0KzNEq24rObXd4jsgItR1IvNk6JDdZ3gwQEybMIHJgZtdLuPgUS7p7EWeMbRWn4l
-         5DL9Kk78FahDS9YtLXVdgyIRtCH45VrM0Xxj3Y088mc+KinQkMOwY1ee8IzDb3jCjC33
-         YDBNF8svW6hA0+pEBYRpl8Fzwgw8DFdzwKnn3pj7d8WevpWd54Lf2nfTtE1Ae/898lO9
-         udFAj7eNjgBaA+tonLa5Yolga5loIm6qViTPJv3d4JVVIK06p/JU/llrGIfg9fOkxvQT
-         wiCrGBEgGa2YvkBgq/+CSG1HGm+AJb6boxbdyn6gzbjXYh+PWET36I5bke6YPKEi6Rhw
-         kqhw==
-X-Gm-Message-State: AOAM532bWD0CQA4zOrg6tfBCj7sgidf1Pl9swMXoAp2OM8X/xVpSUeUx
-	a6cN6cKO4peJdoEckga7hU+17aS0oWUx2Q==
-X-Google-Smtp-Source: ABdhPJwktkfmb5Qr0P55bpoZzHLiChL7e4b0z+WHuK77eA9zALM6vcLT8Y8ecHUqu2RPo1N6/I3/Lw==
-X-Received: by 2002:a5d:5541:: with SMTP id g1mr1531483wrw.29.1628115548141;
-        Wed, 04 Aug 2021 15:19:08 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:ea47:91d3:ba71:9eb4])
-        by smtp.gmail.com with ESMTPSA id l33sm6427872wms.12.2021.08.04.15.19.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 15:19:07 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] valgrind: Add patches for glibc 2.34 support
-Date: Wed,  4 Aug 2021 23:19:05 +0100
-Message-Id: <20210804221906.3551311-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=b9mGh4YV;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3851ff85d9=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1750BuMv026772;
+	Thu, 5 Aug 2021 00:13:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=subject : to :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=6XS7Z4l895jU0qRAA810QA2yYcy1sYACJezA2rqCr44=;
+ b=b9mGh4YVzpvofWj8lX60i4wKTZBRKcNHYP1BkQV2MDvRSa0XPRJUtaxhur7nMqS4kxTh
+ qxlLeQPvRqnh3o6GQrXSXkq6fNbKxJpslV5gpIy1fujcdVbrYrRYPUJkFdkBBvLpcnfI
+ cUnbEk7EvO2UVeFJKc4pUR5erGXR2ao7JFE5xmJEILtM52MtZ46QO1eTNUt1lQEl3q01
+ eLRKGscuMlDRLfrAXviWfkSUOjJ//Vuy6Ftqhg6SWHzTBqRwmPWozK8uZ8DMCwZKt150
+ +2T2vetLc9AeT3X28NXFqETJw9lKfcrCUAz39sdfHAgmtABxlCkL+JAsQjPm5Y7TgJSh zw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3a7w718au6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Aug 2021 00:13:38 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1750DcOa029246;
+	Thu, 5 Aug 2021 00:13:38 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3a7w718au5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Aug 2021 00:13:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cSyS4Fs6c4L1GLHT/957SN/o3iT58Kw7BHh9BFLwpPuOS8b5GBOmTrn8EYO3oFAmolal6EiVSHsPtthU4VlXgft//Cn8B9rPNNJvByjDX9xcWEtyIDRxtRfgmHoA3oW8Vyv2MhJz4vMZyGz1lwjIXKn75RNvreCcJJ3i5Z8cf7RZwFk7dniESy3Yo2iacSx4I6JLjJYiM7jgg3C+J2DXBHkU1MOv8IQqo1iUgmxGHOiMa3sa/lLQLscBqEASgVXTprZbF/UcwXBuhSnytNGxiidQUPe6U5nPetisdOwqIt4CHQkC67n23hMux4Y0Rr6Ve0oZIdAm6WUr9h9mBYmxoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6XS7Z4l895jU0qRAA810QA2yYcy1sYACJezA2rqCr44=;
+ b=ZbqMKk+POycIbXElsyMAdK/dNC2I5SuwElmTzmE1AbHxHJZfFfV1Iv/kxHlq37FIRXsYtLovuLutiO66uO54nOWPfT4N43uvQH9hwSWg+yGjbmJNV4PgMGIJztkQY0oNPV3eJBuJDMID+t+ikCe/gfXjdt/Z7LYVu9cLT18PW17W3teK/KVx4UBQI2pOmuZZ//Q1OBkGO9m7mmZtmtp6Ji6yIGtT8amUUDINps3t3MudQAOKH4HbHVWnyWuKwpBGyML1dG+xG0Tno/jdg84x7pX1c7vylDf4DPrrBkpJ486y3FdWtB6YDwMwlxxrgVjov4eO5JwJ5oJda8ve9zv8xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM6PR11MB4724.namprd11.prod.outlook.com (2603:10b6:5:2ad::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Thu, 5 Aug
+ 2021 00:13:36 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::c413:9f51:c32e:a579]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::c413:9f51:c32e:a579%6]) with mapi id 15.20.4373.027; Thu, 5 Aug 2021
+ 00:13:36 +0000
+Subject: Re: [OE-core] [master][PATCH 0/4] Reproducible LTO builds
+To: Tony Battersby <tonyb@cybernetics.com>,
+        openembedded-core@lists.openembedded.org,
+        openembedded-devel@lists.openembedded.org,
+        Khem Raj <raj.khem@gmail.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <2efeecad-7ee5-126c-9271-d69fc3428c38@cybernetics.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <447d4fa9-b915-4e59-0ecc-64d41c6ceee6@windriver.com>
+Date: Wed, 4 Aug 2021 20:13:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <2efeecad-7ee5-126c-9271-d69fc3428c38@cybernetics.com>
+X-ClientProxiedBy: SJ0PR05CA0046.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f::21) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by SJ0PR05CA0046.namprd05.prod.outlook.com (2603:10b6:a03:33f::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.12 via Frontend Transport; Thu, 5 Aug 2021 00:13:35 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dc01d96e-ba30-439a-8dbd-08d957a5de53
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4724:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB4724014E29BB27283766B673F8F29@DM6PR11MB4724.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tm4rTBx3yAhnAivJYw2FfzIY02eN+OuEtDMcKRE7NHVGkDXgLz18tIg4bSMEji9mPRScojeTAbB//5+ILZ+spUkjOh3bv0yORzAyDwn+Xu5vkBmyoHVJC6NLTIzN9gamdIufqxJW4mLKCVVO5ZyQbxS9xc3s144rpBaljr8nf4NUEvJhSDwxG4p3XOz29lW7isYa0LIoOIsQ2Li/GM04+5zgKwHhqsmiFXoCcKVf+oZgbajUmJIcEnR7CpKmoUr0WKGDcFASnF5PHGMF+Zw8kE3vjSp1u7QltVQAYqXy58qwcbMZadPSo5zgwZUfhoXOE6CkNVd4jRB4ZeFZyBFAEdDC9LmL7hpN5IdJgTPkIYucSXWjX5eYRCEyGGxszlf1v7RA0dnC1WbZEK5MA7/RQzLkIF7i7Mg6Mtzl54K9u6KO8DWb9Obe5jjnp0k1d//yREvmTb7N7GkN0R3g7I74slpOTsOhEKX20CsuobynbqoMJIPudWIq8DriOBMNbB3rA/nl5rnEDx9Lk3XUd1Zg51mXM8wTnFpXv2br3lbsMZMaSWfMhnDdYDs90u0Q8NTYirb3mb962ZMdhTCK75T0i5nbtoRkghn9AxHfcS6opV8CXJ7NQRTSE6342spOToJlD9B9ZacFH1UTQlVfqsHAp3he7jfzybqya/urFwUeXxo2I+bpJpCFb8ZnBJUJd52DN6/PCIa+2WFKzwglyo7521CVrogOLXpxKYCjNQ7QJ7VssxNEjTiyTnst9PlZv55mBbFUFZokiN6eTkZ8PtdGYOjq06RIlS8o5IH+1sjpEG0axpfknso1zCKyYyeQQGPGs4mWs3F9RHekp/Y7140yCXoOLETVmLwS8i6JkDvrsISl4NBUBajwKX/1t96i3qQwqsV5c40BSqnyEmLTFavPKQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(31696002)(38100700002)(8936002)(31686004)(6666004)(38350700002)(52116002)(6486002)(966005)(66476007)(53546011)(26005)(8676002)(66556008)(66946007)(110136005)(83380400001)(316002)(36756003)(508600001)(956004)(186003)(16576012)(5660300002)(86362001)(2906002)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZTlRdEN0Ukl1dFU1eUJqRHJFcEZGYllnWTFZVHhsV3MyQTRkQ3ltUTZYb2ha?=
+ =?utf-8?B?SDcrNzNhUmIvVXN2VC9VM2FjcU1WTDlUaVpCZFlJKzBnd1cwR3pCRUpRMzJU?=
+ =?utf-8?B?N29qWm5pcGI5V25UT21VRys2SCs0SUFEMDFnNUtwMEFpbFpEazdTYlAxR3d0?=
+ =?utf-8?B?dkRZRFUxdnJFQWVFTWFhQjc0R2VaS1ljZ3pyTmk0eExMOXFwd2ZvMDZKTUpB?=
+ =?utf-8?B?cjhmTFEvb1czUEtiM0dnYXVxVnliVWtydVJwZjNrU0FobGhJVXVSS3dWaW1G?=
+ =?utf-8?B?L2dnVkNvVDJ2NUhvcWVIQWkrR2ZzMklZeldIKytOODJjMXllWkNlS3o2UFJr?=
+ =?utf-8?B?U0x6RndMR2dMalRDOC9LbzhhUytkdTR6S3g3Zmc1VmNKWWxkT1ZDVVgzSC90?=
+ =?utf-8?B?Mi9vYllETVRRZUh0MjBpUDFyY3prd2w2Y3NuMk00aVhFcjlMc0xrYXFEWkZR?=
+ =?utf-8?B?YUtOT0dPYWlMV3QrOTZteW5QbW5DQWlHcmd5Tzh1MVFlK1p1YW5WTVpMcXIv?=
+ =?utf-8?B?L2lCQ05FMTF5clM0Q0RCWE1oUlNFZ1ZUVDA2bVBrOWxCRzJmR0UxRkp4R1FG?=
+ =?utf-8?B?bytvejh3a20vQjhrN2VDa0UveCtydFhqYXdlT1pMc2VMS0gxK0dia3p1R2NY?=
+ =?utf-8?B?R2hNY2E4d09mQktacVJRTDdENnlEUHpSQkIwQkFFWjBuajF5T3A3VzBzb1Fp?=
+ =?utf-8?B?WTUzakkzbXgzNUUwZ2xEdzkwV2lYeXZTRHMrY2pRUFp5VXJ2MlpoRERWT3ZL?=
+ =?utf-8?B?a0FGalk5Qm52ejdJRWljdWVIQ3V5RjcwUnFtWGFJNGNVSmFBbWpHYTlGd01a?=
+ =?utf-8?B?Z3pCUzRqY0orNXFDZFJTcytmdUgyc2ZocDl1QXVmb3llYXNlekFpS3F2MzQv?=
+ =?utf-8?B?V2I4Nm4vMzY5YkhkK1pxRUFBb1ZOYzI2YlFPQ0tHNGk0eFBHMitnbFA1alZH?=
+ =?utf-8?B?c2FSNTVkSTcybVlTZXFQTldCS1V4a2I2K1IvWXlqbytSeTdiQXdVSXFpcUU5?=
+ =?utf-8?B?cXNYM0JBck4yazNKNjJxbGxnNzVLanJmYzVjeDYxOGZReURBd0p3SHN0Nng4?=
+ =?utf-8?B?d2hGNmY5dll1NlByaEVBaUp0SHpadmNHOWY3KzJtR1UyTVIvWDRST014YUxF?=
+ =?utf-8?B?YTVmSXd0RmlrQXdVNGl2ZnQ2Y1VLd1dXV0VJenBQN1IydUNwajhkMFhsWEYr?=
+ =?utf-8?B?ZmF2d3QzM05tODl6OUhaam5wYXhoMVZ2OC9TYktFWTdPQm44YlJyc0NqK3FQ?=
+ =?utf-8?B?WlVVblpLOUU1U3pMZVVRUzkyWkVvVHQySk9PRkFZcnRMM293SEJGdUdXWHVU?=
+ =?utf-8?B?RVVZRDdNQnBVQXF6RE8xYnJNOHkyanZQREZ4WjMzUkFNbzdvV0NnU2xEODNG?=
+ =?utf-8?B?YkZrb1dQcWplTGtacGZNajliNFcyaGF3SDV3MGtnK3RneERuRDdGbFlmempq?=
+ =?utf-8?B?V0NrNSsybFJ3T2ZaaVpQTUkwem8zZjRiYmxWSDdjdG9NRUpxRG9RaitHL0Zw?=
+ =?utf-8?B?RWI2dkR5MjFCYXZ1NytkdkhNd0daSFcxcTVPc0NtTWEzTTlySTlmTWw1d1px?=
+ =?utf-8?B?ai9aVllQTDVIU3Yvc0F1TGNoRnJPMW1EVkkrUXJVOXJVS0VKWTUyKzU3dFMy?=
+ =?utf-8?B?VU1yQ3o4MGw3VkFqNTV1VFJ3MDAzci9QaGJiOFhIanRBTThHeEY1aXplNERK?=
+ =?utf-8?B?SGpUajJKMjBjZG5rSkRpNDVXaGl6MCt2WFRyV3JwUXo5dHpad3p0cEVidFpr?=
+ =?utf-8?Q?vLqaVJq6kTx82kiVE+/KsfHH7+5/xcj7yQkqs7u?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc01d96e-ba30-439a-8dbd-08d957a5de53
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2021 00:13:36.2512
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m9z1q7icNTMCQs8xsbm/N7EFq7y2JkzDKWqqap71zCafH8axZkoMN13Zd4Q48VJGloZnHNX9Rq/WF8T1qD5biDHrlXgoqsUYkgBzv+CVAXU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4724
+X-Proofpoint-ORIG-GUID: VwP3LyqIG8skmxHNcXM7FYNXst_wh1TE
+X-Proofpoint-GUID: njELKjm_hl-qU0hZKXdOSZQRy_ertmCw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-04_08,2021-08-04_03,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 clxscore=1015
+ mlxscore=0 malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108050000
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 1750BuMv026772
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: quoted-printable
 
-This partially resolves ptest failures with glibc 2.34.
+On 2021-07-27 9:34 a.m., Tony Battersby wrote:
+> Currently, enabling Link Time Optimization via:
+>=20
+> require conf/distro/include/lto.inc
+> DISTRO_FEATURES_append =3D " lto"
+>=20
+> makes the build non-reproducible (as in
+> https://reproducible-builds.org/).=C2=A0 This patch set fixes some of th=
+e
+> problems, but is not yet a complete solution.
+>=20
+> This patch set addresses the following bugs:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14481
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14490
+>=20
+> openembedded-core patches
+> 1/4: lto.inc: disable LTO for grub
+> 2/4: gcc: Backport patch to make LTO builds more reproducible
+> 3/4: bitbake.conf: add DEBUG_PREFIX_MAP to TARGET_LDFLAGS
+>=20
+> openembedded-devel patches
+> 4/4: net-snmp: fix QA Issue after LDFLAGS change
+>=20
+> Patch 3 adds DEBUG_PREFIX_MAP to TARGET_LDFLAGS (it was already in
+> TARGET_CFLAGS).=C2=A0 This could possibly be done differently, such as b=
+y
+> removing it from TARGET_CFLAGS and adding it to TOOLCHAIN_OPTIONS,
+> TARGET_CC_ARCH, or TUNE_CCARGS, but I haven't tested those.=C2=A0 Let me=
+ know
+> if there is a better/preferred way to do it.
+>=20
+> The TARGET_LDFLAGS change broke net-snmp from meta-networking, so I have
+> included a patch to fix that.=C2=A0 Other packages might have been broke=
+n as
+> well, although I haven't found any others.
+>=20
+> With all these patches, there are still many shared libraries in /lib
+> and /usr/lib that are still not reproducible with LTO enabled because
+> x86_64-poky-linux-libtool filters out the -f*-prefix-map flags added by
+> patch 3 when linking shared libraries.=C2=A0 /usr/lib/libbz2.so.1.0.6 fr=
+om
+> the libbz2 package from the bzip2 recipe is a good example.=C2=A0 I do n=
+ot
+> have a patch for that problem.=C2=A0 I will leave that to someone else.
+>=20
+> So this is what we need to achieve reproducible LTO builds:
+> *) This patch set
+> *) A fix for libtool
+> *) Add LTO to reproducible builds testing if appropriate (e.g.
+> meta/lib/oeqa/selftest/cases/reproducible.py, CI on Autobuilder)
+> *) Fixes for individual packages, if needed
+> *) Once everything works, update the documentation again (I previously
+> requested a documentation change for this bug, which will eventually
+> show up at
+> http://docs.yoctoproject.org/test-manual/reproducible-builds.html).
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...6a5a0ea3e1e154663b0fc575bfe2becf177d.patch |   34 +
- ...51fc35f8a6148c2940eb46932b02dd3b9b23.patch |  171 ++
- ...2a4d246519cd1a638cfc7eff00cdd74413c4.patch |   43 +
- ...4805fc74b5690f763033c0c9b43f27613572.patch | 1422 +++++++++++++++++
- .../valgrind/valgrind_3.17.0.bb               |    4 +
- 5 files changed, 1674 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/200b6a5a0ea3e1e154663b0fc575bfe2becf177d.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/52ed51fc35f8a6148c2940eb46932b02dd3b9b23.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/6da22a4d246519cd1a638cfc7eff00cdd74413c4.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/a1364805fc74b5690f763033c0c9b43f27613572.patch
+This is certainly a few steps in the right direction with a good outline
+of what's next.
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/200b6a5a0ea3e1e154663b0fc575bfe2becf177d.patch b/meta/recipes-devtools/valgrind/valgrind/200b6a5a0ea3e1e154663b0fc575bfe2becf177d.patch
-new file mode 100644
-index 00000000000..9a5f6a3f512
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/200b6a5a0ea3e1e154663b0fc575bfe2becf177d.patch
-@@ -0,0 +1,34 @@
-+From 200b6a5a0ea3e1e154663b0fc575bfe2becf177d Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Wed, 21 Jul 2021 17:55:40 +0200
-+Subject: [PATCH] m_debuginfo/debuginfo.c VG_(get_fnname_kind) _start is below
-+ main
-+
-+With glibc 2.34 we might see the _start symbol as the frame that
-+called main instead of directly after __libc_start_main or
-+generic_start_main.
-+
-+Fixes memcheck/tests/badjump[2], memcheck/tests/origin4-many,
-+helgrind/tests/tc04_free_lock, helgrind/tests/tc09_bad_unlock
-+and helgrind/tests/tc20_verifywrap.
-+
-+Upstream-Status: Backport
-+---
-+ coregrind/m_debuginfo/debuginfo.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/coregrind/m_debuginfo/debuginfo.c b/coregrind/m_debuginfo/debuginfo.c
-+index bc2578b377..e2218f2668 100644
-+--- a/coregrind/m_debuginfo/debuginfo.c
-++++ b/coregrind/m_debuginfo/debuginfo.c
-+@@ -2289,6 +2289,7 @@ Vg_FnNameKind VG_(get_fnname_kind) ( const HChar* name )
-+        VG_STREQN(18, "__libc_start_main.", name) || // gcc optimization
-+        VG_STREQ("generic_start_main", name) ||  // Yellow Dog doggedness
-+        VG_STREQN(19, "generic_start_main.", name) || // gcc optimization
-++       VG_STREQ("_start", name) ||
-+ #      elif defined(VGO_darwin)
-+        // See readmacho.c for an explanation of this.
-+        VG_STREQ("start_according_to_valgrind", name) ||  // Darwin, darling
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/52ed51fc35f8a6148c2940eb46932b02dd3b9b23.patch b/meta/recipes-devtools/valgrind/valgrind/52ed51fc35f8a6148c2940eb46932b02dd3b9b23.patch
-new file mode 100644
-index 00000000000..451a459ea75
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/52ed51fc35f8a6148c2940eb46932b02dd3b9b23.patch
-@@ -0,0 +1,171 @@
-+From 52ed51fc35f8a6148c2940eb46932b02dd3b9b23 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Wed, 21 Jul 2021 19:53:13 +0200
-+Subject: [PATCH] Generate a ENOSYS (sys_ni_syscall) for clone3 on all linux
-+ arches
-+
-+glibc 2.34 will try to use clone3 first before falling back to
-+the clone syscall. So implement clone3 as sys_ni_syscall which
-+simply return ENOSYS without producing a warning.
-+
-+https://bugs.kde.org/show_bug.cgi?id=439590
-+
-+Upstream-Status: Backport
-+---
-+ coregrind/m_syswrap/syswrap-amd64-linux.c    | 2 ++
-+ coregrind/m_syswrap/syswrap-arm-linux.c      | 2 ++
-+ coregrind/m_syswrap/syswrap-arm64-linux.c    | 2 ++
-+ coregrind/m_syswrap/syswrap-mips32-linux.c   | 2 ++
-+ coregrind/m_syswrap/syswrap-mips64-linux.c   | 1 +
-+ coregrind/m_syswrap/syswrap-nanomips-linux.c | 1 +
-+ coregrind/m_syswrap/syswrap-ppc32-linux.c    | 2 ++
-+ coregrind/m_syswrap/syswrap-ppc64-linux.c    | 2 ++
-+ coregrind/m_syswrap/syswrap-s390x-linux.c    | 2 ++
-+ coregrind/m_syswrap/syswrap-x86-linux.c      | 2 ++
-+ include/vki/vki-scnums-shared-linux.h        | 2 ++
-+ 11 files changed, 20 insertions(+)
-+
-+diff --git a/coregrind/m_syswrap/syswrap-amd64-linux.c b/coregrind/m_syswrap/syswrap-amd64-linux.c
-+index 45e1f3d1bb..3b2dcb8e30 100644
-+--- a/coregrind/m_syswrap/syswrap-amd64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-amd64-linux.c
-+@@ -874,6 +874,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register), // 427
-+ 
-++   GENX_(__NR_clone3,            sys_ni_syscall),        // 435
-++
-+    LINX_(__NR_faccessat2,	 sys_faccessat2),        // 439
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-arm-linux.c b/coregrind/m_syswrap/syswrap-arm-linux.c
-+index 428cb7c6fc..7f41b07491 100644
-+--- a/coregrind/m_syswrap/syswrap-arm-linux.c
-++++ b/coregrind/m_syswrap/syswrap-arm-linux.c
-+@@ -1051,6 +1051,8 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register), // 427
-+ 
-++   GENX_(__NR_clone3,            sys_ni_syscall),        // 435
-++
-+    LINX_(__NR_faccessat2,    sys_faccessat2),           // 439
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-arm64-linux.c b/coregrind/m_syswrap/syswrap-arm64-linux.c
-+index 024ece27f5..0d717f44be 100644
-+--- a/coregrind/m_syswrap/syswrap-arm64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-arm64-linux.c
-+@@ -830,6 +830,8 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register), // 427
-+ 
-++   GENX_(__NR_clone3,            sys_ni_syscall),        // 435
-++
-+    LINX_(__NR_faccessat2,        sys_faccessat2),        // 439
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-mips32-linux.c b/coregrind/m_syswrap/syswrap-mips32-linux.c
-+index 62b085ea21..b62129111b 100644
-+--- a/coregrind/m_syswrap/syswrap-mips32-linux.c
-++++ b/coregrind/m_syswrap/syswrap-mips32-linux.c
-+@@ -1136,6 +1136,8 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY(__NR_io_uring_enter,          sys_io_uring_enter),          // 426
-+    LINXY(__NR_io_uring_register,       sys_io_uring_register),       // 427
-+ 
-++   GENX_(__NR_clone3,                  sys_ni_syscall),              // 435
-++
-+    LINX_ (__NR_faccessat2,             sys_faccessat2),              // 439
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-mips64-linux.c b/coregrind/m_syswrap/syswrap-mips64-linux.c
-+index b73c03da16..94f38366f0 100644
-+--- a/coregrind/m_syswrap/syswrap-mips64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-mips64-linux.c
-+@@ -815,6 +815,7 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY (__NR_io_uring_setup, sys_io_uring_setup),
-+    LINXY (__NR_io_uring_enter, sys_io_uring_enter),
-+    LINXY (__NR_io_uring_register, sys_io_uring_register),
-++   GENX_ (__NR_clone3, sys_ni_syscall),
-+    LINX_ (__NR_faccessat2, sys_faccessat2),
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-nanomips-linux.c b/coregrind/m_syswrap/syswrap-nanomips-linux.c
-+index 14127b181a..102c155507 100644
-+--- a/coregrind/m_syswrap/syswrap-nanomips-linux.c
-++++ b/coregrind/m_syswrap/syswrap-nanomips-linux.c
-+@@ -824,6 +824,7 @@ static SyscallTableEntry syscall_main_table[] = {
-+    LINXY (__NR_io_uring_setup,         sys_io_uring_setup),
-+    LINXY (__NR_io_uring_enter,         sys_io_uring_enter),
-+    LINXY (__NR_io_uring_register,      sys_io_uring_register),
-++   GENX_ (__NR_clone3,                 sys_ni_syscall),
-+    LINX_ (__NR_faccessat2,             sys_faccessat2),
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-ppc32-linux.c b/coregrind/m_syswrap/syswrap-ppc32-linux.c
-+index aad14f8ba4..1e2efc6777 100644
-+--- a/coregrind/m_syswrap/syswrap-ppc32-linux.c
-++++ b/coregrind/m_syswrap/syswrap-ppc32-linux.c
-+@@ -1054,6 +1054,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register), // 427
-+ 
-++   GENX_(__NR_clone3,            sys_ni_syscall),        // 435
-++
-+    LINX_(__NR_faccessat2,        sys_faccessat2),       // 439
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-ppc64-linux.c b/coregrind/m_syswrap/syswrap-ppc64-linux.c
-+index c0e3f55491..76610e1423 100644
-+--- a/coregrind/m_syswrap/syswrap-ppc64-linux.c
-++++ b/coregrind/m_syswrap/syswrap-ppc64-linux.c
-+@@ -1023,6 +1023,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register), // 427
-+ 
-++   GENX_(__NR_clone3,            sys_ni_syscall),        // 435
-++
-+    LINX_(__NR_faccessat2,        sys_faccessat2),       // 439
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-s390x-linux.c b/coregrind/m_syswrap/syswrap-s390x-linux.c
-+index af6c4eb210..5283c19fe4 100644
-+--- a/coregrind/m_syswrap/syswrap-s390x-linux.c
-++++ b/coregrind/m_syswrap/syswrap-s390x-linux.c
-+@@ -864,6 +864,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINXY(__NR_io_uring_enter, sys_io_uring_enter),                    // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register),              // 427
-+ 
-++   GENX_(__NR_clone3, sys_ni_syscall),                                // 435
-++
-+    LINX_(__NR_faccessat2,  sys_faccessat2),                           // 439
-+ };
-+ 
-+diff --git a/coregrind/m_syswrap/syswrap-x86-linux.c b/coregrind/m_syswrap/syswrap-x86-linux.c
-+index 67d866497d..418c769750 100644
-+--- a/coregrind/m_syswrap/syswrap-x86-linux.c
-++++ b/coregrind/m_syswrap/syswrap-x86-linux.c
-+@@ -1645,6 +1645,8 @@ static SyscallTableEntry syscall_table[] = {
-+    LINXY(__NR_io_uring_enter,    sys_io_uring_enter),   // 426
-+    LINXY(__NR_io_uring_register, sys_io_uring_register),// 427
-+ 
-++   GENX_(__NR_clone3,            sys_ni_syscall),       // 435
-++
-+    LINX_(__NR_faccessat2,	 sys_faccessat2),       // 439
-+ };
-+ 
-+diff --git a/include/vki/vki-scnums-shared-linux.h b/include/vki/vki-scnums-shared-linux.h
-+index c8bc31b4b3..6c70c9981d 100644
-+--- a/include/vki/vki-scnums-shared-linux.h
-++++ b/include/vki/vki-scnums-shared-linux.h
-+@@ -39,6 +39,8 @@
-+ #define __NR_fsmount		432
-+ #define __NR_fspick		433
-+ 
-++#define __NR_clone3		435
-++
-+ #define __NR_faccessat2		439
-+ 
-+ #endif
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/6da22a4d246519cd1a638cfc7eff00cdd74413c4.patch b/meta/recipes-devtools/valgrind/valgrind/6da22a4d246519cd1a638cfc7eff00cdd74413c4.patch
-new file mode 100644
-index 00000000000..fce66b96aec
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/6da22a4d246519cd1a638cfc7eff00cdd74413c4.patch
-@@ -0,0 +1,43 @@
-+From 6da22a4d246519cd1a638cfc7eff00cdd74413c4 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Fri, 16 Jul 2021 21:37:21 +0200
-+Subject: [PATCH] gdbserver_tests: update filters for newer glibc/gdb
-+
-+With newer glibc/gdb we might see a __select call without anything
-+following on the line. Also when gdb cannot find a file it might
-+now print "Inappropriate ioctl for device" instead of the message
-+"No such file or directory"
-+
-+Upstream-Status: Backport
-+---
-+ gdbserver_tests/filter_gdb  | 1 +
-+ gdbserver_tests/filter_vgdb | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/gdbserver_tests/filter_gdb b/gdbserver_tests/filter_gdb
-+index 3bcd26d86c..4a5b5d7a5b 100755
-+--- a/gdbserver_tests/filter_gdb
-++++ b/gdbserver_tests/filter_gdb
-+@@ -111,6 +111,7 @@ s/\(0x........\) in ?? ()$/\1 in syscall .../
-+ #         If select.c sources are present, we can also get a line containing:
-+ #              return SYSCALL_CANCEL....
-+ s/in __select .*/in syscall .../
-++s/in __select$/in syscall .../
-+ /exceptfds/d
-+ /sysv\/linux\/select\.c/d
-+ /return SYSCALL_CANCEL /d
-+diff --git a/gdbserver_tests/filter_vgdb b/gdbserver_tests/filter_vgdb
-+index f8028a39ad..679ca4b31c 100755
-+--- a/gdbserver_tests/filter_vgdb
-++++ b/gdbserver_tests/filter_vgdb
-+@@ -18,6 +18,7 @@ sed -e '/relaying data between gdb and process/d'                        \
-+     
-+ # filter some debuginfo problems with ld.so and SLES11
-+ sed -e '/^1	rtld.c: No such file or directory\./d' |
-++sed -e '/rtld.c: Inappropriate ioctl for device\./d' |
-+ 
-+ # and filter out any remaining empty lines
-+ sed -e '/^$/d'
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/a1364805fc74b5690f763033c0c9b43f27613572.patch b/meta/recipes-devtools/valgrind/valgrind/a1364805fc74b5690f763033c0c9b43f27613572.patch
-new file mode 100644
-index 00000000000..ece88406c60
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/a1364805fc74b5690f763033c0c9b43f27613572.patch
-@@ -0,0 +1,1422 @@
-+From a1364805fc74b5690f763033c0c9b43f27613572 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Fri, 16 Jul 2021 15:47:08 -0400
-+Subject: [PATCH] Update helgrind and drd suppression libc and libpthread paths
-+ in glibc 2.34
-+
-+glibc 2.34 moved all pthread functions into the main libc library.
-+And it changed the (in memory) path of the main libc library to
-+libc.so.6 (before it was libc-2.xx.so).
-+
-+This breaks various standard suppressions for helgrind and drd.
-+Fix this by doing a configure check for whether we are using glibc
-+2.34 by checking whether pthread_create is in libc instead of in
-+libpthread. If we are using glibc then define GLIBC_LIBC_PATH and
-+GLIBC_LIBPTHREAD_PATH variables that point to the (regexp) path
-+of the library that contains all libc functions and pthread functions
-+(which will be the same path for glibc 2.34+).
-+
-+Rename glibc-2.34567-NPTL-helgrind.supp to glibc-2.X-helgrind.supp.in
-+and glibc-2.X-drd.supp to glibc-2.X-drd.supp.in and replace the
-+GLIBC_LIBC_PATH and GLIBC_LIBPTHREAD_PATH at configure time.
-+
-+The same could be done for the glibc-2.X.supp.in file, but hasn't
-+yet because it looks like most suppressions in that file are obsolete.
-+
-+Upstream-Status: Backport
-+---
-+ Makefile.am                                   |  2 +-
-+ configure.ac                                  | 37 +++++++++++++++++--
-+ glibc-2.X-drd.supp => glibc-2.X-drd.supp.in   |  6 ++-
-+ ...elgrind.supp => glibc-2.X-helgrind.supp.in | 16 ++++----
-+ 4 files changed, 47 insertions(+), 14 deletions(-)
-+ rename glibc-2.X-drd.supp => glibc-2.X-drd.supp.in (97%)
-+ rename glibc-2.34567-NPTL-helgrind.supp => glibc-2.X-helgrind.supp.in (95%)
-+
-+Index: valgrind-3.17.0/Makefile.am
-+===================================================================
-+--- valgrind-3.17.0.orig/Makefile.am
-++++ valgrind-3.17.0/Makefile.am
-+@@ -41,7 +41,7 @@ SUPP_FILES = \
-+ 	glibc-2.2.supp glibc-2.3.supp glibc-2.4.supp glibc-2.5.supp \
-+ 	glibc-2.6.supp glibc-2.7.supp glibc-2.X.supp.in \
-+ 	xfree-3.supp xfree-4.supp \
-+-	glibc-2.34567-NPTL-helgrind.supp \
-++	glibc-2.X-helgrind.supp \
-+ 	glibc-2.2-LinuxThreads-helgrind.supp \
-+ 	glibc-2.X-drd.supp \
-+ 	darwin9.supp darwin9-drd.supp \
-+Index: valgrind-3.17.0/configure.ac
-+===================================================================
-+--- valgrind-3.17.0.orig/configure.ac
-++++ valgrind-3.17.0/configure.ac
-+@@ -1090,6 +1090,31 @@ if test x$GLIBC_VERSION = x; then
-+     fi
-+ fi
-+ 
-++# If this is glibc then figure out the generic (in file) libc.so and
-++# libpthread.so file paths to use in suppressions. Before 2.34 libpthread
-++# was a separate library, afterwards it was merged into libc.so and
-++# the library is called libc.so.6 (before it was libc-2.[0-9]+.so).
-++# Use this fact to set GLIBC_LIBC_PATH and GLIBC_LIBPTHREAD_PATH.
-++case ${GLIBC_VERSION} in
-++2*)
-++  AC_MSG_CHECKING([whether pthread_create needs libpthread])
-++  AC_LINK_IFELSE([AC_LANG_CALL([], [pthread_create])],
-++  [
-++    AC_MSG_RESULT([no])
-++    GLIBC_LIBC_PATH="*/lib*/libc.so.6"
-++    GLIBC_LIBPTHREAD_PATH="$GLIBC_LIBC_PATH"
-++  ], [
-++    AC_MSG_RESULT([yes])
-++    GLIBC_LIBC_PATH="*/lib*/libc-2.*so*"
-++    GLIBC_LIBPTHREAD_PATH="*/lib*/libpthread-2.*so*"
-++  ])
-++  ;;
-++*)
-++  AC_MSG_CHECKING([not glibc...])
-++  AC_MSG_RESULT([${GLIBC_VERSION}])
-++  ;;
-++esac
-++
-+ AC_MSG_CHECKING([the glibc version])
-+ 
-+ case "${GLIBC_VERSION}" in
-+@@ -1102,13 +1127,13 @@ case "${GLIBC_VERSION}" in
-+      2.[[3-6]])
-+ 	AC_MSG_RESULT(${GLIBC_VERSION} family)
-+         DEFAULT_SUPP="$srcdir/glibc-${GLIBC_VERSION}.supp ${DEFAULT_SUPP}"
-+-        DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-++        DEFAULT_SUPP="$srcdir/glibc-2.X-helgrind.supp ${DEFAULT_SUPP}"
-+         DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-+ 	;;
-+      2.[[7-9]])
-+ 	AC_MSG_RESULT(${GLIBC_VERSION} family)
-+ 	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
-+-        DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-++        DEFAULT_SUPP="$srcdir/glibc-2.X-helgrind.supp ${DEFAULT_SUPP}"
-+         DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-+ 	;;
-+      2.10|2.11)
-+@@ -1116,7 +1141,7 @@ case "${GLIBC_VERSION}" in
-+ 	AC_DEFINE([GLIBC_MANDATORY_STRLEN_REDIRECT], 1,
-+ 		  [Define to 1 if strlen() has been optimized heavily (amd64 glibc >= 2.10)])
-+ 	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
-+-        DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-++        DEFAULT_SUPP="$srcdir/glibc-2.X-helgrind.supp ${DEFAULT_SUPP}"
-+         DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-+ 	;;
-+      2.*)
-+@@ -1126,7 +1151,7 @@ case "${GLIBC_VERSION}" in
-+ 	AC_DEFINE([GLIBC_MANDATORY_INDEX_AND_STRLEN_REDIRECT], 1,
-+ 		  [Define to 1 if index() and strlen() have been optimized heavily (x86 glibc >= 2.12)])
-+ 	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
-+-        DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-++        DEFAULT_SUPP="$srcdir/glibc-2.X-helgrind.supp ${DEFAULT_SUPP}"
-+         DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-+ 	;;
-+      darwin)
-+@@ -1157,6 +1182,8 @@ case "${GLIBC_VERSION}" in
-+ esac
-+ 
-+ AC_SUBST(GLIBC_VERSION)
-++AC_SUBST(GLIBC_LIBC_PATH)
-++AC_SUBST(GLIBC_LIBPTHREAD_PATH)
-+ 
-+ 
-+ if test "$VGCONF_OS" != "solaris"; then
-+@@ -4910,6 +4937,8 @@ AC_CONFIG_FILES([
-+    valgrind.spec
-+    valgrind.pc
-+    glibc-2.X.supp
-++   glibc-2.X-helgrind.supp
-++   glibc-2.X-drd.supp
-+    docs/Makefile 
-+    tests/Makefile 
-+    tests/vg_regtest 
-+Index: valgrind-3.17.0/glibc-2.X-drd.supp
-+===================================================================
-+--- valgrind-3.17.0.orig/glibc-2.X-drd.supp
-++++ /dev/null
-+@@ -1,330 +0,0 @@
-+-#
-+-# Suppression patterns for ld, the dynamic loader.
-+-#
-+-
-+-# Suppress all data races triggered by ld.
-+-{
-+-   drd-ld
-+-   drd:ConflictingAccess
-+-   obj:*/lib*/ld-*.so
-+-}
-+-
-+-#
-+-# Suppression patterns for libc.
-+-#
-+-
-+-# Suppress all data races where the topmost frame is inside libc.so. Although
-+-# this could hide some real data races, unfortunately this is the only way to
-+-# not report any false positives on stdio functions. The glibc functions
-+-# manipulating FILE objects use locking primitives that cannot be intercepted
-+-# easily. See also the definitions of _IO_lock_lock() etc. in the file
-+-# nptl/sysdeps/pthread/bits/stdio-lock.h in the glibc source tree.
-+-{
-+-   drd-libc-stdio
-+-   drd:ConflictingAccess
-+-   obj:*/lib*/libc-*
-+-}
-+-{
-+-   drd-libc-thread-cancellation-test
-+-   drd:ConflictingAccess
-+-   fun:write
-+-}
-+-{
-+-   drd-libc-random
-+-   drd:ConflictingAccess
-+-   fun:random_r
-+-   fun:random
-+-}
-+-
-+-#
-+-# Suppression patterns for libstdc++, the implementation of the standard C++
-+-# library included with the gcc compiler.
-+-#
-+-# Note: several versions of the libstdc++ library (4.2.2, 4.3.2, 4.4.0, 4.5.0
-+-# and their predecessors) contain an implementation of the std::string class
-+-# that triggers conflicting memory accesses. See also
-+-# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=40518
-+-#
-+-
-+-# {
-+-#    drd-libstdc++-std::string::string()
-+-#    drd:ConflictingAccess
-+-#    fun:_ZNSsC1ERKSs
-+-# }
-+-
-+-{
-+-   drd-libstdc++-cxa_guard_release
-+-   drd:CondErr
-+-   fun:pthread_cond_broadcast@*
-+-   fun:__cxa_guard_release
-+-}
-+-{
-+-   drd-libstdc++-std::__ostream_insert()
-+-   drd:ConflictingAccess
-+-   fun:_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
-+-   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
-+-}
-+-{
-+-   drd-libstdc++-std::ostream::_M_insert<long>()
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:_ZNSo9_M_insertIlEERSoT_
-+-}
-+-
-+-
-+-#
-+-# Suppression patterns for libpthread.
-+-#
-+-
-+-{
-+-   drd-libpthread-pthread_create
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:pthread_create*
-+-}
-+-{
-+-   drd-libpthread-pthread_join
-+-   drd:ConflictingAccess
-+-   fun:pthread_join
-+-   fun:pthread_join
-+-}
-+-{
-+-   drd-libpthread-__deallocate_stack
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:__deallocate_stack
-+-}
-+-{
-+-   drd-libpthread-__free_stacks
-+-   drd:ConflictingAccess
-+-   fun:__free_stacks
-+-}
-+-{
-+-   drd-libpthread-__free_tcb
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:__free_tcb
-+-}
-+-{
-+-   drd-libpthread-__nptl_deallocate_tsd
-+-   drd:ConflictingAccess
-+-   fun:__nptl_deallocate_tsd
-+-}
-+-{
-+-   drd-libpthread-pthread_detach
-+-   drd:ConflictingAccess
-+-   fun:pthread_detach
-+-   fun:pthread_detach
-+-}
-+-{
-+-   drd-libpthread-pthread_once
-+-   drd:ConflictingAccess
-+-   fun:pthread_once
-+-}
-+-{
-+-   drd-libpthread-pthread_cancel_init
-+-   drd:ConflictingAccess
-+-   fun:pthread_cancel_init
-+-}
-+-{
-+-   drd-libpthread-pthread_cancel
-+-   drd:ConflictingAccess
-+-   fun:pthread_cancel
-+-   fun:pthread_cancel_intercept
-+-}
-+-{
-+-   drd-libpthread-_Unwind_ForcedUnwind
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:_Unwind_ForcedUnwind
-+-}
-+-{
-+-   drd-libpthread-_Unwind_GetCFA
-+-   drd:ConflictingAccess
-+-   fun:_Unwind_GetCFA
-+-}
-+-{
-+-   drd-libpthread-_Unwind_Resume
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:_Unwind_Resume
-+-}
-+-{
-+-   drd-libpthread-?
-+-   drd:ConflictingAccess
-+-   obj:*/lib/libgcc_s.so.1
-+-}
-+-{
-+-   drd-libpthread-nanosleep
-+-   drd:ConflictingAccess
-+-   fun:nanosleep
-+-}
-+-
-+-#
-+-# Suppression patterns for libgomp.
-+-#
-+-
-+-# Unfortunately many statements in libgomp trigger conflicting accesses. It is
-+-# not clear to me which of these are safe and which ones not. See also
-+-# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=40362
-+-{
-+-   drd-libgomp
-+-   drd:ConflictingAccess
-+-   obj:/usr/lib*/libgomp.so*
-+-}
-+-
-+-#
-+-# Suppression patterns for libX11.
-+-#
-+-
-+-{
-+-   drd-libX11-XCreateFontSet
-+-   drd:CondErr
-+-   fun:pthread_cond_init*
-+-   fun:_XReply
-+-   fun:XListFontsWithInfo
-+-   obj:/usr/lib*/libX11.so*
-+-   fun:XCreateOC
-+-   fun:XCreateFontSet
-+-}
-+-
-+-#
-+-# Suppression patterns for libxcb.
-+-#
-+-
-+-{
-+-   drd-libxcb-xcb_wait_for_reply
-+-   drd:CondErr
-+-   ...
-+-   fun:pthread_cond_destroy*
-+-   fun:xcb_wait_for_reply
-+-}
-+-
-+-#
-+-# Suppression patterns for libglib.
-+-#
-+-
-+-{
-+-   drd-libglib-access-g_threads_got_initialized
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:g_slice_alloc
-+-   fun:g_ptr_array_sized_new
-+-}
-+-{
-+-   drd-libglib-access-g_threads_got_initialized
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:_ZN27QEventDispatcherGlibPrivateC1EP13_GMainContext
-+-   fun:_ZN20QEventDispatcherGlibC1EP7QObject
-+-   obj:/usr/lib*/libQtCore.so.4.*
-+-   obj:/usr/lib*/libQtCore.so.4.*
-+-}
-+-{
-+-   drd-libglib-access-g_mem_initialized
-+-   drd:ConflictingAccess
-+-   fun:g_malloc0
-+-}
-+-{
-+-   drd-libglib-g_private_get_posix_impl
-+-   drd:ConflictingAccess
-+-   fun:g_private_get_posix_impl
-+-}
-+-{
-+-   drd-libglib-g_private_set_posix_impl
-+-   drd:ConflictingAccess
-+-   fun:g_private_set_posix_impl
-+-}
-+-{
-+-   drd-libglib-g_get_language_names
-+-   drd:ConflictingAccess
-+-   fun:g_slice_free_chain_with_offset
-+-}
-+-{
-+-   drd-libglib-g_main_context_new
-+-   drd:ConflictingAccess
-+-   fun:fcntl
-+-   obj:/usr/lib*/libglib-*.so*
-+-   fun:g_main_context_new
-+-}
-+-
-+-#
-+-# Suppression patterns for libQtCore.
-+-#
-+-
-+-{
-+-   drd-libQtCore-deref-that-calls-QThreadData-destructor
-+-   drd:ConflictingAccess
-+-   fun:_ZN11QThreadDataD1Ev
-+-   obj:/usr/lib*/libQtCore.so.4.*
-+-}
-+-{
-+-   drd-libQtCore-4.0/4.1-Q_GLOBAL_STATIC-connectionList
-+-   drd:ConflictingAccess
-+-   obj:/usr/lib*/libQtCore.so.4.*
-+-   fun:_ZN11QMetaObject8activateEP7QObjectiiPPv
-+-   fun:_ZN11QMetaObject8activateEP7QObjectPKS_iPPv
-+-}
-+-{
-+-   drd-libQtCore-QObjectPrivate::clearGuards(QObject*)
-+-   drd:ConflictingAccess
-+-   fun:_ZN14QReadWriteLock12lockForWriteEv
-+-   fun:_ZN14QObjectPrivate11clearGuardsEP7QObject
-+-   fun:_ZN7QObjectD2Ev
-+-}
-+-{
-+-   drd-libQtCore-QObjectPrivate::clearGuards(QObject*)
-+-   drd:ConflictingAccess
-+-   fun:_ZN14QReadWriteLock12lockForWriteEv
-+-   fun:_ZN12QWriteLocker6relockEv
-+-   fun:_ZN12QWriteLockerC1EP14QReadWriteLock
-+-   fun:_ZN14QObjectPrivate11clearGuardsEP7QObject
-+-   fun:_ZN7QObjectD2Ev
-+-   fun:_ZN24QAbstractEventDispatcherD2Ev
-+-   fun:_ZN20QEventDispatcherGlibD0Ev
-+-}
-+-{
-+-   drd-libQtCore-QMutexPool::get(void const*)
-+-   drd:ConflictingAccess
-+-   fun:_ZN10QMutexPool3getEPKv
-+-}
-+-{
-+-   drd-libQtCore-qt_gettime_is_monotonic()
-+-   drd:ConflictingAccess
-+-   fun:_Z23qt_gettime_is_monotonicv
-+-}
-+-
-+-#
-+-# Suppression patterns for libboost.
-+-#
-+-
-+-# Suppress the races on boost::once_flag::epoch and on
-+-# boost::detail::this_thread_epoch. See also the source file
-+-# boost/thread/pthread/once.hpp in the Boost source tree
-+-# (https://svn.boost.org/trac/boost/browser/trunk/boost/thread/pthread/once.hpp).
-+-{
-+-   drd-libboost-boost::call_once<void (*)()>(boost::once_flag&, void (*)())
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:_ZN5boost9call_onceIPFvvEEEvRNS_9once_flagET_
-+-}
-+-{
-+-   drd-libboost-boost::detail::get_once_per_thread_epoch()
-+-   drd:ConflictingAccess
-+-   fun:_ZN5boost6detail25get_once_per_thread_epochEv
-+-}
-+-# Suppress the race reports on boost::detail::current_thread_tls_key. See also
-+-# https://svn.boost.org/trac/boost/ticket/3526 for more information about why
-+-# the access pattern of current_thread_tls_key is safe.
-+-{
-+-   drd-libboost-boost::detail::get_current_thread_data()
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:_ZN5boost6detail23get_current_thread_dataEv
-+-}
-+-{
-+-   drd-libboost-boost::detail::set_current_thread_data(boost::detail::thread_data_base*)
-+-   drd:ConflictingAccess
-+-   ...
-+-   fun:_ZN5boost6detail23set_current_thread_dataEPNS0_16thread_data_baseE
-+-}
-+Index: valgrind-3.17.0/glibc-2.X-drd.supp.in
-+===================================================================
-+--- /dev/null
-++++ valgrind-3.17.0/glibc-2.X-drd.supp.in
-+@@ -0,0 +1,332 @@
-++# IMPORTANT: DO NOT EDIT glibc-2.X-drd.supp, as it is as a generated
-++# file.  Instead edit glibc-2.X-drd.supp.in.
-++#
-++# Suppression patterns for ld, the dynamic loader.
-++#
-++
-++# Suppress all data races triggered by ld.
-++{
-++   drd-ld
-++   drd:ConflictingAccess
-++   obj:*/lib*/ld*.so*
-++}
-++
-++#
-++# Suppression patterns for libc.
-++#
-++
-++# Suppress all data races where the topmost frame is inside libc.so. Although
-++# this could hide some real data races, unfortunately this is the only way to
-++# not report any false positives on stdio functions. The glibc functions
-++# manipulating FILE objects use locking primitives that cannot be intercepted
-++# easily. See also the definitions of _IO_lock_lock() etc. in the file
-++# nptl/sysdeps/pthread/bits/stdio-lock.h in the glibc source tree.
-++{
-++   drd-libc-stdio
-++   drd:ConflictingAccess
-++   obj:@GLIBC_LIBC_PATH@
-++}
-++{
-++   drd-libc-thread-cancellation-test
-++   drd:ConflictingAccess
-++   fun:write
-++}
-++{
-++   drd-libc-random
-++   drd:ConflictingAccess
-++   fun:random_r
-++   fun:random
-++}
-++
-++#
-++# Suppression patterns for libstdc++, the implementation of the standard C++
-++# library included with the gcc compiler.
-++#
-++# Note: several versions of the libstdc++ library (4.2.2, 4.3.2, 4.4.0, 4.5.0
-++# and their predecessors) contain an implementation of the std::string class
-++# that triggers conflicting memory accesses. See also
-++# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=40518
-++#
-++
-++# {
-++#    drd-libstdc++-std::string::string()
-++#    drd:ConflictingAccess
-++#    fun:_ZNSsC1ERKSs
-++# }
-++
-++{
-++   drd-libstdc++-cxa_guard_release
-++   drd:CondErr
-++   fun:pthread_cond_broadcast@*
-++   fun:__cxa_guard_release
-++}
-++{
-++   drd-libstdc++-std::__ostream_insert()
-++   drd:ConflictingAccess
-++   fun:_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l
-++   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
-++}
-++{
-++   drd-libstdc++-std::ostream::_M_insert<long>()
-++   drd:ConflictingAccess
-++   ...
-++   fun:_ZNSo9_M_insertIlEERSoT_
-++}
-++
-++
-++#
-++# Suppression patterns for libpthread.
-++#
-++
-++{
-++   drd-libpthread-pthread_create
-++   drd:ConflictingAccess
-++   ...
-++   fun:pthread_create*
-++}
-++{
-++   drd-libpthread-pthread_join
-++   drd:ConflictingAccess
-++   fun:pthread_join
-++   fun:pthread_join
-++}
-++{
-++   drd-libpthread-__deallocate_stack
-++   drd:ConflictingAccess
-++   ...
-++   fun:__deallocate_stack
-++}
-++{
-++   drd-libpthread-__free_stacks
-++   drd:ConflictingAccess
-++   fun:__free_stacks
-++}
-++{
-++   drd-libpthread-__free_tcb
-++   drd:ConflictingAccess
-++   ...
-++   fun:__free_tcb
-++}
-++{
-++   drd-libpthread-__nptl_deallocate_tsd
-++   drd:ConflictingAccess
-++   fun:__nptl_deallocate_tsd
-++}
-++{
-++   drd-libpthread-pthread_detach
-++   drd:ConflictingAccess
-++   fun:pthread_detach
-++   fun:pthread_detach
-++}
-++{
-++   drd-libpthread-pthread_once
-++   drd:ConflictingAccess
-++   fun:pthread_once
-++}
-++{
-++   drd-libpthread-pthread_cancel_init
-++   drd:ConflictingAccess
-++   fun:pthread_cancel_init
-++}
-++{
-++   drd-libpthread-pthread_cancel
-++   drd:ConflictingAccess
-++   fun:pthread_cancel
-++   fun:pthread_cancel_intercept
-++}
-++{
-++   drd-libpthread-_Unwind_ForcedUnwind
-++   drd:ConflictingAccess
-++   ...
-++   fun:_Unwind_ForcedUnwind
-++}
-++{
-++   drd-libpthread-_Unwind_GetCFA
-++   drd:ConflictingAccess
-++   fun:_Unwind_GetCFA
-++}
-++{
-++   drd-libpthread-_Unwind_Resume
-++   drd:ConflictingAccess
-++   ...
-++   fun:_Unwind_Resume
-++}
-++{
-++   drd-libpthread-?
-++   drd:ConflictingAccess
-++   obj:*/lib/libgcc_s.so.1
-++}
-++{
-++   drd-libpthread-nanosleep
-++   drd:ConflictingAccess
-++   fun:nanosleep
-++}
-++
-++#
-++# Suppression patterns for libgomp.
-++#
-++
-++# Unfortunately many statements in libgomp trigger conflicting accesses. It is
-++# not clear to me which of these are safe and which ones not. See also
-++# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=40362
-++{
-++   drd-libgomp
-++   drd:ConflictingAccess
-++   obj:/usr/lib*/libgomp.so*
-++}
-++
-++#
-++# Suppression patterns for libX11.
-++#
-++
-++{
-++   drd-libX11-XCreateFontSet
-++   drd:CondErr
-++   fun:pthread_cond_init*
-++   fun:_XReply
-++   fun:XListFontsWithInfo
-++   obj:/usr/lib*/libX11.so*
-++   fun:XCreateOC
-++   fun:XCreateFontSet
-++}
-++
-++#
-++# Suppression patterns for libxcb.
-++#
-++
-++{
-++   drd-libxcb-xcb_wait_for_reply
-++   drd:CondErr
-++   ...
-++   fun:pthread_cond_destroy*
-++   fun:xcb_wait_for_reply
-++}
-++
-++#
-++# Suppression patterns for libglib.
-++#
-++
-++{
-++   drd-libglib-access-g_threads_got_initialized
-++   drd:ConflictingAccess
-++   ...
-++   fun:g_slice_alloc
-++   fun:g_ptr_array_sized_new
-++}
-++{
-++   drd-libglib-access-g_threads_got_initialized
-++   drd:ConflictingAccess
-++   ...
-++   fun:_ZN27QEventDispatcherGlibPrivateC1EP13_GMainContext
-++   fun:_ZN20QEventDispatcherGlibC1EP7QObject
-++   obj:/usr/lib*/libQtCore.so.4.*
-++   obj:/usr/lib*/libQtCore.so.4.*
-++}
-++{
-++   drd-libglib-access-g_mem_initialized
-++   drd:ConflictingAccess
-++   fun:g_malloc0
-++}
-++{
-++   drd-libglib-g_private_get_posix_impl
-++   drd:ConflictingAccess
-++   fun:g_private_get_posix_impl
-++}
-++{
-++   drd-libglib-g_private_set_posix_impl
-++   drd:ConflictingAccess
-++   fun:g_private_set_posix_impl
-++}
-++{
-++   drd-libglib-g_get_language_names
-++   drd:ConflictingAccess
-++   fun:g_slice_free_chain_with_offset
-++}
-++{
-++   drd-libglib-g_main_context_new
-++   drd:ConflictingAccess
-++   fun:fcntl
-++   obj:/usr/lib*/libglib-*.so*
-++   fun:g_main_context_new
-++}
-++
-++#
-++# Suppression patterns for libQtCore.
-++#
-++
-++{
-++   drd-libQtCore-deref-that-calls-QThreadData-destructor
-++   drd:ConflictingAccess
-++   fun:_ZN11QThreadDataD1Ev
-++   obj:/usr/lib*/libQtCore.so.4.*
-++}
-++{
-++   drd-libQtCore-4.0/4.1-Q_GLOBAL_STATIC-connectionList
-++   drd:ConflictingAccess
-++   obj:/usr/lib*/libQtCore.so.4.*
-++   fun:_ZN11QMetaObject8activateEP7QObjectiiPPv
-++   fun:_ZN11QMetaObject8activateEP7QObjectPKS_iPPv
-++}
-++{
-++   drd-libQtCore-QObjectPrivate::clearGuards(QObject*)
-++   drd:ConflictingAccess
-++   fun:_ZN14QReadWriteLock12lockForWriteEv
-++   fun:_ZN14QObjectPrivate11clearGuardsEP7QObject
-++   fun:_ZN7QObjectD2Ev
-++}
-++{
-++   drd-libQtCore-QObjectPrivate::clearGuards(QObject*)
-++   drd:ConflictingAccess
-++   fun:_ZN14QReadWriteLock12lockForWriteEv
-++   fun:_ZN12QWriteLocker6relockEv
-++   fun:_ZN12QWriteLockerC1EP14QReadWriteLock
-++   fun:_ZN14QObjectPrivate11clearGuardsEP7QObject
-++   fun:_ZN7QObjectD2Ev
-++   fun:_ZN24QAbstractEventDispatcherD2Ev
-++   fun:_ZN20QEventDispatcherGlibD0Ev
-++}
-++{
-++   drd-libQtCore-QMutexPool::get(void const*)
-++   drd:ConflictingAccess
-++   fun:_ZN10QMutexPool3getEPKv
-++}
-++{
-++   drd-libQtCore-qt_gettime_is_monotonic()
-++   drd:ConflictingAccess
-++   fun:_Z23qt_gettime_is_monotonicv
-++}
-++
-++#
-++# Suppression patterns for libboost.
-++#
-++
-++# Suppress the races on boost::once_flag::epoch and on
-++# boost::detail::this_thread_epoch. See also the source file
-++# boost/thread/pthread/once.hpp in the Boost source tree
-++# (https://svn.boost.org/trac/boost/browser/trunk/boost/thread/pthread/once.hpp).
-++{
-++   drd-libboost-boost::call_once<void (*)()>(boost::once_flag&, void (*)())
-++   drd:ConflictingAccess
-++   ...
-++   fun:_ZN5boost9call_onceIPFvvEEEvRNS_9once_flagET_
-++}
-++{
-++   drd-libboost-boost::detail::get_once_per_thread_epoch()
-++   drd:ConflictingAccess
-++   fun:_ZN5boost6detail25get_once_per_thread_epochEv
-++}
-++# Suppress the race reports on boost::detail::current_thread_tls_key. See also
-++# https://svn.boost.org/trac/boost/ticket/3526 for more information about why
-++# the access pattern of current_thread_tls_key is safe.
-++{
-++   drd-libboost-boost::detail::get_current_thread_data()
-++   drd:ConflictingAccess
-++   ...
-++   fun:_ZN5boost6detail23get_current_thread_dataEv
-++}
-++{
-++   drd-libboost-boost::detail::set_current_thread_data(boost::detail::thread_data_base*)
-++   drd:ConflictingAccess
-++   ...
-++   fun:_ZN5boost6detail23set_current_thread_dataEPNS0_16thread_data_baseE
-++}
-+Index: valgrind-3.17.0/glibc-2.34567-NPTL-helgrind.supp
-+===================================================================
-+--- valgrind-3.17.0.orig/glibc-2.34567-NPTL-helgrind.supp
-++++ /dev/null
-+@@ -1,301 +0,0 @@
-+-
-+-# FIXME 22 Jan 09: helgrind-glibc2X-005 overlaps with a lot of
-+-# other stuff.  They should be removed.
-+-
-+-##----------------------------------------------------------------------##
-+-# Suppressions for the Helgrind tool when using 
-+-# a glibc-2.{3,4,5,6,7,8,9} system
-+-
-+-####################################################
-+-# glibc-2.X specific
-+-# These are generic cover-alls which catch a lot of stuff
-+-# in various combinations of ld, libc and libpthread
-+-#
-+-# Note this is heavyhanded and not very clever:
-+-#
-+-# - suppress anything that has its top frame in ld.so
-+-#   That's fine, since it's mostly dynamic linking stuff,
-+-#   which has various deliberate (harmless) races
-+-#
-+-# - suppress anything that has its top frame in libc.so.
-+-#   This really isn't clever, since it could hide some 
-+-#   legitimate races.  But the problem is, if we don't do
-+-#   this, then loads of errors to do with stdio are reported, because
-+-#   H fails to see glibc's internal locking/unlocking of FILE*s
-+-#   as required by POSIX.  A better solution is needed.
-+-#
-+-# - some of the stdio functions in newer glibc manipulate stdio
-+-#   FILE*s state through mempcpy, which we intercept, so we also need
-+-#   to suppress such manipulations.
-+-
-+-#{
-+-#   helgrind-glibc2X-001
-+-#   Helgrind:Race
-+-#   obj:*/lib*/ld-2.*so*
-+-#}
-+-
-+-# helgrind-glibc2X-002 was merged into helgrind-glibc2X-001
-+-
-+-# helgrind-glibc2X-003 was merged into helgrind-glibc2X-001
-+-
-+-{
-+-   helgrind-glibc2X-004
-+-   Helgrind:Race
-+-   obj:*/lib*/libc-2.*so*
-+-}
-+-
-+-{
-+-   helgrind-glibc-io-xsputn-mempcpy
-+-   Helgrind:Race
-+-   fun:__GI_mempcpy
-+-   fun:_IO_*xsputn*
-+-   obj:*/lib*/libc-2.*so*
-+-}
-+-
-+-{
-+-   helgrind-glibc2X-005
-+-   Helgrind:Race
-+-   obj:*/lib*/libpthread-2.*so*
-+-}
-+-
-+-# helgrind-glibc2X-006 was merged into helgrind-glibc2X-005
-+-
-+-# helgrind-glibc2X-007 was merged into helgrind-glibc2X-001
-+-
-+-# helgrind-glibc2X-008 was merged into helgrind-glibc2X-004
-+-
-+-# helgrind-glibc2X-009 was merged into helgrind-glibc2X-004
-+-
-+-# helgrind-glibc2X-010 was merged into helgrind-glibc2X-001
-+-
-+-# helgrind-glibc2X-011 was merged into helgrind-glibc2X-004
-+-
-+-# helgrind-glibc2X-012 was merged into helgrind-glibc2X-001
-+-
-+-# helgrind-glibc2X-013 was merged into helgrind-glibc2X-001
-+-
-+-# helgrind-glibc2X-014 was merged into helgrind-glibc2X-001
-+-
-+-# helgrind-glibc2X-015 was merged into helgrind-glibc2X-004
-+-
-+-# helgrind-glibc2X-016 was merged into helgrind-glibc2X-004
-+-
-+-# These are very ugly.  They are needed to suppress errors inside (eg)
-+-# NPTL's pthread_cond_signal.  Why only one stack frame -- at least we
-+-# should see the wrapper calling the real functions, right?
-+-# Unfortunately, no: the real functions are handwritten assembly (in
-+-# the glibc-2.5 sources) and does not create a proper stack frame.
-+-# Therefore it's only one level of unwinding before we're back out in
-+-# user code rather than the 2 levels you'd expect.
-+-{
-+-   helgrind-glibc2X-101
-+-   Helgrind:Race
-+-   obj:*/lib*/libpthread-2.*so*
-+-   fun:pthread_*
-+-}
-+-{
-+-   helgrind-glibc2X-102
-+-   Helgrind:Race
-+-   fun:mythread_wrapper
-+-   obj:*/lib*/libpthread-2.*so*
-+-}
-+-{
-+-   helgrind-glibc2X-103
-+-   Helgrind:Race
-+-   fun:pthread_cond_*@@GLIBC_2.*
-+-}
-+-{
-+-   helgrind-glibc2X-104
-+-   Helgrind:Race
-+-   fun:__lll_mutex_*
-+-}
-+-{
-+-   helgrind-glibc2X-105
-+-   Helgrind:Race
-+-   fun:pthread_rwlock_*lock*
-+-}
-+-{
-+-   helgrind-glibc2X-106
-+-   Helgrind:Race
-+-   fun:__lll_lock_wait
-+-}
-+-{
-+-   helgrind-glibc2X-107
-+-   Helgrind:Race
-+-   obj:*/lib*/libpthread-2.*so*
-+-   fun:sem_*
-+-}
-+-{
-+-   helgrind-glibc2X-108
-+-   Helgrind:Race
-+-   fun:clone
-+-}
-+-{
-+-   helgrind-glibc2X-109
-+-   Helgrind:Race
-+-   fun:start_thread
-+-}
-+-{
-+-   helgrind-glibc2X-110
-+-   Helgrind:Race
-+-   obj:*/lib*/libc-2.*so*
-+-   fun:pthread_*
-+-}
-+-{
-+-   helgrind-glibc2X-111
-+-   Helgrind:Race
-+-   fun:__lll_*lock_*
-+-}
-+-{
-+-   helgrind-glibc2X-113
-+-   Helgrind:Race
-+-   fun:pthread_barrier_wait*
-+-}
-+-
-+-
-+-####################################################
-+-# qt4 specific (GNU mangling)
-+-#
-+-{
-+-   helgrind-qt4---QMutex::lock()-QMutex::lock()
-+-   Helgrind:Race
-+-   ...
-+-   fun:_ZN6QMutex4lockEv
-+-   fun:_ZN6QMutex4lockEv
-+-}
-+-
-+-{                                                               
-+-   helgrind-qt4---QMutex::unlock()-QMutex::unlock()
-+-   Helgrind:Race                                                
-+-   ...
-+-   fun:_ZN6QMutex6unlockEv                                      
-+-   fun:_ZN6QMutex6unlockEv
-+-}
-+-
-+-{
-+-   helgrind-qt4---pthread_setspecific-QThreadPrivate::start(void*)
-+-   Helgrind:Race
-+-   fun:pthread_setspecific
-+-   fun:_ZN14QThreadPrivate5startEPv
-+-}
-+-
-+-
-+-####################################################
-+-# Other stuff.
-+-#
-+-# pthread_exit apparently calls some kind of unwind
-+-# mechanism - maybe to remove some number of frames
-+-# from the thread's stack, so as to get back to the 
-+-# outermost frame for the thread?  Anyway..
-+-
-+-{
-+-   helgrind---*Unwind*-...-pthread_exit
-+-   Helgrind:Race
-+-   fun:*Unwind*
-+-   ...
-+-   fun:pthread_exit
-+-}
-+-
-+-{
-+-   helgrind---...-*Unwind*-*pthread_unwind*
-+-   Helgrind:Race
-+-   ...
-+-   fun:*Unwind*
-+-   fun:*pthread_unwind*
-+-}
-+-
-+-{
-+-   helgrind---...-*Unwind*-*pthread_unwind*
-+-   Helgrind:Race
-+-   ...
-+-   fun:_Unwind*
-+-   ...
-+-   fun:_Unwind_Backtrace
-+-}
-+-
-+-
-+-
-+-
-+-####################################################
-+-# To do with thread stack allocation and deallocation?
-+-#
-+-{
-+-   helgrind---free_stacks-__deallocate_stack
-+-   Helgrind:Race
-+-   fun:free_stacks
-+-   fun:__deallocate_stack
-+-}
-+-
-+-{
-+-   helgrind---__deallocate_stack-start_thread-clone
-+-   Helgrind:Race
-+-   fun:__deallocate_stack
-+-   fun:start_thread
-+-   fun:clone
-+-}
-+-
-+-
-+-####################################################
-+-# To do with pthread_{set,get}specific
-+-#
-+-{
-+-   helgrind---pthread_setspecific
-+-   Helgrind:Race
-+-   fun:pthread_setspecific
-+-}
-+-
-+-{
-+-   helgrind---pthread_getspecific
-+-   Helgrind:Race
-+-   fun:pthread_getspecific
-+-}
-+-
-+-
-+-####################################################
-+-# To do with dynamic linking
-+-#
-+-# helgrind---ld.so-...-dlsym was merged into helgrind-glibc2X-001
-+-
-+-{
-+-   helgrind---_dl_allocate_tls 
-+-   Helgrind:Race
-+-   fun:mempcpy
-+-   fun:_dl_allocate_tls_init
-+-   ...
-+-   fun:pthread_create@@GLIBC_2.2*
-+-   fun:pthread_create_WRK
-+-   fun:pthread_create@*
-+-}
-+-
-+-{
-+-   helgrind---_dl_allocate_tls2
-+-   Helgrind:Race
-+-   fun:memcpy
-+-   fun:__mempcpy_inline
-+-   fun:_dl_allocate_tls_init
-+-   ...
-+-   fun:pthread_create@@GLIBC_2.2*
-+-   fun:pthread_create_WRK
-+-   fun:pthread_create@*
-+-}
-+-
-+-####################################################
-+-# To do with GNU libgomp
-+-#
-+-{
-+-   helgrind---libgomp43-1
-+-   Helgrind:Race
-+-   fun:gomp_ordered_sync
-+-}
-+-
-+-{
-+-   helgrind---libgomp43-1
-+-   Helgrind:Race
-+-   fun:gomp_ordered_next
-+-}
-+-
-+-{
-+-   helgrind---libgomp43-1
-+-   Helgrind:Race
-+-   fun:gomp_ordered_last
-+-}
-+Index: valgrind-3.17.0/glibc-2.X-helgrind.supp.in
-+===================================================================
-+--- /dev/null
-++++ valgrind-3.17.0/glibc-2.X-helgrind.supp.in
-+@@ -0,0 +1,303 @@
-++# IMPORTANT: DO NOT EDIT glibc-2.X-helgrind.supp, as it is as a generated
-++# file.  Instead edit glibc-2.X-helgrind.supp.in.
-++
-++# FIXME 22 Jan 09: helgrind-glibc2X-005 overlaps with a lot of
-++# other stuff.  They should be removed.
-++
-++##----------------------------------------------------------------------##
-++# Suppressions for the Helgrind tool when using 
-++# a glibc-2.{3,4,5,6,7,8,9} system
-++
-++####################################################
-++# glibc-2.X specific
-++# These are generic cover-alls which catch a lot of stuff
-++# in various combinations of ld, libc and libpthread
-++#
-++# Note this is heavyhanded and not very clever:
-++#
-++# - suppress anything that has its top frame in ld.so
-++#   That's fine, since it's mostly dynamic linking stuff,
-++#   which has various deliberate (harmless) races
-++#
-++# - suppress anything that has its top frame in libc.so.
-++#   This really isn't clever, since it could hide some 
-++#   legitimate races.  But the problem is, if we don't do
-++#   this, then loads of errors to do with stdio are reported, because
-++#   H fails to see glibc's internal locking/unlocking of FILE*s
-++#   as required by POSIX.  A better solution is needed.
-++#
-++# - some of the stdio functions in newer glibc manipulate stdio
-++#   FILE*s state through mempcpy, which we intercept, so we also need
-++#   to suppress such manipulations.
-++
-++#{
-++#   helgrind-glibc2X-001
-++#   Helgrind:Race
-++#   obj:*/lib*/ld-2.*so*
-++#}
-++
-++# helgrind-glibc2X-002 was merged into helgrind-glibc2X-001
-++
-++# helgrind-glibc2X-003 was merged into helgrind-glibc2X-001
-++
-++{
-++   helgrind-glibc2X-004
-++   Helgrind:Race
-++   obj:@GLIBC_LIBC_PATH@
-++}
-++
-++{
-++   helgrind-glibc-io-xsputn-mempcpy
-++   Helgrind:Race
-++   fun:__GI_mempcpy
-++   fun:_IO_*xsputn*
-++   obj:@GLIBC_LIBC_PATH@
-++}
-++
-++{
-++   helgrind-glibc2X-005
-++   Helgrind:Race
-++   obj:@GLIBC_LIBPTHREAD_PATH@
-++}
-++
-++# helgrind-glibc2X-006 was merged into helgrind-glibc2X-005
-++
-++# helgrind-glibc2X-007 was merged into helgrind-glibc2X-001
-++
-++# helgrind-glibc2X-008 was merged into helgrind-glibc2X-004
-++
-++# helgrind-glibc2X-009 was merged into helgrind-glibc2X-004
-++
-++# helgrind-glibc2X-010 was merged into helgrind-glibc2X-001
-++
-++# helgrind-glibc2X-011 was merged into helgrind-glibc2X-004
-++
-++# helgrind-glibc2X-012 was merged into helgrind-glibc2X-001
-++
-++# helgrind-glibc2X-013 was merged into helgrind-glibc2X-001
-++
-++# helgrind-glibc2X-014 was merged into helgrind-glibc2X-001
-++
-++# helgrind-glibc2X-015 was merged into helgrind-glibc2X-004
-++
-++# helgrind-glibc2X-016 was merged into helgrind-glibc2X-004
-++
-++# These are very ugly.  They are needed to suppress errors inside (eg)
-++# NPTL's pthread_cond_signal.  Why only one stack frame -- at least we
-++# should see the wrapper calling the real functions, right?
-++# Unfortunately, no: the real functions are handwritten assembly (in
-++# the glibc-2.5 sources) and does not create a proper stack frame.
-++# Therefore it's only one level of unwinding before we're back out in
-++# user code rather than the 2 levels you'd expect.
-++{
-++   helgrind-glibc2X-101
-++   Helgrind:Race
-++   obj:@GLIBC_LIBPTHREAD_PATH@
-++   fun:pthread_*
-++}
-++{
-++   helgrind-glibc2X-102
-++   Helgrind:Race
-++   fun:mythread_wrapper
-++   obj:@GLIBC_LIBPTHREAD_PATH@
-++}
-++{
-++   helgrind-glibc2X-103
-++   Helgrind:Race
-++   fun:pthread_cond_*@@GLIBC_2.*
-++}
-++{
-++   helgrind-glibc2X-104
-++   Helgrind:Race
-++   fun:__lll_mutex_*
-++}
-++{
-++   helgrind-glibc2X-105
-++   Helgrind:Race
-++   fun:pthread_rwlock_*lock*
-++}
-++{
-++   helgrind-glibc2X-106
-++   Helgrind:Race
-++   fun:__lll_lock_wait
-++}
-++{
-++   helgrind-glibc2X-107
-++   Helgrind:Race
-++   obj:@GLIBC_LIBPTHREAD_PATH@
-++   fun:sem_*
-++}
-++{
-++   helgrind-glibc2X-108
-++   Helgrind:Race
-++   fun:clone
-++}
-++{
-++   helgrind-glibc2X-109
-++   Helgrind:Race
-++   fun:start_thread
-++}
-++{
-++   helgrind-glibc2X-110
-++   Helgrind:Race
-++   obj:@GLIBC_LIBC_PATH@
-++   fun:pthread_*
-++}
-++{
-++   helgrind-glibc2X-111
-++   Helgrind:Race
-++   fun:__lll_*lock_*
-++}
-++{
-++   helgrind-glibc2X-113
-++   Helgrind:Race
-++   fun:pthread_barrier_wait*
-++}
-++
-++
-++####################################################
-++# qt4 specific (GNU mangling)
-++#
-++{
-++   helgrind-qt4---QMutex::lock()-QMutex::lock()
-++   Helgrind:Race
-++   ...
-++   fun:_ZN6QMutex4lockEv
-++   fun:_ZN6QMutex4lockEv
-++}
-++
-++{                                                               
-++   helgrind-qt4---QMutex::unlock()-QMutex::unlock()
-++   Helgrind:Race                                                
-++   ...
-++   fun:_ZN6QMutex6unlockEv                                      
-++   fun:_ZN6QMutex6unlockEv
-++}
-++
-++{
-++   helgrind-qt4---pthread_setspecific-QThreadPrivate::start(void*)
-++   Helgrind:Race
-++   fun:pthread_setspecific
-++   fun:_ZN14QThreadPrivate5startEPv
-++}
-++
-++
-++####################################################
-++# Other stuff.
-++#
-++# pthread_exit apparently calls some kind of unwind
-++# mechanism - maybe to remove some number of frames
-++# from the thread's stack, so as to get back to the 
-++# outermost frame for the thread?  Anyway..
-++
-++{
-++   helgrind---*Unwind*-...-pthread_exit
-++   Helgrind:Race
-++   fun:*Unwind*
-++   ...
-++   fun:pthread_exit
-++}
-++
-++{
-++   helgrind---...-*Unwind*-*pthread_unwind*
-++   Helgrind:Race
-++   ...
-++   fun:*Unwind*
-++   fun:*pthread_unwind*
-++}
-++
-++{
-++   helgrind---...-*Unwind*-*pthread_unwind*
-++   Helgrind:Race
-++   ...
-++   fun:_Unwind*
-++   ...
-++   fun:_Unwind_Backtrace
-++}
-++
-++
-++
-++
-++####################################################
-++# To do with thread stack allocation and deallocation?
-++#
-++{
-++   helgrind---free_stacks-__deallocate_stack
-++   Helgrind:Race
-++   fun:free_stacks
-++   fun:__deallocate_stack
-++}
-++
-++{
-++   helgrind---__deallocate_stack-start_thread-clone
-++   Helgrind:Race
-++   fun:__deallocate_stack
-++   fun:start_thread
-++   fun:clone
-++}
-++
-++
-++####################################################
-++# To do with pthread_{set,get}specific
-++#
-++{
-++   helgrind---pthread_setspecific
-++   Helgrind:Race
-++   fun:pthread_setspecific
-++}
-++
-++{
-++   helgrind---pthread_getspecific
-++   Helgrind:Race
-++   fun:pthread_getspecific
-++}
-++
-++
-++####################################################
-++# To do with dynamic linking
-++#
-++# helgrind---ld.so-...-dlsym was merged into helgrind-glibc2X-001
-++
-++{
-++   helgrind---_dl_allocate_tls 
-++   Helgrind:Race
-++   fun:mempcpy
-++   fun:_dl_allocate_tls_init
-++   ...
-++   fun:pthread_create@@GLIBC_2.2*
-++   fun:pthread_create_WRK
-++   fun:pthread_create@*
-++}
-++
-++{
-++   helgrind---_dl_allocate_tls2
-++   Helgrind:Race
-++   fun:memcpy
-++   fun:__mempcpy_inline
-++   fun:_dl_allocate_tls_init
-++   ...
-++   fun:pthread_create@@GLIBC_2.2*
-++   fun:pthread_create_WRK
-++   fun:pthread_create@*
-++}
-++
-++####################################################
-++# To do with GNU libgomp
-++#
-++{
-++   helgrind---libgomp43-1
-++   Helgrind:Race
-++   fun:gomp_ordered_sync
-++}
-++
-++{
-++   helgrind---libgomp43-1
-++   Helgrind:Race
-++   fun:gomp_ordered_next
-++}
-++
-++{
-++   helgrind---libgomp43-1
-++   Helgrind:Race
-++   fun:gomp_ordered_last
-++}
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-index 3f8a34becc0..2805ad0eb31 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-@@ -45,6 +45,10 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-            file://0001-Add-missing-musl.supp.patch \
-            file://0001-drd-tests-swapcontext-Add-SIGALRM-handler-to-avoid-s.patch \
-+           file://6da22a4d246519cd1a638cfc7eff00cdd74413c4.patch \
-+           file://200b6a5a0ea3e1e154663b0fc575bfe2becf177d.patch \
-+           file://a1364805fc74b5690f763033c0c9b43f27613572.patch \
-+           file://52ed51fc35f8a6148c2940eb46932b02dd3b9b23.patch \
-            "
- SRC_URI[md5sum] = "afe11b5572c3121a781433b7c0ab741b"
- SRC_URI[sha256sum] = "ad3aec668e813e40f238995f60796d9590eee64a16dff88421430630e69285a2"
--- 
-2.30.2
+I suspect that Richard has been busy with other things like overrides
+and the update to glibc-2.34.
 
+Do you have any suggestions or questions about what we should do
+with this patch series Richard?
+
+../Randy
+
+
+>=20
+> Tony Battersby
+> Cybernetics
+>=20
+>=20
+>=20
+>=20
+>=20
+
+
+--=20
+# Randy MacLeod
+# Wind River Linux
