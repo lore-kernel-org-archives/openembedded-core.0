@@ -1,97 +1,116 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
- by mx.groups.io with SMTP id smtpd.web12.10500.1628177858585270307
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+ by mx.groups.io with SMTP id smtpd.web11.10530.1628177864374474122
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 08:37:38 -0700
+ Thu, 05 Aug 2021 08:37:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kh25AYy8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.48, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f48.google.com with SMTP id d10-20020a9d4f0a0000b02904f51c5004e3so1175060otl.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:37:38 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=y5vdWbYQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.45, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f45.google.com with SMTP id y14-20020a4acb8e0000b029028595df5518so836323ooq.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=pbLz3vCUMUoSicjggYWiXr0mb2l/yvf357/PW57GJQw=;
-        b=kh25AYy8zUXcIKuf03A7oRCCXlSfyjnRNfMZEgFNJSD5G6j9R9NIB0OE1nY0V+HN5h
-         boxksQC8uyFhxyyBfFx/MV7V009xL626CVOvnMTd5vFqwlyFWWi5BayRP/e23+7jmC/b
-         Q3ITikrECk488tPWgjEXLGWNy2j4tpR+J2S5rPHHWowWjVInFGHmtwLAUgHbNqMOLsYq
-         WQHGPs0yEEKmkiaAJ/DyTA+dVWkqYbc85Ttt7qv+HUwOyI96N6hkOVaD2FRQyro6GjE1
-         lNWtz4nsFa56RneiyO/lqNDMZ86FIQY82Qn1xAMZN4ZK3wbRhf8f8wzG14F2Szy2Lp2H
-         /8+w==
+        bh=3iVS/RtnDfieNu9Um47P+Jl46j9A2i61pbfjKhZpSaE=;
+        b=y5vdWbYQnSbHyfRahBlimV66F/OVIGgasrAYIPgLZ5flOkhUXvm7LVxUs98s2y2zb4
+         8u3oBjuVN7mhGtWEfne9TmMxtXQfPapebwskFlRvm37eg0e5Vb1xXjGktCnBXblwdAAo
+         z2urpVSNkx6X01Ux6ociuefwegRsSn7BM3quQ4rJAWE7mB3iB+Q2KZe56FKQjAbl0ovi
+         3YB6TrMph+WurpDrHfdMSepsDzitLmZchM3vfE3gAdIQWjOgp9hknx4uphZSLQFVAHrK
+         xdQHT12DKUkmzVt6GriIJ+SIQY7SIDWWgcUeakUq3OFsTnKIy6u+r8EpFrGmBsopGbj8
+         swFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pbLz3vCUMUoSicjggYWiXr0mb2l/yvf357/PW57GJQw=;
-        b=jXDbKTPjviB+t6HWcfrVx83irMLHihmLmwQgc8l1kwi9/A6K+c89uOYSxhbBMKqVT5
-         9b5R1Ad57rDAQ0ZK1vilZEtG4bKAFEGsIpy2dNPGpMNpvTRJlI00t33423uzNWouH70D
-         MWZG9UVdwfneCPToD8xZR1rf7LdLdhSlAcrBbnZdf50Ur16OR64QycBpeAIFzGjBuh4x
-         bd1ETLrtmu6/sIZfrmesPidX+EkiVLJ4eaKDI3RMx4aRU1Ayk8rjxcoMjA92mUJq1GCS
-         qC/lpKmAxt+Wmxx+GQPoRRjdyMiJ/2QE77IrE3l9FcgR2J5JeMHUFlTsg3BuxuYgkmYU
-         MlNA==
-X-Gm-Message-State: AOAM531jgmNZdFQjkvIxP4z/fLwVQYKXRSVCa+Y+iceqUvVS08M8mh3L
-	mDrRKTNb4ZfPM1UpkHxVKDWqiznVSeB3z3ow
-X-Google-Smtp-Source: ABdhPJx2Mb6d/fx5vff/aeSMQNhOknK3Jd2ISwglhor869x18SBNC4b9nxe1TIPlfGEF4lIYTyh3Ww==
-X-Received: by 2002:a9d:30d:: with SMTP id 13mr4277489otv.66.1628177857540;
-        Thu, 05 Aug 2021 08:37:37 -0700 (PDT)
+        bh=3iVS/RtnDfieNu9Um47P+Jl46j9A2i61pbfjKhZpSaE=;
+        b=o4lgCSGKawj4MmndNNHuf3dXE6td0fu8tF6+h3RGOExj/VMCkaP9/8m3GFiWKuoaww
+         yuE5sTd1NCzwPu4bOPceiNbIPifxhxqhLAyr5yYTiBPKoUXr2V1PFrmcrvp4au+pY0rH
+         jVswpmj5IFLqqya7ttwP27w4bY11Kys50gMcrSXPVMgaY28NtshAhGL+VANu88kpbpmN
+         k1RnolfEtq4RtnhiZF8BUgbee8/loKRuFKK6FZ9BPOfZ2mTyOsrJiDylgY3M8DVOODEE
+         SbzVw5fYADXk3K/6XisPPU0GSFqZU83nwq8kvkZ4FrByXgcDeTogZZWZE004GgvK2oks
+         zhng==
+X-Gm-Message-State: AOAM531Cjw2GphzSrC3wGacsOiK4Q/jQ8ry3V2184KFbmUPZ6qHE/8/B
+	jUZOJxJIJnr0JGum2ujG+otNhHIC9wo6KTki
+X-Google-Smtp-Source: ABdhPJxJoBfAdv2R80ErwmylDnQEeEq5qvplifW67zAqiGCHK/G6WioHRBpxCOuNirac07eEIdvskg==
+X-Received: by 2002:a4a:dd04:: with SMTP id m4mr3648987oou.69.1628177863327;
+        Thu, 05 Aug 2021 08:37:43 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.37.33
+        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.37.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 08:37:37 -0700 (PDT)
+        Thu, 05 Aug 2021 08:37:42 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 26/33] oeqa/usb_hid.py : add test to check the usb/human interface device status after suspend state
-Date: Thu,  5 Aug 2021 05:34:03 -1000
-Message-Id: <00074636b81484dedef4c1769b018f6b980be423.1628176985.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 27/33] yocto-check-layer: improve missed dependencies
+Date: Thu,  5 Aug 2021 05:34:04 -1000
+Message-Id: <84e63d179d935a071730e89a0963bb9ae867c93b.1628176985.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628176985.git.steve@sakoman.com>
 References: <cover.1628176985.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Teoh Jay Shen <jay.shen.teoh@intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 
-This test mimic the Test_if_usb_hid_device_works_well_after_resume_from_suspend_state manual test case from oeqa/manual/bsp-hw.json.
+The first 2 calls to add_layer_dependencies() are here to add all
+dependencies for the 'layer under test' and the additional layers
+provided by the users.
 
-Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
+In both cases, we use misssing_dependencies boolean to indicate if any
+dependency is missing. But we then never really use
+missing_dependencies. Instead the script is calling
+add_layer_dependencies() again (for both the layer under test, and the
+additional layers) to detect if there are any missing dependency. As a
+result, we are trying to add again all dependencies, and we can see
+that from the traces:
+
+INFO: Detected layers:
+INFO: meta-aws: LayerType.SOFTWARE, /work/oe/sources/meta-aws
+INFO: checklayer: Doesn't have conf/layer.conf file, so ignoring
+INFO:
+INFO: Setting up for meta-aws(LayerType.SOFTWARE), /work/oe/sources/meta-aws
+INFO: Adding layer meta-python
+INFO: Adding layer meta-oe
+INFO: Adding layer meta-networking
+-->
+INFO: Adding layer meta-python
+INFO: meta-python is already in /work/oe/poky/master/build-checklayer/conf/bblayers.conf
+INFO: Adding layer meta-oe
+INFO: meta-oe is already in /work/oe/poky/master/build-checklayer/conf/bblayers.conf
+INFO: Adding layer meta-networking
+INFO: meta-networking is already in /work/oe/poky/master/build-checklayer/conf/bblayers.conf
+<--
+INFO: Getting initial bitbake variables ...
+
+The code appears more complex than it should, and we can simply
+replace the complex if statement by using missing_dependencies, and
+avoid duplicating the call to add_layer_dependencies().
+
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 23a3dc370a52907ee3261746405fb9b2af9e9a11)
+(cherry picked from commit fceb84f7bc472731b8f96ee1ebf0f4485943226c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/usb_hid.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/usb_hid.py
+ scripts/yocto-check-layer | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/usb_hid.py b/meta/lib/oeqa/runtime/cases/usb_hid.py
-new file mode 100644
-index 0000000000..3c292cf661
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/usb_hid.py
-@@ -0,0 +1,22 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.data import skipIfQemu
-+from oeqa.runtime.decorator.package import OEHasPackage
-+
-+class USB_HID_Test(OERuntimeTestCase):
-+
-+    def keyboard_mouse_simulation(self): 
-+        (status, output) = self.target.run('export DISPLAY=:0 && xdotool key F2 && xdotool mousemove 100 100')
-+        return self.assertEqual(status, 0,  msg = 'Failed to simulate keyboard/mouse input event, output : %s' % output)
-+             
-+    def set_suspend(self): 
-+        (status, output) = self.target.run('sudo rtcwake -m mem -s 10')
-+        return self.assertEqual(status, 0,  msg = 'Failed to suspends your system to RAM, output : %s' % output)
-+    
-+    @OEHasPackage(['xdotool'])
-+    @skipIfQemu('qemuall', 'Test only runs on real hardware')
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_USB_Hid_input(self):
-+        self.keyboard_mouse_simulation()
-+        self.set_suspend()
-+        self.keyboard_mouse_simulation()  
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index 84fb0011e9..847fabfd9d 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -158,9 +158,7 @@ def main():
+                 if not add_layer_dependencies(bblayersconf, additional_layer, dep_layers, logger):
+                     missing_dependencies = True
+                     break
+-        if not add_layer_dependencies(bblayersconf, layer, dep_layers, logger) or \
+-           any(map(lambda additional_layer: not add_layer_dependencies(bblayersconf, additional_layer, dep_layers, logger),
+-                   additional_layers)):
++        if missing_dependencies:
+             logger.info('Skipping %s due to missing dependencies.' % layer['name'])
+             results[layer['name']] = None
+             results_status[layer['name']] = 'SKIPPED (Missing dependencies)'
 -- 
 2.25.1
 
