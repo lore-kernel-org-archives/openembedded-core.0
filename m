@@ -1,82 +1,78 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web10.10568.1628177771259059098
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web12.10484.1628177777178684056
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 08:36:11 -0700
+ Thu, 05 Aug 2021 08:36:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Kd3scsMT;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.54, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f54.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so5563306oth.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:36:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ufTYU1cy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.47, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f47.google.com with SMTP id y16-20020a4ad6500000b0290258a7ff4058so1416649oos.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Ir73Un5Q/fyjaYOpu+RI5vM6ple+LJIXEBQRLBMhmgI=;
-        b=Kd3scsMTrul8Ini1HqvbFsnlzCS8r/t8gl92+wv9r+xIPTleSApoo0MK8T7qA14xrL
-         pSVbyl5SsgBfmr/8hQTvpprnKbcl+NBjPbMZjAj8Oy0DGuzIWt5s5FCSzMqGddLCYanN
-         zViIk21gEo0msPflRVZPKXS9JWNREiWkx7Nn4ywXmrz1lLfMDfMCzoLrnyefEJHu/LXv
-         Sk1QyKQclyV6AuD2QD32nRmKB3Y2uYZvaz8iZOgrI+dKvA+udK539gq1PYUXhfSUXlAw
-         UnTNzWzjbnYl4r3xZYZxyETBLiA9joc1Cjk5Aam7BLsOXH+XbuiipIsMXUxmu4EOTdmr
-         QK8A==
+        bh=NTKnPgTZC2PlJi82h6/TEbtsuWlioM3dcKFrVLAdyQM=;
+        b=ufTYU1cyMth/85NBZe5ddmCKhZDIjkCAjF/+d1WDaPzdQF5CYPQTL7act0Ap4l/r3f
+         hW0sP5SsCi3Jw04atm8jwgYXafRN9bjEffC90i7Bxki08YXjLQNZjrK+dJaPgmxgJb2n
+         sEecRj1BJ7fGdMKbWXohpbloXD7AQTH1B+icqHgkGMIg5QGyA7x7EQscM9m7deZ7A3bH
+         q8qFfFaOAPlp+rQeMiKeWenmcn0kghLtqOAwYsISd0+FZMTpOvpSrLxNbUCzOILYw86D
+         G8RXP8TZNfA74NyVuXfkT4bGt5TfpRnre/8oZdn/dsKLTMizrssCzclHFNY4B3oAx/hf
+         yRBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ir73Un5Q/fyjaYOpu+RI5vM6ple+LJIXEBQRLBMhmgI=;
-        b=NCsHB1Tq8VlUVk2K9qGkHWSa33ZQA42F356vfnGeIk7qNP9jt23PMVrUwhByOD1XH8
-         CzskU0Iz6m2y72t4SuiwGO6lIa0BQTIZNtHm20Vc3Jj8KT8KyqR28tukmVkRNq2RHQ83
-         14IolziQdSudRvUwC7sn7jGCJbEszw2TGlCBXqQQ2DPKatGCaGnw6Z1yHMPizkfCBbLM
-         XMv+uYLm9jp/ylwnwdGuqqmhLZoG2BGq38R/E3yGMlpn8c1sV7KjBHJhW/ZjgXv+PkrU
-         rDH0FNiNpg/eHKgiIkIebAs49V+l/aJT/KQR5SI2f6EDXtCMo87ZK526i1bep1KV6c3D
-         i+cg==
-X-Gm-Message-State: AOAM532gJ56YBD5oQ0/7CZsyll1scPOCO+4PhVhNiEIKd29RhYh7DUeB
-	hojToBg3xTMP4WdA348fqUMX78mqKdg4lB2z
-X-Google-Smtp-Source: ABdhPJzt/QIuquheZiVBk2sjRtqYV+ggYgYo/kkdxGo6tvR0aMu4ggDHyXZm0/tz4KkPTe8Oo47t5Q==
-X-Received: by 2002:a05:6830:150e:: with SMTP id k14mr4211968otp.351.1628177770214;
-        Thu, 05 Aug 2021 08:36:10 -0700 (PDT)
+        bh=NTKnPgTZC2PlJi82h6/TEbtsuWlioM3dcKFrVLAdyQM=;
+        b=leba1SbBQS6EG/cuusXlflsZpiH9Bk1aB1IQAEoqiLXVrjbi5eyiL9qo3kOdGAGW1J
+         3cF6fWmcKbkBg+i+2NXFSt4u0W2BO83OD1o/Fji6j3UauF65bRsvUqWDhRc8nLCO1QZQ
+         YW/ndlTRLt5ibV+UlbTR8QYZibC7R5jsKfR1oNKi5mdUuZ2eY1wATzqWWvZBPko9pbY3
+         3I8+TH0K1bWym+L4mn2sNKNYB4JzGW7asMgSzXBrkh8IRPDQqZttUpHcXls/LnZpD5c9
+         XWuc4wBrcRJY2ie4/BI+d+PPAoCM89eusbVXSUaPQf6jRWF41xZAq7V/7vdBn14lf2QA
+         TJkA==
+X-Gm-Message-State: AOAM533x+iUAfF50ZFm+e+iCQsbDl0CjtXUlN6Qv0p/FBB0yEqt4qV55
+	jriMKgtGJcagM7/Pf13b1fCArydiZG4Dz9mX
+X-Google-Smtp-Source: ABdhPJyEMHsamEqLh66kh0Tn4R4vkbYpogQIjm+z8vleaqnVLd2oQIPO4fyGpI6cWkkPUWaHzdKSUw==
+X-Received: by 2002:a4a:98b0:: with SMTP id a45mr3760799ooj.22.1628177776120;
+        Thu, 05 Aug 2021 08:36:16 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.36.07
+        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.36.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 08:36:09 -0700 (PDT)
+        Thu, 05 Aug 2021 08:36:15 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/33] bitbake.conf: change GNOME_MIRROR to new one
-Date: Thu,  5 Aug 2021 05:33:49 -1000
-Message-Id: <0fad92768c505967eff71da1320a082674879dbc.1628176985.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/33] initramfs-framework/setup-live: fix shebang
+Date: Thu,  5 Aug 2021 05:33:50 -1000
+Message-Id: <c9271a5882965d783a88d4f97d03d9bb2bc93c7c.1628176985.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628176985.git.steve@sakoman.com>
 References: <cover.1628176985.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+From: Ulrich Ölmann <u.oelmann@pengutronix.de>
 
-URI has been permanently moved and returns HTTP 301.
-
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a3a85d54af38a30f6de5f6d23e432afa26859888)
+(cherry picked from commit 71f1f6bc9402ee0fad82aaf0757fffb73da4b706)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/bitbake.conf | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework/setup-live | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 76942d923b..0141919021 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -639,7 +639,7 @@ APACHE_MIRROR = "https://archive.apache.org/dist"
- DEBIAN_MIRROR = "http://ftp.debian.org/debian/pool"
- GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
- GNOME_GIT = "git://gitlab.gnome.org/GNOME"
--GNOME_MIRROR = "https://ftp.gnome.org/pub/GNOME/sources"
-+GNOME_MIRROR = "https://download.gnome.org/sources/"
- GNU_MIRROR = "https://ftp.gnu.org/gnu"
- GNUPG_MIRROR = "https://www.gnupg.org/ftp/gcrypt"
- GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
+index 4c79f41285..7e92f93322 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
+@@ -1,4 +1,4 @@
+-#/bin/sh
++#!/bin/sh
+ # Copyright (C) 2011 O.S. Systems Software LTDA.
+ # Licensed on MIT
+ 
 -- 
 2.25.1
 
