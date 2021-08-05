@@ -1,148 +1,86 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web12.10487.1628177789493146082
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web08.10539.1628177795074616453
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 08:36:29 -0700
+ Thu, 05 Aug 2021 08:36:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=15NWpEd2;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f53.google.com with SMTP id e13-20020a056830200db02904f06fa2790cso5562681otp.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:36:29 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BnmJzeyg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f177.google.com with SMTP id y18so7896983oiv.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=SwJpEjhBhOK/uJP+tsCyobpDnncGn+Hg+fZkZyCv5ww=;
-        b=15NWpEd2rNxoplRFwUYQtfrFlItnDUx9Jj8khpkUvilcddEtZlbab9YHWoLIlvXHif
-         BOX8eQ44dVth5+OwU0Jt3DUPU5GmvExZPxAECkezJkti0KceynuG+ZSoh+xIT4VPZdq8
-         LKVGTzeK04d0BunBTR8vhexy2AJCKfogYJ8ovp3+yvp3z69Yf8C52m9bZ3KHN/IBQcpl
-         XwNOh55trKnWtdO+3bEYRjeX5gyFePh1Iem88tpvEd7WweqSK+DfWSitXMnz4zX4zS+t
-         4oOCiGh0agPI3sYOze65Z+6M2etkxglzqWqex7NFybac0yrQjdnn97on2hj5rX6FVF0R
-         6VZQ==
+        bh=IX/uUoBFSVPi9cnvHC30fsevdnpT8a56amW3McsbDHw=;
+        b=BnmJzeygklAQWSxmOArZ2evXaYTWXgaHyHpRhkL3Yf51baVx038Ef1pkxi/oHk2WOI
+         wSUr90yl9qc+K+8sOEGFcHlXwe3gbQpA6SxyG0gGFaP2uDvGatdJke7Cvb0TcrkXXRDU
+         dqrQSSM/FrrA/FUzGVvDpO8JDcxVHt03tLWnTD9ATvvn0qzp3m4DmXrmOPxanTEZ72fe
+         wJlqrtgq4X4UPkX0TYmL1JwvhjupXmwzvZ7lgndu2saSjUDCNee05x9QQhtfbyARAR8l
+         AhZW1IduzhM4FiMaQU9Vw3xFJBV/xW17EGZ9fhnymA7cePuxT7JZ8M1miCNhPv5vkDvX
+         uqBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SwJpEjhBhOK/uJP+tsCyobpDnncGn+Hg+fZkZyCv5ww=;
-        b=cA1QH+2Cz3fOqqWmlYoGBfG/a/JAR/srFCAwKcH4R222lOM8QvoN/3QG6dS3xWI3Tt
-         4FxA0xqyr5TBmKw15C1ShmU933xGXVNfKF2ZjLJnG+uqudRNnD/Lexkr53VzlTUBAT/H
-         V4a5hQOQ+6TvZF0S2G7cYvY4ML3FvIHEkJFAr72EcPt96GqwKmDkqdcLqI13Mfrdt+CV
-         qonpKXIsVU/9ZDGrBtmvh0ib0/te/REPXjhPORng3IqDHHRKDeudyxgoDntvdVyg9fJg
-         opZAKEX6OU+VLxhzjhMpvlbbjqFAo/UuRRharvaL+mM3PaOGSqdYFsBaPcnnkRvSjJyD
-         WBdw==
-X-Gm-Message-State: AOAM532vDHJURGCFCQOEYTzW4q0EkxO+U7OPvg+lHzaAC31TIsc5IyMC
-	bgjK7C1gNNXC8mAGhJUd+DbJlErnVh9zTCh4
-X-Google-Smtp-Source: ABdhPJxAj95aYQ0LChtG8/HxjK66OtfexJOtatQMf5O7D5yXEFsDQLMYqTvnnHCPARJI5X66b+o3rQ==
-X-Received: by 2002:a9d:7c99:: with SMTP id q25mr4224201otn.266.1628177788399;
-        Thu, 05 Aug 2021 08:36:28 -0700 (PDT)
+        bh=IX/uUoBFSVPi9cnvHC30fsevdnpT8a56amW3McsbDHw=;
+        b=Bge/b+N1tzPubo4d7PTQ14lKADzCLORJ2TKcrbxD6KjTkmGuH6ac6ovp/NPCvy8zcS
+         pVPpwrjEuHRnvKJAm1iCLFH48dJHr5n1nLZyoWccUTNgGAtAdJ9/fBfn/n58B3g7uNnl
+         QcXPPlxlkYvGDiKVRuUZfekPoY2YxZyH8V3TLNq2tEhBd0DHTLYVkPatJDMIcx8NYdE5
+         KOs5VkOvduThL/hcrnPZc6NXD0Z3pyOeZM5BKo8wjCiR+PVirgB/xUlVdm7+46d7gxtE
+         2aCjyE5Ks6j3Z4DLDmZ5StAsQvNOPKOGZaSemFB/JyILr0aimpDGGtkvAccRxBWBaT26
+         vqZQ==
+X-Gm-Message-State: AOAM530XP8e2//+malUm87sh8W2XVxzn6UNgrr+zrc/uJkuPfVFzPSTf
+	UHh8ppcCf3LBStfdBkU0n7H7Jy2YobbseZ1M
+X-Google-Smtp-Source: ABdhPJxsGQo2W/tteck5jSFOP4Pv7wEoOhoBPV1RynXmnjDkmXXnqGuubRU56V0pMTGf4b3JQyX0PA==
+X-Received: by 2002:a05:6808:2219:: with SMTP id bd25mr4055864oib.33.1628177794048;
+        Thu, 05 Aug 2021 08:36:34 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.36.24
+        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.36.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 08:36:28 -0700 (PDT)
+        Thu, 05 Aug 2021 08:36:33 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/33] glew: fix Makefile race
-Date: Thu,  5 Aug 2021 05:33:52 -1000
-Message-Id: <098e9a98ef31211d9a217ab1fde4655b81a7b56d.1628176985.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/33] oe-setup-builddir: update YP docs and OE URLs
+Date: Thu,  5 Aug 2021 05:33:53 -1000
+Message-Id: <a73c10667b3ef2d0606dc5b2e4ff9605e2cd52f6.1628176985.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628176985.git.steve@sakoman.com>
 References: <cover.1628176985.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross@burtonini.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-Fix a Makefile race resulting in the target creating a directory being
-executed after the target to write into that directory.
+This updates the link to the YP docs
+and proposes to access the OE website through https
 
-[ YOCTO #14485 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e90c1d3b80e35fb685d4b321972743771eb2c2c0)
+(cherry picked from commit 87686233aeffc639c3f412fd5c4898b32b15013b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../0001-Fix-build-race-in-Makefile.patch     | 56 +++++++++++++++++++
- meta/recipes-graphics/glew/glew_2.2.0.bb      |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
+ scripts/oe-setup-builddir | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch b/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
-new file mode 100644
-index 0000000000..7edcfe8de8
---- /dev/null
-+++ b/meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
-@@ -0,0 +1,56 @@
-+Upstream-Status: Submitted [https://github.com/nigels-com/glew/pull/311]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 0ce0a85597db48a2fca619bd95e34af091e54ae8 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Thu, 22 Jul 2021 16:31:11 +0100
-+Subject: [PATCH] Fix build race in Makefile
-+
-+The current rule for the binaries is:
-+
-+glew.bin: glew.lib bin bin/$(GLEWINFO.BIN) bin/$(VISUALINFO.BIN)
-+
-+In parallel builds, all of those targets happen at the same time. This
-+means that 'bin' can happen *after* 'bin/$(GLEWINFO.BIN)', which is a
-+problem as the 'bin' target's responsibility is to create the directory
-+that the other target writes into.
-+
-+Solve this by not having a separate 'create directory' target which is
-+fundamentally racy, and simply mkdir in each target which writes into it.
-+---
-+ Makefile | 9 ++++-----
-+ 1 file changed, 4 insertions(+), 5 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index d0e4614..04af44c 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -171,21 +171,20 @@ VISUALINFO.BIN.OBJ := $(VISUALINFO.BIN.OBJ:.c=.o)
-+ # Don't build glewinfo or visualinfo for NaCL, yet.
-+ 
-+ ifneq ($(filter nacl%,$(SYSTEM)),)
-+-glew.bin: glew.lib bin
-++glew.bin: glew.lib
-+ else
-+-glew.bin: glew.lib bin bin/$(GLEWINFO.BIN) bin/$(VISUALINFO.BIN) 
-++glew.bin: glew.lib bin/$(GLEWINFO.BIN) bin/$(VISUALINFO.BIN)
-+ endif
-+ 
-+-bin:
-+-	mkdir bin
-+-
-+ bin/$(GLEWINFO.BIN): $(GLEWINFO.BIN.OBJ) $(LIB.SHARED.DIR)/$(LIB.SHARED)
-++	@mkdir -p $(dir $@)
-+ 	$(CC) $(CFLAGS) -o $@ $(GLEWINFO.BIN.OBJ) $(BIN.LIBS)
-+ ifneq ($(STRIP),)
-+ 	$(STRIP) -x $@
-+ endif
-+ 
-+ bin/$(VISUALINFO.BIN): $(VISUALINFO.BIN.OBJ) $(LIB.SHARED.DIR)/$(LIB.SHARED)
-++	@mkdir -p $(dir $@)
-+ 	$(CC) $(CFLAGS) -o $@ $(VISUALINFO.BIN.OBJ) $(BIN.LIBS)
-+ ifneq ($(STRIP),)
-+ 	$(STRIP) -x $@
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/glew/glew_2.2.0.bb b/meta/recipes-graphics/glew/glew_2.2.0.bb
-index 8948444e08..92b6083648 100644
---- a/meta/recipes-graphics/glew/glew_2.2.0.bb
-+++ b/meta/recipes-graphics/glew/glew_2.2.0.bb
-@@ -6,6 +6,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index 30eaa8efbe..5a51fa793f 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -113,10 +113,10 @@ if [ ! -z "$SHOWYPDOC" ]; then
+     cat <<EOM
+ The Yocto Project has extensive documentation about OE including a reference
+ manual which can be found at:
+-    http://yoctoproject.org/documentation
++    https://docs.yoctoproject.org
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
-+           file://0001-Fix-build-race-in-Makefile.patch \
-            file://no-strip.patch"
+ For more information about OpenEmbedded see their website:
+-    http://www.openembedded.org/
++    https://www.openembedded.org/
  
- SRC_URI[md5sum] = "3579164bccaef09e36c0af7f4fd5c7c7"
+ EOM
+ #    unset SHOWYPDOC
 -- 
 2.25.1
 
