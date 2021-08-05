@@ -1,108 +1,81 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web11.10499.1628177742562854111
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web08.10529.1628177753926766928
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 08:35:42 -0700
+ Thu, 05 Aug 2021 08:35:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=O2PwaBIa;
- spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id m11so4148106qtx.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:35:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=UdVou+yV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.181, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f181.google.com with SMTP id t128so7904375oig.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 08:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yPTnlMakJu7Ip5yuz3BAgSqHv8jIQwXHFT23UVr/9XQ=;
-        b=O2PwaBIaFJXf7oM25JSYIAs3iU33A7TuTDBUG0Q1gjMuvYx6oXk39eTZsTjMshIu8C
-         UJTyDe3IPxRaY8Sq6hJKC8L5b8MXKSAhJEXH8W7i3+AtZ72Ci82PIKVBD645Cdt0gmsD
-         BiNvpCvm+1H3rN1GqekYWIFMl2Mrpllnik/9pqjny7s3IDReYG0v+lohuzLTLN8zcBG2
-         F2RZk50Rq34puqMTZb/OjUqmtoWiRW7JLJoQbh3iZvGJ4SOWafHie85Po10mLX0BvS/m
-         2V4GlW6cUut1/AD+y1fLqeotBCoHIlYDbEFznPigfxl9vSAcr1UFNihM21kE5xeJtVWj
-         n8/A==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=uxGjbsH4AbFCAFsNAG+tqTylv8qG0izqxMvZ3bUH0Oo=;
+        b=UdVou+yVR997c8uuvXpwW4VbXFFrlXOlrzpCiv6Sih5QtHNLxFOGSU6UQpObK+XwNA
+         /QI2BNLW0WbYgW4USaxcBe1R5VcoLBRDtRe8EcI9TMWXg1xQ6pc+r5vCcACl8GwEbkX7
+         1sTwO4ccnyrd8Xlnw6WvcBA9ulZU8Ve6FlfCKrVuittJ0eO+s1+cBzZYeOUqVZQ/N7sP
+         5UfaFUCk1a8MJSnwFt9CQ2EgA52w6m+gkOn/Ox4nIkLsAbZeV928pX+S/jUf7iu9PgBV
+         mPiJPMXDNNgrxoAHQKaNJvw+ZbQJaHYMZtKEiCGQ1UAQCYaXZlt0iUGvegLs8aMK3tgj
+         5f0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yPTnlMakJu7Ip5yuz3BAgSqHv8jIQwXHFT23UVr/9XQ=;
-        b=t5DG7B0Spp/ZF3s95TelWltmXdTcqYtSPyn9u/si+Ue5gLF1aejYoI4T0MkD0w2McM
-         HAT723bXmGLKBpcfPGqvV3yf/q1ZNQBh/iQYhndqceNMXrfdzz59iNwFwWu78XEayJVO
-         EiQhZenQu9TpP/tbLay8ddM09N3rbzpa9myWB/gz1pStWuN7sKqmsz3+d9HOdvJCD4E6
-         64fNiFLFPrPJeAMPtKaQdFhYwSZOz8zorbduOu/HQOYsczpkSEOja+HztaznszE0vICz
-         menGP/JfcBht3C4XYk2pafGJ8nVjiTzBlegAJrJDignB58wfEQLi+LUW8brClz9G2K7j
-         Tleg==
-X-Gm-Message-State: AOAM531SH2nvGm8m/02n0eSzjEaHi691+nx7Mumu8XZU3HgIdmrw7xmQ
-	OjZ5qKlVKyNR64trpZqUkR3MFC0Eyo3KReTr20c=
-X-Google-Smtp-Source: ABdhPJwgUGm7TgGVmHOyFLpeVI41WT4SFuTTLivY5kAr8w04OpeOsTy3RB2lvimmMJzYiMVtgywhH5AQFRSPgMD75xU=
-X-Received: by 2002:ac8:7d48:: with SMTP id h8mr4896203qtb.299.1628177741607;
- Thu, 05 Aug 2021 08:35:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uxGjbsH4AbFCAFsNAG+tqTylv8qG0izqxMvZ3bUH0Oo=;
+        b=Co3v5j4jqkSfOln2Fe6z3PICyI7XNsqlKt6Uupb85xLU4Xa8xj7YXwJbfT8lakGZAo
+         hVtsXO92UHJ15Ckopu20CLAmyB1XL8qKzRUecoVpXjEVM80ENTbuMaXvLfaJauFFX7Hz
+         4aNABWl3Da/ZO/z+JySX7jehlrf6hu3v8cbS/9wxTCLFtxsvHsE2RZ11QpkiXGKpZQ8Z
+         aSwHPSujEdYogRyWPtqwy1O7EtiYXvlUFRBJaYABSfX//dQkerMkaU9ZwOlH9Y6//RWu
+         ags/UHyKO7ms/4QTuwvXoGW2u0ZBwDbrYlDqzWHOnySN+cFCA+YIZCsoHYFWrkSuHGHT
+         Hemw==
+X-Gm-Message-State: AOAM532hW2NNP3R4cS11Kt5TZo7soojE49+0z2UzeivrzRXZVPjbV1Qv
+	gaz6LRt9LrhtXUr8m3zh8VpHQ6XrX2N1OLVI
+X-Google-Smtp-Source: ABdhPJy78SROraU4Y7+q0ayBtW8hbEUxwFdY/DjaYjF848/HMfpDgS6VDrCB4pjn2poVeAvCvj3awQ==
+X-Received: by 2002:a05:6808:114a:: with SMTP id u10mr4084520oiu.19.1628177752864;
+        Thu, 05 Aug 2021 08:35:52 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id bf41sm1103076oib.41.2021.08.05.08.35.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 08:35:52 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 09/33] oeqa/manual/toaster: fix small typo
+Date: Thu,  5 Aug 2021 05:33:46 -1000
+Message-Id: <5c5c6fe8ce588443adcd4c435c3570535ef3f23a.1628176985.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1628176985.git.steve@sakoman.com>
+References: <cover.1628176985.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <d9126d7b-13ed-6a37-1db8-2affecbca83@crashcourse.ca>
-In-Reply-To: <d9126d7b-13ed-6a37-1db8-2affecbca83@crashcourse.ca>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 5 Aug 2021 08:35:15 -0700
-Message-ID: <CAMKF1sqNGWxUDe6DLC+oqqfv4P194pFhqd7zcPdDaToQC3s6uw@mail.gmail.com>
-Subject: Re: [OE-core] should recipes not come with their own systemd/user/group info?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 5, 2021 at 4:01 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
->
->   style question here, but i'm perusing an OE/YP (actually wind river,
-> but effectively the same thing) layer that was handed to me, and i'm
-> puzzled by how the internally-written systemd-controlled services are
-> implemented.
->
->   on the one hand, there are reasonable recipes that each represent
-> some service to be managed by systemd, and they all install their
-> executables in the right places and so on. however, rather than each
-> recipe also providing its own service file, there is a totally
-> separate recipe (call it "systemd-services.bb") which contains under
-> its files/ directory dozens and dozens of service files for all of
-> those recipes, and is responsible for installing all of them.
->
->   in short, someone decided that -- for whatever reason -- all of the
-> systemd service files should be collected all in one place, and
-> installed en masse. is this ... normal? i would have thought that it's
-> the responsibility of each recipe to mannage all the content related
-> to it, and that would of course include the systemd service file to be
-> installed for it. i don't know the rationale for this, and it strikes
-> me as a recipe for disaster in trying to keep all these things synced
-> up. is there some rationale for doing it this way that i'm unaware
-> of?
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
 
-Usually its better to keep them with recipes/components that helps you
-with managing multiple devices which may use different packages better
-however in many places component owners are not interested in maintaining
-the startup or life cycle management of component and its done by some
-central platform team and they may create a single component to manage
-the device because it fits there workflow because they don't have to go and
-commit these scripts to multiple repos etc, I do not encourage such setup
-although there could be some policies which could be implemented via
-just systemd scripts and they may live together but if it becomes one place
-for all unit files perhaps not ideal.
+PACKAGE_CLASES should be PACKAGE_CLASSES.
 
->
->   and closely related, the same trick was used when defining all the
-> new users and groups that would own these services. rather than each
-> service looking after itself, there is a recipe file (call it
-> "new_users_and_groups.bb") which is hundreds of lines of USERADD_PARAM
-> and GROUPADD_PARAM lines that define precisely (numerically) all the
-> new user and group accounts to be associated with all sorts of
-> services, whereupon i ask the same question -- isn't it more typical
-> that each service look after its own user and group info?
->
->   in this second case, it *might* be that all of these values need to
-> be hard-coded to be consistent with, i don't know, something else i'm
-> unaware of, but it still looks strange.
->
->   thoughts? the above actually works for the time being, but it does
-> seem a but unnatural.
->
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7a96f3bceb2c857f841b1dbeb4587a8aaace529e)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/lib/oeqa/manual/toaster-managed-mode.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-same logic I would say
+diff --git a/meta/lib/oeqa/manual/toaster-managed-mode.json b/meta/lib/oeqa/manual/toaster-managed-mode.json
+index 12374c7c64..9566d9d10e 100644
+--- a/meta/lib/oeqa/manual/toaster-managed-mode.json
++++ b/meta/lib/oeqa/manual/toaster-managed-mode.json
+@@ -136,7 +136,7 @@
+           "expected_results": ""
+         },
+         "3": {
+-          "action": "Check that default values are as follows: \n\tDISTRO - poky \n\tIMAGE_FSTYPES - ext3 jffs2 tar.bz2 \n\tIMAGE_INSTALL_append - \"Not set\" \n\tPACKAGE_CLASES - package_rpm \n        SSTATE_DIR  - /homeDirectory/poky/sstate-cache \n\n",
++          "action": "Check that default values are as follows: \n\tDISTRO - poky \n\tIMAGE_FSTYPES - ext3 jffs2 tar.bz2 \n\tIMAGE_INSTALL_append - \"Not set\" \n\tPACKAGE_CLASSES - package_rpm \n        SSTATE_DIR  - /homeDirectory/poky/sstate-cache \n\n",
+           "expected_results": ""
+         },
+         "4": {
+-- 
+2.25.1
 
-> rday
->
-> 
->
