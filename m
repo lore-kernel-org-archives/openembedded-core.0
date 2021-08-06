@@ -1,109 +1,186 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.3833.1628251607328952106
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.3802.1628251608722639234
  for <Openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 05:06:47 -0700
+ Fri, 06 Aug 2021 05:06:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SeFQ5g44;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id j2so10741081wrx.9
-        for <Openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 05:06:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SM50MKug;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id j2so10741164wrx.9
+        for <Openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 05:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mI7utnoqAm8JeEErYS2xR/SiFJ1tIQhbCf4h/tlrSDI=;
-        b=SeFQ5g44C/2/GuUCBub6juX7+JsmvWeMIV/6Xnrm11uW4KpSGD9iR07jHq3DK+mWaf
-         F2iQyGVsI/cDyrUtu7wSbe4vu8vtJUjFieAG16tKg4T0we1jDQEAVqLieT1WQnWpkInl
-         L0XS4lgNezIwvCRhXKR/mn3uDd7pGcMCVy/AHNEYth7f0cxMo4duDYGRW4ntBfCG86wD
-         Al+WqrQIBiC45YlAd7ROh5Ev0/z6DLtFNqfn6v3Q+WWroge9BjxyXj5xSa9mFaeVFUYq
-         sZ/EpOwc+TzpCwZiNx8GMe8ffNcdhIXB4uC/Gb2LXplukjmKFvJZxwqizAoW/zGGnWdV
-         aXgg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pO+xyRWBm8qDRlkKIl2h/I3upBy9x8GlChQZ0ODCkWU=;
+        b=SM50MKugolUanNh0UuJVBEm/0GYhwtljIbbuDMTKM7eEEOmVthKlAxIBmrelXwkxKL
+         Zo8kpCarm9nWE9uDEQuWuV8d3a11/j9/J4HaxT0DQuXmdJmaYLSNBR4yt6dZ8QkmtuKT
+         S5v8YW8XX6Tzs7Fl5r8Pq5HFLDti74LGWTFKJ0qcJpkHDPOxbYKmE8Q/SMHkrEV+pz1/
+         hE95Knb3SjMw6j6Oee5hJ/hAm/JvVTjUqWVxP009YmGqYsJR8SOZXIoPHobeZkTK8Ha1
+         EtvVlUf4pAZS03H2j4AmBL+t8ApppTjVpUBCJIHuOekoMCIpmFafZM3CLdrBWmBuYSPS
+         m+KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mI7utnoqAm8JeEErYS2xR/SiFJ1tIQhbCf4h/tlrSDI=;
-        b=EtIMzp6keaRwPRyb458o0mEW4QEym+AC4qiMBE9XDmS69nWUcqb+0dCdQa17j8Js3w
-         Jt1LSX1fLN3AgjpSwuFDg98Io16a+3//25eqI0ifBYwkTnkfa490mOambzO+Mjvp1eVp
-         o7KvW2JFm5JEmnO4I95yYjhClucjOffMdK+lqjDgWhSCtV5qPKMfGIh4LHXzM9xqih+Y
-         XTa6GBRRb6hOYYJlA1hf8bWWIez7u1AT5NbXU6oMwLGXtxHibVIjFIuxicAKbYX/shQY
-         FO+cP9CVEiQtt3bRSFYgRpw2u7exCi5HRQsy3G49H6Jff2/PJNAAjyzhzIv+z+m+q7a5
-         9w4w==
-X-Gm-Message-State: AOAM5319c3NOzQsnCtNOvV81YS6zzY9VK102ofMWVfeIpVN/LAJEa9GQ
-	Q1c3mgTQB0vwgC8fhGA1c7fwn9JNqDb7U5Ui
-X-Google-Smtp-Source: ABdhPJyYXxqYkLxhwlbzEpWa1t6q4QdYMmnrtCR859lxRA2M8Wy+BceYsVTzinXREkGu75fvUMpEtg==
-X-Received: by 2002:a5d:518a:: with SMTP id k10mr10426762wrv.400.1628251605465;
-        Fri, 06 Aug 2021 05:06:45 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pO+xyRWBm8qDRlkKIl2h/I3upBy9x8GlChQZ0ODCkWU=;
+        b=bnRg4FAMAvxuzRMXFlrUtqhvVIfQ5f4oz4JySMNTkoqzDa9S8EWu216lwDVrwuZwnm
+         UrlksCiwD+Wi5jQtLxvuJyKVQOaP2TcXoaep05iKor2SpDzuwMeNFuxx47L/LHqbJ+A5
+         oJd/RYrbdqgtFK9G+iR84XfcScMgoUguTHdupZidh734LVL8/K/5y4nm6h72AI2gvajP
+         vZo6QSD7V56uJwLF1tS9zb8kukVOSIVhuumhBDtGGFH3vWWfc42z+YzDXUiNPyiBfZcx
+         QcVsVO0IrL+SqUK1UdowiW5TMwVGhLOcvi5PySJN8c+7HQZ+9l/bXB7Y45ZPGFC4VfCl
+         wnZw==
+X-Gm-Message-State: AOAM533tHe/tUq6RgabFlKT3wPUsDjpPFAwrqjNEvTXxg2PFrUwrxNWx
+	7PPKqBKvQn7azP1+sVlLdHUVqHCbcxPN+CPE
+X-Google-Smtp-Source: ABdhPJzJasJUOD+ZiUfM8JF//Ew89RG9r3Qy9SXnqJXQmer3E1e44zpEB1YzhzKFAnUJyatdizEhHQ==
+X-Received: by 2002:adf:ffca:: with SMTP id x10mr10295089wrs.221.1628251607054;
+        Fri, 06 Aug 2021 05:06:47 -0700 (PDT)
 Return-Path: <uvv.mail@gmail.com>
 Received: from slackware.local ([194.99.105.70])
-        by smtp.gmail.com with ESMTPSA id n11sm11093049wrs.81.2021.08.06.05.06.44
+        by smtp.gmail.com with ESMTPSA id n11sm11093049wrs.81.2021.08.06.05.06.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 05:06:44 -0700 (PDT)
+        Fri, 06 Aug 2021 05:06:46 -0700 (PDT)
 From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
 To: Openembedded-core@lists.openembedded.org
 Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH v4 1/7] lib/oe: add generic functions for overlayfs
-Date: Fri,  6 Aug 2021 14:06:05 +0200
-Message-Id: <20210806120611.124246-1-uvv.mail@gmail.com>
+Subject: [PATCH v4 2/7] overlayfs.bbclass: generate overlayfs mount units
+Date: Fri,  6 Aug 2021 14:06:06 +0200
+Message-Id: <20210806120611.124246-2-uvv.mail@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210806120611.124246-1-uvv.mail@gmail.com>
+References: <20210806120611.124246-1-uvv.mail@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+It's often desired in Embedded System design to have a read-only rootfs.
+But a lot of different applications might want to have a read-write access
+to some parts of a filesystem. It can be especially useful when your update
+mechanism overwrites the whole rootfs, but you want your application data
+to be preserved between updates. This class provides a way to achieve that
+by means of overlayfs and at the same time keeping the base rootfs read-only.
+
 Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/lib/oe/overlayfs.py | 43 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 meta/lib/oe/overlayfs.py
+ meta/classes/overlayfs.bbclass | 111 +++++++++++++++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+ create mode 100644 meta/classes/overlayfs.bbclass
 
-diff --git a/meta/lib/oe/overlayfs.py b/meta/lib/oe/overlayfs.py
+diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
 new file mode 100644
-index 0000000000..21ef710509
+index 0000000000..8d9b59c9bf
 --- /dev/null
-+++ b/meta/lib/oe/overlayfs.py
-@@ -0,0 +1,43 @@
++++ b/meta/classes/overlayfs.bbclass
+@@ -0,0 +1,111 @@
++# Class for generation of overlayfs mount units
 +#
-+# SPDX-License-Identifier: GPL-2.0-only
++# It's often desired in Embedded System design to have a read-only rootfs.
++# But a lot of different applications might want to have a read-write access to
++# some parts of a filesystem. It can be especially useful when your update mechanism
++# overwrites the whole rootfs, but you want your application data to be preserved
++# between updates. This class provides a way to achieve that by means
++# of overlayfs and at the same time keeping the base rootfs read-only.
 +#
-+# This file contains common functions for overlayfs and its QA check
++# Usage example.
++#
++# Set a mount point for a partition overlayfs is going to use as upper layer
++# in your machine configuration. Underlying file system can be anything that
++# is supported by overlayfs. This has to be done in your machine configuration.
++# QA check fails to catch file existence if you redefine this variable in your recipe!
++#
++#   OVERLAYFS_MOUNT_POINT[data] ?= "/data"
++#
++# The class assumes you have a data.mount systemd unit defined in your
++# systemd-machine-units recipe and installed to the image.
++#
++# Then you can specify writable directories on a recipe base
++#
++#   OVERLAYFS_WRITABLE_PATHS[data] = "/usr/share/my-custom-application"
++#
++# To support several mount points you can use a different variable flag. Assume we
++# want to have a writable location on the file system, but not interested where the data
++# survive a reboot. Then we could have a mnt-overlay.mount unit for a tmpfs file system:
++#
++#   OVERLAYFS_MOUNT_POINT[mnt-overlay] = "/mnt/overlay"
++#   OVERLAYFS_WRITABLE_PATHS[mnt-overlay] = "/usr/share/another-application"
++#
++# Note: the class does not support /etc directory itself, because systemd depends on it
 +
-+# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
-+def escapeSystemdUnitName(path):
-+    escapeMap = {
-+        '/': '-',
-+        '-': "\\x2d",
-+        '\\': "\\x5d"
-+    }
-+    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
++REQUIRED_DISTRO_FEATURES += "systemd overlayfs"
 +
-+def strForBash(s):
-+    return s.replace('\\', '\\\\')
++inherit systemd features_check
 +
-+def mountUnitName(unit):
-+    return escapeSystemdUnitName(unit) + '.mount'
++python do_create_overlayfs_units() {
++    CreateDirsUnitTemplate = """[Unit]
++Description=Overlayfs directories setup
++Requires={DATA_MOUNT_UNIT}
++After={DATA_MOUNT_UNIT}
++DefaultDependencies=no
 +
-+def helperUnitName(unit):
-+    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
++[Service]
++Type=oneshot
++ExecStart=mkdir -p {DATA_MOUNT_POINT}/workdir{LOWERDIR} && mkdir -p {DATA_MOUNT_POINT}/upper{LOWERDIR}
++RemainAfterExit=true
++StandardOutput=journal
 +
-+def unitFileList(d):
-+    fileList = []
++[Install]
++WantedBy=multi-user.target
++"""
++    MountUnitTemplate = """[Unit]
++Description=Overlayfs mount unit
++Requires={CREATE_DIRS_SERVICE}
++After={CREATE_DIRS_SERVICE}
++
++[Mount]
++What=overlay
++Where={LOWERDIR}
++Type=overlay
++Options=lowerdir={LOWERDIR},upperdir={DATA_MOUNT_POINT}/upper{LOWERDIR},workdir={DATA_MOUNT_POINT}/workdir{LOWERDIR}
++
++[Install]
++WantedBy=multi-user.target
++"""
++
++    def prepareUnits(data, lower):
++        from oe.overlayfs import mountUnitName, helperUnitName
++
++        args = {
++            'DATA_MOUNT_POINT': data,
++            'DATA_MOUNT_UNIT': mountUnitName(data),
++            'CREATE_DIRS_SERVICE': helperUnitName(lower),
++            'LOWERDIR': lower,
++        }
++
++        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)), 'w') as f:
++            f.write(MountUnitTemplate.format(**args))
++
++        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower)), 'w') as f:
++            f.write(CreateDirsUnitTemplate.format(**args))
++
 +    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-+
-+    if not overlayMountPoints:
-+        bb.fatal("A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
-+
-+    # check that we have required mount points set first
-+    requiredMountPoints = d.getVarFlags('OVERLAYFS_WRITABLE_PATHS')
-+    for mountPoint in requiredMountPoints:
-+        if mountPoint not in overlayMountPoints:
-+            bb.fatal("Missing required mount point for OVERLAYFS_MOUNT_POINT[%s] in your MACHINE configuration" % mountPoint)
-+
 +    for mountPoint in overlayMountPoints:
-+        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
-+            fileList.append(mountUnitName(path))
-+            fileList.append(helperUnitName(path))
++        for lower in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
++            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint), lower)
++}
 +
-+    return fileList
++# we need to generate file names early during parsing stage
++python () {
++    from oe.overlayfs import strForBash, unitFileList
 +
++    unitList = unitFileList(d)
++    for unit in unitList:
++        d.appendVar('SYSTEMD_SERVICE:' + d.getVar('PN'), ' ' + unit);
++        d.appendVar('FILES:' + d.getVar('PN'), ' ' + strForBash(unit))
++
++    d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
++}
++
++do_install:append() {
++    install -d ${D}${systemd_system_unitdir}
++    for unit in ${OVERLAYFS_UNIT_LIST}; do
++        install -m 0444 ${WORKDIR}/${unit} ${D}${systemd_system_unitdir}
++    done
++}
++
++addtask create_overlayfs_units before do_install
 -- 
 2.28.0
 
