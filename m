@@ -1,80 +1,71 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.3339.1628247492534053942
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web12.3305.1628247667221492726
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 03:58:12 -0700
+ Fri, 06 Aug 2021 04:01:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Arl03whj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id o7-20020a05600c5107b0290257f956e02dso8623764wms.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 03:58:12 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dW1M7FwU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id c9so10509860wri.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 04:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Xy+oYCfZS6kTdFAMQHhvzuO4bNqWCsVgMq1zTJUEA9g=;
-        b=Arl03whjJTpqkpoFh3PYwoBycq9V9trqxlS4YSjEhup3FF/VMm4JxxOw9gdMxhjOMb
-         DqeBRgBCV6r8BQkV+IfPK438hFhXeiaGNji8m29Fy0J4w/EFVwDLexpXzmpFn5Je4jse
-         8sFZFiUFmjWXUq9qg8J52JE8Ufwzvz6od/T7w=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3ovuIfIGCjosd1rYBGl2796XBEHYT090ap2O04whT9M=;
+        b=dW1M7FwUrsh3hFdKV9z7j15rg1vaay7gnNN9Mk1NSU6Lw2uAx3ebMX+Nriwh6s3W9E
+         mu7a0QeVqySMg1pVi/yFBvpuvoU8QjG4fqKTWc2/wln3rC2Dnh2tWQCFt/kI4ttpKWyO
+         KysVXH7KFpxh8OLgfm8qlPz3EUWDwdDMVGHnE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Xy+oYCfZS6kTdFAMQHhvzuO4bNqWCsVgMq1zTJUEA9g=;
-        b=PQoq0c+/m8Vsg4iHhdJ04rzJtlIc/cVqL/oemv+cdFCItxxZN3XPKc2m+vZ46Dqkv8
-         eRkxa6BQZ8K4ZIbzC3rfd4WW1n3qPHN39v3ugQ6ISRymttSHofMMzJDuX0Mi2z251Yxp
-         nIFvoRYdzlfoalQC8g2Y3mxrZvyShdM4o9CQwmuj5Ku5a/+LVJ8l7YOxAErljmWmlzz0
-         7EQ93PtdAzRHCNArcRjOqcTeArCKeHUcICH7DOZGuRN3ZO6dpP5Yi1ve2OR2IJ/Ngh5O
-         tHK2Zei1DD9EcBc1koigD8lgbfufnNxxG0Yc1IJnXrhLbs1580PaYvCEku1l5YKuVBug
-         MQ6A==
-X-Gm-Message-State: AOAM531tZGtgizoHyH2+9k5CHpLUrvW32EZKLVxdIjUjU1ENWVcmIGjg
-	4WnDpbHkK7qyni+rfcYyqDFspvWA2xaY6w==
-X-Google-Smtp-Source: ABdhPJytwc2XOY7S2YvhNAby7N7Q1bw9M1jl8zbrrGvPWj4UXzmPj43yhQO7P/mqUdI/RGLVLZFH0g==
-X-Received: by 2002:a7b:c7d1:: with SMTP id z17mr19654804wmk.50.1628247490941;
-        Fri, 06 Aug 2021 03:58:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3ovuIfIGCjosd1rYBGl2796XBEHYT090ap2O04whT9M=;
+        b=msECNwm66njbl7cP4BMhIRDViUob/6V0nOEXUVSlYoeN1F2jRQRccG9ua45aZi/1IK
+         MEYU+JjX34QZ0NsUL/lwyAmlQ6XLK6sg50WR00NWIBP0/n0YtpblrwyH7sjkj2RHHDNG
+         8/HVlDmIuuWfvFiY4WEKXgbj4mzm7B//JatOcrM8EeIs9gC/RskJA2BBuM8F4eUqrypP
+         RiTqtwPDIEIR4N3+HKgl+wSHMCi6ty1z40QBWZd62sknSSfUKsleVrPkkRSvQ70Y8Et5
+         hYGf47bbq22cFP4+9f7R0CyswvppKoYR0LNmn7fzE3dwkyf1nR49KLTIKPI2JXUXukX4
+         qcoA==
+X-Gm-Message-State: AOAM532VgUpYBZgXPM5fBeuFVw5A9E92Lh6MitHGdQbZewYLcNGbI1bD
+	VQPXWu931XnbYl/NkPh8MdunrwhNqRmbiA==
+X-Google-Smtp-Source: ABdhPJwvM5Q/msx1Qi8F/b+YucBFhYZG5BkKVGx/7d+gPdwSn4qTlDDUEvZutMSRQIiQSZyH9fG/JQ==
+X-Received: by 2002:a5d:58c1:: with SMTP id o1mr10264460wrf.6.1628247665817;
+        Fri, 06 Aug 2021 04:01:05 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0? ([2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0])
-        by smtp.gmail.com with ESMTPSA id h9sm9219792wrw.38.2021.08.06.03.58.10
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0])
+        by smtp.gmail.com with ESMTPSA id q9sm11772073wmj.2.2021.08.06.04.01.05
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 03:58:10 -0700 (PDT)
-Message-ID: <f4d786556497e05c18b6fc147c3a63f2d40f2197.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH 2/2] convert-overrides.py: skip patches
+        Fri, 06 Aug 2021 04:01:05 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 06 Aug 2021 11:58:07 +0100
-In-Reply-To: <20210806090332.14065-2-Qi.Chen@windriver.com>
-References: <20210806090332.14065-1-Qi.Chen@windriver.com>
-	 <20210806090332.14065-2-Qi.Chen@windriver.com>
-User-Agent: Evolution 3.40.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] gettext: Fix reproducibility issue with LDFLAGS
+Date: Fri,  6 Aug 2021 12:01:04 +0100
+Message-Id: <20210806110105.3604568-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-08-06 at 02:03 -0700, Chen Qi wrote:
-> If a line specifies a patch, skip it.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  scripts/contrib/convert-overrides.py | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
-> index 4d41a4c475..387e29d66d 100755
-> --- a/scripts/contrib/convert-overrides.py
-> +++ b/scripts/contrib/convert-overrides.py
-> @@ -63,6 +63,7 @@ skips = skips + ["run_loaddata_poky", "determine_if_poky_env", "do_populate_poky
->  skips = skips + ["get_appends_for_files", "test_doubleref_remove", "test_bitbakelayers_add_remove", "elf32_x86_64", "colour_remove", "revmap_remove"]
->  skips = skips + ["test_rpm_remove", "test_bitbakelayers_add_remove", "recipe_append_file", "log_data_removed", "recipe_append", "systemd_machine_unit_append"]
->  skips = skips + ["recipetool_append", "changetype_remove", "try_appendfile_wc", "test_qemux86_directdisk", "test_layer_appends", "tgz_removed"]
-> +skips = skips + ["file://"]
+If we add DEBUG_PREFIX_MAP into LDFLAGS, gettext-ptest is no longer reproducible.
+Fix this.
 
-This is never simple since this would now skip:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/gettext/gettext_0.21.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-SRC_URI_append = " file://xxxx"
-
-I'm not sure which issue is better/worse...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-core/gettext/gettext_0.21.bb b/meta/recipes-core/gettext/gettext_0.21.bb
+index 4247b487ab2..5ada7099375 100644
+--- a/meta/recipes-core/gettext/gettext_0.21.bb
++++ b/meta/recipes-core/gettext/gettext_0.21.bb
+@@ -171,6 +171,7 @@ do_install_ptest() {
+         find ${D}${PTEST_PATH}/ -name "*.o" -exec rm {} \;
+         chmod 0755 ${D}${PTEST_PATH}/tests/lang-vala ${D}${PTEST_PATH}/tests/plural-1 ${D}${PTEST_PATH}/tests/xgettext-tcl-4 \
+                    ${D}${PTEST_PATH}/tests/xgettext-vala-1  ${D}${PTEST_PATH}/tests/xgettext-po-2
++        sed -i -e 's|${DEBUG_PREFIX_MAP}||g' ${D}${PTEST_PATH}/tests/init-env
+     fi
+ }
+ 
+-- 
+2.30.2
 
