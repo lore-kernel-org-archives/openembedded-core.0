@@ -1,76 +1,130 @@
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
- by mx.groups.io with SMTP id smtpd.web10.6845.1628266352970473066
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web12.7011.1628266375979498908
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 09:12:34 -0700
+ Fri, 06 Aug 2021 09:12:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=mwxrcI4Z;
- spf=pass (domain: mcrowe.com, ip: 212.159.14.18, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id C2STmCnjCHBkXC2SUm0jOz; Fri, 06 Aug 2021 17:12:31 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=fI+iIaSe c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=kj9zAlcOel0A:10 a=MhDmnRu9jo8A:10 a=-An2I_7KAAAA:8 a=ugkhXdxtAAAA:8
- a=_enOPnqeAAAA:8 a=whRtrNdt0Wn0r-oXvA8A:9 a=CjuIK1q_8ugA:10 a=63wSdAoKnfsA:10
- a=KqUEti3kXUUA:10 a=eDHOid60NOgA:10 a=FZ_q8whQ1RAA:10 a=SIBqzdgODD4A:10
- a=VinBSYM5t5AA:10 a=Sq34B_EcNBM9_nrAYB9S:22 a=ZG-MjRxWnTTVGrJRUvVH:22
- a=XAbD3I9PDrnSMThV5XoS:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	 s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description; bh=TJhy6RbMnzSoZv3mMyRHHrBiMaYXTkJ5dYUAnT63e6o=; b=mwxrc
-	I4ZQDgYuyzv6tl4YW8C/C0MFHEiCym2SUKYMvnfYWXhPGzffFpB1U0lmQkM27nhyL0r4lJcWO1ub2
-	ccsWnYTu3TlBhRUeZmXVdy1xQOQy4Jz9mFuLRSzKD0A+A1Dj01vsqNgaoniu3BAD1/fXdhEzStY6G
-	ZBQWTZn2hSCXXd72aWfHl5KT0Vx16EHyZh6GYKa6LvvmKmj2ZTAYdU71JtLpyLVcHR4fn7rGFlbOe
-	K5dP3HJ10dhc8wCp/L+s3pBfB6ajphxe4nZR8zQux6T9QH/yYHsjbf3b4J3EBM4AZ8pGEyBAHmzL/
-	0rLgkilNQJZO0RXyiXCRLQRbM6S7g==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
-	(envelope-from <mac@mcrowe.com>)
-	id 1mC2ST-0004H8-93; Fri, 06 Aug 2021 17:12:29 +0100
-Date: Fri, 6 Aug 2021 17:12:29 +0100
-From: "Mike Crowe" <yocto@mac.mcrowe.com>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][dunfell 07/33] curl: Fix CVE-2021-22924 and CVE-2021-22925
-Message-ID: <20210806161229.GA16017@mcrowe.com>
-References: <cover.1628176985.git.steve@sakoman.com>
- <3631da82b3542df1c1e4bbd499fc2dbe67f5f3ec.1628176985.git.steve@sakoman.com>
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: thomas.perrot@bootlin.com)
+Received: (Authenticated sender: thomas.perrot@bootlin.com)
+	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 0F02120009;
+	Fri,  6 Aug 2021 16:12:53 +0000 (UTC)
+From: "Thomas Perrot" <thomas.perrot@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Perrot <thomas.perrot@bootlin.com>
+Subject: [OE-core][PATCH] kernel-fitimage: images should not be signed with the same keys as the configurations
+Date: Fri,  6 Aug 2021 18:10:38 +0200
+Message-Id: <20210806161038.1593772-1-thomas.perrot@bootlin.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <3631da82b3542df1c1e4bbd499fc2dbe67f5f3ec.1628176985.git.steve@sakoman.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Envelope: MS4wfBOqjy1pNndbIh0e8rhv+P0c0/s5ghQtAIQ2TIsVPh9lC1+jNAKP6fCEHqq739DijRAO5VYfrdWJlS0fR7RMkD+ZK4r0Qh36a9mMaEI1eUQTbbNE32s9
- lWZEBB2fCJsJQeFzyLnmYkCgsClTtfpDLdYwqU+da2Y+vOdcY5WyMwXvoFd8wwTvN8QzesK0fmzgJw==
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Thursday 05 August 2021 at 05:33:44 -1000, Steve Sakoman wrote:
-> From: Mike Crowe <mac@mcrowe.com>
-> 
-> curl v7.78 contained fixes for five CVEs:
-> 
-> CVE-2021-22922[1] and CVE-2021-22923[2] are only present when support
-> for metalink is enabled. EXTRA_OECONF contains "--without-libmetalink"
-> so these fixes are unnecessary.
-> 
-> CVE-2021-22926[3] only affects builds for MacOS.
-> 
-> CVE-2021-22924[4] and CVE-2021-22925[5] are both applicable. Take the
-> patches from Ubuntu 20.04 curl_7.68.0-1ubuntu2.6 package which is close
-> enough that the patch for CVE-2021-22924 applies without conflicts..
+Otherwise the "required" property, from UBOOT_DTB_BINARY, will be set to "conf"
+and no error will be raised in case of error.
 
-Now that you've added back the "== 2", I believe the final sentence is now
-true for both patches. That may not be worth worrying about.
+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 40 ++++++++++++++++++++++++----
+ 1 file changed, 35 insertions(+), 5 deletions(-)
 
-> 
-> [1] https://curl.se/docs/CVE-2021-22922.html
-> [2] https://curl.se/docs/CVE-2021-22923.html
-> [3] https://curl.se/docs/CVE-2021-22926.html
-> [4] https://curl.se/docs/CVE-2021-22924.html
-> [5] https://curl.se/docs/CVE-2021-22925.html
-> 
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index a9d1002200c9..72f692e40e63 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -60,6 +60,14 @@ FIT_DESC ?= "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
+ # Sign individual images as well
+ FIT_SIGN_INDIVIDUAL ?= "0"
+ 
++# Keys used to sign individually images nodes.
++# The keys to sign images nodes must be different from those used to sign
++# configurations nodes, otherwise the "required" property, from
++# UBOOT_DTB_BINARY, will be set to "conf", because "conf" prevails on "image".
++# Then images signature checking will not be mandatory and no error will be
++# raised.
++# UBOOT_SIGN_IMG_KEYNAME = "dev2" # keys name in keydir (eg. "dev2.crt", "dev2.key")
++
+ #
+ # Emit the fitImage ITS header
+ #
+@@ -121,7 +129,7 @@ fitimage_emit_section_kernel() {
+ 
+ 	kernel_csum="${FIT_HASH_ALG}"
+ 	kernel_sign_algo="${FIT_SIGN_ALG}"
+-	kernel_sign_keyname="${UBOOT_SIGN_KEYNAME}"
++	kernel_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+ 
+ 	ENTRYPOINT="${UBOOT_ENTRYPOINT}"
+ 	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
+@@ -167,7 +175,7 @@ fitimage_emit_section_dtb() {
+ 
+ 	dtb_csum="${FIT_HASH_ALG}"
+ 	dtb_sign_algo="${FIT_SIGN_ALG}"
+-	dtb_sign_keyname="${UBOOT_SIGN_KEYNAME}"
++	dtb_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+ 
+ 	dtb_loadline=""
+ 	dtb_ext=${DTB##*.}
+@@ -214,7 +222,7 @@ fitimage_emit_section_boot_script() {
+ 
+         bootscr_csum="${FIT_HASH_ALG}"
+ 	bootscr_sign_algo="${FIT_SIGN_ALG}"
+-	bootscr_sign_keyname="${UBOOT_SIGN_KEYNAME}"
++	bootscr_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+ 
+         cat << EOF >> ${1}
+                 bootscr-${2} {
+@@ -278,7 +286,7 @@ fitimage_emit_section_ramdisk() {
+ 
+ 	ramdisk_csum="${FIT_HASH_ALG}"
+ 	ramdisk_sign_algo="${FIT_SIGN_ALG}"
+-	ramdisk_sign_keyname="${UBOOT_SIGN_KEYNAME}"
++	ramdisk_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+ 	ramdisk_loadline=""
+ 	ramdisk_entryline=""
+ 
+@@ -475,6 +483,10 @@ fitimage_assemble() {
+ 	bootscr_id=""
+ 	rm -f ${1} arch/${ARCH}/boot/${2}
+ 
++	if [ "${UBOOT_SIGN_KEYNAME}" = "${UBOOT_SIGN_IMG_KEYNAME}" ]; then
++		bbfatal "Keys used to sign images and configuration nodes must be different."
++	fi
++
+ 	fitimage_emit_fit_header ${1}
+ 
+ 	#
+@@ -674,7 +686,7 @@ do_kernel_generate_rsa_keys() {
+ 
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
+ 
+-		# Generate keys only if they don't already exist
++		# Generate keys to sign configuration nodes, only if they don't already exist
+ 		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
+ 			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
+ 
+@@ -691,6 +703,24 @@ do_kernel_generate_rsa_keys() {
+ 				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
+ 				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
+ 		fi
++
++		# Generate keys to sign image nodes, only if they don't already exist
++		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key ] || \
++			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt ]; then
++
++			# make directory if it does not already exist
++			mkdir -p "${UBOOT_SIGN_KEYDIR}"
++
++			echo "Generating RSA private key for signing fitImage"
++			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
++				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
++			"${FIT_SIGN_NUMBITS}"
++
++			echo "Generating certificate for signing fitImage"
++			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
++				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
++				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt
++		fi
+ 	fi
+ }
+ 
+-- 
+2.31.1
 
-Mike.
