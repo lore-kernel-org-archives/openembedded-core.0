@@ -1,183 +1,230 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web12.2291.1628212185377701408
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.2387.1628213046376413675
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 18:09:46 -0700
+ Thu, 05 Aug 2021 18:24:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="214313894"
-X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; 
-   d="scan'208";a="214313894"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 18:09:44 -0700
-X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; 
-   d="scan'208";a="420025716"
-Received: from akngu-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.131.90])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 18:09:43 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/37] pull request (cover letter only)
-Date: Fri,  6 Aug 2021 09:09:39 +0800
-Message-Id: <cover.1628212045.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1761O5nh026875
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Aug 2021 18:24:05 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 5 Aug 2021 18:24:04 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 5 Aug 2021 18:24:04 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] bitbake.conf: support persistent /var/tmp
+Date: Fri, 6 Aug 2021 09:21:31 +0800
+Message-ID: <20210806012131.47282-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Please merge these changes.
+From: Changqing Li <changqing.li@windriver.com>
 
-Thanks,
+Steps:
+1. build out rootfs core-image-minimal-qemux86-64.tar.bz2
+2. docker import core-image-minimal-qemux86-64.tar.bz2 poky:latest
+3. docker run -it --rm poky:latest /bin/sh
+4.
+/var # ls -al
+drwxr-xr-x    8 root     root          4096 Mar  9  2018 .
+drwxr-xr-x    1 root     root          4096 Aug  5 06:59 ..
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 backups
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 cache
+drwxr-xr-x    5 root     root          4096 Mar  9  2018 lib
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 local
+lrwxrwxrwx    1 root     root            11 Mar  9  2018 lock -> ../run/lock
+lrwxrwxrwx    1 root     root            12 Mar  9  2018 log -> volatile/log
+lrwxrwxrwx    1 root     root             6 Mar  9  2018 run -> ../run
+drwxr-xr-x    3 root     root          4096 Mar  9  2018 spool
+lrwxrwxrwx    1 root     root            12 Mar  9  2018 tmp -> volatile/tmp
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 volatile
+/var # cd log
+/bin/sh: cd: can't cd to log: No such file or directory
+/var # cd tmp
+/bin/sh: cd: can't cd to tmp: No such file or directory
+/var # cd volatile/
+/var/volatile # ls -al
+drwxr-xr-x    2 root     root          4096 Mar  9  2018 .
+drwxr-xr-x    8 root     root          4096 Mar  9  2018 ..
 
-Anuj
+In step3, because we don't launch container with init system,
+volatile/tmp is not created during startup, and the dad link will cause
+error. Supporting persistent /var/tmp can resolve this problem.
 
-The following changes since commit e458c15627e7b27392d158cbb9417f66424aa7d5:
+To support persistent /var/tmp, rename VOLATILE_LOG_DIR
+to VOLATILE_DIR
 
-  xserver-xorg: Fix builds without glx (2021-07-14 00:04:22 +0800)
+Don't use VOLATILE_LOG_DIR/VOLATILE_TMP_DIR
+to control it separately since it will make things complicated,
+we need to make kinds of fs-perms*.txt for kinds of combination
+of the two variables.
 
-are available in the Git repository at:
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/conf/bitbake.conf                                 | 10 ++++++----
+ ...erms-persistent-log.txt => fs-perms-persistent.txt} |  2 --
+ meta/recipes-core/base-files/base-files_3.0.14.bb      |  7 ++++---
+ .../recipes-core/initscripts/initscripts-1.0/volatiles |  3 ---
+ meta/recipes-core/initscripts/initscripts_1.0.bb       |  7 +++++--
+ meta/recipes-core/systemd/systemd_249.1.bb             |  5 +++--
+ meta/recipes-core/udev/eudev_3.2.10.bb                 |  3 +++
+ 7 files changed, 21 insertions(+), 16 deletions(-)
+ rename meta/files/{fs-perms-persistent-log.txt => fs-perms-persistent.txt} (95%)
 
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Alexander Kanavin (1):
-  devtool: correctly handle non-standard source tree locations in
-    upgrades
-
-Bruce Ashfield (7):
-  linux-yocto: add vfat KERNEL_FEATURE when MACHINE_FEATURES include
-    vfat
-  linux-yocto/5.10: update to v5.10.49
-  linux-yocto/5.4: update to v5.4.131
-  linux-yocto/5.10: update to v5.10.50
-  linux-yocto/5.4: update to v5.4.132
-  linux-yocto/5.10: update to v5.10.52
-  linux-yocto/5.4: update to v5.4.134
-
-Changqing Li (1):
-  archiver.bbclass: fix do_ar_configured failure for kernel
-
-Chen Qi (1):
-  systemd: fix CVE-2020-13529
-
-Damian Wrobel (1):
-  gobject-introspection: Fix the license (add MIT)
-
-Khairul Rohaizzat Jamaluddin (1):
-  glibc: Fix CVE-2021-33574
-
-Khem Raj (1):
-  ovmf: Fix VLA warnings with GCC 11
-
-Marek Vasut (1):
-  update-rc.d: update SRCREV to pull in fix for non-bash shell support
-
-Matthias Schiffer (1):
-  initscripts: fix creation order for /var/log with
-    VOLATILE_LOG_DIR=true
-
-Michael Opdenacker (1):
-  oe-setup-builddir: update YP docs and OE URLs
-
-Mingli Yu (1):
-  netbase: use git fetcher
-
-Nicolas Dechesne (4):
-  yocto-check-layer: improve missed dependencies
-  checklayer: new function get_layer_dependencies()
-  checklayer: rename _find_layer_depends
-  yocto-check-layer: ensure that all layer dependencies are tested too
-
-Oleksandr Kravchuk (1):
-  bitbake.conf: change GNOME_MIRROR to new one
-
-Ralph Siemsen (1):
-  oeqa/manual/toaster: fix small typo
-
-Richard Purdie (3):
-  pseudo: Add uninative configuration sanity check
-  pseudo: Update to latest version including statx fix
-  sstate: Drop pseudo exclusion
-
-Ross Burton (5):
-  parted: improve ptest execution
-  parted: fix ptest RRECOMMENDS
-  parted: skip tests that need vfat support
-  avahi: fix CVE-2021-36217, crash on pinging '.local'
-  glew: fix Makefile race
-
-Sakib Sajal (1):
-  go: fix CVE-2020-29509, CVE-2020-29511
-
-Tony Tascioglu (1):
-  valgrind: skip flaky ptest fb_test_amd64
-
-Trevor Gamblin (1):
-  python3-pip: fix CVE-2021-3572
-
-Ulrich Ölmann (2):
-  initramfs-framework: fix whitespace issue
-  initramfs-framework/setup-live: fix shebang
-
-leimaohui (1):
-  archiver.bbclass: Fix patch error for recipes that inherit dos2unix.
-
- meta/classes/archiver.bbclass                 |   8 +-
- meta/classes/sstate.bbclass                   |   2 -
- meta/conf/bitbake.conf                        |   2 +-
- .../lib/oeqa/manual/toaster-managed-mode.json |   2 +-
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   1 +
- .../avahi/files/local-ping.patch              | 152 ++++++++++++++++
- .../glibc/glibc/CVE-2021-33574_1.patch        |  76 ++++++++
- .../glibc/glibc/CVE-2021-33574_2.patch        |  61 +++++++
- meta/recipes-core/glibc/glibc_2.33.bb         |   2 +
- .../initramfs-framework/setup-live            |   2 +-
- .../initrdscripts/initramfs-framework_1.0.bb  |   2 +-
- .../initscripts/initscripts_1.0.bb            |   3 +-
- meta/recipes-core/netbase/netbase_6.2.bb      |   5 +-
- .../ovmf/0001-Fix-VLA-parameter-warning.patch |  51 ++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
- ...heck-error-earlier-and-reduce-indent.patch | 172 ++++++++++++++++++
- ...02-sd-dhcp-client-shorten-code-a-bit.patch |  66 +++++++
- ...ogs-when-dhcp-client-unexpectedly-ga.patch |  69 +++++++
- ...entatively-ignore-FORCERENEW-command.patch |  42 +++++
- meta/recipes-core/systemd/systemd_247.6.bb    |   4 +
- .../update-rc.d/update-rc.d_0.8.bb            |   2 +-
- meta/recipes-devtools/go/go-1.16.5.inc        |   1 +
- ...dle-leading-trailing-or-double-colon.patch | 123 +++++++++++++
- meta/recipes-devtools/pseudo/pseudo.inc       |  13 ++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
- ...git-references-on-unicode-separators.patch |  40 ++++
- .../python/python3-pip_20.0.2.bb              |   4 +-
- .../valgrind/valgrind/remove-for-all          |   1 +
- .../parted/files/check-vfat.patch             |  51 ++++++
- meta/recipes-extended/parted/files/run-ptest  |   2 +-
- meta/recipes-extended/parted/parted_3.4.bb    |  10 +-
- .../gobject-introspection_1.66.1.bb           |   2 +-
- .../0001-Fix-build-race-in-Makefile.patch     |  56 ++++++
- meta/recipes-graphics/glew/glew_2.2.0.bb      |   1 +
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto.inc     |   1 +
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
- scripts/lib/checklayer/__init__.py            |  11 +-
- scripts/lib/devtool/upgrade.py                |  15 +-
- scripts/oe-setup-builddir                     |   4 +-
- scripts/yocto-check-layer                     |  23 ++-
- 45 files changed, 1092 insertions(+), 67 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/local-ping.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Fix-VLA-parameter-warning.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-sd-dhcp-client-check-error-earlier-and-reduce-indent.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-sd-dhcp-client-shorten-code-a-bit.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0003-sd-dhcp-client-logs-when-dhcp-client-unexpectedly-ga.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0004-sd-dhcp-client-tentatively-ignore-FORCERENEW-command.patch
- create mode 100644 meta/recipes-devtools/go/go-1.16/0001-encoding-xml-handle-leading-trailing-or-double-colon.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/0001-Don-t-split-git-references-on-unicode-separators.patch
- create mode 100644 meta/recipes-extended/parted/files/check-vfat.patch
- create mode 100644 meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 821dae2ba6..e93c0b7893 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -86,9 +86,11 @@ USRBINPATH_class-nativesdk = "/usr/bin"
+ # Root home directory
+ ROOT_HOME ??= "/home/root"
+ 
+-# If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to /var/volatile/log.
+-# If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on persistent storage.
+-VOLATILE_LOG_DIR ?= "yes"
++# If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to
++# /var/volatile/log, /var/tmp links to /var/volatile/tmp
++# If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log and /var/tmp
++# is on persistent storage.
++VOLATILE_DIR ?= "yes"
+ 
+ ##################################################################
+ # Architecture-dependent build variables.
+@@ -349,7 +351,7 @@ FILESEXTRAPATHS ?= "__default:"
+ #  datadir, sysconfdir, servicedir, sharedstatedir, localstatedir, infodir,
+ #  mandir, docdir, bindir, sbindir, libexecdir, libdir, includedir and
+ #  oldincludedir
+-FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'files/fs-perms-persistent-log.txt'}"
++FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_DIR')) else 'files/fs-perms-persistent.txt'}"
+ 
+ ##################################################################
+ # General work and output directories for the build system.
+diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent.txt
+similarity index 95%
+rename from meta/files/fs-perms-persistent-log.txt
+rename to meta/files/fs-perms-persistent.txt
+index 518c1be3c9..326c0ed092 100644
+--- a/meta/files/fs-perms-persistent-log.txt
++++ b/meta/files/fs-perms-persistent.txt
+@@ -47,7 +47,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
+ # Links
+ ${localstatedir}/run	link	/run
+ ${localstatedir}/lock	link	/run/lock
+-${localstatedir}/tmp	link	volatile/tmp
+ 
+ /home				0755	root	root	false - - -
+ /srv				0755	root	root	false - - -
+@@ -57,7 +56,6 @@ ${localstatedir}/local		0755	root	root	false - - -
+ # Special permissions from base-files
+ # Set 1777
+ /tmp				01777	root	root	false - - -
+-${localstatedir}/volatile/tmp	01777	root	root	false - - -
+ 
+ # Set 0700
+ ${ROOT_HOME}			0700	root	root	false - - -
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 94299431f6..0e06629bbd 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -29,7 +29,7 @@ S = "${WORKDIR}"
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ docdir_append = "/${P}"
+-dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
++dirs1777 = "/tmp ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}tmp"
+ dirs2775 = ""
+ dirs555 = "/sys /proc"
+ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+@@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+            ${localstatedir}/backups ${localstatedir}/lib \
+            ${localstatedir}/lib/misc ${localstatedir}/spool \
+            ${localstatedir}/volatile \
+-           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
++           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}log \
+            /home ${prefix}/src ${localstatedir}/local \
+            /media"
+ 
+@@ -53,7 +53,8 @@ dirs755-lsb = "/srv  \
+                ${prefix}/lib/locale"
+ dirs2775-lsb = "/var/mail"
+ 
+-volatiles = "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''} tmp"
++volatiles = "${@'log' if oe.types.boolean('${VOLATILE_DIR}') else ''} \
++             ${@'tmp' if oe.types.boolean('${VOLATILE_DIR}') else ''}"
+ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/issue /${sysconfdir}/issue.net \
+              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+index cd8a4be05f..eeeb8905da 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+@@ -24,11 +24,8 @@
+ # a link will be created at /var/test pointing to /tmp/testfile and due to this
+ # link the file defined as /var/test will actually be created as /tmp/testfile.
+ d root root 1777 /run/lock none
+-d root root 0755 /var/volatile/log none
+-d root root 1777 /var/volatile/tmp none
+ l root root 1777 /var/lock /run/lock
+ l root root 0755 /var/run /run
+-l root root 1777 /var/tmp /var/volatile/tmp
+ l root root 1777 /tmp /var/tmp
+ d root root 0755 /var/lock/subsys none
+ f root root 0664 /var/log/wtmp none
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 65f9c0ae8d..cc079024f4 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -105,9 +105,12 @@ do_install () {
+ 	install -m 0755    ${WORKDIR}/read-only-rootfs-hook.sh ${D}${sysconfdir}/init.d
+ 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
+ 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
+-	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
+-		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root 0755 /var/log /var/volatile/log' \
++	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = True ]; then
++                sed -i -e '\@^# link the file@ a\d root root 0755 /var/volatile/log none\nd root root 1777 /var/volatile/tmp none\nl root root 0755 /var/tmp /var/volatile/tmp\nl root root 0755 /var/log /var/volatile/log' \
+ 			${D}${sysconfdir}/default/volatiles/00_core
++	else
++		sed -i -e 's;TMPROOT="${ROOT_DIR}/var/volatile/tmp";TMPROOT="${ROOT_DIR}/var/tmp";g' \
++			${D}${sysconfdir}/init.d/populate-volatile.sh
+ 	fi
+ 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
+ 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
+diff --git a/meta/recipes-core/systemd/systemd_249.1.bb b/meta/recipes-core/systemd/systemd_249.1.bb
+index 9bfb12249c..0914b7e0b2 100644
+--- a/meta/recipes-core/systemd/systemd_249.1.bb
++++ b/meta/recipes-core/systemd/systemd_249.1.bb
+@@ -251,8 +251,9 @@ do_install() {
+ 		install -m 0644 $rule ${D}${sysconfdir}/udev/rules.d/
+ 	done
+ 
+-	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
+-
++	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = True ]; then
++		install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
++	fi
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+ 		install -d ${D}${sysconfdir}/init.d
+ 		install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/systemd-udevd
+diff --git a/meta/recipes-core/udev/eudev_3.2.10.bb b/meta/recipes-core/udev/eudev_3.2.10.bb
+index a5d2115f80..3761fd748e 100644
+--- a/meta/recipes-core/udev/eudev_3.2.10.bb
++++ b/meta/recipes-core/udev/eudev_3.2.10.bb
+@@ -42,6 +42,9 @@ do_install_append() {
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
+ 	sed -i s%@UDEVD@%${base_sbindir}/udevd% ${D}${sysconfdir}/init.d/udev
++	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = False ]; then
++		sed -i -e 's%mkdir -m 1777 -p /var/volatile/tmp%mkdir -m 1777 -p /var/tmp%g' ${D}${sysconfdir}/init.d/udev
++	fi
+ 
+ 	install -d ${D}${sysconfdir}/udev/rules.d
+ 	install -m 0644 ${WORKDIR}/local.rules ${D}${sysconfdir}/udev/rules.d/local.rules
 -- 
-2.31.1
+2.17.1
 
