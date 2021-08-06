@@ -1,262 +1,101 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
- by mx.groups.io with SMTP id smtpd.web11.2419.1628239357183419177
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.2466.1628240329627177853
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 01:42:37 -0700
+ Fri, 06 Aug 2021 01:58:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gAsWdAHC;
- spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f52.google.com with SMTP id a8so4766192vsl.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 01:42:37 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CYMyHOqg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id h13so10145007wrp.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 01:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RlxLl54xcJnkl+UxgRl61sc8FtSZrl5QqAs2FNeoCPE=;
-        b=gAsWdAHCaDgdVhBXFJbhT9X1BoR3CdIf0Zez8WFu8lG0NIlYhwVkz+UIGFzFSHJz6V
-         zJHVpNEezZMXn9YBOnL/C55/I6zDvUaFoyAjqUYUWwup0eRV4adLVdGE1j30ANk6qXOR
-         u4eE6wAPXdbnHSpvF9xU4RLPpLsIjDQLBpNvG77E+Aw1AvC04GhBSUXTe2HchkN5YDg6
-         voEEbVWNaoThJUk5EViKx0bGOCEXHjkUasV+CXM7r54GUAee0u1o/X3s8HgU4DuxeTee
-         57xPHiBFi+ak4VVovLAc7nvBQo0bJMOiTiEvJC7RAOuCwVytHlRKo3j7AmsfDn5vtwTx
-         XDzQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3aF9XPiInpF4X7OCi+N4Ebsx4U73VbQfGL3QkVU1KvE=;
+        b=CYMyHOqgck1RO2mtcEumF9Q6iQXCgVpf9qxQlPiUI80jFwEusu+0Cl2Xq94fcB8OC+
+         +8ukryRTuGF67s3tu6PwCxjqxMNmggTzjkVAh1KLxl424RAM7C7ovi9GjfYXLGDZw02K
+         DDRpfVk1a8pdeQhcDFcEl4e7OdeZ2wb1Wut0s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RlxLl54xcJnkl+UxgRl61sc8FtSZrl5QqAs2FNeoCPE=;
-        b=Ogqd4uZH/hHY/Fxf+UzbOaxUzGAlDoTb6pRl2xrFRlaiprP7/hOP6JUTRshVYhMrR6
-         XWxOwBPlxtTzBe7sZni0oYGF6ctpZxBq/P2/ZXqyRhiiirUmm2hV5A9nk3B0UglxSjy+
-         65zWdhz3b7gXlg1nVjj+DGjNlg7H3kp4tzDqOi304r801zdYJspgQbbF5u2SMRGmB0nW
-         Ji/fhyHHnWiSKS2QzSqb3lb1/T2tn5JpErFG6vcjSiQsprmYen0XRrusQb452px4mviA
-         XZS7colu/Xev4NabIdTsi44gD64DvKGR17IjyhDH0fbiQth5HbDKfWGh4hWeaggJ4Lyt
-         36MA==
-X-Gm-Message-State: AOAM533oDZUbVYi7rbgZ/wf1fZjyjLE91rufHMKP+bhMU/jauoVTLsI7
-	xlnI7keVIv8nPTfhg3zlyIyn92vnT3m8u8Xw37c=
-X-Google-Smtp-Source: ABdhPJyANHgX9HnDIdWywNSkmUKs1DhH3ySBLTuxIvw4ATD6OIko6U6+ZTz0ONoeo7UNrdKgjfINhSekMvcCnlO69Yo=
-X-Received: by 2002:a67:e981:: with SMTP id b1mr7990776vso.41.1628239356348;
- Fri, 06 Aug 2021 01:42:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3aF9XPiInpF4X7OCi+N4Ebsx4U73VbQfGL3QkVU1KvE=;
+        b=azcpFVqqqQt4NleQQsLY5GDNI/QxqSsqw47xCyfSTkizyPCBjRQ6lvd01YZK9gPdrf
+         PpexomOmtcLNscJnlZ02TRQXKfkiJ/atKVKXCRYUFSZZSyDnjkjBoy2J5QuZLGBztg0W
+         UGKOzGasxTLK7OkvvQDwsh5KzJH8CWxMvmLW0hJ5vrIq244KZP6Ohyzt7DXlQawfDPPV
+         Fe6D0CplbNDoHHObVdv+h3eK9IWIjdn4S3tGKKTJrTWPSg4WCFXSyttZgtU/uqAOla7S
+         /UCgf8llSBqJaCKplCd6fhzCmvCY0Tyil96GTrFHpGdNi04meG9QZIfKbujVWYVCHDT0
+         Bg/A==
+X-Gm-Message-State: AOAM5316DMUXBLYpGo86WWbN3w0/I8UDRffiMMgaWpI7efAWayB4lo8v
+	Hobg0Sz6+MIrIVB1mbSYopLQbqIGMqKWRQ==
+X-Google-Smtp-Source: ABdhPJwEVYP2tE7pLcVGCjCWep3GWp7HGc7ttwWR/+rOQ8FR202hc0EQo7kkcwpRunrjD+DgpNMAzg==
+X-Received: by 2002:adf:f44e:: with SMTP id f14mr9599086wrp.101.1628240327950;
+        Fri, 06 Aug 2021 01:58:47 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0])
+        by smtp.gmail.com with ESMTPSA id q17sm8775331wre.3.2021.08.06.01.58.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Aug 2021 01:58:47 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libtool: Fix lto option passing for reproducible builds
+Date: Fri,  6 Aug 2021 09:58:46 +0100
+Message-Id: <20210806085846.3599565-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210805201805.83727-1-joe.slater@windriver.com>
-In-Reply-To: <20210805201805.83727-1-joe.slater@windriver.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 6 Aug 2021 10:42:25 +0200
-Message-ID: <CANNYZj_+M0GkJG1Jq3CEGVaD9p6PhN7-fvN_XZ7M+Yt7mRLawQ@mail.gmail.com>
-Subject: Re: [oe-core][PATCH 1/1] icu: increase command buffer size
-To: Joe Slater <joe.slater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Randy MacLeod <randy.macleod@windriver.com>
-Content-Type: multipart/alternative; boundary="00000000000071cc4f05c8e004b1"
+Content-Transfer-Encoding: 8bit
 
---00000000000071cc4f05c8e004b1
-Content-Type: text/plain; charset="UTF-8"
+If lto is enabled, we need the prefix-map variables to be passed to the linker.
+Add these to the list of options libtool passes through.
 
-Upstream-Status is missing, and this looks like something that should be
-sent upstream first for review.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../libtool/libtool-2.4.6.inc                 |  1 +
+ .../libtool/libtool/lto-prefix.patch          | 22 +++++++++++++++++++
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-devtools/libtool/libtool/lto-prefix.patch
 
-Alex
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+index c1cbceb51fd..6748d7468e7 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
+@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
+            file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
+            file://0001-Makefile.am-make-sure-autoheader-run-before-automake.patch \
++           file://lto-prefix.patch \
+           "
+ 
+ SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
+diff --git a/meta/recipes-devtools/libtool/libtool/lto-prefix.patch b/meta/recipes-devtools/libtool/libtool/lto-prefix.patch
+new file mode 100644
+index 00000000000..2bd010b8e48
+--- /dev/null
++++ b/meta/recipes-devtools/libtool/libtool/lto-prefix.patch
+@@ -0,0 +1,22 @@
++If lto is enabled, we need the prefix-map variables to be passed to the linker.
++Add these to the list of options libtool passes through.
++
++Upstream-Status: Pending
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: libtool-2.4.6/build-aux/ltmain.in
++===================================================================
++--- libtool-2.4.6.orig/build-aux/ltmain.in
+++++ libtool-2.4.6/build-aux/ltmain.in
++@@ -5424,9 +5424,10 @@ func_mode_link ()
++       # --sysroot=*          for sysroot support
++       # -O*, -g*, -flto*, -fwhopr*, -fuse-linker-plugin GCC link-time optimization
++       # -stdlib=*            select c++ std lib with clang
+++      # -f*-prefix-map*      needed for lto linking
++       -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
++       -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
++-      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*)
+++      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*|-f*-prefix-map*)
++         func_quote_for_eval "$arg"
++ 	arg=$func_quote_for_eval_result
++         func_append compile_command " $arg"
+-- 
+2.30.2
 
-On Thu, 5 Aug 2021 at 22:22, Joe Slater <joe.slater@windriver.com> wrote:
-
-> Make cmd in pkg_installLibrary() LARGE_BUFFER_SIZE to avoid
-> pathname truncation if the install path is longer than about
-> 150 characters.  For default compilation, the U_ASSERT does
-> not detect buffer overflow.
->
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->  ...pkgdata-increase-command-buffer-size.patch | 41 +++++++++++++++++++
->  meta/recipes-support/icu/icu_69.1.bb          |  1 +
->  2 files changed, 42 insertions(+)
->  create mode 100644
-> meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch
->
-> diff --git
-> a/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch
-> b/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch
-> new file mode 100644
-> index 0000000000..14d17f9742
-> --- /dev/null
-> +++
-> b/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-size.patch
-> @@ -0,0 +1,41 @@
-> +From ab6b1acdeed76899f8227c38ab7e7675c7673ff1 Mon Sep 17 00:00:00 2001
-> +From: Joe Slater <joe.slater@windriver.com>
-> +Date: Thu, 5 Aug 2021 09:23:48 -0700
-> +Subject: [oe-core][PATCH 1/1] pkgdata: increase command buffer size
-> +
-> +Make cmd LARGE_BUFFER_SIZE to avoid pathname truncation
-> +when install paths are longer than about 150 characters.
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +---
-> + source/tools/pkgdata/pkgdata.cpp | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/source/tools/pkgdata/pkgdata.cpp
-> b/source/tools/pkgdata/pkgdata.cpp
-> +index 5ab682e..d4b70ef 100644
-> +--- a/tools/pkgdata/pkgdata.cpp
-> ++++ b/tools/pkgdata/pkgdata.cpp
-> +@@ -1131,17 +1131,17 @@ normal_symlink_mode:
-> +
-> + static int32_t pkg_installLibrary(const char *installDir, const char
-> *targetDir, UBool noVersion) {
-> +     int32_t result = 0;
-> +-    char cmd[SMALL_BUFFER_MAX_SIZE];
-> ++    char cmd[LARGE_BUFFER_MAX_SIZE];
-> +
-> +     auto ret = snprintf(cmd,
-> +-            SMALL_BUFFER_MAX_SIZE,
-> ++            LARGE_BUFFER_MAX_SIZE,
-> +             "cd %s && %s %s %s%s%s",
-> +             targetDir,
-> +             pkgDataFlags[INSTALL_CMD],
-> +             libFileNames[LIB_FILE_VERSION],
-> +             installDir, PKGDATA_FILE_SEP_STRING,
-> libFileNames[LIB_FILE_VERSION]);
-> +     (void)ret;
-> +-    U_ASSERT(0 <= ret && ret < SMALL_BUFFER_MAX_SIZE);
-> ++    U_ASSERT(0 <= ret && ret < LARGE_BUFFER_MAX_SIZE);
-> +
-> +     result = runCommand(cmd);
-> +
-> +--
-> +2.29.2
-> +
-> diff --git a/meta/recipes-support/icu/icu_69.1.bb
-> b/meta/recipes-support/icu/icu_69.1.bb
-> index bfeea8d2f0..00c22372b5 100644
-> --- a/meta/recipes-support/icu/icu_69.1.bb
-> +++ b/meta/recipes-support/icu/icu_69.1.bb
-> @@ -107,6 +107,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
->             file://filter.json \
->             file://fix-install-manx.patch \
->             file://0001-icu-Added-armeb-support.patch \
-> +           file://0001-pkgdata-increase-command-buffer-size.patch \
->             "
->
->  SRC_URI_append_class-target = "\
-> --
-> 2.29.2
->
->
-> 
->
->
-
---00000000000071cc4f05c8e004b1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Upstream-Status is missing, and this looks like somet=
-hing that should be sent upstream first for review.</div><div><br></div><di=
-v>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, 5 Aug 2021 at 22:22, Joe Slater &lt;<a href=3D"mail=
-to:joe.slater@windriver.com">joe.slater@windriver.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">Make cmd in pkg_instal=
-lLibrary() LARGE_BUFFER_SIZE to avoid<br>
-pathname truncation if the install path is longer than about<br>
-150 characters.=C2=A0 For default compilation, the U_ASSERT does<br>
-not detect buffer overflow.<br>
-<br>
-Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com" t=
-arget=3D"_blank">joe.slater@windriver.com</a>&gt;<br>
----<br>
-=C2=A0...pkgdata-increase-command-buffer-size.patch | 41 ++++++++++++++++++=
-+<br>
-=C2=A0meta/recipes-support/icu/<a href=3D"http://icu_69.1.bb" rel=3D"norefe=
-rrer" target=3D"_blank">icu_69.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 1 +<br>
-=C2=A02 files changed, 42 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-support/icu/icu/0001-pkgdata-increase=
--command-buffer-size.patch<br>
-<br>
-diff --git a/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buf=
-fer-size.patch b/meta/recipes-support/icu/icu/0001-pkgdata-increase-command=
--buffer-size.patch<br>
-new file mode 100644<br>
-index 0000000000..14d17f9742<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/icu/icu/0001-pkgdata-increase-command-buffer-siz=
-e.patch<br>
-@@ -0,0 +1,41 @@<br>
-+From ab6b1acdeed76899f8227c38ab7e7675c7673ff1 Mon Sep 17 00:00:00 2001<br>
-+From: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com" target=3D=
-"_blank">joe.slater@windriver.com</a>&gt;<br>
-+Date: Thu, 5 Aug 2021 09:23:48 -0700<br>
-+Subject: [oe-core][PATCH 1/1] pkgdata: increase command buffer size<br>
-+<br>
-+Make cmd LARGE_BUFFER_SIZE to avoid pathname truncation<br>
-+when install paths are longer than about 150 characters.<br>
-+<br>
-+Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com" =
-target=3D"_blank">joe.slater@windriver.com</a>&gt;<br>
-+---<br>
-+ source/tools/pkgdata/pkgdata.cpp | 6 +++---<br>
-+ 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-+<br>
-+diff --git a/source/tools/pkgdata/pkgdata.cpp b/source/tools/pkgdata/pkgda=
-ta.cpp<br>
-+index 5ab682e..d4b70ef 100644<br>
-+--- a/tools/pkgdata/pkgdata.cpp<br>
-++++ b/tools/pkgdata/pkgdata.cpp<br>
-+@@ -1131,17 +1131,17 @@ normal_symlink_mode:<br>
-+ <br>
-+ static int32_t pkg_installLibrary(const char *installDir, const char *tar=
-getDir, UBool noVersion) {<br>
-+=C2=A0 =C2=A0 =C2=A0int32_t result =3D 0;<br>
-+-=C2=A0 =C2=A0 char cmd[SMALL_BUFFER_MAX_SIZE];<br>
-++=C2=A0 =C2=A0 char cmd[LARGE_BUFFER_MAX_SIZE];<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0auto ret =3D snprintf(cmd,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SMALL_BUFFER_MAX_SIZE,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LARGE_BUFFER_MAX_SIZE,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;cd %s &amp;&amp; %s =
-%s %s%s%s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0targetDir,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkgDataFlags[INSTALL_CMD],=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libFileNames[LIB_FILE_VERS=
-ION],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0installDir, PKGDATA_FILE_S=
-EP_STRING, libFileNames[LIB_FILE_VERSION]);<br>
-+=C2=A0 =C2=A0 =C2=A0(void)ret;<br>
-+-=C2=A0 =C2=A0 U_ASSERT(0 &lt;=3D ret &amp;&amp; ret &lt; SMALL_BUFFER_MAX=
-_SIZE);<br>
-++=C2=A0 =C2=A0 U_ASSERT(0 &lt;=3D ret &amp;&amp; ret &lt; LARGE_BUFFER_MAX=
-_SIZE);<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0result =3D runCommand(cmd);<br>
-+ <br>
-+-- <br>
-+2.29.2<br>
-+<br>
-diff --git a/meta/recipes-support/icu/<a href=3D"http://icu_69.1.bb" rel=3D=
-"noreferrer" target=3D"_blank">icu_69.1.bb</a> b/meta/recipes-support/icu/<=
-a href=3D"http://icu_69.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_69.1=
-.bb</a><br>
-index bfeea8d2f0..00c22372b5 100644<br>
---- a/meta/recipes-support/icu/<a href=3D"http://icu_69.1.bb" rel=3D"norefe=
-rrer" target=3D"_blank">icu_69.1.bb</a><br>
-+++ b/meta/recipes-support/icu/<a href=3D"http://icu_69.1.bb" rel=3D"norefe=
-rrer" target=3D"_blank">icu_69.1.bb</a><br>
-@@ -107,6 +107,7 @@ SRC_URI =3D &quot;${BASE_SRC_URI};name=3Dcode \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://filter.json \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix-install-manx.patch \<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-icu-Added-armeb-suppo=
-rt.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-pkgdata-increase-comm=
-and-buffer-size.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0SRC_URI_append_class-target =3D &quot;\<br>
--- <br>
-2.29.2<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000071cc4f05c8e004b1--
