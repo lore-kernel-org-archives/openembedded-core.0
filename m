@@ -1,158 +1,392 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web08.1230.1628228011801164856
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.78])
+ by mx.groups.io with SMTP id smtpd.web09.1693.1628232900322250136
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 22:33:32 -0700
+ Thu, 05 Aug 2021 23:55:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZfvLbSz7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id j2so9467912wrx.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 22:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=S47TBsnUm20lkOCIvLNPt9JFZpdl4rl04gabEAVgoA8=;
-        b=ZfvLbSz7FKKlvSavuFg3cyxdQiV+DDAZ2TCKboCNTWH6SByQ9uZyLgChLZlm/opXn2
-         Uid8Dbs/FtRtbjlWBXCNBo1Q6+vpO95dveBAFPGIxRHaA/lZGjlaSRnV6nNspUGkBE8R
-         keus4JoVtBCcUXmFlqgRsEFe5u+UNnmAK2KcI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=S47TBsnUm20lkOCIvLNPt9JFZpdl4rl04gabEAVgoA8=;
-        b=T9T+skPibr1f5ody+voiPf13QPM6iwa1ajfCpniuIfVbHvRpPy2xae1ugfwLkACwJE
-         Y9aBC7FXTXSpgpVwwcZMA3+lXi4QXsIZRUYQqhtWQ6t1SernQXrukXc+SKgVNBCNu5f5
-         E8a9RUCWJSP+3maH0GpD+FK7FFj24BBd2U1QW0k4wvuAHEAu456bnvv57xy+kLM6qNhH
-         Dobnd0eMrIPkIKFkrJCxwEf0qx2zdxo8BjHnBz5g/EytBxcstZrgmxxjw1U4k6AKezAG
-         KvFbnFu97mU4lq5BGHz7y4nNqWCB/HnpLtzT9p3HKjm9CjRYlNnLwspsBTvfKrQM8ol+
-         ri2A==
-X-Gm-Message-State: AOAM5337Fcr126pzo5jHZUZkTqeyNKyt/CNV3hjFdXLF52EiNDg7snmC
-	iqI+ylCA0kHGW9W3nQ3MR2BwxA==
-X-Google-Smtp-Source: ABdhPJw12Ll2AXXVsZucGIF0fKgPBTXz8yK38xcCKeFQkGMXm/PB9yjfxgSqWgb9cMdsmCp7N0rJVw==
-X-Received: by 2002:a05:6000:12ce:: with SMTP id l14mr8952158wrx.41.1628228010060;
-        Thu, 05 Aug 2021 22:33:30 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0? ([2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0])
-        by smtp.gmail.com with ESMTPSA id p15sm7283638wmi.29.2021.08.05.22.33.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 22:33:29 -0700 (PDT)
-Message-ID: <040fe5d8cd3914e7c19fc70ae6d18894b07f8073.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [master][PATCH 0/4] Reproducible LTO builds
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Tony Battersby <tonyb@cybernetics.com>, Randy MacLeod
-	 <randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Date: Fri, 06 Aug 2021 06:33:26 +0100
-In-Reply-To: <a0c4c23d-7437-ce14-066f-0f7f6929a987@cybernetics.com>
-References: <2efeecad-7ee5-126c-9271-d69fc3428c38@cybernetics.com>
-	 <447d4fa9-b915-4e59-0ecc-64d41c6ceee6@windriver.com>
-	 <22d7a9866471f53ea283caa1578fbf0b48d5e113.camel@linuxfoundation.org>
-	 <a0c4c23d-7437-ce14-066f-0f7f6929a987@cybernetics.com>
-User-Agent: Evolution 3.40.0-1 
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=WpVKH+CB;
+ spf=pass (domain: kpit.com, ip: 40.107.138.78, mailfrom: purushottam.choudhary@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G8Q2xOpnDbL8fcENGlJkuucd4nrjrzD8se4KcXV5/bkFiN3zWaHy5f0OJSpfF8qhAf1UzGymYXEnZ8Cq8nQfQr49zcb18YBthrgZwGQVYcbtHtAjeibwNYgO3EMUDHIxZ4vGlfGLhr6ho1znZWKeEPp+/5OvSHBI55WR/hN278sx/2CT+SGXa7pA5OXk4MvrfE1M9dmUxd6IM7Iq9goPalNCkBceBGsW9r5A+O30D/O5tJpsT6xTVnAXp8drwQg711uV28Ghh/49+J4CQjRzwyNa/zg8QIlpqSXkhUwA8Ao0CztVyTzC/uyne5iPi2Cr1P+sw7/Z1032kqyFc7zSBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sC/OScFMz4ONIVbJTK7M6DlPUhhxUYr/DmM4uzmtnls=;
+ b=FREJh3DGx2hgsHQDJAuRxRfmC8tgW2K0cHq9M3Q+nySGJVISopQW+8njVlhyvAiuBhoLdwK9ai7yCKKcxzsNk9ddzzWZiYWTjsYOPJHMWUC87jDFkLTaBTsIjtDlEs8cs8xiIEwZDCa4oBub6ZPJm5RJWu5DUA4I/wGa8rpw/5V3cC42Ez4BBi5kn2yPboN9wvCgHRbMMgym72wNbcMk644EE3RgelAj81LCvrwx89YkHaXpvdCdaN7vjEEHR2vaMEO9fwoDtReKehojJ1JCP6UPe+K+yR2805E8na/Ncq8JDCfQue48/IENHiBRygrGXGAn3AIkPR2pEnqkHxzqWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sC/OScFMz4ONIVbJTK7M6DlPUhhxUYr/DmM4uzmtnls=;
+ b=WpVKH+CBJbrPlEC8ceZlOGWLpoXO5yzFOQv26LMD4hkjpbKPK7nMfcLE0H6yRIohNjiO1O3X3yK8Az/F3+Tfa1/TBU4GVtHxsEAx61KWdBMpZcWGfK2Ze/fTWkTnewq9ZSl081dIajtprDOyudU5kRMTCUDzoXmShpBE/cTqBsQ=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kpit.com;
+Received: from PNZPR01MB4944.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:2e::19)
+ by PNZPR01MB4879.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:2e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.26; Fri, 6 Aug
+ 2021 06:54:49 +0000
+Received: from PNZPR01MB4944.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::b5cd:4835:1ddb:9667]) by PNZPR01MB4944.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::b5cd:4835:1ddb:9667%7]) with mapi id 15.20.4373.028; Fri, 6 Aug 2021
+ 06:54:49 +0000
+From: "Purushottam choudhary" <purushottam.choudhary@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com,
+	Mikko.Rapeli@bmw.de,
+	Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
+Subject: [poky][dunfell][PATCH] lighttpd: Add patch for reuse large memory chunks
+Date: Fri,  6 Aug 2021 12:24:40 +0530
+Message-Id: <1628232880-3676-1-git-send-email-purushottam.choudhary@kpit.com>
+X-Mailer: git-send-email 2.7.4
+X-ClientProxiedBy: BM1PR01CA0073.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:1::13) To PNZPR01MB4944.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:2e::19)
+Return-Path: purushottam.choudhary@kpit.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (106.206.199.111) by BM1PR01CA0073.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:1::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4394.15 via Frontend Transport; Fri, 6 Aug 2021 06:54:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b730fbf8-0920-40c0-f0ba-08d958a71525
+X-MS-TrafficTypeDiagnostic: PNZPR01MB4879:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<PNZPR01MB4879F893977553340C26802C90F39@PNZPR01MB4879.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:747;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	q5ndvWLguWskoOwvhN8T8JPBLTz+SP+lYioyq0IQdZGJSS30ctkHMrkxw2+6L6rtiNna4xH3gnpbPA/5YdXevOiFwfObpSO+c1x03Fhkd2Rx4T8oJQFs5TRgaZp0ZTNd0L3nCLOY/igdgfunC/0B8SGIXYKvYZNU+RmdMsSeKA/q3g6rX98mlFsgw0FRtcVX4lz/upM/aTl7m+LXhgpnRws0nk5RdMOOfDPzLECMcJXdpMcbKSScolwKNKAxGWPP1m8YicJqvqd4JzXrIz0vKzHIzf0bQ1hNfJ7oPvZOljphLqqSLVXNJEEY0vPLUVxBh9y9hVAYX3tnLjlhEvS5CJJDTyJLhOScgQeH5zcExEr3BfvjHteztXULK4Y+BP1qSIKpjJWKB5JYjh5Y3tcm8NU4icBwX0GroHtGFxwX/n0q1ZCZE7VhwRv+yWJWrt6W15FY5Evb7HGEymblRz5dIGGtEQdPzHO8c5yonnkbDykZGE22NuDJ/mpunpUEfktkaRW+LOyup3nyHGL1jD0ZOxRB9PMH5S+Rpif9xrQNAtyi0T5zNcaRfnKey3FpTFGcLnk01WYxXGNYHKaKBA4KJsE0lCLRgsKnWaGkK8ml79dXF3KbQdn3C8xAwpgml0pqb/+vfRMUIWLbyoxXiwrp+ci2hNxHPIpx3AJrnBdMwxa+KKI+yFsHogGXsLd/dq27ZJnCtmgcOEoIYVbXqgB8GmZrllLwFyr07C+DQktPa/Hdh1SrfMKNXn9Lbc1CLaky4D22h+bFZkmPJo9WOI7j7YhwyHHWXsy4aLMZAjl7jnI=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PNZPR01MB4944.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(39850400004)(136003)(346002)(8936002)(52116002)(44832011)(966005)(2616005)(956004)(2906002)(8676002)(107886003)(6506007)(5660300002)(6666004)(1006002)(4326008)(26005)(83380400001)(6512007)(86362001)(66556008)(38350700002)(6486002)(478600001)(36756003)(38100700002)(66946007)(316002)(66574015)(66476007)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?0LixXx+l4DzsmPpTxQ+w1gzV1gdDntE6YdDNzGTZhZeqO83UKsA34ua2hHBY?=
+ =?us-ascii?Q?pq07avb0l44ZOcLwHvTdHxOMTQvQct1fFa79ubXGoRbbw0UdpfsmfSa8IJML?=
+ =?us-ascii?Q?ByDAFXrivLS4XGwDq/OIZl0cohAr97W1vWnqLyUEoYbjCi8ms1xAaGmE7/mP?=
+ =?us-ascii?Q?6yIB/pc899PwuO798VoiksdGksY8PavS7Xd4Ky8xcHUe95SG43Z3+ARik3jW?=
+ =?us-ascii?Q?V0WZIvSECFvKoHi5woHO+rG2teJ1mWXQznvOWzqklH8YZwAgSRr3hrovfpZg?=
+ =?us-ascii?Q?QwHTXxo03l0gf738vwaawwsnIgt2XJZsjxr2TLQBf1+mFavoWcvBobWsYxp6?=
+ =?us-ascii?Q?mr5YXN0LYyqMobMAPxo3anJa/hp6pYyhYxT+TjGm0HjmU42TGVdaESctZTKr?=
+ =?us-ascii?Q?zQFj2PumvAaz77gPBHyB0jlrPmdXgF5FuZFrP+p6ibVrAKWDUPLuYjS1a1h7?=
+ =?us-ascii?Q?53RqSys8NFrTMqYhjPNRAsKDXICUGpK5xf55D0bmDqPxGMls+Hro4iARxZ4u?=
+ =?us-ascii?Q?0dVpK4HOjdZrz3LvGX1q2RuMJi1zqLEddBPJXDc2F/ncBtZMLy1eX2+rV0q/?=
+ =?us-ascii?Q?H8v0rN8yBo6zAcZNapBsO+psFgb//mVJqBoRMuciUbCCEVp9fT0uYL7QZ44Z?=
+ =?us-ascii?Q?qT+D9QVIRXTtTUjmcACuzReZP20Ma8+7pWQaJfanhTwVKDPFuCHA0b58UXNT?=
+ =?us-ascii?Q?ZGx29Yxw1ZBBpbaMwy8KQq5OaBday/1+DgZ4+PhBwEdtg7ty3bF/Fx9dBEzG?=
+ =?us-ascii?Q?FeIXldc6yvIU9QFK0NEF+q+Alxji4gNnwLF6ghqLeN5a+ZMZiRfNQUUiBouN?=
+ =?us-ascii?Q?NS2CQF9HaBp1lIvD6U1FlSdDjQ7RLCz13jXn7GMH2+QJvnEwsGPwIaqD5w64?=
+ =?us-ascii?Q?x36NTEnzMPvJZ5auM2eenO96IIMbeitZXONOl/C8kFb1v+cESn5zOJhsagu0?=
+ =?us-ascii?Q?9H3Z7u9KY4ffea/mqXdkrqaW6R8sgvvxRym8kuRtiV4raC7S3fzOoIQEpTVc?=
+ =?us-ascii?Q?iIsdvymdVIMNoO/Af/gOB+61p2AEHIhAfh5y0zl2xNtXm1QLr8buiTDNaT21?=
+ =?us-ascii?Q?OFIFlwSdUlZhWqwPBesG+dC7sdjTczKpTy8Rvgrj2s22+EMGF3bak6qgU9NC?=
+ =?us-ascii?Q?YK4Slk7qbmDHTfKEIEuLOd5Y9gyUuW1+8NboETBS9mnwipob2JDXJVscKWNW?=
+ =?us-ascii?Q?+M8RycuDpK+ctiJSpGu+L3U/OZ6YsIikkCk3Ae952lcZaz5oxgN304JxQC/k?=
+ =?us-ascii?Q?9D1IBOgqcCgc1XTpzZDlB+a465FnkwKWRyFVvtMZ9EDM5oxnJsvsiyxu10E4?=
+ =?us-ascii?Q?w7Oj/2wB+tArFzc+NJDAVSRO?=
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b730fbf8-0920-40c0-f0ba-08d958a71525
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4944.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2021 06:54:49.1224
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /aFdow8QGZqcDANgYBuSztsP+az/+vUqVu8u3ldsp644wktQZrkgCs6+U6WCuybWyEWK0K3vhZc1Ql0wFDKJvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNZPR01MB4879
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2021-08-05 at 17:54 -0400, Tony Battersby wrote:
-> On 8/5/21 6:21 AM, Richard Purdie wrote:
-> > On Wed, 2021-08-04 at 20:13 -0400, Randy MacLeod wrote:
-> > > On 2021-07-27 9:34 a.m., Tony Battersby wrote:
-> > > > Currently, enabling Link Time Optimization via:
-> > > > 
-> > > > require conf/distro/include/lto.inc
-> > > > DISTRO_FEATURES_append = " lto"
-> > > > 
-> > > > makes the build non-reproducible (as in
-> > > > https://reproducible-builds.org/).  This patch set fixes some of the
-> > > > problems, but is not yet a complete solution.
-> > > > 
-> > > > This patch set addresses the following bugs:
-> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14481
-> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14490
-> > > > 
-> > > > openembedded-core patches
-> > > > 1/4: lto.inc: disable LTO for grub
-> > > > 2/4: gcc: Backport patch to make LTO builds more reproducible
-> > > > 3/4: bitbake.conf: add DEBUG_PREFIX_MAP to TARGET_LDFLAGS
-> > > > 
-> > > > openembedded-devel patches
-> > > > 4/4: net-snmp: fix QA Issue after LDFLAGS change
-> > > > 
-> > > > Patch 3 adds DEBUG_PREFIX_MAP to TARGET_LDFLAGS (it was already in
-> > > > TARGET_CFLAGS).  This could possibly be done differently, such as by
-> > > > removing it from TARGET_CFLAGS and adding it to TOOLCHAIN_OPTIONS,
-> > > > TARGET_CC_ARCH, or TUNE_CCARGS, but I haven't tested those.  Let me know
-> > > > if there is a better/preferred way to do it.
-> > > > 
-> > > > The TARGET_LDFLAGS change broke net-snmp from meta-networking, so I have
-> > > > included a patch to fix that.  Other packages might have been broken as
-> > > > well, although I haven't found any others.
-> > > > 
-> > > > With all these patches, there are still many shared libraries in /lib
-> > > > and /usr/lib that are still not reproducible with LTO enabled because
-> > > > x86_64-poky-linux-libtool filters out the -f*-prefix-map flags added by
-> > > > patch 3 when linking shared libraries.  /usr/lib/libbz2.so.1.0.6 from
-> > > > the libbz2 package from the bzip2 recipe is a good example.  I do not
-> > > > have a patch for that problem.  I will leave that to someone else.
-> > > > 
-> > > > So this is what we need to achieve reproducible LTO builds:
-> > > > *) This patch set
-> > > > *) A fix for libtool
-> > > > *) Add LTO to reproducible builds testing if appropriate (e.g.
-> > > > meta/lib/oeqa/selftest/cases/reproducible.py, CI on Autobuilder)
-> > > > *) Fixes for individual packages, if needed
-> > > > *) Once everything works, update the documentation again (I previously
-> > > > requested a documentation change for this bug, which will eventually
-> > > > show up at
-> > > > http://docs.yoctoproject.org/test-manual/reproducible-builds.html).
-> > > This is certainly a few steps in the right direction with a good outline
-> > > of what's next.
-> > > 
-> > > I suspect that Richard has been busy with other things like overrides
-> > > and the update to glibc-2.34.
-> > > 
-> > > Do you have any suggestions or questions about what we should do
-> > > with this patch series Richard?
-> > Thanks for the reminder, I've been meaning to queue/test this which I will
-> > do. The gcc version has been bumped but I ported the patch forward to it
-> > and the patches are in master-next for testing. It is great to see this
-> > support moving forward.
-> > 
-> > Much as it pains me to admit having any libtool knowledge, I may be able to
-> > help with that bit. There is an untested patch below which may address that
-> > issue, or at least give a good hint on how to do it if it doesn't work. I
-> > don't have an environment to test easily right now.
-> > 
-> > Cheers,
-> > 
-> > Richard
-> 
-> I tested your libtool patch in master-next with the bzip2 recipe.  It
-> works as intended; libbz2.so.1.0.6 and all the other output files are
-> now reproducible with LTO enabled.  I also verified that libtool is
-> passing the -f*-prefix-map flags to the link command in log.do_compile
-> as intended.
-> 
-> I also verified that core-image-minimal builds successfully with the
-> libtool patch.
+Added 0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+to fix large memory usage for large file downloads
+from dynamic backends reuse or release large memory chunks.
 
-Thanks for testing that, sounds like it helps that issue. I'll queue that patch.
+This issue is caused by a bug in the lighttpd 1.4.55 version and
+has been fixed in lighttpd 1.4.58. Hence, it is not needed for
+master and hardknott branch because lighttpd has 1.4.59 version.
 
-Unfortunately even with the ruby fix I queued, we still see reproduciblity
-issues with the LDFLAGS change in curl-dev, gettext-ptest, ruby and ruby-dbg 
-packages:
+Link: https://redmine.lighttpd.net/projects/lighttpd/repository/14/revision=
+s/7ba521ffb4959f6f74a609d5d4acafc29a038337
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/515/steps/12/logs/stdio
+Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
+---
+ ...large-mem-chunks-fix-mem-usage-fixes-3033.patch | 225 +++++++++++++++++=
+++++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb  |   1 +
+ 2 files changed, 226 insertions(+)
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse=
+-large-mem-chunks-fix-mem-usage-fixes-3033.patch
 
-We'll need to resolve those before I can merge the flags change.
+diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-large-=
+mem-chunks-fix-mem-usage-fixes-3033.patch b/meta/recipes-extended/lighttpd/=
+lighttpd/0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+new file mode 100644
+index 0000000..c4e4a60
+--- /dev/null
++++ b/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-large-mem-chu=
+nks-fix-mem-usage-fixes-3033.patch
+@@ -0,0 +1,225 @@
++From 40dadb863fd105c4a66b598c2423b1eb11b1f26e Mon Sep 17 00:00:00 2001
++From: Glenn Strauss <gstrauss@gluelogic.com>
++Date: Wed, 23 Dec 2020 23:14:47 -0500
++Subject: [PATCH] [core] reuse large mem chunks (fix mem usage) (fixes #303=
+3)
++
++(cherry picked from commit 7ba521ffb4959f6f74a609d5d4acafc29a038337)
++
++(thx flynn)
++
++fix large memory usage for large file downloads from dynamic backends
++
++reuse or release large memory chunks
++
++x-ref:
++  "Memory Growth with PUT and full buffered streams"
++  https://redmine.lighttpd.net/issues/3033
++
++Upstream-Status: Backport
++Comment: No hunk refreshed
++https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisions/7ba=
+521ffb4959f6f74a609d5d4acafc29a038337
++Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
++---
++ src/chunk.c            | 99 +++++++++++++++++++++++++++++++++---------
++ src/chunk.h            |  2 +
++ src/http-header-glue.c |  2 +-
++ 3 files changed, 82 insertions(+), 21 deletions(-)
++
++diff --git a/src/chunk.c b/src/chunk.c
++index 09dd3f14..ffb37951 100644
++--- a/src/chunk.c
+++++ b/src/chunk.c
++@@ -28,16 +28,20 @@
++ static size_t chunk_buf_sz =3D 4096;
++ static chunk *chunks, *chunks_oversized;
++ static chunk *chunk_buffers;
+++static int chunks_oversized_n;
++ static array *chunkqueue_default_tempdirs =3D NULL;
++ static off_t chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE;
++
++ void chunkqueue_set_chunk_size (size_t sz)
++ {
++-    chunk_buf_sz =3D sz > 0 ? ((sz + 1023) & ~1023uL) : 4096;
+++    size_t x =3D 1024;
+++    while (x < sz && x < (1u << 30)) x <<=3D 1;
+++    chunk_buf_sz =3D sz > 0 ? x : 4096;
++ }
++
++ void chunkqueue_set_tempdirs_default_reset (void)
++ {
+++    chunk_buf_sz =3D 8192;
++     chunkqueue_default_tempdirs =3D NULL;
++     chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE;
++ }
++@@ -120,15 +124,49 @@ static void chunk_free(chunk *c) {
++       free(c);
++ }
++
++-buffer * chunk_buffer_acquire(void) {
+++static chunk * chunk_pop_oversized(size_t sz) {
+++    /* future: might have buckets of certain sizes, up to socket buf size=
+s */
+++    if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
+++        --chunks_oversized_n;
+++        chunk *c =3D chunks_oversized;
+++        chunks_oversized =3D c->next;
+++        return c;
+++    }
+++    return NULL;
+++}
+++
+++static void chunk_push_oversized(chunk * const c, const size_t sz) {
+++    if (chunks_oversized_n < 64 && chunk_buf_sz >=3D 4096) {
+++        ++chunks_oversized_n;
+++        chunk **co =3D &chunks_oversized;
+++        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
+++        c->next =3D *co;
+++        *co =3D c;
+++    }
+++    else
+++        chunk_free(c);
+++}
+++
+++static buffer * chunk_buffer_acquire_sz(size_t sz) {
++     chunk *c;
++     buffer *b;
++-    if (chunks) {
++-        c =3D chunks;
++-        chunks =3D c->next;
+++    if (sz <=3D chunk_buf_sz) {
+++        if (chunks) {
+++            c =3D chunks;
+++            chunks =3D c->next;
+++        }
+++        else
+++            c =3D chunk_init(chunk_buf_sz);
+++            /* future: might choose to pop from chunks_oversized, if avai=
+lable
+++             * (even if larger than sz) rather than allocating new chunk
+++             * (and if doing so, might replace chunks_oversized_n) */
++     }
++     else {
++-        c =3D chunk_init(chunk_buf_sz);
+++        /*(round up to nearest chunk_buf_sz)*/
+++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
+++        c =3D chunk_pop_oversized(sz);
+++        if (NULL =3D=3D c)
+++            c =3D chunk_init(sz);
++     }
++     c->next =3D chunk_buffers;
++     chunk_buffers =3D c;
++@@ -137,21 +175,47 @@ buffer * chunk_buffer_acquire(void) {
++     return b;
++ }
++
+++buffer * chunk_buffer_acquire(void) {
+++    return chunk_buffer_acquire_sz(chunk_buf_sz);
+++}
+++
++ void chunk_buffer_release(buffer *b) {
++     if (NULL =3D=3D b) return;
++-    if (b->size >=3D chunk_buf_sz && chunk_buffers) {
+++    if (chunk_buffers) {
++         chunk *c =3D chunk_buffers;
++         chunk_buffers =3D c->next;
++         c->mem =3D b;
++-        c->next =3D chunks;
++-        chunks =3D c;
++         buffer_clear(b);
+++        if (b->size =3D=3D chunk_buf_sz) {
+++            c->next =3D chunks;
+++            chunks =3D c;
+++        }
+++        else if (b->size > chunk_buf_sz)
+++            chunk_push_oversized(c, b->size);
+++        else
+++            chunk_free(c);
++     }
++     else {
++         buffer_free(b);
++     }
++ }
++
+++size_t chunk_buffer_prepare_append(buffer * const b, size_t sz) {
+++    if (sz > chunk_buffer_string_space(b)) {
+++        sz +=3D b->used ? b->used : 1;
+++        buffer * const cb =3D chunk_buffer_acquire_sz(sz);
+++        /* swap buffer contents and copy original b->ptr into larger b->p=
+tr */
+++        /*(this does more than buffer_move())*/
+++        buffer tb =3D *b;
+++        *b =3D *cb;
+++        *cb =3D tb;
+++        if ((b->used =3D tb.used))
+++            memcpy(b->ptr, tb.ptr, tb.used);
+++        chunk_buffer_release(cb);
+++    }
+++    return chunk_buffer_string_space(b);
+++}
+++
++ static chunk * chunk_acquire(size_t sz) {
++     if (sz <=3D chunk_buf_sz) {
++         if (chunks) {
++@@ -162,13 +226,10 @@ static chunk * chunk_acquire(size_t sz) {
++         sz =3D chunk_buf_sz;
++     }
++     else {
++-        sz =3D (sz + 8191) & ~8191uL;
++-        /* future: might have buckets of certain sizes, up to socket buf =
+sizes*/
++-        if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
++-            chunk *c =3D chunks_oversized;
++-            chunks_oversized =3D c->next;
++-            return c;
++-        }
+++        /*(round up to nearest chunk_buf_sz)*/
+++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
+++        chunk *c =3D chunk_pop_oversized(sz);
+++        if (c) return c;
++     }
++
++     return chunk_init(sz);
++@@ -183,10 +244,7 @@ static void chunk_release(chunk *c) {
++     }
++     else if (sz > chunk_buf_sz) {
++         chunk_reset(c);
++-        chunk **co =3D &chunks_oversized;
++-        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
++-        c->next =3D *co;
++-        *co =3D c;
+++        chunk_push_oversized(c, sz);
++     }
++     else {
++         chunk_free(c);
++@@ -205,6 +263,7 @@ void chunkqueue_chunk_pool_clear(void)
++         chunk_free(c);
++     }
++     chunks_oversized =3D NULL;
+++    chunks_oversized_n =3D 0;
++ }
++
++ void chunkqueue_chunk_pool_free(void)
++diff --git a/src/chunk.h b/src/chunk.h
++index 4c6b7e47..93f343c3 100644
++--- a/src/chunk.h
+++++ b/src/chunk.h
++@@ -50,6 +50,8 @@ typedef struct {
++ buffer * chunk_buffer_acquire(void);
++ void chunk_buffer_release(buffer *b);
++
+++size_t chunk_buffer_prepare_append (buffer *b, size_t sz);
+++
++ void chunkqueue_chunk_pool_clear(void);
++ void chunkqueue_chunk_pool_free(void);
++
++diff --git a/src/http-header-glue.c b/src/http-header-glue.c
++index d54f00cf..2231fba9 100644
++--- a/src/http-header-glue.c
+++++ b/src/http-header-glue.c
++@@ -1267,7 +1267,7 @@ handler_t http_response_read(server *srv, connection=
+ *con, http_response_opts *o
++         if (avail < toread) {
++             /*(add avail+toread to reduce allocations when ioctl EOPNOTSU=
+PP)*/
++             avail =3D avail ? avail - 1 + toread : toread;
++-            buffer_string_prepare_append(b, avail);
+++            avail =3D chunk_buffer_prepare_append(b, avail);
++         }
++
++         n =3D read(fd, b->ptr+buffer_string_length(b), avail);
++--
++2.32.0
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb b/meta/recip=
+es-extended/lighttpd/lighttpd_1.4.55.bb
+index 35a268a..5329465 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+@@ -18,6 +18,7 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/releas=
+es-1.4.x/lighttpd-${PV}.t
+         file://lighttpd.conf \
+         file://lighttpd \
+         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.p=
+atch \
++        file://0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.p=
+atch \
+         "
 
-Diffoscope output:
+ SRC_URI[md5sum] =3D "be4bda2c28bcbdac6eb941528f6edf03"
+--
+2.7.4
 
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210805-8jfd55ki/packages/diff-html/
-
-Basically LDFLAGS get encoded into a couple of scripts and the ruby binary.
-
-Cheers,
-
-Richard
-
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
