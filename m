@@ -1,73 +1,109 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.3361.1628247667695681334
- for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 04:01:08 -0700
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.3833.1628251607328952106
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 06 Aug 2021 05:06:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FzZ1b5CH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id i10-20020a05600c354ab029025a0f317abfso8619346wmq.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 04:01:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SeFQ5g44;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id j2so10741081wrx.9
+        for <Openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 05:06:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=oFuKRyl1ZzZ8SK9Wqq/5zP8BL6sBHqwxxgyy0Y+55qY=;
-        b=FzZ1b5CHPqmLJu6G7x5CA6HNnh/HbMGzx0uDPG1E6ZuOExFf0KRGbNI02VhO3fLLo0
-         vlOlD8DgLW5/Qj+cAONMvcKBjbg1fDDGE+1O2Vtw1xPlO92LANQu0O5VV/1uX4gfAKWp
-         +Is+9cX+B9GZtbAcWPsUz3suyflv6NxlO0NWc=
+        bh=mI7utnoqAm8JeEErYS2xR/SiFJ1tIQhbCf4h/tlrSDI=;
+        b=SeFQ5g44C/2/GuUCBub6juX7+JsmvWeMIV/6Xnrm11uW4KpSGD9iR07jHq3DK+mWaf
+         F2iQyGVsI/cDyrUtu7wSbe4vu8vtJUjFieAG16tKg4T0we1jDQEAVqLieT1WQnWpkInl
+         L0XS4lgNezIwvCRhXKR/mn3uDd7pGcMCVy/AHNEYth7f0cxMo4duDYGRW4ntBfCG86wD
+         Al+WqrQIBiC45YlAd7ROh5Ev0/z6DLtFNqfn6v3Q+WWroge9BjxyXj5xSa9mFaeVFUYq
+         sZ/EpOwc+TzpCwZiNx8GMe8ffNcdhIXB4uC/Gb2LXplukjmKFvJZxwqizAoW/zGGnWdV
+         aXgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oFuKRyl1ZzZ8SK9Wqq/5zP8BL6sBHqwxxgyy0Y+55qY=;
-        b=ep4ZY2FN+XH7yPXaggNl5Srb9GNst5zk7OVYlm/0u2SJYV5gWlXbGe+23gAFhXjv9u
-         wRIyTilCw6zBdNQQ1en9JfD7zkhCg8N03/PYirIe+1O7WeDZKWqYSSiYe3JUt1sZgVce
-         PlVS09f/W5ewMyjRF8U7PoLrmwf9yWPGBiAeArbUr/8zoAwc2T5Gs64AkX4hyayleVDf
-         HhwaQHIZgzS5Fs+imrivNNn2pGNibak2vr2waUrjIpnSTN2ZZ+zluXS2Uj/Cj+hbdIty
-         0xiqS1IoVxR3r8OB1H4pVhptDhaDkh63EKVVrSOi1I6Z++C1VeAvZKbMAVr8zemyBZHz
-         DKuQ==
-X-Gm-Message-State: AOAM530BJqrfYRK+G14Hzq47M5sd6jE4lW5gv0EsK4rRDOvgCZeZk4YM
-	wHdQPT6ZnDjesFp0y0h+p0s8d5JVnfK9WQ==
-X-Google-Smtp-Source: ABdhPJyU+9yF8tjOM5o2YG/PLxl6QYT1IUECFMz88VO/AruwWZ3QnCOgyAO3ZqFoSKCUEVSIu6Zjog==
-X-Received: by 2002:a05:600c:41d6:: with SMTP id t22mr19678918wmh.66.1628247666246;
-        Fri, 06 Aug 2021 04:01:06 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0])
-        by smtp.gmail.com with ESMTPSA id q9sm11772073wmj.2.2021.08.06.04.01.05
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mI7utnoqAm8JeEErYS2xR/SiFJ1tIQhbCf4h/tlrSDI=;
+        b=EtIMzp6keaRwPRyb458o0mEW4QEym+AC4qiMBE9XDmS69nWUcqb+0dCdQa17j8Js3w
+         Jt1LSX1fLN3AgjpSwuFDg98Io16a+3//25eqI0ifBYwkTnkfa490mOambzO+Mjvp1eVp
+         o7KvW2JFm5JEmnO4I95yYjhClucjOffMdK+lqjDgWhSCtV5qPKMfGIh4LHXzM9xqih+Y
+         XTa6GBRRb6hOYYJlA1hf8bWWIez7u1AT5NbXU6oMwLGXtxHibVIjFIuxicAKbYX/shQY
+         FO+cP9CVEiQtt3bRSFYgRpw2u7exCi5HRQsy3G49H6Jff2/PJNAAjyzhzIv+z+m+q7a5
+         9w4w==
+X-Gm-Message-State: AOAM5319c3NOzQsnCtNOvV81YS6zzY9VK102ofMWVfeIpVN/LAJEa9GQ
+	Q1c3mgTQB0vwgC8fhGA1c7fwn9JNqDb7U5Ui
+X-Google-Smtp-Source: ABdhPJyYXxqYkLxhwlbzEpWa1t6q4QdYMmnrtCR859lxRA2M8Wy+BceYsVTzinXREkGu75fvUMpEtg==
+X-Received: by 2002:a5d:518a:: with SMTP id k10mr10426762wrv.400.1628251605465;
+        Fri, 06 Aug 2021 05:06:45 -0700 (PDT)
+Return-Path: <uvv.mail@gmail.com>
+Received: from slackware.local ([194.99.105.70])
+        by smtp.gmail.com with ESMTPSA id n11sm11093049wrs.81.2021.08.06.05.06.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 04:01:06 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] curl: Fix reproducibility issue with LDFLAGS
-Date: Fri,  6 Aug 2021 12:01:05 +0100
-Message-Id: <20210806110105.3604568-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210806110105.3604568-1-richard.purdie@linuxfoundation.org>
-References: <20210806110105.3604568-1-richard.purdie@linuxfoundation.org>
+        Fri, 06 Aug 2021 05:06:44 -0700 (PDT)
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH v4 1/7] lib/oe: add generic functions for overlayfs
+Date: Fri,  6 Aug 2021 14:06:05 +0200
+Message-Id: <20210806120611.124246-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If we add DEBUG_PREFIX_MAP into LDFLAGS, curl-dev is no longer reproducible.
-Fix this.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/recipes-support/curl/curl_7.78.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oe/overlayfs.py | 43 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/lib/oe/overlayfs.py
 
-diff --git a/meta/recipes-support/curl/curl_7.78.0.bb b/meta/recipes-support/curl/curl_7.78.0.bb
-index 2e2be661024..dece0babb2f 100644
---- a/meta/recipes-support/curl/curl_7.78.0.bb
-+++ b/meta/recipes-support/curl/curl_7.78.0.bb
-@@ -73,6 +73,7 @@ do_install:append:class-target() {
- 	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
- 	    -e 's,--with-libtool-sysroot=${STAGING_DIR_TARGET},,g' \
- 	    -e 's|${DEBUG_PREFIX_MAP}||g' \
-+	    -e 's|${@" ".join(d.getVar("DEBUG_PREFIX_MAP").split())}||g' \
- 	    ${D}${bindir}/curl-config
- }
- 
+diff --git a/meta/lib/oe/overlayfs.py b/meta/lib/oe/overlayfs.py
+new file mode 100644
+index 0000000000..21ef710509
+--- /dev/null
++++ b/meta/lib/oe/overlayfs.py
+@@ -0,0 +1,43 @@
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# This file contains common functions for overlayfs and its QA check
++
++# this function is based on https://github.com/systemd/systemd/blob/main/src/basic/unit-name.c
++def escapeSystemdUnitName(path):
++    escapeMap = {
++        '/': '-',
++        '-': "\\x2d",
++        '\\': "\\x5d"
++    }
++    return "".join([escapeMap.get(c, c) for c in path.strip('/')])
++
++def strForBash(s):
++    return s.replace('\\', '\\\\')
++
++def mountUnitName(unit):
++    return escapeSystemdUnitName(unit) + '.mount'
++
++def helperUnitName(unit):
++    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
++
++def unitFileList(d):
++    fileList = []
++    overlayMountPoints = d.getVarFlags("OVERLAYFS_MOUNT_POINT")
++
++    if not overlayMountPoints:
++        bb.fatal("A recipe uses overlayfs class but there is no OVERLAYFS_MOUNT_POINT set in your MACHINE configuration")
++
++    # check that we have required mount points set first
++    requiredMountPoints = d.getVarFlags('OVERLAYFS_WRITABLE_PATHS')
++    for mountPoint in requiredMountPoints:
++        if mountPoint not in overlayMountPoints:
++            bb.fatal("Missing required mount point for OVERLAYFS_MOUNT_POINT[%s] in your MACHINE configuration" % mountPoint)
++
++    for mountPoint in overlayMountPoints:
++        for path in d.getVarFlag('OVERLAYFS_WRITABLE_PATHS', mountPoint).split():
++            fileList.append(mountUnitName(path))
++            fileList.append(helperUnitName(path))
++
++    return fileList
++
 -- 
-2.30.2
+2.28.0
 
