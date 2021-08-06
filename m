@@ -1,230 +1,158 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.2387.1628213046376413675
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web08.1230.1628228011801164856
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Aug 2021 18:24:06 -0700
+ Thu, 05 Aug 2021 22:33:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1761O5nh026875
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Aug 2021 18:24:05 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 5 Aug 2021 18:24:04 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 5 Aug 2021 18:24:04 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] bitbake.conf: support persistent /var/tmp
-Date: Fri, 6 Aug 2021 09:21:31 +0800
-Message-ID: <20210806012131.47282-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZfvLbSz7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id j2so9467912wrx.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Aug 2021 22:33:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=S47TBsnUm20lkOCIvLNPt9JFZpdl4rl04gabEAVgoA8=;
+        b=ZfvLbSz7FKKlvSavuFg3cyxdQiV+DDAZ2TCKboCNTWH6SByQ9uZyLgChLZlm/opXn2
+         Uid8Dbs/FtRtbjlWBXCNBo1Q6+vpO95dveBAFPGIxRHaA/lZGjlaSRnV6nNspUGkBE8R
+         keus4JoVtBCcUXmFlqgRsEFe5u+UNnmAK2KcI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=S47TBsnUm20lkOCIvLNPt9JFZpdl4rl04gabEAVgoA8=;
+        b=T9T+skPibr1f5ody+voiPf13QPM6iwa1ajfCpniuIfVbHvRpPy2xae1ugfwLkACwJE
+         Y9aBC7FXTXSpgpVwwcZMA3+lXi4QXsIZRUYQqhtWQ6t1SernQXrukXc+SKgVNBCNu5f5
+         E8a9RUCWJSP+3maH0GpD+FK7FFj24BBd2U1QW0k4wvuAHEAu456bnvv57xy+kLM6qNhH
+         Dobnd0eMrIPkIKFkrJCxwEf0qx2zdxo8BjHnBz5g/EytBxcstZrgmxxjw1U4k6AKezAG
+         KvFbnFu97mU4lq5BGHz7y4nNqWCB/HnpLtzT9p3HKjm9CjRYlNnLwspsBTvfKrQM8ol+
+         ri2A==
+X-Gm-Message-State: AOAM5337Fcr126pzo5jHZUZkTqeyNKyt/CNV3hjFdXLF52EiNDg7snmC
+	iqI+ylCA0kHGW9W3nQ3MR2BwxA==
+X-Google-Smtp-Source: ABdhPJw12Ll2AXXVsZucGIF0fKgPBTXz8yK38xcCKeFQkGMXm/PB9yjfxgSqWgb9cMdsmCp7N0rJVw==
+X-Received: by 2002:a05:6000:12ce:: with SMTP id l14mr8952158wrx.41.1628228010060;
+        Thu, 05 Aug 2021 22:33:30 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0? ([2001:8b0:aba:5f3c:9b1a:3a88:2016:c4d0])
+        by smtp.gmail.com with ESMTPSA id p15sm7283638wmi.29.2021.08.05.22.33.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 22:33:29 -0700 (PDT)
+Message-ID: <040fe5d8cd3914e7c19fc70ae6d18894b07f8073.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [master][PATCH 0/4] Reproducible LTO builds
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Tony Battersby <tonyb@cybernetics.com>, Randy MacLeod
+	 <randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Date: Fri, 06 Aug 2021 06:33:26 +0100
+In-Reply-To: <a0c4c23d-7437-ce14-066f-0f7f6929a987@cybernetics.com>
+References: <2efeecad-7ee5-126c-9271-d69fc3428c38@cybernetics.com>
+	 <447d4fa9-b915-4e59-0ecc-64d41c6ceee6@windriver.com>
+	 <22d7a9866471f53ea283caa1578fbf0b48d5e113.camel@linuxfoundation.org>
+	 <a0c4c23d-7437-ce14-066f-0f7f6929a987@cybernetics.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On Thu, 2021-08-05 at 17:54 -0400, Tony Battersby wrote:
+> On 8/5/21 6:21 AM, Richard Purdie wrote:
+> > On Wed, 2021-08-04 at 20:13 -0400, Randy MacLeod wrote:
+> > > On 2021-07-27 9:34 a.m., Tony Battersby wrote:
+> > > > Currently, enabling Link Time Optimization via:
+> > > > 
+> > > > require conf/distro/include/lto.inc
+> > > > DISTRO_FEATURES_append = " lto"
+> > > > 
+> > > > makes the build non-reproducible (as in
+> > > > https://reproducible-builds.org/).  This patch set fixes some of the
+> > > > problems, but is not yet a complete solution.
+> > > > 
+> > > > This patch set addresses the following bugs:
+> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14481
+> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14490
+> > > > 
+> > > > openembedded-core patches
+> > > > 1/4: lto.inc: disable LTO for grub
+> > > > 2/4: gcc: Backport patch to make LTO builds more reproducible
+> > > > 3/4: bitbake.conf: add DEBUG_PREFIX_MAP to TARGET_LDFLAGS
+> > > > 
+> > > > openembedded-devel patches
+> > > > 4/4: net-snmp: fix QA Issue after LDFLAGS change
+> > > > 
+> > > > Patch 3 adds DEBUG_PREFIX_MAP to TARGET_LDFLAGS (it was already in
+> > > > TARGET_CFLAGS).  This could possibly be done differently, such as by
+> > > > removing it from TARGET_CFLAGS and adding it to TOOLCHAIN_OPTIONS,
+> > > > TARGET_CC_ARCH, or TUNE_CCARGS, but I haven't tested those.  Let me know
+> > > > if there is a better/preferred way to do it.
+> > > > 
+> > > > The TARGET_LDFLAGS change broke net-snmp from meta-networking, so I have
+> > > > included a patch to fix that.  Other packages might have been broken as
+> > > > well, although I haven't found any others.
+> > > > 
+> > > > With all these patches, there are still many shared libraries in /lib
+> > > > and /usr/lib that are still not reproducible with LTO enabled because
+> > > > x86_64-poky-linux-libtool filters out the -f*-prefix-map flags added by
+> > > > patch 3 when linking shared libraries.  /usr/lib/libbz2.so.1.0.6 from
+> > > > the libbz2 package from the bzip2 recipe is a good example.  I do not
+> > > > have a patch for that problem.  I will leave that to someone else.
+> > > > 
+> > > > So this is what we need to achieve reproducible LTO builds:
+> > > > *) This patch set
+> > > > *) A fix for libtool
+> > > > *) Add LTO to reproducible builds testing if appropriate (e.g.
+> > > > meta/lib/oeqa/selftest/cases/reproducible.py, CI on Autobuilder)
+> > > > *) Fixes for individual packages, if needed
+> > > > *) Once everything works, update the documentation again (I previously
+> > > > requested a documentation change for this bug, which will eventually
+> > > > show up at
+> > > > http://docs.yoctoproject.org/test-manual/reproducible-builds.html).
+> > > This is certainly a few steps in the right direction with a good outline
+> > > of what's next.
+> > > 
+> > > I suspect that Richard has been busy with other things like overrides
+> > > and the update to glibc-2.34.
+> > > 
+> > > Do you have any suggestions or questions about what we should do
+> > > with this patch series Richard?
+> > Thanks for the reminder, I've been meaning to queue/test this which I will
+> > do. The gcc version has been bumped but I ported the patch forward to it
+> > and the patches are in master-next for testing. It is great to see this
+> > support moving forward.
+> > 
+> > Much as it pains me to admit having any libtool knowledge, I may be able to
+> > help with that bit. There is an untested patch below which may address that
+> > issue, or at least give a good hint on how to do it if it doesn't work. I
+> > don't have an environment to test easily right now.
+> > 
+> > Cheers,
+> > 
+> > Richard
+> 
+> I tested your libtool patch in master-next with the bzip2 recipe.  It
+> works as intended; libbz2.so.1.0.6 and all the other output files are
+> now reproducible with LTO enabled.  I also verified that libtool is
+> passing the -f*-prefix-map flags to the link command in log.do_compile
+> as intended.
+> 
+> I also verified that core-image-minimal builds successfully with the
+> libtool patch.
 
-Steps:
-1. build out rootfs core-image-minimal-qemux86-64.tar.bz2
-2. docker import core-image-minimal-qemux86-64.tar.bz2 poky:latest
-3. docker run -it --rm poky:latest /bin/sh
-4.
-/var # ls -al
-drwxr-xr-x    8 root     root          4096 Mar  9  2018 .
-drwxr-xr-x    1 root     root          4096 Aug  5 06:59 ..
-drwxr-xr-x    2 root     root          4096 Mar  9  2018 backups
-drwxr-xr-x    2 root     root          4096 Mar  9  2018 cache
-drwxr-xr-x    5 root     root          4096 Mar  9  2018 lib
-drwxr-xr-x    2 root     root          4096 Mar  9  2018 local
-lrwxrwxrwx    1 root     root            11 Mar  9  2018 lock -> ../run/lock
-lrwxrwxrwx    1 root     root            12 Mar  9  2018 log -> volatile/log
-lrwxrwxrwx    1 root     root             6 Mar  9  2018 run -> ../run
-drwxr-xr-x    3 root     root          4096 Mar  9  2018 spool
-lrwxrwxrwx    1 root     root            12 Mar  9  2018 tmp -> volatile/tmp
-drwxr-xr-x    2 root     root          4096 Mar  9  2018 volatile
-/var # cd log
-/bin/sh: cd: can't cd to log: No such file or directory
-/var # cd tmp
-/bin/sh: cd: can't cd to tmp: No such file or directory
-/var # cd volatile/
-/var/volatile # ls -al
-drwxr-xr-x    2 root     root          4096 Mar  9  2018 .
-drwxr-xr-x    8 root     root          4096 Mar  9  2018 ..
+Thanks for testing that, sounds like it helps that issue. I'll queue that patch.
 
-In step3, because we don't launch container with init system,
-volatile/tmp is not created during startup, and the dad link will cause
-error. Supporting persistent /var/tmp can resolve this problem.
+Unfortunately even with the ruby fix I queued, we still see reproduciblity
+issues with the LDFLAGS change in curl-dev, gettext-ptest, ruby and ruby-dbg 
+packages:
 
-To support persistent /var/tmp, rename VOLATILE_LOG_DIR
-to VOLATILE_DIR
+https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/515/steps/12/logs/stdio
 
-Don't use VOLATILE_LOG_DIR/VOLATILE_TMP_DIR
-to control it separately since it will make things complicated,
-we need to make kinds of fs-perms*.txt for kinds of combination
-of the two variables.
+We'll need to resolve those before I can merge the flags change.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/conf/bitbake.conf                                 | 10 ++++++----
- ...erms-persistent-log.txt => fs-perms-persistent.txt} |  2 --
- meta/recipes-core/base-files/base-files_3.0.14.bb      |  7 ++++---
- .../recipes-core/initscripts/initscripts-1.0/volatiles |  3 ---
- meta/recipes-core/initscripts/initscripts_1.0.bb       |  7 +++++--
- meta/recipes-core/systemd/systemd_249.1.bb             |  5 +++--
- meta/recipes-core/udev/eudev_3.2.10.bb                 |  3 +++
- 7 files changed, 21 insertions(+), 16 deletions(-)
- rename meta/files/{fs-perms-persistent-log.txt => fs-perms-persistent.txt} (95%)
+Diffoscope output:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 821dae2ba6..e93c0b7893 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -86,9 +86,11 @@ USRBINPATH_class-nativesdk = "/usr/bin"
- # Root home directory
- ROOT_HOME ??= "/home/root"
- 
--# If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to /var/volatile/log.
--# If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on persistent storage.
--VOLATILE_LOG_DIR ?= "yes"
-+# If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to
-+# /var/volatile/log, /var/tmp links to /var/volatile/tmp
-+# If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log and /var/tmp
-+# is on persistent storage.
-+VOLATILE_DIR ?= "yes"
- 
- ##################################################################
- # Architecture-dependent build variables.
-@@ -349,7 +351,7 @@ FILESEXTRAPATHS ?= "__default:"
- #  datadir, sysconfdir, servicedir, sharedstatedir, localstatedir, infodir,
- #  mandir, docdir, bindir, sbindir, libexecdir, libdir, includedir and
- #  oldincludedir
--FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'files/fs-perms-persistent-log.txt'}"
-+FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_DIR')) else 'files/fs-perms-persistent.txt'}"
- 
- ##################################################################
- # General work and output directories for the build system.
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent.txt
-similarity index 95%
-rename from meta/files/fs-perms-persistent-log.txt
-rename to meta/files/fs-perms-persistent.txt
-index 518c1be3c9..326c0ed092 100644
---- a/meta/files/fs-perms-persistent-log.txt
-+++ b/meta/files/fs-perms-persistent.txt
-@@ -47,7 +47,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
- # Links
- ${localstatedir}/run	link	/run
- ${localstatedir}/lock	link	/run/lock
--${localstatedir}/tmp	link	volatile/tmp
- 
- /home				0755	root	root	false - - -
- /srv				0755	root	root	false - - -
-@@ -57,7 +56,6 @@ ${localstatedir}/local		0755	root	root	false - - -
- # Special permissions from base-files
- # Set 1777
- /tmp				01777	root	root	false - - -
--${localstatedir}/volatile/tmp	01777	root	root	false - - -
- 
- # Set 0700
- ${ROOT_HOME}			0700	root	root	false - - -
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 94299431f6..0e06629bbd 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -29,7 +29,7 @@ S = "${WORKDIR}"
- INHIBIT_DEFAULT_DEPS = "1"
- 
- docdir_append = "/${P}"
--dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
-+dirs1777 = "/tmp ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}tmp"
- dirs2775 = ""
- dirs555 = "/sys /proc"
- dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-@@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-            ${localstatedir}/backups ${localstatedir}/lib \
-            ${localstatedir}/lib/misc ${localstatedir}/spool \
-            ${localstatedir}/volatile \
--           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
-+           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}log \
-            /home ${prefix}/src ${localstatedir}/local \
-            /media"
- 
-@@ -53,7 +53,8 @@ dirs755-lsb = "/srv  \
-                ${prefix}/lib/locale"
- dirs2775-lsb = "/var/mail"
- 
--volatiles = "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''} tmp"
-+volatiles = "${@'log' if oe.types.boolean('${VOLATILE_DIR}') else ''} \
-+             ${@'tmp' if oe.types.boolean('${VOLATILE_DIR}') else ''}"
- conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/issue /${sysconfdir}/issue.net \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index cd8a4be05f..eeeb8905da 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -24,11 +24,8 @@
- # a link will be created at /var/test pointing to /tmp/testfile and due to this
- # link the file defined as /var/test will actually be created as /tmp/testfile.
- d root root 1777 /run/lock none
--d root root 0755 /var/volatile/log none
--d root root 1777 /var/volatile/tmp none
- l root root 1777 /var/lock /run/lock
- l root root 0755 /var/run /run
--l root root 1777 /var/tmp /var/volatile/tmp
- l root root 1777 /tmp /var/tmp
- d root root 0755 /var/lock/subsys none
- f root root 0664 /var/log/wtmp none
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 65f9c0ae8d..cc079024f4 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -105,9 +105,12 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/read-only-rootfs-hook.sh ${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
--	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
--		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root 0755 /var/log /var/volatile/log' \
-+	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = True ]; then
-+                sed -i -e '\@^# link the file@ a\d root root 0755 /var/volatile/log none\nd root root 1777 /var/volatile/tmp none\nl root root 0755 /var/tmp /var/volatile/tmp\nl root root 0755 /var/log /var/volatile/log' \
- 			${D}${sysconfdir}/default/volatiles/00_core
-+	else
-+		sed -i -e 's;TMPROOT="${ROOT_DIR}/var/volatile/tmp";TMPROOT="${ROOT_DIR}/var/tmp";g' \
-+			${D}${sysconfdir}/init.d/populate-volatile.sh
- 	fi
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
-diff --git a/meta/recipes-core/systemd/systemd_249.1.bb b/meta/recipes-core/systemd/systemd_249.1.bb
-index 9bfb12249c..0914b7e0b2 100644
---- a/meta/recipes-core/systemd/systemd_249.1.bb
-+++ b/meta/recipes-core/systemd/systemd_249.1.bb
-@@ -251,8 +251,9 @@ do_install() {
- 		install -m 0644 $rule ${D}${sysconfdir}/udev/rules.d/
- 	done
- 
--	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
--
-+	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = True ]; then
-+		install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
-+	fi
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
- 		install -d ${D}${sysconfdir}/init.d
- 		install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/systemd-udevd
-diff --git a/meta/recipes-core/udev/eudev_3.2.10.bb b/meta/recipes-core/udev/eudev_3.2.10.bb
-index a5d2115f80..3761fd748e 100644
---- a/meta/recipes-core/udev/eudev_3.2.10.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.10.bb
-@@ -42,6 +42,9 @@ do_install_append() {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
- 	sed -i s%@UDEVD@%${base_sbindir}/udevd% ${D}${sysconfdir}/init.d/udev
-+	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = False ]; then
-+		sed -i -e 's%mkdir -m 1777 -p /var/volatile/tmp%mkdir -m 1777 -p /var/tmp%g' ${D}${sysconfdir}/init.d/udev
-+	fi
- 
- 	install -d ${D}${sysconfdir}/udev/rules.d
- 	install -m 0644 ${WORKDIR}/local.rules ${D}${sysconfdir}/udev/rules.d/local.rules
--- 
-2.17.1
+https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210805-8jfd55ki/packages/diff-html/
+
+Basically LDFLAGS get encoded into a couple of scripts and the ruby binary.
+
+Cheers,
+
+Richard
 
