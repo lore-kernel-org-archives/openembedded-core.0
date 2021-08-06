@@ -1,177 +1,107 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.2701.1628241917514040236
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.2725.1628242213509794889
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 02:25:17 -0700
+ Fri, 06 Aug 2021 02:30:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DhcWJHW0;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id k9so12179554edr.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 02:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5mXd5kTRknj/0LHOC9pTYl5x+8vYzqIJCNgmKpBTmO0=;
-        b=DhcWJHW0hjoJUO6/07SqnuG3Rl9nWk41usRqOhgjII9Q85FaCUdmOFP6SRCf6in3Tw
-         EsNh8tOvITPN6oaL4wyu9GBAHo6v0mK1WjT24GRSX6ks/acyCqR+Oc9h76D6snNIszlb
-         U+l4WOmXxij76ym6nOYS5F4rG9RFqtE77GOZb996YXOaBCNYRvjtsBviqNOJTP+nP5eH
-         z1ihiVlBffICqHIi1BQ1EP501CyOrRpH4oToDAe372quM4Y+7kAvO4t5SRZ55Kc3EMM2
-         JQKiPjJC3UnA1Q3FHzfya6+8NYIDvMMFnGaOb6VgjcKvNRX3s3I7wlXgbTVo8pDBX2lO
-         DADQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5mXd5kTRknj/0LHOC9pTYl5x+8vYzqIJCNgmKpBTmO0=;
-        b=O3WrSxmu+jajcAU0PqZXYh31GbkOy93KpDV0yVGpys3DDWBEUvZZ5NgYfvCaiQPDYX
-         vVUHvrWkVV+EVfdhsUnB5BosfpD2ykE8jjx3oLH69MsFxGjMMECbs2FxSQjKXHug7qHH
-         LNnN9amweP/H2yRQx8RkW81EKVSGkyGIvW9KokNULdH6w9xsiwrlHX/8PA9xxuM4Gdxc
-         nbpwdEz38SwQtiBZZpimpBNGtBX0UNhAXytMRP2WlVqJcYm/+ZVXg9t46be4ZpXmp68Z
-         Hk0nIAdhVZ7jhJz2jOI0K05nyHLK36bZlAXjos8w7jYM1NKwmPMV318QXqdrWoYUgOu4
-         D1PQ==
-X-Gm-Message-State: AOAM533LeEfb5f9LSbSBjn2H0/xCXRr94vi4P1JUO7xwwvvwZ5dTz0FR
-	athVw1pLU7jWeZR8Y8/ni71VswxChn+b1DqCRjSOESVw64c=
-X-Google-Smtp-Source: ABdhPJzbNkCqZ+AWR0a1GMLjzjoxLDUMHtB8TPTAFhP9uoNfJ83Q69TNztEtBq6KmBpW50M4EGon39rsR/urjJ/JnOw=
-X-Received: by 2002:a05:6402:94b:: with SMTP id h11mr11629738edz.76.1628241916192;
- Fri, 06 Aug 2021 02:25:16 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1769UBZ2015075
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 6 Aug 2021 02:30:12 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 6 Aug 2021 02:30:11 -0700
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 6 Aug 2021 02:30:11 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] meta: use new override syntax in comments
+Date: Fri, 6 Aug 2021 02:30:11 -0700
+Message-ID: <20210806093011.100737-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210806090332.14065-1-Qi.Chen@windriver.com>
-In-Reply-To: <20210806090332.14065-1-Qi.Chen@windriver.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Fri, 6 Aug 2021 11:25:05 +0200
-Message-ID: <CA+chaQdFS4pb7QOsdd3Rwqi7Qva9z-Wh7EAd=g7+96=fd1C_wQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] convert-overrides.py: also convert comments without a leading whitespace
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000005ead305c8e09d40"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---00000000000005ead305c8e09d40
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/conf/bitbake.conf                           | 4 ++--
+ meta/conf/machine/qemuppc64.conf                 | 4 ++--
+ meta/recipes-core/dbus/dbus-glib_0.112.bb        | 2 +-
+ meta/recipes-devtools/elfutils/elfutils_0.185.bb | 2 +-
+ meta/recipes-devtools/qemu/qemu.inc              | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
 
-Can you please bump the script version as well?
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1d5f5b7fcd..e5b31d0b8b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -236,8 +236,8 @@ DESCRIPTION ?= "${SUMMARY}."
+ # The following two are commented out because they result in a recursive
+ # definition of the variable in some corner cases.  These are left in
+ # to illustrate the intended behavior.
+-#SUMMARY_${PN} ?= "${SUMMARY}"
+-#DESCRIPTION_${PN} ?= "${DESCRIPTION}"
++#SUMMARY:${PN} ?= "${SUMMARY}"
++#DESCRIPTION:${PN} ?= "${DESCRIPTION}"
+ 
+ SUMMARY:${PN}-src ?= "${SUMMARY} - Source files"
+ DESCRIPTION:${PN}-src ?= "${DESCRIPTION}  \
+diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
+index 0682e752be..a5270e98ed 100644
+--- a/meta/conf/machine/qemuppc64.conf
++++ b/meta/conf/machine/qemuppc64.conf
+@@ -18,7 +18,7 @@ QB_KERNEL_CMDLINE_APPEND = "console=hvc0"
+ QB_OPT_APPEND = "-usb -device usb-tablet"
+ 
+ #prelink broken on ppc64
+-#USER_CLASSES_remove = "image-prelink"
+-#IMAGE_PREPROCESS_COMMAND_remove = "prelink_image;"
++#USER_CLASSES:remove = "image-prelink"
++#IMAGE_PREPROCESS_COMMAND:remove = "prelink_image;"
+ 
+ MACHINE_EXTRA_RRECOMMENDS += " kernel-modules"
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.112.bb b/meta/recipes-core/dbus/dbus-glib_0.112.bb
+index a03b2addfd..99b0a20004 100644
+--- a/meta/recipes-core/dbus/dbus-glib_0.112.bb
++++ b/meta/recipes-core/dbus/dbus-glib_0.112.bb
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "7d550dccdfcd286e33895501829ed971eeb65c614e73aadb4a08aeef71
+ inherit autotools pkgconfig gettext bash-completion gtk-doc
+ 
+ #default disable regression tests, some unit test code in non testing code
+-#PACKAGECONFIG_pn-${PN} = "tests" enable regression tests local.conf
++#PACKAGECONFIG:pn-${PN} = "tests" enable regression tests local.conf
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[tests] = "--enable-tests,,,"
+ 
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.185.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+index 5031ab97e7..7a88c5259f 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.185.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+@@ -127,7 +127,7 @@ FILES:libdw  = "${libdir}/libdw-${PV}.so ${libdir}/libdw.so.* ${libdir}/elfutils
+ FILES:libdebuginfod = "${libdir}/libdebuginfod-${PV}.so ${libdir}/libdebuginfod.so.*"
+ # Some packages have the version preceeding the .so instead properly
+ # versioned .so.<version>, so we need to reorder and repackage.
+-#FILES_${PN} += "${libdir}/*-${PV}.so ${base_libdir}/*-${PV}.so"
++#FILES:${PN} += "${libdir}/*-${PV}.so ${base_libdir}/*-${PV}.so"
+ #FILES_SOLIBSDEV = "${libdir}/libasm.so ${libdir}/libdw.so ${libdir}/libelf.so"
+ 
+ # The package contains symlinks that trip up insane
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4de8a9098b..0bbc4b1187 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -110,7 +110,7 @@ export LIBTOOL="${HOST_SYS}-libtool"
+ 
+ B = "${WORKDIR}/build"
+ 
+-#EXTRA_OECONF_append = " --python=${HOSTTOOLS_DIR}/python3"
++#EXTRA_OECONF:append = " --python=${HOSTTOOLS_DIR}/python3"
+ 
+ do_configure:prepend:class-native() {
+ 	# Append build host pkg-config paths for native target since the host may provide sdl
+-- 
+2.30.2
 
-On Fri, Aug 6, 2021 at 11:03 AM Chen Qi <Qi.Chen@windriver.com> wrote:
-
-> Currently lines like below are converted.
->   e.g.
->   # IMAGE_INSTALL_append = " A"
->
-> But lines without a leading whitespace are not converted.
->   e.g.
->   #IMAGE_INSTALL_append = " A"
->
-> We should be converting both.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  scripts/contrib/convert-overrides.py | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/contrib/convert-overrides.py
-> b/scripts/contrib/convert-overrides.py
-> index e4a310d1d6..4d41a4c475 100755
-> --- a/scripts/contrib/convert-overrides.py
-> +++ b/scripts/contrib/convert-overrides.py
-> @@ -69,15 +69,15 @@ packagevars = packagevars + imagevars
->
->  vars_re = {}
->  for exp in vars:
-> -    vars_re[exp] = (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}\.]+)_'
-> + exp), r"\1:" + exp)
-> +    vars_re[exp] = (re.compile('((^|[#\'"\s\-\+])[A-Za-z0-9_\-:${}\.]+)_'
-> + exp), r"\1:" + exp)
->
->  shortvars_re = {}
->  for exp in shortvars:
-> -    shortvars_re[exp] =
-> (re.compile('((^|[\'"\s\-\+])[A-Za-z0-9_\-:${}\.]+)_' + exp +
-> '([\(\'"\s:])'), r"\1:" + exp + r"\3")
-> +    shortvars_re[exp] =
-> (re.compile('((^|[#\'"\s\-\+])[A-Za-z0-9_\-:${}\.]+)_' + exp +
-> '([\(\'"\s:])'), r"\1:" + exp + r"\3")
->
->  package_re = {}
->  for exp in packagevars:
-> -    package_re[exp] = (re.compile('(^|[\'"\s\-\+]+)' + exp + '_' +
-> '([$a-z"\'\s%\[<{\\\*].)'), r"\1" + exp + r":\2")
-> +    package_re[exp] = (re.compile('(^|[#\'"\s\-\+]+)' + exp + '_' +
-> '([$a-z"\'\s%\[<{\\\*].)'), r"\1" + exp + r":\2")
->
->  # Other substitutions to make
->  subs = {
-> --
-> 2.30.2
->
->
-> 
->
->
-
---00000000000005ead305c8e09d40
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Can you please bump the script version as well?</div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug=
- 6, 2021 at 11:03 AM Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Q=
-i.Chen@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">Currently lines like below are converted.<br>
-=C2=A0 e.g.<br>
-=C2=A0 # IMAGE_INSTALL_append =3D &quot; A&quot;<br>
-<br>
-But lines without a leading whitespace are not converted.<br>
-=C2=A0 e.g.<br>
-=C2=A0 #IMAGE_INSTALL_append =3D &quot; A&quot;<br>
-<br>
-We should be converting both.<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
-=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
----<br>
-=C2=A0scripts/contrib/convert-overrides.py | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert=
--overrides.py<br>
-index e4a310d1d6..4d41a4c475 100755<br>
---- a/scripts/contrib/convert-overrides.py<br>
-+++ b/scripts/contrib/convert-overrides.py<br>
-@@ -69,15 +69,15 @@ packagevars =3D packagevars + imagevars<br>
-<br>
-=C2=A0vars_re =3D {}<br>
-=C2=A0for exp in vars:<br>
--=C2=A0 =C2=A0 vars_re[exp] =3D (re.compile(&#39;((^|[\&#39;&quot;\s\-\+])[=
-A-Za-z0-9_\-:${}\.]+)_&#39; + exp), r&quot;\1:&quot; + exp)<br>
-+=C2=A0 =C2=A0 vars_re[exp] =3D (re.compile(&#39;((^|[#\&#39;&quot;\s\-\+])=
-[A-Za-z0-9_\-:${}\.]+)_&#39; + exp), r&quot;\1:&quot; + exp)<br>
-<br>
-=C2=A0shortvars_re =3D {}<br>
-=C2=A0for exp in shortvars:<br>
--=C2=A0 =C2=A0 shortvars_re[exp] =3D (re.compile(&#39;((^|[\&#39;&quot;\s\-=
-\+])[A-Za-z0-9_\-:${}\.]+)_&#39; + exp + &#39;([\(\&#39;&quot;\s:])&#39;), =
-r&quot;\1:&quot; + exp + r&quot;\3&quot;)<br>
-+=C2=A0 =C2=A0 shortvars_re[exp] =3D (re.compile(&#39;((^|[#\&#39;&quot;\s\=
--\+])[A-Za-z0-9_\-:${}\.]+)_&#39; + exp + &#39;([\(\&#39;&quot;\s:])&#39;),=
- r&quot;\1:&quot; + exp + r&quot;\3&quot;)<br>
-<br>
-=C2=A0package_re =3D {}<br>
-=C2=A0for exp in packagevars:<br>
--=C2=A0 =C2=A0 package_re[exp] =3D (re.compile(&#39;(^|[\&#39;&quot;\s\-\+]=
-+)&#39; + exp + &#39;_&#39; + &#39;([$a-z&quot;\&#39;\s%\[&lt;{\\\*].)&#39;=
-), r&quot;\1&quot; + exp + r&quot;:\2&quot;)<br>
-+=C2=A0 =C2=A0 package_re[exp] =3D (re.compile(&#39;(^|[#\&#39;&quot;\s\-\+=
-]+)&#39; + exp + &#39;_&#39; + &#39;([$a-z&quot;\&#39;\s%\[&lt;{\\\*].)&#39=
-;), r&quot;\1&quot; + exp + r&quot;:\2&quot;)<br>
-<br>
-=C2=A0# Other substitutions to make<br>
-=C2=A0subs =3D {<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000005ead305c8e09d40--
