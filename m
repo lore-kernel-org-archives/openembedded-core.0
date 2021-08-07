@@ -1,249 +1,359 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web08.1438.1628296275880372635
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+ by mx.groups.io with SMTP id smtpd.web09.1475.1628296445954241435
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 17:31:16 -0700
+ Fri, 06 Aug 2021 17:34:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dlcPuU7+;
- spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f176.google.com with SMTP id p145so18165518ybg.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 17:31:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kiSAK2IJ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.178, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f178.google.com with SMTP id m193so18200181ybf.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 17:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=WA+7iiaYcq66bfbcGLETtmCfOwBj/+gW61cx5CvIuts=;
-        b=dlcPuU7+eGqA1uomCntkN16sQqELbJMCrrxpHvu85eRX3WwRPA/zLtBWZUuD4i/GKH
-         CtQr1FIscB2FcB5rDz3axUJ4M7JwzB1e+SuN5RPaJ+gbnmSpNdeNz2yRY5xnmaG9C/HE
-         uBetJ2Dv+x37DIaqskEF/m+SLlY91h2IvmExDo7VLbUB8U0G5WywG9zCArDTg7iow6f4
-         NW6C2CcvJ2EFP8i+ithjxA+GAtCuKOsSFi+hzjvhFE3MgxtvZXIm1BFRi+ANYV1hCa8u
-         T3TmSnd1OW00A6MY0jFOdUAj6lnF28tOaIinLiDv/x4vnVzi6tM8pZyregV5EFbKX78p
-         SRZA==
+        bh=Si++h9b+g2tUMoaXa7sk5c8w8PSW68gYwaga3U4aOTU=;
+        b=kiSAK2IJH4qNUEE8ASReaFF23oKLiogj99tDYwOb7BDBX8hhgFoFey4JNc40jW6F4L
+         VcQQApKvehJxdvjHjj0P769r7TWHfmi4dr38fuPfTb5nTpxBxkh35iYjOaGANM+27Dwe
+         jKrXBpvUG+Dy2zsWfTNQfdsU67WDi51KVp6QfpCcX3vSPNc6rO2mNNPtd4NP9tcXUJA3
+         I5Bqh0kiFk+Xf+NwNbcsQo6uZXrIGwNPs7NxSsVIDZ01Jer5HJiMccZIQes225sS9REX
+         vPht3xbJslfpEWg0+SyC6EHk+LOQ0dTy0dkb3Yzn6G6gp63+eLDvmd8Qta+4XTV7DouY
+         OX2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WA+7iiaYcq66bfbcGLETtmCfOwBj/+gW61cx5CvIuts=;
-        b=ehHcWs3BLyohVYm+kI3t1YMZnkaqMhS9DlPm/Lf64fZvssotghHW9STvJ3+ONZ7P4S
-         DMEw07kdOmQdMG1WwhpKDT5nJVQixS4SKVYWjW7QK/q5zpK5pp3DOgwxLHsBbqZohuO2
-         VO26ydhC4tGRvmF/qcsfPEuoC2x+H5pUPFbrf0djLXc/oVYz3CD2ExRVV46IBpmc2Sv9
-         c+b3H3X0RpATGxb+H4t7EAo51ftba+Ct70ERtIiUj6MZwbiGvS4iSu2R7e4Qo4mWB15e
-         pPENp/Gvtz2n8BetmOqJcdLbNG0eW2Ag2Lku9YD6qFl4ZHT45S45x8avZt9iz2jKjjNs
-         859w==
-X-Gm-Message-State: AOAM5310LZknxbP/bsCu6SgwuWw3T3vcrBgBYTpAwK+o+IjTwFOfrZt5
-	9Ucmg/iEld3YavL8QguOmw4aWzk+nMxLvHENPT0=
-X-Google-Smtp-Source: ABdhPJxaz98TdnSKd2iJ7tE0iIl5LRkD7NEgf4gwp2HDSdVowPKr6lbY6eIVLRysOUsJWFO4NCgXe6W5UYl3jnbcDo4=
-X-Received: by 2002:a25:dc4c:: with SMTP id y73mr15624955ybe.168.1628296275061;
- Fri, 06 Aug 2021 17:31:15 -0700 (PDT)
+        bh=Si++h9b+g2tUMoaXa7sk5c8w8PSW68gYwaga3U4aOTU=;
+        b=ilsYB+KGJD9v39PuAQ0d91KNkAKcrSkmva139HdTlu4iGGjaxfr3BJMjJqTRhVwMVT
+         EqlBFfl3Lc6psiHdLLvWJzm3q1xNt0OIyz3N1NusIiHUkix6Va6DdBP53xFMgGzLqcfO
+         ktbtFumCXmvlCcBJ15LVP+CtUIg19PtEeTa+XW4K5z/GAsM09USvVNVFoxxULcTN0e0u
+         QoAzP0UcCwSG5tequDJETLXg0zDZ9cbzjy17ZDqR6fFy7xfX44b648l6nZ+Gd12Aw2bS
+         cPW/QR+5frA8cvioHceDwqciYAFTs+0A5cxHO9zXAeZHj38ZJ9pK604Np6Aw1OPk+V0i
+         GeLg==
+X-Gm-Message-State: AOAM533GAbadbbQxb1XoqNo7Y71VqqG8k+qfYp8Zm7g4yDsDk39SGdzi
+	DVHEY4skSWSPpdcVskmhcPnD6LNhTggWQyvAN3M=
+X-Google-Smtp-Source: ABdhPJxHC4IpJlDcAmn/3CKZSOD/fv0A35kZgmPE7t7dZaDxdWsgsCXJfU0mqo36v9GJ6767y47Ot68mbvAsQioZFLQ=
+X-Received: by 2002:a25:b84e:: with SMTP id b14mr16193830ybm.237.1628296445120;
+ Fri, 06 Aug 2021 17:34:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210805055400.12437-1-ranjitsinh.rathod@kpit.com>
-In-Reply-To: <20210805055400.12437-1-ranjitsinh.rathod@kpit.com>
+References: <1628232880-3676-1-git-send-email-purushottam.choudhary@kpit.com>
+In-Reply-To: <1628232880-3676-1-git-send-email-purushottam.choudhary@kpit.com>
 From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Fri, 6 Aug 2021 14:31:02 -1000
-Message-ID: <CAGDS+n=pF5-tqmzbsYL89XBa=jU=igNmh4QuhFNX0dytjdydbg@mail.gmail.com>
-Subject: Re: [OE-core] [meta][dunfell][PATCH v2] systemd: Add fix for CVE-2020-13529 and CVE-2021-33910
-To: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Aug 2021 14:33:52 -1000
+Message-ID: <CAGDS+nnFqpTuRXbcTng9yK2g9U2aB8xp3SuN+F+3e4WR8Dk4Eg@mail.gmail.com>
+Subject: Re: [OE-core] [poky][dunfell][PATCH] lighttpd: Add patch for reuse large memory chunks
+To: Purushottam choudhary <purushottam.choudhary@kpit.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	Nisha Parrakat <nisha.parrakat@kpit.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 4, 2021 at 7:54 PM Ranjitsinh Rathod
-<ranjitsinh.rathod@kpit.com> wrote:
+On Thu, Aug 5, 2021 at 8:55 PM Purushottam choudhary
+<purushottam.choudhary@kpit.com> wrote:
 >
-> Added fix for below CVEs from below Link
-> http://archive.ubuntu.com/ubuntu/pool/main/s/systemd/systemd_237-3ubuntu1=
-0.50.debian.tar.xz
+> Added 0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+> to fix large memory usage for large file downloads
+> from dynamic backends reuse or release large memory chunks.
 >
-> 1. CVE-2020-13529
-> Upstream-Status: Backport [https://github.com/systemd/systemd/commit/38e9=
-80a6a5a3442c2f48b1f827284388096d8ca5]
+> This issue is caused by a bug in the lighttpd 1.4.55 version and
+> has been fixed in lighttpd 1.4.58. Hence, it is not needed for
+> master and hardknott branch because lighttpd has 1.4.59 version.
 >
-> 2. CVE-2021-33910
-> Upstream-Status: Backport [https://github.com/systemd/systemd/pull/20256/=
-commits/441e0115646d54f080e5c3bb0ba477c892861ab9]
+> Link: https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisi=
+ons/7ba521ffb4959f6f74a609d5d4acafc29a038337
 
 This patch is throwing warnings on the autobuilder:
 
-WARNING: systemd-1_244.5-r0 do_patch: Fuzz detected:
-
-Applying patch CVE-2020-13529.patch
-patching file src/libsystemd-network/sd-dhcp-client.c
-Hunk #1 succeeded at 1392 with fuzz 1 (offset 87 lines).
+Applying patch 0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.pa=
+tch
+patching file src/chunk.c
+Hunk #2 succeeded at 124 with fuzz 1.
+patching file src/chunk.h
+patching file src/http-header-glue.c
 
 The context lines in the patches can be updated with devtool:
 
-    devtool modify systemd
-    devtool finish --force-patch-refresh systemd <layer_path>
+    devtool modify lighttpd
+    devtool finish --force-patch-refresh lighttpd <layer_path>
 
-Could you fix this and send a V3 so that we have clean builds on the
-autobuilder?
+Could you fix this and send a V2 so that we can have clean builds on
+the autobuilder?
+
+Thanks!
 
 Steve
 
-> Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+
+> Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
 > ---
->  .../systemd/systemd/CVE-2020-13529.patch      | 42 ++++++++++++
->  .../systemd/systemd/CVE-2021-33910.patch      | 67 +++++++++++++++++++
->  meta/recipes-core/systemd/systemd_244.5.bb    |  2 +
->  3 files changed, 111 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2020-13529.patc=
-h
->  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2021-33910.patc=
-h
+>  ...large-mem-chunks-fix-mem-usage-fixes-3033.patch | 225 +++++++++++++++=
+++++++
+>  meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb  |   1 +
+>  2 files changed, 226 insertions(+)
+>  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-reu=
+se-large-mem-chunks-fix-mem-usage-fixes-3033.patch
 >
-> diff --git a/meta/recipes-core/systemd/systemd/CVE-2020-13529.patch b/met=
-a/recipes-core/systemd/systemd/CVE-2020-13529.patch
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-larg=
+e-mem-chunks-fix-mem-usage-fixes-3033.patch b/meta/recipes-extended/lighttp=
+d/lighttpd/0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
 > new file mode 100644
-> index 0000000000..4c013e2532
+> index 0000000..c4e4a60
 > --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/CVE-2020-13529.patch
-> @@ -0,0 +1,42 @@
-> +From 38e980a6a5a3442c2f48b1f827284388096d8ca5 Mon Sep 17 00:00:00 2001
-> +From: Yu Watanabe <watanabe.yu+github@gmail.com>
-> +Date: Thu, 24 Jun 2021 01:22:07 +0900
-> +Subject: [PATCH] sd-dhcp-client: tentatively ignore FORCERENEW command
+> +++ b/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-large-mem-c=
+hunks-fix-mem-usage-fixes-3033.patch
+> @@ -0,0 +1,225 @@
+> +From 40dadb863fd105c4a66b598c2423b1eb11b1f26e Mon Sep 17 00:00:00 2001
+> +From: Glenn Strauss <gstrauss@gluelogic.com>
+> +Date: Wed, 23 Dec 2020 23:14:47 -0500
+> +Subject: [PATCH] [core] reuse large mem chunks (fix mem usage) (fixes #3=
+033)
 > +
-> +This makes DHCP client ignore FORCERENEW requests, as unauthenticated
-> +FORCERENEW requests causes a security issue (TALOS-2020-1142, CVE-2020-1=
-3529).
+> +(cherry picked from commit 7ba521ffb4959f6f74a609d5d4acafc29a038337)
 > +
-> +Let's re-enable this after RFC3118 (Authentication for DHCP Messages)
-> +and/or RFC6704 (Forcerenew Nonce Authentication) are implemented.
+> +(thx flynn)
 > +
-> +Fixes #16774.
+> +fix large memory usage for large file downloads from dynamic backends
 > +
-> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/38e=
-980a6a5a3442c2f48b1f827284388096d8ca5]
-> +CVE: CVE-2020-13529
+> +reuse or release large memory chunks
 > +
-> +Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+> +x-ref:
+> +  "Memory Growth with PUT and full buffered streams"
+> +  https://redmine.lighttpd.net/issues/3033
+> +
+> +Upstream-Status: Backport
+> +Comment: No hunk refreshed
+> +https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisions/7=
+ba521ffb4959f6f74a609d5d4acafc29a038337
+> +Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
 > +---
-> + src/libsystemd-network/sd-dhcp-client.c | 8 ++++++++
-> + 1 file changed, 8 insertions(+)
+> + src/chunk.c            | 99 +++++++++++++++++++++++++++++++++---------
+> + src/chunk.h            |  2 +
+> + src/http-header-glue.c |  2 +-
+> + 3 files changed, 82 insertions(+), 21 deletions(-)
 > +
-> +--- a/src/libsystemd-network/sd-dhcp-client.c
-> ++++ b/src/libsystemd-network/sd-dhcp-client.c
-> +@@ -1305,9 +1305,17 @@ static int client_handle_forcerenew(sd_d
-> +         if (r !=3D DHCP_FORCERENEW)
-> +                 return -ENOMSG;
+> +diff --git a/src/chunk.c b/src/chunk.c
+> +index 09dd3f14..ffb37951 100644
+> +--- a/src/chunk.c
+> ++++ b/src/chunk.c
+> +@@ -28,16 +28,20 @@
+> + static size_t chunk_buf_sz =3D 4096;
+> + static chunk *chunks, *chunks_oversized;
+> + static chunk *chunk_buffers;
+> ++static int chunks_oversized_n;
+> + static array *chunkqueue_default_tempdirs =3D NULL;
+> + static off_t chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE=
+;
 > +
-> ++#if 0
-> +         log_dhcp_client(client, "FORCERENEW");
-> +
-> +         return 0;
-> ++#else
-> ++        /* FIXME: Ignore FORCERENEW requests until we implement RFC3118=
- (Authentication for DHCP
-> ++         * Messages) and/or RFC6704 (Forcerenew Nonce Authentication), =
-as unauthenticated FORCERENEW
-> ++         * requests causes a security issue (TALOS-2020-1142, CVE-2020-=
-13529). */
-> ++        log_dhcp_client(client, "Received FORCERENEW, ignoring.");
-> ++        return -ENOMSG;
-> ++#endif
+> + void chunkqueue_set_chunk_size (size_t sz)
+> + {
+> +-    chunk_buf_sz =3D sz > 0 ? ((sz + 1023) & ~1023uL) : 4096;
+> ++    size_t x =3D 1024;
+> ++    while (x < sz && x < (1u << 30)) x <<=3D 1;
+> ++    chunk_buf_sz =3D sz > 0 ? x : 4096;
 > + }
 > +
-> + static int client_handle_ack(sd_dhcp_client *client, DHCPMessage *ack, =
-size_t len) {
-> +
-> diff --git a/meta/recipes-core/systemd/systemd/CVE-2021-33910.patch b/met=
-a/recipes-core/systemd/systemd/CVE-2021-33910.patch
-> new file mode 100644
-> index 0000000000..be042165a0
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/CVE-2021-33910.patch
-> @@ -0,0 +1,67 @@
-> +Backport of:
-> +
-> +From 441e0115646d54f080e5c3bb0ba477c892861ab9 Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Zbigniew=3D20J=3DC4=3D99drzejewski-Szmek?=3D <zbyszek@=
-in.waw.pl>
-> +Date: Wed, 23 Jun 2021 11:46:41 +0200
-> +Subject: [PATCH 1/2] basic/unit-name: do not use strdupa() on a path
-> +
-> +The path may have unbounded length, for example through a fuse mount.
-> +
-> +CVE-2021-33910: attacked controlled alloca() leads to crash in systemd a=
-nd
-> +ultimately a kernel panic. Systemd parses the content of /proc/self/moun=
-tinfo
-> +and each mountpoint is passed to mount_setup_unit(), which calls
-> +unit_name_path_escape() underneath. A local attacker who is able to moun=
-t a
-> +filesystem with a very long path can crash systemd and the whole system.
-> +
-> +https://bugzilla.redhat.com/show_bug.cgi?id=3D1970887
-> +
-> +The resulting string length is bounded by UNIT_NAME_MAX, which is 256. B=
-ut we
-> +can't easily check the length after simplification before doing the
-> +simplification, which in turns uses a copy of the string we can write to=
-.
-> +So we can't reject paths that are too long before doing the duplication.
-> +Hence the most obvious solution is to switch back to strdup(), as before
-> +7410616cd9dbbec97cf98d75324da5cda2b2f7a2.
-> +
-> +Upstream-Status: Backport [https://github.com/systemd/systemd/pull/20256=
-/commits/441e0115646d54f080e5c3bb0ba477c892861ab9]
-> +CVE: CVE-2021-33910
-> +
-> +Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> +---
-> + src/basic/unit-name.c | 13 +++++--------
-> + 1 file changed, 5 insertions(+), 8 deletions(-)
-> +
-> +--- a/src/basic/unit-name.c
-> ++++ b/src/basic/unit-name.c
-> +@@ -370,12 +370,13 @@ int unit_name_unescape(const char *f, ch
+> + void chunkqueue_set_tempdirs_default_reset (void)
+> + {
+> ++    chunk_buf_sz =3D 8192;
+> +     chunkqueue_default_tempdirs =3D NULL;
+> +     chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE;
+> + }
+> +@@ -120,15 +124,49 @@ static void chunk_free(chunk *c) {
+> +       free(c);
 > + }
 > +
-> + int unit_name_path_escape(const char *f, char **ret) {
-> +-        char *p, *s;
-> ++        _cleanup_free_ char *p =3D NULL;
-> ++        char *s;
+> +-buffer * chunk_buffer_acquire(void) {
+> ++static chunk * chunk_pop_oversized(size_t sz) {
+> ++    /* future: might have buckets of certain sizes, up to socket buf si=
+zes */
+> ++    if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
+> ++        --chunks_oversized_n;
+> ++        chunk *c =3D chunks_oversized;
+> ++        chunks_oversized =3D c->next;
+> ++        return c;
+> ++    }
+> ++    return NULL;
+> ++}
+> ++
+> ++static void chunk_push_oversized(chunk * const c, const size_t sz) {
+> ++    if (chunks_oversized_n < 64 && chunk_buf_sz >=3D 4096) {
+> ++        ++chunks_oversized_n;
+> ++        chunk **co =3D &chunks_oversized;
+> ++        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
+> ++        c->next =3D *co;
+> ++        *co =3D c;
+> ++    }
+> ++    else
+> ++        chunk_free(c);
+> ++}
+> ++
+> ++static buffer * chunk_buffer_acquire_sz(size_t sz) {
+> +     chunk *c;
+> +     buffer *b;
+> +-    if (chunks) {
+> +-        c =3D chunks;
+> +-        chunks =3D c->next;
+> ++    if (sz <=3D chunk_buf_sz) {
+> ++        if (chunks) {
+> ++            c =3D chunks;
+> ++            chunks =3D c->next;
+> ++        }
+> ++        else
+> ++            c =3D chunk_init(chunk_buf_sz);
+> ++            /* future: might choose to pop from chunks_oversized, if av=
+ailable
+> ++             * (even if larger than sz) rather than allocating new chun=
+k
+> ++             * (and if doing so, might replace chunks_oversized_n) */
+> +     }
+> +     else {
+> +-        c =3D chunk_init(chunk_buf_sz);
+> ++        /*(round up to nearest chunk_buf_sz)*/
+> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
+> ++        c =3D chunk_pop_oversized(sz);
+> ++        if (NULL =3D=3D c)
+> ++            c =3D chunk_init(sz);
+> +     }
+> +     c->next =3D chunk_buffers;
+> +     chunk_buffers =3D c;
+> +@@ -137,21 +175,47 @@ buffer * chunk_buffer_acquire(void) {
+> +     return b;
+> + }
 > +
-> +         assert(f);
-> +         assert(ret);
+> ++buffer * chunk_buffer_acquire(void) {
+> ++    return chunk_buffer_acquire_sz(chunk_buf_sz);
+> ++}
+> ++
+> + void chunk_buffer_release(buffer *b) {
+> +     if (NULL =3D=3D b) return;
+> +-    if (b->size >=3D chunk_buf_sz && chunk_buffers) {
+> ++    if (chunk_buffers) {
+> +         chunk *c =3D chunk_buffers;
+> +         chunk_buffers =3D c->next;
+> +         c->mem =3D b;
+> +-        c->next =3D chunks;
+> +-        chunks =3D c;
+> +         buffer_clear(b);
+> ++        if (b->size =3D=3D chunk_buf_sz) {
+> ++            c->next =3D chunks;
+> ++            chunks =3D c;
+> ++        }
+> ++        else if (b->size > chunk_buf_sz)
+> ++            chunk_push_oversized(c, b->size);
+> ++        else
+> ++            chunk_free(c);
+> +     }
+> +     else {
+> +         buffer_free(b);
+> +     }
+> + }
 > +
-> +-        p =3D strdupa(f);
-> ++        p =3D strdup(f);
-> +         if (!p)
-> +                 return -ENOMEM;
+> ++size_t chunk_buffer_prepare_append(buffer * const b, size_t sz) {
+> ++    if (sz > chunk_buffer_string_space(b)) {
+> ++        sz +=3D b->used ? b->used : 1;
+> ++        buffer * const cb =3D chunk_buffer_acquire_sz(sz);
+> ++        /* swap buffer contents and copy original b->ptr into larger b-=
+>ptr */
+> ++        /*(this does more than buffer_move())*/
+> ++        buffer tb =3D *b;
+> ++        *b =3D *cb;
+> ++        *cb =3D tb;
+> ++        if ((b->used =3D tb.used))
+> ++            memcpy(b->ptr, tb.ptr, tb.used);
+> ++        chunk_buffer_release(cb);
+> ++    }
+> ++    return chunk_buffer_string_space(b);
+> ++}
+> ++
+> + static chunk * chunk_acquire(size_t sz) {
+> +     if (sz <=3D chunk_buf_sz) {
+> +         if (chunks) {
+> +@@ -162,13 +226,10 @@ static chunk * chunk_acquire(size_t sz) {
+> +         sz =3D chunk_buf_sz;
+> +     }
+> +     else {
+> +-        sz =3D (sz + 8191) & ~8191uL;
+> +-        /* future: might have buckets of certain sizes, up to socket bu=
+f sizes*/
+> +-        if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
+> +-            chunk *c =3D chunks_oversized;
+> +-            chunks_oversized =3D c->next;
+> +-            return c;
+> +-        }
+> ++        /*(round up to nearest chunk_buf_sz)*/
+> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
+> ++        chunk *c =3D chunk_pop_oversized(sz);
+> ++        if (c) return c;
+> +     }
 > +
-> +@@ -387,13 +388,9 @@ int unit_name_path_escape(const char *f,
-> +                 if (!path_is_normalized(p))
-> +                         return -EINVAL;
+> +     return chunk_init(sz);
+> +@@ -183,10 +244,7 @@ static void chunk_release(chunk *c) {
+> +     }
+> +     else if (sz > chunk_buf_sz) {
+> +         chunk_reset(c);
+> +-        chunk **co =3D &chunks_oversized;
+> +-        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
+> +-        c->next =3D *co;
+> +-        *co =3D c;
+> ++        chunk_push_oversized(c, sz);
+> +     }
+> +     else {
+> +         chunk_free(c);
+> +@@ -205,6 +263,7 @@ void chunkqueue_chunk_pool_clear(void)
+> +         chunk_free(c);
+> +     }
+> +     chunks_oversized =3D NULL;
+> ++    chunks_oversized_n =3D 0;
+> + }
 > +
-> +-                /* Truncate trailing slashes */
-> ++                /* Truncate trailing slashes and skip leading slashes *=
-/
-> +                 delete_trailing_chars(p, "/");
-> +-
-> +-                /* Truncate leading slashes */
-> +-                p =3D skip_leading_chars(p, "/");
-> +-
-> +-                s =3D unit_name_escape(p);
-> ++                s =3D unit_name_escape(skip_leading_chars(p, "/"));
+> + void chunkqueue_chunk_pool_free(void)
+> +diff --git a/src/chunk.h b/src/chunk.h
+> +index 4c6b7e47..93f343c3 100644
+> +--- a/src/chunk.h
+> ++++ b/src/chunk.h
+> +@@ -50,6 +50,8 @@ typedef struct {
+> + buffer * chunk_buffer_acquire(void);
+> + void chunk_buffer_release(buffer *b);
+> +
+> ++size_t chunk_buffer_prepare_append (buffer *b, size_t sz);
+> ++
+> + void chunkqueue_chunk_pool_clear(void);
+> + void chunkqueue_chunk_pool_free(void);
+> +
+> +diff --git a/src/http-header-glue.c b/src/http-header-glue.c
+> +index d54f00cf..2231fba9 100644
+> +--- a/src/http-header-glue.c
+> ++++ b/src/http-header-glue.c
+> +@@ -1267,7 +1267,7 @@ handler_t http_response_read(server *srv, connecti=
+on *con, http_response_opts *o
+> +         if (avail < toread) {
+> +             /*(add avail+toread to reduce allocations when ioctl EOPNOT=
+SUPP)*/
+> +             avail =3D avail ? avail - 1 + toread : toread;
+> +-            buffer_string_prepare_append(b, avail);
+> ++            avail =3D chunk_buffer_prepare_append(b, avail);
 > +         }
-> +         if (!s)
-> +                 return -ENOMEM;
 > +
-> diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-co=
-re/systemd/systemd_244.5.bb
-> index 8c95648ca0..7a7eddcd45 100644
-> --- a/meta/recipes-core/systemd/systemd_244.5.bb
-> +++ b/meta/recipes-core/systemd/systemd_244.5.bb
-> @@ -20,6 +20,8 @@ SRC_URI +=3D "file://touchscreen.rules \
->             file://99-default.preset \
->             file://0001-binfmt-Don-t-install-dependency-links-at-install-=
-tim.patch \
->             file://0003-implment-systemd-sysv-install-for-OE.patch \
-> +           file://CVE-2021-33910.patch \
-> +           file://CVE-2020-13529.patch \
->             "
+> +         n =3D read(fd, b->ptr+buffer_string_length(b), avail);
+> +--
+> +2.32.0
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb b/meta/rec=
+ipes-extended/lighttpd/lighttpd_1.4.55.bb
+> index 35a268a..5329465 100644
+> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+> @@ -18,6 +18,7 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/rele=
+ases-1.4.x/lighttpd-${PV}.t
+>          file://lighttpd.conf \
+>          file://lighttpd \
+>          file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config=
+.patch \
+> +        file://0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033=
+.patch \
+>          "
 >
->  # patches needed by musl
+>  SRC_URI[md5sum] =3D "be4bda2c28bcbdac6eb941528f6edf03"
 > --
-> 2.17.1
+> 2.7.4
 >
 > This message contains information that may be privileged or confidential =
 and is the property of the KPIT Technologies Ltd. It is intended only for t=
