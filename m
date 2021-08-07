@@ -1,59 +1,77 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web09.4212.1628324467423921345
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web08.5320.1628336132900119262
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Aug 2021 01:21:08 -0700
+ Sat, 07 Aug 2021 04:35:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@dresearch-fe-de.20150623.gappssmtp.com header.s=20150623 header.b=2FrqAYUa;
- spf=pass (domain: dresearch-fe.de, ip: 209.85.208.54, mailfrom: sledz@dresearch-fe.de)
-Received: by mail-ed1-f54.google.com with SMTP id k9so16561003edr.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Aug 2021 01:21:07 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=GnfRw6a4;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.172, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f172.google.com with SMTP id d2so8577503qto.6
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Aug 2021 04:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=/u8fer+yv0vPYGnM7R9Oo/TGI/Xtrlwr/OSW3GXU5cc=;
-        b=2FrqAYUatU3EwM+xlkzItNiS0FmsjXwbSSbzBzHXqVNzgnaD0gk3Lx6BzB682a4e8x
-         XHc4dG1Y4/0d2IBMplqidMEX3mnRWKFrQhyrs8x2tEcpx+2XH6FSNOsRIcEUC9M3BqkD
-         YvMU+WyjdyGfxrJ45IpNREIJmb2XHALWaOnemV7brjvWjGX7euMDEYZiqSWnnlN3hzv3
-         3x3JuU3Rvg9dCUIzSaJwpat7FTIPa5zSH8mI2frEJ+NC3sy7AeYg+F14uoZuPV8vNlfr
-         g/QY3Gv7+2+dxMqclLpr/0Xgpri0OBONF2TpJN4qpYAeHm1EQMdqEFuMX7GLweLjB3TY
-         18Wg==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=L/fmxYt/RJZtBpWsgnW+6Ek2PUrUVtUIAiAEni/6QwI=;
+        b=GnfRw6a4h4XeIVWKAxBqcNbrEH9FCGn611lFlHyNWZq2w6UdueJmoGkFCZY+hbv+zW
+         Xu67F7JwYnljDXni3b6mNRKmrvHTYgJt6ojShED1iCnwajPPeglScEClwPnwSTus/T+u
+         GRfm6o6v+ME8xmv3qHpwelLU24CuQzx4vt5s6r8jAvX9e32Dyo41SxwBgRmuzW0JEagZ
+         exF9LTWEpnNbHURn7Qq1xCeTsy0/fbW8qpxlHTUoTafwGnqJCZ/nORs+J8y99ykOdkl8
+         fDom9mKIsmu3WT6KNzhaGAdvAQXyQrgOvm+BpCsieUyFOM4v7AtDtBHpQ9Q2KxlpEsxc
+         YWUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=/u8fer+yv0vPYGnM7R9Oo/TGI/Xtrlwr/OSW3GXU5cc=;
-        b=CF4g0Ix/TdZ0i6sutBQ/U430OY85ksFbozYCQ2olC7167YyFdPVdhYkKiOYL7KKQoP
-         yIaRhIBSFZ8LxLSthkKVd1FZaITfeHsjASEXM23tbDTFPF4ovprBfdKYLeBr3/4KH1AP
-         UbIgsEDTEIph9EGXQyjM6nNG1DH77WolZ2vtNJ20NHIBGF1uYntl7mn8FW1A5CJVecC0
-         TCvDomU1Myt4d4OqFswKHIQCr5GRKATqyuRs0kZBwmJiV9jbu+1bqBJVdVU4ZdMF4cNI
-         hlLNXkfgv4XH2NzbzBpgBCKqWNLZyI9tYaWcSyAbYKnu3jxIKKidOQGHNp42z4mSN11J
-         ctlA==
-X-Gm-Message-State: AOAM532TT2e9TI9vJDPXodW/+oONj6zYoehd//fqBZ5gpH5v88FGnFxr
-	PLGuCWbYnI8SBKJalaw1WMV09g==
-X-Google-Smtp-Source: ABdhPJzQ949s2WtgnxS9qg4zSf9sZUnc1mDJqokDMKfcqPYq4ccyQPIXUckHnGrAEA+OYsgvKYj+pA==
-X-Received: by 2002:aa7:db95:: with SMTP id u21mr17604856edt.152.1628324465544;
-        Sat, 07 Aug 2021 01:21:05 -0700 (PDT)
-Return-Path: <sledz@dresearch-fe.de>
-Received: from ?IPv6:2001:bf0:c080:401::1? (recycler.deck1.zone42.org. [2001:bf0:c080:401::1])
-        by smtp.gmail.com with ESMTPSA id f19sm258765edt.44.2021.08.07.01.21.04
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=L/fmxYt/RJZtBpWsgnW+6Ek2PUrUVtUIAiAEni/6QwI=;
+        b=UUzeCiomK66wq5S5hbELFO7kKSLYn9vb+JGR09SswQy8Bi69pJsAFluopLf5w3A2kh
+         yDR/IEsqhCT9IV4MuTvmrp59LprQrGSTn1/IsFZ/cO9XNvJp5tFDcIHk7104F9lXUOww
+         0LF9Q6kRdMOKlmHtuJ170feFNFBXPKff33NMrLnPCQSJzOcdr9OqL+DIHHo2esca+qZK
+         6a5+BQFaxMWge3m6XTE5/AY29fwfrTDuMbKezWz4P4tpEpn9Tvx6sVHbBPkad/TbO0NQ
+         PIfgSOqyqVQD92HY2jhpnPsyeGwO+HcNdDo1KodwQPYQeL9Ug4lr+ktxcburZEwlVy4n
+         iUSw==
+X-Gm-Message-State: AOAM533AZDEETHm0ZnFU3lUbZXgSZE5i+KNXKzEqtB3fJejzcPrL0Pw7
+	SFJ05xgISo3vSw1Io2vUTnsSWcVmU4kv+ft7
+X-Google-Smtp-Source: ABdhPJzjXTHslvLooj5bH9BzbqgtNz9Of8SSNDf774VgMLy28JRNvR9BXoALsK7tW0lArVvdJ7Z67A==
+X-Received: by 2002:a05:622a:14a:: with SMTP id v10mr12741197qtw.383.1628336131783;
+        Sat, 07 Aug 2021 04:35:31 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com. [209.85.160.174])
+        by smtp.gmail.com with ESMTPSA id 23sm6181453qkh.97.2021.08.07.04.35.31
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Aug 2021 01:21:05 -0700 (PDT)
-From: "Steffen Sledz" <sledz@dresearch-fe.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Sean Nyekjaer <sean@geanix.com>, Adrian Bunk <bunk@stusta.de>,
- Yi Zhao <yi.zhao@windriver.com>, Otavio Salvador <otavio@ossystems.com.br>,
- Khem Raj <raj.khem@gmail.com>
-Subject: GPSD time will jump back 1024 weeks at after week=2180 (23-October-2021)
-Message-ID: <ec96b538-d04d-e7ea-a9b5-e2f998c6b569@dresearch-fe.de>
-Date: Sat, 7 Aug 2021 10:21:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Sat, 07 Aug 2021 04:35:31 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qt1-f174.google.com with SMTP id e15so5892373qtx.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Aug 2021 04:35:31 -0700 (PDT)
+X-Received: by 2002:ac8:7f90:: with SMTP id z16mr5890495qtj.33.1628336130934;
+ Sat, 07 Aug 2021 04:35:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <ec96b538-d04d-e7ea-a9b5-e2f998c6b569@dresearch-fe.de>
+In-Reply-To: <ec96b538-d04d-e7ea-a9b5-e2f998c6b569@dresearch-fe.de>
+Date: Sat, 7 Aug 2021 08:35:19 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKq+=O0QC_F7LxRWvbPtj-7i_JCJ__e6o4bE9+J_GrkPoA@mail.gmail.com>
+Message-ID: <CAP9ODKq+=O0QC_F7LxRWvbPtj-7i_JCJ__e6o4bE9+J_GrkPoA@mail.gmail.com>
+Subject: Re: [OE-core] GPSD time will jump back 1024 weeks at after week=2180 (23-October-2021)
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Sean Nyekjaer <sean@geanix.com>, Adrian Bunk <bunk@stusta.de>, Yi Zhao <yi.zhao@windriver.com>, 
+	Otavio Salvador <otavio@ossystems.com.br>, Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is a dirty gpsd bug (see https://gitlab.com/gpsd/gpsd/-/issues/144) which is fixed in the latest version 3.23 from yesterday.
+Em s=C3=A1b., 7 de ago. de 2021 =C3=A0s 05:21, Steffen Sledz
+<sledz@dresearch-fe.de> escreveu:
+>
+> There is a dirty gpsd bug (see https://gitlab.com/gpsd/gpsd/-/issues/144)=
+ which is fixed in the latest version 3.23 from yesterday.
+>
+> Is anyone already working on updating the bitbake recipe accordingly?
 
-Is anyone already working on updating the bitbake recipe accordingly?
+I am not; but from discussion with upstream it seems to need to be
+ported down to 3.20 gpsd.
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
