@@ -1,77 +1,67 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web08.5320.1628336132900119262
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web09.6130.1628342279923890862
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Aug 2021 04:35:33 -0700
+ Sat, 07 Aug 2021 06:18:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=GnfRw6a4;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.172, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f172.google.com with SMTP id d2so8577503qto.6
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Aug 2021 04:35:32 -0700 (PDT)
+ dkim=pass header.i=@dresearch-fe-de.20150623.gappssmtp.com header.s=20150623 header.b=Gxfy4K98;
+ spf=pass (domain: dresearch-fe.de, ip: 209.85.128.47, mailfrom: sledz@dresearch-fe.de)
+Received: by mail-wm1-f47.google.com with SMTP id l11-20020a7bcf0b0000b0290253545c2997so8023887wmg.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Aug 2021 06:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=L/fmxYt/RJZtBpWsgnW+6Ek2PUrUVtUIAiAEni/6QwI=;
-        b=GnfRw6a4h4XeIVWKAxBqcNbrEH9FCGn611lFlHyNWZq2w6UdueJmoGkFCZY+hbv+zW
-         Xu67F7JwYnljDXni3b6mNRKmrvHTYgJt6ojShED1iCnwajPPeglScEClwPnwSTus/T+u
-         GRfm6o6v+ME8xmv3qHpwelLU24CuQzx4vt5s6r8jAvX9e32Dyo41SxwBgRmuzW0JEagZ
-         exF9LTWEpnNbHURn7Qq1xCeTsy0/fbW8qpxlHTUoTafwGnqJCZ/nORs+J8y99ykOdkl8
-         fDom9mKIsmu3WT6KNzhaGAdvAQXyQrgOvm+BpCsieUyFOM4v7AtDtBHpQ9Q2KxlpEsxc
-         YWUw==
+        d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:user-agent:in-reply-to:references
+         :message-id:mime-version:content-transfer-encoding;
+        bh=bdzTZ9agAGPUkOsuDl/h7jwG+LpUaM/+PjonJyGBAfI=;
+        b=Gxfy4K98eSPfYSzd7DH+m+IkiV9zguhpxvRgY6voltBVvv6JjKLAXBe26YXwAdjh9N
+         +c15FDtgEuOICL+lFs7fqo3H+35+Ot+Dii9mzcPVKl7gcvram5qtGxY05I7rqX6Osvdn
+         M2nW6diLOc4RdWUY8EjDwiugQ0/xedDgi5mOWTihWDlxeydaBGZsuz/a+fSlIYytjr27
+         LmaweYSUROYRmm5JKo8vxuQsr2wMhoDl/N/OmnSvi/vfzhWG9b6NFva0nHhr1bfSLA0x
+         UOBp5eiQLBZcg8QEhfrj7rrqM5PY2y6982GFJjGDRyEtFtNikxrV+TCwKBC7tYAtDEXt
+         aasw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=L/fmxYt/RJZtBpWsgnW+6Ek2PUrUVtUIAiAEni/6QwI=;
-        b=UUzeCiomK66wq5S5hbELFO7kKSLYn9vb+JGR09SswQy8Bi69pJsAFluopLf5w3A2kh
-         yDR/IEsqhCT9IV4MuTvmrp59LprQrGSTn1/IsFZ/cO9XNvJp5tFDcIHk7104F9lXUOww
-         0LF9Q6kRdMOKlmHtuJ170feFNFBXPKff33NMrLnPCQSJzOcdr9OqL+DIHHo2esca+qZK
-         6a5+BQFaxMWge3m6XTE5/AY29fwfrTDuMbKezWz4P4tpEpn9Tvx6sVHbBPkad/TbO0NQ
-         PIfgSOqyqVQD92HY2jhpnPsyeGwO+HcNdDo1KodwQPYQeL9Ug4lr+ktxcburZEwlVy4n
-         iUSw==
-X-Gm-Message-State: AOAM533AZDEETHm0ZnFU3lUbZXgSZE5i+KNXKzEqtB3fJejzcPrL0Pw7
-	SFJ05xgISo3vSw1Io2vUTnsSWcVmU4kv+ft7
-X-Google-Smtp-Source: ABdhPJzjXTHslvLooj5bH9BzbqgtNz9Of8SSNDf774VgMLy28JRNvR9BXoALsK7tW0lArVvdJ7Z67A==
-X-Received: by 2002:a05:622a:14a:: with SMTP id v10mr12741197qtw.383.1628336131783;
-        Sat, 07 Aug 2021 04:35:31 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com. [209.85.160.174])
-        by smtp.gmail.com with ESMTPSA id 23sm6181453qkh.97.2021.08.07.04.35.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Aug 2021 04:35:31 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f174.google.com with SMTP id e15so5892373qtx.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Aug 2021 04:35:31 -0700 (PDT)
-X-Received: by 2002:ac8:7f90:: with SMTP id z16mr5890495qtj.33.1628336130934;
- Sat, 07 Aug 2021 04:35:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <ec96b538-d04d-e7ea-a9b5-e2f998c6b569@dresearch-fe.de>
-In-Reply-To: <ec96b538-d04d-e7ea-a9b5-e2f998c6b569@dresearch-fe.de>
-Date: Sat, 7 Aug 2021 08:35:19 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq+=O0QC_F7LxRWvbPtj-7i_JCJ__e6o4bE9+J_GrkPoA@mail.gmail.com>
-Message-ID: <CAP9ODKq+=O0QC_F7LxRWvbPtj-7i_JCJ__e6o4bE9+J_GrkPoA@mail.gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:user-agent:in-reply-to
+         :references:message-id:mime-version:content-transfer-encoding;
+        bh=bdzTZ9agAGPUkOsuDl/h7jwG+LpUaM/+PjonJyGBAfI=;
+        b=JcXfby0ol8tgObEo0F/ha0rwsQTYF72/K/vYDoYfz4YyDibUj+LTq/fynhC+zCw4FG
+         EQJPeMYL84EhDp+hGxjrGLOFNkDy2tx4O02oq/WAx3yztp9l/RP4YmlhT+xqmNhNjGG9
+         MRsQN6TrVVKid4K6qVk5YOQTxfJODqTzjJWMec2QGMZO5JJ9RNEBRaFARPdSPxq4+2HT
+         ZIVpskUuxXPBe1RPIlvEfYzvUy/OdUhbCU0azWVe1MczXASXwy7LfMDebQ2epVkqghfb
+         O64gbwI5LKdfpJH9Q5SsV0ioZhUK3I6nHH4Z04lXpaONBASd45TmStFvch35Lhux6pVY
+         skyA==
+X-Gm-Message-State: AOAM532l99pN3LOunzgnSwVL8dIRXNoQX+PzkqIIwfGL5nmHnmSy0XSE
+	G1jKgK4+qrQnOomWgRl8qBuFTQ==
+X-Google-Smtp-Source: ABdhPJw3Q5q7WtRG/03XJdgmXlJF0A3HKpffDL0WkaGz8MYcjaqUCp/guSDZ8mhk+OprzhenUC2ElA==
+X-Received: by 2002:a1c:2984:: with SMTP id p126mr7993149wmp.58.1628342277899;
+        Sat, 07 Aug 2021 06:17:57 -0700 (PDT)
+Return-Path: <sledz@dresearch-fe.de>
+Received: from ?IPv6:::1? ([2a01:598:b182:df4b:833a:c61d:7ece:3544])
+        by smtp.gmail.com with ESMTPSA id k9sm12499194wrc.6.2021.08.07.06.17.56
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 07 Aug 2021 06:17:57 -0700 (PDT)
+Date: Sat, 07 Aug 2021 15:17:53 +0200
+From: "Steffen Sledz" <sledz@dresearch-fe.de>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+CC: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+ Sean Nyekjaer <sean@geanix.com>, Adrian Bunk <bunk@stusta.de>,
+ Yi Zhao <yi.zhao@windriver.com>, Otavio Salvador <otavio@ossystems.com.br>,
+ Khem Raj <raj.khem@gmail.com>
 Subject: Re: [OE-core] GPSD time will jump back 1024 weeks at after week=2180 (23-October-2021)
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Sean Nyekjaer <sean@geanix.com>, Adrian Bunk <bunk@stusta.de>, Yi Zhao <yi.zhao@windriver.com>, 
-	Otavio Salvador <otavio@ossystems.com.br>, Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAP9ODKq+=O0QC_F7LxRWvbPtj-7i_JCJ__e6o4bE9+J_GrkPoA@mail.gmail.com>
+References: <ec96b538-d04d-e7ea-a9b5-e2f998c6b569@dresearch-fe.de> <CAP9ODKq+=O0QC_F7LxRWvbPtj-7i_JCJ__e6o4bE9+J_GrkPoA@mail.gmail.com>
+Message-ID: <3D6D2025-1EAA-4DC5-BA93-164922A6947E@dresearch-fe.de>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Em s=C3=A1b., 7 de ago. de 2021 =C3=A0s 05:21, Steffen Sledz
-<sledz@dresearch-fe.de> escreveu:
+Am 7=2E August 2021 13:35:19 MESZ schrieb Otavio Salvador <otavio=2Esalvado=
+r@ossystems=2Ecom=2Ebr>
 >
-> There is a dirty gpsd bug (see https://gitlab.com/gpsd/gpsd/-/issues/144)=
- which is fixed in the latest version 3.23 from yesterday.
->
-> Is anyone already working on updating the bitbake recipe accordingly?
+>I am not; but from discussion with upstream it seems to need to be
+>ported down to 3=2E20 gpsd=2E
 
-I am not; but from discussion with upstream it seems to need to be
-ported down to 3.20 gpsd.
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+
+Why not switch Tod 3=2E23?
