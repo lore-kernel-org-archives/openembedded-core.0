@@ -1,368 +1,261 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web09.1475.1628296445954241435
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.2379.1628302785255999121
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Aug 2021 17:34:06 -0700
+ Fri, 06 Aug 2021 19:19:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kiSAK2IJ;
- spf=pass (domain: gmail.com, ip: 209.85.219.178, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f178.google.com with SMTP id m193so18200181ybf.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Aug 2021 17:34:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=X/QqDW9q;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id t3so10746337qkg.11;
+        Fri, 06 Aug 2021 19:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Si++h9b+g2tUMoaXa7sk5c8w8PSW68gYwaga3U4aOTU=;
-        b=kiSAK2IJH4qNUEE8ASReaFF23oKLiogj99tDYwOb7BDBX8hhgFoFey4JNc40jW6F4L
-         VcQQApKvehJxdvjHjj0P769r7TWHfmi4dr38fuPfTb5nTpxBxkh35iYjOaGANM+27Dwe
-         jKrXBpvUG+Dy2zsWfTNQfdsU67WDi51KVp6QfpCcX3vSPNc6rO2mNNPtd4NP9tcXUJA3
-         I5Bqh0kiFk+Xf+NwNbcsQo6uZXrIGwNPs7NxSsVIDZ01Jer5HJiMccZIQes225sS9REX
-         vPht3xbJslfpEWg0+SyC6EHk+LOQ0dTy0dkb3Yzn6G6gp63+eLDvmd8Qta+4XTV7DouY
-         OX2Q==
+         :cc;
+        bh=XqK6fcbdEx4VI4MUY1uQeoFC9TrLfgq0yz1QL8j0HRQ=;
+        b=X/QqDW9qgp52oPB/Iv2XDV6WJvHcVpMMGYW5slZQ9iF5rqIxIsrZ4+/cVYxlQwXy0+
+         RL1skW10UPIHe8l1EUaDtMjUd8iUVXvbaNcH5dy3i7yCHobMSVLUmVMKTxUeGJgAdOCG
+         LSAfXqiFA5lnPY52bbt8ME6QE+7EePKLpnb7abLzyEyMcfkTxcKuTAEe9G50bPqsuYHx
+         OllDQyx2h0AJGaVgesPO201MyJQfiaD/w/gMgoBJ09bPXXFpzY8bNVvchGFYqFUMNOZ0
+         IPg+56A94eurcQezAhd/CGzJOAdzHLsdGHaj38H0R/iX3HJZ0xVEzSwsmUoRQ5B4JUDb
+         hx3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Si++h9b+g2tUMoaXa7sk5c8w8PSW68gYwaga3U4aOTU=;
-        b=ilsYB+KGJD9v39PuAQ0d91KNkAKcrSkmva139HdTlu4iGGjaxfr3BJMjJqTRhVwMVT
-         EqlBFfl3Lc6psiHdLLvWJzm3q1xNt0OIyz3N1NusIiHUkix6Va6DdBP53xFMgGzLqcfO
-         ktbtFumCXmvlCcBJ15LVP+CtUIg19PtEeTa+XW4K5z/GAsM09USvVNVFoxxULcTN0e0u
-         QoAzP0UcCwSG5tequDJETLXg0zDZ9cbzjy17ZDqR6fFy7xfX44b648l6nZ+Gd12Aw2bS
-         cPW/QR+5frA8cvioHceDwqciYAFTs+0A5cxHO9zXAeZHj38ZJ9pK604Np6Aw1OPk+V0i
-         GeLg==
-X-Gm-Message-State: AOAM533GAbadbbQxb1XoqNo7Y71VqqG8k+qfYp8Zm7g4yDsDk39SGdzi
-	DVHEY4skSWSPpdcVskmhcPnD6LNhTggWQyvAN3M=
-X-Google-Smtp-Source: ABdhPJxHC4IpJlDcAmn/3CKZSOD/fv0A35kZgmPE7t7dZaDxdWsgsCXJfU0mqo36v9GJ6767y47Ot68mbvAsQioZFLQ=
-X-Received: by 2002:a25:b84e:: with SMTP id b14mr16193830ybm.237.1628296445120;
- Fri, 06 Aug 2021 17:34:05 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=XqK6fcbdEx4VI4MUY1uQeoFC9TrLfgq0yz1QL8j0HRQ=;
+        b=Cr7zRl/bsNnnTUK3PCMTEW9SXVEU+O7Pa5qwS44noUrX21cXIVU8kt5us38pW1zPk6
+         Tq46s4oJHOjK5jonFd5hxnYOy/+gyDDpqlFNEFami9SIBkdGPV/hpetx6B6li8KcwrAk
+         p6l2jEHs7nRBwl5HP5FcEIJu0Rw4LBGINKIWJB/E/9ROW1BFmOboGNofHh7ysA0F6JQJ
+         pjIgctgnAEn3coi8k+Lvo1I0b4ueFGXz0quSfne5bz2qsdu0GsMm9iFd1reKWvDJ+spL
+         o9imC1CsgXYweQ8p12+Ou9dkIcecxWFA6lRN7rgAtWHd7gLL+6fOvZiB1fIIzTzY9PCO
+         oBVg==
+X-Gm-Message-State: AOAM531yFbFV5XJ5jkYCySusMrzVFiWVOSmnQDbJ3CqpH0nyEibJZjnB
+	Zb8MKo8G2WYAuiQxcz0TkkFnVFsya7gKqlWPYl0=
+X-Google-Smtp-Source: ABdhPJxaGrpbWdZLp7MGiJCMIIGD/wo2unzzFABgJL/edUHo3TOBYvgVWRr58ut+jumWdQUCeou+g+8+9gZRQ9DOvV4=
+X-Received: by 2002:ae9:f201:: with SMTP id m1mr12878541qkg.381.1628302784323;
+ Fri, 06 Aug 2021 19:19:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <1628232880-3676-1-git-send-email-purushottam.choudhary@kpit.com>
-In-Reply-To: <1628232880-3676-1-git-send-email-purushottam.choudhary@kpit.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Fri, 6 Aug 2021 14:33:52 -1000
-Message-ID: <CAGDS+nnFqpTuRXbcTng9yK2g9U2aB8xp3SuN+F+3e4WR8Dk4Eg@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] lighttpd: Add patch for reuse large memory chunks
-To: Purushottam choudhary <purushottam.choudhary@kpit.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	Nisha Parrakat <nisha.parrakat@kpit.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>
+References: <2efeecad-7ee5-126c-9271-d69fc3428c38@cybernetics.com>
+ <447d4fa9-b915-4e59-0ecc-64d41c6ceee6@windriver.com> <22d7a9866471f53ea283caa1578fbf0b48d5e113.camel@linuxfoundation.org>
+ <a0c4c23d-7437-ce14-066f-0f7f6929a987@cybernetics.com> <040fe5d8cd3914e7c19fc70ae6d18894b07f8073.camel@linuxfoundation.org>
+ <6bb55159-9b49-3229-a15c-eee730560fb7@cybernetics.com> <5e21ec72-667f-6e48-eefc-843312544fe4@cybernetics.com>
+In-Reply-To: <5e21ec72-667f-6e48-eefc-843312544fe4@cybernetics.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 6 Aug 2021 19:19:18 -0700
+Message-ID: <CAMKF1srcLEBkk1udvadr1xeh8qsgr-i-8+hT_ZvL-2Nak-tsjg@mail.gmail.com>
+Subject: Re: [OE-core] [master][PATCH 0/4] Reproducible LTO builds
+To: Tony Battersby <tonyb@cybernetics.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Randy MacLeod <randy.macleod@windriver.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	openembeded-devel <openembedded-devel@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 5, 2021 at 8:55 PM Purushottam choudhary
-<purushottam.choudhary@kpit.com> wrote:
+I am seeing bunch of failures on meta-oe and meta-atmel
+
+https://errors.yoctoproject.org/Errors/Details/600064/
+https://errors.yoctoproject.org/Errors/Details/600065/
+https://errors.yoctoproject.org/Errors/Details/600071/
+
+On Fri, Aug 6, 2021 at 2:04 PM Tony Battersby <tonyb@cybernetics.com> wrote:
 >
-> Added 0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
-> to fix large memory usage for large file downloads
-> from dynamic backends reuse or release large memory chunks.
+> On 8/6/21 12:44 PM, Tony Battersby wrote:
+> > On 8/6/21 1:33 AM, Richard Purdie wrote:
+> >> On Thu, 2021-08-05 at 17:54 -0400, Tony Battersby wrote:
+> >>> On 8/5/21 6:21 AM, Richard Purdie wrote:
+> >>>> On Wed, 2021-08-04 at 20:13 -0400, Randy MacLeod wrote:
+> >>>>> On 2021-07-27 9:34 a.m., Tony Battersby wrote:
+> >>>>>> Currently, enabling Link Time Optimization via:
+> >>>>>>
+> >>>>>> require conf/distro/include/lto.inc
+> >>>>>> DISTRO_FEATURES_append = " lto"
+> >>>>>>
+> >>>>>> makes the build non-reproducible (as in
+> >>>>>> https://reproducible-builds.org/).  This patch set fixes some of the
+> >>>>>> problems, but is not yet a complete solution.
+> >>>>>>
+> >>>>>> This patch set addresses the following bugs:
+> >>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14481
+> >>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14490
+> >>>>>>
+> >>>>>> openembedded-core patches
+> >>>>>> 1/4: lto.inc: disable LTO for grub
+> >>>>>> 2/4: gcc: Backport patch to make LTO builds more reproducible
+> >>>>>> 3/4: bitbake.conf: add DEBUG_PREFIX_MAP to TARGET_LDFLAGS
+> >>>>>>
+> >>>>>> openembedded-devel patches
+> >>>>>> 4/4: net-snmp: fix QA Issue after LDFLAGS change
+> >>>>>>
+> >>>>>> Patch 3 adds DEBUG_PREFIX_MAP to TARGET_LDFLAGS (it was already in
+> >>>>>> TARGET_CFLAGS).  This could possibly be done differently, such as by
+> >>>>>> removing it from TARGET_CFLAGS and adding it to TOOLCHAIN_OPTIONS,
+> >>>>>> TARGET_CC_ARCH, or TUNE_CCARGS, but I haven't tested those.  Let me know
+> >>>>>> if there is a better/preferred way to do it.
+> >>>>>>
+> >>>>>> The TARGET_LDFLAGS change broke net-snmp from meta-networking, so I have
+> >>>>>> included a patch to fix that.  Other packages might have been broken as
+> >>>>>> well, although I haven't found any others.
+> >>>>>>
+> >>>>>> With all these patches, there are still many shared libraries in /lib
+> >>>>>> and /usr/lib that are still not reproducible with LTO enabled because
+> >>>>>> x86_64-poky-linux-libtool filters out the -f*-prefix-map flags added by
+> >>>>>> patch 3 when linking shared libraries.  /usr/lib/libbz2.so.1.0.6 from
+> >>>>>> the libbz2 package from the bzip2 recipe is a good example.  I do not
+> >>>>>> have a patch for that problem.  I will leave that to someone else.
+> >>>>>>
+> >>>>>> So this is what we need to achieve reproducible LTO builds:
+> >>>>>> *) This patch set
+> >>>>>> *) A fix for libtool
+> >>>>>> *) Add LTO to reproducible builds testing if appropriate (e.g.
+> >>>>>> meta/lib/oeqa/selftest/cases/reproducible.py, CI on Autobuilder)
+> >>>>>> *) Fixes for individual packages, if needed
+> >>>>>> *) Once everything works, update the documentation again (I previously
+> >>>>>> requested a documentation change for this bug, which will eventually
+> >>>>>> show up at
+> >>>>>> http://docs.yoctoproject.org/test-manual/reproducible-builds.html).
+> >>>>> This is certainly a few steps in the right direction with a good outline
+> >>>>> of what's next.
+> >>>>>
+> >>>>> I suspect that Richard has been busy with other things like overrides
+> >>>>> and the update to glibc-2.34.
+> >>>>>
+> >>>>> Do you have any suggestions or questions about what we should do
+> >>>>> with this patch series Richard?
+> >>>> Thanks for the reminder, I've been meaning to queue/test this which I will
+> >>>> do. The gcc version has been bumped but I ported the patch forward to it
+> >>>> and the patches are in master-next for testing. It is great to see this
+> >>>> support moving forward.
+> >>>>
+> >>>> Much as it pains me to admit having any libtool knowledge, I may be able to
+> >>>> help with that bit. There is an untested patch below which may address that
+> >>>> issue, or at least give a good hint on how to do it if it doesn't work. I
+> >>>> don't have an environment to test easily right now.
+> >>>>
+> >>>> Cheers,
+> >>>>
+> >>>> Richard
+> >>> I tested your libtool patch in master-next with the bzip2 recipe.  It
+> >>> works as intended; libbz2.so.1.0.6 and all the other output files are
+> >>> now reproducible with LTO enabled.  I also verified that libtool is
+> >>> passing the -f*-prefix-map flags to the link command in log.do_compile
+> >>> as intended.
+> >>>
+> >>> I also verified that core-image-minimal builds successfully with the
+> >>> libtool patch.
+> >> Thanks for testing that, sounds like it helps that issue. I'll queue that patch.
+> >>
+> >> Unfortunately even with the ruby fix I queued, we still see reproduciblity
+> >> issues with the LDFLAGS change in curl-dev, gettext-ptest, ruby and ruby-dbg
+> >> packages:
+> >>
+> >> https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/515/steps/12/logs/stdio
+> >>
+> >> We'll need to resolve those before I can merge the flags change.
+> >>
+> >> Diffoscope output:
+> >>
+> >> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210805-8jfd55ki/packages/diff-html/
+> >>
+> >> Basically LDFLAGS get encoded into a couple of scripts and the ruby binary.
+> >>
+> >> Cheers,
+> >>
+> >> Richard
+> >>
+> > It looks like the ruby problem is being caused by MJIT_DLDFLAGS in
+> > build/tmp/work/core2-64-poky-linux/ruby/3.0.2-r0/build/mjit_config.h.
+> > There is already a patch
+> > poky/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
+> > that removes some of these items for the sake of reproducibiltiy.  But I
+> > do not know ruby, so I do not know the implications of doing the same
+> > thing for MJIT_DLDFLAGS.
+> >
+> > Tony Battersby
+> >
+> >
+> >
+> Richard,
 >
-> This issue is caused by a bug in the lighttpd 1.4.55 version and
-> has been fixed in lighttpd 1.4.58. Hence, it is not needed for
-> master and hardknott branch because lighttpd has 1.4.59 version.
+> I noticed that you already fixed the problems in curl and gettext in
+> master-next.  Here is a patch for ruby if you haven't fixed that already.
 >
-> Link: https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisi=
-ons/7ba521ffb4959f6f74a609d5d4acafc29a038337
-
-This patch is throwing warnings on the autobuilder:
-
-Applying patch 0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.pa=
-tch
-patching file src/chunk.c
-Hunk #2 succeeded at 124 with fuzz 1.
-patching file src/chunk.h
-patching file src/http-header-glue.c
-
-The context lines in the patches can be updated with devtool:
-
-    devtool modify lighttpd
-    devtool finish --force-patch-refresh lighttpd <layer_path>
-
-Could you fix this and send a V2 so that we can have clean builds on
-the autobuilder?
-
-Thanks!
-
-Steve
-
-
-> Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
+> Tony Battersby
+>
+> From 9cfb9777ff6ef95a27ed6a03719c807365d0f116 Mon Sep 17 00:00:00 2001
+> From: Tony Battersby <tonyb@cybernetics.com>
+> Date: Fri, 6 Aug 2021 16:47:14 -0400
+> Subject: [PATCH] ruby: Fix reproducibility issue with LDFLAGS
+>
+> If we add DEBUG_PREFIX_MAP into LDFLAGS, ruby and ruby-dbg are no
+> longer reproducible.  Fix this.
+>
+> Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
 > ---
->  ...large-mem-chunks-fix-mem-usage-fixes-3033.patch | 225 +++++++++++++++=
-++++++
->  meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb  |   1 +
->  2 files changed, 226 insertions(+)
->  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-reu=
-se-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+>  ...-Makefile.in-filter-out-f-prefix-map.patch | 42 +++++++++++++++++++
+>  meta/recipes-devtools/ruby/ruby_3.0.2.bb      |  1 +
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
 >
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-larg=
-e-mem-chunks-fix-mem-usage-fixes-3033.patch b/meta/recipes-extended/lighttp=
-d/lighttpd/0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+> diff --git a/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch b/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
 > new file mode 100644
-> index 0000000..c4e4a60
+> index 0000000000..9387506c26
 > --- /dev/null
-> +++ b/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-large-mem-c=
-hunks-fix-mem-usage-fixes-3033.patch
-> @@ -0,0 +1,225 @@
-> +From 40dadb863fd105c4a66b598c2423b1eb11b1f26e Mon Sep 17 00:00:00 2001
-> +From: Glenn Strauss <gstrauss@gluelogic.com>
-> +Date: Wed, 23 Dec 2020 23:14:47 -0500
-> +Subject: [PATCH] [core] reuse large mem chunks (fix mem usage) (fixes #3=
-033)
+> +++ b/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
+> @@ -0,0 +1,42 @@
+> +Subject: [PATCH] template/Makefile.in: filter out -f*prefix-map
 > +
-> +(cherry picked from commit 7ba521ffb4959f6f74a609d5d4acafc29a038337)
+> +If we add DEBUG_PREFIX_MAP into LDFLAGS, ruby and ruby-dbg are no longer
+> +reproducible.  Fix this.
 > +
-> +(thx flynn)
-> +
-> +fix large memory usage for large file downloads from dynamic backends
-> +
-> +reuse or release large memory chunks
-> +
-> +x-ref:
-> +  "Memory Growth with PUT and full buffered streams"
-> +  https://redmine.lighttpd.net/issues/3033
-> +
-> +Upstream-Status: Backport
-> +Comment: No hunk refreshed
-> +https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisions/7=
-ba521ffb4959f6f74a609d5d4acafc29a038337
-> +Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
+> +Upstream-Status: Inapproppriate [oe-core specific]
+> +Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
 > +---
-> + src/chunk.c            | 99 +++++++++++++++++++++++++++++++++---------
-> + src/chunk.h            |  2 +
-> + src/http-header-glue.c |  2 +-
-> + 3 files changed, 82 insertions(+), 21 deletions(-)
-> +
-> +diff --git a/src/chunk.c b/src/chunk.c
-> +index 09dd3f14..ffb37951 100644
-> +--- a/src/chunk.c
-> ++++ b/src/chunk.c
-> +@@ -28,16 +28,20 @@
-> + static size_t chunk_buf_sz =3D 4096;
-> + static chunk *chunks, *chunks_oversized;
-> + static chunk *chunk_buffers;
-> ++static int chunks_oversized_n;
-> + static array *chunkqueue_default_tempdirs =3D NULL;
-> + static off_t chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE=
-;
-> +
-> + void chunkqueue_set_chunk_size (size_t sz)
-> + {
-> +-    chunk_buf_sz =3D sz > 0 ? ((sz + 1023) & ~1023uL) : 4096;
-> ++    size_t x =3D 1024;
-> ++    while (x < sz && x < (1u << 30)) x <<=3D 1;
-> ++    chunk_buf_sz =3D sz > 0 ? x : 4096;
+> +--- a/tool/mjit_archflag.sh
+> ++++ b/tool/mjit_archflag.sh
+> +@@ -7,6 +7,20 @@ quote() {
+> +     echo
 > + }
 > +
-> + void chunkqueue_set_tempdirs_default_reset (void)
-> + {
-> ++    chunk_buf_sz =3D 8192;
-> +     chunkqueue_default_tempdirs =3D NULL;
-> +     chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE;
-> + }
-> +@@ -120,15 +124,49 @@ static void chunk_free(chunk *c) {
-> +       free(c);
-> + }
-> +
-> +-buffer * chunk_buffer_acquire(void) {
-> ++static chunk * chunk_pop_oversized(size_t sz) {
-> ++    /* future: might have buckets of certain sizes, up to socket buf si=
-zes */
-> ++    if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
-> ++        --chunks_oversized_n;
-> ++        chunk *c =3D chunks_oversized;
-> ++        chunks_oversized =3D c->next;
-> ++        return c;
-> ++    }
-> ++    return NULL;
+> ++quote_filtered() {
+> ++    printf "#${indent}define $1"
+> ++    while shift && [ "$#" -gt 0 ]; do
+> ++      case "$1" in
+> ++          -ffile-prefix-map=*|-fdebug-prefix-map=*|-fmacro-prefix-map=*)
+> ++              ;;
+> ++          *)
+> ++              printf ' "%s"'$sep "$1"
+> ++              ;;
+> ++      esac
+> ++    done
+> ++    echo
 > ++}
 > ++
-> ++static void chunk_push_oversized(chunk * const c, const size_t sz) {
-> ++    if (chunks_oversized_n < 64 && chunk_buf_sz >=3D 4096) {
-> ++        ++chunks_oversized_n;
-> ++        chunk **co =3D &chunks_oversized;
-> ++        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
-> ++        c->next =3D *co;
-> ++        *co =3D c;
-> ++    }
-> ++    else
-> ++        chunk_free(c);
-> ++}
-> ++
-> ++static buffer * chunk_buffer_acquire_sz(size_t sz) {
-> +     chunk *c;
-> +     buffer *b;
-> +-    if (chunks) {
-> +-        c =3D chunks;
-> +-        chunks =3D c->next;
-> ++    if (sz <=3D chunk_buf_sz) {
-> ++        if (chunks) {
-> ++            c =3D chunks;
-> ++            chunks =3D c->next;
-> ++        }
-> ++        else
-> ++            c =3D chunk_init(chunk_buf_sz);
-> ++            /* future: might choose to pop from chunks_oversized, if av=
-ailable
-> ++             * (even if larger than sz) rather than allocating new chun=
-k
-> ++             * (and if doing so, might replace chunks_oversized_n) */
-> +     }
-> +     else {
-> +-        c =3D chunk_init(chunk_buf_sz);
-> ++        /*(round up to nearest chunk_buf_sz)*/
-> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
-> ++        c =3D chunk_pop_oversized(sz);
-> ++        if (NULL =3D=3D c)
-> ++            c =3D chunk_init(sz);
-> +     }
-> +     c->next =3D chunk_buffers;
-> +     chunk_buffers =3D c;
-> +@@ -137,21 +175,47 @@ buffer * chunk_buffer_acquire(void) {
-> +     return b;
-> + }
+> + archs=""
+> + arch_flag=""
 > +
-> ++buffer * chunk_buffer_acquire(void) {
-> ++    return chunk_buffer_acquire_sz(chunk_buf_sz);
-> ++}
-> ++
-> + void chunk_buffer_release(buffer *b) {
-> +     if (NULL =3D=3D b) return;
-> +-    if (b->size >=3D chunk_buf_sz && chunk_buffers) {
-> ++    if (chunk_buffers) {
-> +         chunk *c =3D chunk_buffers;
-> +         chunk_buffers =3D c->next;
-> +         c->mem =3D b;
-> +-        c->next =3D chunks;
-> +-        chunks =3D c;
-> +         buffer_clear(b);
-> ++        if (b->size =3D=3D chunk_buf_sz) {
-> ++            c->next =3D chunks;
-> ++            chunks =3D c;
-> ++        }
-> ++        else if (b->size > chunk_buf_sz)
-> ++            chunk_push_oversized(c, b->size);
-> ++        else
-> ++            chunk_free(c);
-> +     }
-> +     else {
-> +         buffer_free(b);
-> +     }
-> + }
-> +
-> ++size_t chunk_buffer_prepare_append(buffer * const b, size_t sz) {
-> ++    if (sz > chunk_buffer_string_space(b)) {
-> ++        sz +=3D b->used ? b->used : 1;
-> ++        buffer * const cb =3D chunk_buffer_acquire_sz(sz);
-> ++        /* swap buffer contents and copy original b->ptr into larger b-=
->ptr */
-> ++        /*(this does more than buffer_move())*/
-> ++        buffer tb =3D *b;
-> ++        *b =3D *cb;
-> ++        *cb =3D tb;
-> ++        if ((b->used =3D tb.used))
-> ++            memcpy(b->ptr, tb.ptr, tb.used);
-> ++        chunk_buffer_release(cb);
-> ++    }
-> ++    return chunk_buffer_string_space(b);
-> ++}
-> ++
-> + static chunk * chunk_acquire(size_t sz) {
-> +     if (sz <=3D chunk_buf_sz) {
-> +         if (chunks) {
-> +@@ -162,13 +226,10 @@ static chunk * chunk_acquire(size_t sz) {
-> +         sz =3D chunk_buf_sz;
-> +     }
-> +     else {
-> +-        sz =3D (sz + 8191) & ~8191uL;
-> +-        /* future: might have buckets of certain sizes, up to socket bu=
-f sizes*/
-> +-        if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
-> +-            chunk *c =3D chunks_oversized;
-> +-            chunks_oversized =3D c->next;
-> +-            return c;
-> +-        }
-> ++        /*(round up to nearest chunk_buf_sz)*/
-> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
-> ++        chunk *c =3D chunk_pop_oversized(sz);
-> ++        if (c) return c;
-> +     }
-> +
-> +     return chunk_init(sz);
-> +@@ -183,10 +244,7 @@ static void chunk_release(chunk *c) {
-> +     }
-> +     else if (sz > chunk_buf_sz) {
-> +         chunk_reset(c);
-> +-        chunk **co =3D &chunks_oversized;
-> +-        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
-> +-        c->next =3D *co;
-> +-        *co =3D c;
-> ++        chunk_push_oversized(c, sz);
-> +     }
-> +     else {
-> +         chunk_free(c);
-> +@@ -205,6 +263,7 @@ void chunkqueue_chunk_pool_clear(void)
-> +         chunk_free(c);
-> +     }
-> +     chunks_oversized =3D NULL;
-> ++    chunks_oversized_n =3D 0;
-> + }
-> +
-> + void chunkqueue_chunk_pool_free(void)
-> +diff --git a/src/chunk.h b/src/chunk.h
-> +index 4c6b7e47..93f343c3 100644
-> +--- a/src/chunk.h
-> ++++ b/src/chunk.h
-> +@@ -50,6 +50,8 @@ typedef struct {
-> + buffer * chunk_buffer_acquire(void);
-> + void chunk_buffer_release(buffer *b);
-> +
-> ++size_t chunk_buffer_prepare_append (buffer *b, size_t sz);
-> ++
-> + void chunkqueue_chunk_pool_clear(void);
-> + void chunkqueue_chunk_pool_free(void);
-> +
-> +diff --git a/src/http-header-glue.c b/src/http-header-glue.c
-> +index d54f00cf..2231fba9 100644
-> +--- a/src/http-header-glue.c
-> ++++ b/src/http-header-glue.c
-> +@@ -1267,7 +1267,7 @@ handler_t http_response_read(server *srv, connecti=
-on *con, http_response_opts *o
-> +         if (avail < toread) {
-> +             /*(add avail+toread to reduce allocations when ioctl EOPNOT=
-SUPP)*/
-> +             avail =3D avail ? avail - 1 + toread : toread;
-> +-            buffer_string_prepare_append(b, avail);
-> ++            avail =3D chunk_buffer_prepare_append(b, avail);
-> +         }
-> +
-> +         n =3D read(fd, b->ptr+buffer_string_length(b), avail);
-> +--
-> +2.32.0
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb b/meta/rec=
-ipes-extended/lighttpd/lighttpd_1.4.55.bb
-> index 35a268a..5329465 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
-> @@ -18,6 +18,7 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/rele=
-ases-1.4.x/lighttpd-${PV}.t
->          file://lighttpd.conf \
->          file://lighttpd \
->          file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config=
-.patch \
-> +        file://0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033=
-.patch \
->          "
+> +--- a/template/Makefile.in
+> ++++ b/template/Makefile.in
+> +@@ -666,7 +666,7 @@ mjit_config.h:
+> +       quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
+> +       quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
+> +       quote "MJIT_LDSHARED   " ; \
+> +-      quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
+> ++      quote_filtered "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
+> +       quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
+> +       quote 'PRELOADENV       "@PRELOADENV@"'; \
+> +       indent=$${archs:+'  '}; \
+> diff --git a/meta/recipes-devtools/ruby/ruby_3.0.2.bb b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
+> index 0b9c342def..38e594a59e 100644
+> --- a/meta/recipes-devtools/ruby/ruby_3.0.2.bb
+> +++ b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
+> @@ -6,6 +6,7 @@ SRC_URI += " \
+>             file://remove_has_include_macros.patch \
+>             file://run-ptest \
+>             file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
+> +           file://0002-template-Makefile.in-filter-out-f-prefix-map.patch \
+>             "
 >
->  SRC_URI[md5sum] =3D "be4bda2c28bcbdac6eb941528f6edf03"
+>  SRC_URI[sha256sum] = "5085dee0ad9f06996a8acec7ebea4a8735e6fac22f22e2d98c3f2bc3bef7e6f1"
 > --
-> 2.7.4
->
-> This message contains information that may be privileged or confidential =
-and is the property of the KPIT Technologies Ltd. It is intended only for t=
-he person to whom it is addressed. If you are not the intended recipient, y=
-ou are not authorized to read, print, retain copy, disseminate, distribute,=
- or use this message or any part thereof. If you receive this message in er=
-ror, please notify the sender immediately and delete all copies of this mes=
-sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
-ed mails.
->
->=20
+> 2.25.1
 >
