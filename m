@@ -1,69 +1,98 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web11.7567.1628349962746655207
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.6241.1628396115711638045
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Aug 2021 08:26:03 -0700
+ Sat, 07 Aug 2021 21:15:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:55420 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1mCOD5-0006xT-L0
-	for openembedded-core@lists.openembedded.org; Sat, 07 Aug 2021 11:26:01 -0400
-Date: Sat, 7 Aug 2021 11:25:57 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: would reducing BB_NUMBER_THREADS solve parallelism overheating?
-Message-ID: <d21730c5-d43-dfba-89bc-71d113f049e9@crashcourse.ca>
+ dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
+Received: from alsamon-xub.lan (cpe-70-112-59-126.austin.res.rr.com [70.112.59.126])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3B41E209FD2F;
+	Sat,  7 Aug 2021 21:15:14 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3B41E209FD2F
+From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Subject: [PATCH] baremetal-helloworld: Enable RISC-V 32 port
+Date: Sat,  7 Aug 2021 22:14:51 -0600
+Message-Id: <20210808041451.1319775-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+$ runqemu nographic
+runqemu - INFO - Running bitbake -e ...
+KERNEL: [tmp/deploy/images/qemuriscv32/baremetal-helloworld-image-qemuris=
+cv32.bin]
+MACHINE: [qemuriscv32]
+runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/=
+recipe-sysroot-native/usr/bin/qemu-system-riscv32
 
-  i've asked about this previously, but i finally got around to
-thinking about this in detail, and i'd like some feedback.
+Hello OpenEmbedded on RISC-V 32!
 
-  i've described the overheating/lockup issues i've been having on a
-dell latitude laptop building a sizable (wind river linux-based) image
-represented by 5-6000 tasks.
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
+rg>
+---
+ .../baremetal-examples/baremetal-helloworld_git.bb           | 5 +++--
+ meta/classes/baremetal-image.bbclass                         | 3 +++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-  if i start the full build from scratch, it would take about 2 hours
-if it succeeded but, on a very regular basis, when the load average
-well exceeds 120 and i can feel really hot air blowing (even with t
-laptop cooler), the laptop will simply lock up hard.
+diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal=
+-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/b=
+aremetal-helloworld_git.bb
+index 37193f5a33..d11e2e530e 100644
+--- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-hellow=
+orld_git.bb
++++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-hellow=
+orld_git.bb
+@@ -4,7 +4,7 @@ DESCRIPTION =3D "These are introductory examples to showc=
+ase the use of QEMU to ru
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D39346640a23c701e4f459e05f56f4=
+449"
+=20
+-SRCREV =3D "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
++SRCREV =3D "31b4e5a337018b4a00a7426b0e5ed83b81df30c7"
+ PV =3D "0.1+git${SRCPV}"
+=20
+ SRC_URI =3D "git://github.com/aehs29/baremetal-helloqemu.git;protocol=3D=
+https;branch=3Dmaster"
+@@ -28,13 +28,14 @@ inherit baremetal-image
+ # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
+ # but the examples can also be run on other architectures/machines
+ # such as vexpress-a15 by overriding the setting on the machine.conf
+-COMPATIBLE_MACHINE =3D "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
++COMPATIBLE_MACHINE =3D "qemuarmv5|qemuarm|qemuarm64|qemuriscv64|qemurisc=
+v32"
+=20
+ BAREMETAL_QEMUARCH ?=3D ""
+ BAREMETAL_QEMUARCH:qemuarmv5 =3D "versatile"
+ BAREMETAL_QEMUARCH:qemuarm =3D "arm"
+ BAREMETAL_QEMUARCH:qemuarm64 =3D "aarch64"
+ BAREMETAL_QEMUARCH:qemuriscv64 =3D "riscv64"
++BAREMETAL_QEMUARCH:qemuriscv32 =3D "riscv32"
+=20
+ EXTRA_OEMAKE:append =3D " QEMUARCH=3D${BAREMETAL_QEMUARCH} V=3D1"
+=20
+diff --git a/meta/classes/baremetal-image.bbclass b/meta/classes/baremeta=
+l-image.bbclass
+index 9ec3f1460b..089c445522 100644
+--- a/meta/classes/baremetal-image.bbclass
++++ b/meta/classes/baremetal-image.bbclass
+@@ -82,12 +82,15 @@ QB_OPT_APPEND:append =3D " -nographic"
+ # RISC-V tunes set the BIOS, unset, and instruct QEMU to
+ # ignore the BIOS and boot from -kernel
+ QB_DEFAULT_BIOS:qemuriscv64 =3D ""
++QB_DEFAULT_BIOS:qemuriscv32 =3D ""
+ QB_OPT_APPEND:append:qemuriscv64 =3D " -bios none"
++QB_OPT_APPEND:append:qemuriscv32 =3D " -bios none"
+=20
+=20
+ # Use the medium-any code model for the RISC-V 64 bit implementation,
+ # since medlow can only access addresses below 0x80000000 and RAM
+ # starts at 0x80000000 on RISC-V 64
++# Keep RISC-V 32 using -mcmodel=3Dmedlow (symbols lie between -2GB:2GB)
+ CFLAGS:append:qemuriscv64 =3D " -mcmodel=3Dmedany"
+=20
+=20
+--=20
+2.25.1
 
-  the CPU is a i7-9850H, so 6 cores/12 threads, and i've refactored
-numerous proprietary in-house recipes to really crank up the
-parallelism so that, a lot of the time, i can see all 12 threads
-churning away on some task. of course, that's exactly when i get the
-huge load average/overheating/lockup.
-
-  a couple colleagues suggested using BB_NUMBER_THREADS (BNT for
-short) to dial things back a bit but, after i pondered a bit, it seems
-that that would potentially make things worse, not better, so a couple
-questions about cores and threads.
-
-  first, given the CPU setup, let's say i set BNT to 6. does that mean
-3 cores would be taken out of play entirely, leaving the other 3 to do
-all the work, or would each core simply use one thread, or who knows
-what would happen, and would any one scenario be superior to another?
-
-  my other realization(?) is that reducing BNT might be the *worst*
-strategy, and here's why. if i have a huge load average, that suggests
-i have lots and lots of tasks waiting to run (lots of stuff on the
-wait queue). but if i reduce the number of available threads, wouldn't
-that just force all that work to wait for a smaller number of threads,
-making the wait queues even longer?
-
-  i'm open to being educated on how all this works.
-
-rday
