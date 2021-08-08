@@ -1,50 +1,50 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.9390.1628427061403089376
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.9631.1628428312067334801
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Aug 2021 05:51:01 -0700
+ Sun, 08 Aug 2021 06:11:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ce/Itj0G;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id i4so148573wru.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Aug 2021 05:51:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qTixwvOm;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id b11so1481593wrx.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Aug 2021 06:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=wM/c2dTRFap3xlgs3mzTlSuAspoLc0bdSpOWhdbjhek=;
-        b=ce/Itj0Gx+9FSQxU/lXbltitVXnaWRj8fOcmXOXQyZI7b/jT+8GSsY6Tsl75M8q/OG
-         NdogBLX90b4ZcddH0u9Pb5EDb4mIYsEO6pSyzFEmOPD6T0d5K3oBryigjnRAvmYCdWKB
-         Sh8UUWF4A4n1zx30KLu9YCVDP57rUmynT7Ht9nDxiKXpIbTZ6ij02sc1jyIrRdPwJIJ1
-         kdBaAG+SjBKFGjJr+fJj2PKZ1u4d9A2yuGOc56osRrsHZdpY+vVEe0ZlJbyjVXeCM/n+
-         38xCUJT/lRxM14n+rTA3OnvE9hcb6nANOOqLXK9h7SWN1hekJHu9TYRTg80/8LJ8HKX8
-         JN1w==
+        b=qTixwvOmVmiXcSB7hEH00WaWI7HXrnNWa2MG11/rJ0wOI+5J3SIyyOF2LGnHmDVy4X
+         ocxcttihSUYraPqHD8ySVAu69S46e/+dj7l52R6/8+wislu3vZySuMrSb+aFz5AYInXt
+         xet12RBJRhdZU7N203J/jgLmJggtwWX4vgrbt38fPK3TB1jZtp7IKPqVQeEHXH3BYSRH
+         bTpmm3URxX6L4U69H33x1vg279l2D1MDZURF0QqOGy6AkwzXRw5s/h8HCwxv3BTOEOCw
+         WM/Hsk2u4AyMiwfjpUl1EOSGB7bK9vOBdVMR08t26fRdePA+n92SG1envJmu4ZJpB2jm
+         MiLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=wM/c2dTRFap3xlgs3mzTlSuAspoLc0bdSpOWhdbjhek=;
-        b=UQcrAzqKmz53mWslEVcN1GcqYEMzCfCClJQzx/N5ugi+22p8XwNwJi1NVZcvPOY1an
-         1mMp6F8M7V+FiY+2TZ/5nwFjsJYBzVQj8xGP5TW4F4ooKKsYY+dMUOMwNOLAacUACJ4x
-         oYwDmCLjOoDaEGmRmz5ISwVqBPAeQjzLO0By2btzjKTcf0mQspv43AIfbRdZcJNxCKfv
-         FvMNUWijtFdlpmxVZCP/WTascLvcK5LZq53fprN7JThtoG3uOCWU+hZWUwSC3cZIpUg+
-         NW5nAQeIAmBSwcToNcjXY4/Hyc/XMbjPUjeohFOFlG94G+TPNNb6BSayZPsrGO3PFkCr
-         7XLg==
-X-Gm-Message-State: AOAM530kLcr+Hm4uAmQy/Qt5d0p+V2LsHoBxD4/jaRu+wTq860X48w7a
-	yJPWx6kpkV4s+Mf0cJUkgrCEoPvMhkk=
-X-Google-Smtp-Source: ABdhPJxU/MB7Oqe2lxEaxekH2ITBnzjD7w/22p4nb5b3GkP4jejwzA3JzrMj0FEM4VVnXYpErbGwrA==
-X-Received: by 2002:a5d:518a:: with SMTP id k10mr19902155wrv.400.1628427059587;
-        Sun, 08 Aug 2021 05:50:59 -0700 (PDT)
+        b=hyGwG2WPJft7YtpanZRJlUQ/SpaK9n9T96WHPo0q48DNB20SNqcPC8BC+8kFpe2Wht
+         3g87Z0TfkXoHijBW6yv+g7SEkhSQ6/LvIuLH8t28NeRWA49ASNUv+9LziArnHnMKq83g
+         umMFgYViUu3VsCuipJsrT8UWVMv0iTRleY0Gh+4lIpfhZrTUAsns8EikDGw2DD9U0MMZ
+         gFwTV9eEkn9vJfuyiaGuUpKJDGjGFPwqExzIArBnrrOXk5iKWNFOb0P4Is2Ym32Jr/sw
+         bn5GvAdE8PQlEfB8NJ9+D7LUB8xYXUOMduDg+57ogSW5gyGBIphZO0qOKlRXsxFvwZ4l
+         ACBw==
+X-Gm-Message-State: AOAM533go/lxULd/GkFmTTp7vSgQidHkyg1knClfdtM1Cgspag+dOKjx
+	ULULKkdJb8ZVrOvFWt2ussYfBhJEeFI=
+X-Google-Smtp-Source: ABdhPJxXJGKEBKfd86HKUI+v2h4f+iU+m1T1zEicoToq+PccvjE9sWisOHcAWnUx8t3BWP2xoQlaqw==
+X-Received: by 2002:a5d:4c92:: with SMTP id z18mr20342973wrs.228.1628428310317;
+        Sun, 08 Aug 2021 06:11:50 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id a12sm17889008wmj.22.2021.08.08.05.50.58
+        by smtp.gmail.com with ESMTPSA id e17sm5521425wru.7.2021.08.08.06.11.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Aug 2021 05:50:58 -0700 (PDT)
+        Sun, 08 Aug 2021 06:11:49 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH] sstate.bbclass: fix error handling when sstate mirrors errors is ro
-Date: Sun,  8 Aug 2021 13:50:51 +0100
-Message-Id: <20210808125051.3287938-1-quaresma.jose@gmail.com>
+Subject: [PATCH v2] sstate.bbclass: fix error handling when sstate mirrors is ro
+Date: Sun,  8 Aug 2021 14:11:45 +0100
+Message-Id: <20210808131145.3296379-1-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
