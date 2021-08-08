@@ -1,57 +1,74 @@
 Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by mx.groups.io with SMTP id smtpd.web09.6520.1628398290522218397
+ by mx.groups.io with SMTP id smtpd.web09.6596.1628399039894947044
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Aug 2021 21:51:31 -0700
+ Sat, 07 Aug 2021 22:04:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@ozlabs.org header.s=201707 header.b=AeWVemBq;
+ dkim=fail reason="body hash did not verify" header.i=@ozlabs.org header.s=201707 header.b=s+gHq1+D;
  spf=pass (domain: ozlabs.org, ip: 203.11.71.1, mailfrom: anton@ozlabs.org)
 Received: by ozlabs.org (Postfix, from userid 1010)
-	id 4Gj6Hg4tJbz9sWq; Sun,  8 Aug 2021 14:51:27 +1000 (AEST)
+	id 4Gj6Z44Fw6z9sWX; Sun,  8 Aug 2021 15:03:56 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-	s=201707; t=1628398287;
-	bh=gnSi7Os6jst+a6kjLOW1ftJWPBQhW/gge4YJqjR+j9s=;
+	s=201707; t=1628399036;
+	bh=pUxIlFsaEjKlkOGViUZ8m6XxPG1TJeXmShXLQ1jzbAQ=;
 	h=From:To:Subject:Date:From;
-	b=AeWVemBqDgOaare5n+AC8uBr/6vkUDgixZ2ZidzLuw+JrBZTq8yzjZpSwVeEbHsAO
-	 PUeNI2LzbrvNLuga15jpWcWpKwZdCd5/qGriybZ4rx31HeRO70d69dy0lTDSRZvaJe
-	 qXhX7swcV1FAU9SbtVPdh79UijahesjpJeujq4mEhJjuIAaSArVqA7AViLAmsW+8PF
-	 5/d9Uf8FvfBQAudnYhCwnmbjjvLZnnDR+U60s2MjpA+tciGp8t4/7vLBsWwAlmHZPh
-	 2YKBe3QxfbCYwlH91WCL+KbnLgEods7Fdq8Jb8DnA7qkO4NUjfa2hq1aSBZkzlvIIg
-	 Zdmv7nu2z1Yvg==
+	b=s+gHq1+DKIjTiMJUN+v34WOlNOt0j4n9O9A5mhHU6mxo9pYcRl6qFcLeiHJ5CVwo/
+	 8XqRalUTdx6LiEu4OS3G+H9oPiZ8QdShONAUWBhRBM3scA4mNnEx5U3Vyw0IdgHmpZ
+	 2Zc70KGxUeOkuhRARWOLLNqpLN7IRajQom0iSqKMEwO+YARvnlCZnQcrkjyZa6xRhy
+	 8sKcynmsbPFM/GelP8g4kTsc02bbBQD0vOlY2V+7hx+mzGNfN86dCFCPi+IyxHIiOv
+	 UIQTHHG+uH7VlcgLRw6MgtpdNo2JPJfosg+FjSavRlntF/PNS0Z2IFPQMB4/XfRgUP
+	 lPbJiIb/nwKmA==
 From: "Anton Blanchard" <anton@ozlabs.org>
 To: openembedded-core@lists.openembedded.org,
-	anuj.mittal@intel.com
-Subject: [PATCH] pixman: Handle PowerPC without Altivec
-Date: Sun,  8 Aug 2021 14:51:21 +1000
-Message-Id: <20210808045121.2498393-1-anton@ozlabs.org>
+	Qi.Chen@windriver.com
+Subject: [PATCH] kmod: use nonarch_base_libdir for depmod.d and modprobe.d
+Date: Sun,  8 Aug 2021 15:03:49 +1000
+Message-Id: <20210808050349.2502749-1-anton@ozlabs.org>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Configure with -Dvmx=3Denabled/disabled based on the Altivec feature.
+These should always be in /lib, regardless of the configuration.
 
 Signed-off-by: Anton Blanchard <anton@ozlabs.org>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-kernel/kmod/kmod_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recip=
-es-graphics/xorg-lib/pixman_0.40.0.bb
-index 5a3bb22ec3..723af72796 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-@@ -32,4 +32,8 @@ EXTRA_OEMESON =3D "-Dgtk=3Ddisabled -Dlibpng=3Ddisabled=
-"
- # linking mips:loongson_2f module with previous mips:isa64 modules=20
- EXTRA_OEMESON +=3D "-Dloongson-mmi=3Ddisabled"
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/k=
+mod/kmod_git.bb
+index 853561a61e..eb5d176ded 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -24,13 +24,13 @@ do_install:append () {
+                 lnr ${D}${base_bindir}/kmod ${D}${base_sbindir}/${tool}
+         done
+         # configuration directories
+-        install -dm755 ${D}${base_libdir}/depmod.d
+-        install -dm755 ${D}${base_libdir}/modprobe.d
++        install -dm755 ${D}${nonarch_base_libdir}/depmod.d
++        install -dm755 ${D}${nonarch_base_libdir}/modprobe.d
+         install -dm755 ${D}${sysconfdir}/depmod.d
+         install -dm755 ${D}${sysconfdir}/modprobe.d
 =20
-+EXTRA_OEMESON:append:class-target:powerpc =3D " ${@bb.utils.contains("TU=
-NE_FEATURES", "altivec", "-Dvmx=3Denabled", "-Dvmx=3Ddisabled", d)}"
-+EXTRA_OEMESON:append:class-target:powerpc64 =3D " ${@bb.utils.contains("=
-TUNE_FEATURES", "altivec", "-Dvmx=3Denabled", "-Dvmx=3Ddisabled", d)}"
-+EXTRA_OEMESON:append:class-target:powerpc64le =3D " ${@bb.utils.contains=
-("TUNE_FEATURES", "altivec", "-Dvmx=3Denabled", "-Dvmx=3Ddisabled", d)}"
-+
- BBCLASSEXTEND =3D "native nativesdk"
+         # install depmod.d file for search/ dir
+-        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdi=
+r}/depmod.d/search.conf"
++        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${nonarch_ba=
+se_libdir}/depmod.d/search.conf"
+ }
+=20
+ do_compile:prepend() {
+@@ -57,6 +57,6 @@ ALTERNATIVE_LINK_NAME[depmod] =3D "${base_sbindir}/depm=
+od"
+ PACKAGES =3D+ "libkmod"
+=20
+ FILES:libkmod =3D "${base_libdir}/libkmod*${SOLIBS} ${libdir}/libkmod*${=
+SOLIBS}"
+-FILES:${PN} +=3D "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
++FILES:${PN} +=3D "${nonarch_base_libdir}/depmod.d ${nonarch_base_libdir}=
+/modprobe.d"
+=20
+ BBCLASSEXTEND =3D "nativesdk"
 --=20
 2.31.1
 
