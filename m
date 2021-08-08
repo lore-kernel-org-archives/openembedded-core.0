@@ -1,115 +1,66 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.9631.1628428312067334801
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web08.10038.1628431457539620614
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Aug 2021 06:11:52 -0700
+ Sun, 08 Aug 2021 07:04:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qTixwvOm;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id b11so1481593wrx.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Aug 2021 06:11:51 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jlf/iMwm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.175, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f175.google.com with SMTP id u10so19795190oiw.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Aug 2021 07:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wM/c2dTRFap3xlgs3mzTlSuAspoLc0bdSpOWhdbjhek=;
-        b=qTixwvOmVmiXcSB7hEH00WaWI7HXrnNWa2MG11/rJ0wOI+5J3SIyyOF2LGnHmDVy4X
-         ocxcttihSUYraPqHD8ySVAu69S46e/+dj7l52R6/8+wislu3vZySuMrSb+aFz5AYInXt
-         xet12RBJRhdZU7N203J/jgLmJggtwWX4vgrbt38fPK3TB1jZtp7IKPqVQeEHXH3BYSRH
-         bTpmm3URxX6L4U69H33x1vg279l2D1MDZURF0QqOGy6AkwzXRw5s/h8HCwxv3BTOEOCw
-         WM/Hsk2u4AyMiwfjpUl1EOSGB7bK9vOBdVMR08t26fRdePA+n92SG1envJmu4ZJpB2jm
-         MiLA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=EsnemcvSErrPOdlRitcx53iPi2svCZxSnmm2X2NbqMI=;
+        b=jlf/iMwmslgB3rcRR1tOhNQFFd8qipr65mZKfeWhdWl/UGVqyG1IdFmq7I6l4We0Sf
+         PiEE0zDoKyfiZ0nsq3wbS7eSwIvADElCdsPhy+DIOtrC1tQ62xLY7L0rKXfT9/yfenCI
+         s3v6uwL9+N+sU1e8qkbnIMh2N8gHHl6GqEALNfSwn3rPxvgcBSyHXw8JLNibwndp8RV3
+         ZEd/rU6HDdg/5j+8edd9cqQJIOdevAm9YZ8MEJH84S5OrIHRmBc+SFtm/rTgBHs1X+GQ
+         FDRAmY2pfRkW0dip7QDdEcT/EUxZFTwGlEPBcr/DdFJuKk9/0bOzpZu6sVUCWxN6H88E
+         LCSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wM/c2dTRFap3xlgs3mzTlSuAspoLc0bdSpOWhdbjhek=;
-        b=hyGwG2WPJft7YtpanZRJlUQ/SpaK9n9T96WHPo0q48DNB20SNqcPC8BC+8kFpe2Wht
-         3g87Z0TfkXoHijBW6yv+g7SEkhSQ6/LvIuLH8t28NeRWA49ASNUv+9LziArnHnMKq83g
-         umMFgYViUu3VsCuipJsrT8UWVMv0iTRleY0Gh+4lIpfhZrTUAsns8EikDGw2DD9U0MMZ
-         gFwTV9eEkn9vJfuyiaGuUpKJDGjGFPwqExzIArBnrrOXk5iKWNFOb0P4Is2Ym32Jr/sw
-         bn5GvAdE8PQlEfB8NJ9+D7LUB8xYXUOMduDg+57ogSW5gyGBIphZO0qOKlRXsxFvwZ4l
-         ACBw==
-X-Gm-Message-State: AOAM533go/lxULd/GkFmTTp7vSgQidHkyg1knClfdtM1Cgspag+dOKjx
-	ULULKkdJb8ZVrOvFWt2ussYfBhJEeFI=
-X-Google-Smtp-Source: ABdhPJxXJGKEBKfd86HKUI+v2h4f+iU+m1T1zEicoToq+PccvjE9sWisOHcAWnUx8t3BWP2xoQlaqw==
-X-Received: by 2002:a5d:4c92:: with SMTP id z18mr20342973wrs.228.1628428310317;
-        Sun, 08 Aug 2021 06:11:50 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id e17sm5521425wru.7.2021.08.08.06.11.49
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=EsnemcvSErrPOdlRitcx53iPi2svCZxSnmm2X2NbqMI=;
+        b=lIa7BQJD0UhO5qYMHGYEZzW8CKyTvaE+iixWowJVznKwu3NNrQYmE6yN1/smOxpYyL
+         DrguDuFEqGW8AiZV9cFFdPzH+nXZfyJseK0FvkIXin3JQl6v/AVLYfie7fMntMppkRdi
+         j2MgyGV7pl4D9EMGKYUjLAdSqfJyzOlbKqKgYiLRORCmpX92xVh3C6oXpGCSClUZtwqK
+         o5Q+PxS1dRRanv7hQNop3DRgPX5nDn11YaqW8r1SpcRdr431rGo2pL2dX13JpCFGzSVS
+         ws41jVNKVgyA07CEJxR477TUqTdenW6Az9+i6wKARY/cO/zUKUFkDdFphA60w9IfjFS9
+         rfqg==
+X-Gm-Message-State: AOAM533//Nf3LL/XgZMnT9lkKY0eWJ5SWwTCvs+/mDi28og0Wyk7Ke41
+	mKtVPl3E8fXKrRLeWihU3nY55+9T9BvtvJ9T
+X-Google-Smtp-Source: ABdhPJyqUxnwok5aJ3N5Z0B2UMMtCjY0D+1RZtnxyR4bkoUThOx5ovk5R4OhoM9/ds2aAiyXvquRew==
+X-Received: by 2002:a54:4d90:: with SMTP id y16mr18604015oix.76.1628431456297;
+        Sun, 08 Aug 2021 07:04:16 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id a8sm2604177oiw.52.2021.08.08.07.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Aug 2021 06:11:49 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v2] sstate.bbclass: fix error handling when sstate mirrors is ro
-Date: Sun,  8 Aug 2021 14:11:45 +0100
-Message-Id: <20210808131145.3296379-1-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 08 Aug 2021 07:04:15 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 2C0CF9602DA; Sun,  8 Aug 2021 04:04:06 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 08 Aug 2021 04:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210808140406.2C0CF9602DA@nuc.router0800d9.com>
+Date: Sun,  8 Aug 2021 04:04:06 -1000 (HST)
 
-The commit dd555537fc35c5f934af09d601d70772eb5955ae
-'sstate.bbclass: fix errors about read-only sstate mirrors'
-adds an additional exception handler to silently mask read
-only rootfs errors thrown during the touch.
+Branch: master
 
-The exception handler checks the error type with the python module errno
-but this module needs to be imported as it don't exist.
+New this week: 0 CVEs
 
-Example of the error:
+Removed this week: 0 CVEs
 
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:sstate_task_postfunc(d)
-     0003:
-File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 778, function: sstate_task_postfunc
-     0774:
-     0775:    omask = os.umask(0o002)
-     0776:    if omask != 0o002:
-     0777:       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
- *** 0778:    sstate_package(shared_state, d)
-     0779:    os.umask(omask)
-     0780:
-     0781:    sstateinst = d.getVar("SSTATE_INSTDIR")
-     0782:    d.setVar('SSTATE_FIXMEDIR', shared_state['fixmedir'])
-File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 708, function: sstate_package
-     0704:        except PermissionError:
-     0705:            pass
-     0706:        except OSError as e:
-     0707:            # Handle read-only file systems gracefully
- *** 0708:            if e.errno != errno.EROFS:
-     0709:                raise e
-     0710:
-     0711:    return
-     0712:
-Exception: NameError: name 'errno' is not defined
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/classes/sstate.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 86a7464ae3..fb02ad2dd7 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -705,6 +705,7 @@ def sstate_package(ss, d):
-             pass
-         except OSError as e:
-             # Handle read-only file systems gracefully
-+            import errno
-             if e.errno != errno.EROFS:
-                 raise e
- 
-@@ -1154,6 +1155,7 @@ python sstate_eventhandler() {
-                 pass
-             except OSError as e:
-                 # Handle read-only file systems gracefully
-+                import errno
-                 if e.errno != errno.EROFS:
-                     raise e
- 
--- 
-2.32.0
-
+Full list:  Found 11 unpatched CVEs
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2020-27748: xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-34558: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-34558 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+CVE-2021-35331: tcl:tcl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35331 *
+CVE-2021-35942: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35942 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
