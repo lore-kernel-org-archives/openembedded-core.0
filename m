@@ -1,122 +1,115 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web09.9162.1628425743583439114
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.9390.1628427061403089376
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Aug 2021 05:29:04 -0700
+ Sun, 08 Aug 2021 05:51:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=lm1PZ8Vn;
- spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f49.google.com with SMTP id w20so1470584lfu.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Aug 2021 05:29:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ce/Itj0G;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id i4so148573wru.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Aug 2021 05:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mdCSNfxN0v+du46ohlS1PNtKmHXQ927Z9U8nlouKS2c=;
-        b=lm1PZ8VnoRlAyTQYTIT8aWQo8eRIdaeOE488V+mOTkZf8QNPY2Qny4D4iTackRymtI
-         F37hTxtmOr5bi3O/a73Sob4CCfa5x2Wyjw3B19vfTcRcJmQnjBJ1r01rBqN7IkUuHxDm
-         11tSJOERAd+mLPMoIcLYvwG+GoXzFcipVtVzxXJNy5rKwkfl6UelYqK33zvIkdvZfHSs
-         8DERknDwMUtqS7+ZrWL2uz0beBGRIztdAs60Mo1ZuucoJulkNjSgonMr7ebPPkqrkzcw
-         iuKik+ZFh0d7yht/1g2OGcw8YW8vzcr9f6vF3onb7R7Yw5/Tg71wd//aQfD8fYQYtn6c
-         NLIw==
+        bh=wM/c2dTRFap3xlgs3mzTlSuAspoLc0bdSpOWhdbjhek=;
+        b=ce/Itj0Gx+9FSQxU/lXbltitVXnaWRj8fOcmXOXQyZI7b/jT+8GSsY6Tsl75M8q/OG
+         NdogBLX90b4ZcddH0u9Pb5EDb4mIYsEO6pSyzFEmOPD6T0d5K3oBryigjnRAvmYCdWKB
+         Sh8UUWF4A4n1zx30KLu9YCVDP57rUmynT7Ht9nDxiKXpIbTZ6ij02sc1jyIrRdPwJIJ1
+         kdBaAG+SjBKFGjJr+fJj2PKZ1u4d9A2yuGOc56osRrsHZdpY+vVEe0ZlJbyjVXeCM/n+
+         38xCUJT/lRxM14n+rTA3OnvE9hcb6nANOOqLXK9h7SWN1hekJHu9TYRTg80/8LJ8HKX8
+         JN1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mdCSNfxN0v+du46ohlS1PNtKmHXQ927Z9U8nlouKS2c=;
-        b=tkH8ZSAMxNMY2NWGKZBFE5N4OlPMffghULaFcE91VEuYHG5OpJ2Al83qXlZsPbX2tS
-         6s9W7fgH0wCxk8ZOaladefIFIyUoNcZiVSDQel9wKWMR808BYCHCmBI5AA6Kf4vki12X
-         CUq1BNtqUcrNn8kz3CxpbN++tvXWzwa5MaMg/l/LKEiUGWEjtljTvIeVVoUv6k/dLW2U
-         V1pboo0G+piAJONBUR8xPbUH+MQkLhLcOcjLyKvkb/YDQaFZDoyOSZiloKPUezVgu0cb
-         isbAm5B9fedco+abb5E4RIaoN8fFjATHnzdFDleLc0jXEyDvJsuJwIujpzowUqLHI/sy
-         CxHQ==
-X-Gm-Message-State: AOAM532JWh2W4NGhUDQmAErSC2AV3FjfpbnSwioSLrS9OoGe5yPAHcHc
-	5UUZkn6wxt+KhstXpfwM7uJJ9VVHutjaUQ==
-X-Google-Smtp-Source: ABdhPJzGNwE6inZCr5bypBFU82gTunRRShrJ93uXdK0A4qSOvF25pNwwfqLkgXv2ql8SbMhATO+cZQ==
-X-Received: by 2002:ac2:5319:: with SMTP id c25mr3645976lfh.96.1628425740934;
-        Sun, 08 Aug 2021 05:29:00 -0700 (PDT)
-Return-Path: <dmitry.baryshkov@linaro.org>
-Received: from umbar.lan ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id z24sm1407722lfr.105.2021.08.08.05.29.00
-        for <openembedded-core@lists.openembedded.org>
+        bh=wM/c2dTRFap3xlgs3mzTlSuAspoLc0bdSpOWhdbjhek=;
+        b=UQcrAzqKmz53mWslEVcN1GcqYEMzCfCClJQzx/N5ugi+22p8XwNwJi1NVZcvPOY1an
+         1mMp6F8M7V+FiY+2TZ/5nwFjsJYBzVQj8xGP5TW4F4ooKKsYY+dMUOMwNOLAacUACJ4x
+         oYwDmCLjOoDaEGmRmz5ISwVqBPAeQjzLO0By2btzjKTcf0mQspv43AIfbRdZcJNxCKfv
+         FvMNUWijtFdlpmxVZCP/WTascLvcK5LZq53fprN7JThtoG3uOCWU+hZWUwSC3cZIpUg+
+         NW5nAQeIAmBSwcToNcjXY4/Hyc/XMbjPUjeohFOFlG94G+TPNNb6BSayZPsrGO3PFkCr
+         7XLg==
+X-Gm-Message-State: AOAM530kLcr+Hm4uAmQy/Qt5d0p+V2LsHoBxD4/jaRu+wTq860X48w7a
+	yJPWx6kpkV4s+Mf0cJUkgrCEoPvMhkk=
+X-Google-Smtp-Source: ABdhPJxU/MB7Oqe2lxEaxekH2ITBnzjD7w/22p4nb5b3GkP4jejwzA3JzrMj0FEM4VVnXYpErbGwrA==
+X-Received: by 2002:a5d:518a:: with SMTP id k10mr19902155wrv.400.1628427059587;
+        Sun, 08 Aug 2021 05:50:59 -0700 (PDT)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from CTW-01195.lan ([88.157.222.244])
+        by smtp.gmail.com with ESMTPSA id a12sm17889008wmj.22.2021.08.08.05.50.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Aug 2021 05:29:00 -0700 (PDT)
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
+        Sun, 08 Aug 2021 05:50:58 -0700 (PDT)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-firmware: add more Qualcomm firmware packages
-Date: Sun,  8 Aug 2021 15:28:54 +0300
-Message-Id: <20210808122854.2890538-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH] sstate.bbclass: fix error handling when sstate mirrors errors is ro
+Date: Sun,  8 Aug 2021 13:50:51 +0100
+Message-Id: <20210808125051.3287938-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add firmware packages for the recent Qualcomm SoCs:
+The commit dd555537fc35c5f934af09d601d70772eb5955ae
+'sstate.bbclass: fix errors about read-only sstate mirrors'
+adds an additional exception handler to silently mask read
+only rootfs errors thrown during the touch.
 
- - linux-firmware-qcom-adreno-a650, linux-firmware-qcom-adreno-a660,
-   containing firmware for Adreno A630 and A650 GPUs
+The exception handler checks the error type with the python module errno
+but this module needs to be imported as it don't exist.
 
- - linux-firmware-qcom-sm8250-audio, linux-firmware-sm8250-compute,
-   containing firmware for audio and comute DSPs on SM8250 (QRB5165)
+Example of the error:
 
- - linux-firmware-qcom-vpu-1.0, linux-firmware-qcom-vpu-2.0 containing
-   firmware for newer Venus video encoder/decoder
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:sstate_task_postfunc(d)
+     0003:
+File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 778, function: sstate_task_postfunc
+     0774:
+     0775:    omask = os.umask(0o002)
+     0776:    if omask != 0o002:
+     0777:       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
+ *** 0778:    sstate_package(shared_state, d)
+     0779:    os.umask(omask)
+     0780:
+     0781:    sstateinst = d.getVar("SSTATE_INSTDIR")
+     0782:    d.setVar('SSTATE_FIXMEDIR', shared_state['fixmedir'])
+File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 708, function: sstate_package
+     0704:        except PermissionError:
+     0705:            pass
+     0706:        except OSError as e:
+     0707:            # Handle read-only file systems gracefully
+ *** 0708:            if e.errno != errno.EROFS:
+     0709:                raise e
+     0710:
+     0711:    return
+     0712:
+Exception: NameError: name 'errno' is not defined
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- .../linux-firmware/linux-firmware_20210511.bb   | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ meta/classes/sstate.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
-index fe46cb519259..d91a5562ac0e 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
-@@ -303,8 +303,11 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qat ${PN}-qat-license \
-              ${PN}-qcom-license \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
--             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
-+             ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
-+             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
-+             ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-+             ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-              ${PN}-lt9611uxc ${PN}-lontium-license \
-              ${PN}-whence-license \
-@@ -952,22 +955,34 @@ FILES:${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
- FILES:${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
- FILES:${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
- FILES:${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
-+FILES:${PN}-qcom-vpu-1.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-1.0/*"
-+FILES:${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
- FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
- FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
- FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
-+FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
-+FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
- FILES:${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
- FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
- FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
-+FILES:${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
-+FILES:${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/cdsp*.*"
- RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-vpu-1.0 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-vpu-2.0 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-sm8250-audio = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 86a7464ae3..fb02ad2dd7 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -705,6 +705,7 @@ def sstate_package(ss, d):
+             pass
+         except OSError as e:
+             # Handle read-only file systems gracefully
++            import errno
+             if e.errno != errno.EROFS:
+                 raise e
  
- FILES:${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
+@@ -1154,6 +1155,7 @@ python sstate_eventhandler() {
+                 pass
+             except OSError as e:
+                 # Handle read-only file systems gracefully
++                import errno
+                 if e.errno != errno.EROFS:
+                     raise e
  
 -- 
-2.30.2
+2.32.0
 
