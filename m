@@ -1,111 +1,124 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web09.7108.1628405115580926025
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+ by mx.groups.io with SMTP id smtpd.web08.7873.1628415165359277507
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Aug 2021 23:45:16 -0700
+ Sun, 08 Aug 2021 02:32:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Mn+vqsDl;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id y34so27152977lfa.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Aug 2021 23:45:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZF0ViJ4l;
+ spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: alistair23@gmail.com)
+Received: by mail-io1-f41.google.com with SMTP id h1so22015235iol.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Aug 2021 02:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LlkbNOpawSs+UHrenUn0Nz70VW4CiSZYLDyx0tWoN6I=;
-        b=Mn+vqsDllB2ZkYbTVejd3EIHqq5i5kSCPuWD4Jq8WZFuV0gFGGlnpVxuY2hJ55VZOH
-         u9nfrUfvImTvdcZkwhVAu8ffMangfi1l58mEp7p5bz/f36XfOEWNcrP8+Lrvje+na0P7
-         nAgnUU3itXVSLBGprlkISJGYNq0Q+jLr9GWqb6TKxzRX4PKH06NTR+KoHxrbjjzmwK87
-         0JBSFXNMQCOqpxrcsLXiLzyBcZFU/dDkOqk4mrn8Vx8xbLpX0QBWqtsINO8gvcxnxcyr
-         Y3CbMjVOc3+rq7hsIjDU4fPU7TW8qbWzzo4CyN1XSqKiZtF7GxDQS3YPH0Xix46l9iM4
-         wwTg==
+        bh=+hiGKeoJSS2rvMAvaaGk2vlPrupxIL8PLcquAaN/+rM=;
+        b=ZF0ViJ4lVmPPXv1sa1pu0GgYgEh0frBKW4DRl3O54+9EC3fhZHrpKNUAJkXZKuK4LK
+         BmsYdmtRkPYk/NXZ5i74WjwSCIOtnjtqNAqMcSfpa9kz9JFjvHjEmA4L56Armo4d1CrC
+         /73mFhjMdlHGZZP5Dqo9fyMmiAqCQnR6a2wnWAuwLhXRB7xLQ2S4Ep9YV3gtVHfj+EEd
+         x3UHMaaT3pbtZY6ZXTRLhaS5Tr8/FqwRxFMM0B1lJdZoTrDeL7O1i6eWR66x6w9YTEaV
+         Rjy05dedoUV8JRkqeOghF81faO6Wp3gy3rJe6oxz49ooAIduSLtfv7hK6dK9paAkjtsn
+         AdSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LlkbNOpawSs+UHrenUn0Nz70VW4CiSZYLDyx0tWoN6I=;
-        b=V3mtvm/euYCHmUiZoQOdDBjou5baA3XF5qf+e3XNh61qO8cT1nb1IZFh+coleSKcO9
-         mw/vmhJf7mNZe8uhJwJMVB+HT6604Kc6wCSutnIigBfqhRHEv+74JyA/k3fYaQVOnh0s
-         BhyOCuJoBJEIXQmvcQjHzMfEwtcK7rQv/PDLBfQIFDzV3/6bd5XYTRuBRFppgCtDGju/
-         oeQ9YkmdsS+eGzBeNDAVJFLYae1E+KZguZH2UALsoy/1sPdYjQA8Icm2ChgginytYG4h
-         4b0zYKZ1x5g5P7YhZoDOXspa6cJYdiSKIdpd3wV1WmDnJlaKqMVjGvrgthE8/5f+Wf7D
-         kxZw==
-X-Gm-Message-State: AOAM533RexBS/aS297pipstNXJsDvlESp1Zixk89vgAIBTKjwB29l9Gf
-	93e1RFyDOhQelCSJeNIuOSrSVP+8PCkHe8L+Iuk=
-X-Google-Smtp-Source: ABdhPJxQZmKXPyiybkQqsZzCPdrVBJdWferhsXnTnuOWzkS2cgE2z4KnblBdsZn9P9WwRqwTAl4aaXXyYqBdVbc/7DA=
-X-Received: by 2002:a19:c717:: with SMTP id x23mr13387559lff.230.1628405113506;
- Sat, 07 Aug 2021 23:45:13 -0700 (PDT)
+        bh=+hiGKeoJSS2rvMAvaaGk2vlPrupxIL8PLcquAaN/+rM=;
+        b=XlYDI8Sjc0yL5dH8BC8qoK2jWXgU6wU00AvxzF1SnjLjtEdWGbT4hsmznIkU8WjZgp
+         v1Mvxf+dWwiBYP7UPdLh4UidvgeJM9xKdggIMCYonO4SRP62M5qjf2IdmpmtTErcBt/h
+         ZGffyQ1KKc17wtkBLmq5aClTNSwHIgK62MIXIcy+x3eDthnZCVbyRAHx0acth4tKiE1X
+         ctVrh1P6Iw8g+Q8nAGnuAHl67ycJYY3eyTyLn3uyTuHX8+WX1x3/HCvzsKR3vXScKVCA
+         octv4uAep3kRfQXWPPbPx4zDWxz2IWFEEpVbG9ZCcw2vZOD0u4c0rSWheR8Nm7KUWVhf
+         mmvQ==
+X-Gm-Message-State: AOAM530xpfJarKjWrPalU+64BZu7kURHhEo1l0Y2k757kjmlWualeRty
+	xL5H42CFIOix0guELXH0tBDiYTqUuwSgjn4HgSk=
+X-Google-Smtp-Source: ABdhPJxnYIjqYiBnk5tRQTU22lJ3VSUnAVJJRH83KblzVHq5jDoRXpuJle1PgUVyBZX3+MDcQJ8YJYUa4ITNWOLdmkE=
+X-Received: by 2002:a05:6638:240d:: with SMTP id z13mr3638573jat.8.1628415164694;
+ Sun, 08 Aug 2021 02:32:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <d21730c5-d43-dfba-89bc-71d113f049e9@crashcourse.ca>
-In-Reply-To: <d21730c5-d43-dfba-89bc-71d113f049e9@crashcourse.ca>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Sat, 7 Aug 2021 23:45:00 -0700
-Message-ID: <CAJ86T=UfJrFc2sGcw9kHdpyJSAdELGarfjM2p6QxEVDbF2uOjQ@mail.gmail.com>
-Subject: Re: [OE-core] would reducing BB_NUMBER_THREADS solve parallelism overheating?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20210808041451.1319775-1-alejandro@enedino.org>
+In-Reply-To: <20210808041451.1319775-1-alejandro@enedino.org>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Sun, 8 Aug 2021 19:32:18 +1000
+Message-ID: <CAKmqyKPRJjM9mXrjVYSDY6XrHUSxSb8eYHDg-0wa=Piw0RBjog@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Enable RISC-V 32 port
+To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Aug 7, 2021 at 8:26 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+On Sun, Aug 8, 2021 at 2:15 PM Alejandro Hernandez Samaniego
+<alejandro@enedino.org> wrote:
 >
->   i've asked about this previously, but i finally got around to
-> thinking about this in detail, and i'd like some feedback.
+> $ runqemu nographic
+> runqemu - INFO - Running bitbake -e ...
+> KERNEL: [tmp/deploy/images/qemuriscv32/baremetal-helloworld-image-qemuriscv32.bin]
+> MACHINE: [qemuriscv32]
+> runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-riscv32
 >
->   i've described the overheating/lockup issues i've been having on a
-> dell latitude laptop building a sizable (wind river linux-based) image
-> represented by 5-6000 tasks.
+> Hello OpenEmbedded on RISC-V 32!
 >
->   if i start the full build from scratch, it would take about 2 hours
-> if it succeeded but, on a very regular basis, when the load average
-> well exceeds 120 and i can feel really hot air blowing (even with t
-> laptop cooler), the laptop will simply lock up hard.
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  .../baremetal-examples/baremetal-helloworld_git.bb           | 5 +++--
+>  meta/classes/baremetal-image.bbclass                         | 3 +++
+>  2 files changed, 6 insertions(+), 2 deletions(-)
 >
->   the CPU is a i7-9850H, so 6 cores/12 threads, and i've refactored
-> numerous proprietary in-house recipes to really crank up the
-> parallelism so that, a lot of the time, i can see all 12 threads
-> churning away on some task. of course, that's exactly when i get the
-> huge load average/overheating/lockup.
-
-Running all CPUs at 100% load shouldn't cause lockups unless there's a
-HW problem. Another possible cause of lockups is using all available
-DRAM (which is obviously related to how many simultaneous processes
-are running too). On my laptop with 4 CPUs / 8 threads and 16GB DRAM I
-have to manually over-ride BB_NUMBER_THREADS in order to keep the
-system responsive and avoid running out of memory. The default
-BB_NUMBER_THREADS / PARALLEL_MAKE are often too aggressive for laptops
-etc running a desktop distro.
-
->   a couple colleagues suggested using BB_NUMBER_THREADS (BNT for
-> short) to dial things back a bit but, after i pondered a bit, it seems
-> that that would potentially make things worse, not better, so a couple
-> questions about cores and threads.
+> diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> index 37193f5a33..d11e2e530e 100644
+> --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> @@ -4,7 +4,7 @@ DESCRIPTION = "These are introductory examples to showcase the use of QEMU to ru
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
 >
->   first, given the CPU setup, let's say i set BNT to 6. does that mean
-> 3 cores would be taken out of play entirely, leaving the other 3 to do
-> all the work, or would each core simply use one thread, or who knows
-> what would happen, and would any one scenario be superior to another?
-
-The kernel will schedule processes to CPUs / SMT threads, not bitbake.
-If you have exactly 6 processes to run then the kernel will most
-likely schedule them on the 6 physical CPUs rather than 2 SMT threads
-x 3 physical CPUs.
-
-The only time the kernel might run 6 processes on 3 physical CPUs and
-idle the other 3 would be if you enabled a power saving scheduler in
-the kernel, but that behaviour wouldn't be the default.
-
->   my other realization(?) is that reducing BNT might be the *worst*
-> strategy, and here's why. if i have a huge load average, that suggests
-> i have lots and lots of tasks waiting to run (lots of stuff on the
-> wait queue). but if i reduce the number of available threads, wouldn't
-> that just force all that work to wait for a smaller number of threads,
-> making the wait queues even longer?
-
-No. If you reduce BB_NUMBER_THREADS then you reduce the number of
-processes being added to the run queues, not the number of CPUs or SMT
-threads which the kernel has available to execute them.
-
-In summary, it sounds like reducing BB_NUMBER_THREADS is exactly what
-you should do. It will reduce peak system load (ie the amount of heat
-the system produces) and the peak DRAM usage (which may be the cause
-of your lockups). Adding more DRAM (if it's not maxed out already)
-might possibly solve the lockups too (but not the amount of heat).
+> -SRCREV = "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
+> +SRCREV = "31b4e5a337018b4a00a7426b0e5ed83b81df30c7"
+>  PV = "0.1+git${SRCPV}"
+>
+>  SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
+> @@ -28,13 +28,14 @@ inherit baremetal-image
+>  # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
+>  # but the examples can also be run on other architectures/machines
+>  # such as vexpress-a15 by overriding the setting on the machine.conf
+> -COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
+> +COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemuriscv64|qemuriscv32"
+>
+>  BAREMETAL_QEMUARCH ?= ""
+>  BAREMETAL_QEMUARCH:qemuarmv5 = "versatile"
+>  BAREMETAL_QEMUARCH:qemuarm = "arm"
+>  BAREMETAL_QEMUARCH:qemuarm64 = "aarch64"
+>  BAREMETAL_QEMUARCH:qemuriscv64 = "riscv64"
+> +BAREMETAL_QEMUARCH:qemuriscv32 = "riscv32"
+>
+>  EXTRA_OEMAKE:append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
+>
+> diff --git a/meta/classes/baremetal-image.bbclass b/meta/classes/baremetal-image.bbclass
+> index 9ec3f1460b..089c445522 100644
+> --- a/meta/classes/baremetal-image.bbclass
+> +++ b/meta/classes/baremetal-image.bbclass
+> @@ -82,12 +82,15 @@ QB_OPT_APPEND:append = " -nographic"
+>  # RISC-V tunes set the BIOS, unset, and instruct QEMU to
+>  # ignore the BIOS and boot from -kernel
+>  QB_DEFAULT_BIOS:qemuriscv64 = ""
+> +QB_DEFAULT_BIOS:qemuriscv32 = ""
+>  QB_OPT_APPEND:append:qemuriscv64 = " -bios none"
+> +QB_OPT_APPEND:append:qemuriscv32 = " -bios none"
+>
+>
+>  # Use the medium-any code model for the RISC-V 64 bit implementation,
+>  # since medlow can only access addresses below 0x80000000 and RAM
+>  # starts at 0x80000000 on RISC-V 64
+> +# Keep RISC-V 32 using -mcmodel=medlow (symbols lie between -2GB:2GB)
+>  CFLAGS:append:qemuriscv64 = " -mcmodel=medany"
+>
+>
+> --
+> 2.25.1
+>
+>
+> 
+>
