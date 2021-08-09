@@ -4,145 +4,97 @@ Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
  Mon, 09 Aug 2021 08:36:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466765"
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466771"
 X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="278466765"
+   d="scan'208";a="278466771"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:02 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:04 -0700
 X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="483462854"
+   d="scan'208";a="483462862"
 Received: from abinzahx-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.229.181])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:01 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:03 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/23] review request
-Date: Mon,  9 Aug 2021 23:35:32 +0800
-Message-Id: <cover.1628522214.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 01/23] stress-ng: Drop defining daddr_t
+Date: Mon,  9 Aug 2021 23:35:33 +0800
+Message-Id: <7c5d4136388ba59aafa38be4a454355040d3e6a5.1628522214.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1628522214.git.anuj.mittal@intel.com>
+References: <cover.1628522214.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review these changes for hardknott. Testing on autobuilder
-resulted in some intermittent ptest failures in valgrind, tcl and
-lttng-tools and also a qemu timeout failure in musl-qemux86-64.
+From: Khem Raj <raj.khem@gmail.com>
 
-Thanks,
+This is fixed differently upstream [1]
 
-Anuj
-
-The following changes since commit 2fd915eda136e20ab52baea6bb908d08ef8f5cbc:
-
-  oe-setup-builddir: update YP docs and OE URLs (2021-07-31 17:56:12 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
-
-Alexander Kanavin (2):
-  devtool: print a warning on upgrades if PREFERRED_VERSION is set
-  nettle: update 3.7.2 -> 3.7.3
-
-Bruce Ashfield (4):
-  linux-yocto/5.10: update to v5.10.53
-  linux-yocto/5.4: update to v5.4.135
-  linux-yocto-rt/5.10: update to -rt47
-  linux-yocto/5.10: enable TYPEC_TCPCI in usbc fragment
-
-Chen Qi (1):
-  zstd: fix CVE_PRODUCT
-
-Joe Slater (1):
-  util-linux: fix CVE 2021-37600
-
-Jon Mason (1):
-  parselogs.py: qemuarm should be qemuarmv5
-
-Khem Raj (1):
-  stress-ng: Drop defining daddr_t
-
-Lee Chee Yang (2):
-  aspell: fix CVE-2019-25051
-  qemu: fix CVE-2021-3527
-
-Matthias Klein (1):
-  runqemu: Fix typo in error message
-
-Michael Opdenacker (3):
-  cve-check: fix comments
-  cve-check: update link to NVD website for CVE details
-  cve-check: improve comment about CVE patch file names
-
-Mingli Yu (2):
-  curl: fix CVE-2021-22925
-  curl: fix CVES
-
-Richard Purdie (3):
-  sstate: Fix rebuilds when changing layer config
-  license: Exclude COPYING.MIT from pseudo
-  oeqa/runtime/cases/ptest: Increase test timeout from 300s to 450s
-
-Ross Burton (1):
-  qemu: fix virtio vhost-user-gpu CVEs
-
-hongxu (1):
-  createrepo-c: fix createrepo-c failed in nativesdk
-
- meta/classes/cve-check.bbclass                |  19 +-
- meta/classes/license.bbclass                  |   2 +-
- meta/classes/sstate.bbclass                   |   1 +
- meta/lib/oeqa/runtime/cases/parselogs.py      |   3 +-
- meta/lib/oeqa/runtime/cases/ptest.py          |   2 +-
- meta/recipes-core/util-linux/util-linux.inc   |   1 +
- .../util-linux/CVE-2021-37600.patch           |  38 ++
- .../createrepo-c/createrepo-c_0.17.0.bb       |   4 +-
- meta/recipes-devtools/qemu/qemu.inc           |   9 +
- ...ix-memory-disclosure-in-virgl_cmd_ge.patch |  43 ++
- ...ix-resource-leak-in-vg_resource_crea.patch |  41 ++
- ...ix-memory-leak-in-vg_resource_attach.patch |  48 ++
- ...ix-memory-leak-while-calling-vg_reso.patch |  50 ++
- ...ix-memory-leak-in-virgl_cmd_resource.patch |  58 +++
- ...ix-memory-leak-in-virgl_resource_att.patch |  49 ++
- ...ix-OOB-write-in-virgl_cmd_get_capset.patch |  49 ++
- .../qemu/qemu/CVE-2021-3527-1.patch           |  42 ++
- .../qemu/qemu/CVE-2021-3527-2.patch           |  59 +++
- .../stress-ng/stress-ng/no_daddr_t.patch      |  32 --
- .../stress-ng/stress-ng_0.12.05.bb            |   2 -
- meta/recipes-extended/zstd/zstd_1.4.9.bb      |   2 +
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- meta/recipes-support/aspell/aspell_0.60.8.bb  |   4 +-
- .../aspell/files/CVE-2019-25051.patch         | 101 ++++
- .../curl/curl/CVE-2021-22901.patch            | 453 ++++++++++++++++++
- .../curl/curl/CVE-2021-22924.patch            | 298 ++++++++++++
- .../curl/curl/CVE-2021-22925.patch            |  50 ++
- .../curl/curl/CVE-2021-22926.patch            |  79 +++
- meta/recipes-support/curl/curl_7.75.0.bb      |   4 +
- .../{nettle_3.7.2.bb => nettle_3.7.3.bb}      |   2 +-
- scripts/lib/devtool/upgrade.py                |   3 +
- scripts/runqemu                               |   2 +-
- 37 files changed, 1537 insertions(+), 87 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-vhost-user-gpu-fix-memory-disclosure-in-virgl_cmd_ge.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0002-vhost-user-gpu-fix-resource-leak-in-vg_resource_crea.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0003-vhost-user-gpu-fix-memory-leak-in-vg_resource_attach.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0004-vhost-user-gpu-fix-memory-leak-while-calling-vg_reso.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0005-vhost-user-gpu-fix-memory-leak-in-virgl_cmd_resource.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0006-vhost-user-gpu-fix-memory-leak-in-virgl_resource_att.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0007-vhost-user-gpu-fix-OOB-write-in-virgl_cmd_get_capset.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
+[1] https://github.com/ColinIanKing/stress-ng/commit/7e150ab18b0e8954ca426eb5366000a8f0d01110
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 96b1d483ccf2166bf577e73075d5fe57c45bbfdf)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../stress-ng/stress-ng/no_daddr_t.patch      | 32 -------------------
+ .../stress-ng/stress-ng_0.12.05.bb            |  2 --
+ 2 files changed, 34 deletions(-)
  delete mode 100644 meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
- create mode 100644 meta/recipes-support/aspell/files/CVE-2019-25051.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22901.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22924.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22925.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22926.patch
- rename meta/recipes-support/nettle/{nettle_3.7.2.bb => nettle_3.7.3.bb} (96%)
 
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch b/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
+deleted file mode 100644
+index dba4494b91..0000000000
+--- a/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 55e11765af2bdc8adfac87dab1fb2682f7e6c236 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 9 Jun 2020 22:10:28 -0700
+-Subject: [PATCH] Define daddr_t if __DADDR_T_TYPE is not defined
+-
+-glibc defined daddr_t but musl does not, ideally it should not be used
+-and simple int type is enough. However, its better to leave glibc behavior
+-as it is and only define it to int if daddr_t is not provided by libc
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+----
+- stress-ng.h | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/stress-ng.h b/stress-ng.h
+-index 1a66293..802dc25 100644
+---- a/stress-ng.h
+-+++ b/stress-ng.h
+-@@ -3763,6 +3763,10 @@ struct shim_statx {
+- 	uint64_t __spare2[14];
+- };
+- 
+-+#ifndef __DADDR_T_TYPE
+-+typedef int daddr_t;
+-+#endif
+-+
+- /* old ustat struct */
+- struct shim_ustat {
+- #if defined(HAVE_DADDR_T)
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.05.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.05.bb
+index eb6bdb4a81..3770ba9ae1 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.12.05.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.05.bb
+@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+-           file://no_daddr_t.patch \
+            "
+ SRC_URI[sha256sum] = "af7779aee38e6d94726ed7d5cf36384a64d50c86e42fff89c141d8609913f425"
+ 
+@@ -24,4 +23,3 @@ do_install() {
+     oe_runmake DESTDIR=${D} install
+     ln -s stress-ng ${D}${bindir}/stress
+ }
+-
 -- 
 2.31.1
 
