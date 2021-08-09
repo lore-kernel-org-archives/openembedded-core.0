@@ -1,87 +1,98 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.21693.1628510003733471144
+Received: from avasout04.plus.net (avasout04.plus.net [212.159.14.19])
+ by mx.groups.io with SMTP id smtpd.web08.21914.1628511598252580176
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 04:53:24 -0700
+ Mon, 09 Aug 2021 05:20:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=Rys5CR/z;
- spf=pass (domain: burtonini.com, ip: 209.85.221.54, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f54.google.com with SMTP id n12so10979800wrr.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 04:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sNpFj/9d+2u9wwHH2XPoOGxd+CbbR2ii0K73klvyfAQ=;
-        b=Rys5CR/z6ewZer4wXanjVqFKM6qY33FOF3b6HYN6k9UP4+zhWs6CVLGC6hEpESyJ+7
-         iwKcU2Dl71ITMn095PTjoiiBYV3o8LtszjDDeiJQgUf5KUlEo6T34xv7ZmHSYV1Cn1jD
-         +4M7oTlkhFuD9zDMlQnPuixzCsm4Ls2QB93uNfITGvTRMjGvXlLo3OF4kfeThQojRGM6
-         t35scnlmOfpwm8F/bwta1aWDgRAXuACh2zdmCFtAbspHZaZh6GWDRILTC4X6HOZ/nPh2
-         pMAHcqwurx0JbiGbvOyZFDvvGA5FxbCmrpSfW3Nf6qG4d7NY9Qj8t2CAKfJcAi3qyA0I
-         qaoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sNpFj/9d+2u9wwHH2XPoOGxd+CbbR2ii0K73klvyfAQ=;
-        b=iHipSn31Cr0i0i3Rb6SYpHoBLrH3iMBlPPwTw1tf2Aucpeci3iUrla3i7Bto6afeWV
-         Tspltbzi+tjnPGNpXO5Vvrxje9f6o6AmrSFIqpidsEmdVSKyOAz/pKrAZJnYAkTt9+sG
-         IO52GAoirybvXCsA/HWK2i/scK7ZWTPQOT8jpo4847+bywIEsliBx9s3PIRuVglodTNG
-         uu9g3oQGyR29kZkbaemlyg5PMytSQk1WDUGdsI/ObKbgwh8EfMk5N0kTcGW0K6MFn17H
-         JNS7n15E5HHBbC9jB+c5x6XQIXKhqF5BThzGC/q+23Ijs08qUxYX+/JOQ527+omQHv1A
-         uj2A==
-X-Gm-Message-State: AOAM532shNTHqOiuhJT8QIwrZNOdjQRAPuuxFzPppjFCyhwd6/oLlDEX
-	ZC9wy8C2NdnIIkcDq/bn6gGOhiUPtnKppAl9J/ZlIg==
-X-Google-Smtp-Source: ABdhPJzu96W7n0gKB1SLJPkjggPJ7O/d3sl3/TooGY1iJ6Rnr8mhrO8locnR1+7k+cbEbqAJNEzxwRJPZg+i5qPSTQY=
-X-Received: by 2002:a05:6000:9:: with SMTP id h9mr10785185wrx.396.1628510002018;
- Mon, 09 Aug 2021 04:53:22 -0700 (PDT)
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=LXfheim4;
+ spf=pass (domain: mcrowe.com, ip: 212.159.14.19, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id D4G0mA1UkOQhvD4G1mUZJ8; Mon, 09 Aug 2021 13:19:53 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=IvmFjI3g c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=kj9zAlcOel0A:10 a=MhDmnRu9jo8A:10 a=iGHA9ds3AAAA:8 a=9oy6nQPC2m_EyUMm0BYA:9
+ a=CjuIK1q_8ugA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	 s=20191005; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:
+	Sender:Reply-To:CC:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=I7vDGbO2GmjXC+/wt/KoFl+z5mHno/tOrnn7fbQmwOI=; b=LX
+	fheim4OdSuQbtpCc1BugzaGRK52sjid28VDGJrOvYpqAVZ0vAn14HuJzYsNsUTzqq+74PATSULV63
+	YRRhX+ublj1aodE/CPQRdmeYH6QdjnCxhoZbcsa5HYh8bzvljLjZslT0B3MPhUvwfVOh/lZ9oydfc
+	qRZhyPojCEiOQGZZ80qPhRduAzSWrgF6KBOFrf9F1dhsk+6Wjpv6l7Kle3AR02dg5B4Vq9rckilkJ
+	mPuVyLwIl6uCSoXeMVOQR6jw5ET/bKXWZrjdIMlbg0nSsmFXduwgjpQ3ZNcBeYrmM2Hd9XYIoGhJ4
+	RlnWPgsKDxmyguTjVzhN/nnL5AMBD6KA==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1mD4G0-00019E-0B
+	for openembedded-core@lists.openembedded.org; Mon, 09 Aug 2021 13:19:52 +0100
+Date: Mon, 9 Aug 2021 13:19:51 +0100
+From: "Mike Crowe" <yocto@mac.mcrowe.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: pseudo: Outdated records for newly-ignored paths in database cause mismatches
+Message-ID: <20210809121951.GA480@mcrowe.com>
 MIME-Version: 1.0
-References: <20210721135458.427938-1-ross.burton@arm.com> <54d3039017ea1c3931551bb2ed22f23e14640b32.camel@linuxfoundation.org>
-In-Reply-To: <54d3039017ea1c3931551bb2ed22f23e14640b32.camel@linuxfoundation.org>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 9 Aug 2021 12:53:11 +0100
-Message-ID: <CAAnfSTtRvVYeD2+BdRWv5LLxnJgCOZhXxAgnB5vKJX7aD35=tA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] buildtools-tarball: add testsdk task
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Envelope: MS4wfAqJqLzFHh/8kgm/ZiJWOlALYrXtE+w1+f/uKHwFAqGQ8nVtZLz3fkJpNzt18awbvxzuf9wBVWD3F+4KCFPNOhDC0uxt9YzpKFg7u0aIOFPDQhtkmEVB
+ fsc9o8IxGQcPDHSYqBx+QyQlmDnXMUfCnaKyWSsPIUriJzgTuI3fP7UAoH1JaNIMDChemzPZ16O1GQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Yeah not sure how that happened!
+Our CI Dunfell builds started failing during image creation with pseudo
+aborts like:
 
-V2 incoming :)
+path mismatch [2 links]: ino 123107550 db '/.../build/tmp-glibc/work/mymachine-oe-linux/myimage/1.0-r2/oe-rootfs-repo/mymachine/mypackage-dbg_1.0-r7_mymachine.ipk' req '/.../build/mymachine-root/usr/bin'.
 
-On Thu, 22 Jul 2021 at 07:50, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2021-07-21 at 14:54 +0100, Ross Burton wrote:
-> > Add a testsdk task, which is essentially the same as testsdk.bbclass but
-> > the test case directory is changed.  This lets us exercise the
-> > buildtools tarballs at build time.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  meta/recipes-core/meta/buildtools-tarball.bb | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-> > index b5dae176bf..67a6d81ddd 100644
-> > --- a/meta/recipes-core/meta/buildtools-tarball.bb
-> > +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-> > @@ -99,3 +99,14 @@ TOOLCHAIN_NEED_CONFIGSITE_CACHE = ""
-> >
-> >
-> >  # The recipe doesn't need any default deps
-> >  INHIBIT_DEFAULT_DEPS = "1"
-> > +
-> > +python do_testsdk() {
-> > +    import oeqa.sdk.testsdk
-> > +    testsdk = oeqa.sdk.testsdk.TestSDK()
-> > +    os.path.join(os.path.abspath(os.path.dirname(oeqa.sdk.testsdk.__file__)), "buildtools-cases")
-> > +    testsdk.context_executor_class.default_cases = "/home/ross/Yocto/poky/meta/lib/oeqa/sdk/buildtools-cases"
->
-> This looks like a good idea, I'm happy to see it but I think the line above may
-> need a small tweak! :)
->
-> Cheers,
->
-> Richard
->
+Inode 123107550 is the second of the two paths.
+
+We're using the latest pseudo (b988b0a6b8afd8d459bc9a2528e834f63a3d59b2)
+because we ran into problems sharing sstate cache between different build
+OS versions prior to oe-core:d7e87a5851d717da047f552be394d5712efa0402.
+
+The mismatches started happening just after we took
+oe-core:9463be2292b942a1072eea88881b9644e55aadb9 (as
+b04d7a7aed5b05e8561029c5e570206ac9b9fa4e for Dunfell):
+
+index 459d872b4a..244f5bb8ff 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -180,6 +180,8 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
+ # aren't yet available.
+ PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
+
++PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/intercept_scripts,${WORKDIR}/oe-rootfs-repo"
++
+
+I was able to reproduce a similar problem by commenting out the above
+PSEUDO_IGNORE_PATHS line, building and image, putting it back and forcing
+do_rootfs for the image to run again without any intervening cleaning. It
+didn't happen every time though.
+
+I believe that the pseudo database was populated with many paths in
+oe-rootfs-repo before this change. After the change, the files in
+oe-rootfs-repo were replaced which freed up their inodes, but because the
+paths were ignored the database wasn't updated. Those inodes were
+then used for files and directories in during rootfs creation. Pseudo
+incorrectly believed that these inodes were already associated with files
+it knew about based on the out-of-date database records.
+
+Cleaning the work directory makes the problem go away because that deletes
+the pseudo databases.
+
+Does the above make sense as an explanation for these errors? If so, is
+there a good way to avoid these errors?
+
+Could pseudo check whether mismatched paths are now ignored and if so not
+treat the mismatch as fatal?
+
+Should changing PSEUDO_IGNORE_PATHS cause all tasks for the recipe to be
+re-run so that the out-of-date database is removed?
+
+Even if it's not worth employing some technical measure, perhaps this is
+worth mentioning as a potential false alarm at
+https://wiki.yoctoproject.org/wiki/Pseudo_Abort ?
+
+Thanks.
+
+Mike.
