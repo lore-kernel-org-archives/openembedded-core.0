@@ -1,113 +1,94 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web08.20667.1628502552927345285
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.20749.1628502553747508047
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 02:49:13 -0700
+ Mon, 09 Aug 2021 02:49:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DCExWwS4;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id l18so20589603wrv.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 02:49:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EcLpwNhK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id h13so20561365wrp.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 02:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9k6IHgcE0MxtfKX03olhYF8u8fosM18hhbsTa/5EmWc=;
-        b=DCExWwS4yHmi1t+X65N1TosF1wSgsfndIm0Q/0FKnBXQa9VnGbQ7SptPPXKxwGYmWf
-         vBKtY1JTXRKpgwVEmuD8JXo6Zan/xWPXNHg52vdEGdBCx+ZIpzxpXSFM2nLn3ZdCmo64
-         MQ0zeiRwB/I0B0SgHl9ngYr3B9HFe+khZIEX4ENlvc/J1L/O0hXA8wai/WWDHMRzIYdY
-         1mczz3Wttl3U8S0JPXVC10Arij8KPFiqmlKo5GZD5/UvGWvwrsSrneUGMlBfnsaRQ55Z
-         s1Srz3Kl5xwTVerfciccplzDc3OTWYJ4zzCP8wICmfTGxxsMs/WQiTZ5Db1pRbE0+RQm
-         4v6Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=uML2BmQSPou2mFLItAhP12pLqacyeEPDtH96oDc7xJc=;
+        b=EcLpwNhKwjJ8RhPWU88KS9LmiLKHp+RCSvYWSINkKtV6FgOT5JcOEFnJZOKL88WbL2
+         J1OAw/i6UyMZiTbbSJE9a6MG3X19K3LlwaJ+Tmc5n1uC4VGpHtAtT86SJj+4ZQczgw+U
+         SZjVQHQ/PJOHuWdtOiKLv5Idz0ovY7w/AjQkvqbBo7cwUOm22fKa7wPyUspHj9x45ODj
+         ZwRSfuopSxDY0WyMjxowWFjgRmCmZiQOJ4x6Y0KVGaWiNq5BbghIv0dJcz5h0AQiFmRT
+         aAx8zil09E8J75JszP33zjO036f86VZq+Zk2EML7urzpkX6w1YkhZFE76PjMY9ZZykpX
+         kktQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9k6IHgcE0MxtfKX03olhYF8u8fosM18hhbsTa/5EmWc=;
-        b=XsQnHz3wfebciZ7HKKw9drAp/MpgK8IAS/qkoi64NsgVheTIW3Tv9GsMKM6NVVYM4b
-         VW6eDnXb0+TPMDVAyn09cPFJA6K4aYV1tTDxIaSft45Mgd/2EK8HpaftH1nx7XQv2OSN
-         xL7S+H1n0QHFSvb7BHEC6BVjylbyA2z/VxABxNIK+Ei5sC2ORmnLWHbfhHHyPt5eA4cj
-         rYz9yE97HQK0oSNDHaz6VlKOJXJjFlMjIj8JFNU7YJndwl5P4msNFjf1+7e04Dinb0jg
-         zPes5Aj2jjFM8RpB4QJn3kgccyaISRDYJVO1pdG6gVBF/uWqvlLPxDG2B3LkYAvOI6vx
-         lpVw==
-X-Gm-Message-State: AOAM531vTBtI+oOGMDXwDErUkMh8pfw6b8xkgEcIpo2NHQzI5i7myYl9
-	IhYP2sl+ZuRLcsplfXmegRa2SFw5EK0=
-X-Google-Smtp-Source: ABdhPJxBNywVkYy0llXOdE6qrDuBzHQsuHyznsQlK3ftSn5vkP3aQspGs7LVNsBUpMZLKLogImkzCg==
-X-Received: by 2002:a5d:45c2:: with SMTP id b2mr4409606wrs.188.1628502551194;
-        Mon, 09 Aug 2021 02:49:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uML2BmQSPou2mFLItAhP12pLqacyeEPDtH96oDc7xJc=;
+        b=hkSB2YrmVx6E2n3fXddQKOlTqBQwRdXetCTz4c/onrdOh8/B4aYlnu27TakeRTWbRz
+         /AfOBFRn2pJWhHn/2x1f9sDNvjJxKFchX6qzkTWhxP8Iiv3wKsoGiswASulLbKtvNvsh
+         8786FRphw9P78waRtLBEX/SbPO3BKcHPIDjptRXtnz3kbeEH4LidkFv/wjZdi9eyc+My
+         CjFWrv/hYhdbb0FI4D30YLORcND+3BdnZRLm4X7KUvsl5lFilH0eESvD1m9WkZrPpHh4
+         P3RoC75tZAJLbVxEQ6AAc05UQaIukM6zTiFzo8C+W8e8Xg1p/zu3upalmmVIdpLQ1oto
+         UJLg==
+X-Gm-Message-State: AOAM533u8DPeA0Bi0VrMWAvVZ7L4xUXaLenv4GB0ljdUH91McZ4Xv6+S
+	kV8QcxTEfhtrgvAnaMI62her/OVWJPc=
+X-Google-Smtp-Source: ABdhPJwkVHVU6YGdpdb9JHdtVS4bG9MbreKBOueRVndjtRzf1bQI9OHYYrirkGp/H1M6YvbQq6XiFQ==
+X-Received: by 2002:adf:d84b:: with SMTP id k11mr23799426wrl.135.1628502552019;
+        Mon, 09 Aug 2021 02:49:12 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id c190sm17314303wma.21.2021.08.09.02.49.10
+        by smtp.gmail.com with ESMTPSA id c190sm17314303wma.21.2021.08.09.02.49.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Aug 2021 02:49:10 -0700 (PDT)
+        Mon, 09 Aug 2021 02:49:11 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 1/5] sstate.bbclass: track found files on mirrors with a counter
-Date: Mon,  9 Aug 2021 10:48:49 +0100
-Message-Id: <20210809094853.3619155-1-quaresma.jose@gmail.com>
+Subject: [PATCH 2/5] sstate.bbclass: only search on the mirrors for the missing files
+Date: Mon,  9 Aug 2021 10:48:50 +0100
+Message-Id: <20210809094853.3619155-2-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210809094853.3619155-1-quaresma.jose@gmail.com>
+References: <20210809094853.3619155-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We don't need extra python collections to count the found files
-on the sstate cache and sstate mirrors.
-The main found collections provides all the files that were found,
-then we only need to count the files on sstate mirror
+On the first search we found some files on the local sstate cache.
+The missing files are know as well when this step finish.
+When we have sstate mirrors we don't need to iterate all files again
+because we already know what's missing.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/classes/sstate.bbclass | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ meta/classes/sstate.bbclass | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 2175ace4c4..2575750247 100644
+index 2575750247..c3c145e7f3 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -871,8 +871,6 @@ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
- 
- def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
-     found = set()
--    foundLocal = set()
--    foundNet = set()
-     missed = set()
- 
-     def gethash(task):
-@@ -905,12 +903,11 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         if os.path.exists(sstatefile):
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-             found.add(tid)
--            foundLocal.add(tid)
--            continue
-         else:
--            missed.add(tid)
-             bb.debug(2, "SState: Looked for but didn't find file %s" % sstatefile)
-+            missed.add(tid)
- 
-+    foundMirrors = 0
-     mirrors = d.getVar("SSTATE_MIRRORS")
-     if mirrors:
-         # Copy the data object and override DL_DIR and SRC_URI
-@@ -950,8 +947,9 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-                             connection_cache=thread_worker.connection_cache)
-                 fetcher.checkstatus()
+@@ -949,11 +949,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
                  bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
-+                foundMirrors += 1
+                 foundMirrors += 1
                  found.add(tid)
--                foundNet.add(tid)
-+
-                 if tid in missed:
-                     missed.remove(tid)
+-
+-                if tid in missed:
+-                    missed.remove(tid)
++                missed.remove(tid)
              except:
-@@ -1013,7 +1011,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         match = 0
-         if total:
-             match = len(found) / total * 100
--        bb.plain("Sstate summary: Wanted %d Local %d Network %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(foundLocal), len(foundNet),len(missed), currentcount, match, complete))
-+        bb.plain("Sstate summary: Wanted %d Local %d Mirrors %d Missed %d Current %d (%d%% match, %d%% complete)" %
-+            (total, len(found)-foundMirrors, foundMirrors, len(missed), currentcount, match, complete))
+-                missed.add(tid)
+                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
+                 pass
+             if len(tasklist) >= min_tasks:
+@@ -961,9 +958,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
  
-     if hasattr(bb.parse.siggen, "checkhashes"):
-         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
+         tasklist = []
+         min_tasks = 100
+-        for tid in sq_data['hash']:
+-            if tid in found:
+-                continue
++        for tid in missed:
+             spec, extrapath, tname = getpathcomponents(tid, d)
+             sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
+             tasklist.append((tid, sstatefile))
 -- 
 2.32.0
 
