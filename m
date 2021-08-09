@@ -1,171 +1,60 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
  by mx.groups.io with SMTP id smtpd.web12.24726.1628523364931716435
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 08:36:34 -0700
+ Mon, 09 Aug 2021 08:36:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466926"
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466938"
 X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="278466926"
+   d="scan'208";a="278466938"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:34 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:35 -0700
 X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="483462991"
+   d="scan'208";a="483462995"
 Received: from abinzahx-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.229.181])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:33 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:34 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 22/23] qemu: fix CVE-2021-3527
-Date: Mon,  9 Aug 2021 23:35:54 +0800
-Message-Id: <fcbcd27a1c97668af9634143376f75ab32fffd68.1628522214.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 23/23] nettle: update 3.7.2 -> 3.7.3
+Date: Mon,  9 Aug 2021 23:35:55 +0800
+Message-Id: <49868162a1a1d088fbaabeffcc2debcbfc17b026.1628522214.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1628522214.git.anuj.mittal@intel.com>
 References: <cover.1628522214.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-(cherry picked from commit 6774efd1e3d0bd5c8c34f84dcf4f698d7eafb36a)
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+fix CVE-2021-3580
+
+(From OE-Core rev: 219c89310264f99c2c43bb80e437a8a1e8e3217a)
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  2 +
- .../qemu/qemu/CVE-2021-3527-1.patch           | 42 +++++++++++++
- .../qemu/qemu/CVE-2021-3527-2.patch           | 59 +++++++++++++++++++
- 3 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
+ .../recipes-support/nettle/{nettle_3.7.2.bb => nettle_3.7.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/nettle/{nettle_3.7.2.bb => nettle_3.7.3.bb} (96%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 5f7d82dfed..a22721004e 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -64,6 +64,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0005-vhost-user-gpu-fix-memory-leak-in-virgl_cmd_resource.patch \
-            file://0006-vhost-user-gpu-fix-memory-leak-in-virgl_resource_att.patch \
-            file://0007-vhost-user-gpu-fix-OOB-write-in-virgl_cmd_get_capset.patch \
-+           file://CVE-2021-3527-1.patch \
-+           file://CVE-2021-3527-2.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-support/nettle/nettle_3.7.2.bb b/meta/recipes-support/nettle/nettle_3.7.3.bb
+similarity index 96%
+rename from meta/recipes-support/nettle/nettle_3.7.2.bb
+rename to meta/recipes-support/nettle/nettle_3.7.3.bb
+index f8f3360086..031500d741 100644
+--- a/meta/recipes-support/nettle/nettle_3.7.2.bb
++++ b/meta/recipes-support/nettle/nettle_3.7.3.bb
+@@ -24,7 +24,7 @@ SRC_URI_append_class-target = "\
+             file://dlopen-test.patch \
+             "
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
-new file mode 100644
-index 0000000000..77a5385692
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
-@@ -0,0 +1,42 @@
-+From 05a40b172e4d691371534828078be47e7fff524c Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Mon, 3 May 2021 15:29:15 +0200
-+Subject: [PATCH] usb: limit combined packets to 1 MiB (CVE-2021-3527)
-+
-+usb-host and usb-redirect try to batch bulk transfers by combining many
-+small usb packets into a single, large transfer request, to reduce the
-+overhead and improve performance.
-+
-+This patch adds a size limit of 1 MiB for those combined packets to
-+restrict the host resources the guest can bind that way.
-+
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Message-Id: <20210503132915.2335822-6-kraxel@redhat.com>
-+
-+Upstream-Status: Backport
-+https://gitlab.com/qemu-project/qemu/-/commit/05a40b172e4d691371534828078be47e7fff524c
-+CVE: CVE-2021-3527
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ hw/usb/combined-packet.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/hw/usb/combined-packet.c b/hw/usb/combined-packet.c
-+index 5d57e883dc..e56802f89a 100644
-+--- a/hw/usb/combined-packet.c
-++++ b/hw/usb/combined-packet.c
-+@@ -171,7 +171,9 @@ void usb_ep_combine_input_packets(USBEndpoint *ep)
-+         if ((p->iov.size % ep->max_packet_size) != 0 || !p->short_not_ok ||
-+                 next == NULL ||
-+                 /* Work around for Linux usbfs bulk splitting + migration */
-+-                (totalsize == (16 * KiB - 36) && p->int_req)) {
-++                (totalsize == (16 * KiB - 36) && p->int_req) ||
-++                /* Next package may grow combined package over 1MiB */
-++                totalsize > 1 * MiB - ep->max_packet_size) {
-+             usb_device_handle_data(ep->dev, first);
-+             assert(first->status == USB_RET_ASYNC);
-+             if (first->combined) {
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
-new file mode 100644
-index 0000000000..6371aced12
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
-@@ -0,0 +1,59 @@
-+From 7ec54f9eb62b5d177e30eb8b1cad795a5f8d8986 Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Mon, 3 May 2021 15:29:12 +0200
-+Subject: [PATCH] usb/redir: avoid dynamic stack allocation (CVE-2021-3527)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Use autofree heap allocation instead.
-+
-+Fixes: 4f4321c11ff ("usb: use iovecs in USBPacket")
-+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Message-Id: <20210503132915.2335822-3-kraxel@redhat.com>
-+
-+Upstream-Status: Backport
-+https://gitlab.com/qemu-project/qemu/-/commit/7ec54f9eb62b5d177e30eb8b1cad795a5f8d8986
-+CVE: CVE-2021-3527
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ hw/usb/redirect.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-+index 17f06f3417..6a75b0dc4a 100644
-+--- a/hw/usb/redirect.c
-++++ b/hw/usb/redirect.c
-+@@ -620,7 +620,7 @@ static void usbredir_handle_iso_data(USBRedirDevice *dev, USBPacket *p,
-+                 .endpoint = ep,
-+                 .length = p->iov.size
-+             };
-+-            uint8_t buf[p->iov.size];
-++            g_autofree uint8_t *buf = g_malloc(p->iov.size);
-+             /* No id, we look at the ep when receiving a status back */
-+             usb_packet_copy(p, buf, p->iov.size);
-+             usbredirparser_send_iso_packet(dev->parser, 0, &iso_packet,
-+@@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice *dev, USBPacket *p,
-+         usbredirparser_send_bulk_packet(dev->parser, p->id,
-+                                         &bulk_packet, NULL, 0);
-+     } else {
-+-        uint8_t buf[size];
-++        g_autofree uint8_t *buf = g_malloc(size);
-+         usb_packet_copy(p, buf, size);
-+         usbredir_log_data(dev, "bulk data out:", buf, size);
-+         usbredirparser_send_bulk_packet(dev->parser, p->id,
-+@@ -923,7 +923,7 @@ static void usbredir_handle_interrupt_out_data(USBRedirDevice *dev,
-+                                                USBPacket *p, uint8_t ep)
-+ {
-+     struct usb_redir_interrupt_packet_header interrupt_packet;
-+-    uint8_t buf[p->iov.size];
-++    g_autofree uint8_t *buf = g_malloc(p->iov.size);
-+ 
-+     DPRINTF("interrupt-out ep %02X len %zd id %"PRIu64"\n", ep,
-+             p->iov.size, p->id);
-+-- 
-+GitLab
-+
+-SRC_URI[sha256sum] = "8d2a604ef1cde4cd5fb77e422531ea25ad064679ff0adf956e78b3352e0ef162"
++SRC_URI[sha256sum] = "661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0"
+ 
+ UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
 -- 
 2.31.1
 
