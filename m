@@ -1,122 +1,47 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.23047.1628516977908576300
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+ by mx.groups.io with SMTP id smtpd.web08.23180.1628518167807669762
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 06:49:38 -0700
+ Mon, 09 Aug 2021 07:09:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C456D6E
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 06:49:37 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 978CA3F718
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 06:49:36 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] oeqa/sdk: add some buildtools tests
-Date: Mon,  9 Aug 2021 14:49:33 +0100
-Message-Id: <20210809134933.2654738-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210809134933.2654738-1-ross.burton@arm.com>
-References: <20210809134933.2654738-1-ross.burton@arm.com>
+ dkim=pass header.i=@seebs.net header.s=mail header.b=bJjvA1aU;
+ spf=pass (domain: seebs.net, ip: 162.213.38.76, mailfrom: seebs@seebs.net)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id 8BA5A2E891F
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 09:09:24 -0500 (CDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=seebs.net; s=mail;
+	t=1628518165; bh=ngTJVthYIQArkQSmq6nomAAiQOPV/2NKBFlqxsqYLHU=;
+	h=Date:From:To:Subject:In-Reply-To:References;
+	b=bJjvA1aU1uPOTJfyLlxCRovkvnKAwq8rlTOEf0KdAMy2OFb2p0E4X/ir9M9vClNXp
+	 j1yIxb2jXtjp9VHuzB0ca8mvD5SirY69ua4O3yVvMEUiChu8GLZzYi4rnlUfRnWlAm
+	 uxgjZ7ltxnTUXOr/AnCh3BXZrGuBQfSERvjCmJ3nI1iiB99IeTn4B28q8HTbvo6EwX
+	 m0xIjlSpiIeZZnSGqLxv0ajKWZ4Hkq3k+LXiMsj2qYd9545KUsQJfOdM6gJixUi1tl
+	 GAjOHcEv7zMgAZYYAikCmifkhbqabWDUT9qkx+A/a9YPT3XMyzo10OjQZl+ZsgtMjj
+	 YQp2hBQw2DnkQ==
+Date: Mon, 9 Aug 2021 09:09:16 -0500
+From: "Seebs" <seebs@seebs.net>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] pseudo: Outdated records for newly-ignored paths in database cause mismatches
+Message-ID: <20210809090916.18dd75fe@seebsdell>
+In-Reply-To: <20210809121951.GA480@mcrowe.com>
+References: <20210809121951.GA480@mcrowe.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-These two tests are designed to exercise the buildtools-tarball.
+On Mon, 9 Aug 2021 13:19:51 +0100
+"Mike Crowe via lists.openembedded.org"
+<yocto=mac.mcrowe.com@lists.openembedded.org> wrote:
 
-SanityTests simply verifies that inside the SDK, some commands are used
-from the SDK.
+> Cleaning the work directory makes the problem go away because that
+> deletes the pseudo databases.
+> 
+> Does the above make sense as an explanation for these errors? If so,
+> is there a good way to avoid these errors?
 
-BuildTests creates a new OE build directory and builds virtual/libc to
-verify that a basic build works correctly. DL_DIR is reused to avoid
-needless downloading, but sstate is not shared to ensure a build does
-happen.
+Good diagnostic work, makes sense to me. It would make some sense for
+pseudo to ignore mismatches involving ignored paths, but it wasn't
+originally designed with the ignored paths concept, so it currently
+doesn't.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/lib/oeqa/sdk/buildtools-cases/README    |  2 ++
- meta/lib/oeqa/sdk/buildtools-cases/build.py  | 23 ++++++++++++++++++++
- meta/lib/oeqa/sdk/buildtools-cases/sanity.py | 22 +++++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/README
- create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/build.py
- create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/sanity.py
-
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/README b/meta/lib/oeqa/sd=
-k/buildtools-cases/README
-new file mode 100644
-index 00000000000..d4f20faa9f7
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/README
-@@ -0,0 +1,2 @@
-+These test cases are used by buildtools-tarball, and are not used by the=
- testsdk
-+class.
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/build.py b/meta/lib/oeqa/=
-sdk/buildtools-cases/build.py
-new file mode 100644
-index 00000000000..5a17ab98c6c
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/build.py
-@@ -0,0 +1,23 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import os, tempfile
-+from oeqa.sdk.case import OESDKTestCase
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
-+class BuildTests(OESDKTestCase):
-+    """
-+    Verify that bitbake can build virtual/libc inside the buildtools.
-+    """
-+    def test_libc(self):
-+        with tempfile.TemporaryDirectory(prefix=3D'bitbake-build-', dir=3D=
-self.tc.sdk_dir) as testdir:
-+            corebase =3D self.td['COREBASE']
-+
-+            self._run('. %s/oe-init-build-env %s' % (corebase, testdir))
-+            with open(os.path.join(testdir, 'conf', 'local.conf'), 'ta')=
- as conf:
-+                conf.write('\n')
-+                conf.write('DL_DIR =3D "%s"\n' % self.td['DL_DIR'])
-+
-+            self._run('. %s/oe-init-build-env %s && bitbake virtual/libc=
-' % (corebase, testdir))
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/sanity.py b/meta/lib/oeqa=
-/sdk/buildtools-cases/sanity.py
-new file mode 100644
-index 00000000000..64baaa8f84f
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/sanity.py
-@@ -0,0 +1,22 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import shutil
-+import os.path
-+from oeqa.sdk.case import OESDKTestCase
-+
-+class SanityTests(OESDKTestCase):
-+    def test_tools(self):
-+        """
-+        Test that wget and tar come from the buildtools, not the host. T=
-his
-+        verifies that the buildtools have installed correctly. We can't =
-check
-+        for gcc as that is only installed by buildtools-extended.
-+        """
-+        for command in ("tar", "wget"):
-+            # Canonicalise the SDK root
-+            sdk_base =3D os.path.realpath(self.tc.sdk_dir)
-+            # Canonicalise the location of this command
-+            tool_path =3D os.path.realpath(self._run("command -v %s" % c=
-ommand).strip())
-+            # Assert that the tool was found inside the SDK root
-+            self.assertEquals(os.path.commonprefix((sdk_base, tool_path)=
-), sdk_base)
---=20
-2.25.1
-
+-s
