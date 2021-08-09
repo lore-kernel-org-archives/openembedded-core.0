@@ -1,96 +1,105 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.20669.1628502556008614266
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web12.20828.1628502556785709144
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 02:49:16 -0700
+ Mon, 09 Aug 2021 02:49:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fGdqlK9U;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id k4so10140761wms.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 02:49:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=m4ikvJVe;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id h14so20538339wrx.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 02:49:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Oye8RDFNNQk9l1p6FChQo/dk64Azq9Cnhvc7uj1c6vM=;
-        b=fGdqlK9UMRP/BX+2VR/aIcUohSJ2e045q0kcItgy/iX2iotdT8lcQ9eHUdtXWbTiqz
-         6jAMSd+VSerOPUPifTAdltS9E8DjXME1QsEYoBPB4GXCW5JMN3mLHdiEQ5mPY/yJm9nb
-         TKC27f/G+/PdrrY9sLgytWUIvFlK/HzBz5FaBLE5C+ALnQMVo24QRnte2D5S1v9GPNo4
-         +V3CturYsbsQ/3W+29p80Isj1S8RrHjmsyVM1igFftn6rdEDPTB1eWR1MkHX5qbiS3cI
-         FSUr5ejwjSbe3nHhQ1m3AAfI8Zf83nLQWRcHNlqIscglwqt9fZBPe7xfkfG9I3nNzrwq
-         9SXg==
+        bh=F40CmX1Xyc26EBkB/ixzEjUF6C3N7g70vbVUkv5F2Hs=;
+        b=m4ikvJVeO6Io0/gpfXekEg9TrMJCKgmvAZy4p4r/kD3PM2oAoGZY9JoHyk11b+qd6H
+         Hp3UdVQZNWmA54uFWuBIfTuRJlQBUd6v7vvekYJ0+xuw+iSLKEtCZ0xbWDkTZ9rzvsym
+         bW1l5H/LuSpPTBa4GU3a8upaa8Ky/aTgOzCCsyQ0mmINKDiJ3ByCO0vDcUNkWlQmRw7H
+         lJwzIdAb3g0WwndQhDUWXI8PRfdkp7mcDbLS9dpjPr0p2zp99CBwC7iN+JSzHPMYDZ5R
+         3Eo01UADxNIGq34z/1ZR7+9oTFZrqaSvZiQWm2SZrwi/ErGXa3xyRRtruIYnq+lyE1wT
+         e0iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Oye8RDFNNQk9l1p6FChQo/dk64Azq9Cnhvc7uj1c6vM=;
-        b=PoQ1k2I15hiGMF2HNCHRbw7Gnckv1BKjGcxCdA7eHozqBq97PXolP7EbmUNgdKdsNe
-         EEEIgjBixkxEMTfnuIU3aFQ5ltbYIT1Mu9y/xi+UDOFJyakTjHZgcuMw4WLsJnfoaDPv
-         V+blRVxHh60lPciwmAwDekpkrOqhiIv9+shreWFYUNd3dmQIAUhiGuJ40qUQsxX9G2pK
-         0z4Vv5luCja4P5QFVRmxJp0720pE9T4Y5qXTTmyjInkZ3/dlk6H3JAOcAEC48BAEyi9F
-         Hbres5z2iO8W/gh5uXJbsNyvv+bDpXododmXSykS4l9wVE8tzCDSBiMn/e7eqfMx0XqG
-         XzMQ==
-X-Gm-Message-State: AOAM532UA18GKpMoB0ZoU25EWGm/Wp8+iD1WRcO0wx793d2KSdIbwwdh
-	daxk0V/qz9T5nIL5Mn6QOxUNcVl/4fo=
-X-Google-Smtp-Source: ABdhPJxzU4RuEyI6+LMuWlLMxeLVwj5Wtnje3xK9NSA6ipHc0UVEZq4njX/S5+pWSjJSbEYK5ohPYw==
-X-Received: by 2002:a1c:a7c2:: with SMTP id q185mr5500295wme.91.1628502554407;
-        Mon, 09 Aug 2021 02:49:14 -0700 (PDT)
+        bh=F40CmX1Xyc26EBkB/ixzEjUF6C3N7g70vbVUkv5F2Hs=;
+        b=M9+MBCWSx6EIAxAe8o0Y8HCP8Juk4ocdkZqwNdpI9F/xKrLKZc1gqy4m5C+U19oYM5
+         lQTjhiTlKxwm6/s4U5jkJXj00xPRjDg0ysE7I+6VajnUBJMc6dDfDzmTvMZdUgIDdz8M
+         GAGkfVRLs42Jcn9is71ddbBCOZbx3C0H2VhmShurTJhkj3xPtR2GBGZGWHn67sP3yCyX
+         wUR6fvjRDvIWuZiFakTrXKnJK3lqoUNpnsV9gtbXtBqj4+9Vcgln0C/q12TmNCHYoObN
+         v0HLmZQ5nS1l+qF0bFfcMt9SMWvFfDYeoMVNdrTseMKQIAslONLGlKM8hKgcKDZoNUCg
+         Y7ig==
+X-Gm-Message-State: AOAM530KsV2vFOpq7vrcqQKwb5zMDeW9aKpf788+IDBF8+Pp8kky7X2e
+	zgsxdunMwcOIl3GMYZAnK/SS/aspO2o=
+X-Google-Smtp-Source: ABdhPJyghVUYOLzt09gNtqXUy3Z+HeYGqBYYPuggPbuqKRFNuzpWflWUEBLahQFEFDo6D11BDyXaxw==
+X-Received: by 2002:a5d:4cca:: with SMTP id c10mr22145939wrt.170.1628502555211;
+        Mon, 09 Aug 2021 02:49:15 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id c190sm17314303wma.21.2021.08.09.02.49.13
+        by smtp.gmail.com with ESMTPSA id c190sm17314303wma.21.2021.08.09.02.49.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 09 Aug 2021 02:49:14 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 4/5] sstate.bbclass: disable thread lock if we don't have events
-Date: Mon,  9 Aug 2021 10:48:52 +0100
-Message-Id: <20210809094853.3619155-4-quaresma.jose@gmail.com>
+Subject: [PATCH 5/5] sstate.bbclass: sstate mirror progress bar cleanup
+Date: Mon,  9 Aug 2021 10:48:53 +0100
+Message-Id: <20210809094853.3619155-5-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210809094853.3619155-1-quaresma.jose@gmail.com>
 References: <20210809094853.3619155-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-commit f2053844958325496a9387874a8f3182400b71ca
-'classes/sstate.bbclass: Enable thread lock when checkstatus'
-adds a thread lock to don't lose the events from multiple threads
-that runs on the ThreadPool.
-
-commit 1444b8a2ae226829e719d3d184fca27e5940ae0d
-'sstate.bbclass: Only show sstate mirror progress bar for >= 100 objects'
-disable the events if we don't have a minium number of objects.
-
-So we can only use the thread lock when we have the events in place.
+We only has the progress bar when we have more than 100 objects.
+So check for this and store the result to show the progress bar.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/classes/sstate.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 63085a7f3a..948779386d 100644
+index 948779386d..a9c908fe97 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -969,17 +969,17 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             if len(tasklist) >= min_tasks:
+@@ -953,20 +953,24 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+             except:
+                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
+                 pass
+-            if len(tasklist) >= min_tasks:
++
++            if progress:
+                 bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
+ 
+         tasklist = []
+-        min_tasks = 100
+         for tid in missed:
+             spec, extrapath, tname = getpathcomponents(tid, d)
+             sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
+             tasklist.append((tid, sstatefile))
+ 
++        progress = False
++        if len(tasklist) >= 100:
++            progress = True
++
+         if tasklist:
+             nproc = min(oe.utils.cpu_count(), len(tasklist))
+ 
+-            if len(tasklist) >= min_tasks:
++            if progress:
                  msg = "Checking sstate mirror object availability"
                  bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
-+                bb.event.enable_threadlock()
- 
--            bb.event.enable_threadlock()
-             pool = oe.utils.ThreadedPool(nproc, len(tasklist),
-                     worker_init=checkstatus_init, worker_end=checkstatus_end)
-             for t in tasklist:
-                 pool.add_task(checkstatus, t)
+                 bb.event.enable_threadlock()
+@@ -978,7 +982,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
              pool.start()
              pool.wait_completion()
--            bb.event.disable_threadlock()
  
-             if len(tasklist) >= min_tasks:
-+                bb.event.disable_threadlock()
+-            if len(tasklist) >= min_tasks:
++            if progress:
+                 bb.event.disable_threadlock()
                  bb.event.fire(bb.event.ProcessFinished(msg), d)
  
-     inheritlist = d.getVar("INHERIT")
 -- 
 2.32.0
 
