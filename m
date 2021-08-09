@@ -1,85 +1,95 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.27711.1628536226059490696
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+ by mx.groups.io with SMTP id smtpd.web10.27835.1628536852646904576
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 12:10:26 -0700
+ Mon, 09 Aug 2021 12:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Dn5WBWPb;
- spf=pass (domain: linaro.org, ip: 209.85.222.176, mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-qk1-f176.google.com with SMTP id a19so19604670qkg.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 12:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NPMrIXKbCNEwiE/Jr5nkbfN32WNemM4ZQSUmG08zAeQ=;
-        b=Dn5WBWPbCI7FnpizxVoNqTov3vbOosWiv60ISDG9/9UPmF6SkGEAza5UZA7AUjTt2G
-         hoMwrvyzhDXliDbcYMTundevZPdGL5RJAXMlDVtsZZZGxmLwo+hq+vWv3/n5v1bFguR6
-         bBvA7km/M+omlsJo20yN84fgWekU+PdQkVS5g4mOu1/h7hlp1xdtEzqrYtPAjypkKzPv
-         nuOFDhmTjIox2WLvvVZ6x8av4VDXTz1jp/JFMDQXTUDoEzZxrjx2rUFJPA5XQRFC6YRG
-         PmQoYA9hFR5ourzP8gvASsEs23e4a72bkD83WKZLuzNPdip1Dhy5gfHxTKmkOsAJypOS
-         EJpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NPMrIXKbCNEwiE/Jr5nkbfN32WNemM4ZQSUmG08zAeQ=;
-        b=KgKaeKhAs2XI1nFnqhDKKMwrxm4CltROTSy8RNDOedPbB7Cd5Y+XymP0mR93hAhtFi
-         Yrypxnvd4sXv9oH1cWf98xrWkeoAI+j3Fa+s0kdufhHi8VGc7AWoyYgq/E1PNxs2CwcP
-         /LGYRrqqVNN992kIPBNdg75KYW5NvZKWTMiYQGMmfCTqvYfe0HUW+smG2xslajsxzrrD
-         kQnknfOFTgZ08j984+Ge+G2X6ReIt11mfiF0ZhWo2dePrcFk/uR+ZJ0vm+/9EV2yfyuA
-         N8jrVUmF8EjBCiRmRg9b54YQ8eNOplkNvBe9erbZ6ALfDvolthsWgC+HpNaR7qTJnB7o
-         dFfg==
-X-Gm-Message-State: AOAM533kIPCB8I26bR3ozQKPGHfGLe1BqiHDtTWr4SCAnEJnzqyYXXb4
-	x1sjHdeIBdBL21OaKH6e8egzYjkMf3ESQzMw
-X-Google-Smtp-Source: ABdhPJw1SCaApR0XiTJVzx++ke1DQmVPCcAPSQuiynx3gKr8bPs7ODlQVpaAEcMg0dce34BFm7vH5A==
-X-Received: by 2002:a37:de13:: with SMTP id h19mr8200469qkj.441.1628536225226;
-        Mon, 09 Aug 2021 12:10:25 -0700 (PDT)
-Return-Path: <ralph.siemsen@linaro.org>
-Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id d138sm5577439qkg.100.2021.08.09.12.10.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Aug 2021 12:10:24 -0700 (PDT)
-From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=jbI0p/uB;
+ spf=pass (domain: pbarker.dev, ip: 64.147.123.24, mailfrom: paul@pbarker.dev)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id B50553200900;
+	Mon,  9 Aug 2021 15:20:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 09 Aug 2021 15:20:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm1; bh=dUOZDMcfF1hQK9IftO/kmumI2j
+	asiKQKojAsDhogtHg=; b=jbI0p/uB/hcbqhgqfxKug5kpsoQug0piMC31I66SQb
+	BXQ3F/I0J4RD5ztiuYQJcKTcqNRZKG+kMe2j3AbxiGv1q61kUc45SACQhRwkVeov
+	5svmh4NHF053pMxNwXiiM7bVj746NFgjQrgveoPjth1U9wPwSARdhHNW+ssbP9Mq
+	xRrDXdZ97tyrHeKijEtqmcGOrrODQZI/VtuZYGwqQv+IFLbBd4j4JjPMwWx4t+Zi
+	IwZf5p/v9tNSzVm9VHUYxfKyOAqCQtZbJumR2ckaBa+JVt7XE8MzjKyapq+mAzJM
+	4GCppoM+sQNvidbjYfYCv/m6qh1rNIgZoD7U+JfwFZ5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=dUOZDMcfF1hQK9Ift
+	O/kmumI2jasiKQKojAsDhogtHg=; b=mtuXsLgguWAicNSYWpvy8n8VwqGiGNMvF
+	2ONliZYMd/UJs+xErZBi5yychZIg44Haz/jfQP9jO/HUx54keB/qWapjwzvtXdJF
+	8AGGhcnd9q9msPrHifFmIIWNFburlqmZT834eXgfyZOqo0vm/OUlXxFQ46c8vhmv
+	A2+hXobUR2cBjHazXj52XV7E68boGLHEVq+lCbHeJyFwtIlJWNP94YGTh+1Ym/DT
+	BVbfpg1aYtb7v7lpXOBKEthRbW0YHOp0sEUH7LvbQQLrQT/7x+zNOW/S2CW2XZfJ
+	Q319iDogIGL53wX0P+aAnhRVigfqnFqgrmyC9EdZ5x0ew/ts9GkOg==
+X-ME-Sender: <xms:EoARYatUfcDB3jFgbzTgVLVCmjuh62fWlVhqtMy7lyC2zfkoHHayhw>
+    <xme:EoARYffKCC9Q72kKpv8gcijmHwqrsqopFXMhADSiS8-n9eHhdFR3VBkyCUx23Alzk
+    G705rEIalHHUPAkaBs>
+X-ME-Received: <xmr:EoARYVytLDIrODLAQAOGWS-zOksSh7najyQt0hqvogXOULevnQxrO4MrOzCsd9L9ksiAjkfh76-l5EXmhMH4s2fwuzrRDjAjg5WdblsuBP-sPbcignVw6C3Diik>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeejgddufeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepteefleelheeugeejudegiedttddvffdvleefgf
+    dvudegkeduleegudeihfeijedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghv
+X-ME-Proxy: <xmx:EoARYVPkeV5__2utct7LCEYL1SF0IbZNCWRaVHgN6Xj6yMjIjoyEUA>
+    <xmx:EoARYa-N0G_lkG4pQ_2g_14L4vYe5Rvk0bF_MVhMjSF7QjXe3kj0NQ>
+    <xmx:EoARYdUpUttriLklX5lGcQzXuFolnFAIWuj0n61ziIDcZqV8CPXY9g>
+    <xmx:E4ARYfGZB5I4x1kaMiNcBQUILvEUvIhI_773KJyr1Gfpc5K-mD5RYw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Aug 2021 15:20:50 -0400 (EDT)
+From: "Paul Barker" <paul@pbarker.dev>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: [dunfell][PATCH] glibc: Document and whitelist CVE-2021-35942
-Date: Mon,  9 Aug 2021 15:10:17 -0400
-Message-Id: <20210809191017.373636-1-ralph.siemsen@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [PATCH] u-boot: Package extlinux.conf separately
+Date: Mon,  9 Aug 2021 20:20:42 +0100
+Message-Id: <20210809192042.20918-1-paul@pbarker.dev>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This CVE is fixed in the upstream glibc-2.31 branch, and dunfell already
-includes an update to this version in commit e1e89ff7d75c3d22 ("glibc:
-update to lastest 2.31 release HEAD")
+A separate u-boot-extlinux package is created for the extlinux.conf file
+so that it can be installed on its own if needed. If this package is
+populated, it is added as a dependency of the main u-boot package so
+that installing just u-boot still results in the extlinux.conf file
+being present in the rootfs.
 
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- meta/recipes-core/glibc/glibc_2.31.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-bsp/u-boot/u-boot.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 23242fff76..8742efc36f 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -18,6 +18,16 @@ CVE_CHECK_WHITELIST += "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024"
- # Potential patch at https://sourceware.org/bugzilla/show_bug.cgi?id=22853
- CVE_CHECK_WHITELIST += "CVE-2019-1010025"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 4340b17cb6..971fdbb102 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -210,7 +210,7 @@ do_install () {
+     fi
+ }
  
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35942
-+# The wordexp function in the GNU C Library (aka glibc) through 2.33 may crash
-+# or read arbitrary memory in parse_param (in posix/wordexp.c) when called with
-+# an untrusted, crafted pattern, potentially resulting in a denial of service
-+# or disclosure of information. Patch was backported to 2.31 branch already:
-+# https://sourceware.org/git/?p=glibc.git;a=commit;h=4f0a61f75385c9a5879cbe7202042e88f692a3c8
-+# which is already included in the dunfell branch of poky:
-+# https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=dunfell&id=e1e89ff7d75c3d2223f9e3bd875b9b0c5e15836b
-+CVE_CHECK_WHITELIST += "CVE-2021-35942"
+-PACKAGE_BEFORE_PN += "${PN}-env"
++PACKAGE_BEFORE_PN += "${PN}-env ${PN}-extlinux"
+ 
+ RPROVIDES:${PN}-env += "u-boot-default-env"
+ ALLOW_EMPTY:${PN}-env = "1"
+@@ -219,6 +219,9 @@ FILES:${PN}-env = " \
+     ${sysconfdir}/fw_env.config \
+ "
+ 
++FILES:${PN}-extlinux = "${UBOOT_EXTLINUX_INSTALL_DIR}/${UBOOT_EXTLINUX_CONF_NAME}"
++RDEPENDS:${PN} += "${@bb.utils.contains('UBOOT_EXTLINUX', '1', '${PN}-extlinux', '', d)}"
 +
- DEPENDS += "gperf-native bison-native make-native"
+ FILES:${PN} = "/boot ${datadir}"
+ RDEPENDS:${PN} += "${PN}-env"
  
- NATIVESDKFIXES ?= ""
 -- 
-2.25.1
+2.31.1
 
