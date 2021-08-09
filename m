@@ -1,353 +1,81 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
- by mx.groups.io with SMTP id smtpd.web08.26779.1628532758763639287
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web12.27429.1628534262012053320
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 11:12:38 -0700
+ Mon, 09 Aug 2021 11:37:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7PijsCO;
- spf=pass (domain: gmail.com, ip: 209.85.219.169, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f169.google.com with SMTP id s48so31145511ybi.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 11:12:38 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=gK4YLciK;
+ spf=pass (domain: linaro.org, ip: 209.85.160.172, mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qt1-f172.google.com with SMTP id w10so13308831qtj.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 11:37:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=YQUWx788vIypNNQY8/reeczcU9NdCKzDz8lyqtPInhY=;
-        b=J7PijsCOixjUmwxNJI8JtNOQ8+1bngE5kxRf6q/Mx3DvASlyjm3TqNUcma7DjmQ26w
-         A7rVsQQr7ZDUzlUvgqz+iotdO9xqLFuAY12DEm1JhXhAQNPAur1/TncmHN8m9YaZr/36
-         /QpG/b7TOD0iJEaJo0ZhG/v+cGBtgncBSjcuzRhoPSv+lTx+rxwKs21mAJGgKUI6+HCp
-         Be3TeaAnv3hfrNeFF/vIkJdOanYKNWbsBbXsm6dCbKh8255c2MjP10pVzejBaXVVpAVy
-         Ke+7XW515O1z201E+jB+QozAl+WnAn67XD9FHZYhgWKmPV/Hvtdu1PNFw4TIB6mAiwIS
-         f/Sw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zPfAOaJkbs1ZrRJzUjynLb1b252jJupFT/z/xVgbW2o=;
+        b=gK4YLciK7mNRqjc2968qN84syR8sH2WdxmzklbheTMN7pVgzhBxp36u8OchYE+iNXK
+         2DKHjUMAgkv/1Ps3qkcA+z2uaES3Upt8XjuLUnyW2483JPkHEdRgx1bTjEXBIoc94541
+         PFNRHXBpf1EUhlH49PcZ056q0InseKrV+fRXgvIJwSmZnrjln309yngZLrB2qB2a9woO
+         V39l5qYFlrF4pOE0BUvEwuRttfx0WB/xcPrsRK+b3RLJThcnCM7T6Qg7VDZcTtJzXAQf
+         UNb9Ah4EmN/d9ZReCjYDz+n4B3F3lb1AWqeAL/MZs0tu8NM8M5XZamx8nNgIdd5tjAIa
+         Gddg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=YQUWx788vIypNNQY8/reeczcU9NdCKzDz8lyqtPInhY=;
-        b=o0LlvDcevav9oMKiYAISY+runb6L4VxQf5ksD/T3xceY1N/OPoXhVY7YXCUhc8+Xmw
-         ziTIGxPppp49C0FMBe6hLOTjT/WsqLxklmOFMBQ7POtlcCiko3trKBrsvxc7SmE20WZJ
-         B/wguLteWLNR097rBYfxyAgu8uBPU7Ff6ESDCu5WTlxByG3YpRyOC6fiiQdgGcolBr1C
-         DKUiutzFujWZRYxk6IVpFghM3ikKd4FqOO+PLYRVvSvbgabwudrIVt7OEDk8PW3BC1eD
-         ctx345h0s7sMY0GB8cSoOoWkogSjaXoo9ygzA/9+G93X6x3k4i9XA5BUr2llTPuadL0z
-         HkeA==
-X-Gm-Message-State: AOAM531ON75dFximIpZgaYvtBIbz7m0l8nD7NaUDKWU6aEDjIGpmwUup
-	2nt7l83ZIsjzCblIGde4d8h0S7S6+nciKc+1Crc=
-X-Google-Smtp-Source: ABdhPJyXYhsN8cWTUpCUmwUyZENXBdR6dILt2JQkeP2aWbl1LPXce+LtBiSPztVcyKmjDqzBtkyDI6KYFswQ5R05YOw=
-X-Received: by 2002:a25:b84e:: with SMTP id b14mr32900908ybm.237.1628532757978;
- Mon, 09 Aug 2021 11:12:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zPfAOaJkbs1ZrRJzUjynLb1b252jJupFT/z/xVgbW2o=;
+        b=eTR5PyXVesnUcK7cIgjutCnyeloU5nXbwf/Qb366dO2A6E7EgUtp11eG2iaX8mBSVK
+         MVDFAchaB+Fz/wjulv663M7GrVVJeEpF8kwHQZla3x71PF+WnVQsvhahwS0+E+U/EkM6
+         BmJteUo7VS9FdQH6n/cAlNg4GE1N4agZoRH6Cx+l7uf3++Eh4PLFYLhjFvpKGEVPIOp9
+         sLqG/E18fn5a0xJa4Bc5e31svy/lVPoPjgZzogbYmpGxpc48E3tKC9QOdx2Leu7zRkFl
+         VIuH8k/N2jD3Qo+X/SYNebNoh/o8CCzCDpWsQQUaNckz2FxKhCxFrGeM1yDhEMdHlVvK
+         vT0w==
+X-Gm-Message-State: AOAM5300K+bYdGW3juS/kjoThOEmK7YcmeyWTajUKjhh+eJmcgeqoUeB
+	Sv2rLVE+27vGl2bQXMof62q43g==
+X-Google-Smtp-Source: ABdhPJyPCn/KvTyJYXE+k2si46IcPsF37YUSC4Q6EkL2Chn4nDFxuyCy2kcMeWF9qHW9YFQhtYNJTg==
+X-Received: by 2002:ac8:7515:: with SMTP id u21mr21440377qtq.80.1628534261180;
+        Mon, 09 Aug 2021 11:37:41 -0700 (PDT)
+Return-Path: <ralph.siemsen@linaro.org>
+Received: from localhost (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id a24sm7414084qtj.43.2021.08.09.11.37.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Aug 2021 11:37:40 -0700 (PDT)
+Date: Mon, 9 Aug 2021 14:37:40 -0400
+From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org,
+	yocto-security@lists.yoctoproject.org
+Subject: Re: [OE-core] OE-core CVE metrics for dunfell on Sun 08 Aug 2021 04:30:01 AM HST
+Message-ID: <20210809183740.GA373236@maple.netwinder.org>
+References: <20210808143359.6E9409602DA@nuc.router0800d9.com>
 MIME-Version: 1.0
-References: <1628493621-2045-1-git-send-email-purushottam.choudhary@kpit.com>
-In-Reply-To: <1628493621-2045-1-git-send-email-purushottam.choudhary@kpit.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Mon, 9 Aug 2021 08:12:26 -1000
-Message-ID: <CAGDS+nno2bBc8m7G5HvgkNjPTQhzXSApTARReKDv-24DvC6g5w@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] lighttpd: Add patch for reuse large memory chunks
-To: Purushottam choudhary <purushottam.choudhary@kpit.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	Nisha Parrakat <nisha.parrakat@kpit.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210808143359.6E9409602DA@nuc.router0800d9.com>
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-This version of the patch is still throwing warnings on the autobuilder:
+On Sun, Aug 08, 2021 at 04:33:59AM -1000, Steve Sakoman wrote:
+>Branch: dunfell
+>
+>New this week: 3 CVEs
+>CVE-2021-28966: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28966 *
+>CVE-2021-31810: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31810 *
+>CVE-2021-35942: glibc 
+>https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35942 *
 
-stdio: WARNING: lighttpd-1.4.55-r0 do_patch: Fuzz detected:
-stdio: WARNING: lighttpd-1.4.55-r0 do_patch: QA Issue: Patch log
-indicates that patches do not apply cleanly. [patch-fuzz]
+It looks like the glibc one is already fixed in the dunfell branch:
 
-Steve
+commit e1e89ff7d75c3d22 ("glibc: update to lastest 2.31 release HEAD")
 
-On Sun, Aug 8, 2021 at 9:20 PM Purushottam choudhary
-<purushottam.choudhary@kpit.com> wrote:
->
-> Added 0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
-> to fix large memory usage for large file downloads
-> from dynamic backends reuse or release large memory chunks.
->
-> This issue is caused by a bug in the lighttpd 1.4.55 version and
-> has been fixed in lighttpd 1.4.58. Hence, it is not needed for
-> master and hardknott branch because lighttpd has 1.4.59 version.
->
-> Link: https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisi=
-ons/7ba521ffb4959f6f74a609d5d4acafc29a038337
->
-> Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
-> ---
->  ...large-mem-chunks-fix-mem-usage-fixes-3033.patch | 224 +++++++++++++++=
-++++++
->  meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb  |   1 +
->  2 files changed, 225 insertions(+)
->  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-reu=
-se-large-mem-chunks-fix-mem-usage-fixes-3033.patch
->
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-larg=
-e-mem-chunks-fix-mem-usage-fixes-3033.patch b/meta/recipes-extended/lighttp=
-d/lighttpd/0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
-> new file mode 100644
-> index 0000000..e3ede66
-> --- /dev/null
-> +++ b/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-large-mem-c=
-hunks-fix-mem-usage-fixes-3033.patch
-> @@ -0,0 +1,224 @@
-> +From f46bba11bf47ab6d6601e6ca653f1cdc7a2673ed Mon Sep 17 00:00:00 2001
-> +From: Glenn Strauss <gstrauss@gluelogic.com>
-> +Date: Wed, 23 Dec 2020 23:14:47 -0500
-> +Subject: [PATCH] reuse large mem chunks (fix mem usage) (fixes #3033)
-> +
-> +(cherry picked from commit 7ba521ffb4959f6f74a609d5d4acafc29a038337)
-> +
-> +(thx flynn)
-> +
-> +fix large memory usage for large file downloads from dynamic backends
-> +
-> +reuse or release large memory chunks
-> +
-> +x-ref:
-> +  "Memory Growth with PUT and full buffered streams"
-> +  https://redmine.lighttpd.net/issues/3033
-> +
-> +Upstream-Status: Backport
-> +Comment: No hunk refreshed
-> +https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisions/7=
-ba521ffb4959f6f74a609d5d4acafc29a038337
-> +Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
-> +
-> +---
-> + src/chunk.c            | 99 ++++++++++++++++++++++++++++++++++++++++---=
--------
-> + src/chunk.h            |  2 +
-> + src/http-header-glue.c |  2 +-
-> + 3 files changed, 82 insertions(+), 21 deletions(-)
-> +
-> +diff --git a/src/chunk.c b/src/chunk.c
-> +index 09dd3f1..ffb3795 100644
-> +--- a/src/chunk.c
-> ++++ b/src/chunk.c
-> +@@ -28,16 +28,20 @@
-> + static size_t chunk_buf_sz =3D 4096;
-> + static chunk *chunks, *chunks_oversized;
-> + static chunk *chunk_buffers;
-> ++static int chunks_oversized_n;
-> + static array *chunkqueue_default_tempdirs =3D NULL;
-> + static off_t chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE=
-;
-> +
-> + void chunkqueue_set_chunk_size (size_t sz)
-> + {
-> +-    chunk_buf_sz =3D sz > 0 ? ((sz + 1023) & ~1023uL) : 4096;
-> ++    size_t x =3D 1024;
-> ++    while (x < sz && x < (1u << 30)) x <<=3D 1;
-> ++    chunk_buf_sz =3D sz > 0 ? x : 4096;
-> + }
-> +
-> + void chunkqueue_set_tempdirs_default_reset (void)
-> + {
-> ++    chunk_buf_sz =3D 8192;
-> +     chunkqueue_default_tempdirs =3D NULL;
-> +     chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE;
-> + }
-> +@@ -120,15 +124,49 @@ static void chunk_free(chunk *c) {
-> +       free(c);
-> + }
-> +
-> +-buffer * chunk_buffer_acquire(void) {
-> ++static chunk * chunk_pop_oversized(size_t sz) {
-> ++    /* future: might have buckets of certain sizes, up to socket buf si=
-zes */
-> ++    if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
-> ++        --chunks_oversized_n;
-> ++        chunk *c =3D chunks_oversized;
-> ++        chunks_oversized =3D c->next;
-> ++        return c;
-> ++    }
-> ++    return NULL;
-> ++}
-> ++
-> ++static void chunk_push_oversized(chunk * const c, const size_t sz) {
-> ++    if (chunks_oversized_n < 64 && chunk_buf_sz >=3D 4096) {
-> ++        ++chunks_oversized_n;
-> ++        chunk **co =3D &chunks_oversized;
-> ++        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
-> ++        c->next =3D *co;
-> ++        *co =3D c;
-> ++    }
-> ++    else
-> ++        chunk_free(c);
-> ++}
-> ++
-> ++static buffer * chunk_buffer_acquire_sz(size_t sz) {
-> +     chunk *c;
-> +     buffer *b;
-> +-    if (chunks) {
-> +-        c =3D chunks;
-> +-        chunks =3D c->next;
-> ++    if (sz <=3D chunk_buf_sz) {
-> ++        if (chunks) {
-> ++            c =3D chunks;
-> ++            chunks =3D c->next;
-> ++        }
-> ++        else
-> ++            c =3D chunk_init(chunk_buf_sz);
-> ++            /* future: might choose to pop from chunks_oversized, if av=
-ailable
-> ++             * (even if larger than sz) rather than allocating new chun=
-k
-> ++             * (and if doing so, might replace chunks_oversized_n) */
-> +     }
-> +     else {
-> +-        c =3D chunk_init(chunk_buf_sz);
-> ++        /*(round up to nearest chunk_buf_sz)*/
-> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
-> ++        c =3D chunk_pop_oversized(sz);
-> ++        if (NULL =3D=3D c)
-> ++            c =3D chunk_init(sz);
-> +     }
-> +     c->next =3D chunk_buffers;
-> +     chunk_buffers =3D c;
-> +@@ -137,21 +175,47 @@ buffer * chunk_buffer_acquire(void) {
-> +     return b;
-> + }
-> +
-> ++buffer * chunk_buffer_acquire(void) {
-> ++    return chunk_buffer_acquire_sz(chunk_buf_sz);
-> ++}
-> ++
-> + void chunk_buffer_release(buffer *b) {
-> +     if (NULL =3D=3D b) return;
-> +-    if (b->size >=3D chunk_buf_sz && chunk_buffers) {
-> ++    if (chunk_buffers) {
-> +         chunk *c =3D chunk_buffers;
-> +         chunk_buffers =3D c->next;
-> +         c->mem =3D b;
-> +-        c->next =3D chunks;
-> +-        chunks =3D c;
-> +         buffer_clear(b);
-> ++        if (b->size =3D=3D chunk_buf_sz) {
-> ++            c->next =3D chunks;
-> ++            chunks =3D c;
-> ++        }
-> ++        else if (b->size > chunk_buf_sz)
-> ++            chunk_push_oversized(c, b->size);
-> ++        else
-> ++            chunk_free(c);
-> +     }
-> +     else {
-> +         buffer_free(b);
-> +     }
-> + }
-> +
-> ++size_t chunk_buffer_prepare_append(buffer * const b, size_t sz) {
-> ++    if (sz > chunk_buffer_string_space(b)) {
-> ++        sz +=3D b->used ? b->used : 1;
-> ++        buffer * const cb =3D chunk_buffer_acquire_sz(sz);
-> ++        /* swap buffer contents and copy original b->ptr into larger b-=
->ptr */
-> ++        /*(this does more than buffer_move())*/
-> ++        buffer tb =3D *b;
-> ++        *b =3D *cb;
-> ++        *cb =3D tb;
-> ++        if ((b->used =3D tb.used))
-> ++            memcpy(b->ptr, tb.ptr, tb.used);
-> ++        chunk_buffer_release(cb);
-> ++    }
-> ++    return chunk_buffer_string_space(b);
-> ++}
-> ++
-> + static chunk * chunk_acquire(size_t sz) {
-> +     if (sz <=3D chunk_buf_sz) {
-> +         if (chunks) {
-> +@@ -162,13 +226,10 @@ static chunk * chunk_acquire(size_t sz) {
-> +         sz =3D chunk_buf_sz;
-> +     }
-> +     else {
-> +-        sz =3D (sz + 8191) & ~8191uL;
-> +-        /* future: might have buckets of certain sizes, up to socket bu=
-f sizes*/
-> +-        if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
-> +-            chunk *c =3D chunks_oversized;
-> +-            chunks_oversized =3D c->next;
-> +-            return c;
-> +-        }
-> ++        /*(round up to nearest chunk_buf_sz)*/
-> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
-> ++        chunk *c =3D chunk_pop_oversized(sz);
-> ++        if (c) return c;
-> +     }
-> +
-> +     return chunk_init(sz);
-> +@@ -183,10 +244,7 @@ static void chunk_release(chunk *c) {
-> +     }
-> +     else if (sz > chunk_buf_sz) {
-> +         chunk_reset(c);
-> +-        chunk **co =3D &chunks_oversized;
-> +-        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
-> +-        c->next =3D *co;
-> +-        *co =3D c;
-> ++        chunk_push_oversized(c, sz);
-> +     }
-> +     else {
-> +         chunk_free(c);
-> +@@ -205,6 +263,7 @@ void chunkqueue_chunk_pool_clear(void)
-> +         chunk_free(c);
-> +     }
-> +     chunks_oversized =3D NULL;
-> ++    chunks_oversized_n =3D 0;
-> + }
-> +
-> + void chunkqueue_chunk_pool_free(void)
-> +diff --git a/src/chunk.h b/src/chunk.h
-> +index 4c6b7e4..93f343c 100644
-> +--- a/src/chunk.h
-> ++++ b/src/chunk.h
-> +@@ -50,6 +50,8 @@ typedef struct {
-> + buffer * chunk_buffer_acquire(void);
-> + void chunk_buffer_release(buffer *b);
-> +
-> ++size_t chunk_buffer_prepare_append (buffer *b, size_t sz);
-> ++
-> + void chunkqueue_chunk_pool_clear(void);
-> + void chunkqueue_chunk_pool_free(void);
-> +
-> +diff --git a/src/http-header-glue.c b/src/http-header-glue.c
-> +index d54f00c..2231fba 100644
-> +--- a/src/http-header-glue.c
-> ++++ b/src/http-header-glue.c
-> +@@ -1267,7 +1267,7 @@ handler_t http_response_read(server *srv, connecti=
-on *con, http_response_opts *o
-> +         if (avail < toread) {
-> +             /*(add avail+toread to reduce allocations when ioctl EOPNOT=
-SUPP)*/
-> +             avail =3D avail ? avail - 1 + toread : toread;
-> +-            buffer_string_prepare_append(b, avail);
-> ++            avail =3D chunk_buffer_prepare_append(b, avail);
-> +         }
-> +
-> +         n =3D read(fd, b->ptr+buffer_string_length(b), avail);
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb b/meta/rec=
-ipes-extended/lighttpd/lighttpd_1.4.55.bb
-> index 35a268a..5329465 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
-> @@ -18,6 +18,7 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/rele=
-ases-1.4.x/lighttpd-${PV}.t
->          file://lighttpd.conf \
->          file://lighttpd \
->          file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config=
-.patch \
-> +        file://0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033=
-.patch \
->          "
->
->  SRC_URI[md5sum] =3D "be4bda2c28bcbdac6eb941528f6edf03"
-> --
-> 2.7.4
->
-> This message contains information that may be privileged or confidential =
-and is the property of the KPIT Technologies Ltd. It is intended only for t=
-he person to whom it is addressed. If you are not the intended recipient, y=
-ou are not authorized to read, print, retain copy, disseminate, distribute,=
- or use this message or any part thereof. If you receive this message in er=
-ror, please notify the sender immediately and delete all copies of this mes=
-sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
-ed mails.
->
->=20
->
+Includes the following fixes:
+
+4f0a61f753 wordexp: handle overflow in positional parameter number (bug 
+28011)
+
+which fixes the CVE, although it isn't mention in the commit:
+
+https://sourceware.org/git/?p=glibc.git;a=commit;h=4f0a61f75385c9a5879cbe7202042e88f692a3c8
+
+So I think all that's needed is CVE_CHECK_WHITELIST += "CVE-2021-35942"
+I can submit a patch for this if you wish...
+
+Regards,
+Ralph
