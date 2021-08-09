@@ -1,181 +1,148 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web09.23997.1628521519065763662
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web12.24726.1628523364931716435
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 08:05:19 -0700
+ Mon, 09 Aug 2021 08:36:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r6W57AO3;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id u10so23971226oiw.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 08:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=f3csba7WUGmFHFNq+WHK8f0yJfUFJUsjHUcIGqohq6k=;
-        b=r6W57AO3/2sp3gFwI6Fp4Rl2EK05cMNZRQs1pk/fdqn2c/WGxLRXX0rqXNHNqPQG1b
-         ARBuZXl6+KpmqYcKQvcfL1XlV+TfD0ay9iFh35EhTUzQk3LsYghagp0jFru2pzld4U7z
-         k3GvsR1BF1jInib/pFCEwu4/+89B/ZTtkUGnFyHRDXxquuLIAxOYhbOJr2cT23oedhJs
-         xxZOFUOFQT47FJ02t7bG/Jd02s/mu283FJAbZF8uDAvoLB6ox03PPGf5MJbRnUEHxavH
-         A4/v6xUMRRBnfxgtvXwKLGd7qj8kE63v9kQPN5kHTeO9lYjskNna14tH6sy0cvst5zni
-         5/Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=f3csba7WUGmFHFNq+WHK8f0yJfUFJUsjHUcIGqohq6k=;
-        b=c9COADDe9aj8U1O6e51T1N6EJRmn6DN1wyXc7m2kfc+qSBrzHexqZVsn3dLq4xkDi/
-         bKoTp5DrY9UtvURDjQim3ZcJ6ytnLcarhpFNG1jZxKHYsnSwoCy5J4k5Wgts5sa0Du9B
-         Cza7n0wbhoS7HsI+E6vAYV48PGQyd/x97oBKWj/zBlAp2zP4k5DPCX3BJQdFZb+jQrxw
-         WH6INbyOJxRLY08A9In4c5MpdCbO3ErIuQ1DPtSGCqDxZJJmYLs0p+RJSC2gj3bIPdFQ
-         5+l7aCoBYkMaaUDuz73TFxXMHksPWGsfqPB/fBKlKRKqPX7VBStBbNXm0JrW0HJEVj/V
-         idgw==
-X-Gm-Message-State: AOAM5332lPKZCxrJ0dxmnE1HWw70/xBl1L/2gn5zORA1vOVXvyG3+xCD
-	XpcCiTAhiDZPIDJvqJNNQEbs5tBvuAOR4Q==
-X-Google-Smtp-Source: ABdhPJwrBkskfps0a2Q25YjIimEPlGT59sAcMufWxRTWyEVLHMpbdCXNm+T1iKSC90FmowPuWV2l2g==
-X-Received: by 2002:aca:d11:: with SMTP id 17mr4526507oin.67.1628521517983;
-        Mon, 09 Aug 2021 08:05:17 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id t3sm1178366otm.28.2021.08.09.08.05.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Aug 2021 08:05:17 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466765"
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
+   d="scan'208";a="278466765"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:02 -0700
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
+   d="scan'208";a="483462854"
+Received: from abinzahx-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.229.181])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:01 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>,
-	Saul Wold <saul.wold@windriver.com>
-Subject: [OE-core][PATCH v2] classes/package: Add extended packaged data
-Date: Mon,  9 Aug 2021 10:05:11 -0500
-Message-Id: <20210809150511.24608-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210713160846.18356-1-JPEWhacker@gmail.com>
-References: <20210713160846.18356-1-JPEWhacker@gmail.com>
+Subject: [hardknott][PATCH 00/23] review request
+Date: Mon,  9 Aug 2021 23:35:32 +0800
+Message-Id: <cover.1628522214.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds extended package data which is encoded as JSON which allows it to
-encode more structure than the "flat" package data files. The extended
-data might be much larger than the standard package data, so it is not
-read by default and instead requires
-oe.packagedata.read_subpkgdata_extended() to be called
+Please review these changes for hardknott. Testing on autobuilder
+resulted in some intermittent ptest failures in valgrind, tcl and
+lttng-tools and also a qemu timeout failure in musl-qemux86-64.
 
-Currently, the file sizes and ELF debug sources are saved off into the
-extended package data
+Thanks,
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Reviewed-by: Saul Wold <saul.wold@windriver.com>
----
+Anuj
 
-V2: Remove fatal message when debug data was not captured, since this
-    can happen on purpose if the package is removed for license reasons
+The following changes since commit 2fd915eda136e20ab52baea6bb908d08ef8f5cbc:
 
- meta/classes/package.bbclass | 35 +++++++++++++++++++++++++++++++++--
- meta/lib/oe/packagedata.py   |  9 +++++++++
- 2 files changed, 42 insertions(+), 2 deletions(-)
+  oe-setup-builddir: update YP docs and OE URLs (2021-07-31 17:56:12 +0800)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a659a1ef5c..743f3ee51d 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1225,6 +1225,14 @@ python split_and_strip_files () {
-                 # Modified the file so clear the cache
-                 cpath.updatecache(file)
- 
-+    def strip_pkgd_prefix(f):
-+        nonlocal dvar
-+
-+        if f.startswith(dvar):
-+            return f[len(dvar):]
-+
-+        return f
-+
-     #
-     # First lets process debug splitting
-     #
-@@ -1238,6 +1246,8 @@ python split_and_strip_files () {
-                 for file in staticlibs:
-                     results.append( (file,source_info(file, d)) )
- 
-+        d.setVar("PKGDEBUGSOURCES", {strip_pkgd_prefix(f): sorted(s) for f, s in results})
-+
-         sources = set()
-         for r in results:
-             sources.update(r[1])
-@@ -1622,6 +1632,8 @@ fi
-     with open(data_file, 'w') as fd:
-         fd.write("PACKAGES: %s\n" % packages)
- 
-+    pkgdebugsource = d.getVar("PKGDEBUGSOURCES") or []
-+
-     pn = d.getVar('PN')
-     global_variants = (d.getVar('MULTILIB_GLOBAL_VARIANTS') or "").split()
-     variants = (d.getVar('MULTILIB_VARIANTS') or "").split()
-@@ -1641,17 +1653,32 @@ fi
-             pkgval = pkg
-             d.setVar('PKG:%s' % pkg, pkg)
- 
-+        extended_data = {
-+            "files_info": {}
-+        }
-+
-         pkgdestpkg = os.path.join(pkgdest, pkg)
-         files = {}
-+        files_extra = {}
-         total_size = 0
-         seen = set()
-         for f in pkgfiles[pkg]:
--            relpth = os.path.relpath(f, pkgdestpkg)
-+            fpath = os.sep + os.path.relpath(f, pkgdestpkg)
-+
-             fstat = os.lstat(f)
--            files[os.sep + relpth] = fstat.st_size
-+            files[fpath] = fstat.st_size
-+
-+            extended_data["files_info"].setdefault(fpath, {})
-+            extended_data["files_info"][fpath]['size'] = fstat.st_size
-+
-             if fstat.st_ino not in seen:
-                 seen.add(fstat.st_ino)
-                 total_size += fstat.st_size
-+
-+            if fpath in pkgdebugsource:
-+                extended_data["files_info"][fpath]['debugsrc'] = pkgdebugsource[fpath]
-+                del pkgdebugsource[fpath]
-+
-         d.setVar('FILES_INFO', json.dumps(files, sort_keys=True))
- 
-         process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
-@@ -1672,6 +1699,10 @@ fi
- 
-             sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
- 
-+        subdata_extended_file = pkgdatadir + "/runtime/%s.json" % pkg
-+        with open(subdata_extended_file, "w") as f:
-+            json.dump(extended_data, f, sort_keys=True, separators=(",", ":"))
-+
-         # Symlinks needed for rprovides lookup
-         rprov = d.getVar('RPROVIDES:%s' % pkg) or d.getVar('RPROVIDES')
-         if rprov:
-diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-index 22261d271e..db26fef8db 100644
---- a/meta/lib/oe/packagedata.py
-+++ b/meta/lib/oe/packagedata.py
-@@ -57,6 +57,15 @@ def read_subpkgdata_dict(pkg, d):
-         ret[newvar] = subd[var]
-     return ret
- 
-+def read_subpkgdata_extended(pkg, d):
-+    import json
-+    fn = d.expand("${PKGDATA_DIR}/runtime/%s.json" % pkg)
-+    try:
-+        with open(fn, "r") as f:
-+            return json.load(f)
-+    except FileNotFoundError:
-+        return None
-+
- def _pkgmap(d):
-     """Return a dictionary mapping package to recipe name."""
- 
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
+
+Alexander Kanavin (2):
+  devtool: print a warning on upgrades if PREFERRED_VERSION is set
+  nettle: update 3.7.2 -> 3.7.3
+
+Bruce Ashfield (4):
+  linux-yocto/5.10: update to v5.10.53
+  linux-yocto/5.4: update to v5.4.135
+  linux-yocto-rt/5.10: update to -rt47
+  linux-yocto/5.10: enable TYPEC_TCPCI in usbc fragment
+
+Chen Qi (1):
+  zstd: fix CVE_PRODUCT
+
+Joe Slater (1):
+  util-linux: fix CVE 2021-37600
+
+Jon Mason (1):
+  parselogs.py: qemuarm should be qemuarmv5
+
+Khem Raj (1):
+  stress-ng: Drop defining daddr_t
+
+Lee Chee Yang (2):
+  aspell: fix CVE-2019-25051
+  qemu: fix CVE-2021-3527
+
+Matthias Klein (1):
+  runqemu: Fix typo in error message
+
+Michael Opdenacker (3):
+  cve-check: fix comments
+  cve-check: update link to NVD website for CVE details
+  cve-check: improve comment about CVE patch file names
+
+Mingli Yu (2):
+  curl: fix CVE-2021-22925
+  curl: fix CVES
+
+Richard Purdie (3):
+  sstate: Fix rebuilds when changing layer config
+  license: Exclude COPYING.MIT from pseudo
+  oeqa/runtime/cases/ptest: Increase test timeout from 300s to 450s
+
+Ross Burton (1):
+  qemu: fix virtio vhost-user-gpu CVEs
+
+hongxu (1):
+  createrepo-c: fix createrepo-c failed in nativesdk
+
+ meta/classes/cve-check.bbclass                |  19 +-
+ meta/classes/license.bbclass                  |   2 +-
+ meta/classes/sstate.bbclass                   |   1 +
+ meta/lib/oeqa/runtime/cases/parselogs.py      |   3 +-
+ meta/lib/oeqa/runtime/cases/ptest.py          |   2 +-
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../util-linux/CVE-2021-37600.patch           |  38 ++
+ .../createrepo-c/createrepo-c_0.17.0.bb       |   4 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   9 +
+ ...ix-memory-disclosure-in-virgl_cmd_ge.patch |  43 ++
+ ...ix-resource-leak-in-vg_resource_crea.patch |  41 ++
+ ...ix-memory-leak-in-vg_resource_attach.patch |  48 ++
+ ...ix-memory-leak-while-calling-vg_reso.patch |  50 ++
+ ...ix-memory-leak-in-virgl_cmd_resource.patch |  58 +++
+ ...ix-memory-leak-in-virgl_resource_att.patch |  49 ++
+ ...ix-OOB-write-in-virgl_cmd_get_capset.patch |  49 ++
+ .../qemu/qemu/CVE-2021-3527-1.patch           |  42 ++
+ .../qemu/qemu/CVE-2021-3527-2.patch           |  59 +++
+ .../stress-ng/stress-ng/no_daddr_t.patch      |  32 --
+ .../stress-ng/stress-ng_0.12.05.bb            |   2 -
+ meta/recipes-extended/zstd/zstd_1.4.9.bb      |   2 +
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ meta/recipes-support/aspell/aspell_0.60.8.bb  |   4 +-
+ .../aspell/files/CVE-2019-25051.patch         | 101 ++++
+ .../curl/curl/CVE-2021-22901.patch            | 453 ++++++++++++++++++
+ .../curl/curl/CVE-2021-22924.patch            | 298 ++++++++++++
+ .../curl/curl/CVE-2021-22925.patch            |  50 ++
+ .../curl/curl/CVE-2021-22926.patch            |  79 +++
+ meta/recipes-support/curl/curl_7.75.0.bb      |   4 +
+ .../{nettle_3.7.2.bb => nettle_3.7.3.bb}      |   2 +-
+ scripts/lib/devtool/upgrade.py                |   3 +
+ scripts/runqemu                               |   2 +-
+ 37 files changed, 1537 insertions(+), 87 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-vhost-user-gpu-fix-memory-disclosure-in-virgl_cmd_ge.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0002-vhost-user-gpu-fix-resource-leak-in-vg_resource_crea.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0003-vhost-user-gpu-fix-memory-leak-in-vg_resource_attach.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0004-vhost-user-gpu-fix-memory-leak-while-calling-vg_reso.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0005-vhost-user-gpu-fix-memory-leak-in-virgl_cmd_resource.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0006-vhost-user-gpu-fix-memory-leak-in-virgl_resource_att.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0007-vhost-user-gpu-fix-OOB-write-in-virgl_cmd_get_capset.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
+ delete mode 100644 meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
+ create mode 100644 meta/recipes-support/aspell/files/CVE-2019-25051.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22901.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22924.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22925.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22926.patch
+ rename meta/recipes-support/nettle/{nettle_3.7.2.bb => nettle_3.7.3.bb} (96%)
+
 -- 
-2.32.0
+2.31.1
 
