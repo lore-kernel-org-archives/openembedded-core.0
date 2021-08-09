@@ -1,56 +1,122 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.23147.1628516977589258924
+ by mx.groups.io with SMTP id smtpd.web11.23047.1628516977908576300
  for <openembedded-core@lists.openembedded.org>;
  Mon, 09 Aug 2021 06:49:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64DF86D
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 06:49:36 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C456D6E
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 06:49:37 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 096493F718
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 06:49:35 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 978CA3F718
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 06:49:36 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] buildtools-tarball: add testsdk task
-Date: Mon,  9 Aug 2021 14:49:32 +0100
-Message-Id: <20210809134933.2654738-1-ross.burton@arm.com>
+Subject: [PATCH v2 2/2] oeqa/sdk: add some buildtools tests
+Date: Mon,  9 Aug 2021 14:49:33 +0100
+Message-Id: <20210809134933.2654738-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210809134933.2654738-1-ross.burton@arm.com>
+References: <20210809134933.2654738-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Add a testsdk task, which is essentially the same as testsdk.bbclass but
-the test case directory is changed.  This lets us exercise the
-buildtools tarballs at build time.
+These two tests are designed to exercise the buildtools-tarball.
+
+SanityTests simply verifies that inside the SDK, some commands are used
+from the SDK.
+
+BuildTests creates a new OE build directory and builds virtual/libc to
+verify that a basic build works correctly. DL_DIR is reused to avoid
+needless downloading, but sstate is not shared to ensure a build does
+happen.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/lib/oeqa/sdk/buildtools-cases/README    |  2 ++
+ meta/lib/oeqa/sdk/buildtools-cases/build.py  | 23 ++++++++++++++++++++
+ meta/lib/oeqa/sdk/buildtools-cases/sanity.py | 22 +++++++++++++++++++
+ 3 files changed, 47 insertions(+)
+ create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/README
+ create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/build.py
+ create mode 100644 meta/lib/oeqa/sdk/buildtools-cases/sanity.py
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-=
-core/meta/buildtools-tarball.bb
-index 9775430d4bf..6e96cf6c326 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -99,3 +99,16 @@ TOOLCHAIN_NEED_CONFIGSITE_CACHE =3D ""
-=20
- # The recipe doesn't need any default deps
- INHIBIT_DEFAULT_DEPS =3D "1"
+diff --git a/meta/lib/oeqa/sdk/buildtools-cases/README b/meta/lib/oeqa/sd=
+k/buildtools-cases/README
+new file mode 100644
+index 00000000000..d4f20faa9f7
+--- /dev/null
++++ b/meta/lib/oeqa/sdk/buildtools-cases/README
+@@ -0,0 +1,2 @@
++These test cases are used by buildtools-tarball, and are not used by the=
+ testsdk
++class.
+diff --git a/meta/lib/oeqa/sdk/buildtools-cases/build.py b/meta/lib/oeqa/=
+sdk/buildtools-cases/build.py
+new file mode 100644
+index 00000000000..5a17ab98c6c
+--- /dev/null
++++ b/meta/lib/oeqa/sdk/buildtools-cases/build.py
+@@ -0,0 +1,23 @@
++#
++# SPDX-License-Identifier: MIT
++#
 +
-+python do_testsdk() {
-+    import oeqa.sdk.testsdk
-+    testsdk =3D oeqa.sdk.testsdk.TestSDK()
++import os, tempfile
++from oeqa.sdk.case import OESDKTestCase
++from oeqa.utils.subprocesstweak import errors_have_output
++errors_have_output()
 +
-+    cases_path =3D os.path.join(os.path.abspath(os.path.dirname(oeqa.sdk=
-.testsdk.__file__)), "buildtools-cases")
-+    testsdk.context_executor_class.default_cases =3D cases_path
++class BuildTests(OESDKTestCase):
++    """
++    Verify that bitbake can build virtual/libc inside the buildtools.
++    """
++    def test_libc(self):
++        with tempfile.TemporaryDirectory(prefix=3D'bitbake-build-', dir=3D=
+self.tc.sdk_dir) as testdir:
++            corebase =3D self.td['COREBASE']
 +
-+    testsdk.run(d)
-+}
-+addtask testsdk
-+do_testsdk[nostamp] =3D "1"
-+do_testsdk[depends] +=3D "xz-native:do_populate_sysroot"
++            self._run('. %s/oe-init-build-env %s' % (corebase, testdir))
++            with open(os.path.join(testdir, 'conf', 'local.conf'), 'ta')=
+ as conf:
++                conf.write('\n')
++                conf.write('DL_DIR =3D "%s"\n' % self.td['DL_DIR'])
++
++            self._run('. %s/oe-init-build-env %s && bitbake virtual/libc=
+' % (corebase, testdir))
+diff --git a/meta/lib/oeqa/sdk/buildtools-cases/sanity.py b/meta/lib/oeqa=
+/sdk/buildtools-cases/sanity.py
+new file mode 100644
+index 00000000000..64baaa8f84f
+--- /dev/null
++++ b/meta/lib/oeqa/sdk/buildtools-cases/sanity.py
+@@ -0,0 +1,22 @@
++#
++# SPDX-License-Identifier: MIT
++#
++
++import shutil
++import os.path
++from oeqa.sdk.case import OESDKTestCase
++
++class SanityTests(OESDKTestCase):
++    def test_tools(self):
++        """
++        Test that wget and tar come from the buildtools, not the host. T=
+his
++        verifies that the buildtools have installed correctly. We can't =
+check
++        for gcc as that is only installed by buildtools-extended.
++        """
++        for command in ("tar", "wget"):
++            # Canonicalise the SDK root
++            sdk_base =3D os.path.realpath(self.tc.sdk_dir)
++            # Canonicalise the location of this command
++            tool_path =3D os.path.realpath(self._run("command -v %s" % c=
+ommand).strip())
++            # Assert that the tool was found inside the SDK root
++            self.assertEquals(os.path.commonprefix((sdk_base, tool_path)=
+), sdk_base)
 --=20
 2.25.1
 
