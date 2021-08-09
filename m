@@ -1,41 +1,71 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web12.29698.1628544208155635395
- for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 14:23:28 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from [::1] (port=42960 helo=cpanel8.indieserve.net)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1mDCk2-0003mZ-4A
-	for openembedded-core@lists.openembedded.org; Mon, 09 Aug 2021 17:23:26 -0400
-Received: from [174.114.57.56] ([174.114.57.56]) by crashcourse.ca (Horde
- Framework) with HTTPS; Mon, 09 Aug 2021 17:23:25 -0400
-Date: Mon, 09 Aug 2021 17:23:25 -0400
-Message-ID: <20210809172325.Horde.owcQVJtv5qIGBd0Lr7-Hlyb@crashcourse.ca>
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Subject: Re: ALTERNATIVE_LINK_NAME in bash recipe doesn't create /bin/sh
 To: openembedded-core@lists.openembedded.org
-Subject: ntpsec on OE/YP?
-User-Agent: Horde Application Framework 5
+From: "Devendra Tewari" <devendra.tewari@gmail.com>
+X-Originating-Location: Recife, Pernambuco, BR (177.19.53.12)
+X-Originating-Platform: Mac Safari 14.1
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday@crashcourse.ca
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
-Content-Disposition: inline
+Date: Mon, 09 Aug 2021 14:36:12 -0700
+References: <i9kg.1628541764875972527.mOQ9@lists.openembedded.org>
+In-Reply-To: <i9kg.1628541764875972527.mOQ9@lists.openembedded.org>
+Message-ID: <17540.1628544972358866806@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="REzulVdFhwVQVBt7PuMO"
 
+--REzulVdFhwVQVBt7PuMO
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-colleague asks about the state of ntpsec (https://www.ntpsec.org/)
-on OE/YP, a quick search does not show official support of any kind,
-any pointers?
+To provide more context, these are the ALTERNATIVE variables in the recipe =
+around=C2=A0ALTERNATIVE_LINK_NAME[sh]
 
-rday
+ALTERNATIVE:${PN} =3D "bash sh"
+ALTERNATIVE_LINK_NAME[bash] =3D "${base_bindir}/bash"
+ALTERNATIVE_TARGET[bash] =3D "${base_bindir}/bash"
+ALTERNATIVE_LINK_NAME[sh] =3D "${base_bindir}/sh"
+ALTERNATIVE_TARGET[sh] =3D "${base_bindir}/bash.${BPN}"
 
+Based on earlier messages on=C2=A0ALTERNATIVE_LINK_NAME and ALTERNATIVE_TAR=
+GET, I have arrived at the conclusion that a link should be created but isn=
+'t.
+
+Thanks,
+Devendra
+
+--REzulVdFhwVQVBt7PuMO
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<span style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica=
+; font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inl=
+ine-color=3D"">To provide more context, these are the ALTERNATIVE variables=
+ in the recipe around&nbsp;ALTERNATIVE_LINK_NAME[sh]</span><br style=3D"car=
+et-color: #ffffff; color: #ffffff; font-family: Helvetica; font-size: 12px;=
+ --darkreader-inline-color: #e8e6e3;" data-darkreader-inline-color=3D"" /><=
+br style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica; f=
+ont-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inline=
+-color=3D"" />
+<div style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica;=
+ font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inli=
+ne-color=3D"">ALTERNATIVE:${PN} =3D "bash sh"</div>
+<div style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica;=
+ font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inli=
+ne-color=3D"">ALTERNATIVE_LINK_NAME[bash] =3D "${base_bindir}/bash"</div>
+<div style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica;=
+ font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inli=
+ne-color=3D"">ALTERNATIVE_TARGET[bash] =3D "${base_bindir}/bash"</div>
+<div style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica;=
+ font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inli=
+ne-color=3D"">ALTERNATIVE_LINK_NAME[sh] =3D "${base_bindir}/sh"</div>
+<div style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica;=
+ font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inli=
+ne-color=3D"">ALTERNATIVE_TARGET[sh] =3D "${base_bindir}/bash.${BPN}"</div>
+<div style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica;=
+ font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inli=
+ne-color=3D""><br />Based on earlier messages on&nbsp;ALTERNATIVE_LINK_NAME=
+ and ALTERNATIVE_TARGET, I have arrived at the conclusion that a link shoul=
+d be created but isn't.</div>
+<div style=3D"caret-color: #ffffff; color: #ffffff; font-family: Helvetica;=
+ font-size: 12px; --darkreader-inline-color: #e8e6e3;" data-darkreader-inli=
+ne-color=3D""><br />Thanks,<br />Devendra</div>
+
+--REzulVdFhwVQVBt7PuMO--
