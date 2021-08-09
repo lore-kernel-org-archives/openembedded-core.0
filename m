@@ -1,67 +1,55 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
  by mx.groups.io with SMTP id smtpd.web12.24726.1628523364931716435
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 08:36:21 -0700
+ Mon, 09 Aug 2021 08:36:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466866"
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466870"
 X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="278466866"
+   d="scan'208";a="278466870"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:21 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:22 -0700
 X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="483462932"
+   d="scan'208";a="483462948"
 Received: from abinzahx-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.229.181])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:20 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:21 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 13/23] createrepo-c: fix createrepo-c failed in nativesdk
-Date: Mon,  9 Aug 2021 23:35:45 +0800
-Message-Id: <d99b4dac74add826aa63ecb20c427d2884985329.1628522214.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 14/23] oeqa/runtime/cases/ptest: Increase test timeout from 300s to 450s
+Date: Mon,  9 Aug 2021 23:35:46 +0800
+Message-Id: <616f0981c8a4ecd358c70c63f88b0bea51cf4e77.1628522214.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1628522214.git.anuj.mittal@intel.com>
 References: <cover.1628522214.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: hongxu <hongxu.jia@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-In sdk, call createrepo-c failed with:
-...
-$ createrepo_c --update ./test_repo/rpm
-Directory walk started Critical: Failed to detect compression for file
-./test_repo/rpm/cortexa72/hello-2.10-r0.cortexa72.rpm: magic_load() failed: could not find any valid magic files!
-...
+Some tests such as lttng-tools are marginal and timing out on the autobuilder
+with the current 300s default. Increase to avoid this noise in the ptest
+failures list.
 
-Since commit [ea666fbc74 createrepo-c: set path to magic database for
-native and nativesdk] applied, the MAGIC is incorrectly assigned.
-
-The variable datadir will be expanded automatically for nativesdk,
-do not need to add prefix ${SDKPATHNATIVE} to MAGIC
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54368f1b02e1ac4aa068515730a8c8bcd3683eb3)
+(cherry picked from commit 5fb902a52e35130af6b0735a087c709daa35655f)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/runtime/cases/ptest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb
-index e0433806b2..7480affbc0 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb
-@@ -33,8 +33,8 @@ do_install_append_class-native() {
- do_install_append_class-nativesdk() {
-         create_wrapper ${D}/${bindir}/createrepo_c \
-                 RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
--                MAGIC=${SDKPATHNATIVE}${datadir}/misc/magic.mgc
-+                MAGIC=${datadir}/misc/magic.mgc
-         create_wrapper ${D}/${bindir}/modifyrepo_c \
--                MAGIC=${SDKPATHNATIVE}${datadir}/misc/magic.mgc
-+                MAGIC=${datadir}/misc/magic.mgc
-         rm -rf ${D}/etc
- }
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index 0800f3c27f..00742da2b5 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -57,7 +57,7 @@ class PtestRunnerTest(OERuntimeTestCase):
+         ptest_dirs = [ '/usr/lib' ]
+         if not libdir in ptest_dirs:
+             ptest_dirs.append(libdir)
+-        status, output = self.target.run('ptest-runner -d \"{}\"'.format(' '.join(ptest_dirs)), 0)
++        status, output = self.target.run('ptest-runner -t 450 -d \"{}\"'.format(' '.join(ptest_dirs)), 0)
+         os.makedirs(ptest_log_dir)
+         with open(ptest_runner_log, 'w') as f:
+             f.write(output)
 -- 
 2.31.1
 
