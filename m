@@ -1,78 +1,85 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web12.27641.1628535261614030256
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web11.27711.1628536226059490696
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 11:54:22 -0700
+ Mon, 09 Aug 2021 12:10:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mQ15y42B;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.54, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f54.google.com with SMTP id h24-20020a1ccc180000b029022e0571d1a0so703601wmb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 11:54:21 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=Dn5WBWPb;
+ spf=pass (domain: linaro.org, ip: 209.85.222.176, mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qk1-f176.google.com with SMTP id a19so19604670qkg.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 12:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wb8heRzahGswzbWMlPClWtFEqnLtVJed077CtMqRFeM=;
-        b=mQ15y42BiICs+uFub2TcSH5gAmQATFgUacCVTNwYocUp2qpQ4L1O3yujSbaSWt6nRY
-         jsgFvCcukRBVf+udapV3qnisFtG4EjsN3R1mcaM4X3nsnZzjUxfHitH5KHG5EX5UudN+
-         B/njh7U/2btRQWwZF9Nni5M4tuA3kB97SKGzFBFJc5RkjusOYGNjFTuhfvDbZcVj08bH
-         Ii+eQG8M3Hir+VFJ+B5OhcopM3djYOCGL5GQR1Sfmqb68eKYyA4gw9sREoatwG1Wo1wR
-         PmZEJxOUseMYwE9OqcpJ4M91tYtleflReeDcYigsJWz0aB9I5EuNdvHVy0oR/JQb9+yH
-         fUZg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NPMrIXKbCNEwiE/Jr5nkbfN32WNemM4ZQSUmG08zAeQ=;
+        b=Dn5WBWPbCI7FnpizxVoNqTov3vbOosWiv60ISDG9/9UPmF6SkGEAza5UZA7AUjTt2G
+         hoMwrvyzhDXliDbcYMTundevZPdGL5RJAXMlDVtsZZZGxmLwo+hq+vWv3/n5v1bFguR6
+         bBvA7km/M+omlsJo20yN84fgWekU+PdQkVS5g4mOu1/h7hlp1xdtEzqrYtPAjypkKzPv
+         nuOFDhmTjIox2WLvvVZ6x8av4VDXTz1jp/JFMDQXTUDoEzZxrjx2rUFJPA5XQRFC6YRG
+         PmQoYA9hFR5ourzP8gvASsEs23e4a72bkD83WKZLuzNPdip1Dhy5gfHxTKmkOsAJypOS
+         EJpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wb8heRzahGswzbWMlPClWtFEqnLtVJed077CtMqRFeM=;
-        b=b0biySj70/RHv3bqXanJW2pLrqCxMyU83IavU+nEh2QsRB4KhiR4S+oUmYv7nec2qm
-         XVf6gePrzM/clC/kXuhmVKr11grfp2RErBl/KP3UzYhIoIAVm2AA5jWHPWjFkb/MQ67t
-         kJEuGoDz+nDi6bixRwgjZ+YbInuGSB4aAWUHi3wmW5hoFoTFy5SAGivN6F6Sp29jJ+/i
-         QPmAxenlyf8Pua4RfLUXUOevDF1vY80Y0Aod/+aX1fG3fIYgvXqr83cK5HF8X6bGksqD
-         BXYxaTbD+nwSx1qCAA+udE+VkQd6d2ZmJAEefzicKX3GZoOB+TxyzggNWIZRrJb4+71h
-         UQag==
-X-Gm-Message-State: AOAM533ADBdEhKfF+qJdFaaScswdAC+6hpqVTGyPX+OxbtO1hkBaPqNw
-	M4n3BwHAkUOv1VsTDCXxMza0XxJGBT9zRj57k91bkg==
-X-Google-Smtp-Source: ABdhPJxH3B37vhp+KlpqJMrX6YsWLPeEUYDrDcOCY1qH0cc60r5nkXFbH6ub2FqGMKQmpmTEbKH9dtiSg2qcVZoEfIc=
-X-Received: by 2002:a1c:23d2:: with SMTP id j201mr607045wmj.4.1628535260100;
- Mon, 09 Aug 2021 11:54:20 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NPMrIXKbCNEwiE/Jr5nkbfN32WNemM4ZQSUmG08zAeQ=;
+        b=KgKaeKhAs2XI1nFnqhDKKMwrxm4CltROTSy8RNDOedPbB7Cd5Y+XymP0mR93hAhtFi
+         Yrypxnvd4sXv9oH1cWf98xrWkeoAI+j3Fa+s0kdufhHi8VGc7AWoyYgq/E1PNxs2CwcP
+         /LGYRrqqVNN992kIPBNdg75KYW5NvZKWTMiYQGMmfCTqvYfe0HUW+smG2xslajsxzrrD
+         kQnknfOFTgZ08j984+Ge+G2X6ReIt11mfiF0ZhWo2dePrcFk/uR+ZJ0vm+/9EV2yfyuA
+         N8jrVUmF8EjBCiRmRg9b54YQ8eNOplkNvBe9erbZ6ALfDvolthsWgC+HpNaR7qTJnB7o
+         dFfg==
+X-Gm-Message-State: AOAM533kIPCB8I26bR3ozQKPGHfGLe1BqiHDtTWr4SCAnEJnzqyYXXb4
+	x1sjHdeIBdBL21OaKH6e8egzYjkMf3ESQzMw
+X-Google-Smtp-Source: ABdhPJw1SCaApR0XiTJVzx++ke1DQmVPCcAPSQuiynx3gKr8bPs7ODlQVpaAEcMg0dce34BFm7vH5A==
+X-Received: by 2002:a37:de13:: with SMTP id h19mr8200469qkj.441.1628536225226;
+        Mon, 09 Aug 2021 12:10:25 -0700 (PDT)
+Return-Path: <ralph.siemsen@linaro.org>
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id d138sm5577439qkg.100.2021.08.09.12.10.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Aug 2021 12:10:24 -0700 (PDT)
+From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [dunfell][PATCH] glibc: Document and whitelist CVE-2021-35942
+Date: Mon,  9 Aug 2021 15:10:17 -0400
+Message-Id: <20210809191017.373636-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210808143359.6E9409602DA@nuc.router0800d9.com> <20210809183740.GA373236@maple.netwinder.org>
-In-Reply-To: <20210809183740.GA373236@maple.netwinder.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 9 Aug 2021 08:54:08 -1000
-Message-ID: <CAOSpxday+LLxEi5BvhzSkgHxiSh2gkvRhB3W-h3dndeGuN+PkQ@mail.gmail.com>
-Subject: Re: [OE-core] OE-core CVE metrics for dunfell on Sun 08 Aug 2021 04:30:01 AM HST
-To: Ralph Siemsen <ralph.siemsen@linaro.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 9, 2021 at 8:37 AM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
->
-> On Sun, Aug 08, 2021 at 04:33:59AM -1000, Steve Sakoman wrote:
-> >Branch: dunfell
-> >
-> >New this week: 3 CVEs
-> >CVE-2021-28966: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28966 *
-> >CVE-2021-31810: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31810 *
-> >CVE-2021-35942: glibc
-> >https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35942 *
->
-> It looks like the glibc one is already fixed in the dunfell branch:
->
-> commit e1e89ff7d75c3d22 ("glibc: update to lastest 2.31 release HEAD")
->
-> Includes the following fixes:
->
-> 4f0a61f753 wordexp: handle overflow in positional parameter number (bug
-> 28011)
->
-> which fixes the CVE, although it isn't mention in the commit:
->
-> https://sourceware.org/git/?p=glibc.git;a=commit;h=4f0a61f75385c9a5879cbe7202042e88f692a3c8
->
-> So I think all that's needed is CVE_CHECK_WHITELIST += "CVE-2021-35942"
-> I can submit a patch for this if you wish...
+This CVE is fixed in the upstream glibc-2.31 branch, and dunfell already
+includes an update to this version in commit e1e89ff7d75c3d22 ("glibc:
+update to lastest 2.31 release HEAD")
 
-That would be much appreciated!
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+---
+ meta/recipes-core/glibc/glibc_2.31.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Steve
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 23242fff76..8742efc36f 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -18,6 +18,16 @@ CVE_CHECK_WHITELIST += "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024"
+ # Potential patch at https://sourceware.org/bugzilla/show_bug.cgi?id=22853
+ CVE_CHECK_WHITELIST += "CVE-2019-1010025"
+ 
++# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35942
++# The wordexp function in the GNU C Library (aka glibc) through 2.33 may crash
++# or read arbitrary memory in parse_param (in posix/wordexp.c) when called with
++# an untrusted, crafted pattern, potentially resulting in a denial of service
++# or disclosure of information. Patch was backported to 2.31 branch already:
++# https://sourceware.org/git/?p=glibc.git;a=commit;h=4f0a61f75385c9a5879cbe7202042e88f692a3c8
++# which is already included in the dunfell branch of poky:
++# https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=dunfell&id=e1e89ff7d75c3d2223f9e3bd875b9b0c5e15836b
++CVE_CHECK_WHITELIST += "CVE-2021-35942"
++
+ DEPENDS += "gperf-native bison-native make-native"
+ 
+ NATIVESDKFIXES ?= ""
+-- 
+2.25.1
+
