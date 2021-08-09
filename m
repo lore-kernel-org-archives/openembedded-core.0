@@ -1,65 +1,353 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.26527.1628531607228810587
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+ by mx.groups.io with SMTP id smtpd.web08.26779.1628532758763639287
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 10:53:27 -0700
+ Mon, 09 Aug 2021 11:12:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=ThLHFQGn;
- spf=pass (domain: burtonini.com, ip: 209.85.221.48, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f48.google.com with SMTP id q11so4329551wrr.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 10:53:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7PijsCO;
+ spf=pass (domain: gmail.com, ip: 209.85.219.169, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f169.google.com with SMTP id s48so31145511ybi.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 11:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sy+ZJgm6i06DOpM0zNFd8asnXTAe7oa1txZxe+DntKM=;
-        b=ThLHFQGnRLntzdRXtTBEaxFzdvSw2vdE3ZSvuff//uBLO4qTrMATMMTb8dE/4QJocY
-         GLA8ZtvQSLy6R1Ft+zpdw2fC7UbktHrlcdfjNZ5ITkFHHDMjjHi/XZtNTQsE4UQhzpeu
-         0Gi/EEdJT0nJZydu4nnwNeMKuwloExP/waisJy1l953Y6wvKJ+NgaZe7h1vrvdscdk28
-         8TxS1bVT6uSwXDC4Q37eRM5NW+NG6i3ygi6Bwdo38WqYHq++O0dItaPrEzibPJBvNR4+
-         BVBrj4Juxg69qqSlbPCsNUa4tjcRkgq5B+/QB72SUroxWW8Zzy8ELZagfvls5JA4AQMu
-         8e1Q==
+         :cc:content-transfer-encoding;
+        bh=YQUWx788vIypNNQY8/reeczcU9NdCKzDz8lyqtPInhY=;
+        b=J7PijsCOixjUmwxNJI8JtNOQ8+1bngE5kxRf6q/Mx3DvASlyjm3TqNUcma7DjmQ26w
+         A7rVsQQr7ZDUzlUvgqz+iotdO9xqLFuAY12DEm1JhXhAQNPAur1/TncmHN8m9YaZr/36
+         /QpG/b7TOD0iJEaJo0ZhG/v+cGBtgncBSjcuzRhoPSv+lTx+rxwKs21mAJGgKUI6+HCp
+         Be3TeaAnv3hfrNeFF/vIkJdOanYKNWbsBbXsm6dCbKh8255c2MjP10pVzejBaXVVpAVy
+         Ke+7XW515O1z201E+jB+QozAl+WnAn67XD9FHZYhgWKmPV/Hvtdu1PNFw4TIB6mAiwIS
+         f/Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sy+ZJgm6i06DOpM0zNFd8asnXTAe7oa1txZxe+DntKM=;
-        b=VQy2A1WBOBLq7gP4Unwu4INVPgNTkLHlIAYTLj5hJp25eBnU+qco/+OxuQ4fDlANm7
-         AIkAFeDHgLE4l4SQGnL3FhI7oNJjD/4eI72+9S+Gp9VFWEiPEXvBuL92m+ob6gUF0j6T
-         I8TJ7PNja5fPt8+7o8O3DDIP0jJmfPyursSu3eyovUuGj7xfo2aH0QbJFTRWJISkD2eS
-         ZMVH70IHQ+JALZLemwXW6e9W4JXAP+sQh4Pgz3s1rIuoawLf8F0bdo9uyBcVWXh/lJR0
-         7ber4exc+CPt5G2j39/o41EGXROFbh5sok+QAJ/g1p9VtWfZWpft9nGawkqVG74N31yT
-         tAxA==
-X-Gm-Message-State: AOAM533Uc3M/y42blCDIPe70FDk09RneX+4oLwGLLOEGCIGyAIXvJp8I
-	c1dbQSeJ5JUsqrdsooj7WAYZHDpuYIwQCe5BEn6yyg==
-X-Google-Smtp-Source: ABdhPJzuZoxfcZTQ8ASTa2ZP9ox2WrV7zWpUumK9i3ey2imhNB5uapeOCxf10Y5u9qMNfHY7Gr3xtxvEm3g1uMpCPwg=
-X-Received: by 2002:a5d:5987:: with SMTP id n7mr27050232wri.260.1628531605520;
- Mon, 09 Aug 2021 10:53:25 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YQUWx788vIypNNQY8/reeczcU9NdCKzDz8lyqtPInhY=;
+        b=o0LlvDcevav9oMKiYAISY+runb6L4VxQf5ksD/T3xceY1N/OPoXhVY7YXCUhc8+Xmw
+         ziTIGxPppp49C0FMBe6hLOTjT/WsqLxklmOFMBQ7POtlcCiko3trKBrsvxc7SmE20WZJ
+         B/wguLteWLNR097rBYfxyAgu8uBPU7Ff6ESDCu5WTlxByG3YpRyOC6fiiQdgGcolBr1C
+         DKUiutzFujWZRYxk6IVpFghM3ikKd4FqOO+PLYRVvSvbgabwudrIVt7OEDk8PW3BC1eD
+         ctx345h0s7sMY0GB8cSoOoWkogSjaXoo9ygzA/9+G93X6x3k4i9XA5BUr2llTPuadL0z
+         HkeA==
+X-Gm-Message-State: AOAM531ON75dFximIpZgaYvtBIbz7m0l8nD7NaUDKWU6aEDjIGpmwUup
+	2nt7l83ZIsjzCblIGde4d8h0S7S6+nciKc+1Crc=
+X-Google-Smtp-Source: ABdhPJyXYhsN8cWTUpCUmwUyZENXBdR6dILt2JQkeP2aWbl1LPXce+LtBiSPztVcyKmjDqzBtkyDI6KYFswQ5R05YOw=
+X-Received: by 2002:a25:b84e:: with SMTP id b14mr32900908ybm.237.1628532757978;
+ Mon, 09 Aug 2021 11:12:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210803051138.30790-1-qiang.zhang@windriver.com>
-In-Reply-To: <20210803051138.30790-1-qiang.zhang@windriver.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 9 Aug 2021 18:53:14 +0100
-Message-ID: <CAAnfSTtD=Vz-3SY0UYBh62en9Z_WMzWP7iRQPynmJPmCR+PiHQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3: use monotonic clock for condvar if possible
-To: "Zhang, Qiang" <qiang.zhang@windriver.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+References: <1628493621-2045-1-git-send-email-purushottam.choudhary@kpit.com>
+In-Reply-To: <1628493621-2045-1-git-send-email-purushottam.choudhary@kpit.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Mon, 9 Aug 2021 08:12:26 -1000
+Message-ID: <CAGDS+nno2bBc8m7G5HvgkNjPTQhzXSApTARReKDv-24DvC6g5w@mail.gmail.com>
+Subject: Re: [OE-core] [poky][dunfell][PATCH] lighttpd: Add patch for reuse large memory chunks
+To: Purushottam choudhary <purushottam.choudhary@kpit.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	Nisha Parrakat <nisha.parrakat@kpit.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 3 Aug 2021 at 05:41, Zhang, Qiang <qiang.zhang@windriver.com> wrote:
-> The timeout for threading.Lock, threading.Condition, etc, is not using
-> a monotonic clock, it is affected if the system time (realtime clock)
-> is set.
+This version of the patch is still throwing warnings on the autobuilder:
+
+stdio: WARNING: lighttpd-1.4.55-r0 do_patch: Fuzz detected:
+stdio: WARNING: lighttpd-1.4.55-r0 do_patch: QA Issue: Patch log
+indicates that patches do not apply cleanly. [patch-fuzz]
+
+Steve
+
+On Sun, Aug 8, 2021 at 9:20 PM Purushottam choudhary
+<purushottam.choudhary@kpit.com> wrote:
 >
-> This patch will make condvar use monotonic clock.
-> Refence: https://bugs.python.org/issue41710
-
-That doesn't quite make sense to me.
-
-As referenced in that bug report,
-https://github.com/python/cpython/commit/001fee14e0f2ba5f41fb733adc69d5965925a094
-uses monotonic clocks by default.  That was in 3.8.0 onwards.
-
-So, why is this change to pretend that the semaphore is broken needed?
-
-Ross
+> Added 0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+> to fix large memory usage for large file downloads
+> from dynamic backends reuse or release large memory chunks.
+>
+> This issue is caused by a bug in the lighttpd 1.4.55 version and
+> has been fixed in lighttpd 1.4.58. Hence, it is not needed for
+> master and hardknott branch because lighttpd has 1.4.59 version.
+>
+> Link: https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisi=
+ons/7ba521ffb4959f6f74a609d5d4acafc29a038337
+>
+> Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
+> ---
+>  ...large-mem-chunks-fix-mem-usage-fixes-3033.patch | 224 +++++++++++++++=
+++++++
+>  meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb  |   1 +
+>  2 files changed, 225 insertions(+)
+>  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-reu=
+se-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+>
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-larg=
+e-mem-chunks-fix-mem-usage-fixes-3033.patch b/meta/recipes-extended/lighttp=
+d/lighttpd/0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033.patch
+> new file mode 100644
+> index 0000000..e3ede66
+> --- /dev/null
+> +++ b/meta/recipes-extended/lighttpd/lighttpd/0001-core-reuse-large-mem-c=
+hunks-fix-mem-usage-fixes-3033.patch
+> @@ -0,0 +1,224 @@
+> +From f46bba11bf47ab6d6601e6ca653f1cdc7a2673ed Mon Sep 17 00:00:00 2001
+> +From: Glenn Strauss <gstrauss@gluelogic.com>
+> +Date: Wed, 23 Dec 2020 23:14:47 -0500
+> +Subject: [PATCH] reuse large mem chunks (fix mem usage) (fixes #3033)
+> +
+> +(cherry picked from commit 7ba521ffb4959f6f74a609d5d4acafc29a038337)
+> +
+> +(thx flynn)
+> +
+> +fix large memory usage for large file downloads from dynamic backends
+> +
+> +reuse or release large memory chunks
+> +
+> +x-ref:
+> +  "Memory Growth with PUT and full buffered streams"
+> +  https://redmine.lighttpd.net/issues/3033
+> +
+> +Upstream-Status: Backport
+> +Comment: No hunk refreshed
+> +https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisions/7=
+ba521ffb4959f6f74a609d5d4acafc29a038337
+> +Signed-off-by: Purushottam Choudhary <Purushottam.Choudhary@kpit.com>
+> +
+> +---
+> + src/chunk.c            | 99 ++++++++++++++++++++++++++++++++++++++++---=
+-------
+> + src/chunk.h            |  2 +
+> + src/http-header-glue.c |  2 +-
+> + 3 files changed, 82 insertions(+), 21 deletions(-)
+> +
+> +diff --git a/src/chunk.c b/src/chunk.c
+> +index 09dd3f1..ffb3795 100644
+> +--- a/src/chunk.c
+> ++++ b/src/chunk.c
+> +@@ -28,16 +28,20 @@
+> + static size_t chunk_buf_sz =3D 4096;
+> + static chunk *chunks, *chunks_oversized;
+> + static chunk *chunk_buffers;
+> ++static int chunks_oversized_n;
+> + static array *chunkqueue_default_tempdirs =3D NULL;
+> + static off_t chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE=
+;
+> +
+> + void chunkqueue_set_chunk_size (size_t sz)
+> + {
+> +-    chunk_buf_sz =3D sz > 0 ? ((sz + 1023) & ~1023uL) : 4096;
+> ++    size_t x =3D 1024;
+> ++    while (x < sz && x < (1u << 30)) x <<=3D 1;
+> ++    chunk_buf_sz =3D sz > 0 ? x : 4096;
+> + }
+> +
+> + void chunkqueue_set_tempdirs_default_reset (void)
+> + {
+> ++    chunk_buf_sz =3D 8192;
+> +     chunkqueue_default_tempdirs =3D NULL;
+> +     chunkqueue_default_tempfile_size =3D DEFAULT_TEMPFILE_SIZE;
+> + }
+> +@@ -120,15 +124,49 @@ static void chunk_free(chunk *c) {
+> +       free(c);
+> + }
+> +
+> +-buffer * chunk_buffer_acquire(void) {
+> ++static chunk * chunk_pop_oversized(size_t sz) {
+> ++    /* future: might have buckets of certain sizes, up to socket buf si=
+zes */
+> ++    if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
+> ++        --chunks_oversized_n;
+> ++        chunk *c =3D chunks_oversized;
+> ++        chunks_oversized =3D c->next;
+> ++        return c;
+> ++    }
+> ++    return NULL;
+> ++}
+> ++
+> ++static void chunk_push_oversized(chunk * const c, const size_t sz) {
+> ++    if (chunks_oversized_n < 64 && chunk_buf_sz >=3D 4096) {
+> ++        ++chunks_oversized_n;
+> ++        chunk **co =3D &chunks_oversized;
+> ++        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
+> ++        c->next =3D *co;
+> ++        *co =3D c;
+> ++    }
+> ++    else
+> ++        chunk_free(c);
+> ++}
+> ++
+> ++static buffer * chunk_buffer_acquire_sz(size_t sz) {
+> +     chunk *c;
+> +     buffer *b;
+> +-    if (chunks) {
+> +-        c =3D chunks;
+> +-        chunks =3D c->next;
+> ++    if (sz <=3D chunk_buf_sz) {
+> ++        if (chunks) {
+> ++            c =3D chunks;
+> ++            chunks =3D c->next;
+> ++        }
+> ++        else
+> ++            c =3D chunk_init(chunk_buf_sz);
+> ++            /* future: might choose to pop from chunks_oversized, if av=
+ailable
+> ++             * (even if larger than sz) rather than allocating new chun=
+k
+> ++             * (and if doing so, might replace chunks_oversized_n) */
+> +     }
+> +     else {
+> +-        c =3D chunk_init(chunk_buf_sz);
+> ++        /*(round up to nearest chunk_buf_sz)*/
+> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
+> ++        c =3D chunk_pop_oversized(sz);
+> ++        if (NULL =3D=3D c)
+> ++            c =3D chunk_init(sz);
+> +     }
+> +     c->next =3D chunk_buffers;
+> +     chunk_buffers =3D c;
+> +@@ -137,21 +175,47 @@ buffer * chunk_buffer_acquire(void) {
+> +     return b;
+> + }
+> +
+> ++buffer * chunk_buffer_acquire(void) {
+> ++    return chunk_buffer_acquire_sz(chunk_buf_sz);
+> ++}
+> ++
+> + void chunk_buffer_release(buffer *b) {
+> +     if (NULL =3D=3D b) return;
+> +-    if (b->size >=3D chunk_buf_sz && chunk_buffers) {
+> ++    if (chunk_buffers) {
+> +         chunk *c =3D chunk_buffers;
+> +         chunk_buffers =3D c->next;
+> +         c->mem =3D b;
+> +-        c->next =3D chunks;
+> +-        chunks =3D c;
+> +         buffer_clear(b);
+> ++        if (b->size =3D=3D chunk_buf_sz) {
+> ++            c->next =3D chunks;
+> ++            chunks =3D c;
+> ++        }
+> ++        else if (b->size > chunk_buf_sz)
+> ++            chunk_push_oversized(c, b->size);
+> ++        else
+> ++            chunk_free(c);
+> +     }
+> +     else {
+> +         buffer_free(b);
+> +     }
+> + }
+> +
+> ++size_t chunk_buffer_prepare_append(buffer * const b, size_t sz) {
+> ++    if (sz > chunk_buffer_string_space(b)) {
+> ++        sz +=3D b->used ? b->used : 1;
+> ++        buffer * const cb =3D chunk_buffer_acquire_sz(sz);
+> ++        /* swap buffer contents and copy original b->ptr into larger b-=
+>ptr */
+> ++        /*(this does more than buffer_move())*/
+> ++        buffer tb =3D *b;
+> ++        *b =3D *cb;
+> ++        *cb =3D tb;
+> ++        if ((b->used =3D tb.used))
+> ++            memcpy(b->ptr, tb.ptr, tb.used);
+> ++        chunk_buffer_release(cb);
+> ++    }
+> ++    return chunk_buffer_string_space(b);
+> ++}
+> ++
+> + static chunk * chunk_acquire(size_t sz) {
+> +     if (sz <=3D chunk_buf_sz) {
+> +         if (chunks) {
+> +@@ -162,13 +226,10 @@ static chunk * chunk_acquire(size_t sz) {
+> +         sz =3D chunk_buf_sz;
+> +     }
+> +     else {
+> +-        sz =3D (sz + 8191) & ~8191uL;
+> +-        /* future: might have buckets of certain sizes, up to socket bu=
+f sizes*/
+> +-        if (chunks_oversized && chunks_oversized->mem->size >=3D sz) {
+> +-            chunk *c =3D chunks_oversized;
+> +-            chunks_oversized =3D c->next;
+> +-            return c;
+> +-        }
+> ++        /*(round up to nearest chunk_buf_sz)*/
+> ++        sz =3D (sz + (chunk_buf_sz-1)) & ~(chunk_buf_sz-1);
+> ++        chunk *c =3D chunk_pop_oversized(sz);
+> ++        if (c) return c;
+> +     }
+> +
+> +     return chunk_init(sz);
+> +@@ -183,10 +244,7 @@ static void chunk_release(chunk *c) {
+> +     }
+> +     else if (sz > chunk_buf_sz) {
+> +         chunk_reset(c);
+> +-        chunk **co =3D &chunks_oversized;
+> +-        while (*co && sz < (*co)->mem->size) co =3D &(*co)->next;
+> +-        c->next =3D *co;
+> +-        *co =3D c;
+> ++        chunk_push_oversized(c, sz);
+> +     }
+> +     else {
+> +         chunk_free(c);
+> +@@ -205,6 +263,7 @@ void chunkqueue_chunk_pool_clear(void)
+> +         chunk_free(c);
+> +     }
+> +     chunks_oversized =3D NULL;
+> ++    chunks_oversized_n =3D 0;
+> + }
+> +
+> + void chunkqueue_chunk_pool_free(void)
+> +diff --git a/src/chunk.h b/src/chunk.h
+> +index 4c6b7e4..93f343c 100644
+> +--- a/src/chunk.h
+> ++++ b/src/chunk.h
+> +@@ -50,6 +50,8 @@ typedef struct {
+> + buffer * chunk_buffer_acquire(void);
+> + void chunk_buffer_release(buffer *b);
+> +
+> ++size_t chunk_buffer_prepare_append (buffer *b, size_t sz);
+> ++
+> + void chunkqueue_chunk_pool_clear(void);
+> + void chunkqueue_chunk_pool_free(void);
+> +
+> +diff --git a/src/http-header-glue.c b/src/http-header-glue.c
+> +index d54f00c..2231fba 100644
+> +--- a/src/http-header-glue.c
+> ++++ b/src/http-header-glue.c
+> +@@ -1267,7 +1267,7 @@ handler_t http_response_read(server *srv, connecti=
+on *con, http_response_opts *o
+> +         if (avail < toread) {
+> +             /*(add avail+toread to reduce allocations when ioctl EOPNOT=
+SUPP)*/
+> +             avail =3D avail ? avail - 1 + toread : toread;
+> +-            buffer_string_prepare_append(b, avail);
+> ++            avail =3D chunk_buffer_prepare_append(b, avail);
+> +         }
+> +
+> +         n =3D read(fd, b->ptr+buffer_string_length(b), avail);
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb b/meta/rec=
+ipes-extended/lighttpd/lighttpd_1.4.55.bb
+> index 35a268a..5329465 100644
+> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+> @@ -18,6 +18,7 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/rele=
+ases-1.4.x/lighttpd-${PV}.t
+>          file://lighttpd.conf \
+>          file://lighttpd \
+>          file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config=
+.patch \
+> +        file://0001-core-reuse-large-mem-chunks-fix-mem-usage-fixes-3033=
+.patch \
+>          "
+>
+>  SRC_URI[md5sum] =3D "be4bda2c28bcbdac6eb941528f6edf03"
+> --
+> 2.7.4
+>
+> This message contains information that may be privileged or confidential =
+and is the property of the KPIT Technologies Ltd. It is intended only for t=
+he person to whom it is addressed. If you are not the intended recipient, y=
+ou are not authorized to read, print, retain copy, disseminate, distribute,=
+ or use this message or any part thereof. If you receive this message in er=
+ror, please notify the sender immediately and delete all copies of this mes=
+sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
+ed mails.
+>
+>=20
+>
