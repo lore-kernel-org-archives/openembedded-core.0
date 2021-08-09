@@ -1,67 +1,87 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.21617.1628509287864342865
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web09.21693.1628510003733471144
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 04:41:28 -0700
+ Mon, 09 Aug 2021 04:53:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=r+u4qUah;
- spf=pass (domain: burtonini.com, ip: 209.85.128.44, mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f44.google.com with SMTP id m36-20020a05600c3b24b02902e67543e17aso2842463wms.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 04:41:27 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=Rys5CR/z;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.54, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f54.google.com with SMTP id n12so10979800wrr.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 04:53:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UHx3/DOKyJbTckaPWWRHyS9bPlngfRIe+0sejR1Qyh0=;
-        b=r+u4qUahU40Z3oybSpRiKR0huX7a/xRZvLEg+96NNngcfQIslm3l03Hpc86rwcYldF
-         70Cf3NDHoZfsI/OkLjWB41S/AnyaZCBuHpUJEY9iLV5vzTn2IuZFFWV/hpQkQVPkS8/b
-         dLqi4NAuOhunDeLmnkXtqkCAyzdgxxi5b0KS6OOhjaLj2hxVgXzlX++BsVLp+YmGHHwG
-         Nf5cDHub7gFoV5Xwr6FJuvdTtuhrX0vhlbOhi4GoK5tcVvz67O9xGXXfGaVGDaDrgIt+
-         Or7/nrMvx9Wd4E9It5b4AC8OOmPPWuX7lKykU7NeH5xff1/SYmIhX01OjSNidhxuAoN7
-         d+pg==
+        bh=sNpFj/9d+2u9wwHH2XPoOGxd+CbbR2ii0K73klvyfAQ=;
+        b=Rys5CR/z6ewZer4wXanjVqFKM6qY33FOF3b6HYN6k9UP4+zhWs6CVLGC6hEpESyJ+7
+         iwKcU2Dl71ITMn095PTjoiiBYV3o8LtszjDDeiJQgUf5KUlEo6T34xv7ZmHSYV1Cn1jD
+         +4M7oTlkhFuD9zDMlQnPuixzCsm4Ls2QB93uNfITGvTRMjGvXlLo3OF4kfeThQojRGM6
+         t35scnlmOfpwm8F/bwta1aWDgRAXuACh2zdmCFtAbspHZaZh6GWDRILTC4X6HOZ/nPh2
+         pMAHcqwurx0JbiGbvOyZFDvvGA5FxbCmrpSfW3Nf6qG4d7NY9Qj8t2CAKfJcAi3qyA0I
+         qaoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UHx3/DOKyJbTckaPWWRHyS9bPlngfRIe+0sejR1Qyh0=;
-        b=CuQNVEtjvjZDGUe7pxys+FBpNSAwDpSO5O1kaYdzSLiRSoVsQte/FCzZLHT7pMO81V
-         HbNyrCvS1aTSU9ePu5O6GbeMWzpnS21NCxF6poF/6xnof335tj0vm3jA4HeySY8EqvoA
-         fCe4UjKyoQYrquRk/SIFgnhRRzVnQR8AmdF6NjyVvyG8YleqU/KChkA4a0ltnzeGvLSz
-         IenFK3ODqv1cubPuI7D/ZajEUDanWzmvCHKi0Rnj6wFuIrhQL4ded7WVnyc7BL5c9sd6
-         69OyU50yJmXTBxc97zre6+OkuIzTYcf+SvfI99iowrouzqj0IZFrRESPOrlUbW+rp1hE
-         JiGg==
-X-Gm-Message-State: AOAM5305OZGsEAKIyv7UeNu+RI/f9uH63Xnj1eRl5IZQBNzIMvVSd6u9
-	TRXuM9mDtgLsFDn9rAVlDIKrVvGIQ4KYuNVgXDnfoA==
-X-Google-Smtp-Source: ABdhPJw6SqEmuryOI1Kmrk5kWD00XOIS4SwpAO1En/3m8wHnEMM5dLy9vwpDv2ErRjiK1IXnxSp/V0fvAGU9scgTrKE=
-X-Received: by 2002:a05:600c:3782:: with SMTP id o2mr33453924wmr.137.1628509286367;
- Mon, 09 Aug 2021 04:41:26 -0700 (PDT)
+        bh=sNpFj/9d+2u9wwHH2XPoOGxd+CbbR2ii0K73klvyfAQ=;
+        b=iHipSn31Cr0i0i3Rb6SYpHoBLrH3iMBlPPwTw1tf2Aucpeci3iUrla3i7Bto6afeWV
+         Tspltbzi+tjnPGNpXO5Vvrxje9f6o6AmrSFIqpidsEmdVSKyOAz/pKrAZJnYAkTt9+sG
+         IO52GAoirybvXCsA/HWK2i/scK7ZWTPQOT8jpo4847+bywIEsliBx9s3PIRuVglodTNG
+         uu9g3oQGyR29kZkbaemlyg5PMytSQk1WDUGdsI/ObKbgwh8EfMk5N0kTcGW0K6MFn17H
+         JNS7n15E5HHBbC9jB+c5x6XQIXKhqF5BThzGC/q+23Ijs08qUxYX+/JOQ527+omQHv1A
+         uj2A==
+X-Gm-Message-State: AOAM532shNTHqOiuhJT8QIwrZNOdjQRAPuuxFzPppjFCyhwd6/oLlDEX
+	ZC9wy8C2NdnIIkcDq/bn6gGOhiUPtnKppAl9J/ZlIg==
+X-Google-Smtp-Source: ABdhPJzu96W7n0gKB1SLJPkjggPJ7O/d3sl3/TooGY1iJ6Rnr8mhrO8locnR1+7k+cbEbqAJNEzxwRJPZg+i5qPSTQY=
+X-Received: by 2002:a05:6000:9:: with SMTP id h9mr10785185wrx.396.1628510002018;
+ Mon, 09 Aug 2021 04:53:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210808140406.2C0CF9602DA@nuc.router0800d9.com>
-In-Reply-To: <20210808140406.2C0CF9602DA@nuc.router0800d9.com>
+References: <20210721135458.427938-1-ross.burton@arm.com> <54d3039017ea1c3931551bb2ed22f23e14640b32.camel@linuxfoundation.org>
+In-Reply-To: <54d3039017ea1c3931551bb2ed22f23e14640b32.camel@linuxfoundation.org>
 From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 9 Aug 2021 12:41:15 +0100
-Message-ID: <CAAnfSTt-ThYCVrh6X_kwFNdVwm1pp=j2Gg5L4tyurBLGRViBBA@mail.gmail.com>
-Subject: Re: [OE-core] OE-core CVE metrics for master on Sun 08 Aug 2021 04:00:01 AM HST
-To: Steve Sakoman <steve@sakoman.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
+Date: Mon, 9 Aug 2021 12:53:11 +0100
+Message-ID: <CAAnfSTtRvVYeD2+BdRWv5LLxnJgCOZhXxAgnB5vKJX7aD35=tA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] buildtools-tarball: add testsdk task
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Did ten minutes digging into some recent issues:
+Yeah not sure how that happened!
 
-> CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+V2 incoming :)
 
-No fixes in flight for this.
-
-> CVE-2021-35331: tcl:tcl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35331 *
-
-Disputed as the issue is in build-time tooling.
-
-> CVE-2021-35942: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35942 *
-
-Fixed in the upstream 2.33 branch, so easily merged.
-
-> CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
-
-https://github.com/libarchive/libarchive/issues/1554.  Patches in flight.
-
-Ross
+On Thu, 22 Jul 2021 at 07:50, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2021-07-21 at 14:54 +0100, Ross Burton wrote:
+> > Add a testsdk task, which is essentially the same as testsdk.bbclass but
+> > the test case directory is changed.  This lets us exercise the
+> > buildtools tarballs at build time.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/recipes-core/meta/buildtools-tarball.bb | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+> > index b5dae176bf..67a6d81ddd 100644
+> > --- a/meta/recipes-core/meta/buildtools-tarball.bb
+> > +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+> > @@ -99,3 +99,14 @@ TOOLCHAIN_NEED_CONFIGSITE_CACHE = ""
+> >
+> >
+> >  # The recipe doesn't need any default deps
+> >  INHIBIT_DEFAULT_DEPS = "1"
+> > +
+> > +python do_testsdk() {
+> > +    import oeqa.sdk.testsdk
+> > +    testsdk = oeqa.sdk.testsdk.TestSDK()
+> > +    os.path.join(os.path.abspath(os.path.dirname(oeqa.sdk.testsdk.__file__)), "buildtools-cases")
+> > +    testsdk.context_executor_class.default_cases = "/home/ross/Yocto/poky/meta/lib/oeqa/sdk/buildtools-cases"
+>
+> This looks like a good idea, I'm happy to see it but I think the line above may
+> need a small tweak! :)
+>
+> Cheers,
+>
+> Richard
+>
