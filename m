@@ -1,60 +1,115 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web12.24726.1628523364931716435
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.24676.1628523412485579588
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 08:36:35 -0700
+ Mon, 09 Aug 2021 08:36:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278466938"
-X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="278466938"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:35 -0700
-X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
-   d="scan'208";a="483462995"
-Received: from abinzahx-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.229.181])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 08:36:34 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A651E6D
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 08:36:51 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 509313F718
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Aug 2021 08:36:51 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 23/23] nettle: update 3.7.2 -> 3.7.3
-Date: Mon,  9 Aug 2021 23:35:55 +0800
-Message-Id: <49868162a1a1d088fbaabeffcc2debcbfc17b026.1628522214.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1628522214.git.anuj.mittal@intel.com>
-References: <cover.1628522214.git.anuj.mittal@intel.com>
+Subject: [PATCH 1/2] e2fsprogs: ensure small images have 256-byte inodes
+Date: Mon,  9 Aug 2021 16:36:48 +0100
+Message-Id: <20210809153649.3335478-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+e2fsprogs calls filesystems larger than 3MB but smaller than 512MB
+"small", which has some implications:
 
-fix CVE-2021-3580
+- blocksize 1024 instead of 4096
+- inode_ratio 4096 instead of 16384
+- inode_size 128 instead of 256
 
-(From OE-Core rev: 219c89310264f99c2c43bb80e437a8a1e8e3217a)
+The outcome of the inode size dropping to 128 bytes is that they cannot
+store 64-bit timestamps, so are not Y2038-safe.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+A previous attempt to solve this problem[1] changed some of the canned
+wic files to pass -T default to mkfs.ext4, but this only covered wic
+images and not traditional images.  Also, actually small filesystems,
+for example a core-image-minimal, will happily be tens of megabytes and
+with the "default" options will result in an image which runs out of
+blocks before it runs out of space:
+
+mkfs.ext4: Could not allocate block in ext2 filesystem while populating f=
+ile system
+
+Considering that many OpenEmbedded images are in fact "small", being
+2038-safe is worth the marginal increase is disk usage.  This patch
+alters the small configuration in native builds so that it also has
+256-byte inodes.  Target is unchanged so that standard behaviour is
+maintained outside of the build.
+
+This is actually the same underlying patch that Mathieu Dubois-Briand
+sent in April, but the wic change in [1] was accepted instead. I believe
+that is the wrong approach and this approach covers more cases.
+
+[ YOCTO #14478 ]
+
+[1] openembedded-core eecbe62
+[2] https://lists.openembedded.org/g/openembedded-core/message/150298
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../recipes-support/nettle/{nettle_3.7.2.bb => nettle_3.7.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/nettle/{nettle_3.7.2.bb => nettle_3.7.3.bb} (96%)
+ .../e2fsprogs/big-inodes-for-small-fs.patch   | 22 +++++++++++++++++++
+ .../e2fsprogs/e2fsprogs_1.46.2.bb             |  1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/big-inodes-=
+for-small-fs.patch
 
-diff --git a/meta/recipes-support/nettle/nettle_3.7.2.bb b/meta/recipes-support/nettle/nettle_3.7.3.bb
-similarity index 96%
-rename from meta/recipes-support/nettle/nettle_3.7.2.bb
-rename to meta/recipes-support/nettle/nettle_3.7.3.bb
-index f8f3360086..031500d741 100644
---- a/meta/recipes-support/nettle/nettle_3.7.2.bb
-+++ b/meta/recipes-support/nettle/nettle_3.7.3.bb
-@@ -24,7 +24,7 @@ SRC_URI_append_class-target = "\
-             file://dlopen-test.patch \
-             "
- 
--SRC_URI[sha256sum] = "8d2a604ef1cde4cd5fb77e422531ea25ad064679ff0adf956e78b3352e0ef162"
-+SRC_URI[sha256sum] = "661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0"
- 
- UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--- 
-2.31.1
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/big-inodes-for-sma=
+ll-fs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/big-inodes-for-sm=
+all-fs.patch
+new file mode 100644
+index 00000000000..caeb560d322
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/big-inodes-for-small-fs.p=
+atch
+@@ -0,0 +1,22 @@
++Ensure "small" file systems also have the default inode size (256 bytes)=
+ so that
++can store 64-bit timestamps and work past 2038.
++
++The "small" type is any size >3MB and <512MB, which covers a lot of rela=
+tively
++small filesystems built by OE, especially when they're sized to fit the =
+contents
++and expand to the storage on boot.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++diff --git a/misc/mke2fs.conf.in b/misc/mke2fs.conf.in
++index 01e35cf8..29f41dc0 100644
++--- a/misc/mke2fs.conf.in
+++++ b/misc/mke2fs.conf.in
++@@ -16,7 +16,6 @@
++ 	}
++ 	small =3D {
++ 		blocksize =3D 1024
++-		inode_size =3D 128
++ 		inode_ratio =3D 4096
++ 	}
++ 	floppy =3D {
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb
+index d68d131e0ad..8cc046c7946 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.2.bb
+@@ -10,6 +10,7 @@ SRC_URI +=3D "file://remove.ldconfig.call.patch \
+=20
+ SRC_URI:append:class-native =3D " file://e2fsprogs-fix-missing-check-for=
+-permission-denied.patch \
+                                 file://quiet-debugfs.patch \
++                                file://big-inodes-for-small-fs.patch \
+ "
+=20
+=20
+--=20
+2.25.1
 
