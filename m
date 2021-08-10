@@ -1,191 +1,274 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.823.1628550630206143041
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.1798.1628555662421555602
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 16:10:30 -0700
+ Mon, 09 Aug 2021 17:34:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fRLuoa4x;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso1477365pjb.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 16:10:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=K9TmsdPC;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id a5so2909629plh.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 17:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5fDem1acgG4A74TxftD4vjgArS2kMixB/DNU+ajMHjg=;
-        b=fRLuoa4xEHtXi3x0MVZMJcSXrU+cVCUU8yi0qHKt4k+OhCnkxNIGLH0/u02Uw51W2h
-         d+Aus0emXdwL99Nbgd+dquDjRQ+zBxVaUM1N3VqJ4XM3GqrSIvtj/6AnSbX4tYgfgluJ
-         r+ocTlWe+nf3hRoMwQqDG1WdliDUnFiE1sg1oXrZ6FbGBrleDKSQ8O9ilkYvEr4rtJqy
-         huXy18MtBdVQRB006ooNF3u5MVKhCfmbgsdMaOwhxo7cMdu0IEu62xF7B+9oN2oMd/Pq
-         WhwaBYY4ACmKahf1EZ/OrAuXXN8CqsnbKQcXDfZnBWJd2fCy0hMvkarUjy0J0iweORsP
-         jFfQ==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=bldX5S5JLrkvOGSoFIqGQ1GHV/kAleg8hQs5yE/7Yys=;
+        b=K9TmsdPCLMUs26MO7yGGLtoZhQKmcnBIoBxZv/nvxPC1+VzS+LmiGNtI/feikY4Yen
+         dpV5qbobnXBl+KwWdcvYzArq6i+F5TqOU4g1X0VWIAc3R6xuM598E8REqCJxAcvSkr5/
+         VaEP8nWbN+ufTrR0lzGYmmsOyrRBqOS8nodEY2lh821RPRmiWvZhHX9n+CnVp1gfldhV
+         iUTpbn4LvKzP/49fXh7pWMstF83LpNfp/VIEuoxt3xZjRbH6B3tZ+B4rlnBkWdXaHniA
+         i/rNzXJ6YVlirjYieY0TeH8hfUV+DpQhlAyzEVxCAQ4KLNTK/isFh3XFSKL0ucUbtt7O
+         l3eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5fDem1acgG4A74TxftD4vjgArS2kMixB/DNU+ajMHjg=;
-        b=iYFyqUabwLVZWarjWgcVL1VplDpuseZrfnby8JkKPrgYZl5QcEkaBcnlx3nmzeTn9i
-         +xSnEq+kVmtj1HZ+6Vz3CnXD0uLvQ0CC1PiyLE6flDa+ZtxjuyDel9pUs7g7alCaiPiv
-         Zz3ERglQhuomDyoIbTc405wYkh2QDGEi50iBSHsEtjY4uvYy692WFuc+R3H5o80SMR3C
-         lfYl3RsDIs9Ruqry8rGOO97hUVKswFRhG36MWMHDEAEPfNvC3j//UGb10PJmAjV7Orez
-         bM+V97uFrky05LDI1IT06nfWkasqoR4stu0RF0SYLedD7Mrj2G18XHs0Lr9l6wqLBSMY
-         T3fg==
-X-Gm-Message-State: AOAM532d5gKc8+qILDGxDFDJ0B3NycbCkL6FG0Hdb/CiOFWBpA63lUq7
-	VczUX5vSM5/BYHcVQSyrKQOQPGapnHXPwfdW
-X-Google-Smtp-Source: ABdhPJzom6vBmyWgyVqN23AsDQsjnSBXX7VGPvLRCfWOzcQmC30pFmEwxMVkJl4jYUVnz2KXbdojHQ==
-X-Received: by 2002:a17:90a:74c8:: with SMTP id p8mr16028158pjl.214.1628550628095;
-        Mon, 09 Aug 2021 16:10:28 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id l185sm13888514pfd.62.2021.08.09.16.10.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Aug 2021 16:10:27 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/33] Pull request (cover letter only)
-Date: Mon,  9 Aug 2021 13:10:03 -1000
-Message-Id: <cover.1628550516.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+         :thread-index:content-language;
+        bh=bldX5S5JLrkvOGSoFIqGQ1GHV/kAleg8hQs5yE/7Yys=;
+        b=ndK6hqoeStCzzbFBsaACj7zDyL8LJPfvHfBft6RhhuGvlcnVJMTf6bs3CoCPR/HrAp
+         vWg0GqJdl0WnlbRVuBWNPg61COXEtpOq8uMe9vmWsXh9gp2zbjo1BUw9yZhgRyW30NxM
+         03Fw+/7YNU1iZ4RXOBwmeotf8EARVpj5vLf3QvTzEOsOT9Jyito9pzHPjaRrsR95qJzB
+         yUz/hg9NB70Y0LJETpnSZshWSZXHSUvz4uIgLOuTQ2TBYGRJ1T9ReSeyO+OyiXnx1MdZ
+         LNy4i+ypvvHXZLVG61Ti+PxRAnwnJlBMfe8dq593E5suuewH3b5TOCB8gLl7pq4dUq17
+         v4NA==
+X-Gm-Message-State: AOAM532hDVlITwo/ddcNgabHWaEtCVpC7ulN2EILDrWMod3ULgOv2iV6
+	5fafWZJopPXuq/rfR281qD4=
+X-Google-Smtp-Source: ABdhPJz6OCN2p/maWFocHUrmnuiVSPH++kLYjLbudy/mk5rkeD8aJwhcPv0Sv3Qsi6VzjZnkcmEq9A==
+X-Received: by 2002:a17:90b:3802:: with SMTP id mq2mr12616939pjb.19.1628555661785;
+        Mon, 09 Aug 2021 17:34:21 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley ([2600:8800:1d98:5b00:2c9a:d858:bed4:bfa0])
+        by smtp.gmail.com with ESMTPSA id r3sm5356707pff.119.2021.08.09.17.34.20
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 09 Aug 2021 17:34:21 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 9 Aug 2021 17:34:20 -0700
+Message-ID: <0a9801d78d7f$7697ecb0$63c7c610$@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIEwEQXeM6FikKy92THBa5SFHbfQQ==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0A99_01D78D44.CA3B85B0"
+Content-Language: en-us
 
-The following changes since commit 9ae339ace9274be71bfd3b5e5da64dceac9fa963:
+------=_NextPart_000_0A99_01D78D44.CA3B85B0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-  kernel-devsrc: fix 32bit ARM devsrc builds (2021-07-20 06:36:58 -1000)
+All,
 
-are available in the Git repository at:
+ 
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-Armin Kuster (1):
-  qemu: Enable seccomp if FEATURE is set
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
 
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.134
-  linux-yocto/5.4: update to v5.4.135
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-Changqing Li (1):
-  archiver.bbclass: fix do_ar_configured failure for kernel
+ 
 
-Khem Raj (1):
-  ovmf: Fix VLA warnings with GCC 11
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 374
+unassigned or newcomer bugs.
 
-Michael Opdenacker (1):
-  oe-setup-builddir: update YP docs and OE URLs
+ 
 
-Mike Crowe (1):
-  curl: Fix CVE-2021-22924 and CVE-2021-22925
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
 
-Nathan Rossi (1):
-  qemu.inc: Add seccomp PACKAGECONFIG option
+ 
 
-Neetika Singh (1):
-  curl: Fix for CVE-2021-22898
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
 
-Nicolas Dechesne (4):
-  yocto-check-layer: improve missed dependencies
-  checklayer: new function get_layer_dependencies()
-  checklayer: rename _find_layer_depends
-  yocto-check-layer: ensure that all layer dependencies are tested too
+ 
 
-Oleksandr Kravchuk (1):
-  bitbake.conf: change GNOME_MIRROR to new one
+Thanks,
 
-Ralph Siemsen (1):
-  oeqa/manual/toaster: fix small typo
+ 
 
-Richard Purdie (2):
-  yocto-check-layer: Remove duplicated code
-  sstate: Fix rebuilds when changing layer config
+Stephen K. Jolley
 
-Ross Burton (1):
-  glew: fix Makefile race
+Yocto Project Program Manager
 
-Steve Sakoman (5):
-  Revert "gstreamer-plugins-good: ignore CVE-2021-3497/8 since they are
-    fixed"
-  Revert "gstreamer-plugins-base: ignore CVE-2021-3522 since it is
-    fixed"
-  gstreamer: ignore CVE-2021-3497, CVE-2021-3498, and CVE-2021-3522
-  libxml2: fix CVE-2021-3541
-  avahi: fix CVE-2021-3468
+*    Cell:                (208) 244-4460
 
-Teoh Jay Shen (5):
-  oeqa/ethernet_ip_connman : add test for network connections
-  oeqa/runtime : add test for RTC(Real Time Clock)
-  oeqa/suspend : add test for suspend state
-  oeqa/terminal : improve the test case
-  oeqa/usb_hid.py : add test to check the usb/human interface device
-    status after suspend state
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
 
-TeohJayShen (1):
-  oeqa/runtime: add test for matchbox-terminal
+ 
 
-Ulrich Ölmann (1):
-  initramfs-framework/setup-live: fix shebang
 
-Wes Lindauer (1):
-  oeqa/runtime/cases: Only disable/enable for current boot
+------=_NextPart_000_0A99_01D78D44.CA3B85B0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_060E_01D787BC.432AF890";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Yi Zhao (1):
-  ifupdown: added -1 option to dhclient for dhcpv6
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 374 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-leimaohui (1):
-  archiver.bbclass: Fix patch error for recipes that inherit dos2unix.
-
- meta/classes/archiver.bbclass                 |   8 +-
- meta/classes/sstate.bbclass                   |   1 +
- meta/conf/bitbake.conf                        |   2 +-
- .../lib/oeqa/manual/toaster-managed-mode.json |   2 +-
- meta/lib/oeqa/runtime/cases/date.py           |   4 +-
- .../oeqa/runtime/cases/ethernet_ip_connman.py |  36 +++
- meta/lib/oeqa/runtime/cases/rtc.py            |  38 +++
- meta/lib/oeqa/runtime/cases/suspend.py        |  33 +++
- meta/lib/oeqa/runtime/cases/terminal.py       |  21 ++
- meta/lib/oeqa/runtime/cases/usb_hid.py        |  22 ++
- meta/recipes-connectivity/avahi/avahi.inc     |   1 +
- .../avahi/files/CVE-2021-3468.patch           |  42 ++++
- ...-1-option-to-dhclient-on-upping-an-i.patch |  65 +++++
- meta/recipes-core/ifupdown/ifupdown_0.8.35.bb |   1 +
- .../initramfs-framework/setup-live            |   2 +-
- .../libxml/libxml2/CVE-2021-3541.patch        |  73 ++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |   1 +
- .../ovmf/0001-Fix-VLA-parameter-warning.patch |  51 ++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   3 +-
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- meta/recipes-devtools/qemu/qemu_4.2.0.bb      |   1 +
- .../0001-Fix-build-race-in-Makefile.patch     |  56 +++++
- meta/recipes-graphics/glew/glew_2.2.0.bb      |   1 +
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- .../gstreamer1.0-plugins-base_1.16.3.bb       |   4 -
- .../gstreamer1.0-plugins-good_1.16.3.bb       |   5 -
- .../gstreamer/gstreamer1.0_1.16.3.bb          |   9 +
- .../curl/curl/CVE-2021-22898.patch            |  26 ++
- .../curl/curl/CVE-2021-22924.patch            | 226 ++++++++++++++++++
- .../curl/curl/CVE-2021-22925.patch            |  43 ++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   4 +
- scripts/lib/checklayer/__init__.py            |  11 +-
- scripts/oe-setup-builddir                     |   4 +-
- scripts/yocto-check-layer                     |  25 +-
- 36 files changed, 813 insertions(+), 45 deletions(-)
- create mode 100644 meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py
- create mode 100644 meta/lib/oeqa/runtime/cases/rtc.py
- create mode 100644 meta/lib/oeqa/runtime/cases/suspend.py
- create mode 100644 meta/lib/oeqa/runtime/cases/terminal.py
- create mode 100644 meta/lib/oeqa/runtime/cases/usb_hid.py
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2021-3468.patch
- create mode 100644 meta/recipes-core/ifupdown/files/0001-inet6.defn-Added-1-option-to-dhclient-on-upping-an-i.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3541.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Fix-VLA-parameter-warning.patch
- create mode 100644 meta/recipes-graphics/glew/glew/0001-Fix-build-race-in-Makefile.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22898.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22924.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22925.patch
-
--- 
-2.25.1
-
+------=_NextPart_000_0A99_01D78D44.CA3B85B0--
