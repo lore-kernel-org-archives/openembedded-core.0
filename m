@@ -1,186 +1,357 @@
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.89])
- by mx.groups.io with SMTP id smtpd.web11.75.1628613680017244641
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web12.297.1628614674144422037
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Aug 2021 09:41:21 -0700
+ Tue, 10 Aug 2021 09:57:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=JxP/r78x;
- spf=pass (domain: arm.com, ip: 40.107.5.89, mailfrom: diego.sueiro@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=91mNZza9w/88VHih091JPwgDxSyu5tbZhoIOh+Yx95E=;
- b=JxP/r78x+3Lt9hgJcq+4I4V2mL2goMW2ujOVG6sWOVaRQupSLHjIJAx4UXeOy5cztaQhjkNrB8iB50tk/oiUHQV0w/XBkYGOXChwv5JCNWJNKlzSgXMh2kpFxY/F22U4PK31niyYtuQfPMoXLsnmsPkPsrViDudHldrBedxci2c=
-Received: from AM6P192CA0021.EURP192.PROD.OUTLOOK.COM (2603:10a6:209:83::34)
- by AM6PR08MB4722.eurprd08.prod.outlook.com (2603:10a6:20b:c5::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.19; Tue, 10 Aug
- 2021 16:41:14 +0000
-Received: from AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:83:cafe::94) by AM6P192CA0021.outlook.office365.com
- (2603:10a6:209:83::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend
- Transport; Tue, 10 Aug 2021 16:41:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.openembedded.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.openembedded.org; dmarc=pass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM5EUR03FT016.mail.protection.outlook.com (10.152.16.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Tue, 10 Aug 2021 16:41:13 +0000
-Received: ("Tessian outbound ab45ca2b67bc:v101"); Tue, 10 Aug 2021 16:41:13 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 0305cf6205ac8623
-X-CR-MTA-TID: 64aa7808
-Received: from f20f8fe924b3.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id D469A3C8-9833-42F4-875B-6E6E1444C9A3.1;
-	Tue, 10 Aug 2021 16:41:06 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id f20f8fe924b3.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 10 Aug 2021 16:41:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ThvwgmVlfHYZX5AfUfY3rnhr7p0Fo5znY1aosDgBtm9YGsfzk2qJ6Lp7Nx19Anou2atyureqk37SOgDqfUrXw0bKJnjX0naAbQ0thBJvBIj0U5es9gRVA2xUiVuFGkyN6d55eFXSQh3ArrTjDOcqXoY7Wa5u6ozHPig1eWOFnzF/y4DM3UITddR25dnO+e4CZhGw0XXDeHuHcnZkodwARvNJlgFbky2JlONzKmx77CoDnoLPuRJE3/UqiCgm2JToGbVaqEw/qJ0YFh8xoHKvDOeMsRCrDCgNwm/yi5H4qBC2w1PI/ft1QC847HmUm9QBcdB+j1O3f0CQq1KxIuU5kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=91mNZza9w/88VHih091JPwgDxSyu5tbZhoIOh+Yx95E=;
- b=W/ZKJ+FyCWrkM4LPOE/S8wpClqWOJ4xNhGfMe23UKdKrGoQNW3lZ3kKsl7WdcqnT7oscwV225y61aUxN071XJJUY/7yIaDWxO9Hew9Wl/OjamNFfINw7Ly8/JesiAHKCXnh4S7IIUNQiLiJfh4/Sf0/JQQPiet8eB67ElEBDj+y5kRds/BDcN/CnntvbH0UIrjUzqZLRGbCItCfyhHoRym3quxhnpK6rCGwU5joPN71+YhGpkETuAvwtmpGE9zv0pkAPei3UfMetfuhqxlD+Bo3gHoyxjVh3DShH4Qm0RWLfDbmqirlgNpXbY+WnURvb2QQBXtJvrFul1lMr4bxV8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=91mNZza9w/88VHih091JPwgDxSyu5tbZhoIOh+Yx95E=;
- b=JxP/r78x+3Lt9hgJcq+4I4V2mL2goMW2ujOVG6sWOVaRQupSLHjIJAx4UXeOy5cztaQhjkNrB8iB50tk/oiUHQV0w/XBkYGOXChwv5JCNWJNKlzSgXMh2kpFxY/F22U4PK31niyYtuQfPMoXLsnmsPkPsrViDudHldrBedxci2c=
-Authentication-Results-Original: lists.openembedded.org; dkim=none (message
- not signed) header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=arm.com;
-Received: from AM6PR08MB3461.eurprd08.prod.outlook.com (2603:10a6:20b:47::28)
- by AM6PR08MB3687.eurprd08.prod.outlook.com (2603:10a6:20b:90::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.21; Tue, 10 Aug
- 2021 16:41:05 +0000
-Received: from AM6PR08MB3461.eurprd08.prod.outlook.com
- ([fe80::7c48:99e8:5331:d433]) by AM6PR08MB3461.eurprd08.prod.outlook.com
- ([fe80::7c48:99e8:5331:d433%4]) with mapi id 15.20.4394.017; Tue, 10 Aug 2021
- 16:41:05 +0000
-From: "Diego Sueiro" <diego.sueiro@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com,
-	Diego Sueiro <diego.sueiro@arm.com>
-Subject: [PATCH] sstate: import errno module in sstate_package function
-Date: Tue, 10 Aug 2021 17:40:51 +0100
-Message-Id: <e6018e38af78238e5fe278a9e70a6a95c9f0680b.1628613577.git.diego.sueiro@arm.com>
-X-Mailer: git-send-email 2.17.1
-X-ClientProxiedBy: LO2P123CA0037.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600::25)
- To AM6PR08MB3461.eurprd08.prod.outlook.com (2603:10a6:20b:47::28)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i0FDm+nc;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id h10so6238989qtj.11;
+        Tue, 10 Aug 2021 09:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=7TYn5h1EUIwrsqWt/McNOAMLz+H5zIKZyBWIcIZnVMs=;
+        b=i0FDm+nc8KXCH+4BJviT7kyeQcTVMl+yz4uinJO6BX0MocJwqvk1KH13/0kHTtEFZe
+         TIL9MRx0hKeW4hKjQmTEloa8V6LEpj3QNWzPC3F0QHTyMLJCh6Q0Gc4WT+0U9VrsSWKT
+         J8DIv4Ax46x8OeBZi1hZgpDNd/GIB5LbSQcmD0A2wdfKGGsDEpKkWIMP+rQtr6LHyU5c
+         455ui4jc3e1cDkEjjr1plhyrZWNf2osryAW/ilMt4PFoR0sfDe3zmwY5CNlW6lZdgLgy
+         UdTu9Tp8/U5OtEMPiCFHoeIwl1qfPNMOGEjtRGgI5wnnk9sRZDIBhQbZ2/PxQwTAYW79
+         dyQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7TYn5h1EUIwrsqWt/McNOAMLz+H5zIKZyBWIcIZnVMs=;
+        b=AMcOc04Y8iJkTbicO6e5NB0jJXDzSu/GG07a2T0Hc6/9DMvp3ZT8kfxKkd7/qOGNiU
+         40KmiZnI/GpTOz2GW2G4N2jOS3d00Ulp/vOSTBMqLGnjrcqXPRVEw1xRwg3vetjYadS6
+         lEgrU9FIFggcohUkohYQxVMZtLfiaHmDmJ3EpGgIPZNq0xbe8XMlBcc7PEKGDI4r8+fL
+         Qyypfksmw+94SV+hU4Cn7d699qVSBVWDMwQly39nNae555q0UId78bZCeW+pYEykrkOA
+         3DGpX5w+A+q5UfyPs3eDYUZNSZRUQHfa1HF4WUFyt7xxBwPgQ6AKLyvjyMFC8hGQ1/+m
+         snsA==
+X-Gm-Message-State: AOAM533bHqdM533upXEFKWmNRY4rRZRmVZnkd0YKHxogy2mKfJ+nAxe7
+	MvWdBGZZ+lGOIp7daQc5qs38w3MA1bMuVKY1Lik=
+X-Google-Smtp-Source: ABdhPJwkvGSo8pXcBOJORllM1ZndIZkxa3BPgF2NEXo2RQJKBi2ihaIoINXCn6RUvQji7DxcOo20GlVt622IY+ZKHWs=
+X-Received: by 2002:a05:622a:354:: with SMTP id r20mr25515148qtw.289.1628614673101;
+ Tue, 10 Aug 2021 09:57:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from e125394.arm.com (217.140.99.251) by LO2P123CA0037.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Tue, 10 Aug 2021 16:41:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1f53c965-bd06-491c-096b-08d95c1daac8
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3687:|AM6PR08MB4722:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<AM6PR08MB4722056E99E6EF1DBD2424CF92F79@AM6PR08MB4722.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:1728;OLM:1728;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 1g0fYU3Ey7IViGvgBEabOiVj0KDjZkDJMDa9Fd+2J1R7emyUrlxl58I29L1gZIwIrOYTY9dTZmFaJKNWAHYhObtMOEB4orCkE1LEG/gGvYiGLY0ZRkWk9bxMhiHICZ8QfrcmPKeFVCc76Z0ZoHCO2kxeFzaeT27FOt7QW+7kU00/C97ZhGAo8U2eD+GkFzM3YDc3I0RpS7VlW7/F5R0GR/IZpw3yv7nO/RFfQ+0qwQ3NMb9RpYWffjqEtYVc4Q/Eyh/RLba2uTZsNFfeam32TdwJRtzsk+evtRBuYHAjrJA6Ws3dFd3mnX8c4cRrYOt3KC4Cowu3uZh/EW8zXibTH8sn2/qqtP8ZLnC/IjOBucrF9/7zkgTWfsXAAhghvDMIbtQiclaaY1waALtU+Kc3d2yRsxvsHG8L4nqiYB9TD80I9qIKYl4mk+HPutBSJ/wWLw3Q1zczuFbl5GvI1l5gFYlq9SzxMhVrE9jghJdxHjz5RFOJ8frWC1m/cetBR0prRblFv9wy4O6DOPnN1p2e01o5ArAZCz0JL4Io1OPAC5s/TKMMrdeWbK1xpdoNIS4DhbEkie7d4mA8OjOlEgtCeV+bi66GEsCm1DvvFxOPPBZEjKBVeMciQ4IqPhpPNahRKUrH7PaHEoLKn6Vj7xHhzh/Bvcp7Pd9/W5+v9goQ+H6uVpccb8smolwqzL7A8Fz1M2n/l65iRLBpykNO8dONhQ==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3461.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(5660300002)(8936002)(6916009)(44832011)(316002)(66946007)(2906002)(8676002)(38350700002)(38100700002)(186003)(7696005)(36756003)(6486002)(956004)(66556008)(2616005)(508600001)(4744005)(52116002)(86362001)(4326008)(6666004)(66476007)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
- =?us-ascii?Q?lF+rh2p/FKqyFYO2O7WA7xTxOfwO7m7WKdpXtjEnu2u1AzkotsIFzlnvlqCK?=
- =?us-ascii?Q?ZoqUdThsU6fT6bn9+jPl7PFZM0mplBTCwNH6EWY2ICzOronXy06Av72LSNta?=
- =?us-ascii?Q?6i7sc02tuL94JcRJ1EtS+Va91bVx5p746/lrICVt5GdbNgLNxlja571fIkOJ?=
- =?us-ascii?Q?nOHgp1ZRivXy393kSjT9hDBY1ugujTbPYM/G8nccm0iNoNSwJm7oLe7jJsax?=
- =?us-ascii?Q?uWZp63E4aLocNK7/ev6Dzp/g1NyENUV87nC3zIB5m4MqPDbQmCzdHB1H1dpu?=
- =?us-ascii?Q?27JuY1gOD60Rweh+rGbMWpn2pIUJzoIEQpHa8xTozyJkL1Lht0iUh7EJLpfp?=
- =?us-ascii?Q?bdP7vS82KQWrXolNRyMkngaZKP8oHBMZr3pDzdNKkRkD5ycmnTr4jJ2dCLeK?=
- =?us-ascii?Q?T7Ai3C+T1ATh8gQ6/yhYsAddOE/pSHPP5gsJ6ClWxzaaWaWSATsapV8h8C3C?=
- =?us-ascii?Q?eH1FJKdxSCJu3ciNNL52yE80HVbCG0CybKGXBEXotB/Ydy5xspgfhNe5Vzvc?=
- =?us-ascii?Q?GD6XBSB9WiyG6wTMP5tXw7mZcTlwDuGtRtE7UAtebSrX3zAa4Wmv5e5cHAir?=
- =?us-ascii?Q?V+9rDa4MZAsjC2hYcT7Y+cWtHSur++KN2X995oo54ISjKjzFJmQW9FOyxKoB?=
- =?us-ascii?Q?mJcwwubHh2BKxT3R4kq6hYF+gekyDXZc2J1kqWGZMMSOOYGT/sz5ozAjbEdf?=
- =?us-ascii?Q?mlk0beb4tna7KjKs90w6o2X1R0x4RORfK5j0zoD0fSNS+ZmVbgQRUcwW5bM0?=
- =?us-ascii?Q?5lTAAThpXEaw5RfxTfKfGxXrlSDFJavOKWLT2R1CwRuI68awfUVezZV7VOg0?=
- =?us-ascii?Q?U5Q0I4orHXZ0eFLVt1PqLGODEG+pcqfRN+Iz0dqGtTkf0/xizXqHUePsvC5C?=
- =?us-ascii?Q?nGZJsPVdv95PfOMAi/zLUOma7K41V9XWa7A9lHt+FlnfnPOCB/uMUR1FG4DK?=
- =?us-ascii?Q?xf91PXmO23UUGSkFIj52xX0A32HmJwAtsZ4qGas4Og+QIBirHOJisTm/UbJm?=
- =?us-ascii?Q?eW8iXBVrRd4bWDWfn4Uvrw2MAGeO2eamL3pUXKYSerNJ1+UwH34QCSwtOYCq?=
- =?us-ascii?Q?I3Hv9UYpRfJqjneplqDqQmcT0gUBhilq9MojqKQfzpFHGGPOdgnbFRg9BNBi?=
- =?us-ascii?Q?IGO/8NGOfY6EcThmSexFRtoXrI7fqf/FTVlNxZcPIApewBEmM0ZAFvAzIM4F?=
- =?us-ascii?Q?HKlzaFzerLNv60g0ykSoYmLiYWLcUMwun2+tO//DxaRkSDLYq/MytkhB3spo?=
- =?us-ascii?Q?C6EuCSZ3WR6byQN983SByHJmZhqy7KV65S3xIFAZWnpUPnAUDmggY6Pf7IDb?=
- =?us-ascii?Q?5U9sthREuTnoyBnGxSxLXaP1?=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3687
-Original-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=arm.com;
-Return-Path: Diego.Sueiro@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	3f210b82-2a04-41ed-1f49-08d95c1da579
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	rK1hl9RKgOwY2VD7P0FPPh3N8EtoD6JQ3p7draRPZwvj8/MSyP6SltdeN+Ra2vYzNDPiNKAW8QtPdbCA296RC7L2Kvh6rX0QHDOJ0O8fLsKR9f9v2Nws7SqF0FMogXQYCm6bS7Mhnk/h+XGJOHt2gWuXiO/pnfUSjgNwTwnGqFjYvlsVkWBD6fXk2fG2BSuMQN0nsgvQpFNRXndQFlYUt7KBEKrT89rTV3PAf2C/qQw9KvMboXkVqhr+ZgMtTKcvCcfNXl69QgP50RoTPO4yvUtrTOmnIohP+SjTxPDv+I4DBt7DIpTgGtCv1x6JxObCZPRIxQDwg6/VenMBSIk7xnZ4EKNT9CWPqeSQ5T3YmW9mxGP/tXxMzCDGnr+sdlZQTyBsygAyet6jaBi4TIoa4sWknniClUgZSVm4TYi1LRiXjnGd57aTgJZDTsVi9CE8IR1tvYk2ZCTrF/J17yFf40Ceg6lC1ZwDtW1DSultRCxZYGOxCCx8cxxM8h//LAtTU88IESR4YeNXDK/2j6tfrRN3sBGDpyIcFeAqO6cbagU5WpPJaNgIy5Xmod2Pkl7pWUlW/02snQh4ZAB1CyIa1CsRDeeY7kwTMk3RzikfTYBdVexh9Vr6FIfc8fQLip7sztVpDApWTuvwkjMQeZgbAxAmBPT8oX1cCybgaV6WCLzATlHznQtsK9IlYLtGFyfVXO4R9dw3p4DLgxkSU9LGFg==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(39850400004)(136003)(376002)(346002)(396003)(46966006)(36840700001)(70586007)(336012)(4326008)(8936002)(356005)(26005)(2906002)(186003)(478600001)(83380400001)(82310400003)(70206006)(36756003)(44832011)(86362001)(4744005)(47076005)(81166007)(36860700001)(7696005)(6666004)(5660300002)(956004)(6486002)(316002)(6916009)(8676002)(2616005)(82740400003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2021 16:41:13.8159
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f53c965-bd06-491c-096b-08d95c1daac8
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4722
-Content-Type: text/plain
+References: <2efeecad-7ee5-126c-9271-d69fc3428c38@cybernetics.com>
+ <447d4fa9-b915-4e59-0ecc-64d41c6ceee6@windriver.com> <22d7a9866471f53ea283caa1578fbf0b48d5e113.camel@linuxfoundation.org>
+ <a0c4c23d-7437-ce14-066f-0f7f6929a987@cybernetics.com> <040fe5d8cd3914e7c19fc70ae6d18894b07f8073.camel@linuxfoundation.org>
+ <6bb55159-9b49-3229-a15c-eee730560fb7@cybernetics.com> <5e21ec72-667f-6e48-eefc-843312544fe4@cybernetics.com>
+ <CAMKF1srcLEBkk1udvadr1xeh8qsgr-i-8+hT_ZvL-2Nak-tsjg@mail.gmail.com>
+ <17ef7e32-fe38-6e02-8d65-ee1518a38e82@cybernetics.com> <ead673c1-a9dd-613e-1d7c-6fcc6cf96eca@gmail.com>
+In-Reply-To: <ead673c1-a9dd-613e-1d7c-6fcc6cf96eca@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 10 Aug 2021 09:57:27 -0700
+Message-ID: <CAMKF1soO1vifStLgeOH31-UnCUePNi9s_F1ifPsWJHR=qzkgxQ@mail.gmail.com>
+Subject: Re: [OE-core] [master][PATCH 0/4] Reproducible LTO builds
+To: Tony Battersby <tonyb@cybernetics.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Randy MacLeod <randy.macleod@windriver.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	openembeded-devel <openembedded-devel@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The errno module is missing causing the following error message:
-File: '/<...>/poky/meta/classes/sstate.bbclass', lineno: 708, function: sstate_package
-     0704:        except PermissionError:
-     0705:            pass
-     0706:        except OSError as e:
-     0707:            # Handle read-only file systems gracefully
- *** 0708:            if e.errno != errno.EROFS:
-     0709:                raise e
-     0710:
-     0711:    return
-     0712:
-Exception: NameError: name 'errno' is not defined
+when using ubuntu 18.04 host tcsh fails now  see [1]
 
-Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
----
- meta/classes/sstate.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+gcc: error: unrecognized command line option
+=E2=80=98-fmacro-prefix-map=3DTOPDIR/build/tmp/work/core2-32-yoe-linux/tcsh=
+/6.22.04-r0=3D/usr/src/debug/tcsh/6.22.04-r0=E2=80=99
+Makefile:450: recipe for target 'gethost' failed
+make: *** [gethost] Error 1
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 554e401ee2..187cb04534 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -640,6 +640,7 @@ python sstate_hardcode_path () {
- 
- def sstate_package(ss, d):
-     import oe.path
-+    import errno
- 
-     tmpdir = d.getVar('TMPDIR')
- 
--- 
-2.17.1
+[1] https://errors.yoctoproject.org/Errors/Details/600645/
 
+On Mon, Aug 9, 2021 at 10:18 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+>
+> On 8/9/21 7:39 AM, Tony Battersby wrote:
+> > On 8/6/21 10:19 PM, Khem Raj wrote:
+> >> I am seeing bunch of failures on meta-oe and meta-atmel
+> >>
+> >> https://errors.yoctoproject.org/Errors/Details/600064/
+> >> https://errors.yoctoproject.org/Errors/Details/600065/
+> >> https://errors.yoctoproject.org/Errors/Details/600071/
+> >>
+> >>
+> > I sent patches for meta-openembedded, but I am not sure how to build
+> > meta-atmel:
+> >
+> > bitbake libegl
+> > ERROR: Layer atmel is not compatible with the core layer which only
+> > supports these series: honister (layer is compatible with hardknott)
+>
+> you can use my branch which has fixes for override problem
+>
+> https://github.com/YoeDistro/meta-atmel/tree/yoe/mut
+>
+>
+> >
+> > But the fix is probably the same as the ones I sent for the other
+> > packages (which I copied from
+> > meta-openembedded/meta-networking/recipes-protocols/net-snmp/net-snmp_5=
+.9.1.bb).
+> >
+> > Tony Battersby
+> >
+> >
+> >> On Fri, Aug 6, 2021 at 2:04 PM Tony Battersby <tonyb@cybernetics.com> =
+wrote:
+> >>> On 8/6/21 12:44 PM, Tony Battersby wrote:
+> >>>> On 8/6/21 1:33 AM, Richard Purdie wrote:
+> >>>>> On Thu, 2021-08-05 at 17:54 -0400, Tony Battersby wrote:
+> >>>>>> On 8/5/21 6:21 AM, Richard Purdie wrote:
+> >>>>>>> On Wed, 2021-08-04 at 20:13 -0400, Randy MacLeod wrote:
+> >>>>>>>> On 2021-07-27 9:34 a.m., Tony Battersby wrote:
+> >>>>>>>>> Currently, enabling Link Time Optimization via:
+> >>>>>>>>>
+> >>>>>>>>> require conf/distro/include/lto.inc
+> >>>>>>>>> DISTRO_FEATURES_append =3D " lto"
+> >>>>>>>>>
+> >>>>>>>>> makes the build non-reproducible (as in
+> >>>>>>>>> https://reproducible-builds.org/).  This patch set fixes some o=
+f the
+> >>>>>>>>> problems, but is not yet a complete solution.
+> >>>>>>>>>
+> >>>>>>>>> This patch set addresses the following bugs:
+> >>>>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14481
+> >>>>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14490
+> >>>>>>>>>
+> >>>>>>>>> openembedded-core patches
+> >>>>>>>>> 1/4: lto.inc: disable LTO for grub
+> >>>>>>>>> 2/4: gcc: Backport patch to make LTO builds more reproducible
+> >>>>>>>>> 3/4: bitbake.conf: add DEBUG_PREFIX_MAP to TARGET_LDFLAGS
+> >>>>>>>>>
+> >>>>>>>>> openembedded-devel patches
+> >>>>>>>>> 4/4: net-snmp: fix QA Issue after LDFLAGS change
+> >>>>>>>>>
+> >>>>>>>>> Patch 3 adds DEBUG_PREFIX_MAP to TARGET_LDFLAGS (it was already=
+ in
+> >>>>>>>>> TARGET_CFLAGS).  This could possibly be done differently, such =
+as by
+> >>>>>>>>> removing it from TARGET_CFLAGS and adding it to TOOLCHAIN_OPTIO=
+NS,
+> >>>>>>>>> TARGET_CC_ARCH, or TUNE_CCARGS, but I haven't tested those.  Le=
+t me know
+> >>>>>>>>> if there is a better/preferred way to do it.
+> >>>>>>>>>
+> >>>>>>>>> The TARGET_LDFLAGS change broke net-snmp from meta-networking, =
+so I have
+> >>>>>>>>> included a patch to fix that.  Other packages might have been b=
+roken as
+> >>>>>>>>> well, although I haven't found any others.
+> >>>>>>>>>
+> >>>>>>>>> With all these patches, there are still many shared libraries i=
+n /lib
+> >>>>>>>>> and /usr/lib that are still not reproducible with LTO enabled b=
+ecause
+> >>>>>>>>> x86_64-poky-linux-libtool filters out the -f*-prefix-map flags =
+added by
+> >>>>>>>>> patch 3 when linking shared libraries.  /usr/lib/libbz2.so.1.0.=
+6 from
+> >>>>>>>>> the libbz2 package from the bzip2 recipe is a good example.  I =
+do not
+> >>>>>>>>> have a patch for that problem.  I will leave that to someone el=
+se.
+> >>>>>>>>>
+> >>>>>>>>> So this is what we need to achieve reproducible LTO builds:
+> >>>>>>>>> *) This patch set
+> >>>>>>>>> *) A fix for libtool
+> >>>>>>>>> *) Add LTO to reproducible builds testing if appropriate (e.g.
+> >>>>>>>>> meta/lib/oeqa/selftest/cases/reproducible.py, CI on Autobuilder=
+)
+> >>>>>>>>> *) Fixes for individual packages, if needed
+> >>>>>>>>> *) Once everything works, update the documentation again (I pre=
+viously
+> >>>>>>>>> requested a documentation change for this bug, which will event=
+ually
+> >>>>>>>>> show up at
+> >>>>>>>>> http://docs.yoctoproject.org/test-manual/reproducible-builds.ht=
+ml).
+> >>>>>>>> This is certainly a few steps in the right direction with a good=
+ outline
+> >>>>>>>> of what's next.
+> >>>>>>>>
+> >>>>>>>> I suspect that Richard has been busy with other things like over=
+rides
+> >>>>>>>> and the update to glibc-2.34.
+> >>>>>>>>
+> >>>>>>>> Do you have any suggestions or questions about what we should do
+> >>>>>>>> with this patch series Richard?
+> >>>>>>> Thanks for the reminder, I've been meaning to queue/test this whi=
+ch I will
+> >>>>>>> do. The gcc version has been bumped but I ported the patch forwar=
+d to it
+> >>>>>>> and the patches are in master-next for testing. It is great to se=
+e this
+> >>>>>>> support moving forward.
+> >>>>>>>
+> >>>>>>> Much as it pains me to admit having any libtool knowledge, I may =
+be able to
+> >>>>>>> help with that bit. There is an untested patch below which may ad=
+dress that
+> >>>>>>> issue, or at least give a good hint on how to do it if it doesn't=
+ work. I
+> >>>>>>> don't have an environment to test easily right now.
+> >>>>>>>
+> >>>>>>> Cheers,
+> >>>>>>>
+> >>>>>>> Richard
+> >>>>>> I tested your libtool patch in master-next with the bzip2 recipe. =
+ It
+> >>>>>> works as intended; libbz2.so.1.0.6 and all the other output files =
+are
+> >>>>>> now reproducible with LTO enabled.  I also verified that libtool i=
+s
+> >>>>>> passing the -f*-prefix-map flags to the link command in log.do_com=
+pile
+> >>>>>> as intended.
+> >>>>>>
+> >>>>>> I also verified that core-image-minimal builds successfully with t=
+he
+> >>>>>> libtool patch.
+> >>>>> Thanks for testing that, sounds like it helps that issue. I'll queu=
+e that patch.
+> >>>>>
+> >>>>> Unfortunately even with the ruby fix I queued, we still see reprodu=
+ciblity
+> >>>>> issues with the LDFLAGS change in curl-dev, gettext-ptest, ruby and=
+ ruby-dbg
+> >>>>> packages:
+> >>>>>
+> >>>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/=
+515/steps/12/logs/stdio
+> >>>>>
+> >>>>> We'll need to resolve those before I can merge the flags change.
+> >>>>>
+> >>>>> Diffoscope output:
+> >>>>>
+> >>>>> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2021080=
+5-8jfd55ki/packages/diff-html/
+> >>>>>
+> >>>>> Basically LDFLAGS get encoded into a couple of scripts and the ruby=
+ binary.
+> >>>>>
+> >>>>> Cheers,
+> >>>>>
+> >>>>> Richard
+> >>>>>
+> >>>> It looks like the ruby problem is being caused by MJIT_DLDFLAGS in
+> >>>> build/tmp/work/core2-64-poky-linux/ruby/3.0.2-r0/build/mjit_config.h=
+.
+> >>>> There is already a patch
+> >>>> poky/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-no=
+t-write-host-cross-cc-item.patch
+> >>>> that removes some of these items for the sake of reproducibiltiy.  B=
+ut I
+> >>>> do not know ruby, so I do not know the implications of doing the sam=
+e
+> >>>> thing for MJIT_DLDFLAGS.
+> >>>>
+> >>>> Tony Battersby
+> >>>>
+> >>>>
+> >>>>
+> >>> Richard,
+> >>>
+> >>> I noticed that you already fixed the problems in curl and gettext in
+> >>> master-next.  Here is a patch for ruby if you haven't fixed that alre=
+ady.
+> >>>
+> >>> Tony Battersby
+> >>>
+> >>>  From 9cfb9777ff6ef95a27ed6a03719c807365d0f116 Mon Sep 17 00:00:00 20=
+01
+> >>> From: Tony Battersby <tonyb@cybernetics.com>
+> >>> Date: Fri, 6 Aug 2021 16:47:14 -0400
+> >>> Subject: [PATCH] ruby: Fix reproducibility issue with LDFLAGS
+> >>>
+> >>> If we add DEBUG_PREFIX_MAP into LDFLAGS, ruby and ruby-dbg are no
+> >>> longer reproducible.  Fix this.
+> >>>
+> >>> Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
+> >>> ---
+> >>>   ...-Makefile.in-filter-out-f-prefix-map.patch | 42 ++++++++++++++++=
++++
+> >>>   meta/recipes-devtools/ruby/ruby_3.0.2.bb      |  1 +
+> >>>   2 files changed, 43 insertions(+)
+> >>>   create mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Ma=
+kefile.in-filter-out-f-prefix-map.patch
+> >>>
+> >>> diff --git a/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.i=
+n-filter-out-f-prefix-map.patch b/meta/recipes-devtools/ruby/ruby/0002-temp=
+late-Makefile.in-filter-out-f-prefix-map.patch
+> >>> new file mode 100644
+> >>> index 0000000000..9387506c26
+> >>> --- /dev/null
+> >>> +++ b/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filte=
+r-out-f-prefix-map.patch
+> >>> @@ -0,0 +1,42 @@
+> >>> +Subject: [PATCH] template/Makefile.in: filter out -f*prefix-map
+> >>> +
+> >>> +If we add DEBUG_PREFIX_MAP into LDFLAGS, ruby and ruby-dbg are no lo=
+nger
+> >>> +reproducible.  Fix this.
+> >>> +
+> >>> +Upstream-Status: Inapproppriate [oe-core specific]
+> >>> +Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
+> >>> +---
+> >>> +--- a/tool/mjit_archflag.sh
+> >>> ++++ b/tool/mjit_archflag.sh
+> >>> +@@ -7,6 +7,20 @@ quote() {
+> >>> +     echo
+> >>> + }
+> >>> +
+> >>> ++quote_filtered() {
+> >>> ++    printf "#${indent}define $1"
+> >>> ++    while shift && [ "$#" -gt 0 ]; do
+> >>> ++      case "$1" in
+> >>> ++          -ffile-prefix-map=3D*|-fdebug-prefix-map=3D*|-fmacro-pref=
+ix-map=3D*)
+> >>> ++              ;;
+> >>> ++          *)
+> >>> ++              printf ' "%s"'$sep "$1"
+> >>> ++              ;;
+> >>> ++      esac
+> >>> ++    done
+> >>> ++    echo
+> >>> ++}
+> >>> ++
+> >>> + archs=3D""
+> >>> + arch_flag=3D""
+> >>> +
+> >>> +--- a/template/Makefile.in
+> >>> ++++ b/template/Makefile.in
+> >>> +@@ -666,7 +666,7 @@ mjit_config.h:
+> >>> +       quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
+> >>> +       quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
+> >>> +       quote "MJIT_LDSHARED   " ; \
+> >>> +-      quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
+> >>> ++      quote_filtered "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLA=
+GS); \
+> >>> +       quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
+> >>> +       quote 'PRELOADENV       "@PRELOADENV@"'; \
+> >>> +       indent=3D$${archs:+'  '}; \
+> >>> diff --git a/meta/recipes-devtools/ruby/ruby_3.0.2.bb b/meta/recipes-=
+devtools/ruby/ruby_3.0.2.bb
+> >>> index 0b9c342def..38e594a59e 100644
+> >>> --- a/meta/recipes-devtools/ruby/ruby_3.0.2.bb
+> >>> +++ b/meta/recipes-devtools/ruby/ruby_3.0.2.bb
+> >>> @@ -6,6 +6,7 @@ SRC_URI +=3D " \
+> >>>              file://remove_has_include_macros.patch \
+> >>>              file://run-ptest \
+> >>>              file://0001-template-Makefile.in-do-not-write-host-cross=
+-cc-item.patch \
+> >>> +           file://0002-template-Makefile.in-filter-out-f-prefix-map.=
+patch \
+> >>>              "
+> >>>
+> >>>   SRC_URI[sha256sum] =3D "5085dee0ad9f06996a8acec7ebea4a8735e6fac22f2=
+2e2d98c3f2bc3bef7e6f1"
+> >>> --
+> >>> 2.25.1
+> >>>
+> >
