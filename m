@@ -1,96 +1,152 @@
-Received: from mail.cybernetics.com (mail.cybernetics.com [173.71.130.66])
- by mx.groups.io with SMTP id smtpd.web08.192.1628624663967565723
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web09.178.1628626286112284618
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Aug 2021 12:44:24 -0700
+ Tue, 10 Aug 2021 13:11:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@cybernetics.com header.s=mail header.b=LENJEq0m;
- spf=pass (domain: cybernetics.com, ip: 173.71.130.66, mailfrom: btv1==856402cf7a3==tonyb@cybernetics.com)
-X-ASG-Debug-ID: 1628624661-0fb3b001bfb7240001-7zcVdP
-Received: from cybernetics.com ([10.10.4.126]) by mail.cybernetics.com with ESMTP id skOGVZIRu7zS8ISg; Tue, 10 Aug 2021 15:44:21 -0400 (EDT)
-X-Barracuda-Envelope-From: tonyb@cybernetics.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.10.4.126
-X-ASG-Whitelist: Client
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cybernetics.com; s=mail;
-	bh=C8g0maV3oQyRGdlOX5qTPs2gpmFtQlqp6UsklmiaRGc=;
-	h=Content-Language:Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject; b=LENJEq0mfZQqwHt
-	LXdDohIVsHL80cYg3iNH87dQmaRM9E4RFpOTLfpVowL7MiYO+WNEhqPtNKZXogKWJUHvlHEy0/g8w
-	jZyGyUKy+MdiREEooITnrDZqJQh5lkSBMWZCmtoKsxprCFK9MVq0Rp3JjR7SAp52rwzzoyE8cU6OH
-	d8=
-Received: from [10.157.2.224] (HELO [192.168.200.1])
-  by cybernetics.com (CommuniGate Pro SMTP 6.2.14)
-  with ESMTPS id 11061808; Tue, 10 Aug 2021 15:44:21 -0400
-Subject: [meta-oe][master][PATCH] tcsh: fix compile error after LDFLAGS change
-X-Barracuda-RBL-Trusted-Forwarder: 10.157.2.224
-To: Khem Raj <raj.khem@gmail.com>,
- openembeded-devel <openembedded-devel@lists.openembedded.org>
-X-ASG-Orig-Subj: [meta-oe][master][PATCH] tcsh: fix compile error after LDFLAGS change
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Randy MacLeod <randy.macleod@windriver.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <2efeecad-7ee5-126c-9271-d69fc3428c38@cybernetics.com>
- <447d4fa9-b915-4e59-0ecc-64d41c6ceee6@windriver.com>
- <22d7a9866471f53ea283caa1578fbf0b48d5e113.camel@linuxfoundation.org>
- <a0c4c23d-7437-ce14-066f-0f7f6929a987@cybernetics.com>
- <040fe5d8cd3914e7c19fc70ae6d18894b07f8073.camel@linuxfoundation.org>
- <6bb55159-9b49-3229-a15c-eee730560fb7@cybernetics.com>
- <5e21ec72-667f-6e48-eefc-843312544fe4@cybernetics.com>
- <CAMKF1srcLEBkk1udvadr1xeh8qsgr-i-8+hT_ZvL-2Nak-tsjg@mail.gmail.com>
- <17ef7e32-fe38-6e02-8d65-ee1518a38e82@cybernetics.com>
- <ead673c1-a9dd-613e-1d7c-6fcc6cf96eca@gmail.com>
- <CAMKF1soO1vifStLgeOH31-UnCUePNi9s_F1ifPsWJHR=qzkgxQ@mail.gmail.com>
-From: "Tony Battersby" <tonyb@cybernetics.com>
-Message-ID: <b8e3c972-3d43-1a40-1bbe-bc4fe12dd021@cybernetics.com>
-Date: Tue, 10 Aug 2021 15:44:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ dkim=pass header.i=@qtec.com header.s=google header.b=bSBdz9/c;
+ spf=pass (domain: qtec.com, ip: 209.85.167.47, mailfrom: daniel@qtec.com)
+Received: by mail-lf1-f47.google.com with SMTP id c24so270494lfi.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Aug 2021 13:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=qtec.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HI6th4nqdCZXu3+bxersQef7NB82cUv4tUKzS2980XM=;
+        b=bSBdz9/cF+ECyT14B8kVyamO28qgvl6lIbMUVaEr/dgsAC8yrEw/VoAqeAHWtZKUH+
+         S3Q/jtCDJ7+VUo8GiJH/u0/tSJKHGv/VvbUGnTCG23pyE/gf6QEVO3bSiy1PgvwrPpND
+         QnJqff1tJFrSEP9FEOKOqPvBUmskUMNSmyS3fksT5GpQ0jT0DSacJwFZdQeT9vW6Z3db
+         39FufqvKXi5OmNzTYHCUHU/eNGGKe3yO8xNZ3446fuuflP/JOkvJ26JMKs7l15ijcda6
+         1wK7D2oWKWoumx4vEju0huWkB88+OXcwf67scSOvH4ZkIgIQ3b6cl/r+LHmZtsfwXeat
+         OvYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HI6th4nqdCZXu3+bxersQef7NB82cUv4tUKzS2980XM=;
+        b=GBJcX2o6g0/+zw62X+OQxQPYQkYsoSpsV5V4oP3TH4VqJwzl7ZXmQ/g8jNsPjAVz0w
+         jtQ4mkdZlu1QADppAG+E6wXO5r2ejBk4q1FzuTo+1tlU56bB8iScldw695t4esM0Ka4K
+         31O7YjDk/LFakciqZummKOeEKZP9+igoWzbN9UZG5PpNwQkAakDzDlqpzlWaapomKKLS
+         wBizzhKXsznyoV/rJfrMZmkdmCQGWJOQipsD8IjGyzcE03KX8Fui8Am2TuCPVZ8tnctj
+         puZ7bWtMF70qnzQI3td6RWxyHYtmzfkGYE7T+kADaW6nzHy9ykHCTcA4tfu2qgH0NTiB
+         m6PA==
+X-Gm-Message-State: AOAM532jZtQYkPZ/Lazb7Kb1zPAVxhcLMgUJsNwhR54lzTTYkryB/nca
+	YztQE/reKGip9OtuwBHeeq5jx8FB/L/UvY9ea/4HwHsEMXFrjTGaUcnFgIekzFZE4uOFV3cRY1Z
+	cOltf2vCIo048zHkQ2JxAeoSZ71HMZNkKS8ywX3rynYruqWQwwtxhwFo4nvN9PSCia1VPpnFGr3
+	8DDmB9s05XnuYBRKA=
+X-Google-Smtp-Source: ABdhPJzx8CpppcG6L2ysPQSUjp3hR/77vD55Nl6RU/cPqpGgFj+nQXhO9IvvEp3KevBpboHXZfvcpg==
+X-Received: by 2002:a05:6512:3f9f:: with SMTP id x31mr8854213lfa.245.1628626283507;
+        Tue, 10 Aug 2021 13:11:23 -0700 (PDT)
+Return-Path: <daniel@qtec.com>
+Received: from localhost (87-52-47-7-cable.dk.customer.tdc.net. [87.52.47.7])
+        by smtp.gmail.com with ESMTPSA id j14sm454338lfc.207.2021.08.10.13.11.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Aug 2021 13:11:23 -0700 (PDT)
+From: "Daniel Gomez" <daniel@qtec.com>
+To: openembedded-core@lists.openembedded.org
+Cc: dagmcr@gmail.com,
+	paul@pbarker.dev,
+	richard.purdie@linuxfoundation.org,
+	Daniel Gomez <daniel@qtec.com>
+Subject: [OE-core][PATCH v2 1/2] wic: Add --no-fstab-update part option
+Date: Tue, 10 Aug 2021 22:11:00 +0200
+Message-Id: <20210810201101.261132-1-daniel@qtec.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soO1vifStLgeOH31-UnCUePNi9s_F1ifPsWJHR=qzkgxQ@mail.gmail.com>
-X-Barracuda-Connect: UNKNOWN[10.10.4.126]
-X-Barracuda-Start-Time: 1628624661
-X-Barracuda-URL: https://10.10.4.122:443/cgi-mod/mark.cgi
-X-Barracuda-BRTS-Status: 1
-X-Virus-Scanned: by bsmtpd at cybernetics.com
-X-Barracuda-Scan-Msg-Size: 1048
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Adding -f*-prefix-map to LDFLAGS caused the following issue when
-compiling tcsh on Ubuntu 18.04:
+When embedding a rootfs image (e.g. 'rootfs-dir') as a partition we
+might want to keep the stock fstab for that image. In such a case, use
+this option to not update the fstab and use the stock one instead.
 
-gcc: error: unrecognized command line option =E2=80=98-fmacro-prefix-map=3D=
-...=E2=80=99
+This option allows you to specify which partitions get the fstab
+updated and which get the stock fstab.
 
-Fix by using BUILD_LDFLAGS instead of LDFLAGS for gethost.
+The option matches the argument you can pass to wic itself where the
+same action is performed but for all the partitions.
 
-[YOCTO #14481]
+Example:
+    part /export --source rootfs --rootfs-dir=hockeycam-image
+--fstype=ext4 --label export --align 1024 --no-fstab-update
 
-Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
+    part / --source rootfs --fstype=ext4 --label rootfs --align 1024
+
+Signed-off-by: Daniel Gomez <daniel@qtec.com>
 ---
+ scripts/lib/wic/help.py                  | 3 +++
+ scripts/lib/wic/ksparser.py              | 1 +
+ scripts/lib/wic/partition.py             | 5 +++--
+ scripts/lib/wic/plugins/source/rootfs.py | 2 +-
+ 4 files changed, 8 insertions(+), 3 deletions(-)
 
-NOTE: tested only on Ubuntu 20.04.
-
- meta-oe/recipes-shells/tcsh/tcsh_6.22.04.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-oe/recipes-shells/tcsh/tcsh_6.22.04.bb b/meta-oe/recipe=
-s-shells/tcsh/tcsh_6.22.04.bb
-index ac6c6db81..c4da5cd83 100644
---- a/meta-oe/recipes-shells/tcsh/tcsh_6.22.04.bb
-+++ b/meta-oe/recipes-shells/tcsh/tcsh_6.22.04.bb
-@@ -20,7 +20,7 @@ EXTRA_OEMAKE +=3D "CC_FOR_GETHOST=3D'${BUILD_CC}'"
- inherit autotools
-=20
- do_compile:prepend() {
--    oe_runmake CC_FOR_GETHOST=3D'${BUILD_CC}' CFLAGS=3D'${BUILD_CFLAGS}'=
- gethost
-+    oe_runmake CC_FOR_GETHOST=3D'${BUILD_CC}' CFLAGS=3D'${BUILD_CFLAGS}'=
- LDFLAGS=3D'${BUILD_LDFLAGS}' gethost
- }
-=20
- do_install:append () {
---=20
-2.25.1
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 991e5094bb..5c3d278d4e 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -991,6 +991,9 @@ DESCRIPTION
+                              multiple partitions and we want to keep the right
+                              permissions and usernames in all the partitions.
+ 
++         --no-fstab-update: This option is specific to wic. It does not update the
++                            '/etc/fstab' stock file for the given partition.
++
+          --extra-space: This option is specific to wic. It adds extra
+                         space after the space filled by the content
+                         of the partition. The final size can go
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 7a4cc83af5..0df9eb0d05 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -185,6 +185,7 @@ class KickStart():
+         part.add_argument('--use-uuid', action='store_true')
+         part.add_argument('--uuid')
+         part.add_argument('--fsuuid')
++        part.add_argument('--no-fstab-update', action='store_true')
+ 
+         bootloader = subparsers.add_parser('bootloader')
+         bootloader.add_argument('--append')
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index e0b2c5bdf2..ab304f1b2a 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -54,6 +54,7 @@ class Partition():
+         self.uuid = args.uuid
+         self.fsuuid = args.fsuuid
+         self.type = args.type
++        self.no_fstab_update = args.no_fstab_update
+         self.updated_fstab_path = None
+         self.has_fstab = False
+         self.update_fstab_in_rootfs = False
+@@ -286,7 +287,7 @@ class Partition():
+             (self.fstype, extraopts, rootfs, label_str, self.fsuuid, rootfs_dir)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+ 
+-        if self.updated_fstab_path and self.has_fstab:
++        if self.updated_fstab_path and self.has_fstab and not self.no_fstab_update:
+             debugfs_script_path = os.path.join(cr_workdir, "debugfs_script")
+             with open(debugfs_script_path, "w") as f:
+                 f.write("cd etc\n")
+@@ -350,7 +351,7 @@ class Partition():
+         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
+         exec_native_cmd(mcopy_cmd, native_sysroot)
+ 
+-        if self.updated_fstab_path and self.has_fstab:
++        if self.updated_fstab_path and self.has_fstab and not self.no_fstab_update:
+             mcopy_cmd = "mcopy -i %s %s ::/etc/fstab" % (rootfs, self.updated_fstab_path)
+             exec_native_cmd(mcopy_cmd, native_sysroot)
+ 
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index 96d940a91d..2e34e715ca 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -218,7 +218,7 @@ class RootfsPlugin(SourcePlugin):
+             # Update part.has_fstab here as fstab may have been added or
+             # removed by the above modifications.
+             part.has_fstab = os.path.exists(os.path.join(new_rootfs, "etc/fstab"))
+-            if part.update_fstab_in_rootfs and part.has_fstab:
++            if part.update_fstab_in_rootfs and part.has_fstab and not part.no_fstab_update:
+                 fstab_path = os.path.join(new_rootfs, "etc/fstab")
+                 # Assume that fstab should always be owned by root with fixed permissions
+                 install_cmd = "install -m 0644 %s %s" % (part.updated_fstab_path, fstab_path)
+-- 
+2.30.2
 
