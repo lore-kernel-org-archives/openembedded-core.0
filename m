@@ -1,100 +1,74 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web12.71.1628615231066677633
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.634.1628617565893165958
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Aug 2021 10:07:11 -0700
+ Tue, 10 Aug 2021 10:46:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gC8lvY5z;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id y7so31244480eda.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Aug 2021 10:07:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZKdFsN6B;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: geoffhp@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so5362599pjr.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Aug 2021 10:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=6tNgbt6Jbi94B5uh1PNx0bUG0JaX0vRQn8SHWX574zY=;
-        b=gC8lvY5zTUwPh/REAHRLJb7YafFb8W1ZgCag74kSUuidkEhBM2LUuwzttStVz8RT2x
-         sP0Gn0o2hFH7T1+4ACp59cpRQ16Mq6eQo/9Trzfhf8K5eT8nmRVmFrkwz1Cdibj07rk+
-         fILZOLtrPcsQXx/Xd93rHmTTZj6RXEM1vQzzgl8Ia7UnIJn3w7P7TvFCBaG3c9GfBXTV
-         Cc+XsYeOWErkMFgdBGm2maunaB9bpL4dgEzD+Rj8ZAvzlWSoCx653TomFg3FkkctJTAz
-         29ikzIaBUoOLKa1SLCqk0uKj4T+SpI/cAMrqeOIUh50VuoKRwBg8vHOH70PgQlcuVz9L
-         XdXw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jjPjqZvVLNszNhASbc6yRD8IW8S64S19uL40dPmjKys=;
+        b=ZKdFsN6BkaJncljNJmcjsrLIYj2pey5yEDWeExw4QLzC8HUCyjP5mTxeifeLx8X1PH
+         b204WqGIYOOu7lNZC51lvKs8sWRwGN//SODFVgpjpOj0DvACnLhhncYudHhTQGvfRpfm
+         LXlf9K91Um8JyRJbgcXKHIJDfDPQNVnRVSz3zyH0/jkJ/4i7PAreH04RqY3HPIeyy2TW
+         H0PQ6ZDJ9wmqppFlWtPN4ceHT5YOdKiHCv1rHYFsbU8VBcWsqF4MbPEYvv/f82vdx1XJ
+         EyMPcIQdfO9NoTRtxXM18FSE2w1vnYtHYkgHkzFcoLOBmzrSZbaiqeyPOrbFeB9pIqN9
+         xQyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6tNgbt6Jbi94B5uh1PNx0bUG0JaX0vRQn8SHWX574zY=;
-        b=s+BPup5kDZ89IHa6Uk8TGJXWn5kRDMSKLgLXF+Niar5+6K2ZrLW7SKdeYjuBzsI5rf
-         a7B+x8cKcKsdQaXlUQb3DnQfSqG4xqcwBcVBDnauvw/WzC4Lk/xfjYbUgtUTByWC7q3P
-         9J1vSWV2VYA7ROL3JRAXqVwwtp5x73VwvAmRdT68jZrxOmXsfUbB2d35pL87Ag1M7tZc
-         1okGKhVwSSotLwKsu4sVNrFbq4fzCs50EmROWVbnvLS85Elbq0DKNzyS+5RvlkKzMq46
-         x3Pm+IxoHn+3+S2vEH/ZZHobBznPygGy48CG0i6jdpqBe9wPmOKPJgkVZYDrz+2WoHu3
-         5ogw==
-X-Gm-Message-State: AOAM530fCwe+t3HSD2AWtmTxXSUbEzOfThAAPRLWLC03rszgp1YHAF+b
-	ntAvZiRBqHjzeFfRf4Nc6kUa/xXEimDkpCSEF5k=
-X-Google-Smtp-Source: ABdhPJwAUlHaD2a2oPk/RN9TILVKRlUqzP7/NQFsKntDpgRaH0l2MqwTB9hz/aUFUB0ZaXk4CAnsjnQYTqzgBf2Cl5k=
-X-Received: by 2002:a05:6402:1747:: with SMTP id v7mr6264534edx.19.1628615229278;
- Tue, 10 Aug 2021 10:07:09 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jjPjqZvVLNszNhASbc6yRD8IW8S64S19uL40dPmjKys=;
+        b=t3GszeLYA16HPjQ2R0EWjRwJJXFlhG/Ev5NqMvYb3B1IzWeya2WVzXoCOGWrlj2oNI
+         GlaIoEPEzm0JNAza5/1GvltY8heiM9Tvsb0L+GNt94UcxMcDH4OA7kbW3YdS5E/EM19m
+         I9tK9L5zftZk7SRUyvqRuyv1bmckWRQWEV3coEXpnnmq+UabuNIOy4uwhtF2jeId2AGn
+         52+fSuazjB1LuCvkR1t5+p3ZxhUcyb9pHQQDk5akaQrPZ8g+xAn6dRU/PAIfX7hMFPeI
+         YIK5FEAfEewNULjPI65D+caj2AJheBAP7s3DyNSSja7WwWtIo3F1XxhG19Gf8+mCgq3e
+         kUsQ==
+X-Gm-Message-State: AOAM531ZK9q00TU+gJBH0OyFqEcxU3weyRMD38oHxTcbGuhL9/ma/sj0
+	xyOVo13D4S5z9hOWUn4eZc0r0Vqtf5KdPQ==
+X-Google-Smtp-Source: ABdhPJyClXy7weUUhaFsQQ1+2CmeJfhEwoWtJuHmGIHH1/gJnzp70BL+Jf0r/v2x7RzKYwpQAPBJxQ==
+X-Received: by 2002:a17:90a:db44:: with SMTP id u4mr6142452pjx.180.1628617565072;
+        Tue, 10 Aug 2021 10:46:05 -0700 (PDT)
+Return-Path: <geoffhp@gmail.com>
+Received: from localhost.localdomain (cpe-107-185-48-203.socal.res.rr.com. [107.185.48.203])
+        by smtp.gmail.com with ESMTPSA id y4sm3855917pjg.9.2021.08.10.10.46.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Aug 2021 10:46:04 -0700 (PDT)
+From: "Geoff Parker" <geoffhp@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Geoff Parker <geoffrey.parker@arthrex.com>
+Subject: [PATCH] cifs-utils: typo fix fakse --> false
+Date: Tue, 10 Aug 2021 10:45:31 -0700
+Message-Id: <20210810174531.2359601-1-geoffhp@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <e6018e38af78238e5fe278a9e70a6a95c9f0680b.1628613577.git.diego.sueiro@arm.com>
-In-Reply-To: <e6018e38af78238e5fe278a9e70a6a95c9f0680b.1628613577.git.diego.sueiro@arm.com>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Tue, 10 Aug 2021 18:06:56 +0100
-Message-ID: <CANPvuRm85VZRxaWrG6Zm-sOCzMsTE0zCVkP1akvX5CPdfWhFSA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sstate: import errno module in sstate_package function
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Diego,
+From: Geoff Parker <geoffrey.parker@arthrex.com>
 
-A fix for this is already on master-next
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=3Dmaster-next&id=
-=3D0066f321061ca068a937e44d5b6785b84bafcb98
+Signed-off-by: Geoff Parker <geoffrey.parker@arthrex.com>
+---
+ meta-networking/recipes-support/cifs/cifs-utils_6.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Diego Sueiro <diego.sueiro@arm.com> escreveu no dia ter=C3=A7a, 10/08/2021
-=C3=A0(s) 17:41:
->
-> The errno module is missing causing the following error message:
-> File: '/<...>/poky/meta/classes/sstate.bbclass', lineno: 708, function: s=
-state_package
->      0704:        except PermissionError:
->      0705:            pass
->      0706:        except OSError as e:
->      0707:            # Handle read-only file systems gracefully
->  *** 0708:            if e.errno !=3D errno.EROFS:
->      0709:                raise e
->      0710:
->      0711:    return
->      0712:
-> Exception: NameError: name 'errno' is not defined
->
-> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> ---
->  meta/classes/sstate.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 554e401ee2..187cb04534 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -640,6 +640,7 @@ python sstate_hardcode_path () {
->
->  def sstate_package(ss, d):
->      import oe.path
-> +    import errno
->
->      tmpdir =3D d.getVar('TMPDIR')
->
-> --
-> 2.17.1
->
->
->=20
->
+diff --git a/meta-networking/recipes-support/cifs/cifs-utils_6.13.bb b/meta-networking/recipes-support/cifs/cifs-utils_6.13.bb
+index 54aa3ce19..a8d3e91eb 100644
+--- a/meta-networking/recipes-support/cifs/cifs-utils_6.13.bb
++++ b/meta-networking/recipes-support/cifs/cifs-utils_6.13.bb
+@@ -26,7 +26,7 @@ do_configure:prepend() {
+     # want installed to /usr/sbin rather than /sbin to be DISTRO_FEATURES usrmerge compliant
+     # must override ROOTSBINDIR (default '/sbin'),
+     # setting --exec-prefix or --prefix in EXTRA_OECONF does not work
+-    if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','true','fakse',d)}; then
++    if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','true','false',d)}; then
+         export ROOTSBINDIR=${sbindir}
+     fi
+ }
+-- 
+2.30.2
 
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
