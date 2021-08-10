@@ -1,143 +1,189 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web08.7617.1628600772019326967
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+ by mx.groups.io with SMTP id smtpd.web09.249.1628601930797018707
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Aug 2021 06:06:12 -0700
+ Tue, 10 Aug 2021 06:25:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qtec.com header.s=google header.b=JkLdRhgU;
- spf=pass (domain: qtec.com, ip: 209.85.208.44, mailfrom: daniel@qtec.com)
-Received: by mail-ed1-f44.google.com with SMTP id g21so30182131edb.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Aug 2021 06:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SupPFIDdCWJSpGrOfBWQ006+9KghbJ7rZFGg7Hl1bpw=;
-        b=JkLdRhgU3B0L/raWXEeZ6oBubZ/YkteuuGHVxmLTgXwMxu38LnGQjxVlMqGOW7uQPM
-         mLoHsqjI95pTNWRcKfOzAJMXZm7UTfMKMSYmce6wk9OqBHstX/ge/EuC6zDeWKFPe5Ns
-         wKIXHMuUkUbRbeHfMNq8NT7oGHGtlSFZb5MDAyfg8/nmsXnpnht97vK1v050I2h+imGL
-         6zAcGsUQuZXmtnC3nSAKDHbXhH/vOgleJG9LpiqZDHW/mUb0KKZA7avAG2Q8VVx9h4O9
-         Y2xfS3ECiRMyGcHxZ5IXxsYWn0GJTbLt8GwkZ/CYK5rVGhAtuj7NiMobumGyrDcqaF4s
-         4tQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SupPFIDdCWJSpGrOfBWQ006+9KghbJ7rZFGg7Hl1bpw=;
-        b=WqNclH176v8P2Jzm2XuA3FIEEEzcvCPidRHJ2WMfqFHRAoU1++s0GCrBY+yPzLsaqC
-         8mH5Ztu8Z4HfrQtmI3hsqMBunP7k/uQ28HWlgEGp9+1Vh52YnKv5ln7O5J1GmXxb99Tz
-         u+EZhd2G4TtfQvO9tJWwjVy3TqBGK2l55+BZLWiQg5CkLLjpN03dXkYPvk2Dj19w9jIQ
-         MJqAnbo+V6uQZlTDIhYNU5VmFJiUdCY3yULcruZKmMQhp86JKHX8RXKkf7BmlaXQFQTg
-         YHxAOQa3ID2NF0ZG+6jeQlNVLCLwh0ZVqj1UKxn2CXAFHgeBQCjBF4tWL9CGr5AeRuWE
-         CBMQ==
-X-Gm-Message-State: AOAM5322JVoxY7uDRHUb3iBVTiOAHOJ8jtKo3Y0Qz16zNCB7S8J55oPR
-	3sZNo/w72hNaRZ4knrtfFrdp+clm+tN6YhHbQSSicpRuE4GNJ2qZDbaMfY9Ui7t9+LXK9qhMxLi
-	bKqKKMlyppHTJAAXcdYw+Rd5kyn9WtHf+qpqViUCJF2WoV+nAt8Nqm892pxV6V/TLbKWVxuuUYT
-	ECM4ZGSywZJTB7olk=
-X-Google-Smtp-Source: ABdhPJwdNlh9fRQMi3WgspwTqcI3wx2d2S5KAG3XlOex+VqojI81qta2gn91wbxZVQXDBi+B5MnCIw==
-X-Received: by 2002:a05:6402:3193:: with SMTP id di19mr4773827edb.183.1628600769972;
-        Tue, 10 Aug 2021 06:06:09 -0700 (PDT)
-Return-Path: <daniel@qtec.com>
-Received: from localhost (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id kk14sm1424049ejc.29.2021.08.10.06.06.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Aug 2021 06:06:09 -0700 (PDT)
-From: "Daniel Gomez" <daniel@qtec.com>
-To: openembedded-core@lists.openembedded.org
-Cc: dagmcr@gmail.com,
-	paul@pbarker.dev,
-	richard.purdie@linuxfoundation.org,
-	Daniel Gomez <daniel@qtec.com>
-Subject: [OE-core][PATCH] 2/2] oeqa: wic: Add tests for --no-fstab-update
-Date: Tue, 10 Aug 2021 15:06:03 +0200
-Message-Id: <20210810130603.245475-2-daniel@qtec.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=uH6XGlCp;
+ spf=pass (domain: pbarker.dev, ip: 64.147.123.20, mailfrom: paul@pbarker.dev)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id E6F683200312;
+	Tue, 10 Aug 2021 09:25:29 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Tue, 10 Aug 2021 09:25:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	date:from:to:cc:subject:message-id:in-reply-to:references
+	:mime-version:content-type; s=fm1; bh=KRB02XuHkOUGblY01L3KL7Jh2Q
+	sEmn3PYjIvMP34W0k=; b=uH6XGlCpVPSIfydRYoloEJ7DFsBh1QPvpbRYZP2aCS
+	Qdef6LABBkgfviHDC7wspduqv3D6/lB3vu55+d9GT2ZBUU4gZJZDb8+8Ran6LbSf
+	03TKX3vNG8KY4xOTRFsx8k3VKWoCyNnu8WnhE/Nzma/bPyyqcUt+LDZabg1K7UD0
+	7xQCmAKnnAzJSn0T6M8VS1lbNaaxGLTkrZuBbu+pmO9awADvJui0zAGDVwPOpgko
+	yfB9dMJBblmjf9Dhbkw5XcDE7KkyatzQaksm0Drt1iWe0n9qVHm7T+85wpskxcqQ
+	bPpGRXirfTuVtdqJ6PDf5YT2LGX7WzBCBXh2mDV7y8KA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KRB02X
+	uHkOUGblY01L3KL7Jh2QsEmn3PYjIvMP34W0k=; b=JgMjVsjioTLrT4xZaaYCZD
+	Ogm5Jiz0Pj4yZ8nGS9b0kTNaktX5IPhlApqOj6l7m6Rwq2vFa3nmuKqYkiDII10T
+	i33OxrZwnzPodzGCZO1XK9J4kDjpJZ1hZDcoeZFAnjQdyATb9b4twRDfoqVzNCog
+	BaEhBxs97SCvdv8osEM1TZEfGdhQC4a10exk3NqILC4ruSDKX4QZkDDdJsHbrU3F
+	9a+ktAa/6zrdLueV034tVGjOir43MY75vCQYyVAfbC3WZtk39BLlSWCIO6pLxhp2
+	4ZyCKYugOxRmr6wNLEa7lOXdhTi+9k8OZtZgmRhDad6svt7jYU6ZiJnmQn1KX8jg
+	==
+X-ME-Sender: <xms:SX4SYYs6OSon4N-qmCmasVEjFYYluBhcbceMRNM8cA0XxJWm1F4dzQ>
+    <xme:SX4SYVfrEC-rnRLXbBC8t-R5U0A8t6beN5fziI4-RS4cEFI_HWEVda7VmnAM0iKeH
+    HJ8u2ML4ezquCg48VM>
+X-ME-Received: <xmr:SX4SYTy2OJvtxjIY56vCjrYQzrwXqHViVDaJw2xta3SXDMGYYhj1uxQgFU9vdQQbEWxSM-wLDABU0stVbxGTMc-K9yND8dkd4uyzf6AaqdotC31OW3JqMpXhAqM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeelgdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkjghfofggtgesghdtreerredtvdenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    ephfelffekfeeigeeiuefgveeiffdtueegvdeltdelueekjeeugeffieekfedvfedtnecu
+    ffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghdprhhoohhtfhhsrdhphidpph
+    gsrghrkhgvrhdruggvvhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvh
+X-ME-Proxy: <xmx:SX4SYbPrEleYFouXlyINJJTJnrygHgE1olYuFXafdpyzhTlycfHedg>
+    <xmx:SX4SYY_xGNJWo7P2T6GaGGPNOn8XikMhtS8FQ6J3Ivmghnn-Ibziaw>
+    <xmx:SX4SYTXwXxB0zn9bo5lVGHXoqmfLMwc5Vg6II-YQWTMOjetoEKkrxg>
+    <xmx:SX4SYaIBtQoF3TQxF__birNRbbLlZeTqkwFtuFHIKB8PLOvJhdI_lw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Aug 2021 09:25:28 -0400 (EDT)
+Date: Tue, 10 Aug 2021 14:25:14 +0100
+From: "Paul Barker" <paul@pbarker.dev>
+To: Daniel Gomez <daniel@qtec.com>
+Cc: openembedded-core@lists.openembedded.org, dagmcr@gmail.com,
+ richard.purdie@linuxfoundation.org
+Subject: Re: [OE-core][PATCH] 1/2] wic: Add --no-fstab-update part option
+Message-ID: <20210810142514.69504dde.paul@pbarker.dev>
 In-Reply-To: <20210810130603.245475-1-daniel@qtec.com>
 References: <1698BAA2EADEB7F4.20643@lists.openembedded.org>
- <20210810130603.245475-1-daniel@qtec.com>
+	<20210810130603.245475-1-daniel@qtec.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Groupsio-MsgNum: 154684
+Content-Type: multipart/signed; boundary="Sig_/C.g+ZEtTvHOvU6NtVF2GUBp";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Add tests for the --no-fstab-update wic part command.
+--Sig_/C.g+ZEtTvHOvU6NtVF2GUBp
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Daniel Gomez <daniel@qtec.com>
----
- meta/lib/oeqa/selftest/cases/wic.py | 56 +++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+On Tue, 10 Aug 2021 15:06:02 +0200
+Daniel Gomez <daniel@qtec.com> wrote:
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 2efbe514c1..a58360851a 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -11,6 +11,7 @@
- import os
- import sys
- import unittest
-+import hashlib
- 
- from glob import glob
- from shutil import rmtree, copy
-@@ -686,6 +687,61 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-+    def test_no_fstab_update(self):
-+        """Test --no-fstab-update wks option."""
-+
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+
-+        # Get stock fstab from base-files recipe
-+        bitbake('base-files')
-+        bf_fstab = os.path.join(get_bb_var('WORKDIR', 'base-files'),'image/etc/fstab')
-+        bf_fstab_md5sum = runCmd('md5sum %s 2>/dev/null' % bf_fstab).output.split(" ")[0]
-+
-+        try:
-+            no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
-+            os.makedirs(no_fstab_update_path)
-+            wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
-+            with open(wks_file, 'w') as wks:
-+                wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
-+                                'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
-+                                '--fstype=ext4 --label p2 --no-fstab-update\n'])
-+            runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                       % (wks_file, self.resultdir))
-+
-+            part_fstab_md5sum = []
-+            for i in range(1, 3):
-+                part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
-+                part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s 2>/dev/null" % (part))
-+                part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
-+
-+            # '/etc/fstab' in partition 2 should contain the same stock fstab file at base-file recipe.
-+            self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
-+
-+            # '/etc/fstab' in partition 1 should contain an updated fstab file.
-+            self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
-+    def test_no_fstab_update_errors(self):
-+        """Test --no-fstab-update wks option error handling."""
-+        wks_file = 'temp.wks'
-+
-+        # Absolute argument.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update /etc")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
-+        # Argument pointing to parent directory.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update ././..")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
- class Wic2(WicTestCase):
- 
-     def test_bmap_short(self):
--- 
-2.30.2
+> When embedding a rootfs image (e.g. 'rootfs-dir') as a partition we might
+> want to keep the stock fstab for that image. In such case, use
+> this option to not update the fstab and use the stock one instead.
+>=20
+> This option allows to specify which partitions get the fstab updated
+> and which get the stock fstab.
+>=20
+> The option matches the argument you can pass to wic itself where the
+> same action is performed but for all the partitions.
+>=20
+> Example:
+>     part /export --source rootfs --rootfs-dir=3Dhockeycam-image --fstype=
+=3Dext4
+> --label export --align 1024 --no-fstab-update
+>=20
+>     part / --source rootfs --fstype=3Dext4 --label rootfs --align 1024
+>=20
+> Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> ---
+>  scripts/lib/wic/help.py      | 3 +++
+>  scripts/lib/wic/ksparser.py  | 1 +
+>  scripts/lib/wic/partition.py | 5 +++--
+>  3 files changed, 7 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> index 991e5094bb..5c3d278d4e 100644
+> --- a/scripts/lib/wic/help.py
+> +++ b/scripts/lib/wic/help.py
+> @@ -991,6 +991,9 @@ DESCRIPTION
+>                               multiple partitions and we want to keep the=
+ right
+>                               permissions and usernames in all the partit=
+ions.
+> =20
+> +         --no-fstab-update: This option is specific to wic. It does not =
+update the
+> +                            '/etc/fstab' stock file for the given partit=
+ion.
+> +
+>           --extra-space: This option is specific to wic. It adds extra
+>                          space after the space filled by the content
+>                          of the partition. The final size can go
+> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> index 7a4cc83af5..0df9eb0d05 100644
+> --- a/scripts/lib/wic/ksparser.py
+> +++ b/scripts/lib/wic/ksparser.py
+> @@ -185,6 +185,7 @@ class KickStart():
+>          part.add_argument('--use-uuid', action=3D'store_true')
+>          part.add_argument('--uuid')
+>          part.add_argument('--fsuuid')
+> +        part.add_argument('--no-fstab-update', action=3D'store_true')
+> =20
+>          bootloader =3D subparsers.add_parser('bootloader')
+>          bootloader.add_argument('--append')
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index e0b2c5bdf2..ab304f1b2a 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -54,6 +54,7 @@ class Partition():
+>          self.uuid =3D args.uuid
+>          self.fsuuid =3D args.fsuuid
+>          self.type =3D args.type
+> +        self.no_fstab_update =3D args.no_fstab_update
+>          self.updated_fstab_path =3D None
+>          self.has_fstab =3D False
+>          self.update_fstab_in_rootfs =3D False
+> @@ -286,7 +287,7 @@ class Partition():
+>              (self.fstype, extraopts, rootfs, label_str, self.fsuuid, roo=
+tfs_dir)
+>          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=3Dpseudo)
+> =20
+> -        if self.updated_fstab_path and self.has_fstab:
+> +        if self.updated_fstab_path and self.has_fstab and not self.no_fs=
+tab_update:
+>              debugfs_script_path =3D os.path.join(cr_workdir, "debugfs_sc=
+ript")
+>              with open(debugfs_script_path, "w") as f:
+>                  f.write("cd etc\n")
+> @@ -350,7 +351,7 @@ class Partition():
+>          mcopy_cmd =3D "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
+>          exec_native_cmd(mcopy_cmd, native_sysroot)
+> =20
+> -        if self.updated_fstab_path and self.has_fstab:
+> +        if self.updated_fstab_path and self.has_fstab and not self.no_fs=
+tab_update:
+>              mcopy_cmd =3D "mcopy -i %s %s ::/etc/fstab" % (rootfs, self.=
+updated_fstab_path)
+>              exec_native_cmd(mcopy_cmd, native_sysroot)
+> =20
 
+This looks like the right approach. However, you're still missing the
+handling for filesystems other than ext2/3/4 & msdos. See
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/scripts/lib/wic/plugins=
+/source/rootfs.py#n218
+and grep to see if there are any other uses of updated_fstab_path.
+
+Thanks,
+
+--=20
+Paul Barker
+https://pbarker.dev/
+
+--Sig_/C.g+ZEtTvHOvU6NtVF2GUBp
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYIAB0WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCYRJ+OgAKCRCrY1Tsnbr0
+brFDAP9zw5FLu4h0d/1SjTxb1evFde+mjgNZ3R9l7lOkTx7l8AEAkjlgbVHFXT1A
+hmQC7Sw8dT/FyBjloKPIazBuWs9IYAc=
+=dbXG
+-----END PGP SIGNATURE-----
+
+--Sig_/C.g+ZEtTvHOvU6NtVF2GUBp--
