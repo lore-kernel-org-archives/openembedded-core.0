@@ -1,58 +1,58 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.1798.1628555662421555602
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.1869.1628556495076270205
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Aug 2021 17:34:22 -0700
+ Mon, 09 Aug 2021 17:48:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=K9TmsdPC;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id a5so2909629plh.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 17:34:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DQjU7b40;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id pj14-20020a17090b4f4eb029017786cf98f9so2754051pjb.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Aug 2021 17:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:mime-version:thread-index
          :content-language;
-        bh=bldX5S5JLrkvOGSoFIqGQ1GHV/kAleg8hQs5yE/7Yys=;
-        b=K9TmsdPCLMUs26MO7yGGLtoZhQKmcnBIoBxZv/nvxPC1+VzS+LmiGNtI/feikY4Yen
-         dpV5qbobnXBl+KwWdcvYzArq6i+F5TqOU4g1X0VWIAc3R6xuM598E8REqCJxAcvSkr5/
-         VaEP8nWbN+ufTrR0lzGYmmsOyrRBqOS8nodEY2lh821RPRmiWvZhHX9n+CnVp1gfldhV
-         iUTpbn4LvKzP/49fXh7pWMstF83LpNfp/VIEuoxt3xZjRbH6B3tZ+B4rlnBkWdXaHniA
-         i/rNzXJ6YVlirjYieY0TeH8hfUV+DpQhlAyzEVxCAQ4KLNTK/isFh3XFSKL0ucUbtt7O
-         l3eQ==
+        bh=ahGgBvrWUw/og7BTk5TcRHCp8TMxUKn2gHYR2vV9BPc=;
+        b=DQjU7b40Wk/g7tsHZtkm8O0jsZ4yQ+lnKDEMcgvbQdk83cqQ5jKnkgeCGwEWZ3BI3r
+         fhPyAcCZEQaJTzSLgALv61cSWT7QXWV3c2Rqasaano21yGiabchgLn54w6ajSWaLPfag
+         kJqyQlMmhrJ/MtH/+b3hXP/pzFB32/1WdhymblQTAdVowXQhwryjoI3g7s96YZIJ2Zfp
+         IXVDH8RkND/Gp9cBD5QLIF6ANgthPGWr6DdkLci7DcRowIi+g08GCRXx0oy7rJvgP3cq
+         tVRtOUalKKkahD3IaTHUxs9HYZbeT42WlGWwAH2Ze4alYIQWf9yAhUMYeKrOwLwwFMqB
+         /GHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :thread-index:content-language;
-        bh=bldX5S5JLrkvOGSoFIqGQ1GHV/kAleg8hQs5yE/7Yys=;
-        b=ndK6hqoeStCzzbFBsaACj7zDyL8LJPfvHfBft6RhhuGvlcnVJMTf6bs3CoCPR/HrAp
-         vWg0GqJdl0WnlbRVuBWNPg61COXEtpOq8uMe9vmWsXh9gp2zbjo1BUw9yZhgRyW30NxM
-         03Fw+/7YNU1iZ4RXOBwmeotf8EARVpj5vLf3QvTzEOsOT9Jyito9pzHPjaRrsR95qJzB
-         yUz/hg9NB70Y0LJETpnSZshWSZXHSUvz4uIgLOuTQ2TBYGRJ1T9ReSeyO+OyiXnx1MdZ
-         LNy4i+ypvvHXZLVG61Ti+PxRAnwnJlBMfe8dq593E5suuewH3b5TOCB8gLl7pq4dUq17
-         v4NA==
-X-Gm-Message-State: AOAM532hDVlITwo/ddcNgabHWaEtCVpC7ulN2EILDrWMod3ULgOv2iV6
-	5fafWZJopPXuq/rfR281qD4=
-X-Google-Smtp-Source: ABdhPJz6OCN2p/maWFocHUrmnuiVSPH++kLYjLbudy/mk5rkeD8aJwhcPv0Sv3Qsi6VzjZnkcmEq9A==
-X-Received: by 2002:a17:90b:3802:: with SMTP id mq2mr12616939pjb.19.1628555661785;
-        Mon, 09 Aug 2021 17:34:21 -0700 (PDT)
+        bh=ahGgBvrWUw/og7BTk5TcRHCp8TMxUKn2gHYR2vV9BPc=;
+        b=PNL6jI0v0y4+q2Qu9nE89k9Q1zZmoAC4VSrWApWevGkZSUElYbRNVqNi4+qOn6APCj
+         Zgq810p2oCDsezJKuHX+xqdKFY4FwDuCeDOOL2mZ1jVr2/cZsAiKcgME6kDxS1l5684L
+         LqkQSKAdVgZQ1i0yJCjLyVSwyc1NF5NT19Wpe8/zKciQjHgcb98hO9/8/AWncfkQ7/yU
+         bpBqQ0yDWz53nIHB15w4VL6vxvjsN6TYvnfkf4+FGh98qTGxKXAhR7ysrMFBmSw7P/GE
+         Lpi3r8OcT9oThUcvGa4A4iS6lYmR7njtNz/5IstEwk+CS7B0M0elimuZvQEXormi1s3k
+         sYSw==
+X-Gm-Message-State: AOAM530J0/5ef5zeDXtlJYFwBmZ1tqA+FJ6NNXPCbfB09nqNC4XZQQis
+	vT7co5cqi5dLFOVYQPI/aLY=
+X-Google-Smtp-Source: ABdhPJyq1GO9OEbSIxW1xjr69xJMms5w5YEihoWau+Fylb5lIJ6hvoipbNQ2TAWMtNntXt/63hPHDA==
+X-Received: by 2002:a05:6a00:1389:b029:3cd:e367:df2b with SMTP id t9-20020a056a001389b02903cde367df2bmr341848pfg.58.1628556494442;
+        Mon, 09 Aug 2021 17:48:14 -0700 (PDT)
 Return-Path: <sjolley.yp.pm@gmail.com>
 Received: from skjolley ([2600:8800:1d98:5b00:2c9a:d858:bed4:bfa0])
-        by smtp.gmail.com with ESMTPSA id r3sm5356707pff.119.2021.08.09.17.34.20
+        by smtp.gmail.com with ESMTPSA id d2sm25183512pgv.87.2021.08.09.17.48.13
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 Aug 2021 17:34:21 -0700 (PDT)
+        Mon, 09 Aug 2021 17:48:14 -0700 (PDT)
 From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
+To: <yocto@lists.yoctoproject.org>,
 	<openembedded-core@lists.openembedded.org>
 Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 9 Aug 2021 17:34:20 -0700
-Message-ID: <0a9801d78d7f$7697ecb0$63c7c610$@gmail.com>
+Date: Mon, 9 Aug 2021 17:48:13 -0700
+Message-ID: <0b0601d78d81$66fa5b60$34ef1220$@gmail.com>
 MIME-Version: 1.0
 X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIEwEQXeM6FikKy92THBa5SFHbfQQ==
+Thread-Index: AQJT180ncJW8tlIfhuRQT4h0Am/V5w==
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0A99_01D78D44.CA3B85B0"
+	boundary="----=_NextPart_000_0B07_01D78D46.BA9DF460"
 Content-Language: en-us
 
-------=_NextPart_000_0A99_01D78D44.CA3B85B0
+------=_NextPart_000_0B07_01D78D46.BA9DF460
 Content-Type: text/plain;
 	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -125,9 +125,9 @@ Yocto Project Program Manager
  
 
 
-------=_NextPart_000_0A99_01D78D44.CA3B85B0
+------=_NextPart_000_0B07_01D78D46.BA9DF460
 Content-Type: text/html;
-	boundary="----=_NextPart_000_060E_01D787BC.432AF890";
+	boundary="----=_NextPart_000_0A99_01D78D44.CA3B85B0";
 	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -157,7 +157,8 @@ charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
 	{font-family:Tahoma;
 	panose-1:2 11 6 4 3 5 4 4 2 4;}
 @font-face
-	{font-family:"MS Sans Serif";}
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
 /* Style Definitions */
 p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0in;
@@ -271,4 +272,4 @@ href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
 style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
 an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-------=_NextPart_000_0A99_01D78D44.CA3B85B0--
+------=_NextPart_000_0B07_01D78D46.BA9DF460--
