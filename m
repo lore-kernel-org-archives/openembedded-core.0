@@ -1,92 +1,67 @@
-Received: from ford.bithub.de (ford.bithub.de [159.69.22.172])
- by mx.groups.io with SMTP id smtpd.web11.10250.1628700212346395847
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+ by mx.groups.io with SMTP id smtpd.web10.10239.1628701026466823284
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Aug 2021 09:43:33 -0700
+ Wed, 11 Aug 2021 09:57:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bithub.de header.s=ford header.b=RvoE0Tj4;
- spf=pass (domain: bithub.de, ip: 159.69.22.172, mailfrom: philip@bithub.de)
-Received: from [192.168.188.36] (x4db4214e.dyn.telefonica.de [77.180.33.78])
-	by ford.bithub.de (Postfix) with ESMTPSA id 3BA961FCC5;
-	Wed, 11 Aug 2021 18:43:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bithub.de; s=ford;
-	t=1628700210;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ClwUiqz/I0mqbrnFhbWlSctO4BDi9tFd1OjHUYHW+9E=;
-	b=RvoE0Tj48jZ56byyRsxl7ktC3uGAsmGUuBCvIThLE6hkCsyJFRxx/diq7fTYydaOmRnJ0g
-	0NQOyBLsFj7OO37V9hELoUzj0gXhCaV2Ca48D9LfkIHfDhxJ8yYC2CHg7hxFEW+KrGz/ZL
-	kOSQXOeQMO1SCpN35+a3mSZaVvSXq1i+sLxf6gsjoM7DC2pEL/VZNUN8omE6+xixEVSXbM
-	Rihy6q1RlVzMozvLPKiYOUDMEOo3nyXThB3mnDGhd7C1I3T8/4hCFuYMmCy5hO1P/5rmEO
-	L3LmeoKa208ptWnFD33gDIBN1Mo/IzbGKZLuU1AC3BVwE0OmDp3asdu1XFu/jA==
-Subject: Re: [OE-core] [pseudo][PATCH] makewrappers: Handle parameters marked as nonnull
-To: Mike Crowe <mac@mcrowe.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20210517192506.48088-1-philip@bithub.de>
- <20210811162522.GA9259@mcrowe.com>
-From: "Philip Lorenz" <philip@bithub.de>
-Message-ID: <87eda11b-e544-ed39-b9be-234c64bd5b43@bithub.de>
-Date: Wed, 11 Aug 2021 18:43:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=L+JwPuk0;
+ spf=pass (domain: mcrowe.com, ip: 212.159.14.18, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id DrXKmLTKSHBkXDrXMm3hX5; Wed, 11 Aug 2021 17:57:04 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=fI+iIaSe c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=kj9zAlcOel0A:10 a=MhDmnRu9jo8A:10 a=-An2I_7KAAAA:8 a=8AHkEIZyAAAA:8
+ a=x9qErrpt8xjmSUaM7xAA:9 a=CjuIK1q_8ugA:10 a=Sq34B_EcNBM9_nrAYB9S:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	 s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=wtVxfTFaCC4NeLLqhq/nBLDpudcnng8Otn2frhKNPHk=; b=L+JwP
+	uk0XM9rngTQHfnBsd1giKIBuryk++T95+v8TgbtJOfOYjwfwvz9YYv6WjFK8/W/nnKIEYaTF9/whj
+	QqaHzSkWGtejgPfFmzfLBEcCdOWzC9+v1lKFOfCIFxSUBjfs0DUEPclLuCZfEUnBZ/on0y2Fs5j3b
+	DTjaHC3Auis0HqXHy2GOCf9ORETy2nHiTMKyPyZ407lqJ4UiT7frKB+4Bwgy7ZsF4AOBJL0oG+NMk
+	KA0iIOvAL6Co60W4DIotAqWlFLDKgb8w+h9OUEpssbOcvNW9kioMfGJzrjUWatFEzn7vfYHXO/jiV
+	8BeLSH4/LHaUMasglG5fgHsELyr1g==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1mDrXK-0003pb-Oe; Wed, 11 Aug 2021 17:57:02 +0100
+Date: Wed, 11 Aug 2021 17:57:02 +0100
+From: "Mike Crowe" <yocto@mac.mcrowe.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Ross Burton <ross@burtonini.com>,
+	"Zhang, Qiang" <qiang.zhang@windriver.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] python3: use monotonic clock for condvar if possible
+Message-ID: <20210811165702.GA14091@mcrowe.com>
+References: <20210803051138.30790-1-qiang.zhang@windriver.com>
+ <CAAnfSTtD=Vz-3SY0UYBh62en9Z_WMzWP7iRQPynmJPmCR+PiHQ@mail.gmail.com>
+ <CANNYZj9y7qXt92w0hfkWJufJ=7i6m8ddDcNfNzOJCUw+Ci_a+Q@mail.gmail.com>
+ <20210811161449.GA7254@mcrowe.com>
+ <CANNYZj-am4poZ6hahsUw5R3He8hny5EP7CLXRQSLXRP2TCVR-w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210811162522.GA9259@mcrowe.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US-large
+In-Reply-To: <CANNYZj-am4poZ6hahsUw5R3He8hny5EP7CLXRQSLXRP2TCVR-w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Envelope: MS4wfLEnptxVfQm7LCDhpB9lhOeQOzEqbVq3eeVA1xzKoR9IaYV3IusRoCiHO7RuYzvWbDt61m/BKPAKW+3MtgoMyzBRVZPol12msS7msjjt7S2j2iQIKR8R
+ JkRKWB9kM0jk+yMAzmum0byxfJfzadu/yBR6pTDnDRgI1JsO2KfZJPS7sUrk3hbwx1sQfiNKa+Sobg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Mike,
-
-On 11.08.21 18:25, Mike Crowe wrote:
-> On Monday 17 May 2021 at 21:25:06 +0200, Philip Lorenz wrote:
->> Commit 60e25a36558f1f07dcce1a044fe976b475bec42b started dereferencing
->> the "path" parameter which for some functions is annotated with the
->> "nonnull" attribute. While the commit explicitly checks for NULL
->> pointers before dereferencing it, GCC (at optimization level 1 and
->> above) removes the check due to the "nonnull" attribute being set for
->> some parameters in the glibc headers (e.g. statx()).
->>
->> However, the statx() man page explicitly allows calling with NULL
->> pointers (in which case the EFAULT is returned) and this behaviour is
->> used in the wild (e.g. in Rust) to determine whether the statx() system
->> call is supported.
->>
->> Disabling the optimization is not possible ([1]) so prevent the compiler
->> optimization by referencing the parameter in a noop inline assembly
->> instruction instead.
->>
->> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100404
->>
->> Signed-off-by: Philip Lorenz <philip@bithub.de>
->> ---
->>   Makefile.in        |  2 ++
->>   makewrappers       |  6 +++++-
->>   test/test-fstat.c  | 29 +++++++++++++++++++++++++++++
->>   test/test-fstat.sh |  8 ++++++++
->>   4 files changed, 44 insertions(+), 1 deletion(-)
->>   create mode 100644 test/test-fstat.c
->>   create mode 100755 test/test-fstat.sh
->>
->> diff --git a/Makefile.in b/Makefile.in
->> index cf13010..10441ef 100644
->> --- a/Makefile.in
->> +++ b/Makefile.in
->> @@ -77,6 +77,8 @@ all: $(LIBPSEUDO) $(PSEUDO) $(PSEUDODB) $(PSEUDOLOG) $(PSEUDO_PROFILE)
->>   test: all | $(BIN) $(LIB) $(LOCALSTATE)
->>   	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-rename-fstat test/test-rename-fstat.c
->>   	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-openat test/test-openat.c
->> +	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-statx test/test-statx.c
-> The test/test-stax.c file wasn't included in the patch, which means that
-> "make test" no longer works on the current pseudo oe-core branch. :(
-> Perhaps this went unnoticed since it's necessary to run configure again for
-> the Makefile to be regenerated to see the problem.
+On Wednesday 11 August 2021 at 18:32:31 +0200, Alexander Kanavin wrote:
+> On Wed, 11 Aug 2021 at 18:14, Mike Crowe <mac@mcrowe.com> wrote:
+> > I agree regarding the lack of explanation. However, even if the problem is
+> > real (which it looks like it is based on
+> > https://bugs.python.org/issue41710)
+> > then it wouldn't be expected to cause test failures unless the system clock
+> > was being warped at inconvenient times during the tests.
 >
-> Do you still have the file, or should I just submit a change to remove this
-> line?
+> So can we just patch python to use the right glibc function with the right
+> clock type, and send the patch upstream then? Much better than the
+> workaround that was merged.
 
-My bad - I must've forgotten to stage it. Just resent the missing test 
-case in "[pseudo][PATCH] test: Add missing test-statx test case".
+In theory, yes. I've no idea how hard that is though. It probably requires
+adding build-time detection of whether the new functions are available to
+avoid breaking other/older target operating systems.
 
-Philip
-
+Mike.
