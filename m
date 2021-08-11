@@ -1,84 +1,92 @@
 Received: from ford.bithub.de (ford.bithub.de [159.69.22.172])
- by mx.groups.io with SMTP id smtpd.web10.10045.1628700115239880540
+ by mx.groups.io with SMTP id smtpd.web11.10250.1628700212346395847
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Aug 2021 09:41:56 -0700
+ Wed, 11 Aug 2021 09:43:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@bithub.de header.s=ford header.b=oymUnni4;
+ dkim=pass header.i=@bithub.de header.s=ford header.b=RvoE0Tj4;
  spf=pass (domain: bithub.de, ip: 159.69.22.172, mailfrom: philip@bithub.de)
-Received: from t420.fritz.box (x4db4214e.dyn.telefonica.de [77.180.33.78])
-	by ford.bithub.de (Postfix) with ESMTPSA id 471181FCC7;
-	Wed, 11 Aug 2021 18:41:50 +0200 (CEST)
+Received: from [192.168.188.36] (x4db4214e.dyn.telefonica.de [77.180.33.78])
+	by ford.bithub.de (Postfix) with ESMTPSA id 3BA961FCC5;
+	Wed, 11 Aug 2021 18:43:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bithub.de; s=ford;
-	t=1628700113;
+	t=1628700210;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RRoZcvd+Wpb7r3z7HyBefSeNxjG3mNTBEsNN3bkoxRc=;
-	b=oymUnni4kNWmPEIelR5mS2wwleMCl4y9ygYLw1Flx8BSdixY+FXRd/N0+0lL7BiKWUEIXU
-	VQVyqAJQNo5Vmblp4RvVau0YF/WBlwuXHSohAjYPPqgRL3c43UN/iHrZ+OoZvM6UzcpZeI
-	9wqyEGHZtILcxVcFsEPmW4HLvVwMXa01Xz5lotXGdGuNEikp4J6Fl9y7FyCgXHr7KbS3N0
-	EBjYFY5O2oloaVsgU2yWJfHx63hZPS4AbtAZeuDhjbkA+CtCRLIQZcJQY1Q2nCiOwo19uB
-	DERwt5uadWCjLmaeFymG5UzneYjMZHnxPuUFOdTKwbPz09ccuHGzfxQC5ErFgQ==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ClwUiqz/I0mqbrnFhbWlSctO4BDi9tFd1OjHUYHW+9E=;
+	b=RvoE0Tj48jZ56byyRsxl7ktC3uGAsmGUuBCvIThLE6hkCsyJFRxx/diq7fTYydaOmRnJ0g
+	0NQOyBLsFj7OO37V9hELoUzj0gXhCaV2Ca48D9LfkIHfDhxJ8yYC2CHg7hxFEW+KrGz/ZL
+	kOSQXOeQMO1SCpN35+a3mSZaVvSXq1i+sLxf6gsjoM7DC2pEL/VZNUN8omE6+xixEVSXbM
+	Rihy6q1RlVzMozvLPKiYOUDMEOo3nyXThB3mnDGhd7C1I3T8/4hCFuYMmCy5hO1P/5rmEO
+	L3LmeoKa208ptWnFD33gDIBN1Mo/IzbGKZLuU1AC3BVwE0OmDp3asdu1XFu/jA==
+Subject: Re: [OE-core] [pseudo][PATCH] makewrappers: Handle parameters marked as nonnull
+To: Mike Crowe <mac@mcrowe.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20210517192506.48088-1-philip@bithub.de>
+ <20210811162522.GA9259@mcrowe.com>
 From: "Philip Lorenz" <philip@bithub.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Philip Lorenz <philip@bithub.de>
-Subject: [pseudo][PATCH] test: Add missing test-statx test case
-Date: Wed, 11 Aug 2021 18:41:32 +0200
-Message-Id: <20210811164132.74849-1-philip@bithub.de>
-X-Mailer: git-send-email 2.32.0
+Message-ID: <87eda11b-e544-ed39-b9be-234c64bd5b43@bithub.de>
+Date: Wed, 11 Aug 2021 18:43:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210811162522.GA9259@mcrowe.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US-large
 
-Adding this test case was erroneously omitted in
-7c722296879906fe093e1e7c4b7537e150d492cd.
+Hi Mike,
 
-Signed-off-by: Philip Lorenz <philip@bithub.de>
----
- test/test-statx.c  | 20 ++++++++++++++++++++
- test/test-statx.sh |  6 ++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 test/test-statx.c
- create mode 100755 test/test-statx.sh
+On 11.08.21 18:25, Mike Crowe wrote:
+> On Monday 17 May 2021 at 21:25:06 +0200, Philip Lorenz wrote:
+>> Commit 60e25a36558f1f07dcce1a044fe976b475bec42b started dereferencing
+>> the "path" parameter which for some functions is annotated with the
+>> "nonnull" attribute. While the commit explicitly checks for NULL
+>> pointers before dereferencing it, GCC (at optimization level 1 and
+>> above) removes the check due to the "nonnull" attribute being set for
+>> some parameters in the glibc headers (e.g. statx()).
+>>
+>> However, the statx() man page explicitly allows calling with NULL
+>> pointers (in which case the EFAULT is returned) and this behaviour is
+>> used in the wild (e.g. in Rust) to determine whether the statx() system
+>> call is supported.
+>>
+>> Disabling the optimization is not possible ([1]) so prevent the compiler
+>> optimization by referencing the parameter in a noop inline assembly
+>> instruction instead.
+>>
+>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100404
+>>
+>> Signed-off-by: Philip Lorenz <philip@bithub.de>
+>> ---
+>>   Makefile.in        |  2 ++
+>>   makewrappers       |  6 +++++-
+>>   test/test-fstat.c  | 29 +++++++++++++++++++++++++++++
+>>   test/test-fstat.sh |  8 ++++++++
+>>   4 files changed, 44 insertions(+), 1 deletion(-)
+>>   create mode 100644 test/test-fstat.c
+>>   create mode 100755 test/test-fstat.sh
+>>
+>> diff --git a/Makefile.in b/Makefile.in
+>> index cf13010..10441ef 100644
+>> --- a/Makefile.in
+>> +++ b/Makefile.in
+>> @@ -77,6 +77,8 @@ all: $(LIBPSEUDO) $(PSEUDO) $(PSEUDODB) $(PSEUDOLOG) $(PSEUDO_PROFILE)
+>>   test: all | $(BIN) $(LIB) $(LOCALSTATE)
+>>   	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-rename-fstat test/test-rename-fstat.c
+>>   	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-openat test/test-openat.c
+>> +	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-statx test/test-statx.c
+> The test/test-stax.c file wasn't included in the patch, which means that
+> "make test" no longer works on the current pseudo oe-core branch. :(
+> Perhaps this went unnoticed since it's necessary to run configure again for
+> the Makefile to be regenerated to see the problem.
+>
+> Do you still have the file, or should I just submit a change to remove this
+> line?
 
-diff --git a/test/test-statx.c b/test/test-statx.c
-new file mode 100644
-index 0000000..06d86af
---- /dev/null
-+++ b/test/test-statx.c
-@@ -0,0 +1,20 @@
-+/*
-+ * Test that passing NULL to a parameter marked as nonnull works correct=
-ly
-+ * SPDX-License-Identifier: LGPL-2.1-only
-+ *
-+ */
-+#define _GNU_SOURCE
-+
-+#include <sys/stat.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+
-+// Passing a null pointer is the test scenario
-+#pragma GCC diagnostic ignored "-Wnonnull"
-+
-+int main(void) {
-+    if (statx(0, NULL, 0, 0, NULL) !=3D -1) {
-+        return 1;
-+    }
-+    return 0;
-+}
-diff --git a/test/test-statx.sh b/test/test-statx.sh
-new file mode 100755
-index 0000000..77d0302
---- /dev/null
-+++ b/test/test-statx.sh
-@@ -0,0 +1,6 @@
-+#!/bin/bash
-+#
-+# SPDX-License-Identifier: LGPL-2.1-only
-+#
-+
-+exec ./test/test-statx
---=20
-2.32.0
+My bad - I must've forgotten to stage it. Just resent the missing test 
+case in "[pseudo][PATCH] test: Add missing test-statx test case".
+
+Philip
 
