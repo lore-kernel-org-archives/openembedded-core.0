@@ -1,92 +1,112 @@
 Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
- by mx.groups.io with SMTP id smtpd.web09.10574.1628702047094436613
+ by mx.groups.io with SMTP id smtpd.web08.10620.1628702368654738204
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Aug 2021 10:14:08 -0700
+ Wed, 11 Aug 2021 10:19:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=AJDW88of;
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=XW+2U18r;
  spf=pass (domain: mcrowe.com, ip: 212.159.14.18, mailfrom: mac@mcrowe.com)
 Received: from deneb.mcrowe.com ([80.229.24.9])
 	by smtp with ESMTP
-	id DrnomLUe7HBkXDrnpm3iNU; Wed, 11 Aug 2021 18:14:05 +0100
+	id DrszmLUxAHBkXDrt0m3iVK; Wed, 11 Aug 2021 18:19:27 +0100
 X-Clacks-Overhead: "GNU Terry Pratchett"
 X-CM-Score: 0.00
 X-CNFS-Analysis: v=2.3 cv=fI+iIaSe c=1 sm=1 tr=0
  a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=MhDmnRu9jo8A:10 a=-An2I_7KAAAA:8 a=32uHfFeSOX9-2Eez5dcA:9
+ a=kj9zAlcOel0A:10 a=MhDmnRu9jo8A:10 a=Q4-j1AaZAAAA:8 a=-An2I_7KAAAA:8
+ a=bP2RIwKDkekpPqqFy4cA:9 a=CjuIK1q_8ugA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
  a=Sq34B_EcNBM9_nrAYB9S:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=DUHor0REMsdPXBMo6ElI0rXPRfQ/tsQCZJDm+zDA2vA=; b=AJ
-	DW88ofzTjKGu3dfWlNcRKOp4utQj31aqGjGuK7iqBHvITDkyZFU6OLY0pKOa8O3cTD4K7sWLr0BXR
-	9zRqYWZKeY0LAIYFSvLTwojplxQtERN/nfBx+Ak7OGBLfdD0USxmwhHhpHzYXZXBbKItwebeaTN0F
-	CDOqjaggxIM6PEBBDpyKItKxvSn/4k3b8rP0hPXjFCkwkbmLTWdHvuek0xVIWGkbKzTmY9+cqEUEe
-	NDMlkOVznplh02qxz5PIEQUT3NCkfiCHXeIhVV5mZTKjiMdoMhEA9hzZy+OXD8M4G4LvWm//0ktub
-	X9hYwHE81dwa8ZVeafLoksKOJ8Xmc1FA==;
+	 s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=YQ+4wf1dnGCVYG0KQbzUdMTEqLQ9Y9qWQzbjuE08Qmo=; b=XW+2U
+	18rUUW/kPGMKEc+RFfG7oRzgciFiKo/1DJrZU0Gv8vXhHFXE9mM/6Tl0b0ATLa8wySXhp0jiLWUPt
+	4A+Hiig45/w0tVhRLL+UxwfVvUieN8BVqZTe7sI9+Xlbf89l7tNnOQrtI/UJgHO0ZBhunt4ML888F
+	w4UZqh2Upmb9zTLdVXsQRDEcigYQL2b7bn8ShnJpAhXmnJr4y7oo5bxTJFIREx2jkJtE64zpTqsnR
+	Mja4aQxyljXVVPxF0cXGlA8KifomPc3/YFNVg2M3nDHydcJoYMhMZwPbtpoNf7wbTAGpyXm87t/9R
+	/+eI3bdgIR1zfDB66skMgh+dUoB2w==;
 Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
 	(envelope-from <mac@mcrowe.com>)
-	id 1mDrnm-0004bw-UC; Wed, 11 Aug 2021 18:14:02 +0100
+	id 1mDrsz-0004pv-Hi; Wed, 11 Aug 2021 18:19:25 +0100
+Date: Wed, 11 Aug 2021 18:19:25 +0100
 From: "Mike Crowe" <yocto@mac.mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [pseudo][PATCH] test-openat: Consider device as well as inode number
-Date: Wed, 11 Aug 2021 18:13:54 +0100
-Message-Id: <20210811171354.916407-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.30.2
+To: Philip Lorenz <philip@bithub.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [pseudo][PATCH] test: Add missing test-statx test case
+Message-ID: <20210811171925.GA15765@mcrowe.com>
+References: <20210811164132.74849-1-philip@bithub.de>
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfFu7lEVwLNWZYbrVzZnr1ZFO7jPyhKO58UGtJwsW6MHKYOhwiuBTZNe+initjEMcGNZHX+WIZP3o31drAIce7ABX3n0y52Vbw7sIXEBHQpCqJ3doNI+x
- uSNcRSV9Xe+M+RorTOvLpBgpWs2/ONDJwFRUo5w/R2lPquAlS6DodtoJFJS8x+9I1iSuv5ySnMFOVw==
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210811164132.74849-1-philip@bithub.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Envelope: MS4wfEtln/a7WXq+6qqQg+dP3do9BVYY4Lqpa59l9n/joSEnzPxssNgZ7LSJbN8R8WjtdJFsd5SxtJ1g6hzg2tZynak8fT8aIEaYFdSkNJqQdQSS7oh21L2H
+ EyQQh75aGvxOvdTEV1dB2g/3RqtulNzFTxtbfqunIx4E3WCu9AGQ0lBFkIrUxc6Xo8EOqSdaZnzsLg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-It just so happens that my /home/mac and /home directories have the same
-inode number but on different filesystems.
+On Wednesday 11 August 2021 at 18:41:32 +0200, Philip Lorenz wrote:
+> Adding this test case was erroneously omitted in
+> 7c722296879906fe093e1e7c4b7537e150d492cd.
+> 
+> Signed-off-by: Philip Lorenz <philip@bithub.de>
+> ---
+>  test/test-statx.c  | 20 ++++++++++++++++++++
+>  test/test-statx.sh |  6 ++++++
+>  2 files changed, 26 insertions(+)
+>  create mode 100644 test/test-statx.c
+>  create mode 100755 test/test-statx.sh
+> 
+> diff --git a/test/test-statx.c b/test/test-statx.c
+> new file mode 100644
+> index 0000000..06d86af
+> --- /dev/null
+> +++ b/test/test-statx.c
+> @@ -0,0 +1,20 @@
+> +/*
+> + * Test that passing NULL to a parameter marked as nonnull works correctly
+> + * SPDX-License-Identifier: LGPL-2.1-only
+> + *
+> + */
+> +#define _GNU_SOURCE
+> +
+> +#include <sys/stat.h>
+> +#include <unistd.h>
+> +#include <fcntl.h>
+> +
+> +// Passing a null pointer is the test scenario
+> +#pragma GCC diagnostic ignored "-Wnonnull"
+> +
+> +int main(void) {
+> +    if (statx(0, NULL, 0, 0, NULL) != -1) {
+> +        return 1;
+> +    }
+> +    return 0;
+> +}
+> diff --git a/test/test-statx.sh b/test/test-statx.sh
+> new file mode 100755
+> index 0000000..77d0302
+> --- /dev/null
+> +++ b/test/test-statx.sh
+> @@ -0,0 +1,6 @@
+> +#!/bin/bash
+> +#
+> +# SPDX-License-Identifier: LGPL-2.1-only
+> +#
+> +
+> +exec ./test/test-statx
+> -- 
+> 2.32.0
+> 
 
-This means that test-openat fails with "Recursion failed!" even when run
-without pseudo.
+> 
+> 
+> 
 
-Let's consider both the device number and the inode number before
-assuming that we've found the same directory again.
+Applying this patch (along with <169A4FE272BB166C.28384@lists.openembedded.org>)
+makes all the tests pass for me. However, the run of test-statx.sh causes:
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- test/test-openat.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ couldn't allocate absolute path for '(null)'.
 
-diff --git a/test/test-openat.c b/test/test-openat.c
-index b710285..df6655a 100644
---- a/test/test-openat.c
-+++ b/test/test-openat.c
-@@ -25,11 +25,13 @@ int main () {
-     int fd, dir_fd;
-     struct stat st;
-     ino_t ino;
-+    dev_t dev;
-     char *path;
- 
-     fd = openat(AT_FDCWD, ".", O_DIRECTORY, 0);
-     fstat(fd, &st);
-     ino = st.st_ino;
-+    dev = st.st_dev;
- 
-     while (1) {
-         path = path_of(fd);
-@@ -37,7 +39,7 @@ int main () {
- 
-         dir_fd = openat(fd, "../", O_DIRECTORY, 0);
-         fstat(dir_fd, &st);
--        if (st.st_ino == ino) {
-+        if (st.st_ino == ino && st.st_dev == dev) {
-             if (strcmp(path, "/") == 0) {
-                 //puts("Reached top of tree");
-                 return 0;
-@@ -49,6 +51,7 @@ int main () {
- 
-         free (path);
-         ino = st.st_ino;
-+        dev = st.st_dev;
-         fd = dir_fd;
-     }
-     return 0;
--- 
-2.30.2
+to be printed.
 
+Thanks.
+
+Mike.
