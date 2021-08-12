@@ -1,124 +1,85 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.24986.1628787543221806741
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web11.27547.1628798662567057063
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Aug 2021 09:59:03 -0700
+ Thu, 12 Aug 2021 13:04:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=XOUf08da;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
-Received: from abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net (unknown [20.94.235.175])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5FAD420BE693;
-	Thu, 12 Aug 2021 09:59:02 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5FAD420BE693
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1628787542;
-	bh=rQPAYEXpTEOto9D7Mnk3Q0nee4zot/X7bxu/Yctqv6c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XOUf08daDf5355jn2emEbdBk9kOVXS7umBx9aipKIoHAWggw9p+4AqyxdlRaTDNGz
-	 bPwG9SjzCWJlLMwI+qhBAVhsb5Mb6OMCVouYI9yViOYWI3AsFbDpwJmQcZp9owa/b2
-	 Jx8iO1lMpcsdC5O8pgVwaWsc/w2fdVVOKtstw1js=
-From: "Andres Beltran" <abeltran@linux.microsoft.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gprD+g6Q;
+ spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f52.google.com with SMTP id n1-20020a9d1e810000b0290514da4485e4so6474082otn.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Aug 2021 13:04:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fHFwYsMGp4noNPAtsLBeNcrRfkh7yp8p5r8f3FtF4VE=;
+        b=gprD+g6QUnXt4ZbCUU089Ay0EdnRbWnvUknX//cuBkhiHHkzud0MKBYByAZrjdqRsu
+         H0TBaI/MfPT4SFyWZh19mrRvP/QWmHuAf7TEUM+5ymV/i+cvv2Q+MDcLfnh+9DXsaTkt
+         9rzcKd2P6enDPXkBzh5GeTrgNBEb7tWgvwHOfhmjQFmjawhZQmusjh+vt6FWBCczUxBr
+         FN0fA2JWhJvVBisrus74AlEqHjTrq1vhxPQYVaFZ9Av0ItY80KBnFH/bsU8DrCev4/wT
+         2g/PmEGH2uNaEwSvWaASYBYVqxh8s2zkylWcNFL85xQZue3OoP5ahOq76rgIOPFupZPB
+         BeSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fHFwYsMGp4noNPAtsLBeNcrRfkh7yp8p5r8f3FtF4VE=;
+        b=SpxVdgvbPEG+AkPKnbdAeZjTfzvDFUYJRT7GL6LW0FdT3We3usskpRBCEyTcxZNpBK
+         ul+g9NvEZO0cYiWZyz/D2QFTlEuhN6ZOKLAYUthe0sx0nJP0uscvJGZ+NLlFFkj/0Yv9
+         5waqxBN+RhtxYw0byEM9ZbFLQrn7/pVtqbnXz0zV85KrVxGM4iT0pg+M7GrkwxakJZQV
+         2lXbs79xgHqtmpIE4L6crbCQE2XrKiHkYeX17AzCuxTwcsM1FMojvPY0sQUbNK5ZL0eK
+         DVMS00G++KrvkPmf09Q0bvqzwN71KDEh2iQwj7Ch8/5q1IQ8L2Bq9oxSfQwB5hAxivz8
+         buHQ==
+X-Gm-Message-State: AOAM532/h09h7K6QFIZlIkOEAlRqztQ8mYLwSQcnOo71lw9g48nb+B9h
+	3RfH9ivnVeUqkxDNSxPyl3ZozwE1Pa2y4Q==
+X-Google-Smtp-Source: ABdhPJzr3xVPey2vHf9y+B2Dpa2yqWpQ/PAK5LfD1cu32YNxEpC0TbQSYCXr7ay6xqzzcCUPu8lpUQ==
+X-Received: by 2002:a9d:53cd:: with SMTP id i13mr4734871oth.302.1628798661305;
+        Thu, 12 Aug 2021 13:04:21 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id o4sm852997oik.49.2021.08.12.13.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Aug 2021 13:04:20 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Andres Beltran <abeltran@linux.microsoft.com>
-Subject: [PATCH] buildhistory: Add output file listing package information
-Date: Thu, 12 Aug 2021 16:58:56 +0000
-Message-Id: <20210812165856.6469-1-abeltran@linux.microsoft.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] lib/packagedata: Fix for new overrides
+Date: Thu, 12 Aug 2021 15:04:12 -0500
+Message-Id: <20210812200412.36121-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Currently, buildhistory does not produce a single file combining relevant
-information of installed packages. Produce an output file
-"installed-package-info.txt" listing a package's runtime name, buildtime name,
-its recipe, version, and size to avoid having to look up each package externally.
-Leave the existing package list files as-is for backwards compatibility.
+Fix read_subpkgdata_dict to account for the new override operator being
+":" instead of "_"
 
-In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
-for its read-value argument.
-
-Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/buildhistory.bbclass |  5 +++++
- scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
- 2 files changed, 28 insertions(+), 14 deletions(-)
+ meta/lib/oe/packagedata.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 8a1359acbe..134b56ab71 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -491,6 +491,11 @@ buildhistory_get_installed() {
- 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
- 	rm $1/installed-package-sizes.tmp
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index d7914524b5..c6f96d81fd 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -45,14 +45,14 @@ def read_pkgdata(pn, d):
+     return read_pkgdatafile(fn)
  
-+	# Produce package info: runtime_name, buildtime_name, recipe, version, size
-+	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
-+	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
-+	rm $1/installed-package-info.tmp
-+
- 	# We're now done with the cache, delete it
- 	rm $pkgcache
- 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 75dd23efa3..c30baaa580 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -171,7 +171,7 @@ def read_value(args):
-                     val = line.split(': ', 1)[1].rstrip()
-         return val
- 
--    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
-+    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
-     for package in packages:
-         pkg_split = package.split('_')
-         pkg_name = pkg_split[0]
-@@ -180,20 +180,29 @@ def read_value(args):
-         logger.debug(revlink)
-         if os.path.exists(revlink):
-             mappedpkg = os.path.basename(os.readlink(revlink))
--            qvar = args.valuename
--            value = readvar(revlink, qvar, mappedpkg)
--            if qvar == "PKGSIZE":
--                # PKGSIZE is now in bytes, but we we want it in KB
--                pkgsize = (int(value) + 1024 // 2) // 1024
--                value = "%d" % pkgsize
--            if args.unescape:
--                import codecs
--                # escape_decode() unescapes backslash encodings in byte streams
--                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-+            qvars = args.valuenames
-+            val_names = qvars.split(',')
-+            values = []
-+            for qvar in val_names:
-+                if qvar == "PACKAGE":
-+                    value = mappedpkg
-+                else:
-+                    value = readvar(revlink, qvar, mappedpkg)
-+                if qvar == "PKGSIZE":
-+                    # PKGSIZE is now in bytes, but we we want it in KB
-+                    pkgsize = (int(value) + 1024 // 2) // 1024
-+                    value = "%d" % pkgsize
-+                if args.unescape:
-+                    import codecs
-+                    # escape_decode() unescapes backslash encodings in byte streams
-+                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-+                values.append(value)
-+
-+            values_str = ' '.join(values)
-             if args.prefix_name:
--                print('%s %s' % (pkg_name, value))
-+                print('%s %s' % (pkg_name, values_str))
-             else:
--                print(value)
-+                print(values_str)
-         else:
-             logger.debug("revlink %s does not exist", revlink)
- 
-@@ -570,7 +579,7 @@ def main():
-     parser_read_value = subparsers.add_parser('read-value',
-                                           help='Read any pkgdata value for one or more packages',
-                                           description='Reads the named value from the pkgdata files for the specified packages')
--    parser_read_value.add_argument('valuename', help='Name of the value to look up')
-+    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
-     parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
-     parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
-     parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
+ #
+-# Collapse FOO_pkg variables into FOO
++# Collapse FOO:pkg variables into FOO
+ #
+ def read_subpkgdata_dict(pkg, d):
+     ret = {}
+     subd = read_pkgdatafile(get_subpkgedata_fn(pkg, d))
+     for var in subd:
+-        newvar = var.replace("_" + pkg, "")
+-        if newvar == var and var + "_" + pkg in subd:
++        newvar = var.replace(":" + pkg, "")
++        if newvar == var and var + ":" + pkg in subd:
+             continue
+         ret[newvar] = subd[var]
+     return ret
 -- 
-2.17.1
+2.32.0
 
