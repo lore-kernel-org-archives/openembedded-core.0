@@ -1,32 +1,34 @@
-Subject: Re: [poky][dunfell][PATCH] lighttpd: Add patch for reuse large memory chunks
-To: openembedded-core@lists.openembedded.org
-From: purushottamc@kpit.com
-X-Originating-Location: Ranchi, Jharkhand, IN (49.37.64.154)
-X-Originating-Platform: Linux Firefox 88
-User-Agent: GROUPS.IO Web Poster
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.24181.1628784455079081870
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 12 Aug 2021 09:07:35 -0700
+Authentication-Results: mx.groups.io;
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 15C711C0003;
+	Thu, 12 Aug 2021 16:07:32 +0000 (UTC)
+Date: Thu, 12 Aug 2021 18:07:32 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] issues with wic creating "multi-partition" images?
+Message-ID: <YRVHRM8cdapyFtm+@piout.net>
+References: <9dafcfda-fa85-8a7d-cd7e-6a584ac87c4d@crashcourse.ca>
+ <YRTtVche3UXNG7xB@piout.net>
+ <ab3934b7-ab59-eef2-e30-e1f45d20cbce@crashcourse.ca>
 MIME-Version: 1.0
-Date: Thu, 12 Aug 2021 03:06:36 -0700
-References: <1628762256-3816-1-git-send-email-purushottam.choudhary@kpit.com>
-In-Reply-To: <1628762256-3816-1-git-send-email-purushottam.choudhary@kpit.com>
-Message-ID: <16789.1628762796629687726@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="zHKgI6l7FYbJnzdQIPnl"
+In-Reply-To: <ab3934b7-ab59-eef2-e30-e1f45d20cbce@crashcourse.ca>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---zHKgI6l7FYbJnzdQIPnl
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On 12/08/2021 05:50:53-0400, Robert P. J. Day wrote:
+> p.s. as i read it, the only distinction between a "wks" and a "wks.in"
+> file is the need to pre-process variable substitution in the latter,
+> correct?
 
-Hi,
+It is my understanding, yes.
 
-Could you please check again.
-
-I have fixed the fuzz error.
-
---zHKgI6l7FYbJnzdQIPnl
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p>Hi,</p>
-<p>Could you please check again.</p>
-I have fixed the fuzz error.
-
---zHKgI6l7FYbJnzdQIPnl--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
