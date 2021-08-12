@@ -1,129 +1,124 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web12.24761.1628786082569527204
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.24986.1628787543221806741
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Aug 2021 09:34:43 -0700
+ Thu, 12 Aug 2021 09:59:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 555D6C0009;
-	Thu, 12 Aug 2021 16:34:40 +0000 (UTC)
-Date: Thu, 12 Aug 2021 18:34:40 +0200
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: Daniel Gomez <daniel@qtec.com>
-Cc: openembedded-core@lists.openembedded.org, dagmcr@gmail.com,
-	paul@pbarker.dev, richard.purdie@linuxfoundation.org
-Subject: Re: [OE-core][PATCH v2 2/2] oeqa: wic: Add tests for --no-fstab-update
-Message-ID: <YRVNoK+utVN0kCH4@piout.net>
-References: <20210810201101.261132-1-daniel@qtec.com>
- <20210810201101.261132-2-daniel@qtec.com>
-MIME-Version: 1.0
-In-Reply-To: <20210810201101.261132-2-daniel@qtec.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=XOUf08da;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
+Received: from abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net (unknown [20.94.235.175])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5FAD420BE693;
+	Thu, 12 Aug 2021 09:59:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5FAD420BE693
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1628787542;
+	bh=rQPAYEXpTEOto9D7Mnk3Q0nee4zot/X7bxu/Yctqv6c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XOUf08daDf5355jn2emEbdBk9kOVXS7umBx9aipKIoHAWggw9p+4AqyxdlRaTDNGz
+	 bPwG9SjzCWJlLMwI+qhBAVhsb5Mb6OMCVouYI9yViOYWI3AsFbDpwJmQcZp9owa/b2
+	 Jx8iO1lMpcsdC5O8pgVwaWsc/w2fdVVOKtstw1js=
+From: "Andres Beltran" <abeltran@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andres Beltran <abeltran@linux.microsoft.com>
+Subject: [PATCH] buildhistory: Add output file listing package information
+Date: Thu, 12 Aug 2021 16:58:56 +0000
+Message-Id: <20210812165856.6469-1-abeltran@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 
-Hello,
+Currently, buildhistory does not produce a single file combining relevant
+information of installed packages. Produce an output file
+"installed-package-info.txt" listing a package's runtime name, buildtime name,
+its recipe, version, and size to avoid having to look up each package externally.
+Leave the existing package list files as-is for backwards compatibility.
 
-On 10/08/2021 22:11:01+0200, Daniel Gomez wrote:
-> Add tests for the --no-fstab-update wic part command.
-> 
-> Signed-off-by: Daniel Gomez <daniel@qtec.com>
-> ---
->  meta/lib/oeqa/selftest/cases/wic.py | 56 +++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-> index 2efbe514c1..a58360851a 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -11,6 +11,7 @@
->  import os
->  import sys
->  import unittest
-> +import hashlib
->  
->  from glob import glob
->  from shutil import rmtree, copy
-> @@ -686,6 +687,61 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
->                                        % (wks_file, self.resultdir), ignore_status=True).status)
->          os.remove(wks_file)
->  
-> +    def test_no_fstab_update(self):
-> +        """Test --no-fstab-update wks option."""
-> +
-> +        oldpath = os.environ['PATH']
-> +        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-> +
-> +        # Get stock fstab from base-files recipe
-> +        bitbake('base-files')
-> +        bf_fstab = os.path.join(get_bb_var('WORKDIR', 'base-files'),'image/etc/fstab')
-> +        bf_fstab_md5sum = runCmd('md5sum %s 2>/dev/null' % bf_fstab).output.split(" ")[0]
-> +
+In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
+for its read-value argument.
 
-This failed on the autobuilders:
+Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+---
+ meta/classes/buildhistory.bbclass |  5 +++++
+ scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
+ 2 files changed, 28 insertions(+), 14 deletions(-)
 
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/wic.py", line 699, in test_no_fstab_update
-    bf_fstab_md5sum = runCmd('md5sum %s 2>/dev/null' % bf_fstab).output.split(" ")[0]
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/commands.py", line 207, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
-AssertionError: Command 'md5sum /home/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-15202/tmp/work/qemux86_64-poky-linux/base-files/3.0.14-r89/image/etc/fstab 2>/dev/null' returned non-zero exit status 1:
-
-Full log here:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/2374/steps/14/logs/stdio
-
-> +        try:
-> +            no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
-> +            os.makedirs(no_fstab_update_path)
-> +            wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
-> +            with open(wks_file, 'w') as wks:
-> +                wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
-> +                                'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
-> +                                '--fstype=ext4 --label p2 --no-fstab-update\n'])
-> +            runCmd("wic create %s -e core-image-minimal -o %s" \
-> +                                       % (wks_file, self.resultdir))
-> +
-> +            part_fstab_md5sum = []
-> +            for i in range(1, 3):
-> +                part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
-> +                part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s 2>/dev/null" % (part))
-> +                part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
-> +
-> +            # '/etc/fstab' in partition 2 should contain the same stock fstab file at base-file recipe.
-> +            self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
-> +
-> +            # '/etc/fstab' in partition 1 should contain an updated fstab file.
-> +            self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
-> +
-> +        finally:
-> +            os.environ['PATH'] = oldpath
-> +
-> +    def test_no_fstab_update_errors(self):
-> +        """Test --no-fstab-update wks option error handling."""
-> +        wks_file = 'temp.wks'
-> +
-> +        # Absolute argument.
-> +        with open(wks_file, 'w') as wks:
-> +            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update /etc")
-> +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-> +                                      % (wks_file, self.resultdir), ignore_status=True).status)
-> +        os.remove(wks_file)
-> +
-> +        # Argument pointing to parent directory.
-> +        with open(wks_file, 'w') as wks:
-> +            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update ././..")
-> +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-> +                                      % (wks_file, self.resultdir), ignore_status=True).status)
-> +        os.remove(wks_file)
-> +
->  class Wic2(WicTestCase):
->  
->      def test_bmap_short(self):
-> -- 
-> 2.30.2
-> 
-
-
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 8a1359acbe..134b56ab71 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -491,6 +491,11 @@ buildhistory_get_installed() {
+ 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
+ 	rm $1/installed-package-sizes.tmp
+ 
++	# Produce package info: runtime_name, buildtime_name, recipe, version, size
++	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
++	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
++	rm $1/installed-package-info.tmp
++
+ 	# We're now done with the cache, delete it
+ 	rm $pkgcache
+ 
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 75dd23efa3..c30baaa580 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -171,7 +171,7 @@ def read_value(args):
+                     val = line.split(': ', 1)[1].rstrip()
+         return val
+ 
+-    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
++    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
+     for package in packages:
+         pkg_split = package.split('_')
+         pkg_name = pkg_split[0]
+@@ -180,20 +180,29 @@ def read_value(args):
+         logger.debug(revlink)
+         if os.path.exists(revlink):
+             mappedpkg = os.path.basename(os.readlink(revlink))
+-            qvar = args.valuename
+-            value = readvar(revlink, qvar, mappedpkg)
+-            if qvar == "PKGSIZE":
+-                # PKGSIZE is now in bytes, but we we want it in KB
+-                pkgsize = (int(value) + 1024 // 2) // 1024
+-                value = "%d" % pkgsize
+-            if args.unescape:
+-                import codecs
+-                # escape_decode() unescapes backslash encodings in byte streams
+-                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
++            qvars = args.valuenames
++            val_names = qvars.split(',')
++            values = []
++            for qvar in val_names:
++                if qvar == "PACKAGE":
++                    value = mappedpkg
++                else:
++                    value = readvar(revlink, qvar, mappedpkg)
++                if qvar == "PKGSIZE":
++                    # PKGSIZE is now in bytes, but we we want it in KB
++                    pkgsize = (int(value) + 1024 // 2) // 1024
++                    value = "%d" % pkgsize
++                if args.unescape:
++                    import codecs
++                    # escape_decode() unescapes backslash encodings in byte streams
++                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
++                values.append(value)
++
++            values_str = ' '.join(values)
+             if args.prefix_name:
+-                print('%s %s' % (pkg_name, value))
++                print('%s %s' % (pkg_name, values_str))
+             else:
+-                print(value)
++                print(values_str)
+         else:
+             logger.debug("revlink %s does not exist", revlink)
+ 
+@@ -570,7 +579,7 @@ def main():
+     parser_read_value = subparsers.add_parser('read-value',
+                                           help='Read any pkgdata value for one or more packages',
+                                           description='Reads the named value from the pkgdata files for the specified packages')
+-    parser_read_value.add_argument('valuename', help='Name of the value to look up')
++    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
+     parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+     parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
+     parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.17.1
+
