@@ -1,125 +1,104 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.29733.1628809218742807077
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.30963.1628816296943039403
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Aug 2021 16:00:18 -0700
+ Thu, 12 Aug 2021 17:58:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LQu0FuFH;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso13151183pjy.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Aug 2021 16:00:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A40ceUBN;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id e19so9693767pla.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Aug 2021 17:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kEzoBcOVR0M/AzCtozba05McW4QBtOmTqCCVcUNmY9w=;
-        b=LQu0FuFHTiiE6m+vdzCVTmpS77uxxtr/+ZzM/VMFUuosc6hnvtkqp5vI4AR9nedJs8
-         t3y9i+henGvirevQzKm3FTSw2Kda/bDnLhK21rTk1FlzxZ52zVtddMmIUXj1ulDP5L3p
-         AKeHGLq4N7vnfY+13M7ZgRuL/J1n0RY8JFHLyfDCU/j9b5bVV8I6Nglv6zCP0Uk0l32F
-         lkXBt2MtWvwqx+2uw+SxAMCslYePLNKOuYrVTD6NhXjwgwaqfBIxLgAeN1hukqO2HZYf
-         WDZ41Ao3aCgaJNhDue4blWOGxIcx3b8CFrksUeSJqwe3TYfsIts/Nnl8C6X3JA4dC67m
-         ovZQ==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=x7kP6vMBnwYi9jy64FrlIu2FPXSSTrLJe+hVDMPt5NI=;
+        b=A40ceUBNZ0Ks9TzV/KK7BaFD7L2c45tCuQsY/X+BS9V5ep7jsH2pLFMWCHMhYwUhb7
+         KLtenD7SnefFeA5SlgTlbdySWReAuxF7w6Ys3Ry7l3XowFOHk3CG7ewuVJJ3ajdut3FA
+         x6tJcFvqWbhYMUXlxK9pPoPJ2eXdd1Ja3Kobb4fHu+INUuTZ5QvXyePjxylGBHmSD8z+
+         28YymVN+wb48nt+0Ql0R6f6PS3kKnNmymvEZlFIvqoZt9Elu8hUHIFT8ZHuBm5q1FqYA
+         +o2GGPLdn7XeuZYRbJkqUeduVRcVBD8Vg2okoF0IbSqKL7t+OXzJzl5CSfoFIfi7oWkU
+         WbUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kEzoBcOVR0M/AzCtozba05McW4QBtOmTqCCVcUNmY9w=;
-        b=DI6g/RQN721r5HTy7DcMhfk4t5CvCzBYUfVGDrtUmWBAzWteY6Vau43incxwqbp19d
-         Uyo3ByZhoeVbDsA0y9APs100fBvVoAGcWuyyIjI/Zif1FCwc1dsOZVrwdYHxOogw5LyW
-         bABd9RcCQVaFLPKZOuffFq8VmaUQFZ/tCzlC3l56V4Q23Oi7Du8IN2OBoICo5XmzKGwx
-         FIokFF1gFo3Q2cdKGqThX7X2pxZJ0AGGfti3WfsjxdKxqZrr/ff87nQZ1cEd8nmIkSSo
-         beuFxaGmW+t9ObVbh0Lh250PtwlmRE3rqeo9cmCXAXoxPjxEEUbSjPBHq5Su7BUUrRcD
-         HX6Q==
-X-Gm-Message-State: AOAM530WxXs/naXuCTk0Ol2xxXQZvGWPn44FGXAwt6qwnuEdRLw5zaEM
-	zx5299Bl5a6Md1iLYewSOPFiZvaRhDT+Jw==
-X-Google-Smtp-Source: ABdhPJwnYj0/R51xDrJ1tZ+/5KEleflfKItT6JpNokIkm46UTpT3RoIxnsoDKPnKEOA8UP00o28csg==
-X-Received: by 2002:a62:1892:0:b029:349:1b8f:af2b with SMTP id 140-20020a6218920000b02903491b8faf2bmr6399665pfy.20.1628809217922;
-        Thu, 12 Aug 2021 16:00:17 -0700 (PDT)
-Return-Path: <ticotimo@gmail.com>
-Received: from nereus.local ([2601:1c0:6000:1830:722c:f107:144b:6ff3])
-        by smtp.gmail.com with ESMTPSA id l10sm3318292pjy.47.2021.08.12.16.00.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 16:00:17 -0700 (PDT)
-From: "Tim Orling" <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH] package.bbclass: FILER* override syntax
-Date: Thu, 12 Aug 2021 16:00:04 -0700
-Message-Id: <20210812230004.1533422-1-timothy.t.orling@intel.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=x7kP6vMBnwYi9jy64FrlIu2FPXSSTrLJe+hVDMPt5NI=;
+        b=lgD9j4SKeCYOh3FdyMjNiJz2/7pBnepYTfIh0mLOcp70EUv9B+sdXCwA1xnbw/xBDP
+         iTpqAXtMO9ovy+v93c5FcFgRbc6VcOQn5EoA/yvu+rD8SD2JtVDMHfAIcgZmUeUVN8yO
+         tFYCmfaOLNOJpWX9wU73443rr3q/nvlNMIMNZYpSrtjMSlNvuccI+mspzdeD8f2OkMq1
+         +wTcrs26U68k9mY88dTjY8yjTV4HfyKBzKmaxZyYUmkIqwy7SBTGwQ9O7ekUrow7mIvL
+         /Zfjwwg06eTwrQOo6VBCDmpTlJNgniQAURSHQ7dkjtrlnWceWeQsjPbs+WH9xZx189rH
+         9iVw==
+X-Gm-Message-State: AOAM533P+PyUyRXuHsA10nrgHbOdWJLrTOyr9QfCTj7bykdKWQwOfBfs
+	InoyvSSPTslR78rCali6DY8s9msdaBOqvA==
+X-Google-Smtp-Source: ABdhPJwXvEg3nXEbEU5q+fvbSZ9VdQutFGBcvJOrYnzFohcB/dmVGlpyHnIKU6lIiX7pqVEx5E8Fiw==
+X-Received: by 2002:a65:5186:: with SMTP id h6mr6277644pgq.62.1628816295970;
+        Thu, 12 Aug 2021 17:58:15 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:c078:a19b:8919:aba? ([2601:646:9200:a0f0:c078:a19b:8919:aba])
+        by smtp.gmail.com with ESMTPSA id mr18sm9572pjb.39.2021.08.12.17.58.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Aug 2021 17:58:15 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] pypi: Allow override of PyPI archive name
+To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
+References: <20210810110350.7078-1-paul@pbarker.dev>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <fe659534-214a-0c7e-f407-2da6c3dfb59b@gmail.com>
+Date: Thu, 12 Aug 2021 17:58:14 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210810110350.7078-1-paul@pbarker.dev>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-pkgdata no longer includes FILERPROVIDES* nor
-FILERDEPENDS*. Fix with new override syntax.
 
-Also apply to FILERPROVIDESLIST and FILERDEPENDSLIST.
 
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
----
- meta/classes/package.bbclass | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+On 8/10/21 4:03 AM, Paul Barker wrote:
+> Some packages on PyPI don't follow the usual expectations for archive
+> naming. For example, the archive for asyncio-mqtt 0.10.0 is named
+> asyncio_mqtt-0.10.0.tar.gz (with an underscore instead of the dash used
+> in the package name).
+> 
+> To handle these edge cases a new PYPI_ARCHIVE_NAME variable is
+> introduced. By default this is set to the expected archive name based on
+> the PyPI package name, version and extension but it can be set to a
+> different value if needed in a recipe which inherits the pypi class.
+> 
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a659a1ef5c..a9138ff6be 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1663,12 +1663,12 @@ fi
-                 val = write_if_exists(sf, pkg, var)
- 
-             write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
--            for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
--                write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
-+            for dfile in (d.getVar('FILERPROVIDESFLIST:' + pkg) or "").split():
-+                write_if_exists(sf, pkg, 'FILERPROVIDES:' + dfile)
- 
-             write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
--            for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
--                write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
-+            for dfile in (d.getVar('FILERDEPENDSFLIST:' + pkg) or "").split():
-+                write_if_exists(sf, pkg, 'FILERDEPENDS:' + dfile)
- 
-             sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
- 
-@@ -1714,11 +1714,11 @@ RPMDEPS = "${STAGING_LIBDIR_NATIVE}/rpm/rpmdeps --alldeps --define '__font_provi
- 
- # Collect perfile run-time dependency metadata
- # Output:
--#  FILERPROVIDESFLIST_pkg - list of all files w/ deps
--#  FILERPROVIDES_filepath_pkg - per file dep
-+#  FILERPROVIDESFLIST:pkg - list of all files w/ deps
-+#  FILERPROVIDES:filepath:pkg - per file dep
- #
--#  FILERDEPENDSFLIST_pkg - list of all files w/ deps
--#  FILERDEPENDS_filepath_pkg - per file dep
-+#  FILERDEPENDSFLIST:pkg - list of all files w/ deps
-+#  FILERDEPENDS:filepath:pkg - per file dep
- 
- python package_do_filedeps() {
-     if d.getVar('SKIP_FILEDEPS') == '1':
-@@ -1755,18 +1755,18 @@ python package_do_filedeps() {
- 
-         for file in sorted(provides):
-             provides_files[pkg].append(file)
--            key = "FILERPROVIDES_" + file + "_" + pkg
-+            key = "FILERPROVIDES:" + file + ":" + pkg
-             d.appendVar(key, " " + " ".join(provides[file]))
- 
-         for file in sorted(requires):
-             requires_files[pkg].append(file)
--            key = "FILERDEPENDS_" + file + "_" + pkg
-+            key = "FILERDEPENDS:" + file + ":" + pkg
-             d.appendVar(key, " " + " ".join(requires[file]))
- 
-     for pkg in requires_files:
--        d.setVar("FILERDEPENDSFLIST_" + pkg, " ".join(requires_files[pkg]))
-+        d.setVar("FILERDEPENDSFLIST:" + pkg, " ".join(requires_files[pkg]))
-     for pkg in provides_files:
--        d.setVar("FILERPROVIDESFLIST_" + pkg, " ".join(provides_files[pkg]))
-+        d.setVar("FILERPROVIDESFLIST:" + pkg, " ".join(provides_files[pkg]))
- }
- 
- SHLIBSDIRS = "${WORKDIR_PKGDATA}/${MLPREFIX}shlibs2"
--- 
-2.30.2
+how many such packages are there roughly ? does it deserve to be 
+addressed via introducing another variable I wonder.
 
+> Signed-off-by: Paul Barker <paul@pbarker.dev>
+> ---
+>   meta/classes/pypi.bbclass | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
+> index 272c220bca..9405d58601 100644
+> --- a/meta/classes/pypi.bbclass
+> +++ b/meta/classes/pypi.bbclass
+> @@ -8,12 +8,12 @@ def pypi_package(d):
+>   
+>   PYPI_PACKAGE ?= "${@pypi_package(d)}"
+>   PYPI_PACKAGE_EXT ?= "tar.gz"
+> +PYPI_ARCHIVE_NAME ?= "${PYPI_PACKAGE}-${PV}.${PYPI_PACKAGE_EXT}"
+>   
+>   def pypi_src_uri(d):
+>       package = d.getVar('PYPI_PACKAGE')
+> -    package_ext = d.getVar('PYPI_PACKAGE_EXT')
+> -    pv = d.getVar('PV')
+> -    return 'https://files.pythonhosted.org/packages/source/%s/%s/%s-%s.%s' % (package[0], package, package, pv, package_ext)
+> +    archive_name = d.getVar('PYPI_ARCHIVE_NAME')
+> +    return 'https://files.pythonhosted.org/packages/source/%s/%s/%s' % (package[0], package, archive_name)
+>   
+>   PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
+>   
+> 
+> 
+> 
+> 
+> 
