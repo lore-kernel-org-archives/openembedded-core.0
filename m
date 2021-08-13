@@ -1,140 +1,165 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.31115.1628817650566567115
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.33120.1628833267370050181
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Aug 2021 18:20:50 -0700
+ Thu, 12 Aug 2021 22:41:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qPWUKL8s;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id w14so12878739pjh.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Aug 2021 18:20:50 -0700 (PDT)
+ dkim=pass header.i=@qtec.com header.s=google header.b=J8WX7as0;
+ spf=pass (domain: qtec.com, ip: 209.85.167.46, mailfrom: daniel@qtec.com)
+Received: by mail-lf1-f46.google.com with SMTP id x27so17940079lfu.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Aug 2021 22:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uCt03UQAhvbyI5wJZJDwDS452UXvZOnb0NSelQWz5kI=;
-        b=qPWUKL8sTNmfycfrSHPtIenO/qklwVf1T+gF424Bznptad04WfvROImJ5sCSZFIpMo
-         H/T8VawEiMASpVZ7Te816SyrXFL9dbP7Z2B4QX2RszQ1/U0przBmo2QOPg4FfXhifro5
-         qRSEcft45uUad0G7Il+sBFq0cb9wPcbOwyT30Nuv7j5GXcNyMv22wBM6MKmsiD4nD6pG
-         3363nxayCjhZXShK7PG0yicNXRws2rI7M6zJUJPQimatIrPpJMvxUHFNKWkazXkmsnox
-         Win1uEQ+Lk4OIvXsdGYYMx6yazyoGXz9qiiq4z9pQnY1jLGkGp9rXoxOoyOrAS2UA0fn
-         OPiw==
+        d=qtec.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WJiElEPuVe2bcqFl0anx5TVeiU6oF7IFWNiVNollne8=;
+        b=J8WX7as0Mwbt25fteVyaFv9peicOs45UDydhiW6tMMMcGUkCxYf3eZ52sGPJ+pD2Ix
+         KXIpj9H+Y3R/mBySuZ05EX4T1o6AVkY65S9PknGfYbSDVNsJ9f4nclh6cn1GU7s4Cgdj
+         in2Yu8ZCqsHb4cJZYF3QPzQ9jKwJ0+miNswiGpgE2ul/UGOwgNoljf6POp52HepfQtlk
+         g4IYjnreDpj5maMlumHrDWoJ1RGYD3bQXOwpj3qsz23YXXc2U7a94FHTkdlaNZ44bSM2
+         fvTitFfn2V8op5W2S/Xds6kDIMrvhghQ8KiBwoewrCWqcCivHrqdCdjz5wd4gnL+aLHO
+         pvUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=uCt03UQAhvbyI5wJZJDwDS452UXvZOnb0NSelQWz5kI=;
-        b=fa+9PIEfBFRs63BBG/EuWIuYOlWZL278rfYjVl6iHDXRdOjfyo2KRFcTkoYmmfFFsE
-         ceneEAO7dIm9Tu6lAeM9SXltlDoVRq7EwWq3N1kX1pSbrj7rVbagaHqEjivw8vLKNLqi
-         eRD1nZN2wDWtqhzrqIYHtL1Ig+QF/n4/1vo7pR/yf9Ln0WDSFiXzW7CxvrcTCuKa0SiC
-         nAaNuiliuDDNr4p05+BiwuU4i080QrAySqEviZezWlHzZHDxq0prrfmsyLhrwZw7UpWM
-         4JEk4ocrMXZIe1UV6aQ6E+DJbQcQ1R5/hR/i9364MQ6QR7w5TQtCCOdi6OCfBTxgtUKc
-         Xhjg==
-X-Gm-Message-State: AOAM531DVVT1QJI8rY76JUqUfAHnALaGghr9jTgPS2z1GPynE4YX4gO6
-	5praamxD1i/zcMiunqUVI/DVM9sDeIO8jA==
-X-Google-Smtp-Source: ABdhPJzq/94/Hi4yWMjORIWB+Odl+z4pmFZnRA5CH3GvS91Xp+6IG3kYiPmJ6IwEQCoeqo0WG+sxhw==
-X-Received: by 2002:a17:90a:ce0a:: with SMTP id f10mr11856375pju.52.1628817649787;
-        Thu, 12 Aug 2021 18:20:49 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:c078:a19b:8919:aba? ([2601:646:9200:a0f0:c078:a19b:8919:aba])
-        by smtp.gmail.com with ESMTPSA id x2sm38083pjq.35.2021.08.12.18.20.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Aug 2021 18:20:49 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] pypi: Allow override of PyPI archive name
-To: Tim Orling <ticotimo@gmail.com>
-Cc: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
-References: <20210810110350.7078-1-paul@pbarker.dev>
- <fe659534-214a-0c7e-f407-2da6c3dfb59b@gmail.com>
- <CANx9H-AEeTat=C916jiEDc1jpcKr-8YirOfSTVCj2fnP7eUoyA@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <bfce8c84-8369-9938-2338-cb7ae652c711@gmail.com>
-Date: Thu, 12 Aug 2021 18:20:48 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WJiElEPuVe2bcqFl0anx5TVeiU6oF7IFWNiVNollne8=;
+        b=e2bFuvYieGaJJW4cOSGqQNUt58vrDSK1tR/Bmy1lLW3GqF+vrB1rJSHEu/0JE0odMA
+         ofXu0hjbI0TgzvkiflBzAT/v6kcgFMQmiy1cI4AfRjHXsJ+u04G3AUYFp2/hROU5aWvv
+         pA96fX1h90nZSloEx6r+r2zIS7s8orPA/K5R3ekZBKBmYF6pq70xgml9Vy/IcuriWpCR
+         M+BvyQgK6KcsO+IXFhWCvwkOFYIvXjewa+PbyhUkz5wWhrAiYAMMigf2O1dQkiWFq4HT
+         C6cApj+gdt6/fTpFpRrq6dDVkffs4cs34vXvk2akDxd9UzvucNB5Didvf6iYLryAgtuP
+         GZVw==
+X-Gm-Message-State: AOAM533V25KhZZonVrnkp4IMGE6xPi9PO05yrqAH/Gm0biRsZjuWvONM
+	QkvlzKCmm7fmBGaU/RJJrpI1Drx2HtTnEPJV9Q45MQ==
+X-Google-Smtp-Source: ABdhPJy1a1CV8H8j+WdOSp8fCfSukabZbeFx5itHsYJb3zYS/cr+fzQ9MMh6R8zVzugDvpmqROKx4pm5ujChzvfkX0g=
+X-Received: by 2002:a05:6512:3748:: with SMTP id a8mr511379lfs.59.1628833264652;
+ Thu, 12 Aug 2021 22:41:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANx9H-AEeTat=C916jiEDc1jpcKr-8YirOfSTVCj2fnP7eUoyA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+References: <20210810201101.261132-1-daniel@qtec.com> <20210810201101.261132-2-daniel@qtec.com>
+ <YRVNoK+utVN0kCH4@piout.net>
+In-Reply-To: <YRVNoK+utVN0kCH4@piout.net>
+From: "Daniel Gomez" <daniel@qtec.com>
+Date: Fri, 13 Aug 2021 07:40:53 +0200
+Message-ID: <CAH1Ww+QQsbv7pkok9Ezw6eckzL=9Os7Kk-5K1Y+aE6UP6rSyeQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2 2/2] oeqa: wic: Add tests for --no-fstab-update
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, Daniel Gomez <dagmcr@gmail.com>, 
+	Paul Barker <paul@pbarker.dev>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Alexandre,
 
+On Thu, 12 Aug 2021 at 18:34, Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hello,
+>
+> On 10/08/2021 22:11:01+0200, Daniel Gomez wrote:
+> > Add tests for the --no-fstab-update wic part command.
+> >
+> > Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> > ---
+> >  meta/lib/oeqa/selftest/cases/wic.py | 56 +++++++++++++++++++++++++++++
+> >  1 file changed, 56 insertions(+)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+> > index 2efbe514c1..a58360851a 100644
+> > --- a/meta/lib/oeqa/selftest/cases/wic.py
+> > +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> > @@ -11,6 +11,7 @@
+> >  import os
+> >  import sys
+> >  import unittest
+> > +import hashlib
+> >
+> >  from glob import glob
+> >  from shutil import rmtree, copy
+> > @@ -686,6 +687,61 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+> >                                        % (wks_file, self.resultdir), ignore_status=True).status)
+> >          os.remove(wks_file)
+> >
+> > +    def test_no_fstab_update(self):
+> > +        """Test --no-fstab-update wks option."""
+> > +
+> > +        oldpath = os.environ['PATH']
+> > +        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+> > +
+> > +        # Get stock fstab from base-files recipe
+> > +        bitbake('base-files')
+> > +        bf_fstab = os.path.join(get_bb_var('WORKDIR', 'base-files'),'image/etc/fstab')
+> > +        bf_fstab_md5sum = runCmd('md5sum %s 2>/dev/null' % bf_fstab).output.split(" ")[0]
+> > +
+>
+> This failed on the autobuilders:
+>
+>   File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/wic.py", line 699, in test_no_fstab_update
+>     bf_fstab_md5sum = runCmd('md5sum %s 2>/dev/null' % bf_fstab).output.split(" ")[0]
+>   File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/commands.py", line 207, in runCmd
+>     raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
+> AssertionError: Command 'md5sum /home/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-15202/tmp/work/qemux86_64-poky-linux/base-files/3.0.14-r89/image/etc/fstab 2>/dev/null' returned non-zero exit status 1:
+>
+> Full log here:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/2374/steps/14/logs/stdio
 
-On 8/12/21 6:03 PM, Tim Orling wrote:
-> 
-> 
-> On Thu, Aug 12, 2021 at 5:58 PM Khem Raj <raj.khem@gmail.com 
-> <mailto:raj.khem@gmail.com>> wrote:
-> 
-> 
-> 
->     On 8/10/21 4:03 AM, Paul Barker wrote:
->      > Some packages on PyPI don't follow the usual expectations for archive
->      > naming. For example, the archive for asyncio-mqtt 0.10.0 is named
->      > asyncio_mqtt-0.10.0.tar.gz (with an underscore instead of the
->     dash used
->      > in the package name).
->      >
->      > To handle these edge cases a new PYPI_ARCHIVE_NAME variable is
->      > introduced. By default this is set to the expected archive name
->     based on
->      > the PyPI package name, version and extension but it can be set to a
->      > different value if needed in a recipe which inherits the pypi class.
->      >
-> 
->     how many such packages are there roughly ? does it deserve to be
->     addressed via introducing another variable I wonder.
-> 
-> 
-> There are 29 packages in meta-oe/meta-python that fail to check latest 
-> upstream version and so far (13/29) it has been for very similar dash 
-> vs. underscore in the SRC_URI (from local AUH run). Not sure it is the 
-> complete solution, but it might help. Might need to apply to the 
-> upstream regex too in that case?
+Thanks for letting me know. I'll take a look.
 
-OK thats some number and yes extending it for upstream check would be an 
-improvement.
+>
+> > +        try:
+> > +            no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
+> > +            os.makedirs(no_fstab_update_path)
+> > +            wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
+> > +            with open(wks_file, 'w') as wks:
+> > +                wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
+> > +                                'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
+> > +                                '--fstype=ext4 --label p2 --no-fstab-update\n'])
+> > +            runCmd("wic create %s -e core-image-minimal -o %s" \
+> > +                                       % (wks_file, self.resultdir))
+> > +
+> > +            part_fstab_md5sum = []
+> > +            for i in range(1, 3):
+> > +                part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
+> > +                part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s 2>/dev/null" % (part))
+> > +                part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
+> > +
+> > +            # '/etc/fstab' in partition 2 should contain the same stock fstab file at base-file recipe.
+> > +            self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
+> > +
+> > +            # '/etc/fstab' in partition 1 should contain an updated fstab file.
+> > +            self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
+> > +
+> > +        finally:
+> > +            os.environ['PATH'] = oldpath
+> > +
+> > +    def test_no_fstab_update_errors(self):
+> > +        """Test --no-fstab-update wks option error handling."""
+> > +        wks_file = 'temp.wks'
+> > +
+> > +        # Absolute argument.
+> > +        with open(wks_file, 'w') as wks:
+> > +            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update /etc")
+> > +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+> > +                                      % (wks_file, self.resultdir), ignore_status=True).status)
+> > +        os.remove(wks_file)
+> > +
+> > +        # Argument pointing to parent directory.
+> > +        with open(wks_file, 'w') as wks:
+> > +            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update ././..")
+> > +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+> > +                                      % (wks_file, self.resultdir), ignore_status=True).status)
+> > +        os.remove(wks_file)
+> > +
+> >  class Wic2(WicTestCase):
+> >
+> >      def test_bmap_short(self):
+> > --
+> > 2.30.2
+> >
+>
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-> 
-> 
->      > Signed-off-by: Paul Barker <paul@pbarker.dev
->     <mailto:paul@pbarker.dev>>
->      > ---
->      >   meta/classes/pypi.bbclass | 6 +++---
->      >   1 file changed, 3 insertions(+), 3 deletions(-)
->      >
->      > diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
->      > index 272c220bca..9405d58601 100644
->      > --- a/meta/classes/pypi.bbclass
->      > +++ b/meta/classes/pypi.bbclass
->      > @@ -8,12 +8,12 @@ def pypi_package(d):
->      >
->      >   PYPI_PACKAGE ?= "${@pypi_package(d)}"
->      >   PYPI_PACKAGE_EXT ?= "tar.gz"
->      > +PYPI_ARCHIVE_NAME ?= "${PYPI_PACKAGE}-${PV}.${PYPI_PACKAGE_EXT}"
->      >
->      >   def pypi_src_uri(d):
->      >       package = d.getVar('PYPI_PACKAGE')
->      > -    package_ext = d.getVar('PYPI_PACKAGE_EXT')
->      > -    pv = d.getVar('PV')
->      > -    return
->     'https://files.pythonhosted.org/packages/source/%s/%s/%s-%s.%s
->     <https://files.pythonhosted.org/packages/source/%s/%s/%s-%s.%s>' %
->     (package[0], package, package, pv, package_ext)
->      > +    archive_name = d.getVar('PYPI_ARCHIVE_NAME')
->      > +    return
->     'https://files.pythonhosted.org/packages/source/%s/%s/%s
->     <https://files.pythonhosted.org/packages/source/%s/%s/%s>' %
->     (package[0], package, archive_name)
->      >
->      >   PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
->      >
->      >
->      >
->      >
->      >
->      >
-> 
->     
-> 
+Daniel
