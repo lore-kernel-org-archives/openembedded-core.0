@@ -1,122 +1,94 @@
 Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.37414.1628865184778169881
+ by mx.groups.io with SMTP id smtpd.web11.38174.1628868027407260146
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Aug 2021 07:33:04 -0700
+ Fri, 13 Aug 2021 08:20:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OFAfGw6Y;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id a8so15503173pjk.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 07:33:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QM4xkYlF;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id hv22-20020a17090ae416b0290178c579e424so16471166pjb.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 08:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=zdRhs1bx5qjmhnTRHkqGC4aPuhjZyutfWzTSxMQjhu8=;
-        b=OFAfGw6Yti5BCPiAYPzldONznRrnqPkSGxoUn7poY3lB9Y9Knr8cbk3TV0rRD/ZQHE
-         yOf8g3zcU1TlZrZnVkKUGZclMjdh8XSUUeFOcsscR6qj042/lRH38ZKIjSE+E4omoG49
-         MT4gH0SYEdFjoO9os3UYkevMrQdXHuVYW8jh2R2OJkcUJV54fv1JsVVvvIbKUHVHm+/y
-         UV74TLSISps8aGNexnSiOuHk5zEHsrvnHVj2AMIa5Y9SStDEoEBhzIZIEdgg6j+RWWE7
-         94RdpstqmgLWTDhEGnR1TNl0imY2nCMstbf1AkO6UOaRSOkNXDo/Dxsi3u4k6tnNX+ep
-         4gOQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0Uncj8nA01q1zkjRluiXgLvNcmhntnFbg6ARb0/1tFU=;
+        b=QM4xkYlFQ/zzHIxzi5XsGV6cEOXAL27cdTUrFSIiZ3ulYAlSiqAIuNatuZwgLGFQN8
+         ++UvZjsZJH3+1R58ccpg6ZBeeCMNguIb6Qo3h07DCAvtqV5xvK/iVLQr6wp3IFDb2u4/
+         tJj2yLmsgjgPjIy5ge63b1/6/+apoA6sMBtHTAkOta8bwkvWuTmgmVzl7sxkXJcxBKeT
+         sshBGKGwrhNK+of2gpCZUSDkJAUWtyECaVzQP/JPIjVqIbhNTgcbluhuy5u+NV/HaIRZ
+         NUGX/13D9liTsn+LPi/bDVSnJ79ijINnxQ5If+XTJrGt6lO7HXaCzyeWfvsHlF3vzcGN
+         oiWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zdRhs1bx5qjmhnTRHkqGC4aPuhjZyutfWzTSxMQjhu8=;
-        b=DIdui9OGv2fJZWysCLBf5wdRSeG9nkiCc7YwKjV0wpY6T1tqMNWvZa9mfksJWE3Yyl
-         vAx3OCXm2VbRexmjiJ9LPlnPTjn+Gdc/Djy9u9v+PlK1aWrfqUInDGr07K6hvuujVpZ0
-         owJrIrevogau/0PQ3rhl6snCZ1hUIwyMcOj2ltS8DkZz6xmuNW9Pt65dtw4pVEZC7vP9
-         TbTJoY2/sINTCaqgXdWkp6EolaiXWFO5wkLz4R1pjJT2H6izTc9D7QUhv1kwXcK8smIY
-         QQvkBd/6PiBDXeUF1NBaE/BjehkQ6CoSExBVS0PgO16vRrynUsUjFIkJE0KpK1X3StnN
-         ccfQ==
-X-Gm-Message-State: AOAM531SM9AUb88DQ/vU1H7jfJjuqMTr0UO+jhvJktcRF2GUYd5HcdbZ
-	ZT9PSZ1mvh4FKDi7HIg5lf6aJ02ApmfX4khe
-X-Google-Smtp-Source: ABdhPJxYdJDLGOTgoEXH1pdWUBABVI/eqvA1fENJg2pJMLqFA3YTN2BJX1OSOIHkLFYATztDq8oVmQ==
-X-Received: by 2002:a17:90a:2ecb:: with SMTP id h11mr2962276pjs.159.1628865183884;
-        Fri, 13 Aug 2021 07:33:03 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id nl9sm2113182pjb.33.2021.08.13.07.33.00
-        for <openembedded-core@lists.openembedded.org>
+        bh=0Uncj8nA01q1zkjRluiXgLvNcmhntnFbg6ARb0/1tFU=;
+        b=hIGylaAQE/GdGRUtsjtEKgQxG0m7cQ34mzs3Bn1GiMLlLXNREBCSEQR6t+zFtcrlMa
+         vJlK7+OLcHHtLTXUpX3z1cbqGU/DgBFXkPpaj4rMpKKcf+TsP3Kduk2EcQacRzClycO5
+         zj7dpbL4PoPTXNkMi/S48cE/6S0aFnVuR6afIpfphZNXEiN2xQxzVEmcKf0dvDdUGAoF
+         Tz89qz7LVQL4VAuFmfvt9cRBBiQ5OymM2i1uDToEg0Pz2jZ/nt03LnL6GyySDABtFK/Z
+         o7WQ0sgkBkbXd8QYY0PrTU9JatIoeH2A/z+1Kr13ZGHvD9J1wKF1773qhES5+3FDywMR
+         Al6g==
+X-Gm-Message-State: AOAM531RZT0FNFl9bRMvee9uIWejxQQ4Nd/kSMrdXxQF3zrZwPQuDjXk
+	zO0NrjzcscXkD5Z88JZWI74=
+X-Google-Smtp-Source: ABdhPJz+IFPGBNw6EexlTp80YKmN4jZZd8sKem18An/BiWaWcL5Fmfo078ArLxprjhxDurkiZLFJMA==
+X-Received: by 2002:a63:c0a:: with SMTP id b10mr2742923pgl.447.1628868026894;
+        Fri, 13 Aug 2021 08:20:26 -0700 (PDT)
+Return-Path: <vinay.m.engg@gmail.com>
+Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
+        by smtp.gmail.com with ESMTPSA id a21sm1178359pgl.51.2021.08.13.08.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 07:33:03 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/17] sstate.bbclass: fix error handling when sstate mirrors is ro
-Date: Fri, 13 Aug 2021 04:29:59 -1000
-Message-Id: <bbc34c2367b9736585764766917fd8aadfb1a333.1628863869.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1628863869.git.steve@sakoman.com>
-References: <cover.1628863869.git.steve@sakoman.com>
+        Fri, 13 Aug 2021 08:20:26 -0700 (PDT)
+From: "Vinay Kumar" <vinay.m.engg@gmail.com>
+To: randy.macleod@windriver.com
+Cc: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org,
+	steven@stevenwalter.org,
+	johan.anderholm@gmail.com,
+	derek@asterius.io,
+	cardoe@cardoe.com,
+	dev@codyps.com,
+	tylerwhall@gmail.com,
+	raj.khem@gmail.com,
+	vinay.kumar@blackfigtech.com,
+	saul.wold@windriver.com,
+	martin.jansa@gmail.com,
+	paul@pbarker.dev,
+	Vinay Kumar <vinay.m.engg@gmail.com>
+Subject: [OE-core] [v4] [RFC] Merge meta-rust to oe-core
+Date: Fri, 13 Aug 2021 08:19:47 -0700
+Message-Id: <20210813151947.55142-1-vinay.m.engg@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <aa7653eb-336f-ee08-3126-e6c790a9226f@windriver.com>
+References: <aa7653eb-336f-ee08-3126-e6c790a9226f@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+rust-common.inc: Fix build failure with qemuppc64.
 
-The commit dd555537fc35c5f934af09d601d70772eb5955ae
-'sstate.bbclass: fix errors about read-only sstate mirrors'
-adds an additional exception handler to silently mask read
-only rootfs errors thrown during the touch.
+The glibc build of "rust-hello-world" throws error in libstd-rs package.
+error: unrecognized arch "powerpc64le" in target specification
 
-The exception handler checks the error type with the python module errno
-but this module needs to be imported as it don't exist.
+The same got fixed by changing the arch to "powerpc64".
 
-Example of the error:
-
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:sstate_task_postfunc(d)
-     0003:
-File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 778, function: sstate_task_postfunc
-     0774:
-     0775:    omask = os.umask(0o002)
-     0776:    if omask != 0o002:
-     0777:       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
- *** 0778:    sstate_package(shared_state, d)
-     0779:    os.umask(omask)
-     0780:
-     0781:    sstateinst = d.getVar("SSTATE_INSTDIR")
-     0782:    d.setVar('SSTATE_FIXMEDIR', shared_state['fixmedir'])
-File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 708, function: sstate_package
-     0704:        except PermissionError:
-     0705:            pass
-     0706:        except OSError as e:
-     0707:            # Handle read-only file systems gracefully
- *** 0708:            if e.errno != errno.EROFS:
-     0709:                raise e
-     0710:
-     0711:    return
-     0712:
-Exception: NameError: name 'errno' is not defined
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 15f30ad144fbe25e9a5e71bc7e42e746d2039992)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 ---
- meta/classes/sstate.bbclass | 2 ++
+ meta/recipes-devtools/rust/rust-common.inc | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index c148fc9edd..2ff0d6850c 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -705,6 +705,7 @@ def sstate_package(ss, d):
-             pass
-         except OSError as e:
-             # Handle read-only file systems gracefully
-+            import errno
-             if e.errno != errno.EROFS:
-                 raise e
- 
-@@ -1148,6 +1149,7 @@ python sstate_eventhandler() {
-                 pass
-             except OSError as e:
-                 # Handle read-only file systems gracefully
-+                import errno
-                 if e.errno != errno.EROFS:
-                     raise e
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index 350517c723..f574152815 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -248,6 +248,8 @@ def arch_to_rust_target_arch(arch):
+         return "mips64"
+     elif arch == "armv7":
+         return "arm"
++    elif arch == "powerpc64le":
++        return "powerpc64"
+     else:
+         return arch
  
 -- 
-2.25.1
+2.31.1
 
