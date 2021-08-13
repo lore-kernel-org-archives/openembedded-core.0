@@ -1,125 +1,79 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.37397.1628865121588333408
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.37399.1628865128480904316
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Aug 2021 07:32:01 -0700
+ Fri, 13 Aug 2021 07:32:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IHBtINn4;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id qe12-20020a17090b4f8c00b00179321cbae7so5668308pjb.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 07:32:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kKA6UN24;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id qe12-20020a17090b4f8c00b00179321cbae7so5668799pjb.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 07:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=wmasGYkMm4GokwR41AsHck3/G8dT7Eg0Rd+DHt2IaIU=;
-        b=IHBtINn40RluuzN7/96EkOqe31IK25wNuVO06dC3Mk3d6ALb1cksw12x85z3UiNhuX
-         VevNNOqczgIEyJN94KAaBtUSThsP0FDdDCrsHhP57nqITukJnMQXSS/vk3aFxxQ8ewyw
-         bo1hZtlr8F/wGUcPNnhXMZNCQF53SYo4gVaBvakUYQlM3tfDbZ3H6Qa6JlxsnyATfSvO
-         MWPw0grgajTQhFs9mGjDHkxoHkH58feE/Klwnb3jrhJ3NGjyifjktiIJnt3SwFBQJpA3
-         hpbgh+9kX7foLQm7+/XZeCOQl8B1v0DjzXjIr85Pzozbynv+ubOyjnGBegahOsq/FUoP
-         +1WA==
+        bh=9w5Kpa388hgw/X5nLMI5cPysiBydQ45BtyrniIQoAgs=;
+        b=kKA6UN24yjPesHe7KKlLdvsxkvUGI3zRlgBLTaGB/s+xn3y9RJPp8dlHSO/pTcvx8N
+         P6Kch30GiAtC8VCycjd30PrZCSiQIkvvAr6kcoFbTnHVv8O6m0PV7DdMq0FycVdewAMC
+         z6vWlYHCx9B9R6JKOtwlUM5C6Ejo17AjOi2m8W/KEU9/2kPV0HYegYxrIJNHsqNFD7Di
+         6WylQLt2ddxO1syOiNsFYBAZDT8aVsALP2thxzBQFIsLwXBbvQ8/ejvaP9Ef+Mj4Oyn8
+         BKlQD3QqSl9qVvoVS8z9YijzyCPr5rgMkwyc7JOug8OVQmFAlTm+6lixhCYmClnmYNNW
+         /VpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wmasGYkMm4GokwR41AsHck3/G8dT7Eg0Rd+DHt2IaIU=;
-        b=EjGu9J3lFPjsO74LR3hYSB5Q71psgYGXMRcUQ7VGg9KFKKHL8N8SRvMYQqnody8v4r
-         0OQ6BgTkuWkwJDoFykYqwWrIz/PWfF2gsSsLJ2P9gSJUf5qq8nGJJORyFH8zznbNpbeK
-         4mgAMdDRJSzC+2+Q4aX6WAyhgvJF2b9My3shJOCkMa8ES0o2rNnVAN6q4b8+jP2MTjtU
-         Vrufgky+OnAFeZ4g7CegHQG7CgGRMvyqTo6lrzDttHEz2dGL/9jqbzmu3tt2SEkx/ipH
-         fI8f2SXnBb2iH6hUsbyVHBiV1ToPxHYn+xABPES/d9TXkQve5gMevtebWWHbdXl+9Ktf
-         LnPQ==
-X-Gm-Message-State: AOAM5332proh30i3zGNvjn1sXlVJdJSYiwd2ie7iqo0JvZeRbFtXf2zc
-	bxANbyj6ly7AF9Ek2QL5WH1Pgt+5WsM77ZC3
-X-Google-Smtp-Source: ABdhPJxYWGwxtdoakJ+PgVrSABmAEVftShQBhFW54wZJwhqd+D2v1HsHOs7WZFWRaYUKLl1EGxRwCA==
-X-Received: by 2002:a62:e304:0:b029:3c5:f82f:8250 with SMTP id g4-20020a62e3040000b02903c5f82f8250mr2702161pfh.49.1628865120704;
-        Fri, 13 Aug 2021 07:32:00 -0700 (PDT)
+        bh=9w5Kpa388hgw/X5nLMI5cPysiBydQ45BtyrniIQoAgs=;
+        b=Z1vzr3/szOEfldYsa72QmjmTVT6wPmUSKHH4u3vXdlNb3/K2c12aM9NjkaA1MZ8E+K
+         zXcEZn+pBrjKhfS4CofaIXgYXSziM3sguSvASGR7N7adStlLqjDmzdMwfVeOf6PpRfdR
+         N/ABln1v0yxyL+lpukSQAr+K1xZL7YRVKLhIJm7E4m6ME0S5tqqczWxCjkJ5iymfJBnL
+         VrmDqH92V7C63AsJuGgpRNbCZuPCpklGQGP09HZkFFQEon98/bfv5Gb5b4c02fQy3fVA
+         TZBnnM8LO14GYT72F3Rz3yU9Fk7fvzVuFOJ7OfWga3K9G3Tf/Q5/y5SE3ZmruSlkCpkI
+         Md8w==
+X-Gm-Message-State: AOAM531owE3D5J09hjqfEulQZL+EC6Po8qQ1ZB2ih6LzJxlbHv39c/Lw
+	Tem7JI3I2WS7wtCNFzulwmCzY38zAWnUj5TM
+X-Google-Smtp-Source: ABdhPJwde40kNTxDbSE8A7AEuzqDluk8HzxWH+zCam6TeuOGn47l8dqc8he9o6G8jSI4+a+TQeuNJQ==
+X-Received: by 2002:a17:90a:8905:: with SMTP id u5mr2777182pjn.95.1628865127686;
+        Fri, 13 Aug 2021 07:32:07 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id nl9sm2113182pjb.33.2021.08.13.07.31.57
+        by smtp.gmail.com with ESMTPSA id nl9sm2113182pjb.33.2021.08.13.07.32.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 07:32:00 -0700 (PDT)
+        Fri, 13 Aug 2021 07:32:07 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/17] kernel-yocto: Simplify no git repo case in do_kernel_checkout
-Date: Fri, 13 Aug 2021 04:29:50 -1000
-Message-Id: <17e8ffec9846c460c5cdcb08405eae269e0f3b00.1628863869.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/17] runqemu: Fix typo in error message
+Date: Fri, 13 Aug 2021 04:29:51 -1000
+Message-Id: <17003c76dc059a312d95b2ec690f43b9104ad30b.1628863869.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628863869.git.steve@sakoman.com>
 References: <cover.1628863869.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Paul Barker <paul@pbarker.dev>
+From: Matthias Klein <matthias@extraklein.de>
 
-If the kernel sources are not fetched via git, a local git repository is
-created in do_kernel_checkout. In this case we know that there will be
-no remote branches and we will already be on the correct branch (since
-only one branch will exist). So we can simplify things by skipping these
-steps.
-
-This also removes the assumption that the default git branch name will
-be "master". Prior to this change, the final git checkout command in
-do_kernel_checkout could fail if a local git repo was created and the
-user had changed init.defaultBranch in their gitconfig.
-
-Signed-off-by: Paul Barker <paul@pbarker.dev>
+Signed-off-by: Matthias Klein <matthias@extraklein.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit af2a9c92d4498492ca23388c7b4bbed48abdc4d7)
+(cherry picked from commit 5cc0051d50974e198313f9513b24fd7ae9a96dd4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-yocto.bbclass | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 66cce92362..a1a073b738 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -320,6 +320,21 @@ do_kernel_checkout() {
- 			fi
- 		fi
- 		cd ${S}
-+
-+		# convert any remote branches to local tracking ones
-+		for i in `git branch -a --no-color | grep remotes | grep -v HEAD`; do
-+			b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
-+			git show-ref --quiet --verify -- "refs/heads/$b"
-+			if [ $? -ne 0 ]; then
-+				git branch $b $i > /dev/null
-+			fi
-+		done
-+
-+		# Create a working tree copy of the kernel by checking out a branch
-+		machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
-+
-+		# checkout and clobber any unimportant files
-+		git checkout -f ${machine_branch}
- 	else
- 		# case: we have no git repository at all. 
- 		# To support low bandwidth options for building the kernel, we'll just 
-@@ -341,21 +356,6 @@ do_kernel_checkout() {
- 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
- 		git clean -d -f
- 	fi
--
--	# convert any remote branches to local tracking ones
--	for i in `git branch -a --no-color | grep remotes | grep -v HEAD`; do
--		b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
--		git show-ref --quiet --verify -- "refs/heads/$b"
--		if [ $? -ne 0 ]; then
--			git branch $b $i > /dev/null
--		fi
--	done
--
--	# Create a working tree copy of the kernel by checking out a branch
--	machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
--
--	# checkout and clobber any unimportant files
--	git checkout -f ${machine_branch}
- }
- do_kernel_checkout[dirs] = "${S}"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 63e533a934..10880ba6bb 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -764,7 +764,7 @@ class BaseConfig(object):
+                 raise RunQemuError('BIOS not found: %s' % bios_match_name)
  
+         if not os.path.exists(self.bios):
+-            raise RunQemuError("KERNEL %s not found" % self.bios)
++            raise RunQemuError("BIOS %s not found" % self.bios)
+ 
+ 
+     def check_mem(self):
 -- 
 2.25.1
 
