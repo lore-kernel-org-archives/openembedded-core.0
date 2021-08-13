@@ -1,109 +1,121 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web12.37316.1628865177147914441
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.37414.1628865184778169881
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Aug 2021 07:32:57 -0700
+ Fri, 13 Aug 2021 07:33:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KtTY0Vx/;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id om1-20020a17090b3a8100b0017941c44ce4so2570863pjb.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 07:32:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OFAfGw6Y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id a8so15503173pjk.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 07:33:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=6GRsxG/9T2lslFkol1usbJ3gJr/CTfFzXRwq2MCsL7c=;
-        b=KtTY0Vx/4NXlZc+T6Scpkz/VspvXpVZirHMRc+fF3MUr/YBzc24d6CWp3e/gNAM7Yj
-         882p+kFH3p6nytiS+wq+DyHwMwrDVKkwt0QsfRNHeuKzjHp+QQo9PZFkAIMp3//NPu/R
-         WMT4QadYUi8damogSyibvasl3tM/uLPyDb2A3qdD8/9OZpkJQSq/QDHPdpjZ66uoqK7d
-         bY/ABrlaqytB43V/A5N702GamXIrFEfzAWz/8GHXFqY1B53DZjOeNU+cKvgQe0qY85Rg
-         NZ/WDMqu8mQD2W1znQ6dmrsnBUjyecDIs2b84sbDGcAOIb+nANHg6bcEyyH+NeuFpkKa
-         4vkw==
+        bh=zdRhs1bx5qjmhnTRHkqGC4aPuhjZyutfWzTSxMQjhu8=;
+        b=OFAfGw6Yti5BCPiAYPzldONznRrnqPkSGxoUn7poY3lB9Y9Knr8cbk3TV0rRD/ZQHE
+         yOf8g3zcU1TlZrZnVkKUGZclMjdh8XSUUeFOcsscR6qj042/lRH38ZKIjSE+E4omoG49
+         MT4gH0SYEdFjoO9os3UYkevMrQdXHuVYW8jh2R2OJkcUJV54fv1JsVVvvIbKUHVHm+/y
+         UV74TLSISps8aGNexnSiOuHk5zEHsrvnHVj2AMIa5Y9SStDEoEBhzIZIEdgg6j+RWWE7
+         94RdpstqmgLWTDhEGnR1TNl0imY2nCMstbf1AkO6UOaRSOkNXDo/Dxsi3u4k6tnNX+ep
+         4gOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6GRsxG/9T2lslFkol1usbJ3gJr/CTfFzXRwq2MCsL7c=;
-        b=YSXbJj4vC82XO1GD2W+Qq9IMJMWrV+dJ1eBx24Z3XJsBhODx5oHjwqhZpWejvj4w+Z
-         iRu6SHLBxtEbHCYbTZ85AiDCcybnEAOxxaQwZ9kq0Lbo/+X3+ftPAPm0uPUQbiBk4T7R
-         re+DhMI0Ds5ykXCL98/9oY+196jSBNX5IOj9SKbEtwF/69Ypl61kpLCEc7khAvVqRRdG
-         yGQJqXrD98RXOToPJgkTyFDBpH+mFepHmVN3V/oxpwcizpvbybGgHGuvu8LeiV6/53GM
-         Exl2KpzSPl92p+TVfnERqALJ5voWxwtUU7EIl2SEWErkI55ixX224HWb2+sa8yCnq1i2
-         KcdQ==
-X-Gm-Message-State: AOAM532rZQdwXspUOHjUInD/DdnuaFI7//FQAKr5iKNKRfrV19IkBBD2
-	SdDdDb43RZXcWS8ebV/L+s2yuj9O+sdJ/G2E
-X-Google-Smtp-Source: ABdhPJzCFkErbWWzDRtzW7PyzWhmPFuJ05NJsaHsDg9y5qxRmVhH/mezi0ACq/6B6Rtz4YGuu8rkzg==
-X-Received: by 2002:a65:5ccd:: with SMTP id b13mr2583697pgt.203.1628865176334;
-        Fri, 13 Aug 2021 07:32:56 -0700 (PDT)
+        bh=zdRhs1bx5qjmhnTRHkqGC4aPuhjZyutfWzTSxMQjhu8=;
+        b=DIdui9OGv2fJZWysCLBf5wdRSeG9nkiCc7YwKjV0wpY6T1tqMNWvZa9mfksJWE3Yyl
+         vAx3OCXm2VbRexmjiJ9LPlnPTjn+Gdc/Djy9u9v+PlK1aWrfqUInDGr07K6hvuujVpZ0
+         owJrIrevogau/0PQ3rhl6snCZ1hUIwyMcOj2ltS8DkZz6xmuNW9Pt65dtw4pVEZC7vP9
+         TbTJoY2/sINTCaqgXdWkp6EolaiXWFO5wkLz4R1pjJT2H6izTc9D7QUhv1kwXcK8smIY
+         QQvkBd/6PiBDXeUF1NBaE/BjehkQ6CoSExBVS0PgO16vRrynUsUjFIkJE0KpK1X3StnN
+         ccfQ==
+X-Gm-Message-State: AOAM531SM9AUb88DQ/vU1H7jfJjuqMTr0UO+jhvJktcRF2GUYd5HcdbZ
+	ZT9PSZ1mvh4FKDi7HIg5lf6aJ02ApmfX4khe
+X-Google-Smtp-Source: ABdhPJxYdJDLGOTgoEXH1pdWUBABVI/eqvA1fENJg2pJMLqFA3YTN2BJX1OSOIHkLFYATztDq8oVmQ==
+X-Received: by 2002:a17:90a:2ecb:: with SMTP id h11mr2962276pjs.159.1628865183884;
+        Fri, 13 Aug 2021 07:33:03 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id nl9sm2113182pjb.33.2021.08.13.07.32.52
+        by smtp.gmail.com with ESMTPSA id nl9sm2113182pjb.33.2021.08.13.07.33.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 07:32:55 -0700 (PDT)
+        Fri, 13 Aug 2021 07:33:03 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 16/17] wic: don't forcibly pass -T default
-Date: Fri, 13 Aug 2021 04:29:58 -1000
-Message-Id: <906b65e2c2a140426f80796600e5ab5991be0979.1628863869.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 17/17] sstate.bbclass: fix error handling when sstate mirrors is ro
+Date: Fri, 13 Aug 2021 04:29:59 -1000
+Message-Id: <bbc34c2367b9736585764766917fd8aadfb1a333.1628863869.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628863869.git.steve@sakoman.com>
 References: <cover.1628863869.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross@burtonini.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
-This reverts part of oe-core eecbe62555, which was a previous attempt
-to solve the Y2038 problem.  This is now solved centrally in e2fsprogs,
-so doesn't need to be dealt with in wic.
+The commit dd555537fc35c5f934af09d601d70772eb5955ae
+'sstate.bbclass: fix errors about read-only sstate mirrors'
+adds an additional exception handler to silently mask read
+only rootfs errors thrown during the touch.
 
-We don't revert the commit entirely, to retain the warning if a
-filesystem has small inodes.
+The exception handler checks the error type with the python module errno
+but this module needs to be imported as it don't exist.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Example of the error:
+
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:sstate_task_postfunc(d)
+     0003:
+File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 778, function: sstate_task_postfunc
+     0774:
+     0775:    omask = os.umask(0o002)
+     0776:    if omask != 0o002:
+     0777:       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
+ *** 0778:    sstate_package(shared_state, d)
+     0779:    os.umask(omask)
+     0780:
+     0781:    sstateinst = d.getVar("SSTATE_INSTDIR")
+     0782:    d.setVar('SSTATE_FIXMEDIR', shared_state['fixmedir'])
+File: '/home/builder/src/base/poky/meta/classes/sstate.bbclass', lineno: 708, function: sstate_package
+     0704:        except PermissionError:
+     0705:            pass
+     0706:        except OSError as e:
+     0707:            # Handle read-only file systems gracefully
+ *** 0708:            if e.errno != errno.EROFS:
+     0709:                raise e
+     0710:
+     0711:    return
+     0712:
+Exception: NameError: name 'errno' is not defined
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7e8017208bed98b6c90735cb641fc9d7aedf9140)
+(cherry picked from commit 15f30ad144fbe25e9a5e71bc7e42e746d2039992)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/canned-wks/common.wks.inc     | 2 +-
- scripts/lib/wic/canned-wks/directdisk-gpt.wks | 2 +-
- scripts/lib/wic/canned-wks/mkefidisk.wks      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/sstate.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
-index 4fd29fa8c1..89880b417b 100644
---- a/scripts/lib/wic/canned-wks/common.wks.inc
-+++ b/scripts/lib/wic/canned-wks/common.wks.inc
-@@ -1,3 +1,3 @@
- # This file is included into 3 canned wks files from this directory
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --use-uuid --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024
-+part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
-diff --git a/scripts/lib/wic/canned-wks/directdisk-gpt.wks b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-index cf16c0c30b..8d7d8de6ea 100644
---- a/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-@@ -4,7 +4,7 @@
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index c148fc9edd..2ff0d6850c 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -705,6 +705,7 @@ def sstate_package(ss, d):
+             pass
+         except OSError as e:
+             # Handle read-only file systems gracefully
++            import errno
+             if e.errno != errno.EROFS:
+                 raise e
  
- 
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
- bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
- 
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index d1878e23e5..9f534fe184 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -4,7 +4,7 @@
- 
- part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
- 
--part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default"  --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+@@ -1148,6 +1149,7 @@ python sstate_eventhandler() {
+                 pass
+             except OSError as e:
+                 # Handle read-only file systems gracefully
++                import errno
+                 if e.errno != errno.EROFS:
+                     raise e
  
 -- 
 2.25.1
