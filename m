@@ -1,240 +1,195 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.33730.1628839333836865277
+Received: from esa2.hc324-48.eu.iphmx.com (esa2.hc324-48.eu.iphmx.com [207.54.68.120])
+ by mx.groups.io with SMTP id smtpd.web12.33697.1628840340521319118
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Aug 2021 00:22:14 -0700
+ Fri, 13 Aug 2021 00:39:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=odn2goZ7;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: nishaparrakat@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id b13so11959616wrs.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 00:22:13 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=RAzLddAg;
+ spf=pass (domain: bmw.de, ip: 207.54.68.120, mailfrom: prvs=852aaa0d9=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=OJgFowZ4a8DNz4uUJT7JMJBHpyugyLbHhRxbixsJ/zA=;
-        b=odn2goZ7r+FLcJQEp8pYfGrhNtQJvXT+Bu5rf5kirlm8goecQgp/yUoFDq61Ib7HIz
-         ZBWbFXEfQNefChHFCkxLm6GzVS0WD71IdBrCyvqC5ev8BAXa7pypoR/FzaOomoRvALCR
-         oXrYcBbrQFdFGnO/uMGRzX8qM+7sFdysIUDuUQvQ0e62iANLdUh5M6ABl2mTAD5wUzXQ
-         ZbxP6HMmnPuN6jf5NGolnAhAemzA/E8sUDP1Rqowwr5NSkaqoXqfnkQDruKi22o5zTw3
-         UZTkHMMRDCkYHmO8bd9nlgiMJ22w2b+9aG6SIEv7o952QJVfkxuBDI896nCRe3qtH1Ge
-         ZgxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=OJgFowZ4a8DNz4uUJT7JMJBHpyugyLbHhRxbixsJ/zA=;
-        b=kmsyuDQ5tJoRFLFsZ9Wrs67VQHGvd5suqZq1ssBAN9EeR6TuvOYfe0DMfX2jK2RbSx
-         U1/6uZl1zIj6SwFF8QNMNbFjN5KafBbUR3O6soEL/RRpPGwl865tFZDn4e8DPHRovjh6
-         KXPc+h38A4BYsZgVDiphuh4sFgsiEJ4LiZERaUBrVfYmc5Mk6LA8Sf4yOz9s7FQ2oCzy
-         g/G3yGwXkyTwRezCT/AzHBxxrTU1dKkGN3bb/FPGsYnsWkRWGkfD9ssmbU2YS4mQb+mT
-         03pDQnJwMjnynU7Iwwp1qY431JmvDnPg2JNV1INDfIoRh0sv9y+v/fMHs8jMJ2o/dEQr
-         PuOg==
-X-Gm-Message-State: AOAM532JEdS9B0rOaTX2x3svWiqQTycVaC3dph8plATHEmSGi7Ph/TU9
-	NtWT0YXi7RWA/nnFehhil71WcmD3wDKjkJTI
-X-Google-Smtp-Source: ABdhPJzxBiyy+JX2mBDI+nIUY2wHhwsQTPtWRCz2ZJ17z6VTUkVYlTUXNPkUvMPVkw6FGLqkZwGUYg==
-X-Received: by 2002:adf:f2ca:: with SMTP id d10mr1392846wrp.149.1628839332175;
-        Fri, 13 Aug 2021 00:22:12 -0700 (PDT)
-Return-Path: <nishaparrakat@gmail.com>
-Received: from bsys_traas.speedport.ip (p200300c00f0e83403a22e2fffe1aa816.dip0.t-ipconnect.de. [2003:c0:f0e:8340:3a22:e2ff:fe1a:a816])
-        by smtp.gmail.com with ESMTPSA id r10sm784884wrq.32.2021.08.13.00.22.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 00:22:11 -0700 (PDT)
-From: "Nisha Parrakat" <nishaparrakat@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com
-Subject: [poky][master][PATCH] dbus_%.bbappend: stop using selinux_set_mapping
-Date: Fri, 13 Aug 2021 07:22:02 +0000
-Message-Id: <20210813072202.19793-1-nishaparrakat@gmail.com>
-X-Mailer: git-send-email 2.17.1
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1628840340; x=1660376340;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=nxkSPuz1vUEwhqoLAEK4lyTsk+o7VkLlGkx3lfaYpqA=;
+  b=RAzLddAgRGncXF/Ka0xjZ1x+Cz/kqOD1iomdPA5Kssff9IurLDfB8y95
+   mHTPxVd2GSPYpAXF9mMdlfNHmq4ZzOfkPo7kE+ke2OkwePIw53RzbEHee
+   8yP9mANjxAnf68Sdue6cuB6iyuaRFK+WGtUUBfW8HA7dMa0ghYTtdkKqQ
+   Q=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa2.hc324-48.eu.iphmx.com with ESMTP/TLS; 13 Aug 2021 09:38:49 +0200
+Received: from esabb6.muc ([160.50.100.50])  by esagw4.muc with ESMTP/TLS;
+ 13 Aug 2021 09:38:48 +0200
+Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp) ([160.46.167.68])
+ by esabb6.muc with ESMTP/TLS; 13 Aug 2021 09:38:39 +0200
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33l.europe.bmw.corp
+ (160.46.167.68) with Microsoft SMTP Server (TLS;
+ Fri, 13 Aug 2021 09:38:38 +0200
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.018; Fri,
+ 13 Aug 2021 09:38:38 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <abeltran@linux.microsoft.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] buildhistory: Add output file listing package information
+Thread-Topic: [OE-core] [PATCH] buildhistory: Add output file listing package
+ information
+Thread-Index: AQHXj5trEsbHp/q2QUGZrNiaaE4xNKtw67aA
+Date: Fri, 13 Aug 2021 07:38:38 +0000
+Message-ID: <YRYhfdR5SNZpiYpN@korppu>
+References: <20210812165856.6469-1-abeltran@linux.microsoft.com>
+In-Reply-To: <20210812165856.6469-1-abeltran@linux.microsoft.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+MIME-Version: 1.0
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1FFB6109F30CF34DA2E00AE1A3CAF023@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-https://gitlab.freedesktop.org/dbus/dbus/-/issues/198
-https://gitlab.freedesktop.org/dbus/dbus/-/commit/6072f8b24153d844a3033108a17bcd0c1a967816
+Hi,
 
-Currently, if the "dbus" security class or the associated AV doesn't
-exist, dbus-daemon fails to initialize and exits immediately. Also the
-security classes or access vector cannot be reordered in the policy.
-This can be a problem for people developing their own policy or trying
-to access a machine where, for some reasons, there is not policy defined
-at all.
+On Thu, Aug 12, 2021 at 04:58:56PM +0000, Andres Beltran wrote:
+> Currently, buildhistory does not produce a single file combining relevant
+> information of installed packages. Produce an output file
+> "installed-package-info.txt" listing a package's runtime name, buildtime =
+name,
+> its recipe, version, and size to avoid having to look up each package ext=
+ernally.
+> Leave the existing package list files as-is for backwards compatibility.
 
-The code here copy the behaviour of the selinux_check_access() function.
-We cannot use this function here as it doesn't allow us to define the
-AVC entry reference.
+Thanks for this patch, I find it useful!
 
-See the discussion at https://marc.info/?l=selinux&m=152163374332372&w=2
+I have had similar needs and have created scripts which parse the same info
+from buildhistory. What I'd add here is the layer of the recipe.
 
-Signed-off-by: Nisha Parrakat <nishaparrakat@gmail.com>
----
- meta/recipes-core/dbus/dbus.inc               |   1 +
- .../dbus/stop_using_selinux_set_mapping.patch | 148 ++++++++++++++++++
- 2 files changed, 149 insertions(+)
- create mode 100644 meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
+In large projects I have the need to also map binary packages into
+their maintainers and subprojects, and produce reports, e.g. rootfs usage
+reports per maintainer/subproject to be checked against an agreed budget.
+Thus I've used layer and MAINTAINER fields to map binary package to the
+subprojects and maintainers inside the projects.
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index b237476493..8c7daed5ef 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -8,6 +8,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch \
-            file://dbus-1.init \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-+           file://stop_using_selinux_set_mapping.patch \
- "
- 
- SRC_URI[md5sum] = "dfe8a71f412e0b53be26ed4fbfdc91c4"
-diff --git a/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch b/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
-new file mode 100644
-index 0000000000..7035098e41
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
-@@ -0,0 +1,148 @@
-+From 6072f8b24153d844a3033108a17bcd0c1a967816 Mon Sep 17 00:00:00 2001
-+From: Laurent Bigonville <bigon@bigon.be>
-+Date: Sat, 3 Mar 2018 11:15:23 +0100
-+Subject: [PATCH] Stop using selinux_set_mapping() function
-+
-+Currently, if the "dbus" security class or the associated AV doesn't
-+exist, dbus-daemon fails to initialize and exits immediately. Also the
-+security classes or access vector cannot be reordered in the policy.
-+This can be a problem for people developing their own policy or trying
-+to access a machine where, for some reasons, there is not policy defined
-+at all.
-+
-+The code here copy the behaviour of the selinux_check_access() function.
-+We cannot use this function here as it doesn't allow us to define the
-+AVC entry reference.
-+
-+See the discussion at https://marc.info/?l=selinux&m=152163374332372&w=2
-+
-+Resolves: https://gitlab.freedesktop.org/dbus/dbus/issues/198
-+---
-+ bus/selinux.c | 75 ++++++++++++++++++++++++++++-----------------------
-+ 1 file changed, 42 insertions(+), 33 deletions(-)
-+
-+
-+Upstream-Status: Backport
-+Signed-off-by: Nisha.Parrakat <Nisha.Parrakat@kpit.com>
-+diff --git a/bus/selinux.c b/bus/selinux.c
-+
-+--- a/bus/selinux.c	2021-08-11 14:45:59.048513026 +0000
-++++ b/bus/selinux.c	2021-08-11 14:57:47.144846966 +0000
-+@@ -311,24 +311,6 @@
-+ #endif
-+ }
-+ 
-+-/*
-+- * Private Flask definitions; the order of these constants must
-+- * exactly match that of the structure array below!
-+- */
-+-/* security dbus class constants */
-+-#define SECCLASS_DBUS       1
-+-
-+-/* dbus's per access vector constants */
-+-#define DBUS__ACQUIRE_SVC   1
-+-#define DBUS__SEND_MSG      2
-+-
-+-#ifdef HAVE_SELINUX
-+-static struct security_class_mapping dbus_map[] = {
-+-  { "dbus", { "acquire_svc", "send_msg", NULL } },
-+-  { NULL }
-+-};
-+-#endif /* HAVE_SELINUX */
-+-
-+ /**
-+  * Establish dynamic object class and permission mapping and
-+  * initialize the user space access vector cache (AVC) for D-Bus and set up
-+@@ -350,13 +332,6 @@
-+ 
-+   _dbus_verbose ("SELinux is enabled in this kernel.\n");
-+ 
-+-  if (selinux_set_mapping (dbus_map) < 0)
-+-    {
-+-      _dbus_warn ("Failed to set up security class mapping (selinux_set_mapping():%s).",
-+-                   strerror (errno));
-+-      return FALSE; 
-+-    }
-+-
-+   avc_entry_ref_init (&aeref);
-+   if (avc_init ("avc", &mem_cb, &log_cb, &thread_cb, &lock_cb) < 0)
-+     {
-+@@ -421,19 +396,53 @@
-+ static dbus_bool_t
-+ bus_selinux_check (BusSELinuxID        *sender_sid,
-+                    BusSELinuxID        *override_sid,
-+-                   security_class_t     target_class,
-+-                   access_vector_t      requested,
-++                   const char          *target_class,
-++                   const char          *requested,
-+ 		   DBusString          *auxdata)
-+ {
-++  int saved_errno;
-++  security_class_t security_class;
-++  access_vector_t requested_access;
-++
-+   if (!selinux_enabled)
-+     return TRUE;
-+ 
-++  security_class = string_to_security_class (target_class);
-++  if (security_class == 0)
-++    {
-++      saved_errno = errno;
-++      log_callback (SELINUX_ERROR, "Unknown class %s", target_class);
-++      if (security_deny_unknown () == 0)
-++        {
-++          return TRUE;
-++	}
-++
-++      _dbus_verbose ("Unknown class %s\n", target_class);
-++      errno = saved_errno;
-++      return FALSE;
-++    }
-++
-++  requested_access = string_to_av_perm (security_class, requested);
-++  if (requested_access == 0)
-++    {
-++      saved_errno = errno;
-++      log_callback (SELINUX_ERROR, "Unknown permission %s for class %s", requested, target_class);
-++      if (security_deny_unknown () == 0)
-++        {
-++          return TRUE;
-++	}
-++
-++      _dbus_verbose ("Unknown permission %s for class %s\n", requested, target_class);
-++      errno = saved_errno;
-++      return FALSE;
-++    }
-++
-+   /* Make the security check.  AVC checks enforcing mode here as well. */
-+   if (avc_has_perm (SELINUX_SID_FROM_BUS (sender_sid),
-+                     override_sid ?
-+                     SELINUX_SID_FROM_BUS (override_sid) :
-+                     bus_sid,
-+-                    target_class, requested, &aeref, auxdata) < 0)
-++                    security_class, requested_access, &aeref, auxdata) < 0)
-+     {
-+     switch (errno)
-+       {
-+@@ -500,8 +509,8 @@
-+   
-+   ret = bus_selinux_check (connection_sid,
-+ 			   service_sid,
-+-			   SECCLASS_DBUS,
-+-			   DBUS__ACQUIRE_SVC,
-++			   "dbus",
-++			   "acquire_svc",
-+ 			   &auxdata);
-+ 
-+   _dbus_string_free (&auxdata);
-+@@ -629,8 +638,8 @@
-+ 
-+   ret = bus_selinux_check (sender_sid, 
-+ 			   recipient_sid,
-+-			   SECCLASS_DBUS, 
-+-			   DBUS__SEND_MSG,
-++			   "dbus", 
-++			   "send_msg",
-+ 			   &auxdata);
-+ 
-+   _dbus_string_free (&auxdata);
--- 
-2.17.1
+Would be nice to be able to extend the rootfs binary package reports with
+this info but a bit of scripting on the buildhistory output is fine too.
 
+Cheers,
+
+-Mikko
+
+> In order to support this efficiently, extend oe-pkgdata-util to accept mu=
+ltiple keys
+> for its read-value argument.
+>=20
+> Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+> ---
+>  meta/classes/buildhistory.bbclass |  5 +++++
+>  scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
+>  2 files changed, 28 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistor=
+y.bbclass
+> index 8a1359acbe..134b56ab71 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -491,6 +491,11 @@ buildhistory_get_installed() {
+>  	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | so=
+rt -n -r > $1/installed-package-sizes.txt
+>  	rm $1/installed-package-sizes.tmp
+> =20
+> +	# Produce package info: runtime_name, buildtime_name, recipe, version, =
+size
+> +	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n=
+ -f $pkgcache > $1/installed-package-info.tmp
+> +	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-pack=
+age-info.txt
+> +	rm $1/installed-package-info.tmp
+> +
+>  	# We're now done with the cache, delete it
+>  	rm $pkgcache
+> =20
+> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+> index 75dd23efa3..c30baaa580 100755
+> --- a/scripts/oe-pkgdata-util
+> +++ b/scripts/oe-pkgdata-util
+> @@ -171,7 +171,7 @@ def read_value(args):
+>                      val =3D line.split(': ', 1)[1].rstrip()
+>          return val
+> =20
+> -    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args=
+.valuename, packages))
+> +    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args=
+.valuenames, packages))
+>      for package in packages:
+>          pkg_split =3D package.split('_')
+>          pkg_name =3D pkg_split[0]
+> @@ -180,20 +180,29 @@ def read_value(args):
+>          logger.debug(revlink)
+>          if os.path.exists(revlink):
+>              mappedpkg =3D os.path.basename(os.readlink(revlink))
+> -            qvar =3D args.valuename
+> -            value =3D readvar(revlink, qvar, mappedpkg)
+> -            if qvar =3D=3D "PKGSIZE":
+> -                # PKGSIZE is now in bytes, but we we want it in KB
+> -                pkgsize =3D (int(value) + 1024 // 2) // 1024
+> -                value =3D "%d" % pkgsize
+> -            if args.unescape:
+> -                import codecs
+> -                # escape_decode() unescapes backslash encodings in byte =
+streams
+> -                value =3D codecs.escape_decode(bytes(value, "utf-8"))[0]=
+.decode("utf-8")
+> +            qvars =3D args.valuenames
+> +            val_names =3D qvars.split(',')
+> +            values =3D []
+> +            for qvar in val_names:
+> +                if qvar =3D=3D "PACKAGE":
+> +                    value =3D mappedpkg
+> +                else:
+> +                    value =3D readvar(revlink, qvar, mappedpkg)
+> +                if qvar =3D=3D "PKGSIZE":
+> +                    # PKGSIZE is now in bytes, but we we want it in KB
+> +                    pkgsize =3D (int(value) + 1024 // 2) // 1024
+> +                    value =3D "%d" % pkgsize
+> +                if args.unescape:
+> +                    import codecs
+> +                    # escape_decode() unescapes backslash encodings in b=
+yte streams
+> +                    value =3D codecs.escape_decode(bytes(value, "utf-8")=
+)[0].decode("utf-8")
+> +                values.append(value)
+> +
+> +            values_str =3D ' '.join(values)
+>              if args.prefix_name:
+> -                print('%s %s' % (pkg_name, value))
+> +                print('%s %s' % (pkg_name, values_str))
+>              else:
+> -                print(value)
+> +                print(values_str)
+>          else:
+>              logger.debug("revlink %s does not exist", revlink)
+> =20
+> @@ -570,7 +579,7 @@ def main():
+>      parser_read_value =3D subparsers.add_parser('read-value',
+>                                            help=3D'Read any pkgdata value=
+ for one or more packages',
+>                                            description=3D'Reads the named=
+ value from the pkgdata files for the specified packages')
+> -    parser_read_value.add_argument('valuename', help=3D'Name of the valu=
+e to look up')
+> +    parser_read_value.add_argument('valuenames', help=3D'Name of the val=
+ue/s to look up (separated by commas, no spaces)')
+>      parser_read_value.add_argument('pkg', nargs=3D'*', help=3D'Runtime p=
+ackage name to look up')
+>      parser_read_value.add_argument('-f', '--file', help=3D'Read package =
+names from the specified file (one per line, first field only)')
+>      parser_read_value.add_argument('-n', '--prefix-name', help=3D'Prefix=
+ output with package name', action=3D'store_true')
+> --=20
+> 2.17.1
+>=20
+
+>=20
+>=20
+>=20
