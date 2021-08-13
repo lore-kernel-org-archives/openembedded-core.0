@@ -1,89 +1,90 @@
 Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web09.37481.1628865101202508330
+ by mx.groups.io with SMTP id smtpd.web11.37514.1628865110177526534
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Aug 2021 07:31:41 -0700
+ Fri, 13 Aug 2021 07:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=pntTZnSA;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=c2sOv71G;
  spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id nt11so15553885pjb.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 07:31:41 -0700 (PDT)
+Received: by mail-pj1-f44.google.com with SMTP id u21-20020a17090a8915b02901782c36f543so20864452pjn.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 07:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=xqPHKAD1WXwtOi+OX8NGb4vC70xVIDk8Fu5PIeSwN9Q=;
-        b=pntTZnSAZzqAKjMR/sci6EvwcJV+qBUQdkIRw2ECwIMFZOlavaJaf6XVmggn1OcT6G
-         ytzFrXlQU6vm+tzVMbTWLpXGoT/rh6iqx0nrOCE4AXhGHxH9m4mjf1TWP2lY8FPYugJA
-         +3GCpTLOFNpHOKtXdoOxFHB4YOxREQZd27Pke+bz1UxompnkPzsiXl5OSl3SpMNW6BkA
-         rwLUSKuzTL+PARYJHmZllmO3BSYYXxNm6bw7ZeqgECF30ixvKst0gZvSxVko9ouvVKip
-         M+JmsE3wnjgM2uIvOcRLBZj+HI+2EBV4aoruMQhXvNuSHsAZB9/cBo7EOWBp71nRomgB
-         Tbcw==
+        bh=ofCZmj2go/X1GmnM24CWrrnyi0WgPO7BThYURdml8w4=;
+        b=c2sOv71GT7clV1TlM1O6BAy2DD0h7B5UCn6YK8jZD2PX9imu8aT3vhAyqZQftsogq7
+         ld/JF1of1caMWqHK7pSbT2O2ALZVBzihxAcIUNxiG0T5pRqTr9CsHHVmw1iN6I3CoRiN
+         NdqFjjlDx11EvWrYQGlo/4O0bW+w3DIJopg6fcY+otZMeXDaHVa+kwKqtKGrMXf71tj3
+         QAozoohq6Sh/rWaK+6XxSOOoqYxkwawFkEduJLOk9OzJRfmDEuQgVHIprG+3xebiYPdg
+         hmXQjVTz47WH09MOO2WRAo2HuknOtiJY3AMnj/GAkd1t82IUUsgC9+tKsetdKjp8eWXA
+         AUew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xqPHKAD1WXwtOi+OX8NGb4vC70xVIDk8Fu5PIeSwN9Q=;
-        b=oHh8aRtgfY4n9TfNQChG/JvbIhqrAzSQHcjnHf9mhA46KFE5TZUDZYX2cjbFqhMlhz
-         l9oNhEESQ2CXHoC89JbNN7ivb4V4YWjNqJVymxj7r0asY3daBB8r9GAaopga9yrgj9Qo
-         4SmNtQXMNjwMbnaeLNGKPmhcQD7MjY2Fv8wbsZoTp1vuvGi48EVXQoMkM/tBZHkGxhZC
-         t8ZcbJDPqPt8wO6rTz0Ns5aRYnBLQVo34cpJrw2JwuEy7tMykF/hOrddgLXGVKvqG3c7
-         77rd73X/DtZDR6zR3jufl6C/nUdIAxM26Nq3K470mggu4b/88piwLYh+EEa5WM3fOoUj
-         cCqA==
-X-Gm-Message-State: AOAM5324hYFhoYbe/ePLswCcmlNgq2dunI7RgKl9HIjRVjmweyhbPZxM
-	s7u75SGslMZjUKIiuozZO2Ha/9zcybDibLMt
-X-Google-Smtp-Source: ABdhPJwU7cLLZjnEp9YSKzmGTFm7sDyej+eJSlPnlA1zAhbSA6B8c3C2G6iJNcrfzkqgtgkXMlhI/A==
-X-Received: by 2002:a17:902:7406:b029:12d:3bc1:3812 with SMTP id g6-20020a1709027406b029012d3bc13812mr2330126pll.67.1628865100293;
-        Fri, 13 Aug 2021 07:31:40 -0700 (PDT)
+        bh=ofCZmj2go/X1GmnM24CWrrnyi0WgPO7BThYURdml8w4=;
+        b=NqTnBQoVBB2C0pfna5Iyr8p9ZKhYOa32CUj2i5NyjXWeH7arSmnG/1HUB/CHc3Ppax
+         92hr6eMlq303XokKROeHU3cna8WC91omWw7kHsKeUAJ634j5ZDyoTRPZ4HyroZDvbKL7
+         fnz0LVPAonGyIURbDniOacaAWtQJczKKCGdcln7bA5KjULzd42L0LZLaH+Kd0v7G8ycS
+         vqQ+uHeTRZzs+i2QV7nY2ypRw5yELgqMtRYOm/HOtdirtJ74y0Pf1RUiq+gRdq41OfKm
+         KwsrobpbimmbSUbic3d8hT1Ee+ySGv2ny4zll0ah3Xe88+pwFOjMjpBWwg4lq+K8ukgX
+         LFWg==
+X-Gm-Message-State: AOAM531zcsUxWAE6I4dcCg7oV+ecDpy0VMHTOSGCdZt4rrWtIEqgYcLW
+	J0omXy+6zER6OBwFxMkevp7YS7rUgViECNSk
+X-Google-Smtp-Source: ABdhPJzOysqkJqCjxnkdimfvQ5l3JHfiI5Y1vaKtogTCmGK3ORw92wfJtoQX4AJmznk/Peah7zSe3A==
+X-Received: by 2002:a17:90a:9205:: with SMTP id m5mr2942306pjo.172.1628865109283;
+        Fri, 13 Aug 2021 07:31:49 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id nl9sm2113182pjb.33.2021.08.13.07.31.36
+        by smtp.gmail.com with ESMTPSA id nl9sm2113182pjb.33.2021.08.13.07.31.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 07:31:39 -0700 (PDT)
+        Fri, 13 Aug 2021 07:31:48 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/17] ruby: 2.7.3 -> 2.7.4
-Date: Fri, 13 Aug 2021 04:29:47 -1000
-Message-Id: <9b1a0d63186a64d78de379494fe256087f62770a.1628863869.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/17] license: Exclude COPYING.MIT from pseudo
+Date: Fri, 13 Aug 2021 04:29:48 -1000
+Message-Id: <46dd415720eb507a3d181a289b155ac4cfc2219c.1628863869.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1628863869.git.steve@sakoman.com>
 References: <cover.1628863869.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Minjae Kim <flowergom@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This release includes security fixes.
+Along with the other license exclusions, we need to exclude the
+top level COPYING.MIT file else when:
 
-CVE-2021-31810: Trusting FTP PASV responses vulnerability in Net::FTP
-CVE-2021-32066: A StartTLS stripping vulnerability in Net::IMAP
-CVE-2021-31799: A command injection vulnerability in RDoc
+COPY_LIC_DIRS     = "1"
+COPY_LIC_MANIFEST = "1"
 
-https://www.ruby-lang.org/en/news/2021/07/07/ruby-2-7-4-released/
+is set, we see eSDK failures from a pseudo abort.
+
+[YOCTO #14366]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 3eb580843de3f055e42fcce60b0f15c4190c0542)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/ruby/{ruby_2.7.3.bb => ruby_2.7.4.bb} | 4 ++--
+ meta/classes/license.bbclass | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_2.7.3.bb => ruby_2.7.4.bb} (95%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_2.7.3.bb b/meta/recipes-devtools/ruby/ruby_2.7.4.bb
-similarity index 95%
-rename from meta/recipes-devtools/ruby/ruby_2.7.3.bb
-rename to meta/recipes-devtools/ruby/ruby_2.7.4.bb
-index 318b9acdae..dafa7d2f6b 100644
---- a/meta/recipes-devtools/ruby/ruby_2.7.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.4.bb
-@@ -9,8 +9,8 @@ SRC_URI += " \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-            "
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index dc91118340..73f99e87a8 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -31,8 +31,8 @@ python do_populate_lic() {
+             f.write("%s: %s\n" % (key, info[key]))
+ }
  
--SRC_URI[md5sum] = "72ef97685008981de3ddb748d0dab31f"
--SRC_URI[sha256sum] = "8925a95e31d8f2c81749025a52a544ea1d05dad18794e6828709268b92e55338"
-+SRC_URI[md5sum] = "823cd21d93c69e4168b03dd127369343"
-+SRC_URI[sha256sum] = "3043099089608859fc8cce7f9fdccaa1f53a462457e3838ec3b25a7d609fbc5b"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+-PSEUDO_IGNORE_PATHS .= ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' + (d.getVar('LICENSE_PATH') or '')).split())}"
+-# it would be better to copy them in do_install_append, but find_license_filesa is python
++PSEUDO_IGNORE_PATHS .= ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' + (d.getVar('LICENSE_PATH') or '') + ' ' + d.getVar('COREBASE') + '/meta/COPYING').split())}"
++# it would be better to copy them in do_install:append, but find_license_filesa is python
+ python perform_packagecopy_prepend () {
+     enabled = oe.data.typed_value('LICENSE_CREATE_PACKAGE', d)
+     if d.getVar('CLASSOVERRIDE') == 'class-target' and enabled:
 -- 
 2.25.1
 
