@@ -1,49 +1,49 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.33460.1628838173173229306
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.33730.1628839333836865277
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Aug 2021 00:02:53 -0700
+ Fri, 13 Aug 2021 00:22:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fJBcDr02;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: nishaparrakat@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id u15so6217489wmj.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 00:02:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=odn2goZ7;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: nishaparrakat@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id b13so11959616wrs.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Aug 2021 00:22:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=z9Pzb7kJrXgeHl3LYhD7LKMLScO56wLGnp8HPHtjuQs=;
-        b=fJBcDr02aL4eToQtZSlBKVuOgFZ12hvM4AbnkVjKc4Ke/kacFGDp5uaT55RpLDjNSU
-         7bRkNxMfLlGBoAOu+Pyg2fQV3yla3nUihn9GFc4EHlcS0KY7GKGz2Wt9NxDAVdSMbMvV
-         QGwP157NxWF46J7N51jDeU7SVOXIQS52QQh2LjqifYx+32MJEM9DW2rBKKbW5gpQouP6
-         pz5rQllK0BzJJoiTWeyCIx2+cczxda5t/Q4GbSiQvZsC30H7lfPxCW0JWiaKwDSZoiBO
-         HbnZMvd1Tv47X9jp8fewmCqHCAWp3Q2VkfZOR96QrSCh3j0WLx/7LTUhBLs5JOjB8qmH
-         NxaA==
+        bh=OJgFowZ4a8DNz4uUJT7JMJBHpyugyLbHhRxbixsJ/zA=;
+        b=odn2goZ7r+FLcJQEp8pYfGrhNtQJvXT+Bu5rf5kirlm8goecQgp/yUoFDq61Ib7HIz
+         ZBWbFXEfQNefChHFCkxLm6GzVS0WD71IdBrCyvqC5ev8BAXa7pypoR/FzaOomoRvALCR
+         oXrYcBbrQFdFGnO/uMGRzX8qM+7sFdysIUDuUQvQ0e62iANLdUh5M6ABl2mTAD5wUzXQ
+         ZbxP6HMmnPuN6jf5NGolnAhAemzA/E8sUDP1Rqowwr5NSkaqoXqfnkQDruKi22o5zTw3
+         UZTkHMMRDCkYHmO8bd9nlgiMJ22w2b+9aG6SIEv7o952QJVfkxuBDI896nCRe3qtH1Ge
+         ZgxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=z9Pzb7kJrXgeHl3LYhD7LKMLScO56wLGnp8HPHtjuQs=;
-        b=uYKJem6Vdk3U4kA0dZ1MANNCGfrlLYQbIav2In/fxxY++F+HVCEqdoEp2VTre99VHV
-         pOUnmT0AlYwdZTYtpRmCIs9LQvuzfrgYcyWPxFzWf4E6SL1k+TdBGCHd8r1+ey+fFj0k
-         M4yPEvAPULsHB4I3L0Pa+/E4MsL9VNCYYRTvtUV4yX4cqmAWJ6ha5njdulpy25zbNp9m
-         WiBMjKNML0LlLor3cMl/W+s84vQevoyKAct1Y3plFCfDzw/FYuXNig9TRmL37fYfcpn6
-         oOF0nIetJkVGZ8NjfWKWdzmYekhZ8GqSNlI8D6c1D0Bd3qC9XwwHoYM3aNkxJDeQF7NC
-         pX6Q==
-X-Gm-Message-State: AOAM533atWz0RpmDZG/yVkoZ0njaww7EoatJbzqcQEZISgeeu1KzV8M4
-	+/WSyl53oshgHsobQiS8bdEsq3bhRdSHKSep
-X-Google-Smtp-Source: ABdhPJwKGqzpLdBEvYBYrZlii+N+s49wOeBHx+9C2Xc83J5AbSMBjODZgjZd0gQXE3KL5QSHt5wGqA==
-X-Received: by 2002:a1c:8093:: with SMTP id b141mr1084800wmd.177.1628838171309;
-        Fri, 13 Aug 2021 00:02:51 -0700 (PDT)
+        bh=OJgFowZ4a8DNz4uUJT7JMJBHpyugyLbHhRxbixsJ/zA=;
+        b=kmsyuDQ5tJoRFLFsZ9Wrs67VQHGvd5suqZq1ssBAN9EeR6TuvOYfe0DMfX2jK2RbSx
+         U1/6uZl1zIj6SwFF8QNMNbFjN5KafBbUR3O6soEL/RRpPGwl865tFZDn4e8DPHRovjh6
+         KXPc+h38A4BYsZgVDiphuh4sFgsiEJ4LiZERaUBrVfYmc5Mk6LA8Sf4yOz9s7FQ2oCzy
+         g/G3yGwXkyTwRezCT/AzHBxxrTU1dKkGN3bb/FPGsYnsWkRWGkfD9ssmbU2YS4mQb+mT
+         03pDQnJwMjnynU7Iwwp1qY431JmvDnPg2JNV1INDfIoRh0sv9y+v/fMHs8jMJ2o/dEQr
+         PuOg==
+X-Gm-Message-State: AOAM532JEdS9B0rOaTX2x3svWiqQTycVaC3dph8plATHEmSGi7Ph/TU9
+	NtWT0YXi7RWA/nnFehhil71WcmD3wDKjkJTI
+X-Google-Smtp-Source: ABdhPJzxBiyy+JX2mBDI+nIUY2wHhwsQTPtWRCz2ZJ17z6VTUkVYlTUXNPkUvMPVkw6FGLqkZwGUYg==
+X-Received: by 2002:adf:f2ca:: with SMTP id d10mr1392846wrp.149.1628839332175;
+        Fri, 13 Aug 2021 00:22:12 -0700 (PDT)
 Return-Path: <nishaparrakat@gmail.com>
 Received: from bsys_traas.speedport.ip (p200300c00f0e83403a22e2fffe1aa816.dip0.t-ipconnect.de. [2003:c0:f0e:8340:3a22:e2ff:fe1a:a816])
-        by smtp.gmail.com with ESMTPSA id m10sm750576wro.63.2021.08.13.00.02.50
+        by smtp.gmail.com with ESMTPSA id r10sm784884wrq.32.2021.08.13.00.22.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 00:02:50 -0700 (PDT)
+        Fri, 13 Aug 2021 00:22:11 -0700 (PDT)
 From: "Nisha Parrakat" <nishaparrakat@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	raj.khem@gmail.com
 Cc: nisha.parrakat@kpit.com
-Subject: [poky][dunfell][PATCH] dbus_%.bbappend: stop using selinux_set_mapping
-Date: Fri, 13 Aug 2021 07:02:42 +0000
-Message-Id: <20210813070242.26249-1-nishaparrakat@gmail.com>
+Subject: [poky][master][PATCH] dbus_%.bbappend: stop using selinux_set_mapping
+Date: Fri, 13 Aug 2021 07:22:02 +0000
+Message-Id: <20210813072202.19793-1-nishaparrakat@gmail.com>
 X-Mailer: git-send-email 2.17.1
 
 https://gitlab.freedesktop.org/dbus/dbus/-/issues/198
@@ -64,11 +64,23 @@ See the discussion at https://marc.info/?l=selinux&m=152163374332372&w=2
 
 Signed-off-by: Nisha Parrakat <nishaparrakat@gmail.com>
 ---
+ meta/recipes-core/dbus/dbus.inc               |   1 +
  .../dbus/stop_using_selinux_set_mapping.patch | 148 ++++++++++++++++++
- meta/recipes-core/dbus/dbus_1.12.16.bb        |   1 +
  2 files changed, 149 insertions(+)
  create mode 100644 meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
 
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index b237476493..8c7daed5ef 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -8,6 +8,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://tmpdir.patch \
+            file://dbus-1.init \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
++           file://stop_using_selinux_set_mapping.patch \
+ "
+ 
+ SRC_URI[md5sum] = "dfe8a71f412e0b53be26ed4fbfdc91c4"
 diff --git a/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch b/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
 new file mode 100644
 index 0000000000..7035098e41
@@ -223,18 +235,6 @@ index 0000000000..7035098e41
 + 			   &auxdata);
 + 
 +   _dbus_string_free (&auxdata);
-diff --git a/meta/recipes-core/dbus/dbus_1.12.16.bb b/meta/recipes-core/dbus/dbus_1.12.16.bb
-index 10d1b34448..aa6eecdf9c 100644
---- a/meta/recipes-core/dbus/dbus_1.12.16.bb
-+++ b/meta/recipes-core/dbus/dbus_1.12.16.bb
-@@ -17,6 +17,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://dbus-1.init \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-            file://CVE-2020-12049.patch \
-+           file://stop_using_selinux_set_mapping.patch \
- "
- 
- SRC_URI[md5sum] = "2dbeae80dfc9e3632320c6a53d5e8890"
 -- 
 2.17.1
 
