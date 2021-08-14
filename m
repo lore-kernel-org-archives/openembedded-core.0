@@ -1,110 +1,73 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web12.47781.1628933949840109698
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.2927.1628966153078384088
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Aug 2021 02:39:10 -0700
+ Sat, 14 Aug 2021 11:35:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
 Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id B478EC0007;
-	Sat, 14 Aug 2021 09:39:07 +0000 (UTC)
-Date: Sat, 14 Aug 2021 11:39:07 +0200
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id D1F451C0003;
+	Sat, 14 Aug 2021 18:35:38 +0000 (UTC)
+Date: Sat, 14 Aug 2021 20:35:38 +0200
 From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: Joe Slater <joe.slater@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com
-Subject: Re: [oe-core][PATCH 1/1] blktrace: add rdepends
-Message-ID: <YRePO49ByXUDHv+R@piout.net>
-References: <20210813202416.138888-1-joe.slater@windriver.com>
+To: Joshua Watt <JPEWhacker@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] bitbake.conf: Add lz4c, pzstd and zstd
+Message-ID: <YRgM+lOvm4ZAa+xW@piout.net>
+References: <20210714134248.21366-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210813202416.138888-1-joe.slater@windriver.com>
+In-Reply-To: <20210714134248.21366-1-JPEWhacker@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hello,
 
-On 13/08/2021 13:24:16-0700, Joe Slater wrote:
-> bno_plot.py uses gnuplot.  Also change shebangs to
-> python3 because we do not support python2.
+On 14/07/2021 08:42:48-0500, Joshua Watt wrote:
+> Adds the command line compression tools which are needed by bitbake
 > 
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 > ---
->  meta/recipes-kernel/blktrace/blktrace_git.bb  |  6 +++-
->  .../blktrace/files/python3-shebangs.patch     | 30 +++++++++++++++++++
->  2 files changed, 35 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-kernel/blktrace/files/python3-shebangs.patch
+>  meta/conf/bitbake.conf | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
-> index d00b1bd0be..36ce282481 100644
-> --- a/meta/recipes-kernel/blktrace/blktrace_git.bb
-> +++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
-> @@ -10,11 +10,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
->  
->  DEPENDS = "libaio"
->  
-> +RDEPENDS:${PN} += "gnuplot"
-> +
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index f451ba6a47..3801db7d42 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -484,12 +484,12 @@ HOSTTOOLS += " \
+>      [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
+>      cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
+>      fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
+> -    head hostname iconv id install ld ldd ln ls make md5sum mkdir mkfifo mknod \
+> +    head hostname iconv id install ld ldd ln ls lz4c make md5sum mkdir mkfifo mknod \
+>      mktemp mv nm objcopy objdump od patch perl pr printf pwd \
+> -    python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
+> +    python3 pzstd ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
+>      sha1sum sha224sum sha256sum sha384sum sha512sum \
+>      sleep sort split stat strings strip tail tar tee test touch tr true uname \
+> -    uniq wc wget which xargs \
+> +    uniq wc wget which xargs zstd \
 
-This breaks many builds on the autobuilders with:
+zstd seems to hurt reproducibility:
 
-stdio: ERROR: Nothing RPROVIDES 'gnuplot' (but /home/pokybuild/yocto-worker/genericx86-64/build/meta/recipes-kernel/blktrace/blktrace_git.bb RDEPENDS on or otherwise requires it)
-stdio: ERROR: Nothing RPROVIDES 'blktrace-dev' (but /home/pokybuild/yocto-worker/genericx86-64/build/meta/recipes-kernel/blktrace/blktrace_git.bb RDEPENDS on or otherwise requires it)
+AssertionError: The following deb packages are missing or different and not in exclusion list: /home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/deb/./core2-64/elfutils-ptest_0.185-r0_amd64.deb
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/deb/./core2-64/man-db-dbg_2.9.4-r0_amd64.deb
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/deb/./core2-64/man-db-src_2.9.4-r0_amd64.deb
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/deb/./core2-64/man-db_2.9.4-r0_amd64.deb
+The following ipk packages are missing or different and not in exclusion list: /home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/ipk/./core2-64/elfutils-ptest_0.185-r0_core2-64.ipk
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/ipk/./core2-64/man-db-dbg_2.9.4-r0_core2-64.ipk
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/ipk/./core2-64/man-db-src_2.9.4-r0_core2-64.ipk
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/ipk/./core2-64/man-db_2.9.4-r0_core2-64.ipk
+The following rpm packages are missing or different and not in exclusion list: /home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/rpm/./core2_64/elfutils-ptest-0.185-r0.core2_64.rpm
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/rpm/./core2_64/man-db-2.9.4-r0.core2_64.rpm
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/rpm/./core2_64/man-db-dbg-2.9.4-r0.core2_64.rpm
+/home/pokybuild/yocto-worker/reproducible-ubuntu/build/build-st/reproducibleB/tmp/deploy/rpm/./core2_64/man-db-src-2.9.4-r0.core2_64.rpm
 
-because gnuplot is part of meta-oe
+diffoscope output here:
 
->  SRCREV = "366d30b9cdb20345c5d064af850d686da79b89eb"
->  
->  PV = "1.3.0+git${SRCPV}"
->  
-> -SRC_URI = "git://git.kernel.dk/blktrace.git"
-> +SRC_URI = "git://git.kernel.dk/blktrace.git \
-> +           file://python3-shebangs.patch \
-> +          "
->  
->  S = "${WORKDIR}/git"
->  
-> diff --git a/meta/recipes-kernel/blktrace/files/python3-shebangs.patch b/meta/recipes-kernel/blktrace/files/python3-shebangs.patch
-> new file mode 100644
-> index 0000000000..70a35c2c3a
-> --- /dev/null
-> +++ b/meta/recipes-kernel/blktrace/files/python3-shebangs.patch
-> @@ -0,0 +1,30 @@
-> +blktrace: Use python3 shebangs
-> +
-> +blktrace can use either python2 or python3, but we really want
-> +python3, so modify the shebangs.
-> +
-> +Upstream-Status: pending
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com.
-> +
-> +
-> +diff --git a/btt/bno_plot.py b/btt/bno_plot.py
-> +index 3aa4e19..d7d7159 100644
-> +--- a/btt/bno_plot.py
-> ++++ b/btt/bno_plot.py
-> +@@ -1,4 +1,4 @@
-> +-#! /usr/bin/env python
-> ++#! /usr/bin/env python3
-> + #
-> + # btt blkno plotting interface
-> + #
-> +diff --git a/btt/btt_plot.py b/btt/btt_plot.py
-> +index 40bc71f..8620d31 100755
-> +--- a/btt/btt_plot.py
-> ++++ b/btt/btt_plot.py
-> +@@ -1,4 +1,4 @@
-> +-#! /usr/bin/env python
-> ++#! /usr/bin/env python3
-> + #
-> + # btt_plot.py: Generate matplotlib plots for BTT generate data files
-> + #
-> -- 
-> 2.25.1
-> 
+https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210814-qe8khapn/packages/diff-html/
 
-> 
-> 
-> 
-
+I would think this was expected...
 
 -- 
 Alexandre Belloni, co-owner and COO, Bootlin
