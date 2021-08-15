@@ -1,62 +1,61 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web08.8850.1629013786228799875
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web12.8960.1629014008929052658
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Aug 2021 00:49:46 -0700
+ Sun, 15 Aug 2021 00:53:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IO6GNIVY;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id n17so28148416lft.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Aug 2021 00:49:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gJTpejS/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id n7so22423685ljq.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Aug 2021 00:53:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=J/emCG+SnzRWYEVzluLfYMwTT2sr91CWE7WMdQqhJHo=;
-        b=IO6GNIVYPc6xZWd6nnVkwVX2D2ZKf4MmsBcqTZQk3HkOyglbGsvHpxSCbze/l0nSuQ
-         98dfCzWH1bWyZ+yuDznHPKRLLV+KbA0SkxD8NH3m79f910BV71/yBx4Dhrc9K6B9H6nS
-         02AsoyXRJCYAL0jRLsuEj1c6Q/9lVl2JcoOsfbwfgI7TrCTRrAdWSmwz9Ey1dpayTXRR
-         ThGYzb6B36JAFKYIDJUSIz//oQ90WeI8CSYQ+fPQDgwKXvncUHB/yGcEcL0QsaTpyy93
-         YQ75LTnz4BYgJzBz8XFOo7cHkZcR9YVvfAQbt30TMHEayyBag48wWdIhOGVtx2Kcp6Wj
-         JfyQ==
+        bh=4hhlkpPXRzVKeCBDgWuF9kwaxODddvOrFQSuDKEnob4=;
+        b=gJTpejS/V4UVeapnlvG+TAfJvU2jGA8Xrcmtg3S1NGXUQ9lKbLsu4Jv1azZR48ND/y
+         RY+LPFcDtliL13H1iElxogPGUs5ku11LdPtF3hMykuvFv5TgrILJ5QghnL9TvfhpsTn1
+         Wt+KQt1L/YvBF0N/9brsN/FebPW23ZyjToJuSV4kBZf4MPccKpUtCfPz27fz8pQClVOw
+         0l3cUsCRbVkXXzP+Yt9BWRd14vA8yiYqLV4Kapdw+f/XdjlUK/hqC1hRAasZtchtCvmH
+         JpUcSUSW8H37N2ReUbcTlVXKJqB6VLmpq1O3aLwYpvZuDEuOwEJUCtgi6/DPIvDZC4xV
+         hNZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=J/emCG+SnzRWYEVzluLfYMwTT2sr91CWE7WMdQqhJHo=;
-        b=Y+u/TNXfD6klHWoxA2MtwJaTvOrQF+aFMRr/HugYIrVWu6ncelfp5eQkxS79tONjW4
-         e38MZcbk5YaRM80YT1k9QgNezHquHVLRiAUEAOqgRgDpp8pm6z9dp3HTHnjWj0DJib6x
-         h0OmCgsmLwOq+JOLoH0CEf1KTvuxCEbef4vphVeLyLSmlEYU9vmAfMcoQ8XD3zlLyudc
-         zWFNSrO0M6O+7k/hY+uiJjmLOp4ALceMKfRL+fR5TlZ1o38GShXrKvpPiY+fkJE7ymng
-         Ghblvxlk7VYM52srNcDGSBhCEe1c70Uo1dr/pRvjRPG2ca/hR13eObzJ1lOM24Irtk0k
-         yjgA==
-X-Gm-Message-State: AOAM532bVACagl8XA9qZfbHYTfetWsMrzSj0yAQ9SBYR4gOzGcQWwwQb
-	GqvtbUSUvvCY0W2HUK1jGIopeteUOra23xk+d/A=
-X-Google-Smtp-Source: ABdhPJwscmfqX+YMY/1oXT0F4Ogk+8zfLPhsKoBLkNOp7K6iy30TYycf0kgprzn94cy+pf1JUxixF5jKI4mIGhdEvOM=
-X-Received: by 2002:a05:6512:324b:: with SMTP id c11mr7566751lfr.434.1629013784342;
- Sun, 15 Aug 2021 00:49:44 -0700 (PDT)
+        bh=4hhlkpPXRzVKeCBDgWuF9kwaxODddvOrFQSuDKEnob4=;
+        b=Vwd77QMhmsXCs4r8OQi4RyIfNMWU836kOfZOYbSVE+4HmY3IANyURez2Dsohuuu3cp
+         aDoJxiI0H1/CydHcTo9iIDi+AqZWAaLEgqlSTQN8Ew8sM45HArpWbWKdXfOs+z+Sm640
+         gTGed4jr9k/Y4Ap5Z27YWZpr90xCVPwr9ORvT7lU7UeRNdgSpGIjZiJK3F8+y1UwO3MA
+         ZGwzrndMbBbOYpNsC7MiwPq4vOBFyeO0xaVgfUBonKSD1y57u5P+nQzHGwrC1Q2FW4zN
+         2qy+VIa5bL2Kn/FZzZsM+uCQNMyqoGn7Cs6l5vUdv+afOZlraAahffuwCHP5aL/gUvjr
+         DwMw==
+X-Gm-Message-State: AOAM533Ev4Q7En4YV4Fcos0/pH0we+JPAAAazJrFknl7PoDNnOpilkSs
+	aEWeC4WvIgNMe1gR9FNVA7R2VNKzBW3QoPQfozY=
+X-Google-Smtp-Source: ABdhPJz9yS9tRufIs1KXKiDuwQtuwgGdjpfAzlg94jSkdO48zqsGxzdA4j9cnDE44aQg3akNhiUp/nWUl8RanTVeJOE=
+X-Received: by 2002:a05:651c:390:: with SMTP id e16mr3356483ljp.344.1629014006994;
+ Sun, 15 Aug 2021 00:53:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210728075215.154410-1-vinay.m.engg@gmail.com>
-In-Reply-To: <20210728075215.154410-1-vinay.m.engg@gmail.com>
+References: <20210809083931.100208-1-vinay.m.engg@gmail.com>
+In-Reply-To: <20210809083931.100208-1-vinay.m.engg@gmail.com>
 From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Sun, 15 Aug 2021 13:19:33 +0530
-Message-ID: <CANUMPcVVHAPZ1KQEq1kvrEYhvfkFY5oJMMmzxcUzDcpzwEovHA@mail.gmail.com>
-Subject: Re: [PATCH] glibc: Fix CVE-2021-35942
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, Randy MacLeod <rwmacleod@gmail.com>, 
+Date: Sun, 15 Aug 2021 13:23:16 +0530
+Message-ID: <CANUMPcV7nZHOuHbmJzsn6PSDJgXfX=+Y75jiEeVSL6SeDJexPw@mail.gmail.com>
+Subject: Re: [hardknott][PATCH v2] glibc: Fix CVE-2021-35942
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com, 
-	alexandre.belloni@bootlin.com
+	Randy MacLeod <rwmacleod@gmail.com>, umesh kalappa0 <umesh.kalappa0@gmail.com>, 
+	vinay.kumar@blackfigtech.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Richard,
+Hi Anuj,
 
-Any update on the above patch.
-Please let me know if anything is pending from my side.
+Please let me know in case any corrections are needed.
 
 Regards,
 Vinay
 
-On Wed, Jul 28, 2021 at 1:22 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
+On Mon, Aug 9, 2021 at 2:10 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
 >
 > Source: https://sourceware.org/git/glibc.git
 > Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28011
@@ -65,7 +64,6 @@ On Wed, Jul 28, 2021 at 1:22 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
 > glibc-2.33 source.
 >
 > Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
->
 > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 > ---
 >  .../glibc/glibc/CVE-2021-35942.patch          | 44 +++++++++++++++++++
@@ -124,13 +122,13 @@ On Wed, Jul 28, 2021 at 1:22 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
 > +2.17.1
 > +
 > diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-> index e9f01a14c5..abb01f8468 100644
+> index bb35c50c98..7f516d2bbe 100644
 > --- a/meta/recipes-core/glibc/glibc_2.33.bb
 > +++ b/meta/recipes-core/glibc/glibc_2.33.bb
-> @@ -58,6 +58,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->             file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
->             file://mte-backports.patch \
->             file://CVE-2021-33574.patch \
+> @@ -63,6 +63,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0001-nptl-Remove-private-futex-optimization-BZ-27304.patch \
+>             file://CVE-2021-33574_1.patch \
+>             file://CVE-2021-33574_2.patch \
 > +           file://CVE-2021-35942.patch \
 >             "
 >  S = "${WORKDIR}/git"
