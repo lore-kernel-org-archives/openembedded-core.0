@@ -1,175 +1,140 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web08.6791.1628991236877044600
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web08.8850.1629013786228799875
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Aug 2021 18:33:57 -0700
+ Sun, 15 Aug 2021 00:49:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HeePSuuY;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d17so16650823plr.12
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Aug 2021 18:33:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IO6GNIVY;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id n17so28148416lft.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Aug 2021 00:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fvbRnFWQ9M7pL1IcSTUtqF5x/cTur/7YBIyJOLWTirk=;
-        b=HeePSuuY2wLCCf22CbikHKHEOiNCMaITHr3KsdfL4GrMyM6w2qz+R7TQQKRsaicSvF
-         52RGF3TkNi+bjBZB7h44aBwXxg6nDqd81M4mwigRBk8+7ttS/sCQpx8VVEn7Yn8T9O/M
-         Pvgm/tss5zJ1FBWAIEWNM2wq6nH048rxpRHXaFjEJnLYyhFEv4fXMIYm/uW/k/SxQCni
-         iglXFDfk7nLkLP+Kwg6g9Zbp/YSRtcZPS9/YE/aajS4d/fRGGgI+FqRhNz4fn290t4s7
-         Cf8oDVBK2rN8kIdgvY1zTPkUhpCKjlo6ZEQ7DfeS3GEY4FeSEJAEUX4Gn8Xznv8Bh2Jy
-         lAjA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=J/emCG+SnzRWYEVzluLfYMwTT2sr91CWE7WMdQqhJHo=;
+        b=IO6GNIVYPc6xZWd6nnVkwVX2D2ZKf4MmsBcqTZQk3HkOyglbGsvHpxSCbze/l0nSuQ
+         98dfCzWH1bWyZ+yuDznHPKRLLV+KbA0SkxD8NH3m79f910BV71/yBx4Dhrc9K6B9H6nS
+         02AsoyXRJCYAL0jRLsuEj1c6Q/9lVl2JcoOsfbwfgI7TrCTRrAdWSmwz9Ey1dpayTXRR
+         ThGYzb6B36JAFKYIDJUSIz//oQ90WeI8CSYQ+fPQDgwKXvncUHB/yGcEcL0QsaTpyy93
+         YQ75LTnz4BYgJzBz8XFOo7cHkZcR9YVvfAQbt30TMHEayyBag48wWdIhOGVtx2Kcp6Wj
+         JfyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=fvbRnFWQ9M7pL1IcSTUtqF5x/cTur/7YBIyJOLWTirk=;
-        b=ZS0VSiJY6bSoljVJLz+j/8Cx+tT17lYWckGjTJeG7+jaKh6+VkDtPAiNM/ElMpKMP2
-         XwLlF7uLkPiHHB9B2rq6nPcDUZKxnOiYg4t4NA/jtMUJ4E0EBFFTir40atCOD/F4ofHw
-         j00ZQUmfQZOJ2NJDzSe265V/Fk6AV78CZq4N9fn5TLWOw7uCi68WAr6/erixJkX8ljG7
-         Q2a9ySFcVhpT9Supo+xTlkSogd4b7OWYNqDYyC1HJ3B15pID3jQkB+nUKiPvkV9IbMCq
-         a4vkyIj+QUnKOtl3XUSIv6YE+HeRt9N719wmt1hvIcC/ougHtMoTOF6WZj7Dua/AGwM7
-         ZPxg==
-X-Gm-Message-State: AOAM530FcQqBYXplz7i3hkdUVEVXNMzIL7Q3ndMU3IfOoHPTGr+GrPkO
-	c31RpLiXsFP2n6rKI0xWZXFLNUZQ5N2pHw==
-X-Google-Smtp-Source: ABdhPJw0h9QD23Ow+gzSWu4p66EaUnZwvKx15BnJpX/Mk59QwHesnmLIF/iGIfreZeGo1fWiJnyLPw==
-X-Received: by 2002:a63:5ec2:: with SMTP id s185mr8874634pgb.221.1628991236026;
-        Sat, 14 Aug 2021 18:33:56 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::f40b? ([2601:646:9200:a0f0::f40b])
-        by smtp.gmail.com with ESMTPSA id z1sm7326833pfg.18.2021.08.14.18.33.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Aug 2021 18:33:55 -0700 (PDT)
-Subject: Re: [oe-core][PATCH 1/1] blktrace: add rdepends
-To: Randy MacLeod <randy.macleod@windriver.com>,
- Joe Slater <joe.slater@windriver.com>,
- openembedded-core@lists.openembedded.org
-References: <20210813202416.138888-1-joe.slater@windriver.com>
- <827139a6-de73-ccf7-bbf8-a9097f5ac413@windriver.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <9cf777d5-5798-8a6f-607b-7418e8dd57d0@gmail.com>
-Date: Sat, 14 Aug 2021 18:33:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=J/emCG+SnzRWYEVzluLfYMwTT2sr91CWE7WMdQqhJHo=;
+        b=Y+u/TNXfD6klHWoxA2MtwJaTvOrQF+aFMRr/HugYIrVWu6ncelfp5eQkxS79tONjW4
+         e38MZcbk5YaRM80YT1k9QgNezHquHVLRiAUEAOqgRgDpp8pm6z9dp3HTHnjWj0DJib6x
+         h0OmCgsmLwOq+JOLoH0CEf1KTvuxCEbef4vphVeLyLSmlEYU9vmAfMcoQ8XD3zlLyudc
+         zWFNSrO0M6O+7k/hY+uiJjmLOp4ALceMKfRL+fR5TlZ1o38GShXrKvpPiY+fkJE7ymng
+         Ghblvxlk7VYM52srNcDGSBhCEe1c70Uo1dr/pRvjRPG2ca/hR13eObzJ1lOM24Irtk0k
+         yjgA==
+X-Gm-Message-State: AOAM532bVACagl8XA9qZfbHYTfetWsMrzSj0yAQ9SBYR4gOzGcQWwwQb
+	GqvtbUSUvvCY0W2HUK1jGIopeteUOra23xk+d/A=
+X-Google-Smtp-Source: ABdhPJwscmfqX+YMY/1oXT0F4Ogk+8zfLPhsKoBLkNOp7K6iy30TYycf0kgprzn94cy+pf1JUxixF5jKI4mIGhdEvOM=
+X-Received: by 2002:a05:6512:324b:: with SMTP id c11mr7566751lfr.434.1629013784342;
+ Sun, 15 Aug 2021 00:49:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <827139a6-de73-ccf7-bbf8-a9097f5ac413@windriver.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210728075215.154410-1-vinay.m.engg@gmail.com>
+In-Reply-To: <20210728075215.154410-1-vinay.m.engg@gmail.com>
+From: "Vinay Kumar" <vinay.m.engg@gmail.com>
+Date: Sun, 15 Aug 2021 13:19:33 +0530
+Message-ID: <CANUMPcVVHAPZ1KQEq1kvrEYhvfkFY5oJMMmzxcUzDcpzwEovHA@mail.gmail.com>
+Subject: Re: [PATCH] glibc: Fix CVE-2021-35942
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, Randy MacLeod <rwmacleod@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	umesh kalappa0 <umesh.kalappa0@gmail.com>, vinay.kumar@blackfigtech.com, 
+	alexandre.belloni@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Richard,
 
+Any update on the above patch.
+Please let me know if anything is pending from my side.
 
-On 8/13/21 4:34 PM, Randy MacLeod wrote:
-> On 2021-08-13 4:24 p.m., Joe Slater wrote:
->> bno_plot.py uses gnuplot.  Also change shebangs to
->> python3 because we do not support python2.
-> 
-> We need to get agreement about what 'python' is.
-> That's not something i follow and it's already late on Friday so
-> I'm CCing Trevor, Mr meta-python and pointing you to:
-> 
-> https://www.python.org/dev/peps/pep-0394/
-> 
-> which from a brief review seems to say that it's up to the
-> distribution! Fun!!
-> 
-> 
-> My preference without knowing what other distros have done
-> is to have the build system make a soft link:
->    python -> python3
-> 
+Regards,
+Vinay
 
-Its better to be explicit, making softlink will silently try to run
-python scripts which assume python = python2 and do unexpected things
-
-
-> 
->>
->> Signed-off-by: Joe Slater <joe.slater@windriver.com>
->> ---
->>   meta/recipes-kernel/blktrace/blktrace_git.bb  |  6 +++-
->>   .../blktrace/files/python3-shebangs.patch     | 30 +++++++++++++++++++
->>   2 files changed, 35 insertions(+), 1 deletion(-)
->>   create mode 100644 
->> meta/recipes-kernel/blktrace/files/python3-shebangs.patch
->>
->> diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb 
->> b/meta/recipes-kernel/blktrace/blktrace_git.bb
->> index d00b1bd0be..36ce282481 100644
->> --- a/meta/recipes-kernel/blktrace/blktrace_git.bb
->> +++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
->> @@ -10,11 +10,15 @@ LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
->>   DEPENDS = "libaio"
->> +RDEPENDS:${PN} += "gnuplot"
-> 
-> As the DESCRIPTION says:
-> 
-> There are three major components:
->    a kernel component,
->    a utility to record the i/o trace information for
->      the kernel to user space,
-> and
->    utilities to analyse and view the trace information.
-> 
-> so shouldn't we split the userspace part up so that the utilities are
-> packaged separately and people who want to collect data on
-> target and analyze it elsewhere don't pull in gnuplot and maybe more?
-> 
-> 
-> 
-> ../Randy
-> 
->> +
->>   SRCREV = "366d30b9cdb20345c5d064af850d686da79b89eb"
->>   PV = "1.3.0+git${SRCPV}"
->> -SRC_URI = "git://git.kernel.dk/blktrace.git"
->> +SRC_URI = "git://git.kernel.dk/blktrace.git \
->> +           file://python3-shebangs.patch \
->> +          "
->>   S = "${WORKDIR}/git"
->> diff --git a/meta/recipes-kernel/blktrace/files/python3-shebangs.patch 
->> b/meta/recipes-kernel/blktrace/files/python3-shebangs.patch
->> new file mode 100644
->> index 0000000000..70a35c2c3a
->> --- /dev/null
->> +++ b/meta/recipes-kernel/blktrace/files/python3-shebangs.patch
->> @@ -0,0 +1,30 @@
->> +blktrace: Use python3 shebangs
->> +
->> +blktrace can use either python2 or python3, but we really want
->> +python3, so modify the shebangs.
->> +
->> +Upstream-Status: pending
->> +
->> +Signed-off-by: Joe Slater <joe.slater@windriver.com.
->> +
->> +
->> +diff --git a/btt/bno_plot.py b/btt/bno_plot.py
->> +index 3aa4e19..d7d7159 100644
->> +--- a/btt/bno_plot.py
->> ++++ b/btt/bno_plot.py
->> +@@ -1,4 +1,4 @@
->> +-#! /usr/bin/env python
->> ++#! /usr/bin/env python3
->> + #
->> + # btt blkno plotting interface
->> + #
->> +diff --git a/btt/btt_plot.py b/btt/btt_plot.py
->> +index 40bc71f..8620d31 100755
->> +--- a/btt/btt_plot.py
->> ++++ b/btt/btt_plot.py
->> +@@ -1,4 +1,4 @@
->> +-#! /usr/bin/env python
->> ++#! /usr/bin/env python3
->> + #
->> + # btt_plot.py: Generate matplotlib plots for BTT generate data files
->> + #
->>
-> 
-> 
-> 
-> 
-> 
-> 
+On Wed, Jul 28, 2021 at 1:22 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
+>
+> Source: https://sourceware.org/git/glibc.git
+> Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28011
+>
+> Backported upstream commit 5adda61f62b77384718b4c0d8336ade8f2b4b35c to
+> glibc-2.33 source.
+>
+> Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
+>
+> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> ---
+>  .../glibc/glibc/CVE-2021-35942.patch          | 44 +++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+> new file mode 100644
+> index 0000000000..5cae1bc91c
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+> @@ -0,0 +1,44 @@
+> +From 5adda61f62b77384718b4c0d8336ade8f2b4b35c Mon Sep 17 00:00:00 2001
+> +From: Andreas Schwab <schwab@linux-m68k.org>
+> +Date: Fri, 25 Jun 2021 15:02:47 +0200
+> +Subject: [PATCH] wordexp: handle overflow in positional parameter number (bug
+> + 28011)
+> +
+> +Use strtoul instead of atoi so that overflow can be detected.
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
+> +CVE: CVE-2021-35942
+> +Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> +---
+> + posix/wordexp-test.c | 1 +
+> + posix/wordexp.c      | 2 +-
+> + 2 files changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/posix/wordexp-test.c b/posix/wordexp-test.c
+> +index f93a546d7e..9df02dbbb3 100644
+> +--- a/posix/wordexp-test.c
+> ++++ b/posix/wordexp-test.c
+> +@@ -183,6 +183,7 @@ struct test_case_struct
+> +     { 0, NULL, "$var", 0, 0, { NULL, }, IFS },
+> +     { 0, NULL, "\"\\n\"", 0, 1, { "\\n", }, IFS },
+> +     { 0, NULL, "", 0, 0, { NULL, }, IFS },
+> ++    { 0, NULL, "${1234567890123456789012}", 0, 0, { NULL, }, IFS },
+> +
+> +     /* Flags not already covered (testit() has special handling for these) */
+> +     { 0, NULL, "one two", WRDE_DOOFFS, 2, { "one", "two", }, IFS },
+> +diff --git a/posix/wordexp.c b/posix/wordexp.c
+> +index bcbe96e48d..1f3b09f721 100644
+> +--- a/posix/wordexp.c
+> ++++ b/posix/wordexp.c
+> +@@ -1399,7 +1399,7 @@ envsubst:
+> +   /* Is it a numeric parameter? */
+> +   else if (isdigit (env[0]))
+> +     {
+> +-      int n = atoi (env);
+> ++      unsigned long n = strtoul (env, NULL, 10);
+> +
+> +       if (n >= __libc_argc)
+> +       /* Substitute NULL. */
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
+> index e9f01a14c5..abb01f8468 100644
+> --- a/meta/recipes-core/glibc/glibc_2.33.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.33.bb
+> @@ -58,6 +58,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
+>             file://mte-backports.patch \
+>             file://CVE-2021-33574.patch \
+> +           file://CVE-2021-35942.patch \
+>             "
+>  S = "${WORKDIR}/git"
+>  B = "${WORKDIR}/build-${TARGET_SYS}"
+> --
+> 2.31.1
+>
