@@ -1,92 +1,129 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web10.9089.1629017706875247940
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web12.9363.1629019194875757003
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Aug 2021 01:55:07 -0700
+ Sun, 15 Aug 2021 02:19:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:35736 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1mFBv2-0004Z3-GZ
-	for openembedded-core@lists.openembedded.org; Sun, 15 Aug 2021 04:55:04 -0400
-Date: Sun, 15 Aug 2021 04:54:57 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] image_types_wic.bbclass: alphabetize list of WICVARS
-Message-ID: <ccf3866-bd7-20d7-982c-2fe611a05bac@crashcourse.ca>
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 3599CE0002;
+	Sun, 15 Aug 2021 09:19:52 +0000 (UTC)
+Date: Sun, 15 Aug 2021 11:19:51 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: Vinay Kumar <vinay.m.engg@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Mittal, Anuj" <anuj.mittal@intel.com>,
+	Randy MacLeod <rwmacleod@gmail.com>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+	umesh kalappa0 <umesh.kalappa0@gmail.com>,
+	vinay.kumar@blackfigtech.com
+Subject: Re: [PATCH] glibc: Fix CVE-2021-35942
+Message-ID: <YRjcNxUwivcLlpit@piout.net>
+References: <20210728075215.154410-1-vinay.m.engg@gmail.com>
+ <CANUMPcVVHAPZ1KQEq1kvrEYhvfkFY5oJMMmzxcUzDcpzwEovHA@mail.gmail.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CANUMPcVVHAPZ1KQEq1kvrEYhvfkFY5oJMMmzxcUzDcpzwEovHA@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hello,
 
-It's way easier to scan a list of variables if they're sorted one per
-line.
+On 15/08/2021 13:19:33+0530, Vinay Kumar wrote:
+> Hi Richard,
+> 
+> Any update on the above patch.
+> Please let me know if anything is pending from my side.
+> 
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+I didn't test because the plan is to switch to glibc2.34 which IIRC has
+the fix.
 
----
-
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 2f1a0b709c..d561fb2636 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -1,11 +1,35 @@
- # The WICVARS variable is used to define list of bitbake variables used in wic code
- # variables from this list is written to <image>.env file
- WICVARS ?= "\
--           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_EFI_BOOT_FILES IMAGE_BOOT_FILES \
--           IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
--           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS HOSTTOOLS_DIR \
--           KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND \
--           ASSUME_PROVIDED PSEUDO_IGNORE_PATHS"
-+	APPEND \
-+	ASSUME_PROVIDED \
-+	BBLAYERS \
-+	DEPLOY_DIR_IMAGE \
-+	FAKEROOTCMD \
-+	HOSTTOOLS_DIR \
-+	IMAGE_BASENAME \
-+	IMAGE_BOOT_FILES \
-+	IMAGE_EFI_BOOT_FILES \
-+	IMAGE_LINK_NAME \
-+	IMAGE_ROOTFS \
-+	IMGDEPLOYDIR \
-+	INITRAMFS_FSTYPES \
-+	INITRAMFS_IMAGE \
-+	INITRAMFS_IMAGE_BUNDLE \
-+	INITRAMFS_LINK_NAME \
-+	INITRD \
-+	INITRD_LIVE \
-+	ISODIR \
-+	KERNEL_IMAGETYPE \
-+	MACHINE \
-+	PSEUDO_IGNORE_PATHS \
-+	RECIPE_SYSROOT_NATIVE \
-+	ROOTFS_SIZE \
-+	STAGING_DATADIR \
-+	STAGING_DIR \
-+	STAGING_LIBDIR \
-+	TARGET_SYS \
-+"
-
- inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
-
+> Regards,
+> Vinay
+> 
+> On Wed, Jul 28, 2021 at 1:22 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
+> >
+> > Source: https://sourceware.org/git/glibc.git
+> > Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28011
+> >
+> > Backported upstream commit 5adda61f62b77384718b4c0d8336ade8f2b4b35c to
+> > glibc-2.33 source.
+> >
+> > Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
+> >
+> > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> > ---
+> >  .../glibc/glibc/CVE-2021-35942.patch          | 44 +++++++++++++++++++
+> >  meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
+> >  2 files changed, 45 insertions(+)
+> >  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+> > new file mode 100644
+> > index 0000000000..5cae1bc91c
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+> > @@ -0,0 +1,44 @@
+> > +From 5adda61f62b77384718b4c0d8336ade8f2b4b35c Mon Sep 17 00:00:00 2001
+> > +From: Andreas Schwab <schwab@linux-m68k.org>
+> > +Date: Fri, 25 Jun 2021 15:02:47 +0200
+> > +Subject: [PATCH] wordexp: handle overflow in positional parameter number (bug
+> > + 28011)
+> > +
+> > +Use strtoul instead of atoi so that overflow can be detected.
+> > +
+> > +Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
+> > +CVE: CVE-2021-35942
+> > +Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> > +---
+> > + posix/wordexp-test.c | 1 +
+> > + posix/wordexp.c      | 2 +-
+> > + 2 files changed, 2 insertions(+), 1 deletion(-)
+> > +
+> > +diff --git a/posix/wordexp-test.c b/posix/wordexp-test.c
+> > +index f93a546d7e..9df02dbbb3 100644
+> > +--- a/posix/wordexp-test.c
+> > ++++ b/posix/wordexp-test.c
+> > +@@ -183,6 +183,7 @@ struct test_case_struct
+> > +     { 0, NULL, "$var", 0, 0, { NULL, }, IFS },
+> > +     { 0, NULL, "\"\\n\"", 0, 1, { "\\n", }, IFS },
+> > +     { 0, NULL, "", 0, 0, { NULL, }, IFS },
+> > ++    { 0, NULL, "${1234567890123456789012}", 0, 0, { NULL, }, IFS },
+> > +
+> > +     /* Flags not already covered (testit() has special handling for these) */
+> > +     { 0, NULL, "one two", WRDE_DOOFFS, 2, { "one", "two", }, IFS },
+> > +diff --git a/posix/wordexp.c b/posix/wordexp.c
+> > +index bcbe96e48d..1f3b09f721 100644
+> > +--- a/posix/wordexp.c
+> > ++++ b/posix/wordexp.c
+> > +@@ -1399,7 +1399,7 @@ envsubst:
+> > +   /* Is it a numeric parameter? */
+> > +   else if (isdigit (env[0]))
+> > +     {
+> > +-      int n = atoi (env);
+> > ++      unsigned long n = strtoul (env, NULL, 10);
+> > +
+> > +       if (n >= __libc_argc)
+> > +       /* Substitute NULL. */
+> > +--
+> > +2.17.1
+> > +
+> > diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
+> > index e9f01a14c5..abb01f8468 100644
+> > --- a/meta/recipes-core/glibc/glibc_2.33.bb
+> > +++ b/meta/recipes-core/glibc/glibc_2.33.bb
+> > @@ -58,6 +58,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+> >             file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
+> >             file://mte-backports.patch \
+> >             file://CVE-2021-33574.patch \
+> > +           file://CVE-2021-35942.patch \
+> >             "
+> >  S = "${WORKDIR}/git"
+> >  B = "${WORKDIR}/build-${TARGET_SYS}"
+> > --
+> > 2.31.1
+> >
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                         http://crashcourse.ca
-
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
