@@ -1,94 +1,108 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
- by mx.groups.io with SMTP id smtpd.web10.11889.1629039816895253232
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web12.12134.1629040142120173009
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Aug 2021 08:03:37 -0700
+ Sun, 15 Aug 2021 08:09:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BJ5AwW/Q;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.169, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f169.google.com with SMTP id t35so23303596oiw.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Aug 2021 08:03:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tKL+keuc;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id y9so12341968qtv.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Aug 2021 08:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=Klrl3oIjdmWJoUj56Uwkc8x8HnowHJihDNJkG09j9Co=;
-        b=BJ5AwW/QT5xCH6LwdGBL7bcTPbQjVOxysZ+eUTzw4nAigXQqU3mtnYp4uJ1BtbX71I
-         1LXRPSM5A5cOXtF9oVgCsu25VKimdk/6yCpLx3nH+wUWMjqU9/aKr+I2V8t4rJTXHBXw
-         742ZOyRYEwOpn+MEAOVBNb5D6nb4+IM27WcC8hrYoONBJdu0rsNvF46Ve4W7PNlUYZUV
-         TXd3GBvlG0dCHM9kzwG1Cqu9hyknGmNyZqzhEbqw6mgTlNoSrAwjzRrY5y4LeQiPXNwd
-         Hm9rf7FWwjE/dHkTVgnmBRqRcY8TYZD0L0K21wSpqHdhbFpj9mv0HoMvlfG02LQsFdpR
-         nFcg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=90PUCNtaDI2LdiRnjgHGbE6X6IqbkAPdzsHKDqTAqPU=;
+        b=tKL+keucryQiIYvdEkOEUNT7KtYKbStgUVN9yEsnffC6DRh3+shgFDKBXnvHZ7pG92
+         IPU28oLHeIs6D+Pka24pih6K0x6kOvcKafqmAvHDRvkbdfcKUIMm6UhkUnJY90xEb4ot
+         tGQYCYFyX/sxMwau0thkiSnXzreQeOoKMVJHltr1kuxJ3xqp7lgPhVU9abo4Ajadgl7K
+         wzTAvVwSv5MRpCLle0PWefCnsgLTW5o15S2m80n+DhL+C5A4NXOgJEKnJ9+6LP0SuENL
+         xf/6KRBLlnZ9tqL2iglExeKqInlaeXK4YN9RBT0FmS69o7sKbKzWv7huzha8bX2j2pxh
+         4Tmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=Klrl3oIjdmWJoUj56Uwkc8x8HnowHJihDNJkG09j9Co=;
-        b=sqztiPBpYTcnOCq4anF97fUwzo+t+EqwBiFcCn7dPPP5tgEJ3sO8hXYHUTCfKuYCk6
-         yb8x/KaNJGDMxMqi+7JkvZmhK/oqk8+eXvfW/ZeM033MexJ1pAVcs7UJW6KVX66FUm4S
-         RRrNP1DmPByHRQxWe0PgymIw9fg7/2gklyXZt2bC28wS0ofYlDYcGYeu6T0bb8rnbLdW
-         hWvj7U4ySFGaiqhNeRwG3Sk9M/Zp2QTswRPJlIOwy0HwJKYGezEmgnvSP1C9dgoEeQxx
-         L9byhNv51LpV0sKoe5GSUJasyvIaV63GFv4h4W83VGQidoCnxpThDoBlVJeOeFGx+jrL
-         NDFA==
-X-Gm-Message-State: AOAM533i/P83lr0ca9opafxMW3fkTbNOIwMQgHglqTpbXPZzHzamOz2R
-	QDjLUBQ6gliKnGEIRLwcEcXDAKqXWVnfUSve
-X-Google-Smtp-Source: ABdhPJxjbUs7zDF+ofiRKLCFlxKQyuCYU39sDEpnpV59rrWEE8mxXO/R5bn0808fZReTMkaZkbzY2A==
-X-Received: by 2002:a54:4812:: with SMTP id j18mr556932oij.55.1629039815719;
-        Sun, 15 Aug 2021 08:03:35 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id 31sm1649635oti.63.2021.08.15.08.03.34
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=90PUCNtaDI2LdiRnjgHGbE6X6IqbkAPdzsHKDqTAqPU=;
+        b=kJo+fYHKh/r63pNx3qbW43tqNOU8Ir0ov40J5JcjJOkYqKH9zFaF2UjdNymLPwJY4r
+         VvAHUJ7bJUgsUG0OsuFE0CrRL3VRhtPXJGnExrlW7nyhtD000LYO4sn4QUytKq0GMj+f
+         OdFOb838FFXUo8TIw2gXDkS+ju1/LWEGIA6PGi4LJM2XhG+Eqfwfd5yVEWENtCNQO3sq
+         KLs2xKpZmgf2CXBnfeP0zuT/X5ZeQl0EXauahBfp8XJb75HoadOHSn7qq5wpMxXPCUhf
+         sBA0McFCW/gdg/GMtHnXH5/ICxcv3I2iB6lFGXs+TxJ5km853iu8UbebnsJPIZX8xHI8
+         y97A==
+X-Gm-Message-State: AOAM53305vhfo4UBN3JmTBLp4ihiqeOE8ZCElWDLIqDaCSrOvLn45aEJ
+	hZ+UgCPtyT4TYgpyw9D7/xc=
+X-Google-Smtp-Source: ABdhPJwhnCvZXx3MTg4S8pA2l37njPIkTHkL3+GRYAdsTnLkoPGWPw522CQ3sdn14zhnAlRdBR5n+g==
+X-Received: by 2002:ac8:47d4:: with SMTP id d20mr10194753qtr.58.1629040141231;
+        Sun, 15 Aug 2021 08:09:01 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id n124sm4690466qkf.119.2021.08.15.08.09.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Aug 2021 08:03:35 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 8700D960346; Sun, 15 Aug 2021 05:03:26 -1000 (HST)
-Subject: OE-core CVE metrics for hardknott on Sun 15 Aug 2021 05:00:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210815150326.8700D960346@nuc.router0800d9.com>
-Date: Sun, 15 Aug 2021 05:03:26 -1000 (HST)
+        Sun, 15 Aug 2021 08:09:00 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/8] kernel-yocto: -stable updates and 5.4 removal
+Date: Sun, 15 Aug 2021 11:08:50 -0400
+Message-Id: <cover.1629039837.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: hardknott
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-New this week: 5 CVEs
-CVE-2021-22923: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22923 *
-CVE-2021-32066: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32066 *
-CVE-2021-32803: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32803 *
-CVE-2021-32804: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32804 *
-CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
+Richard,
 
-Removed this week: 6 CVEs
-CVE-2019-25051: aspell https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-25051 *
-CVE-2021-22901: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22901 *
-CVE-2021-3527: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3527 *
-CVE-2021-3544: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3544 *
-CVE-2021-3545: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3545 *
-CVE-2021-3546: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3546 *
+I'll follow up this series with another to poky that updates defaults
+to 5.10/5.13 kernels.
 
-Full list:  Found 28 unpatched CVEs
-CVE-2013-0340: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0340 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-27748: xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27748 *
-CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-0129: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-0129 *
-CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20196: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20196 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-22923: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22923 *
-CVE-2021-31810: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31810 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-32066: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32066 *
-CVE-2021-32803: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32803 *
-CVE-2021-32804: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32804 *
-CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-34558: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-34558 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-35331: tcl:tcl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35331 *
-CVE-2021-35942: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35942 *
-CVE-2021-3682: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3682 *
-CVE-2021-36976: libarchive https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+I would have liked to send this a few weeks ago, but with vacation,
+I wouldn't have been around to deal with issues. 5.13 has been in place
+for a while now, so I don't expect anything major, but surely something
+will pop up with boot messages, graphics, etc.
+
+Obviously the version bumps can be merged without the 5.4 removal if
+we do have problems with 5.10/5.13 as the defaults.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 0b8f844c8c00f5d9648d55e8bf57b2d0fde090a2:
+
+  kickstart: document which options accept units (2021-08-14 12:04:24 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (8):
+  linux-yocto/5.13: update to v5.13.7
+  linux-yocto/5.10: update to v5.10.55
+  linux-yocto/5.4: update to v5.4.137
+  linux-yocto/5.4: update to v5.4.139
+  linux-yocto/5.10: update to v5.10.57
+  linux-yocto/5.13: update to v5.13.9
+  linux-yocto/5.4: remove recipes
+  conf/machine: bump qemu preferred versions to 5.13
+
+ meta/conf/machine/include/x86-base.inc        |  2 +-
+ meta/conf/machine/qemuarmv5.conf              |  2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |  6 +-
+ .../linux/linux-yocto-rt_5.13.bb              |  6 +-
+ .../linux/linux-yocto-rt_5.4.bb               | 45 ---------------
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +--
+ .../linux/linux-yocto-tiny_5.13.bb            |  8 +--
+ .../linux/linux-yocto-tiny_5.4.bb             | 32 -----------
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++----
+ meta/recipes-kernel/linux/linux-yocto_5.13.bb | 26 ++++-----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 55 -------------------
+ 11 files changed, 41 insertions(+), 173 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
+
+-- 
+2.19.1
+
