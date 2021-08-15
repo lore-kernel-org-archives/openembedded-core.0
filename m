@@ -1,108 +1,104 @@
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web11.12595.1629043014207392295
+ by mx.groups.io with SMTP id smtpd.web08.12642.1629043015755868597
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Aug 2021 08:56:54 -0700
+ Sun, 15 Aug 2021 08:56:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10077"; a="276780155"
+X-IronPort-AV: E=McAfee;i="6200,9189,10077"; a="276780157"
 X-IronPort-AV: E=Sophos;i="5.84,322,1620716400"; 
-   d="scan'208";a="276780155"
+   d="scan'208";a="276780157"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2021 08:56:53 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2021 08:56:55 -0700
 X-IronPort-AV: E=Sophos;i="5.84,322,1620716400"; 
-   d="scan'208";a="461820006"
+   d="scan'208";a="461820007"
 Received: from fwang8-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.132.228])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2021 08:56:52 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2021 08:56:54 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 1/7] glibc: Fix CVE-2021-35942
-Date: Sun, 15 Aug 2021 23:56:40 +0800
-Message-Id: <79adec00a3b7efb44171ac15e221cac3d3d85f20.1629041998.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 2/7] qemu: fix CVE-2021-3582
+Date: Sun, 15 Aug 2021 23:56:41 +0800
+Message-Id: <fb2634922db91e5b877dd10021dafec7b5c6e565.1629041998.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1629041998.git.anuj.mittal@intel.com>
 References: <cover.1629041998.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Vinay Kumar <vinay.m.engg@gmail.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Source: https://sourceware.org/git/glibc.git
-Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28011
-
-Backported upstream commit 5adda61f62b77384718b4c0d8336ade8f2b4b35c to
-glibc-2.33 source.
-
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
-Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../glibc/glibc/CVE-2021-35942.patch          | 44 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3582.patch             | 47 +++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
-new file mode 100644
-index 0000000000..5cae1bc91c
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2021-35942.patch
-@@ -0,0 +1,44 @@
-+From 5adda61f62b77384718b4c0d8336ade8f2b4b35c Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@linux-m68k.org>
-+Date: Fri, 25 Jun 2021 15:02:47 +0200
-+Subject: [PATCH] wordexp: handle overflow in positional parameter number (bug
-+ 28011)
-+
-+Use strtoul instead of atoi so that overflow can be detected.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5adda61f62b77384718b4c0d8336ade8f2b4b35c]
-+CVE: CVE-2021-35942
-+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-+---
-+ posix/wordexp-test.c | 1 +
-+ posix/wordexp.c      | 2 +-
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/posix/wordexp-test.c b/posix/wordexp-test.c
-+index f93a546d7e..9df02dbbb3 100644
-+--- a/posix/wordexp-test.c
-++++ b/posix/wordexp-test.c
-+@@ -183,6 +183,7 @@ struct test_case_struct
-+     { 0, NULL, "$var", 0, 0, { NULL, }, IFS },
-+     { 0, NULL, "\"\\n\"", 0, 1, { "\\n", }, IFS },
-+     { 0, NULL, "", 0, 0, { NULL, }, IFS },
-++    { 0, NULL, "${1234567890123456789012}", 0, 0, { NULL, }, IFS },
-+ 
-+     /* Flags not already covered (testit() has special handling for these) */
-+     { 0, NULL, "one two", WRDE_DOOFFS, 2, { "one", "two", }, IFS },
-+diff --git a/posix/wordexp.c b/posix/wordexp.c
-+index bcbe96e48d..1f3b09f721 100644
-+--- a/posix/wordexp.c
-++++ b/posix/wordexp.c
-+@@ -1399,7 +1399,7 @@ envsubst:
-+   /* Is it a numeric parameter? */
-+   else if (isdigit (env[0]))
-+     {
-+-      int n = atoi (env);
-++      unsigned long n = strtoul (env, NULL, 10);
-+ 
-+       if (n >= __libc_argc)
-+ 	/* Substitute NULL. */
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index bb35c50c98..7f516d2bbe 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -63,6 +63,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0001-nptl-Remove-private-futex-optimization-BZ-27304.patch \
-            file://CVE-2021-33574_1.patch \
-            file://CVE-2021-33574_2.patch \
-+           file://CVE-2021-35942.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index a22721004e..3cef5a2d7e 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -66,6 +66,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0007-vhost-user-gpu-fix-OOB-write-in-virgl_cmd_get_capset.patch \
+            file://CVE-2021-3527-1.patch \
+            file://CVE-2021-3527-2.patch \
++           file://CVE-2021-3582.patch \
             "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch
+new file mode 100644
+index 0000000000..7a88e29384
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch
+@@ -0,0 +1,47 @@
++From 284f191b4abad213aed04cb0458e1600fd18d7c4 Mon Sep 17 00:00:00 2001
++From: Marcel Apfelbaum <marcel@redhat.com>
++Date: Wed, 16 Jun 2021 14:06:00 +0300
++Subject: [PATCH] hw/rdma: Fix possible mremap overflow in the pvrdma device
++ (CVE-2021-3582)
++
++Ensure mremap boundaries not trusting the guest kernel to
++pass the correct buffer length.
++
++Fixes: CVE-2021-3582
++Reported-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
++Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
++Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
++Message-Id: <20210616110600.20889-1-marcel.apfelbaum@gmail.com>
++Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
++Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
++Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
++
++CVE: CVE-2021-3582
++Upstream-Status: Backport [284f191b4abad213aed04cb0458e1600fd18d7c4]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/rdma/vmw/pvrdma_cmd.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
++index f59879e257..da7ddfa548 100644
++--- a/hw/rdma/vmw/pvrdma_cmd.c
+++++ b/hw/rdma/vmw/pvrdma_cmd.c
++@@ -38,6 +38,13 @@ static void *pvrdma_map_to_pdir(PCIDevice *pdev, uint64_t pdir_dma,
++         return NULL;
++     }
++ 
+++    length = ROUND_UP(length, TARGET_PAGE_SIZE);
+++    if (nchunks * TARGET_PAGE_SIZE != length) {
+++        rdma_error_report("Invalid nchunks/length (%u, %lu)", nchunks,
+++                          (unsigned long)length);
+++        return NULL;
+++    }
+++
++     dir = rdma_pci_dma_map(pdev, pdir_dma, TARGET_PAGE_SIZE);
++     if (!dir) {
++         rdma_error_report("Failed to map to page directory");
++-- 
++2.25.1
++
 -- 
 2.31.1
 
