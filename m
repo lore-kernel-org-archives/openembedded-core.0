@@ -1,184 +1,353 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.28227.1629138029703492540
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.28250.1629138124382241082
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 11:20:29 -0700
+ Mon, 16 Aug 2021 11:22:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=e5q065mF;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3862dffb07=joe.slater@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17GDhgb5021413
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 11:20:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=7VVb5IsPX2HDjyqxvbjeI8N5+xJWmguwLC1AV47v2f8=;
- b=e5q065mFMeL8EOd/9zJNxgiPOqLK3q+wY1caDYQQzqpRAVVRlHWtPiqp1OW+udSDmtZE
- lqQRI0HapkVa7dyS3p/6IZT/rEmBqdPgUUBO9lyx1cCLFoETKVaP9l278h6fHP10CIrm
- wZR9aTY8CwkbBqYWw1KV6K7E/KTbYx8y7XvRg9omwUF3OvLUDRuzLtv92/QxP0FQqn0Z
- I0d7bHB0SjCK4HroP+Moj5qyHbaszyMTM7AAwPMWVUGwpS2yzdgl0xQqOHWQ4gZnEZ6e
- /FBboGLYAmBSGmHPXtpcwSidCJL2KrCQui+mC3rKr9teFtDzAKgiVVF7JWBTNiTXe0HM YQ== 
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2041.outbound.protection.outlook.com [104.47.74.41])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3afajf0k8r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 11:20:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a4umh0iDPPTjKCD7cw+Z9hNLT1LhsJl2WokH7Vz4uTbAsKq0ko0TG6cPuQLoYn5sPft+VMzmKQm5ERU8W1ULZhvoSlr/bF7bFuZ8guRCBlXeKYIz0gQpC136D71dz5yoZOmNOYbG/weSZwefU3ZvPfrM5jN4nGzcg8vVNJdTSmSpo/X53mtubQQ7FHwMB6qXx52uhtj5BdDUQlrE5E1YwgphyCUl6bHq11TL9oexUKe3VhU7cOkYEjb3E/ZEi0E3eF3r2hqFnoPv/CYPfXCN7pc05XFTsdRGm2DtC3fErUK7ajRyzz7wmpK1uFA62Bu31jN88mwnqoottKVpjWzjsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7VVb5IsPX2HDjyqxvbjeI8N5+xJWmguwLC1AV47v2f8=;
- b=b4Vio+Q90VfGcBBl6/xlx/sBD340QPX6gAxwNu6YLP3pLRm2pSA1s76qYpWJBjPyyc5XbHqWyA1nE/0z8OHTiVnGGV/6oDkZMLN0tGD3f+JEd2d3NXnjSblW8H8SFaoxkLIayGdOp+72+3Niu8zgNTD6MJzbDFHGabji390U63+R9ErCrNa6lbtapkVqo+D1OXVUSMPXvGDHLL+wsgnIY5Lfj5hzH9ln7EPai1hOp2G25uZawPt+tagpVYPGczhKS2AokcJMV5h3QTAbmGaNpuR90yuMcV5W0s+z+qOTjpt+HZRxfRSzX7qw6mmhfn2um9zFyys+0oZaxx36flyd7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
- by BYAPR11MB2709.namprd11.prod.outlook.com (2603:10b6:a02:be::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.19; Mon, 16 Aug
- 2021 18:20:26 +0000
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::b162:e9cc:d6aa:73b4]) by BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::b162:e9cc:d6aa:73b4%4]) with mapi id 15.20.4415.023; Mon, 16 Aug 2021
- 18:20:26 +0000
-From: "Joe Slater" <joe.slater@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: joe.slater@windriver.com, randy.macleod@windriver.com
-Subject: [oe-core][PATCH 1/1] blktrace: change shebangs
-Date: Mon, 16 Aug 2021 11:20:12 -0700
-Message-Id: <20210816182012.26458-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.31.1
-X-ClientProxiedBy: BY3PR04CA0013.namprd04.prod.outlook.com
- (2603:10b6:a03:217::18) To BY5PR11MB3992.namprd11.prod.outlook.com
- (2603:10b6:a03:188::10)
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=F7Atztbu;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
+Received: from [192.168.0.237] (unknown [64.187.161.254])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A8AB920C29E7;
+	Mon, 16 Aug 2021 11:22:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A8AB920C29E7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1629138123;
+	bh=D3Sv1iakHYAbBQ4i5HiiHbYP0Xdwni3UHDtkiaLRPS8=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=F7AtztbuwxSMeFYOW+899ODjoOlsPIeY1eGge6+mo7UotMJLAi1OvSL0/bTBcI6P3
+	 dbo64thBQMulI0KVHcthH9VJdjdM7GUXUnx16x2NOP+bckqZ8VoSVKdubHLzSWuTSS
+	 yGtu4DmUZB5uo1KUPkMWmPr/zyhudxNN5LVO/p6s=
+Subject: Re: [OE-core] [PATCH] buildhistory: Add output file listing package information
+To: Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: openembedded-core@lists.openembedded.org
+References: <20210812165856.6469-1-abeltran@linux.microsoft.com>
+ <YRYhfdR5SNZpiYpN@korppu>
+From: "Andres Beltran" <abeltran@linux.microsoft.com>
+Message-ID: <bf2e46cf-923d-dccb-01ed-c6dd20180578@linux.microsoft.com>
+Date: Mon, 16 Aug 2021 11:22:01 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by BY3PR04CA0013.namprd04.prod.outlook.com (2603:10b6:a03:217::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.17 via Frontend Transport; Mon, 16 Aug 2021 18:20:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2b897580-a501-4b9b-a7fd-08d960e284f7
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2709:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB2709F7CE4493B845FD0D3AF988FD9@BYAPR11MB2709.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	S6XlRFQNAIg59Voyjaj2X3y2bjIfr8EDEdVGzlg8NVlG/PBGSbtFaVwZfnSJayxDAyMfB5DRnJw6kG0gStObsQCjPWiCI7X/7AL//jhkAQ987j095h1PCvB/8HViNY8qEPDOiIeXe/qPwjYd/CMH8r1MlLdNbSRAoFNRvaJwTBRrgvH8cI7AqNG/W6a15t8M9n2f8VbKZvqa6f+uAioop0SLXIs89P0qakNb3YXbhzZFVPNF5l0ia+c0VdX8FpAxhMfQ3qq0rHswk1Zr5IFAbneUROAYLdu4rjYs9RJCUyhlJd1Q8tg6iB1EFldV7qeXNQHm4TnsFv02yZeU2crvgJjxGAXBqwMTNFTtcGNSTD/w3ObGEUMSG1xJ7qmVWEycyUNUQ3+gxAH96iUkxNvum/RuTEpLT8uCUPf1Q14VBuuZFL5dlO2KwVLrpylTwpndiIf61oVgBZq37B3Od5MPqSBCCir/9u1FdbLZXESdi2VLO2reyucj4bLvcNtrgGuFbib0EpR29E4PR8slB0H7pEeT/dcuf4Ba7GVJRwnNfRYczN91wg0F+D99werKykzfo4feezUs+1BLJKX2I/5nccekkgMHDBsbsClOVsfq3kWtAyrV8kX76SWcTXHyx58w1wwYXOnfMGMmn9QiyC2SsGRvLKWT+5YIs2flxvNuhpgeCjlCQUUI9Mq5dEv7RgQP
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(39850400004)(366004)(396003)(5660300002)(26005)(107886003)(478600001)(66946007)(6486002)(66556008)(186003)(66476007)(956004)(86362001)(316002)(38100700002)(83380400001)(38350700002)(8936002)(6512007)(6916009)(4326008)(2616005)(36756003)(6506007)(6666004)(52116002)(2906002)(1076003)(44832011)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?t2/UmDrpzf4TynZb6EAHLZHamOPlvzCHS1RQUWUDpva4/sW2qooPr1Z9R9Vz?=
- =?us-ascii?Q?9n72W1uOur8iJGLkSJsOccoJP04HYlcg6dZq3PsxlaLgHE7UUomck+K4Dtw4?=
- =?us-ascii?Q?2/T0o+aDZy9WLojR7OO+YjQzNGauamDJ0OE6cwzERNP1F2GptnsqIYNkm6KG?=
- =?us-ascii?Q?TNTDuTDhdrWAEpr4rY0DcYoARyajGPS0ELLp8pATjSnNdM9Kd3uNimtR3lFc?=
- =?us-ascii?Q?nUC1siyHGHN8Nx4WVBuu9yjmMX687nf4AQKOCJGQFdhB+wDbOxL/F0i0I6W6?=
- =?us-ascii?Q?Zt/wHeHSUUZ4l1+0nrmFzdlMsvISLOOuvsgm7o0NynnSK7kMrn61XMZNbUEX?=
- =?us-ascii?Q?GvohdNVHp7ALA/B67AfErb30vAMqEu+uZY8+m3j5brqQKBzYB3J5Wy8AxFa6?=
- =?us-ascii?Q?QN2DIngoJspZRL0F5yNTPtpB7ZgNcGkzggwWxj6JCc1//hZE35nWs7unNJ/4?=
- =?us-ascii?Q?o4M+GUQi1wRC+8PJ5hgdLM5yP9EoNMXygFkETbShkPWltgiHa3HfOwVuvOYs?=
- =?us-ascii?Q?ZHQuE04JxPcf5v0oi7cydhgaum/ika4/RTO3hP47mSHhXvzml0uGKGmDWYg4?=
- =?us-ascii?Q?fKAzlDLzDy8135kvhBqMOkQewrl5mXxInYutHxHHxUtfdXocuOl/tgWumlv8?=
- =?us-ascii?Q?6vPbeuYdj489zUrJ+lCdmAG3J9t06HeAfArOB2wQMVq2TCPu6vxFUT+9koVX?=
- =?us-ascii?Q?4ZjK4zhZIpux1vJuWA2SUq/dSAbVZYXJsHaLWvJGQmQ3OThncichsAO6bB+T?=
- =?us-ascii?Q?LV0bjD/ECmIyWYPWChlM91W2SQ9w3islros5Zt68/nnRbRWTJI4bMtU0N5CP?=
- =?us-ascii?Q?zUSt8Vkg3aNm2KPSYHuxMK4eVnVKf6k9JfPbF2osBlu0QscZOoSFYlbtN7iW?=
- =?us-ascii?Q?ZvOv9WDBeF0wg6QZVdQw1K2RtDdlW6gRfNRDVK7TaDirY5M953wQxJkCUEm7?=
- =?us-ascii?Q?ojlfQ4aRyhH++NmW60DgjQxcGub+iO3429aMfdp2wEy9ryRmzWdhJ/5n7Pbd?=
- =?us-ascii?Q?zv/l30jGtjzIxYxT0c/ouPO2lVtMzwQbHLKVBB13bioTKBGHRpK4fKxInJ2U?=
- =?us-ascii?Q?C7AypUjPaBfSf2UMd+t7yHo0yudd8AmU2UttvwoV7KT3G0rEUR7J/XItHR7f?=
- =?us-ascii?Q?n/MkeGG43GkwR2/dW8PmTs+VhrQ+dhNx7HUzADUbZIi04kJnUOHH1O3/FDpr?=
- =?us-ascii?Q?sIVECkyvd9eLSxKcL5Oy0tKWG1L/SHTnoIoygmZRBDCrIl2YEGAXmcKzeXD7?=
- =?us-ascii?Q?ZG53IxafovsMCNSQX7+pQH4BK5Hqoz8N8x4/OZGEan+0Dw7HnLZYTAiMK8Er?=
- =?us-ascii?Q?9syKAmIVmVMtmAtDg6HC8lc0?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b897580-a501-4b9b-a7fd-08d960e284f7
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3992.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2021 18:20:26.0783
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UccxhmcBnyU6XHgec76dxLMlOv4//S/AokjdilfMQShojKmq5s3miFmN9HFn4vjwvorEDARFFs7RIEkg90SxlZXrNfaVWOtScveEr0W1d0s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2709
-X-Proofpoint-ORIG-GUID: PHy_m3n2r4Xm8xx4oUjLKKjHagPGq5I_
-X-Proofpoint-GUID: PHy_m3n2r4Xm8xx4oUjLKKjHagPGq5I_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-08-16_07,2021-08-16_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=412 bulkscore=0 suspectscore=0 clxscore=1015 mlxscore=0
- adultscore=0 impostorscore=0 phishscore=0 spamscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108160116
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <YRYhfdR5SNZpiYpN@korppu>
+Content-Type: multipart/alternative;
+ boundary="------------7754B143C4EAB20DDA5F15E8"
+Content-Language: en-US
 
-Change shebangs to python3 because we do not support python2.
+--------------7754B143C4EAB20DDA5F15E8
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Hi Mikko,
+
+This patch outputs information that is readily available in the context 
+of the
+image, i.e. information that can be read directly from pkgdata. The 
+information
+for the recipe's layer is not readily available, so it would have
+to be a separate task to add that information (or make it extensible to 
+allow
+it).
+
+Best,
+-Andres
+
+
+On 8/13/2021 12:38 AM, Mikko Rapeli wrote:
+> Hi,
+>
+> On Thu, Aug 12, 2021 at 04:58:56PM +0000, Andres Beltran wrote:
+>> Currently, buildhistory does not produce a single file combining relevant
+>> information of installed packages. Produce an output file
+>> "installed-package-info.txt" listing a package's runtime name, buildtime name,
+>> its recipe, version, and size to avoid having to look up each package externally.
+>> Leave the existing package list files as-is for backwards compatibility.
+> Thanks for this patch, I find it useful!
+>
+> I have had similar needs and have created scripts which parse the same info
+> from buildhistory. What I'd add here is the layer of the recipe.
+>
+> In large projects I have the need to also map binary packages into
+> their maintainers and subprojects, and produce reports, e.g. rootfs usage
+> reports per maintainer/subproject to be checked against an agreed budget.
+> Thus I've used layer and MAINTAINER fields to map binary package to the
+> subprojects and maintainers inside the projects.
+>
+> Would be nice to be able to extend the rootfs binary package reports with
+> this info but a bit of scripting on the buildhistory output is fine too.
+>
+> Cheers,
+>
+> -Mikko
+>
+>> In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
+>> for its read-value argument.
+>>
+>> Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+>> ---
+>>   meta/classes/buildhistory.bbclass |  5 +++++
+>>   scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
+>>   2 files changed, 28 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+>> index 8a1359acbe..134b56ab71 100644
+>> --- a/meta/classes/buildhistory.bbclass
+>> +++ b/meta/classes/buildhistory.bbclass
+>> @@ -491,6 +491,11 @@ buildhistory_get_installed() {
+>>   	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
+>>   	rm $1/installed-package-sizes.tmp
+>>   
+>> +	# Produce package info: runtime_name, buildtime_name, recipe, version, size
+>> +	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
+>> +	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
+>> +	rm $1/installed-package-info.tmp
+>> +
+>>   	# We're now done with the cache, delete it
+>>   	rm $pkgcache
+>>   
+>> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+>> index 75dd23efa3..c30baaa580 100755
+>> --- a/scripts/oe-pkgdata-util
+>> +++ b/scripts/oe-pkgdata-util
+>> @@ -171,7 +171,7 @@ def read_value(args):
+>>                       val = line.split(': ', 1)[1].rstrip()
+>>           return val
+>>   
+>> -    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
+>> +    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
+>>       for package in packages:
+>>           pkg_split = package.split('_')
+>>           pkg_name = pkg_split[0]
+>> @@ -180,20 +180,29 @@ def read_value(args):
+>>           logger.debug(revlink)
+>>           if os.path.exists(revlink):
+>>               mappedpkg = os.path.basename(os.readlink(revlink))
+>> -            qvar = args.valuename
+>> -            value = readvar(revlink, qvar, mappedpkg)
+>> -            if qvar == "PKGSIZE":
+>> -                # PKGSIZE is now in bytes, but we we want it in KB
+>> -                pkgsize = (int(value) + 1024 // 2) // 1024
+>> -                value = "%d" % pkgsize
+>> -            if args.unescape:
+>> -                import codecs
+>> -                # escape_decode() unescapes backslash encodings in byte streams
+>> -                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
+>> +            qvars = args.valuenames
+>> +            val_names = qvars.split(',')
+>> +            values = []
+>> +            for qvar in val_names:
+>> +                if qvar == "PACKAGE":
+>> +                    value = mappedpkg
+>> +                else:
+>> +                    value = readvar(revlink, qvar, mappedpkg)
+>> +                if qvar == "PKGSIZE":
+>> +                    # PKGSIZE is now in bytes, but we we want it in KB
+>> +                    pkgsize = (int(value) + 1024 // 2) // 1024
+>> +                    value = "%d" % pkgsize
+>> +                if args.unescape:
+>> +                    import codecs
+>> +                    # escape_decode() unescapes backslash encodings in byte streams
+>> +                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
+>> +                values.append(value)
+>> +
+>> +            values_str = ' '.join(values)
+>>               if args.prefix_name:
+>> -                print('%s %s' % (pkg_name, value))
+>> +                print('%s %s' % (pkg_name, values_str))
+>>               else:
+>> -                print(value)
+>> +                print(values_str)
+>>           else:
+>>               logger.debug("revlink %s does not exist", revlink)
+>>   
+>> @@ -570,7 +579,7 @@ def main():
+>>       parser_read_value = subparsers.add_parser('read-value',
+>>                                             help='Read any pkgdata value for one or more packages',
+>>                                             description='Reads the named value from the pkgdata files for the specified packages')
+>> -    parser_read_value.add_argument('valuename', help='Name of the value to look up')
+>> +    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
+>>       parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+>>       parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
+>>       parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
+>> -- 
+>> 2.17.1
+>>
+>>
+>>
+>>
+>> 
+>>
+
+--------------7754B143C4EAB20DDA5F15E8
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <font face="monospace">Hi Mikko,<br>
+      <br>
+      This patch outputs information that is readily available in the
+      context of the<br>
+      image, i.e. information that can be read directly from pkgdata.
+      The information<br>
+      for the recipe's layer is not readily available, so it would have<br>
+      to be a separate task to add that information (or make it
+      extensible to allow<br>
+      it).<br>
+      <br>
+      Best,<br>
+      -Andres</font><br>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 8/13/2021 12:38 AM, Mikko Rapeli
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:YRYhfdR5SNZpiYpN@korppu">
+      <pre class="moz-quote-pre" wrap="">Hi,
+
+On Thu, Aug 12, 2021 at 04:58:56PM +0000, Andres Beltran wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Currently, buildhistory does not produce a single file combining relevant
+information of installed packages. Produce an output file
+"installed-package-info.txt" listing a package's runtime name, buildtime name,
+its recipe, version, and size to avoid having to look up each package externally.
+Leave the existing package list files as-is for backwards compatibility.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Thanks for this patch, I find it useful!
+
+I have had similar needs and have created scripts which parse the same info
+from buildhistory. What I'd add here is the layer of the recipe.
+
+In large projects I have the need to also map binary packages into
+their maintainers and subprojects, and produce reports, e.g. rootfs usage
+reports per maintainer/subproject to be checked against an agreed budget.
+Thus I've used layer and MAINTAINER fields to map binary package to the
+subprojects and maintainers inside the projects.
+
+Would be nice to be able to extend the rootfs binary package reports with
+this info but a bit of scripting on the buildhistory output is fine too.
+
+Cheers,
+
+-Mikko
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
+for its read-value argument.
+
+Signed-off-by: Andres Beltran <a class="moz-txt-link-rfc2396E" href="mailto:abeltran@linux.microsoft.com">&lt;abeltran@linux.microsoft.com&gt;</a>
 ---
- meta/recipes-kernel/blktrace/blktrace_git.bb  |  4 ++-
- .../blktrace/files/python3-shebangs.patch     | 30 +++++++++++++++++++
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/blktrace/files/python3-shebangs.patch
+ meta/classes/buildhistory.bbclass |  5 +++++
+ scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
+ 2 files changed, 28 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
-index d00b1bd0be..2f2695cef0 100644
---- a/meta/recipes-kernel/blktrace/blktrace_git.bb
-+++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
-@@ -14,7 +14,9 @@ SRCREV = "366d30b9cdb20345c5d064af850d686da79b89eb"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 8a1359acbe..134b56ab71 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -491,6 +491,11 @@ buildhistory_get_installed() {
+ 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r &gt; $1/installed-package-sizes.txt
+ 	rm $1/installed-package-sizes.tmp
  
- PV = "1.3.0+git${SRCPV}"
++	# Produce package info: runtime_name, buildtime_name, recipe, version, size
++	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache &gt; $1/installed-package-info.tmp
++	cat $1/installed-package-info.tmp | sort -n -r -k 5 &gt; $1/installed-package-info.txt
++	rm $1/installed-package-info.tmp
++
+ 	# We're now done with the cache, delete it
+ 	rm $pkgcache
  
--SRC_URI = "git://git.kernel.dk/blktrace.git"
-+SRC_URI = "git://git.kernel.dk/blktrace.git \
-+           file://python3-shebangs.patch \
-+          "
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 75dd23efa3..c30baaa580 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -171,7 +171,7 @@ def read_value(args):
+                     val = line.split(': ', 1)[1].rstrip()
+         return val
  
- S = "${WORKDIR}/git"
+-    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
++    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
+     for package in packages:
+         pkg_split = package.split('_')
+         pkg_name = pkg_split[0]
+@@ -180,20 +180,29 @@ def read_value(args):
+         logger.debug(revlink)
+         if os.path.exists(revlink):
+             mappedpkg = os.path.basename(os.readlink(revlink))
+-            qvar = args.valuename
+-            value = readvar(revlink, qvar, mappedpkg)
+-            if qvar == "PKGSIZE":
+-                # PKGSIZE is now in bytes, but we we want it in KB
+-                pkgsize = (int(value) + 1024 // 2) // 1024
+-                value = "%d" % pkgsize
+-            if args.unescape:
+-                import codecs
+-                # escape_decode() unescapes backslash encodings in byte streams
+-                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
++            qvars = args.valuenames
++            val_names = qvars.split(',')
++            values = []
++            for qvar in val_names:
++                if qvar == "PACKAGE":
++                    value = mappedpkg
++                else:
++                    value = readvar(revlink, qvar, mappedpkg)
++                if qvar == "PKGSIZE":
++                    # PKGSIZE is now in bytes, but we we want it in KB
++                    pkgsize = (int(value) + 1024 // 2) // 1024
++                    value = "%d" % pkgsize
++                if args.unescape:
++                    import codecs
++                    # escape_decode() unescapes backslash encodings in byte streams
++                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
++                values.append(value)
++
++            values_str = ' '.join(values)
+             if args.prefix_name:
+-                print('%s %s' % (pkg_name, value))
++                print('%s %s' % (pkg_name, values_str))
+             else:
+-                print(value)
++                print(values_str)
+         else:
+             logger.debug("revlink %s does not exist", revlink)
  
-diff --git a/meta/recipes-kernel/blktrace/files/python3-shebangs.patch b/meta/recipes-kernel/blktrace/files/python3-shebangs.patch
-new file mode 100644
-index 0000000000..70a35c2c3a
---- /dev/null
-+++ b/meta/recipes-kernel/blktrace/files/python3-shebangs.patch
-@@ -0,0 +1,30 @@
-+blktrace: Use python3 shebangs
-+
-+blktrace can use either python2 or python3, but we really want
-+python3, so modify the shebangs.
-+
-+Upstream-Status: pending
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com.
-+
-+
-+diff --git a/btt/bno_plot.py b/btt/bno_plot.py
-+index 3aa4e19..d7d7159 100644
-+--- a/btt/bno_plot.py
-++++ b/btt/bno_plot.py
-+@@ -1,4 +1,4 @@
-+-#! /usr/bin/env python
-++#! /usr/bin/env python3
-+ #
-+ # btt blkno plotting interface
-+ #
-+diff --git a/btt/btt_plot.py b/btt/btt_plot.py
-+index 40bc71f..8620d31 100755
-+--- a/btt/btt_plot.py
-++++ b/btt/btt_plot.py
-+@@ -1,4 +1,4 @@
-+-#! /usr/bin/env python
-++#! /usr/bin/env python3
-+ #
-+ # btt_plot.py: Generate matplotlib plots for BTT generate data files
-+ #
+@@ -570,7 +579,7 @@ def main():
+     parser_read_value = subparsers.add_parser('read-value',
+                                           help='Read any pkgdata value for one or more packages',
+                                           description='Reads the named value from the pkgdata files for the specified packages')
+-    parser_read_value.add_argument('valuename', help='Name of the value to look up')
++    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
+     parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+     parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
+     parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
 -- 
-2.25.1
+2.17.1
 
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+
+
+</pre>
+        <br>
+        <fieldset class="mimeAttachmentHeader"></fieldset>
+        <pre class="moz-quote-pre" wrap="">
+
+
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------7754B143C4EAB20DDA5F15E8--
