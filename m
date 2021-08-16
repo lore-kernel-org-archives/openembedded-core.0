@@ -1,127 +1,71 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.21196.1629101210398406354
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.21554.1629103977857173596
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 01:06:51 -0700
+ Mon, 16 Aug 2021 01:52:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 17G86nB5000436
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 01:06:49 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 16 Aug 2021 01:06:48 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 16 Aug 2021 01:06:48 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] shadow: fix default value in SHA_get_salt_rounds()
-Date: Mon, 16 Aug 2021 16:03:45 +0800
-Message-ID: <20210816080345.23751-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a6WiwKiE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so5131408wme.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 01:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b3etXpBOUo1Gw3HXEs6SVifd4oNyPIOO7VP8aHGcJmA=;
+        b=a6WiwKiEi1Ksc+gSkNdv4aHAjloEhfLGpSAHm9zac2Z1+AuHRZ5zljDECRmOmWHZfr
+         m59ftpu2ksb111mVktVblW842UD5bp+Eqr8rF5tK5Y38Kiro51uRVnKt5p76l7QwCScq
+         X/TPtQ0+Ws7TbEaiDCpoSDmN2mc3OYCkba7h0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b3etXpBOUo1Gw3HXEs6SVifd4oNyPIOO7VP8aHGcJmA=;
+        b=ZGF7nBuA8xrH1/GCJeAVh6v+9qO3Buss7pbNdyI6saJsiPvp2xSFpnhlT4kIRao9NM
+         5BbscUoSv4qsLsAsjmwdjYLSsZD3jK5wpH2sPN9anvq8vWjjFbtFmvUaAw7nJAoM5lO0
+         8OLsj9MZ7+HP1xekSqEbYbwjvIvAE/s3HNYJxn7cAkapAX+eyZVYrRO50/g/krT7KfeC
+         Eh0WX8+45OoOyW/BJypQcOl39ndc61SPlK/rgaOSlPMck+UcR3aG52uW844vdTyGcuvh
+         g/HgIrUINc9J55b3O5EwFZnmNVl2yKAM+jqDVywOCJVp1SSSvxX9SBv7Y2sQU4RkDCs7
+         LBYQ==
+X-Gm-Message-State: AOAM5335gE2BqRald7SeqCFCN0+jpm7nHWlNxojEoG9e7m9Q6YpVfMoe
+	Z5jgBX+a8uf855yaAKPHu2W0QGFdCZA4IA==
+X-Google-Smtp-Source: ABdhPJzg5z90LWOG+hguR67izP5xJcoJtFfS9zykWWtGYwnWOvaYw0xWidexYLejgX0/xIewnQrPyw==
+X-Received: by 2002:a7b:c353:: with SMTP id l19mr13846327wmj.127.1629103975920;
+        Mon, 16 Aug 2021 01:52:55 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.. ([148.252.128.117])
+        by smtp.gmail.com with ESMTPSA id w11sm9646057wrr.48.2021.08.16.01.52.55
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 01:52:55 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] elfutils: Add zstd PACKAGECONFIG for determinism
+Date: Mon, 16 Aug 2021 09:52:52 +0100
+Message-Id: <20210816085253.3843644-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Ensure builds as deterministic by covering all compression configuration
+options.
 
-Backport a patch [1] to fix chpasswd, gpasswd and passwd "hang" for
-several minutes (10-20min) at 100% cpu usage though they finally
-terminate successfully.
-
-[1] https://github.com/shadow-maint/shadow/issues/393
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...default-value-in-SHA_get_salt_rounds.patch | 64 +++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/0001-libmisc-fix-default-value-in-SHA_get_salt_rounds.patch
+ meta/recipes-devtools/elfutils/elfutils_0.185.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/shadow/files/0001-libmisc-fix-default-value-in-SHA_get_salt_rounds.patch b/meta/recipes-extended/shadow/files/0001-libmisc-fix-default-value-in-SHA_get_salt_rounds.patch
-new file mode 100644
-index 0000000000..2c9b1d06cd
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/0001-libmisc-fix-default-value-in-SHA_get_salt_rounds.patch
-@@ -0,0 +1,64 @@
-+From 234e8fa7b134d1ebabfdad980a3ae5b63c046c62 Mon Sep 17 00:00:00 2001
-+From: Mike Gilbert <floppym@gentoo.org>
-+Date: Sat, 14 Aug 2021 13:24:34 -0400
-+Subject: [PATCH] libmisc: fix default value in SHA_get_salt_rounds()
-+
-+If SHA_CRYPT_MIN_ROUNDS and SHA_CRYPT_MAX_ROUNDS are both unspecified,
-+use SHA_ROUNDS_DEFAULT.
-+
-+Previously, the code fell through, calling shadow_random(-1, -1). This
-+ultimately set rounds = (unsigned long) -1, which ends up being a very
-+large number! This then got capped to SHA_ROUNDS_MAX later in the
-+function.
-+
-+The new behavior matches BCRYPT_get_salt_rounds().
-+
-+Bug: https://bugs.gentoo.org/808195
-+Fixes: https://github.com/shadow-maint/shadow/issues/393
-+
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/234e8fa7b134d1ebabfdad980a3ae5b63c046c62]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ libmisc/salt.c | 21 +++++++++++----------
-+ 1 file changed, 11 insertions(+), 10 deletions(-)
-+
-+diff --git a/libmisc/salt.c b/libmisc/salt.c
-+index 91d528fd..30eefb9c 100644
-+--- a/libmisc/salt.c
-++++ b/libmisc/salt.c
-+@@ -223,20 +223,21 @@ static /*@observer@*/const unsigned long SHA_get_salt_rounds (/*@null@*/int *pre
-+ 		if ((-1 == min_rounds) && (-1 == max_rounds)) {
-+ 			rounds = SHA_ROUNDS_DEFAULT;
-+ 		}
-++		else {
-++			if (-1 == min_rounds) {
-++				min_rounds = max_rounds;
-++			}
-+ 
-+-		if (-1 == min_rounds) {
-+-			min_rounds = max_rounds;
-+-		}
-++			if (-1 == max_rounds) {
-++				max_rounds = min_rounds;
-++			}
-+ 
-+-		if (-1 == max_rounds) {
-+-			max_rounds = min_rounds;
-+-		}
-++			if (min_rounds > max_rounds) {
-++				max_rounds = min_rounds;
-++			}
-+ 
-+-		if (min_rounds > max_rounds) {
-+-			max_rounds = min_rounds;
-++			rounds = (unsigned long) shadow_random (min_rounds, max_rounds);
-+ 		}
-+-
-+-		rounds = (unsigned long) shadow_random (min_rounds, max_rounds);
-+ 	} else if (0 == *prefered_rounds) {
-+ 		rounds = SHA_ROUNDS_DEFAULT;
-+ 	} else {
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 97ffae978a..c1e24b4f16 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/shadow-maint/shadow/releases/download/v${PV}/${BP}
-            file://shadow-relaxed-usernames.patch \
-            file://0001-Fix-out-of-tree-builds-with-respect-to-libsubid-incl.patch \
-            file://0001-libsubid-link-to-PAM-libraries.patch \
-+           file://0001-libmisc-fix-default-value-in-SHA_get_salt_rounds.patch \
-            "
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.185.bb b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+index 7a88c5259fd..852d27764c9 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.185.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+@@ -42,6 +42,7 @@ DEPENDS_BZIP2:class-target = "bzip2"
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'debuginfod', 'debuginfod libdebuginfod', '', d)}"
+ PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
+ PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
++PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
+ PACKAGECONFIG[libdebuginfod] = "--enable-libdebuginfod,--disable-libdebuginfod,curl"
+ PACKAGECONFIG[debuginfod] = "--enable-debuginfod,--disable-debuginfod,libarchive sqlite3 libmicrohttpd"
  
- SRC_URI:append:class-target = " \
 -- 
-2.29.2
+2.30.2
 
