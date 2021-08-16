@@ -1,57 +1,53 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web08.21731.1629104795785975978
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.21647.1629104939634276369
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 02:06:36 -0700
+ Mon, 16 Aug 2021 02:09:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=iD6ma9a8;
- spf=pass (domain: burtonini.com, ip: 209.85.221.47, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f47.google.com with SMTP id q6so10989690wrv.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 02:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=slKvfs+f9pdfEPH1ePC3gtGrOh43gTm/QROn142zsYI=;
-        b=iD6ma9a86zgS6dgImxB3wEQvfgXcMYOqjZavfgCd6wnrO47blw5fiYVbt5QjzBGvlM
-         nXyR+E/UDuRzp/AKq9SVW0nB5PkqGHyWXoYCWArAuxobBYjHrSZu3qSPtFye3EEbhJZZ
-         XvRQGzzTjyUkgXamCPulgWaXv8Vyprohm9rZ692AFuVpkphSmeqxrpyqNTFvoZwH96CT
-         jj49r0J9FmcmabwdA4RK6ng6VFIJiv+n8r1J4FM4iPyBtL7cfC9R3nXVBo+Zr1lPpYO/
-         ZyjByzLy4Tv3WfongwzRQoboTqTm6P5kPGzVzD11bXFw+NpeLCE5L9axGagHLO35eD57
-         nNvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=slKvfs+f9pdfEPH1ePC3gtGrOh43gTm/QROn142zsYI=;
-        b=Engi4Ce+llT5FLVfSf+qXVYl/CSRcc8zOk94izhYiCts3XYSObHqQMsm63rq984/cm
-         D1n8dyrMkwGvFuw7HA5fBnkBCDioUaxLC6CoKnIo5U1MefFsUEzedY2VeBy6FzwiB5Ix
-         jZHEJ0O05wP5IbQuzpXzMmzy0AODmepi66YUMDdJ+IE2oXJ+c58V9XjurL8T025fnnsH
-         DF0xvXBY/q1F6DqqN7/wY7o0zFTvUiAIPyazlOAexVeF0aOcxKM9Ch6XwI3RmsPiO0pt
-         cP4EjILNEzQ1pp8keGAMm1eZvAne1xJ/Un7gS5SjNBSBwl9SBlpw+KJ76zeG9Qi+sXDT
-         BbDA==
-X-Gm-Message-State: AOAM531qI54LFokDscB9854Hr9iuDhUxYzCx+eNABRK/kN+U4KnuQfOM
-	JM+hGd3C+rheXBNt4Z+yS6twbVK7Jy+wksn/JNlqXX+PTYVNww==
-X-Google-Smtp-Source: ABdhPJyP9DS2V/833I95NR7wVXEcd0MBW+ATYcbxwpqC9ZblNCzPCtkyWW6PFa4dAQznyYSsv1124DGJKKo81iJoSw0=
-X-Received: by 2002:a5d:45c9:: with SMTP id b9mr17463816wrs.395.1629104793944;
- Mon, 16 Aug 2021 02:06:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210815140330.317FC960346@nuc.router0800d9.com>
-In-Reply-To: <20210815140330.317FC960346@nuc.router0800d9.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 480B86D
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 02:08:59 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E73DD3F40C
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 02:08:58 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 16 Aug 2021 10:06:23 +0100
-Message-ID: <CAAnfSTuMS7YUyZp-V2RHbBqsc=dpV+YLXsaaVEyN-181CXrRRA@mail.gmail.com>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 15 Aug 2021 04:00:01 AM HST
-To: Steve Sakoman <steve@sakoman.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell] ovmf: build natively everywhere
+Date: Mon, 16 Aug 2021 10:08:55 +0100
+Message-Id: <20210816090855.3990825-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 15 Aug 2021 at 15:03, Steve Sakoman <steve@sakoman.com> wrote:
-> New this week: 3 CVEs
-> CVE-2021-32803: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32803 *
-> CVE-2021-32804: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32804 *
+The OVMF target binaries are (currently) x86-specific, but the native
+tools to build them are not.
 
-These are both node-tar specific, patch sent (and is good for all
-stable branches).
+Make the COMPATIBLE_HOST assignment target-specific, so that the native
+tools can be built on an arm64 build server.
 
-Ross
+(From OE-Core rev: 58ebb47688fc98fdaeb78b4033bd31100218d5d6)
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/ovmf/ovmf_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/=
+ovmf_git.bb
+index a73bb916b03..b00119313be 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -38,7 +38,7 @@ EDK_TOOLS_DIR=3D"edk2_basetools"
+ BUILD_OPTIMIZATION=3D"-pipe"
+=20
+ # OVMF supports IA only, although it could conceivably support ARM somed=
+ay.
+-COMPATIBLE_HOST=3D'(i.86|x86_64).*'
++COMPATIBLE_HOST_class-target=3D'(i.86|x86_64).*'
+=20
+ # Additional build flags for OVMF with Secure Boot.
+ # Fedora also uses "-D SMM_REQUIRE -D EXCLUDE_SHELL_FROM_FD".
+--=20
+2.32.0
+
