@@ -1,74 +1,78 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web11.30880.1629150520019823526
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web12.31391.1629151159698797814
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 14:48:40 -0700
+ Mon, 16 Aug 2021 14:59:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=gIkc/phg;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.169, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f169.google.com with SMTP id p22so19589473qki.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 14:48:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HY7Mj0cR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id x10so19305247wrt.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 14:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v4KoaNYmyDOAd85Sg60lFol0YCF1JFeLGPHPlFXJKsU=;
-        b=gIkc/phgLFdHL0CNw+3n1NX4RUYY0YTRg8Xr3br7ei2MluglzN2qYK+YRN2kOD393v
-         y5XRetYWmxbSoKl08sWN7B+LEMXKI6Jr+glwZ6tUPOl7GBdtz0TZVzQ4rtsEvCRZgxLo
-         sA/Mi93emdYijO/QrE+WbgQprOdGuZKxUgQMPA1NTiWYdPh/zNo+wzPy/hNgK2ICUoXB
-         MRhkgNS9Zb2KQd96pRXNyuNKxyK1vz2QqX/0sjWFLQvo3+gfB34xCfN+yp1EGkeH4tDS
-         pPW0AIvViytX0IKU8d3lR24i/DHtVqEeidDSnqvCcBNCqkTyZJfKU6qKg8wOocuVkyCg
-         O/uw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=czpYSoAV0axJJzm7wAwvNZkACdkJPqjSZrHvozXA1VI=;
+        b=HY7Mj0cRoAzt9WNDLOw4a4b7K1FQVqCuOZYzDkRGpblGla1TlGs8s6mnuJRb1gteTv
+         uTcQ4WnuhWjJ2CZpVpwT6pF4OXVZ+xy6j5tyUX5R+DyqxUFmAPHYb9EKGTvE3sWND2Jy
+         oJRnXM+aZ0OawJ/S+0Y4c/+TpafJvqmtczG98=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v4KoaNYmyDOAd85Sg60lFol0YCF1JFeLGPHPlFXJKsU=;
-        b=SOxaBnj+OBqACkxh0F9mykn1/DCsK3Kx1tJbtYI2iSP96kCbvLm3ttLh3PjFiCzbaT
-         y8l/wkRwutGJEMADmUUzjz31mseeYXPuuDWf1egiqI4zRNGc7KMBLoLQa18IGOVUAoor
-         8BmEVQYYzhEQuo6CdTWBgUDWbRsmnr7+8k2zFTkpf/aOqP9k22OgGJbarFrQYVD3Dv9G
-         qK2dT/rYC+Snn36PgXeNf1MNUG2uCvAgWVfy20MbYQL4SrNy+X6MLj5WqKPHONuK46BF
-         16pYwes4/np2vepscn3+axrXpCAM174Rz1/7bhu3ovSsr7YaBYjjwpoe8NAw9E4htffo
-         T3rg==
-X-Gm-Message-State: AOAM5326x3LFfq4uMzordxFO3GjbEjrPvhFn3/xcHAvvFRUomEAr6kNh
-	PjJqJrgCpKMop7nG25uL3T9OVDdltYTlpQ==
-X-Google-Smtp-Source: ABdhPJyOeA9XszCvEXjD03hMA4GHWK3m0uz9f/EWrv/Hbfkaez6fPcbTrVX9Arbjs3eyL9B9/O339g==
-X-Received: by 2002:a37:541:: with SMTP id 62mr493261qkf.478.1629150519017;
-        Mon, 16 Aug 2021 14:48:39 -0700 (PDT)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([2605:a601:a632:4e00:f177:a44a:469d:7e14])
-        by smtp.gmail.com with ESMTPSA id f24sm1912qtp.1.2021.08.16.14.48.38
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=czpYSoAV0axJJzm7wAwvNZkACdkJPqjSZrHvozXA1VI=;
+        b=hnvFRvRxpTCiGQxWbN7vnoIt4ClIMRBtYkcpNohAKx2bHpSsDU6OTg5NwPHLFpHGzP
+         Yt+WfEcp+HKSu2OV3u7Fg0Vk2uqQgCULzKoijTWi8Jq8D/dnEcnxbHRjDM6EOBvcjWq+
+         FRiYolulfDquSyhQ8/fe8blg2/7P8LokYXJCqgC/hc+0/z1BDCvCpZ2cyYqY/cgkPrsM
+         t1SbZvXaQEa5HyLny98ozTH5T/tFSiF1SjJnvrk0eO9ZQHbACVVu6N2kaIGbPCV/nsfR
+         bEWwLlTb7DTJeju937+etXZhXHBZZPSN6Qwq0wLmbyjfgA2+UOjOLky7kPC4vpVLbyf7
+         gW0Q==
+X-Gm-Message-State: AOAM530Vpt2Sj7tdfTIWXUKlSVV5K4QYPOiUyCQX8UtCOPRgjkXJCx3W
+	uShTXZH+WL7uawsK/EGAbuhjVw==
+X-Google-Smtp-Source: ABdhPJyms0wUoZFZTFmXciKqF8zGOqs3eqixULm5phbdSQ3xXbW/hO/8NHhjQfrur+tVbZqdifdXLQ==
+X-Received: by 2002:adf:f044:: with SMTP id t4mr224295wro.352.1629151158206;
+        Mon, 16 Aug 2021 14:59:18 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f791:56b8:5572:9d45? ([2001:8b0:aba:5f3c:f791:56b8:5572:9d45])
+        by smtp.gmail.com with ESMTPSA id w29sm67920wra.88.2021.08.16.14.59.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 14:48:38 -0700 (PDT)
-From: "Jon Mason" <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] arch-armv8m-main: missing space
-Date: Mon, 16 Aug 2021 17:48:38 -0400
-Message-Id: <20210816214838.28592-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
+        Mon, 16 Aug 2021 14:59:18 -0700 (PDT)
+Message-ID: <3fd323f691fe9f1a8786e811bf3253fe9aaebba1.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH 1/1] blktrace: change shebangs
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Joe Slater
+	 <joe.slater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Randy MacLeod
+	 <randy.macleod@windriver.com>
+Date: Mon, 16 Aug 2021 22:59:14 +0100
+In-Reply-To: <CANNYZj9xLN5vDQ5vgHk1S7k8PfX_zM1+ThzfVF+Yw+Y4aQrpMA@mail.gmail.com>
+References: <20210816182012.26458-1-joe.slater@windriver.com>
+	 <CANNYZj9xLN5vDQ5vgHk1S7k8PfX_zM1+ThzfVF+Yw+Y4aQrpMA@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Correct an issue with 2 AVAILTUNES not being separated by a space.
+On Mon, 2021-08-16 at 20:40 +0200, Alexander Kanavin wrote:
+> On Mon, 16 Aug 2021 at 20:20, Joe Slater <joe.slater@windriver.com> wrote:
+> > +blktrace can use either python2 or python3, but we really want
+> > +python3, so modify the shebangs.
+> > +
+> > +Upstream-Status: pending
+> > +
+> > +Signed-off-by: Joe Slater <joe.slater@windriver.com.
+> > 
+> 
+> 
+> Please submit upstream first. Signed-off-by is incorrectly written, 
+> needs to be added by git preferably. 'Pending' needs to be capitalized 
+> (but please submit upstream first).
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- meta/conf/machine/include/arm/arch-armv8m-main.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I very much doubt upstream will want to change "python" -> "python3" as it
+is a distro thing. It is frustrating it isn't configurable. I think in most
+other cases we sed this into scripts but that has pros and cons too rather
+than a patch we have to carry...
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8m-main.inc b/meta/conf/machine/include/arm/arch-armv8m-main.inc
-index 27f552b2d726..4dbe401c1929 100644
---- a/meta/conf/machine/include/arm/arch-armv8m-main.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8m-main.inc
-@@ -21,7 +21,7 @@ TUNEVALID[vfpv5spd16] = "Enable Vector Floating Point Version 5, Single Precisio
- TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv5spd16', 'fpv5-sp-d16', '', d)}"
- MARCH_FPU = "${@bb.utils.contains('TUNE_FEATURES', [ 'vfpv5spd16' ], '+fp', '+nofp', d)}"
- 
--AVAILTUNES                                      += "armv8m-main armv8m-mainearmv8m-main-vfpv5spd16 armv8m-maine-vfpv5spd16"
-+AVAILTUNES                                      += "armv8m-main armv8m-maine armv8m-main-vfpv5spd16 armv8m-maine-vfpv5spd16"
- ARMPKGARCH:tune-armv8m-main                      = "armv8m-main"
- ARMPKGARCH:tune-armv8m-maine                     = "armv8m-main"
- ARMPKGARCH:tune-armv8m-main-vfpv5spd16           = "armv8m-main"
--- 
-2.20.1
+Cheers,
+
+Richard
 
