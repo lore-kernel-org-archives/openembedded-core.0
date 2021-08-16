@@ -1,108 +1,204 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.20700.1629095870859741637
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web09.21190.1629101122289901578
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Aug 2021 23:37:50 -0700
+ Mon, 16 Aug 2021 01:05:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gpboLt4V;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id j12-20020a17090aeb0c00b00179530520b3so10321500pjz.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Aug 2021 23:37:50 -0700 (PDT)
+ dkim=pass header.i=@qtec.com header.s=google header.b=aXAlmZ0q;
+ spf=pass (domain: qtec.com, ip: 209.85.167.54, mailfrom: daniel@qtec.com)
+Received: by mail-lf1-f54.google.com with SMTP id r9so23262758lfn.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 01:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZQtSz5AUHxtAx8dGKk5QZGBx5/OIrbteYqTXO0tbTgo=;
-        b=gpboLt4VUzUUbyTmOuymK0mVLhiCxxTLQmG/sBghnimbv9bT1V1o2S07mFw/MyRewe
-         ipOr/pPpoRm2N1qfCQEduZBPKkyP2tv+BvUqXTCeLXSqp4BfWnlDK9J6/lSvDmUuWKc1
-         oNZ99f94G/int36lZumvxVJOF5cdxvag5e8aWGKo6mWJSnCAbr73B7VvdZ22UcbbuJRX
-         yAbhpnspSnfUxOhoCwzQBbo2hndRPmVW3Y5OWSYsL5dJazLb/LcqKYlteHp+M6ZN0T67
-         Pss6HhAusQXyGEVKs1XEPtleooE4G4s006V75K6NDdoSaNpFvKCGoV+qdP2KtlD2vDo4
-         wYqA==
+        d=qtec.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xub/PQO9qu+txh1vxj7/Tfl3a6lwjUjlu8FuYzzzq/Y=;
+        b=aXAlmZ0q2Yxzf0ASzqmaLlnHHhytVvj59eMUDAzzl0+9gKMLChRJMdJ8OTeZJb9LBE
+         raAaEI5x8hHYiko9MFtMrRgNJHLWSzOPMvKsnqnjxfMFb6vvn/+Ucz2q4bfYHpoAg4Re
+         iv50N+lNMnWQzUl2lJAEOL5RXx/6ZnCSD8E7xshOABmbDQrsi28pNnkgnBjciE1yiL/R
+         WEGnvunz0o8RUxDUV71A5U7B6c8DlR1cpbpJhAzHHmEZ6DvggUerF4XvfcDalKJjkWpm
+         G5g8Khuqeblm8j+DH1+RjnIYW8xDM6X7kJ2ieP2vKj3xCqwOaV2eLCSelbfUhFSLxPen
+         ZZ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ZQtSz5AUHxtAx8dGKk5QZGBx5/OIrbteYqTXO0tbTgo=;
-        b=bYkATUbizgR1Rn6w3EPq1s3bEH5ksFzpy6ncgKvKAwXYeRGKwzh98caIU7KD50Ey4n
-         v0Q+8j8ypnH3pj5BFa6l0y17cWnt1AqBK3OmRDqFMRl87xZhs1XkyRSMayFh8lklkFRM
-         cbfYttHL62aQyQ2jnCeXuRZP0wjXp4KMadGSXsMbP5uai384kFavBVF/l3vov7Gc8nbC
-         99zEQNRorxT9b/SKMTxCQzY69oXweyhnKHCg3xlrj4HXDxqymq5NLHmej+KJYJNs4h6o
-         Ge5sgcT7jelqZ+d3rimEEJ9eAU7iXBD1l60UnynkG2uQk11rtjdqySXd62KBk8bP8IAy
-         SR5g==
-X-Gm-Message-State: AOAM532n57+7OWzB8wkfoXwCCw0K2xLA4gqwQgdgmGC0aJfdwtWzf1D6
-	qqrCU2rDEdHeYb6pXOVVn/Pz86HdXsLGEQ==
-X-Google-Smtp-Source: ABdhPJwUpQ1vXsbcvgP/ZtWeP7N9gYmLSCakxBWsVzezCnWOjHBe2sCKcy2D1N7u3c1MAgt3MLSTSw==
-X-Received: by 2002:a17:90a:c305:: with SMTP id g5mr15481782pjt.79.1629095870185;
-        Sun, 15 Aug 2021 23:37:50 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::f40b? ([2601:646:9200:a0f0::f40b])
-        by smtp.gmail.com with ESMTPSA id a6sm8235386pjs.40.2021.08.15.23.37.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Aug 2021 23:37:49 -0700 (PDT)
-Subject: Re: [yocto] Failed to boot kernel 5 after upgrading to Hardknott
-To: Zoran <zoran.stojsavljevic@gmail.com>, JH <jupiter.hce@gmail.com>
-Cc: yocto <yocto@lists.yoctoproject.org>,
- oe-core layer <openembedded-core@lists.openembedded.org>
-References: <CAA=hcWQ==cXXBygi+DGkx0D=sVs7hsZnZ3zDs_6d392oHhaqmA@mail.gmail.com>
- <CAGAf8Lzejaip+Jxj66xwdSnG=E=vbhrh5p_no53s4o9DmJ2qMQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <863d48f1-1893-eb8b-a18f-d4001c4985ff@gmail.com>
-Date: Sun, 15 Aug 2021 23:37:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xub/PQO9qu+txh1vxj7/Tfl3a6lwjUjlu8FuYzzzq/Y=;
+        b=TPmyOZ31qgP5R0hbcWLAUEqoHDrYMcAOVMzcWjn1ku4ODME7wAG7U/RHQ57LFz/g/r
+         vrf503OU0D34Y2GL0sneTLgWrGwGti7qku/F6t7wp5eBLXhCWhLLJluB1maQcw7L/Jno
+         Ayd3k7SZEkcWnl8KyezSNDkxXSktC4cHS1fNo8VgzAL9KJLCU02blRlFmEsf4tjP5tEO
+         lYixvqfGvLlnBLHYX6ytdvDe26P4qISVw/XDWqbF2ARpndIqIyF3D4ZZI0xSDiDtBfgk
+         3ATq898Pd8c+zVC+nTYSrr6NTO6awmbTA6N2RkRZCbEW0kYKlbM3NBk4qyilkDBcn62F
+         7b4g==
+X-Gm-Message-State: AOAM530HyRVSjHgia5vYSWjn0c1UxrP0Y+09gXqpGd2UsykA5UgE7YWH
+	X5arnprQYUvj+ljSzX5okaH/Mm4sOTJT3RwC0OaeWg==
+X-Google-Smtp-Source: ABdhPJys6n4AfuY0Aaa6yb9+29fFN0vLZrx/ZcZbn4iJVUFsAqNZm7ZyHRkcc/Ql7q9Y8IkhZEx7KHIi+zdo8mXR0mU=
+X-Received: by 2002:ac2:5232:: with SMTP id i18mr10406653lfl.225.1629101119423;
+ Mon, 16 Aug 2021 01:05:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAGAf8Lzejaip+Jxj66xwdSnG=E=vbhrh5p_no53s4o9DmJ2qMQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210810201101.261132-1-daniel@qtec.com> <20210810201101.261132-2-daniel@qtec.com>
+ <YRVNoK+utVN0kCH4@piout.net> <169AC73A6BE1C7BA.28384@lists.openembedded.org>
+In-Reply-To: <169AC73A6BE1C7BA.28384@lists.openembedded.org>
+From: "Daniel Gomez" <daniel@qtec.com>
+Date: Mon, 16 Aug 2021 10:05:08 +0200
+Message-ID: <CAH1Ww+QFN-7ZoL3VbwLbOVY2TXVOnzj_7M2YRYgkd_Jqij6RLQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2 2/2] oeqa: wic: Add tests for --no-fstab-update
+To: Daniel Gomez <daniel@qtec.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
+	Daniel Gomez <dagmcr@gmail.com>, Paul Barker <paul@pbarker.dev>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Alexandre,
 
 
+On Fri, 13 Aug 2021 at 07:41, Daniel Gomez via lists.openembedded.org
+<daniel=qtec.com@lists.openembedded.org> wrote:
+>
+> Hi Alexandre,
+>
+> On Thu, 12 Aug 2021 at 18:34, Alexandre Belloni
+> <alexandre.belloni@bootlin.com> wrote:
+> >
+> > Hello,
+> >
+> > On 10/08/2021 22:11:01+0200, Daniel Gomez wrote:
+> > > Add tests for the --no-fstab-update wic part command.
+> > >
+> > > Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> > > ---
+> > >  meta/lib/oeqa/selftest/cases/wic.py | 56 +++++++++++++++++++++++++++++
+> > >  1 file changed, 56 insertions(+)
+> > >
+> > > diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+> > > index 2efbe514c1..a58360851a 100644
+> > > --- a/meta/lib/oeqa/selftest/cases/wic.py
+> > > +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> > > @@ -11,6 +11,7 @@
+> > >  import os
+> > >  import sys
+> > >  import unittest
+> > > +import hashlib
+> > >
+> > >  from glob import glob
+> > >  from shutil import rmtree, copy
+> > > @@ -686,6 +687,61 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+> > >                                        % (wks_file, self.resultdir), ignore_status=True).status)
+> > >          os.remove(wks_file)
+> > >
+> > > +    def test_no_fstab_update(self):
+> > > +        """Test --no-fstab-update wks option."""
+> > > +
+> > > +        oldpath = os.environ['PATH']
+> > > +        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+> > > +
+> > > +        # Get stock fstab from base-files recipe
+> > > +        bitbake('base-files')
+> > > +        bf_fstab = os.path.join(get_bb_var('WORKDIR', 'base-files'),'image/etc/fstab')
+> > > +        bf_fstab_md5sum = runCmd('md5sum %s 2>/dev/null' % bf_fstab).output.split(" ")[0]
+> > > +
+> >
+> > This failed on the autobuilders:
+> >
+> >   File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/wic.py", line 699, in test_no_fstab_update
+> >     bf_fstab_md5sum = runCmd('md5sum %s 2>/dev/null' % bf_fstab).output.split(" ")[0]
+> >   File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/commands.py", line 207, in runCmd
+> >     raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
+> > AssertionError: Command 'md5sum /home/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-15202/tmp/work/qemux86_64-poky-linux/base-files/3.0.14-r89/image/etc/fstab 2>/dev/null' returned non-zero exit status 1:
+> >
+> > Full log here:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/2374/steps/14/logs/stdio
+>
+> Thanks for letting me know. I'll take a look.
 
-On 8/15/21 10:36 PM, Zoran wrote:
-> You are using systemd with the wrong defconfig setup, my best guess.
+I can't replicate the problem in my setup ('master' branch for bitbake
+and openembedded core; 'qemux86-64' machine) . Could it be possible to
+get the environment variables for the build?
+
+The problem comes when executing the first md5sum command:
+
+1. bitbake 'base-files' recipe.
+2. Get the 'WORKDIR' for 'base-files' recipe.
+3. Do 'md5sum' for the 'WORKDIR' + 'image/etc/fstab' file.
+
+md5sum /home/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-15202/tmp/work/qemux86_64-poky-linux/base-files/3.0.14-r89/image/etc/fstab
+
+If the file does not exist, md5sum will return the same '1' status
+(assuming that's the error). Could this be bause the '${WORKDIR} +
+image' for the 'base-files' recipe is located under another directory?
+Could we get access to that directory to know if the file was present
+there?
+
+If that's the case, I could replace the command to be executed with
+one of the following environment variables:
+D="/workdir/openembedded-core/build/tmp-glibc/work/qemux86_64-oe-linux/base-files/3.0.14-r89/image"
+PKGD="/workdir/openembedded-core/build/tmp-glibc/work/qemux86_64-oe-linux/base-files/3.0.14-r89/package"
+PKGDEST="/workdir/openembedded-core/build/tmp-glibc/work/qemux86_64-oe-linux/base-files/3.0.14-r89/packages-split"
+
+Otherwise, any ideas or suggestions?
+
+Thanks
+
+>
+> >
+> > > +        try:
+> > > +            no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
+> > > +            os.makedirs(no_fstab_update_path)
+> > > +            wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
+> > > +            with open(wks_file, 'w') as wks:
+> > > +                wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
+> > > +                                'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
+> > > +                                '--fstype=ext4 --label p2 --no-fstab-update\n'])
+> > > +            runCmd("wic create %s -e core-image-minimal -o %s" \
+> > > +                                       % (wks_file, self.resultdir))
+> > > +
+> > > +            part_fstab_md5sum = []
+> > > +            for i in range(1, 3):
+> > > +                part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
+> > > +                part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s 2>/dev/null" % (part))
+> > > +                part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
+> > > +
+> > > +            # '/etc/fstab' in partition 2 should contain the same stock fstab file at base-file recipe.
+> > > +            self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
+> > > +
+> > > +            # '/etc/fstab' in partition 1 should contain an updated fstab file.
+> > > +            self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
+> > > +
+> > > +        finally:
+> > > +            os.environ['PATH'] = oldpath
+> > > +
+> > > +    def test_no_fstab_update_errors(self):
+> > > +        """Test --no-fstab-update wks option error handling."""
+> > > +        wks_file = 'temp.wks'
+> > > +
+> > > +        # Absolute argument.
+> > > +        with open(wks_file, 'w') as wks:
+> > > +            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update /etc")
+> > > +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+> > > +                                      % (wks_file, self.resultdir), ignore_status=True).status)
+> > > +        os.remove(wks_file)
+> > > +
+> > > +        # Argument pointing to parent directory.
+> > > +        with open(wks_file, 'w') as wks:
+> > > +            wks.write("part / --source rootfs --fstype=ext4 --no-fstab-update ././..")
+> > > +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
+> > > +                                      % (wks_file, self.resultdir), ignore_status=True).status)
+> > > +        os.remove(wks_file)
+> > > +
+> > >  class Wic2(WicTestCase):
+> > >
+> > >      def test_bmap_short(self):
+> > > --
+> > > 2.30.2
+> > >
+> >
+> >
+> >
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+>
+> Daniel
+>
 > 
-> cgroup option in the config must be set to Y while using systemd:
-> CONFIG_CGROUP=Y .
-> 
-> Zee
-> _______
-> 
-> On Mon, Aug 16, 2021 at 6:24 AM JH <jupiter.hce@gmail.com> wrote:
->>
->> Hi,
->>
->> I upgrade Zeus to Hardknott, the kernel version is 5.10.4
->> (oe-user@oe-host) (arm-oe-linux-gnueabi-gcc (GCC) 10.2.0, GNU ld (GNU
->> Binutils) 2.36.1.20210209), it was failed to boot the kernel :
->>
->> ---------------
->>
->> [    9.418302] systemd[1]: Failed to mount tmpfs at /sys/fs/cgroup: No
->> such file or directory
->> [    9.431805] systemd[1]: Failed to mount cgroup at
->> /sys/fs/cgroup/systemd: No such file or directory
->> [!!!!!!] Failed to mount API filesystems.
->> [    9.463151] systemd[1]: Freezing execution.
->>
->> What could I be missing?
-
-Look at kernel kconfig options that should be enabled here
-https://cgit.freedesktop.org/systemd/systemd/tree/README#n38
-
-
->>
->> Thank you.
->>
->> Kind regards,
->>
->> - jh
->>
->>
->>
->>
->>
->> 
->>
+>
