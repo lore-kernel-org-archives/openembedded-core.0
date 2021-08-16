@@ -1,353 +1,89 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.28250.1629138124382241082
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+ by mx.groups.io with SMTP id smtpd.web08.28656.1629139245880740879
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 11:22:04 -0700
+ Mon, 16 Aug 2021 11:40:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=F7Atztbu;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
-Received: from [192.168.0.237] (unknown [64.187.161.254])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A8AB920C29E7;
-	Mon, 16 Aug 2021 11:22:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A8AB920C29E7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1629138123;
-	bh=D3Sv1iakHYAbBQ4i5HiiHbYP0Xdwni3UHDtkiaLRPS8=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=F7AtztbuwxSMeFYOW+899ODjoOlsPIeY1eGge6+mo7UotMJLAi1OvSL0/bTBcI6P3
-	 dbo64thBQMulI0KVHcthH9VJdjdM7GUXUnx16x2NOP+bckqZ8VoSVKdubHLzSWuTSS
-	 yGtu4DmUZB5uo1KUPkMWmPr/zyhudxNN5LVO/p6s=
-Subject: Re: [OE-core] [PATCH] buildhistory: Add output file listing package information
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Cc: openembedded-core@lists.openembedded.org
-References: <20210812165856.6469-1-abeltran@linux.microsoft.com>
- <YRYhfdR5SNZpiYpN@korppu>
-From: "Andres Beltran" <abeltran@linux.microsoft.com>
-Message-ID: <bf2e46cf-923d-dccb-01ed-c6dd20180578@linux.microsoft.com>
-Date: Mon, 16 Aug 2021 11:22:01 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ek1JgZvW;
+ spf=pass (domain: gmail.com, ip: 209.85.222.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f50.google.com with SMTP id b26so5723747uam.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 11:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7VA4r3TLGcBffQvOQUR5X3EqrYeoUg7S+mzDke++9WY=;
+        b=Ek1JgZvWVKIko1hV+L2OGQy1VzMFl99lehYC/PTfXHqnebp+p4dOUmlyRZBtlKXi38
+         Y7ACWq30vWSWpH1lPLcCaC1OQ3WpRx+koDbKtU6HWWrR6VhyovzEd9CnkCDXv121kIII
+         4xeL1hvyiuCdb7YoQwKOgHzzeTBwejvfvICVmm9d3azbjcyMG9gpG4MShkyv5bM+VEeu
+         OT9hU7d3oE6FNVufdoz3uIqZr5ZJw21Z69BAQiboE5aXy7gmd3I68XQF3exV/z4HtOQA
+         XzrWC/ge3Hbie+2LMDD1amnZbQEotLBhlAPljYehAiLbuukO2jlT1nXF53a0liVUPdfa
+         xqaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7VA4r3TLGcBffQvOQUR5X3EqrYeoUg7S+mzDke++9WY=;
+        b=HgH/yjyjJhBAabE/lnxGw5iifFOPBom/DuT3YxSFCVGktPD6aQoZvuLJBS5OaHbTNz
+         uRhs+pkBh5WJ13FufbM01LiSikwk0G0OO3VPJqi9Fj8DByUqE4j+vdxrOA0REMY0IoBo
+         d+/81Y1r4/bgFad/n+wuoiaLcckyNVBzz1zSM2q6a84lyHCtdU8QIhIM8C9eFCsouD0j
+         2sw0s66MwHyD2SchKdViQ+hDEQlA/E2aI85pNkTaN1IWMYIe20n1BuK62Ug5rrV7bYST
+         Egn9d5CpBdbYGz8cmgE+AQ4vRv8xfihMZV+8gftRbpCqZLg/X8wFu9g6kxDE1KKJp+Hn
+         373Q==
+X-Gm-Message-State: AOAM532ISYBOs6pv0QY6lrX1SgRtiswozLq0kEfwnww42aR/ycnvpNHa
+	gfZ/vk22rWEfLIAMyIip4ZZPhoNTyMT1dH5VDK9WTnDW
+X-Google-Smtp-Source: ABdhPJzjyNt/vCAoJ0I0HN5KQ6EQJkWYJcbPVbgxMr7nr1/F/+7FszMTBYvbVgELxcNvuDtEht8AEnLsM6AwBAxv+mI=
+X-Received: by 2002:ab0:2381:: with SMTP id b1mr89047uan.93.1629139244976;
+ Mon, 16 Aug 2021 11:40:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YRYhfdR5SNZpiYpN@korppu>
-Content-Type: multipart/alternative;
- boundary="------------7754B143C4EAB20DDA5F15E8"
-Content-Language: en-US
+References: <20210816182012.26458-1-joe.slater@windriver.com>
+In-Reply-To: <20210816182012.26458-1-joe.slater@windriver.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 16 Aug 2021 20:40:33 +0200
+Message-ID: <CANNYZj9xLN5vDQ5vgHk1S7k8PfX_zM1+ThzfVF+Yw+Y4aQrpMA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 1/1] blktrace: change shebangs
+To: Joe Slater <joe.slater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Randy MacLeod <randy.macleod@windriver.com>
+Content-Type: multipart/alternative; boundary="000000000000fc8cf205c9b189d3"
 
---------------7754B143C4EAB20DDA5F15E8
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+--000000000000fc8cf205c9b189d3
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mikko,
+On Mon, 16 Aug 2021 at 20:20, Joe Slater <joe.slater@windriver.com> wrote:
 
-This patch outputs information that is readily available in the context 
-of the
-image, i.e. information that can be read directly from pkgdata. The 
-information
-for the recipe's layer is not readily available, so it would have
-to be a separate task to add that information (or make it extensible to 
-allow
-it).
-
-Best,
--Andres
-
-
-On 8/13/2021 12:38 AM, Mikko Rapeli wrote:
-> Hi,
+> +blktrace can use either python2 or python3, but we really want
+> +python3, so modify the shebangs.
+> +
+> +Upstream-Status: pending
+> +
+> +Signed-off-by: Joe Slater <joe.slater@windriver.com.
 >
-> On Thu, Aug 12, 2021 at 04:58:56PM +0000, Andres Beltran wrote:
->> Currently, buildhistory does not produce a single file combining relevant
->> information of installed packages. Produce an output file
->> "installed-package-info.txt" listing a package's runtime name, buildtime name,
->> its recipe, version, and size to avoid having to look up each package externally.
->> Leave the existing package list files as-is for backwards compatibility.
-> Thanks for this patch, I find it useful!
->
-> I have had similar needs and have created scripts which parse the same info
-> from buildhistory. What I'd add here is the layer of the recipe.
->
-> In large projects I have the need to also map binary packages into
-> their maintainers and subprojects, and produce reports, e.g. rootfs usage
-> reports per maintainer/subproject to be checked against an agreed budget.
-> Thus I've used layer and MAINTAINER fields to map binary package to the
-> subprojects and maintainers inside the projects.
->
-> Would be nice to be able to extend the rootfs binary package reports with
-> this info but a bit of scripting on the buildhistory output is fine too.
->
-> Cheers,
->
-> -Mikko
->
->> In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
->> for its read-value argument.
->>
->> Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
->> ---
->>   meta/classes/buildhistory.bbclass |  5 +++++
->>   scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
->>   2 files changed, 28 insertions(+), 14 deletions(-)
->>
->> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
->> index 8a1359acbe..134b56ab71 100644
->> --- a/meta/classes/buildhistory.bbclass
->> +++ b/meta/classes/buildhistory.bbclass
->> @@ -491,6 +491,11 @@ buildhistory_get_installed() {
->>   	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
->>   	rm $1/installed-package-sizes.tmp
->>   
->> +	# Produce package info: runtime_name, buildtime_name, recipe, version, size
->> +	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
->> +	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
->> +	rm $1/installed-package-info.tmp
->> +
->>   	# We're now done with the cache, delete it
->>   	rm $pkgcache
->>   
->> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
->> index 75dd23efa3..c30baaa580 100755
->> --- a/scripts/oe-pkgdata-util
->> +++ b/scripts/oe-pkgdata-util
->> @@ -171,7 +171,7 @@ def read_value(args):
->>                       val = line.split(': ', 1)[1].rstrip()
->>           return val
->>   
->> -    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
->> +    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
->>       for package in packages:
->>           pkg_split = package.split('_')
->>           pkg_name = pkg_split[0]
->> @@ -180,20 +180,29 @@ def read_value(args):
->>           logger.debug(revlink)
->>           if os.path.exists(revlink):
->>               mappedpkg = os.path.basename(os.readlink(revlink))
->> -            qvar = args.valuename
->> -            value = readvar(revlink, qvar, mappedpkg)
->> -            if qvar == "PKGSIZE":
->> -                # PKGSIZE is now in bytes, but we we want it in KB
->> -                pkgsize = (int(value) + 1024 // 2) // 1024
->> -                value = "%d" % pkgsize
->> -            if args.unescape:
->> -                import codecs
->> -                # escape_decode() unescapes backslash encodings in byte streams
->> -                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
->> +            qvars = args.valuenames
->> +            val_names = qvars.split(',')
->> +            values = []
->> +            for qvar in val_names:
->> +                if qvar == "PACKAGE":
->> +                    value = mappedpkg
->> +                else:
->> +                    value = readvar(revlink, qvar, mappedpkg)
->> +                if qvar == "PKGSIZE":
->> +                    # PKGSIZE is now in bytes, but we we want it in KB
->> +                    pkgsize = (int(value) + 1024 // 2) // 1024
->> +                    value = "%d" % pkgsize
->> +                if args.unescape:
->> +                    import codecs
->> +                    # escape_decode() unescapes backslash encodings in byte streams
->> +                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
->> +                values.append(value)
->> +
->> +            values_str = ' '.join(values)
->>               if args.prefix_name:
->> -                print('%s %s' % (pkg_name, value))
->> +                print('%s %s' % (pkg_name, values_str))
->>               else:
->> -                print(value)
->> +                print(values_str)
->>           else:
->>               logger.debug("revlink %s does not exist", revlink)
->>   
->> @@ -570,7 +579,7 @@ def main():
->>       parser_read_value = subparsers.add_parser('read-value',
->>                                             help='Read any pkgdata value for one or more packages',
->>                                             description='Reads the named value from the pkgdata files for the specified packages')
->> -    parser_read_value.add_argument('valuename', help='Name of the value to look up')
->> +    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
->>       parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
->>       parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
->>       parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
->> -- 
->> 2.17.1
->>
->>
->>
->>
->> 
->>
 
---------------7754B143C4EAB20DDA5F15E8
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Please submit upstream first. Signed-off-by is incorrectly written, needs
+to be added by git preferably. 'Pending' needs to be capitalized (but
+please submit upstream first).
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body>
-    <font face="monospace">Hi Mikko,<br>
-      <br>
-      This patch outputs information that is readily available in the
-      context of the<br>
-      image, i.e. information that can be read directly from pkgdata.
-      The information<br>
-      for the recipe's layer is not readily available, so it would have<br>
-      to be a separate task to add that information (or make it
-      extensible to allow<br>
-      it).<br>
-      <br>
-      Best,<br>
-      -Andres</font><br>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 8/13/2021 12:38 AM, Mikko Rapeli
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:YRYhfdR5SNZpiYpN@korppu">
-      <pre class="moz-quote-pre" wrap="">Hi,
+Alex
 
-On Thu, Aug 12, 2021 at 04:58:56PM +0000, Andres Beltran wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Currently, buildhistory does not produce a single file combining relevant
-information of installed packages. Produce an output file
-"installed-package-info.txt" listing a package's runtime name, buildtime name,
-its recipe, version, and size to avoid having to look up each package externally.
-Leave the existing package list files as-is for backwards compatibility.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Thanks for this patch, I find it useful!
+--000000000000fc8cf205c9b189d3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I have had similar needs and have created scripts which parse the same info
-from buildhistory. What I'd add here is the layer of the recipe.
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 16 Aug 2021 at 20:20, Joe Slater &lt;<a href=3D"mailto:joe.s=
+later@windriver.com">joe.slater@windriver.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">+blktrace can use either pytho=
+n2 or python3, but we really want<br>
++python3, so modify the shebangs.<br>
++<br>
++Upstream-Status: pending<br>
++<br>
++Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com" =
+target=3D"_blank">joe.slater@windriver.com</a>.<br></blockquote><div><br></=
+div><div>Please submit upstream first. Signed-off-by is incorrectly written=
+, needs to be added by git preferably. &#39;Pending&#39; needs to be capita=
+lized (but please submit upstream first).<br></div><div><br></div><div>Alex=
+<br></div><div>=C2=A0</div></div></div>
 
-In large projects I have the need to also map binary packages into
-their maintainers and subprojects, and produce reports, e.g. rootfs usage
-reports per maintainer/subproject to be checked against an agreed budget.
-Thus I've used layer and MAINTAINER fields to map binary package to the
-subprojects and maintainers inside the projects.
-
-Would be nice to be able to extend the rootfs binary package reports with
-this info but a bit of scripting on the buildhistory output is fine too.
-
-Cheers,
-
--Mikko
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
-for its read-value argument.
-
-Signed-off-by: Andres Beltran <a class="moz-txt-link-rfc2396E" href="mailto:abeltran@linux.microsoft.com">&lt;abeltran@linux.microsoft.com&gt;</a>
----
- meta/classes/buildhistory.bbclass |  5 +++++
- scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
- 2 files changed, 28 insertions(+), 14 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 8a1359acbe..134b56ab71 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -491,6 +491,11 @@ buildhistory_get_installed() {
- 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r &gt; $1/installed-package-sizes.txt
- 	rm $1/installed-package-sizes.tmp
- 
-+	# Produce package info: runtime_name, buildtime_name, recipe, version, size
-+	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache &gt; $1/installed-package-info.tmp
-+	cat $1/installed-package-info.tmp | sort -n -r -k 5 &gt; $1/installed-package-info.txt
-+	rm $1/installed-package-info.tmp
-+
- 	# We're now done with the cache, delete it
- 	rm $pkgcache
- 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 75dd23efa3..c30baaa580 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -171,7 +171,7 @@ def read_value(args):
-                     val = line.split(': ', 1)[1].rstrip()
-         return val
- 
--    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
-+    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
-     for package in packages:
-         pkg_split = package.split('_')
-         pkg_name = pkg_split[0]
-@@ -180,20 +180,29 @@ def read_value(args):
-         logger.debug(revlink)
-         if os.path.exists(revlink):
-             mappedpkg = os.path.basename(os.readlink(revlink))
--            qvar = args.valuename
--            value = readvar(revlink, qvar, mappedpkg)
--            if qvar == "PKGSIZE":
--                # PKGSIZE is now in bytes, but we we want it in KB
--                pkgsize = (int(value) + 1024 // 2) // 1024
--                value = "%d" % pkgsize
--            if args.unescape:
--                import codecs
--                # escape_decode() unescapes backslash encodings in byte streams
--                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-+            qvars = args.valuenames
-+            val_names = qvars.split(',')
-+            values = []
-+            for qvar in val_names:
-+                if qvar == "PACKAGE":
-+                    value = mappedpkg
-+                else:
-+                    value = readvar(revlink, qvar, mappedpkg)
-+                if qvar == "PKGSIZE":
-+                    # PKGSIZE is now in bytes, but we we want it in KB
-+                    pkgsize = (int(value) + 1024 // 2) // 1024
-+                    value = "%d" % pkgsize
-+                if args.unescape:
-+                    import codecs
-+                    # escape_decode() unescapes backslash encodings in byte streams
-+                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-+                values.append(value)
-+
-+            values_str = ' '.join(values)
-             if args.prefix_name:
--                print('%s %s' % (pkg_name, value))
-+                print('%s %s' % (pkg_name, values_str))
-             else:
--                print(value)
-+                print(values_str)
-         else:
-             logger.debug("revlink %s does not exist", revlink)
- 
-@@ -570,7 +579,7 @@ def main():
-     parser_read_value = subparsers.add_parser('read-value',
-                                           help='Read any pkgdata value for one or more packages',
-                                           description='Reads the named value from the pkgdata files for the specified packages')
--    parser_read_value.add_argument('valuename', help='Name of the value to look up')
-+    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
-     parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
-     parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
-     parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
--- 
-2.17.1
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-        <br>
-        <fieldset class="mimeAttachmentHeader"></fieldset>
-        <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
-
---------------7754B143C4EAB20DDA5F15E8--
+--000000000000fc8cf205c9b189d3--
