@@ -1,89 +1,74 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
- by mx.groups.io with SMTP id smtpd.web08.28656.1629139245880740879
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web11.30880.1629150520019823526
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 11:40:46 -0700
+ Mon, 16 Aug 2021 14:48:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ek1JgZvW;
- spf=pass (domain: gmail.com, ip: 209.85.222.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f50.google.com with SMTP id b26so5723747uam.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 11:40:45 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=gIkc/phg;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.169, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f169.google.com with SMTP id p22so19589473qki.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 14:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7VA4r3TLGcBffQvOQUR5X3EqrYeoUg7S+mzDke++9WY=;
-        b=Ek1JgZvWVKIko1hV+L2OGQy1VzMFl99lehYC/PTfXHqnebp+p4dOUmlyRZBtlKXi38
-         Y7ACWq30vWSWpH1lPLcCaC1OQ3WpRx+koDbKtU6HWWrR6VhyovzEd9CnkCDXv121kIII
-         4xeL1hvyiuCdb7YoQwKOgHzzeTBwejvfvICVmm9d3azbjcyMG9gpG4MShkyv5bM+VEeu
-         OT9hU7d3oE6FNVufdoz3uIqZr5ZJw21Z69BAQiboE5aXy7gmd3I68XQF3exV/z4HtOQA
-         XzrWC/ge3Hbie+2LMDD1amnZbQEotLBhlAPljYehAiLbuukO2jlT1nXF53a0liVUPdfa
-         xqaA==
+        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v4KoaNYmyDOAd85Sg60lFol0YCF1JFeLGPHPlFXJKsU=;
+        b=gIkc/phgLFdHL0CNw+3n1NX4RUYY0YTRg8Xr3br7ei2MluglzN2qYK+YRN2kOD393v
+         y5XRetYWmxbSoKl08sWN7B+LEMXKI6Jr+glwZ6tUPOl7GBdtz0TZVzQ4rtsEvCRZgxLo
+         sA/Mi93emdYijO/QrE+WbgQprOdGuZKxUgQMPA1NTiWYdPh/zNo+wzPy/hNgK2ICUoXB
+         MRhkgNS9Zb2KQd96pRXNyuNKxyK1vz2QqX/0sjWFLQvo3+gfB34xCfN+yp1EGkeH4tDS
+         pPW0AIvViytX0IKU8d3lR24i/DHtVqEeidDSnqvCcBNCqkTyZJfKU6qKg8wOocuVkyCg
+         O/uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7VA4r3TLGcBffQvOQUR5X3EqrYeoUg7S+mzDke++9WY=;
-        b=HgH/yjyjJhBAabE/lnxGw5iifFOPBom/DuT3YxSFCVGktPD6aQoZvuLJBS5OaHbTNz
-         uRhs+pkBh5WJ13FufbM01LiSikwk0G0OO3VPJqi9Fj8DByUqE4j+vdxrOA0REMY0IoBo
-         d+/81Y1r4/bgFad/n+wuoiaLcckyNVBzz1zSM2q6a84lyHCtdU8QIhIM8C9eFCsouD0j
-         2sw0s66MwHyD2SchKdViQ+hDEQlA/E2aI85pNkTaN1IWMYIe20n1BuK62Ug5rrV7bYST
-         Egn9d5CpBdbYGz8cmgE+AQ4vRv8xfihMZV+8gftRbpCqZLg/X8wFu9g6kxDE1KKJp+Hn
-         373Q==
-X-Gm-Message-State: AOAM532ISYBOs6pv0QY6lrX1SgRtiswozLq0kEfwnww42aR/ycnvpNHa
-	gfZ/vk22rWEfLIAMyIip4ZZPhoNTyMT1dH5VDK9WTnDW
-X-Google-Smtp-Source: ABdhPJzjyNt/vCAoJ0I0HN5KQ6EQJkWYJcbPVbgxMr7nr1/F/+7FszMTBYvbVgELxcNvuDtEht8AEnLsM6AwBAxv+mI=
-X-Received: by 2002:ab0:2381:: with SMTP id b1mr89047uan.93.1629139244976;
- Mon, 16 Aug 2021 11:40:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v4KoaNYmyDOAd85Sg60lFol0YCF1JFeLGPHPlFXJKsU=;
+        b=SOxaBnj+OBqACkxh0F9mykn1/DCsK3Kx1tJbtYI2iSP96kCbvLm3ttLh3PjFiCzbaT
+         y8l/wkRwutGJEMADmUUzjz31mseeYXPuuDWf1egiqI4zRNGc7KMBLoLQa18IGOVUAoor
+         8BmEVQYYzhEQuo6CdTWBgUDWbRsmnr7+8k2zFTkpf/aOqP9k22OgGJbarFrQYVD3Dv9G
+         qK2dT/rYC+Snn36PgXeNf1MNUG2uCvAgWVfy20MbYQL4SrNy+X6MLj5WqKPHONuK46BF
+         16pYwes4/np2vepscn3+axrXpCAM174Rz1/7bhu3ovSsr7YaBYjjwpoe8NAw9E4htffo
+         T3rg==
+X-Gm-Message-State: AOAM5326x3LFfq4uMzordxFO3GjbEjrPvhFn3/xcHAvvFRUomEAr6kNh
+	PjJqJrgCpKMop7nG25uL3T9OVDdltYTlpQ==
+X-Google-Smtp-Source: ABdhPJyOeA9XszCvEXjD03hMA4GHWK3m0uz9f/EWrv/Hbfkaez6fPcbTrVX9Arbjs3eyL9B9/O339g==
+X-Received: by 2002:a37:541:: with SMTP id 62mr493261qkf.478.1629150519017;
+        Mon, 16 Aug 2021 14:48:39 -0700 (PDT)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([2605:a601:a632:4e00:f177:a44a:469d:7e14])
+        by smtp.gmail.com with ESMTPSA id f24sm1912qtp.1.2021.08.16.14.48.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 14:48:38 -0700 (PDT)
+From: "Jon Mason" <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] arch-armv8m-main: missing space
+Date: Mon, 16 Aug 2021 17:48:38 -0400
+Message-Id: <20210816214838.28592-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210816182012.26458-1-joe.slater@windriver.com>
-In-Reply-To: <20210816182012.26458-1-joe.slater@windriver.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 16 Aug 2021 20:40:33 +0200
-Message-ID: <CANNYZj9xLN5vDQ5vgHk1S7k8PfX_zM1+ThzfVF+Yw+Y4aQrpMA@mail.gmail.com>
-Subject: Re: [oe-core][PATCH 1/1] blktrace: change shebangs
-To: Joe Slater <joe.slater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Randy MacLeod <randy.macleod@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000fc8cf205c9b189d3"
+Content-Transfer-Encoding: 8bit
 
---000000000000fc8cf205c9b189d3
-Content-Type: text/plain; charset="UTF-8"
+Correct an issue with 2 AVAILTUNES not being separated by a space.
 
-On Mon, 16 Aug 2021 at 20:20, Joe Slater <joe.slater@windriver.com> wrote:
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/conf/machine/include/arm/arch-armv8m-main.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +blktrace can use either python2 or python3, but we really want
-> +python3, so modify the shebangs.
-> +
-> +Upstream-Status: pending
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com.
->
+diff --git a/meta/conf/machine/include/arm/arch-armv8m-main.inc b/meta/conf/machine/include/arm/arch-armv8m-main.inc
+index 27f552b2d726..4dbe401c1929 100644
+--- a/meta/conf/machine/include/arm/arch-armv8m-main.inc
++++ b/meta/conf/machine/include/arm/arch-armv8m-main.inc
+@@ -21,7 +21,7 @@ TUNEVALID[vfpv5spd16] = "Enable Vector Floating Point Version 5, Single Precisio
+ TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv5spd16', 'fpv5-sp-d16', '', d)}"
+ MARCH_FPU = "${@bb.utils.contains('TUNE_FEATURES', [ 'vfpv5spd16' ], '+fp', '+nofp', d)}"
+ 
+-AVAILTUNES                                      += "armv8m-main armv8m-mainearmv8m-main-vfpv5spd16 armv8m-maine-vfpv5spd16"
++AVAILTUNES                                      += "armv8m-main armv8m-maine armv8m-main-vfpv5spd16 armv8m-maine-vfpv5spd16"
+ ARMPKGARCH:tune-armv8m-main                      = "armv8m-main"
+ ARMPKGARCH:tune-armv8m-maine                     = "armv8m-main"
+ ARMPKGARCH:tune-armv8m-main-vfpv5spd16           = "armv8m-main"
+-- 
+2.20.1
 
-Please submit upstream first. Signed-off-by is incorrectly written, needs
-to be added by git preferably. 'Pending' needs to be capitalized (but
-please submit upstream first).
-
-Alex
-
---000000000000fc8cf205c9b189d3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, 16 Aug 2021 at 20:20, Joe Slater &lt;<a href=3D"mailto:joe.s=
-later@windriver.com">joe.slater@windriver.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">+blktrace can use either pytho=
-n2 or python3, but we really want<br>
-+python3, so modify the shebangs.<br>
-+<br>
-+Upstream-Status: pending<br>
-+<br>
-+Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com" =
-target=3D"_blank">joe.slater@windriver.com</a>.<br></blockquote><div><br></=
-div><div>Please submit upstream first. Signed-off-by is incorrectly written=
-, needs to be added by git preferably. &#39;Pending&#39; needs to be capita=
-lized (but please submit upstream first).<br></div><div><br></div><div>Alex=
-<br></div><div>=C2=A0</div></div></div>
-
---000000000000fc8cf205c9b189d3--
