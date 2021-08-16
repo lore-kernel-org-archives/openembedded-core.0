@@ -1,111 +1,208 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web10.31326.1629151308865694526
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.31738.1629152864696762402
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 15:01:49 -0700
+ Mon, 16 Aug 2021 15:27:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=P+3GmwhL;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.180, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f180.google.com with SMTP id m21so2931036qkm.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 15:01:48 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hv/0KQ72;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id x12so25676731wrr.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 15:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=lWjV9jLnez+TuYL7iSJDQGi7d8MrOZV8Jj8Df8Tmw3s=;
-        b=P+3GmwhLXMtLo3MiKVuI6oDJ27re7FFZ7y70rvHZJcE5LW6HJV/pE6rR880/GShE6d
-         KmxER98EbVAVhrbDLx+uNCxg6zmdcuI5vylY/Hl8IgXOFAXrd5F6/1U3nqg6vylhBmVt
-         /1PHUWlJqPLI4dtHE2Z+uoIMAIQ8xxWWytBIBYmzN+m1lwlxzV13O+qCvzYmkbjeFEgz
-         1sE6oSg9qXSI0HB19DuJyTLyDg+iJPNhZjNoa/J57fT2JDOOnO04tBwjE+mivcltbtTP
-         wugC1YtIRWf+QiayiU42uv03A5lvNjbQSTwGz6GWWPUEl42TCyiINqxJkS2XBB3u4lBX
-         P2nQ==
+        bh=U2QlO0OmbTdUIAYvAVBXC5F1JtvUleBTe+0dzFjERVI=;
+        b=hv/0KQ72gROUUQ2EKOs0MlVj63N/lpFqz9IyZnLR4+jH4g1ZwvrYYAnhLJ/ClCAUQn
+         o7tHO3Lb6t18d4N5NYzYOr48+KOyvTOwKD73haNhJseKrkVzmK1i33prhdN46b1v9QHa
+         SbeFV7E+l4M+0vVtiDh3M6bLRlUuO/al0FU64=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lWjV9jLnez+TuYL7iSJDQGi7d8MrOZV8Jj8Df8Tmw3s=;
-        b=i0cQlk2jCKmK5AtizF1Rx8cEhvQcNocGJG0SgdYPkYu4a0QPM5OCvEUjdPppn2VB1g
-         3DdJfpfdQEzUHBhTaFZFoWGwY+nfj4GjUOSpTk2iM9fiU1mr1/wfJTVL4SYbxlxNHTAh
-         IICUF1pGXMifgHniB07EcMM1nU9XHdFg/otif3Ztkxo6AnEQQZQPnxj/C1nG+QGSsvbL
-         RM0QwN9/2IVYqYkDzyy+2moEE7og37EkJWrXbO/wf9YNVtTVheFRj2nv/629cHGE62wH
-         jXpdZWqO+XS1jIIrwPO3r/Vfze9EvdFkJfL6pnLkBmjkO01ZA/x5+LDJ3nc/DcU8DhgG
-         PBJA==
-X-Gm-Message-State: AOAM530jlBmn+xohCMVr/J8RKCbHIoJBtp9eD5cxKvZ/NXrCX2u/EqWD
-	zgc2Ll9kttPYto4RPFtQnwjZwQS+NkI3Xg==
-X-Google-Smtp-Source: ABdhPJzeXS608U5Hpima8fdF0zR49Zukhtgo3nxCQuOvU2HJzefAAwb5P4DKPFHd48YMPsy0uRgaig==
-X-Received: by 2002:a37:688f:: with SMTP id d137mr530924qkc.3.1629151307954;
-        Mon, 16 Aug 2021 15:01:47 -0700 (PDT)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([2605:a601:a632:4e00:f177:a44a:469d:7e14])
-        by smtp.gmail.com with ESMTPSA id c7sm16815qtv.9.2021.08.16.15.01.47
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U2QlO0OmbTdUIAYvAVBXC5F1JtvUleBTe+0dzFjERVI=;
+        b=s9wp64fk3KExERYTxVPLmA3m9N5TBHTxvLaLQeLH5IaXXATWFN+mh/WlDVrE6MaNYG
+         FJOGSZ0JNSO3sjN+D1pOB44NxffddJj/4P9KK9qGp/BtLQVjGegRWZ5YR1eLPMybsZH1
+         jbGLURER62lPjOA0+Bgf9ysk0sW8yUD3cxwgLBpf15MlzvHqCT5eBYc2tdIVOLQsGZyy
+         2VwsjnU5OWO1Gk6rAeWhwBzwd08yEN16G/j46Dh8Q649BMav7Tpm5Pu0nkIYg/LaEGzG
+         jR6NFD2GNKuEYto/Jh8ABB8mHA7Lhsobstf4Qs/LultDTqNErzza5xuGOBXyRka2b0e2
+         eEKg==
+X-Gm-Message-State: AOAM530HWEJGuDv1juha9O27RHTZSI26vzLGBE2HWx6fNLBLAniV7ZpC
+	5AAg41eAmyeN3QO0osMAcYsBUv7ynyFPyQ==
+X-Google-Smtp-Source: ABdhPJym8nFh6Y7Vl4QGlIvRLFyZ3KtNo2OrDlWUZ9cqFvCqrTYe14OOnPLCnPPitH5+bzlrhdxnLA==
+X-Received: by 2002:a5d:4447:: with SMTP id x7mr340935wrr.198.1629152862888;
+        Mon, 16 Aug 2021 15:27:42 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f791:56b8:5572:9d45])
+        by smtp.gmail.com with ESMTPSA id p1sm83450wmq.48.2021.08.16.15.27.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 15:01:47 -0700 (PDT)
-From: "Jon Mason" <jdmason@kudzu.us>
+        Mon, 16 Aug 2021 15:27:42 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 3/3] docs: update docs with new tune locations
-Date: Mon, 16 Aug 2021 18:01:44 -0400
-Message-Id: <20210816220144.26018-4-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210816220144.26018-1-jdmason@kudzu.us>
-References: <20210816220144.26018-1-jdmason@kudzu.us>
+Subject: [PATCH 1/2] package/scripts: Fix FILES_INFO handling
+Date: Mon, 16 Aug 2021 23:27:41 +0100
+Message-Id: <20210816222742.3865259-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- documentation/bsp-guide/bsp.rst           | 4 ++--
- documentation/dev-manual/common-tasks.rst | 2 +-
- documentation/ref-manual/variables.rst    | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+There is a long standing bug where FILES_INFO isn't written into pkgdata
+with a package suffix. This means if the files are read into the datastore
+as intended, the last one "wins".
 
-diff --git a/documentation/bsp-guide/bsp.rst b/documentation/bsp-guide/bsp.rst
-index b80354a05bb6..37b052427e62 100644
---- a/documentation/bsp-guide/bsp.rst
-+++ b/documentation/bsp-guide/bsp.rst
-@@ -1266,7 +1266,7 @@ located in the layer ``poky/meta-yocto-bsp/conf/machine`` and is named
-    EXTRA_IMAGEDEPENDS += "u-boot"
+Fix this to work as intended. Most of the call sites using the data need
+to be updated to handle this and the overrides change correctly.
+
+Also fix some other problematic references noticed along the way.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/insane.bbclass                      | 4 ++--
+ meta/classes/package.bbclass                     | 2 +-
+ meta/classes/toaster.bbclass                     | 2 +-
+ scripts/lib/devtool/search.py                    | 5 +++--
+ scripts/lib/recipetool/append.py                 | 8 ++++----
+ scripts/lib/recipetool/create.py                 | 4 ++--
+ scripts/lib/recipetool/create_buildsys_python.py | 2 +-
+ scripts/oe-pkgdata-util                          | 4 ++--
+ 8 files changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 810459d4326..b84e6035edb 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -808,11 +808,11 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                     # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
+                     rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+                     for key in rdep_data:
+-                        if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES:"):
++                        if key.startswith("FILERPROVIDES:") or key.startswith("RPROVIDES:"):
+                             for subkey in bb.utils.explode_deps(rdep_data[key]):
+                                 filerdepends.pop(subkey,None)
+                         # Add the files list to the rprovides
+-                        if key == "FILES_INFO":
++                        if key.startswith("FILES_INFO:"):
+                             # Use eval() to make it as a dict
+                             for subkey in eval(rdep_data[key]):
+                                 filerdepends.pop(subkey,None)
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index a9138ff6bec..fb3c346f692 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1652,7 +1652,7 @@ fi
+             if fstat.st_ino not in seen:
+                 seen.add(fstat.st_ino)
+                 total_size += fstat.st_size
+-        d.setVar('FILES_INFO', json.dumps(files, sort_keys=True))
++        d.setVar('FILES_INFO:' + pkg , json.dumps(files, sort_keys=True))
  
-    DEFAULTTUNE ?= "cortexa8hf-neon"
--   include conf/machine/include/tune-cortexa8.inc
-+   include conf/machine/include/arm/armv7a/tune-cortexa8.inc
+         process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
+         add_set_e_to_scriptlets(pkg)
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 9518ddf7a4e..dd5c7f224ba 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -106,7 +106,7 @@ def _toaster_load_pkgdatafile(dirpath, filepath):
+                     pkgdata['OPKGN'] = m.group(1)
+                 kn = "_".join([x for x in kn.split("_") if x.isupper()])
+                 pkgdata[kn] = kv.strip()
+-                if kn == 'FILES_INFO':
++                if kn.startswith('FILES_INFO'):
+                     pkgdata[kn] = json.loads(kv)
  
-    IMAGE_FSTYPES += "tar.bz2 jffs2 wic wic.bmap"
-    EXTRA_IMAGECMD:jffs2 = "-lnp "
-@@ -1344,7 +1344,7 @@ Project Reference Manual.
-    .. note::
- 
-       The include statement that pulls in the
--      ``conf/machine/include/tune-cortexa8.inc`` file provides many tuning
-+      ``conf/machine/include/arm/tune-cortexa8.inc`` file provides many tuning
-       possibilities.
- 
- -  :term:`IMAGE_FSTYPES`: The
-diff --git a/documentation/dev-manual/common-tasks.rst b/documentation/dev-manual/common-tasks.rst
-index 7f51674a92a3..4a5011ea749a 100644
---- a/documentation/dev-manual/common-tasks.rst
-+++ b/documentation/dev-manual/common-tasks.rst
-@@ -2064,7 +2064,7 @@ Now comes the time to actually build an image and you need a kernel
- recipe, but which one? You can configure your build to call out the
- kernel recipe you want by using the :term:`PREFERRED_PROVIDER` variable. As
- an example, consider the :yocto_git:`x86-base.inc
--</poky/tree/meta/conf/machine/include/x86-base.inc>` include file, which is a
-+</poky/tree/meta/conf/machine/include/x86/x86-base.inc>` include file, which is a
- machine (i.e. :term:`MACHINE`) configuration file. This include file is the
- reason all x86-based machines use the ``linux-yocto`` kernel. Here are the
- relevant lines from the include file::
-diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-manual/variables.rst
-index 7aecda017454..d5ac1926b6ee 100644
---- a/documentation/ref-manual/variables.rst
-+++ b/documentation/ref-manual/variables.rst
-@@ -8256,7 +8256,7 @@ system and gives an overview of their function and contents.
- 
-       These tune-specific package architectures are defined in the machine
-       include files. Here is an example of the "core2-32" tuning as used in
--      the ``meta/conf/machine/include/tune-core2.inc`` file::
-+      the ``meta/conf/machine/include/x86/tune-core2.inc`` file::
- 
-          TUNE_PKGARCH:tune-core2-32 = "core2-32"
- 
+             except ValueError:
+diff --git a/scripts/lib/devtool/search.py b/scripts/lib/devtool/search.py
+index d81cdd876f6..70b81cac5e8 100644
+--- a/scripts/lib/devtool/search.py
++++ b/scripts/lib/devtool/search.py
+@@ -62,10 +62,11 @@ def search(args, config, basepath, workspace):
+                             with open(os.path.join(pkgdata_dir, 'runtime', pkg), 'r') as f:
+                                 for line in f:
+                                     if ': ' in line:
+-                                        splitline = line.split(':', 1)
++                                        splitline = line.split(': ', 1)
+                                         key = splitline[0]
+                                         value = splitline[1].strip()
+-                                    if key in ['PKG:%s' % pkg, 'DESCRIPTION', 'FILES_INFO'] or key.startswith('FILERPROVIDES_'):
++                                    key = key.replace(":" + pkg, "")
++                                    if key in ['PKG', 'DESCRIPTION', 'FILES_INFO', 'FILERPROVIDES']:
+                                         if keyword_rc.search(value):
+                                             match = True
+                                             break
+diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
+index 5f629c07d8e..88ed8c5f018 100644
+--- a/scripts/lib/recipetool/append.py
++++ b/scripts/lib/recipetool/append.py
+@@ -72,15 +72,15 @@ def find_target_file(targetpath, d, pkglist=None):
+                 # This does assume that PN comes before other values, but that's a fairly safe assumption
+                 for line in f:
+                     if line.startswith('PN:'):
+-                        pn = line.split(':', 1)[1].strip()
+-                    elif line.startswith('FILES_INFO:'):
+-                        val = line.split(':', 1)[1].strip()
++                        pn = line.split(': ', 1)[1].strip()
++                    elif line.startswith('FILES_INFO'):
++                        val = line.split(': ', 1)[1].strip()
+                         dictval = json.loads(val)
+                         for fullpth in dictval.keys():
+                             if fnmatch.fnmatchcase(fullpth, targetpath):
+                                 recipes[targetpath].append(pn)
+                     elif line.startswith('pkg_preinst:') or line.startswith('pkg_postinst:'):
+-                        scriptval = line.split(':', 1)[1].strip().encode('utf-8').decode('unicode_escape')
++                        scriptval = line.split(': ', 1)[1].strip().encode('utf-8').decode('unicode_escape')
+                         if 'update-alternatives --install %s ' % targetpath in scriptval:
+                             recipes[targetpath].append('?%s' % pn)
+                         elif targetpath_re.search(scriptval):
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 0ac97e02e94..5cd72ea0a7d 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -115,8 +115,8 @@ class RecipeHandler(object):
+                 for line in f:
+                     if line.startswith('PN:'):
+                         pn = line.split(':', 1)[-1].strip()
+-                    elif line.startswith('FILES_INFO:'):
+-                        val = line.split(':', 1)[1].strip()
++                    elif line.startswith('FILES_INFO:%s:' % pkg):
++                        val = line.split(': ', 1)[1].strip()
+                         dictval = json.loads(val)
+                         for fullpth in sorted(dictval):
+                             if fullpth.startswith(includedir) and fullpth.endswith('.h'):
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+index fdd33660387..8aa44650d33 100644
+--- a/scripts/lib/recipetool/create_buildsys_python.py
++++ b/scripts/lib/recipetool/create_buildsys_python.py
+@@ -545,7 +545,7 @@ class PythonRecipeHandler(RecipeHandler):
+             with open(pkgdatafile, 'r') as f:
+                 for line in f.readlines():
+                     field, value = line.split(': ', 1)
+-                    if field == 'FILES_INFO':
++                    if field.startswith('FILES_INFO'):
+                         files_info = ast.literal_eval(value)
+                         break
+                 else:
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 94d44002ab4..ffa3850b8bc 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -431,7 +431,7 @@ def list_pkg_files(args):
+             for line in f:
+                 if line.startswith('FILES_INFO:'):
+                     found = True
+-                    val = line.split(':', 1)[1].strip()
++                    val = line.split(': ', 1)[1].strip()
+                     dictval = json.loads(val)
+                     if long:
+                         width = max(map(len, dictval), default=0)
+@@ -500,7 +500,7 @@ def find_path(args):
+             with open(os.path.join(root,fn)) as f:
+                 for line in f:
+                     if line.startswith('FILES_INFO:'):
+-                        val = line.split(':', 1)[1].strip()
++                        val = line.split(': ', 1)[1].strip()
+                         dictval = json.loads(val)
+                         for fullpth in dictval.keys():
+                             if fnmatch.fnmatchcase(fullpth, args.targetpath):
 -- 
-2.20.1
+2.30.2
 
