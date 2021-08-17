@@ -1,582 +1,255 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.35864.1629182459020254083
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+ by mx.groups.io with SMTP id smtpd.web09.35969.1629183580869639742
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 23:40:59 -0700
+ Mon, 16 Aug 2021 23:59:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YPBaJF4s;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: ernstp@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d17so23689740plr.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 23:40:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RIwESE4Y;
+ spf=pass (domain: gmail.com, ip: 209.85.217.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f47.google.com with SMTP id b5so2831098vsq.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 23:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8IGF9mhkCkYk5oVh+Unhsyw5mK9y3S7OcCEqhOeyq1k=;
-        b=YPBaJF4srsy4KpQ2pwOoa1ITMyD/34hesvBS7g3MJiiLGaraLmakn0ZnKCU3db44jm
-         81TIrJ3QcN9+k9Hv09ptxUX4KN18iK40BMV9xMzrig1QApCXiRQxIVOS7tz9/a06J06f
-         pgXMeT8cbngGUU25w7RxLFTRUp/3hzteCqvdJ4LBmPwwhK+xBPVPqU3AJJ2n6KMY5njM
-         gaiNA5AhybcndOUW2LMcg7vfbcG+jxtVifAdMqmezYAvolR78wiQ+KPfjOoT49x7Nitz
-         czDEK0cfc99nVNn6zCYjqMm1TVypyDtspUgWtL4ZxuRZtco/EEE/S3pU03qgOOJSyYw/
-         xRCQ==
+        bh=CqItw+TxK9I6cb3jrGGMRHGh18N6GQZDoKqcqTKocoo=;
+        b=RIwESE4YBKPOriQRJtzRYANDkHJ3jAzmTZ5CdIkcuoMEpxqg/gq6Q3l3dnOhPSc6na
+         fmbuTqwrWbLg9V6FPSxzllpy7p+elt2TvgxgqiM0OrfqOtNoplEmbqNfnNEe0ndFBxTh
+         4Q4o297XlMYYkdY7waudWPYdEaiceF5CHpFtNGf65FSWJduAPZrfDmPWdtpNjbwo1SU6
+         WgicKcjGs5Vaqx+gnVYA5JTvMZhyGh/Ay+EJB/RMN+k1+3z8Y2mZDo7nSKRddjxyGw6b
+         +QKqNCeHbidCKYNWmhcgtNPWgXWHkphCxL81WPT89E4lYxHrSV8nlXPRzVB7KyjBSkhE
+         HH4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8IGF9mhkCkYk5oVh+Unhsyw5mK9y3S7OcCEqhOeyq1k=;
-        b=SmqLdHJypeHtCVkG4MzpRwea38Hjs6EbTHPVFlARcPygOrPNcZEj7q02CrDjhoHzGC
-         X7LtFct7jb8kk3ss1yy43XxR3bCX/PMvLgI0tzOv6gyy2mG/czrZVXe16NlJhEXjMEGh
-         E3a6Ww7tGsx1zX7Lbraah557w8NDWnXCnubXmw4FOVa3qyj/YWrMQay0TiQn+xdb5mvf
-         QtindCAHFSDFR9H2yOczdiFp3YN6wYOK1xq+J7gAAwAZySOA8ueM8WxcLCbz+6YptJWB
-         sKv+gYqg0Wu3rV4LfX4vTV65456YpSjmDZKTHW2Jmmu1GdgsioK6O9a0vtk10DtSyw8g
-         hN8g==
-X-Gm-Message-State: AOAM531mb9nnzt2T2ylYx2gmIn6+J2wOPJc9c2ssU/8Kk4Gcpn3FDj4u
-	g9TR2UJy6dj4hXeQlwhhEwH91R+HkdKiNTDCbps=
-X-Google-Smtp-Source: ABdhPJyN84AZ+Gt7d6MlFpeOl3qS7ageoJN/vumw631YHyKH//l1MBqYqXg5Sv6ArYM1579ISwMfmNMbmI0DfAnm6gg=
-X-Received: by 2002:a17:90b:1a85:: with SMTP id ng5mr2015554pjb.62.1629182458317;
- Mon, 16 Aug 2021 23:40:58 -0700 (PDT)
+        bh=CqItw+TxK9I6cb3jrGGMRHGh18N6GQZDoKqcqTKocoo=;
+        b=Kx++j401MtbYJIOtGJh8JBg8SEXQWJVPl84joCTVnwE/bR9XmrJ9ELfvcs7r8KwoZn
+         CdpmydrlqCe+w69E0NlfDiUKX29IMgULkMjohxOgFSCD5I22o6E6zDmENZauM3c4DPDO
+         mxiTH7drt5um2BVMnmKqeBndoj86+sKZsKNR0524GQWNnbSzoxdCBPxEK9e14Y8Hyr2C
+         TbLGzHr0YXKphZXus8LDeCSwgkVq4JkbO8Un9NbtwAQfp7n6zHu1BV94mkZTaYflgzbR
+         uNpr4LsoPiljsKDfDd3RDO4ucQ1jeFx1zkNJcG9EE1rE+1T2ZwlbdkRv5Igi1qd/20mP
+         trzw==
+X-Gm-Message-State: AOAM531gJWE4EymZ0R9uJeIi7OTaKhvFX5AU3uVjXXWw05XUUPq/ZvRH
+	cL+nMLW9DbZCuRhUGoJwqHpO1QFiykHghKGRzma54RgX
+X-Google-Smtp-Source: ABdhPJxyTn0yO/K9TE3pFRa/McPhPLuARbG3JBf3Hi2oAr6/GBCO0B9hzLUCsc0kBAcsHcpLHag45mbA5iDH0rmASDM=
+X-Received: by 2002:a67:844:: with SMTP id 65mr1376300vsi.20.1629183579934;
+ Mon, 16 Aug 2021 23:59:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210727183831.100545-1-vinay.m.engg@gmail.com>
- <a3e9bd964546a48124dddfb13008e2bc1e467163.camel@intel.com>
- <CANUMPcVH2STrqcD34DRXQ9ty3id9O0ZgZ_qWg76+F-pQ-6Hx5A@mail.gmail.com>
- <6d88bfb57e64bfd5f169413c1fab0777ca3e811d.camel@intel.com> <CANUMPcV4EQ1ds6jx2QEMTD1PsC2tXeumGtyTr89v8JCOhwFoug@mail.gmail.com>
-In-Reply-To: <CANUMPcV4EQ1ds6jx2QEMTD1PsC2tXeumGtyTr89v8JCOhwFoug@mail.gmail.com>
-From: =?UTF-8?B?RXJuc3QgU2rDtnN0cmFuZA==?= <ernstp@gmail.com>
-Date: Tue, 17 Aug 2021 08:40:47 +0200
-Message-ID: <CAD=4a=Xu+9dZC1n6Fy4qkmyBqY3k9P2sNBvR84BdZnozLjaJ7w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-33574
-To: Vinay Kumar <vinay.m.engg@gmail.com>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	"vinay.kumar@blackfigtech.com" <vinay.kumar@blackfigtech.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"rwmacleod@gmail.com" <rwmacleod@gmail.com>, "umesh.kalappa0@gmail.com" <umesh.kalappa0@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000b3d0e005c9bb9926"
+References: <20210817031124.35396-1-yi.zhao@windriver.com>
+In-Reply-To: <20210817031124.35396-1-yi.zhao@windriver.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 17 Aug 2021 08:59:28 +0200
+Message-ID: <CANNYZj8M0dWxvrqpbU-HcNK1XPBG44n7OdnrBZ82SgaaA+Ypww@mail.gmail.com>
+Subject: Re: [PATCH] shadow: update default settings for useradd
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000008e540d05c9bbdc85"
 
---000000000000b3d0e005c9bb9926
+--0000000000008e540d05c9bbdc85
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-There is now an additional fix on top of this:
+If the issue is that /etc/default/useradd was deleted, shouldn't we address
+this by reinstating that file? Patching the source code does not seem like
+a better solution, and introduces surprising behaviour for those expecting
+upstream defaults rather than Yocto's.
 
-https://it.slashdot.org/story/21/08/16/2131221/linux-glibc-security-fix-cre=
-ated-a-nastier-linux-bug
+Alex
 
-https://access.redhat.com/security/cve/cve-2021-38604
+On Tue, 17 Aug 2021 at 05:11, Yi Zhao <yi.zhao@windriver.com> wrote:
 
-//E
-
-Den m=C3=A5n 2 aug. 2021 kl 06:14 skrev Vinay Kumar <vinay.m.engg@gmail.com=
->:
-
-> Hi Anuj,
+> The shadow 4.9 stops shiping /etc/default/useradd[1] and uses built-in
+> settings by default. Some settings are not consistent with previous
+> shadow 4.8.1 in oe-core. Per shadow 4.8.1 settings, change the default
+> shell to /bin/sh and stop creating mail spool.
 >
-> >> It seems wrong to me because the patch header/description is not
-> >> correct here. It's no longer a backport of just
-> >> 42d359350510506b87101cf77202fefcbfc790cb.
+> [1]
+> https://github.com/shadow-maint/shadow/commit/bbf4b79bc49fd1826eb41f6629669ef0b647267b
 >
-> Yes, I merged 2 commits first
-> (42d359350510506b87101cf77202fefcbfc790cb and
-> 217b6dc298156bdb0d6aea9ea93e7e394a5ff091)
-> and then backported as a single patch, and I used only the patch
-> header of 42d359350510506b87101cf77202fefcbfc790cb.
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  ...0001-useradd-update-default-settings.patch | 38 +++++++++++++++++++
+>  meta/recipes-extended/shadow/shadow.inc       |  1 +
+>  2 files changed, 39 insertions(+)
+>  create mode 100644
+> meta/recipes-extended/shadow/files/0001-useradd-update-default-settings.patch
 >
-> >> I also just noticed that there's already a fix for this CVE in my
-> >> branch. So I think I will take that:
+> diff --git
+> a/meta/recipes-extended/shadow/files/0001-useradd-update-default-settings.patch
+> b/meta/recipes-extended/shadow/files/0001-useradd-update-default-settings.patch
+> new file mode 100644
+> index 0000000000..1e6702019b
+> --- /dev/null
+> +++
+> b/meta/recipes-extended/shadow/files/0001-useradd-update-default-settings.patch
+> @@ -0,0 +1,38 @@
+> +From 46106ec16409ea99f73a8a8823e50ac54db8e122 Mon Sep 17 00:00:00 2001
+> +From: Yi Zhao <yi.zhao@windriver.com>
+> +Date: Tue, 17 Aug 2021 10:11:27 +0800
+> +Subject: [PATCH] useradd: update default settings
+> +
+> +The shadow 4.9 stops shiping /etc/default/useradd[1] and uses built-in
+> +settings by default. Some settings are not consistent with previous
+> +shadow 4.8.1 in oe-core. Per shadow 4.8.1 settings, change the default
+> +shell to /bin/sh and stop creating mail spool.
+> +
+> +[1]
+> https://github.com/shadow-maint/shadow/commit/bbf4b79bc49fd1826eb41f6629669ef0b647267b
+> +
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> +---
+> + src/useradd.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/src/useradd.c b/src/useradd.c
+> +index 0d3f390d..715351b4 100644
+> +--- a/src/useradd.c
+> ++++ b/src/useradd.c
+> +@@ -104,9 +104,9 @@ FILE *shadow_logfd = NULL;
+> + static gid_t def_group = 1000;
+> + static const char *def_gname = "other";
+> + static const char *def_home = "/home";
+> +-static const char *def_shell = "/bin/bash";
+> ++static const char *def_shell = "/bin/sh";
+> + static const char *def_template = SKEL_DIR;
+> +-static const char *def_create_mail_spool = "yes";
+> ++static const char *def_create_mail_spool = "no";
+> +
+> + static long def_inactive = -1;
+> + static const char *def_expire = "";
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-extended/shadow/shadow.inc
+> b/meta/recipes-extended/shadow/shadow.inc
+> index 97ffae978a..e2a7a5bac6 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> @@ -16,6 +16,7 @@ SRC_URI = "
+> https://github.com/shadow-maint/shadow/releases/download/v${PV}/${BP}
+>             file://shadow-relaxed-usernames.patch \
 >
-> Ok, thanks. Will go with this once it gets merged to the "hardknott"
-> branch.
+> file://0001-Fix-out-of-tree-builds-with-respect-to-libsubid-incl.patch \
+>             file://0001-libsubid-link-to-PAM-libraries.patch \
+> +           file://0001-useradd-update-default-settings.patch \
+>             "
 >
-> Regards,
-> Vinay
->
-> On Mon, Aug 2, 2021 at 8:09 AM Mittal, Anuj <anuj.mittal@intel.com> wrote=
-:
-> >
-> > On Sat, 2021-07-31 at 21:57 +0530, Vinay Kumar wrote:
-> > > Hi Anuj,
-> > >
-> > > The patch is conjugate of both commits.
-> > >
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d359350510506b=
-87101cf77202fefcbfc790cb
-> > >
-> > >
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6dc298156bdb=
-0d6aea9ea93e7e394a5ff091
-> > >
-> > > Also, the patch is committed to master branch
-> > >
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D55681d09d7f51=
-9a1c7f17d17b18ec59bccdc91ca
-> > >
-> > > Due you want me to resubmit for "hardknott" branch by splitting in to
-> > > 2 patches ?
-> >
-> > It seems wrong to me because the patch header/description is not
-> > correct here. It's no longer a backport of just
-> > 42d359350510506b87101cf77202fefcbfc790cb.
-> >
-> > I also just noticed that there's already a fix for this CVE in my
-> > branch. So I think I will take that:
-> >
-> >
-> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Danujm/=
-hardknott&id=3Dede353df06a07d35dc66d024e2c7bd1b250d9761
-> >
-> > Thanks,
-> >
-> > Anuj
-> >
-> > >
-> > > Regards,
-> > > Vinay
-> > >
-> > > On Sat, Jul 31, 2021 at 11:52 AM Mittal, Anuj <anuj.mittal@intel.com>
-> > > wrote:
-> > > >
-> > > > On Tue, 2021-07-27 at 11:38 -0700, Vinay Kumar wrote:
-> > > > > Source: https://sourceware.org/git/glibc.git
-> > > > > Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=3D278=
-96
-> > > > >
-> > > > > Backported upstream commit 42d359350510506b87101cf77202fefcbfc790=
-cb
-> > > > > to
-> > > > > glibc-2.33 source with dependent commit id
-> > > > > 217b6dc298156bdb0d6aea9ea93e7e394a5ff091.
-> > > > >
-> > > > > Upstream-Status: Backport
-> > > > > [
-> > > > >
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d359350510506b=
-87101cf77202fefcbfc790cb
-> > > > > ]
-> > > >
-> > > > It looks like you'd need to backport this one too:
-> > > >
-> > > >
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6dc298156bdb=
-0d6aea9ea93e7e394a5ff091
-> > > >
-> > > > ?
-> > > >
-> > > > Thanks,
-> > > >
-> > > > Anuj
-> > > >
-> > > > >
-> > > > > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> > > > > ---
-> > > > >  .../glibc/glibc/CVE-2021-33574.patch          | 61
-> > > > > +++++++++++++++++++
-> > > > >  meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
-> > > > >  2 files changed, 62 insertions(+)
-> > > > >  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-
-> > > > > 33574.patch
-> > > > >
-> > > > > diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
-> > > > > b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
-> > > > > new file mode 100644
-> > > > > index 0000000000..fd73b23c88
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
-> > > > > @@ -0,0 +1,61 @@
-> > > > > +From 42d359350510506b87101cf77202fefcbfc790cb Mon Sep 17 00:00:0=
-0
-> > > > > 2001
-> > > > > +From: Andreas Schwab <schwab@linux-m68k.org>
-> > > > > +Date: Thu, 27 May 2021 12:49:47 +0200
-> > > > > +Subject: [PATCH] Use __pthread_attr_copy in mq_notify (bug 27896=
-)
-> > > > > +
-> > > > > +Make a deep copy of the pthread attribute object to remove a
-> > > > > potential
-> > > > > +use-after-free issue.
-> > > > > +
-> > > > > +Upstream-Status: Backport
-> > > > > [
-> > > > >
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d359350510506b=
-87101cf77202fefcbfc790cb
-> > > > > ]
-> > > > > +CVE: CVE-2021-33574
-> > > > > +Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> > > > > +---
-> > > > > +diff --git a/sysdeps/unix/sysv/linux/mq_notify.c
-> > > > > b/sysdeps/unix/sysv/linux/mq_notify.c
-> > > > > +index cc575a0cdd8..6f46d29d1dc 100644
-> > > > > +--- a/sysdeps/unix/sysv/linux/mq_notify.c
-> > > > > ++++ b/sysdeps/unix/sysv/linux/mq_notify.c
-> > > > > +@@ -133,8 +133,11 @@ helper_thread (void *arg)
-> > > > > +           (void) __pthread_barrier_wait (&notify_barrier);
-> > > > > +       }
-> > > > > +       else if (data.raw[NOTIFY_COOKIE_LEN - 1] =3D=3D NOTIFY_RE=
-MOVED)
-> > > > > +-      /* The only state we keep is the copy of the thread
-> > > > > attributes.  */
-> > > > > +-      free (data.attr);
-> > > > > ++      {
-> > > > > ++        /* The only state we keep is the copy of the thread
-> > > > > attributes.  */
-> > > > > ++        pthread_attr_destroy (data.attr);
-> > > > > ++        free (data.attr);
-> > > > > ++      }
-> > > > > +     }
-> > > > > +   return NULL;
-> > > > > + }
-> > > > > +@@ -255,8 +258,14 @@ mq_notify (mqd_t mqdes, const struct sigeve=
-nt
-> > > > > *notification)
-> > > > > +       if (data.attr =3D=3D NULL)
-> > > > > +       return -1;
-> > > > > +
-> > > > > +-      memcpy (data.attr, notification->sigev_notify_attributes,
-> > > > > +-            sizeof (pthread_attr_t));
-> > > > > ++      int ret =3D __pthread_attr_copy (data.attr,
-> > > > > ++                                   notification-
-> > > > > > sigev_notify_attributes);
-> > > > > ++      if (ret !=3D 0)
-> > > > > ++      {
-> > > > > ++        free (data.attr);
-> > > > > ++        __set_errno (ret);
-> > > > > ++        return -1;
-> > > > > ++      }
-> > > > > +     }
-> > > > > +
-> > > > > +   /* Construct the new request.  */
-> > > > > +@@ -269,8 +278,11 @@ mq_notify (mqd_t mqdes, const struct sigeve=
-nt
-> > > > > *notification)
-> > > > > +   int retval =3D INLINE_SYSCALL (mq_notify, 2, mqdes, &se);
-> > > > > +
-> > > > > +   /* If it failed, free the allocated memory.  */
-> > > > > +-  if (__glibc_unlikely (retval !=3D 0))
-> > > > > +-    free (data.attr);
-> > > > > ++  if (retval !=3D 0 && data.attr !=3D NULL)
-> > > > > ++    {
-> > > > > ++      pthread_attr_destroy (data.attr);
-> > > > > ++      free (data.attr);
-> > > > > ++    }
-> > > > > +
-> > > > > +   return retval;
-> > > > > + }
-> > > > > diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes=
--
-> > > > > core/glibc/glibc_2.33.bb
-> > > > > index 925efe8cc6..e9f01a14c5 100644
-> > > > > --- a/meta/recipes-core/glibc/glibc_2.33.bb
-> > > > > +++ b/meta/recipes-core/glibc/glibc_2.33.bb
-> > > > > @@ -57,6 +57,7 @@ SRC_URI =3D
-> > > > > "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
-> > > > >
-> > > > >
-> file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-> > > > >  \
-> > > > >
-> > > > > file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
-> > > > >             file://mte-backports.patch \
-> > > > > +           file://CVE-2021-33574.patch \
-> > > > >             "
-> > > > >  S =3D "${WORKDIR}/git"
-> > > > >  B =3D "${WORKDIR}/build-${TARGET_SYS}"
-> > > >
-> >
->
->=20
+>  SRC_URI:append:class-target = " \
+> --
+> 2.25.1
 >
 >
 
---000000000000b3d0e005c9bb9926
+--0000000000008e540d05c9bbdc85
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:arial,helvetica,sans-serif">There is now an additional fix on top =
-of this:</div><div class=3D"gmail_default" style=3D"font-family:arial,helve=
-tica,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-famil=
-y:arial,helvetica,sans-serif"><a href=3D"https://it.slashdot.org/story/21/0=
-8/16/2131221/linux-glibc-security-fix-created-a-nastier-linux-bug">https://=
-it.slashdot.org/story/21/08/16/2131221/linux-glibc-security-fix-created-a-n=
-astier-linux-bug</a></div><div class=3D"gmail_default" style=3D"font-family=
-:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_default" style=
-=3D"font-family:arial,helvetica,sans-serif"><a href=3D"https://access.redha=
-t.com/security/cve/cve-2021-38604">https://access.redhat.com/security/cve/c=
-ve-2021-38604</a></div><div class=3D"gmail_default" style=3D"font-family:ar=
-ial,helvetica,sans-serif"><br></div></div><div><div style=3D"font-family:ar=
-ial,helvetica,sans-serif" class=3D"gmail_default">//E</div></div><div><br><=
-/div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Den m=
-=C3=A5n 2 aug. 2021 kl 06:14 skrev Vinay Kumar &lt;<a href=3D"mailto:vinay.=
-m.engg@gmail.com">vinay.m.engg@gmail.com</a>&gt;:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">Hi Anuj,<br>
+<div dir=3D"ltr"><div>If the issue is that /etc/default/useradd was deleted=
+, shouldn&#39;t we address this by reinstating that file? Patching the sour=
+ce code does not seem like a better solution, and introduces surprising beh=
+aviour for those expecting upstream defaults rather than Yocto&#39;s.</div>=
+<div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Tue, 17 Aug 2021 at 05:11, Yi Zhao &lt=
+;<a href=3D"mailto:yi.zhao@windriver.com">yi.zhao@windriver.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The shadow 4=
+.9 stops shiping /etc/default/useradd[1] and uses built-in<br>
+settings by default. Some settings are not consistent with previous<br>
+shadow 4.8.1 in oe-core. Per shadow 4.8.1 settings, change the default<br>
+shell to /bin/sh and stop creating mail spool.<br>
 <br>
-&gt;&gt; It seems wrong to me because the patch header/description is not<b=
-r>
-&gt;&gt; correct here. It&#39;s no longer a backport of just<br>
-&gt;&gt; 42d359350510506b87101cf77202fefcbfc790cb.<br>
+[1] <a href=3D"https://github.com/shadow-maint/shadow/commit/bbf4b79bc49fd1=
+826eb41f6629669ef0b647267b" rel=3D"noreferrer" target=3D"_blank">https://gi=
+thub.com/shadow-maint/shadow/commit/bbf4b79bc49fd1826eb41f6629669ef0b647267=
+b</a><br>
 <br>
-Yes, I merged 2 commits first<br>
-(42d359350510506b87101cf77202fefcbfc790cb and<br>
-217b6dc298156bdb0d6aea9ea93e7e394a5ff091)<br>
-and then backported as a single patch, and I used only the patch<br>
-header of 42d359350510506b87101cf77202fefcbfc790cb.<br>
+Signed-off-by: Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com" target=
+=3D"_blank">yi.zhao@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0...0001-useradd-update-default-settings.patch | 38 ++++++++++++++++++=
++<br>
+=C2=A0meta/recipes-extended/shadow/shadow.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 1 +<br>
+=C2=A02 files changed, 39 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-extended/shadow/files/0001-useradd-up=
+date-default-settings.patch<br>
 <br>
-&gt;&gt; I also just noticed that there&#39;s already a fix for this CVE in=
- my<br>
-&gt;&gt; branch. So I think I will take that:<br>
+diff --git a/meta/recipes-extended/shadow/files/0001-useradd-update-default=
+-settings.patch b/meta/recipes-extended/shadow/files/0001-useradd-update-de=
+fault-settings.patch<br>
+new file mode 100644<br>
+index 0000000000..1e6702019b<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/shadow/files/0001-useradd-update-default-settin=
+gs.patch<br>
+@@ -0,0 +1,38 @@<br>
++From 46106ec16409ea99f73a8a8823e50ac54db8e122 Mon Sep 17 00:00:00 2001<br>
++From: Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com" target=3D"_blan=
+k">yi.zhao@windriver.com</a>&gt;<br>
++Date: Tue, 17 Aug 2021 10:11:27 +0800<br>
++Subject: [PATCH] useradd: update default settings<br>
++<br>
++The shadow 4.9 stops shiping /etc/default/useradd[1] and uses built-in<br>
++settings by default. Some settings are not consistent with previous<br>
++shadow 4.8.1 in oe-core. Per shadow 4.8.1 settings, change the default<br>
++shell to /bin/sh and stop creating mail spool.<br>
++<br>
++[1] <a href=3D"https://github.com/shadow-maint/shadow/commit/bbf4b79bc49fd=
+1826eb41f6629669ef0b647267b" rel=3D"noreferrer" target=3D"_blank">https://g=
+ithub.com/shadow-maint/shadow/commit/bbf4b79bc49fd1826eb41f6629669ef0b64726=
+7b</a><br>
++<br>
++Upstream-Status: Inappropriate [embedded specific]<br>
++<br>
++Signed-off-by: Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com" target=
+=3D"_blank">yi.zhao@windriver.com</a>&gt;<br>
++---<br>
++ src/useradd.c | 4 ++--<br>
++ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/src/useradd.c b/src/useradd.c<br>
++index 0d3f390d..715351b4 100644<br>
++--- a/src/useradd.c<br>
+++++ b/src/useradd.c<br>
++@@ -104,9 +104,9 @@ FILE *shadow_logfd =3D NULL;<br>
++ static gid_t def_group =3D 1000;<br>
++ static const char *def_gname =3D &quot;other&quot;;<br>
++ static const char *def_home =3D &quot;/home&quot;;<br>
++-static const char *def_shell =3D &quot;/bin/bash&quot;;<br>
+++static const char *def_shell =3D &quot;/bin/sh&quot;;<br>
++ static const char *def_template =3D SKEL_DIR;<br>
++-static const char *def_create_mail_spool =3D &quot;yes&quot;;<br>
+++static const char *def_create_mail_spool =3D &quot;no&quot;;<br>
++ <br>
++ static long def_inactive =3D -1;<br>
++ static const char *def_expire =3D &quot;&quot;;<br>
++-- <br>
++2.25.1<br>
++<br>
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extende=
+d/shadow/shadow.inc<br>
+index 97ffae978a..e2a7a5bac6 100644<br>
+--- a/meta/recipes-extended/shadow/shadow.inc<br>
++++ b/meta/recipes-extended/shadow/shadow.inc<br>
+@@ -16,6 +16,7 @@ SRC_URI =3D &quot;<a href=3D"https://github.com/shadow-ma=
+int/shadow/releases/download/v$%7BPV%7D/$%7BBP%7D" rel=3D"noreferrer" targe=
+t=3D"_blank">https://github.com/shadow-maint/shadow/releases/download/v${PV=
+}/${BP}</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://shadow-relaxed-usernames.p=
+atch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Fix-out-of-tree-build=
+s-with-respect-to-libsubid-incl.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-libsubid-link-to-PAM-=
+libraries.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-useradd-update-defaul=
+t-settings.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 <br>
-Ok, thanks. Will go with this once it gets merged to the &quot;hardknott&qu=
-ot; branch.<br>
+=C2=A0SRC_URI:append:class-target =3D &quot; \<br>
+-- <br>
+2.25.1<br>
 <br>
-Regards,<br>
-Vinay<br>
-<br>
-On Mon, Aug 2, 2021 at 8:09 AM Mittal, Anuj &lt;<a href=3D"mailto:anuj.mitt=
-al@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Sat, 2021-07-31 at 21:57 +0530, Vinay Kumar wrote:<br>
-&gt; &gt; Hi Anuj,<br>
-&gt; &gt;<br>
-&gt; &gt; The patch is conjugate of both commits.<br>
-&gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=
-=3D42d359350510506b87101cf77202fefcbfc790cb" rel=3D"noreferrer" target=3D"_=
-blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d35935051=
-0506b87101cf77202fefcbfc790cb</a><br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=
-=3D217b6dc298156bdb0d6aea9ea93e7e394a5ff091" rel=3D"noreferrer" target=3D"_=
-blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6dc2981=
-56bdb0d6aea9ea93e7e394a5ff091</a><br>
-&gt; &gt;<br>
-&gt; &gt; Also, the patch is committed to master branch<br>
-&gt; &gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/=
-?id=3D55681d09d7f519a1c7f17d17b18ec59bccdc91ca" rel=3D"noreferrer" target=
-=3D"_blank">http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D556=
-81d09d7f519a1c7f17d17b18ec59bccdc91ca</a><br>
-&gt; &gt;<br>
-&gt; &gt; Due you want me to resubmit for &quot;hardknott&quot; branch by s=
-plitting in to<br>
-&gt; &gt; 2 patches ?<br>
-&gt;<br>
-&gt; It seems wrong to me because the patch header/description is not<br>
-&gt; correct here. It&#39;s no longer a backport of just<br>
-&gt; 42d359350510506b87101cf77202fefcbfc790cb.<br>
-&gt;<br>
-&gt; I also just noticed that there&#39;s already a fix for this CVE in my<=
-br>
-&gt; branch. So I think I will take that:<br>
-&gt;<br>
-&gt; <a href=3D"https://git.openembedded.org/openembedded-core-contrib/comm=
-it/?h=3Danujm/hardknott&amp;id=3Dede353df06a07d35dc66d024e2c7bd1b250d9761" =
-rel=3D"noreferrer" target=3D"_blank">https://git.openembedded.org/openembed=
-ded-core-contrib/commit/?h=3Danujm/hardknott&amp;id=3Dede353df06a07d35dc66d=
-024e2c7bd1b250d9761</a><br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt;<br>
-&gt; Anuj<br>
-&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Regards,<br>
-&gt; &gt; Vinay<br>
-&gt; &gt;<br>
-&gt; &gt; On Sat, Jul 31, 2021 at 11:52 AM Mittal, Anuj &lt;<a href=3D"mail=
-to:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt;<b=
-r>
-&gt; &gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; On Tue, 2021-07-27 at 11:38 -0700, Vinay Kumar wrote:<br>
-&gt; &gt; &gt; &gt; Source: <a href=3D"https://sourceware.org/git/glibc.git=
-" rel=3D"noreferrer" target=3D"_blank">https://sourceware.org/git/glibc.git=
-</a><br>
-&gt; &gt; &gt; &gt; Tracking -- <a href=3D"https://sourceware.org/bugzilla/=
-show_bug.cgi?id=3D27896" rel=3D"noreferrer" target=3D"_blank">https://sourc=
-eware.org/bugzilla/show_bug.cgi?id=3D27896</a><br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Backported upstream commit 42d359350510506b87101cf77202=
-fefcbfc790cb<br>
-&gt; &gt; &gt; &gt; to<br>
-&gt; &gt; &gt; &gt; glibc-2.33 source with dependent commit id<br>
-&gt; &gt; &gt; &gt; 217b6dc298156bdb0d6aea9ea93e7e394a5ff091.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Upstream-Status: Backport<br>
-&gt; &gt; &gt; &gt; [<br>
-&gt; &gt; &gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=
-=3Dcommit;h=3D42d359350510506b87101cf77202fefcbfc790cb" rel=3D"noreferrer" =
-target=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D=
-42d359350510506b87101cf77202fefcbfc790cb</a><br>
-&gt; &gt; &gt; &gt; ]<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; It looks like you&#39;d need to backport this one too:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcom=
-mit;h=3D217b6dc298156bdb0d6aea9ea93e7e394a5ff091" rel=3D"noreferrer" target=
-=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6d=
-c298156bdb0d6aea9ea93e7e394a5ff091</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; ?<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Thanks,<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Anuj<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Signed-off-by: Vinay Kumar &lt;<a href=3D"mailto:vinay.=
-m.engg@gmail.com" target=3D"_blank">vinay.m.engg@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt;=C2=A0 .../glibc/glibc/CVE-2021-33574.patch=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 | 61<br>
-&gt; &gt; &gt; &gt; +++++++++++++++++++<br>
-&gt; &gt; &gt; &gt;=C2=A0 meta/recipes-core/glibc/<a href=3D"http://glibc_2=
-.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a>=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt; &gt; &gt; &gt;=C2=A0 2 files changed, 62 insertions(+)<br>
-&gt; &gt; &gt; &gt;=C2=A0 create mode 100644 meta/recipes-core/glibc/glibc/=
-CVE-2021-<br>
-&gt; &gt; &gt; &gt; 33574.patch<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-335=
-74.patch<br>
-&gt; &gt; &gt; &gt; b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch<br=
->
-&gt; &gt; &gt; &gt; new file mode 100644<br>
-&gt; &gt; &gt; &gt; index 0000000000..fd73b23c88<br>
-&gt; &gt; &gt; &gt; --- /dev/null<br>
-&gt; &gt; &gt; &gt; +++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patc=
-h<br>
-&gt; &gt; &gt; &gt; @@ -0,0 +1,61 @@<br>
-&gt; &gt; &gt; &gt; +From 42d359350510506b87101cf77202fefcbfc790cb Mon Sep =
-17 00:00:00<br>
-&gt; &gt; &gt; &gt; 2001<br>
-&gt; &gt; &gt; &gt; +From: Andreas Schwab &lt;<a href=3D"mailto:schwab@linu=
-x-m68k.org" target=3D"_blank">schwab@linux-m68k.org</a>&gt;<br>
-&gt; &gt; &gt; &gt; +Date: Thu, 27 May 2021 12:49:47 +0200<br>
-&gt; &gt; &gt; &gt; +Subject: [PATCH] Use __pthread_attr_copy in mq_notify =
-(bug 27896)<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +Make a deep copy of the pthread attribute object to re=
-move a<br>
-&gt; &gt; &gt; &gt; potential<br>
-&gt; &gt; &gt; &gt; +use-after-free issue.<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +Upstream-Status: Backport<br>
-&gt; &gt; &gt; &gt; [<br>
-&gt; &gt; &gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=
-=3Dcommit;h=3D42d359350510506b87101cf77202fefcbfc790cb" rel=3D"noreferrer" =
-target=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D=
-42d359350510506b87101cf77202fefcbfc790cb</a><br>
-&gt; &gt; &gt; &gt; ]<br>
-&gt; &gt; &gt; &gt; +CVE: CVE-2021-33574<br>
-&gt; &gt; &gt; &gt; +Signed-off-by: Vinay Kumar &lt;<a href=3D"mailto:vinay=
-.m.engg@gmail.com" target=3D"_blank">vinay.m.engg@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; +---<br>
-&gt; &gt; &gt; &gt; +diff --git a/sysdeps/unix/sysv/linux/mq_notify.c<br>
-&gt; &gt; &gt; &gt; b/sysdeps/unix/sysv/linux/mq_notify.c<br>
-&gt; &gt; &gt; &gt; +index cc575a0cdd8..6f46d29d1dc 100644<br>
-&gt; &gt; &gt; &gt; +--- a/sysdeps/unix/sysv/linux/mq_notify.c<br>
-&gt; &gt; &gt; &gt; ++++ b/sysdeps/unix/sysv/linux/mq_notify.c<br>
-&gt; &gt; &gt; &gt; +@@ -133,8 +133,11 @@ helper_thread (void *arg)<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(void) __pthr=
-ead_barrier_wait (&amp;notify_barrier);<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0else if (data.raw[NOTIFY_CO=
-OKIE_LEN - 1] =3D=3D NOTIFY_REMOVED)<br>
-&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 /* The only state we keep is the=
- copy of the thread<br>
-&gt; &gt; &gt; &gt; attributes.=C2=A0 */<br>
-&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* The only state we keep=
- is the copy of the thread<br>
-&gt; &gt; &gt; &gt; attributes.=C2=A0 */<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 pthread_attr_destroy (dat=
-a.attr);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0return NULL;<br>
-&gt; &gt; &gt; &gt; + }<br>
-&gt; &gt; &gt; &gt; +@@ -255,8 +258,14 @@ mq_notify (mqd_t mqdes, const str=
-uct sigevent<br>
-&gt; &gt; &gt; &gt; *notification)<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (data.attr =3D=3D NULL)<=
-br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 memcpy (data.attr, notification-=
-&gt;sigev_notify_attributes,<br>
-&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof (pth=
-read_attr_t));<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 int ret =3D __pthread_attr_copy =
-(data.attr,<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0no=
-tification-<br>
-&gt; &gt; &gt; &gt; &gt; sigev_notify_attributes);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 if (ret !=3D 0)<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 __set_errno (ret);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0/* Construct the new request.=C2=A0 */<br=
->
-&gt; &gt; &gt; &gt; +@@ -269,8 +278,11 @@ mq_notify (mqd_t mqdes, const str=
-uct sigevent<br>
-&gt; &gt; &gt; &gt; *notification)<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0int retval =3D INLINE_SYSCALL (mq_notify,=
- 2, mqdes, &amp;se);<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0/* If it failed, free the allocated memor=
-y.=C2=A0 */<br>
-&gt; &gt; &gt; &gt; +-=C2=A0 if (__glibc_unlikely (retval !=3D 0))<br>
-&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 free (data.attr);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 if (retval !=3D 0 &amp;&amp; data.attr !=3D NU=
-LL)<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 {<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 pthread_attr_destroy (data.attr)=
-;<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 }<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0return retval;<br>
-&gt; &gt; &gt; &gt; + }<br>
-&gt; &gt; &gt; &gt; diff --git a/meta/recipes-core/glibc/<a href=3D"http://=
-glibc_2.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a> b/met=
-a/recipes-<br>
-&gt; &gt; &gt; &gt; core/glibc/<a href=3D"http://glibc_2.33.bb" rel=3D"nore=
-ferrer" target=3D"_blank">glibc_2.33.bb</a><br>
-&gt; &gt; &gt; &gt; index 925efe8cc6..e9f01a14c5 100644<br>
-&gt; &gt; &gt; &gt; --- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2=
-.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a><br>
-&gt; &gt; &gt; &gt; +++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2=
-.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a><br>
-&gt; &gt; &gt; &gt; @@ -57,6 +57,7 @@ SRC_URI =3D<br>
-&gt; &gt; &gt; &gt; &quot;${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dgli=
-bc \<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; file://0029-wordsize.h-Unify-the-header-between-arm-and=
--aarch64.patch<br>
-&gt; &gt; &gt; &gt;=C2=A0 \<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; file://0030-powerpc-Do-not-ask-compiler-for-finding-arc=
-h.patch \<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://m=
-te-backports.patch \<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-20=
-21-33574.patch \<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<b=
-r>
-&gt; &gt; &gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt; &gt; &gt;=C2=A0 B =3D &quot;${WORKDIR}/build-${TARGET_SYS}&quot;<=
-br>
-&gt; &gt; &gt;<br>
-&gt;<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
+</blockquote></div>
 
---000000000000b3d0e005c9bb9926--
+--0000000000008e540d05c9bbdc85--
