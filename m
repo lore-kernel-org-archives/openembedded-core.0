@@ -1,50 +1,50 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.40416.1629214058128685949
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web09.40734.1629214059084269595
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Aug 2021 08:27:38 -0700
+ Tue, 17 Aug 2021 08:27:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Es7zTV0g;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id 14so23476671qkc.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fwXim4qm;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id t190so10107115qke.7
         for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 08:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Q3LXi6XyY6bQvQe9KkMXTZPyQDg9FgWzQw66dTYqipo=;
-        b=Es7zTV0gbE/jN51mtP1zqaQLbBfiRO+F1sWSg0maUAhdV0nwI3KxbqYokANirtgjWN
-         vNFe7eJ1Cbi7A21LL9jAHQROh5PH7QgpwecJbxnot/auiGqw+oI+x71tKGb54J+oSluP
-         X4jKTN1JiGhNxzu+TAUjuFIKN5kcFGnLBkZo16nMsH19JeUx62FqQoFl0TZgjusDN/rn
-         XsHBBuS51ILEFO9PMgxo0n+OzVFjUVnUHCkfT1hnr2z1HmJR9DncUaaFN/6woygvAaHG
-         I26gUnI5iVP1ghWWIJPvI1ezWIhJRc/c36puqTtpKHgPTuNpndl1zMRHih+uThARN60f
-         Jghw==
+        bh=JmySVGUm4MBZlhLnqD74a/2m6Jf9pnIyb+qxZdiK/0Q=;
+        b=fwXim4qmfiwGhi8YmqSVnDA6ERP269f6qOpTaA6x5Cyov/pdpS9oxUH0Qhp6KpBnAv
+         T/Il7KPTiQGXOcKfJ7gNZmhPeaAMyRdyPvocFRKBvvsAVSC5N2iWSicZhHySXlFJ07i5
+         nkYAuqnTGAPZC5rRjLdj6pZeFqw8mSe1YVVzPlfFC2M9wFlgyjHSCpTtdqkOdd+ocKZP
+         KPClzUg30BJyjWWx6THpItTLZ59wmL5uKKjLTfOdLpfsyilLKQWAG1RvQ5OCVhg/l98V
+         jDXFmLLbR4N0qgsUNUMXeyJXg7GIUfeAd9t6JKotbgE6f3HBAovmieW2XAKedmmRu6cF
+         j5Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Q3LXi6XyY6bQvQe9KkMXTZPyQDg9FgWzQw66dTYqipo=;
-        b=EhsH6aibJdW6G5Bh3Ijg4cO372l/ZVVeN1dsOt0aP8QDCCq5Pc4TePp4En/lt35VsY
-         TE9vhT6nSMghVEF2Z+vEj0TA6AMiCA4pRSpkmD3rAXTrYbiaiFvnnXvGLcMuHQ8D5KXy
-         N+JZAAlk3OPmtc6EpOcCAcjc9ktoyISQ8mu/8r+4pllIRBG/apkIwOw12oIfokeepUI+
-         yu/Ps0MTe0nQOheypr6T2EILfK35nG/a2zSVKWVcoEzfm5hyH9ATvz8BzygsT0qjkU9p
-         6K3nFU16Sc33Wq2nPthGoq0ORo7VBX3Rlm1r4V4pnv/zbKoL9eSH6+K2wrqSjpgxD4JI
-         ZCcQ==
-X-Gm-Message-State: AOAM5305+uAtg/G/GFD5P7NK7VP2aOsI/qw8jzPjWF3ODw8I6JAw3YcY
-	jy5nTDWbuhfYdMWN0A2g7R2FEdspGlix8Q==
-X-Google-Smtp-Source: ABdhPJy8OwfOPqjfyV1JXIFiBrcNxO6IiC0bQsHNQnh5t88p1d1rX97em+YFCBLPEsJoEkFWgrE+Pg==
-X-Received: by 2002:a37:e20f:: with SMTP id g15mr4494280qki.450.1629214057194;
-        Tue, 17 Aug 2021 08:27:37 -0700 (PDT)
+        bh=JmySVGUm4MBZlhLnqD74a/2m6Jf9pnIyb+qxZdiK/0Q=;
+        b=DZpRKOTgsHD5dperhjrFqu0+mDl3R4ilIRDBrcZiHCs5DqodbIHJ6OOpkXB5QIqB8r
+         uvkrWnz75VY9rGjg9dYAsGUiRGqLkuDRsSTWIyJxOSJt2tw2sPPRB+swXz7+PbgGGab2
+         F0hqZsyQ2F5KqXG3RF5MDkjf3d0v+3arVzjK2fL0S81aCpUfdlVJGNwo+a02AG6p/IeN
+         FxBMsDQnQrfw0I3eg+MGgFfcdu1NQyxexJZ31ogdeB9CWtVz/gfkwfJKdMiSRqQQ/vmM
+         NnG1RpqXP8QQigLwyNQFWPDKyTxtYYi7q1CT7Tj2JxDLK3pymhlI91uUWRBjcgXGZ5lk
+         oktQ==
+X-Gm-Message-State: AOAM531g1tbuPH8U5nPwqPwkiTZMsm5tNREUkXWa0N9YraxbfHQfHBRa
+	33tHtRTSc5P06fXIS1DQGPn0ZcNytwadSQ==
+X-Google-Smtp-Source: ABdhPJzISKIdMjqaERNp53aHg03sxshCQUFRT+2AnAY6Go+US/NQn7/CQ1uamNwrXhMfyl+UimOO8Q==
+X-Received: by 2002:a37:9d92:: with SMTP id g140mr4284279qke.189.1629214058183;
+        Tue, 17 Aug 2021 08:27:38 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id h6sm1175744qtb.44.2021.08.17.08.27.36
+        by smtp.gmail.com with ESMTPSA id h6sm1175744qtb.44.2021.08.17.08.27.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 08:27:36 -0700 (PDT)
+        Tue, 17 Aug 2021 08:27:37 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] kernel-devsrc: 5.14+ updates
-Date: Tue, 17 Aug 2021 11:27:31 -0400
-Message-Id: <73e7e75bdac08f652fdd330889d798cb72197f2f.1629213685.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 4/4] kernel-devsrc: fix 5.14+ objtool compilation
+Date: Tue, 17 Aug 2021 11:27:32 -0400
+Message-Id: <cbca24944ce779af224add9874a94341719d84e3.1629213685.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1629213685.git.bruce.ashfield@gmail.com>
 References: <cover.1629213685.git.bruce.ashfield@gmail.com>
@@ -53,38 +53,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-commit 6218d0f6b8dec [x86/syscalls: Switch to generic syscalltbl.sh]
-means that x86 no longer has a syscall script to copy, which causes
-a build error.
-
-We already copy the generic syscall script (in scripts), so we just
-catch errors for the copies to support older and 5.14+ kernels in
-the same devsrc recipe.
+In v5.14+, x86 requires not just elfutils, but the elf headers
+on the target to build objtool (required for 'scripts parepare'),
+so we tweak our RDEPENDS to ensure that the right headers are
+on the target.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 3b5fdda773..23de1a4917 100644
+index 23de1a4917..d39573965f 100644
 --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
 +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -220,10 +220,10 @@ do_install() {
- 
- 	if [ "${ARCH}" = "x86" ]; then
- 	    # files for 'make prepare' to succeed with kernel-devel
--	    cp -a --parents $(find arch/x86 -type f -name "syscall_32.tbl") $kerneldir/build/
--	    cp -a --parents $(find arch/x86 -type f -name "syscalltbl.sh") $kerneldir/build/
--	    cp -a --parents $(find arch/x86 -type f -name "syscallhdr.sh") $kerneldir/build/
--	    cp -a --parents $(find arch/x86 -type f -name "syscall_64.tbl") $kerneldir/build/
-+	    cp -a --parents $(find arch/x86 -type f -name "syscall_32.tbl") $kerneldir/build/ 2>/dev/null || :
-+	    cp -a --parents $(find arch/x86 -type f -name "syscalltbl.sh") $kerneldir/build/ 2>/dev/null || :
-+	    cp -a --parents $(find arch/x86 -type f -name "syscallhdr.sh") $kerneldir/build/ 2>/dev/null || :
-+	    cp -a --parents $(find arch/x86 -type f -name "syscall_64.tbl") $kerneldir/build/ 2>/dev/null || :
- 	    cp -a --parents arch/x86/tools/relocs_32.c $kerneldir/build/
- 	    cp -a --parents arch/x86/tools/relocs_64.c $kerneldir/build/
- 	    cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
+@@ -322,7 +322,7 @@ RDEPENDS:${PN} = "bc python3 flex bison ${TCLIBC}-utils"
+ # 4.15+ needs these next two RDEPENDS
+ RDEPENDS:${PN} += "openssl-dev util-linux"
+ # and x86 needs a bit more for 4.15+
+-RDEPENDS:${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '', d)}"
++RDEPENDS:${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-dev', '', d)}"
+ # 5.8+ needs gcc-plugins libmpc-dev
+ RDEPENDS:${PN} += "gcc-plugins libmpc-dev"
+ # 5.13+ needs awk for arm64
 -- 
 2.19.1
 
