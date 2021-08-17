@@ -1,87 +1,105 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.31602.1629152864780351922
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.32453.1629158965028377194
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 15:27:45 -0700
+ Mon, 16 Aug 2021 17:09:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NpEwhqwj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so886176wml.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 15:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=I5bLfM5s3Y8vCHnOVG8hsEFnDDiXZlIm31X6jdlAZC4=;
-        b=NpEwhqwjMi1bXTc6Qat7tVi4wET2dyWBdgywHjHEnqW0CsyS+hQ25XHLhAlte9hahY
-         AuLfo44KfUCsBc/9pJb3iigm4jk3qBdP8j/kCsQDguTF3JMjyGPNwZne73Bz4UYeUj/u
-         ui5EkJpUzTP83OskQuhXTa1UxYqpz7OX/ASn4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=I5bLfM5s3Y8vCHnOVG8hsEFnDDiXZlIm31X6jdlAZC4=;
-        b=tRRwhF25dSLmyPIkFXOlqEjR9VebbNaQyekjXdggmKlzmaHryncmTB9XoGjggPhn06
-         m1h5OjtUzMRdH1CtFnxEV4RjIsVUdQoAmcXBvqCyExezz6HSIGkObM8ixfWbBfCnthCh
-         yrcCWehkdZYqEKh+rTnoIEybYWxyO+S+pB2sBx9+GIlfyiDet6ZyOqU2LfdaT0Iuzakq
-         JD8l+YVs8G8LHtpfxwLiNu1+eGEG8Lf9rOSqLaHVoSR/r4PR1hrzGAuwgycbNahO/Oak
-         WSW9UcdDRfsT2TzuXG9cJJP6ayRC9bGmpFne/4lDoi5oHGNmrdALg0A82N3D7wGz5PM7
-         b9Yw==
-X-Gm-Message-State: AOAM532W4Kua1TLSHXzgpborfQusoJ/bLn9rDGCHtHlEC5dhPRcVkx8Y
-	40C8EAmEeXvqHbPY7Jj/mPcpg9G5jv3sug==
-X-Google-Smtp-Source: ABdhPJw5/fcbRhDJEreHYexzly0zHju/sZ26wncAaib2vRuW6q1lisKP46eiY9dYpFlteR2Ph2POgg==
-X-Received: by 2002:a1c:a7c2:: with SMTP id q185mr331601wme.91.1629152863303;
-        Mon, 16 Aug 2021 15:27:43 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f791:56b8:5572:9d45])
-        by smtp.gmail.com with ESMTPSA id p1sm83450wmq.48.2021.08.16.15.27.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 15:27:43 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] package: Fix overrides converion issue with PKGSIZE
-Date: Mon, 16 Aug 2021 23:27:42 +0100
-Message-Id: <20210816222742.3865259-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210816222742.3865259-1-richard.purdie@linuxfoundation.org>
-References: <20210816222742.3865259-1-richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: sakib.sajal@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 17H09N7W019235
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 17:09:24 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 17H09NbE023176
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 17:09:23 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 16 Aug 2021 17:09:22 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 16 Aug 2021 17:09:22 -0700
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] qemu: fix CVE-2021-3682
+Date: Mon, 16 Aug 2021 20:09:13 -0400
+Message-ID: <20210817000913.21646-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id 17H09N7W019235
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: quoted-printable
 
-This fixes pkgdata PKGSIZE info after the overrides change.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/classes/license_image.bbclass | 2 +-
- meta/classes/package.bbclass       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3682.patch             | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 5cec7a07fa2..5490d121f17 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -87,7 +87,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                 # If the package doesn't contain any file, that is, its size is 0, the license
-                 # isn't relevant as far as the final image is concerned. So doing license check
-                 # doesn't make much sense, skip it.
--                if pkg_dic[pkg]["PKGSIZE_%s" % pkg] == "0":
-+                if pkg_dic[pkg]["PKGSIZE:%s" % pkg] == "0":
-                     continue
-             else:
-                 # Image manifest
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index fb3c346f692..e17f0c797e3 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1670,7 +1670,7 @@ fi
-             for dfile in (d.getVar('FILERDEPENDSFLIST:' + pkg) or "").split():
-                 write_if_exists(sf, pkg, 'FILERDEPENDS:' + dfile)
- 
--            sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
-+            sf.write('%s:%s: %d\n' % ('PKGSIZE', pkg, total_size))
- 
-         # Symlinks needed for rprovides lookup
-         rprov = d.getVar('RPROVIDES:%s' % pkg) or d.getVar('RPROVIDES')
--- 
-2.30.2
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 0bbc4b1187..76e8da159c 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -39,6 +39,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://0001-linux-user-Tag-vsx-with-ieee128-fpbits.patch \
+            file://CVE-2021-3527-1.patch \
+            file://CVE-2021-3527-2.patch \
++           file://CVE-2021-3682.patch \
+            "
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch b/meta/r=
+ecipes-devtools/qemu/qemu/CVE-2021-3682.patch
+new file mode 100644
+index 0000000000..50a49233d3
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3682.patch
+@@ -0,0 +1,41 @@
++From 5e796671e6b8d5de4b0b423dce1b3eba144a92c9 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Thu, 22 Jul 2021 09:27:56 +0200
++Subject: [PATCH] usbredir: fix free call
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++data might point into the middle of a larger buffer, there is a separate
++free_on_destroy pointer passed into bufp_alloc() to handle that.  It is
++only used in the normal workflow though, not when dropping packets due
++to the queue being full.  Fix that.
++
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/491
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++Message-Id: <20210722072756.647673-1-kraxel@redhat.com>
++
++CVE: CVE-2021-3682
++Upstream-Status: Backport [5e796671e6b8d5de4b0b423dce1b3eba144a92c9]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/usb/redirect.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
++index 4ec9326e05..1ec909a63a 100644
++--- a/hw/usb/redirect.c
+++++ b/hw/usb/redirect.c
++@@ -476,7 +476,7 @@ static int bufp_alloc(USBRedirDevice *dev, uint8_t *=
+data, uint16_t len,
++     if (dev->endpoint[EP2I(ep)].bufpq_dropping_packets) {
++         if (dev->endpoint[EP2I(ep)].bufpq_size >
++                 dev->endpoint[EP2I(ep)].bufpq_target_size) {
++-            free(data);
+++            free(free_on_destroy);
++             return -1;
++         }
++         dev->endpoint[EP2I(ep)].bufpq_dropping_packets =3D 0;
++--=20
++2.25.1
++
+--=20
+2.32.0
 
