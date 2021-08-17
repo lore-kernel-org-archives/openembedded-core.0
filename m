@@ -1,523 +1,240 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.39932.1629211931340017749
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web09.40242.1629211954913272553
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Aug 2021 07:52:11 -0700
+ Tue, 17 Aug 2021 07:52:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=GEno81uJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.47, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f47.google.com with SMTP id q10so29090260wro.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 07:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5hAyjsiVZDrsGT09E8XXPXg9aaCpSzTG0nd6CzDAX3w=;
-        b=GEno81uJDZNIehWQsmgx6J3GmXghHR75+3CrOIQwEZpDJC/KlteuSUTeJCT+EjFH3C
-         eblPJ2nUnmisbgpPLMTLdZlqf1VVBUyLV4smKeXzaKzU5hEzfW+z1w9rDGPuUvvXFcVm
-         50xiaYVhj2Y6ZpskjKuEAAPft32ERbsxVj4x+rpG8h/nalV+e6Cr/LIm2F+61L8YmHtM
-         N6snD+oZCuFfLBnYEepee+aRntBXN/PgTJ8OkB4Edtl69mAkTL0mq3z8FkjVR3jcE5fz
-         iTCTX8na8m/Rin2qGnz1WYGUswoRqPR5elw8sDelLDytnbZeJ8ACgKZzmqWpKOZQVcy+
-         MdKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5hAyjsiVZDrsGT09E8XXPXg9aaCpSzTG0nd6CzDAX3w=;
-        b=PJbJ2Rh1HD5XYywNYlqooeNr2jMdYA20gwvKX4VwNuEWc4HkVVjnHdjqfD3A9ZnyJL
-         gw9BUZZrAwznFKg0KbQKQjdnDwD0wfEgWOgv544AA2RFLHT8vcfYxDVuECjDTYv75Xsu
-         VGCHTDcySssYcjB7s0z+Yc6StmIeETgFNxnxXiDP7HnGo+AzBoFku2ko9NQLClTpbsQe
-         BsF07Wfq8/5nl2sNB/ci787exyEETZhkPJRihcb9CItCoDcbDWa0Lem6viXEAyyaE3yq
-         FSD0Mk+KPw1Il27DYJHT2FGPw4n1oGowNtZnpiYbOONCIbL+ui8Xmf7fX+ozk9yM5a+O
-         5T7w==
-X-Gm-Message-State: AOAM5306it/yAh0E+l8ij5BEadyD6pH6Kn9YmaRiHtVfTI8LmC6dJ+4m
-	bTgS6L2z7v9o+xzf0jyW9PNrOnwXhyD02tM0xBXDjQ==
-X-Google-Smtp-Source: ABdhPJxyCa6biujp8QRzS/wOtnQV2Hgt+su8QZAwmWRWOpkE7wr2iC3IlXgY58QMlhgth6nJje7kdnc+DKsjZtx563E=
-X-Received: by 2002:adf:f288:: with SMTP id k8mr4646622wro.350.1629211929446;
- Tue, 17 Aug 2021 07:52:09 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Hn1NRhqV;
+ spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3863861f65=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17HCvJZf024559
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 14:52:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=subject : to : cc
+ : references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=eWM9i5tqf0U8aKdtMu+7cBy+3uZIn0F2CffrhEiD64k=;
+ b=Hn1NRhqVzfnwQ4csfrz1PBf7O91mzPh8oP6e2Qvl1WMr6cR7oVHyr1ypWfkGjLWxsVZh
+ Wa6O99g1X904OQEsy5dvADHt7wio6Gj81A//lzf11CUF91M8+Zoo/3F/1CPMS5yOy0dy
+ HvmX3MNOG0YvpWcG3reKcrg6/tipOTDs9933DwbfYSU+UwxZtMTKr1qv4hXy7eNKUY+Q
+ s+ecmE/O//Dv246km4ZqFY2z/0gi10Pnrv+WBw3GWTkPh9QUGnJSDACWpEtJamb7PhBO
+ ntdU5b6sNJW7k+dnYx4fh0aySMoBgNxHH6XN4xjeTKefJZqCXHYy8TW0cD2pG2hxi+tx gw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3afwpu8m80-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 14:52:33 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17HEqW4W031130
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 14:52:32 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3afwpu8m7y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Aug 2021 14:52:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZxqBQQApZZeLxLSNJQQGAP7c460ZzpMh96o2eMHZro93sk7UabpYue+fQ+m8n9DrFN9z9qQpv1yH03bKMJA1Ug0DD6wCEVDHxUa1DtDlMJiyk9E+E37J+I/uVk11WZwqq6AbYxmU2I8hGqKzyTItnxzTl6kp6DC179QAtD19w3igb8T5ab28jX6ZX++OMqmSkA+jV0NXuUVUGo9Rml3Auo9/5bjVjH/KPLxVkIGqeTgmAODr/Ov02VVFNUB8DjB+ZfpY7QruUISLrFfgs+SmIO28W9QcDFz0SLczaF83IwvZ0SE1tMSSJ+SquQbxEyFAe/5IWz+TIKk1dgyNgYYPQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eWM9i5tqf0U8aKdtMu+7cBy+3uZIn0F2CffrhEiD64k=;
+ b=EAn75PQm4eyuVovO1bieVCb5K709NzIrt9zfdVsEpdTrgwp2uFip9ljvMciTuU1Vn1gTOBCJbLP2EuFaJwmag859ihx3MyY1VtTQgJbbvBfzt97ARmzl2ExkjGzCruDSY252xFb3cAbbvT0wHWJxQZk9GGU+edOxlHTV7rZJoKijvUlYEHmMdiLn2H9sJv9Ueaa+poYo+t9SEaLFKUiAtCGfqzucZbRqN/rlbyz4krdmFz+UeKFAZpub2je2NwFHJT6Ej9bIa3aJbxU7KNawcXPWwwevtzwzl9+DfXPncmJ4NsEURAKhIL3oIBeemtCh5h7ssR/p2XzwJZgDuR5NMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: pbarker.dev; dkim=none (message not signed)
+ header.d=none;pbarker.dev; dmarc=none action=none header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM6PR11MB3068.namprd11.prod.outlook.com (2603:10b6:5:6b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.17; Tue, 17 Aug
+ 2021 14:52:31 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4%6]) with mapi id 15.20.4415.024; Tue, 17 Aug 2021
+ 14:52:31 +0000
+Subject: Re: [OE-core] [v4] [RFC] Merge meta-rust to oe-core
+To: Vinay Kumar <vinay.m.engg@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+        steven@stevenwalter.org, johan.anderholm@gmail.com, derek@asterius.io,
+        cardoe@cardoe.com, dev@codyps.com, tylerwhall@gmail.com,
+        Khem Raj <raj.khem@gmail.com>, vinay.kumar@blackfigtech.com,
+        saul.wold@windriver.com, martin.jansa@gmail.com, paul@pbarker.dev
+References: <aa7653eb-336f-ee08-3126-e6c790a9226f@windriver.com>
+ <20210813151947.55142-1-vinay.m.engg@gmail.com>
+ <CANUMPcXHhkPrtXrfN5rfzctXEy8h-Hi4L+vKmaAmPSgC33udcg@mail.gmail.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <1759d5f0-f40a-3a82-16ed-b5c788337c5d@windriver.com>
+Date: Tue, 17 Aug 2021 10:52:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <CANUMPcXHhkPrtXrfN5rfzctXEy8h-Hi4L+vKmaAmPSgC33udcg@mail.gmail.com>
+X-ClientProxiedBy: BY5PR17CA0002.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::15) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
-References: <1628579261-7380-1-git-send-email-purushottam.choudhary@kpit.com>
-In-Reply-To: <1628579261-7380-1-git-send-email-purushottam.choudhary@kpit.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 17 Aug 2021 04:51:56 -1000
-Message-ID: <CAOSpxdbihGhrEUqEd8+vgj5hvv-5wexzr2fN0zwpTMBuyp-5pg@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] python3: Remove unused python3 recipe
-To: Purushottam choudhary <purushottam.choudhary@kpit.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	Nisha Parrakat <nisha.parrakat@kpit.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.7] (198.48.226.187) by BY5PR17CA0002.namprd17.prod.outlook.com (2603:10b6:a03:1b8::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Tue, 17 Aug 2021 14:52:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fa54e794-9472-4de9-431f-08d9618ea3b8
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3068:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB30689065AED675B5D3BA7A4BF8FE9@DM6PR11MB3068.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	jUmbzwlv8w4lRLqYmef3tNkwPp38VnZgTPSvkfhN+Nq0Yd1gIYKfOV5LZD/W1kJ4hXLejxzoAoctPxzuK/Bg32qBJGpKLryhUlQhVoqbMnUv1xyQ0VOf/t48RMA4vqPR4W0YMM2ewHHqHaQY4PgvgAiswqw5pjpjhd7tRuu/SdohIQABKlxeaikTpKw66ZjF7nJnzPlPwzCPdJ++tlHkfLGxy1TNxK+8QMoNtuXsLI3MxMcgD1QaRFTrATpJgsucAfrRdjfQtRtJgssq3ESUbkvhI30kad7Ea7O1WdmG/Opk73D9KLzWkbUyaf5vlFdk71U67Wg+eN4ig/0QOCOrgtk8aCbM7WwmBwHAa3ORajqzm5pc+tgIdTaOxTuuXZW1OyX00mRX62/tcT0t3LAZTH+NJe6fa8xsQes5Jbqj9Ju492SFWRROC+16el1oNWfhpPFn3Vbv7G6NMMy8BL46k2uC64vDpGsu8V8JEbiGKl29swJHkeCnhXujlSTehBrNLxYIXl3EZBaRaKSp9GIxAvxbqbGWx2a8Uj9YFm+ljn4OahgJ3Ctmp73xM7Y125EbkMBTkteoAtrirfqYgeBi96WgcX2nQIuekRmj7eBOgHScGBDFnJ8nZREd9Li00vfNrbAbSQtdjliA2cSRT99xHPOZweGfZIQwcvfE5M4mSXTf8FnhgpHS+8WbVyB8YGhnKWau4ExwTWN7vM1dXwdKR9nYnjzorY7haH9S1RcC01WtyvPPbLb7lmL3tih+26f0ft2O7Lx2ajEwiGCLwAmoQA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(396003)(366004)(39850400004)(6916009)(5660300002)(478600001)(4326008)(16576012)(66476007)(54906003)(956004)(2616005)(186003)(316002)(26005)(53546011)(66946007)(6486002)(66556008)(31696002)(52116002)(31686004)(36756003)(83380400001)(8936002)(7416002)(2906002)(86362001)(38100700002)(38350700002)(8676002)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	yfUgMGq359qT/SEenQaD5okKE2A/pi4tXpzRwykJm3Ch8JWxYa/WsLdSYjxyJLWAIc5PjGBBDySvWKAwFEzsGq76bFb0p/K7tOeUHCtbYqDFV0OND56bOvru+3RaoaAHjYhGeriEpOue5QgSx0vnhZ3gNuJ+yfcfp7UH7gim6oijLQIKiCMu13BEnzkDMOTzz/02lbqWPsr8OrdSVIMsyafOYhZhzdg1w4cTfzFBMNpU+k3kQzc6DOxGHgeko7aJ8Bk2UnM+/SFctlykdd1ckSFT9cySaL2+mJl5JhDTun9YVuZImejzf+Bp+lmlfmjB8gsQHdcbixfYFD1qZIL25SBiHRhbfszKnxXhmFfxeh4+2UGcwCE0swOz8t7PFLiBsZ8T6wgp5sG8jLTzR6DlmC7rBMPuh8muCOWe2I+XTIUtURjVmNAgY+mEt+r7en/6YNJ5ZQ4SizxcQD3TNjclETThFmbMkOvhYpSIv8hTbGL3Gi60q8/NBZjPizWvFWFSfezRssA58xYgO6K4ujtCbCIiQHXSB5AycxNagWE+jsSgEpL8huTGMijrpofd4wYRIr3lYJRCrDzg3Y4TCkjsNMZIO4bXVTNzcudzyIO0rVGGsHClN5gGUJ7DivdR8fA3DtZRFwlrtx9lTowP0UmtCjGlqte0KJhzNovblc1O44YYFfIvPDwM0DQHDJwMjaTxXyb8/nT4GolSLCuQaBEGwRrgDw2zRNlrsyXvQopxt/APWfthuskRvAHAI4ftLMmq
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa54e794-9472-4de9-431f-08d9618ea3b8
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2021 14:52:31.1387
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HagOwO+RyAcM4YjPRlLNWptxfHkb+/f9L26ZiviX04lZXulFIZtVnmq3PBtP76V/HIkFOPliMK0T/RzYhUvXFkJsEik50Ix+NFUWjt1UtZ0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3068
+X-Proofpoint-ORIG-GUID: zYOV5DOwxoqdi5BgIR3TBbcr_qyZ0yP2
+X-Proofpoint-GUID: kMhmUSpMJ2A-Wj8SQqp7PGHvQCGQuKHn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-17_05,2021-08-17_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108170090
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 9, 2021 at 9:08 PM Purushottam choudhary
-<purushottam.choudhary@kpit.com> wrote:
->
-> Currently in dunfell branch python3 version is 3.8.11.
-> so, python3_3.8.10.bb is not needed.
-> Hence, removed.
+On 2021-08-13 11:22 a.m., Vinay Kumar wrote:
+> Hi Randy,
+> 
+>>> Vinay or I will look into glibc/qemuppc64
+>>> if no one else is working on that.
+> 
+> The failure is due to the below error in libstd-rs package build.
+> "error: unrecognized arch "powerpc64le" in target specification"
+> 
+> The reason for this is "arch": "powerpc64le" from the below target
+> specific file.
+> 
+> cat $b2/tmp/work/ppc64p9le-poky-linux/libstd-rs/1.54.0-r0/recipe-sysroot-native/usr/lib/rustlib/powerpc64le-poky-linux.json
+> {
+>      "llvm-target": "powerpc64le-unknown-linux-gnu",
+>      "data-layout": "e-m:e-i64:64-n32:64-v256:256:256-v512:512:512",
+>      "max-atomic-width": 64,
+>      "target-pointer-width": "64",
+>      "target-c-int-width": "64",
+>      "target-endian": "little",
+>      "arch": "powerpc64le",
+>      "os": "linux",
+>      "env": "gnu",
+>      "vendor": "unknown",
+>      "target-family": "unix",
+>      "linker": "powerpc64le-poky-linux-gcc",
+>      "ar": "powerpc64le-poky-linux-ar",
+>      "cpu": "generic",
+>      "dynamic-linking": true,
+>      "executables": true,
+>      "linker-is-gnu": true,
+>      "linker-flavor": "gcc",
+>      "has-rpath": true,
+>      "has-elf-tls": true,
+>      "position-independent-executables": true,
+>      "panic-strategy": "unwind"
+> }
+> 
+> So the "arch" should be "powerpc64" in case of "powerpc64le" fixes the
+> librstd-rs build failure.
+> 
+> With the above fix,
+> 
+> $cat  rust-hello-world-buildall.log
+> BUILDALL-QEMU LOG FOR rust-hello-world
+> START TIME: 2021-08-13_03:11:23
+> HOSTNAME: ala-lpggp3
+> HOST OS: Ubuntu 18.04.3 LTS
+> HOST KERNEL: 5.4.0-80-generic
+> ===============
+> BUILD RESULTS:
+> [glibc]
+> PASS: qemuriscv32
+> PASS: qemuarmv5
+> PASS: qemumips
+> PASS: qemux86-64
+> PASS: qemuarm64
+> PASS: qemumips64
+> PASS: qemuarm
+> PASS: qemuppc
+> PASS: qemuriscv64
+> PASS: qemuppc64
+> PASS: qemux86
+> [musl]
+> FAIL: qemuriscv32
+> FAIL: qemuarmv5
+> FAIL: qemumips
+> FAIL: qemux86-64
+> FAIL: qemuarm64
+> FAIL: qemumips64
+> FAIL: qemuarm
+> FAIL: qemuppc
+> FAIL: qemuriscv64
+> FAIL: qemuppc64
+> FAIL: qemux86
+> ===============
+> PASSED: 11
+> FAILED: 11
+> 
+> Regards,
+> Vinay
 
-I don't feel good about removing a recipe from a stable release.
-There may be people who are using 3.8.10 for whatever reason and
-removing the recipe would break their builds.
+Thanks Vinay, applied.
 
-Steve
+I'll push a new branch to poky-contrib later today.
 
-> ---
->  meta/recipes-devtools/python/python3_3.8.10.bb | 363 -------------------=
-------
->  1 file changed, 363 deletions(-)
->  delete mode 100644 meta/recipes-devtools/python/python3_3.8.10.bb
->
-> diff --git a/meta/recipes-devtools/python/python3_3.8.10.bb b/meta/recipe=
-s-devtools/python/python3_3.8.10.bb
-> deleted file mode 100644
-> index 7295c63..0000000
-> --- a/meta/recipes-devtools/python/python3_3.8.10.bb
-> +++ /dev/null
-> @@ -1,363 +0,0 @@
-> -SUMMARY =3D "The Python Programming Language"
-> -HOMEPAGE =3D "http://www.python.org"
-> -DESCRIPTION =3D "Python is a programming language that lets you work mor=
-e quickly and integrate your systems more effectively."
-> -LICENSE =3D "PSF-2.0 & BSD-0-Clause"
-> -SECTION =3D "devel/python"
-> -
-> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dc22d2438294c784731bf9dd224a46=
-7b7"
-> -
-> -SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz =
-\
-> -           file://run-ptest \
-> -           file://create_manifest3.py \
-> -           file://get_module_deps3.py \
-> -           file://python3-manifest.json \
-> -           file://check_build_completeness.py \
-> -           file://cgi_py.patch \
-> -           file://0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avo=
-id-.patch \
-> -           ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid=
-_warning_about_tkinter.patch', d)} \
-> -           file://0001-Do-not-use-the-shell-version-of-python-config-tha=
-t-w.patch \
-> -           file://python-config.patch \
-> -           file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-prof=
-ile.patch \
-> -           file://0001-Do-not-hardcode-lib-as-location-for-site-packages=
--an.patch \
-> -           file://0001-python3-use-cc_basename-to-replace-CC-for-checkin=
-g-c.patch \
-> -           file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-h=
-ard.patch \
-> -           file://0001-Makefile-fix-Issue36464-parallel-build-race-probl=
-em.patch \
-> -           file://0001-bpo-36852-proper-detection-of-mips-architecture-f=
-or-.patch \
-> -           file://crosspythonpath.patch \
-> -           file://reformat_sysconfig.py \
-> -           file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-> -           file://0001-test_locale.py-correct-the-test-output-format.pat=
-ch \
-> -           file://0017-setup.py-do-not-report-missing-dependencies-for-d=
-isa.patch \
-> -           file://0001-setup.py-pass-missing-libraries-to-Extension-for-=
-mul.patch \
-> -           file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
-> -           file://0001-configure.ac-fix-LIBPL.patch \
-> -           file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-> -           file://0020-configure.ac-setup.py-do-not-add-a-curses-include=
--pa.patch \
-> -           file://0001-test_ctypes.test_find-skip-without-tools-sdk.patc=
-h \
-> -           "
-> -
-> -SRC_URI_append_class-native =3D " \
-> -           file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-=
-sys.patch \
-> -           file://12-distutils-prefix-is-inside-staging-area.patch \
-> -           file://0001-Don-t-search-system-for-headers-libraries.patch \
-> -           "
-> -
-> -SRC_URI[md5sum] =3D "d9eee4b20155553830a2025e4dcaa7b3"
-> -SRC_URI[sha256sum] =3D "6af24a66093dd840bcccf371d4044a3027e655cf24591ce2=
-6e48022bc79219d9"
-> -
-> -# exclude pre-releases for both python 2.x and 3.x
-> -UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-> -
-> -CVE_PRODUCT =3D "python"
-> -
-> -# Upstream consider this expected behaviour
-> -CVE_CHECK_WHITELIST +=3D "CVE-2007-4559"
-> -# This is not exploitable when glibc has CVE-2016-10739 fixed.
-> -CVE_CHECK_WHITELIST +=3D "CVE-2019-18348"
-> -
-> -# This is windows only issue.
-> -CVE_CHECK_WHITELIST +=3D "CVE-2020-15523"
-> -
-> -PYTHON_MAJMIN =3D "3.8"
-> -
-> -S =3D "${WORKDIR}/Python-${PV}"
-> -
-> -BBCLASSEXTEND =3D "native nativesdk"
-> -
-> -inherit autotools pkgconfig qemu ptest multilib_header update-alternativ=
-es
-> -
-> -MULTILIB_SUFFIX =3D "${@d.getVar('base_libdir',1).split('/')[-1]}"
-> -
-> -ALTERNATIVE_${PN}-dev =3D "python3-config"
-> -ALTERNATIVE_LINK_NAME[python3-config] =3D "${bindir}/python${PYTHON_MAJM=
-IN}-config"
-> -ALTERNATIVE_TARGET[python3-config] =3D "${bindir}/python${PYTHON_MAJMIN}=
--config-${MULTILIB_SUFFIX}"
-> -
-> -
-> -DEPENDS =3D "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib =
-virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2 autoconf-archi=
-ve"
-> -DEPENDS_append_class-target =3D " python3-native"
-> -DEPENDS_append_class-nativesdk =3D " python3-native"
-> -
-> -EXTRA_OECONF =3D " --without-ensurepip --enable-shared"
-> -EXTRA_OECONF_append_class-native =3D " --bindir=3D${bindir}/${PN}"
-> -
-> -export CROSSPYTHONPATH=3D"${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN=
-}/lib-dynload/"
-> -
-> -EXTRANATIVEPATH +=3D "python3-native"
-> -
-> -CACHED_CONFIGUREVARS =3D " \
-> -                ac_cv_file__dev_ptmx=3Dyes \
-> -                ac_cv_file__dev_ptc=3Dno \
-> -                ac_cv_working_tzset=3Dyes \
-> -"
-> -python() {
-> -    # PGO currently causes builds to not be reproducible, so disable it =
-for
-> -    # now. See YOCTO #13407
-> -    if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, Fals=
-e, d) and d.getVar('BUILD_REPRODUCIBLE_BINARIES') !=3D '1':
-> -        d.setVar('PACKAGECONFIG_PGO', 'pgo')
-> -    else:
-> -        d.setVar('PACKAGECONFIG_PGO', '')
-> -}
-> -
-> -PACKAGECONFIG_class-target ??=3D "readline ${PACKAGECONFIG_PGO} gdbm"
-> -PACKAGECONFIG_class-native ??=3D "readline gdbm"
-> -PACKAGECONFIG_class-nativesdk ??=3D "readline gdbm"
-> -PACKAGECONFIG[readline] =3D ",,readline"
-> -# Use profile guided optimisation by running PyBench inside qemu-user
-> -PACKAGECONFIG[pgo] =3D "--enable-optimizations,,qemu-native"
-> -PACKAGECONFIG[tk] =3D ",,tk"
-> -PACKAGECONFIG[gdbm] =3D ",,gdbm"
-> -
-> -do_configure_prepend () {
-> -    mkdir -p ${B}/Modules
-> -    cat > ${B}/Modules/Setup.local << EOF
-> -*disabled*
-> -${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '_gdbm _dbm', d)}
-> -${@bb.utils.contains('PACKAGECONFIG', 'readline', '', 'readline', d)}
-> -EOF
-> -}
-> -
-> -CPPFLAGS_append =3D " -I${STAGING_INCDIR}/ncursesw -I${STAGING_INCDIR}/u=
-uid"
-> -
-> -EXTRA_OEMAKE =3D '\
-> -  STAGING_LIBDIR=3D${STAGING_LIBDIR} \
-> -  STAGING_INCDIR=3D${STAGING_INCDIR} \
-> -  LIB=3D${baselib} \
-> -'
-> -
-> -do_compile_prepend_class-target() {
-> -       if ${@bb.utils.contains('PACKAGECONFIG', 'pgo', 'true', 'false', =
-d)}; then
-> -                qemu_binary=3D"${@qemu_wrapper_cmdline(d, '${STAGING_DIR=
-_TARGET}', ['${B}', '${STAGING_DIR_TARGET}/${base_libdir}'])}"
-> -                cat >pgo-wrapper <<EOF
-> -#!/bin/sh
-> -cd ${B}
-> -$qemu_binary "\$@"
-> -EOF
-> -                chmod +x pgo-wrapper
-> -        fi
-> -}
-> -
-> -do_install_prepend() {
-> -        ${WORKDIR}/check_build_completeness.py ${T}/log.do_compile
-> -}
-> -
-> -do_install_append_class-target() {
-> -        oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
-> -}
-> -
-> -do_install_append_class-native() {
-> -        # Make sure we use /usr/bin/env python
-> -        for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir=
-}/${PN}`; do
-> -                sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
-> -        done
-> -        # Add a symlink to the native Python so that scripts can just in=
-voke
-> -        # "nativepython" and get the right one without needing absolute =
-paths
-> -        # (these often end up too long for the #! parser in the kernel a=
-s the
-> -        # buffer is 128 bytes long).
-> -        ln -s python3-native/python3 ${D}${bindir}/nativepython3
-> -}
-> -
-> -do_install_append() {
-> -        mkdir -p ${D}${libdir}/python-sysconfigdata
-> -        sysconfigfile=3D`find ${D} -name _sysconfig*.py`
-> -        cp $sysconfigfile ${D}${libdir}/python-sysconfigdata/_sysconfigd=
-ata.py
-> -
-> -        sed -i  \
-> -                -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
-> -                -e "s,^ 'INCLUDEDIR'.*, 'INCLUDEDIR': '${STAGING_INCDIR}=
-'\,,g" \
-> -                -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING=
-_INCDIR}'\,,g" \
-> -                -e "/^ 'INCLDIRSTOMAKE'/{N; s,/usr/include,${STAGING_INC=
-DIR},g}" \
-> -                -e "/^ 'INCLUDEPY'/s,/usr/include,${STAGING_INCDIR},g" \
-> -                ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
-> -}
-> -
-> -do_install_append_class-nativesdk () {
-> -    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS=3D=
-'${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/t=
-erminfo:/lib/terminfo' PYTHONNOUSERSITE=3D'1'
-> -}
-> -
-> -SSTATE_SCAN_FILES +=3D "Makefile _sysconfigdata.py"
-> -PACKAGE_PREPROCESS_FUNCS +=3D "py_package_preprocess"
-> -
-> -py_package_preprocess () {
-> -        # Remove references to buildmachine paths in target Makefile and=
- _sysconfigdata
-> -        sed -i -e 's:--sysroot=3D${STAGING_DIR_TARGET}::g' -e s:'--with-=
-libtool-sysroot=3D${STAGING_DIR_TARGET}'::g \
-> -                -e 's|${DEBUG_PREFIX_MAP}||g' \
-> -                -e 's:${HOSTTOOLS_DIR}/::g' \
-> -                -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-> -                -e 's:${RECIPE_SYSROOT}::g' \
-> -                -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
-> -                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON=
-_MAJMIN}${PYTHON_ABI}*/Makefile \
-> -                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*=
-.py \
-> -                ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
-> -
-> -        # Reformat _sysconfigdata after modifying it so that it remains
-> -        # reproducible
-> -        for c in ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata=
-*.py; do
-> -            python3 ${WORKDIR}/reformat_sysconfig.py $c
-> -        done
-> -
-> -        # Recompile _sysconfigdata after modifying it
-> -        cd ${PKGD}
-> -        sysconfigfile=3D`find . -name _sysconfigdata_*.py`
-> -        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-> -             -c "from py_compile import compile; compile('$sysconfigfile=
-')"
-> -        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-> -             -c "from py_compile import compile; compile('$sysconfigfile=
-', optimize=3D1)"
-> -        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-> -             -c "from py_compile import compile; compile('$sysconfigfile=
-', optimize=3D2)"
-> -        cd -
-> -
-> -        mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bin=
-dir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
-> -
-> -        #Remove the unneeded copy of target sysconfig data
-> -        rm -rf ${PKGD}/${libdir}/python-sysconfigdata
-> -}
-> -
-> -# We want bytecode precompiled .py files (.pyc's) by default
-> -# but the user may set it on their own conf
-> -INCLUDE_PYCS ?=3D "1"
-> -
-> -python(){
-> -    import collections, json
-> -
-> -    filename =3D os.path.join(d.getVar('THISDIR'), 'python3', 'python3-m=
-anifest.json')
-> -    # This python changes the datastore based on the contents of a file,=
- so mark
-> -    # that dependency.
-> -    bb.parse.mark_dependency(d, filename)
-> -
-> -    with open(filename) as manifest_file:
-> -        manifest_str =3D  manifest_file.read()
-> -        json_start =3D manifest_str.find('# EOC') + 6
-> -        manifest_file.seek(json_start)
-> -        manifest_str =3D manifest_file.read()
-> -        python_manifest =3D json.loads(manifest_str, object_pairs_hook=
-=3Dcollections.OrderedDict)
-> -
-> -    # First set RPROVIDES for -native case
-> -    # Hardcoded since it cant be python3-native-foo, should be python3-f=
-oo-native
-> -    pn =3D 'python3'
-> -    rprovides =3D d.getVar('RPROVIDES').split()
-> -
-> -    # ${PN}-misc-native is not in the manifest
-> -    rprovides.append(pn + '-misc-native')
-> -
-> -    for key in python_manifest:
-> -        pypackage =3D pn + '-' + key + '-native'
-> -        if pypackage not in rprovides:
-> -              rprovides.append(pypackage)
-> -
-> -    d.setVar('RPROVIDES_class-native', ' '.join(rprovides))
-> -
-> -    # Then work on the target
-> -    include_pycs =3D d.getVar('INCLUDE_PYCS')
-> -
-> -    packages =3D d.getVar('PACKAGES').split()
-> -    pn =3D d.getVar('PN')
-> -
-> -    newpackages=3D[]
-> -    for key in python_manifest:
-> -        pypackage =3D pn + '-' + key
-> -
-> -        if pypackage not in packages:
-> -            # We need to prepend, otherwise python-misc gets everything
-> -            # so we use a new variable
-> -            newpackages.append(pypackage)
-> -
-> -        # "Build" python's manifest FILES, RDEPENDS and SUMMARY
-> -        d.setVar('FILES_' + pypackage, '')
-> -        for value in python_manifest[key]['files']:
-> -            d.appendVar('FILES_' + pypackage, ' ' + value)
-> -
-> -        # Add cached files
-> -        if include_pycs =3D=3D '1':
-> -            for value in python_manifest[key]['cached']:
-> -                    d.appendVar('FILES_' + pypackage, ' ' + value)
-> -
-> -        for value in python_manifest[key]['rdepends']:
-> -            # Make it work with or without $PN
-> -            if '${PN}' in value:
-> -                value=3Dvalue.split('-', 1)[1]
-> -            d.appendVar('RDEPENDS_' + pypackage, ' ' + pn + '-' + value)
-> -
-> -        for value in python_manifest[key].get('rrecommends', ()):
-> -            if '${PN}' in value:
-> -                value=3Dvalue.split('-', 1)[1]
-> -            d.appendVar('RRECOMMENDS_' + pypackage, ' ' + pn + '-' + val=
-ue)
-> -
-> -        d.setVar('SUMMARY_' + pypackage, python_manifest[key]['summary']=
-)
-> -
-> -    # Prepending so to avoid python-misc getting everything
-> -    packages =3D newpackages + packages
-> -    d.setVar('PACKAGES', ' '.join(packages))
-> -    d.setVar('ALLOW_EMPTY_${PN}-modules', '1')
-> -    d.setVar('ALLOW_EMPTY_${PN}-pkgutil', '1')
-> -}
-> -
-> -# Files needed to create a new manifest
-> -
-> -do_create_manifest() {
-> -    # This task should be run with every new release of Python.
-> -    # We must ensure that PACKAGECONFIG enables everything when creating
-> -    # a new manifest, this is to base our new manifest on a complete
-> -    # native python build, containing all dependencies, otherwise the ta=
-sk
-> -    # wont be able to find the required files.
-> -    # e.g. BerkeleyDB is an optional build dependency so it may or may n=
-ot
-> -    # be present, we must ensure it is.
-> -
-> -    cd ${WORKDIR}
-> -    # This needs to be executed by python-native and NOT by HOST's pytho=
-n
-> -    nativepython3 create_manifest3.py ${PYTHON_MAJMIN}
-> -    cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.jso=
-n
-> -}
-> -
-> -# bitbake python -c create_manifest
-> -# Make sure we have native python ready when we create a new manifest
-> -addtask do_create_manifest after do_patch do_prepare_recipe_sysroot
-> -
-> -# manual dependency additions
-> -RRECOMMENDS_${PN}-core_append_class-nativesdk =3D " nativesdk-python3-mo=
-dules"
-> -RRECOMMENDS_${PN}-crypt_append_class-target =3D " openssl ca-certificate=
-s"
-> -RRECOMMENDS_${PN}-crypt_append_class-nativesdk =3D " openssl ca-certific=
-ates"
-> -
-> -# For historical reasons PN is empty and provided by python3-modules
-> -FILES_${PN} =3D ""
-> -RPROVIDES_${PN}-modules =3D "${PN}"
-> -
-> -FILES_${PN}-pydoc +=3D "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3=
-"
-> -FILES_${PN}-idle +=3D "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
-> -
-> -# provide python-pyvenv from python3-venv
-> -RPROVIDES_${PN}-venv +=3D "python3-pyvenv"
-> -
-> -# package libpython3
-> -PACKAGES =3D+ "libpython3 libpython3-staticdev"
-> -FILES_libpython3 =3D "${libdir}/libpython*.so.*"
-> -FILES_libpython3-staticdev +=3D "${libdir}/python${PYTHON_MAJMIN}/config=
--${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
-> -INSANE_SKIP_${PN}-dev +=3D "dev-elf"
-> -INSANE_SKIP_${PN}-ptest +=3D "dev-deps"
-> -
-> -# catch all the rest (unsorted)
-> -PACKAGES +=3D "${PN}-misc"
-> -RDEPENDS_${PN}-misc +=3D "python3-core python3-email python3-codecs pyth=
-on3-pydoc python3-pickle python3-audio"
-> -RDEPENDS_${PN}-modules_append_class-target =3D " python3-misc"
-> -RDEPENDS_${PN}-modules_append_class-nativesdk =3D " python3-misc"
-> -FILES_${PN}-misc =3D "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python$=
-{PYTHON_MAJMIN}/lib-dynload"
-> -
-> -# catch manpage
-> -PACKAGES +=3D "${PN}-man"
-> -FILES_${PN}-man =3D "${datadir}/man"
-> -
-> -# See https://bugs.python.org/issue18748 and https://bugs.python.org/iss=
-ue37395
-> -RDEPENDS_libpython3_append_libc-glibc =3D " libgcc"
-> -RDEPENDS_${PN}-ctypes_append_libc-glibc =3D " ${MLPREFIX}ldconfig"
-> -RDEPENDS_${PN}-ptest =3D "${PN}-modules ${PN}-tests ${PN}-dev unzip bzip=
-2 libgcc tzdata-europe coreutils sed"
-> -RDEPENDS_${PN}-ptest_append_libc-glibc =3D " locale-base-tr-tr.iso-8859-=
-9"
-> -RDEPENDS_${PN}-tkinter +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk',=
- 'tk tk-lib', '', d)}"
-> -RDEPENDS_${PN}-dev =3D ""
-> -
-> -RDEPENDS_${PN}-tests_append_class-target =3D " bash"
-> -RDEPENDS_${PN}-tests_append_class-nativesdk =3D " bash"
-> -
-> -# Python's tests contain large numbers of files we don't need in the rec=
-ipe sysroots
-> -SYSROOT_PREPROCESS_FUNCS +=3D " py3_sysroot_cleanup"
-> -py3_sysroot_cleanup () {
-> -       rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
-> -}
-> --
-> 2.7.4
->
-> This message contains information that may be privileged or confidential =
-and is the property of the KPIT Technologies Ltd. It is intended only for t=
-he person to whom it is addressed. If you are not the intended recipient, y=
-ou are not authorized to read, print, retain copy, disseminate, distribute,=
- or use this message or any part thereof. If you receive this message in er=
-ror, please notify the sender immediately and delete all copies of this mes=
-sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
-ed mails.
->
->=20
->
+../Randy
+> 
+> On Fri, Aug 13, 2021 at 8:50 PM Vinay Kumar <vinay.m.engg@gmail.com> wrote:
+>>
+>> rust-common.inc: Fix build failure with qemuppc64.
+>>
+>> The glibc build of "rust-hello-world" throws error in libstd-rs package.
+>> error: unrecognized arch "powerpc64le" in target specification
+>>
+>> The same got fixed by changing the arch to "powerpc64".
+>>
+>> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+>> ---
+>>   meta/recipes-devtools/rust/rust-common.inc | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+>> index 350517c723..f574152815 100644
+>> --- a/meta/recipes-devtools/rust/rust-common.inc
+>> +++ b/meta/recipes-devtools/rust/rust-common.inc
+>> @@ -248,6 +248,8 @@ def arch_to_rust_target_arch(arch):
+>>           return "mips64"
+>>       elif arch == "armv7":
+>>           return "arm"
+>> +    elif arch == "powerpc64le":
+>> +        return "powerpc64"
+>>       else:
+>>           return arch
+>>
+>> --
+>> 2.31.1
+>>
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
