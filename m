@@ -1,101 +1,93 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web12.47528.1629243863971347578
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web08.47317.1629244021582020628
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Aug 2021 16:44:24 -0700
+ Tue, 17 Aug 2021 16:47:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZnYHKKko;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id az7so930458qkb.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 16:44:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tkDE/AR6;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id m21so879466qkm.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 16:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dBLZzJT/ZeoJNkTWdu9pU4mkAouVGM5Y4lZj8FUu4Oo=;
-        b=ZnYHKKkobciwhk6aJBJrEUj9ky5ZkMi2uz99Yd0OGK6exc9Iil1rCsns/fXw035kCc
-         uTkF/Pvs3fTgX8Bt2RKwpwIGGzLr1vb+dt167Gk1OsPkiH+gtHP0EGFRNsHN0PF1kjqe
-         W/z8QJs/bQWLrxpeSId6JVtke8uOdV5u0UVPtpBnA7s+AtnZHxHcfkoAB2XH6aqTbRZx
-         La2s0GsuYU6YvlUZC/LFIJd7ob/wHHVjiBBOYjxm0f2U3/Cu2nrNZgUnnSTEGfC7IYjf
-         JWU6P+0uiGbB/c4t4lInbF6XrAbb8PBVpDLVchHrhO7aAJUiFw34fYlIyubmlKEd5HcE
-         h/Kw==
+        bh=NnoBP8EoK+Tfsbo/7EQNxPzB7prMUdCjUA5JwYUH/wc=;
+        b=tkDE/AR6ZPMlywvVDP2+G6LCqxX4gODR0kaz+72nN+jKCjl33jHqwl4Q43Akn5mA3g
+         G7nN6s+p+NV50ImeyJ24CI3UpNsEyWuUVc4b14VwCSjAaxbbH4MHK2HZlWjfm7bVnKdA
+         yqwTuChGXYlHGeAjqCz3NMjK3rd9HcRew7+xUX4Y3mXiYmCf/xDj43T+631iVk5E8P6v
+         BmseFZleRQo1rPE4NXTzvnA66qUPEKojT26Svf9X0uvy9JQcY7oRt+v/YIei8MO1I2PG
+         aDmWnBigIXv6GXC5a3OkM3hDBTmrMWNuvDGv3EqeyjrbzekLAoer55ogEyRSOG73ki0I
+         bj1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dBLZzJT/ZeoJNkTWdu9pU4mkAouVGM5Y4lZj8FUu4Oo=;
-        b=jjDn60B+0Mk7a7kJx7ZnOQGiJaWxTNi5oNq7DPtK6rw+2xnoJ9Oy7ucI+zAl7fQ6oU
-         U6Hk3lfxhNxaCASFhiuVBA1np4L0yHZnbApsceWSqfiDL2r4hf6n2IedJC+NI0o7iofk
-         SyAQ6N0jqK7+mTlqRWl58kwwzYD0jr+ypfE7oAXcuXMkemUWYAQuuBNcECeDyUjKk+/G
-         z00lNQ1wFp9hy7uGKo2pJB7voJDwLP95IDzKMqqNIiG7v5142BQZvcUVpxC+tUuG/0a4
-         6k/mY4BqB2gMr3zjNhplQlopslHLMJXULQr4LFeO9frQg9jo8rsTt/KjP/qJokFR0fAI
-         qEtw==
-X-Gm-Message-State: AOAM530nBSK+lSIaCdr7Nz2Zf0piecNTAjzQNsor1U/hZJZwv++G1VN2
-	j6oi1MYTUjf3ic7CnyolGJgl0rG950R6UPrpINg=
-X-Google-Smtp-Source: ABdhPJxG1zDADBInmsKkZ3WGfMC1SlO1Yr8UeWnCu8yJacpPNajMitqNJShD9DF9sdix6IT/WYU8Rill/iml3S6YTQE=
-X-Received: by 2002:ae9:f201:: with SMTP id m1mr6316962qkg.381.1629243863106;
- Tue, 17 Aug 2021 16:44:23 -0700 (PDT)
+        bh=NnoBP8EoK+Tfsbo/7EQNxPzB7prMUdCjUA5JwYUH/wc=;
+        b=XPFnPm1YKGezr6/Qeeb3kFZaxDcFdqjk84mXa/jh6ujpsfGGRlMYhuSor23phxyP3R
+         w6M/Z1EjOaRVFrk76vYIjns+gumxLDmitfWR+Yl9dFNqMPOeR2Nz+nvw54Ohi8n6E4jK
+         NXS/uNHMu7YC8KAdVc+ZKilTcuqz2akuSNH+Kc2qVw2a2lEm+NmpSrLoZ8ir6hOxhDWj
+         003fgag8jT3OO5RX4z3Ciik2h05VgJpMbMtlN9B73Jc3N8aThTnKZpHEJhQPhKuQueRc
+         7V0qsCtApgPyEK0OvTWxYePwfiwZmQFh8PVb6wB/mwihex2Ycpb8lmuX0xi+s6jbbBWr
+         mgEQ==
+X-Gm-Message-State: AOAM5306ELNIqyd5NnfX4RDUL4AaydF8akx0G6piCOSCA/frNMWF5xVq
+	yzlRDeIfxGntP5EeqsHAlKX0e9rQvyn8FOhhArk=
+X-Google-Smtp-Source: ABdhPJwHnxgKVDR+jNfuJfm+1iTovUWmlCHzOjVjHogdhcOWFlJzoVf+rT4w9fmw0/JkTGCJYQbTaOr7q9sjrv7obS4=
+X-Received: by 2002:a05:620a:88d:: with SMTP id b13mr6609037qka.125.1629244020680;
+ Tue, 17 Aug 2021 16:47:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210806181402.3014345-1-maxims@google.com>
-In-Reply-To: <20210806181402.3014345-1-maxims@google.com>
+References: <20210817222919.2170420-1-ross.burton@arm.com>
+In-Reply-To: <20210817222919.2170420-1-ross.burton@arm.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 17 Aug 2021 16:43:57 -0700
-Message-ID: <CAMKF1srK8+bJ=g-UPoCrNuk9dkdoypRknHKjmpxrHO1hjwyLzQ@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH] meta-oe: libusbgx: Configure the Devices Used
-To: Maxim Sloyko <maxims@google.com>
+Date: Tue, 17 Aug 2021 16:46:34 -0700
+Message-ID: <CAMKF1sp83v6TkKLAAMdDExij9ZceOaCGpSrp=cLPJEkQUCB-pQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: package the stub .a libaries into glibc-dev
+To: Ross Burton <ross@burtonini.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 17, 2021 at 2:47 PM Maxim Sloyko via
-lists.openembedded.org <maxims=google.com@lists.openembedded.org>
-wrote:
+On Tue, Aug 17, 2021 at 3:29 PM Ross Burton <ross@burtonini.com> wrote:
 >
-> Add ability to configure the UDC used for specific schema.
-> The feature is backwards compatible, so existing users don't need to
-> change anything.
+> In glibc 2.34, the libraries libpthread, libdl, libutil, libanl have
+> been integrated into libc. To retain compatibility with old binaries the
+> shared libaries are still shipped but are empty, and to keep software
+> building there are empty static libraries.
 >
-> If one wants to specify which UDC is used for specific schema,
-> for example, `eth0`, they can add this variable to the configuration
-> file:
+> However, these static libraries get packaged into glibc-staticdev (as
+> they should be), but by this design they should be in glibc-dev.
 >
-> UDC_FOR_SCHEMA_eth0=f8000000.udc
->
-> If the device file exists in /sys/class/udc when the gadget is started,
-> it will be used for this schema.
->
-> If this configuration is not present, first available device is picked.
+> https://sourceware.org/pipermail/libc-alpha/2021-August/129718.html
 >
 
-I have already picked up your prior patch and its in master now
-https://github.com/openembedded/meta-openembedded/commit/3cf2475ea059184820525bb949c11c3da0e64af8
+this patch is ok.
 
-if there is delta on top of this please rebase and send
-
-> Signed-off-by: Maksym Sloyko <maxims@google.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta-oe/recipes-support/libusbgx/libusbgx/gadget-start | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->  mode change 100644 => 100755 meta-oe/recipes-support/libusbgx/libusbgx/gadget-start
+>  meta/recipes-core/glibc/glibc-package.inc | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta-oe/recipes-support/libusbgx/libusbgx/gadget-start b/meta-oe/recipes-support/libusbgx/libusbgx/gadget-start
-> old mode 100644
-> new mode 100755
-> index 1a106b785..9e22671a9
-> --- a/meta-oe/recipes-support/libusbgx/libusbgx/gadget-start
-> +++ b/meta-oe/recipes-support/libusbgx/libusbgx/gadget-start
-> @@ -7,5 +7,10 @@ for i in $IMPORT_SCHEMAS; do
->  done
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+> index 3026aec9b6f..56fbf8b08ce 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -22,6 +22,7 @@ ARCH_DYNAMIC_LOADER = ""
+>  ARCH_DYNAMIC_LOADER:aarch64 = "ld-linux-${TARGET_ARCH}.so.1"
+>  libc_baselibs:append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
+>  INSANE_SKIP:${PN}:append:aarch64 = " libdir"
+> +INSANE_SKIP:${PN}-dev += "staticdev"
 >
->  for i in $ENABLED_SCHEMAS; do
-> -    ls /sys/class/udc/ > /sys/kernel/config/usb_gadget/"$i"/UDC
-> +    configured_udc=$(eval 'echo ${UDC_FOR_SCHEMA_'"$i"'}')
-> +    if [ -n "${configured_udc}" ] && [ -e "/sys/class/udc/${configured_udc}" ]; then
-> +        echo ${configured_udc} > /sys/kernel/config/usb_gadget/"$i"/UDC
-> +    else
-> +        ls /sys/class/udc/ > /sys/kernel/config/usb_gadget/"$i"/UDC
-> +    fi
->  done
+>  FILES:${PN} = "${libc_baselibs} ${libexecdir}/* ${sysconfdir}/ld.so.conf"
+>  RRECOMMENDS:${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)}"
+> @@ -38,7 +39,7 @@ FILES:sln = "${base_sbindir}/sln"
+>  FILES:${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
+>  FILES:libsotruss = "${libdir}/audit/sotruss-lib.so"
+>  FILES_SOLIBSDEV = "${libdir}/lib*${SOLIBSDEV}"
+> -FILES:${PN}-dev += "${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
+> +FILES:${PN}-dev += "${libdir}/libpthread.a ${libdir}/libdl.a ${libdir}/libutil.a ${libdir}/libanl.a ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
+>  RDEPENDS:${PN}-dev = "linux-libc-headers-dev"
+>  FILES:${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
+>  FILES:nscd = "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_unitdir}/system/nscd* ${sysconfdir}/tmpfiles.d/nscd.conf \
 > --
-> 2.32.0.605.g8dce9f2422-goog
+> 2.32.0
 >
 >
 > 
