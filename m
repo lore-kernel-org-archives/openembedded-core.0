@@ -1,275 +1,582 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web08.34525.1629170123785363219
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.35864.1629182459020254083
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Aug 2021 20:15:23 -0700
+ Mon, 16 Aug 2021 23:40:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XkWiib01;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id m24-20020a17090a7f98b0290178b1a81700so3842659pjl.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 20:15:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YPBaJF4s;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: ernstp@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d17so23689740plr.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Aug 2021 23:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=9vDQfpD/+EBts1g7Sd7WcBkmdZa1hjNVtOPcRr83icg=;
-        b=XkWiib01JpshylbxSW4qKaH7ZAr+vPQ1dtnbsrsZRzWn4TbPm/C2cR5CTSTpsTx0Ot
-         wQveEDOjJckVTP4EX8N3ENUqOMGbTwzEBNJoRWpW3jmx7Wro4JDfe0JLfdqm2MElirTU
-         +955QOwrhvjEhUE2mpx4CderZ1m4W8STKg7bGUEisfIoZVd1hVIjD+3eh5ogzalF+Q6x
-         U+4WXAbmMGex7ExPc2ZmdoGyYBYtC5L41s2+vfdaBgGnXpUMereGsRZaKx0q83Vd+Kb/
-         ohsjfCzHSPTYSwkHDNV904L/+RyNM+uYyKAffxo2jxf69awsf7H/jmvoSnsxlunqHDz1
-         c2PA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8IGF9mhkCkYk5oVh+Unhsyw5mK9y3S7OcCEqhOeyq1k=;
+        b=YPBaJF4srsy4KpQ2pwOoa1ITMyD/34hesvBS7g3MJiiLGaraLmakn0ZnKCU3db44jm
+         81TIrJ3QcN9+k9Hv09ptxUX4KN18iK40BMV9xMzrig1QApCXiRQxIVOS7tz9/a06J06f
+         pgXMeT8cbngGUU25w7RxLFTRUp/3hzteCqvdJ4LBmPwwhK+xBPVPqU3AJJ2n6KMY5njM
+         gaiNA5AhybcndOUW2LMcg7vfbcG+jxtVifAdMqmezYAvolR78wiQ+KPfjOoT49x7Nitz
+         czDEK0cfc99nVNn6zCYjqMm1TVypyDtspUgWtL4ZxuRZtco/EEE/S3pU03qgOOJSyYw/
+         xRCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=9vDQfpD/+EBts1g7Sd7WcBkmdZa1hjNVtOPcRr83icg=;
-        b=jUjU143M4rGXDQetui6Y1tKePR5tD3aj5reBHYYKKeDkt68XcVTdcOwiQRiIdiN07j
-         p7Sc2B4veK13Oba4I3ZUMvAfQSBl7DsXaaERz9pf1UGtp96b7dsz2gMfmXJ/xz4SdX29
-         Qy3KzpPsCZtM8S7t14h4+V6J4zcnCJzLdxDwSnkq6hKkvWO/9qXJYUYNYRpMt62+drUt
-         SU7pzNf2qOZ7z2n54ed6w1FzRCuKwUIkblUAUpt8zrzliS0kzTHa5bc8GWM9+JoSS38n
-         KW3BsyVduYCjryfJiPzB46VBXtrOTrGSgwORFFCQpeFt34Pr479dmoYVxR6Hp57G0UhR
-         YH2w==
-X-Gm-Message-State: AOAM532ciavhx1XrYAxaEvlGvoZtuUXg9CTOFwkLNlqGbq3yxurkXoh0
-	z3QrOeAn2j3g/fugHAaHsLw=
-X-Google-Smtp-Source: ABdhPJyAteVw71rggxKZGNnWwKloxOL+nofE5y2CMe9vYQ/AAgyNrHd5ZZwnJ3moZywSXBswJ7x7MA==
-X-Received: by 2002:a63:d456:: with SMTP id i22mr1330581pgj.421.1629170123377;
-        Mon, 16 Aug 2021 20:15:23 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley ([2600:8800:1d98:5b00:5587:1c47:f201:2845])
-        by smtp.gmail.com with ESMTPSA id b21sm556270pfl.83.2021.08.16.20.15.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Aug 2021 20:15:22 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 16 Aug 2021 20:15:22 -0700
-Message-ID: <0f9801d79316$1e546550$5afd2ff0$@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8IGF9mhkCkYk5oVh+Unhsyw5mK9y3S7OcCEqhOeyq1k=;
+        b=SmqLdHJypeHtCVkG4MzpRwea38Hjs6EbTHPVFlARcPygOrPNcZEj7q02CrDjhoHzGC
+         X7LtFct7jb8kk3ss1yy43XxR3bCX/PMvLgI0tzOv6gyy2mG/czrZVXe16NlJhEXjMEGh
+         E3a6Ww7tGsx1zX7Lbraah557w8NDWnXCnubXmw4FOVa3qyj/YWrMQay0TiQn+xdb5mvf
+         QtindCAHFSDFR9H2yOczdiFp3YN6wYOK1xq+J7gAAwAZySOA8ueM8WxcLCbz+6YptJWB
+         sKv+gYqg0Wu3rV4LfX4vTV65456YpSjmDZKTHW2Jmmu1GdgsioK6O9a0vtk10DtSyw8g
+         hN8g==
+X-Gm-Message-State: AOAM531mb9nnzt2T2ylYx2gmIn6+J2wOPJc9c2ssU/8Kk4Gcpn3FDj4u
+	g9TR2UJy6dj4hXeQlwhhEwH91R+HkdKiNTDCbps=
+X-Google-Smtp-Source: ABdhPJyN84AZ+Gt7d6MlFpeOl3qS7ageoJN/vumw631YHyKH//l1MBqYqXg5Sv6ArYM1579ISwMfmNMbmI0DfAnm6gg=
+X-Received: by 2002:a17:90b:1a85:: with SMTP id ng5mr2015554pjb.62.1629182458317;
+ Mon, 16 Aug 2021 23:40:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQC9bEyzL8dcHp/4KSuxTmwE7AENYA==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0F99_01D792DB.71F69EC0"
-Content-Language: en-us
+References: <20210727183831.100545-1-vinay.m.engg@gmail.com>
+ <a3e9bd964546a48124dddfb13008e2bc1e467163.camel@intel.com>
+ <CANUMPcVH2STrqcD34DRXQ9ty3id9O0ZgZ_qWg76+F-pQ-6Hx5A@mail.gmail.com>
+ <6d88bfb57e64bfd5f169413c1fab0777ca3e811d.camel@intel.com> <CANUMPcV4EQ1ds6jx2QEMTD1PsC2tXeumGtyTr89v8JCOhwFoug@mail.gmail.com>
+In-Reply-To: <CANUMPcV4EQ1ds6jx2QEMTD1PsC2tXeumGtyTr89v8JCOhwFoug@mail.gmail.com>
+From: =?UTF-8?B?RXJuc3QgU2rDtnN0cmFuZA==?= <ernstp@gmail.com>
+Date: Tue, 17 Aug 2021 08:40:47 +0200
+Message-ID: <CAD=4a=Xu+9dZC1n6Fy4qkmyBqY3k9P2sNBvR84BdZnozLjaJ7w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-33574
+To: Vinay Kumar <vinay.m.engg@gmail.com>
+Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	"vinay.kumar@blackfigtech.com" <vinay.kumar@blackfigtech.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"rwmacleod@gmail.com" <rwmacleod@gmail.com>, "umesh.kalappa0@gmail.com" <umesh.kalappa0@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000b3d0e005c9bb9926"
 
-------=_NextPart_000_0F99_01D792DB.71F69EC0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 379
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0F99_01D792DB.71F69EC0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0B07_01D78D46.BA9DF460";
-	charset="us-ascii"
+--000000000000b3d0e005c9bb9926
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 379 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+There is now an additional fix on top of this:
 
-------=_NextPart_000_0F99_01D792DB.71F69EC0--
+https://it.slashdot.org/story/21/08/16/2131221/linux-glibc-security-fix-cre=
+ated-a-nastier-linux-bug
+
+https://access.redhat.com/security/cve/cve-2021-38604
+
+//E
+
+Den m=C3=A5n 2 aug. 2021 kl 06:14 skrev Vinay Kumar <vinay.m.engg@gmail.com=
+>:
+
+> Hi Anuj,
+>
+> >> It seems wrong to me because the patch header/description is not
+> >> correct here. It's no longer a backport of just
+> >> 42d359350510506b87101cf77202fefcbfc790cb.
+>
+> Yes, I merged 2 commits first
+> (42d359350510506b87101cf77202fefcbfc790cb and
+> 217b6dc298156bdb0d6aea9ea93e7e394a5ff091)
+> and then backported as a single patch, and I used only the patch
+> header of 42d359350510506b87101cf77202fefcbfc790cb.
+>
+> >> I also just noticed that there's already a fix for this CVE in my
+> >> branch. So I think I will take that:
+>
+> Ok, thanks. Will go with this once it gets merged to the "hardknott"
+> branch.
+>
+> Regards,
+> Vinay
+>
+> On Mon, Aug 2, 2021 at 8:09 AM Mittal, Anuj <anuj.mittal@intel.com> wrote=
+:
+> >
+> > On Sat, 2021-07-31 at 21:57 +0530, Vinay Kumar wrote:
+> > > Hi Anuj,
+> > >
+> > > The patch is conjugate of both commits.
+> > >
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d359350510506b=
+87101cf77202fefcbfc790cb
+> > >
+> > >
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6dc298156bdb=
+0d6aea9ea93e7e394a5ff091
+> > >
+> > > Also, the patch is committed to master branch
+> > >
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D55681d09d7f51=
+9a1c7f17d17b18ec59bccdc91ca
+> > >
+> > > Due you want me to resubmit for "hardknott" branch by splitting in to
+> > > 2 patches ?
+> >
+> > It seems wrong to me because the patch header/description is not
+> > correct here. It's no longer a backport of just
+> > 42d359350510506b87101cf77202fefcbfc790cb.
+> >
+> > I also just noticed that there's already a fix for this CVE in my
+> > branch. So I think I will take that:
+> >
+> >
+> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Danujm/=
+hardknott&id=3Dede353df06a07d35dc66d024e2c7bd1b250d9761
+> >
+> > Thanks,
+> >
+> > Anuj
+> >
+> > >
+> > > Regards,
+> > > Vinay
+> > >
+> > > On Sat, Jul 31, 2021 at 11:52 AM Mittal, Anuj <anuj.mittal@intel.com>
+> > > wrote:
+> > > >
+> > > > On Tue, 2021-07-27 at 11:38 -0700, Vinay Kumar wrote:
+> > > > > Source: https://sourceware.org/git/glibc.git
+> > > > > Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=3D278=
+96
+> > > > >
+> > > > > Backported upstream commit 42d359350510506b87101cf77202fefcbfc790=
+cb
+> > > > > to
+> > > > > glibc-2.33 source with dependent commit id
+> > > > > 217b6dc298156bdb0d6aea9ea93e7e394a5ff091.
+> > > > >
+> > > > > Upstream-Status: Backport
+> > > > > [
+> > > > >
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d359350510506b=
+87101cf77202fefcbfc790cb
+> > > > > ]
+> > > >
+> > > > It looks like you'd need to backport this one too:
+> > > >
+> > > >
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6dc298156bdb=
+0d6aea9ea93e7e394a5ff091
+> > > >
+> > > > ?
+> > > >
+> > > > Thanks,
+> > > >
+> > > > Anuj
+> > > >
+> > > > >
+> > > > > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> > > > > ---
+> > > > >  .../glibc/glibc/CVE-2021-33574.patch          | 61
+> > > > > +++++++++++++++++++
+> > > > >  meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
+> > > > >  2 files changed, 62 insertions(+)
+> > > > >  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-
+> > > > > 33574.patch
+> > > > >
+> > > > > diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
+> > > > > b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
+> > > > > new file mode 100644
+> > > > > index 0000000000..fd73b23c88
+> > > > > --- /dev/null
+> > > > > +++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch
+> > > > > @@ -0,0 +1,61 @@
+> > > > > +From 42d359350510506b87101cf77202fefcbfc790cb Mon Sep 17 00:00:0=
+0
+> > > > > 2001
+> > > > > +From: Andreas Schwab <schwab@linux-m68k.org>
+> > > > > +Date: Thu, 27 May 2021 12:49:47 +0200
+> > > > > +Subject: [PATCH] Use __pthread_attr_copy in mq_notify (bug 27896=
+)
+> > > > > +
+> > > > > +Make a deep copy of the pthread attribute object to remove a
+> > > > > potential
+> > > > > +use-after-free issue.
+> > > > > +
+> > > > > +Upstream-Status: Backport
+> > > > > [
+> > > > >
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d359350510506b=
+87101cf77202fefcbfc790cb
+> > > > > ]
+> > > > > +CVE: CVE-2021-33574
+> > > > > +Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> > > > > +---
+> > > > > +diff --git a/sysdeps/unix/sysv/linux/mq_notify.c
+> > > > > b/sysdeps/unix/sysv/linux/mq_notify.c
+> > > > > +index cc575a0cdd8..6f46d29d1dc 100644
+> > > > > +--- a/sysdeps/unix/sysv/linux/mq_notify.c
+> > > > > ++++ b/sysdeps/unix/sysv/linux/mq_notify.c
+> > > > > +@@ -133,8 +133,11 @@ helper_thread (void *arg)
+> > > > > +           (void) __pthread_barrier_wait (&notify_barrier);
+> > > > > +       }
+> > > > > +       else if (data.raw[NOTIFY_COOKIE_LEN - 1] =3D=3D NOTIFY_RE=
+MOVED)
+> > > > > +-      /* The only state we keep is the copy of the thread
+> > > > > attributes.  */
+> > > > > +-      free (data.attr);
+> > > > > ++      {
+> > > > > ++        /* The only state we keep is the copy of the thread
+> > > > > attributes.  */
+> > > > > ++        pthread_attr_destroy (data.attr);
+> > > > > ++        free (data.attr);
+> > > > > ++      }
+> > > > > +     }
+> > > > > +   return NULL;
+> > > > > + }
+> > > > > +@@ -255,8 +258,14 @@ mq_notify (mqd_t mqdes, const struct sigeve=
+nt
+> > > > > *notification)
+> > > > > +       if (data.attr =3D=3D NULL)
+> > > > > +       return -1;
+> > > > > +
+> > > > > +-      memcpy (data.attr, notification->sigev_notify_attributes,
+> > > > > +-            sizeof (pthread_attr_t));
+> > > > > ++      int ret =3D __pthread_attr_copy (data.attr,
+> > > > > ++                                   notification-
+> > > > > > sigev_notify_attributes);
+> > > > > ++      if (ret !=3D 0)
+> > > > > ++      {
+> > > > > ++        free (data.attr);
+> > > > > ++        __set_errno (ret);
+> > > > > ++        return -1;
+> > > > > ++      }
+> > > > > +     }
+> > > > > +
+> > > > > +   /* Construct the new request.  */
+> > > > > +@@ -269,8 +278,11 @@ mq_notify (mqd_t mqdes, const struct sigeve=
+nt
+> > > > > *notification)
+> > > > > +   int retval =3D INLINE_SYSCALL (mq_notify, 2, mqdes, &se);
+> > > > > +
+> > > > > +   /* If it failed, free the allocated memory.  */
+> > > > > +-  if (__glibc_unlikely (retval !=3D 0))
+> > > > > +-    free (data.attr);
+> > > > > ++  if (retval !=3D 0 && data.attr !=3D NULL)
+> > > > > ++    {
+> > > > > ++      pthread_attr_destroy (data.attr);
+> > > > > ++      free (data.attr);
+> > > > > ++    }
+> > > > > +
+> > > > > +   return retval;
+> > > > > + }
+> > > > > diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes=
+-
+> > > > > core/glibc/glibc_2.33.bb
+> > > > > index 925efe8cc6..e9f01a14c5 100644
+> > > > > --- a/meta/recipes-core/glibc/glibc_2.33.bb
+> > > > > +++ b/meta/recipes-core/glibc/glibc_2.33.bb
+> > > > > @@ -57,6 +57,7 @@ SRC_URI =3D
+> > > > > "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
+> > > > >
+> > > > >
+> file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
+> > > > >  \
+> > > > >
+> > > > > file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
+> > > > >             file://mte-backports.patch \
+> > > > > +           file://CVE-2021-33574.patch \
+> > > > >             "
+> > > > >  S =3D "${WORKDIR}/git"
+> > > > >  B =3D "${WORKDIR}/build-${TARGET_SYS}"
+> > > >
+> >
+>
+>=20
+>
+>
+
+--000000000000b3d0e005c9bb9926
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:arial,helvetica,sans-serif">There is now an additional fix on top =
+of this:</div><div class=3D"gmail_default" style=3D"font-family:arial,helve=
+tica,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-famil=
+y:arial,helvetica,sans-serif"><a href=3D"https://it.slashdot.org/story/21/0=
+8/16/2131221/linux-glibc-security-fix-created-a-nastier-linux-bug">https://=
+it.slashdot.org/story/21/08/16/2131221/linux-glibc-security-fix-created-a-n=
+astier-linux-bug</a></div><div class=3D"gmail_default" style=3D"font-family=
+:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_default" style=
+=3D"font-family:arial,helvetica,sans-serif"><a href=3D"https://access.redha=
+t.com/security/cve/cve-2021-38604">https://access.redhat.com/security/cve/c=
+ve-2021-38604</a></div><div class=3D"gmail_default" style=3D"font-family:ar=
+ial,helvetica,sans-serif"><br></div></div><div><div style=3D"font-family:ar=
+ial,helvetica,sans-serif" class=3D"gmail_default">//E</div></div><div><br><=
+/div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Den m=
+=C3=A5n 2 aug. 2021 kl 06:14 skrev Vinay Kumar &lt;<a href=3D"mailto:vinay.=
+m.engg@gmail.com">vinay.m.engg@gmail.com</a>&gt;:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">Hi Anuj,<br>
+<br>
+&gt;&gt; It seems wrong to me because the patch header/description is not<b=
+r>
+&gt;&gt; correct here. It&#39;s no longer a backport of just<br>
+&gt;&gt; 42d359350510506b87101cf77202fefcbfc790cb.<br>
+<br>
+Yes, I merged 2 commits first<br>
+(42d359350510506b87101cf77202fefcbfc790cb and<br>
+217b6dc298156bdb0d6aea9ea93e7e394a5ff091)<br>
+and then backported as a single patch, and I used only the patch<br>
+header of 42d359350510506b87101cf77202fefcbfc790cb.<br>
+<br>
+&gt;&gt; I also just noticed that there&#39;s already a fix for this CVE in=
+ my<br>
+&gt;&gt; branch. So I think I will take that:<br>
+<br>
+Ok, thanks. Will go with this once it gets merged to the &quot;hardknott&qu=
+ot; branch.<br>
+<br>
+Regards,<br>
+Vinay<br>
+<br>
+On Mon, Aug 2, 2021 at 8:09 AM Mittal, Anuj &lt;<a href=3D"mailto:anuj.mitt=
+al@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Sat, 2021-07-31 at 21:57 +0530, Vinay Kumar wrote:<br>
+&gt; &gt; Hi Anuj,<br>
+&gt; &gt;<br>
+&gt; &gt; The patch is conjugate of both commits.<br>
+&gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=
+=3D42d359350510506b87101cf77202fefcbfc790cb" rel=3D"noreferrer" target=3D"_=
+blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D42d35935051=
+0506b87101cf77202fefcbfc790cb</a><br>
+&gt; &gt;<br>
+&gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=
+=3D217b6dc298156bdb0d6aea9ea93e7e394a5ff091" rel=3D"noreferrer" target=3D"_=
+blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6dc2981=
+56bdb0d6aea9ea93e7e394a5ff091</a><br>
+&gt; &gt;<br>
+&gt; &gt; Also, the patch is committed to master branch<br>
+&gt; &gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/=
+?id=3D55681d09d7f519a1c7f17d17b18ec59bccdc91ca" rel=3D"noreferrer" target=
+=3D"_blank">http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D556=
+81d09d7f519a1c7f17d17b18ec59bccdc91ca</a><br>
+&gt; &gt;<br>
+&gt; &gt; Due you want me to resubmit for &quot;hardknott&quot; branch by s=
+plitting in to<br>
+&gt; &gt; 2 patches ?<br>
+&gt;<br>
+&gt; It seems wrong to me because the patch header/description is not<br>
+&gt; correct here. It&#39;s no longer a backport of just<br>
+&gt; 42d359350510506b87101cf77202fefcbfc790cb.<br>
+&gt;<br>
+&gt; I also just noticed that there&#39;s already a fix for this CVE in my<=
+br>
+&gt; branch. So I think I will take that:<br>
+&gt;<br>
+&gt; <a href=3D"https://git.openembedded.org/openembedded-core-contrib/comm=
+it/?h=3Danujm/hardknott&amp;id=3Dede353df06a07d35dc66d024e2c7bd1b250d9761" =
+rel=3D"noreferrer" target=3D"_blank">https://git.openembedded.org/openembed=
+ded-core-contrib/commit/?h=3Danujm/hardknott&amp;id=3Dede353df06a07d35dc66d=
+024e2c7bd1b250d9761</a><br>
+&gt;<br>
+&gt; Thanks,<br>
+&gt;<br>
+&gt; Anuj<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Regards,<br>
+&gt; &gt; Vinay<br>
+&gt; &gt;<br>
+&gt; &gt; On Sat, Jul 31, 2021 at 11:52 AM Mittal, Anuj &lt;<a href=3D"mail=
+to:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt;<b=
+r>
+&gt; &gt; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Tue, 2021-07-27 at 11:38 -0700, Vinay Kumar wrote:<br>
+&gt; &gt; &gt; &gt; Source: <a href=3D"https://sourceware.org/git/glibc.git=
+" rel=3D"noreferrer" target=3D"_blank">https://sourceware.org/git/glibc.git=
+</a><br>
+&gt; &gt; &gt; &gt; Tracking -- <a href=3D"https://sourceware.org/bugzilla/=
+show_bug.cgi?id=3D27896" rel=3D"noreferrer" target=3D"_blank">https://sourc=
+eware.org/bugzilla/show_bug.cgi?id=3D27896</a><br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Backported upstream commit 42d359350510506b87101cf77202=
+fefcbfc790cb<br>
+&gt; &gt; &gt; &gt; to<br>
+&gt; &gt; &gt; &gt; glibc-2.33 source with dependent commit id<br>
+&gt; &gt; &gt; &gt; 217b6dc298156bdb0d6aea9ea93e7e394a5ff091.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Upstream-Status: Backport<br>
+&gt; &gt; &gt; &gt; [<br>
+&gt; &gt; &gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=
+=3Dcommit;h=3D42d359350510506b87101cf77202fefcbfc790cb" rel=3D"noreferrer" =
+target=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D=
+42d359350510506b87101cf77202fefcbfc790cb</a><br>
+&gt; &gt; &gt; &gt; ]<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; It looks like you&#39;d need to backport this one too:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dcom=
+mit;h=3D217b6dc298156bdb0d6aea9ea93e7e394a5ff091" rel=3D"noreferrer" target=
+=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D217b6d=
+c298156bdb0d6aea9ea93e7e394a5ff091</a><br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; ?<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Thanks,<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Anuj<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Signed-off-by: Vinay Kumar &lt;<a href=3D"mailto:vinay.=
+m.engg@gmail.com" target=3D"_blank">vinay.m.engg@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; &gt;=C2=A0 .../glibc/glibc/CVE-2021-33574.patch=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 | 61<br>
+&gt; &gt; &gt; &gt; +++++++++++++++++++<br>
+&gt; &gt; &gt; &gt;=C2=A0 meta/recipes-core/glibc/<a href=3D"http://glibc_2=
+.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+&gt; &gt; &gt; &gt;=C2=A0 2 files changed, 62 insertions(+)<br>
+&gt; &gt; &gt; &gt;=C2=A0 create mode 100644 meta/recipes-core/glibc/glibc/=
+CVE-2021-<br>
+&gt; &gt; &gt; &gt; 33574.patch<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-335=
+74.patch<br>
+&gt; &gt; &gt; &gt; b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patch<br=
+>
+&gt; &gt; &gt; &gt; new file mode 100644<br>
+&gt; &gt; &gt; &gt; index 0000000000..fd73b23c88<br>
+&gt; &gt; &gt; &gt; --- /dev/null<br>
+&gt; &gt; &gt; &gt; +++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574.patc=
+h<br>
+&gt; &gt; &gt; &gt; @@ -0,0 +1,61 @@<br>
+&gt; &gt; &gt; &gt; +From 42d359350510506b87101cf77202fefcbfc790cb Mon Sep =
+17 00:00:00<br>
+&gt; &gt; &gt; &gt; 2001<br>
+&gt; &gt; &gt; &gt; +From: Andreas Schwab &lt;<a href=3D"mailto:schwab@linu=
+x-m68k.org" target=3D"_blank">schwab@linux-m68k.org</a>&gt;<br>
+&gt; &gt; &gt; &gt; +Date: Thu, 27 May 2021 12:49:47 +0200<br>
+&gt; &gt; &gt; &gt; +Subject: [PATCH] Use __pthread_attr_copy in mq_notify =
+(bug 27896)<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +Make a deep copy of the pthread attribute object to re=
+move a<br>
+&gt; &gt; &gt; &gt; potential<br>
+&gt; &gt; &gt; &gt; +use-after-free issue.<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +Upstream-Status: Backport<br>
+&gt; &gt; &gt; &gt; [<br>
+&gt; &gt; &gt; &gt; <a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=
+=3Dcommit;h=3D42d359350510506b87101cf77202fefcbfc790cb" rel=3D"noreferrer" =
+target=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D=
+42d359350510506b87101cf77202fefcbfc790cb</a><br>
+&gt; &gt; &gt; &gt; ]<br>
+&gt; &gt; &gt; &gt; +CVE: CVE-2021-33574<br>
+&gt; &gt; &gt; &gt; +Signed-off-by: Vinay Kumar &lt;<a href=3D"mailto:vinay=
+.m.engg@gmail.com" target=3D"_blank">vinay.m.engg@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; +---<br>
+&gt; &gt; &gt; &gt; +diff --git a/sysdeps/unix/sysv/linux/mq_notify.c<br>
+&gt; &gt; &gt; &gt; b/sysdeps/unix/sysv/linux/mq_notify.c<br>
+&gt; &gt; &gt; &gt; +index cc575a0cdd8..6f46d29d1dc 100644<br>
+&gt; &gt; &gt; &gt; +--- a/sysdeps/unix/sysv/linux/mq_notify.c<br>
+&gt; &gt; &gt; &gt; ++++ b/sysdeps/unix/sysv/linux/mq_notify.c<br>
+&gt; &gt; &gt; &gt; +@@ -133,8 +133,11 @@ helper_thread (void *arg)<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(void) __pthr=
+ead_barrier_wait (&amp;notify_barrier);<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0else if (data.raw[NOTIFY_CO=
+OKIE_LEN - 1] =3D=3D NOTIFY_REMOVED)<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 /* The only state we keep is the=
+ copy of the thread<br>
+&gt; &gt; &gt; &gt; attributes.=C2=A0 */<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 {<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* The only state we keep=
+ is the copy of the thread<br>
+&gt; &gt; &gt; &gt; attributes.=C2=A0 */<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 pthread_attr_destroy (dat=
+a.attr);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0return NULL;<br>
+&gt; &gt; &gt; &gt; + }<br>
+&gt; &gt; &gt; &gt; +@@ -255,8 +258,14 @@ mq_notify (mqd_t mqdes, const str=
+uct sigevent<br>
+&gt; &gt; &gt; &gt; *notification)<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if (data.attr =3D=3D NULL)<=
+br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 memcpy (data.attr, notification-=
+&gt;sigev_notify_attributes,<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof (pth=
+read_attr_t));<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 int ret =3D __pthread_attr_copy =
+(data.attr,<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0no=
+tification-<br>
+&gt; &gt; &gt; &gt; &gt; sigev_notify_attributes);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 if (ret !=3D 0)<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 {<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 __set_errno (ret);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0/* Construct the new request.=C2=A0 */<br=
+>
+&gt; &gt; &gt; &gt; +@@ -269,8 +278,11 @@ mq_notify (mqd_t mqdes, const str=
+uct sigevent<br>
+&gt; &gt; &gt; &gt; *notification)<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0int retval =3D INLINE_SYSCALL (mq_notify,=
+ 2, mqdes, &amp;se);<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0/* If it failed, free the allocated memor=
+y.=C2=A0 */<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 if (__glibc_unlikely (retval !=3D 0))<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 free (data.attr);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 if (retval !=3D 0 &amp;&amp; data.attr !=3D NU=
+LL)<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 {<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 pthread_attr_destroy (data.attr)=
+;<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 free (data.attr);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0return retval;<br>
+&gt; &gt; &gt; &gt; + }<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/recipes-core/glibc/<a href=3D"http://=
+glibc_2.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a> b/met=
+a/recipes-<br>
+&gt; &gt; &gt; &gt; core/glibc/<a href=3D"http://glibc_2.33.bb" rel=3D"nore=
+ferrer" target=3D"_blank">glibc_2.33.bb</a><br>
+&gt; &gt; &gt; &gt; index 925efe8cc6..e9f01a14c5 100644<br>
+&gt; &gt; &gt; &gt; --- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2=
+.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a><br>
+&gt; &gt; &gt; &gt; +++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2=
+.33.bb" rel=3D"noreferrer" target=3D"_blank">glibc_2.33.bb</a><br>
+&gt; &gt; &gt; &gt; @@ -57,6 +57,7 @@ SRC_URI =3D<br>
+&gt; &gt; &gt; &gt; &quot;${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dgli=
+bc \<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; file://0029-wordsize.h-Unify-the-header-between-arm-and=
+-aarch64.patch<br>
+&gt; &gt; &gt; &gt;=C2=A0 \<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; file://0030-powerpc-Do-not-ask-compiler-for-finding-arc=
+h.patch \<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://m=
+te-backports.patch \<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-20=
+21-33574.patch \<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<b=
+r>
+&gt; &gt; &gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt; &gt; &gt; &gt;=C2=A0 B =3D &quot;${WORKDIR}/build-${TARGET_SYS}&quot;<=
+br>
+&gt; &gt; &gt;<br>
+&gt;<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000b3d0e005c9bb9926--
