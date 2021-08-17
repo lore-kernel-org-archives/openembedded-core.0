@@ -1,93 +1,76 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web08.40679.1629214055645385274
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web08.40680.1629214056336506388
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Aug 2021 08:27:35 -0700
+ Tue, 17 Aug 2021 08:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zibw3DPl;
- spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id d2so17429122qto.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 08:27:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Mfb56eIL;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id p22so22268771qki.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 08:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kZKTxnUBUqV/+74KFipetCZwCcT31Qqbo4htJIay4tY=;
-        b=Zibw3DPlcGZDvavwE/wabEJ8lFPPZbnfMXCjLSmGzOvXIRXajztUEVrgljxDofai3p
-         nPWGjCH1CDpt28gRG8lAUW0squFE7C7oS7BB6cKiHPEQI3xCDtsrGpf0gfE3hhQhPHZ4
-         Gsa1tUE2KMISea8Nesldt4Rgvcb0oBmQUM1yZuLs6XVR2Ln+YrF+WXAsEsJdW8iJ0q0B
-         eE05Osh8ff+oFvqtVQsHJ2EchU6eoX/XsMQDhXUmhTXTiT8IH8TUlDO5jadMgVZgb4m3
-         aTnDP+oS8l4rMCP+cLE0z9eqhjdTrgyOtYxki0qzNzI7evdxtMgf4h6Qb0cvXTVOGaws
-         Z5CA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=jgbHdZIKPf4tlNHnCULggaUA0Aa8xqlqjk8mePHOVIM=;
+        b=Mfb56eILDdiDBgBQvWanOemm0Z0U/npe6FAs1PhMkhFLtzZmAbv8L+VXioGn7mO+lW
+         188WrZsHa9K5yl+vv71iT6w6JrlrXTCEVVzjlldSQ/knbHZZFqWxTzOfHc3lTWNJ6mJ7
+         RNopt1cOdLRljA2BUzIZgtzte/CakyDvlcRxU+g8eeVqbnVuWo7MzKKZNGAi7y2vnenH
+         Ia83pWIiN9kqwmYusN/KgXildR+Aq/J1DMOyXIvdDRP5zZE7jYe2IAcysFCkYoD7CHd8
+         7gbvGSsBt1ig6injwrz/O3iH5rAI8afoaNGKjIeWe8lOVMNMfxti8wffoep6To8Yd2rz
+         8kaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kZKTxnUBUqV/+74KFipetCZwCcT31Qqbo4htJIay4tY=;
-        b=MyvffuaF21wpd81gXPaeEqfrVgtOCIdTrC0csfFFjGHCVmOeiWELkQxxlYAXytQ97E
-         LrhrW32bTZmwAtnr5YnX7PX6Zaw50Kh/OkJ2vpytbFS1O7U+VpbUPzg0bfajc2HDmvob
-         B/l9UE8ZbwzdHEUL1jRBSyBl5ynZCsixVG3Si0QK8dzBP4kRXmeB/BeEo5aMC4XDYFya
-         Gy21O3jECwjI3sdrRzK5I+5V1j5qdRfhBfEuk1ICDI84hRefnPAZ5dnrwl3TOAJby5GN
-         HMWnh/wq+YmvylDWmVS1u8/ejbrXmd/FcLjSt8rm0FFjssjAHSsTdw/+uHk0Xoi3hVU0
-         fEfg==
-X-Gm-Message-State: AOAM5316plyxZTv93/bf/7dZOvK/mNap0ceu0Z3oN2goV8qWFvNahyhj
-	XyCkB8BKQwH8dbgBGttVvOQ=
-X-Google-Smtp-Source: ABdhPJzo970wXVewOB9HnfxTv8TPzgII+37kl++wRflBDryGsdteq0bjWCrzhMHENBulXtpn6zKULg==
-X-Received: by 2002:a05:622a:1494:: with SMTP id t20mr3669228qtx.383.1629214054601;
-        Tue, 17 Aug 2021 08:27:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jgbHdZIKPf4tlNHnCULggaUA0Aa8xqlqjk8mePHOVIM=;
+        b=eZ9igO6CM92P9ltkGxibR1+0hVflj4AMsjhpf+vU2tGJVHwUFTFUtPpFBulPEGdE/+
+         u6jrrdYdVCvOifQ7k1ufXQEOVTdpl+EytBdvKHohU1YBH2gYyt85jwqU/MeErwhbgVRW
+         11bBr07RBRxTvq5oqwnxq0FaCUORGvDyCAe30iKIcOV6VtRqpXcXoM94h3Bnfn1SKJ8h
+         ogJyk/AM6Z317rIyDWGm/K2ng/hR/UsPbe7wxMZogZArxLHHCk1ylW/VDZN6ZzbELt1R
+         ZTjHxM7DG3XyoIOp2Kp68Q2oPKtZPvAClQ2fOnJEg8p0c1EjKAyJzM2ew9N23iyMu2tX
+         NbpA==
+X-Gm-Message-State: AOAM531ax00OGBTcqwnkQIYwy/2xrS0asP5cl4iCYGAZESq17JSOqJmq
+	/s1LLkGyiiYtx57efcHZCY4=
+X-Google-Smtp-Source: ABdhPJz0PHHQnVAbP9e04RoGhsg6g64WVzJnhd2BcZ6lpA9EFuvx601S6GNDiItzjllT0+7K1LgWaw==
+X-Received: by 2002:a37:aa97:: with SMTP id t145mr4337100qke.145.1629214055506;
+        Tue, 17 Aug 2021 08:27:35 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id h6sm1175744qtb.44.2021.08.17.08.27.33
+        by smtp.gmail.com with ESMTPSA id h6sm1175744qtb.44.2021.08.17.08.27.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 08:27:34 -0700 (PDT)
+        Tue, 17 Aug 2021 08:27:35 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] linux-yocto-dev: dev and supporting recipes updates
-Date: Tue, 17 Aug 2021 11:27:28 -0400
-Message-Id: <cover.1629213685.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 1/4] linux-yocto-dev: bump to v5.14+
+Date: Tue, 17 Aug 2021 11:27:29 -0400
+Message-Id: <8687265ed93fff180c6432f118bdee1bcd8477de.1629213685.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1629213685.git.bruce.ashfield@gmail.com>
+References: <cover.1629213685.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Continuing on the kenrel update path, I've built, booted and run
-core-image-kernel-dev on all the supported architectures for v5.14-rcX.
-
-I've pushed the kernel changes, and here are the supporting updaes.
-lttng-modules is of course involved, and on that front rather than
-backporting patches ot the 2.12.x series, I've moved it to 2.13 (the
-latest release), since that will give us better support and more
-forward compatibility.
-
-Cheers,
-
-Bruce
-
-The following changes since commit bc65a37ef50faba339fb54d6a89ef9da0298bbbe:
-
-  package: Fix overrides converion issue with PKGSIZE (2021-08-17 09:53:04 +0100)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib zedd/kernel-dev
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-dev
-
-Bruce Ashfield (4):
-  linux-yocto-dev: bump to v5.14+
-  lttng-modules: update to 2.13.0
-  kernel-devsrc: 5.14+ updates
-  kernel-devsrc: fix 5.14+ objtool compilation
-
- meta/recipes-kernel/linux/kernel-devsrc.bb    | 10 +++---
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
- ...fail-if-CONFIG_TRACEPOINTS-is-not-en.patch | 32 ++++++-------------
- ...ules_2.12.6.bb => lttng-modules_2.13.0.bb} |  6 ++--
- 4 files changed, 20 insertions(+), 30 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.12.6.bb => lttng-modules_2.13.0.bb} (88%)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 28a255a0c0..0911787009 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+ SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ 
+-LINUX_VERSION ?= "5.13+"
++LINUX_VERSION ?= "5.14+"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.19.1
 
