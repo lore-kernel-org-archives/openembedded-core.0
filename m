@@ -1,110 +1,115 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.57691.1629306988303731868
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.57706.1629307068444936937
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 10:16:28 -0700
+ Wed, 18 Aug 2021 10:17:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hw64GQe0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id q6so4643131wrv.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 10:16:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=lXzeGdb01fQDBa3peTEjY4ip9FvkRo23zb/VSRSWRdc=;
-        b=Hw64GQe0Drwk/ZzvKnJpl3Kl2AU+WYpXBZdp5nfFiOV3vefQFvohWsCxkW1uZI2owX
-         5QfVAPT7uQSYrItfNoSvXVLttxte/Lbyc6vF8kGz6OfYnqmp+f5cMy11sc9baWPdpVwv
-         9f3ZQ1edeW7CgkSNW7yRZM2L9elUsjmvTyYyI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=lXzeGdb01fQDBa3peTEjY4ip9FvkRo23zb/VSRSWRdc=;
-        b=G7rMbU+G8tkou/TcZCTr9+cYLDgp6hkE6hNl+uW2oz0ptRDn9x0LQMqfgo/OBP1m+Q
-         nMzlAv+rVLK4F3W9QkrldsfuG5msq0e5Kra+3/4/o8m6A4G4TwZmO6h1776mfwtHU05U
-         eXmzxaiVWyZSWkUmLGs8x5FYfsqDJ35td2hezTAAZGCJIIXd2Jgln0zwzWsPVpAIsAZS
-         HRdd5NgwsJb6/3ueetqu+iPi2Z7FBmMuclodM8KICPTIpVIiaHSkkO/Ex7kmBsMZpsl3
-         c2KV/fQQcX1bzTxY+kqZ7VSqmLXf1AcsWL9avI4kFvnr4M8pBByokEV5ojMU3P4fXL3b
-         +J6g==
-X-Gm-Message-State: AOAM532nDXoYeXKTt+vugtzXm/iVUyRxBzazRU3WpFfMnVxkJYJDDUQO
-	9piV+SsF01VAkxICQobAmbaBrw==
-X-Google-Smtp-Source: ABdhPJwlXO6k7eRrry5q3RHlw/UimfKgmMGle1TaR2ySnsir2ThxHIHVGcRCQ/getu8wXjVT0DzMdg==
-X-Received: by 2002:a5d:526e:: with SMTP id l14mr12104317wrc.141.1629306986370;
-        Wed, 18 Aug 2021 10:16:26 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2? ([2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2])
-        by smtp.gmail.com with ESMTPSA id b12sm356512wmd.42.2021.08.18.10.16.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 10:16:26 -0700 (PDT)
-Message-ID: <194b975d80a7dc09f5b1605c5bee0a0cc99397cc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] glibc: package the stub .a libaries into glibc-dev
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Ross Burton <ross@burtonini.com>
-Date: Wed, 18 Aug 2021 18:16:23 +0100
-In-Reply-To: <CAMKF1sq_A2e2oLeuT9nHRPinUxoHtez0gVe6BL+eYHdtWcykbw@mail.gmail.com>
-References: <20210817222919.2170420-1-ross.burton@arm.com>
-	 <CAMKF1sp83v6TkKLAAMdDExij9ZceOaCGpSrp=cLPJEkQUCB-pQ@mail.gmail.com>
-	 <CAMKF1soAhzSgaYfuJarzoj6VEkAwcm1+51ymGprGwB=Sn53XZw@mail.gmail.com>
-	 <fb8ec5484f790866114c755b47f677746e42dab6.camel@linuxfoundation.org>
-	 <CAMKF1sq_A2e2oLeuT9nHRPinUxoHtez0gVe6BL+eYHdtWcykbw@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=qIB4p09k;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
+Received: from abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net (unknown [20.94.235.175])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8D6D420C321B;
+	Wed, 18 Aug 2021 10:17:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8D6D420C321B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1629307067;
+	bh=fL8ossnpJHvPIsIZXmi7vleOAfLJVARCjH9REMLgb0s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qIB4p09keLx1+TX4P6XtVClg70wA2N7bk3RCgi8MiPwgYnMV2zXa9a8U7N+s0x+u9
+	 uK8ElFfooikAlWDj6NnMgIb0IAraYxDqyyedFC9vtUxdW0G0N7Z37XVJ2e15dSk/sg
+	 kQV2vl/d6GmoAQraMM918fKdhQNxFKy2T8dPCTqI=
+From: "Andres Beltran" <abeltran@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andres Beltran <abeltran@linux.microsoft.com>
+Subject: [PATCH] buildhistory: Label packages providing per-file dependencies in depends.dot
+Date: Wed, 18 Aug 2021 17:17:26 +0000
+Message-Id: <20210818171726.11101-1-abeltran@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 
-On Wed, 2021-08-18 at 06:42 -0700, Khem Raj wrote:
-> 
-> 
-> On Wed, Aug 18, 2021 at 12:00 AM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> > On Tue, 2021-08-17 at 17:40 -0700, Khem Raj wrote:
-> > > hmm I am seeing pseudo build failures on master-next on all arches see
-> > > [1].  I wonder if this is related
-> > > 
-> > > https://errors.yoctoproject.org/Errors/Details/601473/
-> > 
-> > I think that would be an issue with my patch in master-next to try and fix
-> > other pseudo issues with 2.34 hosts.
-> > 
-> > Basically we need pseudo to work with older glibc where the dlsym/dlvsym/dlerror
-> > functions are in libdl. This is because libpseudo may be loaded against host binaries
-> > which were not linked with glibc 2.34 but something older.
-> > 
-> > To do that, we need to inject older versioning but the version to use is arch 
-> > specific. I have a patch covering 32/64 bit x86 and arm but I haven't got further
-> > than that:
-> > 
-> > 
-> > ++#if defined (__aarch64__)
-> > ++#define DLSYMVER "2.17"
-> > ++#define DLSYMVER2 "2.17"
-> > ++#elif defined(__i386__)
-> > ++#define DLSYMVER "2.0"
-> > ++#define DLSYMVER2 "2.1"
-> > ++#else
-> > ++#define DLSYMVER "2.2.5"
-> > ++#define DLSYMVER2 "2.2.5"
-> > ++#endif
-> > ++
-> > ++__asm__(".symver dlerror,dlerror@GLIBC_" DLSYMVER);
-> > ++__asm__(".symver dlvsym,dlvsym@GLIBC_" DLSYMVER2);
-> > ++__asm__(".symver dlsym,dlsym@GLIBC_" DLSYMVER);
-> > 
-> > 
-> > I may need help finishing this off for other arches people are building it for. So far
-> > I was using this as a test to see if this would even work!
-> > 
-> 
-> 
-> I think we should disable building pseudo for targets which are not used as build hosts so essentially your
-> patch is good with another addition of compatible host string 
+Currently, depends.dot includes per-file dependencies but not the packages
+providing those files. This makes it hard to obtain all package
+dependencies by just looking at depends.dot.
 
-I've improved the patch a bit and I think it should work in most places we build 
-things now. Patch is on the list.
+Parse the RPROVIDES and FILERPROVIDES fields from pkgdata to map each of
+their values to the package providing the component. Include runtime
+packages as dependencies in depends.dot, together with the component
+provided by the package as a label.
 
-Cheers,
+Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+---
+ meta/classes/buildhistory.bbclass |  4 +++-
+ meta/lib/oe/utils.py              | 29 +++++++++++++++++++++++++++--
+ 2 files changed, 30 insertions(+), 3 deletions(-)
 
-Richard
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 8a1359acbe..9ec48a879a 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -438,7 +438,7 @@ def buildhistory_list_installed(d, rootfs_type="image"):
+         output_file_full = os.path.join(d.getVar('WORKDIR'), output_file)
+ 
+         with open(output_file_full, 'w') as output:
+-            output.write(format_pkg_list(pkgs, output_type))
++            output.write(format_pkg_list(pkgs, output_type, d.getVar('PKGDATA_DIR')))
+ 
+ python buildhistory_list_installed_image() {
+     buildhistory_list_installed(d)
+@@ -479,6 +479,8 @@ buildhistory_get_installed() {
+ 	       -e 's:|: -> :' \
+ 	       -e 's:"\[REC\]":[style=dotted]:' \
+ 	       -e 's:"\([<>=]\+\)" "\([^"]*\)":[label="\1 \2"]:' \
++	       -e 's:"\([*]\+\)" "\([^"]*\)":[label="\2"]:' \
++	       -e 's:"\[RPROVIDES\]":[style=dashed]:' \
+ 		$1/depends.tmp
+ 	# Add header, sorted and de-duped contents and footer and then delete the temp file
+ 	printf "digraph depends {\n    node [shape=plaintext]\n" > $1/depends.dot
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 83d298906b..0f3dfd644d 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -345,7 +345,26 @@ def squashspaces(string):
+     import re
+     return re.sub(r"\s+", " ", string).strip()
+ 
+-def format_pkg_list(pkg_dict, ret_format=None):
++def rprovides_map(pkgdata_dir, pkg_dict):
++    # Map file -> pkg provider
++    rprov_map = {}
++
++    for pkg in pkg_dict:
++        with open(os.path.join(pkgdata_dir, 'runtime-reverse', pkg)) as f:
++            for line in f:
++                if line.startswith('RPROVIDES') or line.startswith('FILERPROVIDES'):
++                    # List all components provided by pkg.
++                    # Exclude version strings, i.e. those starting with (
++                    provides = [x for x in line.split()[1:] if not x.startswith('(')]
++                    for prov in provides:
++                        if prov in rprov_map:
++                            rprov_map[prov].append(pkg)
++                        else:
++                            rprov_map[prov] = [pkg]
++
++    return rprov_map
++
++def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
+     output = []
+ 
+     if ret_format == "arch":
+@@ -358,9 +377,15 @@ def format_pkg_list(pkg_dict, ret_format=None):
+         for pkg in sorted(pkg_dict):
+             output.append("%s %s %s" % (pkg, pkg_dict[pkg]["arch"], pkg_dict[pkg]["ver"]))
+     elif ret_format == "deps":
++        rprov_map = rprovides_map(pkgdata_dir, pkg_dict)
+         for pkg in sorted(pkg_dict):
+             for dep in pkg_dict[pkg]["deps"]:
+-                output.append("%s|%s" % (pkg, dep))
++                if dep in rprov_map:
++                    # There could be multiple providers within the image
++                    for pkg_provider in rprov_map[dep]:
++                        output.append("%s|%s * %s [RPROVIDES]" % (pkg, pkg_provider, dep))
++                else:
++                    output.append("%s|%s" % (pkg, dep))
+     else:
+         for pkg in sorted(pkg_dict):
+             output.append(pkg)
+-- 
+2.17.1
 
