@@ -1,101 +1,275 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web08.47841.1629247241890783247
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web08.48022.1629248298135906223
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Aug 2021 17:40:42 -0700
+ Tue, 17 Aug 2021 17:58:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sVPGg49+;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id 22so1092914qkg.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 17:40:41 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=zmCZfLFo;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.174, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f174.google.com with SMTP id e14so1138184qkg.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Aug 2021 17:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=B9EYttQSpk2usQaMGE60HaaX0rAJYCglebrkvl6xOrI=;
-        b=sVPGg49+yUAv48mf//9Nyy7GCWEJuWDQS2mdcBKy9HrISdNZNZSMUCK65TKJ6yLxmc
-         vS6+3rkYs7ZwtWIOr5xldzU6c9Jq3fJx1WbmAl6S9s4eF9VzTTCTl0BrcF5n5CAMXlDm
-         x39uvhoyph5Dl4iTX720zp2QFk6kVR4KSHFJxWnzlX09uYi+F/8n7TaLP9BXr6V/SQgn
-         txL6K07H+BYqUSauoN9bNgGGDJGz+qc2R8cgrIPeAc8ERldQrR3RPMLT2kQ7MthDn71h
-         MhPhLBJkDHnYh1o0tp4kO7/kCTsFaJnnPvxsxudomauTuEvX6eErQ5KaV40WEm2t1P5a
-         7Wlg==
+        bh=wgaNvz/kS0pycHMXBDAgqpH/LDQzbSJKWK7tcEe5PnM=;
+        b=zmCZfLFon5ZSK2BSlWa/hmJpC2vmJzh7MZyVAn3pdTRkyvrQlc6l32wLib8LipwVTy
+         TzjnvhMhwIzO1Zi59OBLurysv6hvW5dAlcL8y8YNoOYai7BnCJlERW5NmdK60rVFNXg3
+         jJneYOt41jgmkCRaVGRmBgMwacPV59XkAcztZQQveVqQamzc+TgDGkUl4rbPr7h+io2N
+         5eI0qYOW6dM03EYznkNhKX72LlNI0I6dj+ki+tFxzgi34nuANBDVnHoQ9axLB9250+DK
+         6hktoZbS+OkK6Py9irToZu5yYWDzfMO482S+I0XBJN1QrCaXLL/GpCeuEZNUQOqboPoU
+         D6IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=B9EYttQSpk2usQaMGE60HaaX0rAJYCglebrkvl6xOrI=;
-        b=DtEwyM14oMtXmewoVyQiZ5rXzqLa8qx1RPOx27mqpNr9X1eSPebwwXow/ywkgnYtht
-         pygyCpbUcgtmeImFwk8/P2K1Tz+j5sRtXBL+2t+e0LOH4hwH/lxO1QSL4WDfcY2ff1ZC
-         mXNgivM9eOMUiorMMINxipbcwCUpPFpTNFXGJufbJGPMkIML15yYi2G/yVUfLt95IHDf
-         VDyRIJf6ltzLd3bdeDw8tgpRXRErLktXLuyzzt4yp1zDX3345TUB1yvSVuySveXJs1gH
-         4ZidgLmNRiEdx0jjTsPE40Tj06kKkXcn6oC9eODTvsKk5sSqRhyWmuqyze0ORGSh4Tak
-         g58g==
-X-Gm-Message-State: AOAM530OliPLIv0ldhB8jCmljK2cAjbEk5KeBdtm3p7WE922ttrW+ieV
-	J7s3rE/Mq89YYVejf52OzN0sAvIcSdfEQpJhuoE=
-X-Google-Smtp-Source: ABdhPJw7mKLlWvLLERyRbBLBiFPeQYB1FPFXB3hREoeQdTffm1AbKLpWjnFtD4QOcHq9o2vk+QjBfscnEuejwekxpKA=
-X-Received: by 2002:a05:620a:319a:: with SMTP id bi26mr6701014qkb.119.1629247240802;
- Tue, 17 Aug 2021 17:40:40 -0700 (PDT)
+        bh=wgaNvz/kS0pycHMXBDAgqpH/LDQzbSJKWK7tcEe5PnM=;
+        b=n3Bwr/HFbl/amL4vxyqArp7gEVsIz48g12xzTJ4HzUFPs0ujLqhepbD4tj+RqwNIDU
+         Wjx+VL1oxP3wpGgfYVtQTPwvsbwrUQW638ziixlOJ3ohYh3fUkW9SqNywYjrBFShvc9q
+         RNWKG7NrfYXoTmi6kNTk0dPxnxG1qC661DKuC8DcPsGaysU8Tjf0XQgDvA+4IU62rwqn
+         SzT/cCnHmG3rMntaFCFuAL6KVOTy9EjXUCGQ8juX91H74wzwrCYTmwz9e9FMJpeo9fS6
+         f+Itzq/YRNhx8lGLBER6VJ4TuQUdm5aw8hN/kQUUUfhdhtIbteR+3yTb0ot4k1j4kKvA
+         oAvg==
+X-Gm-Message-State: AOAM533xM6z7wIAdhd7rWz5BC1lxNwtG7FfNWh7k5EiSoKxUrcWTC+qM
+	wnXH4cJR+ePAcv/0ZoI+GhC4LXYvJuCbMuuI1gJq1w==
+X-Google-Smtp-Source: ABdhPJzEFR9L+/o8ApOUFyHXyrmGjGJWi86SF8Be2JHp1XPH23dXs7pyxbjDZL16n5B0ibsIOYlUpJyYAx2nx5karoA=
+X-Received: by 2002:a37:6846:: with SMTP id d67mr6676005qkc.110.1629248297110;
+ Tue, 17 Aug 2021 17:58:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210817222919.2170420-1-ross.burton@arm.com> <CAMKF1sp83v6TkKLAAMdDExij9ZceOaCGpSrp=cLPJEkQUCB-pQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sp83v6TkKLAAMdDExij9ZceOaCGpSrp=cLPJEkQUCB-pQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 17 Aug 2021 17:40:15 -0700
-Message-ID: <CAMKF1soAhzSgaYfuJarzoj6VEkAwcm1+51ymGprGwB=Sn53XZw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: package the stub .a libaries into glibc-dev
-To: Ross Burton <ross@burtonini.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20210816220144.26018-1-jdmason@kudzu.us> <YRwfyaIJa9A9Psm+@piout.net>
+In-Reply-To: <YRwfyaIJa9A9Psm+@piout.net>
+From: "Jon Mason" <jdmason@kudzu.us>
+Date: Tue, 17 Aug 2021 20:58:06 -0400
+Message-ID: <CAPoiz9xLGYUw-eXUN7TxrfDaD6+S2w1YWDHz3m5Z-Nwgw7psaQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/3] tunes: the great migration
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Anuj Mittal <anuj.mittal@intel.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-hmm I am seeing pseudo build failures on master-next on all arches see
-[1].  I wonder if this is related
+On Tue, Aug 17, 2021 at 4:44 PM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hello Jon,
+>
+> I did run that through the autobuilders:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2457
+>
+> This is mostly good, the meta-arm failure is about a kernel patch not
+> applying, I don't think it is related, you'd have to rebase
+> meta-arm-bsp/recipes-kernel/linux/linux-yocto-5.10/n1sdp/0005-r8169-Fix-to-avoid-duplicate-sysfs-entry-creation-er.patch
 
-https://errors.yoctoproject.org/Errors/Details/601473/
+Yes, this is fallout from the kernel updating behind us.  That patch
+was upstreamed and is now unnecessary.  I have a patch queued to
+address it.
 
-On Tue, Aug 17, 2021 at 4:46 PM Khem Raj <raj.khem@gmail.com> wrote:
+Thanks for all the testing.  This was quite an invasive change and it needed it.
+
+Thanks,
+Jon
+
 >
-> On Tue, Aug 17, 2021 at 3:29 PM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > In glibc 2.34, the libraries libpthread, libdl, libutil, libanl have
-> > been integrated into libc. To retain compatibility with old binaries the
-> > shared libaries are still shipped but are empty, and to keep software
-> > building there are empty static libraries.
-> >
-> > However, these static libraries get packaged into glibc-staticdev (as
-> > they should be), but by this design they should be in glibc-dev.
-> >
-> > https://sourceware.org/pipermail/libc-alpha/2021-August/129718.html
-> >
+> Anuj, the remaining failure is in meta-intel:
+> ERROR: ParseError at /home/pokybuild/yocto-worker/meta-intel/build/meta-intel/conf/machine/include/intel-corei7-64-common.inc:6: Could not include required file conf/machine/include/tune-corei7.inc
 >
-> this patch is ok.
+> Can you take care of fixing that?
 >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> I you want to test, my branch is here:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=abelloni/testing
+>
+>
+>
+> On 16/08/2021 18:01:41-0400, Jon Mason wrote:
+> > New in v2
+> > * Fix relocation oversight issue found by Alexandre Belloni
+> > * More aggressive sorting of Arm, putting each tune into it's respective
+> >   design versioned family
+> >
+> > I ran a quick and dirty CI on this via gitlab, though now including
+> > machines for all present in meta-yocto-bsp.  The results can be found
+> > at https://gitlab.com/jonmason00/poky/-/pipelines/353961908
+> > NOTE: CI is also including patches from upcoming series to support
+> > Cortex-R.  So, it's not 100% pristine.
+> >
 > > ---
-> >  meta/recipes-core/glibc/glibc-package.inc | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-> > index 3026aec9b6f..56fbf8b08ce 100644
-> > --- a/meta/recipes-core/glibc/glibc-package.inc
-> > +++ b/meta/recipes-core/glibc/glibc-package.inc
-> > @@ -22,6 +22,7 @@ ARCH_DYNAMIC_LOADER = ""
-> >  ARCH_DYNAMIC_LOADER:aarch64 = "ld-linux-${TARGET_ARCH}.so.1"
-> >  libc_baselibs:append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
-> >  INSANE_SKIP:${PN}:append:aarch64 = " libdir"
-> > +INSANE_SKIP:${PN}-dev += "staticdev"
+> > Move all tune files into their architecture directory.
 > >
-> >  FILES:${PN} = "${libc_baselibs} ${libexecdir}/* ${sysconfdir}/ld.so.conf"
-> >  RRECOMMENDS:${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)}"
-> > @@ -38,7 +39,7 @@ FILES:sln = "${base_sbindir}/sln"
-> >  FILES:${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
-> >  FILES:libsotruss = "${libdir}/audit/sotruss-lib.so"
-> >  FILES_SOLIBSDEV = "${libdir}/lib*${SOLIBSDEV}"
-> > -FILES:${PN}-dev += "${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
-> > +FILES:${PN}-dev += "${libdir}/libpthread.a ${libdir}/libdl.a ${libdir}/libutil.a ${libdir}/libanl.a ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
-> >  RDEPENDS:${PN}-dev = "linux-libc-headers-dev"
-> >  FILES:${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
-> >  FILES:nscd = "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_unitdir}/system/nscd* ${sysconfdir}/tmpfiles.d/nscd.conf \
+> > I'm doing this all as one series, even though they are going to
+> > different repos, as an attempt to make this as atomic as possible.
+> >
+> >
+> > Jon Mason (3):
+> >   conf/machine: move tune files to architecture directories
+> >   yocto-bsp: update machine confs with new tune locations
+> >   docs: update docs with new tune locations
+> >
+> >  documentation/bsp-guide/bsp.rst                               | 4 ++--
+> >  documentation/dev-manual/common-tasks.rst                     | 2 +-
+> >  documentation/ref-manual/variables.rst                        | 2 +-
+> >  meta-yocto-bsp/conf/machine/beaglebone-yocto.conf             | 2 +-
+> >  meta-yocto-bsp/conf/machine/edgerouter.conf                   | 2 +-
+> >  meta-yocto-bsp/conf/machine/genericx86-64.conf                | 2 +-
+> >  meta-yocto-bsp/conf/machine/genericx86.conf                   | 2 +-
+> >  meta-yocto-bsp/conf/machine/include/genericx86-common.inc     | 4 ++--
+> >  meta/conf/machine/include/{ => arm/armv4}/tune-arm920t.inc    | 0
+> >  meta/conf/machine/include/{ => arm/armv4}/tune-arm9tdmi.inc   | 0
+> >  meta/conf/machine/include/{ => arm/armv4}/tune-ep9312.inc     | 0
+> >  .../machine/include/{ => arm/armv4}/tune-strongarm1100.inc    | 0
+> >  meta/conf/machine/include/{ => arm/armv5}/tune-arm926ejs.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv5}/tune-iwmmxt.inc     | 0
+> >  meta/conf/machine/include/{ => arm/armv5}/tune-xscale.inc     | 0
+> >  .../conf/machine/include/{ => arm/armv6}/tune-arm1136jf-s.inc | 0
+> >  .../conf/machine/include/{ => arm/armv6}/tune-arm1176jz-s.inc | 0
+> >  .../{tune-cortex-m0.inc => arm/armv6m/tune-cortexm0.inc}      | 0
+> >  .../armv6m/tune-cortexm0plus.inc}                             | 0
+> >  meta/conf/machine/include/{ => arm/armv6m}/tune-cortexm1.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa15.inc | 0
+> >  meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa17.inc | 0
+> >  meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa5.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa7.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa8.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa9.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv7m}/tune-cortexm3.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv7m}/tune-cortexm4.inc  | 0
+> >  meta/conf/machine/include/{ => arm/armv7m}/tune-cortexm7.inc  | 0
+> >  .../machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc     | 0
+> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc | 0
+> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc | 0
+> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc | 0
+> >  .../include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc     | 0
+> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc | 0
+> >  .../include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc     | 0
+> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc | 0
+> >  .../include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc     | 0
+> >  meta/conf/machine/include/{ => arm/armv8a}/tune-thunderx.inc  | 0
+> >  meta/conf/machine/include/{ => m68k}/tune-mcf5441x.inc        | 0
+> >  .../conf/machine/include/{ => microblaze}/tune-microblaze.inc | 0
+> >  meta/conf/machine/include/{ => mips}/qemuboot-mips.inc        | 0
+> >  meta/conf/machine/include/mips/tune-mips-24k.inc              | 2 +-
+> >  meta/conf/machine/include/mips/tune-mips-74k.inc              | 2 +-
+> >  meta/conf/machine/include/{ => mips}/tune-mips32.inc          | 0
+> >  meta/conf/machine/include/{ => mips}/tune-mips32r2.inc        | 2 +-
+> >  meta/conf/machine/include/{ => mips}/tune-mips32r6.inc        | 0
+> >  meta/conf/machine/include/mips/tune-mips64.inc                | 3 +++
+> >  meta/conf/machine/include/{ => mips}/tune-mips64r2.inc        | 2 +-
+> >  meta/conf/machine/include/{ => mips}/tune-mips64r6.inc        | 0
+> >  meta/conf/machine/include/{ => mips}/tune-octeon.inc          | 2 +-
+> >  meta/conf/machine/include/{ => powerpc}/tune-power5.inc       | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-power6.inc       | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-power7.inc       | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-power9.inc       | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppc476.inc       | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppc603e.inc      | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppc7400.inc      | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppce300c2.inc    | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppce300c3.inc    | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppce500.inc      | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppce500mc.inc    | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppce500v2.inc    | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppce5500.inc     | 0
+> >  meta/conf/machine/include/{ => powerpc}/tune-ppce6500.inc     | 0
+> >  meta/conf/machine/include/{ => sh}/tune-sh3.inc               | 0
+> >  meta/conf/machine/include/{ => sh}/tune-sh4.inc               | 2 +-
+> >  meta/conf/machine/include/tune-mips64.inc                     | 3 ---
+> >  meta/conf/machine/include/{ => x86}/qemuboot-x86.inc          | 0
+> >  meta/conf/machine/include/{ => x86}/tune-atom.inc             | 2 +-
+> >  meta/conf/machine/include/{ => x86}/tune-c3.inc               | 0
+> >  meta/conf/machine/include/{ => x86}/tune-core2.inc            | 2 +-
+> >  meta/conf/machine/include/{ => x86}/tune-corei7.inc           | 2 +-
+> >  meta/conf/machine/include/{ => x86}/tune-i586-nlp.inc         | 0
+> >  meta/conf/machine/include/{ => x86}/tune-i586.inc             | 0
+> >  meta/conf/machine/include/{ => x86}/tune-i686.inc             | 2 +-
+> >  meta/conf/machine/include/{ => x86}/x86-base.inc              | 0
+> >  meta/conf/machine/qemuarm.conf                                | 2 +-
+> >  meta/conf/machine/qemuarm64.conf                              | 2 +-
+> >  meta/conf/machine/qemuarmv5.conf                              | 2 +-
+> >  meta/conf/machine/qemumips.conf                               | 4 ++--
+> >  meta/conf/machine/qemumips64.conf                             | 4 ++--
+> >  meta/conf/machine/qemuppc.conf                                | 2 +-
+> >  meta/conf/machine/qemuppc64.conf                              | 2 +-
+> >  meta/conf/machine/qemux86-64.conf                             | 4 ++--
+> >  meta/conf/machine/qemux86.conf                                | 4 ++--
+> >  86 files changed, 36 insertions(+), 36 deletions(-)
+> >  rename meta/conf/machine/include/{ => arm/armv4}/tune-arm920t.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv4}/tune-arm9tdmi.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv4}/tune-ep9312.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv4}/tune-strongarm1100.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv5}/tune-arm926ejs.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv5}/tune-iwmmxt.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv5}/tune-xscale.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv6}/tune-arm1136jf-s.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv6}/tune-arm1176jz-s.inc (100%)
+> >  rename meta/conf/machine/include/{tune-cortex-m0.inc => arm/armv6m/tune-cortexm0.inc} (100%)
+> >  rename meta/conf/machine/include/{tune-cortex-m0plus.inc => arm/armv6m/tune-cortexm0plus.inc} (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv6m}/tune-cortexm1.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa15.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa17.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa5.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa7.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa8.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7a}/tune-cortexa9.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7m}/tune-cortexm3.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7m}/tune-cortexm4.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv7m}/tune-cortexm7.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc (100%)
+> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-thunderx.inc (100%)
+> >  rename meta/conf/machine/include/{ => m68k}/tune-mcf5441x.inc (100%)
+> >  rename meta/conf/machine/include/{ => microblaze}/tune-microblaze.inc (100%)
+> >  rename meta/conf/machine/include/{ => mips}/qemuboot-mips.inc (100%)
+> >  rename meta/conf/machine/include/{ => mips}/tune-mips32.inc (100%)
+> >  rename meta/conf/machine/include/{ => mips}/tune-mips32r2.inc (95%)
+> >  rename meta/conf/machine/include/{ => mips}/tune-mips32r6.inc (100%)
+> >  create mode 100644 meta/conf/machine/include/mips/tune-mips64.inc
+> >  rename meta/conf/machine/include/{ => mips}/tune-mips64r2.inc (98%)
+> >  rename meta/conf/machine/include/{ => mips}/tune-mips64r6.inc (100%)
+> >  rename meta/conf/machine/include/{ => mips}/tune-octeon.inc (96%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-power5.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-power6.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-power7.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-power9.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppc476.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppc603e.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppc7400.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppce300c2.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppce300c3.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppce500.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppce500mc.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppce500v2.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppce5500.inc (100%)
+> >  rename meta/conf/machine/include/{ => powerpc}/tune-ppce6500.inc (100%)
+> >  rename meta/conf/machine/include/{ => sh}/tune-sh3.inc (100%)
+> >  rename meta/conf/machine/include/{ => sh}/tune-sh4.inc (93%)
+> >  delete mode 100644 meta/conf/machine/include/tune-mips64.inc
+> >  rename meta/conf/machine/include/{ => x86}/qemuboot-x86.inc (100%)
+> >  rename meta/conf/machine/include/{ => x86}/tune-atom.inc (50%)
+> >  rename meta/conf/machine/include/{ => x86}/tune-c3.inc (100%)
+> >  rename meta/conf/machine/include/{ => x86}/tune-core2.inc (97%)
+> >  rename meta/conf/machine/include/{ => x86}/tune-corei7.inc (97%)
+> >  rename meta/conf/machine/include/{ => x86}/tune-i586-nlp.inc (100%)
+> >  rename meta/conf/machine/include/{ => x86}/tune-i586.inc (100%)
+> >  rename meta/conf/machine/include/{ => x86}/tune-i686.inc (94%)
+> >  rename meta/conf/machine/include/{ => x86}/x86-base.inc (100%)
+> >
 > > --
-> > 2.32.0
+> > 2.20.1
 > >
+>
 > >
 > > 
 > >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
