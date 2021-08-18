@@ -1,44 +1,44 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web09.56051.1629300735990613516
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web11.55984.1629301399157602845
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 08:32:16 -0700
+ Wed, 18 Aug 2021 08:43:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=li6KnMct;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id jv8so1875610qvb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 08:32:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RyHezv99;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id m21so3440506qkm.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 08:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=gGoDJ8tHvp3h8qh3aPN+NK21tr+feaQ3kjMm1SIAHcc=;
-        b=li6KnMctpjr9gC+kuSOXFesjakakZd/Xtq1lQX/EUMNKngz8fyeSN9r+9+39TdZpVc
-         S8Jz9xaeBGRxxlc0pHRh8PkTa+kDxztb6VwlTJsNQRf6IswYg5n7is6WWwVeP9vuctRd
-         Ref63DAbUjqmUvhE4sgZis2DGcsyePXWN8EmhHRu2lqVopJYzEcE7rYdTX3mpqJr7zxs
-         N0GbYLKzf5A2zlD/hg3Nhfg76OBS9Q6xJS/XkHSOAXsJj3sjZL/XTx7ZKV2Zws5qb5tY
-         /NGOebPXqQKeP/E8p+0kR+W6StxmOHBakgc7ntru7IvsgI0JgTszouGyClXubtrAtAj3
-         G2yw==
+        bh=Z9EHblmi0jNWdj1Bi4XI6M44OXBMBzHByIkwzdLobH4=;
+        b=RyHezv99cWD+YEys356sfXo3SFn5ptwVcebIoAhDRe7jjp7xqbFO7uuYU9VxDZD0nL
+         rdgMIedA+wgY9BFJg1dM4fPJDd8/HXndbYSQNDftlUnVuEcvXGIiMzK6i6AjqIG70mtm
+         p5PyF3fcGp21oSIc5UC8yzkhQw/ipr3qxz7yPGNwuoTjgynQQO9OWfzX3GT8vk1D7t1P
+         qpPUrIzhCcVBMn1llPGFNmo8xZ2xfOV3+17ZZAqMinJ5w9+4gPtl0iXYYcncyqeOKO7W
+         XGtirLzWBFX6qhmgsTXE8qSV/U5m8+Sb6ndYo7mVWMC/MkFxb7kPWTLkCKKsEwuHmbNi
+         8xRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=gGoDJ8tHvp3h8qh3aPN+NK21tr+feaQ3kjMm1SIAHcc=;
-        b=bvXkpViEXNeiDIK/oWE3C4a0shi18BXImACpmHvEnwLwmnovMWCFnDcNdKSn4fDBax
-         9kW1GYauojlSYXZxxxYzvfG/1TreKAHQLk0ydg3+OWUZKRm1oCXJFu+xLSHYl2/SzqjE
-         5vf1BgNdBvuZ8NJlgXf8/BwU50G76NHMCZlACxLpfmazMIlwEhQHoJ07PNQHPyJ3pjp7
-         a7mJJ1Ry7acK2ustYJ0kEihbrVPKvcyZChTXEWnsI8tlCFaZPeviW6bO64w+YyLwIL1f
-         Hx8RP98BPoCcuzKLDW1xJPdmK9USndTtOC1r702vgbpOiwe5Cw3x5YCAA5Jzjangz7CP
-         5B5w==
-X-Gm-Message-State: AOAM5327w3f+EX9wmWTuyI4kCUC1mwKOUjge5WehNIPON40lXrfIScwz
-	HJYDM9DljzfjdwWzI7jWmE9CPygmDn9TL9Sc
-X-Google-Smtp-Source: ABdhPJzVYe0nGNq7IxKmW3v0PlFfK4mhMkZc9zlTYrnjWfEiSKidEwut41lBbddHhiqZR/+JpqXFRQ==
-X-Received: by 2002:ad4:45a8:: with SMTP id y8mr9579752qvu.49.1629300734825;
-        Wed, 18 Aug 2021 08:32:14 -0700 (PDT)
+        bh=Z9EHblmi0jNWdj1Bi4XI6M44OXBMBzHByIkwzdLobH4=;
+        b=Li89tws1PLOjCazu75NlTUM+ZfMwXLF7Soo7jKwEhdHTdv7e1rFt0ZZ981ihJ5mdvB
+         vb07D+bSypsMRtP7wPA4V0/UjAD4YkBABb2MF8hsTUAMV/wtprrweJzpJuX67Lu6N1U+
+         6MGF4TmCOqIK++mqUD0hImB1hIEBCtQAw67F1Fe7nVJ8Sq7u1ARjRE99tsgL/r7ZVx+d
+         BJSQCrRLCn1GZgg1gwdUC0K2hdgAmRuObipUZHsNmRFt9mOPCIKpE89qnoLKXlPEyb4f
+         K5jKfdEpPACuzhqpbBGpgNjGLnTl5AWGTl98XC0uhhfe1sX1X1f/JqsdhY2VbqXc7U+o
+         tDSA==
+X-Gm-Message-State: AOAM531omWXiHsRiyt3IXi/7RXbq2EMu/RmjfQJSzbcQj0Vz/r+8r8EA
+	E8k3jrKb7l5NCTGrcgRWxYc/I7SXT4BHau+t
+X-Google-Smtp-Source: ABdhPJzMeLokyv+QbIZUn2KaF9EXiX0fWhvfeqGnhjyg8l7sNJQzTaiin0Ih17FcKcUyZX2qTALiDg==
+X-Received: by 2002:a37:3d0:: with SMTP id 199mr10338944qkd.324.1629301398016;
+        Wed, 18 Aug 2021 08:43:18 -0700 (PDT)
 Return-Path: <vinay.m.engg@gmail.com>
 Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id 14sm136437qtp.19.2021.08.18.08.32.13
+        by smtp.gmail.com with ESMTPSA id o25sm74239qkj.113.2021.08.18.08.43.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 08:32:14 -0700 (PDT)
+        Wed, 18 Aug 2021 08:43:17 -0700 (PDT)
 From: "Vinay Kumar" <vinay.m.engg@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: anuj.mittal@intel.com,
@@ -50,9 +50,9 @@ Cc: anuj.mittal@intel.com,
 	khairul.rohaizzat.jamaluddin@intel.com,
 	alexandre.belloni@bootlin.com,
 	Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH] glibc: Fix CVE-2021-38604
-Date: Wed, 18 Aug 2021 08:31:41 -0700
-Message-Id: <20210818153141.187933-1-vinay.m.engg@gmail.com>
+Subject: [hardknott][PATCH] glibc: Fix CVE-2021-38604
+Date: Wed, 18 Aug 2021 08:42:07 -0700
+Message-Id: <20210818154207.8663-1-vinay.m.engg@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,7 +61,7 @@ Source: https://sourceware.org/git/glibc.git
 Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28213
 
 Backported upstream commits b805aebd42364fe696e417808a700fdb9800c9e8 and 4cc79c217744743077bf7a0ec5e0a4318f1e6641
-to glibc-2.34 source.
+to glibc-2.33 source.
 
 Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=b805aebd42364fe696e417808a700fdb9800c9e8]
 Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=4cc79c217744743077bf7a0ec5e0a4318f1e6641]
@@ -70,7 +70,7 @@ Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 ---
  .../glibc/glibc/0001-CVE-2021-38604.patch     |  43 +++++
  .../glibc/glibc/0002-CVE-2021-38604.patch     | 150 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.34.bb         |   2 +
+ meta/recipes-core/glibc/glibc_2.33.bb         |   2 +
  3 files changed, 195 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2021-38604.patch
  create mode 100644 meta/recipes-core/glibc/glibc/0002-CVE-2021-38604.patch
@@ -280,14 +280,14 @@ index 0000000000..9f71fecddb
 +-- 
 +2.31.1
 +
-diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
-index 66494c5c23..eafc0216ff 100644
---- a/meta/recipes-core/glibc/glibc_2.34.bb
-+++ b/meta/recipes-core/glibc/glibc_2.34.bb
-@@ -55,6 +55,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
-            file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
-            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
+diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
+index 7f516d2bbe..57a60cb9d8 100644
+--- a/meta/recipes-core/glibc/glibc_2.33.bb
++++ b/meta/recipes-core/glibc/glibc_2.33.bb
+@@ -64,6 +64,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://CVE-2021-33574_1.patch \
+            file://CVE-2021-33574_2.patch \
+            file://CVE-2021-35942.patch \
 +           file://0001-CVE-2021-38604.patch \
 +           file://0002-CVE-2021-38604.patch \
             "
