@@ -1,105 +1,71 @@
 Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web12.57342.1629303864250634855
+ by mx.groups.io with SMTP id smtpd.web10.57674.1629305436106905920
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 09:24:24 -0700
+ Wed, 18 Aug 2021 09:50:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UaeftwIs;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id z9so4383734wrh.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 09:24:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NE6YaIau;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id r7so4619178wrs.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 09:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=24H2fAmQOoYzYK6ArBG0fJnqN1/3dJuLoqFVDBe6e90=;
-        b=UaeftwIsKtMNEy1Q0S0aKwtMOtKdkz2AXlIlwJ/E32x24h3GbHz7W+zaseCofokOoO
-         qSIzmW1UymdakEZy+1auq4Rc9gpIlFK9F3UrRXCMh51BETtOcT1VhIT/BSaRFtVXJGUQ
-         Qb1zhLknHhWyP5x4TU/YIDLggUZcaQen0e0MR6mRSZwJkduosS57W3Z+NpHawezETsps
-         sJFvKxFtEpgKKgKEJFfdjJtx8v7UFdVJwUdVO5A2gnSLH5frqJeWRaaetvczSKD+WLK1
-         giDP33kfyDBIy2xNrSog37mYK8vDHRaG7PiWL0njkk5EFq78SiC5fhrNF4VC+V9OKOY/
-         J7bw==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QVPJ+aLHv926aeatY5eJn95qKME9exhcq4I4lci1+JQ=;
+        b=NE6YaIauPVEMX4fIum9MJiUAF0rnL/MrzAltW/XgCor6hGy7SxhFzicZj+HXVRV+6L
+         Ux2EuIChGpg3qLR00KYEoCVrI5TvBYsJXttIn5401xOZ+6kdtNUqoe01FBTWLwWLV9qv
+         NJ+l3NfcKxne9aLfoL6cTPH9FRE2eTlF5nuLk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=24H2fAmQOoYzYK6ArBG0fJnqN1/3dJuLoqFVDBe6e90=;
-        b=Sb2rh9kiHm8DT/7HVfw0rZMsT08ODayY17YLOohXzIgeRQm8SQNb0+PFtpYUSIpAx5
-         fFOpeIoiEuyJeGgPLrnXmKpu3I3ejoEeV37Ml91/wVOL9nefZElFAmEH/aHbUSVPO9Ze
-         9uQ9NXyilP7N1YXZL/jAUuIvvnnt3SsjPrCvPq93I2XWSA0+7DT4izEspN+WX+CX53m3
-         yOuqLDBD5ASAcororhhsSBPKJgGKnQgde0Jmg+p74LB7MYBepdXbGczdZtMuio9SkpO6
-         UL476srJOympRSS7DIYRdkJ4Vsjt7M0d3BT/TItjVJCoQTAbU8F46AGxyeN4UPSyOSzs
-         8LNA==
-X-Gm-Message-State: AOAM5338Mw9ocxmHbVWPUqqbkbVApgS9wOLW4TGYp6Q1Il6tOOzYHTNg
-	+TNU6Ent2fgWIJhSciPtwtsjHkZbTlU=
-X-Google-Smtp-Source: ABdhPJyuVekLqoZM34IKVujNQooGhmhXe66XmmrQfKQZ4EFzBWgoa7vyZrxJV1NRY1pFsMOtFnP1yw==
-X-Received: by 2002:adf:d194:: with SMTP id v20mr11632989wrc.126.1629303862716;
-        Wed, 18 Aug 2021 09:24:22 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id g35sm6086688wmp.9.2021.08.18.09.24.22
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QVPJ+aLHv926aeatY5eJn95qKME9exhcq4I4lci1+JQ=;
+        b=jUpORzZiVMyI7D6EGvBhjrcqHPquaG/8UctI0Qg1IXKYrmYAb5+8M+rHI9a/VBCBfP
+         7lxH3ha660dY5rTykOREFEr619brY44HxVk+9sTZ1U6oz369PcH8ILXu3n+hI169hLen
+         Qeo5qx4VoRId3EVSn8uxU9CBytw+XyKRQQM7qsPoFGFzPiZ7vx4SzA00gTr1gBkeKI6g
+         xez/HpQmg3y4twXt7FrBoptBHobl1HP4K0e6JkzRA3hVVI1yjv+jmfNwnuUT+jJwf6bY
+         teAM3CthB5ePRG+H9/bFEH6iIZ65gXvZmleoC9yElNgtSNX55Wd+32Tdb3oo2M1fz3jf
+         ojdQ==
+X-Gm-Message-State: AOAM532qGJqfgLy5ZwDQqLYsChT+bsxcpjGuWN53HLRxdJJHoWvubZDB
+	Xz52SA+Z3EUA9ss1RjP7OBEqj5qb43fGCQ==
+X-Google-Smtp-Source: ABdhPJyIY3Y44AChdyY9tYJTXove3HJW1Lv88YGN5Z865FgZARb1YIxVBfXA6NjOKpkciQKnPxL2LQ==
+X-Received: by 2002:adf:fa82:: with SMTP id h2mr11389229wrr.129.1629305434317;
+        Wed, 18 Aug 2021 09:50:34 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2])
+        by smtp.gmail.com with ESMTPSA id z126sm343363wmc.11.2021.08.18.09.50.33
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 09:24:22 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
+        Wed, 18 Aug 2021 09:50:34 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v3 4/4] sstate.bbclass: sstate mirror progress bar cleanup
-Date: Wed, 18 Aug 2021 17:24:04 +0100
-Message-Id: <20210818162404.130067-4-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210818162404.130067-1-quaresma.jose@gmail.com>
-References: <20210818162404.130067-1-quaresma.jose@gmail.com>
+Subject: [PATCH 1/5] glibc-package.inc: Fix builds of pseudo with glibc 2.34
+Date: Wed, 18 Aug 2021 17:50:29 +0100
+Message-Id: <20210818165033.3935964-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We only has the progress bar when we have more than 100 objects.
-So check for this and store the result to show the progress bar.
+Use the same dynamic link tweak for libdl as without this, we have issues
+building/using pseudo in mixed glibc/libdl environments.
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sstate.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ meta/recipes-core/glibc/glibc-package.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index bc14b5e264..9cf57466ae 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -953,20 +953,24 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             except:
-                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
-                 pass
--            if len(tasklist) >= min_tasks:
-+
-+            if progress:
-                 bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 56fbf8b08ce..a320c40dc8f 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -122,6 +122,7 @@ do_install() {
+ 	fi
+         lnr ${D}${base_libdir}/libpthread.so.0 ${D}${libdir}/libpthread.so
+         lnr ${D}${base_libdir}/librt.so.1 ${D}${libdir}/librt.so
++        lnr ${D}${base_libdir}/libdl.so.2 ${D}${libdir}/libdl.so
+ }
  
-         tasklist = []
--        min_tasks = 100
-         for tid in missed:
-             spec, extrapath, tname = getpathcomponents(tid, d)
-             sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
-             tasklist.append((tid, sstatefile))
- 
-+        progress = False
-+        if len(tasklist) >= 100:
-+            progress = True
-+
-         if tasklist:
-             nproc = min(d.getVar("BB_NUMBER_THREADS"), len(tasklist))
- 
--            if len(tasklist) >= min_tasks:
-+            if progress:
-                 msg = "Checking sstate mirror object availability"
-                 bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
- 
-@@ -979,7 +983,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             pool.wait_completion()
-             bb.event.disable_threadlock()
- 
--            if len(tasklist) >= min_tasks:
-+            if progress:
-                 bb.event.fire(bb.event.ProcessFinished(msg), d)
- 
-     inheritlist = d.getVar("INHERIT")
+ def get_libc_fpu_setting(bb, d):
 -- 
-2.32.0
+2.30.2
 
