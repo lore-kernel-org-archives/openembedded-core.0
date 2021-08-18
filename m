@@ -1,105 +1,127 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web12.60821.1629318605295423701
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web08.60506.1629318746579906286
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 13:30:05 -0700
+ Wed, 18 Aug 2021 13:32:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=crj54p8O;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id k29so5428436wrd.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 13:30:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rLfGTRba;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id i6so5146494edu.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 13:32:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hH2kzQfqpMEG71Om4ZNFNLKkKjBn2MgxWUj7LDCC2Ks=;
-        b=crj54p8O307n0npdJ9dbOnchtdPKWwplRNzMWzbX+C9x18P87OP2Qt1K6ZOhBJFmIg
-         fcynms77EphG5e20y3IAvF2py+j//DyixoIIm+x/0cG+J0EB4RjHPHKvM7MrIb34ldF1
-         tElrs5hi9eFmxfjPgIJ+Ao3wW+kgAyNDbx2KqhslR3fx6/1twKcREPmQ6nKZx3PdXXfx
-         j4YFB9X6oS4fqts+JoP9o7hBTubCwjdMX1cpH+z49nJFekA/pwgxbk4T7xx/TJhi0KND
-         9YUHsuLlUs1OKOX5ayi3ouRJK1QrIf2o+wkqdOVPj981+xoZ2NHd468Ebbahr6bh5Wae
-         qlHw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=heMErrhDI6bZSK3h2tTQuJN3t8whA9Au26SltMqkqQ0=;
+        b=rLfGTRba8XxS+xpgbEuWudwGUgDcqlIrurTs6qhhjbh9H+UF1I1+k2c/TK3lmELDgI
+         XWS0gGA+i+UWamXOj0hZ2DgXY9o63DxO6aDykEMnEvBeiDuoOcMm/X42kZsW+XTuBsw9
+         mUE6f/XHqf4eV6QXbaIyq+rXLSXQNuiQB3XpTn3ATelhyMrj7iPfL9kzM6M1WtA2zppO
+         XHCuLH+Es8QLmsUuIHfM9qhehpHD+EfJIuuY2mI0RbhwR7IcdwFBt9hmAwI//WckpNpV
+         t/FaAz2MvWbmq63QIOge+61eQ1Dzzx/OBCKfVRiYA04WPTo8U0j2SBXuOiaC+/UGsc0h
+         ORLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hH2kzQfqpMEG71Om4ZNFNLKkKjBn2MgxWUj7LDCC2Ks=;
-        b=T6pJOZp0kuKoFN4/zxqFgP9YMucptzMLotYTADs9fE/PYKsCwcnPy8WKV8Yzlt6Yap
-         caxF9cNQWVPDapTXQFmBOeV6pwDVad2jdsF+AY1czIUhTRNP4lewaxV4oNmofq+dJGMi
-         07KALLj8m4RXFS5EndkRE+R6nKw3lZfxovR7YkRUdqgWwT2+EW2SDxhMc38E+D0ObWgA
-         ueQ2TQ3TMtu/WkNQLhTSNYyNbzVzZMYF5+FQGwOeqOheh0E0u2/a4sUJhzkqBGviAyWs
-         ZF5u0H/FgZc2dzoO5ap6+6akcxLpBuMtJHyhaxQudNWGKHLJnk/7ChVT1Wch5ySeDIpU
-         MDUw==
-X-Gm-Message-State: AOAM530h9SOAmy4v/IoRVMsnWB3lTE5NC/BdA9j/6U7xZ66OJiqfu2fu
-	iEYDz1uO4ok7NTlQ4vfRDHFgVt9y9bw=
-X-Google-Smtp-Source: ABdhPJyONk8nPJ3cpfR6PCBIrqFi6/tknUSBWzc7AnpmwUFR1YatA+tGbEaTTBZ4k2TTuIRhjc/gsQ==
-X-Received: by 2002:adf:fa4d:: with SMTP id y13mr12421352wrr.417.1629318603716;
-        Wed, 18 Aug 2021 13:30:03 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id d145sm5966189wmd.3.2021.08.18.13.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 13:30:03 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v4 4/4] sstate.bbclass: sstate mirror progress bar cleanup
-Date: Wed, 18 Aug 2021 21:29:54 +0100
-Message-Id: <20210818202954.143099-4-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210818202954.143099-1-quaresma.jose@gmail.com>
-References: <20210818202954.143099-1-quaresma.jose@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=heMErrhDI6bZSK3h2tTQuJN3t8whA9Au26SltMqkqQ0=;
+        b=poUAWKuwNarNHlj/2zlrC4D+67YjRRTgDG7hVTsCL2dDJU5WB3tQAcuedvGA/Af/wZ
+         aM96O/FrSc9p+/7oosVjwTii8eea+l2lBSHP4CNxKgoIR0KQsVU/+7bQhODZuJ4Z56da
+         GaAz2GfJjpa0g1nEAch0BLaoBNSwBQSNhIOLX92nxxTfW9fUYVgDPuccjMzUTf6ibD/F
+         06Olry0+WkG4TVEPEWey/ksUDcXmveNeAKLYqnyg4CEe3wAdndESOFkIgIPUvc7+gMDz
+         ECPH34CImJ39nZNxwIM1hlXypoNmtbEggH4s0BvnXsOc6qkIiCfpNOvtmVv1aO5Jo3zj
+         SzBw==
+X-Gm-Message-State: AOAM5301BU8b+fh11ZxWrivqEMqnl7KB2aBwcWuByhjKOa6uoggwvCEs
+	pson1y79ZhLiaon/773rQjMl2xhshnxWi/ibYCo=
+X-Google-Smtp-Source: ABdhPJym7DORr3S3rkSPmZD911AAFnXzxhzSdDGDd6+FK7XT8OBLG1ET9Qii1w7w2wpEBuPUsYaMa+96Yoos3PS0rv8=
+X-Received: by 2002:a05:6402:22aa:: with SMTP id cx10mr12036254edb.59.1629318745227;
+ Wed, 18 Aug 2021 13:32:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210818162404.130067-1-quaresma.jose@gmail.com>
+ <20210818162404.130067-3-quaresma.jose@gmail.com> <20aae4083e94dc9706e83c5ecdd95348c710b4bb.camel@linuxfoundation.org>
+In-Reply-To: <20aae4083e94dc9706e83c5ecdd95348c710b4bb.camel@linuxfoundation.org>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Wed, 18 Aug 2021 21:32:15 +0100
+Message-ID: <CANPvuR=oOYfmFonKPH2vazPxbNOU09OPf9yYYM2p=c_vqSOMrQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 3/4] sstate.bbclass: get the number of threads from BB_NUMBER_THREADS
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We only has the progress bar when we have more than 100 objects.
-So check for this and store the result to show the progress bar.
+Hi,
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/classes/sstate.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+d.getVar("BB_NUMBER_THREADS") returns a string and it needs to be
+converted to int.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index e86c003726..9c19002a11 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -953,20 +953,24 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             except:
-                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
-                 pass
--            if len(tasklist) >= min_tasks:
-+
-+            if progress:
-                 bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
- 
-         tasklist = []
--        min_tasks = 100
-         for tid in missed:
-             spec, extrapath, tname = getpathcomponents(tid, d)
-             sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
-             tasklist.append((tid, sstatefile))
- 
-+        progress = False
-+        if len(tasklist) >= 100:
-+            progress = True
-+
-         if tasklist:
-             nproc = min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
- 
--            if len(tasklist) >= min_tasks:
-+            if progress:
-                 msg = "Checking sstate mirror object availability"
-                 bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
- 
-@@ -979,7 +983,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             pool.wait_completion()
-             bb.event.disable_threadlock()
- 
--            if len(tasklist) >= min_tasks:
-+            if progress:
-                 bb.event.fire(bb.event.ProcessFinished(msg), d)
- 
-     inheritlist = d.getVar("INHERIT")
--- 
-2.33.0
+-nproc =3D min(d.getVar("BB_NUMBER_THREADS"), len(tasklist))
++nproc =3D min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
 
+fixed in V4
+
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+quarta, 18/08/2021 =C3=A0(s) 20:34:
+>
+> On Wed, 2021-08-18 at 17:24 +0100, Jose Quaresma wrote:
+> > - bitbake BB_NUMBER_THREADS uses cpu_count from oe utils that uses
+> > the python os.sched_getaffinity and it is more acurrate.
+> >
+> >  grep -nH ^BB_NUMBER_THREADS meta/conf/bitbake.conf
+> >  meta/conf/bitbake.conf:806:BB_NUMBER_THREADS ?=3D "${@oe.utils.cpu_cou=
+nt()}"
+> >
+> > - multiprocessing.cpu_count() returns the number of CPUs on the host,
+> > not the number of usable CPUs on the host. If the user is using
+> > scheduler affinity then the number of usable CPUs may be less,
+> > so when determining how many cores we can use check the affinity instea=
+d.
+> >
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > ---
+> >  meta/classes/sstate.bbclass | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> > index c3c145e7f3..bc14b5e264 100644
+> > --- a/meta/classes/sstate.bbclass
+> > +++ b/meta/classes/sstate.bbclass
+> > @@ -964,13 +964,12 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFals=
+e, currentcount=3D0, summary=3DTrue,
+> >              tasklist.append((tid, sstatefile))
+> >
+> >
+> >
+> >
+> >          if tasklist:
+> > +            nproc =3D min(d.getVar("BB_NUMBER_THREADS"), len(tasklist)=
+)
+> > +
+> >              if len(tasklist) >=3D min_tasks:
+> >                  msg =3D "Checking sstate mirror object availability"
+> >                  bb.event.fire(bb.event.ProcessStarted(msg, len(tasklis=
+t)), d)
+> >
+> >
+> >
+> >
+> > -            import multiprocessing
+> > -            nproc =3D min(multiprocessing.cpu_count(), len(tasklist))
+> > -
+> >              bb.event.enable_threadlock()
+> >              pool =3D oe.utils.ThreadedPool(nproc, len(tasklist),
+> >                      worker_init=3Dcheckstatus_init, worker_end=3Dcheck=
+status_end)
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/3825/st=
+eps/17/logs/stdio
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
