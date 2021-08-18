@@ -1,150 +1,113 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web11.56094.1629301878288045040
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.56950.1629303861817748785
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 08:51:18 -0700
+ Wed, 18 Aug 2021 09:24:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nzeRknBR;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id r19so3816383eds.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 08:51:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tV7mQxsP;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id g138so1978798wmg.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 09:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=iFqr7MHEWjPwLeLgvvFJH3lmrR268g2Mu195QtAyP6k=;
-        b=nzeRknBRGZmGBBQ+c4Ak2PW5smMNriLstfWYdKuFXd87O6iv+VRqFxdVDgiRDQQGlZ
-         q+SQJCibhyJ72GCQ5JBkfLOukiBdaU+q/ve++DxN0WKrLyvLvizFL1xb6QzkTQoV9Gru
-         lO+g8iOHp1rDZ8GZAecmS/Z5Yy4wzQOuQqPSRAYhreF9zL9x4mvNHXl8OXUlae27Okbo
-         XL7JUDZ5jTRTmbdKKNDBqYutl88MUtx/NOOwgG3MTlJXJ9KRIlto71BUEScA10UyI20n
-         sQkUMfUSpLD2kuCYHYqDgqP7p+ChyPPeEGJ6YOaq9WtZ3AAwLJQPzxGduIrnrOfiPx3G
-         LuIQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9k6IHgcE0MxtfKX03olhYF8u8fosM18hhbsTa/5EmWc=;
+        b=tV7mQxsPBGzwEmUf2gdUUvaOy0E+gABpkCQe49ABP7M2CsPd/4s/qv1rQ1UNrMctms
+         u/f4thm3cbVzCPA2A9sbRRwXTI8P/4hp21iP9CB445+AyQoSZV5db2WMP4CnYCJMBK1B
+         K61mscjjvgjx77REaHcBUkJ4FWYIgg8IQU4QO4uJA+G2sKeiIeVYQ86YWcB47xFFRtzR
+         TbO7cXiX09c7zDWqHuR/dsp9oGgi0Qs1xxqYrO36vmk4+PgbD1w3Bi/WA42i9nFKomus
+         9132w7Bi/5NgbWFTuTYoleS00vfGFRI1hNutiWbW/S1fkH0yWddAFAbO3G1s0cb8YTTe
+         a6kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=iFqr7MHEWjPwLeLgvvFJH3lmrR268g2Mu195QtAyP6k=;
-        b=sdj+rtjn+lYz/P6xwggZ5FThXjfQr14H4nVzVjZveByOb2jnVfF+Ggn/Qce4qflEJ3
-         2i7okYEEuTku59op8bkUQwk0qlSTRpExmAhKo/Pdo4p7sgKV9NY9Tm+t38FII4JRG20t
-         oiKNeSMXKjVgaRgruaJhGumTcc8em1mR0yK3geePOGxdgKdPXxoOD8HcJ2DNCAi4l7JO
-         YosaWjTgfL3cGNFsgn14KYmtTTf1k7c1toXZcyuWEPlxoEnWiWIhvpmeZIfzDyroDc7+
-         GvNh42iq/g2aVT9Xijx9kkV4XarXQp7EigsZdMybCTH+MZPnLhZEOe64DXhcaYZcHe0x
-         Tl0Q==
-X-Gm-Message-State: AOAM532ddW+e9qchxMGfz6dPKkoeLww25p6OyEWuKyxxUuohZbpN5l5n
-	IgOJq9BeiwdRYwXkf+HfUSjTgSoP//vmt5T4+X4=
-X-Google-Smtp-Source: ABdhPJyoKM88vYn63+wOrxdfeXh2szS2tGytRPWYVd0hEj59dhmfzWnz9bSglS4v1Ezbzo2QmOBxbOBBMF9B43eYl0M=
-X-Received: by 2002:aa7:de0e:: with SMTP id h14mr11262552edv.150.1629301876787;
- Wed, 18 Aug 2021 08:51:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210809094853.3619155-1-quaresma.jose@gmail.com>
- <20210809094853.3619155-4-quaresma.jose@gmail.com> <55b8a86a8662b7221aeddc0da5c3589afd62f9d6.camel@linuxfoundation.org>
-In-Reply-To: <55b8a86a8662b7221aeddc0da5c3589afd62f9d6.camel@linuxfoundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9k6IHgcE0MxtfKX03olhYF8u8fosM18hhbsTa/5EmWc=;
+        b=jzo8db+JWI+O2w7gXg4jmMc0zoultcVNkj0PI4QD9aQWrhQKU0SPbC32oPuj/y4oCe
+         UPGINoYLJp93ZcJ8nMV/hZjRbLpJYJThzsBgQWJ3ZrSEawoXxpynGQUC8Pz3VcVw7enE
+         JrdW0nWhVIt24zOgJPWHKdxDEgSVOb34m4zKzp2SAnBAZ0tnFF8xmE1GIEOrWyCig45b
+         I0jngUgIGh7AscgKS56AqjzvNaq0fhIyg8ho1kJImQd4+BlNFCD/K/QMz7OpEwph8KaZ
+         DbyKAY03s9VynSj5oeIFwkna1YBOhcQtfmMqberhjgIwFTQ/f/1/T09ISFyqaAq4Cuyz
+         4h2A==
+X-Gm-Message-State: AOAM532oS94jgBgZ1Pt5gUFjBxRpSfc6PQc2uAqon6fVcvgvCv7QrHI8
+	aAxR77Hca0mf36KC0Duk4IGuygcO6PQ=
+X-Google-Smtp-Source: ABdhPJxtJgod9VoLWi1jCUWXpchYP554UkS5tRvd0X+m8rx6I7QqzP5Ip4WKN+uk9eSxU5CaO6XvEQ==
+X-Received: by 2002:a05:600c:3ba9:: with SMTP id n41mr9010669wms.111.1629303860119;
+        Wed, 18 Aug 2021 09:24:20 -0700 (PDT)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from CTW-01195.lan ([88.157.222.244])
+        by smtp.gmail.com with ESMTPSA id g35sm6086688wmp.9.2021.08.18.09.24.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 09:24:19 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Wed, 18 Aug 2021 16:51:06 +0100
-Message-ID: <CANPvuRmT8FO1X5GGsgt4SHafowO+a__mLt+LzgxKjqBj9--bQg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/5] sstate.bbclass: disable thread lock if we don't have events
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Michael Halstead <mhalstead@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH v3 1/4] sstate.bbclass: track found files on mirrors with a counter
+Date: Wed, 18 Aug 2021 17:24:01 +0100
+Message-Id: <20210818162404.130067-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-First of all, sorry for the inconvenience of this patch that adds many trou=
-bles.
+We don't need extra python collections to count the found files
+on the sstate cache and sstate mirrors.
+The main found collections provides all the files that were found,
+then we only need to count the files on sstate mirror
 
-I have concluded from the commit history that the lock is introduced
-because of the progress bar and I don't know that the debug message
-uses the events when it runs inside threads.
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ meta/classes/sstate.bbclass | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-Basically I am wrong in my assumption and this patch doesn't make sense,
-so I will remove it from the series and send the others that are minor twea=
-ks
-and little improvements in the sstate mirror.
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 2175ace4c4..2575750247 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -871,8 +871,6 @@ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+ 
+ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
+     found = set()
+-    foundLocal = set()
+-    foundNet = set()
+     missed = set()
+ 
+     def gethash(task):
+@@ -905,12 +903,11 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+         if os.path.exists(sstatefile):
+             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
+             found.add(tid)
+-            foundLocal.add(tid)
+-            continue
+         else:
+-            missed.add(tid)
+             bb.debug(2, "SState: Looked for but didn't find file %s" % sstatefile)
++            missed.add(tid)
+ 
++    foundMirrors = 0
+     mirrors = d.getVar("SSTATE_MIRRORS")
+     if mirrors:
+         # Copy the data object and override DL_DIR and SRC_URI
+@@ -950,8 +947,9 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+                             connection_cache=thread_worker.connection_cache)
+                 fetcher.checkstatus()
+                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
++                foundMirrors += 1
+                 found.add(tid)
+-                foundNet.add(tid)
++
+                 if tid in missed:
+                     missed.remove(tid)
+             except:
+@@ -1013,7 +1011,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+         match = 0
+         if total:
+             match = len(found) / total * 100
+-        bb.plain("Sstate summary: Wanted %d Local %d Network %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(foundLocal), len(foundNet),len(missed), currentcount, match, complete))
++        bb.plain("Sstate summary: Wanted %d Local %d Mirrors %d Missed %d Current %d (%d%% match, %d%% complete)" %
++            (total, len(found)-foundMirrors, foundMirrors, len(missed), currentcount, match, complete))
+ 
+     if hasattr(bb.parse.siggen, "checkhashes"):
+         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
+-- 
+2.32.0
 
-Best regards,
-Jos=C3=A9 Quaresma
-
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-quarta, 11/08/2021 =C3=A0(s) 20:40:
->
-> On Mon, 2021-08-09 at 10:48 +0100, Jose Quaresma wrote:
-> > commit f2053844958325496a9387874a8f3182400b71ca
-> > 'classes/sstate.bbclass: Enable thread lock when checkstatus'
-> > adds a thread lock to don't lose the events from multiple threads
-> > that runs on the ThreadPool.
-> >
-> > commit 1444b8a2ae226829e719d3d184fca27e5940ae0d
-> > 'sstate.bbclass: Only show sstate mirror progress bar for >=3D 100 obje=
-cts'
-> > disable the events if we don't have a minium number of objects.
-> >
-> > So we can only use the thread lock when we have the events in place.
-> >
-> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > ---
-> >  meta/classes/sstate.bbclass | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> > index 63085a7f3a..948779386d 100644
-> > --- a/meta/classes/sstate.bbclass
-> > +++ b/meta/classes/sstate.bbclass
-> > @@ -969,17 +969,17 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFals=
-e, currentcount=3D0, summary=3DTrue,
-> >              if len(tasklist) >=3D min_tasks:
-> >                  msg =3D "Checking sstate mirror object availability"
-> >                  bb.event.fire(bb.event.ProcessStarted(msg, len(tasklis=
-t)), d)
-> > +                bb.event.enable_threadlock()
-> >
-> >
-> >
-> >
-> > -            bb.event.enable_threadlock()
-> >              pool =3D oe.utils.ThreadedPool(nproc, len(tasklist),
-> >                      worker_init=3Dcheckstatus_init, worker_end=3Dcheck=
-status_end)
-> >              for t in tasklist:
-> >                  pool.add_task(checkstatus, t)
-> >              pool.start()
-> >              pool.wait_completion()
-> > -            bb.event.disable_threadlock()
-> >
-> >
-> >
-> >
-> >              if len(tasklist) >=3D min_tasks:
-> > +                bb.event.disable_threadlock()
-> >                  bb.event.fire(bb.event.ProcessFinished(msg), d)
-> >
-> >
->
-> This patch series somehow breaks the build in weird ways, typically:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/3789
->
-> i.e. the sdk-update from an eSDK somehow fails to get sstate objects from=
- the
-> network. Michael and I spent hours trying to figure out what was breaking
-> things and whether this was an infrastructure issue with sstate or not :(=
-.
->
-> I dropped this series and builds look much happier. I think this patch
-> isn't correct as the threadlock isn't guarding against just progress
-> events, it guards against any events from threads. There are debug messag=
-es
-> in the code which turn into events too. As such, when threads are in use,
-> the lock is needed.
->
-> I therefore suspect it is this change that breaks things in weird ways
-> but I haven't confirmed that.
->
-> Cheers,
->
-> Richard
->
-
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
