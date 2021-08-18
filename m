@@ -1,104 +1,358 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web09.59620.1629315241438905637
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web09.60242.1629317880343551260
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 12:34:01 -0700
+ Wed, 18 Aug 2021 13:18:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eGMYuGr5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id q10so5237668wro.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 12:34:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XVvfNLbO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f180.google.com with SMTP id m21so4466642qkm.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 13:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=RJLCFUKOjy4eU2IkZeGQFSlN3ankvXdhgERr8MoqZd4=;
-        b=eGMYuGr5e420rwH8Yccheh+jYnq8WGfiLsrKaGh2MLgbmIehDodOrDOnjxTk76AiSn
-         BCdSmnXujsGcSCbRKd9KxyW1Fvmwn+VWZI53+mnex46r7ORqv0IawZnsu2Sbji+VHCad
-         1ioIKfXsv7KPugFdH4dfB2c/fNufVTUp18ujc=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sikocR8+ry0NxCExWm8V10BR8Ae2CA5uJGUFKz4Z6KU=;
+        b=XVvfNLbOFgUQFXNSRiTICukjrMBNtI1qWyDr92f9/pPnlUrnKzoCrKvRmj2RTwJ13h
+         JS/uAMddCjqMjZCzGJgOk8YUl4lSka1V8rVKStYmqjzE/bqQWFiG90ns/kPsKe+Cd/lf
+         PV76uX+Klgfovj/4Jwu5xQvT08in+UnWmJX8o4KOrH4EIHreaGq5WIWmZ/UkCOdVVFRz
+         RQHdfvUbW2SO4pK84OtQB3J4s9Br/UFK1UhwiR7fG8d072RnLEIxThS4FRrKgpLyjhGT
+         jharuxBbAbNyL9ihc9vbSyrT+sgfFwUnS++WDR5I9W2f4x5989rA15+ZqL7XmF/+lXDA
+         8ziQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=RJLCFUKOjy4eU2IkZeGQFSlN3ankvXdhgERr8MoqZd4=;
-        b=jG1LoI36eWALFKLSCUUeR1eAYuiYm3vqDBYmQTtQpNhGV2/TJ3Fs28nOWONkjrHzZ+
-         IV/4eN65BIQK3vH21X5bA+7xMdbC0GCgW3Epnyl4bh2C0Ksn32/YPBRlasz2WiBHNy0p
-         IWWqN+FO5vycPCjJBfomYCB8JT409mYFjNNDCVghU3ygWMSgvpi24dfB+FO3yHe/H4oY
-         kNB83ruBPz4DlA4ek0P8LOF57T+1OA13j8FaFZqhLGP6v8rwyIKJl2uR/3sMmVfWbD0V
-         0ZQps+tXqdDaKFlyg01l0G5e+RFYmrt9ytlXILY5tCUpAvKcoGZ7HW+UClReaM3X/sB/
-         ElwA==
-X-Gm-Message-State: AOAM531SbrWn45a44f/8wzqei5WT0AStIX3IkynicKvpVL+dbPF73/vi
-	XSEc/+LfDb41g8D30MDVaMEa8A==
-X-Google-Smtp-Source: ABdhPJzcgtsrpMOh2nRm1TO2XwOMqgPioG8XM6MME3ImIGhuBZNILjwaBpuIOsAI8Plg/Re2CRRo/g==
-X-Received: by 2002:adf:f6ca:: with SMTP id y10mr12831556wrp.218.1629315239859;
-        Wed, 18 Aug 2021 12:33:59 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2? ([2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2])
-        by smtp.gmail.com with ESMTPSA id o8sm3680003wmq.21.2021.08.18.12.33.59
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sikocR8+ry0NxCExWm8V10BR8Ae2CA5uJGUFKz4Z6KU=;
+        b=mtHJlUAUMHmdtCgidfsYa7gCxTkpQliNTwBqlhl3el1Bjfkz2/oWmBLDuib5KHk1zD
+         GFrCydCRjTEu6vS++w7LzhbclIhTLuoxyrpmH0y9gFP8CFj2INisgo0z5KgnPnaJaxWa
+         hpclQMQt6aorfqVjGNdznbjBd8sJbAnUiAAJ0ov2XbvsBypXXPwE+G0CGUQKL82/UZKE
+         VdTJ3/8DoI8Uuq6A4y+UElOjSs7mmeaFQ7E3hhNldYkBUmiporqMnuPmgrwnNvU1Gegu
+         oxizpbrxMtu6WdQpqpiBT34sB1wWzxq5HRv+PZ4QfHK/infyGa//jq4d/YXiq9vtgScx
+         zzvw==
+X-Gm-Message-State: AOAM531Bm1qnk23Ji/iDp4F3pfRyF/prW93itDkHNgsjmpjLxPfGfaL7
+	XWac51LaMJKSxCeMpx2Xy6vfDPmDZX37QA==
+X-Google-Smtp-Source: ABdhPJxZ9+nXD+iBEz6Dvzneq5+ojvnYHnqQ1V8KxwVSiBc2UquKwii5zt7sYVnKYWWXAfwsz6EKNQ==
+X-Received: by 2002:a05:620a:b0f:: with SMTP id t15mr80688qkg.352.1629317879048;
+        Wed, 18 Aug 2021 13:17:59 -0700 (PDT)
+Return-Path: <twoerner@gmail.com>
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id u189sm464887qkh.14.2021.08.18.13.17.58
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 12:33:59 -0700 (PDT)
-Message-ID: <20aae4083e94dc9706e83c5ecdd95348c710b4bb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 3/4] sstate.bbclass: get the number of threads from BB_NUMBER_THREADS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 18 Aug 2021 20:33:58 +0100
-In-Reply-To: <20210818162404.130067-3-quaresma.jose@gmail.com>
-References: <20210818162404.130067-1-quaresma.jose@gmail.com>
-	 <20210818162404.130067-3-quaresma.jose@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        Wed, 18 Aug 2021 13:17:58 -0700 (PDT)
+From: "Trevor Woerner" <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC WIP][PATCH] add two zram IMAGE_FEATUREs
+Date: Wed, 18 Aug 2021 16:17:51 -0400
+Message-Id: <20210818201751.27985-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.30.0.rc0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-08-18 at 17:24 +0100, Jose Quaresma wrote:
-> - bitbake BB_NUMBER_THREADS uses cpu_count from oe utils that uses
-> the python os.sched_getaffinity and it is more acurrate.
-> 
->  grep -nH ^BB_NUMBER_THREADS meta/conf/bitbake.conf
->  meta/conf/bitbake.conf:806:BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
-> 
-> - multiprocessing.cpu_count() returns the number of CPUs on the host,
-> not the number of usable CPUs on the host. If the user is using
-> scheduler affinity then the number of usable CPUs may be less,
-> so when determining how many cores we can use check the affinity instead.
-> 
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> ---
->  meta/classes/sstate.bbclass | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index c3c145e7f3..bc14b5e264 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -964,13 +964,12 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
->              tasklist.append((tid, sstatefile))
->  
-> 
-> 
-> 
->          if tasklist:
-> +            nproc = min(d.getVar("BB_NUMBER_THREADS"), len(tasklist))
-> +
->              if len(tasklist) >= min_tasks:
->                  msg = "Checking sstate mirror object availability"
->                  bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
->  
-> 
-> 
-> 
-> -            import multiprocessing
-> -            nproc = min(multiprocessing.cpu_count(), len(tasklist))
-> -
->              bb.event.enable_threadlock()
->              pool = oe.utils.ThreadedPool(nproc, len(tasklist),
->                      worker_init=checkstatus_init, worker_end=checkstatus_end)
+The zram kernel module creates RAM-based block devices named /dev/zram<id>
+(<id> = 0, 1, ...). Pages written to these disks are compressed and stored
+in memory itself. These disks allow very fast I/O and compression provides
+good amounts of memory savings. Some of the use cases include /tmp storage,
+use as swap disks, various caches under /var and maybe many more.
 
+If the user wants to switch from using uncompressed tmpfs to compressed
+zram-based in-RAM temporary filesystems then add "zram-tmpfs" to
+IMAGE_FEATURES. Currently the base install uses tmpfs filesystems for /run and
+/var/volatile. By default the /run filesystem will be 10MiB in size and the
+/var/volatile (which holds /tmp, among others) will be 30MiB in size. The
+following variables can be tweaked to adjust these sizes:
+	ZRAM_RUN_SIZE
+	ZRAM_TMP_SIZE
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/3825/steps/17/logs/stdio
+If the user wants to enable an in-RAM, compressed, zram-backed SWAP for
+their system, simply add "zram-swap" to IMAGE_FEATURES. The size of the swap
+will be based on a percentage of the total system RAM which the user can
+adjust by modifying the following variable:
+	ZRAM_SWAP_PERCENT
 
-Cheers,
+By default ZRAM_SWAP_PERCENT is set to "100" which means the initial SWAP size
+will be the same size as the total system RAM.
 
-Richard
+The kernel provides several compression algorithms from which the user can
+choose. By default the "lzo-rle" compression is used, but the user can modify
+the following variable to choose from any one of the other available
+compression algorithms:
+	ZRAM_ALGORITHM
 
+Currently the set of available compression algorithms include:
+	lzo
+	lzo-rle
+	lz4
+	lz4hc
+	842
+	zstd
+
+!!!NOTE!!!
+this is a WIP patch submitted for RFC
+this patch only works, currently, with sysvinit
+but I wanted to get feedback on the general approach before tackling systemd
+
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/classes/core-image.bbclass               |  4 ++
+ meta/classes/image.bbclass                    |  2 +-
+ meta/classes/rootfs-postcommands.bbclass      | 35 +++++++++++++++++
+ .../initscripts/initscripts-1.0/mountall.sh   | 27 ++++++++++++-
+ .../packagegroup-core-zram-swap.bb            | 10 +++++
+ .../packagegroup-core-zram-tmpfs.bb           |  9 +++++
+ .../sysvinit/sysvinit/rcS-default             |  8 ++++
+ meta/recipes-core/sysvinit/sysvinit_2.99.bb   | 38 ++++++++++++++++++-
+ meta/recipes-kernel/linux/linux-yocto.inc     |  2 +
+ 9 files changed, 131 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-zram-swap.bb
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-zram-tmpfs.bb
+
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 84fd3eeb38..ed6184d11c 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -39,6 +39,8 @@
+ # - read-only-rootfs    - tweaks an image to support read-only rootfs
+ # - stateless-rootfs    - systemctl-native not run, image populated by systemd at runtime
+ # - splash              - bootup splash screen
++# - zram-tmpfs          - use a zram disk for temporary filesystems instead of tmpfs
++# - zram-swap           - use a zram-backed swap
+ #
+ FEATURE_PACKAGES_weston = "packagegroup-core-weston"
+ FEATURE_PACKAGES_x11 = "packagegroup-core-x11"
+@@ -53,6 +55,8 @@ FEATURE_PACKAGES_nfs-server = "packagegroup-core-nfs-server"
+ FEATURE_PACKAGES_nfs-client = "packagegroup-core-nfs-client"
+ FEATURE_PACKAGES_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
+ FEATURE_PACKAGES_ssh-server-openssh = "packagegroup-core-ssh-openssh"
++FEATURE_PACKAGES_zram-tmpfs = "packagegroup-core-zram-tmpfs"
++FEATURE_PACKAGES_zram-swap = "packagegroup-core-zram-swap"
+ FEATURE_PACKAGES_hwcodecs = "${MACHINE_HWCODECS}"
+ 
+ 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index d76895178f..57178baace 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -33,7 +33,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ # IMAGE_FEATURES may contain any available package group
+ IMAGE_FEATURES ?= ""
+ IMAGE_FEATURES[type] = "list"
+-IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs read-only-rootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging"
++IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs read-only-rootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging zram-tmpfs zram-swap"
+ 
+ # Generate companion debugfs?
+ IMAGE_GEN_DEBUGFS ?= "0"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index c5746eba13..a1e00aeebc 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -17,6 +17,12 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
+ # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+ 
++# Use zram for temporary filesystems instead of tmpfs
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "zram-tmpfs", "zram_tmpfs_hook; ", "",d)}'
++
++# Use a zram-backed swap
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "zram-swap", "zram_swap_hook; ", "",d)}'
++
+ # We also need to do the same for the kernel boot parameters,
+ # otherwise kernel or initramfs end up mounting the rootfs read/write
+ # (the default) if supported by the underlying storage.
+@@ -143,6 +149,35 @@ read_only_rootfs_hook () {
+ 	fi
+ }
+ 
++#
++# A hook function to support zram-tmpfs IMAGE_FEATURES
++#
++zram_tmpfs_hook () {
++	# Remove tmpfs entries from fstab
++	if [ -f ${IMAGE_ROOTFS}/etc/fstab ]; then
++		sed -n -i -e '/tmpfs/!p' ${IMAGE_ROOTFS}/etc/fstab
++	fi
++
++	# Enable zram when sysvinit is used
++	if ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
++		if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
++			sed -i 's/USE_ZRAM_TMPFS=no/USE_ZRAM_TMPFS=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
++		fi
++	fi
++}
++
++#
++# A hook function to support using a zram-backed swap
++#
++zram_swap_hook () {
++	# Enable zram when sysvinit is used
++	if ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
++		if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
++			sed -i 's/USE_ZRAM_SWAP=no/USE_ZRAM_SWAP=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
++		fi
++	fi
++}
++
+ #
+ # This function is intended to disallow empty root password if 'debug-tweaks' is not in IMAGE_FEATURES.
+ #
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
+index 2839d57cbe..996709bce6 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
+@@ -35,11 +35,36 @@ if [ ! -p "$INITCTL" ] && [ "${INIT_SYSTEM}" = "sysvinit" ]; then
+ 		[ -n "$PID" ] && kill -s USR1 "$PID"
+ fi
+ 
++# If the user wants to use zram tmpfs
++# create and mount those now
++if [ "$USE_ZRAM_TMPFS"z = "yes"z ]; then
++	ZDEVICE=$(zramctl -f -s ${ZRAM_TMP_SIZE}MiB -a ${ZRAM_ALGORITHM})
++	if [ $? -eq 0 ]; then
++		mkfs.ext2 $ZDEVICE
++		mount $ZDEVICE /var/volatile
++	fi
++	ZDEVICE=$(zramctl -f -s ${ZRAM_RUN_SIZE}MiB -a ${ZRAM_ALGORITHM})
++	if [ $? -eq 0 ]; then
++		mkfs.ext2 $ZDEVICE
++		mount $ZDEVICE /run
++	fi
++fi
++
+ #
+ # Execute swapon command again, in case we want to swap to
+ # a file on a now mounted filesystem.
+ #
+-[ -x /sbin/swapon ] && swapon -a
++if [ "$USE_ZRAM_SWAP"z = "yes"z ]; then
++	MEMTOTAL=$(grep MemTotal /proc/meminfo | awk ' { print $2 } ')
++	MEMZRAM=$((${MEMTOTAL}*${ZRAM_SWAP_PERCENT}/100))
++	ZDEVICE=$(zramctl -f -s ${MEMZRAM}KiB -a ${ZRAM_ALGORITHM})
++	if [ $? -eq 0 ]; then
++		mkswap -L "zram-swap" $ZDEVICE
++		swapon -p 100 $ZDEVICE
++	fi
++else
++	[ -x /sbin/swapon ] && swapon -a
++fi
+ 
+ : exit 0
+ 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-zram-swap.bb b/meta/recipes-core/packagegroups/packagegroup-core-zram-swap.bb
+new file mode 100644
+index 0000000000..fa6da61b47
+--- /dev/null
++++ b/meta/recipes-core/packagegroups/packagegroup-core-zram-swap.bb
+@@ -0,0 +1,10 @@
++SUMMARY = "Use zram-backed swap"
++PR = "r1"
++
++inherit packagegroup
++
++RDEPENDS:${PN} = " \
++	util-linux-zramctl \
++	util-linux-swaponoff \
++	util-linux-mkswap \
++	"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-zram-tmpfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-zram-tmpfs.bb
+new file mode 100644
+index 0000000000..84b6642340
+--- /dev/null
++++ b/meta/recipes-core/packagegroups/packagegroup-core-zram-tmpfs.bb
+@@ -0,0 +1,9 @@
++SUMMARY = "Use zram for temporary directories instead of tmpfs"
++PR = "r1"
++
++inherit packagegroup
++
++RDEPENDS:${PN} = " \
++	util-linux-zramctl \
++	e2fsprogs-mke2fs \
++	"
+diff --git a/meta/recipes-core/sysvinit/sysvinit/rcS-default b/meta/recipes-core/sysvinit/sysvinit/rcS-default
+index f7c4a2f841..91739183d9 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/rcS-default
++++ b/meta/recipes-core/sysvinit/sysvinit/rcS-default
+@@ -34,3 +34,11 @@ INIT_SYSTEM=sysvinit
+ PSPLASH_FIFO_DIR=/mnt
+ # psplash textual updates knob
+ PSPLASH_TEXT_UPDATES=#PSPLASH_TEXT#
++# zram
++# zram can be used for swap or tmp filesystems (or both)
++ZRAM_ALGORITHM=#ZRAM_ALGORITHM#
++USE_ZRAM_SWAP=#USE_ZRAM_SWAP#
++ZRAM_SWAP_PERCENT=#ZRAM_SWAP_PERCENT#
++USE_ZRAM_TMPFS=#USE_ZRAM_TMPFS#
++ZRAM_TMP_SIZE=#ZRAM_TMP_SIZE#
++ZRAM_RUN_SIZE=#ZRAM_RUN_SIZE#
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.99.bb b/meta/recipes-core/sysvinit/sysvinit_2.99.bb
+index 9ba9652f94..3a7be5f100 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.99.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.99.bb
+@@ -83,6 +83,34 @@ EXTRA_OEMAKE += "'base_bindir=${base_bindir}' \
+ 		 'mandir=${mandir}' \
+                  MNTPOINT=yes"
+ 
++# zram defaults (if enabled in IMAGE_FEATURES)
++# choose one of: lzo lzo-rle lz4 lz4hc 842 zstd (depending on your kernel config)
++ZRAM_ALGORITHM ?= "lzo-rle"
++# swap size as a percentage of total RAM
++ZRAM_SWAP_PERCENT ?= "100"
++# size of /tmp in MiB
++ZRAM_TMP_SIZE ?= "30"
++# size of /run in MiB
++ZRAM_RUN_SIZE ?= "10"
++python __anonymous() {
++    imagefeatures = (d.getVar("IMAGE_FEATURES") or "")
++
++    d.setVar("USE_ZRAM_SWAP", "no")
++    if 'zram-swap' in imagefeatures:
++        swappercent = (d.getVar("ZRAM_SWAP_PERCENT") or "")
++        if int(swappercent) <= 0:
++            bb.error("ZRAM_SWAP_PERCENT must be greater than 0")
++        d.setVar("USE_ZRAM_SWAP", "yes")
++
++    d.setVar("USE_ZRAM_TMPFS", "no")
++    if 'zram-tmpfs' in imagefeatures:
++        valid_algorithms = ['lzo', 'lzo-rle', 'lz4', 'lz4hc', '842', 'zstd']
++        algorithm = (d.getVar("ZRAM_ALGORITHM") or "")
++        if algorithm not in valid_algorithms:
++            bb.error("ZRAM_ALGORITHM must be one of: %s" % valid_algorithms)
++        d.setVar("USE_ZRAM_TMPFS", "yes")
++}
++
+ do_install () {
+ 	oe_runmake 'ROOT=${D}' install
+ 
+@@ -93,8 +121,14 @@ do_install () {
+ 		install -d ${D}${sysconfdir}/rc$level.d
+ 	done
+ 
+-	sed -e \
+-		's:#PSPLASH_TEXT#:${@bb.utils.contains("PACKAGECONFIG","psplash-text-updates","yes","no", d)}:g' \
++	sed \
++		-e 's:#PSPLASH_TEXT#:${@bb.utils.contains("PACKAGECONFIG","psplash-text-updates","yes","no", d)}:g' \
++		-e 's:#ZRAM_ALGORITHM#:${ZRAM_ALGORITHM}:g' \
++		-e 's:#USE_ZRAM_SWAP#:${USE_ZRAM_SWAP}:g' \
++		-e 's:#ZRAM_SWAP_PERCENT#:${ZRAM_SWAP_PERCENT}:g' \
++		-e 's:#USE_ZRAM_TMPFS#:${USE_ZRAM_TMPFS}:g' \
++		-e 's:#ZRAM_TMP_SIZE#:${ZRAM_TMP_SIZE}:g' \
++		-e 's:#ZRAM_RUN_SIZE#:${ZRAM_RUN_SIZE}:g' \
+ 		${WORKDIR}/rcS-default > ${D}${sysconfdir}/default/rcS
+ 	chmod 0644 ${D}${sysconfdir}/default/rcS
+ 	install -m 0755    ${WORKDIR}/rc		${D}${sysconfdir}/init.d
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 331727d62c..66aa8df4a3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -35,6 +35,8 @@ KERNEL_FEATURES:append:qemuall=" features/debug/printk.scc"
+ 
+ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains('IMAGE_FEATURES', 'zram-tmpfs', 'features/zram/zram.scc', '', d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains('IMAGE_FEATURES', 'zram-swap', 'features/zram/zram.scc', '', d)}"
+ 
+ # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+ # by the kernel. This is typically the branch that should be built,
+-- 
+2.30.0.rc0
 
