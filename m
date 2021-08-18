@@ -1,71 +1,123 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.57674.1629305436106905920
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web08.57334.1629305436364591391
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Aug 2021 09:50:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NE6YaIau;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id r7so4619178wrs.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 09:50:35 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bD5kq2US;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id u16so4531516wrn.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 09:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QVPJ+aLHv926aeatY5eJn95qKME9exhcq4I4lci1+JQ=;
-        b=NE6YaIauPVEMX4fIum9MJiUAF0rnL/MrzAltW/XgCor6hGy7SxhFzicZj+HXVRV+6L
-         Ux2EuIChGpg3qLR00KYEoCVrI5TvBYsJXttIn5401xOZ+6kdtNUqoe01FBTWLwWLV9qv
-         NJ+l3NfcKxne9aLfoL6cTPH9FRE2eTlF5nuLk=
+        bh=4lmrhF5oLS8Pw4fPJXtKpo+VlUMn7zz6+s5wRfDuV14=;
+        b=bD5kq2USl0U8LNSO+OLfrYxwofd42Au7DWyO6Dyllg/CTIl7xua10qHz750iofYp5T
+         47XN52pEEy5LIcO2Y9FShJ1eWfAdpvdXDPAv4HosCwQWxR0RvQNcbrFhNhIWbOjQVgjX
+         Qr4jX30qPyBl7L2dWla1iqf2u+6FtCj42fKpk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QVPJ+aLHv926aeatY5eJn95qKME9exhcq4I4lci1+JQ=;
-        b=jUpORzZiVMyI7D6EGvBhjrcqHPquaG/8UctI0Qg1IXKYrmYAb5+8M+rHI9a/VBCBfP
-         7lxH3ha660dY5rTykOREFEr619brY44HxVk+9sTZ1U6oz369PcH8ILXu3n+hI169hLen
-         Qeo5qx4VoRId3EVSn8uxU9CBytw+XyKRQQM7qsPoFGFzPiZ7vx4SzA00gTr1gBkeKI6g
-         xez/HpQmg3y4twXt7FrBoptBHobl1HP4K0e6JkzRA3hVVI1yjv+jmfNwnuUT+jJwf6bY
-         teAM3CthB5ePRG+H9/bFEH6iIZ65gXvZmleoC9yElNgtSNX55Wd+32Tdb3oo2M1fz3jf
-         ojdQ==
-X-Gm-Message-State: AOAM532qGJqfgLy5ZwDQqLYsChT+bsxcpjGuWN53HLRxdJJHoWvubZDB
-	Xz52SA+Z3EUA9ss1RjP7OBEqj5qb43fGCQ==
-X-Google-Smtp-Source: ABdhPJyIY3Y44AChdyY9tYJTXove3HJW1Lv88YGN5Z865FgZARb1YIxVBfXA6NjOKpkciQKnPxL2LQ==
-X-Received: by 2002:adf:fa82:: with SMTP id h2mr11389229wrr.129.1629305434317;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4lmrhF5oLS8Pw4fPJXtKpo+VlUMn7zz6+s5wRfDuV14=;
+        b=eN07GojmePUOKq5is2dbmezGBPDaLWGRP+CedgKAZd7IRerr5tC+5MRY8mgWr1e6OE
+         mSTf0FUVQI1OAcITgpK4ycvvHS5Uodmp7TSVu1i2a+df49DBxP4LNBOcZwE7knAjRR5X
+         EOX6ExiTyf+XzGceXjySqumIQaTC5imjjom9CREHiav0tAFfoiWDlLlL4tPMLMpe8EUQ
+         BfM1GQ3/m12VNtJUxMmP1VU/1hNvis5dmDQQGuIIcEQEpltHn0jj320i9hy2RWmwrrF1
+         UswWSy4FqXeXZOvoOWl8UHdvsachxIPzBUZJO1IbGqmsKYgRewcI4TJI2yRD2PDYk8hk
+         sf0Q==
+X-Gm-Message-State: AOAM532XFnOEMkE76dZhse1Z/7wa4Lrog6lR4Q6GAo6dGlBxmNkPZ0wQ
+	TEbSFyBXJ/CG1Io9EejHRE3yps4aRPo2hA==
+X-Google-Smtp-Source: ABdhPJxF1Ws4Sx+05jaCuzFRfWEoHwdP5NUnvn524ruiFeQoqozp0ex3lziVpgkrWkA9u5c9f5TSlw==
+X-Received: by 2002:a05:6000:25a:: with SMTP id m26mr11888957wrz.262.1629305434684;
         Wed, 18 Aug 2021 09:50:34 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2])
-        by smtp.gmail.com with ESMTPSA id z126sm343363wmc.11.2021.08.18.09.50.33
+        by smtp.gmail.com with ESMTPSA id z126sm343363wmc.11.2021.08.18.09.50.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 18 Aug 2021 09:50:34 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/5] glibc-package.inc: Fix builds of pseudo with glibc 2.34
-Date: Wed, 18 Aug 2021 17:50:29 +0100
-Message-Id: <20210818165033.3935964-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/5] gcc: Fix nativesdk builds and multilib fixes with gcc 11
+Date: Wed, 18 Aug 2021 17:50:30 +0100
+Message-Id: <20210818165033.3935964-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210818165033.3935964-1-richard.purdie@linuxfoundation.org>
+References: <20210818165033.3935964-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the same dynamic link tweak for libdl as without this, we have issues
-building/using pseudo in mixed glibc/libdl environments.
+In newer gcc versions the headers changed locations and our multiconfig
+and nativesdk tweaks to loader paths wasn't working. The broke
+buildtools-extended-tarball, particularly on arm. Update to fix this.
+
+Ultimately we should dump the gcc specs and check for hardcoded paths.
+This isn't possible quite yet as this patch doesn't fix the musl ones
+as we don't use that in mutlilib or nativesdk scenarios at present.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 1 +
- 1 file changed, 1 insertion(+)
+ .../gcc/gcc-multilib-config.inc               | 24 ++++++++++++-------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 56fbf8b08ce..a320c40dc8f 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -122,6 +122,7 @@ do_install() {
- 	fi
-         lnr ${D}${base_libdir}/libpthread.so.0 ${D}${libdir}/libpthread.so
-         lnr ${D}${base_libdir}/librt.so.1 ${D}${libdir}/librt.so
-+        lnr ${D}${base_libdir}/libdl.so.2 ${D}${libdir}/libdl.so
- }
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index e90580d1cdb..33bcbbfa246 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -31,7 +31,9 @@ python gcc_multilib_setup() {
+                 '%s/*/linux64.h' % src_conf_dir,
+                 '%s/aarch64/t-aarch64' % src_conf_dir,
+                 '%s/aarch64/aarch64.h' % src_conf_dir,
++                '%s/aarch64/aarch64-linux.h' % src_conf_dir,
+                 '%s/aarch64/aarch64-cores.def' % src_conf_dir,
++                '%s/arm/linux-eabi.h' % src_conf_dir,
+                 '%s/*/linux.h' % src_conf_dir,
+                 '%s/linux.h' % src_conf_dir)
  
- def get_libc_fpu_setting(bb, d):
+@@ -102,6 +104,8 @@ python gcc_multilib_setup() {
+                         r'\1' + wrap_libdir(libdir64) + r'\3'),
+                     (r'^(#define\s*GLIBC_DYNAMIC_LINKER64\s*\"\S+\"\s*)(\S+)(\s*\"\S+\"\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdir64) + r'\3' + wrap_libdir(libdir64) + r'\5'),
++                    (r'^(#define\s*GLIBC_DYNAMIC_LINKER\b\s*)(\S+)(\s*\".*\")$',
++                        r'\1' + wrap_libdir(libdir32) + r'\3'),
+                     (r'^(#define\s*GLIBC_DYNAMIC_LINKERX32\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdirx32) + r'\3'),
+                     (r'^(#define\s*GLIBC_DYNAMIC_LINKERN32\s*)(\S+)(\s*\".*\")$',
+@@ -112,6 +116,8 @@ python gcc_multilib_setup() {
+                         r'\1' + wrap_libdir(libdir64) + r'\3'),
+                     (r'^(#define\s*UCLIBC_DYNAMIC_LINKERN32\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdirn32) + r'\3'),
++                    (r'^(#define\s*UCLIBC_DYNAMIC_LINKERX32\s*)(\S+)(\s*\".*\")$',
++                        r'\1' + wrap_libdir(libdirx32) + r'\3'),
+                     (r'^(#define\s*UCLIBC_DYNAMIC_LINKER\b\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdir32) + r'\3'),
+                 ]
+@@ -138,15 +144,15 @@ python gcc_multilib_setup() {
+     }
+ 
+     gcc_header_config_files = {
+-        'x86_64'    : ['gcc/config/i386/linux64.h'],
+-        'i586'      : ['gcc/config/i386/linux64.h'],
+-        'i686'      : ['gcc/config/i386/linux64.h'],
+-        'mips'      : ['gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
+-        'mips64'    : ['gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
+-        'powerpc'   : ['gcc/config/rs6000/linux64.h'],
+-        'powerpc64' : ['gcc/config/rs6000/linux64.h'],
+-        'aarch64'   : ['gcc/config/aarch64/aarch64.h'],
+-        'arm'       : ['gcc/config/aarch64/aarch64.h'],
++        'x86_64'    : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
++        'i586'      : ['gcc/config/linux.h', 'gcc/config/i386/linux.h', 'gcc/config/i386/linux64.h'],
++        'i686'      : ['gcc/config/linux.h', 'gcc/config/i386/linux64.h'],
++        'mips'      : ['gcc/config/linux.h', 'gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
++        'mips64'    : ['gcc/config/linux.h', 'gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
++        'powerpc'   : ['gcc/config/linux.h', 'gcc/config/rs6000/linux64.h'],
++        'powerpc64' : ['gcc/config/linux.h', 'gcc/config/rs6000/linux64.h'],
++        'aarch64'   : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
++        'arm'       : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
+     }
+ 
+     libdir32 = 'SYSTEMLIBS_DIR'
 -- 
 2.30.2
 
