@@ -1,94 +1,92 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.56951.1629303862649719398
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.57281.1629303863529616293
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Aug 2021 09:24:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=s6NdPmWu;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id h24-20020a1ccc180000b029022e0571d1a0so2139819wmb.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 09:24:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AySuPUJO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id w21-20020a7bc1150000b02902e69ba66ce6so2162282wmi.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 09:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uML2BmQSPou2mFLItAhP12pLqacyeEPDtH96oDc7xJc=;
-        b=s6NdPmWu60ENpAn9x/7IU14wJ/F9li/bw3N4s9A8lhXKVPLAeZkiTUsEA8W846eY4A
-         mzhvfkd0KgeqxLg6LSTBP58oC6+mQgf7ADi9Jcq3j456DOvzkn26oOs5gcZHq5LWvehT
-         cMT7kJ0xI2gM98Z3xL9vHqEVLrJPMwZZJ51HvnTPPZ8p+NjFi9lfo7Xgi0n+dM3qobuw
-         eirIPat3UBETawqQfPIc9n2H3NQGa+RfiOmKBtnYqVoOImGln6NBWhnF/UmAC6jE4AK1
-         nphfI5YHoNZxyCDpKB1jJPH+WSpcMN66cqw0jLi4AIq0jYwSig5hqdAeggpmzJJMHhjW
-         Cwqg==
+        bh=VOkcPtrbmC4xKDTaBY1bKhtEtcVqxRnVT9fosri2p+A=;
+        b=AySuPUJOb8A5/QIifu+s8ccwSaoJjjoYNBRxXvwvolWpgbQIen1AZU4GEpJlKmoT+I
+         jIdfIZGP9+IDiWf1nUGrcAZK+Cg7yETPHB0dW75T+NOJPp934gqETRQ7Fl4ksQAZ0hKK
+         4wyUc4fK5E3Vkxx1ER5mJTobPnln/0UJ3HleosrF0ki7zwIcICF56u+5IqLJ4RwV/KDI
+         lYYOvVztT+3ZpEo4Wtf78v4a1v+miRyD9UHo4WePxgbpxrp8P0OeXC8OI1FD2Me1Lolt
+         GgwLu2ikw5Ga0hDtjwKMPDo8j2HRxz2zkleZW7UYfzg5/EYCNgdKA4GuoynhHRSKsPMJ
+         P8Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uML2BmQSPou2mFLItAhP12pLqacyeEPDtH96oDc7xJc=;
-        b=gPcyFBxCF/Jb92s+JgF6GIASZOj7BgDavWxc1GV6up5R9BUk0DUMRX4y2LYabYSbtW
-         1IhXfTWKxtub0LkdlfETOxU2cslE7xViTjGTzKot4Rm7JTi1oNaeDTYAlUM2QLhI4p66
-         1lzZGgVcHcMczk9TqlFRHiW0v2nZm1Am0B88m58aDJH1k77pz357+oLEzF908sFIrCCI
-         tewfKvzPYrQrt4m5zMkjjJf8VI9v98lA9f1+OHS9hU0PEIc5mqJKXtlZ/9bwQCKeyLlL
-         wdVMCoHEaO6C8v+ogHf653Fr/tppFw+nClwzMVQQzuNgw5qBen/s4Z6aqS6lBTb92Bhx
-         86Kw==
-X-Gm-Message-State: AOAM533CI0/le//X2cKhi4LutRyubBe7tNwBwAnJIls+hVyVioP35PyI
-	yzosZLLKSoOtO/ndsGhmL81/5CaEraA=
-X-Google-Smtp-Source: ABdhPJw48bEoiGpOAs5I1gDJVvY/dWM7ZMwOOqSivLTeovVxtdqpLbZnsWBEHBBYk/u+KRsJY8Ojxw==
-X-Received: by 2002:a7b:c8cd:: with SMTP id f13mr9396119wml.6.1629303861083;
+        bh=VOkcPtrbmC4xKDTaBY1bKhtEtcVqxRnVT9fosri2p+A=;
+        b=bTE3ewHBIMwLdL3RFbTO55x5CU6aooVtkp+hDNxEbPrc7JnnGBDxISBDy1rBAyp1PJ
+         JzIwdfgrZnDoacWgmX1yOH4NjvNT6/JUGIzALeLZdFscRtooQANUZY2xtcKv6cB0AM4M
+         COTgz5KfFHKBMOllrs/D0Yh9BTLnMJkTQRHMDkH+X8AmR50YRI4ssGF0Z1mIx6mOuWWF
+         o3kfz/o76HHKHvFZc0n0+in+TZY+tw9n2+5gxNFJjiwdWy7nOZU0DFRuDOa7WzG9l2s6
+         A0OdB/rCdHAUq0v8crZtze/Msf7mOGrfzAQbg4PyQqew+PU7Jvzr25tmictt9tD/4pgZ
+         JLyA==
+X-Gm-Message-State: AOAM533ksWW4wQzesJumqzhnVDO+ECezoo2LU03NDacjaZ2eep89FF68
+	eQceOznJ8jBvykcjuSFc65wC1VrRKMA=
+X-Google-Smtp-Source: ABdhPJwsA7k5MpO9MxhpvFH/bemKzuT/XIzL72/f42kuW6yMh1bSl9v2uhrMlfuU7rnNQWFBhCgqTw==
+X-Received: by 2002:a7b:c8d7:: with SMTP id f23mr4152928wml.127.1629303861898;
         Wed, 18 Aug 2021 09:24:21 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id g35sm6086688wmp.9.2021.08.18.09.24.20
+        by smtp.gmail.com with ESMTPSA id g35sm6086688wmp.9.2021.08.18.09.24.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 09:24:20 -0700 (PDT)
+        Wed, 18 Aug 2021 09:24:21 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v3 2/4] sstate.bbclass: only search on the mirrors for the missing files
-Date: Wed, 18 Aug 2021 17:24:02 +0100
-Message-Id: <20210818162404.130067-2-quaresma.jose@gmail.com>
+Subject: [PATCH v3 3/4] sstate.bbclass: get the number of threads from BB_NUMBER_THREADS
+Date: Wed, 18 Aug 2021 17:24:03 +0100
+Message-Id: <20210818162404.130067-3-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210818162404.130067-1-quaresma.jose@gmail.com>
 References: <20210818162404.130067-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On the first search we found some files on the local sstate cache.
-The missing files are know as well when this step finish.
-When we have sstate mirrors we don't need to iterate all files again
-because we already know what's missing.
+- bitbake BB_NUMBER_THREADS uses cpu_count from oe utils that uses
+the python os.sched_getaffinity and it is more acurrate.
+
+ grep -nH ^BB_NUMBER_THREADS meta/conf/bitbake.conf
+ meta/conf/bitbake.conf:806:BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
+
+- multiprocessing.cpu_count() returns the number of CPUs on the host,
+not the number of usable CPUs on the host. If the user is using
+scheduler affinity then the number of usable CPUs may be less,
+so when determining how many cores we can use check the affinity instead.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/classes/sstate.bbclass | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ meta/classes/sstate.bbclass | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 2575750247..c3c145e7f3 100644
+index c3c145e7f3..bc14b5e264 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -949,11 +949,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
-                 foundMirrors += 1
-                 found.add(tid)
--
--                if tid in missed:
--                    missed.remove(tid)
-+                missed.remove(tid)
-             except:
--                missed.add(tid)
-                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
-                 pass
-             if len(tasklist) >= min_tasks:
-@@ -961,9 +958,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
- 
-         tasklist = []
-         min_tasks = 100
--        for tid in sq_data['hash']:
--            if tid in found:
--                continue
-+        for tid in missed:
-             spec, extrapath, tname = getpathcomponents(tid, d)
-             sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), tname, siginfo, d))
+@@ -964,13 +964,12 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
              tasklist.append((tid, sstatefile))
+ 
+         if tasklist:
++            nproc = min(d.getVar("BB_NUMBER_THREADS"), len(tasklist))
++
+             if len(tasklist) >= min_tasks:
+                 msg = "Checking sstate mirror object availability"
+                 bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
+ 
+-            import multiprocessing
+-            nproc = min(multiprocessing.cpu_count(), len(tasklist))
+-
+             bb.event.enable_threadlock()
+             pool = oe.utils.ThreadedPool(nproc, len(tasklist),
+                     worker_init=checkstatus_init, worker_end=checkstatus_end)
 -- 
 2.32.0
 
