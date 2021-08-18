@@ -1,115 +1,104 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.57706.1629307068444936937
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.59620.1629315241438905637
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 10:17:48 -0700
+ Wed, 18 Aug 2021 12:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=qIB4p09k;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
-Received: from abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net (unknown [20.94.235.175])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8D6D420C321B;
-	Wed, 18 Aug 2021 10:17:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8D6D420C321B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1629307067;
-	bh=fL8ossnpJHvPIsIZXmi7vleOAfLJVARCjH9REMLgb0s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=qIB4p09keLx1+TX4P6XtVClg70wA2N7bk3RCgi8MiPwgYnMV2zXa9a8U7N+s0x+u9
-	 uK8ElFfooikAlWDj6NnMgIb0IAraYxDqyyedFC9vtUxdW0G0N7Z37XVJ2e15dSk/sg
-	 kQV2vl/d6GmoAQraMM918fKdhQNxFKy2T8dPCTqI=
-From: "Andres Beltran" <abeltran@linux.microsoft.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andres Beltran <abeltran@linux.microsoft.com>
-Subject: [PATCH] buildhistory: Label packages providing per-file dependencies in depends.dot
-Date: Wed, 18 Aug 2021 17:17:26 +0000
-Message-Id: <20210818171726.11101-1-abeltran@linux.microsoft.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eGMYuGr5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id q10so5237668wro.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 12:34:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=RJLCFUKOjy4eU2IkZeGQFSlN3ankvXdhgERr8MoqZd4=;
+        b=eGMYuGr5e420rwH8Yccheh+jYnq8WGfiLsrKaGh2MLgbmIehDodOrDOnjxTk76AiSn
+         BCdSmnXujsGcSCbRKd9KxyW1Fvmwn+VWZI53+mnex46r7ORqv0IawZnsu2Sbji+VHCad
+         1ioIKfXsv7KPugFdH4dfB2c/fNufVTUp18ujc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=RJLCFUKOjy4eU2IkZeGQFSlN3ankvXdhgERr8MoqZd4=;
+        b=jG1LoI36eWALFKLSCUUeR1eAYuiYm3vqDBYmQTtQpNhGV2/TJ3Fs28nOWONkjrHzZ+
+         IV/4eN65BIQK3vH21X5bA+7xMdbC0GCgW3Epnyl4bh2C0Ksn32/YPBRlasz2WiBHNy0p
+         IWWqN+FO5vycPCjJBfomYCB8JT409mYFjNNDCVghU3ygWMSgvpi24dfB+FO3yHe/H4oY
+         kNB83ruBPz4DlA4ek0P8LOF57T+1OA13j8FaFZqhLGP6v8rwyIKJl2uR/3sMmVfWbD0V
+         0ZQps+tXqdDaKFlyg01l0G5e+RFYmrt9ytlXILY5tCUpAvKcoGZ7HW+UClReaM3X/sB/
+         ElwA==
+X-Gm-Message-State: AOAM531SbrWn45a44f/8wzqei5WT0AStIX3IkynicKvpVL+dbPF73/vi
+	XSEc/+LfDb41g8D30MDVaMEa8A==
+X-Google-Smtp-Source: ABdhPJzcgtsrpMOh2nRm1TO2XwOMqgPioG8XM6MME3ImIGhuBZNILjwaBpuIOsAI8Plg/Re2CRRo/g==
+X-Received: by 2002:adf:f6ca:: with SMTP id y10mr12831556wrp.218.1629315239859;
+        Wed, 18 Aug 2021 12:33:59 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2? ([2001:8b0:aba:5f3c:2c5b:67f4:375e:5ae2])
+        by smtp.gmail.com with ESMTPSA id o8sm3680003wmq.21.2021.08.18.12.33.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 12:33:59 -0700 (PDT)
+Message-ID: <20aae4083e94dc9706e83c5ecdd95348c710b4bb.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 3/4] sstate.bbclass: get the number of threads from BB_NUMBER_THREADS
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 18 Aug 2021 20:33:58 +0100
+In-Reply-To: <20210818162404.130067-3-quaresma.jose@gmail.com>
+References: <20210818162404.130067-1-quaresma.jose@gmail.com>
+	 <20210818162404.130067-3-quaresma.jose@gmail.com>
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Currently, depends.dot includes per-file dependencies but not the packages
-providing those files. This makes it hard to obtain all package
-dependencies by just looking at depends.dot.
+On Wed, 2021-08-18 at 17:24 +0100, Jose Quaresma wrote:
+> - bitbake BB_NUMBER_THREADS uses cpu_count from oe utils that uses
+> the python os.sched_getaffinity and it is more acurrate.
+> 
+>  grep -nH ^BB_NUMBER_THREADS meta/conf/bitbake.conf
+>  meta/conf/bitbake.conf:806:BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
+> 
+> - multiprocessing.cpu_count() returns the number of CPUs on the host,
+> not the number of usable CPUs on the host. If the user is using
+> scheduler affinity then the number of usable CPUs may be less,
+> so when determining how many cores we can use check the affinity instead.
+> 
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  meta/classes/sstate.bbclass | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index c3c145e7f3..bc14b5e264 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -964,13 +964,12 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+>              tasklist.append((tid, sstatefile))
+>  
+> 
+> 
+> 
+>          if tasklist:
+> +            nproc = min(d.getVar("BB_NUMBER_THREADS"), len(tasklist))
+> +
+>              if len(tasklist) >= min_tasks:
+>                  msg = "Checking sstate mirror object availability"
+>                  bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
+>  
+> 
+> 
+> 
+> -            import multiprocessing
+> -            nproc = min(multiprocessing.cpu_count(), len(tasklist))
+> -
+>              bb.event.enable_threadlock()
+>              pool = oe.utils.ThreadedPool(nproc, len(tasklist),
+>                      worker_init=checkstatus_init, worker_end=checkstatus_end)
 
-Parse the RPROVIDES and FILERPROVIDES fields from pkgdata to map each of
-their values to the package providing the component. Include runtime
-packages as dependencies in depends.dot, together with the component
-provided by the package as a label.
 
-Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
----
- meta/classes/buildhistory.bbclass |  4 +++-
- meta/lib/oe/utils.py              | 29 +++++++++++++++++++++++++++--
- 2 files changed, 30 insertions(+), 3 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/3825/steps/17/logs/stdio
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 8a1359acbe..9ec48a879a 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -438,7 +438,7 @@ def buildhistory_list_installed(d, rootfs_type="image"):
-         output_file_full = os.path.join(d.getVar('WORKDIR'), output_file)
- 
-         with open(output_file_full, 'w') as output:
--            output.write(format_pkg_list(pkgs, output_type))
-+            output.write(format_pkg_list(pkgs, output_type, d.getVar('PKGDATA_DIR')))
- 
- python buildhistory_list_installed_image() {
-     buildhistory_list_installed(d)
-@@ -479,6 +479,8 @@ buildhistory_get_installed() {
- 	       -e 's:|: -> :' \
- 	       -e 's:"\[REC\]":[style=dotted]:' \
- 	       -e 's:"\([<>=]\+\)" "\([^"]*\)":[label="\1 \2"]:' \
-+	       -e 's:"\([*]\+\)" "\([^"]*\)":[label="\2"]:' \
-+	       -e 's:"\[RPROVIDES\]":[style=dashed]:' \
- 		$1/depends.tmp
- 	# Add header, sorted and de-duped contents and footer and then delete the temp file
- 	printf "digraph depends {\n    node [shape=plaintext]\n" > $1/depends.dot
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 83d298906b..0f3dfd644d 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -345,7 +345,26 @@ def squashspaces(string):
-     import re
-     return re.sub(r"\s+", " ", string).strip()
- 
--def format_pkg_list(pkg_dict, ret_format=None):
-+def rprovides_map(pkgdata_dir, pkg_dict):
-+    # Map file -> pkg provider
-+    rprov_map = {}
-+
-+    for pkg in pkg_dict:
-+        with open(os.path.join(pkgdata_dir, 'runtime-reverse', pkg)) as f:
-+            for line in f:
-+                if line.startswith('RPROVIDES') or line.startswith('FILERPROVIDES'):
-+                    # List all components provided by pkg.
-+                    # Exclude version strings, i.e. those starting with (
-+                    provides = [x for x in line.split()[1:] if not x.startswith('(')]
-+                    for prov in provides:
-+                        if prov in rprov_map:
-+                            rprov_map[prov].append(pkg)
-+                        else:
-+                            rprov_map[prov] = [pkg]
-+
-+    return rprov_map
-+
-+def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
-     output = []
- 
-     if ret_format == "arch":
-@@ -358,9 +377,15 @@ def format_pkg_list(pkg_dict, ret_format=None):
-         for pkg in sorted(pkg_dict):
-             output.append("%s %s %s" % (pkg, pkg_dict[pkg]["arch"], pkg_dict[pkg]["ver"]))
-     elif ret_format == "deps":
-+        rprov_map = rprovides_map(pkgdata_dir, pkg_dict)
-         for pkg in sorted(pkg_dict):
-             for dep in pkg_dict[pkg]["deps"]:
--                output.append("%s|%s" % (pkg, dep))
-+                if dep in rprov_map:
-+                    # There could be multiple providers within the image
-+                    for pkg_provider in rprov_map[dep]:
-+                        output.append("%s|%s * %s [RPROVIDES]" % (pkg, pkg_provider, dep))
-+                else:
-+                    output.append("%s|%s" % (pkg, dep))
-     else:
-         for pkg in sorted(pkg_dict):
-             output.append(pkg)
--- 
-2.17.1
+Cheers,
+
+Richard
+
 
