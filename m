@@ -1,438 +1,129 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web09.74183.1629400161598057283
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.web12.74644.1629400166454112312
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 12:09:21 -0700
+ Thu, 19 Aug 2021 12:09:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=JpmZolvC;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f173.google.com with SMTP id bd1so9877560oib.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 12:09:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jU/f67e7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.45, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f45.google.com with SMTP id r17-20020a0568302371b0290504f3f418fbso9939034oth.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 12:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=XIdIkqW649Gv0NRtjlSUjU3k0wMvFItnB3bb0x+YywM=;
-        b=JpmZolvChwm5+q4Vzzpz/3jIHt2OCDE/CXT37xqqnlb466Ok7wwmJn1UHrYr/TNkjJ
-         O8vNk0OpKXC9actChEaPOoW3slsJMpMwHTmV+kGy8oB8kq4XbGQAbfanIeaEJ5/ugl6q
-         z+ugCW0gfxUutj8dblU4jXqNvsOmnyJUWIRcUJsMootqSl7/s/mIStY/b8rxouAZuigJ
-         UcaGqGJWImqlHvLd6dODuq4vgDen0/0kdgz5tDSJsMy4suCgJIjj5grqNomiFqn02nNT
-         aDJwfFx5DgAzEcvbwL3RSFTQWQDRHZm6pEmG7MPIjusDGc7ms4VO02jZA6EnPQWyrnU8
-         csyA==
+        bh=NTdFc8aFyO4nZv6i1+TMhvHXrj1rMbjG+Xu7UtZyQK8=;
+        b=jU/f67e7gv245bYbzTeoNpGTBuglytJF/MSrXNhfiIHU4VFF91XZtjCp3zqp8TRXxU
+         ABJ3nr4GYyLmdczdgE4KD1OqI1e95sSxcKyxFBGK+pdDWesqyWvyKAjPyC4QhXiZ9qLl
+         kCmAOun0+A34E/zXQgY7MCuzlfZGPIEvC0gRMguNIe7uXhpunRYmYSky0pwxyTVL2MUu
+         IOUcavF6GKEL8Doj9J0ahv1SF0i4p/h7gslRVgSVtVKwW07H2rc7CJF8coB8ilYtZMEp
+         kGONWN5wlMycDt0Fpi8JCnGPKM+RTMiOGm4ltcKRNnxh1fA2Lsg0U+eAO9seje4l3abR
+         SxiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XIdIkqW649Gv0NRtjlSUjU3k0wMvFItnB3bb0x+YywM=;
-        b=tCcHl7hstMVwCIhl2a/EFk8fK+KOJRGonc4E8omJq+65nUq6frQNaIwwKXa3JMNs/l
-         7h57z87XREf8EAIjNU928o2kryDDaC+L18THJ7QmRHioElij8E3AKil4Fltsq0NHMGWK
-         ubsmZuA8aHd935GiID+52k9s6y2kW07hOIuXchxnX+kUagTpQD1RaDbO4xwottt1EySO
-         fypOnhvxXk7fGSiHTRO3nQIdJTv4V7+1MkR2Cpf3xlYHXHDyrgQV3ePEJTghmbPOT5Us
-         sqUvvdzJXSsgGRkwDqntED01xqyzt145kwP3dVFCX4icIapTBhkTZ95KuMYX5RD6t2TC
-         +anQ==
-X-Gm-Message-State: AOAM530hgODfeGQGoKSVIjw7y6FCjeFQjUr9v+M+dEiwdhDmYrNB3+ol
-	orCNa1c8jmlyiPUiejLjGoNBj3dBimnD9ZA6
-X-Google-Smtp-Source: ABdhPJxPmDJIDVZ8d/pWM5ApdNL7r3OtIZTsWjYoQ31M9pGDDyrEKaFead6AwMnu28CHNa7jMOWstw==
-X-Received: by 2002:a05:6808:14cf:: with SMTP id f15mr171470oiw.145.1629400160396;
-        Thu, 19 Aug 2021 12:09:20 -0700 (PDT)
+        bh=NTdFc8aFyO4nZv6i1+TMhvHXrj1rMbjG+Xu7UtZyQK8=;
+        b=IyZDeA7cgeelWl0OBjzfWKYNr2WdTYpSOnNvzurQfzRCvlu0oPADeEWTrwcIJnaw7e
+         ne8nqqn0/y/4rC1qTleg1cekK3J0wUuIBNwc6H7fRsZRJsXQLJJqCVTBAphhtel3OirR
+         glJ5dOO13MLri8L0I6QWOhmUykWLIYqNp3R9T2FhQZCoSfFsW0yY7m9X57lXxXAn+WD1
+         ygHajC1Zj6hvfpxOt9VFQtlRU/Ajvi0/4LYYMZ4sWZSdJozSFsql2q37hnQ8W2EUSLUe
+         WxvqYYpnAf8dgt8EwbRB+bxiAMWFhehO9IhiV02VrZuVfmFRtguqVz5MsOGm9JIb/oux
+         i7tg==
+X-Gm-Message-State: AOAM531keDTqW4GwMstwJEZx04Dk2dZaSzPIFWaBOndrCfbFTuRpWq5T
+	zFS1Rtt+S9VEfN2wb4y0hKPf+BGAM8ihAklC
+X-Google-Smtp-Source: ABdhPJwDCtVMCLRBXPb2K0CaNfa0pHsBUlfLH/HZSH31MJweB9lzrpcmvXD+R/cxHLCFH/3FQhOfJg==
+X-Received: by 2002:a9d:5603:: with SMTP id e3mr13174824oti.178.1629400165419;
+        Thu, 19 Aug 2021 12:09:25 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s10sm765080oog.14.2021.08.19.12.09.16
+        by smtp.gmail.com with ESMTPSA id s10sm765080oog.14.2021.08.19.12.09.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 12:09:19 -0700 (PDT)
+        Thu, 19 Aug 2021 12:09:24 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/12] python3: Remove unused python3 recipe
-Date: Thu, 19 Aug 2021 09:08:00 -1000
-Message-Id: <2b44de6e7b3e02b78e2b09294ac37799ad4cfadb.1629399953.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/12] linux-firmware: add more Qualcomm firmware packages
+Date: Thu, 19 Aug 2021 09:08:01 -1000
+Message-Id: <bfce637144302fa7dd7f31a63a736b05eb62203b.1629399953.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1629399953.git.steve@sakoman.com>
 References: <cover.1629399953.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Currently in dunfell branch python3 version is 3.8.11.
-so, python3_3.8.10.bb is not needed.
-Hence, removed.
+Add firmware packages for the recent Qualcomm SoCs:
 
-Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+ - linux-firmware-qcom-adreno-a650, linux-firmware-qcom-adreno-a660,
+   containing firmware for Adreno A630 and A650 GPUs
+
+ - linux-firmware-qcom-sm8250-audio, linux-firmware-sm8250-compute,
+   containing firmware for audio and comute DSPs on SM8250 (QRB5165)
+
+ - linux-firmware-qcom-vpu-1.0, linux-firmware-qcom-vpu-2.0 containing
+   firmware for newer Venus video encoder/decoder
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 31057a9d41a452bdb9e94b4160220f675332ef70)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../recipes-devtools/python/python3_3.8.10.bb | 363 ------------------
- 1 file changed, 363 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3_3.8.10.bb
+ .../linux-firmware/linux-firmware_20210511.bb   | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3_3.8.10.bb b/meta/recipes-devtools/python/python3_3.8.10.bb
-deleted file mode 100644
-index 7295c6320e..0000000000
---- a/meta/recipes-devtools/python/python3_3.8.10.bb
-+++ /dev/null
-@@ -1,363 +0,0 @@
--SUMMARY = "The Python Programming Language"
--HOMEPAGE = "http://www.python.org"
--DESCRIPTION = "Python is a programming language that lets you work more quickly and integrate your systems more effectively."
--LICENSE = "PSF-2.0 & BSD-0-Clause"
--SECTION = "devel/python"
--
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c22d2438294c784731bf9dd224a467b7"
--
--SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
--           file://run-ptest \
--           file://create_manifest3.py \
--           file://get_module_deps3.py \
--           file://python3-manifest.json \
--           file://check_build_completeness.py \
--           file://cgi_py.patch \
--           file://0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch \
--           ${@bb.utils.contains('PACKAGECONFIG', 'tk', '', 'file://avoid_warning_about_tkinter.patch', d)} \
--           file://0001-Do-not-use-the-shell-version-of-python-config-that-w.patch \
--           file://python-config.patch \
--           file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch \
--           file://0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch \
--           file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch \
--           file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
--           file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
--           file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
--           file://crosspythonpath.patch \
--           file://reformat_sysconfig.py \
--           file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
--           file://0001-test_locale.py-correct-the-test-output-format.patch \
--           file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
--           file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
--           file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
--           file://0001-configure.ac-fix-LIBPL.patch \
--           file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
--           file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
--           file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch \
--           "
--
--SRC_URI_append_class-native = " \
--           file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
--           file://12-distutils-prefix-is-inside-staging-area.patch \
--           file://0001-Don-t-search-system-for-headers-libraries.patch \
--           "
--
--SRC_URI[md5sum] = "d9eee4b20155553830a2025e4dcaa7b3"
--SRC_URI[sha256sum] = "6af24a66093dd840bcccf371d4044a3027e655cf24591ce26e48022bc79219d9"
--
--# exclude pre-releases for both python 2.x and 3.x
--UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
--
--CVE_PRODUCT = "python"
--
--# Upstream consider this expected behaviour
--CVE_CHECK_WHITELIST += "CVE-2007-4559"
--# This is not exploitable when glibc has CVE-2016-10739 fixed.
--CVE_CHECK_WHITELIST += "CVE-2019-18348"
--
--# This is windows only issue.
--CVE_CHECK_WHITELIST += "CVE-2020-15523"
--
--PYTHON_MAJMIN = "3.8"
--
--S = "${WORKDIR}/Python-${PV}"
--
--BBCLASSEXTEND = "native nativesdk"
--
--inherit autotools pkgconfig qemu ptest multilib_header update-alternatives
--
--MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
--
--ALTERNATIVE_${PN}-dev = "python3-config"
--ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config"
--ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
--
--
--DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2 autoconf-archive"
--DEPENDS_append_class-target = " python3-native"
--DEPENDS_append_class-nativesdk = " python3-native"
--
--EXTRA_OECONF = " --without-ensurepip --enable-shared"
--EXTRA_OECONF_append_class-native = " --bindir=${bindir}/${PN}"
--
--export CROSSPYTHONPATH="${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/"
--
--EXTRANATIVEPATH += "python3-native"
--
--CACHED_CONFIGUREVARS = " \
--                ac_cv_file__dev_ptmx=yes \
--                ac_cv_file__dev_ptc=no \
--                ac_cv_working_tzset=yes \
--"
--python() {
--    # PGO currently causes builds to not be reproducible, so disable it for
--    # now. See YOCTO #13407
--    if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d) and d.getVar('BUILD_REPRODUCIBLE_BINARIES') != '1':
--        d.setVar('PACKAGECONFIG_PGO', 'pgo')
--    else:
--        d.setVar('PACKAGECONFIG_PGO', '')
--}
--
--PACKAGECONFIG_class-target ??= "readline ${PACKAGECONFIG_PGO} gdbm"
--PACKAGECONFIG_class-native ??= "readline gdbm"
--PACKAGECONFIG_class-nativesdk ??= "readline gdbm"
--PACKAGECONFIG[readline] = ",,readline"
--# Use profile guided optimisation by running PyBench inside qemu-user
--PACKAGECONFIG[pgo] = "--enable-optimizations,,qemu-native"
--PACKAGECONFIG[tk] = ",,tk"
--PACKAGECONFIG[gdbm] = ",,gdbm"
--
--do_configure_prepend () {
--    mkdir -p ${B}/Modules
--    cat > ${B}/Modules/Setup.local << EOF
--*disabled*
--${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '_gdbm _dbm', d)}
--${@bb.utils.contains('PACKAGECONFIG', 'readline', '', 'readline', d)}
--EOF
--}
--
--CPPFLAGS_append = " -I${STAGING_INCDIR}/ncursesw -I${STAGING_INCDIR}/uuid"
--
--EXTRA_OEMAKE = '\
--  STAGING_LIBDIR=${STAGING_LIBDIR} \
--  STAGING_INCDIR=${STAGING_INCDIR} \
--  LIB=${baselib} \
--'
--
--do_compile_prepend_class-target() {
--       if ${@bb.utils.contains('PACKAGECONFIG', 'pgo', 'true', 'false', d)}; then
--                qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_TARGET}', ['${B}', '${STAGING_DIR_TARGET}/${base_libdir}'])}"
--                cat >pgo-wrapper <<EOF
--#!/bin/sh
--cd ${B}
--$qemu_binary "\$@"
--EOF
--                chmod +x pgo-wrapper
--        fi
--}
--
--do_install_prepend() {
--        ${WORKDIR}/check_build_completeness.py ${T}/log.do_compile
--}
--
--do_install_append_class-target() {
--        oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
--}
--
--do_install_append_class-native() {
--        # Make sure we use /usr/bin/env python
--        for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
--                sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
--        done
--        # Add a symlink to the native Python so that scripts can just invoke
--        # "nativepython" and get the right one without needing absolute paths
--        # (these often end up too long for the #! parser in the kernel as the
--        # buffer is 128 bytes long).
--        ln -s python3-native/python3 ${D}${bindir}/nativepython3
--}
--
--do_install_append() {
--        mkdir -p ${D}${libdir}/python-sysconfigdata
--        sysconfigfile=`find ${D} -name _sysconfig*.py`
--        cp $sysconfigfile ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
--
--        sed -i  \
--                -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
--                -e "s,^ 'INCLUDEDIR'.*, 'INCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
--                -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
--                -e "/^ 'INCLDIRSTOMAKE'/{N; s,/usr/include,${STAGING_INCDIR},g}" \
--                -e "/^ 'INCLUDEPY'/s,/usr/include,${STAGING_INCDIR},g" \
--                ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
--}
--
--do_install_append_class-nativesdk () {
--    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
--}
--
--SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
--PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
--
--py_package_preprocess () {
--        # Remove references to buildmachine paths in target Makefile and _sysconfigdata
--        sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
--                -e 's|${DEBUG_PREFIX_MAP}||g' \
--                -e 's:${HOSTTOOLS_DIR}/::g' \
--                -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
--                -e 's:${RECIPE_SYSROOT}::g' \
--                -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
--                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile \
--                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py \
--                ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
--
--        # Reformat _sysconfigdata after modifying it so that it remains
--        # reproducible
--        for c in ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
--            python3 ${WORKDIR}/reformat_sysconfig.py $c
--        done
--
--        # Recompile _sysconfigdata after modifying it
--        cd ${PKGD}
--        sysconfigfile=`find . -name _sysconfigdata_*.py`
--        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
--             -c "from py_compile import compile; compile('$sysconfigfile')"
--        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
--             -c "from py_compile import compile; compile('$sysconfigfile', optimize=1)"
--        ${STAGING_BINDIR_NATIVE}/python3-native/python3 \
--             -c "from py_compile import compile; compile('$sysconfigfile', optimize=2)"
--        cd -
--
--        mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
--        
--        #Remove the unneeded copy of target sysconfig data
--        rm -rf ${PKGD}/${libdir}/python-sysconfigdata
--}
--
--# We want bytecode precompiled .py files (.pyc's) by default
--# but the user may set it on their own conf
--INCLUDE_PYCS ?= "1"
--
--python(){
--    import collections, json
--
--    filename = os.path.join(d.getVar('THISDIR'), 'python3', 'python3-manifest.json')
--    # This python changes the datastore based on the contents of a file, so mark
--    # that dependency.
--    bb.parse.mark_dependency(d, filename)
--
--    with open(filename) as manifest_file:
--        manifest_str =  manifest_file.read()
--        json_start = manifest_str.find('# EOC') + 6
--        manifest_file.seek(json_start)
--        manifest_str = manifest_file.read()
--        python_manifest = json.loads(manifest_str, object_pairs_hook=collections.OrderedDict)
--
--    # First set RPROVIDES for -native case
--    # Hardcoded since it cant be python3-native-foo, should be python3-foo-native
--    pn = 'python3'
--    rprovides = d.getVar('RPROVIDES').split()
--
--    # ${PN}-misc-native is not in the manifest
--    rprovides.append(pn + '-misc-native')
--
--    for key in python_manifest:
--        pypackage = pn + '-' + key + '-native'
--        if pypackage not in rprovides:
--              rprovides.append(pypackage)
--
--    d.setVar('RPROVIDES_class-native', ' '.join(rprovides))
--
--    # Then work on the target
--    include_pycs = d.getVar('INCLUDE_PYCS')
--
--    packages = d.getVar('PACKAGES').split()
--    pn = d.getVar('PN')
--
--    newpackages=[]
--    for key in python_manifest:
--        pypackage = pn + '-' + key
--
--        if pypackage not in packages:
--            # We need to prepend, otherwise python-misc gets everything
--            # so we use a new variable
--            newpackages.append(pypackage)
--
--        # "Build" python's manifest FILES, RDEPENDS and SUMMARY
--        d.setVar('FILES_' + pypackage, '')
--        for value in python_manifest[key]['files']:
--            d.appendVar('FILES_' + pypackage, ' ' + value)
--
--        # Add cached files
--        if include_pycs == '1':
--            for value in python_manifest[key]['cached']:
--                    d.appendVar('FILES_' + pypackage, ' ' + value)
--
--        for value in python_manifest[key]['rdepends']:
--            # Make it work with or without $PN
--            if '${PN}' in value:
--                value=value.split('-', 1)[1]
--            d.appendVar('RDEPENDS_' + pypackage, ' ' + pn + '-' + value)
--
--        for value in python_manifest[key].get('rrecommends', ()):
--            if '${PN}' in value:
--                value=value.split('-', 1)[1]
--            d.appendVar('RRECOMMENDS_' + pypackage, ' ' + pn + '-' + value)
--
--        d.setVar('SUMMARY_' + pypackage, python_manifest[key]['summary'])
--
--    # Prepending so to avoid python-misc getting everything
--    packages = newpackages + packages
--    d.setVar('PACKAGES', ' '.join(packages))
--    d.setVar('ALLOW_EMPTY_${PN}-modules', '1')
--    d.setVar('ALLOW_EMPTY_${PN}-pkgutil', '1')
--}
--
--# Files needed to create a new manifest
--
--do_create_manifest() {
--    # This task should be run with every new release of Python.
--    # We must ensure that PACKAGECONFIG enables everything when creating
--    # a new manifest, this is to base our new manifest on a complete
--    # native python build, containing all dependencies, otherwise the task
--    # wont be able to find the required files.
--    # e.g. BerkeleyDB is an optional build dependency so it may or may not
--    # be present, we must ensure it is.
--
--    cd ${WORKDIR}
--    # This needs to be executed by python-native and NOT by HOST's python
--    nativepython3 create_manifest3.py ${PYTHON_MAJMIN}
--    cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.json
--}
--
--# bitbake python -c create_manifest
--# Make sure we have native python ready when we create a new manifest
--addtask do_create_manifest after do_patch do_prepare_recipe_sysroot
--
--# manual dependency additions
--RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
--RRECOMMENDS_${PN}-crypt_append_class-target = " openssl ca-certificates"
--RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
--
--# For historical reasons PN is empty and provided by python3-modules
--FILES_${PN} = ""
--RPROVIDES_${PN}-modules = "${PN}"
--
--FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
--FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
--
--# provide python-pyvenv from python3-venv
--RPROVIDES_${PN}-venv += "python3-pyvenv"
--
--# package libpython3
--PACKAGES =+ "libpython3 libpython3-staticdev"
--FILES_libpython3 = "${libdir}/libpython*.so.*"
--FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
--INSANE_SKIP_${PN}-dev += "dev-elf"
--INSANE_SKIP_${PN}-ptest += "dev-deps"
--
--# catch all the rest (unsorted)
--PACKAGES += "${PN}-misc"
--RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
--RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
--RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
--FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
--
--# catch manpage
--PACKAGES += "${PN}-man"
--FILES_${PN}-man = "${datadir}/man"
--
--# See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
--RDEPENDS_libpython3_append_libc-glibc = " libgcc"
--RDEPENDS_${PN}-ctypes_append_libc-glibc = " ${MLPREFIX}ldconfig"
--RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev unzip bzip2 libgcc tzdata-europe coreutils sed"
--RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
--RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
--RDEPENDS_${PN}-dev = ""
--
--RDEPENDS_${PN}-tests_append_class-target = " bash"
--RDEPENDS_${PN}-tests_append_class-nativesdk = " bash"
--
--# Python's tests contain large numbers of files we don't need in the recipe sysroots
--SYSROOT_PREPROCESS_FUNCS += " py3_sysroot_cleanup"
--py3_sysroot_cleanup () {
--	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
--}
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
+index 26091fba70..513932984e 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
+@@ -303,8 +303,11 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qat ${PN}-qat-license \
+              ${PN}-qcom-license \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
+-             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
++             ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
++             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
++             ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
+              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
++             ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+              ${PN}-lt9611uxc ${PN}-lontium-license \
+              ${PN}-whence-license \
+@@ -952,22 +955,34 @@ FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
+ FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
+ FILES_${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
+ FILES_${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
++FILES_${PN}-qcom-vpu-1.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-1.0/*"
++FILES_${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
+ FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
+ FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
+ FILES_${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
++FILES_${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
++FILES_${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
+ FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
+ FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
+ FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
++FILES_${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
++FILES_${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/cdsp*.*"
+ RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-vpu-1.0 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-vpu-2.0 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-sm8250-audio = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
+ 
+ FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
+ 
 -- 
 2.25.1
 
