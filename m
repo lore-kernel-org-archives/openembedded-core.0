@@ -1,119 +1,128 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web12.74627.1629400103347341837
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web09.74172.1629400110560301176
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 12:08:23 -0700
+ Thu, 19 Aug 2021 12:08:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=0DZFN/x8;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.178, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f178.google.com with SMTP id w6so9811475oiv.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 12:08:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gjqbjLQB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.176, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f176.google.com with SMTP id o185so9795212oih.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 12:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=gQuexsbJTsHX2GBbr0yuDWKSlcwfch3yyYae1Zn/HPg=;
-        b=0DZFN/x8ZRx/AXvLcp1bxg4YbehpvRg1naWOAPDjklYUofsowQAfwKOBHrNC3GMwg7
-         5kkk9o/qUU8k00zv4hrZ8m1Yuk70pT3H5oBhKPegB07qaElkJcwxpY3R81iBYxs++uuL
-         xIV9uhSC2WayF+zbRW1QrBWMFWoo/D1vDIQu9wPlGl425LW01g44uxjRbEWxcfoSd6e9
-         PAaNKa3nbu4HpvIfjEx8sdGcq1Re/wd4GiBXUG2iUBcJM3nW932V9Z8gOfpSDiGNeOHy
-         6pLHC/AJzseGbYBDUXVcl47WIYF4TOFkzFcDhAC5BkpmWyGsxbL50SVq8w+/g8daJDGA
-         /hkw==
+        bh=rV2PZZdUA+ptW5XRQ+7HqXLKuQyIAZapd1RcWJbS/SY=;
+        b=gjqbjLQBcI0Mv5ZlTq4RsyL8aBfPzArooL6UY0g66wPb0iEc9TEEZkHjcCl/EbAe5g
+         sNvkjG5f2yEXGdkO8PsSlzvZTGqV8Ahtg7v8UjAXg6C6ASDxI7Zqn5Ttzs9nuvx8YWF4
+         IuOBqsy5Y0jgnv8l5FXca/wpEg88poIhqdaDfMDr0U+soDixV011JRDe+zIrMd3xNJOt
+         bnwz/lbAJ1517pPgi69jjc46ZWNR8JyRgsHXjWDvw1CldHr0krpQ22hly+GRAMIwF3A6
+         ty0MshTWfaT2e/taDAvloE4FAY1pKuL82TgZcb3RXnPtR/qcwm8XHkLbzI6VZwYKh5oi
+         GCTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gQuexsbJTsHX2GBbr0yuDWKSlcwfch3yyYae1Zn/HPg=;
-        b=noF8IM8FBMoc2lGs6yhk4zyfBs89vOuN9nw98BBKX1RxVrcqSIz8K6F6/FTfkkVtB0
-         CtaAk76aWhYdM3zubfGrF8O9/fTxtlfwIfa80s+Eg0SqQ+X2x/DKYWvpRrFSOJvGfhnI
-         86KjbXI/ZoJiDky0ycUO5UodidJ4W5G7yFUvQvf9P264LOl2gj0xG3Pr74G3etYV3QA2
-         VmAoBZCeUPqw4hixlzYoMz+mKnLC4YLBRfST9IBtH0SZJQLPWAWssTtgR3cFe6+UC4JF
-         7dku7IDmc5mMRgxGvyLhtbLOP0tvbR5C0O1PxqJ3a8gNeB2Ezi6/0gpgMg6g5e0fnBCL
-         W9HA==
-X-Gm-Message-State: AOAM530k4Oz5hORrFfMZ3o8XQwi/acZ7j5bHcxxUxigXH0zh+WwM2KuC
-	IuHB2LoN2pCAt3qctnuuKFmGDNaZynaLvz+a
-X-Google-Smtp-Source: ABdhPJzvme/taaEcXqb8Mv/SK83j2UANHdWkwtEFymxN1/3w0HZ/Xj51oqGUWr1zHKq0g8HMo8E0Uw==
-X-Received: by 2002:aca:df88:: with SMTP id w130mr203230oig.82.1629400101921;
-        Thu, 19 Aug 2021 12:08:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rV2PZZdUA+ptW5XRQ+7HqXLKuQyIAZapd1RcWJbS/SY=;
+        b=BLclzKi0q1QSYm4SvtxkZfbrwRlA1NtBxp09RF2vaA4rgW4K836H/n1+HVXDdLYNun
+         MyHkMmEnEPNJo8BQEYt9A+TNeJROeBfOPio5tYSqUnylWrZHImH+d+fz5PDgTgi+0keS
+         SIQZey3tQEzct2cwaXyjk/hXO+/cxRmzOfi8AYDFyKgfNGaZ5O4YZqzfsztILVxzJeif
+         c9GGlbayVASAYkR8iqBIqlcRRq/fmKS9m4M2gOD5F1ktyearkw/V5Ueao9BZJWu8BQzx
+         4CqXIrXwQvviocuCT2NtfEYzf6CNHa4O4wKKNVBolrTv+kMH6tJhyeCNRn6nMKGMDiJ6
+         SakQ==
+X-Gm-Message-State: AOAM530mFOv0Ypw9meEShK/643f/QKzx0KrUxYfMNGdcoD+BM4pTx8jY
+	rVN9XPnOr7YK55BQaeFF7PUUVF+F0YU2q/6d
+X-Google-Smtp-Source: ABdhPJxW0ij45ge+6Es6l09mS5qRYo4cJqBkbcXVrpAkAOxaVKS9c95ePg0jSbxPmIdO69rxhBeJAA==
+X-Received: by 2002:a05:6808:d53:: with SMTP id w19mr172330oik.135.1629400109413;
+        Thu, 19 Aug 2021 12:08:29 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s10sm765080oog.14.2021.08.19.12.08.18
+        by smtp.gmail.com with ESMTPSA id s10sm765080oog.14.2021.08.19.12.08.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 12:08:21 -0700 (PDT)
+        Thu, 19 Aug 2021 12:08:28 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Patch review
-Date: Thu, 19 Aug 2021 09:07:50 -1000
-Message-Id: <cover.1629399953.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/12] util-linux: fix CVE-2021-37600
+Date: Thu, 19 Aug 2021 09:07:51 -1000
+Message-Id: <f1b1627cac303f5f9c07fc0e8f959c0675b8f3a7.1629399953.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1629399953.git.steve@sakoman.com>
+References: <cover.1629399953.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review this next set of patches for dunfell and have comments back by
-end of day Monday.
+From: Dragos-Marian Panait <dragos.panait@windriver.com>
 
-Passed a-full on autobuilder:
+sys-utils/ipcutils: be careful when call calloc() for uint64 nmembs
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2469
+Fix: #1395
+Signed-off-by: Karel Zak <kzak@redhat.com>
 
-The following changes since commit ce78c16409363741d59a2f787aca66077bec93cd:
+CVE: CVE-2021-37600
+Upstream-Status: Backport [1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c]
 
-  sstate.bbclass: fix error handling when sstate mirrors is ro (2021-08-16 04:41:07 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexandre Belloni (1):
-  oeqa/runtime/cases: make date.DateTest.test_date more reliable
-
-Bruce Ashfield (3):
-  linux-yocto/5.4: update to v5.4.137
-  linux-yocto/5.4: update to v5.4.139
-  linux-yocto/5.4: update to v5.4.141
-
-Dmitry Baryshkov (1):
-  linux-firmware: add more Qualcomm firmware packages
-
-Dragos-Marian Panait (1):
-  util-linux: fix CVE-2021-37600
-
-Khem Raj (1):
-  sdk: Enable do_populate_sdk with multilibs
-
-Purushottam Choudhary (1):
-  python3: Remove unused python3 recipe
-
-Richard Purdie (1):
-  oeqa/selftest/glibc: Handle incorrect encoding issuesin glibc test
-    results
-
-Ross Burton (2):
-  tar: ignore node-tar CVEs
-  ovmf: build natively everywhere
-
-hongxu (1):
-  sdk: fix relocate symlink failed
-
- meta/classes/multilib.bbclass                 |   1 -
- meta/classes/populate_sdk_base.bbclass        |   2 +-
- meta/files/toolchain-shar-relocate.sh         |   2 +-
- meta/lib/oeqa/runtime/cases/date.py           |   9 +-
- meta/lib/oeqa/selftest/cases/glibc.py         |   2 +-
- meta/recipes-core/ovmf/ovmf_git.bb            |   2 +-
- .../util-linux/CVE-2021-37600.patch           |  33 ++
- .../util-linux/util-linux_2.35.1.bb           |   1 +
- .../recipes-devtools/python/python3_3.8.10.bb | 363 ------------------
- meta/recipes-extended/tar/tar_1.32.bb         |   3 +
- .../linux-firmware/linux-firmware_20210511.bb |  17 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- 14 files changed, 79 insertions(+), 392 deletions(-)
+Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9822232b4abd811bb9c8562f98c0aefc748340a0)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../util-linux/CVE-2021-37600.patch           | 33 +++++++++++++++++++
+ .../util-linux/util-linux_2.35.1.bb           |  1 +
+ 2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
- delete mode 100644 meta/recipes-devtools/python/python3_3.8.10.bb
 
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch b/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
+new file mode 100644
+index 0000000000..2b306c435b
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
+@@ -0,0 +1,33 @@
++From 1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Tue, 27 Jul 2021 11:58:31 +0200
++Subject: [PATCH] sys-utils/ipcutils: be careful when call calloc() for uint64
++ nmembs
++
++Fix: https://github.com/karelzak/util-linux/issues/1395
++Signed-off-by: Karel Zak <kzak@redhat.com>
++
++CVE: CVE-2021-37600
++Upstream-Status: Backport [1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c]
++
++Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
++---
++ sys-utils/ipcutils.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sys-utils/ipcutils.c b/sys-utils/ipcutils.c
++index e784c4dcb..18868cfd3 100644
++--- a/sys-utils/ipcutils.c
+++++ b/sys-utils/ipcutils.c
++@@ -218,7 +218,7 @@ static void get_sem_elements(struct sem_data *p)
++ {
++ 	size_t i;
++ 
++-	if (!p || !p->sem_nsems || p->sem_perm.id < 0)
+++	if (!p || !p->sem_nsems || p->sem_nsems > SIZE_MAX || p->sem_perm.id < 0)
++ 		return;
++ 
++ 	p->elements = xcalloc(p->sem_nsems, sizeof(struct sem_elem));
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/util-linux/util-linux_2.35.1.bb b/meta/recipes-core/util-linux/util-linux_2.35.1.bb
+index 516b783887..731f0618eb 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.35.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.35.1.bb
+@@ -11,6 +11,7 @@ SRC_URI += "file://configure-sbindir.patch \
+             file://0001-libfdisk-script-accept-sector-size-ignore-unknown-he.patch \
+             file://0001-kill-include-sys-types.h-before-checking-SYS_pidfd_s.patch \
+             file://0001-include-cleanup-pidfd-inckudes.patch \
++            file://CVE-2021-37600.patch \
+ "
+ SRC_URI[md5sum] = "7f64882f631225f0295ca05080cee1bf"
+ SRC_URI[sha256sum] = "d9de3edd287366cd908e77677514b9387b22bc7b88f45b83e1922c3597f1d7f9"
 -- 
 2.25.1
 
