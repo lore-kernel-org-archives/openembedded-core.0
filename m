@@ -1,141 +1,161 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web09.72123.1629391243996970072
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web09.72297.1629391930231810236
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 09:40:44 -0700
+ Thu, 19 Aug 2021 09:52:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZBHWdffw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id u1so4240853wmm.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 09:40:43 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=WoWz6gRh;
+ spf=pass (domain: konsulko.com, ip: 209.85.219.50, mailfrom: scott.murray@konsulko.com)
+Received: by mail-qv1-f50.google.com with SMTP id u17so689142qvn.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 09:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=HpupNfQxZwcanHB6mxS06WatBN3wYM3LjTR75JVRH1U=;
-        b=ZBHWdffwQAYFovtoNglvJ7QNZeSPnIC18RH9xz25+ijkAScthbWgiG+2gpJTBuGEBN
-         ZYtzHaiT/oiVFPJUQBz9drAL1+Iy9czE/H08pInwQcCETosr4GMcr9sv7cPJ5mJB4JFc
-         7ZcTIb/7L+4wFt7zrIq2EizUWkth5VJkp+hDU=
+        d=konsulko.com; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ivhGhljoIsBHIzU62w8mh00d8IjOLokXcatQ9kefWwc=;
+        b=WoWz6gRhE27IXDmvHhJrGzgitQW+38XaweqKwWyo+o4kp/x3lDpzfQ15KAQUhD2LT2
+         TUNzbV/GtYEUTPTHYu4EmDzEX3dJajQIqPU+I3fesKcP+u1I7uiuJX3UNUEA1qR+iVVS
+         6acXNhuRtOsLrWJ1o0U581lxE3OkJYL6VSHoY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=HpupNfQxZwcanHB6mxS06WatBN3wYM3LjTR75JVRH1U=;
-        b=IfErhjqvpfflXhJ9BgK1Wh2o7JeYj09Kh2XbhKZdF35vSj5Yd+Dg2aumwFJnZD5jUr
-         aUlwvXJRtoA5DsGd/wINFTAv51yQva1I+DA8WA0EifpTToK+1XnkK0xl2wIbttGNEpM9
-         V1/XxD2+67ZB22g+vKgIXZzaC040Q2jB/G5QPpwuDFIr9+vqIGC+5Bn8OluHPtVhppOF
-         iAxitENNZq0p/5XUWTx2kH7lgiKrho5kHDEqP7VmSdVQhz/XNX8BVdSpyShKde/vwI4N
-         p2CSJnYi/GmHjnVJ+67ue8Pceud5/Akmm+L5+sHnnqydYgml2UNH8ZFvqWyOOvqYrauH
-         +BMQ==
-X-Gm-Message-State: AOAM533FfLoBNNTzleiEiOZ9wOatuV3ljVCEaJ9jCTD+3qvLyAXyTB+p
-	MtfRAe6HKzSoO8Xhd5Z/Imv04w==
-X-Google-Smtp-Source: ABdhPJylcvS9R0MI3sETvWnZ9qRL00hnbdMgh24sfCH89CRzhVYSSxS6nL6LYaltOP7/VV5UZi4pjw==
-X-Received: by 2002:a05:600c:511c:: with SMTP id o28mr9047488wms.135.1629391242319;
-        Thu, 19 Aug 2021 09:40:42 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:893b:b0d7:8112:9a58? ([2001:8b0:aba:5f3c:893b:b0d7:8112:9a58])
-        by smtp.gmail.com with ESMTPSA id c9sm3486789wrm.43.2021.08.19.09.40.41
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ivhGhljoIsBHIzU62w8mh00d8IjOLokXcatQ9kefWwc=;
+        b=c3/HXkTIBnaEFj9JyCi31Gk/NkSctRY/LLtBT4yai1DUplpRmx3V/Yim4quOMWLMZe
+         IK8ztovKgd3Dbk/CPa1OFcLaCnzPN5C5P8VH/Rbs2rdfZakBlzUtHECWBl+qRjcAlrOU
+         iQstyMRFqh24Jujn0dUmqvisLLvA+LHDw3lEYEYlTg06kB0bLSK1+MziK+idEAHsMvbC
+         HVg6+28+xXj4VXCx2Y0oPJjFeJLYCgIQnSbbf7Lo3zNtvxl1mXkNJodossx5es66TeTr
+         fTWizwzCrNkaOl9RnP4ZalK+ph0z4vcyz6Bh+0KdsZ57xtN6NJhLYID+N9YSw41E4f9X
+         39EA==
+X-Gm-Message-State: AOAM531Rk8iDh26zfjpEaDoNBCabuEvw+PcSpdcpXuUtFvkaAt6B4+Ep
+	SGgXHSWhOo5YLVlW0wyNDtZ7vP0HVXEjdw==
+X-Google-Smtp-Source: ABdhPJx6lzPBTO1sIDP1PMmt78B9DCa6xixACeZBKqG1poiFiHxzcb3yobAc36an20Y1sk7XQTHAFg==
+X-Received: by 2002:a05:6214:a45:: with SMTP id ee5mr15515654qvb.9.1629391929154;
+        Thu, 19 Aug 2021 09:52:09 -0700 (PDT)
+Return-Path: <scott.murray@konsulko.com>
+Received: from ghidorah.spiteful.org (192-0-174-222.cpe.teksavvy.com. [192.0.174.222])
+        by smtp.gmail.com with ESMTPSA id k24sm1847401qki.11.2021.08.19.09.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 09:40:42 -0700 (PDT)
-Message-ID: <1793456cc0c08f82792d0862942d6c7b2bb3af22.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] bitbake.conf: Add lz4c, pzstd and zstd
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 19 Aug 2021 17:40:41 +0100
-In-Reply-To: <AM9PR09MB464268B7229085D9F34B7E15A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-References: <20210714134248.21366-1-JPEWhacker@gmail.com>
-	 <CAMKF1sqy4JmetZ43q7Nq0EFN1ooRBdR8uutxZxzi2QvuvU1SpA@mail.gmail.com>
-	 <2ec0fd8d-a20f-c64c-b5c0-0c86b3a682a7@windriver.com>
-	 <AM9PR09MB4642908F79699D4DD2839AF2A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <ba3db5ea7343701e5a78c5b55704bcedfb2106b5.camel@linuxfoundation.org>
-	 <AM9PR09MB464268B7229085D9F34B7E15A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-User-Agent: Evolution 3.40.2-1build1 
+        Thu, 19 Aug 2021 09:52:08 -0700 (PDT)
+From: "Scott Murray" <scott.murray@konsulko.com>
+To: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Joshua Watt <JPEWhacker@gmail.com>,
+	Paul Barker <paul@pbarker.dev>
+Subject: [PATCH 1/1] prservice: remove connection caching
+Date: Thu, 19 Aug 2021 12:51:55 -0400
+Message-Id: <cfd7ee07ef735c930773dd3298b5ce84abff986b.1629387539.git.scott.murray@konsulko.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-08-19 at 18:31 +0200, Konrad Weihmann wrote:
-> 
-> On 19.08.21 18:06, Richard Purdie wrote:
-> > On Thu, 2021-08-19 at 16:50 +0200, Konrad Weihmann wrote:
-> > > I kind of missed out on this change... but I got caught up by reality
-> > > hard this morning :-(.
-> > > 
-> > > I currently don't see a reason why zstd is required on the host - only
-> > > systemd is having a hard dependency against zstd atm, while the other
-> > > lately added references are just optional PACKAGECONFIGs (and there are
-> > > plenty of them which have loose ends - in poky and meta-oe)
-> > > 
-> > > So the question I want to raise: why a hard dependency? wouldn't have
-> > > been HOSTTOOLS_NONFATAL enough?
-> > > 
-> > > I mean this is the second hard cut in the project within just weeks and
-> > > this time it was host related, which is even harder to fix in a timely
-> > > manner in a corporate environment (basically rolling out changes to all
-> > > dev installations isn't something I fancy on a Wednesday morning :-( )
-> > > 
-> > > None of the commit messages somehow mentions, why we all of a sudden
-> > > need that on the host, instead of building it from sources (which should
-> > > be possible judging from the latest master sources).
-> > > 
-> > > And on that note: that the documentation wasn't updated in the same
-> > > changeset is very unfortunate (not even the crops container where updated)
-> > 
-> > Sorry the change is a bit of a pain. It has been in master-next for a while
-> > and we did have to jump through a number of hoops as a project to enable this
-> > (e.g. adding to buildtools and our autobuilder infrastructure).
-> > 
-> > The reason we're doing this is that we need to use compression within bitbake
-> > itself for some of our output files. We've not done this in the past as it is
-> > a pain to have the host prerequisites however there are multiple places we can
-> > potentially benefit, such as compressed pkgdata and compressed siginfo files.
-> > It is also possible we may be able to store a compressed parsed datastore.
-> > 
-> 
-> Thanks Richard, that's explains why it's needed
-> 
-> > The siginfo files and datastore could mean we can improve debugging of a
-> > number of currently hard to solve problems our users face.
-> > 
-> > Without this we're unlikely to be able to move forward in these areas. If we
-> > do it, we open up new development opportunities and potentially improved
-> > usability. We can't "just build it" as that would mean we can't use it within
-> > bitbake itself.
-> > 
-> > Sorry this isn't well described anywhere, it is mainly as we can't yet
-> > "guarantee" that this will do these things. We do know it won't happen
-> > unless we try though.
-> 
-> Agree - btw maybe a good opportunity to insist on better commit messages 
-> ;-)- just out of interest: is there any guideline, maybe it's worth to 
-> at least link to a commit message guide at 
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded 
-> or here https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines.
-> And slightly off-topic, but maybe also worth to do some automation, as 
-> I've seen multiple patches lately, that don't 100% follow the patch 
-> guideline in place.
+This patch is a follow on of the the PR server rework in bitbake to add
+read-only support.  The shift to using the bb.asyncrpc code in the PR
+server and client brings issues with respect to reuse of the same
+asyncio loop in different processes.  This patch removes the PR service
+connection caching to avoid one source of this problem.  It is believed
+that in practice this should have little impact on overall performance.
 
-We had automation to test some of these things. It broke and we simply don't
-have the maintainers to look after it and keep it working, it is simply too much
-for Michael and I to manage to hold together.
+Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+---
 
-I'm doing the best I can but I can't do this alone. Until we get more people
-stepping up to help with things like the automated tests, we'll have to manage
-with what I can do.
+NOTE: Do not apply this without the prerequisite bitbake PR server
+      rework patches, see the bitbake-devel for the v6 patchset.
 
-FWIW I had to spend a ton of time fixing buildtools, getting the workers to have
-the right binaries and so on to merge this change. I tried to get the docs
-updated but I didn't micromanage it and it didn't happen as yet. I'm aware of
-it, I don't know if I'll just have to go and fix that next too.
+ meta/classes/package.bbclass |  5 ++---
+ meta/lib/oe/prservice.py     | 25 ++++++++++++-------------
+ 2 files changed, 14 insertions(+), 16 deletions(-)
 
-So yes, I agree nice commit messages would be nice. Please feel free to help
-review patches.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e17f0c797e..c4c5515d5d 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -714,9 +714,7 @@ python package_get_auto_pr() {
+         return
+ 
+     try:
+-        conn = d.getVar("__PRSERV_CONN")
+-        if conn is None:
+-            conn = oe.prservice.prserv_make_conn(d)
++        conn = oe.prservice.prserv_make_conn(d)
+         if conn is not None:
+             if "AUTOINC" in pkgv:
+                 srcpv = bb.fetch2.get_srcrev(d)
+@@ -725,6 +723,7 @@ python package_get_auto_pr() {
+                 d.setVar("PRSERV_PV_AUTOINC", str(value))
+ 
+             auto_pr = conn.getPR(version, pkgarch, checksum)
++            conn.close()
+     except Exception as e:
+         bb.fatal("Can NOT get PRAUTO, exception %s" %  str(e))
+     if auto_pr is None:
+diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
+index 15ce060ff6..339f7aebca 100644
+--- a/meta/lib/oe/prservice.py
++++ b/meta/lib/oe/prservice.py
+@@ -11,7 +11,6 @@ def prserv_make_conn(d, check = False):
+         if check:
+             if not conn.ping():
+                 raise Exception('service not available')
+-        d.setVar("__PRSERV_CONN",conn)
+     except Exception as exc:
+         bb.fatal("Connecting to PR service %s:%s failed: %s" % (host_params[0], host_params[1], str(exc)))
+ 
+@@ -22,31 +21,29 @@ def prserv_dump_db(d):
+         bb.error("Not using network based PR service")
+         return None
+ 
+-    conn = d.getVar("__PRSERV_CONN")
++    conn = prserv_make_conn(d)
+     if conn is None:
+-        conn = prserv_make_conn(d)
+-        if conn is None:
+-            bb.error("Making connection failed to remote PR service")
+-            return None
++        bb.error("Making connection failed to remote PR service")
++        return None
+ 
+     #dump db
+     opt_version = d.getVar('PRSERV_DUMPOPT_VERSION')
+     opt_pkgarch = d.getVar('PRSERV_DUMPOPT_PKGARCH')
+     opt_checksum = d.getVar('PRSERV_DUMPOPT_CHECKSUM')
+     opt_col = ("1" == d.getVar('PRSERV_DUMPOPT_COL'))
+-    return conn.export(opt_version, opt_pkgarch, opt_checksum, opt_col)
++    d = conn.export(opt_version, opt_pkgarch, opt_checksum, opt_col)
++    conn.close()
++    return d
+ 
+ def prserv_import_db(d, filter_version=None, filter_pkgarch=None, filter_checksum=None):
+     if not d.getVar('PRSERV_HOST'):
+         bb.error("Not using network based PR service")
+         return None
+ 
+-    conn = d.getVar("__PRSERV_CONN")
++    conn = prserv_make_conn(d)
+     if conn is None:
+-        conn = prserv_make_conn(d)
+-        if conn is None:
+-            bb.error("Making connection failed to remote PR service")
+-            return None
++        bb.error("Making connection failed to remote PR service")
++        return None
+     #get the entry values
+     imported = []
+     prefix = "PRAUTO$"
+@@ -70,6 +67,7 @@ def prserv_import_db(d, filter_version=None, filter_pkgarch=None, filter_checksu
+                 bb.error("importing(%s,%s,%s,%d) failed. DB may have larger value %d" % (version,pkgarch,checksum,value,ret))
+             else:
+                imported.append((version,pkgarch,checksum,value))
++    conn.close()
+     return imported
+ 
+ def prserv_export_tofile(d, metainfo, datainfo, lockdown, nomax=False):
+@@ -125,4 +123,5 @@ def prserv_check_avail(d):
+     except TypeError:
+         bb.fatal('Undefined/incorrect PRSERV_HOST value. Format: "host:port"')
+     else:
+-        prserv_make_conn(d, True)
++        conn = prserv_make_conn(d, True)
++        conn.close()
+-- 
+2.31.1
 
