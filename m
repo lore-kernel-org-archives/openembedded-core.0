@@ -1,79 +1,109 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web09.74174.1629400115561011350
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+ by mx.groups.io with SMTP id smtpd.web08.74077.1629400120920205719
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 12:08:35 -0700
+ Thu, 19 Aug 2021 12:08:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=B5iD4AHT;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.174, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f174.google.com with SMTP id u10so9852787oiw.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 12:08:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MZjtzE0h;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.54, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f54.google.com with SMTP id n1-20020a4ac7010000b0290262f3c22a63so2130129ooq.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 12:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=y8JxgWd0hOze2GjFReph1AKXeWCWmbzJXPZxH/9JRJ4=;
-        b=B5iD4AHT1g81AC4jpc9IMSjo5WtryTwSDzPUX9kDSMF4z2MEPwDZOE98Klcu5Usmhn
-         IpFUDksKnUMqgKdlGghKb62lY+F8zO3XKAJs46w8q7v6AhNBT0pw5vgjSdREW85sXrla
-         36Vpa2pQXAot0zsyUABZrrmDiVIANbTMJOMFaLMRBexrplfWMMoBYp1PYf181Sp+3r7X
-         S/yyHrq4YBYg6+lyq7xFQ9YtVKT0ydDJ9TiVZetsHawIa6MqJYgD4meQ+3wkUGoE1aG5
-         mDxeRS+kuZUMHqlkwXNQ61PTZ1CVAIn3LfG0o4NrPOQGa9GNIlLktb7DiNIeqt+u/HcQ
-         NzUg==
+        bh=JEtGLdB/KDP1J+SQrn3MV6mFtk8YarpFG+BpvGyVrUI=;
+        b=MZjtzE0htO36dcBMGXSwLZd1QBIGs/o1B17YSYMwrbCahHJsXn5PCmbc+h5LCbF47C
+         AzrkW2JJECdGERA6/A2Ik0NPChZvV5lDbIt8OqfQQtC9IANsS8xTs3urdSu6Uy0gG+Bc
+         zsS1sq2a+plTnQcYRpRg2ylH7/tNGsrfuMFQ3mEGascTro0ZeG49de9L4DgCssuebDy3
+         qsAAHwcp3iH/U+bSQ2JCDBuUe4n+EXJrApPkJH6yAPXOCwx+G0HJjJEsG4QmQYuqEZfY
+         7Tqpt1/CrBfwk/mL9JX7rN+97e9+sEsGmNmNTTouO5VSCsGgL3iC5lpuj9dL1WAAdy7K
+         tmXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y8JxgWd0hOze2GjFReph1AKXeWCWmbzJXPZxH/9JRJ4=;
-        b=SQUX74OXwDAlnAYWLP4YfK0OjNh+zwqOPYu9zteowgWRXnA9fpnp+I2Uv2IUgnwAxa
-         lroE7W57Ec+UAyDscU0qG3X0Don2lGKKJmuhpi2zP6sKECKN2fZMxplkjZ8hAsLK9YFN
-         j7f7XOtvxYi+Y6BIBYSwvA3XGh9m0fgd5YrMlGWfEwsScw4SjSldCLJvl79G58+0Hz4X
-         jduIaaQLihK599KedASvhgMkMcfRAJXW8IjLH7D12nA5diDbBbCNiYgERqYEHR4Emcbx
-         YmSPgXC/S/QhNzIYO3nETApXWdY0tOJXRcrpofIp3Dqkenk7RvcYHF2vf7ReAL0TzjHD
-         8SVA==
-X-Gm-Message-State: AOAM531sbNg8hUa/gu5dXBiqpThVW0d41qLeCbHlKk11H51urCY33hP7
-	I7wGG254k7hPuqH03uayO4Ndltw3kBLclGAS
-X-Google-Smtp-Source: ABdhPJwjrGfnVU6L0xz9wrOJP8AypXtDqmflOUhDbwCu1xetcAYjKNWAVqSa8TRp7qlGtXvFU+9Ofg==
-X-Received: by 2002:a05:6808:14cf:: with SMTP id f15mr168924oiw.145.1629400114502;
-        Thu, 19 Aug 2021 12:08:34 -0700 (PDT)
+        bh=JEtGLdB/KDP1J+SQrn3MV6mFtk8YarpFG+BpvGyVrUI=;
+        b=tDhvUN3Yc7awkiY0kcruV/FIaF9+VfjsXkusclw5tZG8XJZA5cwKck5Pt6/5Re8331
+         aP3jotYBrZkCqdQ2071wDYg6Pz0XJXEROcDgzo/1ONso/CTP0IOe41ECIcYuef4SMWdF
+         mSFlQ7UpHZ2hvipjxM1IX7a45zXcptQmnlckN7Iw0vQ1HzV53By+DtdUs+g94UJs4v6U
+         YFGS7qMO9PtWG6HRbfwIAhZ5YoPiIVHZsNtL4hkOECspsTCxqhiRED20aT0R1Hs3kQji
+         UHlNKUz3/rPEiVGa2R0rLVWx96jXPZVmaoPmjUjFufYqpM0liCxmQnGRSQjVKzDS7jeL
+         latQ==
+X-Gm-Message-State: AOAM5310CCjDu3noSF2fMgm+VcMGe7VE9ntoQ3LsbBbdg/KG/JpqPbNp
+	I+u/TlY2S7MVO00KmpzXmEBMfKWKNfEhI7G6
+X-Google-Smtp-Source: ABdhPJxdMluBKVujlwd1vHFqGygA93uS3AEuS0OI+j4tAJ3MNywbkfb0g5Y+HeGrtCrINYUHD81HPA==
+X-Received: by 2002:a4a:d991:: with SMTP id k17mr12778378oou.74.1629400119820;
+        Thu, 19 Aug 2021 12:08:39 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s10sm765080oog.14.2021.08.19.12.08.31
+        by smtp.gmail.com with ESMTPSA id s10sm765080oog.14.2021.08.19.12.08.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 12:08:34 -0700 (PDT)
+        Thu, 19 Aug 2021 12:08:39 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/12] tar: ignore node-tar CVEs
-Date: Thu, 19 Aug 2021 09:07:52 -1000
-Message-Id: <d1b09f81ad80e5099ae670c965dcf7d39ad09ac1.1629399953.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/12] sdk: fix relocate symlink failed
+Date: Thu, 19 Aug 2021 09:07:53 -1000
+Message-Id: <a155c4d4ca841ef492213a5f0b9121703c62e2b4.1629399953.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1629399953.git.steve@sakoman.com>
 References: <cover.1629399953.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross@burtonini.com>
+From: hongxu <hongxu.jia@windriver.com>
 
-These two CVEs are specific to the Node package node-tar.
+Install SDK to non-default dir, sysmlink mkfs.vfat is invalid
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+$ ./sdk.sh -y -d ./dnf-2 -S -D
+$ ls sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat -al
+lrwxrwxrwx 1 hjia users 99 Aug 10 20:38 sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat -> /opt/windriver/wrlinux-graphics/21.32/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat.dosfstools
+
+Since commit [bc4ee54535 sdk: Decouple default install path from
+built in path] applied, sdk relocates symlink failed, it should
+replace $SDK_BUILD_PATH rather than $DEFAULT_INSTALL_DIR, just
+like above commit did
+
+Without this commit:
+...
+|+ for l in $($SUDO_EXEC find $native_sysroot -type l)
+|++ readlink path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+|++ sed -e s:/usr/local/oecore-x86_64:path-to:
+|+ ln -sfn /opt/windriver/wrlinux-graphics/21.32/sysroots/x86_64-wrlinuxsdk-linux/
+usr/bin/mkfs.vfat.dosfstools path-to//sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+...
+
+After appling this commit:
+...
+|+ for l in $($SUDO_EXEC find $native_sysroot -type l)
+|++ readlink path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+|++ sed -e s:/opt/windriver/wrlinux-graphics/21.31:path-to:
+|+ ln -sfn path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat.dosfstools
+path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+...
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bc7216e8148d0dee7b56e6851da6615e93647a0a)
+(cherry picked from commit 942c06a7348070b92f722fa5c439c8c4404485b7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/tar/tar_1.32.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/files/toolchain-shar-relocate.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/tar/tar_1.32.bb b/meta/recipes-extended/tar/tar_1.32.bb
-index 3ae6d674a5..0fe0b801c2 100644
---- a/meta/recipes-extended/tar/tar_1.32.bb
-+++ b/meta/recipes-extended/tar/tar_1.32.bb
-@@ -65,3 +65,6 @@ PROVIDES_append_class-native = " tar-replacement-native"
- NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
+index 5433741296..ba873373e2 100644
+--- a/meta/files/toolchain-shar-relocate.sh
++++ b/meta/files/toolchain-shar-relocate.sh
+@@ -72,7 +72,7 @@ fi
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+# These are both specific to the NPM package node-tar
-+CVE_CHECK_WHITELIST += "CVE-2021-32803 CVE-2021-32804"
+ # change all symlinks pointing to @SDKPATH@
+ for l in $($SUDO_EXEC find $native_sysroot -type l); do
+-	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
++	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$SDK_BUILD_PATH:$target_sdk_dir:") $l
+ 	if [ $? -ne 0 ]; then
+ 		echo "Failed to setup symlinks. Relocate script failed. Abort!"
+ 		exit 1
 -- 
 2.25.1
 
