@@ -1,179 +1,141 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web12.72524.1629390924483667201
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web09.72123.1629391243996970072
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 09:35:24 -0700
+ Thu, 19 Aug 2021 09:40:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=Oaz34Lqz;
- spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3865bc9a77=sakib.sajal@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17JEjXIM014523
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 16:35:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=subject : to :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=VMJlYk5npgkFW8K49VTbtUTieHvnR2xw3q7cqC6+DLc=;
- b=Oaz34Lqz9XIPmqF1phezu5CWiNOD/uGhQjB5fwCaVMML7h/wQd/IEGP7YePWLpkQ7vio
- dOqpFnDQQOqqqEsHY7tkQIGPrzEOHrf/a06Tg4MRxEJcxigAJ12UzI5JGzgElx/tRO9g
- AATytbjN273n6o/7b6jf0KK0F2COYD7SenZy3u0s4viPOHeeCyl8CESSHwX7JoNMH1Iu
- zzkkRWuUHVbK+9mY1oURLzF3UNWi0YMMppICSST5EoclOGx2pYWvXnli92QJdYDm30+w
- Ezsjd6WXiNXk2Fp193yS8gsR+HlFFvMcycthvuA943kPlOepF5hVPE97vP7Ffb0G6qMf OA== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3ahfs9getb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 16:35:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oC+i8Qvm1iAgu7C1p1xWUtTXuKRiJ3LPZEAZcXFWZlx45Sy4dTwZFg2lqpoFI3mhf8uY8BjwGcQ2wkm2oYNKn1thyOoPJmFLeANIL3L9izB4xlJZhm/zYkkaUfw6dR7TTe37H/iONoPSL/9JmXOwQw0A+70Lwt9cldzXPjom1Ewqvdnbbi2V3DwLAmcwC6D0S4cESk2MLfsKJBCMsr33YPUgyjJg/WFq+4u7rLa8p9qPhb8cdoGA30wUF+tTdPXOR8+BB9knRQWDebNMmp+apQ2XvDrIjC3/euxHZ2V8+Le6d5ayOwHt46loz8liy7I036VnBVf2nfma9jJFarLD8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VMJlYk5npgkFW8K49VTbtUTieHvnR2xw3q7cqC6+DLc=;
- b=R0FNMdmfvB+3WRH62wq5Wy07Kyf1YG25KajgTYlrCHf0+wURqE24zBhIvIZR3UR/9Wm7ge/UANYf9Yzy3saWf9JkNLbHuqBWFUrA2z3lgXsc8epyfGTEFOdrA23wQW/f4W8mYqL6q7g1UX1MRoW4LwJCAmhZI/opD/TuCwMIjnZY9WEaL0N6g3M524RvPsxw17/I2/PKsTSWrvbkyOgU06UqmYZMFYiTQZtQmeDNj1t4vJdRo18Y2AYihUgy4DL9fum80TImnkORmE8I8ZG5iKdLJDJzRNRz8kMrUaz4/xC4ZEk2ko6kKqCrTd85fBnMIrxC0h6HDQMs96uNycabhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
- DM5PR1101MB2266.namprd11.prod.outlook.com (2603:10b6:4:57::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19; Thu, 19 Aug 2021 16:35:21 +0000
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::d44b:60e8:b607:73f7]) by DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::d44b:60e8:b607:73f7%7]) with mapi id 15.20.4415.024; Thu, 19 Aug 2021
- 16:35:21 +0000
-Subject: Re: [OE-core] [PATCH] glibc: update to HEAD of release/2.34/master branch
-To: Randy MacLeod <randy.macleod@windriver.com>,
-        openembedded-core@lists.openembedded.org
-References: <20210818230509.38342-1-sakib.sajal@windriver.com>
- <430edb20-c307-e391-673a-1477f39c0fb8@windriver.com>
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
-Message-ID: <4f2bcf69-5418-22b2-1d63-1a6a77fbf844@windriver.com>
-Date: Thu, 19 Aug 2021 12:35:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <430edb20-c307-e391-673a-1477f39c0fb8@windriver.com>
-X-ClientProxiedBy: YT3PR01CA0103.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:85::18) To DM6PR11MB2538.namprd11.prod.outlook.com
- (2603:10b6:5:be::20)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZBHWdffw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id u1so4240853wmm.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 09:40:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=HpupNfQxZwcanHB6mxS06WatBN3wYM3LjTR75JVRH1U=;
+        b=ZBHWdffwQAYFovtoNglvJ7QNZeSPnIC18RH9xz25+ijkAScthbWgiG+2gpJTBuGEBN
+         ZYtzHaiT/oiVFPJUQBz9drAL1+Iy9czE/H08pInwQcCETosr4GMcr9sv7cPJ5mJB4JFc
+         7ZcTIb/7L+4wFt7zrIq2EizUWkth5VJkp+hDU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=HpupNfQxZwcanHB6mxS06WatBN3wYM3LjTR75JVRH1U=;
+        b=IfErhjqvpfflXhJ9BgK1Wh2o7JeYj09Kh2XbhKZdF35vSj5Yd+Dg2aumwFJnZD5jUr
+         aUlwvXJRtoA5DsGd/wINFTAv51yQva1I+DA8WA0EifpTToK+1XnkK0xl2wIbttGNEpM9
+         V1/XxD2+67ZB22g+vKgIXZzaC040Q2jB/G5QPpwuDFIr9+vqIGC+5Bn8OluHPtVhppOF
+         iAxitENNZq0p/5XUWTx2kH7lgiKrho5kHDEqP7VmSdVQhz/XNX8BVdSpyShKde/vwI4N
+         p2CSJnYi/GmHjnVJ+67ue8Pceud5/Akmm+L5+sHnnqydYgml2UNH8ZFvqWyOOvqYrauH
+         +BMQ==
+X-Gm-Message-State: AOAM533FfLoBNNTzleiEiOZ9wOatuV3ljVCEaJ9jCTD+3qvLyAXyTB+p
+	MtfRAe6HKzSoO8Xhd5Z/Imv04w==
+X-Google-Smtp-Source: ABdhPJylcvS9R0MI3sETvWnZ9qRL00hnbdMgh24sfCH89CRzhVYSSxS6nL6LYaltOP7/VV5UZi4pjw==
+X-Received: by 2002:a05:600c:511c:: with SMTP id o28mr9047488wms.135.1629391242319;
+        Thu, 19 Aug 2021 09:40:42 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:893b:b0d7:8112:9a58? ([2001:8b0:aba:5f3c:893b:b0d7:8112:9a58])
+        by smtp.gmail.com with ESMTPSA id c9sm3486789wrm.43.2021.08.19.09.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Aug 2021 09:40:42 -0700 (PDT)
+Message-ID: <1793456cc0c08f82792d0862942d6c7b2bb3af22.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] bitbake.conf: Add lz4c, pzstd and zstd
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Konrad Weihmann <kweihmann@outlook.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 19 Aug 2021 17:40:41 +0100
+In-Reply-To: <AM9PR09MB464268B7229085D9F34B7E15A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: <20210714134248.21366-1-JPEWhacker@gmail.com>
+	 <CAMKF1sqy4JmetZ43q7Nq0EFN1ooRBdR8uutxZxzi2QvuvU1SpA@mail.gmail.com>
+	 <2ec0fd8d-a20f-c64c-b5c0-0c86b3a682a7@windriver.com>
+	 <AM9PR09MB4642908F79699D4DD2839AF2A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
+	 <ba3db5ea7343701e5a78c5b55704bcedfb2106b5.camel@linuxfoundation.org>
+	 <AM9PR09MB464268B7229085D9F34B7E15A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.20] (70.24.102.154) by YT3PR01CA0103.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:85::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.18 via Frontend Transport; Thu, 19 Aug 2021 16:35:20 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 737707aa-dd41-4c96-689b-08d9632f5612
-X-MS-TrafficTypeDiagnostic: DM5PR1101MB2266:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR1101MB22661F6C9990AB8891B28A61F2C09@DM5PR1101MB2266.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:403;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Z66Vztv6lKqOAjQL+R8MPy9WE8nzmvvl4f8p7f0CmG5j2E+u6FjOKSsR/6pgVGtZAITwjYUxVcAObwqS60V7Cuirhr1Zl5cqFFDXEg/9qbPeFeZc/OvBkF8kYWLa8+o5TYtsQ7VNiE9DqoYwxAfPGOteOONECM5+AJE1DIqM+S+NMGCTkzFvvyq38+q+tOQsAQqAffcon+0vnw9SuE39l2EoCucQx7aW/gDYFme9/CUlZJIDRemwkirkCkS9N7LcIo3iNwOioIc143RV4U7ykKqjRcqaOTjyltDKZFudp1OBpNA/SfzFusDHx9T7rM+OVE+E40wZEQ6YflDN3DXtJ9UHDHk1+Cdze/xpSmfkbnan7LKgGfHYezUrF5c7JISNHo/TGofhf6yucHuqwykZV28SANnnIE4N5r7lxooyrnEayPXqtiM8Y0nNDL6lmi7BuSAwgppFDEiTJfa3eK7QE1uAannF4yLWDi6RK3/uhvDZzjKmLbHiAaEB0fKeVj2cqV0JdPCtxDdOByi2p7gm2jg+yKb/UfXBd3R0zli50agcvU/S82jxWZ3A065A2k/oI17amiBHKXTYQ29UvmEkQGHL1ZOnmZHSb2VEtoYq8hgV+oBHk83/c1OZlYqCtaJ9tWPlLzoZzXKzBN2fzLsWi8XvftCLK1VLe909Spp3cVnAmdgAKi7/KkD6um9yDO6xSywyiA0g2Xx34SP8Jow7eM3NcA7lDm4BGT7a3AhB3jAWrUhZWGn9sDvzFsg+XbsOtKisXEvstHKlW/JP14XvTS7Y2mBaTous0fSKVqlXmSVXuuM+pYMHLzThf4lCzf7xgMzkDmb/JKWNDDEwf3F8mBhoYgKHBAbtR4vn4+Bns7ZyEXsQ2HKwL8m2dOzH9vRp
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(376002)(136003)(396003)(366004)(346002)(8676002)(8936002)(316002)(2906002)(16576012)(26005)(31696002)(86362001)(956004)(2616005)(38100700002)(38350700002)(44832011)(83380400001)(5660300002)(966005)(31686004)(53546011)(15650500001)(478600001)(6486002)(66946007)(6666004)(36756003)(66476007)(66556008)(186003)(52116002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SFFGZG5udUhnSUxrVVliY1c1RlhXcisyTng4c3FtYkw3dUNhQU56aHlFRmFM?=
- =?utf-8?B?L1FoUmY4ZTkrcGo3ZEpRdnl1emxiMmVSOGsza1kybS9kU0hmWHU5VnFXL0hY?=
- =?utf-8?B?N1JCcjVmRnpPWERiNEhHb1NISTgzWG5zZ1JlS2oza0FweXhKMDYxWVNhOUpt?=
- =?utf-8?B?c1locDJFM3dGd3lGdnFwWm9Qci9ZRjhwa00yc09PRTFOdlJva2grRE1SYVNR?=
- =?utf-8?B?TGEwVzdBWnNxVjhpRXY0clpnR2tpTlpPL2tpbm1ZQWY2aUtkS3lIOWRWc0lW?=
- =?utf-8?B?bC8xRU9xNElSMkFRQklySVNUaFpJUGJ2Sk5SaXNCNWNCSnJOSyt1WUptYTNN?=
- =?utf-8?B?TVU1WGpiY2VzVmxUek8rWlQrTkNSWlhzckViNW9SR0xUTDgzc2hGVnh3SGZv?=
- =?utf-8?B?eTM4OElralVJd0EvbU02bGpVc1VXR0UzaDAyYUd2TXFScFBGU3IxMCtDK0Zr?=
- =?utf-8?B?bVFCRSthMnNDeWFreitNWEEzc3pyZ1pXS2k1SzBDSTRLN1YvRVpDcjNIbUgv?=
- =?utf-8?B?UEgxSjR5Sy9IRXdGUGRGZ0NvV0xQSHlqSmlUMlhrZTF3a1gzbytPTGlFdGtF?=
- =?utf-8?B?QzJ3b2ZGSHlDNGJCZTFxOU1CbzRFZjl3VXp4TGZieFRJZmtYNEpaSTlnaXc0?=
- =?utf-8?B?S2F1LzdnYlBLYW0yOE0yUGcrS1h5bFJYTC9VWTJXSDkxS2hpekZLTmNEbTNr?=
- =?utf-8?B?RG5nY3hPclUwdVliMEpOUE5UMG9uVWRNVkNHWWlpKzQrT1NQSnoyTStRc08r?=
- =?utf-8?B?Wm1CejBxYXppQkFOSlYyTjhGb3ZZeURTWUo3TVNYRVBJMEpYZjd2VHNRSUZ6?=
- =?utf-8?B?RW9KeGw2NXpnTitpeXNGZ1Y3dDhSUFRYU0VyMGM3aUMrWmFNWllPNTBQQ2dJ?=
- =?utf-8?B?YnZ4Z2wrMWdVL1VURUZ4QUZvZ0c4dHRTZGJ3ckZZMCtldTVqc29OVHRpZm1i?=
- =?utf-8?B?enlaYmFDSEpOUVlIQ3ZNU3kwTS9qeEtjcTlkc3ArQ3dUK1RzcDhhYk5RRHpu?=
- =?utf-8?B?RDZwd1I1UlV4M0hnR3RUdXo3V0U5cmxjMHM3MTZLd05wNU5Kc3F5dzQzTzhx?=
- =?utf-8?B?bWlEK0J0Y2d0QUlNYWUrZHhMUnp1K2NtYWxGOVRnTVpxZTR4aTFjb1FpK2Na?=
- =?utf-8?B?MmJWQnNkRXVsWkdCelQ3Z25WN0N1NkRIdC9yaWJRUHFVYjBrNHBOY2MwcDN1?=
- =?utf-8?B?TFAzMG1ZenN3WElwc1VFWHIxSDh3d3dhaXMyN2JpOERoc0dvWFNIVGJMblYr?=
- =?utf-8?B?RnhIdTNHT0V4b2dyTUFoUWpRN25WM2pIamNKRHk2MjZubk9OQUdLZ2UydmNa?=
- =?utf-8?B?NTVRcjIyOW0xWkNZc3lsaTA5cEU3aDBCd0pUNEEycmN4bHJCa1F1bkpMYUhO?=
- =?utf-8?B?ekRrZUZkb21aUFc0dWUrQVNLSEtRblZJckRnVlFsMGpLS0lDTkdNS2l4dmR4?=
- =?utf-8?B?cURkMGowRHhVSWJtVnRoSmhibUZlYStIRVpMZzlrMXcydFdVeFZtVDU4eWJx?=
- =?utf-8?B?Y0M2eWFJc2hESE9XaTg1Qk1JU3d2RHVTOFJ3dk43SkVwbzV6ZG1nY1RqNzRw?=
- =?utf-8?B?aFdZaW44eGR0U2VhUW1tYUZ6Uy8vNjE4ZnFjd3VCS2NMbmpZT2MzSFl1S2NL?=
- =?utf-8?B?eGlaQVBPYmRCK2llbTcxVlVpcjk4ZXhObmtlQVcxMm5rL25xWmdFajVpMEZk?=
- =?utf-8?B?RTZQTVZWeHo2RjdpYjJlTzhIUHlidjE4cngxMmFkemcrQVF3YnpNUElnV2FQ?=
- =?utf-8?Q?jINGl/3yhC8fK1dUJvcQgpS4B/aAtU5N8XLmfU6?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 737707aa-dd41-4c96-689b-08d9632f5612
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2021 16:35:21.0014
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ud8kus6tKy/mrVUe6LlrteVNyOk2+70zxrwONc61teg37Bz22kvDpnJv4+kLPZ4QNh21vySd09B0pri0nfAiN2naruC7bMoft3bhXMUGe5A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2266
-X-Proofpoint-GUID: mkBjeu5TqLoSzxosMHdopDgW6xA780z8
-X-Proofpoint-ORIG-GUID: mkBjeu5TqLoSzxosMHdopDgW6xA780z8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-08-19_08,2021-08-17_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108190097
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 17JEjXIM014523
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Thu, 2021-08-19 at 18:31 +0200, Konrad Weihmann wrote:
+> 
+> On 19.08.21 18:06, Richard Purdie wrote:
+> > On Thu, 2021-08-19 at 16:50 +0200, Konrad Weihmann wrote:
+> > > I kind of missed out on this change... but I got caught up by reality
+> > > hard this morning :-(.
+> > > 
+> > > I currently don't see a reason why zstd is required on the host - only
+> > > systemd is having a hard dependency against zstd atm, while the other
+> > > lately added references are just optional PACKAGECONFIGs (and there are
+> > > plenty of them which have loose ends - in poky and meta-oe)
+> > > 
+> > > So the question I want to raise: why a hard dependency? wouldn't have
+> > > been HOSTTOOLS_NONFATAL enough?
+> > > 
+> > > I mean this is the second hard cut in the project within just weeks and
+> > > this time it was host related, which is even harder to fix in a timely
+> > > manner in a corporate environment (basically rolling out changes to all
+> > > dev installations isn't something I fancy on a Wednesday morning :-( )
+> > > 
+> > > None of the commit messages somehow mentions, why we all of a sudden
+> > > need that on the host, instead of building it from sources (which should
+> > > be possible judging from the latest master sources).
+> > > 
+> > > And on that note: that the documentation wasn't updated in the same
+> > > changeset is very unfortunate (not even the crops container where updated)
+> > 
+> > Sorry the change is a bit of a pain. It has been in master-next for a while
+> > and we did have to jump through a number of hoops as a project to enable this
+> > (e.g. adding to buildtools and our autobuilder infrastructure).
+> > 
+> > The reason we're doing this is that we need to use compression within bitbake
+> > itself for some of our output files. We've not done this in the past as it is
+> > a pain to have the host prerequisites however there are multiple places we can
+> > potentially benefit, such as compressed pkgdata and compressed siginfo files.
+> > It is also possible we may be able to store a compressed parsed datastore.
+> > 
+> 
+> Thanks Richard, that's explains why it's needed
+> 
+> > The siginfo files and datastore could mean we can improve debugging of a
+> > number of currently hard to solve problems our users face.
+> > 
+> > Without this we're unlikely to be able to move forward in these areas. If we
+> > do it, we open up new development opportunities and potentially improved
+> > usability. We can't "just build it" as that would mean we can't use it within
+> > bitbake itself.
+> > 
+> > Sorry this isn't well described anywhere, it is mainly as we can't yet
+> > "guarantee" that this will do these things. We do know it won't happen
+> > unless we try though.
+> 
+> Agree - btw maybe a good opportunity to insist on better commit messages 
+> ;-)- just out of interest: is there any guideline, maybe it's worth to 
+> at least link to a commit message guide at 
+> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded 
+> or here https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines.
+> And slightly off-topic, but maybe also worth to do some automation, as 
+> I've seen multiple patches lately, that don't 100% follow the patch 
+> guideline in place.
+
+We had automation to test some of these things. It broke and we simply don't
+have the maintainers to look after it and keep it working, it is simply too much
+for Michael and I to manage to hold together.
+
+I'm doing the best I can but I can't do this alone. Until we get more people
+stepping up to help with things like the automated tests, we'll have to manage
+with what I can do.
+
+FWIW I had to spend a ton of time fixing buildtools, getting the workers to have
+the right binaries and so on to merge this change. I tried to get the docs
+updated but I didn't micromanage it and it didn't happen as yet. I'm aware of
+it, I don't know if I'll just have to go and fix that next too.
+
+So yes, I agree nice commit messages would be nice. Please feel free to help
+review patches.
+
+Cheers,
+
+Richard
 
 
-On 2021-08-18 7:51 p.m., Randy MacLeod wrote:
-> On 2021-08-18 7:05 p.m., Sakib Sajal wrote:
->> Update glibc to head of release/2.34/master branch to
->> to include fixes, includes fix for CVE-2021-38604:
->>
->> Changelog:
->> glibc.git$ git log --oneline ae37d06c7d127817ba43850f0f898b793d42aea7...
->> 7c987a5ccb (HEAD, origin/release/2.34/master) librt: add test (bug=20
->> 28213)
->> 7947430322 librt: fix NULL pointer dereference (bug 28213)
->> 31902ae639 Linux: Fix fcntl, ioctl, prctl redirects for _TIME_BITS=3D64=
-=20
->> (bug 28182)
->> 9995d0588f iconv_charmap: Close output file when done
->> 7ff4da3dc2 copy_and_spawn_sgid: Avoid double calls to close()
->> a5bd2e10e0 gaiconf_init: Avoid double-free in label and precedence lists
->> 3a48da47a9 gconv_parseconfdir: Fix memory leak
->> 0b03996304 ldconfig: avoid leak on empty paths in config file
->>
->> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
->> ---
->> =C2=A0 meta/recipes-core/glibc/glibc-version.inc | 2 +-
->> =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/glibc/glibc-version.inc=20
->> b/meta/recipes-core/glibc/glibc-version.inc
->> index 281df7ecda..c53b53f114 100644
->> --- a/meta/recipes-core/glibc/glibc-version.inc
->> +++ b/meta/recipes-core/glibc/glibc-version.inc
->> @@ -1,6 +1,6 @@
->> =C2=A0 SRCBRANCH ?=3D "release/2.34/master"
->> =C2=A0 PV =3D "2.34"
->> -SRCREV_glibc ?=3D "ae37d06c7d127817ba43850f0f898b793d42aea7"
->> +SRCREV_glibc ?=3D "7c987a5ccb31df80456d53a094e47f81310f549b"
->> =C2=A0 SRCREV_localedef ?=3D "95c0221703ad970a52445e9eaf91c4aff35eebef"
->> =C2=A0 =C2=A0 GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
->>
->>
->>
->>=20
->>
->
-> What build and runtime testing did you do Sakib?
->
-World build and core-image-full-cmdline testimage
+
+
+
