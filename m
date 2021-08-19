@@ -1,76 +1,91 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.66925.1629359617179218512
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web08.66629.1629361779935985588
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 00:53:37 -0700
+ Thu, 19 Aug 2021 01:29:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Za/Eq6xQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id z9so7559918wrh.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 00:53:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MAAOZGSc;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id x11so11306894ejv.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 01:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m5nsZFgeSZowsMkbZm444sb7BbP6TAGK6oR099jJlh8=;
-        b=Za/Eq6xQOdIGBKbk/LiGFyOAEihEThpMNja3qtkw48AdlH9tnT1zLlrgsAiebWGOuW
-         lqzD7GI3nVhbVZK+bVd6jAFzYFgt4UqFfkm4HjI8jo46IDxY40awzrRXTbkGhYY/cGOW
-         wKqSU82QEog5Zd77ymDEt+tYk54PmQjH5pMDnE8dBcmk2ooXkC7sUqmnuO8GPxQdZ4Q2
-         b5EAp+MyXaG9gVxuE6XyHasAsFlfZ88rDylDKPGhGWA5jnAoTFIoza0SLFuB0XtCeEAY
-         NszgQLGv7Z/oowDSHoU9E1bKEGs0Q/T1uE+mbDCIgnNODY6sA7MebTWj2drwX3RJ+2lD
-         pXyg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bia7KawZqhrGSkmD9WwMzjJOJjJd4PH7unnQTeYt26I=;
+        b=MAAOZGSciO/dkmNoj7xQG458JieYBXgxgBDNcF7Tu6OOB1hPyqsM5Z0esYdhFDZKnO
+         aAHYfLqTNBkID0So/GT4zfWFSNePsP+qAmaxPBzDJc038O95FFwriUSLC8S/5AiGDlWD
+         M2hKNNbQj5e516m+p9udZ7v73uHM9VEPlco6OGle535JA7r3YJ20m0WwfoeIwTd5ukF1
+         yEBoZl3RTkp4VK7sNOBsyG1x05plHonM7kjt/ApmW3lHWgNVKoujnwtZuok3Oq6lQqCS
+         QvKaAZc28y8eALb5loAVgYLplS3ZGLMf0vl1Z12+YVyPB8Q1hQ3iS8NtRUhwHCdrWuDt
+         pARQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m5nsZFgeSZowsMkbZm444sb7BbP6TAGK6oR099jJlh8=;
-        b=I1mEN6oPfH7NGGMNTY0UdcfJDXYt6utkITT+DeGKb4pT5oOl1z01mHLXJ0NJi1h4BV
-         yq9k54X08EoqvgvsA0WNKVzCHrhlYTMZe3/pJvXFXQfQVndYOh35YnGInH7ZWciLaZjF
-         ewfKqLQ5WxOjcuSGI4J4/vsiKqtggJvAE2Ak4UYWe35Hbs6DOZlYYrBPu9wxSPYojS3q
-         lxHc3DDlpy2CJRDM4t4hq8sP8ev/lDjg6nKnwSTmJuRTvdsSefSey7IUVtpiIZc6sqzx
-         zOKVBuJbQtEq5To0nbSO4GLNEOe5rgxw69bfUQCowJ3QswFcYH8eIyPIPCzgXx2b+rDc
-         6ijg==
-X-Gm-Message-State: AOAM533EzwP/qBTTFwii9AXzOf+XY0K+gbUkYgUPHJ2V+ehoJAF6lATP
-	mQQJP2+zvqfleFo+qBQzmtp1jVt6PWw=
-X-Google-Smtp-Source: ABdhPJxZeBLbGg19NfcuGXUBuK/pUHbmUybfJ1cp1nfmhe28IuOfaqIHeoxlz0ucQB8CCFSTg8OOKg==
-X-Received: by 2002:adf:aac9:: with SMTP id i9mr2052310wrc.231.1629359615330;
-        Thu, 19 Aug 2021 00:53:35 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from CTW-01195.lan ([88.157.222.244])
-        by smtp.gmail.com with ESMTPSA id f10sm2143785wrx.40.2021.08.19.00.53.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 00:53:35 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v2] patch.bbclass: check if patchdir exist before appling the patch
-Date: Thu, 19 Aug 2021 08:53:26 +0100
-Message-Id: <20210819075326.8611-1-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bia7KawZqhrGSkmD9WwMzjJOJjJd4PH7unnQTeYt26I=;
+        b=UgvJtvhl5rmun/+PCSOQCjG7xyqijh9gPeHFg8zdnJOhTruljZnyrZcCefWfHbDWkH
+         niXuxkd1nX6kNSvldPP6jIkKRB7vUCm3nYbtG66aIXrMYvY2TzBxRsw2Z5w+v/MAc4yj
+         WeTqsfXbOOVWd63PKQrFbFqeDM1CTsK51xXHo+GdHR9irr259uUxp5Nz+vjvTlLy94iD
+         OxAApk8HGAycVGv39oI08dAdvT0Z1Flm8GXhY1iOXgha9fMD5mr3O9MBld3UjS8v5xOs
+         eAKDyzOrO+tX79Nuqh2SvyFe19xWVQsOjEFwXYZHQmf/RZkCWBQWY0w89mFmW+qHz8tB
+         Gaaw==
+X-Gm-Message-State: AOAM530QMB26lQfrdoYA9d1MXybg4My8Z9HtZNvyp88556s0mOYjvmR9
+	evg4F2b+PNoSPtoAgNOCD0pG2k2/jXjHDYpX3wM=
+X-Google-Smtp-Source: ABdhPJzLRyZXYe9wLsaNzLN0DwvT85CUlWZsFsePQL39MqbJiC8/q48tkDxaZB3VIfSODJcfCc1oLN/yeHnM6vtsFJQ=
+X-Received: by 2002:a17:907:7883:: with SMTP id ku3mr14928781ejc.453.1629361778220;
+ Thu, 19 Aug 2021 01:29:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <169CA5F083F04B64.9306@lists.openembedded.org>
+In-Reply-To: <169CA5F083F04B64.9306@lists.openembedded.org>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Thu, 19 Aug 2021 09:29:27 +0100
+Message-ID: <CANPvuR=gzSsaCjTp1sdOVfuq3qh+t27kGFVafktD5A-LqPJb0g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] patch.bbclass: check if patchdir exist before appling the patch
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-if the user specifies a relative path on 'patchdir' that don't exist,
-the patch will fail and there are no message that indicates the real cause.
+It only makes sense to check if the patchdir exists when it is
+defined, fixed in V3
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/classes/patch.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Jose Quaresma via lists.openembedded.org
+<quaresma.jose=3Dgmail.com@lists.openembedded.org> escreveu no dia
+quinta, 19/08/2021 =C3=A0(s) 08:53:
+>
+> if the user specifies a relative path on 'patchdir' that don't exist,
+> the patch will fail and there are no message that indicates the real caus=
+e.
+>
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  meta/classes/patch.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+> index 559c6f45bd..4b38be7e3f 100644
+> --- a/meta/classes/patch.bbclass
+> +++ b/meta/classes/patch.bbclass
+> @@ -134,6 +134,9 @@ python patch_do_patch() {
+>          else:
+>              patchdir =3D s
+>
+> +        if not os.path.isdir(patchdir):
+> +            bb.fatal("Patch source directory don't found '%s'" % patchdi=
+r)
+> +
+>          if not patchdir in classes:
+>              patchset =3D cls(patchdir, d)
+>              resolver =3D rcls(patchset, oe_terminal)
+> --
+> 2.33.0
+>
+>
+>=20
+>
 
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 559c6f45bd..4b38be7e3f 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -134,6 +134,9 @@ python patch_do_patch() {
-         else:
-             patchdir = s
- 
-+        if not os.path.isdir(patchdir):
-+            bb.fatal("Patch source directory don't found '%s'" % patchdir)
-+
-         if not patchdir in classes:
-             patchset = cls(patchdir, d)
-             resolver = rcls(patchset, oe_terminal)
--- 
-2.33.0
 
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
