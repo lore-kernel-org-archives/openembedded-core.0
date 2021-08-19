@@ -1,77 +1,85 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web12.66456.1629354826697006147
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web11.65780.1629357661777246229
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Aug 2021 23:33:47 -0700
+ Thu, 19 Aug 2021 00:21:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JVlLrh83;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id u1so3171766wmm.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Aug 2021 23:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mYDALobzHzgPiXMyU1ZcHFT8eIyv+WKMANFJ3ADKSl8=;
-        b=JVlLrh8303kLdOgDVrSM6DVhyhFc9t9ugWF2XIzjcdRkBkG+o2et+t2RGbbPbWfbAt
-         bs/2ipXYC49zr3eHMS03PqiKkgG2VPYFHFBoGI9l4f5Z8R+t9Cmu3VorBus3omUynzem
-         OXK0oIux5JVteCRWQNUq4/JptwKZx4c3/VOkU+5zZnhn5YidXmFdoSC21pKP0H89HR4O
-         QGG21iivRdkynRiL7hoGvm7s9zAEwyZ9h/6yxwQqEmMyn+4bczPD26Xf6xLLR6YD3AN+
-         Fgk97KKYXWTE0nT9ILRg+tjbXVioVWAlweFWqs6tYJ4UdAuwncMiGhPxH3obMuNrx8Ja
-         2MyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mYDALobzHzgPiXMyU1ZcHFT8eIyv+WKMANFJ3ADKSl8=;
-        b=V3/fur5d3L5kpw4tKqsLbm8hvQ5kvMc6bNRKtjjrwbs6ing2kTixASEZy2dBGmJr2R
-         3jwA3cmwlihEQBXr+iXRMEFCuq5TcysS6Hgwy91TI5LV39/EUkp1Y758STemayFSnRPM
-         471zkL5rbVn9o3swYnJRCqsWnS6TxJ2zv5LLBUi8GhmYJf6gBbls8zE17UbVnbIbhpK6
-         qvCXr2w00Kfg6LOXaMy2A4hZ+jLgwQguOpTUBlGYUs3qL4Kf0pJ6Is9n/sdXNUoBisIR
-         rROfNphv2ROoo3TDNkPaOEotoU4bpSMdnld8jCpeO4cPPkct0W825GHhHnPqWuPUHYy3
-         f8lA==
-X-Gm-Message-State: AOAM531V9S1NKzH0a6RWjpfrDiR+Xejel1aamUVk4abg/G3u0jNmpcmz
-	ZbluCW28YgSj30toyTiISntao3pdldI=
-X-Google-Smtp-Source: ABdhPJyJk5dHz9R+vDH6OBemwkoueipfUbEZsZvugBKIbv5qVTE7ZdpibPsQumqz6x4OXT8iJTTM8A==
-X-Received: by 2002:a05:600c:1ca7:: with SMTP id k39mr12660578wms.115.1629354825083;
-        Wed, 18 Aug 2021 23:33:45 -0700 (PDT)
-Return-Path: <rybczynska@gmail.com>
-Received: from localhost.localdomain ([80.215.210.42])
-        by smtp.gmail.com with ESMTPSA id e25sm2297628wra.90.2021.08.18.23.33.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 23:33:44 -0700 (PDT)
-From: "Marta Rybczynska" <rybczynska@gmail.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: 0leil.net, ip: 217.70.178.230, mailfrom: foss@0leil.net)
+Received: (Authenticated sender: foss@0leil.net)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id 516CF240009;
+	Thu, 19 Aug 2021 07:20:58 +0000 (UTC)
+Date: Thu, 19 Aug 2021 09:20:57 +0200
+From: "Quentin Schulz" <foss@0leil.net>
 To: openembedded-core@lists.openembedded.org,
-	denis@denix.org
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [meta-oe][PATCH] lzo: add CVE_PRODUCT
-Date: Thu, 19 Aug 2021 08:33:35 +0200
-Message-Id: <20210819063335.3670-1-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ Jose Quaresma <quaresma.jose@gmail.com>
+Subject: Re: [OE-core] [PATCH] patch.bbclass: show to the user where the patch is applied
+In-Reply-To: <20210818212824.146143-1-quaresma.jose@gmail.com>
+References: <20210818212824.146143-1-quaresma.jose@gmail.com>
+Message-ID: <CF5F148C-F40D-42CF-84D7-88B293D9E752@0leil.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-lzo was missing CVE_PRODUCT and related CVEs (at least CVE-2014-4607) were
-not reported.
+Hi Jose,
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
----
- meta/recipes-support/lzo/lzo_2.10.bb | 2 ++
- 1 file changed, 2 insertions(+)
+On August 18, 2021 11:28:24 PM GMT+02:00, Jose Quaresma <quaresma=2Ejose@g=
+mail=2Ecom> wrote:
+>- There are situration when the user have the 'patchdir' defined
+>as a parameter on SRC_URI=2E However he doesn't know with this,
+>the patch is applied relatively to the receipe source 'S'=2E
+>
+>* On the next example, the patch is applied on ${WORKDIR}/contrib=2E
+>But if the user specifies a path on 'patchdir' that don't exist,
+>the patch will fail and there are no message that indicates the real caus=
+e=2E
+>So showing the source path where the patch is applied can be useful=2E
+>
+>S =3D "${WORKDIR}/git"
+>SRCREV_FORMAT =3D "opencv_contrib"
+>SRC_URI =3D "git://github=2Ecom/opencv/opencv=2Egit;name=3Dopencv \
+>           git://github=2Ecom/opencv/opencv_contrib=2Egit;destsuffix=3Dco=
+ntrib;name=3Dcontrib \
+>           file://0001-sfm-link-with-Glog_LIBS=2Epatch;patchdir=3D=2E=2E/=
+contrib \
+>           "
+>
 
-diff --git a/meta/recipes-support/lzo/lzo_2.10.bb b/meta/recipes-support/lzo/lzo_2.10.bb
-index 85b14b3c5c..31a229c7f5 100644
---- a/meta/recipes-support/lzo/lzo_2.10.bb
-+++ b/meta/recipes-support/lzo/lzo_2.10.bb
-@@ -18,6 +18,8 @@ SRC_URI[sha256sum] = "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b42
- 
- inherit autotools ptest
- 
-+CVE_PRODUCT = "oberhumer:lzo2"
-+
- EXTRA_OECONF = "--enable-shared"
- 
- do_install_ptest() {
--- 
-2.30.2
+This shouldn't be done=2E You do not patch files in WORKDIR, you override =
+them with SRC_URI and bbappends=2E
 
+This breaks devtool=2E
+
+The patch is fine for me, just complaining about the example :)
+
+Are bb=2Enote printed in the log=2Edo_task files, I don't remember? If not=
+ (or maybe whatever the answer since it could be a bring a better user expe=
+rience), would it be possible to print this path again when it fails? So th=
+at it's clear from the default loglevel output of bitbake that the patch fa=
+iled and it was attempted to be applied to "this" path?
+
+Reviewed-by: Quentin Schulz <foss@0leil=2Enet>
+
+Thanks!
+Quentin
+
+>Signed-off-by: Jose Quaresma <quaresma=2Ejose@gmail=2Ecom>
+>---
+> meta/classes/patch=2Ebbclass | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/meta/classes/patch=2Ebbclass b/meta/classes/patch=2Ebbclass
+>index 388773a237=2E=2E559c6f45bd 100644
+>--- a/meta/classes/patch=2Ebbclass
+>+++ b/meta/classes/patch=2Ebbclass
+>@@ -142,7 +142,7 @@ python patch_do_patch() {
+>         else:
+>             patchset, resolver =3D classes[patchdir]
+>=20
+>-        bb=2Enote("Applying patch '%s' (%s)" % (parm['patchname'], oe=2E=
+path=2Eformat_display(local, d)))
+>+        bb=2Enote("Applying patch '%s' (%s) on '%s'" % (parm['patchname'=
+], oe=2Epath=2Eformat_display(local, d), patchdir))
+>         try:
+>             patchset=2EImport({"file":local, "strippath": parm['striplev=
+el']}, True)
+>         except Exception as exc:
