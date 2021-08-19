@@ -1,71 +1,168 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web09.70750.1629385655128587149
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web09.71323.1629388024558837272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 08:07:36 -0700
+ Thu, 19 Aug 2021 08:47:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sidebranch-com.20150623.gappssmtp.com header.s=20150623 header.b=fNUJaX02;
- spf=softfail (domain: sidebranch.com, ip: 209.85.222.180, mailfrom: leon@sidebranch.com)
-Received: by mail-qk1-f180.google.com with SMTP id bk29so1726970qkb.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 08:07:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ICodlGP9;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id k8so9812825wrn.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 08:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=u1OnYPAPpdyND+fG/dNYL259x8cfsmX1wVmJknutweQ=;
-        b=fNUJaX0279XQcbT0GZ1dP0mEB5NTBkCkrrnmQIim3ebVotreFJOdQ/nZI+iYhRuWGX
-         c67mMwpXPRE4lCpDQd8FrBfrdM2hH0KeBDewhdicd7TaTLYt67ZUF7HOBsBdzJCuvPjC
-         oI3s9GFu+LT70xkbko+GUJXzAKuetLd8s5UOMSU6mwcBO6JtBxN+84RW1Gm7jxlO50hi
-         ciPgR/4zjiRWnLkqkTi1u0t4/N9AjNAm9vx+D8O/uTv7i6l3HVO9o+GGyh6meWlbGRKX
-         /P3s2zOVgDnflrEZlaUlPzqSJPTYFQOT1YyH19Ph4wU+FJ72HAfq8hBbItP47UNYPwFs
-         rpDg==
+        bh=wfu2WYYXb1Osnxr7C0JJPyXBLa0VQ0Pnsn+tDDLk808=;
+        b=ICodlGP9M0q3x7QxE/gEnozhvHP+1JRqwLprmxvZX59KizB+jce4hnNfqKXfiZmERI
+         Gj7SosoDvyg8dcFTITFMMa+gUZ5MPfAl3IoSSt26/a3ZNk7RHowzJ5kCeGK+NnJWFKm/
+         sGEmq81y6K26REhgCCPxUKNqzOtBTnSmIcFNqsEThI7BZi6bVwXM379WsQEYE8JGBr5/
+         Ts0RsQz0/Z/LLnOyLoDW5xh2rCoSGnyI7TndRBTsvj3gM027TUo1prFt099FVxH/6gEc
+         RCcneoJoX0pIvhuwTXEkkRGdvjEAbBACDEI1f7ymhvECvNQSHBWdr2qDVDryhahA7VR8
+         imxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=u1OnYPAPpdyND+fG/dNYL259x8cfsmX1wVmJknutweQ=;
-        b=HbvJZJ0TZmlKU2S0a4rX7rCpgUPHkFPWUyLo5tlTnmJboA6Prs0VNiDJ2qh0ykuFMX
-         6E96xh+rGrkmBoW+OFzQBWssB9F4T7Xr3AV76EW8jlUQo4sxiz/SH9w8F/obw6byqdsv
-         iL1LYnXLkOsmJnz8/9iNIfFUmwDudt+dWKUfLEOZxYlexhna6wLM9+uVNUkMLH1hS1wW
-         nwocGnR0+uUZCb4XSeex2rLEmEKac4oa8Q0Ud8B3GIyfIYr8erJhTyGuMkprN0POF9Ju
-         QrbTsnHAqeMsZGW9821+AdBW86oGTLeEGlS4fHDF/TAo6ycCwThhPc9e0GI3+Q/Es5C8
-         3/PQ==
-X-Gm-Message-State: AOAM530YwGpMsrcGzzze/q+/nmtKz910yzX2EvtysPWGEKqyttJ1s//H
-	6EO4yuqkfQT+wKAi0fUDJ0wM8FbrLT/vLTk8iXt8aA==
-X-Google-Smtp-Source: ABdhPJw+eMC/UNkKgUIKDSxb/jhkVLHiAWyre2OsaIa0csa8CpXUhMWHr+T3RokTXID/Kt2lPP5G5mzMfDqrtvyoiv8=
-X-Received: by 2002:a05:620a:1090:: with SMTP id g16mr4308145qkk.202.1629385654017;
- Thu, 19 Aug 2021 08:07:34 -0700 (PDT)
+        bh=wfu2WYYXb1Osnxr7C0JJPyXBLa0VQ0Pnsn+tDDLk808=;
+        b=GsTMNufDBqKczhBUzoHxarbfYAhqmxNaBC1jYKwWvwknhacgx6h775B6pskmngKqA7
+         4Rmf4NCbaYXOx6lxXU4dTWcqrgybXwnnCjlmm3z02I3SqnQ12VzdIjGcCJpgm7Lkm3It
+         Kuw1XIVyoXCd3TtI2KPIhr2IlpLJVNHiEvU8pdH/9AU88a68ohdF8ck6xXBQzeDEs04V
+         sT29KFMo4sOiS8VRzcr2NkKUH0cg/nWD7fJccO5ykCAmtwJoVtzfqRJp/DyFOUz/F/US
+         nEoBeHeLLfN/N5g8Cor0wNreLfrcjlE05WmYVPc3t42BsGhZ6Nt84GSDts1m8mt2IDnU
+         euug==
+X-Gm-Message-State: AOAM531NTM2dGcYLV4YCxWU5/RJMyiPfZvJCjMcGOWSmXPVo/mT+jq7S
+	qV9xx+4rFO+OaRadfbiVKHpRCd/+oQ8ITS36i8g=
+X-Google-Smtp-Source: ABdhPJyo1zMjr2M/d4Ozp/j38x7SlaTk9TLltHSWfn5wuBkv/7TNiZS3Ecbl/4H5uHpMlu7E8jrJP1eaQD3d8YeetfI=
+X-Received: by 2002:a5d:45c9:: with SMTP id b9mr4797929wrs.395.1629388022960;
+ Thu, 19 Aug 2021 08:47:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210714134248.21366-1-JPEWhacker@gmail.com> <CAMKF1sqy4JmetZ43q7Nq0EFN1ooRBdR8uutxZxzi2QvuvU1SpA@mail.gmail.com>
- <2ec0fd8d-a20f-c64c-b5c0-0c86b3a682a7@windriver.com> <AM9PR09MB4642908F79699D4DD2839AF2A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: <AM9PR09MB4642908F79699D4DD2839AF2A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: "Leon Woestenberg" <leon@sidebranch.com>
-Date: Thu, 19 Aug 2021 17:07:23 +0200
-Message-ID: <CAMjhiJjxtXe6Q2QPEk9bByUy3i6NvJHbxW8swF+faAyUVgdeRg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] bitbake.conf: Add lz4c, pzstd and zstd
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20210819063335.3670-1-rybczynska@gmail.com> <CAAnfSTtzG6sSkKtUEmkopf4hp1bFKXczy6d8ASemVOmD77y_9w@mail.gmail.com>
+In-Reply-To: <CAAnfSTtzG6sSkKtUEmkopf4hp1bFKXczy6d8ASemVOmD77y_9w@mail.gmail.com>
+From: "Marta Rybczynska" <rybczynska@gmail.com>
+Date: Thu, 19 Aug 2021 17:46:50 +0200
+Message-ID: <CAApg2=TnTLP=8GX6-UYfRR+1zjeFxwEF+1ny2Mn5xfRvrd=x_w@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH] lzo: add CVE_PRODUCT
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004f562d05c9eb7651"
+
+--0000000000004f562d05c9eb7651
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Konrad,
-
-On Thu, Aug 19, 2021 at 4:51 PM Konrad Weihmann <kweihmann@outlook.com> wrote:
->
-> I mean this is the second hard cut in the project within just weeks and
-> this time it was host related, which is even harder to fix in a timely
-> manner in a corporate environment (basically rolling out changes to all
-> dev installations isn't something I fancy on a Wednesday morning :-( )
->
-The choice to follow bleeding edge, means bleeding at some points in time.
-
-Why do you follow master on all dev installations if you are not able
-to match (slightly) disruptive changes?
-
-I would recommend to prevalidate changes on one instance before
-spreading across all (inflexible) dev installations anyway.
-
-I did not follow the rationale closely, but I think it was related to
-CMake dependencies as well.
+Thanks for looking into this. I've used the cve_check pass from
+https://lists.openembedded.org/g/openembedded-core/message/154677
+and just with 'lzo' there are no results. I can add both if that seems
+safer, fine for me. Will submit a new version.
 
 Regards,
+Marta
 
-Leon.
+On Thu, Aug 19, 2021 at 2:54 PM Ross Burton <ross@burtonini.com> wrote:
+
+> This replaces the default value of 'lzo', it might be safer to use +=
+> so both this name and just lzo are searched for.
+>
+> The CVE database isn't very reliable for consistent naming, so I
+> prefer to cover all bases.
+>
+> Ross
+>
+> On Thu, 19 Aug 2021 at 07:33, Marta Rybczynska <rybczynska@gmail.com>
+> wrote:
+> >
+> > lzo was missing CVE_PRODUCT and related CVEs (at least CVE-2014-4607)
+> were
+> > not reported.
+> >
+> > Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+> > ---
+> >  meta/recipes-support/lzo/lzo_2.10.bb | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/meta/recipes-support/lzo/lzo_2.10.bb
+> b/meta/recipes-support/lzo/lzo_2.10.bb
+> > index 85b14b3c5c..31a229c7f5 100644
+> > --- a/meta/recipes-support/lzo/lzo_2.10.bb
+> > +++ b/meta/recipes-support/lzo/lzo_2.10.bb
+> > @@ -18,6 +18,8 @@ SRC_URI[sha256sum] =
+> "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b42
+> >
+> >  inherit autotools ptest
+> >
+> > +CVE_PRODUCT = "oberhumer:lzo2"
+> > +
+> >  EXTRA_OECONF = "--enable-shared"
+> >
+> >  do_install_ptest() {
+> > --
+> > 2.30.2
+> >
+> >
+> > 
+> >
+>
+
+--0000000000004f562d05c9eb7651
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks for looking into this. I&#39;ve used the cve_c=
+heck pass from</div><div><a href=3D"https://lists.openembedded.org/g/openem=
+bedded-core/message/154677">https://lists.openembedded.org/g/openembedded-c=
+ore/message/154677</a></div><div>and just with &#39;lzo&#39; there are no r=
+esults. I can add both if that seems</div><div>safer, fine for me. Will sub=
+mit a new version.</div><div><br></div><div>Regards,</div><div>Marta<br></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Thu, Aug 19, 2021 at 2:54 PM Ross Burton &lt;<a href=3D"mailto:ross@burtoni=
+ni.com">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">This replaces the default value of &#39;lzo&#39;,=
+ it might be safer to use +=3D<br>
+so both this name and just lzo are searched for.<br>
+<br>
+The CVE database isn&#39;t very reliable for consistent naming, so I<br>
+prefer to cover all bases.<br>
+<br>
+Ross<br>
+<br>
+On Thu, 19 Aug 2021 at 07:33, Marta Rybczynska &lt;<a href=3D"mailto:rybczy=
+nska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; lzo was missing CVE_PRODUCT and related CVEs (at least CVE-2014-4607) =
+were<br>
+&gt; not reported.<br>
+&gt;<br>
+&gt; Signed-off-by: Marta Rybczynska &lt;<a href=3D"mailto:marta.rybczynska=
+@huawei.com" target=3D"_blank">marta.rybczynska@huawei.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-support/lzo/<a href=3D"http://lzo_2.10.bb" rel=3D"n=
+oreferrer" target=3D"_blank">lzo_2.10.bb</a> | 2 ++<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-support/lzo/<a href=3D"http://lzo_2.10.bb" r=
+el=3D"noreferrer" target=3D"_blank">lzo_2.10.bb</a> b/meta/recipes-support/=
+lzo/<a href=3D"http://lzo_2.10.bb" rel=3D"noreferrer" target=3D"_blank">lzo=
+_2.10.bb</a><br>
+&gt; index 85b14b3c5c..31a229c7f5 100644<br>
+&gt; --- a/meta/recipes-support/lzo/<a href=3D"http://lzo_2.10.bb" rel=3D"n=
+oreferrer" target=3D"_blank">lzo_2.10.bb</a><br>
+&gt; +++ b/meta/recipes-support/lzo/<a href=3D"http://lzo_2.10.bb" rel=3D"n=
+oreferrer" target=3D"_blank">lzo_2.10.bb</a><br>
+&gt; @@ -18,6 +18,8 @@ SRC_URI[sha256sum] =3D &quot;c0f892943208266f9b6543b=
+3ae308fab6284c5c90e627931446fb49b42<br>
+&gt;<br>
+&gt;=C2=A0 inherit autotools ptest<br>
+&gt;<br>
+&gt; +CVE_PRODUCT =3D &quot;oberhumer:lzo2&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 EXTRA_OECONF =3D &quot;--enable-shared&quot;<br>
+&gt;<br>
+&gt;=C2=A0 do_install_ptest() {<br>
+&gt; --<br>
+&gt; 2.30.2<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+</blockquote></div></div>
+
+--0000000000004f562d05c9eb7651--
