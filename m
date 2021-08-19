@@ -1,104 +1,164 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web12.72425.1629390566081775055
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.92.66.97])
+ by mx.groups.io with SMTP id smtpd.web12.72457.1629390669547779298
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 09:29:26 -0700
+ Thu, 19 Aug 2021 09:31:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qTbj6vAP;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: jpewhacker@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id h13so10034754wrp.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 09:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H5AGdI+WYCXyhbxip3th3+hxh2OBQf81TObT9BWU9z0=;
-        b=qTbj6vAP591gkfTm183AxGWEQknJB2JzwNidO6IOzEAc4wMwkf/ybyQbulcYpj1jt8
-         gsqb3YXtcriN6AMIQvsYVVuMS5b0HVaLq4LoJPGjwp4jj1hgnJ7vH/6R1bHm5snVBiL9
-         DWBwKXO8Mvvr+xfak/iiG0tGMiDMaWnQHbL4bZHcu2B47sbIW9f4PhaLuDRoT4Zxoa7g
-         7FE8leZpiCG3IQMFXjSySc/YYlJ8JAPQWWCd/YJTmde1cQxaf5bkC1cl48GY1SX88PWa
-         x7niNH9sV9KX0Qd0vLmaeJ42GLY7KRo2plwrvN0PXEIclz+cqgy7PK8Yx2OWUCy+p1dU
-         aW7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H5AGdI+WYCXyhbxip3th3+hxh2OBQf81TObT9BWU9z0=;
-        b=gumgQtWC12wOnMAj/VDs2oaIvISS6CcV6J2+2PjFhbFiPm+m7/gkNNQkztomi4dUQX
-         O2d19Fg62huh6xfDR4vP1bit3YzjJ+ICXIsTxMKI7tg5vvzOvU1iy1h0z0mVbryix8ER
-         GMw+p9P0EJ4MFKCBbWNo3fxpDz+Ha+KbfWWO0WxyBNFqiWOryuejeRcIXSFNn5GflovB
-         I0ITx4rc2HSDWDQ8v3mrjNq32S/xZa10kTDt7Olt++IukmYUVheP2e7CU81X4ERPkA8K
-         SzVCsa7D/K6cV3yvFGd1ARbm4N2MEa74lVvj/hggh3r1dgxeRZ7QyvhrpuZE4ZpNtGCb
-         dNbQ==
-X-Gm-Message-State: AOAM533CddY5uNURgVDtADyz8yjZd8NGLqDZlj+VNDrgpDYRBRq+N4/W
-	5JEI89UfsGDXq20ieYSgt0mQ9YpWSSCRhznEcuM=
-X-Google-Smtp-Source: ABdhPJxDenwSETaMpZ9ENZAMwIQBI1tDaNPUOzNd7/GAvZRc4mTqV7Qpb/fWx5ikPKk+pkzm+i2gcB6U029Q0KtUHYQ=
-X-Received: by 2002:adf:f00d:: with SMTP id j13mr5077788wro.14.1629390564641;
- Thu, 19 Aug 2021 09:29:24 -0700 (PDT)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=kyaU9qza;
+ spf=pass (domain: outlook.com, ip: 40.92.66.97, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xe/Y+ky+tOX2UhVH+KY08VAlaUe+88ZLxwYkiaABpi8FoKJwd/RartwWjr8JYLVQN45aB/ZqBN+Mub/OeLluTFE37xFv9lW2QIX131Ytw9jMbAbJmCCBQH6jm32kFck4xk1DvyuUEhZfXFkm7kBp+8WJ9M6rz1vfd49x3mAsjyFdRgusHgI8mTRYzoNqAAczZjB4URIWzie5ZmAQaobV5SMexmS9Q5dZt/Dc/xYXcnWnRS0pxd6YPQWtBQH7qvM4JqJ8dz1VuaHc1p36DAuBQRrrd4JvprcY1otdBdKyCQN70Y7SKqu1edkQHu7kolm787+CmEOPIEMTU5eZToS7Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/gMqeCBP2DdvSYptmtvvnhwdPYXqJcB7g77bweLAUXM=;
+ b=BU957yVg8XnAZvJf6fWK5Av12iE5WHaUJGBQVabTFVFS9Cb8yEeovfeLbVHCz3Ns+HjoE/HlbXcuJpASAh1s0VDac5VjGFy55YRlZIohMzfLsHLJBGcdIt3uQaetNicer7VmylyV6CApVo/oTxjYQhLWfvCAfYS3JCquzmUH6DJz353MaJ1XO7H8DgvOJ4sPC15M6vXzk2/HZx1MK5rcjUocf6AKvQMJeW6/DqoBP2i0WZoDanA8Dj+kMWre3wttM4vYDfTSTzH8YKSnQEyCTLZ+U9wj3FFdAcixbQtIj1u6SqWCSoZNrroK8Z6zS2S/cSOeK50rUvtGeUEQEzwARQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/gMqeCBP2DdvSYptmtvvnhwdPYXqJcB7g77bweLAUXM=;
+ b=kyaU9qzaHqxN6+xoM+uX7eWbhmXzZD1RSzVLHSiV5LLEwGzqi2YStFAFPwffRDMXD30WWQoWM3M20JHgqooAq+MyXNgnocPrWAqiRPsaPB/QePoYxRQ3150RKjQf9v71cUY1hJUL7WdoNqmXfirHGeNCc2v2O+Gd2EZsQfd5MjMoiLeY5H9asREy3Z8FAEMPkRnu0cCNV2M6nDBKpmq4sG5kDsNv6cR52/WsjnWmzrsAhhm6+suIn1hCQSdSMbjpwvGquyrnDiE8BbNlCYj3UiaqjheHbv9R8gk0yDffm9k5ij1UnqNWMpzELwCc8QhHvkuIBfGlrH9v8riHsDupUA==
+Received: from DB5EUR01FT051.eop-EUR01.prod.protection.outlook.com
+ (2a01:111:e400:7e1a::45) by
+ DB5EUR01HT010.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e1a::141)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Thu, 19 Aug
+ 2021 16:31:06 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:7e1a::45) by DB5EUR01FT051.mail.protection.outlook.com
+ (2a01:111:e400:7e1a::262) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
+ Transport; Thu, 19 Aug 2021 16:31:06 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:ADB00674858A03DBCD5147432C83BF07F7EB5AD60E9498623CCD147D3FE03E3E;UpperCasedChecksum:AB80969C04C8A8E7285BD21FB484A81DEB2DA9072A8CD1C57341EE2C1D55C5DB;SizeAsReceived:9118;Count:47
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::e4c0:3ddf:e023:da7a]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::e4c0:3ddf:e023:da7a%6]) with mapi id 15.20.4415.024; Thu, 19 Aug 2021
+ 16:31:06 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Subject: Re: [OE-core][PATCH] bitbake.conf: Add lz4c, pzstd and zstd
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20210714134248.21366-1-JPEWhacker@gmail.com>
+ <CAMKF1sqy4JmetZ43q7Nq0EFN1ooRBdR8uutxZxzi2QvuvU1SpA@mail.gmail.com>
+ <2ec0fd8d-a20f-c64c-b5c0-0c86b3a682a7@windriver.com>
+ <AM9PR09MB4642908F79699D4DD2839AF2A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <ba3db5ea7343701e5a78c5b55704bcedfb2106b5.camel@linuxfoundation.org>
+Message-ID: 
+ <AM9PR09MB464268B7229085D9F34B7E15A8C09@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Thu, 19 Aug 2021 18:31:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <ba3db5ea7343701e5a78c5b55704bcedfb2106b5.camel@linuxfoundation.org>
+X-TMN: [3pSKFLJ/OcJ8zfqVnB+/RZf81BRNADqHxi9B2mc25vL6/UAD8Dhu3ToQ8razQuSJ]
+X-ClientProxiedBy: AM3PR05CA0109.eurprd05.prod.outlook.com
+ (2603:10a6:207:2::11) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <ae25aa73-a96c-0d5d-cd2c-8389818b4ee1@outlook.com>
 MIME-Version: 1.0
-References: <20210811145158.12224-1-JPEWhacker@gmail.com> <CAApg2=QW94Bh2a6iC+YgeDakFB1SjtpT-5KVCb0xKYpQEqRTfg@mail.gmail.com>
-In-Reply-To: <CAApg2=QW94Bh2a6iC+YgeDakFB1SjtpT-5KVCb0xKYpQEqRTfg@mail.gmail.com>
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-Date: Thu, 19 Aug 2021 11:29:11 -0500
-Message-ID: <CAJdd5GZay3MoH36nYRr5Z8wYK-mK36w4J4ouB4u1ApvaXZbrFw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes/cve-check: Move get_patches_cves to library
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Saul Wold <saul.wold@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000ce4cc705c9ec0d0f"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:8109:9a80:3b94:21e6:643:d458:fcb] (2a02:8109:9a80:3b94:21e6:643:d458:fcb) by AM3PR05CA0109.eurprd05.prod.outlook.com (2603:10a6:207:2::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Thu, 19 Aug 2021 16:31:06 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 64f74207-665c-4057-6c93-08d9632ebe73
+X-MS-TrafficTypeDiagnostic: DB5EUR01HT010:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	xhbTyD2nldEI1I1X5osMpBCx1eqmTA5y7ZmkQcVbPz+JG14bAx7hPm7sFRIHuWIRZk+yI8IDhZIFQdJVFfYf8EJhcTc3K2oe2310hAIvD3qb+DRzK0i5OhBi8mqoCgmAEgeuZ6WAnGAdmR/NpbWnlsbibbw3QBzDyEdQyZxl/ZYQ7+EGA4vZkUYsvv+aIhBK2T85hoMxmcHLK5KiiJSTwHQiBBjtbHpjnqBvdg2FNPsW5dJ6KgsplnpmSmSp2R862w4CiuzoWhvz+FWtaJiS8We9Hf8++GmY3kbJR/oXdUMGxa02dlDXVNrH/gEEhs5KzxeN+47lANxMT/nFdEuafwkn7oKpIT1fjq6R70HdEFcEIxY7cnuq+kcXzqQKexI3/tdLDDXaKC0m+uCKijKJfii5F7FnhUTMRmgPMeaZ2gSysuYNmkjcZmScc/cAZ4zZFDe+deXX5X/8Gu6VfqXEKzQ/6K+lW3Zb9sLrNtJKM3k=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	KVgDVOUY86ckeN4cFIFlUV3v4Y4Ad1FtYDa2WFq3lmH/tB/k0bUzLkKlKVZmiPfFUnCjpwhlPAXLbpXZ9yugJ5yE3i2WNwEA8VlMbAs4aN6UMslU2tENwJnvh1pTEU129k0vb2wENKBGtc0j8kZdGSXAlSm/VQXFoICrftIzwFi3dAWOdAYEP+YICM/sVDpx+hEXvXwVfTHqwMdWjU/i+Q==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64f74207-665c-4057-6c93-08d9632ebe73
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2021 16:31:06.7214
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR01FT051.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR01HT010
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---000000000000ce4cc705c9ec0d0f
-Content-Type: text/plain; charset="UTF-8"
 
-I have a branch called jpew/sbom in poky-contrib with my WIP changes.
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jpew/sbom
-
-On Thu, Aug 19, 2021, 11:04 AM Marta Rybczynska <rybczynska@gmail.com>
-wrote:
-
->
-> On Wed, Aug 11, 2021 at 4:52 PM Joshua Watt <JPEWhacker@gmail.com> wrote:
->
->> Moving the function will allow other classes to capture which CVEs have
->> been patched, in particular SBoM generation.
+On 19.08.21 18:06, Richard Purdie wrote:
+> On Thu, 2021-08-19 at 16:50 +0200, Konrad Weihmann wrote:
+>> I kind of missed out on this change... but I got caught up by reality
+>> hard this morning :-(.
 >>
->> Also add a function to capture the CPE ID from the CVE Product and
->> Version
+>> I currently don't see a reason why zstd is required on the host - only
+>> systemd is having a hard dependency against zstd atm, while the other
+>> lately added references are just optional PACKAGECONFIGs (and there are
+>> plenty of them which have loose ends - in poky and meta-oe)
 >>
+>> So the question I want to raise: why a hard dependency? wouldn't have
+>> been HOSTTOOLS_NONFATAL enough?
 >>
-> Do you have a link to some resource on how you plan to use it for SBOM
-> generation?
->
-> Thanks,
-> Marta
->
+>> I mean this is the second hard cut in the project within just weeks and
+>> this time it was host related, which is even harder to fix in a timely
+>> manner in a corporate environment (basically rolling out changes to all
+>> dev installations isn't something I fancy on a Wednesday morning :-( )
+>>
+>> None of the commit messages somehow mentions, why we all of a sudden
+>> need that on the host, instead of building it from sources (which should
+>> be possible judging from the latest master sources).
+>>
+>> And on that note: that the documentation wasn't updated in the same
+>> changeset is very unfortunate (not even the crops container where updated)
+> 
+> Sorry the change is a bit of a pain. It has been in master-next for a while
+> and we did have to jump through a number of hoops as a project to enable this
+> (e.g. adding to buildtools and our autobuilder infrastructure).
+> 
+> The reason we're doing this is that we need to use compression within bitbake
+> itself for some of our output files. We've not done this in the past as it is
+> a pain to have the host prerequisites however there are multiple places we can
+> potentially benefit, such as compressed pkgdata and compressed siginfo files.
+> It is also possible we may be able to store a compressed parsed datastore.
+> 
 
---000000000000ce4cc705c9ec0d0f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks Richard, that's explains why it's needed
 
-<div dir=3D"auto"><div>I have a branch called jpew/sbom in poky-contrib wit=
-h my WIP changes.=C2=A0</div><div dir=3D"auto"><br><a href=3D"http://git.yo=
-ctoproject.org/cgit.cgi/poky-contrib/log/?h=3Djpew/sbom">http://git.yoctopr=
-oject.org/cgit.cgi/poky-contrib/log/?h=3Djpew/sbom</a></div><div dir=3D"aut=
-o"><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Thu, Aug 19, 2021, 11:04 AM Marta Rybczynska &lt;<a href=3D"ma=
-ilto:rybczynska@gmail.com">rybczynska@gmail.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 1=
-1, 2021 at 4:52 PM Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" =
-target=3D"_blank" rel=3D"noreferrer">JPEWhacker@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">Moving the functio=
-n will allow other classes to capture which CVEs have<br>
-been patched, in particular SBoM generation.<br>
-<br>
-Also add a function to capture the CPE ID from the CVE Product and<br>
-Version<br>
-<br></blockquote><div><br></div><div>Do you have a link to some resource on=
- how you plan to use it for SBOM generation?</div><div><br></div><div>Thank=
-s,<br></div><div>Marta<br></div></div></div>
-</blockquote></div></div></div>
+> The siginfo files and datastore could mean we can improve debugging of a
+> number of currently hard to solve problems our users face.
+> 
+> Without this we're unlikely to be able to move forward in these areas. If we
+> do it, we open up new development opportunities and potentially improved
+> usability. We can't "just build it" as that would mean we can't use it within
+> bitbake itself.
+> 
+> Sorry this isn't well described anywhere, it is mainly as we can't yet
+> "guarantee" that this will do these things. We do know it won't happen
+> unless we try though.
 
---000000000000ce4cc705c9ec0d0f--
+Agree - btw maybe a good opportunity to insist on better commit messages 
+;-)- just out of interest: is there any guideline, maybe it's worth to 
+at least link to a commit message guide at 
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded 
+or here https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines.
+And slightly off-topic, but maybe also worth to do some automation, as 
+I've seen multiple patches lately, that don't 100% follow the patch 
+guideline in place.
+
+> 
+> Master *is* a development branch, not a stable release so things can change.
+
+I've been brave enough to enforce a multi-branch development (just to 
+keep the bar low when jumping from release to release), maybe I take 
+that as a personal learning :)
+
+> 
+> Cheers,
+> 
+> Richard
+> 
