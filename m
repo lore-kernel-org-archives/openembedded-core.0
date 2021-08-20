@@ -1,161 +1,176 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web08.83882.1629465708261567758
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+ by mx.groups.io with SMTP id smtpd.web10.84765.1629467304379052009
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Aug 2021 06:21:48 -0700
+ Fri, 20 Aug 2021 06:48:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PRRPWVry;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id y7so17347546ljp.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 06:21:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rykiMdnT;
+ spf=pass (domain: gmail.com, ip: 209.85.222.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f43.google.com with SMTP id f25so4151201uam.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 06:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LbUMHD0+lA8XF0GAl5eMPiq4Ua3OmbcIUqtuCihI5Z8=;
-        b=PRRPWVryPsQVQpwkdh/TAdUEMOk1GkB1toemuCIUH0WbTsl6VhA5nVJ6Ml0PtoPHPr
-         rsXIBoNcgMeKaM9tA1cn/XwbzRAYxKK9q7RigDEX7GYiTKxqJ7cS+dw30s/F7+/E5aya
-         zqogcqNgo7whWoJao70lqcBufKXObtuhL2CRMZfk2FJz1CqwF6kVs/bo6L0EMyUQeJBB
-         jj8lTirsTBKexVfxjxF8DcAtXCHP27AVGhFQxCxqVGzT868TtJvl/LW7RynBYEbNjp71
-         EfLkHkLHUgHdR/Q1lZbxIIHxPhvqoaefxvf2FkALPczzWoWE91KrwUKSUCninoXq5mzH
-         cxzw==
+        bh=/+SwQ+O8auENB3RSTS6IFRtUWqfe7qf2Q5cvtOVZNhE=;
+        b=rykiMdnTi+AHjVnJlHyEgZByelPxcwhcBSwKZtERR4NSSRdf7uYY5RDN2znlzQHuYV
+         z8x8jdGqVXq0AlPnvF9QYoJb3gi6zRAHzwJdGSlg6Si+JZ/c8Uz0R55eSs9kuZ/fKXh9
+         9EzvhjzGeJHW+xza/7dDJTyK3OROYlzkbCxoQfR+h2G9MjoNU3bcX5IjrP7wPRUi4HIp
+         Jj05miQIpfH6Rt9keUOt+AuJYvtjlHVaRvG2Ge0qCrJwK2N0mNX2GFgkK1m6xpBSRMoo
+         X8/CE0LW/amVuJFCwmbw3yf5LwRTXiM1GkwgCihe3ZM9vjSfdyZGGeNQ37RBiu0DCwRE
+         UgRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LbUMHD0+lA8XF0GAl5eMPiq4Ua3OmbcIUqtuCihI5Z8=;
-        b=l3z/VxY+//X4GHDpUAM5oFaOyWqJmjF7ZY9yHOlXCZtw17l+L0KQuZyBUaM/opmMem
-         IgjF+MkpLsSYBnpKzuLX2K0Vr/CjsV9fwVlGzeRrYr/gPVRh1ydPdwPOwmofI3oPbmsp
-         llN4p1XFPUwbULQQZoFISJoGvzG4mM+Hm6m9ZP7EN3lQi7Eiq8EbSqNRTz3qfEwTMwTO
-         WnRPMzrbtqO5ShsIEEsxhwjYSMO+4KjcYwQZ5GNhp+xNOz1Bn7FPTDqRtFHKn0m3/MjS
-         pur5I3FzCFxXkH6+kr2f0yDSgMLiFYoDbTns3Gi1k/YN/Hh00ZoaAlVlUxwha8+kAVSc
-         P/pg==
-X-Gm-Message-State: AOAM530i6yzLHUcqVn+Ajtc1eSS4k0Su8Uf5YHQ3MwY1rVEo0jKM9+RJ
-	O0bfUoTmKuT8kB8aoFNq6XCJNaNkXjqH8BMCpk4=
-X-Google-Smtp-Source: ABdhPJxvQWBG/s4IUa0jVfEONskFizocXS3snLI52/Mj3ptQaNr1Nt+UU79jpSIlYsKTqgvfMlGQCYhhurM/CPu8x5Y=
-X-Received: by 2002:a2e:97cf:: with SMTP id m15mr6265439ljj.125.1629465706411;
- Fri, 20 Aug 2021 06:21:46 -0700 (PDT)
+        bh=/+SwQ+O8auENB3RSTS6IFRtUWqfe7qf2Q5cvtOVZNhE=;
+        b=ZRuyCDezT5bIljdqtzgI/5AcDp2pVDVFpAZXsH82seNWO1WKJQR/r6VBlQgOVisllo
+         rQqrPaBXZ02jwiKoUboC5heB8f61U4xmEvKVwRAxYkbRKe4qt90Rw/ivBymHGRE8bJtl
+         nWdOUxqW82JRpiTH/nMVVtffudl/tswebVrG+K6PaQxcWmavsVHPoq5PkHdjmeE51rmw
+         3rX+V6NC73nqn5Pjoq5Gc6q9uLTe+FuW2AJ9qPB52BryzYtL8H7HWE2fu0dE1dDbpW7x
+         TVUdxHn96ZkiNeM5vj857Mls5veFHCWkYaeQ01JTCjVSudBmqLg+nkoSKk9Sajo3s5+X
+         IHwA==
+X-Gm-Message-State: AOAM533YShSsG8DzttwGbd7tC0IimYitSGVMXDzExb/o90HmNKWAk4EP
+	Ab1wKlt+XfnB/CEvT7kte8jzk8gytXinOTp3j9M=
+X-Google-Smtp-Source: ABdhPJxiXYw7Ad4C9UdSehaXyFd2c0y1rV+OC+YMPt0U9lXyz/Lp31b3t+AzeEWeZrYGlmpREgft97bQLT0GjhNnWTQ=
+X-Received: by 2002:ab0:3314:: with SMTP id r20mr15519671uao.89.1629467303470;
+ Fri, 20 Aug 2021 06:48:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1629213685.git.bruce.ashfield@gmail.com>
- <91f494738fb9c63499fae982fb7b09cb29c3afed.1629213685.git.bruce.ashfield@gmail.com>
- <CAHtQpK4rAfAjB7dwXoz4D42887whGu5xgrxGcCxKRYmNUiE3-Q@mail.gmail.com> <CADkTA4NyVdfVbeqBJRkj8TVWJd1-HhqC5kJy9sw9FSSO+9WsWg@mail.gmail.com>
-In-Reply-To: <CADkTA4NyVdfVbeqBJRkj8TVWJd1-HhqC5kJy9sw9FSSO+9WsWg@mail.gmail.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Fri, 20 Aug 2021 15:21:26 +0200
-Message-ID: <CAHtQpK41JVjaTC37uLxcjCyvk3zO5-8X50gFY1U1SNmj32cQbA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/4] lttng-modules: update to 2.13.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20210818165033.3935964-1-richard.purdie@linuxfoundation.org> <20210818165033.3935964-5-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210818165033.3935964-5-richard.purdie@linuxfoundation.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 20 Aug 2021 15:48:11 +0200
+Message-ID: <CANNYZj9x++ScjHm8KsUrftkN4o4as25=YSws_Lemn2TKLOSRxA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/5] elfutils: Fix ptest dependencies
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000cbeaf805c9fdebbf"
+
+--000000000000cbeaf805c9fdebbf
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 20, 2021 at 2:57 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> On Fri, Aug 20, 2021 at 7:13 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
-> >
-> > Hello Bruce,
-> >
-> > On Tue, Aug 17, 2021 at 5:27 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > >
-> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >
-> > > Updating to 2.13.0, so we can pick up the latest -stable and
-> > > support for 5.14+ kernels.
-> > >
-> > > We refresh one patch for new context, and update the LICENSE
-> > > checksum due to commit 2df37e95fa4303 [Cleanup: Move headers from
-> > > toplevel to include/lttng/]. which impacted the LICENSE file (but
-> > > licensing is the same).
-> >
-> > I'm seeing a build failure with this new LTTng and CONFIG_TRACEPOINTS
-> > not enabled on the kernel 5.13.12. The failure comes from the Kbuild,
-> > which does not demote the missing trace point config option from error
-> > to warning. There is a patch file already in the layer, but it is only
-> > appended to the 'class-devupstream' and is missing in the SRC_URI.
->
-> Hmmm. I ported the original patch, but yes, that Kbuild patch is also
-> needed (and it is my own patch no less).
->
-> I was just updating the devupstream version yesterday, and ran across
-> that patch.
->
-> None of the oe-core qemu* BSPs I test against have a disabled
-> tracepoint configuration, so I didn't run into that.
+I think this is breaking meta-gpl2 somehow?
 
-I'd try to enable it locally on my end, just to see if LTTng would
-build with trace points enabled in the kernel config.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/3855
 
->
-> I have the bumped devupstream version and the ported patch done
-> locally, I can send it out shortly, but it sounds like you've already
-> done that, so I can sit on that change.
+Alex
 
-Please go ahead and send out your version, I'll be figuring out those
-build errors on my end, and it might take some time...
+On Wed, 18 Aug 2021 at 18:50, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
+> The elfutils ptests require debug symbols for the libc to be available,
+> else
+> we see failures such as those on the autobuilder for the fast ptest image
+> on arm (the dbg symbols are pulled in by other recipes in other images).
 >
-> >
-> > I was going to submit the patch to recipe to have it included, but
-> > testing the build stage with this patch included I'm seeing a lot of
-> > other errors then, something like:
-> >
-> > lttng-modules-2.13.0/src/lttng-tracepoint.c:227:36: error: 'struct
-> > module' has no member named 'num_tracepoints'
-> > -- or --
-> > src/probes/../../include/instrumentation/events/rpc.h:208:36: error:
-> > implicit declaration of function 'rpc_qname'
-> > [-Werror=implicit-function-declaration]
-> >
-> > and the list goes on... :/
-> >
-> > Have you seen this during testing of this new version? Any advise on
-> > where to look next?
+> Also fix various test skips/error messages due to missing gcc/ld and
+> development headers.
 >
-> Not really. I end up updating lttng frequently, due to my constant
-> work on new kernel versions, but I'm not a lttng expert by any
-> definition.
-
-Same here, I just saw the build failure and started to poke around to
-see what could be the root cause of it.
-
-Missing KBuild patch was an easy find, but those compiler errors are not...
-
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-devtools/elfutils/elfutils_0.185.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> The smoke tests passed when I ran the tests, I'll poke around a bit
-> and see if I can come up with any ideas (since clearly, our kernel
-> configurations are quite different, given that I never did run into
-> that patch not being in devupstream).
+> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+> b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+> index 3d103c7c48e..9ea4de8e407 100644
+> --- a/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+> +++ b/meta/recipes-devtools/elfutils/elfutils_0.185.bb
+> @@ -50,11 +50,12 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
+>  PACKAGECONFIG[libdebuginfod] =
+> "--enable-libdebuginfod,--disable-libdebuginfod,curl"
+>  PACKAGECONFIG[debuginfod] =
+> "--enable-debuginfod,--disable-debuginfod,libarchive sqlite3 libmicrohttpd"
 >
-> Bruce
+> -RDEPENDS:${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils
+> iproute2-ss bsdtar"
+> +RDEPENDS:${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils
+> iproute2-ss bsdtar gcc-symlinks binutils-symlinks libgcc-dev"
 >
-> >
-> > >
-> > > MODULES_MODULE_SYMVERS_LOCATION must also be specified in this
-> > > release, as the lttng build has moved the module target to a
-> > > 'src' subdirectory.
-> > >
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > ---
-> > >  ...fail-if-CONFIG_TRACEPOINTS-is-not-en.patch | 32 ++++++-------------
-> > >  ...ules_2.12.6.bb => lttng-modules_2.13.0.bb} |  6 ++--
-> > >  2 files changed, 14 insertions(+), 24 deletions(-)
-> > >  rename meta/recipes-kernel/lttng/{lttng-modules_2.12.6.bb => lttng-modules_2.13.0.bb} (88%)
-> > >
-> > >
-> >
-> >
-> > --
-> > Regards,
-> > Andrey.
+>  EXTRA_OECONF:append:class-target = " --disable-tests-rpath"
 >
+> -RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-utils"
+> +RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-utils glibc-dbg
+> glibc-dev"
+> +INSANE_SKIP:${PN}-ptest = "debug-deps dev-deps"
 >
->
+>  do_compile_ptest() {
+>         cd ${B}/tests
 > --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+> 2.30.2
+>
+>
+> 
+>
+>
 
+--000000000000cbeaf805c9fdebbf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>I think this is breaking meta-gpl2 somehow?</div><div=
+><br></div><div><a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/b=
+uilders/75/builds/3855">https://autobuilder.yoctoproject.org/typhoon/#/buil=
+ders/75/builds/3855</a></div><div><br></div><div>Alex<br></div></div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 18 A=
+ug 2021 at 18:50, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linux=
+foundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">The elfutils ptests requi=
+re debug symbols for the libc to be available, else<br>
+we see failures such as those on the autobuilder for the fast ptest image<b=
+r>
+on arm (the dbg symbols are pulled in by other recipes in other images).<br=
+>
+<br>
+Also fix various test skips/error messages due to missing gcc/ld and<br>
+development headers.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+---<br>
+=C2=A0meta/recipes-devtools/elfutils/<a href=3D"http://elfutils_0.185.bb" r=
+el=3D"noreferrer" target=3D"_blank">elfutils_0.185.bb</a> | 5 +++--<br>
+=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/elfutils/<a href=3D"http://elfutils_0.18=
+5.bb" rel=3D"noreferrer" target=3D"_blank">elfutils_0.185.bb</a> b/meta/rec=
+ipes-devtools/elfutils/<a href=3D"http://elfutils_0.185.bb" rel=3D"noreferr=
+er" target=3D"_blank">elfutils_0.185.bb</a><br>
+index 3d103c7c48e..9ea4de8e407 100644<br>
+--- a/meta/recipes-devtools/elfutils/<a href=3D"http://elfutils_0.185.bb" r=
+el=3D"noreferrer" target=3D"_blank">elfutils_0.185.bb</a><br>
++++ b/meta/recipes-devtools/elfutils/<a href=3D"http://elfutils_0.185.bb" r=
+el=3D"noreferrer" target=3D"_blank">elfutils_0.185.bb</a><br>
+@@ -50,11 +50,12 @@ PACKAGECONFIG[zstd] =3D &quot;--with-zstd,--without-zst=
+d,zstd&quot;<br>
+=C2=A0PACKAGECONFIG[libdebuginfod] =3D &quot;--enable-libdebuginfod,--disab=
+le-libdebuginfod,curl&quot;<br>
+=C2=A0PACKAGECONFIG[debuginfod] =3D &quot;--enable-debuginfod,--disable-deb=
+uginfod,libarchive sqlite3 libmicrohttpd&quot;<br>
+<br>
+-RDEPENDS:${PN}-ptest +=3D &quot;libasm libelf bash make coreutils ${PN}-bi=
+nutils iproute2-ss bsdtar&quot;<br>
++RDEPENDS:${PN}-ptest +=3D &quot;libasm libelf bash make coreutils ${PN}-bi=
+nutils iproute2-ss bsdtar gcc-symlinks binutils-symlinks libgcc-dev&quot;<b=
+r>
+<br>
+=C2=A0EXTRA_OECONF:append:class-target =3D &quot; --disable-tests-rpath&quo=
+t;<br>
+<br>
+-RDEPENDS:${PN}-ptest:append:libc-glibc =3D &quot; glibc-utils&quot;<br>
++RDEPENDS:${PN}-ptest:append:libc-glibc =3D &quot; glibc-utils glibc-dbg gl=
+ibc-dev&quot;<br>
++INSANE_SKIP:${PN}-ptest =3D &quot;debug-deps dev-deps&quot;<br>
+<br>
+=C2=A0do_compile_ptest() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${B}/tests<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
--- 
-Regards,
-Andrey.
+--000000000000cbeaf805c9fdebbf--
