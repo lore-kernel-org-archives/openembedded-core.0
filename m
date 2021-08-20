@@ -1,364 +1,97 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.78200.1629417947884814194
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.79285.1629432498041555490
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 17:05:48 -0700
+ Thu, 19 Aug 2021 21:08:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tdjAHSzt;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id l24so6131899qtj.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 17:05:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BD9rW3p7;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id w68so7474110pfd.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 21:08:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dO7U61dpC5T3e6xAT8HRrsGLNZZAMglD6mzNiACDn4s=;
-        b=tdjAHSztBUqpQ61azfRDh1yh03Hz96gDv/XtgUiaaC0e3r5uy+AxWeXZyp1MDCQSGa
-         HJh+/jS7w4ApqDv2Q7/mQ3yNih5d6PGAdh8sddQMbwcBuMIxdMBaRTb/ALipPfpQfwBw
-         1GXig3QJmhGyOro6qLzRBQL3iyDUfltxpCPjxRz6vxDV5EuysXJg/FdARdD9Ibpuj/6y
-         hOiQwF7T0izgzzrkog1Wubb1zDM/gl9nhM4pdpOcb4k4ydsJPy8jff1AWdMoV3302U8H
-         dvZfKXbx7SBWJwmy33CXij2hkn6mCeAQ4KhR+xDT1L4JQJT251Aei/jRjl/opE0nk0A7
-         fU8g==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=AYmv2gJkuDBKE1UzUO+VRktpDcnNTAhDIq5rvGaiw60=;
+        b=BD9rW3p7+w+D2TfRIbOwgRM8vov599KV9jZeAYrHHuf76R3Q6W/jxtRqvNJ/bsNdRA
+         YE6TBUK+0I77lZ2n4Htr/mJqzWfILgZ0af9//1IFam73ZZqEGMMY1TvWZNlDHwfXjZYv
+         nVXZIKg2lc7GCoMT24LgGNu7uLN2UJYlhaj/d/MXNbkG6Vhqoi3XRdNE6FogBKoJxQfo
+         MswB6ihnW61dXRFuUn3AwSduzKuu6LSuYi7AO2DZzrFMv1xu+cAUDBS/DnsL0rFustBv
+         IF8MAIXvH7uHxhEzrkFzabXGJuVIPEqSa88EmieB01KMTA/GvS35BYR+K3l6QG+GNo7U
+         Ru1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dO7U61dpC5T3e6xAT8HRrsGLNZZAMglD6mzNiACDn4s=;
-        b=EW00UXMoka51iU3kY1w+ExMUtTlcaQmwN12+yKUj0BygHnCT2HyFzcrIgyUIvXgr5L
-         I9FAnEjyVmn0/xkIllgCbYQ+dWd1KaPq4T4HcnSj2IP4tTmAxWn6k9YixcHOTsm6w7Jd
-         7tXlix4jrhZt5/2XUUTB1tnPhWAGxQxw52vrSwHidAszYuUWHJlRurxbaoaDUyAWvk5E
-         DnTxgJvcmZ0DRJzwMct6uxalInP9zIwpxt/JCUHcp26hZCTma+ZbZ1HYPIjwWFMT/HzX
-         aP8zoJIJRDcpMCFmiBZFXnYt2x2oebGkfkdu+HRoKv8EqfUF0/MJM4kaelB5qebzbBhI
-         QeEA==
-X-Gm-Message-State: AOAM533RjmVga+KgKh+I2O77DFW8UPriQQmd8t0o+br9Uls8MisJHC7E
-	qJ2vFker+xvyOB5jZC4EqT5ERZV5mApRv2JRhJA=
-X-Google-Smtp-Source: ABdhPJysTEJ84dZMhMOcn5oYdmL5BrhP5D0vx4xj+U74SaX90rm72SV94PmbWmNtIzTP2Hr55I+voyhMuNMFNtP2NKw=
-X-Received: by 2002:ac8:b82:: with SMTP id h2mr15500691qti.214.1629417947049;
- Thu, 19 Aug 2021 17:05:47 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=AYmv2gJkuDBKE1UzUO+VRktpDcnNTAhDIq5rvGaiw60=;
+        b=gy04QD3QruncqKTKJFYrG3fqWbmZc2Eg0ausKGbJL8a/c3pPrfXio+ee7Kxn+OE5P2
+         jv/PU96IesEVKlBBsuXv4lpScx9a+CJj+kJHzD/ZnkzfRGHK3wxA8+U7T/PMKY0m/5XJ
+         jkfipuVPdDhBzDnkywtzOk+t1Kn2f3QRzY4cVDxel/Nf9CyhxGoX9aFT9DYxuvP1QN5o
+         5YxBmQ6TXfRSz3Gzz+DfFHM5teQmUirjRqE0bEfvgVmUGlMrbBtl/zT2F52GRvcNRNx4
+         rA0uXARUNBF522S2/Q4le0+tlsSP+6ML0DpW0FJrTV0WLjwClx8UbwPzxqcRrNg4Es8R
+         bQcA==
+X-Gm-Message-State: AOAM531XZF+GUiSY6c/XRBAwDW8yP45A5VsBuf7yMwxFRMPuTMLR9g8E
+	HMQzKW3f7JiXX2tLbJ/A8+TswV0qMN8oMA==
+X-Google-Smtp-Source: ABdhPJwuTvKvYaXw4fFv0ekGFvN1eZFYDvfZcwiUah30fKIzbT8zzetdfOvJJ8JrqzZ+rwCbgih1zg==
+X-Received: by 2002:a63:83c7:: with SMTP id h190mr16993932pge.51.1629432496865;
+        Thu, 19 Aug 2021 21:08:16 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:ff71:9627:ab75:ea06? ([2601:202:4180:a5c0:ff71:9627:ab75:ea06])
+        by smtp.gmail.com with ESMTPSA id l12sm4937686pff.182.2021.08.19.21.08.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Aug 2021 21:08:16 -0700 (PDT)
+Subject: Re: [OE-core] update glibc to HEAD of release/2.34/master to include fix for CVE-2021-38604?
+To: Khem Raj <raj.khem@gmail.com>, Sakib Sajal <sakib.sajal@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <536e91b5-6c16-aeb2-f534-edde8601ac84@windriver.com>
+ <CAMKF1spD_gnPW7x5st-5i8VC2wpLmOFGKF9K0iKSSSR4xB=wbw@mail.gmail.com>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <4cea495d-30b6-b74f-70d9-07b6dd5ba2e4@gmail.com>
+Date: Thu, 19 Aug 2021 21:08:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210818165033.3935964-1-richard.purdie@linuxfoundation.org> <20210818165033.3935964-4-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20210818165033.3935964-4-richard.purdie@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 19 Aug 2021 17:05:36 -0700
-Message-ID: <CAMKF1sqdDrt7+28CS8=1jdoXKKY-qOuq2wD33zDyVAaFSMc9rA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/5] pseudo: Fix to work with glibc 2.34 systems
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ecb21905c9f26d38"
-
---000000000000ecb21905c9f26d38
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Aug 18, 2021 at 9:50 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> The merge of libdl into libc in glibc 2.34 causes problems for pseudo. Add
-> a fix
-> that works around this issue.
+In-Reply-To: <CAMKF1spD_gnPW7x5st-5i8VC2wpLmOFGKF9K0iKSSSR4xB=wbw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
 
-I have made an incremental change which fixes the build failures on
-rv32/rv64
 
-https://git.openembedded.org/openembedded-core-contrib/commit/?h=yoe/mut&id=da5c9b3c3c7e66c52ea2f79343e6009ff410f2ca
-
-
+On 8/18/21 3:02 PM, Khem Raj wrote:
+> On Wed, Aug 18, 2021 at 2:40 PM Sakib Sajal <sakib.sajal@windriver.com> wrote:
+>> Hi Khem,
+>>
+>> I was going to apply the commit
+>>
+>> glibc is currently at ae37d06c7d127817ba43850f0f898b793d42aea7, 8
+>> commits behind origin/release/2.34/master as shown below.
+>>
+>> Those commits also contain the fix for CVE-2021-38604. Should I go ahead
+>> and update:
+>>
+>> ./glibc-version.inc:SRCREV_glibc ?=
+>> "ae37d06c7d127817ba43850f0f898b793d42aea7"
+>>
+>> or is there work in progress to do this?
+> Please go ahead, also add the below information to git commit log.
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  .../pseudo/files/glibc234.patch               | 86 +++++++++++++++++++
->  meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
->  2 files changed, 87 insertions(+)
->  create mode 100644 meta/recipes-devtools/pseudo/files/glibc234.patch
->
-> diff --git a/meta/recipes-devtools/pseudo/files/glibc234.patch
-> b/meta/recipes-devtools/pseudo/files/glibc234.patch
-> new file mode 100644
-> index 00000000000..86fad5a3def
-> --- /dev/null
-> +++ b/meta/recipes-devtools/pseudo/files/glibc234.patch
-> @@ -0,0 +1,86 @@
-> +pseudo_wrappers/pseudo_util: Add versioning to dl* symbols to work with
-> glibc 2.34
-> +
-> +From glibc 2.34 onwards, libdl is merged into libc. We need to work with
-> libaries
-> +linked with older libc and newer ones without requiring glibc 2.34 to be
-> linked
-> +in. To do this, use an older verison of the symbols. Sadly this is highly
-> arch
-> +specific.
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +
-> +Index: git/pseudo_util.c
-> +===================================================================
-> +--- git.orig/pseudo_util.c
-> ++++ git/pseudo_util.c
-> +@@ -28,6 +28,11 @@
-> + #include "pseudo.h"
-> + #include "pseudo_ipc.h"
-> + #include "pseudo_db.h"
-> ++#include "pseudo_dlsymvers.h"
-> ++
-> ++#if defined(__GLIBC__)
-> ++__asm__(".symver dlsym,dlsym@GLIBC_" DLSYMVER);
-> ++#endif
-> +
-> + struct pseudo_variables {
-> +       char *key;
-> +Index: git/pseudo_wrappers.c
-> +===================================================================
-> +--- git.orig/pseudo_wrappers.c
-> ++++ git/pseudo_wrappers.c
-> +@@ -28,6 +28,7 @@
-> +
-> + /* include this to get PSEUDO_PORT_* definitions */
-> + #include "pseudo.h"
-> ++#include "pseudo_dlsymvers.h"
-> +
-> + /* used for various specific function arguments */
-> + #include <dirent.h>
-> +@@ -122,6 +123,12 @@ pseudo_reinit_libpseudo(void) {
-> +       _libpseudo_init();
-> + }
-> +
-> ++#if defined(__GLIBC__)
-> ++__asm__(".symver dlerror,dlerror@GLIBC_" DLSYMVER);
-> ++__asm__(".symver dlvsym,dlvsym@GLIBC_" DLVSYMVER);
-> ++__asm__(".symver dlsym,dlsym@GLIBC_" DLSYMVER);
-> ++#endif
-> ++
-> + static void
-> + pseudo_init_one_wrapper(pseudo_function *func) {
-> +       int (*f)(void) = (int (*)(void)) NULL;
-> +Index: git/pseudo_dlsymvers.h
-> +===================================================================
-> +--- /dev/null
-> ++++ git/pseudo_dlsymvers.h
-> +@@ -0,0 +1,30 @@
-> ++/*
-> ++ * Copyright (c) 2021 Richard Purdie
-> ++ *
-> ++ * SPDX-License-Identifier: LGPL-2.1-only
-> ++ *
-> ++ */
-> ++
-> ++/* We need to use the older symbols in libdl.so rather than the newer
-> ones
-> ++   merged into libc.so in glibc 2.34 onwards since libpseudo needs to
-> link/work
-> ++   with newer libcs and bianries compiles with older ones */
-> ++
-> ++#if defined(__GLIBC__)
-> ++#if defined(__aarch64__)
-> ++#define DLSYMVER "2.17"
-> ++#define DLVSYMVER "2.17"
-> ++#elif defined(__x86_64__)
-> ++#define DLSYMVER "2.2.5"
-> ++#define DLVSYMVER "2.2.5"
-> ++#elif defined(__arm__)
-> ++#define DLSYMVER "2.4"
-> ++#define DLVSYMVER "2.4"
-> ++#elif defined(__mips__)
-> ++#define DLSYMVER "2.0"
-> ++#define DLVSYMVER "2.2"
-> ++#else
-> ++#define DLSYMVER "2.0"
-> ++#define DLVSYMVER "2.1"
-> ++#endif
-> ++#endif
-> ++
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> index dacaef1a66b..c7684f00cbd 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> @@ -2,6 +2,7 @@ require pseudo.inc
->
->  SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
->             file://0001-configure-Prune-PIE-flags.patch \
-> +           file://glibc234.patch \
->             file://fallback-passwd \
->             file://fallback-group \
->             "
-> --
-> 2.30.2
->
->
-> 
->
->
+>> glibc.git$ git log --oneline ae37d06c7d127817ba43850f0f898b793d42aea7...
+>> 7c987a5ccb (HEAD, origin/release/2.34/master) librt: add test (bug 28213)
+>> 7947430322 librt: fix NULL pointer dereference (bug 28213)
+FYI: bug 28213 fixes CVE-2021-38604
+>> 31902ae639 Linux: Fix fcntl, ioctl, prctl redirects for _TIME_BITS=64
+>> (bug 28182)
+>> 9995d0588f iconv_charmap: Close output file when done
+>> 7ff4da3dc2 copy_and_spawn_sgid: Avoid double calls to close()
+>> a5bd2e10e0 gaiconf_init: Avoid double-free in label and precedence lists
+>> 3a48da47a9 gconv_parseconfdir: Fix memory leak
+>> 0b03996304 ldconfig: avoid leak on empty paths in config file
+>>
+>>
+>> Sakib Sajal
+>>
+>>
+>> 
+>>
 
---000000000000ecb21905c9f26d38
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Aug 18, 2021 at 9:50 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;paddi=
-ng-left:1ex;border-left-color:rgb(204,204,204)">The merge of libdl into lib=
-c in glibc 2.34 causes problems for pseudo. Add a fix<br>
-that works around this issue.</blockquote><div dir=3D"auto"><br></div><div =
-dir=3D"auto">I have made an incremental change which fixes the build failur=
-es on rv32/rv64</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div><a =
-href=3D"https://git.openembedded.org/openembedded-core-contrib/commit/?h=3D=
-yoe/mut&amp;id=3Dda5c9b3c3c7e66c52ea2f79343e6009ff410f2ca">https://git.open=
-embedded.org/openembedded-core-contrib/commit/?h=3Dyoe/mut&amp;id=3Dda5c9b3=
-c3c7e66c52ea2f79343e6009ff410f2ca</a></div><br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-=
-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=
-=3D"auto"><br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
----<br>
-=C2=A0.../pseudo/files/glibc234.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 86 +++++++++++++++++++<br>
-=C2=A0meta/recipes-devtools/pseudo/<a href=3D"http://pseudo_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">pseudo_git.bb</a>=C2=A0 =C2=A0 |=C2=A0 1 +<br=
->
-=C2=A02 files changed, 87 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/pseudo/files/glibc234.patch<=
-br>
-<br>
-diff --git a/meta/recipes-devtools/pseudo/files/glibc234.patch b/meta/recip=
-es-devtools/pseudo/files/glibc234.patch<br>
-new file mode 100644<br>
-index 00000000000..86fad5a3def<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/pseudo/files/glibc234.patch<br>
-@@ -0,0 +1,86 @@<br>
-+pseudo_wrappers/pseudo_util: Add versioning to dl* symbols to work with gl=
-ibc 2.34<br>
-+<br>
-+From glibc 2.34 onwards, libdl is merged into libc. We need to work with l=
-ibaries<br>
-+linked with older libc and newer ones without requiring glibc 2.34 to be l=
-inked<br>
-+in. To do this, use an older verison of the symbols. Sadly this is highly =
-arch<br>
-+specific.<br>
-+<br>
-+Upstream-Status: Pending<br>
-+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
-br>
-+<br>
-+Index: git/pseudo_util.c<br>
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-+--- git.orig/pseudo_util.c<br>
-++++ git/pseudo_util.c<br>
-+@@ -28,6 +28,11 @@<br>
-+ #include &quot;pseudo.h&quot;<br>
-+ #include &quot;pseudo_ipc.h&quot;<br>
-+ #include &quot;pseudo_db.h&quot;<br>
-++#include &quot;pseudo_dlsymvers.h&quot;<br>
-++<br>
-++#if defined(__GLIBC__)<br>
-++__asm__(&quot;.symver dlsym,dlsym@GLIBC_&quot; DLSYMVER);<br>
-++#endif<br>
-+ <br>
-+ struct pseudo_variables {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0char *key;<br>
-+Index: git/pseudo_wrappers.c<br>
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-+--- git.orig/pseudo_wrappers.c<br>
-++++ git/pseudo_wrappers.c<br>
-+@@ -28,6 +28,7 @@<br>
-+ <br>
-+ /* include this to get PSEUDO_PORT_* definitions */<br>
-+ #include &quot;pseudo.h&quot;<br>
-++#include &quot;pseudo_dlsymvers.h&quot;<br>
-+ <br>
-+ /* used for various specific function arguments */<br>
-+ #include &lt;dirent.h&gt;<br>
-+@@ -122,6 +123,12 @@ pseudo_reinit_libpseudo(void) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0_libpseudo_init();<br>
-+ }<br>
-+ <br>
-++#if defined(__GLIBC__)<br>
-++__asm__(&quot;.symver dlerror,dlerror@GLIBC_&quot; DLSYMVER);<br>
-++__asm__(&quot;.symver dlvsym,dlvsym@GLIBC_&quot; DLVSYMVER);<br>
-++__asm__(&quot;.symver dlsym,dlsym@GLIBC_&quot; DLSYMVER);<br>
-++#endif<br>
-++<br>
-+ static void<br>
-+ pseudo_init_one_wrapper(pseudo_function *func) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0int (*f)(void) =3D (int (*)(void)) NULL;<br>
-+Index: git/pseudo_dlsymvers.h<br>
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-+--- /dev/null<br>
-++++ git/pseudo_dlsymvers.h<br>
-+@@ -0,0 +1,30 @@<br>
-++/*<br>
-++ * Copyright (c) 2021 Richard Purdie<br>
-++ *<br>
-++ * SPDX-License-Identifier: LGPL-2.1-only<br>
-++ *<br>
-++ */<br>
-++<br>
-++/* We need to use the older symbols in libdl.so rather than the newer one=
-s<br>
-++=C2=A0 =C2=A0merged into libc.so in glibc 2.34 onwards since libpseudo ne=
-eds to link/work<br>
-++=C2=A0 =C2=A0with newer libcs and bianries compiles with older ones */<br=
->
-++<br>
-++#if defined(__GLIBC__) <br>
-++#if defined(__aarch64__)<br>
-++#define DLSYMVER &quot;2.17&quot;<br>
-++#define DLVSYMVER &quot;2.17&quot;<br>
-++#elif defined(__x86_64__)<br>
-++#define DLSYMVER &quot;2.2.5&quot;<br>
-++#define DLVSYMVER &quot;2.2.5&quot;<br>
-++#elif defined(__arm__)<br>
-++#define DLSYMVER &quot;2.4&quot;<br>
-++#define DLVSYMVER &quot;2.4&quot;<br>
-++#elif defined(__mips__)<br>
-++#define DLSYMVER &quot;2.0&quot;<br>
-++#define DLVSYMVER &quot;2.2&quot;<br>
-++#else<br>
-++#define DLSYMVER &quot;2.0&quot;<br>
-++#define DLVSYMVER &quot;2.1&quot;<br>
-++#endif<br>
-++#endif<br>
-++<br>
-diff --git a/meta/recipes-devtools/pseudo/<a href=3D"http://pseudo_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">pseudo_git.bb</a> b/meta/recipes-devto=
-ols/pseudo/<a href=3D"http://pseudo_git.bb" rel=3D"noreferrer" target=3D"_b=
-lank">pseudo_git.bb</a><br>
-index dacaef1a66b..c7684f00cbd 100644<br>
---- a/meta/recipes-devtools/pseudo/<a href=3D"http://pseudo_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">pseudo_git.bb</a><br>
-+++ b/meta/recipes-devtools/pseudo/<a href=3D"http://pseudo_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">pseudo_git.bb</a><br>
-@@ -2,6 +2,7 @@ require pseudo.inc<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/pseudo=
-;branch=3Doe-core" rel=3D"noreferrer" target=3D"_blank">git.yoctoproject.or=
-g/pseudo;branch=3Doe-core</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure-Prune-PIE-f=
-lags.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://glibc234.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fallback-passwd \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fallback-group \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000ecb21905c9f26d38--
