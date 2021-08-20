@@ -1,176 +1,287 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web08.5526.1629503721985502349
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web09.5514.1629503722514006594
  for <openembedded-core@lists.openembedded.org>;
  Fri, 20 Aug 2021 16:55:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=slDq9k4b;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id hv22-20020a17090ae416b0290178c579e424so8367546pjb.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 16:55:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CQ12fM71;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id qe12-20020a17090b4f8c00b00179321cbae7so8386992pjb.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 16:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WZzF3/hn0jGG5ZWRjsws3hjOc2tF2NmJS1Eg5bcET1w=;
-        b=slDq9k4buF0tFYev54P1WP/yjFAQyzjV08ucehlTtl5qyjHAaY5UEXENtd0We8xxdZ
-         U/M+y9Rpq6jutF/T8c/uKf7SoynqSvfgkBanDdWIAg8PpzIq4Xj5ojMr+3H2Z7bC5N4D
-         bMaSkzb3iWDe3EAq+RxIttYPiT3GBe5x1UmjOTYDHqtInE0V6UZDKRVMiyvLCnUsQNIQ
-         hrAZFM88xHiMMndS9HYtWixuc5oWWybO6RWGl0IGEkUVNrAvGjntryyVWijfgvyO3Pyn
-         7bSuFZsPvQ1wyjF/W1KuFP95ub367qbWmEU9DOf6IlBvREOLzvIXVsKs1p3hExqzRET6
-         +d+w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EcGAekQjxQEc/rlirMkbSNM/ar0RcRboiIhVbMy38Y4=;
+        b=CQ12fM71w7aSu6LtzpRvCKlb7roTK0q4XID97E68ffG+xcaNqUPS64MM+8FQfprKqC
+         nCaHJeCamttXyOnZV9BSK1Lk22CCgfnccSjbGCslTQMINZg3apSapjXfT6Dih5giKsLT
+         suqEcG/0eL0n660Fd5JDqSfqtzjcZsGgQ88p4Bj8EYAPf+8ZN6O+7sN6yKCP9JPhd+UP
+         kNZWR3UC4YrHD5sqeT4q12blOny/DtkaIJ6oKH8IwxHfbiJ7ZtaMzsr27BKYru5CPMKj
+         zQtFSPb2kLHzOHfwPBvkGJss3bxV3qCQhdJujOdhutCrwWAx2GUk+pQF78SHTVKRaQhk
+         Wjtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WZzF3/hn0jGG5ZWRjsws3hjOc2tF2NmJS1Eg5bcET1w=;
-        b=q/ilEWZv9GCoqyNbX9G7025EadPRrP98J5mj8Kq8hyjmQriw0bA7i73mqvekk43Hxi
-         VLyJWyT88STYFl6/sxBv8ZYC+htmttJBBpPVgQ1ur5seDTfWw/uTTlP8lS+Vm7vZ84uz
-         cnpdAlb5oAB8OStUZS8HKVfgxnn0chqjh2svXbOd+aOaAQrFPsr0j1011Dm/EtVUR2pu
-         lgclCtg9CU2dJzM2/d81LyKIdx1eYGlx1g6/9nfLI6VZMBRiN8mSTJtM3GVJXN7mgqqN
-         S6f3UgC15Dke/w+PVZ/X41A+aTymU1vL7gDLq9MJNsjrvxDDIeGpM0QOGWFJyW/C1h2v
-         Xy4g==
-X-Gm-Message-State: AOAM533lXvRed1V45+vsFC2xpIn5zpcZWfAedrRDppwi9rmtlk6x0rbk
-	nFk8Q3W68o8uhawOIAz3YTrdtLvdiIY=
-X-Google-Smtp-Source: ABdhPJz+Z9nQi5TxwNLkzayn1Q4WrO1BwqHXPsxdkBzUxKHY0vD5bDitXe/eqQ6n3rN+106yv3QJLQ==
-X-Received: by 2002:a17:90a:4481:: with SMTP id t1mr7258616pjg.232.1629503721304;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EcGAekQjxQEc/rlirMkbSNM/ar0RcRboiIhVbMy38Y4=;
+        b=OZ4lkoMds88kcjdbltWHy6js2MFpl7Df2RZWyWfc36dKcAbTDYLcCg7W7pAMJeKbCq
+         MLWOlzxVOYOQKQVxKBkoWmKT9wsXLi5XDfULKl38OBFs9DmheiA5mUUrEbQQ0i+Fd4Gv
+         lwyLVz0/Qlz+8X2DKOew4p87HNbI52s+fWFyf3uBNXhIGxlfvV3m/R7qfCnR9pJC5gNI
+         BH6/mqm0ieQwfuLn4PRbAOm0M9vwrQbbv9sV2m94TAMIWDPHvjmWwiYkTkXwwkJlgdSp
+         O1sw2h0Tyv0jBSxqfsBZI5WK3MWlsV15s71NtyB/1fMz7vfhXe84SKdJkLA/Rt8CJeZ7
+         Bgjg==
+X-Gm-Message-State: AOAM530Gf3HoDbHiFWwOFl9RJfXYrmC8Mv6pKdvb9uGnTXkVMbrglw8z
+	OXRiQrud9R5/nxn4pNOan9AVPY+34FI=
+X-Google-Smtp-Source: ABdhPJzf2lM6hmD+hCPcgEsxYc90+efJDDwzg5qPEXRUbB6OEM8K6D+19i8f4ca8vYYfgQXlMWIGHw==
+X-Received: by 2002:a17:90a:f0d1:: with SMTP id fa17mr3530893pjb.33.1629503721962;
         Fri, 20 Aug 2021 16:55:21 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:43c0:2d24:85b:da13])
-        by smtp.gmail.com with ESMTPSA id i11sm9634705pgo.25.2021.08.20.16.55.20
+        by smtp.gmail.com with ESMTPSA id i11sm9634705pgo.25.2021.08.20.16.55.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 16:55:20 -0700 (PDT)
+        Fri, 20 Aug 2021 16:55:21 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [Dunfell][PATCH 1/7] qemu: Security fix CVE-2020-25085
-Date: Fri, 20 Aug 2021 16:55:13 -0700
-Message-Id: <20210820235519.593218-1-akuster808@gmail.com>
+Subject: [Dunfell][PATCH 2/7] qemu: Security fix CVE-2020-25624
+Date: Fri, 20 Aug 2021 16:55:14 -0700
+Message-Id: <20210820235519.593218-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210820235519.593218-1-akuster808@gmail.com>
+References: <20210820235519.593218-1-akuster808@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Armin Kuster <akuster@mvista.com>
 
 Source: qemu.org
-MR: 105773
+MR: 106958
 Type: Security Fix
-Disposition: Backport from https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg00733.html
-ChangeID: 77c8a9e75b94da3c03c64c95d9e6ab9d45037572
+Disposition: Backport from qemu.org
+ChangeID: 9d0c21c4ff5dc12ba623685cd7ae4d4bc294f519
 Description:
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           | 41 +++++++++--------
- .../qemu/qemu/CVE-2020-25085.patch            | 46 +++++++++++++++++++
- 2 files changed, 67 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ .../qemu/qemu/CVE-2020-25624_1.patch          |  87 +++++++++++++++
+ .../qemu/qemu/CVE-2020-25624_2.patch          | 101 ++++++++++++++++++
+ 3 files changed, 190 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-25624_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-25624_2.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index e25c2524aa..a33008670b 100644
+index a33008670b..6978be951e 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -35,27 +35,28 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-7039-2.patch \
-            file://CVE-2020-7039-3.patch \
-            file://0001-Add-enable-disable-udev.patch \
--	   file://CVE-2020-7211.patch \
--	   file://0001-qemu-Do-not-include-file-if-not-exists.patch \
-+           file://CVE-2020-7211.patch \
-+           file://0001-qemu-Do-not-include-file-if-not-exists.patch \
-            file://CVE-2020-11102.patch \
--	   file://CVE-2020-11869.patch \
--	   file://CVE-2020-13361.patch \
--	   file://CVE-2020-10761.patch \
--	   file://CVE-2020-10702.patch \
--	   file://CVE-2020-13659.patch \
--	   file://CVE-2020-13800.patch \
--	   file://CVE-2020-13362.patch \
--	   file://CVE-2020-15863.patch \
--	   file://CVE-2020-14364.patch \
--	   file://CVE-2020-14415.patch \
--	   file://CVE-2020-16092.patch \
--	   file://0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch \
--	   file://CVE-2019-20175.patch \
--	   file://CVE-2020-24352.patch \
--	   file://CVE-2020-25723.patch \
--	   file://CVE-2021-20203.patch \
--	   file://CVE-2021-3392.patch \
--	   "
-+           file://CVE-2020-11869.patch \
-+           file://CVE-2020-13361.patch \
-+           file://CVE-2020-10761.patch \
-+           file://CVE-2020-10702.patch \
-+           file://CVE-2020-13659.patch \
-+           file://CVE-2020-13800.patch \
-+           file://CVE-2020-13362.patch \
-+           file://CVE-2020-15863.patch \
-+           file://CVE-2020-14364.patch \
-+           file://CVE-2020-14415.patch \
-+           file://CVE-2020-16092.patch \
-+           file://0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch \
-+           file://CVE-2019-20175.patch \
-+           file://CVE-2020-24352.patch \
-+           file://CVE-2020-25723.patch \
-+           file://CVE-2021-20203.patch \
-+           file://CVE-2021-3392.patch \
-+           file://CVE-2020-25085.patch \
-+           "
+@@ -56,6 +56,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-20203.patch \
+            file://CVE-2021-3392.patch \
+            file://CVE-2020-25085.patch \
++           file://CVE-2020-25624_1.patch \
++           file://CVE-2020-25624_2.patch \
+            "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI[md5sum] = "278eeb294e4b497e79af7a57e660cb9a"
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-25624_1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-25624_1.patch
 new file mode 100644
-index 0000000000..be19256cef
+index 0000000000..a46b5be193
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch
-@@ -0,0 +1,46 @@
-+From dfba99f17feb6d4a129da19d38df1bcd8579d1c3 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-+Date: Tue, 1 Sep 2020 15:22:06 +0200
-+Subject: [PATCH] hw/sd/sdhci: Fix DMA Transfer Block Size field
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-25624_1.patch
+@@ -0,0 +1,87 @@
++From fbec359e9279ce78908b9f2af2c264e7448336af Mon Sep 17 00:00:00 2001
++From: Guenter Roeck <linux@roeck-us.net>
++Date: Mon, 17 Feb 2020 12:48:10 -0800
++Subject: [PATCH] hw: usb: hcd-ohci: Move OHCISysBusState and TYPE_SYSBUS_OHCI
++ to include file
 +
-+The 'Transfer Block Size' field is 12-bit wide.
++We need to be able to use OHCISysBusState outside hcd-ohci.c, so move it
++to its include file.
 +
-+See section '2.2.2. Block Size Register (Offset 004h)' in datasheet.
-+
-+Two different bug reproducer available:
-+- https://bugs.launchpad.net/qemu/+bug/1892960
-+- https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Fsdhci_oob_write1
-+
-+Cc: qemu-stable@nongnu.org
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-+Fixes: d7dfca0807a ("hw/sdhci: introduce standard SD host controller")
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Tested-by: Alexander Bulekov <alxndr@bu.edu>
-+Message-Id: <20200901140411.112150-3-f4bug@amsat.org>
++Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
++Signed-off-by: Guenter Roeck <linux@roeck-us.net>
++Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
++Message-id: 20200217204812.9857-2-linux@roeck-us.net
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 +
 +Upstream-Status: Backport
-+CVE: CVE-2020-25085
++CVE: CVE-2020-25624 patch #1
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ hw/sd/sdhci.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ hw/usb/hcd-ohci.c | 15 ---------------
++ hw/usb/hcd-ohci.h | 16 ++++++++++++++++
++ 2 files changed, 16 insertions(+), 15 deletions(-)
 +
-+Index: qemu-4.2.0/hw/sd/sdhci.c
-+===================================================================
-+--- qemu-4.2.0.orig/hw/sd/sdhci.c
-++++ qemu-4.2.0/hw/sd/sdhci.c
-+@@ -1129,7 +1129,7 @@ sdhci_write(void *opaque, hwaddr offset,
-+         break;
-+     case SDHC_BLKSIZE:
-+         if (!TRANSFERRING_DATA(s->prnsts)) {
-+-            MASKED_WRITE(s->blksize, mask, value);
-++            MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
-+             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
-+         }
++diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
++index 8a94bd004a..1e6e85e86a 100644
++--- a/hw/usb/hcd-ohci.c
+++++ b/hw/usb/hcd-ohci.c
++@@ -1870,21 +1870,6 @@ void ohci_sysbus_die(struct OHCIState *ohci)
++     ohci_bus_stop(ohci);
++ }
 + 
++-#define TYPE_SYSBUS_OHCI "sysbus-ohci"
++-#define SYSBUS_OHCI(obj) OBJECT_CHECK(OHCISysBusState, (obj), TYPE_SYSBUS_OHCI)
++-
++-typedef struct {
++-    /*< private >*/
++-    SysBusDevice parent_obj;
++-    /*< public >*/
++-
++-    OHCIState ohci;
++-    char *masterbus;
++-    uint32_t num_ports;
++-    uint32_t firstport;
++-    dma_addr_t dma_offset;
++-} OHCISysBusState;
++-
++ static void ohci_realize_pxa(DeviceState *dev, Error **errp)
++ {
++     OHCISysBusState *s = SYSBUS_OHCI(dev);
++diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
++index 16e3f1e13a..5c8819aedf 100644
++--- a/hw/usb/hcd-ohci.h
+++++ b/hw/usb/hcd-ohci.h
++@@ -22,6 +22,7 @@
++ #define HCD_OHCI_H
++ 
++ #include "sysemu/dma.h"
+++#include "hw/usb.h"
++ 
++ /* Number of Downstream Ports on the root hub: */
++ #define OHCI_MAX_PORTS 15
++@@ -90,6 +91,21 @@ typedef struct OHCIState {
++     void (*ohci_die)(struct OHCIState *ohci);
++ } OHCIState;
++ 
+++#define TYPE_SYSBUS_OHCI "sysbus-ohci"
+++#define SYSBUS_OHCI(obj) OBJECT_CHECK(OHCISysBusState, (obj), TYPE_SYSBUS_OHCI)
+++
+++typedef struct {
+++    /*< private >*/
+++    SysBusDevice parent_obj;
+++    /*< public >*/
+++
+++    OHCIState ohci;
+++    char *masterbus;
+++    uint32_t num_ports;
+++    uint32_t firstport;
+++    dma_addr_t dma_offset;
+++} OHCISysBusState;
+++
++ extern const VMStateDescription vmstate_ohci_state;
++ 
++ void usb_ohci_init(OHCIState *ohci, DeviceState *dev, uint32_t num_ports,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-25624_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-25624_2.patch
+new file mode 100644
+index 0000000000..8c1275b2f4
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-25624_2.patch
+@@ -0,0 +1,101 @@
++From 1328fe0c32d5474604105b8105310e944976b058 Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Tue, 15 Sep 2020 23:52:58 +0530
++Subject: [PATCH] hw: usb: hcd-ohci: check len and frame_number variables
++
++While servicing the OHCI transfer descriptors(TD), OHCI host
++controller derives variables 'start_addr', 'end_addr', 'len'
++etc. from values supplied by the host controller driver.
++Host controller driver may supply values such that using
++above variables leads to out-of-bounds access issues.
++Add checks to avoid them.
++
++AddressSanitizer: stack-buffer-overflow on address 0x7ffd53af76a0
++  READ of size 2 at 0x7ffd53af76a0 thread T0
++  #0 ohci_service_iso_td ../hw/usb/hcd-ohci.c:734
++  #1 ohci_service_ed_list ../hw/usb/hcd-ohci.c:1180
++  #2 ohci_process_lists ../hw/usb/hcd-ohci.c:1214
++  #3 ohci_frame_boundary ../hw/usb/hcd-ohci.c:1257
++  #4 timerlist_run_timers ../util/qemu-timer.c:572
++  #5 qemu_clock_run_timers ../util/qemu-timer.c:586
++  #6 qemu_clock_run_all_timers ../util/qemu-timer.c:672
++  #7 main_loop_wait ../util/main-loop.c:527
++  #8 qemu_main_loop ../softmmu/vl.c:1676
++  #9 main ../softmmu/main.c:50
++
++Reported-by: Gaoning Pan <pgn@zju.edu.cn>
++Reported-by: Yongkang Jia <j_kangel@163.com>
++Reported-by: Yi Ren <yunye.ry@alibaba-inc.com>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Message-id: 20200915182259.68522-2-ppandit@redhat.com
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-25624 patch #2
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/usb/hcd-ohci.c | 24 ++++++++++++++++++++++--
++ 1 file changed, 22 insertions(+), 2 deletions(-)
++
++diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
++index 1e6e85e86a..9dc59101f9 100644
++--- a/hw/usb/hcd-ohci.c
+++++ b/hw/usb/hcd-ohci.c
++@@ -731,7 +731,11 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
++     }
++ 
++     start_offset = iso_td.offset[relative_frame_number];
++-    next_offset = iso_td.offset[relative_frame_number + 1];
+++    if (relative_frame_number < frame_count) {
+++        next_offset = iso_td.offset[relative_frame_number + 1];
+++    } else {
+++        next_offset = iso_td.be;
+++    }
++ 
++     if (!(OHCI_BM(start_offset, TD_PSW_CC) & 0xe) || 
++         ((relative_frame_number < frame_count) && 
++@@ -764,7 +768,12 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
++         }
++     } else {
++         /* Last packet in the ISO TD */
++-        end_addr = iso_td.be;
+++        end_addr = next_offset;
+++    }
+++
+++    if (start_addr > end_addr) {
+++        trace_usb_ohci_iso_td_bad_cc_overrun(start_addr, end_addr);
+++        return 1;
++     }
++ 
++     if ((start_addr & OHCI_PAGE_MASK) != (end_addr & OHCI_PAGE_MASK)) {
++@@ -773,6 +782,9 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
++     } else {
++         len = end_addr - start_addr + 1;
++     }
+++    if (len > sizeof(ohci->usb_buf)) {
+++        len = sizeof(ohci->usb_buf);
+++    }
++ 
++     if (len && dir != OHCI_TD_DIR_IN) {
++         if (ohci_copy_iso_td(ohci, start_addr, end_addr, ohci->usb_buf, len,
++@@ -975,8 +987,16 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
++         if ((td.cbp & 0xfffff000) != (td.be & 0xfffff000)) {
++             len = (td.be & 0xfff) + 0x1001 - (td.cbp & 0xfff);
++         } else {
+++            if (td.cbp > td.be) {
+++                trace_usb_ohci_iso_td_bad_cc_overrun(td.cbp, td.be);
+++                ohci_die(ohci);
+++                return 1;
+++            }
++             len = (td.be - td.cbp) + 1;
++         }
+++        if (len > sizeof(ohci->usb_buf)) {
+++            len = sizeof(ohci->usb_buf);
+++        }
++ 
++         pktlen = len;
++         if (len && dir != OHCI_TD_DIR_IN) {
++-- 
++2.25.1
++
 -- 
 2.25.1
 
