@@ -1,112 +1,82 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.80985.1629448156934760696
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.80998.1629448317676479984
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Aug 2021 01:29:17 -0700
+ Fri, 20 Aug 2021 01:31:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ejodLe6Z;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id lo4so18538617ejb.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 01:29:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bzvEtHYT;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id r19so12817473eds.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 01:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=AVFpeik7vYhD1TnlXwFeLYisBKmrpiM7CCHdLjHPf/s=;
-        b=ejodLe6ZYPBX3NH114tB4khaO26mvGVs9rEF4WGitEy6J5qcROOE67YsLp83U6ly4F
-         1OOkNLIsgC7QMWCx18GGHE7G4P9mzA8Q6sadFBC2CkkW/bshhH95sgrLvHDhuSQxfhM9
-         rJ8211V2PQF6HK2NH4VciDAAXz+7J3p+ofQnkQNKiN/6EIz/Mi5rD2/llOCIGayKR4JF
-         x9u/JpfoVnOv+gT/JUIvU+pPueyyBwcRuhcZEzvY8eGQNa+AjwvzQLVi5VfBJhOp7GJY
-         2PzZ5pkB2U+o38oVf50J6YGTOeetuszwHhnUlrnZzZH9YO5Y7Q2J5HpzL6RKhFO9kN4i
-         hVMw==
+        bh=DOqNE8jz3Yw/OLmKZ7Ib+VC/MFnZreoF9f/KIyjDaD4=;
+        b=bzvEtHYT4gEveJXOJRsR9oLOrW1C9E/cUIB/c/xgJ1tHNmYJjX8WV+AtuXP0fJRdyN
+         2tigujKL7MM71/JmVPGpNp1Bt7WdLIlryQtBG72LYbeW7r16vaHgEP5SpD056JCkBza4
+         F6Y7Vxn9b1PokasrOlQpSwVQQtpQKmt0Rx25ZQ4mD5Gtne0DuyBXTzVwd+k026gWAPfH
+         VofiTrE0MIPWMz9ipOOE7n6iokrqovRayW4hVTSOO6DgAKZGne1FoCSCZeKOS2EdKchv
+         DVLrjpU8LygZtHowl4grBo8DM0/GAGUABKm6a1c1t0ggPYNGNPDt02btg8t3t++EApx2
+         nAdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AVFpeik7vYhD1TnlXwFeLYisBKmrpiM7CCHdLjHPf/s=;
-        b=gt4EHDoZ8dzNYP8FhX/6CAgDYWB3z9XkUVAT5wDhneFTVB/0xQLLMj4JDgkhWcPYlD
-         zYSNlrcFk9PpweI7QxzbacVn2tIJkw/LtIVmkNb1M5VrvMgqRq/TY+/a0tun2+U11+ev
-         WuXEeR8oE2fzSbd+wHDvpG0VAaokMk5K7B08fXqwRNKiw/QoNS8vPq9p+MZ75Eaes+qI
-         QWYrMb1/smfAwV+kHdtHFCWgB3alTRybmVQe8djSDMSW/DsgAjbabRQolxz710k2kNZE
-         bqiM0MjMf+WFrgvpgsZBpX+ckUqF1cjvvDRDe0AVN/DpUwqj0i3P6hoWopg3pzr03tgI
-         7PYA==
-X-Gm-Message-State: AOAM533S0GQY2L87508RyLpIMdV5lAuLpwNf+KAZsRO87R4FbtVu9bRf
-	FUZ3/X2iQkFR9hIZ+d2VHe5HMCcckRUPdmkOXkU=
-X-Google-Smtp-Source: ABdhPJxwosVQMjBPHNEDg4RQDuublxESiaeDqg1WScEDAQOuv8qKV0WIofjEJvSkStOfASc0OoQLHBr//ZXqPaYJdWA=
-X-Received: by 2002:a17:907:9688:: with SMTP id hd8mr20623291ejc.484.1629448155228;
- Fri, 20 Aug 2021 01:29:15 -0700 (PDT)
+        bh=DOqNE8jz3Yw/OLmKZ7Ib+VC/MFnZreoF9f/KIyjDaD4=;
+        b=cbuTuSEORFaVbgm9hsC5j5Q3SDGVt8i8ETQ10GILa4dP9RyPaPofY3iav1F/rA0Iow
+         SprLsioCYqFGZzV7tKPGZjQ+Ux1y0AGUd3EzM9np8HLi7v4VjQTE3EdYiBUnhZIzfTMa
+         uNviLhvovfHq1BPL05EDqTe1N8kUgRdPUyGsQjwYOM31Wx6G0d1NO7Xjj/ZDa/8x2NEr
+         AJshHNs+Su9DkLMFH4RvCmbLtTsYhBBAm3GyFwoZgqY57OkZUDJ1UFRX3pMJzeZuofwL
+         w52/25FuyCYvoLELC+EazgxFXk5M1LL4EVhMbrh7tzbTERmzas8kq4ij+nBeB7P7uvAU
+         C2AA==
+X-Gm-Message-State: AOAM533tH6fheA44leMkQVm6UgPrKmF/WqtuWCOvuu+kLOh24MFlARvX
+	ozFV/n9I/FppjrR2cboFjDV1YDolbhjmmXR5UEc=
+X-Google-Smtp-Source: ABdhPJz35Hde5GZO88pX9fbraiMYmmOy7WLZKu7BIRaJI00Q7VFfUP0Q3ZBR2ZTqm/b+nRxDTnWee1JuHTYa8t4Ihq4=
+X-Received: by 2002:a05:6402:70a:: with SMTP id w10mr21027002edx.213.1629448316076;
+ Fri, 20 Aug 2021 01:31:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210819082934.10907-1-quaresma.jose@gmail.com> <BE9AF7EF-C06C-4F6B-A1D0-DDB3A6C21D3E@0leil.net>
-In-Reply-To: <BE9AF7EF-C06C-4F6B-A1D0-DDB3A6C21D3E@0leil.net>
+References: <20210818202954.143099-1-quaresma.jose@gmail.com> <4f17fad6060570b1ff87c54973ae46d3242565c6.camel@linuxfoundation.org>
+In-Reply-To: <4f17fad6060570b1ff87c54973ae46d3242565c6.camel@linuxfoundation.org>
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Fri, 20 Aug 2021 09:29:04 +0100
-Message-ID: <CANPvuRnz7eZnTLdSv8ztq3MoBTKewVF=tHGBD_8uviACihHm2A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] patch.bbclass: check if patchdir exist
-To: Quentin Schulz <foss@0leil.net>
+Date: Fri, 20 Aug 2021 09:31:44 +0100
+Message-ID: <CANPvuRm8THwf2PNC+89OcQgon5vTTfMF8FsXUp9watnVtTnQ8g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 1/4] sstate.bbclass: track found files on mirrors with a counter
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Quentin,
+I Richard
 
-Quentin Schulz <foss@0leil.net> escreveu no dia quinta, 19/08/2021 =C3=A0(s=
-) 10:53:
+It's not being easy to integrate this series.
+In September I will take a look again.
+
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+quinta, 19/08/2021 =C3=A0(s) 10:14:
 >
-> Hi Jose,
->
-> On August 19, 2021 10:29:34 AM GMT+02:00, Jose Quaresma <quaresma.jose@gm=
-ail.com> wrote:
-> >if the user specifies path on 'patchdir' that don't exist,
-> >the patch will fail and there are no message that indicates the real cau=
-se.
+> On Wed, 2021-08-18 at 21:29 +0100, Jose Quaresma wrote:
+> > We don't need extra python collections to count the found files
+> > on the sstate cache and sstate mirrors.
+> > The main found collections provides all the files that were found,
+> > then we only need to count the files on sstate mirror
 > >
-> >Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> >---
-> > meta/classes/patch.bbclass | 2 ++
-> > 1 file changed, 2 insertions(+)
-> >
-> >diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> >index 559c6f45bd..1e9a024bf9 100644
-> >--- a/meta/classes/patch.bbclass
-> >+++ b/meta/classes/patch.bbclass
-> >@@ -131,6 +131,8 @@ python patch_do_patch() {
-> >             patchdir =3D parm["patchdir"]
-> >             if not os.path.isabs(patchdir):
-> >                 patchdir =3D os.path.join(s, patchdir)
-> >+            if not os.path.isdir(patchdir):
-> >+                bb.fatal("Patch source directory don't found '%s'" % pa=
-tchdir)
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > ---
+> >  meta/classes/sstate.bbclass | 13 ++++++-------
+> >  1 file changed, 6 insertions(+), 7 deletions(-)
 >
-> In your text, it should be "not" and not "don't".
+> I'm afraid there is still some change in this series causing problems.
 >
-> I could suggest also:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2464
 >
-> patchdir '%s' not found
+> Many of the failures in that build seem to be triggered only when this
+> patch series is applied. I thought it was the locking issue but there
+> appears to be something else.
 >
-> Or explicit in the message that "Patch source directory" not found means =
-"patchdir" is incorrect somewhere in SRC_URI.
+> Cheers,
 >
-> I think you could even tell which patch file has its patchdir incorrect b=
-y printing the "local" variable. Not sure it brings anything, just thinking=
- out loud =F0=9F=98=81
+> Richard
 >
-> Anyway, I like this patch, but it does not have the same purpose as the e=
-arlier version of this patch series. I think it is also important to print =
-the patchdir when the patch tool fails to apply the patch. It might be beca=
-use the path exists but is incorrect.
->
-> So it'd be awesome if we can get the patchdir in the fatal message when t=
-he patch fails to apply. My understanding of patch.bbclass and lib/oe/patch=
-.py is that resolver.Resolve() is doing the patching so in that except thr =
-patchdir could be printed.
-
-This is the right way to go.
-I will address your comments in the next version, it will come in September=
-.
-
->
-> Many thanks!
-> Quentin
-
 
 
 --=20
