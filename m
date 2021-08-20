@@ -1,158 +1,176 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.4024.1629495119479304510
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web08.5526.1629503721985502349
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Aug 2021 14:31:59 -0700
+ Fri, 20 Aug 2021 16:55:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ttasciog@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 17KLVw5S029501
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 14:31:58 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 20 Aug 2021 14:31:57 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Fri, 20 Aug 2021 14:31:57 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 21862)
-	id B747E900467; Fri, 20 Aug 2021 14:31:57 -0700 (PDT)
-From: "Tony Tascioglu" <tony.tascioglu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <tony.tascioglu@windriver.com>, <randy.macleod@windriver.com>
-Subject: [hardknott][PATCH 4/5] ffmpeg: fix CVE-2020-22021
-Date: Fri, 20 Aug 2021 14:31:56 -0700
-Message-ID: <20210820213157.98104-4-tony.tascioglu@windriver.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210820213157.98104-1-tony.tascioglu@windriver.com>
-References: <20210820213157.98104-1-tony.tascioglu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=slDq9k4b;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id hv22-20020a17090ae416b0290178c579e424so8367546pjb.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 16:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WZzF3/hn0jGG5ZWRjsws3hjOc2tF2NmJS1Eg5bcET1w=;
+        b=slDq9k4buF0tFYev54P1WP/yjFAQyzjV08ucehlTtl5qyjHAaY5UEXENtd0We8xxdZ
+         U/M+y9Rpq6jutF/T8c/uKf7SoynqSvfgkBanDdWIAg8PpzIq4Xj5ojMr+3H2Z7bC5N4D
+         bMaSkzb3iWDe3EAq+RxIttYPiT3GBe5x1UmjOTYDHqtInE0V6UZDKRVMiyvLCnUsQNIQ
+         hrAZFM88xHiMMndS9HYtWixuc5oWWybO6RWGl0IGEkUVNrAvGjntryyVWijfgvyO3Pyn
+         7bSuFZsPvQ1wyjF/W1KuFP95ub367qbWmEU9DOf6IlBvREOLzvIXVsKs1p3hExqzRET6
+         +d+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WZzF3/hn0jGG5ZWRjsws3hjOc2tF2NmJS1Eg5bcET1w=;
+        b=q/ilEWZv9GCoqyNbX9G7025EadPRrP98J5mj8Kq8hyjmQriw0bA7i73mqvekk43Hxi
+         VLyJWyT88STYFl6/sxBv8ZYC+htmttJBBpPVgQ1ur5seDTfWw/uTTlP8lS+Vm7vZ84uz
+         cnpdAlb5oAB8OStUZS8HKVfgxnn0chqjh2svXbOd+aOaAQrFPsr0j1011Dm/EtVUR2pu
+         lgclCtg9CU2dJzM2/d81LyKIdx1eYGlx1g6/9nfLI6VZMBRiN8mSTJtM3GVJXN7mgqqN
+         S6f3UgC15Dke/w+PVZ/X41A+aTymU1vL7gDLq9MJNsjrvxDDIeGpM0QOGWFJyW/C1h2v
+         Xy4g==
+X-Gm-Message-State: AOAM533lXvRed1V45+vsFC2xpIn5zpcZWfAedrRDppwi9rmtlk6x0rbk
+	nFk8Q3W68o8uhawOIAz3YTrdtLvdiIY=
+X-Google-Smtp-Source: ABdhPJz+Z9nQi5TxwNLkzayn1Q4WrO1BwqHXPsxdkBzUxKHY0vD5bDitXe/eqQ6n3rN+106yv3QJLQ==
+X-Received: by 2002:a17:90a:4481:: with SMTP id t1mr7258616pjg.232.1629503721304;
+        Fri, 20 Aug 2021 16:55:21 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:43c0:2d24:85b:da13])
+        by smtp.gmail.com with ESMTPSA id i11sm9634705pgo.25.2021.08.20.16.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Aug 2021 16:55:20 -0700 (PDT)
+From: "Armin Kuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [Dunfell][PATCH 1/7] qemu: Security fix CVE-2020-25085
+Date: Fri, 20 Aug 2021 16:55:13 -0700
+Message-Id: <20210820235519.593218-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-avfilter/vf_yadif: Fix handing of tiny images
+From: Armin Kuster <akuster@mvista.com>
 
-Fixes: out of array access
-Fixes: Ticket8240
-Fixes: CVE-2020-22021
+Source: qemu.org
+MR: 105773
+Type: Security Fix
+Disposition: Backport from https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg00733.html
+ChangeID: 77c8a9e75b94da3c03c64c95d9e6ab9d45037572
+Description:
 
-Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-
-CVE: CVE-2020-22021
-Upstream-Status: Backport [7971f62120a55c141ec437aa3f0bacc1c1a3526b]
-
-Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../ffmpeg/ffmpeg/fix-CVE-2020-22021.patch    | 87 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |  1 +
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-22021.patch
+ meta/recipes-devtools/qemu/qemu.inc           | 41 +++++++++--------
+ .../qemu/qemu/CVE-2020-25085.patch            | 46 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-22021.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-22021.patch
-new file mode 100644
-index 0000000000..05cba736ff
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-22021.patch
-@@ -0,0 +1,87 @@
-+From 384177ca945395c8cf0ebbddd4b8b1eae64e900f Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sat, 29 May 2021 11:17:35 +0200
-+Subject: [PATCH 4/5] avfilter/vf_yadif: Fix handing of tiny images
-+
-+Fixes: out of array access
-+Fixes: Ticket8240
-+Fixes: CVE-2020-22021
-+
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+
-+CVE: CVE-2020-22021
-+Upstream-Status: Backport [7971f62120a55c141ec437aa3f0bacc1c1a3526b]
-+
-+Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
-+---
-+ libavfilter/vf_yadif.c | 32 ++++++++++++++++++--------------
-+ 1 file changed, 18 insertions(+), 14 deletions(-)
-+
-+diff --git a/libavfilter/vf_yadif.c b/libavfilter/vf_yadif.c
-+index 43dea67add..06fd24ecfa 100644
-+--- a/libavfilter/vf_yadif.c
-++++ b/libavfilter/vf_yadif.c
-+@@ -123,20 +123,22 @@ static void filter_edges(void *dst1, void *prev1, void *cur1, void *next1,
-+     uint8_t *next2 = parity ? cur  : next;
-+ 
-+     const int edge = MAX_ALIGN - 1;
-++    int offset = FFMAX(w - edge, 3);
-+ 
-+     /* Only edge pixels need to be processed here.  A constant value of false
-+      * for is_not_edge should let the compiler ignore the whole branch. */
-+-    FILTER(0, 3, 0)
-++    FILTER(0, FFMIN(3, w), 0)
-+ 
-+-    dst  = (uint8_t*)dst1  + w - edge;
-+-    prev = (uint8_t*)prev1 + w - edge;
-+-    cur  = (uint8_t*)cur1  + w - edge;
-+-    next = (uint8_t*)next1 + w - edge;
-++    dst  = (uint8_t*)dst1  + offset;
-++    prev = (uint8_t*)prev1 + offset;
-++    cur  = (uint8_t*)cur1  + offset;
-++    next = (uint8_t*)next1 + offset;
-+     prev2 = (uint8_t*)(parity ? prev : cur);
-+     next2 = (uint8_t*)(parity ? cur  : next);
-+ 
-+-    FILTER(w - edge, w - 3, 1)
-+-    FILTER(w - 3, w, 0)
-++    FILTER(offset, w - 3, 1)
-++    offset = FFMAX(offset, w - 3);
-++    FILTER(offset, w, 0)
-+ }
-+ 
-+ 
-+@@ -170,21 +172,23 @@ static void filter_edges_16bit(void *dst1, void *prev1, void *cur1, void *next1,
-+     uint16_t *next2 = parity ? cur  : next;
-+ 
-+     const int edge = MAX_ALIGN / 2 - 1;
-++    int offset = FFMAX(w - edge, 3);
-+ 
-+     mrefs /= 2;
-+     prefs /= 2;
-+ 
-+-    FILTER(0, 3, 0)
-++    FILTER(0,  FFMIN(3, w), 0)
-+ 
-+-    dst   = (uint16_t*)dst1  + w - edge;
-+-    prev  = (uint16_t*)prev1 + w - edge;
-+-    cur   = (uint16_t*)cur1  + w - edge;
-+-    next  = (uint16_t*)next1 + w - edge;
-++    dst   = (uint16_t*)dst1  + offset;
-++    prev  = (uint16_t*)prev1 + offset;
-++    cur   = (uint16_t*)cur1  + offset;
-++    next  = (uint16_t*)next1 + offset;
-+     prev2 = (uint16_t*)(parity ? prev : cur);
-+     next2 = (uint16_t*)(parity ? cur  : next);
-+ 
-+-    FILTER(w - edge, w - 3, 1)
-+-    FILTER(w - 3, w, 0)
-++    FILTER(offset, w - 3, 1)
-++    offset = FFMAX(offset, w - 3);
-++    FILTER(offset, w, 0)
-+ }
-+ 
-+ static int filter_slice(AVFilterContext *ctx, void *arg, int jobnr, int nb_jobs)
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-index c9c82b0398..e68589d4c3 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-@@ -29,6 +29,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://fix-CVE-2020-20446.patch \
-            file://fix-CVE-2020-20453.patch \
-            file://fix-CVE-2020-22015.patch \
-+           file://fix-CVE-2020-22021.patch \
-            "
- SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e25c2524aa..a33008670b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -35,27 +35,28 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-7039-2.patch \
+            file://CVE-2020-7039-3.patch \
+            file://0001-Add-enable-disable-udev.patch \
+-	   file://CVE-2020-7211.patch \
+-	   file://0001-qemu-Do-not-include-file-if-not-exists.patch \
++           file://CVE-2020-7211.patch \
++           file://0001-qemu-Do-not-include-file-if-not-exists.patch \
+            file://CVE-2020-11102.patch \
+-	   file://CVE-2020-11869.patch \
+-	   file://CVE-2020-13361.patch \
+-	   file://CVE-2020-10761.patch \
+-	   file://CVE-2020-10702.patch \
+-	   file://CVE-2020-13659.patch \
+-	   file://CVE-2020-13800.patch \
+-	   file://CVE-2020-13362.patch \
+-	   file://CVE-2020-15863.patch \
+-	   file://CVE-2020-14364.patch \
+-	   file://CVE-2020-14415.patch \
+-	   file://CVE-2020-16092.patch \
+-	   file://0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch \
+-	   file://CVE-2019-20175.patch \
+-	   file://CVE-2020-24352.patch \
+-	   file://CVE-2020-25723.patch \
+-	   file://CVE-2021-20203.patch \
+-	   file://CVE-2021-3392.patch \
+-	   "
++           file://CVE-2020-11869.patch \
++           file://CVE-2020-13361.patch \
++           file://CVE-2020-10761.patch \
++           file://CVE-2020-10702.patch \
++           file://CVE-2020-13659.patch \
++           file://CVE-2020-13800.patch \
++           file://CVE-2020-13362.patch \
++           file://CVE-2020-15863.patch \
++           file://CVE-2020-14364.patch \
++           file://CVE-2020-14415.patch \
++           file://CVE-2020-16092.patch \
++           file://0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch \
++           file://CVE-2019-20175.patch \
++           file://CVE-2020-24352.patch \
++           file://CVE-2020-25723.patch \
++           file://CVE-2021-20203.patch \
++           file://CVE-2021-3392.patch \
++           file://CVE-2020-25085.patch \
++           "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
+ SRC_URI[md5sum] = "278eeb294e4b497e79af7a57e660cb9a"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch
+new file mode 100644
+index 0000000000..be19256cef
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-25085.patch
+@@ -0,0 +1,46 @@
++From dfba99f17feb6d4a129da19d38df1bcd8579d1c3 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
++Date: Tue, 1 Sep 2020 15:22:06 +0200
++Subject: [PATCH] hw/sd/sdhci: Fix DMA Transfer Block Size field
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The 'Transfer Block Size' field is 12-bit wide.
++
++See section '2.2.2. Block Size Register (Offset 004h)' in datasheet.
++
++Two different bug reproducer available:
++- https://bugs.launchpad.net/qemu/+bug/1892960
++- https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Fsdhci_oob_write1
++
++Cc: qemu-stable@nongnu.org
++Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
++Fixes: d7dfca0807a ("hw/sdhci: introduce standard SD host controller")
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
++Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
++Tested-by: Alexander Bulekov <alxndr@bu.edu>
++Message-Id: <20200901140411.112150-3-f4bug@amsat.org>
++
++Upstream-Status: Backport
++CVE: CVE-2020-25085
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ hw/sd/sdhci.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++Index: qemu-4.2.0/hw/sd/sdhci.c
++===================================================================
++--- qemu-4.2.0.orig/hw/sd/sdhci.c
+++++ qemu-4.2.0/hw/sd/sdhci.c
++@@ -1129,7 +1129,7 @@ sdhci_write(void *opaque, hwaddr offset,
++         break;
++     case SDHC_BLKSIZE:
++         if (!TRANSFERRING_DATA(s->prnsts)) {
++-            MASKED_WRITE(s->blksize, mask, value);
+++            MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
++             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
++         }
++ 
 -- 
-2.31.1
+2.25.1
 
