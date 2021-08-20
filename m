@@ -1,129 +1,244 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.79849.1629437181462973422
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.79855.1629437254220399424
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 22:26:21 -0700
+ Thu, 19 Aug 2021 22:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lP+7+Bmf;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: o.kranz.88@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id q11so12339888wrr.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 22:26:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iyxBNI/A;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id mq3so6558254pjb.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 22:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=h2X+nUT4eB+FmfGWcK85z90OvOextGQ8LjI5WkJaD6E=;
-        b=lP+7+BmfIJJbUd925Jhi3Sin42e7nzqUYSrHf0ATlyC4C3Xzlnj6tza5B1AIQL+CDv
-         Zf28yU9JLSTZZHZZFVdzVDyvTZpeCka7CWiHLXLy5v33AbQbYT+Iy8bv1uRNQiDBP0SS
-         4mUIB0DuQUBCRUzHo3y+56IxxswsoX3UUyYvOPe5VTv0975UznKem0r4fFk5peCfahru
-         T4Nl4KyoG4dlFzB/s0lOmSrSiQYWBsqtnp+XEn75/R4+57sJLh0QA3TBCe0iVcbVowlC
-         IVqqGn84DweDFQhkzlE4d9BXJHOkETBm+vJWbyz+yaeBxHIJACBVHBVTjKjqGoSKWp1V
-         Z0Yg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f10PyJ0CXAZlxHIMUo73Y+9fDyUIyJ8cNKXZZm/kst0=;
+        b=iyxBNI/AlJ+fYWq5nfBefN4UUHZUJ9PDBmvU23YTqtFlCW6xBm6zlfa7ZdDRRU05sQ
+         lKtVxSIrozbPXiFg2nt4XcePVAnuHhiUJWGhl2JeOmsDDzWgLk3Qwx6Z3lWfFkdqNRnG
+         rr7Zlj7zIzzztrT5Rdv72ORFG0iguLXPZC5bvNjXL8QjZn4g4l5vWLc0zu+r2XSV7T8z
+         IGnditi+jHOsTbUbdCkRsdcbWDdeBEIuTgUQPHa6XT7ApNgxxVIweX36P97OiXRPS5cH
+         d53SUkGpqmwY4EGOhnXsuuclBqNjNbK1gqbFS63JhmpLCXa5VP8Tk3c+/rOCgzh+H4dI
+         mOkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=h2X+nUT4eB+FmfGWcK85z90OvOextGQ8LjI5WkJaD6E=;
-        b=sSyNyUgQl4DuKRexUgSkTC+m7obPImpIJ0t3ezH0pixDqXO7Va004bTmyNFnXJIfmg
-         GZK+C10yqSHo3e7DDiA4HyQAWihQn0iI52uXvehJXUIzn4fQNQJrb3OIocozxnP7oSMn
-         6QOfOIzcKltFaZzYsOemoSh43NQKcZ1oHWoJFYQpcyYgCGz53+OZSiunKdXo2vHsHXD3
-         9E2NJkOzoNIXPyPgUxAAuCknRfe8TDIpXEJIn8+DRXkN1mhPJQeC4FSUD7ViMNH2CmIZ
-         E2tb9RA5KzyR8/6e1CHqbXSy6RS54ResP/67iLwh8ItxNwy1hMHC0C/+gqNw/LrfuyrS
-         G6iA==
-X-Gm-Message-State: AOAM532NgwlZ4Qcq0LqLfAcbJ4Ll9GWXTVBFZ036BEvHybaRbs0TPfOT
-	VLUYkVaYbDqvednGyWAtBaoN3paHl1s=
-X-Google-Smtp-Source: ABdhPJw0/xyOHsQVL48/55i/QX1KeIGACDz4IW0zksS9y7VoOFMsggv1iekuNuI+GtPWZOR2kVWKNQ==
-X-Received: by 2002:adf:9d92:: with SMTP id p18mr7736262wre.20.1629437179608;
-        Thu, 19 Aug 2021 22:26:19 -0700 (PDT)
-Return-Path: <o.kranz.88@gmail.com>
-Received: from [172.16.1.139] (p54ab5a06.dip0.t-ipconnect.de. [84.171.90.6])
-        by smtp.gmail.com with ESMTPSA id r8sm4943335wrj.11.2021.08.19.22.26.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Aug 2021 22:26:19 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] Allow global override of golang GO_DYNLINK
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20210819092200.486069-1-o.kranz.88@gmail.com>
- <CAMKF1sp3LRuBd==eBJB0dY4_a9Zq3taU40P1Xtqxg0k7mCfKqg@mail.gmail.com>
-From: "Oliver Kranz" <o.kranz.88@gmail.com>
-Message-ID: <0dd12edd-18eb-81b1-5fc5-39dd0719f8ef@gmail.com>
-Date: Fri, 20 Aug 2021 07:26:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        bh=f10PyJ0CXAZlxHIMUo73Y+9fDyUIyJ8cNKXZZm/kst0=;
+        b=QjvTmP5EtsHgazZHSAQ5TEVGXV5vDy5rDoypRnvSxpISR5UQj7xlAygqO/9SKXiP6z
+         s/h5yP1CkTEDgAa0IFeVRn8HzW11kzYuosyV3nmpZ02UKTQSHEFtDEI7Xdj4LQ9cw/GI
+         gtgUsGQBAsohnCklj1X2ct9FFX93k1ueBrDmRIVrMgci8+7LbBTdbvtq9gqV0Z0CEV+o
+         bPDVaI2yUBLxl93tNOcrp0y1ZVgoUuk3EMVxYfmALPbzxXaLUSBOSqFG9q0AoZOWSTvo
+         ybFB3vUcZzHUNHOODjUEbms1UL84TPoxhGfK1oQQdebZKw0A3Hxw/SrRSIfuEve/H/9i
+         1Y/A==
+X-Gm-Message-State: AOAM5325yriPzwkWgst2BqHHndXbbSL2tB2amjVmfrO9xVSdYXnhvyzp
+	6CQytnuyUitAayd5sXoJsJUjorlCB0XnYA==
+X-Google-Smtp-Source: ABdhPJzBpNEb3pvQe7Y4TudVkVPKfGGH/dIq8aXEqRvqhICXkYQrVCAVPu18+khnK2BxPxq9LQY5xw==
+X-Received: by 2002:a17:90a:eb08:: with SMTP id j8mr2761001pjz.94.1629437253492;
+        Thu, 19 Aug 2021 22:27:33 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:ff71:9627:ab75:ea06])
+        by smtp.gmail.com with ESMTPSA id c7sm3642131pjc.31.2021.08.19.22.27.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Aug 2021 22:27:33 -0700 (PDT)
+From: "Armin Kuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [Dunfell][PATCH 1/7] glibc: Security fix CVE-2021-33574
+Date: Thu, 19 Aug 2021 22:27:26 -0700
+Message-Id: <20210820052732.2606-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp3LRuBd==eBJB0dY4_a9Zq3taU40P1Xtqxg0k7mCfKqg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20.08.21 02:01, Khem Raj wrote:
-> On Thu, Aug 19, 2021 at 2:22 AM Oliver Kranz <o.kranz.88@gmail.com> wrote:
-> 
->> Small golang applications create massive memory overhead if go-runtime
->> is deployed. So it is helpfull to be able to disable the GO_DYNLINK
->> option on a per distro/local.conf basis by making it a ?= instead of =.
->>
-> 
-> I wonder if we should make static as default and let users go for dynamic
-> link if they wish to
-> 
+From: Armin Kuster <akuster@mvista.com>
 
-I like the idea, but i was not sure if changing the default behavior on 
-my very fist patch is a good idea.
+Source: glibc.org
+MR: 111508
+Type: Security Fix
+Disposition: Backport from  https://sourceware.org/git/glibc.git
+ChangeID: 815edc154adc45d08d00995862409f13014f885f
+Description:
 
-In my tests with a hello-word and a private project on 
-core-image-minimal, i could observe:
+This version of glibc does not have __pthread_attr_setaffinity_np so an adapted patch was taken from 2.28  (https://sourceware.org/bugzilla/attachment.cgi?id=13497) and https://sourceware.org/git/?p=glibc.git;a=commit;h=42d359350510506b87101cf77202fefcbfc790cb
 
-GO_DYNLINK:x86-64 = "1" -> ""
-Packagesize +950%
-Imagesize -63%
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../glibc/glibc/CVE-2021-33574_1.patch        | 72 ++++++++++++++++++
+ .../glibc/glibc/CVE-2021-33574_2.patch        | 73 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.31.bb         |  2 +
+ 3 files changed, 147 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch
 
-It may be different if a lot of golang applications are deployed but it 
-would take some time to benefit from +30MB shared  go-runtime. And i 
-still try to check how CGO is affected by DYNLINK. But all that could be 
-handled by the recipe which generates a "too big" binary and we could 
-behave like golang on the host with the option of DYNLINK.
-
-As i am new here, should i send another patch? or how is this handled?
-
->>
->> Signed-off-by: Oliver Kranz <o.kranz.88@gmail.com>
->> ---
->>   meta/classes/goarch.bbclass | 14 +++++++-------
->>   1 file changed, 7 insertions(+), 7 deletions(-)
->>
->> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
->> index 48dc48dabf..92fec16b82 100644
->> --- a/meta/classes/goarch.bbclass
->> +++ b/meta/classes/goarch.bbclass
->> @@ -32,13 +32,13 @@ BASE_GOARM:armv5 = '5'
->>   # Go supports dynamic linking on a limited set of architectures.
->>   # See the supportsDynlink function in
->> go/src/cmd/compile/internal/gc/main.go
->>   GO_DYNLINK = ""
->> -GO_DYNLINK:arm = "1"
->> -GO_DYNLINK:aarch64 = "1"
->> -GO_DYNLINK:x86 = "1"
->> -GO_DYNLINK:x86-64 = "1"
->> -GO_DYNLINK:powerpc64 = "1"
->> -GO_DYNLINK:powerpc64le = "1"
->> -GO_DYNLINK:class-native = ""
->> +GO_DYNLINK:arm ?= "1"
->> +GO_DYNLINK:aarch64 ?= "1"
->> +GO_DYNLINK:x86 ?= "1"
->> +GO_DYNLINK:x86-64 ?= "1"
->> +GO_DYNLINK:powerpc64 ?= "1"
->> +GO_DYNLINK:powerpc64le ?= "1"
->> +GO_DYNLINK:class-native ?= ""
->>   GO_DYNLINK:class-nativesdk = ""
->>
->>   # define here because everybody inherits this class
->> --
->> 2.32.0
->>
->>
->> 
->>
->>
-> 
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch b/meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch
+new file mode 100644
+index 0000000000..cef0ce54ed
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574_1.patch
+@@ -0,0 +1,72 @@
++From 42d359350510506b87101cf77202fefcbfc790cb Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <schwab@linux-m68k.org>
++Date: Thu, 27 May 2021 12:49:47 +0200
++Subject: [PATCH] Use __pthread_attr_copy in mq_notify (bug 27896)
++
++Make a deep copy of the pthread attribute object to remove a potential
++use-after-free issue.
++
++Upstream-Status: Backport
++CVE: CVE-2021-33574 patch#1
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ NEWS                                |  4 ++++
++ sysdeps/unix/sysv/linux/mq_notify.c | 15 ++++++++++-----
++ 2 files changed, 14 insertions(+), 5 deletions(-)
++
++Index: git/NEWS
++===================================================================
++--- git.orig/NEWS
+++++ git/NEWS
++@@ -7,6 +7,10 @@ using `glibc' in the "product" field.
++ 
++ Version 2.31.1
++ 
+++  CVE-2021-33574: The mq_notify function has a potential use-after-free
+++  issue when using a notification type of SIGEV_THREAD and a thread
+++  attribute with a non-default affinity mask.
+++
++ The following bugs are resolved with this release:
++   [19519] iconv(1) with -c option hangs on illegal multi-byte sequences
++     (CVE-2016-10228)
++Index: git/sysdeps/unix/sysv/linux/mq_notify.c
++===================================================================
++--- git.orig/sysdeps/unix/sysv/linux/mq_notify.c
+++++ git/sysdeps/unix/sysv/linux/mq_notify.c
++@@ -135,8 +135,11 @@ helper_thread (void *arg)
++ 	    (void) __pthread_barrier_wait (&notify_barrier);
++ 	}
++       else if (data.raw[NOTIFY_COOKIE_LEN - 1] == NOTIFY_REMOVED)
++-	/* The only state we keep is the copy of the thread attributes.  */
++-	free (data.attr);
+++	{
+++	  /* The only state we keep is the copy of the thread attributes.  */
+++	  pthread_attr_destroy (data.attr);
+++	  free (data.attr);
+++	}
++     }
++   return NULL;
++ }
++@@ -257,8 +260,7 @@ mq_notify (mqd_t mqdes, const struct sig
++       if (data.attr == NULL)
++ 	return -1;
++ 
++-      memcpy (data.attr, notification->sigev_notify_attributes,
++-	      sizeof (pthread_attr_t));
+++      __pthread_attr_copy (data.attr, notification->sigev_notify_attributes);
++     }
++ 
++   /* Construct the new request.  */
++@@ -272,7 +274,10 @@ mq_notify (mqd_t mqdes, const struct sig
++ 
++   /* If it failed, free the allocated memory.  */
++   if (__glibc_unlikely (retval != 0))
++-    free (data.attr);
+++    {
+++      pthread_attr_destroy (data.attr);
+++      free (data.attr);
+++    }
++ 
++   return retval;
++ }
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch b/meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch
+new file mode 100644
+index 0000000000..396cd7fc0e
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2021-33574_2.patch
+@@ -0,0 +1,73 @@
++From 217b6dc298156bdb0d6aea9ea93e7e394a5ff091 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Tue, 1 Jun 2021 17:51:41 +0200
++Subject: [PATCH] Fix use of __pthread_attr_copy in mq_notify (bug 27896)
++
++__pthread_attr_copy can fail and does not initialize the attribute
++structure in that case.
++
++If __pthread_attr_copy is never called and there is no allocated
++attribute, pthread_attr_destroy should not be called, otherwise
++there is a null pointer dereference in rt/tst-mqueue6.
++
++Fixes commit 42d359350510506b87101cf77202fefcbfc790cb
++("Use __pthread_attr_copy in mq_notify (bug 27896)").
++
++Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
++
++https://sourceware.org/bugzilla/attachment.cgi?id=13497
++
++Upstream-Status: Backport
++CVE: CVE-2021-33574 patch#2
++Signed-off-by: Armin Kuster &lt;akuster@mvista.com&gt;
++
++---
++Index: git/sysdeps/unix/sysv/linux/mq_notify.c
++===================================================================
++--- git.orig/sysdeps/unix/sysv/linux/mq_notify.c
+++++ git/sysdeps/unix/sysv/linux/mq_notify.c
++@@ -260,7 +260,34 @@ mq_notify (mqd_t mqdes, const struct sig
++       if (data.attr == NULL)
++ 	return -1;
++ 
++-      __pthread_attr_copy (data.attr, notification->sigev_notify_attributes);
+++      memcpy (data.attr, notification->sigev_notify_attributes,
+++        sizeof (pthread_attr_t));
+++
+++      struct pthread_attr *source =
+++     (struct pthread_attr *) (notification->sigev_notify_attributes);
+++      struct pthread_attr *target = (struct pthread_attr *) (data.attr);
+++      cpu_set_t *newp;
+++      cpu_set_t *cpuset = source->cpuset;
+++      size_t cpusetsize = source->cpusetsize;
+++
+++      /* alloc a new memory for cpuset to avoid use after free */
+++      if (cpuset != NULL && cpusetsize > 0)
+++   {
+++     newp = (cpu_set_t *) malloc (cpusetsize);
+++     if (newp == NULL)
+++       {
+++         free(data.attr);
+++         return -1;
+++       }
+++
+++     memcpy (newp, cpuset, cpusetsize);
+++     target->cpuset = newp;
+++   }
+++      else
+++   {
+++     target->cpuset = NULL;
+++     target->cpusetsize = 0;
+++   }
++     }
++ 
++   /* Construct the new request.  */
++@@ -273,7 +300,7 @@ mq_notify (mqd_t mqdes, const struct sig
++   int retval = INLINE_SYSCALL (mq_notify, 2, mqdes, &se);
++ 
++   /* If it failed, free the allocated memory.  */
++-  if (__glibc_unlikely (retval != 0))
+++   if (retval != 0 && data.attr != NULL)
++     {
++       pthread_attr_destroy (data.attr);
++       free (data.attr);
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 8742efc36f..2e950dfeda 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -67,6 +67,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-inject-file-assembly-directives.patch \
+            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://CVE-2020-29573.patch \
++           file://CVE-2021-33574_1.patch \
++           file://CVE-2021-33574_2.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.25.1
 
