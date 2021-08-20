@@ -1,135 +1,158 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web12.5306.1629503724396543375
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web09.5515.1629503725132045764
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Aug 2021 16:55:24 -0700
+ Fri, 20 Aug 2021 16:55:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=en9JycyZ;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id r2so10757663pgl.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 16:55:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eQwpR57W;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so14978700pjr.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Aug 2021 16:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5ENku7pnq5LtlB3Z4nKXPlxf7J92jNNg7/uO1fA4tDA=;
-        b=en9JycyZNszyLPi3MPSd96LEI9K+lE+9qeo/kkiDVi94ABxVRR44Lb7foP5cJO1ksK
-         8me6UHlhPs6laIQsUNcSCIaTfPKY57pPSJf6JKLscLBcwjVhfGyH9Wr9QDjnEcMB83ir
-         qtVNj+exIAxVLzbsvwct4q6d8cuVHRn62ayUf773iZTd/DtX/GGpmli6swZd13dzKfvn
-         FwUvpop3VjH6kFl8HXU0UNp+YK9KL23cZ32PTsv0SpnTlqCe5ojmF3tXckESmS/rEy2A
-         OwQ2YTCrtcF2b7homapcgC33gw9yszW5Hxj/ze8qtyI+igFr9qrrtGw0/T1+A9R7buAe
-         1Zug==
+        bh=hgxnaU0TnqzneeX1k42y8lIpNoUreuyDsDX5qVSlkhc=;
+        b=eQwpR57Wi55LOqabe4Gfy++KzdZ+MKUrvXemm6IQ1aInO39kes/ETfWhXFh9OMg1kq
+         /FcJCwAW/6gKr4nuMM0darooypIcNwFwthxdvQF8W5pZjMnuBc2j3c1hy8g0l6Kkp/aD
+         q032KJlpgVK/N2FPzWLXxFxVGCSDvA3T0+aFGUgxf/6b1pIo2U6oOMxsgtzk11GQmj4n
+         KXibBvbHOgycuWx2MrsjuhnQvuMtJkZatC3ljr4NtTV3CJK+RqvCBei4lJYu7JzjKFNQ
+         E1YDM+Bk5XlW3f9XZZsICyUNZCA4NUr1DfyFgP9oE6QXdg0WuqMoWFLOz0Jom9A5hdRH
+         sDSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5ENku7pnq5LtlB3Z4nKXPlxf7J92jNNg7/uO1fA4tDA=;
-        b=a/JJ/GFeOVn24+OPVVbX0MXR01SXY+4onE+TVXqzEg/+YO2VrlXb+1Vf/KnKG/Ekyg
-         TTlqp0zfXfFXzT8+X7mK1YQJCT1usDwqhJbqXmhTiKGecjGQKnPJLhprs/vXAnElmPws
-         ObxCfQQ+GuV7ChQBxTb21Y8DxpGM1RvPp3b5qXvQfbIcI8xj+0xwsxiOTtC27NzzO094
-         GtElpGIQoK3WXWjaT40ZfdNyGYt7Q5yDpsolS18deLqxyIMDw1LYFAw2jV8A1yhhcfBV
-         aGjViAAiTa/x0NiVnnNK/TMtOiOeSxK0LNLHCFQA5cDFYXOAvgR8hEbZ2xp10GaydtQ2
-         /wlw==
-X-Gm-Message-State: AOAM532028JWsZAo4nm+4HWOOS5U2JbOaTLVPCsTkNGWiiDOysZa0hm9
-	sEvc8tMPWOFGwkA7eG8MQwJ0Mwlh77I=
-X-Google-Smtp-Source: ABdhPJzJTUIR3Rt9RDYo+kOmKYuaXxBYDtdHLpMWRoyN42sLOP2RUb3s/9GgyMMSqgg1tqzGczGglw==
-X-Received: by 2002:a63:7cb:: with SMTP id 194mr21204578pgh.308.1629503723879;
-        Fri, 20 Aug 2021 16:55:23 -0700 (PDT)
+        bh=hgxnaU0TnqzneeX1k42y8lIpNoUreuyDsDX5qVSlkhc=;
+        b=RQvGF8qM+SX2+I8g+h9KVBvnlRs6Wc8gElCnwqVZpjX0wH5DgjyzjxapiteI/JMN9W
+         z1bxcRbMyTdZ2ER1MxMKg3gzUytCyibANRxsy2IAIfcoeGLh8iAVRpUjNGy6p/gZxziG
+         6Ho6XmFNMemuHarSv85BQ4B8cu/KFNQNByo+D/SY5kQ66DM8YsRRwTUc0ZcQSiudErCC
+         /KRXC4OsbzY/ypg75up2eMKqMmsMeYyeHNHNP0vGFnLAh77l6FOU+Xv6BjUsNwYI8Jp2
+         oYYu/ZBQBPPpgoYEFkY+1vo1EXkF08pcC8Mk7JKBQde1D5OQAN+Ri9Aykw1UrMG3HgFW
+         cISQ==
+X-Gm-Message-State: AOAM532ga9UAcDf/SJR59ma7GsMHEynHa0fOzfZWfgKzzFErFovAe6Tc
+	w3qyS/a+xPyYnLliBmkTRZfzIeQxzGo=
+X-Google-Smtp-Source: ABdhPJxeI1CVojnOASRQddlMFShULzlv2MeHi4Yg9pUll0uqNNNj4osPgd2xseUWKZWbyiT7TndhEw==
+X-Received: by 2002:a17:90b:789:: with SMTP id l9mr7048667pjz.223.1629503724591;
+        Fri, 20 Aug 2021 16:55:24 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:43c0:2d24:85b:da13])
-        by smtp.gmail.com with ESMTPSA id i11sm9634705pgo.25.2021.08.20.16.55.23
+        by smtp.gmail.com with ESMTPSA id i11sm9634705pgo.25.2021.08.20.16.55.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 16:55:23 -0700 (PDT)
+        Fri, 20 Aug 2021 16:55:24 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [Dunfell][PATCH 4/7] qemu: Security fix for CVE-2020-29443
-Date: Fri, 20 Aug 2021 16:55:16 -0700
-Message-Id: <20210820235519.593218-4-akuster808@gmail.com>
+Subject: [Dunfell][PATCH 5/7] qemu: Security fix CVE-2021-20221
+Date: Fri, 20 Aug 2021 16:55:17 -0700
+Message-Id: <20210820235519.593218-5-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210820235519.593218-1-akuster808@gmail.com>
 References: <20210820235519.593218-1-akuster808@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Armin Kuster <akuster@mvista.com>
 
 Source: Qemu.org
-MR: 109315
+MR: 111643
 Type: Security Fix
-Disposition: Backport from https://git.qemu.org/?p=qemu.git;a=commit;h=813212288970c39b1800f63e83ac6e96588095c6
-ChangeID: c0296e285169cc937cc9758c9d84ac690297ee54
+Disposition: Backport from https://gitlab.com/qemu-project/qemu/-/commit/edfe2eb4360cde4ed5d95bda7777edcb3510f76a
+ChangeID: b3ca1aa4b772a5f27f327250c5b0b988375c86a9
 Description:
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-29443.patch            | 45 +++++++++++++++++++
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch
+ .../qemu/qemu/CVE-2021-20221.patch            | 67 +++++++++++++++++++
+ 2 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 76bfb4fcf9..bd1a83955f 100644
+index bd1a83955f..ea654e0008 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -59,6 +59,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-25624_1.patch \
+@@ -60,6 +60,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2020-25624_2.patch \
             file://CVE-2020-25625.patch \
-+           file://CVE-2020-29443.patch \
+            file://CVE-2020-29443.patch \
++           file://CVE-2021-20221.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
 new file mode 100644
-index 0000000000..1528d5c2fd
+index 0000000000..46c9ab4184
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch
-@@ -0,0 +1,45 @@
-+From 813212288970c39b1800f63e83ac6e96588095c6 Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Tue, 1 Dec 2020 13:09:26 +0100
-+Subject: [PATCH] ide: atapi: assert that the buffer pointer is in range
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
+@@ -0,0 +1,67 @@
++From edfe2eb4360cde4ed5d95bda7777edcb3510f76a Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
++Date: Sun, 31 Jan 2021 11:34:01 +0100
++Subject: [PATCH] hw/intc/arm_gic: Fix interrupt ID in GICD_SGIR register
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+A case was reported where s->io_buffer_index can be out of range.
-+The report skimped on the details but it seems to be triggered
-+by s->lba == -1 on the READ/READ CD paths (e.g. by sending an
-+ATAPI command with LBA = 0xFFFFFFFF).  For now paper over it
-+with assertions.  The first one ensures that there is no overflow
-+when incrementing s->io_buffer_index, the second checks for the
-+buffer overrun.
++Per the ARM Generic Interrupt Controller Architecture specification
++(document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
++not 10:
 +
-+Note that the buffer overrun is only a read, so I am not sure
-+if the assertion failure is actually less harmful than the overrun.
++  - 4.3 Distributor register descriptions
++  - 4.3.15 Software Generated Interrupt Register, GICD_SG
 +
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+Message-id: 20201201120926.56559-1-pbonzini@redhat.com
-+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
++    - Table 4-21 GICD_SGIR bit assignments
++
++    The Interrupt ID of the SGI to forward to the specified CPU
++    interfaces. The value of this field is the Interrupt ID, in
++    the range 0-15, for example a value of 0b0011 specifies
++    Interrupt ID 3.
++
++Correct the irq mask to fix an undefined behavior (which eventually
++lead to a heap-buffer-overflow, see [Buglink]):
++
++   $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,accel=qtest -qtest stdio
++   [I 1612088147.116987] OPENED
++  [R +0.278293] writel 0x8000f00 0xff4affb0
++  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds for type 'uint8_t [16][8]'
++  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gic.c:1498:13
++
++This fixes a security issue when running with KVM on Arm with
++kernel-irqchip=off. (The default is kernel-irqchip=on, which is
++unaffected, and which is also the correct choice for performance.)
++
++Cc: qemu-stable@nongnu.org
++Fixes: CVE-2021-20221
++Fixes: 9ee6e8bb853 ("ARMv7 support.")
++Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
++Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
++Message-id: 20210131103401.217160-1-f4bug@amsat.org
++Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 +Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 +
 +Upstream-Status: Backport
-+CVE: CVE-2020-29443
++CVE: CVE-2021-20221
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ hw/ide/atapi.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ hw/intc/arm_gic.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
-+index 14a2b0bb2f..e79157863f 100644
-+--- a/hw/ide/atapi.c
-++++ b/hw/ide/atapi.c
-+@@ -276,6 +276,8 @@ void ide_atapi_cmd_reply_end(IDEState *s)
-+         s->packet_transfer_size -= size;
-+         s->elementary_transfer_size -= size;
-+         s->io_buffer_index += size;
-++        assert(size <= s->io_buffer_total_len);
-++        assert(s->io_buffer_index <= s->io_buffer_total_len);
++Index: qemu-4.2.0/hw/intc/arm_gic.c
++===================================================================
++--- qemu-4.2.0.orig/hw/intc/arm_gic.c
+++++ qemu-4.2.0/hw/intc/arm_gic.c
++@@ -1455,7 +1455,7 @@ static void gic_dist_writel(void *opaque
++         int target_cpu;
 + 
-+         /* Some adapters process PIO data right away.  In that case, we need
-+          * to avoid mutual recursion between ide_transfer_start
-+-- 
-+2.25.1
-+
++         cpu = gic_get_current_cpu(s);
++-        irq = value & 0x3ff;
+++        irq = value & 0xf;
++         switch ((value >> 24) & 3) {
++         case 0:
++             mask = (value >> 16) & ALL_CPU_MASK;
 -- 
 2.25.1
 
