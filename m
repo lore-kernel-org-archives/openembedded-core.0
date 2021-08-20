@@ -1,110 +1,158 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web08.80319.1629437257345242653
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web08.80320.1629437258207324143
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 22:27:37 -0700
+ Thu, 19 Aug 2021 22:27:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fIzzOh8U;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id c17so8060613pgc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 22:27:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZZRX9LYJ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id gz13-20020a17090b0ecdb0290178c0e0ce8bso8608526pjb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 22:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SdlEbCtPziWN8Ut87lDiDGWWY2XUXkHERczd33bKDUk=;
-        b=fIzzOh8UD0Om1hS+PX51LMFiuUghRxrS8fQMqdU/8I3kr4cyE+/UnkaIEbQACARIbc
-         1SgNx0+Wv07XVM8hyOawRjTec164vvNVUqnOuJkM1BOJKlLRoQIE+VgUZLRE9vOnCYO0
-         WjJhk0iKlIrca98BrXdR6aAF1vDtq2jhGCWaK/zY8Oz9jzN24dcIuHxlbmPfo0I20US5
-         Tj6cc+AbXlyymrDFb5VuBRwa68FEIDp8vh0cc4AHTys0IMQEMriCvh3VjcrzrL3wwmpW
-         WbTNAYSOUWYbkGfchCzzcbqLG6A/0XPYkm/XrHCjSuBq4v3bE4yl2I/ooSigECIDVaiV
-         z+eg==
+        bh=GWQpqSDlPiy2SAabJ/xpxY5qHPPeyau5H4cjhYZgMNY=;
+        b=ZZRX9LYJTACcvOZ8MH8hEPJtz/RCKSa6drUwNPCiuoLnyXpXmNQr1YGJcaMGICP11o
+         Ck/lxTsXi3N6GUvKaT5SOehi4UXR3WdfX3UlKjrUs1swKx9fFaiRQUnmstPQWti0t6Rb
+         j61n2CnP6ghNSWLCDGOBMFmIKHTopWQS+Vci+t7axQzsYJk6PCmJtJEX7c35H3kb+ILB
+         fGmBXJHHDsn//2HurPSI4EhsA3acMUFFzVNrhlPN9BOb5O06sQjNfE972KtSyBr54FrY
+         7FXCG0UGgv5ebQouL8BxZ7bL3CTDWKdN30pJrgwl8srqYx2WC2XAqi/MynBqQjdtsu5F
+         zRrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SdlEbCtPziWN8Ut87lDiDGWWY2XUXkHERczd33bKDUk=;
-        b=XoI8j9kX1jcSBAkFXPIxhioC1WLBCZAud57EvkJaSxUIyFq6orO7k8m9pPAY9uDrpR
-         eRe0EUjDvpIk+VZa7Cqr2mSX2IBljv/vRqEJKvp39IkPeOkjE1N60qJb8CuYs5Tp2DrC
-         NmkdZ2sisps6pc6ecDi3BNjyWYcEZ9P7peEEWUcZJygacbJ2VW1cAcUr5iTAnAPBdwUn
-         lxDWW1iiZe+K+Q2GjXV7/BClfe3ezvqyg45D5kbri8H1DH1YeEUimnDRcGpKa3Bb3x0J
-         m2oTFOHicmVu860hXKMCi2VSsyeP+jV+ygUVJASyBSjCQEASUAeXjli3C5b2Scn/4uwT
-         Kpow==
-X-Gm-Message-State: AOAM531DDCO0LEFjgLuzhUN3gnkO98+iJFN6ik5upiiKJJGZP71G3HzG
-	ZK5U0LQpU7O8inHvV9TkW0gtfI3PKyh4Ow==
-X-Google-Smtp-Source: ABdhPJxZ2nXQfuVcYO34XABKQzT4ba7fGpTMv4/tek4hWxnLwwSyCHzgvQtdHeEuNoY4duMC1Dyl4A==
-X-Received: by 2002:a65:6213:: with SMTP id d19mr16782199pgv.110.1629437256803;
-        Thu, 19 Aug 2021 22:27:36 -0700 (PDT)
+        bh=GWQpqSDlPiy2SAabJ/xpxY5qHPPeyau5H4cjhYZgMNY=;
+        b=fHEHV1FZrUR06VPXhtzw/bndLc0YaiqID+lJDzsBlYakhDFG15qQwhbQgwaf+Xmbx9
+         Z0DaKEId2ltZcPysQXg9faxZprgXmicmu2fzOHPLj6BlBUK6YeW94yEwN7XVUWlSh2w/
+         nlgNScnmGfaRdURquRLxv/FdEPp2YPz/6EMB1xL+9GN13ArdiWIo3kmm5bhWc2zLJNEP
+         H4XZMMP8uhkx0+qcqLBMUZfVN0j3CmPc10CPyadW3LMSKE9UwBYjsVn3EEl7E8dI4yr+
+         j6TFKLa+pPN/iHJNdLTWZI8dWUbuRo4YARQJ8gWMwunv0QZxaZXCpLBENx80k1Opu5lo
+         t4Dw==
+X-Gm-Message-State: AOAM530rO00IcExCUWevrlwBIuhMQaQajdbao4bJnsflWuzSXofD4PtM
+	0QRcnT8sOYmWbogDUx5bGDGK4Uy6t1U6Cg==
+X-Google-Smtp-Source: ABdhPJwvXmGgtOwoND2oZ5Ff8mSx0Wf1uxj7jJvL5gBbcgjktg0rD4Rt31YTMTnnx9QHYIJpbuiB/A==
+X-Received: by 2002:a17:902:e995:b029:12d:5f22:ce3f with SMTP id f21-20020a170902e995b029012d5f22ce3fmr14902825plb.66.1629437257632;
+        Thu, 19 Aug 2021 22:27:37 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:ff71:9627:ab75:ea06])
         by smtp.gmail.com with ESMTPSA id c7sm3642131pjc.31.2021.08.19.22.27.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 22:27:36 -0700 (PDT)
+        Thu, 19 Aug 2021 22:27:37 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Saul Wold <Saul.Wold@windriver.com>,
-	Saul Wold <saul.wold@windriver.com>,
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Armin Kuster <akuster@mvista.com>
-Subject: [Dunfell][PATCH 5/7] gnupg: uprev 2.2.22 -> 2.2.23
-Date: Thu, 19 Aug 2021 22:27:30 -0700
-Message-Id: <20210820052732.2606-5-akuster808@gmail.com>
+Subject: [Dunfell][PATCH 6/7] gnupg: update 2.2.23 -> 2.2.26
+Date: Thu, 19 Aug 2021 22:27:31 -0700
+Message-Id: <20210820052732.2606-6-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210820052732.2606-1-akuster808@gmail.com>
 References: <20210820052732.2606-1-akuster808@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Saul Wold <Saul.Wold@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Source: poky.org
-MR: 105607
-Type: Security Fix
-Disposition: Backport from http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-support/gnupg?h=hardknott&id=0c06506d42f9e1f43a54a178cda47cfea3f12f81
-ChangeID: 4341d0331368d6cd51d635d2c70555b3dce61792
-Description:
+(From OE-Core rev: eb7ad793d8c2e924adccc62e7680bb1cac640e89)
 
-This addresses CVE-2020-25125 and provides some other minor
-updates and translations.
-
-Updated commits for reference:
-  e234d04c3 Werner Koch Release 2.2.23
-  aeb8272ca Werner Koch gpg: Fix AEAD preference list overflow
-  038314665 Werner Koch po: auto update
-  1a4b0fd79 Yuri Chornoivan po: Update Ukrainian translation
-  93d10403a Jakub Bogusz po: Update Polish translation
-  a8a8105bc Werner Koch po: Add key-check.c to the list of translatable sources.
-  cad9955ac Petr Pisar po: Update Czech translation.
-  896c528ba Werner Koch gpg: Fix segv importing certain keys.
-  0a9665187 NIIBE Yutaka scd: Fix a regression for OpenPGP card.
-  bcae9cd4e Nagy Ferenc László po: Minor update to the Hungarian translation.
-  d2fe2ffd7 Werner Koch sm: Fix a bug in the rfc2253 parser
-  f799b3ddb Werner Koch Post release updates
-
-(From OE-Core rev: 965683336816eba7cb0548e59faf224f74b306b1)
-
-Signed-off-by: Saul Wold <saul.wold@windriver.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0c06506d42f9e1f43a54a178cda47cfea3f12f81)
+(cherry picked from commit df0bb1cb96389d534b53faf677a0f6ee30dd672d)
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-support/gnupg/{gnupg_2.2.22.bb => gnupg_2.2.23.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/gnupg/{gnupg_2.2.22.bb => gnupg_2.2.23.bb} (97%)
+ ...e-a-custom-value-for-the-location-of-.patch |  6 +++---
+ .../gnupg/0003-dirmngr-uses-libgpg-error.patch | 18 ++++++++----------
+ .../recipes-support/gnupg/gnupg/relocate.patch |  2 +-
+ .../gnupg/{gnupg_2.2.23.bb => gnupg_2.2.26.bb} |  2 +-
+ 4 files changed, 13 insertions(+), 15 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.23.bb => gnupg_2.2.26.bb} (97%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.22.bb b/meta/recipes-support/gnupg/gnupg_2.2.23.bb
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index c641a19616..a0af2d48dc 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From 56343af532389c31eab32c096c9a989c53c78ce0 Mon Sep 17 00:00:00 2001
++From abc5c396aaddaef2e6811362e3e0cc0da28c2b34 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 1d05d39..eaaf33c 100644
++index 64cb8c6..3fe9027 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1858,7 +1858,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1824,7 +1824,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+  
+  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
+  
+diff --git a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+index 607a09f188..a13b4d5fb5 100644
+--- a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
++++ b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+@@ -1,4 +1,4 @@
+-From 9a901dbb1c48685f2db6d7b55916c9484e871f16 Mon Sep 17 00:00:00 2001
++From 6c75656b68cb6e38b039ae532bd39437cd6daec5 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Wed, 16 Aug 2017 11:18:01 +0800
+ Subject: [PATCH] dirmngr uses libgpg error
+@@ -11,20 +11,18 @@ Rebase to 2.1.23
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ 
+ ---
+- dirmngr/Makefile.am | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
++ dirmngr/Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
+ 
+ diff --git a/dirmngr/Makefile.am b/dirmngr/Makefile.am
+-index 208a813..292c036 100644
++index 00d3c42..450d873 100644
+ --- a/dirmngr/Makefile.am
+ +++ b/dirmngr/Makefile.am
+-@@ -90,7 +90,8 @@ endif
+- dirmngr_LDADD = $(libcommonpth) \
++@@ -101,6 +101,7 @@ dirmngr_LDADD = $(libcommonpth) \
+          $(DNSLIBS) $(LIBASSUAN_LIBS) \
+  	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
+--	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS)
+-+	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS) \
+-+	$(GPG_ERROR_LIBS)
++ 	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS) \
+++	$(GPG_ERROR_LIBS) \
++         $(dirmngr_robj)
+  if USE_LDAP
+  dirmngr_LDADD += $(ldaplibs)
+- endif
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index aa8d1e3cc2..7f7812cd46 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From 4005b3342db06749453835720b5a5c2392a90810 Mon Sep 17 00:00:00 2001
++From bd66af2ac7bb6d9294ac8055a55462ba7c4f9c9b Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.23.bb b/meta/recipes-support/gnupg/gnupg_2.2.26.bb
 similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.2.22.bb
-rename to meta/recipes-support/gnupg/gnupg_2.2.23.bb
-index 887ab0e1f2..fc157c7906 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.22.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.23.bb
+rename from meta/recipes-support/gnupg/gnupg_2.2.23.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.26.bb
+index fc157c7906..e2b03a520f 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.23.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.26.bb
 @@ -25,7 +25,7 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
                                  file://relocate.patch"
  SRC_URI_append_class-nativesdk = " file://relocate.patch"
  
--SRC_URI[sha256sum] = "7c1370565e1910b9d8c4e0fb57b9de34aa062ec7bb91abad5803d791f38d855b"
-+SRC_URI[sha256sum] = "10b55e49d78b3e49f1edb58d7541ecbdad92ddaeeb885b6f486ed23d1cd1da5c"
+-SRC_URI[sha256sum] = "10b55e49d78b3e49f1edb58d7541ecbdad92ddaeeb885b6f486ed23d1cd1da5c"
++SRC_URI[sha256sum] = "517569e6c9fad22175df16be5900f94c991c41e53612db63c14493e814cfff6d"
  
  EXTRA_OECONF = "--disable-ldap \
  		--disable-ccid-driver \
