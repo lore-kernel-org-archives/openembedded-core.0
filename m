@@ -1,97 +1,129 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.79285.1629432498041555490
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.79849.1629437181462973422
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Aug 2021 21:08:18 -0700
+ Thu, 19 Aug 2021 22:26:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BD9rW3p7;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id w68so7474110pfd.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 21:08:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lP+7+Bmf;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: o.kranz.88@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id q11so12339888wrr.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Aug 2021 22:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=AYmv2gJkuDBKE1UzUO+VRktpDcnNTAhDIq5rvGaiw60=;
-        b=BD9rW3p7+w+D2TfRIbOwgRM8vov599KV9jZeAYrHHuf76R3Q6W/jxtRqvNJ/bsNdRA
-         YE6TBUK+0I77lZ2n4Htr/mJqzWfILgZ0af9//1IFam73ZZqEGMMY1TvWZNlDHwfXjZYv
-         nVXZIKg2lc7GCoMT24LgGNu7uLN2UJYlhaj/d/MXNbkG6Vhqoi3XRdNE6FogBKoJxQfo
-         MswB6ihnW61dXRFuUn3AwSduzKuu6LSuYi7AO2DZzrFMv1xu+cAUDBS/DnsL0rFustBv
-         IF8MAIXvH7uHxhEzrkFzabXGJuVIPEqSa88EmieB01KMTA/GvS35BYR+K3l6QG+GNo7U
-         Ru1g==
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=h2X+nUT4eB+FmfGWcK85z90OvOextGQ8LjI5WkJaD6E=;
+        b=lP+7+BmfIJJbUd925Jhi3Sin42e7nzqUYSrHf0ATlyC4C3Xzlnj6tza5B1AIQL+CDv
+         Zf28yU9JLSTZZHZZFVdzVDyvTZpeCka7CWiHLXLy5v33AbQbYT+Iy8bv1uRNQiDBP0SS
+         4mUIB0DuQUBCRUzHo3y+56IxxswsoX3UUyYvOPe5VTv0975UznKem0r4fFk5peCfahru
+         T4Nl4KyoG4dlFzB/s0lOmSrSiQYWBsqtnp+XEn75/R4+57sJLh0QA3TBCe0iVcbVowlC
+         IVqqGn84DweDFQhkzlE4d9BXJHOkETBm+vJWbyz+yaeBxHIJACBVHBVTjKjqGoSKWp1V
+         Z0Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=AYmv2gJkuDBKE1UzUO+VRktpDcnNTAhDIq5rvGaiw60=;
-        b=gy04QD3QruncqKTKJFYrG3fqWbmZc2Eg0ausKGbJL8a/c3pPrfXio+ee7Kxn+OE5P2
-         jv/PU96IesEVKlBBsuXv4lpScx9a+CJj+kJHzD/ZnkzfRGHK3wxA8+U7T/PMKY0m/5XJ
-         jkfipuVPdDhBzDnkywtzOk+t1Kn2f3QRzY4cVDxel/Nf9CyhxGoX9aFT9DYxuvP1QN5o
-         5YxBmQ6TXfRSz3Gzz+DfFHM5teQmUirjRqE0bEfvgVmUGlMrbBtl/zT2F52GRvcNRNx4
-         rA0uXARUNBF522S2/Q4le0+tlsSP+6ML0DpW0FJrTV0WLjwClx8UbwPzxqcRrNg4Es8R
-         bQcA==
-X-Gm-Message-State: AOAM531XZF+GUiSY6c/XRBAwDW8yP45A5VsBuf7yMwxFRMPuTMLR9g8E
-	HMQzKW3f7JiXX2tLbJ/A8+TswV0qMN8oMA==
-X-Google-Smtp-Source: ABdhPJwuTvKvYaXw4fFv0ekGFvN1eZFYDvfZcwiUah30fKIzbT8zzetdfOvJJ8JrqzZ+rwCbgih1zg==
-X-Received: by 2002:a63:83c7:: with SMTP id h190mr16993932pge.51.1629432496865;
-        Thu, 19 Aug 2021 21:08:16 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:ff71:9627:ab75:ea06? ([2601:202:4180:a5c0:ff71:9627:ab75:ea06])
-        by smtp.gmail.com with ESMTPSA id l12sm4937686pff.182.2021.08.19.21.08.15
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=h2X+nUT4eB+FmfGWcK85z90OvOextGQ8LjI5WkJaD6E=;
+        b=sSyNyUgQl4DuKRexUgSkTC+m7obPImpIJ0t3ezH0pixDqXO7Va004bTmyNFnXJIfmg
+         GZK+C10yqSHo3e7DDiA4HyQAWihQn0iI52uXvehJXUIzn4fQNQJrb3OIocozxnP7oSMn
+         6QOfOIzcKltFaZzYsOemoSh43NQKcZ1oHWoJFYQpcyYgCGz53+OZSiunKdXo2vHsHXD3
+         9E2NJkOzoNIXPyPgUxAAuCknRfe8TDIpXEJIn8+DRXkN1mhPJQeC4FSUD7ViMNH2CmIZ
+         E2tb9RA5KzyR8/6e1CHqbXSy6RS54ResP/67iLwh8ItxNwy1hMHC0C/+gqNw/LrfuyrS
+         G6iA==
+X-Gm-Message-State: AOAM532NgwlZ4Qcq0LqLfAcbJ4Ll9GWXTVBFZ036BEvHybaRbs0TPfOT
+	VLUYkVaYbDqvednGyWAtBaoN3paHl1s=
+X-Google-Smtp-Source: ABdhPJw0/xyOHsQVL48/55i/QX1KeIGACDz4IW0zksS9y7VoOFMsggv1iekuNuI+GtPWZOR2kVWKNQ==
+X-Received: by 2002:adf:9d92:: with SMTP id p18mr7736262wre.20.1629437179608;
+        Thu, 19 Aug 2021 22:26:19 -0700 (PDT)
+Return-Path: <o.kranz.88@gmail.com>
+Received: from [172.16.1.139] (p54ab5a06.dip0.t-ipconnect.de. [84.171.90.6])
+        by smtp.gmail.com with ESMTPSA id r8sm4943335wrj.11.2021.08.19.22.26.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Aug 2021 21:08:16 -0700 (PDT)
-Subject: Re: [OE-core] update glibc to HEAD of release/2.34/master to include fix for CVE-2021-38604?
-To: Khem Raj <raj.khem@gmail.com>, Sakib Sajal <sakib.sajal@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <536e91b5-6c16-aeb2-f534-edde8601ac84@windriver.com>
- <CAMKF1spD_gnPW7x5st-5i8VC2wpLmOFGKF9K0iKSSSR4xB=wbw@mail.gmail.com>
-From: "Armin Kuster" <akuster808@gmail.com>
-Message-ID: <4cea495d-30b6-b74f-70d9-07b6dd5ba2e4@gmail.com>
-Date: Thu, 19 Aug 2021 21:08:15 -0700
+        Thu, 19 Aug 2021 22:26:19 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] Allow global override of golang GO_DYNLINK
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20210819092200.486069-1-o.kranz.88@gmail.com>
+ <CAMKF1sp3LRuBd==eBJB0dY4_a9Zq3taU40P1Xtqxg0k7mCfKqg@mail.gmail.com>
+From: "Oliver Kranz" <o.kranz.88@gmail.com>
+Message-ID: <0dd12edd-18eb-81b1-5fc5-39dd0719f8ef@gmail.com>
+Date: Fri, 20 Aug 2021 07:26:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spD_gnPW7x5st-5i8VC2wpLmOFGKF9K0iKSSSR4xB=wbw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAMKF1sp3LRuBd==eBJB0dY4_a9Zq3taU40P1Xtqxg0k7mCfKqg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
+On 20.08.21 02:01, Khem Raj wrote:
+> On Thu, Aug 19, 2021 at 2:22 AM Oliver Kranz <o.kranz.88@gmail.com> wrote:
+> 
+>> Small golang applications create massive memory overhead if go-runtime
+>> is deployed. So it is helpfull to be able to disable the GO_DYNLINK
+>> option on a per distro/local.conf basis by making it a ?= instead of =.
+>>
+> 
+> I wonder if we should make static as default and let users go for dynamic
+> link if they wish to
+> 
 
+I like the idea, but i was not sure if changing the default behavior on 
+my very fist patch is a good idea.
 
-On 8/18/21 3:02 PM, Khem Raj wrote:
-> On Wed, Aug 18, 2021 at 2:40 PM Sakib Sajal <sakib.sajal@windriver.com> wrote:
->> Hi Khem,
+In my tests with a hello-word and a private project on 
+core-image-minimal, i could observe:
+
+GO_DYNLINK:x86-64 = "1" -> ""
+Packagesize +950%
+Imagesize -63%
+
+It may be different if a lot of golang applications are deployed but it 
+would take some time to benefit from +30MB shared  go-runtime. And i 
+still try to check how CGO is affected by DYNLINK. But all that could be 
+handled by the recipe which generates a "too big" binary and we could 
+behave like golang on the host with the option of DYNLINK.
+
+As i am new here, should i send another patch? or how is this handled?
+
 >>
->> I was going to apply the commit
+>> Signed-off-by: Oliver Kranz <o.kranz.88@gmail.com>
+>> ---
+>>   meta/classes/goarch.bbclass | 14 +++++++-------
+>>   1 file changed, 7 insertions(+), 7 deletions(-)
 >>
->> glibc is currently at ae37d06c7d127817ba43850f0f898b793d42aea7, 8
->> commits behind origin/release/2.34/master as shown below.
+>> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+>> index 48dc48dabf..92fec16b82 100644
+>> --- a/meta/classes/goarch.bbclass
+>> +++ b/meta/classes/goarch.bbclass
+>> @@ -32,13 +32,13 @@ BASE_GOARM:armv5 = '5'
+>>   # Go supports dynamic linking on a limited set of architectures.
+>>   # See the supportsDynlink function in
+>> go/src/cmd/compile/internal/gc/main.go
+>>   GO_DYNLINK = ""
+>> -GO_DYNLINK:arm = "1"
+>> -GO_DYNLINK:aarch64 = "1"
+>> -GO_DYNLINK:x86 = "1"
+>> -GO_DYNLINK:x86-64 = "1"
+>> -GO_DYNLINK:powerpc64 = "1"
+>> -GO_DYNLINK:powerpc64le = "1"
+>> -GO_DYNLINK:class-native = ""
+>> +GO_DYNLINK:arm ?= "1"
+>> +GO_DYNLINK:aarch64 ?= "1"
+>> +GO_DYNLINK:x86 ?= "1"
+>> +GO_DYNLINK:x86-64 ?= "1"
+>> +GO_DYNLINK:powerpc64 ?= "1"
+>> +GO_DYNLINK:powerpc64le ?= "1"
+>> +GO_DYNLINK:class-native ?= ""
+>>   GO_DYNLINK:class-nativesdk = ""
 >>
->> Those commits also contain the fix for CVE-2021-38604. Should I go ahead
->> and update:
->>
->> ./glibc-version.inc:SRCREV_glibc ?=
->> "ae37d06c7d127817ba43850f0f898b793d42aea7"
->>
->> or is there work in progress to do this?
-> Please go ahead, also add the below information to git commit log.
->
->> glibc.git$ git log --oneline ae37d06c7d127817ba43850f0f898b793d42aea7...
->> 7c987a5ccb (HEAD, origin/release/2.34/master) librt: add test (bug 28213)
->> 7947430322 librt: fix NULL pointer dereference (bug 28213)
-FYI: bug 28213 fixes CVE-2021-38604
->> 31902ae639 Linux: Fix fcntl, ioctl, prctl redirects for _TIME_BITS=64
->> (bug 28182)
->> 9995d0588f iconv_charmap: Close output file when done
->> 7ff4da3dc2 copy_and_spawn_sgid: Avoid double calls to close()
->> a5bd2e10e0 gaiconf_init: Avoid double-free in label and precedence lists
->> 3a48da47a9 gconv_parseconfdir: Fix memory leak
->> 0b03996304 ldconfig: avoid leak on empty paths in config file
->>
->>
->> Sakib Sajal
+>>   # define here because everybody inherits this class
+>> --
+>> 2.32.0
 >>
 >>
 >> 
 >>
+>>
+> 
 
