@@ -1,97 +1,138 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web10.2244.1629574338522055409
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web08.2591.1629576493221861582
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Aug 2021 12:32:18 -0700
+ Sat, 21 Aug 2021 13:08:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=hSl+DVQL;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.170, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f170.google.com with SMTP id t190so14640209qke.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Aug 2021 12:32:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fYL9Wtzb;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id t42so9162788pfg.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Aug 2021 13:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=eg66pwPzQcG+5V/DOn8BQFWBEbaUND0fy80qt/kJABo=;
-        b=hSl+DVQLQJ9kKm37SnXNyrfTyQSWJdmuCKw51LilL5t6sPSevRwOl1bCWI5F17icoJ
-         GBzkQZHk7JzmJQIiY5hI/LISUFh5jINnqPu1InenfVb+zoJLW+S858k3qNIzE4V51JKF
-         UDzSYeDzu7AXegAdD1LC8YM2Tx/GgA1VLj2pevCR4/0Qx5D/fYNBhPc79TQhipk6L/iB
-         08xipL1WgZxpgU4lBRP2WAVuasd/enj2H+xaKLgSiXH51c8MsDYa2rIPQ4EY60tV7zu/
-         kJHzXgJo/RAefwMXN8etoeaB2TabLmRuw01dvr9OzArVzl9V/4kRLhgcKi5FQ9E9cLrE
-         lFvA==
+        bh=xN7lWN7Emhv2xsRKqLZXza6NPxkQdRpJJdQTWvFjNSA=;
+        b=fYL9Wtzb6fEb69tSrPvXsNczPcjJEcSKWwhN/kiSWHPAYBMXRYij/EOiUCwkg3QxGA
+         cEZs31gLia1B3FbWeVMTPdZxW7otvyoiXvr6c+I/kQxsg+ncMmQsSmS+jzdZyO8KYBDk
+         Vejd0JiZ5Q5qAfDZDJBfNfeSDKxrr2x/ZGgWWuagsfhOEftpFBogS4GV3+5zRus4cqaD
+         JY4QlUHhYMFCm6m1ov/MkfTfFMFtGdAr31Pu3791C464EBoyfiKrWDBhloNeLOMFeYm4
+         ROzMyLmsKckUImu8pwVvqdsjrdGNqOE5xXH3LcCaRB4+dkN312vMnN7zsgUQNISgEezs
+         vWyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=eg66pwPzQcG+5V/DOn8BQFWBEbaUND0fy80qt/kJABo=;
-        b=HMtphPyfE4NLAV9QVJck48wvzJiCRLwkBnX4/OdxGG91VuIXJip/T5QC3aPELCs/j5
-         zU8hBZ4s7p6hmj+oTH6Pf9ANlBNgwds9kQfXUVdwNl8mKaUVXEpMqNH19WlkOj8zflce
-         pIw0TOmjCPZbiAnTcSO7cOzGUJVZS2B5SGvxrG0w9VeKxUb+rVdM53Da3Udd3gC8TXAt
-         6f+yWeXitN7oFs81PMOhoh3hu04iCnU8GTHhw1NghFaUBQmnh88Ass0RLs8zPwtu1LXM
-         lZsy7jUjnFW0qXCESQN+pvGpjs/r0ysCzPr23Kn4kjPVIRujnVHLCJ0vOo045vEYz3wX
-         c94A==
-X-Gm-Message-State: AOAM5302jndtO/SmTbmtrK30aQrKKOZUk2XiTE1BS8PNA7GxL6vk9Y/l
-	OfHHGaCJflm6vWXrqML0088eS99cFdW2TA==
-X-Google-Smtp-Source: ABdhPJzYWvhpTG+2NkTG//Tef2MsFWRr1f2JR0Fy9WnoNOje+NvZzM31AtXHO9V+XBpMQly8GtOBNQ==
-X-Received: by 2002:a05:620a:14a2:: with SMTP id x2mr12336809qkj.194.1629574337452;
-        Sat, 21 Aug 2021 12:32:17 -0700 (PDT)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([2605:a601:a632:4e00:d40d:8071:1130:9f29])
-        by smtp.gmail.com with ESMTPSA id o7sm4185425qtw.80.2021.08.21.12.32.17
-        for <openembedded-core@lists.openembedded.org>
+        bh=xN7lWN7Emhv2xsRKqLZXza6NPxkQdRpJJdQTWvFjNSA=;
+        b=KMDkNF4nwBO4EbBD2J+arI1WYAYHwnuKA1+3vCrPoKIt1Ah6/4SgGgsuM5DE3C/OYp
+         4ZPp0uWKzq/QKb25q+5WIyxDbAaaF89gAfiuY/VIOL8lyrfhEC0lJUfXHNOb6Klf3mCG
+         jvVNaM6fQiLlLg5GahewRo8U2pMKGueBIjrNE6Z8NmfJWTR4v9j79N5HBglRpQqS1o1W
+         kH/OnPL/hJRxaFTz6XLcePcXkFpvvADk4CgiKYyUX1tkkfeEHW56yimvXzCZT+/+dQNa
+         F88RBskCy33eJ/W3VUSB3L27rZq+FUNPoPkBkB+NwT3vg9tDG4Ek6nyj+JdlX8mroDHL
+         DSkg==
+X-Gm-Message-State: AOAM533ok6uuM4Ir+5T5Ccip14eyMGkXNhTNGUuhbUJMmCYomG/26Gls
+	oKxicfrAc7+IhX16/j8xPVP5r9uwTnonZQ==
+X-Google-Smtp-Source: ABdhPJwmuX8crkqPJjTQtOd0wi8b4OTpxqEuommbvm0Oq8fRo6IM5QIQP2/XB7Z9/hdCR5IyYzCkTg==
+X-Received: by 2002:a62:7c96:0:b0:3e5:715b:f8a8 with SMTP id x144-20020a627c96000000b003e5715bf8a8mr11634000pfc.51.1629576492330;
+        Sat, 21 Aug 2021 13:08:12 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1d09])
+        by smtp.gmail.com with ESMTPSA id m2sm11175199pfo.45.2021.08.21.13.08.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Aug 2021 12:32:17 -0700 (PDT)
-From: "Jon Mason" <jdmason@kudzu.us>
+        Sat, 21 Aug 2021 13:08:11 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] arch-arm*: Fix bugs with dsp and simd feature include files
-Date: Sat, 21 Aug 2021 15:32:16 -0400
-Message-Id: <20210821193216.29134-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] weston: Re-order gbm destruction at DRM-backend tear down
+Date: Sat, 21 Aug 2021 13:08:09 -0700
+Message-Id: <20210821200809.1196569-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix bugs found with a duplicate inclusion of feature-arm-simd.inc and
-dsp not being defined in feature-arm-dsp.inc
+Fixes an annoying segfault seen on rpi4 when launching weston during
+boot especially using systemd service or sysvinit script, if weston is
+launched manually on VT, it works fine. This backport specifically
+addresses the issue described above.
 
-Found by compiling with DEFAULTTUNE set to 'armv8r' and 'cortexm33'
-respectively.
+For more details see [1]
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+[1] https://gitlab.freedesktop.org/wayland/weston/-/issues/314
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/machine/include/arm/arch-armv5-dsp.inc  | 1 +
- meta/conf/machine/include/arm/arch-armv8r.inc     | 1 -
- meta/conf/machine/include/arm/feature-arm-dsp.inc | 3 ++-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ ...d-drm-Re-order-gbm-destruction-at-DR.patch | 50 +++++++++++++++++++
+ meta/recipes-graphics/wayland/weston_9.0.0.bb |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-libweston-backend-drm-Re-order-gbm-destruction-at-DR.patch
 
-diff --git a/meta/conf/machine/include/arm/arch-armv5-dsp.inc b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-index d296e827cf66..f3c749d7223e 100644
---- a/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-+++ b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-@@ -1,3 +1,4 @@
-+# Can't use feature-arm-dsp.inc, since that will add "+dsp", which isn't supported in GCC for ARMv5
- ARMPKGSFX_DSP = "${@bb.utils.contains('TUNE_FEATURES', [ 'dsp' ], 'e', '', d)}"
- TUNEVALID[dsp] = "ARM DSP functionality"
+diff --git a/meta/recipes-graphics/wayland/weston/0001-libweston-backend-drm-Re-order-gbm-destruction-at-DR.patch b/meta/recipes-graphics/wayland/weston/0001-libweston-backend-drm-Re-order-gbm-destruction-at-DR.patch
+new file mode 100644
+index 0000000000..f8f7589499
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/0001-libweston-backend-drm-Re-order-gbm-destruction-at-DR.patch
+@@ -0,0 +1,50 @@
++From c8bfa1f8d576cdc6d515dbbac36c48c6166be0d5 Mon Sep 17 00:00:00 2001
++From: Marius Vlad <marius.vlad@collabora.com>
++Date: Thu, 1 Apr 2021 00:12:00 +0300
++Subject: [PATCH] libweston/backend-drm: Re-order gbm destruction at DRM-backend tear down
++
++Tearing down the drm-backend when there are no input devices, would call
++for the gbm device destruction before compositor shutdown. The latter
++would call into the renderer detroy function and assume that the
++EGLDisplay, which was created using the before-mentioned gbm device, is
++still available. This patch re-orders the gbm destruction after the
++compositor shutdown when no one would make use of it.
++
++Fixes: #314
++
++Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
++Suggested-by: Daniel Stone <daniel.stone@collabora.com>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/wayland/weston/-/commit/d171c7b3ba346c4d0bd6494f45ebf0be3c3cc5fb]
++---
++ libweston/backend-drm/drm.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
++index 2780f3b..fbcfeca 100644
++--- a/libweston/backend-drm/drm.c
+++++ b/libweston/backend-drm/drm.c
++@@ -3025,10 +3025,6 @@ err_drm_source:
++ err_udev_input:
++ 	udev_input_destroy(&b->input);
++ err_sprite:
++-#ifdef BUILD_DRM_GBM
++-	if (b->gbm)
++-		gbm_device_destroy(b->gbm);
++-#endif
++ 	destroy_sprites(b);
++ err_udev_dev:
++ 	udev_device_unref(drm_device);
++@@ -3038,6 +3034,10 @@ err_launcher:
++ 	weston_launcher_destroy(compositor->launcher);
++ err_compositor:
++ 	weston_compositor_shutdown(compositor);
+++#ifdef BUILD_DRM_GBM
+++	if (b->gbm)
+++		gbm_device_destroy(b->gbm);
+++#endif
++ 	free(b);
++ 	return NULL;
++ }
++--
++2.33.0
+diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+index fbf181b4a6..cbc2e6a1cd 100644
+--- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+            file://0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch \
+            file://0001-meson.build-fix-incorrect-header.patch \
++           file://0001-libweston-backend-drm-Re-order-gbm-destruction-at-DR.patch \
+ "
  
-diff --git a/meta/conf/machine/include/arm/arch-armv8r.inc b/meta/conf/machine/include/arm/arch-armv8r.inc
-index be4ef3e629df..0dcfd34c1a2b 100644
---- a/meta/conf/machine/include/arm/arch-armv8r.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8r.inc
-@@ -8,7 +8,6 @@ TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8r', ' -march=a
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8r', 'armv8r:', '', d)}"
- 
- require conf/machine/include/arm/arch-arm64.inc
--require conf/machine/include/arm/feature-arm-simd.inc
- require conf/machine/include/arm/feature-arm-crc.inc
- require conf/machine/include/arm/feature-arm-crypto.inc
- 
-diff --git a/meta/conf/machine/include/arm/feature-arm-dsp.inc b/meta/conf/machine/include/arm/feature-arm-dsp.inc
-index ec5007a8ca75..7f7ada7461ca 100644
---- a/meta/conf/machine/include/arm/feature-arm-dsp.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-dsp.inc
-@@ -1,2 +1,3 @@
--# Note: TUNEVALID set in conf/machine/include/arm/arch-armv5-dsp.inc
-+ARMPKGSFX_DSP = "${@bb.utils.contains('TUNE_FEATURES', [ 'dsp' ], 'e', '', d)}"
-+TUNEVALID[dsp] = "ARM DSP functionality"
- TUNE_CCARGS_MARCH_OPTS .= "${@bb.utils.contains('TUNE_FEATURES', [ 'dsp' ], '+dsp', '', d)}"
+ SRC_URI:append:libc-musl = " file://dont-use-plane-add-prop.patch "
 -- 
-2.20.1
+2.33.0
 
