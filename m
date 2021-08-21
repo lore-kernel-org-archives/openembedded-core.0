@@ -1,124 +1,79 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web11.10164.1629548260168113479
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.81])
+ by mx.groups.io with SMTP id smtpd.web09.10411.1629549737523555139
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Aug 2021 05:17:40 -0700
+ Sat, 21 Aug 2021 05:42:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VDB+d7pv;
- spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id f13so7897671vsl.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Aug 2021 05:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EJvdBob/UmQnOOpcXAlXambx0Rpa2gAnLQvMtFLEWDc=;
-        b=VDB+d7pvxGvVThMggxmitfyr99YvnavDgZ5bxi34GsuAtygWI78cwTg9eOsoCfbKpL
-         tCme0pvMoFC/36kkFk99WIyuHtK3YBCExD8j2rLxiMUgBPrvKc2g/em4jMNa0vloVIE9
-         KLHW86Vyo1zFE/MBnd7xImQy7j/295dE21Q34Oyf6uIti/AQ2mWbySB6PRhwKjsheqOJ
-         /Al1gxUaSdTyaAbZR5P3wm8H5eTxqaLE+KbIHXx4nddGPEq79LUnSMo3uOO9oD/wenOG
-         COawqKc1zUfhshcPWH6uG2RFU6dQMbBho5wgZZIjz2bTo3+q16QNypb1HYJ4S/NmAtnU
-         ak0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EJvdBob/UmQnOOpcXAlXambx0Rpa2gAnLQvMtFLEWDc=;
-        b=fnMKqRW68BGV3T4p6tp/Ofm9tINqAk7DgrdvM+k0txhnhF9fW0YCs8SXO4gtX5/Wbq
-         8Eabest6U+TRvYUy+wBuE1jBVzPq2ny54Sy8AK+SPsZ63D6Gk3yFj4STxxyE4LdmHoER
-         H3Du18Sw1MnMXh3mJqfRcDWHu6Zyuacy9vcqku5ipQp5SmKOCfXkKv2POJKKT/OyZE7B
-         tLHaMd2pR0Zmlz2VGV2WRxzLhyfLHslmE54jxBJpFQn2kh4DtxdsXlhZyVPCMJC1ku6p
-         AJNvxnqTMLXifaK4TA+y8nBIgTMSrwIT35bNouHXvMRwWc2Jcod8xmEYJKMO3OZ6IbVE
-         TWXw==
-X-Gm-Message-State: AOAM533EE67D3rtCD4hFVjDfVJK3don838jtNXGamYQq83KMYeVQkcbx
-	hHFlVvR3rkUhFoRUgLZ4+mwzgWWHHWwzi78elyA=
-X-Google-Smtp-Source: ABdhPJzZUVSd2v1ReIQ/hM5RbV9bzFRqLL1wS2JeU8MRILR7SpGCO7ws+2JicnyHqpJ4BbQdfoB2qgqRW1bA1o0Ihrg=
-X-Received: by 2002:a67:844:: with SMTP id 65mr19532560vsi.20.1629548259273;
- Sat, 21 Aug 2021 05:17:39 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=WcJoLxdU;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.81, mailfrom: leimaohui@fujitsu.com)
+Return-Path: <leimaohui@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1629549735; i=@fujitsu.com;
+	bh=rQALYbs1/LfEFwtAXc+1+7s3E0eIEovXHEg3Mhk3xr8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=WcJoLxdUoLDk0xy0v7kur3ijM2JSIJPnWt0wKSbsaDeI1hy03dl1RxwG5yZBbNs0I
+	 BnI8VpZnSSn/Sik8dcMDdgfMHL8coYw2ifzPq6jCT3OT3tFfMMfdNxuBQtAPLpTU3A
+	 s3muVz+CDl0VMXZxVAtj72meHF5ShGhtZ+CqogUNyT8WlQP9/O4dcofkQjK+7LUjbm
+	 MiTbp8JDtSy971+O0Zk664Bcfh3NgPL/SxuKKMBpPtZ9kYC9gVYH7YpPGiZgy9bs/F
+	 PGFbTGv4nXp0Ke0LvsTjssE0+4fuIB2rQJPdaIY7dM0DZKefxYSc+BV4hAjCC2hO8k
+	 ZgVkEuaapXVRw==
+Received: from [100.112.199.201] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-b.eu-west-1.aws.symcld.net id 97/DD-02582-6A4F0216; Sat, 21 Aug 2021 12:42:14 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MRorvsi0K
+  iwf8v8hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bOcx/YCp4yV3Ru2s7YwDiBuYuRk0NIYBaT
+  xL6uwC5GLiB7L6PEhedT2UASbAIaErunXgYq4uAQEdCTuPpPFCTMLKAmcfTlT7BeYQF/ieetT
+  ewgNouAqsTR/7NZQGxeAVeJSR/WsYLYEgIKElMevmeGiAtKnJz5hAVijoTEwRcvmCFqlCTeXt
+  rDCGFXSMya1cY0gZF3FpKWWUhaFjAyrWK0SCrKTM8oyU3MzNE1NDDQNTQ00jW0NNM1MjTRS6z
+  STdJLLdUtTy0u0TXUSywv1iuuzE3OSdHLSy3ZxAgMrpSCI9d2MB54/UHvEKMkB5OSKG+8k0Ki
+  EF9SfkplRmJxRnxRaU5q8SFGGQ4OJQnenPdAOcGi1PTUirTMHGCgw6QlOHiURHiNPgCleYsLE
+  nOLM9MhUqcYFaXEebM/AyUEQBIZpXlwbbDousQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmH
+  fvJ6ApPJl5JXDTXwEtZgJaLKQqC7K4JBEhJdXAtK333jkbs+s/fQXus980PJCaeJUxZvHR6OZ
+  7OZv3XgxR4Ve5PafcI7I3re1ib0CMpy4z55+5wlOfvr/y6V0Fw6wjKye09m1Z/zOeabLb/gdT
+  Tz6P9ij00j2e2W+j7KNl1VgjlvZpgtgaVolDpSt2W7Uu2KTAymkSnLM1pGTN/FVzbKevXXfh4
+  3O3SIG56tOWZJo+D5mjxXhzL0uTq3rBFZM6NYENp/ZsW3bXhDVGfHtZ01aNO+ZrZBgOCAqsvv
+  h47dOAR4ebzhXtUyr74xEhrNnyzsns4m2Wz5apHS3X1nlyKqT3Lto1fbNs6y+988KLttwyPs3
+  ncazafOpZ0eP3xY0lfS7s3fbxsJTx97q5nkosxRmJhlrMRcWJAJlgVlApAwAA
+X-Env-Sender: leimaohui@fujitsu.com
+X-Msg-Ref: server-23.tower-285.messagelabs.com!1629549734!60959!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 26928 invoked from network); 21 Aug 2021 12:42:14 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-23.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 21 Aug 2021 12:42:14 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 17LCg8iC027504
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Sat, 21 Aug 2021 13:42:14 +0100
+Received: from localhost.localdomain (10.167.225.227) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.18; Sat, 21 Aug 2021 13:42:06 +0100
+From: "leimaohui" <leimaohui@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Lei Maohui <leimaohui@fujitsu.com>
+Subject: [OE-core] [PATCH 0/2] glibc: Fix conflict errors when enable multilib.
+Date: Sun, 22 Aug 2021 05:41:51 +0800
+Message-ID: <1629582113-29292-1-git-send-email-leimaohui@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210818165033.3935964-1-richard.purdie@linuxfoundation.org>
- <20210818165033.3935964-5-richard.purdie@linuxfoundation.org>
- <CANNYZj9x++ScjHm8KsUrftkN4o4as25=YSws_Lemn2TKLOSRxA@mail.gmail.com> <db5afb6bf3b352bfc088a0fb91163e695102d14a.camel@linuxfoundation.org>
-In-Reply-To: <db5afb6bf3b352bfc088a0fb91163e695102d14a.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sat, 21 Aug 2021 14:17:28 +0200
-Message-ID: <CANNYZj8R=FhyEZ9kqnDPb9x-NYYOJOiaFimR2EJN1uoP2wbFsw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] elfutils: Fix ptest dependencies
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000023707905ca10c588"
+X-Originating-IP: [10.167.225.227]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
---00000000000023707905ca10c588
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- Fix a miss in 0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch.
+- Added new file bits/pthread_stack_min.h to oe_multilib_header.
 
-Then let=E2=80=99s just go for it. I think there are enough examples on how=
- to make
-gpl3 free images without it, and mbition has a full infotainment build
-based on recent master with no gpl3 and no meta-gpl2. It=E2=80=99s doable a=
-nd
-highly overdue.
+Lei Maohui (2):
+  wordsize.h: Fix a miss, this file in arm and aarch64 should be the
+    same.
+  Fix conflict error when enable multilib.
 
-Ale
+ meta/recipes-core/glibc/glibc-package.inc                 | 2 +-
+ ...dsize.h-Unify-the-header-between-arm-and-aarch64.patch | 8 --------
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-On Sat 21. Aug 2021 at 13.13, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+-- 
+2.25.1
 
-> On Fri, 2021-08-20 at 15:48 +0200, Alexander Kanavin wrote:
-> > I think this is breaking meta-gpl2 somehow?
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/3855
->
-> Yes, there are also fixes pending for it which have now merged.
->
-> I'm getting more than a little jaded fixing that layer as I really dislik=
-e
-> what
-> it is doing and believe it does need to be dropped. The biggest problem i=
-s
-> the
-> bash shell, if we had a solution for that I think the rest can be managed=
-.
->
-> Cheers,
->
-> Richard
->
->
-
---00000000000023707905ca10c588
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Then let=E2=80=99s just go for it. I think there are enou=
-gh examples on how to make gpl3 free images without it, and mbition has a f=
-ull infotainment build based on recent master with no gpl3 and no meta-gpl2=
-. It=E2=80=99s doable and highly overdue.</div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">Ale=C2=A0</div><div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Sat 21. Aug 2021 at 13.13, Richard Purdi=
-e &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@=
-linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
-e:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On Fri, 2021-0=
-8-20 at 15:48 +0200, Alexander Kanavin wrote:<br>
-&gt; I think this is breaking meta-gpl2 somehow?<br>
-&gt; <br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/75/=
-builds/3855" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yocto=
-project.org/typhoon/#/builders/75/builds/3855</a><br>
-<br>
-Yes, there are also fixes pending for it which have now merged.<br>
-<br>
-I&#39;m getting more than a little jaded fixing that layer as I really disl=
-ike what<br>
-it is doing and believe it does need to be dropped. The biggest problem is =
-the<br>
-bash shell, if we had a solution for that I think the rest can be managed.<=
-br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---00000000000023707905ca10c588--
