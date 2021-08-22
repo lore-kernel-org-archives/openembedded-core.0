@@ -1,50 +1,50 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.9610.1629636683662132796
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.9677.1629636684388724270
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Aug 2021 05:51:23 -0700
+ Sun, 22 Aug 2021 05:51:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QIUjcPF3;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id d26so1443206wrc.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ijMoRfX1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id j12-20020a05600c1c0c00b002e6d80c902dso8938012wms.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=clVxFjv3BOb2vxpxeSrDdwODmJZvQ8M1xn0A8m2955g=;
-        b=QIUjcPF36VWAPqFAqQlTPHbvgIL5UR6nFWAoWo/wLkM2n7yB0P8ZZ4OyGiqZvVohWc
-         Syg5nwFdMkLCfNA4X8HLiG/5+ZIdM3U7mL1Drk5NHloB+USbzmiK8h0j8wubTFyW+LfQ
-         O76LWYGdBCBDUabbVKEmLTW2UxEbuSTzZ+oXgfQwNcK3iVBMZJnVPGy+duGY43WABVGi
-         bDx6r0MHOnL4cSckh3B9KaJbGR5yGTQ+QSC2vxNjjITfJzVesNS2ee0PJBrpQ0/eRWAK
-         2Pha+KqAVZ3Olo/n92yfL6AwwoXcLArUQrOtF7mhu39eCwx/YBdxRLuhFdB+pRA877n1
-         lD4w==
+        bh=I+PDy1qeuH1/YxM3t0dopvUQP+iYLULPChcsZXF/g+I=;
+        b=ijMoRfX1eaB++pcgy6vmd8kjM1tH8kCDotUSd9S9U6mOe9FvtXX/vOwm4rLWGIzosw
+         zHs1N/DKmPpek4zhzAUuec8XhT3GK7+CCQlDKFi7XsNWZKYD8zMByB2CWD9OANA9UuEi
+         lCnKTzXreyW+tq5UQcB2PQ24+T3kuJO/76cAnA7rvgb3CdeCMyjqdv2RxD690fIfzefB
+         z56S9i8mQ4sEjKaZJSwXepRxOWysQGQVUlDOYmtcRIwuCqXDyeVUIZDSgklkptaw8YEr
+         LRPXp3R1lWEUrHIYYOopY6MA4hCTCNiUA8GFGD2OGgIo+HazVLRXM9EIh5Wv4bUPAdmk
+         kPEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=clVxFjv3BOb2vxpxeSrDdwODmJZvQ8M1xn0A8m2955g=;
-        b=RP052r0s4JGkSbI/HGldIMv3TlpnmdzDU2PGQVXZ2omL23Zds3+PtbnNgxnFYi9uFw
-         nT5I/CelG2JsXQeKXt6CEyuVOGOiaRsppTq6T6xcB2Z3dBsZyKXvJ1Q2EPtbPZszNJUY
-         DQFhmJqMrUHWsXzXX/PqFjv6HdJ7gV7bktpXvR/NYovCCvLYJ9C3S7MNopVMzrCyKscX
-         vfrekyWYN2+MmqPV+/qLn1YOyXHHej76xgeQO6HaPljYJ5WRcolLuIqrb9+Y5Cd+3V64
-         wK9BikXwH8q99jX99kIErIXpcFmV7nyPRmoVVUyQon8SBTsIvXQpQU65bj/B29BGl+EH
-         chEw==
-X-Gm-Message-State: AOAM531dFEisR0Txexu8IF7Bpiet1SLII4iceI1PsJtlH4a4QJXeKP2w
-	fvAuWG8+/4lPo1XLYJA7hiWZNeCjlqpPmQ==
-X-Google-Smtp-Source: ABdhPJwWXp3/xUG3FW/FuiswdxIIhQxq90U+ULA1y4QymC2VlmbH3pcNojk0lW8F8qfnKdSBnNX3/A==
-X-Received: by 2002:a5d:4010:: with SMTP id n16mr8376450wrp.378.1629636682339;
-        Sun, 22 Aug 2021 05:51:22 -0700 (PDT)
+        bh=I+PDy1qeuH1/YxM3t0dopvUQP+iYLULPChcsZXF/g+I=;
+        b=cbYmNS+mIN6tTQ1dusNA65N+xt7LvNIZgWtZ8tN49FY5vzyTFyqeI55b/9LatfQY3U
+         cAqLDlah4B9e66wXggDXFWmzcqjaUoMVl3+2zShdp45ujkj6qO+8gTlSfpHhWei0SjPK
+         gXvVCMpKEGeaf2bJV4JbsrGt+g1HBmVfAcwbhANf4P5ZOnZP+oxtg40de1rNMKvLJRCe
+         Bk6hmBgI8ulYN/0uqa/rSQcv/zOsRSQkTZM8KCZJ3R8MNg6CUPQ6CRpkJv7TaTlT+Jma
+         YnmMtTyQg7vuvp8ooPNeVns3klKWcS8XV9fXJQPHgKT9ZRCs8pTKPzbpfVwgB66dnIPv
+         l8rg==
+X-Gm-Message-State: AOAM533k3067hMHxbpXKw10me2ru8YaiG43wLaS8dLZMMnIH6YBkajf+
+	XDinNSev0ykEi+l2tAG8x8twOmcPihMBqQ==
+X-Google-Smtp-Source: ABdhPJzOxo2tVex6dXGoZvBi+d8ACJx9zF71HahzsQypkA6fy5A1byT5WZ7sQfhHX79zQQr2bUy8dQ==
+X-Received: by 2002:a05:600c:4f4d:: with SMTP id m13mr12148700wmq.179.1629636683011;
+        Sun, 22 Aug 2021 05:51:23 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.21
+        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 05:51:21 -0700 (PDT)
+        Sun, 22 Aug 2021 05:51:22 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 17/55] inetutils: upgrade 2.0 -> 2.1
-Date: Sun, 22 Aug 2021 14:50:25 +0200
-Message-Id: <20210822125103.310416-17-alex.kanavin@gmail.com>
+Subject: [PATCH 18/55] mobile-broadband-provider-info: upgrade 20201225 -> 20210805
+Date: Sun, 22 Aug 2021 14:50:26 +0200
+Message-Id: <20210822125103.310416-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822125103.310416-1-alex.kanavin@gmail.com>
 References: <20210822125103.310416-1-alex.kanavin@gmail.com>
@@ -53,34 +53,24 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../inetutils/{inetutils_2.0.bb => inetutils_2.1.bb}           | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-connectivity/inetutils/{inetutils_2.0.bb => inetutils_2.1.bb} (99%)
+ .../mobile-broadband-provider-info_git.bb                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.0.bb b/meta/recipes-connectivity/inetutils/inetutils_2.1.bb
-similarity index 99%
-rename from meta/recipes-connectivity/inetutils/inetutils_2.0.bb
-rename to meta/recipes-connectivity/inetutils/inetutils_2.1.bb
-index 4b25f9c0b5..0cf73cdb24 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.0.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.1.bb
-@@ -10,6 +10,7 @@ LICENSE = "GPLv3"
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+index f170cf4650..837490f15f 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+@@ -4,8 +4,8 @@ DESCRIPTION = "Mobile Broadband Service Provider Database stores service provide
+ SECTION = "network"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+-SRCREV = "90f3fe28aa25135b7e4a54a7816388913bfd4a2a"
+-PV = "20201225"
++SRCREV = "11f2247eccd3c161b8fd9b41143862e9fb81193c"
++PV = "20210805"
+ PE = "1"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=0c7051aef9219dc7237f206c5c4179a7"
- 
-+SRC_URI[sha256sum] = "01b9a4bc73a47e63f6e8a07b76122d9ad2a2e46ebf14870e9c91d660b5647a22"
- SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://inetutils-1.8-0001-printf-parse-pull-in-features.h-for-__GLIBC__.patch \
-            file://inetutils-1.8-0003-wchar.patch \
-@@ -22,8 +23,6 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
- "
- 
--SRC_URI[md5sum] = "5e1018502cd131ed8e42339f6b5c98aa"
--
- inherit autotools gettext update-alternatives texinfo
- 
- acpaths = "-I ./m4"
+ SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https"
 -- 
 2.31.1
 
