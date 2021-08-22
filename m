@@ -1,182 +1,123 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.9672.1629636678932097756
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.9574.1629636679766040837
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Aug 2021 05:51:19 -0700
+ Sun, 22 Aug 2021 05:51:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EEjZsr1n;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id z9so21723796wrh.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ohHgYH2T;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id g138so8776593wmg.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1oSJGcvCSdAeFVojFxtK6E9j8yj1p1BiTDlatgmVxEk=;
-        b=EEjZsr1nQ6FtI5Ba4Wa9XoNNtCFoVu6fgp1AHK+06KTajOsMdNtoaRuM05wx/1l6gX
-         qs9+zUaePnN44uBtxhIhqyc3U2ozT3DTNC3fPUK9d3edKj5IeW/tx6dHSEurSkz9dd6J
-         +0nSifMeTMVg/DE53X9dqYFXGyiu9EmuAEFyxjKy3UOOChylxlT38HhAKsZGHEOgADP1
-         uHD31Kw0KT1g2dmqOJJm4aveBBVeZi2EjY/f647eFl7rEAbgLYVzY22TPQMiK9jI/seE
-         rbrmFYiib173+MhXh7V0k917BrcenrJWbNph+pUOs9wAKyKqgoAPKGThKiCimzfrvegl
-         Nodw==
+        bh=Y9GNftu6y1cK7sNCCNbzLkqsJTCe/IxLQcMHLmumiu8=;
+        b=ohHgYH2TAoEI+wfk4reUzH3negBShInVhrwT3fWztl953IReSXT6rqba1njgACv611
+         mvAyeyXhD6g0fQmbAAH0ityxp8d/P4dZCcQ/8fcOzbU7y8Ijan7Rjp56SiEVHUJkBP74
+         IdU3rak6yvDIhed+zIOWMtXWTmMFVfXb+EaGSe8psdauZkDTIut7o4hl5kIbq6/vi9b/
+         0Jgrpwt2JlL/xZ9uSj9wz6oBbr2CablENPOdM7cOWa+Fy0JenHEg7/DFUscW8BfP/hxF
+         0HDYkr/om/vvlENtO+xGjtxq0CdJ03YhCkLptHVN4Ih+7PuCCLSZHr8zg1cuPZ+HrbRu
+         In9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1oSJGcvCSdAeFVojFxtK6E9j8yj1p1BiTDlatgmVxEk=;
-        b=Cz6n8hM9bYC95HTFCftAxuhYFeiw1XpawVNzFqdr2MvBlf5u4W8zQDx3UK0Pzp02Ic
-         e3O9eLKN3Hftn95TOyPouPNp12KW16a05AK+FM6+EiP4RRDR3pMNtKeLZi9/MNS5Vpry
-         zmeXqd2/W3ST9Vab3/UeJ/ktLyxvHxQVPmPpbtUn6KqwuQjBLSdXYsaB90NLIqOeHdpf
-         h7H3QnuV6PR+ZmuRYUs4DKrofWKNI81oyiV6/ISIai+gVJrbLjQ5Y9wA+5dXoZglUvZ8
-         fBvoZ7u25MB+UhSCAiUBO9Tbb/vXIJtCt1kAozLSMdURD+/CCjjiPbxaeDjJGvUrlKte
-         VWUQ==
-X-Gm-Message-State: AOAM531ZwmLANnbxveuhJknM395Jd3OQ/N+3GsaR9pRTEmWAJfBofAxO
-	luylfJ63/Ek2z51+SNLDM+OhBE15TRSuPw==
-X-Google-Smtp-Source: ABdhPJwn0Hmo121WiqZwRmoBlVIVCQsP8G5uyj1s9Ovd5TRtSS0AaNd3nEG41vxakWl8pmi64hNL7A==
-X-Received: by 2002:a5d:6485:: with SMTP id o5mr8533991wri.91.1629636677585;
-        Sun, 22 Aug 2021 05:51:17 -0700 (PDT)
+        bh=Y9GNftu6y1cK7sNCCNbzLkqsJTCe/IxLQcMHLmumiu8=;
+        b=n7rTzv6r8dLPEZZYvxvW0yjZBKxC2IREiNPzGTbQ8narlo8OCqD1LfnFvObnaxDkpb
+         oqElK86nlWhlod4c7HsMfadNTNohKT++3ZSujaRVOMbBKB1oxfIK4mIX34BYNwm1ZmmP
+         oFvQC5ejNVeoA0lnXHf6pv6zVHp0eHsL3BDDCmRtL33jHPQn5zEjv5DoS9GYu+HEcCOd
+         4HzFYLNCgPX5QZSRTU7ASlKdN7pchV8o9bb1MuXdnsPRV/7U0/h3TVh2KIGQHuyXNb3L
+         bJLvZmKLJOxOMZP23H5MOZAAaG6IKr/FniT1Zco2sBYSzuaCahkKdIRG2Q7qejFodYCO
+         mtuA==
+X-Gm-Message-State: AOAM530SIlE7zdpplZTJj160d1MOLJT/ycOyerOvxRMsd3Nfd5fC9pbt
+	KlZGH2sVRliRof4UIwEtMnqDHU7MEfuDSg==
+X-Google-Smtp-Source: ABdhPJwD1BApfiiFeqWg/0izn14SVlAJ3CEgp0Rjb5hWYyVN/s+9AqYtqc8Jntk8CDSMza92anr7Pg==
+X-Received: by 2002:a05:600c:358c:: with SMTP id p12mr11661499wmq.173.1629636678272;
+        Sun, 22 Aug 2021 05:51:18 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.16
+        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 22 Aug 2021 05:51:17 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 10/55] diffutils: update 3.7 -> 3.8
-Date: Sun, 22 Aug 2021 14:50:18 +0200
-Message-Id: <20210822125103.310416-10-alex.kanavin@gmail.com>
+Subject: [PATCH 11/55] mc: update 4.8.26 - > 4.8.27
+Date: Sun, 22 Aug 2021 14:50:19 +0200
+Message-Id: <20210822125103.310416-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822125103.310416-1-alex.kanavin@gmail.com>
 References: <20210822125103.310416-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-
-Drop patch as issue fixed upstream.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-c-stack-stop-using-SIGSTKSZ.patch    | 84 -------------------
- .../{diffutils_3.7.bb => diffutils_3.8.bb}    |  9 +-
- 2 files changed, 5 insertions(+), 88 deletions(-)
- delete mode 100644 meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch
- rename meta/recipes-extended/diffutils/{diffutils_3.7.bb => diffutils_3.8.bb} (81%)
+ .../recipes-extended/mc/files/nomandate.patch | 24 ++++++++++++++-----
+ .../mc/{mc_4.8.26.bb => mc_4.8.27.bb}         |  2 +-
+ 2 files changed, 19 insertions(+), 7 deletions(-)
+ rename meta/recipes-extended/mc/{mc_4.8.26.bb => mc_4.8.27.bb} (96%)
 
-diff --git a/meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch b/meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch
-deleted file mode 100644
-index 50e627fa30..0000000000
---- a/meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch
-+++ /dev/null
-@@ -1,84 +0,0 @@
--From 87b3a8f9ceb2cf0a5c8b72e460465fb9ff2d62d9 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 30 Apr 2021 17:40:36 -0700
--Subject: [PATCH] c-stack: stop using SIGSTKSZ
--
--This patch is required with glibc 2.34+
--based on gnulib [1]
--
--[1] https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=f9e2b20a12a230efa30f1d479563ae07d276a94b
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/c-stack.c | 22 +++++++++++++---------
-- 1 file changed, 13 insertions(+), 9 deletions(-)
--
--diff --git a/lib/c-stack.c b/lib/c-stack.c
--index 9bbe6fe..e0874c9 100644
----- a/lib/c-stack.c
--+++ b/lib/c-stack.c
--@@ -51,13 +51,14 @@
-- typedef struct sigaltstack stack_t;
-- #endif
-- #ifndef SIGSTKSZ
---# define SIGSTKSZ 16384
---#elif HAVE_LIBSIGSEGV && SIGSTKSZ < 16384
--+#define get_sigstksz()  (16384)
--+#elif HAVE_LIBSIGSEGV
-- /* libsigsegv 2.6 through 2.8 have a bug where some architectures use
--    more than the Linux default of an 8k alternate stack when deciding
--    if a fault was caused by stack overflow.  */
---# undef SIGSTKSZ
---# define SIGSTKSZ 16384
--+#define get_sigstksz() ((SIGSTKSZ) < 16384 ? 16384 : (SIGSTKSZ))
--+#else
--+#define get_sigstksz() ((SIGSTKSZ))
-- #endif
-- 
-- #include <stdlib.h>
--@@ -136,7 +137,8 @@ die (int signo)
-- /* Storage for the alternate signal stack.  */
-- static union
-- {
---  char buffer[SIGSTKSZ];
--+  /* allocate buffer with size from get_sigstksz() */
--+  char *buffer;
-- 
--   /* These other members are for proper alignment.  There's no
--      standard way to guarantee stack alignment, but this seems enough
--@@ -208,10 +210,11 @@ c_stack_action (void (*action) (int))
--   program_error_message = _("program error");
--   stack_overflow_message = _("stack overflow");
-- 
--+  alternate_signal_stack.buffer = malloc(get_sigstksz());
--   /* Always install the overflow handler.  */
--   if (stackoverflow_install_handler (overflow_handler,
--                                      alternate_signal_stack.buffer,
---                                     sizeof alternate_signal_stack.buffer))
--+                                     get_sigstksz()))
--     {
--       errno = ENOTSUP;
--       return -1;
--@@ -284,14 +287,15 @@ c_stack_action (void (*action) (int))
--   stack_t st;
--   struct sigaction act;
--   st.ss_flags = 0;
--+  alternate_signal_stack.buffer = malloc(get_sigstksz());
-- # if SIGALTSTACK_SS_REVERSED
--   /* Irix mistakenly treats ss_sp as the upper bound, rather than
--      lower bound, of the alternate stack.  */
---  st.ss_sp = alternate_signal_stack.buffer + SIGSTKSZ - sizeof (void *);
---  st.ss_size = sizeof alternate_signal_stack.buffer - sizeof (void *);
--+  st.ss_sp = alternate_signal_stack.buffer + get_sigstksz() - sizeof (void *);
--+  st.ss_size = get_sigstksz() - sizeof (void *);
-- # else
--   st.ss_sp = alternate_signal_stack.buffer;
---  st.ss_size = sizeof alternate_signal_stack.buffer;
--+  st.ss_size = get_sigstksz();
-- # endif
--   r = sigaltstack (&st, NULL);
--   if (r != 0)
---- 
--2.31.1
--
-diff --git a/meta/recipes-extended/diffutils/diffutils_3.7.bb b/meta/recipes-extended/diffutils/diffutils_3.8.bb
-similarity index 81%
-rename from meta/recipes-extended/diffutils/diffutils_3.7.bb
-rename to meta/recipes-extended/diffutils/diffutils_3.8.bb
-index 7b4ae160f9..a6522967d4 100644
---- a/meta/recipes-extended/diffutils/diffutils_3.7.bb
-+++ b/meta/recipes-extended/diffutils/diffutils_3.8.bb
-@@ -6,14 +6,15 @@ require diffutils.inc
- SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
-            file://run-ptest \
-            file://0001-Skip-strip-trailing-cr-test-case.patch \
--           file://0001-c-stack-stop-using-SIGSTKSZ.patch \
--"
-+           "
- 
--SRC_URI[md5sum] = "4824adc0e95dbbf11dfbdfaad6a1e461"
--SRC_URI[sha256sum] = "b3a7a6221c3dc916085f0d205abf6b8e1ba443d4dd965118da364a1dc1cb3a26"
-+SRC_URI[sha256sum] = "a6bdd7d1b31266d11c4f4de6c1b748d4607ab0231af5188fc2533d0ae2438fec"
- 
- EXTRA_OECONF += "ac_cv_path_PR_PROGRAM=${bindir}/pr --without-libsigsegv-prefix"
- 
-+# latest gnulib is no longer able to handle this - I dare not try to fix that maze of abstractions and generators
-+CFLAGS:mingw32 = " -DSA_RESTART=0"
+diff --git a/meta/recipes-extended/mc/files/nomandate.patch b/meta/recipes-extended/mc/files/nomandate.patch
+index 48bd73b110..c01d065b0e 100644
+--- a/meta/recipes-extended/mc/files/nomandate.patch
++++ b/meta/recipes-extended/mc/files/nomandate.patch
+@@ -1,6 +1,14 @@
++From f02010965af21db018c4e108b2193c872406a314 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Tue, 4 Feb 2020 18:12:15 +0000
++Subject: [PATCH] mc: Fix manpage date indeterminism
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
- # Fix "Argument list too long" error when len(TMPDIR) = 410
- acpaths = "-I ./m4"
+ The man page date can vary depending upon the host perl, e.g. in Russian
+ some versions print 'июня', others 'Июнь' or Polish 'czerwca' or 'czerwiec'.
+-Rather than depend upon perl-native to fix this, just remove the date from 
++Rather than depend upon perl-native to fix this, just remove the date from
+ the manpages.
+ 
+ RP 2020/2/4
+@@ -8,14 +16,18 @@ RP 2020/2/4
+ Upstream-Status: Inappropriate [OE specficic reproducibility workaround]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+-Index: mc-4.8.23/doc/man/date-of-man-include.am
+-===================================================================
+---- mc-4.8.23.orig/doc/man/date-of-man-include.am
+-+++ mc-4.8.23/doc/man/date-of-man-include.am
++---
++ doc/man/date-of-man-include.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/doc/man/date-of-man-include.am b/doc/man/date-of-man-include.am
++index 3a4e599..f11e9b3 100644
++--- a/doc/man/date-of-man-include.am
+++++ b/doc/man/date-of-man-include.am
+ @@ -1,5 +1,5 @@
+  SED_PARAMETERS = \
+ -	-e "s/%DATE_OF_MAN_PAGE%/$${MAN_DATE}/g" \
+ +	-e "s/%DATE_OF_MAN_PAGE%//g" \
+- 	-e "s/%DISTR_VERSION%/@DISTR_VERSION@/g" \
++ 	-e "s/%MAN_VERSION%/@MAN_VERSION@/g" \
+  	-e "s{%prefix%{@prefix@{g" \
+  	-e "s{%sysconfdir%{@sysconfdir@{g" \
+diff --git a/meta/recipes-extended/mc/mc_4.8.26.bb b/meta/recipes-extended/mc/mc_4.8.27.bb
+similarity index 96%
+rename from meta/recipes-extended/mc/mc_4.8.26.bb
+rename to meta/recipes-extended/mc/mc_4.8.27.bb
+index d5619675ef..bc2348432b 100644
+--- a/meta/recipes-extended/mc/mc_4.8.26.bb
++++ b/meta/recipes-extended/mc/mc_4.8.27.bb
+@@ -12,7 +12,7 @@ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+            file://0001-mc-replace-perl-w-with-use-warnings.patch \
+            file://nomandate.patch \
+            "
+-SRC_URI[sha256sum] = "9d6358d0a351a455a1410aab57f33b6b48b0fcf31344b9a10b0ff497595979d1"
++SRC_URI[sha256sum] = "2f52dd9c75c20d8eac7701bd3a8c6c125aaf8cdd9cf12b78ca50a0102b543407"
+ 
+ inherit autotools gettext pkgconfig
  
 -- 
 2.31.1
