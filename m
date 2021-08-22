@@ -1,50 +1,50 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.9590.1629636696851860802
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web12.9619.1629636697551040252
  for <openembedded-core@lists.openembedded.org>;
  Sun, 22 Aug 2021 05:51:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AO+oj8xh;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id x2-20020a1c7c02000000b002e6f1f69a1eso12132427wmc.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fb6Fh8MO;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id d26so1443764wrc.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kiI9Ta1DR4GBySOT6M9dcz5YZBs9NdAGcSxwAUGP26Y=;
-        b=AO+oj8xhIXSOuxPEgfHh4KqlkbjktRi6u+lDQWn5hdJog9uxOZ6cRyrtMrnsfacdnq
-         v9exSxKYKj/lzcPfmJZLu4NXhBW79H5g9QVQJc0ovF3mMndCt6lO4d/QJPFbv5TLUyFk
-         9/HHbJZhggRTS0oRmHkE8JjOkXmD3pT55513jpI0wvuamK6NsQFSluJaiZOZdw9GsEk+
-         2oSoaa5LZInAPCgGAUkyq2E/DF1dViHLHcazdU8piQ1T4tVvlZgPJKZ1Y7jCF1fL34X7
-         JFwMZG7OwRNjmSE+Ypo1YTeHB/J9hootOFO75huyz1YfHQbXG419NZAS3a22N2F/VAzt
-         kAYg==
+        bh=mh8K0zG4NrWInfw8atmFvLJY01x7EXWEH0SPeLhTLrQ=;
+        b=fb6Fh8MONggoRCyKpvuJZCapY6PE4EsuQHfqKUOH7/fMypTUZYrt3hfpIsuK83guWU
+         If0K/bjQePFmpmXXVJNyInUFoY9zRF+t+r/ngm5NHHTM1A7AXyCVK3zvFoBytxmdTnAk
+         ZrUmtZ/jsXpVmv9yqYQeWwVQxRMs5o0b0pXoYlBDSpb08+NWPwOQzKdsO29UcfgYQQay
+         Y7RJ22oSjQk1wvsSZAf1GeAoyk2Q4ZQw0BRmHIGKGxOw5KG2WzZ8IIcM7hoaZykj+ol2
+         TOLPN1THSe6vjAB/r8+CavAQw66yUbFjTkFuBSQns0yNDpjyp3GQ0mE+UUiz7OyQUtcc
+         UDGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kiI9Ta1DR4GBySOT6M9dcz5YZBs9NdAGcSxwAUGP26Y=;
-        b=lW7iMNWvIjX4/GP9GjNXkxvcjmV7AQ0AwE4WTIdIh0TVJR1iKmWVMZdqilj9DyK7oJ
-         DSsLt9+0386su28k4VmxQSGtwbdf39OpWsCWAUsRysbroGKTA1TfShFaGs8OGaCBRQ1w
-         qyfsLIXWNIQxTpLUAK5SVSo3PKeNJ+cNipf46wGfPl5noT1y0U0QxT/h075T0MeKCtad
-         b/OGdMJB/IouWMLfrPdwzpTOm0GJHTihynU054phIwNXJadusO68cgzns/kacYTAc0FB
-         YUABxtZLcSITQmKlIEC+ctviIMw3zX6RdyBDhGBs1+mdtY4ryo7ewA62BAnFCw4EiZWC
-         OFMw==
-X-Gm-Message-State: AOAM531mEQb5eM+jsldtxxH9g5P3whkGi+cQxzEN+GXZd9lDZf0aqhHx
-	dofQzJdFYUSrfEu9UhM/NCLbmsPMFxruvg==
-X-Google-Smtp-Source: ABdhPJwBLU6JXpSPQVpzoOXy724S/XKnp8P1WSSL+HzZp5v2LmhSFBnVQuHgXKpfJKrgi4G2w7cN1g==
-X-Received: by 2002:a05:600c:19d1:: with SMTP id u17mr9769795wmq.21.1629636695547;
-        Sun, 22 Aug 2021 05:51:35 -0700 (PDT)
+        bh=mh8K0zG4NrWInfw8atmFvLJY01x7EXWEH0SPeLhTLrQ=;
+        b=jTLh1tCcEarMmZwmfiIZXpOKVMdJyLv//TltAKkFt0vFYx+eZ0dlomRTSUW3ZFwMX+
+         dXhh2G15nq1tJ4/wmX7b9yxV8nUai3TMueeVF+Njfl0z6nPNy5KhUBsaaG0tWlKcywa1
+         6loEuGOYMfCwLThJ7HGqfEjWrjSt8DLU9jJbRTbpa+OBpJ8AOavmMG/8hY1d+Ipt6wPa
+         Cy24yNzP5AkOcY6XwiDQGBYDhJEsrjy11elPuulGhsmcunH2IFWydUSdONW8TMob+QE9
+         0PvntbhJHZR/fep/sfZ4RHxJk3fb7njApZG3ddtuy98uSeGOuOdWnS3iV4Vl7QfApp9k
+         gxUw==
+X-Gm-Message-State: AOAM533YTC2tJBNbEddqDJ6WIPLFNceP1c4eYrOzlI01kDzG6tzG6Chm
+	aOcsHIxUW9OXYHahrrNvLlvHqvAAafIxOQ==
+X-Google-Smtp-Source: ABdhPJz/e64qmnf6bkCWTqBzR4c5EVd1o5mhvJJgJXO7TSdJfkmgbDsAzjysxXPqV3WTKj7La2b0SQ==
+X-Received: by 2002:a5d:694f:: with SMTP id r15mr8442495wrw.86.1629636696177;
+        Sun, 22 Aug 2021 05:51:36 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.34
+        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 22 Aug 2021 05:51:35 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 36/55] epiphany: upgrade 40.2 -> 40.3
-Date: Sun, 22 Aug 2021 14:50:44 +0200
-Message-Id: <20210822125103.310416-36-alex.kanavin@gmail.com>
+Subject: [PATCH 37/55] libgudev: upgrade 236 -> 237
+Date: Sun, 22 Aug 2021 14:50:45 +0200
+Message-Id: <20210822125103.310416-37-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822125103.310416-1-alex.kanavin@gmail.com>
 References: <20210822125103.310416-1-alex.kanavin@gmail.com>
@@ -53,26 +53,80 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../epiphany/{epiphany_40.2.bb => epiphany_40.3.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_40.2.bb => epiphany_40.3.bb} (93%)
+ ...01-gudevenumtypes-make-deterministic.patch | 44 -------------------
+ .../{libgudev_236.bb => libgudev_237.bb}      |  4 +-
+ 2 files changed, 1 insertion(+), 47 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch
+ rename meta/recipes-gnome/libgudev/{libgudev_236.bb => libgudev_237.bb} (85%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_40.2.bb b/meta/recipes-gnome/epiphany/epiphany_40.3.bb
-similarity index 93%
-rename from meta/recipes-gnome/epiphany/epiphany_40.2.bb
-rename to meta/recipes-gnome/epiphany/epiphany_40.3.bb
-index a7ce16259a..c5dc0baefa 100644
---- a/meta/recipes-gnome/epiphany/epiphany_40.2.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_40.3.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "75119e22065657cf70ef2b603d4f73835573bd034f1e618c0f662478fd6c6835"
-+SRC_URI[archive.sha256sum] = "dad138b9f2d55de271128fca38b61f53fd980c587d29e1ba6b508fff3b19f564"
+diff --git a/meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch b/meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch
+deleted file mode 100644
+index aaec9cd20d..0000000000
+--- a/meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 078c0db2bc3adf7c665190ee7a9263d7fd1ec618 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 29 Apr 2021 13:06:12 +0200
+-Subject: [PATCH] gudevenumtypes: make deterministic
+-
+-@filename@ writes the full path to the generated file,
+-which can vary in CI systems and make outputs non-reproducible.
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libgudev/-/merge_requests/15]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- gudev/gudevenumtypes.c.template | 2 +-
+- gudev/gudevenumtypes.h.template | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/gudev/gudevenumtypes.c.template b/gudev/gudevenumtypes.c.template
+-index fc30b39..4918f7e 100644
+---- a/gudev/gudevenumtypes.c.template
+-+++ b/gudev/gudevenumtypes.c.template
+-@@ -4,7 +4,7 @@
+- /*** END file-header ***/
+- 
+- /*** BEGIN file-production ***/
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
+- 
+- /*** BEGIN value-header ***/
+-diff --git a/gudev/gudevenumtypes.h.template b/gudev/gudevenumtypes.h.template
+-index d0ab339..79bf7c4 100644
+---- a/gudev/gudevenumtypes.h.template
+-+++ b/gudev/gudevenumtypes.h.template
+-@@ -9,7 +9,7 @@ G_BEGIN_DECLS
+- 
+- /*** BEGIN file-production ***/
+- 
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
+- 
+- /*** BEGIN value-header ***/
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-gnome/libgudev/libgudev_236.bb b/meta/recipes-gnome/libgudev/libgudev_237.bb
+similarity index 85%
+rename from meta/recipes-gnome/libgudev/libgudev_236.bb
+rename to meta/recipes-gnome/libgudev/libgudev_237.bb
+index 169b19e0a9..57417f4e7c 100644
+--- a/meta/recipes-gnome/libgudev/libgudev_236.bb
++++ b/meta/recipes-gnome/libgudev/libgudev_237.bb
+@@ -5,9 +5,7 @@ other programming languages, such as Javascript, because of GObject \
+ introspection support."
+ HOMEPAGE = "https://wiki.gnome.org/Projects/libgudev"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libgudev/issues"
+-SRC_URI[archive.sha256sum] = "e50369d06d594bae615eb7aeb787de304ebaad07a26d1043cef8e9c7ab7c9524"
+-
+-SRC_URI:append = " file://0001-gudevenumtypes-make-deterministic.patch"
++SRC_URI[archive.sha256sum] = "0d06b21170d20c93e4f0534dbb9b0a8b4f1119ffb00b4031aaeb5b9148b686aa"
  
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+ DEPENDS = "glib-2.0 udev"
+ 
 -- 
 2.31.1
 
