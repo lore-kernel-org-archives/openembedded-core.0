@@ -1,50 +1,50 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.9683.1629636692353793218
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.9587.1629636693025488852
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Aug 2021 05:51:32 -0700
+ Sun, 22 Aug 2021 05:51:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=krYBdsde;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id x2-20020a1c7c02000000b002e6f1f69a1eso12132373wmc.5
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tMlqnXFW;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so8938279wml.3
         for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pMC8vX1fs5xWP3F84o9gw/vEmlVBcb1mTV+IktnSuf0=;
-        b=krYBdsdeav8DWMG5kWRiKxabXWmJTVrW2XjKEvlSOq9AxDdxSt+nvoEhx5gCijA/NE
-         DG8KVfs9hYXSIuqBxIaL625i0TkpSEmA5sUe9Jx/cN4+yD28U3tQQWRBts42UZ1vSe++
-         moNmAJNylZF6l3f8CwHVCyky84M4GUI280Lgpob2k4/WoCMMtAZxTJX1K9Fw8+N8aVH3
-         Orw9LfDTVSD4bMW1Nq6a/BGvdoUHONE8tmo387yTg9egpkRgvsvSFVERQR5W7QbzlTkM
-         hDyTz5KIINyMiH/Vt0asodRrRaUaqmn79pU7XHXkpvdQCHpvEnIxZntMZTAql5KDdiYY
-         o9KQ==
+        bh=NC94iInJfDvDqcmGuarynvDeYUsO9XagXtf17THvli4=;
+        b=tMlqnXFWE7OcTVDYKYv3f5cC4BAaiyB+8kP9cYqq3wkANgNTdNd9qtvVdoaJm3Akm9
+         AIqFuAPs04kVFKkWmRen9WvnzoXx3HbrPE31BvDwWlFVcgLuIEwHQJ13mHHhcMUCH4jP
+         zdBJoAlh5k5bkBwddMLIprWt5qxk/9Mz8CXWADOc7dUfMyB/M2NS4Fc4AepkcVVY2CoS
+         wpkBf0gGqaiq3XRv2e9+MWZOKNrMjLwyST2pG+pyHEdTuFo3bhhwEUaaCJ3NR3v1R2lv
+         AI3kExHrIx3lyozkmYS0jsuBfmO+u2w59o7Pz1uq0p41GGv/KIwns3rYOMIGKWaP6Yxe
+         7LdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pMC8vX1fs5xWP3F84o9gw/vEmlVBcb1mTV+IktnSuf0=;
-        b=X6Ngqee8A42+CRuuNZcyg1JWtrV0lJ7t4Qtx0P5R7QIFaLSYSUYWdg7TxIwGfR5X4p
-         5jQBh9tTbUAWJ/8+4sJ6CN8mrjU+aFpmRD2WnaRe6eUHWeoz9QJMRomv8rIGVIflAuI2
-         o1fjbdv9bzglF9yUpDWlrctZ770B8h7MhH7W5HYvCV1OuzPJUQQz0NI99Q0a0cAiG82b
-         O3cnlG4juD5sfoxrKao0TalSReKob0f/IQ27EN5Ou/xZtIBVtxHIluSZtDx2tq23ZONB
-         U2uMooc9wdw456Zez1Vy5qjacjLUQmzNgpk9Nyc0j/y1YhXbWY6cvKU9MRpkrPzFJw0s
-         OFvg==
-X-Gm-Message-State: AOAM532ezn3lwSlcacw3Dqa1X6d5kOmq/2NfGIGZpakynNwyuH5vxwXA
-	UzrjjjecCGqark4QsK7ogxUPxPZbUa8giQ==
-X-Google-Smtp-Source: ABdhPJzWkHuNvCcnwM//9E4+k+T+d0/cZWUrM7ID0yLTgINeGoheo1JSkVY0OeNLr/nnvH1MI5c97Q==
-X-Received: by 2002:a1c:7d06:: with SMTP id y6mr12106796wmc.7.1629636690983;
-        Sun, 22 Aug 2021 05:51:30 -0700 (PDT)
+        bh=NC94iInJfDvDqcmGuarynvDeYUsO9XagXtf17THvli4=;
+        b=i52RLk9ln4UeE2jZ/TckfLiQMwxcs3ePM3n3YAxqZdKkxVY7SqXPIjYHzQuQEgVvIc
+         E5/aAZd+wZawSCT3hlfPpB/zQSbZwOGaNvMX0T6dbDv58njrJpgn1lP9M1sC23VWf+9X
+         2rmE90BOcHRQRLEGR96WL3bW+ZtV/3jt+XSZXqu2c1FtRyvPkeT5bD9R5iTM8AwqUOJG
+         NVJ0ab5xwoJEb0I2M4kTRv/0NlvZBzUmhdh2DcHyQM6BT/ZCiTTgocii8UGov2dwT5LW
+         nXjClMudLYHKsD5Tmti1a5OEqoscmfcfz5M3LP+vR8z3ohG/WOBgtUKGi02ppzG8j3um
+         5+fQ==
+X-Gm-Message-State: AOAM531/eGalHKWcgWiXuQ5mieh9x3DAMCfnf7mzjeDdiK2dw9kNlCBn
+	HLruYyG5ylLWdf0/3pxeWF+7+dFhun2VVA==
+X-Google-Smtp-Source: ABdhPJxZiy4MDzn+cTRU7KuWnTsCz7VRYit6OkyYd1cR2Q94N0lQ6pCNogxcX6YJJwkOtNO809uNzw==
+X-Received: by 2002:a1c:443:: with SMTP id 64mr5989068wme.180.1629636691692;
+        Sun, 22 Aug 2021 05:51:31 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.30
+        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 05:51:30 -0700 (PDT)
+        Sun, 22 Aug 2021 05:51:31 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 29/55] python3-pygments: upgrade 2.9.0 -> 2.10.0
-Date: Sun, 22 Aug 2021 14:50:37 +0200
-Message-Id: <20210822125103.310416-29-alex.kanavin@gmail.com>
+Subject: [PATCH 30/55] python3-setuptools: upgrade 57.1.0 -> 57.4.0
+Date: Sun, 22 Aug 2021 14:50:38 +0200
+Message-Id: <20210822125103.310416-30-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822125103.310416-1-alex.kanavin@gmail.com>
 References: <20210822125103.310416-1-alex.kanavin@gmail.com>
@@ -53,26 +53,37 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{python3-pygments_2.9.0.bb => python3-pygments_2.10.0.bb}   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pygments_2.9.0.bb => python3-pygments_2.10.0.bb} (83%)
+ .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
+ ...ython3-setuptools_57.1.0.bb => python3-setuptools_57.4.0.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_57.1.0.bb => python3-setuptools_57.4.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygments_2.9.0.bb b/meta/recipes-devtools/python/python3-pygments_2.10.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-pygments_2.9.0.bb
-rename to meta/recipes-devtools/python/python3-pygments_2.10.0.bb
-index 7fedcb5a88..3c1b5d15c3 100644
---- a/meta/recipes-devtools/python/python3-pygments_2.9.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygments_2.10.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=98419e351433ac106a24e3ad435930bc"
+diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 1082fe79be..2b1f899eaf 100644
+--- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From f6afc18e08a6c428ce8becd114c535a6840f1b9f Mon Sep 17 00:00:00 2001
++From 4e2c87105884af6dfc3bc9f8c65b199ecc3b5186 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+diff --git a/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb b/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
+index 63c0fe97ff..ae45936c39 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_57.1.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_57.4.0.bb
+@@ -10,7 +10,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
  
- inherit setuptools3
--SRC_URI[sha256sum] = "a18f47b506a429f6f4b9df81bb02beab9ca21d0a5fee38ed15aef65f0545519f"
-+SRC_URI[sha256sum] = "f398865f7eb6874156579fdf36bc840a03cab64d1cde9e93d68f46a425ec52c6"
+ SRC_URI += "file://0001-change-shebang-to-python3.patch"
  
- DEPENDS += "\
-             ${PYTHON_PN} \
+-SRC_URI[sha256sum] = "cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63afddd82d681de4d22a597b"
++SRC_URI[sha256sum] = "6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
 -- 
 2.31.1
 
