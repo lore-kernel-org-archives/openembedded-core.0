@@ -1,50 +1,50 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.9778.1629636702560192832
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.9596.1629636703219367016
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Aug 2021 05:51:42 -0700
+ Sun, 22 Aug 2021 05:51:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hmF4/UXX;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id c129-20020a1c35870000b02902e6b6135279so8987993wma.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hd73ArTB;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id q11so21809631wrr.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dpgCOJE6WMz1nC/EGzhsN+36jlVx5HB6qK6asDi0bPE=;
-        b=hmF4/UXXcCX+VFM434d7rUUhOryOoDn8l1oMJnGMkhvSQwxW73EXbwFjN0HMaJiCOJ
-         GUykmAa7uiMnEJVLYDE/okiini5mJ0ASj5L5+Xbbu4LWjcSTUfwf4cssQFbGiR/x0A3I
-         SIBd9/UdBgpwY+JcSiMM6VGO8kZWLLrF2s37A1Nq63fob4ZxEUjrOCIrXplBQD6Z51VA
-         JbkQQNkkt6iM3lUT3b66lF5nLUSl5M/FIyGLkeewiu5akoOTJdAhEP5eZy0eFQ8IB0OE
-         2tDMoPQW8wsX8Xmb6EDmw70TG8i4TJdHiO4L1/YW0E+1B3CZ2JL2p4UNxti56455wQLr
-         ycTQ==
+        bh=nN77kCWWiD/u64IUf3AFyl3OF5A6j+Tz2SwnqzejApg=;
+        b=hd73ArTB/VcNexozoXkaPkztmMoIkZ96mOow3VzkYsZwNs6k2L6IuzhLu8Em8dQnI4
+         y1DC9P+SH6J36bdbf3/ZFwKNZfkLsatZAnUsurxGuvUjjftdblHQ0mvSCOdHZ/Zec0wy
+         8e8chyHeOzX+s1S9YBELw95rthNfQ58tn8NzkV27OpOcV93s/8O0vjgeawxa8oL3yVAA
+         Q7KgvxeaIfB21n1H3LDTo+sNHENZ8xpsw8hrQUas6z6/NUvDNn6kx8YPYDvL71bumYBr
+         IufVPzDWNrXAVQozh27JB2icc+t8PsEkqjv2lVxa6s6bT6FqB8W6Rq4BRy9Ks3NzIBfq
+         zUvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dpgCOJE6WMz1nC/EGzhsN+36jlVx5HB6qK6asDi0bPE=;
-        b=kwreG+bTm6R4HaVGogH9DYA7+3objAZD7punJX2oL6C/1wYN+BoWpQy+PSiUFnkRiU
-         YYIqt4c0j0jKZ5YvVCmZhA0eK3OqpNN1dr3ib0MJH729KHDM/DLVJprzpzF10DVDEMEm
-         lERwicRT471C/2W5W3jdl4hOKS8VJzQD7+i5ais3dgNjQeauZy5pccgtA/Hb2vGvazlf
-         UVIBd6OUoBp1YDo2Ref/xbTtQRE+u7iufCx6aHiB9yUNsEuWjCkwLdH1+eP0dLLgCIW7
-         GuPIC15Cezn/Q0kJrKuTioyu6WW65D95kXKZ5aDvokof8RgPHQbmXcxGd6Qe3QRxyyDS
-         LstQ==
-X-Gm-Message-State: AOAM530ETEdMXTosRmcXM7wSGPOSWSrGX1Q7y2ptXY7rC6kEeMKIk7zA
-	zyVQKLZelLuwP7XLqxqvke0lK4+w1EC8vQ==
-X-Google-Smtp-Source: ABdhPJycHwcnIgRHVJhTSfzzVOnwtqKCttLOxaqPOrSem0mlS0W+GAlKODFhL/czTK8OoPxwc2IlLg==
-X-Received: by 2002:a05:600c:358c:: with SMTP id p12mr11662486wmq.173.1629636701231;
+        bh=nN77kCWWiD/u64IUf3AFyl3OF5A6j+Tz2SwnqzejApg=;
+        b=p0S3QxJp/sM4NU/sdjiETmkEtReHRaXNK2acbeGF5BX42Cj86a8ScSOjFYx9twa6pT
+         GFxlaVrXru3rnjfLiiJv7pGgZt+4bS8qqJenvF8hUZQkfB3+1F6kTI79TJ+nkqgmnfq/
+         G28vpjDxAjtCvr+i+QhoqpLu2FSrJd47Vbg3JPLARq+OJnZg94mRDi1NG0CGalXdwUwS
+         dxPosqKpRnqghO2vlZQfLUrIfLAyH2h2EoQyYZayNtoOMIyfkMCQeWxNcV9L5uehDx+2
+         DxUnB1ZrMfAunAIzWjyl29I+UPPH2E20rYlB4xFG3o7YEPpLgn50x+L+GXgZcywu79yz
+         Vfpw==
+X-Gm-Message-State: AOAM531E1c7m+2azqzV9EFJHLnx5XZVKNdIkk6Ghsh2zJnbvQnWscZOb
+	ia+oKW/8eDzc0Ffz65pzOJSFk0a7EJPnVQ==
+X-Google-Smtp-Source: ABdhPJwcOjFUBeZtVeBWh5nAOg6tSeSdzHAoiqtE3uvRBBdwxRoJWlf0I2MC53wdZ+N4mggPcyaW1Q==
+X-Received: by 2002:adf:e6c4:: with SMTP id y4mr8496828wrm.220.1629636701847;
         Sun, 22 Aug 2021 05:51:41 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.40
+        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 05:51:40 -0700 (PDT)
+        Sun, 22 Aug 2021 05:51:41 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 44/55] libxft: upgrade 2.3.3 -> 2.3.4
-Date: Sun, 22 Aug 2021 14:50:52 +0200
-Message-Id: <20210822125103.310416-44-alex.kanavin@gmail.com>
+Subject: [PATCH 45/55] xserver-xorg: upgrade 1.20.12 -> 1.20.13
+Date: Sun, 22 Aug 2021 14:50:53 +0200
+Message-Id: <20210822125103.310416-45-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822125103.310416-1-alex.kanavin@gmail.com>
 References: <20210822125103.310416-1-alex.kanavin@gmail.com>
@@ -53,27 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../xorg-lib/{libxft_2.3.3.bb => libxft_2.3.4.bb}              | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxft_2.3.3.bb => libxft_2.3.4.bb} (88%)
+ .../{xserver-xorg_1.20.12.bb => xserver-xorg_1.20.13.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.12.bb => xserver-xorg_1.20.13.bb} (93%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb b/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
-rename to meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb
-index 9695afd625..12636914dd 100644
---- a/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb
-@@ -20,8 +20,7 @@ PROVIDES = "xft"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.12.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+similarity index 93%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.12.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+index 01b50b9923..01a54070c7 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.12.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.13.bb
+@@ -8,7 +8,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+            file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
+            "
+-SRC_URI[sha256sum] = "336dc093431d81ecc03fa36af771f1181334f2746b7de7796f3cc6a8fa9e8cac"
++SRC_URI[sha256sum] = "40aa4e96a56a81a301f15a9b10e06a22700f12b42d9e0e453c7f11d354386300"
  
- PE = "1"
- 
--SRC_URI[md5sum] = "4a433c24627b4ff60a4dd403a0990796"
--SRC_URI[sha256sum] = "225c68e616dd29dbb27809e45e9eadf18e4d74c50be43020ef20015274529216"
-+SRC_URI[sha256sum] = "57dedaab20914002146bdae0cb0c769ba3f75214c4c91bd2613d6ef79fc9abdd"
- 
- XORG_PN = "libXft"
- 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 2.31.1
 
