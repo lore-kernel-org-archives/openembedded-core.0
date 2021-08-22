@@ -1,143 +1,94 @@
 Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.8665.1629628299197262276
+ by mx.groups.io with SMTP id smtpd.web10.9009.1629631182579149329
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Aug 2021 03:31:39 -0700
+ Sun, 22 Aug 2021 04:19:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UOfAMKRL;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: oecore.mailinglist@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id z4so5792370wrr.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 03:31:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AHPi+RVF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id e5so4986091wrp.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 04:19:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=x/yXkH2kspkVYf+suA5TSZ2IRslSv2m9574p2e/INuc=;
-        b=UOfAMKRL2ErhUMdy0ky0sY39QQwTq/1ndIrGhPTqFnGJXwu1mvkapkjoaDXfOttz6t
-         qSQ6Ss4+6hsAMDcUoS1o37E/dTIMyI/4cp7RW436iMxpc2ua6JyP9KpSW2BPfIma+awa
-         v0INd0p77Nfs1//Rjhc108FhtB7zdMITbNXRFnmjQLzN7yOaxh1fcd636+Nf33qRVKbe
-         25KvQsxa01USbaEcIQFdj+Z5vuO0EwvAI/3CcfiH4c2Rzq/y0GpeLgEwykQXLmNtoc1y
-         lgEoPB7kjDcWy64NMEWE3CH2+p+suYBHIBn1NTJMgHHTzhZkL3UZ35dEUWLWV/U07xee
-         zpdg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=8bX7hCdr5iJdT3QWQ0hINfbO8CYo9Xkp0I8OBpRIbUQ=;
+        b=AHPi+RVFJa6n/Q6v8TcP1AK9vep47tPGyh4whT3SPAgtTVGh9vHjEQOiY5TIvsencz
+         XIxM7YLZRv4kJ5q14WLTeOr3hSuhO+O0Fg7C1V/Ald7IxR9mytUjykd0lGpdFE3iWHIv
+         1yVlldGIGpdsgRW/AxhdBRU9EcE45MX18Xcv0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=x/yXkH2kspkVYf+suA5TSZ2IRslSv2m9574p2e/INuc=;
-        b=Xh0bczm9eICiInYoGwmL62GQmV3z2u9Mn8mwF0P2WRT7dqN1S2OaiCAt1jdENggPj5
-         xXHRpAzm75H5emxb72+qeoU5kKlDSBt0doIcj8VWKwfJzlIS+9fngpKkJzcvx5JUAcQg
-         fJxDB01nImLlIKDJVdlDUrE9sXyDMBUfCbAJMNuGUCVNEqOQI8zfwMGo6EuoUdOnfeDv
-         i5mkQxfcuD4U+/IzLJ5IPm1VjHAt8SRMkENvUNW54145Q0sgEbNc8Q2R6AM4OhnMoS8N
-         LX94iIIklF/SttlBGghGDjpOYyEKSCE4V9yhkMsRBr7C79BIQfFKurCUlVT3tHkX63xG
-         OA3g==
-X-Gm-Message-State: AOAM531vuELLkn8cmkte6OlX+IiU3Dlqkgm7Vq4qc+Z0xUcHNLSEcSCb
-	UA2ThUUCP1eObPM+ry/iLo0=
-X-Google-Smtp-Source: ABdhPJwVL7C0VwKsp1+DL7uZ8PcLBiujkpEF/eNzuNGFHyYyHBcL3eT0lQgWZ3rwK88mETSYXq7Bxw==
-X-Received: by 2002:a5d:548e:: with SMTP id h14mr2929798wrv.7.1629628297514;
-        Sun, 22 Aug 2021 03:31:37 -0700 (PDT)
-Return-Path: <oecore.mailinglist@gmail.com>
-Received: from [192.168.42.52] (ppp-2-86-146-48.home.otenet.gr. [2.86.146.48])
-        by smtp.gmail.com with ESMTPSA id g35sm17345527wmp.9.2021.08.22.03.31.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 03:31:37 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] goarch.bbclass: Disable GO_DYNLINK by default
-To: Oliver Kranz <o.kranz.88@gmail.com>,
- Konrad Weihmann <kweihmann@outlook.com>,
- openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com
-References: <20210821200919.3064381-1-o.kranz.88@gmail.com>
- <AS8PR09MB46459A00E870A5B364082DCFA8C29@AS8PR09MB4645.eurprd09.prod.outlook.com>
- <32bdbcc1-469b-2d7d-8a4e-7413f88fc4e2@gmail.com>
-From: "Robert Berger" <oecore.mailinglist@gmail.com>
-Message-ID: <e75f5049-6904-4f1a-dc04-809353f5eb01@gmail.com>
-Date: Sun, 22 Aug 2021 13:31:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=8bX7hCdr5iJdT3QWQ0hINfbO8CYo9Xkp0I8OBpRIbUQ=;
+        b=hPZP5ljIN6o5piRR5WBO7IrHILRvJSzdWoygxqIQwrkQ5HsDCYTIAyacERx4LoHaIl
+         v4j3yRQ1DR3hNxglmrNJDl/702udMPaMGdGaeve4L5Eo+Ym1R0MpamhwOYQOr/XwC4qI
+         TPsoMcse4cEkMkw+N0HHm/dwD0Jj9K/LJexrSgOljS1ce2m2ucvas1F2UFYB2DU/JekO
+         unEpxraSvZGRcK+nsi7Hq+LYtaBqrb8xM67bEFk1VObewHGzhKtpBTO7z4+kr1McHIKX
+         9W+9vDCHhrbtZ1aLTfoBcUoGstbaHWvQLOvVSgKzULCuekkI8PVxPkPfA8WLQKfNvIGi
+         WKiw==
+X-Gm-Message-State: AOAM5320XWptA5qfxQdKPKIX58cduy6d+nuwQAsiiFGTlXflxtczcEJE
+	Z6X0CZC80MbPTpsNLks35qD/Ig==
+X-Google-Smtp-Source: ABdhPJypcqAQ3epZHVxLBtxMh/oxryQOPQphUb+wcy8BNW75i2nQbu+kfDR52PQaaW1uwY/uEmwMOQ==
+X-Received: by 2002:a5d:58cd:: with SMTP id o13mr8231921wrf.421.1629631181034;
+        Sun, 22 Aug 2021 04:19:41 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:9821:d2f9:6401:2f3c? ([2001:8b0:aba:5f3c:9821:d2f9:6401:2f3c])
+        by smtp.gmail.com with ESMTPSA id d145sm15273528wmd.3.2021.08.22.04.19.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Aug 2021 04:19:40 -0700 (PDT)
+Message-ID: <87dacc6ecc7af109db0039894254c77b43ae8323.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [v4] [RFC] Merge meta-rust to oe-core - Aug 19 update
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: steven@stevenwalter.org, johan.anderholm@gmail.com, derek@asterius.io, 
+ cardoe@cardoe.com, dev@codyps.com, tylerwhall@gmail.com, Khem Raj
+ <raj.khem@gmail.com>, vinay.kumar@blackfigtech.com,
+ saul.wold@windriver.com,  martin.jansa@gmail.com, paul@pbarker.dev, Trevor
+ Gamblin <trevor.gamblin@windriver.com>, anbelski@linux.microsoft.com, Vinay
+ Kumar <vinay.m.engg@gmail.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>
+Date: Sun, 22 Aug 2021 12:19:37 +0100
+In-Reply-To: <fed5f2e5-000c-b7be-1d0e-2dc26afa6bd5@windriver.com>
+References: <aa7653eb-336f-ee08-3126-e6c790a9226f@windriver.com>
+	 <20210813151947.55142-1-vinay.m.engg@gmail.com>
+	 <CANUMPcXHhkPrtXrfN5rfzctXEy8h-Hi4L+vKmaAmPSgC33udcg@mail.gmail.com>
+	 <169C1FA457B99CA0.23238@lists.openembedded.org>
+	 <15a0f2e3-dbad-2512-3e5e-f2b84c946964@windriver.com>
+	 <169D3274AAECC435.19323@lists.openembedded.org>
+	 <fed5f2e5-000c-b7be-1d0e-2dc26afa6bd5@windriver.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-In-Reply-To: <32bdbcc1-469b-2d7d-8a4e-7413f88fc4e2@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-On 22/08/2021 01:31, Oliver Kranz wrote:
-> On 21.08.21 22:26, Konrad Weihmann wrote:
->> I'd truly like to oppose the idea of static linking by default, how 
->> juicy this idea may sound...
->> But if we switch to static linking, literary no one can be be sure 
->> about licensing anymore (to me one of the major weak spots of go).
->>
-> I see your point here. The main concern was to get rid of the 37MB go 
-> std lib but I missed the licensing part. I'll have a deeper look into 
-> the golang linking.
-
-One major issue with licensing and reproducibility is that go pulls in 
-dependencies. This issue can also be seen by many other "modern" 
-languages and you can also modify your Makefile or Cmake to pull in 
-dependencies, but that's not what we typically want when we BitBake.
-
-A workaround for reproducibility is to use a local go cache.
-
-A workaround for licensing is to split the dependencies into separate 
-recipes.
-
-Konrad describes it here:
-
-https://bitbakesoda.blogspot.com/2021/04/making-go-not-no-go.html
-
-Now, if we make static linking the default things might get even more 
-interesting licensing-wise, depending on whom you ask ;)
-
-I think the main issue here is LGPL2/3 vs. GPL2/3, "derivative work", 
-"installation requirements" and what you need to ship for open source 
-license compliance.
-
-LGPL2/3:
-
-https://tldrlegal.com/license/gnu-lesser-general-public-license-v2.1-(lgpl-2.1)
-
-https://tldrlegal.com/license/gnu-lesser-general-public-license-v3-(lgpl-3)
-
-GPL2/3:
-
-https://tldrlegal.com/license/gnu-general-public-license-v2
-
-https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
-
-derivative work:
-
-The GPL2 license describes it like this: The "Program", below, refers to 
-any such program or work, and a "work based on the Program" means either 
-the Program or any derivative work under copyright law: that is to say, 
-a work containing the Program or a portion of it, either verbatim or 
-with modifications and/or translated into another language.
-
-see also:
-
-https://lwn.net/Articles/548216/
-
-"installation requirements":
-
-LGPL3:
-
-If the software is part of a consumer device, you must include the 
-installation information necessary to modify and reinstall the software.
-
-GPL3:
-
-If the software is part of a consumer device, you must include the 
-installation information necessary to modify and reinstall the software.
-
-Bradley seems to have another opinion lately (July 23, 2021)
-
-https://sfconservancy.org/blog/?author=bkuhn
-
-Regards,
-
-Robert
+On Sat, 2021-08-21 at 23:12 -0400, Randy MacLeod wrote:
+> On 2021-08-20 10:48 p.m., Randy MacLeod wrote:
+> With a patch from Richard, and the http_proxy check removed,
+> $ git diff | grep "^[+-]"
+>  --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+>  +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+>  -http_proxy = "http://example.com/"
+>  +http_proxy = ""
+>  
+> we have fixed the oe-selftest that was failing.
+>  Any volunteers to stub out the http[s]_proxy code in cargo ?
+> I've written up a commit log that could use some review and pushed an update
+> to:
+>    
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rmacleod/rust-redo-aug-17-2021-a
+> 
 
 
+I'm not sure you need to change cargo, I think if you remove the bit in the
+bbclass that injects http_proxy, the tests are ok. That will perhaps break
+anyone using proxies but for now, I think that is a reasonable step of getting
+this moved forward?
 
+I think there is one selftest issue left which is a multilib one.
+
+Cheers,
+
+Richard
 
 
