@@ -1,50 +1,50 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.9678.1629636687390555918
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web08.9613.1629636688055188204
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Aug 2021 05:51:27 -0700
+ Sun, 22 Aug 2021 05:51:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KQDo5xFi;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id d26so1443435wrc.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=t1v4AVMR;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so8938203wml.3
         for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XurfYlVL2EXz68uowsvt1Q+33p0Wq4lmm1o4BuDhnCs=;
-        b=KQDo5xFiApsblqZarG2HJfPjCl/mp/1qex/RQSnhU44feWJleslKCrh6t06LjiMfFT
-         tNkrVUhlvdiU4q5UtTl9R0hSKF8AV+v2T8925UZ9HDJwJPkdLEZUbnHyyB00N0k6ynGv
-         ElQ/B5NApqw25hew9V7XaSq+fwH3uBS+DRV6bi14MppEaFznfx4i2EyC3x4OFoySS2qh
-         V2wqhhLEcGdcSC4gC3qpgAbItQaU8v3qikfCWJle7EkaahM6W/PJQm7Vq5rBPpryc0ny
-         FOFqkjURPAGnltxjWZk5W3VZS0RcX7loSjnnCjndaOzwM08WQbvJsIUqcTvItg2kvbRo
-         fmFw==
+        bh=67Ra/Wh0QLm2pmuMgA/4RD/CSGE50CqjRFNr4ghGT+8=;
+        b=t1v4AVMR+iZB9ef6Jqs6Bj/WBpmH+hNULGl/F5r67I8VgWd7ow3g8Lgeg22EUpUa8U
+         c2XkSDXAx+R3I455jqfFBjyIaYlBNXaydxqINndrXNvihpZ7w29korRYSs4Tdt3x03uT
+         WY92B2F1IlwZr+muuTrdrHud1/7/HNBtgD44Z5AouUY8RdkpJ22ovp7Xe3baCkJ2vB8e
+         6TE1BWWBRxRpQ+fdNQNWdV5v8/9lhkcsaRNdNII+IAc5UgOuYhhF2hO+E3smx6SIye4s
+         NYwX2S46SKq5b21sCJ0tvTyM29Gbz3YVxMzdsvIqqoS95a9XuDdYPhz7JvtT52Hhp3tQ
+         ukSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XurfYlVL2EXz68uowsvt1Q+33p0Wq4lmm1o4BuDhnCs=;
-        b=tDwo803qW4BWO1nOksG3UG02SYKUVUDtU/8ol0vizH+z6gGxb889tIkXuBLRnAplec
-         1dFazFr5FenJS4pOyo21I00yPZt1GxuF4mi7TLqhX37GNdxboFh6bl2hR7qLPTnnkn5t
-         q7OW6JqTt8wlbDMcLrALVoujNMtOwM9E6wHXDZn1mOIg12v50ZAduu/fKwpwzA5byVGQ
-         5EL0J2uE2//QNF5wRW30mUzzuo7h2PCMr5c9z7cNAGpr0PJbGw0ro5z+jG+KzwSa9pqA
-         bWrOH1tlYkHynzfhcycgtfJgzapl90wsO5wOb6f4L2Ta+NBDN7FXA50cERMvUYxKbSOI
-         4few==
-X-Gm-Message-State: AOAM533qbgtXkZSUWZBwefxi4GAu9SZi4ESlMo1N3tCKyr80mrV/+2Ny
-	N/9d+6g44M80xRmUVu64odm2am7tTeGAzQ==
-X-Google-Smtp-Source: ABdhPJzgR+ishDOc0/WzzQ5vuEnNGnI0OCi/167RoiMwJ7nrUmvJT7kG5PgkGBgKhA/6P4sy2FVTuw==
-X-Received: by 2002:a5d:58ce:: with SMTP id o14mr8336365wrf.319.1629636686056;
+        bh=67Ra/Wh0QLm2pmuMgA/4RD/CSGE50CqjRFNr4ghGT+8=;
+        b=XacdRdY2bPP5Io5fFBb1J5iGKI29T2gAG5N5Z0Q39tE7fUlRUk6WogR6leSpRlgr7h
+         8e/wB7Ol2hk6rIES4TXOvQVeUpfrIr1Wv21JdcBUFyMh6xVLln1DKDjNZU/QNJxGMbVR
+         aXVyXfciSMa1jRi5xwArscpRPpsqT0WXQUgcL0MmmBoP0SPUhj3rmpJBH7qHf/QYUghQ
+         jrn3nD6mqaU0H64kfySZlIJXmwlJXS9YumcN0sw9EgDEb3UMDQNUhHFmXVlrJWGHH5CQ
+         3eHoHMrgGoNLeFKsKcQC0w3eSj2do5W7ZAJgMfwK0hM+xEzK2sJYq5RVzsCMDF28rA/M
+         mmsw==
+X-Gm-Message-State: AOAM533tWCdlzcLTMt+GAtU/AYiuJQMlxhLTUx/qqGaE/ZMyYmvjJG2n
+	pASP0K1Bislh5ydsbcjxH6BcOfV3NKbjjA==
+X-Google-Smtp-Source: ABdhPJzYRsr7TbWzsmpGHCeqpTeduVh0nD0l61TbiNgYzgMjwNfwCIHiCYMHGWBZc/oMPAZP0+nR9A==
+X-Received: by 2002:a05:600c:2256:: with SMTP id a22mr1863291wmm.16.1629636686684;
         Sun, 22 Aug 2021 05:51:26 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.25
+        by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 05:51:25 -0700 (PDT)
+        Sun, 22 Aug 2021 05:51:26 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 22/55] libedit: upgrade 20210522-3.1 -> 20210714-3.1
-Date: Sun, 22 Aug 2021 14:50:30 +0200
-Message-Id: <20210822125103.310416-22-alex.kanavin@gmail.com>
+Subject: [PATCH 23/55] log4cplus: upgrade 2.0.6 -> 2.0.7
+Date: Sun, 22 Aug 2021 14:50:31 +0200
+Message-Id: <20210822125103.310416-23-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822125103.310416-1-alex.kanavin@gmail.com>
 References: <20210822125103.310416-1-alex.kanavin@gmail.com>
@@ -53,26 +53,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{libedit_20210522-3.1.bb => libedit_20210714-3.1.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/libedit/{libedit_20210522-3.1.bb => libedit_20210714-3.1.bb} (88%)
+ .../log4cplus/{log4cplus_2.0.6.bb => log4cplus_2.0.7.bb}       | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/log4cplus/{log4cplus_2.0.6.bb => log4cplus_2.0.7.bb} (85%)
 
-diff --git a/meta/recipes-devtools/libedit/libedit_20210522-3.1.bb b/meta/recipes-devtools/libedit/libedit_20210714-3.1.bb
-similarity index 88%
-rename from meta/recipes-devtools/libedit/libedit_20210522-3.1.bb
-rename to meta/recipes-devtools/libedit/libedit_20210714-3.1.bb
-index 72392dd190..8d68d6874a 100644
---- a/meta/recipes-devtools/libedit/libedit_20210522-3.1.bb
-+++ b/meta/recipes-devtools/libedit/libedit_20210714-3.1.bb
-@@ -13,7 +13,7 @@ inherit autotools
- SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
-            file://stdc-predef.patch \
+diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.0.6.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb
+similarity index 85%
+rename from meta/recipes-devtools/log4cplus/log4cplus_2.0.6.bb
+rename to meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb
+index 4b7c76ab46..3798b93f76 100644
+--- a/meta/recipes-devtools/log4cplus/log4cplus_2.0.6.bb
++++ b/meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb
+@@ -9,8 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}-stable/${PV}/${BP}.tar.gz \
            "
--SRC_URI[sha256sum] = "0220bc2047e927c0c1984ef5f7b4eb2a9469a5b7bf12ba573ca3b23ca02bbb6f"
-+SRC_URI[sha256sum] = "3023b498ad593fd7745ae3b20abad546de506b67b8fbb5579637ca69ab82dbc9"
+-SRC_URI[md5sum] = "71051de4c2c3ef67f66ce3bbb083cf43"
+-SRC_URI[sha256sum] = "5fb26433b0f200ebfc2e6effb7e2e5131185862a2ea9a621a8e7f3f725a72b08"
++SRC_URI[sha256sum] = "086451c7e7c582862cbd6c60d87bb6d9d63c4b65321dba85fa71766382f7ec6d"
  
- BBCLASSEXTEND = "native nativesdk"
- 
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/"
+ UPSTREAM_CHECK_REGEX = "log4cplus-stable/(?P<pver>\d+(\.\d+)+)/"
 -- 
 2.31.1
 
