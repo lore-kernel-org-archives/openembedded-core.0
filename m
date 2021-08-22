@@ -1,39 +1,39 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.9624.1629636707939201170
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.9784.1629636708564565152
  for <openembedded-core@lists.openembedded.org>;
  Sun, 22 Aug 2021 05:51:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SGNXCVB+;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id n5so9436014wro.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LkMcFTZg;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id u16so21800124wrn.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Aug 2021 05:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3mYILizXrG4CvtQkgA6nkQSrQf7gRYb3Ss2GyTrZjxg=;
-        b=SGNXCVB+GegG/ju3bTza96LpOs9VHX9aKAZyy+VaLW8qZCglizfQP5302HqjwI8ajw
-         kGj1izmJMX59dtfBShladAkrcK8L2smnYXxWoFQMPJ32B8QcK28Qc/+GKqZiC6cThhkH
-         i/09eDMRD4loyzHDnP+dPGGPJgYVClYVKdI7f3iYesE9uRokaLxMLudgV9ZOozghsF6K
-         IeTrK6L76w1CEbCSwVnX2CAs4EPXU8G0ukHFQE+zODZDc1NFfRCZ+nUJ19Xlsuyiy8wU
-         IerxjWJ8pxuU3l/F0IKMi89smuAF94zeXdrpFjC2HwxB2FLb9V4UWnyxqxy0JeM1GxEk
-         udbg==
+        bh=zGlhGANkxTGxi2OX5W1mCpOfKS55Cr+E9aimskt35h8=;
+        b=LkMcFTZg7eYkmmzt539ztxWax/ho7XOqXRE1vuf6L9jkkp+fnCtODRL6pFmVefl384
+         HkT7yaN60OwssU7Rm0CM+2rH/hfiY1zHvapMvPRF/TcIN57el+kgT9N+Q/FZQYc/fHPy
+         dFvmj1amQVaWQQMNjadzRNS1nZkw/J51NysodEPjENhdgyLgRmT67VKGnJmvBOUIaBrG
+         up3cJPBAHQ0S/fk8bggm1vp9YLciUgcQ3FlZVuW2etEGjTM7NzVwPzZoGDRRxMJOwUNd
+         hn8U7wsAyiTUEyZyON+B0ZI8CL7cvteDzE4VZGUBBdCoOFAaUjRlgQQrNI5e2+da/9mb
+         ULUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3mYILizXrG4CvtQkgA6nkQSrQf7gRYb3Ss2GyTrZjxg=;
-        b=Un6O6ohFS+ig1TpXLGAmgpQlCh02lajXcVlQlvfyznhVRzWsRji7cSGNJR4e+j3gw6
-         TCL0O3EW5lcBBK0nd7TKxzVhlG3DVMerkLMTbOrHRdc5yO/xjFdI2IkBo7uzwlv9u6oo
-         oJOIJsISNkVFCo8TGHu1lysAnSnRS5kKuJtHQb0JMXUSwO/H9RXUkTJ9ij43CfYE+gH4
-         9r3sFK91scpfXExKrec+wB2slsTYpyfwwoLzyc5Cmd4iivyT3uVR8+Tl6csNVDLLMdLZ
-         3lfHLuYs4gpaz+KOY1CNpSmkFOoOQSI0GMcI8uFYUxPPcJ7M17ITPvrMkfpW0Uf1WF7L
-         3lZw==
-X-Gm-Message-State: AOAM533WWPAhFtIcMcS+5nBrQ+tsKCORJg0lcnc7201bct0zim1POS9u
-	4zQoO2d8Nqsq7LP6T0h2ziLQ0uuKFLGgfg==
-X-Google-Smtp-Source: ABdhPJyDFwPQ1/2rbq5AXZheaE3qX+/yoQvoCYvFfCBB4nFOgW6ndZ+uAjfb9pAS/Em8mMD7hfYj6g==
-X-Received: by 2002:adf:df0c:: with SMTP id y12mr8479291wrl.155.1629636706611;
-        Sun, 22 Aug 2021 05:51:46 -0700 (PDT)
+        bh=zGlhGANkxTGxi2OX5W1mCpOfKS55Cr+E9aimskt35h8=;
+        b=suXGbtlSuvF0p1HaYoxoQWKVqKs72GEJcrOWoFXS0FWNoQ3vujuYcBMJUSo/K7NCv5
+         79OnCGL6//4VulPRagPynpieWob+u6WoP9dSPtZt9M+9+UpSILZHvYz9hb6l9ytvICnV
+         gSIHnnI3u1odOPe2pzBVuj/pWUqmI+txh728XrJZM2wG20+OauOW44LB0+dQulJBZ5+V
+         XBHL31t2v1GF/oyh+W8rf9waz6JvwpGSyK7y6ifelyZYsB1XAcKgxl17pG6/yAiAzGv1
+         LdZvVKLe5kxqAnC+ZYbdNd2brWg2dxUF7/xaCFspCdcj0q2wtbnlcakmvg6lbt3vyww+
+         TPKg==
+X-Gm-Message-State: AOAM530LVNYBdkAxaAqpSnGJv8OugMx4qq20x/ht+ywZVlo+eR95u6Lj
+	wMeNfDxHnrS564/lX9iv+KgkGUSR6Cp8bw==
+X-Google-Smtp-Source: ABdhPJyW3EslkbRTk37EBVlOgaJJicPith9YiZnHdX7pVkNyQnp818/6n0PoqssZ+dsqYAS+0BuouQ==
+X-Received: by 2002:a5d:508d:: with SMTP id a13mr8575692wrt.172.1629636707231;
+        Sun, 22 Aug 2021 05:51:47 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id c8sm11915882wrx.53.2021.08.22.05.51.46
@@ -42,9 +42,9 @@ Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 52/55] enchant2: upgrade 2.3.0 -> 2.3.1
-Date: Sun, 22 Aug 2021 14:51:00 +0200
-Message-Id: <20210822125103.310416-52-alex.kanavin@gmail.com>
+Subject: [PATCH 53/55] re2c: upgrade 2.1.1 -> 2.2
+Date: Sun, 22 Aug 2021 14:51:01 +0200
+Message-Id: <20210822125103.310416-53-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822125103.310416-1-alex.kanavin@gmail.com>
 References: <20210822125103.310416-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../enchant/{enchant2_2.3.0.bb => enchant2_2.3.1.bb}            | 2 +-
+ meta/recipes-support/re2c/{re2c_2.1.1.bb => re2c_2.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/enchant/{enchant2_2.3.0.bb => enchant2_2.3.1.bb} (92%)
+ rename meta/recipes-support/re2c/{re2c_2.1.1.bb => re2c_2.2.bb} (91%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.3.0.bb b/meta/recipes-support/enchant/enchant2_2.3.1.bb
-similarity index 92%
-rename from meta/recipes-support/enchant/enchant2_2.3.0.bb
-rename to meta/recipes-support/enchant/enchant2_2.3.1.bb
-index 165b08f871..72603045c8 100644
---- a/meta/recipes-support/enchant/enchant2_2.3.0.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.3.1.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-support/re2c/re2c_2.1.1.bb b/meta/recipes-support/re2c/re2c_2.2.bb
+similarity index 91%
+rename from meta/recipes-support/re2c/re2c_2.1.1.bb
+rename to meta/recipes-support/re2c/re2c_2.2.bb
+index 1da944e901..9a0968a984 100644
+--- a/meta/recipes-support/re2c/re2c_2.1.1.bb
++++ b/meta/recipes-support/re2c/re2c_2.2.bb
+@@ -8,7 +8,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
  
- SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "df68063b6c13b245fa7246b0e098a03e74f7a91c6d8947bc5c4f42ce55e2e41d"
-+SRC_URI[sha256sum] = "7b4b1afcf2cd8bfa691deea6188404d337f23174bbc39b9c2add2bf340736e9c"
+ SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "036ee264fafd5423141ebd628890775aa9447a4c4068a6307385d7366fe711f8"
++SRC_URI[sha256sum] = "0fc45e4130a8a555d68e230d1795de0216dfe99096b61b28e67c86dfd7d86bda"
+ UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
  
- UPSTREAM_CHECK_URI = "https://github.com/AbiWord/enchant/releases"
- 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.31.1
 
