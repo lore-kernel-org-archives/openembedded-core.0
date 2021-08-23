@@ -1,265 +1,528 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web11.25364.1629731366967455048
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web09.26195.1629735040643298779
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 08:09:28 -0700
+ Mon, 23 Aug 2021 09:10:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=SQeJXQ9S;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 0DD2482D1C;
-	Mon, 23 Aug 2021 17:09:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1629731364;
-	bh=meIJNkeOBdQr3NxWXnRpTJFisy7uOERnyk7HMY4H2iU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SQeJXQ9Scc6+xwRkBKoQNFfKD4L9NpafdYc6zzbVeVs4OGDAGa4nx6cWyvvkrUkjN
-	 khbUos4F/NuUi3/A5EWgv2SG+eKJzr6FvVitmYq/nxINO1w73hjwpAJHMRSnO77UxQ
-	 S4731f+84UJXX7naaC4l0IWyLuKkasT5lZy2nnHCIhDVGg/TDaMLzbqHgEZ9vtQVcj
-	 6wWQa8+5MqgvwCH/OV4eJJiITgAapYBUjtni/CbI0aYsfNJbYPgSgD9iPV/4ENJnds
-	 2n0gf+10W4CXkVWCUYexAALz7LZu7ZS6SIpUI6T/Oxc0MXattRtLFeKWYQSNNzRf8/
-	 O60OL4H2jee/w==
-From: "?ukasz Majewski" <lukma@denx.de>
-To: poky@yoctoproject.org,
-	openembedded-core@lists.openembedded.org
-Cc: Lukasz Majewski <lukma@denx.de>
-Subject: [PATCH 2/2] glibc: ptest: Add support for running glibc test suite with ptest
-Date: Mon, 23 Aug 2021 17:08:53 +0200
-Message-Id: <20210823150853.2817-2-lukma@denx.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210823150853.2817-1-lukma@denx.de>
-References: <20210823150853.2817-1-lukma@denx.de>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LrsgS0jY;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id k14so17100015pga.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 09:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=6Vxbh5UJdy55OsN84oX3Q3eb2O6xTimsUuLdJ2NU6Yo=;
+        b=LrsgS0jYnYK7yDkEYyue5rTE77zzfjPlhH4fviB2d5ui9qWO+CFJ0G4MYV/2zuFMu2
+         KFHkCWR/Gsjzz3mjPGPqbBe7cSQ7PE2koA3wOcFKeaWee3kmk/rn0X/n8UtkGt86proC
+         HNa8otf3mTLRt6XMxAzPONCYS22C2IKZtYPYcAT+yiLQs8MiQNRXC35RAi697oda1VUb
+         mwtnEn9tdvmvuGPcKNrVmktq+gB9NBZNxHUSj9UgqEi/rXPzgcHDiie7scWGwzGYpYic
+         PSlQhL96r5TsQ1iAF9QXAha0/kTUMe0TDeCHWu9bfEPFiIj7FndYRTVPbU+CADPZgtma
+         JqkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=6Vxbh5UJdy55OsN84oX3Q3eb2O6xTimsUuLdJ2NU6Yo=;
+        b=GrkouO8KgvXVZlD3C74VFZJOJGa7V/IMiYxfy9tbeSsESfknUooIchZWg97tkt5u1w
+         udIYrFW5JlyHp3JLZ9D/VyD/iTFmXhbuDJxiu1LOv0Uur1DTrfEzeRx1EO4ePK85NhGc
+         2nhI/fHOlIoS9BSjALPcvZq6eITKqNrlzUC0+rUuQLN5nijswu3/amBOeQftwFhWJQrJ
+         nwSkmFqZgtqOuN7mqnaInaH72xQlBBLkGZ4ZSAuKWVtYTRRurTWBBd9IWK/xk+wzcLaq
+         48Q9pfL4TN+u8rvd2nq1dKTlclEAOjjePYeidAnzonJkENDq1KDJRuWUwmNCLCZoztk/
+         G8TA==
+X-Gm-Message-State: AOAM531ISIFcVpgmUeRC9/R9SYQYeUxPtJIBtIRaggP/9OFeb70APxKg
+	7zypyIFUOzKVUk56JfC2kP4=
+X-Google-Smtp-Source: ABdhPJxXmC2SxKIuSdI1zjRRd++rAjKEXOuyM4IvUbFl7I1GI8p0lLwAtGo7ifT7V0JmdlduD1tnsA==
+X-Received: by 2002:a63:6c5:: with SMTP id 188mr33221928pgg.39.1629735040071;
+        Mon, 23 Aug 2021 09:10:40 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPV6:2601:646:9200:a0f0:7cf5:888d:b618:582d? ([2601:646:9200:a0f0:7cf5:888d:b618:582d])
+        by smtp.gmail.com with UTF8SMTPSA id h13sm18750939pgh.93.2021.08.23.09.10.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Aug 2021 09:10:39 -0700 (PDT)
+Message-ID: <74f0f004-bc3b-a979-a092-e937f0a375c9@gmail.com>
+Date: Mon, 23 Aug 2021 09:10:37 -0700
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.0.1
+Subject: Re: [OE-core][dunfell][PATCH] mklibs-native: drop deprecated cpp17 exceptions
+To: Andrej Valek <andrej.valek@siemens.com>,
+ openembedded-core@lists.openembedded.org
+References: <20210823105648.31311-1-andrej.valek@siemens.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <20210823105648.31311-1-andrej.valek@siemens.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch introduces new recipe - namely 'glibc-tests', which
-builds and installs glibc test suite to OE/Yocto built image.
 
-It reuses code from already available 'glibc-testsuite' recipe,
-which is run with 'bitbake glibc-testsuite -c check' and uses qemu
-to execute remotely (via SSH) tests on some emulated machine.
 
-This recipe installs eligible tests on some rootfs image.
-Afterwards, either all of them or only time related subset, those
-tests can be executed on the real hardware, to facilitate validation
-of this platform with for example Y2038 problem compliance.
+On 8/23/21 3:56 AM, Andrej Valek wrote:
+> gcc11 has -std=gnu++17 as default. Remove deprecated C++17 exceptions based
+> on http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html.
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> ---
+>   ...-deprecated-exception-specification-cpp17.patch | 431 +++++++++++++++++++++
+>   .../mklibs/mklibs-native_0.1.44.bb                 |   1 +
+>   2 files changed, 432 insertions(+)
+>   create mode 100644 meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+> 
+> diff --git a/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+> new file mode 100644
+> index 0000000000..0c4c911976
+> --- /dev/null
+> +++ b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+> @@ -0,0 +1,431 @@
+> +From 597c7a8333df84a87cc48fb8477b603ffbf372a6 Mon Sep 17 00:00:00 2001
+> +From: Andrej Valek <andrej.valek@siemens.com>
+> +Date: Mon, 23 Aug 2021 12:45:11 +0200
+> +Subject: [PATCH] feat(cpp17): remove deprecated exception specifications for
+> + C++ 17
+> +
+> +Upstream-Status: Submitted
 
-By default all tests are executed, with 'ptest-runner glibc-tests'.
-To test only time related subset - one needs to call:
-cd /usr/lib/glibc-tests/ptest/; rm run-ptest; \
-ln -s run-ptest-time run-ptest; cd -; ptest-runner glibc-tests
+the patch is good. Can you add link to upstream submission here ?
 
-To facilitate debugging, source files are provided by default with
-the unstripped debugging symbols. Such approach would reduce the
-already complex recipe (as it inherits base glibc one), so there
-is no need to also install *-dbg and *-src packages.
-
-Signed-off-by: Lukasz Majewski <lukma@denx.de>
----
- .../distro/include/ptest-packagelists.inc     |   1 +
- meta/recipes-core/glibc/glibc-tests_2.34.bb   | 101 ++++++++++++++++++
- meta/recipes-core/glibc/glibc/run-ptest-all   |  25 +++++
- meta/recipes-core/glibc/glibc/run-ptest-time  |  30 ++++++
- 4 files changed, 157 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
- create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-all
- create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-time
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-index 3872bdc942..e460ad1c8b 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -59,6 +59,7 @@ PTESTS_FAST =3D "\
-     slang-ptest \
-     wayland-ptest \
-     zlib-ptest \
-+    glibc-tests-ptest \
- "
- PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
- PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb b/meta/recipes-c=
-ore/glibc/glibc-tests_2.34.bb
-new file mode 100644
-index 0000000000..896809f700
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-@@ -0,0 +1,101 @@
-+require glibc_${PV}.bb
-+require glibc-tests.inc
-+
-+inherit ptest
-+
-+SRC_URI:append =3D " \
-+	file://run-ptest-all file://run-ptest-time \
-+"
-+
-+SUMMARY =3D "glibc tests to be run with ptest"
-+
-+# Erase some variables already set by glibc_${PV}
-+python __anonymous() {
-+       # Remove packages provided by glibc build, we only need a subset =
-of them
-+       d.setVar("PACKAGES", "${PN}")
-+
-+       d.setVar("PROVIDES", "${PN}")
-+       d.setVar("RPROVIDES", "${PN} glibc-ptest")
-+
-+       d.setVar("RRECOMMENDS", "")
-+}
-+
-+# Remove any lefovers from original glibc recipe
-+RPROVIDES:${PN} =3D "${PN}"
-+RRECOMMENDS:${PN} =3D ""
-+RDEPENDS:${PN} =3D "sed"
-+
-+# Just build tests for target - do not run them
-+do_check:append () {
-+	oe_runmake -i check run-built-tests=3Dno
-+}
-+addtask do_check after do_compile before do_install_ptest_base
-+
-+glibc_strip_build_directory () {
-+	# Delete all non executable files from build directory
-+	find ${B} ! -executable -type f -delete
-+
-+	# Remove build dynamic libraries and links to them as
-+	# those are already installed in the target device
-+	find ${B} -type f -name "*.so" -delete
-+	find ${B} -type l -name "*.so*" -delete
-+
-+	# Remove headers (installed with glibc)
-+	find ${B} -type f -name "*.h" -delete
-+
-+	find ${B} -type f -name "isomac" -delete
-+	find ${B} -type f -name "annexc" -delete
-+}
-+
-+do_install_ptest_base () {
-+	glibc_strip_build_directory
-+
-+	# Install build test programs to the image
-+	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
-+	cp -r ${B}/* ${D}${PTEST_PATH}/tests/glibc-ptest/
-+
-+	install -d ${D}${PTEST_PATH}
-+	cp ${WORKDIR}/run-ptest-* ${D}${PTEST_PATH}/
-+
-+	# By default run all glibc tests
-+	cd ${D}${PTEST_PATH}/
-+	ln -s run-ptest-all run-ptest
-+}
-+
-+# The datadir directory is required to allow core (and reused)
-+# glibc cleanup function to finish correctly, as this directory
-+# is not created for ptests
-+stash_locale_package_cleanup:prepend () {
-+	mkdir -p ${PKGD}${datadir}
-+}
-+
-+stash_locale_sysroot_cleanup:prepend () {
-+	mkdir -p ${SYSROOT_DESTDIR}${datadir}
-+}
-+
-+# Prevent the do_package() task to set 'libc6' prefix
-+# for glibc tests related packages
-+python populate_packages:prepend () {
-+    if d.getVar('DEBIAN_NAMES'):
-+        d.setVar('DEBIAN_NAMES', '')
-+}
-+
-+FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
-+
-+EXCLUDE_FROM_SHLIBS =3D "1"
-+
-+# Install debug data in .debug and sources in /usr/src/debug
-+# It is more handy to have _all_ the sources and symbols in one
-+# place (package) as this recipe will be used for validation and
-+# debugging.
-+PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
-+
-+# glibc test cases violate by default some Yocto/OE checks (staticdev,
-+# textrel)
-+# 'debug-files' - add everything (including debug) into one package
-+#                 (no need to install/build *-src package)
-+INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
-+
-+deltask do_stash_locale
-+do_install[noexec] =3D "1"
-+do_populate_sysroot[noexec] =3D "1"
-diff --git a/meta/recipes-core/glibc/glibc/run-ptest-all b/meta/recipes-c=
-ore/glibc/glibc/run-ptest-all
-new file mode 100755
-index 0000000000..47bfe5238c
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/run-ptest-all
-@@ -0,0 +1,25 @@
-+#!/bin/sh
-+# ptest script for glibc - to run time related tests to
-+# facilitate Y2038 validation
-+# Run with 'ptest-runner glibc-tests'
-+
-+output() {
-+  retcode=3D$?
-+  if [ $retcode -eq 0 ]
-+    then echo "PASS: $i"
-+  elif [ $retcode -eq 77 ]
-+    then echo "SKIP: $i"
-+  else echo "FAIL: $i"
-+  fi
-+}
-+
-+# Allow altering time on the target
-+export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-+
-+tst=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*)
-+
-+for i in ${tst}
-+do
-+	$i >/dev/null 2>&1
-+	output
-+done
-diff --git a/meta/recipes-core/glibc/glibc/run-ptest-time b/meta/recipes-=
-core/glibc/glibc/run-ptest-time
-new file mode 100755
-index 0000000000..24dedc6e32
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/run-ptest-time
-@@ -0,0 +1,30 @@
-+#!/bin/sh
-+# ptest script for glibc - to run time related tests to
-+# facilitate Y2038 validation
-+# Run with 'ptest-runner glibc-tests'
-+
-+output() {
-+  retcode=3D$?
-+  if [ $retcode -eq 0 ]
-+    then echo "PASS: $i"
-+  elif [ $retcode -eq 77 ]
-+    then echo "SKIP: $i"
-+  else echo "FAIL: $i"
-+  fi
-+}
-+
-+# Allow altering time on the target
-+export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-+
-+tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*-time64)
-+
-+# Remove '-time64' suffix - those tests are also time
-+# related
-+tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
-+tst_time=3D"${tst_time_tmp} ${tst_time64}"
-+
-+for i in ${tst_time}
-+do
-+	$i >/dev/null 2>&1
-+	output
-+done
---=20
-2.20.1
-
+> +
+> +based on: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
+> +
+> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> +---
+> + src/mklibs-readelf/elf.cpp      | 48 ++++++++++++++++++++---------------------
+> + src/mklibs-readelf/elf.hpp      | 18 ++++++++--------
+> + src/mklibs-readelf/elf_data.hpp | 36 +++++++++++++++----------------
+> + 3 files changed, 51 insertions(+), 51 deletions(-)
+> +
+> +diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
+> +index 0e4c0f3..2e6d0f6 100644
+> +--- a/src/mklibs-readelf/elf.cpp
+> ++++ b/src/mklibs-readelf/elf.cpp
+> +@@ -36,7 +36,7 @@ file::~file () throw ()
+> +     delete *it;
+> + }
+> +
+> +-file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_error)
+> ++file *file::open (const char *filename) throw ()
+> + {
+> +   struct stat buf;
+> +   int fd;
+> +@@ -72,7 +72,7 @@ file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_erro
+> + }
+> +
+> + template<typename _class>
+> +-file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+> ++file *file::open_class(uint8_t *mem, size_t len) throw ()
+> + {
+> +   switch (mem[EI_DATA])
+> +   {
+> +@@ -86,7 +86,7 @@ file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::run
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+> ++file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw ()
+> + : file(mem, len)
+> + {
+> +   if (mem[EI_CLASS] != _class::id)
+> +@@ -190,7 +190,7 @@ section_data<_class, _data>::section_data(Shdr *shdr, uint8_t *mem) throw ()
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void section_data<_class, _data>::update(const file &file) throw (std::bad_alloc)
+> ++void section_data<_class, _data>::update(const file &file) throw ()
+> + {
+> +   const section_type<section_type_STRTAB> &section =
+> +     dynamic_cast<const section_type<section_type_STRTAB> &>(file.get_section(file.get_shstrndx()));
+> +@@ -204,7 +204,7 @@ section_type<section_type_DYNAMIC>::~section_type() throw ()
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw ()
+> + : section_data<_class, _data>(header, mem)
+> + {
+> +   if (this->type != SHT_DYNAMIC)
+> +@@ -221,7 +221,7 @@ section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, ui
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw ()
+> + {
+> +   section_data<_class, _data>::update(file);
+> +
+> +@@ -243,7 +243,7 @@ section_type<section_type_DYNSYM>::~section_type() throw ()
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw ()
+> + : section_data<_class, _data>(header, mem)
+> + {
+> +   if (this->type != SHT_DYNSYM)
+> +@@ -260,7 +260,7 @@ section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uin
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw ()
+> + {
+> +   section_data<_class, _data>::update (file);
+> +
+> +@@ -285,7 +285,7 @@ const version_definition *section_type<section_type_GNU_VERDEF>::get_version_def
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw ()
+> + : section_data<_class, _data>(header, mem)
+> + {
+> +   if (this->type != SHT_GNU_verdef)
+> +@@ -307,7 +307,7 @@ section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header,
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw ()
+> + {
+> +   section_data<_class, _data>::update(file);
+> +
+> +@@ -333,7 +333,7 @@ const version_requirement_entry *section_type<section_type_GNU_VERNEED>::get_ver
+> +
+> + template <typename _class, typename _data>
+> + section_real<_class, _data, section_type_GNU_VERNEED>::
+> +-section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real(Shdr *header, uint8_t *mem) throw ()
+> + : section_data<_class, _data> (header, mem)
+> + {
+> +   if (this->type != SHT_GNU_verneed)
+> +@@ -355,7 +355,7 @@ section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw (std::bad_alloc)
+> ++void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw ()
+> + {
+> +   section_data<_class, _data>::update(file);
+> +
+> +@@ -372,7 +372,7 @@ void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &f
+> +
+> + template <typename _class, typename _data>
+> + section_real<_class, _data, section_type_GNU_VERSYM>::
+> +-section_real (Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++section_real (Shdr *header, uint8_t *mem) throw ()
+> + : section_data<_class, _data> (header, mem)
+> + {
+> +   if (this->type != SHT_GNU_versym)
+> +@@ -399,7 +399,7 @@ segment_data<_class, _data>::segment_data (Phdr *phdr, uint8_t *mem) throw ()
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw (std::bad_alloc)
+> ++segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw ()
+> + : segment_data<_class, _data> (header, mem)
+> + {
+> +   if (this->type != PT_INTERP)
+> +@@ -429,13 +429,13 @@ dynamic_data<_class, _data>::dynamic_data (Dyn *dyn) throw ()
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
+> + {
+> +   if (is_string)
+> +     val_string = section.get_string(val);
+> + }
+> +
+> +-std::string symbol::get_version () const throw (std::bad_alloc)
+> ++std::string symbol::get_version () const throw ()
+> + {
+> +   if (verneed)
+> +     return verneed->get_name();
+> +@@ -445,7 +445,7 @@ std::string symbol::get_version () const throw (std::bad_alloc)
+> +   return "Base";
+> + }
+> +
+> +-std::string symbol::get_version_file () const throw (std::bad_alloc)
+> ++std::string symbol::get_version_file () const throw ()
+> + {
+> +   if (verneed)
+> +     return verneed->get_file();
+> +@@ -453,7 +453,7 @@ std::string symbol::get_version_file () const throw (std::bad_alloc)
+> +   return "None";
+> + }
+> +
+> +-std::string symbol::get_name_version () const throw (std::bad_alloc)
+> ++std::string symbol::get_name_version () const throw ()
+> + {
+> +   std::string ver;
+> +
+> +@@ -478,13 +478,13 @@ symbol_data<_class, _data>::symbol_data (Sym *sym) throw ()
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
+> + {
+> +   name_string = section.get_string(name);
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw (std::bad_alloc)
+> ++void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw ()
+> + {
+> +   if (!file.get_section_GNU_VERSYM())
+> +     return;
+> +@@ -531,13 +531,13 @@ version_definition_data<_class, _data>::version_definition_data (Verdef *verdef)
+> + }
+> +
+> + template <typename _class, typename _data>
+> +-void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
+> + {
+> +   for (std::vector<uint32_t>::iterator it = names.begin(); it != names.end(); ++it)
+> +     names_string.push_back(section.get_string(*it));
+> + }
+> +
+> +-version_requirement::version_requirement() throw (std::bad_alloc)
+> ++version_requirement::version_requirement() throw ()
+> + : file_string("None")
+> + { }
+> +
+> +@@ -561,7 +561,7 @@ version_requirement_data<_class, _data>::version_requirement_data (Verneed *vern
+> +
+> + template <typename _class, typename _data>
+> + void version_requirement_data<_class, _data>::
+> +-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++update_string(const section_type<section_type_STRTAB> &section) throw ()
+> + {
+> +   file_string = section.get_string(file);
+> +
+> +@@ -596,7 +596,7 @@ version_requirement_entry_data(Vernaux *vna, const version_requirement &verneed)
+> +
+> + template <typename _class, typename _data>
+> + void version_requirement_entry_data<_class, _data>::
+> +-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+> ++update_string(const section_type<section_type_STRTAB> &section) throw ()
+> + {
+> +   name_string = section.get_string(name);
+> + }
+> +diff --git a/src/mklibs-readelf/elf.hpp b/src/mklibs-readelf/elf.hpp
+> +index 70e61cd..afb0c9e 100644
+> +--- a/src/mklibs-readelf/elf.hpp
+> ++++ b/src/mklibs-readelf/elf.hpp
+> +@@ -49,7 +49,7 @@ namespace Elf
+> +       const uint16_t get_shstrndx() const throw () { return shstrndx; }
+> +
+> +       const std::vector<section *> get_sections() const throw () { return sections; };
+> +-      const section &get_section(unsigned int i) const throw (std::out_of_range) { return *sections.at(i); };
+> ++      const section &get_section(unsigned int i) const throw () { return *sections.at(i); };
+> +       const section_type<section_type_DYNAMIC> *get_section_DYNAMIC() const throw () { return section_DYNAMIC; };
+> +       const section_type<section_type_DYNSYM> *get_section_DYNSYM() const throw () { return section_DYNSYM; };
+> +       const section_type<section_type_GNU_VERDEF> *get_section_GNU_VERDEF() const throw () { return section_GNU_VERDEF; };
+> +@@ -59,13 +59,13 @@ namespace Elf
+> +       const std::vector<segment *> get_segments() const throw () { return segments; };
+> +       const segment_type<segment_type_INTERP> *get_segment_INTERP() const throw () { return segment_INTERP; };
+> +
+> +-      static file *open(const char *filename) throw (std::bad_alloc, std::runtime_error);
+> ++      static file *open(const char *filename) throw ();
+> +
+> +     protected:
+> +-      file(uint8_t *mem, size_t len) throw (std::bad_alloc) : mem(mem), len(len) { }
+> ++      file(uint8_t *mem, size_t len) throw () : mem(mem), len(len) { }
+> +
+> +       template<typename _class>
+> +-        static file *open_class(uint8_t *, size_t) throw (std::bad_alloc, std::runtime_error);
+> ++        static file *open_class(uint8_t *, size_t) throw ();
+> +
+> +       uint16_t type;
+> +       uint16_t machine;
+> +@@ -128,7 +128,7 @@ namespace Elf
+> +     class section_type<section_type_STRTAB> : public virtual section
+> +     {
+> +       public:
+> +-        std::string get_string(uint32_t offset) const throw (std::bad_alloc)
+> ++        std::string get_string(uint32_t offset) const throw ()
+> +         {
+> +           return std::string(reinterpret_cast<const char *> (mem + offset));
+> +         }
+> +@@ -263,10 +263,10 @@ namespace Elf
+> +       uint8_t get_bind () const throw () { return bind; }
+> +       uint8_t get_type () const throw () { return type; }
+> +       const std::string &get_name_string() const throw () { return name_string; }
+> +-      std::string get_version() const throw (std::bad_alloc);
+> +-      std::string get_version_file() const throw (std::bad_alloc);
+> ++      std::string get_version() const throw ();
+> ++      std::string get_version_file() const throw ();
+> +       uint16_t get_version_data() const throw () { return versym; }
+> +-      std::string get_name_version() const throw (std::bad_alloc);
+> ++      std::string get_name_version() const throw ();
+> +
+> +     protected:
+> +       uint32_t name;
+> +@@ -305,7 +305,7 @@ namespace Elf
+> +   class version_requirement
+> +   {
+> +     public:
+> +-      version_requirement() throw (std::bad_alloc);
+> ++      version_requirement() throw ();
+> +       virtual ~version_requirement () throw () { }
+> +
+> +       const std::string &get_file() const throw () { return file_string; }
+> +diff --git a/src/mklibs-readelf/elf_data.hpp b/src/mklibs-readelf/elf_data.hpp
+> +index 05effee..3871982 100644
+> +--- a/src/mklibs-readelf/elf_data.hpp
+> ++++ b/src/mklibs-readelf/elf_data.hpp
+> +@@ -94,7 +94,7 @@ namespace Elf
+> +     class file_data : public file
+> +     {
+> +       public:
+> +-        file_data(uint8_t *, size_t len) throw (std::bad_alloc, std::runtime_error);
+> ++        file_data(uint8_t *, size_t len) throw ();
+> +
+> +         const uint8_t get_class() const throw () { return _class::id; }
+> +         const uint8_t get_data() const throw () { return _data::id; }
+> +@@ -109,7 +109,7 @@ namespace Elf
+> +       public:
+> +         section_data(Shdr *, uint8_t *) throw ();
+> +
+> +-        virtual void update(const file &) throw (std::bad_alloc);
+> ++        virtual void update(const file &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data, typename _type>
+> +@@ -133,9 +133,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *) throw ();
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -147,9 +147,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *) throw ();
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -161,9 +161,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *) throw ();
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -175,9 +175,9 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *) throw ();
+> +
+> +-        void update(const file &) throw (std::bad_alloc);
+> ++        void update(const file &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -189,7 +189,7 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Shdr Shdr;
+> +
+> +       public:
+> +-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+> ++        section_real(Shdr *, uint8_t *) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -220,7 +220,7 @@ namespace Elf
+> +         typedef typename _elfdef<_class>::Phdr Phdr;
+> +
+> +       public:
+> +-        segment_real (Phdr *, uint8_t *) throw (std::bad_alloc);
+> ++        segment_real (Phdr *, uint8_t *) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -232,7 +232,7 @@ namespace Elf
+> +       public:
+> +         dynamic_data (Dyn *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -244,8 +244,8 @@ namespace Elf
+> +       public:
+> +         symbol_data (Sym *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> +-        virtual void update_version (const file &, uint16_t) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &) throw ();
+> ++        virtual void update_version (const file &, uint16_t) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -257,7 +257,7 @@ namespace Elf
+> +
+> +         version_definition_data (Verdef *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -269,7 +269,7 @@ namespace Elf
+> +
+> +         version_requirement_data (Verneed *) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &) throw ();
+> +     };
+> +
+> +   template <typename _class, typename _data>
+> +@@ -280,7 +280,7 @@ namespace Elf
+> +
+> +         version_requirement_entry_data (Vernaux *, const version_requirement &) throw ();
+> +
+> +-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+> ++        void update_string(const section_type<section_type_STRTAB> &) throw ();
+> +     };
+> + }
+> +
+> +--
+> +2.11.0
+> +
+> diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+> index 1784af1f4c..07142e57e0 100644
+> --- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+> +++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+> @@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/
+>   	file://avoid-failure-on-symbol-provided-by-application.patch \
+>   	file://show-GNU-unique-symbols-as-provided-symbols.patch \
+>   	file://fix_cross_compile.patch \
+> +	file://remove-deprecated-exception-specification-cpp17.patch \
+>   "
+>   
+>   SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
+> 
+> 
+> 
+> 
+> 
