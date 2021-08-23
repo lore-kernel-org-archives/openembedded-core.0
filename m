@@ -1,171 +1,488 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.82])
- by mx.groups.io with SMTP id smtpd.web12.27063.1629738732830956308
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+ by mx.groups.io with SMTP id smtpd.web12.27134.1629739093335959868
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 10:12:13 -0700
+ Mon, 23 Aug 2021 10:18:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=cF29n1Uv;
- spf=pass (domain: siemens.com, ip: 40.107.7.82, mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DZDQ9QA6GfA4GyBOSEOmUNrL56E/Ic0m+uls5GIPVCq2jG0/Jmm7VpYDj8gtP2cHx4gnX6k5ZEH9gUMTP3WkST3wLISMWk3AaHDUZefzqthiUsO1f3GugcJUVU8LYjXIY3p9e+aa28Xd/GlyXrhBdSVHQZc9wVg3oRUts3xo3y+P+WLLEZPVA3w75UJn3l6WQzPSxc5ia7Gy+DpjBcWflv+Y0xhhHjrZeVOByb2QACCKe/Cutf541TctYFN2ubX0T+DOc4lar/KmefwcqSCwmvfHPvrI0HmrN2s7UIj6siZsHzrsXo6tDz+uEsbqolooA4jL55YJZY0RC8exddAqBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N+eJdbDZvPnl0DpiS7hlN3y9O4vRWrwBSKkio5zsC4w=;
- b=Ff6H4y3rEzXFEebxecNb5piZuzG56DDkKZJWvMKh8r8KDPdUiHVymq6bz0DmjWcb8K7OlODNSUMxjcU3n+miDn0fTwNMxap6p1F9nPAax3F87EmBZxuR9TduzhnWpgXzJBrvupNTGfp1c4/Xvi8qiyqFD6fK3GkU6PXTuJzgeT5LTCMGC/xo2BdK66FfMQhtoFvwyvpKTioW9rVBIoXQAK4v94c1uT5Vhl+ptP2FMHep4txO/yrwTcP1y5TM24v9KDQcU8F3qaw23eFusvPVuf2TmvE+wHH7NVz0aIfw98O7gvXk0A0jluleDpREKiVkTmU92qcm2gb5s3625U7LfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N+eJdbDZvPnl0DpiS7hlN3y9O4vRWrwBSKkio5zsC4w=;
- b=cF29n1UvOdLqMge5q1k+tSkh4R2kpbb3zWAmRGdZsN2K85LGogxYS4vjsMr2dHDnahK68TdBZVlBA4cW5nTRilYoucAl8BIW6E+vpJ7bodsSjvCDg9DQOjPTcEypYJYRvYr+lo7+GXoPtit0n42njAbmZ0jR2iO6x6L7NFAcwcc=
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
- by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Mon, 23 Aug
- 2021 17:12:10 +0000
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a95f:bc47:e21e:adac]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a95f:bc47:e21e:adac%9]) with mapi id 15.20.4436.022; Mon, 23 Aug 2021
- 17:12:10 +0000
+ dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 17NHIA84012833
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Aug 2021 19:18:10 +0200
+Received: from dev.vm6.ccp.siemens.com ([144.145.220.58])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 17NHI9gA031259;
+	Mon, 23 Aug 2021 19:18:10 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 92F40950A87;
+	Mon, 23 Aug 2021 19:18:09 +0200 (CEST)
 From: "Andrej Valek" <andrej.valek@siemens.com>
-To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] vim: add option to disable NLS support
-Thread-Topic: [OE-core][PATCH] vim: add option to disable NLS support
-Thread-Index: AQHXmDmyq6OWCTGY0EC5q1c7gKrRnKuBUePw
-Date: Mon, 23 Aug 2021 17:12:10 +0000
-Message-ID: 
- <DB8PR10MB3977E6C2E704FF73707CA62492C49@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-References: <20210823101205.29267-1-andrej.valek@siemens.com>
- <ce3005b3-6213-9528-2c82-c4f612f3b549@gmail.com>
-In-Reply-To: <ce3005b3-6213-9528-2c82-c4f612f3b549@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2021-08-23T17:12:08Z;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=f5d097d2-7642-4be6-8f45-c7ba11aa6c8a;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 980fd5ad-4ee2-4381-eda1-08d96659249d
-x-ms-traffictypediagnostic: DB8PR10MB3977:
-x-microsoft-antispam-prvs: 
- <DB8PR10MB3977E4DD9CBB235C26A8C50F92C49@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:1186;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- jeImtVvrB94wuVfRZqcdgoHCRTiEOGdhPzPg/Ey46aDPw0ZhrXfevzVGcam4VgnX9mPTktJGjHjoIkN5q0kfxfRypcXTjmpLH6C3YRqwtjd22+tL2wf1gXPEsb6z/gqUVcyF6OzOQG6GiaZO3//y5f6r4JJNmzqwtmKASP+056ew5Bjh7FD2hWBHyJ0NF5uMBxTMeGh7+1ob/o8zbe3djVZ7nx/XZbAv1mrn/4GG4fP9kQWIywNEvwaLR6sqPums+N5Bpr58NmmXy3b4TIXEmA86X7jjjRuLg/ONIZ1mKNaWptXY2p7s3pwGNnmvKorXy338/CGMtZBDsvxarpIpKjDR6gV672/pbSJcisnOcgZi8NkEoe2NAbLyMwBeprchuctR124e/0+vIscqLT6ulpbtjU3vSUe9JbX+1jg+vYOi7a71HnqM6P+9YTs1h/6/8Og2OZBKhzkVZGdSBndePU3PMZmRSSt0f70kI93SiUYl6vOmhBU22rsJB/eG5eGfA6TjNoxFNGWJ57YONuyzbWrzTinrqnGb+cZUQvPuQuacz+vcBPpW9ABkig7l2ZThKkmvCnmY6JobAQFdOwvjJu13E3UoDj4c3cU1U7ntYBjpEXZiGguD0PO7Seethblf4bcwDeguFdtGPLTdWbMkcgxa5OLtWointDdWKZBV2BHVCz1OT+GMdVEutpCP//K1fPUuSiOn/G9+6m3jVYh7rA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(39860400002)(366004)(346002)(396003)(2906002)(38100700002)(186003)(76116006)(52536014)(38070700005)(7696005)(86362001)(9686003)(316002)(8676002)(55016002)(110136005)(83380400001)(8936002)(66946007)(6506007)(478600001)(66446008)(64756008)(66556008)(66476007)(26005)(5660300002)(71200400001)(53546011)(122000001)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?DcAoEuJaN6XkKCv3KxY2Y5UEf+kQGaOkiubmvHfMOopmMyt2Ae/VEucB6IbS?=
- =?us-ascii?Q?WY/8wxWVOjIhHAshhC9xCQbPdkaCMOjbJoYR0r2CYTsKTZkAJxC7/TXTdBOP?=
- =?us-ascii?Q?dVGZWJmCNq3mMZb0aHHNd3bqmopeiDUt0CsUapAfMNFjw30ppvGPmquqyuFE?=
- =?us-ascii?Q?Jh2MfzNnQPedUPKXro1ClzyjWo+pEAUIUQJJ5zzN/5yIChFiKLnxp2eApaVZ?=
- =?us-ascii?Q?2Yz9qRD+naCYoKF5luGvx83lY+LIgdq/aIWte7m0lz+r8vjlKj/pBwtH9NMY?=
- =?us-ascii?Q?Vsa8pw+FSch7YwiEypIG9JUGoRa185/jXbo87zUEq2izA2np0YDc/hx7TxtL?=
- =?us-ascii?Q?MF8rE1KWcYwaWpTxbhrkHVjnyxWhy6zZIytIoCssCWwiL22TQGXF0yf50mGa?=
- =?us-ascii?Q?SO9tRc4cwt5NswMFR9VhLHGXsdPVhpsZlEJNFR8NvfRKHVXDGAdv1uzr9GNq?=
- =?us-ascii?Q?ApjBoUA96qqe3zQ6a4cgkBAJYplwVoUaHMPa+LI98TpbPH97UOmdVsHu4wR3?=
- =?us-ascii?Q?RKVhKxfPuKq5OVOgEZUp4oGo672itIpidk1dEOYRa52J4JYixCDXZimNU0B+?=
- =?us-ascii?Q?vFKW2kyc2KTmV2ihWfcdJzNWt9tExgAZ3jlStzBPe+6YA/+p5CpfPI8r2LMN?=
- =?us-ascii?Q?PCtdG+3wx03UPtygiKl6H3/oNpAvLQHNhKfFo8pLqj9YOnSIBGVtlwJjNdMy?=
- =?us-ascii?Q?v2PUBVGS10EmVJFz1NKYMq4OquwzydrD5U4qq3uqwYZTQJlSusyAI2PjXAbu?=
- =?us-ascii?Q?7PFpyHKV4EEdL7Dh13csjagt4Hz8OzolD4MLdmL08PoLmZATlJvmDLuMD3VT?=
- =?us-ascii?Q?oqa062zrTrdyf9bfKHHRxwZhVDCe9PRwj6X0b9H57J2QTkOjHPh7dobMZF6m?=
- =?us-ascii?Q?v49TZMHu0awecs88mY10lzJJrgP6rcEs880Z8zjHHwsimBrBlI0rBjvb11jQ?=
- =?us-ascii?Q?al5rZKTSDBbcht/BAV0UyOX4aH/dXPN8hlxSvYpPDCOuQYFS5PKbU9OTWf1V?=
- =?us-ascii?Q?+QbGbBZcC0HvdYaoq/lLqz9+FybLEE3chOm5m9ua8sTY+YClBYLCAy1HNU/2?=
- =?us-ascii?Q?uLIMr6EupI5+Gcj69ENnGYWZUmFsgwVb3PAftPcYByJLOUBUfXoWC9AfjqJ/?=
- =?us-ascii?Q?ZkYyYLxkUrM5YQmXF3Dw8QshmNToTyeHvx5LD/Vab0NcXrwMjn7J70i7Qf6I?=
- =?us-ascii?Q?Y7SWiyKkEuG7TmwSUhxnVr1dyO1O++bOMPjvBXv3bb+yTcDlBV42F//t6BGU?=
- =?us-ascii?Q?Dubkg//zyN+LPx4M3tixF3R+aBcM+Q+J1IoS6oujkLtkgT82TpRUulbdD0r/?=
- =?us-ascii?Q?fQZSRVlEn7F0MO1DGPJ/xhkb?=
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 980fd5ad-4ee2-4381-eda1-08d96659249d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2021 17:12:10.1211
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wuJz6Mayqltjn1dvGVp+i6TuQP9MC5MNtlxFkAs8pShoa/R50TumOykR0AstzcSjzrp64KgIMPC6oEU29FIo2+VzkIvPh2dSZSdhqYPpHE0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3977
-Content-Class: 
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: sakoman@gmail.com, Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][dunfell][PATCH v2] mklibs-native: drop deprecated cpp17 exceptions
+Date: Mon, 23 Aug 2021 19:17:20 +0200
+Message-Id: <20210823171720.3313-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20210823105648.31311-1-andrej.valek@siemens.com>
+References: <20210823105648.31311-1-andrej.valek@siemens.com>
 
-Hello Khem,
+gcc11 has -std=gnu++17 as default. Remove deprecated C++17 exceptions based
+on http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html.
 
-I looked exactly into configure.ac which arguments are expecting for those =
-options. So I think, it has to be mentioned explicitly.=20
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ ...-deprecated-exception-specification-cpp17.patch | 431 +++++++++++++++++++++
+ .../mklibs/mklibs-native_0.1.44.bb                 |   1 +
+ 2 files changed, 432 insertions(+)
+ create mode 100644 meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
 
-Regards,
-Andrej
+diff --git a/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+new file mode 100644
+index 0000000000..f96cc7d302
+--- /dev/null
++++ b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+@@ -0,0 +1,431 @@
++From 597c7a8333df84a87cc48fb8477b603ffbf372a6 Mon Sep 17 00:00:00 2001
++From: Andrej Valek <andrej.valek@siemens.com>
++Date: Mon, 23 Aug 2021 12:45:11 +0200
++Subject: [PATCH] feat(cpp17): remove deprecated exception specifications for
++ C++ 17
++
++Upstream-Status: Submitted [https://salsa.debian.org/installer-team/mklibs/-/merge_requests/2]
++
++based on: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
++
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++---
++ src/mklibs-readelf/elf.cpp      | 48 ++++++++++++++++++++---------------------
++ src/mklibs-readelf/elf.hpp      | 18 ++++++++--------
++ src/mklibs-readelf/elf_data.hpp | 36 +++++++++++++++----------------
++ 3 files changed, 51 insertions(+), 51 deletions(-)
++
++diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
++index 0e4c0f3..2e6d0f6 100644
++--- a/src/mklibs-readelf/elf.cpp
+++++ b/src/mklibs-readelf/elf.cpp
++@@ -36,7 +36,7 @@ file::~file () throw ()
++     delete *it;
++ }
++ 
++-file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_error)
+++file *file::open (const char *filename) throw ()
++ {
++   struct stat buf;
++   int fd;
++@@ -72,7 +72,7 @@ file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_erro
++ }
++ 
++ template<typename _class>
++-file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+++file *file::open_class(uint8_t *mem, size_t len) throw ()
++ {
++   switch (mem[EI_DATA])
++   {
++@@ -86,7 +86,7 @@ file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::run
++ }
++ 
++ template <typename _class, typename _data>
++-file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
+++file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw ()
++ : file(mem, len)
++ {
++   if (mem[EI_CLASS] != _class::id)
++@@ -190,7 +190,7 @@ section_data<_class, _data>::section_data(Shdr *shdr, uint8_t *mem) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-void section_data<_class, _data>::update(const file &file) throw (std::bad_alloc)
+++void section_data<_class, _data>::update(const file &file) throw ()
++ {
++   const section_type<section_type_STRTAB> &section =
++     dynamic_cast<const section_type<section_type_STRTAB> &>(file.get_section(file.get_shstrndx()));
++@@ -204,7 +204,7 @@ section_type<section_type_DYNAMIC>::~section_type() throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data>(header, mem)
++ {
++   if (this->type != SHT_DYNAMIC)
++@@ -221,7 +221,7 @@ section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, ui
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update(file);
++ 
++@@ -243,7 +243,7 @@ section_type<section_type_DYNSYM>::~section_type() throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data>(header, mem)
++ {
++   if (this->type != SHT_DYNSYM)
++@@ -260,7 +260,7 @@ section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uin
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update (file);
++ 
++@@ -285,7 +285,7 @@ const version_definition *section_type<section_type_GNU_VERDEF>::get_version_def
++ }
++ 
++ template <typename _class, typename _data>
++-section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data>(header, mem)
++ {
++   if (this->type != SHT_GNU_verdef)
++@@ -307,7 +307,7 @@ section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header,
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update(file);
++ 
++@@ -333,7 +333,7 @@ const version_requirement_entry *section_type<section_type_GNU_VERNEED>::get_ver
++ 
++ template <typename _class, typename _data>
++ section_real<_class, _data, section_type_GNU_VERNEED>::
++-section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real(Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data> (header, mem)
++ {
++   if (this->type != SHT_GNU_verneed)
++@@ -355,7 +355,7 @@ section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
++ }
++ 
++ template <typename _class, typename _data>
++-void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw (std::bad_alloc)
+++void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw ()
++ {
++   section_data<_class, _data>::update(file);
++ 
++@@ -372,7 +372,7 @@ void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &f
++ 
++ template <typename _class, typename _data>
++ section_real<_class, _data, section_type_GNU_VERSYM>::
++-section_real (Shdr *header, uint8_t *mem) throw (std::bad_alloc)
+++section_real (Shdr *header, uint8_t *mem) throw ()
++ : section_data<_class, _data> (header, mem)
++ {
++   if (this->type != SHT_GNU_versym)
++@@ -399,7 +399,7 @@ segment_data<_class, _data>::segment_data (Phdr *phdr, uint8_t *mem) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw (std::bad_alloc)
+++segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw ()
++ : segment_data<_class, _data> (header, mem)
++ {
++   if (this->type != PT_INTERP)
++@@ -429,13 +429,13 @@ dynamic_data<_class, _data>::dynamic_data (Dyn *dyn) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   if (is_string)
++     val_string = section.get_string(val);
++ }
++ 
++-std::string symbol::get_version () const throw (std::bad_alloc)
+++std::string symbol::get_version () const throw ()
++ {
++   if (verneed)
++     return verneed->get_name();
++@@ -445,7 +445,7 @@ std::string symbol::get_version () const throw (std::bad_alloc)
++   return "Base";
++ }
++ 
++-std::string symbol::get_version_file () const throw (std::bad_alloc)
+++std::string symbol::get_version_file () const throw ()
++ {
++   if (verneed)
++     return verneed->get_file();
++@@ -453,7 +453,7 @@ std::string symbol::get_version_file () const throw (std::bad_alloc)
++   return "None";
++ }
++ 
++-std::string symbol::get_name_version () const throw (std::bad_alloc)
+++std::string symbol::get_name_version () const throw ()
++ {
++   std::string ver;
++ 
++@@ -478,13 +478,13 @@ symbol_data<_class, _data>::symbol_data (Sym *sym) throw ()
++ }
++ 
++ template <typename _class, typename _data>
++-void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   name_string = section.get_string(name);
++ }
++ 
++ template <typename _class, typename _data>
++-void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw (std::bad_alloc)
+++void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw ()
++ {
++   if (!file.get_section_GNU_VERSYM())
++     return;
++@@ -531,13 +531,13 @@ version_definition_data<_class, _data>::version_definition_data (Verdef *verdef)
++ }
++ 
++ template <typename _class, typename _data>
++-void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   for (std::vector<uint32_t>::iterator it = names.begin(); it != names.end(); ++it)
++     names_string.push_back(section.get_string(*it));
++ }
++ 
++-version_requirement::version_requirement() throw (std::bad_alloc)
+++version_requirement::version_requirement() throw ()
++ : file_string("None")
++ { }
++ 
++@@ -561,7 +561,7 @@ version_requirement_data<_class, _data>::version_requirement_data (Verneed *vern
++ 
++ template <typename _class, typename _data>
++ void version_requirement_data<_class, _data>::
++-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   file_string = section.get_string(file);
++ 
++@@ -596,7 +596,7 @@ version_requirement_entry_data(Vernaux *vna, const version_requirement &verneed)
++ 
++ template <typename _class, typename _data>
++ void version_requirement_entry_data<_class, _data>::
++-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
+++update_string(const section_type<section_type_STRTAB> &section) throw ()
++ {
++   name_string = section.get_string(name);
++ }
++diff --git a/src/mklibs-readelf/elf.hpp b/src/mklibs-readelf/elf.hpp
++index 70e61cd..afb0c9e 100644
++--- a/src/mklibs-readelf/elf.hpp
+++++ b/src/mklibs-readelf/elf.hpp
++@@ -49,7 +49,7 @@ namespace Elf
++       const uint16_t get_shstrndx() const throw () { return shstrndx; }
++ 
++       const std::vector<section *> get_sections() const throw () { return sections; };
++-      const section &get_section(unsigned int i) const throw (std::out_of_range) { return *sections.at(i); };
+++      const section &get_section(unsigned int i) const throw () { return *sections.at(i); };
++       const section_type<section_type_DYNAMIC> *get_section_DYNAMIC() const throw () { return section_DYNAMIC; };
++       const section_type<section_type_DYNSYM> *get_section_DYNSYM() const throw () { return section_DYNSYM; };
++       const section_type<section_type_GNU_VERDEF> *get_section_GNU_VERDEF() const throw () { return section_GNU_VERDEF; };
++@@ -59,13 +59,13 @@ namespace Elf
++       const std::vector<segment *> get_segments() const throw () { return segments; };
++       const segment_type<segment_type_INTERP> *get_segment_INTERP() const throw () { return segment_INTERP; };
++ 
++-      static file *open(const char *filename) throw (std::bad_alloc, std::runtime_error);
+++      static file *open(const char *filename) throw ();
++ 
++     protected:
++-      file(uint8_t *mem, size_t len) throw (std::bad_alloc) : mem(mem), len(len) { }
+++      file(uint8_t *mem, size_t len) throw () : mem(mem), len(len) { }
++ 
++       template<typename _class>
++-        static file *open_class(uint8_t *, size_t) throw (std::bad_alloc, std::runtime_error);
+++        static file *open_class(uint8_t *, size_t) throw ();
++ 
++       uint16_t type;
++       uint16_t machine;
++@@ -128,7 +128,7 @@ namespace Elf
++     class section_type<section_type_STRTAB> : public virtual section
++     {
++       public:
++-        std::string get_string(uint32_t offset) const throw (std::bad_alloc)
+++        std::string get_string(uint32_t offset) const throw ()
++         {
++           return std::string(reinterpret_cast<const char *> (mem + offset));
++         }
++@@ -263,10 +263,10 @@ namespace Elf
++       uint8_t get_bind () const throw () { return bind; }
++       uint8_t get_type () const throw () { return type; }
++       const std::string &get_name_string() const throw () { return name_string; }
++-      std::string get_version() const throw (std::bad_alloc);
++-      std::string get_version_file() const throw (std::bad_alloc);
+++      std::string get_version() const throw ();
+++      std::string get_version_file() const throw ();
++       uint16_t get_version_data() const throw () { return versym; }
++-      std::string get_name_version() const throw (std::bad_alloc);
+++      std::string get_name_version() const throw ();
++ 
++     protected:
++       uint32_t name;
++@@ -305,7 +305,7 @@ namespace Elf
++   class version_requirement
++   {
++     public:
++-      version_requirement() throw (std::bad_alloc);
+++      version_requirement() throw ();
++       virtual ~version_requirement () throw () { }
++ 
++       const std::string &get_file() const throw () { return file_string; }
++diff --git a/src/mklibs-readelf/elf_data.hpp b/src/mklibs-readelf/elf_data.hpp
++index 05effee..3871982 100644
++--- a/src/mklibs-readelf/elf_data.hpp
+++++ b/src/mklibs-readelf/elf_data.hpp
++@@ -94,7 +94,7 @@ namespace Elf
++     class file_data : public file
++     {
++       public:
++-        file_data(uint8_t *, size_t len) throw (std::bad_alloc, std::runtime_error);
+++        file_data(uint8_t *, size_t len) throw ();
++ 
++         const uint8_t get_class() const throw () { return _class::id; }
++         const uint8_t get_data() const throw () { return _data::id; }
++@@ -109,7 +109,7 @@ namespace Elf
++       public:
++         section_data(Shdr *, uint8_t *) throw ();
++ 
++-        virtual void update(const file &) throw (std::bad_alloc);
+++        virtual void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data, typename _type>
++@@ -133,9 +133,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -147,9 +147,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -161,9 +161,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -175,9 +175,9 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++ 
++-        void update(const file &) throw (std::bad_alloc);
+++        void update(const file &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -189,7 +189,7 @@ namespace Elf
++         typedef typename _elfdef<_class>::Shdr Shdr;
++ 
++       public:
++-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
+++        section_real(Shdr *, uint8_t *) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -220,7 +220,7 @@ namespace Elf
++         typedef typename _elfdef<_class>::Phdr Phdr;
++ 
++       public:
++-        segment_real (Phdr *, uint8_t *) throw (std::bad_alloc);
+++        segment_real (Phdr *, uint8_t *) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -232,7 +232,7 @@ namespace Elf
++       public:
++         dynamic_data (Dyn *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -244,8 +244,8 @@ namespace Elf
++       public:
++         symbol_data (Sym *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
++-        virtual void update_version (const file &, uint16_t) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
+++        virtual void update_version (const file &, uint16_t) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -257,7 +257,7 @@ namespace Elf
++ 
++         version_definition_data (Verdef *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -269,7 +269,7 @@ namespace Elf
++ 
++         version_requirement_data (Verneed *) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ 
++   template <typename _class, typename _data>
++@@ -280,7 +280,7 @@ namespace Elf
++ 
++         version_requirement_entry_data (Vernaux *, const version_requirement &) throw ();
++ 
++-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
+++        void update_string(const section_type<section_type_STRTAB> &) throw ();
++     };
++ }
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+index 1784af1f4c..07142e57e0 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/
+ 	file://avoid-failure-on-symbol-provided-by-application.patch \
+ 	file://show-GNU-unique-symbols-as-provided-symbols.patch \
+ 	file://fix_cross_compile.patch \
++	file://remove-deprecated-exception-specification-cpp17.patch \
+ "
+ 
+ SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
+-- 
+2.11.0
 
-> On 8/23/21 3:12 AM, Andrej Valek wrote:
->> - Some distributions with UTF-8 locale have problem when National Langua=
-ge
->>   Support is enabled. Add there an option to disable it.
->> - refresh options based on configure.ac
->>=20
->> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
->> ---
->>   meta/recipes-support/vim/vim.inc | 8 +++++---
->>   1 file changed, 5 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/meta/recipes-support/vim/vim.inc=20
->> b/meta/recipes-support/vim/vim.inc
->> index 17d1c24a7c..7cc47884f2 100644
->> --- a/meta/recipes-support/vim/vim.inc
->> +++ b/meta/recipes-support/vim/vim.inc
->> @@ -54,19 +54,21 @@ do_compile() {
->>       autotools_do_compile
->>   }
->>  =20
->> -#Available PACKAGECONFIG options are gtkgui, acl, x11, tiny
->> +#Available PACKAGECONFIG options are gtkgui, acl, x11, tiny, selinux,=20
->> +elfutils, nls
->>   PACKAGECONFIG ??=3D ""
->>   PACKAGECONFIG +=3D " \
->>       ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
->>       ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '',=20
->> d)} \
->> +    nls \
->>   "
->>  =20
->>   PACKAGECONFIG[gtkgui] =3D "--enable-gui=3Dgtk3,--enable-gui=3Dno,gtk+3=
-"
->> -PACKAGECONFIG[acl] =3D "--enable-acl,--disable-acl,acl,"
->> +PACKAGECONFIG[acl] =3D "enable_acl=3D"yes",--disable-acl,acl,"
->
->is 'yes' needed to be explicit ? I thought --enable-XYZ meant it implicitl=
-y
->
->>   PACKAGECONFIG[x11] =3D "--with-x,--without-x,xt,"
->>   PACKAGECONFIG[tiny] =3D "--with-features=3Dtiny,--with-features=3Dbig,=
-,"
->> -PACKAGECONFIG[selinux] =3D "--enable-selinux,--disable-selinux,libselin=
-ux,"
->> +PACKAGECONFIG[selinux] =3D "enable_selinux=3D"yes",--disable-selinux,li=
-bselinux,"
->>   PACKAGECONFIG[elfutils] =3D "--enable-elf-check,,elfutils,"
->> +PACKAGECONFIG[nls] =3D "enable_nls=3D"yes",--disable-nls,,"
->>  =20
->>   EXTRA_OECONF =3D " \
->>       --disable-gpm \
