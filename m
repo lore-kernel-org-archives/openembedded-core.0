@@ -1,263 +1,323 @@
-Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.82])
- by mx.groups.io with SMTP id smtpd.web12.27865.1629742368994517337
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web08.27955.1629743064103468165
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 11:12:49 -0700
+ Mon, 23 Aug 2021 11:24:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=ozmWp0Dt;
- spf=pass (domain: kpit.com, ip: 40.107.139.82, mailfrom: ranjitsinh.rathod@kpit.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dtaeH0sGQnLYdXfyQiDCSz2cE9rBjpZ+A62CitPZghWVLKP7niSceSJCXs2vPveQ3n11YBjyvjbvYMGZw15PjU+CBZrtdzD+pfLT3X7Lr2wRsg0ucqGAT8H7DaYRxFzt77AxaELO2SO9JU8JggcxwzNMHlkOIk2fEDgeL3vtacAT4O+B4em5sFFcnGXUYAawjDuLZhNnUzDpwiQfni9eY3kB2H+mZLLrTPU1MALjJhUMllATcucJFueiXTFnapLlFoDrMtUnpa1w86CbbGwPnGho3Q/TRiKUk+eI2KR8iHDadcqsT4ZYWNtZPAWzsAz/cZgWh+pYM7GX4EosIDmXeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PAVOdCuRQLyVBmpfysbYaJcYrSZhqLEde8E2qMcYe8o=;
- b=HswfzQ8ERcTSKxLxmeUPHxAPU+SBiRukajRzLmTRdNN5WATx8c9tS8Q9Ttl4reqsmVb3O31JQAafxo5NfRgHiJOCrcg2AE+sWHhCa0+cXV2i59rAM2jamID7mb08cUkbqzEHCNDnB885MgM44x49dkPa8tnXh+CE1NVscUSZhS+kZDzNwnU2m0H9HlqonIPlOYzsi5W2frfQk/4/JzcDjyK0LHBPjNW+kMVsv8VeDuzRHUgyO1GsSHVqSafcw7yb6Tc2gBLVfzvjIRJOvBH7sQgHOj1wC4rPqDhOBXKLhZ+HPb1/tFrlxS+82u2ZeujE8W30Q1nQ/ghh/EdnBr2IKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PAVOdCuRQLyVBmpfysbYaJcYrSZhqLEde8E2qMcYe8o=;
- b=ozmWp0DtDYAp5xsKmj+HiKpBqtuGgGz6hAVNzkQ5Ms1MFtrbST90+5Mw7LYyQXocLFLU9k1T+bck1YR9EsO/5DhLTJ6J4VlyGUCXZHIPfCiVDLjMhc8LAz9+wZxMkz3qD1T4Bhhec2InN0w55AkTWWBxlsj5pw/mfvTrMKqDKPs=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=kpit.com;
-Received: from PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:39::7)
- by PN2PR01MB5078.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:40::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.21; Mon, 23 Aug
- 2021 18:12:41 +0000
-Received: from PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::80d4:55b6:bb63:f809]) by PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::80d4:55b6:bb63:f809%5]) with mapi id 15.20.4436.025; Mon, 23 Aug 2021
- 18:12:41 +0000
-From: "Ranjitsinh Rathod" <ranjitsinh.rathod@kpit.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [meta][dunfell][PATCH] rpm: Add fix for CVE-2021-20266
-Date: Mon, 23 Aug 2021 23:42:26 +0530
-Message-Id: <20210823181226.3259-1-ranjitsinh.rathod@kpit.com>
-X-Mailer: git-send-email 2.17.1
-X-ClientProxiedBy: PN1PR01CA0113.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00::29)
- To PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:39::7)
-Return-Path: ranjitsinh.rathod@kpit.com
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=GjmgeiY1;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
+Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 631E3805DF;
+	Mon, 23 Aug 2021 20:24:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1629743061;
+	bh=ptZVJonrJWjBmz0W8ebu0W0NArHFaDPHi3niT+QN9zU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GjmgeiY1M1LaMhCqrf+65JDfokAY8v2YF1jbweAlNp7/MK6PhsLNHVr5/SJoJQgD2
+	 TPy9qc/Px8NvLguAseJdc1eACVLI0y2+aqPp8TT8XC+6rOis4PB1SNbzY2UmHnzFYY
+	 5qPbPC7MABgWhjTTBQGbNAvQc+MWJ43hraE9q3pttai9/UhS+G5GGyiC1Khf4sdIAZ
+	 4/PddKI7p/sFaYRqfMJBM51Lr+jtreJQa17JvwABtM42IM5N6Vf2VwdA0hq1SiF07P
+	 CSOVaBn1MJZb2LOY9r5A9H0Fz9G4Onm/28Z+emL07IUd1skJBgcYm0a1imTO5iLG90
+	 EVn9rN3mgNayA==
+Date: Mon, 23 Aug 2021 20:24:14 +0200
+From: "?ukasz Majewski" <lukma@denx.de>
+To: "Khem Raj" <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/2] glibc: ptest: Add support for running glibc test suite with ptest
+Message-ID: <20210823202414.731c6749@ktm>
+In-Reply-To: <ada9987d-399b-7a73-2aa5-c09dcca41fb3@gmail.com>
+References: <20210823150853.2817-1-lukma@denx.de>
+	<20210823150853.2817-2-lukma@denx.de>
+	<ada9987d-399b-7a73-2aa5-c09dcca41fb3@gmail.com>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (103.85.11.25) by PN1PR01CA0113.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 18:12:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 70a9f54e-69f2-4a4a-5036-08d966619896
-X-MS-TrafficTypeDiagnostic: PN2PR01MB5078:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<PN2PR01MB5078BFDEEAFE6E9B5DA0D3CC8FC49@PN2PR01MB5078.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:65;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	uNe471zEswTzgO+UGjtKjq3uBd+kNWC8xy6KvH13c/htrFuXOnMLfJZLbnFrfQU73CMUjj2KqHiJzgPQN44vbipzmIkB5REKcpaXGAo3EsFmi5Eyzql8t1O/prxERu+dSku6RF8pu7eVt4tFNy0Z2vwvmjl+cpL1AMtH3PRq+B95VV4gIjadtOQDCHj9Q78pByd5y8FNGS3F9EHa5eYGCuWZnxbNM27VBILFZwyo/OKsEXDUpzqRU0emxdkC8JVnxWdb2Kqwe7ZlH4b5dZ6LUzU5fLOuKggz0pif4AO7ZKMV8oT4bhuFYkBxzHKbDjwVJNR9/Hva/UzVmzBFmYGD3s4Egq2HKCZNc1sehHqER1ja+AiLiUwDf0pmlmnhGvG3yb5VWqW9yKzwsFVSmgC085bFzCAS0fhdKwx3NNMN09S1XSVcD8a5m8xt5apzq2NMq3tK62FgU5BrWkp0+KmLEBj+1/tRP3b7Pu38gyW63lzV5YUkJFeswBbIfTpZ6Bt+xnCnM7LGnDk1ujh+uzoIcrOLQ3xqpHorsQ4txbRr0jGwiH+TZvGeKJ89dLknH/ZqF1tiK6h9UeQrams5FsBlsQ9sLaUDVHFD08gGdO+BCdCegAnbUs8RcUdk3AgKkQA5/jgME/3jdIpK9sjvBh6Oc5vUrjY9oD85GwpHSs0ttKAkUhDnJrNu7CH41wXZCDVX0x+H6jzcMYWiqbRf66FX4Kzta6EqWzw8itF6PN2jiZkx2IaMZO5w+DlPaJrK9s5+Dtd7DUzDlHE989gccRcVUUQZlGv77jhbBVaUx4hmKHE=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(1076003)(2616005)(26005)(2906002)(6506007)(316002)(6916009)(956004)(44832011)(52116002)(6512007)(86362001)(66946007)(6666004)(66556008)(66476007)(186003)(8936002)(508600001)(5660300002)(8676002)(38100700002)(36756003)(38350700002)(66574015)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?oAeEsmCGYxGgEH776ljq8qTIYnp2ohzauu/LwCdrJl9PF0wh6Cjj/DT3xfSd?=
- =?us-ascii?Q?vRnl9fH6FDIcm9Ii1q6Y8u3trfreG/J0bAmZaVkNna1zmmWVBHPFUtHw9RtA?=
- =?us-ascii?Q?WiD6po+yZnPtLPeDMnEGZYdYsjJTZgpxLDLi//ieBY1cD4J5H0Yh9H+CslVQ?=
- =?us-ascii?Q?EhfohcOMInAp/O65asum+Wa2KNc8dFDNbvJEVWQ0cduex8rZxKpKnnAQiuld?=
- =?us-ascii?Q?XFGoAKQ37jUpPHs1uls01Sf06B2O/W/NwooZQKy8Z+a4zLtvfTKzboXjLOjz?=
- =?us-ascii?Q?uXFoO/3C0+Uj3JU5t48130V5IDRNPbd480V6gEmspDpzyOTh4VvHxlcDH7Yp?=
- =?us-ascii?Q?8v/RRxgrbdL56Xj7zOKO4Zu7iNF3bKWbU6s/zqIu5dQqqVscCbrp7ZkK6rao?=
- =?us-ascii?Q?PeXJIyXN6wB4Rvb9cPUSlVYLHFn5oOdXZr9Cd60NUGrtwj3439LO1tmqsA+T?=
- =?us-ascii?Q?c1Dfena3bDr9sj7mCDm4aHAJnzXnfCL75owLW7KSx8YOwyF82FYgk4t2UCG2?=
- =?us-ascii?Q?+LONIPe3EmmJTvcPNV1e3jgvWJk6d4/vHwf0EVb19TUA5ytpXRnWhE6hvMbF?=
- =?us-ascii?Q?ubRRaWFwYOA6rFuhlwPB4yMEXmZ+2yjuaVCksprDaG3qWQEUu7KiYef07rfH?=
- =?us-ascii?Q?TErBIUYZgEXGY7//FdXlPubPnvRFc+RuYgArjia4J1vLtmhzTiyLiU96SRf+?=
- =?us-ascii?Q?h+StlqY5yxmYxdA2EWsNesealgh+K9V5BsL9gG0dcz3AHT07wPOiMLQxgh90?=
- =?us-ascii?Q?Ef5Qgec6fM0Hx8K+oVQi8+6ZMUYGIHADxJ451QwbHT1Bfk8/Ycq4tIV6UCSN?=
- =?us-ascii?Q?NyH5r52R1CvRhUnlAsFR+C/3jy1pEnyXr20NxLq0L368/pP8TBgQcCBnlsmX?=
- =?us-ascii?Q?G7HLdJgDYGYJ3LBClWtDUyAnE7KmpDqdnhn3u4OuO5zbT9JhuLQR/qWEKv9h?=
- =?us-ascii?Q?xB21K5qNrInN7wcFeu6erL8FflrRlktdU78ieaBOZ1gw4okMH92rkTBX2Mwo?=
- =?us-ascii?Q?+1lMdVPwFjG1EFBD6XW+gvpyjHCh9j0Jt40dYDbXajA0eRxL+EhV4wqPRIbo?=
- =?us-ascii?Q?HSjN9IbLi+JXUnoOsY8kY4oIBV2p6UWHHZ+02e5oQtehWACpmhipT6kzsPn8?=
- =?us-ascii?Q?V1iK0wMnSQpM/nWyAT8wEOnDOHF+rp47R6zTfbr/8l7XB3YcZV2baRASDyFK?=
- =?us-ascii?Q?F2c1nKKL5kSSf9n/BT6yTGTBjjZKBmSo8Ckg0e4HY3txSpXhKT45SzVZhYqx?=
- =?us-ascii?Q?9T1uRByDQQtKqTlB/HXZtKXzyc+pgngtm4Dvk9CbzlAD1lm9X/f30z44bbF/?=
- =?us-ascii?Q?YTOWxT3uYdtYfYk9mMwnIZf+?=
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70a9f54e-69f2-4a4a-5036-08d966619896
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 18:12:40.9515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wzEqN432rTG6eP2y6PQ73mBqb7XNdKzen7DQhy9TeQNedxftPjSpZuZiLkHpFz9f/VR7AhlKJ8N5AozvAPqhfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PR01MB5078
-Content-Type: text/plain
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+X-Groupsio-MsgNum: 155188
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/N1WFaPM6AUUx9whbLCZcOvq"; protocol="application/pgp-signature"
+
+--Sig_/N1WFaPM6AUUx9whbLCZcOvq
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Adding fix for CVE-2021-20266
-Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/p=
-ull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
+Hi Khem,
 
-Note: Hunk#2 and Hunk#3 refreshed to apply patch and match value of
-dl_max variable to make it with current version
+> On 8/23/21 8:08 AM, ?ukasz Majewski wrote:
+> > This patch introduces new recipe - namely 'glibc-tests', which
+> > builds and installs glibc test suite to OE/Yocto built image.
+> >=20
+> > It reuses code from already available 'glibc-testsuite' recipe,
+> > which is run with 'bitbake glibc-testsuite -c check' and uses qemu
+> > to execute remotely (via SSH) tests on some emulated machine.
+> >=20
+> > This recipe installs eligible tests on some rootfs image.
+> > Afterwards, either all of them or only time related subset, those
+> > tests can be executed on the real hardware, to facilitate validation
+> > of this platform with for example Y2038 problem compliance.
+> >=20
+> > By default all tests are executed, with 'ptest-runner glibc-tests'.
+> > To test only time related subset - one needs to call:
+> > cd /usr/lib/glibc-tests/ptest/; rm run-ptest; \
+> > ln -s run-ptest-time run-ptest; cd -; ptest-runner glibc-tests
+> >=20
+> > To facilitate debugging, source files are provided by default with
+> > the unstripped debugging symbols. Such approach would reduce the
+> > already complex recipe (as it inherits base glibc one), so there
+> > is no need to also install *-dbg and *-src packages. =20
+>=20
+>=20
+> does it have to be a separate recipe I wonder if we can have it built
+> as part of glibc itself controlled via ptest knob
 
-Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
----
- .../rpm/files/CVE-2021-20266.patch            | 108 ++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
- 2 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
+I've followed the glibc-testsuite recipe to provide tests for ptest.
+Test creation is similar to it, but doesn't require QEMU run (tests are
+executed on the HW).
 
-diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch b/meta/re=
-cipes-devtools/rpm/files/CVE-2021-20266.patch
-new file mode 100644
-index 0000000000..d8b91d4f8e
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
-@@ -0,0 +1,108 @@
-+From 9646711891df851dfbf7ef54cc171574a0914b15 Mon Sep 17 00:00:00 2001
-+From: Demi Marie Obenour <athena@invisiblethingslab.com>
-+Date: Mon, 8 Feb 2021 16:05:01 -0500
-+Subject: [PATCH] hdrblobInit() needs bounds checks too
-+
-+Users can pass untrusted data to hdrblobInit() and it must be robust
-+against this.
-+
-+Backported from commit 8f4b3c3cab8922a2022b9e47c71f1ecf906077ef
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/=
-pull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
-+CVE: CVE-2021-20266
-+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-+---
-+ lib/header.c | 48 +++++++++++++++++++++++++++++++-----------------
-+ 1 file changed, 31 insertions(+), 17 deletions(-)
-+
-+diff --git a/lib/header.c b/lib/header.c
-+index 6af48e61af..46ded5dd99 100644
-+--- a/lib/header.c
-++++ b/lib/header.c
-+@@ -11,6 +11,7 @@
-+ #include "system.h"
-+ #include <netdb.h>
-+ #include <errno.h>
-++#include <inttypes.h>
-+ #include <rpm/rpmtypes.h>
-+ #include <rpm/rpmstring.h>
-+ #include "lib/header_internal.h"
-+@@ -1910,6 +1911,25 @@ hdrblob hdrblobFree(hdrblob blob)
-+     return NULL;
-+ }
-+
-++static rpmRC hdrblobVerifyLengths(rpmTagVal regionTag, uint32_t il, uint3=
-2_t dl,
-++                                char **emsg) {
-++    uint32_t il_max =3D HEADER_TAGS_MAX;
-++    uint32_t dl_max =3D HEADER_DATA_MAX;
-++    if (regionTag =3D=3D RPMTAG_HEADERSIGNATURES) {
-++      il_max =3D 32;
-++      dl_max =3D 8192;
-++    }
-++    if (hdrchkRange(il_max, il)) {
-++      rasprintf(emsg, _("hdr tags: BAD, no. of tags(%" PRIu32 ") out of r=
-ange"), il);
-++      return RPMRC_FAIL;
-++    }
-++    if (hdrchkRange(dl_max, dl)) {
-++      rasprintf(emsg, _("hdr data: BAD, no. of bytes(%" PRIu32 ") out of =
-range"), dl);
-++      return RPMRC_FAIL;
-++    }
-++    return RPMRC_OK;
-++}
-++
-+ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag=
-, hdrblob blob, char **emsg)
-+ {
-+     int32_t block[4];
-+@@ -1922,13 +1942,6 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_siz=
-e, rpmTagVal regionTag, hdrbl
-+     size_t nb;
-+     rpmRC rc =3D RPMRC_FAIL;            /* assume failure */
-+     int xx;
-+-    int32_t il_max =3D HEADER_TAGS_MAX;
-+-    int32_t dl_max =3D HEADER_DATA_MAX;
-+-
-+-    if (regionTag =3D=3D RPMTAG_HEADERSIGNATURES) {
-+-      il_max =3D 32;
-+-      dl_max =3D 8192;
-+-    }
-+
-+     memset(block, 0, sizeof(block));
-+     if ((xx =3D Freadall(fd, bs, blen)) !=3D blen) {
-+@@ -1941,15 +1954,9 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_siz=
-e, rpmTagVal regionTag, hdrbl
-+       goto exit;
-+     }
-+     il =3D ntohl(block[2]);
-+-    if (hdrchkRange(il_max, il)) {
-+-      rasprintf(emsg, _("hdr tags: BAD, no. of tags(%d) out of range"), i=
-l);
-+-      goto exit;
-+-    }
-+     dl =3D ntohl(block[3]);
-+-    if (hdrchkRange(dl_max, dl)) {
-+-      rasprintf(emsg, _("hdr data: BAD, no. of bytes(%d) out of range"), =
-dl);
-++    if (hdrblobVerifyLengths(regionTag, il, dl, emsg))
-+       goto exit;
-+-    }
-+
-+     nb =3D (il * sizeof(struct entryInfo_s)) + dl;
-+     uc =3D sizeof(il) + sizeof(dl) + nb;
-+@@ -1993,11 +2000,18 @@ rpmRC hdrblobInit(const void *uh, size_t uc,
-+               struct hdrblob_s *blob, char **emsg)
-+ {
-+     rpmRC rc =3D RPMRC_FAIL;
-+-
-+     memset(blob, 0, sizeof(*blob));
-++    if (uc && uc < 8) {
-++      rasprintf(emsg, _("hdr length: BAD"));
-++      goto exit;
-++    }
-++
-+     blob->ei =3D (int32_t *) uh; /* discards const */
-+-    blob->il =3D ntohl(blob->ei[0]);
-+-    blob->dl =3D ntohl(blob->ei[1]);
-++    blob->il =3D ntohl((uint32_t)(blob->ei[0]));
-++    blob->dl =3D ntohl((uint32_t)(blob->ei[1]));
-++    if (hdrblobVerifyLengths(regionTag, blob->il, blob->dl, emsg) !=3D RP=
-MRC_OK)
-++      goto exit;
-++
-+     blob->pe =3D (entryInfo) &(blob->ei[2]);
-+     blob->pvlen =3D sizeof(blob->il) + sizeof(blob->dl) +
-+                 (blob->il * sizeof(*blob->pe)) + blob->dl;
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devto=
-ols/rpm/rpm_4.14.2.1.bb
-index 018b2f8700..c93654aa8f 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-@@ -45,6 +45,7 @@ SRC_URI =3D "git://github.com/rpm-software-management/rpm=
-;branch=3Drpm-4.14.x \
-            file://0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD16=
-0.patch \
-            file://0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch \
-            file://CVE-2021-3421.patch \
-+           file://CVE-2021-20266.patch \
-            "
+Another rationale was to have some kind of "features" separation in
+different file (liked glibc-mtrace), which is easier to maintain and
+review.
 
- PE =3D "1"
+Last but not least - separate recipe (and built binaries) allow some
+kind of magic with selection of used test programs (this may be useful
+if one would like to have different sets of tests in different packages)
+
+>=20
+> >=20
+> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> > ---
+> >   .../distro/include/ptest-packagelists.inc     |   1 +
+> >   meta/recipes-core/glibc/glibc-tests_2.34.bb   | 101
+> > ++++++++++++++++++ meta/recipes-core/glibc/glibc/run-ptest-all   |
+> > 25 +++++ meta/recipes-core/glibc/glibc/run-ptest-time  |  30 ++++++
+> >   4 files changed, 157 insertions(+)
+> >   create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
+> >   create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-all
+> >   create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-time
+> >=20
+> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+> > b/meta/conf/distro/include/ptest-packagelists.inc index
+> > 3872bdc942..e460ad1c8b 100644 ---
+> > a/meta/conf/distro/include/ptest-packagelists.inc +++
+> > b/meta/conf/distro/include/ptest-packagelists.inc @@ -59,6 +59,7 @@
+> > PTESTS_FAST =3D "\ slang-ptest \
+> >       wayland-ptest \
+> >       zlib-ptest \
+> > +    glibc-tests-ptest \
+> >   "
+> >   PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
+> >   PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
+> > diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb
+> > b/meta/recipes-core/glibc/glibc-tests_2.34.bb new file mode 100644
+> > index 0000000000..896809f700
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
+> > @@ -0,0 +1,101 @@
+> > +require glibc_${PV}.bb
+> > +require glibc-tests.inc
+> > +
+> > +inherit ptest
+> > +
+> > +SRC_URI:append =3D " \
+> > +	file://run-ptest-all file://run-ptest-time \
+> > +"
+> > +
+> > +SUMMARY =3D "glibc tests to be run with ptest"
+> > +
+> > +# Erase some variables already set by glibc_${PV}
+> > +python __anonymous() {
+> > +       # Remove packages provided by glibc build, we only need a
+> > subset of them
+> > +       d.setVar("PACKAGES", "${PN}")
+> > +
+> > +       d.setVar("PROVIDES", "${PN}")
+> > +       d.setVar("RPROVIDES", "${PN} glibc-ptest")
+> > +
+> > +       d.setVar("RRECOMMENDS", "")
+> > +}
+> > +
+> > +# Remove any lefovers from original glibc recipe
+> > +RPROVIDES:${PN} =3D "${PN}"
+> > +RRECOMMENDS:${PN} =3D ""
+> > +RDEPENDS:${PN} =3D "sed"
+> > +
+> > +# Just build tests for target - do not run them
+> > +do_check:append () {
+> > +	oe_runmake -i check run-built-tests=3Dno
+> > +}
+> > +addtask do_check after do_compile before do_install_ptest_base
+> > +
+> > +glibc_strip_build_directory () {
+> > +	# Delete all non executable files from build directory
+> > +	find ${B} ! -executable -type f -delete
+> > +
+> > +	# Remove build dynamic libraries and links to them as
+> > +	# those are already installed in the target device
+> > +	find ${B} -type f -name "*.so" -delete
+> > +	find ${B} -type l -name "*.so*" -delete
+> > +
+> > +	# Remove headers (installed with glibc)
+> > +	find ${B} -type f -name "*.h" -delete
+> > +
+> > +	find ${B} -type f -name "isomac" -delete
+> > +	find ${B} -type f -name "annexc" -delete
+> > +}
+> > +
+> > +do_install_ptest_base () {
+> > +	glibc_strip_build_directory
+> > +
+> > +	# Install build test programs to the image
+> > +	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
+> > +	cp -r ${B}/* ${D}${PTEST_PATH}/tests/glibc-ptest/
+> > +
+> > +	install -d ${D}${PTEST_PATH}
+> > +	cp ${WORKDIR}/run-ptest-* ${D}${PTEST_PATH}/
+> > +
+> > +	# By default run all glibc tests
+> > +	cd ${D}${PTEST_PATH}/
+> > +	ln -s run-ptest-all run-ptest
+> > +}
+> > +
+> > +# The datadir directory is required to allow core (and reused)
+> > +# glibc cleanup function to finish correctly, as this directory
+> > +# is not created for ptests
+> > +stash_locale_package_cleanup:prepend () {
+> > +	mkdir -p ${PKGD}${datadir}
+> > +}
+> > +
+> > +stash_locale_sysroot_cleanup:prepend () {
+> > +	mkdir -p ${SYSROOT_DESTDIR}${datadir}
+> > +}
+> > +
+> > +# Prevent the do_package() task to set 'libc6' prefix
+> > +# for glibc tests related packages
+> > +python populate_packages:prepend () {
+> > +    if d.getVar('DEBIAN_NAMES'):
+> > +        d.setVar('DEBIAN_NAMES', '')
+> > +}
+> > +
+> > +FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
+> > +
+> > +EXCLUDE_FROM_SHLIBS =3D "1"
+> > +
+> > +# Install debug data in .debug and sources in /usr/src/debug
+> > +# It is more handy to have _all_ the sources and symbols in one
+> > +# place (package) as this recipe will be used for validation and
+> > +# debugging.
+> > +PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
+> > +
+> > +# glibc test cases violate by default some Yocto/OE checks
+> > (staticdev, +# textrel)
+> > +# 'debug-files' - add everything (including debug) into one package
+> > +#                 (no need to install/build *-src package)
+> > +INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files rpaths"
+> > +
+> > +deltask do_stash_locale
+> > +do_install[noexec] =3D "1"
+> > +do_populate_sysroot[noexec] =3D "1"
+> > diff --git a/meta/recipes-core/glibc/glibc/run-ptest-all
+> > b/meta/recipes-core/glibc/glibc/run-ptest-all new file mode 100755
+> > index 0000000000..47bfe5238c
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glibc/glibc/run-ptest-all
+> > @@ -0,0 +1,25 @@
+> > +#!/bin/sh
+> > +# ptest script for glibc - to run time related tests to
+> > +# facilitate Y2038 validation
+> > +# Run with 'ptest-runner glibc-tests'
+> > +
+> > +output() {
+> > +  retcode=3D$?
+> > +  if [ $retcode -eq 0 ]
+> > +    then echo "PASS: $i"
+> > +  elif [ $retcode -eq 77 ]
+> > +    then echo "SKIP: $i"
+> > +  else echo "FAIL: $i"
+> > +  fi
+> > +}
+> > +
+> > +# Allow altering time on the target
+> > +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
+> > +
+> > +tst=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*)
+> > +
+> > +for i in ${tst}
+> > +do
+> > +	$i >/dev/null 2>&1
+> > +	output
+> > +done
+> > diff --git a/meta/recipes-core/glibc/glibc/run-ptest-time
+> > b/meta/recipes-core/glibc/glibc/run-ptest-time new file mode 100755
+> > index 0000000000..24dedc6e32
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glibc/glibc/run-ptest-time
+> > @@ -0,0 +1,30 @@
+> > +#!/bin/sh
+> > +# ptest script for glibc - to run time related tests to
+> > +# facilitate Y2038 validation
+> > +# Run with 'ptest-runner glibc-tests'
+> > +
+> > +output() {
+> > +  retcode=3D$?
+> > +  if [ $retcode -eq 0 ]
+> > +    then echo "PASS: $i"
+> > +  elif [ $retcode -eq 77 ]
+> > +    then echo "SKIP: $i"
+> > +  else echo "FAIL: $i"
+> > +  fi
+> > +}
+> > +
+> > +# Allow altering time on the target
+> > +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
+> > +
+> > +tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*-time64)
+> > +
+> > +# Remove '-time64' suffix - those tests are also time
+> > +# related
+> > +tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
+> > +tst_time=3D"${tst_time_tmp} ${tst_time64}"
+> > +
+> > +for i in ${tst_time}
+> > +do
+> > +	$i >/dev/null 2>&1
+> > +	output
+> > +done
+> >=20
+> >=20
+> >=20
+> >=20
+> >  =20
+
+
+
+
+Best regards,
+
+Lukasz Majewski
+
 --
-2.17.1
 
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/N1WFaPM6AUUx9whbLCZcOvq
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmEj584ACgkQAR8vZIA0
+zr3hPggAoJOgWzh158Xp+VsZotS8smKbwCfBgcJer5E+I5mrVc/z4jNvaxRcyOXz
+lfUDn4f7reGuOaG5L3RV42nR/EyhZNyovDU2SqGBFCZP+xQIEO5ZZMGeul5EKCOk
+L+ei7qIa2fx1x2QiTjwacE78v6BiDDHiEQmVOm1a9zpzp7xJYFCUFsyqMRLqnD/M
+iHlahmviX5RymAght9PoGRwGwG8IzYfhYFa/Ir8McebLkVJl9jfLFb+ucnh+m9tU
+gI86YuJANoB5H/xSvmzb/7qpFzIMYaQ7iKH2WiHWXHp0/LHFQWX67Pb2kEApSMZp
+B0vsxq43q5Sho2ZDW0qIEF5eHbQcTw==
+=Z+SU
+-----END PGP SIGNATURE-----
+
+--Sig_/N1WFaPM6AUUx9whbLCZcOvq--
