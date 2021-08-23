@@ -1,488 +1,272 @@
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
- by mx.groups.io with SMTP id smtpd.web12.27134.1629739093335959868
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.27464.1629740440355369957
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 10:18:14 -0700
+ Mon, 23 Aug 2021 10:40:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 17NHIA84012833
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Aug 2021 19:18:10 +0200
-Received: from dev.vm6.ccp.siemens.com ([144.145.220.58])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 17NHI9gA031259;
-	Mon, 23 Aug 2021 19:18:10 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 92F40950A87;
-	Mon, 23 Aug 2021 19:18:09 +0200 (CEST)
-From: "Andrej Valek" <andrej.valek@siemens.com>
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=CsVtjiNu;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
+Received: from [192.168.0.237] (unknown [64.187.161.254])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6799820B7192
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 10:40:39 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6799820B7192
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1629740439;
+	bh=nwC601RNDYG4UoMoGP3JLekWlwD3fjiBv/SmJ8E1v3E=;
+	h=Subject:To:References:From:Date:In-Reply-To:From;
+	b=CsVtjiNu3PDE9i7n2ZcjdF/Q8V/pATh/8v2rFyEaKZBcSINTl7ZB6/zSU3VG5MloF
+	 INViCAkMM3oT5MK0e8l9mK3SuXe/vjRKuCDdfvlfx9r5vuSTC77B9vy0XkT1QbFKS+
+	 ABGPuWpYciiysCeN/5Um4GOeAUECuExEctpdOOq8=
+Subject: Re: [OE-core] [PATCH] buildhistory: Add output file listing package information
 To: openembedded-core@lists.openembedded.org
-Cc: sakoman@gmail.com, Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][dunfell][PATCH v2] mklibs-native: drop deprecated cpp17 exceptions
-Date: Mon, 23 Aug 2021 19:17:20 +0200
-Message-Id: <20210823171720.3313-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20210823105648.31311-1-andrej.valek@siemens.com>
-References: <20210823105648.31311-1-andrej.valek@siemens.com>
+References: <169A9DA42F327D81.28384@lists.openembedded.org>
+From: "Andres Beltran" <abeltran@linux.microsoft.com>
+Message-ID: <41494860-972e-c58e-4d97-c052e844a0fb@linux.microsoft.com>
+Date: Mon, 23 Aug 2021 10:40:34 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <169A9DA42F327D81.28384@lists.openembedded.org>
+Content-Type: multipart/alternative;
+ boundary="------------A4D82CFDB777AA48DE3B4C6B"
+Content-Language: en-US
 
-gcc11 has -std=gnu++17 as default. Remove deprecated C++17 exceptions based
-on http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html.
+--------------A4D82CFDB777AA48DE3B4C6B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Hello,
+
+This is a reminder request for review.
+
+Best,
+Andres Beltran
+
+
+On 8/12/2021 9:58 AM, Andres Beltran wrote:
+> Currently, buildhistory does not produce a single file combining relevant
+> information of installed packages. Produce an output file
+> "installed-package-info.txt" listing a package's runtime name, buildtime name,
+> its recipe, version, and size to avoid having to look up each package externally.
+> Leave the existing package list files as-is for backwards compatibility.
+>
+> In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
+> for its read-value argument.
+>
+> Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+> ---
+>   meta/classes/buildhistory.bbclass |  5 +++++
+>   scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
+>   2 files changed, 28 insertions(+), 14 deletions(-)
+>
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index 8a1359acbe..134b56ab71 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -491,6 +491,11 @@ buildhistory_get_installed() {
+>   	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
+>   	rm $1/installed-package-sizes.tmp
+>   
+> +	# Produce package info: runtime_name, buildtime_name, recipe, version, size
+> +	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
+> +	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
+> +	rm $1/installed-package-info.tmp
+> +
+>   	# We're now done with the cache, delete it
+>   	rm $pkgcache
+>   
+> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+> index 75dd23efa3..c30baaa580 100755
+> --- a/scripts/oe-pkgdata-util
+> +++ b/scripts/oe-pkgdata-util
+> @@ -171,7 +171,7 @@ def read_value(args):
+>                       val = line.split(': ', 1)[1].rstrip()
+>           return val
+>   
+> -    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
+> +    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
+>       for package in packages:
+>           pkg_split = package.split('_')
+>           pkg_name = pkg_split[0]
+> @@ -180,20 +180,29 @@ def read_value(args):
+>           logger.debug(revlink)
+>           if os.path.exists(revlink):
+>               mappedpkg = os.path.basename(os.readlink(revlink))
+> -            qvar = args.valuename
+> -            value = readvar(revlink, qvar, mappedpkg)
+> -            if qvar == "PKGSIZE":
+> -                # PKGSIZE is now in bytes, but we we want it in KB
+> -                pkgsize = (int(value) + 1024 // 2) // 1024
+> -                value = "%d" % pkgsize
+> -            if args.unescape:
+> -                import codecs
+> -                # escape_decode() unescapes backslash encodings in byte streams
+> -                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
+> +            qvars = args.valuenames
+> +            val_names = qvars.split(',')
+> +            values = []
+> +            for qvar in val_names:
+> +                if qvar == "PACKAGE":
+> +                    value = mappedpkg
+> +                else:
+> +                    value = readvar(revlink, qvar, mappedpkg)
+> +                if qvar == "PKGSIZE":
+> +                    # PKGSIZE is now in bytes, but we we want it in KB
+> +                    pkgsize = (int(value) + 1024 // 2) // 1024
+> +                    value = "%d" % pkgsize
+> +                if args.unescape:
+> +                    import codecs
+> +                    # escape_decode() unescapes backslash encodings in byte streams
+> +                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
+> +                values.append(value)
+> +
+> +            values_str = ' '.join(values)
+>               if args.prefix_name:
+> -                print('%s %s' % (pkg_name, value))
+> +                print('%s %s' % (pkg_name, values_str))
+>               else:
+> -                print(value)
+> +                print(values_str)
+>           else:
+>               logger.debug("revlink %s does not exist", revlink)
+>   
+> @@ -570,7 +579,7 @@ def main():
+>       parser_read_value = subparsers.add_parser('read-value',
+>                                             help='Read any pkgdata value for one or more packages',
+>                                             description='Reads the named value from the pkgdata files for the specified packages')
+> -    parser_read_value.add_argument('valuename', help='Name of the value to look up')
+> +    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
+>       parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+>       parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
+>       parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
+>
+> 
+>
+
+--------------A4D82CFDB777AA48DE3B4C6B
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hello,</p>
+    This is a reminder request for review.<br>
+    <br>
+    Best,<br>
+    Andres Beltran
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 8/12/2021 9:58 AM, Andres Beltran
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:169A9DA42F327D81.28384@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">Currently, buildhistory does not produce a single file combining relevant
+information of installed packages. Produce an output file
+"installed-package-info.txt" listing a package's runtime name, buildtime name,
+its recipe, version, and size to avoid having to look up each package externally.
+Leave the existing package list files as-is for backwards compatibility.
+
+In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
+for its read-value argument.
+
+Signed-off-by: Andres Beltran <a class="moz-txt-link-rfc2396E" href="mailto:abeltran@linux.microsoft.com">&lt;abeltran@linux.microsoft.com&gt;</a>
 ---
- ...-deprecated-exception-specification-cpp17.patch | 431 +++++++++++++++++++++
- .../mklibs/mklibs-native_0.1.44.bb                 |   1 +
- 2 files changed, 432 insertions(+)
- create mode 100644 meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+ meta/classes/buildhistory.bbclass |  5 +++++
+ scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
+ 2 files changed, 28 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
-new file mode 100644
-index 0000000000..f96cc7d302
---- /dev/null
-+++ b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
-@@ -0,0 +1,431 @@
-+From 597c7a8333df84a87cc48fb8477b603ffbf372a6 Mon Sep 17 00:00:00 2001
-+From: Andrej Valek <andrej.valek@siemens.com>
-+Date: Mon, 23 Aug 2021 12:45:11 +0200
-+Subject: [PATCH] feat(cpp17): remove deprecated exception specifications for
-+ C++ 17
-+
-+Upstream-Status: Submitted [https://salsa.debian.org/installer-team/mklibs/-/merge_requests/2]
-+
-+based on: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
-+
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+---
-+ src/mklibs-readelf/elf.cpp      | 48 ++++++++++++++++++++---------------------
-+ src/mklibs-readelf/elf.hpp      | 18 ++++++++--------
-+ src/mklibs-readelf/elf_data.hpp | 36 +++++++++++++++----------------
-+ 3 files changed, 51 insertions(+), 51 deletions(-)
-+
-+diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
-+index 0e4c0f3..2e6d0f6 100644
-+--- a/src/mklibs-readelf/elf.cpp
-++++ b/src/mklibs-readelf/elf.cpp
-+@@ -36,7 +36,7 @@ file::~file () throw ()
-+     delete *it;
-+ }
-+ 
-+-file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_error)
-++file *file::open (const char *filename) throw ()
-+ {
-+   struct stat buf;
-+   int fd;
-+@@ -72,7 +72,7 @@ file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_erro
-+ }
-+ 
-+ template<typename _class>
-+-file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
-++file *file::open_class(uint8_t *mem, size_t len) throw ()
-+ {
-+   switch (mem[EI_DATA])
-+   {
-+@@ -86,7 +86,7 @@ file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::run
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
-++file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw ()
-+ : file(mem, len)
-+ {
-+   if (mem[EI_CLASS] != _class::id)
-+@@ -190,7 +190,7 @@ section_data<_class, _data>::section_data(Shdr *shdr, uint8_t *mem) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_data<_class, _data>::update(const file &file) throw (std::bad_alloc)
-++void section_data<_class, _data>::update(const file &file) throw ()
-+ {
-+   const section_type<section_type_STRTAB> &section =
-+     dynamic_cast<const section_type<section_type_STRTAB> &>(file.get_section(file.get_shstrndx()));
-+@@ -204,7 +204,7 @@ section_type<section_type_DYNAMIC>::~section_type() throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_DYNAMIC)
-+@@ -221,7 +221,7 @@ section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, ui
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -243,7 +243,7 @@ section_type<section_type_DYNSYM>::~section_type() throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_DYNSYM)
-+@@ -260,7 +260,7 @@ section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uin
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update (file);
-+ 
-+@@ -285,7 +285,7 @@ const version_definition *section_type<section_type_GNU_VERDEF>::get_version_def
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_GNU_verdef)
-+@@ -307,7 +307,7 @@ section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header,
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -333,7 +333,7 @@ const version_requirement_entry *section_type<section_type_GNU_VERNEED>::get_ver
-+ 
-+ template <typename _class, typename _data>
-+ section_real<_class, _data, section_type_GNU_VERNEED>::
-+-section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != SHT_GNU_verneed)
-+@@ -355,7 +355,7 @@ section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -372,7 +372,7 @@ void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &f
-+ 
-+ template <typename _class, typename _data>
-+ section_real<_class, _data, section_type_GNU_VERSYM>::
-+-section_real (Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real (Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != SHT_GNU_versym)
-+@@ -399,7 +399,7 @@ segment_data<_class, _data>::segment_data (Phdr *phdr, uint8_t *mem) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw (std::bad_alloc)
-++segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw ()
-+ : segment_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != PT_INTERP)
-+@@ -429,13 +429,13 @@ dynamic_data<_class, _data>::dynamic_data (Dyn *dyn) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   if (is_string)
-+     val_string = section.get_string(val);
-+ }
-+ 
-+-std::string symbol::get_version () const throw (std::bad_alloc)
-++std::string symbol::get_version () const throw ()
-+ {
-+   if (verneed)
-+     return verneed->get_name();
-+@@ -445,7 +445,7 @@ std::string symbol::get_version () const throw (std::bad_alloc)
-+   return "Base";
-+ }
-+ 
-+-std::string symbol::get_version_file () const throw (std::bad_alloc)
-++std::string symbol::get_version_file () const throw ()
-+ {
-+   if (verneed)
-+     return verneed->get_file();
-+@@ -453,7 +453,7 @@ std::string symbol::get_version_file () const throw (std::bad_alloc)
-+   return "None";
-+ }
-+ 
-+-std::string symbol::get_name_version () const throw (std::bad_alloc)
-++std::string symbol::get_name_version () const throw ()
-+ {
-+   std::string ver;
-+ 
-+@@ -478,13 +478,13 @@ symbol_data<_class, _data>::symbol_data (Sym *sym) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   name_string = section.get_string(name);
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw (std::bad_alloc)
-++void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw ()
-+ {
-+   if (!file.get_section_GNU_VERSYM())
-+     return;
-+@@ -531,13 +531,13 @@ version_definition_data<_class, _data>::version_definition_data (Verdef *verdef)
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   for (std::vector<uint32_t>::iterator it = names.begin(); it != names.end(); ++it)
-+     names_string.push_back(section.get_string(*it));
-+ }
-+ 
-+-version_requirement::version_requirement() throw (std::bad_alloc)
-++version_requirement::version_requirement() throw ()
-+ : file_string("None")
-+ { }
-+ 
-+@@ -561,7 +561,7 @@ version_requirement_data<_class, _data>::version_requirement_data (Verneed *vern
-+ 
-+ template <typename _class, typename _data>
-+ void version_requirement_data<_class, _data>::
-+-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   file_string = section.get_string(file);
-+ 
-+@@ -596,7 +596,7 @@ version_requirement_entry_data(Vernaux *vna, const version_requirement &verneed)
-+ 
-+ template <typename _class, typename _data>
-+ void version_requirement_entry_data<_class, _data>::
-+-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   name_string = section.get_string(name);
-+ }
-+diff --git a/src/mklibs-readelf/elf.hpp b/src/mklibs-readelf/elf.hpp
-+index 70e61cd..afb0c9e 100644
-+--- a/src/mklibs-readelf/elf.hpp
-++++ b/src/mklibs-readelf/elf.hpp
-+@@ -49,7 +49,7 @@ namespace Elf
-+       const uint16_t get_shstrndx() const throw () { return shstrndx; }
-+ 
-+       const std::vector<section *> get_sections() const throw () { return sections; };
-+-      const section &get_section(unsigned int i) const throw (std::out_of_range) { return *sections.at(i); };
-++      const section &get_section(unsigned int i) const throw () { return *sections.at(i); };
-+       const section_type<section_type_DYNAMIC> *get_section_DYNAMIC() const throw () { return section_DYNAMIC; };
-+       const section_type<section_type_DYNSYM> *get_section_DYNSYM() const throw () { return section_DYNSYM; };
-+       const section_type<section_type_GNU_VERDEF> *get_section_GNU_VERDEF() const throw () { return section_GNU_VERDEF; };
-+@@ -59,13 +59,13 @@ namespace Elf
-+       const std::vector<segment *> get_segments() const throw () { return segments; };
-+       const segment_type<segment_type_INTERP> *get_segment_INTERP() const throw () { return segment_INTERP; };
-+ 
-+-      static file *open(const char *filename) throw (std::bad_alloc, std::runtime_error);
-++      static file *open(const char *filename) throw ();
-+ 
-+     protected:
-+-      file(uint8_t *mem, size_t len) throw (std::bad_alloc) : mem(mem), len(len) { }
-++      file(uint8_t *mem, size_t len) throw () : mem(mem), len(len) { }
-+ 
-+       template<typename _class>
-+-        static file *open_class(uint8_t *, size_t) throw (std::bad_alloc, std::runtime_error);
-++        static file *open_class(uint8_t *, size_t) throw ();
-+ 
-+       uint16_t type;
-+       uint16_t machine;
-+@@ -128,7 +128,7 @@ namespace Elf
-+     class section_type<section_type_STRTAB> : public virtual section
-+     {
-+       public:
-+-        std::string get_string(uint32_t offset) const throw (std::bad_alloc)
-++        std::string get_string(uint32_t offset) const throw ()
-+         {
-+           return std::string(reinterpret_cast<const char *> (mem + offset));
-+         }
-+@@ -263,10 +263,10 @@ namespace Elf
-+       uint8_t get_bind () const throw () { return bind; }
-+       uint8_t get_type () const throw () { return type; }
-+       const std::string &get_name_string() const throw () { return name_string; }
-+-      std::string get_version() const throw (std::bad_alloc);
-+-      std::string get_version_file() const throw (std::bad_alloc);
-++      std::string get_version() const throw ();
-++      std::string get_version_file() const throw ();
-+       uint16_t get_version_data() const throw () { return versym; }
-+-      std::string get_name_version() const throw (std::bad_alloc);
-++      std::string get_name_version() const throw ();
-+ 
-+     protected:
-+       uint32_t name;
-+@@ -305,7 +305,7 @@ namespace Elf
-+   class version_requirement
-+   {
-+     public:
-+-      version_requirement() throw (std::bad_alloc);
-++      version_requirement() throw ();
-+       virtual ~version_requirement () throw () { }
-+ 
-+       const std::string &get_file() const throw () { return file_string; }
-+diff --git a/src/mklibs-readelf/elf_data.hpp b/src/mklibs-readelf/elf_data.hpp
-+index 05effee..3871982 100644
-+--- a/src/mklibs-readelf/elf_data.hpp
-++++ b/src/mklibs-readelf/elf_data.hpp
-+@@ -94,7 +94,7 @@ namespace Elf
-+     class file_data : public file
-+     {
-+       public:
-+-        file_data(uint8_t *, size_t len) throw (std::bad_alloc, std::runtime_error);
-++        file_data(uint8_t *, size_t len) throw ();
-+ 
-+         const uint8_t get_class() const throw () { return _class::id; }
-+         const uint8_t get_data() const throw () { return _data::id; }
-+@@ -109,7 +109,7 @@ namespace Elf
-+       public:
-+         section_data(Shdr *, uint8_t *) throw ();
-+ 
-+-        virtual void update(const file &) throw (std::bad_alloc);
-++        virtual void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data, typename _type>
-+@@ -133,9 +133,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -147,9 +147,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -161,9 +161,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -175,9 +175,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -189,7 +189,7 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -220,7 +220,7 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Phdr Phdr;
-+ 
-+       public:
-+-        segment_real (Phdr *, uint8_t *) throw (std::bad_alloc);
-++        segment_real (Phdr *, uint8_t *) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -232,7 +232,7 @@ namespace Elf
-+       public:
-+         dynamic_data (Dyn *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -244,8 +244,8 @@ namespace Elf
-+       public:
-+         symbol_data (Sym *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-+-        virtual void update_version (const file &, uint16_t) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-++        virtual void update_version (const file &, uint16_t) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -257,7 +257,7 @@ namespace Elf
-+ 
-+         version_definition_data (Verdef *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -269,7 +269,7 @@ namespace Elf
-+ 
-+         version_requirement_data (Verneed *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -280,7 +280,7 @@ namespace Elf
-+ 
-+         version_requirement_entry_data (Vernaux *, const version_requirement &) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ }
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-index 1784af1f4c..07142e57e0 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/
- 	file://avoid-failure-on-symbol-provided-by-application.patch \
- 	file://show-GNU-unique-symbols-as-provided-symbols.patch \
- 	file://fix_cross_compile.patch \
-+	file://remove-deprecated-exception-specification-cpp17.patch \
- "
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 8a1359acbe..134b56ab71 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -491,6 +491,11 @@ buildhistory_get_installed() {
+ 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r &gt; $1/installed-package-sizes.txt
+ 	rm $1/installed-package-sizes.tmp
  
- SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
--- 
-2.11.0
++	# Produce package info: runtime_name, buildtime_name, recipe, version, size
++	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache &gt; $1/installed-package-info.tmp
++	cat $1/installed-package-info.tmp | sort -n -r -k 5 &gt; $1/installed-package-info.txt
++	rm $1/installed-package-info.tmp
++
+ 	# We're now done with the cache, delete it
+ 	rm $pkgcache
+ 
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 75dd23efa3..c30baaa580 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -171,7 +171,7 @@ def read_value(args):
+                     val = line.split(': ', 1)[1].rstrip()
+         return val
+ 
+-    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
++    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
+     for package in packages:
+         pkg_split = package.split('_')
+         pkg_name = pkg_split[0]
+@@ -180,20 +180,29 @@ def read_value(args):
+         logger.debug(revlink)
+         if os.path.exists(revlink):
+             mappedpkg = os.path.basename(os.readlink(revlink))
+-            qvar = args.valuename
+-            value = readvar(revlink, qvar, mappedpkg)
+-            if qvar == "PKGSIZE":
+-                # PKGSIZE is now in bytes, but we we want it in KB
+-                pkgsize = (int(value) + 1024 // 2) // 1024
+-                value = "%d" % pkgsize
+-            if args.unescape:
+-                import codecs
+-                # escape_decode() unescapes backslash encodings in byte streams
+-                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
++            qvars = args.valuenames
++            val_names = qvars.split(',')
++            values = []
++            for qvar in val_names:
++                if qvar == "PACKAGE":
++                    value = mappedpkg
++                else:
++                    value = readvar(revlink, qvar, mappedpkg)
++                if qvar == "PKGSIZE":
++                    # PKGSIZE is now in bytes, but we we want it in KB
++                    pkgsize = (int(value) + 1024 // 2) // 1024
++                    value = "%d" % pkgsize
++                if args.unescape:
++                    import codecs
++                    # escape_decode() unescapes backslash encodings in byte streams
++                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
++                values.append(value)
++
++            values_str = ' '.join(values)
+             if args.prefix_name:
+-                print('%s %s' % (pkg_name, value))
++                print('%s %s' % (pkg_name, values_str))
+             else:
+-                print(value)
++                print(values_str)
+         else:
+             logger.debug("revlink %s does not exist", revlink)
+ 
+@@ -570,7 +579,7 @@ def main():
+     parser_read_value = subparsers.add_parser('read-value',
+                                           help='Read any pkgdata value for one or more packages',
+                                           description='Reads the named value from the pkgdata files for the specified packages')
+-    parser_read_value.add_argument('valuename', help='Name of the value to look up')
++    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
+     parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+     parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
+     parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
 
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------A4D82CFDB777AA48DE3B4C6B--
