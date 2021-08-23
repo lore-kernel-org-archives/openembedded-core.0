@@ -1,151 +1,195 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web08.23240.1629723846682821187
+Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
+ by mx.groups.io with SMTP id smtpd.web11.23646.1629724506726390404
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 06:04:07 -0700
+ Mon, 23 Aug 2021 06:15:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jOIonUlk;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id i6so26103013edu.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 06:04:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=q+ADLgiVv8pRXwDUA+AIu8h3cOq/HNXpjYAkzyQHCxM=;
-        b=jOIonUlkhtBgI+40ToJu5TrFFLSPWQKxoc0iY4QinMaloP40H7GV0kS7WcZY4+grE8
-         sxzRBdVsyMhLd34h79DFqs5Ecmyh3i1D15g6TExI0wlQSldinzLoSk2FZm1pkUssU/Z8
-         XoE9CHMf9d2r+QvL69yr11YwbXLJdDmLvOn3D2Xq5QRv+4DQ8dddiNEQxi2daiO0TlgQ
-         c5QdkCkXQVrRnC3IJKleQwLHNYZsy1C+SHVoJHrm3e+4ETbF1Rd/uM8fRBkSC3HdiOal
-         0pP8tdvOCziI6kiUmnSiHRoNUG+miapuDrWwG7RHTVEfLhs2gC7YhVVyP6vcXvtDjq3g
-         Xx9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=q+ADLgiVv8pRXwDUA+AIu8h3cOq/HNXpjYAkzyQHCxM=;
-        b=gwFO6LJNmrCtYPaOKqmF0A6JzpX/rVPfIrqroz6HfIiCkhqOaSXUp3FdrR1x0jfXGl
-         l9j/mDFLK/GY6aLyr+EaoqlpbwlQHrAiU7Q2Gl+nx8roQHvjZLlF7y+qvBZPTsdAET9y
-         x4f41U0LY01Nhvph/oyq3nUR0Yv7VP7XGp6xI6dw1DjByUqe8+TZXp7Cka7h1/30EWt5
-         9ZQVmp6OMQbsuRCP+Tnwd1Xw7BpDVpLNGiBMsufYv6kqZSlvojUd0A/+taO5nfwNJvHe
-         BvyzaNg9QVsBkgfij0WIm7LHUyB5Z4Yg7hDvc51WlfpXk9AkD/DyPJ0JncK2I9NudcfI
-         Pr3w==
-X-Gm-Message-State: AOAM531i6XX23TVVmI/Uv5L8Zl+0qG2LZDvi8Y4MddZaIpJEi9PVRAOO
-	cAMjGpIGUsivdDZDQC16uQ7B1g0EtuLDA01e72E=
-X-Google-Smtp-Source: ABdhPJwmAhSIWcE3+gEM3lbzSkcZOLcRisx4lxJiK1MxvbD5rayITtrHWzhR2C+qeSEoBQvhbD4i9XVzj+r47HlhsVs=
-X-Received: by 2002:aa7:cc83:: with SMTP id p3mr37660220edt.365.1629723845010;
- Mon, 23 Aug 2021 06:04:05 -0700 (PDT)
+ dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=WmEhYDS7;
+ spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1mI9n6-0003OZ-JT; Mon, 23 Aug 2021 15:15:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=6EBzmaWpjMlN4HMvg5UV4sPi3eeOSBZoz9IcmEd/R3k=; b=WmEhYDS7IWZWJZkMHRkDHV75GL
+	YEHOSESzwEQzpROf3un9TBnr+BbaJXv55YcgAvlyYaobz6yoBe/H/SkXs4szRyXEEc63KWcyN3/AX
+	llkgwkFvAIU9gKFKXDaHq74CWsugC2egI9Ul7QzqbGOr9JxLXEG67E/D5QcHtHTUWK2jMuS85RuDS
+	WPLmObDfBzysnXkgKx+ahG13St7cgB5A+jYFUMnw9mBL1ImACwoj8/nwjNy1WBz47ewe1d8A7zWJt
+	bZT7KT9LfF6a2eYZHpyr4aWHHK+4BrK7dYQ0f8XKsOCGG4QX8LGgzSTd45rvzDLpSpLWYprmZl0kv
+	6KQMnI4A==;
+Received: from host-87-242-23-58.prtelecom.hu ([87.242.23.58] helo=localhost.localdomain)
+	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.92)
+	(envelope-from <zboszor@pr.hu>)
+	id 1mI9n2-0006Kl-3o; Mon, 23 Aug 2021 15:15:02 +0200
+Subject: Re: [OE-core] [PATCH 1/6] package_rpm.bbclass: Handle posttrans scriptlets
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, zboszor@gmail.com
+References: <20210823122323.97400-1-zboszor@pr.hu>
+ <20210823122323.97400-2-zboszor@pr.hu>
+ <CANNYZj_VL-bxXG_mb-Z5QaWhHZvr4p+LVnvgODm84tRkSrFjEA@mail.gmail.com>
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+Message-ID: <fb092fdd-103a-9eb9-c070-b72313d45fdd@pr.hu>
+Date: Mon, 23 Aug 2021 15:14:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210823122323.97400-1-zboszor@pr.hu> <20210823122323.97400-6-zboszor@pr.hu>
-In-Reply-To: <20210823122323.97400-6-zboszor@pr.hu>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 23 Aug 2021 09:03:53 -0400
-Message-ID: <CADkTA4NwEYtyROR_DDC=mK=7UCRR7eYeLi=KTEHBuc8-z9u7FA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/6] kernel.bbclass: Use full versions for inter-package dependencies
-To: zboszor@pr.hu
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, zboszor@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CANNYZj_VL-bxXG_mb-Z5QaWhHZvr4p+LVnvgODm84tRkSrFjEA@mail.gmail.com>
+X-Spam-Score: -1.9 (-)
+X-Scan-Signature: 48d6b0d972e1d5478b4282597e190fb4
+X-Spam-Tracer: backend.mail.pr.hu -1.9 20210823131502Z
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 23, 2021 at 8:23 AM Zoltan Boszormenyi via
-lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
->
-> From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
->
-> Some Yocto users do use package repositories and sometimes the PR
-> value is forgotten. Use full versions for inter-package dependencies
-> for the kernel subpackages.
+It's documented at www.rpm.org, Red Hat and SuSE.
 
-Can you expand this commit message ? What is the observable problem
-with the full versions not being in the rdpends ?
+https://docs.fedoraproject.org/en-US/packaging-guidelines/Scriptlets/
+https://en.opensuse.org/openSUSE:Packaging_scriptlet_snippets
+https://rpm-packaging-guide.github.io/
 
-I've run many different package feeds with different kernels and
-modules, and haven't run into anything on this front, in my experience
-the extended version in the package depends/provides causes issues
-with some package managers .. so we'd need the testing for this
-documented/provided so we could ensure that there are no hidden
-issues.
+It's available since RPM 4.4. RPM 4.16.1.3 is in Hardknott.
 
-Bruce
+A short Google search showed that *maybe* dpkg also supports it,
+or at least there are(were?) plans to implement it:
+https://wiki.debian.org/i18n/TranslationDebsProposals
 
+With postinst, the time when the scriptlet runs may depend
+on the order of the packages in the upgrade transaction and
+may run with the older binaries in place.
 
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 6dc5387a9b..9ec7daa17a 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -91,17 +91,18 @@ python __anonymous () {
->      kname =3D d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
->      imagedest =3D d.getVar('KERNEL_IMAGEDEST')
->
-> +    fullver =3D d.getVar('EXTENDPKGV')
->      for type in types.split():
->          if bb.data.inherits_class('nopackages', d):
->              continue
->          typelower =3D type.lower()
->          d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
->          d.setVar('FILES:' + kname + '-image-' + typelower, '/' + imagede=
-st + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type=
-)
-> -        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s' % (kname=
-, typelower))
-> +        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s (=3D %s)'=
- % (kname, typelower, fullver))
->          splitmods =3D d.getVar("KERNEL_SPLIT_MODULES")
->          if splitmods !=3D '1':
-> -            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules' % kna=
-me)
-> -            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %=
-s-modules-${KERNEL_VERSION_PKG_NAME}' % kname)
-> +            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules (=3D %=
-s)' % (kname, fullver))
-> +            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %=
-s-modules-${KERNEL_VERSION_PKG_NAME} (=3D %s)' % (kname, fullver))
->              d.setVar('PKG:%s-modules' % kname, '%s-modules-${KERNEL_VERS=
-ION_PKG_NAME}' % kname)
->              d.appendVar('RPROVIDES:%s-modules' % kname, '%s-modules-${KE=
-RNEL_VERSION_PKG_NAME}' % kname)
->
-> @@ -628,12 +629,12 @@ FILES:${KERNEL_PACKAGE_NAME}-image =3D ""
->  FILES:${KERNEL_PACKAGE_NAME}-dev =3D "/boot/System.map* /boot/Module.sym=
-vers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KER=
-NEL_VERSION}/build"
->  FILES:${KERNEL_PACKAGE_NAME}-vmlinux =3D "/boot/vmlinux-${KERNEL_VERSION=
-_NAME}"
->  FILES:${KERNEL_PACKAGE_NAME}-modules =3D ""
-> -RDEPENDS:${KERNEL_PACKAGE_NAME} =3D "${KERNEL_PACKAGE_NAME}-base"
-> +RDEPENDS:${KERNEL_PACKAGE_NAME} =3D "${KERNEL_PACKAGE_NAME}-base (=3D ${=
-EXTENDPKGV})"
->  # Allow machines to override this dependency if kernel image files are
->  # not wanted in images as standard
-> -RDEPENDS:${KERNEL_PACKAGE_NAME}-base ?=3D "${KERNEL_PACKAGE_NAME}-image"
-> +RDEPENDS:${KERNEL_PACKAGE_NAME}-base ?=3D "${KERNEL_PACKAGE_NAME}-image =
-(=3D ${EXTENDPKGV})"
->  PKG:${KERNEL_PACKAGE_NAME}-image =3D "${KERNEL_PACKAGE_NAME}-image-${@le=
-gitimize_package_name(d.getVar('KERNEL_VERSION'))}"
-> -RDEPENDS:${KERNEL_PACKAGE_NAME}-image +=3D "${@oe.utils.conditional('KER=
-NEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
-> +RDEPENDS:${KERNEL_PACKAGE_NAME}-image +=3D "${@oe.utils.conditional('KER=
-NEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux (=3D ${EXTENDPKG=
-V})', '', d)}"
->  PKG:${KERNEL_PACKAGE_NAME}-base =3D "${KERNEL_PACKAGE_NAME}-${@legitimiz=
-e_package_name(d.getVar('KERNEL_VERSION'))}"
->  RPROVIDES:${KERNEL_PACKAGE_NAME}-base +=3D "${KERNEL_PACKAGE_NAME}-${KER=
-NEL_VERSION}"
->  ALLOW_EMPTY:${KERNEL_PACKAGE_NAME} =3D "1"
-> --
-> 2.31.1
->
->
->=20
->
+The posttrans scriptlet runs at the very end of the
+install/upgrade transaction, just like the OPKG "intercept"
+scripts.
 
+I successfully tested it long ago with a kernel upgrade
+that was running dracut on the new version, plus a dracut
+upgrade in the same session. Dissecting the initramfs proved
+that with postinst, the old dracut version generated it,
+while with posttrans, the new one did.
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Who would want to use it? Anyone who needs some finalizer
+script to be run at the end of an RPM/DNF transaction.
+
+I started on Angstrom and I know opkg doesn't implement this
+and Yocto inherited it. This patch is basically a heads up
+that there's another way to do the same thing. Maybe opkg
+implements this some day, maybe not. Anyway, Yocto in general
+will need more changes before the main package.bbclass can
+start to use it for all package formats.
+
+Zoltán
+
+2021. 08. 23. 14:34 keltezéssel, Alexander Kanavin írta:
+> This needs to be better documented and tested.
+> 
+> What does this posttrans thing really do?
+> Who would want to use it?
+> Can there be examples?
+> Can the Postinst test in meta/lib/oeqa/selftest/cases/runtime_test.py be extended to 
+> regression-check that it works?
+> 
+> Alex
+> 
+> On Mon, 23 Aug 2021 at 14:23, Zoltan Boszormenyi via lists.openembedded.org 
+> <http://lists.openembedded.org> <zboszor=pr.hu@lists.openembedded.org 
+> <mailto:pr.hu@lists.openembedded.org>> wrote:
+> 
+>     From: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
+> 
+>     The "posttrans" scriptlet is the RPM equivalent of the
+>     OPKG "intercept script" concept and probably a cleaner one.
+> 
+>     "pretrans" also exists in RPM but there's no equivalent
+>     for it in OPKG.
+> 
+>     Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
+>     ---
+>       meta/classes/package_rpm.bbclass | 30 +++++++++++++++++++++---------
+>       1 file changed, 21 insertions(+), 9 deletions(-)
+> 
+>     diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+>     index 88d861c0e7..5992d3fd06 100644
+>     --- a/meta/classes/package_rpm.bbclass
+>     +++ b/meta/classes/package_rpm.bbclass
+>     @@ -308,10 +308,11 @@ python write_specfile () {
+>           srcrconflicts  = ""
+>           srcrobsoletes  = ""
+> 
+>     -    srcrpreinst  = []
+>     -    srcrpostinst = []
+>     -    srcrprerm    = []
+>     -    srcrpostrm   = []
+>     +    srcrpreinst   = []
+>     +    srcrpostinst  = []
+>     +    srcrprerm     = []
+>     +    srcrpostrm    = []
+>     +    srcrposttrans = []
+> 
+>           spec_preamble_top = []
+>           spec_preamble_bottom = []
+>     @@ -373,11 +374,11 @@ python write_specfile () {
+>               splitrconflicts  = localdata.getVar('RCONFLICTS') or ""
+>               splitrobsoletes  = ""
+> 
+>     -        splitrpreinst  = localdata.getVar('pkg_preinst')
+>     -        splitrpostinst = localdata.getVar('pkg_postinst')
+>     -        splitrprerm    = localdata.getVar('pkg_prerm')
+>     -        splitrpostrm   = localdata.getVar('pkg_postrm')
+>     -
+>     +        splitrpreinst   = localdata.getVar('pkg_preinst')
+>     +        splitrpostinst  = localdata.getVar('pkg_postinst')
+>     +        splitrprerm     = localdata.getVar('pkg_prerm')
+>     +        splitrpostrm    = localdata.getVar('pkg_postrm')
+>     +        splitrposttrans = localdata.getVar('pkg_posttrans')
+> 
+>               if not perfiledeps:
+>                   # Add in summary of per file dependencies
+>     @@ -405,6 +406,7 @@ python write_specfile () {
+>                   srcrpostinst   = splitrpostinst
+>                   srcrprerm      = splitrprerm
+>                   srcrpostrm     = splitrpostrm
+>     +            srcrposttrans  = splitrposttrans
+> 
+>                   file_list = []
+>                   walk_files(root, file_list, conffiles, dirfiles)
+>     @@ -496,6 +498,11 @@ python write_specfile () {
+>                   scriptvar = wrap_uninstall(splitrpostrm)
+>                   spec_scriptlets_bottom.append(scriptvar)
+>                   spec_scriptlets_bottom.append('')
+>     +        if splitrposttrans:
+>     +            spec_scriptlets_bottom.append('%%posttrans -n %s' % splitname)
+>     +            spec_scriptlets_bottom.append('# %s - posttrans' % splitname)
+>     +            spec_scriptlets_bottom.append(splitrposttrans)
+>     +            spec_scriptlets_bottom.append('')
+> 
+>               # Now process files
+>               file_list = []
+>     @@ -590,6 +597,11 @@ python write_specfile () {
+>               scriptvar = wrap_uninstall(srcrpostrm)
+>               spec_scriptlets_top.append(scriptvar)
+>               spec_scriptlets_top.append('')
+>     +    if srcrposttrans:
+>     +        spec_scriptlets_top.append('%posttrans')
+>     +        spec_scriptlets_top.append('# %s - posttrans' % srcname)
+>     +        spec_scriptlets_top.append(srcrposttrans)
+>     +        spec_scriptlets_top.append('')
+> 
+>           # Write the SPEC file
+>           specfile = open(outspecfile, 'w')
+>     -- 
+>     2.31.1
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+
