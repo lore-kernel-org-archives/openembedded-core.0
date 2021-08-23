@@ -1,102 +1,94 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web11.24242.1629726801837868006
+ by mx.groups.io with SMTP id smtpd.web09.24148.1629726804022535172
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 06:53:22 -0700
+ Mon, 23 Aug 2021 06:53:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gherzan.com header.s=fm2 header.b=TyEoxe9P;
+ dkim=pass header.i=@gherzan.com header.s=fm2 header.b=dJ0gYsk1;
  spf=pass (domain: gherzan.com, ip: 66.111.4.27, mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id B2CDD5C02A3;
-	Mon, 23 Aug 2021 09:53:09 -0400 (EDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id CE70A5C0289;
+	Mon, 23 Aug 2021 09:53:05 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 23 Aug 2021 09:53:09 -0400
+  by compute6.internal (MEProxy); Mon, 23 Aug 2021 09:53:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm2; bh=/leRh62XUwmrp
-	3leOvWmHUqYHJBZ+rf2Tq+E4T1pwfg=; b=TyEoxe9Pbh0590ajcik956SvVOK76
-	ITlemXgNWsGn3Tf2zBcZMoRWjLAib6yNXSzH9cFBBW2MvNjJ96DUv704ccezWV7y
-	AaIL20re6jDBb4PGWRWp0qYJYqip2uHlsDgl58yqlbTVkZI5K44nSYvEhJ92+yVZ
-	NVhYDZJbW12czQUVefDCFFeovTW5aBqXS/ku/pgpkPMeshiCWPW4GSZVVL6BJ8zl
-	G/o+xfeW0GcjrM/jkdKUfeSytHtsjkVvzG8FOFjgG+FEcyo3iWQ2xyDpNlbOMwGZ
-	yLEcxwRJ1R6wR1KJnU8sbvbDzSeSEgk01IjbBJXv5FCTzVNpk/VNiwRdw==
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=VvTd407WH/WtWvFQM0STei1Cht
+	QofsTE33LbHww3fuw=; b=dJ0gYsk1JopN6chKHtTr4EmwgQBWKsL3DXmehHYqmN
+	5jYyfb2F50lKELlszLDAG7E1KdVJSOGtsKhT5aVfkHDapBmgE7ta0X7Arxe09FqC
+	Map41N4vi2rTdko9CntRsajGJSokZvN0joSyIDbgIur+QrTgaquldcSJdB9WrJHY
+	ipyrvAPyvSMsFi5qoI3qdsURSPB8LKAXoefXORu1labwjuhn6DzTMu3CyJ7Egnon
+	AEUdPMmht2PTjyV84VeQ9x8rM31xg/UptZkS3+zJncDE4lJ/e4tHdMdoRwxqgLR4
+	hqEoP+coAOEJCTvrw58Ktd5O6fOe/MA9R1xxIvPPn7mw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; bh=/leRh62XUwmrp3leOvWmHUqYHJBZ+rf2Tq+E4T1pwfg=; b=KGEM2NGn
-	JMLyLCFeS4mZIx/uYqDxPzw4UQNfJ3B8mVp0YHyUAbrWxv84iJd46A2GQyEpfqfi
-	B49ws6L9h9M8kSLPjKNd0IlKHSOC6Pb1uEGncINSgm6pdHTbzH0Z6Ano2Xc9jIO7
-	A8Z6sNnW45fnlw2hlXDBlJ2lqmm5Ljg4AgMXpYQZM3F2dMqpazqNGRWbmzXyLLML
-	4nGwo6XzRfM/MVmpdZ3dybOY+hpNT6jkPmkBoS2HqGBgA7hea1LyPYr2SoPSt9qE
-	hh/smH3Wne33DQZLOx1xT8ROfCyxKckAqM1YxrYj6QivKTMVNw174tZ3GZY+1SYk
-	r8pVMmlV+YFQFQ==
-X-ME-Sender: <xms:RagjYfZoWX3E1prxuM3SC006oP6WnQf7i2-nSda6dmV20B99bMOSHQ>
-    <xme:RagjYebQHBL7ZXgdyg9Bp9RXIotHUEQkTDxtvnGykL_KIGQkNzyjFubLyL62ODI__
-    STCK05TSV6ZnvUf-0o>
-X-ME-Received: <xmr:RagjYR_uW5ml6L5oxoIYLradm2DBi_XSj8GKZkDRx1csNZWwYC2xynZxp8sXPnvxYA>
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=VvTd407WH/WtWvFQM
+	0STei1ChtQofsTE33LbHww3fuw=; b=Z5qxSm2vcHGWekaz4U55FbpNB1deKWXW5
+	VAlPABriYduHGgIAH3hcvMFaOMGl9OdFGoakDoyxo+RwdCMlsQzCXJkEhaTeerR1
+	1GPeGj/eqNs7KzQuFvAm7wO5Tydnx9fWCn4/xsHxntjEF5MSMskEai9VukOnegJy
+	nqXMDnHN31eKZ+eUQ/jGKxkNq6pQdvvRdZ5qqo0jbDyUtZnHM9FrYv6AL+ABM9QN
+	b6dqEgLNcHaxBDcl0R7/w/ooeiscXl79oMnDT/VL1Z2B5cr1E7rXnBIVcKe6z7pb
+	EgxSCkKi5JHW3fYTtqaYH9PKbXMtrIP3bIcmbgZx77krPgLXZLa5A==
+X-ME-Sender: <xms:QagjYTEqQQa6S7pIfu_oiZOf_PWrkUZl9yphe_3_NuEyKctwPxkOhw>
+    <xme:QagjYQUZyeDYP0KvjlRM9QAfm2xrpquPeyaHRF5d_BH8sMbqVCytnPzlYvYOT0j4L
+    s1u3y-hxfEzWl1hpWA>
+X-ME-Received: <xmr:QagjYVJ9FsA0r6mFYXIKi5ih4PNDjBe6_YDNl1Ku6PpSqXr7K87a_eqIumf_7faL-w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddthedgjedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeetnhgurhgv
-    ihcuifhhvghriigrnhcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqnecuggftrf
-    grthhtvghrnheptedtvdfffeekteevkeetieevgeegveeiiedujeefieetvdekledvkeeh
-    jeelffefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:RagjYVqpi4-fByWI2U10d4cIFeTVjK7MMcvGbCVBZy2QzNhPMzA7OQ>
-    <xmx:RagjYaq72f-Yt3kc4QWO9xa-4aqzA_Q5s3Dj9YxbULHq7Yd_lrgKDg>
-    <xmx:RagjYbQ_7nvZz87v792xDw66f35Om9pTEIUP2tpi00ex6isZWRwaHw>
-    <xmx:RagjYdVn89nbnjt8mIZlPcP7MNYzKCtPdK4QvfhV45eH8tTTG-bHmA>
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeetnhgurhgvihcu
+    ifhhvghriigrnhcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqnecuggftrfgrth
+    htvghrnhepfeevjeevfeejtdevkeeigedvueeileevffevgffgjeejfedufedtvdduteev
+    teeknecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghr
+    iigrnhdrtghomh
+X-ME-Proxy: <xmx:QagjYRF0puZfMUghX8i7pQpRdXa_oRAVIKR9otGRrxep0In3nQxNnA>
+    <xmx:QagjYZV1Fru9IRiBAQn0EwRmqfuupikIqOYLuOuMIc63uOtKhd-zYw>
+    <xmx:QagjYcOKdvJSmSe_3OveCANZogskJzQqUxqfK-EuqXagHFDfMJ-8-g>
+    <xmx:QagjYWjAQFcKCDfmxEY1VfmrV_XOjRb8TgVG6QKhRD8Rb9L3v_D81w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Aug 2021 09:53:06 -0400 (EDT)
+ 23 Aug 2021 09:53:02 -0400 (EDT)
 From: "Andrei Gherzan" <andrei@gherzan.com>
 To: openembedded-core@lists.openembedded.org
 Cc: andrei@gherzan.com,
-	jbouchard <jeanbouch418@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Leif Middelschulte <leif.middelschulte@klsmartin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 2/2] Use the label provided when formating a dos partition
-Date: Mon, 23 Aug 2021 14:52:50 +0100
-Message-Id: <20210823135250.767173-2-andrei@gherzan.com>
+Subject: [dunfell][PATCH 1/2] bitbake: fetch2: fix handling of `\` in file:// SRC_URI
+Date: Mon, 23 Aug 2021 14:52:49 +0100
+Message-Id: <20210823135250.767173-1-andrei@gherzan.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210823135250.767173-1-andrei@gherzan.com>
-References: <20210823135250.767173-1-andrei@gherzan.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: jbouchard <jeanbouch418@gmail.com>
+From: Leif Middelschulte <leif.middelschulte@klsmartin.com>
 
-Previously the bootimg-pcbios wic plugin was not respecting
-the --label option provided from the wks file. The plugin
-was setting the label to 'boot'. With this fix, the --label
-option is use. If no option are specified, then the default
-is 'boot'.
+Using backslashes in file:// URIs was broken.
+Either the resolver would fail or the subsequent `cp` command.
+Try to avoid this by putting the filenames into quotes.
 
-(From OE-Core rev: 0fd7a73c1bd2486b7a022f0f69bbcb2e0d9cb141)
+Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=8161
 
-Signed-off-by: jbouchard <jeanbouch418@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(Bitbake rev: aa857fa2e9cf3b0e43a9049b04ec4b0b3c779b11)
+
+Signed-off-by: Leif Middelschulte <leif.middelschulte@klsmartin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ bitbake/lib/bb/fetch2/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index f2639e7004..32e47f1831 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -186,8 +186,10 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
+diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py
+index dc99914cd9..ece07f611c 100644
+--- a/bitbake/lib/bb/fetch2/__init__.py
++++ b/bitbake/lib/bb/fetch2/__init__.py
+@@ -1525,7 +1525,7 @@ class FetchMethod(object):
+                     if urlpath.find("/") != -1:
+                         destdir = urlpath.rsplit("/", 1)[0] + '/'
+                         bb.utils.mkdirhier("%s/%s" % (unpackdir, destdir))
+-                cmd = 'cp -fpPRH %s %s' % (file, destdir)
++                cmd = 'cp -fpPRH "%s" "%s"' % (file, destdir)
  
--        dosfs_cmd = "mkdosfs -n boot -i %s -S 512 -C %s %d" % \
--                    (part.fsuuid, bootimg, blocks)
-+        label = part.label if part.label else "boot"
-+
-+        dosfs_cmd = "mkdosfs -n %s -i %s -S 512 -C %s %d" % \
-+                    (label, part.fsuuid, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
+         if not cmd:
+             return
 -- 
 2.31.1
 
