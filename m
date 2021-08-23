@@ -1,272 +1,263 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.27464.1629740440355369957
+Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.82])
+ by mx.groups.io with SMTP id smtpd.web12.27865.1629742368994517337
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 10:40:40 -0700
+ Mon, 23 Aug 2021 11:12:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=CsVtjiNu;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
-Received: from [192.168.0.237] (unknown [64.187.161.254])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6799820B7192
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 10:40:39 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6799820B7192
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1629740439;
-	bh=nwC601RNDYG4UoMoGP3JLekWlwD3fjiBv/SmJ8E1v3E=;
-	h=Subject:To:References:From:Date:In-Reply-To:From;
-	b=CsVtjiNu3PDE9i7n2ZcjdF/Q8V/pATh/8v2rFyEaKZBcSINTl7ZB6/zSU3VG5MloF
-	 INViCAkMM3oT5MK0e8l9mK3SuXe/vjRKuCDdfvlfx9r5vuSTC77B9vy0XkT1QbFKS+
-	 ABGPuWpYciiysCeN/5Um4GOeAUECuExEctpdOOq8=
-Subject: Re: [OE-core] [PATCH] buildhistory: Add output file listing package information
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=ozmWp0Dt;
+ spf=pass (domain: kpit.com, ip: 40.107.139.82, mailfrom: ranjitsinh.rathod@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dtaeH0sGQnLYdXfyQiDCSz2cE9rBjpZ+A62CitPZghWVLKP7niSceSJCXs2vPveQ3n11YBjyvjbvYMGZw15PjU+CBZrtdzD+pfLT3X7Lr2wRsg0ucqGAT8H7DaYRxFzt77AxaELO2SO9JU8JggcxwzNMHlkOIk2fEDgeL3vtacAT4O+B4em5sFFcnGXUYAawjDuLZhNnUzDpwiQfni9eY3kB2H+mZLLrTPU1MALjJhUMllATcucJFueiXTFnapLlFoDrMtUnpa1w86CbbGwPnGho3Q/TRiKUk+eI2KR8iHDadcqsT4ZYWNtZPAWzsAz/cZgWh+pYM7GX4EosIDmXeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PAVOdCuRQLyVBmpfysbYaJcYrSZhqLEde8E2qMcYe8o=;
+ b=HswfzQ8ERcTSKxLxmeUPHxAPU+SBiRukajRzLmTRdNN5WATx8c9tS8Q9Ttl4reqsmVb3O31JQAafxo5NfRgHiJOCrcg2AE+sWHhCa0+cXV2i59rAM2jamID7mb08cUkbqzEHCNDnB885MgM44x49dkPa8tnXh+CE1NVscUSZhS+kZDzNwnU2m0H9HlqonIPlOYzsi5W2frfQk/4/JzcDjyK0LHBPjNW+kMVsv8VeDuzRHUgyO1GsSHVqSafcw7yb6Tc2gBLVfzvjIRJOvBH7sQgHOj1wC4rPqDhOBXKLhZ+HPb1/tFrlxS+82u2ZeujE8W30Q1nQ/ghh/EdnBr2IKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PAVOdCuRQLyVBmpfysbYaJcYrSZhqLEde8E2qMcYe8o=;
+ b=ozmWp0DtDYAp5xsKmj+HiKpBqtuGgGz6hAVNzkQ5Ms1MFtrbST90+5Mw7LYyQXocLFLU9k1T+bck1YR9EsO/5DhLTJ6J4VlyGUCXZHIPfCiVDLjMhc8LAz9+wZxMkz3qD1T4Bhhec2InN0w55AkTWWBxlsj5pw/mfvTrMKqDKPs=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kpit.com;
+Received: from PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:39::7)
+ by PN2PR01MB5078.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:40::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.21; Mon, 23 Aug
+ 2021 18:12:41 +0000
+Received: from PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::80d4:55b6:bb63:f809]) by PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::80d4:55b6:bb63:f809%5]) with mapi id 15.20.4436.025; Mon, 23 Aug 2021
+ 18:12:41 +0000
+From: "Ranjitsinh Rathod" <ranjitsinh.rathod@kpit.com>
 To: openembedded-core@lists.openembedded.org
-References: <169A9DA42F327D81.28384@lists.openembedded.org>
-From: "Andres Beltran" <abeltran@linux.microsoft.com>
-Message-ID: <41494860-972e-c58e-4d97-c052e844a0fb@linux.microsoft.com>
-Date: Mon, 23 Aug 2021 10:40:34 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Subject: [meta][dunfell][PATCH] rpm: Add fix for CVE-2021-20266
+Date: Mon, 23 Aug 2021 23:42:26 +0530
+Message-Id: <20210823181226.3259-1-ranjitsinh.rathod@kpit.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: PN1PR01CA0113.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00::29)
+ To PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:39::7)
+Return-Path: ranjitsinh.rathod@kpit.com
 MIME-Version: 1.0
-In-Reply-To: <169A9DA42F327D81.28384@lists.openembedded.org>
-Content-Type: multipart/alternative;
- boundary="------------A4D82CFDB777AA48DE3B4C6B"
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (103.85.11.25) by PN1PR01CA0113.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 18:12:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 70a9f54e-69f2-4a4a-5036-08d966619896
+X-MS-TrafficTypeDiagnostic: PN2PR01MB5078:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<PN2PR01MB5078BFDEEAFE6E9B5DA0D3CC8FC49@PN2PR01MB5078.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:65;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	uNe471zEswTzgO+UGjtKjq3uBd+kNWC8xy6KvH13c/htrFuXOnMLfJZLbnFrfQU73CMUjj2KqHiJzgPQN44vbipzmIkB5REKcpaXGAo3EsFmi5Eyzql8t1O/prxERu+dSku6RF8pu7eVt4tFNy0Z2vwvmjl+cpL1AMtH3PRq+B95VV4gIjadtOQDCHj9Q78pByd5y8FNGS3F9EHa5eYGCuWZnxbNM27VBILFZwyo/OKsEXDUpzqRU0emxdkC8JVnxWdb2Kqwe7ZlH4b5dZ6LUzU5fLOuKggz0pif4AO7ZKMV8oT4bhuFYkBxzHKbDjwVJNR9/Hva/UzVmzBFmYGD3s4Egq2HKCZNc1sehHqER1ja+AiLiUwDf0pmlmnhGvG3yb5VWqW9yKzwsFVSmgC085bFzCAS0fhdKwx3NNMN09S1XSVcD8a5m8xt5apzq2NMq3tK62FgU5BrWkp0+KmLEBj+1/tRP3b7Pu38gyW63lzV5YUkJFeswBbIfTpZ6Bt+xnCnM7LGnDk1ujh+uzoIcrOLQ3xqpHorsQ4txbRr0jGwiH+TZvGeKJ89dLknH/ZqF1tiK6h9UeQrams5FsBlsQ9sLaUDVHFD08gGdO+BCdCegAnbUs8RcUdk3AgKkQA5/jgME/3jdIpK9sjvBh6Oc5vUrjY9oD85GwpHSs0ttKAkUhDnJrNu7CH41wXZCDVX0x+H6jzcMYWiqbRf66FX4Kzta6EqWzw8itF6PN2jiZkx2IaMZO5w+DlPaJrK9s5+Dtd7DUzDlHE989gccRcVUUQZlGv77jhbBVaUx4hmKHE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(1076003)(2616005)(26005)(2906002)(6506007)(316002)(6916009)(956004)(44832011)(52116002)(6512007)(86362001)(66946007)(6666004)(66556008)(66476007)(186003)(8936002)(508600001)(5660300002)(8676002)(38100700002)(36756003)(38350700002)(66574015)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?oAeEsmCGYxGgEH776ljq8qTIYnp2ohzauu/LwCdrJl9PF0wh6Cjj/DT3xfSd?=
+ =?us-ascii?Q?vRnl9fH6FDIcm9Ii1q6Y8u3trfreG/J0bAmZaVkNna1zmmWVBHPFUtHw9RtA?=
+ =?us-ascii?Q?WiD6po+yZnPtLPeDMnEGZYdYsjJTZgpxLDLi//ieBY1cD4J5H0Yh9H+CslVQ?=
+ =?us-ascii?Q?EhfohcOMInAp/O65asum+Wa2KNc8dFDNbvJEVWQ0cduex8rZxKpKnnAQiuld?=
+ =?us-ascii?Q?XFGoAKQ37jUpPHs1uls01Sf06B2O/W/NwooZQKy8Z+a4zLtvfTKzboXjLOjz?=
+ =?us-ascii?Q?uXFoO/3C0+Uj3JU5t48130V5IDRNPbd480V6gEmspDpzyOTh4VvHxlcDH7Yp?=
+ =?us-ascii?Q?8v/RRxgrbdL56Xj7zOKO4Zu7iNF3bKWbU6s/zqIu5dQqqVscCbrp7ZkK6rao?=
+ =?us-ascii?Q?PeXJIyXN6wB4Rvb9cPUSlVYLHFn5oOdXZr9Cd60NUGrtwj3439LO1tmqsA+T?=
+ =?us-ascii?Q?c1Dfena3bDr9sj7mCDm4aHAJnzXnfCL75owLW7KSx8YOwyF82FYgk4t2UCG2?=
+ =?us-ascii?Q?+LONIPe3EmmJTvcPNV1e3jgvWJk6d4/vHwf0EVb19TUA5ytpXRnWhE6hvMbF?=
+ =?us-ascii?Q?ubRRaWFwYOA6rFuhlwPB4yMEXmZ+2yjuaVCksprDaG3qWQEUu7KiYef07rfH?=
+ =?us-ascii?Q?TErBIUYZgEXGY7//FdXlPubPnvRFc+RuYgArjia4J1vLtmhzTiyLiU96SRf+?=
+ =?us-ascii?Q?h+StlqY5yxmYxdA2EWsNesealgh+K9V5BsL9gG0dcz3AHT07wPOiMLQxgh90?=
+ =?us-ascii?Q?Ef5Qgec6fM0Hx8K+oVQi8+6ZMUYGIHADxJ451QwbHT1Bfk8/Ycq4tIV6UCSN?=
+ =?us-ascii?Q?NyH5r52R1CvRhUnlAsFR+C/3jy1pEnyXr20NxLq0L368/pP8TBgQcCBnlsmX?=
+ =?us-ascii?Q?G7HLdJgDYGYJ3LBClWtDUyAnE7KmpDqdnhn3u4OuO5zbT9JhuLQR/qWEKv9h?=
+ =?us-ascii?Q?xB21K5qNrInN7wcFeu6erL8FflrRlktdU78ieaBOZ1gw4okMH92rkTBX2Mwo?=
+ =?us-ascii?Q?+1lMdVPwFjG1EFBD6XW+gvpyjHCh9j0Jt40dYDbXajA0eRxL+EhV4wqPRIbo?=
+ =?us-ascii?Q?HSjN9IbLi+JXUnoOsY8kY4oIBV2p6UWHHZ+02e5oQtehWACpmhipT6kzsPn8?=
+ =?us-ascii?Q?V1iK0wMnSQpM/nWyAT8wEOnDOHF+rp47R6zTfbr/8l7XB3YcZV2baRASDyFK?=
+ =?us-ascii?Q?F2c1nKKL5kSSf9n/BT6yTGTBjjZKBmSo8Ckg0e4HY3txSpXhKT45SzVZhYqx?=
+ =?us-ascii?Q?9T1uRByDQQtKqTlB/HXZtKXzyc+pgngtm4Dvk9CbzlAD1lm9X/f30z44bbF/?=
+ =?us-ascii?Q?YTOWxT3uYdtYfYk9mMwnIZf+?=
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70a9f54e-69f2-4a4a-5036-08d966619896
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB5278.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 18:12:40.9515
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wzEqN432rTG6eP2y6PQ73mBqb7XNdKzen7DQhy9TeQNedxftPjSpZuZiLkHpFz9f/VR7AhlKJ8N5AozvAPqhfw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PR01MB5078
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
---------------A4D82CFDB777AA48DE3B4C6B
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Adding fix for CVE-2021-20266
+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/p=
+ull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
 
-Hello,
+Note: Hunk#2 and Hunk#3 refreshed to apply patch and match value of
+dl_max variable to make it with current version
 
-This is a reminder request for review.
-
-Best,
-Andres Beltran
-
-
-On 8/12/2021 9:58 AM, Andres Beltran wrote:
-> Currently, buildhistory does not produce a single file combining relevant
-> information of installed packages. Produce an output file
-> "installed-package-info.txt" listing a package's runtime name, buildtime name,
-> its recipe, version, and size to avoid having to look up each package externally.
-> Leave the existing package list files as-is for backwards compatibility.
->
-> In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
-> for its read-value argument.
->
-> Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
-> ---
->   meta/classes/buildhistory.bbclass |  5 +++++
->   scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
->   2 files changed, 28 insertions(+), 14 deletions(-)
->
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index 8a1359acbe..134b56ab71 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -491,6 +491,11 @@ buildhistory_get_installed() {
->   	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r > $1/installed-package-sizes.txt
->   	rm $1/installed-package-sizes.tmp
->   
-> +	# Produce package info: runtime_name, buildtime_name, recipe, version, size
-> +	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache > $1/installed-package-info.tmp
-> +	cat $1/installed-package-info.tmp | sort -n -r -k 5 > $1/installed-package-info.txt
-> +	rm $1/installed-package-info.tmp
-> +
->   	# We're now done with the cache, delete it
->   	rm $pkgcache
->   
-> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-> index 75dd23efa3..c30baaa580 100755
-> --- a/scripts/oe-pkgdata-util
-> +++ b/scripts/oe-pkgdata-util
-> @@ -171,7 +171,7 @@ def read_value(args):
->                       val = line.split(': ', 1)[1].rstrip()
->           return val
->   
-> -    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
-> +    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
->       for package in packages:
->           pkg_split = package.split('_')
->           pkg_name = pkg_split[0]
-> @@ -180,20 +180,29 @@ def read_value(args):
->           logger.debug(revlink)
->           if os.path.exists(revlink):
->               mappedpkg = os.path.basename(os.readlink(revlink))
-> -            qvar = args.valuename
-> -            value = readvar(revlink, qvar, mappedpkg)
-> -            if qvar == "PKGSIZE":
-> -                # PKGSIZE is now in bytes, but we we want it in KB
-> -                pkgsize = (int(value) + 1024 // 2) // 1024
-> -                value = "%d" % pkgsize
-> -            if args.unescape:
-> -                import codecs
-> -                # escape_decode() unescapes backslash encodings in byte streams
-> -                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-> +            qvars = args.valuenames
-> +            val_names = qvars.split(',')
-> +            values = []
-> +            for qvar in val_names:
-> +                if qvar == "PACKAGE":
-> +                    value = mappedpkg
-> +                else:
-> +                    value = readvar(revlink, qvar, mappedpkg)
-> +                if qvar == "PKGSIZE":
-> +                    # PKGSIZE is now in bytes, but we we want it in KB
-> +                    pkgsize = (int(value) + 1024 // 2) // 1024
-> +                    value = "%d" % pkgsize
-> +                if args.unescape:
-> +                    import codecs
-> +                    # escape_decode() unescapes backslash encodings in byte streams
-> +                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-> +                values.append(value)
-> +
-> +            values_str = ' '.join(values)
->               if args.prefix_name:
-> -                print('%s %s' % (pkg_name, value))
-> +                print('%s %s' % (pkg_name, values_str))
->               else:
-> -                print(value)
-> +                print(values_str)
->           else:
->               logger.debug("revlink %s does not exist", revlink)
->   
-> @@ -570,7 +579,7 @@ def main():
->       parser_read_value = subparsers.add_parser('read-value',
->                                             help='Read any pkgdata value for one or more packages',
->                                             description='Reads the named value from the pkgdata files for the specified packages')
-> -    parser_read_value.add_argument('valuename', help='Name of the value to look up')
-> +    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
->       parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
->       parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
->       parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
->
-> 
->
-
---------------A4D82CFDB777AA48DE3B4C6B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hello,</p>
-    This is a reminder request for review.<br>
-    <br>
-    Best,<br>
-    Andres Beltran
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 8/12/2021 9:58 AM, Andres Beltran
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:169A9DA42F327D81.28384@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">Currently, buildhistory does not produce a single file combining relevant
-information of installed packages. Produce an output file
-"installed-package-info.txt" listing a package's runtime name, buildtime name,
-its recipe, version, and size to avoid having to look up each package externally.
-Leave the existing package list files as-is for backwards compatibility.
-
-In order to support this efficiently, extend oe-pkgdata-util to accept multiple keys
-for its read-value argument.
-
-Signed-off-by: Andres Beltran <a class="moz-txt-link-rfc2396E" href="mailto:abeltran@linux.microsoft.com">&lt;abeltran@linux.microsoft.com&gt;</a>
+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 ---
- meta/classes/buildhistory.bbclass |  5 +++++
- scripts/oe-pkgdata-util           | 37 +++++++++++++++++++------------
- 2 files changed, 28 insertions(+), 14 deletions(-)
+ .../rpm/files/CVE-2021-20266.patch            | 108 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
+ 2 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 8a1359acbe..134b56ab71 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -491,6 +491,11 @@ buildhistory_get_installed() {
- 	cat $1/installed-package-sizes.tmp | awk '{print $2 "\tKiB\t" $1}' | sort -n -r &gt; $1/installed-package-sizes.txt
- 	rm $1/installed-package-sizes.tmp
- 
-+	# Produce package info: runtime_name, buildtime_name, recipe, version, size
-+	oe-pkgdata-util -p ${PKGDATA_DIR} read-value "PACKAGE,PN,PV,PKGSIZE" -n -f $pkgcache &gt; $1/installed-package-info.tmp
-+	cat $1/installed-package-info.tmp | sort -n -r -k 5 &gt; $1/installed-package-info.txt
-+	rm $1/installed-package-info.tmp
+diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch b/meta/re=
+cipes-devtools/rpm/files/CVE-2021-20266.patch
+new file mode 100644
+index 0000000000..d8b91d4f8e
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
+@@ -0,0 +1,108 @@
++From 9646711891df851dfbf7ef54cc171574a0914b15 Mon Sep 17 00:00:00 2001
++From: Demi Marie Obenour <athena@invisiblethingslab.com>
++Date: Mon, 8 Feb 2021 16:05:01 -0500
++Subject: [PATCH] hdrblobInit() needs bounds checks too
 +
- 	# We're now done with the cache, delete it
- 	rm $pkgcache
- 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 75dd23efa3..c30baaa580 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -171,7 +171,7 @@ def read_value(args):
-                     val = line.split(': ', 1)[1].rstrip()
-         return val
- 
--    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuename, packages))
-+    logger.debug("read-value('%s', '%s' '%s')" % (args.pkgdata_dir, args.valuenames, packages))
-     for package in packages:
-         pkg_split = package.split('_')
-         pkg_name = pkg_split[0]
-@@ -180,20 +180,29 @@ def read_value(args):
-         logger.debug(revlink)
-         if os.path.exists(revlink):
-             mappedpkg = os.path.basename(os.readlink(revlink))
--            qvar = args.valuename
--            value = readvar(revlink, qvar, mappedpkg)
--            if qvar == "PKGSIZE":
--                # PKGSIZE is now in bytes, but we we want it in KB
--                pkgsize = (int(value) + 1024 // 2) // 1024
--                value = "%d" % pkgsize
--            if args.unescape:
--                import codecs
--                # escape_decode() unescapes backslash encodings in byte streams
--                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-+            qvars = args.valuenames
-+            val_names = qvars.split(',')
-+            values = []
-+            for qvar in val_names:
-+                if qvar == "PACKAGE":
-+                    value = mappedpkg
-+                else:
-+                    value = readvar(revlink, qvar, mappedpkg)
-+                if qvar == "PKGSIZE":
-+                    # PKGSIZE is now in bytes, but we we want it in KB
-+                    pkgsize = (int(value) + 1024 // 2) // 1024
-+                    value = "%d" % pkgsize
-+                if args.unescape:
-+                    import codecs
-+                    # escape_decode() unescapes backslash encodings in byte streams
-+                    value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
-+                values.append(value)
++Users can pass untrusted data to hdrblobInit() and it must be robust
++against this.
 +
-+            values_str = ' '.join(values)
-             if args.prefix_name:
--                print('%s %s' % (pkg_name, value))
-+                print('%s %s' % (pkg_name, values_str))
-             else:
--                print(value)
-+                print(values_str)
-         else:
-             logger.debug("revlink %s does not exist", revlink)
- 
-@@ -570,7 +579,7 @@ def main():
-     parser_read_value = subparsers.add_parser('read-value',
-                                           help='Read any pkgdata value for one or more packages',
-                                           description='Reads the named value from the pkgdata files for the specified packages')
--    parser_read_value.add_argument('valuename', help='Name of the value to look up')
-+    parser_read_value.add_argument('valuenames', help='Name of the value/s to look up (separated by commas, no spaces)')
-     parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
-     parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
-     parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
++Backported from commit 8f4b3c3cab8922a2022b9e47c71f1ecf906077ef
++
++Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/=
+pull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
++CVE: CVE-2021-20266
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++---
++ lib/header.c | 48 +++++++++++++++++++++++++++++++-----------------
++ 1 file changed, 31 insertions(+), 17 deletions(-)
++
++diff --git a/lib/header.c b/lib/header.c
++index 6af48e61af..46ded5dd99 100644
++--- a/lib/header.c
+++++ b/lib/header.c
++@@ -11,6 +11,7 @@
++ #include "system.h"
++ #include <netdb.h>
++ #include <errno.h>
+++#include <inttypes.h>
++ #include <rpm/rpmtypes.h>
++ #include <rpm/rpmstring.h>
++ #include "lib/header_internal.h"
++@@ -1910,6 +1911,25 @@ hdrblob hdrblobFree(hdrblob blob)
++     return NULL;
++ }
++
+++static rpmRC hdrblobVerifyLengths(rpmTagVal regionTag, uint32_t il, uint3=
+2_t dl,
+++                                char **emsg) {
+++    uint32_t il_max =3D HEADER_TAGS_MAX;
+++    uint32_t dl_max =3D HEADER_DATA_MAX;
+++    if (regionTag =3D=3D RPMTAG_HEADERSIGNATURES) {
+++      il_max =3D 32;
+++      dl_max =3D 8192;
+++    }
+++    if (hdrchkRange(il_max, il)) {
+++      rasprintf(emsg, _("hdr tags: BAD, no. of tags(%" PRIu32 ") out of r=
+ange"), il);
+++      return RPMRC_FAIL;
+++    }
+++    if (hdrchkRange(dl_max, dl)) {
+++      rasprintf(emsg, _("hdr data: BAD, no. of bytes(%" PRIu32 ") out of =
+range"), dl);
+++      return RPMRC_FAIL;
+++    }
+++    return RPMRC_OK;
+++}
+++
++ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag=
+, hdrblob blob, char **emsg)
++ {
++     int32_t block[4];
++@@ -1922,13 +1942,6 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_siz=
+e, rpmTagVal regionTag, hdrbl
++     size_t nb;
++     rpmRC rc =3D RPMRC_FAIL;            /* assume failure */
++     int xx;
++-    int32_t il_max =3D HEADER_TAGS_MAX;
++-    int32_t dl_max =3D HEADER_DATA_MAX;
++-
++-    if (regionTag =3D=3D RPMTAG_HEADERSIGNATURES) {
++-      il_max =3D 32;
++-      dl_max =3D 8192;
++-    }
++
++     memset(block, 0, sizeof(block));
++     if ((xx =3D Freadall(fd, bs, blen)) !=3D blen) {
++@@ -1941,15 +1954,9 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_siz=
+e, rpmTagVal regionTag, hdrbl
++       goto exit;
++     }
++     il =3D ntohl(block[2]);
++-    if (hdrchkRange(il_max, il)) {
++-      rasprintf(emsg, _("hdr tags: BAD, no. of tags(%d) out of range"), i=
+l);
++-      goto exit;
++-    }
++     dl =3D ntohl(block[3]);
++-    if (hdrchkRange(dl_max, dl)) {
++-      rasprintf(emsg, _("hdr data: BAD, no. of bytes(%d) out of range"), =
+dl);
+++    if (hdrblobVerifyLengths(regionTag, il, dl, emsg))
++       goto exit;
++-    }
++
++     nb =3D (il * sizeof(struct entryInfo_s)) + dl;
++     uc =3D sizeof(il) + sizeof(dl) + nb;
++@@ -1993,11 +2000,18 @@ rpmRC hdrblobInit(const void *uh, size_t uc,
++               struct hdrblob_s *blob, char **emsg)
++ {
++     rpmRC rc =3D RPMRC_FAIL;
++-
++     memset(blob, 0, sizeof(*blob));
+++    if (uc && uc < 8) {
+++      rasprintf(emsg, _("hdr length: BAD"));
+++      goto exit;
+++    }
+++
++     blob->ei =3D (int32_t *) uh; /* discards const */
++-    blob->il =3D ntohl(blob->ei[0]);
++-    blob->dl =3D ntohl(blob->ei[1]);
+++    blob->il =3D ntohl((uint32_t)(blob->ei[0]));
+++    blob->dl =3D ntohl((uint32_t)(blob->ei[1]));
+++    if (hdrblobVerifyLengths(regionTag, blob->il, blob->dl, emsg) !=3D RP=
+MRC_OK)
+++      goto exit;
+++
++     blob->pe =3D (entryInfo) &(blob->ei[2]);
++     blob->pvlen =3D sizeof(blob->il) + sizeof(blob->dl) +
++                 (blob->il * sizeof(*blob->pe)) + blob->dl;
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devto=
+ols/rpm/rpm_4.14.2.1.bb
+index 018b2f8700..c93654aa8f 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+@@ -45,6 +45,7 @@ SRC_URI =3D "git://github.com/rpm-software-management/rpm=
+;branch=3Drpm-4.14.x \
+            file://0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD16=
+0.patch \
+            file://0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch \
+            file://CVE-2021-3421.patch \
++           file://CVE-2021-20266.patch \
+            "
 
+ PE =3D "1"
+--
+2.17.1
 
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------A4D82CFDB777AA48DE3B4C6B--
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
