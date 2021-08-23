@@ -1,191 +1,147 @@
 Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web11.23646.1629724506726390404
+ by mx.groups.io with SMTP id smtpd.web10.23726.1629724738074901549
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 06:15:07 -0700
+ Mon, 23 Aug 2021 06:18:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=WmEhYDS7;
+ dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=aXiYGsK5;
  spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
 Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
 	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.89)
 	(envelope-from <zboszor@pr.hu>)
-	id 1mI9n6-0003OZ-JT; Mon, 23 Aug 2021 15:15:04 +0200
+	id 1mI9qp-0004p0-Pv; Mon, 23 Aug 2021 15:18:55 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
 	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
 	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6EBzmaWpjMlN4HMvg5UV4sPi3eeOSBZoz9IcmEd/R3k=; b=WmEhYDS7IWZWJZkMHRkDHV75GL
-	YEHOSESzwEQzpROf3un9TBnr+BbaJXv55YcgAvlyYaobz6yoBe/H/SkXs4szRyXEEc63KWcyN3/AX
-	llkgwkFvAIU9gKFKXDaHq74CWsugC2egI9Ul7QzqbGOr9JxLXEG67E/D5QcHtHTUWK2jMuS85RuDS
-	WPLmObDfBzysnXkgKx+ahG13St7cgB5A+jYFUMnw9mBL1ImACwoj8/nwjNy1WBz47ewe1d8A7zWJt
-	bZT7KT9LfF6a2eYZHpyr4aWHHK+4BrK7dYQ0f8XKsOCGG4QX8LGgzSTd45rvzDLpSpLWYprmZl0kv
-	6KQMnI4A==;
+	bh=v/H9G3/ed8bWY7978kMmCNgjw7QDWqwHcVSTJcqZgbc=; b=aXiYGsK5T+HDVe5AtvRNlzI5cp
+	/hhbHuqo+cUL07j2iWVet9ri6czK1+2QYfuFDJjd0ZUSPA7zHGvyfuDgSkQf1L9Yr181Zwx95m4VT
+	vXtcq1kKfAh3vQcaWmJB6CCml6bbfcN7UAuApe04LGX3p2qqOaHna+emDCT/5JgWYcD0JafEOyTux
+	w6NW8aQygazh4cgn1/JFQUCCu3T8FB2Y7R/5zPFpSGwm/CXd8E4LIk608a/siyk8FH3RapnlLcJZw
+	sv+PVzppMAwRjDiZK9nrInL3kZb4PMWyWf88jlguVSjcKX8ooJkOrJKl54/YsbMmiU8O32cAw7a+b
+	AWJFJTtw==;
 Received: from host-87-242-23-58.prtelecom.hu ([87.242.23.58] helo=localhost.localdomain)
 	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.92)
 	(envelope-from <zboszor@pr.hu>)
-	id 1mI9n2-0006Kl-3o; Mon, 23 Aug 2021 15:15:02 +0200
-Subject: Re: [OE-core] [PATCH 1/6] package_rpm.bbclass: Handle posttrans scriptlets
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, zboszor@gmail.com
+	id 1mI9ql-00083Y-FX; Mon, 23 Aug 2021 15:18:53 +0200
+Subject: Re: [OE-core] [PATCH 3/6] kernel-module-split.bbclass: Allow opt-out of split kernel modules
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, zboszor@gmail.com
 References: <20210823122323.97400-1-zboszor@pr.hu>
- <20210823122323.97400-2-zboszor@pr.hu>
- <CANNYZj_VL-bxXG_mb-Z5QaWhHZvr4p+LVnvgODm84tRkSrFjEA@mail.gmail.com>
+ <20210823122323.97400-4-zboszor@pr.hu>
+ <CADkTA4PC3Fi6y+OSFUWSxRgdbFQsc=Vfq4Yv_G86nmatnWirbA@mail.gmail.com>
 From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Message-ID: <fb092fdd-103a-9eb9-c070-b72313d45fdd@pr.hu>
-Date: Mon, 23 Aug 2021 15:14:57 +0200
+Message-ID: <d780f47b-38a7-a44e-d8a1-3d6dd0a286c5@pr.hu>
+Date: Mon, 23 Aug 2021 15:18:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_VL-bxXG_mb-Z5QaWhHZvr4p+LVnvgODm84tRkSrFjEA@mail.gmail.com>
+In-Reply-To: <CADkTA4PC3Fi6y+OSFUWSxRgdbFQsc=Vfq4Yv_G86nmatnWirbA@mail.gmail.com>
 X-Spam-Score: -1.9 (-)
-X-Scan-Signature: 48d6b0d972e1d5478b4282597e190fb4
-X-Spam-Tracer: backend.mail.pr.hu -1.9 20210823131502Z
+X-Scan-Signature: 316c0b8cf0e78679f900b47fed9e237b
+X-Spam-Tracer: backend.mail.pr.hu -1.9 20210823131853Z
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-It's documented at www.rpm.org, Red Hat and SuSE.
+2021. 08. 23. 14:55 keltezéssel, Bruce Ashfield írta:
+> On Mon, Aug 23, 2021 at 8:23 AM Zoltan Boszormenyi via
+> lists.openembedded.org <zboszor=pr.hu@lists.openembedded.org> wrote:
+>>
+>> From: Zoltán Böszörményi <zboszor@gmail.com>
+>>
+>> For some use cases, a monolithic kernel-modules package containing
+>> all modules built from the kernel sources may be preferred.
+>> For one, download time is shorter and installation time is faster.
+>>
+> 
+> There's still an outstanding issue though. Unless you generate the
+> provides/rdepends along with the monolithic package, any existing
+> rdepends on kernel modules break.
 
-https://docs.fedoraproject.org/en-US/packaging-guidelines/Scriptlets/
-https://en.opensuse.org/openSUSE:Packaging_scriptlet_snippets
-https://rpm-packaging-guide.github.io/
+The next patch in the thread does it.
 
-It's available since RPM 4.4. RPM 4.16.1.3 is in Hardknott.
+> 
+> While that likely isn't something you hit in your use case, it would
+> be something that would have to be covered to make this part of core.
+> 
+> About 7 years ago, I was most of the way through a similar change,
+> that created on large package with all the rprovides generated (I'm
+> not sure I can track it down now, but I could have a look), since
+> doing an on target update with thousands of kernel module package is
+> very painful.
 
-A short Google search showed that *maybe* dpkg also supports it,
-or at least there are(were?) plans to implement it:
-https://wiki.debian.org/i18n/TranslationDebsProposals
+Well, yes. In our defconfig, about 1500 kernel-module-* subpackages
+were created and had to be upgraded at once. It was *very* painful
+with over 50 minutes to download and upgrade the kernel.
 
-With postinst, the time when the scriptlet runs may depend
-on the order of the packages in the upgrade transaction and
-may run with the older binaries in place.
-
-The posttrans scriptlet runs at the very end of the
-install/upgrade transaction, just like the OPKG "intercept"
-scripts.
-
-I successfully tested it long ago with a kernel upgrade
-that was running dracut on the new version, plus a dracut
-upgrade in the same session. Dissecting the initramfs proved
-that with postinst, the old dracut version generated it,
-while with posttrans, the new one did.
-
-Who would want to use it? Anyone who needs some finalizer
-script to be run at the end of an RPM/DNF transaction.
-
-I started on Angstrom and I know opkg doesn't implement this
-and Yocto inherited it. This patch is basically a heads up
-that there's another way to do the same thing. Maybe opkg
-implements this some day, maybe not. Anyway, Yocto in general
-will need more changes before the main package.bbclass can
-start to use it for all package formats.
-
-Zoltán
-
-2021. 08. 23. 14:34 keltezéssel, Alexander Kanavin írta:
-> This needs to be better documented and tested.
 > 
-> What does this posttrans thing really do?
-> Who would want to use it?
-> Can there be examples?
-> Can the Postinst test in meta/lib/oeqa/selftest/cases/runtime_test.py be extended to 
-> regression-check that it works?
+> Cheers,
 > 
-> Alex
+> Bruce
 > 
-> On Mon, 23 Aug 2021 at 14:23, Zoltan Boszormenyi via lists.openembedded.org 
-> <http://lists.openembedded.org> <zboszor=pr.hu@lists.openembedded.org 
-> <mailto:pr.hu@lists.openembedded.org>> wrote:
-> 
->     From: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
-> 
->     The "posttrans" scriptlet is the RPM equivalent of the
->     OPKG "intercept script" concept and probably a cleaner one.
-> 
->     "pretrans" also exists in RPM but there's no equivalent
->     for it in OPKG.
-> 
->     Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
->     ---
->       meta/classes/package_rpm.bbclass | 30 +++++++++++++++++++++---------
->       1 file changed, 21 insertions(+), 9 deletions(-)
-> 
->     diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
->     index 88d861c0e7..5992d3fd06 100644
->     --- a/meta/classes/package_rpm.bbclass
->     +++ b/meta/classes/package_rpm.bbclass
->     @@ -308,10 +308,11 @@ python write_specfile () {
->           srcrconflicts  = ""
->           srcrobsoletes  = ""
-> 
->     -    srcrpreinst  = []
->     -    srcrpostinst = []
->     -    srcrprerm    = []
->     -    srcrpostrm   = []
->     +    srcrpreinst   = []
->     +    srcrpostinst  = []
->     +    srcrprerm     = []
->     +    srcrpostrm    = []
->     +    srcrposttrans = []
-> 
->           spec_preamble_top = []
->           spec_preamble_bottom = []
->     @@ -373,11 +374,11 @@ python write_specfile () {
->               splitrconflicts  = localdata.getVar('RCONFLICTS') or ""
->               splitrobsoletes  = ""
-> 
->     -        splitrpreinst  = localdata.getVar('pkg_preinst')
->     -        splitrpostinst = localdata.getVar('pkg_postinst')
->     -        splitrprerm    = localdata.getVar('pkg_prerm')
->     -        splitrpostrm   = localdata.getVar('pkg_postrm')
->     -
->     +        splitrpreinst   = localdata.getVar('pkg_preinst')
->     +        splitrpostinst  = localdata.getVar('pkg_postinst')
->     +        splitrprerm     = localdata.getVar('pkg_prerm')
->     +        splitrpostrm    = localdata.getVar('pkg_postrm')
->     +        splitrposttrans = localdata.getVar('pkg_posttrans')
-> 
->               if not perfiledeps:
->                   # Add in summary of per file dependencies
->     @@ -405,6 +406,7 @@ python write_specfile () {
->                   srcrpostinst   = splitrpostinst
->                   srcrprerm      = splitrprerm
->                   srcrpostrm     = splitrpostrm
->     +            srcrposttrans  = splitrposttrans
-> 
->                   file_list = []
->                   walk_files(root, file_list, conffiles, dirfiles)
->     @@ -496,6 +498,11 @@ python write_specfile () {
->                   scriptvar = wrap_uninstall(splitrpostrm)
->                   spec_scriptlets_bottom.append(scriptvar)
->                   spec_scriptlets_bottom.append('')
->     +        if splitrposttrans:
->     +            spec_scriptlets_bottom.append('%%posttrans -n %s' % splitname)
->     +            spec_scriptlets_bottom.append('# %s - posttrans' % splitname)
->     +            spec_scriptlets_bottom.append(splitrposttrans)
->     +            spec_scriptlets_bottom.append('')
-> 
->               # Now process files
->               file_list = []
->     @@ -590,6 +597,11 @@ python write_specfile () {
->               scriptvar = wrap_uninstall(srcrpostrm)
->               spec_scriptlets_top.append(scriptvar)
->               spec_scriptlets_top.append('')
->     +    if srcrposttrans:
->     +        spec_scriptlets_top.append('%posttrans')
->     +        spec_scriptlets_top.append('# %s - posttrans' % srcname)
->     +        spec_scriptlets_top.append(srcrposttrans)
->     +        spec_scriptlets_top.append('')
-> 
->           # Write the SPEC file
->           specfile = open(outspecfile, 'w')
->     -- 
->     2.31.1
-> 
-> 
+>> Set KERNEL_SPLIT_MODULES="0" for this.
+>>
+>> The default is one subpackage per module.
+>>
+>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>> ---
+>>   meta/classes/kernel-module-split.bbclass | 17 +++++++++++++----
+>>   1 file changed, 13 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+>> index 6c1de4c992..a29c294810 100644
+>> --- a/meta/classes/kernel-module-split.bbclass
+>> +++ b/meta/classes/kernel-module-split.bbclass
+>> @@ -28,6 +28,7 @@ do_install:append() {
+>>          install -d ${D}${sysconfdir}/modules-load.d/ ${D}${sysconfdir}/modprobe.d/
+>>   }
+>>
+>> +KERNEL_SPLIT_MODULES ?= "1"
+>>   PACKAGESPLITFUNCS:prepend = "split_kernel_module_packages "
+>>
+>>   KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-modules"
+>> @@ -156,18 +157,26 @@ python split_kernel_module_packages () {
+>>       kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME") or "kernel"
+>>       kernel_version = d.getVar("KERNEL_VERSION")
+>>
+>> +    metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
+>> +    splitmods = d.getVar('KERNEL_SPLIT_MODULES')
+>> +    postinst = d.getVar('pkg_postinst:modules')
+>> +    postrm = d.getVar('pkg_postrm:modules')
+>> +
+>> +    if splitmods != '1':
+>> +        etcdir = d.getVar('sysconfdir')
+>> +        d.appendVar('FILES:' + metapkg, '%s/modules-load.d/ %s/modprobe.d/ %s/modules/' % (etcdir, etcdir, d.getVar("nonarch_base_libdir")))
+>> +        d.appendVar('pkg_postinst:%s' % metapkg, postinst)
+>> +        d.prependVar('pkg_postrm:%s' % metapkg, postrm);
+>> +        return
+>> +
+>>       module_regex = r'^(.*)\.k?o(?:\.(gz|xz|zst))?$'
+>>
+>>       module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+>>       module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
+>>       module_pattern = module_pattern_prefix + kernel_package_name + '-module-%s' + module_pattern_suffix
+>>
+>> -    postinst = d.getVar('pkg_postinst:modules')
+>> -    postrm = d.getVar('pkg_postrm:modules')
+>> -
+>>       modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
+>>       if modules:
+>> -        metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
+>>           d.appendVar('RDEPENDS:' + metapkg, ' '+' '.join(modules))
+>>
+>>       # If modules-load.d and modprobe.d are empty at this point, remove them to
+>> --
+>> 2.31.1
+>>
+>>
+>>
+>>
 > 
 > 
 > 
