@@ -1,360 +1,421 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web08.29897.1629751336127187118
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.40])
+ by mx.groups.io with SMTP id smtpd.web10.30322.1629752407923350120
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 13:42:16 -0700
+ Mon, 23 Aug 2021 14:00:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=K4ROyn7O;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id bk29so14958923qkb.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 13:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=G/Ng+q70W72l4wHvJ+b7qzwUW78+Pu+2JAvSIb5LBnQ=;
-        b=K4ROyn7O1ydYXkqqcuzuLygQKcpvmww163F3m52q2x6vbWlFV3qgsmkOXgd5C7pQdU
-         zQdAytvoRPtSVlWiSl7y9mv4i8Js/Oo5F9fkmjKbrKTJiCvoVrBbKElas0lQrPRpQuEU
-         /RzEE/5bM4nET0kDT2+mO9D7e6yHf6lWdp7TZZWudWFFY36umwf8wmZexdzomTv3lgIO
-         NtVjiETdZWARCTFKqB7PS9wdCmB3GryDpNc8D/fk/QHGh4SZP1p15Tt2qc7cgKwL0T43
-         6bj7BrzF9AagG2tQjdJJZp+EVZXGxjemsPO+lsj6zJlAWjyOOKIHKp0UfFJmRPNv26Qi
-         bxIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=G/Ng+q70W72l4wHvJ+b7qzwUW78+Pu+2JAvSIb5LBnQ=;
-        b=aWTXVQaAuKdOitxjcSjr3Fl6Jg48WiI/yWD1SZvaN2K1w+JdJRBc+xwT54DLB5CHs8
-         WGGPq09lJGzXDBEUWF6u9qvIlECEk9sXX4uyEbxFsJmvVpm/m58ZuCo/k/Z3qL9a7Tcf
-         2XXwpYVeNSc56HNL6s1/zrgGXydmQWVs//3QYXKiZQyL34r7kmTkshRjV1CuKBa9ffku
-         hT75OseyyKxus7zycRU9b50VSiCHuBM2P/fatBacMWjXq0iZ9twOLGa1r07/QTNEMpRw
-         gzi3B8eUjSuh2ZgaM4wK84gqXGB14knH1/HWShtFygQwnrgrAV0qtKfw8xjVFLxoJZi7
-         9gzg==
-X-Gm-Message-State: AOAM533OpEvRsE+wTlWgATc8zatB2o8tBWOBViRFE6IWI/WVol5B2v2X
-	akuJno6yZewBTXCId5YlJEsX+5VMiO4bwljJT2g=
-X-Google-Smtp-Source: ABdhPJxuVyJ7Xlm5xUZ4teEg0EmmBadoM3JPMX5/wRHeDoj79KoLcbpTA0iT+26HIu74eEx6U14/EVL0qvhUBoBQN8c=
-X-Received: by 2002:a05:620a:799:: with SMTP id 25mr22760859qka.119.1629751335140;
- Mon, 23 Aug 2021 13:42:15 -0700 (PDT)
+ dkim=pass header.i=@nxp.com header.s=selector2 header.b=ISXjJL1y;
+ spf=pass (domain: nxp.com, ip: 40.107.22.40, mailfrom: tom.hochstein@nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OGP/t8NWggIx+twEIchFayxnaZFP/ChbuewhXsVaP8ilfcF+rCR5cYgXaFzy/F1GHmtUQKHNMS88rDp4JJLXNZETQE3SF1yDq/enb0xdxGGG8AfvyrL8+NbmK+BsrNOuQMIL1wKrJGxWGX75uSnxcVeF9uzI2E9vLfrGlp29EMXmN8rAkDmRyRbvxCXImPC4M14z61XnTDbbdEFi6659rpgB8uGoUlMnt5VouuISHJRxlrgckdzg9yynuwnsedXOvN7lNpfMrHz4IBBKodKOYg/SzcrH41UO5XA40hGkcMy7P+JL3DYVAvNY6H4Q0wx6Dh1KupikS2vGB22gSuXr1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mo31hj3GBkHzPSd7CDA3T6B/Q9v6zU6Vs6gbmy1JWLM=;
+ b=LWqs0Zsjcq9BaglxUUDRtGNXI8fAId2F3juY0OsqZCtfOlTsv5MsZCIk7dd7UCkfQr7ynmprfn84pqR2s4f2RSypXzK5+j/Wf2MQeOYhawM52YOn6THp5Zfx5NMOEtcXPih6fW+RLBlYFHLWlfaHPTuxCI9CUEHJSV/GuTKqEWTkSX2Bbssbf7aNbPOQ0REmEKiteNuQudymNQroBDGx0OtxO4dJcfNRHq/LRHT5rNFTrnbJlysK5l74L0a0+OtaaAxu9vi/9zTllxIONt2ns+a2vA53naRDUu8e0X5z+onKXFyO8kbBVq32xvl1gHaLO9fStPHK0OaO599Yq7IN2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mo31hj3GBkHzPSd7CDA3T6B/Q9v6zU6Vs6gbmy1JWLM=;
+ b=ISXjJL1yTbREoFG6kP+rh0rfqj6CE1gRWeLyulh9ZB/wsRO52lxgIShh2o+s/zpxNYJ0dmqa86EnSgHMl1H4ZTLc5Ue8mNRUYgGKhh/R68iuuBiTB1jVtHbTATGaQl1o9LRrdCM+8fXEBoxOWSiqU2w2LcmWYBHfSswMBSdbXv0=
+Received: from DBBPR04MB7753.eurprd04.prod.outlook.com (2603:10a6:10:1e1::5)
+ by DB3PR0402MB3817.eurprd04.prod.outlook.com (2603:10a6:8:12::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.24; Mon, 23 Aug
+ 2021 21:00:05 +0000
+Received: from DBBPR04MB7753.eurprd04.prod.outlook.com
+ ([fe80::7417:687a:9d5f:26a4]) by DBBPR04MB7753.eurprd04.prod.outlook.com
+ ([fe80::7417:687a:9d5f:26a4%3]) with mapi id 15.20.4436.024; Mon, 23 Aug 2021
+ 21:00:05 +0000
+From: "Tom Hochstein" <tom.hochstein@nxp.com>
+To: "Patches and discussions about the oe-core layer
+ (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+Subject: weston systemd watchdog
+Thread-Topic: weston systemd watchdog
+Thread-Index: AdeYYdgbrh3xRTgWRjWsY2CrEPop4Q==
+Date: Mon, 23 Aug 2021 21:00:05 +0000
+Message-ID: 
+ <DBBPR04MB7753DA02744DA24970B22556E2C49@DBBPR04MB7753.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+ <DBBPR04MB7753DA02744DA24970B22556E2C49@DBBPR04MB7753.eurprd04.prod.outlook.com>
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ab8296f3-6659-4c79-fded-08d96678fbd3
+x-ms-traffictypediagnostic: DB3PR0402MB3817:
+x-microsoft-antispam-prvs: 
+ <DB3PR0402MB3817E821CA4883EB13257C29E2C49@DB3PR0402MB3817.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1284;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ AtaJ70PW+FINZYGgLUU5jm9avoFsOMOxP6jaq2s0E3xwVa4iqhvcBLtRYognBXG4hwZ37BKPwkrxTujcKGpgrme+LnDSbjMttUQNrTr5YX13d8pQbs9OFGzzc4givJC43fOI1glFzCLjg6rgNWtLi7NnFOnLTMVHtqQFtIkoJ2UlW5rVR9ZfE0j8F1WAfP18527CrDvn3aHaLqpVYnOwqyH9R2cxVIVWJdtn2dVtTJY00Ie1V+olkQbsPRsvjxGF8qbvPVe7spmyCLpmdjNAIS0pCkpn7EUw623+dV1eWPYxnJiztxuxmwF75qlwjsix1AwnV8MSpGp1kqtCkayvKIzmrbUVSfZJPxzUQwQo+BahZUf0sZ0AjVsNH1yvSULu79XidWAcAypxNkmqzFnzPcTg5VbbxaoNw6zvavmt2bTxYqFseJiT3bawnO8rjlffLIUOFUsta4tF5VB99qZZeJ+86QvLWLIz13uxyqOGHGy6R2sK5BUttKwmtFCtPu1rURUb4/5QbkRNTPRvR34bZczIgx7iH6z+dPiKQ/LNz7PA5JeKTzSnd51iUEFq1ox5I+EtL1rNDhG4+uPwD4PBP0v+lRizfS6YTbVdSnuT1y4lGq7uLY6nZXinP1JrLjQmje8+/HM80oJDPN2PiSYagZ+zJzKazfRjtELOcxdJMd4Un+1Ms1IEePzjYZwgPtK5K0I2H4VYzOXsXbfsEFt0dyj3NqYFQUP9ewpeCLClkJhNuWzrBDBVgUPvliWqrZEkVzWVvUf6PIL88ern/yTK60hAAqJqMF+XpUUr0wEyzKPkmZ7HgODyJ3DIPU0r3bekkErTiKwUPtp8Uts6/YW5ULS0WieMU655V5LK3n51t+o=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7753.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(376002)(366004)(39850400004)(71200400001)(7696005)(186003)(316002)(122000001)(2906002)(66556008)(64756008)(110136005)(478600001)(44832011)(3480700007)(55016002)(38070700005)(33656002)(26005)(66446008)(4744005)(9326002)(966005)(83380400001)(38100700002)(76116006)(9686003)(8676002)(7116003)(6506007)(8936002)(86362001)(52536014)(5660300002)(166002)(66476007)(66946007)(133083001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?V77DLSv++1Eox2Xyv5CBS6wrXOvEedEpkmOEiSg89R8TY2269MPWu89FfCVm?=
+ =?us-ascii?Q?FQ9zE8oHkditWPN+yCvpXfiBINhqJJu3kWjQwJ3MpGYi8l86l1IhbbXcvp+o?=
+ =?us-ascii?Q?CfrQVo2m/yWfc80oE6r2zj3STUvT9IXUujXOPH0OIsBvUQshMilhUI1Go7wh?=
+ =?us-ascii?Q?UBgOCy6Bi9Ti+v59Kem1jPqItj3hz8HjklRh31GQ03AmEXoQtFHaEN+oMP4q?=
+ =?us-ascii?Q?3XVA7KI99sppIQFIT/k0AV8GqwHt6Kml2SStyjFvADZLIrtOm/GrY03lFrNJ?=
+ =?us-ascii?Q?7EO9OJd67Qm8c4wxy5GxUsS/1w85I9ap4W9oRYgTn9lgbW3suCyzbFQn1ijp?=
+ =?us-ascii?Q?/lh4Lw+VfQfHvopc2qpclOK9JT3aDPbVbOdZ8gu+oJ7RQDSoIsgr2jSj73R4?=
+ =?us-ascii?Q?hHNy66sMngSLd7sxPLwiMBDse0ULjCSgp3v97vG4pEdUehpAbxXoyWPwWMfO?=
+ =?us-ascii?Q?73jsIwiNJDZ1fbf5nQvvm9yqFw+MaIdk6/Wl0DekRRW8Dai17DRtQMBhG4yC?=
+ =?us-ascii?Q?0eZ26jxk/rjh4K5LxIVGvg0pXznVnbQwNXz5Ates/K8MNFOKqR0yvwNnKa7a?=
+ =?us-ascii?Q?/mJ3sh+5grhK59v4x+Ka2mylppe+ghGbjVO5HyhJUQ+wWxLYB0OFkqXOY25l?=
+ =?us-ascii?Q?mMVhXiG8OvfQfe7zyd/Wy72GeR1KJSRtUBaCavT9KgfISdUGX5j4v0+GY7bG?=
+ =?us-ascii?Q?Hs0JV9btbKGCuBA3N8aV+TBwUFTMdTg2im8lYcIrdJcxm6CSoLOOi2digXgw?=
+ =?us-ascii?Q?TvENp+Bo9kTDjW93lOd8dBkn1bpDPot6TXgF/LknHPUqUGZlv+Kn/yavi4iu?=
+ =?us-ascii?Q?IYXp7PiINGMxC3fsCKbIv6JUfgUbjOAr166+ypNTM2LqKAnGm2KjqzQJNr8e?=
+ =?us-ascii?Q?TNsu4fF5JwcMCTxedluLDEt+4kQ/BzzUlCPgtYYNT2vNr1YtKU04O6+MvkpX?=
+ =?us-ascii?Q?gHx8EjtnDAunrFngAWYGwnpXJEym7hWO0fNyLanEj02GL9E2ux9Ls1Ps4IX2?=
+ =?us-ascii?Q?xcAAsjChxsvcyWy+YXjuMFc1woYPEzDTA7njxyGzJoauyyIm1ihoy7G1sFvA?=
+ =?us-ascii?Q?zZ/Kk++y2NRrM0p2ZdsB1HGmzh4pERcXZl/eadelRxXVm30bP+9InxOb4s+E?=
+ =?us-ascii?Q?03xuFDNBflCK8YzkH8Xxsrm/aPonWWV2jobCV5yTHDWnG3H+FhX/XBXiybfd?=
+ =?us-ascii?Q?EGapVmP4aU3XRM39vKKpEA8ZxcHv09WY9QgFMqI4WqivS6Apts1hHxms6qZ7?=
+ =?us-ascii?Q?U/71MtVuj/2s2ZoNUCBnH8N5oIbuZv9351KP7HloHaUilr7tG1FSPUBiU2FZ?=
+ =?us-ascii?Q?nuI=3D?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20210823150853.2817-1-lukma@denx.de> <20210823150853.2817-2-lukma@denx.de>
- <ada9987d-399b-7a73-2aa5-c09dcca41fb3@gmail.com> <20210823202414.731c6749@ktm>
- <CAMKF1srLFY_R4KX3gG3hZMhZNtjSN8D4mEp0Wwr78Se9RE_20g@mail.gmail.com> <20210823220926.37d87121@ktm>
-In-Reply-To: <20210823220926.37d87121@ktm>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 23 Aug 2021 13:41:49 -0700
-Message-ID: <CAMKF1sqKH=RiOn-WVp_=ZQmLnSJ43VUUfKyv+E1KR9bCn01j3Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] glibc: ptest: Add support for running glibc test suite with ptest
-To: Lukasz Majewski <lukma@denx.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7753.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab8296f3-6659-4c79-fded-08d96678fbd3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2021 21:00:05.5902
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CRHius4aPJq8voUgfAgvVHLeWomD6is/MfKwFif7MxAAlHgsSXug60MB3XHNNBX6FayYM/a0EGAwYJuwGczoAw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3817
+X-Groupsio-MsgNum: 155193
+Content-Type: multipart/mixed;
+	boundary="_000_DBBPR04MB7753DA02744DA24970B22556E2C49DBBPR04MB7753eurp_"
+Content-Language: en-US
+
+--_000_DBBPR04MB7753DA02744DA24970B22556E2C49DBBPR04MB7753eurp_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 23, 2021 at 1:09 PM Lukasz Majewski <lukma@denx.de> wrote:
->
-> On Mon, 23 Aug 2021 12:52:44 -0700
-> Khem Raj <raj.khem@gmail.com> wrote:
->
-> > On Mon, Aug 23, 2021 at 11:24 AM Lukasz Majewski <lukma@denx.de>
-> > wrote:
-> >
-> > > Hi Khem,
-> > >
-> > > > On 8/23/21 8:08 AM, ?ukasz Majewski wrote:
-> > > > > This patch introduces new recipe - namely 'glibc-tests', which
-> > > > > builds and installs glibc test suite to OE/Yocto built image.
-> > > > >
-> > > > > It reuses code from already available 'glibc-testsuite' recipe,
-> > > > > which is run with 'bitbake glibc-testsuite -c check' and uses
-> > > > > qemu to execute remotely (via SSH) tests on some emulated
-> > > > > machine.
-> > > > >
-> > > > > This recipe installs eligible tests on some rootfs image.
-> > > > > Afterwards, either all of them or only time related subset,
-> > > > > those tests can be executed on the real hardware, to facilitate
-> > > > > validation of this platform with for example Y2038 problem
-> > > > > compliance.
-> > > > >
-> > > > > By default all tests are executed, with 'ptest-runner
-> > > > > glibc-tests'. To test only time related subset - one needs to
-> > > > > call: cd /usr/lib/glibc-tests/ptest/; rm run-ptest; \
-> > > > > ln -s run-ptest-time run-ptest; cd -; ptest-runner glibc-tests
-> > > > >
-> > > > > To facilitate debugging, source files are provided by default
-> > > > > with the unstripped debugging symbols. Such approach would
-> > > > > reduce the already complex recipe (as it inherits base glibc
-> > > > > one), so there is no need to also install *-dbg and *-src
-> > > > > packages.
-> > > >
-> > > >
-> > > > does it have to be a separate recipe I wonder if we can have it
-> > > > built as part of glibc itself controlled via ptest knob
-> > >
-> > > I've followed the glibc-testsuite recipe to provide tests for ptest.
-> > > Test creation is similar to it, but doesn't require QEMU run (tests
-> > > are executed on the HW).
-> > >
-> > > Another rationale was to have some kind of "features" separation in
-> > > different file (liked glibc-mtrace), which is easier to maintain and
-> > > review.
-> > >
-> > > Last but not least - separate recipe (and built binaries) allow some
-> > > kind of magic with selection of used test programs (this may be
-> > > useful if one would like to have different sets of tests in
-> > > different packages)
-> >
-> > That=E2=80=99s seems ok I think the names are quite confusing now not t=
-hat it
-> > was not so much better before but now we have glibc-tests and
-> > glibc-testsuites which do same things but in very different way maybe
-> > glibc-testsuite should be renamed to something like glibc-tests-crosd
-> > or some such
->
-> I think that glibc-testsuite_2.34.bb shall be renamed to
-> glibc-tests-qemu_2.34.bb as it is more descriptive.
+Hi Khem,
 
-is it only runnable in qemu ? I thought we could use a read board as
-well with IP address
+This is regarding the weston systemd watchdog timeout of 20 seconds:
 
->
-> Then, glibc-tests_2.34.bb could be left as it is now, as inheriting
-> ptest requires it to be added as 'glibc-tests-ptest' in
-> meta/conf/distro/include/ptest-packagelists.inc
->
-> (I've tried to rename it to glibc-tests-ptest_2.34.bb, but then it was
-> required to add glibc-tests-ptest-ptest to the ptest-packagelist.inc
-> file, which is a bit clumsy IMHO).
->
-> >
-> > >
-> > > >
-> > > > >
-> > > > > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> > > > > ---
-> > > > >   .../distro/include/ptest-packagelists.inc     |   1 +
-> > > > >   meta/recipes-core/glibc/glibc-tests_2.34.bb   | 101
-> > > > > ++++++++++++++++++ meta/recipes-core/glibc/glibc/run-ptest-all
-> > > > >  | 25 +++++ meta/recipes-core/glibc/glibc/run-ptest-time  |  30
-> > > > > ++++++ 4 files changed, 157 insertions(+)
-> > > > >   create mode 100644 meta/recipes-core/glibc/glibc-tests_2.34.bb
-> > > > >   create mode 100755 meta/recipes-core/glibc/glibc/run-ptest-all
-> > > > >   create mode 100755
-> > > > > meta/recipes-core/glibc/glibc/run-ptest-time
-> > > > >
-> > > > > diff --git a/meta/conf/distro/include/ptest-packagelists.inc
-> > > > > b/meta/conf/distro/include/ptest-packagelists.inc index
-> > > > > 3872bdc942..e460ad1c8b 100644 ---
-> > > > > a/meta/conf/distro/include/ptest-packagelists.inc +++
-> > > > > b/meta/conf/distro/include/ptest-packagelists.inc @@ -59,6
-> > > > > +59,7 @@ PTESTS_FAST =3D "\ slang-ptest \
-> > > > >       wayland-ptest \
-> > > > >       zlib-ptest \
-> > > > > +    glibc-tests-ptest \
-> > > > >   "
-> > > > >   PTESTS_FAST:remove:mips64 =3D "qemu-ptest"
-> > > > >   PTESTS_PROBLEMS:append:mips64 =3D "qemu-ptest"
-> > > > > diff --git a/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> > > > > b/meta/recipes-core/glibc/glibc-tests_2.34.bb new file mode
-> > > > > 100644 index 0000000000..896809f700
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-core/glibc/glibc-tests_2.34.bb
-> > > > > @@ -0,0 +1,101 @@
-> > > > > +require glibc_${PV}.bb
-> > > > > +require glibc-tests.inc
-> > > > > +
-> > > > > +inherit ptest
-> > > > > +
-> > > > > +SRC_URI:append =3D " \
-> > > > > +   file://run-ptest-all file://run-ptest-time \
-> > > > > +"
-> > > > > +
-> > > > > +SUMMARY =3D "glibc tests to be run with ptest"
-> > > > > +
-> > > > > +# Erase some variables already set by glibc_${PV}
-> > > > > +python __anonymous() {
-> > > > > +       # Remove packages provided by glibc build, we only need
-> > > > > a subset of them
-> > > > > +       d.setVar("PACKAGES", "${PN}")
-> > > > > +
-> > > > > +       d.setVar("PROVIDES", "${PN}")
-> > > > > +       d.setVar("RPROVIDES", "${PN} glibc-ptest")
-> > > > > +
-> > > > > +       d.setVar("RRECOMMENDS", "")
-> > > > > +}
-> > > > > +
-> > > > > +# Remove any lefovers from original glibc recipe
-> > > > > +RPROVIDES:${PN} =3D "${PN}"
-> > > > > +RRECOMMENDS:${PN} =3D ""
-> > > > > +RDEPENDS:${PN} =3D "sed"
-> > > > > +
-> > > > > +# Just build tests for target - do not run them
-> > > > > +do_check:append () {
-> > > > > +   oe_runmake -i check run-built-tests=3Dno
-> > > > > +}
-> > > > > +addtask do_check after do_compile before do_install_ptest_base
-> > > > > +
-> > > > > +glibc_strip_build_directory () {
-> > > > > +   # Delete all non executable files from build directory
-> > > > > +   find ${B} ! -executable -type f -delete
-> > > > > +
-> > > > > +   # Remove build dynamic libraries and links to them as
-> > > > > +   # those are already installed in the target device
-> > > > > +   find ${B} -type f -name "*.so" -delete
-> > > > > +   find ${B} -type l -name "*.so*" -delete
-> > > > > +
-> > > > > +   # Remove headers (installed with glibc)
-> > > > > +   find ${B} -type f -name "*.h" -delete
-> > > > > +
-> > > > > +   find ${B} -type f -name "isomac" -delete
-> > > > > +   find ${B} -type f -name "annexc" -delete
-> > > > > +}
-> > > > > +
-> > > > > +do_install_ptest_base () {
-> > > > > +   glibc_strip_build_directory
-> > > > > +
-> > > > > +   # Install build test programs to the image
-> > > > > +   install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
-> > > > > +   cp -r ${B}/* ${D}${PTEST_PATH}/tests/glibc-ptest/
-> > > > > +
-> > > > > +   install -d ${D}${PTEST_PATH}
-> > > > > +   cp ${WORKDIR}/run-ptest-* ${D}${PTEST_PATH}/
-> > > > > +
-> > > > > +   # By default run all glibc tests
-> > > > > +   cd ${D}${PTEST_PATH}/
-> > > > > +   ln -s run-ptest-all run-ptest
-> > > > > +}
-> > > > > +
-> > > > > +# The datadir directory is required to allow core (and reused)
-> > > > > +# glibc cleanup function to finish correctly, as this directory
-> > > > > +# is not created for ptests
-> > > > > +stash_locale_package_cleanup:prepend () {
-> > > > > +   mkdir -p ${PKGD}${datadir}
-> > > > > +}
-> > > > > +
-> > > > > +stash_locale_sysroot_cleanup:prepend () {
-> > > > > +   mkdir -p ${SYSROOT_DESTDIR}${datadir}
-> > > > > +}
-> > > > > +
-> > > > > +# Prevent the do_package() task to set 'libc6' prefix
-> > > > > +# for glibc tests related packages
-> > > > > +python populate_packages:prepend () {
-> > > > > +    if d.getVar('DEBIAN_NAMES'):
-> > > > > +        d.setVar('DEBIAN_NAMES', '')
-> > > > > +}
-> > > > > +
-> > > > > +FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
-> > > > > +
-> > > > > +EXCLUDE_FROM_SHLIBS =3D "1"
-> > > > > +
-> > > > > +# Install debug data in .debug and sources in /usr/src/debug
-> > > > > +# It is more handy to have _all_ the sources and symbols in one
-> > > > > +# place (package) as this recipe will be used for validation
-> > > > > and +# debugging.
-> > > > > +PACKAGE_DEBUG_SPLIT_STYLE =3D "debug"
-> > > > > +
-> > > > > +# glibc test cases violate by default some Yocto/OE checks
-> > > > > (staticdev, +# textrel)
-> > > > > +# 'debug-files' - add everything (including debug) into one
-> > > > > package +#                 (no need to install/build *-src
-> > > > > package) +INSANE_SKIP:${PN} +=3D "staticdev textrel debug-files
-> > > > > rpaths" +
-> > > > > +deltask do_stash_locale
-> > > > > +do_install[noexec] =3D "1"
-> > > > > +do_populate_sysroot[noexec] =3D "1"
-> > > > > diff --git a/meta/recipes-core/glibc/glibc/run-ptest-all
-> > > > > b/meta/recipes-core/glibc/glibc/run-ptest-all new file mode
-> > > > > 100755 index 0000000000..47bfe5238c
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-core/glibc/glibc/run-ptest-all
-> > > > > @@ -0,0 +1,25 @@
-> > > > > +#!/bin/sh
-> > > > > +# ptest script for glibc - to run time related tests to
-> > > > > +# facilitate Y2038 validation
-> > > > > +# Run with 'ptest-runner glibc-tests'
-> > > > > +
-> > > > > +output() {
-> > > > > +  retcode=3D$?
-> > > > > +  if [ $retcode -eq 0 ]
-> > > > > +    then echo "PASS: $i"
-> > > > > +  elif [ $retcode -eq 77 ]
-> > > > > +    then echo "SKIP: $i"
-> > > > > +  else echo "FAIL: $i"
-> > > > > +  fi
-> > > > > +}
-> > > > > +
-> > > > > +# Allow altering time on the target
-> > > > > +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-> > > > > +
-> > > > > +tst=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*)
-> > > > > +
-> > > > > +for i in ${tst}
-> > > > > +do
-> > > > > +   $i >/dev/null 2>&1
-> > > > > +   output
-> > > > > +done
-> > > > > diff --git a/meta/recipes-core/glibc/glibc/run-ptest-time
-> > > > > b/meta/recipes-core/glibc/glibc/run-ptest-time new file mode
-> > > > > 100755 index 0000000000..24dedc6e32
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-core/glibc/glibc/run-ptest-time
-> > > > > @@ -0,0 +1,30 @@
-> > > > > +#!/bin/sh
-> > > > > +# ptest script for glibc - to run time related tests to
-> > > > > +# facilitate Y2038 validation
-> > > > > +# Run with 'ptest-runner glibc-tests'
-> > > > > +
-> > > > > +output() {
-> > > > > +  retcode=3D$?
-> > > > > +  if [ $retcode -eq 0 ]
-> > > > > +    then echo "PASS: $i"
-> > > > > +  elif [ $retcode -eq 77 ]
-> > > > > +    then echo "SKIP: $i"
-> > > > > +  else echo "FAIL: $i"
-> > > > > +  fi
-> > > > > +}
-> > > > > +
-> > > > > +# Allow altering time on the target
-> > > > > +export GLIBC_TEST_ALLOW_TIME_SETTING=3D"1"
-> > > > > +
-> > > > > +tst_time64=3D$(ls -r ${PWD}/tests/glibc-ptest/*/*-time64)
-> > > > > +
-> > > > > +# Remove '-time64' suffix - those tests are also time
-> > > > > +# related
-> > > > > +tst_time_tmp=3D$(sed -e "s/-time64$//" <<< ${tst_time64})
-> > > > > +tst_time=3D"${tst_time_tmp} ${tst_time64}"
-> > > > > +
-> > > > > +for i in ${tst_time}
-> > > > > +do
-> > > > > +   $i >/dev/null 2>&1
-> > > > > +   output
-> > > > > +done
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > >
-> > >
-> > >
-> > >
-> > > Best regards,
-> > >
-> > > Lukasz Majewski
-> > >
-> > > --
-> > >
-> > > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
-> > > Germany Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> > > lukma@denx.de
->
->
->
->
-> Best regards,
->
-> Lukasz Majewski
->
-> --
->
-> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+https://github.com/openembedded/openembedded-core/commit/c21fa5a291ab207a08=
+4285935ab73a0b4225c965#diff-ac8a4b56ade4a43a070c93486fb1d7606573da5d44de96b=
+c1529d15b0b216660R36
+
+For GPU-limited parts, we see watchdog timeouts during intense testing, tho=
+ugh the part is not hung, it's just going to take longer than 20 seconds.
+
+I stumbled across the following systemd commit, which looks like the watchd=
+og used to default to 180 seconds. Yet even then was under scrutiny because=
+ it was causing un-necessary failures more often than not:
+
+https://github.com/systemd/systemd/commit/21d0dd5a89fe0ef259ca51ebea9f39dd7=
+9a341c2#diff-9d3c1cd071b0f173aaf53a7799ac5765bb3a58d0d07125f075b6b49112f0a4=
+25
+
+Do you think the default should be raised? Or should we just make a special=
+ case in our layer?
+
+Tom
+
+
+--_000_DBBPR04MB7753DA02744DA24970B22556E2C49DBBPR04MB7753eurp_
+Content-Disposition: attachment; filename="winmail.dat"
+Content-Transfer-Encoding: base64
+Content-Type: application/ms-tnef; name="winmail.dat"
+
+eJ8+IvB6AQaQCAAEAAAAAAABAAEAAQeQBgAIAAAA5AQAAAAAAADoAAEJgAEAIQAAADQzNjBGNzBG
+MUZGM0U2NDhCMkQzOURFOENBNjgwMTk0ADwHAQ2ABAACAAAAAgACAAEFgAMADgAAAOUHCAAXABUA
+AAAFAAEAJgEBIIADAA4AAADlBwgAFwAVAAAABQABACYBAQiABwAYAAAASVBNLk1pY3Jvc29mdCBN
+YWlsLk5vdGUAMQgBBIABABgAAAB3ZXN0b24gc3lzdGVtZCB3YXRjaGRvZwA6CQEDkAYAxD0AAGYA
+AAACAX8AAQAAAFEAAAA8REJCUFIwNE1CNzc1M0RBMDI3NDREQTI0OTcwQjIyNTU2RTJDNDlAREJC
+UFIwNE1CNzc1My5ldXJwcmQwNC5wcm9kLm91dGxvb2suY29tPgAAAAACARMQAQAAAF4NAAA8aHRt
+bCB4bWxuczp2PSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnZtbCIgeG1sbnM6bz0idXJuOnNj
+aGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6b2ZmaWNlIiB4bWxuczp3PSJ1cm46c2NoZW1hcy1t
+aWNyb3NvZnQtY29tOm9mZmljZTp3b3JkIiB4bWxuczptPSJodHRwOi8vc2NoZW1hcy5taWNyb3Nv
+ZnQuY29tL29mZmljZS8yMDA0LzEyL29tbWwiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy9UUi9S
+RUMtaHRtbDQwIj48aGVhZD48bWV0YSBodHRwLWVxdWl2PUNvbnRlbnQtVHlwZSBjb250ZW50PSJ0
+ZXh0L2h0bWw7IGNoYXJzZXQ9dXMtYXNjaWkiPjxtZXRhIG5hbWU9R2VuZXJhdG9yIGNvbnRlbnQ9
+Ik1pY3Jvc29mdCBXb3JkIDE1IChmaWx0ZXJlZCBtZWRpdW0pIj48c3R5bGU+PCEtLQ0KLyogRm9u
+dCBEZWZpbml0aW9ucyAqLw0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRo
+IjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1m
+YW1pbHk6RGVuZ1hpYW47DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEBEZW5nWGlhbiI7DQoJcGFub3NlLTE6
+MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3Jt
+YWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCWZvbnQtc2l6
+ZToxMS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KYTpsaW5rLCBz
+cGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6IzA1NjND
+MTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21z
+by1zdHlsZS10eXBlOnBlcnNvbmFsLWNvbXBvc2U7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNh
+bnMtc2VyaWY7DQoJY29sb3I6d2luZG93dGV4dDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5
+bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9
+DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGlu
+IDEuMGluIDEuMGluIDEuMGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlv
+bjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVs
+dHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0t
+W2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlk
+bWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2Vu
+ZGlmXS0tPjwvaGVhZD48Ym9keSBsYW5nPUVOLVVTIGxpbms9IiMwNTYzQzEiIHZsaW5rPSIjOTU0
+RjcyIiBzdHlsZT0nd29yZC13cmFwOmJyZWFrLXdvcmQnPjxkaXYgY2xhc3M9V29yZFNlY3Rpb24x
+PjxwIGNsYXNzPU1zb05vcm1hbD5IaSBLaGVtLDxvOnA+PC9vOnA+PC9wPjxwIGNsYXNzPU1zb05v
+cm1hbD48bzpwPiZuYnNwOzwvbzpwPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+VGhpcyBpcyByZWdh
+cmRpbmcgdGhlIHdlc3RvbiBzeXN0ZW1kIHdhdGNoZG9nIHRpbWVvdXQgb2YgMjAgc2Vjb25kczo8
+bzpwPjwvbzpwPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PG86cD4mbmJzcDs8L286cD48L3A+PHAg
+Y2xhc3M9TXNvTm9ybWFsPjxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuZW1iZWRkZWQv
+b3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0L2MyMWZhNWEyOTFhYjIwN2EwODQyODU5MzVhYjczYTBi
+NDIyNWM5NjUjZGlmZi1hYzhhNGI1NmFkZTRhNDNhMDcwYzkzNDg2ZmIxZDc2MDY1NzNkYTVkNDRk
+ZTk2YmMxNTI5ZDE1YjBiMjE2NjYwUjM2Ij5odHRwczovL2dpdGh1Yi5jb20vb3BlbmVtYmVkZGVk
+L29wZW5lbWJlZGRlZC1jb3JlL2NvbW1pdC9jMjFmYTVhMjkxYWIyMDdhMDg0Mjg1OTM1YWI3M2Ew
+YjQyMjVjOTY1I2RpZmYtYWM4YTRiNTZhZGU0YTQzYTA3MGM5MzQ4NmZiMWQ3NjA2NTczZGE1ZDQ0
+ZGU5NmJjMTUyOWQxNWIwYjIxNjY2MFIzNjwvYT48bzpwPjwvbzpwPjwvcD48cCBjbGFzcz1Nc29O
+b3JtYWw+PG86cD4mbmJzcDs8L286cD48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPkZvciBHUFUtbGlt
+aXRlZCBwYXJ0cywgd2Ugc2VlIHdhdGNoZG9nIHRpbWVvdXRzIGR1cmluZyBpbnRlbnNlIHRlc3Rp
+bmcsIHRob3VnaCB0aGUgcGFydCBpcyBub3QgaHVuZywgaXQmIzgyMTc7cyBqdXN0IGdvaW5nIHRv
+IHRha2UgbG9uZ2VyIHRoYW4gMjAgc2Vjb25kcy48bzpwPjwvbzpwPjwvcD48cCBjbGFzcz1Nc29O
+b3JtYWw+PG86cD4mbmJzcDs8L286cD48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPkkgc3R1bWJsZWQg
+YWNyb3NzIHRoZSBmb2xsb3dpbmcgc3lzdGVtZCBjb21taXQsIHdoaWNoIGxvb2tzIGxpa2UgdGhl
+IHdhdGNoZG9nIHVzZWQgdG8gZGVmYXVsdCB0byAxODAgc2Vjb25kcy4gWWV0IGV2ZW4gdGhlbiB3
+YXMgdW5kZXIgc2NydXRpbnkgYmVjYXVzZSBpdCB3YXMgY2F1c2luZyB1bi1uZWNlc3NhcnkgZmFp
+bHVyZXMgbW9yZSBvZnRlbiB0aGFuIG5vdDo8bzpwPjwvbzpwPjwvcD48cCBjbGFzcz1Nc29Ob3Jt
+YWw+PG86cD4mbmJzcDs8L286cD48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxhIGhyZWY9Imh0dHBz
+Oi8vZ2l0aHViLmNvbS9zeXN0ZW1kL3N5c3RlbWQvY29tbWl0LzIxZDBkZDVhODlmZTBlZjI1OWNh
+NTFlYmVhOWYzOWRkNzlhMzQxYzIjZGlmZi05ZDNjMWNkMDcxYjBmMTczYWFmNTNhNzc5OWFjNTc2
+NWJiM2E1OGQwZDA3MTI1ZjA3NWI2YjQ5MTEyZjBhNDI1Ij5odHRwczovL2dpdGh1Yi5jb20vc3lz
+dGVtZC9zeXN0ZW1kL2NvbW1pdC8yMWQwZGQ1YTg5ZmUwZWYyNTljYTUxZWJlYTlmMzlkZDc5YTM0
+MWMyI2RpZmYtOWQzYzFjZDA3MWIwZjE3M2FhZjUzYTc3OTlhYzU3NjViYjNhNThkMGQwNzEyNWYw
+NzViNmI0OTExMmYwYTQyNTwvYT48bzpwPjwvbzpwPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PG86
+cD4mbmJzcDs8L286cD48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPkRvIHlvdSB0aGluayB0aGUgZGVm
+YXVsdCBzaG91bGQgYmUgcmFpc2VkPyBPciBzaG91bGQgd2UganVzdCBtYWtlIGEgc3BlY2lhbCBj
+YXNlIGluIG91ciBsYXllcj88bzpwPjwvbzpwPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PG86cD4m
+bmJzcDs8L286cD48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPlRvbTxvOnA+PC9vOnA+PC9wPjxwIGNs
+YXNzPU1zb05vcm1hbD48bzpwPiZuYnNwOzwvbzpwPjwvcD48L2Rpdj48L2JvZHk+PC9odG1sPgAA
+HwBCAAEAAAAcAAAAVABvAG0AIABIAG8AYwBoAHMAdABlAGkAbgAAAB8AZQABAAAALAAAAHQAbwBt
+AC4AaABvAGMAaABzAHQAZQBpAG4AQABuAHgAcAAuAGMAbwBtAAAAHwBkAAEAAAAKAAAAUwBNAFQA
+UAAAAAAAAgFBAAEAAABqAAAAAAAAAIErH6S+oxAZnW4A3QEPVAIAAACAVABvAG0AIABIAG8AYwBo
+AHMAdABlAGkAbgAAAFMATQBUAFAAAAB0AG8AbQAuAGgAbwBjAGgAcwB0AGUAaQBuAEAAbgB4AHAA
+LgBjAG8AbQAAAAAAHwACXQEAAAAsAAAAdABvAG0ALgBoAG8AYwBoAHMAdABlAGkAbgBAAG4AeABw
+AC4AYwBvAG0AAAAfAOVfAQAAADQAAABzAGkAcAA6AHQAbwBtAC4AaABvAGMAaABzAHQAZQBpAG4A
+QABuAHgAcAAuAGMAbwBtAAAAHwAaDAEAAAAcAAAAVABvAG0AIABIAG8AYwBoAHMAdABlAGkAbgAA
+AB8AHwwBAAAALAAAAHQAbwBtAC4AaABvAGMAaABzAHQAZQBpAG4AQABuAHgAcAAuAGMAbwBtAAAA
+HwAeDAEAAAAKAAAAUwBNAFQAUAAAAAAAAgEZDAEAAABqAAAAAAAAAIErH6S+oxAZnW4A3QEPVAIA
+AACAVABvAG0AIABIAG8AYwBoAHMAdABlAGkAbgAAAFMATQBUAFAAAAB0AG8AbQAuAGgAbwBjAGgA
+cwB0AGUAaQBuAEAAbgB4AHAALgBjAG8AbQAAAAAAHwABXQEAAAAsAAAAdABvAG0ALgBoAG8AYwBo
+AHMAdABlAGkAbgBAAG4AeABwAC4AYwBvAG0AAAALAEA6AQAAAB8AGgABAAAAEgAAAEkAUABNAC4A
+TgBvAHQAZQAAAAAAAwDxPwkEAAALAEA6AQAAAAMA/T/kBAAAAgELMAEAAAAQAAAAQ2D3Dx/z5kiy
+053oymgBlAMAFwABAAAAQAA5AIB49thhmNcBQAAIMEXwSNlhmNcBCwACAAEAAAALACMAAAAAAAMA
+JgAAAAAACwApAAAAAAADADYAAAAAAB8AcAABAAAAMAAAAHcAZQBzAHQAbwBuACAAcwB5AHMAdABl
+AG0AZAAgAHcAYQB0AGMAaABkAG8AZwAAAAIBcQABAAAAFgAAAAHXmGHYG64d8UU4FkY1rGNgqxD6
+KeEAAAsABgwAAAAAHwA1EAEAAACiAAAAPABEAEIAQgBQAFIAMAA0AE0AQgA3ADcANQAzAEQAQQAw
+ADIANwA0ADQARABBADIANAA5ADcAMABCADIAMgA1ADUANgBFADIAQwA0ADkAQABEAEIAQgBQAFIA
+MAA0AE0AQgA3ADcANQAzAC4AZQB1AHIAcAByAGQAMAA0AC4AcAByAG8AZAAuAG8AdQB0AGwAbwBv
+AGsALgBjAG8AbQA+AAAAAAADAIAQ/////wMAExIAAAAAQAAHMIP3A9lhmNcBAgEQMAEAAABGAAAA
+AAAAAFIKppwb6udDilLCPi76anMHAFogCuj7z4pOmUAmVGHOWBcAAAAAAQsAAFogCuj7z4pOmUAm
+VGHOWBcABP2MV5MAAAAAAgETMAEAAAAQAAAArh3xRTgWRjWsY2CrEPop4QIBFDABAAAADAAAAF4A
+AADaYeLp9EYrngMAWzMBAAAAAwBaNgAAAAADAGg2DQAAAAsA+jYBAAAAHwDZPwEAAAD+AQAASABp
+ACAASwBoAGUAbQAsAA0ACgANAAoAVABoAGkAcwAgAGkAcwAgAHIAZQBnAGEAcgBkAGkAbgBnACAA
+dABoAGUAIAB3AGUAcwB0AG8AbgAgAHMAeQBzAHQAZQBtAGQAIAB3AGEAdABjAGgAZABvAGcAIAB0
+AGkAbQBlAG8AdQB0ACAAbwBmACAAMgAwACAAcwBlAGMAbwBuAGQAcwA6AA0ACgANAAoAaAB0AHQA
+cABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwBvAHAAZQBuAGUAbQBiAGUAZABkAGUAZAAv
+AG8AcABlAG4AZQBtAGIAZQBkAGQAZQBkAC0AYwBvAHIAZQAvAGMAbwBtAG0AaQB0AC8AYwAyADEA
+ZgBhADUAYQAyADkAMQBhAGIAMgAwADcAYQAwADgANAAyADgANQA5ADMANQBhAGIANwAzAGEAMABi
+ADQAMgAyADUAYwA5ADYANQAjAGQAaQBmAGYALQBhAGMAOABhADQAYgA1ADYAYQBkAGUANABhADQA
+MwBhADAANwAwAGMAOQAzADQAOAA2AGYAYgAxAGQANwA2ADAANgA1ADcAMwBkAGEANQBkADQANABk
+AGUAOQA2AGIAYwAxADUAMgA5AGQAMQA1AGIAMABiADIAMQA2ADYANgAwAFIAMwA2AAAAAAADAN4/
+n04AAB8A+D8BAAAAHAAAAFQAbwBtACAASABvAGMAaABzAHQAZQBpAG4AAAAfAPo/AQAAABwAAABU
+AG8AbQAgAEgAbwBjAGgAcwB0AGUAaQBuAAAAHwAiQAEAAAAGAAAARQBYAAAAAAAfACNAAQAAAPwA
+AAAvAE8APQBFAFgAQwBIAEEATgBHAEUATABBAEIAUwAvAE8AVQA9AEUAWABDAEgAQQBOAEcARQAg
+AEEARABNAEkATgBJAFMAVABSAEEAVABJAFYARQAgAEcAUgBPAFUAUAAgACgARgBZAEQASQBCAE8A
+SABGADIAMwBTAFAARABMAFQAKQAvAEMATgA9AFIARQBDAEkAUABJAEUATgBUAFMALwBDAE4APQAy
+ADEANgBCADIAMAA0ADYANQBBAEYAQgA0ADgAMQBBADkAQQAyAEQARQAwADgAMgAzADMAMwA5ADEA
+MABDAEQALQBOAFgAQQAyADEANgA0ADgAAAAfACRAAQAAAAYAAABFAFgAAAAAAB8AJUABAAAA/AAA
+AC8ATwA9AEUAWABDAEgAQQBOAEcARQBMAEEAQgBTAC8ATwBVAD0ARQBYAEMASABBAE4ARwBFACAA
+QQBEAE0ASQBOAEkAUwBUAFIAQQBUAEkAVgBFACAARwBSAE8AVQBQACAAKABGAFkARABJAEIATwBI
+AEYAMgAzAFMAUABEAEwAVAApAC8AQwBOAD0AUgBFAEMASQBQAEkARQBOAFQAUwAvAEMATgA9ADIA
+MQA2AEIAMgAwADQANgA1AEEARgBCADQAOAAxAEEAOQBBADIARABFADAAOAAyADMAMwAzADkAMQAw
+AEMARAAtAE4AWABBADIAMQA2ADQAOAAAAB8AMEABAAAAHAAAAFQAbwBtACAASABvAGMAaABzAHQA
+ZQBpAG4AAAAfADFAAQAAABwAAABUAG8AbQAgAEgAbwBjAGgAcwB0AGUAaQBuAAAAHwA4QAEAAAAc
+AAAAVABvAG0AIABIAG8AYwBoAHMAdABlAGkAbgAAAB8AOUABAAAAHAAAAFQAbwBtACAASABvAGMA
+aABzAHQAZQBpAG4AAAADAFlAAAAAAAMAWkAAAAAAAwA3UAEAAAADAAJZAAAWAAMACVkCAAAAHwAK
+XQEAAAAsAAAAdABvAG0ALgBoAG8AYwBoAHMAdABlAGkAbgBAAG4AeABwAC4AYwBvAG0AAAAfAAtd
+AQAAACwAAAB0AG8AbQAuAGgAbwBjAGgAcwB0AGUAaQBuAEAAbgB4AHAALgBjAG8AbQAAAAIBFV0B
+AAAAEgAAAALToW5oK7xvTKks2ZxcMBY1AQAAAgEWXQEAAAASAAAAAtOhbmgrvG9MqSzZnFwwFjUB
+AAALAACACCAGAAAAAADAAAAAAAAARgAAAAAUhQAAAAAAAAMAAIAIIAYAAAAAAMAAAAAAAABGAAAA
+ABCFAAAAAAAACwAAgAggBgAAAAAAwAAAAAAAAEYAAAAAA4UAAAAAAAADAACACCAGAAAAAADAAAAA
+AAAARgAAAAABhQAAAAAAAAsAAIAIIAYAAAAAAMAAAAAAAABGAAAAAAaFAAAAAAAAAwAAgAggBgAA
+AAAAwAAAAAAAAEYBAAAAMgAAAEUAeABjAGgAYQBuAGcAZQBBAHAAcABsAGkAYwBhAHQAaQBvAG4A
+RgBsAGEAZwBzAAAAAAAgAAAAHwAAgBOP8kH0gxRBpYTu21prC/8BAAAAFgAAAEMAbABpAGUAbgB0
+AEkAbgBmAG8AAAAAAAEAAAAqAAAAQwBsAGkAZQBuAHQAPQBNAFMARQB4AGMAaABhAG4AZwBlAFIA
+UABDAAAAAAAfAACAH6TrM6h6LkK+e3nhqY5UswEAAAA4AAAAQwBvAG4AdgBlAHIAcwBhAHQAaQBv
+AG4ASQBuAGQAZQB4AFQAcgBhAGMAawBpAG4AZwBFAHgAAAABAAAALgEAAEkASQA9AFsAQwBJAEQA
+PQA0ADUAZgAxADEAZABhAGUALQAxADYAMwA4AC0AMwA1ADQANgAtAGEAYwA2ADMALQA2ADAAYQBi
+ADEAMABmAGEAMgA5AGUAMQA7AEkARABYAEgARQBBAEQAPQBEADcAOQA4ADYAMQBEADgAMQBCADsA
+SQBEAFgAQwBPAFUATgBUAD0AMQBdADsAVABGAFIAPQBOAG8AdABGAG8AcgBrAGkAbgBnADsAVgBl
+AHIAcwBpAG8AbgA9AFYAZQByAHMAaQBvAG4AIAAxADUALgAyADAAIAAoAEIAdQBpAGwAZAAgADQA
+NAAzADYALgAwACkALAAgAFMAdABhAGcAZQA9AEgANAA7AFUAUAA9ADEAMAA7AEQAUAA9ADEAQwA1
+AAAAAAADAACACCAGAAAAAADAAAAAAAAARgAAAAAYhQAAAAAAAAsAAIAIIAYAAAAAAMAAAAAAAABG
+AAAAAA6FAAAAAAAAQAAAgAggBgAAAAAAwAAAAAAAAEYAAAAAv4UAAGCN9rZhmNcBCwAAgAggBgAA
+AAAAwAAAAAAAAEYAAAAAgoUAAAAAAAADAACACCAGAAAAAADAAAAAAAAARgAAAADrhQAACQQAAAIB
+AIATj/JB9IMUQaWE7ttaawv/AQAAAC4AAABIAGUAYQBkAGUAcgBCAG8AZAB5AEYAcgBhAGcAbQBl
+AG4AdABMAGkAcwB0AAAAAAABAAAAIgAAAAEACgAAAAQAAAAAAAAAFAAAAAAAAAAAAAAA/////wAA
+AAAAAAsAAIATj/JB9IMUQaWE7ttaawv/AQAAACgAAABJAHMAUQB1AG8AdABlAGQAVABlAHgAdABD
+AGgAYQBuAGcAZQBkAAAAAAAAAAsAAIBQ42MLzJzQEbzbAIBfzM4EAQAAACYAAABJAHMAUABlAHIA
+bQBhAG4AZQBuAHQARgBhAGkAbAB1AHIAZQAAAAAAAAAAAAMAAIBQ42MLzJzQEbzbAIBfzM4EAQAA
+ACQAAABJAG4AZABlAHgAaQBuAGcARQByAHIAbwByAEMAbwBkAGUAAAAbAAAAHwAAgFDjYwvMnNAR
+vNsAgF/MzgQBAAAAKgAAAEkAbgBkAGUAeABpAG4AZwBFAHIAcgBvAHIATQBlAHMAcwBhAGcAZQAA
+AAAAAQAAAHAAAABJAG4AZABlAHgAaQBuAGcAIABQAGUAbgBkAGkAbgBnACAAdwBoAGkAbABlACAA
+QgBpAGcARgB1AG4AbgBlAGwAUABPAEkASQBzAFUAcABUAG8ARABhAHQAZQAgAGkAcwAgAGYAYQBs
+AHMAZQAuAAAAAgEAgAggBgAAAAAAwAAAAAAAAEYBAAAANgAAAEkAbgBUAHIAYQBuAHMAaQB0AE0A
+ZQBzAHMAYQBnAGUAQwBvAHIAcgBlAGwAYQB0AG8AcgAAAAAAAQAAABAAAABbIS5ZIbF1SaEvkS0E
+dUheCwAAgBOP8kH0gxRBpYTu21prC/8BAAAAHAAAAEgAYQBzAFEAdQBvAHQAZQBkAFQAZQB4AHQA
+AAAAAAAAAwANNP0/AAAfAD0AAQAAAAIAAAAAAAAAHwA3AAEAAAAwAAAAdwBlAHMAdABvAG4AIABz
+AHkAcwB0AGUAbQBkACAAdwBhAHQAYwBoAGQAbwBnAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAA
+LgAAAGEAdQB0AGgAZQBuAHQAaQBjAGEAdABpAG8AbgAtAHIAZQBzAHUAbAB0AHMAAAAAAAEAAAAS
+AQAAbABpAHMAdABzAC4AbwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALgBvAHIAZwA7ACAAZABrAGkA
+bQA9AG4AbwBuAGUAIAAoAG0AZQBzAHMAYQBnAGUAIABuAG8AdAAgAHMAaQBnAG4AZQBkACkAIABo
+AGUAYQBkAGUAcgAuAGQAPQBuAG8AbgBlADsAbABpAHMAdABzAC4AbwBwAGUAbgBlAG0AYgBlAGQA
+ZABlAGQALgBvAHIAZwA7ACAAZABtAGEAcgBjAD0AbgBvAG4AZQAgAGEAYwB0AGkAbwBuAD0AbgBv
+AG4AZQAgAGgAZQBhAGQAZQByAC4AZgByAG8AbQA9AG4AeABwAC4AYwBvAG0AOwAAAAAAHwAAgIYD
+AgAAAAAAwAAAAAAAAEYBAAAAHgAAAGEAYwBjAGUAcAB0AGwAYQBuAGcAdQBhAGcAZQAAAAAAAQAA
+AAwAAABlAG4ALQBVAFMAAAAfAACAhgMCAAAAAADAAAAAAAAARgEAAAAgAAAAeAAtAG0AcwAtAGgA
+YQBzAC0AYQB0AHQAYQBjAGgAAAABAAAAAgAAAAAAAABIAACACCAGAAAAAADAAAAAAAAARgEAAAAi
+AAAATgBlAHQAdwBvAHIAawBNAGUAcwBzAGEAZwBlAEkAZAAAAAAA85aCq1lmeUz97QjZZnj70x8A
+AICGAwIAAAAAAMAAAAAAAABGAQAAAC4AAAB4AC0AbQBzAC0AcAB1AGIAbABpAGMAdAByAGEAZgBm
+AGkAYwB0AHkAcABlAAAAAAABAAAADAAAAEUAbQBhAGkAbAAAAB8AAICGAwIAAAAAAMAAAAAAAABG
+AQAAAFAAAAB4AC0AbQBzAC0AbwBmAGYAaQBjAGUAMwA2ADUALQBmAGkAbAB0AGUAcgBpAG4AZwAt
+AGMAbwByAHIAZQBsAGEAdABpAG8AbgAtAGkAZAAAAAEAAABKAAAAYQBiADgAMgA5ADYAZgAzAC0A
+NgA2ADUAOQAtADQAYwA3ADkALQBmAGQAZQBkAC0AMAA4AGQAOQA2ADYANwA4AGYAYgBkADMAAAAA
+AB8AAICGAwIAAAAAAMAAAAAAAABGAQAAADYAAAB4AC0AbQBzAC0AdAByAGEAZgBmAGkAYwB0AHkA
+cABlAGQAaQBhAGcAbgBvAHMAdABpAGMAAAAAAAEAAAAiAAAARABCADMAUABSADAANAAwADIATQBC
+ADMAOAAxADcAOgAAAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAANAAAAHgALQBtAGkAYwByAG8A
+cwBvAGYAdAAtAGEAbgB0AGkAcwBwAGEAbQAtAHAAcgB2AHMAAAABAAAAqgAAADwARABCADMAUABS
+ADAANAAwADIATQBCADMAOAAxADcARQA4ADIAMQBDAEEANAA4ADgAMwBFAEIAMQAzADIANQA3AEMA
+MgA5AEUAMgBDADQAOQBAAEQAQgAzAFAAUgAwADQAMAAyAE0AQgAzADgAMQA3AC4AZQB1AHIAcABy
+AGQAMAA0AC4AcAByAG8AZAAuAG8AdQB0AGwAbwBvAGsALgBjAG8AbQA+AAAAAAAfAACAhgMCAAAA
+AADAAAAAAAAARgEAAAA4AAAAeAAtAG0AcwAtAG8AbwBiAC0AdABsAGMALQBvAG8AYgBjAGwAYQBz
+AHMAaQBmAGkAZQByAHMAAAABAAAAFAAAAE8ATABNADoAMQAyADgANAA7AAAAHwAAgIYDAgAAAAAA
+wAAAAAAAAEYBAAAAOAAAAHgALQBtAHMALQBlAHgAYwBoAGEAbgBnAGUALQBzAGUAbgBkAGUAcgBh
+AGQAYwBoAGUAYwBrAAAAAQAAAAQAAAAxAAAAHwAAgIYDAgAAAAAAwAAAAAAAAEYBAAAAOgAAAHgA
+LQBtAHMALQBlAHgAYwBoAGEAbgBnAGUALQBhAG4AdABpAHMAcABhAG0ALQByAGUAbABhAHkAAAAA
+AAEAAAAEAAAAMAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAACoAAAB4AC0AbQBpAGMAcgBvAHMA
+bwBmAHQALQBhAG4AdABpAHMAcABhAG0AAAAAAAEAAAAOAAAAQgBDAEwAOgAwADsAAAAAAB8AAICG
+AwIAAAAAAMAAAAAAAABGAQAAAEQAAAB4AC0AbQBpAGMAcgBvAHMAbwBmAHQALQBhAG4AdABpAHMA
+cABhAG0ALQBtAGUAcwBzAGEAZwBlAC0AaQBuAGYAbwAAAAEAAADaBgAAQQB0AGEASgA3ADAAUABX
+ACsARgBJAE4AWgBZAEcAZwBMAFUAVQA1AGoAbQA5AGEAdgBvAEYAcwBPAE0ATwB4AFAANgBqAGEA
+cQAyAHMAMABFADMAeAB3AFYAYQA0AGkAcQBoAHYAYwBCAEwAdABSAFkAbwBnAG4AQgBYAEcANABo
+AHcAWgAzADcAQgBLAFAAdwBrAHIAeABUAHUAagBjAEsARwBwAGcAcgBtAGUAKwBMAG4ARABTAGIA
+agBNAHQAdABVAFEATgByAFQAcgA1AFkAWAAxADMAZAA4AHAAUQBiAHMAOQBPAEYARwB6AHoAYwA0
+AGcAaQB2AEoAQwA0ADMAZgBPAEkAMQBnAGwARgB6AEMATABqAGcANgByAGcATgBXAHQATABpADcA
+TgBuAEYATwBuAEwAVABNAFYASAB0AHEAUQBGAHQASQBrAG8ASgAyAFUAbABXADUAcgBWAFIAOQBa
+AGYARQAwAGoAOABGADEAVwBBAGYAUAAxADgANQAyADcAQwByAEQAdgBuADMAYQBIAGEATABxAHAA
+VgBZAG4ATwB3AHEAeQBIADkAUgAyAGMAeABWAEkAVgBXAEoAZAB0AG4AMgBkAFYAdABUAEoAWQAw
+ADAASQBlADEAVgArAG8AbABrAFEAYgBzAFAAUgBzAHYAagB4AEcARgA4AHEAYgB2AFAAVgBlADcA
+cwBwAG0AeQBDAEwAcABtAGQAagBOAEEASQBTADAAcABDAGsAcABuADcARQBVAHcANgAyADMAKwBk
+AFYAMQBlAFcAUABZAHgAbgBKAGkAegB0AHgAdQB4AG0AdwBGADcANQBxAGwAdwBqAHMAaQB4ADEA
+QQB3AG4AVgA4AE0AUwBwAEcAcAAxAGsAcQB0AEMAawBhAHkAdgBLAEkAegBtAHIAYgBVAFYAUwBm
+AFoASgBQAHgAegBVAFEAdwBRAG8AKwBCAGEAaABaAFUAZgAwAHMAWgAwAEEAagBWAHMATgBIADEA
+eQB2AFMAVQBMAHUANwA5AFgAaQBkAFcAQQBjAEEAeQBwAHgATgBrAG0AcQB6AEYAbgB6AFAAYwBU
+AGcANQBWAGIAYgB4AGEAbwBOAHcANgB6AHYAYQB2AG0AdAAyAGIAVAB4AFkAcQBGAHMAZQBKAGkA
+VAAzAGIAYQB3AG4ATwA4AHIAagBsAGYAZgBMAEkAVQBPAEYAVQBzAHQAYQA0AHQARgA1AFYAQgA5
+ADkAcQBaAFoAZQBKACsAOAA2AFEAdgBMAFcATABJAHoAMQAzAHUAeAB5AHEATwBHAEgARwB5ADYA
+UgAyAHMASwA1AEIAVQB0AHQASwB3AG0AdABGAEMAdABQAHUAMQByAFUAUgBVAGIANAAvADUAUQBi
+AGsAUgBOAFQAUABSAHYAUgAzADQAYgBaAGMAegBJAGcAeAA3AGkASAA2AHoAKwBkAFAAaQBLAFEA
+LwBMAE4AegA3AFAAQQA1AEoAZQBLAFQAegBTAG4AZAA1ADEAaQBVAEUARgBxADEAbwB4ADUASQAr
+AEUAdABMADEAcgBOAEQAaABHADQAKwB1AFAAdwBEADQAUABCAFAAMAB2ACsAbABSAGkAegBmAFMA
+NgBZAFQAYgBWAGQAUwBuAHUAVAAxAHkANABsAEcAcQA3AHUATABZADYAbgBaAFgAaQBuAFAAMQBK
+AHIATABqAFEAbQBqAGUAOAArAC8ASABNADgAMABvAEoARABQAE4AMgBQAGkAUwBZAGEAZwBaACsA
+egBKAHoASwBhAHoAZgBSAGoAdABFAEwATwBjAHgAZABKAE0AZAA0AFUAbgArADEATQBzADEASQBF
+AGUAUAB6AGoAWQBaAHcAZwBQAHQASwA1AEsAMABJADIASAA0AFYAWQB6AE8AWABzAFgAYgBmAHMA
+RQBGAHQAMABkAHkAagAzAE4AcQBZAEYAUQBVAFAAOQBlAHcAcABlAEMATABDAGwAawBKAGgATgB1
+AFcAegByAEIARABCAFYAZwBVAFAAdgBsAGkAVwBxAHIAWgBFAGsAVgB6AFcAVgB2AFUAZgA2AFAA
+SQBMADgAOABlAHIAbgAvAHkAVABLADYAMABoAEEAQQBxAEoAcQBNAEYAKwBYAHAAVQBVAHIAMAB3
+AEUAeQB6AEsAUABrAG0AWgA3AEgAZwBPAEQAeQBKADMARABJAFAAVQAwAHIAMwBiAGUAawBrAEUA
+cgBUAGkASwB3AFUAUAB0AHAAOABVAHQAcwA2AC8AWQBXADUAVQBMAFMAMABXAGkAZQBNAFUANgA1
+ADUAVgA1AEwASwAzAG4ANQAxAHQAKwBvAD0AAAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAAADgA
+AAB4AC0AZgBvAHIAZQBmAHIAbwBuAHQALQBhAG4AdABpAHMAcABhAG0ALQByAGUAcABvAHIAdAAA
+AAEAAABSBAAAQwBJAFAAOgAyADUANQAuADIANQA1AC4AMgA1ADUALgAyADUANQA7AEMAVABSAFkA
+OgA7AEwAQQBOAEcAOgBlAG4AOwBTAEMATAA6ADEAOwBTAFIAVgA6ADsASQBQAFYAOgBOAEwASQA7
+AFMARgBWADoATgBTAFAATQA7AEgAOgBEAEIAQgBQAFIAMAA0AE0AQgA3ADcANQAzAC4AZQB1AHIA
+cAByAGQAMAA0AC4AcAByAG8AZAAuAG8AdQB0AGwAbwBvAGsALgBjAG8AbQA7AFAAVABSADoAOwBD
+AEEAVAA6AE4ATwBOAEUAOwBTAEYAUwA6ACgANAA2ADMANgAwADAAOQApACgAMQAzADYAMAAwADMA
+KQAoADMANAA2ADAAMAAyACkAKAAzADkANgAwADAAMwApACgAMwA3ADYAMAAwADIAKQAoADMANgA2
+ADAAMAA0ACkAKAAzADkAOAA1ADAANAAwADAAMAAwADQAKQAoADcAMQAyADAAMAA0ADAAMAAwADAA
+MQApACgANwA2ADkANgAwADAANQApACgAMQA4ADYAMAAwADMAKQAoADMAMQA2ADAAMAAyACkAKAAx
+ADIAMgAwADAAMAAwADAAMQApACgAMgA5ADAANgAwADAAMgApACgANgA2ADUANQA2ADAAMAA4ACkA
+KAA2ADQANwA1ADYAMAAwADgAKQAoADEAMQAwADEAMwA2ADAAMAA1ACkAKAA0ADcAOAA2ADAAMAAw
+ADAAMQApACgANAA0ADgAMwAyADAAMQAxACkAKAAzADQAOAAwADcAMAAwADAAMAA3ACkAKAA1ADUA
+MAAxADYAMAAwADIAKQAoADMAOAAwADcAMAA3ADAAMAAwADAANQApACgAMwAzADYANQA2ADAAMAAy
+ACkAKAAyADYAMAAwADUAKQAoADYANgA0ADQANgAwADAAOAApACgANAA3ADQANAAwADAANQApACgA
+OQAzADIANgAwADAAMgApACgAOQA2ADYAMAAwADUAKQAoADgAMwAzADgAMAA0ADAAMAAwADAAMQAp
+ACgAMwA4ADEAMAAwADcAMAAwADAAMAAyACkAKAA3ADYAMQAxADYAMAAwADYAKQAoADkANgA4ADYA
+MAAwADMAKQAoADgANgA3ADYAMAAwADIAKQAoADcAMQAxADYAMAAwADMAKQAoADYANQAwADYAMAAw
+ADcAKQAoADgAOQAzADYAMAAwADIAKQAoADgANgAzADYAMgAwADAAMQApACgANQAyADUAMwA2ADAA
+MQA0ACkAKAA1ADYANgAwADMAMAAwADAAMAAyACkAKAAxADYANgAwADAAMgApACgANgA2ADQANwA2
+ADAAMAA3ACkAKAA2ADYAOQA0ADYAMAAwADcAKQAoADEAMwAzADAAOAAzADAAMAAxACkAOwBEAEkA
+UgA6AE8AVQBUADsAUwBGAFAAOgAxADEAMAAxADsAAAAAAB8AAICGAwIAAAAAAMAAAAAAAABGAQAA
+AFwAAAB4AC0AbQBzAC0AZQB4AGMAaABhAG4AZwBlAC0AYQBuAHQAaQBzAHAAYQBtAC0AbQBlAHMA
+cwBhAGcAZQBkAGEAdABhAC0AYwBoAHUAbgBrAGMAbwB1AG4AdAAAAAEAAAAEAAAAMQAAAB8AAICG
+AwIAAAAAAMAAAAAAAABGAQAAAEoAAAB4AC0AbQBzAC0AZQB4AGMAaABhAG4AZwBlAC0AYQBuAHQA
+aQBzAHAAYQBtAC0AbQBlAHMAcwBhAGcAZQBkAGEAdABhAC0AMAAAAAAAAQAAAFoKAABWADcANwBE
+AEwAUwB2ACsAKwAxAEUAbwB4ADIAWAB5AHYANQBDAEIAUwA2AHcAcgBYAE8AdgBFAGUAZABFAHAA
+awBtAE8ARQBpAFMAZwA4ADkAUgA4AFQAWQAyADIANgA5AE0AUABXAHUAOAA5AEYAZgBDAFYAbQBG
+AFEAOQB6AEUAOABvAEgAawBkAGkAdABXAFAATgArAHkAQwB2AHAAWABmAGkAQgBJAE4AaABxAEoA
+SgB1ADMAawBXAGoAUQB3AEoAMwBNAHAARwBZAGkAOABsADgANgBsADEASQBoAGIAYgBYAGMAdgBw
+ACsAbwBDAGYAcgBRAFYAbwAyAG0ALwB5AFcAZgBjADgAMABvAEUANgByADIAegBqADMAUwBUAFUA
+dgBUADkASQBYAFUAdQBqAFgATwBQAEgAMABPAEkAcwBCAHYAVQBRAHMAaABNAGkAbABoAFUASQAx
+AEcAbwA3AHcAaABVAEIAZwBPAEMAeQA2AEIAaQA5AFQAaQArAHYANQA5AEsAZQBtADEAagBQAHEA
+SQB0AGoAMwBoAHoAOABIAGoAawBsAFIAaAAzADEARwBRADAAMwBBAG0ARQBYAG8AUQB0AEYASABh
+AEUATgArAG8ATQBQADQAcQAzAFgAVgBBADcASwBJADkAOQBzAHAAcABJAFEARgBJAFQALwBrADAA
+QQBWADgARwBxAHcASAB0ADYASwBtAGwAMgBTAFMAdAB5AGoARgB2AEEARABaAEwASQByAHQATwBt
+AC8ARwByAFkAMAAzAGwARgByAE4ASgA3AEUATwA5AE8ASgBkADYANwBRAG0AOABjADQAdwB4AHkA
+NQBHAHgAVQBzAFMALwAxAHcAOAA1AEkAOQBhAHAANABXADkAbwBSAFkAZwBUAG4AOQBsAGcAYgBX
+ADMAcwB1AEMAeQB6AGIARgBRAG4AMQBpAGoAcAAvAGwAaAA0AEwAdwArAFYAZgBRAGYASAB2AG8A
+cABjADIAcQBwAGMAbABPAEsAOQBKAFQAMwBhAEQAUABiAFYAYgBPAGQAWgA4AGcAdQArAG8ASgA3
+AFIAUQBEAFMAbwBJAHMAZwByADIAagBTAGoANwAzAFIANABoAEgATgB5ADYANgBzAE0AbgBnAFMA
+TABkADcAcwB4AFAATAB3AGkATQBCAEQAcwBlADAAVQBMAGoAQwBTAGcAcAAzAHYAOQA3AHYARwA0
+AHAARQBkAFUAZQBoAHAAQQBiAHgAWABvAHkAVwBQAHcAVwBNAGYATwA3ADMAagBzAEkAdwBpAE4A
+SgBEAFoAMQBmAGIAZgA1AG4AUQB2AHYAbQA5AHkAcQBGAHcAKwBNAGEASQBkAGsANgAvAFcAbAAw
+AEQAZQBrAFIAUgBXADgARABhAGkAMQA3AEQAUgB0AFEATQBCAGgARwA0AHkAQwAwAGUAWgAyADYA
+agB4AGsALwByAGoAaAA0AEsANQBMAHgASQBWAEcAdgBnADAAcABYAHoAbgBWAG4AYgBRAHcATgBY
+AHoANQBBAHQAZQBzAC8ASwA4AE0ATgBGAE8ASwBxAFIAMAB5AHYAdwBOAG4ASwBhADcAYQAvAG0A
+SgAzAHMAaAArADUAZwByAGgASwA1ADkAdgA0AHgAKwBLAGEAMgBtAHkAbABwAHAAZQArAGcAaABH
+AGIAagBWAE8ANQBIAHkAaABKAFUAUQArAHcAVwB4AEwAWQBCADAATwBGAGsAcQBYAE8AWQAyADUA
+bABtAE0AVgBoAFgAaQBHADgATwB2AGYAUQBmAGUANwB6AHkAZAAvAFcAeQA3ADIARwBlAFIAMQBL
+AEoAUwBSAHQAVQBCAGEAQwBhAHYAVAA5AEsAZwBmAEkAUwBkAFUARwBYADUAagA0AHYAMAArAEcA
+WQA3AGIARwBIAHMAMABKAFYAOQBiAHQAYgBLAEcAQwB1AEIAQQAzAE4AOABhAFYAKwBUAEIAdwBV
+AEYAVABNAGQAVABnADIAaQBtADgAbABZAGMASQByAGQASgBjAHgAbQA2AEMAUwBvAEwATwBPAGkA
+MgBkAGkAZwBYAGcAdwBUAHYARQBOAHAAKwBCAG8AOQBrAFQARABqAFcAOQAzAGwATwBkADgAZABC
+AGsAbgAxAGIAcABEAFAAbwB0ADYAVABYAGcARgAvAEwAawBuAEgAUABVAHEAVQBHAFoAbAB2ACsA
+SwBuAC8AeQBhAHYAaQA0AGkAdQBJAFkAWABwADcAUABpAEkATgBHAE0AeABDADMAZgBzAEMASwBi
+AEkAdgA2AEoAVQBmAGcAVQBiAGoATwBBAHIAMQA2ADYAKwB5AHAATgBUAE0AMgBMAHEASwBBAG4A
+RwBtADIASwBqAHEAegBRAEoATgByADgAZQBUAE4AcwB1ADQAZgBGADUASgB3AGMATQBDAFQAeABl
+AGQAbAB1AEwARABFAHQAKwA0AGsAUQAvAEIAegB6AFUAbABDAFAAZwB0AFkAWQBOAFQAMgB2AE4A
+cgAxAFkAdABLAFUAMAA0AE8ANgArAE0AdgBrAHAAWABnAEgAeAA4AEUAagB0AG4ARABBAHUAbgBy
+AEYAbgBnAEEAVwBZAEcAdwBuAHAAWABKAEUAeQBtADcAaABXAE8AMABmAE4AeQBMAGEAbgBFAGoA
+MAAyAEcATAA5AEUAMgB1AHgAOQBMAHMAMQBQAHMANABJAFgAMgB4AGMAQQBBAHMAagBDAGgAeABz
+AHYAYwB5AFcAeQArAFkAWABqAHUATQBGAGMAMQB3AG8AWQBQAEUAegBEAFQAQQA3AG4AagB4AHkA
+RwB6AEoAbwBhAHUAeQB5AEkAbQAxAGkAaABvAHkANwBHADEAcwBGAHYAQQB6AFoALwBLAGsAKwAr
+AHkAMgBOAFIAcgBNADAAcAAyAFoAZABzAEIAMQBIAEcAbQB6AGgANABwAEUAUgBjAFgAWgBsAC8A
+ZQBhAGQAZQBsAFIAeABYAFYAbQAzADAAYgBQACsAOQBJAG4AeABPAGIANABzACsARQAwADMAeAB1
+AEYARABOAEIAZgBsAEMASwA4AFkAegBrAEgAOABYAHgAcwByAG0ALwBhAFAAbwBuAFcAVwBWADIA
+agBvAGIAQwBWADUAeQBUAEgARABXAG4ARwAzAEgAKwBGAGgAWAAvAFgAQgBYAGkAeQBiAGYAZABF
+AEcAYQBwAFYAbQBQADQAYQBVADMAWABSAE0AMwA5AHYASwBLAHAARQBBADgAWgB4AGMASAB2ADAA
+OQBXAFkAOQBRAGcARgBNAHEASQA0AFcAcQBpAHYAUwA2AEEAcAB0AHMAMQBoAEgAeABtAHMANgBx
+AFoANwBVAC8ANwAxAE0AdABWAHUAagAvADIAcwAyAFoAbwBOAFUAQwBCAG4ASAA4AE4ANQBvAEkA
+YgB1AFoAdgA5ADMANQAxAEsAUAA3AEgAbABvAEgAYQBVAGkAbAByADcAdABHADEARgBTAFAAVQBC
+AGkAVQAyAEYAWgBuAHUASQA9AAAAAAAfAACAhgMCAAAAAADAAAAAAAAARgEAAAA+AAAAeAAtAG0A
+cwAtAGUAeABjAGgAYQBuAGcAZQAtAHQAcgBhAG4AcwBwAG8AcgB0AC0AZgBvAHIAawBlAGQAAAAA
+AAEAAAAKAAAAVAByAHUAZQAAAAAAKu4=
+
+--_000_DBBPR04MB7753DA02744DA24970B22556E2C49DBBPR04MB7753eurp_--
