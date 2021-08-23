@@ -1,486 +1,336 @@
 Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
- by mx.groups.io with SMTP id smtpd.web12.22121.1629716260131680793
+ by mx.groups.io with SMTP id smtpd.web09.22483.1629717851980941428
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 03:57:40 -0700
+ Mon, 23 Aug 2021 04:24:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
 Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 17NAvcmr008050
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 17NBO9DH006668
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 12:57:38 +0200
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 13:24:09 +0200
 Received: from dev.vm6.ccp.siemens.com ([144.145.220.57])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 17NAvbOV020391;
-	Mon, 23 Aug 2021 12:57:37 +0200
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 17NBO8Ch019760;
+	Mon, 23 Aug 2021 13:24:08 +0200
 Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 6C6FD950A87;
-	Mon, 23 Aug 2021 12:57:37 +0200 (CEST)
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 6C400950A87;
+	Mon, 23 Aug 2021 13:24:08 +0200 (CEST)
 From: "Andrej Valek" <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][dunfell][PATCH] mklibs-native: drop deprecated cpp17 exceptions
-Date: Mon, 23 Aug 2021 12:56:48 +0200
-Message-Id: <20210823105648.31311-1-andrej.valek@siemens.com>
+Subject: [OE-core][PATCH v2] busybox: 1.33.1 -> 1.34.0
+Date: Mon, 23 Aug 2021 13:23:19 +0200
+Message-Id: <20210823112319.32629-1-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20210823101205.29267-1-andrej.valek@siemens.com>
+References: <20210823101205.29267-1-andrej.valek@siemens.com>
 
-gcc11 has -std=gnu++17 as default. Remove deprecated C++17 exceptions based
-on http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html.
+- update to next stable version 1.34.0
+- refresh defconfig
+- remove and refresh already merged patches
 
 Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- ...-deprecated-exception-specification-cpp17.patch | 431 +++++++++++++++++++++
- .../mklibs/mklibs-native_0.1.44.bb                 |   1 +
- 2 files changed, 432 insertions(+)
- create mode 100644 meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
+ ...inittab_1.33.0.bb => busybox-inittab_1.34.0.bb} |   0
+ ...iles-Use-C-locale-when-calling-sed-on-glo.patch |  28 ------
+ ...-testsuite-check-uudecode-before-using-it.patch |   6 +-
+ .../busybox/busybox-udhcpc-no_deconfig.patch       | 102 +++++----------------
+ meta/recipes-core/busybox/busybox/defconfig        |  12 ++-
+ .../{busybox_1.33.1.bb => busybox_1.34.0.bb}       |   3 +-
+ 6 files changed, 36 insertions(+), 115 deletions(-)
+ rename meta/recipes-core/busybox/{busybox-inittab_1.33.0.bb => busybox-inittab_1.34.0.bb} (100%)
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
+ rename meta/recipes-core/busybox/{busybox_1.33.1.bb => busybox_1.34.0.bb} (92%)
 
-diff --git a/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
-new file mode 100644
-index 0000000000..0c4c911976
---- /dev/null
-+++ b/meta/recipes-devtools/mklibs/files/remove-deprecated-exception-specification-cpp17.patch
-@@ -0,0 +1,431 @@
-+From 597c7a8333df84a87cc48fb8477b603ffbf372a6 Mon Sep 17 00:00:00 2001
-+From: Andrej Valek <andrej.valek@siemens.com>
-+Date: Mon, 23 Aug 2021 12:45:11 +0200
-+Subject: [PATCH] feat(cpp17): remove deprecated exception specifications for
-+ C++ 17
-+
-+Upstream-Status: Submitted
-+
-+based on: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0003r5.html
-+
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+---
-+ src/mklibs-readelf/elf.cpp      | 48 ++++++++++++++++++++---------------------
-+ src/mklibs-readelf/elf.hpp      | 18 ++++++++--------
-+ src/mklibs-readelf/elf_data.hpp | 36 +++++++++++++++----------------
-+ 3 files changed, 51 insertions(+), 51 deletions(-)
-+
-+diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
-+index 0e4c0f3..2e6d0f6 100644
-+--- a/src/mklibs-readelf/elf.cpp
-++++ b/src/mklibs-readelf/elf.cpp
-+@@ -36,7 +36,7 @@ file::~file () throw ()
-+     delete *it;
-+ }
-+ 
-+-file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_error)
-++file *file::open (const char *filename) throw ()
-+ {
-+   struct stat buf;
-+   int fd;
-+@@ -72,7 +72,7 @@ file *file::open (const char *filename) throw (std::bad_alloc, std::runtime_erro
-+ }
-+ 
-+ template<typename _class>
-+-file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
-++file *file::open_class(uint8_t *mem, size_t len) throw ()
-+ {
-+   switch (mem[EI_DATA])
-+   {
-+@@ -86,7 +86,7 @@ file *file::open_class(uint8_t *mem, size_t len) throw (std::bad_alloc, std::run
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw (std::bad_alloc, std::runtime_error)
-++file_data<_class, _data>::file_data(uint8_t *mem, size_t len) throw ()
-+ : file(mem, len)
-+ {
-+   if (mem[EI_CLASS] != _class::id)
-+@@ -190,7 +190,7 @@ section_data<_class, _data>::section_data(Shdr *shdr, uint8_t *mem) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_data<_class, _data>::update(const file &file) throw (std::bad_alloc)
-++void section_data<_class, _data>::update(const file &file) throw ()
-+ {
-+   const section_type<section_type_STRTAB> &section =
-+     dynamic_cast<const section_type<section_type_STRTAB> &>(file.get_section(file.get_shstrndx()));
-+@@ -204,7 +204,7 @@ section_type<section_type_DYNAMIC>::~section_type() throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_DYNAMIC)
-+@@ -221,7 +221,7 @@ section_real<_class, _data, section_type_DYNAMIC>::section_real(Shdr *header, ui
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_DYNAMIC>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -243,7 +243,7 @@ section_type<section_type_DYNSYM>::~section_type() throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_DYNSYM)
-+@@ -260,7 +260,7 @@ section_real<_class, _data, section_type_DYNSYM>::section_real(Shdr *header, uin
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_DYNSYM>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update (file);
-+ 
-+@@ -285,7 +285,7 @@ const version_definition *section_type<section_type_GNU_VERDEF>::get_version_def
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data>(header, mem)
-+ {
-+   if (this->type != SHT_GNU_verdef)
-+@@ -307,7 +307,7 @@ section_real<_class, _data, section_type_GNU_VERDEF>::section_real(Shdr *header,
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_GNU_VERDEF>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -333,7 +333,7 @@ const version_requirement_entry *section_type<section_type_GNU_VERNEED>::get_ver
-+ 
-+ template <typename _class, typename _data>
-+ section_real<_class, _data, section_type_GNU_VERNEED>::
-+-section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real(Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != SHT_GNU_verneed)
-+@@ -355,7 +355,7 @@ section_real(Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw (std::bad_alloc)
-++void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &file) throw ()
-+ {
-+   section_data<_class, _data>::update(file);
-+ 
-+@@ -372,7 +372,7 @@ void section_real<_class, _data, section_type_GNU_VERNEED>::update(const file &f
-+ 
-+ template <typename _class, typename _data>
-+ section_real<_class, _data, section_type_GNU_VERSYM>::
-+-section_real (Shdr *header, uint8_t *mem) throw (std::bad_alloc)
-++section_real (Shdr *header, uint8_t *mem) throw ()
-+ : section_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != SHT_GNU_versym)
-+@@ -399,7 +399,7 @@ segment_data<_class, _data>::segment_data (Phdr *phdr, uint8_t *mem) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw (std::bad_alloc)
-++segment_real<_class, _data, segment_type_INTERP>::segment_real (Phdr *header, uint8_t *mem) throw ()
-+ : segment_data<_class, _data> (header, mem)
-+ {
-+   if (this->type != PT_INTERP)
-+@@ -429,13 +429,13 @@ dynamic_data<_class, _data>::dynamic_data (Dyn *dyn) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void dynamic_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   if (is_string)
-+     val_string = section.get_string(val);
-+ }
-+ 
-+-std::string symbol::get_version () const throw (std::bad_alloc)
-++std::string symbol::get_version () const throw ()
-+ {
-+   if (verneed)
-+     return verneed->get_name();
-+@@ -445,7 +445,7 @@ std::string symbol::get_version () const throw (std::bad_alloc)
-+   return "Base";
-+ }
-+ 
-+-std::string symbol::get_version_file () const throw (std::bad_alloc)
-++std::string symbol::get_version_file () const throw ()
-+ {
-+   if (verneed)
-+     return verneed->get_file();
-+@@ -453,7 +453,7 @@ std::string symbol::get_version_file () const throw (std::bad_alloc)
-+   return "None";
-+ }
-+ 
-+-std::string symbol::get_name_version () const throw (std::bad_alloc)
-++std::string symbol::get_name_version () const throw ()
-+ {
-+   std::string ver;
-+ 
-+@@ -478,13 +478,13 @@ symbol_data<_class, _data>::symbol_data (Sym *sym) throw ()
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void symbol_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   name_string = section.get_string(name);
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw (std::bad_alloc)
-++void symbol_data<_class, _data>::update_version(const file &file, uint16_t index) throw ()
-+ {
-+   if (!file.get_section_GNU_VERSYM())
-+     return;
-+@@ -531,13 +531,13 @@ version_definition_data<_class, _data>::version_definition_data (Verdef *verdef)
-+ }
-+ 
-+ template <typename _class, typename _data>
-+-void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++void version_definition_data<_class, _data>::update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   for (std::vector<uint32_t>::iterator it = names.begin(); it != names.end(); ++it)
-+     names_string.push_back(section.get_string(*it));
-+ }
-+ 
-+-version_requirement::version_requirement() throw (std::bad_alloc)
-++version_requirement::version_requirement() throw ()
-+ : file_string("None")
-+ { }
-+ 
-+@@ -561,7 +561,7 @@ version_requirement_data<_class, _data>::version_requirement_data (Verneed *vern
-+ 
-+ template <typename _class, typename _data>
-+ void version_requirement_data<_class, _data>::
-+-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   file_string = section.get_string(file);
-+ 
-+@@ -596,7 +596,7 @@ version_requirement_entry_data(Vernaux *vna, const version_requirement &verneed)
-+ 
-+ template <typename _class, typename _data>
-+ void version_requirement_entry_data<_class, _data>::
-+-update_string(const section_type<section_type_STRTAB> &section) throw (std::bad_alloc)
-++update_string(const section_type<section_type_STRTAB> &section) throw ()
-+ {
-+   name_string = section.get_string(name);
-+ }
-+diff --git a/src/mklibs-readelf/elf.hpp b/src/mklibs-readelf/elf.hpp
-+index 70e61cd..afb0c9e 100644
-+--- a/src/mklibs-readelf/elf.hpp
-++++ b/src/mklibs-readelf/elf.hpp
-+@@ -49,7 +49,7 @@ namespace Elf
-+       const uint16_t get_shstrndx() const throw () { return shstrndx; }
-+ 
-+       const std::vector<section *> get_sections() const throw () { return sections; };
-+-      const section &get_section(unsigned int i) const throw (std::out_of_range) { return *sections.at(i); };
-++      const section &get_section(unsigned int i) const throw () { return *sections.at(i); };
-+       const section_type<section_type_DYNAMIC> *get_section_DYNAMIC() const throw () { return section_DYNAMIC; };
-+       const section_type<section_type_DYNSYM> *get_section_DYNSYM() const throw () { return section_DYNSYM; };
-+       const section_type<section_type_GNU_VERDEF> *get_section_GNU_VERDEF() const throw () { return section_GNU_VERDEF; };
-+@@ -59,13 +59,13 @@ namespace Elf
-+       const std::vector<segment *> get_segments() const throw () { return segments; };
-+       const segment_type<segment_type_INTERP> *get_segment_INTERP() const throw () { return segment_INTERP; };
-+ 
-+-      static file *open(const char *filename) throw (std::bad_alloc, std::runtime_error);
-++      static file *open(const char *filename) throw ();
-+ 
-+     protected:
-+-      file(uint8_t *mem, size_t len) throw (std::bad_alloc) : mem(mem), len(len) { }
-++      file(uint8_t *mem, size_t len) throw () : mem(mem), len(len) { }
-+ 
-+       template<typename _class>
-+-        static file *open_class(uint8_t *, size_t) throw (std::bad_alloc, std::runtime_error);
-++        static file *open_class(uint8_t *, size_t) throw ();
-+ 
-+       uint16_t type;
-+       uint16_t machine;
-+@@ -128,7 +128,7 @@ namespace Elf
-+     class section_type<section_type_STRTAB> : public virtual section
-+     {
-+       public:
-+-        std::string get_string(uint32_t offset) const throw (std::bad_alloc)
-++        std::string get_string(uint32_t offset) const throw ()
-+         {
-+           return std::string(reinterpret_cast<const char *> (mem + offset));
-+         }
-+@@ -263,10 +263,10 @@ namespace Elf
-+       uint8_t get_bind () const throw () { return bind; }
-+       uint8_t get_type () const throw () { return type; }
-+       const std::string &get_name_string() const throw () { return name_string; }
-+-      std::string get_version() const throw (std::bad_alloc);
-+-      std::string get_version_file() const throw (std::bad_alloc);
-++      std::string get_version() const throw ();
-++      std::string get_version_file() const throw ();
-+       uint16_t get_version_data() const throw () { return versym; }
-+-      std::string get_name_version() const throw (std::bad_alloc);
-++      std::string get_name_version() const throw ();
-+ 
-+     protected:
-+       uint32_t name;
-+@@ -305,7 +305,7 @@ namespace Elf
-+   class version_requirement
-+   {
-+     public:
-+-      version_requirement() throw (std::bad_alloc);
-++      version_requirement() throw ();
-+       virtual ~version_requirement () throw () { }
-+ 
-+       const std::string &get_file() const throw () { return file_string; }
-+diff --git a/src/mklibs-readelf/elf_data.hpp b/src/mklibs-readelf/elf_data.hpp
-+index 05effee..3871982 100644
-+--- a/src/mklibs-readelf/elf_data.hpp
-++++ b/src/mklibs-readelf/elf_data.hpp
-+@@ -94,7 +94,7 @@ namespace Elf
-+     class file_data : public file
-+     {
-+       public:
-+-        file_data(uint8_t *, size_t len) throw (std::bad_alloc, std::runtime_error);
-++        file_data(uint8_t *, size_t len) throw ();
-+ 
-+         const uint8_t get_class() const throw () { return _class::id; }
-+         const uint8_t get_data() const throw () { return _data::id; }
-+@@ -109,7 +109,7 @@ namespace Elf
-+       public:
-+         section_data(Shdr *, uint8_t *) throw ();
-+ 
-+-        virtual void update(const file &) throw (std::bad_alloc);
-++        virtual void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data, typename _type>
-+@@ -133,9 +133,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -147,9 +147,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -161,9 +161,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -175,9 +175,9 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+ 
-+-        void update(const file &) throw (std::bad_alloc);
-++        void update(const file &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -189,7 +189,7 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Shdr Shdr;
-+ 
-+       public:
-+-        section_real(Shdr *, uint8_t *) throw (std::bad_alloc);
-++        section_real(Shdr *, uint8_t *) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -220,7 +220,7 @@ namespace Elf
-+         typedef typename _elfdef<_class>::Phdr Phdr;
-+ 
-+       public:
-+-        segment_real (Phdr *, uint8_t *) throw (std::bad_alloc);
-++        segment_real (Phdr *, uint8_t *) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -232,7 +232,7 @@ namespace Elf
-+       public:
-+         dynamic_data (Dyn *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -244,8 +244,8 @@ namespace Elf
-+       public:
-+         symbol_data (Sym *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-+-        virtual void update_version (const file &, uint16_t) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-++        virtual void update_version (const file &, uint16_t) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -257,7 +257,7 @@ namespace Elf
-+ 
-+         version_definition_data (Verdef *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -269,7 +269,7 @@ namespace Elf
-+ 
-+         version_requirement_data (Verneed *) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ 
-+   template <typename _class, typename _data>
-+@@ -280,7 +280,7 @@ namespace Elf
-+ 
-+         version_requirement_entry_data (Vernaux *, const version_requirement &) throw ();
-+ 
-+-        void update_string(const section_type<section_type_STRTAB> &) throw (std::bad_alloc);
-++        void update_string(const section_type<section_type_STRTAB> &) throw ();
-+     };
-+ }
-+ 
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-index 1784af1f4c..07142e57e0 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.44.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20180828T214102Z/pool/main/
- 	file://avoid-failure-on-symbol-provided-by-application.patch \
- 	file://show-GNU-unique-symbols-as-provided-symbols.patch \
- 	file://fix_cross_compile.patch \
-+	file://remove-deprecated-exception-specification-cpp17.patch \
- "
+diff --git a/meta/recipes-core/busybox/busybox-inittab_1.33.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.34.0.bb
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-inittab_1.33.0.bb
+rename to meta/recipes-core/busybox/busybox-inittab_1.34.0.bb
+diff --git a/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch b/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
+deleted file mode 100644
+index e0a22c5bb3..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From bff7f16f7f41de8df67beb03722f235828ef2249 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 3 May 2021 15:48:19 -0700
+-Subject: [PATCH] gen_build_files: Use C locale when calling sed on globbed files
+-
+-sort order is different based on chosen locale and also default shell
+-being bash or dash
+-
+-This sets the environment variable LC_ALL to the value C, which will
+-enforce bytewise sorting, irrespective of the shell
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- scripts/gen_build_files.sh | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+---- a/scripts/gen_build_files.sh
+-+++ b/scripts/gen_build_files.sh
+-@@ -4,6 +4,8 @@
+- # but users complain that many sed implementations
+- # are misinterpreting --.
+- 
+-+export LC_ALL=C
+-+
+- test $# -ge 2 || { echo "Syntax: $0 SRCTREE OBJTREE"; exit 1; }
+- 
+- # cd to objtree
+diff --git a/meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch b/meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch
+index 25472f0bbd..d4bda3c12f 100644
+--- a/meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch
++++ b/meta/recipes-core/busybox/busybox/0001-testsuite-check-uudecode-before-using-it.patch
+@@ -18,13 +18,13 @@ diff --git a/testsuite/tar.tests b/testsuite/tar.tests
+ index d71a349..8c88567 100755
+ --- a/testsuite/tar.tests
+ +++ b/testsuite/tar.tests
+-@@ -336,7 +336,7 @@ SKIP=
+- cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
++@@ -339,7 +339,7 @@ cd .. || exit 1; rm -rf tar.tempdir 2>/d
++ fi
+  
+  mkdir tar.tempdir && cd tar.tempdir || exit 1
+ -optional FEATURE_SEAMLESS_BZ2 FEATURE_TAR_AUTODETECT LS
+ +optional FEATURE_SEAMLESS_BZ2 FEATURE_TAR_AUTODETECT LS UUDECODE
+- testing "Symlink attack: create symlink and then write through it" '\
++ testing "tar Symlink attack: create symlink and then write through it" '\
+  exec 2>&1
+  uudecode -o input && tar xvf input; echo $?
+ diff --git a/testsuite/unzip.tests b/testsuite/unzip.tests
+diff --git a/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch b/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch
+index 35e981d6a2..948932a3e8 100644
+--- a/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch
++++ b/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch
+@@ -31,11 +31,11 @@ Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+  networking/udhcp/dhcpc.c                       | 29 ++++++++++++++++------
+  1 file changed, 21 insertions(+), 8 deletions(-)
  
- SRC_URI[md5sum] = "6b6eeb9b4016c6a7317acc28c89e32cc"
+-Index: busybox-1.32.0/networking/udhcp/dhcpc.c
++Index: busybox-1.34.0/networking/udhcp/dhcpc.c
+ ===================================================================
+---- busybox-1.32.0.orig/networking/udhcp/dhcpc.c
+-+++ busybox-1.32.0/networking/udhcp/dhcpc.c
+-@@ -48,6 +48,8 @@ struct tpacket_auxdata {
++--- busybox-1.34.0.orig/networking/udhcp/dhcpc.c
+++++ busybox-1.34.0/networking/udhcp/dhcpc.c
++@@ -48,6 +48,8 @@
+  };
+  #endif
+  
+@@ -44,47 +44,37 @@ Index: busybox-1.32.0/networking/udhcp/dhcpc.c
+  
+  /* "struct client_data_t client_data" is in bb_common_bufsiz1 */
+  
+-@@ -103,8 +105,10 @@
+- 	OPT_x = 1 << 18,
+- 	OPT_f = 1 << 19,
+- 	OPT_B = 1 << 20,
+-+	OPT_D = 1 << 21,
++@@ -100,8 +102,10 @@
++ 	OPT_x = 1 << 16,
++ 	OPT_f = 1 << 17,
++ 	OPT_B = 1 << 18,
+++	OPT_D = 1 << 19,
+  /* The rest has variable bit positions, need to be clever */
+- 	OPTBIT_B = 20,
+-+	OPTBIT_D = 21,
++ 	OPTBIT_B = 18,
+++	OPTBIT_D = 19,
+  	USE_FOR_MMU(             OPTBIT_b,)
+  	IF_FEATURE_UDHCPC_ARPING(OPTBIT_a,)
+  	IF_FEATURE_UDHCP_PORT(   OPTBIT_P,)
+-@@ -1084,7 +1088,8 @@
+- 		client_data.state = RENEW_REQUESTED;
+- 		break;
+- 	case RENEW_REQUESTED: /* impatient are we? fine, square 1 */
+--		udhcp_run_script(NULL, "deconfig");
+-+		if (allow_deconfig)
+-+			udhcp_run_script(NULL, "deconfig");
+- 	case REQUESTING:
+- 	case RELEASED:
+- 		change_listen_mode(LISTEN_RAW);
+-@@ -1120,7 +1125,8 @@ static void perform_release(uint32_t server_addr, uint32_t requested_ip)
+-  * Users requested to be notified in all cases, even if not in one
+-  * of the states above.
+-  */
+--	udhcp_run_script(NULL, "deconfig");
++@@ -587,7 +591,8 @@
++ 
++ static void d4_run_script_deconfig(void)
++ {
++-	d4_run_script(NULL, "deconfig");
+ +	if (allow_deconfig)
+-+		udhcp_run_script(NULL, "deconfig");
+++		d4_run_script(NULL, "deconfig");
++ }
+  
+- 	change_listen_mode(LISTEN_NONE);
+- 	client_data.state = RELEASED;
+-@@ -1238,7 +1244,7 @@
++ /*** Sending/receiving packets ***/
++@@ -1244,7 +1249,7 @@
+  	/* Parse command line */
+  	opt = getopt32long(argv, "^"
+  		/* O,x: list; -T,-t,-A take numeric param */
+--		"CV:H:h:F:i:np:qRr:s:T:+t:+SA:+O:*ox:*fB"
+-+		"CV:H:h:F:i:np:qRr:s:T:+t:+SA:+O:*ox:*fBD"
++-		"CV:F:i:np:qRr:s:T:+t:+SA:+O:*ox:*fB"
+++		"CV:F:i:np:qRr:s:T:+t:+SA:+O:*ox:*fBD"
+  		USE_FOR_MMU("b")
+  		IF_FEATURE_UDHCPC_ARPING("a::")
+  		IF_FEATURE_UDHCP_PORT("P:")
+-@@ -1349,6 +1355,10 @@
++@@ -1361,6 +1366,10 @@
+  		logmode |= LOGMODE_SYSLOG;
+  	}
+  
+@@ -95,49 +85,3 @@ Index: busybox-1.32.0/networking/udhcp/dhcpc.c
+  	/* Create pidfile */
+  	write_pidfile(client_data.pidfile);
+  	/* Goes to stdout (unless NOMMU) and possibly syslog */
+-@@ -1357,7 +1367,8 @@
+- 	srand(monotonic_us());
+- 
+- 	client_data.state = INIT_SELECTING;
+--	udhcp_run_script(NULL, "deconfig");
+-+	if (allow_deconfig)
+-+		udhcp_run_script(NULL, "deconfig");
+- 	change_listen_mode(LISTEN_RAW);
+- 	packet_num = 0;
+- 	timeout = 0;
+-@@ -1530,7 +1541,8 @@
+- 				}
+- 				/* Timed out, enter init state */
+- 				bb_simple_info_msg("lease lost, entering init state");
+--				udhcp_run_script(NULL, "deconfig");
+-+				if (allow_deconfig)
+-+					udhcp_run_script(NULL, "deconfig");
+- 				client_data.state = INIT_SELECTING;
+- 				client_data.first_secs = 0; /* make secs field count from 0 */
+- 				/*timeout = 0; - already is */
+-@@ -1722,8 +1734,10 @@
+- 							"(got ARP reply), declining");
+- 						send_decline(/*xid,*/ server_addr, packet.yiaddr);
+- 
+--						if (client_data.state != REQUESTING)
+--							udhcp_run_script(NULL, "deconfig");
+-+						if (client_data.state != REQUESTING) {
+-+							if (allow_deconfig)
+-+								udhcp_run_script(NULL, "deconfig");
+-+						}
+- 						change_listen_mode(LISTEN_RAW);
+- 						client_data.state = INIT_SELECTING;
+- 						client_data.first_secs = 0; /* make secs field count from 0 */
+-@@ -1792,8 +1806,10 @@
+- 				/* return to init state */
+- 				bb_info_msg("received %s", "DHCP NAK");
+- 				udhcp_run_script(&packet, "nak");
+--				if (client_data.state != REQUESTING)
+--					udhcp_run_script(NULL, "deconfig");
+-+				if (client_data.state != REQUESTING) {
+-+					if (allow_deconfig)
+-+						udhcp_run_script(NULL, "deconfig");
+-+				}
+- 				change_listen_mode(LISTEN_RAW);
+- 				sleep(3); /* avoid excessive network traffic */
+- 				client_data.state = INIT_SELECTING;
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index 701d48d625..16c61a84b2 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -1,7 +1,7 @@
+ #
+ # Automatically generated make config: don't edit
+-# Busybox version: 1.33.0
+-# Wed Mar 10 13:29:25 2021
++# Busybox version: 1.34.0
++# Wed Aug 23 09:07:25 2021
+ #
+ CONFIG_HAVE_DOT_CONFIG=y
+ 
+@@ -207,11 +207,13 @@ CONFIG_CHOWN=y
+ # CONFIG_FEATURE_CHOWN_LONG_OPTIONS is not set
+ CONFIG_CHROOT=y
+ # CONFIG_CKSUM is not set
++CONFIG_CRC32=y
+ # CONFIG_COMM is not set
+ CONFIG_CP=y
+ # CONFIG_FEATURE_CP_LONG_OPTIONS is not set
+ # CONFIG_FEATURE_CP_REFLINK is not set
+ CONFIG_CUT=y
++CONFIG_FEATURE_CUT_REGEX=y
+ CONFIG_DATE=y
+ # CONFIG_FEATURE_DATE_ISOFMT is not set
+ # CONFIG_FEATURE_DATE_NANO is not set
+@@ -316,7 +318,6 @@ CONFIG_TEST2=y
+ CONFIG_FEATURE_TEST_64=y
+ # CONFIG_TIMEOUT is not set
+ CONFIG_TOUCH=y
+-CONFIG_FEATURE_TOUCH_NODEREF=y
+ CONFIG_FEATURE_TOUCH_SUSV3=y
+ CONFIG_TR=y
+ CONFIG_FEATURE_TR_CLASSES=y
+@@ -424,6 +425,7 @@ CONFIG_VI=y
+ CONFIG_FEATURE_VI_MAX_LEN=1024
+ CONFIG_FEATURE_VI_8BIT=y
+ CONFIG_FEATURE_VI_COLON=y
++CONFIG_FEATURE_VI_COLON_EXPAND=y
+ CONFIG_FEATURE_VI_YANKMARK=y
+ CONFIG_FEATURE_VI_SEARCH=y
+ # CONFIG_FEATURE_VI_REGEX_SEARCH is not set
+@@ -437,6 +439,7 @@ CONFIG_FEATURE_VI_WIN_RESIZE=y
+ CONFIG_FEATURE_VI_UNDO=y
+ CONFIG_FEATURE_VI_UNDO_QUEUE=y
+ CONFIG_FEATURE_VI_UNDO_QUEUE_MAX=256
++CONFIG_FEATURE_VI_VERBOSE_STATUS=y
+ CONFIG_FEATURE_ALLOW_EXEC=y
+ 
+ #
+@@ -743,6 +746,7 @@ CONFIG_FEATURE_VOLUMEID_SQUASHFS=y
+ # Miscellaneous Utilities
+ #
+ # CONFIG_ADJTIMEX is not set
++CONFIG_ASCII=y
+ # CONFIG_BBCONFIG is not set
+ # CONFIG_FEATURE_COMPRESS_BBCONFIG is not set
+ # CONFIG_BC is not set
+@@ -838,6 +842,7 @@ CONFIG_TS=y
+ # CONFIG_UBIRENAME is not set
+ # CONFIG_VOLNAME is not set
+ # CONFIG_WATCHDOG is not set
++# CONFIG_FEATURE_WATCHDOG_OPEN_TWICE is not set
+ 
+ #
+ # Networking Utilities
+@@ -976,6 +981,7 @@ CONFIG_TRACEROUTE=y
+ CONFIG_WGET=y
+ CONFIG_FEATURE_WGET_LONG_OPTIONS=y
+ CONFIG_FEATURE_WGET_STATUSBAR=y
++CONFIG_FEATURE_WGET_FTP=y
+ CONFIG_FEATURE_WGET_AUTHENTICATION=y
+ CONFIG_FEATURE_WGET_TIMEOUT=y
+ CONFIG_FEATURE_WGET_HTTPS=y
+diff --git a/meta/recipes-core/busybox/busybox_1.33.1.bb b/meta/recipes-core/busybox/busybox_1.34.0.bb
+similarity index 92%
+rename from meta/recipes-core/busybox/busybox_1.33.1.bb
+rename to meta/recipes-core/busybox/busybox_1.34.0.bb
+index 1e3e34e2a4..51df1df05f 100644
+--- a/meta/recipes-core/busybox/busybox_1.33.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.34.0.bb
+@@ -47,9 +47,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+-           file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
+            file://0001-mktemp-add-tmpdir-option.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg "
+ 
+-SRC_URI[tarball.sha256sum] = "12cec6bd2b16d8a9446dd16130f2b92982f1819f6e1c5f5887b6db03f5660d28"
++SRC_URI[tarball.sha256sum] = "ec8d1615edb045b83b81966604759c4d4ac921434ab4011da604f629c06074ce"
 -- 
 2.11.0
 
