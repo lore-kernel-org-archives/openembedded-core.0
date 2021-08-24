@@ -1,155 +1,118 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web08.36004.1629790876872053850
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web10.36356.1629790999255015201
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 00:41:17 -0700
+ Tue, 24 Aug 2021 00:43:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e6G2OQSs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id i3so1334974wmq.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 00:41:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eTzXfJKb;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id n12so30162869edx.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 00:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=qWSbEHMXGdglABIPHYwHXQslhhMTuTzFodJmqoPYcNk=;
-        b=e6G2OQSs1HkT8MJRJjtv11RYWkAJjIy8ZtWutlEljXHG2znv3ToW7yQD6m3sD64PQ8
-         U1rTA9hMxeT8jIucFDwm/wh1JiAtf7ZNWfnxyc/Xxg9Ah2g9Y3XcL2aEtUmLvXc+C3+5
-         AUOmO7iVCkJ4KUnsSXzGAdPrgilobt8Y8LxrI=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jjLdaPSni2tdPXbFk1s1HhcetOjmHDpkvWtAlz6y/RA=;
+        b=eTzXfJKbX/KlA0tG8MJVBPJuslXX7dkcxeyhO5ce7EMbDTQDmEuoHKlPuNIlrk37Ec
+         S6blGVldYvsHS9WToUPKbHteRmLYiiNRXLlLHTcNXUa32xrSAiecKeEU98j1wpVSOS+s
+         CdH4YLVqbIoWx+O8UE/NfCWDX1gSRl2IPosMdIFRdehwwxg/c2Zb7FDn501vznO24taw
+         AyNjZazattcv/IFayzHWmD6s7AE1UMLSK0vxGvB1ycSdiT0CVFBeLBF4sVjpx6xdaet2
+         tyILta/bte6xBRRVnfYhS/CAWAhE95cLefBSHobEBebPWZn+O0+9bFItIsQdNhzcJTNM
+         e3uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qWSbEHMXGdglABIPHYwHXQslhhMTuTzFodJmqoPYcNk=;
-        b=bt2bXsu6m5S9+j0Uc/dENCtD60RfqLcYB18MGdLrZP1Sedr1PajJVZKm/FSRQ5OvGl
-         Cf1fYnCVZAPD19IruleUWU0RP1CNPrrEbSA+pi5CGPcpSuoEY6ncqD4nrg5M2ZvxXdm4
-         cPu1ABXHNx7CR0fWDp89OEsKKwP9GDSeJbJDbkeOcPFd6QSSgVa2Im4/X4kK7zgbZPAG
-         qn0If35RheGmeat4Ofgu3UCUrXH6dfrCgmzguhjtvNj+vi7ZabeodzFUC9QH6jvWKkJ2
-         7fOCX6AxzCFajIi4xzLZo96DZCgMqJCzl/DTzzz+VCWYImOu/ea9S9CtHBvSmW6sJUlu
-         4dGA==
-X-Gm-Message-State: AOAM530rH0VXfOkmyrLT1f7MqCEQYLenvqoxNjZ6LFT/VhTOzlTiPbW+
-	G5Y6oISHuCTtqhkid4Bpbabupw==
-X-Google-Smtp-Source: ABdhPJy9unmYg8bz+UhF5TEEGnr7biXqKl7o+te9gN+8G90qsjJQqPT5pNgLZnT0VCgUna+WJILQLQ==
-X-Received: by 2002:a1c:4c13:: with SMTP id z19mr2677708wmf.132.1629790875296;
-        Tue, 24 Aug 2021 00:41:15 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:d23b:eedd:82d9:e12c? ([2001:8b0:aba:5f3c:d23b:eedd:82d9:e12c])
-        by smtp.gmail.com with ESMTPSA id n188sm1463346wmn.48.2021.08.24.00.41.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 00:41:15 -0700 (PDT)
-Message-ID: <34041d492af033ff34a273e07057ea9c767cabf7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] glibc: ptest: Add support for running glibc test suite with ptest
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: ?ukasz Majewski <lukma@denx.de>, Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Aug 2021 08:41:14 +0100
-In-Reply-To: <20210824093601.768c0c05@ktm>
-References: <20210823150853.2817-1-lukma@denx.de>
-	 <20210823150853.2817-2-lukma@denx.de>
-	 <ada9987d-399b-7a73-2aa5-c09dcca41fb3@gmail.com>
-	 <20210823202414.731c6749@ktm>
-	 <CAMKF1srLFY_R4KX3gG3hZMhZNtjSN8D4mEp0Wwr78Se9RE_20g@mail.gmail.com>
-	 <20210823220926.37d87121@ktm>
-	 <CAMKF1sqKH=RiOn-WVp_=ZQmLnSJ43VUUfKyv+E1KR9bCn01j3Q@mail.gmail.com>
-	 <20210824093601.768c0c05@ktm>
-User-Agent: Evolution 3.40.2-1build1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jjLdaPSni2tdPXbFk1s1HhcetOjmHDpkvWtAlz6y/RA=;
+        b=KIEisMAwXsyzYzKf+gP1sJcjDL1UtUfyxd/RvM7d26x8qljV6U06amsZsv8u46Vh9c
+         XCYMImyhA8lK6Jg7yOYj65PxYs8oNFjgc9B/X+KnlbVBvWPbSZ/DSI0HH1OxANavS4R9
+         1IF/Yt6C/iYXsiuKfJZBVOJiZjFza/D47NexAmQkPRrkd9D4DNHZPCnoqmHTqimwkhip
+         9Nol3Rhn4FacGKdiH85TOgp40LV3FvPHlAShNZoBDKs7gcz25Wmsgb4kiaDMdvcoW48R
+         FGlOQnmHGkceiRZtqccEWDk/WQFijFh0CyJSog8xRW1eWLDAyg7tU2cY/hrsauTOU5nS
+         jNCA==
+X-Gm-Message-State: AOAM533TufYCGQZ8cvFc3YxrqeBaLYb1/gYM7EfJ3cPTbP3bc5blsUw9
+	BnS7cyEG1brCso5/XItNukj4sTurhRmHVJIJN+Q=
+X-Google-Smtp-Source: ABdhPJzT/zDCvHMWVp3h3cGdtvmimPP1Nf5ws7atKskczqvdif+RvQ8kqLwfEy+eW4O6aRuwAReXizy5ZT6CYybzm6E=
+X-Received: by 2002:a05:6402:c9:: with SMTP id i9mr41226269edu.76.1629790997489;
+ Tue, 24 Aug 2021 00:43:17 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAA=hcWTLNgEgKhsthziTyTShb6VFVKyy6JXzZBWr+nCLreGW-g@mail.gmail.com>
+In-Reply-To: <CAA=hcWTLNgEgKhsthziTyTShb6VFVKyy6JXzZBWr+nCLreGW-g@mail.gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Tue, 24 Aug 2021 09:43:06 +0200
+Message-ID: <CA+chaQd-7boZLVLwq6ev2LgHSoEKExQ-y6-u1uGXCR=LoU4mtw@mail.gmail.com>
+Subject: Re: [yocto] Update bitbake broken build
+To: JH <jupiter.hce@gmail.com>
+Cc: yocto <yocto@lists.yoctoproject.org>, 
+	oe-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000076a95005ca49496b"
+
+--00000000000076a95005ca49496b
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-08-24 at 09:36 +0200, ?ukasz Majewski wrote:
-> Hi Khem,
+Hi, read
+https://lists.openembedded.org/g/openembedded-architecture/message/1260
+https://lists.openembedded.org/g/openembedded-architecture/message/1279
+https://lists.openembedded.org/g/openembedded-architecture/message/1291
+
+On Tue, Aug 24, 2021 at 12:33 AM JH <jupiter.hce@gmail.com> wrote:
+
+> Hi,
+>
+> I updated the bitbake to run git pull in master branch, now it is
+> broken, what does the following error message mean, how to fix it?
+>
+> $ bitbake-layers show-layers
+>
+> NOTE: Starting bitbake server...
+> ERROR: Variable PROVIDES_prepend contains an operation using the old
+> override syntax. Please convert this layer/metadata before attempting
+> to use with a newer bitbake.
+>
+> Thank you.
+>
+> Kind regards,
+>
+> - jupiter
+>
 > 
-> > On Mon, Aug 23, 2021 at 1:09 PM Lukasz Majewski <lukma@denx.de> wrote:
-> > > 
-> > > On Mon, 23 Aug 2021 12:52:44 -0700
-> > > Khem Raj <raj.khem@gmail.com> wrote:
-> > >  
-> > > > On Mon, Aug 23, 2021 at 11:24 AM Lukasz Majewski <lukma@denx.de>
-> > > > wrote:
-> > > >  
-> > > > > Hi Khem,
-> > > > >  
-> > > > > > On 8/23/21 8:08 AM, ?ukasz Majewski wrote:  
-> > > > > > > This patch introduces new recipe - namely 'glibc-tests',
-> > > > > > > which builds and installs glibc test suite to OE/Yocto
-> > > > > > > built image.
-> > > > > > > 
-> > > > > > > It reuses code from already available 'glibc-testsuite'
-> > > > > > > recipe, which is run with 'bitbake glibc-testsuite -c
-> > > > > > > check' and uses qemu to execute remotely (via SSH) tests on
-> > > > > > > some emulated machine.
-> > > > > > > 
-> > > > > > > This recipe installs eligible tests on some rootfs image.
-> > > > > > > Afterwards, either all of them or only time related subset,
-> > > > > > > those tests can be executed on the real hardware, to
-> > > > > > > facilitate validation of this platform with for example
-> > > > > > > Y2038 problem compliance.
-> > > > > > > 
-> > > > > > > By default all tests are executed, with 'ptest-runner
-> > > > > > > glibc-tests'. To test only time related subset - one needs
-> > > > > > > to call: cd /usr/lib/glibc-tests/ptest/; rm run-ptest; \
-> > > > > > > ln -s run-ptest-time run-ptest; cd -; ptest-runner
-> > > > > > > glibc-tests
-> > > > > > > 
-> > > > > > > To facilitate debugging, source files are provided by
-> > > > > > > default with the unstripped debugging symbols. Such
-> > > > > > > approach would reduce the already complex recipe (as it
-> > > > > > > inherits base glibc one), so there is no need to also
-> > > > > > > install *-dbg and *-src packages.  
-> > > > > > 
-> > > > > > 
-> > > > > > does it have to be a separate recipe I wonder if we can have
-> > > > > > it built as part of glibc itself controlled via ptest knob  
-> > > > > 
-> > > > > I've followed the glibc-testsuite recipe to provide tests for
-> > > > > ptest. Test creation is similar to it, but doesn't require QEMU
-> > > > > run (tests are executed on the HW).
-> > > > > 
-> > > > > Another rationale was to have some kind of "features"
-> > > > > separation in different file (liked glibc-mtrace), which is
-> > > > > easier to maintain and review.
-> > > > > 
-> > > > > Last but not least - separate recipe (and built binaries) allow
-> > > > > some kind of magic with selection of used test programs (this
-> > > > > may be useful if one would like to have different sets of tests
-> > > > > in different packages)  
-> > > > 
-> > > > That’s seems ok I think the names are quite confusing now not
-> > > > that it was not so much better before but now we have glibc-tests
-> > > > and glibc-testsuites which do same things but in very different
-> > > > way maybe glibc-testsuite should be renamed to something like
-> > > > glibc-tests-crosd or some such  
-> > > 
-> > > I think that glibc-testsuite_2.34.bb shall be renamed to
-> > > glibc-tests-qemu_2.34.bb as it is more descriptive.  
-> > 
-> > is it only runnable in qemu ? I thought we could use a read board as
-> > well with IP address
-> 
-> It looks like by default the QEMU is used in this recipe. 
-> 
-> This recipe provides custom check-test-wrapper, which can log
-> into remote board via ssh (when TOOLCHAIN_TEST_TARGET = "ssh").
-> 
-> This looks a bit awkward for me, as the goal would be to run built
-> tests on target (exact) HW without the need of SSH.
-> 
-> It is also easier to debug the code with the real HW.
+>
+>
 
-I'm a bit worried we're going around in circles with this. We did have a
-different form of tests a while back but I was told those didn't work well and
-they were replaced with the current setup which worked with the driver in the
-glibc source code. This was done around the time we added support for the other
-toolchain test suites (binutils+gcc). We ended up with options to use full
-system qemu or user mode qemu emulation depending on the speed of the target
-(e.g. with kvm or not).
+--00000000000076a95005ca49496b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Has this patchset been run with all the tests in glibc or just a subset?
+<div dir=3D"ltr">Hi, read<br><a href=3D"https://lists.openembedded.org/g/op=
+enembedded-architecture/message/1260">https://lists.openembedded.org/g/open=
+embedded-architecture/message/1260</a><br><a href=3D"https://lists.openembe=
+dded.org/g/openembedded-architecture/message/1279">https://lists.openembedd=
+ed.org/g/openembedded-architecture/message/1279</a><br><a href=3D"https://l=
+ists.openembedded.org/g/openembedded-architecture/message/1291">https://lis=
+ts.openembedded.org/g/openembedded-architecture/message/1291</a><br></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
+ Aug 24, 2021 at 12:33 AM JH &lt;<a href=3D"mailto:jupiter.hce@gmail.com">j=
+upiter.hce@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">Hi,<br>
+<br>
+I updated the bitbake to run git pull in master branch, now it is<br>
+broken, what does the following error message mean, how to fix it?<br>
+<br>
+$ bitbake-layers show-layers<br>
+<br>
+NOTE: Starting bitbake server...<br>
+ERROR: Variable PROVIDES_prepend contains an operation using the old<br>
+override syntax. Please convert this layer/metadata before attempting<br>
+to use with a newer bitbake.<br>
+<br>
+Thank you.<br>
+<br>
+Kind regards,<br>
+<br>
+- jupiter<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-I'm always very nervous about having two ways to do similar things.
-
-Cheers,
-
-Richard
-
+--00000000000076a95005ca49496b--
