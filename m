@@ -1,262 +1,269 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web08.1010.1629822390051305487
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web12.1378.1629823731200804770
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 09:26:32 -0700
+ Tue, 24 Aug 2021 09:48:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360411"
-X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="278360411"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:14 -0700
-X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="455659099"
-Received: from asmawa1x-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.13])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:12 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 28/28] glibc: Fix CVE-2021-38604
-Date: Wed, 25 Aug 2021 00:25:30 +0800
-Message-Id: <11389daa2709552c175457d1c39912383d45470a.1629821028.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1629821028.git.anuj.mittal@intel.com>
-References: <cover.1629821028.git.anuj.mittal@intel.com>
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=b+vn/dl7;
+ spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=38708fe2c0=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17OGDZMW014082
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 09:48:50 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=subject : to : cc
+ : references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=oWZCRDtKKn1OZ/aDADpfdlMHL9vr6mF5Yubzd+OFl3g=;
+ b=b+vn/dl7B53XNz0bNmbZUHVh846l5M6yIgfi03fO5ppPAQsWw8nQXCl9Y7PWNO1XNurX
+ ikoh6lg2RVPQAu6LRGBFX/QCnTZ3FI3jhVGZlTDwWnGS9+Hiz/qRBDG4U6+0GMS28b86
+ gE+b8fkRX2YeYib95oQYBJt6upPnUYF8JliRRSxUaxPsybNf/RgfvHw0huLTQ4zQLYbQ
+ H/IINBerLlIXazL/w2AwketZ8znfJDsDaswssBiHcJG9Pyi8xRuA2uK87iiLfJRrLyCK
+ /2fc0LoOzXL0OT9fcwJpcs1Ah3P96LlUhCO5p5GKHw/3A+h9gxYFMlUMb12/nmAvX4OF wA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3ampa38jya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 09:48:50 -0700
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17OGmn1W023569
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 09:48:49 -0700
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2048.outbound.protection.outlook.com [104.47.73.48])
+	by mx0a-0064b401.pphosted.com with ESMTP id 3ampa38jy8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Aug 2021 09:48:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xdu7AERVrOnZ4qKd1rEQOOpZPSiRE/Zaa1z55vbRzh8P8bqLlc/nvVLWrzP7v0UNQOHY0gdWZFMnMSij1lMKPFjOa8yj+lZjEJwqmWmXWlpRxjI/jrkpq53Ddn3tkznVpXv5CHM65+ki0aUj5lktvu8EIt302Q2fnOFtBMcPUx8AOgZFi3EWj3LxJ+nyTLoWcW5Tyinr0w43eDtjSTGoPnatMMXajtU3bGBS1qFB8CFPZlv5x29Egm+4fl9EzBi/UyX/O6o9l1gtvCN1ypOvhJRZoZu2c5J3MQ8yYHxWDsXz4l24cZkwjpoUn4f40/CPMHUnk8ZawuI1ygUy60hrnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oWZCRDtKKn1OZ/aDADpfdlMHL9vr6mF5Yubzd+OFl3g=;
+ b=akZhrw2yrkaARouTCMkvaCPM91dX95pGmg4YceSx7YOiAMVxg3MAQ0dGYo+cMpq5PKQZaCxomUc8BXe0QswWV2YotZ7Sl+tEvol3cL0Yzg0T8eFEUTgTfXHaq9+bUbIuOXx7s+4S+ACj9G0/bghkxjgrDmp9xuQe0xjaqZnJvj6OpU/Mt2N+RHq7vpvY9ouLuDK0L6wgf3jCNyflqnjwjWncBitvjYj9LDSmFdJxmfJNHN1dbsdcQYnRIhQPx28XgVuyYxRAXX4hgRnbB/F/P31k37EUn5nT7K3m0uQHkU3marSCnt2cOhl+DFBTqahPBMTAN5RkeS9RB8nuJYkQvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: lexmark.com; dkim=none (message not signed)
+ header.d=none;lexmark.com; dmarc=none action=none header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM5PR11MB1434.namprd11.prod.outlook.com (2603:10b6:4:9::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.19; Tue, 24 Aug 2021 16:48:48 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e119:f175:fff0:b3b4%6]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
+ 16:48:47 +0000
+Subject: Re: [OE-core] [v4] [RFC] Merge meta-rust to oe-core - Aug 19 update
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Cc: steven@stevenwalter.org, johan.anderholm@gmail.com, derek@asterius.io,
+        cardoe@cardoe.com, dev@codyps.com, tylerwhall@gmail.com,
+        Khem Raj <raj.khem@gmail.com>, vinay.kumar@blackfigtech.com,
+        saul.wold@windriver.com, martin.jansa@gmail.com, paul@pbarker.dev,
+        Trevor Gamblin <trevor.gamblin@windriver.com>,
+        anbelski@linux.microsoft.com, Vinay Kumar <vinay.m.engg@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        steven@stevenwalter.org
+References: <aa7653eb-336f-ee08-3126-e6c790a9226f@windriver.com>
+ <20210813151947.55142-1-vinay.m.engg@gmail.com>
+ <CANUMPcXHhkPrtXrfN5rfzctXEy8h-Hi4L+vKmaAmPSgC33udcg@mail.gmail.com>
+ <169C1FA457B99CA0.23238@lists.openembedded.org>
+ <15a0f2e3-dbad-2512-3e5e-f2b84c946964@windriver.com>
+ <169D3274AAECC435.19323@lists.openembedded.org>
+ <fed5f2e5-000c-b7be-1d0e-2dc26afa6bd5@windriver.com>
+ <87dacc6ecc7af109db0039894254c77b43ae8323.camel@linuxfoundation.org>
+ <3e7ff50b-57f8-0503-b514-e53a82e0b2d5@windriver.com>
+ <e36985f82120c87f598289c672eafdacb5e37d86.camel@linuxfoundation.org>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <19febc9a-66ef-c627-5db8-25be9e87e996@windriver.com>
+Date: Tue, 24 Aug 2021 12:48:43 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <e36985f82120c87f598289c672eafdacb5e37d86.camel@linuxfoundation.org>
+X-ClientProxiedBy: YQXPR0101CA0061.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:14::38) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.7] (198.48.226.187) by YQXPR0101CA0061.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00:14::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 16:48:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1ba1127a-5417-47a1-c417-08d9671f0b0c
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1434:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR11MB143421E44142FD59624736C1F8C59@DM5PR11MB1434.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Nm0HpVdXRbRJ+VDkfG75805IJnejFyHSIKzi0y3mIMCYaqlB1cR07LRHhxIfGuAdmgWGrHgA1urFguxdiZfTBf6w2PsR9WymWVx5Qd+Ou0x04LyA/uouvtC/qo9kZbtzIaVRSwx1WpSDe2fV0uKyxX7sQrIVndlj4fv+rnGc1HmNyiH9YnU2Cf2DqgFl7hxIwZ/uSL4kGX9NwbH27KcEhaXrBVbJk7oZjXXlsR+zGSvoZ4LyBrsNFCcRNdeXI9NNIZapu2kKN28BC3uAlNfoKUZdKCc72eOmBZm3dOjny9BEqmdMY8Lh+BSdPmktA1rsb4Y/aO+ORDt2CC2ojk5RKVMtgfVjMywOo/FksK3npZtQ7ovM24FwYWh1DV33ZIkq7HoLP3eHfoJ90e9FqUaRuLkSMMBw7zGE5NA9FWKBx4pELDgWyel3EdnK/1NzGpHOUTAn4PZ6TzFn3+NdnOG05mpcopC8uvOOi1PS8YF8Nm6jqNsLIAlQgsmms0fw6qmoZhsUUrhCOrZ9MLfKjGR7C4ukF6glL/1GG9hJdraZDnGzAEAO5GbJjs0KCFofMWfKk0drWNv1xstMenM0y7LhnnU9uyktbCmRiCIMyHLK/JWxtfvhvZXMtcsk9xI1B6nwZbZZg04bY3nC6Fhs0TxiBSTKvOEDC+5RJNfIL+A+ZdHCWAxgo0ECYIaZwgdSkpiE4jEUIugz2+3brKoR3LqlxWP+q31ig8UDK6FOnNpcwGrs727izxnyr32o5MrrdigieajtweTRBMsGwuDsrptddX/qWZRq2HdpVpUxgMs0LtyeHjbneG/gcwuvrSvSdxCmGrHXzs3OGEp4Igx5gpKbQQmRwis6rDolKktZSQcI8cJIGAkZD8XLy8nigKbiKbyWaIU6ED9fzhlEO/QJlBw/9w==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(39850400004)(376002)(136003)(346002)(6666004)(6486002)(2906002)(86362001)(66946007)(83380400001)(31696002)(15650500001)(53546011)(66556008)(52116002)(186003)(66476007)(16576012)(4326008)(316002)(8936002)(956004)(966005)(478600001)(54906003)(36756003)(8676002)(26005)(110136005)(31686004)(5660300002)(2616005)(38100700002)(38350700002)(7416002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?NUQxRTkvNk1oSUozUkNHL3ZKQUlNdzl3MHBxampNdmYxd0g4ZDZWdVJhdkNo?=
+ =?utf-8?B?NFhtbTljSG1CYlBzRmpVenNUSXVqVDZ3d0hyZGxJRmM0aHNaOHh0NEltNkN6?=
+ =?utf-8?B?d1VUbDFoSjZiK0ZpbGV4YVc4NlZRcmlSb1Bzd0YwVjhhcUdINHNRMS9DYnMz?=
+ =?utf-8?B?ZmZoeDZ6RXd2VnR0NFJwaEFzM0RQaGFydkl2TDJQM1o2ZTk1Yzc3OUozM1VZ?=
+ =?utf-8?B?WldnTjdPTWxhTmpMUXdQZlhna2xLVlZkSXVnMGNlQm9YeVhtZ3ZMekZaZFlN?=
+ =?utf-8?B?WUdtSUkzempyczRwaXlUcEU0Y3h5YW9Rck5RRkI1NDJFUFlFOVErWEhTdEtz?=
+ =?utf-8?B?cjRycVFTeis3aXJ0bk5kTStRamtkRGFJMWEyWkNJNitmVFRvTU5NZVhaa0s4?=
+ =?utf-8?B?T2JzWDVpbnhPcDZZa0FNTm5Bc0dUcFZXN1VWVWpLVHpUWVhTYTRsQm1NUnA1?=
+ =?utf-8?B?Rk9CN0EvUEsrWDRhSVg2b3ZEUVhwekZCLzVoMjdtb28vN2xBMXAvOHFpMTUv?=
+ =?utf-8?B?U1VUdC9XdWZJY2d6WUZKL003aFhPOWRqMzYxc0RMSW5KMnJhN1QvY2FrN2xk?=
+ =?utf-8?B?SHhEQXU4djg5VTdYMksyL3laU05TTWI1QTJUOGR4VU1VcGpLYnRKQXdWc2ts?=
+ =?utf-8?B?K3EwVnBOVVYzYUdFdHdnbzhQNkVxVFpIQ1dqaHlZZEsxWnQwRU0wOVM4MHBT?=
+ =?utf-8?B?Tm5oVTRZc2VLWTU2TXZ4Z2hhRjZMR0R2NEFzYk9MWHRPMm5NdlBXVVRweFVC?=
+ =?utf-8?B?R3g4QjNjZ0w4WXp5aG1ybDYxSlFTeXNoLzJTc09rRzR6Y2d5NmtVMHdEMDRy?=
+ =?utf-8?B?L3hVMEtNa1dDbXdUT3JWcS9Gd2wzZ1NqbHB5ZnErMTNZamUxUmVzMThaNWZE?=
+ =?utf-8?B?bExzeS80YWRFOW44YzJnMkRpYUlva21qVEY5cDkzeGhXNHBNS3YyYTdla3l1?=
+ =?utf-8?B?RmhwRjVoUnlPclNXeHR6MU1ZSVhZMW5UTlhyZzBzc3Q2QTJueDNocXY5SEVX?=
+ =?utf-8?B?MjVid01PZ2VMKzF3MHUwNHRDMTcxeHdGME9vRFlmU2NmN0hHRElTckJ1c0dK?=
+ =?utf-8?B?WndkVFRvMTY2c0RFSnUwVmkvL0oycHBRTWpMdjh0K252YXczSHFHS2YwWnlC?=
+ =?utf-8?B?d3NrWitpRVNPTlVZV3ZuZTQ4UFhVNUNzOG5Ud0M5bGdpRERwUXMyQ1Z2K2NR?=
+ =?utf-8?B?ek84Y2RqRG5hYVh1dzJhQTRGa3cxL0tPK3NrU0RyWmRxdzZHdzFSZWZMYjVw?=
+ =?utf-8?B?UlRGRzFyZTAxQ0Q1VGw0Tk4yZmRQUlJrQndibzVFbGhIeEhSaG05SlVRa3Jj?=
+ =?utf-8?B?YUZLUGlIeFZCR0FJOXR5c2p5ajdIUVFvRE9Xckt0VFZvbjJ5K2VFRW1qejh1?=
+ =?utf-8?B?TFh3OHFNcTZPdTFpRnc4OWZyeE1rWmhIUW5iSHllZ2VtVzRrcHpLQmVQQTJB?=
+ =?utf-8?B?bU9ITTZzU0JrWVhRL2Y5QWhIWkd1azV5dWl3OVVKMkZKMVN0Z0xjUUtHUWty?=
+ =?utf-8?B?bVduL25WSFpjMnV5anQ2QmJlN2lPdDhYbUZKTW1JZkR1b1pHSXRKcU1oL25y?=
+ =?utf-8?B?KzhKS29BN2g5bEV3ZnprQVZVVERpUXVEVHBnMVJYS0UwWXNaQThCczFBOUZF?=
+ =?utf-8?B?czc0SHMzanVrVUc5RUV6WitSZnN4Rm90enU4SndhZTA0STNZTXRYNHB1bzV5?=
+ =?utf-8?B?c01xUndzMi8rOGtuQ2grb0RYY2U3TlN4V3J5STd6d28rcG9IWFRQbU9yTkdG?=
+ =?utf-8?Q?AmjJrOYJn1GiYlyGiaBAi7wBbX3+gNUSkZLuz5V?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ba1127a-5417-47a1-c417-08d9671f0b0c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 16:48:47.8437
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cEXNZgr0aV7b2NPTDazs/PjDFiB4hNYeBPwVk2E1/mDhoSLlHbj8Pui0BNncF7pcuXDzz547toYTQyXzSC7E3U6IXlBwsTU3YZTrFLd4LD4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1434
+X-Proofpoint-ORIG-GUID: pkr1ibFpQxwsfvALS3LahGqmwqF1PLgz
+X-Proofpoint-GUID: R-H0xlR80wKSnfU2-rRntyHhYychs7ra
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-24_05,2021-08-24_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1015 spamscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108240111
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 17OGDZMW014082
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: quoted-printable
 
-From: Vinay Kumar <vinay.m.engg@gmail.com>
+Add Steven Walter in hopes that he or someone else
+who uses meta-rust will help out.
 
-Source: https://sourceware.org/git/glibc.git
-Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=28213
+On 2021-08-23 5:21 a.m., Richard Purdie wrote:
+> On Sun, 2021-08-22 at 08:45 -0400, Randy MacLeod wrote:
+>> On 2021-08-22 7:19 a.m., Richard Purdie wrote:
+>>> On Sat, 2021-08-21 at 23:12 -0400, Randy MacLeod wrote:
+>>>> On 2021-08-20 10:48 p.m., Randy MacLeod wrote:
+>>>> With a patch from Richard, and the http_proxy check removed,
+>>>> $ git diff | grep "^[+-]"
+>>>>   =C2=A0--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+>>>>   =C2=A0+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+>>>>   =C2=A0-http_proxy =3D "http://example.com/"
+>>>>   =C2=A0+http_proxy =3D ""
+>>>>   =20
+>>>> we have fixed the oe-selftest that was failing.
+>>>>   =C2=A0Any volunteers to stub out the http[s]_proxy code in cargo ?
+>>>> I've written up a commit log that could use some review and pushed a=
+n update
+>>>> to:
+>>>>     =20
+>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Drmac=
+leod/rust-redo-aug-17-2021-a
+>>>>
+>>>
+>>> I'm not sure you need to change cargo, I think if you remove the bit =
+in the
+>>> bbclass that injects http_proxy, the tests are ok. That will perhaps =
+break
+>>> anyone using proxies but for now, I think that is a reasonable step o=
+f getting
+>>> this moved forward?
+>> That's what I hoped for as well but not what my testing showed.
+>>
+>> I removed (commented out actually) the http_proxy injection here:
+>>  =20
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Drma=
+cleod/rust-redo-aug-17-2021-a&id=3Da4808f787caf8d0b44cf3946cf204164f24f91=
+d4
+>>
+>> but the test still fails unless I mangle the test:
+>>
+>>      meta/lib/oeqa/selftest/cases/sstatetests.py
+>>
+>>
+>>      -http_proxy =3D "http://example.com/"
+>>
+>>
+>>      +http_proxy =3D ""
+> Right, my point is that doesn't remove it. You need to delete it, not c=
+omment it
+> out.
+>
+> The issue is that bitbake does variable expansion on the scripts before=
+ running
+> them.
+>
+> It can't tell that this is a comment, just that the script differs afte=
+r
+> variable expansion.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+Richard has fixed several new issues and is testing this in master-next:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/?h=3Dmaster-next
 
-Backported upstream commits b805aebd42364fe696e417808a700fdb9800c9e8 and 4cc79c217744743077bf7a0ec5e0a4318f1e6641
-to glibc-2.33 source.
+using the YP autobuilder.
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=b805aebd42364fe696e417808a700fdb9800c9e8]
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=4cc79c217744743077bf7a0ec5e0a4318f1e6641]
+We're seeing some odd intermittent build failures especially when using
+the uninative class (used by default in poky) perhaps on older hosts but
+we're not 100% sure of that correlation yet. See below and:
 
-Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../glibc/glibc/0001-CVE-2021-38604.patch     |  40 +++++
- .../glibc/glibc/0002-CVE-2021-38604.patch     | 147 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.33.bb         |   2 +
- 3 files changed, 189 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2021-38604.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0002-CVE-2021-38604.patch
+https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/581/st=
+eps/13/logs/stdio
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-CVE-2021-38604.patch b/meta/recipes-core/glibc/glibc/0001-CVE-2021-38604.patch
-new file mode 100644
-index 0000000000..8a52ac957c
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-CVE-2021-38604.patch
-@@ -0,0 +1,40 @@
-+From b805aebd42364fe696e417808a700fdb9800c9e8 Mon Sep 17 00:00:00 2001
-+From: Nikita Popov <npv1310@gmail.com>
-+Date: Mon, 9 Aug 2021 20:17:34 +0530
-+Subject: [PATCH] librt: fix NULL pointer dereference (bug 28213)
-+
-+Helper thread frees copied attribute on NOTIFY_REMOVED message
-+received from the OS kernel.  Unfortunately, it fails to check whether
-+copied attribute actually exists (data.attr != NULL).  This worked
-+earlier because free() checks passed pointer before actually
-+attempting to release corresponding memory.  But
-+__pthread_attr_destroy assumes pointer is not NULL.
-+
-+So passing NULL pointer to __pthread_attr_destroy will result in
-+segmentation fault.  This scenario is possible if
-+notification->sigev_notify_attributes == NULL (which means default
-+thread attributes should be used).
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=b805aebd42364fe696e417808a700fdb9800c9e8]
-+CVE: CVE-2021-38604
-+
-+Signed-off-by: Nikita Popov <npv1310@gmail.com>
-+Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-+---
-+ sysdeps/unix/sysv/linux/mq_notify.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sysdeps/unix/sysv/linux/mq_notify.c b/sysdeps/unix/sysv/linux/mq_notify.c
-+index 6f46d29d1d..1714e1cc5f 100644
-+--- a/sysdeps/unix/sysv/linux/mq_notify.c
-++++ b/sysdeps/unix/sysv/linux/mq_notify.c
-+@@ -132,7 +132,7 @@ helper_thread (void *arg)
-+ 	       to wait until it is done with it.  */
-+ 	    (void) __pthread_barrier_wait (&notify_barrier);
-+ 	}
-+-      else if (data.raw[NOTIFY_COOKIE_LEN - 1] == NOTIFY_REMOVED)
-++      else if (data.raw[NOTIFY_COOKIE_LEN - 1] == NOTIFY_REMOVED && data.attr != NULL)
-+ 	{
-+ 	  /* The only state we keep is the copy of the thread attributes.  */
-+ 	  pthread_attr_destroy (data.attr);
-diff --git a/meta/recipes-core/glibc/glibc/0002-CVE-2021-38604.patch b/meta/recipes-core/glibc/glibc/0002-CVE-2021-38604.patch
-new file mode 100644
-index 0000000000..b654cdfecb
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0002-CVE-2021-38604.patch
-@@ -0,0 +1,147 @@
-+From 4cc79c217744743077bf7a0ec5e0a4318f1e6641 Mon Sep 17 00:00:00 2001
-+From: Nikita Popov <npv1310@gmail.com>
-+Date: Thu, 12 Aug 2021 16:09:50 +0530
-+Subject: [PATCH] librt: add test (bug 28213)
-+
-+This test implements following logic:
-+1) Create POSIX message queue.
-+   Register a notification with mq_notify (using NULL attributes).
-+   Then immediately unregister the notification with mq_notify.
-+   Helper thread in a vulnerable version of glibc
-+   should cause NULL pointer dereference after these steps.
-+2) Once again, register the same notification.
-+   Try to send a dummy message.
-+   Test is considered successfulif the dummy message
-+   is successfully received by the callback function.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=4cc79c217744743077bf7a0ec5e0a4318f1e6641]
-+CVE: CVE-2021-38604
-+
-+Signed-off-by: Nikita Popov <npv1310@gmail.com>
-+Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-+---
-+ rt/Makefile      |   1 +
-+ rt/tst-bz28213.c | 101 +++++++++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 102 insertions(+)
-+ create mode 100644 rt/tst-bz28213.c
-+
-+diff --git a/rt/Makefile b/rt/Makefile
-+index 7b374f2073..c87d95793a 100644
-+--- a/rt/Makefile
-++++ b/rt/Makefile
-+@@ -44,6 +44,7 @@ tests := tst-shm tst-timer tst-timer2 \
-+ 	 tst-aio7 tst-aio8 tst-aio9 tst-aio10 \
-+ 	 tst-mqueue1 tst-mqueue2 tst-mqueue3 tst-mqueue4 \
-+ 	 tst-mqueue5 tst-mqueue6 tst-mqueue7 tst-mqueue8 tst-mqueue9 \
-++	 tst-bz28213 \
-+ 	 tst-timer3 tst-timer4 tst-timer5 \
-+ 	 tst-cpuclock2 tst-cputimer1 tst-cputimer2 tst-cputimer3 \
-+ 	 tst-shm-cancel
-+diff --git a/rt/tst-bz28213.c b/rt/tst-bz28213.c
-+new file mode 100644
-+index 0000000000..0c096b5a0a
-+--- /dev/null
-++++ b/rt/tst-bz28213.c
-+@@ -0,0 +1,101 @@
-++/* Bug 28213: test for NULL pointer dereference in mq_notify.
-++   Copyright (C) The GNU Toolchain Authors.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <errno.h>
-++#include <sys/types.h>
-++#include <sys/stat.h>
-++#include <fcntl.h>
-++#include <unistd.h>
-++#include <mqueue.h>
-++#include <signal.h>
-++#include <stdlib.h>
-++#include <string.h>
-++#include <support/check.h>
-++
-++static mqd_t m = -1;
-++static const char msg[] = "hello";
-++
-++static void
-++check_bz28213_cb (union sigval sv)
-++{
-++  char buf[sizeof (msg)];
-++
-++  (void) sv;
-++
-++  TEST_VERIFY_EXIT ((size_t) mq_receive (m, buf, sizeof (buf), NULL)
-++		    == sizeof (buf));
-++  TEST_VERIFY_EXIT (memcmp (buf, msg, sizeof (buf)) == 0);
-++
-++  exit (0);
-++}
-++
-++static void
-++check_bz28213 (void)
-++{
-++  struct sigevent sev;
-++
-++  memset (&sev, '\0', sizeof (sev));
-++  sev.sigev_notify = SIGEV_THREAD;
-++  sev.sigev_notify_function = check_bz28213_cb;
-++
-++  /* Step 1: Register & unregister notifier.
-++     Helper thread should receive NOTIFY_REMOVED notification.
-++     In a vulnerable version of glibc, NULL pointer dereference follows. */
-++  TEST_VERIFY_EXIT (mq_notify (m, &sev) == 0);
-++  TEST_VERIFY_EXIT (mq_notify (m, NULL) == 0);
-++
-++  /* Step 2: Once again, register notification.
-++     Try to send one message.
-++     Test is considered successful, if the callback does exit (0). */
-++  TEST_VERIFY_EXIT (mq_notify (m, &sev) == 0);
-++  TEST_VERIFY_EXIT (mq_send (m, msg, sizeof (msg), 1) == 0);
-++
-++  /* Wait... */
-++  pause ();
-++}
-++
-++static int
-++do_test (void)
-++{
-++  static const char m_name[] = "/bz28213_queue";
-++  struct mq_attr m_attr;
-++
-++  memset (&m_attr, '\0', sizeof (m_attr));
-++  m_attr.mq_maxmsg = 1;
-++  m_attr.mq_msgsize = sizeof (msg);
-++
-++  m = mq_open (m_name,
-++               O_RDWR | O_CREAT | O_EXCL,
-++               0600,
-++               &m_attr);
-++
-++  if (m < 0)
-++    {
-++      if (errno == ENOSYS)
-++        FAIL_UNSUPPORTED ("POSIX message queues are not implemented\n");
-++      FAIL_EXIT1 ("Failed to create POSIX message queue: %m\n");
-++    }
-++
-++  TEST_VERIFY_EXIT (mq_unlink (m_name) == 0);
-++
-++  check_bz28213 ();
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index 7f516d2bbe..57a60cb9d8 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -64,6 +64,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://CVE-2021-33574_1.patch \
-            file://CVE-2021-33574_2.patch \
-            file://CVE-2021-35942.patch \
-+           file://0001-CVE-2021-38604.patch \
-+           file://0002-CVE-2021-38604.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.31.1
+If we can't get this fixed in the next day or two, we'll miss the fall=20
+release.
+
+../Randy
+
+
+error: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found=20
+(required by=20
+/home/pokybuild/yocto-worker/reproducible-debian/build/build-st/reproduci=
+bleA/tmp/work/x86_64-linux/rust-native/1.54.0-r0/rustc-1.54.0-src/build/b=
+ootstrap/debug/deps/libproc_macro_error_attr-9c7a09885c50c72e.so)=20
+
+ =C2=A0=C2=A0=C2=A0 -->=20
+/home/pokybuild/yocto-worker/reproducible-debian/build/build-st/reproduci=
+bleA/tmp/work/x86_64-linux/rust-native/1.54.0-r0/rustc-1.54.0-src/vendor/=
+proc-macro-error/src/lib.rs:284:9=20
+
+ =C2=A0284 | pub use proc_macro_error_attr::proc_macro_error;
+ =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ ^^^^^^^^^^^^^^^^^^^^^
+
+ =C2=A0error: aborting due to previous error
+ =C2=A0error: could not compile `proc-macro-error`
+
+
+
+
+
+
+
+--=20
+# Randy MacLeod
+# Wind River Linux
 
