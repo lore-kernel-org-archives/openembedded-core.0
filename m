@@ -1,145 +1,257 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web12.36353.1629792901819090780
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.36714.1629794543257166307
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 01:15:02 -0700
+ Tue, 24 Aug 2021 01:42:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=aXEPY3wa;
- spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="302843441"
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; 
-   d="scan'208";a="302843441"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 01:15:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; 
-   d="scan'208";a="426029773"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga003.jf.intel.com with ESMTP; 24 Aug 2021 01:14:59 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 24 Aug 2021 01:14:59 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 24 Aug 2021 01:14:59 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 24 Aug 2021 01:14:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CU1O7gAJhJ+jqMWVYNBzZaJT15rL4m0RuoH8+b+pQC+wtogxjorIhZn1A/AAysS/9lEhc1nQ/RbQH/+Ub41491Mc4vl6lzhinMwhWnUvCJfKmvDaZB0xitAnnwkhn1QH9mQnQfA0onGDrlFNqtMn6jl0c2+FkzJ0wpDIXpg4N/J5dlbormmNXLHgDCNn8Nf+hUtqKkQTKcW5RWfdpvCoI3s3oopmwnh+ZL0atxvXJJop+Hg8YizM/f5D0i6pc2NkM+350SXSm0BXIcjZ9kSbwBqZynLGUDJAdhd2WAA5VR5mnVV0hbfHDjM84kqGFJ8pCVMJ4bFKDxonXcpvty3NEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+MyR/iSQmx9TqCHAHfxXfcEVPJrpWFawRZxWIG11okE=;
- b=bJn6yKHTSKpXQsJ8c5BOBnRM4UpAyiHDjaKMeQiB9/bR3bTzaOL8BTBsxaBJzZhEGgLxMyvZMSujWhBbxxFWrmy14CI4zKsW1/IMrs2tEW13FNp9rA3yFzLMOCK4/feFw/uzwUl9t3WiSVNiplY5tutN2AjY6tPxSAy9KOf62YTHpRvJTfayZteSLaQFYoy8HvrTBr4JahYgND8R6WTv7QMqo+5dl3ExlRQwWbZeP9FPwm6m78sJrG1Lnfgs+F7Ti4abxeOUfb7zINNaf7VWG4ISCOGCUHoAGTiB1dLYmDoft3JRbGreM4Vr7EuX0MvXfOFDsmGonOKproj9O6SQAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+MyR/iSQmx9TqCHAHfxXfcEVPJrpWFawRZxWIG11okE=;
- b=aXEPY3wanCfp/Wj1ngaqaNDyE0Dn29RRaqnn8fCRHRwsh+sa6xA72szCgs7y/zKGy8LFuDXIaqBq3O2LYQX59m2Sm7Tu37xqi2lUKKHYtnhvYETqtcCCgSFlPRZliY2xBhRIirja3eZNw1WoQ2oZAzB1x5vODqzTold2kFOeAyQ=
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
- by BY5PR11MB3896.namprd11.prod.outlook.com (2603:10b6:a03:187::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Tue, 24 Aug
- 2021 08:14:58 +0000
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::d7c:227b:e92b:611c]) by SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::d7c:227b:e92b:611c%8]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
- 08:14:58 +0000
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "sean@geanix.com" <sean@geanix.com>, "richard.purdie@linuxfoundation.org"
-	<richard.purdie@linuxfoundation.org>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 3/3] lib/package_manager: Use shutil.copy instead of bb.utils.copyfile for intercepts
-Thread-Topic: [OE-core] [PATCH 3/3] lib/package_manager: Use shutil.copy
- instead of bb.utils.copyfile for intercepts
-Thread-Index: AQHXQkyTjbqTwyeRiUyw/FBU4jTa5KuBsRcAgAFKkIA=
-Date: Tue, 24 Aug 2021 08:14:58 +0000
-Message-ID: <c7aeb4413ec3937439e4ceee8a030dc4eb237ec7.camel@intel.com>
-References: <20210506075100.1984260-1-richard.purdie@linuxfoundation.org>
-	 <20210506075100.1984260-3-richard.purdie@linuxfoundation.org>
-	 <20210823123150.4l3pkck4hg3kpi54@skn-laptop>
-In-Reply-To: <20210823123150.4l3pkck4hg3kpi54@skn-laptop>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: geanix.com; dkim=none (message not signed)
- header.d=none;geanix.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: aca5fbdc-f5c2-42ac-060d-08d966d743a2
-x-ms-traffictypediagnostic: BY5PR11MB3896:
-x-microsoft-antispam-prvs: <BY5PR11MB3896B308D7DB98944FAB16E6F8C59@BY5PR11MB3896.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:913;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: R4Xwc3mtiVtQE8qEW77fEq1oMrRKPJ6FHCAMPN9Kk/9mKc9A2m9jYczPhfLitOrePXBdKStsF3oBQbFuOt/zslsDO3Bwd7Ee6oWO1jUYUHMPixPiULg2A2CVyD7TgCfMjqWGCgXIGUdeq3q0eD4H1ZA+VNGMM/Tclld1T7qHCIWwIK4KowcBn8SlbX2d9QlesIR7Q9VDs7hoznclhleTrhAjb5rk1+GavUKem0+14ABklOBtOWwa+BbdCMwjO/cbjy1eTBQMPX/AVHi+MqGJXoBVmkKMCblK2wQfFnDPCYA0AgFyxr4W4H2rHgRUi0TMJWDVyXtXOupaIsAJ32pj1S+DXu0sVYHWjNWIO/0xH6eejV7lMcWqDJQDIC53fRTvDYoUwki+zoVJlx8dUY46xvOq+H3iacO2V5gNs4vkVv2N+4KdjH9JBJMCC+Y/BW8uE1JBh0a2aU0CkM5hKSegLdW/7D55dwY9770rpiW3z02ECPqiw1ADcV2eKg73bs+D94JGN5h2fy387WwiyD5EHBCqlzk1nWs+5iFXGlg+RoW31U3s9gpziNektIPv2txDTGDLohCw6sOu6npReIcn01W1vtrRcoc36vsmZE6QPj33oypPKkMXLupRk8g1sAld9mROXOpSbLO4DUyooeEIspw34O2rt66zbnAjoFsuohDZI/QWXx+27iUH4Hm1zrD+ntF7U3WbqDzLpJ5GR6mQaOgYxVqZ1VdutMcLEsuH1sX5fqwlDY+VlZzis92jVCG3k6CcqUuVay5iUMW26DtL6wXN2QWhWPVQcdZDttau8+w=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(396003)(366004)(346002)(39860400002)(8936002)(76116006)(6512007)(66476007)(4744005)(64756008)(66446008)(66946007)(66556008)(316002)(4326008)(2906002)(5660300002)(110136005)(91956017)(8676002)(86362001)(966005)(2616005)(6486002)(38100700002)(186003)(122000001)(38070700005)(71200400001)(36756003)(26005)(478600001)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?c2ZlYStPSXg5T1F4MFJFcUlRUkRSQzBlUVA0WXdzOXo5aFhBQWxBaG0xbTJT?=
- =?utf-8?B?ZmpnOHgrRzZIcVB6enFhN2JlN1ZtRjAwVlNZaUxhclIyUmdwbWJlVXlWcHFz?=
- =?utf-8?B?Zmgvb0MzMlluQXBsRVhMUFhuUG1RNGNOYWUyckp5UW5DRXVjQm5rbVNTeWd4?=
- =?utf-8?B?L0JaWVY3M2pwVE1KRkZHYUV6MXJNckR0b1hSa1cwVnZtb2QvNStrZlNqS0Vh?=
- =?utf-8?B?NVhxR2Q3cnl2Wk8rOVFxNnNIdG9IdW9tZHY2ejhlTHlacVdybWRRTFVDenAz?=
- =?utf-8?B?aFBQRWdaU0Zta0tzOXFOclJZWFpGdC9JTGVOaGpGeURsalIweUNaSjRkMzAw?=
- =?utf-8?B?aDN4bjVWMTZUa1Y4WVZSUzBkRy9FT1NJZkhqUG8xdjB4RmpHZkpqZXBqd0tT?=
- =?utf-8?B?VUVaWjJ5V2tvT21JSDBGaTFMeFdsSUF3bE5YVHhZQlRqZjF3emFqVDl6dTMy?=
- =?utf-8?B?TUlnNDlWZUVwcmUzbVVvRGVGYkpQOHlnZzJYWE1lVjBEa3ZZRWxRakZGbzU5?=
- =?utf-8?B?dmo0TG9DOUJFWXQwa2tCbm53bEFwaG9SRXUrRW9mYW1KbTR4UU8yOGc5OVN2?=
- =?utf-8?B?b0F2MEdWbzNMUVVkaVlaUURqYlNjeVFOSEpYTVFTYXNZQ0FJb0tZclFUV3I2?=
- =?utf-8?B?eGVINTFYNEhwdlJNcFZ0QXJaZFRQZlVxNHVVcFVEditRTm5FTDRSaVYyMVlt?=
- =?utf-8?B?TEd1RGgwYzRRSXRWSWVHWDREbkd5MEpGWERzK1oyL3c5R0JRZTNnLzViUzZy?=
- =?utf-8?B?Rnd4Y0FPS0FOQlBEbkgrR3B6VEVNbG5YQ1gxR3d5RnQrQzFDWXdSZS9UMmJD?=
- =?utf-8?B?QVFTUGpVR0I2enNnWDFDcmhQaDQ3a3B1WDIvOE5IWU1VU0VMSDVvQjY2T2ZN?=
- =?utf-8?B?eFJBa1VVVG5ycVZZUzRIRFE5eStaeXpjbnNQQUNIRWcvcHVQeVppVlRWUWJ4?=
- =?utf-8?B?QWJqNWtaNFFYUm13aHIyaTBDOE13a3dqTTc3SCtDSlozUkZtOUl3WG5SMk9y?=
- =?utf-8?B?V3RNUEM1cjdsUndRNGZjQkZDVFIzZC84VzVVUEF1eEtZUUR1bGNZUWpiZkEr?=
- =?utf-8?B?SUFYemZvQ2owM0NySWFpOEpjNE9oZnRQOTF5WEhvcHl5Ti9rSTBFS2JNUTJh?=
- =?utf-8?B?cWd0MDhEQWNEMzU1TXQvWEo1WmlxQ2ZEYmpYNVFIV0xadDJLYVZZQ1Vnbmti?=
- =?utf-8?B?VTFnRHREaE5lb0U0Tzk1MlBUWDFnOXRoejg1U2JKeDJhQ1lrblJLaG43RTFG?=
- =?utf-8?B?Z2dKeS8rL09lMjBjZWJlWUpWMlpBRXhwYWFUWDlaSnRUcDgzY04wNzFib3pX?=
- =?utf-8?B?RndxU2o2VURxVmxaVWk3S1JjWDMwc1gyVGtHT1orc3J0MTRBY2wzOWtRWWtz?=
- =?utf-8?B?STlhWEFRMXdDVXA3U0ZBWDM3eGZqVGZrNVFVQWdYa1JvbVdVU21GUlBBbWNq?=
- =?utf-8?B?MEF3QWN5K2pYWFY1QnF2OVFrcXNtZDVTV0c3RmFKNm1YaFZpcGx6YzZIQ0JZ?=
- =?utf-8?B?bUVzc2dJeFI4MThTM1JhOHJEY0llc0RMTnZWWGNpQkF3dDMwYjVtZDRqWXZM?=
- =?utf-8?B?U0FDQVFWNDZaUnN5djY0eXMrL2lRM1lyOXZ1Mkg2YUZWRG9na3FYQ3VlbnRF?=
- =?utf-8?B?MkhZazVwcmhPU1MyYW1lZkplcXVpMGgzUzZqM1NxVi9DSDhSNTJpS2xKVDFx?=
- =?utf-8?B?bTd5RlFKR1FqSVFlQkUwMWNjVmFXcTY1Nkh3cU5scURsd0FsTTgxMGZwdnFs?=
- =?utf-8?B?ODBWWTEvWjdGZVVYdEh1ZllmVjZ5N0dtOFkrWEIyc1BvTVQxZjZVWVVYTU1C?=
- =?utf-8?B?cVIwcHhDbWFIY0hoTWZ6dz09?=
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=TWg5T0d9;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
+Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukma@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 62AB280612;
+	Tue, 24 Aug 2021 10:42:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1629794540;
+	bh=JrypeEHSsKqx3EvNIig/IDQpfzjbglJJTH51UFR//mo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TWg5T0d9Tcc+2MYuEh2ngEzYiYrbcA0t0b0Jd7+RDgY/MVbq3o1yV8b8HwtjNgoTr
+	 JRRQumg9pa2oXNEjI3x86K0M+UBpPd9SnWsGgwwRNmGD5MLSH4r4IEK8IsWMWviAVI
+	 BEF3s/snrFMV7n5x8MRdsEeMlseqLwsUF6harPTZzIHGctoE9QXEtNQ6e2ASGQuBiS
+	 mJFxHdGeZMe4JZRDIeGSGVymI1x6qaqJ7LHZZstNoenmnCelgqhjP7BVYi0lBDjZnd
+	 XWMlV9nDolXCXiaQ5AZveOEWjLf15iZcL6alawDsr+/UVV21jBEf0elDRQfzx7DPSM
+	 Rd9+W9AtP+66A==
+Date: Tue, 24 Aug 2021 10:42:13 +0200
+From: "?ukasz Majewski" <lukma@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>, Patches and discussions about the oe-core
+ layer  <openembedded-core@lists.openembedded.org>, Adhemerval Zanella
+ <adhemerval.zanella@linaro.org>
+Subject: Re: [OE-core] [PATCH 2/2] glibc: ptest: Add support for running glibc test suite with ptest
+Message-ID: <20210824104213.6be82b74@ktm>
+In-Reply-To: <34041d492af033ff34a273e07057ea9c767cabf7.camel@linuxfoundation.org>
+References: <20210823150853.2817-1-lukma@denx.de>
+	<20210823150853.2817-2-lukma@denx.de>
+	<ada9987d-399b-7a73-2aa5-c09dcca41fb3@gmail.com>
+	<20210823202414.731c6749@ktm>
+	<CAMKF1srLFY_R4KX3gG3hZMhZNtjSN8D4mEp0Wwr78Se9RE_20g@mail.gmail.com>
+	<20210823220926.37d87121@ktm>
+	<CAMKF1sqKH=RiOn-WVp_=ZQmLnSJ43VUUfKyv+E1KR9bCn01j3Q@mail.gmail.com>
+	<20210824093601.768c0c05@ktm>
+	<34041d492af033ff34a273e07057ea9c767cabf7.camel@linuxfoundation.org>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aca5fbdc-f5c2-42ac-060d-08d966d743a2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2021 08:14:58.6537
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aBfb02XZwqzNTvBQb/Y/yIBgjWX4mv+e2KVIh8GHsuSntGnuJgoUC+tPUBSGGsGe0UzWeyJvoalugK9eFYAM+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3896
-Return-Path: anuj.mittal@intel.com
-X-OriginatorOrg: intel.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AEA6096FA01899478E9DB5300DBBFC31@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+X-Groupsio-MsgNum: 155212
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/NHBsXGN+hvkUL9Y4B_KkxoD"; protocol="application/pgp-signature"
 
-SGVsbG8sDQoNCk9uIE1vbiwgMjAyMS0wOC0yMyBhdCAxNDozMSArMDIwMCwgU2VhbiBOeWVramFl
-ciB3cm90ZToNCj4gT24gVGh1LCBNYXkgMDYsIDIwMjEgYXQgMDg6NTE6MDBBTSArMDEwMCwgUmlj
-aGFyZCBQdXJkaWUgd3JvdGU6DQo+ID4gSWYgdGhlIHNjcmlwdHMvcG9zdGluc3QtaW50ZXJjZXB0
-cyBpcyBvd25lZCBieSByb290L3Jvb3QgdGhlbiB0aGUNCj4gPiBjb3B5ZmlsZSgpIGNhbGxzDQo+
-ID4gd2lsbCBmYWlsIGR1ZSB0byBjaG93biBpc3N1ZXMuIFdlIGRvbid0IGNhcmUgYWJvdXQgb3du
-ZXJzaGlwIG9mIHRoZXNlDQo+ID4gZmlsZXMgc28NCj4gPiB1c2Ugc2h1dGlsLmNvcHkoKSBpbnN0
-ZWFkIHdoaWNoIHdvbid0IHBlcmZvcm0gYW55IGNob3duLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYt
-Ynk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0K
-PiANCj4gQW51aiB3aWxsIHlvdSBiYWNrcG9ydCB0aGlzIHRvIGdhdGVzZ2FydGg/DQoNCmdhdGVz
-Z2FydGggaXNuJ3QgYmVpbmcgbWFpbnRhaW5lZCBhbnkgbW9yZS4NCg0KaHR0cHM6Ly93aWtpLnlv
-Y3RvcHJvamVjdC5vcmcvd2lraS9SZWxlYXNlcw0KDQpUaGFua3MsDQoNCkFudWoNCg==
+--Sig_/NHBsXGN+hvkUL9Y4B_KkxoD
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hi Richard,
+
+> On Tue, 2021-08-24 at 09:36 +0200, ?ukasz Majewski wrote:
+> > Hi Khem,
+> >  =20
+> > > On Mon, Aug 23, 2021 at 1:09 PM Lukasz Majewski <lukma@denx.de>
+> > > wrote: =20
+> > > >=20
+> > > > On Mon, 23 Aug 2021 12:52:44 -0700
+> > > > Khem Raj <raj.khem@gmail.com> wrote:
+> > > >   =20
+> > > > > On Mon, Aug 23, 2021 at 11:24 AM Lukasz Majewski
+> > > > > <lukma@denx.de> wrote:
+> > > > >   =20
+> > > > > > Hi Khem,
+> > > > > >   =20
+> > > > > > > On 8/23/21 8:08 AM, ?ukasz Majewski wrote:   =20
+> > > > > > > > This patch introduces new recipe - namely 'glibc-tests',
+> > > > > > > > which builds and installs glibc test suite to OE/Yocto
+> > > > > > > > built image.
+> > > > > > > >=20
+> > > > > > > > It reuses code from already available 'glibc-testsuite'
+> > > > > > > > recipe, which is run with 'bitbake glibc-testsuite -c
+> > > > > > > > check' and uses qemu to execute remotely (via SSH)
+> > > > > > > > tests on some emulated machine.
+> > > > > > > >=20
+> > > > > > > > This recipe installs eligible tests on some rootfs
+> > > > > > > > image. Afterwards, either all of them or only time
+> > > > > > > > related subset, those tests can be executed on the real
+> > > > > > > > hardware, to facilitate validation of this platform
+> > > > > > > > with for example Y2038 problem compliance.
+> > > > > > > >=20
+> > > > > > > > By default all tests are executed, with 'ptest-runner
+> > > > > > > > glibc-tests'. To test only time related subset - one
+> > > > > > > > needs to call: cd /usr/lib/glibc-tests/ptest/; rm
+> > > > > > > > run-ptest; \ ln -s run-ptest-time run-ptest; cd -;
+> > > > > > > > ptest-runner glibc-tests
+> > > > > > > >=20
+> > > > > > > > To facilitate debugging, source files are provided by
+> > > > > > > > default with the unstripped debugging symbols. Such
+> > > > > > > > approach would reduce the already complex recipe (as it
+> > > > > > > > inherits base glibc one), so there is no need to also
+> > > > > > > > install *-dbg and *-src packages.   =20
+> > > > > > >=20
+> > > > > > >=20
+> > > > > > > does it have to be a separate recipe I wonder if we can
+> > > > > > > have it built as part of glibc itself controlled via
+> > > > > > > ptest knob   =20
+> > > > > >=20
+> > > > > > I've followed the glibc-testsuite recipe to provide tests
+> > > > > > for ptest. Test creation is similar to it, but doesn't
+> > > > > > require QEMU run (tests are executed on the HW).
+> > > > > >=20
+> > > > > > Another rationale was to have some kind of "features"
+> > > > > > separation in different file (liked glibc-mtrace), which is
+> > > > > > easier to maintain and review.
+> > > > > >=20
+> > > > > > Last but not least - separate recipe (and built binaries)
+> > > > > > allow some kind of magic with selection of used test
+> > > > > > programs (this may be useful if one would like to have
+> > > > > > different sets of tests in different packages)   =20
+> > > > >=20
+> > > > > That=E2=80=99s seems ok I think the names are quite confusing now=
+ not
+> > > > > that it was not so much better before but now we have
+> > > > > glibc-tests and glibc-testsuites which do same things but in
+> > > > > very different way maybe glibc-testsuite should be renamed to
+> > > > > something like glibc-tests-crosd or some such   =20
+> > > >=20
+> > > > I think that glibc-testsuite_2.34.bb shall be renamed to
+> > > > glibc-tests-qemu_2.34.bb as it is more descriptive.   =20
+> > >=20
+> > > is it only runnable in qemu ? I thought we could use a read board
+> > > as well with IP address =20
+> >=20
+> > It looks like by default the QEMU is used in this recipe.=20
+> >=20
+> > This recipe provides custom check-test-wrapper, which can log
+> > into remote board via ssh (when TOOLCHAIN_TEST_TARGET =3D "ssh").
+> >=20
+> > This looks a bit awkward for me, as the goal would be to run built
+> > tests on target (exact) HW without the need of SSH.
+> >=20
+> > It is also easier to debug the code with the real HW. =20
+>=20
+> I'm a bit worried we're going around in circles with this. We did
+> have a different form of tests a while back but I was told those
+> didn't work well and they were replaced with the current setup which
+> worked with the driver in the glibc source code.
+
+I've looked into the glibc-testing.inc from SHA1:
+0a42ae7f7ca8fcebe4630b701e50e2352f9b7c3b
+
+There glibc tests were built and copied on the target via NFS.
+
+> This was done around
+> the time we added support for the other toolchain test suites
+> (binutils+gcc).
+
+I'm not familiar with the "binutils+gcc" issue, which was solved in the
+past. Could you share any reference?
+
+> We ended up with options to use full system qemu or
+> user mode qemu emulation depending on the speed of the target (e.g.
+> with kvm or not).
+
+=46rom what I see in the recipe - you either run user mode QEMU by
+default (at least when I do run it):
+
+NOTE: make PARALLELMFLAGS=3D-j 8 SHELL=3D/bin/bash -i
+QEMU_SYSROOT=3D/home/lukma/work/yocto/y2038/build/tmp/work/armv7at2hf-neon-=
+poky-linux-gnueabi/glibc-testsuite/2.34-r0/recipe-sysroot
+QEMU_OPTIONS=3Dqemu-arm -r 5.1.0  SSH_HOST=3Dlocalhost SSH_HOS T_USER=3Droot
+SSH_HOST_PORT=3D2222
+test-wrapper=3D/home/lukma/work/yocto/y2038/build/tmp/work/armv7at2hf-neon-=
+poky-linux-gnueabi/glibc-testsuite/2.34-r0/check-test-wrapper
+user check
+
+Or you log to the board via SSH (the 'ssh' mode).
+
+>=20
+> Has this patchset been run with all the tests in glibc or just a
+> subset?
+
+This patch set allows running all tests [*], or (preferably in my use
+case) only a time related ones. The latter is to validate Y2038 code,
+which testing has two issues:
+
+1. It cannot be tested with QEMU user mode [1]. Instead "linux
+timespaces" were suggested, but it lacks support for CLOCK_REALTIME
+manipulation for those tests [2].
+
+2. Testing with SSH is possible, but is not as robust as expected (i.e.
+imposes SSHD on the target board, and ETH connection).
+
+>=20
+> I'm always very nervous about having two ways to do similar things.
+
+Technically, I just reuse the glibc-testsuite_2.34.bb to the point
+where tests are _only_ built. Then I pack those binaries and install on
+the target's rootfs to be run with ptest framework.
+
+Such approach has several advantages:
+
+- No need for SSH (which can hang, as you need sshfs in user space for
+  the setup)
+
+- Run on the real HW (and environment) with the same version of glibc
+  on the real target.
+
+- Sources and debugging symbols available on the target, so easier GDB
+  debugging.
+
+- Using ptest framework to execute tests
+
+- Time related tests are "self contained", so could be executed without
+  built data.
+
+At least for Y2038 validation such approach seems more appealing.
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+
+Links:
+[1] - https://www.mail-archive.com/qemu-discuss@nongnu.org/msg05898.html
+[2] -
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2361284.html
+
+Note:
+[*] - some glibc tests rely on the built directory to provide correct
+data/environment for execution. Time related tests are (and should be)
+self contained, so those could be just executed as binaries.
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/NHBsXGN+hvkUL9Y4B_KkxoD
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmEksOUACgkQAR8vZIA0
+zr0Y9Qf+KojlPL+5vagD0gzS9ybmTrqXAvAHtX0qyxWulYQKpgE4kySP0BCTuUe0
+MHfvZOVYXfZufyuthSv7nbXl/i5p+MuiRssz8Z2yVaGV7G/HiL6IG+rD+7SpWRXG
+uobDwDpa4fsqTlOCwtx9J0LloKiBpc5UH4IqdN9TCB3TYJYTGe6Frpsyp0TuRnkx
+EdFiWoTrw4RayNd6wDVDxIh2cU1Tyh6nLECNC1KguGdD5S9XiWKqiR0zNXjJ8som
+Jz/dl686qpDwcoySXHZ2+2ZHF/dUrrKk4Wh/sstfi7BwI0fO43rJef+VFrEAObLS
+0CdpEbhUyJ1gJYCQt7voY56A6jEdIQ==
+=tzrT
+-----END PGP SIGNATURE-----
+
+--Sig_/NHBsXGN+hvkUL9Y4B_KkxoD--
