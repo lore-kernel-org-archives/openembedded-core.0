@@ -1,117 +1,94 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.39800.1629814535485828899
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web12.39696.1629814872575512177
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 07:15:35 -0700
+ Tue, 24 Aug 2021 07:21:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K1/7pnPi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id v10so20341967wrd.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 07:15:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=XBTjE981;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.51, mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f51.google.com with SMTP id n5so19234121wro.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 07:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=2OiY2K1jvuE+dmCvPjf4ETPXM2ZYxHzAmmhfN7qlvDk=;
-        b=K1/7pnPiOykM0YTbvGoALtCTynp0SlSgukugoNrlINgDCa7sqfekfb+aUPdtr2Y/e4
-         l0juf//bhhu8/XU3uEvlXIPR9RZ6i1n9lG3L/sFj7krk18EYAmkSbI1UyNFSblVbaR/m
-         7IFmSt/87FVwsiRY2WFjhabF7KU6n7oeXxLUs=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vaRHoCB9r2Z9gC1eneH95z9/SmYNyYTeoS5XSNvkFXE=;
+        b=XBTjE981zCsI9oixnP9FmNAKQF8xEKyATZklhwbbFqvaXfvfOYzyDwbkePOw1v4TOM
+         3K8z/YMNncRqscFEsntNYRhEJHJxBJSpPVjItLii+GL2mWP35l0SKrDfM245o8tEkayS
+         J9ZUNlGXMYgzVrOpY0alujEe2RdualReZLn7W0hTreT/rwzvGhabWfYUtgYON8G0iuf1
+         OQ/KyxLWydooEqPxLYkBrAs1Lt8O/+35u973AgQfcdSPNkdWBjaqBZ0a8QVovZ2x161r
+         3XWji7y2hb+DuJMNcdgNAVHC3pvvcxfPPMlSd096O7oEwFocZVRiEIh0SOPEMJtBUfEZ
+         5oMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=2OiY2K1jvuE+dmCvPjf4ETPXM2ZYxHzAmmhfN7qlvDk=;
-        b=Y0EFUP0QpxCIRuaAxcLFdcY8wm+7vK6nJOFEHt4BqYK+U2wMrCL2/+0vB0lIw79MCu
-         1Z7ByovF+YzwJFvHjG0lS3HxfU8XZGdyngA32SQe6iEpEWilVcWe/hm0bVJirYZ8uj4p
-         B4v9uiObEGFMNI5Im9zwQLlcUm9xavaXu7e7Xd9rpnUDPExmkwWRJoDyVmmH0clgC6tX
-         8Yz2e4puFa59EzpOfK5LQQLrA8e99r+Y9Vd5yjg1mAiDlZIVzRBOHBliP2GPiMr9JTdN
-         Bax/RX6X3BYvoZWKBi3PClAI9de52hneTJXQCJ+UDpI3kcPDadPGk5Y8gSD/Qgx3d6Pw
-         sBZw==
-X-Gm-Message-State: AOAM530WGc3ma20sraXSykuqcUxrOsDhDZtwYhmq/I9QEdpUAbsUOdfX
-	YY+SzLdAYSchTJV34UlKLeES5gEhoqbahg==
-X-Google-Smtp-Source: ABdhPJzZzZM01E+yzcANIe+UvgxjMVuhB6ljGTB8AMzV5QLqNpC77ZLiJhGlBgFsssD7bQUgXgagtQ==
-X-Received: by 2002:adf:cc92:: with SMTP id p18mr13082412wrj.98.1629814533606;
-        Tue, 24 Aug 2021 07:15:33 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:d23b:eedd:82d9:e12c? ([2001:8b0:aba:5f3c:d23b:eedd:82d9:e12c])
-        by smtp.gmail.com with ESMTPSA id n14sm7967731wrx.10.2021.08.24.07.15.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 07:15:33 -0700 (PDT)
-Message-ID: <d275d9bb3d50298a32dc272e7f5bd0f0653a5fc8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: update way of setting XZ_MEMLIMIT
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 24 Aug 2021 15:15:30 +0100
-In-Reply-To: <20210824094022.27915-1-changqing.li@windriver.com>
-References: <20210824094022.27915-1-changqing.li@windriver.com>
-User-Agent: Evolution 3.40.2-1build1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vaRHoCB9r2Z9gC1eneH95z9/SmYNyYTeoS5XSNvkFXE=;
+        b=cwIDPt0ef8zkSTxeZGXMxCQ8WzrlNdyCLpBMWLs80KihXeJ2eAUksOhAqJuOSJ6+4i
+         6n/j520C+lwkaadM8ieXCrYzOyb5rS+GHTqdIgePW1D0aWV3jSRnEoPUVhsPoX4lGzjc
+         LLzlBpeoUNmFN+x18979D7fVprTUBiJXNn+MVrWonKOOv9i7LTqVcLsUPnWqz6wNqKqK
+         VyKTHKIvJHL+7TxTjwnNqJWt0Vy9yp446wB+vm6DYZtIMVi+Y2MsuTM6S2PbggviEOFE
+         2ZVREm6yj4VaEd67VUlJ5OlMm5f+kXo77z2XVK87GnfvzZvc171uEMlBfa+RjmeLgSHn
+         OUIQ==
+X-Gm-Message-State: AOAM532ziw9/Rx7kI//EyUWlP8zw7QFQ3/yWDXYQn2jmksDNULU1VfUF
+	Puj1QOo/213hj8KUXyJ2KIy+tKbDSScBm7LMwd5xlQ==
+X-Google-Smtp-Source: ABdhPJwo2IRcLu+6zQe477JqduTv8aADS/3RXcR82ftu6t/FfH2GehA7VxhCxs0nTt3s17FvyTNRshQJVfop3BOAEgY=
+X-Received: by 2002:a5d:4010:: with SMTP id n16mr19802173wrp.205.1629814870835;
+ Tue, 24 Aug 2021 07:21:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210823135250.767173-1-andrei@gherzan.com>
+In-Reply-To: <20210823135250.767173-1-andrei@gherzan.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Tue, 24 Aug 2021 04:20:58 -1000
+Message-ID: <CAOSpxdYA6FchYLNRASehUkPcQkdHkjRJyjE6VaX0z--y6m3BWg@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH 1/2] bitbake: fetch2: fix handling of `\` in file:// SRC_URI
+To: Andrei Gherzan <andrei@gherzan.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Leif Middelschulte <leif.middelschulte@klsmartin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2021-08-24 at 17:40 +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> Update way of setting XZ_MEMLIMIT, considering scenario that
-> running bitbake in container, to avoid OOM Killer of xz.
-> 
-> For example:
-> Container has memory limit of 30G, and host memory is 300G.  'xz
-> --memlimit=50% ...' will get host memory, so the limit for xz is 150G.
-> And because of the container memory limit is 30G, xz can use nearly up
-> to 30G memory, which may cause oom kill of xz.
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+On Mon, Aug 23, 2021 at 3:53 AM Andrei Gherzan <andrei@gherzan.com> wrote:
+>
+> From: Leif Middelschulte <leif.middelschulte@klsmartin.com>
+>
+> Using backslashes in file:// URIs was broken.
+> Either the resolver would fail or the subsequent `cp` command.
+> Try to avoid this by putting the filenames into quotes.
+>
+> Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=8161
+>
+> (Bitbake rev: aa857fa2e9cf3b0e43a9049b04ec4b0b3c779b11)
+
+Patches for bitbake should be sent to: bitbake-devel@lists.openembedded.org
+
+I tried applying this patch, but found that it caused errors on the autobuilder:
+
+https://errors.yoctoproject.org/Errors/Build/129189/
+
+Steve
+
+> Signed-off-by: Leif Middelschulte <leif.middelschulte@klsmartin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/conf/bitbake.conf |  3 ++-
->  meta/lib/oe/utils.py   | 12 ++++++++++++
->  2 files changed, 14 insertions(+), 1 deletion(-)
+>  bitbake/lib/bb/fetch2/__init__.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py
+> index dc99914cd9..ece07f611c 100644
+> --- a/bitbake/lib/bb/fetch2/__init__.py
+> +++ b/bitbake/lib/bb/fetch2/__init__.py
+> @@ -1525,7 +1525,7 @@ class FetchMethod(object):
+>                      if urlpath.find("/") != -1:
+>                          destdir = urlpath.rsplit("/", 1)[0] + '/'
+>                          bb.utils.mkdirhier("%s/%s" % (unpackdir, destdir))
+> -                cmd = 'cp -fpPRH %s %s' % (file, destdir)
+> +                cmd = 'cp -fpPRH "%s" "%s"' % (file, destdir)
+>
+>          if not cmd:
+>              return
+> --
+> 2.31.1
+>
+>
 > 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index f6fb2aa698..2b36e083ca 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -809,7 +809,8 @@ BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
->  PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
->  
->  # Default parallelism and resource usage for xz
-> -XZ_MEMLIMIT ?= "50%"
-> +CONTAINER_MEM_LIMIT = "${@oe.utils.container_mem_limit()}"
-> +XZ_MEMLIMIT ?= "${@ '%d' % (int(d.getVar('CONTAINER_MEM_LIMIT'))/2) if d.getVar('CONTAINER_MEM_LIMIT') != '0' else '50%'}"
->  XZ_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
->  XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --threads=${XZ_THREADS}"
->  XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
-> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> index a84039f585..581072ac0d 100644
-> --- a/meta/lib/oe/utils.py
-> +++ b/meta/lib/oe/utils.py
-> @@ -252,6 +252,18 @@ def cpu_count(at_least=1):
->      cpus = len(os.sched_getaffinity(0))
->      return max(cpus, at_least)
->  
-> +def container_mem_limit():
-> +    limit_in_bytes = '0'
-> +    proc_sched = '/proc/1/sched'
-> +    if os.path.exists(proc_sched):
-> +        with open(proc_sched, 'r') as fp:
-> +            initinfo = fp.readline().strip()
-> +            cgroup_limit_in_bytes = '/sys/fs/cgroup/memory/memory.limit_in_bytes'
-> +            if initinfo.split(' ')[0] not in ('systemd', 'init',) and os.path.exists(cgroup_limit_in_bytes):
-> +                with open(cgroup_limit_in_bytes) as fpc:
-> +                    limit_in_bytes=fpc.readline().strip()
-> +    return limit_in_bytes
-> +
-
-Whilst I understand the idea here, this is an awful lot of hardcoded values and
-"magic". I'm not sure we want all bitbake processes to be making these kinds of
-queries/decisions every time the config is parsed...
-
-Adding the function to oe/utils may be ok but I'm not keen on making it the
-default.
-
-Cheers,
-
-Richard
-
-
-
+>
