@@ -1,66 +1,284 @@
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
- by mx.groups.io with SMTP id smtpd.web10.36750.1629794585372939239
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.36761.1629797058067395714
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 01:43:06 -0700
+ Tue, 24 Aug 2021 02:24:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=first header.b=dUZ9dBJm;
- spf=pass (domain: geanix.com, ip: 116.203.34.67, mailfrom: sean@geanix.com)
-Received: from skn-laptop (unknown [185.17.218.86])
-	by first.geanix.com (Postfix) with ESMTPSA id 0A5AA440F31;
-	Tue, 24 Aug 2021 08:43:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1629794583; bh=e2hSQKLU7kOUMyK6Bnm4gl2qvgTs5VdXjSuwyezBT8g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dUZ9dBJmogg2DoBqjikApJTZjpNxgaSHVV2H/qPPqB9y63MaremFI/Yz9iLA0shPN
-	 6C+CLHkNkr8uHEV7LghuRLj+WmKwKmmBP1BOdmTNWeUtiV0uB82pl09ZM1hErj+7IR
-	 a1fVx6YQ5GbopU62L0TOlcYbWk6nevR0kU0+C7fTyw/xMYxDHljx7ipTi0uUQPUD8I
-	 v0fIRVpzuWfU+aW42J4bFLqj3CiJRWQu4XkMmNJ2bh7w9lt6/04EX1jdBoUcA+mBRR
-	 d7IehZBoooY3fU7XAXEa9Vi2PckWq1nKfUCmtAVAtTtz9ksJQdJqbhoDn/Tagh59e0
-	 AxJ0QY/PnZcTw==
-Date: Tue, 24 Aug 2021 10:43:01 +0200
-From: "Sean Nyekjaer" <sean@geanix.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 3/3] lib/package_manager: Use shutil.copy instead of bb.utils.copyfile for intercepts
-Message-ID: <20210824084301.ozzwiuyzwt3r4exn@skn-laptop>
-References: <20210506075100.1984260-1-richard.purdie@linuxfoundation.org>
- <20210506075100.1984260-3-richard.purdie@linuxfoundation.org>
- <20210823123150.4l3pkck4hg3kpi54@skn-laptop>
- <c7aeb4413ec3937439e4ceee8a030dc4eb237ec7.camel@intel.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 17O9OGkB023247
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 02:24:16 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 24 Aug 2021 02:24:15 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 24 Aug 2021 02:24:14 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [Hardknott][PATCH] file: fix close_on_exec for multithreaded decompression
+Date: Tue, 24 Aug 2021 17:20:49 +0800
+Message-ID: <20210824092049.12411-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <c7aeb4413ec3937439e4ceee8a030dc4eb237ec7.camel@intel.com>
-X-Spam-Status: No, score=-3.1 required=4.0 tests=ALL_TRUSTED,BAYES_00,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,URIBL_BLOCKED
-	autolearn=disabled version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on 13e2a5895688
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain
 
-On Tue, Aug 24, 2021 at 08:14:58AM +0000, Mittal, Anuj wrote:
-> Hello,
-> 
-> On Mon, 2021-08-23 at 14:31 +0200, Sean Nyekjaer wrote:
-> > On Thu, May 06, 2021 at 08:51:00AM +0100, Richard Purdie wrote:
-> > > If the scripts/postinst-intercepts is owned by root/root then the
-> > > copyfile() calls
-> > > will fail due to chown issues. We don't care about ownership of these
-> > > files so
-> > > use shutil.copy() instead which won't perform any chown.
-> > > 
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > 
-> > Anuj will you backport this to gatesgarth?
-> 
-> gatesgarth isn't being maintained any more.
-> 
-> https://wiki.yoctoproject.org/wiki/Releases
-> 
+From: Changqing Li <changqing.li@windriver.com>
 
-Hi Anuj,
+It is not safe to call the 'file' command from multiple threads. When a
+file is checked with multiple threads in parallel, the file descriptors
+might get shared which makes the pipe handling lock up, leading to lock
+up in rpmbuild. And may lead to rarely deadlock on random recipes's
+do_package task.
 
-I know, but gatesgarth is left in a broken state because of
-edc8051bc0 image: Add directories to PSEUDO_IGNORE_PATHS
-was merged ;)
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-devtools/file/file_5.39.bb       |   3 +-
+ ...ec-multithreaded-decompression-issue.patch | 220 ++++++++++++++++++
+ 2 files changed, 222 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch
 
-/Sean
+diff --git a/meta/recipes-devtools/file/file_5.39.bb b/meta/recipes-devtools/file/file_5.39.bb
+index abaa8149a3..c0c7253688 100644
+--- a/meta/recipes-devtools/file/file_5.39.bb
++++ b/meta/recipes-devtools/file/file_5.39.bb
+@@ -12,7 +12,8 @@ DEPENDS = "file-replacement-native"
+ DEPENDS_class-native = "bzip2-replacement-native"
+ 
+ SRC_URI = "git://github.com/file/file.git \
+-           file://0001-src-compress.c-correct-header-define-for-xz-lzma.patch"
++           file://0001-src-compress.c-correct-header-define-for-xz-lzma.patch \
++           file://0001-Fix-close_on_exec-multithreaded-decompression-issue.patch"
+ 
+ SRCREV = "87731415de945660b00f02207d8e9d986ef9b82e"
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch b/meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch
+new file mode 100644
+index 0000000000..42105feed9
+--- /dev/null
++++ b/meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch
+@@ -0,0 +1,220 @@
++From 0d82f2f3ba4a856504f23a9db1dd5f37bd076337 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 23 Aug 2021 14:16:53 +0800
++Subject: [PATCH] Fix close_on_exec multithreaded decompression issue.
++
++Upstream-Status: Backport [https://github.com/file/file/commit/81f15c2b0d6e9eaf524ff7bab37426c21af75fb7]
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ ChangeLog      |  5 +++++
++ configure.ac   |  2 +-
++ src/compress.c | 25 ++++++++++++++++++++++---
++ src/file.h     | 12 +++++++++++-
++ src/funcs.c    | 24 +++++++++++++++++++++++-
++ src/magic.c    |  7 +++++--
++ 6 files changed, 67 insertions(+), 8 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index f877ad22..8c4a43d4 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,8 @@
+++2020-12-08  16:24  Christos Zoulas <christos@zoulas.com>
+++
+++	* fix multithreaded decompression file descriptor issue
+++	  by using close-on-exec (Denys Vlasenko)
+++
++ 2020-06-14  20:02  Christos Zoulas <christos@zoulas.com>
++ 
++ 	* release 5.39
++diff --git a/configure.ac b/configure.ac
++index 64c9f42e..521dc12d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -166,7 +166,7 @@ else
++ fi])
++ 
++ dnl Checks for functions
++-AC_CHECK_FUNCS(strndup mkstemp mkostemp utimes utime wcwidth strtof newlocale uselocale freelocale memmem)
+++AC_CHECK_FUNCS(strndup mkstemp mkostemp utimes utime wcwidth strtof newlocale uselocale freelocale memmem pipe2)
++ 
++ dnl Provide implementation of some required functions if necessary
++ AC_REPLACE_FUNCS(getopt_long asprintf vasprintf strlcpy strlcat getline ctime_r asctime_r localtime_r gmtime_r pread strcasestr fmtcheck dprintf)
++diff --git a/src/compress.c b/src/compress.c
++index 9670b72c..9f65e4fa 100644
++--- a/src/compress.c
+++++ b/src/compress.c
++@@ -35,7 +35,7 @@
++ #include "file.h"
++ 
++ #ifndef lint
++-FILE_RCSID("@(#)$File: compress.c,v 1.127 2020/05/31 00:11:06 christos Exp $")
+++FILE_RCSID("@(#)$File: compress.c,v 1.129 2020/12/08 21:26:00 christos Exp $")
++ #endif
++ 
++ #include "magic.h"
++@@ -844,8 +844,23 @@ uncompressbuf(int fd, size_t bytes_max, size_t method, const unsigned char *old,
++ 	for (i = 0; i < __arraycount(fdp); i++)
++ 		fdp[i][0] = fdp[i][1] = -1;
++ 
++-	if ((fd == -1 && pipe(fdp[STDIN_FILENO]) == -1) ||
++-	    pipe(fdp[STDOUT_FILENO]) == -1 || pipe(fdp[STDERR_FILENO]) == -1) {
+++	/*
+++	 * There are multithreaded users who run magic_file()
+++	 * from dozens of threads. If two parallel magic_file() calls
+++	 * analyze two large compressed files, both will spawn
+++	 * an uncompressing child here, which writes out uncompressed data.
+++	 * We read some portion, then close the pipe, then waitpid() the child.
+++	 * If uncompressed data is larger, child shound get EPIPE and exit.
+++	 * However, with *parallel* calls OTHER child may unintentionally
+++	 * inherit pipe fds, thus keeping pipe open and making writes in
+++	 * our child block instead of failing with EPIPE!
+++	 * (For the bug to occur, two threads must mutually inherit their pipes,
+++	 * and both must have large outputs. Thus it happens not that often).
+++	 * To avoid this, be sure to create pipes with O_CLOEXEC.
+++	 */
+++	if ((fd == -1 && file_pipe_closexec(fdp[STDIN_FILENO]) == -1) ||
+++	    file_pipe_closexec(fdp[STDOUT_FILENO]) == -1 ||
+++	    file_pipe_closexec(fdp[STDERR_FILENO]) == -1) {
++ 		closep(fdp[STDIN_FILENO]);
++ 		closep(fdp[STDOUT_FILENO]);
++ 		return makeerror(newch, n, "Cannot create pipe, %s",
++@@ -876,16 +891,20 @@ uncompressbuf(int fd, size_t bytes_max, size_t method, const unsigned char *old,
++ 			if (fdp[STDIN_FILENO][1] > 2)
++ 				(void) close(fdp[STDIN_FILENO][1]);
++ 		}
+++		file_clear_closexec(STDIN_FILENO);
+++
++ ///FIXME: if one of the fdp[i][j] is 0 or 1, this can bomb spectacularly
++ 		if (copydesc(STDOUT_FILENO, fdp[STDOUT_FILENO][1]))
++ 			(void) close(fdp[STDOUT_FILENO][1]);
++ 		if (fdp[STDOUT_FILENO][0] > 2)
++ 			(void) close(fdp[STDOUT_FILENO][0]);
+++		file_clear_closexec(STDOUT_FILENO);
++ 
++ 		if (copydesc(STDERR_FILENO, fdp[STDERR_FILENO][1]))
++ 			(void) close(fdp[STDERR_FILENO][1]);
++ 		if (fdp[STDERR_FILENO][0] > 2)
++ 			(void) close(fdp[STDERR_FILENO][0]);
+++		file_clear_closexec(STDERR_FILENO);
++ 
++ 		(void)execvp(compr[method].argv[0],
++ 		    RCAST(char *const *, RCAST(intptr_t, compr[method].argv)));
++diff --git a/src/file.h b/src/file.h
++index 28ebc0c1..48f4b698 100644
++--- a/src/file.h
+++++ b/src/file.h
++@@ -27,7 +27,7 @@
++  */
++ /*
++  * file.h - definitions for file(1) program
++- * @(#)$File: file.h,v 1.220 2020/06/08 17:38:27 christos Exp $
+++ * @(#)$File: file.h,v 1.223 2020/12/08 21:26:00 christos Exp $
++  */
++ 
++ #ifndef __file_h__
++@@ -143,6 +143,14 @@
++ #define	MAX(a,b)	(((a) > (b)) ? (a) : (b))
++ #endif
++ 
+++#ifndef O_CLOEXEC
+++# define O_CLOEXEC 0
+++#endif
+++
+++#ifndef FD_CLOEXEC
+++# define FD_CLOEXEC 1
+++#endif
+++
++ #define FILE_BADSIZE CAST(size_t, ~0ul)
++ #define MAXDESC	64		/* max len of text description/MIME type */
++ #define MAXMIME	80		/* max len of text MIME type */
++@@ -538,6 +546,8 @@ protected char * file_printable(char *, size_t, const char *, size_t);
++ protected int file_os2_apptype(struct magic_set *, const char *, const void *,
++     size_t);
++ #endif /* __EMX__ */
+++protected int file_pipe_closexec(int *);
+++protected int file_clear_closexec(int);
++ 
++ protected void buffer_init(struct buffer *, int, const struct stat *,
++     const void *, size_t);
++diff --git a/src/funcs.c b/src/funcs.c
++index b66510c6..d6c485fe 100644
++--- a/src/funcs.c
+++++ b/src/funcs.c
++@@ -27,7 +27,7 @@
++ #include "file.h"
++ 
++ #ifndef	lint
++-FILE_RCSID("@(#)$File: funcs.c,v 1.115 2020/02/20 15:50:20 christos Exp $")
+++FILE_RCSID("@(#)$File: funcs.c,v 1.118 2020/12/08 21:26:00 christos Exp $")
++ #endif	/* lint */
++ 
++ #include "magic.h"
++@@ -36,6 +36,9 @@ FILE_RCSID("@(#)$File: funcs.c,v 1.115 2020/02/20 15:50:20 christos Exp $")
++ #include <stdlib.h>
++ #include <string.h>
++ #include <ctype.h>
+++#ifdef HAVE_UNISTD_H
+++#include <unistd.h>	/* for pipe2() */
+++#endif
++ #if defined(HAVE_WCHAR_H)
++ #include <wchar.h>
++ #endif
++@@ -783,3 +786,22 @@ file_print_guid(char *str, size_t len, const uint64_t *guid)
++ 	    g->data4[2], g->data4[3], g->data4[4], g->data4[5],
++ 	    g->data4[6], g->data4[7]);
++ }
+++
+++protected int
+++file_pipe_closexec(int *fds)
+++{
+++#ifdef HAVE_PIPE2
+++	return pipe2(fds, O_CLOEXEC);
+++#else
+++	if (pipe(fds) == -1)
+++		return -1;
+++	(void)fcntl(fds[0], F_SETFD, FD_CLOEXEC);
+++	(void)fcntl(fds[1], F_SETFD, FD_CLOEXEC);
+++	return 0;
+++#endif
+++}
+++
+++protected int
+++file_clear_closexec(int fd) {
+++	return fcntl(fd, F_SETFD, 0);
+++}
++diff --git a/src/magic.c b/src/magic.c
++index 17a7077d..89f4e16c 100644
++--- a/src/magic.c
+++++ b/src/magic.c
++@@ -33,7 +33,7 @@
++ #include "file.h"
++ 
++ #ifndef	lint
++-FILE_RCSID("@(#)$File: magic.c,v 1.112 2020/06/08 19:44:10 christos Exp $")
+++FILE_RCSID("@(#)$File: magic.c,v 1.113 2020/12/08 21:26:00 christos Exp $")
++ #endif	/* lint */
++ 
++ #include "magic.h"
++@@ -436,7 +436,7 @@ file_or_fd(struct magic_set *ms, const char *inname, int fd)
++ 		_setmode(STDIN_FILENO, O_BINARY);
++ #endif
++ 	if (inname != NULL) {
++-		int flags = O_RDONLY|O_BINARY|O_NONBLOCK;
+++		int flags = O_RDONLY|O_BINARY|O_NONBLOCK|O_CLOEXEC;
++ 		errno = 0;
++ 		if ((fd = open(inname, flags)) < 0) {
++ 			okstat = stat(inname, &sb) == 0;
++@@ -460,6 +460,9 @@ file_or_fd(struct magic_set *ms, const char *inname, int fd)
++ 			rv = 0;
++ 			goto done;
++ 		}
+++#if O_CLOEXEC == 0
+++		(void)fcntl(fd, F_SETFD, FD_CLOEXEC);
+++#endif
++ 	}
++ 
++ 	if (fd != -1) {
++-- 
++2.17.1
++
+-- 
+2.17.1
+
