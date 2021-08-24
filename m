@@ -1,154 +1,335 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web12.35006.1629779265157916357
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web12.35007.1629779265943634436
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Aug 2021 21:27:45 -0700
+ Mon, 23 Aug 2021 21:27:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CmdVPgOw;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id h1so7538102pjs.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HngBNA7S;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id w6so11457028plg.9
         for <openembedded-core@lists.openembedded.org>; Mon, 23 Aug 2021 21:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JjULH1xL7X6hW9dFRzs/oenv+CC29jUDK9o1iYehCl0=;
-        b=CmdVPgOwuZiv+17uTU3brezQxUfm4rFPJuR4hZqxdbZg9cECGV4J+9/bPVxqfgvcdu
-         T9+jc9xD3josQ6J6lTIoa1ndA488gJHcTIAOVzOIZiIXXeyj3VAA+WSgg4TPSX1LNn7P
-         clqRrJDalEHEXk9PjLlgTbDrUv1dRpejj7ypDTmRGpwEEEMjW3q9REQVw37mO27PecL9
-         5SJs5CmtyvV5yrhBfGpFaRqJPhWB+hnUfebKkJ8SktecvEZZI4r7p15SDe+wVmF6IX7H
-         RkzTBc0c9ZGVS+Ey7174eOTB6Lu3g6Yr50dpR4dB4GEhPdBIdExJ/2Jn4qLeK1zGdZMi
-         gvIQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=z0M2hQ70OBRc9KDlV+XvJuOsf7nlclLN8oJcleqchCA=;
+        b=HngBNA7SI+YXwJJjB/6nl/BXYVLmnzGtukENvSDdzdIK3+8a5Iia5uObp9PxI8+2b4
+         tFpW0cw6es27oSBrcuMZ/ffdmMC4DTRtqBZ3ysPOsyrrAjStc/if71/8CSN/XQ3SqCJc
+         nOjXgHNRmwzvp4ytLNyF8xSUomZMyoAvNOKGz1FWycMXSVAtAnu05IHb1Ew+bqzG9QGr
+         xxaYLdLE9oXiBSB+Jsb0sfwGvITyQtBVe8/PWEXdPkx2GGa0gO7pcRox05Q2C1K0uLpJ
+         uW9APSTx9dRvmngTri8vEpEydoNIZanNEq1GYElz9ikJJo+tmZOxYE+fQaIna2khvwfh
+         ZnHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JjULH1xL7X6hW9dFRzs/oenv+CC29jUDK9o1iYehCl0=;
-        b=XMscNf9uEME9haWB3Q4qJa+r5OM9iM70H0yzFMhk/62pjlYPXDGOT8Ns913qfgpUVg
-         5wQv94mu8PII5K6zIofuVH9zeCrEuE2oW1poGTwDOUtaxWG83rDEuVlCyNcaLLJvVy3g
-         ptDqdHNBmFyfl0gCSCsFVu+0mcu/WDZXp5wCNNmZVCF7RpeJbZbo5R+0nW+Dwhrmom5b
-         kbOnKSw0w779litA7qS8lwjdmTvPVlZw06wn2C3thOTrPqDBvR+tCOfRdBbxvvLRM9pB
-         yVhd5t9rpThntxP2j38Q7NBQg4tps8rmqyQtyNQr1nHcukFkUWTPVM8VnE850aEmNCNv
-         DfJw==
-X-Gm-Message-State: AOAM531gzOQlClWE9L2v6/DYfVR0npNEtDlC2Uyc+VR1TG7turRWckZr
-	UF6QaOjtXYD4wOFK34hqggh1WWrFcUk=
-X-Google-Smtp-Source: ABdhPJwBcXveZlU+Q844JkjNlooNtspob6FXZ7/e5P1YGcNIIp0FatmYBq2TOusNvwUzF8bCjX50EA==
-X-Received: by 2002:a17:902:ce8e:b0:12d:9f52:9a2b with SMTP id f14-20020a170902ce8e00b0012d9f529a2bmr31520125plg.67.1629779264446;
-        Mon, 23 Aug 2021 21:27:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=z0M2hQ70OBRc9KDlV+XvJuOsf7nlclLN8oJcleqchCA=;
+        b=V+kSS9dHmTHZK1Tl0pXoVQ8iDUSzyNdjAhcEQde+MqUxhrKqt4winnM1C16VYHjzHc
+         sjIVCoUFKV5vtnDBwzZ4jNmdR1o6RooC2oTVJs2CvM2x85PMwoSJoYSwlD+v94Juw4l7
+         8Yo/0/FA+K+BFVURIrRxkn9def4m8EeWBi8l1hq6BRrs2cpJhjmr32jL2si3s2MyYNYo
+         z+96Gg5IiucxwGUaoL9Klc40cTKXdrN2n16I+SJO3R4os9gtULFRx8W7ub9OhOaRi9gp
+         oo6ARx5LJWWuR1aPR7cnQfNxavSAPzZeG2i7yK+GpMFJ38tfDEygFD5v/9X4yjv2wFjK
+         MeKQ==
+X-Gm-Message-State: AOAM530vnkuRA6ANWw+07FupxAvlVe/mrwH8/IUlYnOB7z22q7g94H1O
+	VSvTqkqX0Tfaj4WPtgDqkfXWBDLeN+8=
+X-Google-Smtp-Source: ABdhPJwmJPOSHs5AqxtX1QEd6hC4iG7juBXFHgMXQXAA3XjtmLhlEgRKyQwnyEVb3RXpgXTODA5jmQ==
+X-Received: by 2002:a17:903:20c4:b0:12d:c7de:3401 with SMTP id i4-20020a17090320c400b0012dc7de3401mr31664316plb.40.1629779265311;
+        Mon, 23 Aug 2021 21:27:45 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:c532:fdfb:1418:61fa])
-        by smtp.gmail.com with ESMTPSA id a26sm904857pgm.87.2021.08.23.21.27.43
+        by smtp.gmail.com with ESMTPSA id a26sm904857pgm.87.2021.08.23.21.27.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 21:27:44 -0700 (PDT)
+        Mon, 23 Aug 2021 21:27:45 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Sakib Sajal <sakib.sajal@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Anuj Mittal <anuj.mittal@intel.com>,
-	Armin Kuster <akuster@mvista.com>
-Subject: [Dunfell][PATCH 1/3] qemu: fix CVE-2021-20257
-Date: Mon, 23 Aug 2021 21:27:40 -0700
-Message-Id: <20210824042742.833379-1-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [Dunfell][PATCH 2/3] qemu: Security fix CVE-2021-3544
+Date: Mon, 23 Aug 2021 21:27:41 -0700
+Message-Id: <20210824042742.833379-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210824042742.833379-1-akuster808@gmail.com>
+References: <20210824042742.833379-1-akuster808@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Armin Kuster <akuster@mvista.com>
 
-Source: https://git.yoctoproject.org/git/poky
-MR: 110290
+Source: qemu.org
+MR: 111833
 Type: Security Fix
-Disposition: Backport from http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/qemu?h=hardknott&id=5c1a29e6deec8f92ac43363bd72439aec7e27721
+Disposition: Backport from https://gitlab.com/qemu-project/qemu/-/commit/86dd8fac..63736af5
 ChangeID: 7f301e939cf9d1fdb826ac47d1fc96430086a68e
 Description:
 
-(From OE-Core rev: 5b66ff7972951db973d12f3dae6ccecf3bc29e56)
+https://gitlab.com/qemu-project/qemu/-/commit/86dd8fac
+https://gitlab.com/qemu-project/qemu/-/commit/b9f79858
+https://gitlab.com/qemu-project/qemu/-/commit/b7afebcf
+Tweeked the above patches as vhost-user-gpu.c does not exist.
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 547ac986a74cfcae39b691ebb92aadc8436443ea)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5c1a29e6deec8f92ac43363bd72439aec7e27721)
+https://gitlab.com/qemu-project/qemu/-/commit/f6091d86
+https://gitlab.com/qemu-project/qemu/-/commit/63736af5
+
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20257.patch            | 55 +++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  5 ++
+ .../qemu/qemu/CVE-2021-3544.patch             | 29 ++++++++++++
+ .../qemu/qemu/CVE-2021-3544_2.patch           | 39 +++++++++++++++
+ .../qemu/qemu/CVE-2021-3544_3.patch           | 39 +++++++++++++++
+ .../qemu/qemu/CVE-2021-3544_4.patch           | 46 ++++++++++++++++++
+ .../qemu/qemu/CVE-2021-3544_5.patch           | 47 +++++++++++++++++++
+ 6 files changed, 205 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3544.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3544_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3544_3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3544_4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3544_5.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index e64a6b2cb2..1ddb373115 100644
+index 1ddb373115..90549136e5 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -71,6 +71,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3416_8.patch \
+@@ -72,6 +72,11 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2021-3416_9.patch \
             file://CVE-2021-3416_10.patch \
-+           file://CVE-2021-20257.patch \
+            file://CVE-2021-20257.patch \
++           file://CVE-2021-3544.patch \
++           file://CVE-2021-3544_2.patch \
++           file://CVE-2021-3544_3.patch \
++           file://CVE-2021-3544_4.patch \
++           file://CVE-2021-3544_5.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3544.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544.patch
 new file mode 100644
-index 0000000000..7175b24e99
+index 0000000000..1b4fcbfb60
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
-@@ -0,0 +1,55 @@
-+From affdf476543405045c281a7c67d1eaedbcea8135 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Wed, 24 Feb 2021 13:45:28 +0800
-+Subject: [PATCH] e1000: fail early for evil descriptor
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544.patch
+@@ -0,0 +1,29 @@
++vhost-user-gpu: fix resource leak in 'vg_resource_create_2d' (CVE-2021-3544)
 +
-+During procss_tx_desc(), driver can try to chain data descriptor with
-+legacy descriptor, when will lead underflow for the following
-+calculation in process_tx_desc() for bytes:
++Call 'vugbm_buffer_destroy' in error path to avoid resource leak.
 +
-+            if (tp->size + bytes > msh)
-+                bytes = msh - tp->size;
++Fixes: CVE-2021-3544
++Reported-by: default avatarLi Qiang <liq3ea@163.com>
++Reviewed-by: default avatarPrasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: default avatarLi Qiang <liq3ea@163.com>
++Reviewed-by: Marc-André Lureau's avatarMarc-André Lureau <marcandre.lureau@redhat.com>
++Message-Id: <20210516030403.107723-3-liq3ea@163.com>
++Signed-off-by: Gerd Hoffmann's avatarGerd Hoffmann <kraxel@redhat.com>
 +
-+This will lead a infinite loop. So check and fail early if tp->size if
-+greater or equal to msh.
++Upstream-Status: Backport
++[vhost-user-gpu does not exist in 4.2.0]
++CVE: CVE-2021-3544
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
-+Cc: Prasad J Pandit <ppandit@redhat.com>
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
++Index: qemu-4.2.0/contrib/vhost-user-gpu/main.c
++===================================================================
++--- qemu-4.2.0.orig/contrib/vhost-user-gpu/main.c
+++++ qemu-4.2.0/contrib/vhost-user-gpu/main.c
++@@ -328,6 +328,7 @@ vg_resource_create_2d(VuGpu *g,
++         g_critical("%s: resource creation failed %d %d %d",
++                    __func__, c2d.resource_id, c2d.width, c2d.height);
++         g_free(res);
+++        vugbm_buffer_destroy(&res->buffer);
++         cmd->error = VIRTIO_GPU_RESP_ERR_OUT_OF_MEMORY;
++         return;
++     }
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_2.patch
+new file mode 100644
+index 0000000000..36cbb127f8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_2.patch
+@@ -0,0 +1,39 @@
++vhost-user-gpu: fix memory leak in vg_resource_attach_backing (CVE-2021-3544)
 +
-+Upstream-Status: Backport [3de46e6fc489c52c9431a8a832ad8170a7569bd8]
-+CVE: CVE-2021-20257
 +
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ hw/net/e1000.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
++Check whether the 'res' has already been attach_backing to avoid
++memory leak.
 +
-+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-+index cf22c4f07..c3564c7ce 100644
-+--- a/hw/net/e1000.c
-++++ b/hw/net/e1000.c
-+@@ -670,6 +670,9 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
-+         msh = tp->tso_props.hdr_len + tp->tso_props.mss;
-+         do {
-+             bytes = split_size;
-++            if (tp->size >= msh) {
-++                goto eop;
-++            }
-+             if (tp->size + bytes > msh)
-+                 bytes = msh - tp->size;
-+ 
-+@@ -695,6 +698,7 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
-+         tp->size += split_size;
++Fixes: CVE-2021-3544
++Reported-by: default avatarLi Qiang <liq3ea@163.com>
++virtio-gpu fix: 204f01b3
++
++ ("virtio-gpu: fix memory leak
++ in resource attach backing")
++ Signed-off-by: default avatarLi Qiang <liq3ea@163.com>
++ Reviewed-by: Marc-André Lureau's avatarMarc-André Lureau <marcandre.lureau@redhat.com>
++ Message-Id: <20210516030403.107723-4-liq3ea@163.com>
++ Signed-off-by: Gerd Hoffmann's avatarGerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++[vhost-user-gpu does not exist in 4.2.0 context]
++CVE: CVE-2021-3544
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++
++Index: qemu-4.2.0/contrib/vhost-user-gpu/main.c
++===================================================================
++--- qemu-4.2.0.orig/contrib/vhost-user-gpu/main.c
+++++ qemu-4.2.0/contrib/vhost-user-gpu/main.c
++@@ -468,6 +468,11 @@ vg_resource_attach_backing(VuGpu *g,
++         return;
 +     }
 + 
-++eop:
-+     if (!(txd_lower & E1000_TXD_CMD_EOP))
-+         return;
-+     if (!(tp->cptse && tp->size < tp->tso_props.hdr_len)) {
-+-- 
-+2.29.2
+++    if (res->iov) {
+++        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+++        return;
+++    }
+++
++     ret = vg_create_mapping_iov(g, &ab, cmd, &res->iov);
++     if (ret != 0) {
++         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_3.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_3.patch
+new file mode 100644
+index 0000000000..c534f4c24f
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_3.patch
+@@ -0,0 +1,39 @@
++vhost-user-gpu: fix memory leak while calling 'vg_resource_unref' (CVE-2021-3544)
 +
++If the guest trigger following sequences, the attach_backing will be leaked:
++
++vg_resource_create_2d
++vg_resource_attach_backing
++vg_resource_unref
++
++This patch fix this by freeing 'res->iov' in vg_resource_destroy.
++
++Fixes: CVE-2021-3544
++Reported-by: default avatarLi Qiang <liq3ea@163.com>
++virtio-gpu fix: 5e8e3c4c
++
++("virtio-gpu: fix resource leak
++in virgl_cmd_resource_unref")
++Reviewed-by: default avatarPrasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: default avatarLi Qiang <liq3ea@163.com>
++Reviewed-by: Marc-André Lureau's avatarMarc-André Lureau <marcandre.lureau@redhat.com>
++Message-Id: <20210516030403.107723-5-liq3ea@163.com>
++Signed-off-by: Gerd Hoffmann's avatarGerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2021-3544
++[vhost-user-gpu does not exist in the 4.2.0]
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: qemu-4.2.0/contrib/vhost-user-gpu/main.c
++===================================================================
++--- qemu-4.2.0.orig/contrib/vhost-user-gpu/main.c
+++++ qemu-4.2.0/contrib/vhost-user-gpu/main.c
++@@ -379,6 +379,7 @@ vg_resource_destroy(VuGpu *g,
++     }
++ 
++     vugbm_buffer_destroy(&res->buffer);
+++    g_free(res->iov);
++     pixman_image_unref(res->image);
++     QTAILQ_REMOVE(&g->reslist, res, next);
++     g_free(res);
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_4.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_4.patch
+new file mode 100644
+index 0000000000..96e36eb854
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_4.patch
+@@ -0,0 +1,46 @@
++vhost-user-gpu: fix memory leak in 'virgl_cmd_resource_unref' (CVE-2021-3544)
++
++The 'res->iov' will be leaked if the guest trigger following sequences:
++
++virgl_cmd_create_resource_2d
++virgl_resource_attach_backing
++virgl_cmd_resource_unref
++
++This patch fixes this.
++
++Fixes: CVE-2021-3544
++Reported-by: default avatarLi Qiang <liq3ea@163.com>
++virtio-gpu fix: 5e8e3c4c
++
++("virtio-gpu: fix resource leak
++in virgl_cmd_resource_unref"
++Signed-off-by: default avatarLi Qiang <liq3ea@163.com>
++Reviewed-by: Marc-André Lureau's avatarMarc-André Lureau <marcandre.lureau@redhat.com>
++Message-Id: <20210516030403.107723-6-liq3ea@163.com>
++Signed-off-by: Gerd Hoffmann's avatarGerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2021-3544
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: qemu-4.2.0/contrib/vhost-user-gpu/virgl.c
++===================================================================
++--- qemu-4.2.0.orig/contrib/vhost-user-gpu/virgl.c
+++++ qemu-4.2.0/contrib/vhost-user-gpu/virgl.c
++@@ -105,9 +105,16 @@ virgl_cmd_resource_unref(VuGpu *g,
++                          struct virtio_gpu_ctrl_command *cmd)
++ {
++     struct virtio_gpu_resource_unref unref;
+++    struct iovec *res_iovs = NULL;
+++    int num_iovs = 0;
++ 
++     VUGPU_FILL_CMD(unref);
++ 
+++    virgl_renderer_resource_detach_iov(unref.resource_id,
+++            &res_iovs,
+++            &num_iovs);
+++    g_free(res_iovs);
+++
++     virgl_renderer_resource_unref(unref.resource_id);
++ }
++ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_5.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_5.patch
+new file mode 100644
+index 0000000000..e592ce50e2
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3544_5.patch
+@@ -0,0 +1,47 @@
++From 63736af5a6571d9def93769431e0d7e38c6677bf Mon Sep 17 00:00:00 2001
++From: Li Qiang <liq3ea@163.com>
++Date: Sat, 15 May 2021 20:04:01 -0700
++Subject: [PATCH] vhost-user-gpu: fix memory leak in
++ 'virgl_resource_attach_backing' (CVE-2021-3544)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++If 'virgl_renderer_resource_attach_iov' failed, the 'res_iovs' will
++be leaked.
++
++Fixes: CVE-2021-3544
++Reported-by: Li Qiang <liq3ea@163.com>
++virtio-gpu fix: 33243031da ("virtio-gpu-3d: fix memory leak
++in resource attach backing")
++
++Signed-off-by: Li Qiang <liq3ea@163.com>
++Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Message-Id: <20210516030403.107723-7-liq3ea@163.com>
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2021-3544
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ contrib/vhost-user-gpu/virgl.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++Index: qemu-4.2.0/contrib/vhost-user-gpu/virgl.c
++===================================================================
++--- qemu-4.2.0.orig/contrib/vhost-user-gpu/virgl.c
+++++ qemu-4.2.0/contrib/vhost-user-gpu/virgl.c
++@@ -283,8 +283,11 @@ virgl_resource_attach_backing(VuGpu *g,
++         return;
++     }
++ 
++-    virgl_renderer_resource_attach_iov(att_rb.resource_id,
+++    ret = virgl_renderer_resource_attach_iov(att_rb.resource_id,
++                                        res_iovs, att_rb.nr_entries);
+++    if (ret != 0) {
+++        g_free(res_iovs);
+++    }
++ }
++ 
++ static void
 -- 
 2.25.1
 
