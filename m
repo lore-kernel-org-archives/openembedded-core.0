@@ -1,70 +1,61 @@
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web10.1051.1629822357303292137
+ by mx.groups.io with SMTP id smtpd.web08.1004.1629822353115062713
  for <openembedded-core@lists.openembedded.org>;
  Tue, 24 Aug 2021 09:25:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360257"
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360254"
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="278360257"
+   d="scan'208";a="278360254"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:49 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:47 -0700
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="455658951"
+   d="scan'208";a="455658947"
 Received: from asmawa1x-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.13])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:47 -0700
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:46 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 10/28] kmod: use nonarch_base_libdir for depmod.d and modprobe.d
-Date: Wed, 25 Aug 2021 00:25:12 +0800
-Message-Id: <6fa724a55a4cb7eac7d4d50017b573af54fd6a34.1629821028.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 09/28] pixman: re-disable iwmmxt
+Date: Wed, 25 Aug 2021 00:25:11 +0800
+Message-Id: <467b2a608c3bea211cf181d23fdb168bc4fb3152.1629821028.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1629821028.git.anuj.mittal@intel.com>
 References: <cover.1629821028.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Anton Blanchard <anton@ozlabs.org>
+From: Patrick Williams <patrick@stwcx.xyz>
 
-These should always be in /lib, regardless of the configuration.
+Commit dd9c3d042aa5c2ae0fd80b558ec7e9c793ff36f0 dropped the iwmmxt
+disable as part of the meson conversion and said: "we can add this
+back again if it fails."  It does.
 
-Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+| cc1: warning: switch '-mcpu=arm1176jz-s' conflicts with switch '-march=iwmmxt2'
+| FAILED: pixman/libpixman-1.so.0.40.0
+| lto1: fatal error: target specific builtin not available
+| compilation terminated.
+
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+Change-Id: Ia1278d18543493a3f9eace6c2dd2f84701b9c2b1
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 63877226c09a674d3794fdc171adf12fe604a3c9)
+(cherry picked from commit afa713033a7fc9b7c4ac3d703ea9218b4d775def)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/kmod/kmod_git.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index 4f2b037f2f..f6fe049d92 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -24,13 +24,13 @@ do_install_append () {
-                 lnr ${D}${base_bindir}/kmod ${D}${base_sbindir}/${tool}
-         done
-         # configuration directories
--        install -dm755 ${D}${base_libdir}/depmod.d
--        install -dm755 ${D}${base_libdir}/modprobe.d
-+        install -dm755 ${D}${nonarch_base_libdir}/depmod.d
-+        install -dm755 ${D}${nonarch_base_libdir}/modprobe.d
-         install -dm755 ${D}${sysconfdir}/depmod.d
-         install -dm755 ${D}${sysconfdir}/modprobe.d
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+index 5a3bb22ec3..00dd68006f 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+@@ -31,5 +31,7 @@ EXTRA_OEMESON = "-Dgtk=disabled -Dlibpng=disabled"
+ # ld: pixman/libpixman-mmx.a(pixman-mmx.c.o):
+ # linking mips:loongson_2f module with previous mips:isa64 modules 
+ EXTRA_OEMESON += "-Dloongson-mmi=disabled"
++# disable iwmmxt due to compile fails on most arm platforms.
++EXTRA_OEMESON += "-Diwmmxt=disabled"
  
-         # install depmod.d file for search/ dir
--        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
-+        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${nonarch_base_libdir}/depmod.d/search.conf"
- }
- 
- do_compile_prepend() {
-@@ -57,6 +57,6 @@ ALTERNATIVE_LINK_NAME[depmod] = "${base_sbindir}/depmod"
- PACKAGES =+ "libkmod"
- 
- FILES_libkmod = "${base_libdir}/libkmod*${SOLIBS} ${libdir}/libkmod*${SOLIBS}"
--FILES_${PN} += "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
-+FILES_${PN} += "${nonarch_base_libdir}/depmod.d ${nonarch_base_libdir}/modprobe.d"
- 
- BBCLASSEXTEND = "nativesdk"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.31.1
 
