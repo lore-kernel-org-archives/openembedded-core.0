@@ -1,83 +1,82 @@
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
  by mx.groups.io with SMTP id smtpd.web08.1010.1629822390051305487
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 09:26:30 -0700
+ Tue, 24 Aug 2021 09:26:31 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360387"
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360392"
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="278360387"
+   d="scan'208";a="278360392"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:09 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:11 -0700
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="455659090"
+   d="scan'208";a="455659094"
 Received: from asmawa1x-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.13])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:08 -0700
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:09 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 25/28] wic: don't forcibly pass -T default
-Date: Wed, 25 Aug 2021 00:25:27 +0800
-Message-Id: <c2b8618e15dbe5c77029c57d5ef954109516027e.1629821028.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 26/28] sdk: fix relocate symlink failed
+Date: Wed, 25 Aug 2021 00:25:28 +0800
+Message-Id: <12a530069986898840e0b807d3107df0a60704a9.1629821028.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1629821028.git.anuj.mittal@intel.com>
 References: <cover.1629821028.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross@burtonini.com>
+From: hongxu <hongxu.jia@windriver.com>
 
-This reverts part of oe-core eecbe62555, which was a previous attempt
-to solve the Y2038 problem.  This is now solved centrally in e2fsprogs,
-so doesn't need to be dealt with in wic.
+Install SDK to non-default dir, sysmlink mkfs.vfat is invalid
 
-We don't revert the commit entirely, to retain the warning if a
-filesystem has small inodes.
+$ ./sdk.sh -y -d ./dnf-2 -S -D
+$ ls sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat -al
+lrwxrwxrwx 1 hjia users 99 Aug 10 20:38 sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat -> /opt/windriver/wrlinux-graphics/21.32/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat.dosfstools
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Since commit [bc4ee54535 sdk: Decouple default install path from
+built in path] applied, sdk relocates symlink failed, it should
+replace $SDK_BUILD_PATH rather than $DEFAULT_INSTALL_DIR, just
+like above commit did
+
+Without this commit:
+...
+|+ for l in $($SUDO_EXEC find $native_sysroot -type l)
+|++ readlink path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+|++ sed -e s:/usr/local/oecore-x86_64:path-to:
+|+ ln -sfn /opt/windriver/wrlinux-graphics/21.32/sysroots/x86_64-wrlinuxsdk-linux/
+usr/bin/mkfs.vfat.dosfstools path-to//sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+...
+
+After appling this commit:
+...
+|+ for l in $($SUDO_EXEC find $native_sysroot -type l)
+|++ readlink path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+|++ sed -e s:/opt/windriver/wrlinux-graphics/21.31:path-to:
+|+ ln -sfn path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat.dosfstools
+path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
+...
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7e8017208bed98b6c90735cb641fc9d7aedf9140)
+(cherry picked from commit 942c06a7348070b92f722fa5c439c8c4404485b7)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/lib/wic/canned-wks/common.wks.inc     | 2 +-
- scripts/lib/wic/canned-wks/directdisk-gpt.wks | 2 +-
- scripts/lib/wic/canned-wks/mkefidisk.wks      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/files/toolchain-shar-relocate.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
-index 4fd29fa8c1..89880b417b 100644
---- a/scripts/lib/wic/canned-wks/common.wks.inc
-+++ b/scripts/lib/wic/canned-wks/common.wks.inc
-@@ -1,3 +1,3 @@
- # This file is included into 3 canned wks files from this directory
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --use-uuid --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024
-+part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
-diff --git a/scripts/lib/wic/canned-wks/directdisk-gpt.wks b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-index cf16c0c30b..8d7d8de6ea 100644
---- a/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-@@ -4,7 +4,7 @@
+diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
+index 5433741296..ba873373e2 100644
+--- a/meta/files/toolchain-shar-relocate.sh
++++ b/meta/files/toolchain-shar-relocate.sh
+@@ -72,7 +72,7 @@ fi
  
- 
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
- bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
- 
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index d1878e23e5..9f534fe184 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -4,7 +4,7 @@
- 
- part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
- 
--part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default"  --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
+ # change all symlinks pointing to @SDKPATH@
+ for l in $($SUDO_EXEC find $native_sysroot -type l); do
+-	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
++	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$SDK_BUILD_PATH:$target_sdk_dir:") $l
+ 	if [ $? -ne 0 ]; then
+ 		echo "Failed to setup symlinks. Relocate script failed. Abort!"
+ 		exit 1
 -- 
 2.31.1
 
