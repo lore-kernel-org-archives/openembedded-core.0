@@ -4,79 +4,71 @@ Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
  Tue, 24 Aug 2021 09:26:31 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360392"
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360397"
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="278360392"
+   d="scan'208";a="278360397"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:11 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:12 -0700
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="455659094"
+   d="scan'208";a="455659097"
 Received: from asmawa1x-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.13])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:09 -0700
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:26:11 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 26/28] sdk: fix relocate symlink failed
-Date: Wed, 25 Aug 2021 00:25:28 +0800
-Message-Id: <12a530069986898840e0b807d3107df0a60704a9.1629821028.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 27/28] sdk: Enable do_populate_sdk with multilibs
+Date: Wed, 25 Aug 2021 00:25:29 +0800
+Message-Id: <becd2b398661c5090c48b5785ea89d4736f85717.1629821028.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1629821028.git.anuj.mittal@intel.com>
 References: <cover.1629821028.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: hongxu <hongxu.jia@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Install SDK to non-default dir, sysmlink mkfs.vfat is invalid
+This patch enables building image based SDKs for multi-libbed images
+e.g. lib32-core-image-minimal and so on. Change the path to nativesdk
+tools to use recipe-sysroot since thats where the nativesdk components
+are installed and it will need access to qemu wrappers during build for
+processing intercepts
 
-$ ./sdk.sh -y -d ./dnf-2 -S -D
-$ ls sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat -al
-lrwxrwxrwx 1 hjia users 99 Aug 10 20:38 sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat -> /opt/windriver/wrlinux-graphics/21.32/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat.dosfstools
+[YOCTO #14444]
 
-Since commit [bc4ee54535 sdk: Decouple default install path from
-built in path] applied, sdk relocates symlink failed, it should
-replace $SDK_BUILD_PATH rather than $DEFAULT_INSTALL_DIR, just
-like above commit did
-
-Without this commit:
-...
-|+ for l in $($SUDO_EXEC find $native_sysroot -type l)
-|++ readlink path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
-|++ sed -e s:/usr/local/oecore-x86_64:path-to:
-|+ ln -sfn /opt/windriver/wrlinux-graphics/21.32/sysroots/x86_64-wrlinuxsdk-linux/
-usr/bin/mkfs.vfat.dosfstools path-to//sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
-...
-
-After appling this commit:
-...
-|+ for l in $($SUDO_EXEC find $native_sysroot -type l)
-|++ readlink path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
-|++ sed -e s:/opt/windriver/wrlinux-graphics/21.31:path-to:
-|+ ln -sfn path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat.dosfstools
-path-to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/mkfs.vfat
-...
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 942c06a7348070b92f722fa5c439c8c4404485b7)
+(cherry picked from commit 6196a785eababb040ee1dee9f33cb6d6dad77eef)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/files/toolchain-shar-relocate.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/multilib.bbclass          | 1 -
+ meta/classes/populate_sdk_base.bbclass | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-index 5433741296..ba873373e2 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -72,7 +72,7 @@ fi
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 9f726e4537..2ef75c0d16 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -105,7 +105,6 @@ python __anonymous () {
+         d.setVar("LINGUAS_INSTALL", "")
+         # FIXME, we need to map this to something, not delete it!
+         d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
+-        bb.build.deltask('do_populate_sdk', d)
+         bb.build.deltask('do_populate_sdk_ext', d)
+         return
+ }
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 33ba3fc3c1..f8072a9d37 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -66,7 +66,7 @@ python () {
  
- # change all symlinks pointing to @SDKPATH@
- for l in $($SUDO_EXEC find $native_sysroot -type l); do
--	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
-+	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$SDK_BUILD_PATH:$target_sdk_dir:") $l
- 	if [ $? -ne 0 ]; then
- 		echo "Failed to setup symlinks. Relocate script failed. Abort!"
- 		exit 1
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+ SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+-PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
++PATH_prepend = "${WORKDIR}/recipe-sysroot/${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+ SDK_DEPENDS += "nativesdk-glibc-locale"
+ 
+ # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
 -- 
 2.31.1
 
