@@ -1,160 +1,97 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.4638.1629838323861038423
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.5244.1629840071628480208
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 13:52:04 -0700
+ Tue, 24 Aug 2021 14:21:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bMV3l0b2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso3129936wmi.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 13:52:03 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=OSPncvyd;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IyUybPvIiYXLptPZ95unEinKqhlNSh/By5bIfWZ/ZCQ=;
-        b=bMV3l0b2HFxu+mIB24HNi64wguCDoT8L1GUiyGdzTIHkj+V9TJmtBM85MkBXFn9kB6
-         03bIaXCweaDuiI+ECfQdo7umrnUmhhHVD0UuxADxvdhC/UB959a4k2sfx61TSWszlWnf
-         pdcQ6ZfPKlxGKsg2gkTRRPANoE5MItJbra/xY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IyUybPvIiYXLptPZ95unEinKqhlNSh/By5bIfWZ/ZCQ=;
-        b=Wji4M49GDxvKI8dEIhu0LA8fMjV524irclhU+UEi2i+6kJDu12rsttefFIed+YrFVX
-         srkm1WiEFbZeZiKEc8um3ZEVYynp9bVkYe00IENxubhzxc1M//j++9Tkmz0MS3++Rwei
-         HrMnnd5XNlZ3S7RA4nw6qwcczlVUCsdVSHQAh+W8X5IF+tO+oibxsuiNnct5pMjYJvcL
-         MegAPrDQA/tT0rAclIUrx1yAr9i2mnD1Vm8utTzBXZ871qwdyrbOdi0X+vgrc7CVmEkS
-         Gk8KQlpOGtFzI7WmnnugpBWU1xxSgG6I9EIg8pEZr/joaSIEkDdCcuiSh65mxDUumgFF
-         ao8g==
-X-Gm-Message-State: AOAM532+I3616OBJVUT8cuPoB78JU5kyU9yNBq/Jw+hoUCCjeCpbHFZc
-	65Q7IMEEX7gJyr8m/jeorzr2xYsNDJ7cqA==
-X-Google-Smtp-Source: ABdhPJwLYtLJ0nHZfzjux7gVJUhNdLb78TapNl8+vN0nvmGCNF6Gqs0mPC/t0k0uu9jQsFdSiDVI8g==
-X-Received: by 2002:a7b:c396:: with SMTP id s22mr5697028wmj.131.1629838322119;
-        Tue, 24 Aug 2021 13:52:02 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:139a:6a20:b11e:f656])
-        by smtp.gmail.com with ESMTPSA id w9sm3190944wmc.19.2021.08.24.13.52.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 13:52:01 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pseudo: Fix to work with glibc 2.34 systems
-Date: Tue, 24 Aug 2021 21:52:01 +0100
-Message-Id: <20210824205201.675951-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+  d=axis.com; q=dns/txt; s=axis-central1; t=1629840072;
+  x=1661376072;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=KXgeaKAWdSrNoPENVJN9BMprAFeVegR74KT37TjGCGw=;
+  b=OSPncvydK2ezPXyC3c1EEie3TlDPCWiNmPNJ5XL/qokaqDfLSpEU7h2s
+   fUJ9OyKr5leHBp3pBlCj75d6g+4qz4QErCIVu7qpGFc/4rEWgyqryoMHz
+   YtzoOoPBHdRy/Txm7vmAIJCC9qWYYoM6I27h322HVe7BfSL14cvj1lW1e
+   8FoPOw8tBuIn+96AfuWhPs5RB11wpcK1717CNP0YaQVrKxXPEe72ioGig
+   Tr20QA82+h9luTceVfjBezEUEFnvj/CnOt1CGQqMrpl6AJ7uahRwg5hbw
+   aFWBWEvbw9el8eH/RNFKi/ifU+r6t3Ejt5jBv/NrR6EwRn4hqSru90VPi
+   g==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: "zboszor@pr.hu" <zboszor@pr.hu>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] usermod in EXTRA_USERS_PARAMS is broken in master
+Thread-Topic: [OE-core] usermod in EXTRA_USERS_PARAMS is broken in master
+Thread-Index: AQHXmPNjJykhogyhIEqG79yHZwb/yquDJngw
+Date: Tue, 24 Aug 2021 21:21:08 +0000
+Message-ID: <4143bf5010d947b2b5f896b27cf7e0dd@axis.com>
+References: <eb9225bc-cc13-aca4-b44f-f38c2f83556b@pr.hu>
+In-Reply-To: <eb9225bc-cc13-aca4-b44f-f38c2f83556b@pr.hu>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The merge of libdl into libc in glibc 2.34 causes problems for pseudo. Add a fix
-that works around this issue.
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Zoltan Boszormenyi via
+> lists.openembedded.org
+> Sent: den 24 augusti 2021 16:22
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] usermod in EXTRA_USERS_PARAMS is broken in master
+>=20
+> Hi,
+>=20
+> I tried to port my distro layer to Honister and
+> attempted to build an OS image.
+>=20
+> I have this in the image recipe:
+>=20
+> EXTRA_USERS_PARAMS +=3D "usermod -P mypassword root; usermod -P mypasswor=
+d2 myuser;"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../pseudo/files/build-oldlibc                | 20 ++++++++
- .../pseudo/files/older-glibc-symbols.patch    | 49 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  4 ++
- 3 files changed, 73 insertions(+)
- create mode 100755 meta/recipes-devtools/pseudo/files/build-oldlibc
- create mode 100644 meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+The 0002-Allow-for-setting-password-in-clear-text.patch patch has been drop=
+ped=20
+from shadow with the update to 4.9 (see commit 759df739). It previously ren=
+amed=20
+the -P option to -A and added an insecure -P <cleartext password> option.
 
-diff --git a/meta/recipes-devtools/pseudo/files/build-oldlibc b/meta/recipes-devtools/pseudo/files/build-oldlibc
-new file mode 100755
-index 00000000000..85c438de4e0
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/build-oldlibc
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+#
-+# Script to re-generate pseudo-prebuilt-2.33.tar.xz
-+#
-+# Copyright (C) 2021 Richard Purdie
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+for i in x86_64 aarch64 i686; do
-+    if [ ! -e $i-nativesdk-libc.tar.xz ]; then
-+        wget http://downloads.yoctoproject.org/releases/uninative/3.2/$i-nativesdk-libc.tar.xz
-+    fi
-+    tar -xf $i-nativesdk-libc.tar.xz --wildcards \*/lib/libpthread\* \*/lib/libdl\*
-+    cd $i-linux/lib
-+    ln -s libdl.so.2 libdl.so
-+    ln -s libpthread.so.0 libpthread.so
-+    cd ../..
-+done
-+tar -cJf pseudo-prebuilt-2.33.tar.xz *-linux
-\ No newline at end of file
-diff --git a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-new file mode 100644
-index 00000000000..1552c69b525
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-@@ -0,0 +1,49 @@
-+If we link against a newer glibc 2.34 and then try and our LD_PRELOAD is run against a
-+binary on a host with an older libc, we see symbol errors since in glibc 2.34, pthread 
-+and dl are merged into libc itself.
-+
-+We need to use the older form of linking so use glibc binaries from an older release
-+to force this. We only use minimal symbols from these anyway.
-+
-+pthread_atfork is problematic, particularly on arm so use the internal glibc routine
-+it maps too. This was always present in the main libc from 2.3.2 onwards.
-+
-+Yes this is horrible. Better solutions welcome.
-+
-+There is more info in the bug: [YOCTO #14521]
-+
-+Upstream-Status: Inappropriate [this patch is native only]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: git/Makefile.in
-+===================================================================
-+--- git.orig/Makefile.in
-++++ git/Makefile.in
-+@@ -122,7 +122,7 @@ libpseudo: $(LIBPSEUDO)
-+ $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_ipc.o $(SHOBJS) | $(LIB)
-+ 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
-+ 		pseudo_client.o pseudo_ipc.o \
-+-		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
-++		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) -Lprebuilt/$(shell uname -m)-linux/lib/ $(CLIENT_LDFLAGS)
-+ 
-+ # *everything* now relies on stuff that's generated in the
-+ # wrapper process.
-+Index: git/pseudo_wrappers.c
-+===================================================================
-+--- git.orig/pseudo_wrappers.c
-++++ git/pseudo_wrappers.c
-+@@ -100,10 +100,13 @@ static void libpseudo_atfork_child(void)
-+ 	pseudo_mutex_holder = 0;
-+ }
-+ 
-++extern void *__dso_handle;
-++extern int __register_atfork (void (*) (void), void (*) (void), void (*) (void), void *);
-++
-+ static void
-+ _libpseudo_init(void) {
-+ 	if (!_libpseudo_initted)
-+-		pthread_atfork(NULL, NULL, libpseudo_atfork_child);
-++		__register_atfork (NULL, NULL, libpseudo_atfork_child, &__dso_handle == NULL ? NULL : __dso_handle);
-+ 
-+ 	pseudo_getlock();
-+ 	pseudo_antimagic();
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index dacaef1a66b..79b7123e389 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -5,6 +5,10 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://fallback-passwd \
-            file://fallback-group \
-            "
-+SRC_URI:append:class-native = " \
-+    http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=git/prebuilt;name=prebuilt \
-+    file://older-glibc-symbols.patch"
-+SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
- 
- SRCREV = "b988b0a6b8afd8d459bc9a2528e834f63a3d59b2"
- S = "${WORKDIR}/git"
--- 
-2.32.0
+Replace the use of the -P <cleartext password> option with -p <encrypted pa=
+ssword>=20
+and you should be good to go, also with Hardknott.
+
+>=20
+> and the error I got was:
+>=20
+> NOTE: my-test-image: Performing usermod with [-R
+> /data/yocto/tmp-sicom-glibc/work/genericx86_64-oe-linux/my-test-image/1.0=
+-
+> r0/rootfs -P
+> mypassword root]
+> usermod: prefix must be an absolute path
+> ERROR: my-test-image: usermod command did not succeed.
+> WARNING:
+> /data/yocto/tmp-sicom-glibc/work/genericx86_64-oe-linux/my-test-image/1.0=
+-
+> r0/temp/run.set_user_group.2583229:260
+> exit 1 from 'exit 1'
+>=20
+> EXTRA_USERS_PARAMS has userdel and useradd commands
+> before the last two usermod, all of which succeed.
+>=20
+> I got the same error on both Fedora 33 and Fedora 34 hosts.
+>=20
+> It works with Hardknott.
+>=20
+> Best regards,
+> Zolt=E1n B=F6sz=F6rm=E9nyi
+
+//Peter
 
