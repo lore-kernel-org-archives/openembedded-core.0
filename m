@@ -1,118 +1,97 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web10.36356.1629790999255015201
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.36418.1629791538135099005
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 00:43:19 -0700
+ Tue, 24 Aug 2021 00:52:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eTzXfJKb;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id n12so30162869edx.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 00:43:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Vs0oh7cf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id v20-20020a1cf714000000b002e71f4d2026so1259910wmh.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 00:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jjLdaPSni2tdPXbFk1s1HhcetOjmHDpkvWtAlz6y/RA=;
-        b=eTzXfJKbX/KlA0tG8MJVBPJuslXX7dkcxeyhO5ce7EMbDTQDmEuoHKlPuNIlrk37Ec
-         S6blGVldYvsHS9WToUPKbHteRmLYiiNRXLlLHTcNXUa32xrSAiecKeEU98j1wpVSOS+s
-         CdH4YLVqbIoWx+O8UE/NfCWDX1gSRl2IPosMdIFRdehwwxg/c2Zb7FDn501vznO24taw
-         AyNjZazattcv/IFayzHWmD6s7AE1UMLSK0vxGvB1ycSdiT0CVFBeLBF4sVjpx6xdaet2
-         tyILta/bte6xBRRVnfYhS/CAWAhE95cLefBSHobEBebPWZn+O0+9bFItIsQdNhzcJTNM
-         e3uw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mgBm98hP98NX7ZiSJ3WA2ez/MRo62Zt2XIOEx0E5X4M=;
+        b=Vs0oh7cffkyZhMA7s1dz010P54embEyU5nmfB82568OanOqvCtzcZplLZWLiAggx5/
+         MAjVMaTgKD9wyThmr1jQ/qouzT7eaS6ArKe7BLXBYMzmp3hCVXruwYOKrAg213DWkrQL
+         HuHugsKxWAmatcEf5NFTkz5tnWHGNBmRKCltW8TRHkKAfz6DhqlOEf5LuFtexERXUWih
+         fSWw+ilaOI+lu5feLnrQtJ1kbltR8yeMv8tgQh3wRBCzpypeQjjdVySTP8nJubutKe57
+         tYO67S01F3xMEpTRt7GmDrKNrI7oeIhGt8isGK0rG6YMe1Kn2EQlZMyXrrQpXdZ64lR+
+         qenQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jjLdaPSni2tdPXbFk1s1HhcetOjmHDpkvWtAlz6y/RA=;
-        b=KIEisMAwXsyzYzKf+gP1sJcjDL1UtUfyxd/RvM7d26x8qljV6U06amsZsv8u46Vh9c
-         XCYMImyhA8lK6Jg7yOYj65PxYs8oNFjgc9B/X+KnlbVBvWPbSZ/DSI0HH1OxANavS4R9
-         1IF/Yt6C/iYXsiuKfJZBVOJiZjFza/D47NexAmQkPRrkd9D4DNHZPCnoqmHTqimwkhip
-         9Nol3Rhn4FacGKdiH85TOgp40LV3FvPHlAShNZoBDKs7gcz25Wmsgb4kiaDMdvcoW48R
-         FGlOQnmHGkceiRZtqccEWDk/WQFijFh0CyJSog8xRW1eWLDAyg7tU2cY/hrsauTOU5nS
-         jNCA==
-X-Gm-Message-State: AOAM533TufYCGQZ8cvFc3YxrqeBaLYb1/gYM7EfJ3cPTbP3bc5blsUw9
-	BnS7cyEG1brCso5/XItNukj4sTurhRmHVJIJN+Q=
-X-Google-Smtp-Source: ABdhPJzT/zDCvHMWVp3h3cGdtvmimPP1Nf5ws7atKskczqvdif+RvQ8kqLwfEy+eW4O6aRuwAReXizy5ZT6CYybzm6E=
-X-Received: by 2002:a05:6402:c9:: with SMTP id i9mr41226269edu.76.1629790997489;
- Tue, 24 Aug 2021 00:43:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mgBm98hP98NX7ZiSJ3WA2ez/MRo62Zt2XIOEx0E5X4M=;
+        b=E5MsIk7b8Gaz0AJm206F14rq4dTFjnsfiQSTvHHl8eRCvoED5FWNVcGy/hQu6tHM55
+         QFm5SqeTUT9VKwJy6l2GNzotC89D6T5wFKcVuU7C24jArky3gLlXhblk8POwjJOJ4A8P
+         4V5UuHkQ417J6huB2TIcMN9FuI6gDKppnp+0Tm3zUHPAR1dpYNgfrQu4EIetlgDHsdNn
+         y8nH7+86G9MaO3LCSVCcWlgsi/+7WpkdBFlQSCMYK0PaRDwGef/G3m5zFPpSBDDszApf
+         e7ugPc0+DVeNnsjOIKsXKvqf08ioYvlZC21LBAZcRUa4KT/+C9eHq/tgu6wcLJaKEoHL
+         vCgA==
+X-Gm-Message-State: AOAM530H2UuMuAP/lwVYMqufuQFkxOesT24XY/0ZcwHpA3NwjTcCrFBK
+	Uf7wGbTVpCCULTtaQnq8iFgHtEjb+6+U6g==
+X-Google-Smtp-Source: ABdhPJzdzdS8JgbzqTnsXsoTO2Lv7u6WK7w3QPkEuwXFDwj2N9pVrExoxQXK1rsHB4r6aM7vNg59PA==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr2762562wmc.150.1629791536637;
+        Tue, 24 Aug 2021 00:52:16 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a1:9900:5e06:8d90:670b:86c8])
+        by smtp.gmail.com with ESMTPSA id n14sm6993891wrx.10.2021.08.24.00.52.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 00:52:16 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/2] mc: fix reproducibility
+Date: Tue, 24 Aug 2021 09:52:10 +0200
+Message-Id: <20210824075211.752307-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CAA=hcWTLNgEgKhsthziTyTShb6VFVKyy6JXzZBWr+nCLreGW-g@mail.gmail.com>
-In-Reply-To: <CAA=hcWTLNgEgKhsthziTyTShb6VFVKyy6JXzZBWr+nCLreGW-g@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 24 Aug 2021 09:43:06 +0200
-Message-ID: <CA+chaQd-7boZLVLwq6ev2LgHSoEKExQ-y6-u1uGXCR=LoU4mtw@mail.gmail.com>
-Subject: Re: [yocto] Update bitbake broken build
-To: JH <jupiter.hce@gmail.com>
-Cc: yocto <yocto@lists.yoctoproject.org>, 
-	oe-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000076a95005ca49496b"
+Content-Transfer-Encoding: 8bit
 
---00000000000076a95005ca49496b
-Content-Type: text/plain; charset="UTF-8"
+From: Alexander Kanavin <alex@linutronix.de>
 
-Hi, read
-https://lists.openembedded.org/g/openembedded-architecture/message/1260
-https://lists.openembedded.org/g/openembedded-architecture/message/1279
-https://lists.openembedded.org/g/openembedded-architecture/message/1291
+It is probing into what options the /usr/bin/file executable does
+and does not support and bakes that into target binaries, so we
+need to use a deterministic one we build ourselves.
 
-On Tue, Aug 24, 2021 at 12:33 AM JH <jupiter.hce@gmail.com> wrote:
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-extended/mc/mc_4.8.27.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-> Hi,
->
-> I updated the bitbake to run git pull in master branch, now it is
-> broken, what does the following error message mean, how to fix it?
->
-> $ bitbake-layers show-layers
->
-> NOTE: Starting bitbake server...
-> ERROR: Variable PROVIDES_prepend contains an operation using the old
-> override syntax. Please convert this layer/metadata before attempting
-> to use with a newer bitbake.
->
-> Thank you.
->
-> Kind regards,
->
-> - jupiter
->
-> 
->
->
+diff --git a/meta/recipes-extended/mc/mc_4.8.27.bb b/meta/recipes-extended/mc/mc_4.8.27.bb
+index bc2348432b..546e615d1d 100644
+--- a/meta/recipes-extended/mc/mc_4.8.27.bb
++++ b/meta/recipes-extended/mc/mc_4.8.27.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "GNU Midnight Commander is a visual file manager, licensed under G
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=270bbafe360e73f9840bd7981621f9c2"
+ SECTION = "console/utils"
+-DEPENDS = "ncurses glib-2.0 util-linux"
++DEPENDS = "ncurses glib-2.0 util-linux file-replacement-native"
+ RDEPENDS:${PN} = "ncurses-terminfo-base"
+ RRECOMMENDS:${PN} = "ncurses-terminfo"
+ 
+@@ -14,6 +14,10 @@ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+            "
+ SRC_URI[sha256sum] = "2f52dd9c75c20d8eac7701bd3a8c6c125aaf8cdd9cf12b78ca50a0102b543407"
+ 
++# remove at next version upgrade or when output changes
++PR = "r1"
++HASHEQUIV_HASH_VERSION .= ".2"
++
+ inherit autotools gettext pkgconfig
+ 
+ #
+@@ -25,6 +29,7 @@ PACKAGECONFIG[sftp] = "--enable-vfs-sftp,--disable-vfs-sftp,libssh2,"
+ 
+ CFLAGS:append:libc-musl = ' -DNCURSES_WIDECHAR=1 '
+ EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x --disable-configure-args"
++EXTRANATIVEPATH += "file-native"
+ 
+ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
+ CACHED_CONFIGUREVARS += "ac_cv_path_PYTHON='/usr/bin/env python'"
+-- 
+2.31.1
 
---00000000000076a95005ca49496b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi, read<br><a href=3D"https://lists.openembedded.org/g/op=
-enembedded-architecture/message/1260">https://lists.openembedded.org/g/open=
-embedded-architecture/message/1260</a><br><a href=3D"https://lists.openembe=
-dded.org/g/openembedded-architecture/message/1279">https://lists.openembedd=
-ed.org/g/openembedded-architecture/message/1279</a><br><a href=3D"https://l=
-ists.openembedded.org/g/openembedded-architecture/message/1291">https://lis=
-ts.openembedded.org/g/openembedded-architecture/message/1291</a><br></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
- Aug 24, 2021 at 12:33 AM JH &lt;<a href=3D"mailto:jupiter.hce@gmail.com">j=
-upiter.hce@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">Hi,<br>
-<br>
-I updated the bitbake to run git pull in master branch, now it is<br>
-broken, what does the following error message mean, how to fix it?<br>
-<br>
-$ bitbake-layers show-layers<br>
-<br>
-NOTE: Starting bitbake server...<br>
-ERROR: Variable PROVIDES_prepend contains an operation using the old<br>
-override syntax. Please convert this layer/metadata before attempting<br>
-to use with a newer bitbake.<br>
-<br>
-Thank you.<br>
-<br>
-Kind regards,<br>
-<br>
-- jupiter<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000076a95005ca49496b--
