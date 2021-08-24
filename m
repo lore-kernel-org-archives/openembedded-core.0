@@ -1,128 +1,159 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.4379.1629836297812890864
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web12.4638.1629838323861038423
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 13:18:18 -0700
+ Tue, 24 Aug 2021 13:52:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=H9cPGd5P;
- spf=pass (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3870d3f41e=paul.gortmaker@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17OK0fAR017794
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 20:18:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=PPS06212021; bh=oOz/SQGO4nqX5TUyVKlmSSOuiwbSwdsLppAKUJTJAMQ=;
- b=H9cPGd5PIZEVBcwcsIH8Mpxsao1QQGn0W22VGod+MAEbQw9EBacPpkEsxPTPAqajzS91
- 8qtduz6iKqNjQVgo3KS29vw7b7yowvOe/NO28Fe+usqbXFkOQktN48mVb43V+Fu1dnu8
- MoQVxCDReKadoI1F5ByB/N/vNSt9pZAnYICBxg6alenj/a6zFujqfduzwpU309x6qkX9
- McLgU6axKuwNFFaRsRFs7xMwT9rt3z+3upPsEOInjTAwIOXxmSpOerguWSYJEVkDY1g0
- 4cXckzqARqNI6t+pq45iONTg4B9AMnLjxMYLxwu0jzihxJJ4xLx2X6jsklStkkkV0rfg IA== 
-Received: from ala-smtp01.corp.ad.wrs.com (unknown-146-56.windriver.com [147.11.146.56])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3an7e4g0b9-1
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 20:18:16 +0000
-Received: from yow-lpggp3.wrs.com ([128.224.137.13]) by ala-smtp01.corp.ad.wrs.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Tue, 24 Aug 2021 13:18:16 -0700
-From: "Paul Gortmaker" <paul.gortmaker@windriver.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bMV3l0b2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso3129936wmi.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 13:52:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IyUybPvIiYXLptPZ95unEinKqhlNSh/By5bIfWZ/ZCQ=;
+        b=bMV3l0b2HFxu+mIB24HNi64wguCDoT8L1GUiyGdzTIHkj+V9TJmtBM85MkBXFn9kB6
+         03bIaXCweaDuiI+ECfQdo7umrnUmhhHVD0UuxADxvdhC/UB959a4k2sfx61TSWszlWnf
+         pdcQ6ZfPKlxGKsg2gkTRRPANoE5MItJbra/xY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IyUybPvIiYXLptPZ95unEinKqhlNSh/By5bIfWZ/ZCQ=;
+        b=Wji4M49GDxvKI8dEIhu0LA8fMjV524irclhU+UEi2i+6kJDu12rsttefFIed+YrFVX
+         srkm1WiEFbZeZiKEc8um3ZEVYynp9bVkYe00IENxubhzxc1M//j++9Tkmz0MS3++Rwei
+         HrMnnd5XNlZ3S7RA4nw6qwcczlVUCsdVSHQAh+W8X5IF+tO+oibxsuiNnct5pMjYJvcL
+         MegAPrDQA/tT0rAclIUrx1yAr9i2mnD1Vm8utTzBXZ871qwdyrbOdi0X+vgrc7CVmEkS
+         Gk8KQlpOGtFzI7WmnnugpBWU1xxSgG6I9EIg8pEZr/joaSIEkDdCcuiSh65mxDUumgFF
+         ao8g==
+X-Gm-Message-State: AOAM532+I3616OBJVUT8cuPoB78JU5kyU9yNBq/Jw+hoUCCjeCpbHFZc
+	65Q7IMEEX7gJyr8m/jeorzr2xYsNDJ7cqA==
+X-Google-Smtp-Source: ABdhPJwLYtLJ0nHZfzjux7gVJUhNdLb78TapNl8+vN0nvmGCNF6Gqs0mPC/t0k0uu9jQsFdSiDVI8g==
+X-Received: by 2002:a7b:c396:: with SMTP id s22mr5697028wmj.131.1629838322119;
+        Tue, 24 Aug 2021 13:52:02 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:139a:6a20:b11e:f656])
+        by smtp.gmail.com with ESMTPSA id w9sm3190944wmc.19.2021.08.24.13.52.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 13:52:01 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ltp: backport ioctl_ns05 fix from upstream
-Date: Tue, 24 Aug 2021 16:18:15 -0400
-Message-Id: <20210824201815.4124-1-paul.gortmaker@windriver.com>
+Subject: [PATCH] pseudo: Fix to work with glibc 2.34 systems
+Date: Tue, 24 Aug 2021 21:52:01 +0100
+Message-Id: <20210824205201.675951-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-OriginalArrivalTime: 24 Aug 2021 20:18:16.0106 (UTC) FILETIME=[2BF560A0:01D79925]
-X-Proofpoint-GUID: YqbpvR_XYnuAebPWiaY1cQWJCYdKwSVT
-X-Proofpoint-ORIG-GUID: YqbpvR_XYnuAebPWiaY1cQWJCYdKwSVT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-08-24_06,2021-08-24_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- spamscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 bulkscore=0
- mlxscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108240129
 Content-Transfer-Encoding: 8bit
 
-This false positive keeps showing up in our testing but the fix isn't
-yet a part of a tagged release, and it is probably too late for doing
-an uprev for the fall release anyway.
+The merge of libdl into libc in glibc 2.34 causes problems for pseudo. Add a fix
+that works around this issue.
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../pseudo/files/build-oldlibc                | 20 ++++++++
+ .../pseudo/files/older-glibc-symbols.patch    | 49 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  4 ++
+ 3 files changed, 73 insertions(+)
+ create mode 100755 meta/recipes-devtools/pseudo/files/build-oldlibc
+ create mode 100644 meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch
-new file mode 100644
-index 000000000000..08b88a38f3ac
+diff --git a/meta/recipes-devtools/pseudo/files/build-oldlibc b/meta/recipes-devtools/pseudo/files/build-oldlibc
+new file mode 100755
+index 00000000000..85c438de4e0
 --- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch
-@@ -0,0 +1,59 @@
-+From af2b6f5ee6b171078b18246dd73f71cf6e350859 Mon Sep 17 00:00:00 2001
-+From: Marius Hillenbrand <mhillen@linux.ibm.com>
-+Date: Mon, 19 Jul 2021 13:58:35 +0800
-+Subject: [PATCH] syscalls/ioctl_ns05.c, ioctl_ns06.c: Fix too small buffer for
-+ path
++++ b/meta/recipes-devtools/pseudo/files/build-oldlibc
+@@ -0,0 +1,20 @@
++#!/bin/sh
++#
++# Script to re-generate pseudo-prebuilt-2.33.tar.xz
++#
++# Copyright (C) 2021 Richard Purdie
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
 +
-+commit af2b6f5ee6b171078b18246dd73f71cf6e350859 upstream.
++for i in x86_64 aarch64 i686; do
++    if [ ! -e $i-nativesdk-libc.tar.xz ]; then
++        wget http://downloads.yoctoproject.org/releases/uninative/3.2/$i-nativesdk-libc.tar.xz
++    fi
++    tar -xf $i-nativesdk-libc.tar.xz --wildcards \*/lib/libpthread\* \*/lib/libdl\*
++    cd $i-linux/lib
++    ln -s libdl.so.2 libdl.so
++    ln -s libpthread.so.0 libpthread.so
++    cd ../..
++done
++tar -cJf pseudo-prebuilt-2.33.tar.xz *-linux
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+new file mode 100644
+index 00000000000..1552c69b525
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+@@ -0,0 +1,49 @@
++If we link against a newer glibc 2.34 and then try and our LD_PRELOAD is run against a
++binary on a host with an older libc, we see symbol errors since in glibc 2.34, pthread 
++and dl are merged into libc itself.
 +
-+Resize the buffer used for paths into /proc/ to grant enough space
-+for long PIDs. While at it, replace sprintf with snprintf to avoid
-+buffer overflows if we ever ran out of space again.
++We need to use the older form of linking so use glibc binaries from an older release
++to force this. We only use minimal symbols from these anyway.
 +
-+Fixes: #847
-+Signed-off-by: Marius Hillenbrand <mhillen@linux.ibm.com>
-+Reviewed-by: Yang Xu <xuyang2018.jy@fujitsu.com>
-+Upstream-Status: Backport
-+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++pthread_atfork is problematic, particularly on arm so use the internal glibc routine
++it maps too. This was always present in the main libc from 2.3.2 onwards.
 +
-+diff --git a/testcases/kernel/syscalls/ioctl/ioctl_ns05.c b/testcases/kernel/syscalls/ioctl/ioctl_ns05.c
-+index a67ddbe2c66f..52613810c7ce 100644
-+--- a/testcases/kernel/syscalls/ioctl/ioctl_ns05.c
-++++ b/testcases/kernel/syscalls/ioctl/ioctl_ns05.c
-+@@ -59,10 +59,10 @@ static void run(void)
-+ 	if (pid == -1)
-+ 		tst_brk(TBROK | TERRNO, "ltp_clone failed");
-+ 
-+-	char child_namespace[20];
-++	char child_namespace[30];
-+ 	int my_fd, child_fd, parent_fd;
-+ 
-+-	sprintf(child_namespace, "/proc/%i/ns/pid", pid);
-++	snprintf(child_namespace, sizeof(child_namespace), "/proc/%i/ns/pid", pid);
-+ 	my_fd = SAFE_OPEN("/proc/self/ns/pid", O_RDONLY);
-+ 	child_fd = SAFE_OPEN(child_namespace, O_RDONLY);
-+ 	parent_fd = ioctl(child_fd, NS_GET_PARENT);
-+diff --git a/testcases/kernel/syscalls/ioctl/ioctl_ns06.c b/testcases/kernel/syscalls/ioctl/ioctl_ns06.c
-+index b6ac80208d02..c30f7de91e09 100644
-+--- a/testcases/kernel/syscalls/ioctl/ioctl_ns06.c
-++++ b/testcases/kernel/syscalls/ioctl/ioctl_ns06.c
-+@@ -51,14 +51,14 @@ static int child(void *arg LTP_ATTRIBUTE_UNUSED)
-+ 
-+ static void run(void)
-+ {
-+-	char child_namespace[20];
-++	char child_namespace[30];
-+ 
-+ 	pid_t pid = ltp_clone(CLONE_NEWUSER | SIGCHLD, &child, 0,
-+ 		STACK_SIZE, child_stack);
-+ 	if (pid == -1)
-+ 		tst_brk(TBROK | TERRNO, "ltp_clone failed");
-+ 
-+-	sprintf(child_namespace, "/proc/%i/ns/user", pid);
-++	snprintf(child_namespace, sizeof(child_namespace), "/proc/%i/ns/user", pid);
-+ 	int my_fd, child_fd, parent_fd;
-+ 
-+ 	my_fd = SAFE_OPEN("/proc/self/ns/user", O_RDONLY);
-+-- 
-+2.32.0
++Yes this is horrible. Better solutions welcome.
 +
-diff --git a/meta/recipes-extended/ltp/ltp_20210524.bb b/meta/recipes-extended/ltp/ltp_20210524.bb
-index 702fa62b660d..20e2deffa5aa 100644
---- a/meta/recipes-extended/ltp/ltp_20210524.bb
-+++ b/meta/recipes-extended/ltp/ltp_20210524.bb
-@@ -31,6 +31,7 @@ SRCREV = "0fb171f2beddaf64bd27597577c206c0f892b3cd"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-+           file://0001-syscalls-ioctl_ns05.c-ioctl_ns06.c-Fix-too-small-buf.patch \
++There is more info in the bug: [YOCTO #14521]
++
++Upstream-Status: Inappropriate [this patch is native only]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: git/Makefile.in
++===================================================================
++--- git.orig/Makefile.in
+++++ git/Makefile.in
++@@ -122,7 +122,7 @@ libpseudo: $(LIBPSEUDO)
++ $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_ipc.o $(SHOBJS) | $(LIB)
++ 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
++ 		pseudo_client.o pseudo_ipc.o \
++-		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
+++		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) -Lprebuilt/$(shell uname -m)-linux/lib/ $(CLIENT_LDFLAGS)
++ 
++ # *everything* now relies on stuff that's generated in the
++ # wrapper process.
++Index: git/pseudo_wrappers.c
++===================================================================
++--- git.orig/pseudo_wrappers.c
+++++ git/pseudo_wrappers.c
++@@ -100,10 +100,13 @@ static void libpseudo_atfork_child(void)
++ 	pseudo_mutex_holder = 0;
++ }
++ 
+++extern void *__dso_handle;
+++extern int __register_atfork (void (*) (void), void (*) (void), void (*) (void), void *);
+++
++ static void
++ _libpseudo_init(void) {
++ 	if (!_libpseudo_initted)
++-		pthread_atfork(NULL, NULL, libpseudo_atfork_child);
+++		__register_atfork (NULL, NULL, libpseudo_atfork_child, &__dso_handle == NULL ? NULL : __dso_handle);
++ 
++ 	pseudo_getlock();
++ 	pseudo_antimagic();
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index dacaef1a66b..79b7123e389 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -5,6 +5,10 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+            file://fallback-passwd \
+            file://fallback-group \
             "
++SRC_URI:append:class-native = " \
++    http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=git/prebuilt;name=prebuilt \
++    file://older-glibc-symbols.patch"
++SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
+ SRCREV = "b988b0a6b8afd8d459bc9a2528e834f63a3d59b2"
  S = "${WORKDIR}/git"
 -- 
 2.32.0
