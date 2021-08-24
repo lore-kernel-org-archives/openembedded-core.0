@@ -1,75 +1,83 @@
-Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web10.39931.1629814906811980634
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.39682.1629815088084894865
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 07:21:47 -0700
+ Tue, 24 Aug 2021 07:24:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=cC5zL6lS;
- spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1mIXJ3-0001fR-Vz
-	for openembedded-core@lists.openembedded.org; Tue, 24 Aug 2021 16:21:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-	Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=CfsnZoQuMEj1I3P/R2mTQZ9HjvqWmPyUAFofXpaEzSs=; b=cC5zL6lSzgFXZXVNWmIZRlZWkJ
-	q3XV/UQacXgeJ8nuk7IhM2BpycM4mCLsAbS8nylYs9Wb6YbWjZAdcKC+111NbbV66769nKOn7g6IQ
-	f9wF8rRC57r7LkNL/iUlDEjG2zMLU8ymOlh9Pk79Z+cLFQxcJvceta/1BgCqRXoRK0pLRCUMJ8imb
-	WDrbm8HQL7x6vscc1LCoSqmwdqRgXP8h97i8OSSAUG3bXl+WcgK4sFzHtiX/jGQ7KjDf28nNfI31V
-	xUYlGhr1E65Lp1JBbHr/0dCA5yyuD+IEkGyiuxrewZMA0Nc/AQEKsICjWEVc9XOMHL5UbeX/NmWtG
-	Bt1p7skw==;
-Received: from host-87-242-23-58.prtelecom.hu ([87.242.23.58] helo=localhost.localdomain)
-	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <zboszor@pr.hu>)
-	id 1mIXJ0-0002X1-1h
-	for openembedded-core@lists.openembedded.org; Tue, 24 Aug 2021 16:21:35 +0200
-To: openembedded-core@lists.openembedded.org
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Subject: usermod in EXTRA_USERS_PARAMS is broken in master
-Message-ID: <eb9225bc-cc13-aca4-b44f-f38c2f83556b@pr.hu>
-Date: Tue, 24 Aug 2021 16:21:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b61kqDGp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id e5so15039658wrp.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 07:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=AZiLpfwcWj+RqQUwx6sx+wINns7mK6XWkOtUkYNuMx4=;
+        b=b61kqDGpHvoqeVgjgNCW9fH+VTziSETa1kZDcD4kYg5KAen8h9ZeH/4poGMeG8AFZo
+         UetzZVowJ6gkNNHnwOsD9x04vzdGGqeUUJU2/C9jcH1Or/zbN4MgTL87RsnRCleMqMEq
+         bLYudy7RNPzP6i6On2AzqfAlpkIKq26QKl5gw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=AZiLpfwcWj+RqQUwx6sx+wINns7mK6XWkOtUkYNuMx4=;
+        b=La/2FnCVhU1rWJlujoXFWTqcTeLhepz7/WOVZwoz9rUSlLd9U+wYwYk9LdRYq3g9P9
+         QSnkMSJyRb5BYcR2qb2W18e7U3wuX1c7q4cjq7EXE9+YrzGe+mQ9j6gDIHTqDfWEZRkX
+         8PtLqBlTk7ln0wRAnkK7d6PBSNW5nkFDe76m68dORIFiAX6VnA2urUO9ASu/JTbAgXDE
+         LwOtBmUmSYOiS1TWsfx3v2cZBixcTs6fd33I63fEfG66Oc67HdTl/u1PU4MKsPb8LuLv
+         uPvgZWQmEr/e845bf88HRMFzWFWTVq1aTjxmwFBeDMZUblRz+IQkRVBwJeSwFCPZmcWH
+         COZw==
+X-Gm-Message-State: AOAM530JKBdmDDKZIFDZaOqpdILIzDZsfNWe1JGYDqEfAnUjMwT4a3u9
+	24Kwnd/YJxMexVB3wb/sQbcytQ==
+X-Google-Smtp-Source: ABdhPJyOSgZ9YVhdfskeNUobvsEOG13cOBMwKkz9nGZZvu/LYpf4wkb2v5QOxyOqHvAZTU3wXN/T6Q==
+X-Received: by 2002:a5d:68d2:: with SMTP id p18mr9793046wrw.43.1629815086707;
+        Tue, 24 Aug 2021 07:24:46 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:d23b:eedd:82d9:e12c? ([2001:8b0:aba:5f3c:d23b:eedd:82d9:e12c])
+        by smtp.gmail.com with ESMTPSA id z2sm2418976wma.45.2021.08.24.07.24.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 07:24:46 -0700 (PDT)
+Message-ID: <d248b212e6724aac56ae6b1638e438f25d350486.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [dunfell][PATCH 1/2] bitbake: fetch2: fix handling of `\` in file:// SRC_URI
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, Andrei Gherzan <andrei@gherzan.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>, Leif Middelschulte
+	 <leif.middelschulte@klsmartin.com>
+Date: Tue, 24 Aug 2021 15:24:45 +0100
+In-Reply-To: <CAOSpxdYA6FchYLNRASehUkPcQkdHkjRJyjE6VaX0z--y6m3BWg@mail.gmail.com>
+References: <20210823135250.767173-1-andrei@gherzan.com>
+	 <CAOSpxdYA6FchYLNRASehUkPcQkdHkjRJyjE6VaX0z--y6m3BWg@mail.gmail.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-X-Spam-Score: -0.8 (/)
-X-Scan-Signature: eb3d9b7f1f3400e9adcc1170d01d5e4d
-X-Spam-Tracer: backend.mail.pr.hu -0.8 20210824142135Z
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 2021-08-24 at 04:20 -1000, Steve Sakoman wrote:
+> On Mon, Aug 23, 2021 at 3:53 AM Andrei Gherzan <andrei@gherzan.com> wrote:
+> > 
+> > From: Leif Middelschulte <leif.middelschulte@klsmartin.com>
+> > 
+> > Using backslashes in file:// URIs was broken.
+> > Either the resolver would fail or the subsequent `cp` command.
+> > Try to avoid this by putting the filenames into quotes.
+> > 
+> > Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=8161
+> > 
+> > (Bitbake rev: aa857fa2e9cf3b0e43a9049b04ec4b0b3c779b11)
+> 
+> Patches for bitbake should be sent to: bitbake-devel@lists.openembedded.org
+> 
+> I tried applying this patch, but found that it caused errors on the autobuilder:
+> 
+> https://errors.yoctoproject.org/Errors/Build/129189/
+> 
 
-I tried to port my distro layer to Honister and
-attempted to build an OS image.
+We dropped wildcard support in master but that is still present in dunfell. That
+means we can't quote things as we are relying on expansion of the wildcards for
+some SRC_URIs. This could be difficult to fix with the compatibility constraints
+of an older release funfortunately :/.
 
-I have this in the image recipe:
+Cheers,
 
-EXTRA_USERS_PARAMS += "usermod -P mypassword root; usermod -P mypassword2 myuser;"
+Richard
 
-and the error I got was:
-
-NOTE: my-test-image: Performing usermod with [-R 
-/data/yocto/tmp-sicom-glibc/work/genericx86_64-oe-linux/my-test-image/1.0-r0/rootfs -P 
-mypassword root]
-usermod: prefix must be an absolute path
-ERROR: my-test-image: usermod command did not succeed.
-WARNING: 
-/data/yocto/tmp-sicom-glibc/work/genericx86_64-oe-linux/my-test-image/1.0-r0/temp/run.set_user_group.2583229:260 
-exit 1 from 'exit 1'
-
-EXTRA_USERS_PARAMS has userdel and useradd commands
-before the last two usermod, all of which succeed.
-
-I got the same error on both Fedora 33 and Fedora 34 hosts.
-
-It works with Hardknott.
-
-Best regards,
-Zoltán Böszörményi
