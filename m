@@ -1,158 +1,213 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.2543.1629828662241873603
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.2625.1629829114430419369
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 11:11:02 -0700
+ Tue, 24 Aug 2021 11:18:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Q28DzKEg;
- spf=pass (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3870ab4e12=trevor.gamblin@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17OC09V2019681
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 11:11:01 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=pjbfNG3FCQxDaAhbJBxKVofS9P+8IMMHdxm527Ajvns=;
- b=Q28DzKEgtoXW5d0Lg6juJsWZysTkcPT2lwbKYE2HerSoBswpBCqV0MRrn0ZfgZCvjCr4
- oxhaPmqHPfudTZjX6BuP5UZx2n1P0l15E9b6lby/rv61OjfH101q+81q0O9SZe1kPXgE
- syB0t5Wl6WtfLm2yx50UWfsc6IbcSBWQoRr2B6C//vANtbfPIngMUFeXJUtEFS+B3kC/
- 4mkBFDiLEZsWZ1hUKeuRE7XOLnX6fpBxEnoAKuanUiqPmRaMimtvdHwxmM92mDMWiKlm
- iBR5H6hVnMQNCl60YV0KLYSauBwWVAgT2IozaMZJJxCsNmnQHVZ5mw5pppqOdq2NeJ/d UA== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
-	by mx0a-0064b401.pphosted.com with ESMTP id 3amtg3gh2g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 11:11:01 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZnIcBXX9VFoM0R6YgnMfEVyUDlsaSOA7U/y1he45I/urgNTa1/1fcCJbtwIZCxRFWIUcvB9iNjif0c0yxWycPzLqbdPRyz9eq+uz1ZZ/qCL2te9b4JxTL4oaZSioOnPo5NFa/P7A4kzxZomwQLojVDaXzeWYFX0dJI1E6CuFz4AbdXpUtrKwL7KL5PrdjieMFUNgPQybnSGTPiz4Z4UKTV9UBMbGFb+OV+57uymQ4sy5bSM+nfd0CrLrl5l4pY3bjRiCEa/7NVIuMr7z4hrx2OjDzS8CbsxMiD19P55qsX/mQVHdW3vIFFalLEMffI20WTZepKEgaqhej+LcObtqeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pjbfNG3FCQxDaAhbJBxKVofS9P+8IMMHdxm527Ajvns=;
- b=b+YACZHOVHsCsK/epPbd/YmMF+FohNpJsw3MH6Sa9M29ItHSGGgdf2GKhFnZFWTuNmMVMtucgwghQHskqm3yiJadHrv8rb80NHA6vdKXDQlkbBIoKvTwCKKf6YZTuga2F/1Iorb22TIlXhjxvSuGbnAv0FNLd81st5o03t+jxYML4X7qPQobh1X9Mk4sy4HVckYW7JZtsOBUoQ/sZ3z7hmZIV8yeMHwF/Vd120Jkz8oZKJUp8NWWsQTQTfZ8ba2l57gSZJWL3wh6OJph7hT5OV0itjltQobNWX3D7zxlolLJ5aR/7KcnZLVA0YSu9ZXq+pa3nhVqRChO3NwqPOHYyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
- by BYAPR11MB3111.namprd11.prod.outlook.com (2603:10b6:a03:90::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Tue, 24 Aug
- 2021 18:10:59 +0000
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::5988:9cf6:c130:3530]) by BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::5988:9cf6:c130:3530%6]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
- 18:10:59 +0000
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HD2HWWvn;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso2346770pjh.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 11:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gT1oOcTGWoaou4+ZMRI/N5zHH+nnCi2aJcy0JQe5nmg=;
+        b=HD2HWWvnbRrOv/z6A5ihOqI/nkGkFToK6tvUN9E5bLe4nfIuSb4Dgz7o2kIUMBFDqI
+         GQrNsi8AGdlA7rltEuLpW83B5xxKOsXaQIs1kJnT74L5x5/ktgETc7hLDEMdncJ+uPDN
+         OcndKxetl5yW35zHNs6arV/xHws6ImNvx5RbbqhuFlWj5JrHRn+HIxvWv5kPjMlfZBrJ
+         sXSOt2D1oYl37SU3dsziEPhimc5awtFjSN9lB5utGTElGZtpmvlK9d+ndSQsv4tPT9Su
+         2G2bl8UCm34PVKcZwYdatOhFVrvq/Zj2iSIBE6deRevPf/G73tYho+WfPTxSJ7EYJ033
+         lo3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gT1oOcTGWoaou4+ZMRI/N5zHH+nnCi2aJcy0JQe5nmg=;
+        b=MOr3qBOrt5lOxSfxIUSXZdHy25x4fA7Zx3mVxQe4CkZElZj32KOLXGT19xGrvy3ips
+         rjI48IQ2iqRz7onR/VoJ2a5mPddj/mDPoDcQmgrRVTA1ky41vFsZEzBap2a3y+GH2Tgy
+         MBDTM8BZIhuBjY8vtUdGBF07IEALtUOXcLHdkOEvwZU6gK/l+HF2jaKYmVxxXkUSERXJ
+         voJm/o0G+GHTIsBPgM+Ak0bzkbY6iDjWUMqsHvTuEr97BPSH8vOoM8pj29q8YJQWSiUS
+         ZDge08iZ05Ruj4EAkUwwjm96IzhaBlf9v/ynX2lEfOBoS9Whwq6kCFCkvlFEzI4pyWRS
+         +x0Q==
+X-Gm-Message-State: AOAM533HgT5jnHc2YRduaFXFNYXj0sjA5Td2wFE3Y5HVHqxd8K0YKWDM
+	liwkZSLOjDgE7whzk7UfQKK7VFZa9g4=
+X-Google-Smtp-Source: ABdhPJwh0TkKo77jqIasxTd2Q9UbstTJHeQ8tJ31x3XcYSu+o2sFFlntKsLLbaaZ2+8KNKeeLfGMOA==
+X-Received: by 2002:a17:902:a5c5:b029:12c:a867:a839 with SMTP id t5-20020a170902a5c5b029012ca867a839mr34505984plq.71.1629829113569;
+        Tue, 24 Aug 2021 11:18:33 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:35b6:3d86:f2de:f7d2])
+        by smtp.gmail.com with ESMTPSA id g26sm23416734pgb.45.2021.08.24.11.18.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 11:18:33 -0700 (PDT)
+From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] bluez: upgrade 5.60 -> 5.61
-Date: Tue, 24 Aug 2021 14:10:39 -0400
-Message-Id: <20210824181039.463888-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.31.1
-X-ClientProxiedBy: BL0PR1501CA0014.namprd15.prod.outlook.com
- (2603:10b6:207:17::27) To BY5PR11MB3909.namprd11.prod.outlook.com
- (2603:10b6:a03:191::13)
+Cc: Lee Chee Yang <chee.yang.lee@intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Anuj Mittal <anuj.mittal@intel.com>,
+	Armin Kuster <akuster@mvista.com>
+Subject: [Dunfell][PATCH 1/4] qemu: fix CVE-2021-3527
+Date: Tue, 24 Aug 2021 11:18:28 -0700
+Message-Id: <20210824181831.1045731-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-tgamblin-lx3.corp.ad.wrs.com (2607:fea8:c29d:d7c0:fa88:8bc5:c0d2:27cc) by BL0PR1501CA0014.namprd15.prod.outlook.com (2603:10b6:207:17::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Tue, 24 Aug 2021 18:10:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85a43c68-e0b9-430d-bf73-08d9672a864f
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3111:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB311192E311A921FF2A8234749FC59@BYAPR11MB3111.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	yEGa+WYjzCQu+8fCKHDC8B/yYAMRZgfLVh/8EKLtjeyacqEbGQOkBlLuVyUeReOhvP+uN8buuY2cBljUkpyYMPjQSXPkprMALjRBJsZlEQUH4EcIspstxqPMH9wZCjKUxZwoH0QrWtlITUpi4djLyqUdlDm290ECdSmsIBLFf17m+oqPndrXPWpcf+CBADjwYmw1obw0qAloMqqX/i6UOL3KinnjEXxOiBhysN8gKfEMD97RuXw5xF9rkPZdgk0/D9o7+AIFkGZWmLbqQS+zKpA6/hupBAbUnszJasOC8yoffKLFdGugrncAi4ztJubEfkQcp1ATAWboavcjSzNEUsNVg4LBqodAq8Ljrb/YHfn9KsjmhN+5DsKqPTwBzz03kCcN+hlEuFFyY3jG/hvD0e1Fz2C4SYiRRCjyVEjUr/NmaWHf/DUAJIaPwu/pAwRlzKXBYM1YWZJ5B3WxTRda7O1C9jgi/062RfJRda2vKPvlO6BZUCsf0TdWIxYP4nGecadL2/MxBvSOEnGQjwO3SFNNJga/E708WhQyJOEjf3x3qTZh8XKvFEjGJHeQoa0pi/VYhAx+H6TgE0BUw26W6uiBDgW32ARC55jxe0p2STBHGASuzegGcBSAzVcgkrfYjQrynxSWOCVzIqJWwK+fMw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(186003)(6506007)(2906002)(5660300002)(508600001)(316002)(8676002)(6916009)(6666004)(66946007)(8936002)(66476007)(6512007)(83380400001)(2616005)(1076003)(6486002)(86362001)(36756003)(66556008)(38100700002)(52116002)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?UzyerZQugaroO3mGUuaWOmBD7wHsWyZMy3zanmNBHgMLkNwuDBCaAHCiapWH?=
- =?us-ascii?Q?PZ7kUp+haHZKAccRkphpJZd45yWHBXpX0pyCobEIEY3qAKpuk7IoZB6MXtTf?=
- =?us-ascii?Q?KKJ5RxUiO715Jk/HdE7g0deaEnxq60GrSs0p973vdW/EWCeP0c5/xrcVdeLT?=
- =?us-ascii?Q?ulXKsPwBB8g1/OPv7SYZdx6teYa4nScoU4l1TJsaiHuC8Oci91pjLf1Q7ek2?=
- =?us-ascii?Q?hdK3p3VLhTvCvwhmtWqItBX8FAWq5BdbzCbx8hbflKGJ7eqqrNu9pbkqKrL3?=
- =?us-ascii?Q?2TeREXNEcDmOl9QYd2LwOAHy74Zl09/phUsojAnvCczbZDBHLEHwYwA1ii5B?=
- =?us-ascii?Q?5kZ6htqozzxdtAf+eR9DHYscKwCot1dZVZ4QoYb7ZfblDxOawy87zu3MrOYV?=
- =?us-ascii?Q?6V7uyqG6jcer8UzCcLnXY/CSATs1MR0DIqsFLLVPhssCX+CwA2aYIKNAgOlw?=
- =?us-ascii?Q?a4ieBoFbQupNgryqRO7LffYijr9ox1vjhw4MsshRdZubWlRtJfyk8FgDCcyg?=
- =?us-ascii?Q?65vgI3Q/u1w0d8qB77PZ26u5XBVW/+zJBTGgXHCLL4WO9hqIEzTMZWRy7m3L?=
- =?us-ascii?Q?X0ukoUe0wrTVpVtqK6TSnKX4JDrKKfc5pCccRk9XkDlOKT947HzpseSbS/E0?=
- =?us-ascii?Q?v+5C9zWxuj5cIS9FE62hRYeG2N7u01n23vwU70mayVahYwVcnWOW+Odq65e7?=
- =?us-ascii?Q?qBo7zkF7bQJTL6mnZTNJBzw7bwpDbFlHDZ/OYl7fdg7DD9RsEcUuGMgkZZ22?=
- =?us-ascii?Q?m+e+wxi9Fy5ssbKBWO1bF3xy+TBwD6760tauC4AL9NHS0Ybu9606ilT226/O?=
- =?us-ascii?Q?Rm/qhrP1WwgxcZ1pJNPqM3EEMIhbjqVSVGtZ6u7h6Dt8j/6Lck6DABFEV21o?=
- =?us-ascii?Q?ZnV0GHdTTPhgx+oRcaxctVCt43Mc2NJumq7ovJOJEPB73WtbQiH9nMrpxw7N?=
- =?us-ascii?Q?ucPxkhD/fLpoDe/54PlCeSX6ng3t0LFo9dqxLVEVdD0upCuTuGQkCXQgBeAi?=
- =?us-ascii?Q?V6QHpxVztD8P7yWU97SMsVZhhns3k8lzTGKWXPZXfLTAS26act2pJoloYNTy?=
- =?us-ascii?Q?R5OAjiiRS48XLEAqkymc37duMq5qIp46HMDgEODhY+jNq8ZDdab+abgR13U1?=
- =?us-ascii?Q?SkFUQFdDSWor4njgEUb1vNGCaV3F8VQ1sJQbmQkRaV2ly2UjtV2qsDZdVP2I?=
- =?us-ascii?Q?nW5qaf051vCidncr+w5MHX+ieG2qov4MUgmzTt1tVJuRRDAd8uNkf+1n5C+h?=
- =?us-ascii?Q?urZQJ0nCGi2IJCf3xX7frBUO9uVOr5vmvDtZL2gFhJhVZXs8LsbGGp3BCh/k?=
- =?us-ascii?Q?Io0s/dB9misqrRddYXa5ss6spHwHUnVV2mzEmY8MC2rkUsPkCYLWyezf88w8?=
- =?us-ascii?Q?sFSiZS5LPGQeQoBBSQzgPidfkHpS?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85a43c68-e0b9-430d-bf73-08d9672a864f
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 18:10:59.1135
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DFdGEbWnibO0kyaVlWz7to9U7Cw6rio9LZFg/kQGsYP4VftWE8+BlsORh3UxS0GcDX71/1fPQvRjEBVDx6lqQ4jO+4C7RhAzypRAx2usJuI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3111
-X-Proofpoint-ORIG-GUID: Rq4peGE3FyzqWN22uQkwaAq2d_yzBl-x
-X-Proofpoint-GUID: Rq4peGE3FyzqWN22uQkwaAq2d_yzBl-x
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-08-24_05,2021-08-24_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=999 clxscore=1015 mlxscore=0 spamscore=0 bulkscore=0
- malwarescore=0 phishscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2107140000 definitions=main-2108240119
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-5.61 includes a fix for CVE-2021-3658 (bluez: adapter incorrectly
-restores Discoverable state after powered down), as well as other
-fixes.
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-From the changelog:
+Source: http://git.yoctoproject.org/cgit/poky.git
+MR: 111827
+Type: Security Fix
+Disposition: Backport from http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/qemu?h=hardknott&id=45e06a2e02cb01540d3970bd8ab5771014a031f9
+ChangeID: 33bb20f503888abc346ae1a6f590f57ebdd0f1f9
+Description:
 
-ver 5.61:
-   Fix issue with A2DP while waiting for command response.
-   Fix issue with A2DP when SetConfiguration fails.
-   Fix issue with device removal handling.
-   Fix issue with storing discoverable setting.
-   Add support for Central Address Resolution characteristic.
-   Add support for admin policy plugin.
+(cherry picked from commit 6774efd1e3d0bd5c8c34f84dcf4f698d7eafb36a)
+(From OE-Core rev: fcbcd27a1c97668af9634143376f75ab32fffd68)
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 45e06a2e02cb01540d3970bd8ab5771014a031f9)
+[Fixup for Dunfell context]
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../bluez5/{bluez5_5.60.bb => bluez5_5.61.bb}                   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.60.bb => bluez5_5.61.bb} (95%)
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../qemu/qemu/CVE-2021-3527-1.patch           | 42 +++++++++++++
+ .../qemu/qemu/CVE-2021-3527-2.patch           | 59 +++++++++++++++++++
+ 3 files changed, 103 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.60.bb b/meta/recipes-connectivity/bluez5/bluez5_5.61.bb
-similarity index 95%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.60.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.61.bb
-index defa0c15cd..b2e5dd66a9 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.60.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.61.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 028b81ee34..78e487fc6f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -79,6 +79,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3544_5.patch \
+            file://CVE-2021-3545.patch \
+            file://CVE-2021-3546.patch \
++           file://CVE-2021-3527-1.patch \
++           file://CVE-2021-3527-2.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRC_URI[sha256sum] = "710999580d01ee59ec585e5e7c07fd94eddedc001aa26fe7464c546f9d945304"
-+SRC_URI[sha256sum] = "83afd6c52179554bfeabbcb538fec2eb6be90a8ac3c40871b49d7ad8b49c423b"
- 
- # These issues have kernel fixes rather than bluez fixes so exclude here
- CVE_CHECK_WHITELIST += "CVE-2020-12352 CVE-2020-24490"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
+new file mode 100644
+index 0000000000..77a5385692
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-1.patch
+@@ -0,0 +1,42 @@
++From 05a40b172e4d691371534828078be47e7fff524c Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Mon, 3 May 2021 15:29:15 +0200
++Subject: [PATCH] usb: limit combined packets to 1 MiB (CVE-2021-3527)
++
++usb-host and usb-redirect try to batch bulk transfers by combining many
++small usb packets into a single, large transfer request, to reduce the
++overhead and improve performance.
++
++This patch adds a size limit of 1 MiB for those combined packets to
++restrict the host resources the guest can bind that way.
++
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Message-Id: <20210503132915.2335822-6-kraxel@redhat.com>
++
++Upstream-Status: Backport
++https://gitlab.com/qemu-project/qemu/-/commit/05a40b172e4d691371534828078be47e7fff524c
++CVE: CVE-2021-3527
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ hw/usb/combined-packet.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/hw/usb/combined-packet.c b/hw/usb/combined-packet.c
++index 5d57e883dc..e56802f89a 100644
++--- a/hw/usb/combined-packet.c
+++++ b/hw/usb/combined-packet.c
++@@ -171,7 +171,9 @@ void usb_ep_combine_input_packets(USBEndpoint *ep)
++         if ((p->iov.size % ep->max_packet_size) != 0 || !p->short_not_ok ||
++                 next == NULL ||
++                 /* Work around for Linux usbfs bulk splitting + migration */
++-                (totalsize == (16 * KiB - 36) && p->int_req)) {
+++                (totalsize == (16 * KiB - 36) && p->int_req) ||
+++                /* Next package may grow combined package over 1MiB */
+++                totalsize > 1 * MiB - ep->max_packet_size) {
++             usb_device_handle_data(ep->dev, first);
++             assert(first->status == USB_RET_ASYNC);
++             if (first->combined) {
++-- 
++GitLab
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
+new file mode 100644
+index 0000000000..6371aced12
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3527-2.patch
+@@ -0,0 +1,59 @@
++From 7ec54f9eb62b5d177e30eb8b1cad795a5f8d8986 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Mon, 3 May 2021 15:29:12 +0200
++Subject: [PATCH] usb/redir: avoid dynamic stack allocation (CVE-2021-3527)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Use autofree heap allocation instead.
++
++Fixes: 4f4321c11ff ("usb: use iovecs in USBPacket")
++Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Message-Id: <20210503132915.2335822-3-kraxel@redhat.com>
++
++Upstream-Status: Backport
++https://gitlab.com/qemu-project/qemu/-/commit/7ec54f9eb62b5d177e30eb8b1cad795a5f8d8986
++CVE: CVE-2021-3527
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ hw/usb/redirect.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
++index 17f06f3417..6a75b0dc4a 100644
++--- a/hw/usb/redirect.c
+++++ b/hw/usb/redirect.c
++@@ -620,7 +620,7 @@ static void usbredir_handle_iso_data(USBRedirDevice *dev, USBPacket *p,
++                 .endpoint = ep,
++                 .length = p->iov.size
++             };
++-            uint8_t buf[p->iov.size];
+++            g_autofree uint8_t *buf = g_malloc(p->iov.size);
++             /* No id, we look at the ep when receiving a status back */
++             usb_packet_copy(p, buf, p->iov.size);
++             usbredirparser_send_iso_packet(dev->parser, 0, &iso_packet,
++@@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice *dev, USBPacket *p,
++         usbredirparser_send_bulk_packet(dev->parser, p->id,
++                                         &bulk_packet, NULL, 0);
++     } else {
++-        uint8_t buf[size];
+++        g_autofree uint8_t *buf = g_malloc(size);
++         usb_packet_copy(p, buf, size);
++         usbredir_log_data(dev, "bulk data out:", buf, size);
++         usbredirparser_send_bulk_packet(dev->parser, p->id,
++@@ -923,7 +923,7 @@ static void usbredir_handle_interrupt_out_data(USBRedirDevice *dev,
++                                                USBPacket *p, uint8_t ep)
++ {
++     struct usb_redir_interrupt_packet_header interrupt_packet;
++-    uint8_t buf[p->iov.size];
+++    g_autofree uint8_t *buf = g_malloc(p->iov.size);
++ 
++     DPRINTF("interrupt-out ep %02X len %zd id %"PRIu64"\n", ep,
++             p->iov.size, p->id);
++-- 
++GitLab
++
 -- 
-2.31.1
+2.25.1
 
