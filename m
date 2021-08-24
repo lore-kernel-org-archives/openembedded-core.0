@@ -1,116 +1,102 @@
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
  by mx.groups.io with SMTP id smtpd.web08.1004.1629822353115062713
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 09:25:54 -0700
+ Tue, 24 Aug 2021 09:25:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360219"
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="278360234"
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="278360219"
+   d="scan'208";a="278360234"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:43 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:44 -0700
 X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; 
-   d="scan'208";a="455658930"
+   d="scan'208";a="455658936"
 Received: from asmawa1x-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.233.13])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:41 -0700
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 09:25:43 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 06/28] go: upgrade 1.16.5 -> 1.16.7
-Date: Wed, 25 Aug 2021 00:25:08 +0800
-Message-Id: <47221c39254d2939bfd6f555a43bab5d66354c7c.1629821028.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 07/28] linux-firmware: add more Qualcomm firmware packages
+Date: Wed, 25 Aug 2021 00:25:09 +0800
+Message-Id: <34fbc1af4a58112c8dfc3c3cd6cd846f1e81add9.1629821028.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1629821028.git.anuj.mittal@intel.com>
 References: <cover.1629821028.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Add firmware packages for the recent Qualcomm SoCs:
+
+ - linux-firmware-qcom-adreno-a650, linux-firmware-qcom-adreno-a660,
+   containing firmware for Adreno A630 and A650 GPUs
+
+ - linux-firmware-qcom-sm8250-audio, linux-firmware-sm8250-compute,
+   containing firmware for audio and comute DSPs on SM8250 (QRB5165)
+
+ - linux-firmware-qcom-vpu-1.0, linux-firmware-qcom-vpu-2.0 containing
+   firmware for newer Venus video encoder/decoder
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 31057a9d41a452bdb9e94b4160220f675332ef70)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/go/{go-1.16.5.inc => go-1.16.7.inc}     | 4 ++--
- ...{go-binary-native_1.16.5.bb => go-binary-native_1.16.7.bb} | 4 ++--
- ...o-cross-canadian_1.16.5.bb => go-cross-canadian_1.16.7.bb} | 0
- .../go/{go-cross_1.16.5.bb => go-cross_1.16.7.bb}             | 0
- .../go/{go-crosssdk_1.16.5.bb => go-crosssdk_1.16.7.bb}       | 0
- .../go/{go-native_1.16.5.bb => go-native_1.16.7.bb}           | 0
- .../go/{go-runtime_1.16.5.bb => go-runtime_1.16.7.bb}         | 0
- meta/recipes-devtools/go/{go_1.16.5.bb => go_1.16.7.bb}       | 0
- 8 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.16.5.inc => go-1.16.7.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.5.bb => go-binary-native_1.16.7.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.5.bb => go-cross-canadian_1.16.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.5.bb => go-cross_1.16.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.5.bb => go-crosssdk_1.16.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.5.bb => go-native_1.16.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.5.bb => go-runtime_1.16.7.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.5.bb => go_1.16.7.bb} (100%)
+ .../linux-firmware/linux-firmware_20210511.bb   | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.16.5.inc b/meta/recipes-devtools/go/go-1.16.7.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.16.5.inc
-rename to meta/recipes-devtools/go/go-1.16.7.inc
-index b693315917..ed2d94671b 100644
---- a/meta/recipes-devtools/go/go-1.16.5.inc
-+++ b/meta/recipes-devtools/go/go-1.16.7.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
+index 26091fba70..513932984e 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210511.bb
+@@ -303,8 +303,11 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qat ${PN}-qat-license \
+              ${PN}-qcom-license \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
+-             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
++             ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
++             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
++             ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
+              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
++             ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+              ${PN}-lt9611uxc ${PN}-lontium-license \
+              ${PN}-whence-license \
+@@ -952,22 +955,34 @@ FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
+ FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
+ FILES_${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
+ FILES_${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
++FILES_${PN}-qcom-vpu-1.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-1.0/*"
++FILES_${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
+ FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
+ FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
+ FILES_${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
++FILES_${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
++FILES_${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
+ FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
+ FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
+ FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
++FILES_${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
++FILES_${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/cdsp*.*"
+ RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-vpu-1.0 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-vpu-2.0 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-sm8250-audio = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
  
- GO_BASEVERSION = "1.16"
--PV = "1.16.5"
-+PV = "1.16.7"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
-     file://0001-encoding-xml-handle-leading-trailing-or-double-colon.patch \
- "
--SRC_URI[main.sha256sum] = "7bfa7e5908c7cc9e75da5ddf3066d7cbcf3fd9fa51945851325eebc17f50ba80"
-+SRC_URI[main.sha256sum] = "1a9f2894d3d878729f7045072f30becebe243524cf2fce4e0a7b248b1e0654ac"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.5.bb b/meta/recipes-devtools/go/go-binary-native_1.16.7.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.16.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.16.7.bb
-index b3e2b6a60e..cb54c2868e 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.16.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.16.7.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
- 
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "b12c23023b68de22f74c0524f10b753e7b08b1504cb7e417eccebdd3fae49061"
--SRC_URI[go_linux_arm64.sha256sum] = "d5446b46ef6f36fdffa852f73dfbbe78c1ddf010b99fa4964944b9ae8b4d6799"
-+SRC_URI[go_linux_amd64.sha256sum] = "7fe7a73f55ba3e2285da36f8b085e5c0159e9564ef5f63ee0ed6b818ade8ef04"
-+SRC_URI[go_linux_arm64.sha256sum] = "63d6b53ecbd2b05c1f0e9903c92042663f2f68afdbb67f4d0d12700156869bac"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.16.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.16.7.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.16.5.bb b/meta/recipes-devtools/go/go-cross_1.16.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.16.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.16.7.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.16.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.16.7.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.16.5.bb b/meta/recipes-devtools/go/go-native_1.16.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.16.5.bb
-rename to meta/recipes-devtools/go/go-native_1.16.7.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.16.5.bb b/meta/recipes-devtools/go/go-runtime_1.16.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.16.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.16.7.bb
-diff --git a/meta/recipes-devtools/go/go_1.16.5.bb b/meta/recipes-devtools/go/go_1.16.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.16.5.bb
-rename to meta/recipes-devtools/go/go_1.16.7.bb
 -- 
 2.31.1
 
