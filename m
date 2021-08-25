@@ -1,175 +1,108 @@
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.15057.1629897670064968328
+ by mx.groups.io with SMTP id smtpd.web08.15256.1629898809718465640
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 06:21:11 -0700
+ Wed, 25 Aug 2021 06:40:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=LFEsxyRe;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=BLHd1Fb6;
  spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1629897670;
-  x=1661433670;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NAVBfvRo0SL/yvt/ScPG1/3mtLlQ/z7ud+jvJDDYm3Q=;
-  b=LFEsxyReCaCuFCt6pEORqHUll/P+1mFH+rJyGPidzilzKSdiOAqRmaIY
-   n/ER2rVFC/mqKiVK1SzLIBR4pn87LRpBijZBEqozFlLgFARwDDCM0eWwV
-   nozhjFdLqx57hAnSG70zzOP2tCzE6PiCS8Rf1p1ZFpUzhw53tVg2LoolW
-   TFc1/otI0I0WkQBVF/phZ/70S9rVw7QW0TQss1eCawBi/nKw5gzBQ7mEm
-   AKny/6zsI3KYzP3K5a5la9fuAf6f2QWxJ/gTO6mKXFcIUVzlNsAqXWtFt
-   UwuxXbpC6Qg23JR5zxUc9BbWwiEWWF+oPWdD1Oyl1psZEXURW8i7Z6eMW
-   Q==;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1629898810;
+  x=1661434810;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=wbTRCfuFqqPrABzleWqv4ya+mIf1JlI81Gq1dtCrFNo=;
+  b=BLHd1Fb6I4r3PcEDZC0ltkoDEceP0+kKu8OYZ06ELddaclf8rKJXwvOY
+   Lyg2X7sYCz+XMraFQoIWlU/ANj2U/6vspXkk2gRe2wtAhlywKhejMvJnL
+   yIBPhf20Rn1sugiG/EIG9TcXdGYbm8To3SfZs9JG1D12A3lMVyaREupH0
+   vutWumtctHtX3X3VnU5+8gUau755pfofOhHbxLOmQhQZDq4QTQcAHWAZD
+   U7PUxAfNp0ENG/QLQilga5IYfiry9dSLwKcaiaA7z8EEhocm4/VquiE9G
+   TQVcym3X727hCsAP1EDaimiFFggvGugnxEPeW37QRQJHHdtwNUADjOaPo
+   A==;
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Andrey Zhizhikin <andrey.z@gmail.com>, OE Core mailing list
 	<openembedded-core@lists.openembedded.org>
-Subject: [PATCHv2] lttng-modules: Make it build when CONFIG_TRACEPOINTS is not enabled again
-Date: Wed, 25 Aug 2021 15:20:58 +0200
-Message-ID: <20210825132058.9396-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
+Subject: Re: [OE-core] [PATCH] lttng-modules: Make it build when CONFIG_TRACEPOINTS is not enabled again
+Thread-Topic: [OE-core] [PATCH] lttng-modules: Make it build when
+ CONFIG_TRACEPOINTS is not enabled again
+Thread-Index: AQHXmZq3+yt/k+/2fEqDeD2KW0+KaauELanw///kxICAACZMMA==
+Date: Wed, 25 Aug 2021 13:40:07 +0000
+Message-ID: <abc8be0925ae4d0499c9bec5d08bacfc@axis.com>
+References: <20210825094106.11829-1-pkj@axis.com>
+ <CAHtQpK7dzG3RPMbPH_5z6-o3p5e0AuLTO+xBW_UX91jSNH7YfA@mail.gmail.com>
+ <d6c1a107cf6e4a018443f985d554bf1f@axis.com>
+ <CADkTA4Nb_wm8QST7PRUax9xcUX4HFfdkjrPrW_NyjfmCDH2Mcw@mail.gmail.com>
+In-Reply-To: <CADkTA4Nb_wm8QST7PRUax9xcUX4HFfdkjrPrW_NyjfmCDH2Mcw@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Return-Path: pkj@axis.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch was updated
-with the 2.13.0 update (commit 5dad15af), but unfortunately it no
-longer did what it was intended to do. There is also
-0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch, which
-was based on the former patch, but it too does not solve the problem.
-
-Unify the two patches, and actually disable building of the kernel
-module if CONFIG_TRACEPOINTS is not enabled, the way it was intended.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
-
-PATCHv2: Unify
-Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch and
-0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch into
-the latter, and use that both with and without devupstream.
-
- ...e-missing-CONFIG_TRACEPOINTS-to-warn.patch | 25 +++++++++----
- ...fail-if-CONFIG_TRACEPOINTS-is-not-en.patch | 37 -------------------
- .../lttng/lttng-modules_2.13.0.bb             | 10 ++---
- 3 files changed, 21 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-index 6d81c81efe..76a5787c37 100644
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-@@ -1,4 +1,4 @@
--From 0287f5c32b9fd99078e71c22ca679343d18f1513 Mon Sep 17 00:00:00 2001
-+From 878f89b6136ff7b870a19e04901cc6f316bbe10a Mon Sep 17 00:00:00 2001
- From: Bruce Ashfield <bruce.ashfield@gmail.com>
- Date: Sat, 15 May 2021 10:26:38 -0400
- Subject: [PATCH] src/Kbuild: change missing CONFIG_TRACEPOINTS to warning
-@@ -16,22 +16,31 @@ Upstream-Status: Inappropriate [embedded specific]
- 
- Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
- ---
-- src/Kbuild | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-+ src/Kbuild | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
- 
- diff --git a/src/Kbuild b/src/Kbuild
--index 7137874f..18a43b50 100644
-+index 7137874..04eb5c9 100644
- --- a/src/Kbuild
- +++ b/src/Kbuild
--@@ -2,7 +2,7 @@
-+@@ -2,10 +2,13 @@
-  
-  ifdef CONFIG_LOCALVERSION	# Check if dot-config is included.
-    ifeq ($(CONFIG_TRACEPOINTS),)
- -    $(error The option CONFIG_TRACEPOINTS needs to be enabled in your kernel configuration)
- +    $(warning The option CONFIG_TRACEPOINTS needs to be enabled in your kernel configuration)
-++    DISABLE_MODULE = y
-    endif # CONFIG_TRACEPOINTS
-  endif # ifdef CONFIG_LOCALVERSION
-  
---- 
--2.19.1
--
-++ifneq ($(DISABLE_MODULE),y)
-++
-+ TOP_LTTNG_MODULES_DIR := $(shell dirname $(lastword $(MAKEFILE_LIST)))/..
-+ 
-+ lttng_check_linux_version = $(shell pwd)/include/linux/version.h
-+@@ -150,3 +153,5 @@ lttng-statedump-objs := lttng-statedump-impl.o
-+ obj-$(CONFIG_LTTNG) += probes/
-+ obj-$(CONFIG_LTTNG) += lib/
-+ obj-$(CONFIG_LTTNG) += tests/
-++
-++endif # DISABLE_MODULE
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch b/meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch
-deleted file mode 100644
-index a852834344..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 1b0e574d680101105a6c1e8931c78824f5a97a42 Mon Sep 17 00:00:00 2001
--From: Otavio Salvador <otavio@ossystems.com.br>
--Date: Mon, 5 Sep 2016 17:08:56 +0000
--Subject: [PATCH] Makefile: Do not fail if CONFIG_TRACEPOINTS is not enabled
--Organization: O.S. Systems Software LTDA.
--
--The lttng-modules are being pulled by the tools-profile image feature,
--however, not every kernel has the CONFIG_TRACEPOINTS feature enabled.
--
--This change makes the build do not fail when CONFIG_TRACEPOINTS is not
--available, allowing it to be kept being pulled by default.
--
--Upstream-Status: Inappropriate [embedded specific]
--
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
--[bva: modified for lttng-modules 2.13+ context]
--Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-----
-- Makefile | 9 +++++----
-- 1 file changed, 5 insertions(+), 4 deletions(-)
--
--Index: lttng-modules-2.13.0/Makefile
--===================================================================
----- lttng-modules-2.13.0.orig/Makefile
--+++ lttng-modules-2.13.0/Makefile
--@@ -7,6 +7,11 @@
-- 
-- obj-$(CONFIG_LTTNG) += src/
-- 
--+  ifdef CONFIG_LOCALVERSION	# Check if dot-config is included.
--+    ifneq ($(CONFIG_TRACEPOINTS),)
--+      $(warning The option CONFIG_TRACEPOINTS needs to be enabled in your kernel configuration)
--+    endif # CONFIG_TRACEPOINTS
--+  endif # ifdef CONFIG_LOCALVERSION
-- else # KERNELRELEASE
-- 
-- # This part of the Makefile is used when the 'make' command is runned in the
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
-index b95d7ecaaf..109f5d6933 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
-@@ -9,9 +9,9 @@ inherit module
- 
- include lttng-platforms.inc
- 
--SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
--           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
--           "
-+SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2"
-+# Use :append here so that the patch is applied also when using devupstream
-+SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
- 
- SRC_URI[sha256sum] = "5ebf2b3cd128b3a1c8afaea1e98d5a6f7f0676fd524fcf72361c34d9dc603356"
- 
-@@ -34,9 +34,7 @@ python do_package:prepend() {
- BBCLASSEXTEND = "devupstream:target"
- LIC_FILES_CHKSUM:class-devupstream = "file://LICENSE;md5=0464cff101a009c403cd2ed65d01d4c4"
- DEFAULT_PREFERENCE:class-devupstream = "-1"
--SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13 \
--           file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
--           "
-+SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13"
- 
- SRCREV:class-devupstream = "f982b51a98a29cb4aaf607cb9bbf2b509d8e6933"
- PV:class-devupstream = "2.13.0-rc2+git${SRCPV}"
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1
+Y2UuYXNoZmllbGRAZ21haWwuY29tPg0KPiBTZW50OiBkZW4gMjUgYXVndXN0aSAyMDIxIDE1OjE4
+DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4N
+Cj4gQ2M6IEFuZHJleSBaaGl6aGlraW4gPGFuZHJleS56QGdtYWlsLmNvbT47IE9FIENvcmUgbWFp
+bGluZyBsaXN0DQo+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K
+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gbHR0bmctbW9kdWxlczogTWFrZSBpdCBi
+dWlsZCB3aGVuDQo+IENPTkZJR19UUkFDRVBPSU5UUyBpcyBub3QgZW5hYmxlZCBhZ2Fpbg0KPiAN
+Cj4gT24gV2VkLCBBdWcgMjUsIDIwMjEgYXQgODo1NyBBTSBQZXRlciBLamVsbGVyc3RlZHQNCj4g
+PHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiA+IC0tLS0tT3Jp
+Z2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBBbmRyZXkgWmhpemhpa2luIDxhbmRyZXku
+ekBnbWFpbC5jb20+DQo+ID4gPiBTZW50OiBkZW4gMjUgYXVndXN0aSAyMDIxIDEyOjIwDQo+ID4g
+PiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+
+ID4gPiBDYzogQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT47IE9FIENv
+cmUgbWFpbGluZyBsaXN0DQo+ID4gPiA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZz4NCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBsdHRuZy1tb2R1
+bGVzOiBNYWtlIGl0IGJ1aWxkIHdoZW4NCj4gPiA+IENPTkZJR19UUkFDRVBPSU5UUyBpcyBub3Qg
+ZW5hYmxlZCBhZ2Fpbg0KPiA+ID4NCj4gPiA+IEhlbGxvIFBldGVyLA0KPiA+ID4NCj4gPiA+IE9u
+IFdlZCwgQXVnIDI1LCAyMDIxIGF0IDExOjQxIEFNIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA+ID4g
+PHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+IE1h
+a2VmaWxlLURvLW5vdC1mYWlsLWlmLUNPTkZJR19UUkFDRVBPSU5UUy1pcy1ub3QtZW4ucGF0Y2gg
+d2FzDQo+IHVwZGF0ZWQNCj4gPiA+ID4gd2l0aCB0aGUgMi4xMy4wIHVwZGF0ZSAoY29tbWl0IDVk
+YWQxNWFmKSwgYnV0IHVuZm9ydHVuYXRlbHkgaXQgbm8NCj4gbG9uZ2VyDQo+ID4gPiA+IGRpZCB3
+aGF0IGl0IHdhcyBpbnRlbmRlZCB0byBkby4NCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9mZi1i
+eTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4g
+PiA+IC0tLQ0KPiA+ID4gPiAgLi4uZmFpbC1pZi1DT05GSUdfVFJBQ0VQT0lOVFMtaXMtbm90LWVu
+LnBhdGNoIHwgNDIgKysrKysrKysrKystLS0tLQ0KPiAtLS0NCj4gPiA+ID4gIDEgZmlsZSBjaGFu
+Z2VkLCAyNSBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkNCj4gPiA+ID4NCj4gPiA+ID4g
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy9NYWtl
+ZmlsZS1Eby0NCj4gbm90LQ0KPiA+ID4gZmFpbC1pZi1DT05GSUdfVFJBQ0VQT0lOVFMtaXMtbm90
+LWVuLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiA+ID4ga2VybmVsL2x0dG5nL2x0dG5nLW1vZHVs
+ZXMvTWFrZWZpbGUtRG8tbm90LWZhaWwtaWYtQ09ORklHX1RSQUNFUE9JTlRTLQ0KPiBpcy0NCj4g
+PiA+IG5vdC1lbi5wYXRjaA0KPiA+ID4NCj4gPiA+IEkgZ3Vlc3MgdGhlIHBhdGNoIHlvdSd2ZSBy
+ZWZyZXNoZWQgaXMgbm90IGEgY29ycmVjdCBvbmUuLi4NCj4gPiA+DQo+ID4gPiBUaGVyZSBpcyBh
+bm90aGVyIHBhdGNoIGludHJvZHVjZWQgYnkgQnJ1Y2UgaW4gdGhlIGNvbW1pdCAxOGJmN2IwDQo+
+ID4gPiAoImx0dG5nLW1vZHVsZXM6IHVwZGF0ZSBkZXZ1cHN0cmVhbSB0byB2Mi4xMy1yYyAiKSwg
+bmFtZWx5DQo+ID4gPiAwMDAxLXNyYy1LYnVpbGQtY2hhbmdlLW1pc3NpbmctQ09ORklHX1RSQUNF
+UE9JTlRTLXRvLXdhcm4ucGF0Y2gNCj4gPiA+DQo+ID4gPiBJdCBtYWtlIHNlbnNlIHRvIHJlZnJl
+c2ggcmF0aGVyIHRoYXQgb25lIGluc3RlYWQgb2YgdGhlIE1ha2VmaWxlIG9uZSwNCj4gPiA+IGFu
+ZCBoYXZlIGl0IGluY2x1ZGVkIGluIHRoZSBTUkNfVVJJIChzZWUgZGlzY3Vzc2lvbiBpbg0KPiA+
+ID4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLQ0KPiBjb3Jl
+L3RvcGljLzg0OTUwMzAzIzE1NDg4OCkuDQo+ID4gPg0KPiA+ID4gLS0NCj4gPiA+IFJlZ2FyZHMs
+DQo+ID4gPiBBbmRyZXkuDQo+ID4NCj4gPiBSaWdodCwgSSBoYWQgbWlzc2VkIHRoYXQgdGhlcmUg
+d2VyZSB0d28gcGF0Y2hlcyBkb2luZyB0aGUgc2FtZSB0aGluZw0KPiA+ICh0aG91Z2ggbmVpdGhl
+ciBhY3R1YWxseSBzb2x2ZWQgdGhlIHByb2JsZW0gYWZ0ZXIgdGhlIHVwZGF0ZSB0byAyLjEzLjAp
+Lg0KPiA+IEkgd2lsbCBzZW5kIGFuIHVwZGF0ZWQgcmV2aWV3IHVuaWZ5aW5nIHRoZSBwYXRjaGVz
+IGFuZCBhZGRpbmcgbXkNCj4gc29sdXRpb24NCj4gPiB0byBkaXNhYmxlIGJ1aWxkaW5nIHRoZSBt
+b2R1bGUgd2hlbiBDT05GSUdfVFJBQ0VQT0lOVFMgaXMgbm90IGVuYWJsZWQuDQo+ID4NCj4gDQo+
+IFdlIHJlYWxseSBzaG91bGQgc3RvcCBkcmFnZ2luZyB0aGVzZSBwYXRjaGVzIGFsb25nIGF0IGFs
+bC4NCj4gDQo+IEkgaGF2ZSBhIHVuaWZpZWQgc2V0IG9mIHBhdGNoZXMgaGVyZSBhcyB3ZWxsLCBi
+dXQgY29udGludWluZyB0byBhbGxvdw0KPiBsdHRuZyBtb2R1bGVzIHRvIGJ1aWxkIGluIGNvbmZp
+Z3VyYXRpb25zIGxpa2UgdGhlc2UsIGp1c3QgZG9lc24ndCBtYWtlDQo+IHNlbnNlICh3aGljaCBp
+cyB3aHkgSSBoYXZlbid0IHNlbnQgdGhlbSkuDQo+IA0KPiBXZSBzaG91bGQgaGF2ZSBhIGRpc3Ry
+byBmZWF0dXJlLCBhbmQgc2ltcGx5IGRyb3AgaXQgZnJvbSBwYWNrYWdlIGxpc3RzDQo+IHdoZW4g
+YXBwcm9wcmlhdGUuDQo+IA0KPiBCcnVjZQ0KPiANCj4gPiAvL1BldGVyDQoNCkkga25vdyBub3Ro
+aW5nIGFib3V0IGx0dG5nIG15c2VsZiwgYnV0IGhhcyBwYXNzZWQgb24geW91ciBjb25jZXJucyB0
+byBvdXIgDQptYWludGFpbmVyIGZvciB0aGUgZnVuY3Rpb25hbGl0eS4gVW5mb3J0dW5hdGVseSBo
+ZSBpcyBvbiB2YWNhdGlvbiBmb3IgYSANCmNvdXBsZSBvZiB3ZWVrcyBtb3JlLCBzbyBJIGRvIG5v
+dCBrbm93IHdoZW4gSSBjYW4gZXhwZWN0IGFuIGFuc3dlciBmcm9tIA0KaGltLg0KDQpTbyBmb3Ig
+bm93IEkgaG9wZSB3ZSBjYW4gdXBkYXRlIHRoZSByZWNpcGUgcGVyIG15IHBhdGNoZXMgc28gdGhh
+dCBpdCANCmNvbnRpbnVlcyB0byB3b3JrIGFzIGJlZm9yZSwgYW5kIHRoZW4gd2UgY2FuIHRha2Ug
+dGhlIGRpc2N1c3Npb24gb2YgDQp3aGV0aGVyIGl0IHNob3VsZCBiZSBwb3NzaWJsZSB0byBidWls
+ZCBsdHRuZy1tb2R1bGVzIHdpdGhvdXQgDQpDT05GSUdfVFJBQ0VQT0lOVFMgZW5hYmxlZCBzZXBh
+cmF0ZWx5Lg0KDQovL1BldGVyDQoNCg==
