@@ -1,67 +1,89 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.17154.1629907286458421696
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web10.17216.1629907584704587779
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 09:01:26 -0700
+ Wed, 25 Aug 2021 09:06:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: randy.macleod@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 17PG1MGx007266
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 25 Aug 2021 09:01:23 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 25 Aug 2021 09:01:22 -0700
-Received: from vme.wrs.com (172.25.44.7) by ala-exchng01.corp.ad.wrs.com
- (147.11.82.252) with Microsoft SMTP Server id 15.1.2242.12 via Frontend
- Transport; Wed, 25 Aug 2021 09:01:22 -0700
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-To: <anuj.mittal@intel.com>, <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH] openssl: upgrade from 1.1.1k to 1.1.1l
-Date: Wed, 25 Aug 2021 12:01:21 -0400
-Message-ID: <20210825160121.162473-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kFQVV0HL;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id j9so206979qvt.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 09:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rbvd512QE4iziQlb0rXqDCZxZsZC9PV9tSITXSUboQI=;
+        b=kFQVV0HL/udqstA87BnMWghSBF+o1V6ilxd5Ybmdo8aTQl8jK6O2OvYWcoPYu3JySO
+         ogdLSKpHthokzGeQDd90seRbugtDQEHMyO6zGWONdlKGOPLNB8tfRfOr2C1zXyLovFTO
+         mj5bcVYSlGYkHgUimDgO4CgD38Vq7QamZCVOptZeNR8rZne5v+wpWnNxMHLb5pcW8ZDO
+         atTlTS8GgjG9y0zA9qDvaO+s2GjjrkkxiuLzxkfGzXHuaUrvGyD+kcP5WzdcJTe3cZwA
+         FC0sS+KPIrStepTJN+cv/r5NwweIA/TSgZJXWJQckFSzYERA+YBtdSTK2Vdgjf4FrYN+
+         AlnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rbvd512QE4iziQlb0rXqDCZxZsZC9PV9tSITXSUboQI=;
+        b=LoTAMYhnS/xCDra8GI9mGmu8T97c4pgHl3xnznhWy6QLX/OIFZyxLLDemXYSVH6ajs
+         o5ZKK0CEGzg7DNf2jSUG3UREBALMhY/WsNnBTJEv95Ccu+JewL0goNQT1keJ01wKxPst
+         r/cc/1yIQ3I6sIuyWL97EHdfEg19mhA8iCfrqCmVKgqEueTBHoVlqrSSZhuW8a3IijOl
+         8qodq3b/nh0RR6vuWHfhIdnREMHhBUCi9dEPNJHjtoANBieXR46Kbu4xxHkEs2o5z3Zp
+         h45U2bqwvlF285qUgtym4CcHpFYayfjJ2W7cI+Wm4JlcwB+vHeRIqM9fwaDrt/BHDFXP
+         oX0Q==
+X-Gm-Message-State: AOAM530mvIzeQP/plq/zn5J9RJ/23ZYPcQp1EhyLaCLd9MZq5Dwyzc5Y
+	Pe75MksKfY4j3txBIgRWt20=
+X-Google-Smtp-Source: ABdhPJxxJtAcyoSxUIm9x5hVAl62M3lSO7ziJFCbQ/S7H8K8+yuB9xoUIUSzbI3snz3IJR0ArP9DZw==
+X-Received: by 2002:ad4:5f0d:: with SMTP id fo13mr45995287qvb.31.1629907583727;
+        Wed, 25 Aug 2021 09:06:23 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
+        by smtp.gmail.com with ESMTPSA id n11sm312992qkk.17.2021.08.25.09.06.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Aug 2021 09:06:23 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/4] kernel-yocto: -stable version bumps
+Date: Wed, 25 Aug 2021 12:06:17 -0400
+Message-Id: <cover.1629907508.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Includes fixes for:
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-CVE: CVE-2021-3711
-CVE: CVE-2021-3712
+Richard,
 
-as described by:
-   https://www.openssl.org/news/secadv/20210824.txt
+Nothing too exciting here. These have all build locally and I haven't picked
+up any issues (I've stayed off the AB, due to the extra load you mentioned
+it has been under).
 
-Ptest results on qemux86-64 with kvm:
-   All tests successful.
-   Files=158, Tests=2532, 93 wallclock secs \
-     ( 1.31 usr  0.14 sys + 73.43 cusr 12.65 csys = 87.53 CPU)
-   Result: PASS
-   DURATION: 93
+Cheers,
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- .../openssl/{openssl_1.1.1k.bb => openssl_1.1.1l.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1k.bb => openssl_1.1.1l.bb} (98%)
+Bruce
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-index e518cb6a02..9ea5c4c81f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-@@ -28,7 +28,7 @@ SRC_URI_append_riscv32 = " \
-            file://0004-Fixup-support-for-io_pgetevents_time64-syscall.patch \
-            "
- 
--SRC_URI[sha256sum] = "892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df33fbaee5"
-+SRC_URI[sha256sum] = "0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+The following changes since commit c3e72164e7a0c51de04a9295e5f50c2e233965f7:
+
+  libjitterentropy: remove contaminated hashequiv entry (2021-08-24 09:37:22 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto/5.13: update to v5.13.11
+  linux-yocto/5.10: update to v5.10.59
+  linux-yocto/5.13: update to v5.13.12
+  linux-yocto/5.10: update to v5.10.60
+
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.13.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+ .../linux/linux-yocto-tiny_5.13.bb            |  8 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_5.13.bb | 26 +++++++++----------
+ 6 files changed, 39 insertions(+), 39 deletions(-)
+
 -- 
-2.30.2
+2.19.1
 
