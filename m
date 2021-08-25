@@ -1,81 +1,80 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web08.22199.1629928305891931121
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+ by mx.groups.io with SMTP id smtpd.web12.22423.1629928789014075543
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 14:51:46 -0700
+ Wed, 25 Aug 2021 14:59:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from [::1] (port=50700 helo=cpanel8.indieserve.net)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1mJ0oB-0007y8-TA; Wed, 25 Aug 2021 17:51:44 -0400
-Received: from [174.114.56.109] ([174.114.56.109]) by crashcourse.ca (Horde
- Framework) with HTTPS; Wed, 25 Aug 2021 17:51:43 -0400
-Date: Wed, 25 Aug 2021 17:51:43 -0400
-Message-ID: <20210825175143.Horde.LbItpKT-Y6zl0vjVCim0eFh@crashcourse.ca>
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Phil Blundell <pb@pbcl.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] what means the test 'if [ -z "$D" ]' in a pkg_postinst routine?
-References: <20210825163520.Horde.SwfJDAmwq6x_Wn-Vf4FoTSG@crashcourse.ca>
- <CANNYZj-PJQTLydecmn9EpWdci5wWce_9Tkw_QkOGkProY6t_fQ@mail.gmail.com>
- <20210825171222.Horde.pjbNvErvPswYBwDudrNTUaM@crashcourse.ca>
- <3FDCF22A-7038-4B36-B15D-D59C31F61C86@pbcl.net>
-In-Reply-To: <3FDCF22A-7038-4B36-B15D-D59C31F61C86@pbcl.net>
-User-Agent: Horde Application Framework 5
+ dkim=pass header.i=@cold-front.org header.s=mesmtp header.b=tlOWjahW;
+ spf=pass (domain: cold-front.org, ip: 66.111.4.29, mailfrom: jsbronder@cold-front.org)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 27D285C0210;
+	Wed, 25 Aug 2021 17:59:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 25 Aug 2021 17:59:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=mesmtp; bh=aYNno9FgeZ/NfDDJ+w6e8Jp
+	EddhSAl8YQR+ILYOagMg=; b=tlOWjahWo14n4GSio85ctINSnc1ZGxcqZJfyHvP
+	8RB5FGgFRxSHMJkjsAiIOwbyeSX7TORkDvuuQHiw0aGXsYU5aAw9jS7NT9dgjasH
+	UNGPoNF/O3ssDGQ05GpWMYem0r+q5WX55VKQvLp+baJRkv8pHqwLR3sFlanxFB8x
+	/77c=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aYNno9FgeZ/NfDDJ+
+	w6e8JpEddhSAl8YQR+ILYOagMg=; b=Xjp1uW8zAl+poAGwS5cKx0er0ZDSlG9tg
+	3xBqJJe7O11HFQtw7mYI3oeBT2bBEdlX2XpGUYpWTbrCLuBHZFp9a1PMLSAj7ejj
+	LG6c4GrDcU3OGpqrAlTozVv/E8zUjfYVXVUIdSig4YEuhEXGTcIt7MBjYlDcr2HB
+	fbzw6SrzRkm6Cjy65WvNlhH/igDpCBbMfa6nVu7gwbaKmuAqlO6qHHzo/3oufNc+
+	2nk1ImqiqUo8dN9eadxaWbvkMHkWxVltA9Riye5gEp4m600hPWhu+W6eMx01BKc0
+	lOnE/LQrVFz7WTdmPkVctZly3h/MtFlHXEkoLcOcRPI5k8dqfG9kQ==
+X-ME-Sender: <xms:U70mYaZFWNhTjcyNYjKKUuZauSPz3e6kTLCRIItGfG9lWwOjpLhSbQ>
+    <xme:U70mYdbnJt3rd2CihLRz8c-xTO33WAxKvcdYMb5yJXKIQCFCB6404TNyQBbLwtnmo
+    c1U-LLi7CKMurgipw>
+X-ME-Received: <xmr:U70mYU9Sg2JUeWZxMV0EBUmlSk4FSDro6aVdRn6ZH7PAMJF-pXBazWhaYd1Tl2MQsHwsk9A6kVYGM1SpfNZ0xsiEmqzylOPM7wZl7hBTYGjZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddutddgtdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheplfhushhtihhnuceurhhonhguvghruceojhhssghrohhnuggvrhes
+    tgholhguqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrhhnpedvhfdthfffieffve
+    etveeifeeuvddthfeludeitedukeeggfevfffgffffffffhfenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjshgsrhhonhguvghrsegtohhlug
+    dqfhhrohhnthdrohhrgh
+X-ME-Proxy: <xmx:U70mYcpxlJWuPMXWdgmW_efl_7_HqCntHsHF3-RT2qnI3E-dUYFKDw>
+    <xmx:U70mYVqz61zWZUiI4lIROEoKPL-ZQy3STtfAGGfGzhzKNZL7LNGCvQ>
+    <xmx:U70mYaTVXDdX1XBYAPfsPfwz1ERAVJEvwo_w7rdrTjmCiNqmPlcYag>
+    <xmx:VL0mYUTKxGHc5YJM_tyiSw4hxOx1KMB4qPeZ_L3GfwM5HwN3Bc-5Pw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Aug 2021 17:59:47 -0400 (EDT)
+From: "Justin Bronder" <jsbronder@cold-front.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Justin Bronder <jsbronder@cold-front.org>
+Subject: [meta-oe][PATCH] hidapi: add rdep on glibc-gconv-utf-16
+Date: Wed, 25 Aug 2021 17:59:38 -0400
+Message-Id: <20210825215938.10941-1-jsbronder@cold-front.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday@crashcourse.ca
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+libhidapi-libusb needs to convert from UTF-16LE to WCHAR_T in order to
+read various libusb string descriptors.
 
-Quoting Phil Blundell <pb@pbcl.net>:
+Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+---
+ meta-oe/recipes-support/hidapi/hidapi_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> That's testing for offline installation. If $D is not set, it's  
-> running on the target.
->
-> p.
-
-   one last query before i head off for dinner ... so what about
-pkg_postinst() routines that do double duty, like this one from
-dbus_1.12.20.bb:
-
-
-PACKAGE_WRITE_DEPS += "${@bb.utils.contains('DISTRO_FEATURES','systemd  
-sysvinit','systemd-systemctl-native','',d)}"
-pkg_postinst:dbus() {
-         # If both systemd and sysvinit are enabled, mask the dbus-1  
-init script
-         if ${@bb.utils.contains('DISTRO_FEATURES','systemd  
-sysvinit','true','false',d)}; then
-                 if [ -n "$D" ]; then
-                         OPTS="--root=$D"
-                 fi
-                 systemctl $OPTS mask dbus-1.service
-         fi
-
-         if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-                 /etc/init.d/populate-volatile.sh update
-         fi
-}
-
-
-note how that routine checks its context and, as i recall (but
-it's not documented in the docs i'm looking at), i'd swear that
-i read somewhere that if a pkg_postinst() routine fails at image
-creation time, it was deferred until boot time, which would
-explain the above routine checking its runtime context.
-
-   anyway, off for food.
-
-rday
+diff --git a/meta-oe/recipes-support/hidapi/hidapi_git.bb b/meta-oe/recipes-support/hidapi/hidapi_git.bb
+index 76f5dc762..54b794774 100644
+--- a/meta-oe/recipes-support/hidapi/hidapi_git.bb
++++ b/meta-oe/recipes-support/hidapi/hidapi_git.bb
+@@ -7,6 +7,7 @@ LICENSE = "BSD-3-Clause | GPLv3"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7c3949a631240cb6c31c50f3eb696077"
+ 
+ DEPENDS = "libusb udev"
++RDEPENDS_${PN} += "glibc-gconv-utf-16"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.33.0
 
