@@ -1,84 +1,85 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.15400.1629899496172874744
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.15472.1629900025205467310
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 06:51:37 -0700
+ Wed, 25 Aug 2021 07:00:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Pcf8slPX;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ejGbNC50;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id lc21so19422361ejc.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 07:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1629899496;
-  x=1661435496;
-  h=from:to:subject:date:message-id:mime-version;
-  bh=oVhlbkPzEQNMGssaDt1MBz+HOTCFE8qr1ySfBzt4Fgc=;
-  b=Pcf8slPXDdAK0y9w73h4ymRWTL5QEwJ+PvbxyyyRI5p5hhP8UuFnmE1k
-   AdgPuoWu8UB4iO5jVS1rc19nae1lgtB41gGFg3dcYVr3vtAiZGBDmYRy+
-   rnV5pv5GTXlNskuheEFFngq6d8b3d8iJMlIO9n9xetkOaUauIi5fXDwib
-   /KzEtNqfzRK1tadAp+kcfiBoznbvToT4DsEIlo9GZYBivOsMFhxnMfrxX
-   rhBLBH0hhCtufEm6X5qYMtrRGe22A5QP0dJHzIPv65LMTh+GqmWv0NWwe
-   2HjXqtHQ0bnYE37TPzoeHtc8l5/NrBVDex2hGOKBBXA24zKP0BaoBOSL7
-   A==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: "OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Subject: How to build a devupstream variant of a recipe?
-Thread-Topic: How to build a devupstream variant of a recipe?
-Thread-Index: AdeZtz02rhXaKMP3QRO/Zl41NJLL9A==
-Date: Wed, 25 Aug 2021 13:51:34 +0000
-Message-ID: <68ca10644e1b4a59b4888b72feb571d8@axis.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=C0Pwt7HdLAmAGR3l0AqEAbclnN/LVCOeDqDKT+0tJ6Y=;
+        b=ejGbNC506gnePxDgU2rNUE422eJ3eWdhJunKx7hOzJRv4BG+W6A36WVKD4TQ3xEsSx
+         L1Jta/119XdCBs1QDKNvMLNbvOhE/BwHqa6y0u5DbmDt/u7UmSXhbjbCxaScY8DeBFxL
+         GQHO9/nKmrlHL2eBIuFloEvl3ADbAe2pek6DcQNw2SgVZ0C9QKzsU2dsp08R9SI+2T59
+         PGBfZzs9Rm4WmbYMeYYygCvIxqMfsLNfK/AZnS8SlfLje/KEyyQDBSf/QscbSjwQ/u2R
+         FtgET1oGjX4+Fe2KoytU9ZuuWPSSqvju0y1qExHAq1f9dAXe5H+8YNwRRKfjlf/TMnQp
+         /gkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=C0Pwt7HdLAmAGR3l0AqEAbclnN/LVCOeDqDKT+0tJ6Y=;
+        b=UMxjxYkVzsGXdhkhJSUudorIO4PnhyYymoAgFSsBvbbGr/k+4i/YOlca1rkR68L03s
+         RrZrbMzMjEyrQ+fTDaMmwKNwtoZZg6t7688N6nVXFkHcy1bYZoI2/hRGn7+JAYqJySQA
+         jMd62fJXwbeYw7W4LO9zfHVYJKGq67g7eMuKdYAautIfcaXNgU+Ga+7GFqIWiVSZBaWK
+         4S4R+eTuXTaKLF1k4TlSpkZe5B9qNYO/jNt5UEJ1+HcyxA+int4ZPBG/cWBX/Zw/Mv1I
+         dC9kQCNPQQBN9ByvFnjAIlGe4mh+TXmXl9FEdYJ3GeGjKWxAnMF/MwcXHXPdrU5MYMOY
+         tuCw==
+X-Gm-Message-State: AOAM5306lPSALL5nS5tTFA9vtACZetCdp46hO5FJTQdD9+5H3MwKcSoY
+	1MTBCHh/vJi8uWYPgHSCVszmyMlWhXOj6OopeRE=
+X-Google-Smtp-Source: ABdhPJwiOxGYXaMP8vqK611jWDMzb3YrXsZvbSSTeND4lkJfA+A8Biu0TJTohi2hipnwwGLjQ8jyc2cDTGiaXF+Gnr4=
+X-Received: by 2002:a17:906:eb53:: with SMTP id mc19mr46330141ejb.22.1629900023590;
+ Wed, 25 Aug 2021 07:00:23 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_68ca10644e1b4a59b4888b72feb571d8axiscom_"
-
---_000_68ca10644e1b4a59b4888b72feb571d8axiscom_
-Content-Type: text/plain; charset="us-ascii"
+References: <68ca10644e1b4a59b4888b72feb571d8@axis.com>
+In-Reply-To: <68ca10644e1b4a59b4888b72feb571d8@axis.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 25 Aug 2021 10:00:12 -0400
+Message-ID: <CADkTA4NuTDYNy_N-ua=G67QTVfb7SXnYBaNcegoqPUj4-XAJDg@mail.gmail.com>
+Subject: Re: [OE-core] How to build a devupstream variant of a recipe?
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "OE Core (openembedded-core@lists.openembedded.org)" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-As I was recently looking at lttng-modules, which supports devupstream, I w=
-anted to try to build the devupstream variant. However, neither the informa=
-tion in devupstream.bbclass nor the documentation in the manual were of any=
- help. Since it uses the BBCLASSEXTEND mechanism, I thought it would be as =
-simple as doing `bitbake lttng-modules-devupstream`, but that did not work.=
- So what is the correct way to build a devupstream variant of a recipe?
-
-//Peter
-
-
-
---_000_68ca10644e1b4a59b4888b72feb571d8axiscom_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Wed, Aug 25, 2021 at 9:51 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
 >
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-<!-- converted from rtf -->
-<style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left:=
- #800000 2px solid; } --></style>
-</head>
-<body>
-<font face=3D"Calibri" size=3D"2"><span style=3D"font-size:11pt;">
-<div><font color=3D"#943634">As I was recently looking at lttng-modules, wh=
-ich supports devupstream, I wanted to try to build the devupstream variant.=
- However, neither the information in devupstream.bbclass nor the documentat=
-ion in the manual were of any help.
-Since it uses the BBCLASSEXTEND mechanism, I thought it would be as simple =
-as doing `bitbake lttng-modules-devupstream`, but that did not work. So wha=
-t is the correct way to build a devupstream variant of a recipe?</font></di=
-v>
-<div><font face=3D"Calibri" color=3D"#943634">&nbsp;</font></div>
-<div><font face=3D"Calibri" color=3D"#943634">//Peter</font></div>
-<div><font face=3D"Calibri">&nbsp;</font></div>
-<div><font face=3D"Calibri">&nbsp;</font></div>
-</span></font>
-</body>
-</html>
+> As I was recently looking at lttng-modules, which supports devupstream, I=
+ wanted to try to build the devupstream variant. However, neither the infor=
+mation in devupstream.bbclass nor the documentation in the manual were of a=
+ny help. Since it uses the BBCLASSEXTEND mechanism, I thought it would be a=
+s simple as doing `bitbake lttng-modules-devupstream`, but that did not wor=
+k. So what is the correct way to build a devupstream variant of a recipe?
 
---_000_68ca10644e1b4a59b4888b72feb571d8axiscom_--
+Assuming that the devupstream variant/override doesn't modify PN (like
+we do in linux-yocto_5.13.bb), then it is selected by setting the
+preferred version to match the devupstream version.
+
+i.e. I have this in my local.conf for when I'm working on lttng devupstream=
+:
+
+# this picks the devupstream version
+#PREFERRED_VERSION_lttng-modules =3D "2.13.0-rc2+git%"
+
+(and adjust the version to suit).
+
+Bruce
+
+>
+> //Peter
+>
+>
+>
+>=20
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
