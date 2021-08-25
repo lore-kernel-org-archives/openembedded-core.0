@@ -1,104 +1,193 @@
-Received: from mail6.pr.hu (mail6.pr.hu [87.242.0.6])
- by mx.groups.io with SMTP id smtpd.web12.10183.1629865358271831804
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.10648.1629867326289843878
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Aug 2021 21:22:40 -0700
+ Tue, 24 Aug 2021 21:55:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=DWdGk7O2;
- spf=pass (domain: pr.hu, ip: 87.242.0.6, mailfrom: zboszor@pr.hu)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1mIkQt-0003ND-B7; Wed, 25 Aug 2021 06:22:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=kMhcfcUZT5OeTRQiFf4mY9cLSVtyOZKmxXq+tYc3ULY=; b=DWdGk7O2nVMmw8DZYgzS4ZVWGE
-	4iqEuOOqrwRJJIRT0gc5764600IGfQS5OHTVJM2EFdlcmk0raIgB8d+2gAgTwvb1twA43iHjzSWvo
-	tGi1Q9nkZZSEVDlZF6AhH5wz9GWxBlL/bQU0C05p0ipNSpecJUm4Dq+p0rOCu2ULGRNZ9aaCwoUAl
-	BAl4jKJgWdwG0ypdZ3TMDPEzzcTzBhVPoeW53qOedGV4QYyqNqn1e586PuTcVusR+gx9GxfLSd/3T
-	uwIrK6ixgidyYHbWXT6W9ffT17VJY8bNkkosTV7axntbNUjZuXIYffDgNfQ4Rl9KdhZ3cVO6TrCdT
-	tWh6RSRA==;
-Received: from host-87-242-23-58.prtelecom.hu ([87.242.23.58] helo=localhost.localdomain)
-	by mail.pr.hu with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <zboszor@pr.hu>)
-	id 1mIkQp-00053s-Av; Wed, 25 Aug 2021 06:22:33 +0200
-Subject: Re: [OE-core] usermod in EXTRA_USERS_PARAMS is broken in master
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <eb9225bc-cc13-aca4-b44f-f38c2f83556b@pr.hu>
- <4143bf5010d947b2b5f896b27cf7e0dd@axis.com>
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Message-ID: <e22a31d8-d1cf-2f20-528c-b8cc6ae248b9@pr.hu>
-Date: Wed, 25 Aug 2021 06:22:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <4143bf5010d947b2b5f896b27cf7e0dd@axis.com>
-X-Spam-Score: -1.5 (-)
-X-Scan-Signature: 642093ab6d8c10dc6804d9159895b1ad
-X-Spam-Tracer: backend.mail.pr.hu -1.5 20210825042233Z
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=S3gDNIy0;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: ranjitsinhrathod1991@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id q21so4605042plq.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Aug 2021 21:55:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=UMXzAZ3Pa/4+zix9XUdLpqmayQvFyp90aMw5WpbZ/6A=;
+        b=S3gDNIy0LiNhQXeGufD6r5Sn5U8hQGizO5llieI4YumR3jf+eO0e3csRAR4l4V3O5k
+         Qn8LGU6KCIG7UEUTQsPrBoa832kaPpcMtSNZKxIxG+Ten435w5trmRH4pPM+VJgS0Ksl
+         wQcABhanuCsSSaHBWFLTPuS5OlM5/Xzma304TVkINmmrGvSl1iJBghNG7hAurIHd6rdC
+         9aBNwigYqlQv5+aHsxgFsaNOp41Pp4dyKmXxdaPzojWs1ZAk5YbU7uVQYcInV+r3A/Z6
+         kjXZVqgTK4QJSNIEQKXn0sHoW3VdLAs+Od+U7A/bdVbAm2YP6gvOqjaLtpqXpw4edc6X
+         fI7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=UMXzAZ3Pa/4+zix9XUdLpqmayQvFyp90aMw5WpbZ/6A=;
+        b=G/+vP76iehNrqdfRi4Nj4UZUn0ECdNaLr8DuR2AncwKtM+356qZSzBy4ly8AOsRN8e
+         zRNYIijRKQXD5hhPMF3fvhoPuS1onyRkfDzmZs2dWd15eRp9SbYhrUCiWXPzje2lD4xB
+         f1A6/K8+cs9rIUkqXGIRE79gQXP/a2hoM/lOfOfFBrG6ETC0U4+kOqAzJRlBsMc1Fe/7
+         siBuKAaCMDaPTplTSqZwPtOgftnqtof1rvKnPqubE7K9525rUTA9R4lJDa8+6Ymk0G0d
+         sWmNsrE24+VG1uVPMv4LCqB8utBeIDtqahLFUtB6cbA6rd5Ez6iUh60/yKhaWwZmZfAx
+         77LA==
+X-Gm-Message-State: AOAM532piV4xUD694IFsL38nwNPv4fIUMiL9F4TAsUpf/sdIMT63tmNJ
+	c3kNQYXqh7Ry8UXaT6pLXsjalDxY4VrmMQ==
+X-Google-Smtp-Source: ABdhPJyOmGQh30CxlRHkM08npCru+Va/kEt56yHqBen6eXj9IdGfVEVfcnnullBYHXOdUSVoGq1AIg==
+X-Received: by 2002:a17:90a:a0a:: with SMTP id o10mr8569980pjo.231.1629867325392;
+        Tue, 24 Aug 2021 21:55:25 -0700 (PDT)
+Return-Path: <ranjitsinhrathod1991@gmail.com>
+Received: from localhost.localdomain ([103.85.11.25])
+        by smtp.gmail.com with ESMTPSA id n13sm19910422pff.164.2021.08.24.21.55.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 21:55:25 -0700 (PDT)
+From: ranjitsinhrathod1991@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+Subject: [meta][dunfell][PATCH v3] rpm: Add fix for CVE-2021-20266
+Date: Wed, 25 Aug 2021 10:25:09 +0530
+Message-Id: <20210825045509.21335-1-ranjitsinhrathod1991@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-2021. 08. 24. 23:21 keltezéssel, Peter Kjellerstedt írta:
->> -----Original Message-----
->> From: openembedded-core@lists.openembedded.org <openembedded-
->> core@lists.openembedded.org> On Behalf Of Zoltan Boszormenyi via
->> lists.openembedded.org
->> Sent: den 24 augusti 2021 16:22
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] usermod in EXTRA_USERS_PARAMS is broken in master
->>
->> Hi,
->>
->> I tried to port my distro layer to Honister and
->> attempted to build an OS image.
->>
->> I have this in the image recipe:
->>
->> EXTRA_USERS_PARAMS += "usermod -P mypassword root; usermod -P mypassword2 myuser;"
-> 
-> The 0002-Allow-for-setting-password-in-clear-text.patch patch has been dropped
-> from shadow with the update to 4.9 (see commit 759df739). It previously renamed
-> the -P option to -A and added an insecure -P <cleartext password> option.
-> 
-> Replace the use of the -P <cleartext password> option with -p <encrypted password>
-> and you should be good to go, also with Hardknott.
+From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 
-Thank you.
+Adding fix for CVE-2021-20266
+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/pull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
 
-> 
->>
->> and the error I got was:
->>
->> NOTE: my-test-image: Performing usermod with [-R
->> /data/yocto/tmp-sicom-glibc/work/genericx86_64-oe-linux/my-test-image/1.0-
->> r0/rootfs -P
->> mypassword root]
->> usermod: prefix must be an absolute path
->> ERROR: my-test-image: usermod command did not succeed.
->> WARNING:
->> /data/yocto/tmp-sicom-glibc/work/genericx86_64-oe-linux/my-test-image/1.0-
->> r0/temp/run.set_user_group.2583229:260
->> exit 1 from 'exit 1'
->>
->> EXTRA_USERS_PARAMS has userdel and useradd commands
->> before the last two usermod, all of which succeed.
->>
->> I got the same error on both Fedora 33 and Fedora 34 hosts.
->>
->> It works with Hardknott.
->>
->> Best regards,
->> Zoltán Böszörményi
-> 
-> //Peter
-> 
+Note: Hunk#2 and Hunk#3 refreshed to apply patch and match value of
+dl_max variable to make it with current version
+All Hunks are refreshed to solve patch-fuzz
+
+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+---
+ .../rpm/files/CVE-2021-20266.patch            | 109 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
+
+diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch b/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
+new file mode 100644
+index 0000000000..f2fc47e321
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
+@@ -0,0 +1,109 @@
++From ebbf0f0133c498d229e94ecf2ed0b41d6e6a142a Mon Sep 17 00:00:00 2001
++From: Demi Marie Obenour <athena@invisiblethingslab.com>
++Date: Mon, 8 Feb 2021 16:05:01 -0500
++Subject: [PATCH] hdrblobInit() needs bounds checks too
++
++Users can pass untrusted data to hdrblobInit() and it must be robust
++against this.
++
++Backported from commit 8f4b3c3cab8922a2022b9e47c71f1ecf906077ef
++
++Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/pull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
++CVE: CVE-2021-20266
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++
++---
++ lib/header.c | 48 +++++++++++++++++++++++++++++++-----------------
++ 1 file changed, 31 insertions(+), 17 deletions(-)
++
++diff --git a/lib/header.c b/lib/header.c
++index 5b09f8352..ad5b6dc57 100644
++--- a/lib/header.c
+++++ b/lib/header.c
++@@ -11,6 +11,7 @@
++ #include "system.h"
++ #include <netdb.h>
++ #include <errno.h>
+++#include <inttypes.h>
++ #include <rpm/rpmtypes.h>
++ #include <rpm/rpmstring.h>
++ #include "lib/header_internal.h"
++@@ -1890,6 +1891,25 @@ hdrblob hdrblobFree(hdrblob blob)
++     return NULL;
++ }
++ 
+++static rpmRC hdrblobVerifyLengths(rpmTagVal regionTag, uint32_t il, uint32_t dl,
+++				  char **emsg) {
+++    uint32_t il_max = HEADER_TAGS_MAX;
+++    uint32_t dl_max = HEADER_DATA_MAX;
+++    if (regionTag == RPMTAG_HEADERSIGNATURES) {
+++	il_max = 32;
+++	dl_max = 8192;
+++    }
+++    if (hdrchkRange(il_max, il)) {
+++	rasprintf(emsg, _("hdr tags: BAD, no. of tags(%" PRIu32 ") out of range"), il);
+++	return RPMRC_FAIL;
+++    }
+++    if (hdrchkRange(dl_max, dl)) {
+++	rasprintf(emsg, _("hdr data: BAD, no. of bytes(%" PRIu32 ") out of range"), dl);
+++	return RPMRC_FAIL;
+++    }
+++    return RPMRC_OK;
+++}
+++
++ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag, hdrblob blob, char **emsg)
++ {
++     int32_t block[4];
++@@ -1902,13 +1922,6 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag, hdrbl
++     size_t nb;
++     rpmRC rc = RPMRC_FAIL;		/* assume failure */
++     int xx;
++-    int32_t il_max = HEADER_TAGS_MAX;
++-    int32_t dl_max = HEADER_DATA_MAX;
++-
++-    if (regionTag == RPMTAG_HEADERSIGNATURES) {
++-	il_max = 32;
++-	dl_max = 8192;
++-    }
++ 
++     memset(block, 0, sizeof(block));
++     if ((xx = Freadall(fd, bs, blen)) != blen) {
++@@ -1921,15 +1934,9 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag, hdrbl
++ 	goto exit;
++     }
++     il = ntohl(block[2]);
++-    if (hdrchkRange(il_max, il)) {
++-	rasprintf(emsg, _("hdr tags: BAD, no. of tags(%d) out of range"), il);
++-	goto exit;
++-    }
++     dl = ntohl(block[3]);
++-    if (hdrchkRange(dl_max, dl)) {
++-	rasprintf(emsg, _("hdr data: BAD, no. of bytes(%d) out of range"), dl);
+++    if (hdrblobVerifyLengths(regionTag, il, dl, emsg))
++ 	goto exit;
++-    }
++ 
++     nb = (il * sizeof(struct entryInfo_s)) + dl;
++     uc = sizeof(il) + sizeof(dl) + nb;
++@@ -1973,11 +1980,18 @@ rpmRC hdrblobInit(const void *uh, size_t uc,
++ 		struct hdrblob_s *blob, char **emsg)
++ {
++     rpmRC rc = RPMRC_FAIL;
++-
++     memset(blob, 0, sizeof(*blob));
+++    if (uc && uc < 8) {
+++	rasprintf(emsg, _("hdr length: BAD"));
+++	goto exit;
+++    }
+++
++     blob->ei = (int32_t *) uh; /* discards const */
++-    blob->il = ntohl(blob->ei[0]);
++-    blob->dl = ntohl(blob->ei[1]);
+++    blob->il = ntohl((uint32_t)(blob->ei[0]));
+++    blob->dl = ntohl((uint32_t)(blob->ei[1]));
+++    if (hdrblobVerifyLengths(regionTag, blob->il, blob->dl, emsg) != RPMRC_OK)
+++	goto exit;
+++
++     blob->pe = (entryInfo) &(blob->ei[2]);
++     blob->pvlen = sizeof(blob->il) + sizeof(blob->dl) +
++ 		  (blob->il * sizeof(*blob->pe)) + blob->dl;
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+index 018b2f8700..c93654aa8f 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD160.patch \
+            file://0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch \
+            file://CVE-2021-3421.patch \
++           file://CVE-2021-20266.patch \
+            "
+ 
+ PE = "1"
+-- 
+2.17.1
 
