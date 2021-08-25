@@ -1,50 +1,50 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web08.13822.1629891511652123059
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web08.13823.1629891512198575682
  for <openembedded-core@lists.openembedded.org>;
  Wed, 25 Aug 2021 04:38:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WIQTNnPe;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id h4so5757745wro.7
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TWng8GyV;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso4340954wmi.5
         for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 04:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cgBjIBHKVrC6zylyfoDJBXAap1kKSNJpJSfJtUzobzg=;
-        b=WIQTNnPecpYbR342igjtvoMY/GJbAASA2/80xv3kvc5/gZF585+YGaLNpH3yYXZiH8
-         9oY9zasOd6LZkZTnM7zaAwMKEOSIJz2cmjVLAhe0ys7hBLz9Mar73YvHkwko69WbBs1K
-         hmT1IGa7IQ08BRW90UoQjshsTnJpcH7ztP1sWe0Bw4TOAlv/8jbVsB5Sr7GJXJ3ASbfG
-         gxfpzBG9T60oHaNyJ3WZo5IQU5ukSK8DhGBG+Sz5WEuzphfKRmcq8mn1ZyntEqNXY55k
-         XpQzDWU2J/t7LqnR0Lmj9DLpZzZPNpkoSX1qgrQkZPBVY9y0ReLR5gZ4sa27EiAMoABZ
-         8VLQ==
+        bh=bXelDJ4N4lvayGSYcV5dlRaOQhRjlSRQt1dSxJybeWU=;
+        b=TWng8GyVrfhfCKHv4/688+J7XJ3jbULd4v8BvvUOlQlBgKm0I3qrz6ZF0h0MuWI/jO
+         Oat7W6nGJUbMOTIAIiibayVgEPpOdAOLOuffSSpoL7zySfXZSbxIKjP2HpJLdC5DAA1f
+         BxLKLv2ekQ8bW6HQcBvg55q86B4RMZRXZnnLI3oSJ7kIdaxPgMLfrB3w8txsbNYPszhw
+         gQvpeD+q0FDldZfCL/yw61Ehdpy7Num/zQlXXaqdphKkIdg+662DS0E0y7QN89ZA+D/y
+         T0U1Y5+xzZbJYNm99MQns3mnmICOGb0W4QYXv64jgynSQLdK64gwxHnx2ylImVQeTDCt
+         vvWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cgBjIBHKVrC6zylyfoDJBXAap1kKSNJpJSfJtUzobzg=;
-        b=lgmVl0T+NbiQQvAFmku8JJ48qY8KoSA59NI6JP4UBtCA0Yxc4ooNIe+Ta5h6OhMyip
-         Sw3/g7lxTdDttD9VBeCtkHENsk5w/7D02tPhk2Q8kDHTtx2jMvoZNp8B74NJFqIW8fqR
-         CzyOxIEdW2wNd+AfF6+3SC4dmb+l1+1GSrvfYenO6MhG9hinoXeaQL9k/ILsssfDzE9u
-         fIeYvhfOuzUcyMVFNd5xGNWkPITPMRGbrd2q9tXcWZn+GxTMfEr63nBAZ0bRLp/C33Qq
-         hhWJpLp5MyO/Cz4asHZFUlJsVvh2+INARV7G9YO5yA3hRTo97m/WTc5pjyw00vCJvkEZ
-         QWsA==
-X-Gm-Message-State: AOAM531W9BnN6NCSJ1mk6jjxLMdqv9spUT0GwmbZZSBk4B3vG99RbNEZ
-	aH1LluTspZjdKTpTpyV09Xuvxotbn9LMeg==
-X-Google-Smtp-Source: ABdhPJzfgVJmkhpct1Zzhh4fD66r+GBQeT14SsNQPQjp2ewHgbyqTYyLhluV6HPL6HuH9T3wfCK+5w==
-X-Received: by 2002:adf:e28a:: with SMTP id v10mr24173923wri.289.1629891510131;
+        bh=bXelDJ4N4lvayGSYcV5dlRaOQhRjlSRQt1dSxJybeWU=;
+        b=TWWcCUf64OGJHv4FLR7OWx7RZS4Ef30u4MLC8LXYYNM4bbF3hockx6I1jygRWBE4XO
+         SGYCSchissWV+vtCBNaJ/9kH2eC5axZgsC/0wluPfvQ97EQhDwR+JD9/qhJakBkAhbnc
+         sJp9fc74x6p5MgmdD7aHjjpyQ9uMGd84gZHyEhMIW7C+sh41xDRzMmjMosFFAzHv/Uln
+         /+xS0KGENM5qe9AVjio5WTp9PclVmQRd0KMM6VmoeOisP/uAOVAMRFdyYjmGNJkWxuFU
+         U1xlcDv3ffQkv5aqH+vTCWBRajM4MF2PHSFun3dkjgow83A9rvJoQnm4Khnw/u1aSB+N
+         aAzA==
+X-Gm-Message-State: AOAM531bWOeTOm0L3Gbon6gubjF9TJnWqpCObm1CVbxdI2hKoYB7pzbo
+	HwUhw4/lnIIGw1QGgiCY3RqqHrcrYrI0yw==
+X-Google-Smtp-Source: ABdhPJw4eYEvo2UlRJ5037kNPH1nM7AkHcxIUgpjX35nrnAFLUrg/UYcPyVFeCE7zWNcdaL+pPcGRw==
+X-Received: by 2002:a05:600c:428a:: with SMTP id v10mr8730723wmc.25.1629891510853;
         Wed, 25 Aug 2021 04:38:30 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a1:9900:5e06:8d90:670b:86c8])
-        by smtp.gmail.com with ESMTPSA id z17sm20790217wrr.66.2021.08.25.04.38.29
+        by smtp.gmail.com with ESMTPSA id z17sm20790217wrr.66.2021.08.25.04.38.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 04:38:29 -0700 (PDT)
+        Wed, 25 Aug 2021 04:38:30 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 09/16] openssh: upgrade 8.6p1 -> 8.7p1
-Date: Wed, 25 Aug 2021 13:37:57 +0200
-Message-Id: <20210825113804.779395-9-alex.kanavin@gmail.com>
+Subject: [PATCH 10/16] ell: upgrade 0.42 -> 0.43
+Date: Wed, 25 Aug 2021 13:37:58 +0200
+Message-Id: <20210825113804.779395-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210825113804.779395-1-alex.kanavin@gmail.com>
 References: <20210825113804.779395-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../openssh/{openssh_8.6p1.bb => openssh_8.7p1.bb}              | 2 +-
+ meta/recipes-core/ell/{ell_0.42.bb => ell_0.43.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssh/{openssh_8.6p1.bb => openssh_8.7p1.bb} (98%)
+ rename meta/recipes-core/ell/{ell_0.42.bb => ell_0.43.bb} (90%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.6p1.bb b/meta/recipes-connectivity/openssh/openssh_8.7p1.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_8.7p1.bb
-index 093214cbfc..c4a08f71d6 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.7p1.bb
-@@ -25,7 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
+diff --git a/meta/recipes-core/ell/ell_0.42.bb b/meta/recipes-core/ell/ell_0.43.bb
+similarity index 90%
+rename from meta/recipes-core/ell/ell_0.42.bb
+rename to meta/recipes-core/ell/ell_0.43.bb
+index 7d021c5e3c..3d3ef82668 100644
+--- a/meta/recipes-core/ell/ell_0.42.bb
++++ b/meta/recipes-core/ell/ell_0.43.bb
+@@ -17,7 +17,7 @@ inherit autotools pkgconfig
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
+            file://0001-pem.c-do-not-use-rawmemchr.patch \
             "
--SRC_URI[sha256sum] = "c3e6e4da1621762c850d03b47eed1e48dff4cc9608ddeb547202a234df8ed7ae"
-+SRC_URI[sha256sum] = "7ca34b8bb24ae9e50f33792b7091b3841d7e1b440ff57bc9fabddf01e2ed1e24"
+-SRC_URI[sha256sum] = "8b926eebb053f545a03349c0e3d02be586f5aa041f5660b6ced85b55fc531bb7"
++SRC_URI[sha256sum] = "b6c75895ad64bf78f5b5c464de871048d02f9403be518084e0d64b58f508c9fc"
  
- # This CVE is specific to OpenSSH with the pam opie which we don't build/use here
- CVE_CHECK_WHITELIST += "CVE-2007-2768"
+ do_configure:prepend () {
+     mkdir -p ${S}/build-aux
 -- 
 2.31.1
 
