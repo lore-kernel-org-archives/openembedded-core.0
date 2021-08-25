@@ -1,220 +1,867 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web09.17364.1629907714272274158
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.18519.1629912060109072338
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 09:08:34 -0700
+ Wed, 25 Aug 2021 10:21:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q8cy3JRJ;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id g11so225157qvd.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 09:08:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bgO4yhA+hKbZtDjedqlPu9Qty9jF+rJl2orX40XsZ6E=;
-        b=Q8cy3JRJsxBF9hjyVIJoDi25ODLym8cnHLUN8Bq7RCCSA3feRwQy+NuyMDOoz3bZwR
-         ZkSJiKQMhA5KtEpzlsL0UIm1kMVoIPPTkhqbMxCz3FkLRSucx483GlWgmoW3L1gNHGbl
-         mSHHIixRALTG25/ChdRGibLgAC4aaByb5nObsRQ64SNEyvK3sMgMKw2Kp98wRY4XBYPd
-         PnX7wDziZyZvoMqJwGoub/qHJFjaf/YIg4KFI6aJGvN1Jh0+DEc5Xoq/YjrE3I4gzln9
-         qpzIIZWhiOxHR8paJRk99IA9si5tUMOBT6vlbAyO2OiGc3U40Y9vBp/1ywqtpo7BkXkw
-         t2ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bgO4yhA+hKbZtDjedqlPu9Qty9jF+rJl2orX40XsZ6E=;
-        b=OBtUeu7/Aaxb9o5a+rG+REoo+j5sURv7G56IMOgPKfCJAx8Y9XomX7dLWLS8QEYIQ/
-         j5e3+Q92KeDO7iJbcbNa7LwNP23uB8JoSbuP6MiHWdsmMm7WlH8mtD9fjf/Fn8sSvOaa
-         jtZxtuzlklUkA8th5cxTIoNNg1vIsAx79F30dnrb304FaS9FE2p2xZdB/X4ujygi5Krl
-         X42OLBi6x+dMyeBDvm+0gtal8UaVP4DHbT8eLKrqPbFVR/6by6O+Eg1PgMZ/v5+hb6ox
-         isQc/kwCrWPLi/2zr5qkJeXz3x2UYg/kPbUShsUrwn7T1+dDiazFGY/UWSZZmBC38yCX
-         a9zA==
-X-Gm-Message-State: AOAM5315dX5NqtVI9YNw7omTIQgSPR/6twA5JLACfD04Cctz0jAg5gMx
-	agT5YsbbVQz/EhhfYTOkqkk=
-X-Google-Smtp-Source: ABdhPJwhJaTl8bxBWG1+wTpjvgGd7z2E10htAMJr1BoqIO3H9CQEdr1u9zehhsMbX6OuAGu5whld3g==
-X-Received: by 2002:a05:6214:965:: with SMTP id do5mr45801874qvb.0.1629907713305;
-        Wed, 25 Aug 2021 09:08:33 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
-        by smtp.gmail.com with ESMTPSA id e25sm277812qka.83.2021.08.25.09.08.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 09:08:32 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org,
-	steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell] linux-yocto/5.4: update to v5.4.142
-Date: Wed, 25 Aug 2021 12:08:31 -0400
-Message-Id: <20210825160831.34634-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 17PHKwrB011892
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 10:20:58 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 25 Aug 2021 10:20:57 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Wed, 25 Aug 2021 10:20:57 -0700
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] go: upgrade to 1.17 release
+Date: Wed, 25 Aug 2021 13:20:51 -0400
+Message-ID: <20210825172051.10088-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+go 1.17 includes small enhancements to the language.
+Release notes: https://golang.org/doc/go1.17
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
-
-    c15b830f7c1c Linux 5.4.142
-    a17f2f2c8949 KVM: nSVM: always intercept VMLOAD/VMSAVE when nested (CVE-2021-3656)
-    7c1c96ffb658 KVM: nSVM: avoid picking up unsupported bits from L2 in int_ctl (CVE-2021-3653)
-    456fd889227f iommu/vt-d: Fix agaw for a supported 48 bit guest address width
-    5b5f855a793c vmlinux.lds.h: Handle clang's module.{c,d}tor sections
-    e9b2b2b29ca8 ceph: take snap_empty_lock atomically with snaprealm refcount change
-    95ff775df6ec ceph: clean up locking annotation for ceph_get_snap_realm and __lookup_snap_realm
-    1d8c232afb03 ceph: add some lockdep assertions around snaprealm handling
-    a6ff0f3f9f90 KVM: VMX: Use current VMCS to query WAITPKG support for MSR emulation
-    ec25d05e1893 PCI/MSI: Protect msi_desc::masked for multi-MSI
-    48d2439c6f2a PCI/MSI: Use msi_mask_irq() in pci_msi_shutdown()
-    386ead1d3598 PCI/MSI: Correct misleading comments
-    76d81dec16d0 PCI/MSI: Do not set invalid bits in MSI mask
-    6b4bcbf13390 PCI/MSI: Enforce MSI[X] entry updates to be visible
-    4495a41fbcd7 PCI/MSI: Enforce that MSI-X table entry is masked for update
-    1866c8f6d43c PCI/MSI: Mask all unused MSI-X entries
-    3b4220c2bf35 PCI/MSI: Enable and mask MSI-X early
-    0c8dea3fd55c genirq/timings: Prevent potential array overflow in __irq_timings_store()
-    4dfe80927102 genirq/msi: Ensure deactivation on teardown
-    e3e54a930073 x86/resctrl: Fix default monitoring groups reporting
-    a6b594ad7419 x86/ioapic: Force affinity setup before startup
-    db5e2666946a x86/msi: Force affinity setup before startup
-    eda32c21882c genirq: Provide IRQCHIP_AFFINITY_PRE_STARTUP
-    06b347743608 x86/tools: Fix objdump version check again
-    74451dd8bfca powerpc/kprobes: Fix kprobe Oops happens in booke
-    b74145d858a8 nbd: Aovid double completion of a request
-    ad9550114d4c vsock/virtio: avoid potential deadlock when vsock device remove
-    b9cd73cce50a xen/events: Fix race in set_evtchn_to_irq
-    4d3c5c319b19 net: igmp: increase size of mr_ifc_count
-    721ff564cc6a tcp_bbr: fix u32 wrap bug in round logic if bbr_init() called after 2B packets
-    2ce8a68a312c net: linkwatch: fix failure to restore device state across suspend/resume
-    33597972a2e9 net: bridge: fix memleak in br_add_if()
-    f6eee53beb07 net: dsa: sja1105: fix broken backpressure in .port_fdb_dump
-    1e6a570d3786 net: dsa: lantiq: fix broken backpressure in .port_fdb_dump
-    564f6bbd0ed6 net: dsa: lan9303: fix broken backpressure in .port_fdb_dump
-    a9243455e874 net: igmp: fix data-race in igmp_ifc_timer_expire()
-    ed957c77b391 net: Fix memory leak in ieee802154_raw_deliver
-    13a381b8bc22 net: dsa: microchip: Fix ksz_read64()
-    991117eeeee8 drm/meson: fix colour distortion from HDR set during vendor u-boot
-    e114f15de881 net/mlx5: Fix return value from tracer initialization
-    f99aa76bb83c psample: Add a fwd declaration for skbuff
-    9dc8e396c12e iavf: Set RSS LUT and key in reset handle path
-    23436edae3c9 net: sched: act_mirred: Reset ct info when mirror/redirect skb
-    9636fbfe7bdd ppp: Fix generating ifname when empty IFLA_IFNAME is specified
-    1c31ee907fde net: phy: micrel: Fix link detection on ksz87xx switch"
-    dfeb64f6e2ce platform/x86: pcengines-apuv2: Add missing terminating entries to gpio-lookup tables
-    699db2bb96ad platform/x86: pcengines-apuv2: revert wiring up simswitch GPIO as LED
-    af7f1539cfb1 net: dsa: mt7530: add the missing RxUnicast MIB counter
-    d353a61860a2 ASoC: cs42l42: Fix LRCLK frame start edge
-    b036452082f3 netfilter: nf_conntrack_bridge: Fix memory leak when error
-    cd36a36ea4ea ASoC: cs42l42: Remove duplicate control for WNF filter frequency
-    eb789cc9179f ASoC: cs42l42: Fix inversion of ADC Notch Switch control
-    6a3381336398 ASoC: cs42l42: Don't allow SND_SOC_DAIFMT_LEFT_J
-    55e86f07b85e ASoC: cs42l42: Correct definition of ADC Volume control
-    22d2e3c6a1b8 ieee802154: hwsim: fix GPF in hwsim_new_edge_nl
-    5bac8c2a3087 ieee802154: hwsim: fix GPF in hwsim_set_edge_lqi
-    ddcf807fbb70 libnvdimm/region: Fix label activation vs errors
-    bc97fde4c668 ACPI: NFIT: Fix support for virtual SPA ranges
-    a753e3f33405 ceph: reduce contention in ceph_check_delayed_caps()
-    aa04486c419d i2c: dev: zero out array used for i2c reads from userspace
-    c18b28e5ade8 ASoC: intel: atom: Fix reference to PCM buffer address
-    aab3fa544647 ASoC: xilinx: Fix reference to PCM buffer address
-    60e2854acf3b iio: adc: Fix incorrect exit of for-loop
-    bcac5225923b iio: humidity: hdc100x: Add margin to the conversion time
-    da7cb80905ec iio: adc: ti-ads7950: Ensure CS is deasserted after reading channels
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc   |  2 +-
+ .../go/{go-1.16.5.inc => go-1.17.inc}         |  6 +-
+ ...ow-CC-and-CXX-to-have-multiple-words.patch | 10 ++-
+ ...ent-based-hash-generation-less-pedan.patch | 62 +++++++++++-------
+ ...-to-be-overridden-in-the-environment.patch | 18 ++++--
+ ...4-ld-add-soname-to-shareable-objects.patch | 13 ++--
+ ...de-CC-when-building-dist-and-go_boot.patch | 15 +++--
+ ...dist-separate-host-and-target-builds.patch | 64 ++++++++++---------
+ ...d-go-make-GOROOT-precious-by-default.patch | 21 ++++--
+ ...008-use-GOBUILDMODE-to-set-buildmode.patch |  9 ++-
+ ...go-make-sure-CC-and-CXX-are-absolute.patch | 45 ++++++-------
+ ...ive_1.16.5.bb => go-binary-native_1.17.bb} |  4 +-
+ ...an_1.16.5.bb => go-cross-canadian_1.17.bb} |  0
+ .../{go-cross_1.16.5.bb => go-cross_1.17.bb}  |  0
+ ...crosssdk_1.16.5.bb => go-crosssdk_1.17.bb} |  0
+ ...{go-native_1.16.5.bb => go-native_1.17.bb} |  0
+ ...o-runtime_1.16.5.bb => go-runtime_1.17.bb} |  0
+ .../go/{go_1.16.5.bb => go_1.17.bb}           |  0
+ 18 files changed, 163 insertions(+), 106 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.16.5.inc => go-1.17.inc} (85%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0001-allow-CC-and-CXX-to-have-multiple-words.patch (80%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch (80%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch (78%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0004-ld-add-soname-to-shareable-objects.patch (78%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch (76%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0006-cmd-dist-separate-host-and-target-builds.patch (90%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0007-cmd-go-make-GOROOT-precious-by-default.patch (78%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0008-use-GOBUILDMODE-to-set-buildmode.patch (84%)
+ rename meta/recipes-devtools/go/{go-1.16 => go-1.17}/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch (75%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.16.5.bb => go-binary-native_1.17.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.16.5.bb => go-cross-canadian_1.17.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.16.5.bb => go-cross_1.17.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.16.5.bb => go-crosssdk_1.17.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.16.5.bb => go-native_1.17.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.16.5.bb => go-runtime_1.17.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.16.5.bb => go_1.17.bb} (100%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 53e6982619..69958c5631 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 47f23f5c39..5b8a532943 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -23,7 +23,7 @@ GDBVERSION ?= "10.%"
+ GLIBCVERSION ?= "2.34"
+ LINUXLIBCVERSION ?= "5.13%"
+ QEMUVERSION ?= "6.0%"
+-GOVERSION ?= "1.16%"
++GOVERSION ?= "1.17%"
+ # This can not use wildcards like 8.0.% since it is also used in mesa to denote
+ # llvm version being used, so always bump it with llvm recipe version bump
+ LLVMVERSION ?= "12.0.1"
+diff --git a/meta/recipes-devtools/go/go-1.16.5.inc b/meta/recipes-devtools/go/go-1.17.inc
+similarity index 85%
+rename from meta/recipes-devtools/go/go-1.16.5.inc
+rename to meta/recipes-devtools/go/go-1.17.inc
+index 545aa0c828..6b412afe25 100644
+--- a/meta/recipes-devtools/go/go-1.16.5.inc
++++ b/meta/recipes-devtools/go/go-1.17.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
  
--SRCREV_machine ?= "e823f31a48749bf1d01a86c274fcec87fae1e5ba"
--SRCREV_meta ?= "71f799f448d405a35d88ecee0aba3ec2b198d542"
-+SRCREV_machine ?= "b872fc896dcc555149f26c5dd683f7e6394852d6"
-+SRCREV_meta ?= "719be4bd6c3c7575e7942dc016e3c3bb028f163d"
+-GO_BASEVERSION = "1.16"
+-PV = "1.16.5"
++GO_BASEVERSION = "1.17"
++PV = "1.17"
+ FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
+ "
+-SRC_URI[main.sha256sum] = "7bfa7e5908c7cc9e75da5ddf3066d7cbcf3fd9fa51945851325eebc17f50ba80"
++SRC_URI[main.sha256sum] = "3a70e5055509f347c0fb831ca07a2bf3b531068f349b14a3c652e9b5b67beb5d"
+diff --git a/meta/recipes-devtools/go/go-1.16/0001-allow-CC-and-CXX-to-have-multiple-words.patch b/meta/recipes-devtools/go/go-1.17/0001-allow-CC-and-CXX-to-have-multiple-words.patch
+similarity index 80%
+rename from meta/recipes-devtools/go/go-1.16/0001-allow-CC-and-CXX-to-have-multiple-words.patch
+rename to meta/recipes-devtools/go/go-1.17/0001-allow-CC-and-CXX-to-have-multiple-words.patch
+index 5f4823be22..8a833e05d3 100644
+--- a/meta/recipes-devtools/go/go-1.16/0001-allow-CC-and-CXX-to-have-multiple-words.patch
++++ b/meta/recipes-devtools/go/go-1.17/0001-allow-CC-and-CXX-to-have-multiple-words.patch
+@@ -1,4 +1,4 @@
+-From 9e3dc44cdfa58d96504d0a789dc82617dd5bef55 Mon Sep 17 00:00:00 2001
++From 0e964d3ca3496beb4f3732abe501b50e262b6646 Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:01:13 +0430
+ Subject: [PATCH 1/9] cmd/go: Allow CC and CXX to have multiple words
+@@ -10,14 +10,15 @@ the meta/recipes-devtools/go tree by
+ Matt Madison <matt@madison.systems>.
  
--LINUX_VERSION ?= "5.4.141"
-+LINUX_VERSION ?= "5.4.142"
+ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+-
+ ---
+  src/cmd/go/internal/envcmd/env.go | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
++index 1553d26391..20d0587899 100644
+ --- a/src/cmd/go/internal/envcmd/env.go
+ +++ b/src/cmd/go/internal/envcmd/env.go
+-@@ -103,11 +103,11 @@ func MkEnv() []cfg.EnvVar {
++@@ -106,11 +106,11 @@ func MkEnv() []cfg.EnvVar {
+  
+  	cc := cfg.DefaultCC(cfg.Goos, cfg.Goarch)
+  	if env := strings.Fields(cfg.Getenv("CC")); len(env) > 0 {
+@@ -31,3 +32,6 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	}
+  	env = append(env, cfg.EnvVar{Name: "AR", Value: envOr("AR", "ar")})
+  	env = append(env, cfg.EnvVar{Name: "CC", Value: cc})
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go-1.17/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
+similarity index 80%
+rename from meta/recipes-devtools/go/go-1.16/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
+rename to meta/recipes-devtools/go/go-1.17/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
+index 04d0e496c0..b78b6afa24 100644
+--- a/meta/recipes-devtools/go/go-1.16/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
++++ b/meta/recipes-devtools/go/go-1.17/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
+@@ -1,4 +1,4 @@
+-From a13ae484e41139094505d2834437e9262a5315f7 Mon Sep 17 00:00:00 2001
++From e3628e0bd22caa339652435e166c7144f417c977 Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:14:22 +0430
+ Subject: [PATCH 2/9] cmd/go: make content-based hash generation less pedantic
+@@ -50,9 +50,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  src/cmd/go/internal/work/exec.go  | 66 ++++++++++++++++++++++---------
+  2 files changed, 49 insertions(+), 19 deletions(-)
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 44a033d5cb..0178d172f8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
++diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
++index 20d0587899..ff6f0d810a 100644
+ --- a/src/cmd/go/internal/envcmd/env.go
+ +++ b/src/cmd/go/internal/envcmd/env.go
+-@@ -157,7 +157,7 @@ func ExtraEnvVars() []cfg.EnvVar {
++@@ -160,7 +160,7 @@ func ExtraEnvVars() []cfg.EnvVar {
+  func ExtraEnvVarsCostly() []cfg.EnvVar {
+  	var b work.Builder
+  	b.Init()
+@@ -61,9 +63,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	if err != nil {
+  		// Should not happen - b.CFlags was given an empty package.
+  		fmt.Fprintf(os.Stderr, "go: invalid cflags: %v\n", err)
++diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
++index 5a225fb9f1..a37872e7c7 100644
+ --- a/src/cmd/go/internal/work/exec.go
+ +++ b/src/cmd/go/internal/work/exec.go
+-@@ -37,6 +37,8 @@ import (
++@@ -38,6 +38,8 @@ import (
+  	"cmd/go/internal/trace"
+  )
+  
+@@ -72,7 +76,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  // actionList returns the list of actions in the dag rooted at root
+  // as visited in a depth-first post-order traversal.
+  func actionList(root *Action) []*Action {
+-@@ -228,7 +230,7 @@ func (b *Builder) buildActionID(a *Actio
++@@ -229,7 +231,7 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
+  	// Assume b.WorkDir is being trimmed properly.
+  	// When -trimpath is used with a package built from the module cache,
+  	// use the module path and version instead of the directory.
+@@ -81,25 +85,36 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  		fmt.Fprintf(h, "dir %s\n", p.Dir)
+  	} else if cfg.BuildTrimpath && p.Module != nil {
+  		fmt.Fprintf(h, "module %s@%s\n", p.Module.Path, p.Module.Version)
+-@@ -247,13 +249,13 @@ func (b *Builder) buildActionID(a *Actio
++@@ -248,9 +250,9 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
+  	}
+- 	if len(p.CgoFiles)+len(p.SwigFiles) > 0 {
++ 	if len(p.CgoFiles)+len(p.SwigFiles)+len(p.SwigCXXFiles) > 0 {
+  		fmt.Fprintf(h, "cgo %q\n", b.toolID("cgo"))
+ -		cppflags, cflags, cxxflags, fflags, ldflags, _ := b.CFlags(p)
+--		fmt.Fprintf(h, "CC=%q %q %q %q\n", b.ccExe(), cppflags, cflags, ldflags)
+ +		cppflags, cflags, cxxflags, fflags, ldflags, _ := b.CFlags(p, true)
+-+		fmt.Fprintf(h, "CC=%q %q %q %q\n", b.ccExe(true), cppflags, cflags, ldflags)
+- 		if len(p.CXXFiles)+len(p.SwigFiles) > 0 {
+--			fmt.Fprintf(h, "CXX=%q %q\n", b.cxxExe(), cxxflags)
+-+			fmt.Fprintf(h, "CXX=%q %q\n", b.cxxExe(true), cxxflags)
++ 
++-		ccExe := b.ccExe()
+++		ccExe := b.ccExe(true)
++ 		fmt.Fprintf(h, "CC=%q %q %q %q\n", ccExe, cppflags, cflags, ldflags)
++ 		// Include the C compiler tool ID so that if the C
++ 		// compiler changes we rebuild the package.
++@@ -263,14 +265,14 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
++ 			}
+  		}
+- 		if len(p.FFiles) > 0 {
+--			fmt.Fprintf(h, "FC=%q %q\n", b.fcExe(), fflags)
+-+			fmt.Fprintf(h, "FC=%q %q\n", b.fcExe(true), fflags)
++ 		if len(p.CXXFiles)+len(p.SwigCXXFiles) > 0 {
++-			cxxExe := b.cxxExe()
+++			cxxExe := b.cxxExe(true)
++ 			fmt.Fprintf(h, "CXX=%q %q\n", cxxExe, cxxflags)
++ 			if cxxID, err := b.gccToolID(cxxExe[0], "c++"); err == nil {
++ 				fmt.Fprintf(h, "CXX ID=%q\n", cxxID)
++ 			}
+  		}
+- 		// TODO(rsc): Should we include the SWIG version or Fortran/GCC/G++/Objective-C compiler versions?
+- 	}
+-@@ -2401,33 +2403,48 @@ var (
++ 		if len(p.FFiles) > 0 {
++-			fcExe := b.fcExe()
+++			fcExe := b.fcExe(true)
++ 			fmt.Fprintf(h, "FC=%q %q\n", fcExe, fflags)
++ 			if fcID, err := b.gccToolID(fcExe[0], "f95"); err == nil {
++ 				fmt.Fprintf(h, "FC ID=%q\n", fcID)
++@@ -2438,33 +2440,48 @@ var (
+  // gccCmd returns a gcc command line prefix
+  // defaultCC is defined in zdefaultcc.go, written by cmd/dist.
+  func (b *Builder) GccCmd(incdir, workdir string) []string {
+@@ -157,7 +172,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  }
+  
+  // compilerExe returns the compiler to use given an
+-@@ -2436,11 +2453,16 @@ func (b *Builder) fcExe() []string {
++@@ -2473,11 +2490,16 @@ func (b *Builder) fcExe() []string {
+  // of the compiler but can have additional arguments if they
+  // were present in the environment value.
+  // For example if CC="gcc -DGOPHER" then the result is ["gcc", "-DGOPHER"].
+@@ -175,7 +190,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	return compiler
+  }
+  
+-@@ -2620,7 +2642,7 @@ func envList(key, def string) []string {
++@@ -2667,7 +2689,7 @@ func envList(key, def string) []string {
+  }
+  
+  // CFlags returns the flags to use when invoking the C, C++ or Fortran compilers, or cgo.
+@@ -184,7 +199,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	defaults := "-g -O2"
+  
+  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
+-@@ -2639,6 +2661,14 @@ func (b *Builder) CFlags(p *load.Package
++@@ -2686,6 +2708,14 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+  		return
+  	}
+  
+@@ -199,7 +214,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	return
+  }
+  
+-@@ -2653,7 +2683,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
++@@ -2700,7 +2730,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
+  
+  func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
+  	p := a.Package
+@@ -208,7 +223,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	if err != nil {
+  		return nil, nil, err
+  	}
+-@@ -3104,7 +3134,7 @@ func (b *Builder) swigIntSize(objdir str
++@@ -3151,7 +3181,7 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
+  
+  // Run SWIG on one SWIG input file.
+  func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, outC string, err error) {
+@@ -217,3 +232,6 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	if err != nil {
+  		return "", "", err
+  	}
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch b/meta/recipes-devtools/go/go-1.17/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+similarity index 78%
+rename from meta/recipes-devtools/go/go-1.16/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+rename to meta/recipes-devtools/go/go-1.17/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+index 662c705471..e5d0ee90e2 100644
+--- a/meta/recipes-devtools/go/go-1.16/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
++++ b/meta/recipes-devtools/go/go-1.17/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+@@ -1,7 +1,8 @@
+-From 28ada8896b76d620240bafc22aa395071d601482 Mon Sep 17 00:00:00 2001
++From f7b2347869941b751b6db1dfa8461195d2a5888b Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:15:37 +0430
+-Subject: [PATCH 3/9] cmd/go: Allow GOTOOLDIR to be overridden in the environment
++Subject: [PATCH 3/9] cmd/go: Allow GOTOOLDIR to be overridden in the
++ environment
  
- require recipes-kernel/linux/linux-yocto.inc
+ to allow for split host/target build roots
  
--LINUX_VERSION ?= "5.4.141"
-+LINUX_VERSION ?= "5.4.142"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+@@ -17,10 +18,12 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  src/cmd/go/internal/cfg/cfg.go | 6 +++++-
+  2 files changed, 8 insertions(+), 2 deletions(-)
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
++diff --git a/src/cmd/dist/build.go b/src/cmd/dist/build.go
++index bec17696f3..d82f612e75 100644
+ --- a/src/cmd/dist/build.go
+ +++ b/src/cmd/dist/build.go
+-@@ -246,7 +246,9 @@ func xinit() {
+- 	workdir = xworkdir()
++@@ -248,7 +248,9 @@ func xinit() {
++ 	}
+  	xatexit(rmworkdir)
+  
+ -	tooldir = pathf("%s/pkg/tool/%s_%s", goroot, gohostos, gohostarch)
+@@ -30,9 +33,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  }
+  
+  // compilerEnv returns a map from "goos/goarch" to the
++diff --git a/src/cmd/go/internal/cfg/cfg.go b/src/cmd/go/internal/cfg/cfg.go
++index 57a3c1ff6f..825d8c70f2 100644
+ --- a/src/cmd/go/internal/cfg/cfg.go
+ +++ b/src/cmd/go/internal/cfg/cfg.go
+-@@ -64,7 +64,11 @@ func defaultContext() build.Context {
++@@ -67,7 +67,11 @@ func defaultContext() build.Context {
+  		// variables. This matches the initialization of ToolDir in
+  		// go/build, except for using ctxt.GOROOT rather than
+  		// runtime.GOROOT.
+@@ -45,3 +50,6 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	}
+  
+  	ctxt.GOPATH = envOr("GOPATH", ctxt.GOPATH)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0004-ld-add-soname-to-shareable-objects.patch b/meta/recipes-devtools/go/go-1.17/0004-ld-add-soname-to-shareable-objects.patch
+similarity index 78%
+rename from meta/recipes-devtools/go/go-1.16/0004-ld-add-soname-to-shareable-objects.patch
+rename to meta/recipes-devtools/go/go-1.17/0004-ld-add-soname-to-shareable-objects.patch
+index cd875f1164..bc5cabeca0 100644
+--- a/meta/recipes-devtools/go/go-1.16/0004-ld-add-soname-to-shareable-objects.patch
++++ b/meta/recipes-devtools/go/go-1.17/0004-ld-add-soname-to-shareable-objects.patch
+@@ -1,4 +1,4 @@
+-From bf5cf5301ae5914498454c87293d1df2e1d8489f Mon Sep 17 00:00:00 2001
++From 751ab1c94df250475a8e0c6fe0272c60560a38b3 Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:16:32 +0430
+ Subject: [PATCH 4/9] ld: add soname to shareable objects
+@@ -17,9 +17,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  src/cmd/link/internal/ld/lib.go | 3 +++
+  1 file changed, 3 insertions(+)
  
--SRCREV_machine_qemuarm ?= "63d08f6ee3425e9d94eccf3a75a9ec4e474df916"
--SRCREV_machine ?= "05b2de44f781a297be454242d77f619189dfc6f4"
--SRCREV_meta ?= "71f799f448d405a35d88ecee0aba3ec2b198d542"
-+SRCREV_machine_qemuarm ?= "4addf3f9e4f68bc7c03ea19ad95f2a4836ac9873"
-+SRCREV_machine ?= "964802684eb1495bd1c5f625307b6d41515a3e9a"
-+SRCREV_meta ?= "719be4bd6c3c7575e7942dc016e3c3bb028f163d"
++diff --git a/src/cmd/link/internal/ld/lib.go b/src/cmd/link/internal/ld/lib.go
++index 644faeb2fb..5b7e48636e 100644
+ --- a/src/cmd/link/internal/ld/lib.go
+ +++ b/src/cmd/link/internal/ld/lib.go
+-@@ -1343,6 +1343,7 @@ func (ctxt *Link) hostlink() {
++@@ -1342,6 +1342,7 @@ func (ctxt *Link) hostlink() {
+  				argv = append(argv, "-Wl,-z,relro")
+  			}
+  			argv = append(argv, "-shared")
+@@ -27,7 +29,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  			if ctxt.HeadType == objabi.Hwindows {
+  				if *flagAslr {
+  					argv = addASLRargs(argv)
+-@@ -1358,6 +1359,7 @@ func (ctxt *Link) hostlink() {
++@@ -1359,6 +1360,7 @@ func (ctxt *Link) hostlink() {
+  			argv = append(argv, "-Wl,-z,relro")
+  		}
+  		argv = append(argv, "-shared")
+@@ -35,7 +37,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	case BuildModePlugin:
+  		if ctxt.HeadType == objabi.Hdarwin {
+  			argv = append(argv, "-dynamiclib")
+-@@ -1366,6 +1368,7 @@ func (ctxt *Link) hostlink() {
++@@ -1367,6 +1369,7 @@ func (ctxt *Link) hostlink() {
+  				argv = append(argv, "-Wl,-z,relro")
+  			}
+  			argv = append(argv, "-shared")
+@@ -43,3 +45,6 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  		}
+  	}
+  
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch b/meta/recipes-devtools/go/go-1.17/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+similarity index 76%
+rename from meta/recipes-devtools/go/go-1.16/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+rename to meta/recipes-devtools/go/go-1.17/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+index 59c12d9546..a7d9932f4d 100644
+--- a/meta/recipes-devtools/go/go-1.16/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
++++ b/meta/recipes-devtools/go/go-1.17/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+@@ -1,4 +1,4 @@
+-From f05ef3ded52b98537c10efd0b15cd9612471524d Mon Sep 17 00:00:00 2001
++From 4a3a4c0b51618cab8e41dc307404c8b40146a8c4 Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:17:16 +0430
+ Subject: [PATCH 5/9] make.bash: override CC when building dist and
+@@ -17,9 +17,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  src/make.bash | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
++diff --git a/src/make.bash b/src/make.bash
++index 7986125a06..dd67029700 100755
+ --- a/src/make.bash
+ +++ b/src/make.bash
+-@@ -178,7 +178,7 @@ if [ "$GOROOT_BOOTSTRAP" = "$GOROOT" ];
++@@ -181,7 +181,7 @@ if [ "$GOROOT_BOOTSTRAP" = "$GOROOT" ]; then
+  	exit 1
+  fi
+  rm -f cmd/dist/dist
+@@ -28,12 +30,15 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  
+  # -e doesn't propagate out of eval, so check success by hand.
+  eval $(./cmd/dist/dist env -p || echo FAIL=true)
+-@@ -209,7 +209,7 @@ fi
++@@ -206,7 +206,7 @@ fi
+  # Run dist bootstrap to complete make.bash.
+  # Bootstrap installs a proper cmd/dist, built with the new toolchain.
+  # Throw ours, built with Go 1.4, away after bootstrap.
+--./cmd/dist/dist bootstrap $buildall $vflag $GO_DISTFLAGS "$@"
+-+CC="${BUILD_CC:-${CC}}" ./cmd/dist/dist bootstrap $buildall $vflag $GO_DISTFLAGS "$@"
++-./cmd/dist/dist bootstrap -a $vflag $GO_DISTFLAGS "$@"
+++CC="${BUILD_CC:-${CC}}" ./cmd/dist/dist bootstrap -a $vflag $GO_DISTFLAGS "$@"
+  rm -f ./cmd/dist/dist
+  
+  # DO NOT ADD ANY NEW CODE HERE.
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0006-cmd-dist-separate-host-and-target-builds.patch b/meta/recipes-devtools/go/go-1.17/0006-cmd-dist-separate-host-and-target-builds.patch
+similarity index 90%
+rename from meta/recipes-devtools/go/go-1.16/0006-cmd-dist-separate-host-and-target-builds.patch
+rename to meta/recipes-devtools/go/go-1.17/0006-cmd-dist-separate-host-and-target-builds.patch
+index 7aee0bac43..e92cc9b28b 100644
+--- a/meta/recipes-devtools/go/go-1.16/0006-cmd-dist-separate-host-and-target-builds.patch
++++ b/meta/recipes-devtools/go/go-1.17/0006-cmd-dist-separate-host-and-target-builds.patch
+@@ -1,4 +1,4 @@
+-From 10735bb84df17ba657f76835f483cd8543a879c1 Mon Sep 17 00:00:00 2001
++From fdbb0770a7e5190368c7e15ffcc2ce25fe7344e7 Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:18:12 +0430
+ Subject: [PATCH 6/9] cmd/dist: separate host and target builds
+@@ -38,17 +38,19 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  src/cmd/dist/build.go | 155 ++++++++++++++++++++++++++++++------------
+  1 file changed, 112 insertions(+), 43 deletions(-)
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 0e41d734df..7e35e082fb 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
++diff --git a/src/cmd/dist/build.go b/src/cmd/dist/build.go
++index d82f612e75..af24e01198 100644
+ --- a/src/cmd/dist/build.go
+ +++ b/src/cmd/dist/build.go
+-@@ -41,6 +41,7 @@ var (
+- 	goldflags        string
++@@ -43,6 +43,7 @@ var (
++ 	goexperiment     string
+  	workdir          string
+  	tooldir          string
+ +	build_tooldir    string
+  	oldgoos          string
+  	oldgoarch        string
+  	exe              string
+-@@ -53,6 +54,7 @@ var (
++@@ -55,6 +56,7 @@ var (
+  
+  	rebuildall   bool
+  	defaultclang bool
+@@ -56,7 +58,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  
+  	vflag int // verbosity
+  )
+-@@ -249,6 +251,8 @@ func xinit() {
++@@ -251,6 +253,8 @@ func xinit() {
+  	if tooldir = os.Getenv("GOTOOLDIR"); tooldir == "" {
+  		tooldir = pathf("%s/pkg/tool/%s_%s", goroot, gohostos, gohostarch)
+  	}
+@@ -65,7 +67,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  }
+  
+  // compilerEnv returns a map from "goos/goarch" to the
+-@@ -480,8 +484,10 @@ func setup() {
++@@ -496,8 +500,10 @@ func setup() {
+  	p := pathf("%s/pkg/%s_%s", goroot, gohostos, gohostarch)
+  	if rebuildall {
+  		xremoveall(p)
+@@ -76,23 +78,24 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  
+  	if goos != gohostos || goarch != gohostarch {
+  		p := pathf("%s/pkg/%s_%s", goroot, goos, goarch)
+-@@ -1244,12 +1250,29 @@ func cmdbootstrap() {
++@@ -1266,13 +1272,30 @@ func cmdbootstrap() {
++ 	defer timelog("end", "dist bootstrap")
+  
+- 	var noBanner bool
+- 	var debug bool
++ 	var noBanner, noClean bool
+ +	var hostOnly bool
+ +	var targetOnly bool
+ +	var toBuild = []string{"std", "cmd"}
+-+
++ 	var debug bool
+  	flag.BoolVar(&rebuildall, "a", rebuildall, "rebuild all")
+  	flag.BoolVar(&debug, "d", debug, "enable debugging of bootstrap process")
+  	flag.BoolVar(&noBanner, "no-banner", noBanner, "do not print banner")
++ 	flag.BoolVar(&noClean, "no-clean", noClean, "print deprecation warning")
+ +	flag.BoolVar(&hostOnly, "host-only", hostOnly, "build only host binaries, not target")
+ +	flag.BoolVar(&targetOnly, "target-only", targetOnly, "build only target binaries, not host")
+  
+ -	xflagparse(0)
+ +	xflagparse(-1)
+- 
+++
+ +	if hostOnly && targetOnly {
+ +		fatalf("specify only one of --host-only or --target-only\n")
+ +	}
+@@ -104,10 +107,10 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+ +			fatalf("package names not permitted without --host-only or --target-only\n")
+ +		}
+ +	}
+- 	// Set GOPATH to an internal directory. We shouldn't actually
+- 	// need to store files here, since the toolchain won't
+- 	// depend on modules outside of vendor directories, but if
+-@@ -1303,8 +1326,13 @@ func cmdbootstrap() {
++ 
++ 	if noClean {
++ 		xprintf("warning: --no-clean is deprecated and has no effect; use 'go install std cmd' instead\n")
++@@ -1345,8 +1368,13 @@ func cmdbootstrap() {
+  		xprintf("\n")
+  	}
+  
+@@ -123,7 +126,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	goBootstrap := pathf("%s/go_bootstrap", tooldir)
+  	cmdGo := pathf("%s/go", gobin)
+  	if debug {
+-@@ -1333,7 +1361,11 @@ func cmdbootstrap() {
++@@ -1375,7 +1403,11 @@ func cmdbootstrap() {
+  		xprintf("\n")
+  	}
+  	xprintf("Building Go toolchain2 using go_bootstrap and Go toolchain1.\n")
+@@ -133,10 +136,10 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+ +	} else {
+ +		os.Setenv("CC", compilerEnvLookup(defaultcc, goos, goarch))
+ +	}
++ 	// Now that cmd/go is in charge of the build process, enable GOEXPERIMENT.
++ 	os.Setenv("GOEXPERIMENT", goexperiment)
+  	goInstall(goBootstrap, append([]string{"-i"}, toolchain...)...)
+- 	if debug {
+- 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
+-@@ -1370,50 +1402,84 @@ func cmdbootstrap() {
++@@ -1414,50 +1446,84 @@ func cmdbootstrap() {
+  	}
+  	checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
+  
+@@ -188,6 +191,8 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+ -		timelog("build", "host toolchain")
+ -		if vflag > 0 {
+ -			xprintf("\n")
++-		}
++-		xprintf("Building packages and commands for host, %s/%s.\n", goos, goarch)
+ +
+ +		if goos == oldgoos && goarch == oldgoarch {
+ +			// Common case - not setting up for cross-compilation.
+@@ -219,8 +224,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+ +			os.Setenv("GOARCH", goarch)
+ +			os.Setenv("CC", compilerEnvLookup(defaultcc, goos, goarch))
+ +			xprintf("Building packages and commands for target, %s/%s.\n", goos, goarch)
+- 		}
+--		xprintf("Building packages and commands for host, %s/%s.\n", goos, goarch)
+++		}
+  		goInstall(goBootstrap, "std", "cmd")
+  		checkNotStale(goBootstrap, "std", "cmd")
+  		checkNotStale(cmdGo, "std", "cmd")
+@@ -228,7 +232,12 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+ -		timelog("build", "target toolchain")
+ -		if vflag > 0 {
+ -			xprintf("\n")
+--		}
+++		if debug {
+++			run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
+++			run("", ShowOutput|CheckExit, pathf("%s/buildid", tooldir), pathf("%s/pkg/%s_%s/runtime/internal/sys.a", goroot, goos, goarch))
+++			checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
+++			copyfile(pathf("%s/compile4", tooldir), pathf("%s/compile", tooldir), writeExec)
++ 		}
+ -		goos = oldgoos
+ -		goarch = oldgoarch
+ -		os.Setenv("GOOS", goos)
+@@ -249,16 +258,10 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+ -		run("", ShowOutput|CheckExit, pathf("%s/buildid", tooldir), pathf("%s/pkg/%s_%s/runtime/internal/sys.a", goroot, goos, goarch))
+ -		checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
+ -		copyfile(pathf("%s/compile4", tooldir), pathf("%s/compile", tooldir), writeExec)
+-+		if debug {
+-+			run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
+-+			run("", ShowOutput|CheckExit, pathf("%s/buildid", tooldir), pathf("%s/pkg/%s_%s/runtime/internal/sys.a", goroot, goos, goarch))
+-+			checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
+-+			copyfile(pathf("%s/compile4", tooldir), pathf("%s/compile", tooldir), writeExec)
+-+		}
+  	}
+  
+  	// Check that there are no new files in $GOROOT/bin other than
+-@@ -1430,8 +1496,11 @@ func cmdbootstrap() {
++@@ -1474,8 +1540,11 @@ func cmdbootstrap() {
+  		}
+  	}
+  
+@@ -272,3 +275,6 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  
+  	if goos == "android" {
+  		// Make sure the exec wrapper will sync a fresh $GOROOT to the device.
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0007-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go-1.17/0007-cmd-go-make-GOROOT-precious-by-default.patch
+similarity index 78%
+rename from meta/recipes-devtools/go/go-1.16/0007-cmd-go-make-GOROOT-precious-by-default.patch
+rename to meta/recipes-devtools/go/go-1.17/0007-cmd-go-make-GOROOT-precious-by-default.patch
+index 4b4d0d4f3d..d522512699 100644
+--- a/meta/recipes-devtools/go/go-1.16/0007-cmd-go-make-GOROOT-precious-by-default.patch
++++ b/meta/recipes-devtools/go/go-1.17/0007-cmd-go-make-GOROOT-precious-by-default.patch
+@@ -1,4 +1,4 @@
+-From 9ba507e076c744f4d394418e4a849e68cd426a4a Mon Sep 17 00:00:00 2001
++From f65315faeacf0acb8a5dbbc754136e33381200f5 Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:18:56 +0430
+ Subject: [PATCH 7/9] cmd/go: make GOROOT precious by default
+@@ -27,9 +27,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  src/cmd/go/internal/work/exec.go   | 25 +++++++++++++++++++++++++
+  3 files changed, 34 insertions(+)
  
--SRCREV_machine_qemuarm ?= "91a35a54a7b2d4d558b3f8b24c39657a3ff71c7c"
--SRCREV_machine_qemuarm64 ?= "a8edc7f1b004c6fb56d142fba3e688ba2a051b54"
--SRCREV_machine_qemumips ?= "4f1c4fc19e8d2cb994dac34fb8bb32a7c776b318"
--SRCREV_machine_qemuppc ?= "7bb64db24c2b7bd2b6656036009bd71618eb125d"
--SRCREV_machine_qemuriscv64 ?= "13fa9f66484db2492ee09667f45ad3e52e5b35ac"
--SRCREV_machine_qemux86 ?= "13fa9f66484db2492ee09667f45ad3e52e5b35ac"
--SRCREV_machine_qemux86-64 ?= "13fa9f66484db2492ee09667f45ad3e52e5b35ac"
--SRCREV_machine_qemumips64 ?= "931ad0c17451151dd3ddfb27dc2e33965f90ce86"
--SRCREV_machine ?= "13fa9f66484db2492ee09667f45ad3e52e5b35ac"
--SRCREV_meta ?= "71f799f448d405a35d88ecee0aba3ec2b198d542"
-+SRCREV_machine_qemuarm ?= "9b1b66b01c88cf5035d148f37c70b8215c8fde15"
-+SRCREV_machine_qemuarm64 ?= "e91700bf8d8130226679954a8137c5f3fd54b81d"
-+SRCREV_machine_qemumips ?= "332bc089f06636156b9d5b2a04228c03c680c6d0"
-+SRCREV_machine_qemuppc ?= "1bf103767b96923aa6ca76e9e095b04c13ce93cd"
-+SRCREV_machine_qemuriscv64 ?= "108b8b822e7bbba492deafe60ee86839291c3250"
-+SRCREV_machine_qemux86 ?= "108b8b822e7bbba492deafe60ee86839291c3250"
-+SRCREV_machine_qemux86-64 ?= "108b8b822e7bbba492deafe60ee86839291c3250"
-+SRCREV_machine_qemumips64 ?= "7b31f99f9e245d029de7fb9e3480f7b00f846b8f"
-+SRCREV_machine ?= "108b8b822e7bbba492deafe60ee86839291c3250"
-+SRCREV_meta ?= "719be4bd6c3c7575e7942dc016e3c3bb028f163d"
++diff --git a/src/cmd/go/internal/work/action.go b/src/cmd/go/internal/work/action.go
++index 69940cb001..b0c1667def 100644
+ --- a/src/cmd/go/internal/work/action.go
+ +++ b/src/cmd/go/internal/work/action.go
+-@@ -670,6 +670,9 @@ func (b *Builder) addTransitiveLinkDeps(
++@@ -673,6 +673,9 @@ func (b *Builder) addTransitiveLinkDeps(a, a1 *Action, shlib string) {
+  			if p1 == nil || p1.Shlib == "" || haveShlib[filepath.Base(p1.Shlib)] {
+  				continue
+  			}
+@@ -39,9 +41,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  			haveShlib[filepath.Base(p1.Shlib)] = true
+  			// TODO(rsc): The use of ModeInstall here is suspect, but if we only do ModeBuild,
+  			// we'll end up building an overall library or executable that depends at runtime
++diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
++index 0ed2389cd5..c3f8a82880 100644
+ --- a/src/cmd/go/internal/work/build.go
+ +++ b/src/cmd/go/internal/work/build.go
+-@@ -167,6 +167,8 @@ See also: go install, go get, go clean.
++@@ -189,6 +189,8 @@ See also: go install, go get, go clean.
+  
+  const concurrentGCBackendCompilationEnabledByDefault = true
+  
+@@ -50,7 +54,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  func init() {
+  	// break init cycle
+  	CmdBuild.Run = runBuild
+-@@ -179,6 +181,10 @@ func init() {
++@@ -201,6 +203,10 @@ func init() {
+  
+  	AddBuildFlags(CmdBuild, DefaultBuildFlags)
+  	AddBuildFlags(CmdInstall, DefaultBuildFlags)
+@@ -61,9 +65,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  }
+  
+  // Note that flags consulted by other parts of the code
++diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
++index a37872e7c7..f4e83b97e2 100644
+ --- a/src/cmd/go/internal/work/exec.go
+ +++ b/src/cmd/go/internal/work/exec.go
+-@@ -468,6 +468,23 @@ func (b *Builder) build(a *Action) (err
++@@ -514,6 +514,23 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
+  		return errors.New("binary-only packages are no longer supported")
+  	}
+  
+@@ -87,7 +93,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	if err := b.Mkdir(a.Objdir); err != nil {
+  		return err
+  	}
+-@@ -1520,6 +1537,14 @@ func BuildInstallFunc(b *Builder, a *Act
++@@ -1558,6 +1575,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
+  		return err
+  	}
+  
+@@ -102,3 +108,6 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	if err := b.Mkdir(a.Objdir); err != nil {
+  		return err
+  	}
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0008-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.17/0008-use-GOBUILDMODE-to-set-buildmode.patch
+similarity index 84%
+rename from meta/recipes-devtools/go/go-1.16/0008-use-GOBUILDMODE-to-set-buildmode.patch
+rename to meta/recipes-devtools/go/go-1.17/0008-use-GOBUILDMODE-to-set-buildmode.patch
+index 4e5d5021d6..9a1bce809c 100644
+--- a/meta/recipes-devtools/go/go-1.16/0008-use-GOBUILDMODE-to-set-buildmode.patch
++++ b/meta/recipes-devtools/go/go-1.17/0008-use-GOBUILDMODE-to-set-buildmode.patch
+@@ -1,4 +1,4 @@
+-From 971b5626339ce0c4d57f9721c9a81af566c5a044 Mon Sep 17 00:00:00 2001
++From 1446c2c3cc6b1c66d9ef9507eb596c5bfed3dc47 Mon Sep 17 00:00:00 2001
+ From: Alex Kube <alexander.j.kube@gmail.com>
+ Date: Wed, 23 Oct 2019 21:19:26 +0430
+ Subject: [PATCH 8/9] cmd/go: Use GOBUILDMODE to set buildmode
+@@ -23,9 +23,11 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  src/cmd/go/internal/work/build.go | 8 +++++++-
+  1 file changed, 7 insertions(+), 1 deletion(-)
  
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
++diff --git a/src/cmd/go/internal/work/build.go b/src/cmd/go/internal/work/build.go
++index c3f8a82880..23d1aa4836 100644
+ --- a/src/cmd/go/internal/work/build.go
+ +++ b/src/cmd/go/internal/work/build.go
+-@@ -254,7 +254,13 @@ func AddBuildFlags(cmd *base.Command, ma
++@@ -275,7 +275,13 @@ func AddBuildFlags(cmd *base.Command, mask BuildFlagMask) {
+  
+  	cmd.Flag.Var(&load.BuildAsmflags, "asmflags", "")
+  	cmd.Flag.Var(buildCompiler{}, "compiler", "")
+@@ -40,3 +42,6 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+  	cmd.Flag.Var(&load.BuildGcflags, "gcflags", "")
+  	cmd.Flag.Var(&load.BuildGccgoflags, "gccgoflags", "")
+  	if mask&OmitModFlag == 0 {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/go/go-1.16/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch b/meta/recipes-devtools/go/go-1.17/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
+similarity index 75%
+rename from meta/recipes-devtools/go/go-1.16/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
+rename to meta/recipes-devtools/go/go-1.17/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
+index dcbdf58752..f8bd491f93 100644
+--- a/meta/recipes-devtools/go/go-1.16/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
++++ b/meta/recipes-devtools/go/go-1.17/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
+@@ -1,7 +1,7 @@
+-From a983bc6cd48fb0da939e3329cac18d7a3b29ecf8 Mon Sep 17 00:00:00 2001
++From c5f3c1aa77753254586c0c8a6893862ae97eabe1 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 22 Feb 2021 17:54:01 -0800
+-Subject: [PATCH] Revert "cmd/go: make sure CC and CXX are absolute"
++Subject: [PATCH 9/9] Revert "cmd/go: make sure CC and CXX are absolute"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.141"
-+LINUX_VERSION ?= "5.4.142"
+ OE uses CC/CXX values which consists of cmpiler and options together,
+ secondly, the environment is canned so this check add little value to OE
+@@ -16,47 +16,44 @@ This reverts commit aa161e799df7e1eba99d2be10271e76b6f758142.
+ Upstream-Status: Inappropriate [OE-Specific]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- src/cmd/go/internal/envcmd/env.go        |  5 -----
++ src/cmd/go/internal/envcmd/env.go        |  2 +-
+  src/cmd/go/internal/work/init.go         |  7 -------
+  src/cmd/go/testdata/script/env_write.txt | 24 ------------------------
+- 3 files changed, 36 deletions(-)
++ 3 files changed, 1 insertion(+), 32 deletions(-)
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
+-index 6937187522..29f9057c3f 100644
++index ff6f0d810a..ca0494b5d4 100644
+ --- a/src/cmd/go/internal/envcmd/env.go
+ +++ b/src/cmd/go/internal/envcmd/env.go
+-@@ -427,11 +427,6 @@ func checkEnvWrite(key, val string) error {
+- 		if !filepath.IsAbs(val) && val != "" {
++@@ -458,7 +458,7 @@ func checkEnvWrite(key, val string) error {
+  			return fmt.Errorf("GOPATH entry is relative; must be absolute path: %q", val)
+  		}
+--	// Make sure CC and CXX are absolute paths
+--	case "CC", "CXX":
+--		if !filepath.IsAbs(val) && val != "" && val != filepath.Base(val) {
+--			return fmt.Errorf("%s entry is relative; must be absolute path: %q", key, val)
+--		}
+- 	}
+- 
+- 	if !utf8.ValidString(val) {
++ 	// Make sure CC and CXX are absolute paths
++-	case "CC", "CXX", "GOMODCACHE":
+++	case "GOMODCACHE":
++ 		if !filepath.IsAbs(val) && val != "" && val != filepath.Base(val) {
++ 			return fmt.Errorf("%s entry is relative; must be absolute path: %q", key, val)
++ 		}
+ diff --git a/src/cmd/go/internal/work/init.go b/src/cmd/go/internal/work/init.go
+-index ba7c7c2fbb..3a6df5f758 100644
++index 37a3e2d0ff..e529cc2917 100644
+ --- a/src/cmd/go/internal/work/init.go
+ +++ b/src/cmd/go/internal/work/init.go
+-@@ -41,13 +41,6 @@ func BuildInit() {
++@@ -38,13 +38,6 @@ func BuildInit() {
++ 		}
+  		cfg.BuildPkgdir = p
+  	}
+- 
++-
+ -	// Make sure CC and CXX are absolute paths
+ -	for _, key := range []string{"CC", "CXX"} {
+ -		if path := cfg.Getenv(key); !filepath.IsAbs(path) && path != "" && path != filepath.Base(path) {
+ -			base.Fatalf("go %s: %s environment variable is relative; must be absolute path: %s\n", flag.Args()[0], key, path)
+ -		}
+ -	}
+--
+- 	// For each experiment that has been enabled in the toolchain, define a
+- 	// build tag with the same name but prefixed by "goexperiment." which can be
+- 	// used for compiling alternative files for the experiment. This allows
++ }
++ 
++ func instrumentInit() {
+ diff --git a/src/cmd/go/testdata/script/env_write.txt b/src/cmd/go/testdata/script/env_write.txt
+-index bda1e57826..c99aadb7f2 100644
++index b5e9739167..566c876658 100644
+ --- a/src/cmd/go/testdata/script/env_write.txt
+ +++ b/src/cmd/go/testdata/script/env_write.txt
+ @@ -129,30 +129,6 @@ go env -w GOTMPDIR=
+@@ -91,5 +88,5 @@ index bda1e57826..c99aadb7f2 100644
+  env GOOS=
+  env GOARCH=
+ -- 
+-2.30.1
++2.25.1
+ 
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.5.bb b/meta/recipes-devtools/go/go-binary-native_1.17.bb
+similarity index 83%
+rename from meta/recipes-devtools/go/go-binary-native_1.16.5.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.17.bb
+index b3e2b6a60e..2b3db17d3b 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.16.5.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.17.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ PROVIDES = "go-native"
+ 
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "b12c23023b68de22f74c0524f10b753e7b08b1504cb7e417eccebdd3fae49061"
+-SRC_URI[go_linux_arm64.sha256sum] = "d5446b46ef6f36fdffa852f73dfbbe78c1ddf010b99fa4964944b9ae8b4d6799"
++SRC_URI[go_linux_amd64.sha256sum] = "6bf89fc4f5ad763871cf7eac80a2d594492de7a818303283f1366a7f6a30372d"
++SRC_URI[go_linux_arm64.sha256sum] = "01a9af009ada22122d3fcb9816049c1d21842524b38ef5d5a0e2ee4b26d7c3e7"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.17.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.16.5.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.17.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.16.5.bb b/meta/recipes-devtools/go/go-cross_1.17.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.16.5.bb
+rename to meta/recipes-devtools/go/go-cross_1.17.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.17.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.16.5.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.17.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.16.5.bb b/meta/recipes-devtools/go/go-native_1.17.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.16.5.bb
+rename to meta/recipes-devtools/go/go-native_1.17.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.16.5.bb b/meta/recipes-devtools/go/go-runtime_1.17.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.16.5.bb
+rename to meta/recipes-devtools/go/go-runtime_1.17.bb
+diff --git a/meta/recipes-devtools/go/go_1.16.5.bb b/meta/recipes-devtools/go/go_1.17.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.16.5.bb
+rename to meta/recipes-devtools/go/go_1.17.bb
 -- 
-2.19.1
+2.32.0
 
