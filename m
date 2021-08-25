@@ -1,133 +1,127 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.13817.1629891495402181014
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.13803.1629891507737576876
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 04:38:15 -0700
+ Wed, 25 Aug 2021 04:38:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eUAzfwXh;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id k20-20020a05600c0b5400b002e87ad6956eso2688063wmr.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 04:38:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=R9zn0BFf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id o39-20020a05600c512700b002e74638b567so4357672wms.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 04:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=el9sEQSodJxLUUAsXJjmS+3sT0eduRJ1v9dHKSQ7frM=;
-        b=eUAzfwXhQaXXtO3ldQbWOw03ErWxOxdssr3EaPG/51CH7wskz/EYg6qdE7ne237Tem
-         l1pq/KQ04vnVNiCJcrP82U9BRJZjNnRvqVzBml/84BIOfBn5SiU0l+lwLsHkICjvoXJ/
-         ZM+TiQ05rQWzyT19WYIr/xZxDpo7CEXvedC/GdqE5OFmnEfSk2E7usrhy6qKIN+yRYPz
-         D4kzdgqXg3TuE0cYkaD2e2ntMOt69zDqbUc5NUioER0WFRxQLNUnPchOWJPk5X7YeaKV
-         ENKzgovLmro+R3bH+X7LbjxSKWR6QnGrzHSL4t9cGLkGHuZUB2RCFsTsbPXnKJdsxkdx
-         6iJw==
+        bh=T6GgyynrJvccencz2pGguy0MjL8Of9vYpKHLiEri8x8=;
+        b=R9zn0BFfn7Ncm7dVLA+KdGeKrqnEI8w9LPk/tlKem2G/MgQ7ETIruztrRM1gbRdB6N
+         gqYsixFpbNQPIfHtEYPfqMuMb1XJDotc8mVHPp27l+SCcvTuQAus4ydmAJAWnlIMwn6I
+         ZH5F/YMXkHQWuwoklkUXp08W7i+PrJ1MH4PJzDIpMHkFLfO3qL3MgBjR0lzxYdzsefGv
+         /+p6kfX9xto8Nd3elvl2AEjiL7FQJDA6E6+AVjEV/+nzzFpL3yTSHfyEYSLzzFyuMnTJ
+         TiS6paQjrKs0+vKlX3tEUQhok9VYQUR9ADuN3rbjOVd+hUPF75RQBfEMs/yxIS3q5XEA
+         nRcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=el9sEQSodJxLUUAsXJjmS+3sT0eduRJ1v9dHKSQ7frM=;
-        b=ekMOoQ2XzFSyl63oRZ7eOLS0wtnui7gbi2jL+sWn7WBCcQO+RVeVBXZtkj1A9w9VXZ
-         t3k1NrJt3Vop/DbQ0EdBvYWX/ra9AiGrSHmjkuEQnHmQY+zF7sF4o3DN61QjKAqEnHg1
-         c6PzaKyfB3UOi0PF1+xK0Jiv+1DZ6lPvSnd3WPZwwbEMzsAZaVwhijLeVBTKLdd0nN7k
-         r1ExIcfEmVJQ8ra5XktVZV+DgjZ0UaIp5Ct1WsY9y/0Z+UJjQnpaZezalaNXnVgUXacp
-         hFH8K7lu9JpBqCul4jsbDjWvHeY39bGs5Di/hARKe4Mnrf6dw2OU03OI9zSWLkJmLAhx
-         y6oA==
-X-Gm-Message-State: AOAM5330fhcscbXcxBqlfRrm7cd94jwwez8fosiEtI76n+0bWEJxiqh0
-	Hlh2+SqG/9mb8wA5SrULcXLlhVNZSS5aKg==
-X-Google-Smtp-Source: ABdhPJzRr91p4RuvlhtqzV9Rw6KM772WJJp8f9+XTUlHJw7JRbdquFnvkPaGl4LnDp4dQx2Q09zu1g==
-X-Received: by 2002:a1c:27c5:: with SMTP id n188mr8876718wmn.126.1629891494035;
-        Wed, 25 Aug 2021 04:38:14 -0700 (PDT)
+        bh=T6GgyynrJvccencz2pGguy0MjL8Of9vYpKHLiEri8x8=;
+        b=cNXhX0ekBocQuZtv118f+rbPTA/DvVJl2ImblF0U4HorA/qgnohf+owBGkySt/OQt4
+         sx2UkxZyk7rncGyJnFIMsQNz4e9OznMwqY01sS4cbzRiOvwHalmRk0c+UERo5a5WHFic
+         m2GPlSjPgQz00dhW9RxP0V8XqlTKFt5Rys82TQTR+cKVVtIN5FkZxpzrIpONpiVN+VHh
+         WLjNf7DJOje7JeRU4bSA0K4VPsCjkI09RdHBamu2y9FGS22g4fehLLUyizuQJuq1UFY3
+         RV45uHWDTA0MYzHu2fPk5KHGaE8uKXRbHc42BhgP1du+EP0zdNxuW9w6huK8b5YwrOCH
+         rZwA==
+X-Gm-Message-State: AOAM530fE/jEFqQc3M3YTISPfg5pgw18ICPU1xrt1Q4gfdfk7j+rPymX
+	7GZbexznL6SxrCWm13RZR3vG7id4DBw1CQ==
+X-Google-Smtp-Source: ABdhPJxx9tMRaCUmiOMb3LZhdd5JIS8X2YfnxGZYrrX6Ipwnqs9GtHt7g7CuahUyqTIxPNXXq0izFQ==
+X-Received: by 2002:a7b:c396:: with SMTP id s22mr8646778wmj.131.1629891506399;
+        Wed, 25 Aug 2021 04:38:26 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a1:9900:5e06:8d90:670b:86c8])
-        by smtp.gmail.com with ESMTPSA id z17sm20790217wrr.66.2021.08.25.04.38.13
+        by smtp.gmail.com with ESMTPSA id z17sm20790217wrr.66.2021.08.25.04.38.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 04:38:13 -0700 (PDT)
+        Wed, 25 Aug 2021 04:38:14 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 03/16] glib-2.0: upgrade 2.68.3 -> 2.68.4
-Date: Wed, 25 Aug 2021 13:37:51 +0200
-Message-Id: <20210825113804.779395-3-alex.kanavin@gmail.com>
+Subject: [PATCH 04/16] util-linux: upgrade 2.37.1 -> 2.37.2
+Date: Wed, 25 Aug 2021 13:37:52 +0200
+Message-Id: <20210825113804.779395-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210825113804.779395-1-alex.kanavin@gmail.com>
 References: <20210825113804.779395-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-
-Drop merged 0001-correctly-use-3-parameters-for-close_range.patch
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...tly-use-3-parameters-for-close_range.patch | 29 -------------------
- .../glib-2.0/glib-2.0/relocate-modules.patch  |  2 +-
- ...{glib-2.0_2.68.3.bb => glib-2.0_2.68.4.bb} |  3 +-
- 3 files changed, 2 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.68.3.bb => glib-2.0_2.68.4.bb} (93%)
+ ...2.37.1.bb => util-linux-libuuid_2.37.2.bb} |  0
+ meta/recipes-core/util-linux/util-linux.inc   |  3 +-
+ .../util-linux/CVE-2021-37600.patch           | 33 -------------------
+ ...l-linux_2.37.1.bb => util-linux_2.37.2.bb} |  0
+ 4 files changed, 1 insertion(+), 35 deletions(-)
+ rename meta/recipes-core/util-linux/{util-linux-libuuid_2.37.1.bb => util-linux-libuuid_2.37.2.bb} (100%)
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
+ rename meta/recipes-core/util-linux/{util-linux_2.37.1.bb => util-linux_2.37.2.bb} (100%)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.37.1.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.37.2.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux-libuuid_2.37.1.bb
+rename to meta/recipes-core/util-linux/util-linux-libuuid_2.37.2.bb
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 0f17c73e86..1e3cd28801 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -35,7 +35,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://run-ptest \
+            file://display_testname_for_subtest.patch \
+            file://avoid_parallel_tests.patch \
+-           file://CVE-2021-37600.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "8e4bd42053b726cf86eb4d13a73bc1d9225a2c2e1a2e0d2a891f1020f83e6b76"
++SRC_URI[sha256sum] = "6a0764c1aae7fb607ef8a6dd2c0f6c47d5e5fd27aa08820abaad9ec14e28e9d9"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch b/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
 deleted file mode 100644
-index 6ff25fc535..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch
+index 2b306c435b..0000000000
+--- a/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
 +++ /dev/null
-@@ -1,29 +0,0 @@
--From b71117d89434db83d34bc1b981ca03d4be299576 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 8 Jul 2021 17:26:43 -0700
--Subject: [PATCH] correctly use 3 parameters for close_range
+@@ -1,33 +0,0 @@
+-From 1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c Mon Sep 17 00:00:00 2001
+-From: Karel Zak <kzak@redhat.com>
+-Date: Tue, 27 Jul 2021 11:58:31 +0200
+-Subject: [PATCH] sys-utils/ipcutils: be careful when call calloc() for uint64
+- nmembs
 -
--libc implementation has 3 parameter e.g.
--https://www.freebsd.org/cgi/man.cgi?query=close_range&sektion=2&format=html
+-Fix: https://github.com/karelzak/util-linux/issues/1395
+-Signed-off-by: Karel Zak <kzak@redhat.com>
 -
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2180]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-CVE: CVE-2021-37600
+-Upstream-Status: Backport [1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c]
+-
+-Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
 ----
-- glib/gspawn.c | 2 +-
+- sys-utils/ipcutils.c | 2 +-
 - 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/glib/gspawn.c b/glib/gspawn.c
--index 899647c2f..3073a10a4 100644
----- a/glib/gspawn.c
--+++ b/glib/gspawn.c
--@@ -1520,7 +1520,7 @@ safe_closefrom (int lowfd)
--    *
--    * Handle ENOSYS in case it’s supported in libc but not the kernel; if so,
--    * fall back to safe_fdwalk(). */
---  if (close_range (lowfd, G_MAXUINT) != 0 && errno == ENOSYS)
--+  if (close_range (lowfd, G_MAXUINT, 0) != 0 && errno == ENOSYS)
-- #endif  /* HAVE_CLOSE_RANGE */
--   (void) safe_fdwalk (close_func, GINT_TO_POINTER (lowfd));
-- #endif
----
--2.32.0
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index f34f30bb3c..846c8d62b6 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From e56cdb8c343dd6a6ed3b10bd54e353d633ad6158 Mon Sep 17 00:00:00 2001
-+From dac2bdeea38388e069412aa27eff8f1eff0440e5 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.68.4.bb
-similarity index 93%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.68.4.bb
-index c71dc81202..cd789de3c0 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.68.4.bb
-@@ -18,11 +18,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-            file://0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch \
-            file://time-test.patch \
--           file://0001-correctly-use-3-parameters-for-close_range.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
- 
--SRC_URI[sha256sum] = "e7e1a3c20c026109c45c9ec4a31d8dcebc22e86c69486993e565817d64be3138"
-+SRC_URI[sha256sum] = "62fd061d08a75492617e625a73e2c05e259f831acbb8e1f8b9c81f23f7993a3b"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
+-diff --git a/sys-utils/ipcutils.c b/sys-utils/ipcutils.c
+-index e784c4dcb..18868cfd3 100644
+---- a/sys-utils/ipcutils.c
+-+++ b/sys-utils/ipcutils.c
+-@@ -218,7 +218,7 @@ static void get_sem_elements(struct sem_data *p)
+- {
+- 	size_t i;
+- 
+--	if (!p || !p->sem_nsems || p->sem_perm.id < 0)
+-+	if (!p || !p->sem_nsems || p->sem_nsems > SIZE_MAX || p->sem_perm.id < 0)
+- 		return;
+- 
+- 	p->elements = xcalloc(p->sem_nsems, sizeof(struct sem_elem));
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-core/util-linux/util-linux_2.37.1.bb b/meta/recipes-core/util-linux/util-linux_2.37.2.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux_2.37.1.bb
+rename to meta/recipes-core/util-linux/util-linux_2.37.2.bb
 -- 
 2.31.1
 
