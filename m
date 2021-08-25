@@ -1,119 +1,175 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web08.14980.1629897473696835666
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.15057.1629897670064968328
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 06:17:54 -0700
+ Wed, 25 Aug 2021 06:21:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Uz0R1Y8N;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id b7so36944336edu.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 06:17:53 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=LFEsxyRe;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ymX/iltly0mWfs0xGLO4R/hBlsSzGcI/WAsPBpueMjY=;
-        b=Uz0R1Y8NnRok5K4FJQ/UXKP4RRRr4/aDxyu4oVCpal+lFajSMI1vTS3DxkpylO+Jw+
-         yjjGLNGnskwtlI14/WY4K92SxkUELzyyNA2evJghwnPquSk3qrx3NlLgMN1R0xxFPpAG
-         GQL70g9nE29C+I1uYkWSWdGhBf8VkRqZEDUZ8gh+cF75WFy8a4xZJ7kiDxu6VSItuqTx
-         GZ0JnzT5k1ZRcgAbV64OeVzO/IRkAY8aT+QMCZMJxslTsOe7pSUo04JwxdoATFW0oiT7
-         XwUxhfYMao0CwWcm39DuLD1u/n6zr6Jgg9ebJwbXZwXB1Dhi3jbWqKSraemzrFE65FEc
-         cO0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ymX/iltly0mWfs0xGLO4R/hBlsSzGcI/WAsPBpueMjY=;
-        b=T9zeqMTgEcYAGr0Qp7Ai7k317i/0SIDgAZbJtaV5QnDxafDvgQ/s9UjvUqgh8NjdJ5
-         6Z20gfpfEbyyl1KrD06Oe9Jb3YSwkhObeCsGelYYp7GRO0UVGJUzI/tg1u6lTQ3YyPcz
-         FUyM656BDyGwloM+mokKh94T7VFdGVDv8XpPAL4U+jGByv2gj7y1B2l5ETkSV66NRr6+
-         /iS+2dbcfg9BzUhUgn2J8U5dx5PKGg3xfs2VA/8eGpky9lngZLQ4fO1srgKpaBDTGKOA
-         UsVNK/iRw/1iZemV+atRghwlFFhCp1tj4vJJ8VjySkyfptevhTz1THsMgK9VAnwt22q0
-         2DyA==
-X-Gm-Message-State: AOAM5310eqLiB111VqqPvmROAQkE/U4s+mzV5wy2X0mfNBGOSEY6l5eI
-	pjPWJW7p882QYx9xomKrLLwBNMmkEPDiIv5eu0k=
-X-Google-Smtp-Source: ABdhPJz/HY3lUE7rPYSW8F1d+Qi3WjyHOYb83WikjBMW3wSR8EHX66Tna0Q0kviqQGInzc48yR9RW+85FIRzO+khgs4=
-X-Received: by 2002:aa7:c685:: with SMTP id n5mr28433108edq.27.1629897472158;
- Wed, 25 Aug 2021 06:17:52 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1629897670;
+  x=1661433670;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NAVBfvRo0SL/yvt/ScPG1/3mtLlQ/z7ud+jvJDDYm3Q=;
+  b=LFEsxyReCaCuFCt6pEORqHUll/P+1mFH+rJyGPidzilzKSdiOAqRmaIY
+   n/ER2rVFC/mqKiVK1SzLIBR4pn87LRpBijZBEqozFlLgFARwDDCM0eWwV
+   nozhjFdLqx57hAnSG70zzOP2tCzE6PiCS8Rf1p1ZFpUzhw53tVg2LoolW
+   TFc1/otI0I0WkQBVF/phZ/70S9rVw7QW0TQss1eCawBi/nKw5gzBQ7mEm
+   AKny/6zsI3KYzP3K5a5la9fuAf6f2QWxJ/gTO6mKXFcIUVzlNsAqXWtFt
+   UwuxXbpC6Qg23JR5zxUc9BbWwiEWWF+oPWdD1Oyl1psZEXURW8i7Z6eMW
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCHv2] lttng-modules: Make it build when CONFIG_TRACEPOINTS is not enabled again
+Date: Wed, 25 Aug 2021 15:20:58 +0200
+Message-ID: <20210825132058.9396-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20210825094106.11829-1-pkj@axis.com> <CAHtQpK7dzG3RPMbPH_5z6-o3p5e0AuLTO+xBW_UX91jSNH7YfA@mail.gmail.com>
- <d6c1a107cf6e4a018443f985d554bf1f@axis.com>
-In-Reply-To: <d6c1a107cf6e4a018443f985d554bf1f@axis.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 25 Aug 2021 09:17:41 -0400
-Message-ID: <CADkTA4Nb_wm8QST7PRUax9xcUX4HFfdkjrPrW_NyjfmCDH2Mcw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lttng-modules: Make it build when CONFIG_TRACEPOINTS is not enabled again
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Andrey Zhizhikin <andrey.z@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, Aug 25, 2021 at 8:57 AM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: Andrey Zhizhikin <andrey.z@gmail.com>
-> > Sent: den 25 augusti 2021 12:20
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>; OE Core mailing list
-> > <openembedded-core@lists.openembedded.org>
-> > Subject: Re: [OE-core] [PATCH] lttng-modules: Make it build when
-> > CONFIG_TRACEPOINTS is not enabled again
-> >
-> > Hello Peter,
-> >
-> > On Wed, Aug 25, 2021 at 11:41 AM Peter Kjellerstedt
-> > <peter.kjellerstedt@axis.com> wrote:
-> > >
-> > > Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch was updated
-> > > with the 2.13.0 update (commit 5dad15af), but unfortunately it no longer
-> > > did what it was intended to do.
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >  ...fail-if-CONFIG_TRACEPOINTS-is-not-en.patch | 42 +++++++++++--------
-> > >  1 file changed, 25 insertions(+), 17 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-
-> > fail-if-CONFIG_TRACEPOINTS-is-not-en.patch b/meta/recipes-
-> > kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-
-> > not-en.patch
-> >
-> > I guess the patch you've refreshed is not a correct one...
-> >
-> > There is another patch introduced by Bruce in the commit 18bf7b0
-> > ("lttng-modules: update devupstream to v2.13-rc "), namely
-> > 0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-> >
-> > It make sense to refresh rather that one instead of the Makefile one,
-> > and have it included in the SRC_URI (see discussion in
-> > https://lists.openembedded.org/g/openembedded-core/topic/84950303#154888).
-> >
-> > --
-> > Regards,
-> > Andrey.
->
-> Right, I had missed that there were two patches doing the same thing
-> (though neither actually solved the problem after the update to 2.13.0).
-> I will send an updated review unifying the patches and adding my solution
-> to disable building the module when CONFIG_TRACEPOINTS is not enabled.
->
+Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch was updated
+with the 2.13.0 update (commit 5dad15af), but unfortunately it no
+longer did what it was intended to do. There is also
+0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch, which
+was based on the former patch, but it too does not solve the problem.
 
-We really should stop dragging these patches along at all.
+Unify the two patches, and actually disable building of the kernel
+module if CONFIG_TRACEPOINTS is not enabled, the way it was intended.
 
-I have a unified set of patches here as well, but continuing to allow
-lttng modules to build in configurations like these, just doesn't make
-sense (which is why I haven't sent them).
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
 
-We should have a distro feature, and simply drop it from package lists
-when appropriate.
+PATCHv2: Unify
+Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch and
+0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch into
+the latter, and use that both with and without devupstream.
 
-Bruce
+ ...e-missing-CONFIG_TRACEPOINTS-to-warn.patch | 25 +++++++++----
+ ...fail-if-CONFIG_TRACEPOINTS-is-not-en.patch | 37 -------------------
+ .../lttng/lttng-modules_2.13.0.bb             | 10 ++---
+ 3 files changed, 21 insertions(+), 51 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch
 
-> //Peter
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
+index 6d81c81efe..76a5787c37 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
+@@ -1,4 +1,4 @@
+-From 0287f5c32b9fd99078e71c22ca679343d18f1513 Mon Sep 17 00:00:00 2001
++From 878f89b6136ff7b870a19e04901cc6f316bbe10a Mon Sep 17 00:00:00 2001
+ From: Bruce Ashfield <bruce.ashfield@gmail.com>
+ Date: Sat, 15 May 2021 10:26:38 -0400
+ Subject: [PATCH] src/Kbuild: change missing CONFIG_TRACEPOINTS to warning
+@@ -16,22 +16,31 @@ Upstream-Status: Inappropriate [embedded specific]
+ 
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+ ---
+- src/Kbuild | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/Kbuild | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
+ 
+ diff --git a/src/Kbuild b/src/Kbuild
+-index 7137874f..18a43b50 100644
++index 7137874..04eb5c9 100644
+ --- a/src/Kbuild
+ +++ b/src/Kbuild
+-@@ -2,7 +2,7 @@
++@@ -2,10 +2,13 @@
+  
+  ifdef CONFIG_LOCALVERSION	# Check if dot-config is included.
+    ifeq ($(CONFIG_TRACEPOINTS),)
+ -    $(error The option CONFIG_TRACEPOINTS needs to be enabled in your kernel configuration)
+ +    $(warning The option CONFIG_TRACEPOINTS needs to be enabled in your kernel configuration)
+++    DISABLE_MODULE = y
+    endif # CONFIG_TRACEPOINTS
+  endif # ifdef CONFIG_LOCALVERSION
+  
+--- 
+-2.19.1
+-
+++ifneq ($(DISABLE_MODULE),y)
+++
++ TOP_LTTNG_MODULES_DIR := $(shell dirname $(lastword $(MAKEFILE_LIST)))/..
++ 
++ lttng_check_linux_version = $(shell pwd)/include/linux/version.h
++@@ -150,3 +153,5 @@ lttng-statedump-objs := lttng-statedump-impl.o
++ obj-$(CONFIG_LTTNG) += probes/
++ obj-$(CONFIG_LTTNG) += lib/
++ obj-$(CONFIG_LTTNG) += tests/
+++
+++endif # DISABLE_MODULE
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch b/meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch
+deleted file mode 100644
+index a852834344..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 1b0e574d680101105a6c1e8931c78824f5a97a42 Mon Sep 17 00:00:00 2001
+-From: Otavio Salvador <otavio@ossystems.com.br>
+-Date: Mon, 5 Sep 2016 17:08:56 +0000
+-Subject: [PATCH] Makefile: Do not fail if CONFIG_TRACEPOINTS is not enabled
+-Organization: O.S. Systems Software LTDA.
+-
+-The lttng-modules are being pulled by the tools-profile image feature,
+-however, not every kernel has the CONFIG_TRACEPOINTS feature enabled.
+-
+-This change makes the build do not fail when CONFIG_TRACEPOINTS is not
+-available, allowing it to be kept being pulled by default.
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+-[bva: modified for lttng-modules 2.13+ context]
+-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+----
+- Makefile | 9 +++++----
+- 1 file changed, 5 insertions(+), 4 deletions(-)
+-
+-Index: lttng-modules-2.13.0/Makefile
+-===================================================================
+---- lttng-modules-2.13.0.orig/Makefile
+-+++ lttng-modules-2.13.0/Makefile
+-@@ -7,6 +7,11 @@
+- 
+- obj-$(CONFIG_LTTNG) += src/
+- 
+-+  ifdef CONFIG_LOCALVERSION	# Check if dot-config is included.
+-+    ifneq ($(CONFIG_TRACEPOINTS),)
+-+      $(warning The option CONFIG_TRACEPOINTS needs to be enabled in your kernel configuration)
+-+    endif # CONFIG_TRACEPOINTS
+-+  endif # ifdef CONFIG_LOCALVERSION
+- else # KERNELRELEASE
+- 
+- # This part of the Makefile is used when the 'make' command is runned in the
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
+index b95d7ecaaf..109f5d6933 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.0.bb
+@@ -9,9 +9,9 @@ inherit module
+ 
+ include lttng-platforms.inc
+ 
+-SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+-           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+-           "
++SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2"
++# Use :append here so that the patch is applied also when using devupstream
++SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
+ 
+ SRC_URI[sha256sum] = "5ebf2b3cd128b3a1c8afaea1e98d5a6f7f0676fd524fcf72361c34d9dc603356"
+ 
+@@ -34,9 +34,7 @@ python do_package:prepend() {
+ BBCLASSEXTEND = "devupstream:target"
+ LIC_FILES_CHKSUM:class-devupstream = "file://LICENSE;md5=0464cff101a009c403cd2ed65d01d4c4"
+ DEFAULT_PREFERENCE:class-devupstream = "-1"
+-SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13 \
+-           file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
+-           "
++SRC_URI:class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.13"
+ 
+ SRCREV:class-devupstream = "f982b51a98a29cb4aaf607cb9bbf2b509d8e6933"
+ PV:class-devupstream = "2.13.0-rc2+git${SRCPV}"
