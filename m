@@ -1,116 +1,134 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web09.20595.1629920595938366757
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.21126.1629923293877724926
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 12:43:16 -0700
+ Wed, 25 Aug 2021 13:28:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KzmkRZrt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id m2so289478wmm.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 12:43:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FsyxLt5y;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id q3so281385plx.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 13:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=5dWknnRwI5+aNiON6eRxZrLDojf6Hw5OnmAGoZHw2so=;
-        b=KzmkRZrtchwbD5rVDhQhH5hc5fNRTVGbqbEnDuSzPz57G9qIDNkjHTMyqxcCYQdN1g
-         nV8Th4IRTSw4tQCbLFJ+RtkeecLyRdiUBFjnGQwr0U0zzFSJEc0SHIGcdifgsi2qEgLv
-         7TD4j05sEpusL361GGtdjs5Ffq5itz0uQXT88=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FyWD5QPRLRFv53eDRtG4IV4Zk5lHh2mLkdHo3SB0vGI=;
+        b=FsyxLt5yJzMYAf58Wuvv8FN6pRcHedcpGmK7VI7LptJkYOZ2lcZzmMYUs61iP505dv
+         /vOr/iXHsFqaBLssCHtVxWZ4f6FL1mJK8f4k7SJLRb5rrodhisXkUk9df4SRHr07qiok
+         qU1l4ADdtXASr1dDuLOVsE0wdFzghC+esPGCo65mxoLx48nP426HpD5BnRFmW7ETiJmq
+         ZgpGniyqI2KDSGEYZ76MYwEpvc11rYD2ONq71b3aBWgUf7IKul6IML6FCPsVdhLYNz3U
+         3jUW3PdES+fMf/yt0ShnnC6RCPanTWVUbch1KwhnPgT8Io6NlVsemuRr57YLDyIRFrQs
+         tNLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=5dWknnRwI5+aNiON6eRxZrLDojf6Hw5OnmAGoZHw2so=;
-        b=dqWj4EkuoPJ4GKbUxDVN2JPXYZuk3l0wQRl6oggmenC6Gz0CPiWu0IHgqvVZB/V+Ki
-         h7gccTENmyhakbuxMRuz2oETLCvF/TeteN+doB4xv2rQzfKKa9mHMxrTKbpbSMIo6TeY
-         Vu8AVeDiRzF/+fuhbNJ1/xyQYs0UTcO0lpSJyeJNc7HAofTPbyhibfIpPH2HCDKkWuA4
-         9oGLM/e9MeMEmssvAKgMuu+85MvJ/Wwxvf9XnTRqMZKiPSnPOaiutmmH0sPd+szS0DuD
-         cAyY3UNY91DaT/3TvtYZ4d3D4S33WIA/jHD8a4cNkiTkrt2P9cbZJn8nW6z6YxZkMY18
-         FtsQ==
-X-Gm-Message-State: AOAM530Y+H/LolFf9UR+2pjCbf5Kzt0kTpPMqHwJOSC+SysYGv2mqj59
-	P6hSNUAwYSXF1gZF5y8E14Ro7Q==
-X-Google-Smtp-Source: ABdhPJxssKi8rkAukWC85srFDZCe8WC6/mrvHWaf3HXxg9CDj4c5vit/542FBO9XE684MHJgDGIj3A==
-X-Received: by 2002:a05:600c:2186:: with SMTP id e6mr10659774wme.71.1629920594379;
-        Wed, 25 Aug 2021 12:43:14 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4? ([2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4])
-        by smtp.gmail.com with ESMTPSA id g6sm549073wmq.14.2021.08.25.12.43.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FyWD5QPRLRFv53eDRtG4IV4Zk5lHh2mLkdHo3SB0vGI=;
+        b=FAdeX/vc2+4lrTH/54DSMK2B2XvkQA+JFXLxR+owSR5Q18ZAdpYcpB0C1iU1osNeg8
+         LRKWWoaUP3PunN1j8yYAydli9n3FRUvN5u3WswYFv4ABy+P/BXzOvigUz50eBcadl1qm
+         QqwsjhW3gxxn3PAQTvpXb6CQilZNT6POR+8fpcNBI/s+T2RyV1C6kWwys33M6WLyBEko
+         x0AmIOFeCnD2Kw/R9id0PaB+BegYHGkMV/p92YmgUOjWfGC/tpytQmaA5cM/xOmybFQd
+         O6/7sF2Ij1WBr54qz1eibpz21IMz21nZDoo004trf8PdcLHI5CANEMIkZyO8t/jwuLRg
+         BC4g==
+X-Gm-Message-State: AOAM532elIo1/wNHUMMw0ci4peyZvkqzitR909AMEAJzAt/3XJ2l3SOR
+	YOXDMmqZdZ4es4zuuPkfF7t5OA9NAUA=
+X-Google-Smtp-Source: ABdhPJx5wPOVXECj+fnSHdjHevWC9T2dmISH0TqlbdNJ7Ovll07QxrLbLt1ibOoPeM20tPh2d7lQTA==
+X-Received: by 2002:a17:90a:86cc:: with SMTP id y12mr12670674pjv.127.1629923293048;
+        Wed, 25 Aug 2021 13:28:13 -0700 (PDT)
+Return-Path: <ticotimo@gmail.com>
+Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:1830::47f3])
+        by smtp.gmail.com with ESMTPSA id g10sm535859pfh.120.2021.08.25.13.28.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 12:43:14 -0700 (PDT)
-Message-ID: <db691c357f05e5e2e34819ecbec4778223eae0d7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] go: upgrade to 1.17 release
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Bruce Ashfield
-	 <bruce.ashfield@gmail.com>
-Cc: Sakib Sajal <sakib.sajal@windriver.com>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Aug 2021 20:43:11 +0100
-In-Reply-To: <CANNYZj8D+D1zBiT=jdHLOcq0-4W615Qtj--FFhRuDjXxRWX41w@mail.gmail.com>
-References: <169E9C6226DE3CC6.18091@lists.openembedded.org>
-	 <32b22790-eac9-9e8d-ab6c-661bb77e2fac@windriver.com>
-	 <CADkTA4M4O5kkPv2zhosT1XQZrtWXe0=arT=zPH4eTxd=WtVZpA@mail.gmail.com>
-	 <CANNYZj9dsOkd5w7n4o8oox732VNZMmR6FunbOn_R3=y0X4qHfQ@mail.gmail.com>
-	 <CADkTA4O2JWwy_Ft92aahvQ4iGBumyZ0UwoZr34NOw1PaXxm7bg@mail.gmail.com>
-	 <CANNYZj-puppF2z_p-fDjZ9uXKHCQbbbdTBfFvzhR9_tRX1k9Bg@mail.gmail.com>
-	 <CADkTA4OnBqmmwEnnA0K+pf3MGk2JUHsH-2mtXEyfjTOCti+7TQ@mail.gmail.com>
-	 <CANNYZj8D+D1zBiT=jdHLOcq0-4W615Qtj--FFhRuDjXxRWX41w@mail.gmail.com>
-User-Agent: Evolution 3.40.2-1build1 
+        Wed, 25 Aug 2021 13:28:12 -0700 (PDT)
+From: "Tim Orling" <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@intel.com>
+Subject: [PATCH] python3-pluggy: upgrade 0.13.1 -> 1.0.0
+Date: Wed, 25 Aug 2021 20:28:05 +0000
+Message-Id: <20210825202805.714379-1-timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-08-25 at 21:31 +0200, Alexander Kanavin wrote:
-> On Wed, 25 Aug 2021 at 21:26, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > I mentioned meta-virtualization in the non-threaded part of this
-> > discussion, so that specific information has been covered. Sakib is a
-> > contributor there (and isn't new to core), and knows what he's doing,
-> > hence why I have the luxury of being less detailed in the reponses.
-> > 
-> > I've said my bit on this, I'll pick up the pieces if anything ends up
-> > breaking .. I'm just trying to be proactive since history shows that
-> > go always breaks something.
-> > 
-> 
-> 
-> Please try to understand where I am coming from. Yours truly is doing the bulk
-> of version updates in oe-core, because no one else bothers to, not even listed
-> maintainers (and more and more recipes do not even have a listed maintainer
-> anyore). So when someone else is showing initiative in version updates - and
-> Sakib has not updated go before - I would much rather show appreciation for
-> the effort, rather than immediate (and vague!) criticism for not enough
-> testing.
-> 
+* All ptests pass on qemux86-64
 
-Enough, please :)
+pluggy 1.0.0 (2021-08-25)
 
-Alex does a lot of good work with version upgrades in OE-Core and it is much
-appreciated.
+Deprecations and Removals
 
-Bruce does a lot of good work with the kernels, associated bits and other
-things, both in core and as maintainer of meta-virtualization and it is also
-much appreciated.
+    #116: Remove deprecated implprefix support. Decorate hook
+	  implementations using an instance of HookimplMarker instead.
+The deprecation was announced in release 0.7.0.
+    #120: Remove the deprecated proc argument to call_historic. Use
+	  result_callback instead, which has the same behavior. The
+deprecation was announced in release 0.7.0.
+    #265: Remove the _Result.result property. Use _Result.get_result()
+	  instead. Note that unlike result, get_result() raises the
+exception if the hook raised. The deprecation was announced in release
+0.6.0.
+    #267: Remove official support for Python 3.4.
+    #272: Dropped support for Python 2. Continue to use pluggy 0.13.x
+	  for Python 2 support.
+    #308: Remove official support for Python 3.5.
+    #313: The internal pluggy.callers, pluggy.manager and pluggy.hooks
+	  are now explicitly marked private by a _ prefix (e.g.
+pluggy._callers). Only API exported by the top-level pluggy module is
+considered public.
+    #59: Remove legacy __multicall__ recursive hook calling system. The
+	 deprecation was announced in release 0.5.0.
 
-Go is a bit of a problem at the moment as previous upgrades introduced bugs
-which the triage team has been unable to get resolved. We know the next version
-makes further related changes which *will* cause problems. As such we are
-worried about it. I'm close to reverting the last uprev over the lack of
-attention to bugs.
+Features
 
-OE-Core doesn't use go that much and our test coverage is known to be weak
-there. meta-virt does use it much more heavily so asking for that to be tested
-with go uprevs is a reasonable request IMO.
+    #282: When registering a hookimpl which is declared as
+	  hookwrapper=True but whose function is not a generator
+function, a PluggyValidationError exception is now raised.
 
-We are increasing the test matrix the autobuilder covers and meta-virt is
-potentially part of that, as is meta-oe. We do already have some basic check-
-layer tests.
+    Previously this problem would cause an error only later, when
+calling the hook.
 
-I think we all agree that it is too late for 1.17 in this cycle, we have enough
-risky problems on the go without that one.
+    In the unlikely case that you have a hookwrapper that returns a
+generator instead of yielding directly, for example:
 
-Cheers,
+    def my_hook_real_implementation(arg):
+        print("before")
+        yield
+        print("after")
 
-Richard
+    @hookimpl(hookwrapper=True)
+    def my_hook(arg):
+        return my_hook_implementation(arg)
 
+    change it to use yield from instead:
 
+    @hookimpl(hookwrapper=True)
+    def my_hook(arg):
+        yield from my_hook_implementation(arg)
 
-> 
+    #309: Add official support for Python 3.9.
+
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+---
+ .../{python3-pluggy_0.13.1.bb => python3-pluggy_1.0.0.bb}      | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pluggy_0.13.1.bb => python3-pluggy_1.0.0.bb} (80%)
+
+diff --git a/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb b/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
+rename to meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
+index 479c10fcdc..14a7ccb0b0 100644
+--- a/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
++++ b/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
+@@ -3,8 +3,7 @@ HOMEPAGE = "https://github.com/pytest-dev/pluggy"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1c8206d16fd5cc02fa9b0bb98955e5c2"
+ 
+-SRC_URI[md5sum] = "7f610e28b8b34487336b585a3dfb803d"
+-SRC_URI[sha256sum] = "15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"
++SRC_URI[sha256sum] = "4224373bacce55f955a878bf9cfa763c1e360858e330072059e10bad68531159"
+ 
+ DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
+ RDEPENDS:${PN} += "${PYTHON_PN}-importlib-metadata \
+-- 
+2.30.2
 
