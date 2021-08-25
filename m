@@ -1,88 +1,133 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web08.13816.1629891494678410082
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web08.13817.1629891495402181014
  for <openembedded-core@lists.openembedded.org>;
  Wed, 25 Aug 2021 04:38:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OYNDuctr;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id f9-20020a05600c1549b029025b0f5d8c6cso4049548wmg.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 04:38:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eUAzfwXh;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id k20-20020a05600c0b5400b002e87ad6956eso2688063wmr.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 04:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ik6ctg6YGRrNSii0qSXEnuNj1lA2oV4vgB7Wj/WveV8=;
-        b=OYNDuctronmYHWoAjhbphjX6ZJj3oToDqSM/btSlzI/PkYyIGj6jpvSsCtFT2IDHtl
-         6f3ol/Ht+DQ9xDVE/e+WP6hR+gakThRdTwQvE3iQyb2z621SMwfmTCyNsDPsG8/XZHP2
-         1JWqMXIgZthdjVDmL1SokLNuK2JZ0IeEWJPTlUlMIwdp2f2YgxhSHWpJ4OP/EW7X/WJ4
-         y8WM6s9hLQJ/6W1s3F6L43JiHrQm7LZGKDUHESK0zhJuPQMW2tfrohA6JwvzY+pgycOq
-         yfQ81AD/F5vkB5FRVVKIdcWOuFcFrR6fZn7UHzzdvH/xn5SuWIKCl+qg5Qut92g4xOlA
-         1aBQ==
+        bh=el9sEQSodJxLUUAsXJjmS+3sT0eduRJ1v9dHKSQ7frM=;
+        b=eUAzfwXhQaXXtO3ldQbWOw03ErWxOxdssr3EaPG/51CH7wskz/EYg6qdE7ne237Tem
+         l1pq/KQ04vnVNiCJcrP82U9BRJZjNnRvqVzBml/84BIOfBn5SiU0l+lwLsHkICjvoXJ/
+         ZM+TiQ05rQWzyT19WYIr/xZxDpo7CEXvedC/GdqE5OFmnEfSk2E7usrhy6qKIN+yRYPz
+         D4kzdgqXg3TuE0cYkaD2e2ntMOt69zDqbUc5NUioER0WFRxQLNUnPchOWJPk5X7YeaKV
+         ENKzgovLmro+R3bH+X7LbjxSKWR6QnGrzHSL4t9cGLkGHuZUB2RCFsTsbPXnKJdsxkdx
+         6iJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ik6ctg6YGRrNSii0qSXEnuNj1lA2oV4vgB7Wj/WveV8=;
-        b=nOXc+fxOtyS3r/rF8uBqm9K5Y4xp8nb8upufXwDiPcu3DgcB0gv32JYXy+DGyvL+Cd
-         3edwB8g6cflEPyPLqed9u6cZ4B/9Ir/l5VUPUt3azoxoL0AFctbTxdlWPbw6gVwvYyuN
-         b0UmRCRi6RcA8qEqMWWY8nbZtiC9cH4jdioDVy6urP/7GQTKZGqpJAF6Mr7FiLL4Zj1X
-         B959DRBtpryHLa1+odhcq0MgeTUB8VLix+lfZ2+VA3blXipEVkSsjsYcTRmwyhH5OWNX
-         kG9Iu4sjJl8sDiMBTi2GtOK7Wwh6ULcsROWalA0MFHVeT2ZzE7KUhFpGOmLnbP1hkOx/
-         H0/A==
-X-Gm-Message-State: AOAM532ZC0J/zZ2Bjhm5zb28hwCOGVmDSUhR2d86bsLPNgOplqUVYfwD
-	WKuT4NmxhqxHkIo1zzChSorDG7l4dEyJbA==
-X-Google-Smtp-Source: ABdhPJxhF6HIlhKT8GWftN8XiVvm+UFoa/NYwaJNLQsG/iSN9EBVIdw3v0VlbY+yu4sIW62TvPmiCA==
-X-Received: by 2002:a05:600c:35c1:: with SMTP id r1mr8814915wmq.101.1629891493300;
-        Wed, 25 Aug 2021 04:38:13 -0700 (PDT)
+        bh=el9sEQSodJxLUUAsXJjmS+3sT0eduRJ1v9dHKSQ7frM=;
+        b=ekMOoQ2XzFSyl63oRZ7eOLS0wtnui7gbi2jL+sWn7WBCcQO+RVeVBXZtkj1A9w9VXZ
+         t3k1NrJt3Vop/DbQ0EdBvYWX/ra9AiGrSHmjkuEQnHmQY+zF7sF4o3DN61QjKAqEnHg1
+         c6PzaKyfB3UOi0PF1+xK0Jiv+1DZ6lPvSnd3WPZwwbEMzsAZaVwhijLeVBTKLdd0nN7k
+         r1ExIcfEmVJQ8ra5XktVZV+DgjZ0UaIp5Ct1WsY9y/0Z+UJjQnpaZezalaNXnVgUXacp
+         hFH8K7lu9JpBqCul4jsbDjWvHeY39bGs5Di/hARKe4Mnrf6dw2OU03OI9zSWLkJmLAhx
+         y6oA==
+X-Gm-Message-State: AOAM5330fhcscbXcxBqlfRrm7cd94jwwez8fosiEtI76n+0bWEJxiqh0
+	Hlh2+SqG/9mb8wA5SrULcXLlhVNZSS5aKg==
+X-Google-Smtp-Source: ABdhPJzRr91p4RuvlhtqzV9Rw6KM772WJJp8f9+XTUlHJw7JRbdquFnvkPaGl4LnDp4dQx2Q09zu1g==
+X-Received: by 2002:a1c:27c5:: with SMTP id n188mr8876718wmn.126.1629891494035;
+        Wed, 25 Aug 2021 04:38:14 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a1:9900:5e06:8d90:670b:86c8])
-        by smtp.gmail.com with ESMTPSA id z17sm20790217wrr.66.2021.08.25.04.38.12
+        by smtp.gmail.com with ESMTPSA id z17sm20790217wrr.66.2021.08.25.04.38.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 04:38:12 -0700 (PDT)
+        Wed, 25 Aug 2021 04:38:13 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 02/16] gnu-efi: update 3.0.13 -> 3.0.14
-Date: Wed, 25 Aug 2021 13:37:50 +0200
-Message-Id: <20210825113804.779395-2-alex.kanavin@gmail.com>
+Subject: [PATCH 03/16] glib-2.0: upgrade 2.68.3 -> 2.68.4
+Date: Wed, 25 Aug 2021 13:37:51 +0200
+Message-Id: <20210825113804.779395-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210825113804.779395-1-alex.kanavin@gmail.com>
 References: <20210825113804.779395-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Removed non-existent header from licensing.
+Drop merged 0001-correctly-use-3-parameters-for-close_range.patch
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../gnu-efi/{gnu-efi_3.0.13.bb => gnu-efi_3.0.14.bb}           | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.13.bb => gnu-efi_3.0.14.bb} (93%)
+ ...tly-use-3-parameters-for-close_range.patch | 29 -------------------
+ .../glib-2.0/glib-2.0/relocate-modules.patch  |  2 +-
+ ...{glib-2.0_2.68.3.bb => glib-2.0_2.68.4.bb} |  3 +-
+ 3 files changed, 2 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.68.3.bb => glib-2.0_2.68.4.bb} (93%)
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.14.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch
+deleted file mode 100644
+index 6ff25fc535..0000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-correctly-use-3-parameters-for-close_range.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From b71117d89434db83d34bc1b981ca03d4be299576 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 8 Jul 2021 17:26:43 -0700
+-Subject: [PATCH] correctly use 3 parameters for close_range
+-
+-libc implementation has 3 parameter e.g.
+-https://www.freebsd.org/cgi/man.cgi?query=close_range&sektion=2&format=html
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2180]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- glib/gspawn.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/glib/gspawn.c b/glib/gspawn.c
+-index 899647c2f..3073a10a4 100644
+---- a/glib/gspawn.c
+-+++ b/glib/gspawn.c
+-@@ -1520,7 +1520,7 @@ safe_closefrom (int lowfd)
+-    *
+-    * Handle ENOSYS in case it’s supported in libc but not the kernel; if so,
+-    * fall back to safe_fdwalk(). */
+--  if (close_range (lowfd, G_MAXUINT) != 0 && errno == ENOSYS)
+-+  if (close_range (lowfd, G_MAXUINT, 0) != 0 && errno == ENOSYS)
+- #endif  /* HAVE_CLOSE_RANGE */
+-   (void) safe_fdwalk (close_func, GINT_TO_POINTER (lowfd));
+- #endif
+---
+-2.32.0
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index f34f30bb3c..846c8d62b6 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,4 +1,4 @@
+-From e56cdb8c343dd6a6ed3b10bd54e353d633ad6158 Mon Sep 17 00:00:00 2001
++From dac2bdeea38388e069412aa27eff8f1eff0440e5 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.68.4.bb
 similarity index 93%
-rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
-rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.14.bb
-index ef3061c067..04dadc39d4 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.14.bb
-@@ -6,7 +6,6 @@ LICENSE = "GPLv2+ | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://gnuefi/crt0-efi-arm.S;beginline=4;endline=16;md5=e582764a4776e60c95bf9ab617343d36 \
-                     file://gnuefi/crt0-efi-aarch64.S;beginline=4;endline=16;md5=e582764a4776e60c95bf9ab617343d36 \
-                     file://inc/efishellintf.h;beginline=13;endline=20;md5=202766b79d708eff3cc70fce15fb80c7 \
--                    file://inc/efishellparm.h;beginline=4;endline=11;md5=468b1231b05bbc84bae3a0d5774e3bb5 \
-                     file://lib/arm/math.c;beginline=2;endline=15;md5=8ed772501da77b2b3345aa6df8744c9e \
-                     file://lib/arm/initplat.c;beginline=2;endline=15;md5=8ed772501da77b2b3345aa6df8744c9e \
-                     file://lib/aarch64/math.c;beginline=2;endline=15;md5=8ed772501da77b2b3345aa6df8744c9e \
-@@ -19,7 +18,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/files/${BP}.tar.bz2 \
-            file://gnu-efi-3.0.9-fix-clang-build.patch \
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.68.4.bb
+index c71dc81202..cd789de3c0 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.68.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.68.4.bb
+@@ -18,11 +18,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+            file://0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch \
+            file://time-test.patch \
+-           file://0001-correctly-use-3-parameters-for-close_range.patch \
             "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
  
--SRC_URI[sha256sum] = "2fccf715279c46ee69c4859186af8150d07a13f4d19876e5459cd65be82d3b7d"
-+SRC_URI[sha256sum] = "b73b643a0d5697d1f396d7431448e886dd805668789578e3e1a28277c9528435"
+-SRC_URI[sha256sum] = "e7e1a3c20c026109c45c9ec4a31d8dcebc22e86c69486993e565817d64be3138"
++SRC_URI[sha256sum] = "62fd061d08a75492617e625a73e2c05e259f831acbb8e1f8b9c81f23f7993a3b"
  
- COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
- COMPATIBLE_HOST:armv4 = 'null'
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
 2.31.1
 
