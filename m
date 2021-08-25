@@ -1,92 +1,78 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.13826.1629891516268779743
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web08.13827.1629891517205076532
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 04:38:36 -0700
+ Wed, 25 Aug 2021 04:38:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vEsBsgXo;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id q11-20020a7bce8b0000b02902e6880d0accso4091373wmj.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fDdVosKw;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id x2-20020a1c7c02000000b002e6f1f69a1eso4055323wmc.5
         for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 04:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CWk1UekBg/wOH2LaAxw8Srk5IwRWm6gmMzAO7ebpZ4M=;
-        b=vEsBsgXohE/fZN4SikMYSWvYvpgVykNZJZV0MwPYIcZsvIbLt/rMXJV7zAqGPL4FiR
-         mH7IxzXWJvzfgllHRSBE1fdvfrgdw7Zf/llVAyMQUNG/eQzegOpBIUn5bhSTVWn5kozJ
-         Up3zRzGrRLMMP2nl6oCPPQi9c8UdQ9MRaRW/V1O6BW24bVx+DWzWORG702vpZpeM3Svj
-         tcuqXG/Q9FlkTAZ6sq4y7zRlnwqFy2xN8xfrBqw2oEjoxUB4Ry0eh39DL6YfPNnr235m
-         YuyGBXU2XCYeedVr1RltUxkEQ7pLhs1IAVIOhmFGmwrhvCn13FrmPcz90QGLgGh7MSiy
-         Mp4w==
+        bh=9pnrhxasXdN17J0J4PB6aKgh/r+PoIS93LYYMRc0Xwk=;
+        b=fDdVosKw/Xp2eJKHomoi5GJmXU7uarrtDX8xd3vSpIvbC6n67TTpYTEEx2fAsp/+p6
+         T+itueLnyxXAKLMjY3NJ1n1fCJMpUGwhtQ2T4YyAnk0tp94OPDwmg9c18SwBmcM1d/fD
+         7Zg9D3iG16Cw+du+NrsixMJhmFFJ7uE8qIod4GQ1vmyU4OjkPWQlAxmGLO9RW7MQqvrE
+         c6eYQrZlePy2hwz3DIGvuVQdbLy1tunDjSRJysF33sXylAg2gJUvr1ky73ivJxBM5QCa
+         arefyhVUjyPgWd3GSe34zAnhCxrSWYU5drvAc/mhvuAaPwXWw0qcR4N685a3UYdI39M0
+         cPyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CWk1UekBg/wOH2LaAxw8Srk5IwRWm6gmMzAO7ebpZ4M=;
-        b=meHsdPauhA3aXzJJ7NwGTtigtjtjMoNHWN+3aiHsr8elaT/hrTf2AdE0vuNLeeHvxx
-         tmfI7mOuvueZKSfFZ9gzwyiY2Ja2onNbahpAKXHgS7TwvrRK1cof0+MoN4bLjruaRTWI
-         yEBnwvkXV2QjonzoqErQe4yfxUvepBj9AVzxeefrGyNjFTHR2USkIGg6UzHF0ZyVU42U
-         sI2rIkO7NUa199XsgxTz0sbZYcVOLy04VseADvdGCt5keGlyfmLvfVT1r0Bjv/gzi1Bl
-         p+hHVooz+h/pKF3GMkgO+5aQbIbHj7xrz7E0bIIiNYZOb43SasmVYyBcL2GmjnDfMXIM
-         ObPA==
-X-Gm-Message-State: AOAM530Mj9uJIzB2ZWSbOBgxwEX28B2kmpnQjr8eAs6XYU358rKGUDLA
-	8PkFQoze/ijRZP3CfTRJgVeRnXAN6KHL4w==
-X-Google-Smtp-Source: ABdhPJwALSnSPHOpfucAV8WqalHe3ZHgJd32ySTr8R2embKRfh+gUdykdie391GLTUkNb1x+4ruB2A==
-X-Received: by 2002:a1c:f314:: with SMTP id q20mr8945673wmq.154.1629891514869;
-        Wed, 25 Aug 2021 04:38:34 -0700 (PDT)
+        bh=9pnrhxasXdN17J0J4PB6aKgh/r+PoIS93LYYMRc0Xwk=;
+        b=db3f5HN8146zQwybHpUrru/nmVVqiAd23ltlvUmemMOH7JSNr391oHiFD//M76wDww
+         q7bL1PhqtOBLFntJ5Rv392CeEtBj10wlpE8k+ikMdO6SLII8Ji1BW1OsOjR0QcV2Xm3d
+         01BYt/VlwIg7SDaBwte+bwPxgLciyrXHSmEgnkVWAJgcwGzSZ2/Vu2RlxrzblJYpVCzw
+         omWXPdsta880XVbRCYZFLJ4rgRoxc1HTiI9l7YRDTuL1h+eIPsxERBVEHkazLaRLvQ8S
+         Q/NuLATFMyNBaGWuqbLBGVDQD7GXMabKFjdbd4yubV+LkcGiySFGlDx5+PJvnq9v9lQl
+         GJIA==
+X-Gm-Message-State: AOAM530xelm3+oBeI6H1Eg+rfOjjJBVVlWMucBU2lKJqhf42AEaNoTYD
+	RfwK9gOv/RjCyEd5CWQR8NUqBpeFbij6BQ==
+X-Google-Smtp-Source: ABdhPJzHnliTok3S/wOKyBFOU7JUY2UAnclb+CCbX6YbJyo6Vn97XOIOTQxFGl+gGhUipe8UHaliZg==
+X-Received: by 2002:a1c:98d8:: with SMTP id a207mr8638428wme.16.1629891515882;
+        Wed, 25 Aug 2021 04:38:35 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a1:9900:5e06:8d90:670b:86c8])
         by smtp.gmail.com with ESMTPSA id z17sm20790217wrr.66.2021.08.25.04.38.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 04:38:34 -0700 (PDT)
+        Wed, 25 Aug 2021 04:38:35 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 15/16] json-glib: upgrade 1.6.2 -> 1.6.4
-Date: Wed, 25 Aug 2021 13:38:03 +0200
-Message-Id: <20210825113804.779395-15-alex.kanavin@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 16/16] harfbuzz: upgrade 2.8.2 -> 2.9.0
+Date: Wed, 25 Aug 2021 13:38:04 +0200
+Message-Id: <20210825113804.779395-16-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210825113804.779395-1-alex.kanavin@gmail.com>
 References: <20210825113804.779395-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Upstream has converted from gtk-doc to gi-docgen.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../json-glib/{json-glib_1.6.2.bb => json-glib_1.6.4.bb} | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/json-glib/{json-glib_1.6.2.bb => json-glib_1.6.4.bb} (77%)
+ .../harfbuzz/{harfbuzz_2.8.2.bb => harfbuzz_2.9.0.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.8.2.bb => harfbuzz_2.9.0.bb} (95%)
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.6.2.bb b/meta/recipes-gnome/json-glib/json-glib_1.6.4.bb
-similarity index 77%
-rename from meta/recipes-gnome/json-glib/json-glib_1.6.2.bb
-rename to meta/recipes-gnome/json-glib/json-glib_1.6.4.bb
-index 3f3707805b..072c2406c7 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.6.2.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.6.4.bb
-@@ -12,15 +12,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb
+index 48b0c7724a..bc91a8c03c 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.8.2.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb
+@@ -12,7 +12,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
- GNOMEBASEBUILDCLASS = "meson"
--inherit gnomebase lib_package gobject-introspection gtk-doc gettext ptest-gnome manpages upstream-version-is-even
-+inherit gnomebase lib_package gobject-introspection gi-docgen gettext ptest-gnome manpages upstream-version-is-even
- GIR_MESON_ENABLE_FLAG = 'enabled'
- GIR_MESON_DISABLE_FLAG = 'disabled'
--GTKDOC_MESON_OPTION = "gtk_doc"
--GTKDOC_MESON_ENABLE_FLAG = 'enabled'
--GTKDOC_MESON_DISABLE_FLAG = 'disabled'
-+GIDOCGEN_MESON_ENABLE_FLAG = 'enabled'
-+GIDOCGEN_MESON_DISABLE_FLAG = 'disabled'
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "d58461395ce28b9dc03903254374dd70c38c8c28c5046db123c08f7ab9417be7"
++SRC_URI[sha256sum] = "3e1c2e1d2c65d56364fd16d1c41a06b2a35795496f78dfff635c2b7414b54c5a"
  
- SRC_URI += " file://run-ptest"
--SRC_URI[archive.sha256sum] = "a33d66c6d038bda46b910c6c6d59c4e15db014e363dc997a0414c2e07d134f24"
-+SRC_URI[archive.sha256sum] = "b1f6a7930808f77a827f3b397a04bb89d4c0c0b2550885d4a5e4c411dfa13f5f"
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
  
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
- PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native"
 -- 
 2.31.1
 
