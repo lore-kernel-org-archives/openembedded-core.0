@@ -1,115 +1,92 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.16471.1629904247779374758
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web09.16844.1629905743562991122
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 08:10:48 -0700
+ Wed, 25 Aug 2021 08:35:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u39jfXMz;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id i28so44203373ljm.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 08:10:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rtFhxT9c;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id m4so3527687pll.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 08:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UZ2XGByHcwlz1gz/Dcyyzb3G3VwqxSONp8uXHnzUg68=;
-        b=u39jfXMzUzT7W+aCP1lx11CqjYRsPI2+C5jZSf0a0Tkc/M26POZ8oIERrE8GKzcXc9
-         wnshrsXxYAr3hbcUV0oCMAiStfKN2etlNrSKooTvAA0Oso11LYTIzmfe/ji/oZsn33dC
-         +bpj54oTdkSZjCcv1wJVzUKHF4c0OzrQmRofSw3AmjkPgP8csSKRCvnQ2OpzyWwRg+A3
-         Q3J47sPNDdfWb8cTu3ggO8V72JfHOldVLSfdxI0OCzvspVlfb+weTY7BbljyeT291ZAF
-         I9Ac+pWuKOEAhkS3JNkFEeNlAw85whKGrIyYU+cDloYOkK0rA8RcF1ERsjqB3BRXIPO4
-         k3og==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=IG9wOV386qeXKVv7bp6WXDIJaRN9coSxcGX34XoRekE=;
+        b=rtFhxT9cSLFC/heltZd2yJftVnY4as/JmljmzOjdfDCSxgvMmJpWi64FCGicqLDNXh
+         xt1YGaq+Tf+5KSrA5HoQlej6pCUNh20dDCyZ39qo1ntVTyAGfXoxMHwEe0rGcdQuiQEv
+         QNcSOeL02fJCX63gLXoWHCwNks2U84VkD3dkOoc7qkgstde3U8TZoTtBRjxEb31nyE74
+         KkrhPJ9BiZcGaHiLxl4GxduNtq/cH03SKJ2stECLu1VF0FQ3zLzrM1UiZE9Y0YsrcVAD
+         IYKM6ZEvaN2SVMzYTIH6zljs8Dp8hQ7yHb8Z52zfN8Is2GFONx7uyAvgfE2ghQRCiJpo
+         BEfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UZ2XGByHcwlz1gz/Dcyyzb3G3VwqxSONp8uXHnzUg68=;
-        b=NWVXsLrnOPBf9SDEbTr/w0S/xdkyzPqSvM9dXTOP7SEx0Jujia18me/07qWtxjqFS7
-         U0S2/LPHIQhpUyhCY5RSvkUWgQ2Wb48ZnV/+Y7arCn748gC2lUTkfq1UL1UNIvfdY1kc
-         mHiFgge4vf4wbh0v8/MAoZUs8EeBRAf/cOvZsEN1ffBoJEig0bN8W1yfGVxVvhq+WiWw
-         CQTfUvRckAr7Hpsa348sQx371F9yqkFqzrowXuPabq8rhHfC8g0ZhT2ECOfktkltIFqQ
-         WuEVZXVbXA7XBagSyT5ZvGc8lV+U5/aGaKjk+/1LEb0GzztyGNFy/xFiwOBOuy3XsbfW
-         X1+g==
-X-Gm-Message-State: AOAM533E3RuCqXwalWSfGuztJVTyLJMd8QVopy3g+ML/cW6q7AoBPnwI
-	8EuIg8iJuMaEDzWB1kbDg/+H2dbluOXolFHzhKw=
-X-Google-Smtp-Source: ABdhPJzQ+1CGaxCnrTPC/3GEMK9/BiVDHyJxGvfaX0QrQXe46iXcpOLk6uZqqOw6Xa+oGVKifwdnkc0e/gC4vB4up04=
-X-Received: by 2002:a05:651c:a12:: with SMTP id k18mr15900656ljq.90.1629904245848;
- Wed, 25 Aug 2021 08:10:45 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=IG9wOV386qeXKVv7bp6WXDIJaRN9coSxcGX34XoRekE=;
+        b=rdfhdwsXs7uXoo01QMOaWLtqbnrN0ss5dRxjNr/NDeF+FLLjWZxN9NDq8cOCPMSP7F
+         i9DYJ///hZJuhHADM5+lkdyzjWJz2hxPVHqTAe6lVEblsdC0CPGeVnAvOic8tuQ89RAv
+         nzNZcQOmG1i576nkpdpF+QH+qvcqbgh87Vdav/+emDDuJ4pS+p1dIHXCCnPheIrWCQeh
+         1179g8ur+uwKHzxOFwxm9NRb6pvvOJEGbifroJwIhrqdsBCzHxKq1AZP6z1mMGAgmZyo
+         cJALu7h4BIPCXiYyodZEqt+1vGlKiQniN+e9HMM4nDcD5U5dRhmCGsQ0hGeuU8fdT3zS
+         KqUg==
+X-Gm-Message-State: AOAM533Q+BxTQ1xyx2IOebDV1yQG5obE4LYrz0vzUKr63O4bL4VfDuIq
+	ijEZHTsddyl71srU79ylf+E=
+X-Google-Smtp-Source: ABdhPJyuFob8EeEKaWR6ISnxbZZmJ4JcmrYPDPQXmJJZ6cJwym93yuM8LwGJxIr2H7Jw7o/ynhx9LA==
+X-Received: by 2002:a17:90a:3cc6:: with SMTP id k6mr11096997pjd.134.1629905743063;
+        Wed, 25 Aug 2021 08:35:43 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPV6:2601:646:9200:a0f0:7cf5:888d:b618:582d? ([2601:646:9200:a0f0:7cf5:888d:b618:582d])
+        by smtp.gmail.com with UTF8SMTPSA id 20sm184214pfi.170.2021.08.25.08.35.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 08:35:42 -0700 (PDT)
+Message-ID: <d9124478-3ab8-26c8-75d5-e79cb3f17c9a@gmail.com>
+Date: Wed, 25 Aug 2021 08:35:41 -0700
 MIME-Version: 1.0
-References: <20210825132058.9396-1-pkj@axis.com>
-In-Reply-To: <20210825132058.9396-1-pkj@axis.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Wed, 25 Aug 2021 17:10:18 +0200
-Message-ID: <CAHtQpK6vD-_heumTGVJGUtHs2sXw0TJfKKvOLTjK_GEYGiV=FA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv2] lttng-modules: Make it build when CONFIG_TRACEPOINTS is not enabled again
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.0.2
+Subject: Re: [OE-core] [PATCH] libcgroup: remove static pam library
+To: kai <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
+References: <20210825081054.40523-1-kai.kang@windriver.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <20210825081054.40523-1-kai.kang@windriver.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello Peter,
 
-On Wed, Aug 25, 2021 at 3:21 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch was updated
-> with the 2.13.0 update (commit 5dad15af), but unfortunately it no
-> longer did what it was intended to do. There is also
-> 0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch, which
-> was based on the former patch, but it too does not solve the problem.
->
-> Unify the two patches, and actually disable building of the kernel
-> module if CONFIG_TRACEPOINTS is not enabled, the way it was intended.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+
+On 8/25/21 1:10 AM, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+> 
+> libpam disables static build by default, so remove static pam library of
+> libcgroup. Otherwise it complains QA issue:
+> 
+> | ERROR: libcgroup-2.0-r0 do_package: QA Issue: libcgroup:
+>           Files/directories were installed but not shipped in any package:
+> |  /lib/security/pam_cgroup.a
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
 > ---
->
-> PATCHv2: Unify
-> Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch and
-> 0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch into
-> the latter, and use that both with and without devupstream.
+>   meta/recipes-core/libcgroup/libcgroup_2.0.bb | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-core/libcgroup/libcgroup_2.0.bb b/meta/recipes-core/libcgroup/libcgroup_2.0.bb
+> index bc0a75d46c..f48b8ece9b 100644
+> --- a/meta/recipes-core/libcgroup/libcgroup_2.0.bb
+> +++ b/meta/recipes-core/libcgroup/libcgroup_2.0.bb
+> @@ -31,4 +31,5 @@ FILES:${PN}-dev += "${base_libdir}/security/*.la"
+>   do_install:append() {
+>   	# Until we ship the test suite, this library isn't useful
+>   	rm -f ${D}${libdir}/libcgroupfortesting.*
+> +	rm -f ${D}${base_libdir}/security/pam_cgroup.a
+>   }
+> 
 
-I've tried the patch on my end, but it seems as if it does not resolve
-the build issue entirely.
+should this be simply packaged into FILES_${PN}-staticdev instead ?
 
-Compile stage is skipped with the message:
-"lttng-modules-2.13.0/src/Kbuild:5: The option CONFIG_TRACEPOINTS
-needs to be enabled in your kernel configuration"
-which is totally fine.
-
-However, the install fails due to the do_install:append in recipe
-contains following:
-do_install:append() {
-        # Delete empty directories to avoid QA failures if no modules were built
-        find ${D}/${nonarch_base_libdir} -depth -type d -empty -exec rmdir {} \;
-}
-
-Since there was no module produced by do_compile() -
-${D}/${nonarch_base_libdir} is non-existent, and find fails.
-
-I was wondering if you've seen the same build failure on your end?
-
-Also, if I explicitly check for folder existence like following:
-do_install:append() {
-        # Delete empty directories to avoid QA failures if no modules were built
-        if [ -d ${D}/${nonarch_base_libdir} ]; then
-                find ${D}/${nonarch_base_libdir} -depth -type d -empty
--exec rmdir {} \;
-        fi
-}
-
-then package is built fine.
-
-Wonder if you would want to apply it in your patch set?
-
->
->  ...e-missing-CONFIG_TRACEPOINTS-to-warn.patch | 25 +++++++++----
->  ...fail-if-CONFIG_TRACEPOINTS-is-not-en.patch | 37 -------------------
->  .../lttng/lttng-modules_2.13.0.bb             | 10 ++---
->  3 files changed, 21 insertions(+), 51 deletions(-)
->  delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch
->
-
-
--- 
-Regards,
-Andrey.
+> 
+> 
+> 
+> 
