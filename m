@@ -1,133 +1,81 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
- by mx.groups.io with SMTP id smtpd.web08.22053.1629927625157975694
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web08.22199.1629928305891931121
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 14:40:25 -0700
+ Wed, 25 Aug 2021 14:51:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Oo6BQEk1;
- spf=pass (domain: gmail.com, ip: 209.85.222.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f45.google.com with SMTP id x6so482263uai.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Aug 2021 14:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ygudRwypFUvzlxblAbp5J6j04LEDUmhmnMRhR9yHZMs=;
-        b=Oo6BQEk1cV/orn0Bx0Kli9s6iQzaNxbyCt6okV5bv4+02kzMLx/kHPrQhkNsk82Hbz
-         2qYfmTi0Py8jHX+l1ixApWsayZYJ8qTvKjVnNm08K4q6zWwkxOIgfjkW/ueCbg+K2vpj
-         R6F66v51BccfqeVmAYcqDVSPZFq0UZ717xA9N0qUxaptnoCYSG4fONNxuRtkCLRmw+Yj
-         mGiulh2D1rdQZ8UUj6ie4M6FDXCy/qZZonHEzZY5dEK/gUuqazSJZdwJjdeM6+w0bBxG
-         BcDM0EeMV6SBtC4qo+lBnxMoVtc5e3u/kagAkcGWolmFNuyUZuhhHjP1+EB1oSwPWKba
-         3DQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ygudRwypFUvzlxblAbp5J6j04LEDUmhmnMRhR9yHZMs=;
-        b=tBflJR20jG7lukDQA9SKGnwaNbELeUWBHO6ToWCd28g9fSMthx0wUFPqvcSw85DoBi
-         gtkMT/BeNqMtN4vSMK6RL99JuGx+CeNg364MZpEajnpTHGnBaF/MT3H+PyUbJXcef+o7
-         oHXfRbojJLBSRR3HwYJ7qfAq43SI4Gx6OmsWOvefu/tca3rrX6ZZmZu1fjS/sF0pSGcd
-         CsBWLNxUnqPZYgC8DAfrDcPdrlvn02U9JKw909nsT5hyFbscVD4aSvXVIIYzQ4LEsWs8
-         vYeAePyncU0hF3s4s+Z3zhPU1NKZ4HLuMuR/8xDT1/kYtSQJRjw5IQMv7+mVFO3RGF/N
-         Qehw==
-X-Gm-Message-State: AOAM530XTOirUPSmcx+eaMJoaKBmC7pHRAeHs7NHZIgDpxL+rJLh5SG6
-	3KEdht50EX94eLdkNGafK15or2u5IeMsydANVcs0scoW
-X-Google-Smtp-Source: ABdhPJwMXXcmyDayk2Dj4LYtXzl7ZjWcHYZkjmpSb1w54BB1jaRECQWUhe22565wwY7MLq0JaING+PwlZ60ZYL35dqU=
-X-Received: by 2002:ab0:2381:: with SMTP id b1mr256551uan.93.1629927624276;
- Wed, 25 Aug 2021 14:40:24 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from [::1] (port=50700 helo=cpanel8.indieserve.net)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1mJ0oB-0007y8-TA; Wed, 25 Aug 2021 17:51:44 -0400
+Received: from [174.114.56.109] ([174.114.56.109]) by crashcourse.ca (Horde
+ Framework) with HTTPS; Wed, 25 Aug 2021 17:51:43 -0400
+Date: Wed, 25 Aug 2021 17:51:43 -0400
+Message-ID: <20210825175143.Horde.LbItpKT-Y6zl0vjVCim0eFh@crashcourse.ca>
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Phil Blundell <pb@pbcl.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] what means the test 'if [ -z "$D" ]' in a pkg_postinst routine?
 References: <20210825163520.Horde.SwfJDAmwq6x_Wn-Vf4FoTSG@crashcourse.ca>
  <CANNYZj-PJQTLydecmn9EpWdci5wWce_9Tkw_QkOGkProY6t_fQ@mail.gmail.com>
  <20210825171222.Horde.pjbNvErvPswYBwDudrNTUaM@crashcourse.ca>
- <3FDCF22A-7038-4B36-B15D-D59C31F61C86@pbcl.net> <20210825172741.Horde.jIEgB_nsmjiBqRKP9mvFgOd@crashcourse.ca>
-In-Reply-To: <20210825172741.Horde.jIEgB_nsmjiBqRKP9mvFgOd@crashcourse.ca>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 25 Aug 2021 23:40:12 +0200
-Message-ID: <CANNYZj9bFhHg3tf7pZwTU97XaWcYf6NTMWUY1CvSdu53xBHi0g@mail.gmail.com>
-Subject: Re: [OE-core] what means the test 'if [ -z "$D" ]' in a pkg_postinst routine?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Phil Blundell <pb@pbcl.net>, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000dfe9405ca691975"
+ <3FDCF22A-7038-4B36-B15D-D59C31F61C86@pbcl.net>
+In-Reply-To: <3FDCF22A-7038-4B36-B15D-D59C31F61C86@pbcl.net>
+User-Agent: Horde Application Framework 5
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday@crashcourse.ca
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+Content-Disposition: inline
 
---0000000000000dfe9405ca691975
-Content-Type: text/plain; charset="UTF-8"
 
-_ontarget() is basically syntactic sugar for $D test, but yes it's the new
-preferred form. If you see $D, that means the recipe hasn't been converted.
+Quoting Phil Blundell <pb@pbcl.net>:
 
-Alex
+> That's testing for offline installation. If $D is not set, it's  
+> running on the target.
+>
+> p.
 
-On Wed, 25 Aug 2021 at 23:27, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
+   one last query before i head off for dinner ... so what about
+pkg_postinst() routines that do double duty, like this one from
+dbus_1.12.20.bb:
 
->
-> Quoting Phil Blundell <pb@pbcl.net>:
->
-> > That's testing for offline installation. If $D is not set, it's
-> > running on the target.
-> >
-> > p.
->
->    right, that's exactly what i suspected in my original posting,
-> i just wanted to make sure, which raises a couple issues.
->
->    first, that distinction doesn't seem to be mentioned in the
-> docs, so i'll ponder writing something.
->
->    second, is that simply an old form that would be superseded
-> by using "pkg_postinst_ontarget()" instead?
->
->    anyway, more questions later as i work on some lengthier docs
-> on this.
->
-> rday
->
->
-> 
->
->
 
---0000000000000dfe9405ca691975
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+PACKAGE_WRITE_DEPS += "${@bb.utils.contains('DISTRO_FEATURES','systemd  
+sysvinit','systemd-systemctl-native','',d)}"
+pkg_postinst:dbus() {
+         # If both systemd and sysvinit are enabled, mask the dbus-1  
+init script
+         if ${@bb.utils.contains('DISTRO_FEATURES','systemd  
+sysvinit','true','false',d)}; then
+                 if [ -n "$D" ]; then
+                         OPTS="--root=$D"
+                 fi
+                 systemctl $OPTS mask dbus-1.service
+         fi
 
-<div dir=3D"ltr"><div>_ontarget() is basically syntactic sugar for $D test,=
- but yes it&#39;s the new preferred form. If you see $D, that means the rec=
-ipe hasn&#39;t been converted.<br></div><div><br></div><div>Alex<br></div><=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Wed, 25 Aug 2021 at 23:27, Robert P. J. Day &lt;<a href=3D"mailto:rpjday@=
-crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex"><br>
-Quoting Phil Blundell &lt;<a href=3D"mailto:pb@pbcl.net" target=3D"_blank">=
-pb@pbcl.net</a>&gt;:<br>
-<br>
-&gt; That&#39;s testing for offline installation. If $D is not set, it&#39;=
-s=C2=A0 <br>
-&gt; running on the target.<br>
-&gt;<br>
-&gt; p.<br>
-<br>
-=C2=A0 =C2=A0right, that&#39;s exactly what i suspected in my original post=
-ing,<br>
-i just wanted to make sure, which raises a couple issues.<br>
-<br>
-=C2=A0 =C2=A0first, that distinction doesn&#39;t seem to be mentioned in th=
-e<br>
-docs, so i&#39;ll ponder writing something.<br>
-<br>
-=C2=A0 =C2=A0second, is that simply an old form that would be superseded<br=
->
-by using &quot;pkg_postinst_ontarget()&quot; instead?<br>
-<br>
-=C2=A0 =C2=A0anyway, more questions later as i work on some lengthier docs<=
-br>
-on this.<br>
-<br>
-rday<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+         if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+                 /etc/init.d/populate-volatile.sh update
+         fi
+}
 
---0000000000000dfe9405ca691975--
+
+note how that routine checks its context and, as i recall (but
+it's not documented in the docs i'm looking at), i'd swear that
+i read somewhere that if a pkg_postinst() routine fails at image
+creation time, it was deferred until boot time, which would
+explain the above routine checking its runtime context.
+
+   anyway, off for food.
+
+rday
+
