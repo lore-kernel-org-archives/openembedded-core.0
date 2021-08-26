@@ -1,167 +1,156 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web11.34961.1630001443366963706
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web08.34910.1630002699767915265
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 11:10:43 -0700
+ Thu, 26 Aug 2021 11:31:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=I8n4SFGn;
- spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id m19so2673336vsj.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 11:10:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dVRO5AgP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id g14so3522402pfm.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 11:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZX4A17PBrAMCM2d0E17Q7h7taUZu6c62Z5Dc8mYoif8=;
-        b=I8n4SFGnLtqyt8QilrSyJoIOuLCpGP9TJMNLRbw6HD/Rj1Soa2ofhzrJ4fAEhMm+cU
-         xMujiwq9O9gFUj1zTsXIf5NSN7THoEy8sNw1jZh+yIzqcMsxscYC59ibPQTY3Rkd+DPG
-         tDhlKn0XsPymB3hcVvcT3jthcZDrhvS8kCgXHWMHpcvldelcjfCjxVrr1GFkz6PPbldN
-         EB7eYH0ItrUxSvkxG9rwcCqkNx7k/ypPzmjajbaqf3cORjHl6ZRMv99OBw7zXiHbjH4F
-         FA6ov7tv0xrFCT9YUSUrjP2Qq2u8iIgIy5mcnLrh9t0/61Hf5W1a0otXLbcpwDQxRPBL
-         s5DA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iV+EbpiFbwpJj8xW+FrXDNyeku6NzU+Op7x9/B2QbFo=;
+        b=dVRO5AgPv2OshBqmQD8+rMZE9NW9yuLm1Rv95yiLaM2a5EU5F7PHXDp/fqHJ5M32yC
+         wAugj/i+ua+dCirXNzPQb4MJSGNw+WvDsj4ojXhPbOHhpR678608YcuN1jS3swYeQ2Hk
+         0Mwn4ygBuGxCkwoMpEwjZSDagu0c0TpE+JBYOVJj5G8kQNtQp0c0y+zA05CdmFE2omwV
+         2/5xR/lesr5E7vDiIVxsZKc6mltoBfBhb7tDGcYv5hac10hptBm2Jfr9XLNokCEht/mn
+         6WkJoHIwZ/5hIqFPpxAPKJNXlDpt75vtH3T8VQULDQVkexXOYf7GN8h3OWH9jD1UsppA
+         DsZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZX4A17PBrAMCM2d0E17Q7h7taUZu6c62Z5Dc8mYoif8=;
-        b=O1XTz8LzQ7SNvwv7ElZzi19QVaRiFRWhyv2Gg12CwvA20iVkY0hsRyV38pqgfyvXZe
-         ZK2RKpym46cjtrDT1916t7RsP9oO3FrWmG9AG5Z0DNnEsXyuE3+QdeNrJMaNcFkcnP9O
-         8dANhbTZ15+a9EVuzPie2W0QNN01wjLik5OD0hcKvRlfS2pvAAYlBTJkwSuEU6fTTC76
-         6RHEbQrrhLqstzMM1aSsUbI17mun2vCgu/1sReME1LHj9oNhZkdIjx97OPu2nb3DDf3K
-         +jqDUY8aauS0CqhgGG9wflLqGLM9tzNzXnJUGQoTNUUNiJqw/w0/9sXOHsH632u/byJi
-         U8ug==
-X-Gm-Message-State: AOAM531YDrXhgLe7BBM2Lp/idzjvq2BMc88ZARP/pbCN5OrfULW2ioTU
-	6YaBmt74OIFpjcf1CarV/XowzMubJOJOpA82U6Q=
-X-Google-Smtp-Source: ABdhPJxICTQj+SZoBNbJRClIwweScn9rLYJGREuZboz0zc4vy4NNXXOH3s/oA5CExWcWAWphVbbLPnoeFMnz5hhGUqQ=
-X-Received: by 2002:a67:e243:: with SMTP id w3mr3807936vse.41.1630001442436;
- Thu, 26 Aug 2021 11:10:42 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iV+EbpiFbwpJj8xW+FrXDNyeku6NzU+Op7x9/B2QbFo=;
+        b=XzrbbhQ1MrGL8PNMrDEGY0w3VaUgpeOGx/ldPfOSqYOK8D6O4gaHllTNQ3FQBXt4kn
+         7lf4aVi+D467Oh0MfbbfDmUFtqcVBKa/FpN3VusWrQsBE4/ZdJjmnMBocKuLVDFHa5c7
+         f5Iqt63i+JXnZCrX7Q/0dVBPuS+7VPhN6fxaKe4W/6FqcDsM1o+XhdDAEz5vhbFdzmzd
+         aEREvpPFQ7u5iwe8Ua4c8ZXIFaXWSntAX3KdN7v9rjO25/J8YcBvXRpjRBvOcSXV/nnC
+         OxS7c1cC7a3CGYg5hF+WRI4TcgrNVpi4qc0IRNWJVSwblcL+9uVoiihQgdKvrQDoOi1P
+         KMTw==
+X-Gm-Message-State: AOAM532kZl0s2XETS1trd9v/DGRj0U2hgUC377u2/fyVBlIUKwFM7JUq
+	BV4ZMr+wZ/wEn0eX1TSJyjGvH8+Iplg=
+X-Google-Smtp-Source: ABdhPJweQeBoR91lKSrx4C0OO/64M1e+6kjjXsFnT/etp3qH5/o+lxS0Hpj0ko59H6aYGM3tfqWjtg==
+X-Received: by 2002:a62:38c9:0:b0:3f2:6ab2:1828 with SMTP id f192-20020a6238c9000000b003f26ab21828mr2990895pfa.37.1630002698630;
+        Thu, 26 Aug 2021 11:31:38 -0700 (PDT)
+Return-Path: <ticotimo@gmail.com>
+Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:1830::47f3])
+        by smtp.gmail.com with ESMTPSA id d19sm9789874pjs.18.2021.08.26.11.31.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Aug 2021 11:31:38 -0700 (PDT)
+From: "Tim Orling" <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@intel.com>
+Subject: [PATCH] python3-pytest: allow python3-pluggy >=1.0.0
+Date: Thu, 26 Aug 2021 18:31:28 +0000
+Message-Id: <20210826183128.2629669-1-timothy.t.orling@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210825113804.779395-1-alex.kanavin@gmail.com>
- <20210825113804.779395-13-alex.kanavin@gmail.com> <CAMKF1sqwfQJiDdWrNJGvXJdHLUi6+rTN-8S_Z0Wq-qA0zDo4-w@mail.gmail.com>
-In-Reply-To: <CAMKF1sqwfQJiDdWrNJGvXJdHLUi6+rTN-8S_Z0Wq-qA0zDo4-w@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 26 Aug 2021 20:10:30 +0200
-Message-ID: <CANNYZj_U0FtG9omMjEJ31e7rD5GK5QdERFnVsP2RoRviufG6BQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 13/16] libnsl2: upgrade 1.3.0 -> 2.0.0
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f5bb2205ca7a48f4"
+Content-Transfer-Encoding: 8bit
 
---000000000000f5bb2205ca7a48f4
-Content-Type: text/plain; charset="UTF-8"
+Fixes ptest failures in python3-jinja2.
 
-nis+ support has been dropped:
-https://github.com/thkukuk/libnsl/commits/master
+Backport patch from upstream, for now.
 
-I think you should remove the recipe that uses it :)
+Modify upstream patch to use toml and not tomli.
+We will add the new recipe for python3-tomli when
+we have an upgrade to python3-pytest.
 
-Alex
+Remove this when we upgrade pytest to a version containing
+the commit: fbba504cd5e1a74d528a41a11a7b82297cd7da74
 
-On Thu, 26 Aug 2021 at 19:23, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+---
+ .../0001-Allow-pluggy-1.0.patch               | 65 +++++++++++++++++++
+ .../python/python3-pytest_6.2.4.bb            |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch
 
-> On Wed, Aug 25, 2021 at 4:38 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/recipes-extended/libnsl/libnsl2_git.bb | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb
-> b/meta/recipes-extended/libnsl/libnsl2_git.bb
-> > index badb71d977..53be67fe85 100644
-> > --- a/meta/recipes-extended/libnsl/libnsl2_git.bb
-> > +++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
-> > @@ -10,9 +10,9 @@ LIC_FILES_CHKSUM =
-> "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-> >  SECTION = "libs"
-> >  DEPENDS = "libtirpc"
-> >
-> > -PV = "1.3.0"
-> > +PV = "2.0.0"
-> >
-> > -SRCREV = "fbad7b36acaa89a54023930af70805649f962999"
-> > +SRCREV = "82245c0c58add79a8e34ab0917358217a70e5100"
-> >
->
-> I am seeing libnssl-nisplus failure
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1484/steps/14/logs/stdio
->
-> doesnt look a slam dunk but thats closest I could see a dependency change.
->
-> >  SRC_URI = "git://github.com/thkukuk/libnsl \
-> >            "
-> > --
-> > 2.31.1
-> >
-> >
-> > 
-> >
->
+diff --git a/meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch b/meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch
+new file mode 100644
+index 0000000000..175ef987ad
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch
+@@ -0,0 +1,65 @@
++From 637d4400d2bab0457688f950ea18cc4a04147c11 Mon Sep 17 00:00:00 2001
++From: Bruno Oliveira <nicoddemus@gmail.com>
++Date: Thu, 26 Aug 2021 09:26:51 -0300
++Subject: [PATCH] Allow pluggy >=1.0
++
++Now that pluggy 1.0 has been released, we can allow pluggy 1.0 with new pytest versions.
++
++Upstream-Status: Backport [commit: fbba504]
++
++Modify to use toml and not tomli. We will create a
++python3-tomli recipe when we do an python3-pytest
++upgrade.
++
++Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
++---
++ setup.cfg | 36 ++++++++++++++++++------------------
++ 1 file changed, 18 insertions(+), 18 deletions(-)
++
++diff --git a/setup.cfg b/setup.cfg
++index f919a9491..a8aeab813 100644
++--- a/setup.cfg
+++++ b/setup.cfg
++@@ -32,24 +32,24 @@ project_urls =
++ 	Tracker=https://github.com/pytest-dev/pytest/issues
++ 
++ [options]
++-packages = 
++-	_pytest
++-	_pytest._code
++-	_pytest._io
++-	_pytest.assertion
++-	_pytest.config
++-	_pytest.mark
++-	pytest
++-install_requires = 
++-	attrs>=19.2.0
++-	iniconfig
++-	packaging
++-	pluggy>=0.12,<1.0.0a1
++-	py>=1.8.2
++-	toml
++-	atomicwrites>=1.0;sys_platform=="win32"
++-	colorama;sys_platform=="win32"
++-	importlib-metadata>=0.12;python_version<"3.8"
+++packages =
+++    _pytest
+++    _pytest._code
+++    _pytest._io
+++    _pytest.assertion
+++    _pytest.config
+++    _pytest.mark
+++    pytest
+++install_requires =
+++    attrs>=19.2.0
+++    iniconfig
+++    packaging
+++    pluggy>=0.12,<2.0
+++    py>=1.8.2
+++    toml
+++    atomicwrites>=1.0;sys_platform=="win32"
+++    colorama;sys_platform=="win32"
+++    importlib-metadata>=0.12;python_version<"3.8"
++ python_requires = >=3.6
++ package_dir = 
++ 	=src
+diff --git a/meta/recipes-devtools/python/python3-pytest_6.2.4.bb b/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
+index f0fd30aeda..2e90acaf36 100644
+--- a/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
++++ b/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
+@@ -5,6 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=81eb9f71d006c6b268cf4388e3c98f7b"
+ 
++SRC_URI += "file://0001-Allow-pluggy-1.0.patch"
+ SRC_URI[sha256sum] = "50bcad0a0b9c5a72c8e4e7c9855a3ad496ca6a881a3641b4260605450772c54b"
+ 
+ DEPENDS = "python3-setuptools-scm-native"
+-- 
+2.30.2
 
---000000000000f5bb2205ca7a48f4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>nis+ support has been dropped:</div><div><a href=3D"h=
-ttps://github.com/thkukuk/libnsl/commits/master">https://github.com/thkukuk=
-/libnsl/commits/master</a></div><div><br></div><div>I think you should remo=
-ve the recipe that uses it :)</div><div><br></div><div>Alex<br></div></div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu=
-, 26 Aug 2021 at 19:23, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">=
-raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Wed, Aug 25, 2021 at 4:38 AM Alexander Kanavin<br>
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
-n@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
-ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-extended/libnsl/<a href=3D"http://libnsl2_git.bb" r=
-el=3D"noreferrer" target=3D"_blank">libnsl2_git.bb</a> | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-extended/libnsl/<a href=3D"http://libnsl2_gi=
-t.bb" rel=3D"noreferrer" target=3D"_blank">libnsl2_git.bb</a> b/meta/recipe=
-s-extended/libnsl/<a href=3D"http://libnsl2_git.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">libnsl2_git.bb</a><br>
-&gt; index badb71d977..53be67fe85 100644<br>
-&gt; --- a/meta/recipes-extended/libnsl/<a href=3D"http://libnsl2_git.bb" r=
-el=3D"noreferrer" target=3D"_blank">libnsl2_git.bb</a><br>
-&gt; +++ b/meta/recipes-extended/libnsl/<a href=3D"http://libnsl2_git.bb" r=
-el=3D"noreferrer" target=3D"_blank">libnsl2_git.bb</a><br>
-&gt; @@ -10,9 +10,9 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D4fbd=
-65380cdd255951079008b364516c&quot;<br>
-&gt;=C2=A0 SECTION =3D &quot;libs&quot;<br>
-&gt;=C2=A0 DEPENDS =3D &quot;libtirpc&quot;<br>
-&gt;<br>
-&gt; -PV =3D &quot;1.3.0&quot;<br>
-&gt; +PV =3D &quot;2.0.0&quot;<br>
-&gt;<br>
-&gt; -SRCREV =3D &quot;fbad7b36acaa89a54023930af70805649f962999&quot;<br>
-&gt; +SRCREV =3D &quot;82245c0c58add79a8e34ab0917358217a70e5100&quot;<br>
-&gt;<br>
-<br>
-I am seeing libnssl-nisplus failure<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/88/build=
-s/1484/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1484/steps/14/logs/=
-stdio</a><br>
-<br>
-doesnt look a slam dunk but thats closest I could see a dependency change.<=
-br>
-<br>
-&gt;=C2=A0 SRC_URI =3D &quot;git://<a href=3D"http://github.com/thkukuk/lib=
-nsl" rel=3D"noreferrer" target=3D"_blank">github.com/thkukuk/libnsl</a> \<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt; --<br>
-&gt; 2.31.1<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-</blockquote></div>
-
---000000000000f5bb2205ca7a48f4--
