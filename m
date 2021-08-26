@@ -1,130 +1,158 @@
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.26573.1629954194295239256
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web11.26764.1629957766040268490
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Aug 2021 22:03:14 -0700
+ Wed, 25 Aug 2021 23:02:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: hongxu.jia@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 17Q53AG4027736
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Wed, 25 Aug 2021 22:03:11 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 17Q53AoC013689
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 25 Aug 2021 22:03:10 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 25 Aug 2021 22:03:10 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Wed, 25 Aug 2021 22:03:09 -0700
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 25 Aug 2021 22:03:09 -0700
-From: "hongxu" <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-        <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] nativesdk-pseudo: Fix to work with glibc 2.34 systems
-Date: Wed, 25 Aug 2021 22:03:09 -0700
-Message-ID: <20210826050309.26067-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="215828293"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; 
+   d="scan'208";a="215828293"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 23:02:44 -0700
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; 
+   d="scan'208";a="527628653"
+Received: from yvanugop-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.135.52])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2021 23:02:43 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH 00/26] Pull request (cover letter only)
+Date: Thu, 26 Aug 2021 14:02:37 +0800
+Message-Id: <cover.1629956461.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Since commit [df313aa810 pseudo: Fix to work with glibc 2.34
-systems] applied, it fixed native only. And nativesdk has
-the similar issue
+Please merge these changes. I've removed the uninative upgrade from my
+branch as those are causing problems. Re-tested and didn't see any
+problems.
 
-Tweak library search order, make prebuilt lib ahead of recipe lib,
-after apply the fix:
-...
-$ readelf -a lib/pseudo/lib64/libpseudo.so | grep 'Shared library'
- 0x0000000000000001 (NEEDED)             Shared library: [libdl.so.2]
- 0x0000000000000001 (NEEDED)             Shared library:[libpthread.so.0]
- 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
-...
+Thanks,
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../pseudo/files/older-glibc-symbols.patch    | 38 +++++++++++--------
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  3 ++
- 2 files changed, 26 insertions(+), 15 deletions(-)
+Anuj
 
-diff --git a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-index 1552c69b52..c453b5f735 100644
---- a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-+++ b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-@@ -12,26 +12,31 @@ Yes this is horrible. Better solutions welcome.
- 
- There is more info in the bug: [YOCTO #14521]
- 
--Upstream-Status: Inappropriate [this patch is native only]
-+Upstream-Status: Inappropriate [this patch is native and nativesdk]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
--Index: git/Makefile.in
--===================================================================
----- git.orig/Makefile.in
--+++ git/Makefile.in
--@@ -122,7 +122,7 @@ libpseudo: $(LIBPSEUDO)
-+Tweak library search order, make prebuilt lib ahead of recipe lib
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ Makefile.in       | 2 +-
-+ pseudo_wrappers.c | 5 ++++-
-+ 2 files changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -120,7 +120,7 @@ $(PSEUDODB): pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o | $(BIN)
-+ libpseudo: $(LIBPSEUDO)
-+ 
-  $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_ipc.o $(SHOBJS) | $(LIB)
-- 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
-+-	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
-++	$(CC) $(CFLAGS)  -Lprebuilt/$(shell uname -m)-linux/lib/ $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
-  		pseudo_client.o pseudo_ipc.o \
---		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
--+		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) -Lprebuilt/$(shell uname -m)-linux/lib/ $(CLIENT_LDFLAGS)
-+ 		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
-  
-- # *everything* now relies on stuff that's generated in the
-- # wrapper process.
--Index: git/pseudo_wrappers.c
--===================================================================
----- git.orig/pseudo_wrappers.c
--+++ git/pseudo_wrappers.c
-+diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
-+--- a/pseudo_wrappers.c
-++++ b/pseudo_wrappers.c
- @@ -100,10 +100,13 @@ static void libpseudo_atfork_child(void)
-  	pseudo_mutex_holder = 0;
-  }
-@@ -47,3 +52,6 @@ Index: git/pseudo_wrappers.c
-  
-  	pseudo_getlock();
-  	pseudo_antimagic();
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 79b7123e38..328177c9bf 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -8,6 +8,9 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
- SRC_URI:append:class-native = " \
-     http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=git/prebuilt;name=prebuilt \
-     file://older-glibc-symbols.patch"
-+SRC_URI:append:class-nativesdk = " \
-+    http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=git/prebuilt;name=prebuilt \
-+    file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
- 
- SRCREV = "b988b0a6b8afd8d459bc9a2528e834f63a3d59b2"
+The following changes since commit 01321ed982a8553672808afe2d9c1bee6628055d:
+
+  gnutls: upgrade 3.7.1 -> 3.7.2 (2021-08-11 16:39:03 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
+
+Alexandre Belloni (1):
+  oeqa/runtime/cases: make date.DateTest.test_date more reliable
+
+Anton Blanchard (1):
+  kmod: use nonarch_base_libdir for depmod.d and modprobe.d
+
+Bruce Ashfield (6):
+  linux-yocto/5.10: update to v5.10.55
+  linux-yocto/5.4: update to v5.4.137
+  linux-yocto/5.4: update to v5.4.139
+  linux-yocto/5.10: update to v5.10.57
+  kernel-devsrc: 5.14+ updates
+  kernel-devsrc: fix 5.14+ objtool compilation
+
+Dmitry Baryshkov (1):
+  linux-firmware: add more Qualcomm firmware packages
+
+Joe Slater (1):
+  terminal.bbclass: force bash for devshell
+
+Jose Quaresma (1):
+  sstate.bbclass: fix error handling when sstate mirrors is ro
+
+Khem Raj (1):
+  sdk: Enable do_populate_sdk with multilibs
+
+Marta Rybczynska (1):
+  lzo: add CVE_PRODUCT
+
+Oleksandr Popovych (1):
+  utils: Reduce the number of calls to the "dirname" command
+
+Patrick Williams (1):
+  pixman: re-disable iwmmxt
+
+Ross Burton (3):
+  tar: ignore node-tar CVEs
+  e2fsprogs: ensure small images have 256-byte inodes
+  wic: don't forcibly pass -T default
+
+Sakib Sajal (1):
+  go: upgrade 1.16.5 -> 1.16.7
+
+Tony Tascioglu (5):
+  ffmpeg: fix CVE-2020-20446
+  ffmpeg: fix CVE-2020-20453
+  ffmpeg: fix CVE-2020-22015
+  ffmpeg: fix CVE-2020-22021
+  ffmpeg: fix CVE-2020-22019 and CVE-2020-22033
+
+Vinay Kumar (1):
+  glibc: Fix CVE-2021-38604
+
+hongxu (1):
+  sdk: fix relocate symlink failed
+
+ meta/classes/multilib.bbclass                 |   1 -
+ meta/classes/populate_sdk_base.bbclass        |   2 +-
+ meta/classes/sstate.bbclass                   |   2 +
+ meta/classes/terminal.bbclass                 |   5 +-
+ meta/classes/utils.bbclass                    |   2 +-
+ meta/files/toolchain-shar-relocate.sh         |   2 +-
+ meta/lib/oeqa/runtime/cases/date.py           |   9 +-
+ .../glibc/glibc/0001-CVE-2021-38604.patch     |  40 +++++
+ .../glibc/glibc/0002-CVE-2021-38604.patch     | 147 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.33.bb         |   2 +
+ .../e2fsprogs/big-inodes-for-small-fs.patch   |  22 +++
+ .../e2fsprogs/e2fsprogs_1.46.1.bb             |   1 +
+ .../go/{go-1.16.5.inc => go-1.16.7.inc}       |   4 +-
+ ...e_1.16.5.bb => go-binary-native_1.16.7.bb} |   4 +-
+ ..._1.16.5.bb => go-cross-canadian_1.16.7.bb} |   0
+ ...{go-cross_1.16.5.bb => go-cross_1.16.7.bb} |   0
+ ...osssdk_1.16.5.bb => go-crosssdk_1.16.7.bb} |   0
+ ...o-native_1.16.5.bb => go-native_1.16.7.bb} |   0
+ ...runtime_1.16.5.bb => go-runtime_1.16.7.bb} |   0
+ .../go/{go_1.16.5.bb => go_1.16.7.bb}         |   0
+ meta/recipes-extended/tar/tar_1.34.bb         |   3 +
+ .../xorg-lib/pixman_0.40.0.bb                 |   2 +
+ meta/recipes-kernel/kmod/kmod_git.bb          |   8 +-
+ .../linux-firmware/linux-firmware_20210511.bb |  17 +-
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  10 +-
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
+ .../ffmpeg/ffmpeg/fix-CVE-2020-20446.patch    |  35 +++++
+ .../ffmpeg/ffmpeg/fix-CVE-2020-20453.patch    |  42 +++++
+ .../ffmpeg/ffmpeg/fix-CVE-2020-22015.patch    |  44 ++++++
+ .../ffmpeg/ffmpeg/fix-CVE-2020-22021.patch    |  87 +++++++++++
+ .../fix-CVE-2020-22033-CVE-2020-22019.patch   |  39 +++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb |   5 +
+ meta/recipes-support/lzo/lzo_2.10.bb          |   2 +
+ scripts/lib/wic/canned-wks/common.wks.inc     |   2 +-
+ scripts/lib/wic/canned-wks/directdisk-gpt.wks |   2 +-
+ scripts/lib/wic/canned-wks/mkefidisk.wks      |   2 +-
+ 41 files changed, 553 insertions(+), 64 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2021-38604.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0002-CVE-2021-38604.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/big-inodes-for-small-fs.patch
+ rename meta/recipes-devtools/go/{go-1.16.5.inc => go-1.16.7.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.16.5.bb => go-binary-native_1.16.7.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.16.5.bb => go-cross-canadian_1.16.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.16.5.bb => go-cross_1.16.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.16.5.bb => go-crosssdk_1.16.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.16.5.bb => go-native_1.16.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.16.5.bb => go-runtime_1.16.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.16.5.bb => go_1.16.7.bb} (100%)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-20446.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-20453.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-22015.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-22021.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/fix-CVE-2020-22033-CVE-2020-22019.patch
+
 -- 
-2.30.2
+2.31.1
 
