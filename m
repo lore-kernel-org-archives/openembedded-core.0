@@ -1,64 +1,107 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web08.28711.1629975662316522640
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+ by mx.groups.io with SMTP id smtpd.web11.28864.1629976253349640872
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 04:01:02 -0700
+ Thu, 26 Aug 2021 04:10:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D11DPLDi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id x12so4317774wrr.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 04:01:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Sgd4chdB;
+ spf=pass (domain: gmail.com, ip: 209.85.221.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f179.google.com with SMTP id l21so719469vkd.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 04:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=h2T096OoskOlrP2B4Lpj6v8EGtF5g7UU6lolJumrFvk=;
-        b=D11DPLDiDIyila8iOAzPCzTRc0Xa/EzAZrwdwkgvYG9jRKdVbuavjzjFU8GpGsHUCk
-         vXHGfOBUSLcoo74EsSvgfSyNMsxYr1EK67jJ5GQVQJTl4jtp1U0N4b9PV8bIM9rEFJEK
-         x+jlbkmq7lqHV8Dpy1Zx4E1QK7odHCAWIm+oM=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yC+A8a7gDTEQDDEwp6owqtFUUWAKMAS0yDdn/PnTkQA=;
+        b=Sgd4chdBUFOZZMWjHLDWf+r7CxXJRqVzNh19hSIEuDNScfy3FPJN1pnzMEvjBP90+j
+         hQqMg4DauWHBpOjkZJ2FdWZzZ9DsWMqrQCNWBvj2X8Y/rODhOr1Hh4KvwI9q7g4XDJiC
+         +RXY/nCON0+aurd+QJoDZZo3vcM/GMnbIl6nq3yKxyJVFOIyuGy3U+EWgeYHy8ybRMwl
+         9//SjdcPuEG2eE/iy3VyrCNasY6imVI6rgLyQPIiwGZaXKMbsN9mBinz81zNDSP9YF1L
+         jIrgY4Ipgv36Ui8hPd2BovQqoKSw8uKjJ/QCgzPQ/PX6ouYceDNPRSIPL+EoA5l/i/OE
+         XVUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=h2T096OoskOlrP2B4Lpj6v8EGtF5g7UU6lolJumrFvk=;
-        b=qzMD8lyxpYN1l2z/iuzwcuqp1BHGeEraYSvjgLOeyfSZha1xSCooq7BwpNyDsc8xDL
-         Ibi5KGeICzRvUvIlJHmhwypui31Uu5l3Ewbc9/T71BFflgqwV7xWRntB0lWOSKOXJd6Y
-         WyU5QCAeOyqjp1T5d/oaXpjyW9c07jyM9LZPJie8eOxhoxbFQ4EZr79L2k/I1kz8WKmW
-         VBhkmPt56dWX3E14kKV23xPg6bUyVD7qKb/+algPLMLF/v5AKMInHqkZP7cBnaRtgImf
-         hPY3RhrQXxBGMhayQ1+oPc5/JNlnx1fA8RNGuxYTNBYsUea/aY+FZqLfgN5wsgvrOFks
-         Xipw==
-X-Gm-Message-State: AOAM530NpM6vTB0DSZ/CqPF2x7uvCKjoKQ8xUjwHNC0WJvaPbgAZNBP9
-	aWDhI1dlxp+0PSf33IkK1L/XtZDevC7Dzg==
-X-Google-Smtp-Source: ABdhPJwF0BdhBwT+TvgnKHAO2YoFjaYxVpRtxayOEDnv5gtU2eHRc+4S/m271aIW4sHhKf3/xcynXA==
-X-Received: by 2002:adf:ebcd:: with SMTP id v13mr3177785wrn.400.1629975660920;
-        Thu, 26 Aug 2021 04:01:00 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4? ([2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4])
-        by smtp.gmail.com with ESMTPSA id c14sm2742759wrr.58.2021.08.26.04.01.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 04:01:00 -0700 (PDT)
-Message-ID: <72bd8d1222282938f5f4166a803dae1e087ace52.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] qemurunner.py: print output from runqemu/qemu-system in stop()
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Aug 2021 12:00:59 +0100
-In-Reply-To: <CANNYZj8SadPjAYW=tUNwsA-TV3vyJNGcD+2WoiXu_vGTKn-G1A@mail.gmail.com>
-References: <20210825223552.802130-1-alex.kanavin@gmail.com>
-	 <8a31a69ce20c28685294a1e3c6b289f6f5c38629.camel@linuxfoundation.org>
-	 <CANNYZj8SadPjAYW=tUNwsA-TV3vyJNGcD+2WoiXu_vGTKn-G1A@mail.gmail.com>
-User-Agent: Evolution 3.40.2-1build1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yC+A8a7gDTEQDDEwp6owqtFUUWAKMAS0yDdn/PnTkQA=;
+        b=LYNMLL3bpcExwaT5sUsoSdIvSPcc9p7FgC72bdb8Zrjqw98hzjt5fN9ttlkDlL9A4y
+         6l1fCYDuI6FOsHVsYsLJkEH2ISUc8tXMCZrkiQIH5ZdltyIWXt704dpau9QD3V8PKIjl
+         gmi5q8jp9+IspAeZpb0d7keuD+OE7TEhROtr8BpzZWbNtzTZy0pfdelnKrv2YCQlH4Bb
+         r0w3Z+TILvQTqJTcvELso8ov7/QtRv/goC2qJ5k9WLwTlPvffH9YNvMCwW4esrpKgt3I
+         qYmgjXmsLRLk+NESYHeU7slTA0lsLcpeG7Y+h2Jsxm3LaKd6WeDrHeF09UDYXAGwdvtJ
+         7p2g==
+X-Gm-Message-State: AOAM531vTH4C4+iOGMYTAtOoFyjEUZmSQ5acfBV811Eg8RuQccAdCA4K
+	Ub3q4rFpkBBZCwqDRhgQvKy33jaVXeI/dgsAHDE=
+X-Google-Smtp-Source: ABdhPJxA3YzvCl4ePwbbi5o/AKBSMQjs0EogON0WZ45gPjziTpqoiDG3tUk6w5uze6mMsMeOU1GrlgPi8AM/7TbFx3k=
+X-Received: by 2002:a05:6122:734:: with SMTP id 52mr721529vki.8.1629976252431;
+ Thu, 26 Aug 2021 04:10:52 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210825223552.802130-1-alex.kanavin@gmail.com>
+ <8a31a69ce20c28685294a1e3c6b289f6f5c38629.camel@linuxfoundation.org>
+ <CANNYZj8SadPjAYW=tUNwsA-TV3vyJNGcD+2WoiXu_vGTKn-G1A@mail.gmail.com> <72bd8d1222282938f5f4166a803dae1e087ace52.camel@linuxfoundation.org>
+In-Reply-To: <72bd8d1222282938f5f4166a803dae1e087ace52.camel@linuxfoundation.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 26 Aug 2021 13:10:41 +0200
+Message-ID: <CANNYZj_g4ZuRwVXDJD+7ydeEf3W=BbzFEpp+F3df2O4Hi_uzNw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemurunner.py: print output from runqemu/qemu-system in stop()
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000084bf5105ca746bb3"
+
+--00000000000084bf5105ca746bb3
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2021-08-26 at 12:45 +0200, Alexander Kanavin wrote:
-> It’s not a real warning, just that the print itself is issued as a warning. I
-> think it just needs to be issued as info instead.
+Please tweak,  I will separately confirm that the original issue (virgl
+headless fail on Ubuntu 20.04) would be still including this directly in ab
+output. Replying from a sushi restaurant :)
 
-Agreed, I realised that after replying to the patch. The current build is going
-rather orange! Will you send a v2 or should I tweak this one?
+Alex
 
-Cheers,
+On Thu 26. Aug 2021 at 13.01, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Richard
+> On Thu, 2021-08-26 at 12:45 +0200, Alexander Kanavin wrote:
+> > It=E2=80=99s not a real warning, just that the print itself is issued a=
+s a
+> warning. I
+> > think it just needs to be issued as info instead.
+>
+> Agreed, I realised that after replying to the patch. The current build is
+> going
+> rather orange! Will you send a v2 or should I tweak this one?
+>
+> Cheers,
+>
+> Richard
+>
+>
 
+--00000000000084bf5105ca746bb3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Please tweak, =C2=A0I will separately confirm that the or=
+iginal issue (virgl headless fail on Ubuntu 20.04) would be still including=
+ this directly in ab output. Replying from a sushi restaurant :)</div><div =
+dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu 26. Aug 2021 at 13=
+.01, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
+g">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1p=
+x;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,20=
+4)">On Thu, 2021-08-26 at 12:45 +0200, Alexander Kanavin wrote:<br>
+&gt; It=E2=80=99s not a real warning, just that the print itself is issued =
+as a warning. I<br>
+&gt; think it just needs to be issued as info instead.<br>
+<br>
+Agreed, I realised that after replying to the patch. The current build is g=
+oing<br>
+rather orange! Will you send a v2 or should I tweak this one?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
+
+--00000000000084bf5105ca746bb3--
