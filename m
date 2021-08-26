@@ -1,85 +1,84 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.29379.1629979253052151059
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.29595.1629979428491607689
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 05:00:53 -0700
+ Thu, 26 Aug 2021 05:03:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QCBp5BG2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id z4so4645701wrr.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 05:00:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ll+hbPEJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id o39-20020a05600c512700b002e74638b567so2075048wms.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 05:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=EDDhIi52ZCUbczGzxK272zrQ9iMsn1WUetbc596xAFU=;
-        b=QCBp5BG2Wsf3qFksDPPZawvPlTSPK8wiXghpY8ED3j07R+iYbXZV1AATpsdRxjaiTq
-         0Bg2piWYOecApz+WRgnGCf1VhcEs0dirrel9U+uqh7/lzpmFprs3ftbKNpoEPrs57Ndh
-         vwIn1rDTsbzJpwsF6UrO30KLkqmMI5/2DB8VU=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=UUJADyBKqT7edyUpU72xDf7y3Z4+t4yTQVvwz/7j+vk=;
+        b=Ll+hbPEJU03P4E48+LWjyM7TwXXtEYoNe5pNet+KiWiDsQGcf1E30f5TKdPpdH/UJK
+         3T6SFkfQbLrrflt/4SGm2co/aPTKR3Zvb7YL7Z1POlBdUMT672xhraGs8qI0yJjDjCBI
+         WPD2P9sPQ1BfHWCI5cuGv6La6oQj3gds0iSHQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EDDhIi52ZCUbczGzxK272zrQ9iMsn1WUetbc596xAFU=;
-        b=UXubzMKzyF7A/7pR5k1Pwml3pD3M7dWBMQ0RIrw0G6KtqydZ6GUnRLVI45d+qiOSxJ
-         DIYhow3srr5PyxW0FpySSGVscZ3/NaruNqzoFNeJAFFBEd1sd/jm5UorJck4N/0+O82R
-         TQ0MFrdkCrlzRQJkusCEhaCGgos5t5RqGWw8tLr+qSSbIBz2Iv+oLooYEHnQ2pe7YR9h
-         f+/whu/T7AeALKaS5eamAWYm0mffCKtmdUT2DOFeu1ONcbPev0IGaLvVF10mWZn7w7cs
-         LVJ7uTRZgKIF6YEM6Vcp0OgQwmjgb4yFEFSM1GMLffgXa8BkFgpTBA/XNbsnztIJrAOo
-         Coww==
-X-Gm-Message-State: AOAM530TuhhYU4yfH48Np1s63LF5q7HKMRrgHE2VI5L7sKKt304rvWuc
-	bSFW7aC9cCFCh0vtLCl3W2wQlA==
-X-Google-Smtp-Source: ABdhPJwupDhw5aVlp9zi4a9Sbs6IxsYDuovjTpk8BbmzSi1Ua31JS5434YGk3eITbsGDigQlSZfnIw==
-X-Received: by 2002:adf:c3c9:: with SMTP id d9mr2463739wrg.339.1629979251539;
-        Thu, 26 Aug 2021 05:00:51 -0700 (PDT)
+        bh=UUJADyBKqT7edyUpU72xDf7y3Z4+t4yTQVvwz/7j+vk=;
+        b=gDV7M43plx8O8keBOxUJVN57Ys21WWLJv2lhnbWSWO8OqgvIvzGNH8q8nfm/Be1eMp
+         OzOnsvsINmGaflixNeCmqncZ+4dMVGDvh7nSXfrFiUdsMwxUOibJzsBZ2s9iY31Wdk3M
+         SawhHny5vXrqtIZBuICxZjxViu72C5sikKayUZ+vxL67eELA0PjadPLuJmW2i8NeL9yg
+         mm2wrGf++N0BAinu+j+bTPZue0ekErIqvkBG4AF2qLuX/s9iQUP6XjcEYJvmIAUoWK94
+         yAAiGS23KU5KcF93P+UItmUOzKYaZBR1skUlaB2pR6PlERl6Ynw1K2JgeN1Af3o5HMTU
+         Btpw==
+X-Gm-Message-State: AOAM531nZZ4qdn9GZi2IKB5UBaNU9uqOqQfEWz6sNbfdxmGa9W/LfgFq
+	wfRvMRZil7ehleJQ3CBDbmiudg==
+X-Google-Smtp-Source: ABdhPJzHpywoC8v3H1boFQ36q1FcOB1FSdD8JUrNUyDKlBmks8rxTFcJAiq6U8mA2THn8ZU2PACWZQ==
+X-Received: by 2002:a1c:44c5:: with SMTP id r188mr3361379wma.9.1629979426999;
+        Thu, 26 Aug 2021 05:03:46 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4? ([2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4])
-        by smtp.gmail.com with ESMTPSA id b10sm3220977wrt.43.2021.08.26.05.00.50
+        by smtp.gmail.com with ESMTPSA id g35sm9230867wmp.9.2021.08.26.05.03.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 05:00:51 -0700 (PDT)
-Message-ID: <b2dab4ebd32e02a84bc7087a3e3ac62c78255547.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] vim: add option to disable NLS support
+        Thu, 26 Aug 2021 05:03:46 -0700 (PDT)
+Message-ID: <fc5b311848218b5825de269d31fb08dd2e74d989.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] qemurunner.py: print output from runqemu/qemu-system in stop()
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Valek, Andrej" <andrej.valek@siemens.com>, "armccurdy@gmail.com"
-	 <armccurdy@gmail.com>, "steve@sakoman.com" <steve@sakoman.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	 <raj.khem@gmail.com>
-Date: Thu, 26 Aug 2021 13:00:46 +0100
-In-Reply-To: <98ece42c21301b8384d4b2e92cedb232b324b6a0.camel@siemens.com>
-References: <20210823101205.29267-1-andrej.valek@siemens.com>
-	 <ce3005b3-6213-9528-2c82-c4f612f3b549@gmail.com>
-	 <DB8PR10MB3977E6C2E704FF73707CA62492C49@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-	 <CAJ86T=V2zSGf3ebYWFh-2-QZ1w55Xsz+6nbkcR9jayh9ANyraQ@mail.gmail.com>
-	 <DB8PR10MB3977DC6B069FA94E5EB4399992C59@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-	 <452907b1c72251c6a445882c7dea2ea2dc1b913e.camel@siemens.com>
-	 <1b35875da7fb3481400f09bcefd532be90d098cf.camel@linuxfoundation.org>
-	 <98ece42c21301b8384d4b2e92cedb232b324b6a0.camel@siemens.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 26 Aug 2021 13:03:45 +0100
+In-Reply-To: <20210826114517.817267-1-alex.kanavin@gmail.com>
+References: <20210826114517.817267-1-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2021-08-26 at 11:24 +0000, Valek, Andrej wrote:
-> Hello Richard,
+On Thu, 2021-08-26 at 13:45 +0200, Alexander Kanavin wrote:
+> This is done when starting up qemu has failed, but is not done
+> when qemu started ok, but fails later in QMP communication.
 > 
-> If it isn't a big deal, I can use the "--enable" variant. If we keep --
-> enable-nls like a default, we will brake nothing I guess. (It's enabled
-> by default anyway). So I'm adding there only a feature to disable it
-> with PACKAGEOPTION.
+> Output from runqemu does contain valuable information to find out
+> why, so rather than fix all the QMP fails to include it, let's just
+> print it in stop().
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/lib/oeqa/utils/qemurunner.py | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+> index 5c9d2b24a3..204ad8b918 100644
+> --- a/meta/lib/oeqa/utils/qemurunner.py
+> +++ b/meta/lib/oeqa/utils/qemurunner.py
+> @@ -535,6 +535,8 @@ class QemuRunner:
+>              if self.runqemu.poll() is None:
+>                  self.logger.debug("Sending SIGKILL to runqemu")
+>                  os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
+> +            if not self.runqemu.stdout.closed:
+> +                self.logger.info("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
+>              self.runqemu.stdin.close()
+>              self.runqemu.stdout.close()
+>              self.runqemu_exited = True
 
-Yes, lets use --enable please since that is the way the rest of the world/code 
-works.
+This isn't quite so simple I'm afraid:
 
-I'm a bit worried about the nls option since the recipe does have BBCLASSEXTEND
-for native/nativesdk and we do disable nls for native by default. As you say,
-the patch probably doesn't change anything but it is a bit of an oddity.
-
-The code does look to be using gettext and there is a gettext-native dependency
-but the recipe does not use the gettext class. Why? Not sure.
-
-I'll put the patch in for testing if we can use the standard format though
-(which should work since I checked and configure is using the standard autoconf
-macros).
+https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/3210/steps/16/logs/stdio
 
 Cheers,
 
