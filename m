@@ -1,169 +1,86 @@
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
- by mx.groups.io with SMTP id smtpd.web09.28507.1629974728329633124
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.28610.1629975567732448094
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 03:45:28 -0700
+ Thu, 26 Aug 2021 03:59:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AlxOj+9s;
- spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f53.google.com with SMTP id m19so1679104vsj.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 03:45:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OjJsmXnF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id n5so4297845wro.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 03:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=25OyN84aGufgLPSsXZaV+JX4xnOcQshYwpR/BbJXDx8=;
-        b=AlxOj+9sLfhCDnv5IyvIO6Jdn47Keo98NMrht8k0E/eYoGfestQK5UBaKL+XBk6MAH
-         XZIycJygiuCmqXTOy+CAl8MLKno/pGeuZbgjccZwDqbeusj4iVvNPvi7Ai06Q/i2mX/a
-         wnckHQehAQARdtw2/MKdeZxuJ0XnqnODF8AEterxtyqX3t9sxzMVCUpxb/KuDoM9Nx8m
-         1NNRxetxJx1yRk2hpA0RtgMbWiFo6qp2kvOdvTcmaco+D/6MXnwCFHMNz6+VXhbir2Fu
-         bag/2GhZxiZ9TZSst/dEnXQx1Z7SnMCWQyrMuUV6lomRUhAlMVvYT5FFLFKd8m4XOFAB
-         wQUQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=x9RuzDocVPwvOKVqpBvAujgPFrDpMt2PjKKYv0nvZ1U=;
+        b=OjJsmXnF8zdXD3rUVgDh4TM/nbb8FQcCiPMzHTYkEaV6PmGQoujOUwNnX6VQqNAR4q
+         xahFq5O1fQVYx+P+rRw745pUxWjNzl96PabVTDaB9E3ysXKXXA8Po/Ybmf8ZnuZ4q/zL
+         u8d0w5jqEjoBI+dubcCoHm5NknY/YMoeODMa4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=25OyN84aGufgLPSsXZaV+JX4xnOcQshYwpR/BbJXDx8=;
-        b=uJJsc1peiShrCmmcHmS4/gvJG5fAg+hKSQsig+IepUpJIvLWvFW0U0kvlp9S+oXnw+
-         P7EznF2KZnV7X+BCkAm0FmGb60Ox8N8oc/0YKj0FKMkvodX99mViS6Z0/J63jNmuoiAZ
-         bcmNDToSecGELndsh47MM6Xn4B7SFYkwYMS4ZCGTE53RC0rYlFTKvrHa8D9zTSG1mfTi
-         WwbvTrIeDsCe4/VqYisEFLHIESp5WS7PD0lld3f5DL1Ch0+RYnBVVjWVGenp+QLrqQLu
-         36vGoMNhhw6sWd1u1kWTb1GYkbAjOCKcAiOOYlKCc9ocDAO1MhGAbLbpWzU1e2y9gsB1
-         Dr3Q==
-X-Gm-Message-State: AOAM530r+o6gl52bLgsG0VpHJ8SLzk5K8dZ4u3GhpoKcYbFEO8umZ20m
-	xaqJ9H6sTrG3VVpf7vnmM717Sd8xmwwy098b+ng=
-X-Google-Smtp-Source: ABdhPJyTJbrYmJmSGkL4LuGDTEhryraLdAWUz66q56uyXrnuIvz4g12JavJRm0u+94n/aHCyGyFi1s2OdMeuRTlaHy4=
-X-Received: by 2002:a67:844:: with SMTP id 65mr1505981vsi.20.1629974727315;
- Thu, 26 Aug 2021 03:45:27 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=x9RuzDocVPwvOKVqpBvAujgPFrDpMt2PjKKYv0nvZ1U=;
+        b=kuEr/LbjeW4cLawL/+T0W7V7vvYbv/pOZUOtvo0HNv8VGTVV3854CIFAKGZaOgZs7I
+         W2s1FvnIcHaFsK5yhuErea5cxwveMnQ82/fjz8cdrVNhcR6gN5VMarHkey3fjLcf3Okz
+         vr1domH/SpZo1MKLQLwwQkTJ6/wMb/tAVEOHQ8jlZUZLQWB8c4obExs733WqAzuj2LfP
+         A1jieDpolEba8Yz/h5cqzquzWB06wWvk93IzrX1IgAsO5lDb/IJbkPLMSgjRrejGtov2
+         F3Gc+mO0vYxWNIg6sGJUvJR/jJOWrAlTqRHOMB1mpNsvC6S9EnJkXBLIWYaDlhaBibS2
+         6/LA==
+X-Gm-Message-State: AOAM5337mmadT5gyMTivIgsYck7/mltcdp3uVBdeBr3XThSudmZQs0bG
+	fyDCM3cMdHRojbrEqkhiJm8iDw==
+X-Google-Smtp-Source: ABdhPJxYHPuscKmRmDp3kD3lYP/Nf7+nBviBlvlJ7nwx5/3HlpmWFYY0Azm5Reb+qEpEnUwj5PDKSQ==
+X-Received: by 2002:adf:dc8a:: with SMTP id r10mr3055625wrj.371.1629975566179;
+        Thu, 26 Aug 2021 03:59:26 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4? ([2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4])
+        by smtp.gmail.com with ESMTPSA id j7sm7954339wmi.37.2021.08.26.03.59.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Aug 2021 03:59:25 -0700 (PDT)
+Message-ID: <1b35875da7fb3481400f09bcefd532be90d098cf.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] vim: add option to disable NLS support
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Valek, Andrej" <andrej.valek@siemens.com>, "armccurdy@gmail.com"
+	 <armccurdy@gmail.com>, "steve@sakoman.com" <steve@sakoman.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	 <raj.khem@gmail.com>
+Date: Thu, 26 Aug 2021 11:59:24 +0100
+In-Reply-To: <452907b1c72251c6a445882c7dea2ea2dc1b913e.camel@siemens.com>
+References: <20210823101205.29267-1-andrej.valek@siemens.com>
+	 <ce3005b3-6213-9528-2c82-c4f612f3b549@gmail.com>
+	 <DB8PR10MB3977E6C2E704FF73707CA62492C49@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+	 <CAJ86T=V2zSGf3ebYWFh-2-QZ1w55Xsz+6nbkcR9jayh9ANyraQ@mail.gmail.com>
+	 <DB8PR10MB3977DC6B069FA94E5EB4399992C59@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+	 <452907b1c72251c6a445882c7dea2ea2dc1b913e.camel@siemens.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-References: <20210825223552.802130-1-alex.kanavin@gmail.com> <8a31a69ce20c28685294a1e3c6b289f6f5c38629.camel@linuxfoundation.org>
-In-Reply-To: <8a31a69ce20c28685294a1e3c6b289f6f5c38629.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 26 Aug 2021 12:45:15 +0200
-Message-ID: <CANNYZj8SadPjAYW=tUNwsA-TV3vyJNGcD+2WoiXu_vGTKn-G1A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemurunner.py: print output from runqemu/qemu-system in stop()
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009d559b05ca74109d"
-
---0000000000009d559b05ca74109d
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-It=E2=80=99s not a real warning, just that the print itself is issued as a =
-warning.
-I think it just needs to be issued as info instead.
+On Thu, 2021-08-26 at 09:58 +0000, Valek, Andrej wrote:
+> Hello,
+> 
+> Is there any problem, which should I fix?
+> I would like to include this feature into dunfell if possible.
 
-Alex
+Autotools usually has a very specific option format and this isn't following it.
+I know others expressed some surprise and I share that. It can happen if the
+software is doing something unusual so it is possible but I wanted to go and
+double check this as it looks odd. It may be both formats can be used and if
+that were the case, I'd much prefer we used the standard format we use
+everywhere else.
 
-On Thu 26. Aug 2021 at 11.42, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+So basically this is held pending me doing some due diligence as it worries me.
+I am however struggling to do everything needed at the moment.
 
-> On Thu, 2021-08-26 at 00:35 +0200, Alexander Kanavin wrote:
-> > This is done when starting up qemu has failed, but is not done
-> > when qemu started ok, but fails later in QMP communication.
-> >
-> > Output from runqemu does contain valuable information to find out
-> > why, so rather than fix all the QMP fails to include it, let's just
-> > print it in stop().
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/lib/oeqa/utils/qemurunner.py | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/lib/oeqa/utils/qemurunner.py
-> b/meta/lib/oeqa/utils/qemurunner.py
-> > index 5c9d2b24a3..e099c6e2a7 100644
-> > --- a/meta/lib/oeqa/utils/qemurunner.py
-> > +++ b/meta/lib/oeqa/utils/qemurunner.py
-> > @@ -535,6 +535,8 @@ class QemuRunner:
-> >              if self.runqemu.poll() is None:
-> >                  self.logger.debug("Sending SIGKILL to runqemu")
-> >                  os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL=
-)
-> > +            if not self.runqemu.stdout.closed:
-> > +                self.logger.warning("Output from runqemu:\n%s" %
-> self.getOutput(self.runqemu.stdout))
-> >              self.runqemu.stdin.close()
-> >              self.runqemu.stdout.close()
-> >              self.runqemu_exited =3D True
->
-> I like the idea of this but it is showing warnings on the autobuilder:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/3877
->
-> So we may need to fix the issue it is exposing?
->
-> Cheers,
->
-> Richard
->
->
+The other issue is that nls is an option many other recipes have but we've
+always handled it at the core level in the gettext bbclass. native recipes
+explictly pass --disable-nls for example.
 
---0000000000009d559b05ca74109d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I also wanted to check if the recipe uses the gextext class (or should?) and if
+instead we should be exposing the PACKAGECONFIG differently through that class.
 
-<div dir=3D"auto">It=E2=80=99s not a real warning, just that the print itse=
-lf is issued as a warning. I think it just needs to be issued as info inste=
-ad.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu 26. =
-Aug 2021 at 11.42, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linu=
-xfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
-rgb(204,204,204)">On Thu, 2021-08-26 at 00:35 +0200, Alexander Kanavin wrot=
-e:<br>
-&gt; This is done when starting up qemu has failed, but is not done<br>
-&gt; when qemu started ok, but fails later in QMP communication.<br>
-&gt; <br>
-&gt; Output from runqemu does contain valuable information to find out<br>
-&gt; why, so rather than fix all the QMP fails to include it, let&#39;s jus=
-t<br>
-&gt; print it in stop().<br>
-&gt; <br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
-ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/lib/oeqa/utils/qemurunner.py | 2 ++<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/q=
-emurunner.py<br>
-&gt; index 5c9d2b24a3..e099c6e2a7 100644<br>
-&gt; --- a/meta/lib/oeqa/utils/qemurunner.py<br>
-&gt; +++ b/meta/lib/oeqa/utils/qemurunner.py<br>
-&gt; @@ -535,6 +535,8 @@ class QemuRunner:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.runqemu.poll()=
- is None:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.log=
-ger.debug(&quot;Sending SIGKILL to runqemu&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.killp=
-g(os.getpgid(self.runqemu.pid), signal.SIGKILL)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not self.runqemu.stdout.=
-closed:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.logger.w=
-arning(&quot;Output from runqemu:\n%s&quot; % self.getOutput(self.runqemu.s=
-tdout))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.runqemu.stdin.clo=
-se()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.runqemu.stdout.cl=
-ose()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.runqemu_exited =
-=3D True<br>
-<br>
-I like the idea of this but it is showing warnings on the autobuilder:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/61/build=
-s/3877" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/61/builds/3877</a><br>
-<br>
-So we may need to fix the issue it is exposing?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
+Cheers,
 
---0000000000009d559b05ca74109d--
+Richard
+
