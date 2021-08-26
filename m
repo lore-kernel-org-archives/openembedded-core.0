@@ -1,278 +1,295 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.1073.1630020122947183790
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web08.1012.1630020123677969481
  for <openembedded-core@lists.openembedded.org>;
  Thu, 26 Aug 2021 16:22:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=h0L4HoXt;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id m17so2755361plc.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 16:22:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DmkgF7Y6;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id f11-20020a17090aa78b00b0018e98a7cddaso3480229pjq.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 16:22:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Tj8K5xY4/RERfjwh3KfaKTzxqo81wacrCxae/O3vnGY=;
-        b=h0L4HoXtn6mgJsr7BKRouEQseV5rJ7JWK2fG9OXsTltpcn6rz+9hW72N7vJyTwXR61
-         JBcWlxgmOi/rYfk0vNxgN17M2nLV0IP9xgWaJUYMDuo7OC5gQlHH7K9BctxLQeo5Bv6F
-         +05Hbl54JcX/zolqYKlhNzEjta4hGWi4TYWozNdVtcewMsd0V3Axu2SvA0exzIZLydfx
-         EOuMIr4wrbSYvN7AsBFcZhAaHgdfrgNIosBQ4Xh6TqlaKIDWn8avK3uB4xcrqNTy6aIc
-         SDJtF5lIZI0zzZ9jwehAFJu8QgUsAaL8fBORz95WdqKRxcftgWt7kdguwdfdNPFYJCxQ
-         GmNQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bejd47J9mfzdUMS7fu2WCAzaCMABPQazOv7o6OzJSKY=;
+        b=DmkgF7Y6Gqmj0sD8OrhqiJBqsSNuypw3LYgAH/dE3IPU12v6/jAMw/1zLs22F8d+8k
+         zQyMkPZcQle6FJDgjTcSkCWPuqBXJJArlP4L+rtqunSqNOPAU62RGMZ2M8I05g6lFwnI
+         t/Jz3M+eG7ixV4gid2v2WyRv+4NSRZJj94rKsJ+iNQnma+itlsbHgWDO15swqskrZ8pq
+         uPyC+yYddJ1TP9+CIcK80m9DxeYfw07n1w1rYOexcZUPdxLhchNfu8oHYgAdLDcw+dTh
+         pPqq81e5r8q1cLLHInhmQtqIy7M0txwO9iyPqT96XQYfrB5gqnB6GPENlY6nmezMaNRI
+         n+0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Tj8K5xY4/RERfjwh3KfaKTzxqo81wacrCxae/O3vnGY=;
-        b=JEdXTq1vYlHsAqZ9xWIsBt75bg2G/zISH3aLfrcZ++QCk9NyvFyRoG7mS6H8hHI+n3
-         Li6GuzfrkXDha0QF0ddzwHz6bek5Wd5hXfbufedCBjZDiWLHTtzADqig+z+ieklwUGWV
-         tBqMWml8r9S2SN15rRMjcE17v91mK4xurUUglTfCQZh+r6NjHKwTdFidJ0JHbo2a0Igf
-         PSafTo8ZE7ulyb2cUg/YtWet8iXoz3bQZHyoVD2G1aXYwmPNtjYN5lieuSn5jXqRfwtI
-         D3oQf8CPLsQdUbNWm9lRTYhXRkMq8UAjkT1FOHFFO7eQzFrTW9C+a2wFbCJOAla/moAl
-         diFQ==
-X-Gm-Message-State: AOAM532Bb6Y9CmeOsNBKh5TkIExjc5PHWVtbmRiPyF6GK8PMbIglBYs5
-	v0bFrufn89mClyJl5JvBaGRfmyKoA4I=
-X-Google-Smtp-Source: ABdhPJxug/XmRCn6qVoNsuvwLHaqhC5Ekv3wu7F/BBv/U9FeWFqSbW1jcC6+hEHc6O3/L+ApI6/ieA==
-X-Received: by 2002:a17:90b:103:: with SMTP id p3mr19330128pjz.157.1630020122060;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bejd47J9mfzdUMS7fu2WCAzaCMABPQazOv7o6OzJSKY=;
+        b=n3ibgcup23gKYjcpisfV6ulWixznUm32W8pN7lOY3PzL0IXrAUAfrlqi0diKkQL9nF
+         Hp2V5tLgsEz7h72wpOPHPnIkr0D2CWNgJFK0P3kxKVpCuhC88gJmYFwt2KhoE1KJ1AI+
+         079agf5yJS882ENwvh7VDQXiMv9gYkX++9xb5pQhGbrh5FEAKEP535fvpDqvrqyGWzqz
+         hP3FF2zpPg6odwZLhFoe1cLMQmzBuEKjx6UvOQTWyTiFzykpXXrJxibEIpCcOG0hq4aL
+         0MhWZvE+OWJkq8BALbBzNu3BA+vzDUxlOMMZ6Ryu5FtJ+k6gjes0c6q1v8K90eljNzTj
+         PIAA==
+X-Gm-Message-State: AOAM530MC+qJQ1bBaofSpen57RL9p3lLc1td9vSjb0wc+vgQvSLFVJ+/
+	45Io5GTMdJMAVhf1eSs6Tma3wllmcjw=
+X-Google-Smtp-Source: ABdhPJwDqGU/YS8L278/7U09kPC7/aw2CUSFLFjvUY0LvQSgOX28Oz7Smzpynl1sKbvAbypfzPSoLQ==
+X-Received: by 2002:a17:90a:b795:: with SMTP id m21mr7035005pjr.143.1630020122939;
         Thu, 26 Aug 2021 16:22:02 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from keaua.caveonetworks.com ([2601:202:4180:a5c0:fe04:ee7:4da9:eb01])
-        by smtp.gmail.com with ESMTPSA id b3sm4158626pfi.179.2021.08.26.16.22.00
+        by smtp.gmail.com with ESMTPSA id b3sm4158626pfi.179.2021.08.26.16.22.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 16:22:01 -0700 (PDT)
+        Thu, 26 Aug 2021 16:22:02 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [Dunfell][PATCH 1/2] binutils: Security fix for CVE-2021-3549
-Date: Thu, 26 Aug 2021 16:21:59 -0700
-Message-Id: <20210826232200.2000257-1-akuster808@gmail.com>
+Subject: [Dunfell][PATCH 2/2] binutils: Security fix for CVE-2020-16593
+Date: Thu, 26 Aug 2021 16:22:00 -0700
+Message-Id: <20210826232200.2000257-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210826232200.2000257-1-akuster808@gmail.com>
+References: <20210826232200.2000257-1-akuster808@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Armin Kuster <akuster@mvista.com>
 
-Source: git://sourceware.org/binutils-gdb.git
-MR: 111523
+Source:  https://sourceware.org/git/binutils-gdb.git
+MR: 112801
 Type: Security Fix
-Disposition: Backport from https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=1cfcf3004e1830f8fe9112cfcd15285508d2c2b7
-ChangeID: 2d3161f601852eb8f9a9ca982c6b0cd44e036bc6
+Disposition: Backport from https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=aec72fda3b320c36eb99fc1c4cf95b10fc026729
+ChangeID: 470b309f4859eecdcc837add2bf756484ad94ee5
 Description:
 
-Affects <= 2.36
-
-Fixup Changelog to apply to dunfel context.
+Fixed up for 2.34 context
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  .../binutils/binutils-2.34.inc                |   1 +
- .../binutils/binutils/CVE-2021-3549.patch     | 187 ++++++++++++++++++
- 2 files changed, 188 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-3549.patch
+ .../binutils/binutils/CVE-2020-16593.patch    | 204 ++++++++++++++++++
+ 2 files changed, 205 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-16593.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index 3e10279b1d..1c1118df54 100644
+index 1c1118df54..6104bec591 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.34.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -48,5 +48,6 @@ SRC_URI = "\
-      file://CVE-2020-16598.patch \
+@@ -49,5 +49,6 @@ SRC_URI = "\
       file://CVE-2021-20197.patch \
       file://CVE-2021-3487.patch \
-+     file://CVE-2021-3549.patch \
+      file://CVE-2021-3549.patch \
++     file://CVE-2020-16593.patch \
  "
  S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-3549.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-3549.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2020-16593.patch b/meta/recipes-devtools/binutils/binutils/CVE-2020-16593.patch
 new file mode 100644
-index 0000000000..4391db340a
+index 0000000000..cbe4a50507
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-3549.patch
-@@ -0,0 +1,187 @@
-+From 1cfcf3004e1830f8fe9112cfcd15285508d2c2b7 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2020-16593.patch
+@@ -0,0 +1,204 @@
++From aec72fda3b320c36eb99fc1c4cf95b10fc026729 Mon Sep 17 00:00:00 2001
 +From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 11 Feb 2021 16:56:42 +1030
-+Subject: [PATCH] PR27290, PR27293, PR27295, various avr objdump fixes
++Date: Thu, 16 Apr 2020 17:49:38 +0930
++Subject: [PATCH] PR25827, Null pointer dereferencing in scan_unit_for_symbols
 +
-+Adds missing sanity checks for avr device info note, to avoid
-+potential buffer overflows.  Uses bfd_malloc_and_get_section for
-+sanity checking section size.
-+
-+	PR 27290
-+	PR 27293
-+	PR 27295
-+	* od-elf32_avr.c (elf32_avr_get_note_section_contents): Formatting.
-+	Use bfd_malloc_and_get_section.
-+	(elf32_avr_get_note_desc): Formatting.  Return descsz.  Sanity
-+	check namesz.  Return NULL if descsz is too small.  Ensure
-+	string table is terminated.
-+	(elf32_avr_get_device_info): Formatting.  Add note_size param.
-+	Sanity check note.
-+	(elf32_avr_dump_mem_usage): Adjust to suit.
++    PR 25827
++    * dwarf2.c (scan_unit_for_symbols): Wrap overlong lines.  Don't
++    strdup(0).
 +
 +Upstream-Status: Backport
-+CVE: CVE-2021-3549
-+Signed-of-by: Armin Kuster <akuster@mvista.com>
++https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=aec72fda3b320c36eb99fc1c4cf95b10fc026729
++CVE: CVE-2020-16593 
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+---
-+ binutils/ChangeLog      | 14 +++++++++
-+ binutils/od-elf32_avr.c | 66 ++++++++++++++++++++++++++---------------
-+ 2 files changed, 56 insertions(+), 24 deletions(-)
 +
-+Index: git/binutils/od-elf32_avr.c
++Index: git/bfd/dwarf2.c
 +===================================================================
-+--- git.orig/binutils/od-elf32_avr.c
-++++ git/binutils/od-elf32_avr.c
-+@@ -77,23 +77,29 @@ elf32_avr_filter (bfd *abfd)
-+   return bfd_get_flavour (abfd) == bfd_target_elf_flavour;
++--- git.orig/bfd/dwarf2.c
+++++ git/bfd/dwarf2.c
++@@ -295,12 +295,12 @@ struct comp_unit
++ /* This data structure holds the information of an abbrev.  */
++ struct abbrev_info
++ {
++-  unsigned int number;		/* Number identifying abbrev.  */
++-  enum dwarf_tag tag;		/* DWARF tag.  */
++-  int has_children;		/* Boolean.  */
++-  unsigned int num_attrs;	/* Number of attributes.  */
++-  struct attr_abbrev *attrs;	/* An array of attribute descriptions.  */
++-  struct abbrev_info *next;	/* Next in chain.  */
+++  unsigned int         number;     /* Number identifying abbrev.  */
+++  enum dwarf_tag       tag;        /* DWARF tag.  */
+++  bfd_boolean          has_children;   /* TRUE if the abbrev has children.  */
+++  unsigned int         num_attrs;  /* Number of attributes.  */
+++  struct attr_abbrev * attrs;      /* An array of attribute descriptions.  */
+++  struct abbrev_info * next;       /* Next in chain.  */
++ };
++ 
++ struct attr_abbrev
++@@ -1487,6 +1487,8 @@ struct varinfo
++ {
++   /* Pointer to previous variable in list of all variables */
++   struct varinfo *prev_var;
+++  /* The offset of the varinfo from the start of the unit.  */
+++  bfd_uint64_t unit_offset;
++   /* Source location file name */
++   char *file;
++   /* Source location line number */
++@@ -1497,7 +1499,7 @@ struct varinfo
++   /* Where the symbol is defined */
++   asection *sec;
++   /* Is this a stack variable? */
++-  unsigned int stack: 1;
+++  bfd_boolean stack;
++ };
++ 
++ /* Return TRUE if NEW_LINE should sort after LINE.  */
++@@ -2871,7 +2873,7 @@ lookup_symbol_in_variable_table (struct
++   struct varinfo* each;
++ 
++   for (each = unit->variable_table; each; each = each->prev_var)
++-    if (each->stack == 0
+++    if (! each->stack
++ 	&& each->file != NULL
++ 	&& each->name != NULL
++ 	&& each->addr == addr
++@@ -3166,6 +3168,20 @@ read_rangelist (struct comp_unit *unit,
++   return TRUE;
 + }
 + 
-+-static char*
-++static char *
-+ elf32_avr_get_note_section_contents (bfd *abfd, bfd_size_type *size)
-+ {
-+   asection *section;
-++  bfd_byte *contents;
-+ 
-+-  if ((section = bfd_get_section_by_name (abfd, ".note.gnu.avr.deviceinfo")) == NULL)
-++  section = bfd_get_section_by_name (abfd, ".note.gnu.avr.deviceinfo");
-++  if (section == NULL)
-+     return NULL;
-+ 
-+-  *size = bfd_section_size (section);
-+-  char *contents = (char *) xmalloc (*size);
-+-  bfd_get_section_contents (abfd, section, contents, 0, *size);
-++  if (!bfd_malloc_and_get_section (abfd, section, &contents))
+++static struct varinfo *
+++lookup_var_by_offset (bfd_uint64_t offset, struct varinfo * table)
+++{
+++  while (table)
 ++    {
-++      free (contents);
-++      contents = NULL;
+++      if (table->unit_offset == offset)
+++   return table;
+++      table = table->prev_var;
 ++    }
-+ 
-+-  return contents;
-++  *size = bfd_section_size (section);
-++  return (char *) contents;
-+ }
-+ 
-+-static char* elf32_avr_get_note_desc (bfd *abfd, char *contents,
-+-        bfd_size_type size)
-++static char *
-++elf32_avr_get_note_desc (bfd *abfd, char *contents, bfd_size_type size,
-++			 bfd_size_type *descsz)
-+ {
-+   Elf_External_Note *xnp = (Elf_External_Note *) contents;
-+   Elf_Internal_Note in;
-+@@ -107,42 +113,54 @@ static char* elf32_avr_get_note_desc (bf
-+   if (in.namesz > contents - in.namedata + size)
-+     return NULL;
-+ 
-++  if (in.namesz != 4 || strcmp (in.namedata, "AVR") != 0)
-++    return NULL;
 ++
-+   in.descsz = bfd_get_32 (abfd, xnp->descsz);
-+   in.descdata = in.namedata + align_power (in.namesz, 2);
-+-  if (in.descsz != 0
-+-        && (in.descdata >= contents + size
-+-            || in.descsz > contents - in.descdata + size))
-++  if (in.descsz < 6 * sizeof (uint32_t)
-++      || in.descdata >= contents + size
-++      || in.descsz > contents - in.descdata + size)
-+     return NULL;
+++  return NULL;
+++}
+++
+++
++ /* DWARF2 Compilation unit functions.  */
 + 
-+-  if (strcmp (in.namedata, "AVR") != 0)
-+-    return NULL;
-++  /* If the note has a string table, ensure it is 0 terminated.  */
-++  if (in.descsz > 8 * sizeof (uint32_t))
-++    in.descdata[in.descsz - 1] = 0;
++ /* Scan over each die in a comp. unit looking for functions to add
++@@ -3202,6 +3218,9 @@ scan_unit_for_symbols (struct comp_unit
++       bfd_vma low_pc = 0;
++       bfd_vma high_pc = 0;
++       bfd_boolean high_pc_relative = FALSE;
+++      bfd_uint64_t current_offset;
+++       
+++      current_offset = info_ptr - unit->info_ptr_unit;
 + 
-++  *descsz = in.descsz;
-+   return in.descdata;
-+ }
++       /* PR 17512: file: 9f405d9d.  */
++       if (info_ptr >= info_ptr_end)
++@@ -3234,12 +3253,13 @@ scan_unit_for_symbols (struct comp_unit
++ 	  goto fail;
++ 	}
 + 
-+ static void
-+ elf32_avr_get_device_info (bfd *abfd, char *description,
-+-        deviceinfo *device)
-++			   bfd_size_type desc_size, deviceinfo *device)
-+ {
-+   if (description == NULL)
-+     return;
++-      var = NULL;
++       if (abbrev->tag == DW_TAG_subprogram
++ 	  || abbrev->tag == DW_TAG_entry_point
++ 	  || abbrev->tag == DW_TAG_inlined_subroutine)
++ 	{
++ 	  bfd_size_type amt = sizeof (struct funcinfo);
+++
+++      var = NULL;
++ 	  func = (struct funcinfo *) bfd_zalloc (abfd, amt);
++ 	  if (func == NULL)
++ 	    goto fail;
++@@ -3268,13 +3288,15 @@ scan_unit_for_symbols (struct comp_unit
++ 	      if (var == NULL)
++ 		goto fail;
++ 	      var->tag = abbrev->tag;
++-	      var->stack = 1;
+++	      var->stack = TRUE;
++ 	      var->prev_var = unit->variable_table;
++ 	      unit->variable_table = var;
+++          var->unit_offset = current_offset;
++ 	      /* PR 18205: Missing debug information can cause this
++ 		 var to be attached to an already cached unit.  */
++ 	    }
++-
+++	  else
+++	    var = NULL;
++ 	  /* No inline function in scope at this nesting level.  */
++ 	  nested_funcs[nesting_level].func = 0;
++ 	}
++@@ -3362,6 +3384,33 @@ scan_unit_for_symbols (struct comp_unit
++ 	    {
++ 	      switch (attr.name)
++ 		{
+++       case DW_AT_specification:
+++         if (attr.u.val)
+++           {
+++             struct varinfo * spec_var;
+++
+++             spec_var = lookup_var_by_offset (attr.u.val,
+++                              unit->variable_table);
+++             if (spec_var == NULL)
+++           {
+++             _bfd_error_handler (_("DWARF error: could not find "
+++                       "variable specification "
+++                       "at offset %lx"),
+++                         (unsigned long) attr.u.val);
+++             break;
+++           }
+++
+++             if (var->name == NULL)
+++           var->name = spec_var->name;
+++             if (var->file == NULL && spec_var->file != NULL)
+++           var->file = strdup (spec_var->file);
+++             if (var->line == 0)
+++           var->line = spec_var->line;
+++             if (var->sec == NULL)
+++           var->sec = spec_var->sec;
+++           }
+++         break;
+++
++ 		case DW_AT_name:
++ 		  if (is_str_attr (attr.form))
++ 		    var->name = attr.u.str;
++@@ -3378,7 +3427,7 @@ scan_unit_for_symbols (struct comp_unit
 + 
-+   const bfd_size_type memory_sizes = 6;
++ 		case DW_AT_external:
++ 		  if (attr.u.val != 0)
++-		    var->stack = 0;
+++		    var->stack = FALSE;
++ 		  break;
 + 
-+-  memcpy (device, description, memory_sizes * sizeof(uint32_t));
-+-  device->name = NULL;
-++  memcpy (device, description, memory_sizes * sizeof (uint32_t));
-++  desc_size -= memory_sizes * sizeof (uint32_t);
-++  if (desc_size < 8)
-++    return;
++ 		case DW_AT_location:
++@@ -3392,7 +3441,7 @@ scan_unit_for_symbols (struct comp_unit
++ 		      if (attr.u.blk->data != NULL
++ 			  && *attr.u.blk->data == DW_OP_addr)
++ 			{
++-			  var->stack = 0;
+++			  var->stack = FALSE;
 + 
-+-  uint32_t *stroffset_table = ((uint32_t *) description) + memory_sizes;
-++  uint32_t *stroffset_table = (uint32_t *) description + memory_sizes;
-+   bfd_size_type stroffset_table_size = bfd_get_32 (abfd, stroffset_table);
-+-  char *str_table = ((char *) stroffset_table) + stroffset_table_size;
-+ 
-+   /* If the only content is the size itself, there's nothing in the table */
-+-  if (stroffset_table_size == 4)
-++  if (stroffset_table_size < 8)
-+     return;
-++  if (desc_size <= stroffset_table_size)
-++    return;
-++  desc_size -= stroffset_table_size;
-+ 
-+   /* First entry is the device name index. */
-+   uint32_t device_name_index = bfd_get_32 (abfd, stroffset_table + 1);
-++  if (device_name_index >= desc_size)
-++    return;
-+ 
-++  char *str_table = (char *) stroffset_table + stroffset_table_size;
-+   device->name = str_table + device_name_index;
-+ }
-+ 
-+@@ -183,7 +201,7 @@ static void
-+ elf32_avr_dump_mem_usage (bfd *abfd)
-+ {
-+   char *description = NULL;
-+-  bfd_size_type note_section_size = 0;
-++  bfd_size_type sec_size, desc_size;
-+ 
-+   deviceinfo device = { 0, 0, 0, 0, 0, 0, NULL };
-+   device.name = "Unknown";
-+@@ -192,13 +210,13 @@ elf32_avr_dump_mem_usage (bfd *abfd)
-+   bfd_size_type text_usage = 0;
-+   bfd_size_type eeprom_usage = 0;
-+ 
-+-  char *contents = elf32_avr_get_note_section_contents (abfd,
-+-    &note_section_size);
-++  char *contents = elf32_avr_get_note_section_contents (abfd, &sec_size);
-+ 
-+   if (contents != NULL)
++ 			  /* Verify that DW_OP_addr is the only opcode in the
++ 			     location, in which case the block size will be 1
++@@ -3888,7 +3937,7 @@ comp_unit_hash_info (struct dwarf2_debug
++        each_var = each_var->prev_var)
 +     {
-+-      description = elf32_avr_get_note_desc (abfd, contents, note_section_size);
-+-      elf32_avr_get_device_info (abfd, description, &device);
-++      description = elf32_avr_get_note_desc (abfd, contents, sec_size,
-++					     &desc_size);
-++      elf32_avr_get_device_info (abfd, description, desc_size, &device);
-+     }
-+ 
-+   elf32_avr_get_memory_usage (abfd, &text_usage, &data_usage,
-+Index: git/binutils/ChangeLog
++       /* Skip stack vars and vars with no files or names.  */
++-      if (each_var->stack == 0
+++      if (! each_var->stack
++ 	  && each_var->file != NULL
++ 	  && each_var->name != NULL)
++ 	/* There is no need to copy name string into hash table as
++Index: git/bfd/ChangeLog
 +===================================================================
-+--- git.orig/binutils/ChangeLog
-++++ git/binutils/ChangeLog
-+@@ -1,3 +1,17 @@
-++2021-02-11  Alan Modra  <amodra@gmail.com>
++--- git.orig/bfd/ChangeLog
+++++ git/bfd/ChangeLog
++@@ -1,3 +1,9 @@
+++2020-04-16  Alan Modra  <amodra@gmail.com>
 ++
-++       PR 27290
-++       PR 27293
-++       PR 27295
-++       * od-elf32_avr.c (elf32_avr_get_note_section_contents): Formatting.
-++       Use bfd_malloc_and_get_section.
-++       (elf32_avr_get_note_desc): Formatting.  Return descsz.  Sanity
-++       check namesz.  Return NULL if descsz is too small.  Ensure
-++       string table is terminated.
-++       (elf32_avr_get_device_info): Formatting.  Add note_size param.
-++       Sanity check note.
-++       (elf32_avr_dump_mem_usage): Adjust to suit.
+++       PR 25827
+++       * dwarf2.c (scan_unit_for_symbols): Wrap overlong lines.  Don't
+++       strdup(0).
 ++
-+ 2020-02-01  Nick Clifton  <nickc@redhat.com>
++ 2020-02-19  H.J. Lu  <hongjiu.lu@intel.com>
 + 
-+ 	* configure: Regenerate.
++ 	PR binutils/25355
 -- 
 2.25.1
 
