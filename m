@@ -1,156 +1,137 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web08.34910.1630002699767915265
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web08.782.1630009042162812057
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 11:31:39 -0700
+ Thu, 26 Aug 2021 13:17:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dVRO5AgP;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id g14so3522402pfm.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 11:31:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tq6yTDD0;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id c19so3544294qte.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 13:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iV+EbpiFbwpJj8xW+FrXDNyeku6NzU+Op7x9/B2QbFo=;
-        b=dVRO5AgPv2OshBqmQD8+rMZE9NW9yuLm1Rv95yiLaM2a5EU5F7PHXDp/fqHJ5M32yC
-         wAugj/i+ua+dCirXNzPQb4MJSGNw+WvDsj4ojXhPbOHhpR678608YcuN1jS3swYeQ2Hk
-         0Mwn4ygBuGxCkwoMpEwjZSDagu0c0TpE+JBYOVJj5G8kQNtQp0c0y+zA05CdmFE2omwV
-         2/5xR/lesr5E7vDiIVxsZKc6mltoBfBhb7tDGcYv5hac10hptBm2Jfr9XLNokCEht/mn
-         6WkJoHIwZ/5hIqFPpxAPKJNXlDpt75vtH3T8VQULDQVkexXOYf7GN8h3OWH9jD1UsppA
-         DsZA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rQc4uDfr5wUIUdoNRXfgxy4C2ZXx3TeU8SKSV2FJV+k=;
+        b=tq6yTDD0CvwS68GwEtguOvuFfbvCzOWFNgHLZcJxasS9DCCyWe/8Orx0KDSIINxIyw
+         PSXkcGtA1F5VpiZvf1ex2bXDD9gRBKAC23gZ1URUDCKkOdnUNjueO+RsQ851ba03oFHg
+         8I+TgW3CMqXnYHppeUBp1EFoGmifUsv8LdD+EL5ZEwP02GyQbONtJWRM5oxVAnsTCQpi
+         8MomeoWVrLNWktcNuZASkRIc4SJaq/AoVC+s5AqFf0VedqCHlmjckhAjy6oiPL6z/cPA
+         s7q8M4SB1+1nwhLHGq/rQZH0Cy0Qg7l3QOBFwI16Uh6ivEP3enjpuykTeW5p5ztpwIgm
+         gG/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iV+EbpiFbwpJj8xW+FrXDNyeku6NzU+Op7x9/B2QbFo=;
-        b=XzrbbhQ1MrGL8PNMrDEGY0w3VaUgpeOGx/ldPfOSqYOK8D6O4gaHllTNQ3FQBXt4kn
-         7lf4aVi+D467Oh0MfbbfDmUFtqcVBKa/FpN3VusWrQsBE4/ZdJjmnMBocKuLVDFHa5c7
-         f5Iqt63i+JXnZCrX7Q/0dVBPuS+7VPhN6fxaKe4W/6FqcDsM1o+XhdDAEz5vhbFdzmzd
-         aEREvpPFQ7u5iwe8Ua4c8ZXIFaXWSntAX3KdN7v9rjO25/J8YcBvXRpjRBvOcSXV/nnC
-         OxS7c1cC7a3CGYg5hF+WRI4TcgrNVpi4qc0IRNWJVSwblcL+9uVoiihQgdKvrQDoOi1P
-         KMTw==
-X-Gm-Message-State: AOAM532kZl0s2XETS1trd9v/DGRj0U2hgUC377u2/fyVBlIUKwFM7JUq
-	BV4ZMr+wZ/wEn0eX1TSJyjGvH8+Iplg=
-X-Google-Smtp-Source: ABdhPJweQeBoR91lKSrx4C0OO/64M1e+6kjjXsFnT/etp3qH5/o+lxS0Hpj0ko59H6aYGM3tfqWjtg==
-X-Received: by 2002:a62:38c9:0:b0:3f2:6ab2:1828 with SMTP id f192-20020a6238c9000000b003f26ab21828mr2990895pfa.37.1630002698630;
-        Thu, 26 Aug 2021 11:31:38 -0700 (PDT)
-Return-Path: <ticotimo@gmail.com>
-Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:1830::47f3])
-        by smtp.gmail.com with ESMTPSA id d19sm9789874pjs.18.2021.08.26.11.31.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 11:31:38 -0700 (PDT)
-From: "Tim Orling" <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@intel.com>
-Subject: [PATCH] python3-pytest: allow python3-pluggy >=1.0.0
-Date: Thu, 26 Aug 2021 18:31:28 +0000
-Message-Id: <20210826183128.2629669-1-timothy.t.orling@intel.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rQc4uDfr5wUIUdoNRXfgxy4C2ZXx3TeU8SKSV2FJV+k=;
+        b=kpmqHJUf6RmE/7ZTm1XS8aMGlIA4NeVCrlyqhe4J+bdT6TXzjFE4W0iN181mAQBaDq
+         LmVvpLtEXSw47Uv9mGuXSIdvchsyamXOS9AKKFb64j/EWaZ9599V+DSCLITmj4RluNJd
+         seGq96DjCLfSv6Q7gOvqLVwKc4njSbh30w/b4IOmDoLGSMGGicRiJXrUrEux7opL/uPC
+         3Fkd9Mc+TzCshTN1CeoCpJ/FSU8zn58BcUeeFYISM8rWCp9cdIhgxbS6nTFJSfnMoLpz
+         ZRBnouKiSwO+bWI59riZugDiZ1yPHa3nhcY+jUNigoDZzUZDTFjsmGuSB4JqwF8c0W5B
+         2gIw==
+X-Gm-Message-State: AOAM5307TE5QEnO5BqAI0TWUaG7fVGaTM/ta3BmGk4KY94TjAPKD7FiO
+	tWd7dNlBtJ8QJBa72cFI+xlD7pRZQV2p4GOlsP0=
+X-Google-Smtp-Source: ABdhPJyPXuONyM7yT0ywS4QXI8PVyFnlyjHfx9YehIJLpO5ZhGv2IEJ8W/X3M5x2b35zkB2RTht7OzBjZFoaKgJZuMA=
+X-Received: by 2002:ac8:46cd:: with SMTP id h13mr5115317qto.369.1630009041139;
+ Thu, 26 Aug 2021 13:17:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210825215938.10941-1-jsbronder@cold-front.org>
+In-Reply-To: <20210825215938.10941-1-jsbronder@cold-front.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 26 Aug 2021 13:17:10 -0700
+Message-ID: <CAMKF1sq2t6duOAxc5v=taPC4owArE79Ox1mB1trpCFBrWo4ttg@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH] hidapi: add rdep on glibc-gconv-utf-16
+To: Justin Bronder <jsbronder@cold-front.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e0ba7305ca7c0dc6"
 
-Fixes ptest failures in python3-jinja2.
+--000000000000e0ba7305ca7c0dc6
+Content-Type: text/plain; charset="UTF-8"
 
-Backport patch from upstream, for now.
+On Wed, Aug 25, 2021 at 2:59 PM Justin Bronder <jsbronder@cold-front.org>
+wrote:
 
-Modify upstream patch to use toml and not tomli.
-We will add the new recipe for python3-tomli when
-we have an upgrade to python3-pytest.
+> libhidapi-libusb needs to convert from UTF-16LE to WCHAR_T in order to
+> read various libusb string descriptors.
+>
+> Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+> ---
+>  meta-oe/recipes-support/hidapi/hidapi_git.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta-oe/recipes-support/hidapi/hidapi_git.bb
+> b/meta-oe/recipes-support/hidapi/hidapi_git.bb
+> index 76f5dc762..54b794774 100644
+> --- a/meta-oe/recipes-support/hidapi/hidapi_git.bb
+> +++ b/meta-oe/recipes-support/hidapi/hidapi_git.bb
+> @@ -7,6 +7,7 @@ LICENSE = "BSD-3-Clause | GPLv3"
+>  LIC_FILES_CHKSUM =
+> "file://LICENSE.txt;md5=7c3949a631240cb6c31c50f3eb696077"
+>
+>  DEPENDS = "libusb udev"
+> +RDEPENDS_${PN} += "glibc-gconv-utf-16"
 
-Remove this when we upgrade pytest to a version containing
-the commit: fbba504cd5e1a74d528a41a11a7b82297cd7da74
 
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
----
- .../0001-Allow-pluggy-1.0.patch               | 65 +++++++++++++++++++
- .../python/python3-pytest_6.2.4.bb            |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch
+Make it glibc specific too using libc-glibc override
 
-diff --git a/meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch b/meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch
-new file mode 100644
-index 0000000000..175ef987ad
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pytest/0001-Allow-pluggy-1.0.patch
-@@ -0,0 +1,65 @@
-+From 637d4400d2bab0457688f950ea18cc4a04147c11 Mon Sep 17 00:00:00 2001
-+From: Bruno Oliveira <nicoddemus@gmail.com>
-+Date: Thu, 26 Aug 2021 09:26:51 -0300
-+Subject: [PATCH] Allow pluggy >=1.0
-+
-+Now that pluggy 1.0 has been released, we can allow pluggy 1.0 with new pytest versions.
-+
-+Upstream-Status: Backport [commit: fbba504]
-+
-+Modify to use toml and not tomli. We will create a
-+python3-tomli recipe when we do an python3-pytest
-+upgrade.
-+
-+Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
-+---
-+ setup.cfg | 36 ++++++++++++++++++------------------
-+ 1 file changed, 18 insertions(+), 18 deletions(-)
-+
-+diff --git a/setup.cfg b/setup.cfg
-+index f919a9491..a8aeab813 100644
-+--- a/setup.cfg
-++++ b/setup.cfg
-+@@ -32,24 +32,24 @@ project_urls =
-+ 	Tracker=https://github.com/pytest-dev/pytest/issues
-+ 
-+ [options]
-+-packages = 
-+-	_pytest
-+-	_pytest._code
-+-	_pytest._io
-+-	_pytest.assertion
-+-	_pytest.config
-+-	_pytest.mark
-+-	pytest
-+-install_requires = 
-+-	attrs>=19.2.0
-+-	iniconfig
-+-	packaging
-+-	pluggy>=0.12,<1.0.0a1
-+-	py>=1.8.2
-+-	toml
-+-	atomicwrites>=1.0;sys_platform=="win32"
-+-	colorama;sys_platform=="win32"
-+-	importlib-metadata>=0.12;python_version<"3.8"
-++packages =
-++    _pytest
-++    _pytest._code
-++    _pytest._io
-++    _pytest.assertion
-++    _pytest.config
-++    _pytest.mark
-++    pytest
-++install_requires =
-++    attrs>=19.2.0
-++    iniconfig
-++    packaging
-++    pluggy>=0.12,<2.0
-++    py>=1.8.2
-++    toml
-++    atomicwrites>=1.0;sys_platform=="win32"
-++    colorama;sys_platform=="win32"
-++    importlib-metadata>=0.12;python_version<"3.8"
-+ python_requires = >=3.6
-+ package_dir = 
-+ 	=src
-diff --git a/meta/recipes-devtools/python/python3-pytest_6.2.4.bb b/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
-index f0fd30aeda..2e90acaf36 100644
---- a/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_6.2.4.bb
-@@ -5,6 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=81eb9f71d006c6b268cf4388e3c98f7b"
- 
-+SRC_URI += "file://0001-Allow-pluggy-1.0.patch"
- SRC_URI[sha256sum] = "50bcad0a0b9c5a72c8e4e7c9855a3ad496ca6a881a3641b4260605450772c54b"
- 
- DEPENDS = "python3-setuptools-scm-native"
--- 
-2.30.2
+>
+>
+>  inherit autotools pkgconfig
+>
+> --
+> 2.33.0
+>
+>
+> 
+>
+>
 
+--000000000000e0ba7305ca7c0dc6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Aug 25, 2021 at 2:59 PM Justin Bronder &lt;<a href=
+=3D"mailto:jsbronder@cold-front.org">jsbronder@cold-front.org</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">libhidapi-libusb needs to convert=
+ from UTF-16LE to WCHAR_T in order to<br>
+read various libusb string descriptors.<br>
+<br>
+Signed-off-by: Justin Bronder &lt;<a href=3D"mailto:jsbronder@cold-front.or=
+g" target=3D"_blank">jsbronder@cold-front.org</a>&gt;<br>
+---<br>
+=C2=A0meta-oe/recipes-support/hidapi/<a href=3D"http://hidapi_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">hidapi_git.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta-oe/recipes-support/hidapi/<a href=3D"http://hidapi_git.bb=
+" rel=3D"noreferrer" target=3D"_blank">hidapi_git.bb</a> b/meta-oe/recipes-=
+support/hidapi/<a href=3D"http://hidapi_git.bb" rel=3D"noreferrer" target=
+=3D"_blank">hidapi_git.bb</a><br>
+index 76f5dc762..54b794774 100644<br>
+--- a/meta-oe/recipes-support/hidapi/<a href=3D"http://hidapi_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">hidapi_git.bb</a><br>
++++ b/meta-oe/recipes-support/hidapi/<a href=3D"http://hidapi_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">hidapi_git.bb</a><br>
+@@ -7,6 +7,7 @@ LICENSE =3D &quot;BSD-3-Clause | GPLv3&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3D7c3949a631240cb6c=
+31c50f3eb696077&quot;<br>
+<br>
+=C2=A0DEPENDS =3D &quot;libusb udev&quot;<br>
++RDEPENDS_${PN} +=3D &quot;glibc-gconv-utf-16&quot;</blockquote><div dir=3D=
+"auto"><br></div><div dir=3D"auto">Make it glibc specific too using libc-gl=
+ibc override=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+=C2=A0inherit autotools pkgconfig<br>
+<br>
+-- <br>
+2.33.0<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000e0ba7305ca7c0dc6--
