@@ -1,180 +1,87 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
- by mx.groups.io with SMTP id smtpd.web08.29125.1629978677164721411
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.29379.1629979253052151059
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 04:51:17 -0700
+ Thu, 26 Aug 2021 05:00:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eA1B2Yjp;
- spf=pass (domain: gmail.com, ip: 209.85.221.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f171.google.com with SMTP id u138so760006vku.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 04:51:17 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QCBp5BG2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id z4so4645701wrr.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 05:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ekPqjkwPmOOVG4EVoQiMA3b1lLreycaM3iulu/PuI24=;
-        b=eA1B2YjpCffGhPOFDCNAcVESTdgfJm/t+JngsJGjV6BCDt5l6E0GFAeYGJSCf/0Ywk
-         wp0j9LLdaeMV8JfNZM/z98sZEMsSKoz7tDZWiWcYLbwFFo9N/QMBawqPN1Vv9iMVvPOO
-         9cll6O9bL2iU5tdKZFs05ljlRa+Pb+y4YAQBW79/6QoAnbJvBLwrTofnDYQiMiMKxFJI
-         jGjgGMPc/WUPUA15Ee2nvpH/z/vQyjcdc3kF0Z+9+AjlbF14+W5NfJPcN/Mwsa6aQTd3
-         PIeLpi1U1DNYyvGOZHZnoqPxLZ8mP+u5jN8J8pHT1LW03G4dG6PnEr86bJcZITiWbiuD
-         hFUQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=EDDhIi52ZCUbczGzxK272zrQ9iMsn1WUetbc596xAFU=;
+        b=QCBp5BG2Wsf3qFksDPPZawvPlTSPK8wiXghpY8ED3j07R+iYbXZV1AATpsdRxjaiTq
+         0Bg2piWYOecApz+WRgnGCf1VhcEs0dirrel9U+uqh7/lzpmFprs3ftbKNpoEPrs57Ndh
+         vwIn1rDTsbzJpwsF6UrO30KLkqmMI5/2DB8VU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ekPqjkwPmOOVG4EVoQiMA3b1lLreycaM3iulu/PuI24=;
-        b=TVBqfY5ovA90pcYFDPBb/SEctko9xVYi3u1H/Sw8xgMlz+BoN+9aKGfixOfsjwSKLD
-         3udboYioQtTLfYNlBz+nQ/C12a4AV2W5iOmomlpoL6bft8g3AQPCuSv3xcolr4BgwOzS
-         zou0qdk6JySV/AShrRnuZQINr08g2EDhPqjbjHIMBfxjczVNPs+oL+iBjbKJFiC0fM32
-         wewzHPs8eOeXaHOaHoZ/dKZ9VaNAc86GseXNsBckSl7WL45wjd+R/4QN8pXsyfa/CCoH
-         y/oSEbUJ3RXa3iunVz9Tzw4xmW55EW+P8qspkY3K6KVmBQaiNfMgialp4AiFa1kvrLEI
-         A5uw==
-X-Gm-Message-State: AOAM531twmNKvqoPRX/pQbhteNTCJa2n2ATEz5kSkFsiMKqAl4eyTezz
-	ZcpAaR8EUTtgNZuvAZyI/png5Dfh0lVnJO1nxoM=
-X-Google-Smtp-Source: ABdhPJwY/WjKju8LW6OPOzviJsAIn1890k59QTccRZZKyFCE3IeOqbiK0+bnj2oKC7sKtY/Pd76Kxz4GhAc9ffX4mmw=
-X-Received: by 2002:a1f:b615:: with SMTP id g21mr1592845vkf.16.1629978676262;
- Thu, 26 Aug 2021 04:51:16 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EDDhIi52ZCUbczGzxK272zrQ9iMsn1WUetbc596xAFU=;
+        b=UXubzMKzyF7A/7pR5k1Pwml3pD3M7dWBMQ0RIrw0G6KtqydZ6GUnRLVI45d+qiOSxJ
+         DIYhow3srr5PyxW0FpySSGVscZ3/NaruNqzoFNeJAFFBEd1sd/jm5UorJck4N/0+O82R
+         TQ0MFrdkCrlzRQJkusCEhaCGgos5t5RqGWw8tLr+qSSbIBz2Iv+oLooYEHnQ2pe7YR9h
+         f+/whu/T7AeALKaS5eamAWYm0mffCKtmdUT2DOFeu1ONcbPev0IGaLvVF10mWZn7w7cs
+         LVJ7uTRZgKIF6YEM6Vcp0OgQwmjgb4yFEFSM1GMLffgXa8BkFgpTBA/XNbsnztIJrAOo
+         Coww==
+X-Gm-Message-State: AOAM530TuhhYU4yfH48Np1s63LF5q7HKMRrgHE2VI5L7sKKt304rvWuc
+	bSFW7aC9cCFCh0vtLCl3W2wQlA==
+X-Google-Smtp-Source: ABdhPJwupDhw5aVlp9zi4a9Sbs6IxsYDuovjTpk8BbmzSi1Ua31JS5434YGk3eITbsGDigQlSZfnIw==
+X-Received: by 2002:adf:c3c9:: with SMTP id d9mr2463739wrg.339.1629979251539;
+        Thu, 26 Aug 2021 05:00:51 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4? ([2001:8b0:aba:5f3c:a9d5:4a4f:480b:62d4])
+        by smtp.gmail.com with ESMTPSA id b10sm3220977wrt.43.2021.08.26.05.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Aug 2021 05:00:51 -0700 (PDT)
+Message-ID: <b2dab4ebd32e02a84bc7087a3e3ac62c78255547.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] vim: add option to disable NLS support
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Valek, Andrej" <andrej.valek@siemens.com>, "armccurdy@gmail.com"
+	 <armccurdy@gmail.com>, "steve@sakoman.com" <steve@sakoman.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	 <raj.khem@gmail.com>
+Date: Thu, 26 Aug 2021 13:00:46 +0100
+In-Reply-To: <98ece42c21301b8384d4b2e92cedb232b324b6a0.camel@siemens.com>
+References: <20210823101205.29267-1-andrej.valek@siemens.com>
+	 <ce3005b3-6213-9528-2c82-c4f612f3b549@gmail.com>
+	 <DB8PR10MB3977E6C2E704FF73707CA62492C49@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+	 <CAJ86T=V2zSGf3ebYWFh-2-QZ1w55Xsz+6nbkcR9jayh9ANyraQ@mail.gmail.com>
+	 <DB8PR10MB3977DC6B069FA94E5EB4399992C59@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+	 <452907b1c72251c6a445882c7dea2ea2dc1b913e.camel@siemens.com>
+	 <1b35875da7fb3481400f09bcefd532be90d098cf.camel@linuxfoundation.org>
+	 <98ece42c21301b8384d4b2e92cedb232b324b6a0.camel@siemens.com>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
-References: <20210825163520.Horde.SwfJDAmwq6x_Wn-Vf4FoTSG@crashcourse.ca>
- <CANNYZj-PJQTLydecmn9EpWdci5wWce_9Tkw_QkOGkProY6t_fQ@mail.gmail.com>
- <20210825171222.Horde.pjbNvErvPswYBwDudrNTUaM@crashcourse.ca>
- <3FDCF22A-7038-4B36-B15D-D59C31F61C86@pbcl.net> <20210825175143.Horde.LbItpKT-Y6zl0vjVCim0eFh@crashcourse.ca>
- <CANNYZj9risHPrhCMDEb7bpe8xsC_k08istpzp5T+EgZQensUng@mail.gmail.com> <e3912bb5-68ac-9c84-d196-3a2bd436382@crashcourse.ca>
-In-Reply-To: <e3912bb5-68ac-9c84-d196-3a2bd436382@crashcourse.ca>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 26 Aug 2021 13:51:04 +0200
-Message-ID: <CANNYZj8ZPNqxyKbggtHAQFfrcGEkwz_jgLfOgU4mtcTpE4Ptgw@mail.gmail.com>
-Subject: Re: [OE-core] what means the test 'if [ -z "$D" ]' in a pkg_postinst routine?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Phil Blundell <pb@pbcl.net>, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fd7a1c05ca74fbc4"
-
---000000000000fd7a1c05ca74fbc4
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 26 Aug 2021 at 11:23, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
+On Thu, 2021-08-26 at 11:24 +0000, Valek, Andrej wrote:
+> Hello Richard,
+> 
+> If it isn't a big deal, I can use the "--enable" variant. If we keep --
+> enable-nls like a default, we will brake nothing I guess. (It's enabled
+> by default anyway). So I'm adding there only a feature to disable it
+> with PACKAGEOPTION.
 
->   so, just to confirm the previous tidbits of information (thank you
-> for your patience), here's my current understanding so i can submit
-> updated docs:
->
-> * pkg_postinst:${PN} is run at image creation time and *only* at image
->   creation time; it is no longer deferred to boot time under any
->   circumstances(?)
->
+Yes, lets use --enable please since that is the way the rest of the world/code 
+works.
 
-If a package is installed on directly target using a package management
-system,
-this will run there. Also, if the snippet does contain an explicit call to
-the defer to first boot
-hook as a part of its logic, then that will happen, and the same code will
-run again on first boot.
+I'm a bit worried about the nls option since the recipe does have BBCLASSEXTEND
+for native/nativesdk and we do disable nls for native by default. As you say,
+the patch probably doesn't change anything but it is a bit of an oddity.
 
+The code does look to be using gettext and there is a gettext-native dependency
+but the recipe does not use the gettext class. Why? Not sure.
 
-> * pkg_postinst_ontarget:${PN} is run at boot time and *only* at boot
->   time
->
+I'll put the patch in for testing if we can use the standard format though
+(which should work since I checked and configure is using the standard autoconf
+macros).
 
-First boot, or package installation on target.
+Cheers,
 
+Richard
 
-> * because of the above, there is no value to the numerous legacy
-> checks of:
->
->   if [ -z "$D" ]
->   if [ -n "$D" ]
->
->   or any of its variations (even though, in a lot of cases, they don't
-> hurt)
->
-
-There might be use cases for doing explicit manual logic where you want
-full control over
-a) checking what environment you're in
-b) doing first boot deferral.
-In that case, you want to use $D and the hook directly. But most are legacy
-scriptlets that need converting for readability.
-
-
-
-> * from within pkg_postinst:${PN}, you can still defer some work to
->   boot time with "postinst_intercept delay_to_first_boot", although
->   isn't this precisely what pkg_postinst_ontarget:${PN} is for, so is
->   this postinst_intercept construct still useful?
->
-
-_ontarget is basically a wrapper for the delay to first boot hook. It might
-be useful
-for manual control, as explained above.
-
-
-> * PACKAGE_WRITE_DEPS is still necessary to identify non-standard
-> native tools you might need for any pkg_postinst:${PN} processing
->
-
-Yes.
-
-Alex
-
---000000000000fd7a1c05ca74fbc4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 26 Aug 2021 at 11:23, Robert P. J. Day &lt;<a href=3D"mailto=
-:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 so, just to confirm the=
- previous tidbits of information (thank you<br>
-for your patience), here&#39;s my current understanding so i can submit<br>
-updated docs:<br>
-<br>
-* pkg_postinst:${PN} is run at image creation time and *only* at image<br>
-=C2=A0 creation time; it is no longer deferred to boot time under any<br>
-=C2=A0 circumstances(?)<br></blockquote><div><br></div><div>If a package is=
- installed on directly target using a package management system,</div><div>=
-this will run there. Also, if the snippet does contain an explicit call to =
-the defer to first boot</div><div>hook as a part of its logic, then that wi=
-ll happen, and the same code will run again on first boot.<br></div><div>=
-=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-* pkg_postinst_ontarget:${PN} is run at boot time and *only* at boot<br>
-=C2=A0 time<br></blockquote><div><br></div><div>First boot, or package inst=
-allation on target.<br></div><div>=C2=A0<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">
-* because of the above, there is no value to the numerous legacy<br>
-checks of:<br>
-<br>
-=C2=A0 if [ -z &quot;$D&quot; ]<br>
-=C2=A0 if [ -n &quot;$D&quot; ]<br>
-<br>
-=C2=A0 or any of its variations (even though, in a lot of cases, they don&#=
-39;t<br>
-hurt)<br></blockquote><div><br></div><div>There might be use cases for doin=
-g explicit manual logic where you want</div><div>full control over <br></di=
-v><div>a) checking what environment you&#39;re in</div><div>b) doing first =
-boot deferral.</div><div>In that case, you want to use $D and the hook dire=
-ctly. But most are legacy</div><div>scriptlets that need converting for rea=
-dability.<br></div><div><br></div><div>=C2=A0<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
-* from within pkg_postinst:${PN}, you can still defer some work to<br>
-=C2=A0 boot time with &quot;postinst_intercept delay_to_first_boot&quot;, a=
-lthough<br>
-=C2=A0 isn&#39;t this precisely what pkg_postinst_ontarget:${PN} is for, so=
- is<br>
-=C2=A0 this postinst_intercept construct still useful?<br></blockquote><div=
-><br></div><div>_ontarget is basically a wrapper for the delay to first boo=
-t hook. It might be useful</div><div>for manual control, as explained above=
-.<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-* PACKAGE_WRITE_DEPS is still necessary to identify non-standard<br>
-native tools you might need for any pkg_postinst:${PN} processing<br></bloc=
-kquote></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote=
-">Yes.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote"=
->Alex<br></div></div>
-
---000000000000fd7a1c05ca74fbc4--
