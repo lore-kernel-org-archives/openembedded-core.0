@@ -1,40 +1,40 @@
 Received: from linuxplesk15.openhost.net.nz (linuxplesk15.openhost.net.nz [119.47.118.83])
- by mx.groups.io with SMTP id smtpd.web11.392.1630013586199085580
+ by mx.groups.io with SMTP id smtpd.web09.572.1630014325738505320
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 14:33:06 -0700
+ Thu, 26 Aug 2021 14:45:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 119.47.118.83, mailfrom: bluelightning@bluelightning.org)
 Received: from linc.localnet (unknown [151.210.225.0])
-	by linuxplesk15.openhost.net.nz (Postfix) with ESMTPSA id B140FA2D68;
-	Fri, 27 Aug 2021 09:32:26 +1200 (NZST)
+	by linuxplesk15.openhost.net.nz (Postfix) with ESMTPSA id 6B4F6A2D68;
+	Fri, 27 Aug 2021 09:44:47 +1200 (NZST)
 Authentication-Results: linuxplesk15.openhost.net.nz;
 	spf=pass (sender IP is 151.210.225.0) smtp.mailfrom=bluelightning@bluelightning.org smtp.helo=linc.localnet
 Received-SPF: pass (linuxplesk15.openhost.net.nz: connection is authenticated)
 From: "Paul Eggleton" <bluelightning@bluelightning.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Andres Beltran <abeltran@linux.microsoft.com>,
-	Andres Beltran <abeltran@linux.microsoft.com>
-Subject: Re: [OE-core] [PATCH] buildhistory: Add output file listing package information
-Date: Fri, 27 Aug 2021 09:33:01 +1200
-Message-ID: <12836793.uLZWGnKmhe@linc>
-In-Reply-To: <20210812165856.6469-1-abeltran@linux.microsoft.com>
-References: <20210812165856.6469-1-abeltran@linux.microsoft.com>
+Cc: Andres Beltran <abeltran@linux.microsoft.com>
+Subject: Re: [OE-core] [PATCH] buildhistory: Label packages providing per-file dependencies in depends.dot
+Date: Fri, 27 Aug 2021 09:45:22 +1200
+Message-ID: <11959132.O9o76ZdvQC@linc>
+In-Reply-To: <20210818171726.11101-1-abeltran@linux.microsoft.com>
+References: <20210818171726.11101-1-abeltran@linux.microsoft.com>
 MIME-Version: 1.0
-X-PPP-Message-ID: <20210826213226.1066089.98781@localhost6.localdomain6>
+X-PPP-Message-ID: <20210826214447.1079031.58338@localhost6.localdomain6>
 X-PPP-Vhost: softec.co.nz
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Friday, 13 August 2021 04:58:56 NZST Andres Beltran wrote:
-> Currently, buildhistory does not produce a single file combining relevant
-> information of installed packages. Produce an output file
-> "installed-package-info.txt" listing a package's runtime name, buildtime
-> name, its recipe, version, and size to avoid having to look up each package
-> externally. Leave the existing package list files as-is for backwards
-> compatibility.
+On Thursday, 19 August 2021 05:17:26 NZST Andres Beltran wrote:
+> Currently, depends.dot includes per-file dependencies but not the packages
+> providing those files. This makes it hard to obtain all package
+> dependencies by just looking at depends.dot.
 > 
-> In order to support this efficiently, extend oe-pkgdata-util to accept
-> multiple keys for its read-value argument.
+> Parse the RPROVIDES and FILERPROVIDES fields from pkgdata to map each of
+> their values to the package providing the component. Include runtime
+> packages as dependencies in depends.dot, together with the component
+> provided by the package as a label.
+> 
+> Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
 
 Acked-by: Paul Eggleton <paul.eggleton@linux.microsoft.com>
 
@@ -42,6 +42,7 @@ Acked-by: Paul Eggleton <paul.eggleton@linux.microsoft.com>
 
 Cheers
 Paul
+
 
 
 
