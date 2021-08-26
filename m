@@ -1,83 +1,79 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web12.34084.1629998585615521705
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.34264.1629998931186528216
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 10:23:05 -0700
+ Thu, 26 Aug 2021 10:28:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=j8ECvyhF;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id t4so4178343qkb.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 10:23:05 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=mNG34mWb;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BDIo95pSLDSRGmkKNbeDDfKgSFQkCCQCtTFSKQP15LM=;
-        b=j8ECvyhFOmOp92L1zDLIeOB6vl8jMTZ1BGfqpS/nuYmuQ6vq1nzt2rtOLUm0j0NLOl
-         ZTvPA8QrzWXa88r1s22vV/m2xjm+Ot2nWipCSv+A7VDBbXT4/h/IJ0zvg4KTjjjcs1Z0
-         i1es50DNi3b9rkJx57CaPtegsVuqYX/HztZ+dKjIvcx8ii6QLQlx8qGYXIAoV2QuenIS
-         XFdd7xnX8hJGNSMu3NOEYGIABM+m1CZZGFaC3TWMSWvq6hrCW1dUbQFfd0EGxtylgnr1
-         cDhN4jo48YwSbveFvsFLbgwcm89oJfHIiG29c9ERo8Li3RZ62fGDAAOC2V8D4EONMmyj
-         cC8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BDIo95pSLDSRGmkKNbeDDfKgSFQkCCQCtTFSKQP15LM=;
-        b=tsFM62AJOaS+/WwzMaOcyWMa74Fj+A1n29yfkCe+4QKlI/RUTpyDwUwhcjYllAqVpx
-         CV8GGt+8oH5IRPendhFYJrYiT1MsN8txOtsgweqZ6BrXqaxCxN1IZ9VTHz2mPa8VnC/Z
-         l8Z86+RPFzpgk3uYH4jiKee/13f6yPV7HMdNPV4WA9muBal22IrPTrOq4+LGq1jhKz+O
-         /vh0Dsny4nE+H4zNeTHsn/C/knD76ijeFRUgwhOSHBNfSxOPyoiDZwHwyaJVsIHjZq6M
-         9xueTBCx+0nwMPim10+/YUvwnLKva9SuVh1cCuunGTPTWxjopYyFJCN4nVK3G9MmuOYC
-         h0+g==
-X-Gm-Message-State: AOAM531zwOyup3IhVhoovI2uX2xUkUVIlO9CZc3PhhMWBvx0VR2aLCmn
-	voxD14Vm8OGg6e2b8TY9ZMTPCi1j+AZPIbQg6qI=
-X-Google-Smtp-Source: ABdhPJyrd89dOZDixPAr/J1N+26VViXFrj3NAHZTmt45KpZtHZuqIG14FWADF3ez5+r1EB+OepGoqYzep2VNgHd4d2E=
-X-Received: by 2002:a37:bc8:: with SMTP id 191mr5040632qkl.25.1629998584725;
- Thu, 26 Aug 2021 10:23:04 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1629998933;
+  x=1661534933;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=x5P3TDebFpWWgUt9XLOehpFvnpzvbgTRqXZLDfT+UNk=;
+  b=mNG34mWbu1CynXl6iy5TViRabuvV6qfZkhfE3R/y/g2KSG6r3GWodTyP
+   ZvWiftjOOuTbJP0GwF/l3pH3gVF7P2IvljaSK85qwCUR9W+GzaLD+Mfvw
+   GUPO3BatLpniYQuUU1FwxazWKekxIZO/IXlVbgq3MvKr4EHrs+fz1E9F2
+   gL9VhY9rt2ZHnE0CMH4dp3Qdu9/Tt6jEfze0J0V/uqtTzukD2D0okRVbw
+   PNxjS3hmYqDjlqH9hYeO4TObGLk6DkkinAuxR41xCpUqajQSwMUFn221x
+   e+hJEdRXBIlz35h6Lryq1jz5DBrVV0qqo+BfjFs/u7s/neFL956Ja3z3E
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 2/2] buildhistory-collect-srcrevs: Adapt to the new variable override syntax
+Date: Thu, 26 Aug 2021 19:28:44 +0200
+Message-ID: <20210826172844.32608-2-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20210826172844.32608-1-pkj@axis.com>
+References: <20210826172844.32608-1-pkj@axis.com>
 MIME-Version: 1.0
-References: <20210825113804.779395-1-alex.kanavin@gmail.com> <20210825113804.779395-13-alex.kanavin@gmail.com>
-In-Reply-To: <20210825113804.779395-13-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 26 Aug 2021 10:22:38 -0700
-Message-ID: <CAMKF1sqwfQJiDdWrNJGvXJdHLUi6+rTN-8S_Z0Wq-qA0zDo4-w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 13/16] libnsl2: upgrade 1.3.0 -> 2.0.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, Aug 25, 2021 at 4:38 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-extended/libnsl/libnsl2_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
-> index badb71d977..53be67fe85 100644
-> --- a/meta/recipes-extended/libnsl/libnsl2_git.bb
-> +++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
-> @@ -10,9 +10,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
->  SECTION = "libs"
->  DEPENDS = "libtirpc"
->
-> -PV = "1.3.0"
-> +PV = "2.0.0"
->
-> -SRCREV = "fbad7b36acaa89a54023930af70805649f962999"
-> +SRCREV = "82245c0c58add79a8e34ab0917358217a70e5100"
->
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ scripts/buildhistory-collect-srcrevs | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-I am seeing libnssl-nisplus failure
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1484/steps/14/logs/stdio
-
-doesnt look a slam dunk but thats closest I could see a dependency change.
-
->  SRC_URI = "git://github.com/thkukuk/libnsl \
->            "
-> --
-> 2.31.1
->
->
-> 
->
+diff --git a/scripts/buildhistory-collect-srcrevs b/scripts/buildhistory-collect-srcrevs
+index bca01a922b..6c919299a6 100755
+--- a/scripts/buildhistory-collect-srcrevs
++++ b/scripts/buildhistory-collect-srcrevs
+@@ -53,7 +53,7 @@ def main():
+         sys.exit(1)
+ 
+     if options.forcevariable:
+-        forcevariable = '_forcevariable'
++        forcevariable = ':forcevariable'
+     else:
+         forcevariable = ''
+ 
+@@ -78,14 +78,14 @@ def main():
+                             value = splitval[1].strip('" \t\n\r')
+                         if line.startswith('# SRCREV = '):
+                             orig_srcrev = value
+-                        elif line.startswith('# SRCREV_'):
++                        elif line.startswith('# SRCREV:'):
+                             splitval = line.split('=')
+-                            name = splitval[0].split('_')[1].strip()
++                            name = splitval[0].split(':')[1].strip()
+                             orig_srcrevs[name] = value
+                         elif line.startswith('SRCREV ='):
+                             srcrev = value
+-                        elif line.startswith('SRCREV_'):
+-                            name = splitval[0].split('_')[1].strip()
++                        elif line.startswith('SRCREV:'):
++                            name = splitval[0].split(':')[1].strip()
+                             srcrevs[name] = value
+                 if srcrev and (options.reportall or srcrev != orig_srcrev):
+                     all_srcrevs[curdir].append((pn, None, srcrev))
+@@ -99,7 +99,7 @@ def main():
+             print('# %s' % curdir)
+             for pn, name, srcrev in srcrevs:
+                 if name:
+-                    print('SRCREV_%s_pn-%s%s = "%s"' % (name, pn, forcevariable, srcrev))
++                    print('SRCREV:%s:pn-%s%s = "%s"' % (name, pn, forcevariable, srcrev))
+                 else:
+                     print('SRCREV:pn-%s%s = "%s"' % (pn, forcevariable, srcrev))
+ 
