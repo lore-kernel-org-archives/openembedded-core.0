@@ -1,211 +1,245 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web09.34156.1629999915431781525
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.34705.1630000640232932533
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Aug 2021 10:45:15 -0700
+ Thu, 26 Aug 2021 10:57:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EaQwhAQ0;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id e21so7972271ejz.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Aug 2021 10:45:15 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=fgvXJCnn;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uwTRe0zv1NPoAvcFXHELwER4IT4zqJQ+Qfj0IgZ3X3A=;
-        b=EaQwhAQ0mw+zxlPFIPn+Mj7wgCJKWwSct8A9Cc5KpBCaaXJbDpO24xvHNw1JuKLBs2
-         wXaH+mFBhi8X+j/2HpjmxGA2YP6/54rk1VRSbIDE9FjizleKCUu76/URxAhX9pzpvDm9
-         EFVqZTaHDFUu3fIwAqLfpuKvJszlzLEcK8WDC6Px1mNutv1Dvsn6xzpBb+zAdh8UMBLE
-         TqJuYEIc82A/cGeKIgHmKEubAFWP81fpy5A/OxBAY5++7ukXkqHqnZN529MLm2KOLnOi
-         8r5WiP1+YMDTl2Wk4FuNxj0U0HYUT6xXD06G9HkfhNW6Surv00c9seYjcd8zXiu6jfSD
-         i7wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uwTRe0zv1NPoAvcFXHELwER4IT4zqJQ+Qfj0IgZ3X3A=;
-        b=fEJ+aULNliCWfbuRbBckDc+YAhsp1nCsfOUDzFIEomHErdIU7be7RpLddQdaUY1Vk1
-         M4WS16uLFyvahUgLbnN9edz8n/nGRHVMtRLIb0JPLwiqMdhE3vfVAp9ER4kInJMCMebt
-         +67qQ6bUcFzUzK1WsG2WxQJAhELVFeLUi5rsde5c/CAWCosGSe85v57mzIQ0dceFyyQB
-         w5cLWAuKrAANPO4Wk1TwkEmGwZJoNQaWqI0txr2qW7U/RzZ1u8Zhk3ZSNsf6MKMqazT2
-         ukyg4B5iQpg5I45XRXKI2x4gBQcrTySwrsUWfueBffrmh3x4QbHrSd5yvnwSQ3Pg3Kv3
-         9/hw==
-X-Gm-Message-State: AOAM533rivp6GsM+/EhjKqJQdUte/GuV81hbWK7IhUXKiHrhseffGmIs
-	yAoj50FXeHJSwmAEWu8Jvud0hwddfV7mGoqbdJs=
-X-Google-Smtp-Source: ABdhPJx66zfCMq/QjE/vEQDlvtGtmQRTUsPHXXHyqLoXOEbd8+CTx+5mn1QS5ldANUTle3aJnizBGc3jgjGRJGjhBkY=
-X-Received: by 2002:a17:906:34ca:: with SMTP id h10mr5499069ejb.137.1629999913425;
- Thu, 26 Aug 2021 10:45:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210826172844.32608-1-pkj@axis.com> <20210826172844.32608-2-pkj@axis.com>
-In-Reply-To: <20210826172844.32608-2-pkj@axis.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 26 Aug 2021 19:45:02 +0200
-Message-ID: <CA+chaQdRQVF5X86t7ghv2vNrLH+oyL_fHiSL-sq8YPWPm=4SPg@mail.gmail.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1630000640;
+  x=1661536640;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=deA52Y19/jGH+Fy3YjYVcjj8OdjtN8cJRtsSr7jR0yU=;
+  b=fgvXJCnniA3bDGlJPkVZMbuqegCx1eotGXgsH1juOlPiKJQE0iRx8pIR
+   F2bIYGFekaT/rFMkj8PrO84GFaYRXLds3xriGrlBQzqIZdxW9uh+cUOGS
+   euMMjFcl+jRc8x90KYOQFl6xe05oP6dL9fJdPg4rjMAIzVW9jTOsSfT6s
+   UvlDRt5CFbkpVcECzojv2YfVvl0EA+dUI3yQkqHuSGxSrVH6Z7LsIgZDM
+   wvmK8S440Xx5mDEVSnFXLGSi4C9xYfe3ugSfvOhqC82iwdb3dBLs2sQP+
+   zegWr9TUxNhJpK7amt9cVNvwSovv/IGcysEr8j00y6mVe0c8MIIap6kmr
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH 2/2] buildhistory-collect-srcrevs: Adapt to the new variable override syntax
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d2dcc805ca79ed12"
+Thread-Topic: [OE-core] [PATCH 2/2] buildhistory-collect-srcrevs: Adapt to the
+ new variable override syntax
+Thread-Index: AQHXmqIYv0PR8Lp7lESmwJOWT6TFIquGEgug
+Date: Thu, 26 Aug 2021 17:57:18 +0000
+Message-ID: <54cf0ace72d74dfb923843ff19baa2e4@axis.com>
+References: <20210826172844.32608-1-pkj@axis.com>
+ <20210826172844.32608-2-pkj@axis.com>
+ <CA+chaQdRQVF5X86t7ghv2vNrLH+oyL_fHiSL-sq8YPWPm=4SPg@mail.gmail.com>
+In-Reply-To: <CA+chaQdRQVF5X86t7ghv2vNrLH+oyL_fHiSL-sq8YPWPm=4SPg@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_54cf0ace72d74dfb923843ff19baa2e4axiscom_"
 
---000000000000d2dcc805ca79ed12
-Content-Type: text/plain; charset="UTF-8"
+--_000_54cf0ace72d74dfb923843ff19baa2e4axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Is this one correct? The '_' in SRCREV_%s should IMHO stay and only the '_'
-in _pn should be replaced with ':'.
+SG1tLCB5b3UgYXJlIG9mIGNvdXJzZSBjb3JyZWN0LiBOZXcgcGF0Y2ggY29taW5nLg0KDQovL1Bl
+dGVyDQoNCkZyb206IE1hcnRpbiBKYW5zYSA8bWFydGluLmphbnNhQGdtYWlsLmNvbT4NClNlbnQ6
+IGRlbiAyNiBhdWd1c3RpIDIwMjEgMTk6NDUNClRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVy
+LmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91
+dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvMl0gYnVpbGRoaXN0b3J5LWNv
+bGxlY3Qtc3JjcmV2czogQWRhcHQgdG8gdGhlIG5ldyB2YXJpYWJsZSBvdmVycmlkZSBzeW50YXgN
+Cg0KSXMgdGhpcyBvbmUgY29ycmVjdD8gVGhlICdfJyBpbiBTUkNSRVZfJXMgc2hvdWxkIElNSE8g
+c3RheSBhbmQgb25seSB0aGUgJ18nIGluIF9wbiBzaG91bGQgYmUgcmVwbGFjZWQgd2l0aCAnOicu
+DQoNCkFzIHRoZSBmaXJzdCBjYXNlIGluIHRoZSBTUkNfVVJJIGVsZW1lbnQgbmFtZSwgbm90IGFu
+IG92ZXJyaWRlLg0KDQpPbiBUaHUsIEF1ZyAyNiwgMjAyMSBhdCA3OjI4IFBNIFBldGVyIEtqZWxs
+ZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPG1haWx0bzpwZXRlci5ramVsbGVy
+c3RlZHRAYXhpcy5jb20+PiB3cm90ZToNClNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVk
+dCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPG1haWx0bzpwZXRlci5ramVsbGVyc3RlZHRA
+YXhpcy5jb20+Pg0KLS0tDQogc2NyaXB0cy9idWlsZGhpc3RvcnktY29sbGVjdC1zcmNyZXZzIHwg
+MTIgKysrKysrLS0tLS0tDQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBkZWxl
+dGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL3NjcmlwdHMvYnVpbGRoaXN0b3J5LWNvbGxlY3Qtc3Jj
+cmV2cyBiL3NjcmlwdHMvYnVpbGRoaXN0b3J5LWNvbGxlY3Qtc3JjcmV2cw0KaW5kZXggYmNhMDFh
+OTIyYi4uNmM5MTkyOTlhNiAxMDA3NTUNCi0tLSBhL3NjcmlwdHMvYnVpbGRoaXN0b3J5LWNvbGxl
+Y3Qtc3JjcmV2cw0KKysrIGIvc2NyaXB0cy9idWlsZGhpc3RvcnktY29sbGVjdC1zcmNyZXZzDQpA
+QCAtNTMsNyArNTMsNyBAQCBkZWYgbWFpbigpOg0KICAgICAgICAgc3lzLmV4aXQoMSkNCg0KICAg
+ICBpZiBvcHRpb25zLmZvcmNldmFyaWFibGU6DQotICAgICAgICBmb3JjZXZhcmlhYmxlID0gJ19m
+b3JjZXZhcmlhYmxlJw0KKyAgICAgICAgZm9yY2V2YXJpYWJsZSA9ICc6Zm9yY2V2YXJpYWJsZScN
+CiAgICAgZWxzZToNCiAgICAgICAgIGZvcmNldmFyaWFibGUgPSAnJw0KDQpAQCAtNzgsMTQgKzc4
+LDE0IEBAIGRlZiBtYWluKCk6DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZhbHVlID0g
+c3BsaXR2YWxbMV0uc3RyaXAoJyIgXHRcblxyJykNCiAgICAgICAgICAgICAgICAgICAgICAgICBp
+ZiBsaW5lLnN0YXJ0c3dpdGgoJyMgU1JDUkVWID0gJyk6DQogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIG9yaWdfc3JjcmV2ID0gdmFsdWUNCi0gICAgICAgICAgICAgICAgICAgICAgICBlbGlm
+IGxpbmUuc3RhcnRzd2l0aCgnIyBTUkNSRVZfJyk6DQorICAgICAgICAgICAgICAgICAgICAgICAg
+ZWxpZiBsaW5lLnN0YXJ0c3dpdGgoJyMgU1JDUkVWOicpOg0KICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBzcGxpdHZhbCA9IGxpbmUuc3BsaXQoJz0nKQ0KLSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBuYW1lID0gc3BsaXR2YWxbMF0uc3BsaXQoJ18nKVsxXS5zdHJpcCgpDQorICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIG5hbWUgPSBzcGxpdHZhbFswXS5zcGxpdCgnOicpWzFdLnN0
+cmlwKCkNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgb3JpZ19zcmNyZXZzW25hbWVdID0g
+dmFsdWUNCiAgICAgICAgICAgICAgICAgICAgICAgICBlbGlmIGxpbmUuc3RhcnRzd2l0aCgnU1JD
+UkVWID0nKToNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3JjcmV2ID0gdmFsdWUNCi0g
+ICAgICAgICAgICAgICAgICAgICAgICBlbGlmIGxpbmUuc3RhcnRzd2l0aCgnU1JDUkVWXycpOg0K
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICBuYW1lID0gc3BsaXR2YWxbMF0uc3BsaXQoJ18n
+KVsxXS5zdHJpcCgpDQorICAgICAgICAgICAgICAgICAgICAgICAgZWxpZiBsaW5lLnN0YXJ0c3dp
+dGgoJ1NSQ1JFVjonKToNCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgbmFtZSA9IHNwbGl0
+dmFsWzBdLnNwbGl0KCc6JylbMV0uc3RyaXAoKQ0KICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBzcmNyZXZzW25hbWVdID0gdmFsdWUNCiAgICAgICAgICAgICAgICAgaWYgc3JjcmV2IGFuZCAo
+b3B0aW9ucy5yZXBvcnRhbGwgb3Igc3JjcmV2ICE9IG9yaWdfc3JjcmV2KToNCiAgICAgICAgICAg
+ICAgICAgICAgIGFsbF9zcmNyZXZzW2N1cmRpcl0uYXBwZW5kKChwbiwgTm9uZSwgc3JjcmV2KSkN
+CkBAIC05OSw3ICs5OSw3IEBAIGRlZiBtYWluKCk6DQogICAgICAgICAgICAgcHJpbnQoJyMgJXMn
+ICUgY3VyZGlyKQ0KICAgICAgICAgICAgIGZvciBwbiwgbmFtZSwgc3JjcmV2IGluIHNyY3JldnM6
+DQogICAgICAgICAgICAgICAgIGlmIG5hbWU6DQotICAgICAgICAgICAgICAgICAgICBwcmludCgn
+U1JDUkVWXyVzX3BuLSVzJXMgPSAiJXMiJyAlIChuYW1lLCBwbiwgZm9yY2V2YXJpYWJsZSwgc3Jj
+cmV2KSkNCisgICAgICAgICAgICAgICAgICAgIHByaW50KCdTUkNSRVY6JXM6cG4tJXMlcyA9ICIl
+cyInICUgKG5hbWUsIHBuLCBmb3JjZXZhcmlhYmxlLCBzcmNyZXYpKQ0KICAgICAgICAgICAgICAg
+ICBlbHNlOg0KICAgICAgICAgICAgICAgICAgICAgcHJpbnQoJ1NSQ1JFVjpwbi0lcyVzID0gIiVz
+IicgJSAocG4sIGZvcmNldmFyaWFibGUsIHNyY3JldikpDQoNCg0KDQo=
 
-As the first case in the SRC_URI element name, not an override.
+--_000_54cf0ace72d74dfb923843ff19baa2e4axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, Aug 26, 2021 at 7:28 PM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
+Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
+OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
+bC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojOTQz
+NjM0Ow0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250LXN0eWxlOm5vcm1hbDt9DQouTXNvQ2hw
+RGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2Fs
+aWJyaSIsc2Fucy1zZXJpZjsNCgltc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUzt9DQpAcGFnZSBX
+b3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFyZ2luOjcwLjg1cHQgNzAu
+ODVwdCA3MC44NXB0IDcwLjg1cHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0
+aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZh
+dWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwh
+LS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86
+aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFb
+ZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3JkIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0
+aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNv
+bG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPkhtbSwgeW91IGFyZSBvZiBj
+b3Vyc2UgY29ycmVjdC4gTmV3IHBhdGNoIGNvbWluZy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2
+MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1m
+YXJlYXN0LWxhbmd1YWdlOkVOLVVTIj4vL1BldGVyPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9
+ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNt
+IDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpz
+b2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZyb206PC9zcGFuPjwvYj48c3BhbiBs
+YW5nPSJFTi1VUyI+IE1hcnRpbiBKYW5zYSAmbHQ7bWFydGluLmphbnNhQGdtYWlsLmNvbSZndDsN
+Cjxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjYgYXVndXN0aSAyMDIxIDE5OjQ1PGJyPg0KPGI+VG86
+PC9iPiBQZXRlciBLamVsbGVyc3RlZHQgJmx0O3BldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbSZn
+dDs8YnI+DQo8Yj5DYzo8L2I+IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1j
+b3JlIGxheWVyICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0
+Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJdIGJ1aWxkaGlz
+dG9yeS1jb2xsZWN0LXNyY3JldnM6IEFkYXB0IHRvIHRoZSBuZXcgdmFyaWFibGUgb3ZlcnJpZGUg
+c3ludGF4PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPklzIHRoaXMgb25lIGNvcnJlY3Q/IFRoZSAnXycgaW4gU1JDUkVWXyVzIHNob3VsZCBJTUhP
+IHN0YXkgYW5kIG9ubHkgdGhlICdfJyBpbiBfcG4gc2hvdWxkIGJlIHJlcGxhY2VkIHdpdGggJzon
+LjxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+QXMgdGhlIGZp
+cnN0IGNhc2UgaW4gdGhlIFNSQ19VUkkgZWxlbWVudCBuYW1lLCBub3QgYW4gb3ZlcnJpZGUuPG86
+cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFRo
+dSwgQXVnIDI2LCAyMDIxIGF0IDc6MjggUE0gUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDs8YSBocmVm
+PSJtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tIj5wZXRlci5ramVsbGVyc3RlZHRA
+YXhpcy5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVv
+dGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFk
+ZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNt
+Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+U2ln
+bmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDs8YSBocmVmPSJtYWlsdG86cGV0ZXIu
+a2plbGxlcnN0ZWR0QGF4aXMuY29tIiB0YXJnZXQ9Il9ibGFuayI+cGV0ZXIua2plbGxlcnN0ZWR0
+QGF4aXMuY29tPC9hPiZndDs8YnI+DQotLS08YnI+DQombmJzcDtzY3JpcHRzL2J1aWxkaGlzdG9y
+eS1jb2xsZWN0LXNyY3JldnMgfCAxMiAmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzstLS0t
+LS08YnI+DQombmJzcDsxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCYjNDM7KSwgNiBkZWxl
+dGlvbnMoLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvc2NyaXB0cy9idWlsZGhpc3RvcnktY29s
+bGVjdC1zcmNyZXZzIGIvc2NyaXB0cy9idWlsZGhpc3RvcnktY29sbGVjdC1zcmNyZXZzPGJyPg0K
+aW5kZXggYmNhMDFhOTIyYi4uNmM5MTkyOTlhNiAxMDA3NTU8YnI+DQotLS0gYS9zY3JpcHRzL2J1
+aWxkaGlzdG9yeS1jb2xsZWN0LXNyY3JldnM8YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9zY3JpcHRz
+L2J1aWxkaGlzdG9yeS1jb2xsZWN0LXNyY3JldnM8YnI+DQpAQCAtNTMsNyAmIzQzOzUzLDcgQEAg
+ZGVmIG1haW4oKTo8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7c3lzLmV4
+aXQoMSk8YnI+DQo8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwO2lmIG9wdGlvbnMuZm9yY2V2YXJp
+YWJsZTo8YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZvcmNldmFyaWFibGUgPSAn
+X2ZvcmNldmFyaWFibGUnPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZm9y
+Y2V2YXJpYWJsZSA9ICc6Zm9yY2V2YXJpYWJsZSc8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwO2Vs
+c2U6PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2ZvcmNldmFyaWFibGUg
+PSAnJzxicj4NCjxicj4NCkBAIC03OCwxNCAmIzQzOzc4LDE0IEBAIGRlZiBtYWluKCk6PGJyPg0K
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt2YWx1ZSA9IHNw
+bGl0dmFsWzFdLnN0cmlwKCcmcXVvdDsgXHRcblxyJyk8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDtpZiBsaW5lLnN0YXJ0c3dpdGgoJyMgU1JDUkVWID0gJyk6PGJyPg0KJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtvcmlnX3NyY3JldiA9
+IHZhbHVlPGJyPg0KLSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGVsaWYgbGluZS5zdGFydHN3
+aXRoKCcjIFNSQ1JFVl8nKTo8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGVs
+aWYgbGluZS5zdGFydHN3aXRoKCcjIFNSQ1JFVjonKTo8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3NwbGl0dmFsID0gbGluZS5zcGxpdCgnPScpPGJy
+Pg0KLSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgbmFtZSA9IHNwbGl0
+dmFsWzBdLnNwbGl0KCdfJylbMV0uc3RyaXAoKTxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBuYW1lID0gc3BsaXR2YWxbMF0uc3BsaXQoJzonKVsxXS5z
+dHJpcCgpPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDtvcmlnX3NyY3JldnNbbmFtZV0gPSB2YWx1ZTxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwO2VsaWYgbGluZS5zdGFydHN3aXRoKCdTUkNSRVYgPScpOjxicj4NCiZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7c3JjcmV2ID0gdmFsdWU8YnI+
+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZWxpZiBsaW5lLnN0YXJ0c3dpdGgoJ1NSQ1JF
+Vl8nKTo8YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBuYW1l
+ID0gc3BsaXR2YWxbMF0uc3BsaXQoJ18nKVsxXS5zdHJpcCgpPGJyPg0KJiM0MzsmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyBlbGlmIGxpbmUuc3RhcnRzd2l0aCgnU1JDUkVWOicpOjxicj4NCiYj
+NDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBuYW1lID0gc3BsaXR2
+YWxbMF0uc3BsaXQoJzonKVsxXS5zdHJpcCgpPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtzcmNyZXZzW25hbWVdID0gdmFsdWU8YnI+DQombmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2lm
+IHNyY3JldiBhbmQgKG9wdGlvbnMucmVwb3J0YWxsIG9yIHNyY3JldiAhPSBvcmlnX3NyY3Jldik6
+PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2FsbF9zcmNyZXZzW2N1cmRpcl0uYXBwZW5kKChwbiwg
+Tm9uZSwgc3JjcmV2KSk8YnI+DQpAQCAtOTksNyAmIzQzOzk5LDcgQEAgZGVmIG1haW4oKTo8YnI+
+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtwcmludCgn
+IyAlcycgJSBjdXJkaXIpPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7Zm9yIHBuLCBuYW1lLCBzcmNyZXYgaW4gc3JjcmV2czo8YnI+DQombmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2lm
+IG5hbWU6PGJyPg0KLSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBwcmludCgnU1JDUkVWXyVzX3BuLSVzJXMgPSAmcXVv
+dDslcyZxdW90OycgJSAobmFtZSwgcG4sIGZvcmNldmFyaWFibGUsIHNyY3JldikpPGJyPg0KJiM0
+MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgcHJpbnQoJ1NSQ1JFVjolczpwbi0lcyVzID0gJnF1b3Q7JXMmcXVvdDsn
+ICUgKG5hbWUsIHBuLCBmb3JjZXZhcmlhYmxlLCBzcmNyZXYpKTxicj4NCiZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ZWxzZTo8YnI+
+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7cHJpbnQoJ1NSQ1JFVjpwbi0lcyVzID0gJnF1b3Q7JXMmcXVv
+dDsnICUgKHBuLCBmb3JjZXZhcmlhYmxlLCBzcmNyZXYpKTxicj4NCjxicj4NCjxicj4NCjxvOnA+
+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5
+Pg0KPC9odG1sPg0K
 
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  scripts/buildhistory-collect-srcrevs | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/buildhistory-collect-srcrevs
-> b/scripts/buildhistory-collect-srcrevs
-> index bca01a922b..6c919299a6 100755
-> --- a/scripts/buildhistory-collect-srcrevs
-> +++ b/scripts/buildhistory-collect-srcrevs
-> @@ -53,7 +53,7 @@ def main():
->          sys.exit(1)
->
->      if options.forcevariable:
-> -        forcevariable = '_forcevariable'
-> +        forcevariable = ':forcevariable'
->      else:
->          forcevariable = ''
->
-> @@ -78,14 +78,14 @@ def main():
->                              value = splitval[1].strip('" \t\n\r')
->                          if line.startswith('# SRCREV = '):
->                              orig_srcrev = value
-> -                        elif line.startswith('# SRCREV_'):
-> +                        elif line.startswith('# SRCREV:'):
->                              splitval = line.split('=')
-> -                            name = splitval[0].split('_')[1].strip()
-> +                            name = splitval[0].split(':')[1].strip()
->                              orig_srcrevs[name] = value
->                          elif line.startswith('SRCREV ='):
->                              srcrev = value
-> -                        elif line.startswith('SRCREV_'):
-> -                            name = splitval[0].split('_')[1].strip()
-> +                        elif line.startswith('SRCREV:'):
-> +                            name = splitval[0].split(':')[1].strip()
->                              srcrevs[name] = value
->                  if srcrev and (options.reportall or srcrev !=
-> orig_srcrev):
->                      all_srcrevs[curdir].append((pn, None, srcrev))
-> @@ -99,7 +99,7 @@ def main():
->              print('# %s' % curdir)
->              for pn, name, srcrev in srcrevs:
->                  if name:
-> -                    print('SRCREV_%s_pn-%s%s = "%s"' % (name, pn,
-> forcevariable, srcrev))
-> +                    print('SRCREV:%s:pn-%s%s = "%s"' % (name, pn,
-> forcevariable, srcrev))
->                  else:
->                      print('SRCREV:pn-%s%s = "%s"' % (pn, forcevariable,
-> srcrev))
->
->
-> 
->
->
-
---000000000000d2dcc805ca79ed12
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Is this one correct? The &#39;_&#39; in SRCREV_%s should I=
-MHO stay and only the &#39;_&#39; in _pn should be replaced with &#39;:&#39=
-;.<div><br></div><div>As the first case in the SRC_URI element name, not an=
- override.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Aug 26, 2021 at 7:28 PM Peter Kjellerstedt &lt;<a h=
-ref=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signe=
-d-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.=
-com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
----<br>
-=C2=A0scripts/buildhistory-collect-srcrevs | 12 ++++++------<br>
-=C2=A01 file changed, 6 insertions(+), 6 deletions(-)<br>
-<br>
-diff --git a/scripts/buildhistory-collect-srcrevs b/scripts/buildhistory-co=
-llect-srcrevs<br>
-index bca01a922b..6c919299a6 100755<br>
---- a/scripts/buildhistory-collect-srcrevs<br>
-+++ b/scripts/buildhistory-collect-srcrevs<br>
-@@ -53,7 +53,7 @@ def main():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sys.exit(1)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if options.forcevariable:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 forcevariable =3D &#39;_forcevariable&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 forcevariable =3D &#39;:forcevariable&#39;<br>
-=C2=A0 =C2=A0 =C2=A0else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0forcevariable =3D &#39;&#39;<br>
-<br>
-@@ -78,14 +78,14 @@ def main():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value =3D splitval[1].strip(&#39;&quot; \t\n=
-\r&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0if line.startswith(&#39;# SRCREV =3D &#39;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0orig_srcrev =3D value<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 elif line.startswith(&#39;# SRCREV_&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 elif line.startswith(&#39;# SRCREV:&#39;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0splitval =3D line.split(&#39;=3D&#39;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 name =3D splitval[0].split(&#39;_&#39;)[1].strip()=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 name =3D splitval[0].split(&#39;:&#39;)[1].strip()=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0orig_srcrevs[name] =3D value<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0elif line.startswith(&#39;SRCREV =3D&#39;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0srcrev =3D value<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 elif line.startswith(&#39;SRCREV_&#39;):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 name =3D splitval[0].split(&#39;_&#39;)[1].strip()=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 elif line.startswith(&#39;SRCREV:&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 name =3D splitval[0].split(&#39;:&#39;)[1].strip()=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0srcrevs[name] =3D value<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if srcrev and=
- (options.reportall or srcrev !=3D orig_srcrev):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0all_srcrevs[curdir].append((pn, None, srcrev))<br>
-@@ -99,7 +99,7 @@ def main():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0print(&#39;# %s&#39; % curd=
-ir)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for pn, name, srcrev in src=
-revs:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if name:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prin=
-t(&#39;SRCREV_%s_pn-%s%s =3D &quot;%s&quot;&#39; % (name, pn, forcevariable=
-, srcrev))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prin=
-t(&#39;SRCREV:%s:pn-%s%s =3D &quot;%s&quot;&#39; % (name, pn, forcevariable=
-, srcrev))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0print(&#39;SRCREV:pn-%s%s =3D &quot;%s&quot;&#39; % (pn, forcevariable, =
-srcrev))<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000d2dcc805ca79ed12--
+--_000_54cf0ace72d74dfb923843ff19baa2e4axiscom_--
