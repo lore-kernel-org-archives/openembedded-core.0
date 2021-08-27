@@ -1,94 +1,162 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web09.8246.1630072137724361818
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web10.8252.1630072302671850762
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Aug 2021 06:48:57 -0700
+ Fri, 27 Aug 2021 06:51:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=coP4O/mr;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id x4so6050117pgh.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Aug 2021 06:48:57 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=yhMLo+4A;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.170, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f170.google.com with SMTP id f22so7211096qkm.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Aug 2021 06:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=imSieQhiQEWT93QOzhMULSI6U2RI2gDADjMo3hkHax0=;
-        b=coP4O/mrzjsGMhEe9QtyPb/U67DUqGvuOedemR9bWFxv37gAOo+PvVjVvxGFQlznS0
-         PEDPNB81jaRFh5Ca5u+LJWTCba6gzE+1kVEoTMag+Hzwh5I6BdJBzq61UL9+riG0wEmZ
-         uuLLoDCwc8U1X9BrYWymCUvbmntrX04uiTH4lpSd3x1Lamwj0h1XpR1YCxL8lakTBmxp
-         8kP2WCwl6Zm3seVBfdgc8YKBulzxtOjTwMi4MEclAdal8mKWxsixA83/MUAgynYb96li
-         dH6WyMZexFuGtAgqADIioQrAVRbBs//MHDEH7JxxBDUUu5IXwJ+aAhLUvAGU9O9GjgsW
-         4I6A==
+        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z19sPdE1m9FuuTafMyjwQSu6Y5QbfblqXJQQeX2LK/A=;
+        b=yhMLo+4AGNCMmJz2KE8v/RGmIZyxaMiZ/Y216xgp0MEdzAWgKUK8Y8n8DmtBN/FpEt
+         fXl58nn4Y+BZnbjm/5VSAvLtg9ru1CneLfcu19SCJ4jiQnCKh5iEmITM9h++fQfhlFhm
+         Z4Ct3oQZyfZM1X7tQrmWjPo3FNgNV/P2SLSwM1kswQGZTBLB0aZTjyT7xefQpjxxtqr1
+         zu+yE5jDvk6xmaviIlKN3XGFfxZtBnF3FUa2iw3415ThbJNIk2jm/aGKqYvyzHHbOFV7
+         JcvXsR2AWOy/Tw3hqgRB2GjAD135pPpfp1RDPIYA6ZAZelhbqeJuzSsTCJ31KdKS8ufr
+         kbNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=imSieQhiQEWT93QOzhMULSI6U2RI2gDADjMo3hkHax0=;
-        b=Xh4kdhRa49mmbkVGqueXbx63e8M1WuEu0hPlzfyfDeEytKwDE2w7YFsEIWPHDvOOEP
-         O8Pcs9wemtKk+EqZqZKRTaPbBZLd45tfrbOZS0pFYbjjzLdjOjRafGgW2Wv6t5CBTHL3
-         bSLJR/pDGxOOsXsPHXJvapXvADQJ0K/l7hZeS+uPPRw9+nM4iK+dKEoNP3qk1s6yVRr0
-         e1CyLngPvyFJAK6XLmUfzZ/XZZ6bnhbIWHnkw3fT4Sv0OeVeeNFJeKkyWk7nMwf6vsv/
-         Z+ToZ+4SIZs2GcSyhDHJeoAS0wYtvNd2BQNQSRQ/x/JqZV0dpJC5x03kq3NCYLZgAawp
-         tgXg==
-X-Gm-Message-State: AOAM533w6q7p46i8a3I2GlTerxG5RXWkfNHDhnsmQWu5zU4kCe6LuMVD
-	ncY6nnqbSKX8hW7G/yJo8cR9U+Ie+4A=
-X-Google-Smtp-Source: ABdhPJwhUkBRgBosaIkZPHpv49XVwb4FRBWf0nWSRj43U/SgTg/o2dff2MEyicxN9un25neoiOgDKQ==
-X-Received: by 2002:a65:4486:: with SMTP id l6mr7974982pgq.145.1630072136967;
-        Fri, 27 Aug 2021 06:48:56 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:6d42:ed7e:4699:884f? ([2601:202:4180:a5c0:6d42:ed7e:4699:884f])
-        by smtp.gmail.com with ESMTPSA id c12sm6045795pfl.56.2021.08.27.06.48.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Aug 2021 06:48:56 -0700 (PDT)
-Subject: Re: [OE-core] [master][PATCH] lz4: remove rest of ptest artifacts
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20210827020936.3700558-1-akuster808@gmail.com>
- <6c720428bb74edcb0b05825786075d6a0261e1df.camel@linuxfoundation.org>
-From: "Armin Kuster" <akuster808@gmail.com>
-Message-ID: <d5876d66-2a77-e75c-b91a-1cd36fb09921@gmail.com>
-Date: Fri, 27 Aug 2021 06:48:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z19sPdE1m9FuuTafMyjwQSu6Y5QbfblqXJQQeX2LK/A=;
+        b=ZLgIxhJ97J7Wk4JBOrZvi67O3F93gOlwCMPZbe7ZLeUlC5szbF1qA/FMBY7YIb2+dB
+         kaSKEEm5IPIxiWxNv73Gwic6lLEoYQxjoSrhArrlHEwg8NlLiv2im/iWQKFQfS8a1X8D
+         Da3c9o8SdxieVeo83+xWHCjuO8e9AwnfcUMCCRMKN5c7aLvRdWoOVMguofLw12WuTYmE
+         XOrQELUqvvb59Rb11i1zj8NL+kqK2uRL0xUlD8EekcikQl8XfsBg+NelaAZCgDEFOTAl
+         T+apFGDbqbDNNBgJV6/CEO9FIEcdeRa73T8XkZNzGlGbzxV1esSNS+jlst+5MIIWg489
+         NgqQ==
+X-Gm-Message-State: AOAM531jZEckerknS2izwp2OJv7mdwNGg5ncib0Q/o50FwU5L529DQKM
+	S7aBNig2PbdnMt5Tl8zPVj94DbobodlqnA==
+X-Google-Smtp-Source: ABdhPJygV5CuutzCko1VAHCXUne5e2+AgHUtz83n1ggG47Vi8QUx+5I1vI0T+5YY7ga8d+ORQhgDog==
+X-Received: by 2002:a05:620a:2a10:: with SMTP id o16mr8861070qkp.481.1630072301429;
+        Fri, 27 Aug 2021 06:51:41 -0700 (PDT)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([2605:a601:a632:4e00:51d1:38d8:2952:3ff1])
+        by smtp.gmail.com with ESMTPSA id p22sm4693858qkj.16.2021.08.27.06.51.40
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Aug 2021 06:51:40 -0700 (PDT)
+From: "Jon Mason" <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] tune-*: Use more specific DEFAULTTUNE
+Date: Fri, 27 Aug 2021 09:51:40 -0400
+Message-Id: <20210827135140.22421-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <6c720428bb74edcb0b05825786075d6a0261e1df.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
+These files are using a more generic DEFAULTTUNE in their targeted tune
+file.  This is contrary to what is being done in other tune files, and
+this changes them to match.  It is still possible to use the more
+generic DEFAULTTUNE in a machine's config file by simply specifying it.
 
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/conf/machine/include/arm/armv4/tune-arm920t.inc       | 2 +-
+ meta/conf/machine/include/arm/armv4/tune-arm9tdmi.inc      | 2 +-
+ meta/conf/machine/include/arm/armv4/tune-strongarm1100.inc | 2 +-
+ meta/conf/machine/include/arm/armv7a/tune-cortexa15.inc    | 2 +-
+ meta/conf/machine/include/arm/armv7a/tune-cortexa17.inc    | 2 +-
+ meta/conf/machine/include/arm/armv7a/tune-cortexa5.inc     | 2 +-
+ meta/conf/machine/include/arm/armv7a/tune-cortexa7.inc     | 2 +-
+ meta/conf/machine/include/arm/armv7a/tune-cortexa8.inc     | 2 +-
+ meta/conf/machine/include/arm/armv7a/tune-cortexa9.inc     | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
 
-On 8/27/21 3:58 AM, Richard Purdie wrote:
-> On Thu, 2021-08-26 at 19:09 -0700, Armin Kuster wrote:
->> Commit: 953f6d9a71 lz4: remove ptest changes
->>
->> missed removing the run-ptest file
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>
-> [...]
->
->> diff --git a/meta/recipes-support/lz4/lz4_1.9.3.bb b/meta/recipes-support/lz4/lz4_1.9.3.bb
->> index 3905ef7dbc..74f6743b91 100644
->> --- a/meta/recipes-support/lz4/lz4_1.9.3.bb
->> +++ b/meta/recipes-support/lz4/lz4_1.9.3.bb
->> @@ -13,7 +13,7 @@ PE = "1"
->>  SRCREV = "d44371841a2f1728a3f36839fd4b7e872d0927d3"
->>  
->>  SRC_URI = "git://github.com/lz4/lz4.git;branch=release \
->> -           file://run-ptest \
->> +           file://CVE-2021-3520.patch \
->>             "
->>  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
->>  
-> I think the addition should have been in the previous patch. I've tweaked them.
-Correct.. Thanks,
-
--armin
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/conf/machine/include/arm/armv4/tune-arm920t.inc b/meta/conf/machine/include/arm/armv4/tune-arm920t.inc
+index 8a615792dfb1..1b1cbdb5a7d1 100644
+--- a/meta/conf/machine/include/arm/armv4/tune-arm920t.inc
++++ b/meta/conf/machine/include/arm/armv4/tune-arm920t.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv4t"
++DEFAULTTUNE ?= "arm920t"
+ 
+ require conf/machine/include/arm/arch-armv4.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv4/tune-arm9tdmi.inc b/meta/conf/machine/include/arm/armv4/tune-arm9tdmi.inc
+index 5ab286b5767e..78b890b43c3e 100644
+--- a/meta/conf/machine/include/arm/armv4/tune-arm9tdmi.inc
++++ b/meta/conf/machine/include/arm/armv4/tune-arm9tdmi.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv4t"
++DEFAULTTUNE ?= "arm9tdmi"
+ 
+ require conf/machine/include/arm/arch-armv4.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv4/tune-strongarm1100.inc b/meta/conf/machine/include/arm/armv4/tune-strongarm1100.inc
+index 6f5033bbc12a..38ea9b7dd596 100644
+--- a/meta/conf/machine/include/arm/armv4/tune-strongarm1100.inc
++++ b/meta/conf/machine/include/arm/armv4/tune-strongarm1100.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv4"
++DEFAULTTUNE ?= "strongarm"
+ 
+ require conf/machine/include/arm/arch-armv4.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv7a/tune-cortexa15.inc b/meta/conf/machine/include/arm/armv7a/tune-cortexa15.inc
+index 66bc124dc0bc..e827afb2a08f 100644
+--- a/meta/conf/machine/include/arm/armv7a/tune-cortexa15.inc
++++ b/meta/conf/machine/include/arm/armv7a/tune-cortexa15.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7vethf-neon"
++DEFAULTTUNE ?= "cortexa15thf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv7a/tune-cortexa17.inc b/meta/conf/machine/include/arm/armv7a/tune-cortexa17.inc
+index 324673d44007..3ad00b16d81f 100644
+--- a/meta/conf/machine/include/arm/armv7a/tune-cortexa17.inc
++++ b/meta/conf/machine/include/arm/armv7a/tune-cortexa17.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7vethf-neon"
++DEFAULTTUNE ?= "cortexa17thf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv7a/tune-cortexa5.inc b/meta/conf/machine/include/arm/armv7a/tune-cortexa5.inc
+index 817eb166d6ed..0de5aadaaa3f 100644
+--- a/meta/conf/machine/include/arm/armv7a/tune-cortexa5.inc
++++ b/meta/conf/machine/include/arm/armv7a/tune-cortexa5.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7athf-neon"
++DEFAULTTUNE ?= "cortexa5thf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv7a/tune-cortexa7.inc b/meta/conf/machine/include/arm/armv7a/tune-cortexa7.inc
+index 5384369b5994..1ada527d8b32 100644
+--- a/meta/conf/machine/include/arm/armv7a/tune-cortexa7.inc
++++ b/meta/conf/machine/include/arm/armv7a/tune-cortexa7.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7vethf-neon"
++DEFAULTTUNE ?= "cortexa7thf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7ve.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv7a/tune-cortexa8.inc b/meta/conf/machine/include/arm/armv7a/tune-cortexa8.inc
+index e27002a29a61..952302afa210 100644
+--- a/meta/conf/machine/include/arm/armv7a/tune-cortexa8.inc
++++ b/meta/conf/machine/include/arm/armv7a/tune-cortexa8.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7athf-neon"
++DEFAULTTUNE ?= "cortexa8thf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv7a/tune-cortexa9.inc b/meta/conf/machine/include/arm/armv7a/tune-cortexa9.inc
+index d046a11a513a..4b4a52884d90 100644
+--- a/meta/conf/machine/include/arm/armv7a/tune-cortexa9.inc
++++ b/meta/conf/machine/include/arm/armv7a/tune-cortexa9.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?= "armv7athf-neon"
++DEFAULTTUNE ?= "cortexa9thf-neon"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+ 
+-- 
+2.20.1
 
