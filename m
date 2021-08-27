@@ -1,422 +1,260 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web08.8792.1630073997613700908
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web09.8867.1630074688907926434
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Aug 2021 07:19:59 -0700
+ Fri, 27 Aug 2021 07:31:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=k87rHP00;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: lukma@denx.de)
-Received: from ktm (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukma@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 8BC7183131;
-	Fri, 27 Aug 2021 16:19:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1630073994;
-	bh=5HCAT2cDJaPCUA8+3QxsMzl7IYH9otnTBQSulaH0A5U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k87rHP009YTu+tzXTcbiKtJ/1d7rVVn58cpmuUd+4WsgeMcoauXY+wGlzCcWDIAxF
-	 rikQdrIcp6iY+9XNVkQsaFSTufRNzsOvM+KSGgwi4yuxj6CL+8Ly9+jdzIKldiNNiP
-	 4X9+4E2+7UYpT2zW1SrZUqhfz4nxokp3L9wN8AqswMDZy1zDDWL/kpjLoTjyay7Gb1
-	 PnuxafVMfvRpEI7oFOeZrUeImTX3JgAr+CKcHzdBKjKOHYCKhmLcQg1Rt46n+TyBq5
-	 8Z5v063zOO+VaHC11gh4nGQ/evwcvPqPYp3n4o0ZtUNh27ONwFmUvSRLRoBYku3NAV
-	 hT3XaKK2lz0tg==
-Date: Fri, 27 Aug 2021 16:19:48 +0200
-From: "?ukasz Majewski" <lukma@denx.de>
-To: "Nathan Rossi" <nathan@nathanrossi.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
- <raj.khem@gmail.com>, Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Adhemerval Zanella
- <adhemerval.zanella@linaro.org>
-Subject: Re: [OE-core] [PATCH 2/2] glibc: ptest: Add support for running glibc test suite with ptest
-Message-ID: <20210827161948.23c3b542@ktm>
-In-Reply-To: <CA+aJhH1thPb_SuCcQHg3AF3QyaRTPNY=iod-oR0tm_Qta82wuw@mail.gmail.com>
-References: <20210823150853.2817-1-lukma@denx.de>
-	<20210823150853.2817-2-lukma@denx.de>
-	<ada9987d-399b-7a73-2aa5-c09dcca41fb3@gmail.com>
-	<20210823202414.731c6749@ktm>
-	<CAMKF1srLFY_R4KX3gG3hZMhZNtjSN8D4mEp0Wwr78Se9RE_20g@mail.gmail.com>
-	<20210823220926.37d87121@ktm>
-	<CAMKF1sqKH=RiOn-WVp_=ZQmLnSJ43VUUfKyv+E1KR9bCn01j3Q@mail.gmail.com>
-	<20210824093601.768c0c05@ktm>
-	<34041d492af033ff34a273e07057ea9c767cabf7.camel@linuxfoundation.org>
-	<20210824104213.6be82b74@ktm>
-	<20210826142749.51466c70@ktm>
-	<2beacaf42a7970cca6fce14c2200184b9d852446.camel@linuxfoundation.org>
-	<CA+aJhH3c1vtr9euPwFQ3Yn3YNeK3zww+nzfprQWxdfQrOAku0g@mail.gmail.com>
-	<20210827112033.4822be71@ktm>
-	<CA+aJhH1thPb_SuCcQHg3AF3QyaRTPNY=iod-oR0tm_Qta82wuw@mail.gmail.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=swZwoP1z;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id j2so4064697pll.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Aug 2021 07:31:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=FqSBrKlsdHpJrEOTwoqzFbnY1v/GHxWwSIoPxLu9TZI=;
+        b=swZwoP1zAF+XnJtjJakxP+X+jr+EAFxTO+92z2vgxMljyGjuRHjk9Wo0kUML1q/QB9
+         /348J9H2iurqsdOiwXxdTM0BuS3la04v5fSyieTV/LBqq8Ss7UsII71grj0keKn1DRM7
+         Ram05R081U5UwqqfuB3yxExzYMF3mYK9H+wmLLE+VzBHnSs0wqs+D9Tb4v0NfnR3w+iE
+         yJm083t8L+Hhc1EHaXN58+hCbdoR2L3+pvuBq9pn6o69H2JBrlLhHJrLQmObicfb+U0+
+         7WW2XwOUZV4muWINNA2Wi8t0NQU8V4KQw38ITRPVTwKowFd3dtoKSontRy8Jhh7U9TfO
+         cWzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=FqSBrKlsdHpJrEOTwoqzFbnY1v/GHxWwSIoPxLu9TZI=;
+        b=LodcIjSBkyNtFp4dKK86vvR35bEJIVqkyXLw0R2CLLF7gMyUkUo2IKCsybY9A+wKjl
+         StE8ZSswVE1jN3ecXTWoVxj0JCUiyOCPxJ0e3X22nC7Mg9Czf/bn853ocj/RAm53hiXy
+         mxZJtQ3AIXT+RvS9VNXl7fpAz7LwZiFK1K5yjp87HGlIruWdURDwvjMyNnFZLX1bTuci
+         ZzmfMSaNKakRP+C1UBV8KTX9gUIiKkEZhNUy5RMK7g+tuZw5SzzXUnupxtZ2FeTyUFUJ
+         rCyAtq2wS+l+DtS/W3FDJBtw1yXFsF+0o7x7e8veGvPH45jqAzDtE7Qb7TIipU6+gDmb
+         UL+g==
+X-Gm-Message-State: AOAM531HgCJbG3Kz04t45JdOJgW3+Y2eHxSpxeJnylL2agiroXfsaBBO
+	I33aogcoWttmHOLUruYRNAk=
+X-Google-Smtp-Source: ABdhPJze5OVRLRzCRlusahBh0FdFHU8iH2lIQ09HLEdUnF0a4X4LuFPU+Pb9B0+iXYVgb2lpkh7MZQ==
+X-Received: by 2002:a17:90b:3b82:: with SMTP id pc2mr11075783pjb.224.1630074688240;
+        Fri, 27 Aug 2021 07:31:28 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:6d42:ed7e:4699:884f? ([2601:202:4180:a5c0:6d42:ed7e:4699:884f])
+        by smtp.gmail.com with ESMTPSA id w9sm12692723pjc.14.2021.08.27.07.31.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Aug 2021 07:31:27 -0700 (PDT)
+Subject: Re: [OE-core] [v4] [RFC] Merge meta-rust to oe-core - Aug 19 update
+To: Randy MacLeod <randy.macleod@windriver.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Cc: steven@stevenwalter.org, johan.anderholm@gmail.com, derek@asterius.io,
+ cardoe@cardoe.com, dev@codyps.com, tylerwhall@gmail.com,
+ Khem Raj <raj.khem@gmail.com>, vinay.kumar@blackfigtech.com,
+ saul.wold@windriver.com, martin.jansa@gmail.com, paul@pbarker.dev,
+ Trevor Gamblin <trevor.gamblin@windriver.com>, anbelski@linux.microsoft.com,
+ Vinay Kumar <vinay.m.engg@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ "Orling, Timothy T" <timothy.t.orling@intel.com>
+References: <aa7653eb-336f-ee08-3126-e6c790a9226f@windriver.com>
+ <20210813151947.55142-1-vinay.m.engg@gmail.com>
+ <CANUMPcXHhkPrtXrfN5rfzctXEy8h-Hi4L+vKmaAmPSgC33udcg@mail.gmail.com>
+ <169C1FA457B99CA0.23238@lists.openembedded.org>
+ <15a0f2e3-dbad-2512-3e5e-f2b84c946964@windriver.com>
+ <169D3274AAECC435.19323@lists.openembedded.org>
+ <fed5f2e5-000c-b7be-1d0e-2dc26afa6bd5@windriver.com>
+ <87dacc6ecc7af109db0039894254c77b43ae8323.camel@linuxfoundation.org>
+ <3e7ff50b-57f8-0503-b514-e53a82e0b2d5@windriver.com>
+ <e36985f82120c87f598289c672eafdacb5e37d86.camel@linuxfoundation.org>
+ <169E4C0C80951608.1595@lists.openembedded.org>
+ <23bc2196-4f7c-4958-e191-bd6f47223da2@windriver.com>
+From: "Armin Kuster" <akuster808@gmail.com>
+Message-ID: <37520c3b-162a-9067-a54c-5b35d46e0d4b@gmail.com>
+Date: Fri, 27 Aug 2021 07:31:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-X-Groupsio-MsgNum: 155408
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/l/ZgRvy6tuCxW=z.CaAODc."; protocol="application/pgp-signature"
-
---Sig_/l/ZgRvy6tuCxW=z.CaAODc.
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi Nathan,
-
-> On Fri, 27 Aug 2021 at 19:20, Lukasz Majewski <lukma@denx.de> wrote:
-> >
-> > Hi Nathan,
-> > =20
-> > > On Thu, 26 Aug 2021 at 23:38, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote: =20
-> > > >
-> > > > On Thu, 2021-08-26 at 14:27 +0200, Lukasz Majewski wrote: =20
-> > > > > Hi Richard, Khem,
-> > > > > =20
-> > > > > > Hi Richard,
-> > > > > > =20
-> > > > > > > On Tue, 2021-08-24 at 09:36 +0200, ?ukasz Majewski wrote:
-> > > > > > > =20
-> > > > > > > > Hi Khem,
-> > > > > > > > =20
-> > > > > > > > > On Mon, Aug 23, 2021 at 1:09 PM Lukasz Majewski
-> > > > > > > > > <lukma@denx.de> wrote: =20
-> > > > > > > > > >
-> > > > > > > > > > On Mon, 23 Aug 2021 12:52:44 -0700
-> > > > > > > > > > Khem Raj <raj.khem@gmail.com> wrote:
-> > > > > > > > > > =20
-> > > > > > > > > > > On Mon, Aug 23, 2021 at 11:24 AM Lukasz Majewski
-> > > > > > > > > > > <lukma@denx.de> wrote:
-> > > > > > > > > > > =20
-> > > > > > > > > > > > Hi Khem,
-> > > > > > > > > > > > =20
-> > > > > > > > > > > > > On 8/23/21 8:08 AM, ?ukasz Majewski wrote: =20
-> > > > > > > > > > > > > > This patch introduces new recipe - namely
-> > > > > > > > > > > > > > 'glibc-tests', which builds and installs
-> > > > > > > > > > > > > > glibc test suite to OE/Yocto built image.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > It reuses code from already available
-> > > > > > > > > > > > > > 'glibc-testsuite' recipe, which is run with
-> > > > > > > > > > > > > > 'bitbake glibc-testsuite -c check' and uses
-> > > > > > > > > > > > > > qemu to execute remotely (via SSH) tests on
-> > > > > > > > > > > > > > some emulated machine.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > This recipe installs eligible tests on some
-> > > > > > > > > > > > > > rootfs image. Afterwards, either all of
-> > > > > > > > > > > > > > them or only time related subset, those
-> > > > > > > > > > > > > > tests can be executed on the real hardware,
-> > > > > > > > > > > > > > to facilitate validation of this platform
-> > > > > > > > > > > > > > with for example Y2038 problem compliance.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > By default all tests are executed, with
-> > > > > > > > > > > > > > 'ptest-runner glibc-tests'. To test only
-> > > > > > > > > > > > > > time related subset - one needs to call: cd
-> > > > > > > > > > > > > > /usr/lib/glibc-tests/ptest/; rm run-ptest;
-> > > > > > > > > > > > > > \ ln -s run-ptest-time run-ptest; cd -;
-> > > > > > > > > > > > > > ptest-runner glibc-tests
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > To facilitate debugging, source files are
-> > > > > > > > > > > > > > provided by default with the unstripped
-> > > > > > > > > > > > > > debugging symbols. Such approach would
-> > > > > > > > > > > > > > reduce the already complex recipe (as it
-> > > > > > > > > > > > > > inherits base glibc one), so there is no
-> > > > > > > > > > > > > > need to also install *-dbg and *-src
-> > > > > > > > > > > > > > packages. =20
-> > > > > > > > > > > > >
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > does it have to be a separate recipe I wonder
-> > > > > > > > > > > > > if we can have it built as part of glibc
-> > > > > > > > > > > > > itself controlled via ptest knob =20
-> > > > > > > > > > > >
-> > > > > > > > > > > > I've followed the glibc-testsuite recipe to
-> > > > > > > > > > > > provide tests for ptest. Test creation is
-> > > > > > > > > > > > similar to it, but doesn't require QEMU run
-> > > > > > > > > > > > (tests are executed on the HW).
-> > > > > > > > > > > >
-> > > > > > > > > > > > Another rationale was to have some kind of
-> > > > > > > > > > > > "features" separation in different file (liked
-> > > > > > > > > > > > glibc-mtrace), which is easier to maintain and
-> > > > > > > > > > > > review.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Last but not least - separate recipe (and built
-> > > > > > > > > > > > binaries) allow some kind of magic with
-> > > > > > > > > > > > selection of used test programs (this may be
-> > > > > > > > > > > > useful if one would like to have different sets
-> > > > > > > > > > > > of tests in different packages) =20
-> > > > > > > > > > >
-> > > > > > > > > > > That=E2=80=99s seems ok I think the names are quite
-> > > > > > > > > > > confusing now not that it was not so much better
-> > > > > > > > > > > before but now we have glibc-tests and
-> > > > > > > > > > > glibc-testsuites which do same things but in very
-> > > > > > > > > > > different way maybe glibc-testsuite should be
-> > > > > > > > > > > renamed to something like glibc-tests-crosd or
-> > > > > > > > > > > some such =20
-> > > > > > > > > >
-> > > > > > > > > > I think that glibc-testsuite_2.34.bb shall be
-> > > > > > > > > > renamed to glibc-tests-qemu_2.34.bb as it is more
-> > > > > > > > > > descriptive. =20
-> > > > > > > > >
-> > > > > > > > > is it only runnable in qemu ? I thought we could use a
-> > > > > > > > > read board as well with IP address =20
-> > > > > > > >
-> > > > > > > > It looks like by default the QEMU is used in this
-> > > > > > > > recipe.
-> > > > > > > >
-> > > > > > > > This recipe provides custom check-test-wrapper, which
-> > > > > > > > can log into remote board via ssh (when
-> > > > > > > > TOOLCHAIN_TEST_TARGET =3D "ssh").
-> > > > > > > >
-> > > > > > > > This looks a bit awkward for me, as the goal would be to
-> > > > > > > > run built tests on target (exact) HW without the need of
-> > > > > > > > SSH.
-> > > > > > > >
-> > > > > > > > It is also easier to debug the code with the real HW. =20
-> > > > > > >
-> > > > > > > I'm a bit worried we're going around in circles with
-> > > > > > > this. We did have a different form of tests a while back
-> > > > > > > but I was told those didn't work well and they were
-> > > > > > > replaced with the current setup which worked with the
-> > > > > > > driver in the glibc source code. =20
-> > > > > >
-> > > > > > I've looked into the glibc-testing.inc from SHA1:
-> > > > > > 0a42ae7f7ca8fcebe4630b701e50e2352f9b7c3b
-> > > > > >
-> > > > > > There glibc tests were built and copied on the target via
-> > > > > > NFS.=20
-> > > > > > > This was done around
-> > > > > > > the time we added support for the other toolchain test
-> > > > > > > suites (binutils+gcc). =20
-> > > > > >
-> > > > > > I'm not familiar with the "binutils+gcc" issue, which was
-> > > > > > solved in the past. Could you share any reference?
-> > > > > > =20
-> > > > > > > We ended up with options to use full system qemu or
-> > > > > > > user mode qemu emulation depending on the speed of the
-> > > > > > > target (e.g. with kvm or not). =20
-> > > > > >
-> > > > > > From what I see in the recipe - you either run user mode
-> > > > > > QEMU by default (at least when I do run it):
-> > > > > >
-> > > > > > NOTE: make PARALLELMFLAGS=3D-j 8 SHELL=3D/bin/bash -i
-> > > > > > QEMU_SYSROOT=3D/home/lukma/work/yocto/y2038/build/tmp/work/armv=
-7at2hf-neon-poky-linux-gnueabi/glibc-testsuite/2.34-r0/recipe-sysroot
-> > > > > > QEMU_OPTIONS=3Dqemu-arm -r 5.1.0  SSH_HOST=3Dlocalhost SSH_HOS
-> > > > > > T_USER=3Droot SSH_HOST_PORT=3D2222
-> > > > > > test-wrapper=3D/home/lukma/work/yocto/y2038/build/tmp/work/armv=
-7at2hf-neon-poky-linux-gnueabi/glibc-testsuite/2.34-r0/check-test-wrapper
-> > > > > > user check
-> > > > > >
-> > > > > > Or you log to the board via SSH (the 'ssh' mode).
-> > > > > > =20
-> > > > > > >
-> > > > > > > Has this patchset been run with all the tests in glibc or
-> > > > > > > just a subset? =20
-> > > > > >
-> > > > > > This patch set allows running all tests [*], or (preferably
-> > > > > > in my use case) only a time related ones. The latter is to
-> > > > > > validate Y2038 code, which testing has two issues:
-> > > > > >
-> > > > > > 1. It cannot be tested with QEMU user mode [1]. Instead
-> > > > > > "linux timespaces" were suggested, but it lacks support for
-> > > > > > CLOCK_REALTIME manipulation for those tests [2]. =20
-> > >
-> > > So just a note, the qemu user mode testing is not a complete
-> > > solution. There are a number of problems with it, but in general
-> > > it is still quite useful for validating general functionally,
-> > > especially when implementing a new platform. =20
-> >
-> > +1
-> > =20
-> > > A big one is due to the ability to run
-> > > tests in parallel with user mode, it easily reduces test run
-> > > times by an order of magnitude (compared to qemu system, which
-> > > for some platforms is faster than real hardware). =20
-> >
-> > +1
-> > =20
-> > >
-> > > The reason why qemu user mode is the default behaviour is because
-> > > running "bitbake glibc-testsuite -c check" will work without any
-> > > external dependencies (the remote machine, NFS/sshfs, etc.). =20
-> >
-> > +1
-> > =20
-> > > =20
-> > > > > >
-> > > > > > 2. Testing with SSH is possible, but is not as robust as
-> > > > > > expected (i.e. imposes SSHD on the target board, and ETH
-> > > > > > connection). =20
-> > > > > > >
-> > > > > > > I'm always very nervous about having two ways to do
-> > > > > > > similar things. =20
-> > > > > >
-> > > > > > Technically, I just reuse the glibc-testsuite_2.34.bb to the
-> > > > > > point where tests are _only_ built. Then I pack those
-> > > > > > binaries and install on the target's rootfs to be run with
-> > > > > > ptest framework. =20
-> > >
-> > > So it appears the make variable "run-built-tests" excludes the
-> > > building of some tests. =20
-> >
-> > As fair as I remember, the 'run-built-tests=3Dno' switch tells the
-> > glibc build system to not execute built tests.
-> > =20
-> > > So I am not sure if the complete test suite
-> > > can be built in this way. =20
-> >
-> > I'm pretty sure that all tests required for 'check' are build. =20
->=20
-> If you look at some of the Makefiles in glibc, it conditionally
-> includes/excludes some tests from being built based on the value of
-> run-built-tests. For example:
->=20
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dlocaledata/Makefil=
-e;h=3Df585e0dd4115a99493e843aeed464090da19665f;hb=3DHEAD#l141
->=20
-
-I see. Thanks for pointing this out.
-
-> > =20
-> > > Though I can see some value in having the
-> > > glibc-testsuite recipe being able to only build the tests for
-> > > development purposes (e.g. TOOLCHAIN_TEST_TARGET =3D "build"?).
-> > >
-> > > When I had implemented the testsuite recipe the glibc testsuite
-> > > relied quite heavily on the environment it was built and run in,
-> > > in particular around configuration. That is probably still an
-> > > issue. =20
-> >
-> > Indeed, some (a few?) tests rely on the build environment in which
-> > they were build. I do personally, regard this as a some kind of a
-> > bug. I do believe, that when you build test for a particular
-> > version of glibc (2.34 in this case), one shall expect that it can
-> > be run only by linking the proper library.
-> >
-> > This is the case for "time" related tests. On my test system with
-> > this patch applied, all of them are executed with no errors. Those
-> > are self contained.
-> > =20
-> > >
-> > > It would be interesting to know how much of the test suite can be
-> > > run/passes and how that compares to the results of existing
-> > > system/user emulation with cross execution using the glibc
-> > > makefile. =20
-> >
-> > I can provide exact numbers when I finish porting more Y2038 related
-> > patches to newest glibc -master. =20
->=20
-> Also something to keep in mind is that sometimes the pass/fail of the
-> test binary is not what is being validated by the test. For example
-> this test uses mtrace, and compares the results of the output mtrace
-> file, not the test itself.
->=20
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dlocaledata/Makefil=
-e;h=3Df585e0dd4115a99493e843aeed464090da19665f;hb=3DHEAD#l462
->=20
-
-Ok. I see.
-
-My main objective is to use time related programs, which rely on the
-interfaces provided by the kernel.=20
-
-=46rom the above POV, those tests are a "standalone" ones.
-
-> Regards,
-> Nathan
->=20
-> > =20
-> > > =20
-> > > > > >
-> > > > > > Such approach has several advantages:
-> > > > > >
-> > > > > > - No need for SSH (which can hang, as you need sshfs in user
-> > > > > > space for the setup) =20
-> > >
-> > > I had not tested with sshfs that likely has quite low
-> > > performance, the OEQA tests rely on NFS for QEMU system emulation
-> > > and that is what I had been using for hardware testing. =20
-> >
-> > I had some issues with NFS - either I couldn't place some OE/Yocto
-> > build directory in it or glibc's build directory was not working
-> > with it correctly.
-> >
-> > That was why I had to use the sshfs instead, which is _really_ slow
-> > and often breaks.
-> > =20
-> > > However it would be interesting
-> > > to see if virtiofs could improve the performance for testing with
-> > > QEMU system emulation.
-> > > =20
-> > > > > >
-> > > > > > - Run on the real HW (and environment) with the same
-> > > > > > version of glibc on the real target.
-> > > > > >
-> > > > > > - Sources and debugging symbols available on the target, so
-> > > > > > easier GDB debugging.
-> > > > > >
-> > > > > > - Using ptest framework to execute tests
-> > > > > >
-> > > > > > - Time related tests are "self contained", so could be
-> > > > > > executed without built data.
-> > > > > >
-> > > > > > At least for Y2038 validation such approach seems more
-> > > > > > appealing. =20
-> > > > >
-> > > > > Do you have any more feedback regarding this patch? =20
-> > > >
-> > > > We're at feature freeze and this wasn't a planned change so it
-> > > > is too late for this release cycle, I'm struggling with the
-> > > > things that were planned.
-> > > >
-> > > > I need to spend some time looking at what the other code is
-> > > > doing and how we're using it on the autobuilder and whether we
-> > > > want to change to use the ptest approach or not.
-> > > >
-> > > > I added Nathan Rossi to cc since he worked on the other code for
-> > > > this and may have more insight. =20
-> > >
-> > > Thanks for cc'ing, I somehow managed to miss the thread.
-> > >
-> > > Regards,
-> > > Nathan =20
-> >
-> >
-> > Best regards,
-> >
-> > Lukasz Majewski
-> >
-> > --
-> >
-> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
-> > Germany Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> > lukma@denx.de =20
+In-Reply-To: <23bc2196-4f7c-4958-e191-bd6f47223da2@windriver.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
 
 
+On 8/26/21 9:05 PM, Randy MacLeod wrote:
+> On 2021-08-24 12:48 p.m., Randy MacLeod wrote:
+>> Add Steven Walter in hopes that he or someone else
+>> who uses meta-rust will help out.
+>>
+>> On 2021-08-23 5:21 a.m., Richard Purdie wrote:
+>>> On Sun, 2021-08-22 at 08:45 -0400, Randy MacLeod wrote:
+>>>> On 2021-08-22 7:19 a.m., Richard Purdie wrote:
+>>>>> On Sat, 2021-08-21 at 23:12 -0400, Randy MacLeod wrote:
+>>>>>> On 2021-08-20 10:48 p.m., Randy MacLeod wrote:
+>>>>>> With a patch from Richard, and the http_proxy check removed,
+>>>>>> $ git diff | grep "^[+-]"
+>>>>>>    --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+>>>>>>    +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+>>>>>>    -http_proxy = "http://example.com/"
+>>>>>>    +http_proxy = ""
+>>>>>> we have fixed the oe-selftest that was failing.
+>>>>>>    Any volunteers to stub out the http[s]_proxy code in cargo ?
+>>>>>> I've written up a commit log that could use some review and
+>>>>>> pushed an update
+>>>>>> to:
+>>>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rmacleod/rust-redo-aug-17-2021-a
+>>>>>>
+>>>>>>
+>>>>>
+>>>>> I'm not sure you need to change cargo, I think if you remove the
+>>>>> bit in the
+>>>>> bbclass that injects http_proxy, the tests are ok. That will
+>>>>> perhaps break
+>>>>> anyone using proxies but for now, I think that is a reasonable
+>>>>> step of getting
+>>>>> this moved forward?
+>>>> That's what I hoped for as well but not what my testing showed.
+>>>>
+>>>> I removed (commented out actually) the http_proxy injection here:
+>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rmacleod/rust-redo-aug-17-2021-a&id=a4808f787caf8d0b44cf3946cf204164f24f91d4
+>>>>
+>>>>
+>>>> but the test still fails unless I mangle the test:
+>>>>
+>>>>      meta/lib/oeqa/selftest/cases/sstatetests.py
+>>>>
+>>>>
+>>>>      -http_proxy = "http://example.com/"
+>>>>
+>>>>
+>>>>      +http_proxy = ""
+>>> Right, my point is that doesn't remove it. You need to delete it,
+>>> not comment it
+>>> out.
+>>>
+>>> The issue is that bitbake does variable expansion on the scripts
+>>> before running
+>>> them.
+>>>
+>>> It can't tell that this is a comment, just that the script differs
+>>> after
+>>> variable expansion.
+>>>
 
-Best regards,
+Thanks all for getting Rust in Core.
 
-Lukasz Majewski
+- Armin
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>>
+>>>
+>> Richard has fixed several new issues and is testing this in master-next:
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/?h=master-next
+>>
+>> using the YP autobuilder.
+>>
+>> We're seeing some odd intermittent build failures especially when using
+>> the uninative class (used by default in poky) perhaps on older hosts but
+>> we're not 100% sure of that correlation yet. See below and:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/581/steps/13/logs/stdio
+>>
+>>
+>> If we can't get this fixed in the next day or two, we'll miss the
+>> fall release.
+>>
+>> ../Randy
+>
+>
+> Thanks to Richard's dogged determination and Herculean efforts,
+> the Rust recipes are now merged to the oe-core master branch.
+>
+>    https://git.openembedded.org/openembedded-core/log/?qt=range&q=master
+>
+>
+> There are still some known problems, such as:
+>
+> 1. Tim Orling finding that Rust fails to build python-cryptography:
+>
+>
+> https://git.openembedded.org/meta-openembedded-contrib/log/?h=timo/rust_python3-cryptography
+>
+>
+> Tim says that this change helps:
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=timo/rustc-print-cfg-fix
+>
+>
+>
+> and:
+>
+> 2. a reproducible build failure on CentOS-7:
+>
+>    https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/597
+>
+> where, we see:
+>    = note: /bin/sh: /lib64/libc.so.6: version `GLIBC_2.33' \
+>    not found (required by \
+>    /home/pokybuild/yocto-worker/reproducible-centos/build/\
+>    build-st/reproducibleB/tmp/work/x86_64-linux/cargo-native/\
+>    1.54.0-r0/recipe-sysroot-native/usr/lib/libtinfo.so.5)
+>
+>
+>
+>
+>
+>    error: linking with `\
+>    /home/pokybuild/yocto-worker/reproducible-centos/build/\
+>    build-st/reproducibleB/tmp/work/x86_64-linux/cargo-native/\
+>    1.54.0-r0/wrapper/target-rust-ccld` failed: exit status: 1
+>
+>
+> ---
+>
+>
+> Please test, send patches and/or let me know about any other problems by
+> email or by opening  a defect in the YP bugzilla:
+>    https://bugzilla.yoctoproject.org/
+>
+>
+> I'll work on a commit for meta-rust to remove the components
+> that have been moved to oe-core. I'm not sure what the
+> meta-rust developers and users want to do as far as what will
+> remain in meta-rust but the short list that I have so far is:
+> 1. scripts
+> 2. Jenkins tests
+> 3. Rust version 1.51.0 ?
+>
+>
+> ../Randy
+>
+>>
+>>
+>> error: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not
+>> found (required by
+>> /home/pokybuild/yocto-worker/reproducible-debian/build/build-st/reproducibleA/tmp/work/x86_64-linux/rust-native/1.54.0-r0/rustc-1.54.0-src/build/bootstrap/debug/deps/libproc_macro_error_attr-9c7a09885c50c72e.so)
+>>
+>>      -->
+>> /home/pokybuild/yocto-worker/reproducible-debian/build/build-st/reproducibleA/tmp/work/x86_64-linux/rust-native/1.54.0-r0/rustc-1.54.0-src/vendor/proc-macro-error/src/lib.rs:284:9
+>>
+>>   284 | pub use proc_macro_error_attr::proc_macro_error;
+>>       |         ^^^^^^^^^^^^^^^^^^^^^
+>>
+>>   error: aborting due to previous error
+>>   error: could not compile `proc-macro-error`
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>
+>
+>
+> 
+>
 
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/l/ZgRvy6tuCxW=z.CaAODc.
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmEo9IQACgkQAR8vZIA0
-zr3HwQf/ds2rBgI+tZI4LfX8dqxK6eFaODjFRY/i1ZCISvkXiuSEWCY0dd33pbUE
-iYaIfVHPgGsA+WPVxerPzf1+E3k2F7rJ+bdXX6DdN23M8aqPSPDaqUo0YvN7939+
-zChTeX7btZuTgXL+vOw2rbtV7B+tCyLpjAFkFc3dh7DnRVPSAW9vzAKMylAWDtFl
-Xp0aQb5qlcoFGcPsk8kCDAUWTj/1vg86Xly9ZUI180dromIbsOwfC7jDN3K2YEKm
-jXCIG4CDoU06z3acRdFpWBUGl86MOO4Gc2rOr4HQFd4yXQY93i8RzmEaqDmJl/Ut
-UTQzEGJgnn1TA6oeUFGqoDOUmRFFCA==
-=g9n6
------END PGP SIGNATURE-----
-
---Sig_/l/ZgRvy6tuCxW=z.CaAODc.--
