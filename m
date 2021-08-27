@@ -1,76 +1,76 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web11.465.1630105977651263988
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web11.473.1630106023883488638
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Aug 2021 16:12:57 -0700
+ Fri, 27 Aug 2021 16:13:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y5ICEhs2;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id s15so3264473qta.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Aug 2021 16:12:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jkAQHxzY;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id r21so6624869qtw.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Aug 2021 16:13:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7cHxQ6O8SjiwT7oHtgo8/SAWq1RiVk1+IpM6XaKtAp4=;
-        b=Y5ICEhs201WMoyp9QhvNHeOw/V7gLrpPvNotUG5PaCZDsQw9xzUlGoW2UJbLAOWETt
-         +oLxww9cKUVH2MEtuaCM60SbkOHhDYpa1MmW5puIeoJVukxVqbBkR8o117rUcppUU4xp
-         D3B2j9Oq3GR+MVc8zfMC8Xl69MPemLuY+Av+BMuq3VR82oSiN8gYu80EZ/rLt5ZQDbfl
-         Gfrel6h3/CXhGFzQ4GkaQx38pGozOSkitLAS8dwdyBcakYjqdC7weEI6G3iysY2Uazeb
-         Ry2tLISP7toPHPzRYI3iHXx3L/MNJMfpSdviTuDgOrfaDWBb42WjT5pInLQNfqDaeSP+
-         1eWw==
+        bh=PJyJEUmS9jw2gmeF5OocBumXRcPJFGDNvtU+XwI3v+I=;
+        b=jkAQHxzYg5+L5knrJo1WS8KH3JNpKXaHOdQYoJW4+Ywp7Z8S+L3Tvy9hEsJCZRMMtI
+         GDN8rwmk4/dk8s5g1YxYIycMJIemUYgwzXaWuD9gtNrkCpkMfTEOWFLQp1KLsjiwteWh
+         EQQ47BcyIXYf/Ooml4iEvlNJ811jID3tbCsy21UvaLctEmXgWTOURq2FV+fDWoEKz5tP
+         bP6PVIELgxQ26zs9rKeC+4m+VBv/jjl66CwTtK0ChyhaymuBCPouB1SxKryMW7LGvCfY
+         nBPG7qTtk0cnPVlNafKH9BburIMDGVKIVZzz37n8lBwGl7i+a58R7s8cuSWlaZrVY0Ub
+         oBKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7cHxQ6O8SjiwT7oHtgo8/SAWq1RiVk1+IpM6XaKtAp4=;
-        b=PCBsqbjok4eYcyJef4sUu7eN21Gz7SiKVO7LLRUQmsKRvnuC+SIlupUtGMF3Z2ETSX
-         Be3thQ+ZXNHrtPqQSCEZWmFfUiVZ8px2xm/JUEKLQUAuQcAkQmjFmezMOLKfMNUTkFAh
-         F0ifdCA6JAiTwBrmLANM7VrBULXjqfba5lFYTo+6wkz9hvPWP0KiEoSaqLwBoJRUOJw0
-         f0WXnsUDxQcF3PksdlOBpZ4pRxWzb349uxDssAZ8SrwoBVMuhf8qrG/F3O1zu6l/gO6J
-         YnGUCspmZSR1tadZNBhOMiJ5pLNJPKOvbje93CP5rOgHRtL0pkgnzwq1YxMv1A4xIxIc
-         IXcQ==
-X-Gm-Message-State: AOAM531uJ7PxZMcCePV3Oug/MyAS9f5YhPqpbLwkXIv+YnzQ7rzMUxYv
-	WuZhQKMGrhRTUxqJZPoo1lN7Jbh5yfNpo5Yhz0HPKPGQBKQ=
-X-Google-Smtp-Source: ABdhPJzjc8NrkKYONy2nTWoe2CgcePipIj23o8V7UOuDDMt3II41PgHRZdRYIX1K32cRYoioz0yJqSFZZl/LTVM5bYA=
-X-Received: by 2002:ac8:b82:: with SMTP id h2mr10682455qti.214.1630105976619;
- Fri, 27 Aug 2021 16:12:56 -0700 (PDT)
+        bh=PJyJEUmS9jw2gmeF5OocBumXRcPJFGDNvtU+XwI3v+I=;
+        b=PMsnE+KFt6PhdKjXYiPk4wJkQ8ySl5FOgImCR6lstRJ1CDrIcIp9botfx7w4u/Q6k1
+         lJmdrtEMi1hPpQaoLFP0cfM9YPdnY7z8eucOmFbXW2WzKPc7ylidCzT/UV1JfkqKZzsl
+         yC6hOjzVdj/V4iffMg84CWkK4zjQVU/YRoDHPy01fxQHY3N6Nxiiq1Lb48PLPEJ7Nzgl
+         fwnMrgJlSKKmKQ3iO3S5ijk6jiZjGt0gt3rSpRYEr6OB0gg6ukmbiIpNk6REXS6cpBEm
+         X1pFHNI8svApWBLQnucGuvuW61ISo4C7AJQkZIhfrt/ktk8al8HAOLBynWpiAlga3Pr1
+         Nscg==
+X-Gm-Message-State: AOAM531MwYDMg5xt67sKR+kFxzJDPond6+k2fGolAiuUSlJbjeT3kZ54
+	a6Dl6D/rcB+/WoXB/xz/d56iWKzmndALR4ZFGeiNOx+uSno=
+X-Google-Smtp-Source: ABdhPJxMB1bcxTI2xBq3DsqAE96v0BJWssm6STCq2bGubQRb4LQz0NkuOqi23+46EwD4ytXYrqiVBpIi2Au7yJlmGHE=
+X-Received: by 2002:ac8:7c44:: with SMTP id o4mr10484959qtv.82.1630106022981;
+ Fri, 27 Aug 2021 16:13:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210827215743.2027466-1-saul.wold@windriver.com>
-In-Reply-To: <20210827215743.2027466-1-saul.wold@windriver.com>
+References: <20210827215743.2027466-1-saul.wold@windriver.com> <20210827215743.2027466-2-saul.wold@windriver.com>
+In-Reply-To: <20210827215743.2027466-2-saul.wold@windriver.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 27 Aug 2021 16:12:30 -0700
-Message-ID: <CAMKF1sp4+ODRvGgAUSoiJQo0Hdo4Ju45y3qeEwY66wVNzRa4PQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libtool: Only package libltdl for the target
+Date: Fri, 27 Aug 2021 16:13:17 -0700
+Message-ID: <CAMKF1spRJjG8cSUwx2=qMO6KfGQhgiEvaxKuRdu2MJPJaLgAPw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] quilt: Only package guard for the target
 To: Saul Wold <Saul.Wold@windriver.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
 On Fri, Aug 27, 2021 at 2:58 PM Saul Wold <Saul.Wold@windriver.com> wrote:
 >
-> The libltdl package is not needed for -native or -cross, so make it's
-> only packaged for the target class.
+> The guard binary and documentaiton should only be be packaged for the
+> target class.
 >
 > Signed-off-by: Saul Wold <saul.wold@windriver.com>
 > ---
->  meta/recipes-devtools/libtool/libtool-2.4.6.inc | 2 +-
+>  meta/recipes-devtools/quilt/quilt.inc | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-> index 6748d7468e..38982bf67f 100644
-> --- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-> +++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-> @@ -43,7 +43,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_GREP=grep"
+> diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+> index f85de384d2..41d30e89aa 100644
+> --- a/meta/recipes-devtools/quilt/quilt.inc
+> +++ b/meta/recipes-devtools/quilt/quilt.inc
+> @@ -73,7 +73,7 @@ do_install_ptest() {
+>         cp ${WORKDIR}/test.sh ${D}${PTEST_PATH}
+>  }
 >
->  DEPENDS = "libtool-native"
+> -PACKAGES += "guards guards-doc"
+> +PACKAGES:append:class-target += "guards guards-doc"
 >
-> -PACKAGES =+ "libltdl"
-> +PACKAGES:prepend:class-target =+ "libltdl"
 
-We dont need =+ with prepend and add appropriate space as well.
+append and += together is not necessary
 
->  FILES:${PN} += "${datadir}/aclocal"
->
->  FILES:${PN}-dev:remove = "${datadir}/aclocal"
+>  FILES:${PN} = "${sysconfdir} ${datadir}/quilt \
+>                 ${bindir}/quilt ${libdir}/quilt"
 > --
 > 2.25.1
 >
