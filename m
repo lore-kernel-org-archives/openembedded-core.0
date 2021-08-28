@@ -1,50 +1,50 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web12.174.1630174409162246746
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+ by mx.groups.io with SMTP id smtpd.web08.195.1630174415186129014
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Aug 2021 11:13:29 -0700
+ Sat, 28 Aug 2021 11:13:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=N7UYLcCK;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.43, mailfrom: steve@sakoman.com)
-Received: by mail-io1-f43.google.com with SMTP id e186so13506395iof.12
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:13:29 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=co06Cem9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.180, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f180.google.com with SMTP id r6so10843146ilt.13
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=aPBdfmY0qvAq+TFajPZQem0E9IvGgepX0jnJ3S34tQ8=;
-        b=N7UYLcCKEjroQxiECVngH3ckedgXo1LFi36Tbh4Z8BzIs/ewbRQNkLkxjHQRx+tvDg
-         bMxSZsEJx5+5Q44CrPjDKarf8EhewAIFkMsjPc6YrMl/jS8kzoueWBXaxiG9gHpwadRX
-         6As6NIZoWZpWFQrYiOgEKeEFAgaxpVit5ei8aN+iUJVh7fcG9EIlzU04lQ8FCTMq5q03
-         W241jYGp43Bk/w1gMImzbazfIF1WtrYUn+kCH/1XLnv2waokWq+ASsHP4MllUpLtH+Bd
-         eEYWqtG6Dhl3oOnrKWFCjkO3DKSrQn5W9cIhtStFPuetWoByvQLovEgd8//oiAN5Njzx
-         oTAA==
+        bh=OxX6VSd3KLo/o1TkGygxejijCqDPOxV71HwXFOJzhFc=;
+        b=co06Cem9UfZz2qLwM5/XH3sVSij1sZzxzO8fUffp5N5rjpv+jbgStRdxnQ4euhl6aH
+         EsnEbMz5+ZjEMmHh+UOuWH9y9z0civ2ygPwU2+9ZC6ByogomwOjTE4TtSnbEb84RGx75
+         4FBo3XPn3Zzhj7WFBKbogikvQALmIDGO5hh5hKlJQWpQJ9IIo/S0PHfMbAKqOYO73OcD
+         AoPmowcHcOHoOegUo4kUQKfs8oSrqf0rTlmDB/UlPdFHpKO96q1U2MCgzWd2z7Iq9Jtq
+         qesK+3v0RIjyEWevdRRz19ewqfbyRD4x7c9bTY8zkYMFp3DWvU+PTbknHxgcy48BVJtu
+         fiUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aPBdfmY0qvAq+TFajPZQem0E9IvGgepX0jnJ3S34tQ8=;
-        b=XdxyqyErmQ5lI0HPtjjdK1XydBngTiXWElQ77ayH+QE/gZ48hF4b394KJfLlgrBRYd
-         z0bw4CkUuz3d02xbbjeTn3w3U0VIoYs8gLtgmlZLRH74dRi0+wnXCFnKTrZhe3gNGA6k
-         BEb1mGH31QTkpqW9mtDMmuF1EvF4Q9t1SPaTKTT57gVJnFexKggOm6PKQb8ySREHcUG6
-         6AXttLbD6Y5VPtbml/tjR4bAno8WkIxTnQxak5TBX+Lv0ZN007sZOiTzsKln0RwkteNZ
-         HbvlFt8RKFemO7e7E7UQj9MQoN+tjTyD0BJVx/cWo7zhZW/kX/1QLvhxkxvdElYhCmKg
-         MVAw==
-X-Gm-Message-State: AOAM530NMxgRk4pikufiNCDC1oUTxq6fx0xNoIATQwG0PamPJHOEEUj4
-	YCbSVDTkD5Qbr3JNKtj+pCikViiS4RpmGXgP
-X-Google-Smtp-Source: ABdhPJzwTyKboPJPcyD4nOsj4ihpESbfDhrrq4/1MNokhqb4OymqwzIrWHiM5Zf/O0FZqshcirS8+g==
-X-Received: by 2002:a05:6638:35aa:: with SMTP id v42mr13604109jal.5.1630174407733;
-        Sat, 28 Aug 2021 11:13:27 -0700 (PDT)
+        bh=OxX6VSd3KLo/o1TkGygxejijCqDPOxV71HwXFOJzhFc=;
+        b=kBhdHeHzuq6U8r1bD1Sn7IMzESvjkDGiKruO8sqXOJ6usPgoa8Bef6AYiIo6N7nhHh
+         AAyvtgaB/b+NCZLyM/V/ZtvXW5qcp8UH7N0sUkg+4nyly/dSQ0vhXXrTxMnZdc0Dsr1b
+         44chE2gT+vDQJrRUw9fRdpNv83euaeO5ol5MOL1KAdWNOOpFTrmERmoI8l+7yr4OxXzT
+         sINbhCLRl3RIMbvgnjigc5e1/j1oYtslcIew38Rqkz386+BBTBWFPaH5gSWqp9NSWYur
+         pfEQkZW2umToEenXl3urjX1aLTeswNOopq/xRBq5rmaZ/k/7w4GyGbwILhUMsyWOPy7Q
+         Iy2g==
+X-Gm-Message-State: AOAM533KcTRH3TQejEAED1ioNXwDvjp8G2pG0MyAAebxS8gZg9i3PQVA
+	JzV+JB2yKxi+Wvfo/wSF1efR2HzANKQuuwbU
+X-Google-Smtp-Source: ABdhPJwGB6wcag8RWmRU1AtjQxYoPW7KvdTg055p5JPt/rD0Pf3FgKYfJjRdw0eW6CCxPmkmmf1Psw==
+X-Received: by 2002:a05:6e02:1bed:: with SMTP id y13mr11116709ilv.276.1630174413424;
+        Sat, 28 Aug 2021 11:13:33 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.13.23
+        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.13.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 11:13:27 -0700 (PDT)
+        Sat, 28 Aug 2021 11:13:32 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 19/36] qemu: fix CVE-2021-3582
-Date: Sat, 28 Aug 2021 08:11:07 -1000
-Message-Id: <942d936524d3948d74c7240038ce81d859f68cab.1630174149.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 20/36] qemu: fix CVE-2021-3607
+Date: Sat, 28 Aug 2021 08:11:08 -1000
+Message-Id: <cc541da4d67a9afa86a6ac37d5470d4dc77ea922.1630174149.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1630174149.git.steve@sakoman.com>
 References: <cover.1630174149.git.steve@sakoman.com>
@@ -54,88 +54,84 @@ Content-Transfer-Encoding: 8bit
 From: Sakib Sajal <sakib.sajal@windriver.com>
 
 Source: http://git.yoctoproject.org/cgit/poky.git
-MR: 112743
+MR: 112749
 Type: Security Fix
-Disposition: Backport from http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/qemu?h=hardknott&id=e11384737ed489ea02800d545432b9ded82bf1bb
-ChangeID: a2ff7112354349e8cf8960f30499f61e545d7f8e
+Disposition: Backport from http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/qemu?h=hardknott&id=460485d774480cd89cadf3b068f5197f44d86f25
+ChangeID: 4e40dee2e6ce0b5b4de971f2c2b336929e7f22c3
 Description:
 
-(From OE-Core rev: fb2634922db91e5b877dd10021dafec7b5c6e565)
+(From OE-Core rev: 764bca67650da9df439527796879dda767c8c008)
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e11384737ed489ea02800d545432b9ded82bf1bb)
+(cherry picked from commit 460485d774480cd89cadf3b068f5197f44d86f25)
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3582.patch             | 47 +++++++++++++++++++
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch
+ .../qemu/qemu/CVE-2021-3607.patch             | 43 +++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3607.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 78e487fc6f..854a907216 100644
+index 854a907216..6066418a7b 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -81,6 +81,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3546.patch \
+@@ -82,6 +82,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2021-3527-1.patch \
             file://CVE-2021-3527-2.patch \
-+           file://CVE-2021-3582.patch \
+            file://CVE-2021-3582.patch \
++           file://CVE-2021-3607.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3607.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3607.patch
 new file mode 100644
-index 0000000000..7a88e29384
+index 0000000000..0547c74484
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3582.patch
-@@ -0,0 +1,47 @@
-+From 284f191b4abad213aed04cb0458e1600fd18d7c4 Mon Sep 17 00:00:00 2001
-+From: Marcel Apfelbaum <marcel@redhat.com>
-+Date: Wed, 16 Jun 2021 14:06:00 +0300
-+Subject: [PATCH] hw/rdma: Fix possible mremap overflow in the pvrdma device
-+ (CVE-2021-3582)
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3607.patch
+@@ -0,0 +1,43 @@
++From 32e5703cfea07c91e6e84bcb0313f633bb146534 Mon Sep 17 00:00:00 2001
++From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
++Date: Wed, 30 Jun 2021 14:46:34 +0300
++Subject: [PATCH] pvrdma: Ensure correct input on ring init (CVE-2021-3607)
 +
-+Ensure mremap boundaries not trusting the guest kernel to
-+pass the correct buffer length.
++Check the guest passed a non zero page count
++for pvrdma device ring buffers.
 +
-+Fixes: CVE-2021-3582
++Fixes: CVE-2021-3607
 +Reported-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-+Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
++Reviewed-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
 +Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-+Message-Id: <20210616110600.20889-1-marcel.apfelbaum@gmail.com>
++Message-Id: <20210630114634.2168872-1-marcel@redhat.com>
 +Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
 +Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-+Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
 +Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 +
-+CVE: CVE-2021-3582
-+Upstream-Status: Backport [284f191b4abad213aed04cb0458e1600fd18d7c4]
++CVE: CVE-2021-3607
++Upstream-Status: Backport [32e5703cfea07c91e6e84bcb0313f633bb146534]
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/rdma/vmw/pvrdma_cmd.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ hw/rdma/vmw/pvrdma_main.c | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-+index f59879e257..da7ddfa548 100644
-+--- a/hw/rdma/vmw/pvrdma_cmd.c
-++++ b/hw/rdma/vmw/pvrdma_cmd.c
-+@@ -38,6 +38,13 @@ static void *pvrdma_map_to_pdir(PCIDevice *pdev, uint64_t pdir_dma,
-+         return NULL;
-+     }
++diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
++index 84ae8024fc..7c0c3551a8 100644
++--- a/hw/rdma/vmw/pvrdma_main.c
+++++ b/hw/rdma/vmw/pvrdma_main.c
++@@ -92,6 +92,11 @@ static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
++     uint64_t *dir, *tbl;
++     int rc = 0;
 + 
-++    length = ROUND_UP(length, TARGET_PAGE_SIZE);
-++    if (nchunks * TARGET_PAGE_SIZE != length) {
-++        rdma_error_report("Invalid nchunks/length (%u, %lu)", nchunks,
-++                          (unsigned long)length);
-++        return NULL;
+++    if (!num_pages) {
+++        rdma_error_report("Ring pages count must be strictly positive");
+++        return -EINVAL;
 ++    }
 ++
-+     dir = rdma_pci_dma_map(pdev, pdir_dma, TARGET_PAGE_SIZE);
++     dir = rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE_SIZE);
 +     if (!dir) {
-+         rdma_error_report("Failed to map to page directory");
++         rdma_error_report("Failed to map to page directory (ring %s)", name);
 +-- 
 +2.25.1
 +
