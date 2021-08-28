@@ -1,159 +1,180 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
- by mx.groups.io with SMTP id smtpd.web11.175.1630174372271216958
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web10.181.1630174377515760884
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Aug 2021 11:12:52 -0700
+ Sat, 28 Aug 2021 11:12:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=duZLRH4E;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.174, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f174.google.com with SMTP id b4so10866426ilr.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:12:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=z4r+TQFL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.48, mailfrom: steve@sakoman.com)
+Received: by mail-io1-f48.google.com with SMTP id a15so13538641iot.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=8lKLh70xsnoJe0H5aQsYwuIl8rfwtIoBNFfiQkaVSrk=;
-        b=duZLRH4EwByPFsTDDE0cJlRQAS0AdVAqCjXkazTe0AirSC0AxcV1AiFP8ADnedRW8H
-         YQEg2RHtu45vu0uikwx2OhPzNbSifkcJogfaNRFMqGn07i2NMpRnzApfsbRiljlQpTEH
-         i+0SC6y8pHEqODlaRb7ei0/mEaaiQpb1K0+LJv8SFVyxGxzgr7bheBTm2Yu7qahZXz/J
-         wyMEx8zEMLah/hZ6rX97mqXiL6FSX5HvF8FLf7OcWTT6B3wOcsHuW4hcpP+FEMSFDOpm
-         tOG4S+5LpOdwq0bJo3WO4u8PPD9UmRxv+0FuFHsgElC0l6bb4jucvnwcefyRJGZJ5C+N
-         3Pmg==
+        bh=XR1MFuJ1Gb7a8BK2nbQbD5aBRiD0qZZkh3TiBT+DZ44=;
+        b=z4r+TQFLTVr17JC6zjBcIg9uz9P+ZdGprIVp+U5rsh9YH++Kt7vBxAi1LRUM7Z/WGX
+         nNtbbBjMcjvX36oT/FVaLBVHlyH3pCSdkeIr8BpLGq/6xyy0I1s/r+qYwy2iy5ffu+rJ
+         sWGyjPtLR2JSTFYAbbQdtYLRubd0ISkeW9SMUGp4zPX+OxxqjUbmyVcROyHkG+mbztMc
+         l4aehDVNHCOcBTKdfpSgUe4UFSH9lMI0e5HL7IA86YJ2i1Z6nrQVeCEjmywIlt/9wJrE
+         A7FayY75axLDarslhVOVM5jGTd2mNh1ebecjPBBkcHhUdVdJRcpsXV0tstdaYWZw8Rtb
+         vJJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8lKLh70xsnoJe0H5aQsYwuIl8rfwtIoBNFfiQkaVSrk=;
-        b=VA4rEGbbZ1x6UeeQnkPXEPO65lYChqLu5+ra3gPwz7yHXxgI8x3xiULE+Bi9IOQfvJ
-         WKsntmDA26H3r8vJ+Udqo/hD/B0wfvMFG/DElwQL/usUp7tBT+PuDC5A9PazsRKmWG2a
-         uOgTrYHl3XY3Ow7WTxDGaxn17+hc1eX7eQXAehJIDO2qj8TAyL4yTZq6BKv/vfQaawb2
-         X7GT/zwFd8fU3eVTSdCbQRy/DRzvpcI/Xqlw9kkAahpdYPD4lL6PurY8fU8Q7pSuTpN+
-         dvCYtbmdWy5X2M9UQ6IVYlXXKcDhf24wTWwpVNhWIKTMTwwUued92gPP5bTwgrkgYF8n
-         7BwA==
-X-Gm-Message-State: AOAM531jxkX+p1R/z9BhYWa5dBsKfVcueIdvIUXqQR15lFWxlDMjeXJm
-	JFrKDPB1igMax5f2VTyntegjhOxPgaGS57wi
-X-Google-Smtp-Source: ABdhPJw70QpOfelMnC1e6VeW1BaW6Yj3BK5YSV7OspgK+Iv/u0Vah+J20HQ+8dkm+MniRoL5VT/9fA==
-X-Received: by 2002:a92:cc0d:: with SMTP id s13mr10097234ilp.95.1630174370557;
-        Sat, 28 Aug 2021 11:12:50 -0700 (PDT)
+        bh=XR1MFuJ1Gb7a8BK2nbQbD5aBRiD0qZZkh3TiBT+DZ44=;
+        b=nKFDLC7tYknCaw0AceTu4LwHLOIfmRCwt+82UCvLn92dPDB5B6XdpnPSA1228FJqRB
+         WwWsZf4VTCz52mgDaJXI0IHfHk0k1P/t8zjnhMOqHCkwqaFF8ZS5K8+aUxmlfwe1lSjs
+         sJ5bNmNSAnSU+0utE8EiXKgB+CyyXlsc7akzc4cdqiRfsFVwxgMTl3YtQw3sM6auTI4+
+         mvGQYtNkcnvBcUKm3SQZx/4Q7qMInSPMHiMxNtirEpBuitu0gZQVF+X6kN5Q4xtM0l3P
+         GfKl5TiiG1mPfvZH5E0KmVNx61iUQTQeqJyZTdGMFsaDAPz4pIbc515rm/z5nJNtAQMN
+         pO1g==
+X-Gm-Message-State: AOAM533DUavj0zWuOz0TwdDxpheGIirAxgX5cOlunxjA4L0AZiuXWcrp
+	R6BoBufDra8COzdLQvB+nDZ/KkMyiRFS12t4
+X-Google-Smtp-Source: ABdhPJzFc1ijWhc1TOghjEmQeIe7cg2iwZe15J1JU9RVrzCWJh/FN2kYWBqy3GdVFH9eUMjvdn0m3g==
+X-Received: by 2002:a02:cacd:: with SMTP id f13mr7911785jap.94.1630174376089;
+        Sat, 28 Aug 2021 11:12:56 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.12.47
+        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.12.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 11:12:49 -0700 (PDT)
+        Sat, 28 Aug 2021 11:12:54 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/36] qemu: Security fix CVE-2021-20221
-Date: Sat, 28 Aug 2021 08:11:00 -1000
-Message-Id: <4adf675e3d4ccdcee055a3c4b539f4ddc15b033d.1630174149.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/36] qemu: fix CVE-2021-20181
+Date: Sat, 28 Aug 2021 08:11:01 -1000
+Message-Id: <743fc49c98361baaa9ca9414bfe21220b63dbdca.1630174149.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1630174149.git.steve@sakoman.com>
 References: <cover.1630174149.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Armin Kuster <akuster@mvista.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Source: Qemu.org
-MR: 111643
+Source: Poky.org
+MR: 111631
 Type: Security Fix
-Disposition: Backport from https://gitlab.com/qemu-project/qemu/-/commit/edfe2eb4360cde4ed5d95bda7777edcb3510f76a
-ChangeID: b3ca1aa4b772a5f27f327250c5b0b988375c86a9
+Disposition: Backport from http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/qemu?h=hardknott&id=53390d2261d2d35cdd637cf12a0fb4dc63f0f88c
+ChangeID: 0c660a9ef3637d847c0880283df05d8696221308
 Description:
 
+(From OE-Core rev: a993a379bb490efbbf507f5dccda5ab358e8afea)
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c2f79065ef0684f2c0bdb92f1b03e690ab730b8c)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 53390d2261d2d35cdd637cf12a0fb4dc63f0f88c)
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20221.patch            | 67 +++++++++++++++++++
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
+ .../qemu/qemu/CVE-2021-20181.patch            | 81 +++++++++++++++++++
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index bd1a83955f..ea654e0008 100644
+index ea654e0008..a61f69ba49 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -60,6 +60,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-25624_2.patch \
+@@ -61,6 +61,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2020-25625.patch \
             file://CVE-2020-29443.patch \
-+           file://CVE-2021-20221.patch \
+            file://CVE-2021-20221.patch \
++           file://CVE-2021-20181.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
 new file mode 100644
-index 0000000000..46c9ab4184
+index 0000000000..1b8c77f838
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
-@@ -0,0 +1,67 @@
-+From edfe2eb4360cde4ed5d95bda7777edcb3510f76a Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-+Date: Sun, 31 Jan 2021 11:34:01 +0100
-+Subject: [PATCH] hw/intc/arm_gic: Fix interrupt ID in GICD_SGIR register
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
+@@ -0,0 +1,81 @@
++From c2d2d14e8deece958bbc4fc649d22c3564bc4e7e Mon Sep 17 00:00:00 2001
++From: Greg Kurz <groug@kaod.org>
++Date: Thu, 14 Jan 2021 17:04:12 +0100
++Subject: [PATCH] 9pfs: Fully restart unreclaim loop (CVE-2021-20181)
 +
-+Per the ARM Generic Interrupt Controller Architecture specification
-+(document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
-+not 10:
++Depending on the client activity, the server can be asked to open a huge
++number of file descriptors and eventually hit RLIMIT_NOFILE. This is
++currently mitigated using a reclaim logic : the server closes the file
++descriptors of idle fids, based on the assumption that it will be able
++to re-open them later. This assumption doesn't hold of course if the
++client requests the file to be unlinked. In this case, we loop on the
++entire fid list and mark all related fids as unreclaimable (the reclaim
++logic will just ignore them) and, of course, we open or re-open their
++file descriptors if needed since we're about to unlink the file.
 +
-+  - 4.3 Distributor register descriptions
-+  - 4.3.15 Software Generated Interrupt Register, GICD_SG
++This is the purpose of v9fs_mark_fids_unreclaim(). Since the actual
++opening of a file can cause the coroutine to yield, another client
++request could possibly add a new fid that we may want to mark as
++non-reclaimable as well. The loop is thus restarted if the re-open
++request was actually transmitted to the backend. This is achieved
++by keeping a reference on the first fid (head) before traversing
++the list.
 +
-+    - Table 4-21 GICD_SGIR bit assignments
++This is wrong in several ways:
++- a potential clunk request from the client could tear the first
++  fid down and cause the reference to be stale. This leads to a
++  use-after-free error that can be detected with ASAN, using a
++  custom 9p client
++- fids are added at the head of the list : restarting from the
++  previous head will always miss fids added by a some other
++  potential request
 +
-+    The Interrupt ID of the SGI to forward to the specified CPU
-+    interfaces. The value of this field is the Interrupt ID, in
-+    the range 0-15, for example a value of 0b0011 specifies
-+    Interrupt ID 3.
++All these problems could be avoided if fids were being added at the
++end of the list. This can be achieved with a QSIMPLEQ, but this is
++probably too much change for a bug fix. For now let's keep it
++simple and just restart the loop from the current head.
 +
-+Correct the irq mask to fix an undefined behavior (which eventually
-+lead to a heap-buffer-overflow, see [Buglink]):
++Fixes: CVE-2021-20181
++Buglink: https://bugs.launchpad.net/qemu/+bug/1911666
++Reported-by: Zero Day Initiative <zdi-disclosures@trendmicro.com>
++Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
++Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
++Message-Id: <161064025265.1838153.15185571283519390907.stgit@bahia.lan>
++Signed-off-by: Greg Kurz <groug@kaod.org>
 +
-+   $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,accel=qtest -qtest stdio
-+   [I 1612088147.116987] OPENED
-+  [R +0.278293] writel 0x8000f00 0xff4affb0
-+  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds for type 'uint8_t [16][8]'
-+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gic.c:1498:13
++Upstream-Status: Backport [89fbea8737e8f7b954745a1ffc4238d377055305]
++CVE: CVE-2021-20181
 +
-+This fixes a security issue when running with KVM on Arm with
-+kernel-irqchip=off. (The default is kernel-irqchip=on, which is
-+unaffected, and which is also the correct choice for performance.)
-+
-+Cc: qemu-stable@nongnu.org
-+Fixes: CVE-2021-20221
-+Fixes: 9ee6e8bb853 ("ARMv7 support.")
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+Message-id: 20210131103401.217160-1-f4bug@amsat.org
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2021-20221
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/intc/arm_gic.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ hw/9pfs/9p.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+Index: qemu-4.2.0/hw/intc/arm_gic.c
-+===================================================================
-+--- qemu-4.2.0.orig/hw/intc/arm_gic.c
-++++ qemu-4.2.0/hw/intc/arm_gic.c
-+@@ -1455,7 +1455,7 @@ static void gic_dist_writel(void *opaque
-+         int target_cpu;
++diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
++index 94df440fc..6026b51a1 100644
++--- a/hw/9pfs/9p.c
+++++ b/hw/9pfs/9p.c
++@@ -502,9 +502,9 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++ {
++     int err;
++     V9fsState *s = pdu->s;
++-    V9fsFidState *fidp, head_fid;
+++    V9fsFidState *fidp;
 + 
-+         cpu = gic_get_current_cpu(s);
-+-        irq = value & 0x3ff;
-++        irq = value & 0xf;
-+         switch ((value >> 24) & 3) {
-+         case 0:
-+             mask = (value >> 16) & ALL_CPU_MASK;
++-    head_fid.next = s->fid_list;
+++again:
++     for (fidp = s->fid_list; fidp; fidp = fidp->next) {
++         if (fidp->path.size != path->size) {
++             continue;
++@@ -524,7 +524,7 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++              * switched to the worker thread
++              */
++             if (err == 0) {
++-                fidp = &head_fid;
+++                goto again;
++             }
++         }
++     }
++-- 
++2.29.2
++
 -- 
 2.25.1
 
