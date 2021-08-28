@@ -1,139 +1,200 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web10.191.1630174421110947982
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web08.199.1630174426906546257
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Aug 2021 11:13:41 -0700
+ Sat, 28 Aug 2021 11:13:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=E/eaqAAS;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.50, mailfrom: steve@sakoman.com)
-Received: by mail-io1-f50.google.com with SMTP id j18so13498301ioj.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:13:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qVHpbOTp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.52, mailfrom: steve@sakoman.com)
+Received: by mail-io1-f52.google.com with SMTP id g9so13526676ioq.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=n/2HMCUz1YQVQFHOCSyehIHABSmdWGSk+SYPTlO+8og=;
-        b=E/eaqAAS26kC6L7tqS/lQsyMrlU9jePdc06FWTlv4V5AeGIgNmiiNvx+PIAvNtWm8T
-         4HUrX2SRoEnlYhGxOeKDUxH88w9FvGuxbx33pp8DyC6DsGApD42zFf3E3AuPqnmuzVRP
-         +xWPNSk4S7JufJ1BPRek57BzVS9lnuiOoPiZBdEe7WvBrsz+bQmD/zmoIEEUfZHgBYIe
-         izSuzUpKop3N/7+CEB6maPfw3LD+yyWQOtD21isjKIUR0oQ4NPJtvtAFOkdD4vaAHfGM
-         oZ19f0zQZjpsJhEvHEkv0bTwXr9ikQC9cfBtfd6xFFQAJJk/E/jss4Ctnig+2J4GdSnn
-         DLlw==
+        bh=sRZSExdoFpynSjR0Gz4S2kMML6P+IdolwEABLGJom7A=;
+        b=qVHpbOTp7+07fnIjmTgt075V7jcmZbpwDsMwhIsOiUkykUhVpVD/nRC0I1LpJ2gLcS
+         MX7ArsVDOjnuj2Vh/XxEpRQ+6j+haiS+chgVexuNvHH//iNdGGHHvX5Ft8U8XpOv1nES
+         kaouVP95iVsDpmpXm7/DQK2nZtp+Ma+roB69K0jBDxYH04XgQZ421qzJaF2C4Ib7h5j8
+         4jUID5gwsEItKGkVSWxAQf7iMDPtqsLUHvnpTWOt2sTjh1e0XSnCUsfqkAwVrUI1Xat7
+         WfhasbM0DFHs6CUdRLmFjexQy1CQLLYD0spfYNA35G06CEOdxi95LLxMdSrhNeExPfVn
+         u7fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n/2HMCUz1YQVQFHOCSyehIHABSmdWGSk+SYPTlO+8og=;
-        b=b47ajdHraVlew35bC7dt9fNZgRbTo2BM40Rg7Y+jvJO41B2eMymC4QNp1+MHUPbR08
-         8Sq+7ll7Ex0DimNMjFZC2QFE1Hof3P6iq0Az81ZRBe76Y2T1hHNC3jEauJoClLgNO48Q
-         V3v/BIPo32+PFGy9BkYIlSQnSkmhwVvAM8Y6SrwljDgnpJzQ1r8r/rS+0C2wUkb82vwk
-         YHSIaj+Cig4Pmc2QRoi8UX3FKeRngb1Xc2Rq8g/iXrXhVU2WY0/LS1cwCr0WT1nvRWl5
-         a/gD50DcDQxElZfEj71xsafrF2wYzYjZcN50o/G2Xfhmp6ZNq/3NO8K7Xm7jpOPyTQMs
-         CH3Q==
-X-Gm-Message-State: AOAM533wkvcSg8TTqtnHoW/IgaSibaG6T4zG9Js0D8y01xEDHd/H8oaP
-	rff6xGXnW8ftCuGfFOX9dAllnVQZKi4yjKao
-X-Google-Smtp-Source: ABdhPJxlTeyaRypywH3HFeUPRyVRq7kmRtOZriGimlQnZLoFlV6JAl4OFuZaihLp26Crw8gbwcdfxw==
-X-Received: by 2002:a5d:83c4:: with SMTP id u4mr12468000ior.21.1630174419682;
-        Sat, 28 Aug 2021 11:13:39 -0700 (PDT)
+        bh=sRZSExdoFpynSjR0Gz4S2kMML6P+IdolwEABLGJom7A=;
+        b=DecJTXN40JJlFkUtZXKyVWjq7Ary4dD+UvJNCkIuitZeIhmTUVE5xT5o3bpPG86kmN
+         RwFVhDp7eLjtWWeTQPK7DiX3/SX2/bVlO8vKDOwCCE3BWXiMSbhXRkbRFh82NVgRQiw3
+         KK+EYwPgElfx/RChwmSRwIT4Emw/QGR60ErRDyFUKWQ/ZNTJ83u9cc9jxb10OoQ9Hp2G
+         RWag2mf8sVmgdsvlb3Lratfoico3ZXS4ZAe1ks4gJKbF4xw2pyRnzfcV6BFJ9htSDobq
+         Q2Zhf7w2AQ72wjS+BdD7kaY8ASLoVUdXLCGgFNCum53ameLkP0/grBTCs1qofcNxuddA
+         p0iA==
+X-Gm-Message-State: AOAM530aGkQfmtrXUtBWqCbD7C+bBURMRIBntQXEMePIViEierWDhf+z
+	GC09k75tz8reB5PKLNAr9Somo4wiewPSJxgp
+X-Google-Smtp-Source: ABdhPJxm4yP0xAP+dYcwx77e6Il37TmA8nic7ghSmD8dHV3VR6k1FXZuDkwdJpJCTM++L7YHLclr6A==
+X-Received: by 2002:a02:a18d:: with SMTP id n13mr13773200jah.120.1630174425515;
+        Sat, 28 Aug 2021 11:13:45 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.13.34
+        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.13.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 11:13:39 -0700 (PDT)
+        Sat, 28 Aug 2021 11:13:44 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 21/36] qemu: fix CVE-2021-3608
-Date: Sat, 28 Aug 2021 08:11:09 -1000
-Message-Id: <f8d34ef74dafcf14e07f9322254465d03490bd60.1630174149.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 22/36] rpm: Add fix for CVE-2021-20266
+Date: Sat, 28 Aug 2021 08:11:10 -1000
+Message-Id: <6c16aad7167eb98bc9995486f967431c39f9df15.1630174149.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1630174149.git.steve@sakoman.com>
 References: <cover.1630174149.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 
-Source: http://git.yoctoproject.org/cgit/poky.git
-MR: 112749
-Type: Security Fix
-Disposition: Backport from http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/qemu?h=hardknott&id=f5e77d70e2eb35751f5bad5572b6eb8a3ab14422
-ChangeID: 4496341da3af9126c9c67170e1a2cce929c29828
-Description:
+Adding fix for CVE-2021-20266
+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/pull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
 
-(From OE-Core rev: 5e05ee8ff363eac84edec568039b86bcd716c6ce)
+Note: Hunk#2 and Hunk#3 refreshed to apply patch and match value of
+dl_max variable to make it with current version
+All Hunks are refreshed to solve patch-fuzz
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f5e77d70e2eb35751f5bad5572b6eb8a3ab14422)
-[Refreshed patch]
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3608.patch             | 40 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3608.patch
+ .../rpm/files/CVE-2021-20266.patch            | 109 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 6066418a7b..c8c170dda0 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -83,6 +83,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3527-2.patch \
-            file://CVE-2021-3582.patch \
-            file://CVE-2021-3607.patch \
-+           file://CVE-2021-3608.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3608.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3608.patch
+diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch b/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
 new file mode 100644
-index 0000000000..7055ec3d23
+index 0000000000..f2fc47e321
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3608.patch
-@@ -0,0 +1,40 @@
-+From 66ae37d8cc313f89272e711174a846a229bcdbd3 Mon Sep 17 00:00:00 2001
-+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-+Date: Wed, 30 Jun 2021 14:52:46 +0300
-+Subject: [PATCH] pvrdma: Fix the ring init error flow (CVE-2021-3608)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/rpm/files/CVE-2021-20266.patch
+@@ -0,0 +1,109 @@
++From ebbf0f0133c498d229e94ecf2ed0b41d6e6a142a Mon Sep 17 00:00:00 2001
++From: Demi Marie Obenour <athena@invisiblethingslab.com>
++Date: Mon, 8 Feb 2021 16:05:01 -0500
++Subject: [PATCH] hdrblobInit() needs bounds checks too
 +
-+Do not unmap uninitialized dma addresses.
++Users can pass untrusted data to hdrblobInit() and it must be robust
++against this.
 +
-+Fixes: CVE-2021-3608
-+Reviewed-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-+Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-+Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-+Message-Id: <20210630115246.2178219-1-marcel@redhat.com>
-+Tested-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-+Reviewed-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
++Backported from commit 8f4b3c3cab8922a2022b9e47c71f1ecf906077ef
 +
-+CVE: CVE-2021-3608
-+Upstream-Status: Backport [66ae37d8cc313f89272e711174a846a229bcdbd3]
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/pull/1587/commits/9646711891df851dfbf7ef54cc171574a0914b15]
++CVE: CVE-2021-20266
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++
 +---
-+ hw/rdma/vmw/pvrdma_dev_ring.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ lib/header.c | 48 +++++++++++++++++++++++++++++++-----------------
++ 1 file changed, 31 insertions(+), 17 deletions(-)
 +
-+Index: qemu-4.2.0/hw/rdma/vmw/pvrdma_dev_ring.c
-+===================================================================
-+--- qemu-4.2.0.orig/hw/rdma/vmw/pvrdma_dev_ring.c
-++++ qemu-4.2.0/hw/rdma/vmw/pvrdma_dev_ring.c
-+@@ -41,7 +41,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, c
-+     atomic_set(&ring->ring_state->cons_head, 0);
-+     */
-+     ring->npages = npages;
-+-    ring->pages = g_malloc(npages * sizeof(void *));
-++    ring->pages = g_malloc0(npages * sizeof(void *));
++diff --git a/lib/header.c b/lib/header.c
++index 5b09f8352..ad5b6dc57 100644
++--- a/lib/header.c
+++++ b/lib/header.c
++@@ -11,6 +11,7 @@
++ #include "system.h"
++ #include <netdb.h>
++ #include <errno.h>
+++#include <inttypes.h>
++ #include <rpm/rpmtypes.h>
++ #include <rpm/rpmstring.h>
++ #include "lib/header_internal.h"
++@@ -1890,6 +1891,25 @@ hdrblob hdrblobFree(hdrblob blob)
++     return NULL;
++ }
 + 
-+     for (i = 0; i < npages; i++) {
-+         if (!tbl[i]) {
+++static rpmRC hdrblobVerifyLengths(rpmTagVal regionTag, uint32_t il, uint32_t dl,
+++				  char **emsg) {
+++    uint32_t il_max = HEADER_TAGS_MAX;
+++    uint32_t dl_max = HEADER_DATA_MAX;
+++    if (regionTag == RPMTAG_HEADERSIGNATURES) {
+++	il_max = 32;
+++	dl_max = 8192;
+++    }
+++    if (hdrchkRange(il_max, il)) {
+++	rasprintf(emsg, _("hdr tags: BAD, no. of tags(%" PRIu32 ") out of range"), il);
+++	return RPMRC_FAIL;
+++    }
+++    if (hdrchkRange(dl_max, dl)) {
+++	rasprintf(emsg, _("hdr data: BAD, no. of bytes(%" PRIu32 ") out of range"), dl);
+++	return RPMRC_FAIL;
+++    }
+++    return RPMRC_OK;
+++}
+++
++ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag, hdrblob blob, char **emsg)
++ {
++     int32_t block[4];
++@@ -1902,13 +1922,6 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag, hdrbl
++     size_t nb;
++     rpmRC rc = RPMRC_FAIL;		/* assume failure */
++     int xx;
++-    int32_t il_max = HEADER_TAGS_MAX;
++-    int32_t dl_max = HEADER_DATA_MAX;
++-
++-    if (regionTag == RPMTAG_HEADERSIGNATURES) {
++-	il_max = 32;
++-	dl_max = 8192;
++-    }
++ 
++     memset(block, 0, sizeof(block));
++     if ((xx = Freadall(fd, bs, blen)) != blen) {
++@@ -1921,15 +1934,9 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag, hdrbl
++ 	goto exit;
++     }
++     il = ntohl(block[2]);
++-    if (hdrchkRange(il_max, il)) {
++-	rasprintf(emsg, _("hdr tags: BAD, no. of tags(%d) out of range"), il);
++-	goto exit;
++-    }
++     dl = ntohl(block[3]);
++-    if (hdrchkRange(dl_max, dl)) {
++-	rasprintf(emsg, _("hdr data: BAD, no. of bytes(%d) out of range"), dl);
+++    if (hdrblobVerifyLengths(regionTag, il, dl, emsg))
++ 	goto exit;
++-    }
++ 
++     nb = (il * sizeof(struct entryInfo_s)) + dl;
++     uc = sizeof(il) + sizeof(dl) + nb;
++@@ -1973,11 +1980,18 @@ rpmRC hdrblobInit(const void *uh, size_t uc,
++ 		struct hdrblob_s *blob, char **emsg)
++ {
++     rpmRC rc = RPMRC_FAIL;
++-
++     memset(blob, 0, sizeof(*blob));
+++    if (uc && uc < 8) {
+++	rasprintf(emsg, _("hdr length: BAD"));
+++	goto exit;
+++    }
+++
++     blob->ei = (int32_t *) uh; /* discards const */
++-    blob->il = ntohl(blob->ei[0]);
++-    blob->dl = ntohl(blob->ei[1]);
+++    blob->il = ntohl((uint32_t)(blob->ei[0]));
+++    blob->dl = ntohl((uint32_t)(blob->ei[1]));
+++    if (hdrblobVerifyLengths(regionTag, blob->il, blob->dl, emsg) != RPMRC_OK)
+++	goto exit;
+++
++     blob->pe = (entryInfo) &(blob->ei[2]);
++     blob->pvlen = sizeof(blob->il) + sizeof(blob->dl) +
++ 		  (blob->il * sizeof(*blob->pe)) + blob->dl;
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+index 018b2f8700..c93654aa8f 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0001-Rip-out-partial-support-for-unused-MD2-and-RIPEMD160.patch \
+            file://0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch \
+            file://CVE-2021-3421.patch \
++           file://CVE-2021-20266.patch \
+            "
+ 
+ PE = "1"
 -- 
 2.25.1
 
