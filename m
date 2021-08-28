@@ -1,78 +1,80 @@
 Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
- by mx.groups.io with SMTP id smtpd.web08.174.1630174326486850782
+ by mx.groups.io with SMTP id smtpd.web11.166.1630174330686843981
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Aug 2021 11:12:06 -0700
+ Sat, 28 Aug 2021 11:12:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EOAyaDKQ;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TVQXjWAN;
  spf=softfail (domain: sakoman.com, ip: 209.85.166.182, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f182.google.com with SMTP id y3so10886735ilm.6
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:12:06 -0700 (PDT)
+Received: by mail-il1-f182.google.com with SMTP id j15so10917925ila.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=2JIOhUCTDUgMZFghrSDEe4Ckqf7Hdx6tKWJyeLi9TBQ=;
-        b=EOAyaDKQJEDQYvwjaELRbq+MzL9KJv+KfhT7RFsNPEa97sc3wAEi8mC8DhbO/DLzO6
-         hVrL9c/bH26X7rrJ6fFJxLPZiJ80rcX6okpYyNao0k8grM8/T3k7XP+HMInboP5/O463
-         MRCCwGv8UjVVnGwFXiBSkU2kYNJu4y7769Ob/3MGfv1pNOUr12aBKxEia73m88p9kOni
-         4YFwcTM4rd5fnT4xbHrnULWp5uYv97AS45+jVV+5ZdsB+grheTcgTjIrd9VYB5q8fTfW
-         t2Gncp7CunlmbqBD1lz00NmVaMqEImoTtvbKncQPYcic2cBwtNl33lIbp1zPPS+b5y+e
-         afkQ==
+        bh=qSraCcV6hqm83S42CaeIr/FdZmbu4/pu25aPvDPqbm4=;
+        b=TVQXjWANkznf001Mch6O5pbOLf4PGpl00Br5s6zCbkgmIQ0gZLvgIE+YIpLhGpYrDG
+         qDUHK4fu0ve4yszc6+ZqLGgCtT+rSLB/wu6D2mewkphSEcHyreina39G33katdLHmLZs
+         8fO4w9CCVzpSnMGRSkRdvCu9cYNDn6jwZJvJdGQGMsQZoSM0INGuSqNtq5B5Pi0y0YSZ
+         L1yqGBOgc1wfb6lXVD2LHrS2s5K3P10RDnxNntwzX/5Jz2p0baxeVAucXZQGHE+6dq7B
+         1/960pTss1RXTRM6ld22/JrwySCW2iUYpwVcEhVx7AqsKJpDltQhXmZw+7XqI9XsB2OT
+         h84Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2JIOhUCTDUgMZFghrSDEe4Ckqf7Hdx6tKWJyeLi9TBQ=;
-        b=qAtkapFczp9UKQznNfDR+tF8V87ik3v+Y/E2Kf7n8Yb7PsEmesKzPO0mEb5YXnt99q
-         6JAFcnqzo4jQzcSFivhJVACW+ROrmGkKaEDAa6tMp9Zamc/NyqgHOtKVIOHvRdMdFyoa
-         EOLUTJ5MFs6xg1SDFKIm8g90BEKm/IxxG0/wkaqN8eLQPrNSFK3Q794bkvZXSx4gZwii
-         QIW6HQDasAKtWNVzdCukzkHrGrO+RpH3lOjsVbK4ytYLq6GM2pYA0tNGeMaDzIsxNWMM
-         VdUPNYeL5NnvQIgWZrAWTEqmhxQwMcwviLT2/z/4XfwzX7nn8YUxZWJnzBO4mfy/xiYK
-         OP3A==
-X-Gm-Message-State: AOAM530bi6+zqxM/ySGud9v7TG3Ear7vsdV6pp1eX9O5AJAunF5tVc8a
-	uGF7Wc2D6qmQoiKjp6Vir3SAy5d2RSJWiVGi
-X-Google-Smtp-Source: ABdhPJw/TzmdE8VKaQY38sgA2/GhhSXf9Nvsj5o/yJprGcBb1OD2B7Gm9bzpM9xCndDGkUadfbJcpg==
-X-Received: by 2002:a05:6e02:dcc:: with SMTP id l12mr10771079ilj.20.1630174325427;
-        Sat, 28 Aug 2021 11:12:05 -0700 (PDT)
+        bh=qSraCcV6hqm83S42CaeIr/FdZmbu4/pu25aPvDPqbm4=;
+        b=QKgbG89NfmI+LLNzKClcC3WPC156po4Mjwpv3mmq08oajhA28prY7ZkEQuAytIDFkY
+         g3T1uARlQcX2YgCzfr9SEp+npVlzjCs9MNAnrg69eA2xwe82cGU3v0B+4uEbGLCSxilV
+         kKKmLMf/tdnjBoxeSs8VSkjF22MCIapciS9rKcH87Ml1iSc0tr7k6uKOXo1WSOOi1i0r
+         BMUdWrJGliMsyQ8QxffgqKgGT9j+9ALu5Fjg7X4HlRFVpFtnbelYNPv5HgHvCBF8Aka4
+         l5ZZa5qMAk+KncaOuqOs/bMT1QIaxRsMwSG+jjSegfxWOTP///7BjCV0VUj6s1dcKdDU
+         NfsQ==
+X-Gm-Message-State: AOAM531xJiw73urLX1/bbEZShaFXWgZadGzva81rUxM0oGMMI37hfzJk
+	4HZ6wu1wsxrxLIrqptIUVV5G8murrUC4TqG8
+X-Google-Smtp-Source: ABdhPJzd/5XQURn2wszmKFTxQ3J7U2nml4ltjc566Tx8OrtTUqZoFG253yVa3EIgITHTWDaFfsQccA==
+X-Received: by 2002:a05:6e02:17cb:: with SMTP id z11mr10845747ilu.68.1630174329618;
+        Sat, 28 Aug 2021 11:12:09 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.12.02
+        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.12.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 11:12:05 -0700 (PDT)
+        Sat, 28 Aug 2021 11:12:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/36] gnupg: upgrade 2.2.20 -> 2.2.21
-Date: Sat, 28 Aug 2021 08:10:51 -1000
-Message-Id: <08186dd7594820dbb7e9c7f7385672917882b262.1630174149.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/36] gnupg: update 2.2.21 -> 2.2.22
+Date: Sat, 28 Aug 2021 08:10:52 -1000
+Message-Id: <5c02b4bcf3243aac017ca2edbc0af5ac0f6e06b7.1630174149.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1630174149.git.steve@sakoman.com>
 References: <cover.1630174149.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-(From OE-Core rev: 1aeb32228d92568e90f313a2a027c6790937eb8a)
+(From OE-Core rev: ad9f9fd5609c2014454c73045bc603c9883977e3)
 
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 50e1649a320f2e631da9e6393efb8459fd979e88)
+(cherry picked from commit 33eade06ebb327be80eef278835053759ffe23fa)
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...-a-custom-value-for-the-location-of-.patch |  6 +++---
- .../gnupg/gnupg/relocate.patch                | 20 +++++++++----------
- .../{gnupg_2.2.20.bb => gnupg_2.2.21.bb}      |  3 +--
- 3 files changed, 14 insertions(+), 15 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.2.20.bb => gnupg_2.2.21.bb} (95%)
+ ...use-a-custom-value-for-the-location-of-.patch |  6 +++---
+ .../gnupg/0003-dirmngr-uses-libgpg-error.patch   | 16 +++++++---------
+ meta/recipes-support/gnupg/gnupg/relocate.patch  |  2 +-
+ .../gnupg/{gnupg_2.2.21.bb => gnupg_2.2.22.bb}   |  2 +-
+ 4 files changed, 12 insertions(+), 14 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.21.bb => gnupg_2.2.22.bb} (97%)
 
 diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index 2c204e0245..0e78f5679e 100644
+index 0e78f5679e..c641a19616 100644
 --- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
 +++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
 @@ -1,4 +1,4 @@
--From e7ad11cf54475e455fdb84d118e4782961698567 Mon Sep 17 00:00:00 2001
-+From 0e51c62706a8c54e90a2d98c5250ecc894c65182 Mon Sep 17 00:00:00 2001
+-From 0e51c62706a8c54e90a2d98c5250ecc894c65182 Mon Sep 17 00:00:00 2001
++From 56343af532389c31eab32c096c9a989c53c78ce0 Mon Sep 17 00:00:00 2001
  From: Alexander Kanavin <alex.kanavin@gmail.com>
  Date: Mon, 22 Jan 2018 18:00:21 +0200
  Subject: [PATCH] configure.ac: use a custom value for the location of
@@ -80,115 +82,82 @@ index 2c204e0245..0e78f5679e 100644
   1 file changed, 1 insertion(+), 1 deletion(-)
  
  diff --git a/configure.ac b/configure.ac
--index 919ab31..cd58fdb 100644
-+index f3c9863..a57f559 100644
+-index f3c9863..a57f559 100644
++index 1d05d39..eaaf33c 100644
  --- a/configure.ac
  +++ b/configure.ac
--@@ -1855,7 +1855,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-+@@ -1856,7 +1856,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+-@@ -1856,7 +1856,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1858,7 +1858,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
   
   AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
   
+diff --git a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+index 3e798efd06..607a09f188 100644
+--- a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
++++ b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+@@ -1,7 +1,7 @@
+-From 9c3858ffda6246bf9e1e6aeeb920532a56b19408 Mon Sep 17 00:00:00 2001
++From 9a901dbb1c48685f2db6d7b55916c9484e871f16 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Wed, 16 Aug 2017 11:18:01 +0800
+-Subject: [PATCH 3/4] dirmngr uses libgpg error
++Subject: [PATCH] dirmngr uses libgpg error
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+@@ -9,24 +9,22 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ Rebase to 2.1.23
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
+ ---
+  dirmngr/Makefile.am | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/dirmngr/Makefile.am b/dirmngr/Makefile.am
+-index b404165..d3f916e 100644
++index 208a813..292c036 100644
+ --- a/dirmngr/Makefile.am
+ +++ b/dirmngr/Makefile.am
+-@@ -82,7 +82,8 @@ endif
++@@ -90,7 +90,8 @@ endif
+  dirmngr_LDADD = $(libcommonpth) \
+          $(DNSLIBS) $(LIBASSUAN_LIBS) \
+  	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
+--	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV)
+-+	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) \
++-	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS)
+++	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS) \
+ +	$(GPG_ERROR_LIBS)
+  if USE_LDAP
+  dirmngr_LDADD += $(ldaplibs)
+  endif
+--- 
+-1.8.3.1
+-
 diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index e5a82aa76d..25732a8277 100644
+index 25732a8277..aa8d1e3cc2 100644
 --- a/meta/recipes-support/gnupg/gnupg/relocate.patch
 +++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
 @@ -1,4 +1,4 @@
--From 59c077f32e81190955910cae02599c7a3edfa7fb Mon Sep 17 00:00:00 2001
-+From 6e3b1d89758c3ee7072aeefa305ce5fe76f2e439 Mon Sep 17 00:00:00 2001
+-From 6e3b1d89758c3ee7072aeefa305ce5fe76f2e439 Mon Sep 17 00:00:00 2001
++From 4005b3342db06749453835720b5a5c2392a90810 Mon Sep 17 00:00:00 2001
  From: Ross Burton <ross.burton@intel.com>
  Date: Wed, 19 Sep 2018 14:44:40 +0100
  Subject: [PATCH] Allow the environment to override where gnupg looks for its
-@@ -12,10 +12,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  1 file changed, 8 insertions(+), 8 deletions(-)
- 
- diff --git a/common/homedir.c b/common/homedir.c
--index e9e75d0..19140aa 100644
-+index 4b6e46e..58989b4 100644
- --- a/common/homedir.c
- +++ b/common/homedir.c
--@@ -760,7 +760,7 @@ gnupg_socketdir (void)
-+@@ -763,7 +763,7 @@ gnupg_socketdir (void)
-    if (!name)
-      {
-        unsigned int dummy;
-@@ -24,7 +24,7 @@ index e9e75d0..19140aa 100644
-      }
-  
-    return name;
--@@ -786,7 +786,7 @@ gnupg_sysconfdir (void)
-+@@ -789,7 +789,7 @@ gnupg_sysconfdir (void)
-      }
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -33,7 +33,7 @@ index e9e75d0..19140aa 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -815,7 +815,7 @@ gnupg_bindir (void)
-+@@ -818,7 +818,7 @@ gnupg_bindir (void)
-    else
-      return rdir;
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -42,7 +42,7 @@ index e9e75d0..19140aa 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -828,7 +828,7 @@ gnupg_libexecdir (void)
-+@@ -831,7 +831,7 @@ gnupg_libexecdir (void)
-  #ifdef HAVE_W32_SYSTEM
-    return gnupg_bindir ();
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -51,7 +51,7 @@ index e9e75d0..19140aa 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -842,7 +842,7 @@ gnupg_libdir (void)
-+@@ -845,7 +845,7 @@ gnupg_libdir (void)
-      name = xstrconcat (w32_rootdir (), DIRSEP_S "lib" DIRSEP_S "gnupg", NULL);
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -60,7 +60,7 @@ index e9e75d0..19140aa 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -856,7 +856,7 @@ gnupg_datadir (void)
-+@@ -859,7 +859,7 @@ gnupg_datadir (void)
-      name = xstrconcat (w32_rootdir (), DIRSEP_S "share" DIRSEP_S "gnupg", NULL);
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -69,7 +69,7 @@ index e9e75d0..19140aa 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -872,7 +872,7 @@ gnupg_localedir (void)
-+@@ -875,7 +875,7 @@ gnupg_localedir (void)
-                         NULL);
-    return name;
-  #else /*!HAVE_W32_SYSTEM*/
-@@ -78,7 +78,7 @@ index e9e75d0..19140aa 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -940,7 +940,7 @@ gnupg_cachedir (void)
-+@@ -943,7 +943,7 @@ gnupg_cachedir (void)
-      }
-    return dir;
-  #else /*!HAVE_W32_SYSTEM*/
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.20.bb b/meta/recipes-support/gnupg/gnupg_2.2.21.bb
-similarity index 95%
-rename from meta/recipes-support/gnupg/gnupg_2.2.20.bb
-rename to meta/recipes-support/gnupg/gnupg_2.2.21.bb
-index 6629fc8556..f0aca9ef3e 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.20.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.21.bb
-@@ -25,8 +25,7 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.21.bb b/meta/recipes-support/gnupg/gnupg_2.2.22.bb
+similarity index 97%
+rename from meta/recipes-support/gnupg/gnupg_2.2.21.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.22.bb
+index f0aca9ef3e..887ab0e1f2 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.21.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.22.bb
+@@ -25,7 +25,7 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
                                  file://relocate.patch"
  SRC_URI_append_class-nativesdk = " file://relocate.patch"
  
--SRC_URI[md5sum] = "4ff88920cf52b35db0dedaee87bdbbb1"
--SRC_URI[sha256sum] = "04a7c9d48b74c399168ee8270e548588ddbe52218c337703d7f06373d326ca30"
-+SRC_URI[sha256sum] = "61e83278fb5fa7336658a8b73ab26f379d41275bb1c7c6e694dd9f9a6e8e76ec"
+-SRC_URI[sha256sum] = "61e83278fb5fa7336658a8b73ab26f379d41275bb1c7c6e694dd9f9a6e8e76ec"
++SRC_URI[sha256sum] = "7c1370565e1910b9d8c4e0fb57b9de34aa062ec7bb91abad5803d791f38d855b"
  
  EXTRA_OECONF = "--disable-ldap \
  		--disable-ccid-driver \
