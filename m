@@ -1,84 +1,155 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
- by mx.groups.io with SMTP id smtpd.web10.206.1630174501137569834
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web09.3878.1630245159868574261
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Aug 2021 11:15:01 -0700
+ Sun, 29 Aug 2021 06:52:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LIICTpPg;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.182, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f182.google.com with SMTP id x5so10899084ill.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Aug 2021 11:15:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=muTWKTp0xLDru4sxdV+eM3a20qEsZOzwLRwDR4nIxpY=;
-        b=LIICTpPgjBmYKCspc/50J7OoJeT2uwNTsbwjao78OVw5RC40Y/NnoDMFVGFgWcQTA8
-         P8QvES0siftfuIvLl5ZR/ChXZcTZL01d+ioaWdX1R8+6g8DeGX/mUZHkaWQE9r9VUtnq
-         ny61k8NqwDl7h4SvrEZgE9o88DtPMCFbA7nrJEn31r/F6CQPuAXCThLbxkeE7TfY2zgU
-         wnckrPErQd+fUYjwr2vN5U4vEXBtY7Mr49Y+yo9DSpgrM9wmQLcdmQhho8AvvCUMtJxn
-         jCvbf0bsGBmBxmKdq6z+rnz9ZScXlNthXloIukeD5rgGic+WZWc6WsdsJifCfAGOH7Qf
-         wgdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=muTWKTp0xLDru4sxdV+eM3a20qEsZOzwLRwDR4nIxpY=;
-        b=Eeem6d3LRSt7mbAqslhx1jvs8DJPWPrwsJiGlKlvYnMNPAvBdW/5H55Wo/xIS+GP4K
-         Qvn/7B1WXCm0Ymz+3E/tH0D+k7RdMcOQAg8KwThYFIpusp+9zlp0SLgVe24XgqMkABlw
-         OL1TE/GYh0Ickc/gS3G8toRB32q4aUQVH+rIwiQ01/ogLpOJf2JMav4YvCgFXVgeLP5N
-         YTgWoj9WOFmxM1p1e/4vt2BH+QrZHPCa2oU02slYf2xph1bS5gO2aGQEmxRhSGxV5hWs
-         5aIju3cGENs2g6ou3HPUjD6KDr7A3fh0zMVtVhbY702zArhB/M+Lr3BT953ixvgEFzTW
-         WjfA==
-X-Gm-Message-State: AOAM5306UPzJ/KMg4h4PMpXWbm7bJoPGpcmaZZavvyl2FXqkQ1aNZdgn
-	3JiI4H7xGKeoXPtJ27Psui/es+xHfomB9mLl
-X-Google-Smtp-Source: ABdhPJwteljOouiKj7PaGlzPbxoQ/RO7hoXTtof267PLHG+HUlxUFC9196nqkF9Avp6007H5iqsorw==
-X-Received: by 2002:a92:d68a:: with SMTP id p10mr10602829iln.179.1630174500159;
-        Sat, 28 Aug 2021 11:15:00 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id s16sm5511664iln.5.2021.08.28.11.14.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 11:14:59 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 36/36] selftest: disable virgl headless test
-Date: Sat, 28 Aug 2021 08:11:24 -1000
-Message-Id: <448e0271ed831582bb5833486fc17b131676fb53.1630174149.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1630174149.git.steve@sakoman.com>
-References: <cover.1630174149.git.steve@sakoman.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: hongxu.jia@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 17TDqapW025430
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Sun, 29 Aug 2021 06:52:36 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 17TDqZvD011058
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sun, 29 Aug 2021 06:52:36 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Sun, 29 Aug 2021 06:52:35 -0700
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Sun, 29 Aug 2021 06:52:35 -0700
+From: "hongxu" <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] glibc: fix create thread failed in unprivileged process
+Date: Sun, 29 Aug 2021 06:52:35 -0700
+Message-ID: <20210829135235.43999-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Since upstream commit [d8ea0d0168 Add an internal wrapper for clone, clone2
+and clone3] applied, start a unprivileged container (docker run without
+--privileged), it creates a thread failed in container.
 
-Crashes in mesa when using vgem kernel module (in the absence of real GPU)
-have been observed in dunfell (they do not happen in master):
+In commit d8ea0d0168, it calls __clone3 if HAVE_CLONE3_WAPPER is defined.  If
+__clone3 returns -1 with ENOSYS, fall back to clone or clone2.
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14527
+As known from [1], cloneXXX fails with EPERM if CLONE_NEWCGROUP,
+CLONE_NEWIPC, CLONE_NEWNET, CLONE_NEWNS, CLONE_NEWPID, or CLONE_NEWUTS
+was specified by an unprivileged process (process without CAP_SYS_ADMIN)
 
-Let's focus on making host-accelerated virtualized graphics work well in master
-and upcoming releases (the issue is not seen there).
+[1] https://man7.org/linux/man-pages/man2/clone3.2.html
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+So if __clone3 returns -1 with EPERM, fall back to clone or clone2 could
+fix the issue.
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 1 +
- 1 file changed, 1 insertion(+)
+ ...d-failed-in-unprivileged-process-BZ-.patch | 79 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.34.bb         |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 353d411681..1c935da919 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -216,6 +216,7 @@ class TestImage(OESelftestTestCase):
-         Author: Alexander Kanavin <alex.kanavin@gmail.com>
-         """
-         import subprocess, os
-+        self.skipTest("Crashes in mesa observed with this test on dunfell: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14527")
-         try:
-             content = os.listdir("/dev/dri")
-             if len([i for i in content if i.startswith('render')]) == 0:
+diff --git a/meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch b/meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
+new file mode 100644
+index 0000000000..3283dd7ad8
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
+@@ -0,0 +1,79 @@
++From a8bc44936202692edcd82a48c07d7cf27d6ed8ee Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Sun, 29 Aug 2021 20:49:16 +0800
++Subject: [PATCH] fix create thread failed in unprivileged process [BZ #28287]
++
++Since commit [d8ea0d0168 Add an internal wrapper for clone, clone2 and clone3]
++applied, start a unprivileged container (docker run without --privileged),
++it creates a thread failed in container.
++
++In commit d8ea0d0168, it calls __clone3 if HAVE_CLONE3_WAPPER is defined.  If
++__clone3 returns -1 with ENOSYS, fall back to clone or clone2.
++
++As known from [1], cloneXXX fails with EPERM if CLONE_NEWCGROUP,
++CLONE_NEWIPC, CLONE_NEWNET, CLONE_NEWNS, CLONE_NEWPID, or CLONE_NEWUTS
++was specified by an unprivileged process (process without CAP_SYS_ADMIN)
++
++[1] https://man7.org/linux/man-pages/man2/clone3.2.html
++
++So if __clone3 returns -1 with EPERM, fall back to clone or clone2 could
++fix the issue. Here are the test steps:
++
++1) Prepare test code
++cat > conftest.c <<ENDOF
++ #include <pthread.h>
++ #include <stdio.h>
++
++int check_me = 0;
++void* func(void* data) {check_me = 42; printf("start thread: check_me %d\n", check_me); return &check_me;}
++int main()
++{
++  pthread_t t;
++  void *ret;
++  pthread_create (&t, 0, func, 0);
++  pthread_join (t, &ret);
++  printf("check_me %d, p %p\n", check_me, &ret);
++  return (check_me != 42 || ret != &check_me);
++}
++
++ENDOF
++
++2) Compile
++gcc -o conftest -pthread conftest.c
++
++3) Start a container with glibc 2.34 installed
++[skip details]
++docker run -it <container-image-name> bash
++
++4) Run conftest without this patch
++$ ./conftest
++check_me 0, p 0x7ffd91ccd400
++
++5) Run conftest with this patch
++$ ./conftest
++start thread: check_me 42
++check_me 42, p 0x7ffe253c6f20
++
++Upstream-Status: Submitted [libc-alpha@sourceware.org]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ sysdeps/unix/sysv/linux/clone-internal.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sysdeps/unix/sysv/linux/clone-internal.c b/sysdeps/unix/sysv/linux/clone-internal.c
++index 979f7880be..97101994e8 100644
++--- a/sysdeps/unix/sysv/linux/clone-internal.c
+++++ b/sysdeps/unix/sysv/linux/clone-internal.c
++@@ -52,7 +52,7 @@ __clone_internal (struct clone_args *cl_args,
++   /* Try clone3 first.  */
++   int saved_errno = errno;
++   ret = __clone3 (cl_args, sizeof (*cl_args), func, arg);
++-  if (ret != -1 || errno != ENOSYS)
+++  if (ret != -1 || (errno != ENOSYS && errno != EPERM))
++     return ret;
++ 
++   /* NB: Restore errno since errno may be checked against non-zero
++-- 
++2.30.2
++
+diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
+index eafc0216ff..6dc315c349 100644
+--- a/meta/recipes-core/glibc/glibc_2.34.bb
++++ b/meta/recipes-core/glibc/glibc_2.34.bb
+@@ -57,6 +57,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
+            file://0001-CVE-2021-38604.patch \
+            file://0002-CVE-2021-38604.patch \
++           file://0001-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
-2.25.1
+2.27.0
 
