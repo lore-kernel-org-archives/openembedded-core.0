@@ -1,537 +1,504 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.1266.1630349290021257432
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web08.1312.1630349290752790322
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Aug 2021 11:48:10 -0700
+ Mon, 30 Aug 2021 11:48:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XQCiAWOJ;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id z4so23818469wrr.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 11:48:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ASlWugYJ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so133683wme.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 11:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sH/LQQyMIN00xrLcEiJljf3rPf6AeOrVO0YeSIjvj3o=;
-        b=XQCiAWOJTkAlZFyvn+GL+fvkJ3qTHSLGkJGvt192ORwy7YbrL96dHDxup09dQ3X4YE
-         CL2rijm2LsJEqe0WcjYbKQ+B++5OOIzARgWtbhBEyTYSXLGpltWrUYqKrQ5UATzM+Q4G
-         DSEBB55lEQUce5hs7yzjW2w8wgl5fHsIN9IFtmsTgjSiy9LZlsLqZmhPI/zqe3Jcqf8I
-         6g3GlYqvYu7tLj9q71mgY0T9ubTZMO/+coC7GTLxUI3ei7U3ogrrLzMFYX6h/TnK9pKR
-         8ZoUcDjub1Bvy9HgsMrCHSRLKmYCAi6+5i5bhirZhTH9isd+WTxHyTlsmp1zxYH2rPBV
-         QvpA==
+        bh=fdJXp24qlP7yTNPCJ2e0fmdZalzGqY8jrSTYg0wWtr8=;
+        b=ASlWugYJCJF8CTWDRL8FJnjnFPXDaJjCgUJht/o2mXFUx0YuuRQjVFZlUFH2i+yOih
+         pAmNFlNYfHBZHgO9fikx/2qVyyJms/w7nlh7+DcIDgQty0FeB+pd2WP8FlicxqYR1WJI
+         +DTk7anr5S7OVHdJcAMNT0be1eE16llypJ3LjnXqUjTwRubtGl9CY1y0/SUwTA9XXsd0
+         6btH3SeoGQRb4W+nfXBP+tfxUgx7zOzMUcydAJjTxpAPvyklxpOrIN31C+X8SNY2ulc8
+         29iua1+xghT0URrdeUATi9zTa/C4N8pGDXlqoBhpcPX7wf84CzLjQeQA9MGRce1Kghrk
+         dz0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sH/LQQyMIN00xrLcEiJljf3rPf6AeOrVO0YeSIjvj3o=;
-        b=hVjvjYWC25XY+gLqbGGFznbyBrGHNKmn7K9YB6hyX9aZOXyVGDehXCuvogAKPpnz3p
-         6B72E/Ss1wadcgMdaT8VXDmaap5b+QSTLTqpL6IEQKCcyJpKpqM2Kf+fZg/sVSqQNTRN
-         qjBlbBXTRTK6BD+0jt2qSavIeqz4tuRQP9l0tUu05RdxyHMNznGEG8GmUX9qHN7yes9Y
-         o1uEfCivX9PFYUshF4gpB/7rWc0Y12xxNBPDdrrQTSYKIHCp1H7laC+Uih8VQMQOxgEr
-         Pnos7zpadMnJpHR7eRvYF0ZawDGM4ssKDZuR/ZuOlppc7ugikgrWYzSZKz9lixoCX8bh
-         oaUg==
-X-Gm-Message-State: AOAM533SIxolpgPHx+ypz4gEgh070KK/Mb2mTniYU+FgzRVqLj9rZzH9
-	eL/Po6U8BeZzB9YDiEagBjXdvCwk5gdI1w==
-X-Google-Smtp-Source: ABdhPJxkW44qo+H+eOJ1Bli6T3TYMv0XnK5aJF/2yczizU3wJCzHTVCg30jkX90U24s/402lqD7ghw==
-X-Received: by 2002:a5d:6ca4:: with SMTP id a4mr28004980wra.140.1630349288397;
-        Mon, 30 Aug 2021 11:48:08 -0700 (PDT)
+        bh=fdJXp24qlP7yTNPCJ2e0fmdZalzGqY8jrSTYg0wWtr8=;
+        b=Sp567r0dFJVcVAGGcWkl6JgET0mo4ppCk8hiC5pmWciKO+FnOq92QmoaycRhjU3l0e
+         49DKbWKni1t0vtSwg9WaL5OJmIo47N5uZ65IbZ8+ohg39MpiDoBWEckyXbn/Wa7GXzTJ
+         sDV/yvQ+6mpweOfHkLATHM1q3kkTJFaXHa33eVT9PtM88GVfdULvNQNcqzHOvAbgkz7v
+         uBJatFfx2J4mxh6uwYDrSWDzvYRyATyYoUpWHiN/YJ31rSZxBBLjcXEQX0CCeyS4rSkr
+         Jal12DDLvMXkL2kP1OKyUG7jiZbsoQnhvKlP0Qf8kJvJWKg7g934M7DlxmoiEgcOOzoD
+         schw==
+X-Gm-Message-State: AOAM5325BMU23CqsOXcuqPJrvXa5X2WFliTdTOV9rQS3TUHep7vWXmXc
+	UPn+gOL1kdh9aTwby/ks/i7vRCaoQxX7dw==
+X-Google-Smtp-Source: ABdhPJyg3RieKG6GJSsV/01XkyJKkq1/Wsz4TP+ExaNaMjRUsZ9NkvMz2mi3BtflFFJyGzQzUMyZfQ==
+X-Received: by 2002:a05:600c:2101:: with SMTP id u1mr452493wml.45.1630349289076;
+        Mon, 30 Aug 2021 11:48:09 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a1:9900:5e06:8d90:670b:86c8])
-        by smtp.gmail.com with ESMTPSA id e2sm18141487wrq.56.2021.08.30.11.48.07
+        by smtp.gmail.com with ESMTPSA id e2sm18141487wrq.56.2021.08.30.11.48.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 30 Aug 2021 11:48:08 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [RFC PATCH 2/7] lua: update 5.3.6 -> 5.4.3
-Date: Mon, 30 Aug 2021 20:47:55 +0200
-Message-Id: <20210830184800.954770-2-alex.kanavin@gmail.com>
+Subject: [RFC PATCH 3/7] rpm: update 4.16.1.3 -> 4.17.0
+Date: Mon, 30 Aug 2021 20:47:56 +0200
+Message-Id: <20210830184800.954770-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210830184800.954770-1-alex.kanavin@gmail.com>
 References: <20210830184800.954770-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop three backports and 0001-Allow-building-lua-without-readline-on-Linux.patch
-(feature added upstream, adjust the recipe accordingly).
+The flagship features are migration from bdb to sqlite and zstd support,
+both are enabled and taken into use. The relationship and upstream preference
+between sqlite and ndb formats isn't quite clear.
 
-Adjust ar/ranlib flags for reproducibility on liblua.a.
+Lua is now a hard dependency.
 
-License-Update: lines moved around, formatting
+Added packageconfig option for r/o support for bdb (that doesn't need bdb
+itself), but not enabled it as upstream marks it EXPERIMENTAL in capital
+letters.
+
+Drop sed adjustment for a file that is not anymore installed.
+
+Adjust oeqa test to check for sqlite database instead of bdb.
+
+Drop
+0001-Fix-build-with-musl-C-library.patch (nss support removed upstream)
+0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+(difficult to undersand and rebase; obsolete with the move to zstd)
+0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
+(upstream made the same change)
+
+Portions of 0001-tools-Add-error.h-for-non-glibc-case.patch dropped
+(upstream moved the files to a separate component).
+
+Added 0001-docs-do-not-build-manpages-requires-pandoc.patch to avoid
+pandoc dependency.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ilding-lua-without-readline-on-Linux.patch |  59 -------
- ...rriers-cannot-be-active-during-sweep.patch |  90 ----------
- .../lua/lua/CVE-2020-15888.patch              |  45 -----
- .../lua/lua/CVE-2020-15945.patch              | 167 ------------------
- .../lua/{lua_5.3.6.bb => lua_5.4.3.bb}        |  28 +--
- 5 files changed, 9 insertions(+), 380 deletions(-)
- delete mode 100644 meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch
- delete mode 100644 meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch
- delete mode 100644 meta/recipes-devtools/lua/lua/CVE-2020-15888.patch
- delete mode 100644 meta/recipes-devtools/lua/lua/CVE-2020-15945.patch
- rename meta/recipes-devtools/lua/{lua_5.3.6.bb => lua_5.4.3.bb} (58%)
+ meta/lib/oeqa/runtime/cases/rpm.py            |  6 +-
+ ...lib-rpm-as-the-installation-path-for.patch | 14 ++--
+ .../0001-Fix-build-with-musl-C-library.patch  | 22 -------
+ ...o-not-build-manpages-requires-pandoc.patch | 26 ++++++++
+ ...rict-virtual-memory-usage-if-limit-s.patch | 65 -------------------
+ ...tools-Add-error.h-for-non-glibc-case.patch | 59 ++---------------
+ ...hat-ELF-binaries-are-executable-to-b.patch | 33 ----------
+ .../rpm/{rpm_4.16.1.3.bb => rpm_4.17.0.bb}    | 21 +++---
+ 8 files changed, 52 insertions(+), 194 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
+ rename meta/recipes-devtools/rpm/{rpm_4.16.1.3.bb => rpm_4.17.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch b/meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index 7a9d62c003..a4339116bf 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -116,12 +116,12 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
+         Author:      Alexander Kanavin <alex.kanavin@gmail.com>
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
+-        db_files_cmd = 'ls /var/lib/rpm/__db.*'
++        db_files_cmd = 'ls /var/lib/rpm/rpmdb.sqlite*'
+         check_log_cmd = "grep RPM /var/log/messages | wc -l"
+ 
+-        # Make sure that some database files are under /var/lib/rpm as '__db.xxx'
++        # Make sure that some database files are under /var/lib/rpm as 'rpmdb.sqlite'
+         status, output = self.target.run(db_files_cmd)
+-        msg =  'Failed to find database files under /var/lib/rpm/ as __db.xxx'
++        msg =  'Failed to find database files under /var/lib/rpm/ as rpmdb.sqlite'
+         self.assertEqual(0, status, msg=msg)
+ 
+         self.tc.target.copyTo(self.test_file, self.dst)
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index d8fcc16729..6d236ac400 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -1,4 +1,4 @@
+-From 7b2dd83d8fcd06af8e583b53da79ed0033793d46 Mon Sep 17 00:00:00 2001
++From 8d013fe154a162305f76141151baf767dd04b598 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 27 Feb 2017 09:43:30 +0200
+ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index fe35a90fa..b2faec6f3 100644
++index eb7d6941b..10a889b5d 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -966,7 +966,7 @@ else
++@@ -871,7 +871,7 @@ else
+      usrprefix=$prefix
+  fi
+  
+@@ -27,10 +27,10 @@ index fe35a90fa..b2faec6f3 100644
+  
+  AC_SUBST(OBJDUMP)
+ diff --git a/macros.in b/macros.in
+-index 35c8cf9df..9d8b2825c 100644
++index a1f795e5f..689e784ef 100644
+ --- a/macros.in
+ +++ b/macros.in
+-@@ -996,7 +996,7 @@ package or when debugging this package.\
++@@ -933,7 +933,7 @@ package or when debugging this package.\
+  %_sharedstatedir	%{_prefix}/com
+  %_localstatedir		%{_prefix}/var
+  %_lib			lib
+@@ -40,7 +40,7 @@ index 35c8cf9df..9d8b2825c 100644
+  %_infodir		%{_datadir}/info
+  %_mandir		%{_datadir}/man
+ diff --git a/rpm.am b/rpm.am
+-index 8e1dc2184..3d889ec86 100644
++index 7b57f433b..9bbb9ee96 100644
+ --- a/rpm.am
+ +++ b/rpm.am
+ @@ -1,10 +1,10 @@
+@@ -55,4 +55,4 @@ index 8e1dc2184..3d889ec86 100644
+ +rpmconfigdir = $(libdir)/rpm
+  
+  # Libtool version (current-revision-age) for all our libraries
+- rpm_version_info = 10:3:1
++ rpm_version_info = 11:0:2
+diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
 deleted file mode 100644
-index e767900864..0000000000
---- a/meta/recipes-devtools/lua/lua/0001-Allow-building-lua-without-readline-on-Linux.patch
+index b960da6c31..0000000000
+--- a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
 +++ /dev/null
-@@ -1,59 +0,0 @@
--From 601ef636fc4dfb2af3e7fda88d8ea1c1d92affe4 Mon Sep 17 00:00:00 2001
+@@ -1,22 +0,0 @@
+-From d076de030deb9cafd9b2e82be5d506cebdefad0b Mon Sep 17 00:00:00 2001
 -From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 2 Oct 2019 17:54:15 +0200
--Subject: [PATCH] Allow building lua without readline on Linux
+-Date: Mon, 27 Feb 2017 14:43:21 +0200
+-Subject: [PATCH 1/9] Fix build with musl C library.
 -
 -Upstream-Status: Pending
 -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- Makefile      | 2 +-
-- src/Makefile  | 3 +++
-- src/luaconf.h | 5 +++++
-- 3 files changed, 9 insertions(+), 1 deletion(-)
 -
--diff --git a/Makefile b/Makefile
--index 119110d..9f6df45 100644
----- a/Makefile
--+++ b/Makefile
--@@ -36,7 +36,7 @@ RM= rm -f
-- # == END OF USER SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE =======
+----
+- configure.ac       | 3 ++-
+- rpmio/digest_nss.c | 1 +
+- 2 files changed, 3 insertions(+), 1 deletion(-)
+-
+---- a/rpmio/digest_nss.c
+-+++ b/rpmio/digest_nss.c
+-@@ -1,5 +1,6 @@
+- #include "system.h"
 - 
-- # Convenience platforms targets.
---PLATS= aix bsd c89 freebsd generic linux macosx mingw posix solaris
--+PLATS= aix bsd c89 freebsd generic linux linux-no-readline macosx mingw posix solaris
-- 
-- # What to install.
-- TO_BIN= lua luac
--diff --git a/src/Makefile b/src/Makefile
--index 64c78f7..5c0428a 100644
----- a/src/Makefile
--+++ b/src/Makefile
--@@ -109,6 +109,9 @@ generic: $(ALL)
-- linux:
-- 	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX" SYSLIBS="-Wl,-E -ldl -lreadline"
-- 
--+linux-no-readline:
--+	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_LINUX_NO_READLINE" SYSLIBS="-Wl,-E -ldl"
--+
-- macosx:
-- 	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_MACOSX" SYSLIBS="-lreadline"
-- 
--diff --git a/src/luaconf.h b/src/luaconf.h
--index 9eeeea6..d71ca25 100644
----- a/src/luaconf.h
--+++ b/src/luaconf.h
--@@ -64,6 +64,11 @@
-- #define LUA_USE_READLINE	/* needs some extra libraries */
+-+#include <signal.h>
+- #include <pthread.h>
+- #include <nss.h>
+- #include <sechash.h>
+diff --git a/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+new file mode 100644
+index 0000000000..ced52d1007
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-docs-do-not-build-manpages-requires-pandoc.patch
+@@ -0,0 +1,26 @@
++From 9bf1693092385eba9841614613313010221ca01f Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 29 Jun 2021 20:11:26 +0200
++Subject: [PATCH] docs: do not build manpages (requires pandoc)
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ docs/Makefile.am | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/docs/Makefile.am b/docs/Makefile.am
++index 5a6bd203a..6257767fd 100644
++--- a/docs/Makefile.am
+++++ b/docs/Makefile.am
++@@ -1,7 +1,5 @@
++ ## Process this file with automake to produce Makefile.in
++ 
++-SUBDIRS = man
++-
++ EXTRA_DIST =
++ 
++ EXTRA_DIST += \
++-- 
++2.32.0
++
+diff --git a/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch b/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
+deleted file mode 100644
+index 6454785254..0000000000
+--- a/meta/recipes-devtools/rpm/files/0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch
++++ /dev/null
+@@ -1,65 +0,0 @@
+-From 0066b862bb3a09f39295abd5d972a53ac8dc1555 Mon Sep 17 00:00:00 2001
+-From: Peter Bergin <peter@berginkonsult.se>
+-Date: Wed, 19 Sep 2018 15:12:31 +0200
+-Subject: [PATCH] rpm/rpmio.c: restrict virtual memory usage if limit set
+-
+-A solution to avoid OOM situation when the virtual memory is restricted
+-for a user (ulimit -v). As the lzopen_internal function is run in parallel
+-one instance per CPU thread the available virtual memory is limited per
+-CPU thread.
+-
+-Upstream-Status: Pending [merge of multithreading patches to upstream]
+-
+-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+----
+- rpmio/rpmio.c | 34 ++++++++++++++++++++++++++++++++++
+- 1 file changed, 34 insertions(+)
+-
+-diff --git a/rpmio/rpmio.c b/rpmio/rpmio.c
+-index e051c98..b3c56b6 100644
+---- a/rpmio/rpmio.c
+-+++ b/rpmio/rpmio.c
+-@@ -845,6 +845,40 @@ static LZFILE *lzopen_internal(const char *mode, int fd, int xz)
+- 		}
 - #endif
 - 
--+#if defined(LUA_USE_LINUX_NO_READLINE)
--+#define LUA_USE_POSIX
--+#define LUA_USE_DLOPEN		/* needs an extra library: -ldl */
--+#endif
+-+		struct rlimit virtual_memory;
+-+		getrlimit(RLIMIT_AS, &virtual_memory);
+-+		if (virtual_memory.rlim_cur != RLIM_INFINITY) {
+-+			const uint64_t virtual_memlimit = virtual_memory.rlim_cur;
+-+			const uint64_t virtual_memlimit_per_cpu_thread =
+-+				virtual_memlimit / lzma_cputhreads();
+-+			uint64_t memory_usage_virt;
+-+			rpmlog(RPMLOG_NOTICE, "XZ: virtual memory restricted to %lu and "
+-+			       "per CPU thread %lu\n", virtual_memlimit, virtual_memlimit_per_cpu_thread);
+-+			/* keep reducing the number of compression threads until memory
+-+			   usage falls below the limit per CPU thread*/
+-+			while ((memory_usage_virt = lzma_stream_encoder_mt_memusage(&mt_options)) >
+-+			       virtual_memlimit_per_cpu_thread) {
+-+				/* If number of threads goes down to zero lzma_stream_encoder will
+-+				 * will return UINT64_MAX. We must check here to avoid an infinite loop.
+-+				 * If we get into situation that one thread requires more virtual memory
+-+				 * than available we set one thread, print error message and try anyway. */
+-+				if (--mt_options.threads == 0) {
+-+					mt_options.threads = 1;
+-+					rpmlog(RPMLOG_WARNING,
+-+					       "XZ: Could not adjust number of threads to get below "
+-+					       "virtual memory limit %lu. usage %lu\n",
+-+					       virtual_memlimit_per_cpu_thread, memory_usage_virt);
+-+					break;
+-+				}
+-+			}
+-+			if (threads != (int)mt_options.threads)
+-+				rpmlog(RPMLOG_NOTICE,
+-+				       "XZ: Adjusted the number of threads from %d to %d to not "
+-+				       "exceed the memory usage limit of %lu bytes\n",
+-+				       threads, mt_options.threads, virtual_memlimit);
 -+
-- 
-- #if defined(LUA_USE_MACOSX)
-- #define LUA_USE_POSIX
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch b/meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch
-deleted file mode 100644
-index a302874d76..0000000000
---- a/meta/recipes-devtools/lua/lua/0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch
-+++ /dev/null
-@@ -1,90 +0,0 @@
--From 1e6df25ac28dcd89f0324177bb55019422404b44 Mon Sep 17 00:00:00 2001
--From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
--Date: Thu, 3 Sep 2020 15:32:17 +0800
--Subject: [PATCH] Fixed bug: barriers cannot be active during sweep
--
--Barriers cannot be active during sweep, even in generational mode.
--(Although gen. mode is not incremental, it can hit a barrier when
--deleting a thread and closing its upvalues.)  The colors of objects are
--being changed during sweep and, therefore, cannot be trusted.
--
--Upstream-Status: Backport [https://github.com/lua/lua/commit/a6da1472c0c5e05ff249325f979531ad51533110]
--CVE: CVE-2020-24371
--
--[Adjust code KGC_INC -> KGC_NORMAL, refer 69371c4b84becac09c445aae01d005b49658ef82]
--Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-----
-- src/lgc.c | 33 ++++++++++++++++++++++++---------
-- 1 file changed, 24 insertions(+), 9 deletions(-)
--
--diff --git a/src/lgc.c b/src/lgc.c
--index 973c269..7af23d5 100644
----- a/src/lgc.c
--+++ b/src/lgc.c
--@@ -142,10 +142,17 @@ static int iscleared (global_State *g, const TValue *o) {
-- 
-- 
-- /*
---** barrier that moves collector forward, that is, mark the white object
---** being pointed by a black object. (If in sweep phase, clear the black
---** object to white [sweep it] to avoid other barrier calls for this
---** same object.)
--+** Barrier that moves collector forward, that is, marks the white object
--+** 'v' being pointed by the black object 'o'.  In the generational
--+** mode, 'v' must also become old, if 'o' is old; however, it cannot
--+** be changed directly to OLD, because it may still point to non-old
--+** objects. So, it is marked as OLD0. In the next cycle it will become
--+** OLD1, and in the next it will finally become OLD (regular old). By
--+** then, any object it points to will also be old.  If called in the
--+** incremental sweep phase, it clears the black object to white (sweep
--+** it) to avoid other barrier calls for this same object. (That cannot
--+** be done is generational mode, as its sweep does not distinguish
--+** whites from deads.)
-- */
-- void luaC_barrier_ (lua_State *L, GCObject *o, GCObject *v) {
--   global_State *g = G(L);
--@@ -154,7 +161,8 @@ void luaC_barrier_ (lua_State *L, GCObject *o, GCObject *v) {
--     reallymarkobject(g, v);  /* restore invariant */
--   else {  /* sweep phase */
--     lua_assert(issweepphase(g));
---    makewhite(g, o);  /* mark main obj. as white to avoid other barriers */
--+    if (g->gckind == KGC_NORMAL)  /* incremental mode? */
--+      makewhite(g, o);  /* mark 'o' as white to avoid other barriers */
--   }
-- }
-- 
--@@ -299,10 +307,15 @@ static void markbeingfnz (global_State *g) {
-- 
-- 
-- /*
---** Mark all values stored in marked open upvalues from non-marked threads.
---** (Values from marked threads were already marked when traversing the
---** thread.) Remove from the list threads that no longer have upvalues and
---** not-marked threads.
--+** For each non-marked thread, simulates a barrier between each open
--+** upvalue and its value. (If the thread is collected, the value will be
--+** assigned to the upvalue, but then it can be too late for the barrier
--+** to act. The "barrier" does not need to check colors: A non-marked
--+** thread must be young; upvalues cannot be older than their threads; so
--+** any visited upvalue must be young too.) Also removes the thread from
--+** the list, as it was already visited. Removes also threads with no
--+** upvalues, as they have nothing to be checked. (If the thread gets an
--+** upvalue later, it will be linked in the list again.)
-- */
-- static void remarkupvals (global_State *g) {
--   lua_State *thread;
--@@ -313,9 +326,11 @@ static void remarkupvals (global_State *g) {
--       p = &thread->twups;  /* keep marked thread with upvalues in the list */
--     else {  /* thread is not marked or without upvalues */
--       UpVal *uv;
--+      lua_assert(!isold(thread) || thread->openupval == NULL);
--       *p = thread->twups;  /* remove thread from the list */
--       thread->twups = thread;  /* mark that it is out of list */
--       for (uv = thread->openupval; uv != NULL; uv = uv->u.open.next) {
--+        lua_assert(getage(uv) <= getage(thread));
--         if (uv->u.open.touched) {
--           markvalue(g, uv->v);  /* remark upvalue's value */
--           uv->u.open.touched = 0;
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/lua/lua/CVE-2020-15888.patch b/meta/recipes-devtools/lua/lua/CVE-2020-15888.patch
-deleted file mode 100644
-index 60a4125971..0000000000
---- a/meta/recipes-devtools/lua/lua/CVE-2020-15888.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From 6298903e35217ab69c279056f925fb72900ce0b7 Mon Sep 17 00:00:00 2001
--From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
--Date: Mon, 6 Jul 2020 12:11:54 -0300
--Subject: [PATCH] Keep minimum size when shrinking a stack
--
--When shrinking a stack (during GC), do not make it smaller than the
--initial stack size.
-----
-- ldo.c | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--==== end of original header ====
--
--CVE: CVE-2020-15888
--
--Upstream-Status: backport [https://github.com/lua/lua.git]
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--
--====
--diff --git a/ldo.c b/ldo.c
--index c563b1d9..a89ac010 100644
----- a/src/ldo.c
--+++ b/src/ldo.c
--@@ -220,7 +220,7 @@ static int stackinuse (lua_State *L) {
-- 
-- void luaD_shrinkstack (lua_State *L) {
--   int inuse = stackinuse(L);
---  int goodsize = inuse + (inuse / 8) + 2*EXTRA_STACK;
--+  int goodsize = inuse + BASIC_STACK_SIZE;
--   if (goodsize > LUAI_MAXSTACK)
--     goodsize = LUAI_MAXSTACK;  /* respect stack limit */
--   if (L->stacksize > LUAI_MAXSTACK)  /* had been handling stack overflow? */
--@@ -229,8 +229,7 @@ void luaD_shrinkstack (lua_State *L) {
--     luaE_shrinkCI(L);  /* shrink list */
--   /* if thread is currently not handling a stack overflow and its
--      good size is smaller than current size, shrink its stack */
---  if (inuse <= (LUAI_MAXSTACK - EXTRA_STACK) &&
---      goodsize < L->stacksize)
--+  if (inuse <= (LUAI_MAXSTACK - EXTRA_STACK) && goodsize < L->stacksize)
--     luaD_reallocstack(L, goodsize);
--   else  /* don't change stack */
--     condmovestack(L,{},{});  /* (change only for debugging) */
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/lua/lua/CVE-2020-15945.patch b/meta/recipes-devtools/lua/lua/CVE-2020-15945.patch
-deleted file mode 100644
-index 89ce491487..0000000000
---- a/meta/recipes-devtools/lua/lua/CVE-2020-15945.patch
-+++ /dev/null
-@@ -1,167 +0,0 @@
--From d8d344365945a534f700c82c5dd26f704f89fef3 Mon Sep 17 00:00:00 2001
--From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
--Date: Wed, 5 Aug 2020 16:59:58 +0800
--Subject: [PATCH] Fixed bug: invalid 'oldpc' when returning to a function
--
--The field 'L->oldpc' is not always updated when control returns to a
--function; an invalid value can seg. fault when computing 'changedline'.
--(One example is an error in a finalizer; control can return to
--'luaV_execute' without executing 'luaD_poscall'.) Instead of trying to
--fix all possible corner cases, it seems safer to be resilient to invalid
--values for 'oldpc'. Valid but wrong values at most cause an extra call
--to a line hook.
--
--CVE: CVE-2020-15945
--
--[Adjust the code to be applicable to the tree]
--
--Upstream-Status: Backport [https://github.com/lua/lua/commit/a2195644d89812e5b157ce7bac35543e06db05e3]
--
--Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
--Signed-off-by: Joe Slater <joe.slater@@windriver.com>
--
-----
-- src/ldebug.c | 30 +++++++++++++++---------------
-- src/ldebug.h |  4 ++++
-- src/ldo.c    |  2 +-
-- src/lstate.c |  1 +
-- src/lstate.h |  2 +-
-- 5 files changed, 22 insertions(+), 17 deletions(-)
--
--diff --git a/src/ldebug.c b/src/ldebug.c
--index 239affb..832b16c 100644
----- a/src/ldebug.c
--+++ b/src/ldebug.c
--@@ -34,9 +34,8 @@
-- #define noLuaClosure(f)		((f) == NULL || (f)->c.tt == LUA_TCCL)
-- 
-- 
---/* Active Lua function (given call info) */
---#define ci_func(ci)		(clLvalue((ci)->func))
---
--+/* inverse of 'pcRel' */
--+#define invpcRel(pc, p)                ((p)->code + (pc) + 1)
-- 
-- static const char *funcnamefromcode (lua_State *L, CallInfo *ci,
--                                     const char **name);
--@@ -71,20 +70,18 @@ static void swapextra (lua_State *L) {
-- 
-- /*
-- ** This function can be called asynchronously (e.g. during a signal).
---** Fields 'oldpc', 'basehookcount', and 'hookcount' (set by
---** 'resethookcount') are for debug only, and it is no problem if they
---** get arbitrary values (causes at most one wrong hook call). 'hookmask'
---** is an atomic value. We assume that pointers are atomic too (e.g., gcc
---** ensures that for all platforms where it runs). Moreover, 'hook' is
---** always checked before being called (see 'luaD_hook').
--+** Fields 'basehookcount' and 'hookcount' (set by 'resethookcount')
--+** are for debug only, and it is no problem if they get arbitrary
--+** values (causes at most one wrong hook call). 'hookmask' is an atomic
--+** value. We assume that pointers are atomic too (e.g., gcc ensures that
--+** for all platforms where it runs). Moreover, 'hook' is always checked
--+** before being called (see 'luaD_hook').
-- */
-- LUA_API void lua_sethook (lua_State *L, lua_Hook func, int mask, int count) {
--   if (func == NULL || mask == 0) {  /* turn off hooks? */
--     mask = 0;
--     func = NULL;
--   }
---  if (isLua(L->ci))
---    L->oldpc = L->ci->u.l.savedpc;
--   L->hook = func;
--   L->basehookcount = count;
--   resethookcount(L);
--@@ -665,7 +662,10 @@ l_noret luaG_runerror (lua_State *L, const char *fmt, ...) {
-- void luaG_traceexec (lua_State *L) {
--   CallInfo *ci = L->ci;
--   lu_byte mask = L->hookmask;
--+  const Proto *p = ci_func(ci)->p;
--   int counthook = (--L->hookcount == 0 && (mask & LUA_MASKCOUNT));
--+  /* 'L->oldpc' may be invalid; reset it in this case */
--+  int oldpc = (L->oldpc < p->sizecode) ? L->oldpc : 0;
--   if (counthook)
--     resethookcount(L);  /* reset count */
--   else if (!(mask & LUA_MASKLINE))
--@@ -677,15 +677,15 @@ void luaG_traceexec (lua_State *L) {
--   if (counthook)
--     luaD_hook(L, LUA_HOOKCOUNT, -1);  /* call count hook */
--   if (mask & LUA_MASKLINE) {
---    Proto *p = ci_func(ci)->p;
--     int npc = pcRel(ci->u.l.savedpc, p);
--     int newline = getfuncline(p, npc);
--     if (npc == 0 ||  /* call linehook when enter a new function, */
---        ci->u.l.savedpc <= L->oldpc ||  /* when jump back (loop), or when */
---        newline != getfuncline(p, pcRel(L->oldpc, p)))  /* enter a new line */
--+        ci->u.l.savedpc <= invpcRel(oldpc, p) ||  /* when jump back (loop), or when */
--+        newline != getfuncline(p, oldpc))  /* enter a new line */
--       luaD_hook(L, LUA_HOOKLINE, newline);  /* call line hook */
+-+		}
 -+
--+    L->oldpc = npc;  /* 'pc' of last call to line hook */
--   }
---  L->oldpc = ci->u.l.savedpc;
--   if (L->status == LUA_YIELD) {  /* did hook yield? */
--     if (counthook)
--       L->hookcount = 1;  /* undo decrement to zero */
--diff --git a/src/ldebug.h b/src/ldebug.h
--index 0e31546..c224cc4 100644
----- a/src/ldebug.h
--+++ b/src/ldebug.h
--@@ -13,6 +13,10 @@
-- 
-- #define pcRel(pc, p)	(cast(int, (pc) - (p)->code) - 1)
-- 
--+/* Active Lua function (given call info) */
--+#define ci_func(ci)            (clLvalue((ci)->func))
--+
--+
-- #define getfuncline(f,pc)	(((f)->lineinfo) ? (f)->lineinfo[pc] : -1)
-- 
-- #define resethookcount(L)	(L->hookcount = L->basehookcount)
--diff --git a/src/ldo.c b/src/ldo.c
--index 90b695f..f66ac1a 100644
----- a/src/ldo.c
--+++ b/src/ldo.c
--@@ -382,7 +382,7 @@ int luaD_poscall (lua_State *L, CallInfo *ci, StkId firstResult, int nres) {
--       luaD_hook(L, LUA_HOOKRET, -1);
--       firstResult = restorestack(L, fr);
--     }
---    L->oldpc = ci->previous->u.l.savedpc;  /* 'oldpc' for caller function */
--+    L->oldpc = pcRel(ci->u.l.savedpc, ci_func(ci)->p);  /* 'oldpc' for caller function */
--   }
--   res = ci->func;  /* res == final position of 1st result */
--   L->ci = ci->previous;  /* back to caller */
--diff --git a/src/lstate.c b/src/lstate.c
--index 9194ac3..3573e36 100644
----- a/src/lstate.c
--+++ b/src/lstate.c
--@@ -236,6 +236,7 @@ static void preinit_thread (lua_State *L, global_State *g) {
--   L->nny = 1;
--   L->status = LUA_OK;
--   L->errfunc = 0;
--+  L->oldpc = 0;
-- }
-- 
-- 
--diff --git a/src/lstate.h b/src/lstate.h
--index a469466..d75eadf 100644
----- a/src/lstate.h
--+++ b/src/lstate.h
--@@ -164,7 +164,6 @@ struct lua_State {
--   StkId top;  /* first free slot in the stack */
--   global_State *l_G;
--   CallInfo *ci;  /* call info for current function */
---  const Instruction *oldpc;  /* last pc traced */
--   StkId stack_last;  /* last free slot in the stack */
--   StkId stack;  /* stack base */
--   UpVal *openupval;  /* list of open upvalues in this stack */
--@@ -174,6 +173,7 @@ struct lua_State {
--   CallInfo base_ci;  /* CallInfo for first level (C calling Lua) */
--   volatile lua_Hook hook;
--   ptrdiff_t errfunc;  /* current error handling function (stack index) */
--+  int oldpc;  /* last pc traced */
--   int stacksize;
--   int basehookcount;
--   int hookcount;
+- 		ret = lzma_stream_encoder_mt(&lzfile->strm, &mt_options);
+- 	    }
+- #endif
 --- 
--2.13.3
+-2.7.4
 -
-diff --git a/meta/recipes-devtools/lua/lua_5.3.6.bb b/meta/recipes-devtools/lua/lua_5.4.3.bb
-similarity index 58%
-rename from meta/recipes-devtools/lua/lua_5.3.6.bb
-rename to meta/recipes-devtools/lua/lua_5.4.3.bb
-index f830e09259..b887ee9e03 100644
---- a/meta/recipes-devtools/lua/lua_5.3.6.bb
-+++ b/meta/recipes-devtools/lua/lua_5.4.3.bb
-@@ -1,29 +1,19 @@
- DESCRIPTION = "Lua is a powerful light-weight programming language designed \
- for extending applications."
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=318;endline=352;md5=f43d8ee6bc4df18ef8b276439cc4a153"
-+LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=307;endline=330;md5=79c3f6b19ad05efe24c1681f025026bb"
- HOMEPAGE = "http://www.lua.org/"
+diff --git a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+index e78514b814..9783396639 100644
+--- a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
++++ b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+@@ -1,4 +1,4 @@
+-From b3952bd5e28f2a4d86c7377de239db8fa7237e14 Mon Sep 17 00:00:00 2001
++From 9b9d717f484ec913cdd3804e43489b3dc18bd77c Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 31 Oct 2020 22:14:05 -0700
+ Subject: [PATCH] tools: Add error.h for non-glibc case
+@@ -9,40 +9,15 @@ upstream given that elfutils has been closely tied to glibc
+ Upstream-Status: Inappropriate [workaround for musl]
  
- SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
-            file://lua.pc.in \
--           file://0001-Allow-building-lua-without-readline-on-Linux.patch \
--           file://CVE-2020-15888.patch \
--           file://CVE-2020-15945.patch \
--           file://0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'http://www.lua.org/tests/lua-${PV_testsuites}-tests.tar.gz;name=tarballtest file://run-ptest ', '', d)} \
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
+ ---
+- tools/debugedit.c      |  6 +++++-
+- tools/elfdeps.c        |  6 +++++-
+- tools/error.h          | 27 +++++++++++++++++++++++++++
+- tools/sepdebugcrcfix.c |  6 +++++-
+- 4 files changed, 42 insertions(+), 3 deletions(-)
++ tools/elfdeps.c |  6 +++++-
++ tools/error.h   | 27 +++++++++++++++++++++++++++
++ 2 files changed, 32 insertions(+), 1 deletion(-)
+  create mode 100644 tools/error.h
+ 
+-diff --git a/tools/debugedit.c b/tools/debugedit.c
+-index 9f8dcd0fb..852f46073 100644
+---- a/tools/debugedit.c
+-+++ b/tools/debugedit.c
+-@@ -26,7 +26,6 @@
+- #include <byteswap.h>
+- #include <endian.h>
+- #include <errno.h>
+--#include <error.h>
+- #include <limits.h>
+- #include <string.h>
+- #include <stdlib.h>
+-@@ -40,6 +39,11 @@
+- 
+- #include <gelf.h>
+- #include <dwarf.h>
+-+#ifdef __GLIBC__
+-+#include <error.h>
+-+#else
+-+#include "error.h"
+-+#endif
+- 
+- 
+- /* Unfortunately strtab manipulation functions were only officially added
+ diff --git a/tools/elfdeps.c b/tools/elfdeps.c
+-index 6d9094874..f69e60997 100644
++index d205935bb..3a8945b33 100644
+ --- a/tools/elfdeps.c
+ +++ b/tools/elfdeps.c
+ @@ -5,10 +5,14 @@
+@@ -94,25 +69,3 @@ index 000000000..ef06827a0
+ +}
+ +
+ +#endif	/* _ERROR_H_ */
+-diff --git a/tools/sepdebugcrcfix.c b/tools/sepdebugcrcfix.c
+-index fba460014..2be9c1fd8 100644
+---- a/tools/sepdebugcrcfix.c
+-+++ b/tools/sepdebugcrcfix.c
+-@@ -29,9 +29,13 @@
+- #include <endian.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+--#include <error.h>
+- #include <libelf.h>
+- #include <gelf.h>
+-+#ifdef __GLIBC__
+-+#include <error.h>
+-+#else
+-+#include "error.h"
+-+#endif
+- 
+- #ifndef _
+- #define _(x) x
+--- 
+-2.29.2
+-
+diff --git a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch b/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
+deleted file mode 100644
+index 4ac5c38f06..0000000000
+--- a/meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 5141d50d7b3d3c209a22c53deedb4ceef014401d Mon Sep 17 00:00:00 2001
+-From: Peter Kjellerstedt <pkj@axis.com>
+-Date: Mon, 15 May 2017 10:21:08 +0200
+-Subject: [PATCH 09/15] Do not require that ELF binaries are executable to be
+- identifiable
+-
+-There is nothing that requires, e.g., a DSO to be executable, but it
+-is still an ELF binary and should be identified as such.
+-
+-Upstream probably expects all ELF binaries to be marked as executable,
+-but rather than imposing such a limitation for OE, allow any file to
+-be identified as an ELF binary regardless of whether it is executable
+-or not.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+-
+----
+- fileattrs/elf.attr | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/fileattrs/elf.attr b/fileattrs/elf.attr
+-index 5805dd0ee..3516f309d 100644
+---- a/fileattrs/elf.attr
+-+++ b/fileattrs/elf.attr
+-@@ -1,4 +1,3 @@
+- %__elf_provides		%{_rpmconfigdir}/elfdeps --provides %{?__filter_GLIBC_PRIVATE:--filter-private}
+- %__elf_requires		%{_rpmconfigdir}/elfdeps --requires %{?__filter_GLIBC_PRIVATE:--filter-private}
+- %__elf_magic		^(setuid,? )?(setgid,? )?(sticky )?ELF (32|64)-bit.*$
+--%__elf_flags		exeonly
+--- 
+-2.14.2
+-
+diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb b/meta/recipes-devtools/rpm/rpm_4.17.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+rename to meta/recipes-devtools/rpm/rpm_4.17.0.bb
+index 189da92436..6bb3700a6e 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.17.0.bb
+@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
+ LICENSE = "GPL-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c4eec0c20c6034b9407a09945b48a43f"
+ 
+-SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
++SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x \
+            file://environment.d-rpm.sh \
+            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
+            file://0001-Do-not-read-config-files-from-HOME.patch \
+@@ -32,22 +32,20 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
+            file://0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch \
+            file://0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch \
+            file://0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch \
+-           file://0001-Fix-build-with-musl-C-library.patch \
+            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
+-           file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
+            file://0001-perl-disable-auto-reqs.patch \
+-           file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
+            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
+            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
+            file://0001-tools-Add-error.h-for-non-glibc-case.patch \
++           file://0001-docs-do-not-build-manpages-requires-pandoc.patch \
             "
  
- # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
--PV_testsuites = "5.3.4"
-+PV_testsuites = "5.4.3"
+ PE = "1"
+-SRCREV = "3659b8a04f5b8bacf6535e0124e7fe23f15286bd"
++SRCREV = "bcb9baf088f895d623755539a7aa0b5d01f475dc"
  
--SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', \
--           'http://www.lua.org/tests/lua-${PV_testsuites}-tests.tar.gz;name=tarballtest \
--            file://run-ptest \
--           ', '', d)}"
--
--SRC_URI[tarballsrc.md5sum] = "83f23dbd5230140a3770d5f54076948d"
--SRC_URI[tarballsrc.sha256sum] = "fc5fd69bb8736323f026672b1b7235da613d7177e72558893a0bdcd320466d60"
--SRC_URI[tarballtest.md5sum] = "b14fe3748c1cb2d74e3acd1943629ba3"
--SRC_URI[tarballtest.sha256sum] = "b80771238271c72565e5a1183292ef31bd7166414cd0d43a8eb79845fa7f599f"
-+SRC_URI[tarballsrc.sha256sum] = "f8612276169e3bfcbcfb8f226195bfc6e466fe13042f1076cbde92b7ec96bbfb"
-+SRC_URI[tarballtest.sha256sum] = "5d29c3022897a8290f280ebe1c6853248dfa35a668e1fc02ba9c8cde4e7bf110"
+ S = "${WORKDIR}/git"
  
- inherit pkgconfig binconfig ptest
+-DEPENDS = "libgcrypt file popt xz bzip2 elfutils python3"
++DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3"
+ DEPENDS:append:class-native = " file-replacement-native bzip2-replacement-native"
  
-@@ -31,7 +21,7 @@ PACKAGECONFIG ??= "readline"
- PACKAGECONFIG[readline] = ",,readline"
+ inherit autotools gettext pkgconfig python3native
+@@ -58,7 +56,7 @@ AUTOTOOLS_AUXDIR = "${S}/build-aux"
+ # OE-core patches autoreconf to additionally run gnu-configize, which fails with this recipe
+ EXTRA_AUTORECONF:append = " --exclude=gnu-configize"
  
- TARGET_CC_ARCH += " -fPIC ${LDFLAGS}"
--EXTRA_OEMAKE = "'CC=${CC} -fPIC' 'MYCFLAGS=${CFLAGS} -fPIC' MYLDFLAGS='${LDFLAGS}'"
-+EXTRA_OEMAKE = "'CC=${CC} -fPIC' 'MYCFLAGS=${CFLAGS} -fPIC' MYLDFLAGS='${LDFLAGS}' 'AR=ar rcD' 'RANLIB=ranlib -D'"
+-EXTRA_OECONF:append = " --without-lua --enable-python --with-crypto=libgcrypt"
++EXTRA_OECONF:append = " --enable-python --with-crypto=libgcrypt"
+ EXTRA_OECONF:append:libc-musl = " --disable-nls --disable-openmp"
  
- do_configure:prepend() {
-     sed -i -e s:/usr/local:${prefix}:g src/luaconf.h
-@@ -39,7 +29,7 @@ do_configure:prepend() {
+ # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
+@@ -70,15 +68,18 @@ EXTRA_OECONF:append:class-nativesdk = " --sysconfdir=/etc --disable-plugins"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-PACKAGECONFIG ??= "bdb ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'inhibit', '', d)}"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'inhibit', '', d)} sqlite zstd"
+ # The inhibit plugin serves no purpose outside of the target
+ PACKAGECONFIG:remove:class-native = "inhibit"
+ PACKAGECONFIG:remove:class-nativesdk = "inhibit"
+ 
+-PACKAGECONFIG[bdb] = "--enable-bdb,--disable-bdb,db"
+ PACKAGECONFIG[imaevm] = "--with-imaevm,,ima-evm-utils"
+ PACKAGECONFIG[inhibit] = "--enable-inhibit-plugin,--disable-inhibit-plugin,dbus"
+ PACKAGECONFIG[rpm2archive] = "--with-archive,--without-archive,libarchive"
++PACKAGECONFIG[sqlite] = "--enable-sqlite=yes,--enable-sqlite=no,sqlite3"
++PACKAGECONFIG[ndb] = "--enable-ndb,--disable-ndb"
++PACKAGECONFIG[bdb-ro] = "--enable-bdb-ro,--disable-bdb-ro"
++PACKAGECONFIG[zstd] = "--enable-zstd=yes,--enable-zstd=no,zstd"
+ 
+ ASNEEDED = ""
+ 
+@@ -136,8 +137,6 @@ do_install:append () {
+ 	sed -i -e 's:${HOSTTOOLS_DIR}/::g' \
+ 	    ${D}/${libdir}/rpm/macros
+ 
+-	sed -i -e 's|/usr/bin/python|${USRBINPATH}/env ${PYTHON_PN}|' \
+-	    ${D}${libdir}/rpm/pythondistdeps.py
  }
  
- do_compile () {
--    oe_runmake ${@bb.utils.contains('PACKAGECONFIG', 'readline', 'linux', 'linux-no-readline', d)}
-+    oe_runmake ${@bb.utils.contains('PACKAGECONFIG', 'readline', 'linux-readline', 'linux', d)}
- }
- 
- do_install () {
-@@ -50,13 +40,13 @@ do_install () {
-         'INSTALL_MAN=${D}${mandir}/man1' \
-         'INSTALL_SHARE=${D}${datadir}/lua' \
-         'INSTALL_LIB=${D}${libdir}' \
--        'INSTALL_CMOD=${D}${libdir}/lua/5.3' \
-+        'INSTALL_CMOD=${D}${libdir}/lua/5.4' \
-         install
-     install -d ${D}${libdir}/pkgconfig
- 
-     sed -e s/@VERSION@/${PV}/ ${WORKDIR}/lua.pc.in > ${WORKDIR}/lua.pc
-     install -m 0644 ${WORKDIR}/lua.pc ${D}${libdir}/pkgconfig/
--    rmdir ${D}${datadir}/lua/5.3
-+    rmdir ${D}${datadir}/lua/5.4
-     rmdir ${D}${datadir}/lua
- }
- 
+ FILES:${PN} += "${libdir}/rpm-plugins/*.so \
 -- 
 2.31.1
 
