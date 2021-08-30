@@ -1,36 +1,34 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.11868.1630289072774162401
+ by mx.groups.io with SMTP id smtpd.web08.11932.1630290059333682391
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Aug 2021 19:04:33 -0700
+ Sun, 29 Aug 2021 19:20:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: hongxu.jia@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 17U24SlJ029841
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 17U2KsaH030202
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 29 Aug 2021 19:04:28 -0700
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+	Sun, 29 Aug 2021 19:20:55 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sun, 29 Aug 2021 19:04:27 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Sun, 29 Aug 2021 19:04:27 -0700
+ 15.1.2242.12; Sun, 29 Aug 2021 19:20:54 -0700
 Received: from ala-lpggp7.wrs.com (147.11.105.171) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sun, 29 Aug 2021 19:04:27 -0700
+ 15.1.2242.12 via Frontend Transport; Sun, 29 Aug 2021 19:20:54 -0700
 From: "hongxu" <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
         <richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
-Subject: [PATCH V2] glibc: fix create thread failed in old unprivileged docker
-Date: Sun, 29 Aug 2021 19:04:27 -0700
-Message-ID: <20210830020427.52276-1-hongxu.jia@windriver.com>
+Subject: [PATCH V3] glibc: fix create thread failed in old unprivileged docker
+Date: Sun, 29 Aug 2021 19:20:54 -0700
+Message-ID: <20210830022054.70867-1-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <169FCB55FC9F4293.26797@lists.openembedded.org>
-References: <169FCB55FC9F4293.26797@lists.openembedded.org>
+In-Reply-To: <169FF34664D4ACC1.22970@lists.openembedded.org>
+References: <169FF34664D4ACC1.22970@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+
+# Changed in V3: add missing Upstream-Status tag
 
 Since upstream commit [d8ea0d0168 Add an internal wrapper for clone, clone2
 and clone3] applied, start a unprivileged container (docker run without
@@ -49,18 +47,18 @@ macro definition of HAVE_CLONE3_WRAPPER
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...hread-failed-in-unprivileged-process.patch | 92 +++++++++++++++++++
+ ...hread-failed-in-unprivileged-process.patch | 94 +++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.34.bb         |  1 +
- 2 files changed, 93 insertions(+)
+ 2 files changed, 95 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process.patch
 
 diff --git a/meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process.patch b/meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process.patch
 new file mode 100644
-index 0000000000..2adfac2993
+index 0000000000..d3316c8c42
 --- /dev/null
 +++ b/meta/recipes-core/glibc/glibc/0001-fix-create-thread-failed-in-unprivileged-process.patch
-@@ -0,0 +1,92 @@
-+From d454c5746f053ed845ef05b61f5355dc1e8a947c Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,94 @@
++From 116fcbcbf5edbd7692f48280e996884c3df0e993 Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
 +Date: Sun, 29 Aug 2021 20:49:16 +0800
 +Subject: [PATCH] fix create thread failed in unprivileged process
@@ -114,6 +112,8 @@ index 0000000000..2adfac2993
 +$ ./conftest
 +start thread: check_me 42
 +check_me 42, p 0x7ffe253c6f20
++
++Upstream-Status: Inappropriate [oe specific]
 +
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
