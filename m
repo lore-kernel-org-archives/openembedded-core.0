@@ -1,114 +1,80 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web08.16609.1630328463276161124
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+ by mx.groups.io with SMTP id smtpd.web11.18074.1630335608502664818
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Aug 2021 06:01:04 -0700
+ Mon, 30 Aug 2021 08:00:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=gl+1k4Od;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id ECD3880C85;
-	Mon, 30 Aug 2021 15:00:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1630328460;
-	bh=t73YiLOb23KVRKtzIR4ahxdZJWtnuzlGFzzab2t1dig=;
-	h=From:To:Cc:Subject:Date:From;
-	b=gl+1k4Od7LXrL+91DSG+zwJ+wTP2IRgukaHtt1CCjiFD8FGAeo2S207clUU6VXiBb
-	 Z9UVLWeDNlxe/TUlpptJIqrXbGWtv2Mt6s4vWA2LFYMr4kd4nzlurQJ59B5hkNSJkJ
-	 G/9iGqzWmc1tgC1b20Qw1Y3YV5lg4w+4KW4A860Ih44qAF8YaDlVv8g48YahVs/wG/
-	 9VKCyRofJx0bvBHmL7wGfMI9j4NPsGyBuEaJKgrFOAy+nuDevCgOyX2bKxMVBVF+3f
-	 nrwSWkNp3KcNdrTNHy7t8BSYOrMmCTV2ktdTIip86penxqrsBjdxWHuWDMv1gqskhL
-	 MrPps3cOQkq+A==
-From: "Marek Vasut" <marex@denx.de>
+ dkim=pass header.i=@cold-front.org header.s=mesmtp header.b=HU+APCf/;
+ spf=pass (domain: cold-front.org, ip: 66.111.4.25, mailfrom: jsbronder@cold-front.org)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8130F5C0156;
+	Mon, 30 Aug 2021 11:00:07 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 30 Aug 2021 11:00:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=mesmtp; bh=Dn75ihXSBVqTEAHe8MBX52O
+	ueVcf69IKCTm1/UDNxnk=; b=HU+APCf/gkl4+tLkcneHf9mB9TbSVnFjnW3AADM
+	ZS1KXxQBf/vIyBC5QBJza3++aUt4jZsN4cYL7WqMtMzrJSqgni81dA6QcEjyqzw6
+	IslgmuTScd4qE99M46camN3hc06P5tJ5OSCMdsBUpQisl+QpZgzduftenTSmV+C7
+	+1zs=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Dn75ihXSBVqTEAHe8
+	MBX52OueVcf69IKCTm1/UDNxnk=; b=MqSGbY2rb/8AEyiI3+eX6SPqPKXcIQMiK
+	OCHQjUcw+5cB/Nj2pG5SVgmFHLaN3I2yUbFzGbt8vpwrT+qil89Fa+qQO9oJZzgE
+	k8pf3qf6w0TO3KuQdIN/Sq9g7W2O4knAXjRTJhOiFWEeMoxk8OOS4jwMl3NnzcpE
+	xw0PUpaKkX28FNXzomPwiPjVMbottueuagfm9aJh5FQnljorXTD4Xkll9mb+7lzm
+	7O215vMagyU2JF+vDNBcj4EhT0HbZqBBjnXEIhPhGorr37g811D4wI0XgrO9F7Vo
+	u/lIjdrQfqFYMev2M/LeJDdO/ujJ0AS0GosbgBPh0oL2HEsH13WOw==
+X-ME-Sender: <xms:dvIsYYVzus46EWA6UJ8ld6-7VhnttFdUz2L6o0y-GzgKonmKDFYGnA>
+    <xme:dvIsYcnJvqVtHDQ33yUIcjZakkKWxIMokEegBj3a6_8Crf5S_FueFyPuoPRMD4_z0
+    HS7FI1qLy_gGWW1lA>
+X-ME-Received: <xmr:dvIsYcbYMkZQa5a8lvc4hG1qCMwh-KJwdGPpL_vDLemjmFBf-DF91CCrtMls0DLikJBy9Nm8L5E9PNz9En24XOSB0CnZygPjbDqYWyXlwruo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduledgkeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheplfhushhtihhnuceurhhonhguvghruceojhhssghrohhnuggvrhes
+    tgholhguqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrhhnpedvhfdthfffieffve
+    etveeifeeuvddthfeludeitedukeeggfevfffgffffffffhfenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjshgsrhhonhguvghrsegtohhlug
+    dqfhhrohhnthdrohhrgh
+X-ME-Proxy: <xmx:dvIsYXWc02H2tw0qF4TITruyTF6vOjlcx-NBEBWxZgxVj0RPg5M-CQ>
+    <xmx:dvIsYSmAyrNzyud2tmvOpMnsw7g_i_xA88eDPu6L5-mcMn9n5kvEPg>
+    <xmx:dvIsYccDELG1W8d-JzPmHQckKEihDInyvAPoPI4EwzIlbg2vyPEFTA>
+    <xmx:d_IsYZsIHBgCSOQkKQsAZrQn0AjoL2TwTeVn4ytemASOLeRpSNdmVA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 Aug 2021 11:00:06 -0400 (EDT)
+From: "Justin Bronder" <jsbronder@cold-front.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Joshua Watt <JPEWhacker@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] weston: Add rdp PACKAGECONFIG
-Date: Mon, 30 Aug 2021 15:00:31 +0200
-Message-Id: <20210830130031.10518-1-marex@denx.de>
+Cc: Justin Bronder <jsbronder@cold-front.org>
+Subject: [meta-oe][PATCH v2] hidapi: add rdep on glibc-gconv-utf-16
+Date: Mon, 30 Aug 2021 10:59:43 -0400
+Message-Id: <20210830145942.7005-1-jsbronder@cold-front.org>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Weston has RDP backend support. This can be used e.g. for screen mirrorin=
-g.
-Add PACKAGECONFIG so it can be enabled by the user. By default, this is n=
-ot
-enabled, to retain the old behavior of the recipe.
+libhidapi-libusb needs to convert from UTF-16LE to WCHAR_T in order to
+read various libusb string descriptors.
 
-Below is an example testcase of using the RDP backend for screen mirrorin=
-g,
-i.e. two devices display the same content across ethernet link, input on
-either is passed across the link.
-
-- Add the following to weston.ini:
-  [core]
-  modules=3Dscreen-share.so
-  screen-share=3Dtrue
-  [screen-share]
-  command=3D/usr/bin/weston --backend=3Drdp-backend.so --shell=3Dfullscre=
-en-shell.so --no-clients-resize --rdp-tls-cert=3D/path/to/board.crt --rdp=
--tls-key=3D/path/to/board.key --no-config
-
-- Generate keys on the board (the board.key and board.crt above):
-  $ winpr-makecert -rdp -path /path/to/
-
-- Restart weston on the board. To start screen sharing, press
-  Ctrl-Alt-S
-  on the keyboard (see weston compositor/screen-share.c).
-
-- Connect to the weston using freerdp, e.g.:
-  $ xfreerdp /v:192.168.1.300
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
 ---
-NOTE: I didn't find any example of setting up the screen mirroring,
-      so I hope this example will be useful to someone.
----
- meta/recipes-graphics/wayland/weston_9.0.0.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta-oe/recipes-support/hidapi/hidapi_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes=
--graphics/wayland/weston_9.0.0.bb
-index fbf181b4a6..295cddc57d 100644
---- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-@@ -32,7 +32,7 @@ LDFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', '=
-lto', '-Wl,-z,undefs', '',
-=20
- WESTON_MAJOR_VERSION =3D "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
-=20
--EXTRA_OEMESON +=3D "-Dbackend-default=3Dauto -Dbackend-rdp=3Dfalse -Dpip=
-ewire=3Dfalse"
-+EXTRA_OEMESON +=3D "-Dbackend-default=3Dauto -Dpipewire=3Dfalse"
-=20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', =
-'kms fbdev wayland egl clients', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland'=
-, 'xwayland', '', d)} \
-@@ -58,6 +58,8 @@ PACKAGECONFIG[x11] =3D "-Dbackend-x11=3Dtrue,-Dbackend-=
-x11=3Dfalse,virtual/libx11 libx
- PACKAGECONFIG[headless] =3D "-Dbackend-headless=3Dtrue,-Dbackend-headles=
-s=3Dfalse"
- # Weston on framebuffer
- PACKAGECONFIG[fbdev] =3D "-Dbackend-fbdev=3Dtrue,-Dbackend-fbdev=3Dfalse=
-,udev mtdev"
-+# Weston on RDP
-+PACKAGECONFIG[rdp] =3D "-Dbackend-rdp=3Dtrue,-Dbackend-rdp=3Dfalse,freer=
-dp"
- # weston-launch
- PACKAGECONFIG[launch] =3D "-Dweston-launch=3Dtrue,-Dweston-launch=3Dfals=
-e,drm"
- # VA-API desktop recorder
---=20
+diff --git a/meta-oe/recipes-support/hidapi/hidapi_git.bb b/meta-oe/recipes-support/hidapi/hidapi_git.bb
+index 76f5dc762..e45445073 100644
+--- a/meta-oe/recipes-support/hidapi/hidapi_git.bb
++++ b/meta-oe/recipes-support/hidapi/hidapi_git.bb
+@@ -7,6 +7,7 @@ LICENSE = "BSD-3-Clause | GPLv3"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7c3949a631240cb6c31c50f3eb696077"
+ 
+ DEPENDS = "libusb udev"
++RDEPENDS:${PN}:append:libc-glibc = " glibc-gconv-utf-16"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
 2.33.0
 
