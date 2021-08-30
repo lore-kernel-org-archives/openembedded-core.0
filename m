@@ -1,161 +1,78 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web12.2225.1630353085466879155
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web08.2471.1630353964849925239
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Aug 2021 12:51:25 -0700
+ Mon, 30 Aug 2021 13:06:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=NaTPzGdQ;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.182, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f182.google.com with SMTP id t190so17005750qke.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 12:51:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LrYDnD7q;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: andrey.z@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id q3so23357900edt.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 13:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FQhsfe8zNRe2CDWnXPrvr1PmELdHYGojLTQQ1cy8q6Y=;
-        b=NaTPzGdQbQ2ACbpKO1hVMfmV33vviHzwHExDwgluT31g8en8HOdVffBYWT2LW7E2JK
-         /Pd/bRz0OMGJUcTuANmtQvGKWq95LdrfZ7cQApEg0mivw1q+BqvbFnZ4FBbEcqARO1vY
-         VNYZXvoreqCtH/3q5fpJw7J3cZT24cV8FVUMmywXl7RciGtu4RhBSiiw86BAL+Uzs+Gy
-         g9lUmxBNMt7+Rjrb8nxlOQU0x6TlBvtkOScoeNol1N2Xh+Mo+4gXwjb/5Wtb2mND1+M5
-         /oWAzao8WGzRVCJxDP5gobpkCvT/NP8HZub7xVSC8vaC2l48o8P40t3+zAByrSdk3P/X
-         U/fg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=mglFhVfwlW+MyoWhL3jSmJqHnP3SK3TT1xrOw+Tp/F8=;
+        b=LrYDnD7q7l30oG9OWDb3CWzsS6ERljrtdrGLAGURHEQah/6pxvRUMl4CtSbqQKP530
+         EKIR+LCnXFsr0BgTgx11snB08Ki7+i2LZgzBtgIXUBAIInNyg2gV9suJqtq84CMv37xg
+         PE2enQ2Ar+3vypdAbP+U2oMQSrkbUcdcYEH/hrN5ge0l7kGDErkKDqYLsU45wd41fkKd
+         6BLw8xp/aX9rEYdOFy2h7vcpTdxI4WK+81S8QQtnn/u/85/pBhNrISfPc3EVDs2D8JWE
+         j1V2TyjxN0AeMTou3DIyJwDaBRuNHRib41vflFVDU/JVAyWxmduEDAJRotIOwFrj63qf
+         aJXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FQhsfe8zNRe2CDWnXPrvr1PmELdHYGojLTQQ1cy8q6Y=;
-        b=HULESG8gyoRbj9stCR6SOPvs/pZKVE5gS63TMZiMSpfXGQGX/KhkMitgh1z/bsr5H8
-         J7Ygw1fdMIWX+Gv+cc12MZEFS4VuV7gOMGZXjkesbl3Lx9vOm7yntAHgHfOfzGe9OPTT
-         RmTFAToFkeTirXVKXraJ8v3NXCRVFa9Cs3N+AGjVhXn1ejGQ9P7eUuOvIZCSYq92m7oY
-         kQkhKG4J9cSkZPbOA18sxdtYM4HKSN2U4gyO85FC3A5Wk51Yo7XEMOczb5vu6R4xdaeg
-         5DXTTlmdDy5obY12gpL3pumSVjZvRJklioXdCmMl9HLjg66+vbi9lFSVq3wB7P1QKDu5
-         hdAg==
-X-Gm-Message-State: AOAM530/e9MLs8yQKDCuJzr8Owl9srcz7igcpv4XslObzsYG8fQsOLq9
-	eJuISq6BgJ12M6HGNq5jihl4dG27S0T6fKUQecOtpg==
-X-Google-Smtp-Source: ABdhPJwLXMOIngr9HzxtV1XnwvZv2t7OuL91ni9fcEXyXP26R7AmFDCS2gQQaKBNeaQIOyn9yFigj6a5S6a4XkpBRn0=
-X-Received: by 2002:a05:620a:1105:: with SMTP id o5mr23615553qkk.278.1630353084533;
- Mon, 30 Aug 2021 12:51:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210823145450.103319-1-zboszor@pr.hu> <20210827073712.2766816-1-zboszor@pr.hu>
- <20210827073712.2766816-4-zboszor@pr.hu> <CAHtQpK4iV0cFG-60oW5cY9sDES6BBj+zfSDZUHATXem3LBnKSg@mail.gmail.com>
- <b75df7be-03d8-e454-60b8-1651fc935ca5@gmail.com> <CAHtQpK7SPixiNareJoFjeFHfc_NaD9sGnnQ4hrDU1+NLYicdOQ@mail.gmail.com>
-In-Reply-To: <CAHtQpK7SPixiNareJoFjeFHfc_NaD9sGnnQ4hrDU1+NLYicdOQ@mail.gmail.com>
-From: "Jon Mason" <jdmason@kudzu.us>
-Date: Mon, 30 Aug 2021 15:51:13 -0400
-Message-ID: <CAPoiz9xDN1Mx6B_TWFn0FYArM1+Y1PoXmY5TBqMBo4CHk3KfiA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 3/4] kernel.bbclass: Use full versions for inter-package dependencies
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>, 
-	zboszor@pr.hu, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=mglFhVfwlW+MyoWhL3jSmJqHnP3SK3TT1xrOw+Tp/F8=;
+        b=MQFfeMQPpD6ZqukH8v3/kFcnxAYcJKid6162Wo73h89gxXfZdSI+WEOj1mYio/mQUh
+         cEG/csCx0l1unT+sB+NxY/+JsT0uvUd86qPU2jIT6q34bgtv6gOt/neZ4d9tCK/mxKBy
+         upqHDZ7fAEwNNuzEmgyK4VBai7chLXFCftAS/lSM9WQOfm09xt6NeSl1hWpSILMA7Ky6
+         o88y9sIFUZX+9uP0ppUKdrf11zRO94rGkB/jeVaei/gozk+s8z4k97bU4zDMcPixXZk+
+         k0rgRvqAN/G2TI8XcvgbEG9aXcOc9VGMokSqtelBVCN8hReVvzyPm+E3j7xITqJ/V41A
+         ILYQ==
+X-Gm-Message-State: AOAM5333t2ZBj+uUXt9+gyF3dEeQiR2/iPD7aovluUp5mtbF8/C4tjAc
+	QYtTNyCpn6EfUuHSL8pnoODemUc1gwQcaqac
+X-Google-Smtp-Source: ABdhPJzpatXHl0+YegfhFemV7f4zBqfzLKHAHwozXP2DgtRXVNdJ9xf2P8paQX+WOiVZVhIiCo7M1w==
+X-Received: by 2002:aa7:d99a:: with SMTP id u26mr21687146eds.297.1630353962954;
+        Mon, 30 Aug 2021 13:06:02 -0700 (PDT)
+Return-Path: <andrey.z@gmail.com>
+Received: from aherlnxbspsrv01.lgs-net.com ([193.8.40.126])
+        by smtp.gmail.com with ESMTPSA id d22sm7274227ejj.47.2021.08.30.13.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 13:06:02 -0700 (PDT)
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [OE-core][PATCH] perl: add integer module required for kernel >= 5.14
+Date: Mon, 30 Aug 2021 20:05:40 +0000
+Message-Id: <20210830200540.9888-1-andrey.z@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, Aug 30, 2021 at 6:26 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote=
-:
->
-> On Mon, Aug 30, 2021 at 12:06 PM B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <=
-zboszor@gmail.com> wrote:
-> >
-> > 2021. 08. 30. 11:30 keltez=C3=A9ssel, Andrey Zhizhikin =C3=ADrta:
-> > > Hello Zoltan,
-> > >
-> > > On Fri, Aug 27, 2021 at 9:37 AM Zoltan Boszormenyi via
-> > > lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote=
-:
-> > >> From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> > >>
-> > >> If the kernel configuration enables module signing but no key
-> > >> is provided, then the kernel generates one during the kernel build.
-> > >>
-> > >> The current runtime-dependency references (with only package names
-> > >> without full versions) allow mixed package installations from differ=
-ent
-> > >> rebuilds of the same kernel version.
-> > >>
-> > >> This creates an issue because then the modules either don't work
-> > >> or taint the kernel.
-> > >>
-> > >> Tighten RDEPENDS with the full package version, i.e. use (=3D ${EXTE=
-NDPKGV})
-> > >> markers for inter-package dependencies.
-> > >>
-> > >> The kernel will pull in the kernel-modules subpackage of the same
-> > >> exact version automatically if KERNEL_SPLIT_MODULES=3D"0" is set.
-> > >> Otherwise the situation is the same as with the old default with
-> > >> one subpackage per kernel module where they have to be upgraded
-> > >> manually.
-> > >>
-> > >> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail=
-.com>
-> > >> ---
-> > >>   meta/classes/kernel.bbclass | 13 +++++++------
-> > >>   1 file changed, 7 insertions(+), 6 deletions(-)
-> > >>
-> > > I'm seeing errors during the do_rootfs() with this patch applied,
-> > > there are few messages like this:
-> > >
-> > >   * Solver encountered 1 problem(s):
-> > >   * Problem 1/1:
-> > >   *   - package kernel-module-libchacha-5.13.13+g91381833a4e2-5.13.13=
-+git0+91381833a4-r0.imx8mp_lpddr4_evk
-> > > requires kernel-5.13.13+g91381833a4e2, but none of the providers can
-> > > be installed
-> > >   *   - package kernel-modules-5.13.13+git0+91381833a4-r0.imx8mp_lpdd=
-r4_evk
-> > > requires kernel-module-libchacha-5.13.13+g91381833a4e2, but none of
-> > > the providers can be installed
-> > >   *   - package kernel-5.13.13+g91381833a4e2-5.13.13+git0+91381833a4-=
-r0.imx8mp_lpddr4_evk
-> > > requires kernel-image-5.13.13+g91381833a4e2 =3D
-> > > 5.13.13+git0+91381833a4-r0, but none of the providers can be installe=
-d
-> > >   *   - conflicting requests
-> > >   *   - nothing provides kernel-image-image-5.13.13+g91381833a4e2 =3D
-> > > 5.13.13+gitAUTOINC+91381833a4-r0 needed by
-> >
-> > This seems to be the problem.
-> > Is there a "kernel-image-image-5.13.13" built from your kernel recipe?
->
-> Yes, it is produced. But for some reasons opkg cannot resolve it
-> during the do_rootfs(), which is quite odd.
+Kernel commit 12dd461ebd19 ("crypto: arm64 - generate *.S by Perl at
+build time instead of shipping them") uses perl to generate assembler
+files for crypto functionality, which relies on the integer.pm module to
+be provided.
 
-I'm seeing the same issue.  All of the BSPs that I set the kernel to
-not be 5.13 (i.e., 5.10, 5.4, etc) fail.  For example,
-https://gitlab.com/jonmason00/meta-arm/-/jobs/1544819828
-If I set the PACKAGE_CLASS to be rpm instead of ipk, everything works
-as expected.  So, there must be some difference in the dep calculation
-in ipk.
+Add this module to FILES and export it for build system.
 
+Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/perl/perl_5.34.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Jon
+diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+index ab19a8d0be0..7a07b3f4911 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+@@ -248,6 +248,7 @@ FILES:${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/
+                ${libdir}/perl5/${PV}/strict.pm \
+                ${libdir}/perl5/${PV}/warnings.pm \
+                ${libdir}/perl5/${PV}/warnings \
++               ${libdir}/perl5/${PV}/integer.pm \
+                ${libdir}/perl5/${PV}/vars.pm \
+                ${libdir}/perl5/site_perl \
+                ${libdir}/perl5/${PV}/ExtUtils/MANIFEST.SKIP \
+-- 
+2.17.1
 
-> > For me, a kernel-image-bzimage-x.y.z is built.
-> >
-> > > kernel-image-5.13.13+g91381833a4e2-5.13.13+git0+91381833a4-r0.imx8mp_=
-lpddr4_evk
-> > >   *
-> > >   * Solution 1:
-> > >   *   - do not ask to install a package providing kernel-modules
-> > >
-> > > Reverting this commit does solve it, but I would like to understand
-> > > more on what should be done in order to use this new mechanism you've
-> > > introduced. Do you have any suggestion on what should be adapted in
-> > > the BSP layer to have those RDEPENDS properly resolved?
-> > >
-> > > Package manager is set for me to IPK.
-> > >
-> > > Setting KERNEL_SPLIT_MODULES=3D"1" does not solve the issue.
-> >
-> > This is the default.
-> > But setting it to "0" won't change whether the
-> > kernel-image-image-x.y.z subpackage gets built or not.
-> >
->
->
-> --
-> Regards,
-> Andrey.
->
->=20
->
