@@ -1,130 +1,76 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web09.3335.1630357976850505831
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web11.4393.1630363206936302181
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Aug 2021 14:12:57 -0700
+ Mon, 30 Aug 2021 15:40:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jPhwwcxr;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id u14so33925206ejf.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 14:12:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mh3GWlVm;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id t4so17501029qkb.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 15:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VEceSR5K7HYjZv+dIfkvrcLHMuZ/YJR04v28EZVx3lI=;
-        b=jPhwwcxrfDR2ntulr1M7gbQg+icINT2AGZvovjcUjk1PAUZAoyCvpYjBRJhzTwybmN
-         ywht/56METWQs/AgsPxF/2LGEoAtYHo580P2Rr0J3tTwhbPrQuJq9d3DPno+47rWskFX
-         b7RMZ85z7W+LS+Ho7lY7DuQurNJwjjmS7bTRh405kW5wokUrF5yLuLV6UYNnrMFE6glg
-         Z3OpDGV2LC2xeNoYauZa85zTChoRS6ymUGS9SXYWwdvog6WdrZ5KzEPnD7ydq8gk+JTs
-         STz8eoFNafEluj1dCJkyC+6WFfWTVAjFI44vyue4pu1RJdNCkgMlLnzf1jjhLFfW4cpl
-         Lh+w==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WtewOTbOl9pqfeisFBQ7kD6dy7COw08c2ye0W5zK84w=;
+        b=mh3GWlVmw4Nd5HLxA+s35MhoEaTimmBOuoj4ZhKpScaQAk01P9m9lboY/hjFX/ViGX
+         jERt1VQAw8dHrB7TOu3ai7EW3LvZEzSWI44Q3NwO5NEMOKsHXnvc12OEQ8OL+StivxGp
+         m7ix8g1rLqfI9+IpMSykppoTNKF6fOM3EwLfrDq95bu/8ehS0RGvwhlK48FpDvA8c0O0
+         WXd1lBFKRJPToiM7fgkFfQTJMr4Y0hu2XO531J/RG01SN1ARzKrjGyy5axJ5//xuFQ+T
+         NgIEREWsyE6FP9itX1+gE8yclyF0vHlYOXkEYYaGdQf8ejQ3dYswu/eu2P+A3OgWyj2X
+         v5Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VEceSR5K7HYjZv+dIfkvrcLHMuZ/YJR04v28EZVx3lI=;
-        b=nbVjTQZz6ygZlpJVjiya/U9eBfoprUeNIrF4mT3GuOz9yAH+jk9YZw346yQG8dwuWw
-         CjwduzE4BENLEDclIApVQYNJFyO9B+TEsKc4OVr9oEVjLvo6O61UFKypBKQMFN9qvBAP
-         5UHLWaU8PTIYRiwDC6ZJ8Tek2VoGTgu/17bNl8GmuukOyoYh0j34BwJqW0Mg8GRpDyTK
-         H92pbTd317kw22J4lTN/TD5fy6wU6opzpuzi+bOIGS7aBFzgDmOztEsE0lkBTOiakLqM
-         fJom70+u6EabPRVxyqvQmutd/ffVozQTGWhqjwLy+LQzeMK+DxEFL7titfQcNSOjBzhn
-         14cw==
-X-Gm-Message-State: AOAM532XlmCtBVYaTZl1UO7M16ZnSC42g6Qd2R1eYrQd7FsQUa/J5JIt
-	PauyQJL8wIcAagPCm3S9GVN7VFBlXz94bSeSUZ4=
-X-Google-Smtp-Source: ABdhPJw/yglZr1leuPTKPmC1WsBqktuvImBqN1jgc/DU/VkuYVwULBRiEIfrQ4eOsnroOrNRp91pY/uVjAIrZ9aLPGo=
-X-Received: by 2002:a17:906:680a:: with SMTP id k10mr26174901ejr.298.1630357975221;
- Mon, 30 Aug 2021 14:12:55 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WtewOTbOl9pqfeisFBQ7kD6dy7COw08c2ye0W5zK84w=;
+        b=HD/DB9pKjV0PiL4nL7uK5i1zE+70sNgPocwzrKvmCcoJl2XQTrJew2YS2GLEHZG56l
+         i0d8Cp2uR1qNxHn/IIUGEhoJ47MgMcGhB1v+3PQUGZDzmtBdMzGR5UdvTchAPZkPjrdL
+         nEXdjMf3M2wh6WBAMzfzcpVXN320jmo31j+jBHmgdkIEi5AoDOcYv03nz+0QjnOX1rWd
+         T8u7rbAVrSon25vt2FxT/IK/ROVXFsEsA5P/KLuBbT005pPhkZ5LAUUl+zZw/Ou3P+Fc
+         U2KXpAahdPDZpGSX8glghuwr3kpfMjMSOpP9NwzHBl0Py0JM1rsO33/VWAQXqqsEDw8v
+         o3kw==
+X-Gm-Message-State: AOAM531Li2WOvE9zCM9yiv1daoU6RnjtbTy3SJ/hiUXcUx7nXOlglND6
+	5H69gaAUyPwH0IUcBaX56DIy/J7BOBQS0g==
+X-Google-Smtp-Source: ABdhPJzQc8cWWTeBciatvdgLVn0VZnA+dSg9NLP1DR0rARD3Q/HUc0k6/oO+Hg4Egt356kDuEobBVA==
+X-Received: by 2002:ae9:edd2:: with SMTP id c201mr25370919qkg.495.1630363205522;
+        Mon, 30 Aug 2021 15:40:05 -0700 (PDT)
+Return-Path: <twoerner@gmail.com>
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id v145sm12693886qkb.132.2021.08.30.15.40.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 15:40:04 -0700 (PDT)
+From: "Trevor Woerner" <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] distro_features_check: expand with IMAGE_FEATURES
+Date: Mon, 30 Aug 2021 18:40:00 -0400
+Message-Id: <20210830224000.23696-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.30.0.rc0
 MIME-Version: 1.0
-References: <20210830200540.9888-1-andrey.z@gmail.com> <27aadf4835874e5117ea57ddcb26c07f73d2a7f4.camel@linuxfoundation.org>
- <CAHtQpK4i=Kp-GC0u=C_b1YQh9xBEW7yiURnRkO9TV5+veAxRjA@mail.gmail.com>
-In-Reply-To: <CAHtQpK4i=Kp-GC0u=C_b1YQh9xBEW7yiURnRkO9TV5+veAxRjA@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 30 Aug 2021 17:12:44 -0400
-Message-ID: <CADkTA4MgO7e3Q2FNzmRPuPnHSchjPFkJnT1mBLCvKx6gSgmn5A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] perl: add integer module required for kernel >= 5.14
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 30, 2021 at 4:55 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
->
-> Hello Richard,
->
-> On Mon, Aug 30, 2021 at 10:30 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Mon, 2021-08-30 at 20:05 +0000, Andrey Zhizhikin wrote:
-> > > Kernel commit 12dd461ebd19 ("crypto: arm64 - generate *.S by Perl at
-> > > build time instead of shipping them") uses perl to generate assembler
-> > > files for crypto functionality, which relies on the integer.pm module to
-> > > be provided.
-> > >
-> > > Add this module to FILES and export it for build system.
-> > >
-> > > Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
-> > > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > ---
-> > >  meta/recipes-devtools/perl/perl_5.34.0.bb | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > index ab19a8d0be0..7a07b3f4911 100644
-> > > --- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > +++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > @@ -248,6 +248,7 @@ FILES:${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/
-> > >                 ${libdir}/perl5/${PV}/strict.pm \
-> > >                 ${libdir}/perl5/${PV}/warnings.pm \
-> > >                 ${libdir}/perl5/${PV}/warnings \
-> > > +               ${libdir}/perl5/${PV}/integer.pm \
-> > >                 ${libdir}/perl5/${PV}/vars.pm \
-> > >                 ${libdir}/perl5/site_perl \
-> > >                 ${libdir}/perl5/${PV}/ExtUtils/MANIFEST.SKIP \
-> >
-> > Doesn't that mean something is missing an RDEPENDS on perl-module-integer rather
-> > than adding to the main perl package?
->
-> Good point! Now that I look at it - this does look a bit too intrusive
-> (even though it did serve the purpose).
->
-> I'm just not sure if I can craft it to RDEPENDS in kernel class instead...
->
-> This is definitely required by newer kernel builds (>= 5.14), but I'm
-> no expert in how those dependencies are set in kernel class. Would
-> need to look a bit deeper there.
+In addition to checking DISTRO_, MACHINE_, and COMBINED_ FEATURES for required
+or conflicting features, extend this functionality in order to check
+IMAGE_FEATURES in the same way.
 
-Doing it consistently is the challenge, so we tend to not set them in
-the classes themselves.
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/classes/features_check.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You have to check both the architecture and the version for many of
-the depends/rdepends.
-
-Which is why I tend to carry dependencies like this in the individual
-recipes, since the version is known and the arch is an easy check.
-
-I had some roughed out patches to start moving some of the
-dependencies into the classes, just to make creating custom recipes a
-bit easier, but I didn't complete them to my satisfaction and can't
-see to track them down at the moment.
-
-Bruce
-
->
-> >
-> > Cheers,
-> >
-> > Richard
-> >
->
-> --
-> Regards,
-> Andrey.
-
-
-
+diff --git a/meta/classes/features_check.bbclass b/meta/classes/features_check.bbclass
+index b3c8047861..d4574a0eaa 100644
+--- a/meta/classes/features_check.bbclass
++++ b/meta/classes/features_check.bbclass
+@@ -18,7 +18,7 @@ python () {
+ 
+     unused = True
+ 
+-    for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
++    for kind in ['DISTRO', 'MACHINE', 'COMBINED', 'IMAGE']:
+         if d.getVar('ANY_OF_' + kind + '_FEATURES') is None and \
+            d.overridedata.get('ANY_OF_' + kind + '_FEATURES') is None and \
+            d.getVar('REQUIRED_' + kind + '_FEATURES') is None and \
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.30.0.rc0
+
