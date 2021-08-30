@@ -1,94 +1,119 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web11.14263.1630312408316661344
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web09.14777.1630315837362180937
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Aug 2021 01:33:28 -0700
+ Mon, 30 Aug 2021 02:30:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Fqosu/sM;
- spf=pass (domain: pbarker.dev, ip: 64.147.123.19, mailfrom: paul@pbarker.dev)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.west.internal (Postfix) with ESMTP id 61E7732003F4;
-	Mon, 30 Aug 2021 04:33:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 30 Aug 2021 04:33:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	date:from:to:subject:message-id:mime-version:content-type; s=
-	fm1; bh=yJqTYKZMeRqvRB/BRJdOEX/rg0j4bwRsPOF4gsgjaBo=; b=Fqosu/sM
-	A1Q0EwVFkJ3XRo9Xeb4dB1pw0IAxAcAr2IlV7SPfidyU8taR/D9H3RR1nQqaB7zb
-	2fseteu4LhxvefcDEhiF044ChrHv2flnypfhavPZo6zT/bbbibcMSE+JzznObWVb
-	rW/6OcFdPixPCveAG6snsFH3a3LYqSgleVryT8H+91uRI2yKs0PKcRdn1WA+lTuc
-	LeGVUFu0iq/jt6aUq4i1oJ5hZgZOkc7xYxdVbmEIFUlz+vibRYzX94xaHVDcNfuJ
-	lmB+mICen59KeCRjiwIarH6oINId0mccEvQUpm8CQXuC1ff4k0QE3VMOFOJiveei
-	P7lz4hXuCsNE9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:message-id
-	:mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; bh=yJqTYKZMeRqvRB/BRJdOEX/rg0j4b
-	wRsPOF4gsgjaBo=; b=MgkGjJcfH82P7Nsug/Elv2ZJtVjN2f4dyRJydOi+PLBpy
-	ByiK7427XuPQvSGK2yg3BRNlVKZmnEhpCzQ6xFdx40hjTSY+QCn7oX9GmXGhU/r7
-	AmaM8kgHO+Z7UCbxI4OCuYcbpsGsCyQgU3/VMsojC/NbgDZXXzYZXMkMndvDX5E+
-	AgEO0A+CQ71SSp0QtJn9eRQVowhhqoZGV10eD7pBJU+BBB1YIHuJxo8pfGRn252E
-	LvbIkbCbahIuow913eHWWU/vV0BhvYqFKBYYBuR6jz6pMPzHxp7P+AnhXl9Q4i44
-	GPMRpBXbbB/U9cTGO9MtXnzDsknZ+ciRw1P2jzz1A==
-X-ME-Sender: <xms:1pcsYUV07I9EiMoZ_T0h6mOJi1D4lKFurBtvt4gBiaJ2G_HXZEcSjg>
-    <xme:1pcsYYmbtQWc1hE60-m3oa2w41cJbUtfBLryo-lRzuPFUTpMNiizvgufZrxiQNi9j
-    fwxeT3yD2b0VG9AM_c>
-X-ME-Received: <xmr:1pcsYYanvL87YM0V9CAczlawFFB0mEnUD_KyO4KfnaBzUcNsb_xSlCiZyb8dTlPtu2sOG0llNnDXVXbfj_lmgfa5zMI8OuCZ_hJAZB4sbOQ3HnUlKgsAggDkC20>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduledgtdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukffogggtsehgtderreertddvnecuhfhrohhmpefrrghulhcuuegr
-    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
-    eugfevhfehiefftedvhfelledtudetkeelkedvffeikeevhffgvdeludfgiedvfeenucff
-    ohhmrghinhepphgsrghrkhgvrhdruggvvhenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvh
-X-ME-Proxy: <xmx:1pcsYTUkQQrHfDN3s3PDhplKbJmhtr3pDwXsO7c4fquH3p7iMNCzDQ>
-    <xmx:1pcsYenMY3cgNowsbBO6aFFkNp6UXpjK2mXt0cidY2dPhLxjgn0pEQ>
-    <xmx:1pcsYYcxSvVAqPFhM5e55UknW8-CAAq1_LaS7Opn0GFJEoU8S_Z3Ig>
-    <xmx:15csYVvvCHyAz94J48Nsonto5_OcZ2bardIVJiBCuDEyWzvwKAN3xw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Aug 2021 04:33:25 -0400 (EDT)
-Date: Mon, 30 Aug 2021 09:33:22 +0100
-From: "Paul Barker" <paul@pbarker.dev>
-To: Anuj Mittal <anuj.mittal@intel.com>,
- openembedded-core@lists.openembedded.org
-Subject: [Hardknott backport request] kernel-yocto: Simplify no git repo case in do_kernel_checkout
-Message-ID: <20210830093322.70e82a43.paul@pbarker.dev>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rjd7ZWu1;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: andrey.z@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id m28so29912263lfj.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 02:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=a3H0FwnMu/puqa/BPmYi0cNKjHHxrwsN08jaLM9vbgo=;
+        b=rjd7ZWu1VyOKZGdlZYswLFnBPPQh8bkpin7ik9wBmzLagA4TVwKsJOgx5XoulQECQP
+         WgNmNWMT+BzU5lZQ9T9MhZaw1OjqtJwq5oan9GDcrvjfJ1ya/aei4X+AEfNaS5eJmijX
+         6PtfNf6Zz7jxaOsvvSQr3y94YWI2xWDbSbNt5tAMo1tp7+BAxseR4DHs+LzXFtdjdqT+
+         DNfXvwwDiURNFTOWS035EKcFrE+buesds2e6TGBBFKXuk0PIlSx9ZhcYg9cID5DjWVqh
+         6wk64g/v7AT+RXf9OtbZVQ8pDUoIsHqGi3EdiE+EXHBsaD/LtlnncJBYIQUzbVndqg9K
+         3HrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=a3H0FwnMu/puqa/BPmYi0cNKjHHxrwsN08jaLM9vbgo=;
+        b=HDG7+0F5Xo5kqCFleDyeIarDRVxCRWu0GMlfb2ljT6xN41XDTvb+Ie0iizvRA7mfkC
+         jfIp/tMrs/n6hriJNDK8JYAtCkUZVwEToWb0H0KIRCJfkdmx+UAFQtTQQPrfKNWtI93g
+         hmplSIziget+lbc6Tcw3/04da04zWLQx7rrxPZSKYRP6LxLb2q4C1vyrF0K2/LDIsgJS
+         zIzy7JpVIgv6EtGJ0E6Y7dkM2zSpCIWlN+DNbbYdoIlAj/Zymy6AcfcLzwdkT1IwzYvx
+         741iUCies6TmiH8ye9Xzhe7hlAiANlo6hdVbwfntMW+xX0SpzOCyOOGqLNeePJFVCK53
+         OqEg==
+X-Gm-Message-State: AOAM532BJFQoICQBOZQbf5YV5KSW4YstkEccbdWML705F0D4ptS6dO8O
+	wTRn+H7boUOHWbjVD6hhv4D1gDR1S1keJiTnUaE=
+X-Google-Smtp-Source: ABdhPJzALPMTU8+8KhfiGg/vbEZdqcxkDsXlq5iTEJijA7YvHxqAcaF/uACLI1t8UKY+PBnDoopkxyftrha537EcvYY=
+X-Received: by 2002:a05:6512:31c1:: with SMTP id j1mr14818846lfe.442.1630315835389;
+ Mon, 30 Aug 2021 02:30:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Groupsio-MsgNum: 155481
-Content-Type: multipart/signed; boundary="Sig_/uNnOa==VxqSOHq95p8BJNCb";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/uNnOa==VxqSOHq95p8BJNCb
-Content-Type: text/plain; charset=US-ASCII
+References: <20210823145450.103319-1-zboszor@pr.hu> <20210827073712.2766816-1-zboszor@pr.hu>
+ <20210827073712.2766816-4-zboszor@pr.hu>
+In-Reply-To: <20210827073712.2766816-4-zboszor@pr.hu>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Mon, 30 Aug 2021 11:30:02 +0200
+Message-ID: <CAHtQpK4iV0cFG-60oW5cY9sDES6BBj+zfSDZUHATXem3LBnKSg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 3/4] kernel.bbclass: Use full versions for inter-package dependencies
+To: zboszor@pr.hu
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, zboszor@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Anuj,
+Hello Zoltan,
 
-Please could you consider backporting the following commit to hardknott:
+On Fri, Aug 27, 2021 at 9:37 AM Zoltan Boszormenyi via
+lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
+>
+> From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+>
+> If the kernel configuration enables module signing but no key
+> is provided, then the kernel generates one during the kernel build.
+>
+> The current runtime-dependency references (with only package names
+> without full versions) allow mixed package installations from different
+> rebuilds of the same kernel version.
+>
+> This creates an issue because then the modules either don't work
+> or taint the kernel.
+>
+> Tighten RDEPENDS with the full package version, i.e. use (=3D ${EXTENDPKG=
+V})
+> markers for inter-package dependencies.
+>
+> The kernel will pull in the kernel-modules subpackage of the same
+> exact version automatically if KERNEL_SPLIT_MODULES=3D"0" is set.
+> Otherwise the situation is the same as with the old default with
+> one subpackage per kernel module where they have to be upgraded
+> manually.
+>
+> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+>
 
-  af2a9c92d449 ("kernel-yocto: Simplify no git repo case in do_kernel_check=
-out")
+I'm seeing errors during the do_rootfs() with this patch applied,
+there are few messages like this:
 
-This has already been backport to dunfell. The patch cherry-picks
-cleanly to hardknott.
+ * Solver encountered 1 problem(s):
+ * Problem 1/1:
+ *   - package kernel-module-libchacha-5.13.13+g91381833a4e2-5.13.13+git0+9=
+1381833a4-r0.imx8mp_lpddr4_evk
+requires kernel-5.13.13+g91381833a4e2, but none of the providers can
+be installed
+ *   - package kernel-modules-5.13.13+git0+91381833a4-r0.imx8mp_lpddr4_evk
+requires kernel-module-libchacha-5.13.13+g91381833a4e2, but none of
+the providers can be installed
+ *   - package kernel-5.13.13+g91381833a4e2-5.13.13+git0+91381833a4-r0.imx8=
+mp_lpddr4_evk
+requires kernel-image-5.13.13+g91381833a4e2 =3D
+5.13.13+git0+91381833a4-r0, but none of the providers can be installed
+ *   - conflicting requests
+ *   - nothing provides kernel-image-image-5.13.13+g91381833a4e2 =3D
+5.13.13+gitAUTOINC+91381833a4-r0 needed by
+kernel-image-5.13.13+g91381833a4e2-5.13.13+git0+91381833a4-r0.imx8mp_lpddr4=
+_evk
+ *
+ * Solution 1:
+ *   - do not ask to install a package providing kernel-modules
 
-Thanks,
+Reverting this commit does solve it, but I would like to understand
+more on what should be done in order to use this new mechanism you've
+introduced. Do you have any suggestion on what should be adapted in
+the BSP layer to have those RDEPENDS properly resolved?
+
+Package manager is set for me to IPK.
+
+Setting KERNEL_SPLIT_MODULES=3D"1" does not solve the issue.
 
 --=20
-Paul Barker
-https://pbarker.dev/
-
---Sig_/uNnOa==VxqSOHq95p8BJNCb
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYIAB0WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCYSyX0gAKCRCrY1Tsnbr0
-br/ZAP4urzTSJKKWtI9DtTbBZOYBWam0TPnabSRNsFM8wb122wD/bKIeQ1vk5jhs
-rsr34g9yco/Lfhp5ALjZFo3NdeTb5Ak=
-=ahty
------END PGP SIGNATURE-----
-
---Sig_/uNnOa==VxqSOHq95p8BJNCb--
+Regards,
+Andrey.
