@@ -1,76 +1,118 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.4393.1630363206936302181
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web08.4611.1630363991773354390
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Aug 2021 15:40:07 -0700
+ Mon, 30 Aug 2021 15:53:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mh3GWlVm;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id t4so17501029qkb.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Aug 2021 15:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WtewOTbOl9pqfeisFBQ7kD6dy7COw08c2ye0W5zK84w=;
-        b=mh3GWlVmw4Nd5HLxA+s35MhoEaTimmBOuoj4ZhKpScaQAk01P9m9lboY/hjFX/ViGX
-         jERt1VQAw8dHrB7TOu3ai7EW3LvZEzSWI44Q3NwO5NEMOKsHXnvc12OEQ8OL+StivxGp
-         m7ix8g1rLqfI9+IpMSykppoTNKF6fOM3EwLfrDq95bu/8ehS0RGvwhlK48FpDvA8c0O0
-         WXd1lBFKRJPToiM7fgkFfQTJMr4Y0hu2XO531J/RG01SN1ARzKrjGyy5axJ5//xuFQ+T
-         NgIEREWsyE6FP9itX1+gE8yclyF0vHlYOXkEYYaGdQf8ejQ3dYswu/eu2P+A3OgWyj2X
-         v5Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WtewOTbOl9pqfeisFBQ7kD6dy7COw08c2ye0W5zK84w=;
-        b=HD/DB9pKjV0PiL4nL7uK5i1zE+70sNgPocwzrKvmCcoJl2XQTrJew2YS2GLEHZG56l
-         i0d8Cp2uR1qNxHn/IIUGEhoJ47MgMcGhB1v+3PQUGZDzmtBdMzGR5UdvTchAPZkPjrdL
-         nEXdjMf3M2wh6WBAMzfzcpVXN320jmo31j+jBHmgdkIEi5AoDOcYv03nz+0QjnOX1rWd
-         T8u7rbAVrSon25vt2FxT/IK/ROVXFsEsA5P/KLuBbT005pPhkZ5LAUUl+zZw/Ou3P+Fc
-         U2KXpAahdPDZpGSX8glghuwr3kpfMjMSOpP9NwzHBl0Py0JM1rsO33/VWAQXqqsEDw8v
-         o3kw==
-X-Gm-Message-State: AOAM531Li2WOvE9zCM9yiv1daoU6RnjtbTy3SJ/hiUXcUx7nXOlglND6
-	5H69gaAUyPwH0IUcBaX56DIy/J7BOBQS0g==
-X-Google-Smtp-Source: ABdhPJzQc8cWWTeBciatvdgLVn0VZnA+dSg9NLP1DR0rARD3Q/HUc0k6/oO+Hg4Egt356kDuEobBVA==
-X-Received: by 2002:ae9:edd2:: with SMTP id c201mr25370919qkg.495.1630363205522;
-        Mon, 30 Aug 2021 15:40:05 -0700 (PDT)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id v145sm12693886qkb.132.2021.08.30.15.40.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Aug 2021 15:40:04 -0700 (PDT)
-From: "Trevor Woerner" <twoerner@gmail.com>
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=Yb+uTxIQ;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: abeltran@linux.microsoft.com)
+Received: from abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net (unknown [20.94.235.175])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E626D20B90FF;
+	Mon, 30 Aug 2021 15:53:10 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E626D20B90FF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1630363990;
+	bh=3J+ECtayY6KUsbXPOjNeMuPbT1iy9PR4Vg2Gi2FG/aw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Yb+uTxIQYhPeRPWqnJzys5O1tygqKBt5cEktUxW3KXxx5JUmdhL0Lia6tlVkL4Gpv
+	 uZkGKcybLYDXr5Img6kHN7k970Oqr3J8QO7tCtH1fqq17x3d20YGzyyPYLuiSYjOje
+	 7bhmGVemexZEy3sh8C7YlGhtVMesLTP5cr6LzXDs=
+From: "Andres Beltran" <abeltran@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] distro_features_check: expand with IMAGE_FEATURES
-Date: Mon, 30 Aug 2021 18:40:00 -0400
-Message-Id: <20210830224000.23696-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.30.0.rc0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Andres Beltran <abeltran@linux.microsoft.com>
+Subject: [PATCH v2] buildhistory: Label packages providing per-file dependencies in depends.dot
+Date: Mon, 30 Aug 2021 22:53:03 +0000
+Message-Id: <20210830225303.19407-1-abeltran@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 
-In addition to checking DISTRO_, MACHINE_, and COMBINED_ FEATURES for required
-or conflicting features, extend this functionality in order to check
-IMAGE_FEATURES in the same way.
+Currently, depends.dot includes per-file dependencies but not the packages
+providing those files. This makes it hard to obtain all package
+dependencies by just looking at depends.dot.
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+Parse the RPROVIDES and FILERPROVIDES fields from pkgdata to map each of
+their values to the package providing the component. Include runtime
+packages as dependencies in depends.dot, together with the component
+provided by the package as a label.
+
+Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
 ---
- meta/classes/features_check.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/buildhistory.bbclass |  4 +++-
+ meta/lib/oe/utils.py              | 32 +++++++++++++++++++++++++++++--
+ 2 files changed, 33 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/features_check.bbclass b/meta/classes/features_check.bbclass
-index b3c8047861..d4574a0eaa 100644
---- a/meta/classes/features_check.bbclass
-+++ b/meta/classes/features_check.bbclass
-@@ -18,7 +18,7 @@ python () {
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 134b56ab71..20609c435b 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -438,7 +438,7 @@ def buildhistory_list_installed(d, rootfs_type="image"):
+         output_file_full = os.path.join(d.getVar('WORKDIR'), output_file)
  
-     unused = True
+         with open(output_file_full, 'w') as output:
+-            output.write(format_pkg_list(pkgs, output_type))
++            output.write(format_pkg_list(pkgs, output_type, d.getVar('PKGDATA_DIR')))
  
--    for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
-+    for kind in ['DISTRO', 'MACHINE', 'COMBINED', 'IMAGE']:
-         if d.getVar('ANY_OF_' + kind + '_FEATURES') is None and \
-            d.overridedata.get('ANY_OF_' + kind + '_FEATURES') is None and \
-            d.getVar('REQUIRED_' + kind + '_FEATURES') is None and \
+ python buildhistory_list_installed_image() {
+     buildhistory_list_installed(d)
+@@ -479,6 +479,8 @@ buildhistory_get_installed() {
+ 	       -e 's:|: -> :' \
+ 	       -e 's:"\[REC\]":[style=dotted]:' \
+ 	       -e 's:"\([<>=]\+\)" "\([^"]*\)":[label="\1 \2"]:' \
++	       -e 's:"\([*]\+\)" "\([^"]*\)":[label="\2"]:' \
++	       -e 's:"\[RPROVIDES\]":[style=dashed]:' \
+ 		$1/depends.tmp
+ 	# Add header, sorted and de-duped contents and footer and then delete the temp file
+ 	printf "digraph depends {\n    node [shape=plaintext]\n" > $1/depends.dot
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 83d298906b..75269a9feb 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -345,7 +345,29 @@ def squashspaces(string):
+     import re
+     return re.sub(r"\s+", " ", string).strip()
+ 
+-def format_pkg_list(pkg_dict, ret_format=None):
++def rprovides_map(pkgdata_dir, pkg_dict):
++    # Map file -> pkg provider
++    rprov_map = {}
++
++    for pkg in pkg_dict:
++        path_to_pkgfile = os.path.join(pkgdata_dir, 'runtime-reverse', pkg)
++        if not os.path.isfile(path_to_pkgfile):
++            continue
++        with open(path_to_pkgfile) as f:
++            for line in f:
++                if line.startswith('RPROVIDES') or line.startswith('FILERPROVIDES'):
++                    # List all components provided by pkg.
++                    # Exclude version strings, i.e. those starting with (
++                    provides = [x for x in line.split()[1:] if not x.startswith('(')]
++                    for prov in provides:
++                        if prov in rprov_map:
++                            rprov_map[prov].append(pkg)
++                        else:
++                            rprov_map[prov] = [pkg]
++
++    return rprov_map
++
++def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
+     output = []
+ 
+     if ret_format == "arch":
+@@ -358,9 +380,15 @@ def format_pkg_list(pkg_dict, ret_format=None):
+         for pkg in sorted(pkg_dict):
+             output.append("%s %s %s" % (pkg, pkg_dict[pkg]["arch"], pkg_dict[pkg]["ver"]))
+     elif ret_format == "deps":
++        rprov_map = rprovides_map(pkgdata_dir, pkg_dict)
+         for pkg in sorted(pkg_dict):
+             for dep in pkg_dict[pkg]["deps"]:
+-                output.append("%s|%s" % (pkg, dep))
++                if dep in rprov_map:
++                    # There could be multiple providers within the image
++                    for pkg_provider in rprov_map[dep]:
++                        output.append("%s|%s * %s [RPROVIDES]" % (pkg, pkg_provider, dep))
++                else:
++                    output.append("%s|%s" % (pkg, dep))
+     else:
+         for pkg in sorted(pkg_dict):
+             output.append(pkg)
 -- 
-2.30.0.rc0
+2.17.1
 
