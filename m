@@ -1,69 +1,285 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
  by mx.groups.io with SMTP id smtpd.web12.13900.1630308851415211051
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Aug 2021 00:34:14 -0700
+ Mon, 30 Aug 2021 00:34:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-X-IronPort-AV: E=McAfee;i="6200,9189,10091"; a="197789547"
+X-IronPort-AV: E=McAfee;i="6200,9189,10091"; a="197789553"
 X-IronPort-AV: E=Sophos;i="5.84,362,1620716400"; 
-   d="scan'208";a="197789547"
+   d="scan'208";a="197789553"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 00:34:13 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 00:34:16 -0700
 X-IronPort-AV: E=Sophos;i="5.84,362,1620716400"; 
-   d="scan'208";a="509469248"
+   d="scan'208";a="509469252"
 Received: from hongkekh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.234.105])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 00:34:12 -0700
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 00:34:14 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 2/9] openssl: upgrade from 1.1.1k to 1.1.1l
-Date: Mon, 30 Aug 2021 15:33:53 +0800
-Message-Id: <9b39e14809da170634ef99e611d26e6b5497e793.1630306698.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 3/9] file: fix close_on_exec for multithreaded decompression
+Date: Mon, 30 Aug 2021 15:33:54 +0800
+Message-Id: <167814b81ddac3934077b0ee91c0c6015fc02bfe.1630306698.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1630306698.git.anuj.mittal@intel.com>
 References: <cover.1630306698.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Randy MacLeod <randy.macleod@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Includes fixes for:
+It is not safe to call the 'file' command from multiple threads. When a
+file is checked with multiple threads in parallel, the file descriptors
+might get shared which makes the pipe handling lock up, leading to lock
+up in rpmbuild. And may lead to rarely deadlock on random recipes's
+do_package task.
 
-CVE: CVE-2021-3711
-CVE: CVE-2021-3712
-
-as described by:
-   https://www.openssl.org/news/secadv/20210824.txt
-
-Ptest results on qemux86-64 with kvm:
-   All tests successful.
-   Files=158, Tests=2532, 93 wallclock secs \
-     ( 1.31 usr  0.14 sys + 73.43 cusr 12.65 csys = 87.53 CPU)
-   Result: PASS
-   DURATION: 93
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../openssl/{openssl_1.1.1k.bb => openssl_1.1.1l.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1k.bb => openssl_1.1.1l.bb} (98%)
+ meta/recipes-devtools/file/file_5.39.bb       |   3 +-
+ ...ec-multithreaded-decompression-issue.patch | 220 ++++++++++++++++++
+ 2 files changed, 222 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-index e518cb6a02..9ea5c4c81f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-@@ -28,7 +28,7 @@ SRC_URI_append_riscv32 = " \
-            file://0004-Fixup-support-for-io_pgetevents_time64-syscall.patch \
-            "
+diff --git a/meta/recipes-devtools/file/file_5.39.bb b/meta/recipes-devtools/file/file_5.39.bb
+index abaa8149a3..c0c7253688 100644
+--- a/meta/recipes-devtools/file/file_5.39.bb
++++ b/meta/recipes-devtools/file/file_5.39.bb
+@@ -12,7 +12,8 @@ DEPENDS = "file-replacement-native"
+ DEPENDS_class-native = "bzip2-replacement-native"
  
--SRC_URI[sha256sum] = "892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df33fbaee5"
-+SRC_URI[sha256sum] = "0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1"
+ SRC_URI = "git://github.com/file/file.git \
+-           file://0001-src-compress.c-correct-header-define-for-xz-lzma.patch"
++           file://0001-src-compress.c-correct-header-define-for-xz-lzma.patch \
++           file://0001-Fix-close_on_exec-multithreaded-decompression-issue.patch"
  
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ SRCREV = "87731415de945660b00f02207d8e9d986ef9b82e"
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch b/meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch
+new file mode 100644
+index 0000000000..42105feed9
+--- /dev/null
++++ b/meta/recipes-devtools/file/files/0001-Fix-close_on_exec-multithreaded-decompression-issue.patch
+@@ -0,0 +1,220 @@
++From 0d82f2f3ba4a856504f23a9db1dd5f37bd076337 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 23 Aug 2021 14:16:53 +0800
++Subject: [PATCH] Fix close_on_exec multithreaded decompression issue.
++
++Upstream-Status: Backport [https://github.com/file/file/commit/81f15c2b0d6e9eaf524ff7bab37426c21af75fb7]
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ ChangeLog      |  5 +++++
++ configure.ac   |  2 +-
++ src/compress.c | 25 ++++++++++++++++++++++---
++ src/file.h     | 12 +++++++++++-
++ src/funcs.c    | 24 +++++++++++++++++++++++-
++ src/magic.c    |  7 +++++--
++ 6 files changed, 67 insertions(+), 8 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index f877ad22..8c4a43d4 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,8 @@
+++2020-12-08  16:24  Christos Zoulas <christos@zoulas.com>
+++
+++	* fix multithreaded decompression file descriptor issue
+++	  by using close-on-exec (Denys Vlasenko)
+++
++ 2020-06-14  20:02  Christos Zoulas <christos@zoulas.com>
++ 
++ 	* release 5.39
++diff --git a/configure.ac b/configure.ac
++index 64c9f42e..521dc12d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -166,7 +166,7 @@ else
++ fi])
++ 
++ dnl Checks for functions
++-AC_CHECK_FUNCS(strndup mkstemp mkostemp utimes utime wcwidth strtof newlocale uselocale freelocale memmem)
+++AC_CHECK_FUNCS(strndup mkstemp mkostemp utimes utime wcwidth strtof newlocale uselocale freelocale memmem pipe2)
++ 
++ dnl Provide implementation of some required functions if necessary
++ AC_REPLACE_FUNCS(getopt_long asprintf vasprintf strlcpy strlcat getline ctime_r asctime_r localtime_r gmtime_r pread strcasestr fmtcheck dprintf)
++diff --git a/src/compress.c b/src/compress.c
++index 9670b72c..9f65e4fa 100644
++--- a/src/compress.c
+++++ b/src/compress.c
++@@ -35,7 +35,7 @@
++ #include "file.h"
++ 
++ #ifndef lint
++-FILE_RCSID("@(#)$File: compress.c,v 1.127 2020/05/31 00:11:06 christos Exp $")
+++FILE_RCSID("@(#)$File: compress.c,v 1.129 2020/12/08 21:26:00 christos Exp $")
++ #endif
++ 
++ #include "magic.h"
++@@ -844,8 +844,23 @@ uncompressbuf(int fd, size_t bytes_max, size_t method, const unsigned char *old,
++ 	for (i = 0; i < __arraycount(fdp); i++)
++ 		fdp[i][0] = fdp[i][1] = -1;
++ 
++-	if ((fd == -1 && pipe(fdp[STDIN_FILENO]) == -1) ||
++-	    pipe(fdp[STDOUT_FILENO]) == -1 || pipe(fdp[STDERR_FILENO]) == -1) {
+++	/*
+++	 * There are multithreaded users who run magic_file()
+++	 * from dozens of threads. If two parallel magic_file() calls
+++	 * analyze two large compressed files, both will spawn
+++	 * an uncompressing child here, which writes out uncompressed data.
+++	 * We read some portion, then close the pipe, then waitpid() the child.
+++	 * If uncompressed data is larger, child shound get EPIPE and exit.
+++	 * However, with *parallel* calls OTHER child may unintentionally
+++	 * inherit pipe fds, thus keeping pipe open and making writes in
+++	 * our child block instead of failing with EPIPE!
+++	 * (For the bug to occur, two threads must mutually inherit their pipes,
+++	 * and both must have large outputs. Thus it happens not that often).
+++	 * To avoid this, be sure to create pipes with O_CLOEXEC.
+++	 */
+++	if ((fd == -1 && file_pipe_closexec(fdp[STDIN_FILENO]) == -1) ||
+++	    file_pipe_closexec(fdp[STDOUT_FILENO]) == -1 ||
+++	    file_pipe_closexec(fdp[STDERR_FILENO]) == -1) {
++ 		closep(fdp[STDIN_FILENO]);
++ 		closep(fdp[STDOUT_FILENO]);
++ 		return makeerror(newch, n, "Cannot create pipe, %s",
++@@ -876,16 +891,20 @@ uncompressbuf(int fd, size_t bytes_max, size_t method, const unsigned char *old,
++ 			if (fdp[STDIN_FILENO][1] > 2)
++ 				(void) close(fdp[STDIN_FILENO][1]);
++ 		}
+++		file_clear_closexec(STDIN_FILENO);
+++
++ ///FIXME: if one of the fdp[i][j] is 0 or 1, this can bomb spectacularly
++ 		if (copydesc(STDOUT_FILENO, fdp[STDOUT_FILENO][1]))
++ 			(void) close(fdp[STDOUT_FILENO][1]);
++ 		if (fdp[STDOUT_FILENO][0] > 2)
++ 			(void) close(fdp[STDOUT_FILENO][0]);
+++		file_clear_closexec(STDOUT_FILENO);
++ 
++ 		if (copydesc(STDERR_FILENO, fdp[STDERR_FILENO][1]))
++ 			(void) close(fdp[STDERR_FILENO][1]);
++ 		if (fdp[STDERR_FILENO][0] > 2)
++ 			(void) close(fdp[STDERR_FILENO][0]);
+++		file_clear_closexec(STDERR_FILENO);
++ 
++ 		(void)execvp(compr[method].argv[0],
++ 		    RCAST(char *const *, RCAST(intptr_t, compr[method].argv)));
++diff --git a/src/file.h b/src/file.h
++index 28ebc0c1..48f4b698 100644
++--- a/src/file.h
+++++ b/src/file.h
++@@ -27,7 +27,7 @@
++  */
++ /*
++  * file.h - definitions for file(1) program
++- * @(#)$File: file.h,v 1.220 2020/06/08 17:38:27 christos Exp $
+++ * @(#)$File: file.h,v 1.223 2020/12/08 21:26:00 christos Exp $
++  */
++ 
++ #ifndef __file_h__
++@@ -143,6 +143,14 @@
++ #define	MAX(a,b)	(((a) > (b)) ? (a) : (b))
++ #endif
++ 
+++#ifndef O_CLOEXEC
+++# define O_CLOEXEC 0
+++#endif
+++
+++#ifndef FD_CLOEXEC
+++# define FD_CLOEXEC 1
+++#endif
+++
++ #define FILE_BADSIZE CAST(size_t, ~0ul)
++ #define MAXDESC	64		/* max len of text description/MIME type */
++ #define MAXMIME	80		/* max len of text MIME type */
++@@ -538,6 +546,8 @@ protected char * file_printable(char *, size_t, const char *, size_t);
++ protected int file_os2_apptype(struct magic_set *, const char *, const void *,
++     size_t);
++ #endif /* __EMX__ */
+++protected int file_pipe_closexec(int *);
+++protected int file_clear_closexec(int);
++ 
++ protected void buffer_init(struct buffer *, int, const struct stat *,
++     const void *, size_t);
++diff --git a/src/funcs.c b/src/funcs.c
++index b66510c6..d6c485fe 100644
++--- a/src/funcs.c
+++++ b/src/funcs.c
++@@ -27,7 +27,7 @@
++ #include "file.h"
++ 
++ #ifndef	lint
++-FILE_RCSID("@(#)$File: funcs.c,v 1.115 2020/02/20 15:50:20 christos Exp $")
+++FILE_RCSID("@(#)$File: funcs.c,v 1.118 2020/12/08 21:26:00 christos Exp $")
++ #endif	/* lint */
++ 
++ #include "magic.h"
++@@ -36,6 +36,9 @@ FILE_RCSID("@(#)$File: funcs.c,v 1.115 2020/02/20 15:50:20 christos Exp $")
++ #include <stdlib.h>
++ #include <string.h>
++ #include <ctype.h>
+++#ifdef HAVE_UNISTD_H
+++#include <unistd.h>	/* for pipe2() */
+++#endif
++ #if defined(HAVE_WCHAR_H)
++ #include <wchar.h>
++ #endif
++@@ -783,3 +786,22 @@ file_print_guid(char *str, size_t len, const uint64_t *guid)
++ 	    g->data4[2], g->data4[3], g->data4[4], g->data4[5],
++ 	    g->data4[6], g->data4[7]);
++ }
+++
+++protected int
+++file_pipe_closexec(int *fds)
+++{
+++#ifdef HAVE_PIPE2
+++	return pipe2(fds, O_CLOEXEC);
+++#else
+++	if (pipe(fds) == -1)
+++		return -1;
+++	(void)fcntl(fds[0], F_SETFD, FD_CLOEXEC);
+++	(void)fcntl(fds[1], F_SETFD, FD_CLOEXEC);
+++	return 0;
+++#endif
+++}
+++
+++protected int
+++file_clear_closexec(int fd) {
+++	return fcntl(fd, F_SETFD, 0);
+++}
++diff --git a/src/magic.c b/src/magic.c
++index 17a7077d..89f4e16c 100644
++--- a/src/magic.c
+++++ b/src/magic.c
++@@ -33,7 +33,7 @@
++ #include "file.h"
++ 
++ #ifndef	lint
++-FILE_RCSID("@(#)$File: magic.c,v 1.112 2020/06/08 19:44:10 christos Exp $")
+++FILE_RCSID("@(#)$File: magic.c,v 1.113 2020/12/08 21:26:00 christos Exp $")
++ #endif	/* lint */
++ 
++ #include "magic.h"
++@@ -436,7 +436,7 @@ file_or_fd(struct magic_set *ms, const char *inname, int fd)
++ 		_setmode(STDIN_FILENO, O_BINARY);
++ #endif
++ 	if (inname != NULL) {
++-		int flags = O_RDONLY|O_BINARY|O_NONBLOCK;
+++		int flags = O_RDONLY|O_BINARY|O_NONBLOCK|O_CLOEXEC;
++ 		errno = 0;
++ 		if ((fd = open(inname, flags)) < 0) {
++ 			okstat = stat(inname, &sb) == 0;
++@@ -460,6 +460,9 @@ file_or_fd(struct magic_set *ms, const char *inname, int fd)
++ 			rv = 0;
++ 			goto done;
++ 		}
+++#if O_CLOEXEC == 0
+++		(void)fcntl(fd, F_SETFD, FD_CLOEXEC);
+++#endif
++ 	}
++ 
++ 	if (fd != -1) {
++-- 
++2.17.1
++
 -- 
 2.31.1
 
