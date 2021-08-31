@@ -1,180 +1,99 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.4786.1630412990303340967
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+ by mx.groups.io with SMTP id smtpd.web12.4947.1630413941130928438
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Aug 2021 05:29:50 -0700
+ Tue, 31 Aug 2021 05:45:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=re0B/zDf;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id h1so31454296ljl.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 05:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=brFsxSBsStcSrGXpNHW7TN4++9PGHJW2W37vZqcqpCo=;
-        b=re0B/zDfN0uWRBQQ1YPtF/qi7HBGwVB4hy1oR6fDySYt5wIoyU9tecTGsdsloYyAFe
-         UgD2ChkYtxCPb/vpbNrwImk7yTzOoCe9nf4ev4afUp9Xh43jvcCf3Fbf1F1ZeLPo0iwA
-         n9aCVACxtWiD5bhtwA7h1FoM3WUvreJj1Jmbe01Mb0gUJoknRS0o66zfoCGAx76iOith
-         IT5oO46bs/jWen3LoY9itZr+c0UVHraGMhJ79Dy78sBRqt/Nkr4i7/jQ22VYURLKvcpY
-         6f6HUT+jBI93MRDNn/bqL/jzpKaTg7Ukpnwi82GIeGT7jAbKTNdb92eEHuhC8gxBvYrD
-         H2VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=brFsxSBsStcSrGXpNHW7TN4++9PGHJW2W37vZqcqpCo=;
-        b=eT3x8orgsu2AYb9ek4xzITK/e+Mrb/Zu29wKmykCZtlkxrmsNJBYjwERUXFHE/eJy9
-         tzP7N+vqsUpHnD/foHnubtIlHIzjcnEauEFZp+ia2KkpDOxyfT4DeJPV9THSCO3Xq3FI
-         7LtOSn8CYuYKLGu0Ioz2i7FtBgPrbKJPPKX9z3sqitgYrQ1wei2AGEv7fSgp3UKkkxHy
-         ECPVlza/42OPc19ow48x+98Gi9nmmsXLk/FBmCH0cnv3jtLNuTR5++eIlXFokJ2B+1rl
-         nRgytlj6i/h5TIqxwljdo0rdGsApQVXXfJZ8hwcN0T4jGF0ZzYiGhj+HxIgpZ3zjs7wd
-         cu0A==
-X-Gm-Message-State: AOAM533gvzP98zezsjioYhTSXIPSOJiMUbqOl5668l8o+bKiZavkgyJ2
-	wxbBGcHwEFoC9G4cwmGH8LuysbnFi0MGzvIjYv0=
-X-Google-Smtp-Source: ABdhPJx/MGnqzQ61ltPbx1u6Zj8s5BcsGFbawe8UlBPS1La2w24l6334c9rfN7PHtUw9bizM/Em0F44KkOMtHX6AAwg=
-X-Received: by 2002:a2e:a5c4:: with SMTP id n4mr24740956ljp.331.1630412988255;
- Tue, 31 Aug 2021 05:29:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210830200540.9888-1-andrey.z@gmail.com> <27aadf4835874e5117ea57ddcb26c07f73d2a7f4.camel@linuxfoundation.org>
- <CAHtQpK4i=Kp-GC0u=C_b1YQh9xBEW7yiURnRkO9TV5+veAxRjA@mail.gmail.com>
- <CADkTA4MgO7e3Q2FNzmRPuPnHSchjPFkJnT1mBLCvKx6gSgmn5A@mail.gmail.com>
- <CAHtQpK7ZEwk08C3OJFZnkk30XaGw=iyr7HcJLfsRkQ2otGyrWA@mail.gmail.com>
- <afbd6b7ad0506d4888bdeb17b1ec6f9c12cb4785.camel@linuxfoundation.org>
- <CAHtQpK7qEHh=43RtOmwgxEXKghZPHucy9bMQosAbEe63PWt=PQ@mail.gmail.com> <bfca76ca0ec22d42415e45f9d3aa145ab3272461.camel@linuxfoundation.org>
-In-Reply-To: <bfca76ca0ec22d42415e45f9d3aa145ab3272461.camel@linuxfoundation.org>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Tue, 31 Aug 2021 14:29:13 +0200
-Message-ID: <CAHtQpK6KzoKTRRig9Ta3=v5Ky9UANmnr5UuLvkrXTB6QDZuZOQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] perl: add integer module required for kernel >= 5.14
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@gherzan.com header.s=fm2 header.b=JmjrbZT3;
+ spf=pass (domain: gherzan.com, ip: 64.147.123.25, mailfrom: andrei@gherzan.com)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 84F4D3200A1C
+	for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 08:45:36 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+  by compute5.internal (MEProxy); Tue, 31 Aug 2021 08:45:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	mime-version:message-id:in-reply-to:references:date:from:to
+	:subject:content-type; s=fm2; bh=XwmwhDn7prIoOE7zSqeoWbpeFN6PBX9
+	mKzrFt5WnR30=; b=JmjrbZT3gXvgGfFEAevqbeSLpx6Z2G6zZTX5zhO+FI4LZTP
+	lPGxczpR3oSzs99fL+5oPoj0QfZdyKUwe0F3kiwDxNTjEKlRX5TamGfqO4jPLmpY
+	tp3/0mwqT2ENRbQ+6erZNY1yP89UreXdernkCxMc5OP7w/vyxymeIXlbs7Jneb9v
+	B/vA+szYocdxx7X2asOo/hvaO5ZH1QRD7W6gm5r+J7gL8KCtEewqFY1huUvyhTFb
+	vchLQNqnAmV+C8OGQAOF+FsnSRL8yjRAra+ZIZ7EozQqabcBwecNAMeSMABng82+
+	4eiS4HAEj/bB6l2ZX3dNDWVGkQJmZoesS+lNrVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=XwmwhD
+	n7prIoOE7zSqeoWbpeFN6PBX9mKzrFt5WnR30=; b=OkgL0YxeYAncw+e/9JX1ac
+	gDrVQEC1FRoVdGAyVAvB8/VNhJ1n/yjn1Ym0yH3sLnVqAATfchXWVJDn+yIqFs95
+	ESDGzI0XSwoizmEdwk3dFbgLGpD3hj9HSaUv1kDxEFDhuRH31VwYzBXwrfvI5o/S
+	8gBqIwyCzNrCYE26qJkDicT4yFa+R9cCW5wzsE8h14JsRe8qZhbeSz3v2CuIeBdX
+	G6wfw90vKTITA2XnqrVBzDUGQ80ZTaDXMUYow+mQdPzz1iclF/oZsBCQWuo8X8eJ
+	0tMj1FOBhmTGIm76l2Wz9iP9ZU0QaBhH4gNfo4eEyULGn4eBHOKRO6OZRmAn3rig
+	==
+X-ME-Sender: <xms:byQuYZ4jhWBGs90QZZS5Oupj9_sH9vxTuHO_hQFdHVEXxUEXNM8ZJg>
+    <xme:byQuYW46Tth8CkOWoMBXAa0yr_H3tYrTzMK_ltgpCus1omnUxousFiPl6lNbEMBlp
+    wh5eCLUF3hc1vy3vPc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvuddgheehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsehttd
+    ertderreejnecuhfhrohhmpedftehnughrvghiucfihhgvrhiirghnfdcuoegrnhgurhgv
+    ihesghhhvghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepkeffvdfhgfegvedugf
+    ffleelgeelhfdtjeeuhfevteeiheeilefgffevkeefgedvnecuffhomhgrihhnpeihohgt
+    thhophhrohhjvggtthdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:byQuYQcNlpqleTX_iD1BDRPqI0IBx4HpNWkxBxTE2uIoYfq5Mk5q_g>
+    <xmx:byQuYSJC7_ony2cajteMrzAZgB3K15krHGeM6nu3e8bLjLxBGvslng>
+    <xmx:byQuYdJ45XwCUmDi7AmrP-Z9m2cHkLcQjdVichYLT5RFDjaFW-Yh_A>
+    <xmx:cCQuYSUkb_bGbZZ1fX0gNgef206YR3eUulC-yYgW6T-caPXbzwnh7w>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id D66B03C0F62; Tue, 31 Aug 2021 08:45:35 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1124-g8f1c7cb9de-fm-20210824.001-g8f1c7cb9
+Mime-Version: 1.0
+Message-Id: <b052a428-da00-4a55-9027-65828171b1f6@www.fastmail.com>
+In-Reply-To: <169E47906AF45A5C.6361@lists.openembedded.org>
+References: <20210823135250.767173-1-andrei@gherzan.com>
+ <CAOSpxdYA6FchYLNRASehUkPcQkdHkjRJyjE6VaX0z--y6m3BWg@mail.gmail.com>
+ <d248b212e6724aac56ae6b1638e438f25d350486.camel@linuxfoundation.org>
+ <169E47906AF45A5C.6361@lists.openembedded.org>
+Date: Tue, 31 Aug 2021 13:45:11 +0100
+From: "Andrei Gherzan" <andrei@gherzan.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [dunfell][PATCH 1/2] bitbake: fetch2: fix handling of `\` in file:// SRC_URI
+Content-Type: text/plain
 
-On Tue, Aug 31, 2021 at 2:19 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2021-08-31 at 13:54 +0200, Andrey Zhizhikin wrote:
-> > Hello Richard,
-> >
-> > On Tue, Aug 31, 2021 at 12:03 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Tue, 2021-08-31 at 11:53 +0200, Andrey Zhizhikin wrote:
-> > > > Hello Bruce,
-> > > >
-> > > > On Mon, Aug 30, 2021 at 11:12 PM Bruce Ashfield
-> > > > <bruce.ashfield@gmail.com> wrote:
-> > > > >
-> > > > > On Mon, Aug 30, 2021 at 4:55 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
-> > > > > >
-> > > > > > Hello Richard,
-> > > > > >
-> > > > > > On Mon, Aug 30, 2021 at 10:30 PM Richard Purdie
-> > > > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > > >
-> > > > > > > On Mon, 2021-08-30 at 20:05 +0000, Andrey Zhizhikin wrote:
-> > > > > > > > Kernel commit 12dd461ebd19 ("crypto: arm64 - generate *.S by Perl at
-> > > > > > > > build time instead of shipping them") uses perl to generate assembler
-> > > > > > > > files for crypto functionality, which relies on the integer.pm module to
-> > > > > > > > be provided.
-> > > > > > > >
-> > > > > > > > Add this module to FILES and export it for build system.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
-> > > > > > > > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > > > > > > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > > > > > > ---
-> > > > > > > >  meta/recipes-devtools/perl/perl_5.34.0.bb | 1 +
-> > > > > > > >  1 file changed, 1 insertion(+)
-> > > > > > > >
-> > > > > > > > diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > > > > > > index ab19a8d0be0..7a07b3f4911 100644
-> > > > > > > > --- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > > > > > > +++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-> > > > > > > > @@ -248,6 +248,7 @@ FILES:${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/
-> > > > > > > >                 ${libdir}/perl5/${PV}/strict.pm \
-> > > > > > > >                 ${libdir}/perl5/${PV}/warnings.pm \
-> > > > > > > >                 ${libdir}/perl5/${PV}/warnings \
-> > > > > > > > +               ${libdir}/perl5/${PV}/integer.pm \
-> > > > > > > >                 ${libdir}/perl5/${PV}/vars.pm \
-> > > > > > > >                 ${libdir}/perl5/site_perl \
-> > > > > > > >                 ${libdir}/perl5/${PV}/ExtUtils/MANIFEST.SKIP \
-> > > > > > >
-> > > > > > > Doesn't that mean something is missing an RDEPENDS on perl-module-integer rather
-> > > > > > > than adding to the main perl package?
-> > > > > >
-> > > > > > Good point! Now that I look at it - this does look a bit too intrusive
-> > > > > > (even though it did serve the purpose).
-> > > > > >
-> > > > > > I'm just not sure if I can craft it to RDEPENDS in kernel class instead...
-> > > > > >
-> > > > > > This is definitely required by newer kernel builds (>= 5.14), but I'm
-> > > > > > no expert in how those dependencies are set in kernel class. Would
-> > > > > > need to look a bit deeper there.
-> > > > >
-> > > > > Doing it consistently is the challenge, so we tend to not set them in
-> > > > > the classes themselves.
-> > > >
-> > > > Understood. Now I see the reason why I didn't observe any of those
-> > > > dependencies in the kernel classes themselves.
-> > > >
-> > > > >
-> > > > > You have to check both the architecture and the version for many of
-> > > > > the depends/rdepends.
-> > > > >
-> > > > > Which is why I tend to carry dependencies like this in the individual
-> > > > > recipes, since the version is known and the arch is an easy check.
-> > > >
-> > > > This is not a problem for me, as I can add it to the layer kernel
-> > > > recipe. What I believe the problem might be is that after kernel
-> > > > migration, eventually all BSP layers would have the same RDEPENDS
-> > > > defined in their respective kernel recipes. This does call for some
-> > > > unification imho, but I'm not sure how this can be properly done.
-> > > >
-> > > > The other thing here is: the same Perl module would be required in the
-> > > > SDK in order to build Kernels >= 5.14 standalone.
-> > > > I was planning to include it into RDEPENDS of
-> > > > nativesdk-packagegroup-sdk-host, but contemplating now if this is a
-> > > > proper way of doing it. I see that the package group contains flex and
-> > > > bison for kernel builds, so adding perl integer module there seems
-> > > > quite logical to me. Unless there are good reasons not to do it this
-> > > > way.
-> > >
-> > > Isn't the kernel-devsrc recipe the place this should be added? You'd need that
-> > > to be building the kernel on target?
-> >
-> > This is needed to build kernel on the host using standalone SDK.
-> >
-> > To my knowledge, Perl (as a base package) is already provided in the
-> > SDK, but required module is not. This makes the tooling incomplete and
-> > breaks the build when kernel is upgraded to latest versions.
-> >
-> > I've just tried it, and adding it to kernel-devsrc did not solve the
-> > missing module issue.
->
-> As far as I recall we don't include perl in our SDKs and rely on the one from
-> the host. Which SDK exactly are you using?
+Hey,
 
-This is then rather strange and confusing...
+On Tue, 24 Aug 2021, at 16:25, Andrei Gherzan wrote:
+> On Tue, 24 Aug 2021, at 15:24, Richard Purdie wrote:
+> > On Tue, 2021-08-24 at 04:20 -1000, Steve Sakoman wrote:
+> > > On Mon, Aug 23, 2021 at 3:53 AM Andrei Gherzan <andrei@gherzan.com> wrote:
+> > > > 
+> > > > From: Leif Middelschulte <leif.middelschulte@klsmartin.com>
+> > > > 
+> > > > Using backslashes in file:// URIs was broken.
+> > > > Either the resolver would fail or the subsequent `cp` command.
+> > > > Try to avoid this by putting the filenames into quotes.
+> > > > 
+> > > > Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=8161
+> > > > 
+> > > > (Bitbake rev: aa857fa2e9cf3b0e43a9049b04ec4b0b3c779b11)
+> > > 
+> > > Patches for bitbake should be sent to: bitbake-devel@lists.openembedded.org
+> > > 
+> > > I tried applying this patch, but found that it caused errors on the autobuilder:
+> > > 
+> > > https://errors.yoctoproject.org/Errors/Build/129189/
+> > > 
+> > 
+> > We dropped wildcard support in master but that is still present in dunfell. That
+> > means we can't quote things as we are relying on expansion of the wildcards for
+> > some SRC_URIs. This could be difficult to fix with the compatibility constraints
+> > of an older release funfortunately :/.
+> 
+> Got it now. That's going to be painful indeed. I can't think of an easy 
+> way out of this either.
 
-I do generate standalone SDK via 'bitbake meta-toolchain', which to my
-current understanding should pull only minimal set of toolchain
-component into its content. This does include Perl, perhaps through
-some dependency resolution.
+Can you guys think of a way forward with this? Or shall we just drop it and consider it unsupported?
 
-Since I use distro from meta-freescale layer - it might be (but less
-likely) coming from some dependencies inside of it... I can try to
-generate it off Poky distro now to see if it has Perl inside as well.
-
->
-> Cheers,
->
-> Richard
->
-
-
--- 
-Regards,
-Andrey.
+Andrei
