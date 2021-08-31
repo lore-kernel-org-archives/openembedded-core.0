@@ -1,102 +1,74 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.5899.1630418221774973805
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.5995.1630418602812104835
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Aug 2021 06:57:02 -0700
+ Tue, 31 Aug 2021 07:03:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kYQuuue4;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id g14so3788479ljk.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 06:57:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fHYJfuXn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: andrey.z@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id q17so27035284edv.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 07:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/AW9q93O8NlVZuj7KDqEQNAR5a76PhqI3sFCPoHd/vQ=;
-        b=kYQuuue4+CBegbdZq3A/2+9ildrLf8cU6FvcvX2Uq4prZBw026CpSDKGSjEklIzFxn
-         4onCjgcpWWCXOcI20FQ+DcfICok14xbav5Ofoz4EQLw+aw4NFE+NvliTF4GY3Jk9UBZn
-         tmX8U5B8oBXB3oWiAIO3PosxXPk4MHGxO7ZkxV+ExzlDJ/A8r64GjsglD8JEKH9qKbXQ
-         Jkwp6Vvv8ZeAc58Q+zVq5e0+Nsst+yp09r25phbSySDLDUMDHvytOyucuiw/d2JQ0GXB
-         nmuk1lW2NMImQeSSAYpaHOgI2g85IbP2pgeyjiRubyeNi508qDyyE6wU7YWxw4VRoHOO
-         18lA==
+        h=from:to:cc:subject:date:message-id;
+        bh=oBmeSh5pZmM+wcRzbfNNUAtGGAfHJenOe0qc7Jp3ERo=;
+        b=fHYJfuXnHqvqkT567aRyW2L2LheyQ6bXNiMSlLfCHrgPIf2Uot+jnLRkHyebBaSS99
+         FANaq/unMRX2pxYS76Hck4XTLIZS3StmHfOCuyH2CwAV1BUdGd7w07IXFR9xPDG2a5fq
+         tgEUYGfPSd6GgX5mOq9IBsO+Ks4+TgViafdM/i9XBNjPgEx2SoGc8X4RRIjwn6o0zAsN
+         lVbD2DfhFUnXDq1dZqWuvHdWxkB0K7ntViHakGBEBrDOYHVmiZNnAFOUtc2Tn/T/tmlv
+         qbmK22yRGT3gKH8Wlcyj1G5fSL2TjC6WGimbXpa4wRjeZAQQpEV7fp0XilbWtKdezFuT
+         5f4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/AW9q93O8NlVZuj7KDqEQNAR5a76PhqI3sFCPoHd/vQ=;
-        b=kZZtvY+UmmJdMXWFBGeCfJkjRWQaf814DgcnubQt4u2lE0pCeshOdVTIHUAQ4ss/eq
-         BHkMzoZtMbE+U8nl1y2Zp5LB6mYbNKeprVtqU5tZ0q2wjcSuJiLyBoFF3pwzipHYJ0X3
-         LqWT8x/PwQlS6n0iKSLwzq61BpmlKCrzABZ2nwt38H44/jzser65zq0NjtJBAi2Xpejf
-         xEVjhIoSWXe+IhfamNBf+PFqeaRHjKeIAYArf5e9j82Zvk0o1oU9v79ocneCpl+uvVHC
-         coTfDRaPV1t+5OcKyooU+4kq5gKTtM7OgUg9XaF4VOsqE5TteTy2aKC2wJLrNGX/U+sT
-         pz3A==
-X-Gm-Message-State: AOAM532GKQg18jn5RE+MMBJS3y4iw7jmEeLZ4OLyyPtPFRxt7/Vt0CIQ
-	LL+RAM5oMXs/HTHDB+qDTts0hL42/Oj2WGrfJaI=
-X-Google-Smtp-Source: ABdhPJwNGgLpRNbwbgpHfdLTPxJh28s7e7XbvBUb+0ZmXbyrkw9KQgYmDw4B+7xcmePnXn+bgKrqiqaDbFaUMC6gOsY=
-X-Received: by 2002:a2e:97cf:: with SMTP id m15mr24637749ljj.125.1630418219825;
- Tue, 31 Aug 2021 06:56:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210831133042.867604-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20210831133042.867604-1-richard.purdie@linuxfoundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=oBmeSh5pZmM+wcRzbfNNUAtGGAfHJenOe0qc7Jp3ERo=;
+        b=PLvs/H4qo4UcYoSb4lwNo5q+ehyu147BrK4ap5pEBf3kXNvnZQKNARzF/72img9Hap
+         wh/mbHDqpdVAWylRT4/4GixR2dENC+c5CtD+ZL+z1AV98o9zHQ4IkIb6xsiTl4zmHs2h
+         6pzOJ6bbqRhqSVKOmy++R3JK668S0ZUTE/MiqkhHneDmZ0+6LU+468Ms4Qr4OqMGrTf/
+         2gbPcSjze6x1YQa9ViQ9T8UeubITqsLna20Co27keFZ/+Rtq676avQPu3f7YhK0piOwf
+         t5XHXubWad/0xnjEYP/n5MipXg337LYlVK2OL2wg/9NC6DJKd44pYVGdwhPlzmGR9Pz2
+         f8gA==
+X-Gm-Message-State: AOAM530oeHumi2JKGGfgs1obFT95hEsZLwkcquA/5iru6kc3V46GL4pj
+	WSTfSyneOuq90tTLsZmFtvcazw+O8vEWeDJO
+X-Google-Smtp-Source: ABdhPJzvi5iLop4+UyeAiKoTUKXKz08qtZMeBW1B6uPT3JDcP+qfghKvW4oXIpoVQeCelBZOH6/ynQ==
+X-Received: by 2002:a05:6402:424e:: with SMTP id g14mr3496388edb.372.1630418601225;
+        Tue, 31 Aug 2021 07:03:21 -0700 (PDT)
+Return-Path: <andrey.z@gmail.com>
+Received: from aherlnxbspsrv01.lgs-net.com ([193.8.40.126])
+        by smtp.gmail.com with ESMTPSA id p23sm9426464edt.71.2021.08.31.07.03.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Aug 2021 07:03:20 -0700 (PDT)
 From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Tue, 31 Aug 2021 15:56:24 +0200
-Message-ID: <CAHtQpK6TFtwsrNuqjRC-eGd=x0J4N2KvdXK061TL+vW--avWgg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel: Use unexpanded EXTENDPKGV
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>
+Subject: [OE-core][PATCH] nativesdk-packagegroup-sdk-host: add perl integer module
+Date: Tue, 31 Aug 2021 14:02:51 +0000
+Message-Id: <20210831140251.7281-1-andrey.z@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Tue, Aug 31, 2021 at 3:30 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> EXTENDPKGV can contain AUTOINC so use an expanded form in the variables allowing
-> for later expansion during packaging to avoid race issues over the variable and
-> the build failures that can result.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Kernel commit 12dd461ebd19 ("crypto: arm64 - generate *.S by Perl at
+build time instead of shipping them") uses perl to generate assembler
+files for crypto functionality, which relies on the integer.pm module to
+be provided.
 
-For what it's worth:
+Add perl module to package group and export it in SDK.
 
-Tested-by: Andrey Zhizhikin <andrey.z@gmail.com> # kernel v5.14,
-imx8mp-lpddr4-evk
+Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+---
+ .../packagegroups/nativesdk-packagegroup-sdk-host.bb             | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
->  meta/classes/kernel.bbclass | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ab60e060c6e..d13c38fb026 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -92,18 +92,17 @@ python __anonymous () {
->      kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
->      imagedest = d.getVar('KERNEL_IMAGEDEST')
->
-> -    fullver = d.getVar('EXTENDPKGV')
->      for type in types.split():
->          if bb.data.inherits_class('nopackages', d):
->              continue
->          typelower = type.lower()
->          d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
->          d.setVar('FILES:' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
-> -        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s (= %s)' % (kname, typelower, fullver))
-> +        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s (= ${EXTENDPKGV})' % (kname, typelower))
->          splitmods = d.getVar("KERNEL_SPLIT_MODULES")
->          if splitmods != '1':
-> -            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules (= %s)' % (kname, fullver))
-> -            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %s-modules-${KERNEL_VERSION_PKG_NAME} (= %s)' % (kname, fullver))
-> +            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules (= ${EXTENDPKGV})' % kname)
-> +            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %s-modules-${KERNEL_VERSION_PKG_NAME} (= ${EXTENDPKGV})' % kname)
->              d.setVar('PKG:%s-modules' % kname, '%s-modules-${KERNEL_VERSION_PKG_NAME}' % kname)
->              d.appendVar('RPROVIDES:%s-modules' % kname, '%s-modules-${KERNEL_VERSION_PKG_NAME}' % kname)
->
-> --
-> 2.32.0
->
->
-> 
->
-
-
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 64e5883f95a..984398462fb 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -27,6 +27,7 @@ RDEPENDS:${PN} = "\
+     nativesdk-sdk-provides-dummy \
+     nativesdk-bison \
+     nativesdk-flex \
++    nativesdk-perl-module-integer \
+     "
+ 
+ RDEPENDS:${PN}:darwin = "\
 -- 
-Regards,
-Andrey.
+2.17.1
+
