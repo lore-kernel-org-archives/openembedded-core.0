@@ -1,86 +1,146 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.5629.1630416645143331946
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.5573.1630416767390514701
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Aug 2021 06:30:45 -0700
+ Tue, 31 Aug 2021 06:32:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RXcIoVQp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id v10so27745416wrd.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 06:30:44 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ahz44iM9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id q11so27723445wrr.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Aug 2021 06:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uT5wN0V+yVOdYgzJlx5jEesa07dhZ7aJfgK1vP5a55o=;
-        b=RXcIoVQpVsMPbJV0dirt6xmdRByBoX03WBKw1aVaUeu7TxLQ1PewEsOWlbafL9Uz43
-         H4Ifrss9nkAtcA/XaszMsKZtCvMdWdaw2k8h0zZFvsXFfRc6Z+yS+DMPAUNESA+2PWdC
-         55dS0T0n+U3GMFLX3JHOjTlLa5XPAFJBuzrcE=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=MAlVOiWy25yz6jv7wG9IWh/m5Q/qwzfokx46GX/SWiU=;
+        b=ahz44iM9joel6ccTZO0uda1Uw3sGdUKAAnPy6SzM4Dks/oAbJr9xzEzqbhSzEQdYhe
+         qpZAUV6N5boxsDurasZ30LdiGoOXUeJnNotbJxtQAZmOBz7s/tYK5f12oMwF6/51vfsT
+         EGj5xFQsJkBsLVj4p9aeYAqAVPy7WmL+NTl4A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uT5wN0V+yVOdYgzJlx5jEesa07dhZ7aJfgK1vP5a55o=;
-        b=kGRrfrAELmRzsYNS2Q6d49QIInRZvGjHE6OdBS2yKya7iNRTCtydVfB8jxmfDO6+Zc
-         mRdaBJv2EHOkr6XyEMgO2tQQQ/JGdIUOhtEgozJyMbHsQyR/Z5GTwfvcGWIPo+l6Rpye
-         oA9UQl1DHQiVo8nJTGPfOujMAi3FM7Nmh0QyRlUVHKrHDNK9xUstWYkELxzSZTfw6ncE
-         fyO9n3HLQ5aYelWOCTPMKBLjcBBsvX2Qvj6uqaEXVmkDOshlaSpiaJw6blH/NNcmYUYb
-         l0dMog/dVIqIlWr+hhkCgM4mbtNLwOraoq5yn43inWzEltn1mFmzUp9D0Fx15s58KIhM
-         bCKg==
-X-Gm-Message-State: AOAM5320mFgwYBvXPSXIQjq5Plk8EOIH3gK5Ra43Dq4L8lL0Hv+I7Xgu
-	NTdD0fuHo2iu63rzk9ayrc+pYlgLVEoz1Q==
-X-Google-Smtp-Source: ABdhPJwBgNrOMdLoVkOeODTjXjPQREXBcavx47mSSThp1Uxhqyf9el+rWY4+dKZ4XBFz8uBOqe2VFw==
-X-Received: by 2002:a5d:490d:: with SMTP id x13mr31032681wrq.412.1630416643226;
-        Tue, 31 Aug 2021 06:30:43 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=MAlVOiWy25yz6jv7wG9IWh/m5Q/qwzfokx46GX/SWiU=;
+        b=HWa7ZL2pl8/mRCJCpoQz+K26sPKgQhlhN5SRELTDTYqqlSUjCJ9mLVzD6+iQrZSLZT
+         gh9A6gs6k7GYdUDT3lhy5/ByT+Px3EORZIzLT+5NiRHO17jVFhJh1rcunccuRke/YhEh
+         sP6vCkRFns2S/7YvMeSz62lhhQrsMsCBfsFAgBY17YXmB5UeZOUFSqCzNL1AfJHAfFJv
+         MY6iVIYX2bjipu8qDm7wrJcF8OpauMK6UfiTsxPdb9cIsY1ejSOfQYHnQB4Gv5KiK5vC
+         6qPyL0hneb9iptk/W4gcRC3lMrJjex7QDf2vPEbk74QD7H9bVjqVujWed1VsSL3NJLY0
+         eA5A==
+X-Gm-Message-State: AOAM530c1bdOy4u22o+jR4prLgYS0SoAkRivbnzNrDpc49Az/FA27PJR
+	HWrZXVy88cf2LEqYjqYo1Ig0KQ==
+X-Google-Smtp-Source: ABdhPJyKZ/lb7ePwLbqrLRzwF+oE+FwAvGuLzWnlqeknDYdN66JNW2YvbgEjfoaTYNHCqvPik2GZIg==
+X-Received: by 2002:a05:6000:160c:: with SMTP id u12mr2776269wrb.128.1630416765851;
+        Tue, 31 Aug 2021 06:32:45 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e840:dd4f:b947:28bf])
-        by smtp.gmail.com with ESMTPSA id s12sm18684062wru.41.2021.08.31.06.30.42
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:e840:dd4f:b947:28bf? ([2001:8b0:aba:5f3c:e840:dd4f:b947:28bf])
+        by smtp.gmail.com with ESMTPSA id j17sm18173833wrh.67.2021.08.31.06.32.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 06:30:42 -0700 (PDT)
+        Tue, 31 Aug 2021 06:32:45 -0700 (PDT)
+Message-ID: <d1d90fb8282b9cab972d7227c0f25632b4c51b13.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4 3/4] kernel.bbclass: Use full versions for inter-package dependencies
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel: Use unexpanded EXTENDPKGV
-Date: Tue, 31 Aug 2021 14:30:42 +0100
-Message-Id: <20210831133042.867604-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: zboszor@pr.hu, Jon Mason <jdmason@kudzu.us>, Andrey Zhizhikin
+	 <andrey.z@gmail.com>
+Cc: =?ISO-8859-1?Q?B=F6sz=F6rm=E9nyi_Zolt=E1n?= <zboszor@gmail.com>, OE
+	Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Tue, 31 Aug 2021 14:32:42 +0100
+In-Reply-To: <f52a6dae-426c-34f3-448d-e4ba50b23438@pr.hu>
+References: <20210823145450.103319-1-zboszor@pr.hu>
+	 <20210827073712.2766816-1-zboszor@pr.hu>
+	 <20210827073712.2766816-4-zboszor@pr.hu>
+	 <CAHtQpK4iV0cFG-60oW5cY9sDES6BBj+zfSDZUHATXem3LBnKSg@mail.gmail.com>
+	 <b75df7be-03d8-e454-60b8-1651fc935ca5@gmail.com>
+	 <CAHtQpK7SPixiNareJoFjeFHfc_NaD9sGnnQ4hrDU1+NLYicdOQ@mail.gmail.com>
+	 <CAPoiz9xDN1Mx6B_TWFn0FYArM1+Y1PoXmY5TBqMBo4CHk3KfiA@mail.gmail.com>
+	 <f52a6dae-426c-34f3-448d-e4ba50b23438@pr.hu>
+User-Agent: Evolution 3.40.2-1build1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-EXTENDPKGV can contain AUTOINC so use an expanded form in the variables allowing
-for later expansion during packaging to avoid race issues over the variable and
-the build failures that can result.
+On Tue, 2021-08-31 at 06:28 +0200, Zoltan Boszormenyi via lists.openembedded.org
+wrote:
+> 2021. 08. 30. 21:51 keltezéssel, Jon Mason írta:
+> > On Mon, Aug 30, 2021 at 6:26 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+> > > 
+> > > On Mon, Aug 30, 2021 at 12:06 PM Böszörményi Zoltán <zboszor@gmail.com> wrote:
+> > > > 
+> > > > 2021. 08. 30. 11:30 keltezéssel, Andrey Zhizhikin írta:
+> > > > > Hello Zoltan,
+> > > > > 
+> > > > > On Fri, Aug 27, 2021 at 9:37 AM Zoltan Boszormenyi via
+> > > > > lists.openembedded.org <zboszor=pr.hu@lists.openembedded.org> wrote:
+> > > > > > From: Zoltán Böszörményi <zboszor@gmail.com>
+> > > > > > 
+> > > > > > If the kernel configuration enables module signing but no key
+> > > > > > is provided, then the kernel generates one during the kernel build.
+> > > > > > 
+> > > > > > The current runtime-dependency references (with only package names
+> > > > > > without full versions) allow mixed package installations from different
+> > > > > > rebuilds of the same kernel version.
+> > > > > > 
+> > > > > > This creates an issue because then the modules either don't work
+> > > > > > or taint the kernel.
+> > > > > > 
+> > > > > > Tighten RDEPENDS with the full package version, i.e. use (= ${EXTENDPKGV})
+> > > > > > markers for inter-package dependencies.
+> > > > > > 
+> > > > > > The kernel will pull in the kernel-modules subpackage of the same
+> > > > > > exact version automatically if KERNEL_SPLIT_MODULES="0" is set.
+> > > > > > Otherwise the situation is the same as with the old default with
+> > > > > > one subpackage per kernel module where they have to be upgraded
+> > > > > > manually.
+> > > > > > 
+> > > > > > Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+> > > > > > ---
+> > > > > >    meta/classes/kernel.bbclass | 13 +++++++------
+> > > > > >    1 file changed, 7 insertions(+), 6 deletions(-)
+> > > > > > 
+> > > > > I'm seeing errors during the do_rootfs() with this patch applied,
+> > > > > there are few messages like this:
+> > > > > 
+> > > > >    * Solver encountered 1 problem(s):
+> > > > >    * Problem 1/1:
+> > > > >    *   - package kernel-module-libchacha-5.13.13+g91381833a4e2-5.13.13+git0+91381833a4-r0.imx8mp_lpddr4_evk
+> > > > > requires kernel-5.13.13+g91381833a4e2, but none of the providers can
+> > > > > be installed
+> > > > >    *   - package kernel-modules-5.13.13+git0+91381833a4-r0.imx8mp_lpddr4_evk
+> > > > > requires kernel-module-libchacha-5.13.13+g91381833a4e2, but none of
+> > > > > the providers can be installed
+> > > > >    *   - package kernel-5.13.13+g91381833a4e2-5.13.13+git0+91381833a4-r0.imx8mp_lpddr4_evk
+> > > > > requires kernel-image-5.13.13+g91381833a4e2 =
+> > > > > 5.13.13+git0+91381833a4-r0, but none of the providers can be installed
+> > > > >    *   - conflicting requests
+> > > > >    *   - nothing provides kernel-image-image-5.13.13+g91381833a4e2 =
+> > > > > 5.13.13+gitAUTOINC+91381833a4-r0 needed by
+> > > > 
+> > > > This seems to be the problem.
+> > > > Is there a "kernel-image-image-5.13.13" built from your kernel recipe?
+> > > 
+> > > Yes, it is produced. But for some reasons opkg cannot resolve it
+> > > during the do_rootfs(), which is quite odd.
+> > 
+> > I'm seeing the same issue.  All of the BSPs that I set the kernel to
+> > not be 5.13 (i.e., 5.10, 5.4, etc) fail.  For example,
+> > https://gitlab.com/jonmason00/meta-arm/-/jobs/1544819828
+> > If I set the PACKAGE_CLASS to be rpm instead of ipk, everything works
+> > as expected.  So, there must be some difference in the dep calculation
+> > in ipk.
+> 
+> Interesting.
+> 
+> Can you both please try setting KERNEL_SPLIT_MODULES="0" in your kernel recipe?
+> In my testing, it works for both ipk and rpm properly.
+> 
+> I am thinking that probably the full version dependency should
+> only be used in the KERNEL_SPLIT_MODULES="0" case.
+> This can be easily tested, unlike the packaging method.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/kernel.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Ross noticed it was failing with unexpanded AUTOINC references. That made me
+realise that using the unexpanded version of the variable in these cases might
+help. I've sent out that patch for review/testing.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ab60e060c6e..d13c38fb026 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -92,18 +92,17 @@ python __anonymous () {
-     kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-     imagedest = d.getVar('KERNEL_IMAGEDEST')
- 
--    fullver = d.getVar('EXTENDPKGV')
-     for type in types.split():
-         if bb.data.inherits_class('nopackages', d):
-             continue
-         typelower = type.lower()
-         d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
-         d.setVar('FILES:' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
--        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s (= %s)' % (kname, typelower, fullver))
-+        d.appendVar('RDEPENDS:%s-image' % kname, ' %s-image-%s (= ${EXTENDPKGV})' % (kname, typelower))
-         splitmods = d.getVar("KERNEL_SPLIT_MODULES")
-         if splitmods != '1':
--            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules (= %s)' % (kname, fullver))
--            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %s-modules-${KERNEL_VERSION_PKG_NAME} (= %s)' % (kname, fullver))
-+            d.appendVar('RDEPENDS:%s-image' % kname, ' %s-modules (= ${EXTENDPKGV})' % kname)
-+            d.appendVar('RDEPENDS:%s-image-%s' % (kname, typelower), ' %s-modules-${KERNEL_VERSION_PKG_NAME} (= ${EXTENDPKGV})' % kname)
-             d.setVar('PKG:%s-modules' % kname, '%s-modules-${KERNEL_VERSION_PKG_NAME}' % kname)
-             d.appendVar('RPROVIDES:%s-modules' % kname, '%s-modules-${KERNEL_VERSION_PKG_NAME}' % kname)
- 
--- 
-2.32.0
+Cheers,
+
+Richard
 
